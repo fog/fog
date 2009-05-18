@@ -1,0 +1,7 @@
+= fog
+
+Description goes here.
+
+== Copyright
+
+Copyright (c) 2009 Wesley Beary. See LICENSE for details.
