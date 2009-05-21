@@ -7,14 +7,14 @@ module Fog
 
         class BasicParser < Fog::Parsers::Base
 
-          attr_reader :result
+          attr_reader :response
 
           def initialize
             reset
           end
 
           def reset
-            @result = {}
+            @response = {}
           end
 
           def characters(string)
@@ -31,20 +31,20 @@ module Fog
 
           def reset
             @bucket = {}
-            @result = { :owner => {}, :buckets => [] }
+            @response = { :owner => {}, :buckets => [] }
           end
 
           def end_element(name)
             case name
             when 'Bucket'
-              @result[:buckets] << @bucket
+              @response[:buckets] << @bucket
               @bucket = {}
             when 'CreationDate'
               @bucket[:creation_date] = @value
             when 'DisplayName'
-              @result[:owner][:display_name] = @value
+              @response[:owner][:display_name] = @value
             when 'ID'
-              @result[:owner][:id] = @value
+              @response[:owner][:id] = @value
             when 'Name'
               @bucket[:name] = @value
             end

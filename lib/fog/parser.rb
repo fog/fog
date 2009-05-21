@@ -5,14 +5,14 @@ module Fog
   module Parsers
     class Base < Nokogiri::XML::SAX::Document
 
-      attr_reader :result
+      attr_reader :response
 
       def initialize
         reset
       end
 
       def reset
-        @result = {}
+        @response = {}
       end
 
       def characters(string)

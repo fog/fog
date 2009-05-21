@@ -13,8 +13,8 @@ module Fog
 
           def end_element(name)
             case(name)
-            when 'BoxUsage'   then result[:box_usage] = @value.to_f
-            when 'RequestId'  then result[:request_id] = @value
+            when 'BoxUsage'   then response[:box_usage] = @value.to_f
+            when 'RequestId'  then response[:request_id] = @value
             end
           end
 
@@ -27,15 +27,15 @@ module Fog
         class ListDomainsParser < Fog::Parsers::AWS::SimpleDB::BasicParser
 
           def reset
-            @result = { :domains => [] }
+            @response = { :domains => [] }
           end
 
           def end_element(name)
             case(name)
-            when 'BoxUsage'   then result[:box_usage] = @value.to_f
-            when 'DomainName' then result[:domains] << @value
-            when 'NextToken'  then result[:next_token] = @value
-            when 'RequestId'  then result[:request_id] = @value
+            when 'BoxUsage'   then response[:box_usage] = @value.to_f
+            when 'DomainName' then response[:domains] << @value
+            when 'NextToken'  then response[:next_token] = @value
+            when 'RequestId'  then response[:request_id] = @value
             end
           end
         
@@ -44,20 +44,20 @@ module Fog
         class DomainMetadataParser < Fog::Parsers::AWS::SimpleDB::BasicParser
 
           def reset
-            @result = {}
+            @response = {}
           end
 
           def end_element(name)
             case name
-            when 'AttributeNameCount'       then result[:attribute_name_count] = @value.to_i
-            when 'AttributeNamesSizeBytes'  then result[:attribute_names_size_bytes] = @value.to_i
-            when 'AttributeValueCount'      then result[:attribute_value_count] = @value.to_i
-            when 'AttributeValuesSizeBytes' then result[:attribute_values_size_bytes] = @value.to_i
-            when 'BoxUsage'                 then result[:box_usage] = @value.to_f
-            when 'ItemCount'                then result[:item_count] = @value.to_i
-            when 'ItemNamesSizeBytes'       then result[:item_names_size_bytes] = @value.to_i
-            when 'RequestId'                then result[:request_id] = @value
-            when 'Timestamp'                then result[:timestamp] = @value
+            when 'AttributeNameCount'       then response[:attribute_name_count] = @value.to_i
+            when 'AttributeNamesSizeBytes'  then response[:attribute_names_size_bytes] = @value.to_i
+            when 'AttributeValueCount'      then response[:attribute_value_count] = @value.to_i
+            when 'AttributeValuesSizeBytes' then response[:attribute_values_size_bytes] = @value.to_i
+            when 'BoxUsage'                 then response[:box_usage] = @value.to_f
+            when 'ItemCount'                then response[:item_count] = @value.to_i
+            when 'ItemNamesSizeBytes'       then response[:item_names_size_bytes] = @value.to_i
+            when 'RequestId'                then response[:request_id] = @value
+            when 'Timestamp'                then response[:timestamp] = @value
             end
           end
 
@@ -67,15 +67,15 @@ module Fog
 
           def reset
             @attribute = nil
-            @result = { :attributes => {} }
+            @response = { :attributes => {} }
           end
 
           def end_element(name)
             case name
-            when 'BoxUsage'   then result[:box_usage] = @value.to_f
+            when 'BoxUsage'   then response[:box_usage] = @value.to_f
             when 'Name'       then @attribute = @value
-            when 'RequestId'  then result[:request_id] = @value
-            when 'Value'      then (result[:attributes][@attribute] ||= []) << sdb_decode(@value)
+            when 'RequestId'  then response[:request_id] = @value
+            when 'Value'      then (response[:attributes][@attribute] ||= []) << sdb_decode(@value)
             end
           end
 
@@ -85,17 +85,17 @@ module Fog
 
           def reset
             @item_name = @attribute_name = nil
-            @result = { :items => {} }
+            @response = { :items => {} }
           end
 
           def end_element(name)
             case name
-            when 'BoxUsage'   then result[:box_usage] = @value.to_f
+            when 'BoxUsage'   then response[:box_usage] = @value.to_f
             when 'Item'       then @item_name = @attribute_name = nil
             when 'Name'       then @item_name.nil? ? @item_name = @value : @attribute_name = @value
-            when 'NextToken'  then result[:next_token] = @value
-            when 'RequestId'  then result[:request_id] = @value
-            when 'Value'      then ((result[:items][@item_name] ||= {})[@attribute_name] ||= []) << sdb_decode(@value)
+            when 'NextToken'  then response[:next_token] = @value
+            when 'RequestId'  then response[:request_id] = @value
+            when 'Value'      then ((response[:items][@item_name] ||= {})[@attribute_name] ||= []) << sdb_decode(@value)
             end
           end
 

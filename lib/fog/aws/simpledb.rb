@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'base64'
 require 'cgi'
-require 'curb'
 require 'hmac-sha2'
 
 require File.dirname(__FILE__) + '/simpledb/parsers'
@@ -36,7 +35,6 @@ module Fog
         @nil_string = options[:nil_string]|| 'nil'
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'
-        @connection = Curl::Easy.new("#{@scheme}://#{@host}:#{@port}")
       end
 
       # Create a SimpleDB domain
@@ -285,20 +283,23 @@ module Fog
           query << "#{key}=#{CGI.escape(params[key]).gsub(/\+/, '%20')}&"
         end
 
-        method = query.length > 2000 ? 'POST' : 'GET'
-        string_to_sign = "#{method}\n#{@host}\n/\n" << query.chop
+        # FIXME: use 'POST' for larger requests
+        # method = query.length > 2000 ? 'POST' : 'GET'
+        method = 'GET'
+        string_to_sign = "#{method}\n#{@host + (@port == 80 ? "" : ":#{@port}")}\n/\n" << query.chop
         hmac = @hmac.update(string_to_sign)
         query << "Signature=#{CGI.escape(Base64.encode64(hmac.digest).strip).gsub(/\+/, '%20')}"
-
-        if method == 'GET'
-          @connection.url = "#{@scheme}://#{@host}:#{@port}/?#{query}"
-          @connection.http_get
-        else
-          @connection.url = "#{@scheme}://#{@host}:#{@port}"
-          @connection.http_post(query)
-        end
-        Nokogiri::XML::SAX::Parser.new(parser).parse(@connection.body_str)
-        parser.result
+        
+        response = nil
+        EventMachine::run {
+          http = EventMachine.connect(@host, @port, Fog::AWS::Connection) {|connection|
+            connection.method = method
+            connection.parser = parser
+            connection.url = "#{@scheme}://#{@host}:#{@port}/#{method == 'GET' ? "?#{query}" : ""}"
+          }
+          http.callback {|http| response = http.response}
+        }
+        response
       end
 
     end
