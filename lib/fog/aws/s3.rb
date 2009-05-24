@@ -2,6 +2,7 @@ require 'rubygems'
 require 'base64'
 require 'cgi'
 require 'hmac-sha1'
+require 'uri'
 
 require File.dirname(__FILE__) + '/s3/parsers'
 
@@ -42,10 +43,15 @@ module Fog
       def put_bucket(name)
         request('PUT', "#{@scheme}://#{name}.#{@host}:#{@port}/", Fog::Parsers::AWS::S3::BasicParser.new)
       end
+      
+      def delete_bucket(name)
+        request('DELETE', "#{@scheme}://#{name}.#{@host}:#{@port}/", Fog::Parsers::AWS::S3::BasicParser.new)
+      end
 
       private
 
       def request(method, url, parser, data=nil)
+        uri = URI.parse(url)
         headers = { 'Date' => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000") }
         params = [
           method,
@@ -53,7 +59,7 @@ module Fog
           content_type = '',
           headers['Date'],
           canonicalized_amz_headers = nil,
-          canonicalized_resource = '/'
+          canonicalized_resource = "/#{'s3.amazonaws.com' == uri.host ? "" : "#{uri.host.split('.s3.amazonaws.com')[0]}/"}"
         ]
         string_to_sign = params.delete_if {|value| value.nil?}.join("\n")
         hmac = @hmac.update(string_to_sign)
