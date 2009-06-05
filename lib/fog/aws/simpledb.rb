@@ -76,10 +76,11 @@ module Fog
       #   :next_token<~String>:: Offset token to start listing, defaults to nil
       #
       # ==== Returns
-      # Hash:: 
-      #   :request_id and :box_usage
-      #   :domains array of domain names.
-      #   :next_token offset to start with if there are are more domains to list
+      # response::
+      #   body<~Hash>::
+      #     :request_id and :box_usage
+      #     :domains array of domain names.
+      #     :next_token offset to start with if there are are more domains to list
       def list_domains(options = {})
         request({
           'Action' => 'ListDomains',
@@ -95,14 +96,15 @@ module Fog
       # following characters: a-z, A-Z, 0-9, '_', '-' and '.'.
       #
       # ==== Returns
-      # Hash:: 
-      #   :timestamp last update time for metadata.
-      #   :item_count number of items in domain
-      #   :attribute_value_count number of all name/value pairs in domain
-      #   :attribute_name_count number of unique attribute names in domain
-      #   :item_name_size_bytes total size of item names in domain, in bytes
-      #   :attribute_values_size_bytes total size of attributes, in bytes
-      #   :attribute_names_size_bytes total size of unique attribute names, in bytes
+      # response::
+      #   body<~Hash>:: 
+      #     :timestamp last update time for metadata.
+      #     :item_count number of items in domain
+      #     :attribute_value_count number of all name/value pairs in domain
+      #     :attribute_name_count number of unique attribute names in domain
+      #     :item_name_size_bytes total size of item names in domain, in bytes
+      #     :attribute_values_size_bytes total size of attributes, in bytes
+      #     :attribute_names_size_bytes total size of unique attribute names, in bytes
       def domain_metadata(domain_name)
         request({
           'Action' => 'DomainMetadata',
@@ -123,8 +125,9 @@ module Fog
       #   not valid.  Each name and value can be up to 1024 bytes long.
       #
       # ==== Returns
-      # Hash:: 
-      #   :request_id and :box_usage
+      # response::
+      #   body<~Hash>::
+      #     :request_id and :box_usage
       def batch_put_attributes(domain_name, items, replace_attributes = Hash.new([]))
         request({
           'Action' => 'BatchPutAttributes',
@@ -146,8 +149,9 @@ module Fog
       #   be up to 1024 bytes long.
       #
       # ==== Returns
-      # Hash:: 
-      #   :request_id and :box_usage
+      # response::
+      #   body<~Hash>::
+      #     :request_id and :box_usage
       def put_attributes(domain_name, item_name, attributes, replace_attributes = [])
         batch_put_attributes(domain_name, { item_name => attributes }, { item_name => replace_attributes })
       end
@@ -167,7 +171,9 @@ module Fog
       #   bytes long.
       #
       # ==== Returns
-      # Hash:: :request_id and :box_usage for request
+      # response::
+      #   body<~Hash>::
+      #     :request_id and :box_usage
       def delete_attributes(domain_name, item_name, attributes = nil)
         request({
           'Action' => 'DeleteAttributes',
@@ -191,9 +197,10 @@ module Fog
       #   bytes long.
       #
       # ==== Returns
-      # Hash:: 
-      #   :request_id and :box_usage for request
-      #   :attributes list of attribute name/values for the item
+      # response::
+      #   body<~Hash>:: 
+      #     :request_id and :box_usage
+      #     :attributes list of attribute name/values for the item
       def get_attributes(domain_name, item_name, attributes = nil)
         request({
           'Action' => 'GetAttributes',
@@ -209,11 +216,12 @@ module Fog
       # next_token<~String>:: Offset token to start list, defaults to nil.
       #
       # ==== Returns
-      # Hash:: 
-      #   :request_id and :box_usage for request
-      #   :items list of attribute name/values for the items formatted as 
-      #     { 'item_name' => { 'attribute_name' => ['attribute_value'] }}
-      #   :next_token offset to start with if there are are more domains to list
+      # response::
+      #   body<~Hash>::
+      #     :request_id and :box_usage
+      #     :items list of attribute name/values for the items formatted as 
+      #       { 'item_name' => { 'attribute_name' => ['attribute_value'] }}
+      #     :next_token offset to start with if there are are more domains to list
       def select(select_expression, next_token = nil)
         request({
           'Action' => 'Select',
