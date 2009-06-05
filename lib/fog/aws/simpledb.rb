@@ -70,20 +70,21 @@ module Fog
       # List SimpleDB domains
       #
       # ==== Parameters
-      # max_number_of_domains<~Integer>:: Maximum number of domains to return
-      # between 1 and 100, defaults to 100.
-      # next_token<~Integer>:: Offset token to start list, defaults to nil.
+      # options<~Hash>:: options, defaults to {}
+      #   :max_number_of_domains<~Integer>:: number of domains to return
+      #     between 1 and 100, defaults to 100
+      #   :next_token<~String>:: Offset token to start listing, defaults to nil
       #
       # ==== Returns
       # Hash:: 
       #   :request_id and :box_usage
       #   :domains array of domain names.
       #   :next_token offset to start with if there are are more domains to list
-      def list_domains(max_number_of_domains = nil, next_token = nil)
+      def list_domains(options = {})
         request({
           'Action' => 'ListDomains',
-          'MaxNumberOfDomains' => max_number_of_domains,
-          'NextToken' => next_token
+          'MaxNumberOfDomains' => options[:max_number_of_domains],
+          'NextToken' => options[:next_token]
         }, Fog::Parsers::AWS::SimpleDB::ListDomainsParser.new(@nil_string))
       end
 
@@ -205,7 +206,7 @@ module Fog
       #
       # ==== Parameters
       # select_expression<~String>:: Expression to query domain with.
-      # next_token<~Integer>:: Offset token to start list, defaults to nil.
+      # next_token<~String>:: Offset token to start list, defaults to nil.
       #
       # ==== Returns
       # Hash:: 
