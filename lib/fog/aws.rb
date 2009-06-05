@@ -16,19 +16,13 @@ module Fog
       def post_init
         @data ||= nil
         @headers ||= {}
+        @method ||= 'GET'
         @response ||= Fog::AWS::Response.new
       end
 
       def connection_completed
         uri = URI.parse(@url)
-        if uri.scheme == 'https'
-          start_tls
-        else
-          request
-        end
-      end
-
-      def ssl_handshake_completed
+        start_tls if uri.scheme == 'https'
         request
       end
 

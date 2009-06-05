@@ -8,7 +8,7 @@ require File.dirname(__FILE__) + '/simpledb/parsers'
 module Fog
   module AWS
     class SimpleDB
-      
+
       # Initialize connection to SimpleDB
       #
       # ==== Notes
@@ -289,7 +289,7 @@ module Fog
         string_to_sign = "#{method}\n#{@host + (@port == 80 ? "" : ":#{@port}")}\n/\n" << query.chop
         hmac = @hmac.update(string_to_sign)
         query << "Signature=#{CGI.escape(Base64.encode64(hmac.digest).strip).gsub(/\+/, '%20')}"
-        
+
         response = nil
         EventMachine::run {
           http = EventMachine.connect(@host, @port, Fog::AWS::Connection) {|connection|

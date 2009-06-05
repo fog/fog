@@ -6,7 +6,7 @@ describe 'SimpleDB.create_domain' do
     sdb.delete_domain('create_domain')
   end
 
-  it 'should not include test domain in list_domains before create_domain' do
+  it 'should not include create_domain in list_domains before create_domain' do
     lambda { sdb.list_domains }.should_not eventually { |expected| expected.body[:domains].should_not include('create_domain') }
   end
 
@@ -16,7 +16,7 @@ describe 'SimpleDB.create_domain' do
     actual.body[:box_usage].should be_a(Float)
   end
 
-  it 'should include test in list_domains after create_domain' do
+  it 'should include create_domain in list_domains after create_domain' do
     lambda { sdb.list_domains }.should eventually { |expected| expected.body[:domains].should include('create_domain') }
   end
 

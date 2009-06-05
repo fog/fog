@@ -36,21 +36,66 @@ module Fog
         @scheme     = options[:scheme]    || 'https'
       end
 
+      # List information about S3 buckets for authorized user
       def get_service
-        request('GET', "#{@scheme}://#{@host}:#{@port}/", Fog::Parsers::AWS::S3::GetServiceParser.new)
+        request(
+          'GET',
+          "#{@scheme}://#{@host}:#{@port}/",
+          Fog::Parsers::AWS::S3::GetServiceParser.new
+        )
       end
 
-      def put_bucket(name)
-        request('PUT', "#{@scheme}://#{name}.#{@host}:#{@port}/", Fog::Parsers::AWS::S3::BasicParser.new)
+      # Create an S3 bucket
+      #
+      # ==== Parameters
+      # bucket_name<~String>:: name of bucket to create
+      def put_bucket(bucket_name)
+        request(
+          'PUT',
+          "#{@scheme}://#{bucket_name}.#{@host}:#{@port}/",
+          Fog::Parsers::AWS::S3::BasicParser.new
+        )
       end
-      
-      def delete_bucket(name)
-        request('DELETE', "#{@scheme}://#{name}.#{@host}:#{@port}/", Fog::Parsers::AWS::S3::BasicParser.new)
+
+      # List information about objects in an S3 bucket
+      #
+      # ==== Parameters
+      # bucket_name<~String>:: name of bucket to list object keys from
+      # options<~Hash>:: config arguments for list.  Defaults to {}.
+      #   'prefix' limits object keys to those beginning with its value.
+      #   'marker' limits object keys to only those that appear
+      #     lexicographically after its value.
+      #   'max-keys' limits number of object keys returned
+      #   'delimiter' causes keys with the same string between the prefix
+      #     value and the first occurence of delimiter to be rolled up
+      def get_bucket(bucket_name, options = {})
+        query = '?'
+        options.each do |key, value|
+          query << "#{key}=#{value};"
+        end
+        query.chop!
+        request(
+          'GET',
+          "#{@scheme}://#{bucket_name}.#{@host}:#{@port}/#{query}",
+          Fog::Parsers::AWS::S3::GetBucketParser.new
+        )
+      end
+
+      # Delete an S3 bucket
+      #
+      # ==== Parameters
+      # bucket_name<~String>:: name of bucket to delete
+      def delete_bucket(bucket_name)
+        request(
+          'DELETE',
+          "#{@scheme}://#{bucket_name}.#{@host}:#{@port}/",
+          Fog::Parsers::AWS::S3::BasicParser.new
+        )
       end
 
       private
 
-      def request(method, url, parser, data=nil)
+      def request(method, url, parser, data = nil)
         uri = URI.parse(url)
         headers = { 'Date' => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000") }
         params = [
@@ -65,7 +110,7 @@ module Fog
         hmac = @hmac.update(string_to_sign)
         signature = Base64.encode64(hmac.digest).strip
         headers['Authorization'] = "AWS #{@aws_access_key_id}:#{signature}"
-        
+
         response = nil
         EventMachine::run {
           http = EventMachine.connect(@host, @port, Fog::AWS::Connection) {|connection|
@@ -78,7 +123,7 @@ module Fog
         }
         response
       end
-   
+
     end
   end
 end

@@ -52,6 +52,46 @@ module Fog
 
         end
 
+        class GetBucketParser < Fog::Parsers::AWS::S3::BasicParser
+
+          def reset
+            @object = { :owner => {} }
+            @response = { :contents => [] }
+          end
+
+          def end_element(name)
+            case name
+            when 'Contents'
+              @response[:contents] << @object
+              @object = { :owner => {} }
+            when 'DisplayName'
+              @object[:owner][:display_name] = @value
+            when 'ETag'
+              @object[:etag] = @value
+            when 'ID'
+              @object[:owner][:id] = @value
+            when 'IsTruncated'
+              @response[:is_truncated] = @value
+            when 'Key'
+              @object[:key] = @value
+            when 'LastModified'
+              @object[:last_modified] = @value
+            when 'Marker'
+              @response[:marker] = @value
+            when 'MaxKeys'
+              @response[:max_keys] = @value
+            when 'Name'
+              @response[:name] = @value
+            when 'Prefix'
+              @response[:prefix] = @value
+            when 'Size'
+              @object[:size] = @value
+            when 'StorageClass'
+              @object[:storage_class] = @value
+            end
+          end
+
+        end
 
       end
     end
