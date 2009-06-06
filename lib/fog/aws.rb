@@ -10,13 +10,14 @@ module Fog
     class Connection < EventMachine::Connection
       include EventMachine::Deferrable
 
-      attr_accessor :headers, :method, :url, :parser
+      attr_accessor :headers, :method, :parser, :url
       attr_reader :response
 
       def post_init
         @data ||= nil
         @headers ||= {}
         @method ||= 'GET'
+        @parser ||= nil
         @response ||= Fog::AWS::Response.new
       end
 
@@ -49,8 +50,12 @@ module Fog
             end
           end
           if @data
-            Nokogiri::XML::SAX::Parser.new(@parser).parse(@data)
-            @response.body = @parser.response
+            if @parser
+              Nokogiri::XML::SAX::Parser.new(@parser).parse(@data)
+              @response.body = @parser.response
+            else
+              @response.body = @data
+            end
           end
           set_deferred_status(:succeeded, self)
           EventMachine.stop_event_loop
