@@ -1,7 +1,9 @@
 require 'rubygems'
 require 'base64'
 require 'cgi'
+require 'digest/md5'
 require 'hmac-sha1'
+require 'mime/types'
 require 'uri'
 
 require File.dirname(__FILE__) + '/s3/parsers'
@@ -145,6 +147,18 @@ module Fog
         )
       end
 
+      # Create an object in an S3 bucket
+      def put_object(bucket_name, object_name, object, options = {})
+        file = parse_file(object)
+        request(
+          'PUT',
+          url(bucket_name, object_name),
+          Fog::Parsers::AWS::S3::BasicParser.new,
+          options.merge!(file[:headers]),
+          file[:body]
+        )
+      end
+
       # Copy an object from one S3 bucket to another
       def copy_object(source_bucket_name, source_object_name, destination_bucket_name, destination_object_name)
         request(
@@ -160,7 +174,7 @@ module Fog
         request(
           'GET',
           url(bucket_name, object_name),
-          Fog::Parsers::AWS::S3::BasicParser.new
+          nil
         )
       end
 
@@ -193,8 +207,34 @@ module Fog
       end
 
       def canonicalize_amz_headers(headers)
-        headers = headers.select {|key,value| key.match(/^x-amz-/)}.sort {|x,y| x[0] <=> y[0]}.collect {|header| header.join(':')}.join("\n")
+        headers = headers.select {|key,value| key.match(/^x-amz-/iu)}.sort {|x,y| x[0] <=> y[0]}.collect {|header| header.join(':')}.join("\n").downcase
         headers.empty? ? nil : headers
+      end
+
+      def canonicalize_resource(uri)
+        resource  = "/#{'s3.amazonaws.com' == uri.host ? "" : "#{uri.host.split('.s3.amazonaws.com')[0]}/"}"
+        resource << "#{uri.path[1..-1]}" if uri.path
+        resource << "?location" if uri.to_s.include?('?acl')
+        resource << "?location" if uri.to_s.include?('?location')
+        resource << "?location" if uri.to_s.include?('?torrent')
+        resource
+      end
+
+      def parse_file(file)
+        metadata = {
+          :body => nil,
+          :headers => {}
+        }
+
+        filename = File.basename(file.path)
+        unless (mime_types = MIME::Types.of(filename)).empty?
+          metadata[:headers]['Content-Type'] = mime_types.first.content_type
+        end
+
+        metadata[:body] = file.read
+        metadata[:headers]['Content-Length'] = metadata[:body].size.to_s
+        metadata[:headers]['Content-MD5'] = Base64.encode64(Digest::MD5.digest(metadata[:body])).strip
+        metadata
       end
 
       def request(method, url, parser, headers = {}, data = nil)
@@ -202,11 +242,11 @@ module Fog
         headers['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
         params = [
           method,
-          content_md5 = '',
-          content_type = '',
+          content_md5 = headers['Content-MD5'] || '',
+          content_type = headers['Content-Type'] || '',
           headers['Date'],
           canonicalized_amz_headers = canonicalize_amz_headers(headers),
-          canonicalized_resource = "/#{'s3.amazonaws.com' == uri.host ? "" : "#{uri.host.split('.s3.amazonaws.com')[0]}/"}"
+          canonicalized_resource = canonicalize_resource(uri)
         ]
         string_to_sign = params.delete_if {|value| value.nil?}.join("\n")
         hmac = @hmac.update(string_to_sign)

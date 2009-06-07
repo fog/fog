@@ -35,7 +35,7 @@ module Fog
         @headers.merge!({'Host' => host})
         request  = "#{method} #{path} HTTP/1.1\r\n"
         request << "#{headers.collect {|k,v| "#{k}: #{v}\r\n"}.join('')}\r\n"
-        request << "\r\n#{@body}\r\n" if @body
+        request << "#{@body}\r\n" if @body
         send_data(request)
       end
 
