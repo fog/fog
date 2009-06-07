@@ -40,7 +40,7 @@ module Fog
       def get_service
         request(
           'GET',
-          "#{@scheme}://#{@host}:#{@port}/",
+          url,
           Fog::Parsers::AWS::S3::GetServiceParser.new
         )
       end
@@ -49,11 +49,23 @@ module Fog
       #
       # ==== Parameters
       # bucket_name<~String>:: name of bucket to create
-      def put_bucket(bucket_name)
+      # options<~Hash>:: config arguments for bucket.  Defaults to {}.
+      #   :location_constraint sets the location for the bucket
+      def put_bucket(bucket_name, options = {})
+        if options[:location_constraint]
+          data = <<-DATA
+            <CreateBucketConfiguration>
+              <LocationConstraint>#{options[:location_constraint]}</LocationConstraint>
+            </CreateBucketConfiguration>
+          DATA
+        else
+          data = nil
+        end
         request(
           'PUT',
-          "#{@scheme}://#{bucket_name}.#{@host}:#{@port}/",
-          Fog::Parsers::AWS::S3::BasicParser.new
+          url(bucket_name),
+          Fog::Parsers::AWS::S3::BasicParser.new,
+          data
         )
       end
 
@@ -78,7 +90,7 @@ module Fog
         query.chop!
         request(
           'GET',
-          "#{@scheme}://#{bucket_name}.#{@host}:#{@port}/#{query}",
+          url(bucket_name, query),
           Fog::Parsers::AWS::S3::GetBucketParser.new
         )
       end
@@ -90,12 +102,20 @@ module Fog
       def delete_bucket(bucket_name)
         request(
           'DELETE',
-          "#{@scheme}://#{bucket_name}.#{@host}:#{@port}/",
+          url(bucket_name),
           Fog::Parsers::AWS::S3::BasicParser.new
         )
       end
 
       private
+
+      def url(bucket_name = nil, path = nil)
+        url  = "#{scheme}://"
+        url << "#{bucket_name}." if bucket_name
+        url << "#{@host}:#{@port}/"
+        url << path if path
+        url
+      end
 
       def request(method, url, parser, data = nil)
         uri = URI.parse(url)
@@ -116,6 +136,7 @@ module Fog
         response = nil
         EventMachine::run {
           http = EventMachine.connect(@host, @port, Fog::AWS::Connection) {|connection|
+            connection.body = data
             connection.headers = headers
             connection.method = method
             connection.parser = parser
