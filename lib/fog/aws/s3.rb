@@ -70,6 +70,26 @@ module Fog
         )
       end
 
+      # Change who pays for requests to an S3 bucket
+      #
+      # ==== Parameters
+      # bucket_name<~String>:: name of bucket to modify
+      # payer<~String>:: valid values are BucketOwner or Requester
+      def put_request_payment(bucket_name, payer)
+        data = <<-DATA
+          <RequestPaymentConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"> 
+            <Payer>#{payer}</Payer> 
+          </RequestPaymentConfiguration>
+        DATA
+        request(
+          'PUT',
+          url(bucket_name),
+          Fog::Parsers::AWS::S3::BasicParser.new,
+          {},
+          data
+        )
+      end
+
       # List information about objects in an S3 bucket
       #
       # ==== Parameters
@@ -93,6 +113,24 @@ module Fog
           'GET',
           url(bucket_name, query),
           Fog::Parsers::AWS::S3::GetBucketParser.new
+        )
+      end
+
+      # Get configured payer for an S3 bucket
+      def get_request_payment(bucket_name)
+        request(
+          'GET',
+          url(bucket_name, '?requestpayment'),
+          Fog::Parsers::AWS::S3::GetRequestPayment.new
+        )
+      end
+
+      # Get location constraint for an S3 bucket
+      def get_location(bucket_name)
+        request(
+          'GET',
+          url(bucket_name, '?location'),
+          Fog::Parsers::AWS::S3::GetRequestPayment.new
         )
       end
 

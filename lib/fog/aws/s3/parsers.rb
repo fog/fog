@@ -93,6 +93,28 @@ module Fog
 
         end
 
+        class GetRequestPayment < Fog::Parsers::AWS::S3::BasicParser
+
+          def end_element(name)
+            case name
+            when 'Payer'
+              @response[:payer] = @value
+            end
+          end
+
+        end
+
+        class GetLocation < Fog::Parsers::AWS::S3::BasicParser
+
+          def end_element(name)
+            case name
+            when 'LocationConstraint'
+              @response[:location_constraint] = @value
+            end
+          end
+
+        end
+
       end
     end
   end
