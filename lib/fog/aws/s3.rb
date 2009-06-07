@@ -65,6 +65,7 @@ module Fog
           'PUT',
           url(bucket_name),
           Fog::Parsers::AWS::S3::BasicParser.new,
+          {},
           data
         )
       end
@@ -107,6 +108,43 @@ module Fog
         )
       end
 
+      # Copy an object from one S3 bucket to another
+      def copy_object(source_bucket_name, source_object_name, destination_bucket_name, destination_object_name)
+        request(
+          'PUT',
+          url(destination_bucket_name, destination_object_name),
+          Fog::Parsers::AWS::S3::BasicParser.new,
+          { 'x-amz-copy-source' => "/#{source_bucket_name}/#{source_object_name}" }
+        )
+      end
+
+      # Get an object from S3
+      def get_object(bucket_name, object_name)
+        request(
+          'GET',
+          url(bucket_name, object_name),
+          Fog::Parsers::AWS::S3::BasicParser.new
+        )
+      end
+
+      # Get headers for an object from S3
+      def head_object(bucket_name, object_name)
+        request(
+          'HEAD',
+          url(bucket_name, object_name),
+          Fog::Parsers::AWS::S3::BasicParser.new
+        )
+      end
+
+      # Delete an object from S3
+      def delete_object(bucket_name, object_name)
+        request(
+          'DELETE',
+          url(bucket_name, object_name),
+          Fog::Parsers::AWS::S3::BasicParser.new
+        )
+      end
+
       private
 
       def url(bucket_name = nil, path = nil)
@@ -117,18 +155,22 @@ module Fog
         url
       end
 
-      def request(method, url, parser, data = nil)
+      def canonicalize_amz_headers(headers)
+        headers.select {|key,value| key.match(/^x-amz-/)}.sort {|x,y| x[0] <=> y[0]}.collect {|header| header.join(':')}.join("\n")
+      end
+
+      def request(method, url, parser, headers = {}, data = nil)
         uri = URI.parse(url)
-        headers = { 'Date' => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000") }
+        headers['Date'] => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
         params = [
           method,
           content_md5 = '',
           content_type = '',
           headers['Date'],
-          canonicalized_amz_headers = nil,
+          canonicalized_amz_headers = canonicalize_amz_headers(headers),
           canonicalized_resource = "/#{'s3.amazonaws.com' == uri.host ? "" : "#{uri.host.split('.s3.amazonaws.com')[0]}/"}"
         ]
-        string_to_sign = params.delete_if {|value| value.nil?}.join("\n")
+        string_to_sign = params.delete_if {|value| value.nil? || value.empty?}.join("\n")
         hmac = @hmac.update(string_to_sign)
         signature = Base64.encode64(hmac.digest).strip
         headers['Authorization'] = "AWS #{@aws_access_key_id}:#{signature}"
