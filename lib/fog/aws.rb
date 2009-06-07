@@ -10,10 +10,11 @@ module Fog
     class Connection < EventMachine::Connection
       include EventMachine::Deferrable
 
-      attr_accessor :headers, :method, :parser, :url
+      attr_accessor :body, :headers, :method, :parser, :url
       attr_reader :response
 
       def post_init
+        @body ||= nil
         @data ||= nil
         @headers ||= {}
         @method ||= 'GET'
@@ -32,7 +33,10 @@ module Fog
         path = "#{uri.path}#{uri.query.nil? ? "" : "?#{uri.query}"}"
         host = "#{uri.host}#{uri.port == 80 ? "" : ":#{uri.port}"}"
         @headers.merge!({'Host' => host})
-        send_data("#{method} #{path} HTTP/1.1\r\n#{headers.collect {|k,v| "#{k}: #{v}\r\n"}.join('')}\r\n")
+        request  = "#{method} #{path} HTTP/1.1\r\n"
+        request << "#{headers.collect {|k,v| "#{k}: #{v}\r\n"}.join('')}\r\n"
+        request << "\r\n#{@body}\r\n" if @body
+        send_data(request)
       end
 
       def receive_data(data)
