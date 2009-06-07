@@ -53,10 +53,10 @@ module Fog
               @response.headers[data[1]] = data[2]
             end
           end
-          if @parser
-            Nokogiri::XML::SAX::Parser.new(@parser).parse(data.split(/<\?xml.*\?>/)[1])
+          if @parser && @data
+            Nokogiri::XML::SAX::Parser.new(@parser).parse(@data.split(/<\?xml.*\?>/)[1])
             @response.body = @parser.response
-          else
+          elsif @data
             @response.body = @data
           end
           set_deferred_status(:succeeded, self)

@@ -103,7 +103,6 @@ module Fog
       #     value and the first occurence of delimiter to be rolled up
       def get_bucket(bucket_name, options = {})
         options['max-keys'] = options.delete(:maxkeys) if options[:maxkeys]
-        params.delete_if {}
         query = '?'
         options.each do |key, value|
           query << "#{key}=#{value};"
@@ -186,7 +185,7 @@ module Fog
       private
 
       def url(bucket_name = nil, path = nil)
-        url  = "#{scheme}://"
+        url  = "#{@scheme}://"
         url << "#{bucket_name}." if bucket_name
         url << "#{@host}:#{@port}/"
         url << path if path
@@ -194,12 +193,13 @@ module Fog
       end
 
       def canonicalize_amz_headers(headers)
-        headers.select {|key,value| key.match(/^x-amz-/)}.sort {|x,y| x[0] <=> y[0]}.collect {|header| header.join(':')}.join("\n")
+        headers = headers.select {|key,value| key.match(/^x-amz-/)}.sort {|x,y| x[0] <=> y[0]}.collect {|header| header.join(':')}.join("\n")
+        headers.empty? ? nil : headers
       end
 
       def request(method, url, parser, headers = {}, data = nil)
         uri = URI.parse(url)
-        headers['Date'] => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
+        headers['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
         params = [
           method,
           content_md5 = '',
@@ -208,7 +208,7 @@ module Fog
           canonicalized_amz_headers = canonicalize_amz_headers(headers),
           canonicalized_resource = "/#{'s3.amazonaws.com' == uri.host ? "" : "#{uri.host.split('.s3.amazonaws.com')[0]}/"}"
         ]
-        string_to_sign = params.delete_if {|value| value.nil? || value.empty?}.join("\n")
+        string_to_sign = params.delete_if {|value| value.nil?}.join("\n")
         hmac = @hmac.update(string_to_sign)
         signature = Base64.encode64(hmac.digest).strip
         headers['Authorization'] = "AWS #{@aws_access_key_id}:#{signature}"
