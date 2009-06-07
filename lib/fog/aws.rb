@@ -43,19 +43,17 @@ module Fog
           else
             @response.status = 0
           end
-          @headers, @data = data.split(/<\?xml.*\?>/)
+          @headers, @data = data.split("\r\n\r\n")
           @headers.split("\r\n").each do |header|
             if data = header.match(/(.*):\s(.*)/)
               @response.headers[data[1]] = data[2]
             end
           end
-          if @data
-            if @parser
-              Nokogiri::XML::SAX::Parser.new(@parser).parse(@data)
-              @response.body = @parser.response
-            else
-              @response.body = @data
-            end
+          if @parser
+            Nokogiri::XML::SAX::Parser.new(@parser).parse(data.split(/<\?xml.*\?>/)[1])
+            @response.body = @parser.response
+          else
+            @response.body = @data
           end
           set_deferred_status(:succeeded, self)
           EventMachine.stop_event_loop
