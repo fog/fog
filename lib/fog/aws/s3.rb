@@ -62,13 +62,15 @@ module Fog
       # ==== Parameters
       # bucket_name<~String>:: name of bucket to list object keys from
       # options<~Hash>:: config arguments for list.  Defaults to {}.
-      #   'prefix' limits object keys to those beginning with its value.
-      #   'marker' limits object keys to only those that appear
+      #   :prefix limits object keys to those beginning with its value.
+      #   :marker limits object keys to only those that appear
       #     lexicographically after its value.
-      #   'max-keys' limits number of object keys returned
-      #   'delimiter' causes keys with the same string between the prefix
+      #   :maxkeys limits number of object keys returned
+      #   :delimiter causes keys with the same string between the prefix
       #     value and the first occurence of delimiter to be rolled up
       def get_bucket(bucket_name, options = {})
+        options['max-keys'] = options.delete(:maxkeys) if options[:maxkeys]
+        params.delete_if {}
         query = '?'
         options.each do |key, value|
           query << "#{key}=#{value};"
