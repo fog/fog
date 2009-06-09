@@ -17,6 +17,8 @@ raws = RightAws::S3Interface.new(
 )
 raws.logger.level = 3 # ERROR
 
+TIMES = 10
+
 Benchmark.bm(25) do |bench|
   bench.report('fog.put_bucket') do
     fog.put_bucket('fogbench')
@@ -28,21 +30,29 @@ Benchmark.bm(25) do |bench|
   print '-' * 64 << "\n"
 
   bench.report('fog.put_object') do
-    file = File.open(File.dirname(__FILE__) + '/spec/lorem.txt', 'r')
-    fog.put_object('fogbench', 'lorem', file)
+    TIMES.times do |x|
+      file = File.open(File.dirname(__FILE__) + '/spec/lorem.txt', 'r')
+      fog.put_object('fogbench', "lorem_#{x}", file)
+    end
   end
   bench.report('raws.put') do
-    file = File.open(File.dirname(__FILE__) + '/spec/lorem.txt', 'r')
-    raws.put('rawsbench', 'lorem', file)
+    TIMES.times do |x|
+      file = File.open(File.dirname(__FILE__) + '/spec/lorem.txt', 'r')
+      raws.put('rawsbench', "lorem_#{x}", file)
+    end
   end
 
   print '-' * 64 << "\n"
 
   bench.report('fog.delete_object') do
-    fog.delete_object('fogbench', 'lorem')
+    TIMES.times do |x|
+      fog.delete_object('fogbench', "lorem_#{x}")
+    end
   end
   bench.report('raws.delete') do
-    raws.delete('rawsbench', 'lorem')
+    TIMES.times do |x|
+      raws.delete('rawsbench', "lorem_#{x}")
+    end
   end
 
   print '-' * 64 << "\n"
