@@ -30,15 +30,17 @@ module Fog
 
       def request
         uri = URI.parse(@url)
-        path = "#{uri.path}#{uri.query.nil? ? "" : "?#{uri.query}"}"
-        host = "#{uri.host}#{uri.port == 80 ? "" : ":#{uri.port}"}"
+        path  = "#{uri.path}"
+        path << "?#{uri.query}" if uri.query
+        host  = "#{uri.host}"
+        host << ":#{uri.port}" unless uri.port == 80
         @headers.merge!({'Host' => host})
         request  = "#{method} #{path} HTTP/1.1\r\n"
         for key, value in headers
           request << "#{key}: #{value}\r\n"
         end
+        request << "\r\n#{@body}" if @body
         request << "\r\n"
-        request << "#{@body}\r\n" if @body
         send_data(request)
       end
 

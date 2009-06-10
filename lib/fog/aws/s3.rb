@@ -201,22 +201,25 @@ module Fog
       def url(bucket_name = nil, path = nil)
         url  = "#{@scheme}://"
         url << "#{bucket_name}." if bucket_name
-        url << "#{@host}:#{@port}/"
-        url << path if path
+        url << "#{@host}:#{@port}/#{path}"
         url
       end
 
       def canonicalize_amz_headers(headers)
-        headers = headers.select {|key,value| key.match(/^x-amz-/iu)}.sort {|x,y| x[0] <=> y[0]}.collect {|header| header.join(':')}.join("\n").downcase
-        headers.empty? ? nil : headers
+        if headers.empty?
+          nil
+        else
+          headers.select {|key,value| key.match(/^x-amz-/iu)}.sort {|x,y| x[0] <=> y[0]}.collect {|header| header.join(':')}.join("\n").downcase
+        end
       end
 
       def canonicalize_resource(uri)
-        resource  = "/#{'s3.amazonaws.com' == uri.host ? "" : "#{uri.host.split('.s3.amazonaws.com')[0]}/"}"
+        resource  = "/"
+        resource << "#{match[1]}/" if match = uri.host.match(/(.*).s3.amazonaws.com/)
         resource << "#{uri.path[1..-1]}" if uri.path
-        resource << "?location" if uri.to_s.include?('?acl')
+        resource << "?acl" if uri.to_s.include?('?acl')
         resource << "?location" if uri.to_s.include?('?location')
-        resource << "?location" if uri.to_s.include?('?torrent')
+        resource << "?torrent" if uri.to_s.include?('?torrent')
         resource
       end
 
