@@ -215,7 +215,9 @@ module Fog
 
       def canonicalize_resource(uri)
         resource  = "/"
-        resource << "#{match[1]}/" if match = uri.host.match(/(.*).s3.amazonaws.com/)
+        if match = uri.host.match(/(.*).s3.amazonaws.com/)
+          resource << "#{match[1]}/"
+        end
         resource << "#{uri.path[1..-1]}" if uri.path
         resource << "?acl" if uri.to_s.include?('?acl')
         resource << "?location" if uri.to_s.include?('?location')
