@@ -302,11 +302,16 @@ module Fog
         response = nil
         EventMachine::run {
           http = EventMachine.connect(@host, @port, Fog::AWS::Connection) {|connection|
-            connection.method = method
-            connection.parser = parser
-            connection.url = "#{@scheme}://#{@host}:#{@port}/#{method == 'GET' ? "?#{query}" : ""}"
+            connection.scheme = @scheme
           }
-          http.callback {|http| response = http.response}
+
+          request = Fog::AWS::Request.new(http)
+          request.method = method
+          request.parser = parser
+          request.url = "#{@scheme}://#{@host}:#{@port}/#{method == 'GET' ? "?#{query}" : ""}"
+          http.send(request)
+
+          request.callback {|http| response = request.response}
         }
         response
       end

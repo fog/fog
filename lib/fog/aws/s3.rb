@@ -36,6 +36,13 @@ module Fog
         @host       = options[:host]      || 's3.amazonaws.com'
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'
+
+        EventMachine::run {
+          @connection = EventMachine.connect(@host, @port, Fog::AWS::Connection) {|connection|
+            connection.scheme = @scheme
+          }
+          EventMachine.stop_event_loop
+        }
       end
 
       # List information about S3 buckets for authorized user
@@ -206,11 +213,8 @@ module Fog
       end
 
       def canonicalize_amz_headers(headers)
-        if headers.empty?
-          nil
-        else
-          headers.select {|key,value| key.match(/^x-amz-/iu)}.sort {|x,y| x[0] <=> y[0]}.collect {|header| header.join(':')}.join("\n").downcase
-        end
+        headers = headers.select {|key,value| key.match(/^x-amz-/iu)}.sort {|x,y| x[0] <=> y[0]}.collect {|header| header.join(':')}.join("\n").downcase
+        headers.empty? ? nil : headers
       end
 
       def canonicalize_resource(uri)
@@ -261,13 +265,18 @@ module Fog
         response = nil
         EventMachine::run {
           http = EventMachine.connect(@host, @port, Fog::AWS::Connection) {|connection|
-            connection.body = data
-            connection.headers = headers
-            connection.method = method
-            connection.parser = parser
-            connection.url = url
+            connection.scheme = @scheme
           }
-          http.callback {|http| response = http.response}
+
+          request = Fog::AWS::Request.new(http)
+          request.body = data
+          request.headers = headers
+          request.method = method
+          request.parser = parser
+          request.url = url
+          http.send(request)
+
+          request.callback {|request| response = request.response}
         }
         response
       end

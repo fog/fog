@@ -8,27 +8,44 @@ require 'uri'
 module Fog
   module AWS
     class Connection < EventMachine::Connection
+      attr_accessor :scheme
+      attr_reader :request
+
+      def post_init
+        @connected = EM::DefaultDeferrable.new
+      end
+
+      def connection_completed
+        start_tls if @scheme == 'https'
+        @connected.succeed
+      end
+
+      def send(request)
+        @request = request
+        @connected.callback { @request.execute }
+        @request
+      end
+
+      def receive_data(data)
+        p data
+        @request.receive_data(data)
+      end
+
+    end
+
+    class Request
       include EventMachine::Deferrable
 
       attr_accessor :body, :headers, :method, :parser, :url
       attr_reader :response
 
-      def post_init
-        @body ||= nil
-        @data ||= nil
+      def initialize(connection)
+        @connection = connection
         @headers ||= {}
-        @method ||= 'GET'
-        @parser ||= nil
         @response ||= Fog::AWS::Response.new
       end
 
-      def connection_completed
-        uri = URI.parse(@url)
-        start_tls if uri.scheme == 'https'
-        request
-      end
-
-      def request
+      def execute
         uri = URI.parse(@url)
         path  = "#{uri.path}"
         path << "?#{uri.query}" if uri.query
@@ -41,11 +58,12 @@ module Fog
         end
         request << "\r\n#{@body}" if @body
         request << "\r\n"
-        send_data(request)
+        p request
+        @connection.send_data(request)
       end
 
       def receive_data(data)
-        # p data
+        p data
         unless @data
           if data =~ /\AHTTP\/1\.[01] ([\d]{3})/
             @response.status = $1.to_i
