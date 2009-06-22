@@ -28,19 +28,24 @@ module Fog
         }.merge(params)
         uri = URI.parse(params[:url])
         path = "#{uri.path}"
-        path << "?#{uri.query}" if uri.query
+        if uri.query
+          path << "?#{uri.query}"
+        end
         host = "#{uri.host}"
-        host << ":#{uri.port}" if uri.scheme == "http" && uri.port != 80
-        host << ":#{uri.port}" if uri.scheme == "https" && uri.port != 443
+        if (uri.scheme == "http" && uri.port != 80) ||
+           (uri.scheme == 'https' && uri.port != 443)
+          host << ":#{uri.port}"
+        end
 
         request = "#{params[:method]} #{path} HTTP/1.1\r\n"
         params[:headers]['Host'] = uri.host
-        params[:headers]['Content-Length'] = (params[:body].length) if params[:body]
+        if params[:body]
+          params[:headers]['Content-Length'] = params[:body].length
+        end
         for key, value in params[:headers]
           request << "#{key}: #{value}\r\n"
         end
-        request << "\r\n"
-        request << params[:body] if params[:body]
+        request << "\r\n#{params[:body]}"
         @connection.write(request)
 
         response = AWS::Response.new
@@ -48,7 +53,9 @@ module Fog
         response.status = $1.to_i
         while true
           data = @connection.readline
-          break if data == "\r\n"
+          if data == "\r\n"
+            break
+          end
           if header = data.match(/(.*):\s(.*)\r\n/)
             response.headers[header[1]] = header[2]
           end
@@ -61,7 +68,9 @@ module Fog
             @connection.readline =~ /([a-f0-9]*)\r\n/i
             chunk_size = $1.to_i(16) + 2  # 2 = "/r/n".length
             response.body << @connection.read(chunk_size)
-            break if $1.to_i(16) == 0
+            if $1.to_i(16) == 0
+              break
+            end
           end
         end
         response

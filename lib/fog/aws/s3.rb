@@ -207,8 +207,21 @@ module Fog
       end
 
       def canonicalize_amz_headers(headers)
-        headers = headers.select {|key,value| key.match(/^x-amz-/iu)}.sort {|x,y| x[0] <=> y[0]}.collect {|header| header.join(':')}.join("\n").downcase
-        headers.empty? ? nil : headers
+        amz_headers, canonical_amz_headers = {}, ''
+        for key, value in amz_headers
+          if key[0..5] == 'x-amz-'
+            amz_headers[key] = value
+          end
+        end
+        amz_headers = amz_headers.sort {|x, y| x[0] <=> y[0]}
+        for pair in amz_headers
+          canonical_amz_headers << "#{pair[0]}: #{pair[1]}\r\n"
+        end
+        if canonical_amz_headers.empty?
+          nil
+        else
+          canonical_amz_headers.chomp!
+        end
       end
 
       def canonicalize_resource(uri)
@@ -216,10 +229,10 @@ module Fog
         if match = uri.host.match(/(.*).s3.amazonaws.com/)
           resource << "#{match[1]}/"
         end
-        resource << "#{uri.path[1..-1]}" if uri.path
-        resource << "?acl" if uri.to_s.include?('?acl')
-        resource << "?location" if uri.to_s.include?('?location')
-        resource << "?torrent" if uri.to_s.include?('?torrent')
+        resource << "#{uri.path[1..-1]}"
+        # resource << "?acl" if uri.to_s.include?('?acl')
+        # resource << "?location" if uri.to_s.include?('?location')
+        # resource << "?torrent" if uri.to_s.include?('?torrent')
         resource
       end
 
@@ -251,9 +264,14 @@ module Fog
           canonicalized_amz_headers = canonicalize_amz_headers(headers),
           canonicalized_resource = canonicalize_resource(uri)
         ]
-        string_to_sign = params.delete_if {|value| value.nil?}.join("\n")
-        hmac = @hmac.update(string_to_sign)
-        signature = Base64.encode64(hmac.digest).strip
+        string_to_sign = ''
+        for value in params
+          unless value.nil?
+            string_to_sign << "#{value}\n"
+          end
+        end
+        hmac = @hmac.update(string_to_sign.chomp!)
+        signature = Base64.encode64(hmac.digest).strip!
         headers['Authorization'] = "AWS #{@aws_access_key_id}:#{signature}"
 
         response = @connection.request({
