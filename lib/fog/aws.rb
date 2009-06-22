@@ -49,8 +49,7 @@ module Fog
         @connection.write(request)
 
         response = AWS::Response.new
-        @connection.readline =~ /\AHTTP\/1.1 ([\d]{3})/
-        response.status = $1.to_i
+        response.status = @connection.readline[9..11].to_i
         while true
           data = @connection.readline
           if data == "\r\n"
