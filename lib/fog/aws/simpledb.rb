@@ -35,6 +35,7 @@ module Fog
         @nil_string = options[:nil_string]|| 'nil'
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'
+        @connection = AWS::Connection.new("#{@scheme}://#{@host}:#{@port}")
       end
 
       # Create a SimpleDB domain
@@ -295,24 +296,20 @@ module Fog
         # FIXME: use 'POST' for larger requests
         # method = query.length > 2000 ? 'POST' : 'GET'
         method = 'GET'
-        string_to_sign = "#{method}\n#{@host + (@port == 80 ? "" : ":#{@port}")}\n/\n" << query.chop
+        string_to_sign = "#{method}\n#{@host}\n/\n" << query.chop
         hmac = @hmac.update(string_to_sign)
         query << "Signature=#{CGI.escape(Base64.encode64(hmac.digest).strip).gsub(/\+/, '%20')}"
 
-        response = nil
-        EventMachine::run {
-          http = EventMachine.connect(@host, @port, Fog::AWS::Connection) {|connection|
-            connection.scheme = @scheme
-          }
+        response = @connection.request({
+          :method => method,
+          :url => "#{@scheme}://#{@host}:#{@port}/#{method == 'GET' ? "?#{query}" : ""}"
+        })
 
-          request = Fog::AWS::Request.new(http)
-          request.method = method
-          request.parser = parser
-          request.url = "#{@scheme}://#{@host}:#{@port}/#{method == 'GET' ? "?#{query}" : ""}"
-          http.send(request)
+        if parser && !response.body.empty?
+          Nokogiri::XML::SAX::Parser.new(parser).parse(response.body.split(/<\?xml.*\?>/)[1])
+          response.body = parser.response
+        end
 
-          request.callback {|http| response = request.response}
-        }
         response
       end
 

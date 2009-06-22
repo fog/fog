@@ -16,7 +16,7 @@ describe 'S3.get_service' do
   end
 
   it 'should include foggetservice in get_service' do
-    lambda { s3.get_service }.should eventually { |expected| expected.body[:buckets].collect { |bucket| bucket[:name] }.should include('list_domains') }
+    lambda { s3.get_service }.should eventually { |expected| expected.body[:buckets].collect { |bucket| bucket[:name] }.should include('foggetservice') }
   end
 
 end

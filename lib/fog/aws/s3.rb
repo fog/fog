@@ -36,13 +36,7 @@ module Fog
         @host       = options[:host]      || 's3.amazonaws.com'
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'
-
-        EventMachine::run {
-          @connection = EventMachine.connect(@host, @port, Fog::AWS::Connection) {|connection|
-            connection.scheme = @scheme
-          }
-          EventMachine.stop_event_loop
-        }
+        @connection = AWS::Connection.new("#{@scheme}://#{@host}:#{@port}")
       end
 
       # List information about S3 buckets for authorized user
@@ -246,7 +240,7 @@ module Fog
         metadata
       end
 
-      def request(method, url, parser, headers = {}, data = nil)
+      def request(method, url, parser, headers = {}, body = nil)
         uri = URI.parse(url)
         headers['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
         params = [
@@ -262,22 +256,18 @@ module Fog
         signature = Base64.encode64(hmac.digest).strip
         headers['Authorization'] = "AWS #{@aws_access_key_id}:#{signature}"
 
-        response = nil
-        EventMachine::run {
-          http = EventMachine.connect(@host, @port, Fog::AWS::Connection) {|connection|
-            connection.scheme = @scheme
-          }
+        response = @connection.request({
+          :body => body,
+          :headers => headers,
+          :method => method,
+          :url => url
+        })
 
-          request = Fog::AWS::Request.new(http)
-          request.body = data
-          request.headers = headers
-          request.method = method
-          request.parser = parser
-          request.url = url
-          http.send(request)
+        if parser && !response.body.empty?
+          Nokogiri::XML::SAX::Parser.new(parser).parse(response.body.split(/<\?xml.*\?>/)[1])
+          response.body = parser.response
+        end
 
-          request.callback {|request| response = request.response}
-        }
         response
       end
 
