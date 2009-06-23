@@ -57,14 +57,13 @@ module Fog
           response.headers[header[0]] = header[1]
         end
         if response.headers['Content-Length']
-          content_length = response.headers['Content-Length'].to_i
-          response.body << @connection.read(content_length)
+          response.body << @connection.read(response.headers['Content-Length'].to_i)
         elsif response.headers['Transfer-Encoding'] == 'chunked'
           while true
-            @connection.readline =~ /([a-f0-9]*)\r\n/i
-            chunk_size = $1.to_i(16) + 2  # 2 = "/r/n".length
+            # 2 == "/r/n".length
+            chunk_size = @connection.readline.chomp!.to_i(16) + 2
             response.body << @connection.read(chunk_size)
-            if $1.to_i(16) == 0
+            if chunk_size == 2
               break
             end
           end

@@ -19,7 +19,7 @@ raws.logger.level = 3 # ERROR
 
 TIMES = 100
 
-Benchmark.bm(25) do |bench|
+Benchmark.bmbm(25) do |bench|
   bench.report('fog.put_bucket') do
     fog.put_bucket('fogbench')
   end
