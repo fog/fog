@@ -2,7 +2,7 @@ require 'rubygems'
 require 'benchwarmer'
 require 'right_aws'
 
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), 'lib'))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'fog/aws'
 
 data = File.open(File.expand_path('~/.s3conf/s3config.yml')).read
@@ -17,7 +17,7 @@ raws = RightAws::S3Interface.new(
 )
 raws.logger.level = 3 # ERROR
 
-TIMES = 10
+TIMES = 100
 
 Benchmark.bm(25) do |bench|
   bench.report('fog.put_bucket') do
@@ -31,13 +31,13 @@ Benchmark.bm(25) do |bench|
 
   bench.report('fog.put_object') do
     TIMES.times do |x|
-      file = File.open(File.dirname(__FILE__) + '/spec/lorem.txt', 'r')
+      file = File.open(File.dirname(__FILE__) + '/../spec/lorem.txt', 'r')
       fog.put_object('fogbench', "lorem_#{x}", file)
     end
   end
   bench.report('raws.put') do
     TIMES.times do |x|
-      file = File.open(File.dirname(__FILE__) + '/spec/lorem.txt', 'r')
+      file = File.open(File.dirname(__FILE__) + '/../spec/lorem.txt', 'r')
       raws.put('rawsbench', "lorem_#{x}", file)
     end
   end

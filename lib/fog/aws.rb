@@ -23,9 +23,6 @@ module Fog
       end
 
       def request(params)
-        params = {
-          :headers => {}
-        }.merge(params)
         uri = URI.parse(params[:url])
         path = "#{uri.path}"
         if uri.query
@@ -38,6 +35,7 @@ module Fog
         end
 
         request = "#{params[:method]} #{path} HTTP/1.1\r\n"
+        params[:headers] ||= {}
         params[:headers]['Host'] = uri.host
         if params[:body]
           params[:headers]['Content-Length'] = params[:body].length
@@ -51,13 +49,12 @@ module Fog
         response = AWS::Response.new
         response.status = @connection.readline[9..11].to_i
         while true
-          data = @connection.readline
-          if data == "\r\n"
+          data = @connection.readline[0..-3]
+          if data == ""
             break
           end
-          if header = data.match(/(.*):\s(.*)\r\n/)
-            response.headers[header[1]] = header[2]
-          end
+          header = data.split(': ')
+          response.headers[header[0]] = header[1]
         end
         if response.headers['Content-Length']
           content_length = response.headers['Content-Length'].to_i
