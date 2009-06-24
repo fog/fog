@@ -213,38 +213,6 @@ module Fog
         url
       end
 
-      def canonicalize_amz_headers(headers)
-        amz_headers, canonical_amz_headers = {}, ''
-        for key, value in amz_headers
-          if key[0..5] == 'x-amz-'
-            amz_headers[key] = value
-          end
-        end
-        amz_headers = amz_headers.sort {|x, y| x[0] <=> y[0]}
-        for pair in amz_headers
-          canonical_amz_headers << "#{pair[0]}: #{pair[1]}\r\n"
-        end
-        if canonical_amz_headers.empty?
-          nil
-        else
-          canonical_amz_headers.chomp!
-        end
-      end
-
-      def canonicalize_resource(uri)
-        resource  = "/"
-        # [0..-18] is anything prior to .s3.amazonaws.com
-        subdomain = uri.host[0..-18]
-        unless subdomain.empty?
-          resource << "#{subdomain}/"
-        end
-        resource << "#{uri.path[1..-1]}"
-        # resource << "?acl" if uri.to_s.include?('?acl')
-        # resource << "?location" if uri.to_s.include?('?location')
-        # resource << "?torrent" if uri.to_s.include?('?torrent')
-        resource
-      end
-
       def parse_file(file)
         metadata = {
           :body => nil,
@@ -262,26 +230,49 @@ module Fog
         metadata
       end
 
-      def request(params)
+      def sign(params)
         uri = URI.parse(params[:url])
         params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
-        params_to_sign = [
-          params[:method],
-          content_md5 = params[:headers]['Content-MD5'] || '',
-          content_type = params[:headers]['Content-Type'] || '',
-          params[:headers]['Date'],
-          canonicalized_amz_headers = canonicalize_amz_headers(params[:headers]),
-          canonicalized_resource = canonicalize_resource(uri)
-        ]
-        string_to_sign = ''
-        for value in params_to_sign
-          unless value.nil?
-            string_to_sign << "#{value}\n"
+
+        string_to_sign  = "#{params[:method]}\n"
+        string_to_sign << "#{params[:headers]['Content-MD5'] || ''}\n"
+        string_to_sign << "#{params[:headers]['Content-Type'] || ''}\n"
+        string_to_sign << "#{params[:headers]['Date']}\n"
+
+        amz_headers, canonical_amz_headers = {}, ''
+        for key, value in amz_headers
+          if key[0..5] == 'x-amz-'
+            amz_headers[key] = value
           end
         end
-        hmac = @hmac.update(string_to_sign.chomp!)
-        signature = Base64.encode64(hmac.digest).strip!
+        amz_headers = amz_headers.sort {|x, y| x[0] <=> y[0]}
+        for pair in amz_headers
+          canonical_amz_headers << "#{pair[0]}: #{pair[1]}\r\n"
+        end
+        unless canonical_amz_headers.empty?
+          string_to_sign << "#{canonical_amz_headers}\n"
+        end
+
+        canonical_resource  = "/"
+        # [0..-18] is anything prior to .s3.amazonaws.com
+        subdomain = uri.host[0..-18]
+        unless subdomain.empty?
+          canonical_resource << "#{subdomain}/"
+        end
+        canonical_resource << "#{uri.path[1..-1]}"
+        # canonical_resource << "?acl" if uri.to_s.include?('?acl')
+        # canonical_resource << "?location" if uri.to_s.include?('?location')
+        # canonical_resource << "?torrent" if uri.to_s.include?('?torrent')
+        string_to_sign << "#{canonical_resource}"
+
+        hmac = @hmac.update(string_to_sign)
+        signature = Base64.encode64(hmac.digest).chomp!
         params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature}"
+        params
+      end
+
+      def request(params)
+        params = sign(params)
 
         response = @connection.request({
           :body => params[:body],

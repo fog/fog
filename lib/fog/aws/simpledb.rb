@@ -298,7 +298,7 @@ module Fog
         method = 'GET'
         string_to_sign = "#{method}\n#{@host}\n/\n" << query.chop
         hmac = @hmac.update(string_to_sign)
-        query << "Signature=#{CGI.escape(Base64.encode64(hmac.digest).strip).gsub(/\+/, '%20')}"
+        query << "Signature=#{CGI.escape(Base64.encode64(hmac.digest).chomp!).gsub(/\+/, '%20')}"
 
         response = @connection.request({
           :method => method,

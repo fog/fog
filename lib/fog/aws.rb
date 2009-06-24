@@ -49,7 +49,7 @@ module Fog
         response = AWS::Response.new
         response.status = @connection.readline[9..11].to_i
         while true
-          data = @connection.readline[0..-3]
+          data = @connection.readline.chomp!
           if data == ""
             break
           end
