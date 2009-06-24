@@ -41,11 +41,12 @@ module Fog
 
       # List information about S3 buckets for authorized user
       def get_service
-        request(
-          'GET',
-          url,
-          Fog::Parsers::AWS::S3::GetServiceParser.new
-        )
+        request({
+          :headers => {},
+          :method => 'GET',
+          :parser => Fog::Parsers::AWS::S3::GetServiceParser.new,
+          :url => url
+        })
       end
 
       # Create an S3 bucket
@@ -64,13 +65,13 @@ module Fog
         else
           data = nil
         end
-        request(
-          'PUT',
-          url(bucket_name),
-          Fog::Parsers::AWS::S3::BasicParser.new,
-          {},
-          data
-        )
+        request({
+          :body => data,
+          :headers => {},
+          :method => 'PUT',
+          :parser => Fog::Parsers::AWS::S3::BasicParser.new,
+          :url => url(bucket_name)
+        })
       end
 
       # Change who pays for requests to an S3 bucket
@@ -84,13 +85,13 @@ module Fog
             <Payer>#{payer}</Payer> 
           </RequestPaymentConfiguration>
         DATA
-        request(
-          'PUT',
-          url(bucket_name),
-          Fog::Parsers::AWS::S3::BasicParser.new,
-          {},
-          data
-        )
+        request({
+          :body => data,
+          :headers => {},
+          :method => 'PUT',
+          :parser => Fog::Parsers::AWS::S3::BasicParser.new,
+          :url => url(bucket_name)
+        })
       end
 
       # List information about objects in an S3 bucket
@@ -107,33 +108,36 @@ module Fog
       def get_bucket(bucket_name, options = {})
         options['max-keys'] = options.delete(:maxkeys) if options[:maxkeys]
         query = '?'
-        options.each do |key, value|
+        for key, value in options
           query << "#{key}=#{value};"
         end
         query.chop!
-        request(
-          'GET',
-          url(bucket_name, query),
-          Fog::Parsers::AWS::S3::GetBucketParser.new
-        )
+        request({
+          :headers => {},
+          :method => 'GET',
+          :parser => Fog::Parsers::AWS::S3::GetBucketParser.new,
+          :url => url(bucket_name, query)
+        })
       end
 
       # Get configured payer for an S3 bucket
       def get_request_payment(bucket_name)
-        request(
-          'GET',
-          url(bucket_name, '?requestpayment'),
-          Fog::Parsers::AWS::S3::GetRequestPayment.new
-        )
+        request({
+          :headers => {},
+          :method => 'GET',
+          :parser => Fog::Parsers::AWS::S3::GetRequestPayment.new,
+          :url => url(bucket_name, '?requestpayment')
+        })
       end
 
       # Get location constraint for an S3 bucket
       def get_location(bucket_name)
-        request(
-          'GET',
-          url(bucket_name, '?location'),
-          Fog::Parsers::AWS::S3::GetRequestPayment.new
-        )
+        request({
+          :headers => {},
+          :method => 'GET',
+          :parser => Fog::Parsers::AWS::S3::GetRequestPayment.new,
+          :url => url(bucket_name, '?location')
+        })
       end
 
       # Delete an S3 bucket
@@ -141,60 +145,63 @@ module Fog
       # ==== Parameters
       # bucket_name<~String>:: name of bucket to delete
       def delete_bucket(bucket_name)
-        request(
-          'DELETE',
-          url(bucket_name),
-          Fog::Parsers::AWS::S3::BasicParser.new
-        )
+        request({
+          :headers => {},
+          :method => 'DELETE',
+          :parser => Fog::Parsers::AWS::S3::BasicParser.new,
+          :url => url(bucket_name)
+        })
       end
 
       # Create an object in an S3 bucket
       def put_object(bucket_name, object_name, object, options = {})
         file = parse_file(object)
-        request(
-          'PUT',
-          url(bucket_name, object_name),
-          Fog::Parsers::AWS::S3::BasicParser.new,
-          options.merge!(file[:headers]),
-          file[:body]
-        )
+        request({
+          :body => file[:body],
+          :headers => options.merge!(file[:headers]),
+          :method => 'PUT',
+          :parser => Fog::Parsers::AWS::S3::BasicParser.new,
+          :url => url(bucket_name, object_name)
+        })
       end
 
       # Copy an object from one S3 bucket to another
       def copy_object(source_bucket_name, source_object_name, destination_bucket_name, destination_object_name)
-        request(
-          'PUT',
-          url(destination_bucket_name, destination_object_name),
-          Fog::Parsers::AWS::S3::BasicParser.new,
-          { 'x-amz-copy-source' => "/#{source_bucket_name}/#{source_object_name}" }
-        )
+        request({
+          :headers => { 'x-amz-copy-source' => "/#{source_bucket_name}/#{source_object_name}" },
+          :method => 'PUT',
+          :parser => Fog::Parsers::AWS::S3::BasicParser.new,
+          :url => url(destination_bucket_name, destination_object_name)
+        })
       end
 
       # Get an object from S3
       def get_object(bucket_name, object_name)
-        request(
-          'GET',
-          url(bucket_name, object_name),
-          nil
-        )
+        request({
+          :headers => {},
+          :method => 'GET',
+          :url => url(bucket_name, object_name)
+        })
       end
 
       # Get headers for an object from S3
       def head_object(bucket_name, object_name)
-        request(
-          'HEAD',
-          url(bucket_name, object_name),
-          Fog::Parsers::AWS::S3::BasicParser.new
-        )
+        request({
+          :headers => {},
+          :method => 'HEAD',
+          :parser => Fog::Parsers::AWS::S3::BasicParser.new,
+          :url => url(bucket_name, object_name)
+        })
       end
 
       # Delete an object from S3
       def delete_object(bucket_name, object_name)
-        request(
-          'DELETE',
-          url(bucket_name, object_name),
-          Fog::Parsers::AWS::S3::BasicParser.new
-        )
+        request({
+          :headers => {},
+          :method => 'DELETE',
+          :parser => Fog::Parsers::AWS::S3::BasicParser.new,
+          :url => url(bucket_name, object_name)
+        })
       end
 
       private
@@ -226,8 +233,10 @@ module Fog
 
       def canonicalize_resource(uri)
         resource  = "/"
-        if match = uri.host.match(/(.*).s3.amazonaws.com/)
-          resource << "#{match[1]}/"
+        # [0..-18] is anything prior to .s3.amazonaws.com
+        subdomain = uri.host[0..-18]
+        unless subdomain.empty?
+          resource << "#{subdomain}/"
         end
         resource << "#{uri.path[1..-1]}"
         # resource << "?acl" if uri.to_s.include?('?acl')
@@ -253,37 +262,37 @@ module Fog
         metadata
       end
 
-      def request(method, url, parser, headers = {}, body = nil)
-        uri = URI.parse(url)
-        headers['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
-        params = [
-          method,
-          content_md5 = headers['Content-MD5'] || '',
-          content_type = headers['Content-Type'] || '',
-          headers['Date'],
-          canonicalized_amz_headers = canonicalize_amz_headers(headers),
+      def request(params)
+        uri = URI.parse(params[:url])
+        params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
+        params_to_sign = [
+          params[:method],
+          content_md5 = params[:headers]['Content-MD5'] || '',
+          content_type = params[:headers]['Content-Type'] || '',
+          params[:headers]['Date'],
+          canonicalized_amz_headers = canonicalize_amz_headers(params[:headers]),
           canonicalized_resource = canonicalize_resource(uri)
         ]
         string_to_sign = ''
-        for value in params
+        for value in params_to_sign
           unless value.nil?
             string_to_sign << "#{value}\n"
           end
         end
         hmac = @hmac.update(string_to_sign.chomp!)
         signature = Base64.encode64(hmac.digest).strip!
-        headers['Authorization'] = "AWS #{@aws_access_key_id}:#{signature}"
+        params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature}"
 
         response = @connection.request({
-          :body => body,
-          :headers => headers,
-          :method => method,
-          :url => url
+          :body => params[:body],
+          :headers => params[:headers],
+          :method => params[:method],
+          :url => params[:url]
         })
 
-        if parser && !response.body.empty?
-          Nokogiri::XML::SAX::Parser.new(parser).parse(response.body.split(/<\?xml.*\?>/)[1])
-          response.body = parser.response
+        if params[:parser] && !response.body.empty?
+          Nokogiri::XML::SAX::Parser.new(params[:parser]).parse(response.body.split(/<\?xml.*\?>/)[1])
+          response.body = params[:parser].response
         end
 
         response
