@@ -15,7 +15,9 @@ describe 'S3.head_object' do
 
   it 'should return proper attributes' do
     p 'SHOULD CHECK FOR PROPER ATTRIBUTES'
-    p s3.head_object('fogheadobject', 'fog_head_object')
+    actual = s3.head_object('fogheadobject', 'fog_head_object')
+    actual.status.should == 200
+    p actual
   end
 
 end

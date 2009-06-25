@@ -23,8 +23,12 @@ module Fog
       end
 
       def request(params)
-        unless params[:path] && params[:path][0] == '/'
-          params[:path] = '/' << params[:path].to_s
+        params[:path] ||= ''
+        unless params[:path][0] == '/'
+          params[:path] = '/' + params[:path].to_s
+        end
+        if params[:query]
+          params[:path] << "?#{params[:query]}"
         end
         request = "#{params[:method]} #{params[:path]} HTTP/1.1\r\n"
         params[:headers] ||= {}
@@ -48,15 +52,17 @@ module Fog
           header = data.split(': ')
           response.headers[header[0]] = header[1]
         end
-        if response.headers['Content-Length']
-          response.body << @connection.read(response.headers['Content-Length'].to_i)
-        elsif response.headers['Transfer-Encoding'] == 'chunked'
-          while true
-            # 2 == "/r/n".length
-            chunk_size = @connection.readline.chomp!.to_i(16) + 2
-            response.body << @connection.read(chunk_size)
-            if chunk_size == 2
-              break
+        unless params[:method] == 'HEAD'
+          if response.headers['Content-Length']
+            response.body << @connection.read(response.headers['Content-Length'].to_i)
+          elsif response.headers['Transfer-Encoding'] == 'chunked'
+            while true
+              # 2 == "/r/n".length
+              chunk_size = @connection.readline.chomp!.to_i(16) + 2
+              response.body << @connection.read(chunk_size)
+              if chunk_size == 2
+                break
+              end
             end
           end
         end

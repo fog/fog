@@ -14,7 +14,9 @@ describe 'S3.put_object' do
   it 'should return proper attributes' do
     p 'SHOULD CHECK FOR PROPER ATTRIBUTES'
     file = File.open(File.dirname(__FILE__) + '/../../lorem.txt', 'r')
-    p s3.put_object('fogputobject', 'fog_put_object', file)
+    actual = s3.put_object('fogputobject', 'fog_put_object', file)
+    actual.status.should == 200
+    p actual
   end
 
 end

@@ -42,6 +42,7 @@ module Fog
       def get_service
         request({
           :headers => {},
+          :host => @host,
           :method => 'GET',
           :parser => Fog::Parsers::AWS::S3::GetServiceParser.new,
           :url => @host
@@ -56,11 +57,12 @@ module Fog
       #   :location_constraint sets the location for the bucket
       def put_bucket(bucket_name, options = {})
         if options[:location_constraint]
-          data = <<-DATA
-            <CreateBucketConfiguration>
-              <LocationConstraint>#{options[:location_constraint]}</LocationConstraint>
-            </CreateBucketConfiguration>
-          DATA
+          data =
+<<-DATA
+  <CreateBucketConfiguration>
+    <LocationConstraint>#{options[:location_constraint]}</LocationConstraint>
+  </CreateBucketConfiguration>
+DATA
         else
           data = nil
         end
@@ -79,17 +81,19 @@ module Fog
       # bucket_name<~String>:: name of bucket to modify
       # payer<~String>:: valid values are BucketOwner or Requester
       def put_request_payment(bucket_name, payer)
-        data = <<-DATA
-          <RequestPaymentConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"> 
-            <Payer>#{payer}</Payer> 
-          </RequestPaymentConfiguration>
-        DATA
+        data =
+<<-DATA
+<RequestPaymentConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+  <Payer>#{payer}</Payer>
+</RequestPaymentConfiguration>
+DATA
         request({
           :body => data,
           :headers => {},
           :host => "#{bucket_name}.#{@host}",
           :method => 'PUT',
-          :parser => Fog::Parsers::AWS::S3::BasicParser.new
+          :parser => Fog::Parsers::AWS::S3::BasicParser.new,
+          :query => "requestPayment"
         })
       end
 
@@ -116,7 +120,7 @@ module Fog
           :host => "#{bucket_name}.#{@host}",
           :method => 'GET',
           :parser => Fog::Parsers::AWS::S3::GetBucketParser.new,
-          :path => query
+          :query => query
         })
       end
 
@@ -127,18 +131,18 @@ module Fog
           :host => "#{bucket_name}.#{@host}",
           :method => 'GET',
           :parser => Fog::Parsers::AWS::S3::GetRequestPayment.new,
-          :path => '?requestpayment'
+          :query => 'requestpayment'
         })
       end
 
       # Get location constraint for an S3 bucket
-      def get_location(bucket_name)
+      def get_bucket_location(bucket_name)
         request({
           :headers => {},
           :host => "#{bucket_name}.#{@host}",
           :method => 'GET',
-          :parser => Fog::Parsers::AWS::S3::GetRequestPayment.new,
-          :path => '?location'
+          :parser => Fog::Parsers::AWS::S3::GetBucketLocation.new,
+          :query => 'location'
         })
       end
 
@@ -195,7 +199,6 @@ module Fog
           :headers => {},
           :host => "#{bucket_name}.#{@host}",
           :method => 'HEAD',
-          :parser => Fog::Parsers::AWS::S3::BasicParser.new,
           :path => object_name
         })
       end
@@ -212,13 +215,6 @@ module Fog
       end
 
       private
-
-      def url(bucket_name = nil, path = nil)
-        url  = "#{@scheme}://"
-        url << "#{bucket_name}." if bucket_name
-        url << "#{@host}:#{@port}/#{path}"
-        url
-      end
 
       def parse_file(file)
         metadata = {
@@ -239,7 +235,6 @@ module Fog
 
       def sign(params)
         params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
-        params[:path] ||= ''
 
         string_to_sign =
 <<-DATA
@@ -250,18 +245,16 @@ module Fog
 DATA
 
         amz_headers, canonical_amz_headers = {}, ''
-        for key, value in amz_headers
+        for key, value in params[:headers]
           if key[0..5] == 'x-amz-'
             amz_headers[key] = value
           end
         end
         amz_headers = amz_headers.sort {|x, y| x[0] <=> y[0]}
         for pair in amz_headers
-          canonical_amz_headers << "#{pair[0]}: #{pair[1]}\r\n"
+          canonical_amz_headers << "#{pair[0]}:#{pair[1]}\n"
         end
-        unless canonical_amz_headers.empty?
-          string_to_sign << "#{canonical_amz_headers}\n"
-        end
+        string_to_sign << "#{canonical_amz_headers}"
 
         canonical_resource  = "/"
         # [0..-18] is anything prior to .s3.amazonaws.com
@@ -270,6 +263,9 @@ DATA
           canonical_resource << "#{subdomain}/"
         end
         canonical_resource << "#{params[:path]}"
+        if params[:query] && !params[:query].empty?
+          canonical_resource << "?#{params[:query]}"
+        end
         # canonical_resource << "?acl" if params[:path].include?('?acl')
         # canonical_resource << "?location" if params[:path].include?('?location')
         # canonical_resource << "?torrent" if params[:path].include?('?torrent')
@@ -289,7 +285,8 @@ DATA
           :headers => params[:headers],
           :host => params[:host],
           :method => params[:method],
-          :path => params[:path]
+          :path => params[:path],
+          :query => params[:query]
         })
 
         if params[:parser] && !response.body.empty?

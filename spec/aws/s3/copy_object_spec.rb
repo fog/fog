@@ -18,10 +18,12 @@ describe 'S3.copy_object' do
 
   it 'should return proper attributes' do
     p 'SHOULD CHECK FOR PROPER ATTRIBUTES'
-    p s3.copy_object(
+    actual = s3.copy_object(
       'fogcopyobjectsource', 'fog_copy_object_source',
       'fogcopyobjectdestination', 'fog_copy_object_destination'
     )
+    actual.status.should == 200
+    p actual
   end
 
 end

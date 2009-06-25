@@ -104,7 +104,7 @@ module Fog
 
         end
 
-        class GetLocation < Fog::Parsers::AWS::S3::BasicParser
+        class GetBucketLocation < Fog::Parsers::AWS::S3::BasicParser
 
           def end_element(name)
             case name

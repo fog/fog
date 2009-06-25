@@ -12,7 +12,9 @@ describe 'S3.put_bucket' do
 
   it 'should return proper attributes' do
     p 'SHOULD CHECK FOR PROPER ATTRIBUTES'
-    p s3.put_bucket('fogputbucket')
+    actual = s3.put_bucket('fogputbucket')
+    actual.status.should == 200
+    p actual
   end
 
   it 'should include fogputbucket in get_service buckets after put_bucket' do

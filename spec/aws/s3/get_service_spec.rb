@@ -12,7 +12,9 @@ describe 'S3.get_service' do
 
   it 'should return proper_attributes' do
     p 'SHOULD CHECK FOR PROPER ATTRIBUTES'
-    p s3.get_service
+    actual = s3.get_service
+    actual.status.should == 200
+    p actual
   end
 
   it 'should include foggetservice in get_service' do

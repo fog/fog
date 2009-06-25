@@ -15,7 +15,9 @@ describe 'S3.get_object' do
 
   it 'should return proper attributes' do
     p 'SHOULD CHECK FOR PROPER ATTRIBUTES'
-    p s3.get_object('foggetobject', 'fog_get_object')
+    actual = s3.get_object('foggetobject', 'fog_get_object')
+    actual.status.should == 200
+    p actual
   end
 
 end

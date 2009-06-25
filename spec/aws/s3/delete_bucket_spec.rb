@@ -12,7 +12,9 @@ describe 'S3.delete_bucket' do
 
   it 'should return proper attributes' do
     p 'SHOULD CHECK FOR PROPER ATTRIBUTES'
-    p s3.delete_bucket('fogdeletebucket')
+    actual = s3.delete_bucket('fogdeletebucket')
+    actual.status.should == 204
+    p actual
   end
 
   it 'should not include fogdeletebucket in get_service after delete_bucket' do

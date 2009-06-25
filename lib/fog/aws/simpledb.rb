@@ -303,7 +303,7 @@ module Fog
         response = @connection.request({
           :host => @host,
           :method => method,
-          :path => method == 'GET' ? "?#{query}" : ""
+          :query => query
         })
 
         if parser && !response.body.empty?

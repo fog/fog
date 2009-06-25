@@ -14,7 +14,9 @@ describe 'S3.delete_object' do
 
   it 'should return proper attributes' do
     p 'SHOULD CHECK FOR PROPER ATTRIBUTES'
-    p s3.delete_object('fogdeleteobject', 'fog_delete_object')
+    actual =  s3.delete_object('fogdeleteobject', 'fog_delete_object')
+    actual.status.should == 204
+    p actual
   end
 
 end
