@@ -234,10 +234,13 @@ module Fog
         uri = URI.parse(params[:url])
         params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
 
-        string_to_sign  = "#{params[:method]}\n"
-        string_to_sign << "#{params[:headers]['Content-MD5'] || ''}\n"
-        string_to_sign << "#{params[:headers]['Content-Type'] || ''}\n"
-        string_to_sign << "#{params[:headers]['Date']}\n"
+        string_to_sign =
+<<-DATA
+#{params[:method]}
+#{params[:headers]['Content-MD5']}
+#{params[:headers]['Content-Type']}
+#{params[:headers]['Date']}
+DATA
 
         amz_headers, canonical_amz_headers = {}, ''
         for key, value in amz_headers
