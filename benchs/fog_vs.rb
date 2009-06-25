@@ -27,8 +27,6 @@ Benchmark.bmbm(25) do |bench|
     raws.create_bucket('rawsbench')
   end
 
-  print '-' * 64 << "\n"
-
   bench.report('fog.put_object') do
     TIMES.times do |x|
       file = File.open(File.dirname(__FILE__) + '/../spec/lorem.txt', 'r')
@@ -42,8 +40,6 @@ Benchmark.bmbm(25) do |bench|
     end
   end
 
-  print '-' * 64 << "\n"
-
   bench.report('fog.delete_object') do
     TIMES.times do |x|
       fog.delete_object('fogbench', "lorem_#{x}")
@@ -54,8 +50,6 @@ Benchmark.bmbm(25) do |bench|
       raws.delete('rawsbench', "lorem_#{x}")
     end
   end
-
-  print '-' * 64 << "\n"
 
   bench.report('fog.delete_bucket') do
     fog.delete_bucket('fogbench')

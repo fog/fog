@@ -23,20 +23,12 @@ module Fog
       end
 
       def request(params)
-        uri = URI.parse(params[:url])
-        path = "#{uri.path}"
-        if uri.query
-          path << "?#{uri.query}"
+        unless params[:path] && params[:path][0] == '/'
+          params[:path] = '/' << params[:path].to_s
         end
-        host = "#{uri.host}"
-        if (uri.scheme == "http" && uri.port != 80) ||
-           (uri.scheme == 'https' && uri.port != 443)
-          host << ":#{uri.port}"
-        end
-
-        request = "#{params[:method]} #{path} HTTP/1.1\r\n"
+        request = "#{params[:method]} #{params[:path]} HTTP/1.1\r\n"
         params[:headers] ||= {}
-        params[:headers]['Host'] = uri.host
+        params[:headers]['Host'] = params[:host]
         if params[:body]
           params[:headers]['Content-Length'] = params[:body].length
         end

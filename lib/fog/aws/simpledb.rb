@@ -301,8 +301,9 @@ module Fog
         query << "Signature=#{CGI.escape(Base64.encode64(hmac.digest).chomp!).gsub(/\+/, '%20')}"
 
         response = @connection.request({
+          :host => @host,
           :method => method,
-          :url => "#{@scheme}://#{@host}:#{@port}/#{method == 'GET' ? "?#{query}" : ""}"
+          :path => method == 'GET' ? "?#{query}" : ""
         })
 
         if parser && !response.body.empty?

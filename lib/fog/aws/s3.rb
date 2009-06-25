@@ -4,7 +4,6 @@ require 'cgi'
 require 'digest/md5'
 require 'hmac-sha1'
 require 'mime/types'
-require 'uri'
 
 require File.dirname(__FILE__) + '/s3/parsers'
 
@@ -45,7 +44,7 @@ module Fog
           :headers => {},
           :method => 'GET',
           :parser => Fog::Parsers::AWS::S3::GetServiceParser.new,
-          :url => url
+          :url => @host
         })
       end
 
@@ -68,9 +67,9 @@ module Fog
         request({
           :body => data,
           :headers => {},
+          :host => "#{bucket_name}.#{@host}",
           :method => 'PUT',
-          :parser => Fog::Parsers::AWS::S3::BasicParser.new,
-          :url => url(bucket_name)
+          :parser => Fog::Parsers::AWS::S3::BasicParser.new
         })
       end
 
@@ -88,9 +87,9 @@ module Fog
         request({
           :body => data,
           :headers => {},
+          :host => "#{bucket_name}.#{@host}",
           :method => 'PUT',
-          :parser => Fog::Parsers::AWS::S3::BasicParser.new,
-          :url => url(bucket_name)
+          :parser => Fog::Parsers::AWS::S3::BasicParser.new
         })
       end
 
@@ -114,9 +113,10 @@ module Fog
         query.chop!
         request({
           :headers => {},
+          :host => "#{bucket_name}.#{@host}",
           :method => 'GET',
           :parser => Fog::Parsers::AWS::S3::GetBucketParser.new,
-          :url => url(bucket_name, query)
+          :path => query
         })
       end
 
@@ -124,9 +124,10 @@ module Fog
       def get_request_payment(bucket_name)
         request({
           :headers => {},
+          :host => "#{bucket_name}.#{@host}",
           :method => 'GET',
           :parser => Fog::Parsers::AWS::S3::GetRequestPayment.new,
-          :url => url(bucket_name, '?requestpayment')
+          :path => '?requestpayment'
         })
       end
 
@@ -134,9 +135,10 @@ module Fog
       def get_location(bucket_name)
         request({
           :headers => {},
+          :host => "#{bucket_name}.#{@host}",
           :method => 'GET',
           :parser => Fog::Parsers::AWS::S3::GetRequestPayment.new,
-          :url => url(bucket_name, '?location')
+          :path => '?location'
         })
       end
 
@@ -147,9 +149,9 @@ module Fog
       def delete_bucket(bucket_name)
         request({
           :headers => {},
+          :host => "#{bucket_name}.#{@host}",
           :method => 'DELETE',
-          :parser => Fog::Parsers::AWS::S3::BasicParser.new,
-          :url => url(bucket_name)
+          :parser => Fog::Parsers::AWS::S3::BasicParser.new
         })
       end
 
@@ -159,9 +161,10 @@ module Fog
         request({
           :body => file[:body],
           :headers => options.merge!(file[:headers]),
+          :host => "#{bucket_name}.#{@host}",
           :method => 'PUT',
           :parser => Fog::Parsers::AWS::S3::BasicParser.new,
-          :url => url(bucket_name, object_name)
+          :path => object_name
         })
       end
 
@@ -169,9 +172,10 @@ module Fog
       def copy_object(source_bucket_name, source_object_name, destination_bucket_name, destination_object_name)
         request({
           :headers => { 'x-amz-copy-source' => "/#{source_bucket_name}/#{source_object_name}" },
+          :host => "#{destination_bucket_name}.#{@host}",
           :method => 'PUT',
           :parser => Fog::Parsers::AWS::S3::BasicParser.new,
-          :url => url(destination_bucket_name, destination_object_name)
+          :path => destination_object_name
         })
       end
 
@@ -179,8 +183,9 @@ module Fog
       def get_object(bucket_name, object_name)
         request({
           :headers => {},
+          :host => "#{bucket_name}.#{@host}",
           :method => 'GET',
-          :url => url(bucket_name, object_name)
+          :path => object_name
         })
       end
 
@@ -188,9 +193,10 @@ module Fog
       def head_object(bucket_name, object_name)
         request({
           :headers => {},
+          :host => "#{bucket_name}.#{@host}",
           :method => 'HEAD',
           :parser => Fog::Parsers::AWS::S3::BasicParser.new,
-          :url => url(bucket_name, object_name)
+          :path => object_name
         })
       end
 
@@ -198,9 +204,10 @@ module Fog
       def delete_object(bucket_name, object_name)
         request({
           :headers => {},
+          :host => "#{bucket_name}.#{@host}",
           :method => 'DELETE',
           :parser => Fog::Parsers::AWS::S3::BasicParser.new,
-          :url => url(bucket_name, object_name)
+          :path => object_name
         })
       end
 
@@ -231,8 +238,8 @@ module Fog
       end
 
       def sign(params)
-        uri = URI.parse(params[:url])
         params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
+        params[:path] ||= ''
 
         string_to_sign =
 <<-DATA
@@ -258,14 +265,14 @@ DATA
 
         canonical_resource  = "/"
         # [0..-18] is anything prior to .s3.amazonaws.com
-        subdomain = uri.host[0..-18]
+        subdomain = params[:host][0..-18]
         unless subdomain.empty?
           canonical_resource << "#{subdomain}/"
         end
-        canonical_resource << "#{uri.path[1..-1]}"
-        # canonical_resource << "?acl" if uri.to_s.include?('?acl')
-        # canonical_resource << "?location" if uri.to_s.include?('?location')
-        # canonical_resource << "?torrent" if uri.to_s.include?('?torrent')
+        canonical_resource << "#{params[:path]}"
+        # canonical_resource << "?acl" if params[:path].include?('?acl')
+        # canonical_resource << "?location" if params[:path].include?('?location')
+        # canonical_resource << "?torrent" if params[:path].include?('?torrent')
         string_to_sign << "#{canonical_resource}"
 
         hmac = @hmac.update(string_to_sign)
@@ -280,8 +287,9 @@ DATA
         response = @connection.request({
           :body => params[:body],
           :headers => params[:headers],
+          :host => params[:host],
           :method => params[:method],
-          :url => params[:url]
+          :path => params[:path]
         })
 
         if params[:parser] && !response.body.empty?
