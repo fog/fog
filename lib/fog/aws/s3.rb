@@ -233,7 +233,7 @@ DATA
         metadata
       end
 
-      def sign(params)
+      def request(params)
         params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
 
         string_to_sign =
@@ -274,11 +274,6 @@ DATA
         hmac = @hmac.update(string_to_sign)
         signature = Base64.encode64(hmac.digest).chomp!
         params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature}"
-        params
-      end
-
-      def request(params)
-        params = sign(params)
 
         response = @connection.request({
           :body => params[:body],

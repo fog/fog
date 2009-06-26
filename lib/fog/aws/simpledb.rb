@@ -235,51 +235,66 @@ module Fog
 
       def encode_batch_attributes(items, replace_attributes = Hash.new([]))
         encoded_attributes = {}
-        item_index = 0
-        items.keys.each do |item_key|
-          encoded_attributes["Item.#{item_index}.ItemName"] = item_key.to_s
-          items[item_key].keys.each do |attribute_key|
-            attribute_index = 0
-            Array(items[item_key][attribute_key]).each do |value|
-              encoded_attributes["Item.#{item_index}.Attribute.#{attribute_index}.Name"] = attribute_key.to_s
-              encoded_attributes["Item.#{item_index}.Attribute.#{attribute_index}.Replace"] = 'true' if replace_attributes[item_key].include?(attribute_key)
-              encoded_attributes["Item.#{item_index}.Attribute.#{attribute_index}.Value"] = sdb_encode(value)
-              attribute_index += 1
+        if items
+          item_index = 0
+          for item_key in items.keys
+            encoded_attributes["Item.#{item_index}.ItemName"] = item_key.to_s
+            for attribute_key in items[item_key].keys
+              attribute_index = 0
+              for value in Array(items[item_key][attribute_key])
+                encoded_attributes["Item.#{item_index}.Attribute.#{attribute_index}.Name"] = attribute_key.to_s
+                if replace_attributes[item_key].include?(attribute_key)
+                  encoded_attributes["Item.#{item_index}.Attribute.#{attribute_index}.Replace"] = 'true'
+                end
+                encoded_attributes["Item.#{item_index}.Attribute.#{attribute_index}.Value"] = sdb_encode(value)
+                attribute_index += 1
+              end
+              item_index += 1
             end
-            item_index += 1
           end
-        end if items
+        end
         encoded_attributes
       end
 
       def encode_attributes(attributes, replace_attributes = [])
         encoded_attributes = {}
-        i = 0
-        attributes.keys.each do |key|
-          Array(attributes[key]).each do |value|
-            encoded_attributes["Attribute.#{i}.Name"] = key.to_s
-            encoded_attributes["Attribute.#{i}.Replace"] = 'true' if replace_attributes.include?(key)
-            encoded_attributes["Attribute.#{i}.Value"] = sdb_encode(value)
-            i += 1
+        if attributes
+          index = 0
+          for key in attributes.keys
+            for value in Array(attributes[key])
+              encoded_attributes["Attribute.#{index}.Name"] = key.to_s
+              if replace_attributes.include?(key)
+                encoded_attributes["Attribute.#{index}.Replace"] = 'true'
+              end
+              encoded_attributes["Attribute.#{index}.Value"] = sdb_encode(value)
+              index += 1
+            end
           end
-        end if attributes
+        end
         encoded_attributes
       end
 
       def encode_attribute_names(attributes)
         encoded_attribute_names = {}
-        attributes.each_with_index do |attribute, i|
-          encoded_attribute_names["AttributeName.#{i}"] = attribute.to_s
-        end if attributes
+        if attributes
+          index = 0
+          for attribute in attributes
+            encoded_attribute_names["AttributeName.#{index}"] = attribute.to_s
+            index += 1
+          end
+        end
         encoded_attribute_names
       end
 
       def sdb_encode(value)
-        value.nil? ? @nil_string : value.to_s
+        if value.nil?
+          @nil_string
+        else
+          value.to_s
+        end
       end
 
       def request(params, parser)
-        params.delete_if {|key,value| value.nil? }
         params.merge!({
           'AWSAccessKeyId' => @aws_access_key_id,
           'SignatureMethod' => 'HmacSHA256',
@@ -289,8 +304,10 @@ module Fog
         })
 
         query = ''
-        params.keys.sort.each do |key|
-          query << "#{key}=#{CGI.escape(params[key]).gsub(/\+/, '%20')}&"
+        for key in params.keys.sort
+          unless (value = params[key]).nil?
+            query << "#{key}=#{CGI.escape(value).gsub(/\+/, '%20')}&"
+          end
         end
 
         # FIXME: use 'POST' for larger requests
