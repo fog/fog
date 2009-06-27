@@ -131,7 +131,7 @@ DATA
           :host => "#{bucket_name}.#{@host}",
           :method => 'GET',
           :parser => Fog::Parsers::AWS::S3::GetRequestPayment.new,
-          :query => 'requestpayment'
+          :query => 'requestPayment'
         })
       end
 
@@ -266,9 +266,6 @@ DATA
         if params[:query] && !params[:query].empty?
           canonical_resource << "?#{params[:query]}"
         end
-        # canonical_resource << "?acl" if params[:path].include?('?acl')
-        # canonical_resource << "?location" if params[:path].include?('?location')
-        # canonical_resource << "?torrent" if params[:path].include?('?torrent')
         string_to_sign << "#{canonical_resource}"
 
         hmac = @hmac.update(string_to_sign)

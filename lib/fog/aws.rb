@@ -27,7 +27,7 @@ module Fog
         unless params[:path][0] == '/'
           params[:path] = '/' + params[:path].to_s
         end
-        if params[:query]
+        if params[:query] && !params[:query].empty?
           params[:path] << "?#{params[:query]}"
         end
         request = "#{params[:method]} #{params[:path]} HTTP/1.1\r\n"
