@@ -303,24 +303,23 @@ module Fog
           'Version' => '2007-11-07'
         })
 
-        query = ''
+        body = ''
         for key in params.keys.sort
           unless (value = params[key]).nil?
-            query << "#{key}=#{CGI.escape(value).gsub(/\+/, '%20')}&"
+            body << "#{key}=#{CGI.escape(value).gsub(/\+/, '%20')}&"
           end
         end
 
-        # FIXME: use 'POST' for larger requests
-        # method = query.length > 2000 ? 'POST' : 'GET'
-        method = 'GET'
-        string_to_sign = "#{method}\n#{@host}\n/\n" << query.chop
+        method = 'POST'
+        string_to_sign = "POST\n#{@host}\n/\n" << body.chop
         hmac = @hmac.update(string_to_sign)
-        query << "Signature=#{CGI.escape(Base64.encode64(hmac.digest).chomp!).gsub(/\+/, '%20')}"
+        body << "Signature=#{CGI.escape(Base64.encode64(hmac.digest).chomp!).gsub(/\+/, '%20')}"
 
         response = @connection.request({
+          :body => body,
+          :headers => { 'Content-Type' => 'application/x-www-form-urlencoded' },
           :host => @host,
-          :method => method,
-          :query => query
+          :method => 'POST'
         })
 
         if parser && !response.body.empty?
