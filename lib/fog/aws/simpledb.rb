@@ -310,7 +310,6 @@ module Fog
           end
         end
 
-        method = 'POST'
         string_to_sign = "POST\n#{@host}\n/\n" << body.chop
         hmac = @hmac.update(string_to_sign)
         body << "Signature=#{CGI.escape(Base64.encode64(hmac.digest).chomp!).gsub(/\+/, '%20')}"
