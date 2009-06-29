@@ -154,8 +154,7 @@ DATA
         request({
           :headers => {},
           :host => "#{bucket_name}.#{@host}",
-          :method => 'DELETE',
-          :parser => Fog::Parsers::AWS::S3::BasicParser.new
+          :method => 'DELETE'
         })
       end
 
@@ -167,7 +166,6 @@ DATA
           :headers => options.merge!(file[:headers]),
           :host => "#{bucket_name}.#{@host}",
           :method => 'PUT',
-          :parser => Fog::Parsers::AWS::S3::BasicParser.new,
           :path => object_name
         })
       end
@@ -178,7 +176,7 @@ DATA
           :headers => { 'x-amz-copy-source' => "/#{source_bucket_name}/#{source_object_name}" },
           :host => "#{destination_bucket_name}.#{@host}",
           :method => 'PUT',
-          :parser => Fog::Parsers::AWS::S3::BasicParser.new,
+          :parser => Fog::Parsers::AWS::S3::CopyObject.new,
           :path => destination_object_name
         })
       end
@@ -209,7 +207,6 @@ DATA
           :headers => {},
           :host => "#{bucket_name}.#{@host}",
           :method => 'DELETE',
-          :parser => Fog::Parsers::AWS::S3::BasicParser.new,
           :path => object_name
         })
       end

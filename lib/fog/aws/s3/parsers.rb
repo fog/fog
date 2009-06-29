@@ -119,6 +119,18 @@ module Fog
 
         end
 
+        class CopyObject < Fog::Parsers::AWS::S3::BasicParser
+
+          def end_element(name)
+            case name
+            when 'ETag'
+              @response[:etag] = @value
+            when 'LastModified'
+              @response[:last_modified] = Time.parse(@value)
+          end
+
+        end
+
       end
     end
   end
