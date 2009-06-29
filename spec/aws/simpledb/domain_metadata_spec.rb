@@ -20,7 +20,7 @@ describe 'SimpleDB.domain_metadata' do
     results.body[:item_count].should == 0
     results.body[:item_names_size_bytes].should == 0
     results.body[:request_id].should be_a(String)
-    results.body[:timestamp].should be_a(String)
+    results.body[:timestamp].should be_a(Time)
   end
 
   it 'should return proper attributes with items' do
@@ -34,7 +34,7 @@ describe 'SimpleDB.domain_metadata' do
     results.body[:item_count].should == 1
     results.body[:item_names_size_bytes].should == 3
     results.body[:request_id].should be_a(String)
-    results.body[:timestamp].should be_a(String)
+    results.body[:timestamp].should be_a(Time)
   end
 
 end

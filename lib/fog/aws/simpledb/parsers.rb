@@ -38,7 +38,7 @@ module Fog
             when 'RequestId'  then response[:request_id] = @value
             end
           end
-        
+
         end
 
         class DomainMetadataParser < Fog::Parsers::AWS::SimpleDB::BasicParser
@@ -57,7 +57,7 @@ module Fog
             when 'ItemCount'                then response[:item_count] = @value.to_i
             when 'ItemNamesSizeBytes'       then response[:item_names_size_bytes] = @value.to_i
             when 'RequestId'                then response[:request_id] = @value
-            when 'Timestamp'                then response[:timestamp] = @value
+            when 'Timestamp'                then response[:timestamp] = Time.at(@value.to_i)
             end
           end
 

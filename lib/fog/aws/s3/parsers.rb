@@ -40,7 +40,7 @@ module Fog
               @response[:buckets] << @bucket
               @bucket = {}
             when 'CreationDate'
-              @bucket[:creation_date] = @value
+              @bucket[:creation_date] = Time.parse(@value)
             when 'DisplayName'
               @response[:owner][:display_name] = @value
             when 'ID'

@@ -11,8 +11,8 @@ describe 'S3.put_request_payment' do
   end
 
   it 'should return proper attributes' do
-    p 'SHOULD CHECK FOR PROPER ATTRIBUTES'
-    p s3.put_request_payment('fogputrequestpayment', 'Requester')
+    actual = s3.put_request_payment('fogputrequestpayment', 'Requester')
+    actual.status.should == 200
   end
 
 end
