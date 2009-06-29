@@ -11,10 +11,9 @@ describe 'S3.get_location' do
   end
 
   it 'should return proper attributes' do
-    p 'SHOULD CHECK FOR PROPER ATTRIBUTES'
     actual = s3.get_bucket_location('foggetlocation')
     actual.status.should == 200
-    p actual
+    actual.body[:location_constraint].should == 'EU'
   end
 
 end

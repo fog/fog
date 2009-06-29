@@ -50,7 +50,7 @@ module Fog
             break
           end
           header = data.split(': ')
-          response.headers[header[0]] = header[1]
+          response.headers[capitalize(header[0])] = header[1]
         end
         unless params[:method] == 'HEAD'
           if response.headers['Content-Length']
@@ -67,6 +67,17 @@ module Fog
           end
         end
         response
+      end
+
+      private
+
+      def capitalize(header)
+        words = header.split('-')
+        header = ''
+        for word in words
+          header << word[0..0].upcase << word[1..-1] << '-'
+        end
+        header.chop!
       end
 
     end
