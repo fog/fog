@@ -127,6 +127,7 @@ module Fog
               @response[:etag] = @value
             when 'LastModified'
               @response[:last_modified] = Time.parse(@value)
+            end
           end
 
         end

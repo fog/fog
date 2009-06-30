@@ -14,10 +14,14 @@ describe 'S3.get_object' do
   end
 
   it 'should return proper attributes' do
-    p 'SHOULD CHECK FOR PROPER ATTRIBUTES'
     actual = s3.get_object('foggetobject', 'fog_get_object')
     actual.status.should == 200
-    p actual
+    file = File.open(File.dirname(__FILE__) + '/../../lorem.txt', 'r')
+    data = file.read
+    actual.body.should == data
+    actual.headers['Content-Length'].should == data.length.to_s
+    actual.headers['ETag'].should be_a(String)
+    actual.headers['Last-Modified'].should be_a(String)
   end
 
 end
