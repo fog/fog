@@ -31,7 +31,6 @@ module Fog
         @aws_secret_access_key  = options[:aws_secret_access_key]
         @hmac       = HMAC::SHA256.new(@aws_secret_access_key)
         @host       = options[:host]      || 'sdb.amazonaws.com'
-        @namespace  = options[:namespace] || 'http://sdb.amazonaws.com/doc/2007-11-07/'
         @nil_string = options[:nil_string]|| 'nil'
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'

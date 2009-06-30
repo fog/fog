@@ -5,29 +5,7 @@ module Fog
     module AWS
       module S3
 
-        class BasicParser < Fog::Parsers::Base
-
-          attr_reader :response
-
-          def initialize
-            reset
-          end
-
-          def reset
-            @response = {}
-          end
-
-          def characters(string)
-            @value << string.strip
-          end
-
-          def start_element(name, attrs = [])
-            @value = ''
-          end
-
-        end
-
-        class GetServiceParser < Fog::Parsers::AWS::S3::BasicParser
+        class GetServiceParser < Fog::Parsers::Base
 
           def reset
             @bucket = {}
@@ -52,7 +30,7 @@ module Fog
 
         end
 
-        class GetBucketParser < Fog::Parsers::AWS::S3::BasicParser
+        class GetBucketParser < Fog::Parsers::Base
 
           def reset
             @object = { :owner => {} }
@@ -97,7 +75,7 @@ module Fog
 
         end
 
-        class GetRequestPayment < Fog::Parsers::AWS::S3::BasicParser
+        class GetRequestPayment < Fog::Parsers::Base
 
           def end_element(name)
             case name
@@ -108,7 +86,7 @@ module Fog
 
         end
 
-        class GetBucketLocation < Fog::Parsers::AWS::S3::BasicParser
+        class GetBucketLocation < Fog::Parsers::Base
 
           def end_element(name)
             case name
@@ -119,7 +97,7 @@ module Fog
 
         end
 
-        class CopyObject < Fog::Parsers::AWS::S3::BasicParser
+        class CopyObject < Fog::Parsers::Base
 
           def end_element(name)
             case name
