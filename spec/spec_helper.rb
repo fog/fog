@@ -9,6 +9,16 @@ end
 
 require 'fog/aws'
 
+def ec2
+  @ec2 ||= begin
+    data = File.open(File.expand_path('~/.s3conf/s3config.yml')).read
+    config = YAML.load(data)
+    Fog::AWS::EC2.new(
+      :aws_access_key_id => config['aws_access_key_id'],
+      :aws_secret_access_key => config['aws_secret_access_key']
+    )
+  end
+end
 def sdb
   @sdb ||= begin
     data = File.open(File.expand_path('~/.s3conf/s3config.yml')).read
