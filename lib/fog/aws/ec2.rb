@@ -46,6 +46,27 @@ module Fog
         }, Fog::Parsers::AWS::EC2::AllocateAddress.new)
       end
 
+      def describe_addresses(public_ips)
+        params, index = {}, 1
+        for public_ip in [*public_ips]
+          params["PublicIp.#{index}"] = public_ip
+          index += 1
+        end
+        request){
+          'Action' => 'DescribeAddresses'
+        }.merge!(params), Fog::Parsers::AWS::EC2::DescribeAddresses.new
+      end
+
+      # Release an elastic IP address.
+      #
+      # ==== Returns
+      # Hash:: :return success boolean
+      def release_address(public_ip)
+        request({
+          'Action' => 'ReleaseAddress',
+          'PublicIp' => public_ip
+        }, Fog::Parsers::AWS::EC2::ReleaseAddress.new)
+
       private
 
       def request(params, parser)
