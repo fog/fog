@@ -10,7 +10,14 @@ describe 'EC2.describe_addresses' do
     ec2.release_address(@public_ip)
   end
 
-  it "should return proper attributes" do
+  it "should return proper attributes with no params" do
+    actual = ec2.describe_addresses
+    actual.body[:request_id].should be_a(String)
+    item = actual.body[:addresses].select {|address| address[:public_ip] == @public_ip}
+    item.should_not be_nil
+  end
+
+  it "should return proper attributes for specific ip" do
     actual = ec2.describe_addresses(@public_ip)
     actual.body[:request_id].should be_a(String)
     item = actual.body[:addresses].select {|address| address[:public_ip] == @public_ip}

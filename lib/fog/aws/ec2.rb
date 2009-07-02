@@ -46,7 +46,7 @@ module Fog
         }, Fog::Parsers::AWS::EC2::AllocateAddress.new)
       end
 
-      def describe_addresses(public_ips)
+      def describe_addresses(public_ips = [])
         params, index = {}, 1
         for public_ip in [*public_ips]
           params["PublicIp.#{index}"] = public_ip
