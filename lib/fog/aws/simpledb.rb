@@ -117,7 +117,7 @@ module Fog
       # ==== Parameters
       # domain_name<~String>:: Name of domain. Must be between 3 and 255 of the
       #   following characters: a-z, A-Z, 0-9, '_', '-' and '.'.
-      #   items<~Hash>:: Keys are the items names and may use any UTF-8
+      # items<~Hash>:: Keys are the items names and may use any UTF-8
       #   characters valid in xml.  Control characters and sequences not allowed
       #   in xml are not valid.  Can be up to 1024 bytes long.  Values are the
       #   attributes to add to the given item and may use any UTF-8 characters
@@ -305,7 +305,7 @@ module Fog
         body = ''
         for key in params.keys.sort
           unless (value = params[key]).nil?
-            body << "#{key}=#{CGI.escape(value).gsub(/\+/, '%20')}&"
+            body << "#{key}=#{CGI.escape(value.to_s).gsub(/\+/, '%20')}&"
           end
         end
 

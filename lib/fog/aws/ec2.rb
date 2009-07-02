@@ -39,13 +39,65 @@ module Fog
       # Acquire an elastic IP address.
       #
       # ==== Returns
-      # Hash:: The acquired :public_ip address.
+      #   body<~Hash>::
+      #     :public_ip<~String>:: The acquired address
       def allocate_address
         request({
           'Action' => 'AllocateAddress'
         }, Fog::Parsers::AWS::EC2::AllocateAddress.new)
       end
 
+      # Create an EBS volume
+      #
+      # ==== Parameters
+      # availability_zone<~String>:: availability zone to create volume in
+      # size<~Integer>:: Size in GiBs for volume.  Must be between 1 and 1024.
+      # snapshot_id<~String>:: Optional, snapshot to create volume from
+      #
+      # ==== Returns
+      # response::
+      #   body<~Hash>::
+      #     :volume_id<~String>:: Reference to volume
+      #     :size<~Integer>:: Size in GiBs for volume
+      #     :status<~String>:: State of volume
+      #     :create_time<~Time>:: Timestamp for creation
+      #     :availability_zone<~String>:: Availability zone for volume
+      #     :snapshot_id<~String>:: Snapshot volume was created from, if any
+      def create_volume(availability_zone, size, snapshot_id = nil)
+        request({
+          'Action' => 'CreateVolume',
+          'AvailabilityZone' => availability_zone,
+          'Size' => size,
+          'SnapshotId' => snapshot_id
+        }, Fog::Parsers::AWS::EC2::CreateVolume.new)
+      end
+
+      # Delete an EBS volume
+      #
+      # ==== Parameters
+      # volume_id<~String>:: Id of volume to delete.
+      #
+      # ==== Returns
+      # response::
+      #   body<~Hash>::
+      #     :return<~Boolean>:: success?
+      def delete_volume(volume_id)
+        request({
+          'Action' => 'DeleteVolume',
+          'VolumeId' => volume_id
+        }, Fog::Parsers::AWS::EC2::Basic.new)
+      end
+
+      # Describe all or specified IP addresses.
+      #
+      # ==== Parameters
+      # public_ips<~Array>:: List of ips to describe, defaults to all
+      #
+      # ==== Returns
+      #   body<~Hash>::
+      #     :items<~Array>:: Addresses
+      #       :instance_id<~String>:: instance for ip address
+      #       :public_ip<~String>:: ip address for instance
       def describe_addresses(public_ips = [])
         params, index = {}, 1
         for public_ip in [*public_ips]
@@ -56,16 +108,50 @@ module Fog
           'Action' => 'DescribeAddresses'
         }.merge!(params), Fog::Parsers::AWS::EC2::DescribeAddresses.new)
       end
+      
+      # Describe all or specified volumes.
+      #
+      # ==== Parameters
+      # volume_ids<~Array>:: List of volumes to describe, defaults to all
+      #
+      # ==== Returns
+      # response::
+      #   body<~Hash>::
+      #     volume_set<~Array>::
+      #       :volume_id<~String>:: Reference to volume
+      #       :size<~Integer>:: Size in GiBs for volume
+      #       :status<~String>:: State of volume
+      #       :create_time<~Time>:: Timestamp for creation
+      #       :availability_zone<~String>:: Availability zone for volume
+      #       :snapshot_id<~String>:: Snapshot volume was created from, if any
+      #       :attachment_set<~Array>::
+      #         :attachment_time<~Time>:: Timestamp for attachment
+      #         :device<~String>:: How volue is exposed to instance
+      #         :instance_id<~String>:: Reference to attached instance
+      #         :status<~String>:: Attachment state
+      #         :volume_id<~String>:: Reference to volume
+      def describe_volumes(volume_ids = [])
+        params, index = {}, 1
+        for volume_id in [*volume_ids]
+          params["VolumeId.#{index}"] = volume_id
+          index += 1
+        end
+        request({
+          'Action' => 'DescribeVolumes'
+        }.merge!(params), Fog::Parsers::AWS::EC2::DescribeVolumes.new)
+      end
 
       # Release an elastic IP address.
       #
       # ==== Returns
-      # Hash:: :return success boolean
+      # response::
+      #   body<~Hash>::
+      #     :return<~Boolean>:: success?
       def release_address(public_ip)
         request({
           'Action' => 'ReleaseAddress',
           'PublicIp' => public_ip
-        }, Fog::Parsers::AWS::EC2::ReleaseAddress.new)
+        }, Fog::Parsers::AWS::EC2::Basic.new)
       end
 
       private
@@ -82,7 +168,7 @@ module Fog
         body = ''
         for key in params.keys.sort
           unless (value = params[key]).nil?
-            body << "#{key}=#{CGI.escape(value).gsub(/\+/, '%20')}&"
+            body << "#{key}=#{CGI.escape(value.to_s).gsub(/\+/, '%20')}&"
           end
         end
 

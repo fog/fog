@@ -18,30 +18,7 @@ module Fog
 
         end
 
-        class DescribeAddresses < Fog::Parsers::Base
-
-          def reset
-            @address = {}
-            @response = { :addresses => [] }
-          end
-
-          def end_element(name)
-            case name
-            when 'instanceId'
-              @address[:instance_id] = @value
-            when 'item'
-              @response[:addresses] << @address
-              @address = []
-            when 'publicIp'
-              @address[:public_ip] = @value
-            when 'requestId'
-              @response[:request_id] = @value
-            end
-          end
-
-        end
-
-        class ReleaseAddress < Fog::Parsers::Base
+        class Basic < Fog::Parsers::Base
 
           def end_element(name)
             case name
@@ -54,6 +31,112 @@ module Fog
                 @response[:return] = false
               end
             end
+          end
+
+        end
+
+        class CreateVolume < Fog::Parsers::Base
+
+          def end_element(name)
+            case name
+            when 'availabilityZone'
+              @response[:availability_zone] = @value
+            when 'createTime'
+              @response[:create_time] = Time.parse(@value)
+            when 'requestId'
+              @response[:request_id] = @value
+            when 'size'
+              @response[:size] = @value.to_i
+            when 'snapshotId'
+              @response[:snapshot_id] = @value
+            when 'status'
+              @response[:status] = @value
+            when 'volumeId'
+              @response[:volume_id] = @value
+            end
+          end
+
+        end
+
+        class DescribeAddresses < Fog::Parsers::Base
+
+          def reset
+            @address = {}
+            @response = { :address_set => [] }
+          end
+
+          def end_element(name)
+            case name
+            when 'instanceId'
+              @address[:instance_id] = @value
+            when 'item'
+              @response[:address_set] << @address
+              @address = []
+            when 'publicIp'
+              @address[:public_ip] = @value
+            when 'requestId'
+              @response[:request_id] = @value
+            end
+          end
+
+        end
+
+        class DescribeVolumes < Fog::Parsers::Base
+
+          def reset
+            @attachment = {}
+            @in_attachment_set = false
+            @response = { :volume_set => [] }
+            @volume = { :attachment_set => [] }
+          end
+
+          def end_element(name)
+            if @in_attachment_set
+              case name
+              when 'attachmentSet'
+                @in_attachment_set = false
+              when 'attachTime'
+                @attachment[:attach_time] = Time.parse(@value)
+              when 'device'
+                @attachment[:device] = @value
+              when 'instanceId'
+                @attachment[:instance_id] = @value
+              when 'item'
+                @volume[:attachment_set] << @attachment
+                @attachment = {}
+              when 'status'
+                @attachment[:status] = @value
+              when 'volumeId'
+                @attachment[:volume_id] = @value
+              end
+            else
+              case name
+              when 'availabilityZone'
+                @volume[:availability_zone] = @value
+              when 'createTime'
+                @volume[:create_time] = Time.parse(@value)
+              when 'item'
+                @response[:volume_set] << @volume
+                @volume = { :attachment_set => [] }
+              when 'requestId'
+                @response[:request_id] = @value
+              when 'size'
+                @volume[:size] = @value.to_i
+              when 'snapshotId'
+                @volume[:snapshot_id] = @value
+              when 'status'
+                @volume[:status] = @value
+              when 'volumeId'
+                @volume[:volume_id] = @value
+              end
+            end
+          end
+
+          def start_element(name, attrs = [])
+            if name == 'attachmentSet'
+              @in_attachment_set = true
+            end
+            @value = ''
           end
 
         end
