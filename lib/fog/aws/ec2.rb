@@ -52,9 +52,9 @@ module Fog
           params["PublicIp.#{index}"] = public_ip
           index += 1
         end
-        request){
+        request({
           'Action' => 'DescribeAddresses'
-        }.merge!(params), Fog::Parsers::AWS::EC2::DescribeAddresses.new
+        }.merge!(params), Fog::Parsers::AWS::EC2::DescribeAddresses.new)
       end
 
       # Release an elastic IP address.
@@ -66,17 +66,16 @@ module Fog
           'Action' => 'ReleaseAddress',
           'PublicIp' => public_ip
         }, Fog::Parsers::AWS::EC2::ReleaseAddress.new)
+      end
 
       private
 
       def request(params, parser)
-        now = Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ")
         params.merge!({
           'AWSAccessKeyId' => @aws_access_key_id,
-          'Expires' => now,
           'SignatureMethod' => 'HmacSHA256',
           'SignatureVersion' => '2',
-          'Timestamp' => now,
+          'Timestamp' => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
           'Version' => '2009-04-04'
         })
 

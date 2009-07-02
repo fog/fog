@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe 'EC2.describe_addresses' do
 
   before(:all) do
-    @public_ip = ec2.allocate_address
+    @public_ip = ec2.allocate_address.body[:public_ip]
   end
 
   after(:all) do
@@ -12,9 +12,9 @@ describe 'EC2.describe_addresses' do
 
   it "should return proper attributes" do
     actual = ec2.describe_addresses(@public_ip)
+    actual.body[:request_id].should be_a(String)
     item = actual.body[:addresses].select {|address| address[:public_ip] == @public_ip}
     item.should_not be_nil
-    p actual
   end
 
 end

@@ -9,6 +9,8 @@ module Fog
 
           def end_element(name)
             case name
+            when 'requestId'
+              @response[:request_id] = @value
             when 'publicIp'
               @response[:public_ip] = @value
             end
@@ -32,6 +34,8 @@ module Fog
               @address = []
             when 'publicIp'
               @address[:public_ip] = @value
+            when 'requestId'
+              @response[:request_id] = @value
             end
           end
 
@@ -41,6 +45,8 @@ module Fog
 
           def end_element(name)
             case name
+            when 'requestId'
+              @response[:request_id] = @value
             when 'return'
               if @value == 'true'
                 @response[:return] = true
