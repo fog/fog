@@ -81,6 +81,47 @@ module Fog
 
         end
 
+        class DescribeImages < Fog::Parsers::Base
+
+          def reset
+            @image = {}
+            @response = { :image_set => [] }
+          end
+
+          def end_element(name)
+            case name
+            when 'architecture'
+              @image[:architecture] = @value
+            when 'imageId'
+              @image[:image_id] = @value
+            when 'imageLocation'
+              @image[:image_location] = @value
+            when 'imageOwnerId'
+              @image[:image_owner_id] = @value
+            when 'imageState'
+              @image[:image_state] = @value
+            when 'imageType'
+              @image[:image_type] = @value
+            when 'isPublic'
+              if @value == 'true'
+                @image[:is_public] = true
+              else
+                @image[:is_public] = false
+              end
+            when 'item'
+              @response[:image_set] << @image
+              @image = {}
+            when 'kernelId'
+              @image[:kernel_id] = @value
+            when 'ramdiskId'
+              @image[:ramdisk_id] = @value
+            when 'requestId'
+              @response[:request_id] = @value
+            end
+          end
+
+        end
+
         class DescribeVolumes < Fog::Parsers::Base
 
           def reset

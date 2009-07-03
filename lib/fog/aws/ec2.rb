@@ -109,6 +109,31 @@ module Fog
         }.merge!(params), Fog::Parsers::AWS::EC2::DescribeAddresses.new)
       end
       
+      # Describe all or specified images.
+      #
+      # ==== Params
+      # :options<~Hash>:: Optional params
+      #   :executable_by<~String>:: Only return images the user specified by
+      #     executable_by has explicit permission to launch
+      #   :image_id<~Array>:: Ids of images to describe
+      #   :owner<~String>:: Only return images belonging to owner.
+      #
+      # ==== Returns
+      def describe_images(options = {})
+        params, index = {}, 1
+        if options[:image_id]
+          for image in [*options[:image_id]]
+            params["ImageId.#{index}"] = image
+            image += 1
+          end
+        end
+        request({
+          'Action' => 'DescribeImages',
+          'ExecutableBy' => options[:executable_by],
+          'Owner' => options[:owner]
+        }.merge!(params), Fog::Parsers::AWS::EC2::DescribeImages.new)
+      end
+      
       # Describe all or specified volumes.
       #
       # ==== Parameters
