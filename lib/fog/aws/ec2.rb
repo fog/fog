@@ -39,6 +39,7 @@ module Fog
       # Acquire an elastic IP address.
       #
       # ==== Returns
+      # response::
       #   body<~Hash>::
       #     :public_ip<~String>:: The acquired address
       def allocate_address
@@ -50,13 +51,14 @@ module Fog
       # Create an EBS volume
       #
       # ==== Parameters
-      # availability_zone<~String>:: availability zone to create volume in
-      # size<~Integer>:: Size in GiBs for volume.  Must be between 1 and 1024.
-      # snapshot_id<~String>:: Optional, snapshot to create volume from
+      # :availability_zone<~String>:: 
+      #   availability zone to create volume in
+      # :size<~Integer>:: Size in GiBs for volume.  Must be between 1 and 1024.
+      # :snapshot_id<~String>:: Optional, snapshot to create volume from
       #
       # ==== Returns
       # response::
-      #   body<~Hash>::
+      #   :body<~Hash>::
       #     :volume_id<~String>:: Reference to volume
       #     :size<~Integer>:: Size in GiBs for volume
       #     :status<~String>:: State of volume
@@ -94,11 +96,12 @@ module Fog
       # public_ips<~Array>:: List of ips to describe, defaults to all
       #
       # ==== Returns
-      # body<~Hash>::
-      #   :request_id<~String>:: Id of request
-      #   :address_set<~Array>:: Addresses
-      #     :instance_id<~String>:: instance for ip address
-      #     :public_ip<~String>:: ip address for instance
+      # response:
+      #   body<~Hash>::
+      #     :request_id<~String>:: Id of request
+      #     :address_set<~Array>:: Addresses
+      #       :instance_id<~String>:: instance for ip address
+      #       :public_ip<~String>:: ip address for instance
       def describe_addresses(public_ips = [])
         params = indexed_params('PublicIp', public_ips)
         request({
@@ -116,16 +119,17 @@ module Fog
       #   :owner<~String>:: Only return images belonging to owner.
       #
       # ==== Returns
-      # body<~Hash>::
-      #   :request_id<~String>:: Id of request
-      #   :image_set<~Array>:: Images
-      #     :architecture<~String>:: Architecture of the image
-      #     :image_id<~String>:: Id of the image
-      #     :image_location<~String>:: Location of the image
-      #     :image_owner_id<~String>:: Id of the owner of the image
-      #     :image_state<~String>:: State of the image
-      #     :image_type<~String>:: Type of the image
-      #     :is_public<~Boolean:: Whether or not the image is public
+      # response::
+      #   body<~Hash>::
+      #     :request_id<~String>:: Id of request
+      #     :image_set<~Array>:: Images
+      #       :architecture<~String>:: Architecture of the image
+      #       :image_id<~String>:: Id of the image
+      #       :image_location<~String>:: Location of the image
+      #       :image_owner_id<~String>:: Id of the owner of the image
+      #       :image_state<~String>:: State of the image
+      #       :image_type<~String>:: Type of the image
+      #       :is_public<~Boolean:: Whether or not the image is public
       def describe_images(options = {})
         params = {}
         if options[:image_id]
