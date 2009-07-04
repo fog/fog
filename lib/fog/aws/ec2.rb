@@ -94,10 +94,11 @@ module Fog
       # public_ips<~Array>:: List of ips to describe, defaults to all
       #
       # ==== Returns
-      #   body<~Hash>::
-      #     :items<~Array>:: Addresses
-      #       :instance_id<~String>:: instance for ip address
-      #       :public_ip<~String>:: ip address for instance
+      # body<~Hash>::
+      #   :request_id<~String>:: Id of request
+      #   :address_set<~Array>:: Addresses
+      #     :instance_id<~String>:: instance for ip address
+      #     :public_ip<~String>:: ip address for instance
       def describe_addresses(public_ips = [])
         params = indexed_params('PublicIp', public_ips)
         request({
@@ -115,6 +116,16 @@ module Fog
       #   :owner<~String>:: Only return images belonging to owner.
       #
       # ==== Returns
+      # body<~Hash>::
+      #   :request_id<~String>:: Id of request
+      #   :image_set<~Array>:: Images
+      #     :architecture<~String>:: Architecture of the image
+      #     :image_id<~String>:: Id of the image
+      #     :image_location<~String>:: Location of the image
+      #     :image_owner_id<~String>:: Id of the owner of the image
+      #     :image_state<~String>:: State of the image
+      #     :image_type<~String>:: Type of the image
+      #     :is_public<~Boolean:: Whether or not the image is public
       def describe_images(options = {})
         params = {}
         if options[:image_id]
