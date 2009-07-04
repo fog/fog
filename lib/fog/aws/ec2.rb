@@ -99,11 +99,7 @@ module Fog
       #       :instance_id<~String>:: instance for ip address
       #       :public_ip<~String>:: ip address for instance
       def describe_addresses(public_ips = [])
-        params, index = {}, 1
-        for public_ip in [*public_ips]
-          params["PublicIp.#{index}"] = public_ip
-          index += 1
-        end
+        params = indexed_params('PublicIp', public_ips)
         request({
           'Action' => 'DescribeAddresses'
         }.merge!(params), Fog::Parsers::AWS::EC2::DescribeAddresses.new)
@@ -120,12 +116,9 @@ module Fog
       #
       # ==== Returns
       def describe_images(options = {})
-        params, index = {}, 1
+        params = {}
         if options[:image_id]
-          for image in [*options[:image_id]]
-            params["ImageId.#{index}"] = image
-            image += 1
-          end
+          params = indexed_params('ImageId', options[:image_id])
         end
         request({
           'Action' => 'DescribeImages',
@@ -156,11 +149,7 @@ module Fog
       #         :status<~String>:: Attachment state
       #         :volume_id<~String>:: Reference to volume
       def describe_volumes(volume_ids = [])
-        params, index = {}, 1
-        for volume_id in [*volume_ids]
-          params["VolumeId.#{index}"] = volume_id
-          index += 1
-        end
+        params = indexed_params('VolumeId', volume_ids)
         request({
           'Action' => 'DescribeVolumes'
         }.merge!(params), Fog::Parsers::AWS::EC2::DescribeVolumes.new)
@@ -180,6 +169,15 @@ module Fog
       end
 
       private
+
+      def indexed_params(name, params)
+        indexed, index = {}, 1
+        for param in [*params]
+          indexed["#{name}.#{index}"] = param
+          index += 1
+        end
+        indexed
+      end
 
       def request(params, parser)
         params.merge!({
