@@ -234,8 +234,6 @@ module Fog
           :method => 'POST'
         })
 
-        p response
-
         if parser && !response.body.empty?
           Nokogiri::XML::SAX::Parser.new(parser).parse(response.body.split(/<\?xml.*\?>/)[1])
           response.body = parser.response
