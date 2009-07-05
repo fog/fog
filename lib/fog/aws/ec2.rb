@@ -48,11 +48,28 @@ module Fog
         }, Fog::Parsers::AWS::EC2::AllocateAddress.new)
       end
 
+      # Create a new security group
+      #
+      # ==== Parameters
+      # :group_name<~String>:: Name of the security group.
+      # :group_description<~String>:: Description of group.
+      #
+      # ==== Returns
+      # response::
+      #   body<~Hash>::
+      #     :return<~Boolean>:: success?
+      def create_security_group(name, description)
+        request({
+          'Action' => 'CreateSecurityGroup',
+          'GroupName' => name,
+          'GroupDescription' => CGI.escape(description)
+        }, Fog::Parsers::AWS::EC2::Basic.new)
+      end
+
       # Create an EBS volume
       #
       # ==== Parameters
-      # :availability_zone<~String>:: 
-      #   availability zone to create volume in
+      # :availability_zone<~String>:: availability zone to create volume in
       # :size<~Integer>:: Size in GiBs for volume.  Must be between 1 and 1024.
       # :snapshot_id<~String>:: Optional, snapshot to create volume from
       #
@@ -72,6 +89,22 @@ module Fog
           'Size' => size,
           'SnapshotId' => snapshot_id
         }, Fog::Parsers::AWS::EC2::CreateVolume.new)
+      end
+
+      # Delete a security group that you own
+      #
+      # ==== Parameters
+      # :group_name<~String>:: Name of the security group.
+      #
+      # ==== Returns
+      # response::
+      #   body<~Hash>::
+      #     :return<~Boolean>:: success?
+      def delete_security_group(name)
+        request({
+          'Action' => 'DeleteSecurityGroup',
+          'GroupName' => name
+        }, Fog::Parsers::AWS::EC2::Basic.new)
       end
 
       # Delete an EBS volume
