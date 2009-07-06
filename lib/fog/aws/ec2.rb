@@ -48,6 +48,25 @@ module Fog
         }, Fog::Parsers::AWS::EC2::AllocateAddress.new)
       end
 
+      # Create a new key pair
+      #
+      # ==== Parameters
+      # :key_name<~String>:: Unique name for key pair.
+      #
+      # ==== Returns
+      # response::
+      #   body<~Hash>::
+      #     :key_name<~String>:: Name of key
+      #     :key_fingerprint<~String>:: SHA-1 digest of DER encoded private key
+      #     :key_material<~String>:: Unencrypted encoded PEM private key
+      #     :request_id<~String>:: Id of request
+      def create_key_pair(key_name)
+        request({
+          'Action' => 'CreateKeyPair',
+          'KeyName' => key_name
+        }, Fog::Parsers::AWS::EC2::CreateKeyPair.new)
+      end
+
       # Create a new security group
       #
       # ==== Parameters
@@ -89,6 +108,22 @@ module Fog
           'Size' => size,
           'SnapshotId' => snapshot_id
         }, Fog::Parsers::AWS::EC2::CreateVolume.new)
+      end
+
+      # Delete a key pair that you own
+      #
+      # ==== Parameters
+      # :key_name<~String>:: Name of the key pair.
+      #
+      # ==== Returns
+      # response::
+      #   body<~Hash>::
+      #     :return<~Boolean>:: success?
+      def delete_key_pair(key_name)
+        request({
+          'Action' => 'DeleteKeyPair',
+          'KeyName' => key_name
+        }, Fog::Parsers::AWS::EC2::Basic.new)
       end
 
       # Delete a security group that you own

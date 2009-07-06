@@ -35,6 +35,23 @@ module Fog
 
         end
 
+        class CreateKeyPair < Fog::Parsers::Base
+
+          def end_element(name)
+            case name
+            when 'keyFingerprint'
+              @response[:key_fingerprint] = @value
+            when 'keyMaterial'
+              @response[:key_material] = @value
+            when 'keyName'
+              @response[:key_name] = @value
+            when 'requestId'
+              @response[:request_id]
+            end
+          end
+
+        end
+
         class CreateVolume < Fog::Parsers::Base
 
           def end_element(name)
