@@ -46,7 +46,7 @@ module Fog
             when 'keyName'
               @response[:key_name] = @value
             when 'requestId'
-              @response[:request_id]
+              @response[:request_id] = @value
             end
           end
 
