@@ -175,6 +175,25 @@ module Fog
         }.merge!(params), Fog::Parsers::AWS::EC2::DescribeImages.new)
       end
       
+      # Describe all or specified key pairs
+      #
+      # ==== Parameters
+      # key_name<~Array>:: List of key names to describe, defaults to all
+      #
+      # ==== Returns
+      # response::
+      #   body<~Hash>::
+      #     :request_id<~String>:: Id of request
+      #     :key_set<~Array>:: Key pairs
+      #       :key_name<~String>:: Name of key
+      #       :key_fingerprint<~String>:: Fingerprint of key
+      def describe_key_pairs(key_name = [])
+        params = indexed_params('KeyName', key_name)
+        request({
+          'Action' => 'DescribeKeyPairs',
+        }.merge!(params), Fog::Parsers::AWS::EC2::DescribeKeyPairs.new)
+      end
+      
       # Describe all or specified security groups
       #
       # ==== Parameters
