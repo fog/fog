@@ -210,6 +210,22 @@ module Fog
         }.merge!(params), Fog::Parsers::AWS::EC2::DescribeImages.new)
       end
       
+      # Describe all or specified instances
+      #
+      # ==== Parameters
+      # instance_id<~Array>:: List of instance ids to describe, defaults to all
+      #
+      # ==== Returns
+      # response::
+      #   body<~Hash>::
+      #     :request_id<~String>:: Id of request
+      def describe_instances(instance_id = [])
+        params = indexed_params('InstanceId', instance_id)
+        request({
+          'Action' => 'DescribeInstances',
+        }.merge!(params), Fog::Parsers::AWS::EC2::DescribeInstances.new)
+      end
+      
       # Describe all or specified key pairs
       #
       # ==== Parameters
