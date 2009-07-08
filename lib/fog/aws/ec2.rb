@@ -16,16 +16,16 @@ module Fog
       # :aws_secret_access_key in order to create a connection
       #
       # ==== Examples
-      # sdb = SimpleDB.new(
-      #  :aws_access_key_id => your_aws_access_key_id,
-      #  :aws_secret_access_key => your_aws_secret_access_key
-      # )
+      #   sdb = SimpleDB.new(
+      #    :aws_access_key_id => your_aws_access_key_id,
+      #    :aws_secret_access_key => your_aws_secret_access_key
+      #   )
       #
       # ==== Parameters
-      # options<~Hash>:: config arguments for connection.  Defaults to {}.
+      # * options<~Hash> - config arguments for connection.  Defaults to {}.
       #
       # ==== Returns
-      # SimpleDB object with connection to aws.
+      # * EC2 object with connection to aws.
       def initialize(options={})
         @aws_access_key_id      = options[:aws_access_key_id]
         @aws_secret_access_key  = options[:aws_secret_access_key]
@@ -39,9 +39,9 @@ module Fog
       # Acquire an elastic IP address.
       #
       # ==== Returns
-      # response::
-      #   body<~Hash>::
-      #     :public_ip<~String>:: The acquired address
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :public_ip<~String> - The acquired address
       def allocate_address
         request({
           'Action' => 'AllocateAddress'
@@ -51,15 +51,15 @@ module Fog
       # Create a new key pair
       #
       # ==== Parameters
-      # :key_name<~String>:: Unique name for key pair.
+      # * key_name<~String> - Unique name for key pair.
       #
       # ==== Returns
-      # response::
-      #   body<~Hash>::
-      #     :key_name<~String>:: Name of key
-      #     :key_fingerprint<~String>:: SHA-1 digest of DER encoded private key
-      #     :key_material<~String>:: Unencrypted encoded PEM private key
-      #     :request_id<~String>:: Id of request
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :key_name<~String> - Name of key
+      #     * :key_fingerprint<~String> - SHA-1 digest of DER encoded private key
+      #     * :key_material<~String> - Unencrypted encoded PEM private key
+      #     * :request_id<~String> - Id of request
       def create_key_pair(key_name)
         request({
           'Action' => 'CreateKeyPair',
@@ -70,13 +70,13 @@ module Fog
       # Create a new security group
       #
       # ==== Parameters
-      # :group_name<~String>:: Name of the security group.
-      # :group_description<~String>:: Description of group.
+      # * group_name<~String> - Name of the security group.
+      # * group_description<~String> - Description of group.
       #
       # ==== Returns
-      # response::
-      #   body<~Hash>::
-      #     :return<~Boolean>:: success?
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :return<~Boolean> - success?
       def create_security_group(name, description)
         request({
           'Action' => 'CreateSecurityGroup',
@@ -88,19 +88,19 @@ module Fog
       # Create an EBS volume
       #
       # ==== Parameters
-      # :availability_zone<~String>:: availability zone to create volume in
-      # :size<~Integer>:: Size in GiBs for volume.  Must be between 1 and 1024.
-      # :snapshot_id<~String>:: Optional, snapshot to create volume from
+      # * availability_zone<~String> - availability zone to create volume in
+      # * size<~Integer> - Size in GiBs for volume.  Must be between 1 and 1024.
+      # * snapshot_id<~String> - Optional, snapshot to create volume from
       #
       # ==== Returns
-      # response::
-      #   :body<~Hash>::
-      #     :volume_id<~String>:: Reference to volume
-      #     :size<~Integer>:: Size in GiBs for volume
-      #     :status<~String>:: State of volume
-      #     :create_time<~Time>:: Timestamp for creation
-      #     :availability_zone<~String>:: Availability zone for volume
-      #     :snapshot_id<~String>:: Snapshot volume was created from, if any
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :volume_id<~String> - Reference to volume
+      #     * :size<~Integer> - Size in GiBs for volume
+      #     * :status<~String> - State of volume
+      #     * :create_time<~Time> - Timestamp for creation
+      #     * :availability_zone<~String> - Availability zone for volume
+      #     * :snapshot_id<~String> - Snapshot volume was created from, if any
       def create_volume(availability_zone, size, snapshot_id = nil)
         request({
           'Action' => 'CreateVolume',
@@ -113,12 +113,12 @@ module Fog
       # Delete a key pair that you own
       #
       # ==== Parameters
-      # :key_name<~String>:: Name of the key pair.
+      # * key_name<~String> - Name of the key pair.
       #
       # ==== Returns
-      # response::
-      #   body<~Hash>::
-      #     :return<~Boolean>:: success?
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :return<~Boolean> - success?
       def delete_key_pair(key_name)
         request({
           'Action' => 'DeleteKeyPair',
@@ -129,12 +129,12 @@ module Fog
       # Delete a security group that you own
       #
       # ==== Parameters
-      # :group_name<~String>:: Name of the security group.
+      # * group_name<~String> - Name of the security group.
       #
       # ==== Returns
-      # response::
-      #   body<~Hash>::
-      #     :return<~Boolean>:: success?
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :return<~Boolean> - success?
       def delete_security_group(name)
         request({
           'Action' => 'DeleteSecurityGroup',
@@ -145,12 +145,12 @@ module Fog
       # Delete an EBS volume
       #
       # ==== Parameters
-      # volume_id<~String>:: Id of volume to delete.
+      # * volume_id<~String> - Id of volume to delete.
       #
       # ==== Returns
-      # response::
-      #   body<~Hash>::
-      #     :return<~Boolean>:: success?
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :return<~Boolean> - success?
       def delete_volume(volume_id)
         request({
           'Action' => 'DeleteVolume',
@@ -161,15 +161,15 @@ module Fog
       # Describe all or specified IP addresses.
       #
       # ==== Parameters
-      # public_ips<~Array>:: List of ips to describe, defaults to all
+      # * public_ips<~Array> - List of ips to describe, defaults to all
       #
       # ==== Returns
-      # response:
-      #   body<~Hash>::
-      #     :request_id<~String>:: Id of request
-      #     :address_set<~Array>:: Addresses
-      #       :instance_id<~String>:: instance for ip address
-      #       :public_ip<~String>:: ip address for instance
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :request_id<~String> - Id of request
+      #     * :address_set<~Array>:
+      #       * :instance_id<~String> - instance for ip address
+      #       * :public_ip<~String> - ip address for instance
       def describe_addresses(public_ips = [])
         params = indexed_params('PublicIp', public_ips)
         request({
@@ -180,24 +180,24 @@ module Fog
       # Describe all or specified images.
       #
       # ==== Params
-      # :options<~Hash>:: Optional params
-      #   :executable_by<~String>:: Only return images the user specified by
-      #     executable_by has explicit permission to launch
-      #   :image_id<~Array>:: Ids of images to describe
-      #   :owner<~String>:: Only return images belonging to owner.
+      # * options<~Hash> - Optional params
+      #   * :executable_by<~String> - Only return images that the executable_by
+      #     user has explicit permission to launch
+      #   * :image_id<~Array> - Ids of images to describe
+      #   * :owner<~String> - Only return images belonging to owner.
       #
       # ==== Returns
-      # response::
-      #   body<~Hash>::
-      #     :request_id<~String>:: Id of request
-      #     :image_set<~Array>:: Images
-      #       :architecture<~String>:: Architecture of the image
-      #       :image_id<~String>:: Id of the image
-      #       :image_location<~String>:: Location of the image
-      #       :image_owner_id<~String>:: Id of the owner of the image
-      #       :image_state<~String>:: State of the image
-      #       :image_type<~String>:: Type of the image
-      #       :is_public<~Boolean:: Whether or not the image is public
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :request_id<~String> - Id of request
+      #     * :image_set<~Array>:
+      #       * :architecture<~String> - Architecture of the image
+      #       * :image_id<~String> - Id of the image
+      #       * :image_location<~String> - Location of the image
+      #       * :image_owner_id<~String> - Id of the owner of the image
+      #       * :image_state<~String> - State of the image
+      #       * :image_type<~String> - Type of the image
+      #       * :is_public<~Boolean> - Whether or not the image is public
       def describe_images(options = {})
         params = {}
         if options[:image_id]
@@ -213,12 +213,12 @@ module Fog
       # Describe all or specified instances
       #
       # ==== Parameters
-      # instance_id<~Array>:: List of instance ids to describe, defaults to all
+      # * instance_id<~Array> - List of instance ids to describe, defaults to all
       #
       # ==== Returns
-      # response::
-      #   body<~Hash>::
-      #     :request_id<~String>:: Id of request
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :request_id<~String> - Id of request
       def describe_instances(instance_id = [])
         params = indexed_params('InstanceId', instance_id)
         request({
@@ -229,15 +229,15 @@ module Fog
       # Describe all or specified key pairs
       #
       # ==== Parameters
-      # key_name<~Array>:: List of key names to describe, defaults to all
+      # * key_name<~Array>:: List of key names to describe, defaults to all
       #
       # ==== Returns
-      # response::
-      #   body<~Hash>::
-      #     :request_id<~String>:: Id of request
-      #     :key_set<~Array>:: Key pairs
-      #       :key_name<~String>:: Name of key
-      #       :key_fingerprint<~String>:: Fingerprint of key
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :request_id<~String> - Id of request
+      #     * :key_set<~Array>:
+      #       * :key_name<~String> - Name of key
+      #       * :key_fingerprint<~String> - Fingerprint of key
       def describe_key_pairs(key_name = [])
         params = indexed_params('KeyName', key_name)
         request({
@@ -248,9 +248,10 @@ module Fog
       # Describe all or specified security groups
       #
       # ==== Parameters
-      # group_name<~Array>:: List of groups to describe, defaults to all
+      # * group_name<~Array> - List of groups to describe, defaults to all
       #
       # === Returns
+      # FIXME: docs
       def describe_security_groups(group_name = [])
         params = indexed_params('GroupName', group_name)
         request({
@@ -261,24 +262,24 @@ module Fog
       # Describe all or specified volumes.
       #
       # ==== Parameters
-      # volume_ids<~Array>:: List of volumes to describe, defaults to all
+      # * volume_ids<~Array> - List of volumes to describe, defaults to all
       #
       # ==== Returns
-      # response::
-      #   body<~Hash>::
-      #     volume_set<~Array>::
-      #       :volume_id<~String>:: Reference to volume
-      #       :size<~Integer>:: Size in GiBs for volume
-      #       :status<~String>:: State of volume
-      #       :create_time<~Time>:: Timestamp for creation
-      #       :availability_zone<~String>:: Availability zone for volume
-      #       :snapshot_id<~String>:: Snapshot volume was created from, if any
-      #       :attachment_set<~Array>::
-      #         :attachment_time<~Time>:: Timestamp for attachment
-      #         :device<~String>:: How volue is exposed to instance
-      #         :instance_id<~String>:: Reference to attached instance
-      #         :status<~String>:: Attachment state
-      #         :volume_id<~String>:: Reference to volume
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :volume_set<~Array>:
+      #       * :volume_id<~String> - Reference to volume
+      #       * :size<~Integer> - Size in GiBs for volume
+      #       * :status<~String> - State of volume
+      #       * :create_time<~Time> - Timestamp for creation
+      #       * :availability_zone<~String> - Availability zone for volume
+      #       * :snapshot_id<~String> - Snapshot volume was created from, if any
+      #       * :attachment_set<~Array>:
+      #         * :attachment_time<~Time> - Timestamp for attachment
+      #         * :device<~String> - How value is exposed to instance
+      #         * :instance_id<~String> - Reference to attached instance
+      #         * :status<~String> - Attachment state
+      #         * :volume_id<~String> - Reference to volume
       def describe_volumes(volume_ids = [])
         params = indexed_params('VolumeId', volume_ids)
         request({
@@ -289,9 +290,9 @@ module Fog
       # Release an elastic IP address.
       #
       # ==== Returns
-      # response::
-      #   body<~Hash>::
-      #     :return<~Boolean>:: success?
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :return<~Boolean> - success?
       def release_address(public_ip)
         request({
           'Action' => 'ReleaseAddress',

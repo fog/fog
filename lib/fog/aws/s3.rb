@@ -18,16 +18,16 @@ module Fog
       # :aws_secret_access_key in order to create a connection
       #
       # ==== Examples
-      # sdb = S3.new(
-      #  :aws_access_key_id => your_aws_access_key_id,
-      #  :aws_secret_access_key => your_aws_secret_access_key
-      # )
+      #   sdb = S3.new(
+      #     :aws_access_key_id => your_aws_access_key_id,
+      #     :aws_secret_access_key => your_aws_secret_access_key
+      #   )
       #
       # ==== Parameters
-      # options<~Hash>:: config arguments for connection.  Defaults to {}.
+      # * options<~Hash> - config arguments for connection.  Defaults to {}.
       #
       # ==== Returns
-      # S3 object with connection to aws.
+      # * S3 object with connection to aws.
       def initialize(options={})
         @aws_access_key_id      = options[:aws_access_key_id]
         @aws_secret_access_key  = options[:aws_secret_access_key]
@@ -39,6 +39,9 @@ module Fog
       end
 
       # List information about S3 buckets for authorized user
+      #
+      # ==== Parameters
+      # FIXME: docs
       def get_service
         request({
           :headers => {},
@@ -52,9 +55,9 @@ module Fog
       # Create an S3 bucket
       #
       # ==== Parameters
-      # bucket_name<~String>:: name of bucket to create
-      # options<~Hash>:: config arguments for bucket.  Defaults to {}.
-      #   :location_constraint sets the location for the bucket
+      # * bucket_name<~String> - name of bucket to create
+      # * options<~Hash> - config arguments for bucket.  Defaults to {}.
+      #   * :location_constraint<~Symbol> - sets the location for the bucket
       def put_bucket(bucket_name, options = {})
         if options[:location_constraint]
           data =
@@ -78,8 +81,8 @@ DATA
       # Change who pays for requests to an S3 bucket
       #
       # ==== Parameters
-      # bucket_name<~String>:: name of bucket to modify
-      # payer<~String>:: valid values are BucketOwner or Requester
+      # * bucket_name<~String> - name of bucket to modify
+      # * payer<~String> - valid values are BucketOwner or Requester
       def put_request_payment(bucket_name, payer)
         data =
 <<-DATA
@@ -100,13 +103,13 @@ DATA
       # List information about objects in an S3 bucket
       #
       # ==== Parameters
-      # bucket_name<~String>:: name of bucket to list object keys from
-      # options<~Hash>:: config arguments for list.  Defaults to {}.
-      #   :prefix limits object keys to those beginning with its value.
-      #   :marker limits object keys to only those that appear
+      # * bucket_name<~String> - name of bucket to list object keys from
+      # * options<~Hash> - config arguments for list.  Defaults to {}.
+      #   * :prefix - limits object keys to those beginning with its value.
+      #   * :marker - limits object keys to only those that appear
       #     lexicographically after its value.
-      #   :maxkeys limits number of object keys returned
-      #   :delimiter causes keys with the same string between the prefix
+      #   * maxkeys - limits number of object keys returned
+      #   * :delimiter - causes keys with the same string between the prefix
       #     value and the first occurence of delimiter to be rolled up
       def get_bucket(bucket_name, options = {})
         options['max-keys'] = options.delete(:maxkeys) if options[:maxkeys]
@@ -125,6 +128,12 @@ DATA
       end
 
       # Get configured payer for an S3 bucket
+      #
+      # ==== Parameters
+      # * bucket_name<~String> - name of bucket to get payer for
+      #
+      # ==== Returns
+      # FIXME: docs
       def get_request_payment(bucket_name)
         request({
           :headers => {},
@@ -136,6 +145,12 @@ DATA
       end
 
       # Get location constraint for an S3 bucket
+      #
+      # ==== Parameters
+      # * bucket_name<~String> - name of bucket to get location constraint for
+      #
+      # ==== Returns
+      # FIXME: docs
       def get_bucket_location(bucket_name)
         request({
           :headers => {},
@@ -149,7 +164,10 @@ DATA
       # Delete an S3 bucket
       #
       # ==== Parameters
-      # bucket_name<~String>:: name of bucket to delete
+      # * bucket_name<~String> - name of bucket to delete
+      #
+      # ==== Returns
+      # FIXME: docs
       def delete_bucket(bucket_name)
         request({
           :headers => {},
@@ -159,6 +177,7 @@ DATA
       end
 
       # Create an object in an S3 bucket
+      # FIXME: docs
       def put_object(bucket_name, object_name, object, options = {})
         file = parse_file(object)
         request({
@@ -171,6 +190,7 @@ DATA
       end
 
       # Copy an object from one S3 bucket to another
+      # FIXME: docs
       def copy_object(source_bucket_name, source_object_name, destination_bucket_name, destination_object_name)
         request({
           :headers => { 'x-amz-copy-source' => "/#{source_bucket_name}/#{source_object_name}" },
@@ -182,6 +202,7 @@ DATA
       end
 
       # Get an object from S3
+      # FIXME: docs
       def get_object(bucket_name, object_name)
         request({
           :headers => {},
@@ -192,6 +213,7 @@ DATA
       end
 
       # Get headers for an object from S3
+      # FIXME: docs
       def head_object(bucket_name, object_name)
         request({
           :headers => {},
@@ -202,6 +224,7 @@ DATA
       end
 
       # Delete an object from S3
+      # FIXME: docs
       def delete_object(bucket_name, object_name)
         request({
           :headers => {},
