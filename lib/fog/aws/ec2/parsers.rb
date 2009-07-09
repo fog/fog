@@ -143,7 +143,7 @@ module Fog
 
           def reset
             @instance = { :instance_state => {}, :placement => [], :product_code_set => [] }
-            @reservation = { :group_set => [], :instance_set => [] }
+            @reservation = { :group_set => [], :instances_set => [] }
             @response = { :reservation_set => [] }
           end
 
@@ -155,7 +155,7 @@ module Fog
               @in_subset = true
             end
             if name == 'instanceSet'
-              @in_instance_set = true
+              @in_instances_set = true
             end
             @value = ''
           end
@@ -178,13 +178,13 @@ module Fog
               @instance[:image_id] = @value
             when 'instanceId'
               @instance[:instance_id] = @value
-            when 'instanceSet'
-              @in_instance_set = false
+            when 'instancesSet'
+              @in_instances_set = false
             when 'instanceType'
               @instance[:instance_type] = @value
             when 'item'
-              if @in_instance_set
-                @reservation[:instance_set] << @instance
+              if @in_instances_set
+                @reservation[:instances_set] << @instance
                 @instance = { :instance_state => {}, :placement => [], :product_code_set => [] }
               elsif !@in_subset
                 @response[:reservation_set] << @reservation

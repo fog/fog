@@ -13,6 +13,7 @@ describe 'EC2.describe_images' do
     image[:image_state].should be_a(String)
     image[:image_type].should be_a(String)
     [false, true].should include(image[:is_public])
+    p actual
   end
   
   it "should return proper attributes with params"
