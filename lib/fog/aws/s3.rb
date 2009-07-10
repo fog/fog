@@ -300,7 +300,7 @@ DATA
         })
 
         if params[:parser] && !response.body.empty?
-          Nokogiri::XML::SAX::Parser.new(params[:parser]).parse(response.body)
+          Nokogiri::XML::SAX::PushParser.new(params[:parser]).write(response.body, true)
           response.body = params[:parser].response
         end
 

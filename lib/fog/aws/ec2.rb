@@ -391,7 +391,7 @@ module Fog
         })
 
         if parser && !response.body.empty?
-          Nokogiri::XML::SAX::Parser.new(parser).parse(response.body)
+          Nokogiri::XML::SAX::PushParser.new(parser).write(response.body, true)
           response.body = parser.response
         end
 
