@@ -1,5 +1,4 @@
-require 'rubygems'
-require 'benchwarmer'
+require 'benchmark'
 
 def hash(options)
   result = "#{options.delete(:name)}"

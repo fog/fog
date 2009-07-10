@@ -1,5 +1,4 @@
-require 'rubygems'
-require 'benchwarmer'
+require 'benchmark'
 
 COUNT = 1_000_000
 data = "Content-Length: 100\r\n"

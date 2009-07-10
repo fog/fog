@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'benchwarmer'
+require 'benchmark'
 require 'right_aws'
 
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
