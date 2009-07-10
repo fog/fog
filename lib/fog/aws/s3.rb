@@ -73,8 +73,7 @@ DATA
           :body => data,
           :headers => {},
           :host => "#{bucket_name}.#{@host}",
-          :method => 'PUT',
-          :parser => Fog::Parsers::AWS::S3::BasicParser.new
+          :method => 'PUT'
         })
       end
 
@@ -95,7 +94,6 @@ DATA
           :headers => {},
           :host => "#{bucket_name}.#{@host}",
           :method => 'PUT',
-          :parser => Fog::Parsers::AWS::S3::BasicParser.new,
           :query => "requestPayment"
         })
       end
@@ -302,7 +300,7 @@ DATA
         })
 
         if params[:parser] && !response.body.empty?
-          Nokogiri::XML::SAX::Parser.new(params[:parser]).parse(response.body.split(/<\?xml.*\?>/)[1])
+          Nokogiri::XML::SAX::Parser.new(params[:parser]).parse(response.body)
           response.body = params[:parser].response
         end
 
