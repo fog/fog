@@ -295,14 +295,10 @@ DATA
           :headers => params[:headers],
           :host => params[:host],
           :method => params[:method],
+          :parser => params[:parser],
           :path => params[:path],
           :query => params[:query]
         })
-
-        if params[:parser] && !response.body.empty?
-          Nokogiri::XML::SAX::PushParser.new(params[:parser]).write(response.body, true)
-          response.body = params[:parser].response
-        end
 
         response
       end

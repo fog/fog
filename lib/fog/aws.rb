@@ -53,20 +53,35 @@ module Fog
           header = data.split(': ')
           response.headers[capitalize(header[0])] = header[1]
         end
+
+        if params[:parser]
+          body = Nokogiri::XML::SAX::PushParser.new(params[:parser])
+        else
+          body = ''
+        end
+
         unless params[:method] == 'HEAD'
           if response.headers['Content-Length']
-            response.body << @connection.read(response.headers['Content-Length'].to_i)
+            body << @connection.read(response.headers['Content-Length'].to_i)
           elsif response.headers['Transfer-Encoding'] == 'chunked'
             while true
               # 2 == "/r/n".length
               chunk_size = @connection.readline.chomp!.to_i(16) + 2
-              response.body << @connection.read(chunk_size)
+              body << @connection.read(chunk_size)
               if chunk_size == 2
                 break
               end
             end
           end
         end
+
+        if params[:parser]
+          body.finish
+          response.body = params[:parser].response
+        else
+          response.body = body
+        end
+
         response
       end
 

@@ -387,13 +387,9 @@ module Fog
           :body => body,
           :headers => { 'Content-Type' => 'application/x-www-form-urlencoded' },
           :host => @host,
-          :method => 'POST'
+          :method => 'POST',
+          :parser => parser
         })
-
-        if parser && !response.body.empty?
-          Nokogiri::XML::SAX::PushParser.new(parser).write(response.body, true)
-          response.body = parser.response
-        end
 
         response
       end
