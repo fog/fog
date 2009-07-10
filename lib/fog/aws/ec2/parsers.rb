@@ -101,8 +101,15 @@ module Fog
         class DescribeImages < Fog::Parsers::Base
 
           def reset
-            @image = {}
+            @image = { :product_codes => [] }
             @response = { :image_set => [] }
+          end
+
+          def start_element(name, attrs = [])
+            if name == 'productCodes'
+              @in_product_codes = true
+            end
+            @value = ''
           end
 
           def end_element(name)
@@ -126,10 +133,18 @@ module Fog
                 @image[:is_public] = false
               end
             when 'item'
-              @response[:image_set] << @image
-              @image = {}
+              unless @in_product_codes
+                @response[:image_set] << @image
+                @image = { :product_codes => [] }
+              end
             when 'kernelId'
               @image[:kernel_id] = @value
+            when 'platform'
+              @image[:platform] = @value
+            when 'productCode'
+              @image[:product_codes] << @value
+            when 'productCodes'
+              @in_product_codes = false
             when 'ramdiskId'
               @image[:ramdisk_id] = @value
             when 'requestId'
