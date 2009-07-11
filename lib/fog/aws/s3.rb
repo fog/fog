@@ -5,7 +5,12 @@ require 'digest/md5'
 require 'hmac-sha1'
 require 'mime/types'
 
-require File.dirname(__FILE__) + '/s3/parsers'
+parsers_directory = "#{File.dirname(__FILE__)}/parsers/s3"
+require "#{parsers_directory}/copy_object"
+require "#{parsers_directory}/get_bucket"
+require "#{parsers_directory}/get_bucket_location"
+require "#{parsers_directory}/get_request_payment"
+require "#{parsers_directory}/get_service"
 
 module Fog
   module AWS
@@ -38,6 +43,116 @@ module Fog
         @connection = AWS::Connection.new("#{@scheme}://#{@host}:#{@port}")
       end
 
+      # Copy an object from one S3 bucket to another
+      # FIXME: docs
+      def copy_object(source_bucket_name, source_object_name, destination_bucket_name, destination_object_name)
+        request({
+          :headers => { 'x-amz-copy-source' => "/#{source_bucket_name}/#{source_object_name}" },
+          :host => "#{destination_bucket_name}.#{@host}",
+          :method => 'PUT',
+          :parser => Fog::Parsers::AWS::S3::CopyObject.new,
+          :path => destination_object_name
+        })
+      end
+
+      # Delete an S3 bucket
+      #
+      # ==== Parameters
+      # * bucket_name<~String> - name of bucket to delete
+      #
+      # ==== Returns
+      # FIXME: docs
+      def delete_bucket(bucket_name)
+        request({
+          :headers => {},
+          :host => "#{bucket_name}.#{@host}",
+          :method => 'DELETE'
+        })
+      end
+
+      # Delete an object from S3
+      # FIXME: docs
+      def delete_object(bucket_name, object_name)
+        request({
+          :headers => {},
+          :host => "#{bucket_name}.#{@host}",
+          :method => 'DELETE',
+          :path => object_name
+        })
+      end
+
+      # List information about objects in an S3 bucket
+      #
+      # ==== Parameters
+      # * bucket_name<~String> - name of bucket to list object keys from
+      # * options<~Hash> - config arguments for list.  Defaults to {}.
+      #   * :prefix - limits object keys to those beginning with its value.
+      #   * :marker - limits object keys to only those that appear
+      #     lexicographically after its value.
+      #   * maxkeys - limits number of object keys returned
+      #   * :delimiter - causes keys with the same string between the prefix
+      #     value and the first occurence of delimiter to be rolled up
+      def get_bucket(bucket_name, options = {})
+        options['max-keys'] = options.delete(:maxkeys) if options[:maxkeys]
+        query = '?'
+        for key, value in options
+          query << "#{key}=#{value};"
+        end
+        query.chop!
+        request({
+          :headers => {},
+          :host => "#{bucket_name}.#{@host}",
+          :method => 'GET',
+          :parser => Fog::Parsers::AWS::S3::GetBucket.new,
+          :query => query
+        })
+      end
+
+      # Get location constraint for an S3 bucket
+      #
+      # ==== Parameters
+      # * bucket_name<~String> - name of bucket to get location constraint for
+      #
+      # ==== Returns
+      # FIXME: docs
+      def get_bucket_location(bucket_name)
+        request({
+          :headers => {},
+          :host => "#{bucket_name}.#{@host}",
+          :method => 'GET',
+          :parser => Fog::Parsers::AWS::S3::GetBucketLocation.new,
+          :query => 'location'
+        })
+      end
+
+      # Get an object from S3
+      # FIXME: docs
+      def get_object(bucket_name, object_name)
+        request({
+          :headers => {},
+          :host => "#{bucket_name}.#{@host}",
+          :method => 'GET',
+          :path => object_name
+        })
+      end
+
+      # Get configured payer for an S3 bucket
+      #
+      # ==== Parameters
+      # * bucket_name<~String> - name of bucket to get payer for
+      #
+      # ==== Returns
+      # FIXME: docs
+      def get_request_payment(bucket_name)
+        request({
+          :headers => {},
+          :host => "#{bucket_name}.#{@host}",
+          :method => 'GET',
+          :parser => Fog::Parsers::AWS::S3::GetRequestPayment.new,
+          :query => 'requestPayment'
+        })
+      end
+
       # List information about S3 buckets for authorized user
       #
       # ==== Parameters
@@ -47,8 +162,32 @@ module Fog
           :headers => {},
           :host => @host,
           :method => 'GET',
-          :parser => Fog::Parsers::AWS::S3::GetServiceParser.new,
+          :parser => Fog::Parsers::AWS::S3::GetService.new,
           :url => @host
+        })
+      end
+
+      # Get headers for an object from S3
+      # FIXME: docs
+      def head_object(bucket_name, object_name)
+        request({
+          :headers => {},
+          :host => "#{bucket_name}.#{@host}",
+          :method => 'HEAD',
+          :path => object_name
+        })
+      end
+
+      # Create an object in an S3 bucket
+      # FIXME: docs
+      def put_object(bucket_name, object_name, object, options = {})
+        file = parse_file(object)
+        request({
+          :body => file[:body],
+          :headers => options.merge!(file[:headers]),
+          :host => "#{bucket_name}.#{@host}",
+          :method => 'PUT',
+          :path => object_name
         })
       end
 
@@ -95,140 +234,6 @@ DATA
           :host => "#{bucket_name}.#{@host}",
           :method => 'PUT',
           :query => "requestPayment"
-        })
-      end
-
-      # List information about objects in an S3 bucket
-      #
-      # ==== Parameters
-      # * bucket_name<~String> - name of bucket to list object keys from
-      # * options<~Hash> - config arguments for list.  Defaults to {}.
-      #   * :prefix - limits object keys to those beginning with its value.
-      #   * :marker - limits object keys to only those that appear
-      #     lexicographically after its value.
-      #   * maxkeys - limits number of object keys returned
-      #   * :delimiter - causes keys with the same string between the prefix
-      #     value and the first occurence of delimiter to be rolled up
-      def get_bucket(bucket_name, options = {})
-        options['max-keys'] = options.delete(:maxkeys) if options[:maxkeys]
-        query = '?'
-        for key, value in options
-          query << "#{key}=#{value};"
-        end
-        query.chop!
-        request({
-          :headers => {},
-          :host => "#{bucket_name}.#{@host}",
-          :method => 'GET',
-          :parser => Fog::Parsers::AWS::S3::GetBucketParser.new,
-          :query => query
-        })
-      end
-
-      # Get configured payer for an S3 bucket
-      #
-      # ==== Parameters
-      # * bucket_name<~String> - name of bucket to get payer for
-      #
-      # ==== Returns
-      # FIXME: docs
-      def get_request_payment(bucket_name)
-        request({
-          :headers => {},
-          :host => "#{bucket_name}.#{@host}",
-          :method => 'GET',
-          :parser => Fog::Parsers::AWS::S3::GetRequestPayment.new,
-          :query => 'requestPayment'
-        })
-      end
-
-      # Get location constraint for an S3 bucket
-      #
-      # ==== Parameters
-      # * bucket_name<~String> - name of bucket to get location constraint for
-      #
-      # ==== Returns
-      # FIXME: docs
-      def get_bucket_location(bucket_name)
-        request({
-          :headers => {},
-          :host => "#{bucket_name}.#{@host}",
-          :method => 'GET',
-          :parser => Fog::Parsers::AWS::S3::GetBucketLocation.new,
-          :query => 'location'
-        })
-      end
-
-      # Delete an S3 bucket
-      #
-      # ==== Parameters
-      # * bucket_name<~String> - name of bucket to delete
-      #
-      # ==== Returns
-      # FIXME: docs
-      def delete_bucket(bucket_name)
-        request({
-          :headers => {},
-          :host => "#{bucket_name}.#{@host}",
-          :method => 'DELETE'
-        })
-      end
-
-      # Create an object in an S3 bucket
-      # FIXME: docs
-      def put_object(bucket_name, object_name, object, options = {})
-        file = parse_file(object)
-        request({
-          :body => file[:body],
-          :headers => options.merge!(file[:headers]),
-          :host => "#{bucket_name}.#{@host}",
-          :method => 'PUT',
-          :path => object_name
-        })
-      end
-
-      # Copy an object from one S3 bucket to another
-      # FIXME: docs
-      def copy_object(source_bucket_name, source_object_name, destination_bucket_name, destination_object_name)
-        request({
-          :headers => { 'x-amz-copy-source' => "/#{source_bucket_name}/#{source_object_name}" },
-          :host => "#{destination_bucket_name}.#{@host}",
-          :method => 'PUT',
-          :parser => Fog::Parsers::AWS::S3::CopyObject.new,
-          :path => destination_object_name
-        })
-      end
-
-      # Get an object from S3
-      # FIXME: docs
-      def get_object(bucket_name, object_name)
-        request({
-          :headers => {},
-          :host => "#{bucket_name}.#{@host}",
-          :method => 'GET',
-          :path => object_name
-        })
-      end
-
-      # Get headers for an object from S3
-      # FIXME: docs
-      def head_object(bucket_name, object_name)
-        request({
-          :headers => {},
-          :host => "#{bucket_name}.#{@host}",
-          :method => 'HEAD',
-          :path => object_name
-        })
-      end
-
-      # Delete an object from S3
-      # FIXME: docs
-      def delete_object(bucket_name, object_name)
-        request({
-          :headers => {},
-          :host => "#{bucket_name}.#{@host}",
-          :method => 'DELETE',
-          :path => object_name
         })
       end
 

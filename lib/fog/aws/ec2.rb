@@ -3,7 +3,20 @@ require 'base64'
 require 'cgi'
 require 'hmac-sha2'
 
-require File.dirname(__FILE__) + '/ec2/parsers'
+parsers_directory = "#{File.dirname(__FILE__)}/parsers/ec2"
+require "#{parsers_directory}/allocate_address"
+require "#{parsers_directory}/basic"
+require "#{parsers_directory}/create_key_pair"
+require "#{parsers_directory}/create_snapshot"
+require "#{parsers_directory}/create_volume"
+require "#{parsers_directory}/describe_addresses"
+require "#{parsers_directory}/describe_images"
+require "#{parsers_directory}/describe_instances"
+require "#{parsers_directory}/describe_key_pairs"
+require "#{parsers_directory}/describe_security_groups"
+require "#{parsers_directory}/describe_snapshots"
+require "#{parsers_directory}/describe_volumes"
+
 
 module Fog
   module AWS
