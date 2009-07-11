@@ -85,6 +85,20 @@ module Fog
         }, Fog::Parsers::AWS::EC2::Basic.new)
       end
 
+      # Create a snapshot of an EBS volume and store it in S3
+      #
+      # ==== Parameters
+      # * volume_id<~String> - Id of EBS volume to snapshot
+      #
+      # ==== Returns
+      # FIXME: docs
+      def create_snapshot(volume_id)
+        request({
+          'Action' => 'CreateSnapshot',
+          'VolumeId' => 'VolumeId'
+        }, Fog::Parsers::AWS::EC2::CreateSnapshot.new)
+      end
+
       # Create an EBS volume
       #
       # ==== Parameters
@@ -134,11 +148,29 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
+      #     * :request_id<~String> - Id of request
       #     * :return<~Boolean> - success?
       def delete_security_group(name)
         request({
           'Action' => 'DeleteSecurityGroup',
           'GroupName' => name
+        }, Fog::Parsers::AWS::EC2::Basic.new)
+      end
+
+      # Delete a snapshot of an EBS volume that you own
+      #
+      # ==== Parameters
+      # * snapshot_id<~String> - ID of snapshot to delete
+      # ==== Returns
+      # ==== Returns
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :request_id<~String> - Id of request
+      #     * :return<~Boolean> - success?
+      def delete_snapshot(snapshot_id)
+        request({
+          'Action' => 'DeleteSnapshot',
+          'SnapshotId' => snapshot_id
         }, Fog::Parsers::AWS::EC2::Basic.new)
       end
 
@@ -150,6 +182,7 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
+      #     * :request_id<~String> - Id of request
       #     * :return<~Boolean> - success?
       def delete_volume(volume_id)
         request({
@@ -257,6 +290,20 @@ module Fog
         request({
           'Action' => 'DescribeSecurityGroups',
         }.merge!(params), Fog::Parsers::AWS::EC2::DescribeSecurityGroups.new)
+      end
+      
+      # Describe all or specified snapshots
+      #
+      # ==== Parameters
+      # * snapshot_id<~Array> - List of snapshots to describe, defaults to all
+      #
+      # ==== Returns
+      # FIXME: docs
+      def describe_snapshots(snapshot_id = [])
+        params = indexed_params('SnapshotId', snapshot_id)
+        request({
+          'Action' => 'DescribeSnapshots'
+        }.merge!(params), Fog::Parsers::AWS::EC2::DescribeSnapshots.new)
       end
       
       # Describe all or specified volumes.

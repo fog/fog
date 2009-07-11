@@ -52,6 +52,25 @@ module Fog
 
         end
 
+        class CreateSnapshot < Fog::Parsers::Base
+
+          def end_element(name)
+            case name
+            when 'progress'
+              @response[:progress] = @value
+            when 'snapshotId'
+              @response[:snapshot_id] = @value
+            when 'startTime'
+              @response[:start_time] = Time.parse(@value)
+            when 'status'
+              @response[:status] = @value
+            when 'volumeId'
+              @response[:volume_id] = @value
+            end
+          end
+
+        end
+
         class CreateVolume < Fog::Parsers::Base
 
           def end_element(name)
@@ -332,6 +351,33 @@ module Fog
               when 'toPort'
                 @item[:to_port] = @value
               end
+            end
+          end
+
+        end
+
+        class DescribeSnapshots < Fog::Parsers::Base
+
+          def reset
+            @response = { :snapshot_set => [] }
+            @snapshot = {}
+          end
+
+          def end_element(name)
+            case name
+            when 'item'
+              @response[:snapshot_set] << @snapshot
+              @snapshot = {}
+            when 'progress'
+              @snapshot[:progress] = @value
+            when 'snapshotId'
+              @snapshot[:snapshot_id] = @value
+            when 'startTime'
+              @snapshot[:start_time] = Time.parse(@value)
+            when 'status'
+              @snapshot[:status] = @value
+            when 'volumeId'
+              @snapshot[:volume_id] = @value
             end
           end
 
