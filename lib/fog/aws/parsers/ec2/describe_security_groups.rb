@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/basic'
-
 module Fog
   module Parsers
     module AWS

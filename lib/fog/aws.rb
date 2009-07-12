@@ -1,11 +1,13 @@
-require File.dirname(__FILE__) + '/aws/ec2'
-require File.dirname(__FILE__) + '/aws/simpledb'
-require File.dirname(__FILE__) + '/aws/s3'
-
 require 'rubygems'
 require 'openssl'
 require 'socket'
 require 'uri'
+
+current_directory = File.dirname(__FILE__)
+require "#{current_directory}/parser"
+require "#{current_directory}/aws/ec2"
+require "#{current_directory}/aws/simpledb"
+require "#{current_directory}/aws/s3"
 
 module Fog
   module AWS

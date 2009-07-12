@@ -1,5 +1,3 @@
-require File.dirname(__FILE__) + '/../../../parser'
-
 module Fog
   module Parsers
     module AWS

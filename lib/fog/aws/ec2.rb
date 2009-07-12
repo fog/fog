@@ -17,7 +17,7 @@ require "#{parsers_directory}/describe_security_groups"
 require "#{parsers_directory}/describe_snapshots"
 require "#{parsers_directory}/describe_volumes"
 
-
+requests_directory = "#{File.dirname(__FILE__)}/requests/ec2"
 module Fog
   module AWS
     class EC2
