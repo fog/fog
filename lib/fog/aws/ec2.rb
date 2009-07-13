@@ -10,6 +10,7 @@ require "#{parsers_directory}/create_key_pair"
 require "#{parsers_directory}/create_snapshot"
 require "#{parsers_directory}/create_volume"
 require "#{parsers_directory}/describe_addresses"
+require "#{parsers_directory}/describe_availability_zones"
 require "#{parsers_directory}/describe_images"
 require "#{parsers_directory}/describe_instances"
 require "#{parsers_directory}/describe_key_pairs"
@@ -207,7 +208,7 @@ module Fog
       # Describe all or specified IP addresses.
       #
       # ==== Parameters
-      # * public_ips<~Array> - List of ips to describe, defaults to all
+      # * public_ip<~Array> - List of ips to describe, defaults to all
       #
       # ==== Returns
       # * response<~Fog::AWS::Response>:
@@ -216,13 +217,30 @@ module Fog
       #     * :address_set<~Array>:
       #       * :instance_id<~String> - instance for ip address
       #       * :public_ip<~String> - ip address for instance
-      def describe_addresses(public_ips = [])
-        params = indexed_params('PublicIp', public_ips)
+      def describe_addresses(public_ip = [])
+        params = indexed_params('PublicIp', public_ip)
         request({
           'Action' => 'DescribeAddresses'
         }.merge!(params), Fog::Parsers::AWS::EC2::DescribeAddresses.new)
       end
-      
+
+      # Describe all or specified availability zones
+      #
+      # ==== Params
+      # * zone_name<~String> - List of availability zones to describe, defaults to all
+      #
+      # ==== Returns
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :request_id<~String> - Id of request
+      # FIXME: docs
+      def describe_availability_zones(zone_name = [])
+        params = indexed_params('ZoneName', zone_name)
+        request({
+          'Action' => 'DescribeAvailabilityZones'
+        }.merge!(params), Fog::Parsers::AWS::EC2::DescribeAvailabilityZones.new)
+      end
+
       # Describe all or specified images.
       #
       # ==== Params
