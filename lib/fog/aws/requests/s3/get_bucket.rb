@@ -21,6 +21,7 @@ module Fog
         end
         query.chop!
         request({
+          :expects => 200,
           :headers => {},
           :host => "#{bucket_name}.#{@host}",
           :method => 'GET',

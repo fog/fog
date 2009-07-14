@@ -11,6 +11,7 @@ module Fog
       # FIXME: docs
       def get_request_payment(bucket_name)
         request({
+          :expects => 200,
           :headers => {},
           :host => "#{bucket_name}.#{@host}",
           :method => 'GET',

@@ -6,6 +6,7 @@ module Fog
       # FIXME: docs
       def delete_object(bucket_name, object_name)
         request({
+          :expects => 204,
           :headers => {},
           :host => "#{bucket_name}.#{@host}",
           :method => 'DELETE',

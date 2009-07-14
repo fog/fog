@@ -6,6 +6,7 @@ module Fog
       # FIXME: docs
       def head_object(bucket_name, object_name)
         request({
+          :expects => 200,
           :headers => {},
           :host => "#{bucket_name}.#{@host}",
           :method => 'HEAD',

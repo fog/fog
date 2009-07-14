@@ -8,6 +8,7 @@ module Fog
         file = parse_file(object)
         request({
           :body => file[:body],
+          :expects => 200,
           :headers => options.merge!(file[:headers]),
           :host => "#{bucket_name}.#{@host}",
           :method => 'PUT',

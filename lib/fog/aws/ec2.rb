@@ -108,6 +108,7 @@ module Fog
 
         response = @connection.request({
           :body => body,
+          :expects => 200,
           :headers => { 'Content-Type' => 'application/x-www-form-urlencoded' },
           :host => @host,
           :method => 'POST',

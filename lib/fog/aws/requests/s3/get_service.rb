@@ -8,6 +8,7 @@ module Fog
       # FIXME: docs
       def get_service
         request({
+          :expects => 200,
           :headers => {},
           :host => @host,
           :method => 'GET',

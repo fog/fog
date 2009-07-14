@@ -122,6 +122,7 @@ DATA
 
         response = @connection.request({
           :body => params[:body],
+          :expects => params[:expects],
           :headers => params[:headers],
           :host => params[:host],
           :method => params[:method],

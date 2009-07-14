@@ -6,6 +6,7 @@ module Fog
       # FIXME: docs
       def copy_object(source_bucket_name, source_object_name, destination_bucket_name, destination_object_name)
         request({
+          :expects => 200,
           :headers => { 'x-amz-copy-source' => "/#{source_bucket_name}/#{source_object_name}" },
           :host => "#{destination_bucket_name}.#{@host}",
           :method => 'PUT',
