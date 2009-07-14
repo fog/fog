@@ -1,7 +1,7 @@
 module Fog  
   class Response
 
-    attr_accessor :status, :headers, :body
+    attr_accessor :body, :headers, :request, :status
 
     def initialize
       @body = ''

@@ -41,6 +41,7 @@ module Fog
       @connection.write(request)
 
       response = Fog::Response.new
+      response.request = params
       response.status = @connection.readline[9..11].to_i
       while true
         data = @connection.readline.chomp!
