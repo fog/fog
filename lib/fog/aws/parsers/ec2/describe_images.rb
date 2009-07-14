@@ -16,7 +16,7 @@ module Fog
             end
             @value = ''
           end
-
+          
           def end_element(name)
             case name
             when 'architecture'

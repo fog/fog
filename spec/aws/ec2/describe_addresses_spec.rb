@@ -13,7 +13,7 @@ describe 'EC2.describe_addresses' do
   it "should return proper attributes with no params" do
     actual = ec2.describe_addresses
     actual.body[:request_id].should be_a(String)
-    item = actual.body[:addresses].select {|address| address[:public_ip] == @public_ip}
+    item = actual.body[:address_set].select {|address| address[:public_ip] == @public_ip}
     item.should_not be_nil
   end
 

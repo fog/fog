@@ -24,7 +24,7 @@ module Fog
             @value = ''
           end
 
-          def end_element
+          def end_element(name)
             case name
             when 'amiLaunchIndex'
               @instance[:ami_launch_index] = @value
