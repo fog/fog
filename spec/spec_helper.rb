@@ -1,41 +1,39 @@
 require 'spec'
 
-$LOAD_PATH.unshift(File.dirname(__FILE__))
-$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
-require 'fog'
+require "#{File.dirname(__FILE__)}/../lib/fog"
 
 Spec::Runner.configure do |config|
 end
 
-require 'fog/aws'
+def credentials
+  @credentials ||= begin
+    credentials_path = "#{File.dirname(__FILE__)}/credentials.yml"
+    credentials_data = File.open(credentials_path).read
+    YAML.load(credentials_data)
+  end
+end
 
 def ec2
   @ec2 ||= begin
-    data = File.open(File.expand_path('~/.s3conf/s3config.yml')).read
-    config = YAML.load(data)
     Fog::AWS::EC2.new(
-      :aws_access_key_id => config['aws_access_key_id'],
-      :aws_secret_access_key => config['aws_secret_access_key']
+      :aws_access_key_id => credentials['aws_access_key_id'],
+      :aws_secret_access_key => credentials['aws_secret_access_key']
     )
   end
 end
 def sdb
   @sdb ||= begin
-    data = File.open(File.expand_path('~/.s3conf/s3config.yml')).read
-    config = YAML.load(data)
     Fog::AWS::SimpleDB.new(
-      :aws_access_key_id => config['aws_access_key_id'],
-      :aws_secret_access_key => config['aws_secret_access_key']
+      :aws_access_key_id => credentials['aws_access_key_id'],
+      :aws_secret_access_key => credentials['aws_secret_access_key']
     )
   end
 end
 def s3
   @s3 ||= begin
-    data = File.open(File.expand_path('~/.s3conf/s3config.yml')).read
-    config = YAML.load(data)
     Fog::AWS::S3.new(
-      :aws_access_key_id => config['aws_access_key_id'],
-      :aws_secret_access_key => config['aws_secret_access_key']
+      :aws_access_key_id => credentials['aws_access_key_id'],
+      :aws_secret_access_key => credentials['aws_secret_access_key']
     )
   end
 end
