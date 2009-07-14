@@ -5,7 +5,12 @@ require 'digest/md5'
 require 'hmac-sha1'
 require 'mime/types'
 
-parsers_directory = "#{File.dirname(__FILE__)}/parsers/s3"
+current_directory = File.dirname(__FILE__)
+require "#{current_directory}/../connection"
+require "#{current_directory}/../parser"
+require "#{current_directory}/../response"
+
+parsers_directory = "#{current_directory}/parsers/s3"
 require "#{parsers_directory}/copy_object"
 require "#{parsers_directory}/get_bucket"
 require "#{parsers_directory}/get_bucket_location"
@@ -40,7 +45,7 @@ module Fog
         @host       = options[:host]      || 's3.amazonaws.com'
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'
-        @connection = AWS::Connection.new("#{@scheme}://#{@host}:#{@port}")
+        @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
       end
 
       # Copy an object from one S3 bucket to another

@@ -3,7 +3,12 @@ require 'base64'
 require 'cgi'
 require 'hmac-sha2'
 
-parsers_directory = "#{File.dirname(__FILE__)}/parsers/simpledb"
+current_directory = File.dirname(__FILE__)
+require "#{current_directory}/../connection"
+require "#{current_directory}/../parser"
+require "#{current_directory}/../response"
+
+parsers_directory = "#{current_directory}/parsers/simpledb"
 require "#{parsers_directory}/basic"
 require "#{parsers_directory}/domain_metadata"
 require "#{parsers_directory}/get_attributes"
@@ -39,7 +44,7 @@ module Fog
         @nil_string = options[:nil_string]|| 'nil'
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'
-        @connection = AWS::Connection.new("#{@scheme}://#{@host}:#{@port}")
+        @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
       end
 
       # Put items attributes into a SimpleDB domain

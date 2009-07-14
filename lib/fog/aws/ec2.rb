@@ -3,7 +3,12 @@ require 'base64'
 require 'cgi'
 require 'hmac-sha2'
 
-parsers_directory = "#{File.dirname(__FILE__)}/parsers/ec2"
+current_directory = File.dirname(__FILE__)
+require "#{current_directory}/../connection"
+require "#{current_directory}/../parser"
+require "#{current_directory}/../response"
+
+parsers_directory = "#{current_directory}/parsers/ec2"
 require "#{parsers_directory}/allocate_address"
 require "#{parsers_directory}/basic"
 require "#{parsers_directory}/create_key_pair"
@@ -47,7 +52,7 @@ module Fog
         @host       = options[:host]      || 'ec2.amazonaws.com'
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'
-        @connection = AWS::Connection.new("#{@scheme}://#{@host}:#{@port}")
+        @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
       end
 
       # Acquire an elastic IP address.
