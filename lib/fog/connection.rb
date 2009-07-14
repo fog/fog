@@ -40,7 +40,7 @@ module Fog
       request << "\r\n#{params[:body]}"
       @connection.write(request)
 
-      response = AWS::Response.new
+      response = Fog::Response.new
       response.status = @connection.readline[9..11].to_i
       while true
         data = @connection.readline.chomp!
