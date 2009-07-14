@@ -17,6 +17,20 @@ require "#{parsers_directory}/get_bucket_location"
 require "#{parsers_directory}/get_request_payment"
 require "#{parsers_directory}/get_service"
 
+requests_directory = "#{current_directory}/requests/s3"
+require "#{requests_directory}/copy_object"
+require "#{requests_directory}/delete_bucket"
+require "#{requests_directory}/delete_object"
+require "#{requests_directory}/get_bucket"
+require "#{requests_directory}/get_bucket_location"
+require "#{requests_directory}/get_object"
+require "#{requests_directory}/get_request_payment"
+require "#{requests_directory}/get_service"
+require "#{requests_directory}/head_object"
+require "#{requests_directory}/put_bucket"
+require "#{requests_directory}/put_object"
+require "#{requests_directory}/put_request_payment"
+
 module Fog
   module AWS
     class S3
@@ -46,200 +60,6 @@ module Fog
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'
         @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
-      end
-
-      # Copy an object from one S3 bucket to another
-      # FIXME: docs
-      def copy_object(source_bucket_name, source_object_name, destination_bucket_name, destination_object_name)
-        request({
-          :headers => { 'x-amz-copy-source' => "/#{source_bucket_name}/#{source_object_name}" },
-          :host => "#{destination_bucket_name}.#{@host}",
-          :method => 'PUT',
-          :parser => Fog::Parsers::AWS::S3::CopyObject.new,
-          :path => destination_object_name
-        })
-      end
-
-      # Delete an S3 bucket
-      #
-      # ==== Parameters
-      # * bucket_name<~String> - name of bucket to delete
-      #
-      # ==== Returns
-      # FIXME: docs
-      def delete_bucket(bucket_name)
-        request({
-          :headers => {},
-          :host => "#{bucket_name}.#{@host}",
-          :method => 'DELETE'
-        })
-      end
-
-      # Delete an object from S3
-      # FIXME: docs
-      def delete_object(bucket_name, object_name)
-        request({
-          :headers => {},
-          :host => "#{bucket_name}.#{@host}",
-          :method => 'DELETE',
-          :path => object_name
-        })
-      end
-
-      # List information about objects in an S3 bucket
-      #
-      # ==== Parameters
-      # * bucket_name<~String> - name of bucket to list object keys from
-      # * options<~Hash> - config arguments for list.  Defaults to {}.
-      #   * :prefix - limits object keys to those beginning with its value.
-      #   * :marker - limits object keys to only those that appear
-      #     lexicographically after its value.
-      #   * maxkeys - limits number of object keys returned
-      #   * :delimiter - causes keys with the same string between the prefix
-      #     value and the first occurence of delimiter to be rolled up
-      def get_bucket(bucket_name, options = {})
-        options['max-keys'] = options.delete(:maxkeys) if options[:maxkeys]
-        query = '?'
-        for key, value in options
-          query << "#{key}=#{value};"
-        end
-        query.chop!
-        request({
-          :headers => {},
-          :host => "#{bucket_name}.#{@host}",
-          :method => 'GET',
-          :parser => Fog::Parsers::AWS::S3::GetBucket.new,
-          :query => query
-        })
-      end
-
-      # Get location constraint for an S3 bucket
-      #
-      # ==== Parameters
-      # * bucket_name<~String> - name of bucket to get location constraint for
-      #
-      # ==== Returns
-      # FIXME: docs
-      def get_bucket_location(bucket_name)
-        request({
-          :headers => {},
-          :host => "#{bucket_name}.#{@host}",
-          :method => 'GET',
-          :parser => Fog::Parsers::AWS::S3::GetBucketLocation.new,
-          :query => 'location'
-        })
-      end
-
-      # Get an object from S3
-      # FIXME: docs
-      def get_object(bucket_name, object_name)
-        request({
-          :headers => {},
-          :host => "#{bucket_name}.#{@host}",
-          :method => 'GET',
-          :path => object_name
-        })
-      end
-
-      # Get configured payer for an S3 bucket
-      #
-      # ==== Parameters
-      # * bucket_name<~String> - name of bucket to get payer for
-      #
-      # ==== Returns
-      # FIXME: docs
-      def get_request_payment(bucket_name)
-        request({
-          :headers => {},
-          :host => "#{bucket_name}.#{@host}",
-          :method => 'GET',
-          :parser => Fog::Parsers::AWS::S3::GetRequestPayment.new,
-          :query => 'requestPayment'
-        })
-      end
-
-      # List information about S3 buckets for authorized user
-      #
-      # ==== Parameters
-      # FIXME: docs
-      def get_service
-        request({
-          :headers => {},
-          :host => @host,
-          :method => 'GET',
-          :parser => Fog::Parsers::AWS::S3::GetService.new,
-          :url => @host
-        })
-      end
-
-      # Get headers for an object from S3
-      # FIXME: docs
-      def head_object(bucket_name, object_name)
-        request({
-          :headers => {},
-          :host => "#{bucket_name}.#{@host}",
-          :method => 'HEAD',
-          :path => object_name
-        })
-      end
-
-      # Create an object in an S3 bucket
-      # FIXME: docs
-      def put_object(bucket_name, object_name, object, options = {})
-        file = parse_file(object)
-        request({
-          :body => file[:body],
-          :headers => options.merge!(file[:headers]),
-          :host => "#{bucket_name}.#{@host}",
-          :method => 'PUT',
-          :path => object_name
-        })
-      end
-
-      # Create an S3 bucket
-      #
-      # ==== Parameters
-      # * bucket_name<~String> - name of bucket to create
-      # * options<~Hash> - config arguments for bucket.  Defaults to {}.
-      #   * :location_constraint<~Symbol> - sets the location for the bucket
-      def put_bucket(bucket_name, options = {})
-        if options[:location_constraint]
-          data =
-<<-DATA
-  <CreateBucketConfiguration>
-    <LocationConstraint>#{options[:location_constraint]}</LocationConstraint>
-  </CreateBucketConfiguration>
-DATA
-        else
-          data = nil
-        end
-        request({
-          :body => data,
-          :headers => {},
-          :host => "#{bucket_name}.#{@host}",
-          :method => 'PUT'
-        })
-      end
-
-      # Change who pays for requests to an S3 bucket
-      #
-      # ==== Parameters
-      # * bucket_name<~String> - name of bucket to modify
-      # * payer<~String> - valid values are BucketOwner or Requester
-      def put_request_payment(bucket_name, payer)
-        data =
-<<-DATA
-<RequestPaymentConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
-  <Payer>#{payer}</Payer>
-</RequestPaymentConfiguration>
-DATA
-        request({
-          :body => data,
-          :headers => {},
-          :host => "#{bucket_name}.#{@host}",
-          :method => 'PUT',
-          :query => "requestPayment"
-        })
       end
 
       private

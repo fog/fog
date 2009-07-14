@@ -15,6 +15,17 @@ require "#{parsers_directory}/get_attributes"
 require "#{parsers_directory}/list_domains"
 require "#{parsers_directory}/select"
 
+requests_directory = "#{current_directory}/requests/simpledb"
+require "#{requests_directory}/batch_put_attributes"
+require "#{requests_directory}/create_domain"
+require "#{requests_directory}/delete_attributes"
+require "#{requests_directory}/delete_domain"
+require "#{requests_directory}/domain_metadata"
+require "#{requests_directory}/get_attributes"
+require "#{requests_directory}/list_domains"
+require "#{requests_directory}/put_attributes"
+require "#{requests_directory}/select"
+
 module Fog
   module AWS
     class SimpleDB
@@ -45,211 +56,6 @@ module Fog
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'
         @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
-      end
-
-      # Put items attributes into a SimpleDB domain
-      #
-      # ==== Parameters
-      # * domain_name<~String> - Name of domain. Must be between 3 and 255 of the
-      #   following characters: a-z, A-Z, 0-9, '_', '-' and '.'.
-      # * items<~Hash> - Keys are the items names and may use any UTF-8
-      #   characters valid in xml.  Control characters and sequences not allowed
-      #   in xml are not valid.  Can be up to 1024 bytes long.  Values are the
-      #   attributes to add to the given item and may use any UTF-8 characters
-      #   valid in xml. Control characters and sequences not allowed in xml are
-      #   not valid.  Each name and value can be up to 1024 bytes long.
-      #
-      # ==== Returns
-      # * response<~Fog::AWS::Response>:
-      #   * body<~Hash>:
-      #     * :box_usage
-      #     * :request_id
-      def batch_put_attributes(domain_name, items, replace_attributes = Hash.new([]))
-        request({
-          'Action' => 'BatchPutAttributes',
-          'DomainName' => domain_name
-        }.merge!(encode_batch_attributes(items, replace_attributes)), Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string))
-      end
-
-      # Create a SimpleDB domain
-      #
-      # ==== Parameters
-      # * domain_name<~String>:: Name of domain. Must be between 3 and 255 of the
-      # following characters: a-z, A-Z, 0-9, '_', '-' and '.'.
-      # 
-      # ==== Returns
-      # * response<~Fog::AWS::Response>:
-      #   * body<~Hash>:
-      #     * :box_usage
-      #     * :request_id
-      def create_domain(domain_name)
-        request({
-          'Action' => 'CreateDomain',
-          'DomainName' => domain_name
-        }, Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string))
-      end
-
-      # Delete a SimpleDB domain
-      #
-      # ==== Parameters
-      # * domain_name<~String>:: Name of domain. Must be between 3 and 255 of the
-      # following characters: a-z, A-Z, 0-9, '_', '-' and '.'.
-      # 
-      # ==== Returns
-      # * response<~Fog::AWS::Response>:
-      #   * body<~Hash>:
-      #     * :box_usage
-      #     * :request_id
-      def delete_domain(domain_name)
-        request({
-          'Action' => 'DeleteDomain',
-          'DomainName' => domain_name
-        }, Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string))
-      end
-
-      # List metadata for SimpleDB domain
-      #
-      # ==== Parameters
-      # * domain_name<~String> - Name of domain. Must be between 3 and 255 of the
-      # following characters: a-z, A-Z, 0-9, '_', '-' and '.'.
-      #
-      # ==== Returns
-      # * response<~Fog::AWS::Response>:
-      #   * body<~Hash>:
-      #     * :attribute_name_count - number of unique attribute names in domain
-      #     * :attribute_names_size_bytes - total size of unique attribute names, in bytes
-      #     * :attribute_value_count - number of all name/value pairs in domain
-      #     * :attribute_values_size_bytes - total size of attributes, in bytes
-      #     * :item_count - number of items in domain
-      #     * :item_name_size_bytes - total size of item names in domain, in bytes
-      #     * :timestamp - last update time for metadata.
-      def domain_metadata(domain_name)
-        request({
-          'Action' => 'DomainMetadata',
-          'DomainName' => domain_name
-        }, Fog::Parsers::AWS::SimpleDB::DomainMetadata.new(@nil_string))
-      end
-
-      # List SimpleDB domains
-      #
-      # ==== Parameters
-      # * options<~Hash> - options, defaults to {}
-      #   *max_number_of_domains<~Integer> - number of domains to return
-      #     between 1 and 100, defaults to 100
-      #   *next_token<~String> - Offset token to start listing, defaults to nil
-      #
-      # ==== Returns
-      # * response<~Fog::AWS::Response>:
-      #   * body<~Hash>:
-      #     * :box_usage
-      #     * :request_id
-      #     * :domains - array of domain names.
-      #     * :next_token - offset to start with if there are are more domains to list
-      def list_domains(options = {})
-        request({
-          'Action' => 'ListDomains',
-          'MaxNumberOfDomains' => options[:max_number_of_domains],
-          'NextToken' => options[:next_token]
-        }, Fog::Parsers::AWS::SimpleDB::ListDomains.new(@nil_string))
-      end
-
-      # Put item attributes into a SimpleDB domain
-      #
-      # ==== Parameters
-      # * domain_name<~String> - Name of domain. Must be between 3 and 255 of the
-      # following characters: a-z, A-Z, 0-9, '_', '-' and '.'.
-      # * item_name<~String> - Name of the item.  May use any UTF-8 characters valid
-      #   in xml.  Control characters and sequences not allowed in xml are not
-      #   valid.  Can be up to 1024 bytes long.
-      # * attributes<~Hash> - Name/value pairs to add to the item.  Attribute names
-      #   and values may use any UTF-8 characters valid in xml. Control characters
-      #   and sequences not allowed in xml are not valid.  Each name and value can
-      #   be up to 1024 bytes long.
-      #
-      # ==== Returns
-      # * response<~Fog::AWS::Response>:
-      #   * body<~Hash>:
-      #     * :box_usage
-      #     * :request_id
-      def put_attributes(domain_name, item_name, attributes, replace_attributes = [])
-        batch_put_attributes(domain_name, { item_name => attributes }, { item_name => replace_attributes })
-      end
-
-      # List metadata for SimpleDB domain
-      #
-      # ==== Parameters
-      # * domain_name<~String> - Name of domain. Must be between 3 and 255 of the
-      #   following characters: a-z, A-Z, 0-9, '_', '-' and '.'.
-      # * item_name<~String> - Name of the item.  May use any UTF-8 characters valid
-      #   in xml.  Control characters and sequences not allowed in xml are not
-      #   valid.  Can be up to 1024 bytes long.
-      # * attributes<~Hash> - Name/value pairs to remove from the item.  Defaults to
-      #   nil, which will delete the entire item. Attribute names and values may
-      #   use any UTF-8 characters valid in xml. Control characters and sequences
-      #   not allowed in xml are not valid.  Each name and value can be up to 1024
-      #   bytes long.
-      #
-      # ==== Returns
-      # * response<~Fog::AWS::Response>:
-      #   * body<~Hash>:
-      #     * :box_usage
-      #     * :request_id
-      def delete_attributes(domain_name, item_name, attributes = nil)
-        request({
-          'Action' => 'DeleteAttributes',
-          'DomainName' => domain_name,
-          'ItemName' => item_name
-        }.merge!(encode_attributes(attributes)), Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string))
-      end
-
-      # List metadata for SimpleDB domain
-      #
-      # ==== Parameters
-      # * domain_name<~String> - Name of domain. Must be between 3 and 255 of the
-      #   following characters: a-z, A-Z, 0-9, '_', '-' and '.'.
-      # * item_name<~String> - Name of the item.  May use any UTF-8 characters valid
-      #   in xml.  Control characters and sequences not allowed in xml are not
-      #   valid.  Can be up to 1024 bytes long.
-      # * attributes<~Hash> - Name/value pairs to return from the item.  Defaults to
-      #   nil, which will return all attributes. Attribute names and values may use
-      #   any UTF-8 characters valid in xml. Control characters and sequences not 
-      #   allowed in xml are not valid.  Each name and value can be up to 1024
-      #   bytes long.
-      #
-      # ==== Returns
-      # * response<~Fog::AWS::Response>:
-      #   * body<~Hash>:
-      #     * :box_usage
-      #     * :request_id
-      #     * :attributes - list of attribute name/values for the item
-      def get_attributes(domain_name, item_name, attributes = nil)
-        request({
-          'Action' => 'GetAttributes',
-          'DomainName' => domain_name,
-          'ItemName' => item_name,
-        }.merge!(encode_attribute_names(attributes)), Fog::Parsers::AWS::SimpleDB::GetAttributes.new(@nil_string))
-      end
-
-      # Select item data from SimpleDB
-      #
-      # ==== Parameters
-      # * select_expression<~String> - Expression to query domain with.
-      # * next_token<~String> - Offset token to start list, defaults to nil.
-      #
-      # ==== Returns
-      # * response<~Fog::AWS::Response>:
-      #   * body<~Hash>:
-      #     * :box_usage
-      #     * :request_id
-      #     * :items - list of attribute name/values for the items formatted as 
-      #       { 'item_name' => { 'attribute_name' => ['attribute_value'] }}
-      #     * :next_token - offset to start with if there are are more domains to list
-      def select(select_expression, next_token = nil)
-        request({
-          'Action' => 'Select',
-          'NextToken' => next_token,
-          'SelectExpression' => select_expression
-        }, Fog::Parsers::AWS::SimpleDB::Select.new(@nil_string))
       end
 
       private
