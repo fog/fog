@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe 'EC2.describe_images' do
 
   it "should return proper attributes with no params" do
+    pending
     actual = ec2.describe_images
     actual.body[:request_id].should be_a(String)
     image = actual.body[:image_set].first
