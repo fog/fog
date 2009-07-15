@@ -68,7 +68,7 @@ module Spec
     #
     #   lambda { do_something_eventually_returning_true }.should eventually {|expected| expected.should be_true }
     #
-    #   lambda { do_something_eventually_returning_false }.should eventually {|expected| expected.should_not be_true }
+    #   lambda { do_something_eventually_returning_false }.should_not eventually {|expected| expected.should_not be_true }
     def eventually(&block)
       Matchers::Eventually.new(&block)
     end
