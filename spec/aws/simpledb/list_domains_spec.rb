@@ -3,11 +3,11 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe 'SimpleDB.list_domains' do
 
   before(:all) do
-    sdb.create_domain('list_domains')
+    @domain_name = "fog_domain_#{Time.now.to_i}"
   end
 
   after(:all) do
-    sdb.delete_domain('list_domains')
+    sdb.delete_domain(@domain_name)
   end
 
   it 'should return proper attributes' do
@@ -17,8 +17,9 @@ describe 'SimpleDB.list_domains' do
     results.body[:request_id].should be_a(String)
   end
 
-  it 'should include list_domains in list_domains' do
-    lambda { sdb.list_domains }.should eventually { |expected| expected.body[:domains].should include('list_domains') }
+  it 'should include created domains' do
+    sdb.create_domain(@domain_name)
+    lambda { sdb.list_domains }.should eventually { |expected| expected.body[:domains].should include(@domain_name) }
   end
 
 end

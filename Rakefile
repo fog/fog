@@ -29,7 +29,6 @@ Spec::Rake::SpecTask.new(:rcov) do |spec|
   spec.rcov = true
 end
 
-
 task :default => :spec
 
 require 'rake/rdoctask'

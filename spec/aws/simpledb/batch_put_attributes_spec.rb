@@ -3,33 +3,18 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe 'SimpleDB.batch_put_attributes' do
 
   before(:all) do
-    sdb.create_domain('batch_put_attributes')
+    @domain_name = "fog_domain_#{Time.now.to_i}"
+    sdb.create_domain(@domain_name)
   end
 
   after(:all) do
-    sdb.delete_domain('batch_put_attributes')
+    sdb.delete_domain(@domain_name)
   end
 
-  it 'should have no attributes for y before batch_put_attributes' do
-    lambda { sdb.get_attributes('batch_put_attributes', 'a') }.should eventually { |expected| expected.body[:attributes].should be_empty }
-  end
-
-  it 'should have no attributes for x before batch_put_attributes' do
-    lambda { sdb.get_attributes('batch_put_attributes', 'x') }.should eventually { |expected| expected.body[:attributes].should be_empty }
-  end
-
-  it 'should return proper attributes from batch_put_attributes' do
-    actual = sdb.batch_put_attributes('batch_put_attributes', { 'a' => { 'b' => 'c' }, 'x' => { 'y' => 'z' } })
+  it 'should return proper attributes' do
+    actual = sdb.batch_put_attributes(@domain_name, { 'a' => { 'b' => 'c' }, 'x' => { 'y' => 'z' } })
     actual.body[:request_id].should be_a(String)
     actual.body[:box_usage].should be_a(Float)
-  end
-
-  it 'should have correct attributes for a after batch_put_attributes' do
-    lambda { sdb.get_attributes('batch_put_attributes', 'a') }.should eventually { |expected| expected.body[:attributes].should == { 'b' => ['c'] } }
-  end
-
-  it 'should have correct attributes for x after batch_put_attributes' do
-    lambda { sdb.get_attributes('batch_put_attributes', 'x') }.should eventually { |expected| expected.body[:attributes].should == { 'y' => ['z'] } }
   end
 
 end
