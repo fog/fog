@@ -2,7 +2,6 @@ require 'spec'
 
 current_directory = File.dirname(__FILE__)
 require "#{current_directory}/../lib/fog"
-require "#{current_directory}/eventually.rb"
 
 Spec::Runner.configure do |config|
 end
@@ -40,14 +39,14 @@ def s3
   end
 end
 
-class EventualMock
-  def initialize(result, delay)
-    @result = result
-    @delay = delay
-  end
-
-  def test
-    @start ||= Time.now
-    (Time.now - @start <= @delay) ? !@result : @result
+def eventually(&block)
+  [0,2,4,8,16].each do |delay|
+    begin
+      sleep(delay)
+      yield
+      break
+    rescue Spec::Expectations::ExpectationNotMetError => error
+      raise error if delay == 16
+    end
   end
 end

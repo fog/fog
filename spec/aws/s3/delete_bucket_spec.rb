@@ -7,7 +7,10 @@ describe 'S3.delete_bucket' do
   end
 
   it 'should include fogdeletebucket in get_service before delete_bucket' do
-    lambda { s3.get_service }.should eventually { |expected| expected.body[:buckets].collect { |bucket| bucket[:name] }.should include('fogdeletebucket') }
+    eventually do
+      actual = s3.get_service
+      actual.body[:buckets].collect { |bucket| bucket[:name] }.should include('fogdeletebucket')
+    end
   end
 
   it 'should return proper attributes' do
@@ -16,7 +19,10 @@ describe 'S3.delete_bucket' do
   end
 
   it 'should not include fogdeletebucket in get_service after delete_bucket' do
-    lambda { s3.get_service }.should_not eventually { |expected| expected.body[:buckets].collect { |bucket| bucket[:name] }.should_not include('fogdeletebucket') }
+    eventually do
+      actual = s3.get_service
+      expected.body[:buckets].collect { |bucket| bucket[:name] }.should_not include('fogdeletebucket')
+    end
   end
 
 end

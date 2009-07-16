@@ -19,7 +19,10 @@ describe 'SimpleDB.list_domains' do
 
   it 'should include created domains' do
     sdb.create_domain(@domain_name)
-    lambda { sdb.list_domains }.should eventually { |expected| expected.body[:domains].should include(@domain_name) }
+    eventually do
+      actual = sdb.list_domains
+      actual.body[:domains].should include(@domain_name)
+    end
   end
 
 end

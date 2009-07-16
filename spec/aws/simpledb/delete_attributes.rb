@@ -12,7 +12,10 @@ describe 'SimpleDB.delete_attributes' do
   end
 
   it 'should have attributes for foo before delete_attributes' do
-    lambda { sdb.get_attributes('delete_attributes', 'foo') }.should eventually { |expected| expected.body[:attributes].should == { 'bar' => ['baz'] } }
+    eventually do
+      actual = sdb.get_attributes('delete_attributes', 'foo')
+      actual.body[:attributes].should == { 'bar' => ['baz'] }
+    end
   end
 
   it 'should return proper attributes from delete_attributes' do
@@ -22,7 +25,10 @@ describe 'SimpleDB.delete_attributes' do
   end
 
   it 'should have no attributes for foo after delete_attributes' do
-    lambda { sdb.get_attributes('delete_attributes', 'foo') }.should eventually { |expected| expected.body[:attributes].should be_empty }
+    eventually do
+      actual = sdb.get_attributes('delete_attributes', 'foo')
+      actual.body[:attributes].should be_empty
+    end
   end
 
 end
