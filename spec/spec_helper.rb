@@ -40,7 +40,7 @@ def s3
   end
 end
 
-class Eventually
+class EventualMock
   def initialize(result, delay)
     @result = result
     @delay = delay

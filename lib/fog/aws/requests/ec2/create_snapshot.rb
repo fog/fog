@@ -12,7 +12,7 @@ module Fog
       def create_snapshot(volume_id)
         request({
           'Action' => 'CreateSnapshot',
-          'VolumeId' => 'VolumeId'
+          'VolumeId' => volume_id
         }, Fog::Parsers::AWS::EC2::CreateSnapshot.new)
       end
 

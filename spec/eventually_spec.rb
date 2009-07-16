@@ -7,7 +7,7 @@ describe "should eventually { block }" do
   end
 
   it "should pass if block returns true after a delay" do
-    eventually = Eventually.new(true, 1)
+    eventually = EventualMock.new(true, 1)
     lambda { true }.should eventually { |expected| expected.should == eventually.test }
   end
 
@@ -26,7 +26,7 @@ describe "should_not eventually { block }" do
   end
 
   it "should pass if block returns false after a delay" do
-    eventually = Eventually.new(false, 1)
+    eventually = EventualMock.new(false, 1)
     lambda { true }.should_not eventually { |expected| expected.should_not == eventually.test }
   end
 
