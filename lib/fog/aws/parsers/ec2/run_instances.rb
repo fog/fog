@@ -27,12 +27,6 @@ module Fog
               @instance[:placement][:availability_zone] = @value
             when 'dnsName'
               @instance[:dns_name] = @value
-            when 'enabled'
-              if @value == 'true'
-                @instance[:monitoring][:enabled] = true
-              else
-                @instance[:monitoring][:enabled] = false
-              end
             when 'groupId'
               @response[:group_set] << @value
             when 'groupSet'
@@ -76,6 +70,12 @@ module Fog
               @instance[:requestor_id] = @value
             when 'reservationId'
               @response[:reservation_id] = @value
+            when 'state'
+              if @value == 'true'
+                @instance[:monitoring][:state] = true
+              else
+                @instance[:monitoring][:state] = false
+              end
             end
           end
 
