@@ -21,7 +21,7 @@ describe 'S3.delete_bucket' do
   it 'should not include fogdeletebucket in get_service after delete_bucket' do
     eventually do
       actual = s3.get_service
-      expected.body[:buckets].collect { |bucket| bucket[:name] }.should_not include('fogdeletebucket')
+      actual.body[:buckets].collect { |bucket| bucket[:name] }.should_not include('fogdeletebucket')
     end
   end
 

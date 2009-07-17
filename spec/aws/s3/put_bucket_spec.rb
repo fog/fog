@@ -21,7 +21,7 @@ describe 'S3.put_bucket' do
   it 'should include fogputbucket in get_service buckets after put_bucket' do
     eventually do
       actual = s3.get_service
-      expected.body[:buckets].collect { |bucket| bucket[:name] }.should include('fogputbucket')
+      actual.body[:buckets].collect { |bucket| bucket[:name] }.should include('fogputbucket')
     end
   end
 
