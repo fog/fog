@@ -15,14 +15,12 @@ module Fog
           end
 
           def start_element(name, attrs = [])
-            if name == 'ipPermissions'
-              @in_ip_permissions = true
-            end
-            if name == 'groups'
-              @in_groups = true
-            end
-            if name == 'ip_ranges'
+            if name == 'ipRanges'
               @in_ip_ranges = true
+            elsif name == 'ipPermissions'
+              @in_ip_permissions = true
+            elsif name == 'groups'
+              @in_groups = true
             end
             @value = ''
           end

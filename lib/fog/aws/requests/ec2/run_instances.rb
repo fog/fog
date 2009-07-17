@@ -33,6 +33,7 @@ module Fog
       #   * :virtual_name<~String> - ?
       #
       # ==== Returns
+      # FIXME: docs
       def run_instances(image_id, min_count, max_count, options = {})
         request({
           'Action' => 'RunInstances',
@@ -51,7 +52,7 @@ module Fog
           'RamdiskId' => options[:ramdisk_id],
           'Version' => options[:version],
           'VirtualName' => options[:virtual_name]
-        }, Fog::Parsers::AWS::EC2::Basic.new)
+        }, Fog::Parsers::AWS::EC2::RunInstances.new)
       end
 
     end

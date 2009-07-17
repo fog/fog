@@ -22,6 +22,8 @@ require "#{parsers_directory}/describe_key_pairs"
 require "#{parsers_directory}/describe_security_groups"
 require "#{parsers_directory}/describe_snapshots"
 require "#{parsers_directory}/describe_volumes"
+require "#{parsers_directory}/run_instances"
+require "#{parsers_directory}/terminate_instances"
 
 requests_directory = "#{current_directory}/requests/ec2"
 require "#{requests_directory}/allocate_address"
@@ -43,6 +45,8 @@ require "#{requests_directory}/describe_snapshots"
 require "#{requests_directory}/describe_volumes"
 require "#{requests_directory}/release_address"
 require "#{requests_directory}/run_instances"
+require "#{requests_directory}/terminate_instances"
+
 
 module Fog
   module AWS
