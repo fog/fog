@@ -9,75 +9,65 @@ module Fog
             @group = {}
             @ip_permission = { :groups => [], :ip_ranges => []}
             @ip_range = {}
-            @in_ip_permissions = false
-            @item = { :ip_permissions => [] }
+            @security_group = { :ip_permissions => [] }
             @response = { :security_group_info => [] }
           end
 
           def start_element(name, attrs = [])
-            if name == 'ipRanges'
-              @in_ip_ranges = true
+            if name == 'groups'
+              @in_groups = true
             elsif name == 'ipPermissions'
               @in_ip_permissions = true
-            elsif name == 'groups'
-              @in_groups = true
+            elsif name == 'ipRanges'
+              @in_ip_ranges = true
             end
             @value = ''
           end
 
           def end_element(name)
-            if !@in_ip_permissions
-              case name
-              when 'groupName'
-                @item[:group_name] = @value
-              when 'groupDescription'
-                @item[:group_description] = @value
-              when 'item'
-                @response[:security_group_info] << @item
-                @item = { :ip_permissions => [] }
-              when 'ownerId'
-                @item[:owner_id] = @value
-              end
-            elsif @in_groups
-              case name
-              when 'groupName'
+            case name
+            when 'cidrIp'
+              @ip_range[:cidrIp] = @value
+            when 'fromPort'
+              @ip_permission[:from_port] = @value.to_i
+            when 'groups'
+              @in_groups = false
+            when 'groupDescription'
+              @security_group[:group_description] = @value
+            when 'groupName'
+              if @in_groups
                 @group[:group_name] = @value
-              when 'groups'
-                @in_groups = false
-              when 'item'
-                unless @group == {}
-                  @ip_permission[:groups] << @group
-                end
+              else
+                @group[:group_name] = @value
+              end
+            when 'ipPermissions'
+              @in_ip_permissions = false
+            when 'ipProtocol'
+              @ip_permission[:ip_protocol] = @value
+            when 'ipRanges'
+              @in_ip_ranges = false
+            when 'item'
+              if @in_groups
+                @ip_permission[:groups] << @group
                 @group = {}
-              when 'userId'
-                @group[:user_id] = @value
-              end
-            elsif @in_ip_ranges
-              case name
-              when 'cidrIp'
-                @ip_range[:cidr_ip] = @value
-              when 'ipRanges'
-                @in_ip_ranges = false
-              when 'item'
-                unless @ip_range == {}
-                  @ip_permission[:ip_ranges] << @ip_range
-                end
-                @ip_range = {}
-              end
-            elsif @in_ip_permissions
-              case name
-              when 'fromPort'
-                @item[:from_port] = @value
-              when 'item'
-                @item[:ip_permissions] << @ip_permission
+              elsif @in_ip_permissions
+                @security_group[:ip_permissions] << @ip_permission
                 @ip_permission = { :groups => [], :ip_ranges => []}
-              when 'ipProtocol'
-                @ip_permission[:ip_protocol] = @value
-              when 'ipPermissions'
-                @in_ip_permissions = false
-              when 'toPort'
-                @item[:to_port] = @value
+              elsif @in_ip_ranges
+                @ip_permission[:ip_ranges] << @ip_range
+                @ip_range = {}
+              else
+                @response[:security_group_info] << @security_group
+                @security_group = { :ip_permissions => [] }
               end
+            when 'ownerId'
+              @security_group[:owner_id] = @value
+            when 'requestId'
+              @response[:request_id] = @value
+            when 'toPort'
+              @ip_permission[:to_port] = @value.to_i
+            when 'userId'
+              @group[:user_id] = @value
             end
           end
 
