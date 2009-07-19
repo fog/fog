@@ -5,25 +5,31 @@ module Fog
       # Add permissions to a security group
       #
       # ==== Parameters
-      # * cidr_ip - CIDR range
-      # * from_port - Start of port range (or -1 for ICMP wildcard)
-      # * group_name - Name of group to modify
-      # * ip_protocol - Ip protocol, must be in ['tcp', 'udp', 'icmp']
-      # * to_port - End of port range (or -1 for ICMP wildcard)
-      # * user_id - AWS Access Key ID
+      # * options<~Hash>:
+      #   * :group_name<~String> - Name of group
+      #   * :source_security_group_name<~String> - Name of security group to authorize
+      #   * :source_security_group_owner_id<~String> - Name of owner to authorize
+      #   or
+      #   * :cidr_ip - CIDR range
+      #   * :from_port - Start of port range (or -1 for ICMP wildcard)
+      #   * :group_name - Name of group to modify
+      #   * :ip_protocol - Ip protocol, must be in ['tcp', 'udp', 'icmp']
+      #   * :to_port - End of port range (or -1 for ICMP wildcard)
       #
       # === Returns
-      # FIXME: docs
-      def authorize_security_group_ingress(cidr_ip, from_port, group_name,
-                                            ip_protocol, to_port, user_id)
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :return<~Boolean> - success?
+      def authorize_security_group_ingress(options = {})
         request({
           'Action' => 'AuthorizeSecurityGroupIngress',
-          'CidrIp' => cidr_ip,
-          'FromPort' => from_port,
-          'GroupName' => group_name,
-          'IpProtocol' => ip_protocol,
-          'ToPort' => to_port,
-          'UserId' => user_id
+          'CidrIp' => options[:cidr_ip],
+          'FromPort' => options[:from_port],
+          'GroupName' => options[:group_name],
+          'IpProtocol' => options[:ip_protocol],
+          'SourceSecurityGroupName' => options[:source_security_group_name],
+          'SourceSecurityGroupOwnerId' => options[:source_security_group_owner_id],
+          'ToPort' => options[:to_port]
         }, Fog::Parsers::AWS::EC2::Basic.new)
       end
 

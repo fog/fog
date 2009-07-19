@@ -38,7 +38,7 @@ module Fog
               if @in_groups
                 @group[:group_name] = @value
               else
-                @group[:group_name] = @value
+                @security_group[:group_name] = @value
               end
             when 'ipPermissions'
               @in_ip_permissions = false
