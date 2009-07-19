@@ -14,8 +14,10 @@ describe 'EC2.delete_snapshot' do
   it "should return proper attributes" do
     eventually do
       actual = ec2.delete_snapshot(@snapshot_id)
-      actual.body[:request_id].should be_a(String)
-      [false, true].should include(actual.body[:return])
+      unless actual.body.empty?
+        actual.body[:request_id].should be_a(String)
+        [false, true].should include(actual.body[:return])
+      end
     end
   end
 

@@ -9,7 +9,9 @@ describe 'EC2.describe_snapshots' do
 
   after(:all) do
     ec2.delete_volume(@volume_id)
-    eventually { ec2.delete_snapshot(@snapshot_id) }
+    eventually do
+      ec2.delete_snapshot(@snapshot_id)
+    end
   end
 
   it "should return proper attributes with no params" do

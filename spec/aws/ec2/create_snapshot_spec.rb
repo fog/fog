@@ -8,7 +8,9 @@ describe 'EC2.create_snapshot' do
 
   after(:all) do
     ec2.delete_volume(@volume_id)
-    eventually { ec2.delete_snapshot(@snapshot_id) }
+    eventually do
+      ec2.delete_snapshot(@snapshot_id)
+    end
   end
 
   it "should return proper attributes" do

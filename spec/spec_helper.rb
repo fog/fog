@@ -45,7 +45,7 @@ def eventually(&block)
       sleep(delay)
       yield
       break
-    rescue error => error
+    rescue => error
       raise error if delay == 16
     end
   end
