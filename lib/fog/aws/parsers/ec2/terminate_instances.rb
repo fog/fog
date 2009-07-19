@@ -7,7 +7,7 @@ module Fog
 
           def reset
             @instance = { :previous_state => {}, :shutdown_state => {} }
-            @response = { :instance_set => [] }
+            @response = { :instances_set => [] }
           end
 
           def start_element(name, attrs = [])
@@ -21,14 +21,16 @@ module Fog
 
           def end_element(name)
             case name
+            when 'instanceId'
+              @instance[:instance_id] = @value
             when 'item'
-              @response[:instance_set] << @instance
+              @response[:instances_set] << @instance
               @instance = { :previous_state => {}, :shutdown_state => {} }
             when 'code'
               if @in_previous_state
-                @instance[:previous_state][:code] = @value
+                @instance[:previous_state][:code] = @value.to_i
               elsif @in_shutdown_state
-                @instance[:shutdown_state][:code] = @value
+                @instance[:shutdown_state][:code] = @value.to_i
               end
             when 'name'
               if @in_previous_state

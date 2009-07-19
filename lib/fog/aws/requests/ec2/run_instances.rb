@@ -33,7 +33,30 @@ module Fog
       #   * :virtual_name<~String> - ?
       #
       # ==== Returns
-      # FIXME: docs
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :group_set<~Array>: groups the instances are members in
+      #       * group_name<~String> - Name of group
+      #     * :instances_set<~Array>: returned instances
+      #       * instance<~Hash>:
+      #         * :ami_launch_index<~String> - reference to instance in launch group
+      #         * :dns_name<~String> - public dns name, blank until instance is running
+      #         * :image_id<~String> - image id of ami used to launch instance
+      #         * :instance_id<~String> - id of the instance
+      #         * :instance_state<~Hash>:
+      #           * :code<~Integer> - current status code
+      #           * :name<~String> - current status name
+      #         * :instance_type<~String> - type of instance
+      #         * :key_name<~String> - name of key used launch instances or blank
+      #         * :launch_time<~Time> - time instance was launched
+      #         * :monitoring<~Hash>:
+      #           * :state<~Boolean - state of monitoring
+      #         * :placement<~Hash>:
+      #           * :availability_zone<~String> - Availability zone of the instance
+      #         * :private_dns_name<~String> - private dns name, blank until instance is running
+      #         * :reason<~String> - reason for most recent state transition, or blank
+      #     * :owner_id<~String> - Id of owner
+      #     * :request_id<~String> - Id of request
       def run_instances(image_id, min_count, max_count, options = {})
         request({
           'Action' => 'RunInstances',

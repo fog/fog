@@ -6,8 +6,8 @@ module Fog
         class RunInstances < Fog::Parsers::Base
 
           def reset
-            @instance = { :monitoring => {}, :placement => {}, :product_codes => [] }
-            @response = { :group_set => [], :instance_set => [] }
+            @instance = { :instance_state => {}, :monitoring => {}, :placement => {}, :product_codes => [] }
+            @response = { :group_set => [], :instances_set => [] }
           end
 
           def start_element(name, attrs = [])
@@ -25,6 +25,8 @@ module Fog
               @instance[:ami_launch_index] = @value
             when 'availabilityZone'
               @instance[:placement][:availability_zone] = @value
+            when 'code'
+              @instance[:instance_state][:code] = @value.to_i
             when 'dnsName'
               @instance[:dns_name] = @value
             when 'groupId'
@@ -37,19 +39,19 @@ module Fog
               @instance[:image_id] = @value
             when 'instanceId'
               @instance[:instance_id] = @value
-            when 'instanceState'
-              @instance[:instance_state] = @value
             when 'instanceType'
               @instance[:instance_type] = @value
             when 'item'
               unless @in_group_set || @in_product_codes
-                @response[:instance_set] << @instance
-                @instance = { :monitoring => {}, :placement => {}, :product_codes => [] }
+                @response[:instances_set] << @instance
+                @instance = { :instance_state => {}, :monitoring => {}, :placement => {}, :product_codes => [] }
               end
             when 'kernelId'
               @instance[:kernel_id] = @value
             when 'launchTime'
               @instance[:launch_time] = Time.parse(@value)
+            when 'name'
+              @instance[:instance_state][:name] = @value
             when 'ownerId'
               @response[:owner_id] = @value
             when 'platform'
