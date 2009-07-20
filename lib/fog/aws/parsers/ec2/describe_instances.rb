@@ -6,19 +6,15 @@ module Fog
         class DescribeInstances < Fog::Parsers::Base
 
           def reset
-            @instance = { :instance_state => {}, :placement => [], :product_code_set => [] }
+            @instance = { :instance_state => {}, :monitoring => {}, :placement => [], :product_codes => [] }
             @reservation = { :group_set => [], :instances_set => [] }
             @response = { :reservation_set => [] }
           end
 
           def start_element(name, attrs = [])
-            if name == 'groupSet'
+            if name == 'groupSet' || name == 'productCodes'
               @in_subset = true
-            end
-            if name == 'productCodeSet'
-              @in_subset = true
-            end
-            if name == 'instanceSet'
+            elsif name == 'instancesSet'
               @in_instances_set = true
             end
             @value = ''
@@ -32,7 +28,7 @@ module Fog
               @instance[:placement] << @value
             when 'code'
               @instance[:instance_state][:code] = @value
-            when 'dnsNmae'
+            when 'dnsName'
               @instance[:dns_name] = @value
             when 'groupId'
               @reservation[:group_set] << @value
@@ -49,10 +45,10 @@ module Fog
             when 'item'
               if @in_instances_set
                 @reservation[:instances_set] << @instance
-                @instance = { :instance_state => {}, :placement => [], :product_code_set => [] }
+                @instance = { :instance_state => {}, :monitoring => {}, :placement => [], :product_codes => [] }
               elsif !@in_subset
                 @response[:reservation_set] << @reservation
-                @reservation = { :group_set => [], :instance_set => [] }
+                @reservation = { :group_set => [], :instances_set => [] }
               end
             when 'kernelId'
               @instance[:kernel_id] = @value
@@ -64,6 +60,10 @@ module Fog
               @instance[:instance_state][:name] = @value
             when 'ownerId'
               @reservation[:owner_id] = @value
+            when 'ramdiskId'
+              @instance[:ramdisk_id] = @value
+            when 'reason'
+              @instance[:reason] = @value
             when 'requestId'
               @response[:request_id] = @value
             when 'reservationId'
@@ -71,11 +71,17 @@ module Fog
             when 'privateDnsName'
               @instance[:private_dns_name] = @value
             when 'productCode'
-              @instance[:product_code_set] << @value
-            when 'productCodeSet'
+              @instance[:product_codes] << @value
+            when 'productCodes'
               @in_subset = false
             when 'ramdiskId'
               @instance[:ramdisk_id] = @value
+            when 'state'
+              if @value == 'true'
+                @instance[:monitoring][:state] = true
+              else
+                @instance[:monitoring][:state] = false
+              end
             end
           end
 
