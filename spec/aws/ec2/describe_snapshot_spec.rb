@@ -15,25 +15,29 @@ describe 'EC2.describe_snapshots' do
   end
 
   it "should return proper attributes with no params" do
-    actual = ec2.describe_snapshots
-    actual.body[:snapshot_set].should be_an(Array)
-    snapshot = actual.body[:snapshot_set].select {|snapshot| snapshot[:snapshot_id] == @snapshot_id}.first
-    snapshot[:progress].should be_a(String)
-    snapshot[:snapshot_id].should be_a(String)
-    snapshot[:start_time].should be_a(Time)
-    snapshot[:status].should be_a(String)
-    snapshot[:volume_id].should be_a(String)
+    eventually do
+      actual = ec2.describe_snapshots
+      actual.body[:snapshot_set].should be_an(Array)
+      snapshot = actual.body[:snapshot_set].select {|snapshot| snapshot[:snapshot_id] == @snapshot_id}.first
+      snapshot[:progress].should be_a(String)
+      snapshot[:snapshot_id].should be_a(String)
+      snapshot[:start_time].should be_a(Time)
+      snapshot[:status].should be_a(String)
+      snapshot[:volume_id].should be_a(String)
+    end
   end
   
   it "should return proper attributes with params" do
-    actual = ec2.describe_snapshots([@snapshot_id])
-    actual.body[:snapshot_set].should be_an(Array)
-    snapshot = actual.body[:snapshot_set].select {|snapshot| snapshot[:snapshot_id] == @snapshot_id}.first
-    snapshot[:progress].should be_a(String)
-    snapshot[:snapshot_id].should be_a(String)
-    snapshot[:start_time].should be_a(Time)
-    snapshot[:status].should be_a(String)
-    snapshot[:volume_id].should be_a(String)
+    eventually do
+      actual = ec2.describe_snapshots([@snapshot_id])
+      actual.body[:snapshot_set].should be_an(Array)
+      snapshot = actual.body[:snapshot_set].select {|snapshot| snapshot[:snapshot_id] == @snapshot_id}.first
+      snapshot[:progress].should be_a(String)
+      snapshot[:snapshot_id].should be_a(String)
+      snapshot[:start_time].should be_a(Time)
+      snapshot[:status].should be_a(String)
+      snapshot[:volume_id].should be_a(String)
+    end
   end
 
 end
