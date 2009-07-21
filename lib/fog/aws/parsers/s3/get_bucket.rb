@@ -15,6 +15,8 @@ module Fog
             when 'Contents'
               @response[:contents] << @object
               @object = { :owner => {} }
+            when 'Delimeter'
+              @object[:delimiter] = @value
             when 'DisplayName'
               @object[:owner][:display_name] = @value
             when 'ETag'

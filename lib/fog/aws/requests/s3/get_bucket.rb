@@ -13,6 +13,23 @@ module Fog
       #   * maxkeys - limits number of object keys returned
       #   * :delimiter - causes keys with the same string between the prefix
       #     value and the first occurence of delimiter to be rolled up
+      #
+      # ==== Returns
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :delimeter<~String> - Delimiter specified for query
+      #     * :marker<~String> - Marker specified for query
+      #     * :max_keys<~Integer> - Maximum number of keys specified for query
+      #     * :name<~String> - Name of the bucket
+      #     * :prefix<~String> - Prefix specified for query
+      #     * :contents<~Array>:
+      #       * :key<~String>: Name of object
+      #       * :last_modified<~String>: Timestamp of last modification of object
+      #       * :owner<~Hash>:
+      #         * :display_name<~String> - Display name of object owner
+      #         * :id<~String> - Id of object owner
+      #       * :size<~Integer> - Size of object
+      #       * :storage_class<~String> - Storage class of object
       def get_bucket(bucket_name, options = {})
         options['max-keys'] = options.delete(:maxkeys) if options[:maxkeys]
         query = '?'

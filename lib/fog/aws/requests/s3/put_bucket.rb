@@ -8,6 +8,10 @@ module Fog
       # * bucket_name<~String> - name of bucket to create
       # * options<~Hash> - config arguments for bucket.  Defaults to {}.
       #   * :location_constraint<~Symbol> - sets the location for the bucket
+      #
+      # ==== Returns
+      # * response<~Fog::AWS::Response>:
+      #   * status<~Integer> - 200
       def put_bucket(bucket_name, options = {})
         if options[:location_constraint]
           data =

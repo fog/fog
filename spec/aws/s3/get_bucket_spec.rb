@@ -15,18 +15,18 @@ describe 'S3.get_bucket' do
 
   it 'should return proper attributes' do
     actual = s3.get_bucket('foggetbucket')
-    actual.status.should == 200
-    actual.body[:name].should be_a(String)
     actual.body[:is_truncated].should == false
     actual.body[:marker].should be_a(String)
     actual.body[:max_keys].should be_an(Integer)
+    actual.body[:name].should be_a(String)
     actual.body[:prefix].should be_a(String)
     actual.body[:contents].should be_an(Array)
     object = actual.body[:contents].first
     object[:key].should == 'fog_get_bucket'
     object[:last_modified].should be_a(Time)
-    object[:owner][:display_name].should be_a(String)
-    object[:owner][:id].should be_a(String)
+    owner = object[:owner]
+    owner[:display_name].should be_a(String)
+    owner[:id].should be_a(String)
     object[:size].should be_an(Integer)
     object[:storage_class].should be_a(String)
   end

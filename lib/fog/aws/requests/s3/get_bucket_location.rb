@@ -8,7 +8,9 @@ module Fog
       # * bucket_name<~String> - name of bucket to get location constraint for
       #
       # ==== Returns
-      # FIXME: docs
+      # * response<~Fog::AWS::Response>:
+      #   * body<~Hash>:
+      #     * :location_constraint<~String> - Location constraint of the bucket
       def get_bucket_location(bucket_name)
         request({
           :expects => 200,

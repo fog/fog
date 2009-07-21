@@ -8,7 +8,8 @@ module Fog
       # * bucket_name<~String> - name of bucket to delete
       #
       # ==== Returns
-      # FIXME: docs
+      # * response<~Fog::AWS::Response>:
+      #   * status<~Integer> - 204
       def delete_bucket(bucket_name)
         request({
           :expects => 204,

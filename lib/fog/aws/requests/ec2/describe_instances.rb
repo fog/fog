@@ -11,6 +11,7 @@ module Fog
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
       #     * :request_id<~String> - Id of request
+      # FIXME: docs
       def describe_instances(instance_id = [])
         params = indexed_params('InstanceId', instance_id)
         request({

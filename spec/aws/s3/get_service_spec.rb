@@ -12,13 +12,13 @@ describe 'S3.get_service' do
 
   it 'should return proper_attributes' do
     actual = s3.get_service
-    actual.status.should == 200
-    actual.body[:owner][:display_name].should be_a(String)
-    actual.body[:owner][:id].should be_a(String)
     actual.body[:buckets].should be_an(Array)
     bucket = actual.body[:buckets].select {|bucket| bucket[:name] == 'foggetservice'}.first
     bucket[:creation_date].should be_a(Time)
     bucket[:name].should == 'foggetservice'
+    owner = actual.body[:owner]
+    owner[:display_name].should be_a(String)
+    owner[:id].should be_a(String)
   end
 
   it 'should include foggetservice in get_service' do
