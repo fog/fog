@@ -22,7 +22,7 @@ module Fog
           def end_element(name)
             case name
             when 'amiLaunchIndex'
-              @instance[:ami_launch_index] = @value
+              @instance[:ami_launch_index] = @value.to_i
             when 'availabilityZone'
               @instance[:placement][:availability_zone] = @value
             when 'code'
@@ -33,6 +33,8 @@ module Fog
               @response[:group_set] << @value
             when 'groupSet'
               @in_group_set = false
+            when 'kernelId'
+              @instance[:kernel_id] = @value
             when 'keyName'
               @instance[:key_name] = @value
             when 'imageId'
