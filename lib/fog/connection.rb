@@ -111,7 +111,8 @@ module Fog
           while true
             # 2 == "/r/n".length
             chunk_size = @connection.readline.chomp!.to_i(16) + 2
-            body << @connection.read(chunk_size)
+            chunk = @connection.read(chunk_size)
+            body << chunk[0...-2]
             if chunk_size == 2
               break
             end
