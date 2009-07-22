@@ -23,6 +23,10 @@ module Fog
       #       * :image_state<~String> - State of the image
       #       * :image_type<~String> - Type of the image
       #       * :is_public<~Boolean> - Whether or not the image is public
+      #       * :kernel_id<~String> - Kernel id associated with image, if any
+      #       * :platform<~String> - Operating platform of the image
+      #       * :productCodes<~Array> - Product codes for the image
+      #       * :ramdisk_id<~String> - Ramdisk id associated with image, if any
       def describe_images(options = {})
         params = {}
         if options[:image_id]
