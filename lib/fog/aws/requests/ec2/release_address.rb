@@ -7,6 +7,7 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
+      #     * :request_id<~String> - Id of request
       #     * :return<~Boolean> - success?
       def release_address(public_ip)
         request({

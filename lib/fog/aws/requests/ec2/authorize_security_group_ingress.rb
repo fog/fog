@@ -19,6 +19,7 @@ module Fog
       # === Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
+      #     * :request_id<~String> - Id of request
       #     * :return<~Boolean> - success?
       def authorize_security_group_ingress(options = {})
         request({
