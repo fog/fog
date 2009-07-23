@@ -66,7 +66,7 @@ module Fog
           'ImageId' => image_id,
           'MinCount' => min_count,
           'MaxCount' => max_count,
-          'AvailabilityZone' => options[:availability_zone],
+          'Placement.AvailabilityZone' => options[:availability_zone],
           'Data' => options[:data],
           'DeviceName' => options[:device_name],
           'Encoding' => options[:encoding],

@@ -51,7 +51,6 @@ require "#{requests_directory}/revoke_security_group_ingress"
 require "#{requests_directory}/run_instances"
 require "#{requests_directory}/terminate_instances"
 
-
 module Fog
   module AWS
     class EC2
@@ -116,7 +115,7 @@ module Fog
 
         response = @connection.request({
           :body => body,
-          # :expects => 200,
+          :expects => 200,
           :headers => { 'Content-Type' => 'application/x-www-form-urlencoded' },
           :host => @host,
           :method => 'POST',
