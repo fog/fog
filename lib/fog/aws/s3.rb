@@ -105,9 +105,8 @@ DATA
         string_to_sign << "#{canonical_amz_headers}"
 
         canonical_resource  = "/"
-        # [0..-18] is anything prior to .s3.amazonaws.com
-        subdomain = params[:host][0..-18]
-        unless subdomain.empty?
+        subdomain = params[:host].split(".#{@host}").first
+        unless subdomain == @host
           canonical_resource << "#{subdomain}/"
         end
         canonical_resource << "#{params[:path]}"

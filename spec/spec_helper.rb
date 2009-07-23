@@ -38,6 +38,15 @@ def s3
     )
   end
 end
+def eu_s3
+  @eu_s3 ||= begin
+    Fog::AWS::S3.new(
+      :aws_access_key_id => credentials['aws_access_key_id'],
+      :aws_secret_access_key => credentials['aws_secret_access_key'],
+      :host => 's3-external-3.amazonaws.com'
+    )
+  end
+end
 
 def eventually(&block)
   [0,2,4,8,16].each do |delay|
