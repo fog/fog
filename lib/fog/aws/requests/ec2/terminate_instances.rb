@@ -19,7 +19,7 @@ module Fog
       #       * :shutdown_state<~Hash>: shutdown state of instance
       #         * :code<~Integer> - current status code
       #         * :name<~String> - name of current state
-      def terminate_instances(instance_id = [])
+      def terminate_instances(instance_id)
         params = indexed_params('InstanceId', instance_id)
         request({
           'Action' => 'TerminateInstances'
