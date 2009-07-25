@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'base64'
 require 'nokogiri'
 require 'time'
 
