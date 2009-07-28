@@ -8,7 +8,15 @@ module Fog
       # * bucket_name<~String> - Name of bucket to create object in
       # * object_name<~String> - Name of object to create
       # * object<~String> - File to create object from
-      # FIXME: deal with optional params
+      # * options<~Hash>:
+      #   * :cache_control<~String> - Caching behaviour
+      #   * :content_disposition<~String> - Presentational information for the object
+      #   * :content_encoding<~String> - Encoding of object data
+      #   * :content_length<~String> - Size of object in bytes (defaults to object.read.length)
+      #   * :content_md5<~String> - Base64 encoded 128-bit MD5 digest of message (defaults to Base64 encoded MD5 of object.read)
+      #   * :content_type<~String> - Standard MIME type describing contents (defaults to MIME::Types.of.first)
+      #   * :x_amz_acl<~String> - Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
+      # FIXME: deal with x-amz-meta- headers
       #
       # ==== Returns
       # * response<~Fog::AWS::Response>:
@@ -16,10 +24,32 @@ module Fog
       #     * :etag<~String> - etag of new object
       def put_object(bucket_name, object_name, object, options = {})
         file = parse_file(object)
+        headers = file[:headers]
+        if options[:cache_control]
+          headers['Cache-Control'] = options[:cache_control]
+        end
+        if options[:content_disposition]
+          headers['Content-Disposition'] = options[:content_disposition]
+        end
+        if options[:content_encoding]
+          headers['Content-Encoding'] = options[:content_encoding]
+        end
+        if options[:content_length]
+          headers['Content-Length'] = options[:content_length]
+        end
+        if options[:content_md5]
+          headers['Content-MD5'] = options[:content_md5]
+        end
+        if options[:content_type]
+          headers['Content-Type'] = options[:content_type]
+        end
+        if options[:x_amz_acl]
+          headers['x-amz-acl'] = options[:x_amz_acl]
+        end
         request({
           :body => file[:body],
           :expects => 200,
-          :headers => options.merge!(file[:headers]),
+          :headers => headers,
           :host => "#{bucket_name}.#{@host}",
           :method => 'PUT',
           :path => object_name
