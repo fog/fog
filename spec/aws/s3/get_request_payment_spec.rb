@@ -13,7 +13,7 @@ describe 'S3.get_request_payment' do
   it 'should return proper attributes' do
     actual = s3.get_request_payment('foggetrequestpayment')
     actual.status.should == 200
-    actual.body[:payer].should == 'BucketOwner'
+    actual.body['Payer'].should == 'BucketOwner'
   end
 
 end

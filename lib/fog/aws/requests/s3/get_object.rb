@@ -8,11 +8,11 @@ module Fog
       # * bucket_name<~String> - Name of bucket to read from
       # * object_name<~String> - Name of object to read
       # * options<~Hash>:
-      #   * :if_match<~String> - Returns object only if its etag matches this value, otherwise returns 412 (Precondition Failed).
-      #   * :if_modified_since<~Time> - Returns object only if it has been modified since this time, otherwise returns 304 (Not Modified).
-      #   * :if_none_match<~String> - Returns object only if its etag differs from this value, otherwise returns 304 (Not Modified)
-      #   * :if_unmodified_since<~Time> - Returns object only if it has not been modified since this time, otherwise returns 412 (Precodition Failed).
-      #   * :range<~String> - Range of object to download
+      #   * 'If-Match'<~String> - Returns object only if its etag matches this value, otherwise returns 412 (Precondition Failed).
+      #   * 'If-Modified-Since'<~Time> - Returns object only if it has been modified since this time, otherwise returns 304 (Not Modified).
+      #   * 'If-None-Match'<~String> - Returns object only if its etag differs from this value, otherwise returns 304 (Not Modified)
+      #   * 'If-Unmodified-Since'<~Time> - Returns object only if it has not been modified since this time, otherwise returns 412 (Precodition Failed).
+      #   * 'Range'<~String> - Range of object to download
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~String> - Contents of object
@@ -23,12 +23,9 @@ module Fog
       #     * 'Last-Modified'<~String> - Last modified timestamp for object
       def get_object(bucket_name, object_name, options = {})
         headers = {}
-        headers['If-Match'] = options[:if_match] if options[:if_match]
-        headers['If-Modified-Since'] = options[:if_modified_since].utc.strftime("%a, %d %b %Y %H:%M:%S +0000") if options[:if_modified_since]
-        headers['If-None-Match'] = options[:if_none_match] if options[:if_none_match]
-        headers['If-Unmodified-Since'] = options[:if_unmodified_since].utc.strftime("%a, %d %b %Y %H:%M:%S +0000") if options[:if_unmodified_since]
-        headers[:range] = options[:range] if options[:range]
-
+        headers['If-Modified-Since'] = options['If-Modified-Since'].utc.strftime("%a, %d %b %Y %H:%M:%S +0000") if options['If-Modified-Since']
+        headers['If-Unmodified-Since'] = options['If-Unmodified-Since'].utc.strftime("%a, %d %b %Y %H:%M:%S +0000") if options['If-Modified-Since']
+        headers.merge!(options)
         request({
           :expects => 200,
           :headers => headers,

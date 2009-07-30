@@ -10,7 +10,7 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :payer<~String> - Specifies who pays for download and requests
+      #     * 'Payer'<~String> - Specifies who pays for download and requests
       def get_request_payment(bucket_name)
         request({
           :expects => 200,

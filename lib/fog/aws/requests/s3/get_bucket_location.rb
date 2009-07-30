@@ -10,7 +10,7 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :location_constraint<~String> - Location constraint of the bucket
+      #     * 'LocationConstraint'<~String> - Location constraint of the bucket
       def get_bucket_location(bucket_name)
         request({
           :expects => 200,

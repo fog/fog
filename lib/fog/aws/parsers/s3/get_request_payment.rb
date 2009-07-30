@@ -8,7 +8,7 @@ module Fog
           def end_element(name)
             case name
             when 'Payer'
-              @response[:payer] = @value
+              @response[name] = @value
             end
           end
 

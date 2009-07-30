@@ -7,22 +7,20 @@ module Fog
 
           def reset
             @bucket = {}
-            @response = { :owner => {}, :buckets => [] }
+            @response = { 'Owner' => {}, 'Buckets' => [] }
           end
 
           def end_element(name)
             case name
             when 'Bucket'
-              @response[:buckets] << @bucket
+              @response['Buckets'] << @bucket
               @bucket = {}
             when 'CreationDate'
-              @bucket[:creation_date] = Time.parse(@value)
-            when 'DisplayName'
-              @response[:owner][:display_name] = @value
-            when 'ID'
-              @response[:owner][:id] = @value
+              @bucket['CreationDate'] = Time.parse(@value)
+            when 'DisplayName', 'ID'
+              @response['Owner'][name] = @value
             when 'Name'
-              @bucket[:name] = @value
+              @bucket[name] = @value
             end
           end
 

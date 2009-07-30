@@ -6,45 +6,33 @@ module Fog
         class GetBucket < Fog::Parsers::Base
 
           def reset
-            @object = { :owner => {} }
-            @response = { :contents => [] }
+            @object = { 'Owner' => {} }
+            @response = { 'Contents' => [] }
           end
 
           def end_element(name)
             case name
             when 'Contents'
-              @response[:contents] << @object
-              @object = { :owner => {} }
-            when 'Delimeter'
-              @object[:delimiter] = @value
-            when 'DisplayName'
-              @object[:owner][:display_name] = @value
-            when 'ETag'
-              @object[:etag] = @value
-            when 'ID'
-              @object[:owner][:id] = @value
+              @response['Contents'] << @object
+              @object = { 'Owner' => {} }
+            when 'DisplayName', 'ID'
+              @object['Owner'][name] = @value
             when 'IsTruncated'
               if @value == 'true'
-                @response[:is_truncated] = true
+                @response['IsTruncated'] = true
               else
-                @response[:is_truncated] = false
+                @response['IsTruncated'] = false
               end
-            when 'Key'
-              @object[:key] = @value
             when 'LastModified'
-              @object[:last_modified] = Time.parse(@value)
-            when 'Marker'
-              @response[:marker] = @value
+              @object['LastModified'] = Time.parse(@value)
+            when 'Marker', 'Name', 'Prefix'
+              @response[name] = @value
             when 'MaxKeys'
-              @response[:max_keys] = @value.to_i
-            when 'Name'
-              @response[:name] = @value
-            when 'Prefix'
-              @response[:prefix] = @value
+              @response['MaxKeys'] = @value.to_i
             when 'Size'
-              @object[:size] = @value.to_i
-            when 'StorageClass'
-              @object[:storage_class] = @value
+              @object['Size'] = @value.to_i
+            when 'Delimeter', 'ETag', 'Key', 'Name', 'StorageClass'
+              @object[name] = @value
             end
           end
 

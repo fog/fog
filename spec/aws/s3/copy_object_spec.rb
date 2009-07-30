@@ -22,8 +22,8 @@ describe 'S3.copy_object' do
       'fogcopyobjectdestination', 'fog_copy_object_destination'
     )
     actual.status.should == 200
-    actual.body[:etag].should be_a(String)
-    actual.body[:last_modified].should be_a(Time)
+    actual.body['ETag'].should be_a(String)
+    actual.body['LastModified'].should be_a(Time)
   end
 
 end

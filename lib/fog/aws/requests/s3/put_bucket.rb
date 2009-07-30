@@ -13,11 +13,11 @@ module Fog
       # * response<~Fog::AWS::Response>:
       #   * status<~Integer> - 200
       def put_bucket(bucket_name, options = {})
-        if options[:location_constraint]
+        if options['LocationConstraint']
           data =
 <<-DATA
   <CreateBucketConfiguration>
-    <LocationConstraint>#{options[:location_constraint]}</LocationConstraint>
+    <LocationConstraint>#{options['LocationConstraint']}</LocationConstraint>
   </CreateBucketConfiguration>
 DATA
         else

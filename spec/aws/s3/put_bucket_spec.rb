@@ -9,7 +9,7 @@ describe 'S3.put_bucket' do
   it 'should not include fogputbucket in get_service buckets before put_bucket' do
     eventually do
       actual = s3.get_service
-      actual.body[:buckets].collect { |bucket| bucket[:name] }.should_not include('fogputbucket')
+      actual.body['Buckets'].collect { |bucket| bucket['Name'] }.should_not include('fogputbucket')
     end
   end
 
@@ -21,7 +21,7 @@ describe 'S3.put_bucket' do
   it 'should include fogputbucket in get_service buckets after put_bucket' do
     eventually do
       actual = s3.get_service
-      actual.body[:buckets].collect { |bucket| bucket[:name] }.should include('fogputbucket')
+      actual.body['Buckets'].collect { |bucket| bucket['Name'] }.should include('fogputbucket')
     end
   end
 

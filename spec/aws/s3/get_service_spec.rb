@@ -12,19 +12,19 @@ describe 'S3.get_service' do
 
   it 'should return proper_attributes' do
     actual = s3.get_service
-    actual.body[:buckets].should be_an(Array)
-    bucket = actual.body[:buckets].select {|bucket| bucket[:name] == 'foggetservice'}.first
-    bucket[:creation_date].should be_a(Time)
-    bucket[:name].should == 'foggetservice'
-    owner = actual.body[:owner]
-    owner[:display_name].should be_a(String)
-    owner[:id].should be_a(String)
+    actual.body['Buckets'].should be_an(Array)
+    bucket = actual.body['Buckets'].select {|bucket| bucket['Name'] == 'foggetservice'}.first
+    bucket['CreationDate'].should be_a(Time)
+    bucket['Name'].should == 'foggetservice'
+    owner = actual.body['Owner']
+    owner['DisplayName'].should be_a(String)
+    owner['ID'].should be_a(String)
   end
 
   it 'should include foggetservice in get_service' do
     eventually do
       actual = s3.get_service
-      actual.body[:buckets].collect { |bucket| bucket[:name] }.should include('foggetservice')
+      actual.body['Buckets'].collect { |bucket| bucket['Name'] }.should include('foggetservice')
     end
   end
 

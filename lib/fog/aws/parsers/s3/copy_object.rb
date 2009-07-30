@@ -8,9 +8,9 @@ module Fog
           def end_element(name)
             case name
             when 'ETag'
-              @response[:etag] = @value
+              @response[name] = @value
             when 'LastModified'
-              @response[:last_modified] = Time.parse(@value)
+              @response[name] = Time.parse(@value)
             end
           end
 

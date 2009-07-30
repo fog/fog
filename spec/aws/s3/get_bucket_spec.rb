@@ -15,20 +15,21 @@ describe 'S3.get_bucket' do
 
   it 'should return proper attributes' do
     actual = s3.get_bucket('foggetbucket')
-    actual.body[:is_truncated].should == false
-    actual.body[:marker].should be_a(String)
-    actual.body[:max_keys].should be_an(Integer)
-    actual.body[:name].should be_a(String)
-    actual.body[:prefix].should be_a(String)
-    actual.body[:contents].should be_an(Array)
-    object = actual.body[:contents].first
-    object[:key].should == 'fog_get_bucket'
-    object[:last_modified].should be_a(Time)
-    owner = object[:owner]
-    owner[:display_name].should be_a(String)
-    owner[:id].should be_a(String)
-    object[:size].should be_an(Integer)
-    object[:storage_class].should be_a(String)
+    actual.body['IsTruncated'].should == false
+    actual.body['Marker'].should be_a(String)
+    actual.body['MaxKeys'].should be_an(Integer)
+    actual.body['Name'].should be_a(String)
+    actual.body['Prefix'].should be_a(String)
+    actual.body['Contents'].should be_an(Array)
+    object = actual.body['Contents'].first
+    object['ETag'].should be_a(String)
+    object['Key'].should == 'fog_get_bucket'
+    object['LastModified'].should be_a(Time)
+    owner = object['Owner']
+    owner['DisplayName'].should be_a(String)
+    owner['ID'].should be_a(String)
+    object['Size'].should be_an(Integer)
+    object['StorageClass'].should be_a(String)
   end
 
 end
