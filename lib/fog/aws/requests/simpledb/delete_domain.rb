@@ -11,8 +11,8 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :box_usage
-      #     * :request_id
+      #     * 'BoxUsage'
+      #     * 'RequestId'
       def delete_domain(domain_name)
         request({
           'Action' => 'DeleteDomain',

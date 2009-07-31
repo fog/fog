@@ -11,11 +11,11 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :box_usage
-      #     * :request_id
-      #     * :items - list of attribute name/values for the items formatted as 
+      #     * 'BoxUsage'<~Float>
+      #     * 'RequestId'<~String>
+      #     * 'Items'<~Hash> - list of attribute name/values for the items formatted as 
       #       { 'item_name' => { 'attribute_name' => ['attribute_value'] }}
-      #     * :next_token - offset to start with if there are are more domains to list
+      #     * 'NextToken'<~String> - offset to start with if there are are more domains to list
       def select(select_expression, next_token = nil)
         request({
           'Action' => 'Select',

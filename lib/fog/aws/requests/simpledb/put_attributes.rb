@@ -18,8 +18,8 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :box_usage
-      #     * :request_id
+      #     * 'BoxUsage'
+      #     * 'RequestId'
       def put_attributes(domain_name, item_name, attributes, replace_attributes = [])
         batch_put_attributes(domain_name, { item_name => attributes }, { item_name => replace_attributes })
       end

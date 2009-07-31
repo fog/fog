@@ -11,13 +11,13 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :attribute_name_count - number of unique attribute names in domain
-      #     * :attribute_names_size_bytes - total size of unique attribute names, in bytes
-      #     * :attribute_value_count - number of all name/value pairs in domain
-      #     * :attribute_values_size_bytes - total size of attributes, in bytes
-      #     * :item_count - number of items in domain
-      #     * :item_name_size_bytes - total size of item names in domain, in bytes
-      #     * :timestamp - last update time for metadata.
+      #     * 'AttributeNameCount' - number of unique attribute names in domain
+      #     * 'AttributeNamesSizeBytes' - total size of unique attribute names, in bytes
+      #     * 'AttributeValueCount' - number of all name/value pairs in domain
+      #     * 'AttributeValuesSizeBytes' - total size of attributes, in bytes
+      #     * 'ItemCount' - number of items in domain
+      #     * 'ItemNameSizeBytes' - total size of item names in domain, in bytes
+      #     * 'Timestamp' - last update time for metadata.
       def domain_metadata(domain_name)
         request({
           'Action' => 'DomainMetadata',

@@ -6,15 +6,17 @@ module Fog
         class ListDomains < Fog::Parsers::AWS::SimpleDB::Basic
 
           def reset
-            @response = { :domains => [] }
+            @response = { 'Domains' => [] }
           end
 
           def end_element(name)
             case(name)
-            when 'BoxUsage'   then response[:box_usage] = @value.to_f
-            when 'DomainName' then response[:domains] << @value
-            when 'NextToken'  then response[:next_token] = @value
-            when 'RequestId'  then response[:request_id] = @value
+            when 'BoxUsage'
+              response[name] = @value.to_f
+            when 'DomainName'
+              response['Domains'] << @value
+            when 'NextToken', 'RequestId'
+              response[name] = @value
             end
           end
 

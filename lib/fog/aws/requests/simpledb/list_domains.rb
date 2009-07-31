@@ -6,22 +6,22 @@ module Fog
       #
       # ==== Parameters
       # * options<~Hash> - options, defaults to {}
-      #   *max_number_of_domains<~Integer> - number of domains to return
+      #   * 'MaxNumberOfDomains'<~Integer> - number of domains to return
       #     between 1 and 100, defaults to 100
-      #   *next_token<~String> - Offset token to start listing, defaults to nil
+      #   * 'NextToken'<~String> - Offset token to start listing, defaults to nil
       #
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :box_usage
-      #     * :request_id
-      #     * :domains - array of domain names.
-      #     * :next_token - offset to start with if there are are more domains to list
+      #     * 'BoxUsage'
+      #     * 'Domains' - array of domain names.
+      #     * 'NextToken' - offset to start with if there are are more domains to list
+      #     * 'RequestId'
       def list_domains(options = {})
         request({
           'Action' => 'ListDomains',
-          'MaxNumberOfDomains' => options[:max_number_of_domains],
-          'NextToken' => options[:next_token]
+          'MaxNumberOfDomains' => options['MaxNumberOfDomains'],
+          'NextToken' => options['NextToken']
         }, Fog::Parsers::AWS::SimpleDB::ListDomains.new(@nil_string))
       end
 

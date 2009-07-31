@@ -12,8 +12,8 @@ describe 'SimpleDB.delete_domain' do
 
   it 'should return proper attributes' do
     actual = sdb.delete_domain(@domain_name)
-    actual.body[:request_id].should be_a(String)
-    actual.body[:box_usage].should be_a(Float)
+    actual.body['RequestId'].should be_a(String)
+    actual.body['BoxUsage'].should be_a(Float)
   end
 
 end

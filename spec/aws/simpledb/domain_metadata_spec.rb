@@ -13,29 +13,29 @@ describe 'SimpleDB.domain_metadata' do
 
   it 'should return proper attributes when there are no items' do
     results = sdb.domain_metadata(@domain_name)
-    results.body[:attribute_name_count].should == 0
-    results.body[:attribute_names_size_bytes].should == 0
-    results.body[:attribute_value_count].should == 0
-    results.body[:attribute_values_size_bytes].should == 0
-    results.body[:box_usage].should be_a(Float)
-    results.body[:item_count].should == 0
-    results.body[:item_names_size_bytes].should == 0
-    results.body[:request_id].should be_a(String)
-    results.body[:timestamp].should be_a(Time)
+    results.body['AttributeNameCount'].should == 0
+    results.body['AttributeNamesSizeBytes'].should == 0
+    results.body['AttributeValueCount'].should == 0
+    results.body['AttributeValuesSizeBytes'].should == 0
+    results.body['BoxUsage'].should be_a(Float)
+    results.body['ItemCount'].should == 0
+    results.body['ItemNamesSizeBytes'].should == 0
+    results.body['RequestId'].should be_a(String)
+    results.body['Timestamp'].should be_a(Time)
   end
 
   it 'should return proper attributes with items' do
     sdb.put_attributes(@domain_name, 'foo', { :bar => :baz })
     results = sdb.domain_metadata(@domain_name)
-    results.body[:attribute_name_count].should == 1
-    results.body[:attribute_names_size_bytes].should == 3
-    results.body[:attribute_value_count].should == 1
-    results.body[:attribute_values_size_bytes].should == 3
-    results.body[:box_usage].should be_a(Float)
-    results.body[:item_count].should == 1
-    results.body[:item_names_size_bytes].should == 3
-    results.body[:request_id].should be_a(String)
-    results.body[:timestamp].should be_a(Time)
+    results.body['AttributeNameCount'].should == 1
+    results.body['AttributeNamesSizeBytes'].should == 3
+    results.body['AttributeValueCount'].should == 1
+    results.body['AttributeValuesSizeBytes'].should == 3
+    results.body['BoxUsage'].should be_a(Float)
+    results.body['ItemCount'].should == 1
+    results.body['ItemNamesSizeBytes'].should == 3
+    results.body['RequestId'].should be_a(String)
+    results.body['Timestamp'].should be_a(Time)
   end
 
 end

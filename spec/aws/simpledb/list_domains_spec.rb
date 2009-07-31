@@ -12,16 +12,16 @@ describe 'SimpleDB.list_domains' do
 
   it 'should return proper attributes' do
     results = sdb.list_domains
-    results.body[:box_usage].should be_a(Float)
-    results.body[:domains].should be_an(Array)
-    results.body[:request_id].should be_a(String)
+    results.body['BoxUsage'].should be_a(Float)
+    results.body['Domains'].should be_an(Array)
+    results.body['RequestId'].should be_a(String)
   end
 
   it 'should include created domains' do
     sdb.create_domain(@domain_name)
     eventually do
       actual = sdb.list_domains
-      actual.body[:domains].should include(@domain_name)
+      actual.body['Domains'].should include(@domain_name)
     end
   end
 

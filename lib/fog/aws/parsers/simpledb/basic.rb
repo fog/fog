@@ -12,8 +12,10 @@ module Fog
 
           def end_element(name)
             case(name)
-            when 'BoxUsage'   then response[:box_usage] = @value.to_f
-            when 'RequestId'  then response[:request_id] = @value
+            when 'BoxUsage'
+              response[name] = @value.to_f
+            when 'RequestId'
+              response[name] = @value
             end
           end
 

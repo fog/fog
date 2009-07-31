@@ -19,9 +19,9 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :box_usage
-      #     * :request_id
-      #     * :attributes - list of attribute name/values for the item
+      #     * 'Attributes' - list of attribute name/values for the item
+      #     * 'BoxUsage'
+      #     * 'RequestId'
       def get_attributes(domain_name, item_name, attributes = nil)
         request({
           'Action' => 'GetAttributes',

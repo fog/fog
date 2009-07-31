@@ -7,15 +7,22 @@ module Fog
 
           def reset
             @attribute = nil
-            @response = { :attributes => {} }
+            @response = { 'Attributes' => {} }
           end
 
           def end_element(name)
             case name
-            when 'BoxUsage'   then response[:box_usage] = @value.to_f
-            when 'Name'       then @attribute = @value
-            when 'RequestId'  then response[:request_id] = @value
-            when 'Value'      then (response[:attributes][@attribute] ||= []) << sdb_decode(@value)
+            when 'Attribute'
+              @attribute = nil
+            when 'BoxUsage'
+              response[name] = @value.to_f
+            when 'Name'
+              @attribute = @value
+              response['Attributes'][@attribute] = []
+            when 'RequestId'
+              response[name] = @value
+            when 'Value'
+              response['Attributes'][@attribute] << sdb_decode(@value)
             end
           end
 

@@ -13,8 +13,8 @@ describe 'SimpleDB.batch_put_attributes' do
 
   it 'should return proper attributes' do
     actual = sdb.batch_put_attributes(@domain_name, { 'a' => { 'b' => 'c' }, 'x' => { 'y' => 'z' } })
-    actual.body[:request_id].should be_a(String)
-    actual.body[:box_usage].should be_a(Float)
+    actual.body['RequestId'].should be_a(String)
+    actual.body['BoxUsage'].should be_a(Float)
   end
 
 end

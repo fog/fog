@@ -17,8 +17,8 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :box_usage
-      #     * :request_id
+      #     * 'BoxUsage'
+      #     * 'RequestId'
       def batch_put_attributes(domain_name, items, replace_attributes = Hash.new([]))
         request({
           'Action' => 'BatchPutAttributes',

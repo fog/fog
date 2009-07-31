@@ -19,8 +19,8 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :box_usage
-      #     * :request_id
+      #     * 'BoxUsage'
+      #     * 'RequestId'
       def delete_attributes(domain_name, item_name, attributes = nil)
         request({
           'Action' => 'DeleteAttributes',

@@ -14,7 +14,7 @@ describe 'SimpleDB.get_attributes' do
   it 'should have no attributes for foo before put_attributes' do
     eventually do
       actual = sdb.get_attributes(@domain_name, 'foo')
-      actual.body[:attributes].should be_empty
+      actual.body['Attributes'].should be_empty
     end
   end
 
@@ -22,7 +22,7 @@ describe 'SimpleDB.get_attributes' do
     sdb.put_attributes(@domain_name, 'foo', { :bar => :baz })
     eventually do
       actual = sdb.get_attributes(@domain_name, 'foo')
-      actual.body[:attributes].should == { 'bar' => ['baz'] }
+      actual.body['Attributes'].should == { 'bar' => ['baz'] }
     end
   end
 
