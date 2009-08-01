@@ -7,16 +7,10 @@ module Fog
 
           def end_element(name)
             case name
-            when 'progress'
-              @response[:progress] = @value
-            when 'snapshotId'
-              @response[:snapshot_id] = @value
+            when 'progress', 'snapshotId', 'status', 'volumeId'
+              @response[name] = @value
             when 'startTime'
-              @response[:start_time] = Time.parse(@value)
-            when 'status'
-              @response[:status] = @value
-            when 'volumeId'
-              @response[:volume_id] = @value
+              @response[name] = Time.parse(@value)
             end
           end
 

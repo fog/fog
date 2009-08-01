@@ -10,10 +10,10 @@ module Fog
       # ==== Returns
       # # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :instance_id<~String> - Id of instance
-      #     * :output<~String> - Console output
-      #     * :request_id<~String> - Id of request
-      #     * :timestamp<~Time> - Timestamp of last update to output
+      #     * 'instanceId'<~String> - Id of instance
+      #     * 'output'<~String> - Console output
+      #     * 'requestId'<~String> - Id of request
+      #     * 'timestamp'<~Time> - Timestamp of last update to output
       def get_console_output(instance_id)
         request({
           'Action' => 'GetConsoleOutput',

@@ -11,14 +11,12 @@ module Fog
 
           def end_element(name)
             case name
-            when 'instanceId'
-              @response[:instance_id] = @value
+            when 'instanceId', 'requestId'
+              @response[name] = @value
             when 'output'
-              @response[:output] = Base64.decode64(@value)
-            when 'requestId'
-              @response[:request_id] = @value
+              @response[name] = Base64.decode64(@value)
             when 'timestamp'
-              @response[:timestamp] = Time.parse(@value)
+              @response[name] = Time.parse(@value)
             end
           end
 

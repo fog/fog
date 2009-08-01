@@ -10,11 +10,11 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :request_id<~String> - Id of request
-      #     * :availability_zone_info<~Array>:
-      #       * :region_name<~String> - Name of region
-      #       * :zone_name<~String> - Name of zone
-      #       * :zone_state<~String> - State of zone
+      #     * 'requestId'<~String> - Id of request
+      #     * 'availabilityZoneInfo'<~Array>:
+      #       * 'regionName'<~String> - Name of region
+      #       * 'zoneName'<~String> - Name of zone
+      #       * 'zoneState'<~String> - State of zone
       def describe_availability_zones(zone_name = [])
         params = indexed_params('ZoneName', zone_name)
         request({

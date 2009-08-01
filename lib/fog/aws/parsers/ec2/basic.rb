@@ -8,12 +8,12 @@ module Fog
           def end_element(name)
             case name
             when 'requestId'
-              @response[:request_id] = @value
+              @response[name] = @value
             when 'return'
               if @value == 'true'
-                @response[:return] = true
+                @response[name] = true
               else
-                @response[:return] = false
+                @response[name] = false
               end
             end
           end

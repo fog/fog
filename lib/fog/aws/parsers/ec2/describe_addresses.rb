@@ -7,20 +7,18 @@ module Fog
 
           def reset
             @address = {}
-            @response = { :address_set => [] }
+            @response = { 'addressesSet' => [] }
           end
 
           def end_element(name)
             case name
-            when 'instanceId'
-              @address[:instance_id] = @value
+            when 'instanceId', 'publicIp'
+              @address[name] = @value
             when 'item'
-              @response[:address_set] << @address
+              @response['addressesSet'] << @address
               @address = []
-            when 'publicIp'
-              @address[:public_ip] = @value
             when 'requestId'
-              @response[:request_id] = @value
+              @response[name] = @value
             end
           end
 

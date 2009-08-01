@@ -8,8 +8,8 @@ module Fog
           def reset
             @attachment = {}
             @in_attachment_set = false
-            @response = { :volume_set => [] }
-            @volume = { :attachment_set => [] }
+            @response = { 'volumeSet' => [] }
+            @volume = { 'attachmentSet' => [] }
           end
 
           def start_element(name, attrs = [])
@@ -25,38 +25,26 @@ module Fog
               when 'attachmentSet'
                 @in_attachment_set = false
               when 'attachTime'
-                @attachment[:attach_time] = Time.parse(@value)
-              when 'device'
-                @attachment[:device] = @value
-              when 'instanceId'
-                @attachment[:instance_id] = @value
+                @attachment[name] = Time.parse(@value)
+              when 'device', 'instanceId', 'status', 'volumeId'
+                @attachment[name] = @value
               when 'item'
-                @volume[:attachment_set] << @attachment
+                @volume['attachmentSet'] << @attachment
                 @attachment = {}
-              when 'status'
-                @attachment[:status] = @value
-              when 'volumeId'
-                @attachment[:volume_id] = @value
               end
             else
               case name
-              when 'availabilityZone'
-                @volume[:availability_zone] = @value
+              when 'availabilityZone', 'snapshotId', 'status', 'volumeId'
+                @volume[name] = @value
               when 'createTime'
-                @volume[:create_time] = Time.parse(@value)
+                @volume[name] = Time.parse(@value)
               when 'item'
-                @response[:volume_set] << @volume
-                @volume = { :attachment_set => [] }
+                @response['volumeSet'] << @volume
+                @volume = { 'attachmentSet' => [] }
               when 'requestId'
-                @response[:request_id] = @value
+                @response[name] = @value
               when 'size'
-                @volume[:size] = @value.to_i
-              when 'snapshotId'
-                @volume[:snapshot_id] = @value
-              when 'status'
-                @volume[:status] = @value
-              when 'volumeId'
-                @volume[:volume_id] = @value
+                @volume[name] = @value.to_i
               end
             end
           end

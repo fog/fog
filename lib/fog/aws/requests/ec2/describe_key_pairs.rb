@@ -10,14 +10,14 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :request_id<~String> - Id of request
-      #     * :key_set<~Array>:
-      #       * :key_name<~String> - Name of key
-      #       * :key_fingerprint<~String> - Fingerprint of key
+      #     * 'requestId'<~String> - Id of request
+      #     * 'keySet'<~Array>:
+      #       * 'keyName'<~String> - Name of key
+      #       * 'keyFingerprint'<~String> - Fingerprint of key
       def describe_key_pairs(key_name = [])
         params = indexed_params('KeyName', key_name)
         request({
-          'Action' => 'DescribeKeyPairs',
+          'Action' => 'DescribeKeyPairs'
         }.merge!(params), Fog::Parsers::AWS::EC2::DescribeKeyPairs.new)
       end
 

@@ -6,23 +6,19 @@ module Fog
         class DescribeAvailabilityZones < Fog::Parsers::Base
 
           def reset
-            @zone = {}
-            @response = { :availability_zone_info => [] }
+            @availability_zone = {}
+            @response = { 'availabilityZoneInfo' => [] }
           end
 
           def end_element(name)
             case name
             when 'item'
-              @response[:availability_zone_info] << @zone
-              @zone = {}
-            when 'regionName'
-              @zone[:region_name] = @value
+              @response['availabilityZoneInfo'] << @availability_zone
+              @availability_zone = {}
+            when 'regionName', 'zoneName', 'zoneState'
+              @availability_zone[name] = @value
             when 'requestId'
-              @response[:request_id] = @value
-            when 'zoneName'
-              @zone[:zone_name] = @value
-            when 'zoneState'
-              @zone[:zone_state] = @value
+              @response[name] = @value
             end
           end
 

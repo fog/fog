@@ -7,20 +7,18 @@ module Fog
 
           def reset
             @key = {}
-            @response = { :key_set => [] }
+            @response = { 'keySet' => [] }
           end
 
           def end_element(name)
             case name
             when 'item'
-              @response[:key_set] << @key
+              @response['keySet'] << @key
               @key = {}
-            when 'keyFingerprint'
-              @key[:key_fingerprint] = @value
-            when 'keyName'
-              @key[:key_name] = @value
+            when 'keyFingerprint', 'keyName'
+              @key[name] = @value
             when 'requestId'
-              @response[:request_id] = @value
+              @response[name] = @value
             end
           end
 

@@ -7,14 +7,8 @@ module Fog
 
           def end_element(name)
             case name
-            when 'keyFingerprint'
-              @response[:key_fingerprint] = @value
-            when 'keyMaterial'
-              @response[:key_material] = @value
-            when 'keyName'
-              @response[:key_name] = @value
-            when 'requestId'
-              @response[:request_id] = @value
+            when 'keyFingerprint', 'keyMaterial', 'keyName', 'requestId'
+              @response[name] = @value
             end
           end
 

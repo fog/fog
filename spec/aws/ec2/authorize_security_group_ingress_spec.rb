@@ -12,14 +12,13 @@ describe 'EC2.authorize_security_group_ingress' do
 
   it "should return proper attributes" do
     actual = ec2.authorize_security_group_ingress({
-      :cidr_id => '127.0.0.1',
-      :from_port => 80,
-      :group_name => 'fog_security_group',
-      :ip_protocol => 'tcp',
-      :to_port => 80,
+      'FromPort' => 80,
+      'GroupName' => 'fog_security_group',
+      'IpProtocol' => 'tcp',
+      'ToPort' => 80,
     })
-    actual.body[:request_id].should be_a(String)
-    [false, true].should include(actual.body[:return])
+    actual.body['requestId'].should be_a(String)
+    [false, true].should include(actual.body['return'])
   end
 
 end

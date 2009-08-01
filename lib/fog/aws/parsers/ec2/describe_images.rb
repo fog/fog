@@ -6,8 +6,8 @@ module Fog
         class DescribeImages < Fog::Parsers::Base
 
           def reset
-            @image = { :product_codes => [] }
-            @response = { :image_set => [] }
+            @image = { 'productCodes' => [] }
+            @response = { 'imagesSet' => [] }
           end
 
           def start_element(name, attrs = [])
@@ -19,41 +19,25 @@ module Fog
           
           def end_element(name)
             case name
-            when 'architecture'
-              @image[:architecture] = @value
-            when 'imageId'
-              @image[:image_id] = @value
-            when 'imageLocation'
-              @image[:image_location] = @value
-            when 'imageOwnerId'
-              @image[:image_owner_id] = @value
-            when 'imageState'
-              @image[:image_state] = @value
-            when 'imageType'
-              @image[:image_type] = @value
+            when 'architecture',  'imageId', 'imageLocation', 'imageOwnerId', 'imageState', 'imageType', 'kernelId', 'platform', 'ramdiskId'
+              @image[name] = @value
             when 'isPublic'
               if @value == 'true'
-                @image[:is_public] = true
+                @image[name] = true
               else
-                @image[:is_public] = false
+                @image[name] = false
               end
             when 'item'
               unless @in_product_codes
-                @response[:image_set] << @image
-                @image = { :product_codes => [] }
+                @response['imagesSet'] << @image
+                @image = { 'productCodes' => [] }
               end
-            when 'kernelId'
-              @image[:kernel_id] = @value
-            when 'platform'
-              @image[:platform] = @value
             when 'productCode'
-              @image[:product_codes] << @value
+              @image['productCodes'] << @value
             when 'productCodes'
               @in_product_codes = false
-            when 'ramdiskId'
-              @image[:ramdisk_id] = @value
             when 'requestId'
-              @response[:request_id] = @value
+              @response[name] = @value
             end
           end
 

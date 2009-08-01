@@ -10,8 +10,8 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :request_id<~String> id of request
-      #     * :return<~Boolean> - success?
+      #     * 'requestId'<~String> id of request
+      #     * 'return'<~Boolean> - success?
       def delete_key_pair(key_name)
         request({
           'Action' => 'DeleteKeyPair',

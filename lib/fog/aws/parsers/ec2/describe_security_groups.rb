@@ -7,10 +7,10 @@ module Fog
 
           def reset
             @group = {}
-            @ip_permission = { :groups => [], :ip_ranges => []}
+            @ip_permission = { 'groups' => [], 'ipRanges' => []}
             @ip_range = {}
-            @security_group = { :ip_permissions => [] }
-            @response = { :security_group_info => [] }
+            @security_group = { 'ipPermissions' => [] }
+            @response = { 'securityGroupInfo' => [] }
           end
 
           def start_element(name, attrs = [])
@@ -27,47 +27,43 @@ module Fog
           def end_element(name)
             case name
             when 'cidrIp'
-              @ip_range[:cidrIp] = @value
-            when 'fromPort'
-              @ip_permission[:from_port] = @value.to_i
+              @ip_range[name] = @value
+            when 'fromPort', 'toPort'
+              @ip_permission[name] = @value.to_i
             when 'groups'
               @in_groups = false
-            when 'groupDescription'
-              @security_group[:group_description] = @value
+            when 'groupDescription', 'ownerId'
+              @security_group[name] = @value
             when 'groupName'
               if @in_groups
-                @group[:group_name] = @value
+                @group[name] = @value
               else
-                @security_group[:group_name] = @value
+                @security_group[name] = @value
               end
             when 'ipPermissions'
               @in_ip_permissions = false
             when 'ipProtocol'
-              @ip_permission[:ip_protocol] = @value
+              @ip_permission[name] = @value
             when 'ipRanges'
               @in_ip_ranges = false
             when 'item'
               if @in_groups
-                @ip_permission[:groups] << @group
+                @ip_permission['groups'] << @group
                 @group = {}
               elsif @in_ip_permissions
-                @security_group[:ip_permissions] << @ip_permission
-                @ip_permission = { :groups => [], :ip_ranges => []}
+                @security_group['ipPermissions'] << @ip_permission
+                @ip_permission = { 'groups' => [], 'ipRanges' => []}
               elsif @in_ip_ranges
-                @ip_permission[:ip_ranges] << @ip_range
+                @ip_permission['ipRanges'] << @ip_range
                 @ip_range = {}
               else
-                @response[:security_group_info] << @security_group
-                @security_group = { :ip_permissions => [] }
+                @response['securityGroupInfo'] << @security_group
+                @security_group = { 'ipPermissions' => [] }
               end
-            when 'ownerId'
-              @security_group[:owner_id] = @value
             when 'requestId'
-              @response[:request_id] = @value
-            when 'toPort'
-              @ip_permission[:to_port] = @value.to_i
+              @response[name] = @value
             when 'userId'
-              @group[:user_id] = @value
+              @group[name] = @value
             end
           end
 

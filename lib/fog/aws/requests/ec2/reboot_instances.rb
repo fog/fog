@@ -10,8 +10,8 @@ module Fog
       # ==== Returns
       # # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :request_id<~String> - Id of request
-      #     * :return<~Boolean> - success?
+      #     * 'requestId'<~String> - Id of request
+      #     * 'return'<~Boolean> - success?
       def reboot_instances(instance_id = [])
         params = indexed_params('InstanceId', instance_id)
         request({

@@ -10,12 +10,12 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :progress<~String> - The percentage progress of the snapshot
-      #     * :request_id<~String> - id of request
-      #     * :snapshot_id<~String> - id of snapshot
-      #     * :start_time<~Time> - timestamp when snapshot was initiated
-      #     * :status<~String> - state of snapshot
-      #     * :volume_id<~String> - id of volume snapshot targets
+      #     * 'progress'<~String> - The percentage progress of the snapshot
+      #     * 'requestId'<~String> - id of request
+      #     * 'snapshotId'<~String> - id of snapshot
+      #     * 'startTime'<~Time> - timestamp when snapshot was initiated
+      #     * 'status'<~String> - state of snapshot
+      #     * 'volumeId'<~String> - id of volume snapshot targets
       def create_snapshot(volume_id)
         request({
           'Action' => 'CreateSnapshot',

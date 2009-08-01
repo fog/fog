@@ -10,10 +10,10 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :request_id<~String> - Id of request
-      #     * :address_set<~Array>:
-      #       * :instance_id<~String> - instance for ip address
-      #       * :public_ip<~String> - ip address for instance
+      #     * 'requestId'<~String> - Id of request
+      #     * 'addressesSet'<~Array>:
+      #       * 'instanceId'<~String> - instance for ip address
+      #       * 'publicIp'<~String> - ip address for instance
       def describe_addresses(public_ip = [])
         params = indexed_params('PublicIp', public_ip)
         request({

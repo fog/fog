@@ -6,8 +6,8 @@ module Fog
         class RunInstances < Fog::Parsers::Base
 
           def reset
-            @instance = { :instance_state => {}, :monitoring => {}, :placement => {}, :product_codes => [] }
-            @response = { :group_set => [], :instances_set => [] }
+            @instance = { 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
+            @response = { 'groupSet' => [], 'instancesSet' => [] }
           end
 
           def start_element(name, attrs = [])
@@ -22,63 +22,37 @@ module Fog
           def end_element(name)
             case name
             when 'amiLaunchIndex'
-              @instance[:ami_launch_index] = @value.to_i
+              @instance[name] = @value.to_i
             when 'availabilityZone'
-              @instance[:placement][:availability_zone] = @value
+              @instance['placement'][name] = @value
             when 'code'
-              @instance[:instance_state][:code] = @value.to_i
-            when 'dnsName'
-              @instance[:dns_name] = @value
+              @instance['instanceState'][name] = @value.to_i
+            when 'dnsName', 'kernelId', 'keyName', 'imageId', 'instanceId', 'instanceType', 'platform', 'privateDnsName', 'ramdiskId', 'reason', 'requestorId'
+              @instance[name] = @value
             when 'groupId'
-              @response[:group_set] << @value
+              @response['groupSet'] << @value
             when 'groupSet'
               @in_group_set = false
-            when 'kernelId'
-              @instance[:kernel_id] = @value
-            when 'keyName'
-              @instance[:key_name] = @value
-            when 'imageId'
-              @instance[:image_id] = @value
-            when 'instanceId'
-              @instance[:instance_id] = @value
-            when 'instanceType'
-              @instance[:instance_type] = @value
             when 'item'
               unless @in_group_set || @in_product_codes
-                @response[:instances_set] << @instance
-                @instance = { :instance_state => {}, :monitoring => {}, :placement => {}, :product_codes => [] }
+                @response['instancesSet'] << @instance
+                @instance = { 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
               end
-            when 'kernelId'
-              @instance[:kernel_id] = @value
             when 'launchTime'
-              @instance[:launch_time] = Time.parse(@value)
+              @instance[name] = Time.parse(@value)
             when 'name'
-              @instance[:instance_state][:name] = @value
-            when 'ownerId'
-              @response[:owner_id] = @value
-            when 'platform'
-              @instance[:platform] = @value
-            when 'privateDnsName'
-              @instance[:private_dns_name] = @value
+              @instance['instanceState'][name] = @value
+            when 'ownerId', 'requestId', 'reservationId'
+              @response[name] = @value
             when 'product_code'
-              @instance[:product_codes] << @value
+              @instance['productCodes'] << @value
             when 'productCodes'
               @in_product_codes = false
-            when 'ramdiskId'
-              @instance[:ramdisk_id] = @value
-            when 'reason'
-              @instance[:reason] = @value
-            when 'requestId'
-              @response[:request_id] = @value
-            when 'requestorId'
-              @instance[:requestor_id] = @value
-            when 'reservationId'
-              @response[:reservation_id] = @value
             when 'state'
               if @value == 'true'
-                @instance[:monitoring][:state] = true
+                @instance['monitoring'][name] = true
               else
-                @instance[:monitoring][:state] = false
+                @instance['monitoring'][name] = false
               end
             end
           end

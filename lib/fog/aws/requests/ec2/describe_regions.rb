@@ -10,10 +10,10 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :request_id<~String> - Id of request
-      #     * :region_info<~Array>:
-      #       * :region_name<~String> - Name of region
-      #       * :region_endpoint<~String> - Service endpoint for region
+      #     * 'requestId'<~String> - Id of request
+      #     * 'regionInfo'<~Array>:
+      #       * 'regionName'<~String> - Name of region
+      #       * 'regionEndpoint'<~String> - Service endpoint for region
       def describe_regions(region_name = [])
         params = indexed_params('RegionName', region_name)
         request({

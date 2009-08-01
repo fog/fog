@@ -8,8 +8,8 @@ describe 'EC2.create_security_group' do
 
   it "should return proper attributes" do
     actual = ec2.create_security_group('fog_security_group', 'a security group for testing fog')
-    actual.body[:request_id].should be_a(String)
-    [false, true].should include(actual.body[:return])
+    actual.body['requestId'].should be_a(String)
+    [false, true].should include(actual.body['return'])
   end
 
 end

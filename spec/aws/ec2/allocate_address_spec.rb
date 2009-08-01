@@ -8,9 +8,9 @@ describe 'EC2.allocate_address' do
 
   it "should return proper attributes" do
     actual = ec2.allocate_address
-    actual.body[:request_id].should be_a(String)
-    @public_ip = actual.body[:public_ip]
-    @public_ip.should be_a(String)
+    actual.body['requestId'].should be_a(String)
+    @public_ip = actual.body['publicIp']
+    actual.body['publicIp'].should be_a(String)
   end
 
 end

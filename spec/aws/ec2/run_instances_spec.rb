@@ -8,32 +8,32 @@ describe 'EC2.run_instances' do
 
   it "should return proper attributes" do
     actual = ec2.run_instances('ami-5ee70037', 1, 1)
-    @instance_id = actual.body[:instances_set].first[:instance_id]
-    actual.body[:group_set].should be_an(Array)
-    actual.body[:group_set].first.should be_a(String)
-    actual.body[:instances_set].should be_an(Array)
-    instance = actual.body[:instances_set].first
-    instance[:ami_launch_index].should be_a(Integer)
-    instance[:dns_name].should be_a(String)
-    instance[:image_id].should be_a(String)
-    instance[:instance_id].should be_a(String)
-    instance[:instance_state].should be_an(Hash)
-    instance[:instance_state][:code].should be_an(Integer)
-    instance[:instance_state][:name].should be_an(String)
-    instance[:instance_type].should be_a(String)
-    instance[:kernel_id].should be_a(String)
-    # instance[:key_name].should be_a(String)
-    instance[:launch_time].should be_a(Time)
-    instance[:monitoring].should be_a(Hash)
-    [false, true].should include(instance[:monitoring][:state])
-    instance[:placement].should be_a(Hash)
-    instance[:placement][:availability_zone].should be_a(String)
-    instance[:private_dns_name].should be_a(String)
-    instance[:ramdisk_id].should be_a(String)
-    instance[:reason].should be_a(String)
-    actual.body[:owner_id].should be_a(String)
-    actual.body[:request_id].should be_a(String)
-    actual.body[:reservation_id].should be_a(String)
+    @instance_id = actual.body['instancesSet'].first['instanceId']
+    actual.body['groupSet'].should be_an(Array)
+    actual.body['groupSet'].first.should be_a(String)
+    actual.body['instancesSet'].should be_an(Array)
+    instance = actual.body['instancesSet'].first
+    instance['amiLaunchIndex'].should be_a(Integer)
+    instance['dnsName'].should be_a(String)
+    instance['imageId'].should be_a(String)
+    instance['instanceId'].should be_a(String)
+    instance['instanceState'].should be_an(Hash)
+    instance['instanceState']['code'].should be_an(Integer)
+    instance['instanceState']['name'].should be_an(String)
+    instance['instanceType'].should be_a(String)
+    instance['kernelId'].should be_a(String)
+    instance['keyName'].should be_a(String) if instance['keyName']
+    instance['launchTime'].should be_a(Time)
+    instance['monitoring'].should be_a(Hash)
+    [false, true].should include(instance['monitoring']['state'])
+    instance['placement'].should be_a(Hash)
+    instance['placement']['availabilityZone'].should be_a(String)
+    instance['privateDnsName'].should be_a(String)
+    instance['ramdiskId'].should be_a(String)
+    instance['reason'].should be_a(String)
+    actual.body['ownerId'].should be_a(String)
+    actual.body['requestId'].should be_a(String)
+    actual.body['reservationId'].should be_a(String)
   end
 
 end

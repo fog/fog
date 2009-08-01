@@ -7,20 +7,18 @@ module Fog
 
           def reset
             @region = {}
-            @response = { :region_info => [] }
+            @response = { 'regionInfo' => [] }
           end
 
           def end_element(name)
             case name
             when 'item'
-              @response[:region_info] << @region
+              @response['regionInfo'] << @region
               @region = {}
-            when 'regionEndpoint'
-              @region[:region_endpoint] = @value
-            when 'regionName'
-              @region[:region_name] = @value
+            when 'regionEndpoint', 'regionName'
+              @region[name] = @value
             when 'requestId'
-              @response[:request_id] = @value
+              @response[name] = @value
             end
           end
 

@@ -8,17 +8,9 @@ module Fog
           def end_element(name)
             case name
             when 'attachTime'
-              @response[:attach_time] = Time.parse(@value)
-            when 'device'
-              @response[:device] = @value
-            when 'instanceId'
-              @response[:instance_id] = @value
-            when 'requestId'
-              @response[:request_id] = @value
-            when 'status'
-              @response[:status] = @value
-            when 'volumeId'
-              @response[:volume_id] = @value
+              @response[name] = Time.parse(@value)
+            when 'device', 'instanceId', 'requestId', 'status', 'volumeId'
+              @response[name] = @value
             end
           end
 

@@ -10,10 +10,10 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :key_name<~String> - Name of key
-      #     * :key_fingerprint<~String> - SHA-1 digest of DER encoded private key
-      #     * :key_material<~String> - Unencrypted encoded PEM private key
-      #     * :request_id<~String> - Id of request
+      #     * 'keyName'<~String> - Name of key
+      #     * 'keyFingerprint'<~String> - SHA-1 digest of DER encoded private key
+      #     * 'keyMaterial'<~String> - Unencrypted encoded PEM private key
+      #     * 'requestId'<~String> - Id of request
       def create_key_pair(key_name)
         request({
           'Action' => 'CreateKeyPair',

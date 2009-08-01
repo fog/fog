@@ -7,7 +7,8 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :public_ip<~String> - The acquired address
+      #     * 'publicIp'<~String> - The acquired address
+      #     * 'requestId'<~String> - Id of the request
       def allocate_address
         request({
           'Action' => 'AllocateAddress'

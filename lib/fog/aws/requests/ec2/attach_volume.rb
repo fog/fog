@@ -12,12 +12,12 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * :attach_time<~Time> - Time of attachment was initiated at
-      #     * :device<~String> - Device as it is exposed to the instance
-      #     * :instance_id<~String> - Id of instance for volume
-      #     * :request_id<~String> - Id of request
-      #     * :status<~String> - Status of volume
-      #     * :volume_id<~String> - Reference to volume
+      #     * 'attachTime'<~Time> - Time of attachment was initiated at
+      #     * 'device'<~String> - Device as it is exposed to the instance
+      #     * 'instanceId'<~String> - Id of instance for volume
+      #     * 'requestId'<~String> - Id of request
+      #     * 'status'<~String> - Status of volume
+      #     * 'volumeId'<~String> - Reference to volume
       def attach_volume(volume_id, instance_id, device)
         request({
           'Action' => 'AttachVolume',

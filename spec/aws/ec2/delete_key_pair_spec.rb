@@ -8,8 +8,8 @@ describe 'EC2.delete_key_pair' do
 
   it "should return proper attributes" do
     actual = ec2.delete_key_pair('fog_key_pair')
-    actual.body[:request_id].should be_a(String)
-    [false, true].should include(actual.body[:return])
+    actual.body['requestId'].should be_a(String)
+    [false, true].should include(actual.body['return'])
   end
 
 end
