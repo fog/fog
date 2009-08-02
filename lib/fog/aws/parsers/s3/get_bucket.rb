@@ -17,6 +17,8 @@ module Fog
               @object = { 'Owner' => {} }
             when 'DisplayName', 'ID'
               @object['Owner'][name] = @value
+            when 'ETag'
+              @object[name] = @value.gsub('"', '')
             when 'IsTruncated'
               if @value == 'true'
                 @response['IsTruncated'] = true
@@ -31,7 +33,7 @@ module Fog
               @response['MaxKeys'] = @value.to_i
             when 'Size'
               @object['Size'] = @value.to_i
-            when 'Delimeter', 'ETag', 'Key', 'Name', 'StorageClass'
+            when 'Delimeter', 'Key', 'Name', 'StorageClass'
               @object[name] = @value
             end
           end
