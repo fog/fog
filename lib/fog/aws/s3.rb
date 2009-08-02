@@ -6,9 +6,18 @@ require 'hmac-sha1'
 require 'mime/types'
 
 current_directory = File.dirname(__FILE__)
+require "#{current_directory}/../collection"
 require "#{current_directory}/../connection"
+require "#{current_directory}/../model"
 require "#{current_directory}/../parser"
 require "#{current_directory}/../response"
+
+models_directory = "#{current_directory}/models/s3"
+require "#{models_directory}/bucket"
+require "#{models_directory}/buckets"
+require "#{models_directory}/object"
+require "#{models_directory}/objects"
+require "#{models_directory}/owner"
 
 parsers_directory = "#{current_directory}/parsers/s3"
 require "#{parsers_directory}/copy_object"
