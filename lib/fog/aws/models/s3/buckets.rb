@@ -27,6 +27,12 @@ module Fog
           buckets
         end
 
+        def create(attributes = {})
+          bucket = new(attributes)
+          bucket.save
+          bucket
+        end
+
         def get(name, options = {})
           data = connection.get_bucket(name, options).body
           objects = Fog::AWS::S3::Objects.new({
@@ -52,6 +58,10 @@ module Fog
             })
           end
           objects
+        end
+
+        def new(attributes = {})
+          Fog::AWS::S3::Bucket.new(attributes.merge!(:connection => connection))
         end
 
       end

@@ -10,4 +10,16 @@ describe 'S3.buckets' do
     p s3.buckets.get('monki')
   end
 
+  it "should create bucket" do
+    p @bucket = s3.buckets.create(:name => 'fogbucketstest')
+    p @bucket.delete
+  end
+
+  it "should put request payment" do
+    p @bucket = s3.buckets.create(:name => 'fogbucketspaymenttest')
+    p @bucket.payer = 'BucketOwner'
+    p @bucket.payer
+    p @bucket.delete
+  end
+
 end
