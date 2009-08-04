@@ -4,7 +4,16 @@ module Fog
 
       class Bucket < Fog::Model
 
-        attr_accessor :creation_date, :location, :name, :owner
+        attr_accessor :creation_date, :location, :name, :objects, :owner
+
+        def initialize(attributes = {})
+          remap_attributes(attributes, {
+            'CreationDate'  => :creation_date,
+            'Name'          => :name
+          })
+          super
+          @objects ||= []
+        end
 
         def delete
           connection.delete_bucket(name)

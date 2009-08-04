@@ -30,5 +30,13 @@ module Fog
       @connection
     end
 
+    def remap_attributes(attributes, mapping)
+      for key, value in mapping
+        if attributes[key]
+          attributes[value] = attributes.delete(key)
+        end
+      end
+    end
+
   end
 end

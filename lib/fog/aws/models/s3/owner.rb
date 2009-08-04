@@ -6,6 +6,14 @@ module Fog
 
         attr_accessor :display_name, :id
 
+        def initialize(attributes = {})
+          remap_attributes(attributes, { 
+            'DisplayName' => :display_name,
+            'ID'          => :id
+          })
+          super
+        end
+
       end
 
     end

@@ -10,19 +10,13 @@ module Fog
 
         def all
           data = connection.get_service.body
-          owner = Fog::AWS::S3::Owner.new({
-            :connection   => connection,
-            :display_name => data['Owner']['DisplayName'],
-            :id           => data['Owner']['ID']
-          })
+          owner = Fog::AWS::S3::Owner.new(data.delete('Owner').merge!(:connection => connection))
           buckets = []
           data['Buckets'].each do |bucket|
             buckets << Fog::AWS::S3::Bucket.new({
               :connection     => connection,
-              :creation_date  => bucket['CreationDate'],
-              :name           => bucket['Name'],
               :owner          => owner
-            })
+            }.merge!(bucket))
           end
           buckets
         end
@@ -35,29 +29,26 @@ module Fog
 
         def get(name, options = {})
           data = connection.get_bucket(name, options).body
-          objects = Fog::AWS::S3::Objects.new({
-            :connection   => connection,
-            :is_truncated => data['IsTruncated'],
-            :marker       => data['Marker'],
-            :max_keys     => data['MaxKeys'],
-            :name         => data['Name'],
-            :prefix       => data['Prefix']
+          bucket = Fog::AWS::S3::Bucket.new({
+            :connection => connection
           })
-          data['Contents'].each do |object|
-            objects << Fog::AWS::S3::Object.new({
-              :connection     => connection,
-              :etag           => object['ETag'],
-              :key            => object['Key'],
-              :last_modified  => object['LastModified'],
-              :owner          => Fog::AWS::S3::Owner.new({
-                :display_name => object['Owner']['DisplayName'],
-                :id           => object['Owner']['ID']
-              }),
-              :size           => object['Size'],
-              :storage_class  => object['StorageClass']
-            })
+          objects = {}
+          for key, value in data
+            if ['IsTruncated', 'Marker', 'MaxKeys', 'Prefix'].include?(key)
+              objects[key] = value
+            end
           end
-          objects
+          bucket.objects = Fog::AWS::S3::Objects.new({
+            :connection   => connection
+          }.merge!(objects))
+          data['Contents'].each do |object|
+            owner = Fog::AWS::S3::Owner.new(object.delete('Owner').merge!(:connection => connection))
+            bucket.objects << Fog::AWS::S3::Object.new({
+              :connection     => connection,
+              :owner          => owner
+            }.merge!(object))
+          end
+          bucket
         end
 
         def new(attributes = {})
