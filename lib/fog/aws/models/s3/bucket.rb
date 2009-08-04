@@ -12,18 +12,22 @@ module Fog
         end
 
         def location
-          data = s3.get_bucket_location(name)
-          @location = data.body['LocationConstraint']
+          @location ||= begin
+            data = s3.get_bucket_location(name)
+            data.body['LocationConstraint']
+          end
         end
 
         def payer
-          data = connection.get_request_payment(name)
-          data.body['Payer']
+          @payer ||= begin
+            data = connection.get_request_payment(name)
+            data.body['Payer']
+          end
         end
 
         def payer=(new_payer)
           connection.put_request_payment(name, new_payer)
-          new_payer
+          @payer = new_payer
         end
 
         def save
