@@ -16,7 +16,9 @@ module Fog
         end
 
         def delete
+          return false if new_record?
           connection.delete_bucket(name)
+          @new_record = true
           true
         end
 
@@ -45,6 +47,7 @@ module Fog
             options['LocationConstraint'] = @location
           end
           connection.put_bucket(name, options)
+          @new_record = false
           true
         end
 

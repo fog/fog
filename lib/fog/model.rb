@@ -25,6 +25,10 @@ module Fog
       @connection
     end
 
+    def new_record?
+      !defined?(@new_record) || @new_record
+    end
+
     def remap_attributes(attributes, mapping)
       for key, value in mapping
         if attributes[key]
