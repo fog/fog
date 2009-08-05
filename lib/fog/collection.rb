@@ -2,9 +2,7 @@ module Fog
   class Collection < Array
 
     def initialize(attributes = {})
-      for key, value in attributes
-        send(:"#{key}=", value)
-      end
+      update_attributes(attributes)
     end
 
     def inspect
@@ -18,6 +16,12 @@ module Fog
       end
       data = data[0..-3]
       data << "]>"
+    end
+
+    def update_attributes(attributes = {})
+      for key, value in attributes
+        send(:"#{key}=", value)
+      end
     end
 
     private

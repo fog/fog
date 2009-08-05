@@ -32,18 +32,20 @@ module Fog
           bucket = Fog::AWS::S3::Bucket.new({
             :connection => connection
           })
-          objects = {}
+          objects_data = {}
           for key, value in data
             if ['IsTruncated', 'Marker', 'MaxKeys', 'Prefix'].include?(key)
-              objects[key] = value
+              objects_data[key] = value
             end
           end
           bucket.objects = Fog::AWS::S3::Objects.new({
+            :bucket       => bucket,
             :connection   => connection
-          }.merge!(objects))
+          }.merge!(objects_data))
           data['Contents'].each do |object|
             owner = Fog::AWS::S3::Owner.new(object.delete('Owner').merge!(:connection => connection))
             bucket.objects << Fog::AWS::S3::Object.new({
+              :bucket         => bucket,
               :connection     => connection,
               :owner          => owner
             }.merge!(object))

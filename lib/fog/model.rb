@@ -2,9 +2,7 @@ module Fog
   class Model
 
     def initialize(attributes = {})
-      for key, value in attributes
-        send(:"#{key}=", value)
-      end
+      update_attributes(attributes)
     end
 
     def inspect
@@ -13,6 +11,12 @@ module Fog
         data << " #{attribute}=#{send(attribute[1..-1].to_sym).inspect}"
       end
       data << ">"
+    end
+
+    def update_attributes(attributes = {})
+      for key, value in attributes
+        send(:"#{key}=", value)
+      end
     end
 
     private
