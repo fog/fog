@@ -23,7 +23,7 @@ module Fog
         end
 
         def get(key, options = {})
-          data = connection.get_object(bucket, key, options)
+          data = connection.get_object(bucket.name, key, options)
           object_data = {}
           for key, value in data.headers
             if ['Content-Length', 'ETag', 'Last-Modified'].include?(key)
@@ -38,7 +38,7 @@ module Fog
         end
 
         def head(key, options = {})
-          data = connection.head_object(bucket, key, options)
+          data = connection.head_object(bucket.name, key, options)
           object_data = {}
           for key, value in data.headers
             if ['Content-Length', 'ETag', 'Last-Modified'].include?(key)
