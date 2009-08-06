@@ -17,6 +17,7 @@ module Fog
       for key, value in attributes
         send(:"#{key}=", value)
       end
+      self
     end
 
     private

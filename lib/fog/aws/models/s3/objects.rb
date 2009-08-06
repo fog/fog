@@ -16,39 +16,33 @@ module Fog
           super
         end
 
+        def all
+          data = connection.get_bucket(bucket.name, options).body
+          objects_data = {}
+          for key, value in data
+            if ['IsTruncated', 'Marker', 'MaxKeys', 'Prefix'].include?(key)
+              objects_data[key] = value
+            end
+          end
+          objects = Fog::AWS::S3::Objects.new({
+            :bucket       => bucket,
+            :connection   => connection
+          }.merge!(objects_data))
+          data['Contents'].each do |object|
+            owner = Fog::AWS::S3::Owner.new(object.delete('Owner').merge!(:connection => connection))
+            bucket.objects << Fog::AWS::S3::Object.new({
+              :bucket         => bucket,
+              :connection     => connection,
+              :owner          => owner
+            }.merge!(object))
+          end
+          objects
+        end
+
         def create(attributes = {})
           object = new(attributes)
           object.save
           object
-        end
-
-        def get(key, options = {})
-          data = connection.get_object(bucket.name, key, options)
-          object_data = {}
-          for key, value in data.headers
-            if ['Content-Length', 'ETag', 'Last-Modified'].include?(key)
-              object_data[key] = value
-            end
-          end
-          object = Fog::AWS::S3::Object.new({
-            :bucket     => bucket,
-            :body       => data.body,
-            :connection => connection
-          }.merge!(object_data))
-        end
-
-        def head(key, options = {})
-          data = connection.head_object(bucket.name, key, options)
-          object_data = {}
-          for key, value in data.headers
-            if ['Content-Length', 'ETag', 'Last-Modified'].include?(key)
-              object_data[key] = value
-            end
-          end
-          object = Fog::AWS::S3::Object.new({
-            :bucket     => bucket,
-            :connection => connection
-          }.merge!(object_data))
         end
 
         def new(attributes = {})
