@@ -70,7 +70,9 @@ else
             response.body = {
               'IsTruncated' => false,
               'Contents' => bucket['Contents'].map do |object|
-                object.reject {|key, value| !['ETag', 'Key', 'LastModified', 'Owner', 'StorageClass'].include?(key)}
+                data = object.reject {|key, value| !['ETag', 'Key', 'LastModified', 'Owner', 'StorageClass'].include?(key)}
+                data['LastModified'] = Time.parse(data['LastModified'])
+                data
               end
             }
           end

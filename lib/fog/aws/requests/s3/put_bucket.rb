@@ -50,7 +50,8 @@ else
           @data['Buckets'] << {
             'Name' => bucket_name,
             'Contents' => [],
-            'CreationDate' => Time.now
+            'CreationDate' => Time.now,
+            'Payer' => 'BucketOwner'
           }
           response
         end
