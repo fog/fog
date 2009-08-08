@@ -1,6 +1,7 @@
 require 'spec'
 
 current_directory = File.dirname(__FILE__)
+# require "#{current_directory}/../lib/fog"
 require "#{current_directory}/../lib/fog/mocking"
 
 def credentials

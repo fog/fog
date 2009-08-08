@@ -39,8 +39,13 @@ else
         def get_service
           response = Fog::Response.new
           response.headers['Status'] = 200
+          buckets = @data['Buckets'].map do |bucket|
+            bucket.reject do |key, value|
+              !['CreationDate', 'Name'].include?(key)
+            end
+          end
           response.body = {
-            'Buckets' => @data['Buckets'],
+            'Buckets' => buckets,
             'Owner' => { 'DisplayName' => 'owner', 'ID' => 'some_id'}
           }
           response

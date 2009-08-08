@@ -33,8 +33,13 @@ else
 
         def delete_bucket(bucket_name)
           response = Fog::Response.new
-          response.status = 204
-          @data['Buckets'].delete_if {|bucket| bucket['Name'] == bucket_name}
+          bucket_status = get_bucket(bucket_name).status
+          if bucket_status == 200
+            response.status = 204
+            @data['Buckets'].delete_if {|bucket| bucket['Name'] == bucket_name}
+          else
+            response.status = bucket_status
+          end
           response
         end
 

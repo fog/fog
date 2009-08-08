@@ -47,7 +47,11 @@ else
         def put_bucket(bucket_name, options = {})
           response = Fog::Response.new
           response.status = 200
-          @data['Buckets'] << { 'Name' => bucket_name, 'CreationDate' => Time.now }
+          @data['Buckets'] << {
+            'Name' => bucket_name,
+            'Contents' => [],
+            'CreationDate' => Time.now
+          }
           response
         end
 
