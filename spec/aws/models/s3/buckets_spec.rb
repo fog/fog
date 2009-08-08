@@ -15,7 +15,7 @@ describe 'S3.buckets' do
     p @bucket.delete
   end
 
-  it "should put request payment" do
+  it "should get/put request payment" do
     p @bucket = s3.buckets.create(:name => 'fogbucketspaymenttest')
     p @bucket.payer = 'BucketOwner'
     p @bucket.payer
