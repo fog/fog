@@ -1,13 +1,9 @@
-require "#{File.dirname(__FILE__)}/fog/aws"
-
 module Fog
 
-  def self.mocking=(new_mocking)
-    @mocking = new_mocking
-  end
-
   def self.mocking?
-    !!@mocking
+    false
   end
 
 end
+
+require "#{File.dirname(__FILE__)}/fog/aws"

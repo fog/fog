@@ -1,3 +1,29 @@
+current_directory = File.dirname(__FILE__)
+require "#{current_directory}/../connection"
+require "#{current_directory}/../parser"
+require "#{current_directory}/../response"
+
+parsers_directory = "#{current_directory}/parsers/s3"
+require "#{parsers_directory}/copy_object"
+require "#{parsers_directory}/get_bucket"
+require "#{parsers_directory}/get_bucket_location"
+require "#{parsers_directory}/get_request_payment"
+require "#{parsers_directory}/get_service"
+
+requests_directory = "#{current_directory}/requests/s3"
+require "#{requests_directory}/copy_object"
+require "#{requests_directory}/delete_bucket"
+require "#{requests_directory}/delete_object"
+require "#{requests_directory}/get_bucket"
+require "#{requests_directory}/get_bucket_location"
+require "#{requests_directory}/get_object"
+require "#{requests_directory}/get_request_payment"
+require "#{requests_directory}/get_service"
+require "#{requests_directory}/head_object"
+require "#{requests_directory}/put_bucket"
+require "#{requests_directory}/put_object"
+require "#{requests_directory}/put_request_payment"
+
 module Fog
   module AWS
     class S3
@@ -20,34 +46,6 @@ module Fog
       # ==== Returns
       # * S3 object with connection to aws.
       def initialize(options={})
-        Fog.mocking = options[:mocking]  || false
-
-        current_directory = File.dirname(__FILE__)
-        require "#{current_directory}/../connection"
-        require "#{current_directory}/../parser"
-        require "#{current_directory}/../response"
-
-        parsers_directory = "#{current_directory}/parsers/s3"
-        require "#{parsers_directory}/copy_object"
-        require "#{parsers_directory}/get_bucket"
-        require "#{parsers_directory}/get_bucket_location"
-        require "#{parsers_directory}/get_request_payment"
-        require "#{parsers_directory}/get_service"
-
-        requests_directory = "#{current_directory}/requests/s3"
-        require "#{requests_directory}/copy_object"
-        require "#{requests_directory}/delete_bucket"
-        require "#{requests_directory}/delete_object"
-        require "#{requests_directory}/get_bucket"
-        require "#{requests_directory}/get_bucket_location"
-        require "#{requests_directory}/get_object"
-        require "#{requests_directory}/get_request_payment"
-        require "#{requests_directory}/get_service"
-        require "#{requests_directory}/head_object"
-        require "#{requests_directory}/put_bucket"
-        require "#{requests_directory}/put_object"
-        require "#{requests_directory}/put_request_payment"
-
         @aws_access_key_id      = options[:aws_access_key_id]
         @aws_secret_access_key  = options[:aws_secret_access_key]
         @hmac       = HMAC::SHA1.new(@aws_secret_access_key)
@@ -55,6 +53,10 @@ module Fog
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'
         @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
+
+        if Fog.mocking?
+          @data = { 'Buckets' => [] }
+        end
       end
 
       private

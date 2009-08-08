@@ -40,7 +40,7 @@ else
           response = Fog::Response.new
           response.headers['Status'] = 200
           response.body = {
-            'Buckets' => [ { 'CreationDate' => Time.now - rand(3600), 'Name' => 'foggetservice' } ],
+            'Buckets' => @data['Buckets'],
             'Owner' => { 'DisplayName' => 'owner', 'ID' => 'some_id'}
           }
           response

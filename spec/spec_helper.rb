@@ -1,11 +1,7 @@
 require 'spec'
 
 current_directory = File.dirname(__FILE__)
-require "#{current_directory}/../lib/fog"
-Fog.mocking = true
-
-Spec::Runner.configure do |config|
-end
+require "#{current_directory}/../lib/fog/mocking"
 
 def credentials
   @credentials ||= begin
@@ -16,37 +12,29 @@ def credentials
 end
 
 def ec2
-  @ec2 ||= begin
-    Fog::AWS::EC2.new(
-      :aws_access_key_id => credentials['aws_access_key_id'],
-      :aws_secret_access_key => credentials['aws_secret_access_key']
-    )
-  end
+  Fog::AWS::EC2.new(
+    :aws_access_key_id => credentials['aws_access_key_id'],
+    :aws_secret_access_key => credentials['aws_secret_access_key']
+  )
 end
 def sdb
-  @sdb ||= begin
-    Fog::AWS::SimpleDB.new(
-      :aws_access_key_id => credentials['aws_access_key_id'],
-      :aws_secret_access_key => credentials['aws_secret_access_key']
-    )
-  end
+  Fog::AWS::SimpleDB.new(
+    :aws_access_key_id => credentials['aws_access_key_id'],
+    :aws_secret_access_key => credentials['aws_secret_access_key']
+  )
 end
 def s3
-  @s3 ||= begin
-    Fog::AWS::S3.new(
-      :aws_access_key_id => credentials['aws_access_key_id'],
-      :aws_secret_access_key => credentials['aws_secret_access_key']
-    )
-  end
+  Fog::AWS::S3.new(
+    :aws_access_key_id => credentials['aws_access_key_id'],
+    :aws_secret_access_key => credentials['aws_secret_access_key']
+  )
 end
 def eu_s3
-  @eu_s3 ||= begin
-    Fog::AWS::S3.new(
-      :aws_access_key_id => credentials['aws_access_key_id'],
-      :aws_secret_access_key => credentials['aws_secret_access_key'],
-      :host => 's3-external-3.amazonaws.com'
-    )
-  end
+  Fog::AWS::S3.new(
+    :aws_access_key_id => credentials['aws_access_key_id'],
+    :aws_secret_access_key => credentials['aws_secret_access_key'],
+    :host => 's3-external-3.amazonaws.com'
+  )
 end
 
 def eventually(max_delay = 16, &block)
