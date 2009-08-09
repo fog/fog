@@ -55,7 +55,6 @@ unless Fog.mocking?
 
 else
 
-  # TODO: IsTruncated, Marker, MaxKeys, Name, Prefix
   module Fog
     module AWS
       class S3
@@ -68,12 +67,17 @@ else
           else
             response.status = 200
             response.body = {
-              'IsTruncated' => false,
               'Contents' => bucket['Contents'].map do |object|
-                data = object.reject {|key, value| !['ETag', 'Key', 'LastModified', 'Owner', 'StorageClass'].include?(key)}
-                data['LastModified'] = Time.parse(data['LastModified'])
+                data = object.reject {|key, value| !['ETag', 'Key', 'LastModified', 'Owner', 'Size', 'StorageClass'].include?(key)}
+                data['LastModified']  = Time.parse(data['LastModified'])
+                data['Size'] = data['Size'].to_i
                 data
-              end
+              end,
+              'IsTruncated' => false,
+              'Marker'      => options['Marker'] || '',
+              'MaxKeys'     => options['MaxKeys'] || 1000,
+              'Name'        => bucket['Name'],
+              'Prefix'      => options['Prefix'] || ''
             }
           end
           response

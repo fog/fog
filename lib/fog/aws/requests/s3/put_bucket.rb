@@ -47,12 +47,18 @@ else
         def put_bucket(bucket_name, options = {})
           response = Fog::Response.new
           response.status = 200
-          @data['Buckets'] << {
+          bucket = {
             'Name' => bucket_name,
             'Contents' => [],
             'CreationDate' => Time.now,
             'Payer' => 'BucketOwner'
           }
+          if options['LocationConstraint']
+            bucket['LocationConstraint'] = options['LocationConstraint']
+          else
+            bucket['LocationConstraint'] = ''
+          end
+          @data['Buckets'] << bucket
           response
         end
 

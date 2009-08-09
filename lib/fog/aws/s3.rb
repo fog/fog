@@ -28,6 +28,10 @@ module Fog
   module AWS
     class S3
 
+      if Fog.mocking?
+        attr_accessor :data
+      end
+
       # Initialize connection to S3
       #
       # ==== Notes
