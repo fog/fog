@@ -5,7 +5,7 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "fog"
-    gem.summary = %Q{TODO}
+    gem.summary = %Q{brings clouds to you}
     gem.email = "me@geemus.com"
     gem.homepage = "http://github.com/geemus/fog"
     gem.authors = ["Wesley Beary"]
