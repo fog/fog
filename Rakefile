@@ -1,6 +1,9 @@
 require 'rubygems'
 require 'rake'
 
+current_directory = File.dirname(__FILE__)
+require "#{current_directory}/lib/fog"
+
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
@@ -20,6 +23,7 @@ end
 require 'spec/rake/spectask'
 Spec::Rake::SpecTask.new(:spec) do |spec|
   spec.libs << 'lib' << 'spec'
+  spec.spec_opts = ['-c']
   spec.spec_files = FileList['spec/**/*_spec.rb']
 end
 
@@ -29,7 +33,24 @@ Spec::Rake::SpecTask.new(:rcov) do |spec|
   spec.rcov = true
 end
 
-task :default => :spec
+namespace :specs do
+
+  task :with_mocking do
+    Fog.mocking = true
+    Rake::Task[:spec].invoke
+  end
+
+  task :without_mocking do
+    Fog.mocking = true
+    Rake::Task[:spec].invoke
+  end
+
+end
+
+desc 'Run specs with and without mocking'
+task :specs => %w[ specs:with_mocking specs:without_mocking ]
+
+task :default => :specs
 
 require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|
