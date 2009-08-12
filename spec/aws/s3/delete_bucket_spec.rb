@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe 'S3.delete_bucket' do
 
   before(:all) do
-    @s3 = s3
+    @s3 = Fog::AWS::S3.gen
     @s3.put_bucket('fogdeletebucket')
   end
 

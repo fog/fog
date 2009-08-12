@@ -3,8 +3,8 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe 'S3.get_bucket_location' do
 
   before(:all) do
-    @s3 = s3
-    @eu_s3 = eu_s3
+    @s3 = Fog::AWS::S3.gen
+    @eu_s3 = Fog::AWS::S3.gen(:eu)
     @s3.put_bucket('foggetlocation', 'LocationConstraint' => 'EU')
   end
 

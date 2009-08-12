@@ -12,30 +12,41 @@ def credentials
   end
 end
 
-def ec2
-  Fog::AWS::EC2.new(
-    :aws_access_key_id => credentials['aws_access_key_id'],
-    :aws_secret_access_key => credentials['aws_secret_access_key']
-  )
-end
-def sdb
-  Fog::AWS::SimpleDB.new(
-    :aws_access_key_id => credentials['aws_access_key_id'],
-    :aws_secret_access_key => credentials['aws_secret_access_key']
-  )
-end
-def s3
-  Fog::AWS::S3.new(
-    :aws_access_key_id => credentials['aws_access_key_id'],
-    :aws_secret_access_key => credentials['aws_secret_access_key']
-  )
-end
-def eu_s3
-  Fog::AWS::S3.new(
-    :aws_access_key_id => credentials['aws_access_key_id'],
-    :aws_secret_access_key => credentials['aws_secret_access_key'],
-    :host => 's3-external-3.amazonaws.com'
-  )
+module Fog
+  module AWS
+
+    class EC2
+      def self.gen
+        new(
+          :aws_access_key_id => credentials['aws_access_key_id'],
+          :aws_secret_access_key => credentials['aws_secret_access_key']
+        )
+      end
+    end
+
+    class S3
+      def self.gen(location = nil)
+        if location == :eu
+          host = 's3-external-3.amazonaws.com'
+        end
+        new(
+          :aws_access_key_id => credentials['aws_access_key_id'],
+          :aws_secret_access_key => credentials['aws_secret_access_key'],
+          :host => host
+        )
+      end
+    end
+
+    class SimpleDB
+      def self.gen
+        new(
+          :aws_access_key_id => credentials['aws_access_key_id'],
+          :aws_secret_access_key => credentials['aws_secret_access_key']
+        )
+      end
+    end
+
+  end
 end
 
 def eventually(max_delay = 16, &block)

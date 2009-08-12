@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe 'S3.get_object' do
 
   before(:all) do
-    @s3 = s3
+    @s3 = Fog::AWS::S3.gen
     @s3.put_bucket('foggetobject')
     file = File.open(File.dirname(__FILE__) + '/../../lorem.txt', 'r')
     @s3.put_object('foggetobject', 'fog_get_object', file)
