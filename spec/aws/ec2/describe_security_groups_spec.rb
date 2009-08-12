@@ -2,8 +2,12 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe 'EC2.describe_security_groups' do
 
+  before(:all) do
+    @ec2 = Fog::AWS::EC2.gen
+  end
+
   it "should return proper attributes with no params" do
-    actual = ec2.describe_security_groups
+    actual = @ec2.describe_security_groups
     actual.body['requestId'].should be_a(String)
     actual.body['securityGroupInfo'].should be_an(Array)
     security_group = actual.body['securityGroupInfo'].select do |security_group| 
@@ -25,7 +29,7 @@ describe 'EC2.describe_security_groups' do
   end
 
   it "should return proper attributes with params" do
-    actual = ec2.describe_security_groups('default')
+    actual = @ec2.describe_security_groups('default')
     actual.body['requestId'].should be_a(String)
     actual.body['securityGroupInfo'].should be_an(Array)
     security_group = actual.body['securityGroupInfo'].select do |security_group| 
