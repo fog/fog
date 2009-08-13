@@ -56,7 +56,7 @@ else
             bucket = @data['Buckets'].select {|bucket| bucket['Name'] == bucket_name}.first
             bucket['Contents'] << {
               :body           => file[:body],
-              'ETag'          => 'some_etag',
+              'ETag'          => Digest::SHA1.hexdigest(rand.to_s)[0...32],
               'Key'           => object_name,
               'LastModified'  => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000"),
               'Owner'         => { 'DisplayName' => 'owner', 'ID' => 'some_id'},

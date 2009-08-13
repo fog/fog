@@ -54,13 +54,23 @@ else
             bucket = @data['Buckets'].select {|bucket| bucket['Name'] == bucket_name}.first
             object = bucket['Contents'].select {|object| object['Key'] == object_name}.first
             if object
-              response.status = 200
-              response.headers = {
-                'Content-Length' => object['Size'],
-                'ETag' => object['ETag'],
-                'Last-Modified' => object['LastModified']
-              }
-              response.body = object[:body]
+              if options['If-Match'] && options['If-Match'] != object['ETag']
+                response.status = 412
+              elsif options['If-Modified-Since'] && options['If-Modified-Since'] > Time.parse(object['LastModified'])
+                response.status = 304
+              elsif options['If-None-Match'] && options['If-None-Match'] == object['ETag']
+                response.status = 304
+              elsif options['If-Unmodified-Since'] && options['If-Unmodified-Since'] < Time.parse(object['LastModified'])
+                response.status = 412
+              else
+                response.status = 200
+                response.headers = {
+                  'Content-Length' => object['Size'],
+                  'ETag' => object['ETag'],
+                  'Last-Modified' => object['LastModified']
+                }
+                response.body = object[:body]
+              end
             else
               response.status = 404
             end
