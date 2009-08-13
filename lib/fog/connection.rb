@@ -23,7 +23,7 @@ unless Fog.mocking?
       end
 
       # Messages for nicer exceptions, from rfc2616
-      def error_message(expected, actual)
+      def error_message(expected, actual, response)
         @messages ||= { 
           100 => 'Continue', 
           101 => 'Switching Protocols',
@@ -65,7 +65,7 @@ unless Fog.mocking?
           503 => 'Service Unavailable',
           504 => 'Gateway Timeout'
         }
-        "Expected(#{expected} #{@messages[expected]}) <=> Got(#{actual} #{@messages[actual]})"
+        "Expected(#{expected} #{@messages[expected]}) <=> Got(#{actual} #{@messages[actual]}) #{response.inspect}"
       end
 
       def request(params)
@@ -130,7 +130,7 @@ unless Fog.mocking?
         end
 
         if params[:expects] && params[:expects] != response.status
-          raise(error_message(params[:expects], response.status))
+          raise(error_message(params[:expects], response.status, response))
         else
           response
         end
