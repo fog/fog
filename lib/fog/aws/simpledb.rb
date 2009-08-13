@@ -1,8 +1,3 @@
-require 'rubygems'
-require 'base64'
-require 'cgi'
-require 'hmac-sha2'
-
 current_directory = File.dirname(__FILE__)
 require "#{current_directory}/../connection"
 require "#{current_directory}/../parser"
@@ -29,6 +24,31 @@ require "#{requests_directory}/select"
 module Fog
   module AWS
     class SimpleDB
+
+      def self.reload
+        current_directory = File.dirname(__FILE__)
+        load "#{current_directory}/../connection.rb"
+        load "#{current_directory}/../parser.rb"
+        load "#{current_directory}/../response.rb"
+
+        parsers_directory = "#{current_directory}/parsers/simpledb"
+        load "#{parsers_directory}/basic.rb"
+        load "#{parsers_directory}/domain_metadata.rb"
+        load "#{parsers_directory}/get_attributes.rb"
+        load "#{parsers_directory}/list_domains.rb"
+        load "#{parsers_directory}/select.rb"
+
+        requests_directory = "#{current_directory}/requests/simpledb"
+        load "#{requests_directory}/batch_put_attributes.rb"
+        load "#{requests_directory}/create_domain.rb"
+        load "#{requests_directory}/delete_attributes.rb"
+        load "#{requests_directory}/delete_domain.rb"
+        load "#{requests_directory}/domain_metadata.rb"
+        load "#{requests_directory}/get_attributes.rb"
+        load "#{requests_directory}/list_domains.rb"
+        load "#{requests_directory}/put_attributes.rb"
+        load "#{requests_directory}/select.rb"
+      end
 
       # Initialize connection to SimpleDB
       #

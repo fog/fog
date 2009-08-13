@@ -2,27 +2,17 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe 'S3.put_bucket' do
 
-  after(:all) do
-    s3.delete_bucket('fogputbucket')
+  before(:all) do
+    @s3 = Fog::AWS::S3.gen
   end
 
-  it 'should not include fogputbucket in get_service buckets before put_bucket' do
-    eventually do
-      actual = s3.get_service
-      actual.body['Buckets'].collect { |bucket| bucket['Name'] }.should_not include('fogputbucket')
-    end
+  after(:all) do
+    @s3.delete_bucket('fogputbucket')
   end
 
   it 'should return proper attributes' do
-    actual = s3.put_bucket('fogputbucket')
+    actual = @s3.put_bucket('fogputbucket')
     actual.status.should == 200
-  end
-
-  it 'should include fogputbucket in get_service buckets after put_bucket' do
-    eventually do
-      actual = s3.get_service
-      actual.body['Buckets'].collect { |bucket| bucket['Name'] }.should include('fogputbucket')
-    end
   end
 
 end

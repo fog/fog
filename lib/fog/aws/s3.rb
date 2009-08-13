@@ -1,10 +1,3 @@
-require 'rubygems'
-require 'base64'
-require 'cgi'
-require 'digest/md5'
-require 'hmac-sha1'
-require 'mime/types'
-
 current_directory = File.dirname(__FILE__)
 require "#{current_directory}/../connection"
 require "#{current_directory}/../parser"
@@ -35,6 +28,38 @@ module Fog
   module AWS
     class S3
 
+      def self.reload
+        current_directory = File.dirname(__FILE__)
+        load "#{current_directory}/../connection.rb"
+        load "#{current_directory}/../parser.rb"
+        load "#{current_directory}/../response.rb"
+
+        parsers_directory = "#{current_directory}/parsers/s3"
+        load "#{parsers_directory}/copy_object.rb"
+        load "#{parsers_directory}/get_bucket.rb"
+        load "#{parsers_directory}/get_bucket_location.rb"
+        load "#{parsers_directory}/get_request_payment.rb"
+        load "#{parsers_directory}/get_service.rb"
+
+        requests_directory = "#{current_directory}/requests/s3"
+        load "#{requests_directory}/copy_object.rb"
+        load "#{requests_directory}/delete_bucket.rb"
+        load "#{requests_directory}/delete_object.rb"
+        load "#{requests_directory}/get_bucket.rb"
+        load "#{requests_directory}/get_bucket_location.rb"
+        load "#{requests_directory}/get_object.rb"
+        load "#{requests_directory}/get_request_payment.rb"
+        load "#{requests_directory}/get_service.rb"
+        load "#{requests_directory}/head_object.rb"
+        load "#{requests_directory}/put_bucket.rb"
+        load "#{requests_directory}/put_object.rb"
+        load "#{requests_directory}/put_request_payment.rb"
+      end
+
+      if Fog.mocking?
+        attr_accessor :data
+      end
+
       # Initialize connection to S3
       #
       # ==== Notes
@@ -60,6 +85,10 @@ module Fog
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'
         @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
+
+        if Fog.mocking?
+          @data = { 'Buckets' => [] }
+        end
       end
 
       private
