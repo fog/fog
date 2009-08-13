@@ -6,10 +6,6 @@ describe 'S3.buckets' do
     p s3.buckets.all
   end
 
-  it "should return bucket from get" do
-    p s3.buckets.get('monki')
-  end
-
   it "should create bucket" do
     p @bucket = s3.buckets.create(:name => 'fogbucketstest')
     p @bucket.delete

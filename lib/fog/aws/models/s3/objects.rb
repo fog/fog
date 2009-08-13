@@ -30,7 +30,7 @@ module Fog
           }.merge!(objects_data))
           data['Contents'].each do |object|
             owner = Fog::AWS::S3::Owner.new(object.delete('Owner').merge!(:connection => connection))
-            bucket.objects << Fog::AWS::S3::Object.new({
+            objects << Fog::AWS::S3::Object.new({
               :bucket         => bucket,
               :connection     => connection,
               :owner          => owner

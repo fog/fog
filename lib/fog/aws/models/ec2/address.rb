@@ -15,16 +15,13 @@ module Fog
         end
 
         def delete
-          return false if new_record?
           connection.release_address(@public_ip)
-          @new_record = true
           true
         end
 
         def save
           data = connection.allocate_address
           @public_ip = data.body['publicIp']
-          @new_record = false
           true
         end
 

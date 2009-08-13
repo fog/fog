@@ -1,5 +1,5 @@
 module Fog
-  class Collection < Array
+  class Collection
 
     def initialize(attributes = {})
       update_attributes(attributes)

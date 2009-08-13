@@ -41,9 +41,7 @@ module Fog
         end
 
         def delete
-          return false if new_record?
           connection.delete_object(bucket, key)
-          @new_record = true
           true
         end
 
@@ -58,7 +56,6 @@ module Fog
         def save(options = {})
           data = connection.put_object(bucket, key, body, options)
           @etag = data.headers['ETag']
-          @new_record = false
           true
         end
 

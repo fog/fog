@@ -16,9 +16,7 @@ module Fog
         end
 
         def delete
-          return false if new_record?
           connection.delete_key_pair(@name)
-          @new_record = true
           true
         end
 
@@ -26,7 +24,6 @@ module Fog
           data = connection.create_key_pair(@name)
           new_attributes = data['Body'].reject {|key,value| !['keyFingerprint', 'keyMaterial', 'keyName'].include?(key)}
           update_attributes(new_attributes)
-          @new_record = false
           true
         end
 

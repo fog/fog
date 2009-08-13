@@ -4,7 +4,7 @@ module Fog
 
       class Bucket < Fog::Model
 
-        attr_accessor :creation_date, :location, :name, :objects, :owner
+        attr_accessor :creation_date, :location, :name, :owner
 
         def initialize(attributes = {})
           remap_attributes(attributes, {
@@ -12,16 +12,10 @@ module Fog
             'Name'          => :name
           })
           super
-          @objects ||= Fog::AWS::S3::Objects.new({
-            :bucket       => bucket,
-            :connection   => connection
-          })
         end
 
         def delete
-          return false if new_record?
           connection.delete_bucket(name)
-          @new_record = true
           true
         end
 
@@ -30,6 +24,10 @@ module Fog
             data = s3.get_bucket_location(name)
             data.body['LocationConstraint']
           end
+        end
+
+        def objects
+          Fog::AWS::S3::Objects.new(:connection   => connection)
         end
 
         def payer
@@ -50,7 +48,6 @@ module Fog
             options['LocationConstraint'] = @location
           end
           connection.put_bucket(name, options)
-          @new_record = false
           true
         end
 
