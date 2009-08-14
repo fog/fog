@@ -4,7 +4,9 @@ module Fog
 
       class KeyPair < Fog::Model
 
-        attr_accessor :fingerprint, :material, :name
+        attr_accessor :fingerprint,
+          :material,
+          :name
 
         def initialize(attributes = {})
           remap_attributes(attributes, {
@@ -17,14 +19,13 @@ module Fog
 
         def delete
           connection.delete_key_pair(@name)
-          true
         end
 
         def save
-          data = connection.create_key_pair(@name)
-          new_attributes = data['Body'].reject {|key,value| !['keyFingerprint', 'keyMaterial', 'keyName'].include?(key)}
+          data = connection.create_key_pair(@name).body
+          new_attributes = data.reject {|key,value| !['keyFingerprint', 'keyMaterial', 'keyName'].include?(key)}
           update_attributes(new_attributes)
-          true
+          data
         end
 
       end

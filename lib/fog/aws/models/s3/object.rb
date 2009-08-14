@@ -4,7 +4,14 @@ module Fog
 
       class Object < Fog::Model
 
-        attr_accessor :body, :content_length, :etag, :key, :last_modified, :owner, :size, :storage_class
+        attr_accessor :body,
+          :content_length,
+          :etag,
+          :key,
+          :last_modified,
+          :owner,
+          :size,
+          :storage_class
 
         def initialize(attributes = {})
           remap_attributes(attributes, {
@@ -42,7 +49,6 @@ module Fog
 
         def delete
           connection.delete_object(bucket, key)
-          true
         end
 
         def etag
@@ -56,7 +62,6 @@ module Fog
         def save(options = {})
           data = connection.put_object(bucket, key, body, options)
           @etag = data.headers['ETag']
-          true
         end
 
         private

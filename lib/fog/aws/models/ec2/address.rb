@@ -4,7 +4,8 @@ module Fog
 
       class Address < Fog::Model
 
-        attr_accessor :instance_id, :public_ip
+        attr_accessor :instance_id,
+          :public_ip
 
         def initialize(attributes = {})
           remap_attributes(attributes, {
@@ -16,13 +17,11 @@ module Fog
 
         def delete
           connection.release_address(@public_ip)
-          true
         end
 
         def save
           data = connection.allocate_address
           @public_ip = data.body['publicIp']
-          true
         end
 
       end

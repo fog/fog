@@ -4,7 +4,10 @@ module Fog
 
       class Objects < Fog::Collection
 
-        attr_accessor :is_truncated, :marker, :max_keys, :prefix
+        attr_accessor :is_truncated,
+          :marker,
+          :max_keys,
+          :prefix
 
         def initialize(attributes = {})
           remap_attributes(attributes, {

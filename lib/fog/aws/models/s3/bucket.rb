@@ -4,7 +4,10 @@ module Fog
 
       class Bucket < Fog::Model
 
-        attr_accessor :creation_date, :location, :name, :owner
+        attr_accessor :creation_date,
+          :location,
+          :name,
+          :owner
 
         def initialize(attributes = {})
           remap_attributes(attributes, {
@@ -16,7 +19,6 @@ module Fog
 
         def delete
           connection.delete_bucket(name)
-          true
         end
 
         def location
@@ -48,7 +50,6 @@ module Fog
             options['LocationConstraint'] = @location
           end
           connection.put_bucket(name, options)
-          true
         end
 
       end

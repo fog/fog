@@ -12,12 +12,13 @@ module Fog
       # ==== Returns
       # * response<~Fog::AWS::Response>:
       #   * body<~Hash>:
-      #     * 'volumeId'<~String> - Reference to volume
-      #     * 'size'<~Integer> - Size in GiBs for volume
-      #     * 'status's<~String> - State of volume
-      #     * 'createTime'<~Time> - Timestamp for creation
       #     * 'availabilityZone'<~String> - Availability zone for volume
+      #     * 'createTime'<~Time> - Timestamp for creation
+      #     * 'requestId'<~String> - Id of request
+      #     * 'size'<~Integer> - Size in GiBs for volume
       #     * 'snapshotId'<~String> - Snapshot volume was created from, if any
+      #     * 'status'<~String> - State of volume
+      #     * 'volumeId'<~String> - Reference to volume
       def create_volume(availability_zone, size, snapshot_id = nil)
         request({
           'Action' => 'CreateVolume',
