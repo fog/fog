@@ -31,9 +31,10 @@ else
           response = Fog::Response.new
           response.status = 200
           data ={
-            'publicIp' => Fog::AWS::Mock.ip_address
+            'instanceId' => '',
+            'publicIp'   => Fog::AWS::Mock.ip_address
           }
-          @data[:addresses] << data
+          @data['addressesSet'] << data
           response.body = {
             'publicIp'  => data['publicIp'],
             'requestId' => Fog::AWS::Mock.request_id

@@ -30,9 +30,9 @@ else
 
         def release_address(public_ip)
           response = Fog::Response.new
-          initial_addresses_count = @data[:addresses].length
-          @data[:addresses].delete_if {|address| address['publicIp'] == public_ip}
-          if initial_addresses_count > @data[:addresses].length
+          initial_addresses_count = @data['addressesSet'].length
+          @data['addressesSet'].delete_if {|address| address['publicIp'] == public_ip}
+          if initial_addresses_count > @data['addressesSet'].length
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,
