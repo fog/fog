@@ -29,6 +29,45 @@ module Fog
 
       class Mock
 
+        def self.etag
+          hex(32)
+        end
+
+        def self.instance_id
+        end
+
+        def self.ip_address
+          ip = []
+          4.times do
+            ip << numbers(rand(3) + 1).to_i.to_s # remove leading 0
+          end
+          ip.join('.')
+        end
+
+        def self.request_id
+          request_id = []
+          request_id << hex(8)
+          3.times do
+            request_id << hex(4)
+          end
+          request_id << hex(12)
+          request_id.join('-')
+        end
+
+        def self.volume_id
+        end
+
+        private
+
+        def self.random_selection(characters, length)
+          selection = ''
+          length.times do
+            position = rand(characters.length)
+            selection << characters[position..position]
+          end
+          selection
+        end
+
         def self.letters(length)
           random_selection(
             'abcdefghijklmnopqrstuvwxyz',
@@ -48,21 +87,6 @@ module Fog
             '0123456789abcdef',
             length
           )
-        end
-
-        def self.etag
-          hex(32)
-        end
-
-        private
-
-        def self.random_selection(characters, length)
-          selection = ''
-          length.times do
-            position = rand(characters.length)
-            selection << characters[position..position]
-          end
-          selection
         end
 
       end

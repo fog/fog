@@ -144,6 +144,10 @@ module Fog
         # TODO: require "#{requests_directory}/unmonitor_instances.rb"
       end
 
+      if Fog.mocking?
+        attr_accessor :data
+      end
+
       # Initialize connection to EC2
       #
       # ==== Notes
@@ -169,6 +173,10 @@ module Fog
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'
         @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
+
+        if Fog.mocking?
+          @data = { :addresses => [] }
+        end
       end
 
       private
