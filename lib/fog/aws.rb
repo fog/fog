@@ -54,7 +54,12 @@ module Fog
           request_id.join('-')
         end
 
+        def self.snapshot_id
+          "snap-#{hex(8)}"
+        end
+
         def self.volume_id
+          "vol-#{hex(8)}"
         end
 
         private

@@ -175,7 +175,7 @@ module Fog
         @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
 
         if Fog.mocking?
-          @data = { 'addressesSet' => [] }
+          @data = { :deleted_at => {}, 'addressesSet' => [], 'volumeSet' => [] }
         end
       end
 
