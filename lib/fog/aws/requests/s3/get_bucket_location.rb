@@ -15,12 +15,12 @@ unless Fog.mocking?
         #     * 'LocationConstraint'<~String> - Location constraint of the bucket
         def get_bucket_location(bucket_name)
           request({
-            :expects => 200,
-            :headers => {},
-            :host => "#{bucket_name}.#{@host}",
-            :method => 'GET',
-            :parser => Fog::Parsers::AWS::S3::GetBucketLocation.new,
-            :query => 'location'
+            :expects  => 200,
+            :headers  => {},
+            :host     => "#{bucket_name}.#{@host}",
+            :method   => 'GET',
+            :parser   => Fog::Parsers::AWS::S3::GetBucketLocation.new,
+            :query    => 'location'
           })
         end
 

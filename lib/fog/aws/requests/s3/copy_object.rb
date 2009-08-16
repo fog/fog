@@ -28,12 +28,12 @@ unless Fog.mocking?
         def copy_object(source_bucket_name, source_object_name, target_bucket_name, target_object_name, options = {})
           headers = { 'x-amz-copy-source' => "/#{source_bucket_name}/#{source_object_name}" }.merge!(options)
           request({
-            :expects => 200,
-            :headers => headers,
-            :host => "#{target_bucket_name}.#{@host}",
-            :method => 'PUT',
-            :parser => Fog::Parsers::AWS::S3::CopyObject.new,
-            :path => target_object_name
+            :expects  => 200,
+            :headers  => headers,
+            :host     => "#{target_bucket_name}.#{@host}",
+            :method   => 'PUT',
+            :parser   => Fog::Parsers::AWS::S3::CopyObject.new,
+            :path     => target_object_name
           })
         end
 

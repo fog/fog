@@ -15,12 +15,12 @@ unless Fog.mocking?
         #     * 'Payer'<~String> - Specifies who pays for download and requests
         def get_request_payment(bucket_name)
           request({
-            :expects => 200,
-            :headers => {},
-            :host => "#{bucket_name}.#{@host}",
-            :method => 'GET',
-            :parser => Fog::Parsers::AWS::S3::GetRequestPayment.new,
-            :query => 'requestPayment'
+            :expects  => 200,
+            :headers  => {},
+            :host     => "#{bucket_name}.#{@host}",
+            :method   => 'GET',
+            :parser   => Fog::Parsers::AWS::S3::GetRequestPayment.new,
+            :query    => 'requestPayment'
           })
         end
 

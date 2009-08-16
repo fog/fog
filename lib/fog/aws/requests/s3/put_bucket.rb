@@ -26,11 +26,11 @@ unless Fog.mocking?
             data = nil
           end
           request({
-            :expects => 200,
-            :body => data,
-            :headers => {},
-            :host => "#{bucket_name}.#{@host}",
-            :method => 'PUT'
+            :expects  => 200,
+            :body     => data,
+            :headers  => {},
+            :host     => "#{bucket_name}.#{@host}",
+            :method   => 'PUT'
           })
         end
 

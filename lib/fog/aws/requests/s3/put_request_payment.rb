@@ -17,12 +17,12 @@ unless Fog.mocking?
 </RequestPaymentConfiguration>
 DATA
           request({
-            :body => data,
-            :expects => 200,
-            :headers => {},
-            :host => "#{bucket_name}.#{@host}",
-            :method => 'PUT',
-            :query => "requestPayment"
+            :body     => data,
+            :expects  => 200,
+            :headers  => {},
+            :host     => "#{bucket_name}.#{@host}",
+            :method   => 'PUT',
+            :query    => "requestPayment"
           })
         end
 

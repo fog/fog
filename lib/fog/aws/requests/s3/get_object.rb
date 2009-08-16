@@ -29,11 +29,11 @@ unless Fog.mocking?
           headers['If-Unmodified-Since'] = options['If-Unmodified-Since'].utc.strftime("%a, %d %b %Y %H:%M:%S +0000") if options['If-Modified-Since']
           headers.merge!(options)
           request({
-            :expects => 200,
-            :headers => headers,
-            :host => "#{bucket_name}.#{@host}",
-            :method => 'GET',
-            :path => object_name
+            :expects  => 200,
+            :headers  => headers,
+            :host     => "#{bucket_name}.#{@host}",
+            :method   => 'GET',
+            :path     => object_name
           })
         end
 

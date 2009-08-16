@@ -40,12 +40,12 @@ unless Fog.mocking?
           end
           query.chop!
           request({
-            :expects => 200,
-            :headers => {},
-            :host => "#{bucket_name}.#{@host}",
-            :method => 'GET',
-            :parser => Fog::Parsers::AWS::S3::GetBucket.new,
-            :query => query
+            :expects  => 200,
+            :headers  => {},
+            :host     => "#{bucket_name}.#{@host}",
+            :method   => 'GET',
+            :parser   => Fog::Parsers::AWS::S3::GetBucket.new,
+            :query    => query
           })
         end
 

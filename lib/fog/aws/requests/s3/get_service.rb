@@ -17,12 +17,12 @@ unless Fog.mocking?
         #       * 'ID'<~String> - Id of bucket owner
         def get_service
           request({
-            :expects => 200,
-            :headers => {},
-            :host => @host,
-            :method => 'GET',
-            :parser => Fog::Parsers::AWS::S3::GetService.new,
-            :url => @host
+            :expects  => 200,
+            :headers  => {},
+            :host     => @host,
+            :method   => 'GET',
+            :parser   => Fog::Parsers::AWS::S3::GetService.new,
+            :url      => @host
           })
         end
 

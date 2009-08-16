@@ -28,12 +28,12 @@ unless Fog.mocking?
           file = parse_file(object)
           headers = file[:headers].merge!(options)
           request({
-            :body => file[:body],
-            :expects => 200,
-            :headers => headers,
-            :host => "#{bucket_name}.#{@host}",
-            :method => 'PUT',
-            :path => object_name
+            :body     => file[:body],
+            :expects  => 200,
+            :headers  => headers,
+            :host     => "#{bucket_name}.#{@host}",
+            :method   => 'PUT',
+            :path     => object_name
           })
         end
 
