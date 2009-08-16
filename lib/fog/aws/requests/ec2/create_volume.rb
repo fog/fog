@@ -42,6 +42,7 @@ else
         def create_volume(availability_zone, size, snapshot_id = nil)
           response = Fog::Response.new
           response.status = 200
+          volume_id = Fog::AWS::Mock.volume_id
           data = {
             'availabilityZone'  => availability_zone,
             'attachmentSet'     => [],
@@ -49,9 +50,9 @@ else
             'size'              => size,
             'snapshotId'        => snapshot_id || '',
             'status'            => 'creating',
-            'volumeId'          => Fog::AWS::Mock.volume_id
+            'volumeId'          => volume_id
           }
-          @data['volumeSet'] << data
+          @data[:volumes][volume_id] = data
           response.body = {
             'requestId' => Fog::AWS::Mock.request_id
           }.merge!(data.reject {|key,value| !['availabilityZone','createTime','size','snapshotId','status','volumeId'].include?(key) })

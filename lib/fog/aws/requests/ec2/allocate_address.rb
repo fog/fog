@@ -30,13 +30,14 @@ else
         def allocate_address
           response = Fog::Response.new
           response.status = 200
+          public_ip = Fog::AWS::Mock.ip_address
           data ={
             'instanceId' => '',
-            'publicIp'   => Fog::AWS::Mock.ip_address
+            'publicIp'   => public_ip
           }
-          @data['addressesSet'] << data
+          @data[:addresses][public_ip] = data
           response.body = {
-            'publicIp'  => data['publicIp'],
+            'publicIp'  => public_ip,
             'requestId' => Fog::AWS::Mock.request_id
           }
           response

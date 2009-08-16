@@ -46,9 +46,9 @@ else
           volume_id = [*volume_id]
           response = Fog::Response.new
           if volume_id != []
-            volume_set = @data['volumeSet'].select {|volume| volume_id.include?(volume['volumeId'])}
+            volume_set = @data[:volumes].reject {|key,value| !volume_id.include?(key)}.values
           else
-            volume_set = @data['volumeSet']
+            volume_set = @data[:volumes].values
           end
 
           volume_set.each do |volume|
@@ -60,7 +60,7 @@ else
             when 'deleting'
               if Time.now - @data[:deleted_at][volume['volumeId']] > 2
                 @data[:deleted_at].delete(volume['volumeId'])
-                volume_set.delete(volume)
+                @data[:volumes].delete(volume['volumeId'])
               end
             end
           end

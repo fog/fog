@@ -33,9 +33,7 @@ else
 
         def delete_volume(volume_id)
           response = Fog::Response.new
-          initial_volumes_count = @data['volumeSet'].length
-          volume = @data['volumeSet'].select {|volume| volume['volumeId'] == volume_id}.first
-          if volume
+          if volume = @data[:volumes][volume_id]
             @data[:deleted_at][volume['volumeId']] = Time.now
             volume['status'] = 'deleting'
             response.status = 200

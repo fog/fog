@@ -175,7 +175,7 @@ module Fog
         @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
 
         if Fog.mocking?
-          @data = { :deleted_at => {}, 'addressesSet' => [], 'volumeSet' => [] }
+          @data = { :deleted_at => {}, :addresses => {}, :volumes => {} }
         end
       end
 
@@ -211,12 +211,12 @@ module Fog
         body << "Signature=#{CGI.escape(Base64.encode64(hmac.digest).chomp!).gsub(/\+/, '%20')}"
 
         response = @connection.request({
-          :body => body,
-          :expects => 200,
-          :headers => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-          :host => @host,
-          :method => 'POST',
-          :parser => parser
+          :body     => body,
+          :expects  => 200,
+          :headers  => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+          :host     => @host,
+          :method   => 'POST',
+          :parser   => parser
         })
 
         response

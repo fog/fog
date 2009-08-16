@@ -149,14 +149,14 @@ DATA
         params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature}"
 
         response = @connection.request({
-          :body => params[:body],
-          :expects => params[:expects],
-          :headers => params[:headers],
-          :host => params[:host],
-          :method => params[:method],
-          :parser => params[:parser],
-          :path => params[:path],
-          :query => params[:query]
+          :body     => params[:body],
+          :expects  => params[:expects],
+          :headers  => params[:headers],
+          :host     => params[:host],
+          :method   => params[:method],
+          :parser   => params[:parser],
+          :path     => params[:path],
+          :query    => params[:query]
         })
 
         response

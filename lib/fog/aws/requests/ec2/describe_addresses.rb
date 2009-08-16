@@ -37,9 +37,9 @@ else
           public_ip = [*public_ip]
           response = Fog::Response.new
           if public_ip != []
-            addresses_set = @data['addressesSet'].select {|address| public_ip.include?(address['publicIp'])}
+            addresses_set = @data[:addresses].reject {|key, value| !public_ip.include?(key)}.values
           else
-            addresses_set = @data['addressesSet']
+            addresses_set = @data[:addresses].values
           end
           if public_ip.length == 0 || public_ip.length == addresses_set.length
             response.status = 200
