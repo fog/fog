@@ -49,31 +49,24 @@ else
 
         def copy_object(source_bucket_name, source_object_name, target_bucket_name, target_object_name, options = {})
           response = Fog::Response.new
-          source_bucket_status = get_bucket(source_bucket_name).status
-          target_bucket_status = get_bucket(target_bucket_name).status
-          source_object_status = get_object(source_bucket_name, source_object_name).status
+          source_bucket = @data[:buckets][source_bucket_name]
+          source_object = source_bucket && source_bucket[:objects][source_object_name]
+          target_bucket = @data[:buckets][target_bucket_name]
 
-          if source_bucket_status != 200
-            response.status = source_bucket_status
-          elsif target_bucket_status != 200
-            response.status = target_bucket_status
-          elsif source_bucket_status != 200
-            response.status = source_bucket_status
-          else
+          if source_object && target_bucket
             response.status = 200
-          end
-
-          if response.status == 200
-            source_bucket = @data['Buckets'].select {|bucket| bucket['Name'] == source_bucket_name}.first
-            source_object = source_bucket['Contents'].select {|object| object['Key'] == source_object_name}.first
-            target_bucket = @data['Buckets'].select {|bucket| bucket['Name'] == target_bucket_name}.first
             target_object = source_object.dup
-            target_object['Name'] = target_object_name
-            target_bucket['Contents'] << target_object
+            target_object.merge!({
+              'ETag' => Fog::AWS::Mock.etag,
+              'Name' => target_object_name
+            })
+            target_bucket[:objects][target_object_name] = target_object
             response.body = {
               'ETag'          => target_object['ETag'],
               'LastModified'  => Time.parse(target_object['LastModified'])
             }
+          else
+            response.status = 404
           end
 
           response

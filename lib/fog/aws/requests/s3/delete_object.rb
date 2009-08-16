@@ -35,13 +35,11 @@ else
 
         def delete_object(bucket_name, object_name)
           response = Fog::Response.new
-          object_status = get_object(bucket_name, object_name).status
-          if object_status == 200
+          if (bucket = @data[:buckets][bucket_name]) && @data[:buckets][bucket_name][:objects][object_name]
             response.status = 204
-            bucket = @data['Buckets'].select {|bucket| bucket['Name'] == bucket_name}.first
-            bucket['Contents'].delete_if {|object| object['Key'] == object_name}
+            bucket[:objects].delete(object_name)
           else
-            response.status = object_status
+            response.status = 404
           end
           response
         end

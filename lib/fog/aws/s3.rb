@@ -87,7 +87,7 @@ module Fog
         @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
 
         if Fog.mocking?
-          @data = { 'Buckets' => [] }
+          @data = { :buckets => {} }
         end
       end
 

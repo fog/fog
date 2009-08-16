@@ -36,13 +36,11 @@ else
 
         def get_bucket_location(bucket_name)
           response = Fog::Response.new
-          bucket_status = get_bucket(bucket_name).status
-          if bucket_status == 200
+          if bucket = @data[:buckets][bucket_name]
             response.status = 200
-            bucket = @data['Buckets'].select {|bucket| bucket['Name'] == bucket_name}.first
             response.body = {'LocationConstraint' => bucket['LocationConstraint'] }
           else
-            response.status = bucket_status
+            response.status = 404
           end
           response
         end

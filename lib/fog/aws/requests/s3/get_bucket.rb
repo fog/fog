@@ -61,16 +61,17 @@ else
 
         def get_bucket(bucket_name, options = {})
           response = Fog::Response.new
-          bucket = @data['Buckets'].select {|bucket| bucket['Name'] == bucket_name}.first
-          unless bucket
+          unless bucket = @data[:buckets][bucket_name]
             response.status = 404
           else
             response.status = 200
             response.body = {
-              'Contents' => bucket['Contents'].map do |object|
+              'Contents' => bucket[:objects].values.map do |object|
                 data = object.reject {|key, value| !['ETag', 'Key', 'LastModified', 'Owner', 'Size', 'StorageClass'].include?(key)}
-                data['LastModified']  = Time.parse(data['LastModified'])
-                data['Size'] = data['Size'].to_i
+                data.merge!({
+                  'LastModified' => Time.parse(data['LastModified']),
+                  'Size'         => data['Size'].to_i
+                })
                 data
               end,
               'IsTruncated' => false,

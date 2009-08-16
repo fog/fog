@@ -48,17 +48,17 @@ else
           response = Fog::Response.new
           response.status = 200
           bucket = {
-            'Name' => bucket_name,
-            'Contents' => [],
-            'CreationDate' => Time.now,
-            'Payer' => 'BucketOwner'
+            :objects        => {},
+            'Name'          => bucket_name,
+            'CreationDate'  => Time.now,
+            'Payer'         => 'BucketOwner'
           }
           if options['LocationConstraint']
             bucket['LocationConstraint'] = options['LocationConstraint']
           else
             bucket['LocationConstraint'] = ''
           end
-          @data['Buckets'] << bucket
+          @data[:buckets][bucket_name] = bucket
           response
         end
 

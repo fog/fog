@@ -50,11 +50,9 @@ else
         def put_object(bucket_name, object_name, object, options = {})
           file = parse_file(object)
           response = Fog::Response.new
-          bucket_status = get_bucket(bucket_name).status
-          if bucket_status == 200
+          if (bucket = @data[:buckets][bucket_name])
             response.status = 200
-            bucket = @data['Buckets'].select {|bucket| bucket['Name'] == bucket_name}.first
-            bucket['Contents'] << {
+            bucket[:objects][object_name] = {
               :body           => file[:body],
               'ETag'          => Fog::AWS::Mock.etag,
               'Key'           => object_name,
@@ -64,7 +62,7 @@ else
               'StorageClass'  => 'STANDARD'
             }
           else
-            response.status = bucket_status
+            response.status = 404
           end
           response
         end
