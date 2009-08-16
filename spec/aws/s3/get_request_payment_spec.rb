@@ -17,4 +17,10 @@ describe 'S3.get_request_payment' do
     actual.body['Payer'].should == 'BucketOwner'
   end
 
+  it 'should raise a NotFound error if the bucket does not exist' do
+    lambda {
+      @s3.get_request_payment('fognotabucket')
+    }.should raise_error(Fog::Errors::NotFound)
+  end
+
 end

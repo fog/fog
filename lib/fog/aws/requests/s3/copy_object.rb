@@ -67,6 +67,7 @@ else
             }
           else
             response.status = 404
+            raise(Fog::Errors.status_error(200, 404, response))
           end
 
           response

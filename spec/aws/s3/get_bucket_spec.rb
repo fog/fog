@@ -33,4 +33,10 @@ describe 'S3.get_bucket' do
     object['StorageClass'].should be_a(String)
   end
 
+  it 'should raise a NotFound error if the bucket does not exist' do
+    lambda {
+      @s3.get_bucket('fognotabucket')
+    }.should raise_error(Fog::Errors::NotFound)
+  end
+
 end

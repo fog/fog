@@ -35,11 +35,12 @@ else
 
         def delete_object(bucket_name, object_name)
           response = Fog::Response.new
-          if (bucket = @data[:buckets][bucket_name]) && @data[:buckets][bucket_name][:objects][object_name]
+          if bucket = @data[:buckets][bucket_name]
             response.status = 204
             bucket[:objects].delete(object_name)
           else
             response.status = 404
+            raise(Fog::Errors.status_error(204, 404, response))
           end
           response
         end

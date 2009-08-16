@@ -12,4 +12,10 @@ describe 'S3.delete_bucket' do
     actual.status.should == 204
   end
 
+  it 'should raise a NotFound error if the bucket does not exist' do
+    lambda {
+      @s3.delete_bucket('fognotabucket')
+    }.should raise_error(Fog::Errors::NotFound)
+  end
+
 end

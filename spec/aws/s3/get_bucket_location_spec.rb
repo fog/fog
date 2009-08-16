@@ -21,4 +21,10 @@ describe 'S3.get_bucket_location' do
     actual.body['LocationConstraint'].should == 'EU'
   end
 
+  it 'should raise NotFound error if bucket does not exist' do
+    lambda {
+      @s3.get_bucket_location('fognotabucket')
+    }.should raise_error(Fog::Errors::NotFound)
+  end
+
 end

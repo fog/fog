@@ -16,4 +16,10 @@ describe 'S3.put_request_payment' do
     actual.status.should == 200
   end
 
+  it 'should raise a NotFound error if bucket does not exist' do
+    lambda {
+      @s3.put_request_payment('fognotabucket', 'Requester')
+    }.should raise_error(Fog::Errors::NotFound)
+  end
+
 end

@@ -27,4 +27,31 @@ describe 'S3.copy_object' do
     actual.body['LastModified'].should be_a(Time)
   end
 
+  it 'should raise a NotFound error if the source_bucket does not exist' do
+    lambda {
+      @s3.copy_object(
+        'fognotabucket', 'fog_copy_object_source',
+        'fogcopyobjectdestination', 'fog_copy_object_destination'
+      )
+    }.should raise_error(Fog::Errors::NotFound)
+  end
+
+  it 'should raise a NotFound error if the source_object does not exist' do
+    lambda {
+      @s3.copy_object(
+        'fogcopyobjectsource', 'fog_not_an_object',
+        'fogcopyobjectdestination', 'fog_copy_object_destination'
+      )
+    }.should raise_error(Fog::Errors::NotFound)
+  end
+
+  it 'should raise a NotFound error if the target_bucket does not exist' do
+    lambda {
+      @s3.copy_object(
+        'fogcopyobjectsource', 'fog_copy_object_source',
+        'fognotabucket', 'fog_copy_object_destination'
+      )
+    }.should raise_error(Fog::Errors::NotFound)
+  end
+
 end

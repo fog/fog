@@ -61,9 +61,7 @@ else
 
         def get_bucket(bucket_name, options = {})
           response = Fog::Response.new
-          unless bucket = @data[:buckets][bucket_name]
-            response.status = 404
-          else
+          if bucket = @data[:buckets][bucket_name]
             response.status = 200
             response.body = {
               'Contents' => bucket[:objects].values.map do |object|
@@ -80,6 +78,9 @@ else
               'Name'        => bucket['Name'],
               'Prefix'      => options['Prefix'] || ''
             }
+          else
+            response.status = 404
+            raise(Fog::Errors.status_error(200, 404, response))
           end
           response
         end

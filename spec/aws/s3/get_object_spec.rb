@@ -25,4 +25,16 @@ describe 'S3.get_object' do
     actual.headers['Last-Modified'].should be_a(String)
   end
 
+  it 'should raise a NotFound error if the bucket does not exist' do
+    lambda {
+      @s3.get_object('fognotabucket', 'fog_get_object')
+    }.should raise_error(Fog::Errors::NotFound)
+  end
+
+  it 'should raise a NotFound error if the object does not exist' do
+    lambda {
+      @s3.get_object('foggetobject', 'fog_not_an_object')
+    }.should raise_error(Fog::Errors::NotFound)
+  end
+
 end
