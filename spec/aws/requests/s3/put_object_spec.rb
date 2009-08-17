@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../spec_helper'
+require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe 'S3.put_object' do
 
@@ -13,20 +13,20 @@ describe 'S3.put_object' do
   end
 
   it 'should return proper attributes' do
-    file = File.open(File.dirname(__FILE__) + '/../../lorem.txt', 'r')
+    file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
     actual = @s3.put_object('fogputobject', 'fog_put_object', file)
     actual.status.should == 200
   end
 
   it 'should raise a NotFound error if the bucket does not exist' do
     lambda {
-      file = File.open(File.dirname(__FILE__) + '/../../lorem.txt', 'r')
+      file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
       @s3.put_object('fognotabucket', 'fog_put_object', file)
     }.should raise_error(Fog::Errors::NotFound)
   end
 
   it 'should not raise an error if the object already exists' do
-    file = File.open(File.dirname(__FILE__) + '/../../lorem.txt', 'r')
+    file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
     actual = @s3.put_object('fogputobject', 'fog_put_object', file)
     actual.status.should == 200
   end

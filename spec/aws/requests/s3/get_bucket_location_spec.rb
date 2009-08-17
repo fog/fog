@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../spec_helper'
+require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe 'S3.get_bucket_location' do
 

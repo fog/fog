@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../../spec_helper'
+require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe 'SimpleDB.batch_put_attributes' do
 

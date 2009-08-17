@@ -1,11 +1,11 @@
-require File.dirname(__FILE__) + '/../../spec_helper'
+require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe 'S3.get_bucket' do
 
   before(:all) do
     @s3 = Fog::AWS::S3.gen
     @s3.put_bucket('foggetbucket')
-    file = File.open(File.dirname(__FILE__) + '/../../lorem.txt', 'r')
+    file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
     @s3.put_object('foggetbucket', 'fog_get_bucket', file)
   end
 

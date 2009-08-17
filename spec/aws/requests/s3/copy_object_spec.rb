@@ -1,11 +1,11 @@
-require File.dirname(__FILE__) + '/../../spec_helper'
+require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe 'S3.copy_object' do
 
   before(:all) do
     @s3 = Fog::AWS::S3.gen
     @s3.put_bucket('fogcopyobjectsource')
-    file = File.open(File.dirname(__FILE__) + '/../../lorem.txt', 'r')
+    file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
     @s3.put_object('fogcopyobjectsource', 'fog_copy_object_source', file)
     @s3.put_bucket('fogcopyobjectdestination')
   end
