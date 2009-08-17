@@ -7,6 +7,9 @@ require "#{current_directory}/lib/fog"
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
+    gem.add_dependency('mime-types')
+    gem.add_dependency('nokogiri')
+    gem.add_dependency('ruby-hmac')
     gem.name = "fog"
     gem.summary = %Q{brings clouds to you}
     gem.email = "me@geemus.com"
