@@ -3,20 +3,21 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe 'EC2.describe_snapshots' do
 
   before(:all) do
-    @volume_id = ec2.create_volume('us-east-1a', 1).body['volumeId']
-    @snapshot_id = ec2.create_snapshot(@volume_id).body['snapshotId']
+    @ec2 = Fog::AWS::EC2.gen
+    @volume_id = @ec2.create_volume('us-east-1a', 1).body['volumeId']
+    @snapshot_id = @ec2.create_snapshot(@volume_id).body['snapshotId']
   end
 
   after(:all) do
-    ec2.delete_volume(@volume_id)
+    @ec2.delete_volume(@volume_id)
     eventually do
-      ec2.delete_snapshot(@snapshot_id)
+      @ec2.delete_snapshot(@snapshot_id)
     end
   end
 
   it "should return proper attributes with no params" do
     eventually do
-      actual = ec2.describe_snapshots
+      actual = @ec2.describe_snapshots
       actual.body['snapshotSet'].should be_an(Array)
       snapshot = actual.body['snapshotSet'].select {|snapshot| snapshot['snapshotId'] == @snapshot_id}.first
       snapshot['progress'].should be_a(String)
@@ -29,7 +30,7 @@ describe 'EC2.describe_snapshots' do
   
   it "should return proper attributes with params" do
     eventually do
-      actual = ec2.describe_snapshots([@snapshot_id])
+      actual = @ec2.describe_snapshots([@snapshot_id])
       actual.body['snapshotSet'].should be_an(Array)
       snapshot = actual.body['snapshotSet'].select {|snapshot| snapshot['snapshotId'] == @snapshot_id}.first
       snapshot['progress'].should be_a(String)

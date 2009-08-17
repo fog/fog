@@ -3,15 +3,16 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe 'EC2.authorize_security_group_ingress' do
 
   before(:all) do
-    ec2.create_security_group('fog_security_group', 'a security group for testing fog')
+    @ec2 = Fog::AWS::EC2.gen
+    @ec2.create_security_group('fog_security_group', 'a security group for testing fog')
   end
 
   after(:all) do
-    ec2.delete_security_group('fog_security_group')
+    @ec2.delete_security_group('fog_security_group')
   end
 
   it "should return proper attributes" do
-    actual = ec2.authorize_security_group_ingress({
+    actual = @ec2.authorize_security_group_ingress({
       'FromPort' => 80,
       'GroupName' => 'fog_security_group',
       'IpProtocol' => 'tcp',

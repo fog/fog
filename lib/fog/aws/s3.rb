@@ -1,48 +1,38 @@
-require 'rubygems'
-require 'base64'
-require 'cgi'
-require 'digest/md5'
-require 'hmac-sha1'
-require 'mime/types'
-
-current_directory = File.dirname(__FILE__)
-require "#{current_directory}/../collection"
-require "#{current_directory}/../connection"
-require "#{current_directory}/../model"
-require "#{current_directory}/../parser"
-require "#{current_directory}/../response"
-
-models_directory = "#{current_directory}/models/s3"
-require "#{models_directory}/bucket"
-require "#{models_directory}/buckets"
-require "#{models_directory}/object"
-require "#{models_directory}/objects"
-require "#{models_directory}/owner"
-
-parsers_directory = "#{current_directory}/parsers/s3"
-require "#{parsers_directory}/copy_object"
-require "#{parsers_directory}/get_bucket"
-require "#{parsers_directory}/get_bucket_location"
-require "#{parsers_directory}/get_request_payment"
-require "#{parsers_directory}/get_service"
-
-requests_directory = "#{current_directory}/requests/s3"
-require "#{requests_directory}/copy_object"
-require "#{requests_directory}/delete_bucket"
-require "#{requests_directory}/delete_object"
-require "#{requests_directory}/get_bucket"
-require "#{requests_directory}/get_bucket_location"
-require "#{requests_directory}/get_object"
-require "#{requests_directory}/get_request_payment"
-require "#{requests_directory}/get_service"
-require "#{requests_directory}/head_object"
-require "#{requests_directory}/put_bucket"
-require "#{requests_directory}/put_object"
-require "#{requests_directory}/put_request_payment"
-
 module Fog
   module AWS
     class S3
+
+      def self.reload
+        current_directory = File.dirname(__FILE__)
+        load "#{current_directory}/../connection.rb"
+        load "#{current_directory}/../parser.rb"
+        load "#{current_directory}/../response.rb"
+
+        parsers_directory = "#{current_directory}/parsers/s3"
+        load "#{parsers_directory}/copy_object.rb"
+        load "#{parsers_directory}/get_bucket.rb"
+        load "#{parsers_directory}/get_bucket_location.rb"
+        load "#{parsers_directory}/get_request_payment.rb"
+        load "#{parsers_directory}/get_service.rb"
+
+        requests_directory = "#{current_directory}/requests/s3"
+        load "#{requests_directory}/copy_object.rb"
+        load "#{requests_directory}/delete_bucket.rb"
+        load "#{requests_directory}/delete_object.rb"
+        load "#{requests_directory}/get_bucket.rb"
+        load "#{requests_directory}/get_bucket_location.rb"
+        load "#{requests_directory}/get_object.rb"
+        load "#{requests_directory}/get_request_payment.rb"
+        load "#{requests_directory}/get_service.rb"
+        load "#{requests_directory}/head_object.rb"
+        load "#{requests_directory}/put_bucket.rb"
+        load "#{requests_directory}/put_object.rb"
+        load "#{requests_directory}/put_request_payment.rb"
+      end
+
+      if Fog.mocking?
+        attr_accessor :data
+      end
 
       # Initialize connection to S3
       #
@@ -69,6 +59,10 @@ module Fog
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'
         @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
+
+        if Fog.mocking?
+          @data = { :buckets => {} }
+        end
       end
 
       private
@@ -129,14 +123,14 @@ DATA
         params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature}"
 
         response = @connection.request({
-          :body => params[:body],
-          :expects => params[:expects],
-          :headers => params[:headers],
-          :host => params[:host],
-          :method => params[:method],
-          :parser => params[:parser],
-          :path => params[:path],
-          :query => params[:query]
+          :body     => params[:body],
+          :expects  => params[:expects],
+          :headers  => params[:headers],
+          :host     => params[:host],
+          :method   => params[:method],
+          :parser   => params[:parser],
+          :path     => params[:path],
+          :query    => params[:query]
         })
 
         response
@@ -145,3 +139,5 @@ DATA
     end
   end
 end
+
+Fog::AWS::S3.reload
