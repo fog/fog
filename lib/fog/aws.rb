@@ -62,6 +62,10 @@ module Fog
           key_material.join("\n")
         end
 
+        def self.owner_id
+          numbers(12)
+        end
+
         def self.request_id
           request_id = []
           request_id << hex(8)
