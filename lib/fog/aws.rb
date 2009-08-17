@@ -6,11 +6,6 @@ require 'hmac-sha1'
 require 'hmac-sha2'
 require 'mime/types'
 
-current_directory = File.dirname(__FILE__)
-require "#{current_directory}/aws/ec2"
-require "#{current_directory}/aws/simpledb"
-require "#{current_directory}/aws/s3"
-
 module Fog
   module AWS
 
@@ -128,3 +123,5 @@ module Fog
 
   end
 end
+
+Fog::AWS.reload

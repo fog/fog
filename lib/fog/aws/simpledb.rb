@@ -1,26 +1,3 @@
-current_directory = File.dirname(__FILE__)
-require "#{current_directory}/../connection"
-require "#{current_directory}/../parser"
-require "#{current_directory}/../response"
-
-parsers_directory = "#{current_directory}/parsers/simpledb"
-require "#{parsers_directory}/basic"
-require "#{parsers_directory}/domain_metadata"
-require "#{parsers_directory}/get_attributes"
-require "#{parsers_directory}/list_domains"
-require "#{parsers_directory}/select"
-
-requests_directory = "#{current_directory}/requests/simpledb"
-require "#{requests_directory}/batch_put_attributes"
-require "#{requests_directory}/create_domain"
-require "#{requests_directory}/delete_attributes"
-require "#{requests_directory}/delete_domain"
-require "#{requests_directory}/domain_metadata"
-require "#{requests_directory}/get_attributes"
-require "#{requests_directory}/list_domains"
-require "#{requests_directory}/put_attributes"
-require "#{requests_directory}/select"
-
 module Fog
   module AWS
     class SimpleDB
@@ -176,3 +153,5 @@ module Fog
     end
   end
 end
+
+Fog::AWS::SimpleDB.reload

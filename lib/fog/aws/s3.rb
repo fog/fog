@@ -1,29 +1,3 @@
-current_directory = File.dirname(__FILE__)
-require "#{current_directory}/../connection"
-require "#{current_directory}/../parser"
-require "#{current_directory}/../response"
-
-parsers_directory = "#{current_directory}/parsers/s3"
-require "#{parsers_directory}/copy_object"
-require "#{parsers_directory}/get_bucket"
-require "#{parsers_directory}/get_bucket_location"
-require "#{parsers_directory}/get_request_payment"
-require "#{parsers_directory}/get_service"
-
-requests_directory = "#{current_directory}/requests/s3"
-require "#{requests_directory}/copy_object"
-require "#{requests_directory}/delete_bucket"
-require "#{requests_directory}/delete_object"
-require "#{requests_directory}/get_bucket"
-require "#{requests_directory}/get_bucket_location"
-require "#{requests_directory}/get_object"
-require "#{requests_directory}/get_request_payment"
-require "#{requests_directory}/get_service"
-require "#{requests_directory}/head_object"
-require "#{requests_directory}/put_bucket"
-require "#{requests_directory}/put_object"
-require "#{requests_directory}/put_request_payment"
-
 module Fog
   module AWS
     class S3
@@ -165,3 +139,5 @@ DATA
     end
   end
 end
+
+Fog::AWS::S3.reload
