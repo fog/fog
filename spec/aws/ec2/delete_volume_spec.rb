@@ -13,4 +13,10 @@ describe 'EC2.create_volume' do
     actual.body['return'].should == true
   end
 
+  it "should raise a BadRequest error if volume does not exist" do
+    lambda {
+      @ec2.release_address('vol-00000000')
+    }.should raise_error(Fog::Errors::BadRequest)
+  end
+
 end

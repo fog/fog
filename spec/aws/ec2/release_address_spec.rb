@@ -13,4 +13,10 @@ describe 'EC2.release_address' do
     actual.body['return'].should == true
   end
 
+  it "should raise a BadRequest error if address does not exist" do
+    lambda {
+      @ec2.release_address('0.0.0.0')
+    }.should raise_error(Fog::Errors::BadRequest)
+  end
+
 end
