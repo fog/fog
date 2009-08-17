@@ -4,9 +4,18 @@ module Fog
 
       def self.reload
         current_directory = File.dirname(__FILE__)
+        load "#{current_directory}/../collection.rb"
         load "#{current_directory}/../connection.rb"
+        load "#{current_directory}/../model.rb"
         load "#{current_directory}/../parser.rb"
         load "#{current_directory}/../response.rb"
+
+        models_directory = "#{current_directory}/models/s3"
+        load "#{models_directory}/bucket.rb"
+        load "#{models_directory}/buckets.rb"
+        load "#{models_directory}/object.rb"
+        load "#{models_directory}/objects.rb"
+        load "#{models_directory}/owner.rb"
 
         parsers_directory = "#{current_directory}/parsers/s3"
         load "#{parsers_directory}/copy_object.rb"
