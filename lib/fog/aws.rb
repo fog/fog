@@ -33,6 +33,14 @@ module Fog
           hex(32)
         end
 
+        def self.key_fingerprint
+          fingerprint = []
+          20.times do
+            fingerprint << hex(2)
+          end
+          fingerprint.join(':')
+        end
+
         def self.instance_id
         end
 
@@ -42,6 +50,16 @@ module Fog
             ip << numbers(rand(3) + 1).to_i.to_s # remove leading 0
           end
           ip.join('.')
+        end
+
+        def self.key_material
+          key_material = ['-----BEGIN RSA PRIVATE KEY-----']
+          20.times do
+            key_material << base64(76)
+          end
+          key_material << base64(67) + '='
+          key_material << '-----END RSA PRIVATE KEY-----'
+          key_material.join("\n")
         end
 
         def self.request_id
@@ -90,6 +108,13 @@ module Fog
         def self.hex(length)
           random_selection(
             '0123456789abcdef',
+            length
+          )
+        end
+
+        def self.base64(length)
+          random_selection(
+            "ABCDEFGHIJKLMNOP QRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
             length
           )
         end

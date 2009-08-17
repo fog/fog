@@ -21,12 +21,18 @@ describe 'EC2.describe_key_pairs' do
   end
   
   it "should return proper attributes with params" do
-    actual = @ec2.describe_key_pairs(['key_name'])
+    actual = @ec2.describe_key_pairs('key_name')
     actual.body['keySet'].should be_an(Array)
     actual.body['requestId'].should be_a(String)
     key_pair = actual.body['keySet'].select {|key| key['keyName'] == 'key_name' }.first
     key_pair['keyFingerprint'].should be_a(String)
     key_pair['keyName'].should be_a(String)
+  end
+
+  it "should raise a BadRequest error if the key does not exist" do
+    lambda {
+      @ec2.describe_key_pairs('not_a_key_name')
+    }.should raise_error(Fog::Errors::BadRequest)
   end
 
 end

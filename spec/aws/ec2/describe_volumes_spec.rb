@@ -37,4 +37,10 @@ describe 'EC2.describe_volumes' do
     volume['attachmentSet'].should == []
   end
 
+  it "should raise a BadRequest error if volume does not exist" do
+    lambda {
+      @ec2.describe_volumes('vol-00000000')
+    }.should raise_error(Fog::Errors::BadRequest)
+  end
+
 end

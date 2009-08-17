@@ -34,7 +34,7 @@ else
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,
-              'return' => true
+              'return'    => true
             }
           else
             response.status = 400

@@ -13,4 +13,8 @@ describe 'EC2.delete_key_pair' do
     [false, true].should include(actual.body['return'])
   end
 
+  it "should not raise an error if the key pair does not exist" do
+    @ec2.delete_key_pair('not_a_key_pair')
+  end
+
 end

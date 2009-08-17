@@ -25,4 +25,10 @@ describe 'EC2.describe_addresses' do
     item.should_not be_nil
   end
 
+  it "should raise a BadRequest error if ip does not exist" do
+    lambda {
+      @ec2.describe_addresses('127.0.0.1')
+    }.should raise_error(Fog::Errors::BadRequest)
+  end
+
 end
