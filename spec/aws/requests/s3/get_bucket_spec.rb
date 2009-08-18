@@ -33,6 +33,25 @@ describe 'S3.get_bucket' do
     object['StorageClass'].should be_a(String)
   end
 
+  it 'should accept options' do
+    actual = @s3.get_bucket('foggetbucket', 'prefix' => 'fog_')
+    actual.body['IsTruncated'].should == false
+    actual.body['Marker'].should be_a(String)
+    actual.body['MaxKeys'].should be_an(Integer)
+    actual.body['Name'].should be_a(String)
+    actual.body['Prefix'].should be_a(String)
+    actual.body['Contents'].should be_an(Array)
+    object = actual.body['Contents'].first
+    object['ETag'].should be_a(String)
+    object['Key'].should == 'fog_get_bucket'
+    object['LastModified'].should be_a(Time)
+    owner = object['Owner']
+    owner['DisplayName'].should be_a(String)
+    owner['ID'].should be_a(String)
+    object['Size'].should be_an(Integer)
+    object['StorageClass'].should be_a(String)
+  end
+
   it 'should raise a NotFound error if the bucket does not exist' do
     lambda {
       @s3.get_bucket('fognotabucket')
