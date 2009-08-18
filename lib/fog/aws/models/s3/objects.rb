@@ -4,8 +4,7 @@ module Fog
 
       class Objects < Fog::Collection
 
-        attr_accessor :bucket,
-                      :is_truncated,
+        attr_accessor :is_truncated,
                       :marker,
                       :max_keys,
                       :prefix
