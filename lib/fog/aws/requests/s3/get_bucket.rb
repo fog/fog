@@ -61,7 +61,7 @@ else
 
         def get_bucket(bucket_name, options = {})
           response = Fog::Response.new
-          if bucket = @data[:buckets][bucket_name]
+          if bucket = Fog::AWS::S3.data[:buckets][bucket_name]
             response.status = 200
             response.body = {
               'Contents' => bucket[:objects].values.map do |object|

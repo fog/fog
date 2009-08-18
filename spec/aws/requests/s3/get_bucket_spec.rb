@@ -3,19 +3,18 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 describe 'S3.get_bucket' do
 
   before(:all) do
-    @s3 = Fog::AWS::S3.gen
-    @s3.put_bucket('foggetbucket')
+    s3.put_bucket('foggetbucket')
     file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
-    @s3.put_object('foggetbucket', 'fog_get_bucket', file)
+    s3.put_object('foggetbucket', 'fog_get_bucket', file)
   end
 
   after(:all) do
-    @s3.delete_object('foggetbucket', 'fog_get_bucket')
-    @s3.delete_bucket('foggetbucket')
+    s3.delete_object('foggetbucket', 'fog_get_bucket')
+    s3.delete_bucket('foggetbucket')
   end
 
   it 'should return proper attributes' do
-    actual = @s3.get_bucket('foggetbucket')
+    actual = s3.get_bucket('foggetbucket')
     actual.body['IsTruncated'].should == false
     actual.body['Marker'].should be_a(String)
     actual.body['MaxKeys'].should be_an(Integer)
@@ -34,7 +33,7 @@ describe 'S3.get_bucket' do
   end
 
   it 'should accept options' do
-    actual = @s3.get_bucket('foggetbucket', 'prefix' => 'fog_')
+    actual = s3.get_bucket('foggetbucket', 'prefix' => 'fog_')
     actual.body['IsTruncated'].should == false
     actual.body['Marker'].should be_a(String)
     actual.body['MaxKeys'].should be_an(Integer)
@@ -54,7 +53,7 @@ describe 'S3.get_bucket' do
 
   it 'should raise a NotFound error if the bucket does not exist' do
     lambda {
-      @s3.get_bucket('fognotabucket')
+      s3.get_bucket('fognotabucket')
     }.should raise_error(Fog::Errors::NotFound)
   end
 

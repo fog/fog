@@ -2,6 +2,15 @@ module Fog
   module AWS
     class S3
 
+      if Fog.mocking?
+        def self.reset_data
+          @data = { :buckets => {} }
+        end
+        def self.data
+          @data
+        end
+      end
+
       def self.reload
         current_directory = File.dirname(__FILE__)
         load "#{current_directory}/../collection.rb"
@@ -37,10 +46,10 @@ module Fog
         load "#{requests_directory}/put_bucket.rb"
         load "#{requests_directory}/put_object.rb"
         load "#{requests_directory}/put_request_payment.rb"
-      end
 
-      if Fog.mocking?
-        attr_accessor :data
+        if Fog.mocking?
+          reset_data
+        end
       end
 
       # Initialize connection to S3
@@ -68,10 +77,6 @@ module Fog
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'
         @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
-
-        if Fog.mocking?
-          @data = { :buckets => {} }
-        end
       end
 
       private

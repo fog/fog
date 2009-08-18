@@ -49,9 +49,9 @@ else
 
         def copy_object(source_bucket_name, source_object_name, target_bucket_name, target_object_name, options = {})
           response = Fog::Response.new
-          source_bucket = @data[:buckets][source_bucket_name]
+          source_bucket = Fog::AWS::S3.data[:buckets][source_bucket_name]
           source_object = source_bucket && source_bucket[:objects][source_object_name]
-          target_bucket = @data[:buckets][target_bucket_name]
+          target_bucket = Fog::AWS::S3.data[:buckets][target_bucket_name]
 
           if source_object && target_bucket
             response.status = 200

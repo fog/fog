@@ -2,12 +2,8 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe 'EC2.describe_images' do
 
-  before(:all) do
-    @ec2 = Fog::AWS::EC2.gen
-  end
-
   it "should return proper attributes with no params" do
-    actual = @ec2.describe_images
+    actual = ec2.describe_images
     actual.body['requestId'].should be_a(String)
     image = actual.body['imagesSet'].first
     image['architecture'].should be_a(String)
@@ -23,7 +19,7 @@ describe 'EC2.describe_images' do
   end
   
   it "should return proper attributes with params" do
-    actual = @ec2.describe_images('ImageId' => 'ami-5ee70037')
+    actual = ec2.describe_images('ImageId' => 'ami-5ee70037')
     actual.body['requestId'].should be_a(String)
     image = actual.body['imagesSet'].first
     image['architecture'].should be_a(String)

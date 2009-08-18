@@ -50,7 +50,7 @@ else
         def put_object(bucket_name, object_name, object, options = {})
           file = parse_file(object)
           response = Fog::Response.new
-          if (bucket = @data[:buckets][bucket_name])
+          if (bucket = Fog::AWS::S3.data[:buckets][bucket_name])
             response.status = 200
             bucket[:objects][object_name] = {
               :body           => file[:body],

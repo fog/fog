@@ -35,7 +35,7 @@ else
 
         def delete_object(bucket_name, object_name)
           response = Fog::Response.new
-          if bucket = @data[:buckets][bucket_name]
+          if bucket = Fog::AWS::S3.data[:buckets][bucket_name]
             response.status = 204
             bucket[:objects].delete(object_name)
           else

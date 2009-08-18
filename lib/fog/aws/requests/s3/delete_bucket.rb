@@ -33,7 +33,7 @@ else
 
         def delete_bucket(bucket_name)
           response = Fog::Response.new
-          if @data[:buckets].delete(bucket_name)
+          if Fog::AWS::S3.data[:buckets].delete(bucket_name)
             response.status = 204
           else
             response.status = 404

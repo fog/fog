@@ -3,16 +3,15 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 describe 'EC2.describe_security_groups' do
 
   before(:all) do
-    @ec2 = Fog::AWS::EC2.gen
-    @ec2.create_security_group('fog_security_group', 'a security group for testing fog')
+    ec2.create_security_group('fog_security_group', 'a security group for testing fog')
   end
 
   after(:all) do
-    @ec2.delete_security_group('fog_security_group')
+    ec2.delete_security_group('fog_security_group')
   end
 
   it "should return proper attributes with no params" do
-    actual = @ec2.describe_security_groups
+    actual = ec2.describe_security_groups
     actual.body['requestId'].should be_a(String)
     actual.body['securityGroupInfo'].should be_an(Array)
     security_group = actual.body['securityGroupInfo'].select do |security_group| 
@@ -26,7 +25,7 @@ describe 'EC2.describe_security_groups' do
   end
 
   it "should return proper attributes with params" do
-    actual = @ec2.describe_security_groups('fog_security_group')
+    actual = ec2.describe_security_groups('fog_security_group')
     actual.body['requestId'].should be_a(String)
     actual.body['securityGroupInfo'].should be_an(Array)
     security_group = actual.body['securityGroupInfo'].select do |security_group| 
@@ -40,7 +39,7 @@ describe 'EC2.describe_security_groups' do
 
   it "should raise a BadRequest error if the security group does not exist" do
     lambda {
-      @ec2.describe_security_groups('not_a_security_group')
+      ec2.describe_security_groups('not_a_security_group')
     }.should raise_error(Fog::Errors::BadRequest)
   end
 

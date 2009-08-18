@@ -2,6 +2,15 @@ module Fog
   module AWS
     class EC2
 
+      if Fog.mocking?
+        def self.data
+          @data
+        end
+        def self.reset_data
+          @data = { :deleted_at => {}, :addresses => {}, :key_pairs => {}, :security_groups => {}, :volumes => {} }
+        end
+      end
+
       def self.reload
         current_directory = File.dirname(__FILE__)
         load "#{current_directory}/../connection.rb"
@@ -72,10 +81,11 @@ module Fog
         load "#{requests_directory}/run_instances.rb"
         load "#{requests_directory}/terminate_instances.rb"
         # TODO: require "#{requests_directory}/unmonitor_instances.rb"
-      end
 
-      if Fog.mocking?
-        attr_accessor :data
+        if Fog.mocking?
+          reset_data
+        end
+
       end
 
       # Initialize connection to EC2
@@ -103,10 +113,6 @@ module Fog
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'
         @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
-
-        if Fog.mocking?
-          @data = { :deleted_at => {}, :addresses => {}, :key_pairs => {}, :security_groups => {}, :volumes => {} }
-        end
       end
 
       private

@@ -3,18 +3,17 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 describe 'EC2.describe_instances' do
 
   before(:all) do
-    @ec2 = Fog::AWS::EC2.gen
-    run_instances = @ec2.run_instances('ami-5ee70037', 1, 1).body
+    run_instances = ec2.run_instances('ami-5ee70037', 1, 1).body
     @instance_id = run_instances['instancesSet'].first['instanceId']
     @reservation_id = run_instances['reservationId']
   end
 
   after(:all) do
-    @ec2.terminate_instances([@instance_id])
+    ec2.terminate_instances([@instance_id])
   end
 
   it "should return proper attributes with no params" do
-    actual = @ec2.describe_instances
+    actual = ec2.describe_instances
     reservation = actual.body['reservationSet'].select {|reservation| reservation['reservationId'] == @reservation_id}.first
     reservation['groupSet'].should be_an(Array)
     reservation['groupSet'].first.should be_a(String)
@@ -44,7 +43,7 @@ describe 'EC2.describe_instances' do
   end
   
   it "should return proper attributes with params" do
-    actual = @ec2.describe_instances(@instance_id)
+    actual = ec2.describe_instances(@instance_id)
     reservation = actual.body['reservationSet'].select {|reservation| reservation['reservationId'] == @reservation_id}.first
     reservation['groupSet'].should be_an(Array)
     reservation['groupSet'].first.should be_a(String)

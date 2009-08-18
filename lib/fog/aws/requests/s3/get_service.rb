@@ -39,7 +39,7 @@ else
         def get_service
           response = Fog::Response.new
           response.headers['Status'] = 200
-          buckets = @data[:buckets].values.map do |bucket|
+          buckets = Fog::AWS::S3.data[:buckets].values.map do |bucket|
             bucket.reject do |key, value|
               !['CreationDate', 'Name'].include?(key)
             end

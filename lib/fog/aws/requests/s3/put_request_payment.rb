@@ -38,7 +38,7 @@ else
 
         def put_request_payment(bucket_name, payer)
           response = Fog::Response.new
-          if bucket = @data[:buckets][bucket_name]
+          if bucket = Fog::AWS::S3.data[:buckets][bucket_name]
             response.status = 200
             bucket['Payer'] = payer
           else

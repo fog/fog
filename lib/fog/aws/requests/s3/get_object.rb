@@ -49,7 +49,7 @@ else
 
         def get_object(bucket_name, object_name, options = {})
           response = Fog::Response.new
-          if (bucket = @data[:buckets][bucket_name]) && (object = bucket[:objects][object_name])
+          if (bucket = Fog::AWS::S3.data[:buckets][bucket_name]) && (object = bucket[:objects][object_name])
             if options['If-Match'] && options['If-Match'] != object['ETag']
               response.status = 412
             elsif options['If-Modified-Since'] && options['If-Modified-Since'] > Time.parse(object['LastModified'])

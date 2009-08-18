@@ -36,7 +36,7 @@ else
 
         def get_request_payment(bucket_name)
           response = Fog::Response.new
-          if bucket = @data[:buckets][bucket_name]
+          if bucket = Fog::AWS::S3.data[:buckets][bucket_name]
             response.status = 200
             response.body = { 'Payer' => bucket['Payer'] }
           else
