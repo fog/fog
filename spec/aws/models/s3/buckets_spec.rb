@@ -22,4 +22,10 @@ describe 'S3.buckets' do
     p @bucket.delete
   end
 
+  it "should push bucket down into objects" do
+    p @bucket = @s3.buckets.create(:name => 'fogbucketspaymenttest')
+    p @bucket.objects.new(:key => 'object')
+    p @bucket.delete
+  end
+
 end

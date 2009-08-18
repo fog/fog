@@ -29,7 +29,10 @@ module Fog
         end
 
         def objects
-          Fog::AWS::S3::Objects.new(:connection   => connection)
+          Fog::AWS::S3::Objects.new(
+            :bucket       => self,
+            :connection   => connection
+          )
         end
 
         def payer

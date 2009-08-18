@@ -4,10 +4,11 @@ module Fog
 
       class Objects < Fog::Collection
 
-        attr_accessor :is_truncated,
-          :marker,
-          :max_keys,
-          :prefix
+        attr_accessor :bucket,
+                      :is_truncated,
+                      :marker,
+                      :max_keys,
+                      :prefix
 
         def initialize(attributes = {})
           remap_attributes(attributes, {
@@ -49,7 +50,10 @@ module Fog
         end
 
         def new(attributes = {})
-          Fog::AWS::S3::Object.new(attributes.merge!(:connection => connection))
+          Fog::AWS::S3::Object.new({
+            :bucket     => bucket,
+            :connection => connection
+          }.merge!(attributes))
         end
 
         private
