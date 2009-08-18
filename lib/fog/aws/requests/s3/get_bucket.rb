@@ -59,25 +59,33 @@ else
     module AWS
       class S3
 
+        # FIXME: implement delimiter
         def get_bucket(bucket_name, options = {})
           response = Fog::Response.new
           if bucket = Fog::AWS::S3.data[:buckets][bucket_name]
             response.status = 200
             response.body = {
-              'Contents' => bucket[:objects].values.map do |object|
-                data = object.reject {|key, value| !['ETag', 'Key', 'LastModified', 'Owner', 'Size', 'StorageClass'].include?(key)}
-                data.merge!({
-                  'LastModified' => Time.parse(data['LastModified']),
-                  'Size'         => data['Size'].to_i
-                })
+              'Contents' => bucket[:objects].values.sort {|x,y| x['Key'] <=> y['Key']}.reject do |object|
+                  (options['prefix'] && object['Key'][0...options['prefix'].length] != options['prefix']) ||
+                  (options['marker'] && object['Key'] <= options['marker'])
+                end.map do |object|
+                  data = object.reject {|key, value| !['ETag', 'Key', 'LastModified', 'Owner', 'Size', 'StorageClass'].include?(key)}
+                  data.merge!({
+                    'LastModified' => Time.parse(data['LastModified']),
+                    'Size'         => data['Size'].to_i
+                  })
                 data
               end,
               'IsTruncated' => false,
-              'Marker'      => options['Marker'] || '',
-              'MaxKeys'     => options['MaxKeys'] || 1000,
+              'Marker'      => options['marker'] || '',
+              'MaxKeys'     => options['max-keys'] || 1000,
               'Name'        => bucket['Name'],
-              'Prefix'      => options['Prefix'] || ''
+              'Prefix'      => options['prefix'] || ''
             }
+            if options['max-keys'] && options['max-keys'] < response.body['Contents'].length
+                response.body['IsTruncated'] = true
+                response.body['Contents'] = response.body['Contents'][0...options['max-keys']]
+            end
           else
             response.status = 404
             raise(Fog::Errors.status_error(200, 404, response))
