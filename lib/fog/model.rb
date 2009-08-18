@@ -36,7 +36,7 @@ module Fog
 
     def remap_attributes(attributes, mapping)
       for key, value in mapping
-        if attributes[key]
+        if mapping[key]
           attributes[value] = attributes.delete(key)
         end
       end

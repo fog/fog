@@ -12,9 +12,9 @@ module Fog
         def initialize(attributes = {})
           remap_attributes(attributes, {
             'IsTruncated' => :is_truncated,
-            'Marker' => :marker,
-            'MaxKeys' => :max_keys,
-            'Prefix' => :prefix
+            'Marker'      => :marker,
+            'MaxKeys'     => :max_keys,
+            'Prefix'      => :prefix
           })
           super
         end
