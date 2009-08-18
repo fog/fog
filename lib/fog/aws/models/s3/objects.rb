@@ -19,7 +19,7 @@ module Fog
           super
         end
 
-        def all
+        def all(options = {})
           data = connection.get_bucket(bucket.name, options).body
           objects_data = {}
           for key, value in data
