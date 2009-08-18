@@ -14,7 +14,6 @@ module Fog
 
   def self.reload
     load "#{File.dirname(__FILE__)}/fog/aws.rb"
-    Fog::AWS.reload
   end
 
 end

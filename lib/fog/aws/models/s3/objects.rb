@@ -65,7 +65,6 @@ module Fog
           @bucket
         end
 
-
       end
 
     end
