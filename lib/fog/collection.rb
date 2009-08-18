@@ -1,5 +1,5 @@
 module Fog
-  class Collection
+  class Collection < Array
 
     def initialize(attributes = {})
       update_attributes(attributes)
@@ -10,11 +10,11 @@ module Fog
       for attribute in (self.instance_variables - ['@connection'])
         data << " #{attribute}=#{send(attribute[1..-1].to_sym).inspect}"
       end
-      data << "["
-      self.each do |element|
-        data << "#{element.inspect}, "
+      data << " ["
+      for item in self
+        data << "#{item.inspect},"
       end
-      data = data[0..-3]
+      data.chomp!
       data << "]>"
     end
 
@@ -22,6 +22,7 @@ module Fog
       for key, value in attributes
         send(:"#{key}=", value)
       end
+      self
     end
 
     private
@@ -34,9 +35,13 @@ module Fog
       @connection
     end
 
+    def new_record?
+      !defined?(@new_record) || @new_record
+    end
+
     def remap_attributes(attributes, mapping)
       for key, value in mapping
-        if attributes[key]
+        if attributes.key?(key)
           attributes[value] = attributes.delete(key)
         end
       end

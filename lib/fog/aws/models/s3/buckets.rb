@@ -11,7 +11,7 @@ module Fog
         def all
           data = connection.get_service.body
           owner = Fog::AWS::S3::Owner.new(data.delete('Owner').merge!(:connection => connection))
-          buckets = []
+          buckets = Fog::AWS::S3::Buckets.new
           data['Buckets'].each do |bucket|
             buckets << Fog::AWS::S3::Bucket.new({
               :connection     => connection,

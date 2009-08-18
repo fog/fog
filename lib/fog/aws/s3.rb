@@ -122,7 +122,7 @@ DATA
           canonical_resource << "#{subdomain}/"
         end
         canonical_resource << "#{params[:path]}"
-        if ['acl', 'location', 'logging', 'torrent'].include?(params[:query])
+        if ['acl', 'location', 'logging', 'requestPayment', 'torrent'].include?(params[:query])
           canonical_resource << "?#{params[:query]}"
         end
         string_to_sign << "#{canonical_resource}"
