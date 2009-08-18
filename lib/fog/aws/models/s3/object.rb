@@ -35,7 +35,7 @@ module Fog
         end
 
         def copy(target_bucket_name, target_object_key)
-          data = connection.copy_object(bucket, key, target_bucket_name, target_object_key).body
+          data = connection.copy_object(bucket.name, key, target_bucket_name, target_object_key).body
           copy = self.dup
           copy_data = {}
           for key, value in data
@@ -60,7 +60,7 @@ module Fog
         end
 
         def save(options = {})
-          data = connection.put_object(bucket, key, body, options)
+          data = connection.put_object(bucket.name, key, body, options)
           @etag = data.headers['ETag']
         end
 
