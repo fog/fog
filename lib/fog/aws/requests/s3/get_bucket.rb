@@ -34,7 +34,7 @@ unless Fog.mocking?
         #       * 'Size'<~Integer> - Size of object
         #       * 'StorageClass'<~String> - Storage class of object
         def get_bucket(bucket_name, options = {})
-          query = '?'
+          query = ''
           for key, value in options
             query << "#{key}=#{value};"
           end
