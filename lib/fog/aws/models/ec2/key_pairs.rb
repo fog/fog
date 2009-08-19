@@ -8,8 +8,8 @@ module Fog
 
       class KeyPairs < Fog::Collection
 
-        def all(key_names = [])
-          data = connection.describe_key_pairs(key_names).body
+        def all(key_name = [])
+          data = connection.describe_key_pairs(key_name).body
           key_pairs = []
           data['keySet'].each do |key|
             key_pairs << Fog::AWS::EC2::KeyPair.new({

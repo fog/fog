@@ -5,8 +5,8 @@ module Fog
       class KeyPair < Fog::Model
 
         attr_accessor :fingerprint,
-          :material,
-          :name
+                      :material,
+                      :name
 
         def initialize(attributes = {})
           remap_attributes(attributes, {

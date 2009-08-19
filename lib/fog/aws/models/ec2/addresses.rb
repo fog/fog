@@ -8,8 +8,8 @@ module Fog
 
       class Addresses < Fog::Collection
 
-        def all
-          data = connection.describe_addresses.body
+        def all(public_ip = [])
+          data = connection.describe_addresses(public_ip).body
           addresses = []
           data['addressesSet'].each do |address|
             addresses << Fog::AWS::EC2::Address.new({

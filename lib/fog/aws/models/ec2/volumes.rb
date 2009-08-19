@@ -8,8 +8,8 @@ module Fog
 
       class Volumes < Fog::Collection
 
-        def all(volume_ids = [])
-          data = connection.describe_volumes(volume_ids)
+        def all(volume_id = [])
+          data = connection.describe_volumes(volume_id)
           volumes = []
           data['volumeSet'].each do |volume|
             volumes << Fog::AWS::EC2::Volume.new({

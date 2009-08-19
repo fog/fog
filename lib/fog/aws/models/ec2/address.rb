@@ -5,7 +5,7 @@ module Fog
       class Address < Fog::Model
 
         attr_accessor :instance_id,
-          :public_ip
+                      :public_ip
 
         def initialize(attributes = {})
           remap_attributes(attributes, {

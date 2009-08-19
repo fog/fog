@@ -5,13 +5,13 @@ module Fog
       class Volume < Fog::Model
 
         attr_accessor :attachment_time,
-          :availability_zone,
-          :device,
-          :instance_id
-          :size,
-          :snapshot_id,
-          :status,
-          :volume_id
+                      :availability_zone,
+                      :device,
+                      :instance_id
+                      :size,
+                      :snapshot_id,
+                      :status,
+                      :volume_id
         
         def initialize(attributes = {})
           if attributes['attachmentSet']
