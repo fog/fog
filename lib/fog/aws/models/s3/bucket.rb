@@ -5,9 +5,9 @@ module Fog
       class Bucket < Fog::Model
 
         attr_accessor :creation_date,
-          :location,
-          :name,
-          :owner
+                      :location,
+                      :name,
+                      :owner
 
         def initialize(attributes = {})
           remap_attributes(attributes, {
@@ -22,10 +22,8 @@ module Fog
         end
 
         def location
-          @location ||= begin
-            data = s3.get_bucket_location(name)
-            data.body['LocationConstraint']
-          end
+          data = s3.get_bucket_location(name)
+          data.body['LocationConstraint']
         end
 
         def objects
@@ -36,10 +34,8 @@ module Fog
         end
 
         def payer
-          @payer ||= begin
-            data = connection.get_request_payment(name)
-            data.body['Payer']
-          end
+          data = connection.get_request_payment(name)
+          data.body['Payer']
         end
 
         def payer=(new_payer)
