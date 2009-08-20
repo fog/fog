@@ -1,3 +1,5 @@
+require "#{File.dirname(__FILE__)}/parser"
+
 module Fog
   module Errors
     class Continue < StandardError; end # 100
@@ -124,7 +126,19 @@ module Fog
         503 => 'Service Unavailable',
         504 => 'Gateway Timeout'
       }
-      @errors[actual].new("Expected(#{expected} #{@messages[expected]}) <=> Actual(#{actual} #{@messages[actual]}) #{response.inspect}")
+      response = "#{response.body['Code']} => #{response.body['Message']}"
+      @errors[actual].new("Expected(#{expected} #{@messages[expected]}) <=> Actual(#{actual} #{@messages[actual]}): #{response}")
+    end
+
+    class Parser < Fog::Parsers::Base
+
+      def end_element(name)
+        case name
+        when 'Code', 'Message'
+          @response[name] = @value
+        end
+      end
+
     end
 
   end

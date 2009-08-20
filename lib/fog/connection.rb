@@ -46,6 +46,9 @@ unless Fog.mocking?
         response = Fog::Response.new
         response.request = params
         response.status = @connection.readline[9..11].to_i
+        if params[:expects] && params[:expects] != response.status
+          error = true
+        end
         while true
           data = @connection.readline.chomp!
           if data == ""
@@ -55,8 +58,13 @@ unless Fog.mocking?
           response.headers[capitalize(header[0])] = header[1]
         end
 
-        if params[:parser]
-          body = Nokogiri::XML::SAX::PushParser.new(params[:parser])
+        if error || params[:parser]
+          if error
+            parser = Fog::Errors::Parser.new
+          elsif params[:parser]
+            parser = params[:parser]
+          end
+          body = Nokogiri::XML::SAX::PushParser.new(parser)
         else
           body = ''
         end
@@ -77,14 +85,14 @@ unless Fog.mocking?
           end
         end
 
-        if params[:parser]
+        if parser
           body.finish
-          response.body = params[:parser].response
+          response.body = parser.response
         else
           response.body = body
         end
 
-        if params[:expects] && params[:expects] != response.status
+        if error
           raise(Fog::Errors.status_error(params[:expects], response.status, response))
         else
           response
