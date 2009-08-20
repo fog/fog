@@ -1,13 +1,13 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe 'S3.get_bucket_location' do
-  describe 'success'
+  describe 'success' do
 
-    before(:all) do
+    before(:each) do
       s3.put_bucket('foggetlocation', 'LocationConstraint' => 'EU')
     end
 
-    after(:all) do
+    after(:each) do
       eu_s3.delete_bucket('foggetlocation')
     end
 
@@ -18,7 +18,7 @@ describe 'S3.get_bucket_location' do
     end
 
   end
-  describe 'failure'
+  describe 'failure' do
 
     it 'should raise NotFound error if bucket does not exist' do
       lambda {

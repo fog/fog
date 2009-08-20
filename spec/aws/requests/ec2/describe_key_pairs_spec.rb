@@ -1,37 +1,42 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe 'EC2.describe_key_pairs' do
+  describe 'success' do
 
-  before(:all) do
-    ec2.create_key_pair('key_name')
-  end
+    before(:each) do
+      ec2.create_key_pair('fog_key_name')
+    end
 
-  after(:all) do
-    ec2.delete_key_pair('key_name')
-  end
+    after(:each) do
+      ec2.delete_key_pair('fog_key_name')
+    end
 
-  it "should return proper attributes with no params" do
-    actual = ec2.describe_key_pairs
-    actual.body['keySet'].should be_an(Array)
-    actual.body['requestId'].should be_a(String)
-    key_pair = actual.body['keySet'].select {|key| key['keyName'] == 'key_name' }.first
-    key_pair['keyFingerprint'].should be_a(String)
-    key_pair['keyName'].should be_a(String)
-  end
+    it "should return proper attributes with no params" do
+      actual = ec2.describe_key_pairs
+      actual.body['keySet'].should be_an(Array)
+      actual.body['requestId'].should be_a(String)
+      key_pair = actual.body['keySet'].select {|key| key['keyName'] == 'fog_key_name' }.first
+      key_pair['keyFingerprint'].should be_a(String)
+      key_pair['keyName'].should be_a(String)
+    end
   
-  it "should return proper attributes with params" do
-    actual = ec2.describe_key_pairs('key_name')
-    actual.body['keySet'].should be_an(Array)
-    actual.body['requestId'].should be_a(String)
-    key_pair = actual.body['keySet'].select {|key| key['keyName'] == 'key_name' }.first
-    key_pair['keyFingerprint'].should be_a(String)
-    key_pair['keyName'].should be_a(String)
-  end
+    it "should return proper attributes with params" do
+      actual = ec2.describe_key_pairs('fog_key_name')
+      actual.body['keySet'].should be_an(Array)
+      actual.body['requestId'].should be_a(String)
+      key_pair = actual.body['keySet'].select {|key| key['keyName'] == 'fog_key_name' }.first
+      key_pair['keyFingerprint'].should be_a(String)
+      key_pair['keyName'].should be_a(String)
+    end
 
-  it "should raise a BadRequest error if the key does not exist" do
-    lambda {
-      ec2.describe_key_pairs('not_a_key_name')
-    }.should raise_error(Fog::Errors::BadRequest)
   end
+  describe 'failure' do
 
+    it "should raise a BadRequest error if the key does not exist" do
+      lambda {
+        ec2.describe_key_pairs('fog_not_a_key_name')
+      }.should raise_error(Fog::Errors::BadRequest)
+    end
+
+  end
 end

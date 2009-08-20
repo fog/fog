@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 describe 'EC2.delete_security_group' do
   describe 'success' do
 
-    before(:all) do
+    before(:each) do
       ec2.create_security_group('fog_security_group', 'a security group for testing fog')
     end
 

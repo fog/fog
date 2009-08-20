@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 describe 'EC2.create_volume' do
   describe 'success' do
 
-    after(:all) do
+    after(:each) do
       ec2.delete_volume(@volume_id)
     end
 

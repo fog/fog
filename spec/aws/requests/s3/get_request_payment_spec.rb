@@ -1,13 +1,13 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe 'S3.get_request_payment' do
-  describe 'success'
+  describe 'success' do
 
-    before(:all) do
+    before(:each) do
       s3.put_bucket('foggetrequestpayment')
     end
 
-    after(:all) do
+    after(:each) do
       s3.delete_bucket('foggetrequestpayment')
     end
 
@@ -18,7 +18,7 @@ describe 'S3.get_request_payment' do
     end
 
   end
-  describe 'failure'
+  describe 'failure' do
 
     it 'should raise a NotFound error if the bucket does not exist' do
       lambda {

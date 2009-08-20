@@ -1,15 +1,15 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe 'S3.get_object' do
-  describe 'success'
+  describe 'success' do
 
-    before(:all) do
+    before(:each) do
       s3.put_bucket('foggetobject')
       file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
       s3.put_object('foggetobject', 'fog_get_object', file)
     end
 
-    after(:all) do
+    after(:each) do
       s3.delete_object('foggetobject', 'fog_get_object')
       s3.delete_bucket('foggetobject')
     end

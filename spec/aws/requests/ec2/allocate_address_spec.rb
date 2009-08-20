@@ -1,9 +1,9 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe 'EC2.allocate_address' do
-  describe 'success'
+  describe 'success' do
 
-    after(:all) do
+    after(:each) do
       ec2.release_address(@public_ip)
     end
 

@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 describe 'EC2.create_volume' do
   describe 'success' do
 
-    before(:all) do
+    before(:each) do
       @volume_id = ec2.create_volume('us-east-1a', 1).body['volumeId']
     end
 

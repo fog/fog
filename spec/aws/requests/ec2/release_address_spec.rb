@@ -1,9 +1,9 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe 'EC2.release_address' do
-  describe 'success'
+  describe 'success' do
 
-    before(:all) do
+    before(:each) do
       @public_ip = ec2.allocate_address.body['publicIp']
     end
 
@@ -14,7 +14,7 @@ describe 'EC2.release_address' do
     end
 
   end
-  describe 'failure'
+  describe 'failure' do
 
     it "should raise a BadRequest error if address does not exist" do
       lambda {

@@ -1,9 +1,9 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe 'S3.delete_bucket' do
-  describe 'success'
+  describe 'success' do
 
-    before(:all) do
+    before(:each) do
       s3.put_bucket('fogdeletebucket')
     end
 
@@ -13,7 +13,7 @@ describe 'S3.delete_bucket' do
     end
 
   end
-  describe 'failure'
+  describe 'failure' do
 
     it 'should raise a NotFound error if the bucket does not exist' do
       lambda {

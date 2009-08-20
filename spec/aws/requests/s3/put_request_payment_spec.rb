@@ -1,13 +1,13 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe 'S3.put_request_payment' do
-  describe 'success'
+  describe 'success' do
 
-    before(:all) do
+    before(:each) do
       s3.put_bucket('fogputrequestpayment')
     end
 
-    after(:all) do
+    after(:each) do
       s3.delete_bucket('fogputrequestpayment')
     end
 

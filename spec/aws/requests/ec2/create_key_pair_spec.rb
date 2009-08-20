@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 describe 'EC2.create_key_pair' do
   describe 'success' do
 
-    after(:all) do
+    after(:each) do
       ec2.delete_key_pair('fog_key_pair')
     end
 
@@ -17,6 +17,14 @@ describe 'EC2.create_key_pair' do
 
   end
   describe 'failure' do
+
+    before(:each) do
+      ec2.create_key_pair('fog_key_pair')
+    end
+
+    after(:each) do
+      ec2.delete_key_pair('fog_key_pair')
+    end
 
     it "should raise a BadRequest when the key pair already exists" do
       lambda {

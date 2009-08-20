@@ -1,13 +1,13 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe 'EC2.create_snapshot' do
-  describe "success" do
+  describe 'success' do
 
-    before(:all) do
+    before(:each) do
       @volume_id = ec2.create_volume('us-east-1a', 1).body['volumeId']
     end
 
-    after(:all) do
+    after(:each) do
       ec2.delete_volume(@volume_id)
       eventually do
         ec2.delete_snapshot(@snapshot_id)
@@ -25,7 +25,7 @@ describe 'EC2.create_snapshot' do
     end
 
   end
-  describe "failure" do
+  describe 'failure' do
 
     it "should raise a BadRequest error if the volume does not exist" do
       lambda {
