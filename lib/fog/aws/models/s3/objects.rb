@@ -34,9 +34,9 @@ module Fog
           data['Contents'].each do |object|
             owner = Fog::AWS::S3::Owner.new(object.delete('Owner').merge!(:connection => connection))
             objects << Fog::AWS::S3::Object.new({
-              :bucket         => bucket,
-              :connection     => connection,
-              :owner          => owner
+              :bucket     => bucket,
+              :connection => connection,
+              :owner      => owner
             }.merge!(object))
           end
           objects
@@ -46,6 +46,34 @@ module Fog
           object = new(attributes)
           object.save
           object
+        end
+
+        def get
+          data = connection.get_object(bucket.name, key, options)
+          object_data = { :body => data.body}
+          for key, value in data.headers
+            if ['Content-Length', 'Content-Type', 'ETag', 'Last-Modified'].include?(key)
+              object_data[key] = value
+            end
+          end
+          Fog::AWS::S3::Object.new({
+            :bucket     => bucket,
+            :connection => connection
+          }.merge!(object_data))
+        end
+
+        def head
+          data = connection.head_object(bucket.name, key, options)
+          object_data = {}
+          for key, value in data.headers
+            if ['Content-Length', 'Content-Type', 'ETag', 'Last-Modified'].include?(key)
+              object_data[key] = value
+            end
+          end
+          Fog::AWS::S3::Object.new({
+            :bucket     => bucket,
+            :connection => connection
+          }.merge!(object_data))
         end
 
         def new(attributes = {})
