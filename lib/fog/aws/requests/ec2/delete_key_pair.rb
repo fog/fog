@@ -33,7 +33,7 @@ else
 
         def delete_key_pair(key_name)
           response = Fog::Response.new
-          @data[:key_pairs].delete(key_name)
+          Fog::AWS::EC2.data[:key_pairs].delete(key_name)
           response.status = 200
           response.body = {
             'requestId' => Fog::AWS::Mock.request_id,

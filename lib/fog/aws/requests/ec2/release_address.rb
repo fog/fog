@@ -30,7 +30,7 @@ else
 
         def release_address(public_ip)
           response = Fog::Response.new
-          if (address = @data[:addresses].delete(public_ip))
+          if (address = Fog::AWS::EC2.data[:addresses].delete(public_ip))
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,

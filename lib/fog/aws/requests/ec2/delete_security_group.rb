@@ -32,8 +32,8 @@ else
       class EC2
         def delete_security_group(name)
           response = Fog::Response.new
-          if @data[:security_groups][name]
-            @data[:security_groups].delete(name)
+          if Fog::AWS::EC2.data[:security_groups][name]
+            Fog::AWS::EC2.data[:security_groups].delete(name)
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,

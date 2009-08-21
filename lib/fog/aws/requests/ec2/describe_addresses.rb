@@ -34,12 +34,12 @@ else
       class EC2
 
         def describe_addresses(public_ip = [])
-          public_ip = [*public_ip]
           response = Fog::Response.new
+          public_ip = [*public_ip]
           if public_ip != []
-            addresses_set = @data[:addresses].reject {|key, value| !public_ip.include?(key)}.values
+            addresses_set = Fog::AWS::EC2.data[:addresses].reject {|key, value| !public_ip.include?(key)}.values
           else
-            addresses_set = @data[:addresses].values
+            addresses_set = Fog::AWS::EC2.data[:addresses].values
           end
           if public_ip.length == 0 || public_ip.length == addresses_set.length
             response.status = 200

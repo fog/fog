@@ -33,13 +33,13 @@ else
 
         def delete_volume(volume_id)
           response = Fog::Response.new
-          if volume = @data[:volumes][volume_id]
-            @data[:deleted_at][volume['volumeId']] = Time.now
+          if volume = Fog::AWS::EC2.data[:volumes][volume_id]
+            Fog::AWS::EC2.data[:deleted_at][volume['volumeId']] = Time.now
             volume['status'] = 'deleting'
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,
-              'return' => true
+              'return'    => true
             }
           else
             response.status = 400

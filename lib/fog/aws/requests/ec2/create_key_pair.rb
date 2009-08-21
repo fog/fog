@@ -35,14 +35,14 @@ else
 
         def create_key_pair(key_name)
           response = Fog::Response.new
-          unless @data[:key_pairs][key_name]
+          unless Fog::AWS::EC2.data[:key_pairs][key_name]
             response.status = 200
             data = {
               'keyFingerprint'  => Fog::AWS::Mock.key_fingerprint,
               'keyMaterial'     => Fog::AWS::Mock.key_material,
               'keyName'         => key_name
             }
-            @data[:key_pairs][key_name] = data
+            Fog::AWS::EC2.data[:key_pairs][key_name] = data
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id
             }.merge!(data)

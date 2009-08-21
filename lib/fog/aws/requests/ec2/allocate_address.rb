@@ -35,7 +35,7 @@ else
             'instanceId' => '',
             'publicIp'   => public_ip
           }
-          @data[:addresses][public_ip] = data
+          Fog::AWS::EC2.data[:addresses][public_ip] = data
           response.body = {
             'publicIp'  => public_ip,
             'requestId' => Fog::AWS::Mock.request_id

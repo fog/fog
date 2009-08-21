@@ -35,14 +35,14 @@ else
 
         def create_security_group(name, description)
           response = Fog::Response.new
-          unless @data[:security_groups][name]
+          unless Fog::AWS::EC2.data[:security_groups][name]
             data = {
               'GroupDescription'  => description,
               'GroupName'         => name,
               'ipPermissions'     => [],
               'OwnerId'           => Fog::AWS::Mock.owner_id
             }
-            @data[:security_groups][name] = data
+            Fog::AWS::EC2.data[:security_groups][name] = data
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,
               'return'    => true

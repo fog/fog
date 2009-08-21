@@ -34,12 +34,12 @@ else
       class EC2
 
         def describe_key_pairs(key_name = [])
-          key_name = [*key_name]
           response = Fog::Response.new
+          key_name = [*key_name]
           if key_name != []
-            key_set = @data[:key_pairs].reject {|key, value| !key_name.include?(key)}.values
+            key_set = Fog::AWS::EC2.data[:key_pairs].reject {|key, value| !key_name.include?(key)}.values
           else
-            key_set = @data[:key_pairs].values
+            key_set = Fog::AWS::EC2.data[:key_pairs].values
           end
           if key_name.length == 0 || key_name.length == key_set.length
             response.status = 200
