@@ -7,7 +7,14 @@ module Fog
           @data
         end
         def self.reset_data
-          @data = { :deleted_at => {}, :addresses => {}, :key_pairs => {}, :security_groups => {}, :volumes => {} }
+          @data = {
+            :deleted_at => {},
+            :addresses => {},
+            :key_pairs => {},
+            :security_groups => {},
+            :snapshots => {},
+            :volumes => {}
+          }
         end
       end
 
