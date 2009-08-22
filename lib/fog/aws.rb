@@ -21,6 +21,10 @@ module Fog
 
       class Mock
 
+        def self.availability_zone
+          "us-east-1" << random_selection('abcd', 1)
+        end
+
         def self.etag
           hex(32)
         end
@@ -33,7 +37,12 @@ module Fog
           fingerprint.join(':')
         end
 
+        def self.image_id
+          "ami-#{hex(8)}"
+        end
+
         def self.instance_id
+          "i-#{hex(8)}"
         end
 
         def self.ip_address
@@ -42,6 +51,10 @@ module Fog
             ip << numbers(rand(3) + 1).to_i.to_s # remove leading 0
           end
           ip.join('.')
+        end
+
+        def self.kernel_id
+          "aki-#{hex(8)}"
         end
 
         def self.key_material
@@ -66,6 +79,14 @@ module Fog
           end
           request_id << hex(12)
           request_id.join('-')
+        end
+
+        def self.ramdisk_id
+          "ari-#{hex(8)}"
+        end
+
+        def self.reservation_id
+          "r-#{hex(8)}"
         end
 
         def self.snapshot_id

@@ -10,6 +10,7 @@ module Fog
           @data = {
             :deleted_at => {},
             :addresses => {},
+            :instances => {},
             :key_pairs => {},
             :security_groups => {},
             :snapshots => {},
