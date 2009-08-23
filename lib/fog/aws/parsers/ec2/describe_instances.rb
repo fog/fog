@@ -6,7 +6,7 @@ module Fog
         class DescribeInstances < Fog::Parsers::Base
 
           def reset
-            @instance = { 'instanceState' => {}, 'monitoring' => {}, 'placement' => [], 'productCodes' => [] }
+            @instance = { 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
             @reservation = { 'groupSet' => [], 'instancesSet' => [] }
             @response = { 'reservationSet' => [] }
           end
@@ -25,9 +25,9 @@ module Fog
             when 'amiLaunchIndex'
               @instance[name] = @value.to_i
             when 'availabilityZone'
-              @instance['placement'] << @value
+              @instance['placement'][name] = @value
             when 'code'
-              @instance['instanceState'][name] = @value
+              @instance['instanceState'][name] = @value.to_i
             when 'dnsName', 'imageId', 'instanceId', 'instanceType', 'kernelId', 'keyName', 'privateDnsName', 'ramdiskId', 'reason'
               @instance[name] = @value
             when 'groupId'
@@ -39,7 +39,7 @@ module Fog
             when 'item'
               if @in_instances_set
                 @reservation['instancesSet'] << @instance
-                @instance = { 'instanceState' => {}, 'monitoring' => {}, 'placement' => [], 'productCodes' => [] }
+                @instance = { 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
               elsif !@in_subset
                 @response['reservationSet'] << @reservation
                 @reservation = { 'groupSet' => [], 'instancesSet' => [] }

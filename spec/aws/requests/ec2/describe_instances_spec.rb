@@ -26,7 +26,7 @@ describe 'EC2.describe_instances' do
       instance['imageId'].should be_a(String)
       instance['instanceId'].should be_a(String)
       instance['instanceState'].should be_a(Hash)
-      instance['instanceState']['code'].should be_a(String)
+      instance['instanceState']['code'].should be_a(Integer)
       instance['instanceState']['name'].should be_a(String)
       instance['instanceType'].should be_a(String)
       instance['kernelId'].should be_a(String)
@@ -34,8 +34,8 @@ describe 'EC2.describe_instances' do
       instance['launchTime'].should be_a(Time)
       instance['monitoring'].should be_a(Hash)
       [true, false].should include(instance['monitoring']['state'])
-      instance['placement'].should be_an(Array)
-      instance['placement'].first.should be_a(String)
+      instance['placement'].should be_a(Hash)
+      instance['placement']['availabilityZone'].should be_a(String)
       instance['privateDnsName'].should be_a(String)
       instance['productCodes'].should be_an(Array)
       instance['productCodes'].first.should be_a(String) if instance['productCodes'].first
@@ -56,7 +56,7 @@ describe 'EC2.describe_instances' do
       instance['imageId'].should be_a(String)
       instance['instanceId'].should be_a(String)
       instance['instanceState'].should be_a(Hash)
-      instance['instanceState']['code'].should be_a(String)
+      instance['instanceState']['code'].should be_a(Integer)
       instance['instanceState']['name'].should be_a(String)
       instance['instanceType'].should be_a(String)
       instance['kernelId'].should be_a(String)
@@ -64,13 +64,22 @@ describe 'EC2.describe_instances' do
       instance['launchTime'].should be_a(Time)
       instance['monitoring'].should be_a(Hash)
       [true, false].should include(instance['monitoring']['state'])
-      instance['placement'].should be_an(Array)
-      instance['placement'].first.should be_a(String)
+      instance['placement'].should be_a(Hash)
+      instance['placement']['availabilityZone'].should be_a(String)
       instance['privateDnsName'].should be_a(String)
       instance['productCodes'].should be_an(Array)
       instance['productCodes'].first.should be_a(String) if instance['productCodes'].first
       instance['ramdiskId'].should be_a(String)
       instance['reason'].should be_a(String)
+    end
+
+  end
+  describe 'failure' do
+
+    it 'should raise a BadRequest error if the instance does not exist' do
+      lambda {
+        ec2.describe_instances('i-00000000')
+      }.should raise_error(Fog::Errors::BadRequest)
     end
 
   end

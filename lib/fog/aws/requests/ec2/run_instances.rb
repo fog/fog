@@ -85,12 +85,18 @@ else
         def run_instances(image_id, min_count, max_count, options = {})
           response = Fog::Response.new
           response.status = 200
-          instancesSet = []
+
+          group_set = [ (options['GroupId'] || 'default') ]
+          instances_set = []
+          owner_id = Fog::AWS::Mock.owner_id
+          reservation_id = Fog::AWS::Mock.reservation_id
+
           min_count.times do |i|
             instance_id = Fog::AWS::Mock.instance_id
             data = {
               'amiLaunchIndex'  => i,
               'dnsName'         => '',
+              'groupSet'        => group_set,
               'imageId'         => image_id,
               'instanceId'      => instance_id,
               'instanceState'   => { 'code' => 0, 'name' => 'pending' },
@@ -99,25 +105,25 @@ else
               'keyName'         => options['KeyName'] || '',
               'launchTime'      => Time.now,
               'monitoring'      => { 'state' => options['Monitoring.Enabled'] || false },
+              'ownerId'         => owner_id,
               'placement'       => { 'availabilityZone' => options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone },
               'privateDnsName'  => '',
               'productCodes'    => [],
               'ramdiskId'       => options['RamdiskId'] || Fog::AWS::Mock.ramdisk_id,
               'reason'          => '',
+              'reservationId'   => reservation_id,
               'state'           => 'pending'
             }
             Fog::AWS::EC2.data[:instances][instance_id] = data
-            instancesSet << data.reject{|key,value| !['amiLaunchIndex', 'dnsName', 'imageId', 'instanceId', 'instancesSet', 'instanceState', 'instanceType', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'privateDnsName', 'productCodes', 'ramdiskId', 'reason'].include?(key)}
+            instances_set << data.reject{|key,value| !['amiLaunchIndex', 'dnsName', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'privateDnsName', 'productCodes', 'ramdiskId', 'reason'].include?(key)}
           end
-          data = {
-            'groupSet'      => [ options['GroupId'] || 'default' ],
-            'instancesSet'  => instancesSet,
-            'reservationId' => Fog::AWS::Mock.reservation_id
-          }
           response.body = {
-            'ownerId'   => Fog::AWS::Mock.owner_id,
-            'requestId' => Fog::AWS::Mock.request_id
-          }.merge!(data)
+            'groupSet'      => group_set,
+            'instancesSet'  => instances_set,
+            'ownerId'       => owner_id,
+            'requestId'     => Fog::AWS::Mock.request_id,
+            'reservationId' => reservation_id
+          }
           response
         end
 

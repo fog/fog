@@ -50,9 +50,19 @@ else
               Fog::AWS::EC2.data[:deleted_at][instance_id] = Time.now
               instance['status'] = 'deleting'
               response.status = 200
+              code = case instance['state']
+              when 'pending'
+                0
+              when 'running'
+                16
+              when 'shutting-down'
+                32
+              when 'terminated'
+                64
+              end
               response.body['instancesSet'] << {
                 'instanceId'    => instance_id,
-                'previousState' => { 'name' => instance['state'], 'code' => 0 },
+                'previousState' => { 'name' => instance['state'], 'code' => code },
                 'shutdownState' => { 'name' => 'shutting-down', 'code' => 32}
               }
             else
