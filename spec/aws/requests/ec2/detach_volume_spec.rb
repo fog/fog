@@ -7,7 +7,7 @@ describe 'EC2.detach_volume' do
       @instance_id = ec2.run_instances('ami-5ee70037', 1, 1, {'Placement.AvailabilityZone' => 'us-east-1a'}).body['instancesSet'].first['instanceId']
       @volume_id = ec2.create_volume('us-east-1a', 1).body['volumeId']
       eventually(128) do
-        ec2.attach_volume(@volume_id, @instance_id, '/dev/sdh')
+        ec2.attach_volume(@instance_id, @volume_id, '/dev/sdh')
       end
     end
 
@@ -28,6 +28,15 @@ describe 'EC2.detach_volume' do
         actual.body['status'].should be_a(String)
         actual.body['volumeId'].should be_a(String)
       end
+    end
+
+  end
+  describe 'failure' do
+
+    it "should raise a BadRequest error if the volume does not exist" do
+      lambda {
+        ec2.detach_volume('vol-00000000')
+      }.should raise_error(Fog::Errors::BadRequest)
     end
 
   end
