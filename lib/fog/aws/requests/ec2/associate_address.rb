@@ -36,10 +36,10 @@ else
         def associate_address(instance_id, public_ip)
           response = Fog::Response.new
           response.status = 200
-          address = Fog::AWS::EC2.data[:addresses][public_ip]
           instance = Fog::AWS::EC2.data[:instances][instance_id]
-          if address && instance
-            instance['instanceId'] = instance_id
+          address = Fog::AWS::EC2.data[:addresses][public_ip]
+          if instance && address
+            address['instanceId'] = instance_id
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,
