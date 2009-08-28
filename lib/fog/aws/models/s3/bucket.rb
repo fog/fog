@@ -19,6 +19,7 @@ module Fog
 
         def delete
           connection.delete_bucket(name)
+          true
         end
 
         def location
@@ -49,6 +50,7 @@ module Fog
             options['LocationConstraint'] = @location
           end
           connection.put_bucket(name, options)
+          true
         end
 
       end

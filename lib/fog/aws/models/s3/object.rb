@@ -27,6 +27,10 @@ module Fog
           super
         end
 
+        def bucket
+          @bucket
+        end
+
         def copy(target_bucket_name, target_object_key)
           data = connection.copy_object(bucket.name, key, target_bucket_name, target_object_key).body
           copy = self.dup
@@ -42,21 +46,19 @@ module Fog
 
         def delete
           connection.delete_object(bucket, key)
+          true
         end
 
         def save(options = {})
           data = connection.put_object(bucket.name, key, body, options)
           @etag = data.headers['ETag']
+          true
         end
 
         private
 
         def bucket=(new_bucket)
           @bucket = new_bucket
-        end
-
-        def bucket
-          @bucket
         end
 
       end

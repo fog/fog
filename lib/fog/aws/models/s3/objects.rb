@@ -42,6 +42,10 @@ module Fog
           objects
         end
 
+        def bucket
+          @bucket
+        end
+
         def create(attributes = {})
           object = new(attributes)
           object.save
@@ -87,10 +91,6 @@ module Fog
 
         def bucket=(new_bucket)
           @bucket = new_bucket
-        end
-
-        def bucket
-          @bucket
         end
 
       end

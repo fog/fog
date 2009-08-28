@@ -1,28 +1,23 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
-describe 'S3.buckets' do
+describe 'S3::Buckets' do
 
-  it "should return buckets from all" do
-    p s3.buckets.all
+  describe "#all" do
+
+    it "should return an S3::Buckets"
+
   end
 
-  it "should create bucket" do
-    p @bucket = s3.buckets.create(:name => 'fogbucketstest')
-    p @bucket.delete
+  describe "#create" do
+
+    it "should return an S3::Bucket that has been persisted to s3"
+
   end
 
-  it "should get/put request payment" do
-    p @bucket = s3.buckets.create(:name => 'fogbucketspaymenttest')
-    p @bucket.payer = 'BucketOwner'
-    p @bucket.payer
-    p @bucket.delete
-  end
+  describe "#new" do
 
-  it "should push bucket down into objects" do
-    p @bucket = s3.buckets.create(:name => 'fogbucketsobjectstest')
-    p @bucket.objects.new(:key => 'object')
-    p @bucket.objects.all
-    p @bucket.delete
+    it "should return an S3::Bucket"
+
   end
 
 end
