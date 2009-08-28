@@ -20,6 +20,12 @@ module Fog
         end
 
         def all(options = {})
+          remap_attributes(options, {
+            :is_truncated => 'IsTruncated',
+            :marker       => 'Marker',
+            :max_keys     => 'MaxKeys',
+            :prefix       => 'Prefix'
+          })
           data = connection.get_bucket(bucket.name, options).body
           objects_data = {}
           for key, value in data
@@ -36,6 +42,7 @@ module Fog
             objects << Fog::AWS::S3::Object.new({
               :bucket     => bucket,
               :connection => connection,
+              :objects    => self,
               :owner      => owner
             }.merge!(object))
           end
@@ -62,7 +69,8 @@ module Fog
           end
           Fog::AWS::S3::Object.new({
             :bucket     => bucket,
-            :connection => connection
+            :connection => connection,
+            :objects    => self
           }.merge!(object_data))
         end
 
@@ -76,14 +84,16 @@ module Fog
           end
           Fog::AWS::S3::Object.new({
             :bucket     => bucket,
-            :connection => connection
+            :connection => connection,
+            :objects    => self
           }.merge!(object_data))
         end
 
         def new(attributes = {})
           Fog::AWS::S3::Object.new({
             :bucket     => bucket,
-            :connection => connection
+            :connection => connection,
+            :objects    => self
           }.merge!(attributes))
         end
 

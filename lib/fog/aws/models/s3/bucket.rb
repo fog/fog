@@ -53,6 +53,16 @@ module Fog
           true
         end
 
+        private
+
+        def buckets
+          @buckets
+        end
+
+        def buckets=(new_buckets)
+          @buckets = new_buckets
+        end
+
       end
 
     end

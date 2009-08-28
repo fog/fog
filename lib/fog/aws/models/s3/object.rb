@@ -5,14 +5,14 @@ module Fog
       class Object < Fog::Model
 
         attr_accessor :body,
-          :content_length,
-          :content_type,
-          :etag,
-          :key,
-          :last_modified,
-          :owner,
-          :size,
-          :storage_class
+                      :content_length,
+                      :content_type,
+                      :etag,
+                      :key,
+                      :last_modified,
+                      :owner,
+                      :size,
+                      :storage_class
 
         def initialize(attributes = {})
           remap_attributes(attributes, {
@@ -59,6 +59,14 @@ module Fog
 
         def bucket=(new_bucket)
           @bucket = new_bucket
+        end
+
+        def objects
+          @objects
+        end
+
+        def objects=(new_objects)
+          @objects = new_objects
         end
 
       end

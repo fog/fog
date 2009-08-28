@@ -14,8 +14,9 @@ module Fog
           buckets = Fog::AWS::S3::Buckets.new
           data['Buckets'].each do |bucket|
             buckets << Fog::AWS::S3::Bucket.new({
-              :connection     => connection,
-              :owner          => owner
+              :buckets    => self
+              :connection => connection,
+              :owner      => owner
             }.merge!(bucket))
           end
           buckets
@@ -28,7 +29,12 @@ module Fog
         end
 
         def new(attributes = {})
-          Fog::AWS::S3::Bucket.new(attributes.merge!(:connection => connection))
+          Fog::AWS::S3::Bucket.new(
+            attributes.merge!(
+              :connection => connection,
+              :buckets    => self
+            )
+          )
         end
 
       end
