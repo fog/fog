@@ -17,6 +17,10 @@ module Fog
           super
         end
 
+        def buckets
+          @buckets
+        end
+
         def delete
           connection.delete_bucket(name)
           true
@@ -50,14 +54,11 @@ module Fog
             options['LocationConstraint'] = @location
           end
           connection.put_bucket(name, options)
+          buckets[name] = self
           true
         end
 
         private
-
-        def buckets
-          @buckets
-        end
 
         def buckets=(new_buckets)
           @buckets = new_buckets

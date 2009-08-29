@@ -1,5 +1,5 @@
 module Fog
-  class Collection < Array
+  class Collection < Hash
 
     def initialize(attributes = {})
       update_attributes(attributes)
@@ -11,8 +11,8 @@ module Fog
         data << " #{attribute}=#{send(attribute[1..-1].to_sym).inspect}"
       end
       data << " ["
-      for item in self
-        data << "#{item.inspect},"
+      for key, value in self
+        data << "#{value.inspect},"
       end
       data.chomp!
       data << "]>"

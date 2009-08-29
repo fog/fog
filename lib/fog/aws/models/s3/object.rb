@@ -52,6 +52,7 @@ module Fog
         def save(options = {})
           data = connection.put_object(bucket.name, key, body, options)
           @etag = data.headers['ETag']
+          objects[key] = self
           true
         end
 

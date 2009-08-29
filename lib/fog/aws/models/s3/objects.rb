@@ -19,34 +19,14 @@ module Fog
           super
         end
 
+        def [](key)
+          self[key] ||= begin
+            get(key)
+          end
+        end
+
         def all(options = {})
-          remap_attributes(options, {
-            :is_truncated => 'IsTruncated',
-            :marker       => 'Marker',
-            :max_keys     => 'MaxKeys',
-            :prefix       => 'Prefix'
-          })
-          data = connection.get_bucket(bucket.name, options).body
-          objects_data = {}
-          for key, value in data
-            if ['IsTruncated', 'Marker', 'MaxKeys', 'Prefix'].include?(key)
-              objects_data[key] = value
-            end
-          end
-          objects = Fog::AWS::S3::Objects.new({
-            :bucket       => bucket,
-            :connection   => connection
-          }.merge!(objects_data))
-          data['Contents'].each do |object|
-            owner = Fog::AWS::S3::Owner.new(object.delete('Owner').merge!(:connection => connection))
-            objects << Fog::AWS::S3::Object.new({
-              :bucket     => bucket,
-              :connection => connection,
-              :objects    => self,
-              :owner      => owner
-            }.merge!(object))
-          end
-          objects
+          bucket.buckets.get(bucket.name, options).objects
         end
 
         def bucket
@@ -59,7 +39,7 @@ module Fog
           object
         end
 
-        def get
+        def get(key, options = {})
           data = connection.get_object(bucket.name, key, options)
           object_data = { :body => data.body}
           for key, value in data.headers
@@ -74,7 +54,7 @@ module Fog
           }.merge!(object_data))
         end
 
-        def head
+        def head(key, options = {})
           data = connection.head_object(bucket.name, key, options)
           object_data = {}
           for key, value in data.headers
