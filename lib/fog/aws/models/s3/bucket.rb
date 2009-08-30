@@ -21,14 +21,17 @@ module Fog
           @buckets
         end
 
-        def delete
+        def destroy
           connection.delete_bucket(name)
+          buckets.delete(name)
           true
         end
 
         def location
-          data = s3.get_bucket_location(name)
-          data.body['LocationConstraint']
+          @location ||= begin
+            data = s3.get_bucket_location(name)
+            data.body['LocationConstraint']
+          end
         end
 
         def objects
@@ -39,13 +42,23 @@ module Fog
         end
 
         def payer
-          data = connection.get_request_payment(name)
-          data.body['Payer']
+          @payer ||= begin
+            data = connection.get_request_payment(name)
+            data.body['Payer']
+          end
         end
 
         def payer=(new_payer)
           connection.put_request_payment(name, new_payer)
           @payer = new_payer
+        end
+
+        def new_record?
+          buckets.key?(name)
+        end
+
+        def reload
+          buckets.get(name)
         end
 
         def save

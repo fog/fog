@@ -1,8 +1,8 @@
 module Fog
   class Model
 
-    def initialize(attributes = {})
-      update_attributes(attributes)
+    def initialize(new_attributes = {})
+      merge_attributes(new_attributes)
     end
 
     def inspect
@@ -13,8 +13,8 @@ module Fog
       data << ">"
     end
 
-    def update_attributes(attributes = {})
-      for key, value in attributes
+    def merge_attributes(new_attributes = {})
+      for key, value in new_attributes
         send(:"#{key}=", value)
       end
       self
@@ -28,10 +28,6 @@ module Fog
 
     def connection
       @connection
-    end
-
-    def new_record?
-      !defined?(@new_record) || @new_record
     end
 
     def remap_attributes(attributes, mapping)
