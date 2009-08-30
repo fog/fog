@@ -4,26 +4,16 @@ module Fog
 
       class Object < Fog::Model
 
-        attr_accessor :body,
-                      :content_length,
-                      :content_type,
-                      :etag,
-                      :key,
-                      :last_modified,
-                      :owner,
-                      :size,
-                      :storage_class
+        attribute :body
+        attribute :content_length,  'Content-Length'
+        attribute :content_type,    'Content-Type'
+        attribute :etag,            'Etag'
+        attribute :key,             'Key'
+        attribute :last_modified,   ['Last-Modified', 'LastModified']
+        attribute :size,            'Size'
+        attribute :storage_class,   'StorageClass'
 
         def initialize(attributes = {})
-          remap_attributes(attributes, {
-            'Content-Length'  => :content_length,
-            'ETag'            => :etag,
-            'Key'             => :key,
-            'LastModified'    => :last_modified,
-            'Last-Modified'   => :last_modified,
-            'Size'            => :size,
-            'StorageClass'    => :storage_class
-          })
           super
         end
 
@@ -34,17 +24,7 @@ module Fog
         def copy(target_bucket_name, target_object_key)
           data = connection.copy_object(bucket.name, key, target_bucket_name, target_object_key).body
           target_bucket = connection.buckets.new(:name => target_bucket_name)
-          target_object = target_bucket.objects.new(
-            :body           => body,
-            :content_length => content_length,
-            :content_type   => content_type,
-            :etag           => etag,
-            :key            => key,
-            :last_modified  => last_modified,
-            :owner          => owner,
-            :size           => size,
-            :storage_class  => storage_class
-          )
+          target_object = target_bucket.objects.new(attributes)
           copy_data = {}
           for key, value in data
             if ['ETag', 'LastModified'].include?(key)

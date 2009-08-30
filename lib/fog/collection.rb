@@ -1,6 +1,24 @@
 module Fog
   class Collection < Hash
 
+    def self.attribute(name, other_names = [])
+      class_eval <<-EOS, __FILE__, __LINE__
+        attr_accessor :#{name}
+      EOS
+      attributes << name
+      for other_name in [*other_names]
+        aliases[other_name] = name
+      end
+    end
+
+    def self.aliases
+      @aliases ||= {}
+    end
+
+    def self.attributes
+      @attributes ||= []
+    end
+
     def initialize(attributes = {})
       update_attributes(attributes)
     end
@@ -18,9 +36,21 @@ module Fog
       data << "]>"
     end
 
-    def update_attributes(attributes = {})
-      for key, value in attributes
-        send(:"#{key}=", value)
+    def attributes
+      attributes = {}
+      for attribute in self.attributes
+        attributes[attribute] = send(:"#{attribute}")
+      end
+      attributes
+    end
+
+    def merge_attributes(new_attributes = {})
+      for key, value in new_attributes
+        if aliased_key = self.aliases[key]
+          send(:"#{aliased_key}=", value)
+        else
+          send(:"#{key}=", value)
+        end
       end
       self
     end
@@ -33,10 +63,6 @@ module Fog
 
     def connection
       @connection
-    end
-
-    def new_record?
-      !defined?(@new_record) || @new_record
     end
 
     def remap_attributes(attributes, mapping)

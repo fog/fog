@@ -4,18 +4,12 @@ module Fog
 
       class Objects < Fog::Collection
 
-        attr_accessor :is_truncated,
-                      :marker,
-                      :max_keys,
-                      :prefix
+        attribute :is_truncated,  'IsTruncated'
+        attribute :marker,        'Marker'
+        attribute :max_keys,      'MaxKeys'
+        attribute :prefix,        'Prefix'
 
         def initialize(attributes = {})
-          remap_attributes(attributes, {
-            'IsTruncated' => :is_truncated,
-            'Marker'      => :marker,
-            'MaxKeys'     => :max_keys,
-            'Prefix'      => :prefix
-          })
           super
         end
 
@@ -26,19 +20,8 @@ module Fog
         end
 
         def all(options = {})
-          options = {
-            :is_truncated => is_trucated,
-            :marker       => marker,
-            :max_keys     => max_keys,
-            :prefix       => prefix
-          }.merge!(options)
-          remap_attributes(options, {
-            :is_truncated => 'IsTruncated',
-            :marker       => 'Marker',
-            :max_keys     => 'MaxKeys',
-            :prefix       => 'Prefix'
-          })
-          bucket.buckets.get(bucket.name, options).objects
+          merge_attributes(options)
+          bucket.buckets.get(bucket.name, attributes).objects
         end
 
         def bucket

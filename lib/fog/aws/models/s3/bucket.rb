@@ -4,16 +4,12 @@ module Fog
 
       class Bucket < Fog::Model
 
-        attr_accessor :creation_date,
-                      :location,
-                      :name,
-                      :owner
+        attribute :creation_date, 'CreationDate'
+        attribute :location
+        attribute :name,          'Name'
+        attribute :owner
 
         def initialize(attributes = {})
-          remap_attributes(attributes, {
-            'CreationDate'  => :creation_date,
-            'Name'          => :name
-          })
           super
         end
 
