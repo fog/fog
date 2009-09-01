@@ -38,10 +38,8 @@ module Fog
           connection.delete_object(bucket, key)
           objects.delete(key)
           true
-        end
-
-        def new_record?
-          objects.key?(key)
+        rescue Fog::Errors::NotFound
+          false
         end
 
         def reload

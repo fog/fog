@@ -21,6 +21,8 @@ module Fog
           connection.delete_bucket(name)
           buckets.delete(name)
           true
+        rescue Fog::Errors::NotFound
+          false
         end
 
         def location
@@ -47,10 +49,6 @@ module Fog
         def payer=(new_payer)
           connection.put_request_payment(name, new_payer)
           @payer = new_payer
-        end
-
-        def new_record?
-          buckets.key?(name)
         end
 
         def reload

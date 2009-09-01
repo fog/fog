@@ -13,12 +13,6 @@ module Fog
           super
         end
 
-        def [](key)
-          self[key] ||= begin
-            get(key)
-          end
-        end
-
         def all(options = {})
           merge_attributes(options)
           bucket.buckets.get(bucket.name, attributes).objects
@@ -35,33 +29,45 @@ module Fog
         end
 
         def get(key, options = {})
-          data = connection.get_object(bucket.name, key, options)
-          object_data = { :body => data.body}
-          for key, value in data.headers
-            if ['Content-Length', 'Content-Type', 'ETag', 'Last-Modified'].include?(key)
-              object_data[key] = value
+          if self[key] && self[key].body
+            self[key]
+          else
+            self[key] ||= begin
+              data = connection.get_object(bucket.name, key, options)
+              object_data = { :body => data.body}
+              for key, value in data.headers
+                if ['Content-Length', 'Content-Type', 'ETag', 'Last-Modified'].include?(key)
+                  object_data[key] = value
+                end
+              end
+              self[object_data['key']] = Fog::AWS::S3::Object.new({
+                :bucket     => bucket,
+                :connection => connection,
+                :objects    => self
+              }.merge!(object_data))
+            rescue Fog::Errors::NotFound
+              nil
             end
           end
-          self[object_data['key']] = Fog::AWS::S3::Object.new({
-            :bucket     => bucket,
-            :connection => connection,
-            :objects    => self
-          }.merge!(object_data))
         end
 
         def head(key, options = {})
-          data = connection.head_object(bucket.name, key, options)
-          object_data = {}
-          for key, value in data.headers
-            if ['Content-Length', 'Content-Type', 'ETag', 'Last-Modified'].include?(key)
-              object_data[key] = value
+          self[key] ||= begin
+            data = connection.head_object(bucket.name, key, options)
+            object_data = {}
+            for key, value in data.headers
+              if ['Content-Length', 'Content-Type', 'ETag', 'Last-Modified'].include?(key)
+                object_data[key] = value
+              end
             end
+            self[object_data['key']] = Fog::AWS::S3::Object.new({
+              :bucket     => bucket,
+              :connection => connection,
+              :objects    => self
+            }.merge!(object_data))
+          rescue Fog::Errors::NotFound
+            nil
           end
-          self[object_data['key']] = Fog::AWS::S3::Object.new({
-            :bucket     => bucket,
-            :connection => connection,
-            :objects    => self
-          }.merge!(object_data))
         end
 
         def new(attributes = {})

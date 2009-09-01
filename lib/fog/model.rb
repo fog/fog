@@ -25,7 +25,7 @@ module Fog
 
     def attributes
       attributes = {}
-      for attribute in self.attributes
+      for attribute in self.class.attributes
         attributes[attribute] = send(:"#{attribute}")
       end
       attributes
@@ -33,15 +33,15 @@ module Fog
 
     def inspect
       data = "#<#{self.class.name}"
-      for attribute in (self.instance_variables - ['@connection'])
-        data << " #{attribute}=#{send(attribute[1..-1].to_sym).inspect}"
+      for attribute in self.class.attributes
+        data << " #{attribute}=#{send(attribute).inspect}"
       end
       data << ">"
     end
 
     def merge_attributes(new_attributes = {})
       for key, value in new_attributes
-        if aliased_key = self.aliases[key]
+        if aliased_key = self.class.aliases[key]
           send(:"#{aliased_key}=", value)
         else
           send(:"#{key}=", value)

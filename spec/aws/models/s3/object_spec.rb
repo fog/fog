@@ -20,7 +20,7 @@ describe 'S3::Object' do
 
   end
 
-  describe "#delete" do
+  describe "#destroy" do
 
     it "should return the success value"
 
