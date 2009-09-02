@@ -33,10 +33,12 @@ module Fog
         end
 
         def objects
-          Fog::AWS::S3::Objects.new(
-            :bucket       => self,
-            :connection   => connection
-          )
+          @objects ||= begin
+            Fog::AWS::S3::Objects.new(
+              :bucket       => self,
+              :connection   => connection
+            )
+          end
         end
 
         def payer
@@ -52,7 +54,8 @@ module Fog
         end
 
         def reload
-          buckets.get(name)
+          new_attributes = buckets.get(name).attributes
+          merge_attributes(new_attributes)
         end
 
         def save

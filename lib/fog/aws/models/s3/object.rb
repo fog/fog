@@ -7,9 +7,10 @@ module Fog
         attribute :body
         attribute :content_length,  'Content-Length'
         attribute :content_type,    'Content-Type'
-        attribute :etag,            'Etag'
+        attribute :etag,            ['Etag', 'ETag']
         attribute :key,             'Key'
         attribute :last_modified,   ['Last-Modified', 'LastModified']
+        attribute :owner
         attribute :size,            'Size'
         attribute :storage_class,   'StorageClass'
 
@@ -35,7 +36,7 @@ module Fog
         end
 
         def destroy
-          connection.delete_object(bucket, key)
+          connection.delete_object(bucket.name, key)
           objects.delete(key)
           true
         rescue Fog::Errors::NotFound
@@ -43,7 +44,8 @@ module Fog
         end
 
         def reload
-          objects.get(key)
+          new_attributes = objects.get(key).attributes
+          merge_attributes(new_attributes)
         end
 
         def save(options = {})

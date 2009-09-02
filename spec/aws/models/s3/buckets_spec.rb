@@ -8,6 +8,12 @@ describe 'Fog::AWS::S3::Buckets' do
       s3.buckets.all.should be_a(Fog::AWS::S3::Buckets)
     end
 
+    it "should include persisted buckets" do
+      bucket = s3.buckets.create(:name => 'fogbucketname')
+      s3.buckets.all.keys.should include('fogbucketname')
+      bucket.destroy
+    end
+
   end
 
   describe "#create" do
@@ -58,6 +64,14 @@ describe 'Fog::AWS::S3::Buckets' do
 
     it "should return a Fog::AWS::S3::Bucket" do
       s3.buckets.new.should be_a(Fog::AWS::S3::Bucket)
+    end
+
+  end
+
+  describe "#reload" do
+
+    it "should return a Fog::AWS::S3::Buckets" do
+      s3.buckets.all.should be_a(Fog::AWS::S3::Buckets)
     end
 
   end

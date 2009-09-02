@@ -4,13 +4,9 @@ describe 'Fog::AWS::S3::Bucket' do
 
   describe "#initialize" do
 
-    it "should return a Fog:AWS::S3::Bucket" do
-      s3.buckets.new.should be_an(Fog::AWS::S3::Bucket)
-    end
-
     it "should remap attributes from parser" do
       now = Time.now
-      bucket = s3.buckets.new(
+      bucket = Fog::AWS::S3::Bucket.new(
         'CreationDate' => now,
         'Name'         => 'bucketname'
       )
@@ -24,6 +20,11 @@ describe 'Fog::AWS::S3::Bucket' do
 
     it "should return a Fog::AWS::S3::Buckets" do
       s3.buckets.new.buckets.should be_a(Fog::AWS::S3::Buckets)
+    end
+
+    it "should be the buckets the bucket is related to" do
+      buckets = s3.buckets
+      buckets.new.buckets.should == buckets
     end
 
   end

@@ -4,7 +4,7 @@ describe 'S3::Object' do
 
   describe "#initialize" do
 
-    it "should return an S3::Object"
+    it "should remap attributes from parser"
 
   end
 
@@ -29,6 +29,12 @@ describe 'S3::Object' do
   describe "#location" do
 
     it "should return the location constraint"
+
+  end
+
+  describe "#reload" do
+
+    it "should reload from s3"
 
   end
 

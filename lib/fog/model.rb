@@ -23,20 +23,20 @@ module Fog
       merge_attributes(new_attributes)
     end
 
-    def attributes
-      attributes = {}
-      for attribute in self.class.attributes
-        attributes[attribute] = send(:"#{attribute}")
-      end
-      attributes
-    end
-
     def inspect
       data = "#<#{self.class.name}"
       for attribute in self.class.attributes
         data << " #{attribute}=#{send(attribute).inspect}"
       end
       data << ">"
+    end
+
+    def attributes
+      attributes = {}
+      for attribute in self.class.attributes
+        attributes[attribute] = send(:"#{attribute}")
+      end
+      attributes
     end
 
     def merge_attributes(new_attributes = {})
