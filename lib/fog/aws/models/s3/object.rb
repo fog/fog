@@ -23,9 +23,9 @@ module Fog
         end
 
         def copy(target_bucket_name, target_object_key)
-          data = connection.copy_object(bucket.name, key, target_bucket_name, target_object_key).body
+          data = connection.copy_object(bucket.name, @key, target_bucket_name, target_object_key).body
           target_bucket = connection.buckets.new(:name => target_bucket_name)
-          target_object = target_bucket.objects.new(attributes)
+          target_object = target_bucket.objects.new(attributes.merge!(:key => target_object_key))
           copy_data = {}
           for key, value in data
             if ['ETag', 'LastModified'].include?(key)
@@ -33,25 +33,29 @@ module Fog
             end
           end
           target_object.merge_attributes(copy_data)
+          target_object.objects[target_object_key] = target_object
+          target_object
         end
 
         def destroy
-          connection.delete_object(bucket.name, key)
-          objects.delete(key)
+          connection.delete_object(bucket.name, @key)
+          objects.delete(@key)
           true
-        rescue Fog::Errors::NotFound
-          false
+        end
+
+        def objects
+          @objects
         end
 
         def reload
-          new_attributes = objects.get(key).attributes
+          new_attributes = objects.get(@key).attributes
           merge_attributes(new_attributes)
         end
 
         def save(options = {})
-          data = connection.put_object(bucket.name, key, body, options)
+          data = connection.put_object(bucket.name, @key, @body, options)
           @etag = data.headers['ETag']
-          objects[key] = self
+          objects[@key] = self
           true
         end
 
@@ -59,10 +63,6 @@ module Fog
 
         def bucket=(new_bucket)
           @bucket = new_bucket
-        end
-
-        def objects
-          @objects
         end
 
         def objects=(new_objects)

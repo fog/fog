@@ -31,12 +31,12 @@ describe 'Fog::AWS::S3::Bucket' do
 
   describe "#destroy" do
 
-    it "should return true if the object is deleted" do
+    it "should return true if the bucket is deleted" do
       bucket = s3.buckets.create(:name => 'fogmodelbucket')
       bucket.destroy.should be_true
     end
 
-    it "should return false if the object does not exist" do
+    it "should return false if the bucket does not exist" do
       bucket = s3.buckets.new(:name => 'fogmodelbucket')
       bucket.destroy.should be_false
     end
@@ -45,7 +45,11 @@ describe 'Fog::AWS::S3::Bucket' do
 
   describe "#location" do
 
-    it "should return the location constraint"
+    it "should return the location constraint" do
+      bucket = s3.buckets.create(:name => 'fogmodeleubucket', :location => 'EU')
+      bucket.location.should == 'EU'
+      eu_s3.buckets.new(:name => 'fogmodeleubucket').destroy
+    end
 
   end
 
@@ -60,13 +64,21 @@ describe 'Fog::AWS::S3::Bucket' do
 
   describe "#payer" do
 
-    it "should return the request payment value"
+    it "should return the request payment value" do
+      bucket = s3.buckets.create(:name => 'fogmodelbucket')
+      bucket.payer.should == 'BucketOwner'
+      bucket.destroy.should be_true
+    end
 
   end
 
   describe "#payer=" do
 
-    it "should set the request payment value"
+    it "should set the request payment value" do
+      bucket = s3.buckets.create(:name => 'fogmodelbucket')
+      (bucket.payer = 'Requester').should == 'Requester'
+      bucket.destroy.should
+    end
 
   end
 
@@ -85,7 +97,8 @@ describe 'Fog::AWS::S3::Bucket' do
       @reloaded.should be_a(Fog::AWS::S3::Bucket)
     end
 
-    it "should have the same attributes as the bucket that created it" do
+    it "should reset attributes to remote state" do
+      @bucket.creation_date = Time.now
       @bucket.attributes.should == @reloaded.attributes
     end
 

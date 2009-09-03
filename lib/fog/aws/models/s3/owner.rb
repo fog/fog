@@ -4,14 +4,10 @@ module Fog
 
       class Owner < Fog::Model
 
-        attr_accessor :display_name,
-          :id
+        attribute :display_name,  'DisplayName'
+        attribute :id,            'ID'
 
         def initialize(attributes = {})
-          remap_attributes(attributes, { 
-            'DisplayName' => :display_name,
-            'ID'          => :id
-          })
           super
         end
 

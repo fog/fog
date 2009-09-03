@@ -33,13 +33,6 @@ describe 'Fog::AWS::S3::Objects' do
       @bucket.objects.all.should be_a(Fog::AWS::S3::Objects)
     end
 
-    it "should include persisted objects" do
-      file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
-      object = @bucket.objects.create(:key => 'fogobjectname', :body => file)
-      @bucket.objects.keys.should include('fogobjectname')
-      object.destroy
-    end
-
   end
 
   describe "#bucket" do
@@ -48,7 +41,7 @@ describe 'Fog::AWS::S3::Objects' do
       @bucket.objects.bucket.should be_a(Fog::AWS::S3::Bucket)
     end
 
-    it "should be the bucket the object is related to" do
+    it "should be the bucket the objects are related to" do
       @bucket.objects.bucket.should == @bucket
     end
   end
@@ -73,13 +66,30 @@ describe 'Fog::AWS::S3::Objects' do
 
   describe "#get" do
 
-    it "should return a Fog::AWS::S3::Object with metadata and data"
+    it "should return a Fog::AWS::S3::Object with metadata and data" do
+      file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
+      object = @bucket.objects.create(:key => 'fogobjectname', :body => file)
+      object = @bucket.objects.get('fogobjectname')
+      object.body.should_not be_nil
+      object.content_length.should_not be_nil
+      object.etag.should_not be_nil
+      object.last_modified.should_not be_nil
+      object.destroy
+    end
 
   end
 
   describe "#head" do
 
-    it "should return a Fog::AWS::S3::Object with metadata"
+    it "should return a Fog::AWS::S3::Object with metadata" do
+      file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
+      object = @bucket.objects.create(:key => 'fogobjectname', :body => file)
+      object = @bucket.objects.get('fogobjectname')
+      object.content_length.should_not be_nil
+      object.etag.should_not be_nil
+      object.last_modified.should_not be_nil
+      object.destroy
+    end
 
   end
 
@@ -93,7 +103,9 @@ describe 'Fog::AWS::S3::Objects' do
 
   describe "#reload" do
 
-    it "should reload from s3"
+    it "should reload from s3" do
+      @bucket.objects.reload.should == @bucket.objects
+    end
 
   end
 

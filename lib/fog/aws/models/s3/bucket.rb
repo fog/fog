@@ -18,7 +18,7 @@ module Fog
         end
 
         def destroy
-          connection.delete_bucket(name)
+          connection.delete_bucket(@name)
           buckets.delete(name)
           true
         rescue Fog::Errors::NotFound
@@ -26,10 +26,8 @@ module Fog
         end
 
         def location
-          @location ||= begin
-            data = s3.get_bucket_location(name)
-            data.body['LocationConstraint']
-          end
+          data = s3.get_bucket_location(@name)
+          data.body['LocationConstraint']
         end
 
         def objects
@@ -42,19 +40,17 @@ module Fog
         end
 
         def payer
-          @payer ||= begin
-            data = connection.get_request_payment(name)
-            data.body['Payer']
-          end
+          data = connection.get_request_payment(@name)
+          data.body['Payer']
         end
 
         def payer=(new_payer)
-          connection.put_request_payment(name, new_payer)
+          connection.put_request_payment(@name, new_payer)
           @payer = new_payer
         end
 
         def reload
-          new_attributes = buckets.get(name).attributes
+          new_attributes = buckets.get(@name).attributes
           merge_attributes(new_attributes)
         end
 
@@ -63,7 +59,7 @@ module Fog
           if @location
             options['LocationConstraint'] = @location
           end
-          connection.put_bucket(name, options)
+          connection.put_bucket(@name, options)
           buckets[name] = self
           true
         end

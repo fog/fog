@@ -35,7 +35,10 @@ module Fog
 
         def get(key, options = {})
           data = connection.get_object(bucket.name, key, options)
-          object_data = { :body => data.body}
+          object_data = {
+            :body => data.body,
+            :key  => key
+          }
           for key, value in data.headers
             if ['Content-Length', 'Content-Type', 'ETag', 'Last-Modified'].include?(key)
               object_data[key] = value
@@ -51,22 +54,22 @@ module Fog
         end
 
         def head(key, options = {})
-          self[key] ||= begin
-            data = connection.head_object(bucket.name, key, options)
-            object_data = {}
-            for key, value in data.headers
-              if ['Content-Length', 'Content-Type', 'ETag', 'Last-Modified'].include?(key)
-                object_data[key] = value
-              end
+          data = connection.head_object(bucket.name, key, options)
+          object_data = {
+            :key => key
+          }
+          for key, value in data.headers
+            if ['Content-Length', 'ETag', 'Last-Modified'].include?(key)
+              object_data[key] = value
             end
-            self[object_data['key']] = Fog::AWS::S3::Object.new({
-              :bucket     => bucket,
-              :connection => connection,
-              :objects    => self
-            }.merge!(object_data))
-          rescue Fog::Errors::NotFound
-            nil
           end
+          self[object_data['key']] = Fog::AWS::S3::Object.new({
+            :bucket     => bucket,
+            :connection => connection,
+            :objects    => self
+          }.merge!(object_data))
+        rescue Fog::Errors::NotFound
+          nil
         end
 
         def new(attributes = {})
