@@ -62,6 +62,7 @@ else
               response.status = 200
               response.headers = {
                 'Content-Length'  => object['Size'],
+                'Content-Type'    => object['Content-Type'],
                 'ETag'            => object['ETag'],
                 'Last-Modified'   => object['LastModified']
               }

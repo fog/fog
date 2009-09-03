@@ -21,6 +21,7 @@ describe 'S3.get_object' do
       data = file.read
       actual.body.should == data
       actual.headers['Content-Length'].should == data.length.to_s
+      actual.headers['Content-Type'].should be_a(String)
       actual.headers['ETag'].should be_a(String)
       actual.headers['Last-Modified'].should be_a(String)
     end

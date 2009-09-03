@@ -21,5 +21,16 @@ describe 'S3.delete_bucket' do
       }.should raise_error(Fog::Errors::NotFound)
     end
 
+    it 'should raise a Conflict error if the bucket is not empty' do
+      s3.put_bucket('fogdeletebucket')
+      file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
+      s3.put_object('fogdeletebucket', 'fog_delete_object', file)
+      lambda {
+        s3.delete_bucket('fogdeletebucket')
+      }.should raise_error(Fog::Errors::Conflict)
+      s3.delete_object('fogdeletebucket', 'fog_delete_object')
+      s3.delete_bucket('fogdeletebucket')
+    end
+
   end
 end

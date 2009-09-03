@@ -54,6 +54,7 @@ else
             response.status = 200
             bucket[:objects][object_name] = {
               :body           => file[:body],
+              'Content-Type'  => file[:headers]['Content-Type'],
               'ETag'          => Fog::AWS::Mock.etag,
               'Key'           => object_name,
               'LastModified'  => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000"),

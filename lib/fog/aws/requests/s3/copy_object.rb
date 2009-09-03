@@ -57,7 +57,6 @@ else
             response.status = 200
             target_object = source_object.dup
             target_object.merge!({
-              'ETag' => Fog::AWS::Mock.etag,
               'Name' => target_object_name
             })
             target_bucket[:objects][target_object_name] = target_object
