@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.3"
+  s.version = "0.0.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Wesley Beary"]
@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
      "benchs/params.rb",
      "benchs/parse_vs_push.rb",
      "benchs/stripping.rb",
+     "fog.gemspec",
      "lib/fog.rb",
      "lib/fog/aws.rb",
      "lib/fog/aws/ec2.rb",
