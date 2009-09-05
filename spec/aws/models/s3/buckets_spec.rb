@@ -9,9 +9,9 @@ describe 'Fog::AWS::S3::Buckets' do
     end
 
     it "should include persisted buckets" do
-      bucket = s3.buckets.create(:name => 'fogbucketname')
-      s3.buckets.all.keys.should include('fogbucketname')
-      bucket.destroy
+      @bucket = s3.buckets.create(:name => 'fogbucketname')
+      s3.buckets.all.map {|bucket| bucket.name}.should include('fogbucketname')
+      @bucket.destroy
     end
 
   end

@@ -33,13 +33,11 @@ module Fog
             end
           end
           target_object.merge_attributes(copy_data)
-          target_object.objects[target_object_key] = target_object
           target_object
         end
 
         def destroy
           connection.delete_object(bucket.name, @key)
-          objects.delete(@key)
           true
         end
 
@@ -55,7 +53,6 @@ module Fog
         def save(options = {})
           data = connection.put_object(bucket.name, @key, @body, options)
           @etag = data.headers['ETag']
-          objects[@key] = self
           true
         end
 

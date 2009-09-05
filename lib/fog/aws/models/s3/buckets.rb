@@ -11,15 +11,15 @@ module Fog
         def all
           data = connection.get_service.body
           owner = Fog::AWS::S3::Owner.new(data.delete('Owner').merge!(:connection => connection))
-          self.delete_if {true}
+          buckets = Fog::AWS::S3::Buckets.new(:connection => connection)
           data['Buckets'].each do |bucket|
-            self[bucket['Name']] = Fog::AWS::S3::Bucket.new({
-              :buckets    => self,
+            buckets << Fog::AWS::S3::Bucket.new({
+              :buckets    => buckets,
               :connection => connection,
               :owner      => owner
             }.merge!(bucket))
           end
-          self
+          buckets
         end
 
         def create(attributes = {})
@@ -41,7 +41,6 @@ module Fog
             :connection => connection,
             :name       => data['Name']
           })
-          self[bucket.name] = bucket
           objects_data = {}
           for key, value in data
             if ['IsTruncated', 'Marker', 'MaxKeys', 'Prefix'].include?(key)
@@ -51,7 +50,7 @@ module Fog
           bucket.objects.merge_attributes(objects_data)
           data['Contents'].each do |object|
             owner = Fog::AWS::S3::Owner.new(object.delete('Owner').merge!(:connection => connection))
-            bucket.objects[object['Key']] = Fog::AWS::S3::Object.new({
+            bucket.objects << Fog::AWS::S3::Object.new({
               :bucket     => bucket,
               :connection => connection,
               :objects    => self,

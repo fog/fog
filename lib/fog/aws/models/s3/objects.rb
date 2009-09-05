@@ -15,12 +15,7 @@ module Fog
 
         def all(options = {})
           merge_attributes(options)
-          self.delete_if {true}
-          objects = bucket.buckets.get(bucket.name, attributes).objects
-          objects.keys.each do |key|
-            self[key] = objects[key]
-          end
-          self
+          bucket.buckets.get(bucket.name, attributes).objects
         end
 
         def bucket
@@ -44,11 +39,12 @@ module Fog
               object_data[key] = value
             end
           end
-          self[object_data['key']] = Fog::AWS::S3::Object.new({
+          object = Fog::AWS::S3::Object.new({
             :bucket     => bucket,
             :connection => connection,
             :objects    => self
           }.merge!(object_data))
+          object
         rescue Fog::Errors::NotFound
           nil
         end
@@ -63,11 +59,12 @@ module Fog
               object_data[key] = value
             end
           end
-          self[object_data['key']] = Fog::AWS::S3::Object.new({
+          object = Fog::AWS::S3::Object.new({
             :bucket     => bucket,
             :connection => connection,
             :objects    => self
           }.merge!(object_data))
+          object
         rescue Fog::Errors::NotFound
           nil
         end

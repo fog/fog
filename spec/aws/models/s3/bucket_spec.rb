@@ -116,12 +116,12 @@ describe 'Fog::AWS::S3::Bucket' do
     end
 
     it "should not exist in buckets before save" do
-      @bucket.buckets.key?(@bucket.name).should be_false
+      @bucket.buckets.all.map {|bucket| bucket.name}.include?(@bucket.name).should be_false
     end
 
     it "should exist in buckets after save" do
       @bucket.save
-      @bucket.buckets.key?(@bucket.name).should be_true
+      @bucket.buckets.all.map {|bucket| bucket.name}.include?(@bucket.name).should be_true
       @bucket.destroy
     end
 

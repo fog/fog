@@ -19,7 +19,6 @@ module Fog
 
         def destroy
           connection.delete_bucket(@name)
-          buckets.delete(name)
           true
         rescue Fog::Errors::NotFound
           false
@@ -60,7 +59,6 @@ module Fog
             options['LocationConstraint'] = @location
           end
           connection.put_bucket(@name, options)
-          buckets[name] = self
           true
         end
 

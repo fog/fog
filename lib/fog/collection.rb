@@ -1,5 +1,5 @@
 module Fog
-  class Collection < Hash
+  class Collection < Array
 
     def self.attribute(name, other_names = [])
       class_eval <<-EOS, __FILE__, __LINE__
