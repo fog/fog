@@ -26,7 +26,7 @@ module Fog
         end
 
         def location
-          data = s3.get_bucket_location(@name)
+          data = connection.get_bucket_location(@name)
           data.body['LocationConstraint']
         end
 

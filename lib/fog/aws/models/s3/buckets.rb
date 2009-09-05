@@ -51,7 +51,7 @@ module Fog
           bucket.objects.merge_attributes(objects_data)
           data['Contents'].each do |object|
             owner = Fog::AWS::S3::Owner.new(object.delete('Owner').merge!(:connection => connection))
-            bucket.objects[object['key']] = Fog::AWS::S3::Object.new({
+            bucket.objects[object['Key']] = Fog::AWS::S3::Object.new({
               :bucket     => bucket,
               :connection => connection,
               :objects    => self,
