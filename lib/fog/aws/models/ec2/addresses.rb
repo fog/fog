@@ -10,7 +10,7 @@ module Fog
 
         def all(public_ip = [])
           data = connection.describe_addresses(public_ip).body
-          addresses = []
+          addresses = Fog::AWS::EC2::Addresses.new(:connection => connection)
           data['addressesSet'].each do |address|
             addresses << Fog::AWS::EC2::Address.new({
               :connection => connection
