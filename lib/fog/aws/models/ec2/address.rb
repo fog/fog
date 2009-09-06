@@ -7,10 +7,6 @@ module Fog
         attribute :instance_id, 'instanceId'
         attribute :public_ip,   'publicIp'
 
-        def initialize(attributes = {})
-          super
-        end
-
         def delete
           connection.release_address(@public_ip)
           true

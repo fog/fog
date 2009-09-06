@@ -9,10 +9,6 @@ module Fog
         attribute :name,          'Name'
         attribute :owner
 
-        def initialize(attributes = {})
-          super
-        end
-
         def buckets
           @buckets
         end

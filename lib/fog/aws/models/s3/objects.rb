@@ -9,10 +9,6 @@ module Fog
         attribute :max_keys,      'MaxKeys'
         attribute :prefix,        'Prefix'
 
-        def initialize(attributes = {})
-          super
-        end
-
         def all(options = {})
           merge_attributes(options)
           bucket.buckets.get(bucket.name, attributes).objects

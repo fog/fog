@@ -8,10 +8,6 @@ module Fog
         attribute :material,    'keyMaterial'
         attribute :name,        'keyName'
 
-        def initialize(attributes = {})
-          super
-        end
-
         def delete
           connection.delete_key_pair(@name)
           true

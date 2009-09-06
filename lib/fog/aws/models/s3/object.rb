@@ -14,10 +14,6 @@ module Fog
         attribute :size,            'Size'
         attribute :storage_class,   'StorageClass'
 
-        def initialize(attributes = {})
-          super
-        end
-
         def bucket
           @bucket
         end
