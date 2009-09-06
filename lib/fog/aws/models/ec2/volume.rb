@@ -32,6 +32,15 @@ module Fog
           true
         end
 
+        def snapshots
+          @snapshots ||= begin
+            Fog::AWS::S3::Snapshots.new(
+              :connection => connection,
+              :volume     => self
+            )
+          end
+        end
+
       end
 
     end
