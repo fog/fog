@@ -28,4 +28,20 @@ describe 'SimpleDB.get_attributes' do
     end
 
   end
+  describe 'failure' do
+
+    it 'should raise a BadRequest error if the domain does not exist' do
+      lambda {
+        sdb.get_attributes('notadomain', 'notanattribute')
+      }.should raise_error(Fog::Errors::BadRequest)
+    end
+
+    it 'should not raise an error if the attribute does not exist' do
+      @domain_name = "fog_domain_#{Time.now.to_i}"
+      sdb.create_domain(@domain_name)
+      sdb.get_attributes(@domain_name, 'notanattribute')
+      sdb.delete_domain(@domain_name)
+    end
+
+  end
 end

@@ -19,4 +19,13 @@ describe 'SimpleDB.put_attributes' do
     end
 
   end
+  describe 'failure' do
+
+    it 'should raise a BadRequest error if the domain does not exist' do
+      lambda {
+        sdb.put_attributes(@domain_name, 'notadomain', { 'notanattribute' => 'value' })
+      }.should raise_error(Fog::Errors::BadRequest)
+    end
+
+  end
 end

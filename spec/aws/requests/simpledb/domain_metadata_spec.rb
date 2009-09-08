@@ -40,4 +40,13 @@ describe 'SimpleDB.domain_metadata' do
     end
 
   end
+  describe 'failure' do
+
+    it 'should raise a BadRequest error if the domain does not exist' do
+      lambda {
+        sdb.domain_metadata('notadomain')
+      }.should raise_error(Fog::Errors::BadRequest)
+    end
+
+  end
 end
