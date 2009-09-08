@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.4"
+  s.version = "0.0.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Wesley Beary"]
-  s.date = %q{2009-09-04}
+  s.date = %q{2009-09-08}
   s.description = %q{brings clouds to you}
   s.email = %q{me@geemus.com}
   s.extra_rdoc_files = [
@@ -36,6 +36,8 @@ Gem::Specification.new do |s|
      "lib/fog/aws/models/ec2/addresses.rb",
      "lib/fog/aws/models/ec2/key_pair.rb",
      "lib/fog/aws/models/ec2/key_pairs.rb",
+     "lib/fog/aws/models/ec2/snapshot.rb",
+     "lib/fog/aws/models/ec2/snapshots.rb",
      "lib/fog/aws/models/ec2/volume.rb",
      "lib/fog/aws/models/ec2/volumes.rb",
      "lib/fog/aws/models/s3/bucket.rb",
