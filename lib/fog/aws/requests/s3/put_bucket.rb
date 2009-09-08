@@ -58,7 +58,9 @@ else
           else
             bucket['LocationConstraint'] = ''
           end
-          Fog::AWS::S3.data[:buckets][bucket_name] = bucket
+          unless Fog::AWS::S3.data[:buckets][bucket_name]
+            Fog::AWS::S3.data[:buckets][bucket_name] = bucket
+          end
           response
         end
 
