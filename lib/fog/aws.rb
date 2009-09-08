@@ -25,6 +25,10 @@ module Fog
           "us-east-1" << random_selection('abcd', 1)
         end
 
+        def self.box_usage
+          sprintf("%0.10f", rand / 100).to_f
+        end
+
         def self.etag
           hex(32)
         end

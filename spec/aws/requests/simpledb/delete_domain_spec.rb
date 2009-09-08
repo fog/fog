@@ -18,4 +18,11 @@ describe 'SimpleDB.delete_domain' do
     end
 
   end
+  describe 'failure' do
+
+    it 'should not raise an error if the domain does not exist' do
+      sdb.delete_domain('notadomain')
+    end
+
+  end
 end

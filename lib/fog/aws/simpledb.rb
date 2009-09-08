@@ -2,6 +2,15 @@ module Fog
   module AWS
     class SimpleDB
 
+      if Fog.mocking?
+        def self.reset_data
+          @data = { :domains => {} }
+        end
+        def self.data
+          @data
+        end
+      end
+
       def self.reload
         current_directory = File.dirname(__FILE__)
         load "#{current_directory}/../connection.rb"
@@ -25,6 +34,10 @@ module Fog
         load "#{requests_directory}/list_domains.rb"
         load "#{requests_directory}/put_attributes.rb"
         load "#{requests_directory}/select.rb"
+
+        if Fog.mocking?
+          reset_data
+        end
       end
 
       # Initialize connection to SimpleDB
