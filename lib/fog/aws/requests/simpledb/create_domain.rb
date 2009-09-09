@@ -34,7 +34,7 @@ else
 
         def create_domain(domain_name)
           response = Fog::Response.new
-          Fog::AWS::SimpleDB.data[:domains][domain_name] = { :attributes => {} }
+          Fog::AWS::SimpleDB.data[:domains][domain_name] = {}
           response.status = 200
           response.body = {
             'BoxUsage'  => Fog::AWS::Mock.box_usage,

@@ -41,14 +41,15 @@ else
         def batch_put_attributes(domain_name, items, replace_attributes = Hash.new([]))
           response = Fog::Response.new
           if Fog::AWS::SimpleDB.data[:domains][domain_name]
-            for key, value in items do
-              for item in value do
-                if replace_attributes[key] && replace_attributes[key].include?(value)
-                  Fog::AWS::SimpleDB.data[:domains][domain_name][key] = []
+            for item_name, attributes in items do
+              for key, value in attributes do
+                Fog::AWS::SimpleDB.data[:domains][domain_name][item_name] ||= {}
+                if replace_attributes[item_name] && replace_attributes[item_name].include?(key)
+                  Fog::AWS::SimpleDB.data[:domains][domain_name][item_name][key.to_s] = []
                 else
-                  Fog::AWS::SimpleDB.data[:domains][domain_name][key] ||= []
+                  Fog::AWS::SimpleDB.data[:domains][domain_name][item_name][key.to_s] ||= []
                 end
-                Fog::AWS::SimpleDB.data[:domains][domain_name][key] << value.to_s
+                Fog::AWS::SimpleDB.data[:domains][domain_name][item_name][key.to_s] << value.to_s
               end
             end
             response.status = 200
