@@ -34,6 +34,9 @@ unless Fog.mocking?
         #       * 'Size'<~Integer> - Size of object
         #       * 'StorageClass'<~String> - Storage class of object
         def get_bucket(bucket_name, options = {})
+          unless bucket_name
+            raise ArgumentError.new('bucket_name is required')
+          end
           query = ''
           for key, value in options
             query << "#{key}=#{value};"
@@ -61,6 +64,9 @@ else
 
         # FIXME: implement delimiter
         def get_bucket(bucket_name, options = {})
+          unless bucket_name
+            raise ArgumentError.new('bucket_name is required')
+          end
           response = Fog::Response.new
           if bucket = Fog::AWS::S3.data[:buckets][bucket_name]
             response.status = 200

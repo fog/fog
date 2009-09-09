@@ -24,6 +24,12 @@ unless Fog.mocking?
         #     * 'ETag'<~String> - Etag of object
         #     * 'Last-Modified'<~String> - Last modified timestamp for object
         def get_object(bucket_name, object_name, options = {})
+          unless bucket_name
+            raise ArgumentError.new('bucket_name is required')
+          end
+          unless object_name
+            raise ArgumentError.new('object_name is required')
+          end
           headers = {}
           headers['If-Modified-Since'] = options['If-Modified-Since'].utc.strftime("%a, %d %b %Y %H:%M:%S +0000") if options['If-Modified-Since']
           headers['If-Unmodified-Since'] = options['If-Unmodified-Since'].utc.strftime("%a, %d %b %Y %H:%M:%S +0000") if options['If-Modified-Since']
@@ -48,6 +54,12 @@ else
       class S3
 
         def get_object(bucket_name, object_name, options = {})
+          unless bucket_name
+            raise ArgumentError.new('bucket_name is required')
+          end
+          unless object_name
+            raise ArgumentError.new('object_name is required')
+          end
           response = Fog::Response.new
           if (bucket = Fog::AWS::S3.data[:buckets][bucket_name]) && (object = bucket[:objects][object_name])
             if options['If-Match'] && options['If-Match'] != object['ETag']
