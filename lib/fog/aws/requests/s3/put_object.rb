@@ -24,11 +24,11 @@ unless Fog.mocking?
         # * response<~Fog::AWS::Response>:
         #   * headers<~Hash>:
         #     * 'ETag'<~String> - etag of new object
-        def put_object(bucket_name, object_name, object, options = {})
-          file = parse_file(object)
-          headers = file[:headers].merge!(options)
+        def put_object(bucket_name, object_name, data, options = {})
+          data = parse_data(data)
+          headers = data[:headers].merge!(options)
           request({
-            :body     => file[:body],
+            :body     => data[:body],
             :expects  => 200,
             :headers  => headers,
             :host     => "#{bucket_name}.#{@host}",
@@ -47,21 +47,21 @@ else
     module AWS
       class S3
 
-        def put_object(bucket_name, object_name, object, options = {})
-          file = parse_file(object)
+        def put_object(bucket_name, object_name, data, options = {})
+          data = parse_data(data)
           response = Fog::Response.new
           if (bucket = Fog::AWS::S3.data[:buckets][bucket_name])
             response.status = 200
             bucket[:objects][object_name] = {
-              :body           => file[:body],
-              'Content-Type'  => file[:headers]['Content-Type'],
+              :body           => data[:body],
               'ETag'          => Fog::AWS::Mock.etag,
               'Key'           => object_name,
               'LastModified'  => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000"),
               'Owner'         => { 'DisplayName' => 'owner', 'ID' => 'some_id'},
-              'Size'          => file[:headers]['Content-Length'],
+              'Size'          => data[:headers]['Content-Length'],
               'StorageClass'  => 'STANDARD'
             }
+            bucket[:objects][object_name]['Content-Type'] = data[:headers]['Content-Type']
           else
             response.status = 404
             raise(Fog::Errors.status_error(200, 404, response))

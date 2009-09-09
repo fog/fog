@@ -81,18 +81,24 @@ module Fog
 
       private
 
-      def parse_file(file)
+      def parse_data(data)
         metadata = {
           :body => nil,
           :headers => {}
         }
 
-        filename = File.basename(file.path)
-        unless (mime_types = MIME::Types.of(filename)).empty?
-          metadata[:headers]['Content-Type'] = mime_types.first.content_type
+        if data.respond_to?(:path)
+          filename = File.basename(data.path)
+          unless (mime_types = MIME::Types.of(filename)).empty?
+            metadata[:headers]['Content-Type'] = mime_types.first.content_type
+          end
         end
 
-        metadata[:body] = file.read
+        if data.respond_to?(:read)
+          metadata[:body] = data.read
+        else
+          metadata[:body] = data
+        end
         metadata[:headers]['Content-Length'] = metadata[:body].size.to_s
         metadata[:headers]['Content-MD5'] = Base64.encode64(Digest::MD5.digest(metadata[:body])).strip
         metadata
