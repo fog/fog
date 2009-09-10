@@ -51,7 +51,7 @@ module Fog
             :key => key
           }
           for key, value in data.headers
-            if ['Content-Length', 'ETag', 'Last-Modified'].include?(key)
+            if ['Content-Length', 'Content-Type', 'ETag', 'Last-Modified'].include?(key)
               object_data[key] = value
             end
           end
