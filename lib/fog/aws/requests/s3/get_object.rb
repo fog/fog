@@ -54,7 +54,7 @@ else
     module AWS
       class S3
 
-        def get_object(bucket_name, object_name, options = {})
+        def get_object(bucket_name, object_name, options = {}, &block)
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
@@ -79,7 +79,17 @@ else
                 'ETag'            => object['ETag'],
                 'Last-Modified'   => object['LastModified']
               }
-              response.body = object[:body]
+              unless block_given?
+                response.body = object[:body]
+              else
+                data = StringIO.new(object[:body])
+                remaining = data.length
+                while remaining > 0
+                  chunk = data.read([remaining, Fog::Connection::CHUNK_SIZE].min)
+                  block.call(chunk)
+                  remaining -= Fog::Connection::CHUNK_SIZE
+                end
+              end
             end
           else
             response.status = 404

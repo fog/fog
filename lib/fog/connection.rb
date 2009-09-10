@@ -11,6 +11,10 @@ unless Fog.mocking?
   module Fog
     class Connection
 
+      unless const_defined?(:CHUNK_SIZE)
+        CHUNK_SIZE = 1048576 # 1 megabyte
+      end
+
       def initialize(url)
         @uri = URI.parse(url)
         @connection = TCPSocket.open(@uri.host, @uri.port)
@@ -49,7 +53,7 @@ unless Fog.mocking?
           else
             body = params[:body]
           end
-          while chunk = body.read(1048576) # 1 megabyte
+          while chunk = body.read(CHUNK_SIZE)
             @connection.write(chunk)
           end
         end
@@ -84,11 +88,14 @@ unless Fog.mocking?
 
         unless params[:method] == 'HEAD'
           if response.headers['Content-Length']
-            content = @connection.read(response.headers['Content-Length'].to_i)
             unless params[:block]
-              body << content
+              body << @connection.read(response.headers['Content-Length'].to_i)
             else
-              params[:block].call(content)
+              remaining = response.headers['Content-Length'].to_i
+              while remaining > 0
+                params[:block].call(@connection.read([CHUNK_SIZE, remaining].min))
+                remaining -= CHUNK_SIZE;
+              end
             end
           elsif response.headers['Transfer-Encoding'] == 'chunked'
             while true
