@@ -77,6 +77,17 @@ describe 'Fog::AWS::S3::Objects' do
       object.destroy
     end
 
+    it "should return chunked data if given a block" do
+      file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
+      object = @bucket.objects.create(:key => 'fogobjectname', :body => file)
+      data = ''
+      @bucket.objects.get('fogobjectname') do |chunk|
+        data << chunk
+      end
+      data.should == File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r').read
+      object.destroy
+    end
+
   end
 
   describe "#head" do

@@ -24,8 +24,8 @@ module Fog
           object
         end
 
-        def get(key, options = {})
-          data = connection.get_object(bucket.name, key, options)
+        def get(key, options = {}, &block)
+          data = connection.get_object(bucket.name, key, options, &block)
           object_data = {
             :body => data.body,
             :key  => key

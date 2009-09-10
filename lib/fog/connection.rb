@@ -88,7 +88,7 @@ unless Fog.mocking?
 
         unless params[:method] == 'HEAD'
           if response.headers['Content-Length']
-            unless params[:block]
+            if error || !params[:block]
               body << @connection.read(response.headers['Content-Length'].to_i)
             else
               remaining = response.headers['Content-Length'].to_i
@@ -102,7 +102,7 @@ unless Fog.mocking?
               # 2 == "/r/n".length
               chunk_size = @connection.readline.chomp!.to_i(16) + 2
               chunk = @connection.read(chunk_size)[0...-2]
-              unless params[:block]
+              if error || !params[:block]
                 body << chunk
               else
                 params[:block].call(chunk)
