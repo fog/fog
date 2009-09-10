@@ -9,7 +9,7 @@ unless Fog.mocking?
         # ==== Parameters
         # * bucket_name<~String> - Name of bucket to create object in
         # * object_name<~String> - Name of object to create
-        # * object<~String> - File to create object from
+        # * data<~File> - File or String to create object from
         # * options<~Hash>:
         #   * 'Cache-Control'<~String> - Caching behaviour
         #   * 'Content-Disposition'<~String> - Presentational information for the object

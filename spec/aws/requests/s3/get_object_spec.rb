@@ -26,6 +26,15 @@ describe 'S3.get_object' do
       actual.headers['Last-Modified'].should be_a(String)
     end
 
+    it 'should return chunks with optional block' do
+      file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
+      data = ''
+      s3.get_object('foggetobject', 'fog_get_object') do |chunk|
+        data << chunk
+      end
+      data.should == file.read
+    end
+
   end
   describe 'failure' do
 

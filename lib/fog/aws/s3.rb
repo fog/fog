@@ -87,20 +87,18 @@ module Fog
           :headers => {}
         }
 
-        if data.respond_to?(:path)
+        if data.is_a?(String)
+          metadata[:body] = data
+          metadata[:headers]['Content-Length'] = metadata[:body].size.to_s
+        else
           filename = File.basename(data.path)
           unless (mime_types = MIME::Types.of(filename)).empty?
             metadata[:headers]['Content-Type'] = mime_types.first.content_type
           end
-        end
-
-        if data.respond_to?(:read)
           metadata[:body] = data.read
-        else
-          metadata[:body] = data
+          metadata[:headers]['Content-Length'] = File.size(data.path)
         end
-        metadata[:headers]['Content-Length'] = metadata[:body].size.to_s
-        metadata[:headers]['Content-MD5'] = Base64.encode64(Digest::MD5.digest(metadata[:body])).strip
+        # metadata[:headers]['Content-MD5'] = Base64.encode64(Digest::MD5.digest(metadata[:body])).strip
         metadata
       end
 
@@ -143,6 +141,7 @@ DATA
         params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature}"
 
         response = @connection.request({
+          :block    => params[:block],
           :body     => params[:body],
           :expects  => params[:expects],
           :headers  => params[:headers],

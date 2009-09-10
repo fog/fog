@@ -34,14 +34,25 @@ unless Fog.mocking?
         request = "#{params[:method]} #{params[:path]} HTTP/1.1\r\n"
         params[:headers] ||= {}
         params[:headers]['Host'] = params[:host]
-        if params[:body]
+        if params[:body] && !params[:headers]['Content-Length']
           params[:headers]['Content-Length'] = params[:body].length
         end
         for key, value in params[:headers]
           request << "#{key}: #{value}\r\n"
         end
-        request << "\r\n#{params[:body]}"
+        request << "\r\n"
         @connection.write(request)
+
+        if params[:body]
+          if params[:body].is_a?(String)
+            body = StringIO.new(params[:body])
+          else
+            body = params[:body]
+          end
+          while chunk = body.read(1048576) # 1 megabyte
+            @connection.write(chunk)
+          end
+        end
 
         response = Fog::Response.new
         response.request = params
@@ -65,19 +76,30 @@ unless Fog.mocking?
             parser = params[:parser]
           end
           body = Nokogiri::XML::SAX::PushParser.new(parser)
+        elsif params[:block]
+          body = nil
         else
           body = ''
         end
 
         unless params[:method] == 'HEAD'
           if response.headers['Content-Length']
-            body << @connection.read(response.headers['Content-Length'].to_i)
+            content = @connection.read(response.headers['Content-Length'].to_i)
+            unless params[:block]
+              body << content
+            else
+              params[:block].call(content)
+            end
           elsif response.headers['Transfer-Encoding'] == 'chunked'
             while true
               # 2 == "/r/n".length
               chunk_size = @connection.readline.chomp!.to_i(16) + 2
-              chunk = @connection.read(chunk_size)
-              body << chunk[0...-2]
+              chunk = @connection.read(chunk_size)[0...-2]
+              unless params[:block]
+                body << chunk
+              else
+                params[:block].call(chunk)
+              end
               if chunk_size == 2
                 break
               end
