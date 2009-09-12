@@ -8,13 +8,22 @@ describe 'EC2.reboot_instances' do
     end
 
     after(:each) do
-      ec2.terminate_instances([@instance_id])
+      ec2.terminate_instances(@instance_id)
     end
 
     it "should return proper attributes" do
-      actual = ec2.reboot_instances([@instance_id])
+      actual = ec2.reboot_instances(@instance_id)
       actual.body['requestId'].should be_a(String)
       [false, true].should include(actual.body['return'])
+    end
+
+  end
+  describe 'failure' do
+
+    it "should raise a BadRequest error if the instance does not exist" do
+      lambda {
+        ec2.reboot_instances('i-00000000')
+      }.should raise_error(Fog::Errors::BadRequest)
     end
 
   end

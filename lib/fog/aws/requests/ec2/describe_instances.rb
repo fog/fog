@@ -70,6 +70,8 @@ else
               if Time.now - instance['launchTime'] > 2
                 instance['instanceState'] = { :code => 16, :name => 'running' }
               end
+            when 'rebooting'
+              instance['instanceState'] = { :code => 16, :name => 'running' }
             when 'shutting-down'
               if Time.now - Fog::AWS::EC2.data[:deleted_at][instance['instanceId']] > 2
                 instance['instanceState'] = { :code => 16, :name => 'terminating' }

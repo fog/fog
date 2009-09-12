@@ -39,17 +39,19 @@ else
       class EC2
 
         def terminate_instances(instance_id)
-          instance_id = [*instance_id]
           response = Fog::Response.new
-          instance_id.each do |instance_id|
-            response.body = {
-              'requestId'     => Fog::AWS::Mock.request_id,
-              'instancesSet'  => []
-            }
-            if instance = Fog::AWS::EC2.data[:instances][instance_id]
+          instance_id = [*instance_id]
+          if (Fog::AWS::EC2.data[:instances].keys & instance_id).length == instance_id.length
+            for instance_id in instance_id
+              response.body = {
+                'requestId'     => Fog::AWS::Mock.request_id,
+                'instancesSet'  => []
+              }
+              instance = Fog::AWS::EC2.data[:instances][instance_id]
               Fog::AWS::EC2.data[:deleted_at][instance_id] = Time.now
               instance['status'] = 'deleting'
               response.status = 200
+              # TODO: the codes are mostly educated guessing, not certainty
               code = case instance['state']
               when 'pending'
                 0
@@ -59,16 +61,18 @@ else
                 32
               when 'terminated'
                 64
+              when 'rebooting'
+                128
               end
               response.body['instancesSet'] << {
                 'instanceId'    => instance_id,
                 'previousState' => { 'name' => instance['state'], 'code' => code },
                 'shutdownState' => { 'name' => 'shutting-down', 'code' => 32}
               }
-            else
-              response.status = 400
-              raise(Fog::Errors.status_error(200, 400, response))
             end
+          else
+            response.status = 400
+            raise(Fog::Errors.status_error(200, 400, response))
           end
           response
         end
