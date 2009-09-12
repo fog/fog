@@ -16,7 +16,7 @@ describe 'EC2.describe_security_groups' do
       actual.body['requestId'].should be_a(String)
       actual.body['securityGroupInfo'].should be_an(Array)
       security_group = actual.body['securityGroupInfo'].select do |security_group| 
-        security_group['groupName'] == 'default'
+        security_group['groupName'] == 'fog_security_group'
       end.first
       security_group['groupDescription'].should be_a(String)
       security_group['groupName'].should be_a(String)

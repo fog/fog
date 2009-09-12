@@ -37,10 +37,10 @@ else
           response = Fog::Response.new
           unless Fog::AWS::EC2.data[:security_groups][name]
             data = {
-              'GroupDescription'  => description,
-              'GroupName'         => name,
+              'groupDescription'  => description,
+              'groupName'         => name,
               'ipPermissions'     => [],
-              'OwnerId'           => Fog::AWS::Mock.owner_id
+              'ownerId'           => Fog::AWS::Mock.owner_id
             }
             Fog::AWS::EC2.data[:security_groups][name] = data
             response.body = {
