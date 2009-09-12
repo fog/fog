@@ -37,6 +37,29 @@ module Fog
           hex(32)
         end
 
+        def self.image
+          path = []
+          (rand(3) + 2).times do
+            path << letters(rand(9) + 8)
+          end
+          {
+            "imageOwnerId"  => letters(rand(5) + 4),
+            "productCodes"  => [],
+            "kernelId"      => kernel_id,
+            "ramdiskId"     => ramdisk_id,
+            "imageState"    => "available",
+            "imageId"       => image_id,
+            "architecture"  => "i386",
+            "isPublic"      => true,
+            "imageLocation" => path.join('/'),
+            "imageType"     => "machine"
+          }
+        end
+
+        def self.image_id
+          "ami-#{hex(8)}"
+        end
+
         def self.key_fingerprint
           fingerprint = []
           20.times do
@@ -79,6 +102,10 @@ module Fog
           numbers(12)
         end
 
+        def self.ramdisk_id
+          "ari-#{hex(8)}"
+        end
+
         def self.request_id
           request_id = []
           request_id << hex(8)
@@ -87,10 +114,6 @@ module Fog
           end
           request_id << hex(12)
           request_id.join('-')
-        end
-
-        def self.ramdisk_id
-          "ari-#{hex(8)}"
         end
 
         def self.reservation_id
@@ -139,7 +162,7 @@ module Fog
 
         def self.base64(length)
           random_selection(
-            "ABCDEFGHIJKLMNOP QRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
             length
           )
         end
