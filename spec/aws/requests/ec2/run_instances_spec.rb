@@ -4,7 +4,7 @@ describe 'EC2.run_instances' do
   describe 'success' do
 
     after(:each) do
-      ec2.terminate_instances([@instance_id])
+      ec2.terminate_instances(@instance_id)
     end
 
     it "should return proper attributes" do
