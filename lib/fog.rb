@@ -1,3 +1,9 @@
+__DIR__ = File.dirname(__FILE__)
+
+$LOAD_PATH.unshift __DIR__ unless
+  $LOAD_PATH.include?(__DIR__) ||
+  $LOAD_PATH.include?(File.expand_path(__DIR__))
+
 module Fog
 
   def self.mocking=(new_mocking)
@@ -13,7 +19,7 @@ module Fog
   end
 
   def self.reload
-    load "#{File.dirname(__FILE__)}/fog/aws.rb"
+    load "fog/aws.rb"
   end
 
 end

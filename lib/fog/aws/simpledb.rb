@@ -12,28 +12,25 @@ module Fog
       end
 
       def self.reload
-        current_directory = File.dirname(__FILE__)
-        load "#{current_directory}/../connection.rb"
-        load "#{current_directory}/../parser.rb"
-        load "#{current_directory}/../response.rb"
+        load "fog/connection.rb"
+        load "fog/parser.rb"
+        load "fog/response.rb"
 
-        parsers_directory = "#{current_directory}/parsers/simpledb"
-        load "#{parsers_directory}/basic.rb"
-        load "#{parsers_directory}/domain_metadata.rb"
-        load "#{parsers_directory}/get_attributes.rb"
-        load "#{parsers_directory}/list_domains.rb"
-        load "#{parsers_directory}/select.rb"
+        load "fog/aws/parsers/simpledb/basic.rb"
+        load "fog/aws/parsers/simpledb/domain_metadata.rb"
+        load "fog/aws/parsers/simpledb/get_attributes.rb"
+        load "fog/aws/parsers/simpledb/list_domains.rb"
+        load "fog/aws/parsers/simpledb/select.rb"
 
-        requests_directory = "#{current_directory}/requests/simpledb"
-        load "#{requests_directory}/batch_put_attributes.rb"
-        load "#{requests_directory}/create_domain.rb"
-        load "#{requests_directory}/delete_attributes.rb"
-        load "#{requests_directory}/delete_domain.rb"
-        load "#{requests_directory}/domain_metadata.rb"
-        load "#{requests_directory}/get_attributes.rb"
-        load "#{requests_directory}/list_domains.rb"
-        load "#{requests_directory}/put_attributes.rb"
-        load "#{requests_directory}/select.rb"
+        load "fog/aws/requests/simpledb/batch_put_attributes.rb"
+        load "fog/aws/requests/simpledb/create_domain.rb"
+        load "fog/aws/requests/simpledb/delete_attributes.rb"
+        load "fog/aws/requests/simpledb/delete_domain.rb"
+        load "fog/aws/requests/simpledb/domain_metadata.rb"
+        load "fog/aws/requests/simpledb/get_attributes.rb"
+        load "fog/aws/requests/simpledb/list_domains.rb"
+        load "fog/aws/requests/simpledb/put_attributes.rb"
+        load "fog/aws/requests/simpledb/select.rb"
 
         if Fog.mocking?
           reset_data

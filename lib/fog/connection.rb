@@ -3,8 +3,8 @@ require 'openssl'
 require 'socket'
 require 'uri'
 
-require "#{File.dirname(__FILE__)}/errors"
-require "#{File.dirname(__FILE__)}/response"
+require "fog/errors"
+require "fog/response"
 
 unless Fog.mocking?
 

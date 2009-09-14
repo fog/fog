@@ -10,10 +10,9 @@ module Fog
   module AWS
 
     def self.reload
-      current_directory = File.dirname(__FILE__)
-      load "#{current_directory}/aws/ec2.rb"
-      load "#{current_directory}/aws/simpledb.rb"
-      load "#{current_directory}/aws/s3.rb"
+      load "fog/aws/ec2.rb"
+      load "fog/aws/simpledb.rb"
+      load "fog/aws/s3.rb"
     end
 
     if Fog.mocking?

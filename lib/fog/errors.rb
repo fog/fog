@@ -1,4 +1,4 @@
-require "#{File.dirname(__FILE__)}/parser"
+require "fog/parser"
 
 module Fog
   module Errors
