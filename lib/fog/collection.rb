@@ -39,7 +39,7 @@ module Fog
     def attributes
       attributes = {}
       for attribute in self.class.attributes
-        attributes[attribute] = send(:"#{attribute}")
+        attributes[attribute] = send("#{attribute}")
       end
       attributes
     end
@@ -47,9 +47,9 @@ module Fog
     def merge_attributes(new_attributes = {})
       for key, value in new_attributes
         if aliased_key = self.class.aliases[key]
-          send(:"#{aliased_key}=", value)
+          send("#{aliased_key}=", value)
         else
-          send(:"#{key}=", value)
+          send("#{key}=", value)
         end
       end
       self
