@@ -1,7 +1,63 @@
 = fog
 
-Description goes here.
+fog helps you interact with cloud services. fog is a work in progress.
 
-== Copyright
+== Features
+
+* Low level api calls
+* Model level abstractions
+* Mocks
+
+== Supports
+
+* AWS EC2 (missing security group mocking, just starting on models)
+* AWS S3
+* AWS SimpleDB (missing models)
+
+== Synopsis
+
+  require 'fog'
+
+  # turn on mocking (if desired)
+  Fog.mock!
+
+  # initialize a connection
+  s3 = Fog::AWS::S3.new(
+    :aws_access_key_id => id,
+    :aws_secret_access_key => key
+  )
+
+  # low level requests
+  s3.put_bucket('bucketname')
+  s3.put_object('bucketname', 'objectname', 'objectbody')
+
+  s3.get_bucket('bucketname')
+  s3.get_object('bucketname', 'objectname')
+
+  s3.delete_object('bucketname', 'objectname')
+  s3.delete_bucket('bucketname')
+
+  # models
+  bucket = s3.buckets.create(:name => 'bucketname')
+  bucket.objects.create(:name => 'objectname', :body => 'objectbody')
+
+  bucket = s3.buckets.get('bucketname')
+  object = bucket.objects.get('objectname')
+
+  object.destroy
+  bucket.destroy
+
+== Requirements
+
+* ruby 1.8 or 1.9
+* ruby-hmac
+* mime-types
+* nokogiri
+
+== Install
+
+  sudo gem install fog
+
+=== Copyright
 
 Copyright (c) 2009 Wesley Beary. See LICENSE for details.
