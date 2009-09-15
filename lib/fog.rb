@@ -6,12 +6,9 @@ $LOAD_PATH.unshift __DIR__ unless
 
 module Fog
 
-  def self.mocking=(new_mocking)
-    old_mocking = @mocking
-    @mocking = new_mocking
-    unless old_mocking == new_mocking
-      self.reload
-    end
+  def self.mock!
+    @mocking = true
+    self.reload
   end
 
   def self.mocking?

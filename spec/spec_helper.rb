@@ -2,7 +2,7 @@ require 'spec'
 
 current_directory = File.dirname(__FILE__)
 require "#{current_directory}/../lib/fog"
-# Fog.mocking = true
+# Fog.mock!
 
 def credentials
   @credentials ||= begin
