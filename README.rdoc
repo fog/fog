@@ -58,7 +58,7 @@ fog helps you interact with cloud services. fog is a work in progress.
 
   sudo gem install fog
 
-=== Copyright
+== Copyright
 
 (The MIT License)
 
