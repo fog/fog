@@ -23,6 +23,14 @@ module Fog
         attribute :reason
         attribute :user_data
 
+        def address
+          connection.addresses.select {|address| address.instance_id == @instance_id}.first
+        end
+
+        def address=(new_address)
+          connection.associate_address(@instance_id, new_address.public_ip)
+        end
+
         def delete
           connection.terminate_instances(@instance_id)
           true
@@ -42,6 +50,14 @@ module Fog
           else
             @availability_zone = new_placement
           end
+        end
+
+        def volumes
+          connection.volumes.all.select {|volume| volume.instance_id == @instance_id}
+        end
+
+        def volume=(new_volume)
+          connection.attach_volume(@instance_id, new_volume.volume_id, new_volume.device)
         end
 
         def save

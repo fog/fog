@@ -6,7 +6,8 @@ module Fog
 
         attribute :attachment_time,   'attachmentTime'
         attribute :availability_zone, 'availabilityZone'
-        attribute :device,            'createTime'
+        attribute :create_time,       'createTime'
+        attribute :device
         attribute :instance_id,       'instanceId'
         attribute :size
         attribute :snapshot_id,       'snapshotId'
