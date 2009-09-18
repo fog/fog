@@ -8,7 +8,7 @@ module Fog
         attribute :snapshot_id, 'snapshotId'
         attribute :start_time,  'startTime'
         attribute :status
-        attribute :volumeId,    'volumeId'
+        attribute :volume_id,    'volumeId'
 
         def delete
           connection.delete_snapshot(@snapshot_id)
@@ -26,13 +26,13 @@ module Fog
           @snapshots ||= begin
             Fog::AWS::S3::Snapshots.new(
               :connection => connection,
-              :volume     => self
+              :volume     => self.volume
             )
           end
         end
 
         def volume
-          @volume
+          connection.describe_volumes(@volume_id)
         end
 
         private
@@ -42,7 +42,7 @@ module Fog
         end
 
         def volume=(new_volume)
-          @volume = new_volume
+          @volume_id = new_volume.volume_id
         end
 
       end

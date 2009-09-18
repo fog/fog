@@ -11,7 +11,7 @@ module Fog
         def all(snapshot_id = [])
           data = connection.describe_snapshots(snapshot_id)
           snapshots = Fog::AWS::EC2::Snapshots.new(:connection => connection)
-          data['snapshotSet'].each do |volume|
+          data['snapshotSet'].each do |snapshot|
             snapshots << Fog::AWS::EC2::Snapshot.new({
               :connection => connection
             }.merge!(snapshot))
@@ -20,9 +20,9 @@ module Fog
         end
 
         def create(attributes = {})
-          volume = new(attributes)
-          volume.save
-          volume
+          snapshot = new(attributes)
+          snapshot.save
+          snapshot
         end
 
         def new(attributes = {})

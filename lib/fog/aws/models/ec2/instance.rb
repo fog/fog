@@ -28,6 +28,7 @@ module Fog
         end
 
         def address=(new_address)
+          new_address.instance_id = @instance_id
           connection.associate_address(@instance_id, new_address.public_ip)
         end
 
@@ -36,12 +37,12 @@ module Fog
           true
         end
 
-        # def group
-        #   connection.groups.all(@group_id)
+        # def security_group
+        #   connection.security_groups.all(@group_id)
         # end
         #
-        # def group=(new_group)
-        #   @group_id = new_group.name
+        # def security_group=(new_security_group)
+        #   @group_id = new_security_group.name
         # end
 
         def key_pair
@@ -73,6 +74,7 @@ module Fog
         end
 
         def volume=(new_volume)
+          new_volume.instance_id = @instance_id
           connection.attach_volume(@instance_id, new_volume.volume_id, new_volume.device)
         end
 
