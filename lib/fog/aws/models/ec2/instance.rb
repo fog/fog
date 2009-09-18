@@ -36,6 +36,22 @@ module Fog
           true
         end
 
+        # def group
+        #   connection.groups.all(@group_id)
+        # end
+        #
+        # def group=(new_group)
+        #   @group_id = new_group.name
+        # end
+
+        def key_pair
+          connection.keypairs.all(@key_name).first
+        end
+
+        def key_pair=(new_keypair)
+          @key_name = new_keypair.name
+        end
+
         def monitoring=(new_monitoring)
           if new_monitoring.is_a?(Hash)
             @monitoring = new_monitoring['state']
