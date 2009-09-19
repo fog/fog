@@ -13,7 +13,8 @@ module Fog
           snapshots = Fog::AWS::EC2::Snapshots.new(:connection => connection)
           data['snapshotSet'].each do |snapshot|
             snapshots << Fog::AWS::EC2::Snapshot.new({
-              :connection => connection
+              :connection => connection,
+              :snapshots  => self
             }.merge!(snapshot))
           end
           snapshots

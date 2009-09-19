@@ -13,6 +13,7 @@ module Fog
           addresses = Fog::AWS::EC2::Addresses.new(:connection => connection)
           data['addressesSet'].each do |address|
             addresses << Fog::AWS::EC2::Address.new({
+              :addresses  => self,
               :connection => connection
             }.merge!(address))
           end

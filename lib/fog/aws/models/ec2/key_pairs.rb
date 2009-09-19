@@ -13,7 +13,8 @@ module Fog
           key_pairs = Fog::AWS::EC2::KeyPairs.new(:connection => connection)
           data['keySet'].each do |key|
             key_pairs << Fog::AWS::EC2::KeyPair.new({
-              :connection => connection
+              :connection => connection,
+              :key_pairs  => self
             }.merge!(key))
           end
           key_pairs

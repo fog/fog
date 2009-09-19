@@ -42,6 +42,16 @@ module Fog
           end
         end
 
+        def volumes
+          @volumes
+        end
+
+        private
+
+        def volumes=(new_volumes)
+          @volumes = new_volumes
+        end
+
       end
 
     end

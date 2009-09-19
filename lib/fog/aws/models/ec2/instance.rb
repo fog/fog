@@ -53,6 +53,10 @@ module Fog
           @key_name = new_keypair.name
         end
 
+        def instances
+          @instances
+        end
+
         def monitoring=(new_monitoring)
           if new_monitoring.is_a?(Hash)
             @monitoring = new_monitoring['state']
@@ -113,6 +117,10 @@ module Fog
 
         def instance_state=(new_instance_state)
           @instance_state = new_instance_state['name']
+        end
+
+        def instances=(new_instances)
+          @instances = new_instances
         end
 
       end

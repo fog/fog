@@ -13,7 +13,8 @@ module Fog
           volumes = Fog::AWS::EC2::Volumes.new(:connection => connection)
           data['volumeSet'].each do |volume|
             volumes << Fog::AWS::EC2::Volume.new({
-              :connection => connection
+              :connection => connection,
+              :volumes    => self
             }.merge!(volume))
           end
           volumes
