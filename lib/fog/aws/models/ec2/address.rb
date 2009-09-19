@@ -16,6 +16,11 @@ module Fog
           true
         end
 
+        def reload
+          new_attributes = addresses.all(@public_ip).first.attributes
+          merge_attributes(new_attributes)
+        end
+
         def save
           data = connection.allocate_address
           @public_ip = data.body['publicIp']

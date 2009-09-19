@@ -17,6 +17,11 @@ module Fog
           @key_pairs
         end
 
+        def reload
+          new_attributes = key_pairs.all(@name).first.attributes
+          merge_attributes(new_attributes)
+        end
+
         def save
           data = connection.create_key_pair(@name).body
           new_attributes = data.reject {|key,value| !['keyFingerprint', 'keyMaterial', 'keyName'].include?(key)}

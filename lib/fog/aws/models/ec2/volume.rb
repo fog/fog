@@ -26,6 +26,11 @@ module Fog
           true
         end
 
+        def reload
+          new_attributes = volumes.all(@volume_id).first.attributes
+          merge_attributes(new_attributes)
+        end
+
         def save
           data = connection.create_volume(@availability_zone, @size, @snapshot_id).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
@@ -34,12 +39,7 @@ module Fog
         end
 
         def snapshots
-          @snapshots ||= begin
-            Fog::AWS::S3::Snapshots.new(
-              :connection => connection,
-              :volume     => self
-            )
-          end
+          connection.snapshots.all.select {|snapshot| snapshot.volume_id == @volume_id}
         end
 
         def volumes

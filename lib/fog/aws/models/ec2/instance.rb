@@ -73,13 +73,9 @@ module Fog
           end
         end
 
-        def volumes
-          connection.volumes.all.select {|volume| volume.instance_id == @instance_id}
-        end
-
-        def volume=(new_volume)
-          new_volume.instance_id = @instance_id
-          connection.attach_volume(@instance_id, new_volume.volume_id, new_volume.device)
+        def reload
+          new_attributes = instances.all(@instance_id).first.attributes
+          merge_attributes(new_attributes)
         end
 
         def save
@@ -111,6 +107,15 @@ module Fog
           data = connection.run_instances(@image_id, 1, 1, options)
           merge_attributes(data.body['instancesSet'].first)
           true
+        end
+
+        def volumes
+          connection.volumes.all.select {|volume| volume.instance_id == @instance_id}
+        end
+
+        def volume=(new_volume)
+          new_volume.instance_id = @instance_id
+          connection.attach_volume(@instance_id, new_volume.volume_id, new_volume.device)
         end
 
         private
