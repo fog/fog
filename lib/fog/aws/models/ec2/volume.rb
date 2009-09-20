@@ -21,7 +21,7 @@ module Fog
           super
         end
 
-        def delete
+        def destroy
           connection.delete_volume(@volume_id)
           true
         end

@@ -27,10 +27,12 @@ module Fog
         end
 
         def new(attributes = {})
-          Fog::AWS::S3::SecurityGroup.new({
-            :connection => connection,
-            :security_groups  => self
-          }.merge!(attributes))
+          Fog::AWS::EC2::SecurityGroup.new(
+            attributes.merge!(
+              :connection => connection,
+              :security_groups  => self
+            )
+          )
         end
 
       end

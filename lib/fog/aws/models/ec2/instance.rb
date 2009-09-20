@@ -32,7 +32,7 @@ module Fog
           connection.associate_address(@instance_id, new_address.public_ip)
         end
 
-        def delete
+        def destroy
           connection.terminate_instances(@instance_id)
           true
         end

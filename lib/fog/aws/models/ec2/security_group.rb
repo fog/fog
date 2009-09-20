@@ -9,7 +9,7 @@ module Fog
         attribute :ip_permissions,    'ipPermissions'
         attribute :owner_id,          'ownerId'
 
-        def delete
+        def destroy
           connection.delete_security_group(@group_name)
           true
         end

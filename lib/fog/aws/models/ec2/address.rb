@@ -11,7 +11,7 @@ module Fog
           @addresses
         end
 
-        def delete
+        def destroy
           connection.release_address(@public_ip)
           true
         end

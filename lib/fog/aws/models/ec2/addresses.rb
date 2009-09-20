@@ -27,7 +27,10 @@ module Fog
         end
 
         def new
-          Fog::AWS::S3::Address.new(:connection => connection)
+          Fog::AWS::EC2::Address.new(
+            :addresses => self,
+            :connection => connection
+          )
         end
 
       end

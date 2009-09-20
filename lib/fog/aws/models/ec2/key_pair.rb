@@ -8,7 +8,7 @@ module Fog
         attribute :material,    'keyMaterial'
         attribute :name,        'keyName'
 
-        def delete
+        def destroy
           connection.delete_key_pair(@name)
           true
         end

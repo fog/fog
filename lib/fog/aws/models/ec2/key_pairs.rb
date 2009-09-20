@@ -27,7 +27,12 @@ module Fog
         end
 
         def new(attributes = {})
-          Fog::AWS::EC2::KeyPair.new(attributes.merge!(:connection => connection))
+          Fog::AWS::EC2::KeyPair.new(
+            attributes.merge!(
+              :connection => connection,
+              :key_pairs  => self
+            )
+          )
         end
 
       end

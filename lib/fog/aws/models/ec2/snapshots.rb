@@ -27,11 +27,13 @@ module Fog
         end
 
         def new(attributes = {})
-          Fog::AWS::S3::Snapshot.new({
-            :connection => connection,
-            :volume     => @volume,
-            :snapshots  => self
-          }.merge!(attributes))
+          Fog::AWS::EC2::Snapshot.new(
+            attributes.merge!(
+              :connection => connection,
+              :volume     => @volume,
+              :snapshots  => self
+            )
+          )
         end
 
         def volume

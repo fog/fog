@@ -10,7 +10,7 @@ module Fog
         attribute :status
         attribute :volume_id,    'volumeId'
 
-        def delete
+        def destroy
           connection.delete_snapshot(@snapshot_id)
           true
         end

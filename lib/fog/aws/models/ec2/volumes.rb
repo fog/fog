@@ -27,7 +27,12 @@ module Fog
         end
 
         def new(attributes = {})
-          Fog::AWS::EC2::Volume.new(attributes.merge!(:connection => connection))
+          Fog::AWS::EC2::Volume.new(
+            attributes.merge!(
+              :connection => connection,
+              :volumes    => self
+            )
+          )
         end
 
       end
