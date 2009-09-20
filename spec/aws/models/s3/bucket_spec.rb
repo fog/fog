@@ -98,7 +98,6 @@ describe 'Fog::AWS::S3::Bucket' do
     end
 
     it "should reset attributes to remote state" do
-      @bucket.creation_date = Time.now
       @bucket.attributes.should == @reloaded.attributes
     end
 
