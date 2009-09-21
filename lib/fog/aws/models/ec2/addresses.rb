@@ -8,9 +8,14 @@ module Fog
 
       class Addresses < Fog::Collection
 
+        attribute :public_ip
+
         def all(public_ip = [])
           data = connection.describe_addresses(public_ip).body
-          addresses = Fog::AWS::EC2::Addresses.new(:connection => connection)
+          addresses = Fog::AWS::EC2::Addresses.new(
+            :connection => connection,
+            :public_ip  => public_ip
+          )
           data['addressesSet'].each do |address|
             addresses << Fog::AWS::EC2::Address.new({
               :addresses  => self,
@@ -26,11 +31,19 @@ module Fog
           address
         end
 
+        def get(public_ip)
+          all(:public_ip => public_ip).first
+        end
+
         def new
           Fog::AWS::EC2::Address.new(
             :addresses => self,
             :connection => connection
           )
+        end
+
+        def reload
+          all(public_ip)
         end
 
       end

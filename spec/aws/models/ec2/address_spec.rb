@@ -70,12 +70,12 @@ describe 'Fog::AWS::EC2::Address' do
     end
 
     it "should not exist in addresses before save" do
-      @address.addresses.all.map {|address| address.public_ip}.include?(@address.public_ip).should be_false
+      @address.addresses.get(@address.public_ip).should be_nil
     end
 
     it "should exist in buckets after save" do
       @address.save
-      @address.addresses.all.map {|address| address.public_ip}.include?(@address.public_ip).should be_true
+      @address.addresses.get(@address.public_ip).should_not be_nil
       @address.destroy
     end
 
