@@ -4,14 +4,11 @@ module Fog
 
       class Objects < Fog::Collection
 
-        attribute :is_truncated,  'IsTruncated'
-        attribute :marker,        'Marker'
-        attribute :max_keys,      'MaxKeys'
-        attribute :prefix,        'Prefix'
+        attribute :options
 
         def all(options = {})
-          merge_attributes(options)
-          bucket.buckets.get(bucket.name, attributes).objects
+          merge_attributes(:options => options)
+          bucket.buckets.get(bucket.name, @options).objects
         end
 
         def bucket
@@ -74,7 +71,7 @@ module Fog
         end
 
         def reload
-          all
+          all(@options)
         end
 
         private

@@ -30,10 +30,7 @@ module Fog
 
         def get(name, options = {})
           remap_attributes(options, {
-            :is_truncated => 'IsTruncated',
-            :marker       => 'Marker',
-            :max_keys     => 'MaxKeys',
-            :prefix       => 'Prefix'
+            :max_keys     => 'max-keys',
           })
           data = connection.get_bucket(name, options).body
           bucket = Fog::AWS::S3::Bucket.new({
@@ -41,13 +38,13 @@ module Fog
             :connection => connection,
             :name       => data['Name']
           })
-          objects_data = {}
+          options = {}
           for key, value in data
-            if ['IsTruncated', 'Marker', 'MaxKeys', 'Prefix'].include?(key)
-              objects_data[key] = value
+            if ['Delimiter', 'IsTruncated', 'Marker', 'MaxKeys', 'Prefix'].include?(key)
+              options[key] = value
             end
           end
-          bucket.objects.merge_attributes(objects_data)
+          bucket.objects.merge_attributes(:options => options)
           data['Contents'].each do |object|
             owner = Fog::AWS::S3::Owner.new(object.delete('Owner').merge!(:connection => connection))
             bucket.objects << Fog::AWS::S3::Object.new({

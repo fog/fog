@@ -9,9 +9,9 @@ describe 'Fog::AWS::S3::Buckets' do
     end
 
     it "should include persisted buckets" do
-      @bucket = s3.buckets.create(:name => 'fogbucketname')
+      bucket = s3.buckets.create(:name => 'fogbucketname')
       s3.buckets.all.map {|bucket| bucket.name}.should include('fogbucketname')
-      @bucket.destroy
+      bucket.destroy
     end
 
   end
@@ -42,15 +42,6 @@ describe 'Fog::AWS::S3::Buckets' do
       bucket = s3.buckets.create(:name => 'fogbucketname')
       get = s3.buckets.get('fogbucketname')
       bucket.attributes.should == get.attributes
-      bucket.destroy
-    end
-
-    it "should return memoized bucket on subsequent gets" do
-      bucket = s3.buckets.create(:name => 'fogbucketname')
-      get1 = s3.buckets.get('fogbucketname')
-      s3.should_not_receive(:get_bucket)
-      get2 = s3.buckets.get('fogbucketname')
-      get1.attributes.should == get2.attributes
       bucket.destroy
     end
 
