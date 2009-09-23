@@ -5,7 +5,7 @@ describe 'Fog::AWS::EC2::Addresses' do
   describe "#all" do
 
     it "should return a Fog::AWS::EC2::Addresses" do
-      s3.buckets.all.should be_a(Fog::AWS::S3::Addresses)
+      ec2.addresses.all.should be_a(Fog::AWS::EC2::Addresses)
     end
 
     it "should include persisted addresses" do
@@ -31,7 +31,7 @@ describe 'Fog::AWS::EC2::Addresses' do
     end
 
     it "should exist on ec2" do
-      ec2.addresses.get(@public_ip).should_not be_nil
+      ec2.addresses.get(@address.public_ip).should_not be_nil
     end
 
   end
@@ -54,7 +54,7 @@ describe 'Fog::AWS::EC2::Addresses' do
   describe "#new" do
 
     it "should return a Fog::AWS::EC2::Address" do
-      s3.buckets.new.should be_a(Fog::AWS::EC2::Address)
+      ec2.addresses.new.should be_a(Fog::AWS::EC2::Address)
     end
 
   end
@@ -62,7 +62,7 @@ describe 'Fog::AWS::EC2::Addresses' do
   describe "#reload" do
 
     it "should return a Fog::AWS::EC2::Addresses" do
-      s3.buckets.all.should be_a(Fog::AWS::EC2::Addresses)
+      ec2.addresses.all.reload.should be_a(Fog::AWS::EC2::Addresses)
     end
 
   end

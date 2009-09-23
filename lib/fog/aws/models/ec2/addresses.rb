@@ -32,7 +32,9 @@ module Fog
         end
 
         def get(public_ip)
-          all(:public_ip => public_ip).first
+          all(public_ip).first
+        rescue Fog::Errors::BadRequest
+          nil
         end
 
         def new
