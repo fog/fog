@@ -8,9 +8,14 @@ module Fog
 
       class Volumes < Fog::Collection
 
+        attribute :volume_id
+
         def all(volume_id = [])
-          data = connection.describe_volumes(volume_id)
-          volumes = Fog::AWS::EC2::Volumes.new(:connection => connection)
+          data = connection.describe_volumes(volume_id).body
+          volumes = Fog::AWS::EC2::Volumes.new(
+            :connection => connection,
+            :volume_id  => volume_id
+          )
           data['volumeSet'].each do |volume|
             volumes << Fog::AWS::EC2::Volume.new({
               :connection => connection,
@@ -26,6 +31,12 @@ module Fog
           volume
         end
 
+        def get(volume_id)
+          all(volume_id).first
+        rescue Fog::Errors::BadRequest
+          nil
+        end
+
         def new(attributes = {})
           Fog::AWS::EC2::Volume.new(
             attributes.merge!(
@@ -33,6 +44,10 @@ module Fog
               :volumes    => self
             )
           )
+        end
+
+        def reload
+          all(volume_id)
         end
 
       end

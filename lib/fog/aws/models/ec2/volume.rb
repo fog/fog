@@ -16,7 +16,7 @@ module Fog
         
         def initialize(attributes = {})
           if attributes['attachmentSet']
-            attributes.merge!(attributes.delete('attachmentSet'))
+            attributes.merge!(attributes.delete('attachmentSet').first || {})
           end
           super
         end
@@ -34,7 +34,7 @@ module Fog
         def save
           data = connection.create_volume(@availability_zone, @size, @snapshot_id).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
-          update_attributes(new_attributes)
+          merge_attributes(new_attributes)
           true
         end
 

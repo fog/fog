@@ -28,6 +28,8 @@ module Fog
 
         load "fog/aws/models/ec2/address.rb"
         load "fog/aws/models/ec2/addresses.rb"
+        load "fog/aws/models/ec2/volume.rb"
+        load "fog/aws/models/ec2/volumes.rb"
 
         load "fog/aws/parsers/ec2/allocate_address.rb"
         load "fog/aws/parsers/ec2/attach_volume.rb"
