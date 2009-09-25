@@ -8,9 +8,14 @@ module Fog
 
       class SecurityGroups < Fog::Collection
 
+        attribute :group_name
+
         def all(group_name = [])
           data = connection.describe_security_groups(group_name)
-          security_groups = Fog::AWS::EC2::SecurityGroups.new(:connection => connection)
+          security_groups = Fog::AWS::EC2::SecurityGroups.new(
+            :connection => connection,
+            :group_name => group_name
+          )
           data['securityGroupInfo'].each do |security_group|
             security_groups << Fog::AWS::EC2::SecurityGroup.new({
               :connection       => connection,
@@ -26,6 +31,12 @@ module Fog
           security_group
         end
 
+        def get(group_name)
+          all(group_name).first
+        rescue Fog::Errors::BadRequest
+          nil
+        end
+
         def new(attributes = {})
           Fog::AWS::EC2::SecurityGroup.new(
             attributes.merge!(
@@ -33,6 +44,10 @@ module Fog
               :security_groups  => self
             )
           )
+        end
+
+        def reload
+          all(group_name)
         end
 
       end

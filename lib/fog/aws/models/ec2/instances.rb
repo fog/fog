@@ -8,9 +8,14 @@ module Fog
 
       class Instances < Fog::Collection
 
+        attribute :instance_id
+
         def all(instance_id = [])
           data = connection.describe_instances(instance_id)
-          instances = Fog::AWS::EC2::Instances.new(:connection => connection)
+          instances = Fog::AWS::EC2::Instances.new(
+            :connection   => connection,
+            :instance_id  => instance_id
+          )
           data['instancesSet'].each do |instance|
             instances << Fog::AWS::EC2::Instances.new({
               :connection => connection,
@@ -26,6 +31,12 @@ module Fog
           instance
         end
 
+        def get(instance_id)
+          all(instance_id).first
+        rescue Fog::Errors::BadRequest
+          nil
+        end
+
         def new(attributes = {})
           Fog::AWS::EC2::Instance.new(
             attributes.merge!(
@@ -33,6 +44,10 @@ module Fog
               :instances  => self
             )
           )
+        end
+
+        def reload
+          all(instance_id)
         end
 
       end

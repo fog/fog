@@ -8,9 +8,14 @@ module Fog
 
       class KeyPairs < Fog::Collection
 
+        attribute :key_name
+
         def all(key_name = [])
           data = connection.describe_key_pairs(key_name).body
-          key_pairs = Fog::AWS::EC2::KeyPairs.new(:connection => connection)
+          key_pairs = Fog::AWS::EC2::KeyPairs.new(
+            :connection => connection,
+            :key_name   => key_name
+          )
           data['keySet'].each do |key|
             key_pairs << Fog::AWS::EC2::KeyPair.new({
               :connection => connection,
@@ -26,6 +31,12 @@ module Fog
           bucket
         end
 
+        def get(key_name)
+          all(key_name).first
+        rescue Fog::Errors::BadRequest
+          nil
+        end
+
         def new(attributes = {})
           Fog::AWS::EC2::KeyPair.new(
             attributes.merge!(
@@ -33,6 +44,10 @@ module Fog
               :key_pairs  => self
             )
           )
+        end
+
+        def reload
+          all(key_name)
         end
 
       end
