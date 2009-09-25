@@ -24,7 +24,7 @@ module Fog
         end
 
         def reload
-          new_attributes = addresses.all(@public_ip).first.attributes
+          new_attributes = addresses.get(@public_ip).attributes
           merge_attributes(new_attributes)
         end
 

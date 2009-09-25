@@ -5,7 +5,7 @@ describe 'Fog::AWS::EC2::Volume' do
   describe "#initialize" do
 
     it "should remap attributes from parser" # do
-    #       volume = Fog::AWS::EC2::Volume.new(
+    #       volume = Fog::AWS::EC2::Address.new(
     #         'instanceId'  => 'i-00000000',
     #         'publicIp'    => '0.0.0.0'
     #       )

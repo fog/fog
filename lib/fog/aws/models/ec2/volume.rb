@@ -27,7 +27,7 @@ module Fog
         end
 
         def reload
-          new_attributes = volumes.all(@volume_id).first.attributes
+          new_attributes = volumes.get(@volume_id).attributes
           merge_attributes(new_attributes)
         end
 
