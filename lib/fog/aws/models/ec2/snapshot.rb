@@ -16,12 +16,12 @@ module Fog
         end
 
         def reload
-          new_attributes = snapshots.all(@snapshot_id).first.attributes
+          new_attributes = snapshots.get(@snapshot_id).attributes
           merge_attributes(new_attributes)
         end
 
         def save
-          data = connection.create_snapshot(@volume.volume_id).body
+          data = connection.create_snapshot(volume_id).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
           update_attributes(new_attributes)
           true

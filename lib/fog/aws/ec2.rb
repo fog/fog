@@ -28,6 +28,8 @@ module Fog
 
         load "fog/aws/models/ec2/address.rb"
         load "fog/aws/models/ec2/addresses.rb"
+        load "fog/aws/models/ec2/snapshot.rb"
+        load "fog/aws/models/ec2/snapshots.rb"
         load "fog/aws/models/ec2/volume.rb"
         load "fog/aws/models/ec2/volumes.rb"
 
@@ -84,11 +86,14 @@ module Fog
         load "fog/aws/requests/ec2/disassociate_address.rb"
         load "fog/aws/requests/ec2/get_console_output.rb"
         # TODO: require "fog/aws/requests/ec2/modify_image_attribute.rb"
+        # TODO: require "fog/aws/requests/ec2/modify_snapshot_attribute.rb"
         # TODO: require "fog/aws/requests/ec2/monitor_instances.rb"
         # TODO: require "fog/aws/requests/ec2/purchase_reserved_instances_offering.rb"
         load "fog/aws/requests/ec2/reboot_instances.rb"
         # TODO: require "fog/aws/requests/ec2/register_image.rb"
         load "fog/aws/requests/ec2/release_address.rb"
+        # TODO: require "fog/aws/requests/ec2/reset_image_attributes.rb"
+        # TODO: require "fog/aws/requests/ec2/reset_snapshot_attributes.rb"
         load "fog/aws/requests/ec2/revoke_security_group_ingress.rb"
         load "fog/aws/requests/ec2/run_instances.rb"
         load "fog/aws/requests/ec2/terminate_instances.rb"
