@@ -12,10 +12,9 @@ module Fog
 
         def all(volume_id = [])
           data = connection.describe_volumes(volume_id).body
-          volumes = Fog::AWS::EC2::Volumes.new(
-            :connection => connection,
-            :volume_id  => volume_id
-          )
+          volumes = Fog::AWS::EC2::Volumes.new({
+            :connection => connection
+          }.merge!(attributes))
           data['volumeSet'].each do |volume|
             volumes << Fog::AWS::EC2::Volume.new({
               :connection => connection,

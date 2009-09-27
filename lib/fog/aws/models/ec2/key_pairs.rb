@@ -12,10 +12,9 @@ module Fog
 
         def all(key_name = [])
           data = connection.describe_key_pairs(key_name).body
-          key_pairs = Fog::AWS::EC2::KeyPairs.new(
-            :connection => connection,
-            :key_name   => key_name
-          )
+          key_pairs = Fog::AWS::EC2::KeyPairs.new({
+            :connection => connection
+          }.merge!(attributes))
           data['keySet'].each do |key|
             key_pairs << Fog::AWS::EC2::KeyPair.new({
               :connection => connection,

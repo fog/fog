@@ -12,10 +12,9 @@ module Fog
 
         def all(instance_id = [])
           data = connection.describe_instances(instance_id)
-          instances = Fog::AWS::EC2::Instances.new(
-            :connection   => connection,
-            :instance_id  => instance_id
-          )
+          instances = Fog::AWS::EC2::Instances.new({
+            :connection   => connection
+          }.merge!(attributes))
           data['instancesSet'].each do |instance|
             instances << Fog::AWS::EC2::Instances.new({
               :connection => connection,

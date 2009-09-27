@@ -9,13 +9,13 @@ module Fog
       class Snapshots < Fog::Collection
 
         attribute :snapshot_id
+        attribute :volume_id
 
         def all(snapshot_id = [])
-          data = connection.describe_snapshots(snapshot_id)
-          snapshots = Fog::AWS::EC2::Snapshots.new(
-            :connection   => connection,
-            :snapshot_id  => snapshot_id
-          )
+          data = connection.describe_snapshots(snapshot_id).body
+          snapshots = Fog::AWS::EC2::Snapshots.new({
+            :connection   => connection
+          }.merge!(attributes))
           data['snapshotSet'].each do |snapshot|
             snapshots << Fog::AWS::EC2::Snapshot.new({
               :connection => connection,

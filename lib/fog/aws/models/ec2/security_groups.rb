@@ -12,10 +12,9 @@ module Fog
 
         def all(group_name = [])
           data = connection.describe_security_groups(group_name)
-          security_groups = Fog::AWS::EC2::SecurityGroups.new(
-            :connection => connection,
-            :group_name => group_name
-          )
+          security_groups = Fog::AWS::EC2::SecurityGroups.new({
+            :connection => connection
+          }.merge!(attributes))
           data['securityGroupInfo'].each do |security_group|
             security_groups << Fog::AWS::EC2::SecurityGroup.new({
               :connection       => connection,
