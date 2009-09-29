@@ -15,12 +15,12 @@ module Fog
         end
 
         def reload
-          new_attributes = security_groups.all(@public_ip).first.attributes
+          new_attributes = security_groups.get(@group_name).attributes
           merge_attributes(new_attributes)
         end
 
         def save
-          data = connection.create_create_security_group(@group_name, @group_description).body
+          data = connection.create_security_group(@group_name, @group_description).body
           true
         end
 

@@ -16,7 +16,7 @@ module Fog
         end
 
         def all(group_name = [])
-          data = connection.describe_security_groups(group_name)
+          data = connection.describe_security_groups(group_name).body
           security_groups = Fog::AWS::EC2::SecurityGroups.new({
             :connection => connection,
             :group_name => group_name
