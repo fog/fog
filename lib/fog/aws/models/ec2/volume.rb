@@ -39,7 +39,7 @@ module Fog
         end
 
         def snapshots
-          connection.snapshots.all.select {|snapshot| snapshot.volume_id == @volume_id}
+          connection.snapshots(:volume_id => volume_id)
         end
 
         def volumes

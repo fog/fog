@@ -23,7 +23,7 @@ module Fog
         def save
           data = connection.create_snapshot(volume_id).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
-          update_attributes(new_attributes)
+          merge_attributes(new_attributes)
           true
         end
 

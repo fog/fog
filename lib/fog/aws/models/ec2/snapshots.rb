@@ -2,8 +2,10 @@ module Fog
   module AWS
     class EC2
 
-      def snapshots
-        Fog::AWS::EC2::Snapshots.new(:connection => self)
+      def snapshots(attributes = {})
+        Fog::AWS::EC2::Snapshots.new({
+          :connection => self
+        }.merge!(attributes))
       end
 
       class Snapshots < Fog::Collection
@@ -28,6 +30,9 @@ module Fog
               :snapshots  => self
             }.merge!(snapshot))
           end
+          if volume_id
+            snapshots = snapshots.select {|snapshot| snapshot.volume_id == volume_id}
+          end
           snapshots
         end
 
@@ -44,13 +49,16 @@ module Fog
         end
 
         def new(attributes = {})
-          Fog::AWS::EC2::Snapshot.new(
+          snapshot = Fog::AWS::EC2::Snapshot.new(
             attributes.merge!(
               :connection => connection,
-              :volume     => @volume,
               :snapshots  => self
             )
           )
+          if volume_id
+            snapshot.volume_id = volume_id
+          end
+          snapshot
         end
 
         def reload
