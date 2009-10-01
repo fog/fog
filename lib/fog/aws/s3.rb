@@ -124,13 +124,13 @@ DATA
         canonical_resource  = "/"
         subdomain = params[:host].split(".#{@host}").first
         unless subdomain == @host
-          canonical_resource << "#{subdomain}/"
+          canonical_resource << "#{CGI.escape(subdomain).downcase}/"
         end
         canonical_resource << "#{params[:path]}"
         if ['acl', 'location', 'logging', 'requestPayment', 'torrent'].include?(params[:query])
           canonical_resource << "?#{params[:query]}"
         end
-        string_to_sign << "#{canonical_resource}".downcase
+        string_to_sign << "#{canonical_resource}"
 
         hmac = @hmac.update(string_to_sign)
         signature = Base64.encode64(hmac.digest).chomp!
