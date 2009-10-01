@@ -5,21 +5,19 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.9"
+  s.version = "0.0.10"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Wesley Beary"]
-  s.date = %q{2009-09-10}
+  s.date = %q{2009-09-30}
   s.description = %q{brings clouds to you}
   s.email = %q{me@geemus.com}
   s.extra_rdoc_files = [
-    "LICENSE",
-     "README.rdoc"
+    "README.rdoc"
   ]
   s.files = [
     ".document",
      ".gitignore",
-     "LICENSE",
      "README.rdoc",
      "Rakefile",
      "VERSION",
@@ -34,8 +32,12 @@ Gem::Specification.new do |s|
      "lib/fog/aws/ec2.rb",
      "lib/fog/aws/models/ec2/address.rb",
      "lib/fog/aws/models/ec2/addresses.rb",
+     "lib/fog/aws/models/ec2/instance.rb",
+     "lib/fog/aws/models/ec2/instances.rb",
      "lib/fog/aws/models/ec2/key_pair.rb",
      "lib/fog/aws/models/ec2/key_pairs.rb",
+     "lib/fog/aws/models/ec2/security_group.rb",
+     "lib/fog/aws/models/ec2/security_groups.rb",
      "lib/fog/aws/models/ec2/snapshot.rb",
      "lib/fog/aws/models/ec2/snapshots.rb",
      "lib/fog/aws/models/ec2/volume.rb",
@@ -132,6 +134,16 @@ Gem::Specification.new do |s|
      "lib/fog/model.rb",
      "lib/fog/parser.rb",
      "lib/fog/response.rb",
+     "spec/aws/models/ec2/address_spec.rb",
+     "spec/aws/models/ec2/addresses_spec.rb",
+     "spec/aws/models/ec2/key_pair_spec.rb",
+     "spec/aws/models/ec2/key_pairs_spec.rb",
+     "spec/aws/models/ec2/security_group_spec.rb",
+     "spec/aws/models/ec2/security_groups_spec.rb",
+     "spec/aws/models/ec2/snapshot_spec.rb",
+     "spec/aws/models/ec2/snapshots_spec.rb",
+     "spec/aws/models/ec2/volume_spec.rb",
+     "spec/aws/models/ec2/volumes_spec.rb",
      "spec/aws/models/s3/bucket_spec.rb",
      "spec/aws/models/s3/buckets_spec.rb",
      "spec/aws/models/s3/object_spec.rb",
@@ -198,7 +210,17 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{fog = clouds + you}
   s.test_files = [
-    "spec/aws/models/s3/bucket_spec.rb",
+    "spec/aws/models/ec2/address_spec.rb",
+     "spec/aws/models/ec2/addresses_spec.rb",
+     "spec/aws/models/ec2/key_pair_spec.rb",
+     "spec/aws/models/ec2/key_pairs_spec.rb",
+     "spec/aws/models/ec2/security_group_spec.rb",
+     "spec/aws/models/ec2/security_groups_spec.rb",
+     "spec/aws/models/ec2/snapshot_spec.rb",
+     "spec/aws/models/ec2/snapshots_spec.rb",
+     "spec/aws/models/ec2/volume_spec.rb",
+     "spec/aws/models/ec2/volumes_spec.rb",
+     "spec/aws/models/s3/bucket_spec.rb",
      "spec/aws/models/s3/buckets_spec.rb",
      "spec/aws/models/s3/object_spec.rb",
      "spec/aws/models/s3/objects_spec.rb",
