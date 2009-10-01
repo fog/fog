@@ -130,7 +130,7 @@ DATA
         if ['acl', 'location', 'logging', 'requestPayment', 'torrent'].include?(params[:query])
           canonical_resource << "?#{params[:query]}"
         end
-        string_to_sign << "#{canonical_resource}"
+        string_to_sign << "#{canonical_resource}".downcase
 
         hmac = @hmac.update(string_to_sign)
         signature = Base64.encode64(hmac.digest).chomp!
