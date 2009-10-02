@@ -29,10 +29,10 @@ module Fog
         data << " #{attribute}=#{send(attribute).inspect}"
       end
       data << " ["
-      for key, value in self
-        data << "#{value.inspect},"
+      for member in self
+        data << "#{member.inspect},"
       end
-      data.chomp!
+      data.chop!
       data << "]>"
     end
 

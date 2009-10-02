@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
+require 'irb'
+require 'yaml'
+
+if File.exists?(File.expand_path('~/.fog'))
+  @credentials = YAML.load(File.open(File.expand_path('~/.fog')).read)
+end
+
+@s3 = Fog::AWS::S3.new(
+  :aws_access_key_id => @credentials['aws_access_key_id'],
+  :aws_secret_access_key => @credentials['aws_secret_access_key']
+)
+
+def buckets
+  @s3.buckets
+end
+
+ARGV.clear # Avoid passing args to IRB
+IRB.setup(nil)
+@irb = IRB::Irb.new(nil)
+IRB.conf[:MAIN_CONTEXT] = @irb.context
+@irb.context.workspace = IRB::WorkSpace.new(binding)
+catch(:IRB_EXIT) { @irb.eval_input }
