@@ -6,7 +6,7 @@ require "#{current_directory}/../lib/fog"
 
 def credentials
   @credentials ||= begin
-    credentials_path = "#{File.dirname(__FILE__)}/credentials.yml"
+    credentials_path = File.expand_path('~/.fog')
     credentials_data = File.open(credentials_path).read
     YAML.load(credentials_data)
   end
