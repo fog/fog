@@ -106,5 +106,11 @@ describe 'S3.get_bucket' do
       }.should raise_error(Fog::Errors::NotFound)
     end
 
+    it 'should request non-subdomain buckets and raise a NotFound error' do
+      lambda {
+        s3.get_bucket('A-invalid--name')
+      }.should raise_error(Fog::Errors::NotFound)
+    end
+
   end
 end

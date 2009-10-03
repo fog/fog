@@ -121,9 +121,20 @@ DATA
         end
         string_to_sign << "#{canonical_amz_headers}"
 
-        canonical_resource  = "/"
         subdomain = params[:host].split(".#{@host}").first
-        unless subdomain == @host
+        unless subdomain =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
+          puts("[WARN] fog: the specified s3 bucket name(#{subdomain}) is not a valid dns name.  See: http://docs.amazonwebservices.com/AmazonS3/latest/dev/index.html?Introduction.html")
+          params[:host] = params[:host].split("#{subdomain}.")[-1]
+          if params[:path]
+            params[:path] = "#{subdomain}/#{params[:path]}"
+          else
+            params[:path] = "#{subdomain}"
+          end
+          subdomain = nil
+        end
+
+        canonical_resource  = "/"
+        unless subdomain.nil? || subdomain == @host
           canonical_resource << "#{CGI.escape(subdomain).downcase}/"
         end
         canonical_resource << "#{params[:path]}"
