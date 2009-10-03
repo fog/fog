@@ -73,20 +73,20 @@ unless Fog.mocking?
           response.headers[capitalize(header[0])] = header[1]
         end
 
-        if error || params[:parser]
-          if error
-            parser = Fog::Errors::Parser.new
-          elsif params[:parser]
-            parser = params[:parser]
-          end
-          body = Nokogiri::XML::SAX::PushParser.new(parser)
-        elsif params[:block]
-          body = nil
-        else
-          body = ''
-        end
-
         unless params[:method] == 'HEAD'
+          if error || params[:parser]
+            if error
+              parser = Fog::Errors::Parser.new
+            elsif params[:parser]
+              parser = params[:parser]
+            end
+            body = Nokogiri::XML::SAX::PushParser.new(parser)
+          elsif params[:block]
+            body = nil
+          else
+            body = ''
+          end
+
           if response.headers['Content-Length']
             if error || !params[:block]
               body << @connection.read(response.headers['Content-Length'].to_i)
@@ -112,13 +112,13 @@ unless Fog.mocking?
               end
             end
           end
-        end
 
-        if parser
-          body.finish
-          response.body = parser.response
-        else
-          response.body = body
+          if parser
+            body.finish
+            response.body = parser.response
+          else
+            response.body = body
+          end
         end
 
         if error
