@@ -44,6 +44,21 @@ unless Fog.mocking?
           })
         end
 
+        def get_object_url(bucket_name, object_name, expires)
+          unless bucket_name
+            raise ArgumentError.new('bucket_name is required')
+          end
+          unless object_name
+            raise ArgumentError.new('object_name is required')
+          end
+          url({
+            :headers  => {},
+            :host     => "#{bucket_name}.#{@host}",
+            :method   => 'GET',
+            :path     => object_name
+          }, expires)
+        end
+
       end
     end
   end

@@ -100,7 +100,33 @@ module Fog
 
       def request(params)
         params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
+        params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
 
+        response = @connection.request({
+          :block    => params[:block],
+          :body     => params[:body],
+          :expects  => params[:expects],
+          :headers  => params[:headers],
+          :host     => params[:host],
+          :method   => params[:method],
+          :parser   => params[:parser],
+          :path     => params[:path],
+          :query    => params[:query]
+        })
+
+        response
+      end
+
+      def url(params, expires)
+        params[:headers]['Date'] = expires.to_i
+        query = [params[:query]].compact
+        query << "AWSAccessKeyId=#{@aws_access_key_id}"
+        query << "Signature=#{CGI.escape(signature(params))}"
+        query << "Expires=#{params[:headers]['Date']}"
+        "http://#{params[:host]}/#{params[:path]}?#{query.join('&')}"
+      end
+
+      def signature(params)
         string_to_sign =
 <<-DATA
 #{params[:method]}
@@ -145,21 +171,6 @@ DATA
 
         hmac = @hmac.update(string_to_sign)
         signature = Base64.encode64(hmac.digest).chomp!
-        params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature}"
-
-        response = @connection.request({
-          :block    => params[:block],
-          :body     => params[:body],
-          :expects  => params[:expects],
-          :headers  => params[:headers],
-          :host     => params[:host],
-          :method   => params[:method],
-          :parser   => params[:parser],
-          :path     => params[:path],
-          :query    => params[:query]
-        })
-
-        response
       end
 
     end

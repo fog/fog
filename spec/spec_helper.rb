@@ -1,4 +1,5 @@
 require 'spec'
+require 'open-uri'
 
 current_directory = File.dirname(__FILE__)
 require "#{current_directory}/../lib/fog"

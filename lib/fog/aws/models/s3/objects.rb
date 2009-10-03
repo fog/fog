@@ -42,6 +42,10 @@ module Fog
           nil
         end
 
+        def get_url(key, expires)
+          connection.get_object_url(bucket.name, key, expires)
+        end
+
         def head(key, options = {})
           data = connection.head_object(bucket.name, key, options)
           object_data = {
