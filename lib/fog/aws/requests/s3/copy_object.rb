@@ -33,7 +33,7 @@ unless Fog.mocking?
             :host     => "#{target_bucket_name}.#{@host}",
             :method   => 'PUT',
             :parser   => Fog::Parsers::AWS::S3::CopyObject.new,
-            :path     => target_object_name
+            :path     => CGI.escape(target_object_name)
           })
         end
 
