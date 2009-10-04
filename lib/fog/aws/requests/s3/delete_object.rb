@@ -19,7 +19,7 @@ unless Fog.mocking?
             :headers  => {},
             :host     => "#{bucket_name}.#{@host}",
             :method   => 'DELETE',
-            :path     => object_name
+            :path     => CGI.escape(object_name)
           })
         end
 

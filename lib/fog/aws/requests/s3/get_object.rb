@@ -39,7 +39,7 @@ unless Fog.mocking?
             :headers  => headers,
             :host     => "#{bucket_name}.#{@host}",
             :method   => 'GET',
-            :path     => object_name,
+            :path     => CGI.escape(object_name),
             :block    => block
           })
         end
