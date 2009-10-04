@@ -17,13 +17,20 @@ unless Fog.mocking?
 
       def initialize(url)
         @uri = URI.parse(url)
-        @connection = TCPSocket.open(@uri.host, @uri.port)
-        if @uri.scheme == 'https'
-          @ssl_context = OpenSSL::SSL::SSLContext.new
-          @ssl_context.verify_mode = OpenSSL::SSL::VERIFY_NONE
-          @connection = OpenSSL::SSL::SSLSocket.new(@connection, @ssl_context)
-          @connection.sync_close = true
-          @connection.connect
+      end
+
+      def connection
+        if @connection && !@connection.closed?
+          @connection
+        else
+          @connection = TCPSocket.open(@uri.host, @uri.port)
+          if @uri.scheme == 'https'
+            @ssl_context = OpenSSL::SSL::SSLContext.new
+            @ssl_context.verify_mode = OpenSSL::SSL::VERIFY_NONE
+            @connection = OpenSSL::SSL::SSLSocket.new(@connection, @ssl_context)
+            @connection.sync_close = true
+            @connection.connect
+          end
         end
       end
 
@@ -45,7 +52,7 @@ unless Fog.mocking?
           request << "#{key}: #{value}\r\n"
         end
         request << "\r\n"
-        @connection.write(request)
+        connection.write(request)
 
         if params[:body]
           if params[:body].is_a?(String)
@@ -54,18 +61,18 @@ unless Fog.mocking?
             body = params[:body]
           end
           while chunk = body.read(CHUNK_SIZE)
-            @connection.write(chunk)
+            connection.write(chunk)
           end
         end
 
         response = Fog::Response.new
         response.request = params
-        response.status = @connection.readline[9..11].to_i
+        response.status = connection.readline[9..11].to_i
         if params[:expects] && params[:expects] != response.status
           error = true
         end
         while true
-          data = @connection.readline.chomp!
+          data = connection.readline.chomp!
           if data == ""
             break
           end
@@ -89,19 +96,19 @@ unless Fog.mocking?
 
           if response.headers['Content-Length']
             if error || !params[:block]
-              body << @connection.read(response.headers['Content-Length'].to_i)
+              body << connection.read(response.headers['Content-Length'].to_i)
             else
               remaining = response.headers['Content-Length'].to_i
               while remaining > 0
-                params[:block].call(@connection.read([CHUNK_SIZE, remaining].min))
+                params[:block].call(connection.read([CHUNK_SIZE, remaining].min))
                 remaining -= CHUNK_SIZE;
               end
             end
           elsif response.headers['Transfer-Encoding'] == 'chunked'
             while true
               # 2 == "/r/n".length
-              chunk_size = @connection.readline.chomp!.to_i(16) + 2
-              chunk = @connection.read(chunk_size)[0...-2]
+              chunk_size = connection.readline.chomp!.to_i(16) + 2
+              chunk = connection.read(chunk_size)[0...-2]
               if error || !params[:block]
                 body << chunk
               else
