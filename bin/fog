@@ -3,7 +3,9 @@ require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
 require 'irb'
 require 'yaml'
 
-if File.exists?(File.expand_path('~/.fog'))
+if ARGV[0] && File.exists?(File.expand_path(ARGV[0]))
+  @credentials = YAML.load(File.open(File.expand_path(ARGV[0])).read)
+elsif File.exists?(File.expand_path('~/.fog'))
   @credentials = YAML.load(File.open(File.expand_path('~/.fog')).read)
 end
 
