@@ -4,14 +4,22 @@ describe 'Fog::AWS::EC2::Volume' do
 
   describe "#initialize" do
 
-    it "should remap attributes from parser" # do
-    #       volume = Fog::AWS::EC2::Address.new(
-    #         'instanceId'  => 'i-00000000',
-    #         'publicIp'    => '0.0.0.0'
-    #       )
-    #       address.instance_id.should == 'i-00000000'
-    #       address.public_ip.should == '0.0.0.0'
-    #     end
+    it "should remap attributes from parser" do
+      volume = Fog::AWS::EC2::Volume.new(
+        'attachmentTime'    => 'now',
+        'availabilityZone'  => 'us-east-1a',
+        'createTime'        => 'recently',
+        'instanceId'        => 'i-00000000',
+        'snapshotId'        => 'snap-00000000',
+        'volumeId'          => 'vol-00000000'
+      )
+      volume.attachment_time.should == 'now'
+      volume.availability_zone.should == 'us-east-1a'
+      volume.create_time.should == 'recently'
+      volume.instance_id.should == 'i-00000000'
+      volume.snapshot_id.should == 'snap-00000000'
+      volume.volume_id.should == 'vol-00000000'
+    end
 
   end
 

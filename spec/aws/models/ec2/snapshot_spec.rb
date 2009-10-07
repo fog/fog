@@ -4,14 +4,16 @@ describe 'Fog::AWS::EC2::Snapshots' do
 
   describe "#initialize" do
 
-    it "should remap attributes from parser" # do
-    #       snapshot = Fog::AWS::EC2::Address.new(
-    #         'instanceId'  => 'i-00000000',
-    #         'publicIp'    => '0.0.0.0'
-    #       )
-    #       address.instance_id.should == 'i-00000000'
-    #       address.public_ip.should == '0.0.0.0'
-    #     end
+    it "should remap attributes from parser" do
+      snapshot = Fog::AWS::EC2::Snapshot.new(
+        'snapshotId'  => 'snap-00000000',
+        'startTime'   => 'now',
+        'volumeId'    => 'vol-00000000'
+      )
+      snapshot.snapshot_id.should == 'snap-00000000'
+      snapshot.start_time.should == 'now'
+      snapshot.volume_id.should == 'vol-00000000'
+    end
 
   end
 

@@ -4,14 +4,16 @@ describe 'Fog::AWS::EC2::KeyPair' do
 
   describe "#initialize" do
 
-    it "should remap attributes from parser" #do
-    #   address = Fog::AWS::EC2::KeyPair.new(
-    #     'instanceId'  => 'i-00000000',
-    #     'publicIp'    => '0.0.0.0'
-    #   )
-    #   address.instance_id.should == 'i-00000000'
-    #   address.public_ip.should == '0.0.0.0'
-    # end
+    it "should remap attributes from parser" do
+      key_pair = Fog::AWS::EC2::KeyPair.new(
+        'keyFingerprint'  => 'fingerprint',
+        'keyMaterial'     => 'material',
+        'keyName'         => 'name'
+      )
+      key_pair.fingerprint.should == 'fingerprint'
+      key_pair.material.should == 'material'
+      key_pair.name.should == 'name'
+    end
 
   end
 

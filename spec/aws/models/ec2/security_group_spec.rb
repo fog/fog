@@ -4,14 +4,18 @@ describe 'Fog::AWS::EC2::SecurityGroup' do
 
   describe "#initialize" do
 
-    it "should remap attributes from parser" #do
-    #   address = Fog::AWS::EC2::SecurityGroup.new(
-    #     'instanceId'  => 'i-00000000',
-    #     'publicIp'    => '0.0.0.0'
-    #   )
-    #   address.instance_id.should == 'i-00000000'
-    #   address.public_ip.should == '0.0.0.0'
-    # end
+    it "should remap attributes from parser" do
+      security_group = Fog::AWS::EC2::SecurityGroup.new(
+        'groupDescription' => 'description',
+        'groupName'        => 'name',
+        'ipPermissions'    => 'permissions',
+        'ownerId'          => 'owner'
+      )
+      security_group.group_description.should == 'description'
+      security_group.group_name.should == 'name'
+      security_group.ip_permissions.should == 'permissions'
+      security_group.owner_id.should == 'owner'
+    end
 
   end
 

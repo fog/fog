@@ -11,7 +11,7 @@ module Fog
         attribute :instance_id,       'instanceId'
         attribute :size
         attribute :snapshot_id,       'snapshotId'
-        attribute :status,            'status'
+        attribute :status
         attribute :volume_id,         'volumeId'
         
         def initialize(attributes = {})
