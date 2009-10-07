@@ -24,12 +24,7 @@ module Fog
         attribute :user_data
 
         def address
-          connection.addresses.select {|address| address.instance_id == @instance_id}.first
-        end
-
-        def address=(new_address)
-          new_address.instance_id = @instance_id
-          connection.associate_address(@instance_id, new_address.public_ip)
+          connection.addresses(:instance_id => instance_id).all.first
         end
 
         def destroy
@@ -110,12 +105,7 @@ module Fog
         end
 
         def volumes
-          connection.volumes.all.select {|volume| volume.instance_id == @instance_id}
-        end
-
-        def volume=(new_volume)
-          new_volume.instance_id = @instance_id
-          connection.attach_volume(@instance_id, new_volume.volume_id, new_volume.device)
+          connection.volumes(:instance_id => instance_id)
         end
 
         private

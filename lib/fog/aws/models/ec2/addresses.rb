@@ -9,6 +9,7 @@ module Fog
       class Addresses < Fog::Collection
 
         attribute :public_ip
+        attribute :instance_id
 
         def initialize(attributes)
           @public_ip ||= []
@@ -26,6 +27,9 @@ module Fog
               :addresses  => self,
               :connection => connection
             }.merge!(address))
+          end
+          if instance_id
+            addresses = addresses.select {|address| address.instance_id == instance_id}
           end
           addresses
         end

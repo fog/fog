@@ -23,6 +23,11 @@ module Fog
           true
         end
 
+        def instance=(new_instance)
+          @instance_id = new_instance.instance_id
+          connection.associate_address(@instance_id, @public_ip)
+        end
+
         def reload
           new_attributes = addresses.get(@public_ip).attributes
           merge_attributes(new_attributes)

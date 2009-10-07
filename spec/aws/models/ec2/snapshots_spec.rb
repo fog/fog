@@ -11,8 +11,19 @@ describe 'Fog::AWS::EC2::Snapshots' do
     it "should include persisted snapshots" do
       volume = ec2.volumes.create
       snapshot = volume.snapshots.create
-      ec2.snapshots.get(snapshot.snapshot_id).should_not be_nil
+      ec2.snapshots.all.map {|snapshot| snapshot.snapshot_id}.should include(snapshot.snapshot_id)
       snapshot.destroy
+      volume.destroy
+    end
+
+    it "should limit snapshots by volume_id if present" do
+      volume = ec2.volumes.create
+      other_volume = ec2.volumes.create
+      snapshot = volume.snapshots.create
+      other_volume.snapshots.all.map {|snapshot| snapshot.snapshot_id}.should_not include(snapshot.snapshot_id)
+      snapshot.destroy
+      other_volume.destroy
+      volume.destroy
     end
 
   end

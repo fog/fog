@@ -26,6 +26,11 @@ module Fog
           true
         end
 
+        def instance=(new_instance)
+          @instance_id = new_instance.instance_id
+          connection.attach_volume(@instance_id, @volume_id, @device)
+        end
+
         def reload
           new_attributes = volumes.get(@volume_id).attributes
           merge_attributes(new_attributes)

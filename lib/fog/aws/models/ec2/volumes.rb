@@ -9,6 +9,7 @@ module Fog
       class Volumes < Fog::Collection
 
         attribute :volume_id
+        attribute :instance_id
 
         def initialize(attributes)
           @volume_id ||= []
@@ -26,6 +27,9 @@ module Fog
               :connection => connection,
               :volumes    => self
             }.merge!(volume))
+          end
+          if instance_id
+            volumes = volumes.select {|volume| volume.instance_id == instance_id}
           end
           volumes
         end
