@@ -15,9 +15,8 @@ begin
     gem.summary = %Q{fog = clouds + you}
     gem.email = "me@geemus.com"
     gem.homepage = "http://github.com/geemus/fog"
-    gem.authors = ["Wesley Beary"]
+    gem.authors = ["geemus (Wesley Beary)"]
     gem.rubyforge_project = "fog"
-  
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
 rescue LoadError
