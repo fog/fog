@@ -96,7 +96,9 @@ describe 'Fog::AWS::S3::Objects' do
       file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
       object = @bucket.objects.create(:key => 'fogobjectname', :body => file)
       url = @bucket.objects.get_url('fogobjectname', Time.now + 60 * 10)
-      open(url).read.should == File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r').read
+      unless Fog.mocking?
+        open(url).read.should == File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r').read
+      end
       object.destroy
     end
 
