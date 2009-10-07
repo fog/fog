@@ -4,11 +4,17 @@ module Fog
 
       class Objects < Fog::Collection
 
-        attribute :options
+        attribute :delimiter,     'Delimiter'
+        attribute :is_truncated,  'IsTruncated'
+        attribute :marker,        'Marker'
+        attribute :max_keys,      'MaxKeys'
+        attribute :prefix,        'Prefix'
 
         def all(options = {})
-          merge_attributes(:options => options)
-          bucket.buckets.get(bucket.name, @options).objects
+          bucket.buckets.get(
+            bucket.name,
+            options.reject {|key, value| !['delimiter', 'marker', 'max-keys', 'prefix'].include?(key)}
+          ).objects
         end
 
         def bucket
@@ -75,7 +81,12 @@ module Fog
         end
 
         def reload
-          all(@options)
+          all({
+            'delimiter'   => @delimiter,
+            'marker'      => @marker,
+            'max-keys'    => @max_keys,
+            'prefix'      => @prefix
+          })
         end
 
         private
