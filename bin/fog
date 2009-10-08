@@ -9,13 +9,38 @@ elsif File.exists?(File.expand_path('~/.fog'))
   @credentials = YAML.load(File.open(File.expand_path('~/.fog')).read)
 end
 
+@ec2 = Fog::AWS::EC2.new(
+  :aws_access_key_id => @credentials['aws_access_key_id'],
+  :aws_secret_access_key => @credentials['aws_secret_access_key']
+)
+
 @s3 = Fog::AWS::S3.new(
   :aws_access_key_id => @credentials['aws_access_key_id'],
   :aws_secret_access_key => @credentials['aws_secret_access_key']
 )
 
+def addresses
+  @ec2.addresses
+end
+
 def buckets
   @s3.buckets
+end
+
+def key_pairs
+  @ec2.key_pairs
+end
+
+def security_groups
+  @ec2.security_groups
+end
+
+def snapshots
+  @ec2.snapshots
+end
+
+def volumes
+  @ec2.volumes
 end
 
 ARGV.clear # Avoid passing args to IRB
