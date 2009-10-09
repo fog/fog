@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.13"
+  s.version = "0.0.14"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Wesley Beary"]
-  s.date = %q{2009-10-05}
+  s.authors = ["geemus (Wesley Beary)"]
+  s.date = %q{2009-10-09}
   s.default_executable = %q{fog}
   s.description = %q{brings clouds to you}
   s.email = %q{me@geemus.com}
@@ -139,6 +139,8 @@ Gem::Specification.new do |s|
      "lib/fog/response.rb",
      "spec/aws/models/ec2/address_spec.rb",
      "spec/aws/models/ec2/addresses_spec.rb",
+     "spec/aws/models/ec2/instance_spec.rb",
+     "spec/aws/models/ec2/instances_spec.rb",
      "spec/aws/models/ec2/key_pair_spec.rb",
      "spec/aws/models/ec2/key_pairs_spec.rb",
      "spec/aws/models/ec2/security_group_spec.rb",
@@ -215,6 +217,8 @@ Gem::Specification.new do |s|
   s.test_files = [
     "spec/aws/models/ec2/address_spec.rb",
      "spec/aws/models/ec2/addresses_spec.rb",
+     "spec/aws/models/ec2/instance_spec.rb",
+     "spec/aws/models/ec2/instances_spec.rb",
      "spec/aws/models/ec2/key_pair_spec.rb",
      "spec/aws/models/ec2/key_pairs_spec.rb",
      "spec/aws/models/ec2/security_group_spec.rb",
