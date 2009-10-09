@@ -38,7 +38,9 @@ describe 'S3.get_object' do
     it 'should return a signed expiring url' do
       url = s3.get_object_url('foggetobject', 'fog_get_object', Time.now + 60 * 10)
       file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
-      open(url).read.should == file.read
+      unless Fog.mocking?
+        open(url).read.should == file.read
+      end
     end
 
   end
