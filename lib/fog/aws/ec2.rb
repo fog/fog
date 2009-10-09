@@ -28,6 +28,8 @@ module Fog
 
         load "fog/aws/models/ec2/address.rb"
         load "fog/aws/models/ec2/addresses.rb"
+        load "fog/aws/models/ec2/instance.rb"
+        load "fog/aws/models/ec2/instances.rb"
         load "fog/aws/models/ec2/key_pair.rb"
         load "fog/aws/models/ec2/key_pairs.rb"
         load "fog/aws/models/ec2/security_group.rb"

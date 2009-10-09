@@ -27,6 +27,10 @@ def buckets
   @s3.buckets
 end
 
+def instances
+  @ec2.instances
+end
+
 def key_pairs
   @ec2.key_pairs
 end

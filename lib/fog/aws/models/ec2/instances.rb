@@ -10,16 +10,24 @@ module Fog
 
         attribute :instance_id
 
+        def initialize(attributes)
+          @instance_id ||= []
+          super
+        end
+
         def all(instance_id = [])
-          data = connection.describe_instances(instance_id)
+          data = connection.describe_instances(instance_id).body
           instances = Fog::AWS::EC2::Instances.new({
-            :connection   => connection
+            :connection   => connection,
+            :instance_id  => instance_id
           }.merge!(attributes))
-          data['instancesSet'].each do |instance|
-            instances << Fog::AWS::EC2::Instances.new({
-              :connection => connection,
-              :instances  => self
-            }.merge!(instance))
+          data['reservationSet'].each do |reservation|
+            reservation['instancesSet'].each do |instance|
+              instances << Fog::AWS::EC2::Instance.new({
+                :connection => connection,
+                :instances  => self
+              }.merge!(instance))
+            end
           end
           instances
         end
