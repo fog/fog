@@ -4,7 +4,7 @@ module Fog
 
       class Volume < Fog::Model
 
-        attribute :attachment_time,   'attachmentTime'
+        attribute :attach_time,       'attachTime'
         attribute :availability_zone, 'availabilityZone'
         attribute :create_time,       'createTime'
         attribute :device
