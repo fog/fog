@@ -6,14 +6,14 @@ describe 'Fog::AWS::EC2::Volume' do
 
     it "should remap attributes from parser" do
       volume = Fog::AWS::EC2::Volume.new(
-        'attachmentTime'    => 'now',
+        'attachTime'    => 'now',
         'availabilityZone'  => 'us-east-1a',
         'createTime'        => 'recently',
         'instanceId'        => 'i-00000000',
         'snapshotId'        => 'snap-00000000',
         'volumeId'          => 'vol-00000000'
       )
-      volume.attachment_time.should == 'now'
+      volume.attach_time.should == 'now'
       volume.availability_zone.should == 'us-east-1a'
       volume.create_time.should == 'recently'
       volume.instance_id.should == 'i-00000000'

@@ -4,14 +4,38 @@ describe 'Fog::AWS::EC2::Instance' do
 
   describe "#initialize" do
 
-    it "should remap attributes from parser" # do
-    #       instance = Fog::AWS::EC2::Instance.new(
-    #         'instanceId'  => 'i-00000000',
-    #         'publicIp'    => '0.0.0.0'
-    #       )
-    #       instance.instance_id.should == 'i-00000000'
-    #       instance.public_ip.should == '0.0.0.0'
-    #     end
+    it "should remap attributes from parser" do
+      instance = Fog::AWS::EC2::Instance.new({
+        'amiLaunchIndex'    => 'ami_launch_index',
+        'availabilityZone'  => 'availability_zone',
+        'dnsName'           => 'dns_name',
+        'groupId'           => 'group_id',
+        'imageId'           => 'image_id',
+        'instanceId'        => 'instance_id',
+        'instanceState'     => { 'name' => 'instance_state' },
+        'instanceType'      => 'instance_type',
+        'kernelId'          => 'kernel_id',
+        'keyName'           => 'key_name',
+        'launchTime'        => 'launch_time',
+        'productCodes'      => 'product_codes',
+        'privateDnsName'    => 'private_dns_name',
+        'ramdiskId'         => 'ramdisk_id'
+      })
+      instance.ami_launch_index.should == 'ami_launch_index'
+      instance.availability_zone.should == 'availability_zone'
+      instance.dns_name.should == 'dns_name'
+      instance.group_id.should == 'group_id'
+      instance.image_id.should == 'image_id'
+      instance.instance_id.should == 'instance_id'
+      instance.instance_state.should == 'instance_state'
+      instance.instance_type.should == 'instance_type'
+      instance.kernel_id.should == 'kernel_id'
+      instance.key_name.should == 'key_name'
+      instance.launch_time.should == 'launch_time'
+      instance.product_codes.should == 'product_codes'
+      instance.private_dns_name.should == 'private_dns_name'
+      instance.ramdisk_id.should == 'ramdisk_id'
+    end
 
   end
 
@@ -102,7 +126,12 @@ describe 'Fog::AWS::EC2::Instance' do
   end
 
   describe "#volumes" do
-    it "should have tests"
+
+    it "should return a Fog::AWS::EC2::Volumes" do
+      instance = ec2.instances.new
+      instance.volumes.should be_a(Fog::AWS::EC2::Volumes)
+    end
+
   end
 
 end

@@ -2,8 +2,10 @@ module Fog
   module AWS
     class EC2
 
-      def volumes
-        Fog::AWS::EC2::Volumes.new(:connection => self)
+      def volumes(attributes = {})
+        Fog::AWS::EC2::Volumes.new({
+          :connection => self
+        }.merge!(attributes))
       end
 
       class Volumes < Fog::Collection
