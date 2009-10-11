@@ -56,12 +56,11 @@ unless Fog.mocking?
 
         if params[:body]
           if params[:body].is_a?(String)
-            body = StringIO.new(params[:body])
+            connection.write(params[:body])
           else
-            body = params[:body]
-          end
-          while chunk = body.read(CHUNK_SIZE)
-            connection.write(chunk)
+            while chunk = params[:body].read(CHUNK_SIZE)
+              connection.write(chunk)
+            end
           end
         end
 
