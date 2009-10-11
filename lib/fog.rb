@@ -17,6 +17,7 @@ module Fog
 
   def self.reload
     load "fog/aws.rb"
+    load "fog/rackspace.rb"
   end
 
 end

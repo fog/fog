@@ -172,6 +172,7 @@ module Fog
         response = @connection.request({
           :body     => body,
           :expects  => 200,
+          :error_parser => Fog::Errors::Parser.new,
           :headers  => { 'Content-Type' => 'application/x-www-form-urlencoded' },
           :host     => @host,
           :method   => 'POST',

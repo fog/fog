@@ -36,7 +36,7 @@ unless Fog.mocking?
 
       def request(params)
         params[:path] ||= ''
-        unless params[:path][0] == '/'
+        unless params[:path][0..0] == '/'
           params[:path] = '/' + params[:path].to_s
         end
         if params[:query] && !params[:query].empty?
@@ -68,7 +68,7 @@ unless Fog.mocking?
         response = Fog::Response.new
         response.request = params
         response.status = connection.readline[9..11].to_i
-        if params[:expects] && params[:expects] != response.status
+        if params[:expects] && ![*params[:expects]].include?(response.status)
           error = true
         end
         while true
@@ -81,9 +81,9 @@ unless Fog.mocking?
         end
 
         unless params[:method] == 'HEAD'
-          if error || params[:parser]
+          if (error && params[:error_parser]) || params[:parser]
             if error
-              parser = Fog::Errors::Parser.new
+              parser = params[:error_parser]
             elsif params[:parser]
               parser = params[:parser]
             end

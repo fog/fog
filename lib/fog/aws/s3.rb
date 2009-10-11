@@ -105,6 +105,7 @@ module Fog
         response = @connection.request({
           :block    => params[:block],
           :body     => params[:body],
+          :error_parser => Fog::Errors::Parser.new,
           :expects  => params[:expects],
           :headers  => params[:headers],
           :host     => params[:host],

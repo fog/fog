@@ -35,6 +35,13 @@ def sdb
   )
 end
 
+def servers
+  Fog::Rackspace::Servers.new(
+    :rackspace_api_key => credentials[:rackspace_api_key],
+    :rackspace_username => credentials[:rackspace_username]
+  )
+end
+
 def s3
   Fog::AWS::S3.new(
     :aws_access_key_id => credentials[:aws_access_key_id],
