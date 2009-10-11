@@ -5,7 +5,7 @@ module Fog
   module Rackspace
 
     def self.reload
-      # TODO: load 'fog/rackspace/files.rb'
+      load 'fog/rackspace/files.rb'
       load 'fog/rackspace/servers.rb'
     end
 

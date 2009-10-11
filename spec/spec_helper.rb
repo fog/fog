@@ -28,6 +28,13 @@ def eu_s3
   )
 end
 
+def files
+  Fog::Rackspace::Files.new(
+    :rackspace_api_key => credentials[:rackspace_api_key],
+    :rackspace_username => credentials[:rackspace_username]
+  )
+end
+
 def sdb
   Fog::AWS::SimpleDB.new(
     :aws_access_key_id => credentials[:aws_access_key_id],

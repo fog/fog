@@ -30,7 +30,9 @@ module Fog
           :method   => params[:method],
           :path     => "#{@path}/#{params[:path]}"
         })
-        response.body = JSON.parse(response.body)
+        unless response.status == 204
+          response.body = JSON.parse(response.body)
+        end
         response
       end
 
