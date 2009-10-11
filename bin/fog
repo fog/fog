@@ -10,13 +10,13 @@ elsif File.exists?(File.expand_path('~/.fog'))
 end
 
 @ec2 = Fog::AWS::EC2.new(
-  :aws_access_key_id => @credentials['aws_access_key_id'],
-  :aws_secret_access_key => @credentials['aws_secret_access_key']
+  :aws_access_key_id => @credentials[:aws_access_key_id],
+  :aws_secret_access_key => @credentials[:aws_secret_access_key]
 )
 
 @s3 = Fog::AWS::S3.new(
-  :aws_access_key_id => @credentials['aws_access_key_id'],
-  :aws_secret_access_key => @credentials['aws_secret_access_key']
+  :aws_access_key_id => @credentials[:aws_access_key_id],
+  :aws_secret_access_key => @credentials[:aws_secret_access_key]
 )
 
 def addresses
