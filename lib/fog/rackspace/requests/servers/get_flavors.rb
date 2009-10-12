@@ -9,8 +9,10 @@ unless Fog.mocking?
         # ==== Returns
         # * response<~Fog::AWS::Response>:
         #   * body<~Hash>:
-        #     * 'publicIp'<~String> - The acquired address
-        #     * 'requestId'<~String> - Id of the request
+        #     * 'id'<~Integer> - Id of the flavor
+        #     * 'name'<~String> - Name of the flavor
+        #     * 'ram'<~Integer> - Amount of ram for the flavor
+        #     * 'disk'<~Integer> - Amount of diskspace for the flavor
         def get_flavors
           request(
             :method => 'GET',

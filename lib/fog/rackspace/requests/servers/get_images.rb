@@ -9,8 +9,11 @@ unless Fog.mocking?
         # ==== Returns
         # * response<~Fog::AWS::Response>:
         #   * body<~Hash>:
-        #     * 'publicIp'<~String> - The acquired address
-        #     * 'requestId'<~String> - Id of the request
+        #     * 'id'<~Integer> - Id of the image
+        #     * 'name'<~String> - Name of the image
+        #     * 'updated'<~String> - Last update timestamp for image
+        #     * 'created'<~String> - Creation timestamp for image
+        #     * 'status'<~String> - Status of image
         def get_images
           request(
             :method => 'GET',

@@ -10,11 +10,14 @@ unless Fog.mocking?
         # * options<~Hash>:
         #   * 'limit'<~Integer> - Upper limit to number of results returned
         #   * 'marker'<~String> - Only return objects with name greater than this value
+        #
         # ==== Returns
         # * response<~Fog::AWS::Response>:
-        #   * body<~Hash>:
-        #     * 'publicIp'<~String> - The acquired address
-        #     * 'requestId'<~String> - Id of the request
+        #   * body<~Array>:
+        #     * container<~Hash>:
+        #       * 'bytes'<~Integer>: - Number of bytes used by container
+        #       * 'count'<~Integer>: - Number of items in container
+        #       * 'name'<~String>: - Name of container
         def get_containers(options = {})
           options = { 'format' => 'json' }.merge!(options)
           query = []
