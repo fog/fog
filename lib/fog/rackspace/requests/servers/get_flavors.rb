@@ -15,8 +15,9 @@ unless Fog.mocking?
         #     * 'disk'<~Integer> - Amount of diskspace for the flavor
         def get_flavors
           request(
-            :method => 'GET',
-            :path   => 'flavors'
+            :expects  => 200,
+            :method   => 'GET',
+            :path     => 'flavors.json'
           )
         end
 

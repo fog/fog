@@ -3,9 +3,12 @@ module Fog
     class Servers
 
       def self.reload
+        load "fog/rackspace/requests/servers/create_server.rb"
+        load "fog/rackspace/requests/servers/delete_server.rb"
         load "fog/rackspace/requests/servers/get_flavors.rb"
         load "fog/rackspace/requests/servers/get_images.rb"
         load "fog/rackspace/requests/servers/get_servers.rb"
+        load "fog/rackspace/requests/servers/get_servers_details.rb"
       end
 
       def initialize(options={})
@@ -30,7 +33,7 @@ module Fog
           :method   => params[:method],
           :path     => "#{@path}/#{params[:path]}"
         })
-        unless response.status == 204
+        unless response.body.empty?
           response.body = JSON.parse(response.body)
         end
         response
