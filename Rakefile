@@ -39,12 +39,12 @@ end
 namespace :specs do
 
   task :with_mocking do
-    Fog.mocking = true
+    Fog.mock!
     Rake::Task[:spec].invoke
   end
 
   task :without_mocking do
-    Fog.mocking = true
+    Fog.mock!
     Rake::Task[:spec].invoke
   end
 
