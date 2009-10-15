@@ -22,7 +22,7 @@ module Fog
         end
 
         def reload
-          new_attributes = servers.get(@id).attributes
+          new_attributes = servers.get(@id).body['server']
           merge_attributes(new_attributes)
         end
 
