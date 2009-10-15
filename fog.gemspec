@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
-  s.date = %q{2009-10-09}
+  s.date = %q{2009-10-15}
   s.default_executable = %q{fog}
   s.description = %q{brings clouds to you}
   s.email = %q{me@geemus.com}
@@ -136,6 +136,20 @@ Gem::Specification.new do |s|
      "lib/fog/errors.rb",
      "lib/fog/model.rb",
      "lib/fog/parser.rb",
+     "lib/fog/rackspace.rb",
+     "lib/fog/rackspace/files.rb",
+     "lib/fog/rackspace/models/servers/server.rb",
+     "lib/fog/rackspace/models/servers/servers.rb",
+     "lib/fog/rackspace/requests/files/get_containers.rb",
+     "lib/fog/rackspace/requests/files/head_containers.rb",
+     "lib/fog/rackspace/requests/servers/create_server.rb",
+     "lib/fog/rackspace/requests/servers/delete_server.rb",
+     "lib/fog/rackspace/requests/servers/get_flavors.rb",
+     "lib/fog/rackspace/requests/servers/get_images.rb",
+     "lib/fog/rackspace/requests/servers/get_server_details.rb",
+     "lib/fog/rackspace/requests/servers/get_servers.rb",
+     "lib/fog/rackspace/requests/servers/get_servers_details.rb",
+     "lib/fog/rackspace/servers.rb",
      "lib/fog/response.rb",
      "spec/aws/models/ec2/address_spec.rb",
      "spec/aws/models/ec2/addresses_spec.rb",
@@ -205,6 +219,15 @@ Gem::Specification.new do |s|
      "spec/aws/requests/simpledb/put_attributes_spec.rb",
      "spec/aws/requests/simpledb/select_spec.rb",
      "spec/lorem.txt",
+     "spec/rackspace/requests/files/get_containers_spec.rb",
+     "spec/rackspace/requests/files/head_containers_spec.rb",
+     "spec/rackspace/requests/servers/create_server_spec.rb",
+     "spec/rackspace/requests/servers/delete_server_spec.rb",
+     "spec/rackspace/requests/servers/get_flavors_spec.rb",
+     "spec/rackspace/requests/servers/get_images_spec.rb",
+     "spec/rackspace/requests/servers/get_server_details_spec.rb",
+     "spec/rackspace/requests/servers/get_servers_details_spec.rb",
+     "spec/rackspace/requests/servers/get_servers_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb"
   ]
@@ -282,6 +305,15 @@ Gem::Specification.new do |s|
      "spec/aws/requests/simpledb/list_domains_spec.rb",
      "spec/aws/requests/simpledb/put_attributes_spec.rb",
      "spec/aws/requests/simpledb/select_spec.rb",
+     "spec/rackspace/requests/files/get_containers_spec.rb",
+     "spec/rackspace/requests/files/head_containers_spec.rb",
+     "spec/rackspace/requests/servers/create_server_spec.rb",
+     "spec/rackspace/requests/servers/delete_server_spec.rb",
+     "spec/rackspace/requests/servers/get_flavors_spec.rb",
+     "spec/rackspace/requests/servers/get_images_spec.rb",
+     "spec/rackspace/requests/servers/get_server_details_spec.rb",
+     "spec/rackspace/requests/servers/get_servers_details_spec.rb",
+     "spec/rackspace/requests/servers/get_servers_spec.rb",
      "spec/spec_helper.rb"
   ]
 

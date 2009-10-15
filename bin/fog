@@ -15,60 +15,64 @@ end
 
 module AWS
   class << self
+    if credentials[:aws_access_key_id] && credentials[:aws_secret_access_key]
 
-    @@ec2 = Fog::AWS::EC2.new(
-      :aws_access_key_id => credentials[:aws_access_key_id],
-      :aws_secret_access_key => credentials[:aws_secret_access_key]
-    )
+      @@ec2 = Fog::AWS::EC2.new(
+        :aws_access_key_id => credentials[:aws_access_key_id],
+        :aws_secret_access_key => credentials[:aws_secret_access_key]
+      )
 
-    @@s3 = Fog::AWS::S3.new(
-      :aws_access_key_id => credentials[:aws_access_key_id],
-      :aws_secret_access_key => credentials[:aws_secret_access_key]
-    )
+      @@s3 = Fog::AWS::S3.new(
+        :aws_access_key_id => credentials[:aws_access_key_id],
+        :aws_secret_access_key => credentials[:aws_secret_access_key]
+      )
 
-    def addresses
-      @@ec2.addresses
+      def addresses
+        @@ec2.addresses
+      end
+
+      def buckets
+        @@s3.buckets
+      end
+
+      def instances
+        @@ec2.instances
+      end
+
+      def key_pairs
+        @@ec2.key_pairs
+      end
+
+      def security_groups
+        @@ec2.security_groups
+      end
+
+      def snapshots
+        @@ec2.snapshots
+      end
+
+      def volumes
+        @@ec2.volumes
+      end
+
     end
-
-    def buckets
-      @@s3.buckets
-    end
-
-    def instances
-      @@ec2.instances
-    end
-
-    def key_pairs
-      @@ec2.key_pairs
-    end
-
-    def security_groups
-      @@ec2.security_groups
-    end
-
-    def snapshots
-      @@ec2.snapshots
-    end
-
-    def volumes
-      @@ec2.volumes
-    end
-
   end
 end
 
 module Rackspace
   class << self
+    if credentials[:rackspace_api_key] && credentials[:rackspace_username]
 
-    @@servers = Fog::Rackspace::Servers.new(
-      :rackspace_api_key => credentials[:rackspace_api_key],
-      :rackspace_username => credentials[:rackspace_username]
-    )
+      @@servers = Fog::Rackspace::Servers.new(
+        :rackspace_api_key => credentials[:rackspace_api_key],
+        :rackspace_username => credentials[:rackspace_username]
+      )
 
-    def servers
-      @@servers.servers
+      def servers
+        @@servers.servers
+      end
+      
     end
-
   end
 end
 
