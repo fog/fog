@@ -34,11 +34,11 @@ module Fog
           nil
         end
 
-        def new
-          Fog::Rackspace::Servers::Server.new(
+        def new(attributes = {})
+          Fog::Rackspace::Servers::Server.new({
             :connection => connection,
             :servers    => self
-          )
+          }.merge!(attributes))
         end
 
         def reload
