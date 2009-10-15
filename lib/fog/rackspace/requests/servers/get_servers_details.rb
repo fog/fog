@@ -4,7 +4,7 @@ unless Fog.mocking?
     module Rackspace
       class Servers
 
-        # List all servers (IDs and names only)
+        # List all servers details
         #
         # ==== Returns
         # * response<~Fog::AWS::Response>:
@@ -23,7 +23,7 @@ unless Fog.mocking?
         #     * 'metadata'<~Hash> - metadata
         def get_servers_details
           request(
-            :expects  => 200,
+            :expects  => [200, 203],
             :method   => 'GET',
             :path     => 'servers/detail.json'
           )

@@ -24,7 +24,7 @@ module Fog
           }.merge!(attributes))
           data['addressesSet'].each do |address|
             addresses << Fog::AWS::EC2::Address.new({
-              :addresses  => self,
+              :addresses  => addresses,
               :connection => connection
             }.merge!(address))
           end

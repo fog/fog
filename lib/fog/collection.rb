@@ -32,7 +32,7 @@ module Fog
       for member in self
         data << "#{member.inspect},"
       end
-      data.chop!
+      data.chop! unless self.empty?
       data << "]>"
     end
 
