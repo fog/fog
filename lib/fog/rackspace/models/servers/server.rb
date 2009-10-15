@@ -1,6 +1,6 @@
 module Fog
   module Rackspace
-    class Server
+    class Servers
 
       class Server < Fog::Model
 
