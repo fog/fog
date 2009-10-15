@@ -7,6 +7,7 @@ module Fog
         load "fog/rackspace/requests/servers/delete_server.rb"
         load "fog/rackspace/requests/servers/get_flavors.rb"
         load "fog/rackspace/requests/servers/get_images.rb"
+        load "fog/rackspace/requests/servers/get_server_detail.rb"
         load "fog/rackspace/requests/servers/get_servers.rb"
         load "fog/rackspace/requests/servers/get_servers_details.rb"
       end
