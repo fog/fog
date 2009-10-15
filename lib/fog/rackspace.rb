@@ -19,7 +19,7 @@ module Fog
         },
         :host     => 'auth.api.rackspacecloud.com',
         :method   => 'GET',
-        :path     => '/v1.0'
+        :path     => 'v1.0'
       })
       response.headers.reject do |key, value| 
         !['X-Server-Management-Url', 'X-Storage-Url', 'X-CDN-Management-Url', 'X-Auth-Token'].include?(key)
