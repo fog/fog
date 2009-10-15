@@ -56,6 +56,7 @@ unless Fog.mocking?
               }
             end
           end
+          p data
           request(
             :body     => data.to_json,
             :expects  => 202,
