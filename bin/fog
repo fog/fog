@@ -3,52 +3,73 @@ require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
 require 'irb'
 require 'yaml'
 
-if ARGV[0] && File.exists?(File.expand_path(ARGV[0]))
-  @credentials = YAML.load(File.open(File.expand_path(ARGV[0])).read)
-elsif File.exists?(File.expand_path('~/.fog'))
-  @credentials = YAML.load(File.open(File.expand_path('~/.fog')).read)
+def credentials
+  @credentials ||= begin
+    if ARGV[0] && File.exists?(File.expand_path(ARGV[0]))
+      YAML.load(File.open(File.expand_path(ARGV[0])).read)
+    elsif File.exists?(File.expand_path('~/.fog'))
+      YAML.load(File.open(File.expand_path('~/.fog')).read)
+    end
+  end
 end
 
-def ec2
-  @ec2 = Fog::AWS::EC2.new(
-    :aws_access_key_id => @credentials[:aws_access_key_id],
-    :aws_secret_access_key => @credentials[:aws_secret_access_key]
-  )
+module AWS
+  class << self
+
+    @@ec2 = Fog::AWS::EC2.new(
+      :aws_access_key_id => credentials[:aws_access_key_id],
+      :aws_secret_access_key => credentials[:aws_secret_access_key]
+    )
+
+    @@s3 = Fog::AWS::S3.new(
+      :aws_access_key_id => credentials[:aws_access_key_id],
+      :aws_secret_access_key => credentials[:aws_secret_access_key]
+    )
+
+    def addresses
+      @@ec2.addresses
+    end
+
+    def buckets
+      @@s3.buckets
+    end
+
+    def instances
+      @@ec2.instances
+    end
+
+    def key_pairs
+      @@ec2.key_pairs
+    end
+
+    def security_groups
+      @@ec2.security_groups
+    end
+
+    def snapshots
+      @@ec2.snapshots
+    end
+
+    def volumes
+      @@ec2.volumes
+    end
+
+  end
 end
 
-def s3
-  @s3 = Fog::AWS::S3.new(
-    :aws_access_key_id => @credentials[:aws_access_key_id],
-    :aws_secret_access_key => @credentials[:aws_secret_access_key]
-  )
-end
+module Rackspace
+  class << self
 
-def addresses
-  ec2.addresses
-end
+    @@servers = Fog::Rackspace::Servers.new(
+      :rackspace_api_key => credentials[:rackspace_api_key],
+      :rackspace_username => credentials[:rackspace_username]
+    )
 
-def buckets
-  s3.buckets
-end
+    def servers
+      @@servers.servers
+    end
 
-def instances
-  ec2.instances
-end
-
-def key_pairs
-  ec2.key_pairs
-end
-
-def security_groups
-  ec2.security_groups
-end
-
-def snapshots
-  ec2.snapshots
-end
-
-def volumes
-  ec2.volumes
+  end
 end
 
 ARGV.clear # Avoid passing args to IRB
