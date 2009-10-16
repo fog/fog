@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.20"
+  s.version = "0.0.21"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
@@ -142,7 +142,9 @@ Gem::Specification.new do |s|
      "lib/fog/rackspace/models/servers/servers.rb",
      "lib/fog/rackspace/requests/files/get_containers.rb",
      "lib/fog/rackspace/requests/files/head_containers.rb",
+     "lib/fog/rackspace/requests/servers/create_image.rb",
      "lib/fog/rackspace/requests/servers/create_server.rb",
+     "lib/fog/rackspace/requests/servers/delete_image.rb",
      "lib/fog/rackspace/requests/servers/delete_server.rb",
      "lib/fog/rackspace/requests/servers/get_flavors.rb",
      "lib/fog/rackspace/requests/servers/get_images.rb",
