@@ -16,7 +16,7 @@ unless Fog.mocking?
         #     * 'status'<~String> - Status of image
         def list_images
           request(
-            :expects  => 200,
+            :expects  => [200, 203],
             :method   => 'GET',
             :path     => 'images.json'
           )
