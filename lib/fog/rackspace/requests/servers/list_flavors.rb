@@ -4,19 +4,20 @@ unless Fog.mocking?
     module Rackspace
       class Servers
 
-        # List all servers (IDs and names only)
+        # List all images (IDs and names only)
         #
         # ==== Returns
         # * response<~Fog::AWS::Response>:
         #   * body<~Hash>:
-        #   * 'servers'<~Array>:
-        #     * 'id'<~Integer> - Id of server
-        #     * 'name<~String> - Name of server
-        def get_servers
+        #     * 'id'<~Integer> - Id of the flavor
+        #     * 'name'<~String> - Name of the flavor
+        #     * 'ram'<~Integer> - Amount of ram for the flavor
+        #     * 'disk'<~Integer> - Amount of diskspace for the flavor
+        def list_flavors
           request(
             :expects  => 200,
             :method   => 'GET',
-            :path     => 'servers.json'
+            :path     => 'flavors.json'
           )
         end
 
@@ -30,7 +31,7 @@ else
     module Rackspace
       class Servers
 
-        def get_servers
+        def list_flavors
         end
 
       end

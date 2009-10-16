@@ -21,7 +21,7 @@ unless Fog.mocking?
         #       * 'public'<~Array> - public address strings
         #       * 'private'<~Array> - private address strings
         #     * 'metadata'<~Hash> - metadata
-        def get_servers_details
+        def list_servers_details
           request(
             :expects  => [200, 203],
             :method   => 'GET',
@@ -39,7 +39,7 @@ else
     module Rackspace
       class Servers
 
-        def get_servers_details
+        def list_servers_details
         end
 
       end

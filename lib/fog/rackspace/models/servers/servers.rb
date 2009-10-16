@@ -9,7 +9,7 @@ module Fog
       class Servers < Fog::Collection
 
         def all
-          data = connection.get_servers_details.body
+          data = connection.list_servers_details.body
           servers = Fog::Rackspace::Servers::Servers.new({
             :connection => connection
           })

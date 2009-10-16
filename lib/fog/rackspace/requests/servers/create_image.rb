@@ -13,7 +13,7 @@ unless Fog.mocking?
         def create_image(server_id, options = {})
           data = {
             'image' => {
-              "serverId" => server_id
+              'serverId' => server_id
             }
           }
           if options['name']

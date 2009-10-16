@@ -10,7 +10,7 @@ describe 'Rackspace::Servers.create_server' do
       p data
       while true do
         sleep(1)
-        details = servers.get_servers_details.body
+        details = servers.list_servers_details.body
         p details['servers'].first['progress']
         break if details['servers'].first['status'] == 'ACTIVE'
       end

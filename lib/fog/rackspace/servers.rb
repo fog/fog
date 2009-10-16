@@ -10,11 +10,11 @@ module Fog
         load "fog/rackspace/requests/servers/create_server.rb"
         load "fog/rackspace/requests/servers/delete_image.rb"
         load "fog/rackspace/requests/servers/delete_server.rb"
-        load "fog/rackspace/requests/servers/get_flavors.rb"
-        load "fog/rackspace/requests/servers/get_images.rb"
         load "fog/rackspace/requests/servers/get_server_details.rb"
-        load "fog/rackspace/requests/servers/get_servers.rb"
-        load "fog/rackspace/requests/servers/get_servers_details.rb"
+        load "fog/rackspace/requests/servers/list_flavors.rb"
+        load "fog/rackspace/requests/servers/list_images.rb"
+        load "fog/rackspace/requests/servers/list_servers.rb"
+        load "fog/rackspace/requests/servers/list_servers_details.rb"
       end
 
       def initialize(options={})

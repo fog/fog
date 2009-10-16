@@ -14,7 +14,7 @@ unless Fog.mocking?
         #     * 'updated'<~String> - Last update timestamp for image
         #     * 'created'<~String> - Creation timestamp for image
         #     * 'status'<~String> - Status of image
-        def get_images
+        def list_images
           request(
             :expects  => 200,
             :method   => 'GET',
@@ -32,7 +32,7 @@ else
     module Rackspace
       class Servers
 
-        def get_images
+        def list_images
         end
 
       end
