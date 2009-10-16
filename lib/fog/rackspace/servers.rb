@@ -6,6 +6,7 @@ module Fog
         load "fog/rackspace/models/servers/server.rb"
         load "fog/rackspace/models/servers/servers.rb"
 
+        load "fog/rackspace/requests/servers/create_image.rb"
         load "fog/rackspace/requests/servers/create_server.rb"
         load "fog/rackspace/requests/servers/delete_server.rb"
         load "fog/rackspace/requests/servers/get_flavors.rb"
