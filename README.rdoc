@@ -10,9 +10,11 @@ fog helps you interact with cloud services. fog is a work in progress.
 
 == Supports
 
-* AWS EC2 (missing security group mocking, just starting on models)
+* AWS EC2
 * AWS S3
-* AWS SimpleDB (missing models)
+* AWS SimpleDB (no models yet)
+* Rackspace Files (no models yet, just getting started on requests)
+* Rackspace Servers (some requests, server model, just getting started)
 
 == Synopsis
 
