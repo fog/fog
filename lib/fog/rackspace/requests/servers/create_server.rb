@@ -21,19 +21,19 @@ unless Fog.mocking?
         # ==== Returns
         # * response<~Fog::AWS::Response>:
         #   * body<~Hash>:
-        #   * 'servers'<~Hash>:
-        #     * 'adminPass'<~String> - Admin password for server
-        #     * 'id'<~Integer> - Id of server
-        #     * 'name<~String> - Name of server
-        #     * 'imageId'<~Integer> - Id of image used to boot server
-        #     * 'flavorId'<~Integer> - Id of servers current flavor
-        #     * 'hostId'<~String>
-        #     * 'status'<~String> - Current server status
-        #     * 'progress'<~Integer> - Progress through current status
+        #   * 'server'<~Hash>:
         #     * 'addresses'<~Hash>:
         #       * 'public'<~Array> - public address strings
         #       * 'private'<~Array> - private address strings
+        #     * 'adminPass'<~String> - Admin password for server
+        #     * 'flavorId'<~Integer> - Id of servers current flavor
+        #     * 'hostId'<~String>
+        #     * 'id'<~Integer> - Id of server
+        #     * 'imageId'<~Integer> - Id of image used to boot server
         #     * 'metadata'<~Hash> - metadata
+        #     * 'name<~String> - Name of server
+        #     * 'progress'<~Integer> - Progress through current status
+        #     * 'status'<~String> - Current server status
         def create_server(flavor_id, image_id, options = {})
           data = {
             'server' => {

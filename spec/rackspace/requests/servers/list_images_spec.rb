@@ -4,6 +4,7 @@ describe 'Rackspace::Servers.list_images' do
   describe 'success' do
 
     it "should return proper attributes" do
+      pending
       p servers.list_images
     end
 
