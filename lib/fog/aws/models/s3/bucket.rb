@@ -5,7 +5,6 @@ module Fog
       class Bucket < Fog::Model
 
         attribute :creation_date, 'CreationDate'
-        attribute :location
         attribute :name,          'Name'
         attribute :owner
 
