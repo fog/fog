@@ -21,7 +21,7 @@ unless Fog.mocking?
         #       * 'public'<~Array> - public address strings
         #       * 'private'<~Array> - private address strings
         #     * 'metadata'<~Hash> - metadata
-        def list_servers_details
+        def list_servers_detail
           request(
             :expects  => [200, 203],
             :method   => 'GET',

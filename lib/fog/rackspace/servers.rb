@@ -14,7 +14,7 @@ module Fog
         load "fog/rackspace/requests/servers/list_flavors.rb"
         load "fog/rackspace/requests/servers/list_images.rb"
         load "fog/rackspace/requests/servers/list_servers.rb"
-        load "fog/rackspace/requests/servers/list_servers_details.rb"
+        load "fog/rackspace/requests/servers/list_servers_detail.rb"
         load "fog/rackspace/requests/servers/reboot_server.rb"
         load "fog/rackspace/requests/servers/update_server.rb"
       end
