@@ -18,7 +18,7 @@ unless Fog.mocking?
           request(
             :expects  => [200, 203],
             :method   => 'GET',
-            :path     => 'images.json'
+            :path     => 'images/detail.json'
           )
         end
 
