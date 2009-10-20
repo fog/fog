@@ -4,14 +4,17 @@ unless Fog.mocking?
     module Rackspace
       class Servers
 
-        # List all images (IDs and names only)
+        # List all images
         #
         # ==== Returns
         # * response<~Fog::AWS::Response>:
         #   * body<~Hash>:
         #     * 'id'<~Integer> - Id of the image
         #     * 'name'<~String> - Name of the image
-        def list_images
+        #     * 'updated'<~String> - Last update timestamp for image
+        #     * 'created'<~String> - Creation timestamp for image
+        #     * 'status'<~String> - Status of image
+        def list_images_detail
           request(
             :expects  => [200, 203],
             :method   => 'GET',
