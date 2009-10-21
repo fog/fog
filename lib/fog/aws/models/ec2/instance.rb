@@ -82,7 +82,7 @@ module Fog
             options['groupId'] = @group_id
           end
           if @instance_type
-            options['instanceType'] = @instance_type
+            options['InstanceType'] = @instance_type
           end
           if @kernel_id
             options['KernelId'] = @kernel_id
@@ -97,7 +97,7 @@ module Fog
             options['RamdiskId'] = @ramdisk_id
           end
           if @user_data
-            options['UserData'] = @user_data
+            options['UserData'] = Base64.encode64(@user_data)
           end
           data = connection.run_instances(@image_id, 1, 1, options)
           merge_attributes(data.body['instancesSet'].first)
