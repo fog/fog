@@ -64,6 +64,9 @@ unless Fog.mocking?
         #     * 'requestId'<~String> - Id of request
         #     * 'reservationId'<~String> - Id of reservation
         def run_instances(image_id, min_count, max_count, options = {})
+          if options['UserData']
+            options['UserData'] = Base64.encode64(options['UserData'])
+          end
           request({
             'Action' => 'RunInstances',
             'ImageId' => image_id,

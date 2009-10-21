@@ -16,7 +16,6 @@ module Fog
         attribute :key_name,          'keyName'
         attribute :launch_time,       'launchTime'
         attribute :monitoring
-        attribute :placement
         attribute :product_codes,     'productCodes'
         attribute :private_dns_name,  'privateDnsName'
         attribute :ramdisk_id,        'ramdiskId'
@@ -97,7 +96,7 @@ module Fog
             options['RamdiskId'] = @ramdisk_id
           end
           if @user_data
-            options['UserData'] = Base64.encode64(@user_data)
+            options['UserData'] = @user_data
           end
           data = connection.run_instances(@image_id, 1, 1, options)
           merge_attributes(data.body['instancesSet'].first)
