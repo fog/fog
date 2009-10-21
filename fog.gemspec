@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.22"
+  s.version = "0.0.23"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
-  s.date = %q{2009-10-16}
+  s.date = %q{2009-10-21}
   s.default_executable = %q{fog}
   s.description = %q{brings clouds to you}
   s.email = %q{me@geemus.com}
@@ -149,8 +149,11 @@ Gem::Specification.new do |s|
      "lib/fog/rackspace/requests/servers/get_server_details.rb",
      "lib/fog/rackspace/requests/servers/list_flavors.rb",
      "lib/fog/rackspace/requests/servers/list_images.rb",
+     "lib/fog/rackspace/requests/servers/list_images_detail.rb",
      "lib/fog/rackspace/requests/servers/list_servers.rb",
-     "lib/fog/rackspace/requests/servers/list_servers_details.rb",
+     "lib/fog/rackspace/requests/servers/list_servers_detail.rb",
+     "lib/fog/rackspace/requests/servers/reboot_server.rb",
+     "lib/fog/rackspace/requests/servers/update_server.rb",
      "lib/fog/rackspace/servers.rb",
      "lib/fog/response.rb",
      "spec/aws/models/ec2/address_spec.rb",
@@ -223,13 +226,18 @@ Gem::Specification.new do |s|
      "spec/lorem.txt",
      "spec/rackspace/requests/files/get_containers_spec.rb",
      "spec/rackspace/requests/files/head_containers_spec.rb",
+     "spec/rackspace/requests/servers/create_image_spec.rb",
      "spec/rackspace/requests/servers/create_server_spec.rb",
+     "spec/rackspace/requests/servers/delete_image.rb",
      "spec/rackspace/requests/servers/delete_server_spec.rb",
      "spec/rackspace/requests/servers/get_server_details_spec.rb",
      "spec/rackspace/requests/servers/list_flavors_spec.rb",
+     "spec/rackspace/requests/servers/list_images_detail.rb",
      "spec/rackspace/requests/servers/list_images_spec.rb",
-     "spec/rackspace/requests/servers/list_servers_details_spec.rb",
+     "spec/rackspace/requests/servers/list_servers_detail_spec.rb",
      "spec/rackspace/requests/servers/list_servers_spec.rb",
+     "spec/rackspace/requests/servers/reboot_server.rb",
+     "spec/rackspace/requests/servers/update_server.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb"
   ]
@@ -309,13 +317,18 @@ Gem::Specification.new do |s|
      "spec/aws/requests/simpledb/select_spec.rb",
      "spec/rackspace/requests/files/get_containers_spec.rb",
      "spec/rackspace/requests/files/head_containers_spec.rb",
+     "spec/rackspace/requests/servers/create_image_spec.rb",
      "spec/rackspace/requests/servers/create_server_spec.rb",
+     "spec/rackspace/requests/servers/delete_image.rb",
      "spec/rackspace/requests/servers/delete_server_spec.rb",
      "spec/rackspace/requests/servers/get_server_details_spec.rb",
      "spec/rackspace/requests/servers/list_flavors_spec.rb",
+     "spec/rackspace/requests/servers/list_images_detail.rb",
      "spec/rackspace/requests/servers/list_images_spec.rb",
-     "spec/rackspace/requests/servers/list_servers_details_spec.rb",
+     "spec/rackspace/requests/servers/list_servers_detail_spec.rb",
      "spec/rackspace/requests/servers/list_servers_spec.rb",
+     "spec/rackspace/requests/servers/reboot_server.rb",
+     "spec/rackspace/requests/servers/update_server.rb",
      "spec/spec_helper.rb"
   ]
 
