@@ -46,6 +46,10 @@ describe 'Fog::AWS::EC2::Instance' do
       instance.addresses.should be_a(Fog::AWS::EC2::Addresses)
     end
 
+    it "should not associate the address to a not yet saved instance"
+    it "should associate the address after saving a new instance"
+    it "should associate the address to an existing instance"
+
   end
 
   describe "#destroy" do
@@ -136,6 +140,10 @@ describe 'Fog::AWS::EC2::Instance' do
       instance = ec2.instances.new
       instance.volumes.should be_a(Fog::AWS::EC2::Volumes)
     end
+
+    it "should not attach the volume to a not yet saved instance"
+    it "should attach the volume after saving a new instance"
+    it "should attach the volume to an existing instance"
 
   end
 
