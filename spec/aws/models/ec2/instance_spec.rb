@@ -39,8 +39,13 @@ describe 'Fog::AWS::EC2::Instance' do
 
   end
 
-  describe "#address" do
-    it "should have tests"
+  describe "#addresses" do
+
+    it "should return a Fog::AWS::EC2::Addresses" do
+      instance = ec2.instances.new
+      instance.addresses.should be_a(Fog::AWS::EC2::Addresses)
+    end
+
   end
 
   describe "#destroy" do

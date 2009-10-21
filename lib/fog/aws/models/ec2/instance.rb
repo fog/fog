@@ -23,8 +23,8 @@ module Fog
         attribute :reason
         attribute :user_data
 
-        def address
-          connection.addresses(:instance_id => instance_id).all.first
+        def addresses
+          connection.addresses(:instance => self)
         end
 
         def destroy
@@ -105,7 +105,7 @@ module Fog
         end
 
         def volumes
-          connection.volumes(:instance_id => instance_id)
+          connection.volumes(:instance => self)
         end
 
         private

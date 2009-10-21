@@ -27,8 +27,13 @@ module Fog
         end
 
         def instance=(new_instance)
-          @instance_id = new_instance.instance_id
-          connection.attach_volume(@instance_id, @volume_id, @device)
+          if !@volume_id
+            @instance = new_instance
+          elsif new_instance
+            @instance = nil
+            @instance_id = new_instance.instance_id
+            connection.attach_volume(@instance_id, @volume_id, @device)
+          end
         end
 
         def reload
@@ -40,6 +45,9 @@ module Fog
           data = connection.create_volume(@availability_zone, @size, @snapshot_id).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
+          if @instance
+            instance = @instance
+          end
           true
         end
 

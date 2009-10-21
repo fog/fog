@@ -24,8 +24,13 @@ module Fog
         end
 
         def instance=(new_instance)
-          @instance_id = new_instance.instance_id
-          connection.associate_address(@instance_id, @public_ip)
+          if !@public_ip
+            @instance = new_instance
+          elsif new_instance
+            @instance = nil
+            @instance_id = new_instance.instance_id
+            connection.associate_address(@instance_id, @public_ip)
+          end
         end
 
         def reload
@@ -36,6 +41,9 @@ module Fog
         def save
           data = connection.allocate_address
           @public_ip = data.body['publicIp']
+          if @instance
+            instance = @instance
+          end
           true
         end
 

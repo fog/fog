@@ -11,7 +11,7 @@ module Fog
       class Volumes < Fog::Collection
 
         attribute :volume_id
-        attribute :instance_id
+        attribute :instance
 
         def initialize(attributes)
           @volume_id ||= []
@@ -30,8 +30,8 @@ module Fog
               :volumes    => self
             }.merge!(volume))
           end
-          if instance_id
-            volumes = volumes.select {|volume| volume.instance_id == instance_id}
+          if instance
+            volumes = volumes.select {|volume| volume.instance_id == instance.id}
           end
           volumes
         end
@@ -49,10 +49,11 @@ module Fog
         end
 
         def new(attributes = {})
-          Fog::AWS::EC2::Volume.new(
+          volume = Fog::AWS::EC2::Volume.new(
             attributes.merge!(
-              :connection => connection,
-              :volumes    => self
+              :connection   => connection,
+              :instance     => instance,
+              :volumes      => self
             )
           )
         end

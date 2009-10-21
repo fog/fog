@@ -2,14 +2,16 @@ module Fog
   module AWS
     class EC2
 
-      def addresses
-        Fog::AWS::EC2::Addresses.new(:connection => self)
+      def addresses(attributes = {})
+        Fog::AWS::EC2::Addresses.new({
+          :connection => self
+        }.merge!(attributes))
       end
 
       class Addresses < Fog::Collection
 
         attribute :public_ip
-        attribute :instance_id
+        attribute :instance
 
         def initialize(attributes)
           @public_ip ||= []
@@ -28,8 +30,8 @@ module Fog
               :connection => connection
             }.merge!(address))
           end
-          if instance_id
-            addresses = addresses.select {|address| address.instance_id == instance_id}
+          if instance
+            addresses = addresses.select {|address| address.instance_id == instance.id}
           end
           addresses
         end
@@ -49,7 +51,8 @@ module Fog
         def new
           Fog::AWS::EC2::Address.new(
             :addresses  => self,
-            :connection => connection
+            :connection => connection,
+            :instance   => instance
           )
         end
 
