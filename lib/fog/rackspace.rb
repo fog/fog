@@ -1,6 +1,3 @@
-require 'rubygems'
-require 'json'
-
 module Fog
   module Rackspace
 

@@ -1,11 +1,3 @@
-require 'rubygems'
-require 'base64'
-require 'cgi'
-require 'digest/md5'
-require 'hmac-sha1'
-require 'hmac-sha2'
-require 'mime/types'
-
 module Fog
   module AWS
 
