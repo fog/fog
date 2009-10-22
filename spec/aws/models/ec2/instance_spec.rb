@@ -7,7 +7,6 @@ describe 'Fog::AWS::EC2::Instance' do
     it "should remap attributes from parser" do
       instance = Fog::AWS::EC2::Instance.new({
         'amiLaunchIndex'    => 'ami_launch_index',
-        'availabilityZone'  => 'availability_zone',
         'dnsName'           => 'dns_name',
         'groupId'           => 'group_id',
         'imageId'           => 'image_id',
@@ -17,6 +16,7 @@ describe 'Fog::AWS::EC2::Instance' do
         'kernelId'          => 'kernel_id',
         'keyName'           => 'key_name',
         'launchTime'        => 'launch_time',
+        'placement'         => { 'availabilityZone' => 'availability_zone'},
         'productCodes'      => 'product_codes',
         'privateDnsName'    => 'private_dns_name',
         'ramdiskId'         => 'ramdisk_id'

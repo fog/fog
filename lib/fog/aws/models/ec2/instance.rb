@@ -60,7 +60,7 @@ module Fog
         end
 
         def placement=(new_placement)
-          if placement.is_a?(Hash)
+          if new_placement.is_a?(Hash)
             @availability_zone = new_placement['availabilityZone']
           else
             @availability_zone = new_placement
