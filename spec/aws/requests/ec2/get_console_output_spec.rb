@@ -4,7 +4,7 @@ describe 'EC2.get_console_output' do
   describe 'success' do
 
     before(:each) do
-      @instance_id = ec2.run_instances('ami-5ee70037', 1, 1).body['instancesSet'].first['instanceId']
+      @instance_id = ec2.run_instances(GENTOO_AMI, 1, 1).body['instancesSet'].first['instanceId']
     end
 
     after(:each) do

@@ -11,23 +11,19 @@ describe 'Fog::AWS::EC2::Instance' do
         'groupId'           => 'group_id',
         'imageId'           => 'image_id',
         'instanceId'        => 'instance_id',
-        'instanceState'     => { 'name' => 'instance_state' },
         'instanceType'      => 'instance_type',
         'kernelId'          => 'kernel_id',
         'keyName'           => 'key_name',
         'launchTime'        => 'launch_time',
-        'placement'         => { 'availabilityZone' => 'availability_zone'},
         'productCodes'      => 'product_codes',
         'privateDnsName'    => 'private_dns_name',
         'ramdiskId'         => 'ramdisk_id'
       })
       instance.ami_launch_index.should == 'ami_launch_index'
-      instance.availability_zone.should == 'availability_zone'
       instance.dns_name.should == 'dns_name'
       instance.group_id.should == 'group_id'
       instance.image_id.should == 'image_id'
       instance.instance_id.should == 'instance_id'
-      instance.instance_state.should == 'instance_state'
       instance.instance_type.should == 'instance_type'
       instance.kernel_id.should == 'kernel_id'
       instance.key_name.should == 'key_name'
@@ -46,19 +42,24 @@ describe 'Fog::AWS::EC2::Instance' do
       instance.addresses.should be_a(Fog::AWS::EC2::Addresses)
     end
 
-    it "should not associate the address to a not yet saved instance"
-    it "should associate the address after saving a new instance"
-    it "should associate the address to an existing instance"
-
   end
 
   describe "#destroy" do
 
     it "should return true if the instance is deleted" do
-      instance = ec2.instances.create(:image_id => 'ami-5ee70037')
+      instance = ec2.instances.create(:image_id => GENTOO_AMI)
       instance.destroy.should be_true
     end
 
+  end
+
+  describe "#instance_state" do
+    it "should remap values out of hash" do
+      instance = Fog::AWS::EC2::Instance.new({
+        'instanceState' => { 'name' => 'instance_state' },
+      })
+      instance.instance_state.should == 'instance_state'
+    end
   end
 
   describe "#instances" do
@@ -83,17 +84,29 @@ describe 'Fog::AWS::EC2::Instance' do
   end
 
   describe "#monitoring=" do
-    it "should have tests"
+    it "should remap values out of hash" do
+      instance = Fog::AWS::EC2::Instance.new({
+        'monitoring' => { 'state' => true }
+      })
+      instance.monitoring.should == true
+    end
   end
 
   describe "#placement=" do
-    it "should have tests"
+
+    it "should remap values into availability_zone" do
+      instance = Fog::AWS::EC2::Instance.new({
+        'placement' => { 'availabilityZone' => 'availability_zone' }
+      })
+      instance.availability_zone.should == 'availability_zone'
+    end
+
   end
 
   describe "#reload" do
 
     before(:each) do
-      @instance = ec2.instances.create(:image_id => 'ami-5ee70037')
+      @instance = ec2.instances.create(:image_id => GENTOO_AMI)
       @reloaded = @instance.reload
     end
 
@@ -140,10 +153,6 @@ describe 'Fog::AWS::EC2::Instance' do
       instance = ec2.instances.new
       instance.volumes.should be_a(Fog::AWS::EC2::Volumes)
     end
-
-    it "should not attach the volume to a not yet saved instance"
-    it "should attach the volume after saving a new instance"
-    it "should attach the volume to an existing instance"
 
   end
 

@@ -4,7 +4,7 @@ describe 'EC2.detach_volume' do
   describe 'success' do
 
     before(:each) do
-      @instance_id = ec2.run_instances('ami-5ee70037', 1, 1, {'Placement.AvailabilityZone' => 'us-east-1a'}).body['instancesSet'].first['instanceId']
+      @instance_id = ec2.run_instances(GENTOO_AMI, 1, 1, {'Placement.AvailabilityZone' => 'us-east-1a'}).body['instancesSet'].first['instanceId']
       @volume_id = ec2.create_volume('us-east-1a', 1).body['volumeId']
       eventually(128) do
         ec2.attach_volume(@instance_id, @volume_id, '/dev/sdh')

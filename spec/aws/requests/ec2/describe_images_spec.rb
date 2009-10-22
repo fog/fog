@@ -20,7 +20,7 @@ describe 'EC2.describe_images' do
     end
   
     it "should return proper attributes with params" do
-      actual = ec2.describe_images('ImageId' => 'ami-5ee70037')
+      actual = ec2.describe_images('ImageId' => GENTOO_AMI)
       actual.body['requestId'].should be_a(String)
       image = actual.body['imagesSet'].first
       image['architecture'].should be_a(String)

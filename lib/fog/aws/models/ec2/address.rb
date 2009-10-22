@@ -42,7 +42,7 @@ module Fog
           data = connection.allocate_address
           @public_ip = data.body['publicIp']
           if @instance
-            instance = @instance
+            self.instance = @instance
           end
           true
         end

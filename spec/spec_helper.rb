@@ -79,3 +79,5 @@ def eventually(max_delay = 16, &block)
     end
   end
 end
+
+GENTOO_AMI = 'ami-5ee70037'

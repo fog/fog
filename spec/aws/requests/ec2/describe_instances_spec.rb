@@ -4,7 +4,7 @@ describe 'EC2.describe_instances' do
   describe 'success' do
 
     before(:each) do
-      run_instances = ec2.run_instances('ami-5ee70037', 1, 1).body
+      run_instances = ec2.run_instances(GENTOO_AMI, 1, 1).body
       @instance_id = run_instances['instancesSet'].first['instanceId']
       @reservation_id = run_instances['reservationId']
     end

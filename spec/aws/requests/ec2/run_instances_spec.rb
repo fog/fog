@@ -9,7 +9,7 @@ describe 'EC2.run_instances' do
 
     it "should return proper attributes" do
       # ami-5ee70037 = gentoo
-      actual = ec2.run_instances('ami-5ee70037', 1, 1)
+      actual = ec2.run_instances(GENTOO_AMI, 1, 1)
       @instance_id = actual.body['instancesSet'].first['instanceId']
       actual.body['groupSet'].should be_an(Array)
       actual.body['groupSet'].first.should be_a(String)

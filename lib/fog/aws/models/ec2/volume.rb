@@ -46,7 +46,7 @@ module Fog
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           if @instance
-            instance = @instance
+            self.instance = @instance
           end
           true
         end

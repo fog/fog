@@ -37,6 +37,37 @@ describe 'Fog::AWS::EC2::Address' do
 
   end
 
+  describe "#instance=" do
+    before(:each) do
+      @address = ec2.addresses.new
+      @instance = ec2.instances.create(:image_id => GENTOO_AMI)
+    end
+
+    after(:each) do
+      if @address.public_ip
+        @address.destroy
+      end
+      @instance.destroy
+    end
+
+    it "should not associate with instance if the address has not been saved" do
+      @address.instance = @instance
+      @address.instance_id.should_not == @instance.instance_id
+    end
+
+    it "should associate with instance when the address is saved" do
+      @address.instance = @instance
+      @address.save.should be_true
+      @address.instance_id.should == @instance.instance_id
+    end
+
+    it "should associate with instance to an already saved address" do
+      @address.save.should be_true
+      @address.instance = @instance
+      @address.instance_id.should == @instance.instance_id
+    end
+  end
+
   describe "#reload" do
 
     before(:each) do

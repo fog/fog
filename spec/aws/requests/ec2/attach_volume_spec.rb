@@ -4,7 +4,7 @@ describe 'EC2.attach_volume' do
   describe 'success' do
 
     before(:each) do
-      @instance_id = ec2.run_instances('ami-5ee70037', 1, 1, {'Placement.AvailabilityZone' => 'us-east-1a'}).body['instancesSet'].first['instanceId']
+      @instance_id = ec2.run_instances(GENTOO_AMI, 1, 1, {'Placement.AvailabilityZone' => 'us-east-1a'}).body['instancesSet'].first['instanceId']
       @volume_id = ec2.create_volume('us-east-1a', 1).body['volumeId']
     end
 
@@ -42,7 +42,7 @@ describe 'EC2.attach_volume' do
     end
 
     it "should raise a BadRequest error if the address does not exist" do
-      @instance_id = ec2.run_instances('ami-5ee70037', 1, 1).body['instancesSet'].first['instanceId']
+      @instance_id = ec2.run_instances(GENTOO_AMI, 1, 1).body['instancesSet'].first['instanceId']
       lambda {
         ec2.attach_volume(@instance_id, 'vol-00000000', '/dev/sdh')
       }.should raise_error(Fog::Errors::BadRequest)

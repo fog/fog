@@ -45,6 +45,37 @@ describe 'Fog::AWS::EC2::Volume' do
 
   end
 
+  describe "#instance=" do
+    before(:each) do
+      @volume = ec2.volumes.new
+      @instance = ec2.instances.create(:image_id => GENTOO_AMI)
+    end
+
+    after(:each) do
+      if @volume.volume_id
+        @volume.destroy
+      end
+      @instance.destroy
+    end
+
+    it "should not attach to instance if the address has not been saved" do
+      @volume.instance = @instance
+      @volume.instance_id.should_not == @instance.instance_id
+    end
+
+    it "should attach to instance when the address is saved" do
+      @volume.instance = @instance
+      @volume.save.should be_true
+      @volume.instance_id.should == @instance.instance_id
+    end
+
+    it "should attach to instance to an already saved address" do
+      @volume.save.should be_true
+      @volume.instance = @instance
+      @volume.instance_id.should == @instance.instance_id
+    end
+  end
+
   describe "#reload" do
 
     before(:each) do

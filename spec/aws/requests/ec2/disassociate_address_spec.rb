@@ -4,7 +4,7 @@ describe 'EC2.disassociate_address' do
   describe 'success' do
 
     before(:each) do
-      @instance_id = ec2.run_instances('ami-5ee70037', 1, 1).body['instancesSet'].first['instanceId']
+      @instance_id = ec2.run_instances(GENTOO_AMI, 1, 1).body['instancesSet'].first['instanceId']
       @public_ip = ec2.allocate_address.body['publicIp']
       ec2.associate_address(@instance_id, @public_ip)
     end
