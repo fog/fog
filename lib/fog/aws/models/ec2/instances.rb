@@ -39,7 +39,9 @@ module Fog
         end
 
         def get(instance_id)
-          all(instance_id).first
+          if instance_id
+            all(instance_id).first
+          end
         rescue Fog::Errors::BadRequest
           nil
         end

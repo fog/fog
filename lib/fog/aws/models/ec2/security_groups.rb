@@ -37,7 +37,9 @@ module Fog
         end
 
         def get(group_name)
-          all(group_name).first
+          if group_name
+            all(group_name).first
+          end
         rescue Fog::Errors::BadRequest
           nil
         end

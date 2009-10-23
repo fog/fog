@@ -43,7 +43,9 @@ module Fog
         end
 
         def get(public_ip)
-          all(public_ip).first
+          if public_ip
+            all(public_ip).first
+          end
         rescue Fog::Errors::BadRequest
           nil
         end

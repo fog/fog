@@ -43,7 +43,9 @@ module Fog
         end
 
         def get(snapshot_id)
-          all(snapshot_id).first
+          if snapshot_id
+            all(snapshot_id).first
+          end
         rescue Fog::Errors::BadRequest
           nil
         end

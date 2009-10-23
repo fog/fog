@@ -37,7 +37,9 @@ module Fog
         end
 
         def get(key_name)
-          all(key_name).first
+          if key_name
+            all(key_name).first
+          end
         rescue Fog::Errors::BadRequest
           nil
         end

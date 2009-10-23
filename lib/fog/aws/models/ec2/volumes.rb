@@ -43,7 +43,9 @@ module Fog
         end
 
         def get(volume_id)
-          all(volume_id).first
+          if volume_id
+            all(volume_id).first
+          end
         rescue Fog::Errors::BadRequest
           nil
         end
