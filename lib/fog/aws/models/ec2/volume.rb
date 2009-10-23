@@ -29,6 +29,9 @@ module Fog
         def instance=(new_instance)
           if !@volume_id
             @instance = new_instance
+            if new_instance
+              @availability_zone = new_instance.availability_zone
+            end
           elsif new_instance
             @instance = nil
             @instance_id = new_instance.instance_id
@@ -37,8 +40,9 @@ module Fog
         end
 
         def reload
-          new_attributes = volumes.get(@volume_id).attributes
-          merge_attributes(new_attributes)
+          if new_volume = volumes.get(@volume_id)
+            merge_attributes(new_volume.attributes)
+          end
         end
 
         def save
