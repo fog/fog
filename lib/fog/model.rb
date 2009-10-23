@@ -11,12 +11,21 @@ module Fog
       end
     end
 
+    def self.identity(name, other_names = [])
+      @identity = name
+      self.attribute(name, other_names)
+    end
+
     def self.aliases
       @aliases ||= {}
     end
 
     def self.attributes
       @attributes ||= []
+    end
+
+    def identity
+      send(self.class.instance_variable_get('@identity'))
     end
 
     def initialize(new_attributes = {})
@@ -52,6 +61,11 @@ module Fog
         end
       end
       self
+    end
+
+    def reload
+      new_attributes = collection.get(identity).attributes
+      merge_attributes(new_attributes)
     end
 
     private

@@ -4,8 +4,9 @@ module Fog
 
       class Bucket < Fog::Model
 
+        identity  :name,          'Name'
+
         attribute :creation_date, 'CreationDate'
-        attribute :name,          'Name'
         attribute :owner
 
         def destroy
@@ -41,11 +42,6 @@ module Fog
         def payer=(new_payer)
           connection.put_request_payment(@name, new_payer)
           @payer = new_payer
-        end
-
-        def reload
-          new_attributes = collection.get(@name).attributes
-          merge_attributes(new_attributes)
         end
 
         def save

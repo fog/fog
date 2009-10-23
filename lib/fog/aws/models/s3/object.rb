@@ -4,11 +4,12 @@ module Fog
 
       class Object < Fog::Model
 
+        identity  :key,             'Key'
+
         attribute :body
         attribute :content_length,  'Content-Length'
         attribute :content_type,    'Content-Type'
         attribute :etag,            ['Etag', 'ETag']
-        attribute :key,             'Key'
         attribute :last_modified,   ['Last-Modified', 'LastModified']
         attribute :owner
         attribute :size,            'Size'
@@ -35,11 +36,6 @@ module Fog
         def destroy
           connection.delete_object(bucket.name, @key)
           true
-        end
-
-        def reload
-          new_attributes = collection.get(@key).attributes
-          merge_attributes(new_attributes)
         end
 
         def save(options = {})
