@@ -39,7 +39,7 @@ describe 'Fog::AWS::EC2::Volume' do
   describe "#destroy" do
 
     it "should return true if the volume is deleted" do
-      volume = ec2.volumes.create
+      volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       volume.destroy.should be_true
     end
 
@@ -47,39 +47,56 @@ describe 'Fog::AWS::EC2::Volume' do
 
   describe "#instance=" do
     before(:each) do
-      @volume = ec2.volumes.new
       @instance = ec2.instances.create(:image_id => GENTOO_AMI)
+      @volume = ec2.volumes.new(:availability_zone => @instance.availability_zone, :size => 1, :device => 'dev/sdz1')
+      while @instance.instance_state == 'pending'
+        @instance.reload
+      end
+      while @volume.status == 'creating'
+        @volume.reload
+      end
     end
 
     after(:each) do
+      @instance.destroy
       if @volume.volume_id
         @volume.destroy
       end
-      @instance.destroy
     end
 
-    it "should not attach to instance if the address has not been saved" do
+    it "should not attach to instance if the volume has not been saved" do
       @volume.instance = @instance
       @volume.instance_id.should_not == @instance.instance_id
     end
 
-    it "should attach to instance when the address is saved" do
+    it "should change the availability_zone if the volume has not been saved" do
+      @volume.instance = @instance
+      @volume.availability_zone.should == @instance.availability_zone
+    end
+
+    it "should attach to instance when the volume is saved" do
       @volume.instance = @instance
       @volume.save.should be_true
       @volume.instance_id.should == @instance.instance_id
     end
 
-    it "should attach to instance to an already saved address" do
+    it "should attach to instance to an already saved volume" do
       @volume.save.should be_true
       @volume.instance = @instance
       @volume.instance_id.should == @instance.instance_id
+    end
+
+    it "should not change the availability_zone if the volume has been saved" do
+      @volume.save.should be_true
+      @volume.instance = @instance
+      @volume.availability_zone.should == @instance.availability_zone
     end
   end
 
   describe "#reload" do
 
     before(:each) do
-      @volume = ec2.volumes.create
+      @volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       @reloaded = @volume.reload
     end
 
@@ -100,7 +117,7 @@ describe 'Fog::AWS::EC2::Volume' do
   describe "#save" do
 
     before(:each) do
-      @volume = ec2.volumes.new
+      @volume = ec2.volumes.new(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
     end
 
     it "should return true when it succeeds" do
@@ -108,7 +125,7 @@ describe 'Fog::AWS::EC2::Volume' do
       @volume.destroy
     end
 
-    it "should not exist in addresses before save" do
+    it "should not exist in volumes before save" do
       @volume.volumes.get(@volume.volume_id).should be_nil
     end
 
