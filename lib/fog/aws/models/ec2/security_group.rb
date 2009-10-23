@@ -11,7 +11,7 @@ module Fog
 
         def authorize(options = {})
           options = {
-            'GroupName' => @name
+            'GroupName' => @group_name
           }.merge!(options)
           connection.authorize_security_group_ingress(options)
         end
