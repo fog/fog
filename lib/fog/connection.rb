@@ -79,7 +79,7 @@ unless Fog.mocking?
           response.headers[capitalize(header[0])] = header[1]
         end
 
-        unless params[:method] == 'HEAD'
+        unless params[:method] == 'HEAD' || [204, 304, *(100..199)].include?(response.status)
           if (error && params[:error_parser]) || params[:parser]
             if error
               parser = params[:error_parser]
@@ -105,18 +105,22 @@ unless Fog.mocking?
             end
           elsif response.headers['Transfer-Encoding'] == 'chunked'
             while true
+              chunk_size = connection.readline.chomp!.to_i(16)
               # 2 == "/r/n".length
-              chunk_size = connection.readline.chomp!.to_i(16) + 2
-              chunk = connection.read(chunk_size)[0...-2]
-              if error || !params[:block]
-                body << chunk
-              else
-                params[:block].call(chunk)
-              end
-              if chunk_size == 2
+              chunk = connection.read(chunk_size + 2)[0...-2]
+              if chunk_size == 0
                 break
+              else
+                if error || !params[:block]
+                  body << chunk
+                else
+                  params[:block].call(chunk)
+                end
               end
             end
+          elsif response.headers['Connection'] == 'close'
+            body << connection.read
+            @connection = nil
           end
 
           if parser
