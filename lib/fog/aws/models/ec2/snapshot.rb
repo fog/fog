@@ -16,8 +16,9 @@ module Fog
         end
 
         def reload
-          new_attributes = snapshots.get(@snapshot_id).attributes
-          merge_attributes(new_attributes)
+          if new_snapshot = snapshots.get(@snapshot_id)
+            merge_attributes(new_snapshot.attributes)
+          end
         end
 
         def save

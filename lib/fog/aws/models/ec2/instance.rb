@@ -68,8 +68,9 @@ module Fog
         end
 
         def reload
-          new_attributes = instances.all(@instance_id).first.attributes
-          merge_attributes(new_attributes)
+          if new_instance = instances.get(@instance_id)
+            merge_attributes(new_instance.attributes)
+          end
         end
 
         def save

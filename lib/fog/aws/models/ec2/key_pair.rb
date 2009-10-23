@@ -18,8 +18,9 @@ module Fog
         end
 
         def reload
-          new_attributes = key_pairs.all(@name).first.attributes
-          merge_attributes(new_attributes)
+          if new_key_pair = key_pairs.get(@name)
+            merge_attributes(new_key_pair.attributes)
+          end
         end
 
         def save

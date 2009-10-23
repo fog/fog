@@ -15,8 +15,9 @@ module Fog
         end
 
         def reload
-          new_attributes = security_groups.get(@group_name).attributes
-          merge_attributes(new_attributes)
+          if new_security_group = security_groups.get(@group_name)
+            merge_attributes(new_security_group.attributes)
+          end
         end
 
         def save
