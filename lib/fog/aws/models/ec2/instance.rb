@@ -111,7 +111,11 @@ module Fog
         private
 
         def instance_state=(new_instance_state)
-          @instance_state = new_instance_state['name']
+          if new_instance_state.is_a?(Hash)
+            @instance_state = new_instance_state['name']
+          else
+            @instance_state = new_instance_state
+          end
         end
 
         def instances=(new_instances)
