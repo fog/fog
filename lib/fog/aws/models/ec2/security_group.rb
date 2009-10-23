@@ -9,6 +9,13 @@ module Fog
         attribute :ip_permissions,    'ipPermissions'
         attribute :owner_id,          'ownerId'
 
+        def authorize(options = {})
+          options = {
+            'GroupName' => @name
+          }.merge!(options)
+          connection.authorize_security_group_ingress(options)
+        end
+
         def destroy
           connection.delete_security_group(@group_name)
           true

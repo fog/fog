@@ -79,7 +79,7 @@ module Fog
             options['Placement.AvailabilityZone'] = @availability_zone
           end
           if @group_id
-            options['groupId'] = @group_id
+            options['SecurityGroup'] = @group_id
           end
           if @instance_type
             options['InstanceType'] = @instance_type
