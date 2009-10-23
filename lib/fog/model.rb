@@ -39,6 +39,10 @@ module Fog
       attributes
     end
 
+    def collection
+      @collection
+    end
+
     def merge_attributes(new_attributes = {})
       for key, value in new_attributes
         if aliased_key = self.class.aliases[key]
@@ -51,6 +55,10 @@ module Fog
     end
 
     private
+
+    def collection=(new_collection)
+      @collection = new_collection
+    end
 
     def connection=(new_connection)
       @connection = new_connection

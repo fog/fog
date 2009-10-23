@@ -14,7 +14,7 @@ module Fog
           buckets = Fog::AWS::S3::Buckets.new(:connection => connection)
           data['Buckets'].each do |bucket|
             buckets << Fog::AWS::S3::Bucket.new({
-              :buckets    => buckets,
+              :collection => buckets,
               :connection => connection,
               :owner      => owner
             }.merge!(bucket))
@@ -34,7 +34,7 @@ module Fog
           })
           data = connection.get_bucket(name, options).body
           bucket = Fog::AWS::S3::Bucket.new({
-            :buckets    => self,
+            :collection => self,
             :connection => connection,
             :name       => data['Name']
           })
@@ -50,7 +50,7 @@ module Fog
             bucket.objects << Fog::AWS::S3::Object.new({
               :bucket     => bucket,
               :connection => connection,
-              :objects    => self,
+              :collection => bucket.objects,
               :owner      => owner
             }.merge!(object))
           end
@@ -62,8 +62,8 @@ module Fog
         def new(attributes = {})
           Fog::AWS::S3::Bucket.new(
             attributes.merge!(
-              :connection => connection,
-              :buckets    => self
+              :collection => self,
+              :connection => connection
             )
           )
         end

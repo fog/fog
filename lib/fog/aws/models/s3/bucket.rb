@@ -8,10 +8,6 @@ module Fog
         attribute :name,          'Name'
         attribute :owner
 
-        def buckets
-          @buckets
-        end
-
         def destroy
           connection.delete_bucket(@name)
           true
@@ -22,6 +18,10 @@ module Fog
         def location
           data = connection.get_bucket_location(@name)
           data.body['LocationConstraint']
+        end
+
+        def location=(new_location)
+          @location = new_location
         end
 
         def objects
@@ -44,7 +44,7 @@ module Fog
         end
 
         def reload
-          new_attributes = buckets.get(@name).attributes
+          new_attributes = collection.get(@name).attributes
           merge_attributes(new_attributes)
         end
 
@@ -55,12 +55,6 @@ module Fog
           end
           connection.put_bucket(@name, options)
           true
-        end
-
-        private
-
-        def buckets=(new_buckets)
-          @buckets = new_buckets
         end
 
       end

@@ -37,12 +37,8 @@ module Fog
           true
         end
 
-        def objects
-          @objects
-        end
-
         def reload
-          new_attributes = objects.get(@key).attributes
+          new_attributes = collection.get(@key).attributes
           merge_attributes(new_attributes)
         end
 
@@ -56,10 +52,6 @@ module Fog
 
         def bucket=(new_bucket)
           @bucket = new_bucket
-        end
-
-        def objects=(new_objects)
-          @objects = new_objects
         end
 
       end

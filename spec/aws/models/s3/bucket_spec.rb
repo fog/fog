@@ -16,15 +16,15 @@ describe 'Fog::AWS::S3::Bucket' do
 
   end
 
-  describe "#buckets" do
+  describe "#collection" do
 
     it "should return a Fog::AWS::S3::Buckets" do
-      s3.buckets.new.buckets.should be_a(Fog::AWS::S3::Buckets)
+      s3.buckets.new.collection.should be_a(Fog::AWS::S3::Buckets)
     end
 
     it "should be the buckets the bucket is related to" do
       buckets = s3.buckets
-      buckets.new.buckets.should == buckets
+      buckets.new.collection.should == buckets
     end
 
   end
@@ -115,12 +115,12 @@ describe 'Fog::AWS::S3::Bucket' do
     end
 
     it "should not exist in buckets before save" do
-      @bucket.buckets.all.map {|bucket| bucket.name}.include?(@bucket.name).should be_false
+      s3.buckets.all.map {|bucket| bucket.name}.include?(@bucket.name).should be_false
     end
 
     it "should exist in buckets after save" do
       @bucket.save
-      @bucket.buckets.all.map {|bucket| bucket.name}.include?(@bucket.name).should be_true
+      s3.buckets.all.map {|bucket| bucket.name}.include?(@bucket.name).should be_true
       @bucket.destroy
     end
 

@@ -11,7 +11,7 @@ module Fog
         attribute :prefix,        'Prefix'
 
         def all(options = {})
-          bucket.buckets.get(
+          bucket.collection.get(
             bucket.name,
             options.reject {|key, value| !['delimiter', 'marker', 'max-keys', 'prefix'].include?(key)}
           ).objects
@@ -40,8 +40,8 @@ module Fog
           end
           object = Fog::AWS::S3::Object.new({
             :bucket     => bucket,
-            :connection => connection,
-            :objects    => self
+            :collection => self,
+            :connection => connection
           }.merge!(object_data))
           object
         rescue Fog::Errors::NotFound
@@ -64,8 +64,8 @@ module Fog
           end
           object = Fog::AWS::S3::Object.new({
             :bucket     => bucket,
-            :connection => connection,
-            :objects    => self
+            :collection => self,
+            :connection => connection
           }.merge!(object_data))
           object
         rescue Fog::Errors::NotFound
@@ -75,8 +75,8 @@ module Fog
         def new(attributes = {})
           Fog::AWS::S3::Object.new({
             :bucket     => bucket,
-            :connection => connection,
-            :objects    => self
+            :collection => self,
+            :connection => connection
           }.merge!(attributes))
         end
 
