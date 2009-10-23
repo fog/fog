@@ -16,7 +16,7 @@ module Fog
               @address[name] = @value
             when 'item'
               @response['addressesSet'] << @address
-              @address = []
+              @address = {}
             when 'requestId'
               @response[name] = @value
             end
