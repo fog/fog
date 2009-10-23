@@ -41,21 +41,33 @@ else
 
         def create_volume(availability_zone, size, snapshot_id = nil)
           response = Fog::Response.new
-          response.status = 200
-          volume_id = Fog::AWS::Mock.volume_id
-          data = {
-            'availabilityZone'  => availability_zone,
-            'attachmentSet'     => [],
-            'createTime'        => Time.now,
-            'size'              => size,
-            'snapshotId'        => snapshot_id || '',
-            'status'            => 'creating',
-            'volumeId'          => volume_id
-          }
-          Fog::AWS::EC2.data[:volumes][volume_id] = data
-          response.body = {
-            'requestId' => Fog::AWS::Mock.request_id
-          }.merge!(data.reject {|key,value| !['availabilityZone','createTime','size','snapshotId','status','volumeId'].include?(key) })
+          if availability_zone && size
+            response.status = 200
+            volume_id = Fog::AWS::Mock.volume_id
+            data = {
+              'availabilityZone'  => availability_zone,
+              'attachmentSet'     => [],
+              'createTime'        => Time.now,
+              'size'              => size,
+              'snapshotId'        => snapshot_id || '',
+              'status'            => 'creating',
+              'volumeId'          => volume_id
+            }
+            Fog::AWS::EC2.data[:volumes][volume_id] = data
+            response.body = {
+              'requestId' => Fog::AWS::Mock.request_id
+            }.merge!(data.reject {|key,value| !['availabilityZone','createTime','size','snapshotId','status','volumeId'].include?(key) })
+          else
+            response.status = 400
+            response.body = {
+              'Code' => 'MissingParameter'
+            }
+            unless availability_zone
+              response['Message'] = 'The request must contain the parameter availability_zone'
+            else
+              response['Message'] = 'The request must contain the parameter size'
+            end
+          end
           response
         end
 
