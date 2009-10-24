@@ -63,9 +63,9 @@ else
               'Code' => 'MissingParameter'
             }
             unless availability_zone
-              response['Message'] = 'The request must contain the parameter availability_zone'
+              response.body['Message'] = 'The request must contain the parameter availability_zone'
             else
-              response['Message'] = 'The request must contain the parameter size'
+              response.body['Message'] = 'The request must contain the parameter size'
             end
           end
           response

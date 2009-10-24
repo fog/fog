@@ -18,12 +18,12 @@ describe 'Fog::AWS::EC2::Address' do
   describe "#addresses" do
 
     it "should return a Fog::AWS::EC2::Addresses" do
-      ec2.addresses.new.addresses.should be_a(Fog::AWS::EC2::Addresses)
+      ec2.addresses.new.collection.should be_a(Fog::AWS::EC2::Addresses)
     end
 
     it "should be the addresses the address is related to" do
       addresses = ec2.addresses
-      addresses.new.addresses.should == addresses
+      addresses.new.collection.should == addresses
     end
 
   end
@@ -101,12 +101,12 @@ describe 'Fog::AWS::EC2::Address' do
     end
 
     it "should not exist in addresses before save" do
-      @address.addresses.get(@address.public_ip).should be_nil
+      @address.collection.get(@address.public_ip).should be_nil
     end
 
     it "should exist in buckets after save" do
       @address.save
-      @address.addresses.get(@address.public_ip).should_not be_nil
+      @address.collection.get(@address.public_ip).should_not be_nil
       @address.destroy
     end
 

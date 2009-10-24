@@ -17,15 +17,15 @@ describe 'Fog::AWS::EC2::KeyPair' do
 
   end
 
-  describe "#key_pairs" do
+  describe "#collection" do
 
     it "should return a Fog::AWS::EC2::KeyPairs" do
-      ec2.key_pairs.new.key_pairs.should be_a(Fog::AWS::EC2::KeyPairs)
+      ec2.key_pairs.new.collection.should be_a(Fog::AWS::EC2::KeyPairs)
     end
 
     it "should be the key_pairs the keypair is related to" do
       key_pairs = ec2.key_pairs
-      key_pairs.new.key_pairs.should == key_pairs
+      key_pairs.new.collection.should == key_pairs
     end
 
   end
@@ -72,12 +72,12 @@ describe 'Fog::AWS::EC2::KeyPair' do
     end
 
     it "should not exist in key_pairs before save" do
-      @key_pair.key_pairs.get(@key_pair.name).should be_nil
+      ec2.key_pairs.get(@key_pair.name).should be_nil
     end
 
     it "should exist in buckets after save" do
       @key_pair.save
-      @key_pair.key_pairs.get(@key_pair.name).should_not be_nil
+      ec2.key_pairs.get(@key_pair.name).should_not be_nil
       @key_pair.destroy
     end
 

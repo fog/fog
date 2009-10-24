@@ -4,12 +4,13 @@ module Fog
 
       class Instance < Fog::Model
 
+        identity  :instance_id,       'instanceId'
+
         attribute :ami_launch_index,  'amiLaunchIndex'
         attribute :availability_zone, 'availabilityZone'
         attribute :dns_name,          'dnsName'
         attribute :group_id,          'groupId'
         attribute :image_id,          'imageId'
-        attribute :instance_id,       'instanceId'
         attribute :instance_state,    'instanceState'
         attribute :instance_type,     'instanceType'
         attribute :kernel_id,         'kernelId'
@@ -47,10 +48,6 @@ module Fog
           @key_name = new_keypair.name
         end
 
-        def instances
-          @instances
-        end
-
         def monitoring=(new_monitoring)
           if new_monitoring.is_a?(Hash)
             @monitoring = new_monitoring['state']
@@ -64,12 +61,6 @@ module Fog
             @availability_zone = new_placement['availabilityZone']
           else
             @availability_zone = new_placement
-          end
-        end
-
-        def reload
-          if new_instance = instances.get(@instance_id)
-            merge_attributes(new_instance.attributes)
           end
         end
 
@@ -116,10 +107,6 @@ module Fog
           else
             @instance_state = new_instance_state
           end
-        end
-
-        def instances=(new_instances)
-          @instances = new_instances
         end
 
       end

@@ -19,15 +19,15 @@ describe 'Fog::AWS::EC2::SecurityGroup' do
 
   end
 
-  describe "#security_groups" do
+  describe "#collection" do
 
     it "should return a Fog::AWS::EC2::SecurityGroups" do
-      ec2.security_groups.new.security_groups.should be_a(Fog::AWS::EC2::SecurityGroups)
+      ec2.security_groups.new.collection.should be_a(Fog::AWS::EC2::SecurityGroups)
     end
 
     it "should be the security_groups the keypair is related to" do
       security_groups = ec2.security_groups
-      security_groups.new.security_groups.should == security_groups
+      security_groups.new.collection.should == security_groups
     end
 
   end
@@ -74,12 +74,12 @@ describe 'Fog::AWS::EC2::SecurityGroup' do
     end
 
     it "should not exist in security_groups before save" do
-      @security_group.security_groups.get(@security_group.group_name).should be_nil
+      ec2.security_groups.get(@security_group.group_name).should be_nil
     end
 
     it "should exist in buckets after save" do
       @security_group.save
-      @security_group.security_groups.get(@security_group.group_name).should_not be_nil
+      ec2.security_groups.get(@security_group.group_name).should_not be_nil
       @security_group.destroy
     end
 

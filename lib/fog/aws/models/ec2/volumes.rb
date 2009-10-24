@@ -26,8 +26,8 @@ module Fog
           }.merge!(attributes))
           data['volumeSet'].each do |volume|
             volumes << Fog::AWS::EC2::Volume.new({
-              :connection => connection,
-              :volumes    => self
+              :collection => volumes,
+              :connection => connection
             }.merge!(volume))
           end
           if instance
@@ -53,9 +53,9 @@ module Fog
         def new(attributes = {})
           volume = Fog::AWS::EC2::Volume.new(
             attributes.merge!(
-              :connection   => connection,
-              :instance     => instance,
-              :volumes      => self
+              :collection => self,
+              :connection => connection,
+              :instance   => instance
             )
           )
         end

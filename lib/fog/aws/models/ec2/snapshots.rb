@@ -26,8 +26,8 @@ module Fog
           }.merge!(attributes))
           data['snapshotSet'].each do |snapshot|
             snapshots << Fog::AWS::EC2::Snapshot.new({
-              :connection => connection,
-              :snapshots  => self
+              :collection => snapshots,
+              :connection => connection
             }.merge!(snapshot))
           end
           if volume_id
@@ -53,8 +53,8 @@ module Fog
         def new(attributes = {})
           snapshot = Fog::AWS::EC2::Snapshot.new(
             attributes.merge!(
-              :connection => connection,
-              :snapshots  => self
+              :collection => self,
+              :connection => connection
             )
           )
           if volume_id

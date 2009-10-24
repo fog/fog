@@ -115,7 +115,7 @@ else
               'ramdiskId'       => options['RamdiskId'] || Fog::AWS::Mock.ramdisk_id,
               'reason'          => '',
               'reservationId'   => reservation_id,
-              'state'           => 'pending'
+              'instanceState'   => 'pending'
             }
             Fog::AWS::EC2.data[:instances][instance_id] = data
             instances_set << data.reject{|key,value| !['amiLaunchIndex', 'dnsName', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'privateDnsName', 'productCodes', 'ramdiskId', 'reason'].include?(key)}

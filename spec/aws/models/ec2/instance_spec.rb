@@ -62,15 +62,15 @@ describe 'Fog::AWS::EC2::Instance' do
     end
   end
 
-  describe "#instances" do
+  describe "#collection" do
 
     it "should return a Fog::AWS::EC2::Instances" do
-      ec2.instances.new.instances.should be_a(Fog::AWS::EC2::Instances)
+      ec2.instances.new.collection.should be_a(Fog::AWS::EC2::Instances)
     end
 
     it "should be the instances the instance is related to" do
       instances = ec2.instances
-      instances.new.instances.should == instances
+      instances.new.collection.should == instances
     end
 
   end
@@ -136,12 +136,12 @@ describe 'Fog::AWS::EC2::Instance' do
     end
 
     it "should not exist in instances before save" do
-      @instance.instances.get(@instance.instance_id).should be_nil
+      ec2.instances.get(@instance.instance_id).should be_nil
     end
 
     it "should exist in buckets after save" do
       @instance.save
-      @instance.instances.get(@instance.instance_id).should_not be_nil
+      ec2.instances.get(@instance.instance_id).should_not be_nil
       @instance.destroy
     end
 

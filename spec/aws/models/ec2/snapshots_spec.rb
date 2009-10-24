@@ -9,7 +9,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
     end
 
     it "should include persisted snapshots" do
-      volume = ec2.volumes.create
+      volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       snapshot = volume.snapshots.create
       ec2.snapshots.all.map {|snapshot| snapshot.snapshot_id}.should include(snapshot.snapshot_id)
       snapshot.destroy
@@ -17,8 +17,8 @@ describe 'Fog::AWS::EC2::Snapshots' do
     end
 
     it "should limit snapshots by volume_id if present" do
-      volume = ec2.volumes.create
-      other_volume = ec2.volumes.create
+      volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      other_volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       snapshot = volume.snapshots.create
       other_volume.snapshots.all.map {|snapshot| snapshot.snapshot_id}.should_not include(snapshot.snapshot_id)
       snapshot.destroy
@@ -31,7 +31,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
   describe "#create" do
 
     before(:each) do
-      @volume = ec2.volumes.create
+      @volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       @snapshot = @volume.snapshots.create
     end
 
@@ -53,7 +53,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
   describe "#get" do
 
     it "should return a Fog::AWS::EC2::Snapshot if a matching snapshot exists" do
-      volume = ec2.volumes.create
+      volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       snapshot = volume.snapshots.create
       get = ec2.snapshots.get(snapshot.snapshot_id)
       snapshot.attributes.should == get.attributes

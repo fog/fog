@@ -17,15 +17,15 @@ describe 'Fog::AWS::EC2::Snapshots' do
 
   end
 
-  describe "#snapshots" do
+  describe "#collection" do
 
     it "should return a Fog::AWS::EC2::Snapshots" do
-      ec2.snapshots.new.snapshots.should be_a(Fog::AWS::EC2::Snapshots)
+      ec2.snapshots.new.collection.should be_a(Fog::AWS::EC2::Snapshots)
     end
 
     it "should be the snapshots the snapshot is related to" do
       snapshots = ec2.snapshots
-      snapshots.new.snapshots.should == snapshots
+      snapshots.new.collection.should == snapshots
     end
 
   end
@@ -33,7 +33,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
   describe "#destroy" do
 
     it "should return true if the snapshot is deleted" do
-      volume = ec2.volumes.create
+      volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       snapshot = volume.snapshots.create
       snapshot.destroy.should be_true
       volume.destroy
@@ -44,7 +44,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
   describe "#reload" do
 
     before(:each) do
-      @volume   = ec2.volumes.create
+      @volume   = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       @snapshot = @volume.snapshots.create
       @reloaded = @snapshot.reload
     end
@@ -67,7 +67,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
   describe "#save" do
 
     before(:each) do
-      @volume   = ec2.volumes.create
+      @volume   = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       @snapshot = @volume.snapshots.new
     end
 
@@ -81,12 +81,12 @@ describe 'Fog::AWS::EC2::Snapshots' do
     end
 
     it "should not exist in addresses before save" do
-      @snapshot.snapshots.get(@snapshot.snapshot_id).should be_nil
+      ec2.snapshots.get(@snapshot.snapshot_id).should be_nil
     end
 
     it "should exist in buckets after save" do
       @snapshot.save
-      @snapshot.snapshots.get(@snapshot.snapshot_id).should_not be_nil
+      ec2.snapshots.get(@snapshot.snapshot_id).should_not be_nil
       @snapshot.destroy
     end
 

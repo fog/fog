@@ -23,8 +23,8 @@ module Fog
           }.merge!(attributes))
           data['securityGroupInfo'].each do |security_group|
             security_groups << Fog::AWS::EC2::SecurityGroup.new({
-              :connection       => connection,
-              :security_groups  => self
+              :collection => security_groups,
+              :connection => connection
             }.merge!(security_group))
           end
           security_groups
@@ -47,8 +47,8 @@ module Fog
         def new(attributes = {})
           Fog::AWS::EC2::SecurityGroup.new(
             attributes.merge!(
-              :connection => connection,
-              :security_groups  => self
+              :collection => self,
+              :connection => connection
             )
           )
         end

@@ -24,8 +24,8 @@ module Fog
           data['reservationSet'].each do |reservation|
             reservation['instancesSet'].each do |instance|
               instances << Fog::AWS::EC2::Instance.new({
-                :connection => connection,
-                :instances  => self
+                :collection => instances,
+                :connection => connection
               }.merge!(instance))
             end
           end
@@ -49,8 +49,8 @@ module Fog
         def new(attributes = {})
           Fog::AWS::EC2::Instance.new(
             attributes.merge!(
-              :connection => connection,
-              :instances  => self
+              :collection => self,
+              :connection => connection
             )
           )
         end

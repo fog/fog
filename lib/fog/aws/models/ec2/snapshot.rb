@@ -4,8 +4,9 @@ module Fog
 
       class Snapshot < Fog::Model
 
+        identity  :snapshot_id, 'snapshotId'
+
         attribute :progress
-        attribute :snapshot_id, 'snapshotId'
         attribute :start_time,  'startTime'
         attribute :status
         attribute :volume_id,    'volumeId'
@@ -15,12 +16,6 @@ module Fog
           true
         end
 
-        def reload
-          if new_snapshot = snapshots.get(@snapshot_id)
-            merge_attributes(new_snapshot.attributes)
-          end
-        end
-
         def save
           data = connection.create_snapshot(volume_id).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
@@ -28,19 +23,11 @@ module Fog
           true
         end
 
-        def snapshots
-          @snapshots
-        end
-
         def volume
           connection.describe_volumes(@volume_id)
         end
 
         private
-
-        def snapshots=(new_snapshots)
-          @snapshots = new_snapshots
-        end
 
         def volume=(new_volume)
           @volume_id = new_volume.volume_id

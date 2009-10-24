@@ -23,15 +23,15 @@ describe 'Fog::AWS::EC2::Volume' do
 
   end
 
-  describe "#volumes" do
+  describe "#collection" do
 
     it "should return a Fog::AWS::EC2::Volumes" do
-      ec2.volumes.new.volumes.should be_a(Fog::AWS::EC2::Volumes)
+      ec2.volumes.new.collection.should be_a(Fog::AWS::EC2::Volumes)
     end
 
     it "should be the volumes the volume is related to" do
       volumes = ec2.volumes
-      volumes.new.volumes.should == volumes
+      volumes.new.collection.should == volumes
     end
 
   end
@@ -126,12 +126,12 @@ describe 'Fog::AWS::EC2::Volume' do
     end
 
     it "should not exist in volumes before save" do
-      @volume.volumes.get(@volume.volume_id).should be_nil
+      ec2.volumes.get(@volume.volume_id).should be_nil
     end
 
     it "should exist in buckets after save" do
       @volume.save
-      @volume.volumes.get(@volume.volume_id).should_not be_nil
+      ec2.volumes.get(@volume.volume_id).should_not be_nil
       @volume.destroy
     end
 

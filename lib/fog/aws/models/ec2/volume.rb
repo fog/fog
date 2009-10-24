@@ -4,6 +4,8 @@ module Fog
 
       class Volume < Fog::Model
 
+        identity  :volume_id,         'volumeId'
+
         attribute :attach_time,       'attachTime'
         attribute :availability_zone, 'availabilityZone'
         attribute :create_time,       'createTime'
@@ -12,7 +14,6 @@ module Fog
         attribute :size
         attribute :snapshot_id,       'snapshotId'
         attribute :status
-        attribute :volume_id,         'volumeId'
         
         def initialize(attributes = {})
           if attributes['attachmentSet']
@@ -39,12 +40,6 @@ module Fog
           end
         end
 
-        def reload
-          if new_volume = volumes.get(@volume_id)
-            merge_attributes(new_volume.attributes)
-          end
-        end
-
         def save
           data = connection.create_volume(@availability_zone, @size, @snapshot_id).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
@@ -57,16 +52,6 @@ module Fog
 
         def snapshots
           connection.snapshots(:volume_id => volume_id)
-        end
-
-        def volumes
-          @volumes
-        end
-
-        private
-
-        def volumes=(new_volumes)
-          @volumes = new_volumes
         end
 
       end

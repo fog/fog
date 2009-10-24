@@ -4,12 +4,9 @@ module Fog
 
       class Address < Fog::Model
 
-        attribute :instance_id, 'instanceId'
-        attribute :public_ip,   'publicIp'
+        identity  :public_ip,   'publicIp'
 
-        def addresses
-          @addresses
-        end
+        attribute :instance_id, 'instanceId'
 
         def initialize(new_attributes = {})
           new_attributes = {
@@ -33,12 +30,6 @@ module Fog
           end
         end
 
-        def reload
-          if new_address = addresses.get(@public_ip)
-            merge_attributes(new_address.attributes)
-          end
-        end
-
         def save
           data = connection.allocate_address
           @public_ip = data.body['publicIp']
@@ -46,12 +37,6 @@ module Fog
             self.instance = @instance
           end
           true
-        end
-
-        private
-
-        def addresses=(new_addresses)
-          @addresses = new_addresses
         end
 
       end
