@@ -4,8 +4,9 @@ module Fog
 
       class Server < Fog::Model
 
+        identity :id
+
         attribute :admin_pass,  'adminPass'
-        attribute :id
         attribute :name
         attribute :image_id,    'imageId'
         attribute :flavor_id,   'flavorId'
@@ -21,27 +22,12 @@ module Fog
           true
         end
 
-        def reload
-          new_attributes = servers.get(@id).body['server']
-          merge_attributes(new_attributes)
-        end
-
         def save
           options = { 'metadata' => @metadata, 'name' => @name, 'personality' => @personality }
           options = options.reject {|key, value| value.nil?}
           data = connection.create_server(@flavor_id, @image_id, options)
           merge_attributes(data.body['server'])
           true
-        end
-
-        def servers
-          @servers
-        end
-
-        private
-
-        def servers=(new_servers)
-          @servers = new_servers
         end
 
       end

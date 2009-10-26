@@ -15,8 +15,8 @@ module Fog
           })
           for server in data['servers']
             servers << Fog::Rackspace::Servers::Server.new({
-              :connection => connection,
-              :servers    => servers
+              :collection => servers,
+              :connection => connection
             }.merge!(server))
           end
           servers
@@ -36,13 +36,13 @@ module Fog
 
         def new(attributes = {})
           Fog::Rackspace::Servers::Server.new({
-            :connection => connection,
-            :servers    => self
+            :collection => self,
+            :connection => connection
           }.merge!(attributes))
         end
 
         def reload
-          get(id)
+          all
         end
 
       end
