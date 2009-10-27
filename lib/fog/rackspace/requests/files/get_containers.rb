@@ -22,13 +22,14 @@ unless Fog.mocking?
           options = { 'format' => 'json' }.merge!(options)
           query = []
           for key, value in options
-            query << "#{key}=#{CGI.escape(value)}"
+            query << "#{key}=#{CGI.escape(value)}&"
           end
+          query.chop!
           response = storage_request(
             :expects  => [200, 204],
             :method   => 'GET',
             :path     => '',
-            :query    => query.join('&')
+            :query    => query
           )
           if response.status == 204
             response.body = []
