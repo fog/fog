@@ -12,7 +12,7 @@ module Fog
 
         def authorize_group_and_owner(group, owner)
           connection.authorize_security_group_ingress(
-            'GroupName'                   => @group_name
+            'GroupName'                   => @group_name,
             'SourceSecurityGroupName'     => group,
             'SourceSecurityGroupOwnerId'  => owner
           )
