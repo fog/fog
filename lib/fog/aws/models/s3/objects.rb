@@ -81,12 +81,12 @@ module Fog
         end
 
         def reload
-          all({
+          self.clear.concat(all({
             'delimiter'   => @delimiter,
             'marker'      => @marker,
             'max-keys'    => @max_keys,
             'prefix'      => @prefix
-          })
+          }))
         end
 
         private

@@ -64,7 +64,7 @@ module Fog
         end
 
         def reload
-          all(snapshot_id)
+          self.clear.concat(all(snapshot_id))
         end
 
       end

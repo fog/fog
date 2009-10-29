@@ -69,7 +69,7 @@ module Fog
         end
 
         def reload
-          all
+          self.clear.concat(all)
         end
 
       end

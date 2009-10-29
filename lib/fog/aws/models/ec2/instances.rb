@@ -56,7 +56,7 @@ module Fog
         end
 
         def reload
-          all(instance_id)
+          self.clear.concat(all(instance_id))
         end
 
       end

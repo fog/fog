@@ -54,7 +54,7 @@ module Fog
         end
 
         def reload
-          all(group_name)
+          self.clear.concat(all(group_name))
         end
 
       end

@@ -61,7 +61,7 @@ module Fog
         end
 
         def reload
-          all(volume_id)
+          self.clear.concat(all(volume_id))
         end
 
       end

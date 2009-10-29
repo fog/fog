@@ -59,7 +59,7 @@ module Fog
         end
 
         def reload
-          all(public_ip)
+          self.clear.concat(all(public_ip))
         end
 
       end

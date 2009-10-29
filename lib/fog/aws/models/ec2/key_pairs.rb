@@ -54,7 +54,7 @@ module Fog
         end
 
         def reload
-          all(key_name)
+          self.clear.concat(all(key_name))
         end
 
       end
