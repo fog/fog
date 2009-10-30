@@ -10,7 +10,7 @@ module Fog
         attribute :max_keys,      'MaxKeys'
         attribute :prefix,        'Prefix'
 
-        klass Fog::AWS::S3::Object
+        model Fog::AWS::S3::Object
 
         def all(options = {})
           bucket.collection.get(

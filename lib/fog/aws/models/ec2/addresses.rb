@@ -13,7 +13,7 @@ module Fog
         attribute :public_ip
         attribute :instance
 
-        klass Fog::AWS::EC2::Address
+        model Fog::AWS::EC2::Address
 
         def initialize(attributes)
           @public_ip ||= []

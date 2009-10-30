@@ -8,7 +8,7 @@ module Fog
 
       class Buckets < Fog::Collection
 
-        klass Fog::AWS::S3::Bucket
+        model Fog::AWS::S3::Bucket
 
         def all
           data = connection.get_service.body

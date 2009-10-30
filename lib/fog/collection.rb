@@ -11,8 +11,8 @@ module Fog
       end
     end
 
-    def self.klass(new_klass)
-      @instance = new_klass
+    def self.model(new_model)
+      @model = new_model
     end
     
     def self.aliases
@@ -54,8 +54,8 @@ module Fog
       data << "]>"
     end
 
-    def klass
-      self.class.instance_variable_get('@instance')
+    def model
+      self.class.instance_variable_get('@model')
     end
 
     def merge_attributes(new_attributes = {})
@@ -70,7 +70,7 @@ module Fog
     end
 
     def new(attributes = {})
-      klass.new(
+      model.new(
         attributes.merge!(
           :collection => self,
           :connection => connection

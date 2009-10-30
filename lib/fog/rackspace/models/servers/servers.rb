@@ -8,7 +8,7 @@ module Fog
 
       class Servers < Fog::Collection
 
-        klass Fog::Rackspace::Servers::Server
+        model Fog::Rackspace::Servers::Server
 
         def all
           data = connection.list_servers_details.body

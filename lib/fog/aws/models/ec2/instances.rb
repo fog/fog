@@ -10,7 +10,7 @@ module Fog
 
         attribute :instance_id
 
-        klass Fog::AWS::EC2::Instance
+        model Fog::AWS::EC2::Instance
 
         def initialize(attributes)
           @instance_id ||= []

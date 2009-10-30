@@ -10,7 +10,7 @@ module Fog
 
         attribute :group_name
 
-        klass Fog::AWS::EC2::SecurityGroup
+        model Fog::AWS::EC2::SecurityGroup
 
         def initialize(attributes)
           @group_name ||= []

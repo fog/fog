@@ -10,7 +10,7 @@ module Fog
 
         attribute :key_name
 
-        klass Fog::AWS::EC2::KeyPair
+        model Fog::AWS::EC2::KeyPair
 
         def initialize(attributes)
           @key_name ||= []

@@ -13,7 +13,7 @@ module Fog
         attribute :volume_id
         attribute :instance
 
-        klass Fog::AWS::EC2::Volume
+        model Fog::AWS::EC2::Volume
 
         def initialize(attributes)
           @volume_id ||= []

@@ -13,7 +13,7 @@ module Fog
         attribute :snapshot_id
         attribute :volume_id
 
-        klass Fog::AWS::EC2::Snapshot
+        model Fog::AWS::EC2::Snapshot
 
         def initialize(attributes)
           @snapshot_id ||= []
