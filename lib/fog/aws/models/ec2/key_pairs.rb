@@ -10,12 +10,14 @@ module Fog
 
         attribute :key_name
 
+        klass Fog::AWS::EC2::KeyPair
+
         def initialize(attributes)
           @key_name ||= []
           super
         end
 
-        def all(key_name = [])
+        def all(key_name = @key_name)
           data = connection.describe_key_pairs(key_name).body
           key_pairs = Fog::AWS::EC2::KeyPairs.new({
             :connection => connection,
@@ -30,31 +32,12 @@ module Fog
           key_pairs
         end
 
-        def create(attributes = {})
-          bucket = new(attributes)
-          bucket.save
-          bucket
-        end
-
         def get(key_name)
           if key_name
             all(key_name).first
           end
         rescue Fog::Errors::BadRequest
           nil
-        end
-
-        def new(attributes = {})
-          Fog::AWS::EC2::KeyPair.new(
-            attributes.merge!(
-              :collection => self,
-              :connection => connection
-            )
-          )
-        end
-
-        def reload
-          self.clear.concat(all(key_name))
         end
 
       end

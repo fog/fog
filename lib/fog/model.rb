@@ -24,6 +24,18 @@ module Fog
       @attributes ||= []
     end
 
+    def attributes
+      attributes = {}
+      for attribute in self.class.attributes
+        attributes[attribute] = send("#{attribute}")
+      end
+      attributes
+    end
+
+    def collection
+      @collection
+    end
+
     def identity
       send(self.class.instance_variable_get('@identity'))
     end
@@ -38,18 +50,6 @@ module Fog
         data << " #{attribute}=#{send(attribute).inspect}"
       end
       data << ">"
-    end
-
-    def attributes
-      attributes = {}
-      for attribute in self.class.attributes
-        attributes[attribute] = send("#{attribute}")
-      end
-      attributes
-    end
-
-    def collection
-      @collection
     end
 
     def merge_attributes(new_attributes = {})

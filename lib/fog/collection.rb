@@ -11,12 +11,30 @@ module Fog
       end
     end
 
+    def self.klass(new_klass)
+      @instance = new_klass
+    end
+    
     def self.aliases
       @aliases ||= {}
     end
 
     def self.attributes
       @attributes ||= []
+    end
+
+    def attributes
+      attributes = {}
+      for attribute in self.class.attributes
+        attributes[attribute] = send("#{attribute}")
+      end
+      attributes
+    end
+
+    def create(attributes = {})
+      object = new(attributes)
+      object.save
+      object
     end
 
     def initialize(attributes = {})
@@ -36,12 +54,8 @@ module Fog
       data << "]>"
     end
 
-    def attributes
-      attributes = {}
-      for attribute in self.class.attributes
-        attributes[attribute] = send("#{attribute}")
-      end
-      attributes
+    def klass
+      self.class.instance_variable_get('@instance')
     end
 
     def merge_attributes(new_attributes = {})
@@ -53,6 +67,19 @@ module Fog
         end
       end
       self
+    end
+
+    def new(attributes = {})
+      klass.new(
+        attributes.merge!(
+          :collection => self,
+          :connection => connection
+        )
+      )
+    end
+
+    def reload
+      self.clear.concat(all)
     end
 
     private

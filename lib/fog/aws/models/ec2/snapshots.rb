@@ -13,12 +13,14 @@ module Fog
         attribute :snapshot_id
         attribute :volume_id
 
+        klass Fog::AWS::EC2::Snapshot
+
         def initialize(attributes)
           @snapshot_id ||= []
           super
         end
 
-        def all(snapshot_id = [])
+        def all(snapshot_id = @snapshot_id)
           data = connection.describe_snapshots(snapshot_id).body
           snapshots = Fog::AWS::EC2::Snapshots.new({
             :connection   => connection,
@@ -36,12 +38,6 @@ module Fog
           snapshots
         end
 
-        def create(attributes = {})
-          snapshot = new(attributes)
-          snapshot.save
-          snapshot
-        end
-
         def get(snapshot_id)
           if snapshot_id
             all(snapshot_id).first
@@ -51,20 +47,11 @@ module Fog
         end
 
         def new(attributes = {})
-          snapshot = Fog::AWS::EC2::Snapshot.new(
-            attributes.merge!(
-              :collection => self,
-              :connection => connection
-            )
-          )
+          snapshot = super(attributes)
           if volume_id
             snapshot.volume_id = volume_id
           end
           snapshot
-        end
-
-        def reload
-          self.clear.concat(all(snapshot_id))
         end
 
       end

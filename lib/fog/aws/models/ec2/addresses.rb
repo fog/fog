@@ -13,12 +13,14 @@ module Fog
         attribute :public_ip
         attribute :instance
 
+        klass Fog::AWS::EC2::Address
+
         def initialize(attributes)
           @public_ip ||= []
           super
         end
 
-        def all(public_ip = [])
+        def all(public_ip = @public_ip)
           data = connection.describe_addresses(public_ip).body
           addresses = Fog::AWS::EC2::Addresses.new({
             :connection => connection,
@@ -36,12 +38,6 @@ module Fog
           addresses
         end
 
-        def create
-          address = new
-          address.save
-          address
-        end
-
         def get(public_ip)
           if public_ip
             all(public_ip).first
@@ -50,16 +46,8 @@ module Fog
           nil
         end
 
-        def new
-          Fog::AWS::EC2::Address.new(
-            :collection => self,
-            :connection => connection,
-            :instance   => instance
-          )
-        end
-
-        def reload
-          self.clear.concat(all(public_ip))
+        def new(attributes = {})
+          super({ :instance => instance }.merge!(attributes))
         end
 
       end

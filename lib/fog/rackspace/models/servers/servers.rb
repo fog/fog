@@ -8,6 +8,8 @@ module Fog
 
       class Servers < Fog::Collection
 
+        klass Fog::Rackspace::Servers::Server
+
         def all
           data = connection.list_servers_details.body
           servers = Fog::Rackspace::Servers::Servers.new({
@@ -22,27 +24,10 @@ module Fog
           servers
         end
 
-        def create(attributes = {})
-          server = new(attributes)
-          server.save
-          server
-        end
-
         def get(id)
           connection.get_server_details(id)
         rescue Fog::Errors::NotFound
           nil
-        end
-
-        def new(attributes = {})
-          Fog::Rackspace::Servers::Server.new({
-            :collection => self,
-            :connection => connection
-          }.merge!(attributes))
-        end
-
-        def reload
-          self.clear.concat(all)
         end
 
       end

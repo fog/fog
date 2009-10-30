@@ -13,12 +13,14 @@ module Fog
         attribute :volume_id
         attribute :instance
 
+        klass Fog::AWS::EC2::Volume
+
         def initialize(attributes)
           @volume_id ||= []
           super
         end
 
-        def all(volume_id = [])
+        def all(volume_id = @volume_id)
           data = connection.describe_volumes(volume_id).body
           volumes = Fog::AWS::EC2::Volumes.new({
             :connection => connection,
@@ -36,12 +38,6 @@ module Fog
           volumes
         end
 
-        def create(attributes = {})
-          volume = new(attributes)
-          volume.save
-          volume
-        end
-
         def get(volume_id)
           if volume_id
             all(volume_id).first
@@ -51,17 +47,7 @@ module Fog
         end
 
         def new(attributes = {})
-          volume = Fog::AWS::EC2::Volume.new(
-            attributes.merge!(
-              :collection => self,
-              :connection => connection,
-              :instance   => instance
-            )
-          )
-        end
-
-        def reload
-          self.clear.concat(all(volume_id))
+          super({ :instance => instance }.merge!(attributes))
         end
 
       end

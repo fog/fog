@@ -10,6 +10,8 @@ module Fog
         attribute :max_keys,      'MaxKeys'
         attribute :prefix,        'Prefix'
 
+        klass Fog::AWS::S3::Object
+
         def all(options = {})
           bucket.collection.get(
             bucket.name,
@@ -21,13 +23,13 @@ module Fog
           @bucket
         end
 
-        def create(attributes = {})
-          object = new(attributes)
-          object.save
-          object
-        end
-
         def get(key, options = {}, &block)
+          options = {
+            'delimiter'   => @delimiter,
+            'marker'      => @marker,
+            'max-keys'    => @max_keys,
+            'prefix'      => @prefix
+          }.merge!(options)
           data = connection.get_object(bucket.name, key, options, &block)
           object_data = {
             :body => data.body,
@@ -73,20 +75,7 @@ module Fog
         end
 
         def new(attributes = {})
-          Fog::AWS::S3::Object.new({
-            :bucket     => bucket,
-            :collection => self,
-            :connection => connection
-          }.merge!(attributes))
-        end
-
-        def reload
-          self.clear.concat(all({
-            'delimiter'   => @delimiter,
-            'marker'      => @marker,
-            'max-keys'    => @max_keys,
-            'prefix'      => @prefix
-          }))
+          super({ :bucket => bucket }.merge!(attributes))
         end
 
         private

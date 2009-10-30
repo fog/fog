@@ -10,12 +10,14 @@ module Fog
 
         attribute :instance_id
 
+        klass Fog::AWS::EC2::Instance
+
         def initialize(attributes)
           @instance_id ||= []
           super
         end
 
-        def all(instance_id = [])
+        def all(instance_id = @instance_id)
           data = connection.describe_instances(instance_id).body
           instances = Fog::AWS::EC2::Instances.new({
             :connection   => connection,
@@ -32,31 +34,12 @@ module Fog
           instances
         end
 
-        def create(attributes = {})
-          instance = new(attributes)
-          instance.save
-          instance
-        end
-
         def get(instance_id)
           if instance_id
             all(instance_id).first
           end
         rescue Fog::Errors::BadRequest
           nil
-        end
-
-        def new(attributes = {})
-          Fog::AWS::EC2::Instance.new(
-            attributes.merge!(
-              :collection => self,
-              :connection => connection
-            )
-          )
-        end
-
-        def reload
-          self.clear.concat(all(instance_id))
         end
 
       end

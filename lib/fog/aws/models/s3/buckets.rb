@@ -8,6 +8,8 @@ module Fog
 
       class Buckets < Fog::Collection
 
+        klass Fog::AWS::S3::Bucket
+
         def all
           data = connection.get_service.body
           owner = Fog::AWS::S3::Owner.new(data.delete('Owner').merge!(:connection => connection))
@@ -20,12 +22,6 @@ module Fog
             }.merge!(bucket))
           end
           buckets
-        end
-
-        def create(attributes = {})
-          bucket = new(attributes)
-          bucket.save
-          bucket
         end
 
         def get(name, options = {})
@@ -57,19 +53,6 @@ module Fog
           bucket
         rescue Fog::Errors::NotFound
           nil
-        end
-
-        def new(attributes = {})
-          Fog::AWS::S3::Bucket.new(
-            attributes.merge!(
-              :collection => self,
-              :connection => connection
-            )
-          )
-        end
-
-        def reload
-          self.clear.concat(all)
         end
 
       end
