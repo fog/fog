@@ -3,7 +3,13 @@ module Fog
     class Files
 
       def self.reload
+        load "fog/rackspace/requests/files/delete_containers.rb"
+        load "fog/rackspace/requests/files/get_container.rb"
         load "fog/rackspace/requests/files/get_containers.rb"
+        load "fog/rackspace/requests/files/head_container.rb"
+        load "fog/rackspace/requests/files/head_containers.rb"
+        load "fog/rackspace/requests/files/put_container.rb"
+        load "fog/rackspace/requests/files/delete_object.rb"
       end
 
       def initialize(options={})
