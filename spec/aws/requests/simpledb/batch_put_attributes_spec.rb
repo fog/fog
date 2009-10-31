@@ -24,7 +24,7 @@ describe 'SimpleDB.batch_put_attributes' do
     it 'should raise a BadRequest error if the domain does not exist' do
       lambda {
         sdb.batch_put_attributes('notadomain', { 'a' => { 'b' => 'c' }, 'x' => { 'y' => 'z' } })
-      }.should raise_error(Fog::Errors::BadRequest)
+      }.should raise_error(Excon::Errors::BadRequest)
     end
 
   end

@@ -25,7 +25,7 @@ describe 'SimpleDB.delete_attributes' do
     it 'shouild raise a BadRequest error if the domain does not exist' do
       lambda {
         sdb.delete_attributes('notadomain', 'notanattribute')
-      }.should raise_error(Fog::Errors::BadRequest)
+      }.should raise_error(Excon::Errors::BadRequest)
     end
 
     it 'should not raise an error if the attribute does not exist' do

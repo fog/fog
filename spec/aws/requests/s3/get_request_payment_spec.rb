@@ -23,7 +23,7 @@ describe 'S3.get_request_payment' do
     it 'should raise a NotFound error if the bucket does not exist' do
       lambda {
         s3.get_request_payment('fognotabucket')
-      }.should raise_error(Fog::Errors::NotFound)
+      }.should raise_error(Excon::Errors::NotFound)
     end
 
   end

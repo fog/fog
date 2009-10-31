@@ -37,7 +37,7 @@ describe 'EC2.attach_volume' do
       @volume_id = ec2.create_volume('us-east-1a', 1).body['volumeId']
       lambda {
         ec2.attach_volume('i-00000000', @volume_id, '/dev/sdh')
-      }.should raise_error(Fog::Errors::BadRequest)
+      }.should raise_error(Excon::Errors::BadRequest)
       ec2.delete_volume(@volume_id)
     end
 
@@ -45,7 +45,7 @@ describe 'EC2.attach_volume' do
       @instance_id = ec2.run_instances(GENTOO_AMI, 1, 1).body['instancesSet'].first['instanceId']
       lambda {
         ec2.attach_volume(@instance_id, 'vol-00000000', '/dev/sdh')
-      }.should raise_error(Fog::Errors::BadRequest)
+      }.should raise_error(Excon::Errors::BadRequest)
       ec2.terminate_instances(@instance_id)
     end
 

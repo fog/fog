@@ -24,7 +24,7 @@ describe 'S3.delete_object' do
     it 'should raise a NotFound error if the bucket does not exist' do
       lambda {
         s3.delete_object('fognotabucket', 'fog_delete_object')
-      }.should raise_error(Fog::Errors::NotFound)
+      }.should raise_error(Excon::Errors::NotFound)
     end
 
     it 'should not raise an error if the object does not exist' do

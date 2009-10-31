@@ -26,7 +26,7 @@ describe 'EC2.associate_address' do
       @public_ip = ec2.allocate_address.body['publicIp']
       lambda {
         ec2.associate_address('i-00000000', @public_ip)
-      }.should raise_error(Fog::Errors::BadRequest)
+      }.should raise_error(Excon::Errors::BadRequest)
       ec2.release_address(@public_ip)
     end
 
@@ -34,7 +34,7 @@ describe 'EC2.associate_address' do
       @instance_id = ec2.run_instances(GENTOO_AMI, 1, 1).body['instancesSet'].first['instanceId']
       lambda {
         ec2.associate_address(@instance_id, '127.0.0.1')
-      }.should raise_error(Fog::Errors::BadRequest)
+      }.should raise_error(Excon::Errors::BadRequest)
       ec2.terminate_instances(@instance_id)
     end
 

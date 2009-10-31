@@ -43,7 +43,7 @@ describe 'EC2.describe_volumes' do
     it "should raise a BadRequest error if volume does not exist" do
       lambda {
         ec2.describe_volumes('vol-00000000')
-      }.should raise_error(Fog::Errors::BadRequest)
+      }.should raise_error(Excon::Errors::BadRequest)
     end
 
   end

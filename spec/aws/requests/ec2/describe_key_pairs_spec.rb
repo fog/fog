@@ -35,7 +35,7 @@ describe 'EC2.describe_key_pairs' do
     it "should raise a BadRequest error if the key does not exist" do
       lambda {
         ec2.describe_key_pairs('fog_not_a_key_name')
-      }.should raise_error(Fog::Errors::BadRequest)
+      }.should raise_error(Excon::Errors::BadRequest)
     end
 
   end

@@ -36,7 +36,7 @@ describe 'S3.copy_object' do
           'fognotabucket', 'fog_copy_object_source',
           'fogcopyobjectdestination', 'fog_copy_object_destination'
         )
-      }.should raise_error(Fog::Errors::NotFound)
+      }.should raise_error(Excon::Errors::NotFound)
     end
 
     it 'should raise a NotFound error if the source_object does not exist' do
@@ -45,7 +45,7 @@ describe 'S3.copy_object' do
           'fogcopyobjectsource', 'fog_not_an_object',
           'fogcopyobjectdestination', 'fog_copy_object_destination'
         )
-      }.should raise_error(Fog::Errors::NotFound)
+      }.should raise_error(Excon::Errors::NotFound)
     end
 
     it 'should raise a NotFound error if the target_bucket does not exist' do
@@ -54,7 +54,7 @@ describe 'S3.copy_object' do
           'fogcopyobjectsource', 'fog_copy_object_source',
           'fognotabucket', 'fog_copy_object_destination'
         )
-      }.should raise_error(Fog::Errors::NotFound)
+      }.should raise_error(Excon::Errors::NotFound)
     end
 
   end

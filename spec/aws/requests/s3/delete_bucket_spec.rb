@@ -18,7 +18,7 @@ describe 'S3.delete_bucket' do
     it 'should raise a NotFound error if the bucket does not exist' do
       lambda {
         s3.delete_bucket('fognotabucket')
-      }.should raise_error(Fog::Errors::NotFound)
+      }.should raise_error(Excon::Errors::NotFound)
     end
 
     it 'should raise a Conflict error if the bucket is not empty' do
@@ -27,7 +27,7 @@ describe 'S3.delete_bucket' do
       s3.put_object('fogdeletebucket', 'fog_delete_object', file)
       lambda {
         s3.delete_bucket('fogdeletebucket')
-      }.should raise_error(Fog::Errors::Conflict)
+      }.should raise_error(Excon::Errors::Conflict)
       s3.delete_object('fogdeletebucket', 'fog_delete_object')
       s3.delete_bucket('fogdeletebucket')
     end

@@ -31,7 +31,7 @@ describe 'EC2.describe_addresses' do
     it "should raise a BadRequest error if ip does not exist" do
       lambda {
         ec2.describe_addresses('127.0.0.1')
-      }.should raise_error(Fog::Errors::BadRequest)
+      }.should raise_error(Excon::Errors::BadRequest)
     end
 
   end

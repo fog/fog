@@ -31,7 +31,7 @@ describe 'S3.put_object' do
       lambda {
         file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
         s3.put_object('fognotabucket', 'fog_put_object', file)
-      }.should raise_error(Fog::Errors::NotFound)
+      }.should raise_error(Excon::Errors::NotFound)
     end
 
   end

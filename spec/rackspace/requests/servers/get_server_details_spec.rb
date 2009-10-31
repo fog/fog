@@ -37,7 +37,7 @@ describe 'Rackspace::Servers.get_server_details' do
     it "should raise a NotFound error if the server does not exist" do
       lambda {
         servers.get_server_details(0)
-      }.should raise_error(Fog::Errors::NotFound)
+      }.should raise_error(Excon::Errors::NotFound)
     end
 
   end

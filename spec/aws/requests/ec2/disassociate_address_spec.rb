@@ -27,7 +27,7 @@ describe 'EC2.disassociate_address' do
     it "should raise a BadRequest error if the address does not exist" do
       lambda {
         ec2.disassociate_address('127.0.0.1')
-      }.should raise_error(Fog::Errors::BadRequest)
+      }.should raise_error(Excon::Errors::BadRequest)
     end
 
   end

@@ -19,7 +19,7 @@ describe 'EC2.create_volume' do
     it "should raise a BadRequest error if volume does not exist" do
       lambda {
         ec2.release_address('vol-00000000')
-      }.should raise_error(Fog::Errors::BadRequest)
+      }.should raise_error(Excon::Errors::BadRequest)
     end
 
   end

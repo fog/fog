@@ -20,12 +20,6 @@ module Fog
       end
 
       def self.reload
-        load "fog/collection.rb"
-        load "fog/connection.rb"
-        load "fog/model.rb"
-        load "fog/parser.rb"
-        load "fog/response.rb"
-
         load "fog/aws/models/ec2/address.rb"
         load "fog/aws/models/ec2/addresses.rb"
         load "fog/aws/models/ec2/instance.rb"

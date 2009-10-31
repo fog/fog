@@ -33,7 +33,7 @@ describe 'SimpleDB.get_attributes' do
     it 'should raise a BadRequest error if the domain does not exist' do
       lambda {
         sdb.get_attributes('notadomain', 'notanattribute')
-      }.should raise_error(Fog::Errors::BadRequest)
+      }.should raise_error(Excon::Errors::BadRequest)
     end
 
     it 'should not raise an error if the attribute does not exist' do

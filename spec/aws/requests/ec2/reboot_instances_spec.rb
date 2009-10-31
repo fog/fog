@@ -23,7 +23,7 @@ describe 'EC2.reboot_instances' do
     it "should raise a BadRequest error if the instance does not exist" do
       lambda {
         ec2.reboot_instances('i-00000000')
-      }.should raise_error(Fog::Errors::BadRequest)
+      }.should raise_error(Excon::Errors::BadRequest)
     end
 
   end

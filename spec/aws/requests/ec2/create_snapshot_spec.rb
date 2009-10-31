@@ -30,7 +30,7 @@ describe 'EC2.create_snapshot' do
     it "should raise a BadRequest error if the volume does not exist" do
       lambda {
         ec2.create_snapshot('vol-00000000')
-      }.should raise_error(Fog::Errors::BadRequest)
+      }.should raise_error(Excon::Errors::BadRequest)
     end
 
   end

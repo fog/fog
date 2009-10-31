@@ -103,13 +103,13 @@ describe 'S3.get_bucket' do
     it 'should raise a NotFound error if the bucket does not exist' do
       lambda {
         s3.get_bucket('fognotabucket')
-      }.should raise_error(Fog::Errors::NotFound)
+      }.should raise_error(Excon::Errors::NotFound)
     end
 
     it 'should request non-subdomain buckets and raise a NotFound error' do
       lambda {
         s3.get_bucket('A-invalid--name')
-      }.should raise_error(Fog::Errors::NotFound)
+      }.should raise_error(Excon::Errors::NotFound)
     end
 
   end

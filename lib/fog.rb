@@ -1,5 +1,4 @@
 require 'rubygems'
-require 'rubygems'
 require 'base64'
 require 'cgi'
 require 'digest/md5'
@@ -26,6 +25,11 @@ module Fog
   end
 
   def self.reload
+    load "fog/collection.rb"
+    load "fog/connection.rb"
+    load "fog/model.rb"
+    load "fog/parser.rb"
+
     load "fog/aws.rb"
     load "fog/rackspace.rb"
   end

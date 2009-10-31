@@ -47,7 +47,7 @@ describe 'EC2.describe_snapshots' do
     it "should raise a BadRequest error if the snapshot does not exist" do
       lambda {
         ec2.describe_snapshots('snap-00000000')
-      }.should raise_error(Fog::Errors::BadRequest)
+      }.should raise_error(Excon::Errors::BadRequest)
     end
 
   end

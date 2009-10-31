@@ -44,7 +44,7 @@ describe 'EC2.describe_security_groups' do
     it "should raise a BadRequest error if the security group does not exist" do
       lambda {
         ec2.describe_security_groups('not_a_security_group')
-      }.should raise_error(Fog::Errors::BadRequest)
+      }.should raise_error(Excon::Errors::BadRequest)
     end
 
   end

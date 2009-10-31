@@ -12,10 +12,6 @@ module Fog
       end
 
       def self.reload
-        load "fog/connection.rb"
-        load "fog/parser.rb"
-        load "fog/response.rb"
-
         load "fog/aws/parsers/simpledb/basic.rb"
         load "fog/aws/parsers/simpledb/domain_metadata.rb"
         load "fog/aws/parsers/simpledb/get_attributes.rb"

@@ -28,7 +28,7 @@ describe 'EC2.delete_snapshot' do
     it "should raise a BadRequest error if snapshot does not exist" do
       lambda {
         ec2.release_address('snap-00000000')
-      }.should raise_error(Fog::Errors::BadRequest)
+      }.should raise_error(Excon::Errors::BadRequest)
     end
 
   end

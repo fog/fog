@@ -29,7 +29,7 @@ describe 'EC2.create_key_pair' do
     it "should raise a BadRequest when the key pair already exists" do
       lambda {
         ec2.create_key_pair('fog_key_pair')
-      }.should raise_error(Fog::Errors::BadRequest)
+      }.should raise_error(Excon::Errors::BadRequest)
     end
 
   end
