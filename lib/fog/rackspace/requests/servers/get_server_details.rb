@@ -6,6 +6,9 @@ unless Fog.mocking?
 
         # Get details about a server
         #
+        # ==== Parameters
+        # * server_id<~Integer> - Id of server to get details for
+        #
         # ==== Returns
         # * response<~Fog::AWS::Response>:
         #   * body<~Hash>:
@@ -21,11 +24,11 @@ unless Fog.mocking?
         #     * 'name<~String> - Name of server
         #     * 'progress'<~Integer> - Progress through current status
         #     * 'status'<~String> - Current server status
-        def get_server_details(id)
+        def get_server_details(server_id)
           request(
             :expects  => 200,
             :method   => 'GET',
-            :path     => "servers/#{id}.json"
+            :path     => "servers/#{server_id}.json"
           )
         end
 
