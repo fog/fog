@@ -6,6 +6,8 @@ require 'hmac-sha1'
 require 'hmac-sha2'
 require 'json'
 require 'mime/types'
+require 'nokogiri'
+require 'time'
 
 __DIR__ = File.dirname(__FILE__)
 

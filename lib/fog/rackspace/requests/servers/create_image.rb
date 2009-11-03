@@ -10,6 +10,15 @@ unless Fog.mocking?
         # * server_id<~Integer> - Id of server to create image from
         # * options<~Hash> - Name
         #
+        # ==== Returns
+        # * response<~Fog::AWS::Response>:
+        #   * 'image'<~Hash>:
+        #     * 'created'<~Time> - Creation time
+        #     * 'id'<~Integer> - Id of image
+        #     * 'name'<~String> - Name of image
+        #     * 'progress'<~String> - Percentage of completion
+        #     * 'serverId'<~Integer> - Id of server
+        #     * 'status'<~String> - Current status
         def create_image(server_id, options = {})
           data = {
             'image' => {

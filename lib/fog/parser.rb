@@ -1,8 +1,3 @@
-require 'rubygems'
-require 'base64'
-require 'nokogiri'
-require 'time'
-
 module Fog
   module Parsers
     class Base < Nokogiri::XML::SAX::Document

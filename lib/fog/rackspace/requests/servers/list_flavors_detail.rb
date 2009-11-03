@@ -11,7 +11,9 @@ unless Fog.mocking?
         #   * body<~Hash>:
         #     * 'id'<~Integer> - Id of the flavor
         #     * 'name'<~String> - Name of the flavor
-        def list_flavors
+        #     * 'ram'<~Integer> - Amount of ram for the flavor
+        #     * 'disk'<~Integer> - Amount of diskspace for the flavor
+        def list_flavors_detail
           request(
             :expects  => 200,
             :method   => 'GET',
@@ -29,7 +31,7 @@ else
     module Rackspace
       class Servers
 
-        def list_flavors
+        def list_flavors_detail
         end
 
       end

@@ -4,8 +4,11 @@ describe 'Rackspace::Servers.list_images' do
   describe 'success' do
 
     it "should return proper attributes" do
-      pending
-      p servers.list_images
+      actual = servers.list_images
+      actual['images'].should be_an(Array)
+      image = actual['images'].first
+      image['id'].should be_an(Integer)
+      image['name'].should be_a(String)
     end
 
   end

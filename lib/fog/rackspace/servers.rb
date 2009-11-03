@@ -15,6 +15,7 @@ module Fog
         load "fog/rackspace/requests/servers/list_private_addresses.rb"
         load "fog/rackspace/requests/servers/list_public_addresses.rb"
         load "fog/rackspace/requests/servers/list_flavors.rb"
+        load "fog/rackspace/requests/servers/list_flavors_detail.rb"
         load "fog/rackspace/requests/servers/list_images.rb"
         load "fog/rackspace/requests/servers/list_images_detail.rb"
         load "fog/rackspace/requests/servers/list_servers.rb"
@@ -47,6 +48,12 @@ module Fog
         })
         unless response.body.empty?
           response.body = JSON.parse(response.body)
+          if response.body['created']
+            response.body['created'] = Time.parse(response.body['created'])
+          end
+          if response.body['updated']
+            response.body['updated'] = Time.parse(response.body['updated'])
+          end
         end
         response
       end
