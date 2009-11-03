@@ -17,7 +17,7 @@ unless Fog.mocking?
         #   * 'Range'<~String> - Range of object to download
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~String> - Contents of object
         #   * headers<~Hash>:
         #     * 'Content-Length'<~String> - Size of object contents

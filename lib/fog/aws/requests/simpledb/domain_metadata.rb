@@ -11,7 +11,7 @@ unless Fog.mocking?
         # following characters: a-z, A-Z, 0-9, '_', '-' and '.'.
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'AttributeNameCount' - number of unique attribute names in domain
         #     * 'AttributeNamesSizeBytes' - total size of unique attribute names, in bytes

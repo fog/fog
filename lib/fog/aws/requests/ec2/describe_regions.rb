@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * region_name<~String> - List of regions to describe, defaults to all
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'regionInfo'<~Array>:

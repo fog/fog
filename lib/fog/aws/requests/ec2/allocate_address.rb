@@ -7,7 +7,7 @@ unless Fog.mocking?
         # Acquire an elastic IP address.
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'publicIp'<~String> - The acquired address
         #     * 'requestId'<~String> - Id of the request

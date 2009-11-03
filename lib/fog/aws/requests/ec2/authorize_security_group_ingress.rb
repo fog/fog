@@ -19,7 +19,7 @@ unless Fog.mocking?
         #   * 'ToPort' - End of port range (or -1 for ICMP wildcard)
         #
         # === Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - success?

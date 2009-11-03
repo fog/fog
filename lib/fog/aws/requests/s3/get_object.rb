@@ -16,7 +16,7 @@ unless Fog.mocking?
         #   * 'If-Unmodified-Since'<~Time> - Returns object only if it has not been modified since this time, otherwise returns 412 (Precodition Failed).
         #   * 'Range'<~String> - Range of object to download
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~String> - Contents of object
         #   * headers<~Hash>:
         #     * 'Content-Length'<~String> - Size of object contents

@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * container<~String> - Name of container to retrieve info for
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * headers<~Hash>:
         #     * 'X-Container-Object-Count'<~String> - Count of containers
         #     * 'X-Container-Bytes-Used'<~String>   - Bytes used

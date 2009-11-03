@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * bucket_name<~String> - name of bucket to get location constraint for
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'LocationConstraint'<~String> - Location constraint of the bucket
         def get_bucket_location(bucket_name)

@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * zone_name<~String> - List of availability zones to describe, defaults to all
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'availabilityZoneInfo'<~Array>:

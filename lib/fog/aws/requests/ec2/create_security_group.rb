@@ -11,7 +11,7 @@ unless Fog.mocking?
         # * group_description<~String> - Description of group.
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - success?

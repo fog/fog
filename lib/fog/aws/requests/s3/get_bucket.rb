@@ -17,7 +17,7 @@ unless Fog.mocking?
         #     value and the first occurence of delimiter to be rolled up
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'Delimeter'<~String> - Delimiter specified for query
         #     * 'Marker'<~String> - Marker specified for query

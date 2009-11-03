@@ -19,7 +19,7 @@ unless Fog.mocking?
         #   * 'x-amz-copy_source-if-unmodified-since'<~Time> - Copies object it it has not been modified since this time
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'ETag'<~String> - etag of new object
         #     * 'LastModified'<~Time> - date object was last modified

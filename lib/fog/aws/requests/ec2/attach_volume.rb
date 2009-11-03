@@ -12,7 +12,7 @@ unless Fog.mocking?
         # * device<~String> - Specifies how the device is exposed to the instance (e.g. "/dev/sdh")
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'attachTime'<~Time> - Time of attachment was initiated at
         #     * 'device'<~String> - Device as it is exposed to the instance

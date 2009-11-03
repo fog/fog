@@ -15,7 +15,7 @@ unless Fog.mocking?
         #   * 'path'<~String> - Return objects nested in the pseudo path
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * headers<~Hash>:
         #     * 'X-Account-Container-Count'<~String> - Count of containers
         #     * 'X-Account-Bytes-Used'<~String> - Bytes used

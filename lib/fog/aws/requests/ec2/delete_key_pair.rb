@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * key_name<~String> - Name of the key pair.
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'requestId'<~String> id of request
         #     * 'return'<~Boolean> - success?

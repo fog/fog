@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * instance_id<~Array> - Ids of instances to terminates
         #
         # ==== Returns
-        # # * response<~Fog::AWS::Response>:
+        # # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'instancesSet'<~Array>:

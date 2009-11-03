@@ -12,7 +12,7 @@ unless Fog.mocking?
         # * snapshot_id<~String> - Optional, snapshot to create volume from
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'availabilityZone'<~String> - Availability zone for volume
         #     * 'createTime'<~Time> - Timestamp for creation

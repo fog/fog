@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * bucket_name<~String> - name of bucket to get payer for
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'Payer'<~String> - Specifies who pays for download and requests
         def get_request_payment(bucket_name)

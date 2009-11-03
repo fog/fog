@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * snapshot_id<~Array> - List of snapshots to describe, defaults to all
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'snapshotSet'<~Array>:

@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * key_name<~Array>:: List of key names to describe, defaults to all
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'keySet'<~Array>:

@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * volume_id<~String> - Id of volume to delete.
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - success?

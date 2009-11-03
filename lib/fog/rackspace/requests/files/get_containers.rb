@@ -12,7 +12,7 @@ unless Fog.mocking?
         #   * 'marker'<~String> - Only return objects with name greater than this value
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Array>:
         #     * container<~Hash>:
         #       * 'bytes'<~Integer>: - Number of bytes used by container

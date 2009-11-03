@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * group_name<~String> - Name of the security group.
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - success?

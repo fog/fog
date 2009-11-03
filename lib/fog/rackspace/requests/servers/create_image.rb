@@ -11,7 +11,7 @@ unless Fog.mocking?
         # * options<~Hash> - Name
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * 'image'<~Hash>:
         #     * 'created'<~Time> - Creation time
         #     * 'id'<~Integer> - Id of image

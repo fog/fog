@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * public_ip<~Array> - List of ips to describe, defaults to all
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'addressesSet'<~Array>:

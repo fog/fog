@@ -7,7 +7,7 @@ unless Fog.mocking?
         # List information about S3 buckets for authorized user
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'Buckets'<~Hash>:
         #       * 'Name'<~String> - Name of bucket

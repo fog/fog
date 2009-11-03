@@ -7,7 +7,7 @@ unless Fog.mocking?
         # List number of containers and total bytes stored
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * headers<~Hash>:
         #     * 'X-Account-Container-Count'<~String> - Count of containers
         #     * 'X-Account-Bytes-Used'<~String> - Bytes used

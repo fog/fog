@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * snapshot_id<~String> - ID of snapshot to delete
         # ==== Returns
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - success?

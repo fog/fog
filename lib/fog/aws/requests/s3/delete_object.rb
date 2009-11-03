@@ -11,7 +11,7 @@ unless Fog.mocking?
         # * object_name<~String> - Name of object to delete
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * status<~Integer> - 204
         def delete_object(bucket_name, object_name)
           request({

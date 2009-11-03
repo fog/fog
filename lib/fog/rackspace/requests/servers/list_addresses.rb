@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * server_id<~Integer> - Id of server to list addresses for
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #   * 'addresses'<~Array>:
         #     * 'public'<~Array> - Public ip addresses

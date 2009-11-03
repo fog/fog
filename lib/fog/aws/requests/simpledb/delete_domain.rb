@@ -11,7 +11,7 @@ unless Fog.mocking?
         # following characters: a-z, A-Z, 0-9, '_', '-' and '.'.
         # 
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'BoxUsage'
         #     * 'RequestId'

@@ -19,7 +19,7 @@ unless Fog.mocking?
         #   bytes long.
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'Attributes' - list of attribute name/values for the item
         #     * 'BoxUsage'

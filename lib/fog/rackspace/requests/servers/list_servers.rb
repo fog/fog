@@ -7,7 +7,7 @@ unless Fog.mocking?
         # List all servers (IDs and names only)
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #   * 'servers'<~Array>:
         #     * 'id'<~Integer> - Id of server

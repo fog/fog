@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * bucket_name<~String> - name of bucket to delete
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * status<~Integer> - 204
         def delete_bucket(bucket_name)
           request({

@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * volume_id<~Array> - List of volumes to describe, defaults to all
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'volumeSet'<~Array>:
         #       * 'availabilityZone'<~String> - Availability zone for volume

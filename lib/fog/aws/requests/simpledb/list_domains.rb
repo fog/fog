@@ -13,7 +13,7 @@ unless Fog.mocking?
         #   * 'NextToken'<~String> - Offset token to start listing, defaults to nil
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'BoxUsage'
         #     * 'Domains' - array of domain names.

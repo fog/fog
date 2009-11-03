@@ -14,7 +14,7 @@ unless Fog.mocking?
         #   * 'InstanceId'<~String> - Id of instance to associate volume with
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'attachTime'<~Time> - Time of attachment was initiated at
         #     * 'device'<~String> - Device as it is exposed to the instance

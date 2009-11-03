@@ -35,7 +35,7 @@ unless Fog.mocking?
         #   * 'VirtualName'<~String> - ?
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'groupSet'<~Array>: groups the instances are members in
         #       * 'groupName'<~String> - Name of group

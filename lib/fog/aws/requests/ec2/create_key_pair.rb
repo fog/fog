@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * key_name<~String> - Unique name for key pair.
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'keyFingerprint'<~String> - SHA-1 digest of DER encoded private key
         #     * 'keyMaterial'<~String> - Unencrypted encoded PEM private key

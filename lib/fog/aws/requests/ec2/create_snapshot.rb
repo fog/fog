@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * volume_id<~String> - Id of EBS volume to snapshot
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'progress'<~String> - The percentage progress of the snapshot
         #     * 'requestId'<~String> - id of request

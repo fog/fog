@@ -12,7 +12,7 @@ unless Fog.mocking?
         #   * :location_constraint<~Symbol> - sets the location for the bucket
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * status<~Integer> - 200
         def put_bucket(bucket_name, options = {})
           if options['LocationConstraint']

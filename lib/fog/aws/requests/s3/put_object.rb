@@ -21,7 +21,7 @@ unless Fog.mocking?
         #   * "x-amz-meta-#{name}" - Headers to be returned with object, note total size of request without body must be less than 8 KB.
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * headers<~Hash>:
         #     * 'ETag'<~String> - etag of new object
         def put_object(bucket_name, object_name, data, options = {})

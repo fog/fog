@@ -9,7 +9,7 @@ module Fog
       # * next_token<~String> - Offset token to start list, defaults to nil.
       #
       # ==== Returns
-      # * response<~Fog::AWS::Response>:
+      # * response<~Excon::Response>:
       #   * body<~Hash>:
       #     * 'BoxUsage'<~Float>
       #     * 'RequestId'<~String>

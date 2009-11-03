@@ -11,7 +11,7 @@ unless Fog.mocking?
         # * public_ip<~String> - Public ip to assign to instance
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - success?

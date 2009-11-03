@@ -19,7 +19,7 @@ unless Fog.mocking?
         #       * 'path'<~String> - Path to file (255 bytes total of path strings)
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #   * 'server'<~Hash>:
         #     * 'addresses'<~Hash>:

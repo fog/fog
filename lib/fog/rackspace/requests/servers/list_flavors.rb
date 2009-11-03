@@ -7,7 +7,7 @@ unless Fog.mocking?
         # List all images (IDs and names only)
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'id'<~Integer> - Id of the flavor
         #     * 'name'<~String> - Name of the flavor

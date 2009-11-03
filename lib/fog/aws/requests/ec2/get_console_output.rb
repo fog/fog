@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * instance_id<~String> - Id of instance to get console output from
         #
         # ==== Returns
-        # # * response<~Fog::AWS::Response>:
+        # # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'instanceId'<~String> - Id of instance
         #     * 'output'<~String> - Console output

@@ -14,7 +14,7 @@ unless Fog.mocking?
         #   * 'Owner'<~String> - Only return images belonging to owner.
         #
         # ==== Returns
-        # * response<~Fog::AWS::Response>:
+        # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'imagesSet'<~Array>:
