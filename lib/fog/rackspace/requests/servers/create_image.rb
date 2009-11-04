@@ -13,12 +13,9 @@ unless Fog.mocking?
         # ==== Returns
         # * response<~Excon::Response>:
         #   * 'image'<~Hash>:
-        #     * 'created'<~Time> - Creation time
         #     * 'id'<~Integer> - Id of image
         #     * 'name'<~String> - Name of image
-        #     * 'progress'<~String> - Percentage of completion
         #     * 'serverId'<~Integer> - Id of server
-        #     * 'status'<~String> - Current status
         def create_image(server_id, options = {})
           data = {
             'image' => {

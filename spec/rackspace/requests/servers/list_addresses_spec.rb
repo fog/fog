@@ -15,7 +15,7 @@ describe 'Rackspace::Servers.list_addresses' do
     end
 
     it "should return proper attributes" do
-      actual = servers.list_addresses(@server_id)
+      actual = servers.list_addresses(@server_id).body
       actual['addresses'].should be_a(Hash)
       actual['addresses']['private'].should be_an(Array)
       actual['addresses']['public'].should be_an(Array)

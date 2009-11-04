@@ -14,7 +14,7 @@ unless Fog.mocking?
           response = storage_request(
             :body     => data[:body],
             :expects  => 201,
-            :headers  => data[:headers,]
+            :headers  => data[:headers],
             :method   => 'PUT',
             :path     => "#{CGI.escape(container)}/#{CGI.escape(object)}"
           )

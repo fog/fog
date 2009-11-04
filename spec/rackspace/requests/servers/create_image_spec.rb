@@ -16,13 +16,10 @@ describe 'Rackspace::Servers.create_image' do
     end
 
     it "should return proper attributes" do
-      actual = servers.create_image(@server_id)['image']
-      actual['created'].should be_a(Time)
+      actual = servers.create_image(@server_id).body['image']
+      @image_id = actual['id']
       actual['id'].should be_an(Integer)
-      actual['name'].should be_a(String)
-      actual['progress'].should be_an(Integer)
       actual['serverId'].should be_an(Integer)
-      actual['status'].should be_a(String)
     end
 
   end

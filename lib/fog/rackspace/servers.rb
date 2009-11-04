@@ -48,12 +48,6 @@ module Fog
         })
         unless response.body.empty?
           response.body = JSON.parse(response.body)
-          if response.body['created']
-            response.body['created'] = Time.parse(response.body['created'])
-          end
-          if response.body['updated']
-            response.body['updated'] = Time.parse(response.body['updated'])
-          end
         end
         response
       end
