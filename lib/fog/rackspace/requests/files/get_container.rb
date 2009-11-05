@@ -19,6 +19,13 @@ unless Fog.mocking?
         #   * headers<~Hash>:
         #     * 'X-Account-Container-Count'<~String> - Count of containers
         #     * 'X-Account-Bytes-Used'<~String> - Bytes used
+        #   * body<~Array>:
+        #     * item<~Hash>:
+        #       * 'bytes'<~String> - Size of object
+        #       * 'content_type'<~String> Content-Type of object
+        #       * 'hash'<~String> - Hash of object (etag?)
+        #       * 'last_modified'<~String> - Last modified timestamp
+        #       * 'name'<~String> - Name of object
         def get_container(container, options = {})
           query = ''
           for key, value in options.merge!({ 'format' => 'json' })
