@@ -5,7 +5,7 @@ describe 'Rackspace::Files.get_container' do
 
     it "should return proper attributes" do
       pending
-      p files.get_container(container_name)
+      files.get_container(container_name)
     end
 
   end

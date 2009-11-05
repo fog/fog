@@ -20,7 +20,7 @@ unless Fog.mocking?
         #       * 'name'<~String>: - Name of container
         def get_containers(options = {})
           options = { 'format' => 'json' }.merge!(options)
-          query = []
+          query = ''
           for key, value in options
             query << "#{key}=#{CGI.escape(value)}&"
           end
@@ -31,9 +31,6 @@ unless Fog.mocking?
             :path     => '',
             :query    => query
           )
-          if response.status == 204
-            response.body = []
-          end
           response
         end
 

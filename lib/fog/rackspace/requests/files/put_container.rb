@@ -11,7 +11,7 @@ unless Fog.mocking?
         #
         def put_container(name)
           response = storage_request(
-            :expects  => 201,
+            :expects  => [201, 202],
             :method   => 'PUT',
             :path     => CGI.escape(name)
           )

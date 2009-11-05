@@ -59,9 +59,10 @@ module Fog
           },
           :host     => @cdn_host,
           :method   => params[:method],
-          :path     => "#{@cdn_path}/#{params[:path]}"
+          :path     => "#{@cdn_path}/#{params[:path]}",
+          :query    => params[:query]
         })
-        unless response.status == 204
+        unless response.body.empty?
           response.body = JSON.parse(response.body)
         end
         response
@@ -76,9 +77,10 @@ module Fog
           },
           :host     => @storage_host,
           :method   => params[:method],
-          :path     => "#{@storage_path}/#{params[:path]}"
+          :path     => "#{@storage_path}/#{params[:path]}",
+          :query    => params[:query]
         })
-        unless response.status == 204
+        unless response.body.empty?
           response.body = JSON.parse(response.body)
         end
         response
