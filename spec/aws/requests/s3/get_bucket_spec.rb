@@ -5,10 +5,8 @@ describe 'S3.get_bucket' do
 
     before(:each) do
       s3.put_bucket('foggetbucket')
-      file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
-      s3.put_object('foggetbucket', 'fog_object', file)
-      file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
-      s3.put_object('foggetbucket', 'fog_other_object', file)
+      s3.put_object('foggetbucket', 'fog_object', lorem_file)
+      s3.put_object('foggetbucket', 'fog_other_object', lorem_file)
     end
 
     after(:each) do

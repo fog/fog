@@ -23,8 +23,7 @@ describe 'S3.delete_bucket' do
 
     it 'should raise a Conflict error if the bucket is not empty' do
       s3.put_bucket('fogdeletebucket')
-      file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
-      s3.put_object('fogdeletebucket', 'fog_delete_object', file)
+      s3.put_object('fogdeletebucket', 'fog_delete_object', lorem_file)
       lambda {
         s3.delete_bucket('fogdeletebucket')
       }.should raise_error(Excon::Errors::Conflict)

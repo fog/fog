@@ -5,8 +5,7 @@ describe 'S3.delete_object' do
 
     before(:each) do
       s3.put_bucket('fogdeleteobject')
-      file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
-      s3.put_object('fogdeleteobject', 'fog_delete_object', file)
+      s3.put_object('fogdeleteobject', 'fog_delete_object', lorem_file)
     end
 
     after(:each) do

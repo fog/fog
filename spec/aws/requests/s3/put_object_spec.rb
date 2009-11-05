@@ -5,8 +5,7 @@ describe 'S3.put_object' do
 
     before(:each) do
       s3.put_bucket('fogputobject')
-      file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
-      @response = s3.put_object('fogputobject', 'fog_put_object', file)
+      @response = s3.put_object('fogputobject', 'fog_put_object', lorem_file)
     end
 
     after(:each) do
@@ -19,8 +18,7 @@ describe 'S3.put_object' do
     end
 
     it 'should not raise an error if the object already exists' do
-      file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
-      actual = s3.put_object('fogputobject', 'fog_put_object', file)
+      actual = s3.put_object('fogputobject', 'fog_put_object', lorem_file)
       actual.status.should == 200
     end
 
@@ -29,8 +27,7 @@ describe 'S3.put_object' do
 
     it 'should raise a NotFound error if the bucket does not exist' do
       lambda {
-        file = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
-        s3.put_object('fognotabucket', 'fog_put_object', file)
+        s3.put_object('fognotabucket', 'fog_put_object', lorem_file)
       }.should raise_error(Excon::Errors::NotFound)
     end
 
