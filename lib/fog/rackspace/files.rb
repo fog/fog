@@ -56,7 +56,7 @@ module Fog
           :expects  => params[:expects],
           :headers  => {
             'X-Auth-Token' => @auth_token
-          },
+          }.merge!(params[:headers] || {}),
           :host     => @cdn_host,
           :method   => params[:method],
           :path     => "#{@cdn_path}/#{params[:path]}",
@@ -74,7 +74,7 @@ module Fog
           :expects  => params[:expects],
           :headers  => {
             'X-Auth-Token' => @auth_token
-          },
+          }.merge!(params[:headers] || {}),
           :host     => @storage_host,
           :method   => params[:method],
           :path     => "#{@storage_path}/#{params[:path]}",

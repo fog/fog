@@ -8,7 +8,7 @@ describe 'Rackspace::Files.put_object' do
     end
     
     after(:each) do
-      files.delete_object('object_name')
+      files.delete_object('container_name', 'object_name')
       files.delete_container('container_name')
     end
 
