@@ -20,4 +20,13 @@ describe 'Rackspace::Servers.delete_image' do
     end
 
   end
+  describe 'failure' do
+
+    it "should raise a NotFound error if the image does not exist" do
+      lambda do
+        servers.delete_image(0)
+      end.should raise_error(Excon::Errors::NotFound)
+    end
+
+  end
 end

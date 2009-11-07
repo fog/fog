@@ -19,4 +19,13 @@ describe 'Rackspace::Servers.reboot_server' do
     end
 
   end
+  describe 'failure' do
+
+    it "should raise a NotFound error if the server does not exist" do
+      lambda do
+        servers.reboot_server(0, 'HARD')
+      end.should raise_error(Excon::Errors::NotFound)
+    end
+
+  end
 end

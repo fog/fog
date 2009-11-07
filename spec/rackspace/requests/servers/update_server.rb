@@ -19,4 +19,13 @@ describe 'Rackspace::Servers.update_server' do
     end
 
   end
+  describe 'failure' do
+
+    it "should raise a NotFound error if the server does not exist" do
+      lambda do
+        servers.update_server(0, :name => 'server_name', :adminPass => 'admin_password')
+      end.should raise_error(Excon::Errors::NotFound)
+    end
+
+  end
 end
