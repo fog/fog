@@ -42,7 +42,7 @@ module Fog
           if snapshot_id
             all(snapshot_id).first
           end
-        rescue Fog::Errors::BadRequest
+        rescue Excon::Errors::BadRequest
           nil
         end
 

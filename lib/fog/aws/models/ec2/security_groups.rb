@@ -36,7 +36,7 @@ module Fog
           if group_name
             all(group_name).first
           end
-        rescue Fog::Errors::BadRequest
+        rescue Excon::Errors::BadRequest
           nil
         end
 

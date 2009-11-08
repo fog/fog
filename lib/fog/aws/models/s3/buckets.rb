@@ -51,7 +51,7 @@ module Fog
             }.merge!(object))
           end
           bucket
-        rescue Fog::Errors::NotFound
+        rescue Excon::Errors::NotFound
           nil
         end
 

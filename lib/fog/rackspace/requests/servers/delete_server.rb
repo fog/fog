@@ -29,8 +29,14 @@ else
 
         def delete_server(id)
           response = Fog::Response.new
-          if Fog::Rackspace::Servers.data[:servers].delete(id)
-            response.status = 202
+          if server = Fog::Rackspace::Servers.data[:servers][id]
+            if server['STATUS'] == 'BUILD'
+              response.status = 409
+              raise(Excon::Errors.status_error(200, 400, response))
+            else
+              Fog::Rackspace::Servers.delete(id)
+              response.status = 202
+            end
           else
             response.status = 404
           end

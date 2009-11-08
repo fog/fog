@@ -38,7 +38,7 @@ module Fog
           if instance_id
             all(instance_id).first
           end
-        rescue Fog::Errors::BadRequest
+        rescue Excon::Errors::BadRequest
           nil
         end
 

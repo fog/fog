@@ -12,7 +12,7 @@ module Fog
         def destroy
           connection.delete_bucket(@name)
           true
-        rescue Fog::Errors::NotFound
+        rescue Excon::Errors::NotFound
           false
         end
 

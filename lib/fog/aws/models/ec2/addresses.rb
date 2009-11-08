@@ -42,7 +42,7 @@ module Fog
           if public_ip
             all(public_ip).first
           end
-        rescue Fog::Errors::BadRequest
+        rescue Excon::Errors::BadRequest
           nil
         end
 

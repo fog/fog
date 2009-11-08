@@ -42,7 +42,7 @@ module Fog
           if volume_id
             all(volume_id).first
           end
-        rescue Fog::Errors::BadRequest
+        rescue Excon::Errors::BadRequest
           nil
         end
 

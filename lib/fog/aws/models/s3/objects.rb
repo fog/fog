@@ -46,7 +46,7 @@ module Fog
             :connection => connection
           }.merge!(object_data))
           object
-        rescue Fog::Errors::NotFound
+        rescue Excon::Errors::NotFound
           nil
         end
 
@@ -70,7 +70,7 @@ module Fog
             :connection => connection
           }.merge!(object_data))
           object
-        rescue Fog::Errors::NotFound
+        rescue Excon::Errors::NotFound
           nil
         end
 

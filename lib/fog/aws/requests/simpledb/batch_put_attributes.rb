@@ -59,7 +59,7 @@ else
             }
           else
             response.status = 400
-            raise(Fog::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error(200, 400, response))
           end
           response
         end
