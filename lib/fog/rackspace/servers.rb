@@ -2,6 +2,17 @@ module Fog
   module Rackspace
     class Servers
 
+      if Fog.mocking?
+        def self.data
+          @data
+        end
+        def self.reset_data
+          @data = {
+            :servers => {},
+          }
+        end
+      end
+
       def self.reload
         load "fog/rackspace/models/servers/server.rb"
         load "fog/rackspace/models/servers/servers.rb"
@@ -22,6 +33,10 @@ module Fog
         load "fog/rackspace/requests/servers/list_servers_detail.rb"
         load "fog/rackspace/requests/servers/reboot_server.rb"
         load "fog/rackspace/requests/servers/update_server.rb"
+
+        if Fog.mocking?
+          reset_data
+        end
       end
 
       def initialize(options={})

@@ -27,7 +27,14 @@ else
     module Rackspace
       class Servers
 
-        def delete_server
+        def delete_server(id)
+          response = Fog::Response.new
+          if Fog::Rackspace::Servers.data[:servers].delete(id)
+            response.status = 202
+          else
+            response.status = 404
+          end
+          response
         end
 
       end

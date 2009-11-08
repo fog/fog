@@ -6,21 +6,41 @@ module Fog
       load 'fog/rackspace/servers.rb'
     end
 
-    def self.authenticate(options)
-      connection = Fog::Connection.new("https://auth.api.rackspacecloud.com")
-      response = connection.request({
-        :expects  => 204,
-        :headers  => {
-          'X-Auth-Key'  => options[:rackspace_api_key],
-          'X-Auth-User' => options[:rackspace_username]
-        },
-        :host     => 'auth.api.rackspacecloud.com',
-        :method   => 'GET',
-        :path     => 'v1.0'
-      })
-      response.headers.reject do |key, value| 
-        !['X-Server-Management-Url', 'X-Storage-Url', 'X-CDN-Management-Url', 'X-Auth-Token'].include?(key)
+    unless Fog.mocking?
+
+      def self.authenticate(options)
+        connection = Fog::Connection.new("https://auth.api.rackspacecloud.com")
+        response = connection.request({
+          :expects  => 204,
+          :headers  => {
+            'X-Auth-Key'  => options[:rackspace_api_key],
+            'X-Auth-User' => options[:rackspace_username]
+          },
+          :host     => 'auth.api.rackspacecloud.com',
+          :method   => 'GET',
+          :path     => 'v1.0'
+        })
+        response.headers.reject do |key, value|
+          !['X-Server-Management-Url', 'X-Storage-Url', 'X-CDN-Management-Url', 'X-Auth-Token'].include?(key)
+        end
       end
+
+    else
+
+      def self.authenticate(options)
+        {
+          'X-Auth_Token'            => '01234567-0123-0123-0123-01234',
+          'X-CDN-Management-Url'    => 'https://cdn.cloaddrive.com/v1/CloudFS_01234-0123',
+          'X-Server-Management-Url' => 'https://servers.api.rackspacecloud.com/v1.0/01234',
+          'X-Storage-Url'           => 'https://storage.clouddrive.com/v1/CloudFS_01234-0123'
+        }
+      end
+
+      srand(Time.now.to_i)
+
+      class Mock
+      end
+
     end
 
   end

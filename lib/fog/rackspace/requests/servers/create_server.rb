@@ -74,7 +74,25 @@ else
     module Rackspace
       class Servers
 
-        def create_server
+        def create_server(flavor_id, image_id, options = {})
+          response = Fog::Response.new
+          response.status = 202
+
+          data = {
+            'addresses' => { 'private' => ['0.0.0.0'], 'public' => ['0.0.0.0'] },
+            'flavorId'  => flavor_id,
+            'id'        => 123456,
+            'imageId'   => image_id,
+            'hostId'    => "123456789ABCDEF01234567890ABCDEF",
+            'metadata'  => options[:metadata] || {},
+            'progress'  => 0,
+            'status'    => 'BUILD'
+          }
+          data['name'] = "slice#{data[:id]}"
+          data['adminPass'] = "#{data['name']}password"
+          Fog::Rackspace::Servers.data[:servers][data[:id]] = data
+          response.body = { 'server' => data }
+          response
         end
 
       end
