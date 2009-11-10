@@ -22,4 +22,13 @@ describe 'Rackspace::Servers.list_addresses' do
     end
 
   end
+  describe 'failure' do
+
+    it "should raise a NotFound error if the server does not exist" do
+      lambda {
+        servers.list_addresses(0)
+      }.should raise_error(Excon::Errors::NotFound)
+    end
+
+  end
 end

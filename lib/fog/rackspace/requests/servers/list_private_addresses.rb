@@ -13,7 +13,7 @@ unless Fog.mocking?
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'private'<~Array> - Public ip addresses
-        def list_private_addresses
+        def list_private_addresses(server_id)
           request(
             :expects  => [200, 203],
             :method   => 'GET',
@@ -31,7 +31,16 @@ else
     module Rackspace
       class Servers
 
-        def list_private_addresses
+        def list_private_addresses(server_id)
+          response = Fog::Response.new
+          if server = list_servers_detail.body['servers'].detect { |server| server['id'] == server_id }
+            response.status = [200, 203][rand(1)]
+            response.body = { 'private' => server['addresses']['private'] }
+          else
+            response.status = 404
+            raise(Excon::Errors.status_error(202, 404, response))
+          end
+          response
         end
 
       end

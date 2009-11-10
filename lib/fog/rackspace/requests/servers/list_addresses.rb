@@ -34,6 +34,15 @@ else
       class Servers
 
         def list_addresses(server_id)
+          response = Fog::Response.new
+          if server = list_servers_detail.body['servers'].detect { |server| server['id'] == server_id }
+            response.status = [200, 203][rand(1)]
+            response.body = { 'addresses' => server['addresses'] }
+          else
+            response.status = 404
+            raise(Excon::Errors.status_error(202, 404, response))
+          end
+          response
         end
 
       end

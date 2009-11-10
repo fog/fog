@@ -15,8 +15,17 @@ describe 'Rackspace::Servers.list_public_addresses' do
     end
 
     it "should return proper attributes" do
-      actual = servers.list_public_addresses(@server_id)
+      actual = servers.list_public_addresses(@server_id).body
       actual['public'].should be_an(Array)
+    end
+
+  end
+  describe 'failure' do
+
+    it "should raise a NotFound error if the server does not exist" do
+      lambda {
+        servers.list_public_addresses(0)
+      }.should raise_error(Excon::Errors::NotFound)
     end
 
   end

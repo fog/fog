@@ -34,6 +34,7 @@ else
               response.status = 409
               raise(Excon::Errors.status_error(202, 409, response))
             else
+              Fog::Rackspace::Servers.data[:last_modified].delete(server_id)
               Fog::Rackspace::Servers.data[:servers].delete(server_id)
               response.status = 202
             end
