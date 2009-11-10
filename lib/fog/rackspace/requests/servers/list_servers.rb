@@ -14,7 +14,7 @@ unless Fog.mocking?
         #     * 'name<~String> - Name of server
         def list_servers
           request(
-            :expects  => 200,
+            :expects  => [200, 203],
             :method   => 'GET',
             :path     => 'servers.json'
           )
@@ -31,6 +31,15 @@ else
       class Servers
 
         def list_servers
+          response = Fog::Response.new
+          data = list_servers_detail.body['servers']
+          servers = []
+          for server in data
+            servers << server.reject { |key, value| !['id', 'name'].include?(key) }
+          end
+          response.status = [200, 203][rand(1)]
+          response.body = { 'servers' => servers }
+          response
         end
 
       end

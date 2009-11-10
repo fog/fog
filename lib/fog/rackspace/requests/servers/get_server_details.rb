@@ -26,7 +26,7 @@ unless Fog.mocking?
         #     * 'status'<~String> - Current server status
         def get_server_details(server_id)
           request(
-            :expects  => 200,
+            :expects  => [200, 203],
             :method   => 'GET',
             :path     => "servers/#{server_id}.json"
           )
@@ -42,7 +42,16 @@ else
     module Rackspace
       class Servers
 
-        def get_server_details
+        def get_server_details(server_id)
+          response = Fog::Response.new
+          if server = list_servers_detail.body['servers'].detect { |server| server['id'] == server_id }
+            response.status = [200, 203][rand(1)]
+            response.body = { 'server' => server }
+          else
+            response.status = 404
+            raise(Excon::Errors.status_error(202, 404, response))
+          end
+          response
         end
 
       end
