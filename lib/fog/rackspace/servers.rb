@@ -8,7 +8,8 @@ module Fog
         end
         def self.reset_data
           @data = {
-            :servers => {},
+            :last_modified => [],
+            :servers => {}
           }
         end
       end

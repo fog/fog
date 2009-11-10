@@ -29,12 +29,12 @@ else
 
         def delete_server(server_id)
           response = Fog::Response.new
-          if server = Fog::Rackspace::Servers.data[:servers][server_id]
-            if server['STATUS'] == 'BUILD'
+          if server = list_servers_detail.body['servers'].detect { |server| server['id'] == server_id }
+            if server['status'] == 'BUILD'
               response.status = 409
-              raise(Excon::Errors.status_error(202, 400, response))
+              raise(Excon::Errors.status_error(202, 409, response))
             else
-              Fog::Rackspace::Servers.data.delete(server_id)
+              Fog::Rackspace::Servers.data[:servers].delete(server_id)
               response.status = 202
             end
           else

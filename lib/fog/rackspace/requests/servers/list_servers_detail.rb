@@ -39,7 +39,22 @@ else
     module Rackspace
       class Servers
 
-        def list_servers_details
+        def list_servers_detail
+          response = Fog::Response.new
+
+          servers = Fog::Rackspace::Servers.data[:servers].values
+          for server in servers
+            case server['status']
+            when 'BUILD'
+              if Time.now - Fog::Rackspace::Servers.data[:last_modified][server['id']] > 2
+                server['status'] = 'ACTIVE'
+              end
+            end
+          end
+
+          response.status = [200, 203][rand(1)]
+          response.body = { 'servers' => servers }
+          response
         end
 
       end

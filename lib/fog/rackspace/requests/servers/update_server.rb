@@ -32,7 +32,7 @@ else
 
         def update_server(server_id, options)
           response = Fog::Response.new
-          if server = Fog::Rackspace::Servers.data[:servers][server_id]
+          if server = list_servers_detail.body['servers'].detect { |server| server['id'] == server_id }
             if options['adminPass']
               server['adminPass'] = options['adminPass']
             end

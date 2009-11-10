@@ -4,9 +4,9 @@ describe 'Rackspace::Servers.create_server' do
   describe 'success' do
 
     after(:each) do
-      # eventually(128) do
+      eventually(128) do
         servers.delete_server(@server_id)
-      # end
+      end
     end
 
     it "should return proper attributes" do
