@@ -9,9 +9,8 @@ unless Fog.mocking?
         # ==== Parameters
         # # server_id<~Integer> - Id of server to update
         # * options<~Hash>:
-        #   * name<~String> - New name for server
         #   * adminPass<~String> - New admin password for server
-        #
+        #   * name<~String> - New name for server
         def update_server(server_id, options = {})
           request(
             :body     => options.to_json,
@@ -31,7 +30,21 @@ else
     module Rackspace
       class Servers
 
-        def update_server
+        def update_server(server_id, options)
+          response = Fog::Response.new
+          if server = Fog::Rackspace::Servers.data[:servers][server_id]
+            if options['adminPass']
+              server['adminPass'] = options['adminPass']
+            end
+            if options['name']
+              server['name'] = options['name']
+            end
+            response.status = 204
+          else
+            response.status = 404
+            raise(Excon::Errors.status_error(202, 404, response))
+          end
+          response
         end
 
       end

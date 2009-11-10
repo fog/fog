@@ -90,7 +90,7 @@ else
           }
           data['name'] = "slice#{data[:id]}"
           data['adminPass'] = "#{data['name']}password"
-          Fog::Rackspace::Servers.data[:servers][data[:id]] = data
+          Fog::Rackspace::Servers.data[:servers][data['id']] = data
           response.body = { 'server' => data }
           response
         end
