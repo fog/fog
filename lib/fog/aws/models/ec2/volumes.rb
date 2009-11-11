@@ -33,7 +33,7 @@ module Fog
             }.merge!(volume))
           end
           if instance
-            volumes = volumes.select {|volume| volume.instance_id == instance.id}
+            volumes = volumes.select {|volume| volume.instance_id == instance.instance_id}
           end
           volumes
         end
