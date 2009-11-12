@@ -5,7 +5,8 @@ module Fog
       class_eval <<-EOS, __FILE__, __LINE__
         attr_accessor :#{name}
       EOS
-      attributes << name
+      @attributes ||= []
+      @attributes |= [name]
       for other_name in [*other_names]
         aliases[other_name] = name
       end
