@@ -28,15 +28,10 @@ module Fog
         end
 
         def instance=(new_instance)
-          if !@volume_id
-            @instance = new_instance
-            if new_instance
-              @availability_zone = new_instance.availability_zone
-            end
-          elsif new_instance
-            @instance = nil
-            @instance_id = new_instance.instance_id
-            connection.attach_volume(@instance_id, @volume_id, @device)
+          if new_instance
+            attach(new_instance)
+          else
+            detach
           end
         end
 
@@ -52,6 +47,27 @@ module Fog
 
         def snapshots
           connection.snapshots(:volume_id => volume_id)
+        end
+
+        private
+
+        def attach(new_instance)
+          if new_record?
+            @instance = new_instance
+            @availability_zone = new_instance.availability_zone
+          elsif new_instance
+            @instance = nil
+            @instance_id = new_instance.instance_id
+            connection.attach_volume(@instance_id, @volume_id, @device)
+          end
+        end
+
+        def detach
+          @instance = nil
+          @instance_id = nil
+          unless new_record?
+            connection.detach_volume(@volume_id)
+          end
         end
 
       end

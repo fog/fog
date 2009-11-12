@@ -21,12 +21,10 @@ module Fog
         end
 
         def instance=(new_instance)
-          if !@public_ip
-            @instance = new_instance
-          elsif new_instance
-            @instance = nil
-            @instance_id = new_instance.instance_id
-            connection.associate_address(@instance_id, @public_ip)
+          if new_instance
+            associate(new_instance)
+          else
+            detach
           end
         end
 
@@ -37,6 +35,26 @@ module Fog
             self.instance = @instance
           end
           true
+        end
+
+        private
+
+        def associate(new_instance)
+          if new_record?
+            @instance = new_instance
+          else
+            @instance = nil
+            @instance_id = new_instance.instance_id
+            connection.associate_address(@instance_id, @public_ip)
+          end
+        end
+
+        def disassociate
+          @instance = nil
+          @instance_id = nil
+          unless new_record?
+            connection.disassociate_address(@public_ip)
+          end
         end
 
       end

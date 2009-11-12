@@ -63,6 +63,10 @@ module Fog
       self
     end
 
+    def new_record?
+      !identity
+    end
+
     def reload
       new_attributes = collection.get(identity).attributes
       merge_attributes(new_attributes)
