@@ -24,7 +24,7 @@ module Fog
           if new_instance
             associate(new_instance)
           else
-            detach
+            disassociate
           end
         end
 
