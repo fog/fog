@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.29"
+  s.version = "0.0.30"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
-  s.date = %q{2009-10-23}
+  s.date = %q{2009-11-14}
   s.default_executable = %q{fog}
   s.description = %q{brings clouds to you}
   s.email = %q{me@geemus.com}
@@ -24,10 +24,8 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "benchs/fog_vs.rb",
-     "benchs/headers_split_vs_match.rb",
      "benchs/params.rb",
      "benchs/parse_vs_push.rb",
-     "benchs/stripping.rb",
      "bin/fog",
      "fog.gemspec",
      "lib/fog.rb",
@@ -133,29 +131,37 @@ Gem::Specification.new do |s|
      "lib/fog/aws/simpledb.rb",
      "lib/fog/collection.rb",
      "lib/fog/connection.rb",
-     "lib/fog/errors.rb",
      "lib/fog/model.rb",
      "lib/fog/parser.rb",
      "lib/fog/rackspace.rb",
      "lib/fog/rackspace/files.rb",
      "lib/fog/rackspace/models/servers/server.rb",
      "lib/fog/rackspace/models/servers/servers.rb",
+     "lib/fog/rackspace/requests/files/delete_container.rb",
+     "lib/fog/rackspace/requests/files/delete_object.rb",
+     "lib/fog/rackspace/requests/files/get_container.rb",
      "lib/fog/rackspace/requests/files/get_containers.rb",
+     "lib/fog/rackspace/requests/files/head_container.rb",
      "lib/fog/rackspace/requests/files/head_containers.rb",
+     "lib/fog/rackspace/requests/files/put_container.rb",
+     "lib/fog/rackspace/requests/files/put_object.rb",
      "lib/fog/rackspace/requests/servers/create_image.rb",
      "lib/fog/rackspace/requests/servers/create_server.rb",
      "lib/fog/rackspace/requests/servers/delete_image.rb",
      "lib/fog/rackspace/requests/servers/delete_server.rb",
      "lib/fog/rackspace/requests/servers/get_server_details.rb",
+     "lib/fog/rackspace/requests/servers/list_addresses.rb",
      "lib/fog/rackspace/requests/servers/list_flavors.rb",
+     "lib/fog/rackspace/requests/servers/list_flavors_detail.rb",
      "lib/fog/rackspace/requests/servers/list_images.rb",
      "lib/fog/rackspace/requests/servers/list_images_detail.rb",
+     "lib/fog/rackspace/requests/servers/list_private_addresses.rb",
+     "lib/fog/rackspace/requests/servers/list_public_addresses.rb",
      "lib/fog/rackspace/requests/servers/list_servers.rb",
      "lib/fog/rackspace/requests/servers/list_servers_detail.rb",
      "lib/fog/rackspace/requests/servers/reboot_server.rb",
      "lib/fog/rackspace/requests/servers/update_server.rb",
      "lib/fog/rackspace/servers.rb",
-     "lib/fog/response.rb",
      "spec/aws/models/ec2/address_spec.rb",
      "spec/aws/models/ec2/addresses_spec.rb",
      "spec/aws/models/ec2/instance_spec.rb",
@@ -224,20 +230,30 @@ Gem::Specification.new do |s|
      "spec/aws/requests/simpledb/put_attributes_spec.rb",
      "spec/aws/requests/simpledb/select_spec.rb",
      "spec/lorem.txt",
+     "spec/rackspace/requests/files/delete_container_spec.rb",
+     "spec/rackspace/requests/files/delete_object_spec.rb",
+     "spec/rackspace/requests/files/get_container_spec.rb",
      "spec/rackspace/requests/files/get_containers_spec.rb",
+     "spec/rackspace/requests/files/head_container_spec.rb",
      "spec/rackspace/requests/files/head_containers_spec.rb",
+     "spec/rackspace/requests/files/put_container_spec.rb",
+     "spec/rackspace/requests/files/put_object_spec.rb",
      "spec/rackspace/requests/servers/create_image_spec.rb",
      "spec/rackspace/requests/servers/create_server_spec.rb",
-     "spec/rackspace/requests/servers/delete_image.rb",
+     "spec/rackspace/requests/servers/delete_image_spec.rb",
      "spec/rackspace/requests/servers/delete_server_spec.rb",
      "spec/rackspace/requests/servers/get_server_details_spec.rb",
+     "spec/rackspace/requests/servers/list_addresses_spec.rb",
+     "spec/rackspace/requests/servers/list_flavors_detail_spec.rb",
      "spec/rackspace/requests/servers/list_flavors_spec.rb",
-     "spec/rackspace/requests/servers/list_images_detail.rb",
+     "spec/rackspace/requests/servers/list_images_detail_spec.rb",
      "spec/rackspace/requests/servers/list_images_spec.rb",
+     "spec/rackspace/requests/servers/list_private_addresses_spec.rb",
+     "spec/rackspace/requests/servers/list_public_addresses_spec.rb",
      "spec/rackspace/requests/servers/list_servers_detail_spec.rb",
      "spec/rackspace/requests/servers/list_servers_spec.rb",
-     "spec/rackspace/requests/servers/reboot_server.rb",
-     "spec/rackspace/requests/servers/update_server.rb",
+     "spec/rackspace/requests/servers/reboot_server_spec.rb",
+     "spec/rackspace/requests/servers/update_server_spec.rb",
      "spec/spec.opts",
      "spec/spec_helper.rb"
   ]
@@ -315,20 +331,30 @@ Gem::Specification.new do |s|
      "spec/aws/requests/simpledb/list_domains_spec.rb",
      "spec/aws/requests/simpledb/put_attributes_spec.rb",
      "spec/aws/requests/simpledb/select_spec.rb",
+     "spec/rackspace/requests/files/delete_container_spec.rb",
+     "spec/rackspace/requests/files/delete_object_spec.rb",
+     "spec/rackspace/requests/files/get_container_spec.rb",
      "spec/rackspace/requests/files/get_containers_spec.rb",
+     "spec/rackspace/requests/files/head_container_spec.rb",
      "spec/rackspace/requests/files/head_containers_spec.rb",
+     "spec/rackspace/requests/files/put_container_spec.rb",
+     "spec/rackspace/requests/files/put_object_spec.rb",
      "spec/rackspace/requests/servers/create_image_spec.rb",
      "spec/rackspace/requests/servers/create_server_spec.rb",
-     "spec/rackspace/requests/servers/delete_image.rb",
+     "spec/rackspace/requests/servers/delete_image_spec.rb",
      "spec/rackspace/requests/servers/delete_server_spec.rb",
      "spec/rackspace/requests/servers/get_server_details_spec.rb",
+     "spec/rackspace/requests/servers/list_addresses_spec.rb",
+     "spec/rackspace/requests/servers/list_flavors_detail_spec.rb",
      "spec/rackspace/requests/servers/list_flavors_spec.rb",
-     "spec/rackspace/requests/servers/list_images_detail.rb",
+     "spec/rackspace/requests/servers/list_images_detail_spec.rb",
      "spec/rackspace/requests/servers/list_images_spec.rb",
+     "spec/rackspace/requests/servers/list_private_addresses_spec.rb",
+     "spec/rackspace/requests/servers/list_public_addresses_spec.rb",
      "spec/rackspace/requests/servers/list_servers_detail_spec.rb",
      "spec/rackspace/requests/servers/list_servers_spec.rb",
-     "spec/rackspace/requests/servers/reboot_server.rb",
-     "spec/rackspace/requests/servers/update_server.rb",
+     "spec/rackspace/requests/servers/reboot_server_spec.rb",
+     "spec/rackspace/requests/servers/update_server_spec.rb",
      "spec/spec_helper.rb"
   ]
 
@@ -337,15 +363,18 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<excon>, [">= 0"])
       s.add_runtime_dependency(%q<mime-types>, [">= 0"])
       s.add_runtime_dependency(%q<nokogiri>, [">= 0"])
       s.add_runtime_dependency(%q<ruby-hmac>, [">= 0"])
     else
+      s.add_dependency(%q<excon>, [">= 0"])
       s.add_dependency(%q<mime-types>, [">= 0"])
       s.add_dependency(%q<nokogiri>, [">= 0"])
       s.add_dependency(%q<ruby-hmac>, [">= 0"])
     end
   else
+    s.add_dependency(%q<excon>, [">= 0"])
     s.add_dependency(%q<mime-types>, [">= 0"])
     s.add_dependency(%q<nokogiri>, [">= 0"])
     s.add_dependency(%q<ruby-hmac>, [">= 0"])
