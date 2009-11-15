@@ -74,7 +74,7 @@ def eventually(max_delay = 16, &block)
       sleep(delay)
       yield
       break
-    rescue => error
+    rescue Excon::Errors::Error => error
       raise error if delay >= max_delay
     end
   end
