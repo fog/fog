@@ -9,7 +9,7 @@ describe 'Rackspace::Servers.delete_server' do
     end
 
     it "should return proper attributes" do
-      eventually do
+      eventually(128) do
         servers.delete_server(@server_id)
       end
     end

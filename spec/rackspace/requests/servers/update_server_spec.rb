@@ -15,7 +15,9 @@ describe 'Rackspace::Servers.update_server' do
     end
 
     it "should return proper attributes" do
-      servers.update_server(@server_id, :name => 'server_name', :adminPass => 'admin_password')
+      eventually(128) do
+        servers.update_server(@server_id, :name => 'server_name', :adminPass => 'admin_password')
+      end
     end
 
   end

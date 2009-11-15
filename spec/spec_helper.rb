@@ -3,7 +3,7 @@ require 'open-uri'
 
 current_directory = File.dirname(__FILE__)
 require "#{current_directory}/../lib/fog"
-Fog.mock!
+# Fog.mock!
 
 def credentials
   @credentials ||= begin

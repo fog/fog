@@ -4,7 +4,7 @@ describe 'Rackspace::Servers.list_images_detail' do
   describe 'success' do
 
     it "should return proper attributes" do
-      actual = servers.list_images_details
+      actual = servers.list_images_detail.body
       actual['images'].should be_an(Array)
       image = actual['images'].first
       image['created'].should be_a(String)

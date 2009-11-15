@@ -127,7 +127,7 @@ describe 'Fog::AWS::EC2::Instance' do
   describe "#save" do
 
     before(:each) do
-      @instance = ec2.instances.new
+      @instance = ec2.instances.new(:image_id => GENTOO_AMI)
     end
 
     it "should return true when it succeeds" do

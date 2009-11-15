@@ -60,6 +60,7 @@ describe 'Fog::AWS::EC2::Volume' do
     after(:each) do
       @instance.destroy
       if @volume.volume_id
+        @volume.instance = nil
         @volume.destroy
       end
     end

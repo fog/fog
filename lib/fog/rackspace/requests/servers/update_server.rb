@@ -13,10 +13,10 @@ unless Fog.mocking?
         #   * name<~String> - New name for server
         def update_server(server_id, options = {})
           request(
-            :body     => options.to_json,
+            :body     => { 'server' => options }.to_json,
             :expects  => 204,
             :method   => 'PUT',
-            :path     => "servers/#{id}"
+            :path     => "servers/#{server_id}.json"
           )
         end
 

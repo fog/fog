@@ -8,13 +8,6 @@ module Fog
 
         attribute :instance_id, 'instanceId'
 
-        def initialize(new_attributes = {})
-          new_attributes = {
-            :instance_id => ''
-          }.merge!(new_attributes)
-          super(new_attributes)
-        end
-
         def destroy
           connection.release_address(@public_ip)
           true

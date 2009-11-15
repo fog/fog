@@ -56,7 +56,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
       volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       snapshot = volume.snapshots.create
       get = ec2.snapshots.get(snapshot.snapshot_id)
-      snapshot.attributes.should == get.attributes
+      snapshot.attributes.reject {|key, value| ['progress', 'status'].include?(key)}.should == get.attributes.reject {|key, value| ['progress', 'status'].include?(key)}
       snapshot.destroy
     end
 

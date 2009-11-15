@@ -11,14 +11,11 @@ unless Fog.mocking?
         # * type<~String> - Type of reboot, must be in ['HARD', 'SOFT']
         #
         def reboot_server(server_id, type)
-          data = {
-            'reboot' => { 'type' => type }
-          }
           request(
-            :body     => data.to_json,
+            :body     => { 'reboot' => { 'type' => type }}.to_json,
             :expects  => 202,
             :method   => 'POST',
-            :path     => "servers/#{id}"
+            :path     => "servers/#{server_id}/action.json"
           )
         end
 
@@ -32,7 +29,7 @@ else
     module Rackspace
       class Servers
 
-        def update_server
+        def reboot_server(server_id, type)
         end
 
       end

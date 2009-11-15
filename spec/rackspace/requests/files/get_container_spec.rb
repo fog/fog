@@ -25,10 +25,8 @@ describe 'Rackspace::Files.get_container' do
   end
   describe 'failure' do
 
-    it "should raise a NotFound error if the container does not exist" do
-      lambda do
-        files.get_container('container_name')
-      end.should raise_error(Excon::Errors::NotFound)
+    it "should not raise an if the container does not exist" do
+      files.get_container('container_name')
     end
 
   end

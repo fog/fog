@@ -27,10 +27,7 @@ module Fog
             :public_ip  => public_ip
           }.merge!(attributes))
           data['addressesSet'].each do |address|
-            addresses << Fog::AWS::EC2::Address.new({
-              :collection => addresses,
-              :connection => connection
-            }.merge!(address))
+            addresses << new(address.reject {|key, value| value.nil? || value.empty? })
           end
           if instance
             addresses = addresses.select {|address| address.instance_id == instance.id}
