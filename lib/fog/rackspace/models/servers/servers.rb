@@ -24,8 +24,8 @@ module Fog
           servers
         end
 
-        def get(id)
-          connection.get_server_details(id)
+        def get(server_id)
+          connection.get_server_details(server_id)
         rescue Excon::Errors::NotFound
           nil
         end
