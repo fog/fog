@@ -1,9 +1,3 @@
-require 'rubygems'
-require 'excon'
-
-require "fog/errors"
-require "fog/response"
-
 unless Fog.mocking?
 
   module Fog
