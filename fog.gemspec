@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.30"
+  s.version = "0.0.31"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
-  s.date = %q{2009-11-14}
+  s.date = %q{2009-11-16}
   s.default_executable = %q{fog}
   s.description = %q{brings clouds to you}
   s.email = %q{me@geemus.com}
@@ -135,6 +135,8 @@ Gem::Specification.new do |s|
      "lib/fog/parser.rb",
      "lib/fog/rackspace.rb",
      "lib/fog/rackspace/files.rb",
+     "lib/fog/rackspace/models/servers/flavor.rb",
+     "lib/fog/rackspace/models/servers/flavors.rb",
      "lib/fog/rackspace/models/servers/server.rb",
      "lib/fog/rackspace/models/servers/servers.rb",
      "lib/fog/rackspace/requests/files/delete_container.rb",
@@ -149,6 +151,7 @@ Gem::Specification.new do |s|
      "lib/fog/rackspace/requests/servers/create_server.rb",
      "lib/fog/rackspace/requests/servers/delete_image.rb",
      "lib/fog/rackspace/requests/servers/delete_server.rb",
+     "lib/fog/rackspace/requests/servers/get_flavor_details.rb",
      "lib/fog/rackspace/requests/servers/get_server_details.rb",
      "lib/fog/rackspace/requests/servers/list_addresses.rb",
      "lib/fog/rackspace/requests/servers/list_flavors.rb",
@@ -242,6 +245,7 @@ Gem::Specification.new do |s|
      "spec/rackspace/requests/servers/create_server_spec.rb",
      "spec/rackspace/requests/servers/delete_image_spec.rb",
      "spec/rackspace/requests/servers/delete_server_spec.rb",
+     "spec/rackspace/requests/servers/get_flavor_details_spec.rb",
      "spec/rackspace/requests/servers/get_server_details_spec.rb",
      "spec/rackspace/requests/servers/list_addresses_spec.rb",
      "spec/rackspace/requests/servers/list_flavors_detail_spec.rb",
@@ -343,6 +347,7 @@ Gem::Specification.new do |s|
      "spec/rackspace/requests/servers/create_server_spec.rb",
      "spec/rackspace/requests/servers/delete_image_spec.rb",
      "spec/rackspace/requests/servers/delete_server_spec.rb",
+     "spec/rackspace/requests/servers/get_flavor_details_spec.rb",
      "spec/rackspace/requests/servers/get_server_details_spec.rb",
      "spec/rackspace/requests/servers/list_addresses_spec.rb",
      "spec/rackspace/requests/servers/list_flavors_detail_spec.rb",
