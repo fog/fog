@@ -4,18 +4,20 @@ unless Fog.mocking?
     module Rackspace
       class Servers
 
-        # List all flavors (IDs and names only)
+        # Get details for flavor by id
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'id'<~Integer> - Id of the flavor
         #     * 'name'<~String> - Name of the flavor
-        def list_flavors
+        #     * 'ram'<~Integer> - Amount of ram for the flavor
+        #     * 'disk'<~Integer> - Amount of diskspace for the flavor
+        def get_flavor_details(flavor_id)
           request(
             :expects  => [200, 203],
             :method   => 'GET',
-            :path     => 'flavors.json'
+            :path     => "flavors/#{flavor_id}.json"
           )
         end
 
@@ -29,7 +31,7 @@ else
     module Rackspace
       class Servers
 
-        def list_flavors
+        def get_flavor_details(flavor_id)
         end
 
       end

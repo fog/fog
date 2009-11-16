@@ -4,7 +4,7 @@ unless Fog.mocking?
     module Rackspace
       class Servers
 
-        # List all images (IDs and names only)
+        # List all flavors
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -15,7 +15,7 @@ unless Fog.mocking?
         #     * 'disk'<~Integer> - Amount of diskspace for the flavor
         def list_flavors_detail
           request(
-            :expects  => 200,
+            :expects  => [200, 203],
             :method   => 'GET',
             :path     => 'flavors/detail.json'
           )
