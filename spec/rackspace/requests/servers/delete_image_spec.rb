@@ -6,7 +6,7 @@ describe 'Rackspace::Servers.delete_image' do
     before(:each) do
       # flavor 1 = 256, image 3 = gentoo 2008.0
       @server_id = servers.create_server(1, 3).body['server']['id']
-      @image_id = servers.create_image(@server_id)
+      @image_id = servers.create_image(@server_id).body['image']['id']
     end
 
     it "should return proper attributes" do
@@ -25,7 +25,7 @@ describe 'Rackspace::Servers.delete_image' do
     it "should raise a NotFound error if the image does not exist" do
       lambda do
         servers.delete_image(0)
-      end.should raise_error(Excon::Errors::NotFound)
+      end.should raise_error(Excon::Errors::BadRequest)
     end
 
   end
