@@ -11,7 +11,7 @@ describe 'Rackspace::Servers.create_server' do
 
     it "should return proper attributes" do
       # flavor 1 = 256, image 3 = gentoo 2008.0
-      actual = servers.create_server(1, 3).body['server']
+      actual = servers.create_server(1, 3, 'name').body['server']
       @server_id = actual['id']
       actual['addresses'].should be_a(Hash)
       actual['addresses']['private'].should be_an(Array)

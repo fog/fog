@@ -34,7 +34,7 @@ unless Fog.mocking?
         #     * 'name<~String> - Name of server
         #     * 'progress'<~Integer> - Progress through current status
         #     * 'status'<~String> - Current server status
-        def create_server(flavor_id, image_id, options = {})
+        def create_server(flavor_id, image_id, name, options = {})
           data = {
             'server' => {
               'flavorId'  => flavor_id,
@@ -74,7 +74,7 @@ else
     module Rackspace
       class Servers
 
-        def create_server(flavor_id, image_id, options = {})
+        def create_server(flavor_id, image_id, name, options = {})
           response = Fog::Response.new
           response.status = 202
 
@@ -85,10 +85,10 @@ else
             'imageId'   => image_id,
             'hostId'    => "123456789ABCDEF01234567890ABCDEF",
             'metadata'  => options[:metadata] || {},
+            'name'      => name,
             'progress'  => 0,
             'status'    => 'BUILD'
           }
-          data['name'] = "slice#{data[:id]}"
           data['adminPass'] = "#{data['name']}password"
           Fog::Rackspace::Servers.data[:last_modified][data['id']] = Time.now
           Fog::Rackspace::Servers.data[:servers][data['id']] = data

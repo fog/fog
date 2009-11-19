@@ -5,7 +5,7 @@ describe 'Rackspace::Servers.reboot_server' do
 
     before(:each) do
       # flavor 1 = 256, image 3 = gentoo 2008.0
-      @server_id = servers.create_server(1, 3).body['server']['id']
+      @server_id = servers.create_server(1, 3, 'name').body['server']['id']
     end
 
     after(:each) do
