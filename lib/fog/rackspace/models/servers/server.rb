@@ -22,6 +22,10 @@ module Fog
           true
         end
 
+        def images
+          connection.images(:server => self)
+        end
+
         def save
           options = { 'metadata' => @metadata, 'personality' => @personality }
           options = options.reject {|key, value| value.nil?}

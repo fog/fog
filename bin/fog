@@ -68,6 +68,14 @@ module Rackspace
         :rackspace_username => credentials[:rackspace_username]
       )
 
+      def flavors
+        @@servers.flavors
+      end
+
+      def images
+        @@servers.images
+      end
+
       def servers
         @@servers.servers
       end

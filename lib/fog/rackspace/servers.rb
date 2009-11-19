@@ -17,6 +17,8 @@ module Fog
       def self.reload
         load "fog/rackspace/models/servers/flavor.rb"
         load "fog/rackspace/models/servers/flavors.rb"
+        load "fog/rackspace/models/servers/image.rb"
+        load "fog/rackspace/models/servers/images.rb"
         load "fog/rackspace/models/servers/server.rb"
         load "fog/rackspace/models/servers/servers.rb"
 
