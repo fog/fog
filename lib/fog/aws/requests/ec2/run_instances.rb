@@ -86,7 +86,7 @@ else
       class EC2
 
         def run_instances(image_id, min_count, max_count, options = {})
-          response = Fog::Response.new
+          response = Excon::Response.new
           response.status = 200
 
           group_set = [ (options['GroupId'] || 'default') ]

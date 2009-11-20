@@ -32,7 +32,7 @@ else
       class EC2
 
         def delete_key_pair(key_name)
-          response = Fog::Response.new
+          response = Excon::Response.new
           Fog::AWS::EC2.data[:key_pairs].delete(key_name)
           response.status = 200
           response.body = {

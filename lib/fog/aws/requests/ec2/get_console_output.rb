@@ -34,7 +34,7 @@ else
       class EC2
 
         def get_console_output(instance_id)
-          response = Fog::Response.new
+          response = Excon::Response.new
           if instance = Fog::AWS::EC2.data[:instances][instance_id]
             response.status = 200
             response.body = {
@@ -45,7 +45,7 @@ else
             }
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

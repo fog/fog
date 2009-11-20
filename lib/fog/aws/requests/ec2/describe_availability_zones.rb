@@ -35,7 +35,7 @@ else
       class EC2
 
         def describe_availability_zones(zone_name = [])
-          response = Fog::Response.new
+          response = Excon::Response.new
           zone_name = [*zone_name]
           zones = {
             'us-east-1a' => {"zoneName"=>"us-east-1a", "regionName"=>"us-east-1", "zoneState"=>"available"}, 

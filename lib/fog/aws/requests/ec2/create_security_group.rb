@@ -34,7 +34,7 @@ else
       class EC2
 
         def create_security_group(name, description)
-          response = Fog::Response.new
+          response = Excon::Response.new
           unless Fog::AWS::EC2.data[:security_groups][name]
             data = {
               'groupDescription'  => description,
@@ -49,7 +49,7 @@ else
             }
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

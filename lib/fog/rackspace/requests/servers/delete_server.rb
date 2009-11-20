@@ -28,7 +28,7 @@ else
       class Servers
 
         def delete_server(server_id)
-          response = Fog::Response.new
+          response = Excon::Response.new
           if server = list_servers_detail.body['servers'].detect { |server| server['id'] == server_id }
             if server['status'] == 'BUILD'
               response.status = 409
@@ -40,7 +40,7 @@ else
             end
           else
             response.status = 404
-            raise(Excon::Errors.status_error(202, 404, response))
+            raise(Excon::Errors.status_error({:expects => 202}, response))
           end
           response
         end

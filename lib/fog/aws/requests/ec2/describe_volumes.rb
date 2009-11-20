@@ -43,7 +43,7 @@ else
       class EC2
 
         def describe_volumes(volume_id = [])
-          response = Fog::Response.new
+          response = Excon::Response.new
           volume_id = [*volume_id]
           if volume_id != []
             volume_set = Fog::AWS::EC2.data[:volumes].reject {|key,value| !volume_id.include?(key)}.values
@@ -73,7 +73,7 @@ else
             }
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

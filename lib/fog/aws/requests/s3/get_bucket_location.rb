@@ -35,13 +35,13 @@ else
       class S3
 
         def get_bucket_location(bucket_name)
-          response = Fog::Response.new
+          response = Excon::Response.new
           if bucket = Fog::AWS::S3.data[:buckets][bucket_name]
             response.status = 200
             response.body = {'LocationConstraint' => bucket['LocationConstraint'] }
           else
             response.status = 404
-            raise(Excon::Errors.status_error(200, 404, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

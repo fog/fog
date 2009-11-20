@@ -31,7 +31,7 @@ else
       class Servers
 
         def update_server(server_id, options)
-          response = Fog::Response.new
+          response = Excon::Response.new
           if server = list_servers_detail.body['servers'].detect { |server| server['id'] == server_id }
             if options['adminPass']
               server['adminPass'] = options['adminPass']
@@ -42,7 +42,7 @@ else
             response.status = 204
           else
             response.status = 404
-            raise(Excon::Errors.status_error(202, 404, response))
+            raise(Excon::Errors.status_error({:expects => 202}, response))
           end
           response
         end

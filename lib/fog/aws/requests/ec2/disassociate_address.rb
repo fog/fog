@@ -32,7 +32,7 @@ else
       class EC2
 
         def disassociate_address(public_ip)
-          response = Fog::Response.new
+          response = Excon::Response.new
           response.status = 200
           if address = Fog::AWS::EC2.data[:addresses][public_ip]
             address['instanceId'] = ''
@@ -43,7 +43,7 @@ else
             }
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

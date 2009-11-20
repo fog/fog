@@ -39,7 +39,7 @@ else
       class SimpleDB
 
         def batch_put_attributes(domain_name, items, replace_attributes = Hash.new([]))
-          response = Fog::Response.new
+          response = Excon::Response.new
           if Fog::AWS::SimpleDB.data[:domains][domain_name]
             for item_name, attributes in items do
               for key, value in attributes do
@@ -59,7 +59,7 @@ else
             }
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

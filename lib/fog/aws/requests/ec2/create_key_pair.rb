@@ -34,7 +34,7 @@ else
       class EC2
 
         def create_key_pair(key_name)
-          response = Fog::Response.new
+          response = Excon::Response.new
           unless Fog::AWS::EC2.data[:key_pairs][key_name]
             response.status = 200
             data = {
@@ -48,7 +48,7 @@ else
             }.merge!(data)
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

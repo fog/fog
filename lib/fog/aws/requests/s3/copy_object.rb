@@ -48,7 +48,7 @@ else
       class S3
 
         def copy_object(source_bucket_name, source_object_name, target_bucket_name, target_object_name, options = {})
-          response = Fog::Response.new
+          response = Excon::Response.new
           source_bucket = Fog::AWS::S3.data[:buckets][source_bucket_name]
           source_object = source_bucket && source_bucket[:objects][source_object_name]
           target_bucket = Fog::AWS::S3.data[:buckets][target_bucket_name]
@@ -66,7 +66,7 @@ else
             }
           else
             response.status = 404
-            raise(Excon::Errors.status_error(200, 404, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
 
           response

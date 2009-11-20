@@ -31,7 +31,7 @@ else
     module AWS
       class EC2
         def delete_security_group(name)
-          response = Fog::Response.new
+          response = Excon::Response.new
           if Fog::AWS::EC2.data[:security_groups][name]
             Fog::AWS::EC2.data[:security_groups].delete(name)
             response.status = 200
@@ -41,7 +41,7 @@ else
             }
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

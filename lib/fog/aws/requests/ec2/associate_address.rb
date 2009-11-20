@@ -34,7 +34,7 @@ else
       class EC2
 
         def associate_address(instance_id, public_ip)
-          response = Fog::Response.new
+          response = Excon::Response.new
           response.status = 200
           instance = Fog::AWS::EC2.data[:instances][instance_id]
           address = Fog::AWS::EC2.data[:addresses][public_ip]
@@ -47,7 +47,7 @@ else
             }
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

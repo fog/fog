@@ -32,7 +32,7 @@ else
       class EC2
 
         def delete_volume(volume_id)
-          response = Fog::Response.new
+          response = Excon::Response.new
           if volume = Fog::AWS::EC2.data[:volumes][volume_id]
             Fog::AWS::EC2.data[:deleted_at][volume_id] = Time.now
             volume['status'] = 'deleting'
@@ -43,7 +43,7 @@ else
             }
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

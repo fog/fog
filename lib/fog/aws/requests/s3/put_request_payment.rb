@@ -37,13 +37,13 @@ else
       class S3
 
         def put_request_payment(bucket_name, payer)
-          response = Fog::Response.new
+          response = Excon::Response.new
           if bucket = Fog::AWS::S3.data[:buckets][bucket_name]
             response.status = 200
             bucket['Payer'] = payer
           else
             response.status = 404
-            raise(Excon::Errors.status_error(200, 404, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

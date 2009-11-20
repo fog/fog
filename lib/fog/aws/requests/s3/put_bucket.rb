@@ -45,7 +45,7 @@ else
       class S3
 
         def put_bucket(bucket_name, options = {})
-          response = Fog::Response.new
+          response = Excon::Response.new
           response.status = 200
           bucket = {
             :objects        => {},

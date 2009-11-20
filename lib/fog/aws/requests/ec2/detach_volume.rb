@@ -40,7 +40,7 @@ else
       class EC2
 
         def detach_volume(volume_id, options = {})
-          response = Fog::Response.new
+          response = Excon::Response.new
           response.status = 200
           if volume = Fog::AWS::EC2.data[:volumes][volume_id]
             data = volume['attachmentSet'].pop
@@ -50,7 +50,7 @@ else
             }.merge!(data)
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

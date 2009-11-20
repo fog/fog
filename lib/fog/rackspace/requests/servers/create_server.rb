@@ -75,7 +75,7 @@ else
       class Servers
 
         def create_server(flavor_id, image_id, name, options = {})
-          response = Fog::Response.new
+          response = Excon::Response.new
           response.status = 202
 
           data = {

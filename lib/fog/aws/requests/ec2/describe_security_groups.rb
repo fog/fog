@@ -44,7 +44,7 @@ else
       class EC2
 
         def describe_security_groups(group_name = [])
-          response = Fog::Response.new
+          response = Excon::Response.new
           group_name = [*group_name]
           if group_name != []
             security_group_info = Fog::AWS::EC2.data[:security_groups].reject {|key, value| !group_name.include?(key)}.values
@@ -59,7 +59,7 @@ else
             }
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

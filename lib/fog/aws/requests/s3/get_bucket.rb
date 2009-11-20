@@ -67,7 +67,7 @@ else
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
-          response = Fog::Response.new
+          response = Excon::Response.new
           if bucket = Fog::AWS::S3.data[:buckets][bucket_name]
             response.status = 200
             response.body = {
@@ -94,7 +94,7 @@ else
             end
           else
             response.status = 404
-            raise(Excon::Errors.status_error(200, 404, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

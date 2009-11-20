@@ -31,7 +31,7 @@ else
       class Servers
 
         def list_servers
-          response = Fog::Response.new
+          response = Excon::Response.new
           data = list_servers_detail.body['servers']
           servers = []
           for server in data

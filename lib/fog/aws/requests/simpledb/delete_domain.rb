@@ -33,7 +33,7 @@ else
       class SimpleDB
 
         def delete_domain(domain_name)
-          response = Fog::Response.new
+          response = Excon::Response.new
           if Fog::AWS::SimpleDB.data[:domains].delete(domain_name)
             response.status = 200
             response.body = {

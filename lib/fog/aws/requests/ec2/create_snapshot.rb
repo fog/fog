@@ -36,7 +36,7 @@ else
       class EC2
 
         def create_snapshot(volume_id)
-          response = Fog::Response.new
+          response = Excon::Response.new
           if Fog::AWS::EC2.data[:volumes][volume_id]
             response.status = 200
             snapshot_id = Fog::AWS::Mock.snapshot_id
@@ -53,7 +53,7 @@ else
             }.merge!(data)
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

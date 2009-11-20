@@ -32,13 +32,13 @@ else
       class S3
 
         def delete_bucket(bucket_name)
-          response = Fog::Response.new
+          response = Excon::Response.new
           if Fog::AWS::S3.data[:buckets][bucket_name].nil?
             response.status = 404
-            raise(Excon::Errors.status_error(204, 404, response))
+            raise(Excon::Errors.status_error({:expects => 204}, response))
           elsif Fog::AWS::S3.data[:buckets][bucket_name] && !Fog::AWS::S3.data[:buckets][bucket_name][:objects].empty?
             response.status = 409
-            raise(Excon::Errors.status_error(204, 409, response))
+            raise(Excon::Errors.status_error({:expects => 204}, response))
           else
             Fog::AWS::S3.data[:buckets].delete(bucket_name)
             response.status = 204

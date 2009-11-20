@@ -76,7 +76,7 @@ else
           unless object_name
             raise ArgumentError.new('object_name is required')
           end
-          response = Fog::Response.new
+          response = Excon::Response.new
           if (bucket = Fog::AWS::S3.data[:buckets][bucket_name]) && (object = bucket[:objects][object_name])
             if options['If-Match'] && options['If-Match'] != object['ETag']
               response.status = 412
@@ -108,7 +108,7 @@ else
             end
           else
             response.status = 404
-            raise(Excon::Errors.status_error(200, 404, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

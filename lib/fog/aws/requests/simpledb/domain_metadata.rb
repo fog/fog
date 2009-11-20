@@ -40,7 +40,7 @@ else
       class SimpleDB
 
         def domain_metadata(domain_name)
-          response = Fog::Response.new
+          response = Excon::Response.new
           if domain = Fog::AWS::SimpleDB.data[:domains][domain_name]
             response.status = 200
             
@@ -68,7 +68,7 @@ else
             }
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

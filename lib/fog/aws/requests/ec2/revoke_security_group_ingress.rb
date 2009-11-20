@@ -41,7 +41,7 @@ else
 
         # TODO: handle the GroupName/Source/Source case
         def revoke_security_group_ingress(options = {})
-          response = Fog::Response.new
+          response = Excon::Response.new
           group = Fog::AWS::EC2.data[:security_groups][options['GroupName']]
 
           ingress = group['ipPermissions'].select {|permission|

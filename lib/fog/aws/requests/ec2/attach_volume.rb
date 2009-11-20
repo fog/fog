@@ -40,7 +40,7 @@ else
       class EC2
 
         def attach_volume(instance_id, volume_id, device)
-          response = Fog::Response.new
+          response = Excon::Response.new
           if instance_id && volume_id && device
             response.status = 200
             instance = Fog::AWS::EC2.data[:instances][instance_id]
@@ -60,7 +60,7 @@ else
               }.merge!(data)
             else
               response.status = 400
-              raise(Excon::Errors.status_error(200, 400, response))
+              raise(Excon::Errors.status_error({:expects => 200}, response))
             end
           else
             response.status = 400

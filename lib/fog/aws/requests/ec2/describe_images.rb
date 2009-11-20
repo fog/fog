@@ -49,7 +49,7 @@ else
       class EC2
 
         def describe_images(options = {})
-          response = Fog::Response.new
+          response = Excon::Response.new
           images = []
 
           (rand(101 + 100)).times do

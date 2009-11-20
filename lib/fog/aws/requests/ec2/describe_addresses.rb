@@ -34,7 +34,7 @@ else
       class EC2
 
         def describe_addresses(public_ip = [])
-          response = Fog::Response.new
+          response = Excon::Response.new
           public_ip = [*public_ip]
           if public_ip != []
             addresses_set = Fog::AWS::EC2.data[:addresses].reject {|key, value| !public_ip.include?(key)}.values
@@ -49,7 +49,7 @@ else
             }
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

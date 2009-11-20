@@ -43,7 +43,7 @@ else
       class SimpleDB
 
         def get_attributes(domain_name, item_name, attributes = nil)
-          response = Fog::Response.new
+          response = Excon::Response.new
           if Fog::AWS::SimpleDB.data[:domains][domain_name]
             object = {}
             if attributes
@@ -63,7 +63,7 @@ else
             }
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

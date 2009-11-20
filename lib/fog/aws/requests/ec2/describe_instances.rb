@@ -56,7 +56,7 @@ else
       class EC2
 
         def describe_instances(instance_id = {})
-          response = Fog::Response.new
+          response = Excon::Response.new
           instance_id = [*instance_id]
           if instance_id != []
             instance_set = Fog::AWS::EC2.data[:instances].reject {|key,value| !instance_id.include?(key)}.values
@@ -104,7 +104,7 @@ else
             }
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

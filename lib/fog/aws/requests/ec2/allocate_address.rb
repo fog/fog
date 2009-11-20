@@ -28,7 +28,7 @@ else
       class EC2
 
         def allocate_address
-          response = Fog::Response.new
+          response = Excon::Response.new
           response.status = 200
           public_ip = Fog::AWS::Mock.ip_address
           data ={

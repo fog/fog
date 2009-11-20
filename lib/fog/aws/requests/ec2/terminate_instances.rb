@@ -39,7 +39,7 @@ else
       class EC2
 
         def terminate_instances(instance_id)
-          response = Fog::Response.new
+          response = Excon::Response.new
           instance_id = [*instance_id]
           if (Fog::AWS::EC2.data[:instances].keys & instance_id).length == instance_id.length
             for instance_id in instance_id
@@ -72,7 +72,7 @@ else
             end
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

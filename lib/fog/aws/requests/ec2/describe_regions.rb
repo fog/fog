@@ -34,7 +34,7 @@ else
       class EC2
 
         def describe_regions(region_name = [])
-          response = Fog::Response.new
+          response = Excon::Response.new
           region_name = [*region_name]
           regions = {
             'eu-west-1' => {"regionName"=>"eu-west-1", "regionEndpoint"=>"eu-west-1.ec2.amazonaws.com"},

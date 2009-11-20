@@ -37,7 +37,7 @@ else
       class EC2
 
         def describe_snapshots(snapshot_id = [])
-          response = Fog::Response.new
+          response = Excon::Response.new
           snapshot_id = [*snapshot_id]
           if snapshot_id != []
             snapshot_set = Fog::AWS::EC2.data[:snapshots].reject {|key,value| !snapshot_id.include?(key)}.values
@@ -66,7 +66,7 @@ else
             }
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

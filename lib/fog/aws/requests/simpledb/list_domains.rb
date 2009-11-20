@@ -36,7 +36,7 @@ else
       class SimpleDB
 
         def list_domains(options = {})
-          response = Fog::Response.new
+          response = Excon::Response.new
           keys = Fog::AWS::SimpleDB.data[:domains].keys
           max = options['MaxNumberOfDomains'] || keys.size
           offset = options['NextToken'] || 0

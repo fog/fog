@@ -33,7 +33,7 @@ else
       class SimpleDB
 
         def create_domain(domain_name)
-          response = Fog::Response.new
+          response = Excon::Response.new
           Fog::AWS::SimpleDB.data[:domains][domain_name] = {}
           response.status = 200
           response.body = {

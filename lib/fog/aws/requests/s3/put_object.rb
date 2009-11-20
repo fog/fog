@@ -49,7 +49,7 @@ else
 
         def put_object(bucket_name, object_name, data, options = {})
           data = parse_data(data)
-          response = Fog::Response.new
+          response = Excon::Response.new
           if (bucket = Fog::AWS::S3.data[:buckets][bucket_name])
             response.status = 200
             bucket[:objects][object_name] = {
@@ -64,7 +64,7 @@ else
             bucket[:objects][object_name]['Content-Type'] = data[:headers]['Content-Type']
           else
             response.status = 404
-            raise(Excon::Errors.status_error(200, 404, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

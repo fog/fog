@@ -40,7 +40,7 @@ else
       class EC2
 
         def create_volume(availability_zone, size, snapshot_id = nil)
-          response = Fog::Response.new
+          response = Excon::Response.new
           if availability_zone && size
             response.status = 200
             volume_id = Fog::AWS::Mock.volume_id

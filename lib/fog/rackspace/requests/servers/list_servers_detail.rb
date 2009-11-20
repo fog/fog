@@ -40,7 +40,7 @@ else
       class Servers
 
         def list_servers_detail
-          response = Fog::Response.new
+          response = Excon::Response.new
 
           servers = Fog::Rackspace::Servers.data[:servers].values
           for server in servers

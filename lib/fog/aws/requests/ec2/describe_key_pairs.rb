@@ -34,7 +34,7 @@ else
       class EC2
 
         def describe_key_pairs(key_name = [])
-          response = Fog::Response.new
+          response = Excon::Response.new
           key_name = [*key_name]
           if key_name != []
             key_set = Fog::AWS::EC2.data[:key_pairs].reject {|key, value| !key_name.include?(key)}.values
@@ -51,7 +51,7 @@ else
             }
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

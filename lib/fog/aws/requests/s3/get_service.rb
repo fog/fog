@@ -37,7 +37,7 @@ else
       class S3
 
         def get_service
-          response = Fog::Response.new
+          response = Excon::Response.new
           response.headers['Status'] = 200
           buckets = Fog::AWS::S3.data[:buckets].values.map do |bucket|
             bucket.reject do |key, value|

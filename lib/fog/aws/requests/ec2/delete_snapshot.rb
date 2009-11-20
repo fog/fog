@@ -32,7 +32,7 @@ else
       class EC2
 
         def delete_snapshot(snapshot_id)
-          response = Fog::Response.new
+          response = Excon::Response.new
           if snapshot = Fog::AWS::EC2.data[:snapshots].delete(snapshot_id)
             response.status = true
             response.body = {
@@ -41,7 +41,7 @@ else
             }
           else
             response.status = 400
-            raise(Excon::Errors.status_error(200, 400, response))
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end
