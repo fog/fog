@@ -32,9 +32,9 @@ else
           if server = list_servers_detail.body['servers'].detect { |server| server['id'] == server_id }
             if server['status'] == 'BUILD'
               response.status = 409
-              raise(Excon::Errors.status_error(202, 409, response))
+              raise(Excon::Errors.status_error({:expects => 202}, response))
             else
-              Fog::Rackspace::Servers.data[:last_modified].delete(server_id)
+              Fog::Rackspace::Servers.data[:last_modified][:servers].delete(server_id)
               Fog::Rackspace::Servers.data[:servers].delete(server_id)
               response.status = 202
             end

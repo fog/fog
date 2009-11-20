@@ -16,13 +16,15 @@ describe 'Rackspace::Servers.delete_image' do
     end
 
     it "should return proper attributes" do
-      servers.delete_image(@image_id)
+      eventually(128) do
+        servers.delete_image(@image_id)
+      end
     end
 
   end
   describe 'failure' do
 
-    it "should raise a NotFound error if the image does not exist" do
+    it "should raise a BadRequest error if the image does not exist" do
       lambda do
         servers.delete_image(0)
       end.should raise_error(Excon::Errors::BadRequest)

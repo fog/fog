@@ -32,7 +32,22 @@ else
     module Rackspace
       class Servers
 
-        def list_images
+        def list_images_detail
+          response = Excon::Response.new
+
+          images = Fog::Rackspace::Servers.data[:images].values
+          for image in images
+            case image['status']
+            when 'SAVING'
+              if Time.now - Fog::Rackspace::Servers.data[:last_modified][:images][image['id']] > 2
+                image['status'] = 'ACTIVE'
+              end
+            end
+          end
+
+          response.status = [200, 203][rand(1)]
+          response.body = { 'images' => images }
+          response
         end
 
       end

@@ -46,7 +46,7 @@ else
           for server in servers
             case server['status']
             when 'BUILD'
-              if Time.now - Fog::Rackspace::Servers.data[:last_modified][server['id']] > 2
+              if Time.now - Fog::Rackspace::Servers.data[:last_modified][:servers][server['id']] > 2
                 server['status'] = 'ACTIVE'
               end
             end

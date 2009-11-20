@@ -30,6 +30,16 @@ else
       class Servers
 
         def list_images
+          response = Excon::Response.new
+          data = list_images_detail.body['images']
+          images = []
+          for image in data
+            images << image.reject { |key, value| !['id', 'name'].include?(key) }
+          end
+          response.status = [200, 203][rand(1)]
+          response.body = { 'images' => images }
+          response
+
         end
 
       end

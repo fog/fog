@@ -43,7 +43,24 @@ else
     module Rackspace
       class Servers
 
-        def create_image
+        def create_image(server_id, options = {})
+          response = Excon::Response.new
+          response.status = 202
+
+          now = Time.now
+          data = {
+            'created'   => now,
+            'id'        => 123456,
+            'name'      => options['name'] || '',
+            'serverId'  => server_id,
+            'status'    => 'SAVING',
+            'updated'   => now,
+          }
+
+          Fog::Rackspace::Servers.data[:last_modified][:images][data['id']] = now
+          Fog::Rackspace::Servers.data[:images][data['id']] = data
+          response.body = { 'image' => data.reject {|key, value| !['id', 'name', 'serverId'].include?(key)} }
+          response
         end
 
       end
