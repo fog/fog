@@ -1,6 +1,10 @@
 module Fog
   class Model
 
+    def self._load(marshalled)
+      new(Marshal.load(marshalled))
+    end
+
     def self.attribute(name, other_names = [])
       class_eval <<-EOS, __FILE__, __LINE__
         attr_accessor :#{name}
@@ -25,6 +29,10 @@ module Fog
       @attributes ||= []
     end
 
+    def _dump
+      Marshal.dump(attributes)
+    end
+
     def attributes
       attributes = {}
       for attribute in self.class.attributes
@@ -35,6 +43,14 @@ module Fog
 
     def collection
       @collection
+    end
+
+    def connection=(new_connection)
+      @connection = new_connection
+    end
+
+    def connection
+      @connection
     end
 
     def identity
@@ -77,14 +93,6 @@ module Fog
 
     def collection=(new_collection)
       @collection = new_collection
-    end
-
-    def connection=(new_connection)
-      @connection = new_connection
-    end
-
-    def connection
-      @connection
     end
 
     def remap_attributes(attributes, mapping)
