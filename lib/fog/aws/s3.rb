@@ -16,7 +16,6 @@ module Fog
         load "fog/aws/models/s3/buckets.rb"
         load "fog/aws/models/s3/object.rb"
         load "fog/aws/models/s3/objects.rb"
-        load "fog/aws/models/s3/owner.rb"
 
         load "fog/aws/parsers/s3/copy_object.rb"
         load "fog/aws/parsers/s3/get_bucket.rb"

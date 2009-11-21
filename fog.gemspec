@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
-  s.date = %q{2009-11-16}
+  s.date = %q{2009-11-21}
   s.default_executable = %q{fog}
   s.description = %q{brings clouds to you}
   s.email = %q{me@geemus.com}
@@ -47,7 +47,6 @@ Gem::Specification.new do |s|
      "lib/fog/aws/models/s3/buckets.rb",
      "lib/fog/aws/models/s3/object.rb",
      "lib/fog/aws/models/s3/objects.rb",
-     "lib/fog/aws/models/s3/owner.rb",
      "lib/fog/aws/parsers/ec2/allocate_address.rb",
      "lib/fog/aws/parsers/ec2/attach_volume.rb",
      "lib/fog/aws/parsers/ec2/basic.rb",
@@ -137,6 +136,8 @@ Gem::Specification.new do |s|
      "lib/fog/rackspace/files.rb",
      "lib/fog/rackspace/models/servers/flavor.rb",
      "lib/fog/rackspace/models/servers/flavors.rb",
+     "lib/fog/rackspace/models/servers/image.rb",
+     "lib/fog/rackspace/models/servers/images.rb",
      "lib/fog/rackspace/models/servers/server.rb",
      "lib/fog/rackspace/models/servers/servers.rb",
      "lib/fog/rackspace/requests/files/delete_container.rb",

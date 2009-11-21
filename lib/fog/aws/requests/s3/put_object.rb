@@ -57,7 +57,6 @@ else
               'ETag'          => Fog::AWS::Mock.etag,
               'Key'           => object_name,
               'LastModified'  => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000"),
-              'Owner'         => { 'DisplayName' => 'owner', 'ID' => 'some_id'},
               'Size'          => data[:headers]['Content-Length'],
               'StorageClass'  => 'STANDARD'
             }

@@ -12,13 +12,16 @@ module Fog
 
         def all
           data = connection.get_service.body
-          owner = Fog::AWS::S3::Owner.new(data.delete('Owner').merge!(:connection => connection))
+          owner = Fog::AWS::S3::Owner.new(data.delete('Owner'))
           buckets = Fog::AWS::S3::Buckets.new(:connection => connection)
           data['Buckets'].each do |bucket|
             buckets << Fog::AWS::S3::Bucket.new({
               :collection => buckets,
               :connection => connection,
-              :owner      => owner
+              :owner      => {
+                :display_name => owner['DisplayName'], 
+                :id => owner['ID']
+              }
             }.merge!(bucket))
           end
           buckets
@@ -42,12 +45,15 @@ module Fog
           end
           bucket.objects.merge_attributes(options)
           data['Contents'].each do |object|
-            owner = Fog::AWS::S3::Owner.new(object.delete('Owner').merge!(:connection => connection))
+            owner = Fog::AWS::S3::Owner.new(object.delete('Owner'))
             bucket.objects << Fog::AWS::S3::Object.new({
               :bucket     => bucket,
               :connection => connection,
               :collection => bucket.objects,
-              :owner      => owner
+              :owner      => {
+                :display_name => owner['DisplayName'], 
+                :id => owner['ID']
+              }
             }.merge!(object))
           end
           bucket
