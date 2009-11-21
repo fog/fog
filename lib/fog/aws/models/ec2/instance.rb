@@ -24,10 +24,14 @@ module Fog
         attribute :user_data
 
         def addresses
+          requires :instance_id
+
           connection.addresses(:instance => self)
         end
 
         def destroy
+          requires :instance_id
+
           connection.terminate_instances(@instance_id)
           true
         end
@@ -41,6 +45,8 @@ module Fog
         # end
 
         def key_pair
+          requires :key_name
+
           connection.keypairs.all(@key_name).first
         end
 
@@ -65,11 +71,15 @@ module Fog
         end
 
         def reboot
+          requires :instance_id
+
           connection.reboot_instances(@instance_id)
           true
         end
 
         def save
+          requires :image_id
+
           options = {}
           if @availability_zone
             options['Placement.AvailabilityZone'] = @availability_zone
@@ -101,6 +111,8 @@ module Fog
         end
 
         def volumes
+          requires :instance_id
+
           connection.volumes(:instance => self)
         end
 

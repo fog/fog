@@ -11,6 +11,8 @@ module Fog
         attribute :owner_id,          'ownerId'
 
         def authorize_group_and_owner(group, owner)
+          requires :group_name
+
           connection.authorize_security_group_ingress(
             'GroupName'                   => @group_name,
             'SourceSecurityGroupName'     => group,
@@ -19,6 +21,8 @@ module Fog
         end
 
         def authorize_port_range(range, options = {})
+          requires :group_name
+
           connection.authorize_security_group_ingress(
             'CidrIp'      => options[:cidr_ip] || '0.0.0.0/0',
             'FromPort'    => range.min,
@@ -29,11 +33,15 @@ module Fog
         end
 
         def destroy
+          requires :group_name
+
           connection.delete_security_group(@group_name)
           true
         end
 
         def save
+          requires :group_name
+
           data = connection.create_security_group(@group_name, @group_description).body
           true
         end

@@ -23,11 +23,15 @@ module Fog
         end
 
         def destroy
+          requires :volume_id
+
           connection.delete_volume(@volume_id)
           true
         end
 
         def instance=(new_instance)
+          requires :volume_id
+
           if new_instance
             attach(new_instance)
           else
@@ -36,6 +40,8 @@ module Fog
         end
 
         def save
+          requires :availability_zone, :size, :snapshot_id
+
           data = connection.create_volume(@availability_zone, @size, @snapshot_id).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
@@ -46,7 +52,9 @@ module Fog
         end
 
         def snapshots
-          connection.snapshots(:volume_id => volume_id)
+          requires :volume_id
+
+          connection.snapshots(:volume_id => @volume_id)
         end
 
         private

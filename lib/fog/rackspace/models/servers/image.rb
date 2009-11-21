@@ -13,15 +13,21 @@ module Fog
         attribute :server_id,   'serverId'
 
         def server=(new_server)
+          requires :id
+
           @server_id = new_server.id
         end
 
         def destroy
+          requires :id
+
           connection.delete_image(@id)
           true
         end
 
         def save
+          requires :server_id
+
           data = connection.create_server(@server_id)
           merge_attributes(data.body['image'])
           true

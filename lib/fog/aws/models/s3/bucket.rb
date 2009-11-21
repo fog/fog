@@ -10,6 +10,8 @@ module Fog
         attribute :owner
 
         def destroy
+          requires :name
+
           connection.delete_bucket(@name)
           true
         rescue Excon::Errors::NotFound
@@ -17,6 +19,8 @@ module Fog
         end
 
         def location
+          requires :name
+
           data = connection.get_bucket_location(@name)
           data.body['LocationConstraint']
         end
@@ -35,16 +39,22 @@ module Fog
         end
 
         def payer
+          requires :name
+
           data = connection.get_request_payment(@name)
           data.body['Payer']
         end
 
         def payer=(new_payer)
+          requires :name
+
           connection.put_request_payment(@name, new_payer)
           @payer = new_payer
         end
 
         def save
+          requires :name
+
           options = {}
           if @location
             options['LocationConstraint'] = @location

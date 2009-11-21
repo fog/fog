@@ -20,6 +20,8 @@ module Fog
         end
 
         def copy(target_bucket_name, target_object_key)
+          requires :bucket, :key
+
           data = connection.copy_object(bucket.name, @key, target_bucket_name, target_object_key).body
           target_bucket = connection.buckets.new(:name => target_bucket_name)
           target_object = target_bucket.objects.new(attributes.merge!(:key => target_object_key))
@@ -34,11 +36,14 @@ module Fog
         end
 
         def destroy
+          requires :bucket, :key
+
           connection.delete_object(bucket.name, @key)
           true
         end
 
         def save(options = {})
+          requires :body, :bucket, :key
           data = connection.put_object(bucket.name, @key, @body, options)
           @etag = data.headers['ETag']
           true

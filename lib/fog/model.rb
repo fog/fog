@@ -89,6 +89,20 @@ module Fog
       merge_attributes(new_attributes)
     end
 
+    def requires(*args)
+      missing = []
+      for arg in [:connection] | args
+        missing << arg unless send("#{arg}")
+      end
+      unless missing.empty?
+        if missing.length == 1
+          raise(ArgumentError, "#{missing.first} is required for this operation")
+        else
+          raise(ArgumentError, "#{missing[0...-1].join(", ")} and #{missing[-1]} are required for this operation")
+        end
+      end
+    end
+
     private
 
     def collection=(new_collection)

@@ -18,20 +18,27 @@ module Fog
         attribute :metadata
 
         def destroy
+          requires :id
+
           connection.delete_server(@id)
           true
         end
 
         def images
+          requires :id
+
           connection.images(:server => self)
         end
 
         def reboot(type = 'SOFT')
+          requires :id
+
           connection.reboot_server(@id, type)
           true
         end
 
         def save
+          requires :flavor_id, :image_id, :name
           options = { 'metadata' => @metadata, 'personality' => @personality }
           options = options.reject {|key, value| value.nil?}
           data = connection.create_server(@flavor_id, @image_id, @name, options)

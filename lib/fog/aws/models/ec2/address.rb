@@ -9,11 +9,15 @@ module Fog
         attribute :instance_id, 'instanceId'
 
         def destroy
+          requires :public_ip
+
           connection.release_address(@public_ip)
           true
         end
 
         def instance=(new_instance)
+          requires :public_ip
+
           if new_instance
             associate(new_instance)
           else

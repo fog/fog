@@ -12,18 +12,24 @@ module Fog
         attribute :volume_id,    'volumeId'
 
         def destroy
+          requires :snapshot_id
+
           connection.delete_snapshot(@snapshot_id)
           true
         end
 
         def save
-          data = connection.create_snapshot(volume_id).body
+          requires :volume_id
+
+          data = connection.create_snapshot(@volume_id).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           true
         end
 
         def volume
+          requires :snapshot_id
+
           connection.describe_volumes(@volume_id)
         end
 

@@ -10,11 +10,15 @@ module Fog
         attribute :material,    'keyMaterial'
 
         def destroy
+          requires :name
+
           connection.delete_key_pair(@name)
           true
         end
 
         def save
+          requires :name
+
           data = connection.create_key_pair(@name).body
           new_attributes = data.reject {|key,value| !['keyFingerprint', 'keyMaterial', 'keyName'].include?(key)}
           merge_attributes(new_attributes)
