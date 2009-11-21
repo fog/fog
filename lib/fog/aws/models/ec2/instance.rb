@@ -64,6 +64,11 @@ module Fog
           end
         end
 
+        def reboot
+          connection.reboot_instances(@instance_id)
+          true
+        end
+
         def save
           options = {}
           if @availability_zone

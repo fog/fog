@@ -26,6 +26,11 @@ module Fog
           connection.images(:server => self)
         end
 
+        def reboot(type = 'SOFT')
+          connection.reboot_server(@id, type)
+          true
+        end
+
         def save
           options = { 'metadata' => @metadata, 'personality' => @personality }
           options = options.reject {|key, value| value.nil?}
