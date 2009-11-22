@@ -102,12 +102,18 @@ namespace :fog do
   desc 'Provide a sample yaml file for credentials'
   task :yml do
     puts('Copy the following sample to ~/.fog and fill in with your credentials as needed:')
-    print("\n")
-    print(":aws_access_key_id: INTENTIONALLY_LEFT_BLANK\n")
-    print(":aws_secret_access_key: INTENTIONALLY_LEFT_BLANK\n")
-    print(":rackspace_api_key: INTENTIONALLY_LEFT_BLANK\n")
-    print(":rackspace_username: INTENTIONALLY_LEFT_BLANK\n")
-    print("\n")
+yml = <<YML
+
+:default:
+  :aws:
+    :aws_access_key_id: INTENTIONALLY_LEFT_BLANK
+    :aws_secret_access_key: INTENTIONALLY_LEFT_BLANK
+  :rackspace:
+    :rackspace_api_key: INTENTIONALLY_LEFT_BLANK
+    :rackspace_username: INTENTIONALLY_LEFT_BLANK
+
+YML
+    print(yml)
   end
 
 end

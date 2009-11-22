@@ -41,7 +41,7 @@ module Fog
     @credentials ||= begin
       credentials = {}
       File.open(path) do |file|
-        credentials = YAML.load(file.read)
+        credentials = YAML.load(file.read)[:default]
       end
       credentials
     end
