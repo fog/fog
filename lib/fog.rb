@@ -37,6 +37,16 @@ module Fog
     load "fog/rackspace.rb"
   end
 
+  def self.credentials(path = File.expand_path('~/.fog'))
+    @credentials ||= begin
+      credentials = {}
+      File.open(path) do |file|
+        credentials = YAML.load(file.read)
+      end
+      credentials
+    end
+  end
+
 end
 
 Fog.reload

@@ -3,56 +3,48 @@ require 'open-uri'
 
 current_directory = File.dirname(__FILE__)
 require "#{current_directory}/../lib/fog"
-# Fog.mock!
-
-def credentials
-  @credentials ||= begin
-    credentials_path = File.expand_path('~/.fog')
-    credentials_data = File.open(credentials_path).read
-    YAML.load(credentials_data)
-  end
-end
+Fog.mock!
 
 def ec2
   Fog::AWS::EC2.new(
-    :aws_access_key_id => credentials[:aws_access_key_id],
-    :aws_secret_access_key => credentials[:aws_secret_access_key]
+    :aws_access_key_id => Fog.credentials[:aws_access_key_id],
+    :aws_secret_access_key => Fog.credentials[:aws_secret_access_key]
   )
 end
 
 def eu_s3
   Fog::AWS::S3.new(
-    :aws_access_key_id => credentials[:aws_access_key_id],
-    :aws_secret_access_key => credentials[:aws_secret_access_key],
+    :aws_access_key_id => Fog.credentials[:aws_access_key_id],
+    :aws_secret_access_key => Fog.credentials[:aws_secret_access_key],
     :host => 's3-external-3.amazonaws.com'
   )
 end
 
 def files
   Fog::Rackspace::Files.new(
-    :rackspace_api_key => credentials[:rackspace_api_key],
-    :rackspace_username => credentials[:rackspace_username]
+    :rackspace_api_key => Fog.credentials[:rackspace_api_key],
+    :rackspace_username => Fog.credentials[:rackspace_username]
   )
 end
 
 def sdb
   Fog::AWS::SimpleDB.new(
-    :aws_access_key_id => credentials[:aws_access_key_id],
-    :aws_secret_access_key => credentials[:aws_secret_access_key]
+    :aws_access_key_id => Fog.credentials[:aws_access_key_id],
+    :aws_secret_access_key => Fog.credentials[:aws_secret_access_key]
   )
 end
 
 def servers
   Fog::Rackspace::Servers.new(
-    :rackspace_api_key => credentials[:rackspace_api_key],
-    :rackspace_username => credentials[:rackspace_username]
+    :rackspace_api_key => Fog.credentials[:rackspace_api_key],
+    :rackspace_username => Fog.credentials[:rackspace_username]
   )
 end
 
 def s3
   Fog::AWS::S3.new(
-    :aws_access_key_id => credentials[:aws_access_key_id],
-    :aws_secret_access_key => credentials[:aws_secret_access_key]
+    :aws_access_key_id => Fog.credentials[:aws_access_key_id],
+    :aws_secret_access_key => Fog.credentials[:aws_secret_access_key]
   )
 end
 

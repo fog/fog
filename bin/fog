@@ -3,28 +3,18 @@ require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
 require 'irb'
 require 'yaml'
 
-def credentials
-  @credentials ||= begin
-    if ARGV[0] && File.exists?(File.expand_path(ARGV[0]))
-      YAML.load(File.open(File.expand_path(ARGV[0])).read)
-    elsif File.exists?(File.expand_path('~/.fog'))
-      YAML.load(File.open(File.expand_path('~/.fog')).read)
-    end
-  end
-end
-
 module AWS
   class << self
-    if credentials[:aws_access_key_id] && credentials[:aws_secret_access_key]
+    if Fog.credentials[:aws_access_key_id] && Fog.credentials[:aws_secret_access_key]
 
       @@ec2 = Fog::AWS::EC2.new(
-        :aws_access_key_id => credentials[:aws_access_key_id],
-        :aws_secret_access_key => credentials[:aws_secret_access_key]
+        :aws_access_key_id => Fog.credentials[:aws_access_key_id],
+        :aws_secret_access_key => Fog.credentials[:aws_secret_access_key]
       )
 
       @@s3 = Fog::AWS::S3.new(
-        :aws_access_key_id => credentials[:aws_access_key_id],
-        :aws_secret_access_key => credentials[:aws_secret_access_key]
+        :aws_access_key_id => Fog.credentials[:aws_access_key_id],
+        :aws_secret_access_key => Fog.credentials[:aws_secret_access_key]
       )
 
       def addresses
@@ -61,11 +51,11 @@ end
 
 module Rackspace
   class << self
-    if credentials[:rackspace_api_key] && credentials[:rackspace_username]
+    if Fog.credentials[:rackspace_api_key] && Fog.credentials[:rackspace_username]
 
       @@servers = Fog::Rackspace::Servers.new(
-        :rackspace_api_key => credentials[:rackspace_api_key],
-        :rackspace_username => credentials[:rackspace_username]
+        :rackspace_api_key => Fog.credentials[:rackspace_api_key],
+        :rackspace_username => Fog.credentials[:rackspace_username]
       )
 
       def flavors
