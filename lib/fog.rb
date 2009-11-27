@@ -35,6 +35,7 @@ module Fog
 
     load "fog/aws.rb"
     load "fog/rackspace.rb"
+    load "fog/slicehost.rb"
   end
 
   def self.credentials(path = File.expand_path('~/.fog'))

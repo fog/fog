@@ -105,12 +105,11 @@ namespace :fog do
 yml = <<YML
 
 :default:
-  :aws:
-    :aws_access_key_id: INTENTIONALLY_LEFT_BLANK
-    :aws_secret_access_key: INTENTIONALLY_LEFT_BLANK
-  :rackspace:
-    :rackspace_api_key: INTENTIONALLY_LEFT_BLANK
-    :rackspace_username: INTENTIONALLY_LEFT_BLANK
+  :aws_access_key_id: INTENTIONALLY_LEFT_BLANK
+  :aws_secret_access_key: INTENTIONALLY_LEFT_BLANK
+  :rackspace_api_key: INTENTIONALLY_LEFT_BLANK
+  :rackspace_username: INTENTIONALLY_LEFT_BLANK
+  :slicehost_password: INTENTIONALLY_LEFT_BLANK
 
 YML
     print(yml)
