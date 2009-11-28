@@ -16,7 +16,7 @@ module Fog
             @backup = {}
           when 'date'
             @backup[name] = Time.parse(@value)
-          when 'id', 'slice_id'
+          when 'id', 'slice-id'
             @backup[name] = @value.to_i
           when 'name'
             @backup[name] = @value

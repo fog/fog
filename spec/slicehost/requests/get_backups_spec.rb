@@ -10,7 +10,7 @@ describe 'Slicehost.get_backups' do
       # backup['date'].should be_a(String)
       # backup['id'].should be_an(Integer)
       # backup['name'].should be_an(String)
-      # backup['slice_id'].should be_an(Integer)
+      # backup['slice-id'].should be_an(Integer)
     end
 
   end

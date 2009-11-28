@@ -14,8 +14,10 @@ module Fog
           when 'address'
             @slice['addresses'] ||= []
             @slice['addresses'] << @value
-          when 'backup_id', 'bw_in', 'bw_out', 'flavor_id', 'id', 'image_id', 'progress'
+          when 'backup-id', 'flavor-id', 'id', 'image-id', 'progress'
             @slice[name] = @value.to_i
+          when 'bw-in', 'bw-out'
+            @slice[name] = @value.to_f
           when 'name', 'status'
             @slice[name] = @value
           when 'slice'

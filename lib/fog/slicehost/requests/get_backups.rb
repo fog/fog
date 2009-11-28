@@ -11,7 +11,7 @@ unless Fog.mocking?
       #     * 'date'<~Time> - Timestamp of backup creation
       #     * 'id'<~Integer> - Id of the backup
       #     * 'name'<~String> - Name of the backup
-      #     * 'slice_id'<~Integer> - Id of slice the backup was made from
+      #     * 'slice-id'<~Integer> - Id of slice the backup was made from
       def get_backups
         request(
           :expects  => 200,
