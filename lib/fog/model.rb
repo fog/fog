@@ -5,6 +5,14 @@ module Fog
       new(Marshal.load(marshalled))
     end
 
+    def self.aliases
+      @aliases ||= {}
+    end
+
+    def self.attributes
+      @attributes ||= []
+    end
+
     def self.attribute(name, other_names = [])
       class_eval <<-EOS, __FILE__, __LINE__
         attr_accessor :#{name}
@@ -19,14 +27,6 @@ module Fog
     def self.identity(name, other_names = [])
       @identity = name
       self.attribute(name, other_names)
-    end
-
-    def self.aliases
-      @aliases ||= {}
-    end
-
-    def self.attributes
-      @attributes ||= []
     end
 
     def _dump
