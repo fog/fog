@@ -66,7 +66,7 @@ module Fog
           :expects  => params[:expects],
           :headers  => {
             'X-Auth-Token' => @auth_token
-          },
+          }.merge!(params[:headers] || {}),
           :host     => @host,
           :method   => params[:method],
           :path     => "#{@path}/#{params[:path]}"

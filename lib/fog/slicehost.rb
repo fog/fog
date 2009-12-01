@@ -51,7 +51,7 @@ module Fog
       response = @connection.request({
         :body     => params[:body],
         :expects  => params[:expects],
-        :headers  => headers,
+        :headers  => headers.merge!(params[:headers] || {}),
         :host     => @host,
         :method   => params[:method],
         :parser   => params[:parser],

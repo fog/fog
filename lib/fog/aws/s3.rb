@@ -95,17 +95,7 @@ module Fog
         params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
         params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
 
-        response = @connection.request({
-          :block    => params[:block],
-          :body     => params[:body],
-          :expects  => params[:expects],
-          :headers  => params[:headers],
-          :host     => params[:host],
-          :method   => params[:method],
-          :parser   => params[:parser],
-          :path     => params[:path],
-          :query    => params[:query]
-        })
+        response = @connection.request(params)
 
         response
       end
