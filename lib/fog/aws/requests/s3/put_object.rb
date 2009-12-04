@@ -28,12 +28,13 @@ unless Fog.mocking?
           data = parse_data(data)
           headers = data[:headers].merge!(options)
           request({
-            :body     => data[:body],
-            :expects  => 200,
-            :headers  => headers,
-            :host     => "#{bucket_name}.#{@host}",
-            :method   => 'PUT',
-            :path     => CGI.escape(object_name)
+            :body       => data[:body],
+            :expects    => 200,
+            :headers    => headers,
+            :host       => "#{bucket_name}.#{@host}",
+            :idempotent => true,
+            :method     => 'PUT',
+            :path       => CGI.escape(object_name)
           })
         end
 

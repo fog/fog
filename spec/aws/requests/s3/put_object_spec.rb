@@ -31,5 +31,13 @@ describe 'S3.put_object' do
       }.should raise_error(Excon::Errors::NotFound)
     end
 
+    it 'should not raise an error if the object already exists' do
+      s3.put_bucket('fogputobject')
+      s3.put_object('fogputobject', 'fog_put_object', lorem_file)
+      s3.put_object('fogputobject', 'fog_put_object', lorem_file)
+      s3.delete_object('fogputobject', 'fog_put_object')
+      s3.delete_bucket('fogputobject')
+    end
+
   end
 end

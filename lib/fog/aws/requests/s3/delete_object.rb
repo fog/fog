@@ -15,11 +15,12 @@ unless Fog.mocking?
         #   * status<~Integer> - 204
         def delete_object(bucket_name, object_name)
           request({
-            :expects  => 204,
-            :headers  => {},
-            :host     => "#{bucket_name}.#{@host}",
-            :method   => 'DELETE',
-            :path     => CGI.escape(object_name)
+            :expects    => 204,
+            :headers    => {},
+            :host       => "#{bucket_name}.#{@host}",
+            :idempotent => true,
+            :method     => 'DELETE',
+            :path       => CGI.escape(object_name)
           })
         end
 
