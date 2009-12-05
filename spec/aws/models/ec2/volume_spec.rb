@@ -5,8 +5,8 @@ describe 'Fog::AWS::EC2::Volume' do
   describe "#initialize" do
 
     it "should remap attributes from parser" do
-      volume = Fog::AWS::EC2::Volume.new(
-        'attachTime'    => 'now',
+      volume = ec2.volumes.new(
+        'attachTime'        => 'now',
         'availabilityZone'  => 'us-east-1a',
         'createTime'        => 'recently',
         'instanceId'        => 'i-00000000',
@@ -18,7 +18,7 @@ describe 'Fog::AWS::EC2::Volume' do
       volume.create_time.should == 'recently'
       volume.instance_id.should == 'i-00000000'
       volume.snapshot_id.should == 'snap-00000000'
-      volume.volume_id.should == 'vol-00000000'
+      volume.id.should == 'vol-00000000'
     end
 
   end
@@ -39,7 +39,7 @@ describe 'Fog::AWS::EC2::Volume' do
   describe "#destroy" do
 
     it "should return true if the volume is deleted" do
-      volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => '/dev/sdz1')
       volume.destroy.should be_true
     end
 
@@ -48,26 +48,29 @@ describe 'Fog::AWS::EC2::Volume' do
   describe "#instance=" do
     before(:each) do
       @instance = ec2.instances.create(:image_id => GENTOO_AMI)
-      @volume = ec2.volumes.new(:availability_zone => @instance.availability_zone, :size => 1, :device => 'dev/sdz1')
-      while @instance.instance_state == 'pending'
+      @volume = ec2.volumes.new(:availability_zone => @instance.availability_zone, :size => 1, :device => '/dev/sdz1')
+      while @instance.state == 'pending'
         @instance.reload
-      end
-      while @volume.status == 'creating'
-        @volume.reload
       end
     end
 
     after(:each) do
       @instance.destroy
-      if @volume.volume_id
+      if @volume.id
+        while ['attaching', 'creating'].include?(@volume.status)
+          @volume.reload
+        end
         @volume.instance = nil
+        while ['attached', 'detaching'].include?(@volume.status)
+          @volume.reload
+        end
         @volume.destroy
       end
     end
 
     it "should not attach to instance if the volume has not been saved" do
       @volume.instance = @instance
-      @volume.instance_id.should_not == @instance.instance_id
+      @volume.instance_id.should_not == @instance.id
     end
 
     it "should change the availability_zone if the volume has not been saved" do
@@ -78,13 +81,13 @@ describe 'Fog::AWS::EC2::Volume' do
     it "should attach to instance when the volume is saved" do
       @volume.instance = @instance
       @volume.save.should be_true
-      @volume.instance_id.should == @instance.instance_id
+      @volume.instance_id.should == @instance.id
     end
 
     it "should attach to instance to an already saved volume" do
       @volume.save.should be_true
       @volume.instance = @instance
-      @volume.instance_id.should == @instance.instance_id
+      @volume.instance_id.should == @instance.id
     end
 
     it "should not change the availability_zone if the volume has been saved" do
@@ -97,7 +100,7 @@ describe 'Fog::AWS::EC2::Volume' do
   describe "#reload" do
 
     before(:each) do
-      @volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      @volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => '/dev/sdz1')
       @reloaded = @volume.reload
     end
 
@@ -118,7 +121,7 @@ describe 'Fog::AWS::EC2::Volume' do
   describe "#save" do
 
     before(:each) do
-      @volume = ec2.volumes.new(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      @volume = ec2.volumes.new(:availability_zone => 'us-east-1a', :size => 1, :device => '/dev/sdz1')
     end
 
     it "should return true when it succeeds" do
@@ -127,12 +130,12 @@ describe 'Fog::AWS::EC2::Volume' do
     end
 
     it "should not exist in volumes before save" do
-      ec2.volumes.get(@volume.volume_id).should be_nil
+      ec2.volumes.get(@volume.id).should be_nil
     end
 
     it "should exist in buckets after save" do
       @volume.save
-      ec2.volumes.get(@volume.volume_id).should_not be_nil
+      ec2.volumes.get(@volume.id).should_not be_nil
       @volume.destroy
     end
 

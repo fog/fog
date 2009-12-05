@@ -5,7 +5,7 @@ describe 'Fog::AWS::EC2::KeyPair' do
   describe "#initialize" do
 
     it "should remap attributes from parser" do
-      key_pair = Fog::AWS::EC2::KeyPair.new(
+      key_pair = ec2.key_pairs.new(
         'keyFingerprint'  => 'fingerprint',
         'keyMaterial'     => 'material',
         'keyName'         => 'name'

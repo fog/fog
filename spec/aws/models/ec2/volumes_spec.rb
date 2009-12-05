@@ -10,7 +10,7 @@ describe 'Fog::AWS::EC2::Volumes' do
 
     it "should include persisted volumes" do
       volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
-      ec2.volumes.get(volume.volume_id).should_not be_nil
+      ec2.volumes.get(volume.id).should_not be_nil
       volume.destroy
     end
 
@@ -31,7 +31,7 @@ describe 'Fog::AWS::EC2::Volumes' do
     end
 
     it "should exist on ec2" do
-      ec2.volumes.get(@volume.volume_id).should_not be_nil
+      ec2.volumes.get(@volume.id).should_not be_nil
     end
 
   end
@@ -40,8 +40,8 @@ describe 'Fog::AWS::EC2::Volumes' do
 
     it "should return a Fog::AWS::EC2::Volume if a matching volume exists" do
       volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
-      get = ec2.volumes.get(volume.volume_id)
-      volume.attributes.reject { |key, value| key == :device }.should == get.attributes.reject { |key, value| key == :device }
+      get = ec2.volumes.get(volume.id)
+      volume.attributes.reject { |key, value| [:device, :status].include?(key) }.should == get.attributes.reject { |key, value| [:device, :status].include?(key) }
       volume.destroy
     end
 

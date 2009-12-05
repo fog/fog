@@ -16,8 +16,6 @@ module Fog
         end
 
         def instance=(new_instance)
-          requires :public_ip
-
           if new_instance
             associate(new_instance)
           else
@@ -41,7 +39,7 @@ module Fog
             @instance = new_instance
           else
             @instance = nil
-            @instance_id = new_instance.instance_id
+            @instance_id = new_instance.id
             connection.associate_address(@instance_id, @public_ip)
           end
         end

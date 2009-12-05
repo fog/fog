@@ -4,45 +4,45 @@ module Fog
 
       class SecurityGroup < Fog::Model
 
-        identity  :group_name,        'groupName'
+        identity  :name,            'groupName'
 
-        attribute :group_description, 'groupDescription'
-        attribute :ip_permissions,    'ipPermissions'
-        attribute :owner_id,          'ownerId'
+        attribute :description,     'groupDescription'
+        attribute :ip_permissions,  'ipPermissions'
+        attribute :owner_id,        'ownerId'
 
         def authorize_group_and_owner(group, owner)
-          requires :group_name
+          requires :name
 
           connection.authorize_security_group_ingress(
-            'GroupName'                   => @group_name,
+            'GroupName'                   => @name,
             'SourceSecurityGroupName'     => group,
             'SourceSecurityGroupOwnerId'  => owner
           )
         end
 
         def authorize_port_range(range, options = {})
-          requires :group_name
+          requires :name
 
           connection.authorize_security_group_ingress(
             'CidrIp'      => options[:cidr_ip] || '0.0.0.0/0',
             'FromPort'    => range.min,
-            'GroupName'   => @group_name,
+            'GroupName'   => @name,
             'ToPort'      => range.max,
             'IpProtocol'  => options[:ip_protocol] || 'tcp' 
           )
         end
 
         def destroy
-          requires :group_name
+          requires :name
 
-          connection.delete_security_group(@group_name)
+          connection.delete_security_group(@name)
           true
         end
 
         def save
-          requires :group_name
+          requires :name
 
-          data = connection.create_security_group(@group_name, @group_description).body
+          data = connection.create_security_group(@name, @description).body
           true
         end
 

@@ -5,7 +5,7 @@ describe 'Fog::AWS::EC2::Instance' do
   describe "#initialize" do
 
     it "should remap attributes from parser" do
-      instance = Fog::AWS::EC2::Instance.new({
+      instance = ec2.instances.new({
         'amiLaunchIndex'    => 'ami_launch_index',
         'dnsName'           => 'dns_name',
         'groupId'           => 'group_id',
@@ -23,8 +23,8 @@ describe 'Fog::AWS::EC2::Instance' do
       instance.dns_name.should == 'dns_name'
       instance.group_id.should == 'group_id'
       instance.image_id.should == 'image_id'
-      instance.instance_id.should == 'instance_id'
-      instance.instance_type.should == 'instance_type'
+      instance.id.should == 'instance_id'
+      instance.type.should == 'instance_type'
       instance.kernel_id.should == 'kernel_id'
       instance.key_name.should == 'key_name'
       instance.launch_time.should == 'launch_time'
@@ -38,8 +38,9 @@ describe 'Fog::AWS::EC2::Instance' do
   describe "#addresses" do
 
     it "should return a Fog::AWS::EC2::Addresses" do
-      instance = ec2.instances.new
+      instance = ec2.instances.create(:image_id => GENTOO_AMI)
       instance.addresses.should be_a(Fog::AWS::EC2::Addresses)
+      instance.destroy
     end
 
   end
@@ -53,12 +54,12 @@ describe 'Fog::AWS::EC2::Instance' do
 
   end
 
-  describe "#instance_state" do
+  describe "#state" do
     it "should remap values out of hash" do
       instance = Fog::AWS::EC2::Instance.new({
         'instanceState' => { 'name' => 'instance_state' },
       })
-      instance.instance_state.should == 'instance_state'
+      instance.state.should == 'instance_state'
     end
   end
 
@@ -136,12 +137,12 @@ describe 'Fog::AWS::EC2::Instance' do
     end
 
     it "should not exist in instances before save" do
-      ec2.instances.get(@instance.instance_id).should be_nil
+      ec2.instances.get(@instance.id).should be_nil
     end
 
     it "should exist in buckets after save" do
       @instance.save
-      ec2.instances.get(@instance.instance_id).should_not be_nil
+      ec2.instances.get(@instance.id).should_not be_nil
       @instance.destroy
     end
 
@@ -150,8 +151,9 @@ describe 'Fog::AWS::EC2::Instance' do
   describe "#volumes" do
 
     it "should return a Fog::AWS::EC2::Volumes" do
-      instance = ec2.instances.new
+      instance = ec2.instances.create(:image_id => GENTOO_AMI)
       instance.volumes.should be_a(Fog::AWS::EC2::Volumes)
+      instance.destroy
     end
 
   end

@@ -5,7 +5,7 @@ describe 'Fog::AWS::EC2::Address' do
   describe "#initialize" do
 
     it "should remap attributes from parser" do
-      address = Fog::AWS::EC2::Address.new(
+      address = ec2.addresses.new(
         'instanceId'  => 'i-00000000',
         'publicIp'    => '0.0.0.0'
       )
@@ -50,21 +50,13 @@ describe 'Fog::AWS::EC2::Address' do
       @instance.destroy
     end
 
-    it "should not associate with instance if the address has not been saved" do
-      @address.instance = @instance
-      @address.instance_id.should_not == @instance.instance_id
-    end
-
-    it "should associate with instance when the address is saved" do
-      @address.instance = @instance
-      @address.save.should be_true
-      @address.instance_id.should == @instance.instance_id
-    end
-
     it "should associate with instance to an already saved address" do
       @address.save.should be_true
+      while @instance.state == 'pending'
+        @instance.reload
+      end
       @address.instance = @instance
-      @address.instance_id.should == @instance.instance_id
+      @address.instance_id.should == @instance.id
     end
   end
 

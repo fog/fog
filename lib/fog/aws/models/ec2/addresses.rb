@@ -44,7 +44,11 @@ module Fog
         end
 
         def new(attributes = {})
-          super({ :instance => instance }.merge!(attributes))
+          if instance
+            super({ :instance => instance }.merge!(attributes))
+          else
+            super(attributes)
+          end
         end
 
       end

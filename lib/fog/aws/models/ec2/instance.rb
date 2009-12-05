@@ -4,15 +4,15 @@ module Fog
 
       class Instance < Fog::Model
 
-        identity  :instance_id,       'instanceId'
+        identity  :id,                'instanceId'
 
         attribute :ami_launch_index,  'amiLaunchIndex'
         attribute :availability_zone, 'availabilityZone'
         attribute :dns_name,          'dnsName'
         attribute :group_id,          'groupId'
         attribute :image_id,          'imageId'
-        attribute :instance_state,    'instanceState'
-        attribute :instance_type,     'instanceType'
+        attribute :state,             'instanceState'
+        attribute :type,              'instanceType'
         attribute :kernel_id,         'kernelId'
         attribute :key_name,          'keyName'
         attribute :launch_time,       'launchTime'
@@ -24,15 +24,15 @@ module Fog
         attribute :user_data
 
         def addresses
-          requires :instance_id
+          requires :id
 
           connection.addresses(:instance => self)
         end
 
         def destroy
-          requires :instance_id
+          requires :id
 
-          connection.terminate_instances(@instance_id)
+          connection.terminate_instances(@id)
           true
         end
 
@@ -71,9 +71,9 @@ module Fog
         end
 
         def reboot
-          requires :instance_id
+          requires :id
 
-          connection.reboot_instances(@instance_id)
+          connection.reboot_instances(@id)
           true
         end
 
@@ -87,8 +87,8 @@ module Fog
           if @group_id
             options['SecurityGroup'] = @group_id
           end
-          if @instance_type
-            options['InstanceType'] = @instance_type
+          if @type
+            options['InstanceType'] = @type
           end
           if @kernel_id
             options['KernelId'] = @kernel_id
@@ -111,18 +111,18 @@ module Fog
         end
 
         def volumes
-          requires :instance_id
+          requires :id
 
           connection.volumes(:instance => self)
         end
 
         private
 
-        def instance_state=(new_instance_state)
-          if new_instance_state.is_a?(Hash)
-            @instance_state = new_instance_state['name']
+        def state=(new_state)
+          if new_state.is_a?(Hash)
+            @state = new_state['name']
           else
-            @instance_state = new_instance_state
+            @state = new_state
           end
         end
 

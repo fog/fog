@@ -4,7 +4,7 @@ module Fog
 
       class Snapshot < Fog::Model
 
-        identity  :snapshot_id, 'snapshotId'
+        identity  :id, 'snapshotId'
 
         attribute :progress
         attribute :start_time,  'startTime'
@@ -12,9 +12,9 @@ module Fog
         attribute :volume_id,    'volumeId'
 
         def destroy
-          requires :snapshot_id
+          requires :id
 
-          connection.delete_snapshot(@snapshot_id)
+          connection.delete_snapshot(@id)
           true
         end
 
@@ -28,7 +28,7 @@ module Fog
         end
 
         def volume
-          requires :snapshot_id
+          requires :id
 
           connection.describe_volumes(@volume_id)
         end

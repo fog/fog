@@ -9,8 +9,8 @@ describe 'Fog::AWS::EC2::SecurityGroups' do
     end
 
     it "should include persisted security_groups" do
-      security_group = ec2.security_groups.create(:group_description => 'groupdescription', :group_name => 'keyname')
-      ec2.security_groups.get(security_group.group_name).should_not be_nil
+      security_group = ec2.security_groups.create(:description => 'groupdescription', :name => 'keyname')
+      ec2.security_groups.get(security_group.name).should_not be_nil
       security_group.destroy
     end
 
@@ -19,7 +19,7 @@ describe 'Fog::AWS::EC2::SecurityGroups' do
   describe "#create" do
 
     before(:each) do
-      @security_group = ec2.security_groups.create(:group_description => 'groupdescription', :group_name => 'keyname')
+      @security_group = ec2.security_groups.create(:description => 'groupdescription', :name => 'keyname')
     end
 
     after(:each) do
@@ -31,7 +31,7 @@ describe 'Fog::AWS::EC2::SecurityGroups' do
     end
 
     it "should exist on ec2" do
-      ec2.security_groups.get(@security_group.group_name).should_not be_nil
+      ec2.security_groups.get(@security_group.name).should_not be_nil
     end
 
   end
@@ -39,10 +39,10 @@ describe 'Fog::AWS::EC2::SecurityGroups' do
   describe "#get" do
 
     it "should return a Fog::AWS::EC2::SecurityGroup if a matching security_group exists" do
-      security_group = ec2.security_groups.create(:group_description => 'groupdescription', :group_name => 'keyname')
-      get = ec2.security_groups.get(security_group.group_name)
+      security_group = ec2.security_groups.create(:description => 'groupdescription', :name => 'keyname')
+      get = ec2.security_groups.get(security_group.name)
       security_group.attributes[:fingerprint].should == get.attributes[:fingerprint]
-      security_group.attributes[:group_name].should == get.attributes[:group_name]
+      security_group.attributes[:name].should == get.attributes[:name]
       security_group.destroy
     end
 
@@ -55,7 +55,7 @@ describe 'Fog::AWS::EC2::SecurityGroups' do
   describe "#new" do
 
     it "should return a Fog::AWS::EC2::SecurityGroup" do
-      ec2.security_groups.new(:group_description => 'groupdescription', :group_name => 'keyname').should be_a(Fog::AWS::EC2::SecurityGroup)
+      ec2.security_groups.new(:description => 'groupdescription', :name => 'keyname').should be_a(Fog::AWS::EC2::SecurityGroup)
     end
 
   end

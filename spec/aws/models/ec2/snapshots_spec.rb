@@ -11,16 +11,16 @@ describe 'Fog::AWS::EC2::Snapshots' do
     it "should include persisted snapshots" do
       volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       snapshot = volume.snapshots.create
-      ec2.snapshots.all.map {|snapshot| snapshot.snapshot_id}.should include(snapshot.snapshot_id)
+      ec2.snapshots.all.map {|snapshot| snapshot.id}.should include(snapshot.id)
       snapshot.destroy
       volume.destroy
     end
 
-    it "should limit snapshots by volume_id if present" do
+    it "should limit snapshots by volume if present" do
       volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       other_volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       snapshot = volume.snapshots.create
-      other_volume.snapshots.all.map {|snapshot| snapshot.snapshot_id}.should_not include(snapshot.snapshot_id)
+      other_volume.snapshots.all.map {|snapshot| snapshot.id}.should_not include(snapshot.id)
       snapshot.destroy
       other_volume.destroy
       volume.destroy
@@ -45,7 +45,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
     end
 
     it "should exist on ec2" do
-      ec2.snapshots.get(@snapshot.snapshot_id).should_not be_nil
+      ec2.snapshots.get(@snapshot.id).should_not be_nil
     end
 
   end
@@ -55,8 +55,8 @@ describe 'Fog::AWS::EC2::Snapshots' do
     it "should return a Fog::AWS::EC2::Snapshot if a matching snapshot exists" do
       volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       snapshot = volume.snapshots.create
-      get = ec2.snapshots.get(snapshot.snapshot_id)
-      snapshot.attributes.reject {|key, value| ['progress', 'status'].include?(key)}.should == get.attributes.reject {|key, value| ['progress', 'status'].include?(key)}
+      get = ec2.snapshots.get(snapshot.id)
+      snapshot.attributes.reject {|key, value| [:progress, :status].include?(key)}.should == get.attributes.reject {|key, value| [:progress, :status].include?(key)}
       snapshot.destroy
     end
 

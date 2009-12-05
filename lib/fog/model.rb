@@ -33,6 +33,8 @@ module Fog
       Marshal.dump(attributes)
     end
 
+    attr_accessor :connection
+
     def attributes
       attributes = {}
       for attribute in self.class.attributes
@@ -43,14 +45,6 @@ module Fog
 
     def collection
       @collection
-    end
-
-    def connection=(new_connection)
-      @connection = new_connection
-    end
-
-    def connection
-      @connection
     end
 
     def identity

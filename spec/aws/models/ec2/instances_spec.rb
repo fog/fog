@@ -10,7 +10,7 @@ describe 'Fog::AWS::EC2::Instances' do
 
     it "should include persisted instances" do
       instance = ec2.instances.create(:image_id => GENTOO_AMI)
-      ec2.instances.get(instance.instance_id).should_not be_nil
+      ec2.instances.get(instance.id).should_not be_nil
       instance.destroy
     end
 
@@ -31,7 +31,7 @@ describe 'Fog::AWS::EC2::Instances' do
     end
 
     it "should exist on ec2" do
-      ec2.instances.get(@instance.instance_id).should_not be_nil
+      ec2.instances.get(@instance.id).should_not be_nil
     end
 
   end
@@ -40,7 +40,7 @@ describe 'Fog::AWS::EC2::Instances' do
 
     it "should return a Fog::AWS::EC2::Instance if a matching instance exists" do
       instance = ec2.instances.create(:image_id => GENTOO_AMI)
-      get = ec2.instances.get(instance.instance_id)
+      get = ec2.instances.get(instance.id)
       instance.attributes.should == get.attributes
       instance.destroy
     end

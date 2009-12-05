@@ -33,7 +33,7 @@ module Fog
             }.merge!(volume))
           end
           if instance
-            volumes = volumes.select {|volume| volume.instance_id == instance.instance_id}
+            volumes = volumes.select {|volume| volume.instance_id == instance.id}
           end
           volumes
         end
@@ -47,7 +47,11 @@ module Fog
         end
 
         def new(attributes = {})
-          super({ :instance => instance }.merge!(attributes))
+          if instance
+            super({ :instance => instance }.merge!(attributes))
+          else
+            super
+          end
         end
 
       end

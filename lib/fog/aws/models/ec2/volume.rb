@@ -4,7 +4,7 @@ module Fog
 
       class Volume < Fog::Model
 
-        identity  :volume_id,         'volumeId'
+        identity  :id,         'volumeId'
 
         attribute :attach_time,       'attachTime'
         attribute :availability_zone, 'availabilityZone'
@@ -23,15 +23,13 @@ module Fog
         end
 
         def destroy
-          requires :volume_id
+          requires :id
 
-          connection.delete_volume(@volume_id)
+          connection.delete_volume(@id)
           true
         end
 
         def instance=(new_instance)
-          requires :volume_id
-
           if new_instance
             attach(new_instance)
           else
@@ -40,7 +38,7 @@ module Fog
         end
 
         def save
-          requires :availability_zone, :size, :snapshot_id
+          requires :availability_zone, :size
 
           data = connection.create_volume(@availability_zone, @size, @snapshot_id).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
@@ -52,9 +50,9 @@ module Fog
         end
 
         def snapshots
-          requires :volume_id
+          requires :id
 
-          connection.snapshots(:volume_id => @volume_id)
+          connection.snapshots(:volume => self)
         end
 
         private
@@ -65,8 +63,8 @@ module Fog
             @availability_zone = new_instance.availability_zone
           elsif new_instance
             @instance = nil
-            @instance_id = new_instance.instance_id
-            connection.attach_volume(@instance_id, @volume_id, @device)
+            @instance_id = new_instance.id
+            connection.attach_volume(@instance_id, @id, @device)
           end
         end
 
@@ -74,7 +72,7 @@ module Fog
           @instance = nil
           @instance_id = nil
           unless new_record?
-            connection.detach_volume(@volume_id)
+            connection.detach_volume(@id)
           end
         end
 

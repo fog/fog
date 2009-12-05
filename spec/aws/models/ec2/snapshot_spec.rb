@@ -5,12 +5,12 @@ describe 'Fog::AWS::EC2::Snapshots' do
   describe "#initialize" do
 
     it "should remap attributes from parser" do
-      snapshot = Fog::AWS::EC2::Snapshot.new(
+      snapshot = ec2.snapshots.new(
         'snapshotId'  => 'snap-00000000',
         'startTime'   => 'now',
         'volumeId'    => 'vol-00000000'
       )
-      snapshot.snapshot_id.should == 'snap-00000000'
+      snapshot.id.should == 'snap-00000000'
       snapshot.start_time.should == 'now'
       snapshot.volume_id.should == 'vol-00000000'
     end
@@ -81,12 +81,12 @@ describe 'Fog::AWS::EC2::Snapshots' do
     end
 
     it "should not exist in addresses before save" do
-      ec2.snapshots.get(@snapshot.snapshot_id).should be_nil
+      ec2.snapshots.get(@snapshot.id).should be_nil
     end
 
     it "should exist in buckets after save" do
       @snapshot.save
-      ec2.snapshots.get(@snapshot.snapshot_id).should_not be_nil
+      ec2.snapshots.get(@snapshot.id).should_not be_nil
       @snapshot.destroy
     end
 
