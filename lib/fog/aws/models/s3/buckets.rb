@@ -16,11 +16,7 @@ module Fog
           data['Buckets'].each do |bucket|
             buckets << Fog::AWS::S3::Bucket.new({
               :collection => buckets,
-              :connection => connection,
-              :owner      => {
-                :display_name => owner['DisplayName'], 
-                :id => owner['ID']
-              }
+              :connection => connection
             }.merge!(bucket))
           end
           buckets
@@ -47,11 +43,7 @@ module Fog
             bucket.objects << Fog::AWS::S3::Object.new({
               :bucket     => bucket,
               :connection => connection,
-              :collection => bucket.objects,
-              :owner      => {
-                :display_name => owner['DisplayName'], 
-                :id => owner['ID']
-              }
+              :collection => bucket.objects
             }.merge!(object))
           end
           bucket

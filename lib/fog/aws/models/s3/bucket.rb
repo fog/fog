@@ -7,7 +7,6 @@ module Fog
         identity  :name,          'Name'
 
         attribute :creation_date, 'CreationDate'
-        attribute :owner
 
         def destroy
           requires :name

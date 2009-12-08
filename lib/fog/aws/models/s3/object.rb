@@ -11,7 +11,7 @@ module Fog
         attribute :content_type,    'Content-Type'
         attribute :etag,            ['Etag', 'ETag']
         attribute :last_modified,   ['Last-Modified', 'LastModified']
-        attribute :owner
+        attribute :owner,           'Owner'
         attribute :size,            'Size'
         attribute :storage_class,   'StorageClass'
 
@@ -40,6 +40,15 @@ module Fog
 
           connection.delete_object(bucket.name, @key)
           true
+        end
+
+        def owner=(new_owner)
+          if new_owner
+            @owner = {
+              :display_name => new_owner['DisplayName'],
+              :id           => new_owner['ID']
+            }
+          end
         end
 
         def save(options = {})
