@@ -97,6 +97,17 @@ module Fog
       end
     end
 
+    def wait_for(timeout = 600, &block)
+      start = Time.now
+      until instance_eval(&block)
+        if Time.now - start > timeout
+          break
+        end
+        reload
+        sleep(1)
+      end
+    end
+
     private
 
     def collection=(new_collection)

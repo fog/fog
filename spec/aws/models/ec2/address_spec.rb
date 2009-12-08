@@ -52,9 +52,7 @@ describe 'Fog::AWS::EC2::Address' do
 
     it "should associate with instance to an already saved address" do
       @address.save.should be_true
-      while @instance.state == 'pending'
-        @instance.reload
-      end
+      @instance.wait_for { state == 'running' }
       @address.instance = @instance
       @address.instance_id.should == @instance.id
     end

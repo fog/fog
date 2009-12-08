@@ -49,21 +49,15 @@ describe 'Fog::AWS::EC2::Volume' do
     before(:each) do
       @instance = ec2.instances.create(:image_id => GENTOO_AMI)
       @volume = ec2.volumes.new(:availability_zone => @instance.availability_zone, :size => 1, :device => '/dev/sdz1')
-      while @instance.state == 'pending'
-        @instance.reload
-      end
+      @instance.wait_for { state == 'running' }
     end
 
     after(:each) do
       @instance.destroy
       if @volume.id
-        while ['attaching', 'creating'].include?(@volume.status)
-          @volume.reload
-        end
+        @volume.wait_for { status == 'attached' }
         @volume.instance = nil
-        while ['attached', 'detaching'].include?(@volume.status)
-          @volume.reload
-        end
+        @volume.wait_for { status == 'available' }
         @volume.destroy
       end
     end
