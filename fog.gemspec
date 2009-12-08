@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.32"
+  s.version = "0.0.33"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
-  s.date = %q{2009-12-03}
+  s.date = %q{2009-12-08}
   s.default_executable = %q{fog}
   s.description = %q{brings clouds to you}
   s.email = %q{me@geemus.com}
@@ -393,18 +393,18 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<excon>, [">= 0.0.10"])
+      s.add_runtime_dependency(%q<excon>, [">= 0.0.11"])
       s.add_runtime_dependency(%q<mime-types>, [">= 0"])
       s.add_runtime_dependency(%q<nokogiri>, [">= 0"])
       s.add_runtime_dependency(%q<ruby-hmac>, [">= 0"])
     else
-      s.add_dependency(%q<excon>, [">= 0.0.10"])
+      s.add_dependency(%q<excon>, [">= 0.0.11"])
       s.add_dependency(%q<mime-types>, [">= 0"])
       s.add_dependency(%q<nokogiri>, [">= 0"])
       s.add_dependency(%q<ruby-hmac>, [">= 0"])
     end
   else
-    s.add_dependency(%q<excon>, [">= 0.0.10"])
+    s.add_dependency(%q<excon>, [">= 0.0.11"])
     s.add_dependency(%q<mime-types>, [">= 0"])
     s.add_dependency(%q<nokogiri>, [">= 0"])
     s.add_dependency(%q<ruby-hmac>, [">= 0"])
