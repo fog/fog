@@ -38,6 +38,7 @@ unless Fog.mocking?
             :expects  => 200,
             :headers  => headers,
             :host     => "#{bucket_name}.#{@host}",
+            :idempotent => true,
             :method   => 'GET',
             :path     => CGI.escape(object_name),
             :block    => block

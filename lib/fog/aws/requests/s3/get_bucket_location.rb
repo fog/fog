@@ -18,6 +18,7 @@ unless Fog.mocking?
             :expects  => 200,
             :headers  => {},
             :host     => "#{bucket_name}.#{@host}",
+            :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::AWS::S3::GetBucketLocation.new,
             :query    => 'location'

@@ -20,6 +20,7 @@ unless Fog.mocking?
             :expects  => 200,
             :headers  => {},
             :host     => @host,
+            :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::AWS::S3::GetService.new,
             :url      => @host
