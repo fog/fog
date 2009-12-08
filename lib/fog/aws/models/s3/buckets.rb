@@ -12,7 +12,6 @@ module Fog
 
         def all
           data = connection.get_service.body
-          owner = Fog::AWS::S3::Owner.new(data.delete('Owner'))
           buckets = Fog::AWS::S3::Buckets.new(:connection => connection)
           data['Buckets'].each do |bucket|
             buckets << Fog::AWS::S3::Bucket.new({
@@ -45,7 +44,6 @@ module Fog
           end
           bucket.objects.merge_attributes(options)
           data['Contents'].each do |object|
-            owner = Fog::AWS::S3::Owner.new(object.delete('Owner'))
             bucket.objects << Fog::AWS::S3::Object.new({
               :bucket     => bucket,
               :connection => connection,
