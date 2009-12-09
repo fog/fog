@@ -5,7 +5,11 @@ require 'yaml'
 
 module AWS
   class << self
-    if Fog.credentials[:aws_access_key_id] && Fog.credentials[:aws_secret_access_key]
+    key = (ARGV.first && :"#{ARGV.first}") || :default
+    unless Fog.credentials(key)
+      raise ArgumentError.new("No credentials for :#{key}")
+    end
+    if Fog.credentials(key)[:aws_access_key_id] && Fog.credentials(key)[:aws_secret_access_key]
 
       @@ec2 = Fog::AWS::EC2.new(
         :aws_access_key_id => Fog.credentials[:aws_access_key_id],
@@ -51,7 +55,11 @@ end
 
 module Rackspace
   class << self
-    if Fog.credentials[:rackspace_api_key] && Fog.credentials[:rackspace_username]
+    key = (ARGV.first && :"#{ARGV.first}") || :default
+    unless Fog.credentials(key)
+      raise ArgumentError.new("No credentials for :#{key}")
+    end
+    if Fog.credentials(key)[:rackspace_api_key] && Fog.credentials(key)[:rackspace_username]
 
       @@servers = Fog::Rackspace::Servers.new(
         :rackspace_api_key => Fog.credentials[:rackspace_api_key],

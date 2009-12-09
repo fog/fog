@@ -38,11 +38,11 @@ module Fog
     load "fog/slicehost.rb"
   end
 
-  def self.credentials(path = File.expand_path('~/.fog'))
+  def self.credentials(key = :default)
     @credentials ||= begin
       credentials = {}
-      File.open(path) do |file|
-        credentials = YAML.load(file.read)[:default]
+      File.open(File.expand_path('~/.fog')) do |file|
+        credentials = YAML.load(file.read)[key]
       end
       credentials
     end
