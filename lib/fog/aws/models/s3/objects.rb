@@ -13,10 +13,11 @@ module Fog
         model Fog::AWS::S3::Object
 
         def all(options = {})
-          bucket.collection.get(
+          collection = bucket.collection.get(
             bucket.name,
             options.reject {|key, value| !['delimiter', 'marker', 'max-keys', 'prefix'].include?(key)}
-          ).objects
+          )
+          collection && collection.objects
         end
 
         def bucket

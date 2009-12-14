@@ -33,6 +33,10 @@ describe 'Fog::AWS::S3::Objects' do
       @bucket.objects.all.should be_a(Fog::AWS::S3::Objects)
     end
 
+    it "should return nil if the bucket does not exist" do
+      bucket = s3.buckets.new(:name => 'notabucket')
+      bucket.objects.all.should be_nil
+    end
   end
 
   describe "#bucket" do
