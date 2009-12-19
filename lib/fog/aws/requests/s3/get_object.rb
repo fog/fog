@@ -101,9 +101,9 @@ else
                 data = StringIO.new(object[:body])
                 remaining = data.length
                 while remaining > 0
-                  chunk = data.read([remaining, Fog::Connection::CHUNK_SIZE].min)
+                  chunk = data.read([remaining, Excon::CHUNK_SIZE].min)
                   block.call(chunk)
-                  remaining -= Fog::Connection::CHUNK_SIZE
+                  remaining -= Excon::CHUNK_SIZE
                 end
               end
             end

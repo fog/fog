@@ -41,7 +41,7 @@ fog helps you interact with cloud services. fog is a work in progress.
 
   # models
   bucket = s3.buckets.create(:name => 'bucketname')
-  bucket.objects.create(:name => 'objectname', :body => 'objectbody')
+  bucket.objects.create(:key => 'objectname', :body => 'objectbody')
 
   bucket = s3.buckets.get('bucketname')
   object = bucket.objects.get('objectname')
