@@ -96,23 +96,3 @@ begin
 rescue LoadError
   puts "Rake SshDirPublisher is unavailable or your rubyforge environment is not configured."
 end
-
-namespace :fog do
-
-  desc 'Provide a sample yaml file for credentials'
-  task :yml do
-    puts('Copy the following sample to ~/.fog and fill in with your credentials as needed:')
-yml = <<YML
-
-:default:
-  :aws_access_key_id: INTENTIONALLY_LEFT_BLANK
-  :aws_secret_access_key: INTENTIONALLY_LEFT_BLANK
-  :rackspace_api_key: INTENTIONALLY_LEFT_BLANK
-  :rackspace_username: INTENTIONALLY_LEFT_BLANK
-  :slicehost_password: INTENTIONALLY_LEFT_BLANK
-
-YML
-    print(yml)
-  end
-
-end

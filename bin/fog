@@ -7,6 +7,18 @@ module AWS
   class << self
     key = (ARGV.first && :"#{ARGV.first}") || :default
     unless Fog.credentials(key)
+      print("\n  To run as '#{key}', add credentials like the following to ~/.fog\n")
+      yml = <<-YML
+
+:#{key}:
+  :aws_access_key_id: INTENTIONALLY_LEFT_BLANK
+  :aws_secret_access_key: INTENTIONALLY_LEFT_BLANK
+  :rackspace_api_key: INTENTIONALLY_LEFT_BLANK
+  :rackspace_username: INTENTIONALLY_LEFT_BLANK
+  :slicehost_password: INTENTIONALLY_LEFT_BLANK
+
+YML
+      print(yml)
       raise ArgumentError.new("No credentials for :#{key}")
     end
     if Fog.credentials(key)[:aws_access_key_id] && Fog.credentials(key)[:aws_secret_access_key]
@@ -57,6 +69,18 @@ module Rackspace
   class << self
     key = (ARGV.first && :"#{ARGV.first}") || :default
     unless Fog.credentials(key)
+      print("\n  To run as '#{key}', add credentials like the following to ~/.fog\n")
+      yml = <<-YML
+
+:#{key}:
+  :aws_access_key_id: INTENTIONALLY_LEFT_BLANK
+  :aws_secret_access_key: INTENTIONALLY_LEFT_BLANK
+  :rackspace_api_key: INTENTIONALLY_LEFT_BLANK
+  :rackspace_username: INTENTIONALLY_LEFT_BLANK
+  :slicehost_password: INTENTIONALLY_LEFT_BLANK
+
+YML
+      print(yml)
       raise ArgumentError.new("No credentials for :#{key}")
     end
     if Fog.credentials(key)[:rackspace_api_key] && Fog.credentials(key)[:rackspace_username]
