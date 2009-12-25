@@ -15,7 +15,7 @@ module Fog
         def all(options = {})
           collection = bucket.collection.get(
             bucket.name,
-            options.reject {|key, value| !['delimiter', 'marker', 'max-keys', 'prefix'].include?(key)}
+            options
           )
           collection && collection.objects
         end
