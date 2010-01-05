@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.38"
+  s.version = "0.0.39"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
-  s.date = %q{2009-12-24}
+  s.date = %q{2010-01-04}
   s.default_executable = %q{fog}
   s.description = %q{brings clouds to you}
   s.email = %q{me@geemus.com}
@@ -194,7 +194,6 @@ Gem::Specification.new do |s|
      "spec/aws/models/s3/buckets_spec.rb",
      "spec/aws/models/s3/object_spec.rb",
      "spec/aws/models/s3/objects_spec.rb",
-     "spec/aws/models/s3/owner_spec.rb",
      "spec/aws/requests/ec2/allocate_address_spec.rb",
      "spec/aws/requests/ec2/associate_address_spec.rb",
      "spec/aws/requests/ec2/attach_volume_spec.rb",
@@ -303,7 +302,6 @@ Gem::Specification.new do |s|
      "spec/aws/models/s3/buckets_spec.rb",
      "spec/aws/models/s3/object_spec.rb",
      "spec/aws/models/s3/objects_spec.rb",
-     "spec/aws/models/s3/owner_spec.rb",
      "spec/aws/requests/ec2/allocate_address_spec.rb",
      "spec/aws/requests/ec2/associate_address_spec.rb",
      "spec/aws/requests/ec2/attach_volume_spec.rb",
@@ -393,18 +391,18 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<excon>, [">= 0.0.13"])
+      s.add_runtime_dependency(%q<excon>, [">= 0.0.14"])
       s.add_runtime_dependency(%q<mime-types>, [">= 0"])
       s.add_runtime_dependency(%q<nokogiri>, [">= 0"])
       s.add_runtime_dependency(%q<ruby-hmac>, [">= 0"])
     else
-      s.add_dependency(%q<excon>, [">= 0.0.13"])
+      s.add_dependency(%q<excon>, [">= 0.0.14"])
       s.add_dependency(%q<mime-types>, [">= 0"])
       s.add_dependency(%q<nokogiri>, [">= 0"])
       s.add_dependency(%q<ruby-hmac>, [">= 0"])
     end
   else
-    s.add_dependency(%q<excon>, [">= 0.0.13"])
+    s.add_dependency(%q<excon>, [">= 0.0.14"])
     s.add_dependency(%q<mime-types>, [">= 0"])
     s.add_dependency(%q<nokogiri>, [">= 0"])
     s.add_dependency(%q<ruby-hmac>, [">= 0"])
