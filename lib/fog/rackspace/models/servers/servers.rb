@@ -11,17 +11,15 @@ module Fog
         model Fog::Rackspace::Servers::Server
 
         def all
-          data = connection.list_servers_detail.body
-          servers = Fog::Rackspace::Servers::Servers.new({
-            :connection => connection
-          })
-          for server in data['servers']
-            servers << Fog::Rackspace::Servers::Server.new({
-              :collection => servers,
-              :connection => connection
-            }.merge!(server))
+          if @loaded
+            clear
           end
-          servers
+          @loaded = true
+          data = connection.list_servers_detail.body
+          for server in data['servers']
+            self << new(server)
+          end
+          self
         end
 
         def get(server_id)

@@ -2,12 +2,6 @@ module Fog
   module Rackspace
     class Servers
 
-      def addresses(attributes = {})
-        Fog::AWS::EC2::Addresses.new({
-          :connection => self
-        }.merge!(attributes))
-      end
-
       def images(attributes = {})
         Fog::Rackspace::Servers::Images.new({
           :connection => self
@@ -21,20 +15,19 @@ module Fog
         attribute :server
 
         def all
+          if @loaded
+            clear
+          end
+          @loaded = true
           data = connection.list_images_detail.body
-          servers = Fog::Rackspace::Servers::Images.new({
-            :connection => connection
-          })
+          images = []
           for image in data['images']
-            servers << Fog::Rackspace::Servers::Image.new({
-              :collection => images,
-              :connection => connection
-            }.merge!(image))
+            images << new(image)
           end
           if server
             images = images.select {|image| image.server_id == server.id}
           end
-          images
+          self.replace(images)
         end
 
         def get(image_id)

@@ -21,18 +21,20 @@ module Fog
         end
 
         def all(public_ip = @public_ip)
+          @public_ip = public_ip
+          if @loaded
+            clear
+          end
+          @loaded = true
           data = connection.describe_addresses(public_ip).body
-          addresses = Fog::AWS::EC2::Addresses.new({
-            :connection => connection,
-            :public_ip  => public_ip
-          }.merge!(attributes))
+          addresses = []
           data['addressesSet'].each do |address|
             addresses << new(address.reject {|key, value| value.nil? || value.empty? })
           end
           if instance
             addresses = addresses.select {|address| address.instance_id == instance.id}
           end
-          addresses
+          self.replace(addresses)
         end
 
         def get(public_ip)

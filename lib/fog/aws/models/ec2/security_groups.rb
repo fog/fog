@@ -18,18 +18,16 @@ module Fog
         end
 
         def all(group_name = @group_name)
-          data = connection.describe_security_groups(group_name).body
-          security_groups = Fog::AWS::EC2::SecurityGroups.new({
-            :connection => connection,
-            :group_name => group_name
-          }.merge!(attributes))
-          data['securityGroupInfo'].each do |security_group|
-            security_groups << Fog::AWS::EC2::SecurityGroup.new({
-              :collection => security_groups,
-              :connection => connection
-            }.merge!(security_group))
+          @group_name = group_name
+          if @loaded
+            clear
           end
-          security_groups
+          @loaded = true
+          data = connection.describe_security_groups(group_name).body
+          data['securityGroupInfo'].each do |security_group|
+            self << new(security_group)
+          end
+          self
         end
 
         def get(group_name)

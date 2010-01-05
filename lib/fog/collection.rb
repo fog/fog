@@ -1,6 +1,15 @@
 module Fog
   class Collection < Array
 
+    Array.public_instance_methods(false).each do |method|
+      class_eval <<-RUBY
+        def #{method}(*args)
+          lazy_load
+          super
+        end
+      RUBY
+    end
+
     def self._load(marhsalled)
       new(Marshal.load(marshalled))
     end
@@ -56,6 +65,7 @@ module Fog
 
     def initialize(attributes = {})
       merge_attributes(attributes)
+      @loaded = false
     end
 
     def inspect
@@ -100,6 +110,12 @@ module Fog
     end
 
     private
+
+    def lazy_load
+      unless @loaded
+        self.all
+      end
+    end
 
     def remap_attributes(attributes, mapping)
       for key, value in mapping

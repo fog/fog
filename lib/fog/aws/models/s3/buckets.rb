@@ -11,15 +11,15 @@ module Fog
         model Fog::AWS::S3::Bucket
 
         def all
-          data = connection.get_service.body
-          buckets = Fog::AWS::S3::Buckets.new(:connection => connection)
-          data['Buckets'].each do |bucket|
-            buckets << Fog::AWS::S3::Bucket.new({
-              :collection => buckets,
-              :connection => connection
-            }.merge!(bucket))
+          if @loaded
+            clear
           end
-          buckets
+          @loaded = true
+          data = connection.get_service.body
+          data['Buckets'].each do |bucket|
+            self << new(bucket)
+          end
+          self
         end
 
         def get(name, options = {})
@@ -27,11 +27,7 @@ module Fog
             :max_keys     => 'max-keys',
           })
           data = connection.get_bucket(name, options).body
-          bucket = Fog::AWS::S3::Bucket.new({
-            :collection => self,
-            :connection => connection,
-            :name       => data['Name']
-          })
+          bucket = new(:name => data['Name'])
           options = {}
           for key, value in data
             if ['Delimiter', 'IsTruncated', 'Marker', 'MaxKeys', 'Prefix'].include?(key)
@@ -39,12 +35,9 @@ module Fog
             end
           end
           bucket.objects.merge_attributes(options)
+          bucket.objects.instance_variable_set(:@loaded, true)
           data['Contents'].each do |object|
-            bucket.objects << Fog::AWS::S3::Object.new({
-              :bucket     => bucket,
-              :connection => connection,
-              :collection => bucket.objects
-            }.merge!(object))
+            bucket.objects << bucket.objects.new(object)
           end
           bucket
         rescue Excon::Errors::NotFound

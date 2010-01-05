@@ -39,7 +39,7 @@ unless Fog.mocking?
           end
           query = ''
           for key, value in options
-            query << "#{key}=#{CGI.escape(value).gsub(/\+/, '%20')};"
+            query << "#{key}=#{CGI.escape(value.to_s).gsub(/\+/, '%20')};"
           end
           query.chop!
           request({

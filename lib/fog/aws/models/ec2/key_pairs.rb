@@ -18,18 +18,16 @@ module Fog
         end
 
         def all(key_name = @key_name)
-          data = connection.describe_key_pairs(key_name).body
-          key_pairs = Fog::AWS::EC2::KeyPairs.new({
-            :connection => connection,
-            :key_name   => key_name
-          }.merge!(attributes))
-          data['keySet'].each do |key|
-            key_pairs << Fog::AWS::EC2::KeyPair.new({
-              :collection => key_pairs,
-              :connection => connection
-            }.merge!(key))
+          @key_name = key_name
+          if @loaded
+            clear
           end
-          key_pairs
+          @loaded = true
+          data = connection.describe_key_pairs(key_name).body
+          data['keySet'].each do |key|
+            self << new(key)
+          end
+          self
         end
 
         def get(key_name)

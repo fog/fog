@@ -13,11 +13,20 @@ module Fog
         model Fog::AWS::S3::Object
 
         def all(options = {})
+          merge_attributes(options)
+          if @loaded
+            clear
+          end
+          @loaded = true
           collection = bucket.collection.get(
             bucket.name,
             options
           )
-          collection && collection.objects
+          if collection
+            self.replace(collection.objects)
+          else
+            nil
+          end
         end
 
         def bucket
@@ -41,12 +50,7 @@ module Fog
               object_data[key] = value
             end
           end
-          object = Fog::AWS::S3::Object.new({
-            :bucket     => bucket,
-            :collection => self,
-            :connection => connection
-          }.merge!(object_data))
-          object
+          new(object_data)
         rescue Excon::Errors::NotFound
           nil
         end
@@ -65,12 +69,7 @@ module Fog
               object_data[key] = value
             end
           end
-          object = Fog::AWS::S3::Object.new({
-            :bucket     => bucket,
-            :collection => self,
-            :connection => connection
-          }.merge!(object_data))
-          object
+          new(object_data)
         rescue Excon::Errors::NotFound
           nil
         end

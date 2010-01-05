@@ -18,20 +18,18 @@ module Fog
         end
 
         def all(instance_id = @instance_id)
+          @instance_id = instance_id
+          if @loaded
+            clear
+          end
+          @loaded = true
           data = connection.describe_instances(instance_id).body
-          instances = Fog::AWS::EC2::Instances.new({
-            :connection   => connection,
-            :instance_id  => instance_id
-          }.merge!(attributes))
           data['reservationSet'].each do |reservation|
             reservation['instancesSet'].each do |instance|
-              instances << Fog::AWS::EC2::Instance.new({
-                :collection => instances,
-                :connection => connection
-              }.merge!(instance))
+              self << new(instance)
             end
           end
-          instances
+          self
         end
 
         def get(instance_id)

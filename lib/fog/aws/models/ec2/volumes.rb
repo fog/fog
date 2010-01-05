@@ -21,21 +21,20 @@ module Fog
         end
 
         def all(volume_id = @volume_id)
+          @volume_id = volume_id
+          if @loaded
+            clear
+          end
+          @loaded = true
           data = connection.describe_volumes(volume_id).body
-          volumes = Fog::AWS::EC2::Volumes.new({
-            :connection => connection,
-            :volume_id  => volume_id
-          }.merge!(attributes))
+          volumes = []
           data['volumeSet'].each do |volume|
-            volumes << Fog::AWS::EC2::Volume.new({
-              :collection => volumes,
-              :connection => connection
-            }.merge!(volume))
+            volumes << new(volume)
           end
           if instance
             volumes = volumes.select {|volume| volume.instance_id == instance.id}
           end
-          volumes
+          self.replace(volumes)
         end
 
         def get(volume_id)

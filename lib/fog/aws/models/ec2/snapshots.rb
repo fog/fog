@@ -21,21 +21,20 @@ module Fog
         end
 
         def all(snapshot_id = @snapshot_id)
+          @snapshot_id = snapshot_id
+          if @loaded
+            clear
+          end
+          @loaded = true
           data = connection.describe_snapshots(snapshot_id).body
-          snapshots = Fog::AWS::EC2::Snapshots.new({
-            :connection   => connection,
-            :snapshot_id  => snapshot_id
-          }.merge!(attributes))
+          snapshots = []
           data['snapshotSet'].each do |snapshot|
-            snapshots << Fog::AWS::EC2::Snapshot.new({
-              :collection => snapshots,
-              :connection => connection
-            }.merge!(snapshot))
+            snapshots << new(snapshot)
           end
           if volume
             snapshots = snapshots.select {|snapshot| snapshot.volume_id == volume.id}
           end
-          snapshots
+          self.replace(snapshots)
         end
 
         def get(snapshot_id)

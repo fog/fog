@@ -11,17 +11,15 @@ module Fog
         model Fog::Rackspace::Servers::Flavor
 
         def all
-          data = connection.list_flavors_detail.body
-          flavors = Fog::Rackspace::Servers::Flavors.new({
-            :connection => connection
-          })
-          for flavor in data['flavors']
-            flavors << Fog::Rackspace::Servers::Flavor.new({
-              :collection => flavors,
-              :connection => connection
-            }.merge!(flavor))
+          if @loaded
+            clear
           end
-          flavors
+          @loaded = true
+          data = connection.list_flavors_detail.body
+          for flavor in data['flavors']
+            self << new(flavor)
+          end
+          self
         end
 
         def get(flavor_id)
