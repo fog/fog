@@ -24,7 +24,10 @@ module Fog
 
         def get(name, options = {})
           remap_attributes(options, {
-            :max_keys     => 'max-keys',
+            :delimiter  => 'delimiter',
+            :marker     => 'marker',
+            :max_keys   => 'max-keys',
+            :prefix     => 'prefix'
           })
           data = connection.get_bucket(name, options).body
           bucket = new(:name => data['Name'])
