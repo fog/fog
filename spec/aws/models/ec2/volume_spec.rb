@@ -16,7 +16,7 @@ describe 'Fog::AWS::EC2::Volume' do
       volume.attach_time.should == 'now'
       volume.availability_zone.should == 'us-east-1a'
       volume.create_time.should == 'recently'
-      volume.instance_id.should == 'i-00000000'
+      volume.server_id.should == 'i-00000000'
       volume.snapshot_id.should == 'snap-00000000'
       volume.id.should == 'vol-00000000'
     end
@@ -45,49 +45,49 @@ describe 'Fog::AWS::EC2::Volume' do
 
   end
 
-  describe "#instance=" do
+  describe "#server=" do
     before(:each) do
-      @instance = ec2.instances.create(:image_id => GENTOO_AMI)
-      @volume = ec2.volumes.new(:availability_zone => @instance.availability_zone, :size => 1, :device => '/dev/sdz1')
-      @instance.wait_for { state == 'running' }
+      @server = ec2.servers.create(:image_id => GENTOO_AMI)
+      @volume = ec2.volumes.new(:availability_zone => @server.availability_zone, :size => 1, :device => '/dev/sdz1')
+      @server.wait_for { state == 'running' }
     end
 
     after(:each) do
-      @instance.destroy
+      @server.destroy
       if @volume.id
         @volume.wait_for { status == 'attached' }
-        @volume.instance = nil
+        @volume.server = nil
         @volume.wait_for { status == 'available' }
         @volume.destroy
       end
     end
 
-    it "should not attach to instance if the volume has not been saved" do
-      @volume.instance = @instance
-      @volume.instance_id.should_not == @instance.id
+    it "should not attach to server if the volume has not been saved" do
+      @volume.server = @server
+      @volume.server_id.should_not == @server.id
     end
 
     it "should change the availability_zone if the volume has not been saved" do
-      @volume.instance = @instance
-      @volume.availability_zone.should == @instance.availability_zone
+      @volume.server = @server
+      @volume.availability_zone.should == @server.availability_zone
     end
 
-    it "should attach to instance when the volume is saved" do
-      @volume.instance = @instance
+    it "should attach to server when the volume is saved" do
+      @volume.server = @server
       @volume.save.should be_true
-      @volume.instance_id.should == @instance.id
+      @volume.server_id.should == @server.id
     end
 
-    it "should attach to instance to an already saved volume" do
+    it "should attach to server to an already saved volume" do
       @volume.save.should be_true
-      @volume.instance = @instance
-      @volume.instance_id.should == @instance.id
+      @volume.server = @server
+      @volume.server_id.should == @server.id
     end
 
     it "should not change the availability_zone if the volume has been saved" do
       @volume.save.should be_true
-      @volume.instance = @instance
-      @volume.availability_zone.should == @instance.availability_zone
+      @volume.server = @server
+      @volume.availability_zone.should == @server.availability_zone
     end
   end
 

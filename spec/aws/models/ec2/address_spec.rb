@@ -9,7 +9,7 @@ describe 'Fog::AWS::EC2::Address' do
         'instanceId'  => 'i-00000000',
         'publicIp'    => '0.0.0.0'
       )
-      address.instance_id.should == 'i-00000000'
+      address.server_id.should == 'i-00000000'
       address.public_ip.should == '0.0.0.0'
     end
 
@@ -37,24 +37,24 @@ describe 'Fog::AWS::EC2::Address' do
 
   end
 
-  describe "#instance=" do
+  describe "#server=" do
     before(:each) do
       @address = ec2.addresses.new
-      @instance = ec2.instances.create(:image_id => GENTOO_AMI)
+      @server = ec2.servers.create(:image_id => GENTOO_AMI)
     end
 
     after(:each) do
       if @address.public_ip
         @address.destroy
       end
-      @instance.destroy
+      @server.destroy
     end
 
-    it "should associate with instance to an already saved address" do
+    it "should associate with server to an already saved address" do
       @address.save.should be_true
-      @instance.wait_for { state == 'running' }
-      @address.instance = @instance
-      @address.instance_id.should == @instance.id
+      @server.wait_for { state == 'running' }
+      @address.server = @server
+      @address.server_id.should == @server.id
     end
   end
 

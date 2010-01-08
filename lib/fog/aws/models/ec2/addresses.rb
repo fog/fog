@@ -11,7 +11,7 @@ module Fog
       class Addresses < Fog::Collection
 
         attribute :public_ip
-        attribute :instance
+        attribute :server
 
         model Fog::AWS::EC2::Address
 
@@ -31,8 +31,8 @@ module Fog
           data['addressesSet'].each do |address|
             addresses << new(address.reject {|key, value| value.nil? || value.empty? })
           end
-          if instance
-            addresses = addresses.select {|address| address.instance_id == instance.id}
+          if server
+            addresses = addresses.select {|address| address.instance_id == server.id}
           end
           self.replace(addresses)
         end
@@ -46,8 +46,8 @@ module Fog
         end
 
         def new(attributes = {})
-          if instance
-            super({ :instance => instance }.merge!(attributes))
+          if server
+            super({ :server => server }.merge!(attributes))
           else
             super(attributes)
           end

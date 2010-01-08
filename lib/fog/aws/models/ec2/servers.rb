@@ -2,28 +2,28 @@ module Fog
   module AWS
     class EC2
 
-      def instances
-        Fog::AWS::EC2::Instances.new(:connection => self)
+      def servers
+        Fog::AWS::EC2::Servers.new(:connection => self)
       end
 
-      class Instances < Fog::Collection
+      class Servers < Fog::Collection
 
-        attribute :instance_id
+        attribute :server_id
 
-        model Fog::AWS::EC2::Instance
+        model Fog::AWS::EC2::Server
 
         def initialize(attributes)
-          @instance_id ||= []
+          @server_id ||= []
           super
         end
 
-        def all(instance_id = @instance_id)
-          @instance_id = instance_id
+        def all(server_id = @server_id)
+          @server_id = server_id
           if @loaded
             clear
           end
           @loaded = true
-          data = connection.describe_instances(instance_id).body
+          data = connection.describe_instances(server_id).body
           data['reservationSet'].each do |reservation|
             reservation['instancesSet'].each do |instance|
               self << new(instance)
@@ -32,9 +32,9 @@ module Fog
           self
         end
 
-        def get(instance_id)
-          if instance_id
-            all(instance_id).first
+        def get(server_id)
+          if server_id
+            all(server_id).first
           end
         rescue Excon::Errors::BadRequest
           nil

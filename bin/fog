@@ -41,8 +41,8 @@ YML
         @@s3.buckets
       end
 
-      def instances
-        @@ec2.instances
+      def servers
+        @@ec2.servers
       end
 
       def key_pairs

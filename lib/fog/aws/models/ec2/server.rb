@@ -2,7 +2,7 @@ module Fog
   module AWS
     class EC2
 
-      class Instance < Fog::Model
+      class Server < Fog::Model
 
         identity  :id,                'instanceId'
 
@@ -26,7 +26,7 @@ module Fog
         def addresses
           requires :id
 
-          connection.addresses(:instance => self)
+          connection.addresses(:server => self)
         end
 
         def destroy
@@ -113,7 +113,7 @@ module Fog
         def volumes
           requires :id
 
-          connection.volumes(:instance => self)
+          connection.volumes(:server => self)
         end
 
         private

@@ -11,7 +11,7 @@ module Fog
       class Volumes < Fog::Collection
 
         attribute :volume_id
-        attribute :instance
+        attribute :server
 
         model Fog::AWS::EC2::Volume
 
@@ -31,8 +31,8 @@ module Fog
           data['volumeSet'].each do |volume|
             volumes << new(volume)
           end
-          if instance
-            volumes = volumes.select {|volume| volume.instance_id == instance.id}
+          if server
+            volumes = volumes.select {|volume| volume.instance_id == server.id}
           end
           self.replace(volumes)
         end
@@ -46,8 +46,8 @@ module Fog
         end
 
         def new(attributes = {})
-          if instance
-            super({ :instance => instance }.merge!(attributes))
+          if server
+            super({ :server => server }.merge!(attributes))
           else
             super
           end

@@ -6,7 +6,7 @@ module Fog
 
         identity  :public_ip,   'publicIp'
 
-        attribute :instance_id, 'instanceId'
+        attribute :server_id, 'instanceId'
 
         def destroy
           requires :public_ip
@@ -15,9 +15,9 @@ module Fog
           true
         end
 
-        def instance=(new_instance)
-          if new_instance
-            associate(new_instance)
+        def server=(new_server)
+          if new_server
+            associate(new_server)
           else
             disassociate
           end
@@ -26,27 +26,27 @@ module Fog
         def save
           data = connection.allocate_address
           @public_ip = data.body['publicIp']
-          if @instance
-            self.instance = @instance
+          if @server
+            self.server = @server
           end
           true
         end
 
         private
 
-        def associate(new_instance)
+        def associate(new_server)
           if new_record?
-            @instance = new_instance
+            @server = new_server
           else
-            @instance = nil
-            @instance_id = new_instance.id
-            connection.associate_address(@instance_id, @public_ip)
+            @server = nil
+            @server_id = new_server.id
+            connection.associate_address(@server_id, @public_ip)
           end
         end
 
         def disassociate
-          @instance = nil
-          @instance_id = nil
+          @server = nil
+          @server_id = nil
           unless new_record?
             connection.disassociate_address(@public_ip)
           end

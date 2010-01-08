@@ -10,7 +10,7 @@ module Fog
         attribute :availability_zone, 'availabilityZone'
         attribute :create_time,       'createTime'
         attribute :device
-        attribute :instance_id,       'instanceId'
+        attribute :server_id,         'instanceId'
         attribute :size
         attribute :snapshot_id,       'snapshotId'
         attribute :status
@@ -29,9 +29,9 @@ module Fog
           true
         end
 
-        def instance=(new_instance)
-          if new_instance
-            attach(new_instance)
+        def server=(new_server)
+          if new_server
+            attach(new_server)
           else
             detach
           end
@@ -43,8 +43,8 @@ module Fog
           data = connection.create_volume(@availability_zone, @size, @snapshot_id).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
-          if @instance
-            self.instance = @instance
+          if @server
+            self.server = @server
           end
           true
         end
@@ -57,20 +57,20 @@ module Fog
 
         private
 
-        def attach(new_instance)
+        def attach(new_server)
           if new_record?
-            @instance = new_instance
-            @availability_zone = new_instance.availability_zone
-          elsif new_instance
-            @instance = nil
-            @instance_id = new_instance.id
-            connection.attach_volume(@instance_id, @id, @device)
+            @server = new_server
+            @availability_zone = new_server.availability_zone
+          elsif new_server
+            @server = nil
+            @server_id = new_server.id
+            connection.attach_volume(@server_id, @id, @device)
           end
         end
 
         def detach
-          @instance = nil
-          @instance_id = nil
+          @server = nil
+          @server_id = nil
           unless new_record?
             connection.detach_volume(@id)
           end
