@@ -13,9 +13,9 @@ describe 'Fog::AWS::EC2::Volume' do
         'snapshotId'        => 'snap-00000000',
         'volumeId'          => 'vol-00000000'
       )
-      volume.attach_time.should == 'now'
+      volume.attached_at.should == 'now'
       volume.availability_zone.should == 'us-east-1a'
-      volume.create_time.should == 'recently'
+      volume.created_at.should == 'recently'
       volume.server_id.should == 'i-00000000'
       volume.snapshot_id.should == 'snap-00000000'
       volume.id.should == 'vol-00000000'

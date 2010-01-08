@@ -7,9 +7,9 @@ module Fog
         identity  :id, 'snapshotId'
 
         attribute :progress
-        attribute :start_time,  'startTime'
+        attribute :created_at,  'startTime'
         attribute :status
-        attribute :volume_id,    'volumeId'
+        attribute :volume_id,   'volumeId'
 
         def destroy
           requires :id

@@ -6,9 +6,9 @@ module Fog
 
         identity  :id,         'volumeId'
 
-        attribute :attach_time,       'attachTime'
+        attribute :attached_at,       'attachTime'
         attribute :availability_zone, 'availabilityZone'
-        attribute :create_time,       'createTime'
+        attribute :created_at,        'createTime'
         attribute :device
         attribute :server_id,         'instanceId'
         attribute :size

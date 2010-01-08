@@ -15,7 +15,7 @@ module Fog
         attribute :type,              'instanceType'
         attribute :kernel_id,         'kernelId'
         attribute :key_name,          'keyName'
-        attribute :launch_time,       'launchTime'
+        attribute :created_at,        'launchTime'
         attribute :monitoring
         attribute :product_codes,     'productCodes'
         attribute :private_dns_name,  'privateDnsName'

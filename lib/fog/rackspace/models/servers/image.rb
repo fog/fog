@@ -7,8 +7,8 @@ module Fog
         identity :id
 
         attribute :name
-        attribute :created
-        attribute :updated
+        attribute :created_at,  'created'
+        attribute :updated_at,  'updated'
         attribute :status
         attribute :server_id,   'serverId'
 

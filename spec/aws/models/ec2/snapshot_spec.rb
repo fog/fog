@@ -11,7 +11,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
         'volumeId'    => 'vol-00000000'
       )
       snapshot.id.should == 'snap-00000000'
-      snapshot.start_time.should == 'now'
+      snapshot.created_at.should == 'now'
       snapshot.volume_id.should == 'vol-00000000'
     end
 
@@ -35,6 +35,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
     it "should return true if the snapshot is deleted" do
       volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       snapshot = volume.snapshots.create
+      snapshot.wait_for { status == "completed" }
       snapshot.destroy.should be_true
       volume.destroy
     end

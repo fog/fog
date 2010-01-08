@@ -27,7 +27,7 @@ describe 'Fog::AWS::EC2::Server' do
       server.type.should == 'instance_type'
       server.kernel_id.should == 'kernel_id'
       server.key_name.should == 'key_name'
-      server.launch_time.should == 'launch_time'
+      server.created_at.should == 'launch_time'
       server.product_codes.should == 'product_codes'
       server.private_dns_name.should == 'private_dns_name'
       server.ramdisk_id.should == 'ramdisk_id'
