@@ -1,6 +1,21 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
+require File.dirname(__FILE__) + '/../../../shared_examples/server_examples'
 
 describe 'Fog::AWS::EC2::Server' do
+
+  it_should_behave_like "Server"
+
+  subject { @server = @servers.new(:image_id => GENTOO_AMI) }
+
+  before(:each) do
+    @servers = ec2.servers
+  end
+
+  after(:each) do
+    if @server && !@server.new_record?
+      eventually { @server.destroy }
+    end
+  end
 
   describe "#initialize" do
 
@@ -38,18 +53,8 @@ describe 'Fog::AWS::EC2::Server' do
   describe "#addresses" do
 
     it "should return a Fog::AWS::EC2::Addresses" do
-      server = ec2.servers.create(:image_id => GENTOO_AMI)
-      server.addresses.should be_a(Fog::AWS::EC2::Addresses)
-      server.destroy
-    end
-
-  end
-
-  describe "#destroy" do
-
-    it "should return true if the server is deleted" do
-      server = ec2.servers.create(:image_id => GENTOO_AMI)
-      server.destroy.should be_true
+      subject.save
+      subject.addresses.should be_a(Fog::AWS::EC2::Addresses)
     end
 
   end
@@ -61,19 +66,6 @@ describe 'Fog::AWS::EC2::Server' do
       })
       server.state.should == 'instance_state'
     end
-  end
-
-  describe "#collection" do
-
-    it "should return a Fog::AWS::EC2::Servers" do
-      ec2.servers.new.collection.should be_a(Fog::AWS::EC2::Servers)
-    end
-
-    it "should be the servers the server is related to" do
-      servers = ec2.servers
-      servers.new.collection.should == servers
-    end
-
   end
 
   describe "#key_pair" do
@@ -104,56 +96,11 @@ describe 'Fog::AWS::EC2::Server' do
 
   end
 
-  describe "#reload" do
-
-    before(:each) do
-      @server = ec2.servers.create(:image_id => GENTOO_AMI)
-      @reloaded = @server.reload
-    end
-
-    after(:each) do
-      @server.destroy
-    end
-
-    it "should return a Fog::AWS::EC2::Server" do
-      @reloaded.should be_a(Fog::AWS::EC2::Server)
-    end
-
-    it "should reset attributes to remote state" do
-      @server.attributes.should == @reloaded.attributes
-    end
-
-  end
-
-  describe "#save" do
-
-    before(:each) do
-      @server = ec2.servers.new(:image_id => GENTOO_AMI)
-    end
-
-    it "should return true when it succeeds" do
-      @server.save.should be_true
-      @server.destroy
-    end
-
-    it "should not exist in servers before save" do
-      ec2.servers.get(@server.id).should be_nil
-    end
-
-    it "should exist in buckets after save" do
-      @server.save
-      ec2.servers.get(@server.id).should_not be_nil
-      @server.destroy
-    end
-
-  end
-
   describe "#volumes" do
 
     it "should return a Fog::AWS::EC2::Volumes" do
-      server = ec2.servers.create(:image_id => GENTOO_AMI)
-      server.volumes.should be_a(Fog::AWS::EC2::Volumes)
-      server.destroy
+      subject.save
+      subject.volumes.should be_a(Fog::AWS::EC2::Volumes)
     end
 
   end

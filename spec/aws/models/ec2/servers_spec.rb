@@ -2,67 +2,49 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe 'Fog::AWS::EC2::Servers' do
 
-  describe "#all" do
+  subject { @server = @servers.create(:image_id => GENTOO_AMI) }
 
-    it "should return a Fog::AWS::EC2::Servers" do
-      ec2.servers.all.should be_a(Fog::AWS::EC2::Servers)
-    end
-
-    it "should include persisted servers" do
-      server = ec2.servers.create(:image_id => GENTOO_AMI)
-      ec2.servers.get(server.id).should_not be_nil
-      server.destroy
-    end
-
+  before(:each) do
+    @servers = ec2.servers
   end
 
-  describe "#create" do
-
-    before(:each) do
-      @server = ec2.servers.create(:image_id => GENTOO_AMI)
-    end
-
-    after(:each) do
+  after(:each) do
+    if @server && !@server.new_record?
       @server.destroy
     end
+  end
 
-    it "should return a Fog::AWS::EC2::Server" do
-      @server.should be_a(Fog::AWS::EC2::Server)
-    end
+  describe "#all" do
 
-    it "should exist on ec2" do
-      ec2.servers.get(@server.id).should_not be_nil
+    it "should include persisted servers" do
+      eventually do
+        @servers.all.map {|server| server.id}.should include(subject.id)
+      end
     end
 
   end
 
   describe "#get" do
 
-    it "should return a Fog::AWS::EC2::Server if a matching server exists" do
-      server = ec2.servers.create(:image_id => GENTOO_AMI)
-      get = ec2.servers.get(server.id)
-      server.attributes.should == get.attributes
-      server.destroy
+    it "should return a matching server if one exists" do
+      eventually do
+        get = @servers.get(subject.id)
+        subject.attributes.should == get.attributes
+      end
     end
 
     it "should return nil if no matching server exists" do
-      ec2.servers.get('i-00000000').should be_nil
-    end
-
-  end
-
-  describe "#new" do
-
-    it "should return a Fog::AWS::EC2::Server" do
-      ec2.servers.new(:image_id => GENTOO_AMI).should be_a(Fog::AWS::EC2::Server)
+      @servers.get('i-00000000').should be_nil
     end
 
   end
 
   describe "#reload" do
 
-    it "should return a Fog::AWS::EC2::Servers" do
-      ec2.servers.all.reload.should be_a(Fog::AWS::EC2::Servers)
+    it "should reset attributes to remote state" do
+      servers = @servers.all
+      reloaded = servers.reload
+      servers.attributes.should == reloaded.attributes
     end
 
   end
