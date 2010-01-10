@@ -39,7 +39,7 @@ describe 'Fog::AWS::EC2::Server' do
       server.group_id.should == 'group_id'
       server.image_id.should == 'image_id'
       server.id.should == 'instance_id'
-      server.type.should == 'instance_type'
+      server.flavor.should == 'instance_type'
       server.kernel_id.should == 'kernel_id'
       server.key_name.should == 'key_name'
       server.created_at.should == 'launch_time'

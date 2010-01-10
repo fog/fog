@@ -52,6 +52,10 @@ module AWS
         connections[:s3].buckets
       end
 
+      def flavors
+        connections[:ec2].flavors
+      end
+
       def servers
         connections[:ec2].servers
       end

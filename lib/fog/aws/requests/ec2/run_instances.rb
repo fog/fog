@@ -23,7 +23,7 @@ unless Fog.mocking?
         #   * 'Encoding'<~String> - ?
         #   * 'groupId'<~String> - Name of security group for instances
         #   * 'InstanceType'<~String> - Type of instance to boot. Valid options
-        #     in ['m1.small', 'm1.large', 'm1.xlarge', 'c1.medium', 'c1.xlarge']
+        #     in ['m1.small', 'm1.large', 'm1.xlarge', 'c1.medium', 'c1.xlarge', 'm2.2xlarge', 'm2.4xlarge']
         #     default is 'm1.small'
         #   * 'KernelId'<~String> - Id of kernel with which to launch
         #   * 'KeyName'<~String> - Name of a keypair to add to booting instances

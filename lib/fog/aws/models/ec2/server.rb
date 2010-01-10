@@ -12,7 +12,7 @@ module Fog
         attribute :group_id,          'groupId'
         attribute :image_id,          'imageId'
         attribute :state,             'instanceState'
-        attribute :type,              'instanceType'
+        attribute :flavor,            'instanceType'
         attribute :kernel_id,         'kernelId'
         attribute :key_name,          'keyName'
         attribute :created_at,        'launchTime'
@@ -43,6 +43,14 @@ module Fog
         # def security_group=(new_security_group)
         #   @group_id = new_security_group.name
         # end
+
+        def flavor
+          @flavor || 'm1.small'
+        end
+
+        def flavor=(new_flavor)
+          @flavor = new_flavor.id
+        end
 
         def key_pair
           requires :key_name
@@ -80,15 +88,12 @@ module Fog
         def save
           requires :image_id
 
-          options = {}
+          options = {'InstanceType' => flavor}
           if @availability_zone
             options['Placement.AvailabilityZone'] = @availability_zone
           end
           if @group_id
             options['SecurityGroup'] = @group_id
-          end
-          if @type
-            options['InstanceType'] = @type
           end
           if @kernel_id
             options['KernelId'] = @kernel_id
