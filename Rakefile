@@ -7,7 +7,7 @@ require "#{current_directory}/lib/fog"
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.add_dependency('excon', '>=0.0.14')
+    gem.add_dependency('excon', '>=0.0.16')
     gem.add_dependency('mime-types')
     gem.add_dependency('nokogiri')
     gem.add_dependency('ruby-hmac')
