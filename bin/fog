@@ -96,11 +96,6 @@ module Rackspace
         end
       end
 
-      @@servers = Fog::Rackspace::Servers.new(
-        :rackspace_api_key => Fog.credentials[:rackspace_api_key],
-        :rackspace_username => Fog.credentials[:rackspace_username]
-      )
-
       def flavors
         connections[:servers].flavors
       end
