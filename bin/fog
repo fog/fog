@@ -56,6 +56,10 @@ module AWS
         connections[:ec2].flavors
       end
 
+      def images
+        connections[:ec2].images
+      end
+
       def servers
         connections[:ec2].servers
       end

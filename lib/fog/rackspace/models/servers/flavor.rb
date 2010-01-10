@@ -9,7 +9,6 @@ module Fog
         attribute :bits
         attribute :cores
         attribute :disk
-        attribute :id
         attribute :name
         attribute :ram
 
