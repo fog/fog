@@ -28,7 +28,7 @@ module Fog
         def save
           requires :server_id
 
-          data = connection.create_server(@server_id)
+          data = connection.create_image(@server_id, 'name' => name)
           merge_attributes(data.body['image'])
           true
         end
