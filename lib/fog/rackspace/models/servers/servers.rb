@@ -23,7 +23,9 @@ module Fog
         end
 
         def get(server_id)
-          connection.get_server_details(server_id)
+          if server = connection.get_server_details(server_id).body['server']
+            new(server)
+          end
         rescue Excon::Errors::NotFound
           nil
         end

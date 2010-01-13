@@ -13,14 +13,15 @@ describe 'Fog::AWS::EC2::Server' do
 
   after(:each) do
     if @server && !@server.new_record?
-      eventually { @server.destroy }
+      @server.wait_for { ready? }
+      @server.destroy.should be_true
     end
   end
 
   describe "#initialize" do
 
     it "should remap attributes from parser" do
-      server = ec2.servers.new({
+      server = @servers.new({
         'amiLaunchIndex'    => 'ami_launch_index',
         'dnsName'           => 'dns_name',
         'groupId'           => 'group_id',

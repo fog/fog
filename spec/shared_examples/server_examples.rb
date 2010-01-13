@@ -1,10 +1,11 @@
 shared_examples_for "Server" do
 
-  describe "#destroy" do
+  describe "#reboot" do
 
-    it "should return true if the server is deleted" do
+    it "should succeed" do
       subject.save
-      subject.destroy.should be_true
+      subject.wait_for { ready? }
+      subject.reboot.should be_true
     end
 
   end
@@ -13,9 +14,8 @@ shared_examples_for "Server" do
 
     it "should reset attributes to remote state" do
       subject.save
-      eventually do
-        @reloaded = subject.reload
-      end
+      subject.wait_for { ready? }
+      @reloaded = subject.reload
       subject.attributes.should == @reloaded.attributes
     end
 
@@ -33,9 +33,8 @@ shared_examples_for "Server" do
 
     it "should exist remotely after save" do
       subject.save
-      eventually do
-        @servers.get(subject.id).should_not be_nil
-      end
+      subject.wait_for { ready? }
+      @servers.get(subject.id).should_not be_nil
     end
 
   end
