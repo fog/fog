@@ -12,7 +12,7 @@ module Fog
         attribute :group_id,          'groupId'
         attribute :image_id,          'imageId'
         attribute :state,             'instanceState'
-        attribute :flavor,            'instanceType'
+        attribute :flavor_id,            'instanceType'
         attribute :kernel_id,         'kernelId'
         attribute :key_name,          'keyName'
         attribute :created_at,        'launchTime'
@@ -44,12 +44,16 @@ module Fog
         #   @group_id = new_security_group.name
         # end
 
-        def flavor
-          @flavor || 'm1.small'
+        def flavor_id
+          @flavor && @flavor.id || 'm1.small'
         end
 
         def flavor=(new_flavor)
-          @flavor = new_flavor.id
+          @flavor = new_flavor
+        end
+
+        def flavor
+          @flavor || connection.flavors.all.detect {|flavor| flavor.id == @flavor_id}
         end
 
         def key_pair
@@ -78,9 +82,12 @@ module Fog
           end
         end
 
+        def ready?
+          @state == 'running'
+        end
+
         def reboot
           requires :id
-
           connection.reboot_instances(@id)
           true
         end
