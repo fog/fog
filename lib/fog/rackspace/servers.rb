@@ -57,14 +57,15 @@ module Fog
         @path   = uri.path
         @port   = uri.port
         @scheme = uri.scheme
-        @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
       end
 
       def request(params)
+        @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
         response = @connection.request({
           :body     => params[:body],
           :expects  => params[:expects],
           :headers  => {
+            'Content-Type' => 'application/json',
             'X-Auth-Token' => @auth_token
           }.merge!(params[:headers] || {}),
           :host     => @host,
