@@ -12,20 +12,22 @@ You can start stumbling around as soon as you install with the fog command line 
 After installing, just type 'fog' to get started.
 If you don't have credentials setup it will let you know what to do.
 
-Then just start playing around, fog will usually let you know if you are forgetting something.
+Then just start playing around, fog should let you know if you are forget things.
 
-For example:
+For example if you try to create a server but leave out stuff:
 
   server = AWS.servers.create
 
-will return:
+You'll get reminded that things are missing.
 
   ArgumentError: image_id is required for this operation
 
-So just add your image_id:
+So just add the missing stuff and you are off to the races:
 
   server = AWS.servers.create(:image_id => 'ami-5ee70037')
-  # don't forget to cleanup or you'll regret it when you get the bill
+
+But don't forget to cleanup or you'll regret it when you get the bill:
+
   server.destroy
 
 Rinse, repeat, enjoy!
