@@ -16,38 +16,77 @@ fog helps you interact with cloud services. fog is a work in progress.
 * Rackspace Files (no models yet, just getting started on requests)
 * Rackspace Servers (some requests, server model, just getting started)
 
-== Synopsis
+== Servers
+
+Lets boot up a server on EC2
 
   require 'fog'
 
-  # turn on mocking (if desired)
-  Fog.mock!
-
-  # initialize a connection
-  s3 = Fog::AWS::S3.new(
+  # initialize a connection to Amazon Elastic Compute Cloud
+  connection = Fog::AWS::EC2.new(
     :aws_access_key_id => id,
     :aws_secret_access_key => key
   )
 
-  # low level requests
-  s3.put_bucket('bucketname')
-  s3.put_object('bucketname', 'objectname', 'objectbody')
+  # boot a gentoo server
+  server = connection.servers.new(:image_id => 'ami-5ee70037')
 
-  s3.get_bucket('bucketname')
-  s3.get_object('bucketname', 'objectname')
+  # wait for it to be ready to do stuff
+  server.wait_for { ready? }
 
-  s3.delete_object('bucketname', 'objectname')
-  s3.delete_bucket('bucketname')
+  # DO STUFF
 
-  # models
-  bucket = s3.buckets.create(:name => 'bucketname')
-  bucket.objects.create(:key => 'objectname', :body => 'objectbody')
+  # shutdown the server
+  server.destroy
 
-  bucket = s3.buckets.get('bucketname')
-  object = bucket.objects.get('objectname')
+Now we will try again, but with Rackspace
 
-  object.destroy
-  bucket.destroy
+  # initialize a connection to Rackspace Servers
+  connection = Fog::Rackspace::Servers.new(
+    :rackspace_api_key => key,
+    :rackspace_username => username
+  )
+
+  # boot a gentoo server (flavor 1 = 256, image 3 = gentoo 2008.0)
+  server = connection.servers.new(:flavor_id => 1, :image_id => 3, :name => 'my_server')
+
+  # wait for it to be ready to do stuff
+  server.wait_for { ready? }
+
+  # DO STUFF
+
+  # shutdown the server
+  server.destroy
+
+
+
+== Directories and Files
+
+  require 'fog'
+
+  # initialize a connection to Amazon Simple Storage Solution
+  connection = Fog::AWS::S3.new(
+    :aws_access_key_id => id,
+    :aws_secret_access_key => key
+  )
+
+  # create a directory
+  directory = connection.directory.create(:name => 'directoryname')
+
+  # create a new file in your directory
+  directory.files.create(:key => 'filename', :body => 'filebody')
+
+  # connect to your directory
+  directory = connection.directories.get('filename')
+
+  # get your file
+  file = directory.files.get('filename')
+
+  # delete the file
+  file.destroy
+
+  # delete the directory
+  directory.destroy
 
 == Requirements
 
