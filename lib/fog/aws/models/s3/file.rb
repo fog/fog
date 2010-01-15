@@ -2,7 +2,7 @@ module Fog
   module AWS
     class S3
 
-      class Object < Fog::Model
+      class File < Fog::Model
 
         identity  :key,             'Key'
 
@@ -15,30 +15,28 @@ module Fog
         attribute :size,            'Size'
         attribute :storage_class,   'StorageClass'
 
-        def bucket
-          @bucket
+        def directory
+          @directory
         end
 
-        def copy(target_bucket_name, target_object_key)
-          requires :bucket, :key
-
-          data = connection.copy_object(bucket.name, @key, target_bucket_name, target_object_key).body
-          target_bucket = connection.buckets.new(:name => target_bucket_name)
-          target_object = target_bucket.objects.new(attributes.merge!(:key => target_object_key))
+        def copy(target_directory_name, target_file_key)
+          requires :directory, :key
+          data = connection.copy_object(directory.name, @key, target_directory_name, target_file_key).body
+          target_directory = connection.directories.new(:name => target_directory_name)
+          target_file = target_directory.files.new(attributes.merge!(:key => target_file_key))
           copy_data = {}
           for key, value in data
             if ['ETag', 'LastModified'].include?(key)
               copy_data[key] = value
             end
           end
-          target_object.merge_attributes(copy_data)
-          target_object
+          target_file.merge_attributes(copy_data)
+          target_file
         end
 
         def destroy
-          requires :bucket, :key
-
-          connection.delete_object(bucket.name, @key)
+          requires :directory, :key
+          connection.delete_object(directory.name, @key)
           true
         end
 
@@ -52,16 +50,16 @@ module Fog
         end
 
         def save(options = {})
-          requires :body, :bucket, :key
-          data = connection.put_object(bucket.name, @key, @body, options)
+          requires :body, :directory, :key
+          data = connection.put_object(directory.name, @key, @body, options)
           @etag = data.headers['ETag']
           true
         end
 
         private
 
-        def bucket=(new_bucket)
-          @bucket = new_bucket
+        def directory=(new_directory)
+          @directory = new_directory
         end
 
       end

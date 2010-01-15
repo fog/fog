@@ -48,8 +48,8 @@ module AWS
         connections[:ec2].addresses
       end
 
-      def buckets
-        connections[:s3].buckets
+      def directories
+        connections[:s3].directories
       end
 
       def flavors

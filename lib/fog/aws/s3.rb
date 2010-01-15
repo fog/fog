@@ -12,10 +12,10 @@ module Fog
       end
 
       def self.reload
-        load "fog/aws/models/s3/bucket.rb"
-        load "fog/aws/models/s3/buckets.rb"
-        load "fog/aws/models/s3/object.rb"
-        load "fog/aws/models/s3/objects.rb"
+        load "fog/aws/models/s3/directory.rb"
+        load "fog/aws/models/s3/directories.rb"
+        load "fog/aws/models/s3/file.rb"
+        load "fog/aws/models/s3/files.rb"
 
         load "fog/aws/parsers/s3/copy_object.rb"
         load "fog/aws/parsers/s3/get_bucket.rb"
@@ -80,12 +80,12 @@ module Fog
           metadata[:body] = data
           metadata[:headers]['Content-Length'] = metadata[:body].size.to_s
         else
-          filename = File.basename(data.path)
+          filename = ::File.basename(data.path)
           unless (mime_types = MIME::Types.of(filename)).empty?
             metadata[:headers]['Content-Type'] = mime_types.first.content_type
           end
           metadata[:body] = data.read
-          metadata[:headers]['Content-Length'] = File.size(data.path).to_s
+          metadata[:headers]['Content-Length'] = ::File.size(data.path).to_s
         end
         # metadata[:headers]['Content-MD5'] = Base64.encode64(Digest::MD5.digest(metadata[:body])).strip
         metadata

@@ -2,7 +2,7 @@ module Fog
   module AWS
     class S3
 
-      class Objects < Fog::Collection
+      class Files < Fog::Collection
 
         attribute :delimiter,     'Delimiter'
         attribute :is_truncated,  'IsTruncated'
@@ -10,7 +10,7 @@ module Fog
         attribute :max_keys,      'MaxKeys'
         attribute :prefix,        'Prefix'
 
-        model Fog::AWS::S3::Object
+        model Fog::AWS::S3::File
 
         def all(options = {})
           merge_attributes(options)
@@ -18,19 +18,19 @@ module Fog
             clear
           end
           @loaded = true
-          collection = bucket.collection.get(
-            bucket.name,
+          collection = directory.collection.get(
+            directory.name,
             options
           )
           if collection
-            self.replace(collection.objects)
+            self.replace(collection.files)
           else
             nil
           end
         end
 
-        def bucket
-          @bucket
+        def directory
+          @directory
         end
 
         def get(key, options = {}, &block)
@@ -40,48 +40,48 @@ module Fog
             'max-keys'    => @max_keys,
             'prefix'      => @prefix
           }.merge!(options)
-          data = connection.get_object(bucket.name, key, options, &block)
-          object_data = {
+          data = connection.get_object(directory.name, key, options, &block)
+          file_data = {
             :body => data.body,
             :key  => key
           }
           for key, value in data.headers
             if ['Content-Length', 'Content-Type', 'ETag', 'Last-Modified'].include?(key)
-              object_data[key] = value
+              file_data[key] = value
             end
           end
-          new(object_data)
+          new(file_data)
         rescue Excon::Errors::NotFound
           nil
         end
 
         def get_url(key, expires)
-          connection.get_object_url(bucket.name, key, expires)
+          connection.get_object_url(directory.name, key, expires)
         end
 
         def head(key, options = {})
-          data = connection.head_object(bucket.name, key, options)
-          object_data = {
+          data = connection.head_object(directory.name, key, options)
+          file_data = {
             :key => key
           }
           for key, value in data.headers
             if ['Content-Length', 'Content-Type', 'ETag', 'Last-Modified'].include?(key)
-              object_data[key] = value
+              file_data[key] = value
             end
           end
-          new(object_data)
+          new(file_data)
         rescue Excon::Errors::NotFound
           nil
         end
 
         def new(attributes = {})
-          super({ :bucket => bucket }.merge!(attributes))
+          super({ :directory => directory }.merge!(attributes))
         end
 
         private
 
-        def bucket=(new_bucket)
-          @bucket = new_bucket
+        def directory=(new_directory)
+          @directory = new_directory
         end
 
       end

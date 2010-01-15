@@ -2,7 +2,7 @@ module Fog
   module AWS
     class S3
 
-      class Bucket < Fog::Model
+      class Directory < Fog::Model
 
         identity  :name,          'Name'
 
@@ -10,7 +10,6 @@ module Fog
 
         def destroy
           requires :name
-
           connection.delete_bucket(@name)
           true
         rescue Excon::Errors::NotFound
@@ -19,7 +18,6 @@ module Fog
 
         def location
           requires :name
-
           data = connection.get_bucket_location(@name)
           data.body['LocationConstraint']
         end
@@ -28,10 +26,10 @@ module Fog
           @location = new_location
         end
 
-        def objects
-          @objects ||= begin
-            Fog::AWS::S3::Objects.new(
-              :bucket       => self,
+        def files
+          @files ||= begin
+            Fog::AWS::S3::Files.new(
+              :directory    => self,
               :connection   => connection
             )
           end
@@ -39,21 +37,18 @@ module Fog
 
         def payer
           requires :name
-
           data = connection.get_request_payment(@name)
           data.body['Payer']
         end
 
         def payer=(new_payer)
           requires :name
-
           connection.put_request_payment(@name, new_payer)
           @payer = new_payer
         end
 
         def save
           requires :name
-
           options = {}
           if @location
             options['LocationConstraint'] = @location
