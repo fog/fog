@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.39"
+  s.version = "0.0.40"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
-  s.date = %q{2010-01-04}
+  s.date = %q{2010-01-14}
   s.default_executable = %q{fog}
   s.description = %q{brings clouds to you}
   s.email = %q{me@geemus.com}
@@ -33,20 +33,24 @@ Gem::Specification.new do |s|
      "lib/fog/aws/ec2.rb",
      "lib/fog/aws/models/ec2/address.rb",
      "lib/fog/aws/models/ec2/addresses.rb",
-     "lib/fog/aws/models/ec2/instance.rb",
-     "lib/fog/aws/models/ec2/instances.rb",
+     "lib/fog/aws/models/ec2/flavor.rb",
+     "lib/fog/aws/models/ec2/flavors.rb",
+     "lib/fog/aws/models/ec2/image.rb",
+     "lib/fog/aws/models/ec2/images.rb",
      "lib/fog/aws/models/ec2/key_pair.rb",
      "lib/fog/aws/models/ec2/key_pairs.rb",
      "lib/fog/aws/models/ec2/security_group.rb",
      "lib/fog/aws/models/ec2/security_groups.rb",
+     "lib/fog/aws/models/ec2/server.rb",
+     "lib/fog/aws/models/ec2/servers.rb",
      "lib/fog/aws/models/ec2/snapshot.rb",
      "lib/fog/aws/models/ec2/snapshots.rb",
      "lib/fog/aws/models/ec2/volume.rb",
      "lib/fog/aws/models/ec2/volumes.rb",
-     "lib/fog/aws/models/s3/bucket.rb",
-     "lib/fog/aws/models/s3/buckets.rb",
-     "lib/fog/aws/models/s3/object.rb",
-     "lib/fog/aws/models/s3/objects.rb",
+     "lib/fog/aws/models/s3/directories.rb",
+     "lib/fog/aws/models/s3/directory.rb",
+     "lib/fog/aws/models/s3/file.rb",
+     "lib/fog/aws/models/s3/files.rb",
      "lib/fog/aws/parsers/ec2/allocate_address.rb",
      "lib/fog/aws/parsers/ec2/attach_volume.rb",
      "lib/fog/aws/parsers/ec2/basic.rb",
@@ -180,20 +184,20 @@ Gem::Specification.new do |s|
      "lib/fog/slicehost/requests/get_slices.rb",
      "spec/aws/models/ec2/address_spec.rb",
      "spec/aws/models/ec2/addresses_spec.rb",
-     "spec/aws/models/ec2/instance_spec.rb",
-     "spec/aws/models/ec2/instances_spec.rb",
      "spec/aws/models/ec2/key_pair_spec.rb",
      "spec/aws/models/ec2/key_pairs_spec.rb",
      "spec/aws/models/ec2/security_group_spec.rb",
      "spec/aws/models/ec2/security_groups_spec.rb",
+     "spec/aws/models/ec2/server_spec.rb",
+     "spec/aws/models/ec2/servers_spec.rb",
      "spec/aws/models/ec2/snapshot_spec.rb",
      "spec/aws/models/ec2/snapshots_spec.rb",
      "spec/aws/models/ec2/volume_spec.rb",
      "spec/aws/models/ec2/volumes_spec.rb",
-     "spec/aws/models/s3/bucket_spec.rb",
-     "spec/aws/models/s3/buckets_spec.rb",
-     "spec/aws/models/s3/object_spec.rb",
-     "spec/aws/models/s3/objects_spec.rb",
+     "spec/aws/models/s3/directories_spec.rb",
+     "spec/aws/models/s3/directory_spec.rb",
+     "spec/aws/models/s3/file_spec.rb",
+     "spec/aws/models/s3/files_spec.rb",
      "spec/aws/requests/ec2/allocate_address_spec.rb",
      "spec/aws/requests/ec2/associate_address_spec.rb",
      "spec/aws/requests/ec2/attach_volume_spec.rb",
@@ -245,6 +249,7 @@ Gem::Specification.new do |s|
      "spec/aws/requests/simpledb/put_attributes_spec.rb",
      "spec/aws/requests/simpledb/select_spec.rb",
      "spec/lorem.txt",
+     "spec/rackspace/models/servers/server_spec.rb",
      "spec/rackspace/requests/files/delete_container_spec.rb",
      "spec/rackspace/requests/files/delete_object_spec.rb",
      "spec/rackspace/requests/files/get_container_spec.rb",
@@ -270,6 +275,7 @@ Gem::Specification.new do |s|
      "spec/rackspace/requests/servers/list_servers_spec.rb",
      "spec/rackspace/requests/servers/reboot_server_spec.rb",
      "spec/rackspace/requests/servers/update_server_spec.rb",
+     "spec/shared_examples/server_examples.rb",
      "spec/slicehost/requests/create_slice_spec.rb",
      "spec/slicehost/requests/delete_slice_spec.rb",
      "spec/slicehost/requests/get_backups_spec.rb",
@@ -280,6 +286,27 @@ Gem::Specification.new do |s|
      "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/geemus/fog}
+  s.post_install_message = %q{==================================================
+
+  fog 0.0.40 has API changes you should know about.
+
+  Some changes you might care about happened in the models:
+
+    # what_it_was => what_it_is
+
+    ec2.instances => ec2.servers
+    ec2.instance  => ec2.server
+
+    s3.buckets  => s3.directories
+    s3.bucket   => s3.directory
+
+    s3.objects  => s3.files
+    s3.object   => s3.file
+
+  Sorry for the bother, but it will allow for a more consistent API as fog continues to expand.
+
+==================================================
+}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{fog}
@@ -288,20 +315,20 @@ Gem::Specification.new do |s|
   s.test_files = [
     "spec/aws/models/ec2/address_spec.rb",
      "spec/aws/models/ec2/addresses_spec.rb",
-     "spec/aws/models/ec2/instance_spec.rb",
-     "spec/aws/models/ec2/instances_spec.rb",
      "spec/aws/models/ec2/key_pair_spec.rb",
      "spec/aws/models/ec2/key_pairs_spec.rb",
      "spec/aws/models/ec2/security_group_spec.rb",
      "spec/aws/models/ec2/security_groups_spec.rb",
+     "spec/aws/models/ec2/server_spec.rb",
+     "spec/aws/models/ec2/servers_spec.rb",
      "spec/aws/models/ec2/snapshot_spec.rb",
      "spec/aws/models/ec2/snapshots_spec.rb",
      "spec/aws/models/ec2/volume_spec.rb",
      "spec/aws/models/ec2/volumes_spec.rb",
-     "spec/aws/models/s3/bucket_spec.rb",
-     "spec/aws/models/s3/buckets_spec.rb",
-     "spec/aws/models/s3/object_spec.rb",
-     "spec/aws/models/s3/objects_spec.rb",
+     "spec/aws/models/s3/directories_spec.rb",
+     "spec/aws/models/s3/directory_spec.rb",
+     "spec/aws/models/s3/file_spec.rb",
+     "spec/aws/models/s3/files_spec.rb",
      "spec/aws/requests/ec2/allocate_address_spec.rb",
      "spec/aws/requests/ec2/associate_address_spec.rb",
      "spec/aws/requests/ec2/attach_volume_spec.rb",
@@ -352,6 +379,7 @@ Gem::Specification.new do |s|
      "spec/aws/requests/simpledb/list_domains_spec.rb",
      "spec/aws/requests/simpledb/put_attributes_spec.rb",
      "spec/aws/requests/simpledb/select_spec.rb",
+     "spec/rackspace/models/servers/server_spec.rb",
      "spec/rackspace/requests/files/delete_container_spec.rb",
      "spec/rackspace/requests/files/delete_object_spec.rb",
      "spec/rackspace/requests/files/get_container_spec.rb",
@@ -377,6 +405,7 @@ Gem::Specification.new do |s|
      "spec/rackspace/requests/servers/list_servers_spec.rb",
      "spec/rackspace/requests/servers/reboot_server_spec.rb",
      "spec/rackspace/requests/servers/update_server_spec.rb",
+     "spec/shared_examples/server_examples.rb",
      "spec/slicehost/requests/create_slice_spec.rb",
      "spec/slicehost/requests/delete_slice_spec.rb",
      "spec/slicehost/requests/get_backups_spec.rb",
@@ -391,18 +420,18 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<excon>, [">= 0.0.14"])
+      s.add_runtime_dependency(%q<excon>, [">= 0.0.18"])
       s.add_runtime_dependency(%q<mime-types>, [">= 0"])
       s.add_runtime_dependency(%q<nokogiri>, [">= 0"])
       s.add_runtime_dependency(%q<ruby-hmac>, [">= 0"])
     else
-      s.add_dependency(%q<excon>, [">= 0.0.14"])
+      s.add_dependency(%q<excon>, [">= 0.0.18"])
       s.add_dependency(%q<mime-types>, [">= 0"])
       s.add_dependency(%q<nokogiri>, [">= 0"])
       s.add_dependency(%q<ruby-hmac>, [">= 0"])
     end
   else
-    s.add_dependency(%q<excon>, [">= 0.0.14"])
+    s.add_dependency(%q<excon>, [">= 0.0.18"])
     s.add_dependency(%q<mime-types>, [">= 0"])
     s.add_dependency(%q<nokogiri>, [">= 0"])
     s.add_dependency(%q<ruby-hmac>, [">= 0"])
