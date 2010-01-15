@@ -18,7 +18,30 @@ begin
     gem.homepage = "http://github.com/geemus/fog"
     gem.authors = ["geemus (Wesley Beary)"]
     gem.rubyforge_project = "fog"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
+
+    gem.post_install_message = <<MESSAGE
+#{'=' * 50}
+
+  fog 0.0.40 has API changes you should know about.
+
+  Some changes you might care about happened in the models:
+
+    # what_it_was => what_it_is
+
+    ec2.instances => ec2.servers
+    ec2.instance  => ec2.server
+
+    s3.buckets  => s3.directories
+    s3.bucket   => s3.directory
+
+    s3.objects  => s3.files
+    s3.object   => s3.file
+
+  Sorry for the bother, but it will allow for a more consistent API as fog continues to expand.
+
+#{'=' * 50}
+MESSAGE
+
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
