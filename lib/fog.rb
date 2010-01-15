@@ -40,11 +40,14 @@ module Fog
 
   def self.credentials(key = :default)
     @credentials ||= begin
-      credentials = {}
-      File.open(File.expand_path('~/.fog')) do |file|
-        credentials = YAML.load(file.read)[key]
+      path = File.expand_path('~/.fog')
+      if File.exists?(path)
+        File.open(path) do |file|
+          YAML.load(file.read)[key]
+        end
+      else
+        nil
       end
-      credentials
     end
   end
 

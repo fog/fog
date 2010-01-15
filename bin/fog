@@ -19,7 +19,7 @@ module Fog
 
 YML
       print(yml)
-      raise ArgumentError.new("No credentials for :#{key}")
+      exit
     end
   end
 end
