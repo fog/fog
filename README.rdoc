@@ -2,21 +2,35 @@
 
 fog helps you interact with cloud services. fog is a work in progress.
 
-== Features
+== Install
 
-* Low level api calls
-* Model level abstractions
-* Mocks
+  sudo gem install fog
 
-== Supports
+== Getting Started
 
-* AWS EC2
-* AWS S3
-* AWS SimpleDB (no models yet)
-* Rackspace Files (no models yet, just getting started on requests)
-* Rackspace Servers (some requests, server model, just getting started)
+You can start stumbling around as soon as you install with the fog command line tool.
+After installing, just type 'fog' to get started.
+If you don't have credentials setup it will let you know what to do.
 
-== Servers
+Then just start playing around, fog will usually let you know if you are forgetting something.
+
+For example:
+
+  server = AWS.servers.create
+
+will return:
+
+  ArgumentError: image_id is required for this operation
+
+So just add your image_id:
+
+  server = AWS.servers.create(:image_id => 'ami-5ee70037')
+  # don't forget to cleanup or you'll regret it when you get the bill
+  server.destroy
+
+Rinse, repeat, enjoy!
+
+== Working with Servers
 
 Lets boot up a server on EC2
 
@@ -58,9 +72,7 @@ Now we will try again, but with Rackspace
   # shutdown the server
   server.destroy
 
-
-
-== Directories and Files
+== Working with Directories and Files
 
   require 'fog'
 
@@ -95,9 +107,13 @@ Now we will try again, but with Rackspace
 * mime-types
 * nokogiri
 
-== Install
+== Supports
 
-  sudo gem install fog
+* AWS EC2
+* AWS S3
+* AWS SimpleDB (no models yet)
+* Rackspace Files (no models yet, just getting started on requests)
+* Rackspace Servers (some requests, server model, just getting started)
 
 == Copyright
 
