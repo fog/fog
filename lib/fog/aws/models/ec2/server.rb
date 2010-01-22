@@ -9,7 +9,7 @@ module Fog
         attribute :ami_launch_index,  'amiLaunchIndex'
         attribute :availability_zone, 'availabilityZone'
         attribute :dns_name,          'dnsName'
-        attribute :group_id,          'groupId'
+        attribute :groups
         attribute :image_id,          'imageId'
         attribute :state,             'instanceState'
         attribute :flavor_id,            'instanceType'
@@ -22,6 +22,11 @@ module Fog
         attribute :ramdisk_id,        'ramdiskId'
         attribute :reason
         attribute :user_data
+
+        def initialize(attributes)
+          @groups ||= []
+          super
+        end
 
         def addresses
           requires :id
@@ -99,8 +104,8 @@ module Fog
           if @availability_zone
             options['Placement.AvailabilityZone'] = @availability_zone
           end
-          if @group_id
-            options['SecurityGroup'] = @group_id
+          unless @groups.empty?
+            options['SecurityGroup'] = @groups.first
           end
           if @kernel_id
             options['KernelId'] = @kernel_id

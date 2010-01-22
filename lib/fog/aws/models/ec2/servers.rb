@@ -26,7 +26,7 @@ module Fog
           data = connection.describe_instances(server_id).body
           data['reservationSet'].each do |reservation|
             reservation['instancesSet'].each do |instance|
-              self << new(instance)
+              self << new(instance.merge(:groups => reservation['groupSet']))
             end
           end
           self
