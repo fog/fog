@@ -38,16 +38,31 @@ module Fog
     load "fog/slicehost.rb"
   end
 
-  def self.credentials(key = :default)
+  def self.credentials
     @credentials ||= begin
       path = File.expand_path('~/.fog')
-      if File.exists?(path)
+      credentials = if File.exists?(path)
         File.open(path) do |file|
-          YAML.load(file.read)[key]
+          YAML.load(file.read)
         end
       else
         nil
       end
+      unless credentials
+        print("\n  To run as '#{key}', add credentials like the following to ~/.fog\n")
+        yml = <<-YML
+
+:#{key}:
+  :aws_access_key_id: INTENTIONALLY_LEFT_BLANK
+  :aws_secret_access_key: INTENTIONALLY_LEFT_BLANK
+  :rackspace_api_key: INTENTIONALLY_LEFT_BLANK
+  :rackspace_username: INTENTIONALLY_LEFT_BLANK
+  :slicehost_password: INTENTIONALLY_LEFT_BLANK
+
+YML
+        print(yml)
+      end
+      credentials
     end
   end
 

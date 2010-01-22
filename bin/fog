@@ -5,20 +5,8 @@ require 'yaml'
 
 module Fog
   module Credentials
-    key = (ARGV.first && :"#{ARGV.first}") || :default
-    unless Fog.credentials(key)
-      print("\n  To run as '#{key}', add credentials like the following to ~/.fog\n")
-      yml = <<-YML
-
-:#{key}:
-  :aws_access_key_id: INTENTIONALLY_LEFT_BLANK
-  :aws_secret_access_key: INTENTIONALLY_LEFT_BLANK
-  :rackspace_api_key: INTENTIONALLY_LEFT_BLANK
-  :rackspace_username: INTENTIONALLY_LEFT_BLANK
-  :slicehost_password: INTENTIONALLY_LEFT_BLANK
-
-YML
-      print(yml)
+    credential = (ARGV.first && :"#{ARGV.first}") || :default
+    unless Fog.credentials[credential]
       exit
     end
   end
@@ -26,15 +14,13 @@ end
 
 module AWS
   class << self
-    key = (ARGV.first && :"#{ARGV.first}") || :default
-    if Fog.credentials(key)[:aws_access_key_id] && Fog.credentials(key)[:aws_secret_access_key]
+    credential = (ARGV.first && :"#{ARGV.first}") || :default
+    if Fog.credentials[credential][:aws_access_key_id] && Fog.credentials[credential][:aws_secret_access_key]
 
       def connections
         @@connections ||= Hash.new do |hash, key|
-          credentials = {
-            :aws_access_key_id => Fog.credentials[:aws_access_key_id],
-            :aws_secret_access_key => Fog.credentials[:aws_secret_access_key]
-          }
+          credential = (ARGV.first && :"#{ARGV.first}") || :default
+          credentials = Fog.credentials[credential]
           hash[key] = case key
           when :ec2
             Fog::AWS::EC2.new(credentials)
@@ -86,15 +72,13 @@ end
 
 module Rackspace
   class << self
-    key = (ARGV.first && :"#{ARGV.first}") || :default
-    if Fog.credentials(key)[:rackspace_api_key] && Fog.credentials(key)[:rackspace_username]
+    credential = (ARGV.first && :"#{ARGV.first}") || :default
+    if Fog.credentials[credential][:rackspace_api_key] && Fog.credentials[credential][:rackspace_username]
 
       def connections
         @@connections ||= Hash.new do |hash, key|
-          credentials = {
-            :rackspace_api_key => Fog.credentials[:rackspace_api_key],
-            :rackspace_username => Fog.credentials[:rackspace_username]
-          }
+          credential = (ARGV.first && :"#{ARGV.first}") || :default
+          credentials = Fog.credentials[credential]
           hash[key] = case key
           when :files
             Fog::Rackspace::Files.new(credentials)
