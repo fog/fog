@@ -40,7 +40,7 @@ module Fog
         end
 
         def save
-          requires :name
+          requires :description, :name
 
           data = connection.create_security_group(@name, @description).body
           true
