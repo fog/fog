@@ -17,10 +17,12 @@ module AWS
     credential = (ARGV.first && :"#{ARGV.first}") || :default
     if Fog.credentials[credential][:aws_access_key_id] && Fog.credentials[credential][:aws_secret_access_key]
 
-      def connections
+      def [](service)
         @@connections ||= Hash.new do |hash, key|
           credential = (ARGV.first && :"#{ARGV.first}") || :default
-          credentials = Fog.credentials[credential]
+          credentials = Fog.credentials[credential].reject do |k, v|
+            ![:aws_access_key_id, :aws_secret_access_key].include?(k)
+          end
           hash[key] = case key
           when :ec2
             Fog::AWS::EC2.new(credentials)
@@ -28,42 +30,43 @@ module AWS
             Fog::AWS::S3.new(credentials)
           end
         end
+        @@connections[service]
       end
 
       def addresses
-        connections[:ec2].addresses
+        self[:ec2].addresses
       end
 
       def directories
-        connections[:s3].directories
+        self[:s3].directories
       end
 
       def flavors
-        connections[:ec2].flavors
+        self[:ec2].flavors
       end
 
       def images
-        connections[:ec2].images
+        self[:ec2].images
       end
 
       def servers
-        connections[:ec2].servers
+        self[:ec2].servers
       end
 
       def key_pairs
-        connections[:ec2].key_pairs
+        self[:ec2].key_pairs
       end
 
       def security_groups
-        connections[:ec2].security_groups
+        self[:ec2].security_groups
       end
 
       def snapshots
-        connections[:ec2].snapshots
+        self[:ec2].snapshots
       end
 
       def volumes
-        connections[:ec2].volumes
+        self[:ec2].volumes
       end
 
     end
@@ -75,10 +78,12 @@ module Rackspace
     credential = (ARGV.first && :"#{ARGV.first}") || :default
     if Fog.credentials[credential][:rackspace_api_key] && Fog.credentials[credential][:rackspace_username]
 
-      def connections
+      def [](service)
         @@connections ||= Hash.new do |hash, key|
           credential = (ARGV.first && :"#{ARGV.first}") || :default
-          credentials = Fog.credentials[credential]
+          credentials = Fog.credentials[credential].reject do |k,v|
+            ![:rackspace_api_key, :rackspace_username].include?(k)
+          end
           hash[key] = case key
           when :files
             Fog::Rackspace::Files.new(credentials)
@@ -86,18 +91,19 @@ module Rackspace
             Fog::Rackspace::Servers.new(credentials)
           end
         end
+        @@connections[service]
       end
 
       def flavors
-        connections[:servers].flavors
+        self[:servers].flavors
       end
 
       def images
-        connections[:servers].images
+        self[:servers].images
       end
 
       def servers
-        connections[:servers].servers
+        self[:servers].servers
       end
       
     end
