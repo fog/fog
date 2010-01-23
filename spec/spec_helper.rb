@@ -5,6 +5,12 @@ current_directory = File.dirname(__FILE__)
 require "#{current_directory}/../lib/fog"
 # Fog.mock!
 
+# inlined spec.opts
+require "#{current_directory}/compact_progress_bar_formatter"
+Spec::Runner.options.parse_format("Spec::Runner::Formatter::CompactProgressBarFormatter")
+Spec::Runner.options.loadby  = 'mtime'
+Spec::Runner.options.reverse = true
+
 def ec2
   Fog::AWS::EC2.new(
     :aws_access_key_id => Fog.credentials[:aws_access_key_id],
