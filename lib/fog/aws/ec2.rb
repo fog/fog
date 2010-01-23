@@ -127,8 +127,12 @@ module Fog
       # ==== Returns
       # * EC2 object with connection to aws.
       def initialize(options={})
-        @aws_access_key_id      = options[:aws_access_key_id]
-        @aws_secret_access_key  = options[:aws_secret_access_key]
+        unless @aws_access_key_id = options[:aws_access_key_id]
+          raise ArgumentError.new('aws_access_key_id is required to access ec2')
+        end
+        unless @aws_secret_access_key = options[:aws_secret_access_key]
+          raise ArgumentError.new('aws_secret_access_key is required to access ec2')
+        end
         @hmac       = HMAC::SHA256.new(@aws_secret_access_key)
         @host       = options[:host]      || 'ec2.amazonaws.com'
         @port       = options[:port]      || 443

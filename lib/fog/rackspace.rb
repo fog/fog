@@ -9,12 +9,18 @@ module Fog
     unless Fog.mocking?
 
       def self.authenticate(options)
+        unless @rackspace_api_key = options[:rackspace_api_key]
+          raise ArgumentError.new('rackspace_api_key is required to access ec2')
+        end
+        unless @rackspace_username = options[:rackspace_username]
+          raise ArgumentError.new('rackspace_username is required to access ec2')
+        end
         connection = Fog::Connection.new("https://auth.api.rackspacecloud.com")
         response = connection.request({
           :expects  => 204,
           :headers  => {
-            'X-Auth-Key'  => options[:rackspace_api_key],
-            'X-Auth-User' => options[:rackspace_username]
+            'X-Auth-Key'  => @rackspace_api_key,
+            'X-Auth-User' => @rackspace_username
           },
           :host     => 'auth.api.rackspacecloud.com',
           :method   => 'GET',

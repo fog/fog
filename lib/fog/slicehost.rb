@@ -30,7 +30,9 @@ module Fog
     end
 
     def initialize(options={})
-      @password   = options[:password]
+      unless @password = options[:password]
+        raise ArgumentError.new('password is required to access slicehost')
+      end
       @host       = options[:host]      || "api.slicehost.com"
       @port       = options[:port]      || 443
       @scheme     = options[:scheme]    || 'https'
