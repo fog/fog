@@ -26,7 +26,7 @@ So just add the missing stuff and you are off to the races:
 
   server = AWS.servers.create(:image_id => 'ami-5ee70037')
   # you might also want a security group, which would go more like this:
-  # AWS.servers.create(:image_id => 'ami-5ee70037', :group => ['secure'])
+  # AWS.servers.create(:image_id => 'ami-5ee70037', :groups => ['secure'])
   # NOTE: currently you can only have one group at boot time, so the first
   # element of the array will be used (and the rest will be disregarded)
 
