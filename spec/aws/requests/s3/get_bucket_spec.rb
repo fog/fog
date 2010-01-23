@@ -4,19 +4,19 @@ describe 'S3.get_bucket' do
   describe 'success' do
 
     before(:each) do
-      s3.put_bucket('foggetbucket')
-      s3.put_object('foggetbucket', 'fog_object', lorem_file)
-      s3.put_object('foggetbucket', 'fog_other_object', lorem_file)
+      AWS[:s3].put_bucket('foggetbucket')
+      AWS[:s3].put_object('foggetbucket', 'fog_object', lorem_file)
+      AWS[:s3].put_object('foggetbucket', 'fog_other_object', lorem_file)
     end
 
     after(:each) do
-      s3.delete_object('foggetbucket', 'fog_object')
-      s3.delete_object('foggetbucket', 'fog_other_object')
-      s3.delete_bucket('foggetbucket')
+      AWS[:s3].delete_object('foggetbucket', 'fog_object')
+      AWS[:s3].delete_object('foggetbucket', 'fog_other_object')
+      AWS[:s3].delete_bucket('foggetbucket')
     end
 
     it 'should return proper attributes' do
-      actual = s3.get_bucket('foggetbucket')
+      actual = AWS[:s3].get_bucket('foggetbucket')
       actual.body['IsTruncated'].should == false
       actual.body['Marker'].should be_a(String)
       actual.body['MaxKeys'].should be_an(Integer)
@@ -36,7 +36,7 @@ describe 'S3.get_bucket' do
     end
 
     it 'should accept marker option' do
-      actual = s3.get_bucket('foggetbucket', 'marker' => 'fog_object')
+      actual = AWS[:s3].get_bucket('foggetbucket', 'marker' => 'fog_object')
       actual.body['IsTruncated'].should == false
       actual.body['Marker'].should be_a(String)
       actual.body['MaxKeys'].should be_an(Integer)
@@ -56,7 +56,7 @@ describe 'S3.get_bucket' do
     end
 
     it 'should respect max-keys option' do
-      actual = s3.get_bucket('foggetbucket', 'max-keys' => 1)
+      actual = AWS[:s3].get_bucket('foggetbucket', 'max-keys' => 1)
       actual.body['IsTruncated'].should == true
       actual.body['Marker'].should be_a(String)
       actual.body['MaxKeys'].should be_an(Integer)
@@ -76,7 +76,7 @@ describe 'S3.get_bucket' do
     end
 
     it 'should accept prefix option' do
-      actual = s3.get_bucket('foggetbucket', 'prefix' => 'fog_ob')
+      actual = AWS[:s3].get_bucket('foggetbucket', 'prefix' => 'fog_ob')
       actual.body['IsTruncated'].should == false
       actual.body['Marker'].should be_a(String)
       actual.body['MaxKeys'].should be_an(Integer)
@@ -100,13 +100,13 @@ describe 'S3.get_bucket' do
 
     it 'should raise a NotFound error if the bucket does not exist' do
       lambda {
-        s3.get_bucket('fognotabucket')
+        AWS[:s3].get_bucket('fognotabucket')
       }.should raise_error(Excon::Errors::NotFound)
     end
 
     it 'should request non-subdomain buckets and raise a NotFound error' do
       lambda {
-        s3.get_bucket('A-invalid--name')
+        AWS[:s3].get_bucket('A-invalid--name')
       }.should raise_error(Excon::Errors::NotFound)
     end
 

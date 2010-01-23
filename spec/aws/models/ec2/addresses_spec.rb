@@ -5,12 +5,12 @@ describe 'Fog::AWS::EC2::Addresses' do
   describe "#all" do
 
     it "should return a Fog::AWS::EC2::Addresses" do
-      ec2.addresses.all.should be_a(Fog::AWS::EC2::Addresses)
+      AWS[:ec2].addresses.all.should be_a(Fog::AWS::EC2::Addresses)
     end
 
     it "should include persisted addresses" do
-      address = ec2.addresses.create
-      ec2.addresses.get(address.public_ip).should_not be_nil
+      address = AWS[:ec2].addresses.create
+      AWS[:ec2].addresses.get(address.public_ip).should_not be_nil
       address.destroy
     end
 
@@ -19,7 +19,7 @@ describe 'Fog::AWS::EC2::Addresses' do
   describe "#create" do
 
     before(:each) do
-      @address = ec2.addresses.create
+      @address = AWS[:ec2].addresses.create
     end
 
     after(:each) do
@@ -31,7 +31,7 @@ describe 'Fog::AWS::EC2::Addresses' do
     end
 
     it "should exist on ec2" do
-      ec2.addresses.get(@address.public_ip).should_not be_nil
+      AWS[:ec2].addresses.get(@address.public_ip).should_not be_nil
     end
 
   end
@@ -39,14 +39,14 @@ describe 'Fog::AWS::EC2::Addresses' do
   describe "#get" do
 
     it "should return a Fog::AWS::EC2::Address if a matching address exists" do
-      address = ec2.addresses.create
-      get = ec2.addresses.get(address.public_ip)
+      address = AWS[:ec2].addresses.create
+      get = AWS[:ec2].addresses.get(address.public_ip)
       address.attributes.should == get.attributes
       address.destroy
     end
 
     it "should return nil if no matching address exists" do
-      ec2.addresses.get('0.0.0.0').should be_nil
+      AWS[:ec2].addresses.get('0.0.0.0').should be_nil
     end
 
   end
@@ -54,7 +54,7 @@ describe 'Fog::AWS::EC2::Addresses' do
   describe "#new" do
 
     it "should return a Fog::AWS::EC2::Address" do
-      ec2.addresses.new.should be_a(Fog::AWS::EC2::Address)
+      AWS[:ec2].addresses.new.should be_a(Fog::AWS::EC2::Address)
     end
 
   end
@@ -62,7 +62,7 @@ describe 'Fog::AWS::EC2::Addresses' do
   describe "#reload" do
 
     it "should return a Fog::AWS::EC2::Addresses" do
-      ec2.addresses.all.reload.should be_a(Fog::AWS::EC2::Addresses)
+      AWS[:ec2].addresses.all.reload.should be_a(Fog::AWS::EC2::Addresses)
     end
 
   end

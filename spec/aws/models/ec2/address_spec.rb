@@ -5,7 +5,7 @@ describe 'Fog::AWS::EC2::Address' do
   describe "#initialize" do
 
     it "should remap attributes from parser" do
-      address = ec2.addresses.new(
+      address = AWS[:ec2].addresses.new(
         'instanceId'  => 'i-00000000',
         'publicIp'    => '0.0.0.0'
       )
@@ -18,11 +18,11 @@ describe 'Fog::AWS::EC2::Address' do
   describe "#addresses" do
 
     it "should return a Fog::AWS::EC2::Addresses" do
-      ec2.addresses.new.collection.should be_a(Fog::AWS::EC2::Addresses)
+      AWS[:ec2].addresses.new.collection.should be_a(Fog::AWS::EC2::Addresses)
     end
 
     it "should be the addresses the address is related to" do
-      addresses = ec2.addresses
+      addresses = AWS[:ec2].addresses
       addresses.new.collection.should == addresses
     end
 
@@ -31,7 +31,7 @@ describe 'Fog::AWS::EC2::Address' do
   describe "#destroy" do
 
     it "should return true if the address is deleted" do
-      address = ec2.addresses.create
+      address = AWS[:ec2].addresses.create
       address.destroy.should be_true
     end
 
@@ -39,8 +39,8 @@ describe 'Fog::AWS::EC2::Address' do
 
   describe "#server=" do
     before(:each) do
-      @address = ec2.addresses.new
-      @server = ec2.servers.create(:image_id => GENTOO_AMI)
+      @address = AWS[:ec2].addresses.new
+      @server = AWS[:ec2].servers.create(:image_id => GENTOO_AMI)
     end
 
     after(:each) do
@@ -61,7 +61,7 @@ describe 'Fog::AWS::EC2::Address' do
   describe "#reload" do
 
     before(:each) do
-      @address = ec2.addresses.create
+      @address = AWS[:ec2].addresses.create
       @reloaded = @address.reload
     end
 
@@ -82,7 +82,7 @@ describe 'Fog::AWS::EC2::Address' do
   describe "#save" do
 
     before(:each) do
-      @address = ec2.addresses.new
+      @address = AWS[:ec2].addresses.new
     end
 
     it "should return true when it succeeds" do

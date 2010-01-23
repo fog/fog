@@ -5,7 +5,7 @@ describe 'Fog::AWS::EC2::SecurityGroup' do
   describe "#initialize" do
 
     it "should remap attributes from parser" do
-      security_group = ec2.security_groups.new(
+      security_group = AWS[:ec2].security_groups.new(
         'groupDescription' => 'description',
         'groupName'        => 'name',
         'ipPermissions'    => 'permissions',
@@ -22,11 +22,11 @@ describe 'Fog::AWS::EC2::SecurityGroup' do
   describe "#collection" do
 
     it "should return a Fog::AWS::EC2::SecurityGroups" do
-      ec2.security_groups.new.collection.should be_a(Fog::AWS::EC2::SecurityGroups)
+      AWS[:ec2].security_groups.new.collection.should be_a(Fog::AWS::EC2::SecurityGroups)
     end
 
     it "should be the security_groups the keypair is related to" do
-      security_groups = ec2.security_groups
+      security_groups = AWS[:ec2].security_groups
       security_groups.new.collection.should == security_groups
     end
 
@@ -35,7 +35,7 @@ describe 'Fog::AWS::EC2::SecurityGroup' do
   describe "#destroy" do
 
     it "should return true if the security_group is deleted" do
-      address = ec2.security_groups.create(:description => 'groupdescription', :name => 'keyname')
+      address = AWS[:ec2].security_groups.create(:description => 'groupdescription', :name => 'keyname')
       address.destroy.should be_true
     end
 
@@ -44,7 +44,7 @@ describe 'Fog::AWS::EC2::SecurityGroup' do
   describe "#reload" do
 
     before(:each) do
-      @security_group = ec2.security_groups.create(:description => 'groupdescription', :name => 'keyname')
+      @security_group = AWS[:ec2].security_groups.create(:description => 'groupdescription', :name => 'keyname')
       @reloaded = @security_group.reload
     end
 
@@ -65,7 +65,7 @@ describe 'Fog::AWS::EC2::SecurityGroup' do
   describe "#save" do
 
     before(:each) do
-      @security_group = ec2.security_groups.new(:description => 'groupdescription', :name => 'keyname')
+      @security_group = AWS[:ec2].security_groups.new(:description => 'groupdescription', :name => 'keyname')
     end
 
     it "should return true when it succeeds" do
@@ -74,12 +74,12 @@ describe 'Fog::AWS::EC2::SecurityGroup' do
     end
 
     it "should not exist in security_groups before save" do
-      ec2.security_groups.get(@security_group.name).should be_nil
+      AWS[:ec2].security_groups.get(@security_group.name).should be_nil
     end
 
     it "should exist in buckets after save" do
       @security_group.save
-      ec2.security_groups.get(@security_group.name).should_not be_nil
+      AWS[:ec2].security_groups.get(@security_group.name).should_not be_nil
       @security_group.destroy
     end
 

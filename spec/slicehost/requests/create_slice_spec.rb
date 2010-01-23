@@ -5,13 +5,13 @@ describe 'Slicehost.create_slice' do
 
     after(:each) do
       eventually(128) do
-        slicehost.delete_slice(@slice_id)
+        Slicehost[:slices].delete_slice(@slice_id)
       end
     end
 
     it "should return proper attributes" do
       # flavor_id 1: 256 ram, image_id 3: Gentoo 2008.0
-      actual = slicehost.create_slice(1, 3, 'fog_create_slice').body      
+      actual = Slicehost[:slices].create_slice(1, 3, 'fog_create_slice').body      
       actual['addresses'].should be_a(Array)
       # actual['backup-id'].should be_an(Integer)
       actual['bw-in'].should be_an(Float)

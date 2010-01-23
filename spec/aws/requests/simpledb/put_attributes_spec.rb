@@ -5,15 +5,15 @@ describe 'SimpleDB.put_attributes' do
 
     before(:each) do
       @domain_name = "fog_domain_#{Time.now.to_i}"
-      sdb.create_domain(@domain_name)
+      AWS[:sdb].create_domain(@domain_name)
     end
 
     after(:each) do
-      sdb.delete_domain(@domain_name)
+      AWS[:sdb].delete_domain(@domain_name)
     end
 
     it 'should return proper attributes from put_attributes' do
-      actual = sdb.put_attributes(@domain_name, 'foo', { 'bar' => 'baz' })
+      actual = AWS[:sdb].put_attributes(@domain_name, 'foo', { 'bar' => 'baz' })
       actual.body['RequestId'].should be_a(String)
       actual.body['BoxUsage'].should be_a(Float)
     end
@@ -23,7 +23,7 @@ describe 'SimpleDB.put_attributes' do
 
     it 'should raise a BadRequest error if the domain does not exist' do
       lambda {
-        sdb.put_attributes(@domain_name, 'notadomain', { 'notanattribute' => 'value' })
+        AWS[:sdb].put_attributes(@domain_name, 'notadomain', { 'notanattribute' => 'value' })
       }.should raise_error(Excon::Errors::BadRequest)
     end
 

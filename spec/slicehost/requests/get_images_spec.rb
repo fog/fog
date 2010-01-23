@@ -4,7 +4,7 @@ describe 'Slicehost.get_images' do
   describe 'success' do
 
     it "should return proper attributes" do
-      actual = slicehost.get_images.body
+      actual = Slicehost[:slices].get_images.body
       actual['images'].should be_an(Array)
       image = actual['images'].first
       image['id'].should be_an(Integer)

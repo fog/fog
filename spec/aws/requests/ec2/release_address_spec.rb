@@ -4,11 +4,11 @@ describe 'EC2.release_address' do
   describe 'success' do
 
     before(:each) do
-      @public_ip = ec2.allocate_address.body['publicIp']
+      @public_ip = AWS[:ec2].allocate_address.body['publicIp']
     end
 
     it "should return proper attributes" do
-      actual = ec2.release_address(@public_ip)
+      actual = AWS[:ec2].release_address(@public_ip)
       actual.body['requestId'].should be_a(String)
       actual.body['return'].should == true
     end
@@ -18,7 +18,7 @@ describe 'EC2.release_address' do
 
     it "should raise a BadRequest error if address does not exist" do
       lambda {
-        ec2.release_address('127.0.0.1')
+        AWS[:ec2].release_address('127.0.0.1')
       }.should raise_error(Excon::Errors::BadRequest)
     end
 

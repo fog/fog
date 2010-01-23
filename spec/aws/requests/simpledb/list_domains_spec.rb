@@ -8,20 +8,20 @@ describe 'SimpleDB.list_domains' do
     end
 
     after(:each) do
-      sdb.delete_domain(@domain_name)
+      AWS[:sdb].delete_domain(@domain_name)
     end
 
     it 'should return proper attributes' do
-      results = sdb.list_domains
+      results = AWS[:sdb].list_domains
       results.body['BoxUsage'].should be_a(Float)
       results.body['Domains'].should be_an(Array)
       results.body['RequestId'].should be_a(String)
     end
 
     it 'should include created domains' do
-      sdb.create_domain(@domain_name)
+      AWS[:sdb].create_domain(@domain_name)
       eventually do
-        actual = sdb.list_domains
+        actual = AWS[:sdb].list_domains
         actual.body['Domains'].should include(@domain_name)
       end
     end

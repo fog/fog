@@ -4,7 +4,7 @@ describe 'Rackspace::Servers.list_flavors_detail' do
   describe 'success' do
 
     it "should return proper attributes" do
-      actual = servers.list_flavors_detail.body
+      actual = Rackspace[:servers].list_flavors_detail.body
       actual['flavors'].should be_an(Array)
       flavor = actual['flavors'].first
       flavor['disk'].should be_an(Integer)

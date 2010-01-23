@@ -4,11 +4,11 @@ describe 'EC2.create_volume' do
   describe 'success' do
 
     after(:each) do
-      ec2.delete_volume(@volume_id)
+      AWS[:ec2].delete_volume(@volume_id)
     end
 
     it "should return proper attributes" do
-      actual = ec2.create_volume('us-east-1a', 1)
+      actual = AWS[:ec2].create_volume('us-east-1a', 1)
       actual.body['availabilityZone'].should be_a(String)
       actual.body['createTime'].should be_a(Time)
       actual.body['requestId'].should be_a(String)

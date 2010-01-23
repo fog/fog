@@ -5,20 +5,20 @@ describe 'Fog::AWS::EC2::Snapshots' do
   describe "#all" do
 
     it "should return a Fog::AWS::EC2::Snapshots" do
-      ec2.snapshots.all.should be_a(Fog::AWS::EC2::Snapshots)
+      AWS[:ec2].snapshots.all.should be_a(Fog::AWS::EC2::Snapshots)
     end
 
     it "should include persisted snapshots" do
-      volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       snapshot = volume.snapshots.create
-      ec2.snapshots.all.map {|snapshot| snapshot.id}.should include(snapshot.id)
+      AWS[:ec2].snapshots.all.map {|snapshot| snapshot.id}.should include(snapshot.id)
       snapshot.destroy
       volume.destroy
     end
 
     it "should limit snapshots by volume if present" do
-      volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
-      other_volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      other_volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       snapshot = volume.snapshots.create
       other_volume.snapshots.all.map {|snapshot| snapshot.id}.should_not include(snapshot.id)
       snapshot.destroy
@@ -31,7 +31,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
   describe "#create" do
 
     before(:each) do
-      @volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      @volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       @snapshot = @volume.snapshots.create
     end
 
@@ -45,7 +45,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
     end
 
     it "should exist on ec2" do
-      ec2.snapshots.get(@snapshot.id).should_not be_nil
+      AWS[:ec2].snapshots.get(@snapshot.id).should_not be_nil
     end
 
   end
@@ -53,15 +53,15 @@ describe 'Fog::AWS::EC2::Snapshots' do
   describe "#get" do
 
     it "should return a Fog::AWS::EC2::Snapshot if a matching snapshot exists" do
-      volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       snapshot = volume.snapshots.create
-      get = ec2.snapshots.get(snapshot.id)
+      get = AWS[:ec2].snapshots.get(snapshot.id)
       snapshot.attributes.reject {|key, value| [:progress, :status].include?(key)}.should == get.attributes.reject {|key, value| [:progress, :status].include?(key)}
       snapshot.destroy
     end
 
     it "should return nil if no matching address exists" do
-      ec2.snapshots.get('vol-00000000').should be_nil
+      AWS[:ec2].snapshots.get('vol-00000000').should be_nil
     end
 
   end
@@ -69,7 +69,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
   describe "#new" do
 
     it "should return a Fog::AWS::EC2::Snapshot" do
-      ec2.snapshots.new.should be_a(Fog::AWS::EC2::Snapshot)
+      AWS[:ec2].snapshots.new.should be_a(Fog::AWS::EC2::Snapshot)
     end
 
   end
@@ -77,7 +77,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
   describe "#reload" do
 
     it "should return a Fog::AWS::EC2::Snapshots" do
-      ec2.snapshots.all.reload.should be_a(Fog::AWS::EC2::Snapshots)
+      AWS[:ec2].snapshots.all.reload.should be_a(Fog::AWS::EC2::Snapshots)
     end
 
   end

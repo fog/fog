@@ -9,7 +9,7 @@ describe 'Fog::AWS::EC2::Server' do
   subject { @server = @servers.new(:flavor_id => 1, :image_id => 3, :name => 'name') }
 
   before(:each) do
-    @servers = servers.servers
+    @servers = Rackspace[:servers].servers
   end
 
   after(:each) do

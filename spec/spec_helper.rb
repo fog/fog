@@ -11,54 +11,68 @@ Spec::Runner.options.parse_format("Spec::Runner::Formatter::CompactProgressBarFo
 Spec::Runner.options.loadby  = 'mtime'
 Spec::Runner.options.reverse = true
 
-def ec2
-  Fog::AWS::EC2.new(
-    :aws_access_key_id => Fog.credentials[:aws_access_key_id],
-    :aws_secret_access_key => Fog.credentials[:aws_secret_access_key]
-  )
+
+
+module AWS
+  class << self
+    def [](service)
+      @@connections ||= Hash.new do |hash, key|
+        credentials = Fog.credentials[:default].reject do |k, v|
+          ![:aws_access_key_id, :aws_secret_access_key].include?(k)
+        end
+        hash[key] = case key
+        when :ec2
+          Fog::AWS::EC2.new(credentials)
+        when :eu_s3
+          Fog::AWS::S3.new(credentials.merge!(:host => 's3-external-3.amazonaws.com'))
+        when :sdb
+          Fog::AWS::SimpleDB.new(credentials)
+        when :s3
+          Fog::AWS::S3.new(credentials)
+        end
+      end
+      @@connections[service]
+    end
+  end
 end
 
-def eu_s3
-  Fog::AWS::S3.new(
-    :aws_access_key_id => Fog.credentials[:aws_access_key_id],
-    :aws_secret_access_key => Fog.credentials[:aws_secret_access_key],
-    :host => 's3-external-3.amazonaws.com'
-  )
+module Rackspace
+  class << self
+    def [](service)
+      @@connections ||= Hash.new do |hash, key|
+        credentials = Fog.credentials[:default].reject do |k, v|
+          ![:rackspace_api_key, :rackspace_username].include?(k)
+        end
+        hash[key] = case key
+        when :files
+          Fog::Rackspace::Files.new(credentials)
+        when :servers
+          Fog::Rackspace::Servers.new(credentials)
+        end
+      end
+      @@connections[service]
+    end
+  end
 end
 
-def files
-  Fog::Rackspace::Files.new(
-    :rackspace_api_key => Fog.credentials[:rackspace_api_key],
-    :rackspace_username => Fog.credentials[:rackspace_username]
-  )
+module Slicehost
+  class << self
+    def [](service)
+      @@connections ||= Hash.new do |hash, key|
+        credentials = Fog.credentials[:default].reject do |k, v|
+          ![:slicehost_password].include?(k)
+        end
+        hash[key] = case key
+        when :slices
+          Fog::Slicehost.new(credentials)
+        end
+      end
+      @@connections[service]
+    end
+  end
 end
 
-def sdb
-  Fog::AWS::SimpleDB.new(
-    :aws_access_key_id => Fog.credentials[:aws_access_key_id],
-    :aws_secret_access_key => Fog.credentials[:aws_secret_access_key]
-  )
-end
 
-def s3
-  Fog::AWS::S3.new(
-    :aws_access_key_id => Fog.credentials[:aws_access_key_id],
-    :aws_secret_access_key => Fog.credentials[:aws_secret_access_key]
-  )
-end
-
-def servers
-  Fog::Rackspace::Servers.new(
-    :rackspace_api_key => Fog.credentials[:rackspace_api_key],
-    :rackspace_username => Fog.credentials[:rackspace_username]
-  )
-end
-
-def slicehost
-  Fog::Slicehost.new(
-    :password => Fog.credentials[:slicehost_password]
-  )
-end
 
 def eventually(max_delay = 16, &block)
   delays = [0]

@@ -6,13 +6,13 @@ describe 'SimpleDB.create_domain' do
   end
 
   after(:each) do
-    sdb.delete_domain(@domain_name)
+    AWS[:sdb].delete_domain(@domain_name)
   end
 
   describe 'success' do
 
     it 'should return proper attributes' do
-      actual = sdb.create_domain(@domain_name)
+      actual = AWS[:sdb].create_domain(@domain_name)
       actual.body['RequestId'].should be_a(String)
       actual.body['BoxUsage'].should be_a(Float)
     end
@@ -21,8 +21,8 @@ describe 'SimpleDB.create_domain' do
   describe 'failure' do
 
     it 'should not raise an error if the domain already exists' do
-      sdb.create_domain(@domain_name)
-      sdb.create_domain(@domain_name)
+      AWS[:sdb].create_domain(@domain_name)
+      AWS[:sdb].create_domain(@domain_name)
     end
 
   end

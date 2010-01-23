@@ -4,8 +4,8 @@ describe 'EC2.revoke_security_group_ingress' do
   describe 'success' do
 
     before(:each) do
-      ec2.create_security_group('fog_security_group', 'a security group for testing fog')
-      ec2.authorize_security_group_ingress({
+      AWS[:ec2].create_security_group('fog_security_group', 'a security group for testing fog')
+      AWS[:ec2].authorize_security_group_ingress({
         'FromPort' => 80,
         'GroupName' => 'fog_security_group',
         'IpProtocol' => 'tcp',
@@ -14,11 +14,11 @@ describe 'EC2.revoke_security_group_ingress' do
     end
 
     after(:each) do
-      ec2.delete_security_group('fog_security_group')
+      AWS[:ec2].delete_security_group('fog_security_group')
     end
 
     it "should return proper attributes" do
-      actual = ec2.revoke_security_group_ingress({
+      actual = AWS[:ec2].revoke_security_group_ingress({
         'FromPort' => 80,
         'GroupName' => 'fog_security_group',
         'IpProtocol' => 'tcp',

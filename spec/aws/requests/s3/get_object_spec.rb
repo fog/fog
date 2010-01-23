@@ -4,17 +4,17 @@ describe 'S3.get_object' do
   describe 'success' do
 
     before(:each) do
-      s3.put_bucket('foggetobject')
-      s3.put_object('foggetobject', 'fog_get_object', lorem_file)
+      AWS[:s3].put_bucket('foggetobject')
+      AWS[:s3].put_object('foggetobject', 'fog_get_object', lorem_file)
     end
 
     after(:each) do
-      s3.delete_object('foggetobject', 'fog_get_object')
-      s3.delete_bucket('foggetobject')
+      AWS[:s3].delete_object('foggetobject', 'fog_get_object')
+      AWS[:s3].delete_bucket('foggetobject')
     end
 
     it 'should return proper attributes' do
-      actual = s3.get_object('foggetobject', 'fog_get_object')
+      actual = AWS[:s3].get_object('foggetobject', 'fog_get_object')
       actual.status.should == 200
       data = lorem_file.read
       actual.body.should == data
@@ -26,14 +26,14 @@ describe 'S3.get_object' do
 
     it 'should return chunks with optional block' do
       data = ''
-      s3.get_object('foggetobject', 'fog_get_object') do |chunk|
+      AWS[:s3].get_object('foggetobject', 'fog_get_object') do |chunk|
         data << chunk
       end
       data.should == lorem_file.read
     end
 
     it 'should return a signed expiring url' do
-      url = s3.get_object_url('foggetobject', 'fog_get_object', Time.now + 60 * 10)
+      url = AWS[:s3].get_object_url('foggetobject', 'fog_get_object', Time.now + 60 * 10)
       unless Fog.mocking?
         open(url).read.should == lorem_file.read
       end
@@ -44,13 +44,13 @@ describe 'S3.get_object' do
 
     it 'should raise a NotFound error if the bucket does not exist' do
       lambda {
-        s3.get_object('fognotabucket', 'fog_get_object')
+        AWS[:s3].get_object('fognotabucket', 'fog_get_object')
       }.should raise_error(Excon::Errors::NotFound)
     end
 
     it 'should raise a NotFound error if the object does not exist' do
       lambda {
-        s3.get_object('foggetobject', 'fog_not_an_object')
+        AWS[:s3].get_object('foggetobject', 'fog_not_an_object')
       }.should raise_error(Excon::Errors::NotFound)
     end
 

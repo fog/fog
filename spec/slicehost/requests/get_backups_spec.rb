@@ -4,7 +4,7 @@ describe 'Slicehost.get_backups' do
   describe 'success' do
 
     it "should return proper attributes" do
-      actual = slicehost.get_backups.body
+      actual = Slicehost[:slices].get_backups.body
       actual['backups'].should be_an(Array)
       backup = actual['backups'].first
       # backup['date'].should be_a(String)

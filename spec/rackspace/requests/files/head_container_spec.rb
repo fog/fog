@@ -4,17 +4,17 @@ describe 'Rackspace::Files.head_container' do
   describe 'success' do
 
     before(:each) do
-      files.put_container('container_name')
-      files.put_object('container_name', 'object_name', lorem_file)
+      Rackspace[:files].put_container('container_name')
+      Rackspace[:files].put_object('container_name', 'object_name', lorem_file)
     end
     
     after(:each) do
-      files.delete_object('container_name', 'object_name')
-      files.delete_container('container_name')
+      Rackspace[:files].delete_object('container_name', 'object_name')
+      Rackspace[:files].delete_container('container_name')
     end
 
     it "should return proper attributes" do
-      files.head_container('container_name')
+      Rackspace[:files].head_container('container_name')
     end
 
   end
@@ -22,7 +22,7 @@ describe 'Rackspace::Files.head_container' do
 
     it "should raise a NotFound error if the container does not exist" do
       lambda do
-        files.head_container('container_name')
+        Rackspace[:files].head_container('container_name')
       end.should raise_error(Excon::Errors::NotFound)
     end
 

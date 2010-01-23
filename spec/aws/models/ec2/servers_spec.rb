@@ -5,7 +5,7 @@ describe 'Fog::AWS::EC2::Servers' do
   subject { @server = @servers.create(:image_id => GENTOO_AMI) }
 
   before(:each) do
-    @servers = ec2.servers
+    @servers = AWS[:ec2].servers
   end
 
   after(:each) do

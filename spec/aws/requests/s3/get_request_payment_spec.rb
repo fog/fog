@@ -4,15 +4,15 @@ describe 'S3.get_request_payment' do
   describe 'success' do
 
     before(:each) do
-      s3.put_bucket('foggetrequestpayment')
+      AWS[:s3].put_bucket('foggetrequestpayment')
     end
 
     after(:each) do
-      s3.delete_bucket('foggetrequestpayment')
+      AWS[:s3].delete_bucket('foggetrequestpayment')
     end
 
     it 'should return proper attributes' do
-      actual = s3.get_request_payment('foggetrequestpayment')
+      actual = AWS[:s3].get_request_payment('foggetrequestpayment')
       actual.status.should == 200
       actual.body['Payer'].should == 'BucketOwner'
     end
@@ -22,7 +22,7 @@ describe 'S3.get_request_payment' do
 
     it 'should raise a NotFound error if the bucket does not exist' do
       lambda {
-        s3.get_request_payment('fognotabucket')
+        AWS[:s3].get_request_payment('fognotabucket')
       }.should raise_error(Excon::Errors::NotFound)
     end
 

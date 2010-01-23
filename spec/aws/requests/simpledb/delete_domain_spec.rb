@@ -8,11 +8,11 @@ describe 'SimpleDB.delete_domain' do
     end
 
     before(:each) do
-      sdb.create_domain(@domain_name)
+      AWS[:sdb].create_domain(@domain_name)
     end
 
     it 'should return proper attributes' do
-      actual = sdb.delete_domain(@domain_name)
+      actual = AWS[:sdb].delete_domain(@domain_name)
       actual.body['RequestId'].should be_a(String)
       actual.body['BoxUsage'].should be_a(Float)
     end
@@ -21,7 +21,7 @@ describe 'SimpleDB.delete_domain' do
   describe 'failure' do
 
     it 'should not raise an error if the domain does not exist' do
-      sdb.delete_domain('notadomain')
+      AWS[:sdb].delete_domain('notadomain')
     end
 
   end

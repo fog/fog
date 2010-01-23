@@ -5,7 +5,7 @@ describe 'Fog::AWS::EC2::Volume' do
   describe "#initialize" do
 
     it "should remap attributes from parser" do
-      volume = ec2.volumes.new(
+      volume = AWS[:ec2].volumes.new(
         'attachTime'        => 'now',
         'availabilityZone'  => 'us-east-1a',
         'createTime'        => 'recently',
@@ -26,11 +26,11 @@ describe 'Fog::AWS::EC2::Volume' do
   describe "#collection" do
 
     it "should return a Fog::AWS::EC2::Volumes" do
-      ec2.volumes.new.collection.should be_a(Fog::AWS::EC2::Volumes)
+      AWS[:ec2].volumes.new.collection.should be_a(Fog::AWS::EC2::Volumes)
     end
 
     it "should be the volumes the volume is related to" do
-      volumes = ec2.volumes
+      volumes = AWS[:ec2].volumes
       volumes.new.collection.should == volumes
     end
 
@@ -39,7 +39,7 @@ describe 'Fog::AWS::EC2::Volume' do
   describe "#destroy" do
 
     it "should return true if the volume is deleted" do
-      volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => '/dev/sdz1')
+      volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => '/dev/sdz1')
       volume.destroy.should be_true
     end
 
@@ -47,8 +47,8 @@ describe 'Fog::AWS::EC2::Volume' do
 
   describe "#server=" do
     before(:each) do
-      @server = ec2.servers.create(:image_id => GENTOO_AMI)
-      @volume = ec2.volumes.new(:availability_zone => @server.availability_zone, :size => 1, :device => '/dev/sdz1')
+      @server = AWS[:ec2].servers.create(:image_id => GENTOO_AMI)
+      @volume = AWS[:ec2].volumes.new(:availability_zone => @server.availability_zone, :size => 1, :device => '/dev/sdz1')
       @server.wait_for { state == 'running' }
     end
 
@@ -94,7 +94,7 @@ describe 'Fog::AWS::EC2::Volume' do
   describe "#reload" do
 
     before(:each) do
-      @volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => '/dev/sdz1')
+      @volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => '/dev/sdz1')
       @reloaded = @volume.reload
     end
 
@@ -115,7 +115,7 @@ describe 'Fog::AWS::EC2::Volume' do
   describe "#save" do
 
     before(:each) do
-      @volume = ec2.volumes.new(:availability_zone => 'us-east-1a', :size => 1, :device => '/dev/sdz1')
+      @volume = AWS[:ec2].volumes.new(:availability_zone => 'us-east-1a', :size => 1, :device => '/dev/sdz1')
     end
 
     it "should return true when it succeeds" do
@@ -124,12 +124,12 @@ describe 'Fog::AWS::EC2::Volume' do
     end
 
     it "should not exist in volumes before save" do
-      ec2.volumes.get(@volume.id).should be_nil
+      AWS[:ec2].volumes.get(@volume.id).should be_nil
     end
 
     it "should exist in buckets after save" do
       @volume.save
-      ec2.volumes.get(@volume.id).should_not be_nil
+      AWS[:ec2].volumes.get(@volume.id).should_not be_nil
       @volume.destroy
     end
 

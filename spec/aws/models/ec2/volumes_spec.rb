@@ -5,12 +5,12 @@ describe 'Fog::AWS::EC2::Volumes' do
   describe "#all" do
 
     it "should return a Fog::AWS::EC2::Volumes" do
-      ec2.volumes.all.should be_a(Fog::AWS::EC2::Volumes)
+      AWS[:ec2].volumes.all.should be_a(Fog::AWS::EC2::Volumes)
     end
 
     it "should include persisted volumes" do
-      volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
-      ec2.volumes.get(volume.id).should_not be_nil
+      volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      AWS[:ec2].volumes.get(volume.id).should_not be_nil
       volume.destroy
     end
 
@@ -19,7 +19,7 @@ describe 'Fog::AWS::EC2::Volumes' do
   describe "#create" do
 
     before(:each) do
-      @volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      @volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
     end
 
     after(:each) do
@@ -31,7 +31,7 @@ describe 'Fog::AWS::EC2::Volumes' do
     end
 
     it "should exist on ec2" do
-      ec2.volumes.get(@volume.id).should_not be_nil
+      AWS[:ec2].volumes.get(@volume.id).should_not be_nil
     end
 
   end
@@ -39,14 +39,14 @@ describe 'Fog::AWS::EC2::Volumes' do
   describe "#get" do
 
     it "should return a Fog::AWS::EC2::Volume if a matching volume exists" do
-      volume = ec2.volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
-      get = ec2.volumes.get(volume.id)
+      volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      get = AWS[:ec2].volumes.get(volume.id)
       volume.attributes.reject { |key, value| [:device, :status].include?(key) }.should == get.attributes.reject { |key, value| [:device, :status].include?(key) }
       volume.destroy
     end
 
     it "should return nil if no matching address exists" do
-      ec2.volumes.get('vol-00000000').should be_nil
+      AWS[:ec2].volumes.get('vol-00000000').should be_nil
     end
 
   end
@@ -54,7 +54,7 @@ describe 'Fog::AWS::EC2::Volumes' do
   describe "#new" do
 
     it "should return a Fog::AWS::EC2::Volume" do
-      ec2.volumes.new.should be_a(Fog::AWS::EC2::Volume)
+      AWS[:ec2].volumes.new.should be_a(Fog::AWS::EC2::Volume)
     end
 
   end
@@ -62,7 +62,7 @@ describe 'Fog::AWS::EC2::Volumes' do
   describe "#reload" do
 
     it "should return a Fog::AWS::EC2::Volumes" do
-      ec2.volumes.all.reload.should be_a(Fog::AWS::EC2::Volumes)
+      AWS[:ec2].volumes.all.reload.should be_a(Fog::AWS::EC2::Volumes)
     end
 
   end

@@ -4,7 +4,7 @@ describe 'Slicehost.get_flavors' do
   describe 'success' do
 
     it "should return proper attributes" do
-      actual = slicehost.get_flavors.body
+      actual = Slicehost[:slices].get_flavors.body
       actual['flavors'].should be_an(Array)
       flavor = actual['flavors'].first
       flavor['id'].should be_an(Integer)

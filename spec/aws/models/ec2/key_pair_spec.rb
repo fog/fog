@@ -5,7 +5,7 @@ describe 'Fog::AWS::EC2::KeyPair' do
   describe "#initialize" do
 
     it "should remap attributes from parser" do
-      key_pair = ec2.key_pairs.new(
+      key_pair = AWS[:ec2].key_pairs.new(
         'keyFingerprint'  => 'fingerprint',
         'keyMaterial'     => 'material',
         'keyName'         => 'name'
@@ -20,11 +20,11 @@ describe 'Fog::AWS::EC2::KeyPair' do
   describe "#collection" do
 
     it "should return a Fog::AWS::EC2::KeyPairs" do
-      ec2.key_pairs.new.collection.should be_a(Fog::AWS::EC2::KeyPairs)
+      AWS[:ec2].key_pairs.new.collection.should be_a(Fog::AWS::EC2::KeyPairs)
     end
 
     it "should be the key_pairs the keypair is related to" do
-      key_pairs = ec2.key_pairs
+      key_pairs = AWS[:ec2].key_pairs
       key_pairs.new.collection.should == key_pairs
     end
 
@@ -33,7 +33,7 @@ describe 'Fog::AWS::EC2::KeyPair' do
   describe "#destroy" do
 
     it "should return true if the key_pair is deleted" do
-      address = ec2.key_pairs.create(:name => 'keyname')
+      address = AWS[:ec2].key_pairs.create(:name => 'keyname')
       address.destroy.should be_true
     end
 
@@ -42,7 +42,7 @@ describe 'Fog::AWS::EC2::KeyPair' do
   describe "#reload" do
 
     before(:each) do
-      @key_pair = ec2.key_pairs.create(:name => 'keyname')
+      @key_pair = AWS[:ec2].key_pairs.create(:name => 'keyname')
       @reloaded = @key_pair.reload
     end
 
@@ -63,7 +63,7 @@ describe 'Fog::AWS::EC2::KeyPair' do
   describe "#save" do
 
     before(:each) do
-      @key_pair = ec2.key_pairs.new(:name => 'keyname')
+      @key_pair = AWS[:ec2].key_pairs.new(:name => 'keyname')
     end
 
     it "should return true when it succeeds" do
@@ -72,12 +72,12 @@ describe 'Fog::AWS::EC2::KeyPair' do
     end
 
     it "should not exist in key_pairs before save" do
-      ec2.key_pairs.get(@key_pair.name).should be_nil
+      AWS[:ec2].key_pairs.get(@key_pair.name).should be_nil
     end
 
     it "should exist in buckets after save" do
       @key_pair.save
-      ec2.key_pairs.get(@key_pair.name).should_not be_nil
+      AWS[:ec2].key_pairs.get(@key_pair.name).should_not be_nil
       @key_pair.destroy
     end
 

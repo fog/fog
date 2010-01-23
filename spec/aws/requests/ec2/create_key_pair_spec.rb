@@ -4,11 +4,11 @@ describe 'EC2.create_key_pair' do
   describe 'success' do
 
     after(:each) do
-      ec2.delete_key_pair('fog_key_pair')
+      AWS[:ec2].delete_key_pair('fog_key_pair')
     end
 
     it "should return proper attributes" do
-      actual = ec2.create_key_pair('fog_key_pair')
+      actual = AWS[:ec2].create_key_pair('fog_key_pair')
       actual.body['keyFingerprint'].should be_a(String)
       actual.body['keyMaterial'].should be_a(String)
       actual.body['keyName'].should be_a(String)
@@ -19,16 +19,16 @@ describe 'EC2.create_key_pair' do
   describe 'failure' do
 
     before(:each) do
-      ec2.create_key_pair('fog_key_pair')
+      AWS[:ec2].create_key_pair('fog_key_pair')
     end
 
     after(:each) do
-      ec2.delete_key_pair('fog_key_pair')
+      AWS[:ec2].delete_key_pair('fog_key_pair')
     end
 
     it "should raise a BadRequest when the key pair already exists" do
       lambda {
-        ec2.create_key_pair('fog_key_pair')
+        AWS[:ec2].create_key_pair('fog_key_pair')
       }.should raise_error(Excon::Errors::BadRequest)
     end
 
