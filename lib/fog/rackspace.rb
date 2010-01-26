@@ -10,10 +10,10 @@ module Fog
 
       def self.authenticate(options)
         unless @rackspace_api_key = options[:rackspace_api_key]
-          raise ArgumentError.new('rackspace_api_key is required to access ec2')
+          raise ArgumentError.new('rackspace_api_key is required to access rackspace')
         end
         unless @rackspace_username = options[:rackspace_username]
-          raise ArgumentError.new('rackspace_username is required to access ec2')
+          raise ArgumentError.new('rackspace_username is required to access rackspace')
         end
         connection = Fog::Connection.new("https://auth.api.rackspacecloud.com")
         response = connection.request({
