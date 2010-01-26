@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.40"
+  s.version = "0.0.41"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
-  s.date = %q{2010-01-14}
+  s.date = %q{2010-01-25}
   s.default_executable = %q{fog}
   s.description = %q{brings clouds to you}
   s.email = %q{me@geemus.com}
@@ -248,6 +248,7 @@ Gem::Specification.new do |s|
      "spec/aws/requests/simpledb/list_domains_spec.rb",
      "spec/aws/requests/simpledb/put_attributes_spec.rb",
      "spec/aws/requests/simpledb/select_spec.rb",
+     "spec/compact_progress_bar_formatter.rb",
      "spec/lorem.txt",
      "spec/rackspace/models/servers/server_spec.rb",
      "spec/rackspace/requests/files/delete_container_spec.rb",
@@ -282,11 +283,22 @@ Gem::Specification.new do |s|
      "spec/slicehost/requests/get_flavors_spec.rb",
      "spec/slicehost/requests/get_images_spec.rb",
      "spec/slicehost/requests/get_slices_spec.rb",
-     "spec/spec.opts",
      "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/geemus/fog}
   s.post_install_message = %q{==================================================
+
+  fog 0.0.41 has a minor change to the API for ec2 servers:
+
+    # what_it_was => what_it_is
+
+    ec2.servers.new(:group_id => 'foo') => ec2.servers.new(:groups => ['foo'])
+
+  Updating to the newest api version also means you can now assign multiple groups:
+
+    ec2.servers.new(:groups => ['foo', 'bar'])
+
+==================================================
 
   fog 0.0.40 has API changes you should know about.
 
@@ -379,6 +391,7 @@ Gem::Specification.new do |s|
      "spec/aws/requests/simpledb/list_domains_spec.rb",
      "spec/aws/requests/simpledb/put_attributes_spec.rb",
      "spec/aws/requests/simpledb/select_spec.rb",
+     "spec/compact_progress_bar_formatter.rb",
      "spec/rackspace/models/servers/server_spec.rb",
      "spec/rackspace/requests/files/delete_container_spec.rb",
      "spec/rackspace/requests/files/delete_object_spec.rb",
