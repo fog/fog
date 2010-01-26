@@ -9,21 +9,21 @@ describe 'Fog::AWS::EC2::Snapshots' do
     end
 
     it "should include persisted snapshots" do
-      volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
-      snapshot = volume.snapshots.create
-      AWS[:ec2].snapshots.all.map {|snapshot| snapshot.id}.should include(snapshot.id)
-      snapshot.destroy
-      volume.destroy
+      @volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      eventually { @snapshot = @volume.snapshots.create }
+      AWS[:ec2].snapshots.all.map {|snapshot| snapshot.id}.should include(@snapshot.id)
+      @snapshot.destroy
+      @volume.destroy
     end
 
     it "should limit snapshots by volume if present" do
-      volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
-      other_volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
-      snapshot = volume.snapshots.create
-      other_volume.snapshots.all.map {|snapshot| snapshot.id}.should_not include(snapshot.id)
-      snapshot.destroy
-      other_volume.destroy
-      volume.destroy
+      @volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      @other_volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      eventually { @snapshot = @volume.snapshots.create }
+      @other_volume.snapshots.all.map {|snapshot| snapshot.id}.should_not include(@snapshot.id)
+      @snapshot.destroy
+      @other_volume.destroy
+      @volume.destroy
     end
 
   end

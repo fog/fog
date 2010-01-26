@@ -5,8 +5,10 @@ describe 'EC2.disassociate_address' do
 
     before(:each) do
       @instance_id = AWS[:ec2].run_instances(GENTOO_AMI, 1, 1).body['instancesSet'].first['instanceId']
-      @public_ip = AWS[:ec2].allocate_address.body['publicIp']
-      AWS[:ec2].associate_address(@instance_id, @public_ip)
+      eventually(128) do
+        @public_ip = AWS[:ec2].allocate_address.body['publicIp']
+        AWS[:ec2].associate_address(@instance_id, @public_ip)
+      end
     end
 
     after(:each) do

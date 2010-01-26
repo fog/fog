@@ -77,8 +77,10 @@ describe 'Fog::AWS::EC2::Snapshots' do
     end
 
     it "should return true when it succeeds" do
-      @snapshot.save.should be_true
-      @snapshot.destroy
+      eventually do
+        @snapshot.save.should be_true
+        @snapshot.destroy
+      end
     end
 
     it "should not exist in addresses before save" do

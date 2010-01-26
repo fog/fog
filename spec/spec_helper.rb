@@ -5,19 +5,21 @@ current_directory = File.dirname(__FILE__)
 require "#{current_directory}/../lib/fog"
 # Fog.mock!
 
-# inlined spec.opts
-require "#{current_directory}/compact_progress_bar_formatter"
-Spec::Runner.options.parse_format("Spec::Runner::Formatter::CompactProgressBarFormatter")
-Spec::Runner.options.loadby  = 'mtime'
-Spec::Runner.options.reverse = true
-
+unless defined?(LOADED_SPEC_OPTS)
+  # inlined spec.opts
+  require "#{current_directory}/compact_progress_bar_formatter"
+  Spec::Runner.options.parse_format("Spec::Runner::Formatter::CompactProgressBarFormatter")
+  Spec::Runner.options.loadby  = 'mtime'
+  Spec::Runner.options.reverse = true
+  LOADED_SPEC_OPTS = true
+end
 
 
 module AWS
   class << self
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        credentials = Fog.credentials[:default].reject do |k, v|
+        credentials = Fog.credentials.reject do |k, v|
           ![:aws_access_key_id, :aws_secret_access_key].include?(k)
         end
         hash[key] = case key
@@ -40,7 +42,7 @@ module Rackspace
   class << self
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        credentials = Fog.credentials[:default].reject do |k, v|
+        credentials = Fog.credentials.reject do |k, v|
           ![:rackspace_api_key, :rackspace_username].include?(k)
         end
         hash[key] = case key
@@ -59,7 +61,7 @@ module Slicehost
   class << self
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        credentials = Fog.credentials[:default].reject do |k, v|
+        credentials = Fog.credentials.reject do |k, v|
           ![:slicehost_password].include?(k)
         end
         hash[key] = case key

@@ -25,10 +25,6 @@ You'll get reminded that things are missing.
 So just add the missing stuff and you are off to the races:
 
   server = AWS.servers.create(:image_id => 'ami-5ee70037')
-  # you might also want a security group, which would go more like this:
-  # AWS.servers.create(:image_id => 'ami-5ee70037', :groups => ['secure'])
-  # NOTE: currently you can only have one group at boot time, so the first
-  # element of the array will be used (and the rest will be disregarded)
 
 But don't forget to cleanup or you'll regret it when you get the bill:
 
@@ -50,6 +46,8 @@ Lets boot up a server on EC2
 
   # boot a gentoo server
   server = connection.servers.new(:image_id => 'ami-5ee70037')
+  # you might also want to add the server to security groups, which goes like this:
+  # AWS.servers.create(:image_id => 'ami-5ee70037', :groups => ['web', 'db'])
 
   # wait for it to be ready to do stuff
   server.wait_for { ready? }

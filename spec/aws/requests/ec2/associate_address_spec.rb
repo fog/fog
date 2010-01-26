@@ -14,9 +14,11 @@ describe 'EC2.associate_address' do
     end
 
     it "should return proper attributes" do
-      actual = AWS[:ec2].associate_address(@instance_id, @public_ip)
-      actual.body['requestId'].should be_a(String)
-      [false, true].should include(actual.body['return'])
+      eventually(128) do
+        actual = AWS[:ec2].associate_address(@instance_id, @public_ip)
+        actual.body['requestId'].should be_a(String)
+        [false, true].should include(actual.body['return'])
+      end
     end
 
   end

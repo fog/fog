@@ -157,7 +157,7 @@ module Fog
           'SignatureMethod' => 'HmacSHA256',
           'SignatureVersion' => '2',
           'Timestamp' => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
-          'Version' => '2009-04-04'
+          'Version' => '2009-11-30'
         })
 
         body = ''

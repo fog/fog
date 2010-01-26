@@ -24,7 +24,6 @@ describe 'Fog::AWS::EC2::Server' do
       server = @servers.new({
         'amiLaunchIndex'    => 'ami_launch_index',
         'dnsName'           => 'dns_name',
-        'groupId'           => 'group_id',
         'imageId'           => 'image_id',
         'instanceId'        => 'instance_id',
         'instanceType'      => 'instance_type',
@@ -37,10 +36,8 @@ describe 'Fog::AWS::EC2::Server' do
       })
       server.ami_launch_index.should == 'ami_launch_index'
       server.dns_name.should == 'dns_name'
-      server.group_id.should == 'group_id'
       server.image_id.should == 'image_id'
       server.id.should == 'instance_id'
-      server.flavor.should == 'instance_type'
       server.kernel_id.should == 'kernel_id'
       server.key_name.should == 'key_name'
       server.created_at.should == 'launch_time'

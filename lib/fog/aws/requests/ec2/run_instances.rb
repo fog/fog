@@ -21,7 +21,7 @@ unless Fog.mocking?
         #   * 'Placement.AvailabilityZone'<~String> - Placement constraint for instances
         #   * 'DeviceName'<~String> - ?
         #   * 'Encoding'<~String> - ?
-        #   * 'SecurityGroup'<~String> - Name of security group for instances
+        #   * 'SecurityGroup.n'<~String> - Indexed names of security groups for instances
         #   * 'InstanceType'<~String> - Type of instance to boot. Valid options
         #     in ['m1.small', 'm1.large', 'm1.xlarge', 'c1.medium', 'c1.xlarge', 'm2.2xlarge', 'm2.4xlarge']
         #     default is 'm1.small'

@@ -16,10 +16,10 @@ describe 'EC2.terminate_instances' do
       previous_state = instance['previousState']
       previous_state['code'].should be_a(Integer)
       previous_state['name'].should be_a(String)
-      instance['shutdownState'].should be_a(Hash)
-      shutdown_state = instance['shutdownState']
-      shutdown_state['code'].should be_a(Integer)
-      shutdown_state['name'].should be_a(String)
+      instance['currentState'].should be_a(Hash)
+      current_state = instance['currentState']
+      current_state['code'].should be_a(Integer)
+      current_state['name'].should be_a(String)
     end
 
   end

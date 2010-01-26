@@ -6,15 +6,15 @@ module Fog
         class TerminateInstances < Fog::Parsers::Base
 
           def reset
-            @instance = { 'previousState' => {}, 'shutdownState' => {} }
+            @instance = { 'previousState' => {}, 'currentState' => {} }
             @response = { 'instancesSet' => [] }
           end
 
           def start_element(name, attrs = [])
             if name == 'previousState'
               @in_previous_state = true
-            elsif name == 'shutdownState'
-              @in_shutdown_state = true
+            elsif name == 'currentState'
+              @in_current_state = true
             end
             @value = ''
           end
@@ -25,25 +25,25 @@ module Fog
               @instance[name] = @value
             when 'item'
               @response['instancesSet'] << @instance
-              @instance = { 'previousState' => {}, 'shutdownState' => {} }
+              @instance = { 'previousState' => {}, 'currentState' => {} }
             when 'code'
               if @in_previous_state
                 @instance['previousState'][name] = @value.to_i
-              elsif @in_shutdown_state
-                @instance['shutdownState'][name] = @value.to_i
+              elsif @in_current_state
+                @instance['currentState'][name] = @value.to_i
               end
             when 'name'
               if @in_previous_state
                 @instance['previousState'][name] = @value
-              elsif @in_shutdown_state
-                @instance['shutdownState'][name] = @value
+              elsif @in_current_state
+                @instance['currentState'][name] = @value
               end
             when 'previousState'
               @in_previous_state = false
             when 'requestId'
               @response[name] = @value
-            when 'shutdownState'
-              @in_shutdown_state = false
+            when 'currentState'
+              @in_current_state = false
             end
           end
 

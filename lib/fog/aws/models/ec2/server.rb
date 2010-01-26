@@ -24,7 +24,7 @@ module Fog
         attribute :user_data
 
         def initialize(attributes)
-          @groups ||= []
+          @groups ||= ["default"]
           super
         end
 
@@ -104,8 +104,8 @@ module Fog
           if @availability_zone
             options['Placement.AvailabilityZone'] = @availability_zone
           end
-          unless @groups.empty?
-            options['SecurityGroup'] = @groups.first
+          @groups.each_with_index do |group, index|
+            options["SecurityGroup.#{index}"] = group
           end
           if @kernel_id
             options['KernelId'] = @kernel_id
