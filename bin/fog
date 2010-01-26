@@ -5,8 +5,8 @@ require 'yaml'
 
 module Fog
   module Credentials
-    credential = (ARGV.first && :"#{ARGV.first}") || :default
-    unless Fog.credentials[credential]
+    Fog.credential = (ARGV.first && :"#{ARGV.first}") || :default
+    unless Fog.credentials
       exit
     end
   end
@@ -15,12 +15,11 @@ end
 module AWS
   class << self
     credential = (ARGV.first && :"#{ARGV.first}") || :default
-    if Fog.credentials[credential][:aws_access_key_id] && Fog.credentials[credential][:aws_secret_access_key]
+    if Fog.credentials[:aws_access_key_id] && Fog.credentials[:aws_secret_access_key]
 
       def [](service)
         @@connections ||= Hash.new do |hash, key|
-          credential = (ARGV.first && :"#{ARGV.first}") || :default
-          credentials = Fog.credentials[credential].reject do |k, v|
+          credentials = Fog.credentials.reject do |k, v|
             ![:aws_access_key_id, :aws_secret_access_key].include?(k)
           end
           hash[key] = case key
@@ -75,13 +74,12 @@ end
 
 module Rackspace
   class << self
-    credential = (ARGV.first && :"#{ARGV.first}") || :default
-    if Fog.credentials[credential][:rackspace_api_key] && Fog.credentials[credential][:rackspace_username]
+    if Fog.credentials[:rackspace_api_key] && Fog.credentials[:rackspace_username]
 
       def [](service)
         @@connections ||= Hash.new do |hash, key|
           credential = (ARGV.first && :"#{ARGV.first}") || :default
-          credentials = Fog.credentials[credential].reject do |k,v|
+          credentials = Fog.credentials.reject do |k,v|
             ![:rackspace_api_key, :rackspace_username].include?(k)
           end
           hash[key] = case key

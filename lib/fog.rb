@@ -38,6 +38,15 @@ module Fog
     load "fog/slicehost.rb"
   end
 
+  def self.credential=(new_credential)
+    @credential = new_credential
+    @credentials = nil
+  end
+
+  def self.credential
+    @credential || :default
+  end
+
   def self.credentials
     @credentials ||= begin
       path = File.expand_path('~/.fog')
@@ -62,7 +71,7 @@ module Fog
 YML
         print(yml)
       end
-      credentials
+      credentials[credential]
     end
   end
 
