@@ -57,11 +57,11 @@ module Fog
       else
         nil
       end
-      unless credentials
-        print("\n  To run as '#{key}', add credentials like the following to ~/.fog\n")
+      unless credentials && credentials[credential]
+        print("\n  To run as '#{credential}', add credentials like the following to ~/.fog\n")
         yml = <<-YML
 
-:#{key}:
+:#{credential}:
   :aws_access_key_id: INTENTIONALLY_LEFT_BLANK
   :aws_secret_access_key: INTENTIONALLY_LEFT_BLANK
   :rackspace_api_key: INTENTIONALLY_LEFT_BLANK
