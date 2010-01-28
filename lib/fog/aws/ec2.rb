@@ -137,7 +137,6 @@ module Fog
         @host       = options[:host]      || 'ec2.amazonaws.com'
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'
-        @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
       end
 
       private
@@ -152,6 +151,7 @@ module Fog
       end
 
       def request(params, parser)
+        @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
         params.merge!({
           'AWSAccessKeyId' => @aws_access_key_id,
           'SignatureMethod' => 'HmacSHA256',

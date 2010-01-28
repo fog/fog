@@ -69,7 +69,6 @@ module Fog
         @host       = options[:host]      || 's3.amazonaws.com'
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'
-        @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
       end
 
       private
@@ -96,6 +95,7 @@ module Fog
       end
 
       def request(params)
+        @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
         params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
         params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
 

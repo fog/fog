@@ -36,10 +36,10 @@ module Fog
       @host       = options[:host]      || "api.slicehost.com"
       @port       = options[:port]      || 443
       @scheme     = options[:scheme]    || 'https'
-      @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
     end
 
     def request(params)
+      @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
       headers = {
         'Authorization' => "Basic #{Base64.encode64(@password).gsub("\n",'')}"
       }
