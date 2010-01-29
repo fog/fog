@@ -8,6 +8,7 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.add_dependency('excon', '>=0.0.18')
+    gem.add_dependency('json')
     gem.add_dependency('mime-types')
     gem.add_dependency('nokogiri')
     gem.add_dependency('ruby-hmac')
