@@ -7,6 +7,14 @@ module Fog
       load "fog/aws/s3.rb"
     end
 
+    def self.indexed_param(key, values)
+      params = {}
+      [*values].each_with_index do |value, index|
+        params["#{key}.#{index}"] = value
+      end
+      params
+    end
+
     if Fog.mocking?
       srand(Time.now.to_i)
 

@@ -17,7 +17,7 @@ unless Fog.mocking?
         #       * 'instanceId'<~String> - instance for ip address
         #       * 'publicIp'<~String> - ip address for instance
         def describe_addresses(public_ip = [])
-          params = indexed_params('PublicIp', public_ip)
+          params = AWS.indexed_param('PublicIp', public_ip)
           request({
             'Action' => 'DescribeAddresses'
           }.merge!(params), Fog::Parsers::AWS::EC2::DescribeAddresses.new)

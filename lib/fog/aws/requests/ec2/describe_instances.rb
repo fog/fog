@@ -39,7 +39,7 @@ unless Fog.mocking?
         #           * 'ramdiskId'<~String> - Id of ramdisk used to launch instance
         #           * 'reason'<~String> - reason for most recent state transition, or blank
         def describe_instances(instance_id = [])
-          params = indexed_params('InstanceId', instance_id)
+          params = AWS.indexed_param('InstanceId', instance_id)
           request({
             'Action' => 'DescribeInstances'
           }.merge!(params), Fog::Parsers::AWS::EC2::DescribeInstances.new)

@@ -20,7 +20,7 @@ unless Fog.mocking?
         #       * 'status'<~String>: Snapshot state, in ['pending', 'completed']
         #       * 'volumeId'<~String>: Id of volume that snapshot contains
         def describe_snapshots(snapshot_id = [])
-          params = indexed_params('SnapshotId', snapshot_id)
+          params = AWS.indexed_param('SnapshotId', snapshot_id)
           request({
             'Action' => 'DescribeSnapshots'
           }.merge!(params), Fog::Parsers::AWS::EC2::DescribeSnapshots.new)

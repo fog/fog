@@ -31,7 +31,7 @@ unless Fog.mocking?
         #       * 'ramdiskId'<~String> - Ramdisk id associated with image, if any
         def describe_images(options = {})
           if image_id = options.delete('ImageId')
-            options.merge!(indexed_params('ImageId', image_id))
+            options.merge!(AWS.indexed_param('ImageId', image_id))
           end
           request({
             'Action' => 'DescribeImages'

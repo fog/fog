@@ -15,7 +15,7 @@ unless Fog.mocking?
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - success?
         def reboot_instances(instance_id = [])
-          params = indexed_params('InstanceId', instance_id)
+          params = AWS.indexed_param('InstanceId', instance_id)
           request({
             'Action' => 'RebootInstances'
           }.merge!(params), Fog::Parsers::AWS::EC2::Basic.new)

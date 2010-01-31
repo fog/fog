@@ -26,7 +26,7 @@ unless Fog.mocking?
         #         * 'status'<~String> - Attachment state
         #         * 'volumeId'<~String> - Reference to volume
         def describe_volumes(volume_id = [])
-          params = indexed_params('VolumeId', volume_id)
+          params = AWS.indexed_param('VolumeId', volume_id)
           request({
             'Action' => 'DescribeVolumes'
           }.merge!(params), Fog::Parsers::AWS::EC2::DescribeVolumes.new)

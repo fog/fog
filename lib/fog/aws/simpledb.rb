@@ -81,15 +81,7 @@ module Fog
       end
 
       def encode_attribute_names(attributes)
-        encoded_attribute_names = {}
-        if attributes
-          index = 0
-          for attribute in attributes
-            encoded_attribute_names["AttributeName.#{index}"] = attribute.to_s
-            index += 1
-          end
-        end
-        encoded_attribute_names
+        AWS.indexed_param('AttributeName', attributes.map {|attribute| attributes.to_s})
       end
 
       def encode_batch_attributes(items, replace_attributes = Hash.new([]))

@@ -27,7 +27,7 @@ unless Fog.mocking?
         #         * 'toPort'<~Integer> - End of port range (or -1 for ICMP wildcard)
         #       * 'ownerId'<~String> - AWS Access Key Id of the owner of the security group
         def describe_security_groups(group_name = [])
-          params = indexed_params('GroupName', group_name)
+          params = AWS.indexed_param('GroupName', group_name)
           request({
             'Action' => 'DescribeSecurityGroups',
           }.merge!(params), Fog::Parsers::AWS::EC2::DescribeSecurityGroups.new)

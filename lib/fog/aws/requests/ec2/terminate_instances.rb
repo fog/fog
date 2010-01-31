@@ -22,7 +22,7 @@ unless Fog.mocking?
         #         * 'code'<~Integer> - current status code
         #         * 'name'<~String> - name of current state
         def terminate_instances(instance_id)
-          params = indexed_params('InstanceId', instance_id)
+          params = AWS.indexed_param('InstanceId', instance_id)
           request({
             'Action' => 'TerminateInstances'
           }.merge!(params), Fog::Parsers::AWS::EC2::TerminateInstances.new)

@@ -141,15 +141,6 @@ module Fog
 
       private
 
-      def indexed_params(name, params)
-        indexed, index = {}, 1
-        for param in [*params]
-          indexed["#{name}.#{index}"] = param
-          index += 1
-        end
-        indexed
-      end
-
       def request(params, parser)
         @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
         params.merge!({
