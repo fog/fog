@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 require File.dirname(__FILE__) + '/../../../shared_examples/server_examples'
 
-describe 'Fog::AWS::EC2::Server' do
+describe 'Fog::Rackspace::Servers::Server' do
 
   it_should_behave_like "Server"
 

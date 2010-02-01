@@ -1,14 +1,15 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 require File.dirname(__FILE__) + '/../../../shared_examples/servers_examples'
 
-describe 'Fog::AWS::EC2::Servers' do
+describe 'Fog::Rackspace::Servers::Servers' do
 
   it_should_behave_like "Servers"
 
-  subject { @server = @servers.new(:image_id => GENTOO_AMI) }
+  # flavor 1 = 256, image 3 = gentoo 2008.0
+  subject { @server = @servers.new(:flavor_id => 1, :image_id => 3, :name => 'name') }
 
   before(:each) do
-    @servers = AWS[:ec2].servers
+    @servers = Rackspace[:servers].servers
   end
 
   after(:each) do

@@ -108,7 +108,7 @@ Now we will try again, but with Rackspace
 
 * Follow {@geemus}[http://twitter.com/geemus] on Twitter.
 * See upcoming work in the {tracker}[http://www.pivotaltracker.com/projects/54635].
-* Report bugs in {issues}[http://github.com/geemus/fog/issues]
+* Report bugs in {issues}[http://github.com/geemus/fog/issues].
 
 == Supports
 

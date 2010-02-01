@@ -40,3 +40,4 @@ shared_examples_for "Server" do
   end
 
 end
+
