@@ -93,7 +93,7 @@ Now we will try again, but with Rackspace
   directory.files.create(:key => 'filename', :body => 'filebody')
 
   # connect to your directory
-  directory = connection.directories.get('filename')
+  directory = connection.directories.get('directoryname')
 
   # get your file
   file = directory.files.get('filename')
