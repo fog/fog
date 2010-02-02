@@ -114,6 +114,10 @@ else
           response
         end
 
+        def get_object_url(bucket_name, object_name, expires)
+          raise MockNotImplemented.new("Contributions welcome!")
+        end
+
       end
     end
   end

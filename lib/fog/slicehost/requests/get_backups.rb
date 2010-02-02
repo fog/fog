@@ -30,6 +30,7 @@ else
     class Slicehost
 
       def get_backups
+        raise MockNotImplemented.new("Contributions welcome!")
       end
 
     end

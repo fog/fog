@@ -41,24 +41,28 @@ else
 
         # TODO: handle the GroupName/Source/Source case
         def revoke_security_group_ingress(options = {})
-          response = Excon::Response.new
-          group = Fog::AWS::EC2.data[:security_groups][options['GroupName']]
+          if options['GroupName'] && options['SourceSecurityGroupName'] && options['SourceSecurityGroupOwnerId']
+            raise MockNotImplemented.new("Contributions welcome!")
+          else
+            response = Excon::Response.new
+            group = Fog::AWS::EC2.data[:security_groups][options['GroupName']]
 
-          ingress = group['ipPermissions'].select {|permission|
-            permission['fromPort']    == options['FromPort'] &&
-            permission['ipProtocol']  == options['IpProtocol'] &&
-            permission['toPort']      == options['ToPort'] &&
-            permission['ipRanges'].first['cidrIp'] == options['CidrIp']
-          }.first
+            ingress = group['ipPermissions'].select {|permission|
+              permission['fromPort']    == options['FromPort'] &&
+              permission['ipProtocol']  == options['IpProtocol'] &&
+              permission['toPort']      == options['ToPort'] &&
+              permission['ipRanges'].first['cidrIp'] == options['CidrIp']
+            }.first
 
-          group['ipPermissions'].delete(ingress)
+            group['ipPermissions'].delete(ingress)
 
-          response.status = 200
-          response.body = {
-            'requestId' => Fog::AWS::Mock.request_id,
-            'return'    => true
-          }
-          response
+            response.status = 200
+            response.body = {
+              'requestId' => Fog::AWS::Mock.request_id,
+              'return'    => true
+            }
+            response
+          end
         end
 
       end

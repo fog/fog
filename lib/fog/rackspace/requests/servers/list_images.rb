@@ -39,7 +39,6 @@ else
           response.status = [200, 203][rand(1)]
           response.body = { 'images' => images }
           response
-
         end
 
       end

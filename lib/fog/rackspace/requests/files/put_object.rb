@@ -31,7 +31,8 @@ else
     module Rackspace
       class Servers
 
-        def put_container
+        def put_object(container, object, data)
+          raise MockNotImplemented.new("Contributions welcome!")
         end
 
       end

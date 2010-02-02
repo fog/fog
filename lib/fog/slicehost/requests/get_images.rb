@@ -28,6 +28,7 @@ else
     class Slicehost
 
       def get_images
+        raise MockNotImplemented.new("Contributions welcome!")
       end
 
     end

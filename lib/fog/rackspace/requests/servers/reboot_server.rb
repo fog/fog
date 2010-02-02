@@ -30,6 +30,7 @@ else
       class Servers
 
         def reboot_server(server_id, type)
+          raise MockNotImplemented.new("Contributions welcome!")
         end
 
       end

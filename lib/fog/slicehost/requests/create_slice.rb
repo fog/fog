@@ -41,7 +41,8 @@ else
   module Fog
     class Slicehost
 
-      def get_slices
+      def create_slice(flavor_id, image_id, name)
+        raise MockNotImplemented.new("Contributions welcome!")
       end
 
     end

@@ -32,6 +32,7 @@ else
       class Servers
 
         def list_flavors_detail
+          raise MockNotImplemented.new("Contributions welcome!")
         end
 
       end

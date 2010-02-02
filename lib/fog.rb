@@ -18,6 +18,8 @@ $LOAD_PATH.unshift __DIR__ unless
 
 module Fog
 
+  class MockNotImplemented < StandardError; end
+
   def self.mock!
     @mocking = true
     self.reload

@@ -41,24 +41,28 @@ else
 
         # TODO: handle the GroupName/Source/Source case
         def authorize_security_group_ingress(options = {})
-          response = Excon::Response.new
-          group = Fog::AWS::EC2.data[:security_groups][options['GroupName']]
+          if options['GroupName'] && options['SourceSecurityGroupName'] && options['SourceSecurityGroupOwnerId']
+            raise MockNotImplemented.new("Contributions welcome!")
+          else
+            response = Excon::Response.new
+            group = Fog::AWS::EC2.data[:security_groups][options['GroupName']]
 
-          group['ipPermissions'] ||= []
-          group['ipPermissions'] << {
-            'groups'      => [],
-            'fromPort'    => options['FromPort'],
-            'ipRanges'    => [{ 'cidrIp' => options['CidrIp'] }],
-            'ipProtocol'  => options['IpProtocol'],
-            'toPort'      => options['ToPort']
-          }
+            group['ipPermissions'] ||= []
+            group['ipPermissions'] << {
+              'groups'      => [],
+              'fromPort'    => options['FromPort'],
+              'ipRanges'    => [{ 'cidrIp' => options['CidrIp'] }],
+              'ipProtocol'  => options['IpProtocol'],
+              'toPort'      => options['ToPort']
+            }
 
-          response.status = 200
-          response.body = {
-            'requestId' => Fog::AWS::Mock.request_id,
-            'return'    => true
-          }
-          response
+            response.status = 200
+            response.body = {
+              'requestId' => Fog::AWS::Mock.request_id,
+              'return'    => true
+            }
+            response
+          end
         end
 
       end

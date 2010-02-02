@@ -44,7 +44,8 @@ else
     module Rackspace
       class Servers
 
-        def get_flavors
+        def get_containers(options = {})
+          raise MockNotImplemented.new("Contributions welcome!")
         end
 
       end

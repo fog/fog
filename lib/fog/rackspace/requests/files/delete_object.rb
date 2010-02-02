@@ -29,7 +29,8 @@ else
     module Rackspace
       class Servers
 
-        def delete_object
+        def delete_object(container, object)
+          raise MockNotImplemented.new("Contributions welcome!")
         end
 
       end
