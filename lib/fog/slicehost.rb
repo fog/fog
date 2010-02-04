@@ -11,10 +11,14 @@ module Fog
     end
 
     def self.reload
+      load "fog/slicehost/models/server.rb"
+      load "fog/slicehost/models/servers.rb"
+
       load "fog/slicehost/parsers/create_slice.rb"
       load "fog/slicehost/parsers/get_backups.rb"
       load "fog/slicehost/parsers/get_flavors.rb"
       load "fog/slicehost/parsers/get_images.rb"
+      load "fog/slicehost/parsers/get_slice.rb"
       load "fog/slicehost/parsers/get_slices.rb"
 
       load "fog/slicehost/requests/create_slice.rb"
@@ -22,6 +26,7 @@ module Fog
       load "fog/slicehost/requests/get_backups.rb"
       load "fog/slicehost/requests/get_flavors.rb"
       load "fog/slicehost/requests/get_images.rb"
+      load "fog/slicehost/requests/get_slice.rb"
       load "fog/slicehost/requests/get_slices.rb"
 
       if Fog.mocking?
@@ -30,7 +35,7 @@ module Fog
     end
 
     def initialize(options={})
-      unless @password = options[:password]
+      unless @password = options[:slicehost_password]
         raise ArgumentError.new('password is required to access slicehost')
       end
       @host       = options[:host]      || "api.slicehost.com"
@@ -59,6 +64,7 @@ module Fog
         :parser   => params[:parser],
         :path     => params[:path]
       })
+
       response
     end
 
