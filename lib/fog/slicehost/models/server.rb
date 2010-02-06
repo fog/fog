@@ -6,13 +6,13 @@ module Fog
       identity :id
 
       attribute :addresses
-      attribute :backup_id, 'backup-id'
-      attribute :bw_in,     'bw-in'
-      attribute :bw_out,    'bw-out'
-      attribute :flavor_id, 'flavor-id'
-      attribute :image_id,  'image-id'
+      attribute :backup_id,     'backup-id'
+      attribute :bandwidth_in,  'bw-in'
+      attribute :bandwidth_out, 'bw-out'
+      attribute :flavor_id,     'flavor-id'
+      attribute :image_id,      'image-id'
       attribute :name
-      attribute :password,  'root-password'
+      attribute :password,      'root-password'
       attribute :progress
       attribute :status
 
@@ -22,15 +22,15 @@ module Fog
         true
       end
 
-      # def flavor
-      #   requires :flavor_id
-      #   connection.flavors.get(@flavor_id)
-      # end
+      def flavor
+        requires :flavor_id
+        connection.flavors.get(@flavor_id)
+      end
 
-      # def image
-      #   requires :image_id
-      #   connection.images.get(@image_id)
-      # end
+      def image
+        requires :image_id
+        connection.images.get(@image_id)
+      end
 
       def ready?
         @status == 'active'

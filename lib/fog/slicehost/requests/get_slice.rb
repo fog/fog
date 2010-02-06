@@ -3,7 +3,8 @@ unless Fog.mocking?
   module Fog
     class Slicehost
 
-      # Get details of slice
+      # Get details of a slice
+      #
       # ==== Parameters
       # * slice_id<~Integer> - Id of slice to lookup
       #

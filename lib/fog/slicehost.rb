@@ -11,12 +11,18 @@ module Fog
     end
 
     def self.reload
+      load "fog/slicehost/models/flavor.rb"
+      load "fog/slicehost/models/flavors.rb"
+      load "fog/slicehost/models/image.rb"
+      load "fog/slicehost/models/images.rb"
       load "fog/slicehost/models/server.rb"
       load "fog/slicehost/models/servers.rb"
 
       load "fog/slicehost/parsers/create_slice.rb"
       load "fog/slicehost/parsers/get_backups.rb"
+      load "fog/slicehost/parsers/get_flavor.rb"
       load "fog/slicehost/parsers/get_flavors.rb"
+      load "fog/slicehost/parsers/get_image.rb"
       load "fog/slicehost/parsers/get_images.rb"
       load "fog/slicehost/parsers/get_slice.rb"
       load "fog/slicehost/parsers/get_slices.rb"
@@ -24,7 +30,9 @@ module Fog
       load "fog/slicehost/requests/create_slice.rb"
       load "fog/slicehost/requests/delete_slice.rb"
       load "fog/slicehost/requests/get_backups.rb"
+      load "fog/slicehost/requests/get_flavor.rb"
       load "fog/slicehost/requests/get_flavors.rb"
+      load "fog/slicehost/requests/get_image.rb"
       load "fog/slicehost/requests/get_images.rb"
       load "fog/slicehost/requests/get_slice.rb"
       load "fog/slicehost/requests/get_slices.rb"
