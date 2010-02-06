@@ -17,6 +17,10 @@ module AWS
     credential = (ARGV.first && :"#{ARGV.first}") || :default
     if Fog.credentials[:aws_access_key_id] && Fog.credentials[:aws_secret_access_key]
 
+      def ready?
+        true
+      end
+
       def [](service)
         @@connections ||= Hash.new do |hash, key|
           credentials = Fog.credentials.reject do |k, v|
@@ -68,6 +72,12 @@ module AWS
         self[:ec2].volumes
       end
 
+    else
+
+      def ready?
+        false
+      end
+
     end
   end
 end
@@ -76,9 +86,12 @@ module Rackspace
   class << self
     if Fog.credentials[:rackspace_api_key] && Fog.credentials[:rackspace_username]
 
+      def ready?
+        true
+      end
+
       def [](service)
         @@connections ||= Hash.new do |hash, key|
-          credential = (ARGV.first && :"#{ARGV.first}") || :default
           credentials = Fog.credentials.reject do |k,v|
             ![:rackspace_api_key, :rackspace_username].include?(k)
           end
@@ -104,7 +117,53 @@ module Rackspace
         self[:servers].servers
       end
       
+    else
+
+      def ready?
+        false
+      end
+
     end
+  end
+end
+
+module Fog
+  class << self
+
+    def services
+      services = []
+      [::AWS, ::Rackspace].each do |service|
+        if service.ready?
+          services << service
+        end
+      end
+      services
+    end
+
+    def flavors
+      flavors = {}
+      services.each do |service|
+        flavors[service] = service.flavors
+      end
+      flavors
+    end
+
+    def images
+      images = {}
+      services.each do |service|
+        images[service] = service.images
+      end
+      images
+    end
+
+    def servers
+      servers = {}
+      services.each do |service|
+        servers[service] = service.servers
+      end
+      servers
+    end
+
   end
 end
 
