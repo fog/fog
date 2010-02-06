@@ -10,7 +10,7 @@ unless Fog.mocking?
         # * server_id<~Integer> - Id of server to reboot
         # * type<~String> - Type of reboot, must be in ['HARD', 'SOFT']
         #
-        def reboot_server(server_id, type)
+        def reboot_server(server_id, type = 'SOFT')
           request(
             :body     => { 'reboot' => { 'type' => type }}.to_json,
             :expects  => 202,

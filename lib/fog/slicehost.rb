@@ -28,6 +28,7 @@ module Fog
       load "fog/slicehost/requests/get_images.rb"
       load "fog/slicehost/requests/get_slice.rb"
       load "fog/slicehost/requests/get_slices.rb"
+      load "fog/slicehost/requests/reboot_slice.rb"
 
       if Fog.mocking?
         reset_data

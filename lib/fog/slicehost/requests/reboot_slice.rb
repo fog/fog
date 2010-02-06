@@ -3,9 +3,10 @@ unless Fog.mocking?
   module Fog
     class Slicehost
 
-      # Get details of slice
+      # Reboot slice
       # ==== Parameters
-      # * slice_id<~Integer> - Id of slice to lookup
+      # * slice_id<~Integer> - Id of server to reboot
+      # * type<~String> - Type of reboot, must be in ['HARD', 'SOFT']
       #
       # ==== Returns
       # * response<~Excon::Response>:
@@ -20,12 +21,13 @@ unless Fog.mocking?
       #     * 'name'<~String> - Name of the slice
       #     * 'progress'<~Integer> - Progress of current action, in percentage
       #     * 'status'<~String> - Current status of the slice
-      def get_slice(slice_id)
+      def reboot_slice(slice_id, type = 'SOFT')
         request(
+          :body     => '', # Gives a 411 Length Required without this
           :expects  => 200,
-          :method   => 'GET',
+          :method   => 'PUT',
           :parser   => Fog::Parsers::Slicehost::GetSlice.new,
-          :path     => "/slices/#{slice_id}.xml"
+          :path     => "/slices/#{slice_id}/#{'hard_' if type == 'HARD'}reboot.xml"
         )
       end
 

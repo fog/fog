@@ -36,11 +36,11 @@ module Fog
         @status == 'active'
       end
 
-      # def reboot(type = 'SOFT')
-      #   requires :id
-      #   connection.reboot_server(@id, type)
-      #   true
-      # end
+      def reboot(type = 'SOFT')
+        requires :id
+        connection.reboot_server(@id, type)
+        true
+      end
 
       def save
         requires :flavor_id, :image_id, :name

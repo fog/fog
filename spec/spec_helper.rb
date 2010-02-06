@@ -100,6 +100,16 @@ def eventually(max_delay = 16, &block)
   end
 end
 
+def wait_for(timeout = 600, &block)
+  start = Time.now
+  until instance_eval(&block)
+    if Time.now - start > timeout
+      break
+    end
+    sleep(1)
+  end
+end
+
 unless defined?(GENTOO_AMI)
   GENTOO_AMI = 'ami-5ee70037'
 end
