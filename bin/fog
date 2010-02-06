@@ -127,12 +127,55 @@ module Rackspace
   end
 end
 
+module Slicehost
+  class << self
+    if Fog.credentials[:slicehost_password]
+
+      def ready?
+        true
+      end
+
+      def [](service)
+        @@connections ||= Hash.new do |hash, key|
+          credentials = Fog.credentials.reject do |k,v|
+            ![:slicehost_password].include?(k)
+          end
+          hash[key] = case key
+          when :slices
+            Fog::Slicehost.new(credentials)
+          end
+        end
+        @@connections[service]
+      end
+
+      def flavors
+        self[:slices].flavors
+      end
+
+      def images
+        self[:slices].images
+      end
+
+      def servers
+        self[:slices].servers
+      end
+
+    else
+
+      def ready?
+        true
+      end
+
+    end
+  end
+end
+
 module Fog
   class << self
 
     def services
       services = []
-      [::AWS, ::Rackspace].each do |service|
+      [::AWS, ::Rackspace, ::Slicehost].each do |service|
         if service.ready?
           services << service
         end
