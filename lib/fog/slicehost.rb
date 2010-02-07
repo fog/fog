@@ -44,8 +44,8 @@ module Fog
     end
 
     def initialize(options={})
-      unless @password = options[:slicehost_password]
-        raise ArgumentError.new('password is required to access slicehost')
+      unless @slicehost_password = options[:slicehost_password]
+        raise ArgumentError.new('slicehost_password is required to access slicehost')
       end
       @host       = options[:host]      || "api.slicehost.com"
       @port       = options[:port]      || 443
@@ -55,7 +55,7 @@ module Fog
     def request(params)
       @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
       headers = {
-        'Authorization' => "Basic #{Base64.encode64(@password).gsub("\n",'')}"
+        'Authorization' => "Basic #{Base64.encode64(@slicehost_password).chomp!}"
       }
       case params[:method]
       when 'DELETE', 'GET', 'HEAD'
