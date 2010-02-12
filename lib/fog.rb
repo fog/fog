@@ -38,6 +38,7 @@ module Fog
     load "fog/aws.rb"
     load "fog/rackspace.rb"
     load "fog/slicehost.rb"
+    load "fog/terremark.rb"
   end
 
   def self.credential=(new_credential)
@@ -69,6 +70,8 @@ module Fog
   :rackspace_api_key:     INTENTIONALLY_LEFT_BLANK
   :rackspace_username:    INTENTIONALLY_LEFT_BLANK
   :slicehost_password:    INTENTIONALLY_LEFT_BLANK
+  :terremark_username:    INTENTIONALLY_LEFT_BLANK
+  :terremark_password:    INTENTIONALLY_LEFT_BLANK
 
 YML
         print(yml)

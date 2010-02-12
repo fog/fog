@@ -17,7 +17,7 @@ module AWS
     credential = (ARGV.first && :"#{ARGV.first}") || :default
     if Fog.credentials[:aws_access_key_id] && Fog.credentials[:aws_secret_access_key]
 
-      def ready?
+      def initialized?
         true
       end
 
@@ -74,7 +74,7 @@ module AWS
 
     else
 
-      def ready?
+      def initialized?
         false
       end
 
@@ -86,7 +86,7 @@ module Rackspace
   class << self
     if Fog.credentials[:rackspace_api_key] && Fog.credentials[:rackspace_username]
 
-      def ready?
+      def initialized?
         true
       end
 
@@ -119,7 +119,7 @@ module Rackspace
       
     else
 
-      def ready?
+      def initialized?
         false
       end
 
@@ -131,7 +131,7 @@ module Slicehost
   class << self
     if Fog.credentials[:slicehost_password]
 
-      def ready?
+      def initialized?
         true
       end
 
@@ -162,8 +162,33 @@ module Slicehost
 
     else
 
-      def ready?
+      def initialized?
+        false
+      end
+
+    end
+  end
+end
+
+module Terremark
+  class << self
+    if Fog.credentials[:terremark_password] && Fog.credentials[:terremark_username]
+
+      def initialized?
         true
+      end
+
+      def [](service)
+        @@connections ||= Hash.new do |hash, key|
+          credentials = Fog.credentials.reject do |k,v|
+            ![:terremark_username, :terremark_password].include?(k)
+          end
+          hash[key] = case key
+          when :vcloud
+            Fog::Terremark.new(credentials)
+          end
+        end
+        @@connections[service]
       end
 
     end
@@ -176,7 +201,7 @@ module Fog
     def services
       services = []
       [::AWS, ::Rackspace, ::Slicehost].each do |service|
-        if service.ready?
+        if service.initialized?
           services << service
         end
       end
