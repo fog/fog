@@ -11,23 +11,27 @@ module Fog
         end
       end
 
+      def self.dependencies
+        [
+          "fog/aws/parsers/simpledb/basic.rb",
+          "fog/aws/parsers/simpledb/domain_metadata.rb",
+          "fog/aws/parsers/simpledb/get_attributes.rb",
+          "fog/aws/parsers/simpledb/list_domains.rb",
+          "fog/aws/parsers/simpledb/select.rb",
+          "fog/aws/requests/simpledb/batch_put_attributes.rb",
+          "fog/aws/requests/simpledb/create_domain.rb",
+          "fog/aws/requests/simpledb/delete_attributes.rb",
+          "fog/aws/requests/simpledb/delete_domain.rb",
+          "fog/aws/requests/simpledb/domain_metadata.rb",
+          "fog/aws/requests/simpledb/get_attributes.rb",
+          "fog/aws/requests/simpledb/list_domains.rb",
+          "fog/aws/requests/simpledb/put_attributes.rb",
+          "fog/aws/requests/simpledb/select.rb"
+        ]
+      end
+
       def self.reload
-        load "fog/aws/parsers/simpledb/basic.rb"
-        load "fog/aws/parsers/simpledb/domain_metadata.rb"
-        load "fog/aws/parsers/simpledb/get_attributes.rb"
-        load "fog/aws/parsers/simpledb/list_domains.rb"
-        load "fog/aws/parsers/simpledb/select.rb"
-
-        load "fog/aws/requests/simpledb/batch_put_attributes.rb"
-        load "fog/aws/requests/simpledb/create_domain.rb"
-        load "fog/aws/requests/simpledb/delete_attributes.rb"
-        load "fog/aws/requests/simpledb/delete_domain.rb"
-        load "fog/aws/requests/simpledb/domain_metadata.rb"
-        load "fog/aws/requests/simpledb/get_attributes.rb"
-        load "fog/aws/requests/simpledb/list_domains.rb"
-        load "fog/aws/requests/simpledb/put_attributes.rb"
-        load "fog/aws/requests/simpledb/select.rb"
-
+        self.dependencies.each {|dependency| load(dependency)}
         if Fog.mocking?
           reset_data
         end
@@ -152,4 +156,4 @@ module Fog
   end
 end
 
-Fog::AWS::SimpleDB.reload
+Fog::AWS::SimpleDB.dependencies.each {|dependency| require(dependency)}

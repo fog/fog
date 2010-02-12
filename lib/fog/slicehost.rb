@@ -10,34 +10,37 @@ module Fog
       end
     end
 
+    def self.dependencies
+      [
+        "fog/slicehost/models/flavor.rb",
+        "fog/slicehost/models/flavors.rb",
+        "fog/slicehost/models/image.rb",
+        "fog/slicehost/models/images.rb",
+        "fog/slicehost/models/server.rb",
+        "fog/slicehost/models/servers.rb",
+        "fog/slicehost/parsers/create_slice.rb",
+        "fog/slicehost/parsers/get_backups.rb",
+        "fog/slicehost/parsers/get_flavor.rb",
+        "fog/slicehost/parsers/get_flavors.rb",
+        "fog/slicehost/parsers/get_image.rb",
+        "fog/slicehost/parsers/get_images.rb",
+        "fog/slicehost/parsers/get_slice.rb",
+        "fog/slicehost/parsers/get_slices.rb",
+        "fog/slicehost/requests/create_slice.rb",
+        "fog/slicehost/requests/delete_slice.rb",
+        "fog/slicehost/requests/get_backups.rb",
+        "fog/slicehost/requests/get_flavor.rb",
+        "fog/slicehost/requests/get_flavors.rb",
+        "fog/slicehost/requests/get_image.rb",
+        "fog/slicehost/requests/get_images.rb",
+        "fog/slicehost/requests/get_slice.rb",
+        "fog/slicehost/requests/get_slices.rb",
+        "fog/slicehost/requests/reboot_slice.rb"
+      ]
+    end
+
     def self.reload
-      load "fog/slicehost/models/flavor.rb"
-      load "fog/slicehost/models/flavors.rb"
-      load "fog/slicehost/models/image.rb"
-      load "fog/slicehost/models/images.rb"
-      load "fog/slicehost/models/server.rb"
-      load "fog/slicehost/models/servers.rb"
-
-      load "fog/slicehost/parsers/create_slice.rb"
-      load "fog/slicehost/parsers/get_backups.rb"
-      load "fog/slicehost/parsers/get_flavor.rb"
-      load "fog/slicehost/parsers/get_flavors.rb"
-      load "fog/slicehost/parsers/get_image.rb"
-      load "fog/slicehost/parsers/get_images.rb"
-      load "fog/slicehost/parsers/get_slice.rb"
-      load "fog/slicehost/parsers/get_slices.rb"
-
-      load "fog/slicehost/requests/create_slice.rb"
-      load "fog/slicehost/requests/delete_slice.rb"
-      load "fog/slicehost/requests/get_backups.rb"
-      load "fog/slicehost/requests/get_flavor.rb"
-      load "fog/slicehost/requests/get_flavors.rb"
-      load "fog/slicehost/requests/get_image.rb"
-      load "fog/slicehost/requests/get_images.rb"
-      load "fog/slicehost/requests/get_slice.rb"
-      load "fog/slicehost/requests/get_slices.rb"
-      load "fog/slicehost/requests/reboot_slice.rb"
-
+      self.dependencies.each {|dependency| load(dependency)}
       if Fog.mocking?
         reset_data
       end
@@ -80,4 +83,4 @@ module Fog
   end
 end
 
-Fog::Slicehost.reload
+Fog::Slicehost.dependencies.each {|dependency| require(dependency)}

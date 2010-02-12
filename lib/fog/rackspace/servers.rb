@@ -18,32 +18,36 @@ module Fog
         end
       end
 
+      def self.dependencies
+        [
+          "fog/rackspace/models/servers/flavor.rb",
+          "fog/rackspace/models/servers/flavors.rb",
+          "fog/rackspace/models/servers/image.rb",
+          "fog/rackspace/models/servers/images.rb",
+          "fog/rackspace/models/servers/server.rb",
+          "fog/rackspace/models/servers/servers.rb",
+          "fog/rackspace/requests/servers/create_image.rb",
+          "fog/rackspace/requests/servers/create_server.rb",
+          "fog/rackspace/requests/servers/delete_image.rb",
+          "fog/rackspace/requests/servers/delete_server.rb",
+          "fog/rackspace/requests/servers/get_flavor_details.rb",
+          "fog/rackspace/requests/servers/get_server_details.rb",
+          "fog/rackspace/requests/servers/list_addresses.rb",
+          "fog/rackspace/requests/servers/list_private_addresses.rb",
+          "fog/rackspace/requests/servers/list_public_addresses.rb",
+          "fog/rackspace/requests/servers/list_flavors.rb",
+          "fog/rackspace/requests/servers/list_flavors_detail.rb",
+          "fog/rackspace/requests/servers/list_images.rb",
+          "fog/rackspace/requests/servers/list_images_detail.rb",
+          "fog/rackspace/requests/servers/list_servers.rb",
+          "fog/rackspace/requests/servers/list_servers_detail.rb",
+          "fog/rackspace/requests/servers/reboot_server.rb",
+          "fog/rackspace/requests/servers/update_server.rb"
+        ]
+      end
+
       def self.reload
-        load "fog/rackspace/models/servers/flavor.rb"
-        load "fog/rackspace/models/servers/flavors.rb"
-        load "fog/rackspace/models/servers/image.rb"
-        load "fog/rackspace/models/servers/images.rb"
-        load "fog/rackspace/models/servers/server.rb"
-        load "fog/rackspace/models/servers/servers.rb"
-
-        load "fog/rackspace/requests/servers/create_image.rb"
-        load "fog/rackspace/requests/servers/create_server.rb"
-        load "fog/rackspace/requests/servers/delete_image.rb"
-        load "fog/rackspace/requests/servers/delete_server.rb"
-        load "fog/rackspace/requests/servers/get_flavor_details.rb"
-        load "fog/rackspace/requests/servers/get_server_details.rb"
-        load "fog/rackspace/requests/servers/list_addresses.rb"
-        load "fog/rackspace/requests/servers/list_private_addresses.rb"
-        load "fog/rackspace/requests/servers/list_public_addresses.rb"
-        load "fog/rackspace/requests/servers/list_flavors.rb"
-        load "fog/rackspace/requests/servers/list_flavors_detail.rb"
-        load "fog/rackspace/requests/servers/list_images.rb"
-        load "fog/rackspace/requests/servers/list_images_detail.rb"
-        load "fog/rackspace/requests/servers/list_servers.rb"
-        load "fog/rackspace/requests/servers/list_servers_detail.rb"
-        load "fog/rackspace/requests/servers/reboot_server.rb"
-        load "fog/rackspace/requests/servers/update_server.rb"
-
+        self.dependencies.each {|dependency| load(dependency)}
         if Fog.mocking?
           reset_data
         end
@@ -81,4 +85,5 @@ module Fog
     end
   end
 end
-Fog::Rackspace::Servers.reload
+
+Fog::Rackspace::Servers.dependencies.each {|dependency| require(dependency)}

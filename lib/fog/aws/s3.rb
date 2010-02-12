@@ -11,31 +11,34 @@ module Fog
         end
       end
 
+      def self.dependencies
+        [
+          "fog/aws/models/s3/directory.rb",
+          "fog/aws/models/s3/directories.rb",
+          "fog/aws/models/s3/file.rb",
+          "fog/aws/models/s3/files.rb",
+          "fog/aws/parsers/s3/copy_object.rb",
+          "fog/aws/parsers/s3/get_bucket.rb",
+          "fog/aws/parsers/s3/get_bucket_location.rb",
+          "fog/aws/parsers/s3/get_request_payment.rb",
+          "fog/aws/parsers/s3/get_service.rb",
+          "fog/aws/requests/s3/copy_object.rb",
+          "fog/aws/requests/s3/delete_bucket.rb",
+          "fog/aws/requests/s3/delete_object.rb",
+          "fog/aws/requests/s3/get_bucket.rb",
+          "fog/aws/requests/s3/get_bucket_location.rb",
+          "fog/aws/requests/s3/get_object.rb",
+          "fog/aws/requests/s3/get_request_payment.rb",
+          "fog/aws/requests/s3/get_service.rb",
+          "fog/aws/requests/s3/head_object.rb",
+          "fog/aws/requests/s3/put_bucket.rb",
+          "fog/aws/requests/s3/put_object.rb",
+          "fog/aws/requests/s3/put_request_payment.rb"
+        ]
+      end
+
       def self.reload
-        load "fog/aws/models/s3/directory.rb"
-        load "fog/aws/models/s3/directories.rb"
-        load "fog/aws/models/s3/file.rb"
-        load "fog/aws/models/s3/files.rb"
-
-        load "fog/aws/parsers/s3/copy_object.rb"
-        load "fog/aws/parsers/s3/get_bucket.rb"
-        load "fog/aws/parsers/s3/get_bucket_location.rb"
-        load "fog/aws/parsers/s3/get_request_payment.rb"
-        load "fog/aws/parsers/s3/get_service.rb"
-
-        load "fog/aws/requests/s3/copy_object.rb"
-        load "fog/aws/requests/s3/delete_bucket.rb"
-        load "fog/aws/requests/s3/delete_object.rb"
-        load "fog/aws/requests/s3/get_bucket.rb"
-        load "fog/aws/requests/s3/get_bucket_location.rb"
-        load "fog/aws/requests/s3/get_object.rb"
-        load "fog/aws/requests/s3/get_request_payment.rb"
-        load "fog/aws/requests/s3/get_service.rb"
-        load "fog/aws/requests/s3/head_object.rb"
-        load "fog/aws/requests/s3/put_bucket.rb"
-        load "fog/aws/requests/s3/put_object.rb"
-        load "fog/aws/requests/s3/put_request_payment.rb"
-
+        self.dependencies.each {|dependency| load(dependency)}
         if Fog.mocking?
           reset_data
         end
@@ -164,4 +167,4 @@ DATA
   end
 end
 
-Fog::AWS::S3.reload
+Fog::AWS::S3.dependencies.each {|dependency| require(dependency)}

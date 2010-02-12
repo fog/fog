@@ -19,94 +19,80 @@ module Fog
         end
       end
 
+      def self.dependencies
+        [
+          "fog/aws/models/ec2/address.rb",
+          "fog/aws/models/ec2/addresses.rb",
+          "fog/aws/models/ec2/flavor.rb",
+          "fog/aws/models/ec2/flavors.rb",
+          "fog/aws/models/ec2/image.rb",
+          "fog/aws/models/ec2/images.rb",
+          "fog/aws/models/ec2/key_pair.rb",
+          "fog/aws/models/ec2/key_pairs.rb",
+          "fog/aws/models/ec2/security_group.rb",
+          "fog/aws/models/ec2/security_groups.rb",
+          "fog/aws/models/ec2/server.rb",
+          "fog/aws/models/ec2/servers.rb",
+          "fog/aws/models/ec2/snapshot.rb",
+          "fog/aws/models/ec2/snapshots.rb",
+          "fog/aws/models/ec2/volume.rb",
+          "fog/aws/models/ec2/volumes.rb",
+          "fog/aws/parsers/ec2/allocate_address.rb",
+          "fog/aws/parsers/ec2/attach_volume.rb",
+          "fog/aws/parsers/ec2/basic.rb",
+          "fog/aws/parsers/ec2/create_key_pair.rb",
+          "fog/aws/parsers/ec2/create_snapshot.rb",
+          "fog/aws/parsers/ec2/create_volume.rb",
+          "fog/aws/parsers/ec2/describe_addresses.rb",
+          "fog/aws/parsers/ec2/describe_availability_zones.rb",
+          "fog/aws/parsers/ec2/describe_images.rb",
+          "fog/aws/parsers/ec2/describe_instances.rb",
+          "fog/aws/parsers/ec2/describe_key_pairs.rb",
+          "fog/aws/parsers/ec2/describe_regions.rb",
+          "fog/aws/parsers/ec2/describe_security_groups.rb",
+          "fog/aws/parsers/ec2/describe_snapshots.rb",
+          "fog/aws/parsers/ec2/describe_volumes.rb",
+          "fog/aws/parsers/ec2/detach_volume.rb",
+          "fog/aws/parsers/ec2/get_console_output.rb",
+          "fog/aws/parsers/ec2/run_instances.rb",
+          "fog/aws/parsers/ec2/terminate_instances.rb",
+          "fog/aws/requests/ec2/allocate_address.rb",
+          "fog/aws/requests/ec2/associate_address.rb",
+          "fog/aws/requests/ec2/attach_volume.rb",
+          "fog/aws/requests/ec2/authorize_security_group_ingress.rb",
+          "fog/aws/requests/ec2/create_key_pair.rb",
+          "fog/aws/requests/ec2/create_security_group.rb",
+          "fog/aws/requests/ec2/create_snapshot.rb",
+          "fog/aws/requests/ec2/create_volume.rb",
+          "fog/aws/requests/ec2/delete_key_pair.rb",
+          "fog/aws/requests/ec2/delete_security_group.rb",
+          "fog/aws/requests/ec2/delete_snapshot.rb",
+          "fog/aws/requests/ec2/delete_volume.rb",
+          "fog/aws/requests/ec2/describe_addresses.rb",
+          "fog/aws/requests/ec2/describe_availability_zones.rb",
+          "fog/aws/requests/ec2/describe_images.rb",
+          "fog/aws/requests/ec2/describe_instances.rb",
+          "fog/aws/requests/ec2/describe_key_pairs.rb",
+          "fog/aws/requests/ec2/describe_regions.rb",
+          "fog/aws/requests/ec2/describe_security_groups.rb",
+          "fog/aws/requests/ec2/describe_snapshots.rb",
+          "fog/aws/requests/ec2/describe_volumes.rb",
+          "fog/aws/requests/ec2/detach_volume.rb",
+          "fog/aws/requests/ec2/disassociate_address.rb",
+          "fog/aws/requests/ec2/get_console_output.rb",
+          "fog/aws/requests/ec2/reboot_instances.rb",
+          "fog/aws/requests/ec2/release_address.rb",
+          "fog/aws/requests/ec2/revoke_security_group_ingress.rb",
+          "fog/aws/requests/ec2/run_instances.rb",
+          "fog/aws/requests/ec2/terminate_instances.rb"
+        ]
+      end
+
       def self.reload
-        load "fog/aws/models/ec2/address.rb"
-        load "fog/aws/models/ec2/addresses.rb"
-        load "fog/aws/models/ec2/flavor.rb"
-        load "fog/aws/models/ec2/flavors.rb"
-        load "fog/aws/models/ec2/image.rb"
-        load "fog/aws/models/ec2/images.rb"
-        load "fog/aws/models/ec2/key_pair.rb"
-        load "fog/aws/models/ec2/key_pairs.rb"
-        load "fog/aws/models/ec2/security_group.rb"
-        load "fog/aws/models/ec2/security_groups.rb"
-        load "fog/aws/models/ec2/server.rb"
-        load "fog/aws/models/ec2/servers.rb"
-        load "fog/aws/models/ec2/snapshot.rb"
-        load "fog/aws/models/ec2/snapshots.rb"
-        load "fog/aws/models/ec2/volume.rb"
-        load "fog/aws/models/ec2/volumes.rb"
-
-        load "fog/aws/parsers/ec2/allocate_address.rb"
-        load "fog/aws/parsers/ec2/attach_volume.rb"
-        load "fog/aws/parsers/ec2/basic.rb"
-        load "fog/aws/parsers/ec2/create_key_pair.rb"
-        load "fog/aws/parsers/ec2/create_snapshot.rb"
-        load "fog/aws/parsers/ec2/create_volume.rb"
-        load "fog/aws/parsers/ec2/describe_addresses.rb"
-        load "fog/aws/parsers/ec2/describe_availability_zones.rb"
-        load "fog/aws/parsers/ec2/describe_images.rb"
-        load "fog/aws/parsers/ec2/describe_instances.rb"
-        load "fog/aws/parsers/ec2/describe_key_pairs.rb"
-        load "fog/aws/parsers/ec2/describe_regions.rb"
-        load "fog/aws/parsers/ec2/describe_security_groups.rb"
-        load "fog/aws/parsers/ec2/describe_snapshots.rb"
-        load "fog/aws/parsers/ec2/describe_volumes.rb"
-        load "fog/aws/parsers/ec2/detach_volume.rb"
-        load "fog/aws/parsers/ec2/get_console_output.rb"
-        load "fog/aws/parsers/ec2/run_instances.rb"
-        load "fog/aws/parsers/ec2/terminate_instances.rb"
-
-        load "fog/aws/requests/ec2/allocate_address.rb"
-        load "fog/aws/requests/ec2/associate_address.rb"
-        load "fog/aws/requests/ec2/attach_volume.rb"
-        load "fog/aws/requests/ec2/authorize_security_group_ingress.rb"
-        # TODO: require "fog/aws/requests/ec2/bundle_instance.rb"
-        # TODO: require "fog/aws/requests/ec2/cancel_bundle_task.rb"
-        # TODO: require "fog/aws/requests/ec2/confirm_product_instance.rb"
-        load "fog/aws/requests/ec2/create_key_pair.rb"
-        load "fog/aws/requests/ec2/create_security_group.rb"
-        load "fog/aws/requests/ec2/create_snapshot.rb"
-        load "fog/aws/requests/ec2/create_volume.rb"
-        load "fog/aws/requests/ec2/delete_key_pair.rb"
-        load "fog/aws/requests/ec2/delete_security_group.rb"
-        load "fog/aws/requests/ec2/delete_snapshot.rb"
-        load "fog/aws/requests/ec2/delete_volume.rb"
-        # TODO: require "fog/aws/requests/ec2/deregister_image.rb"
-        load "fog/aws/requests/ec2/describe_addresses.rb"
-        load "fog/aws/requests/ec2/describe_availability_zones.rb"
-        # TODO: require "fog/aws/requests/ec2/describe_bundle_tasks.rb"
-        # TODO: require "fog/aws/requests/ec2/describe_image_attribute.rb"
-        load "fog/aws/requests/ec2/describe_images.rb"
-        load "fog/aws/requests/ec2/describe_instances.rb"
-        load "fog/aws/requests/ec2/describe_key_pairs.rb"
-        load "fog/aws/requests/ec2/describe_regions.rb"
-        # TODO: require "fog/aws/requests/ec2/describe_reserved_instances.rb"
-        # TODO: require "fog/aws/requests/ec2/describe_reserved_instances_offerings.rb"
-        load "fog/aws/requests/ec2/describe_security_groups.rb"
-        load "fog/aws/requests/ec2/describe_snapshots.rb"
-        load "fog/aws/requests/ec2/describe_volumes.rb"
-        load "fog/aws/requests/ec2/detach_volume.rb"
-        load "fog/aws/requests/ec2/disassociate_address.rb"
-        load "fog/aws/requests/ec2/get_console_output.rb"
-        # TODO: require "fog/aws/requests/ec2/modify_image_attribute.rb"
-        # TODO: require "fog/aws/requests/ec2/modify_snapshot_attribute.rb"
-        # TODO: require "fog/aws/requests/ec2/monitor_instances.rb"
-        # TODO: require "fog/aws/requests/ec2/purchase_reserved_instances_offering.rb"
-        load "fog/aws/requests/ec2/reboot_instances.rb"
-        # TODO: require "fog/aws/requests/ec2/register_image.rb"
-        load "fog/aws/requests/ec2/release_address.rb"
-        # TODO: require "fog/aws/requests/ec2/reset_image_attributes.rb"
-        # TODO: require "fog/aws/requests/ec2/reset_snapshot_attributes.rb"
-        load "fog/aws/requests/ec2/revoke_security_group_ingress.rb"
-        load "fog/aws/requests/ec2/run_instances.rb"
-        load "fog/aws/requests/ec2/terminate_instances.rb"
-        # TODO: require "fog/aws/requests/ec2/unmonitor_instances.rb"
-
+        self.dependencies.each {|dependency| load(dependency)}
         if Fog.mocking?
           reset_data
         end
-
       end
 
       # Initialize connection to EC2
@@ -178,4 +164,4 @@ module Fog
   end
 end
 
-Fog::AWS::EC2.reload
+Fog::AWS::EC2.dependencies.each {|dependency| require(dependency)}

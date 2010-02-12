@@ -2,15 +2,21 @@ module Fog
   module Rackspace
     class Files
 
+      def self.dependencies
+        [
+          "fog/rackspace/requests/files/delete_container.rb",
+          "fog/rackspace/requests/files/delete_object.rb",
+          "fog/rackspace/requests/files/get_container.rb",
+          "fog/rackspace/requests/files/get_containers.rb",
+          "fog/rackspace/requests/files/head_container.rb",
+          "fog/rackspace/requests/files/head_containers.rb",
+          "fog/rackspace/requests/files/put_container.rb",
+          "fog/rackspace/requests/files/put_object.rb"
+        ]
+      end
+
       def self.reload
-        load "fog/rackspace/requests/files/delete_container.rb"
-        load "fog/rackspace/requests/files/delete_object.rb"
-        load "fog/rackspace/requests/files/get_container.rb"
-        load "fog/rackspace/requests/files/get_containers.rb"
-        load "fog/rackspace/requests/files/head_container.rb"
-        load "fog/rackspace/requests/files/head_containers.rb"
-        load "fog/rackspace/requests/files/put_container.rb"
-        load "fog/rackspace/requests/files/put_object.rb"
+        self.dependencies.each {|dependency| load(dependency)}
       end
 
       def initialize(options={})
@@ -92,4 +98,5 @@ module Fog
     end
   end
 end
-Fog::Rackspace::Files.reload
+
+Fog::Rackspace::Files.dependencies.each {|dependency| require(dependency)}

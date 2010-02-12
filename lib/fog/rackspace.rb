@@ -1,9 +1,15 @@
 module Fog
   module Rackspace
 
+    def self.dependencies
+      [
+        'fog/rackspace/files.rb',
+        'fog/rackspace/servers.rb'
+      ]
+    end
+
     def self.reload
-      load 'fog/rackspace/files.rb'
-      load 'fog/rackspace/servers.rb'
+      self.dependencies.each {|dependency| load(dependency)}
     end
 
     unless Fog.mocking?
@@ -51,4 +57,5 @@ module Fog
 
   end
 end
-Fog::Rackspace.reload
+
+Fog::Rackspace.dependencies.each {|dependency| require(dependency)}

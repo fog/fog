@@ -29,16 +29,21 @@ module Fog
     !!@mocking
   end
 
-  def self.reload
-    load "fog/collection.rb"
-    load "fog/connection.rb"
-    load "fog/model.rb"
-    load "fog/parser.rb"
+  def self.dependencies
+    [
+      'fog/collection.rb',
+      'fog/connection.rb',
+      'fog/model.rb',
+      'fog/parser.rb',
+      'fog/aws.rb',
+      'fog/rackspace.rb',
+      'fog/slicehost.rb',
+      'fog/terremark.rb'
+      ]
+  end
 
-    load "fog/aws.rb"
-    load "fog/rackspace.rb"
-    load "fog/slicehost.rb"
-    load "fog/terremark.rb"
+  def self.reload
+    self.dependencies.each {|dependency| load(dependency)}
   end
 
   def self.credential=(new_credential)
@@ -83,4 +88,4 @@ YML
 
 end
 
-Fog.reload
+Fog.dependencies.each {|dependency| require(dependency)}

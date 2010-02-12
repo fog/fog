@@ -1,10 +1,16 @@
 module Fog
   module AWS
 
+    def self.dependencies
+      [
+        'fog/aws/ec2.rb',
+        'fog/aws/simpledb.rb',
+        'fog/aws/s3.rb'
+      ]
+    end
+
     def self.reload
-      load "fog/aws/ec2.rb"
-      load "fog/aws/simpledb.rb"
-      load "fog/aws/s3.rb"
+      self.dependencies.each {|dependency| load(dependency)}
     end
 
     def self.indexed_param(key, values)
@@ -172,4 +178,4 @@ module Fog
   end
 end
 
-Fog::AWS.reload
+Fog::AWS.dependencies.each {|dependency| require(dependency)}

@@ -1,16 +1,21 @@
 module Fog
   class Terremark
 
-    def self.reload
-      load 'fog/terremark/parsers/get_catalog.rb'
-      load 'fog/terremark/parsers/get_organization.rb'
-      load 'fog/terremark/parsers/get_organizations.rb'
-      load 'fog/terremark/parsers/get_vdc.rb'
+    def self.dependencies
+      [
+        'fog/terremark/parsers/get_catalog.rb',
+        'fog/terremark/parsers/get_organization.rb',
+        'fog/terremark/parsers/get_organizations.rb',
+        'fog/terremark/parsers/get_vdc.rb',
+        'fog/terremark/requests/get_catalog.rb',
+        'fog/terremark/requests/get_organization.rb',
+        'fog/terremark/requests/get_organizations.rb',
+        'fog/terremark/requests/get_vdc.rb'
+      ]
+    end
 
-      load 'fog/terremark/requests/get_catalog.rb'
-      load 'fog/terremark/requests/get_organization.rb'
-      load 'fog/terremark/requests/get_organizations.rb'
-      load 'fog/terremark/requests/get_vdc.rb'
+    def self.reload
+      self.dependencies.each {|dependency| load(dependency)}
     end
 
     def initialize(options={})
@@ -58,4 +63,5 @@ module Fog
 
   end
 end
-Fog::Terremark.reload
+
+Fog::Terremark.dependencies.each {|dependency| require(dependency)}
