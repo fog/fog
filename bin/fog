@@ -20,5 +20,19 @@ ARGV.clear # Avoid passing args to IRB
 IRB.setup(nil)
 @irb = IRB::Irb.new(nil)
 IRB.conf[:MAIN_CONTEXT] = @irb.context
+IRB.conf[:PROMPT][:FOG] = IRB.conf[:PROMPT][:SIMPLE].dup
+IRB.conf[:PROMPT][:FOG][:RETURN] = "%s\n"
+@irb.context.prompt_mode = :FOG
 @irb.context.workspace = IRB::WorkSpace.new(binding)
 catch(:IRB_EXIT) { @irb.eval_input }
+
+
+#   require 'irb'
+#   ARGV.clear # Avoid passing args to IRB
+#   IRB.setup(nil)
+#   @irb = IRB::Irb.new(nil)
+#   IRB.conf[:MAIN_CONTEXT] = @irb.context
+#   IRB.conf[:PROMPT][:SHINDO] = {}
+# end
+# for key, value in IRB.conf[:PROMPT][:SIMPLE]
+#   IRB.conf[:PROMPT][:SHINDO][key] = "#{@formatador.indentation}#{value}"

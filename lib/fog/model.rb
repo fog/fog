@@ -56,11 +56,16 @@ module Fog
     end
 
     def inspect
-      data = "#<#{self.class.name}"
-      for attribute in self.class.attributes
-        data << " #{attribute}=#{send(attribute).inspect}"
+      Thread.current[:formatador] ||= Formatador.new
+      data = "#{Thread.current[:formatador].indentation}<#{self.class.name}"
+      Thread.current[:formatador].indent do
+        unless self.class.attributes.empty?
+          data << "\n#{Thread.current[:formatador].indentation}"
+          data << self.class.attributes.map {|attribute| "#{attribute}=#{send(attribute).inspect}"}.join(",\n#{Thread.current[:formatador].indentation}")
+        end
       end
       data << ">"
+      data
     end
 
     def merge_attributes(new_attributes = {})

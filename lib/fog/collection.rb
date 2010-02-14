@@ -69,16 +69,24 @@ module Fog
     end
 
     def inspect
-      data = "#<#{self.class.name}"
-      for attribute in self.class.attributes
-        data << " #{attribute}=#{send(attribute).inspect}"
+      Thread.current[:formatador] ||= Formatador.new
+      data = "#{Thread.current[:formatador].indentation}<#{self.class.name}\n"
+      Thread.current[:formatador].indent do
+        unless self.class.attributes.empty?
+          data << "#{Thread.current[:formatador].indentation}\n"
+          data << self.class.attributes.map {|attribute| "#{attribute}=#{send(attribute).inspect}"}.join(",\n#{Thread.current[:formatador].indentation}")
+        end
+        data << "#{Thread.current[:formatador].indentation}[\n"
+        unless self.empty?
+          Thread.current[:formatador].indent do
+            data << self.map {|member| member.inspect}.join(",\n")
+            data << "\n"
+          end
+        end
+        data << "#{Thread.current[:formatador].indentation}]\n"
       end
-      data << " ["
-      for member in self
-        data << "#{member.inspect},"
-      end
-      data.chop! unless self.empty?
-      data << "]>"
+      data << "#{Thread.current[:formatador].indentation}>"
+      data
     end
 
     def model
