@@ -109,6 +109,7 @@ module Fog
       #
       # ==== Parameters
       # * options<~Hash> - config arguments for connection.  Defaults to {}.
+      #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1']
       #
       # ==== Returns
       # * EC2 object with connection to aws.
@@ -120,7 +121,16 @@ module Fog
           raise ArgumentError.new('aws_secret_access_key is required to access ec2')
         end
         @hmac       = HMAC::SHA256.new(@aws_secret_access_key)
-        @host       = options[:host]      || 'ec2.amazonaws.com'
+        @host = options[:host] || case options[:region]
+        when 'eu-west-1'
+          'ec2.eu-west-1.amazonaws.com'
+        when 'us-east-1'
+          'ec2.us-east-1.amazonaws.com'
+        when 'us-west-1'
+          'ec2.us-west-1.amazonaws.com'
+        else
+          'ec2.amazonaws.com'
+        end
         @port       = options[:port]      || 443
         @scheme     = options[:scheme]    || 'https'
       end
