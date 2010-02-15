@@ -4,12 +4,16 @@ module Fog
     def self.dependencies
       [
         'fog/terremark/parsers/get_catalog.rb',
+        'fog/terremark/parsers/get_catalog_item.rb',
         'fog/terremark/parsers/get_organization.rb',
         'fog/terremark/parsers/get_organizations.rb',
+        'fog/terremark/parsers/get_vapp_template.rb',
         'fog/terremark/parsers/get_vdc.rb',
         'fog/terremark/requests/get_catalog.rb',
+        'fog/terremark/requests/get_catalog_item.rb',
         'fog/terremark/requests/get_organization.rb',
         'fog/terremark/requests/get_organizations.rb',
+        'fog/terremark/requests/get_vapp_template.rb',
         'fog/terremark/requests/get_vdc.rb'
       ]
     end
