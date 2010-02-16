@@ -21,7 +21,7 @@ module Fog
           nil
         end
         unless credentials && credentials[credential]
-          print("\n  To run as '#{credential}', add credentials like the following to ~/.fog\n")
+          print("\n  To run as '#{credential}', add the following to ~/.fog\n")
           yml = <<-YML
 
 :#{credential}:

@@ -64,7 +64,7 @@ module Fog
           data << self.class.attributes.map {|attribute| "#{attribute}=#{send(attribute).inspect}"}.join(",\n#{Thread.current[:formatador].indentation}")
         end
       end
-      data << ">"
+      data << "\n#{Thread.current[:formatador].indentation}>"
       data
     end
 

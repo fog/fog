@@ -31,6 +31,7 @@ available_services = if services.length > 1
 else
   services.first
 end
-print "Welcome to fog interactive; your '#{Fog.credential.to_s}' configuration provides access to #{available_services}.\n"
+print "Welcome to fog interactive!\n"
+print "Your '#{Fog.credential.to_s}' configuration provides access to #{available_services}.\n"
 
 catch(:IRB_EXIT) { @irb.eval_input }
