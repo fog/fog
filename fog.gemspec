@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.42"
+  s.version = "0.0.43"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
-  s.date = %q{2010-02-01}
+  s.date = %q{2010-02-15}
   s.default_executable = %q{fog}
   s.description = %q{brings clouds to you}
   s.email = %q{me@geemus.com}
@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
      "fog.gemspec",
      "lib/fog.rb",
      "lib/fog/aws.rb",
+     "lib/fog/aws/bin.rb",
      "lib/fog/aws/ec2.rb",
      "lib/fog/aws/models/ec2/address.rb",
      "lib/fog/aws/models/ec2/addresses.rb",
@@ -132,11 +133,13 @@ Gem::Specification.new do |s|
      "lib/fog/aws/requests/simpledb/select.rb",
      "lib/fog/aws/s3.rb",
      "lib/fog/aws/simpledb.rb",
+     "lib/fog/bin.rb",
      "lib/fog/collection.rb",
      "lib/fog/connection.rb",
      "lib/fog/model.rb",
      "lib/fog/parser.rb",
      "lib/fog/rackspace.rb",
+     "lib/fog/rackspace/bin.rb",
      "lib/fog/rackspace/files.rb",
      "lib/fog/rackspace/models/servers/flavor.rb",
      "lib/fog/rackspace/models/servers/flavors.rb",
@@ -171,17 +174,45 @@ Gem::Specification.new do |s|
      "lib/fog/rackspace/requests/servers/update_server.rb",
      "lib/fog/rackspace/servers.rb",
      "lib/fog/slicehost.rb",
+     "lib/fog/slicehost/bin.rb",
+     "lib/fog/slicehost/models/flavor.rb",
+     "lib/fog/slicehost/models/flavors.rb",
+     "lib/fog/slicehost/models/image.rb",
+     "lib/fog/slicehost/models/images.rb",
+     "lib/fog/slicehost/models/server.rb",
+     "lib/fog/slicehost/models/servers.rb",
      "lib/fog/slicehost/parsers/create_slice.rb",
      "lib/fog/slicehost/parsers/get_backups.rb",
+     "lib/fog/slicehost/parsers/get_flavor.rb",
      "lib/fog/slicehost/parsers/get_flavors.rb",
+     "lib/fog/slicehost/parsers/get_image.rb",
      "lib/fog/slicehost/parsers/get_images.rb",
+     "lib/fog/slicehost/parsers/get_slice.rb",
      "lib/fog/slicehost/parsers/get_slices.rb",
      "lib/fog/slicehost/requests/create_slice.rb",
      "lib/fog/slicehost/requests/delete_slice.rb",
      "lib/fog/slicehost/requests/get_backups.rb",
+     "lib/fog/slicehost/requests/get_flavor.rb",
      "lib/fog/slicehost/requests/get_flavors.rb",
+     "lib/fog/slicehost/requests/get_image.rb",
      "lib/fog/slicehost/requests/get_images.rb",
+     "lib/fog/slicehost/requests/get_slice.rb",
      "lib/fog/slicehost/requests/get_slices.rb",
+     "lib/fog/slicehost/requests/reboot_slice.rb",
+     "lib/fog/terremark.rb",
+     "lib/fog/terremark/bin.rb",
+     "lib/fog/terremark/parsers/get_catalog.rb",
+     "lib/fog/terremark/parsers/get_catalog_item.rb",
+     "lib/fog/terremark/parsers/get_organization.rb",
+     "lib/fog/terremark/parsers/get_organizations.rb",
+     "lib/fog/terremark/parsers/get_vapp_template.rb",
+     "lib/fog/terremark/parsers/get_vdc.rb",
+     "lib/fog/terremark/requests/get_catalog.rb",
+     "lib/fog/terremark/requests/get_catalog_item.rb",
+     "lib/fog/terremark/requests/get_organization.rb",
+     "lib/fog/terremark/requests/get_organizations.rb",
+     "lib/fog/terremark/requests/get_vapp_template.rb",
+     "lib/fog/terremark/requests/get_vdc.rb",
      "spec/aws/models/ec2/address_spec.rb",
      "spec/aws/models/ec2/addresses_spec.rb",
      "spec/aws/models/ec2/key_pair_spec.rb",
@@ -279,12 +310,18 @@ Gem::Specification.new do |s|
      "spec/rackspace/requests/servers/update_server_spec.rb",
      "spec/shared_examples/server_examples.rb",
      "spec/shared_examples/servers_examples.rb",
+     "spec/slicehost/models/server_spec.rb",
+     "spec/slicehost/models/servers_spec.rb",
      "spec/slicehost/requests/create_slice_spec.rb",
      "spec/slicehost/requests/delete_slice_spec.rb",
      "spec/slicehost/requests/get_backups_spec.rb",
+     "spec/slicehost/requests/get_flavor_spec.rb",
      "spec/slicehost/requests/get_flavors_spec.rb",
+     "spec/slicehost/requests/get_image_spec.rb",
      "spec/slicehost/requests/get_images_spec.rb",
+     "spec/slicehost/requests/get_slice_spec.rb",
      "spec/slicehost/requests/get_slices_spec.rb",
+     "spec/slicehost/requests/reboot_slice_spec.rb",
      "spec/spec_helper.rb"
   ]
   s.homepage = %q{http://github.com/geemus/fog}
@@ -423,12 +460,18 @@ Gem::Specification.new do |s|
      "spec/rackspace/requests/servers/update_server_spec.rb",
      "spec/shared_examples/server_examples.rb",
      "spec/shared_examples/servers_examples.rb",
+     "spec/slicehost/models/server_spec.rb",
+     "spec/slicehost/models/servers_spec.rb",
      "spec/slicehost/requests/create_slice_spec.rb",
      "spec/slicehost/requests/delete_slice_spec.rb",
      "spec/slicehost/requests/get_backups_spec.rb",
+     "spec/slicehost/requests/get_flavor_spec.rb",
      "spec/slicehost/requests/get_flavors_spec.rb",
+     "spec/slicehost/requests/get_image_spec.rb",
      "spec/slicehost/requests/get_images_spec.rb",
+     "spec/slicehost/requests/get_slice_spec.rb",
      "spec/slicehost/requests/get_slices_spec.rb",
+     "spec/slicehost/requests/reboot_slice_spec.rb",
      "spec/spec_helper.rb"
   ]
 
@@ -438,12 +481,14 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<excon>, [">= 0.0.18"])
+      s.add_runtime_dependency(%q<formatador>, [">= 0"])
       s.add_runtime_dependency(%q<json>, [">= 0"])
       s.add_runtime_dependency(%q<mime-types>, [">= 0"])
       s.add_runtime_dependency(%q<nokogiri>, [">= 0"])
       s.add_runtime_dependency(%q<ruby-hmac>, [">= 0"])
     else
       s.add_dependency(%q<excon>, [">= 0.0.18"])
+      s.add_dependency(%q<formatador>, [">= 0"])
       s.add_dependency(%q<json>, [">= 0"])
       s.add_dependency(%q<mime-types>, [">= 0"])
       s.add_dependency(%q<nokogiri>, [">= 0"])
@@ -451,6 +496,7 @@ Gem::Specification.new do |s|
     end
   else
     s.add_dependency(%q<excon>, [">= 0.0.18"])
+    s.add_dependency(%q<formatador>, [">= 0"])
     s.add_dependency(%q<json>, [">= 0"])
     s.add_dependency(%q<mime-types>, [">= 0"])
     s.add_dependency(%q<nokogiri>, [">= 0"])
