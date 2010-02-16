@@ -73,17 +73,20 @@ module Fog
       data = "#{Thread.current[:formatador].indentation}<#{self.class.name}\n"
       Thread.current[:formatador].indent do
         unless self.class.attributes.empty?
-          data << "#{Thread.current[:formatador].indentation}\n"
+          data << "#{Thread.current[:formatador].indentation}"
           data << self.class.attributes.map {|attribute| "#{attribute}=#{send(attribute).inspect}"}.join(",\n#{Thread.current[:formatador].indentation}")
+          data << "\n"
         end
-        data << "#{Thread.current[:formatador].indentation}[\n"
+        data << "#{Thread.current[:formatador].indentation}["
         unless self.empty?
+          data << "\n"
           Thread.current[:formatador].indent do
             data << self.map {|member| member.inspect}.join(",\n")
             data << "\n"
           end
+          data << Thread.current[:formatador].indentation
         end
-        data << "#{Thread.current[:formatador].indentation}]\n"
+        data << "]\n"
       end
       data << "#{Thread.current[:formatador].indentation}>"
       data

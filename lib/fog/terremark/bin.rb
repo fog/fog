@@ -19,6 +19,12 @@ module Terremark
         @@connections[service]
       end
 
+    else
+
+      def initialized?
+        false
+      end
+
     end
   end
 end

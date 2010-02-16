@@ -4,17 +4,17 @@ require File.join(lib_dir, 'fog')
 require 'irb'
 require 'yaml'
 
-require File.join(lib_dir, 'fog', 'aws', 'bin')
-require File.join(lib_dir, 'fog', 'rackspace', 'bin')
-require File.join(lib_dir, 'fog', 'slicehost', 'bin')
-require File.join(lib_dir, 'fog', 'terremark', 'bin')
-
 require File.join(lib_dir, 'fog', 'bin')
 
 Fog.credential = (ARGV.first && :"#{ARGV.first}") || :default
 unless Fog.credentials
   exit
 end
+
+require File.join(lib_dir, 'fog', 'aws', 'bin')
+require File.join(lib_dir, 'fog', 'rackspace', 'bin')
+require File.join(lib_dir, 'fog', 'slicehost', 'bin')
+require File.join(lib_dir, 'fog', 'terremark', 'bin')
 
 ARGV.clear # Avoid passing args to IRB
 IRB.setup(nil)
@@ -24,15 +24,13 @@ IRB.conf[:PROMPT][:FOG] = IRB.conf[:PROMPT][:SIMPLE].dup
 IRB.conf[:PROMPT][:FOG][:RETURN] = "%s\n"
 @irb.context.prompt_mode = :FOG
 @irb.context.workspace = IRB::WorkSpace.new(binding)
+
+services = Fog.services.map{|service| service.to_s}
+available_services = if services.length > 1
+  services[0...-1].join(', ') << ' and ' << services[-1]
+else
+  services.first
+end
+print "Welcome to fog interactive; your '#{Fog.credential.to_s}' configuration provides access to #{available_services}.\n"
+
 catch(:IRB_EXIT) { @irb.eval_input }
-
-
-#   require 'irb'
-#   ARGV.clear # Avoid passing args to IRB
-#   IRB.setup(nil)
-#   @irb = IRB::Irb.new(nil)
-#   IRB.conf[:MAIN_CONTEXT] = @irb.context
-#   IRB.conf[:PROMPT][:SHINDO] = {}
-# end
-# for key, value in IRB.conf[:PROMPT][:SIMPLE]
-#   IRB.conf[:PROMPT][:SHINDO][key] = "#{@formatador.indentation}#{value}"
