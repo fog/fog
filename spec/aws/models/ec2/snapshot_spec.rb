@@ -83,11 +83,11 @@ describe 'Fog::AWS::EC2::Snapshots' do
       end
     end
 
-    it "should not exist in addresses before save" do
+    it "should not exist in snapshots before save" do
       AWS[:ec2].snapshots.get(@snapshot.id).should be_nil
     end
 
-    it "should exist in buckets after save" do
+    it "should exist in snapshots after save" do
       @snapshot.save
       AWS[:ec2].snapshots.get(@snapshot.id).should_not be_nil
       @snapshot.destroy
