@@ -15,6 +15,14 @@ module Fog
         attribute :size,            'Size'
         attribute :storage_class,   'StorageClass'
 
+        def body
+          @body ||= if last_modified
+            collection.get(identity).body
+          else
+            ''
+          end
+        end
+
         def directory
           @directory
         end
