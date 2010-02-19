@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.43"
+  s.version = "0.0.44"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
-  s.date = %q{2010-02-15}
+  s.date = %q{2010-02-18}
   s.default_executable = %q{fog}
   s.description = %q{brings clouds to you}
   s.email = %q{me@geemus.com}
@@ -64,6 +64,7 @@ Gem::Specification.new do |s|
      "lib/fog/aws/parsers/ec2/describe_instances.rb",
      "lib/fog/aws/parsers/ec2/describe_key_pairs.rb",
      "lib/fog/aws/parsers/ec2/describe_regions.rb",
+     "lib/fog/aws/parsers/ec2/describe_reserved_instances.rb",
      "lib/fog/aws/parsers/ec2/describe_security_groups.rb",
      "lib/fog/aws/parsers/ec2/describe_snapshots.rb",
      "lib/fog/aws/parsers/ec2/describe_volumes.rb",
@@ -99,6 +100,7 @@ Gem::Specification.new do |s|
      "lib/fog/aws/requests/ec2/describe_instances.rb",
      "lib/fog/aws/requests/ec2/describe_key_pairs.rb",
      "lib/fog/aws/requests/ec2/describe_regions.rb",
+     "lib/fog/aws/requests/ec2/describe_reserved_instances.rb",
      "lib/fog/aws/requests/ec2/describe_security_groups.rb",
      "lib/fog/aws/requests/ec2/describe_snapshots.rb",
      "lib/fog/aws/requests/ec2/describe_volumes.rb",
@@ -215,6 +217,7 @@ Gem::Specification.new do |s|
      "lib/fog/terremark/requests/get_vdc.rb",
      "spec/aws/models/ec2/address_spec.rb",
      "spec/aws/models/ec2/addresses_spec.rb",
+     "spec/aws/models/ec2/flavors_spec.rb",
      "spec/aws/models/ec2/key_pair_spec.rb",
      "spec/aws/models/ec2/key_pairs_spec.rb",
      "spec/aws/models/ec2/security_group_spec.rb",
@@ -281,6 +284,7 @@ Gem::Specification.new do |s|
      "spec/aws/requests/simpledb/select_spec.rb",
      "spec/compact_progress_bar_formatter.rb",
      "spec/lorem.txt",
+     "spec/rackspace/models/servers/flavors_spec.rb",
      "spec/rackspace/models/servers/server_spec.rb",
      "spec/rackspace/models/servers/servers_spec.rb",
      "spec/rackspace/requests/files/delete_container_spec.rb",
@@ -308,8 +312,10 @@ Gem::Specification.new do |s|
      "spec/rackspace/requests/servers/list_servers_spec.rb",
      "spec/rackspace/requests/servers/reboot_server_spec.rb",
      "spec/rackspace/requests/servers/update_server_spec.rb",
+     "spec/shared_examples/flavors_examples.rb",
      "spec/shared_examples/server_examples.rb",
      "spec/shared_examples/servers_examples.rb",
+     "spec/slicehost/models/flavors_spec.rb",
      "spec/slicehost/models/server_spec.rb",
      "spec/slicehost/models/servers_spec.rb",
      "spec/slicehost/requests/create_slice_spec.rb",
@@ -366,6 +372,7 @@ Gem::Specification.new do |s|
   s.test_files = [
     "spec/aws/models/ec2/address_spec.rb",
      "spec/aws/models/ec2/addresses_spec.rb",
+     "spec/aws/models/ec2/flavors_spec.rb",
      "spec/aws/models/ec2/key_pair_spec.rb",
      "spec/aws/models/ec2/key_pairs_spec.rb",
      "spec/aws/models/ec2/security_group_spec.rb",
@@ -431,6 +438,7 @@ Gem::Specification.new do |s|
      "spec/aws/requests/simpledb/put_attributes_spec.rb",
      "spec/aws/requests/simpledb/select_spec.rb",
      "spec/compact_progress_bar_formatter.rb",
+     "spec/rackspace/models/servers/flavors_spec.rb",
      "spec/rackspace/models/servers/server_spec.rb",
      "spec/rackspace/models/servers/servers_spec.rb",
      "spec/rackspace/requests/files/delete_container_spec.rb",
@@ -458,8 +466,10 @@ Gem::Specification.new do |s|
      "spec/rackspace/requests/servers/list_servers_spec.rb",
      "spec/rackspace/requests/servers/reboot_server_spec.rb",
      "spec/rackspace/requests/servers/update_server_spec.rb",
+     "spec/shared_examples/flavors_examples.rb",
      "spec/shared_examples/server_examples.rb",
      "spec/shared_examples/servers_examples.rb",
+     "spec/slicehost/models/flavors_spec.rb",
      "spec/slicehost/models/server_spec.rb",
      "spec/slicehost/models/servers_spec.rb",
      "spec/slicehost/requests/create_slice_spec.rb",
