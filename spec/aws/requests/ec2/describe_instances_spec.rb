@@ -22,6 +22,8 @@ describe 'EC2.describe_instances' do
       reservation['reservationId'].should be_a(String)
       instance = reservation['instancesSet'].select {|instance| instance['instanceId'] == @instance_id}.first
       instance['amiLaunchIndex'].should be_an(Integer)
+      # instance['architecture'].should be_a(String)
+      instance['blockDeviceMapping'].should be_an(Array)
       instance['dnsName'].should be_a(String)
       instance['imageId'].should be_a(String)
       instance['instanceId'].should be_a(String)
@@ -29,6 +31,7 @@ describe 'EC2.describe_instances' do
       instance['instanceState']['code'].should be_a(Integer)
       instance['instanceState']['name'].should be_a(String)
       instance['instanceType'].should be_a(String)
+      # instance['ipAddress'].should be_a(String)
       instance['kernelId'].should be_a(String)
       instance['keyName'].should be_a(String) if instance['keyName']
       instance['launchTime'].should be_a(Time)
@@ -37,10 +40,13 @@ describe 'EC2.describe_instances' do
       instance['placement'].should be_a(Hash)
       instance['placement']['availabilityZone'].should be_a(String)
       instance['privateDnsName'].should be_a(String)
+      # instance['privateIpAddress'].should be_a(String)
       instance['productCodes'].should be_an(Array)
       instance['productCodes'].first.should be_a(String) if instance['productCodes'].first
       instance['ramdiskId'].should be_a(String)
       instance['reason'].should be_a(String)
+      # instance['rootDeviceName'].should be_a(String)
+      instance['rootDeviceType'].should be_a(String)
     end
   
     it "should return proper attributes with params" do
@@ -52,6 +58,8 @@ describe 'EC2.describe_instances' do
       reservation['reservationId'].should be_a(String)
       instance = reservation['instancesSet'].select {|instance| instance['instanceId'] == @instance_id}.first
       instance['amiLaunchIndex'].should be_an(Integer)
+      # instance['architecture'].should be_a(String)
+      instance['blockDeviceMapping'].should be_an(Array)
       instance['dnsName'].should be_a(String)
       instance['imageId'].should be_a(String)
       instance['instanceId'].should be_a(String)
@@ -59,6 +67,7 @@ describe 'EC2.describe_instances' do
       instance['instanceState']['code'].should be_a(Integer)
       instance['instanceState']['name'].should be_a(String)
       instance['instanceType'].should be_a(String)
+      # instance['ipAddress'].should be_a(String)
       instance['kernelId'].should be_a(String)
       instance['keyName'].should be_a(String) if instance['keyName']
       instance['launchTime'].should be_a(Time)
@@ -67,10 +76,13 @@ describe 'EC2.describe_instances' do
       instance['placement'].should be_a(Hash)
       instance['placement']['availabilityZone'].should be_a(String)
       instance['privateDnsName'].should be_a(String)
+      # instance['privateIpAddress'].should be_a(String)
       instance['productCodes'].should be_an(Array)
       instance['productCodes'].first.should be_a(String) if instance['productCodes'].first
       instance['ramdiskId'].should be_a(String)
       instance['reason'].should be_a(String)
+      # instance['rootDeviceName'].should be_a(String)
+      instance['rootDeviceType'].should be_a(String)
     end
 
   end

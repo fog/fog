@@ -6,14 +6,18 @@ module Fog
         class RunInstances < Fog::Parsers::Base
 
           def reset
-            @instance = { 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
+            @block_device_mapping = {}
+            @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
             @response = { 'groupSet' => [], 'instancesSet' => [] }
           end
 
           def start_element(name, attrs = [])
-            if name == 'groupSet'
+            case name
+            when 'blockDeviceMapping'
+              @in_block_device_mapping = true
+            when 'groupSet'
               @in_group_set = true
-            elsif name == 'productCodes'
+            when 'productCodes'
               @in_product_codes = true
             end
             @value = ''
@@ -23,20 +27,38 @@ module Fog
             case name
             when 'amiLaunchIndex'
               @instance[name] = @value.to_i
+            when 'architecture', 'dnsName', 'imageId', 'instanceId',
+                  'instanceType', 'ipAddress', 'kernelId', 'keyName',
+                  'privateDnsName', 'privateIpAddress', 'ramdiskId', 'reason',
+                  'rootDeviceType'
+              @instance[name] = @value
             when 'availabilityZone'
               @instance['placement'][name] = @value
+            when 'attachTime'
+              @block_device_mapping[name] = Time.parse(@value)
+            when 'blockDeviceMapping'
+              @in_block_device_mapping = false
             when 'code'
               @instance['instanceState'][name] = @value.to_i
-            when 'dnsName', 'kernelId', 'keyName', 'imageId', 'instanceId', 'instanceType', 'platform', 'privateDnsName', 'ramdiskId', 'reason', 'requestorId'
-              @instance[name] = @value
+            when 'deleteOnTermination'
+              if @value == 'true'
+                @block_device_mapping[name] = true
+              else
+                @block_device_mapping[name] = false
+              end
+            when 'deviceName', 'status', 'volumeId'
+              @block_device_mapping[name] = @value
             when 'groupId'
               @response['groupSet'] << @value
             when 'groupSet'
               @in_group_set = false
             when 'item'
-              unless @in_group_set || @in_product_codes
+              if @in_block_device_mapping
+                @instance['blockDeviceMapping'] << @block_device_mapping
+                @block_device_mapping = {}
+              elsif !@in_group_set && !@in_product_codes
                 @response['instancesSet'] << @instance
-                @instance = { 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
+                @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
               end
             when 'launchTime'
               @instance[name] = Time.parse(@value)

@@ -3,6 +3,7 @@ require 'open-uri'
 
 current_directory = File.dirname(__FILE__)
 require "#{current_directory}/../lib/fog"
+require "#{current_directory}/../lib/fog/bin"
 # Fog.mock!
 
 unless defined?(LOADED_SPEC_OPTS)

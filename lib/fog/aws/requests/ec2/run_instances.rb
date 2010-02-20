@@ -19,9 +19,13 @@ unless Fog.mocking?
         #   (by default the maximum for an account is 20)
         # * options<~Hash>:
         #   * 'Placement.AvailabilityZone'<~String> - Placement constraint for instances
-        #   * 'DeviceName'<~String> - ?
-        #   * 'Encoding'<~String> - ?
+        #   * 'BlockDeviceMapping.n.DeviceName'<~String> - where the volume will be exposed to instance
+        #   * 'BlockDeviceMapping.n.VirtualName'<~String> - volume virtual device name
+        #   * 'BlockDeviceMapping.n.Ebs.SnapshotId'<~String> - id of snapshot to boot volume from
+        #   * 'BlockDeviceMapping.n.Ebs.VolumeSize'<~String> - size of volume in GiBs required unless snapshot is specified
+        #   * 'BlockDeviceMapping.n.Ebs.DeleteOnTermination'<~String> - specifies whether or not to delete the volume on instance termination
         #   * 'SecurityGroup.n'<~String> - Indexed names of security groups for instances
+        #   * 'InstanceInitiatedShutdownBehaviour'<~String> - specifies whether volumes are stopped or terminated when instance is shutdown
         #   * 'InstanceType'<~String> - Type of instance to boot. Valid options
         #     in ['m1.small', 'm1.large', 'm1.xlarge', 'c1.medium', 'c1.xlarge', 'm2.2xlarge', 'm2.4xlarge']
         #     default is 'm1.small'
@@ -31,8 +35,6 @@ unless Fog.mocking?
         #     disabled
         #   * 'RamdiskId'<~String> - Id of ramdisk with which to launch
         #   * 'UserData'<~String> -  Additional data to provide to booting instances
-        #   * 'Version'<~String> - ?
-        #   * 'VirtualName'<~String> - ?
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -42,6 +44,13 @@ unless Fog.mocking?
         #     * 'instancesSet'<~Array>: returned instances
         #       * instance<~Hash>:
         #         * 'amiLaunchIndex'<~Integer> - reference to instance in launch group
+        #         * 'architecture'<~String> - architecture of image in [i386, x86_64]
+        #         * 'blockDeviceMapping'<~Array>
+        #           * 'attachTime'<~Time> - time of volume attachment
+        #           * 'deleteOnTermination'<~Boolean> - whether or not to delete volume on termination
+        #           * 'deviceName'<~String> - specifies how volume is exposed to instance
+        #           * 'status'<~String> - status of attached volume
+        #           * 'volumeId'<~String> - Id of attached volume
         #         * 'dnsName'<~String> - public dns name, blank until instance is running
         #         * 'imageId'<~String> - image id of ami used to launch instance
         #         * 'instanceId'<~String> - id of the instance
@@ -49,6 +58,7 @@ unless Fog.mocking?
         #           * 'code'<~Integer> - current status code
         #           * 'name'<~String> - current status name
         #         * 'instanceType'<~String> - type of instance
+        #         * 'ipAddress'<~String> - public ip address assigned to instance
         #         * 'kernelId'<~String> - Id of kernel used to launch instance
         #         * 'keyName'<~String> - name of key used launch instances or blank
         #         * 'launchTime'<~Time> - time instance was launched
@@ -57,9 +67,12 @@ unless Fog.mocking?
         #         * 'placement'<~Hash>:
         #           * 'availabilityZone'<~String> - Availability zone of the instance
         #         * 'privateDnsName'<~String> - private dns name, blank until instance is running
+        #         * 'privateIpAddress'<~String> - private ip address assigned to instance
         #         * 'productCodes'<~Array> - Product codes for the instance
         #         * 'ramdiskId'<~String> - Id of ramdisk used to launch instance
         #         * 'reason'<~String> - reason for most recent state transition, or blank
+        #         * 'rootDeviceName'<~String> - specifies how the root device is exposed to the instance
+        #         * 'rootDeviceType'<~String> - root device type used by AMI in [ebs, instance-store]
         #     * 'ownerId'<~String> - Id of owner
         #     * 'requestId'<~String> - Id of request
         #     * 'reservationId'<~String> - Id of reservation

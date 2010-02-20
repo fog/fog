@@ -16,6 +16,8 @@ describe 'EC2.run_instances' do
       actual.body['instancesSet'].should be_an(Array)
       instance = actual.body['instancesSet'].first
       instance['amiLaunchIndex'].should be_a(Integer)
+      # instance['architecture'].should be_a(String)
+      instance['blockDeviceMapping'].should be_an(Array)
       instance['dnsName'].should be_a(String)
       instance['imageId'].should be_a(String)
       instance['instanceId'].should be_a(String)
@@ -23,6 +25,7 @@ describe 'EC2.run_instances' do
       instance['instanceState']['code'].should be_an(Integer)
       instance['instanceState']['name'].should be_an(String)
       instance['instanceType'].should be_a(String)
+      # instance['ipAddress'].should be_a(String)
       instance['kernelId'].should be_a(String)
       instance['keyName'].should be_a(String) if instance['keyName']
       instance['launchTime'].should be_a(Time)
@@ -31,11 +34,14 @@ describe 'EC2.run_instances' do
       instance['placement'].should be_a(Hash)
       instance['placement']['availabilityZone'].should be_a(String)
       instance['privateDnsName'].should be_a(String)
+      # instance['privateIpAddress'].should be_a(String)
       instance['ramdiskId'].should be_a(String)
       instance['reason'].should be_a(String)
       actual.body['ownerId'].should be_a(String)
       actual.body['requestId'].should be_a(String)
       actual.body['reservationId'].should be_a(String)
+      # instance['rootDeviceName'].should be_a(String)
+      instance['rootDeviceType'].should be_a(String)
     end
 
   end
