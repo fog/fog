@@ -6,21 +6,27 @@ module Fog
 
         identity  :id,                'instanceId'
 
-        attribute :ami_launch_index,  'amiLaunchIndex'
-        attribute :availability_zone, 'availabilityZone'
-        attribute :dns_name,          'dnsName'
+        attribute :architecture
+        attribute :ami_launch_index,      'amiLaunchIndex'
+        attribute :availability_zone,     'availabilityZone'
+        attribute :block_device_mapping,  'blockDeviceMapping'
+        attribute :dns_name,              'dnsName'
         attribute :groups
-        attribute :image_id,          'imageId'
-        attribute :state,             'instanceState'
-        attribute :flavor_id,            'instanceType'
-        attribute :kernel_id,         'kernelId'
-        attribute :key_name,          'keyName'
-        attribute :created_at,        'launchTime'
+        attribute :flavor_id,             'instanceType'
+        attribute :image_id,              'imageId'
+        attribute :ip_address,            'ipAddress'
+        attribute :kernel_id,             'kernelId'
+        attribute :key_name,              'keyName'
+        attribute :created_at,            'launchTime'
         attribute :monitoring
-        attribute :product_codes,     'productCodes'
-        attribute :private_dns_name,  'privateDnsName'
-        attribute :ramdisk_id,        'ramdiskId'
+        attribute :product_codes,         'productCodes'
+        attribute :private_dns_name,      'privateDnsName'
+        attribute :private_ip_address,    'privateIpAddress'
+        attribute :ramdisk_id,            'ramdiskId'
         attribute :reason
+        attribute :root_device_name,      'rootDeviceName'
+        attribute :root_device_type,      'rootDeviceType'
+        attribute :state,                 'instanceState'
         attribute :user_data
 
         def initialize(attributes)

@@ -6,15 +6,19 @@ module Fog
         class DescribeInstances < Fog::Parsers::Base
 
           def reset
-            @instance = { 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
+            @block_device_mapping = {}
+            @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
             @reservation = { 'groupSet' => [], 'instancesSet' => [] }
             @response = { 'reservationSet' => [] }
           end
 
           def start_element(name, attrs = [])
-            if name == 'groupSet' || name == 'productCodes'
+            case name
+            when 'blockDeviceMapping'
+              @in_block_device_mapping = true
+            when'groupSet', 'productCodes'
               @in_subset = true
-            elsif name == 'instancesSet'
+            when 'instancesSet'
               @in_instances_set = true
             end
             @value = ''
@@ -26,20 +30,38 @@ module Fog
               @instance[name] = @value.to_i
             when 'availabilityZone'
               @instance['placement'][name] = @value
+            when 'architecture', 'dnsName', 'imageId', 'instanceId',
+                  'instanceType', 'ipAddress', 'kernelId', 'keyName',
+                  'privateDnsName', 'privateIpAddress', 'ramdiskId', 'reason',
+                  'rootDeviceType'
+              @instance[name] = @value
+            when 'attachTime'
+              @block_device_mapping[name] = Time.parse(@value)
+            when 'blockDeviceMapping'
+              @in_block_device_mapping = false
             when 'code'
               @instance['instanceState'][name] = @value.to_i
-            when 'dnsName', 'imageId', 'instanceId', 'instanceType', 'kernelId', 'keyName', 'privateDnsName', 'ramdiskId', 'reason'
-              @instance[name] = @value
+            when 'deleteOnTermination'
+              if @value == 'true'
+                @block_device_mapping[name] = true
+              else
+                @block_device_mapping[name] = false
+              end
+            when 'deviceName', 'status', 'volumeId'
+              @block_device_mapping[name] = @value
             when 'groupId'
               @reservation['groupSet'] << @value
-            when 'groupSet'
+            when 'groupSet', 'productCodes'
               @in_subset = false
             when 'instancesSet'
               @in_instances_set = false
             when 'item'
-              if @in_instances_set
+              if @in_block_device_mapping
+                @instance['blockDeviceMapping'] << @block_device_mapping
+                @block_device_mapping = {}
+              elsif @in_instances_set
                 @reservation['instancesSet'] << @instance
-                @instance = { 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
+                @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
               elsif !@in_subset
                 @response['reservationSet'] << @reservation
                 @reservation = { 'groupSet' => [], 'instancesSet' => [] }
@@ -54,8 +76,6 @@ module Fog
               @response[name] = @value
             when 'productCode'
               @instance['productCodes'] << @value
-            when 'productCodes'
-              @in_subset = false
             when 'state'
               if @value == 'true'
                 @instance['monitoring'][name] = true

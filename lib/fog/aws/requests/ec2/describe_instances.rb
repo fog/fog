@@ -19,7 +19,14 @@ unless Fog.mocking?
         #       * 'reservationId'<~String> - Id of the reservation
         #       * 'instancesSet'<~Array>:
         #         * instance<~Hash>:
+        #           * 'architecture'<~String> - architecture of image in [i386, x86_64]
         #           * 'amiLaunchIndex'<~Integer> - reference to instance in launch group
+        #           * 'blockDeviceMapping'<~Array>
+        #             * 'attachTime'<~Time> - time of volume attachment
+        #             * 'deleteOnTermination'<~Boolean> - whether or not to delete volume on termination
+        #             * 'deviceName'<~String> - specifies how volume is exposed to instance
+        #             * 'status'<~String> - status of attached volume
+        #             * 'volumeId'<~String> - Id of attached volume
         #           * 'dnsName'<~String> - public dns name, blank until instance is running
         #           * 'imageId'<~String> - image id of ami used to launch instance
         #           * 'instanceId'<~String> - id of the instance
@@ -27,7 +34,8 @@ unless Fog.mocking?
         #             * 'code'<~Integer> - current status code
         #             * 'name'<~String> - current status name
         #           * 'instanceType'<~String> - type of instance
-        #           * 'kernelId'<~String> - Id of kernel used to launch instance
+        #           * 'ipAddress'<~String> - public ip address assigned to instance
+        #           * 'kernelId'<~String> - id of kernel used to launch instance
         #           * 'keyName'<~String> - name of key used launch instances or blank
         #           * 'launchTime'<~Time> - time instance was launched
         #           * 'monitoring'<~Hash>:
@@ -36,6 +44,9 @@ unless Fog.mocking?
         #             * 'availabilityZone'<~String> - Availability zone of the instance
         #           * 'productCodes'<~Array> - Product codes for the instance
         #           * 'privateDnsName'<~String> - private dns name, blank until instance is running
+        #           * 'privateIpAddress'<~String> - private ip address assigned to instance
+        #           * 'rootDeviceName'<~String> - specifies how the root device is exposed to the instance
+        #           * 'rootDeviceType'<~String> - root device type used by AMI in [ebs, instance-store]
         #           * 'ramdiskId'<~String> - Id of ramdisk used to launch instance
         #           * 'reason'<~String> - reason for most recent state transition, or blank
         def describe_instances(instance_id = [])
