@@ -30,6 +30,8 @@ module Fog
         end
 
         def server=(new_server)
+          requires :device
+
           if new_server
             attach(new_server)
           else

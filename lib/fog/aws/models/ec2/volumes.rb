@@ -32,7 +32,7 @@ module Fog
             volumes << new(volume)
           end
           if server
-            volumes = volumes.select {|volume| volume.instance_id == server.id}
+            volumes = volumes.select {|volume| volume.server_id == server.id}
           end
           self.replace(volumes)
         end
