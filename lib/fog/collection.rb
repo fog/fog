@@ -10,6 +10,15 @@ module Fog
       RUBY
     end
 
+    %w[collect map reject select].each do |method|
+      class_eval <<-RUBY
+        def #{method}(*args)
+          lazy_load
+          self.class.new({}).concat(super)
+        end
+      RUBY
+    end
+
     def self._load(marhsalled)
       new(Marshal.load(marshalled))
     end
