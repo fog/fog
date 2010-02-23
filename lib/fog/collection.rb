@@ -120,6 +120,10 @@ module Fog
       self.clear.concat(all)
     end
 
+    def table(attributes = nil)
+      Formatador.display_table(self.map {|instance| instance.attributes}, attributes)
+    end
+
     private
 
     def lazy_load
