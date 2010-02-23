@@ -56,7 +56,7 @@ module Fog
         # end
 
         def flavor_id
-          @flavor && @flavor.id || 'm1.small'
+          @flavor_id || @flavor && @flavor.id || 'm1.small'
         end
 
         def flavor=(new_flavor)
