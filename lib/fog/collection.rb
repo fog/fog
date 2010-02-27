@@ -10,11 +10,11 @@ module Fog
       RUBY
     end
 
-    %w[collect map reject select].each do |method|
+    %w[reject select].each do |method|
       class_eval <<-RUBY
         def #{method}(*args)
           lazy_load
-          self.class.new({}).concat(super)
+          self.class.new(:connection => self.connection).load(super)
         end
       RUBY
     end
@@ -99,6 +99,11 @@ module Fog
       end
       data << "#{Thread.current[:formatador].indentation}>"
       data
+    end
+
+    def load(array)
+      @loaded = true
+      self.clear.concat(array)
     end
 
     def model
