@@ -4,7 +4,7 @@ unless Fog.mocking?
     module Rackspace
       class Files
 
-        # List number of containers and total bytes stored
+        # Get details for container and total bytes stored
         #
         # ==== Parameters
         # * container<~String> - Name of container to retrieve info for
@@ -20,6 +20,9 @@ unless Fog.mocking?
         #     * 'X-Account-Container-Count'<~String> - Count of containers
         #     * 'X-Account-Bytes-Used'<~String> - Bytes used
         #   * body<~Array>:
+        #     * 'bytes'<~Integer> - Number of bytes used by container
+        #     * 'count'<~Integer> - Number of items in container
+        #     * 'name'<~String> - Name of container
         #     * item<~Hash>:
         #       * 'bytes'<~String> - Size of object
         #       * 'content_type'<~String> Content-Type of object

@@ -21,6 +21,10 @@ module Rackspace
         @@connections[service]
       end
 
+      def directories
+        self[:files].directories
+      end
+
       def flavors
         self[:servers].flavors
       end
