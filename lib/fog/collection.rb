@@ -19,7 +19,7 @@ module Fog
       RUBY
     end
 
-    def self._load(marhsalled)
+    def self._load(marshalled)
       new(Marshal.load(marshalled))
     end
 
