@@ -31,6 +31,7 @@ module Fog
 
         def initialize(attributes)
           @groups ||= ["default"]
+          @flavor_id ||= 'm1.small'
           super
         end
 
@@ -56,7 +57,7 @@ module Fog
         # end
 
         def flavor_id
-          @flavor_id || @flavor && @flavor.id || 'm1.small'
+          @flavor && @flavor.id || @flavor_id
         end
 
         def flavor=(new_flavor)
@@ -64,7 +65,7 @@ module Fog
         end
 
         def flavor
-          @flavor || connection.flavors.all.detect {|flavor| flavor.id == @flavor_id}
+          @flavor ||= connection.flavors.all.detect {|flavor| flavor.id == @flavor_id}
         end
 
         def key_pair
@@ -106,7 +107,7 @@ module Fog
         def save
           requires :image_id
 
-          options = {'InstanceType' => flavor}
+          options = {'InstanceType' => flavor.id}
           if @availability_zone
             options['Placement.AvailabilityZone'] = @availability_zone
           end
