@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.46"
+  s.version = "0.0.47"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
-  s.date = %q{2010-02-22}
+  s.date = %q{2010-03-03}
   s.default_executable = %q{fog}
   s.description = %q{brings clouds to you}
   s.email = %q{me@geemus.com}
@@ -143,6 +143,10 @@ Gem::Specification.new do |s|
      "lib/fog/rackspace.rb",
      "lib/fog/rackspace/bin.rb",
      "lib/fog/rackspace/files.rb",
+     "lib/fog/rackspace/models/files/directories.rb",
+     "lib/fog/rackspace/models/files/directory.rb",
+     "lib/fog/rackspace/models/files/file.rb",
+     "lib/fog/rackspace/models/files/files.rb",
      "lib/fog/rackspace/models/servers/flavor.rb",
      "lib/fog/rackspace/models/servers/flavors.rb",
      "lib/fog/rackspace/models/servers/image.rb",
@@ -153,8 +157,10 @@ Gem::Specification.new do |s|
      "lib/fog/rackspace/requests/files/delete_object.rb",
      "lib/fog/rackspace/requests/files/get_container.rb",
      "lib/fog/rackspace/requests/files/get_containers.rb",
+     "lib/fog/rackspace/requests/files/get_object.rb",
      "lib/fog/rackspace/requests/files/head_container.rb",
      "lib/fog/rackspace/requests/files/head_containers.rb",
+     "lib/fog/rackspace/requests/files/head_object.rb",
      "lib/fog/rackspace/requests/files/put_container.rb",
      "lib/fog/rackspace/requests/files/put_object.rb",
      "lib/fog/rackspace/requests/servers/create_image.rb",
@@ -291,8 +297,10 @@ Gem::Specification.new do |s|
      "spec/rackspace/requests/files/delete_object_spec.rb",
      "spec/rackspace/requests/files/get_container_spec.rb",
      "spec/rackspace/requests/files/get_containers_spec.rb",
+     "spec/rackspace/requests/files/get_object_spec.rb",
      "spec/rackspace/requests/files/head_container_spec.rb",
      "spec/rackspace/requests/files/head_containers_spec.rb",
+     "spec/rackspace/requests/files/head_object_spec.rb",
      "spec/rackspace/requests/files/put_container_spec.rb",
      "spec/rackspace/requests/files/put_object_spec.rb",
      "spec/rackspace/requests/servers/create_image_spec.rb",
@@ -367,7 +375,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{fog}
-  s.rubygems_version = %q{1.3.5}
+  s.rubygems_version = %q{1.3.6}
   s.summary = %q{fog = clouds + you}
   s.test_files = [
     "spec/aws/models/ec2/address_spec.rb",
@@ -445,8 +453,10 @@ Gem::Specification.new do |s|
      "spec/rackspace/requests/files/delete_object_spec.rb",
      "spec/rackspace/requests/files/get_container_spec.rb",
      "spec/rackspace/requests/files/get_containers_spec.rb",
+     "spec/rackspace/requests/files/get_object_spec.rb",
      "spec/rackspace/requests/files/head_container_spec.rb",
      "spec/rackspace/requests/files/head_containers_spec.rb",
+     "spec/rackspace/requests/files/head_object_spec.rb",
      "spec/rackspace/requests/files/put_container_spec.rb",
      "spec/rackspace/requests/files/put_object_spec.rb",
      "spec/rackspace/requests/servers/create_image_spec.rb",
