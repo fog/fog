@@ -11,15 +11,8 @@ module Fog
         model Fog::AWS::S3::Directory
 
         def all
-          if @loaded
-            clear
-          end
-          @loaded = true
-          data = connection.get_service.body
-          data['Buckets'].each do |directory|
-            self << new(directory)
-          end
-          self
+          data = connection.get_service.body['Buckets']
+          load(data)
         end
 
         def get(name, options = {})

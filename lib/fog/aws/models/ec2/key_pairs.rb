@@ -19,15 +19,8 @@ module Fog
 
         def all(key_name = @key_name)
           @key_name = key_name
-          if @loaded
-            clear
-          end
-          @loaded = true
           data = connection.describe_key_pairs(key_name).body
-          data['keySet'].each do |key|
-            self << new(key)
-          end
-          self
+          load(data['keySet'])
         end
 
         def get(key_name)

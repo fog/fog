@@ -12,15 +12,8 @@ module Fog
       model Fog::Slicehost::Image
 
       def all
-        if @loaded
-          clear
-        end
-        @loaded = true
-        data = connection.get_images.body
-        for image in data['images']
-          self << new(image)
-        end
-        self
+        data = connection.get_images.body['images']
+        load(data)
       end
 
       def get(image_id)

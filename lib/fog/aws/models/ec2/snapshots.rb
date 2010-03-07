@@ -22,19 +22,12 @@ module Fog
 
         def all(snapshot_id = @snapshot_id)
           @snapshot_id = snapshot_id
-          if @loaded
-            clear
-          end
-          @loaded = true
           data = connection.describe_snapshots(snapshot_id).body
-          snapshots = []
-          data['snapshotSet'].each do |snapshot|
-            snapshots << new(snapshot)
-          end
+          load(data['snapshotSet'])
           if volume
-            snapshots = snapshots.select {|snapshot| snapshot.volume_id == volume.id}
+            self.replace(self.select {|snapshot| snapshot.volume_id == volume.id})
           end
-          self.replace(snapshots)
+          self
         end
 
         def get(snapshot_id)

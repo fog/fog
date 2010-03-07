@@ -19,15 +19,8 @@ module Fog
 
         def all(group_name = @group_name)
           @group_name = group_name
-          if @loaded
-            clear
-          end
-          @loaded = true
           data = connection.describe_security_groups(group_name).body
-          data['securityGroupInfo'].each do |security_group|
-            self << new(security_group)
-          end
-          self
+          load(data['securityGroupInfo'])
         end
 
         def get(group_name)

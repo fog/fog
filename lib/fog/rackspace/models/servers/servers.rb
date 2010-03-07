@@ -11,15 +11,8 @@ module Fog
         model Fog::Rackspace::Servers::Server
 
         def all
-          if @loaded
-            clear
-          end
-          @loaded = true
-          data = connection.list_servers_detail.body
-          for server in data['servers']
-            self << new(server)
-          end
-          self
+          data = connection.list_servers_detail.body['servers']
+          load(data)
         end
 
         def get(server_id)

@@ -11,15 +11,8 @@ module Fog
         model Fog::Rackspace::Servers::Flavor
 
         def all
-          if @loaded
-            clear
-          end
-          @loaded = true
-          data = connection.list_flavors_detail.body
-          for flavor in data['flavors']
-            self << new(flavor)
-          end
-          self
+          data = connection.list_flavors_detail.body['flavors']
+          load(data)
         end
 
         def get(flavor_id)

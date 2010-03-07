@@ -11,15 +11,8 @@ module Fog
         model Fog::Rackspace::Files::Directory
 
         def all
-          if @loaded
-            clear
-          end
-          @loaded = true
           data = connection.get_containers.body
-          data.each do |directory|
-            self << new(directory)
-          end
-          self
+          load(data)
         end
 
         def get(name, options = {})

@@ -15,19 +15,11 @@ module Fog
         attribute :server
 
         def all
-          if @loaded
-            clear
-          end
-          @loaded = true
-          data = connection.list_images_detail.body
-          images = []
-          for image in data['images']
-            images << new(image)
-          end
+          data = connection.list_images_detail.body['images']
+          load(images)
           if server
-            images = images.select {|image| image.server_id == server.id}
+            self.replace(self.select {|image| image.server_id == server.id})
           end
-          self.replace(images)
         end
 
         def get(image_id)

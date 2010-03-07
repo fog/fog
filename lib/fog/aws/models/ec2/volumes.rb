@@ -22,19 +22,11 @@ module Fog
 
         def all(volume_id = @volume_id)
           @volume_id = volume_id
-          if @loaded
-            clear
-          end
-          @loaded = true
           data = connection.describe_volumes(volume_id).body
-          volumes = []
-          data['volumeSet'].each do |volume|
-            volumes << new(volume)
-          end
+          load(data['volumeSet'])
           if server
-            volumes = volumes.select {|volume| volume.server_id == server.id}
+            self.replace(self.select {|volume| volume.server_id == server.id})
           end
-          self.replace(volumes)
         end
 
         def get(volume_id)

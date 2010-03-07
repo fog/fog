@@ -10,15 +10,8 @@ module Fog
       model Fog::Slicehost::Server
 
       def all
-        if @loaded
-          clear
-        end
-        @loaded = true
         data = connection.get_slices.body['slices']
-        for server in data
-          self << new(server)
-        end
-        self
+        load(data)
       end
 
       def get(server_id)

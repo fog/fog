@@ -101,9 +101,15 @@ module Fog
       data
     end
 
-    def load(array)
+    def load(objects)
+      if @loaded
+        clear
+      end
       @loaded = true
-      self.clear.concat(array)
+      for object in objects
+        self << new(object)
+      end
+      self
     end
 
     def model

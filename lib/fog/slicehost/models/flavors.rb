@@ -10,15 +10,8 @@ module Fog
       model Fog::Slicehost::Flavor
 
       def all
-        if @loaded
-          clear
-        end
-        @loaded = true
-        data = connection.get_flavors.body
-        for flavor in data['flavors']
-          self << new(flavor)
-        end
-        self
+        data = connection.get_flavors.body['flavors']
+        load(self)
       end
 
       def get(flavor_id)

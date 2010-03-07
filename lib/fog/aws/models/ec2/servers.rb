@@ -19,17 +19,14 @@ module Fog
 
         def all(server_id = @server_id)
           @server_id = server_id
-          if @loaded
-            clear
-          end
-          @loaded = true
           data = connection.describe_instances(server_id).body
-          data['reservationSet'].each do |reservation|
-            reservation['instancesSet'].each do |instance|
-              self << new(instance.merge(:groups => reservation['groupSet']))
+          load(
+            data['reservationSet'].map do |reservation|
+              reservation['instancesSet'].map do |instance|
+                instance.merge(:groups => reservation['groupSet'])
+              end
             end
-          end
-          self
+          )
         end
 
         def get(server_id)

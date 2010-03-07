@@ -19,15 +19,8 @@ module Fog
 
         def all(image_id = @image_id)
           @image_id = image_id
-          if @loaded
-            clear
-          end
-          @loaded = true
           data = connection.describe_images('ImageId' => image_id).body
-          data['imagesSet'].each do |image|
-            self << new(image)
-          end
-          self
+          load(data['imagesSet'])
         end
 
         def get(image_id)
