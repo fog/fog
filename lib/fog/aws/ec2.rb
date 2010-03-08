@@ -176,4 +176,4 @@ module Fog
   end
 end
 
-Fog::AWS::EC2.dependencies.each {|dependency| require(dependency)}
+Fog::AWS::EC2.reload

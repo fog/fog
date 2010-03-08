@@ -83,4 +83,4 @@ module Fog
   end
 end
 
-Fog::Slicehost.dependencies.each {|dependency| require(dependency)}
+Fog::Slicehost.reload

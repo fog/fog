@@ -156,4 +156,4 @@ module Fog
   end
 end
 
-Fog::AWS::SimpleDB.dependencies.each {|dependency| require(dependency)}
+Fog::AWS::SimpleDB.reload

@@ -68,4 +68,4 @@ module Fog
   end
 end
 
-Fog::Terremark.dependencies.each {|dependency| require(dependency)}
+Fog::Terremark.reload

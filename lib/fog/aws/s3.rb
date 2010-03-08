@@ -167,4 +167,4 @@ DATA
   end
 end
 
-Fog::AWS::S3.dependencies.each {|dependency| require(dependency)}
+Fog::AWS::S3.reload

@@ -58,4 +58,4 @@ module Fog
   end
 end
 
-Fog::Rackspace.dependencies.each {|dependency| require(dependency)}
+Fog::Rackspace.reload

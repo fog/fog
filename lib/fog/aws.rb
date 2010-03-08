@@ -178,4 +178,4 @@ module Fog
   end
 end
 
-Fog::AWS.dependencies.each {|dependency| require(dependency)}
+Fog::AWS.reload

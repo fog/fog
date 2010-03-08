@@ -105,4 +105,4 @@ module Fog
   end
 end
 
-Fog::Rackspace::Files.dependencies.each {|dependency| require(dependency)}
+Fog::Rackspace::Files.reload
