@@ -14,7 +14,7 @@ module Fog
       class_eval <<-RUBY
         def #{method}(*args)
           lazy_load
-          self.class.new(:connection => self.connection).load(super)
+          self.class.new(:connection => self.connection).load(self.map {|member| member.attributes})
         end
       RUBY
     end
