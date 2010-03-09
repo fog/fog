@@ -14,12 +14,12 @@ module Fog
 
         def all(options = {})
           merge_attributes(options)
-          directory = directory.collection.get(
+          parent = directory.collection.get(
             directory.name,
             options
           )
-          if directory
-            load(directory.files.map {|file| file.attributes})
+          if parent
+            load(parent.files.map {|file| file.attributes})
           else
             nil
           end
