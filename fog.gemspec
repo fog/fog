@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.54"
+  s.version = "0.0.55"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
-  s.date = %q{2010-03-08}
+  s.date = %q{2010-03-09}
   s.default_executable = %q{fog}
   s.description = %q{brings clouds to you}
   s.email = %q{me@geemus.com}
