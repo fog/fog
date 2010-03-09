@@ -27,6 +27,7 @@ module Fog
           if server
             self.replace(self.select {|volume| volume.server_id == server.id})
           end
+          self
         end
 
         def get(volume_id)
