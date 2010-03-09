@@ -25,7 +25,7 @@ module Fog
               reservation['instancesSet'].map do |instance|
                 instance.merge(:groups => reservation['groupSet'])
               end
-            end
+            end.flatten
           )
         end
 
