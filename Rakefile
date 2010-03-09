@@ -7,8 +7,8 @@ require "#{current_directory}/lib/fog"
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
-    gem.add_dependency('excon', '>=0.0.18')
-    gem.add_dependency('formatador', '>=0.0.8')
+    gem.add_dependency('excon', '>=0.0.20')
+    gem.add_dependency('formatador', '>=0.0.10')
     gem.add_dependency('json')
     gem.add_dependency('mime-types')
     gem.add_dependency('nokogiri')
