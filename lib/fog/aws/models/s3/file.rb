@@ -6,7 +6,7 @@ module Fog
 
         identity  :key,             'Key'
 
-        attribute :body
+        attr_accessor :body
         attribute :content_length,  'Content-Length'
         attribute :content_type,    'Content-Type'
         attribute :etag,            ['Etag', 'ETag']
