@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module S3
+      class Real
 
-  module Fog
-    module AWS
-      class S3
+        require 'fog/aws/parsers/s3/get_request_payment'
 
         # Get configured payer for an S3 bucket
         #
@@ -26,18 +27,12 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class S3
+      class Mock
 
         def get_request_payment(bucket_name)
           response = Excon::Response.new
-          if bucket = Fog::AWS::S3.data[:buckets][bucket_name]
+          if bucket = @data[:buckets][bucket_name]
             response.status = 200
             response.body = { 'Payer' => bucket['Payer'] }
           else
@@ -50,5 +45,4 @@ else
       end
     end
   end
-
 end

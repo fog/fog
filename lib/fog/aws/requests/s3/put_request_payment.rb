@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module AWS
-      class S3
+module Fog
+  module AWS
+    module S3
+      class Real
 
         # Change who pays for requests to an S3 bucket
         #
@@ -27,18 +26,12 @@ DATA
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class S3
+      class Mock
 
         def put_request_payment(bucket_name, payer)
           response = Excon::Response.new
-          if bucket = Fog::AWS::S3.data[:buckets][bucket_name]
+          if bucket = @data[:buckets][bucket_name]
             response.status = 200
             bucket['Payer'] = payer
           else
@@ -51,6 +44,4 @@ else
       end
     end
   end
-
-
 end

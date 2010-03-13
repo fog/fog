@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module AWS
-      class S3
+module Fog
+  module AWS
+    module S3
+      class Real
 
         # Get headers for an object from S3
         #
@@ -39,14 +38,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class S3
+      class Mock
 
         def head_object(bucket_name, object_name, options = {})
           response = get_object(bucket_name, object_name, options)
@@ -57,5 +50,4 @@ else
       end
     end
   end
-
 end

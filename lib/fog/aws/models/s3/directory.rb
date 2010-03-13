@@ -1,6 +1,9 @@
+require 'fog/model'
+require 'fog/aws/models/s3/files'
+
 module Fog
   module AWS
-    class S3
+    module S3
 
       class Directory < Fog::Model
 

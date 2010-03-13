@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module S3
+      class Real
 
-  module Fog
-    module AWS
-      class S3
+        require 'fog/aws/parsers/s3/copy_object'
 
         # Copy an object from one S3 bucket to another
         #
@@ -38,20 +39,14 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class S3
+      class Mock
 
         def copy_object(source_bucket_name, source_object_name, target_bucket_name, target_object_name, options = {})
           response = Excon::Response.new
-          source_bucket = Fog::AWS::S3.data[:buckets][source_bucket_name]
+          source_bucket = @data[:buckets][source_bucket_name]
           source_object = source_bucket && source_bucket[:objects][source_object_name]
-          target_bucket = Fog::AWS::S3.data[:buckets][target_bucket_name]
+          target_bucket = @data[:buckets][target_bucket_name]
 
           if source_object && target_bucket
             response.status = 200
@@ -75,5 +70,4 @@ else
       end
     end
   end
-
 end

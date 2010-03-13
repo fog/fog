@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module AWS
-      class S3
+module Fog
+  module AWS
+    module S3
+      class Real
 
         # Create an object in an S3 bucket
         #
@@ -25,7 +24,7 @@ unless Fog.mocking?
         #   * headers<~Hash>:
         #     * 'ETag'<~String> - etag of new object
         def put_object(bucket_name, object_name, data, options = {})
-          data = parse_data(data)
+          data = Fog::AWS::S3.parse_data(data)
           headers = data[:headers].merge!(options)
           request({
             :body       => data[:body],
@@ -39,19 +38,13 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class S3
+      class Mock
 
         def put_object(bucket_name, object_name, data, options = {})
-          data = parse_data(data)
+          data = Fog::AWS::S3.parse_data(data)
           response = Excon::Response.new
-          if (bucket = Fog::AWS::S3.data[:buckets][bucket_name])
+          if (bucket = @data[:buckets][bucket_name])
             response.status = 200
             bucket[:objects][object_name] = {
               :body           => data[:body],
@@ -72,5 +65,4 @@ else
       end
     end
   end
-
 end

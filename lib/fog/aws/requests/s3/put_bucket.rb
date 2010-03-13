@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module AWS
-      class S3
+module Fog
+  module AWS
+    module S3
+      class Real
 
         # Create an S3 bucket
         #
@@ -17,11 +16,11 @@ unless Fog.mocking?
         def put_bucket(bucket_name, options = {})
           if options['LocationConstraint']
             data =
-  <<-DATA
-    <CreateBucketConfiguration>
-      <LocationConstraint>#{options['LocationConstraint']}</LocationConstraint>
-    </CreateBucketConfiguration>
-  DATA
+<<-DATA
+  <CreateBucketConfiguration>
+    <LocationConstraint>#{options['LocationConstraint']}</LocationConstraint>
+  </CreateBucketConfiguration>
+DATA
           else
             data = nil
           end
@@ -36,14 +35,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class S3
+      class Mock
 
         def put_bucket(bucket_name, options = {})
           response = Excon::Response.new
@@ -60,8 +53,8 @@ else
           else
             bucket['LocationConstraint'] = ''
           end
-          unless Fog::AWS::S3.data[:buckets][bucket_name]
-            Fog::AWS::S3.data[:buckets][bucket_name] = bucket
+          unless @data[:buckets][bucket_name]
+            @data[:buckets][bucket_name] = bucket
           end
           response
         end
@@ -69,5 +62,4 @@ else
       end
     end
   end
-
 end

@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module AWS
-      class S3
+module Fog
+  module AWS
+    module S3
+      class Real
 
         # Delete an object from S3
         #
@@ -25,18 +24,12 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class S3
+      class Mock
 
         def delete_object(bucket_name, object_name)
           response = Excon::Response.new
-          if bucket = Fog::AWS::S3.data[:buckets][bucket_name]
+          if bucket = @data[:buckets][bucket_name]
             response.status = 204
             bucket[:objects].delete(object_name)
           else
@@ -49,5 +42,4 @@ else
       end
     end
   end
-
 end

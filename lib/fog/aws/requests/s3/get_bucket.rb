@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module S3
+      class Real
 
-  module Fog
-    module AWS
-      class S3
+        require 'fog/aws/parsers/s3/get_bucket'
 
         # List information about objects in an S3 bucket
         #
@@ -54,14 +55,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class S3
+      class Mock
 
         # FIXME: implement delimiter
         def get_bucket(bucket_name, options = {})
@@ -69,16 +64,17 @@ else
             raise ArgumentError.new('bucket_name is required')
           end
           response = Excon::Response.new
-          if bucket = Fog::AWS::S3.data[:buckets][bucket_name]
+          if bucket = @data[:buckets][bucket_name]
             response.status = 200
             response.body = {
               'Contents' => bucket[:objects].values.sort {|x,y| x['Key'] <=> y['Key']}.reject do |object|
                   (options['prefix'] && object['Key'][0...options['prefix'].length] != options['prefix']) ||
                   (options['marker'] && object['Key'] <= options['marker'])
                 end.map do |object|
-                  data = object.reject {|key, value| !['ETag', 'Key', 'LastModified', 'Owner', 'Size', 'StorageClass'].include?(key)}
+                  data = object.reject {|key, value| !['ETag', 'Key', 'LastModified', 'Size', 'StorageClass'].include?(key)}
                   data.merge!({
                     'LastModified' => Time.parse(data['LastModified']),
+                    'Owner'        => bucket['Owner'],
                     'Size'         => data['Size'].to_i
                   })
                 data
@@ -103,5 +99,4 @@ else
       end
     end
   end
-
 end

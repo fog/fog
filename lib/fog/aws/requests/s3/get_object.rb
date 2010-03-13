@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module AWS
-      class S3
+module Fog
+  module AWS
+    module S3
+      class Real
 
         # Get an object from S3
         #
@@ -56,19 +55,13 @@ unless Fog.mocking?
             :headers  => {},
             :host     => "#{bucket_name}.#{@host}",
             :method   => 'GET',
-            :path     => object_name
+            :path     => CGI.escape(object_name)
           }, expires)
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class S3
+      class Mock
 
         def get_object(bucket_name, object_name, options = {}, &block)
           unless bucket_name
@@ -78,7 +71,7 @@ else
             raise ArgumentError.new('object_name is required')
           end
           response = Excon::Response.new
-          if (bucket = Fog::AWS::S3.data[:buckets][bucket_name]) && (object = bucket[:objects][object_name])
+          if (bucket = @data[:buckets][bucket_name]) && (object = bucket[:objects][object_name])
             if options['If-Match'] && options['If-Match'] != object['ETag']
               response.status = 412
             elsif options['If-Modified-Since'] && options['If-Modified-Since'] > Time.parse(object['LastModified'])
@@ -121,5 +114,4 @@ else
       end
     end
   end
-
 end

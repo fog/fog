@@ -1,9 +1,20 @@
+require 'fog/collection'
+require 'fog/aws/models/s3/directory'
+
 module Fog
   module AWS
-    class S3
+    module S3
 
-      def directories
-        Fog::AWS::S3::Directories.new(:connection => self)
+      class Real
+        def directories
+          Fog::AWS::S3::Directories.new(:connection => self)
+        end
+      end
+
+      class Mock
+        def directories
+          Fog::AWS::S3::Directories.new(:connection => self)
+        end
       end
 
       class Directories < Fog::Collection

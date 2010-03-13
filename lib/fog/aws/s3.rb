@@ -1,82 +1,33 @@
+require 'fog/aws/models/s3/directories'
+require 'fog/aws/models/s3/directory'
+require 'fog/aws/models/s3/files'
+require 'fog/aws/models/s3/file'
+require 'fog/aws/requests/s3/copy_object'
+require 'fog/aws/requests/s3/delete_bucket'
+require 'fog/aws/requests/s3/delete_object'
+require 'fog/aws/requests/s3/get_bucket'
+require 'fog/aws/requests/s3/get_bucket_location'
+require 'fog/aws/requests/s3/get_object'
+require 'fog/aws/requests/s3/get_request_payment'
+require 'fog/aws/requests/s3/get_service'
+require 'fog/aws/requests/s3/head_object'
+require 'fog/aws/requests/s3/put_bucket'
+require 'fog/aws/requests/s3/put_object'
+require 'fog/aws/requests/s3/put_request_payment'
+
 module Fog
   module AWS
-    class S3
+    module S3
 
-      if Fog.mocking?
-        def self.reset_data
-          @data = { :buckets => {} }
-        end
-        def self.data
-          @data
-        end
-      end
-
-      def self.dependencies
-        [
-          "fog/aws/models/s3/directory.rb",
-          "fog/aws/models/s3/directories.rb",
-          "fog/aws/models/s3/file.rb",
-          "fog/aws/models/s3/files.rb",
-          "fog/aws/parsers/s3/copy_object.rb",
-          "fog/aws/parsers/s3/get_bucket.rb",
-          "fog/aws/parsers/s3/get_bucket_location.rb",
-          "fog/aws/parsers/s3/get_request_payment.rb",
-          "fog/aws/parsers/s3/get_service.rb",
-          "fog/aws/requests/s3/copy_object.rb",
-          "fog/aws/requests/s3/delete_bucket.rb",
-          "fog/aws/requests/s3/delete_object.rb",
-          "fog/aws/requests/s3/get_bucket.rb",
-          "fog/aws/requests/s3/get_bucket_location.rb",
-          "fog/aws/requests/s3/get_object.rb",
-          "fog/aws/requests/s3/get_request_payment.rb",
-          "fog/aws/requests/s3/get_service.rb",
-          "fog/aws/requests/s3/head_object.rb",
-          "fog/aws/requests/s3/put_bucket.rb",
-          "fog/aws/requests/s3/put_object.rb",
-          "fog/aws/requests/s3/put_request_payment.rb"
-        ]
-      end
-
-      def self.reload
-        self.dependencies.each {|dependency| load(dependency)}
+      def self.new(options={})
         if Fog.mocking?
-          reset_data
+          Fog::AWS::S3::Mock.new(options)
+        else
+          Fog::AWS::S3::Real.new(options)
         end
       end
 
-      # Initialize connection to S3
-      #
-      # ==== Notes
-      # options parameter must include values for :aws_access_key_id and 
-      # :aws_secret_access_key in order to create a connection
-      #
-      # ==== Examples
-      #   s3 = S3.new(
-      #     :aws_access_key_id => your_aws_access_key_id,
-      #     :aws_secret_access_key => your_aws_secret_access_key
-      #   )
-      #
-      # ==== Parameters
-      # * options<~Hash> - config arguments for connection.  Defaults to {}.
-      #
-      # ==== Returns
-      # * S3 object with connection to aws.
-      def initialize(options={})
-        unless @aws_access_key_id = options[:aws_access_key_id]
-          raise ArgumentError.new('aws_access_key_id is required to access ec2')
-        end
-        unless @aws_secret_access_key = options[:aws_secret_access_key]
-          raise ArgumentError.new('aws_secret_access_key is required to access ec2')
-        end
-        @hmac       = HMAC::SHA1.new(@aws_secret_access_key)
-        @host       = options[:host]      || 's3.amazonaws.com'
-        @port       = options[:port]      || 443
-        @scheme     = options[:scheme]    || 'https'
-      end
-
-      private
-
-      def parse_data(data)
+      def self.parse_data(data)
         metadata = {
           :body => nil,
           :headers => {}
@@ -97,27 +48,64 @@ module Fog
         metadata
       end
 
-      def request(params)
-        @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
-        params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
-        params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
+      class Mock
 
-        response = @connection.request(params)
+        def reset_data
+          @data = { :buckets => {} }
+        end
 
-        response
+        def initialize(options={})
+          reset_data
+        end
+
       end
 
-      def url(params, expires)
-        params[:headers]['Date'] = expires.to_i
-        query = [params[:query]].compact
-        query << "AWSAccessKeyId=#{@aws_access_key_id}"
-        query << "Signature=#{CGI.escape(signature(params))}"
-        query << "Expires=#{params[:headers]['Date']}"
-        "http://#{params[:host]}/#{params[:path]}?#{query.join('&')}"
-      end
+      class Real
 
-      def signature(params)
-        string_to_sign =
+        # Initialize connection to S3
+        #
+        # ==== Notes
+        # options parameter must include values for :aws_access_key_id and 
+        # :aws_secret_access_key in order to create a connection
+        #
+        # ==== Examples
+        #   s3 = S3.new(
+        #     :aws_access_key_id => your_aws_access_key_id,
+        #     :aws_secret_access_key => your_aws_secret_access_key
+        #   )
+        #
+        # ==== Parameters
+        # * options<~Hash> - config arguments for connection.  Defaults to {}.
+        #
+        # ==== Returns
+        # * S3 object with connection to aws.
+        def initialize(options={})
+          unless @aws_access_key_id = options[:aws_access_key_id]
+            raise ArgumentError.new('aws_access_key_id is required to access ec2')
+          end
+          unless @aws_secret_access_key = options[:aws_secret_access_key]
+            raise ArgumentError.new('aws_secret_access_key is required to access ec2')
+          end
+          @hmac       = HMAC::SHA1.new(@aws_secret_access_key)
+          @host       = options[:host]      || 's3.amazonaws.com'
+          @port       = options[:port]      || 443
+          @scheme     = options[:scheme]    || 'https'
+        end
+
+        private
+
+        def request(params)
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
+          params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
+          params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
+
+          response = @connection.request(params)
+
+          response
+        end
+
+        def signature(params)
+          string_to_sign =
 <<-DATA
 #{params[:method]}
 #{params[:headers]['Content-MD5']}
@@ -125,46 +113,54 @@ module Fog
 #{params[:headers]['Date']}
 DATA
 
-        amz_headers, canonical_amz_headers = {}, ''
-        for key, value in params[:headers]
-          if key[0..5] == 'x-amz-'
-            amz_headers[key] = value
+          amz_headers, canonical_amz_headers = {}, ''
+          for key, value in params[:headers]
+            if key[0..5] == 'x-amz-'
+              amz_headers[key] = value
+            end
           end
-        end
-        amz_headers = amz_headers.sort {|x, y| x[0] <=> y[0]}
-        for pair in amz_headers
-          canonical_amz_headers << "#{pair[0]}:#{pair[1]}\n"
-        end
-        string_to_sign << "#{canonical_amz_headers}"
-
-        subdomain = params[:host].split(".#{@host}").first
-        unless subdomain =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
-          puts("[WARN] fog: the specified s3 bucket name(#{subdomain}) is not a valid dns name.  See: http://docs.amazonwebservices.com/AmazonS3/latest/dev/index.html?Introduction.html")
-          params[:host] = params[:host].split("#{subdomain}.")[-1]
-          if params[:path]
-            params[:path] = "#{subdomain}/#{params[:path]}"
-          else
-            params[:path] = "#{subdomain}"
+          amz_headers = amz_headers.sort {|x, y| x[0] <=> y[0]}
+          for pair in amz_headers
+            canonical_amz_headers << "#{pair[0]}:#{pair[1]}\n"
           end
-          subdomain = nil
+          string_to_sign << "#{canonical_amz_headers}"
+
+          subdomain = params[:host].split(".#{@host}").first
+          unless subdomain =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
+            puts("[WARN] fog: the specified s3 bucket name(#{subdomain}) is not a valid dns name.  See: http://docs.amazonwebservices.com/AmazonS3/latest/dev/index.html?Introduction.html")
+            params[:host] = params[:host].split("#{subdomain}.")[-1]
+            if params[:path]
+              params[:path] = "#{subdomain}/#{params[:path]}"
+            else
+              params[:path] = "#{subdomain}"
+            end
+            subdomain = nil
+          end
+
+          canonical_resource  = "/"
+          unless subdomain.nil? || subdomain == @host
+            canonical_resource << "#{CGI.escape(subdomain).downcase}/"
+          end
+          canonical_resource << "#{params[:path]}"
+          if ['acl', 'location', 'logging', 'requestPayment', 'torrent'].include?(params[:query])
+            canonical_resource << "?#{params[:query]}"
+          end
+          string_to_sign << "#{canonical_resource}"
+
+          hmac = @hmac.update(string_to_sign)
+          signature = Base64.encode64(hmac.digest).chomp!
         end
 
-        canonical_resource  = "/"
-        unless subdomain.nil? || subdomain == @host
-          canonical_resource << "#{CGI.escape(subdomain).downcase}/"
+        def url(params, expires)
+          params[:headers]['Date'] = expires.to_i
+          query = [params[:query]].compact
+          query << "AWSAccessKeyId=#{@aws_access_key_id}"
+          query << "Signature=#{CGI.escape(signature(params))}"
+          query << "Expires=#{params[:headers]['Date']}"
+          "http://#{params[:host]}/#{params[:path]}?#{query.join('&')}"
         end
-        canonical_resource << "#{params[:path]}"
-        if ['acl', 'location', 'logging', 'requestPayment', 'torrent'].include?(params[:query])
-          canonical_resource << "?#{params[:query]}"
-        end
-        string_to_sign << "#{canonical_resource}"
 
-        hmac = @hmac.update(string_to_sign)
-        signature = Base64.encode64(hmac.digest).chomp!
       end
-
     end
   end
 end
-
-Fog::AWS::S3.reload

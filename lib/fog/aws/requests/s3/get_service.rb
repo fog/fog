@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module S3
+      class Real
 
-  module Fog
-    module AWS
-      class S3
+        require 'fog/aws/parsers/s3/get_service'
 
         # List information about S3 buckets for authorized user
         #
@@ -28,19 +29,13 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class S3
+      class Mock
 
         def get_service
           response = Excon::Response.new
           response.headers['Status'] = 200
-          buckets = Fog::AWS::S3.data[:buckets].values.map do |bucket|
+          buckets = @data[:buckets].values.map do |bucket|
             bucket.reject do |key, value|
               !['CreationDate', 'Name'].include?(key)
             end
@@ -55,5 +50,4 @@ else
       end
     end
   end
-
 end
