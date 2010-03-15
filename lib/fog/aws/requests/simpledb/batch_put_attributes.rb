@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module AWS
-      class SimpleDB
+module Fog
+  module AWS
+    module SimpleDB
+      class Real
 
         # Put items attributes into a SimpleDB domain
         #
@@ -29,27 +28,21 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class SimpleDB
+      class Mock
 
         def batch_put_attributes(domain_name, items, replace_attributes = Hash.new([]))
           response = Excon::Response.new
-          if Fog::AWS::SimpleDB.data[:domains][domain_name]
+          if @data[:domains][domain_name]
             for item_name, attributes in items do
               for key, value in attributes do
-                Fog::AWS::SimpleDB.data[:domains][domain_name][item_name] ||= {}
+                @data[:domains][domain_name][item_name] ||= {}
                 if replace_attributes[item_name] && replace_attributes[item_name].include?(key)
-                  Fog::AWS::SimpleDB.data[:domains][domain_name][item_name][key.to_s] = []
+                  @data[:domains][domain_name][item_name][key.to_s] = []
                 else
-                  Fog::AWS::SimpleDB.data[:domains][domain_name][item_name][key.to_s] ||= []
+                  @data[:domains][domain_name][item_name][key.to_s] ||= []
                 end
-                Fog::AWS::SimpleDB.data[:domains][domain_name][item_name][key.to_s] << value.to_s
+                @data[:domains][domain_name][item_name][key.to_s] << value.to_s
               end
             end
             response.status = 200
@@ -67,5 +60,4 @@ else
       end
     end
   end
-
 end

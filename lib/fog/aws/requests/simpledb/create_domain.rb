@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module AWS
-      class SimpleDB
+module Fog
+  module AWS
+    module SimpleDB
+      class Real
 
         # Create a SimpleDB domain
         #
@@ -23,18 +22,12 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class SimpleDB
+      class Mock
 
         def create_domain(domain_name)
           response = Excon::Response.new
-          Fog::AWS::SimpleDB.data[:domains][domain_name] = {}
+          @data[:domains][domain_name] = {}
           response.status = 200
           response.body = {
             'BoxUsage'  => Fog::AWS::Mock.box_usage,
@@ -46,5 +39,4 @@ else
       end
     end
   end
-
 end

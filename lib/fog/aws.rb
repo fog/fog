@@ -1,12 +1,12 @@
-require 'fog/aws/s3.rb'
+require 'fog/aws/s3'
+require 'fog/aws/simpledb'
 
 module Fog
   module AWS
 
     def self.dependencies
       [
-        'fog/aws/ec2.rb',
-        'fog/aws/simpledb.rb'
+        'fog/aws/ec2.rb'
       ]
     end
 

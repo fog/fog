@@ -1,3 +1,5 @@
+require 'fog/aws/parsers/simpledb/basic'
+
 module Fog
   module Parsers
     module AWS

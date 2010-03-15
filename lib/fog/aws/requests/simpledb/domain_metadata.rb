@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module SimpleDB
+      class Real
 
-  module Fog
-    module AWS
-      class SimpleDB
+        require 'fog/aws/parsers/simpledb/domain_metadata'
 
         # List metadata for SimpleDB domain
         #
@@ -30,20 +31,14 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class SimpleDB
+      class Mock
 
         def domain_metadata(domain_name)
           response = Excon::Response.new
-          if domain = Fog::AWS::SimpleDB.data[:domains][domain_name]
+          if domain = @data[:domains][domain_name]
             response.status = 200
-            
+          
             attribute_names = []
             attribute_values = []
             for item in domain.values
@@ -54,7 +49,7 @@ else
                 end
               end
             end
-            
+          
             response.body = {
               'AttributeNameCount'        => attribute_names.length,
               'AttributeNamesSizeBytes'   => attribute_names.join('').length,
@@ -76,5 +71,4 @@ else
       end
     end
   end
-
 end

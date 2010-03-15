@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module SimpleDB
+      class Real
 
-  module Fog
-    module AWS
-      class SimpleDB
+        require 'fog/aws/parsers/simpledb/get_attributes'
 
         # List metadata for SimpleDB domain
         #
@@ -13,7 +14,7 @@ unless Fog.mocking?
         #   in xml.  Control characters and sequences not allowed in xml are not
         #   valid.  Can be up to 1024 bytes long.
         # * attributes<~Array> - Attributes to return from the item.  Defaults to
-        #   nil, which will return all attributes. Attribute names and values may use
+        #   {}, which will return all attributes. Attribute names and values may use
         #   any UTF-8 characters valid in xml. Control characters and sequences not 
         #   allowed in xml are not valid.  Each name and value can be up to 1024
         #   bytes long.
@@ -24,7 +25,8 @@ unless Fog.mocking?
         #     * 'Attributes' - list of attribute name/values for the item
         #     * 'BoxUsage'
         #     * 'RequestId'
-        def get_attributes(domain_name, item_name, attributes = nil)
+        def get_attributes(domain_name, item_name, attributes = {})
+          
           request({
             'Action' => 'GetAttributes',
             'DomainName' => domain_name,
@@ -33,27 +35,21 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class SimpleDB
+      class Mock
 
         def get_attributes(domain_name, item_name, attributes = nil)
           response = Excon::Response.new
-          if Fog::AWS::SimpleDB.data[:domains][domain_name]
+          if @data[:domains][domain_name]
             object = {}
             if attributes
               for attribute in attributes
-                if Fog::AWS::SimpleDB.data[:domains][domain_name][item_name] && Fog::AWS::SimpleDB.data[:domains][domain_name][item_name]
-                  object[attribute] = Fog::AWS::SimpleDB.data[:domains][domain_name][item_name][attribute]
+                if @data[:domains][domain_name][item_name] && @data[:domains][domain_name][item_name]
+                  object[attribute] = @data[:domains][domain_name][item_name][attribute]
                 end
               end
-            elsif Fog::AWS::SimpleDB.data[:domains][domain_name][item_name]
-              object = Fog::AWS::SimpleDB.data[:domains][domain_name][item_name]
+            elsif @data[:domains][domain_name][item_name]
+              object = @data[:domains][domain_name][item_name]
             end
             response.status = 200
             response.body = {
@@ -71,5 +67,4 @@ else
       end
     end
   end
-
 end

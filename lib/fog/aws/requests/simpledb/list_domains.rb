@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module SimpleDB
+      class Real
 
-  module Fog
-    module AWS
-      class SimpleDB
+        require 'fog/aws/parsers/simpledb/list_domains'
 
         # List SimpleDB domains
         #
@@ -26,22 +27,16 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class SimpleDB
+      class Mock
 
         def list_domains(options = {})
           response = Excon::Response.new
-          keys = Fog::AWS::SimpleDB.data[:domains].keys
+          keys = @data[:domains].keys
           max = options['MaxNumberOfDomains'] || keys.size
           offset = options['NextToken'] || 0
           domains = []
-          for key, value in Fog::AWS::SimpleDB.data[:domains].keys[offset...max]
+          for key, value in @data[:domains].keys[offset...max]
             domains << key
           end
           response.status = 200
@@ -59,5 +54,4 @@ else
       end
     end
   end
-
 end

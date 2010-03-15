@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module AWS
-      class SimpleDB
+module Fog
+  module AWS
+    module SimpleDB
+      class Real
 
         # Put item attributes into a SimpleDB domain
         #
@@ -27,14 +26,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class SimpleDb
+      class Mock
 
         def put_attributes(domain_name, item_name, attributes, replace_attributes = [])
           batch_put_attributes(domain_name, { item_name => attributes }, { item_name => replace_attributes })
@@ -43,5 +36,4 @@ else
       end
     end
   end
-
 end

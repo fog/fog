@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module AWS
-      class SimpleDB
+module Fog
+  module AWS
+    module SimpleDB
+      class Real
 
         # List metadata for SimpleDB domain
         #
@@ -32,26 +31,20 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class SimpleDB
+      class Mock
 
         def delete_attributes(domain_name, item_name, attributes = nil)
           response = Excon::Response.new
-          if Fog::AWS::SimpleDB.data[:domains][domain_name]
+          if @data[:domains][domain_name]
             if attributes
               for key, value in attributes
-                if Fog::AWS::SimpleDB.data[:domains][domain_name][key]
-                  Fog::AWS::SimpleDB.data[:domains][domain_name][key].delete('value')
+                if @data[:domains][domain_name][key]
+                  @data[:domains][domain_name][key].delete('value')
                 end
               end
             else
-              Fog::AWS::SimpleDB.data[:domains].delete(domain_name)
+              @data[:domains].delete(domain_name)
             end
             response.status = 200
             response.body = {
@@ -68,5 +61,4 @@ else
       end
     end
   end
-
 end

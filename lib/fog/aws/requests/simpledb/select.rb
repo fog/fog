@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module SimpleDB
+      class Real
 
-  module Fog
-    module AWS
-      class SimpleDB
+        require 'fog/aws/parsers/simpledb/select'
 
         # Select item data from SimpleDB
         #
@@ -27,14 +28,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class SimpleDB
+      class Mock
 
         def select(select_expression, next_token = nil)
           raise MockNotImplemented.new("Contributions welcome!")
@@ -43,5 +38,4 @@ else
       end
     end
   end
-
 end
