@@ -24,10 +24,11 @@ module Fog
         #     * 'RequestId'
         def delete_attributes(domain_name, item_name, attributes = nil)
           request({
-            'Action' => 'DeleteAttributes',
-            'DomainName' => domain_name,
-            'ItemName' => item_name
-          }.merge!(encode_attributes(attributes)), Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string))
+            'Action'      => 'DeleteAttributes',
+            'DomainName'  => domain_name,
+            'ItemName'    => item_name,
+            :parser       => Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string)
+          }.merge!(encode_attributes(attributes)))
         end
 
       end

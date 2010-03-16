@@ -28,10 +28,11 @@ module Fog
         def get_attributes(domain_name, item_name, attributes = {})
           
           request({
-            'Action' => 'GetAttributes',
-            'DomainName' => domain_name,
-            'ItemName' => item_name,
-          }.merge!(encode_attribute_names(attributes)), Fog::Parsers::AWS::SimpleDB::GetAttributes.new(@nil_string))
+            'Action'      => 'GetAttributes',
+            'DomainName'  => domain_name,
+            'ItemName'    => item_name,
+            :parser       => Fog::Parsers::AWS::SimpleDB::GetAttributes.new(@nil_string)
+          }.merge!(encode_attribute_names(attributes)))
         end
 
       end

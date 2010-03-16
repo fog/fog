@@ -24,10 +24,11 @@ module Fog
         #     * 'RequestId'
         #     * 'Timestamp' - last update time for metadata.
         def domain_metadata(domain_name)
-          request({
-            'Action' => 'DomainMetadata',
-            'DomainName' => domain_name
-          }, Fog::Parsers::AWS::SimpleDB::DomainMetadata.new(@nil_string))
+          request(
+            'Action'      => 'DomainMetadata',
+            'DomainName'  => domain_name,
+            :parser       => Fog::Parsers::AWS::SimpleDB::DomainMetadata.new(@nil_string)
+          )
         end
 
       end

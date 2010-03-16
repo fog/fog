@@ -20,11 +20,12 @@ module Fog
         #       { 'item_name' => { 'attribute_name' => ['attribute_value'] }}
         #     * 'NextToken'<~String> - offset to start with if there are are more domains to list
         def select(select_expression, next_token = nil)
-          request({
-            'Action' => 'Select',
-            'NextToken' => next_token,
-            'SelectExpression' => select_expression
-          }, Fog::Parsers::AWS::SimpleDB::Select.new(@nil_string))
+          request(
+            'Action'            => 'Select',
+            'NextToken'         => next_token,
+            'SelectExpression'  => select_expression,
+            :parser             => Fog::Parsers::AWS::SimpleDB::Select.new(@nil_string)
+          )
         end
 
       end

@@ -108,8 +108,10 @@ module Fog
           encoded_attributes
         end
 
-        def request(params, parser)
+        def request(params)
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
+          parser = params.delete(:parser)
+
           params.merge!({
             'AWSAccessKeyId' => @aws_access_key_id,
             'SignatureMethod' => 'HmacSHA256',

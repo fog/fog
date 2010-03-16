@@ -15,10 +15,11 @@ module Fog
         #     * 'BoxUsage'
         #     * 'RequestId'
         def delete_domain(domain_name)
-          request({
-            'Action' => 'DeleteDomain',
-            'DomainName' => domain_name
-          }, Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string))
+          request(
+            'Action'      => 'DeleteDomain',
+            'DomainName'  => domain_name,
+            :parser       => Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string)
+          )
         end
 
       end

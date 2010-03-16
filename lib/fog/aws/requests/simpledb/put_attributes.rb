@@ -22,7 +22,11 @@ module Fog
         #     * 'BoxUsage'
         #     * 'RequestId'
         def put_attributes(domain_name, item_name, attributes, replace_attributes = [])
-          batch_put_attributes(domain_name, { item_name => attributes }, { item_name => replace_attributes })
+          batch_put_attributes(
+            domain_name,
+            { item_name => attributes },
+            { item_name => replace_attributes }
+          )
         end
 
       end
@@ -30,7 +34,11 @@ module Fog
       class Mock
 
         def put_attributes(domain_name, item_name, attributes, replace_attributes = [])
-          batch_put_attributes(domain_name, { item_name => attributes }, { item_name => replace_attributes })
+          batch_put_attributes(
+            domain_name,
+            { item_name => attributes },
+            { item_name => replace_attributes }
+          )
         end
 
       end

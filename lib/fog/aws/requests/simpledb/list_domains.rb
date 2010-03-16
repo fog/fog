@@ -22,8 +22,9 @@ module Fog
         #     * 'RequestId'
         def list_domains(options = {})
           request({
-            'Action' => 'ListDomains'
-          }.merge!(options), Fog::Parsers::AWS::SimpleDB::ListDomains.new(@nil_string))
+            'Action' => 'ListDomains',
+            :parser  => Fog::Parsers::AWS::SimpleDB::ListDomains.new(@nil_string)
+          }.merge!(options))
         end
 
       end

@@ -15,10 +15,11 @@ module Fog
         #     * 'BoxUsage'
         #     * 'RequestId'
         def create_domain(domain_name)
-          request({
-            'Action' => 'CreateDomain',
-            'DomainName' => domain_name
-          }, Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string))
+          request(
+            'Action'      => 'CreateDomain',
+            'DomainName'  => domain_name,
+            :parser       => Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string)
+          )
         end
 
       end
