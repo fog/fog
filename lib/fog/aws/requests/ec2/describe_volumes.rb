@@ -28,8 +28,9 @@ unless Fog.mocking?
         def describe_volumes(volume_id = [])
           params = AWS.indexed_param('VolumeId', volume_id)
           request({
-            'Action' => 'DescribeVolumes'
-          }.merge!(params), Fog::Parsers::AWS::EC2::DescribeVolumes.new)
+            'Action'  => 'DescribeVolumes',
+            :parser   => Fog::Parsers::AWS::EC2::DescribeVolumes.new
+          }.merge!(params))
         end
 
       end

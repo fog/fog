@@ -20,8 +20,9 @@ unless Fog.mocking?
         def describe_availability_zones(zone_name = [])
           params = AWS.indexed_param('ZoneName', zone_name)
           request({
-            'Action' => 'DescribeAvailabilityZones'
-          }.merge!(params), Fog::Parsers::AWS::EC2::DescribeAvailabilityZones.new)
+            'Action'  => 'DescribeAvailabilityZones',
+            :parser   => Fog::Parsers::AWS::EC2::DescribeAvailabilityZones.new
+          }.merge!(params))
         end
 
       end

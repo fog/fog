@@ -29,8 +29,9 @@ unless Fog.mocking?
         def describe_security_groups(group_name = [])
           params = AWS.indexed_param('GroupName', group_name)
           request({
-            'Action' => 'DescribeSecurityGroups',
-          }.merge!(params), Fog::Parsers::AWS::EC2::DescribeSecurityGroups.new)
+            'Action'  => 'DescribeSecurityGroups',
+            :parser   => Fog::Parsers::AWS::EC2::DescribeSecurityGroups.new
+          }.merge!(params))
         end
 
       end

@@ -81,11 +81,12 @@ unless Fog.mocking?
             options['UserData'] = Base64.encode64(options['UserData'])
           end
           request({
-            'Action' => 'RunInstances',
-            'ImageId' => image_id,
-            'MinCount' => min_count,
-            'MaxCount' => max_count
-          }.merge!(options), Fog::Parsers::AWS::EC2::RunInstances.new)
+            'Action'    => 'RunInstances',
+            'ImageId'   => image_id,
+            'MinCount'  => min_count,
+            'MaxCount'  => max_count,
+            :parser     => Fog::Parsers::AWS::EC2::RunInstances.new
+          }.merge!(options))
         end
 
       end

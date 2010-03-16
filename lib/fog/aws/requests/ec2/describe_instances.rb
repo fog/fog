@@ -52,8 +52,9 @@ unless Fog.mocking?
         def describe_instances(instance_id = [])
           params = AWS.indexed_param('InstanceId', instance_id)
           request({
-            'Action' => 'DescribeInstances'
-          }.merge!(params), Fog::Parsers::AWS::EC2::DescribeInstances.new)
+            'Action'  => 'DescribeInstances',
+            :parser   => Fog::Parsers::AWS::EC2::DescribeInstances.new
+          }.merge!(params))
         end
 
       end

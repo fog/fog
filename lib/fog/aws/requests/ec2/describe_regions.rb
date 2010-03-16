@@ -19,8 +19,9 @@ unless Fog.mocking?
         def describe_regions(region_name = [])
           params = AWS.indexed_param('RegionName', region_name)
           request({
-            'Action' => 'DescribeRegions'
-          }.merge!(params), Fog::Parsers::AWS::EC2::DescribeRegions.new)
+            'Action'  => 'DescribeRegions',
+            :parser   => Fog::Parsers::AWS::EC2::DescribeRegions.new
+          }.merge!(params))
         end
 
       end

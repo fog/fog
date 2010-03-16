@@ -21,12 +21,13 @@ unless Fog.mocking?
         #     * 'status'<~String> - Status of volume
         #     * 'volumeId'<~String> - Reference to volume
         def attach_volume(instance_id, volume_id, device)
-          request({
-            'Action' => 'AttachVolume',
-            'VolumeId' => volume_id,
-            'InstanceId' => instance_id,
-            'Device' => device
-          }, Fog::Parsers::AWS::EC2::AttachVolume.new)
+          request(
+            'Action'      => 'AttachVolume',
+            'VolumeId'    => volume_id,
+            'InstanceId'  => instance_id,
+            'Device'      => device,
+            :parser       => Fog::Parsers::AWS::EC2::AttachVolume.new
+          )
         end
 
       end

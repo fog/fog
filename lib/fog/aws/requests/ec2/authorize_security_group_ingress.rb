@@ -25,8 +25,9 @@ unless Fog.mocking?
         #     * 'return'<~Boolean> - success?
         def authorize_security_group_ingress(options = {})
           request({
-            'Action' => 'AuthorizeSecurityGroupIngress'
-          }.merge!(options), Fog::Parsers::AWS::EC2::Basic.new)
+            'Action'  => 'AuthorizeSecurityGroupIngress',
+            :parser   => Fog::Parsers::AWS::EC2::Basic.new
+          }.merge!(options))
         end
 
       end

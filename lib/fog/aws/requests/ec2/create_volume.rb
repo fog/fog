@@ -21,12 +21,13 @@ unless Fog.mocking?
         #     * 'status's<~String> - State of volume
         #     * 'volumeId'<~String> - Reference to volume
         def create_volume(availability_zone, size, snapshot_id = nil)
-          request({
-            'Action' => 'CreateVolume',
-            'AvailabilityZone' => availability_zone,
-            'Size' => size,
-            'SnapshotId' => snapshot_id
-          }, Fog::Parsers::AWS::EC2::CreateVolume.new)
+          request(
+            'Action'            => 'CreateVolume',
+            'AvailabilityZone'  => availability_zone,
+            'Size'              => size,
+            'SnapshotId'        => snapshot_id,
+            :parser             => Fog::Parsers::AWS::EC2::CreateVolume.new
+          )
         end
 
       end

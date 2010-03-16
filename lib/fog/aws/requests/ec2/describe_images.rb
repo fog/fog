@@ -34,8 +34,9 @@ unless Fog.mocking?
             options.merge!(AWS.indexed_param('ImageId', image_id))
           end
           request({
-            'Action' => 'DescribeImages'
-          }.merge!(options), Fog::Parsers::AWS::EC2::DescribeImages.new)
+            'Action'  => 'DescribeImages',
+            :parser   => Fog::Parsers::AWS::EC2::DescribeImages.new
+          }.merge!(options))
         end
 
       end

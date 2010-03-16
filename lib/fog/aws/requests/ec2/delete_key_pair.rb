@@ -15,10 +15,11 @@ unless Fog.mocking?
         #     * 'requestId'<~String> id of request
         #     * 'return'<~Boolean> - success?
         def delete_key_pair(key_name)
-          request({
-            'Action' => 'DeleteKeyPair',
-            'KeyName' => key_name
-          }, Fog::Parsers::AWS::EC2::Basic.new)
+          request(
+            'Action'  => 'DeleteKeyPair',
+            'KeyName' => key_name,
+            :parser   => Fog::Parsers::AWS::EC2::Basic.new
+          )
         end
 
       end

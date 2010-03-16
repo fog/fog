@@ -17,10 +17,11 @@ unless Fog.mocking?
         #     * 'requestId'<~String> - Id of request
         #     * 'timestamp'<~Time> - Timestamp of last update to output
         def get_console_output(instance_id)
-          request({
-            'Action' => 'GetConsoleOutput',
-            'InstanceId' => instance_id
-          }, Fog::Parsers::AWS::EC2::GetConsoleOutput.new)
+          request(
+            'Action'      => 'GetConsoleOutput',
+            'InstanceId'  => instance_id,
+            :parser       => Fog::Parsers::AWS::EC2::GetConsoleOutput.new
+          )
         end
 
       end

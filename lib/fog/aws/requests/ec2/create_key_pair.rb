@@ -17,10 +17,11 @@ unless Fog.mocking?
         #     * 'keyName'<~String> - Name of key
         #     * 'requestId'<~String> - Id of request
         def create_key_pair(key_name)
-          request({
-            'Action' => 'CreateKeyPair',
-            'KeyName' => key_name
-          }, Fog::Parsers::AWS::EC2::CreateKeyPair.new)
+          request(
+            'Action'  => 'CreateKeyPair',
+            'KeyName' => key_name,
+            :parser   => Fog::Parsers::AWS::EC2::CreateKeyPair.new
+          )
         end
 
       end

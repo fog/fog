@@ -110,6 +110,7 @@ module Fog
 
         def request(params)
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
+          idempotent = params.delete(:idempotent)
           parser = params.delete(:parser)
 
           params.merge!({
@@ -132,12 +133,13 @@ module Fog
           body << "Signature=#{CGI.escape(Base64.encode64(hmac.digest).chomp!).gsub(/\+/, '%20')}"
 
           response = @connection.request({
-            :body => body,
-            :expects => 200,
-            :headers => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-            :host => @host,
-            :method => 'POST',
-            :parser => parser
+            :body       => body,
+            :expects    => 200,
+            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+            :host       => @host,
+            :idempotent => idempotent,
+            :method     => 'POST',
+            :parser     => parser
           })
 
           response

@@ -12,10 +12,11 @@ unless Fog.mocking?
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - success?
         def release_address(public_ip)
-          request({
-            'Action' => 'ReleaseAddress',
-            'PublicIp' => public_ip
-          }, Fog::Parsers::AWS::EC2::Basic.new)
+          request(
+            'Action'    => 'ReleaseAddress',
+            'PublicIp'  => public_ip,
+            :parser     => Fog::Parsers::AWS::EC2::Basic.new
+          )
         end
 
       end

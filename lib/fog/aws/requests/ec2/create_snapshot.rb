@@ -19,10 +19,11 @@ unless Fog.mocking?
         #     * 'status'<~String> - state of snapshot
         #     * 'volumeId'<~String> - id of volume snapshot targets
         def create_snapshot(volume_id)
-          request({
-            'Action' => 'CreateSnapshot',
-            'VolumeId' => volume_id
-          }, Fog::Parsers::AWS::EC2::CreateSnapshot.new)
+          request(
+            'Action'    => 'CreateSnapshot',
+            'VolumeId'  => volume_id,
+            :parser     => Fog::Parsers::AWS::EC2::CreateSnapshot.new
+          )
         end
 
       end

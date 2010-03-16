@@ -15,10 +15,11 @@ unless Fog.mocking?
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - success?
         def delete_volume(volume_id)
-          request({
-            'Action' => 'DeleteVolume',
-            'VolumeId' => volume_id
-          }, Fog::Parsers::AWS::EC2::Basic.new)
+          request(
+            'Action'    => 'DeleteVolume',
+            'VolumeId'  => volume_id,
+            :parser     => Fog::Parsers::AWS::EC2::Basic.new
+          )
         end
 
       end

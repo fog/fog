@@ -139,8 +139,12 @@ module Fog
 
       private
 
-      def request(params, parser)
+      def request(params)
         @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
+
+        idempotent = params.delete(:idempotent)
+        parser = params.delete(:parser)
+
         params.merge!({
           'AWSAccessKeyId' => @aws_access_key_id,
           'SignatureMethod' => 'HmacSHA256',
@@ -161,12 +165,13 @@ module Fog
         body << "Signature=#{CGI.escape(Base64.encode64(hmac.digest).chomp!).gsub(/\+/, '%20')}"
 
         response = @connection.request({
-          :body     => body,
-          :expects  => 200,
-          :headers  => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-          :host     => @host,
-          :method   => 'POST',
-          :parser   => parser
+          :body       => body,
+          :expects    => 200,
+          :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+          :idempotent => idempotent,
+          :host       => @host,
+          :method     => 'POST',
+          :parser     => parser
         })
 
         response

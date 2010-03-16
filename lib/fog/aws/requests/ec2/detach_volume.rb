@@ -24,9 +24,10 @@ unless Fog.mocking?
         #     * 'volumeId'<~String> - Reference to volume
         def detach_volume(volume_id, options = {})
           request({
-            'Action' => 'DetachVolume',
-            'VolumeId' => volume_id
-          }.merge!(options), Fog::Parsers::AWS::EC2::DetachVolume.new)
+            'Action'    => 'DetachVolume',
+            'VolumeId'  => volume_id,
+            :parser     => Fog::Parsers::AWS::EC2::DetachVolume.new
+          }.merge!(options))
         end
 
       end
