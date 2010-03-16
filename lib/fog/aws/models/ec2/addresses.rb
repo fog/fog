@@ -1,11 +1,24 @@
+require 'fog/collection'
+require 'fog/aws/models/ec2/address'
+
 module Fog
   module AWS
-    class EC2
+    module EC2
 
-      def addresses(attributes = {})
-        Fog::AWS::EC2::Addresses.new({
-          :connection => self
-        }.merge!(attributes))
+      class Mock
+        def addresses(attributes = {})
+          Fog::AWS::EC2::Addresses.new({
+            :connection => self
+          }.merge!(attributes))
+        end
+      end
+
+      class Real
+        def addresses(attributes = {})
+          Fog::AWS::EC2::Addresses.new({
+            :connection => self
+          }.merge!(attributes))
+        end
       end
 
       class Addresses < Fog::Collection

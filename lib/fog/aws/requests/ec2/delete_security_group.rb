@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/basic'
 
         # Delete a security group that you own
         #
@@ -23,18 +24,12 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
         def delete_security_group(name)
           response = Excon::Response.new
-          if Fog::AWS::EC2.data[:security_groups][name]
-            Fog::AWS::EC2.data[:security_groups].delete(name)
+          if @data[:security_groups][name]
+            @data[:security_groups].delete(name)
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,
@@ -49,5 +44,4 @@ else
       end
     end
   end
-
 end

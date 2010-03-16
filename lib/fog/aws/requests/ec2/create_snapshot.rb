@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/create_snapshot'
 
         # Create a snapshot of an EBS volume and store it in S3
         #
@@ -27,18 +28,12 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def create_snapshot(volume_id)
           response = Excon::Response.new
-          if Fog::AWS::EC2.data[:volumes][volume_id]
+          if @data[:volumes][volume_id]
             response.status = 200
             snapshot_id = Fog::AWS::Mock.snapshot_id
             data = {
@@ -48,7 +43,7 @@ else
               'status'      => 'pending',
               'volumeId'    => volume_id
             }
-            Fog::AWS::EC2.data[:snapshots][snapshot_id] = data
+            @data[:snapshots][snapshot_id] = data
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id
             }.merge!(data)
@@ -62,5 +57,4 @@ else
       end
     end
   end
-
 end

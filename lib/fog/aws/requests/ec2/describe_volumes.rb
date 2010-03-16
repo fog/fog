@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/describe_volumes'
 
         # Describe all or specified volumes.
         #
@@ -34,22 +35,16 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def describe_volumes(volume_id = [])
           response = Excon::Response.new
           volume_id = [*volume_id]
           if volume_id != []
-            volume_set = Fog::AWS::EC2.data[:volumes].reject {|key,value| !volume_id.include?(key)}.values
+            volume_set = @data[:volumes].reject {|key,value| !volume_id.include?(key)}.values
           else
-            volume_set = Fog::AWS::EC2.data[:volumes].values
+            volume_set = @data[:volumes].values
           end
 
           volume_set.each do |volume|
@@ -59,9 +54,9 @@ else
                 volume['status'] = 'available'
               end
             when 'deleting'
-              if Time.now - Fog::AWS::EC2.data[:deleted_at][volume['volumeId']] > 2
-                Fog::AWS::EC2.data[:deleted_at].delete(volume['volumeId'])
-                Fog::AWS::EC2.data[:volumes].delete(volume['volumeId'])
+              if Time.now - @data[:deleted_at][volume['volumeId']] > 2
+                @data[:deleted_at].delete(volume['volumeId'])
+                @data[:volumes].delete(volume['volumeId'])
               end
             end
           end
@@ -82,5 +77,4 @@ else
       end
     end
   end
-
 end

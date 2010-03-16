@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/allocate_address'
 
         # Acquire an elastic IP address.
         #
@@ -19,14 +20,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def allocate_address
           response = Excon::Response.new
@@ -36,7 +31,7 @@ else
             'instanceId' => '',
             'publicIp'   => public_ip
           }
-          Fog::AWS::EC2.data[:addresses][public_ip] = data
+          @data[:addresses][public_ip] = data
           response.body = {
             'publicIp'  => public_ip,
             'requestId' => Fog::AWS::Mock.request_id
@@ -47,5 +42,4 @@ else
       end
     end
   end
-
 end

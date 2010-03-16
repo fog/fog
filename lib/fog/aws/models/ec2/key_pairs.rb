@@ -1,9 +1,20 @@
+require 'fog/collection'
+require 'fog/aws/models/ec2/key_pair'
+
 module Fog
   module AWS
-    class EC2
+    module EC2
 
-      def key_pairs
-        Fog::AWS::EC2::KeyPairs.new(:connection => self)
+      class Mock
+        def key_pairs
+          Fog::AWS::EC2::KeyPairs.new(:connection => self)
+        end
+      end
+
+      class Real
+        def key_pairs
+          Fog::AWS::EC2::KeyPairs.new(:connection => self)
+        end
       end
 
       class KeyPairs < Fog::Collection

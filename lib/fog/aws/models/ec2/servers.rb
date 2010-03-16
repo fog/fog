@@ -1,9 +1,20 @@
+require 'fog/collection'
+require 'fog/aws/models/ec2/server'
+
 module Fog
   module AWS
-    class EC2
+    module EC2
 
-      def servers
-        Fog::AWS::EC2::Servers.new(:connection => self)
+      class Mock
+        def servers
+          Fog::AWS::EC2::Servers.new(:connection => self)
+        end
+      end
+
+      class Real
+        def servers
+          Fog::AWS::EC2::Servers.new(:connection => self)
+        end
       end
 
       class Servers < Fog::Collection

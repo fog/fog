@@ -1,9 +1,20 @@
+require 'fog/collection'
+require 'fog/aws/models/ec2/image'
+
 module Fog
   module AWS
-    class EC2
+    module EC2
 
-      def images
-        Fog::AWS::EC2::Images.new(:connection => self)
+      class Mock
+        def images
+          Fog::AWS::EC2::Images.new(:connection => self)
+        end
+      end
+
+      class Real
+        def images
+          Fog::AWS::EC2::Images.new(:connection => self)
+        end
       end
 
       class Images < Fog::Collection

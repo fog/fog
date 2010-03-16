@@ -1,9 +1,20 @@
+require 'fog/collection'
+require 'fog/aws/models/ec2/security_group'
+
 module Fog
   module AWS
-    class EC2
+    module EC2
 
-      def security_groups
-        Fog::AWS::EC2::SecurityGroups.new(:connection => self)
+      class Mock
+        def security_groups
+          Fog::AWS::EC2::SecurityGroups.new(:connection => self)
+        end
+      end
+
+      class Real
+        def security_groups
+          Fog::AWS::EC2::SecurityGroups.new(:connection => self)
+        end
       end
 
       class SecurityGroups < Fog::Collection

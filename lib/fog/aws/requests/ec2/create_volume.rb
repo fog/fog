@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/create_volume'
 
         # Create an EBS volume
         #
@@ -31,14 +32,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def create_volume(availability_zone, size, snapshot_id = nil)
           response = Excon::Response.new
@@ -54,7 +49,7 @@ else
               'status'            => 'creating',
               'volumeId'          => volume_id
             }
-            Fog::AWS::EC2.data[:volumes][volume_id] = data
+            @data[:volumes][volume_id] = data
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id
             }.merge!(data.reject {|key,value| !['availabilityZone','createTime','size','snapshotId','status','volumeId'].include?(key) })
@@ -75,5 +70,4 @@ else
       end
     end
   end
-
 end

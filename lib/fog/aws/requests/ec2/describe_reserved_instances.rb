@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/describe_reserved_instances'
 
         # Describe all or specified reserved instances
         #
@@ -33,14 +34,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def describe_reserved_instances(reserved_instances_id = {})
           raise MockNotImplemented.new("Contributions welcome!")
@@ -49,5 +44,4 @@ else
       end
     end
   end
-
 end

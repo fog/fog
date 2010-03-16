@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/basic'
 
         # Associate an elastic IP address with an instance
         #
@@ -25,20 +26,14 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def associate_address(instance_id, public_ip)
           response = Excon::Response.new
           response.status = 200
-          instance = Fog::AWS::EC2.data[:instances][instance_id]
-          address = Fog::AWS::EC2.data[:addresses][public_ip]
+          instance = @data[:instances][instance_id]
+          address = @data[:addresses][public_ip]
           if instance && address
             address['instanceId'] = instance_id
             response.status = 200
@@ -56,5 +51,4 @@ else
       end
     end
   end
-
 end

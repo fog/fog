@@ -1,9 +1,10 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
-      
+        require 'fog/aws/parsers/ec2/describe_snapshots'
+
         # Describe all or specified snapshots
         #
         # ==== Parameters
@@ -28,22 +29,16 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def describe_snapshots(snapshot_id = [])
           response = Excon::Response.new
           snapshot_id = [*snapshot_id]
           if snapshot_id != []
-            snapshot_set = Fog::AWS::EC2.data[:snapshots].reject {|key,value| !snapshot_id.include?(key)}.values
+            snapshot_set = @data[:snapshots].reject {|key,value| !snapshot_id.include?(key)}.values
           else
-            snapshot_set = Fog::AWS::EC2.data[:snapshots].values
+            snapshot_set = @data[:snapshots].values
           end
 
           snapshot_set.each do |snapshot|
@@ -75,5 +70,4 @@ else
       end
     end
   end
-
 end

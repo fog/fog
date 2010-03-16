@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/basic'
 
         # Delete an EBS volume
         #
@@ -23,19 +24,13 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def delete_volume(volume_id)
           response = Excon::Response.new
-          if volume = Fog::AWS::EC2.data[:volumes][volume_id]
-            Fog::AWS::EC2.data[:deleted_at][volume_id] = Time.now
+          if volume = @data[:volumes][volume_id]
+            @data[:deleted_at][volume_id] = Time.now
             volume['status'] = 'deleting'
             response.status = 200
             response.body = {
@@ -52,5 +47,4 @@ else
       end
     end
   end
-
 end

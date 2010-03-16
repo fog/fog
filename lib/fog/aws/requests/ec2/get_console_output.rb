@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/get_console_output'
 
         # Retrieve console output for specified instance
         #
@@ -25,18 +26,12 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def get_console_output(instance_id)
           response = Excon::Response.new
-          if instance = Fog::AWS::EC2.data[:instances][instance_id]
+          if instance = @data[:instances][instance_id]
             response.status = 200
             response.body = {
               'instanceId'    => instance_id,
@@ -54,5 +49,4 @@ else
       end
     end
   end
-
 end

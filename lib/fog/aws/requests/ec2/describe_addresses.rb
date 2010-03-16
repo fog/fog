@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/describe_addresses'
 
         # Describe all or specified IP addresses.
         #
@@ -25,22 +26,16 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def describe_addresses(public_ip = [])
           response = Excon::Response.new
           public_ip = [*public_ip]
           if public_ip != []
-            addresses_set = Fog::AWS::EC2.data[:addresses].reject {|key, value| !public_ip.include?(key)}.values
+            addresses_set = @data[:addresses].reject {|key, value| !public_ip.include?(key)}.values
           else
-            addresses_set = Fog::AWS::EC2.data[:addresses].values
+            addresses_set = @data[:addresses].values
           end
           if public_ip.length == 0 || public_ip.length == addresses_set.length
             response.status = 200
@@ -58,5 +53,4 @@ else
       end
     end
   end
-
 end

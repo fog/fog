@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/describe_regions'
 
         # Describe all or specified regions
         #
@@ -25,14 +26,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def describe_regions(region_name = [])
           response = Excon::Response.new
@@ -58,5 +53,4 @@ else
       end
     end
   end
-
 end

@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/describe_instances'
 
         # Describe all or specified instances
         #
@@ -58,26 +59,20 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def describe_instances(instance_id = {})
           response = Excon::Response.new
           instance_id = [*instance_id]
           if instance_id != []
-            instance_set = Fog::AWS::EC2.data[:instances].reject {|key,value| !instance_id.include?(key)}.values
+            instance_set = @data[:instances].reject {|key,value| !instance_id.include?(key)}.values
           else
-            instance_set = Fog::AWS::EC2.data[:instances].values
+            instance_set = @data[:instances].values
           end
 
           instance_set.each do |instance|
-            case instance['instanceState']
+            case instance['instanceState']['name']
             when 'pending'
               if Time.now - instance['launchTime'] > 2
                 instance['instanceState'] = { :code => 16, :name => 'running' }
@@ -85,13 +80,13 @@ else
             when 'rebooting'
               instance['instanceState'] = { :code => 16, :name => 'running' }
             when 'shutting-down'
-              if Time.now - Fog::AWS::EC2.data[:deleted_at][instance['instanceId']] > 2
+              if Time.now - @data[:deleted_at][instance['instanceId']] > 2
                 instance['instanceState'] = { :code => 16, :name => 'terminating' }
               end
             when 'terminating'
-              if Time.now - Fog::AWS::EC2.data[:deleted_at][instance['instanceId']] > 4
-                Fog::AWS::EC2.data[:deleted_at].delete(instance['instanceId'])
-                Fog::AWS::EC2.data[:instances].delete(instance['instanceId'])
+              if Time.now - @data[:deleted_at][instance['instanceId']] > 4
+                @data[:deleted_at].delete(instance['instanceId'])
+                @data[:instances].delete(instance['instanceId'])
               end
             end
           end
@@ -107,7 +102,7 @@ else
                 'ownerId'       => instance['ownerId'],
                 'reservationId' => instance['reservationId']
               }
-              reservation_set[instance['reservationId']]['instancesSet'] << instance.reject{|key,value| !['amiLaunchIndex', 'dnsName', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'privateDnsName', 'productCodes', 'ramdiskId', 'reason'].include?(key)}
+              reservation_set[instance['reservationId']]['instancesSet'] << instance.reject{|key,value| !['amiLaunchIndex', 'blockDeviceMapping', 'dnsName', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'privateDnsName', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType'].include?(key)}
             end
 
             response.body = {
@@ -124,5 +119,4 @@ else
       end
     end
   end
-
 end

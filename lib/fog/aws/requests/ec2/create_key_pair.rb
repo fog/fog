@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/create_key_pair'
 
         # Create a new key pair
         #
@@ -25,25 +26,19 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def create_key_pair(key_name)
           response = Excon::Response.new
-          unless Fog::AWS::EC2.data[:key_pairs][key_name]
+          unless @data[:key_pairs][key_name]
             response.status = 200
             data = {
               'keyFingerprint'  => Fog::AWS::Mock.key_fingerprint,
               'keyMaterial'     => Fog::AWS::Mock.key_material,
               'keyName'         => key_name
             }
-            Fog::AWS::EC2.data[:key_pairs][key_name] = data
+            @data[:key_pairs][key_name] = data
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id
             }.merge!(data)
@@ -57,5 +52,4 @@ else
       end
     end
   end
-
 end

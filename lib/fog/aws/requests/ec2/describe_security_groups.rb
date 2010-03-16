@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/describe_security_groups'
 
         # Describe all or specified security groups
         #
@@ -35,22 +36,16 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def describe_security_groups(group_name = [])
           response = Excon::Response.new
           group_name = [*group_name]
           if group_name != []
-            security_group_info = Fog::AWS::EC2.data[:security_groups].reject {|key, value| !group_name.include?(key)}.values
+            security_group_info = @data[:security_groups].reject {|key, value| !group_name.include?(key)}.values
           else
-            security_group_info = Fog::AWS::EC2.data[:security_groups].values
+            security_group_info = @data[:security_groups].values
           end
           if group_name.length == 0 || group_name.length == security_group_info.length
             response.status = 200
@@ -68,5 +63,4 @@ else
       end
     end
   end
-
 end

@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/terminate_instances'
 
         # Terminate specified instances
         #
@@ -30,27 +31,20 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def terminate_instances(instance_id)
           response = Excon::Response.new
           instance_id = [*instance_id]
-          if (Fog::AWS::EC2.data[:instances].keys & instance_id).length == instance_id.length
+          if (@data[:instances].keys & instance_id).length == instance_id.length
             for instance_id in instance_id
               response.body = {
                 'requestId'     => Fog::AWS::Mock.request_id,
                 'instancesSet'  => []
               }
-              instance = Fog::AWS::EC2.data[:instances][instance_id]
-              Fog::AWS::EC2.data[:deleted_at][instance_id] = Time.now
-              instance['status'] = 'deleting'
+              instance = @data[:instances][instance_id]
+              @data[:deleted_at][instance_id] = Time.now
               response.status = 200
               # TODO: the codes are mostly educated guessing, not certainty
               code = case instance['state']
@@ -65,11 +59,13 @@ else
               when 'rebooting'
                 128
               end
+              state = { 'name' => 'shutting-down', 'code' => 32}
               response.body['instancesSet'] << {
                 'instanceId'    => instance_id,
-                'previousState' => { 'name' => instance['state'], 'code' => code },
-                'shutdownState' => { 'name' => 'shutting-down', 'code' => 32}
+                'previousState' => instance['instanceState'],
+                'currentState'  => state
               }
+              instance['instanceState'] = state
             end
           else
             response.status = 400
@@ -81,5 +77,4 @@ else
       end
     end
   end
-
 end

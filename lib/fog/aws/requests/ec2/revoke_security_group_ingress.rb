@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/basic'
 
         # Remove permissions from a security group
         #
@@ -31,14 +32,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         # TODO: handle the GroupName/Source/Source case
         def revoke_security_group_ingress(options = {})
@@ -46,7 +41,7 @@ else
             raise MockNotImplemented.new("Contributions welcome!")
           else
             response = Excon::Response.new
-            group = Fog::AWS::EC2.data[:security_groups][options['GroupName']]
+            group = @data[:security_groups][options['GroupName']]
 
             ingress = group['ipPermissions'].select {|permission|
               permission['fromPort']    == options['FromPort'] &&
@@ -69,5 +64,4 @@ else
       end
     end
   end
-
 end

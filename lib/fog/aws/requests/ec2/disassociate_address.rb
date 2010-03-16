@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/basic'
 
         # Disassociate an elastic IP address from its instance (if any)
         #
@@ -23,19 +24,13 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def disassociate_address(public_ip)
           response = Excon::Response.new
           response.status = 200
-          if address = Fog::AWS::EC2.data[:addresses][public_ip]
+          if address = @data[:addresses][public_ip]
             address['instanceId'] = ''
             response.status = 200
             response.body = {
@@ -52,5 +47,4 @@ else
       end
     end
   end
-
 end

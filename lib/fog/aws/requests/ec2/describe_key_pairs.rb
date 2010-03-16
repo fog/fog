@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/describe_key_pairs'
 
         # Describe all or specified key pairs
         #
@@ -25,22 +26,16 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def describe_key_pairs(key_name = [])
           response = Excon::Response.new
           key_name = [*key_name]
           if key_name != []
-            key_set = Fog::AWS::EC2.data[:key_pairs].reject {|key, value| !key_name.include?(key)}.values
+            key_set = @data[:key_pairs].reject {|key, value| !key_name.include?(key)}.values
           else
-            key_set = Fog::AWS::EC2.data[:key_pairs].values
+            key_set = @data[:key_pairs].values
           end
           if key_name.length == 0 || key_name.length == key_set.length
             response.status = 200
@@ -60,5 +55,4 @@ else
       end
     end
   end
-
 end

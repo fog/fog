@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/run_instances'
 
         # Launch specified instances
         #
@@ -90,15 +91,11 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
+      class Mock
 
-  module Fog
-    module AWS
-      class EC2
-
+        # TODO: allow for block device mapping in mocks
+        # TODO: allow for rootDeviceType specification
         def run_instances(image_id, min_count, max_count, options = {})
           response = Excon::Response.new
           response.status = 200
@@ -111,28 +108,29 @@ else
           min_count.times do |i|
             instance_id = Fog::AWS::Mock.instance_id
             data = {
-              'amiLaunchIndex'  => i,
-              'dnsName'         => '',
-              'groupSet'        => group_set,
-              'imageId'         => image_id,
-              'instanceId'      => instance_id,
-              'instanceState'   => { 'code' => 0, 'name' => 'pending' },
-              'instanceType'    => options['InstanceType'] || 'm1.small',
-              'kernelId'        => options['KernelId'] || Fog::AWS::Mock.kernel_id,
-              'keyName'         => options['KeyName'] || '',
-              'launchTime'      => Time.now,
-              'monitoring'      => { 'state' => options['Monitoring.Enabled'] || false },
-              'ownerId'         => owner_id,
-              'placement'       => { 'availabilityZone' => options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone },
-              'privateDnsName'  => '',
-              'productCodes'    => [],
-              'ramdiskId'       => options['RamdiskId'] || Fog::AWS::Mock.ramdisk_id,
-              'reason'          => '',
-              'reservationId'   => reservation_id,
-              'instanceState'   => 'pending'
+              'amiLaunchIndex'      => i,
+              'blockDeviceMapping'  => [],
+              'dnsName'             => '',
+              'groupSet'            => group_set,
+              'imageId'             => image_id,
+              'instanceId'          => instance_id,
+              'instanceState'       => { 'code' => 0, 'name' => 'pending' },
+              'instanceType'        => options['InstanceType'] || 'm1.small',
+              'kernelId'            => options['KernelId'] || Fog::AWS::Mock.kernel_id,
+              'keyName'             => options['KeyName'] || '',
+              'launchTime'          => Time.now,
+              'monitoring'          => { 'state' => options['Monitoring.Enabled'] || false },
+              'ownerId'             => owner_id,
+              'placement'           => { 'availabilityZone' => options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone },
+              'privateDnsName'      => '',
+              'productCodes'        => [],
+              'ramdiskId'           => options['RamdiskId'] || Fog::AWS::Mock.ramdisk_id,
+              'reason'              => '',
+              'reservationId'       => reservation_id,
+              'rootDeviceType'      => 'instance-store'
             }
-            Fog::AWS::EC2.data[:instances][instance_id] = data
-            instances_set << data.reject{|key,value| !['amiLaunchIndex', 'dnsName', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'privateDnsName', 'productCodes', 'ramdiskId', 'reason'].include?(key)}
+            @data[:instances][instance_id] = data
+            instances_set << data.reject{|key,value| !['amiLaunchIndex', 'blockDeviceMapping', 'dnsName', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'privateDnsName', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType'].include?(key)}
           end
           response.body = {
             'groupSet'      => group_set,
@@ -147,5 +145,4 @@ else
       end
     end
   end
-
 end

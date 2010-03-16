@@ -1,9 +1,20 @@
+require 'fog/collection'
+require 'fog/aws/models/ec2/flavor'
+
 module Fog
   module AWS
-    class EC2
+    module EC2
 
-      def flavors
-        Fog::AWS::EC2::Flavors.new(:connection => self)
+      class Mock
+        def flavors
+          Fog::AWS::EC2::Flavors.new(:connection => self)
+        end
+      end
+
+      class Real
+        def flavors
+          Fog::AWS::EC2::Flavors.new(:connection => self)
+        end
       end
 
       class Flavors < Fog::Collection

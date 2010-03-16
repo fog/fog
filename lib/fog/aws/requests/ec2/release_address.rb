@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/basic'
 
         # Release an elastic IP address.
         #
@@ -20,18 +21,12 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def release_address(public_ip)
           response = Excon::Response.new
-          if (address = Fog::AWS::EC2.data[:addresses].delete(public_ip))
+          if (address = @data[:addresses].delete(public_ip))
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,
@@ -47,5 +42,4 @@ else
       end
     end
   end
-
 end

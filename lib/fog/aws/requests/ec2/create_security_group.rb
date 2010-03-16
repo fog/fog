@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/basic'
 
         # Create a new security group
         #
@@ -25,25 +26,19 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def create_security_group(name, description)
           response = Excon::Response.new
-          unless Fog::AWS::EC2.data[:security_groups][name]
+          unless @data[:security_groups][name]
             data = {
               'groupDescription'  => description,
               'groupName'         => name,
               'ipPermissions'     => [],
               'ownerId'           => Fog::AWS::Mock.owner_id
             }
-            Fog::AWS::EC2.data[:security_groups][name] = data
+            @data[:security_groups][name] = data
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,
               'return'    => true
@@ -58,5 +53,4 @@ else
       end
     end
   end
-
 end

@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/detach_volume'
 
         # Detach an Amazon EBS volume from a running instance
         #
@@ -31,19 +32,13 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def detach_volume(volume_id, options = {})
           response = Excon::Response.new
           response.status = 200
-          if volume = Fog::AWS::EC2.data[:volumes][volume_id]
+          if volume = @data[:volumes][volume_id]
             data = volume['attachmentSet'].pop
             response.status = 200
             response.body = {
@@ -59,5 +54,4 @@ else
       end
     end
   end
-
 end

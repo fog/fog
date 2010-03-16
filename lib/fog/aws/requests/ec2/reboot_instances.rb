@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/basic'
 
         # Reboot specified instances
         #
@@ -23,21 +24,15 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def reboot_instances(instance_id = [])
           response = Excon::Response.new
           instance_id = [*instance_id]
-          if (Fog::AWS::EC2.data[:instances].keys & instance_id).length == instance_id.length
+          if (@data[:instances].keys & instance_id).length == instance_id.length
             for instance_id in instance_id
-              Fog::AWS::EC2.data[:instances][instance_id]['status'] = 'rebooting'
+              @data[:instances][instance_id]['status'] = 'rebooting'
             end
             response.status = 200
             response.body = {
@@ -54,5 +49,4 @@ else
       end
     end
   end
-
 end

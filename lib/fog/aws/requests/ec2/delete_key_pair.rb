@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/basic'
 
         # Delete a key pair that you own
         #
@@ -23,18 +24,12 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def delete_key_pair(key_name)
           response = Excon::Response.new
-          Fog::AWS::EC2.data[:key_pairs].delete(key_name)
+          @data[:key_pairs].delete(key_name)
           response.status = 200
           response.body = {
             'requestId' => Fog::AWS::Mock.request_id,
@@ -46,5 +41,4 @@ else
       end
     end
   end
-
 end

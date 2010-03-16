@@ -1,8 +1,9 @@
-unless Fog.mocking?
+module Fog
+  module AWS
+    module EC2
+      class Real
 
-  module Fog
-    module AWS
-      class EC2
+        require 'fog/aws/parsers/ec2/basic'
 
         # Delete a snapshot of an EBS volume that you own
         #
@@ -23,18 +24,12 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module AWS
-      class EC2
+      class Mock
 
         def delete_snapshot(snapshot_id)
           response = Excon::Response.new
-          if snapshot = Fog::AWS::EC2.data[:snapshots].delete(snapshot_id)
+          if snapshot = @data[:snapshots].delete(snapshot_id)
             response.status = true
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,
@@ -50,5 +45,4 @@ else
       end
     end
   end
-
 end
