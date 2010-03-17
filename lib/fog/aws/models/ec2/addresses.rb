@@ -44,6 +44,7 @@ module Fog
           if server
             self.replace(self.select {|address| address.server_id == server.id})
           end
+          self
         end
 
         def get(public_ip)
