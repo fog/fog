@@ -16,7 +16,7 @@ begin
     gem.name = "fog"
     gem.description = %Q{brings clouds to you}
     gem.summary = %Q{fog = clouds + you}
-    gem.email = "me@geemus.com"
+    gem.email = "geemus@gmail.com"
     gem.homepage = "http://github.com/geemus/fog"
     gem.authors = ["geemus (Wesley Beary)"]
     gem.rubyforge_project = "fog"
