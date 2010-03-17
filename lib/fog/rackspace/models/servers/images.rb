@@ -16,7 +16,7 @@ module Fog
 
         def all
           data = connection.list_images_detail.body['images']
-          load(images)
+          load(data)
           if server
             self.replace(self.select {|image| image.server_id == server.id})
           end
