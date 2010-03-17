@@ -48,14 +48,29 @@ module Fog
         metadata
       end
 
+      def self.reset_data(keys=Mock.data.keys)
+        Mock.reset_data(keys)
+      end
+
       class Mock
 
-        def reset_data
-          @data = { :buckets => {} }
+        def self.data
+          @data ||= Hash.new do |hash, key|
+            hash[key] = {
+              :buckets => {}
+            }
+          end
+        end
+
+        def self.reset_data(keys=data.keys)
+          for key in [*keys]
+            data.delete(key)
+          end
         end
 
         def initialize(options={})
-          reset_data
+          @aws_access_key_id = options[:aws_access_key_id]
+          @data = self.class.data[@aws_access_key_id]
         end
 
       end

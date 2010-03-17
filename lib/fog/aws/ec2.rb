@@ -50,6 +50,12 @@ module Fog
     module EC2
 
       def self.new(options={})
+        unless options[:aws_access_key_id]
+          raise ArgumentError.new('aws_access_key_id is required to access ec2')
+        end
+        unless options[:aws_secret_access_key]
+          raise ArgumentError.new('aws_secret_access_key is required to access ec2')
+        end
         if Fog.mocking?
           Fog::AWS::EC2::Mock.new(options)
         else
@@ -57,22 +63,35 @@ module Fog
         end
       end
 
+      def self.reset_data(keys=Mock.data.keys)
+        Mock.reset_data(keys)
+      end
+
       class Mock
 
-        def reset_data
-          @data = {
-            :deleted_at => {},
-            :addresses => {},
-            :instances => {},
-            :key_pairs => {},
-            :security_groups => {},
-            :snapshots => {},
-            :volumes => {}
-          }
+        def self.data
+          @data ||= Hash.new do |hash, key|
+            hash[key] = {
+              :deleted_at => {},
+              :addresses => {},
+              :instances => {},
+              :key_pairs => {},
+              :security_groups => {},
+              :snapshots => {},
+              :volumes => {}
+            }
+          end
+        end
+
+        def self.reset_data(keys=data.keys)
+          for key in [*keys]
+            data.delete(key)
+          end
         end
 
         def initialize(options={})
-          reset_data
+          @aws_access_key_id = options[:aws_access_key_id]
+          @data = self.class.data[@aws_access_key_id]
         end
 
       end
@@ -98,13 +117,9 @@ module Fog
         # ==== Returns
         # * EC2 object with connection to aws.
         def initialize(options={})
-          unless @aws_access_key_id = options[:aws_access_key_id]
-            raise ArgumentError.new('aws_access_key_id is required to access ec2')
-          end
-          unless @aws_secret_access_key = options[:aws_secret_access_key]
-            raise ArgumentError.new('aws_secret_access_key is required to access ec2')
-          end
-          @hmac       = HMAC::SHA256.new(@aws_secret_access_key)
+          @aws_access_key_id      = options[:aws_access_key_id]
+          @aws_secret_access_key  = options[:aws_secret_access_key]
+          @hmac = HMAC::SHA256.new(@aws_secret_access_key)
           @host = options[:host] || case options[:region]
           when 'eu-west-1'
             'ec2.eu-west-1.amazonaws.com'
