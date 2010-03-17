@@ -35,15 +35,23 @@ module Fog
 
       class Mock
 
-        # TODO: handle the GroupName/Source/Source case
         def authorize_security_group_ingress(options = {})
-          if options['GroupName'] && options['SourceSecurityGroupName'] && options['SourceSecurityGroupOwnerId']
-            raise MockNotImplemented.new("Contributions welcome!")
-          else
-            response = Excon::Response.new
-            group = @data[:security_groups][options['GroupName']]
+          response = Excon::Response.new
+          group = @data[:security_groups][options['GroupName']]
+          group['ipPermissions'] ||= []
 
-            group['ipPermissions'] ||= []
+          if options['GroupName'] && options['SourceSecurityGroupName'] && options['SourceSecurityGroupOwnerId']
+            owner = Fog::AWS::Mock.owner_id
+            ['icmp', 'tcp', 'udp'].each do |protocol|
+              group['ipPermissions'] << {
+                'groups'      => [{'groupName' => options['GroupName'], 'userId' => owner}],
+                'fromPort'    => 1,
+                'ipRanges'    => [],
+                'ipProtocol'  => protocol,
+                'toPort'      => 65535
+              }
+            end
+          else
             group['ipPermissions'] << {
               'groups'      => [],
               'fromPort'    => options['FromPort'],
@@ -51,14 +59,13 @@ module Fog
               'ipProtocol'  => options['IpProtocol'],
               'toPort'      => options['ToPort']
             }
-
-            response.status = 200
-            response.body = {
-              'requestId' => Fog::AWS::Mock.request_id,
-              'return'    => true
-            }
-            response
           end
+          response.status = 200
+          response.body = {
+            'requestId' => Fog::AWS::Mock.request_id,
+            'return'    => true
+          }
+          response
         end
 
       end
