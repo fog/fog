@@ -42,7 +42,7 @@ module Fog
             end
           )
           if server
-            self.replace(self.select {|address| address.instance_id == server.id})
+            self.replace(self.select {|address| address.server_id == server.id})
           end
         end
 
