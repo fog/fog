@@ -1,7 +1,8 @@
-unless Fog.mocking?
+module Fog
+  module Slicehost
+    class Real
 
-  module Fog
-    class Slicehost
+      require 'fog/slicehost/parsers/create_slice'
 
       # Get list of slices
       # ==== Parameters
@@ -34,12 +35,8 @@ unless Fog.mocking?
       end
 
     end
-  end
 
-else
-
-  module Fog
-    class Slicehost
+    class Mock
 
       def create_slice(flavor_id, image_id, name)
         raise MockNotImplemented.new("Contributions welcome!")
@@ -47,5 +44,4 @@ else
 
     end
   end
-
 end

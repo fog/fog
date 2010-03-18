@@ -1,5 +1,8 @@
+require 'fog/collection'
+require 'fog/slicehost/models/flavor'
+
 module Fog
-  class Slicehost
+  module Slicehost
 
     def flavors
       Fog::Slicehost::Flavors.new(:connection => self)

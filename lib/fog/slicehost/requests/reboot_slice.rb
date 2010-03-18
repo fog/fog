@@ -1,7 +1,6 @@
-unless Fog.mocking?
-
-  module Fog
-    class Slicehost
+module Fog
+  module Slicehost
+    class Real
 
       # Reboot slice
       # ==== Parameters
@@ -32,12 +31,8 @@ unless Fog.mocking?
       end
 
     end
-  end
 
-else
-
-  module Fog
-    class Slicehost
+    class Mock
 
       def get_slice(id)
         raise MockNotImplemented.new("Contributions welcome!")
@@ -45,5 +40,4 @@ else
 
     end
   end
-
 end

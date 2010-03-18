@@ -1,5 +1,8 @@
+require 'fog/collection'
+require 'fog/slicehost/models/server'
+
 module Fog
-  class Slicehost
+  module Slicehost
 
     def servers
       Fog::Slicehost::Servers.new(:connection => self)

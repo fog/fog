@@ -1,5 +1,8 @@
+require 'fog/collection'
+require 'fog/slicehost/models/image'
+
 module Fog
-  class Slicehost
+  module Slicehost
 
     def images(attributes = {})
       Fog::Slicehost::Images.new({

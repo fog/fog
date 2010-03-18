@@ -1,5 +1,7 @@
+require 'fog/model'
+
 module Fog
-  class Slicehost
+  module Slicehost
 
     class Image < Fog::Model
 

@@ -1,7 +1,8 @@
-unless Fog.mocking?
+module Fog
+  module Slicehost
+    class Real
 
-  module Fog
-    class Slicehost
+      require 'fog/slicehost/parsers/get_slices'
 
       # Get list of slices
       #
@@ -28,12 +29,8 @@ unless Fog.mocking?
       end
 
     end
-  end
 
-else
-
-  module Fog
-    class Slicehost
+    class Mock
 
       def get_slices
         raise MockNotImplemented.new("Contributions welcome!")
@@ -41,5 +38,4 @@ else
 
     end
   end
-
 end

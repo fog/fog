@@ -1,7 +1,8 @@
-unless Fog.mocking?
+module Fog
+  module Slicehost
+    class Real
 
-  module Fog
-    class Slicehost
+      require 'fog/slicehost/parsers/get_flavor'
 
       # Get details of a flavor
       #
@@ -25,12 +26,8 @@ unless Fog.mocking?
       end
 
     end
-  end
 
-else
-
-  module Fog
-    class Slicehost
+    class Mock
 
       def get_flavor(flavor_id)
         raise MockNotImplemented.new("Contributions welcome!")
@@ -38,5 +35,4 @@ else
 
     end
   end
-
 end
