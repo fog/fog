@@ -1,7 +1,8 @@
-unless Fog.mocking?
+module Fog
+  module Terremark
+    class Real
 
-  module Fog
-    class Terremark
+      require 'fog/terremark/parsers/get_catalog_item'
 
       # Get details of a catalog item
       #
@@ -30,12 +31,8 @@ unless Fog.mocking?
       end
 
     end
-  end
 
-else
-
-  module Fog
-    class Terremark
+    class Mock
 
       def get_catalog_item(catalog_item_id)
         raise MockNotImplemented.new("Contributions welcome!")
@@ -43,5 +40,4 @@ else
 
     end
   end
-
 end

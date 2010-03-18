@@ -1,7 +1,8 @@
-unless Fog.mocking?
+module Fog
+  module Terremark
+    class Real
 
-  module Fog
-    class Terremark
+      require 'fog/terremark/parsers/get_organizations'
 
       # Get list of organizations
       #
@@ -25,12 +26,8 @@ unless Fog.mocking?
       end
 
     end
-  end
 
-else
-
-  module Fog
-    class Terremark
+    class Mock
 
       def get_organizations
         raise MockNotImplemented.new("Contributions welcome!")
@@ -38,5 +35,4 @@ else
 
     end
   end
-
 end
