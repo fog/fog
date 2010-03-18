@@ -16,9 +16,9 @@ module Fog
         raise ArgumentError.new('terremark_username is required to access terremark')
       end
       if Fog.mocking?
-        Fog::Slicehost::Mock.new(options)
+        Fog::Terremark::Mock.new(options)
       else
-        Fog::Slicehost::Real.new(options)
+        Fog::Terremark::Real.new(options)
       end
     end
 
