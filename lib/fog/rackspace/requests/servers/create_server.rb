@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module Rackspace
-      class Servers
+module Fog
+  module Rackspace
+    module Servers
+      class Real
 
         # Create a new server
         #
@@ -65,14 +64,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module Rackspace
-      class Servers
+      class Mock
 
         def create_server(flavor_id, image_id, name, options = {})
           response = Excon::Response.new
@@ -90,8 +83,8 @@ else
             'status'    => 'BUILD'
           }
           data['adminPass'] = "#{data['name']}password"
-          Fog::Rackspace::Servers.data[:last_modified][:servers][data['id']] = Time.now
-          Fog::Rackspace::Servers.data[:servers][data['id']] = data
+          @data[:last_modified][:servers][data['id']] = Time.now
+          @data[:servers][data['id']] = data
           response.body = { 'server' => data }
           response
         end
@@ -99,5 +92,4 @@ else
       end
     end
   end
-
 end

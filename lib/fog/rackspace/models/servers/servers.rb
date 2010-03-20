@@ -1,9 +1,20 @@
+require 'fog/collection'
+require 'fog/rackspace/models/servers/server'
+
 module Fog
   module Rackspace
-    class Servers
+    module Servers
 
-      def servers
-        Fog::Rackspace::Servers::Servers.new(:connection => self)
+      class Mock
+        def servers
+          Fog::Rackspace::Servers::Servers.new(:connection => self)
+        end
+      end
+
+      class Real
+        def servers
+          Fog::Rackspace::Servers::Servers.new(:connection => self)
+        end
       end
 
       class Servers < Fog::Collection

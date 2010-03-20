@@ -15,7 +15,9 @@ describe 'Rackspace::Servers.reboot_server' do
     end
 
     it "should return proper attributes" do
-      Rackspace[:servers].reboot_server(@server_id, 'HARD')
+      eventually(128) do
+        Rackspace[:servers].reboot_server(@server_id, 'HARD')
+      end
     end
 
   end

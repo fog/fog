@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module Rackspace
-      class Servers
+module Fog
+  module Rackspace
+    module Servers
+      class Real
 
         # List all servers details
         #
@@ -30,23 +29,17 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module Rackspace
-      class Servers
+      class Mock
 
         def list_servers_detail
           response = Excon::Response.new
 
-          servers = Fog::Rackspace::Servers.data[:servers].values
+          servers = @data[:servers].values
           for server in servers
             case server['status']
             when 'BUILD'
-              if Time.now - Fog::Rackspace::Servers.data[:last_modified][:servers][server['id']] > 2
+              if Time.now - @data[:last_modified][:servers][server['id']] > 2
                 server['status'] = 'ACTIVE'
               end
             end
@@ -60,5 +53,4 @@ else
       end
     end
   end
-
 end

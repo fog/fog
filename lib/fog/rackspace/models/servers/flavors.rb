@@ -1,9 +1,20 @@
+require 'fog/collection'
+require 'fog/rackspace/models/servers/flavor'
+
 module Fog
   module Rackspace
-    class Servers
+    module Servers
 
-      def flavors
-        Fog::Rackspace::Servers::Flavors.new(:connection => self)
+      class Real
+        def flavors
+          Fog::Rackspace::Servers::Flavors.new(:connection => self)
+        end
+      end
+
+      class Mock
+        def flavors
+          Fog::Rackspace::Servers::Flavors.new(:connection => self)
+        end
       end
 
       class Flavors < Fog::Collection
@@ -16,7 +27,8 @@ module Fog
         end
 
         def get(flavor_id)
-          connection.get_flavor_details(flavor_id)
+          data = connection.get_flavor_details(flavor_id).body['flavor']
+          new(data)
         rescue Excon::Errors::NotFound
           nil
         end

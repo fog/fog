@@ -1,6 +1,8 @@
+require 'fog/model'
+
 module Fog
   module Rackspace
-    class Servers
+    module Servers
 
       class Image < Fog::Model
 

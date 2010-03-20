@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module Rackspace
-      class Servers
+module Fog
+  module Rackspace
+    module Servers
+      class Real
 
         # Reboot an existing server
         #
@@ -20,14 +19,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module Rackspace
-      class Servers
+      class Mock
 
         def reboot_server(server_id, type)
           raise MockNotImplemented.new("Contributions welcome!")
@@ -36,5 +29,4 @@ else
       end
     end
   end
-
 end

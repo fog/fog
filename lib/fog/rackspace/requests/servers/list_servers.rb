@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module Rackspace
-      class Servers
+module Fog
+  module Rackspace
+    module Servers
+      class Real
 
         # List all servers (IDs and names only)
         #
@@ -21,14 +20,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module Rackspace
-      class Servers
+      class Mock
 
         def list_servers
           response = Excon::Response.new
@@ -45,5 +38,4 @@ else
       end
     end
   end
-
 end

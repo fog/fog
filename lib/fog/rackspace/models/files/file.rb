@@ -1,6 +1,8 @@
+require 'fog/model'
+
 module Fog
   module Rackspace
-    class Files
+    module Files
 
       class File < Fog::Model
 

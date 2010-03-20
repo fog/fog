@@ -1,9 +1,20 @@
+require 'fog/collection'
+require 'fog/rackspace/models/files/directory'
+
 module Fog
   module Rackspace
-    class Files
+    module Files
 
-      def directories
-        Fog::Rackspace::Files::Directories.new(:connection => self)
+      class Real
+        def directories
+          Fog::Rackspace::Files::Directories.new(:connection => self)
+        end
+      end
+
+      class Mock
+        def directories
+          Fog::Rackspace::Files::Directories.new(:connection => self)
+        end
       end
 
       class Directories < Fog::Collection

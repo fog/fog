@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module Rackspace
-      class Servers
+module Fog
+  module Rackspace
+    module Servers
+      class Real
 
         # List all images
         #
@@ -23,23 +22,17 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module Rackspace
-      class Servers
+      class Mock
 
         def list_images_detail
           response = Excon::Response.new
 
-          images = Fog::Rackspace::Servers.data[:images].values
+          images = @data[:images].values
           for image in images
             case image['status']
             when 'SAVING'
-              if Time.now - Fog::Rackspace::Servers.data[:last_modified][:images][image['id']] > 2
+              if Time.now - @data[:last_modified][:images][image['id']] > 2
                 image['status'] = 'ACTIVE'
               end
             end
@@ -53,5 +46,4 @@ else
       end
     end
   end
-
 end

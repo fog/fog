@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module Rackspace
-      class Files
+module Fog
+  module Rackspace
+    module Files
+      class Real
 
         # List number of containers and total bytes stored
         #
@@ -22,14 +21,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module Rackspace
-      class Servers
+      class Mock
 
         def head_containers
           raise MockNotImplemented.new("Contributions welcome!")
@@ -38,5 +31,4 @@ else
       end
     end
   end
-
 end

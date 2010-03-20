@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module Rackspace
-      class Files
+module Fog
+  module Rackspace
+    module Files
+      class Real
 
         # Create a new object
         #
@@ -10,7 +9,7 @@ unless Fog.mocking?
         # * container<~String> - Name for container, should be < 256 bytes and must not contain '/'
         #
         def put_object(container, object, data)
-          data = parse_data(data)
+          data = Fog::Rackspace::Files.parse_data(data)
           response = storage_request(
             :body     => data[:body],
             :expects  => 201,
@@ -22,14 +21,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module Rackspace
-      class Servers
+      class Mock
 
         def put_object(container, object, data)
           raise MockNotImplemented.new("Contributions welcome!")
@@ -38,5 +31,4 @@ else
       end
     end
   end
-
 end

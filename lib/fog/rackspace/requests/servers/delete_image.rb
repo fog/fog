@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module Rackspace
-      class Servers
+module Fog
+  module Rackspace
+    module Servers
+      class Real
 
         # Delete an image
         #
@@ -18,14 +17,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module Rackspace
-      class Servers
+      class Mock
 
         def delete_image(image_id)
           response = Excon::Response.new
@@ -34,8 +27,8 @@ else
               response.status = 409
               raise(Excon::Errors.status_error({:expects => 202}, response))
             else
-              Fog::Rackspace::Servers.data[:last_modified][:images].delete(image_id)
-              Fog::Rackspace::Servers.data[:images].delete(image_id)
+              @data[:last_modified][:images].delete(image_id)
+              @data[:images].delete(image_id)
               response.status = 202
             end
           else
@@ -48,5 +41,4 @@ else
       end
     end
   end
-
 end

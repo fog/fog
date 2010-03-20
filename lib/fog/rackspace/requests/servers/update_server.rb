@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module Rackspace
-      class Servers
+module Fog
+  module Rackspace
+    module Servers
+      class Real
 
         # Update an existing server
         #
@@ -21,14 +20,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module Rackspace
-      class Servers
+      class Mock
 
         def update_server(server_id, options)
           response = Excon::Response.new
@@ -50,5 +43,4 @@ else
       end
     end
   end
-
 end

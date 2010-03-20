@@ -1,89 +1,103 @@
+require 'fog/rackspace/models/servers/flavor'
+require 'fog/rackspace/models/servers/flavors'
+require 'fog/rackspace/models/servers/image'
+require 'fog/rackspace/models/servers/images'
+require 'fog/rackspace/models/servers/server'
+require 'fog/rackspace/models/servers/servers'
+require 'fog/rackspace/requests/servers/create_image'
+require 'fog/rackspace/requests/servers/create_server'
+require 'fog/rackspace/requests/servers/delete_image'
+require 'fog/rackspace/requests/servers/delete_server'
+require 'fog/rackspace/requests/servers/get_flavor_details'
+require 'fog/rackspace/requests/servers/get_server_details'
+require 'fog/rackspace/requests/servers/list_addresses'
+require 'fog/rackspace/requests/servers/list_private_addresses'
+require 'fog/rackspace/requests/servers/list_public_addresses'
+require 'fog/rackspace/requests/servers/list_flavors'
+require 'fog/rackspace/requests/servers/list_flavors_detail'
+require 'fog/rackspace/requests/servers/list_images'
+require 'fog/rackspace/requests/servers/list_images_detail'
+require 'fog/rackspace/requests/servers/list_servers'
+require 'fog/rackspace/requests/servers/list_servers_detail'
+require 'fog/rackspace/requests/servers/reboot_server'
+require 'fog/rackspace/requests/servers/update_server'
+
 module Fog
   module Rackspace
-    class Servers
+    module Servers
 
-      if Fog.mocking?
-        def self.data
-          @data
+      def self.new(options={})
+        if Fog.mocking?
+          Fog::Rackspace::Servers::Mock.new(options)
+        else
+          Fog::Rackspace::Servers::Real.new(options)
         end
-        def self.reset_data
-          @data = {
-            :last_modified => {
+      end
+
+      def self.reset_data(keys=Mock.data.keys)
+        Mock.reset_data(keys)
+      end
+
+      class Mock
+
+        def self.data
+          @data ||= Hash.new do |hash, key|
+            hash[key] = {
+              :last_modified => {
+                :images  => {},
+                :servers => {}
+              },
               :images  => {},
               :servers => {}
-            },
-            :images  => {},
-            :servers => {}
-          }
+            }
+          end
         end
-      end
 
-      def self.dependencies
-        [
-          "fog/rackspace/models/servers/flavor.rb",
-          "fog/rackspace/models/servers/flavors.rb",
-          "fog/rackspace/models/servers/image.rb",
-          "fog/rackspace/models/servers/images.rb",
-          "fog/rackspace/models/servers/server.rb",
-          "fog/rackspace/models/servers/servers.rb",
-          "fog/rackspace/requests/servers/create_image.rb",
-          "fog/rackspace/requests/servers/create_server.rb",
-          "fog/rackspace/requests/servers/delete_image.rb",
-          "fog/rackspace/requests/servers/delete_server.rb",
-          "fog/rackspace/requests/servers/get_flavor_details.rb",
-          "fog/rackspace/requests/servers/get_server_details.rb",
-          "fog/rackspace/requests/servers/list_addresses.rb",
-          "fog/rackspace/requests/servers/list_private_addresses.rb",
-          "fog/rackspace/requests/servers/list_public_addresses.rb",
-          "fog/rackspace/requests/servers/list_flavors.rb",
-          "fog/rackspace/requests/servers/list_flavors_detail.rb",
-          "fog/rackspace/requests/servers/list_images.rb",
-          "fog/rackspace/requests/servers/list_images_detail.rb",
-          "fog/rackspace/requests/servers/list_servers.rb",
-          "fog/rackspace/requests/servers/list_servers_detail.rb",
-          "fog/rackspace/requests/servers/reboot_server.rb",
-          "fog/rackspace/requests/servers/update_server.rb"
-        ]
-      end
-
-      def self.reload
-        self.dependencies.each {|dependency| load(dependency)}
-        if Fog.mocking?
-          reset_data
+        def self.reset_data(keys=data.keys)
+          for key in [*keys]
+            data.delete(key)
+          end
         end
-      end
 
-      def initialize(options={})
-        credentials = Fog::Rackspace.authenticate(options)
-        @auth_token = credentials['X-Auth-Token']
-        uri = URI.parse(credentials['X-Server-Management-Url'])
-        @host   = uri.host
-        @path   = uri.path
-        @port   = uri.port
-        @scheme = uri.scheme
-      end
-
-      def request(params)
-        @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
-        response = @connection.request({
-          :body     => params[:body],
-          :expects  => params[:expects],
-          :headers  => {
-            'Content-Type' => 'application/json',
-            'X-Auth-Token' => @auth_token
-          }.merge!(params[:headers] || {}),
-          :host     => @host,
-          :method   => params[:method],
-          :path     => "#{@path}/#{params[:path]}"
-        })
-        unless response.body.empty?
-          response.body = JSON.parse(response.body)
+        def initialize(options={})
+          @rackspace_username = options[:rackspace_username]
+          @data = self.class.data[@rackspace_username]
         end
-        response
+
       end
 
+      class Real
+
+        def initialize(options={})
+          credentials = Fog::Rackspace.authenticate(options)
+          @auth_token = credentials['X-Auth-Token']
+          uri = URI.parse(credentials['X-Server-Management-Url'])
+          @host   = uri.host
+          @path   = uri.path
+          @port   = uri.port
+          @scheme = uri.scheme
+        end
+
+        def request(params)
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
+          response = @connection.request({
+            :body     => params[:body],
+            :expects  => params[:expects],
+            :headers  => {
+              'Content-Type' => 'application/json',
+              'X-Auth-Token' => @auth_token
+            }.merge!(params[:headers] || {}),
+            :host     => @host,
+            :method   => params[:method],
+            :path     => "#{@path}/#{params[:path]}"
+          })
+          unless response.body.empty?
+            response.body = JSON.parse(response.body)
+          end
+          response
+        end
+
+      end
     end
   end
 end
-
-Fog::Rackspace::Servers.reload

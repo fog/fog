@@ -7,7 +7,6 @@ describe 'Rackspace::Servers.list_images_detail' do
       actual = Rackspace[:servers].list_images_detail.body
       actual['images'].should be_an(Array)
       image = actual['images'].first
-      image['created'].should be_a(String)
       image['id'].should be_an(Integer)
       image['name'].should be_a(String)
       image['status'].should be_a(String)

@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module Rackspace
-      class Servers
+module Fog
+  module Rackspace
+    module Servers
+      class Real
 
         # List all images (IDs and names only)
         #
@@ -20,14 +19,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module Rackspace
-      class Servers
+      class Mock
 
         def list_images
           response = Excon::Response.new
@@ -44,5 +37,4 @@ else
       end
     end
   end
-
 end

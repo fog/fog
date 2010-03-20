@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module Rackspace
-      class Files
+module Fog
+  module Rackspace
+    module Files
+      class Real
 
         # List existing storage containers
         #
@@ -35,14 +34,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module Rackspace
-      class Servers
+      class Mock
 
         def get_containers(options = {})
           raise MockNotImplemented.new("Contributions welcome!")
@@ -51,5 +44,4 @@ else
       end
     end
   end
-
 end

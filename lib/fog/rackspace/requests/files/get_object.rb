@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module Rackspace
-      class Files
+module Fog
+  module Rackspace
+    module Files
+      class Real
 
         # Get details for object
         #
@@ -21,14 +20,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module Rackspace
-      class Servers
+      class Mock
 
         def get_object(container, object)
           raise MockNotImplemented.new("Contributions welcome!")
@@ -37,5 +30,4 @@ else
       end
     end
   end
-
 end

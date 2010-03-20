@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module Rackspace
-      class Servers
+module Fog
+  module Rackspace
+    module Servers
+      class Real
 
         # Get details about a server
         #
@@ -33,14 +32,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module Rackspace
-      class Servers
+      class Mock
 
         def get_server_details(server_id)
           response = Excon::Response.new
@@ -57,5 +50,4 @@ else
       end
     end
   end
-
 end

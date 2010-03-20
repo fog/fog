@@ -1,8 +1,7 @@
-unless Fog.mocking?
-
-  module Fog
-    module Rackspace
-      class Servers
+module Fog
+  module Rackspace
+    module Servers
+      class Real
 
         # Create an image from a running server
         #
@@ -34,14 +33,8 @@ unless Fog.mocking?
         end
 
       end
-    end
-  end
 
-else
-
-  module Fog
-    module Rackspace
-      class Servers
+      class Mock
 
         def create_image(server_id, options = {})
           response = Excon::Response.new
@@ -57,8 +50,8 @@ else
             'updated'   => now,
           }
 
-          Fog::Rackspace::Servers.data[:last_modified][:images][data['id']] = now
-          Fog::Rackspace::Servers.data[:images][data['id']] = data
+          @data[:last_modified][:images][data['id']] = now
+          @data[:images][data['id']] = data
           response.body = { 'image' => data.reject {|key, value| !['id', 'name', 'serverId'].include?(key)} }
           response
         end
@@ -66,5 +59,4 @@ else
       end
     end
   end
-
 end
