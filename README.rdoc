@@ -80,14 +80,11 @@ Requests allow you to dive deeper when the models just can't cut it.
 For instance, ec2 provides methods related to reserved instances that don't have any models (yet anyway).
 You can get a description of your reserved instances like this:
 
-  connection = Fog::AWS::EC2.new(
-    :aws_access_key_id => id,
-    :aws_secret_access_key => key
-  )
+  $ fog
+  >> AWS[:ec2].describe_reserved_instances
+  #<Excon::Response [...]>
 
-  connection.describe_reserved_instances
-
-It will return a nice ruby hash that you can get whatever data you might need from.
+It will return an excon response, which has headers and body methods. Both give nice ruby hash representations of the result.
 
 == Go forth and conquer
 
