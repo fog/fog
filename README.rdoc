@@ -1,63 +1,45 @@
 = fog
 
-fog helps you interact with cloud services. fog is a work in progress.
+fog helps you interact with cloud services.
 
-== Install
+The quick and dirty, top to bottom:
+* Models provide a simplified interface, making clouds easier to work with and switch between.
+* Requests allow power users to get the most out of the features of each individual cloud.
+* Mocks make testing and integrating a breeze.
 
-  sudo gem install fog
+Put them together and you get a great cloud computing experience, but we are getting ahead of ourselves...
 
 == Getting Started
 
-You can start stumbling around as soon as you install with the fog command line tool.
-After installing, just type 'fog' to get started.
-If you don't have credentials setup it will let you know what to do.
+  sudo gem install fog
 
-Then just start playing around, fog should let you know if you are forget things.
+Now just type 'fog' to trying stuff out, confident that fog should let you know what you need to do.
 
-For example if you try to create a server but leave out stuff:
+Here is an example of wading through server creation for Amazon Elastic Compute Cloud:
 
-  server = AWS.servers.create
-
-You'll get reminded that things are missing.
-
+  >> server = AWS.servers.create
   ArgumentError: image_id is required for this operation
+  >> server = AWS.servers.create(:image_id => 'ami-5ee70037')
+  <Fog::AWS::EC2::Server [...]>
+  >> server.destroy # cleanup after yourself or regret it, trust me
+  true
 
-So just add the missing stuff and you are off to the races:
+== Collections
 
-  server = AWS.servers.create(:image_id => 'ami-5ee70037')
+Nouns like Images and Servers are collections, which form the interface to the cloud.
+Collections provide all, create, get and new methods.
+all fetches every object of that type from the cloud.
+create initializes a new record locally and then persists it to the cloud.
+get fetches a single object by its identity.
+new initializes a new record locally.
 
-But don't forget to cleanup or you'll regret it when you get the bill:
+Common compute nouns are flavors, images and servers.
 
-  server.destroy
+Common storage nouns are directory and file.
 
-Rinse, repeat, enjoy!
-
-== Working with Servers
-
-Lets boot up a server on EC2
+As an example, we'll try initializing and persisting a rackspace server:
 
   require 'fog'
-
-  # initialize a connection to Amazon Elastic Compute Cloud
-  connection = Fog::AWS::EC2.new(
-    :aws_access_key_id => id,
-    :aws_secret_access_key => key
-  )
-
-  # boot a gentoo server
-  server = connection.servers.new(:image_id => 'ami-5ee70037')
-  # you might also want to add the server to security groups, which goes like this:
-  # AWS.servers.create(:image_id => 'ami-5ee70037', :groups => ['web', 'db'])
-
-  # wait for it to be ready to do stuff
-  server.wait_for { ready? }
-
-  # DO STUFF
-
-  # shutdown the server
-  server.destroy
-
-Now we will try again, but with Rackspace
 
   # initialize a connection to Rackspace Servers
   connection = Fog::Rackspace::Servers.new(
@@ -76,53 +58,62 @@ Now we will try again, but with Rackspace
   # shutdown the server
   server.destroy
 
-== Working with Directories and Files
+== Models
 
-  require 'fog'
+Many of the collection methods return individual objects, which provide destroy, save and wait_for methods.
+destroy will destroy the persisted object from the cloud
+save will persist the object to the cloud
+wait_for takes a block and waits for either the block to return true for the object or for a timeout (defaults to 10 minutes)
 
-  # initialize a connection to Amazon Simple Storage Solution
-  connection = Fog::AWS::S3.new(
+== Mocks
+
+Mocking provides an in memory representation of clouds as you make different requests.
+This representation allows subsequent calls to mimic the behavior of the cloud while eliminating the cost and time needed to actually run tests against various providers.
+Mocking is easy to use, just write any functions as you normally would and then in your tests ensure you call:
+
+  Fog.mock!
+
+Make sure you call it first (before you initialize any connections) and all your calls should now run in mock mode.
+If you run into the edges of mock implementation it should let you know that they haven't been implemented yet.
+
+== Requests
+
+Requests allow you to dive deeper when the models just can't cut it.
+For instance, ec2 provides methods related to reserved instances that don't have any models (yet anyway).
+You can get a description of your reserved instances like this:
+
+  connection = Fog::AWS::EC2.new(
     :aws_access_key_id => id,
     :aws_secret_access_key => key
   )
 
-  # create a directory
-  directory = connection.directory.create(:name => 'directoryname')
+  connection.describe_reserved_instances
 
-  # create a new file in your directory
-  directory.files.create(:key => 'filename', :body => 'filebody')
+It will return a nice ruby hash that you can get whatever data you might need from.
 
-  # connect to your directory
-  directory = connection.directories.get('directoryname')
+== Go forth and conquer
 
-  # get your file
-  file = directory.files.get('filename')
+That should give you some stuff to try and places to look.
 
-  # delete the file
-  file.destroy
+You should try out the (varying) support fog has for:
+* AWS [EC2, S3, SimpleDB]
+* Rackspace [Files, Servers]
+* Slicehost
+* Terremark vCloud Express
 
-  # delete the directory
-  directory.destroy
+{Let me know}[http://github.com/geemus/fog/issues] what I may have missed or should add.
 
-== More info
+Enjoy, and let me know what I can do to continue improving fog!
 
 * Follow {@geemus}[http://twitter.com/geemus] on Twitter.
 * See upcoming work in the {tracker}[http://www.pivotaltracker.com/projects/54635].
 * Report bugs in {issues}[http://github.com/geemus/fog/issues].
 
-== Supports
-
-* AWS EC2
-* AWS S3
-* AWS SimpleDB (no models yet)
-* Rackspace Files (no models yet, just getting started on requests)
-* Rackspace Servers (some requests, server model, just getting started)
-
 == Copyright
 
 (The MIT License)
 
-Copyright (c) 2009 {geemus (Wesley Beary)}[http://github.com/geemus]
+Copyright (c) 2010 {geemus (Wesley Beary)}[http://github.com/geemus]
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
