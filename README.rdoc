@@ -13,9 +13,7 @@ Put them together and you get a great cloud computing experience, but we are get
 
   sudo gem install fog
 
-Now just type 'fog' to trying stuff out, confident that fog should let you know what you need to do.
-
-Here is an example of wading through server creation for Amazon Elastic Compute Cloud:
+Now just type 'fog' to trying stuff out, confident that fog should let you know what you need to do. Here is an example of wading through server creation for Amazon Elastic Compute Cloud:
 
   >> server = AWS.servers.create
   ArgumentError: image_id is required for this operation
@@ -28,10 +26,10 @@ Here is an example of wading through server creation for Amazon Elastic Compute 
 
 Nouns like Images and Servers are collections, which form the interface to the cloud.
 Collections provide all, create, get and new methods.
-all fetches every object of that type from the cloud.
-create initializes a new record locally and then persists it to the cloud.
-get fetches a single object by its identity.
-new initializes a new record locally.
+* all fetches every object of that type from the cloud.
+* create initializes a new record locally and then persists it to the cloud.
+* get fetches a single object by its identity.
+* new initializes a new record locally.
 
 Common compute nouns are flavors, images and servers.
 
@@ -61,9 +59,9 @@ As an example, we'll try initializing and persisting a rackspace server:
 == Models
 
 Many of the collection methods return individual objects, which provide destroy, save and wait_for methods.
-destroy will destroy the persisted object from the cloud
-save will persist the object to the cloud
-wait_for takes a block and waits for either the block to return true for the object or for a timeout (defaults to 10 minutes)
+* destroy will destroy the persisted object from the cloud
+* save will persist the object to the cloud
+* wait_for takes a block and waits for either the block to return true for the object or for a timeout (defaults to 10 minutes)
 
 == Mocks
 
