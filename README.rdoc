@@ -99,8 +99,6 @@ You should try out the (varying) support fog has for:
 * Slicehost
 * Terremark vCloud Express
 
-{Let me know}[http://github.com/geemus/fog/issues] what I may have missed or should add.
-
 Enjoy, and let me know what I can do to continue improving fog!
 
 * Follow {@geemus}[http://twitter.com/geemus] on Twitter.
