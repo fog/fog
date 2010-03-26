@@ -18,6 +18,7 @@ describe 'Slicehost.create_slice' do
       actual['bw-out'].should be_an(Float)
       actual['flavor-id'].should be_an(Integer)
       actual['id'].should be_an(Integer)
+      @slice_id = actual['id']
       actual['image-id'].should be_an(Integer)
       actual['name'].should be_an(String)
       actual['progress'].should be_an(Integer)

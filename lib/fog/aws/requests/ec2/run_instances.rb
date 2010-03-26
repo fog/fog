@@ -102,7 +102,7 @@ module Fog
 
           group_set = [ (options['GroupId'] || 'default') ]
           instances_set = []
-          owner_id = Fog::AWS::Mock.owner_id
+          owner_id = @owner_id
           reservation_id = Fog::AWS::Mock.reservation_id
 
           min_count.times do |i|

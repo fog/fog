@@ -76,7 +76,36 @@ module Fog
               :addresses => {},
               :instances => {},
               :key_pairs => {},
-              :security_groups => {},
+              :security_groups => {
+                'default' => {
+                  'groupDescription'  => 'default group',
+                  'groupName'         => 'default',
+                  'ipPermissions'     => [
+                    {
+                      'groups'      => [{'groupName' => 'default', 'userId' => @owner_id}],
+                      'fromPort'    => -1,
+                      'toPort'      => -1,
+                      'ipProtocol'  => 'icmp',
+                      'ipRanges'    => []
+                    },
+                    {
+                      'groups'      => [{'groupName' => 'default', 'userId' => @owner_id}],
+                      'fromPort'    => 0,
+                      'toPort'      => 65535,
+                      'ipProtocol'  => 'tcp',
+                      'ipRanges'    => []
+                    },
+                    {
+                      'groups'      => [{'groupName' => 'default', 'userId' => @owner_id}],
+                      'fromPort'    => 0,
+                      'toPort'      => 65535,
+                      'ipProtocol'  => 'udp',
+                      'ipRanges'    => []
+                    }
+                  ],
+                  'ownerId'           => @owner_id
+                }
+              },
               :snapshots => {},
               :volumes => {}
             }
@@ -91,6 +120,7 @@ module Fog
 
         def initialize(options={})
           @aws_access_key_id = options[:aws_access_key_id]
+          @owner_id = Fog::AWS::Mock.owner_id
           @data = self.class.data[@aws_access_key_id]
         end
 

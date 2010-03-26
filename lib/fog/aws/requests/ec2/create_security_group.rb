@@ -36,7 +36,7 @@ module Fog
               'groupDescription'  => description,
               'groupName'         => name,
               'ipPermissions'     => [],
-              'ownerId'           => Fog::AWS::Mock.owner_id
+              'ownerId'           => @owner_id
             }
             @data[:security_groups][name] = data
             response.body = {

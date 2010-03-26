@@ -41,10 +41,9 @@ module Fog
           group['ipPermissions'] ||= []
 
           if options['GroupName'] && options['SourceSecurityGroupName'] && options['SourceSecurityGroupOwnerId']
-            owner = Fog::AWS::Mock.owner_id
             ['icmp', 'tcp', 'udp'].each do |protocol|
               group['ipPermissions'] << {
-                'groups'      => [{'groupName' => options['GroupName'], 'userId' => owner}],
+                'groups'      => [{'groupName' => options['GroupName'], 'userId' => @owner_id}],
                 'fromPort'    => 1,
                 'ipRanges'    => [],
                 'ipProtocol'  => protocol,
