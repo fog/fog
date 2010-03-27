@@ -38,6 +38,7 @@ module Fog
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
+          options.reject! {|key, value| !['prefix', 'marker', 'max-keys', 'delimiter'].include?(key)}
           query = ''
           for key, value in options
             query << "#{key}=#{CGI.escape(value.to_s).gsub(/\+/, '%20')};"

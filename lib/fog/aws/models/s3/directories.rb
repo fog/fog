@@ -42,10 +42,12 @@ module Fog
             end
           end
           directory.files.merge_attributes(options)
-          directory.files.instance_variable_set(:@loaded, true)
-          data['Contents'].each do |file|
-            directory.files << directory.files.new(file)
+          files = data['Contents']
+          while data['IsTruncated']
+            data = connection.get_bucket(name, options.merge!('marker' => files.last['Key'])).body
+            files.concat(data['Contents'])
           end
+          directory.files.load(files)
           directory
         rescue Excon::Errors::NotFound
           nil
