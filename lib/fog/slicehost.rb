@@ -66,7 +66,7 @@ module Fog
       def request(params)
         @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
         headers = {
-          'Authorization' => "Basic #{Base64.encode64(@slicehost_password).chomp!}"
+          'Authorization' => "Basic #{Base64.encode64(@slicehost_password).delete("\r\n")}"
         }
         case params[:method]
         when 'DELETE', 'GET', 'HEAD'
