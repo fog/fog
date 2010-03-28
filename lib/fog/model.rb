@@ -102,6 +102,10 @@ module Fog
       end
     end
 
+    def to_json
+      attributes.to_json
+    end
+
     def wait_for(timeout = 600, &block)
       start = Time.now
       until instance_eval(&block)

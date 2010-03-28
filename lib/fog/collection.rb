@@ -145,6 +145,10 @@ module Fog
       Formatador.display_table(self.map {|instance| instance.attributes}, attributes)
     end
 
+    def to_json
+      self.map {|member| member}.to_json
+    end
+
     private
 
     def lazy_load

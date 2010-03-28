@@ -16,22 +16,28 @@ require File.join(lib_dir, 'fog', 'rackspace', 'bin')
 require File.join(lib_dir, 'fog', 'slicehost', 'bin')
 require File.join(lib_dir, 'fog', 'terremark', 'bin')
 
-ARGV.clear # Avoid passing args to IRB
-IRB.setup(nil)
-@irb = IRB::Irb.new(nil)
-IRB.conf[:MAIN_CONTEXT] = @irb.context
-IRB.conf[:PROMPT][:FOG] = IRB.conf[:PROMPT][:SIMPLE].dup
-IRB.conf[:PROMPT][:FOG][:RETURN] = "%s\n"
-@irb.context.prompt_mode = :FOG
-@irb.context.workspace = IRB::WorkSpace.new(binding)
-
-services = Fog.services.map{|service| service.to_s}
-available_services = if services.length > 1
-  services[0...-1].join(', ') << ' and ' << services[-1]
+if ARGV.length > 1
+  p instance_eval(ARGV[1..-1].join(' ')).to_json
 else
-  services.first
-end
-print "Welcome to fog interactive!\n"
-print "Your '#{Fog.credential.to_s}' configuration provides access to #{available_services}.\n"
 
-catch(:IRB_EXIT) { @irb.eval_input }
+  ARGV.clear # Avoid passing args to IRB
+  IRB.setup(nil)
+  @irb = IRB::Irb.new(nil)
+  IRB.conf[:MAIN_CONTEXT] = @irb.context
+  IRB.conf[:PROMPT][:FOG] = IRB.conf[:PROMPT][:SIMPLE].dup
+  IRB.conf[:PROMPT][:FOG][:RETURN] = "%s\n"
+  @irb.context.prompt_mode = :FOG
+  @irb.context.workspace = IRB::WorkSpace.new(binding)
+
+  services = Fog.services.map{|service| service.to_s}
+  available_services = if services.length > 1
+    services[0...-1].join(', ') << ' and ' << services[-1]
+  else
+    services.first
+  end
+  print "Welcome to fog interactive!\n"
+  print "Your '#{Fog.credential.to_s}' configuration provides access to #{available_services}.\n"
+
+  catch(:IRB_EXIT) { @irb.eval_input }
+
+end
