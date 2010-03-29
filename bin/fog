@@ -17,7 +17,7 @@ require File.join(lib_dir, 'fog', 'slicehost', 'bin')
 require File.join(lib_dir, 'fog', 'terremark', 'bin')
 
 if ARGV.length > 1
-  p instance_eval(ARGV[1..-1].join(' ')).to_json
+  print(instance_eval(ARGV[1..-1].join(' ')).to_json)
 else
 
   ARGV.clear # Avoid passing args to IRB
