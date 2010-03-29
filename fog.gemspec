@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.59"
+  s.version = "0.0.60"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
-  s.date = %q{2010-03-26}
+  s.date = %q{2010-03-28}
   s.default_executable = %q{fog}
   s.description = %q{brings clouds to you}
   s.email = %q{geemus@gmail.com}
@@ -326,17 +326,20 @@ Gem::Specification.new do |s|
     "spec/slicehost/models/flavors_spec.rb",
     "spec/slicehost/models/server_spec.rb",
     "spec/slicehost/models/servers_spec.rb",
-    "spec/slicehost/requests/create_slice_spec.rb",
-    "spec/slicehost/requests/delete_slice_spec.rb",
-    "spec/slicehost/requests/get_backups_spec.rb",
-    "spec/slicehost/requests/get_flavor_spec.rb",
-    "spec/slicehost/requests/get_flavors_spec.rb",
-    "spec/slicehost/requests/get_image_spec.rb",
-    "spec/slicehost/requests/get_images_spec.rb",
-    "spec/slicehost/requests/get_slice_spec.rb",
-    "spec/slicehost/requests/get_slices_spec.rb",
-    "spec/slicehost/requests/reboot_slice_spec.rb",
-    "spec/spec_helper.rb"
+    "spec/spec_helper.rb",
+    "tests/slicehost/requests/create_slice_tests.rb",
+    "tests/slicehost/requests/delete_slice_tests.rb",
+    "tests/slicehost/requests/get_backups_tests.rb",
+    "tests/slicehost/requests/get_flavor_tests.rb",
+    "tests/slicehost/requests/get_flavors_tests.rb",
+    "tests/slicehost/requests/get_image_tests.rb",
+    "tests/slicehost/requests/get_images_tests.rb",
+    "tests/slicehost/requests/get_slice_tests.rb",
+    "tests/slicehost/requests/get_slices_tests.rb",
+    "tests/slicehost/requests/reboot_slice_tests.rb",
+    "tests/slicehost/slicehost_helper.rb",
+    "tests/test_helper.rb",
+    "tests/test_helper_tests.rb"
   ]
   s.homepage = %q{http://github.com/geemus/fog}
   s.rdoc_options = ["--charset=UTF-8"]
@@ -449,16 +452,6 @@ Gem::Specification.new do |s|
     "spec/slicehost/models/flavors_spec.rb",
     "spec/slicehost/models/server_spec.rb",
     "spec/slicehost/models/servers_spec.rb",
-    "spec/slicehost/requests/create_slice_spec.rb",
-    "spec/slicehost/requests/delete_slice_spec.rb",
-    "spec/slicehost/requests/get_backups_spec.rb",
-    "spec/slicehost/requests/get_flavor_spec.rb",
-    "spec/slicehost/requests/get_flavors_spec.rb",
-    "spec/slicehost/requests/get_image_spec.rb",
-    "spec/slicehost/requests/get_images_spec.rb",
-    "spec/slicehost/requests/get_slice_spec.rb",
-    "spec/slicehost/requests/get_slices_spec.rb",
-    "spec/slicehost/requests/reboot_slice_spec.rb",
     "spec/spec_helper.rb"
   ]
 
