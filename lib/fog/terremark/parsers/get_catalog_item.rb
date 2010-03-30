@@ -5,7 +5,6 @@ module Fog
       class GetCatalogItem < Fog::Parsers::Base
 
         def reset
-          @property_key
           @response = { 'Entity' => {}, 'Properties' => {} }
         end
 
@@ -20,7 +19,8 @@ module Fog
             catalog_item = {}
             until attributes.empty?
               if attributes.first.is_a?(Array)
-                catalog_item[attributes.first.first] = attributes.shift.last
+                attribute = attributes.shift
+                catalog_item[attribute.first] = attribute.last
               else
                 catalog_item[attributes.shift] = attributes.shift
               end

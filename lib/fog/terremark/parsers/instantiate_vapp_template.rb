@@ -2,9 +2,10 @@ module Fog
   module Parsers
     module Terremark
 
-      class GetOrganization < Fog::Parsers::Base
+      class InstantiateVappTemplate < Fog::Parsers::Base
 
         def reset
+          @property_key
           @response = { 'Links' => [] }
         end
 
@@ -17,24 +18,17 @@ module Fog
               link[attributes.shift] = attributes.shift
             end            
             @response['Links'] << link
-          when 'Org'
-            org = {}
+          when 'VApp'
+            vapp_template = {}
             until attributes.empty?
               if attributes.first.is_a?(Array)
                 attribute = attributes.shift
-                org[attribute.first] = attribute.last
+                vapp_template[attribute.first] = attribute.last
               else
-                org[attributes.shift] = attributes.shift
+                vapp_template[attributes.shift] = attributes.shift
               end
             end
-            @response['href'] = org['href']
-            @response['name'] = org['name']
-          end
-        end
-
-        def end_element(name)
-          if name == 'Description'
-            @response[name] = @value
+            @response.merge!(vapp_template.reject {|key, value| !['href', 'name', 'size', 'status', 'type'].include?(key)})
           end
         end
 

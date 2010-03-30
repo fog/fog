@@ -5,7 +5,6 @@ module Fog
       class GetVappTemplate < Fog::Parsers::Base
 
         def reset
-          @property_key
           @response = { 'Links' => [] }
         end
 
@@ -22,7 +21,8 @@ module Fog
             vapp_template = {}
             until attributes.empty?
               if attributes.first.is_a?(Array)
-                vapp_template[attributes.first.first] = attributes.shift.last
+                attribute = attributes.shift
+                vapp_template[attribute.first] = attribute.last
               else
                 vapp_template[attributes.shift] = attributes.shift
               end

@@ -21,7 +21,8 @@ module Fog
             catalog = {}
             until attributes.empty?
               if attributes.first.is_a?(Array)
-                catalog[attributes.first.first] = attributes.shift.last
+                attribute = attributes.shift
+                catalog[attribute.first] = attribute.last
               else
                 catalog[attributes.shift] = attributes.shift
               end

@@ -14,7 +14,6 @@ module Fog
       #     * 'name'<~String> - Name of organization
       def get_organizations
         request({
-          :body     => '',
           :expects  => 200,
           :headers  => {
             'Authorization' => "Basic #{Base64.encode64("#{@terremark_username}:#{@terremark_password}").chomp!}"

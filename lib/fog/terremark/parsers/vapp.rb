@@ -2,7 +2,7 @@ module Fog
   module Parsers
     module Terremark
 
-      class GetOrganization < Fog::Parsers::Base
+      class Vapp < Fog::Parsers::Base
 
         def reset
           @response = { 'Links' => [] }
@@ -15,26 +15,26 @@ module Fog
             link = {}
             until attributes.empty?
               link[attributes.shift] = attributes.shift
-            end            
+            end
             @response['Links'] << link
-          when 'Org'
-            org = {}
+          when 'Vapp'
+            vapp = {}
             until attributes.empty?
               if attributes.first.is_a?(Array)
                 attribute = attributes.shift
-                org[attribute.first] = attribute.last
+                vapp[attribute.first] = attribute.last
               else
-                org[attributes.shift] = attributes.shift
+                vapp[attributes.shift] = attributes.shift
               end
             end
-            @response['href'] = org['href']
-            @response['name'] = org['name']
+            @response.merge!(task.reject {|key,value| !['href', 'name', 'size', 'status', 'type'].include?(key)})
           end
         end
 
         def end_element(name)
-          if name == 'Description'
-            @response[name] = @value
+          case name
+          when 'IpAddress'
+            @response['IpAddress'] = @value
           end
         end
 

@@ -20,7 +20,7 @@ module Fog
               'Memory' => {}
             },
             'StorageCapacity'  => {},
-            'ResourceEntities' => {}
+            'ResourceEntities' => []
           }
         end
 
@@ -52,14 +52,15 @@ module Fog
             until attributes.empty?
               resource_entity[attributes.shift] = attributes.shift
             end
-            @response['ResourceEntity'] << resource_entity
+            @response['ResourceEntities'] << resource_entity
           when 'StorageCapacity'
             @in_storage_capacity = true
           when 'Vdc'
             vdc = {}
             until attributes.empty?
               if attributes.first.is_a?(Array)
-                vdc[attributes.first.first] = attributes.shift.last
+                attribute = attributes.shift
+                vdc[attribute.first] = attribute.last
               else
                 vdc[attributes.shift] = attributes.shift
               end

@@ -1,0 +1,118 @@
+module Fog
+  module Terremark
+    class Real
+
+      require 'fog/terremark/parsers/instantiate_vapp_template'
+
+      # Instatiate a vapp template
+      #
+      # ==== Parameters
+      # * vdc_id<~Integer> - Id of vdc to instantiate template in
+      #
+      # ==== Returns
+      # * response<~Excon::Response>:
+      #   * body<~Hash>:
+
+      # FIXME
+
+      #     * 'CatalogItems'<~Array>
+      #       * 'href'<~String> - linke to item
+      #       * 'name'<~String> - name of item
+      #       * 'type'<~String> - type of item
+      #     * 'description'<~String> - Description of catalog
+      #     * 'name'<~String> - Name of catalog
+      def instantiate_vapp_template(name)
+        # FIXME: much cheating to commence
+
+        organization_id = get_organizations.body['OrgList'].first['href'].split('/').last
+        organization = get_organization(organization_id).body
+        vdc_id = organization['Links'].select {|link| link['type'] == 'application/vnd.vmware.vcloud.vdc+xml'}.first['href'].split('/').last
+        vdc = get_vdc(vdc_id).body
+        network_id = vdc['AvailableNetworks'].first['href'].split('/').last
+        catalog_item = 12 # Ubuntu JeOS 9.10 (64-bit)
+
+        #       case UNRESOLVED:
+        #          return "0";
+        #       case RESOLVED:
+        #          return "1";
+        #       case OFF:
+        #          return "2";
+        #       case SUSPENDED:
+        #          return "3";
+        #       case ON:
+        #          return "4";
+        #       default:
+        # 
+        # /**
+        #  * The vApp is unresolved (one or more file references are unavailable in the cloud)
+        #  */
+        # UNRESOLVED,
+        # /**
+        #  * The vApp is resolved (all file references are available in the cloud) but not deployed
+        #  */
+        # RESOLVED,
+        # /**
+        #  * The vApp is deployed and powered off
+        #  */
+        # OFF,
+        # /**
+        #  * The vApp is deployed and suspended
+        #  */
+        # SUSPENDED,
+        # /**
+        #  * The vApp is deployed and powered on
+        #  */
+        # ON;
+
+        data = <<-DATA
+<?xml version="1.0" encoding="UTF-8"?>
+  <InstantiateVAppTemplateParams name="#{name}" xmlns="http://www.vmware.com/vcloud/v0.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vmware.com/vcloud/v0.8 http://services.vcloudexpress.terremark.com/api/v0.8/ns/vcloud.xsd">
+    <VAppTemplate href="https://services.vcloudexpress.terremark.com/api/v0.8/catalogItem/#{catalog_item}" />
+    <InstantiationParams xmlns:vmw="http://www.vmware.com/schema/ovf">
+      <ProductSection xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1" xmlns:q1="http://www.vmware.com/vcloud/v0.8"/>
+      <VirtualHardwareSection xmlns:q1="http://www.vmware.com/vcloud/v0.8">
+        <Item xmlns="http://schemas.dmtf.org/ovf/envelope/1">
+          <InstanceID xmlns="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">1</InstanceID>
+          <ResourceType xmlns="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">3</ResourceType>
+          <VirtualQuantity xmlns="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">1</VirtualQuantity>
+        </Item>
+        <Item xmlns="http://schemas.dmtf.org/ovf/envelope/1">
+          <InstanceID xmlns="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">2</InstanceID>
+          <ResourceType xmlns="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">4</ResourceType>
+          <VirtualQuantity xmlns="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">512</VirtualQuantity>
+        </Item>
+      </VirtualHardwareSection>
+      <NetworkConfigSection>
+        <NetworkConfig name="Network 1">
+          <Features>
+            <vmw:FenceMode>allowInOut</vmw:FenceMode>
+            <vmw:Dhcp>true</vmw:Dhcp>
+          </Features>
+          <NetworkAssociation href="https://services.vcloudexpress.terremark.com/api/v8/network/#{network_id}" />
+        </NetworkConfig>
+      </NetworkConfigSection>
+    </InstantiationParams>
+  </InstantiateVAppTemplateParams>
+DATA
+
+        request(
+          :body     => data,
+          :expects  => 200,
+          :headers  => { 'Content-Type' => 'application/vnd.vmware.vcloud.instantiateVAppTemplateParams+xml' },
+          :method   => 'POST',
+          :parser   => Fog::Parsers::Terremark::InstantiateVappTemplate.new,
+          :path     => "/vdc/#{vdc_id}/action/instantiatevAppTemplate"
+        )
+      end
+
+    end
+
+    class Mock
+
+      def instatiate_vapp_template(vapp_template_id)
+        raise MockNotImplemented.new("Contributions welcome!")
+      end
+
+    end
+  end
+end
