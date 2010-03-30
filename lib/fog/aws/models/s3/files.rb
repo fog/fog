@@ -39,7 +39,7 @@ module Fog
             'max-keys'    => @max_keys,
             'prefix'      => @prefix
           }.merge!(options)
-          options = options.reject {|key,value| value.nil? || value.empty?}
+          options = options.reject {|key,value| value.nil? || value.to_s.empty?}
           data = connection.get_object(directory.name, key, options, &block)
           file_data = {
             :body => data.body,
