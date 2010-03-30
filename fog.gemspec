@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.61"
+  s.version = "0.0.62"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
-  s.date = %q{2010-03-28}
+  s.date = %q{2010-03-30}
   s.default_executable = %q{fog}
   s.description = %q{brings clouds to you}
   s.email = %q{geemus@gmail.com}
@@ -213,14 +213,28 @@ Gem::Specification.new do |s|
     "lib/fog/terremark/parsers/get_catalog_item.rb",
     "lib/fog/terremark/parsers/get_organization.rb",
     "lib/fog/terremark/parsers/get_organizations.rb",
+    "lib/fog/terremark/parsers/get_tasks_list.rb",
     "lib/fog/terremark/parsers/get_vapp_template.rb",
     "lib/fog/terremark/parsers/get_vdc.rb",
+    "lib/fog/terremark/parsers/instantiate_vapp_template.rb",
+    "lib/fog/terremark/parsers/task.rb",
+    "lib/fog/terremark/parsers/vapp.rb",
+    "lib/fog/terremark/requests/delete_vapp.rb",
+    "lib/fog/terremark/requests/deploy_vapp.rb",
     "lib/fog/terremark/requests/get_catalog.rb",
     "lib/fog/terremark/requests/get_catalog_item.rb",
     "lib/fog/terremark/requests/get_organization.rb",
     "lib/fog/terremark/requests/get_organizations.rb",
+    "lib/fog/terremark/requests/get_task.rb",
+    "lib/fog/terremark/requests/get_tasks_list.rb",
+    "lib/fog/terremark/requests/get_vapp.rb",
     "lib/fog/terremark/requests/get_vapp_template.rb",
     "lib/fog/terremark/requests/get_vdc.rb",
+    "lib/fog/terremark/requests/instantiate_vapp_template.rb",
+    "lib/fog/terremark/requests/power_off.rb",
+    "lib/fog/terremark/requests/power_on.rb",
+    "lib/fog/terremark/requests/reset.rb",
+    "lib/fog/terremark/requests/shutdown.rb",
     "spec/aws/models/ec2/address_spec.rb",
     "spec/aws/models/ec2/addresses_spec.rb",
     "spec/aws/models/ec2/flavors_spec.rb",
@@ -460,14 +474,14 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<excon>, [">= 0.0.20"])
+      s.add_runtime_dependency(%q<excon>, [">= 0.0.21"])
       s.add_runtime_dependency(%q<formatador>, [">= 0.0.10"])
       s.add_runtime_dependency(%q<json>, [">= 0"])
       s.add_runtime_dependency(%q<mime-types>, [">= 0"])
       s.add_runtime_dependency(%q<nokogiri>, [">= 0"])
       s.add_runtime_dependency(%q<ruby-hmac>, [">= 0"])
     else
-      s.add_dependency(%q<excon>, [">= 0.0.20"])
+      s.add_dependency(%q<excon>, [">= 0.0.21"])
       s.add_dependency(%q<formatador>, [">= 0.0.10"])
       s.add_dependency(%q<json>, [">= 0"])
       s.add_dependency(%q<mime-types>, [">= 0"])
@@ -475,7 +489,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<ruby-hmac>, [">= 0"])
     end
   else
-    s.add_dependency(%q<excon>, [">= 0.0.20"])
+    s.add_dependency(%q<excon>, [">= 0.0.21"])
     s.add_dependency(%q<formatador>, [">= 0.0.10"])
     s.add_dependency(%q<json>, [">= 0"])
     s.add_dependency(%q<mime-types>, [">= 0"])
