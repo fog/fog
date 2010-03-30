@@ -22,7 +22,6 @@ module Fog
       #     * 'status'<~String> - Current status of the slice
       def reboot_slice(slice_id, type = 'SOFT')
         request(
-          :body     => '', # Gives a 411 Length Required without this
           :expects  => 200,
           :method   => 'PUT',
           :parser   => Fog::Parsers::Slicehost::GetSlice.new,
