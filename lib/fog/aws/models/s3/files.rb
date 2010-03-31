@@ -16,6 +16,13 @@ module Fog
         model Fog::AWS::S3::File
 
         def all(options = {})
+          options = {
+            'delimiter'   => @delimiter,
+            'marker'      => @marker,
+            'max-keys'    => @max_keys,
+            'prefix'      => @prefix
+          }.merge!(options)
+          options = options.reject {|key,value| value.nil? || value.to_s.empty?}
           merge_attributes(options)
           parent = directory.collection.get(
             directory.name,
@@ -33,13 +40,6 @@ module Fog
         end
 
         def get(key, options = {}, &block)
-          options = {
-            'delimiter'   => @delimiter,
-            'marker'      => @marker,
-            'max-keys'    => @max_keys,
-            'prefix'      => @prefix
-          }.merge!(options)
-          options = options.reject {|key,value| value.nil? || value.to_s.empty?}
           data = connection.get_object(directory.name, key, options, &block)
           file_data = {
             :body => data.body,
