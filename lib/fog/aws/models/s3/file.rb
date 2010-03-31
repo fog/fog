@@ -18,8 +18,8 @@ module Fog
         attribute :storage_class,   'StorageClass'
 
         def body
-          @body ||= if last_modified
-            collection.get(identity).body
+          @body ||= if last_modified && (file = collection.get(identity))
+            file.body
           else
             ''
           end
