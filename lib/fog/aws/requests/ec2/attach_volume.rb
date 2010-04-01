@@ -49,7 +49,7 @@ module Fog
                 'status'      => 'attaching',
                 'volumeId'    => volume_id
               }
-              volume['attachmentSet'] << data
+              volume['attachmentSet'] = [data]
               response.status = 200
               response.body = {
                 'requestId' => Fog::AWS::Mock.request_id

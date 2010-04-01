@@ -80,11 +80,14 @@ module Fog
             when 'rebooting'
               instance['instanceState'] = { 'code' => 16, 'name' => 'running' }
             when 'shutting-down'
-              if Time.now - @data[:deleted_at][instance['instanceId']] > 2
+              if Time.now - @data[:deleted_at][instance['instanceId']] > 1
                 instance['instanceState'] = { 'code' => 16, 'name' => 'terminating' }
+              elsif Time.now - @data[:deleted_at][instance['instanceId']] > 2
+                @data[:deleted_at].delete(instance['instanceId'])
+                @data[:instances].delete(instance['instanceId'])
               end
             when 'terminating'
-              if Time.now - @data[:deleted_at][instance['instanceId']] > 4
+              if Time.now - @data[:deleted_at][instance['instanceId']] > 1
                 @data[:deleted_at].delete(instance['instanceId'])
                 @data[:instances].delete(instance['instanceId'])
               end
