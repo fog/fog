@@ -80,24 +80,23 @@ module Fog
             when 'rebooting'
               instance['instanceState'] = { 'code' => 16, 'name' => 'running' }
             when 'shutting-down'
-              if Time.now - @data[:deleted_at][instance['instanceId']] > 1
-                instance['instanceState'] = { 'code' => 16, 'name' => 'terminating' }
-              elsif Time.now - @data[:deleted_at][instance['instanceId']] > 2
+              if Time.now - @data[:deleted_at][instance['instanceId']] > 2
                 @data[:deleted_at].delete(instance['instanceId'])
                 @data[:instances].delete(instance['instanceId'])
+              elsif Time.now - @data[:deleted_at][instance['instanceId']] > 1
+                instance['instanceState'] = { 'code' => 16, 'name' => 'terminating' }
               end
             when 'terminating'
               if Time.now - @data[:deleted_at][instance['instanceId']] > 1
                 @data[:deleted_at].delete(instance['instanceId'])
                 @data[:instances].delete(instance['instanceId'])
-                instance_set.delete(instance)
               end
             end
           end
 
           if instance_id.length == 0 || instance_id.length == instance_set.length
+            instance_set = instance_set.reject {|instance| !@data[:instances][instance['instanceId']]}
             response.status = 200
-
             reservation_set = {}
             instance_set.each do |instance|
               reservation_set[instance['reservationId']] ||= {

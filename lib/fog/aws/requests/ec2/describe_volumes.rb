@@ -51,6 +51,7 @@ module Fog
             case volume['status']
             when 'attaching'
               if Time.now - volume['attachmentSet'].first['attachTime'] > 1
+                volume['attachmentSet'].first['status'] = 'attached'
                 volume['status'] = 'attached'
               end
             when 'creating'
@@ -61,12 +62,12 @@ module Fog
               if Time.now - @data[:deleted_at][volume['volumeId']] > 1
                 @data[:deleted_at].delete(volume['volumeId'])
                 @data[:volumes].delete(volume['volumeId'])
-                volume_set.delete(volume)
               end
             end
           end
 
           if volume_id.length == 0 || volume_id.length == volume_set.length
+            volume_set = volume_set.reject {|volume| !@data[:volumes][volume['volumeId']]}
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,

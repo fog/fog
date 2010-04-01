@@ -74,11 +74,10 @@ module Fog
               end
 
               describe_volumes.body['volumeSet'].each do |volume|
-                if volume['instanceId'] == instance_id
+                if volume['attachmentSet'].first && volume['attachmentSet'].first['instanceId'] == instance_id
                   detach_volume(volume['volumeId'])
                 end
               end
-
             end
           else
             response.status = 400
