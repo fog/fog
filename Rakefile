@@ -14,8 +14,8 @@ begin
     gem.add_dependency('nokogiri')
     gem.add_dependency('ruby-hmac')
     gem.name = "fog"
-    gem.description = %Q{brings clouds to you}
-    gem.summary = %Q{fog = clouds + you}
+    gem.description = %Q{The Ruby cloud computing library.}
+    gem.summary = %Q{brings clouds to you}
     gem.email = "geemus@gmail.com"
     gem.homepage = "http://github.com/geemus/fog"
     gem.authors = ["geemus (Wesley Beary)"]

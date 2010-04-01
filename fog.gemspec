@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.authors = ["geemus (Wesley Beary)"]
   s.date = %q{2010-04-01}
   s.default_executable = %q{fog}
-  s.description = %q{brings clouds to you}
+  s.description = %q{The Ruby cloud computing library.}
   s.email = %q{geemus@gmail.com}
   s.executables = ["fog"]
   s.extra_rdoc_files = [
@@ -360,7 +360,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{fog}
   s.rubygems_version = %q{1.3.6}
-  s.summary = %q{fog = clouds + you}
+  s.summary = %q{brings clouds to you}
   s.test_files = [
     "spec/aws/models/ec2/address_spec.rb",
     "spec/aws/models/ec2/addresses_spec.rb",
