@@ -74,14 +74,14 @@ module Fog
           instance_set.each do |instance|
             case instance['instanceState']['name']
             when 'pending'
-              if Time.now - instance['launchTime'] > 2
-                instance['instanceState'] = { :code => 16, :name => 'running' }
+              if Time.now - instance['launchTime'] > 1
+                instance['instanceState'] = { 'code' => 16, 'name' => 'running' }
               end
             when 'rebooting'
-              instance['instanceState'] = { :code => 16, :name => 'running' }
+              instance['instanceState'] = { 'code' => 16, 'name' => 'running' }
             when 'shutting-down'
               if Time.now - @data[:deleted_at][instance['instanceId']] > 2
-                instance['instanceState'] = { :code => 16, :name => 'terminating' }
+                instance['instanceState'] = { 'code' => 16, 'name' => 'terminating' }
               end
             when 'terminating'
               if Time.now - @data[:deleted_at][instance['instanceId']] > 4

@@ -6,7 +6,7 @@ module Fog
 
       class Server < Fog::Model
 
-        identity  :id,                'instanceId'
+        identity  :id,                    'instanceId'
 
         attribute :architecture
         attribute :ami_launch_index,      'amiLaunchIndex'
