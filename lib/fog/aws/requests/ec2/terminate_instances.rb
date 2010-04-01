@@ -66,6 +66,19 @@ module Fog
                 'currentState'  => state
               }
               instance['instanceState'] = state
+
+              describe_addresses.body['addressesSet'].each do |address|
+                if address['instanceId'] == instance_id
+                  disassociate_address(address['publicIp'])
+                end
+              end
+
+              describe_volumes.body['volumeSet'].each do |volume|
+                if volume['instanceId'] == instance_id
+                  detach_volume(volume['volumeId'])
+                end
+              end
+
             end
           else
             response.status = 400

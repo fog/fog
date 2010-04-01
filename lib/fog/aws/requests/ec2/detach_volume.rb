@@ -40,6 +40,7 @@ module Fog
           response.status = 200
           if volume = @data[:volumes][volume_id]
             data = volume['attachmentSet'].pop
+            @data[:volumes][volume_id]['status'] = 'available'
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id
