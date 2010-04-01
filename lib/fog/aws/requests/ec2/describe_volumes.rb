@@ -61,6 +61,7 @@ module Fog
               if Time.now - @data[:deleted_at][volume['volumeId']] > 1
                 @data[:deleted_at].delete(volume['volumeId'])
                 @data[:volumes].delete(volume['volumeId'])
+                volume_set.delete(volume)
               end
             end
           end

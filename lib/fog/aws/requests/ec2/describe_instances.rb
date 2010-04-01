@@ -90,6 +90,7 @@ module Fog
               if Time.now - @data[:deleted_at][instance['instanceId']] > 1
                 @data[:deleted_at].delete(instance['instanceId'])
                 @data[:instances].delete(instance['instanceId'])
+                instance_set.delete(instance)
               end
             end
           end
