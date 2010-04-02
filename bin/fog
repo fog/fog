@@ -4,6 +4,7 @@ require File.join(lib_dir, 'fog')
 require 'irb'
 require 'yaml'
 
+require File.join(lib_dir, 'fog', 'credentials')
 require File.join(lib_dir, 'fog', 'bin')
 
 Fog.credential = (ARGV.first && :"#{ARGV.first}") || :default
