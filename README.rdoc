@@ -1,4 +1,4 @@
-= fog
+fog[http://github.com/geemus/fog/blob/master/fog.png]
 
 fog helps you interact with cloud services.
 
