@@ -10,7 +10,7 @@ module Fog
         attribute :delimiter,     'Delimiter'
         attribute :is_truncated,  'IsTruncated'
         attribute :marker,        'Marker'
-        attribute :max_keys,      'MaxKeys'
+        attribute :max_keys,      'MaxKeys', 'max-keys'
         attribute :prefix,        'Prefix'
 
         model Fog::AWS::S3::File
