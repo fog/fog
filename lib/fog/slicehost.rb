@@ -1,24 +1,25 @@
-require 'fog/slicehost/models/flavor'
-require 'fog/slicehost/models/flavors'
-require 'fog/slicehost/models/image'
-require 'fog/slicehost/models/images'
-require 'fog/slicehost/models/server'
-require 'fog/slicehost/models/servers'
-require 'fog/slicehost/requests/create_slice'
-require 'fog/slicehost/requests/delete_slice'
-require 'fog/slicehost/requests/get_backups'
-require 'fog/slicehost/requests/get_flavor'
-require 'fog/slicehost/requests/get_flavors'
-require 'fog/slicehost/requests/get_image'
-require 'fog/slicehost/requests/get_images'
-require 'fog/slicehost/requests/get_slice'
-require 'fog/slicehost/requests/get_slices'
-require 'fog/slicehost/requests/reboot_slice'
-
 module Fog
   module Slicehost
 
     def self.new(options={})
+
+      require 'fog/slicehost/models/flavor'
+      require 'fog/slicehost/models/flavors'
+      require 'fog/slicehost/models/image'
+      require 'fog/slicehost/models/images'
+      require 'fog/slicehost/models/server'
+      require 'fog/slicehost/models/servers'
+      require 'fog/slicehost/requests/create_slice'
+      require 'fog/slicehost/requests/delete_slice'
+      require 'fog/slicehost/requests/get_backups'
+      require 'fog/slicehost/requests/get_flavor'
+      require 'fog/slicehost/requests/get_flavors'
+      require 'fog/slicehost/requests/get_image'
+      require 'fog/slicehost/requests/get_images'
+      require 'fog/slicehost/requests/get_slice'
+      require 'fog/slicehost/requests/get_slices'
+      require 'fog/slicehost/requests/reboot_slice'
+
       unless options[:slicehost_password]
         raise ArgumentError.new('slicehost_password is required to access slicehost')
       end

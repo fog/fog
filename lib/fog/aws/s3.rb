@@ -1,25 +1,26 @@
-require 'fog/aws/models/s3/directories'
-require 'fog/aws/models/s3/directory'
-require 'fog/aws/models/s3/files'
-require 'fog/aws/models/s3/file'
-require 'fog/aws/requests/s3/copy_object'
-require 'fog/aws/requests/s3/delete_bucket'
-require 'fog/aws/requests/s3/delete_object'
-require 'fog/aws/requests/s3/get_bucket'
-require 'fog/aws/requests/s3/get_bucket_location'
-require 'fog/aws/requests/s3/get_object'
-require 'fog/aws/requests/s3/get_request_payment'
-require 'fog/aws/requests/s3/get_service'
-require 'fog/aws/requests/s3/head_object'
-require 'fog/aws/requests/s3/put_bucket'
-require 'fog/aws/requests/s3/put_object'
-require 'fog/aws/requests/s3/put_request_payment'
-
 module Fog
   module AWS
     module S3
 
       def self.new(options={})
+
+        require 'fog/aws/models/s3/directories'
+        require 'fog/aws/models/s3/directory'
+        require 'fog/aws/models/s3/files'
+        require 'fog/aws/models/s3/file'
+        require 'fog/aws/requests/s3/copy_object'
+        require 'fog/aws/requests/s3/delete_bucket'
+        require 'fog/aws/requests/s3/delete_object'
+        require 'fog/aws/requests/s3/get_bucket'
+        require 'fog/aws/requests/s3/get_bucket_location'
+        require 'fog/aws/requests/s3/get_object'
+        require 'fog/aws/requests/s3/get_request_payment'
+        require 'fog/aws/requests/s3/get_service'
+        require 'fog/aws/requests/s3/head_object'
+        require 'fog/aws/requests/s3/put_bucket'
+        require 'fog/aws/requests/s3/put_object'
+        require 'fog/aws/requests/s3/put_request_payment'
+
         if Fog.mocking?
           Fog::AWS::S3::Mock.new(options)
         else

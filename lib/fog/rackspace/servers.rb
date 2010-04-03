@@ -1,32 +1,33 @@
-require 'fog/rackspace/models/servers/flavor'
-require 'fog/rackspace/models/servers/flavors'
-require 'fog/rackspace/models/servers/image'
-require 'fog/rackspace/models/servers/images'
-require 'fog/rackspace/models/servers/server'
-require 'fog/rackspace/models/servers/servers'
-require 'fog/rackspace/requests/servers/create_image'
-require 'fog/rackspace/requests/servers/create_server'
-require 'fog/rackspace/requests/servers/delete_image'
-require 'fog/rackspace/requests/servers/delete_server'
-require 'fog/rackspace/requests/servers/get_flavor_details'
-require 'fog/rackspace/requests/servers/get_server_details'
-require 'fog/rackspace/requests/servers/list_addresses'
-require 'fog/rackspace/requests/servers/list_private_addresses'
-require 'fog/rackspace/requests/servers/list_public_addresses'
-require 'fog/rackspace/requests/servers/list_flavors'
-require 'fog/rackspace/requests/servers/list_flavors_detail'
-require 'fog/rackspace/requests/servers/list_images'
-require 'fog/rackspace/requests/servers/list_images_detail'
-require 'fog/rackspace/requests/servers/list_servers'
-require 'fog/rackspace/requests/servers/list_servers_detail'
-require 'fog/rackspace/requests/servers/reboot_server'
-require 'fog/rackspace/requests/servers/update_server'
-
 module Fog
   module Rackspace
     module Servers
 
       def self.new(options={})
+
+        require 'fog/rackspace/models/servers/flavor'
+        require 'fog/rackspace/models/servers/flavors'
+        require 'fog/rackspace/models/servers/image'
+        require 'fog/rackspace/models/servers/images'
+        require 'fog/rackspace/models/servers/server'
+        require 'fog/rackspace/models/servers/servers'
+        require 'fog/rackspace/requests/servers/create_image'
+        require 'fog/rackspace/requests/servers/create_server'
+        require 'fog/rackspace/requests/servers/delete_image'
+        require 'fog/rackspace/requests/servers/delete_server'
+        require 'fog/rackspace/requests/servers/get_flavor_details'
+        require 'fog/rackspace/requests/servers/get_server_details'
+        require 'fog/rackspace/requests/servers/list_addresses'
+        require 'fog/rackspace/requests/servers/list_private_addresses'
+        require 'fog/rackspace/requests/servers/list_public_addresses'
+        require 'fog/rackspace/requests/servers/list_flavors'
+        require 'fog/rackspace/requests/servers/list_flavors_detail'
+        require 'fog/rackspace/requests/servers/list_images'
+        require 'fog/rackspace/requests/servers/list_images_detail'
+        require 'fog/rackspace/requests/servers/list_servers'
+        require 'fog/rackspace/requests/servers/list_servers_detail'
+        require 'fog/rackspace/requests/servers/reboot_server'
+        require 'fog/rackspace/requests/servers/update_server'
+
         if Fog.mocking?
           Fog::Rackspace::Servers::Mock.new(options)
         else

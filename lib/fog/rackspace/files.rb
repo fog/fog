@@ -1,23 +1,24 @@
-require 'fog/rackspace/models/files/directory'
-require 'fog/rackspace/models/files/directories'
-require 'fog/rackspace/models/files/file'
-require 'fog/rackspace/models/files/files'
-require 'fog/rackspace/requests/files/delete_container'
-require 'fog/rackspace/requests/files/delete_object'
-require 'fog/rackspace/requests/files/get_container'
-require 'fog/rackspace/requests/files/get_containers'
-require 'fog/rackspace/requests/files/get_object'
-require 'fog/rackspace/requests/files/head_container'
-require 'fog/rackspace/requests/files/head_containers'
-require 'fog/rackspace/requests/files/head_object'
-require 'fog/rackspace/requests/files/put_container'
-require 'fog/rackspace/requests/files/put_object'
-
 module Fog
   module Rackspace
     module Files
 
       def self.new(options={})
+
+        require 'fog/rackspace/models/files/directory'
+        require 'fog/rackspace/models/files/directories'
+        require 'fog/rackspace/models/files/file'
+        require 'fog/rackspace/models/files/files'
+        require 'fog/rackspace/requests/files/delete_container'
+        require 'fog/rackspace/requests/files/delete_object'
+        require 'fog/rackspace/requests/files/get_container'
+        require 'fog/rackspace/requests/files/get_containers'
+        require 'fog/rackspace/requests/files/get_object'
+        require 'fog/rackspace/requests/files/head_container'
+        require 'fog/rackspace/requests/files/head_containers'
+        require 'fog/rackspace/requests/files/head_object'
+        require 'fog/rackspace/requests/files/put_container'
+        require 'fog/rackspace/requests/files/put_object'
+
         if Fog.mocking?
           Fog::Rackspace::Files::Mock.new(options)
         else
