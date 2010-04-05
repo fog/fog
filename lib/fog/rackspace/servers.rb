@@ -15,6 +15,7 @@ module Fog
         require 'fog/rackspace/requests/servers/delete_image'
         require 'fog/rackspace/requests/servers/delete_server'
         require 'fog/rackspace/requests/servers/get_flavor_details'
+        require 'fog/rackspace/requests/servers/get_image_details'
         require 'fog/rackspace/requests/servers/get_server_details'
         require 'fog/rackspace/requests/servers/list_addresses'
         require 'fog/rackspace/requests/servers/list_private_addresses'
