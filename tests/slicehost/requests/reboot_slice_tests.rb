@@ -14,7 +14,7 @@ Shindo.tests('Slicehost#reboot_slice', 'slicehost') do
     end
 
     test('has proper output format') do
-      validate_data_format(@data, Slicehost::Formats::SLICE)
+      validate_format(@data, Slicehost::Formats::SLICE)
     end
 
   end

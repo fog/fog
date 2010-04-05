@@ -1,9 +1,12 @@
 Shindo.tests('Slicehost#get_image', 'slicehost') do
   tests('success') do
 
-    test('has proper output format') do
+    before do
       @data = Slicehost[:slices].get_image(3).body
-      validate_data_format(@data, Slicehost::Formats::IMAGE)
+    end
+
+    test('has proper output format') do
+      validate_format(@data, Slicehost::Formats::IMAGE)
     end
 
   end

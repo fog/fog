@@ -12,7 +12,7 @@ Shindo.tests('Slicehost#create_slice', 'slicehost') do
     end
 
     test('has proper output format') do
-      validate_data_format(@data, Slicehost::Formats::SLICE.merge('root-password' => String))
+      validate_format(@data, Slicehost::Formats::SLICE.merge('root-password' => String))
     end
 
   end

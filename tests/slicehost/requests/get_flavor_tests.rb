@@ -1,9 +1,12 @@
 Shindo.tests('Slicehost#get_flavor', 'slicehost') do
   tests('success') do
 
-    test('has proper output format') do
+    before do
       @data = Slicehost[:slices].get_flavor(1).body
-      validate_data_format(@data, Slicehost::Formats::FLAVOR)
+    end
+
+    test('has proper output format') do
+      validate_format(@data, Slicehost::Formats::FLAVOR)
     end
 
   end

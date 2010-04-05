@@ -4,6 +4,7 @@ Shindo.tests('Slicehost#get_slice', 'slicehost') do
     before do
       @data = Slicehost[:slices].create_slice(1, 3, 'foggetslice').body
       @id = @data['id']
+      @data = Slicehost[:slices].get_slice(@id).body
     end
 
     after do
@@ -12,8 +13,7 @@ Shindo.tests('Slicehost#get_slice', 'slicehost') do
     end
 
     test('has proper output format') do
-      @data = Slicehost[:slices].get_slice(@id).body
-      validate_data_format(@data, Slicehost::Formats::SLICE)
+      validate_format(@data, Slicehost::Formats::SLICE)
     end
 
   end
