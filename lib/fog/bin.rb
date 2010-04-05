@@ -16,7 +16,9 @@ module Fog
     def flavors
       flavors = {}
       services.each do |service|
-        flavors[service] = service.flavors
+        if service.respond_to?(:flavors)
+          flavors[service] = service.flavors
+        end
       end
       flavors
     end
@@ -24,7 +26,9 @@ module Fog
     def images
       images = {}
       services.each do |service|
-        images[service] = service.images
+        if service.respond_to?(:images)
+          images[service] = service.images
+        end
       end
       images
     end
@@ -32,7 +36,9 @@ module Fog
     def servers
       servers = {}
       services.each do |service|
-        servers[service] = service.servers
+        if service.respond_to?(:servers)
+          servers[service] = service.servers
+        end
       end
       servers
     end
