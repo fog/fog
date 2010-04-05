@@ -22,7 +22,7 @@ module Fog
 
       def all
         data = connection.get_flavors.body['flavors']
-        load(self)
+        load(data)
       end
 
       def get(flavor_id)
