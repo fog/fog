@@ -4,8 +4,16 @@ require 'fog/slicehost/models/server'
 module Fog
   module Slicehost
 
-    def servers
-      Fog::Slicehost::Servers.new(:connection => self)
+    class Mock
+      def servers
+        Fog::Slicehost::Servers.new(:connection => self)
+      end
+    end
+
+    class Real
+      def servers
+        Fog::Slicehost::Servers.new(:connection => self)
+      end
     end
 
     class Servers < Fog::Collection

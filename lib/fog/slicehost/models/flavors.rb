@@ -4,8 +4,16 @@ require 'fog/slicehost/models/flavor'
 module Fog
   module Slicehost
 
-    def flavors
-      Fog::Slicehost::Flavors.new(:connection => self)
+    class Mock
+      def flavors
+        Fog::Slicehost::Flavors.new(:connection => self)
+      end
+    end
+
+    class Real
+      def flavors
+        Fog::Slicehost::Flavors.new(:connection => self)
+      end
     end
 
     class Flavors < Fog::Collection
