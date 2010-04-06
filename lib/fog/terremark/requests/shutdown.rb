@@ -26,7 +26,7 @@ module Fog
           :expects  => 202,
           :method   => 'POST',
           :parser   => Fog::Parsers::Terremark::Task.new,
-          :path     => "/vApp/#{vapp_id}/power/action/shutdown"
+          :path     => "vApp/#{vapp_id}/power/action/shutdown"
         )
       end
 

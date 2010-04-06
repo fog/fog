@@ -26,7 +26,7 @@ module Fog
           :expects  => 202,
           :method   => 'POST',
           :parser   => Fog::Parsers::Terremark::Task.new,
-          :path     => "/vApp/#{vapp_id}/action/deploy"
+          :path     => "vApp/#{vapp_id}/action/deploy"
         )
       end
 
@@ -34,7 +34,7 @@ module Fog
 
     class Mock
 
-      def deploy_vapp(task_id)
+      def deploy_vapp(vapp_id)
         raise MockNotImplemented.new("Contributions welcome!")
       end
 

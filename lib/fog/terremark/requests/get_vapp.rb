@@ -33,7 +33,7 @@ module Fog
           :expects  => 200,
           :method   => 'GET',
           :parser   => Fog::Parsers::Terremark::Vapp.new,
-          :path     => "/vapp/#{vapp_id}"
+          :path     => "vapp/#{vapp_id}"
         )
       end
 

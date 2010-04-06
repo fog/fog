@@ -23,13 +23,9 @@ module Fog
       #     * 'name'<~String> - Name of catalog
       def instantiate_vapp_template(name)
         # FIXME: much cheating to commence
-
-        organization_id = get_organizations.body['OrgList'].first['href'].split('/').last
-        organization = get_organization(organization_id).body
-        vdc_id = organization['Links'].select {|link| link['type'] == 'application/vnd.vmware.vcloud.vdc+xml'}.first['href'].split('/').last
-        vdc = get_vdc(vdc_id).body
-        network_id = vdc['AvailableNetworks'].first['href'].split('/').last
-        catalog_item = 12 # Ubuntu JeOS 9.10 (64-bit)
+        vdc_id        = default_vdc_id
+        network_id    = default_network_id
+        catalog_item  = 12 # Ubuntu JeOS 9.10 (64-bit)
 
         #       case UNRESOLVED:
         #          return "0";
@@ -101,7 +97,7 @@ DATA
           :headers  => { 'Content-Type' => 'application/vnd.vmware.vcloud.instantiateVAppTemplateParams+xml' },
           :method   => 'POST',
           :parser   => Fog::Parsers::Terremark::InstantiateVappTemplate.new,
-          :path     => "/vdc/#{vdc_id}/action/instantiatevAppTemplate"
+          :path     => "vdc/#{vdc_id}/action/instantiatevAppTemplate"
         )
       end
 

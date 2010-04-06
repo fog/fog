@@ -3,12 +3,18 @@ module Fog
 
     def self.new(options={})
 
+      require 'fog/terremark/requests/add_internet_service'
+      require 'fog/terremark/requests/add_node_service'
+      require 'fog/terremark/requests/create_internet_service'
+      require 'fog/terremark/requests/delete_internet_service'
+      require 'fog/terremark/requests/delete_node_service'
       require 'fog/terremark/requests/delete_vapp'
       require 'fog/terremark/requests/deploy_vapp'
       require 'fog/terremark/requests/get_catalog'
       require 'fog/terremark/requests/get_catalog_item'
       require 'fog/terremark/requests/get_organization'
       require 'fog/terremark/requests/get_organizations'
+      require 'fog/terremark/requests/get_public_ips'
       require 'fog/terremark/requests/get_task'
       require 'fog/terremark/requests/get_tasks_list'
       require 'fog/terremark/requests/get_vapp'
@@ -64,6 +70,65 @@ module Fog
         @port   = options[:port]   || 443
         @scheme = options[:scheme] || 'https'
         @cookie = get_organizations.headers['Set-Cookie']
+      end
+
+      # TODO: bust cache on organization creation?
+      def default_organization_id
+        @default_organization_id ||= begin
+          org_list = get_organizations.body['OrgList']
+          if org_list.length == 1
+            org_list.first['href'].split('/').last.to_i
+          else
+            nil
+          end
+        end
+      end
+
+      def default_vdc_id
+        if default_organization_id
+          @default_vdc_id ||= begin
+            vdcs = get_organization(default_organization_id).body['Links'].select {|link|
+              link['type'] == 'application/vnd.vmware.vcloud.vdc+xml'
+            }
+            if vdcs.length == 1
+              vdcs.first['href'].split('/').last.to_i
+            else
+              nil
+            end
+          end
+        else
+          nil
+        end
+      end
+
+      def default_network_id
+        if default_vdc_id
+          @default_network_id ||= begin
+            networks = get_vdc(default_vdc_id).body['AvailableNetworks']
+            if networks.length == 1
+              networks.first['href'].split('/').last.to_i
+            else
+              nil
+            end
+          end
+        else
+          nil
+        end
+      end
+
+      def default_public_ip_id
+        if default_vdc_id
+          @default_public_ip_id ||= begin
+            ips = get_public_ips(default_vdc_id).body['PublicIpAddresses']
+            if ips.length == 1
+              ips.first['Href'].split('/').last.to_i
+            else
+              nil
+            end
+          end
+        else
+          nil
+        end
       end
 
       private

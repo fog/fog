@@ -2,28 +2,28 @@ module Fog
   module Terremark
     class Real
 
-      require 'fog/terremark/parsers/get_tasks_list'
-
-      # Get list of tasks
+      # Destroy an internet service
       #
       # ==== Parameters
-      # * tasks_list_id<~Integer> - Id of tasks lists to view
+      # * internet_service_id<~Integer> - Id of service to destroy
       #
       # ==== Returns
       # * response<~Excon::Response>:
       #   * body<~Hash>:
+
+      # FIXME
+
       #     * 'CatalogItems'<~Array>
       #       * 'href'<~String> - linke to item
       #       * 'name'<~String> - name of item
       #       * 'type'<~String> - type of item
       #     * 'description'<~String> - Description of catalog
       #     * 'name'<~String> - Name of catalog
-      def get_tasks_list(tasks_list_id)
+      def delete_internet_service(internet_service_id)
         request(
           :expects  => 200,
-          :method   => 'GET',
-          :parser   => Fog::Parsers::Terremark::GetTasksList.new,
-          :path     => "tasksList/#{tasks_list_id}"
+          :method   => 'DELETE',
+          :path     => "InternetServices/#{internet_service_id}"
         )
       end
 
@@ -31,7 +31,7 @@ module Fog
 
     class Mock
 
-      def get_tasks_list(tasks_list_id)
+      def delete_internet_service(internet_service_id)
         raise MockNotImplemented.new("Contributions welcome!")
       end
 

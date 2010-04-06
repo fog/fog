@@ -30,7 +30,7 @@ module Fog
           :expects  => 200,
           :method   => 'GET',
           :parser   => Fog::Parsers::Terremark::Task.new,
-          :path     => "/task/#{task_id}"
+          :path     => "task/#{task_id}"
         )
       end
 
