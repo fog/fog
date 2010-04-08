@@ -36,7 +36,8 @@ module Fog
         end
 
         def get(image_id)
-          connection.get_image_details(image_id)
+          data = connection.get_image_details(image_id).body['image']
+          new(data)
         rescue Excon::Errors::NotFound
           nil
         end
