@@ -102,7 +102,6 @@ module Fog
 
           group_set = [ (options['GroupId'] || 'default') ]
           instances_set = []
-          owner_id = @owner_id
           reservation_id = Fog::AWS::Mock.reservation_id
 
           min_count.times do |i|
@@ -120,7 +119,7 @@ module Fog
               'keyName'             => options['KeyName'] || '',
               'launchTime'          => Time.now,
               'monitoring'          => { 'state' => options['Monitoring.Enabled'] || false },
-              'ownerId'             => owner_id,
+              'ownerId'             => @owner_id,
               'placement'           => { 'availabilityZone' => options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone },
               'privateDnsName'      => '',
               'productCodes'        => [],
@@ -135,7 +134,7 @@ module Fog
           response.body = {
             'groupSet'      => group_set,
             'instancesSet'  => instances_set,
-            'ownerId'       => owner_id,
+            'ownerId'       => @owner_id,
             'requestId'     => Fog::AWS::Mock.request_id,
             'reservationId' => reservation_id
           }

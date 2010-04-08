@@ -43,11 +43,11 @@ module Fog
 
           snapshot_set.each do |snapshot|
             case snapshot['status']
-            when 'creating'
-              if Time.now - volume['createTime'] > 2
+            when 'in progress', 'pending'
+              if Time.now - snapshot['startTime'] > 2
                 snapshot['progress']  = '100%'
                 snapshot['status']    = 'completed'
-              else
+              elsif Time.now - snapshot['startTime'] > 1
                 snapshot['progress']  = '50%'
                 snapshot['status']    = 'in progress'
               end

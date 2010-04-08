@@ -62,7 +62,7 @@ module Fog
 
       class Mock
 
-        def describe_instances(instance_id = {})
+        def describe_instances(instance_id = [])
           response = Excon::Response.new
           instance_id = [*instance_id]
           if instance_id != []
