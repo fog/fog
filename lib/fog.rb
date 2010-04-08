@@ -28,6 +28,10 @@ require 'fog/terremark'
 
 module Fog
 
+  module Mock
+    DELAY = 1
+  end
+
   class MockNotImplemented < StandardError; end
 
   def self.mock!

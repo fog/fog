@@ -74,20 +74,20 @@ module Fog
           instance_set.each do |instance|
             case instance['instanceState']['name']
             when 'pending'
-              if Time.now - instance['launchTime'] > 1
+              if Time.now - instance['launchTime'] > Fog::Mock::DELAY
                 instance['instanceState'] = { 'code' => 16, 'name' => 'running' }
               end
             when 'rebooting'
               instance['instanceState'] = { 'code' => 16, 'name' => 'running' }
             when 'shutting-down'
-              if Time.now - @data[:deleted_at][instance['instanceId']] > 2
+              if Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock::DELAY * 2
                 @data[:deleted_at].delete(instance['instanceId'])
                 @data[:instances].delete(instance['instanceId'])
-              elsif Time.now - @data[:deleted_at][instance['instanceId']] > 1
+              elsif Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock::DELAY
                 instance['instanceState'] = { 'code' => 16, 'name' => 'terminating' }
               end
             when 'terminating'
-              if Time.now - @data[:deleted_at][instance['instanceId']] > 1
+              if Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock::DELAY
                 @data[:deleted_at].delete(instance['instanceId'])
                 @data[:instances].delete(instance['instanceId'])
               end

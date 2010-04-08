@@ -50,16 +50,16 @@ module Fog
           volume_set.each do |volume|
             case volume['status']
             when 'attaching'
-              if Time.now - volume['attachmentSet'].first['attachTime'] > 1
+              if Time.now - volume['attachmentSet'].first['attachTime'] > Fog::Mock::DELAY
                 volume['attachmentSet'].first['status'] = 'attached'
                 volume['status'] = 'attached'
               end
             when 'creating'
-              if Time.now - volume['createTime'] > 1
+              if Time.now - volume['createTime'] > Fog::Mock::DELAY
                 volume['status'] = 'available'
               end
             when 'deleting'
-              if Time.now - @data[:deleted_at][volume['volumeId']] > 1
+              if Time.now - @data[:deleted_at][volume['volumeId']] > Fog::Mock::DELAY
                 @data[:deleted_at].delete(volume['volumeId'])
                 @data[:volumes].delete(volume['volumeId'])
               end
