@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.67"
+  s.version = "0.0.68"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
-  s.date = %q{2010-04-02}
+  s.date = %q{2010-04-08}
   s.default_executable = %q{fog}
   s.description = %q{The Ruby cloud computing library.}
   s.email = %q{geemus@gmail.com}
@@ -169,6 +169,7 @@ Gem::Specification.new do |s|
     "lib/fog/rackspace/requests/servers/delete_image.rb",
     "lib/fog/rackspace/requests/servers/delete_server.rb",
     "lib/fog/rackspace/requests/servers/get_flavor_details.rb",
+    "lib/fog/rackspace/requests/servers/get_image_details.rb",
     "lib/fog/rackspace/requests/servers/get_server_details.rb",
     "lib/fog/rackspace/requests/servers/list_addresses.rb",
     "lib/fog/rackspace/requests/servers/list_flavors.rb",
@@ -214,18 +215,27 @@ Gem::Specification.new do |s|
     "lib/fog/terremark/parsers/get_catalog_item.rb",
     "lib/fog/terremark/parsers/get_organization.rb",
     "lib/fog/terremark/parsers/get_organizations.rb",
+    "lib/fog/terremark/parsers/get_public_Ips.rb",
     "lib/fog/terremark/parsers/get_tasks_list.rb",
     "lib/fog/terremark/parsers/get_vapp_template.rb",
     "lib/fog/terremark/parsers/get_vdc.rb",
     "lib/fog/terremark/parsers/instantiate_vapp_template.rb",
+    "lib/fog/terremark/parsers/internet_service.rb",
+    "lib/fog/terremark/parsers/node_service.rb",
     "lib/fog/terremark/parsers/task.rb",
     "lib/fog/terremark/parsers/vapp.rb",
+    "lib/fog/terremark/requests/add_internet_service.rb",
+    "lib/fog/terremark/requests/add_node_service.rb",
+    "lib/fog/terremark/requests/create_internet_service.rb",
+    "lib/fog/terremark/requests/delete_internet_service.rb",
+    "lib/fog/terremark/requests/delete_node_service.rb",
     "lib/fog/terremark/requests/delete_vapp.rb",
     "lib/fog/terremark/requests/deploy_vapp.rb",
     "lib/fog/terremark/requests/get_catalog.rb",
     "lib/fog/terremark/requests/get_catalog_item.rb",
     "lib/fog/terremark/requests/get_organization.rb",
     "lib/fog/terremark/requests/get_organizations.rb",
+    "lib/fog/terremark/requests/get_public_ips.rb",
     "lib/fog/terremark/requests/get_task.rb",
     "lib/fog/terremark/requests/get_tasks_list.rb",
     "lib/fog/terremark/requests/get_vapp.rb",
@@ -342,6 +352,17 @@ Gem::Specification.new do |s|
     "spec/slicehost/models/server_spec.rb",
     "spec/slicehost/models/servers_spec.rb",
     "spec/spec_helper.rb",
+    "tests/helper.rb",
+    "tests/helper_tests.rb",
+    "tests/rackspace/helper.rb",
+    "tests/rackspace/requests/servers/create_image_tests.rb",
+    "tests/rackspace/requests/servers/create_server_tests.rb",
+    "tests/rackspace/requests/servers/delete_image_tests.rb",
+    "tests/rackspace/requests/servers/delete_server_tests.rb",
+    "tests/rackspace/requests/servers/get_flavor_details_tests.rb",
+    "tests/rackspace/requests/servers/get_image_details_tests.rb",
+    "tests/rackspace/requests/servers/get_server_details_tests.rb",
+    "tests/slicehost/helper.rb",
     "tests/slicehost/requests/create_slice_tests.rb",
     "tests/slicehost/requests/delete_slice_tests.rb",
     "tests/slicehost/requests/get_backups_tests.rb",
@@ -351,10 +372,7 @@ Gem::Specification.new do |s|
     "tests/slicehost/requests/get_images_tests.rb",
     "tests/slicehost/requests/get_slice_tests.rb",
     "tests/slicehost/requests/get_slices_tests.rb",
-    "tests/slicehost/requests/reboot_slice_tests.rb",
-    "tests/slicehost/slicehost_helper.rb",
-    "tests/test_helper.rb",
-    "tests/test_helper_tests.rb"
+    "tests/slicehost/requests/reboot_slice_tests.rb"
   ]
   s.homepage = %q{http://github.com/geemus/fog}
   s.rdoc_options = ["--charset=UTF-8"]
