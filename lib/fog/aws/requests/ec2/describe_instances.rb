@@ -77,7 +77,7 @@ module Fog
               if Time.now - instance['launchTime'] > Fog::Mock::DELAY
                 instance['dnsName']           = "ec2-#{Fog::AWS::Mock.ip_address.gsub('.','-')}.compute-1.amazonaws.com"
                 instance['privateIpAddress']  = Fog::AWS::Mock.ip_address
-                instance['privateDnsName']    = "ip-#{instance['privateDnsName'].gsub('.','-')}.ec2.internal"
+                instance['privateDnsName']    = "ip-#{instance['privateIpAddress'].gsub('.','-')}.ec2.internal"
                 instance['instanceState']     = { 'code' => 16, 'name' => 'running' }
               end
             when 'rebooting'
