@@ -77,6 +77,7 @@ module Fog
               :addresses => {},
               :instances => {},
               :key_pairs => {},
+              :limits => { :addresses => 5 },
               :security_groups => {
                 'default' => {
                   'groupDescription'  => 'default group',
