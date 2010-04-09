@@ -38,14 +38,14 @@ module Fog
           response = Excon::Response.new
           instance_id = [*instance_id]
           if (@data[:instances].keys & instance_id).length == instance_id.length
-            for instance_id in instance_id
-              response.body = {
-                'requestId'     => Fog::AWS::Mock.request_id,
-                'instancesSet'  => []
-              }
-              instance = @data[:instances][instance_id]
-              @data[:deleted_at][instance_id] = Time.now
-              response.status = 200
+            response.body = {
+              'requestId'     => Fog::AWS::Mock.request_id,
+              'instancesSet'  => []
+            }
+            response.status = 200
+            for id in instance_id
+              instance = @data[:instances][id]
+              @data[:deleted_at][id] = Time.now
               # TODO: the codes are mostly educated guessing, not certainty
               code = case instance['state']
               when 'pending'
@@ -61,22 +61,22 @@ module Fog
               end
               state = { 'name' => 'shutting-down', 'code' => 32}
               response.body['instancesSet'] << {
-                'instanceId'    => instance_id,
+                'instanceId'    => id,
                 'previousState' => instance['instanceState'],
                 'currentState'  => state
               }
               instance['instanceState'] = state
+            end
 
-              describe_addresses.body['addressesSet'].each do |address|
-                if address['instanceId'] == instance_id
-                  disassociate_address(address['publicIp'])
-                end
+            describe_addresses.body['addressesSet'].each do |address|
+              if instance_id.include?(address['instanceId'])
+                disassociate_address(address['publicIp'])
               end
+            end
 
-              describe_volumes.body['volumeSet'].each do |volume|
-                if volume['attachmentSet'].first && volume['attachmentSet'].first['instanceId'] == instance_id
-                  detach_volume(volume['volumeId'])
-                end
+            describe_volumes.body['volumeSet'].each do |volume|
+              if volume['attachmentSet'].first && instance_id.include?(volume['attachmentSet'].first['instanceId'])
+                detach_volume(volume['volumeId'])
               end
             end
           else

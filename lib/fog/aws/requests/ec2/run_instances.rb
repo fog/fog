@@ -122,6 +122,7 @@ module Fog
               'ownerId'             => @owner_id,
               'placement'           => { 'availabilityZone' => options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone },
               'privateDnsName'      => '',
+              'privateIpAddress'    => '',
               'productCodes'        => [],
               'ramdiskId'           => options['RamdiskId'] || Fog::AWS::Mock.ramdisk_id,
               'reason'              => '',
