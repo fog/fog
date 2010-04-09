@@ -75,6 +75,7 @@ module Fog
             case instance['instanceState']['name']
             when 'pending'
               if Time.now - instance['launchTime'] > Fog::Mock::DELAY
+                instance['dnsName']       = Fog::AWS::Mock.ip_address
                 instance['instanceState'] = { 'code' => 16, 'name' => 'running' }
               end
             when 'rebooting'
