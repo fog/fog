@@ -57,6 +57,11 @@ module Rackspace
         'status'    => String
       }
 
+      SUMMARY = {
+        'id'    => Integer,
+        'name'  => String
+      }
+
     end
 
   end

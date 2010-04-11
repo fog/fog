@@ -2,7 +2,7 @@ Shindo.tests('Rackspace::Servers#delete_image', 'rackspace') do
   tests('success') do
 
     before do
-      @server_id = Rackspace[:servers].create_server(1, 3, 'fogcreateserver').body['server']['id']
+      @server_id = Rackspace[:servers].create_server(1, 3, 'fogdeleteimage').body['server']['id']
       @image_id = Rackspace[:servers].create_image(@server_id).body['image']['id']
     end
 

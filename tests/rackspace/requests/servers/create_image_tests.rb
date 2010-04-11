@@ -2,7 +2,7 @@ Shindo.tests('Rackspace::Servers#create_image', 'rackspace') do
   tests('success') do
 
     before do
-      @server_id = Rackspace[:servers].create_server(1, 3, 'fogcreateserver').body['server']['id']
+      @server_id = Rackspace[:servers].create_server(1, 3, 'fogcreateimage').body['server']['id']
       wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
       @data = Rackspace[:servers].create_image(@server_id).body['image']
       @image_id = @data['id']
