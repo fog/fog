@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.71"
+  s.version = "0.0.72"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
-  s.date = %q{2010-04-09}
+  s.date = %q{2010-04-13}
   s.default_executable = %q{fog}
   s.description = %q{The Ruby cloud computing library.}
   s.email = %q{geemus@gmail.com}
@@ -328,23 +328,6 @@ Gem::Specification.new do |s|
     "spec/rackspace/requests/files/head_object_spec.rb",
     "spec/rackspace/requests/files/put_container_spec.rb",
     "spec/rackspace/requests/files/put_object_spec.rb",
-    "spec/rackspace/requests/servers/create_image_spec.rb",
-    "spec/rackspace/requests/servers/create_server_spec.rb",
-    "spec/rackspace/requests/servers/delete_image_spec.rb",
-    "spec/rackspace/requests/servers/delete_server_spec.rb",
-    "spec/rackspace/requests/servers/get_flavor_details_spec.rb",
-    "spec/rackspace/requests/servers/get_server_details_spec.rb",
-    "spec/rackspace/requests/servers/list_addresses_spec.rb",
-    "spec/rackspace/requests/servers/list_flavors_detail_spec.rb",
-    "spec/rackspace/requests/servers/list_flavors_spec.rb",
-    "spec/rackspace/requests/servers/list_images_detail_spec.rb",
-    "spec/rackspace/requests/servers/list_images_spec.rb",
-    "spec/rackspace/requests/servers/list_private_addresses_spec.rb",
-    "spec/rackspace/requests/servers/list_public_addresses_spec.rb",
-    "spec/rackspace/requests/servers/list_servers_detail_spec.rb",
-    "spec/rackspace/requests/servers/list_servers_spec.rb",
-    "spec/rackspace/requests/servers/reboot_server_spec.rb",
-    "spec/rackspace/requests/servers/update_server_spec.rb",
     "spec/shared_examples/flavors_examples.rb",
     "spec/shared_examples/server_examples.rb",
     "spec/shared_examples/servers_examples.rb",
@@ -362,6 +345,17 @@ Gem::Specification.new do |s|
     "tests/rackspace/requests/servers/get_flavor_details_tests.rb",
     "tests/rackspace/requests/servers/get_image_details_tests.rb",
     "tests/rackspace/requests/servers/get_server_details_tests.rb",
+    "tests/rackspace/requests/servers/list_addresses_tests.rb",
+    "tests/rackspace/requests/servers/list_flavors_detail_tests.rb",
+    "tests/rackspace/requests/servers/list_flavors_tests.rb",
+    "tests/rackspace/requests/servers/list_images_detail_tests.rb",
+    "tests/rackspace/requests/servers/list_images_tests.rb",
+    "tests/rackspace/requests/servers/list_private_addresses_tests.rb",
+    "tests/rackspace/requests/servers/list_public_addresses_tests.rb",
+    "tests/rackspace/requests/servers/list_servers_detail_tests.rb",
+    "tests/rackspace/requests/servers/list_servers_tests.rb",
+    "tests/rackspace/requests/servers/reboot_server_tests.rb",
+    "tests/rackspace/requests/servers/update_server_tests.rb",
     "tests/slicehost/helper.rb",
     "tests/slicehost/requests/create_slice_tests.rb",
     "tests/slicehost/requests/delete_slice_tests.rb",
@@ -462,23 +456,6 @@ Gem::Specification.new do |s|
     "spec/rackspace/requests/files/head_object_spec.rb",
     "spec/rackspace/requests/files/put_container_spec.rb",
     "spec/rackspace/requests/files/put_object_spec.rb",
-    "spec/rackspace/requests/servers/create_image_spec.rb",
-    "spec/rackspace/requests/servers/create_server_spec.rb",
-    "spec/rackspace/requests/servers/delete_image_spec.rb",
-    "spec/rackspace/requests/servers/delete_server_spec.rb",
-    "spec/rackspace/requests/servers/get_flavor_details_spec.rb",
-    "spec/rackspace/requests/servers/get_server_details_spec.rb",
-    "spec/rackspace/requests/servers/list_addresses_spec.rb",
-    "spec/rackspace/requests/servers/list_flavors_detail_spec.rb",
-    "spec/rackspace/requests/servers/list_flavors_spec.rb",
-    "spec/rackspace/requests/servers/list_images_detail_spec.rb",
-    "spec/rackspace/requests/servers/list_images_spec.rb",
-    "spec/rackspace/requests/servers/list_private_addresses_spec.rb",
-    "spec/rackspace/requests/servers/list_public_addresses_spec.rb",
-    "spec/rackspace/requests/servers/list_servers_detail_spec.rb",
-    "spec/rackspace/requests/servers/list_servers_spec.rb",
-    "spec/rackspace/requests/servers/reboot_server_spec.rb",
-    "spec/rackspace/requests/servers/update_server_spec.rb",
     "spec/shared_examples/flavors_examples.rb",
     "spec/shared_examples/server_examples.rb",
     "spec/shared_examples/servers_examples.rb",
