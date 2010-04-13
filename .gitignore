@@ -4,3 +4,4 @@ coverage
 rdoc
 pkg
 spec/credentials.yml
+.bundle
