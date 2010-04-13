@@ -2,8 +2,6 @@ module Fog
   module Terremark
     class Real
 
-      require 'fog/terremark/parsers/get_organizations'
-
       # Get list of organizations
       #
       # ==== Returns

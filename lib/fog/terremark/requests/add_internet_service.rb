@@ -2,8 +2,6 @@ module Fog
   module Terremark
     class Real
 
-      require 'fog/terremark/parsers/internet_service'
-
       # Reserve requested resources and deploy vApp
       #
       # ==== Parameters

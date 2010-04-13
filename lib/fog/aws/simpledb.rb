@@ -5,6 +5,10 @@ module Fog
       def self.new(options={})
 
         unless @required
+          require 'fog/aws/parsers/simpledb/domain_metadata'
+          require 'fog/aws/parsers/simpledb/get_attributes'
+          require 'fog/aws/parsers/simpledb/list_domains'
+          require 'fog/aws/parsers/simpledb/select'
           require 'fog/aws/requests/simpledb/batch_put_attributes'
           require 'fog/aws/requests/simpledb/create_domain'
           require 'fog/aws/requests/simpledb/delete_attributes'

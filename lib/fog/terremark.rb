@@ -4,6 +4,19 @@ module Fog
     def self.new(options={})
 
       unless @required
+        require 'fog/terremark/parsers/get_catalog'
+        require 'fog/terremark/parsers/get_catalog_item'
+        require 'fog/terremark/parsers/get_organization'
+        require 'fog/terremark/parsers/get_organizations'
+        require 'fog/terremark/parsers/get_public_ips'
+        require 'fog/terremark/parsers/get_tasks_list'
+        require 'fog/terremark/parsers/get_vapp_template'
+        require 'fog/terremark/parsers/get_vdc'
+        require 'fog/terremark/parsers/instantiate_vapp_template'
+        require 'fog/terremark/parsers/internet_service'
+        require 'fog/terremark/parsers/node_service'
+        require 'fog/terremark/parsers/task'
+        require 'fog/terremark/parsers/vapp'
         require 'fog/terremark/requests/add_internet_service'
         require 'fog/terremark/requests/add_node_service'
         require 'fog/terremark/requests/create_internet_service'

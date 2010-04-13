@@ -3,8 +3,6 @@ module Fog
     module EC2
       class Real
 
-        require 'fog/aws/parsers/ec2/basic'
-
         # Delete a snapshot of an EBS volume that you own
         #
         # ==== Parameters

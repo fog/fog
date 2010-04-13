@@ -2,8 +2,6 @@ module Fog
   module Terremark
     class Real
 
-      require 'fog/terremark/parsers/get_public_ips'
-
       # Get list of public ips
       #
       # ==== Parameters

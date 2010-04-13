@@ -3,8 +3,6 @@ module Fog
     module EC2
       class Real
 
-        require 'fog/aws/parsers/ec2/describe_images'
-
         # Describe all or specified images.
         #
         # ==== Params

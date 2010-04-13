@@ -3,8 +3,6 @@ module Fog
     module EC2
       class Real
 
-        require 'fog/aws/parsers/ec2/basic'
-
         # Associate an elastic IP address with an instance
         #
         # ==== Parameters

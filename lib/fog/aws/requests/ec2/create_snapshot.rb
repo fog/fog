@@ -3,8 +3,6 @@ module Fog
     module EC2
       class Real
 
-        require 'fog/aws/parsers/ec2/create_snapshot'
-
         # Create a snapshot of an EBS volume and store it in S3
         #
         # ==== Parameters

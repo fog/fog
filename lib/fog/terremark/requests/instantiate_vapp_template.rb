@@ -2,8 +2,6 @@ module Fog
   module Terremark
     class Real
 
-      require 'fog/terremark/parsers/instantiate_vapp_template'
-
       # Instatiate a vapp template
       #
       # ==== Parameters

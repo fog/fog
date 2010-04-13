@@ -3,8 +3,6 @@ module Fog
     module EC2
       class Real
 
-        require 'fog/aws/parsers/ec2/basic'
-
         # Disassociate an elastic IP address from its instance (if any)
         #
         # ==== Parameters

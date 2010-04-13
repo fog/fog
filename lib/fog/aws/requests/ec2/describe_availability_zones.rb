@@ -3,8 +3,6 @@ module Fog
     module EC2
       class Real
 
-        require 'fog/aws/parsers/ec2/describe_availability_zones'
-
         # Describe all or specified availability zones
         #
         # ==== Params

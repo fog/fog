@@ -2,8 +2,6 @@ module Fog
   module Terremark
     class Real
 
-      require 'fog/terremark/parsers/task'
-
       # Power off a vapp
       #
       # ==== Parameters

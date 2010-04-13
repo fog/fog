@@ -3,8 +3,6 @@ module Fog
     module SimpleDB
       class Real
 
-        require 'fog/aws/parsers/simpledb/list_domains'
-
         # List SimpleDB domains
         #
         # ==== Parameters

@@ -2,8 +2,6 @@ module Fog
   module Terremark
     class Real
 
-      require 'fog/terremark/parsers/get_tasks_list'
-
       # Get list of tasks
       #
       # ==== Parameters

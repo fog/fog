@@ -3,8 +3,6 @@ module Fog
     module S3
       class Real
 
-        require 'fog/aws/parsers/s3/copy_object'
-
         # Copy an object from one S3 bucket to another
         #
         # ==== Parameters

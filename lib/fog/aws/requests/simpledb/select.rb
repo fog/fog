@@ -3,8 +3,6 @@ module Fog
     module SimpleDB
       class Real
 
-        require 'fog/aws/parsers/simpledb/select'
-
         # Select item data from SimpleDB
         #
         # ==== Parameters

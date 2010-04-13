@@ -3,8 +3,6 @@ module Fog
     module EC2
       class Real
 
-        require 'fog/aws/parsers/ec2/allocate_address'
-
         # Acquire an elastic IP address.
         #
         # ==== Returns
