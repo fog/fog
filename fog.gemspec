@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fog}
-  s.version = "0.0.72"
+  s.version = "0.0.73"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["geemus (Wesley Beary)"]
@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
   s.files = [
     ".document",
     ".gitignore",
+    "Gemfile",
     "README.rdoc",
     "Rakefile",
     "VERSION.yml",
