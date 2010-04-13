@@ -39,20 +39,20 @@ module Fog
             snapshot_set = @data[:snapshots].values
           end
 
-          snapshot_set.each do |snapshot|
-            case snapshot['status']
-            when 'in progress', 'pending'
-              if Time.now - snapshot['startTime'] > Fog::Mock.delay * 2
-                snapshot['progress']  = '100%'
-                snapshot['status']    = 'completed'
-              elsif Time.now - snapshot['startTime'] > Fog::Mock.delay
-                snapshot['progress']  = '50%'
-                snapshot['status']    = 'in progress'
+          if snapshot_id.length == 0 || snapshot_id.length == snapshot_set.length
+            snapshot_set.each do |snapshot|
+              case snapshot['status']
+              when 'in progress', 'pending'
+                if Time.now - snapshot['startTime'] > Fog::Mock.delay * 2
+                  snapshot['progress']  = '100%'
+                  snapshot['status']    = 'completed'
+                elsif Time.now - snapshot['startTime'] > Fog::Mock.delay
+                  snapshot['progress']  = '50%'
+                  snapshot['status']    = 'in progress'
+                end
               end
             end
-          end
 
-          if snapshot_id.length == 0 || snapshot_id.length == snapshot_set.length
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,

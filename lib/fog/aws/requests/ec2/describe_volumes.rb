@@ -45,26 +45,26 @@ module Fog
             volume_set = @data[:volumes].values
           end
 
-          volume_set.each do |volume|
-            case volume['status']
-            when 'attaching'
-              if Time.now - volume['attachmentSet'].first['attachTime'] > Fog::Mock.delay
-                volume['attachmentSet'].first['status'] = 'attached'
-                volume['status'] = 'attached'
-              end
-            when 'creating'
-              if Time.now - volume['createTime'] > Fog::Mock.delay
-                volume['status'] = 'available'
-              end
-            when 'deleting'
-              if Time.now - @data[:deleted_at][volume['volumeId']] > Fog::Mock.delay
-                @data[:deleted_at].delete(volume['volumeId'])
-                @data[:volumes].delete(volume['volumeId'])
+          if volume_id.length == 0 || volume_id.length == volume_set.length
+            volume_set.each do |volume|
+              case volume['status']
+              when 'attaching'
+                if Time.now - volume['attachmentSet'].first['attachTime'] > Fog::Mock.delay
+                  volume['attachmentSet'].first['status'] = 'attached'
+                  volume['status'] = 'attached'
+                end
+              when 'creating'
+                if Time.now - volume['createTime'] > Fog::Mock.delay
+                  volume['status'] = 'available'
+                end
+              when 'deleting'
+                if Time.now - @data[:deleted_at][volume['volumeId']] > Fog::Mock.delay
+                  @data[:deleted_at].delete(volume['volumeId'])
+                  @data[:volumes].delete(volume['volumeId'])
+                end
               end
             end
-          end
 
-          if volume_id.length == 0 || volume_id.length == volume_set.length
             volume_set = volume_set.reject {|volume| !@data[:volumes][volume['volumeId']]}
             response.status = 200
             response.body = {

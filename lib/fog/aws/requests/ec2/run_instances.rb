@@ -104,11 +104,10 @@ module Fog
 
           min_count.times do |i|
             instance_id = Fog::AWS::Mock.instance_id
-            data = {
+            instance = {
               'amiLaunchIndex'      => i,
               'blockDeviceMapping'  => [],
               'dnsName'             => '',
-              'groupSet'            => group_set,
               'imageId'             => image_id,
               'instanceId'          => instance_id,
               'instanceState'       => { 'code' => 0, 'name' => 'pending' },
@@ -117,18 +116,20 @@ module Fog
               'keyName'             => options['KeyName'] || '',
               'launchTime'          => Time.now,
               'monitoring'          => { 'state' => options['Monitoring.Enabled'] || false },
-              'ownerId'             => @owner_id,
               'placement'           => { 'availabilityZone' => options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone },
               'privateDnsName'      => '',
-              'privateIpAddress'    => '',
               'productCodes'        => [],
               'ramdiskId'           => options['RamdiskId'] || Fog::AWS::Mock.ramdisk_id,
               'reason'              => '',
-              'reservationId'       => reservation_id,
               'rootDeviceType'      => 'instance-store'
             }
-            @data[:instances][instance_id] = data
-            instances_set << data.reject{|key,value| !['amiLaunchIndex', 'blockDeviceMapping', 'dnsName', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'privateDnsName', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType'].include?(key)}
+            instances_set << instance
+            @data[:instances][instance_id] = instance.merge({
+              'groupSet'            => group_set,
+              'ownerId'             => @owner_id,
+              'privateIpAddress'    => '',
+              'reservationId'       => reservation_id,
+            })
           end
           response.body = {
             'groupSet'      => group_set,

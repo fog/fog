@@ -69,44 +69,44 @@ module Fog
             instance_set = @data[:instances].values
           end
 
-          instance_set.each do |instance|
-            case instance['instanceState']['name']
-            when 'pending'
-              if Time.now - instance['launchTime'] > Fog::Mock.delay
-                instance['dnsName']           = "ec2-#{Fog::AWS::Mock.ip_address.gsub('.','-')}.compute-1.amazonaws.com"
-                instance['privateIpAddress']  = Fog::AWS::Mock.ip_address
-                instance['privateDnsName']    = "ip-#{instance['privateIpAddress'].gsub('.','-')}.ec2.internal"
-                instance['instanceState']     = { 'code' => 16, 'name' => 'running' }
-              end
-            when 'rebooting'
-              instance['instanceState'] = { 'code' => 16, 'name' => 'running' }
-            when 'shutting-down'
-              if Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock.delay * 2
-                @data[:deleted_at].delete(instance['instanceId'])
-                @data[:instances].delete(instance['instanceId'])
-              elsif Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock.delay
-                instance['instanceState'] = { 'code' => 16, 'name' => 'terminating' }
-              end
-            when 'terminating'
-              if Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock.delay
-                @data[:deleted_at].delete(instance['instanceId'])
-                @data[:instances].delete(instance['instanceId'])
-              end
-            end
-          end
-
           if instance_id.length == 0 || instance_id.length == instance_set.length
-            instance_set = instance_set.reject {|instance| !@data[:instances][instance['instanceId']]}
             response.status = 200
             reservation_set = {}
+
             instance_set.each do |instance|
-              reservation_set[instance['reservationId']] ||= {
-                'groupSet'      => instance['groupSet'],
-                'instancesSet'  => [],
-                'ownerId'       => instance['ownerId'],
-                'reservationId' => instance['reservationId']
-              }
-              reservation_set[instance['reservationId']]['instancesSet'] << instance.reject{|key,value| !['amiLaunchIndex', 'blockDeviceMapping', 'dnsName', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'privateDnsName', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType'].include?(key)}
+              case instance['instanceState']['name']
+              when 'pending'
+                if Time.now - instance['launchTime'] > Fog::Mock.delay
+                  instance['dnsName']           = "ec2-#{Fog::AWS::Mock.ip_address.gsub('.','-')}.compute-1.amazonaws.com"
+                  instance['privateIpAddress']  = Fog::AWS::Mock.ip_address
+                  instance['privateDnsName']    = "ip-#{instance['privateIpAddress'].gsub('.','-')}.ec2.internal"
+                  instance['instanceState']     = { 'code' => 16, 'name' => 'running' }
+                end
+              when 'rebooting'
+                instance['instanceState'] = { 'code' => 16, 'name' => 'running' }
+              when 'shutting-down'
+                if Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock.delay * 2
+                  @data[:deleted_at].delete(instance['instanceId'])
+                  @data[:instances].delete(instance['instanceId'])
+                elsif Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock.delay
+                  instance['instanceState'] = { 'code' => 16, 'name' => 'terminating' }
+                end
+              when 'terminating'
+                if Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock.delay
+                  @data[:deleted_at].delete(instance['instanceId'])
+                  @data[:instances].delete(instance['instanceId'])
+                end
+              end
+
+              if @data[:instances][instance['instanceId']]
+                reservation_set[instance['reservationId']] ||= {
+                  'groupSet'      => instance['groupSet'],
+                  'instancesSet'  => [],
+                  'ownerId'       => instance['ownerId'],
+                  'reservationId' => instance['reservationId']
+                }
+                reservation_set[instance['reservationId']]['instancesSet'] << instance.reject{|key,value| !['amiLaunchIndex', 'blockDeviceMapping', 'dnsName', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'privateDnsName', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType'].include?(key)}
+              end
             end
 
             response.body = {
