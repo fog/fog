@@ -4,15 +4,18 @@ module Fog
 
       def self.new(options={})
 
-        require 'fog/aws/requests/simpledb/batch_put_attributes'
-        require 'fog/aws/requests/simpledb/create_domain'
-        require 'fog/aws/requests/simpledb/delete_attributes'
-        require 'fog/aws/requests/simpledb/delete_domain'
-        require 'fog/aws/requests/simpledb/domain_metadata'
-        require 'fog/aws/requests/simpledb/get_attributes'
-        require 'fog/aws/requests/simpledb/list_domains'
-        require 'fog/aws/requests/simpledb/put_attributes'
-        require 'fog/aws/requests/simpledb/select'
+        unless @required
+          require 'fog/aws/requests/simpledb/batch_put_attributes'
+          require 'fog/aws/requests/simpledb/create_domain'
+          require 'fog/aws/requests/simpledb/delete_attributes'
+          require 'fog/aws/requests/simpledb/delete_domain'
+          require 'fog/aws/requests/simpledb/domain_metadata'
+          require 'fog/aws/requests/simpledb/get_attributes'
+          require 'fog/aws/requests/simpledb/list_domains'
+          require 'fog/aws/requests/simpledb/put_attributes'
+          require 'fog/aws/requests/simpledb/select'
+          @required = true
+        end
 
         if Fog.mocking?
           Fog::AWS::SimpleDB::Mock.new(options)

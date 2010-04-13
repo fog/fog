@@ -3,28 +3,31 @@ module Fog
 
     def self.new(options={})
 
-      require 'fog/terremark/requests/add_internet_service'
-      require 'fog/terremark/requests/add_node_service'
-      require 'fog/terremark/requests/create_internet_service'
-      require 'fog/terremark/requests/delete_internet_service'
-      require 'fog/terremark/requests/delete_node_service'
-      require 'fog/terremark/requests/delete_vapp'
-      require 'fog/terremark/requests/deploy_vapp'
-      require 'fog/terremark/requests/get_catalog'
-      require 'fog/terremark/requests/get_catalog_item'
-      require 'fog/terremark/requests/get_organization'
-      require 'fog/terremark/requests/get_organizations'
-      require 'fog/terremark/requests/get_public_ips'
-      require 'fog/terremark/requests/get_task'
-      require 'fog/terremark/requests/get_tasks_list'
-      require 'fog/terremark/requests/get_vapp'
-      require 'fog/terremark/requests/get_vapp_template'
-      require 'fog/terremark/requests/get_vdc'
-      require 'fog/terremark/requests/instantiate_vapp_template'
-      require 'fog/terremark/requests/reset'
-      require 'fog/terremark/requests/power_off'
-      require 'fog/terremark/requests/power_on'
-      require 'fog/terremark/requests/shutdown'
+      unless @required
+        require 'fog/terremark/requests/add_internet_service'
+        require 'fog/terremark/requests/add_node_service'
+        require 'fog/terremark/requests/create_internet_service'
+        require 'fog/terremark/requests/delete_internet_service'
+        require 'fog/terremark/requests/delete_node_service'
+        require 'fog/terremark/requests/delete_vapp'
+        require 'fog/terremark/requests/deploy_vapp'
+        require 'fog/terremark/requests/get_catalog'
+        require 'fog/terremark/requests/get_catalog_item'
+        require 'fog/terremark/requests/get_organization'
+        require 'fog/terremark/requests/get_organizations'
+        require 'fog/terremark/requests/get_public_ips'
+        require 'fog/terremark/requests/get_task'
+        require 'fog/terremark/requests/get_tasks_list'
+        require 'fog/terremark/requests/get_vapp'
+        require 'fog/terremark/requests/get_vapp_template'
+        require 'fog/terremark/requests/get_vdc'
+        require 'fog/terremark/requests/instantiate_vapp_template'
+        require 'fog/terremark/requests/reset'
+        require 'fog/terremark/requests/power_off'
+        require 'fog/terremark/requests/power_on'
+        require 'fog/terremark/requests/shutdown'
+        @required = true
+      end
 
       unless options[:terremark_password]
         raise ArgumentError.new('terremark_password is required to access terremark')
