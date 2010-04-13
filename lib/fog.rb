@@ -29,7 +29,15 @@ require 'fog/terremark'
 module Fog
 
   module Mock
-    DELAY = 1
+    @delay = 1
+    def self.delay
+      @delay
+    end
+
+    def self.set_delay(delay)
+      raise ArgumentError, "delay must be non-negative" unless delay >= 0
+      @delay = delay
+    end
   end
 
   class MockNotImplemented < StandardError; end

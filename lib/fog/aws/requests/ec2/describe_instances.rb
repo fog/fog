@@ -74,7 +74,7 @@ module Fog
           instance_set.each do |instance|
             case instance['instanceState']['name']
             when 'pending'
-              if Time.now - instance['launchTime'] > Fog::Mock::DELAY
+              if Time.now - instance['launchTime'] > Fog::Mock.delay
                 instance['dnsName']           = "ec2-#{Fog::AWS::Mock.ip_address.gsub('.','-')}.compute-1.amazonaws.com"
                 instance['privateIpAddress']  = Fog::AWS::Mock.ip_address
                 instance['privateDnsName']    = "ip-#{instance['privateIpAddress'].gsub('.','-')}.ec2.internal"
@@ -83,14 +83,14 @@ module Fog
             when 'rebooting'
               instance['instanceState'] = { 'code' => 16, 'name' => 'running' }
             when 'shutting-down'
-              if Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock::DELAY * 2
+              if Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock.delay * 2
                 @data[:deleted_at].delete(instance['instanceId'])
                 @data[:instances].delete(instance['instanceId'])
-              elsif Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock::DELAY
+              elsif Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock.delay
                 instance['instanceState'] = { 'code' => 16, 'name' => 'terminating' }
               end
             when 'terminating'
-              if Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock::DELAY
+              if Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock.delay
                 @data[:deleted_at].delete(instance['instanceId'])
                 @data[:instances].delete(instance['instanceId'])
               end

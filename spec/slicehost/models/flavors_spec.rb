@@ -1,5 +1,5 @@
-require File.dirname(__FILE__) + '/../../../spec_helper'
-require File.dirname(__FILE__) + '/../../../shared_examples/flavors_examples'
+require File.dirname(__FILE__) + '/../../spec_helper'
+require File.dirname(__FILE__) + '/../../shared_examples/flavors_examples'
 
 describe 'Fog::AWS::Slicehost::Flavors' do
 
