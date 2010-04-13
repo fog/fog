@@ -34,9 +34,9 @@ module Fog
       @delay
     end
 
-    def self.set_delay(delay)
-      raise ArgumentError, "delay must be non-negative" unless delay >= 0
-      @delay = delay
+    def self.delay=(new_delay)
+      raise ArgumentError, "delay must be non-negative" unless new_delay >= 0
+      @delay = new_delay
     end
   end
 
