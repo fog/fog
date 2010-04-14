@@ -14,7 +14,8 @@ module Fog
         request({
           :expects  => 200,
           :headers  => {
-            'Authorization' => "Basic #{Base64.encode64("#{@terremark_username}:#{@terremark_password}").chomp!}"
+            'Authorization' => "Basic #{Base64.encode64("#{@terremark_username}:#{@terremark_password}").chomp!}",
+            'Content-Type'  => "application/vnd.vmware.vcloud.orgList+xml"
           },
           :method   => 'POST',
           :parser   => Fog::Parsers::Terremark::GetOrganizations.new,
