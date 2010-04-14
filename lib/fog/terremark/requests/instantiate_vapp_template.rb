@@ -6,7 +6,9 @@ module Fog
       #
       # ==== Parameters
       # * vdc_id<~Integer> - Id of vdc to instantiate template in
-      #
+      # * options<~Hash>:
+      #   * cpus<~Integer>: Number of cpus in [1, 2, 4, 8], defaults to 1
+      #   * memory<~Integer>: Amount of memory either 512 or a multiple of 1024, defaults to 512
       # ==== Returns
       # * response<~Excon::Response>:
       #   * body<~Hash>:
@@ -19,7 +21,10 @@ module Fog
       #       * 'type'<~String> - type of item
       #     * 'description'<~String> - Description of catalog
       #     * 'name'<~String> - Name of catalog
-      def instantiate_vapp_template(name)
+      def instantiate_vapp_template(name, options = {})
+        options['cpus'] ||= 1
+        options['memory'] ||= 512
+
         # FIXME: much cheating to commence
         vdc_id        = default_vdc_id
         network_id    = default_network_id
@@ -68,12 +73,12 @@ module Fog
         <Item xmlns="http://schemas.dmtf.org/ovf/envelope/1">
           <InstanceID xmlns="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">1</InstanceID>
           <ResourceType xmlns="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">3</ResourceType>
-          <VirtualQuantity xmlns="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">1</VirtualQuantity>
+          <VirtualQuantity xmlns="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">#{options['cpus']}</VirtualQuantity>
         </Item>
         <Item xmlns="http://schemas.dmtf.org/ovf/envelope/1">
           <InstanceID xmlns="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">2</InstanceID>
           <ResourceType xmlns="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">4</ResourceType>
-          <VirtualQuantity xmlns="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">512</VirtualQuantity>
+          <VirtualQuantity xmlns="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">#{options['memory']}</VirtualQuantity>
         </Item>
       </VirtualHardwareSection>
       <NetworkConfigSection>
