@@ -27,7 +27,7 @@ module Fog
                 vapp[attributes.shift] = attributes.shift
               end
             end
-            @response.merge!(task.reject {|key,value| !['href', 'name', 'size', 'status', 'type'].include?(key)})
+            @response.merge!(vapp.reject {|key,value| !['href', 'name', 'size', 'status', 'type'].include?(key)})
           end
         end
 
