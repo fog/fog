@@ -11,6 +11,7 @@ begin
     gem.add_dependency('formatador', '>=0.0.10')
     gem.add_dependency('json')
     gem.add_dependency('mime-types')
+    gem.add_dependency('net-ssh')
     gem.add_dependency('nokogiri')
     gem.add_dependency('ruby-hmac')
     gem.name = "fog"
