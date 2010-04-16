@@ -1,33 +1,43 @@
 module Terremark
   class << self
-    if Fog.credentials[:terremark_password] && Fog.credentials[:terremark_username]
+    if (Fog::Terremark::ECLOUD_OPTIONS.all? { |option| Fog.credentials.has_key?(option) } ) ||
+       (Fog::Terremark::VCLOUD_OPTIONS.all? { |option| Fog.credentials.has_key?(option) } )
 
       def initialized?
         true
       end
 
-      def terremark_service
-        @terremark_service ||= begin
-          Fog.credentials[:terremark_service] || :vcloud
+      def terremark_service(service)
+        case service
+        when :ecloud
+          Fog::Terremark::Ecloud
+        when :vcloud
+          Fog::Terremark::Vcloud
+        else
+          raise "Unsupported Terremark Service"
         end
       end
 
       def [](service)
         @@connections ||= Hash.new do |hash, key|
           credentials = Fog.credentials.reject do |k,v|
-            ![:terremark_username, :terremark_password].include?(k)
+            case key
+            when :ecloud
+              !Fog::Terremark::ECLOUD_OPTIONS.include?(k)
+            when :vcloud
+              !Fog::Terremark::VCLOUD_OPTIONS.include?(k)
+            end
           end
-          hash[key] = Fog::Terremark.new(credentials.merge(:terremark_service => terremark_service))
+          case key
+          when :ecloud
+            hash[key] = Fog::Terremark::Ecloud.new(credentials)
+          when :vcloud
+            hash[key] = Fog::Terremark::Vcloud.new(credentials)
+          else
+            raise "Unsupported Terremark Service"
+          end
         end
         @@connections[service]
-      end
-
-      def servers
-        self[terremark_service].servers
-      end
-
-      def tasks
-        self[terremark_service].tasks
       end
 
     else
