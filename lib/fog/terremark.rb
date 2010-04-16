@@ -81,8 +81,16 @@ module Fog
       def initialize(options={})
         @terremark_password = options[:terremark_password]
         @terremark_username = options[:terremark_username]
-        @host   = options[:host]   || "services.vcloudexpress.terremark.com"
-        @path   = options[:path]   || "/api/v0.8"
+        case options[:terremark_service]
+        when :ecloud
+          @host   = options[:host]   || "services.enterprisecloud.terremark.com"
+          @path   = options[:path]   || "/api/v0.8a-ext2.0"
+        when :vcloud
+          @host   = options[:host]   || "services.vcloudexpress.terremark.com"
+          @path   = options[:path]   || "/api/v0.8"
+        else
+          raise "Unsupported Terremark Service"
+        end
         @port   = options[:port]   || 443
         @scheme = options[:scheme] || 'https'
         @cookie = get_organizations.headers['Set-Cookie']

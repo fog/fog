@@ -11,10 +11,7 @@ module Terremark
           credentials = Fog.credentials.reject do |k,v|
             ![:terremark_username, :terremark_password].include?(k)
           end
-          hash[key] = case key
-          when :vcloud
-            Fog::Terremark.new(credentials)
-          end
+          hash[key] = Fog::Terremark.new(credentials.merge(:terremark_service => key))
         end
         @@connections[service]
       end
