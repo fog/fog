@@ -8,7 +8,7 @@ module Fog
       #
       # ==== Parameters
       # * vdc_id<~Integer> - Id of vDc to get list of internet services for
-       #
+      #
       # ==== Returns
       # * response<~Excon::Response>:
       #   * body<~Hash>:
@@ -18,9 +18,8 @@ module Fog
       #       * 'PublicIPAddress'<~Hash>
       #       *   'Id'<~String> => id of the public IP
       #       *   'name'<~String> => actual ip address
-      #       
+      #
       def get_internet_services(vdc_id)
- 
         request(
           :expects  => 200,
           :method   => 'GET',

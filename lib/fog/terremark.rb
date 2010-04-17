@@ -6,6 +6,8 @@ module Fog
       unless @required
         require 'fog/terremark/parsers/get_catalog'
         require 'fog/terremark/parsers/get_catalog_item'
+        require 'fog/terremark/parsers/get_internet_services'
+        require 'fog/terremark/parsers/get_node_services'
         require 'fog/terremark/parsers/get_organization'
         require 'fog/terremark/parsers/get_organizations'
         require 'fog/terremark/parsers/get_public_ips'
@@ -26,6 +28,8 @@ module Fog
         require 'fog/terremark/requests/deploy_vapp'
         require 'fog/terremark/requests/get_catalog'
         require 'fog/terremark/requests/get_catalog_item'
+        require 'fog/terremark/requests/get_internet_services'
+        require 'fog/terremark/requests/get_node_services'
         require 'fog/terremark/requests/get_organization'
         require 'fog/terremark/requests/get_organizations'
         require 'fog/terremark/requests/get_public_ips'

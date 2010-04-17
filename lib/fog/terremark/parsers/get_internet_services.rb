@@ -1,46 +1,58 @@
 module Fog
   module Parsers
     module Terremark
-      
+
       class GetInternetServices < Fog::Parsers::Base
-        
+
         def reset
           @in_public_ip_address = false
-          @in_internet_service = false
-          @response = { 'InternetServices' => [] } #an array of internet services
+          @internet_service = {}
+          @response = { 'InternetServices' => [] }
         end
-        
-        
+
         def start_element(name, attributes)
           @value = ''
           case name
-            when 'InternetService' #start of a new InternetService:
-            @in_internet_service = true 
-            when 'PublicIPAddress' #start of new IP Address
+          when 'PublicIPAddress'
             @in_public_ip_address = true
           end
         end
-        
+
         def end_element(name)
           case name
-            when 'PublicIPAddress'
-            @in_public_ip_address = false
-            when 'InternetService'
-            @in_internet_service = false
-            when 'Id', 'Name'
+          when 'Description', 'Protocol'
+            @internet_service[name] = @value
+          when 'Enabled'
+            if @value == 'true'
+              @internet_service[name] = true
+            else
+              @internet_service[name] = false
+            end
+          when 'Href', 'Name'
             if @in_public_ip_address
-              @response['InternetServices'].last['PublicIPAddress'][name] = @value
-            elsif @in_internet_service
-              @response['InternetServices'].last[name] = @value
-            
+              @internet_service['PublicIpAddress'] ||= {}
+              @internet_service['PublicIpAddress'][name] = @value
+            else
+              @internet_service[name] = @value
+            end
+          when 'Id'
+            if @in_public_ip_address
+              @internet_service['PublicIpAddress'] ||= {}
+              @internet_service['PublicIpAddress'][name] = @value.to_i
+            else
+              @internet_service[name] = @value.to_i
+            end
+          when 'InternetService'
+            @response['InternetServices'] << @internet_service
+            @internet_service = {}
+          when 'Port', 'Timeout'
+            @internet_service[name] = @value.to_i
+          when 'PublicIPAddress'
+            @in_public_ip_address = false
           end
         end
       end
-      
-      
-      
-      
-    end #end class
-  end #end Terremark 
-end #end Parsers
-end #end Fog
+
+    end
+  end
+end
