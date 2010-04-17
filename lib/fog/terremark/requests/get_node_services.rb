@@ -18,7 +18,7 @@ module Fog
          request(
           :expects  => 200,
           :method   => 'GET',
-          :parser   => Fog::Parsers::Terremark::NodeService.new,
+          :parser   => Fog::Parsers::Terremark::GetNodeServices.new,
           :path     => "InternetServices/#{service_id}/nodes"
         )
       end
