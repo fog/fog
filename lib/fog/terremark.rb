@@ -1,9 +1,26 @@
 module Fog
   module Terremark
 
+    module Parser
+
+      def parse(data)
+        case data['type']
+        when 'application/vnd.vmware.vcloud.vApp+xml'
+          servers.new(data.merge!(:connection => self))
+        else
+          data
+        end
+      end
+
+    end
+
     def self.new(options={})
 
       unless @required
+        require 'fog/terremark/models/server'
+        require 'fog/terremark/models/servers'
+        require 'fog/terremark/models/task'
+        require 'fog/terremark/models/tasks'
         require 'fog/terremark/parsers/get_catalog'
         require 'fog/terremark/parsers/get_catalog_item'
         require 'fog/terremark/parsers/get_internet_services'
@@ -60,6 +77,7 @@ module Fog
     end
 
     class Mock
+      include Fog::Terremark::Parser
 
       def self.data
         @data ||= Hash.new do |hash, key|
@@ -81,10 +99,12 @@ module Fog
     end
 
     class Real
+      include Fog::Terremark::Parser
 
       def initialize(options={})
         @terremark_password = options[:terremark_password]
         @terremark_username = options[:terremark_username]
+        @terremark_service  = options[:terremark_service] || :vcloud
         case options[:terremark_service]
         when :ecloud
           @host   = options[:host]   || "services.enterprisecloud.terremark.com"
