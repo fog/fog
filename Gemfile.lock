@@ -1,0 +1,69 @@
+--- 
+specs: 
+- rake: 
+    version: 0.8.7
+- annals: 
+    version: 0.0.3
+- excon: 
+    version: 0.0.21
+- formatador: 
+    version: 0.0.13
+- json: 
+    version: 1.2.4
+- mime-types: 
+    version: "1.16"
+- net-ssh: 
+    version: 2.0.21
+- nokogiri: 
+    version: 1.4.1
+- rspec: 
+    version: 1.3.0
+- ruby-hmac: 
+    version: 0.4.0
+- shindo: 
+    version: 0.0.17
+hash: e443f12a9a7794f2ff4fc8e8d201b12b1e8b30bb
+sources: 
+- Rubygems: 
+    uri: http://gemcutter.org
+dependencies: 
+  formatador: 
+    version: ">= 0.0.10"
+    group: 
+    - :default
+  nokogiri: 
+    version: ">= 0"
+    group: 
+    - :default
+  rake: 
+    version: ">= 0"
+    group: 
+    - :default
+  rspec: 
+    version: ">= 0"
+    group: 
+    - :default
+  ruby-hmac: 
+    version: ">= 0"
+    group: 
+    - :default
+  mime-types: 
+    version: ">= 0"
+    group: 
+    - :default
+  net-ssh: 
+    version: ">= 0"
+    group: 
+    - :default
+  json: 
+    version: ">= 0"
+    group: 
+    - :default
+  excon: 
+    version: ">= 0.0.21"
+    group: 
+    - :default
+  shindo: 
+    version: ">= 0"
+    group: 
+    - :default
