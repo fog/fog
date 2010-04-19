@@ -34,6 +34,7 @@ module Fog
         require 'fog/terremark/parsers/instantiate_vapp_template'
         require 'fog/terremark/parsers/internet_service'
         require 'fog/terremark/parsers/node_service'
+        require 'fog/terremark/parsers/public_ip'
         require 'fog/terremark/parsers/task'
         require 'fog/terremark/parsers/vapp'
         require 'fog/terremark/requests/add_internet_service'
@@ -49,6 +50,7 @@ module Fog
         require 'fog/terremark/requests/get_node_services'
         require 'fog/terremark/requests/get_organization'
         require 'fog/terremark/requests/get_organizations'
+        require 'fog/terremark/requests/get_public_ip'
         require 'fog/terremark/requests/get_public_ips'
         require 'fog/terremark/requests/get_task'
         require 'fog/terremark/requests/get_tasks_list'
@@ -170,6 +172,23 @@ module Fog
             ips = get_public_ips(default_vdc_id).body['PublicIpAddresses']
             if ips.length == 1
               ips.first['Href'].split('/').last.to_i
+            else
+              nil
+            end
+          end
+        else
+          nil
+        end
+      end
+
+      def default_tasks_list_id
+        if default_organization_id
+          @default_tasks_list_id ||= begin
+            task_lists = get_organization(default_organization_id).body['Links'].select {|link|
+              link['type'] == 'application/vnd.vmware.vcloud.tasksList+xml'
+            }
+            if task_lists.length == 1
+              task_lists.first['href'].split('/').last.to_i
             else
               nil
             end

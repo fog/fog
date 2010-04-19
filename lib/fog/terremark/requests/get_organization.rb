@@ -17,7 +17,7 @@ module Fog
       #       * 'rel'<~String> - action to perform
       #       * 'type'<~String> - type of link
       #     * 'name'<~String> - Name of organization
-      def get_organization(organization_id)
+      def get_organization(organization_id = default_organization_id)
         response = request(
           :expects  => 200,
           :method   => 'GET',

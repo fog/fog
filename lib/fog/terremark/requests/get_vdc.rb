@@ -19,7 +19,7 @@ module Fog
       #       * 'type'<~String> - type of item
       #     * 'description'<~String> - Description of catalog
       #     * 'name'<~String> - Name of catalog
-      def get_vdc(vdc_id)
+      def get_vdc(vdc_id = default_vdc_id)
         request(
           :expects  => 200,
           :method   => 'GET',

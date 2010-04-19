@@ -17,7 +17,7 @@ module Fog
       Net::SSH.start(@address, @username, @options) do |ssh|
         commands.each do |command|
           result = { :command => command }
-          ssh.exec!("bash -lc #{command.inspect}") do |channel, stream, data|
+          ssh.exec!(command) do |channel, stream, data|
             result[stream] = data
           end
           results << result

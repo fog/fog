@@ -16,7 +16,7 @@ module Fog
       #       * 'type'<~String> - type of item
       #     * 'description'<~String> - Description of catalog
       #     * 'name'<~String> - Name of catalog
-      def get_tasks_list(tasks_list_id)
+      def get_tasks_list(tasks_list_id = default_tasks_list_id)
         request(
           :expects  => 200,
           :method   => 'GET',

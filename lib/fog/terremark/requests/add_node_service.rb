@@ -43,7 +43,7 @@ DATA
           :expects  => 200,
           :headers  => {'Content-Type' => 'application/xml'},
           :method   => 'POST',
-          :parser   => Fog::Parsers::Terremark::InternetService.new,
+          :parser   => Fog::Parsers::Terremark::NodeService.new,
           :path     => "internetServices/#{service_id}/nodes"
         )
       end

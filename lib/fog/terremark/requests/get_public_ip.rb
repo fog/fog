@@ -2,26 +2,23 @@ module Fog
   module Terremark
     class Real
 
-      # Get details of a catalog
+      # Get details for a public ip
       #
       # ==== Parameters
-      # * vdc_id<~Integer> - Id of vdc to view catalog for
+      # * public_ip_id<~Integer> - Id of public ip to look up
       #
       # ==== Returns
       # * response<~Excon::Response>:
       #   * body<~Hash>:
-      #     * 'CatalogItems'<~Array>
+      #     * 'PublicIpAddresses'<~Array>
       #       * 'href'<~String> - linke to item
       #       * 'name'<~String> - name of item
-      #       * 'type'<~String> - type of item
-      #     * 'description'<~String> - Description of catalog
-      #     * 'name'<~String> - Name of catalog
-      def get_catalog(vdc_id = default_vdc_id)
+      def get_public_ip(public_ip_id)
         request(
           :expects  => 200,
           :method   => 'GET',
-          :parser   => Fog::Parsers::Terremark::GetCatalog.new,
-          :path     => "vdc/#{vdc_id}/catalog"
+          :parser   => Fog::Parsers::Terremark::PublicIp.new,
+          :path     => "publicIps/#{public_ip_id}"
         )
       end
 
@@ -29,7 +26,7 @@ module Fog
 
     class Mock
 
-      def get_catalog(vdc_id)
+      def get_public_ip(public_ip_id)
         raise MockNotImplemented.new("Contributions welcome!")
       end
 
