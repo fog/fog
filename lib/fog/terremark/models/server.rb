@@ -12,8 +12,7 @@ module Fog
 
       def destroy
         requires :id
-        data = connection.power_off(@id).body
-        task = connection.tasks.new(data)
+        task = connection.tasks.new(connection.power_off(@id).body)
         task.wait_for { ready? }
         connection.delete_vapp(@id)
         true
@@ -34,10 +33,10 @@ module Fog
         requires :name
         data = connection.instantiate_vapp(@name)
         merge_attributes(data.body)
-        task = connection.deploy_vapp(@id)
-        task.wait_for { ready? }
-        task = connection.power_on(@id)
-        task.wait_for { ready? }
+        deploy_task = connection.tasks.new(connection.deploy_vapp(@id).body)
+        deploy_task.wait_for { ready? }
+        power_on_task = connection.tasks.new(connection.power_on(@id).body)
+        power_on_task.wait_for { ready? }
         true
       end
 
