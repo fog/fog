@@ -83,6 +83,7 @@ describe 'Fog::AWS::S3::Files' do
       data = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
       file = @directory.files.create(:key => 'fogfilename', :body => data)
       url = @directory.files.get_url('fogfilename', Time.now + 60 * 10)
+      url.should include("fogfilename", "Expires")
       unless Fog.mocking?
         open(url).read.should == File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r').read
       end

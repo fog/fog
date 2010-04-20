@@ -61,7 +61,19 @@ module Fog
         Mock.reset_data(keys)
       end
 
+      module Utils
+        def url(params, expires)
+          params[:headers]['Date'] = expires.to_i
+          query = [params[:query]].compact
+          query << "AWSAccessKeyId=#{@aws_access_key_id}"
+          query << "Signature=#{CGI.escape(signature(params))}"
+          query << "Expires=#{params[:headers]['Date']}"
+          "http://#{params[:host]}/#{params[:path]}?#{query.join('&')}"
+        end
+      end
+
       class Mock
+        include Utils
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -82,9 +94,13 @@ module Fog
           @data = self.class.data[@aws_access_key_id]
         end
 
+        def signature(params)
+          "foo"
+        end
       end
 
       class Real
+        include Utils
 
         # Initialize connection to S3
         #
@@ -174,16 +190,6 @@ DATA
           hmac = @hmac.update(string_to_sign)
           signature = Base64.encode64(hmac.digest).chomp!
         end
-
-        def url(params, expires)
-          params[:headers]['Date'] = expires.to_i
-          query = [params[:query]].compact
-          query << "AWSAccessKeyId=#{@aws_access_key_id}"
-          query << "Signature=#{CGI.escape(signature(params))}"
-          query << "Expires=#{params[:headers]['Date']}"
-          "http://#{params[:host]}/#{params[:path]}?#{query.join('&')}"
-        end
-
       end
     end
   end
