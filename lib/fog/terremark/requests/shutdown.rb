@@ -21,7 +21,7 @@ module Fog
       #       * 'type'<~String> - type of owner
       def shutdown(vapp_id)
         request(
-          :expects  => 202,
+          :expects  => 204,
           :method   => 'POST',
           :parser   => Fog::Parsers::Terremark::Task.new,
           :path     => "vApp/#{vapp_id}/power/action/shutdown"
