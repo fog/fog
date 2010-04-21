@@ -1,100 +1,146 @@
 require 'rubygems'
 require 'rake'
+require 'date'
 
-current_directory = File.dirname(__FILE__)
-require "#{current_directory}/lib/fog"
+#############################################################################
+#
+# Helper functions
+#
+#############################################################################
 
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.add_dependency('excon', '>=0.0.21')
-    gem.add_dependency('formatador', '>=0.0.10')
-    gem.add_dependency('json')
-    gem.add_dependency('mime-types')
-    gem.add_dependency('net-ssh')
-    gem.add_dependency('nokogiri')
-    gem.add_dependency('ruby-hmac')
-    gem.name = "fog"
-    gem.description = %Q{The Ruby cloud computing library.}
-    gem.summary = %Q{brings clouds to you}
-    gem.email = "geemus@gmail.com"
-    gem.homepage = "http://github.com/geemus/fog"
-    gem.authors = ["geemus (Wesley Beary)"]
-    gem.rubyforge_project = "fog"
-  end
-rescue LoadError
-  puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
+def name
+  @name ||= Dir['*.gemspec'].first.split('.').first
 end
 
-require 'spec/rake/spectask'
-Spec::Rake::SpecTask.new(:spec) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.spec_opts = ['-c']
-  spec.spec_files = FileList['spec/**/*_spec.rb']
+def version
+  line = File.read("lib/#{name}.rb")[/^\s*VERSION\s*=\s*.*/]
+  line.match(/.*VERSION\s*=\s*['"](.*)['"]/)[1]
 end
 
-Spec::Rake::SpecTask.new(:rcov) do |spec|
-  spec.libs << 'lib' << 'spec'
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
+def date
+  Date.today.to_s
 end
 
-namespace :specs do
-
-  task :with_mocking do
-    Fog.mock!
-    Rake::Task[:spec].invoke
-  end
-
-  task :without_mocking do
-    Fog.mock!
-    Rake::Task[:spec].invoke
-  end
-
+def rubyforge_project
+  name
 end
 
-desc 'Run specs with and without mocking'
-task :specs => %w[ specs:with_mocking specs:without_mocking ]
+def gemspec_file
+  "#{name}.gemspec"
+end
 
-task :default => :specs
+def gem_file
+  "#{name}-#{version}.gem"
+end
+
+def replace_header(head, header_name)
+  head.sub!(/(\.#{header_name}\s*= ').*'/) { "#{$1}#{send(header_name)}'"}
+end
+
+#############################################################################
+#
+# Standard tasks
+#
+#############################################################################
+
+task :default => :test
+
+require 'rake/testtask'
+Rake::TestTask.new(:test) do |test|
+  test.libs << 'lib' << 'test'
+  test.pattern = 'test/**/test_*.rb'
+  test.verbose = true
+end
+
+desc "Generate RCov test coverage and open in your browser"
+task :coverage do
+  require 'rcov'
+  sh "rm -fr coverage"
+  sh "rcov test/test_*.rb"
+  sh "open coverage/index.html"
+end
 
 require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|
-  if File.exist?('VERSION.yml')
-    config = YAML.load(File.read('VERSION.yml'))
-    version = "#{config[:major]}.#{config[:minor]}.#{config[:patch]}"
-  else
-    version = ""
-  end
-
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "fog #{version}"
+  rdoc.title = "#{name} #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-begin
-  require 'rake/contrib/sshpublisher'
-  namespace :rubyforge do
-    
-    desc "Release gem and RDoc documentation to RubyForge"
-    task :release => ["rubyforge:release:gem", "rubyforge:release:docs"]
-    
-    namespace :release do
-      desc "Publish RDoc to RubyForge."
-      task :docs => [:rdoc] do
-        config = YAML.load(
-            File.read(File.expand_path('~/.rubyforge/user-config.yml'))
-        )
+desc "Open an irb session preloaded with this library"
+task :console do
+  sh "irb -rubygems -r ./lib/#{name}.rb"
+end
 
-        host = "#{config['username']}@rubyforge.org"
-        remote_dir = "/var/www/gforge-projects/fog/"
-        local_dir = 'rdoc'
+#############################################################################
+#
+# Custom tasks (add your own tasks here)
+#
+#############################################################################
 
-        Rake::SshDirPublisher.new(host, remote_dir, local_dir).upload
-      end
-    end
+
+
+#############################################################################
+#
+# Packaging tasks
+#
+#############################################################################
+
+task :release => :build do
+  unless `git branch` =~ /^\* master$/
+    puts "You must be on the master branch to release!"
+    exit!
   end
-rescue LoadError
-  puts "Rake SshDirPublisher is unavailable or your rubyforge environment is not configured."
+  sh "git commit --allow-empty -a -m 'Release #{version}'"
+  sh "git tag v#{version}"
+  sh "git push origin master"
+  sh "git push v#{version}"
+  sh "gem push pkg/#{name}-#{version}.gem"
+end
+
+task :build => :gemspec do
+  sh "mkdir -p pkg"
+  sh "gem build #{gemspec_file}"
+  sh "mv #{gem_file} pkg"
+end
+
+task :gemspec => :validate do
+  # read spec file and split out manifest section
+  spec = File.read(gemspec_file)
+  head, manifest, tail = spec.split("  # = MANIFEST =\n")
+
+  # replace name version and date
+  replace_header(head, :name)
+  replace_header(head, :version)
+  replace_header(head, :date)
+  #comment this out if your rubyforge_project has a different name
+  replace_header(head, :rubyforge_project)
+
+  # determine file list from git ls-files
+  files = `git ls-files`.
+    split("\n").
+    sort.
+    reject { |file| file =~ /^\./ }.
+    reject { |file| file =~ /^(rdoc|pkg)/ }.
+    map { |file| "    #{file}" }.
+    join("\n")
+
+  # piece file back together and write
+  manifest = "  s.files = %w[\n#{files}\n  ]\n"
+  spec = [head, manifest, tail].join("  # = MANIFEST =\n")
+  File.open(gemspec_file, 'w') { |io| io.write(spec) }
+  puts "Updated #{gemspec_file}"
+end
+
+task :validate do
+  libfiles = Dir['lib/*'] - ["lib/#{name}.rb", "lib/#{name}"]
+  unless libfiles.empty?
+    puts "Directory `lib` should only contain a `#{name}.rb` file and `#{name}` dir."
+    exit!
+  end
+  unless Dir['VERSION*'].empty?
+    puts "A `VERSION` file at root level violates Gem best practices."
+    exit!
+  end
 end

@@ -30,6 +30,8 @@ require 'fog/terremark'
 
 module Fog
 
+  VERSION = '0.0.73'
+
   module Mock
     @delay = 1
     def self.delay
