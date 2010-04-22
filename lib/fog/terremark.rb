@@ -42,6 +42,7 @@ module Fog
         require 'fog/terremark/requests/create_internet_service'
         require 'fog/terremark/requests/delete_internet_service'
         require 'fog/terremark/requests/delete_node_service'
+        require 'fog/terremark/requests/delete_public_ip'
         require 'fog/terremark/requests/delete_vapp'
         require 'fog/terremark/requests/deploy_vapp'
         require 'fog/terremark/requests/get_catalog'
