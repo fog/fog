@@ -30,7 +30,7 @@ require 'fog/terremark'
 
 module Fog
 
-  VERSION = '0.0.75'
+  VERSION = '0.0.76'
 
   module Mock
     @delay = 1
