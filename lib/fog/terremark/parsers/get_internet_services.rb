@@ -13,7 +13,7 @@ module Fog
         def start_element(name, attributes)
           @value = ''
           case name
-          when 'PublicIPAddress'
+          when 'PublicIpAddress'
             @in_public_ip_address = true
           end
         end
@@ -47,7 +47,7 @@ module Fog
             @internet_service = {}
           when 'Port', 'Timeout'
             @internet_service[name] = @value.to_i
-          when 'PublicIPAddress'
+          when 'PublicIpAddress'
             @in_public_ip_address = false
           end
         end

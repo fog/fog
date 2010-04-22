@@ -7,6 +7,8 @@ module Fog
 
       identity :id
 
+      attribute :ip_address,  'IpAddress'
+      attribute :links,       'Links'
       attribute :name
       attribute :status
 

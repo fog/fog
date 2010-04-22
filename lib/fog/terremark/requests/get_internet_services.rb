@@ -19,7 +19,7 @@ module Fog
       #       *   'Id'<~String> => id of the public IP
       #       *   'name'<~String> => actual ip address
       #
-      def get_internet_services(vdc_id)
+      def get_internet_services(vdc_id = default_vdc_id)
         request(
           :expects  => 200,
           :method   => 'GET',
