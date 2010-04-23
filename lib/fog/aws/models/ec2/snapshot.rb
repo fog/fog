@@ -20,6 +20,10 @@ module Fog
           true
         end
 
+        def ready?
+          @status == 'completed'
+        end
+
         def save
           requires :volume_id
 

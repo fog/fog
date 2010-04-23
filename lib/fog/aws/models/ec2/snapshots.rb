@@ -23,6 +23,8 @@ module Fog
 
       class Snapshots < Fog::Collection
 
+        attribute :owner,         'Owner'
+        attribute :restorable_by, 'RestorableBy'
         attribute :snapshot_id
         attribute :volume
 
@@ -33,8 +35,13 @@ module Fog
           super
         end
 
-        def all(snapshot_id = @snapshot_id)
-          @snapshot_id = snapshot_id
+        def all(snapshot_id = @snapshot_id, options = {})
+          options = {
+            'Owner' => @owner || 'self',
+            'RestorableBy' => @restorable_by
+          }
+          options = options.reject {|key,value| value.nil? || value.to_s.empty?}
+          merge_attributes(options)
           data = connection.describe_snapshots(snapshot_id).body
           load(data['snapshotSet'])
           if volume
