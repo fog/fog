@@ -7,7 +7,7 @@ module Fog
         #
         # ==== Parameters
         # * snapshot_id<~String> - ID of snapshot to delete
-        # ==== Returns
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:

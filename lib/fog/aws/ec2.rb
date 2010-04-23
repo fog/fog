@@ -194,8 +194,8 @@ module Fog
         def request(params)
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
 
-          idempotent = params.delete(:idempotent)
-          parser = params.delete(:parser)
+          idempotent  = params.delete(:idempotent)
+          parser      = params.delete(:parser)
 
           params.merge!({
             'AWSAccessKeyId' => @aws_access_key_id,
