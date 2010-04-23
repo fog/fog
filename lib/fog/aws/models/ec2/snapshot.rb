@@ -5,12 +5,14 @@ module Fog
     module EC2
 
       class Snapshot < Fog::Model
+        extend Fog::Deprecation
+        deprecate(:status, :state)
 
         identity  :id, 'snapshotId'
 
         attribute :progress
         attribute :created_at,  'startTime'
-        attribute :status
+        attribute :state,       'status'
         attribute :volume_id,   'volumeId'
 
         def destroy

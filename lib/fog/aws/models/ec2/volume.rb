@@ -5,6 +5,8 @@ module Fog
     module EC2
 
       class Volume < Fog::Model
+        extend Fog::Deprecation
+        deprecate(:status, :state)
 
         identity  :id,         'volumeId'
 
@@ -15,8 +17,8 @@ module Fog
         attribute :server_id,         'instanceId'
         attribute :size
         attribute :snapshot_id,       'snapshotId'
-        attribute :status
-        
+        attribute :state,             'status'
+
         def initialize(attributes = {})
           if attributes['attachmentSet']
             attributes.merge!(attributes.delete('attachmentSet').first || {})
