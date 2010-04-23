@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   ## the sub! line in the Rakefile
   s.name              = 'fog'
   s.version           = '0.0.76'
-  s.date              = '2010-04-22'
+  s.date              = '2010-04-23'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
