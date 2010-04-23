@@ -5,68 +5,32 @@ module Fog
       # Instatiate a vapp template
       #
       # ==== Parameters
-      # * vdc_id<~Integer> - Id of vdc to instantiate template in
+      # * name<~String>: Name of the resulting vapp .. must start with letter, up to 15 chars alphanumeric.
       # * options<~Hash>:
       #   * cpus<~Integer>: Number of cpus in [1, 2, 4, 8], defaults to 1
       #   * memory<~Integer>: Amount of memory either 512 or a multiple of 1024, defaults to 512
+      #   * vapp_template<~String>: id of the vapp template to be instantiated
       # ==== Returns
       # * response<~Excon::Response>:
       #   * body<~Hash>:
-
-      # FIXME
-
-      #     * 'CatalogItems'<~Array>
-      #       * 'href'<~String> - linke to item
-      #       * 'name'<~String> - name of item
-      #       * 'type'<~String> - type of item
-      #     * 'description'<~String> - Description of catalog
-      #     * 'name'<~String> - Name of catalog
+      #   *   'Links;<~Array> (e.g. up to vdc)
+      #   * 'href'<~String> Link to the resulting vapp
+      #   * 'name'<~String> - name of item
+      #   * 'type'<~String> - type of item
+      #   * 'status'<~String> - 0(pending) --> 2(off) -->4(on)
       def instantiate_vapp_template(name, options = {})
+        name ||= "inst_#{rand.to_s.slice(2..8)}" #e.g. "inst_7394507"
         options['cpus'] ||= 1
         options['memory'] ||= 512
-
-        # FIXME: much cheating to commence
+        name.slice(0..14) #must be < 15 chars
+        vapp_template = options['vapp_template']
         vdc_id        = default_vdc_id
         network_id    = default_network_id
-        catalog_item  = 12 # Ubuntu JeOS 9.10 (64-bit)
-
-        #       case UNRESOLVED:
-        #          return "0";
-        #       case RESOLVED:
-        #          return "1";
-        #       case OFF:
-        #          return "2";
-        #       case SUSPENDED:
-        #          return "3";
-        #       case ON:
-        #          return "4";
-        #       default:
-        # 
-        # /**
-        #  * The vApp is unresolved (one or more file references are unavailable in the cloud)
-        #  */
-        # UNRESOLVED,
-        # /**
-        #  * The vApp is resolved (all file references are available in the cloud) but not deployed
-        #  */
-        # RESOLVED,
-        # /**
-        #  * The vApp is deployed and powered off
-        #  */
-        # OFF,
-        # /**
-        #  * The vApp is deployed and suspended
-        #  */
-        # SUSPENDED,
-        # /**
-        #  * The vApp is deployed and powered on
-        #  */
-        # ON;
 
         data = <<-DATA
 <?xml version="1.0" encoding="UTF-8"?>
   <InstantiateVAppTemplateParams name="#{name}" xmlns="http://www.vmware.com/vcloud/v0.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vmware.com/vcloud/v0.8 http://services.vcloudexpress.terremark.com/api/v0.8/ns/vcloud.xsd">
-    <VAppTemplate href="https://services.vcloudexpress.terremark.com/api/v0.8/catalogItem/#{catalog_item}" />
+    <VAppTemplate href="#{@scheme}://#{@host}/#{@path}/vAppTemplate/#{vapp_template}" />
     <InstantiationParams xmlns:vmw="http://www.vmware.com/schema/ovf">
       <ProductSection xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1" xmlns:q1="http://www.vmware.com/vcloud/v0.8"/>
       <VirtualHardwareSection xmlns:q1="http://www.vmware.com/vcloud/v0.8">
@@ -82,12 +46,8 @@ module Fog
         </Item>
       </VirtualHardwareSection>
       <NetworkConfigSection>
-        <NetworkConfig name="Network 1">
-          <Features>
-            <vmw:FenceMode>allowInOut</vmw:FenceMode>
-            <vmw:Dhcp>true</vmw:Dhcp>
-          </Features>
-          <NetworkAssociation href="https://services.vcloudexpress.terremark.com/api/v8/network/#{network_id}" />
+        <NetworkConfig>
+          <NetworkAssociation href="#{@scheme}://#{@host}/#{@path}/network/#{network_id}"/>
         </NetworkConfig>
       </NetworkConfigSection>
     </InstantiationParams>
