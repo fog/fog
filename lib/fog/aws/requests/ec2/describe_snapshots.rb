@@ -7,6 +7,9 @@ module Fog
         #
         # ==== Parameters
         # * snapshot_id<~Array> - List of snapshots to describe, defaults to all
+        # * options<~Array>:
+        #   * 'Owner'<~String> - Owner of snapshot in ['self', 'amazon', account_id]
+        #   * 'RestorableBy'<~String> - Account id of user who can create volumes from this snapshot
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -18,12 +21,13 @@ module Fog
         #       * 'startTime'<~Time>: Timestamp of when snapshot was initiated
         #       * 'status'<~String>: Snapshot state, in ['pending', 'completed']
         #       * 'volumeId'<~String>: Id of volume that snapshot contains
-        def describe_snapshots(snapshot_id = [])
-          params = AWS.indexed_param('SnapshotId', snapshot_id)
+        def describe_snapshots(snapshot_id = [], options = {})
+          options['Owner'] ||= 'self'
+          options.merge!(AWS.indexed_param('SnapshotId', snapshot_id))
           request({
             'Action'  => 'DescribeSnapshots',
             :parser   => Fog::Parsers::AWS::EC2::DescribeSnapshots.new
-          }.merge!(params))
+          }.merge!(options))
         end
 
       end
