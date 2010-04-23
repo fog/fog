@@ -20,6 +20,7 @@ $LOAD_PATH.unshift __DIR__ unless
 
 require 'fog/collection'
 require 'fog/connection'
+require 'fog/deprecation'
 require 'fog/model'
 require 'fog/parser'
 require 'fog/ssh'
