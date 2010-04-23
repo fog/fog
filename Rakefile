@@ -92,6 +92,7 @@ task :release => :build do
     puts "You must be on the master branch to release!"
     exit!
   end
+  sh "sudo gem install pkg/#{name}-#{version}.gem"
   sh "git commit --allow-empty -a -m 'Release #{version}'"
   sh "git tag v#{version}"
   sh "git push origin master"
