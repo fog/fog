@@ -167,7 +167,7 @@ DATA
 
           subdomain = params[:host].split(".#{@host}").first
           unless subdomain =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
-            puts("[WARN] fog: the specified s3 bucket name(#{subdomain}) is not a valid dns name.  See: http://docs.amazonwebservices.com/AmazonS3/latest/dev/index.html?Introduction.html")
+            Formatador.display_line("[yellow][WARN] fog: the specified s3 bucket name(#{subdomain}) is not a valid dns name.  See: http://docs.amazonwebservices.com/AmazonS3/latest/dev/index.html?Introduction.html[/]")
             params[:host] = params[:host].split("#{subdomain}.")[-1]
             if params[:path]
               params[:path] = "#{subdomain}/#{params[:path]}"
