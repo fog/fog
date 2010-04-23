@@ -18,14 +18,14 @@ module Fog
       #   * 'name'<~String> - name of item
       #   * 'type'<~String> - type of item
       #   * 'status'<~String> - 0(pending) --> 2(off) -->4(on)
-      def instantiate_vapp_template(name, options = {})
-        name ||= "inst_#{rand.to_s.slice(2..8)}" #e.g. "inst_7394507"
-        options['cpus'] ||= 1
-        options['memory'] ||= 512
-        name.slice(0..14) #must be < 15 chars
-        vapp_template = options['vapp_template']
-        vdc_id        = default_vdc_id
-        network_id    = default_network_id
+      def instantiate_vapp_template(name, vapp_template, options = {})
+        unless name.length < 15
+          raise ArgumentError.new('Name must be fewer than 15 characters')
+        end
+        options['cpus']       ||= 1
+        options['memory']     ||= 512
+        options['network_id'] ||= default_network_id
+        options['vdc_id']     ||= default_vdc_id
 
         data = <<-DATA
 <?xml version="1.0" encoding="UTF-8"?>
@@ -47,7 +47,7 @@ module Fog
       </VirtualHardwareSection>
       <NetworkConfigSection>
         <NetworkConfig>
-          <NetworkAssociation href="#{@scheme}://#{@host}/#{@path}/network/#{network_id}"/>
+          <NetworkAssociation href="#{@scheme}://#{@host}/#{@path}/network/#{options['network_id']}"/>
         </NetworkConfig>
       </NetworkConfigSection>
     </InstantiationParams>
@@ -60,7 +60,7 @@ DATA
           :headers  => { 'Content-Type' => 'application/vnd.vmware.vcloud.instantiateVAppTemplateParams+xml' },
           :method   => 'POST',
           :parser   => Fog::Parsers::Terremark::InstantiateVappTemplate.new,
-          :path     => "vdc/#{vdc_id}/action/instantiatevAppTemplate"
+          :path     => "vdc/#{options['vdc_id']}/action/instantiatevAppTemplate"
         )
       end
 
