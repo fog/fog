@@ -19,7 +19,9 @@ module Fog
           new_result = attributes.delete('Result')
           super
           @owner  = connection.parse(new_owner)
-          @result = connection.parse(new_result)
+          if new_result
+            @result = connection.parse(new_result)
+          end
         end
 
         def ready?

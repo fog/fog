@@ -75,7 +75,7 @@ module Fog
             @default_public_ip_id ||= begin
               ips = get_public_ips(default_vdc_id).body['PublicIpAddresses']
               if ips.length == 1
-                ips.first['Href'].split('/').last.to_i
+                ips.first['href'].split('/').last.to_i
               else
                 nil
               end

@@ -108,6 +108,7 @@ module Fog
         require 'fog/terremark/requests/shared/add_node_service'
         require 'fog/terremark/requests/shared/create_internet_service'
         require 'fog/terremark/requests/shared/delete_internet_service'
+        require 'fog/terremark/requests/shared/delete_public_ip'
         require 'fog/terremark/requests/shared/delete_node_service'
         require 'fog/terremark/requests/shared/delete_vapp'
         require 'fog/terremark/requests/shared/deploy_vapp'

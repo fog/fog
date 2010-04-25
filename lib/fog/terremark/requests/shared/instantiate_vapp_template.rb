@@ -1,7 +1,7 @@
 module Fog
   module Terremark
     module Shared
-      class Real
+      module Real
 
         # Instatiate a vapp template
         #
@@ -60,14 +60,14 @@ DATA
             :expects => 200,
             :headers => { 'Content-Type' => 'application/vnd.vmware.vcloud.instantiateVAppTemplateParams+xml' },
             :method => 'POST',
-            :parser => Fog::Parsers::Terremark::InstantiateVappTemplate.new,
+            :parser => Fog::Parsers::Terremark::Shared::InstantiateVappTemplate.new,
             :path => "vdc/#{options['vdc_id']}/action/instantiatevAppTemplate"
           )
         end
 
       end
 
-      class Mock
+      module Mock
 
         def instatiate_vapp_template(vapp_template_id)
           raise MockNotImplemented.new("Contributions welcome!")
