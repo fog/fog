@@ -3,9 +3,9 @@ module Fog
 
     def deprecate(older, newer)
       class_eval <<-EOS, __FILE__, __LINE__
-        def #{older}
+        def #{older}(*args)
           Formatador.display_line("[yellow][WARN] fog: #{older} is deprecated, use #{newer} instead[/]")
-          #{newer}
+          #{newer}(*args)
         end
       EOS
     end
