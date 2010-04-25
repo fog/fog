@@ -12,20 +12,24 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         #   FIXME
-        def get_network(network_id)
-         request(
+        def get_network_ips(network_id)
+          opts =  {
             :expects  => 200,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Terremark::Shared::Network.new,
-            :path     => "network/#{network_id}"
-          )
+            :parser   => Fog::Parsers::Terremark::Shared::GetNetworkIps.new,
+            :path     => "network/#{network_id}/ipAddresses"
+          }
+          if self.is_a?(Fog::Terremark::Ecloud::Real)
+            opts[:path] = "/extensions/network/#{network_id}/ips"
+          end
+          request(opts)
         end
 
       end
 
       module Mock
 
-        def get_network(network_id)
+        def get_network_ips(network_id)
           raise MockNotImplemented.new("Contributions welcome!")
         end
 
@@ -33,3 +37,4 @@ module Fog
     end
   end
 end
+

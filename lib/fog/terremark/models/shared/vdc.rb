@@ -4,20 +4,18 @@ module Fog
   module Terremark
     module Shared
 
-      class Network < Fog::Model
+      class Vdc < Fog::Model
 
         identity :id
 
         attribute :name
-        attribute :subnet
-        attribute :gateway
-        attribute :netmask
-        attribute :fencemode
-        attribute :links
 
-        def ips
-          #Until there is a real model for these ?
-          connection.get_network_ips(@id).body['IpAddresses']
+        def networks
+          connection.networks(:vdc_id => @id)
+        end
+
+        def addresses
+          connection.addresses(:vdc_id => @id)
         end
 
         private
@@ -27,6 +25,8 @@ module Fog
         end
 
         def type=(new_type); end
+
+        def rel=(new_rel); end
 
       end
 
