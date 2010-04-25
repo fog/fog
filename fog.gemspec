@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.0.77'
-  s.date              = '2010-04-23'
+  s.version           = '0.0.78'
+  s.date              = '2010-04-25'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -180,6 +180,7 @@ Gem::Specification.new do |s|
     lib/fog/collection.rb
     lib/fog/connection.rb
     lib/fog/credentials.rb
+    lib/fog/deprecation.rb
     lib/fog/model.rb
     lib/fog/parser.rb
     lib/fog/rackspace.rb
@@ -253,52 +254,62 @@ Gem::Specification.new do |s|
     lib/fog/ssh.rb
     lib/fog/terremark.rb
     lib/fog/terremark/bin.rb
-    lib/fog/terremark/models/server.rb
-    lib/fog/terremark/models/servers.rb
-    lib/fog/terremark/models/task.rb
-    lib/fog/terremark/models/tasks.rb
-    lib/fog/terremark/parsers/get_catalog.rb
-    lib/fog/terremark/parsers/get_catalog_item.rb
-    lib/fog/terremark/parsers/get_internet_services.rb
-    lib/fog/terremark/parsers/get_node_services.rb
-    lib/fog/terremark/parsers/get_organization.rb
-    lib/fog/terremark/parsers/get_organizations.rb
-    lib/fog/terremark/parsers/get_public_ips.rb
-    lib/fog/terremark/parsers/get_tasks_list.rb
-    lib/fog/terremark/parsers/get_vapp_template.rb
-    lib/fog/terremark/parsers/get_vdc.rb
-    lib/fog/terremark/parsers/instantiate_vapp_template.rb
-    lib/fog/terremark/parsers/internet_service.rb
-    lib/fog/terremark/parsers/node_service.rb
-    lib/fog/terremark/parsers/public_ip.rb
-    lib/fog/terremark/parsers/task.rb
-    lib/fog/terremark/parsers/vapp.rb
-    lib/fog/terremark/requests/add_internet_service.rb
-    lib/fog/terremark/requests/add_node_service.rb
-    lib/fog/terremark/requests/create_internet_service.rb
-    lib/fog/terremark/requests/delete_internet_service.rb
-    lib/fog/terremark/requests/delete_node_service.rb
-    lib/fog/terremark/requests/delete_public_ip.rb
-    lib/fog/terremark/requests/delete_vapp.rb
-    lib/fog/terremark/requests/deploy_vapp.rb
-    lib/fog/terremark/requests/get_catalog.rb
-    lib/fog/terremark/requests/get_catalog_item.rb
-    lib/fog/terremark/requests/get_internet_services.rb
-    lib/fog/terremark/requests/get_node_services.rb
-    lib/fog/terremark/requests/get_organization.rb
-    lib/fog/terremark/requests/get_organizations.rb
-    lib/fog/terremark/requests/get_public_ip.rb
-    lib/fog/terremark/requests/get_public_ips.rb
-    lib/fog/terremark/requests/get_task.rb
-    lib/fog/terremark/requests/get_tasks_list.rb
-    lib/fog/terremark/requests/get_vapp.rb
-    lib/fog/terremark/requests/get_vapp_template.rb
-    lib/fog/terremark/requests/get_vdc.rb
-    lib/fog/terremark/requests/instantiate_vapp_template.rb
-    lib/fog/terremark/requests/power_off.rb
-    lib/fog/terremark/requests/power_on.rb
-    lib/fog/terremark/requests/reset.rb
-    lib/fog/terremark/requests/shutdown.rb
+    lib/fog/terremark/ecloud.rb
+    lib/fog/terremark/models/shared/address.rb
+    lib/fog/terremark/models/shared/addresses.rb
+    lib/fog/terremark/models/shared/network.rb
+    lib/fog/terremark/models/shared/networks.rb
+    lib/fog/terremark/models/shared/server.rb
+    lib/fog/terremark/models/shared/servers.rb
+    lib/fog/terremark/models/shared/task.rb
+    lib/fog/terremark/models/shared/tasks.rb
+    lib/fog/terremark/parser.rb
+    lib/fog/terremark/parsers/shared/get_catalog.rb
+    lib/fog/terremark/parsers/shared/get_catalog_item.rb
+    lib/fog/terremark/parsers/shared/get_internet_services.rb
+    lib/fog/terremark/parsers/shared/get_node_services.rb
+    lib/fog/terremark/parsers/shared/get_organization.rb
+    lib/fog/terremark/parsers/shared/get_organizations.rb
+    lib/fog/terremark/parsers/shared/get_public_ips.rb
+    lib/fog/terremark/parsers/shared/get_tasks_list.rb
+    lib/fog/terremark/parsers/shared/get_vapp_template.rb
+    lib/fog/terremark/parsers/shared/get_vdc.rb
+    lib/fog/terremark/parsers/shared/instantiate_vapp_template.rb
+    lib/fog/terremark/parsers/shared/internet_service.rb
+    lib/fog/terremark/parsers/shared/network.rb
+    lib/fog/terremark/parsers/shared/node_service.rb
+    lib/fog/terremark/parsers/shared/public_ip.rb
+    lib/fog/terremark/parsers/shared/task.rb
+    lib/fog/terremark/parsers/shared/vapp.rb
+    lib/fog/terremark/requests/shared/add_internet_service.rb
+    lib/fog/terremark/requests/shared/add_node_service.rb
+    lib/fog/terremark/requests/shared/create_internet_service.rb
+    lib/fog/terremark/requests/shared/delete_internet_service.rb
+    lib/fog/terremark/requests/shared/delete_node_service.rb
+    lib/fog/terremark/requests/shared/delete_public_ip.rb
+    lib/fog/terremark/requests/shared/delete_vapp.rb
+    lib/fog/terremark/requests/shared/deploy_vapp.rb
+    lib/fog/terremark/requests/shared/get_catalog.rb
+    lib/fog/terremark/requests/shared/get_catalog_item.rb
+    lib/fog/terremark/requests/shared/get_internet_services.rb
+    lib/fog/terremark/requests/shared/get_network.rb
+    lib/fog/terremark/requests/shared/get_node_services.rb
+    lib/fog/terremark/requests/shared/get_organization.rb
+    lib/fog/terremark/requests/shared/get_organizations.rb
+    lib/fog/terremark/requests/shared/get_public_ip.rb
+    lib/fog/terremark/requests/shared/get_public_ips.rb
+    lib/fog/terremark/requests/shared/get_task.rb
+    lib/fog/terremark/requests/shared/get_tasks_list.rb
+    lib/fog/terremark/requests/shared/get_vapp.rb
+    lib/fog/terremark/requests/shared/get_vapp_template.rb
+    lib/fog/terremark/requests/shared/get_vdc.rb
+    lib/fog/terremark/requests/shared/instantiate_vapp_template.rb
+    lib/fog/terremark/requests/shared/power_off.rb
+    lib/fog/terremark/requests/shared/power_on.rb
+    lib/fog/terremark/requests/shared/reset.rb
+    lib/fog/terremark/requests/shared/shutdown.rb
+    lib/fog/terremark/shared.rb
+    lib/fog/terremark/vcloud.rb
     spec/aws/models/ec2/address_spec.rb
     spec/aws/models/ec2/addresses_spec.rb
     spec/aws/models/ec2/flavors_spec.rb
