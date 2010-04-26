@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.0.78'
-  s.date              = '2010-04-25'
+  s.version           = '0.0.79'
+  s.date              = '2010-04-26'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -263,10 +263,13 @@ Gem::Specification.new do |s|
     lib/fog/terremark/models/shared/servers.rb
     lib/fog/terremark/models/shared/task.rb
     lib/fog/terremark/models/shared/tasks.rb
+    lib/fog/terremark/models/shared/vdc.rb
+    lib/fog/terremark/models/shared/vdcs.rb
     lib/fog/terremark/parser.rb
     lib/fog/terremark/parsers/shared/get_catalog.rb
     lib/fog/terremark/parsers/shared/get_catalog_item.rb
     lib/fog/terremark/parsers/shared/get_internet_services.rb
+    lib/fog/terremark/parsers/shared/get_network_ips.rb
     lib/fog/terremark/parsers/shared/get_node_services.rb
     lib/fog/terremark/parsers/shared/get_organization.rb
     lib/fog/terremark/parsers/shared/get_organizations.rb
@@ -293,6 +296,7 @@ Gem::Specification.new do |s|
     lib/fog/terremark/requests/shared/get_catalog_item.rb
     lib/fog/terremark/requests/shared/get_internet_services.rb
     lib/fog/terremark/requests/shared/get_network.rb
+    lib/fog/terremark/requests/shared/get_network_ips.rb
     lib/fog/terremark/requests/shared/get_node_services.rb
     lib/fog/terremark/requests/shared/get_organization.rb
     lib/fog/terremark/requests/shared/get_organizations.rb
