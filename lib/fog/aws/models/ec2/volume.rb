@@ -34,8 +34,6 @@ module Fog
         end
 
         def server=(new_server)
-          requires :device
-
           if new_server
             attach(new_server)
           else
@@ -68,6 +66,7 @@ module Fog
             @server = new_server
             @availability_zone = new_server.availability_zone
           elsif new_server
+            requires :device
             @server = nil
             @server_id = new_server.id
             connection.attach_volume(@server_id, @id, @device)
