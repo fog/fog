@@ -23,7 +23,7 @@ module Fog
         end
 
         def ready?
-          @status == 'completed'
+          state == 'completed'
         end
 
         def save
