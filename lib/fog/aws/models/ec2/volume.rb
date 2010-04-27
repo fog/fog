@@ -22,9 +22,6 @@ module Fog
         def initialize(attributes = {})
           # assign server first to prevent race condition with new_record?
           self.server = attributes.delete(:server)
-          if attributes['attachmentSet']
-            attributes.merge!(attributes.delete('attachmentSet').first || {})
-          end
           super
         end
 
@@ -66,6 +63,10 @@ module Fog
         end
 
         private
+
+        def attachmentSet=(new_attachment_set)
+          merge_attributes(new_attachment_set.first || {})
+        end
 
         def attach(new_server)
           if new_record?
