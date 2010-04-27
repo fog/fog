@@ -84,8 +84,11 @@ module Fog
     end
 
     def reload
-      new_attributes = collection.get(identity).attributes
-      merge_attributes(new_attributes)
+      if data = collection.get(identity)
+        new_attributes = data.attributes
+        merge_attributes(new_attributes)
+      end
+      self
     end
 
     def requires(*args)
