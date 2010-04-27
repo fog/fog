@@ -8,6 +8,7 @@ module Fog
       class Files < Fog::Collection
 
         attribute :delimiter,     'Delimiter'
+        attribute :directory
         attribute :is_truncated,  'IsTruncated'
         attribute :marker,        'Marker'
         attribute :max_keys,      ['MaxKeys', 'max-keys']
@@ -33,10 +34,6 @@ module Fog
           else
             nil
           end
-        end
-
-        def directory
-          @directory
         end
 
         def get(key, options = {}, &block)
