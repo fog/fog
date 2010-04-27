@@ -4,7 +4,10 @@ require 'open-uri'
 current_directory = File.dirname(__FILE__)
 require "#{current_directory}/../lib/fog"
 require "#{current_directory}/../lib/fog/bin"
-# Fog.mock!
+
+if ENV["FOG_MOCK"] == "true"
+  Fog.mock!
+end
 
 unless defined?(LOADED_SPEC_OPTS)
   # inlined spec.opts
