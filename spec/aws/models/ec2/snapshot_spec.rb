@@ -51,6 +51,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
     end
 
     after(:each) do
+      @snapshot.wait_for { ready? }
       @snapshot.destroy
       @volume.destroy
     end

@@ -92,13 +92,13 @@ describe 'Fog::AWS::S3::Directory' do
       @directory = AWS[:s3].directories.new(:name => 'fogmodeldirectory')
     end
 
+    it "should not exist in directories before save" do
+      AWS[:s3].directories.all.map {|directory| directory.name}.include?(@directory.name).should be_false
+    end
+
     it "should return true when it succeeds" do
       @directory.save.should be_true
       @directory.destroy
-    end
-
-    it "should not exist in directories before save" do
-      AWS[:s3].directories.all.map {|directory| directory.name}.include?(@directory.name).should be_false
     end
 
     it "should exist in directories after save" do
