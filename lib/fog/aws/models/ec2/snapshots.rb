@@ -60,7 +60,7 @@ module Fog
 
         def new(attributes = {})
           if volume
-            super({ :volume_id => volume.id }.merge!(attributes))
+            super({ 'volumeId' => volume.id }.merge!(attributes))
           else
             super
           end
