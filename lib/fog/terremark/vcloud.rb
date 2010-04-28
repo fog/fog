@@ -40,8 +40,8 @@ module Fog
           @terremark_username = options[:terremark_vcloud_username]
           @host   = options[:host]   || Fog::Terremark::Vcloud::Defaults::HOST
           @path   = options[:path]   || Fog::Terremark::Vcloud::Defaults::PATH
-          @port   = options[:port]   || FOG::Terremark::Vcloud::Defaults::PORT
-          @scheme = options[:scheme] || FOG::Terremark::Vcloud::Defaults::SCHEME
+          @port   = options[:port]   || Fog::Terremark::Vcloud::Defaults::PORT
+          @scheme = options[:scheme] || Fog::Terremark::Vcloud::Defaults::SCHEME
           @cookie = get_organizations.headers['Set-Cookie']
         end
 
