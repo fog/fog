@@ -40,8 +40,9 @@ describe 'Fog::AWS::EC2::Volumes' do
 
     it "should return a Fog::AWS::EC2::Volume if a matching volume exists" do
       volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      volume.wait_for { ready? }
       get = AWS[:ec2].volumes.get(volume.id)
-      volume.attributes.reject { |key, value| [:device, :status].include?(key) }.should == get.attributes.reject { |key, value| [:device, :status].include?(key) }
+      volume.attributes.should == get.attributes
       volume.destroy
     end
 

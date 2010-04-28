@@ -32,7 +32,7 @@ describe 'Fog::AWS::S3::Directories' do
     end
 
     it "should return nil if no matching directory exists" do
-      AWS[:s3].directories.get('fogdirectoryname').should be_nil
+      AWS[:s3].directories.get('fognotadirectory').should be_nil
     end
 
   end

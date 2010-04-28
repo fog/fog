@@ -38,7 +38,7 @@ module Fog
         end
 
         def get(flavor_id)
-          all.detect {|flavor| flavor.id = flavor_id}
+          all.detect {|flavor| flavor.id == flavor_id}
         end
 
       end

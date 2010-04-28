@@ -19,8 +19,11 @@ describe 'Fog::AWS::EC2::Snapshots' do
     it "should limit snapshots by volume if present" do
       @volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       @other_volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
-      eventually { @snapshot = @volume.snapshots.create }
+      @volume.wait_for { ready?}
+      @snapshot = @volume.snapshots.create
       @other_volume.snapshots.all.map {|snapshot| snapshot.id}.should_not include(@snapshot.id)
+
+      @snapshot.wait_for { ready? }
       @snapshot.destroy
       @other_volume.destroy
       @volume.destroy
@@ -32,10 +35,12 @@ describe 'Fog::AWS::EC2::Snapshots' do
 
     before(:each) do
       @volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      @volume.wait_for { ready? }
       @snapshot = @volume.snapshots.create
     end
 
     after(:each) do
+      @snapshot.wait_for { ready? }
       @snapshot.destroy
       @volume.destroy
     end
@@ -55,8 +60,9 @@ describe 'Fog::AWS::EC2::Snapshots' do
     it "should return a Fog::AWS::EC2::Snapshot if a matching snapshot exists" do
       volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       snapshot = volume.snapshots.create
+      snapshot.wait_for { ready? }
       get = AWS[:ec2].snapshots.get(snapshot.id)
-      snapshot.attributes.reject {|key, value| [:progress, :status].include?(key)}.should == get.attributes.reject {|key, value| [:progress, :status].include?(key)}
+      snapshot.attributes.should == get.attributes
       snapshot.destroy
     end
 

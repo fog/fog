@@ -35,7 +35,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
     it "should return true if the snapshot is deleted" do
       volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       snapshot = volume.snapshots.create
-      snapshot.wait_for { status == "completed" }
+      snapshot.wait_for { ready? }
       snapshot.destroy.should be_true
       volume.destroy
     end
@@ -69,6 +69,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
 
     before(:each) do
       @volume   = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      @volume.wait_for { ready? }
       @snapshot = @volume.snapshots.new
     end
 
@@ -77,10 +78,9 @@ describe 'Fog::AWS::EC2::Snapshots' do
     end
 
     it "should return true when it succeeds" do
-      eventually do
-        @snapshot.save.should be_true
-        @snapshot.destroy
-      end
+      @snapshot.save.should be_true
+      @snapshot.wait_for { ready? }
+      @snapshot.destroy
     end
 
     it "should not exist in snapshots before save" do
@@ -90,6 +90,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
     it "should exist in snapshots after save" do
       @snapshot.save
       AWS[:ec2].snapshots.get(@snapshot.id).should_not be_nil
+      @snapshot.wait_for { ready? }
       @snapshot.destroy
     end
 

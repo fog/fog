@@ -49,15 +49,15 @@ describe 'Fog::AWS::EC2::Volume' do
     before(:each) do
       @server = AWS[:ec2].servers.create(:image_id => GENTOO_AMI)
       @volume = AWS[:ec2].volumes.new(:availability_zone => @server.availability_zone, :size => 1, :device => '/dev/sdz1')
-      @server.wait_for { state == 'running' }
+      @server.wait_for { ready? }
     end
 
     after(:each) do
       @server.destroy
       if @volume.id
-        @volume.wait_for { status == 'attached' }
+        @volume.wait_for { state == 'attached' }
         @volume.server = nil
-        @volume.wait_for { status == 'available' }
+        @volume.wait_for { ready? }
         @volume.destroy
       end
     end
