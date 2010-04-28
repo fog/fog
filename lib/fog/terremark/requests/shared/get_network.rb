@@ -26,6 +26,7 @@ module Fog
       module Mock
 
         def get_network(network_id)
+          network_id = network_id.to_i
           response = Excon::Response.new
           if network = @data[:organizations].map { |org| org[:vdcs].map { |vdc| vdc[:networks] } }.flatten.detect { |network| network[:id] == network_id }
 

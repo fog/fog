@@ -33,6 +33,7 @@ module Fog
       module Mock
 
         def get_organization(organization_id)
+          organization_id = organization_id.to_i
           response = Excon::Response.new
 
           if org = @data[:organizations].detect { |org| org[:info][:id] == organization_id }

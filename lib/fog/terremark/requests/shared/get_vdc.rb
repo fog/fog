@@ -34,6 +34,7 @@ module Fog
       module Mock
 
         def get_vdc(vdc_id)
+          vdc_id = vdc_id.to_i
           response = Excon::Response.new
 
           if vdc = @data[:organizations].map { |org| org[:vdcs] }.flatten.detect { |vdc| vdc[:id] == vdc_id }
