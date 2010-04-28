@@ -2,31 +2,39 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 
 describe 'Fog::AWS::EC2::Snapshots' do
 
+  before(:all) do
+    @volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+    @volume.wait_for { ready? }
+  end
+
+  after(:all) do
+    @volume.destroy
+  end
+
+  after(:each) do
+    if @snapshot && !@snapshot.new_record?
+      @snapshot.wait_for { ready? }
+      @snapshot.destroy
+    end
+  end
+
   describe "#all" do
 
-    it "should return a Fog::AWS::EC2::Snapshots" do
-      AWS[:ec2].snapshots.all.should be_a(Fog::AWS::EC2::Snapshots)
+    before(:each) do
+      @snapshot = @volume.snapshots.create
     end
 
     it "should include persisted snapshots" do
-      @volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
-      eventually { @snapshot = @volume.snapshots.create }
       AWS[:ec2].snapshots.all.map {|snapshot| snapshot.id}.should include(@snapshot.id)
-      @snapshot.destroy
-      @volume.destroy
     end
 
     it "should limit snapshots by volume if present" do
-      @volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
       @other_volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
-      @volume.wait_for { ready?}
-      @snapshot = @volume.snapshots.create
-      @other_volume.snapshots.all.map {|snapshot| snapshot.id}.should_not include(@snapshot.id)
 
-      @snapshot.wait_for { ready? }
-      @snapshot.destroy
+      @volume.snapshots.map {|snapshot| snapshot.id}.should include(@snapshot.identity)
+      @other_volume.snapshots.map {|snapshot| snapshot.id}.should_not include(@snapshot.identity)
+
       @other_volume.destroy
-      @volume.destroy
     end
 
   end
@@ -34,19 +42,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
   describe "#create" do
 
     before(:each) do
-      @volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
-      @volume.wait_for { ready? }
       @snapshot = @volume.snapshots.create
-    end
-
-    after(:each) do
-      @snapshot.wait_for { ready? }
-      @snapshot.destroy
-      @volume.destroy
-    end
-
-    it "should return a Fog::AWS::EC2::Snapshot" do
-      @snapshot.should be_a(Fog::AWS::EC2::Snapshot)
     end
 
     it "should exist on ec2" do
@@ -58,12 +54,10 @@ describe 'Fog::AWS::EC2::Snapshots' do
   describe "#get" do
 
     it "should return a Fog::AWS::EC2::Snapshot if a matching snapshot exists" do
-      volume = AWS[:ec2].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
-      snapshot = volume.snapshots.create
-      snapshot.wait_for { ready? }
-      get = AWS[:ec2].snapshots.get(snapshot.id)
-      snapshot.attributes.should == get.attributes
-      snapshot.destroy
+      @snapshot = @volume.snapshots.create
+      @snapshot.wait_for { ready? }
+      get = AWS[:ec2].snapshots.get(@snapshot.id)
+      @snapshot.attributes.should == get.attributes
     end
 
     it "should return nil if no matching address exists" do
