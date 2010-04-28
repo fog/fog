@@ -5,6 +5,13 @@ module Fog
      module Bin
      end
 
+     module Defaults
+       HOST   = 'services.vcloudexpress.terremark.com'
+       PATH   = '/api/v0.8'
+       PORT   = 443
+       SCHEME = 'https'
+     end
+
      extend Fog::Terremark::Shared
 
      def self.new(options={})
@@ -31,10 +38,10 @@ module Fog
         def initialize(options={})
           @terremark_password = options[:terremark_vcloud_password]
           @terremark_username = options[:terremark_vcloud_username]
-          @host   = options[:host]   || "services.vcloudexpress.terremark.com"
-          @path   = options[:path]   || "/api/v0.8"
-          @port   = options[:port]   || 443
-          @scheme = options[:scheme] || 'https'
+          @host   = options[:host]   || Fog::Terremark::Vcloud::Defaults::HOST
+          @path   = options[:path]   || Fog::Terremark::Vcloud::Defaults::PATH
+          @port   = options[:port]   || FOG::Terremark::Vcloud::Defaults::PORT
+          @scheme = options[:scheme] || FOG::Terremark::Vcloud::Defaults::SCHEME
           @cookie = get_organizations.headers['Set-Cookie']
         end
 
@@ -92,6 +99,9 @@ module Fog
 
        def initialize(option = {})
          super
+         @base_url = Fog::Terremark::Vcloud::Defaults::SCHEME + "://" +
+                     Fog::Terremark::Vcloud::Defaults::HOST +
+                     Fog::Terremark::Vcloud::Defaults::PATH
          @data = self.class.data[:terremark_vcloud_username]
        end
      end

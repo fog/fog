@@ -33,11 +33,12 @@ module Fog
           response = Excon::Response.new
           org_list = @data[:organizations].map do |organization|
             { "name" => organization[:info][:name],
-              "href" => "https://services.enterprisecloud.terremark.com/api/v0.8a-ext2.0/org/#{organization[:info][:id]}",
+              "href" => "#{@base_url}/org/#{organization[:info][:id]}",
               "type" => "application/vnd.vmware.vcloud.org+xml"
             }
           end
           response.body = { "OrgList" => org_list }
+          response.status = 200
           response.headers = Fog::Terremark::Shared::Mock.headers(response.body, "application/vnd.vmware.vcloud.orgList+xml")
           response
         end

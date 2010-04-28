@@ -2,6 +2,23 @@ module Fog
   module Terremark
     module Shared
 
+      # Commond methods shared by Real and Mock
+      module Common
+
+        # TODO: bust cache on organization creation?
+        def default_organization_id
+          @default_organization_id ||= begin
+            org_list = get_organizations.body['OrgList']
+            if org_list.length == 1
+              org_list.first['href'].split('/').last.to_i
+            else
+              nil
+            end
+          end
+        end
+
+      end
+
       module Parser
 
         def parse(data)
@@ -16,18 +33,7 @@ module Fog
       end
 
       module Real
-
-        # TODO: bust cache on organization creation?
-        def default_organization_id
-          @default_organization_id ||= begin
-            org_list = get_organizations.body['OrgList']
-            if org_list.length == 1
-              org_list.first['href'].split('/').last.to_i
-            else
-              nil
-            end
-          end
-        end
+        include Common
 
         private
 
@@ -51,6 +57,7 @@ module Fog
       end
 
       module Mock
+        include Common
 
         DATA = {
           :organizations =>
@@ -58,11 +65,32 @@ module Fog
             {
               :info => {
                 :name => "Boom Inc.",
-                :id => "1"
-              }
+                :id => 1
+              },
+              :vdcs => [
+                { :id => 21,
+                  :name => "Boomstick"
+                },
+                { :id => 22,
+                  :name => "Rock-n-Roll"
+                }
+              ]
             }
           ]
         }
+
+        def self.error_headers
+          {"X-Powered-By"=>"ASP.NET",
+           "Date"=> Time.now.to_s,
+           "Content-Type"=>"text/html",
+           "Content-Length"=>"0",
+           "Server"=>"Microsoft-IIS/7.0",
+           "Cache-Control"=>"private"}
+        end
+
+        def self.unathorized_status
+          401
+        end
 
         def self.headers(body, content_type)
           {"X-Powered-By"=>"ASP.NET",
@@ -72,6 +100,10 @@ module Fog
            "Server"=>"Microsoft-IIS/7.0",
            "Set-Cookie"=>"vcloud-token=ecb37bfc-56f0-421d-97e5-bf2gdf789457; path=/",
            "Cache-Control"=>"private"}
+        end
+
+        def self.status
+          200
         end
 
         def initialize(options={})
