@@ -38,7 +38,7 @@ module Fog
           if org = @data[:organizations].detect { |org| org[:info][:id] == organization_id }
 
             body = { "name" => org[:info][:name],
-                     "href" => "#{@base_url}/#{org[:info][:id]}",
+                     "href" => "#{@base_url}/org/#{org[:info][:id]}",
                      "Links" => [] }
 
             body["Links"] = case self
