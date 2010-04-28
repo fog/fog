@@ -69,10 +69,57 @@ module Fog
               },
               :vdcs => [
                 { :id => 21,
-                  :name => "Boomstick"
+                  :name => "Boomstick",
+                  :storage => { :used => 105, :allocated => 200 },
+                  :cpu => { :allocated => 10000 },
+                  :memory => { :allocated => 20480 },
+                  :networks => [
+                    { :id => 31,
+                      :name => "1.2.3.0/24",
+                      :subnet => "1.2.3.0/24",
+                      :gateway => "1.2.3.1",
+                      :netmask => "255.255.255.0",
+                      :fencemode => "isolated"
+                    },
+                    { :id => 32,
+                      :name => "4.5.6.0/24",
+                      :subnet => "4.5.6.0/24",
+                      :gateway => "4.5.6.1",
+                      :netmask => "255.255.255.0",
+                      :fencemode => "isolated"
+                    },
+                  ],
+                  :vms => [
+                    { :id => 41,
+                      :name => "Broom 1"
+                    },
+                    { :id => 42,
+                      :name => "Broom 2"
+                    },
+                    { :id => 43,
+                      :name => "Email!"
+                    }
+                  ]
                 },
                 { :id => 22,
-                  :name => "Rock-n-Roll"
+                  :storage => { :used => 40, :allocated => 150 },
+                  :cpu => { :allocated => 1000 },
+                  :memory => { :allocated => 2048 },
+                  :name => "Rock-n-Roll",
+                  :networks => [
+                    { :id => 33,
+                      :name => "7.8.9.0/24",
+                      :subnet => "7.8.9.0/24",
+                      :gateway => "7.8.9.1",
+                      :netmask => "255.255.255.0",
+                      :fencemode => "isolated"
+                    }
+                  ],
+                  :vms => [
+                    { :id => 44,
+                      :name => "Master Blaster"
+                    }
+                  ]
                 }
               ]
             }
