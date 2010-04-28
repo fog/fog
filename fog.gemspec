@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.0.83'
-  s.date              = '2010-04-27'
+  s.version           = '0.0.84'
+  s.date              = '2010-04-28'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
