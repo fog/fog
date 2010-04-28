@@ -51,21 +51,42 @@ module Fog
       end
 
       module Mock
-        def self.data
-          @data ||= Hash.new do |hash, key|
-            hash[key] = {}
-          end
-        end
 
-        def self.reset_data(keys=data.keys)
-          for key in [*keys]
-            data.delete(key)
-          end
+        DATA = {
+          :organizations =>
+          [
+            {
+              :info => {
+                :name => "Boom Inc.",
+                :id => "1"
+              }
+            }
+          ]
+        }
+
+        def self.headers(body, content_type)
+          {"X-Powered-By"=>"ASP.NET",
+           "Date"=> Time.now.to_s,
+           "Content-Type"=> content_type,
+           "Content-Length"=> body.to_s.length,
+           "Server"=>"Microsoft-IIS/7.0",
+           "Set-Cookie"=>"vcloud-token=ecb37bfc-56f0-421d-97e5-bf2gdf789457; path=/",
+           "Cache-Control"=>"private"}
         end
 
         def initialize(options={})
-          @terremark_username = options[:terremark_username]
-          @data = self.class.data[@terremark_username]
+          self.class.instance_eval '
+            def self.data
+              @data ||= Hash.new do |hash, key|
+                hash[key] = Fog::Terremark::Shared::Mock::DATA
+              end
+            end'
+          self.class.instance_eval '
+            def self.reset_data(keys=data.keys)
+              for key in [*keys]
+                data.delete(key)
+              end
+            end'
         end
       end
 

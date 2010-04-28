@@ -43,6 +43,11 @@ module Fog
      class Mock
        include Fog::Terremark::Shared::Mock
        include Fog::Terremark::Shared::Parser
+
+       def initialize(option = {})
+         super
+         @data = self.class.data[:terremark_ecloud_username]
+       end
      end
 
     end
