@@ -99,6 +99,17 @@ module Fog
                     { :id => 43,
                       :name => "Email!"
                     }
+                  ],
+                  :public_ips => [
+                    { :id => 51,
+                      :name => "99.1.2.3"
+                    },
+                    { :id => 52,
+                      :name => "99.1.2.4"
+                    },
+                    { :id => 53,
+                      :name => "99.1.9.7"
+                    }
                   ]
                 },
                 { :id => 22,
@@ -118,6 +129,11 @@ module Fog
                   :vms => [
                     { :id => 44,
                       :name => "Master Blaster"
+                    }
+                  ],
+                  :public_ips => [
+                    { :id => 54,
+                      :name => "99.99.99.99"
                     }
                   ]
                 }
