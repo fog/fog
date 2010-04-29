@@ -18,7 +18,7 @@ module Fog
                   link[attributes.shift] = attributes.shift
                 end
                 @response['Links'] << link
-              when 'Vapp'
+              when 'VApp'
                 vapp = {}
                 until attributes.empty?
                   if attributes.first.is_a?(Array)
