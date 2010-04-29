@@ -44,9 +44,7 @@ describe 'Fog::AWS::EC2::Address' do
     end
 
     after(:each) do
-      if @address.public_ip
-        @address.destroy
-      end
+      @address.destroy
       @server.destroy
     end
 
