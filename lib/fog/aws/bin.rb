@@ -15,6 +15,8 @@ module AWS
           hash[key] = case key
           when :ec2
             Fog::AWS::EC2.new(credentials)
+          when :simpledb
+            Fog::AWS::SimpleDB.new(credentials)
           when :s3
             Fog::AWS::S3.new(credentials)
           end
