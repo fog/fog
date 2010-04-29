@@ -5,6 +5,7 @@ describe 'EC2.get_console_output' do
 
     before(:each) do
       @instance_id = AWS[:ec2].run_instances(GENTOO_AMI, 1, 1).body['instancesSet'].first['instanceId']
+      AWS[:ec2].servers.get(@instance_id).wait_for { ready? }
     end
 
     after(:each) do
