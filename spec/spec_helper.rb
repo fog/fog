@@ -9,14 +9,14 @@ if ENV["FOG_MOCK"] == "true"
   Fog.mock!
 end
 
-unless defined?(LOADED_SPEC_OPTS)
-  # inlined spec.opts
-  require "#{current_directory}/compact_progress_bar_formatter"
-  Spec::Runner.options.parse_format("Spec::Runner::Formatter::CompactProgressBarFormatter")
-  Spec::Runner.options.loadby  = 'mtime'
-  Spec::Runner.options.reverse = true
-  LOADED_SPEC_OPTS = true
-end
+# unless defined?(LOADED_SPEC_OPTS)
+#   # inlined spec.opts
+#   require "#{current_directory}/compact_progress_bar_formatter"
+#   Spec::Runner.options.parse_format("Spec::Runner::Formatter::CompactProgressBarFormatter")
+#   Spec::Runner.options.loadby  = 'mtime'
+#   Spec::Runner.options.reverse = true
+#   LOADED_SPEC_OPTS = true
+# end
 
 
 module AWS
