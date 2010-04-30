@@ -3,13 +3,14 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 describe 'EC2.describe_instances' do
   describe 'success' do
 
-    before(:each) do
+    before(:all) do
       run_instances = AWS[:ec2].run_instances(GENTOO_AMI, 1, 1).body
       @instance_id = run_instances['instancesSet'].first['instanceId']
       @reservation_id = run_instances['reservationId']
+      AWS[:ec2].servers.get(@instance_id).wait_for { ready? }
     end
 
-    after(:each) do
+    after(:all) do
       AWS[:ec2].terminate_instances([@instance_id])
     end
 
