@@ -111,13 +111,10 @@ module Fog
 
     def wait_for(timeout = 600, &block)
       start = Time.now
-      until instance_eval(&block)
-        if Time.now - start > timeout
-          break
-        end
+      begin
         reload
         sleep(1)
-      end
+      end until instance_eval(&block) || Time.now - start > timeout
     end
 
     private
