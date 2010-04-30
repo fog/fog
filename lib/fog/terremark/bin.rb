@@ -28,14 +28,7 @@ module Terremark
               !Fog::Terremark::VCLOUD_OPTIONS.include?(k)
             end
           end
-          case key
-          when :ecloud
-            hash[key] = Fog::Terremark::Ecloud.new(credentials)
-          when :vcloud
-            hash[key] = Fog::Terremark::Vcloud.new(credentials)
-          else
-            raise "Unsupported Terremark Service"
-          end
+          hash[key] = terremark_service(key).new(credentials)
         end
         @@connections[service]
       end
