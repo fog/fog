@@ -3,11 +3,12 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 describe 'S3.get_service' do
   describe 'success' do
 
-    before(:each) do
+    before(:all) do
       AWS[:s3].put_bucket('foggetservice')
+      wait_for { AWS[:s3].directories.get('foggetservice') }
     end
 
-    after(:each) do
+    after(:all) do
       AWS[:s3].delete_bucket('foggetservice')
     end
 
@@ -23,10 +24,8 @@ describe 'S3.get_service' do
     end
 
     it 'should include foggetservice in get_service' do
-      eventually do
-        actual = AWS[:s3].get_service
-        actual.body['Buckets'].collect { |bucket| bucket['Name'] }.should include('foggetservice')
-      end
+      actual = AWS[:s3].get_service
+      actual.body['Buckets'].collect { |bucket| bucket['Name'] }.should include('foggetservice')
     end
 
   end

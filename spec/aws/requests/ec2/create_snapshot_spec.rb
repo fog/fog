@@ -9,9 +9,8 @@ describe 'EC2.create_snapshot' do
 
     after(:each) do
       AWS[:ec2].delete_volume(@volume_id)
-      eventually do
-        AWS[:ec2].delete_snapshot(@snapshot_id)
-      end
+      AWS[:ec2].snapshots.get(@snapshot_id).wait_for { ready? }
+      AWS[:ec2].delete_snapshot(@snapshot_id)
     end
 
     it "should return proper attributes" do

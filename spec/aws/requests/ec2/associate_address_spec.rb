@@ -6,6 +6,7 @@ describe 'EC2.associate_address' do
     before(:each) do
       @instance_id = AWS[:ec2].run_instances(GENTOO_AMI, 1, 1).body['instancesSet'].first['instanceId']
       @public_ip = AWS[:ec2].allocate_address.body['publicIp']
+      AWS[:ec2].servers.get(@instance_id).wait_for { ready? }
     end
 
     after(:each) do
@@ -14,11 +15,9 @@ describe 'EC2.associate_address' do
     end
 
     it "should return proper attributes" do
-      eventually(128) do
-        actual = AWS[:ec2].associate_address(@instance_id, @public_ip)
-        actual.body['requestId'].should be_a(String)
-        [false, true].should include(actual.body['return'])
-      end
+      actual = AWS[:ec2].associate_address(@instance_id, @public_ip)
+      actual.body['requestId'].should be_a(String)
+      [false, true].should include(actual.body['return'])
     end
 
   end

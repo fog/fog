@@ -13,12 +13,11 @@ describe 'EC2.delete_snapshot' do
     end
 
     it "should return proper attributes" do
-      eventually do
-        actual = AWS[:ec2].delete_snapshot(@snapshot_id)
-        unless actual.body.empty?
-          actual.body['requestId'].should be_a(String)
-          [false, true].should include(actual.body['return'])
-        end
+      AWS[:ec2].snapshots.get(@snapshot_id).wait_for { ready? }
+      actual = AWS[:ec2].delete_snapshot(@snapshot_id)
+      unless actual.body.empty?
+        actual.body['requestId'].should be_a(String)
+        [false, true].should include(actual.body['return'])
       end
     end
 
