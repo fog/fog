@@ -25,10 +25,58 @@ module Fog
           @status == '2'
         end
 
-        def reboot
+        def on?
+          @status == '4'
+        end
+
+        def off?
+          @status == '2'
+        end
+
+        def power_on(options = {})
           requires :id
-          connection.reset(@id)
+          begin
+            connection.power_on(@id)
+          rescue Excon::Errors::InternalServerError => e
+            #Frankly we shouldn't get here ...
+            raise e unless e.to_s =~ /because it is already powered on/
+          end
           true
+        end
+
+        def power_off
+          requires :id
+          begin
+            connection.power_off(@id)
+          rescue Excon::Errors::InternalServerError => e
+            #Frankly we shouldn't get here ...
+            raise e unless e.to_s =~ /because it is already powered off/
+          end
+          true
+        end
+
+        def shutdown
+          requires :id
+          begin
+            connection.power_shutdown(@id)
+          rescue Excon::Errors::InternalServerError => e
+            #Frankly we shouldn't get here ...
+            raise e unless e.to_s =~ /because it is already powered off/
+          end
+          true
+        end
+
+        def power_reset
+          requires :id
+          connection.power_reset(@id)
+          true
+        end
+
+        def graceful_restart
+          requires :id
+          shutdown
+          wait_for { off? }
+          power_on
         end
 
         def save
@@ -48,7 +96,10 @@ module Fog
           @id = new_href.split('/').last.to_i
         end
 
-        def type=(new_type); end
+        def type=(new_type); @type = new_type; end
+        def size=(new_size); @size = new_size; end
+        def IpAddress=(new_ipaddress); @IpAddress = new_ipaddress; end
+        def Links=(new_links); @Links = new_links; end
 
       end
 

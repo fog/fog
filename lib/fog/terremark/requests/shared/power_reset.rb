@@ -3,10 +3,10 @@ module Fog
     module Shared
       module Real
 
-        # Shutdown a vapp
+        # Reset a vapp
         #
         # ==== Parameters
-        # * vapp_id<~Integer> - Id of vapp to shutdown
+        # * vapp_id<~Integer> - Id of vapp to reset
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -20,12 +20,12 @@ module Fog
         #       * 'href'<~String> - href of owner
         #       * 'name'<~String> - name of owner
         #       * 'type'<~String> - type of owner
-        def shutdown(vapp_id)
+        def power_reset(vapp_id)
           request(
             :expects  => 202,
             :method   => 'POST',
             :parser   => Fog::Parsers::Terremark::Shared::Task.new,
-            :path     => "vApp/#{vapp_id}/power/action/shutdown"
+            :path     => "vApp/#{vapp_id}/power/action/reset"
           )
         end
 
@@ -33,7 +33,7 @@ module Fog
 
       module Mock
 
-        def shutdown(vapp_id)
+        def reset(vapp_id)
           raise MockNotImplemented.new("Contributions welcome!")
         end
 
