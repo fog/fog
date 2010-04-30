@@ -42,7 +42,6 @@ module Fog
           @path   = options[:path]   || Fog::Terremark::Ecloud::Defaults::PATH
           @port   = options[:port]   || Fog::Terremark::Ecloud::Defaults::PORT
           @scheme = options[:scheme] || Fog::Terremark::Ecloud::Defaults::SCHEME
-          @cookie = get_organizations.headers['Set-Cookie']
         end
 
       end

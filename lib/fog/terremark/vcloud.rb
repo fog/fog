@@ -42,7 +42,6 @@ module Fog
           @path   = options[:path]   || Fog::Terremark::Vcloud::Defaults::PATH
           @port   = options[:port]   || Fog::Terremark::Vcloud::Defaults::PORT
           @scheme = options[:scheme] || Fog::Terremark::Vcloud::Defaults::SCHEME
-          @cookie = get_organizations.headers['Set-Cookie']
         end
 
         def default_vdc_id

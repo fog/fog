@@ -37,13 +37,40 @@ module Fog
 
         private
 
+        def auth_token
+          response = @connection.request({
+            :expects   => 200,
+            :headers   => {
+              'Authorization' => "Basic #{Base64.encode64("#{@terremark_username}:#{@terremark_password}").chomp!}",
+              'Content-Type'  => "application/vnd.vmware.vcloud.orgList+xml"
+            },
+            :host      => @host,
+            :method    => 'POST',
+            :parser    => Fog::Parsers::Terremark::Shared::GetOrganizations.new,
+            :path      => "#{@path}/login"
+          })
+          response.headers['Set-Cookie']
+        end
+
         def request(params)
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
+          unless @cookie
+            @cookie = auth_token
+          end
+          begin
+            do_request(params)
+          rescue Excon::Errors::Unauthorized => e
+            @cookie = auth_token
+            do_request(params)
+          end
+        end
+
+        def do_request(params)
           headers = {}
           if @cookie
             headers.merge!('Cookie' => @cookie)
           end
-          response = @connection.request({
+          @connection.request({
             :body     => params[:body],
             :expects  => params[:expects],
             :headers  => headers.merge!(params[:headers] || {}),
@@ -247,11 +274,10 @@ module Fog
         require 'fog/terremark/requests/shared/get_vapp_template'
         require 'fog/terremark/requests/shared/get_vdc'
         require 'fog/terremark/requests/shared/instantiate_vapp_template'
-        require 'fog/terremark/requests/shared/reset'
         require 'fog/terremark/requests/shared/power_off'
         require 'fog/terremark/requests/shared/power_on'
-        require 'fog/terremark/requests/shared/shutdown'
-
+        require 'fog/terremark/requests/shared/power_reset'
+        require 'fog/terremark/requests/shared/power_shutdown'
       end
 
     end
