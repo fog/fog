@@ -36,9 +36,9 @@ module Fog
         def detach_volume(volume_id, options = {})
           response = Excon::Response.new
           response.status = 200
-          if volume = @data[:volumes][volume_id]
+          if (volume = @data[:volumes][volume_id]) && !volume['attachmentSet'].empty?
             data = volume['attachmentSet'].pop
-            @data[:volumes][volume_id]['status'] = 'available'
+            volume['status'] = 'available'
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id
