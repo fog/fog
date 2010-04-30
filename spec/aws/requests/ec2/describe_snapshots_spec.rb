@@ -5,6 +5,7 @@ describe 'EC2.describe_snapshots' do
 
     before(:all) do
       @volume_id = AWS[:ec2].create_volume('us-east-1a', 1).body['volumeId']
+      AWS[:ec2].volumes.get(@volume_id).wait_for { ready? }
       @snapshot_id = AWS[:ec2].create_snapshot(@volume_id).body['snapshotId']
       AWS[:ec2].snapshots.get(@snapshot_id).wait_for { ready? }
     end
