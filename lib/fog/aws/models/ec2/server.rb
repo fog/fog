@@ -8,7 +8,7 @@ module Fog
 
         identity  :id,                    'instanceId'
 
-        attribute :architecture
+        attr_accessor :architecture
         attribute :ami_launch_index,      'amiLaunchIndex'
         attribute :availability_zone,     'availabilityZone'
         attribute :block_device_mapping,  'blockDeviceMapping'
