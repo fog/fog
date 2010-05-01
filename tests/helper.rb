@@ -32,13 +32,3 @@ def validate_format(original_data, format)
   end
   valid
 end
-
-def wait_for(timeout = 600, &block)
-  start = Time.now
-  until instance_eval(&block)
-    if Time.now - start > timeout
-      break
-    end
-    sleep(1)
-  end
-end

@@ -5,7 +5,7 @@ describe 'S3.get_service' do
 
     before(:all) do
       AWS[:s3].put_bucket('foggetservice')
-      wait_for { AWS[:s3].directories.get('foggetservice') }
+      Fog.wait_for { AWS[:s3].directories.get('foggetservice') }
     end
 
     after(:all) do

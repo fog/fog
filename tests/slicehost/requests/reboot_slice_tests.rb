@@ -4,12 +4,12 @@ Shindo.tests('Slicehost#reboot_slice', 'slicehost') do
     before do
       @data = Slicehost[:slices].create_slice(1, 3, 'fogrebootslice').body
       @id = @data['id']
-      wait_for { Slicehost[:slices].get_slice(@id).body['status'] == 'active' }
+      Fog.wait_for { Slicehost[:slices].get_slice(@id).body['status'] == 'active' }
       @data = Slicehost[:slices].reboot_slice(@id).body
     end
 
     after do
-      wait_for { Slicehost[:slices].get_slice(@id).body['status'] == 'active' }
+      Fog.wait_for { Slicehost[:slices].get_slice(@id).body['status'] == 'active' }
       Slicehost[:slices].delete_slice(@id)
     end
 

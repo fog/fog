@@ -7,7 +7,7 @@ Shindo.tests('Slicehost#delete_slice', 'slicehost') do
     end
 
     test('has proper output format') do
-      wait_for { Slicehost[:slices].get_slice(@id).body['status'] == 'active' }
+      Fog.wait_for { Slicehost[:slices].get_slice(@id).body['status'] == 'active' }
       Slicehost[:slices].delete_slice(@id)
     end
 

@@ -57,4 +57,18 @@ module Fog
     !!@mocking
   end
 
+  def self.wait_for(timeout = 600, &block)
+    duration = 0
+    start = Time.now
+    until yield || duration > timeout
+      sleep(1)
+      duration = Time.now - start
+    end
+    if duration > timeout
+      false
+    else
+      { :duration => duration }
+    end
+  end
+
 end

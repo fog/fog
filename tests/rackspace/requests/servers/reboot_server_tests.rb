@@ -6,20 +6,20 @@ Shindo.tests('Rackspace::Servers#reboot_server', 'rackspace') do
     end
 
     after do
-      wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
+      Fog.wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
       Rackspace[:servers].delete_server(@server_id)
     end
 
     tests('HARD') do
       test('has proper output format') do
-        wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
+        Fog.wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
         Rackspace[:servers].reboot_server(@server_id, 'HARD')
       end
     end
 
     tests('SOFT') do
       test('has proper output format') do
-        wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
+        Fog.wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
         Rackspace[:servers].reboot_server(@server_id, 'SOFT')
       end
     end

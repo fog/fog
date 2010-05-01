@@ -6,7 +6,7 @@ Shindo.tests('Rackspace::Servers#delete_server', 'rackspace') do
     end
 
     test('has proper output format') do
-      wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
+      Fog.wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
       Rackspace[:servers].delete_server(@server_id)
     end
 

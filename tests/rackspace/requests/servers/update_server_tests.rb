@@ -3,7 +3,7 @@ Shindo.tests('Rackspace::Servers#update_server', 'rackspace') do
 
     before do
       @server_id = Rackspace[:servers].create_server(1, 3, 'fogupdateserver').body['server']['id']
-      wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
+      Fog.wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
       @data = Rackspace[:servers].update_server(@server_id, :name => 'fogupdatedserver', :adminPass => 'fogupdatedserver')
     end
 

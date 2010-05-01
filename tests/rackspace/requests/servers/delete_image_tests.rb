@@ -7,12 +7,12 @@ Shindo.tests('Rackspace::Servers#delete_image', 'rackspace') do
     end
 
     after do
-      wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
+      Fog.wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
       Rackspace[:servers].delete_server(@server_id)
     end
 
     test('has proper output format') do
-      wait_for { Rackspace[:servers].get_image_details(@image_id).body['image']['status'] == 'ACTIVE' }
+      Fog.wait_for { Rackspace[:servers].get_image_details(@image_id).body['image']['status'] == 'ACTIVE' }
       Rackspace[:servers].delete_image(@image_id)
     end
 
