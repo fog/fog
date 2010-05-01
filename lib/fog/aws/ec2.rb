@@ -176,17 +176,17 @@ module Fog
           @aws_secret_access_key  = options[:aws_secret_access_key]
           @hmac = HMAC::SHA256.new(@aws_secret_access_key)
           @host = options[:host] || case options[:region]
-          when 'ap-southeast-1'
-            'ec2.ap-southeast-1.amazonaws.com'
-          when 'eu-west-1'
-            'ec2.eu-west-1.amazonaws.com'
-          when 'us-east-1'
-            'ec2.us-east-1.amazonaws.com'
-          when 'us-west-1'
-            'ec2.us-west-1.amazonaws.com'
-          else
-            'ec2.amazonaws.com'
-          end
+            when 'ap-southeast-1'
+              'ec2.ap-southeast-1.amazonaws.com'
+            when 'eu-west-1'
+              'ec2.eu-west-1.amazonaws.com'
+            when 'us-east-1'
+              'ec2.us-east-1.amazonaws.com'
+            when 'us-west-1'
+              'ec2.us-west-1.amazonaws.com'
+            else
+              'ec2.amazonaws.com'
+            end
           @port       = options[:port]      || 443
           @scheme     = options[:scheme]    || 'https'
         end

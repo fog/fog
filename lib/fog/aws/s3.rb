@@ -127,7 +127,14 @@ module Fog
             raise ArgumentError.new('aws_secret_access_key is required to access ec2')
           end
           @hmac       = HMAC::SHA1.new(@aws_secret_access_key)
-          @host       = options[:host]      || 's3.amazonaws.com'
+          @host       = options[:host] || case options[:region]
+            when 'ap-southeast-1'
+              's3-ap-southeast-1.amazonaws.com'
+            when 'us-west-1'
+              's3-us-west-1.amazonaws.com'
+            else
+              's3.amazonaws.com'
+            end
           @port       = options[:port]      || 443
           @scheme     = options[:scheme]    || 'https'
         end
