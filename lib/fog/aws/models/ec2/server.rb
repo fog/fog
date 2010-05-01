@@ -43,6 +43,12 @@ module Fog
           connection.addresses(:server => self)
         end
 
+        def console_output
+          requires :id
+
+          connection.get_console_output(@id)
+        end
+
         def destroy
           requires :id
 
