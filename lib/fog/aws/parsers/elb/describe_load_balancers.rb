@@ -7,8 +7,6 @@ module Fog
 
           def reset
             @load_balancer = { 'ListenerDescriptions' => [], 'Instances' => [], 'AvailabilityZones' => [], 'Policies' => {'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [] }, 'HealthCheck' => {} }
-            @listener = { }
-            @listener_descriptions = []
             @listener_description = { 'PolicyNames' => [], 'Listener' => {} }
             @results = { 'LoadBalancerDescriptions' => [] }
             @response = { 'DescribeLoadBalancersResult' => {}, 'ResponseMetadata' => {} }
@@ -42,9 +40,7 @@ module Fog
               elsif @in_availability_zones
                 @load_balancer['AvailabilityZones'] << @value
               elsif @in_listeners
-                @listener_description['Listener'] = @listener
-                @listener_descriptions << @listener_description
-                @load_balancer['ListenerDescriptions'] = @listener_descriptions
+                @load_balancer['ListenerDescriptions'] << @listener_description
                 @listener_description = { 'PolicyNames' => [], 'Listener' => {} }
               elsif @in_app_cookies
                 @load_balancer['Policies']['AppCookieStickinessPolicies'] << @value
@@ -65,9 +61,9 @@ module Fog
             when 'PolicyNames'
               @in_policy_names = false
             when 'Protocol'
-              @listener[name] = @value
+              @listener_description['Listener'][name] = @value
             when 'LoadBalancerPort', 'InstancePort'
-              @listener[name] = @value.to_i
+              @listener_description['Listener'][name] = @value.to_i
 
             when 'Instances'
               @in_instances = false
