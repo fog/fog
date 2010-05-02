@@ -6,7 +6,11 @@ module Fog
 
         unless @required
           require 'fog/aws/requests/elb/describe_load_balancers'
+          require 'fog/aws/requests/elb/register_instances_with_load_balancer.rb'
+          require 'fog/aws/requests/elb/deregister_instances_from_load_balancer.rb'
           require 'fog/aws/parsers/elb/describe_load_balancers'
+          require 'fog/aws/parsers/elb/register_instances_with_load_balancer.rb'
+          require 'fog/aws/parsers/elb/deregister_instances_from_load_balancer.rb'
           @required = true
         end
 
