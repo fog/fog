@@ -136,24 +136,15 @@ module Fog
           idempotent = params.delete(:idempotent)
           parser = params.delete(:parser)
 
-          params.merge!({
-            'AWSAccessKeyId' => @aws_access_key_id,
-            'SignatureMethod' => 'HmacSHA256',
-            'SignatureVersion' => '2',
-            'Timestamp' => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
-            'Version' => '2007-11-07'
-          })
-
-          body = ''
-          for key in params.keys.sort
-            unless (value = params[key]).nil?
-              body << "#{key}=#{CGI.escape(value.to_s).gsub(/\+/, '%20')}&"
-            end
-          end
-
-          string_to_sign = "POST\n#{@host}\n/\n" << body.chop
-          hmac = @hmac.update(string_to_sign)
-          body << "Signature=#{CGI.escape(Base64.encode64(hmac.digest).chomp!).gsub(/\+/, '%20')}"
+          body = AWS.signed_params(
+            params,
+            {
+              :aws_access_key_id  => @aws_access_key_id,
+              :hmac               => @hmac,
+              :host               => @host,
+              :version            => '2007-11-07'
+            }
+          )
 
           response = @connection.request({
             :body       => body,
