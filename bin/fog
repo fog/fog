@@ -11,6 +11,7 @@ unless Fog.credentials
 end
 
 require 'fog/aws/bin'
+require 'fog/local/bin'
 require 'fog/rackspace/bin'
 require 'fog/slicehost/bin'
 require 'fog/terremark/bin'

@@ -5,12 +5,22 @@ module Fog
 
     def services
       services = []
-      [::AWS, ::Rackspace, ::Slicehost, ::Terremark].each do |service|
+      [::AWS, ::Local, ::Rackspace, ::Slicehost, ::Terremark].each do |service|
         if service.initialized?
           services << service
         end
       end
       services
+    end
+
+    def directories
+      directories = {}
+      services.each do |service|
+        if service.respond_to?(:directories)
+          directories[service] = service.directories
+        end
+      end
+      directories
     end
 
     def flavors
