@@ -36,7 +36,7 @@ module Fog
         #         * 'AvailabilityZones'<~Array> - list of availability zones covered by this load balancer
         #         * 'Instances'<~Array> - list of instances that the load balancer balances between
         def describe_load_balancers(lb_name = [])
-          params = AWS.indexed_param('LoadBalancerNames.member', [*lb_name])
+          params = ELB.indexed_param('LoadBalancerNames.member', [*lb_name], 1)
           request({
             'Action'  => 'DescribeLoadBalancers',
             :parser   => Fog::Parsers::AWS::ELB::DescribeLoadBalancers.new
