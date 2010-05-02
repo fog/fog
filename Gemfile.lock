@@ -1,45 +1,4 @@
 --- 
-dependencies: 
-  formatador: 
-    group: 
-    - :default
-    version: ">= 0.0.10"
-  rake: 
-    group: 
-    - :default
-    version: ">= 0"
-  ruby-hmac: 
-    group: 
-    - :default
-    version: ">= 0"
-  mime-types: 
-    group: 
-    - :default
-    version: ">= 0"
-  rspec: 
-    group: 
-    - :default
-    version: ">= 0"
-  net-ssh: 
-    group: 
-    - :default
-    version: ">= 0"
-  json: 
-    group: 
-    - :default
-    version: ">= 0"
-  excon: 
-    group: 
-    - :default
-    version: ">= 0.0.21"
-  shindo: 
-    group: 
-    - :default
-    version: ">= 0"
-  nokogiri: 
-    group: 
-    - :default
-    version: ">= 0"
 specs: 
 - rake: 
     version: 0.8.7
@@ -57,13 +16,64 @@ specs:
     version: 2.0.22
 - nokogiri: 
     version: 1.4.1
-- rspec: 
-    version: 1.3.0
 - ruby-hmac: 
     version: 0.4.0
+- fog: 
+    version: 0.0.84
+    source: 0
+- rspec: 
+    version: 1.3.0
 - shindo: 
     version: 0.0.17
-hash: e443f12a9a7794f2ff4fc8e8d201b12b1e8b30bb
+hash: 6cf30542dfb9f6105f2e82d59ca1b74d7285aa68
 sources: 
+- Path: 
+    path: !ruby/object:Pathname 
+      path: .
 - Rubygems: 
     uri: http://gemcutter.org
+dependencies: 
+  formatador: 
+    version: ">= 0.0.10"
+    group: 
+    - :default
+  nokogiri: 
+    version: ">= 0"
+    group: 
+    - :default
+  rspec: 
+    version: ">= 0"
+    group: 
+    - :default
+  rake: 
+    version: ">= 0"
+    group: 
+    - :default
+  mime-types: 
+    version: ">= 0"
+    group: 
+    - :default
+  ruby-hmac: 
+    version: ">= 0"
+    group: 
+    - :default
+  net-ssh: 
+    version: ">= 0"
+    group: 
+    - :default
+  fog: 
+    version: ">= 0"
+    group: 
+    - :default
+  excon: 
+    version: ">= 0.0.21"
+    group: 
+    - :default
+  json: 
+    version: ">= 0"
+    group: 
+    - :default
+  shindo: 
+    version: ">= 0"
+    group: 
+    - :default

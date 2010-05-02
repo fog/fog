@@ -1,21 +1,19 @@
 #!/usr/bin/env ruby
-lib_dir = File.join(File.dirname(__FILE__), '..', 'lib')
-require File.join(lib_dir, 'fog')
+require 'fog'
 require 'irb'
 require 'yaml'
-
-require File.join(lib_dir, 'fog', 'credentials')
-require File.join(lib_dir, 'fog', 'bin')
+require 'fog/credentials'
+require 'fog/bin'
 
 Fog.credential = (ARGV.first && :"#{ARGV.first}") || :default
 unless Fog.credentials
   exit
 end
 
-require File.join(lib_dir, 'fog', 'aws', 'bin')
-require File.join(lib_dir, 'fog', 'rackspace', 'bin')
-require File.join(lib_dir, 'fog', 'slicehost', 'bin')
-require File.join(lib_dir, 'fog', 'terremark', 'bin')
+require 'fog/aws/bin'
+require 'fog/rackspace/bin'
+require 'fog/slicehost/bin'
+require 'fog/terremark/bin'
 
 if ARGV.length > 1
   print(instance_eval(ARGV[1..-1].join(' ')).to_json)
