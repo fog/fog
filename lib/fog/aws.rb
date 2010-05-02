@@ -1,4 +1,5 @@
 require 'fog/aws/ec2.rb'
+require 'fog/aws/elb.rb'
 require 'fog/aws/s3'
 require 'fog/aws/simpledb'
 
