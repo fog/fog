@@ -36,13 +36,19 @@ module Fog
         #         * 'AvailabilityZones'<~Array> - list of availability zones covered by this load balancer
         #         * 'Instances'<~Array> - list of instances that the load balancer balances between
         def describe_load_balancers(lb_name = [])
-          lb_name = [lb_name] if lb_name.instance_of?(String)
-          lb_name.unshift(nil)
-          params = AWS.indexed_param('LoadBalancerNames.member', lb_name)
+          params = AWS.indexed_param('LoadBalancerNames.member', [*lb_name])
           request({
             'Action'  => 'DescribeLoadBalancers',
             :parser   => Fog::Parsers::AWS::ELB::DescribeLoadBalancers.new
           }.merge!(params))
+        end
+
+      end
+
+      class Mock
+
+        def describe_load_balancers(lb_name = [])
+          raise MockNotImplemented.new("Contributions welcome!")
         end
 
       end
