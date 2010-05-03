@@ -26,9 +26,9 @@ module Fog
           load(data)
         end
 
-        def get(name, options = {})
-          data = connection.get_container(name, options).body
-          directory = new(:name => name)
+        def get(key, options = {})
+          data = connection.get_container(key, options).body
+          directory = new(:key => key)
           directory.files.merge_attributes(options)
           directory.files.instance_variable_set(:@loaded, true)
           data.each do |file|

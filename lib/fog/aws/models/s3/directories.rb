@@ -26,15 +26,15 @@ module Fog
           load(data)
         end
 
-        def get(name, options = {})
+        def get(key, options = {})
           remap_attributes(options, {
             :delimiter  => 'delimiter',
             :marker     => 'marker',
             :max_keys   => 'max-keys',
             :prefix     => 'prefix'
           })
-          data = connection.get_bucket(name, options).body
-          directory = new(:name => data['Name'])
+          data = connection.get_bucket(key, options).body
+          directory = new(:key => data['Name'])
           options = {}
           for key, value in data
             if ['Delimiter', 'IsTruncated', 'Marker', 'MaxKeys', 'Prefix'].include?(key)
@@ -44,7 +44,7 @@ module Fog
           directory.files.merge_attributes(options)
           files = data['Contents']
           while data['IsTruncated']
-            data = connection.get_bucket(name, options.merge!('marker' => files.last['Key'])).body
+            data = connection.get_bucket(key, options.merge!('marker' => files.last['Key'])).body
             files.concat(data['Contents'])
           end
           directory.files.load(files)

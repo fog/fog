@@ -6,22 +6,24 @@ module Fog
     module S3
 
       class Directory < Fog::Model
+        extend Fog::Deprecation
+        deprecate(:name, :key)
 
-        identity  :name,          'Name'
+        identity  :key,           'Name'
 
         attribute :creation_date, 'CreationDate'
 
         def destroy
-          requires :name
-          connection.delete_bucket(@name)
+          requires :key
+          connection.delete_bucket(key)
           true
         rescue Excon::Errors::NotFound
           false
         end
 
         def location
-          requires :name
-          data = connection.get_bucket_location(@name)
+          requires :key
+          data = connection.get_bucket_location(key)
           data.body['LocationConstraint']
         end
 
@@ -39,24 +41,24 @@ module Fog
         end
 
         def payer
-          requires :name
-          data = connection.get_request_payment(@name)
+          requires :key
+          data = connection.get_request_payment(key)
           data.body['Payer']
         end
 
         def payer=(new_payer)
-          requires :name
-          connection.put_request_payment(@name, new_payer)
+          requires :key
+          connection.put_request_payment(key, new_payer)
           @payer = new_payer
         end
 
         def save
-          requires :name
+          requires :key
           options = {}
           if @location
             options['LocationConstraint'] = @location
           end
-          connection.put_bucket(@name, options)
+          connection.put_bucket(key, options)
           true
         end
 
