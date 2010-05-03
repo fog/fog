@@ -51,6 +51,10 @@ module Fog
       send(self.class.instance_variable_get('@identity'))
     end
 
+    def identity=(new_identity)
+      send("#{identity}=", new_identity)
+    end
+
     def initialize(new_attributes = {})
       merge_attributes(new_attributes)
     end
