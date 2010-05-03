@@ -10,4 +10,3 @@ gem 'nokogiri', ">= 0"
 gem 'ruby-hmac', ">= 0"
 gem 'rspec', '>= 0'
 gem 'shindo', '>= 0'
-gem 'fog', :path => '.'
