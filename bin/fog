@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require 'fog'
+require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
 require 'irb'
 require 'yaml'
 require 'fog/credentials'
