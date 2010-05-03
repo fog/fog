@@ -9,7 +9,7 @@ module Fog
         extend Fog::Deprecation
         deprecate(:name, :key)
 
-        identity  :key,           ['Name', 'name']
+        identity  :key,           ['Name', 'name', :name]
 
         attribute :creation_date, 'CreationDate'
 

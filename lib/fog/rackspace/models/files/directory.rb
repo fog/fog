@@ -9,7 +9,7 @@ module Fog
         extend Fog::Deprecation
         deprecate(:name, :key)
 
-        identity  :key, 'name'
+        identity  :key, ['name', :name]
 
         attribute :bytes
         attribute :count
