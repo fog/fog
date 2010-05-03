@@ -30,6 +30,7 @@ require 'fog/local'
 require 'fog/rackspace'
 require 'fog/slicehost'
 require 'fog/terremark'
+require 'fog/vcloud'
 
 module Fog
 

@@ -8,7 +8,7 @@ dependencies:
     group: 
     - :default
     version: ">= 0"
-  ruby-hmac: 
+  rspec: 
     group: 
     - :default
     version: ">= 0"
@@ -16,11 +16,7 @@ dependencies:
     group: 
     - :default
     version: ">= 0"
-  rspec: 
-    group: 
-    - :default
-    version: ">= 0"
-  net-ssh: 
+  ruby-hmac: 
     group: 
     - :default
     version: ">= 0"
@@ -28,10 +24,18 @@ dependencies:
     group: 
     - :default
     version: ">= 0"
+  net-ssh: 
+    group: 
+    - :default
+    version: ">= 0"
   excon: 
     group: 
     - :default
     version: ">= 0.0.24"
+  builder: 
+    group: 
+    - :default
+    version: ">= 0"
   shindo: 
     group: 
     - :default
@@ -43,6 +47,8 @@ dependencies:
 specs: 
 - rake: 
     version: 0.8.7
+- builder: 
+    version: 2.1.2
 - excon: 
     version: 0.0.24
 - formatador: 
@@ -63,7 +69,7 @@ specs:
     version: 0.4.0
 - shindo: 
     version: 0.0.18
-hash: f7c60e9940d07b3b405ee2ac71eda00f018df121
+hash: 9a6ccfd107913e3f8ca98af1fe437f5d2b7b112a
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org

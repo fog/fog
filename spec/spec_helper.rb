@@ -9,6 +9,8 @@ if ENV["FOG_MOCK"] == "true"
   Fog.mock!
 end
 
+require "#{current_directory}/../lib/fog/vcloud/bin"
+
 module AWS
   class << self
     def [](service)
