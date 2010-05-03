@@ -2,7 +2,8 @@ Shindo.tests('Rackspace::Servers#create_server', 'rackspace') do
   tests('success') do
 
     before do
-      @data = Rackspace[:servers].create_server(1, 3, 'fogcreateserver').body['server']
+      # 1 => 256MB, 3 => Gentoo
+      @data = Rackspace[:servers].create_server(1, 3).body['server']
       @server_id = @data['id']
     end
 

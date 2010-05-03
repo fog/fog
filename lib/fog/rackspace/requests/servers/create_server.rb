@@ -33,7 +33,7 @@ module Fog
         #     * 'name<~String> - Name of server
         #     * 'progress'<~Integer> - Progress through current status
         #     * 'status'<~String> - Current server status
-        def create_server(flavor_id, image_id, name, options = {})
+        def create_server(flavor_id, image_id, options = {})
           data = {
             'server' => {
               'flavorId'  => flavor_id,

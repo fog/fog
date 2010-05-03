@@ -51,10 +51,14 @@ module Fog
         end
 
         def save
-          requires :flavor_id, :image_id, :name
-          options = { 'metadata' => @metadata, 'personality' => @personality }
+          requires :flavor_id, :image_id
+          options = {
+            'metadata'    => @metadata,
+            'name'        => @name,
+            'personality' => @personality
+          }
           options = options.reject {|key, value| value.nil?}
-          data = connection.create_server(@flavor_id, @image_id, @name, options)
+          data = connection.create_server(@flavor_id, @image_id, options)
           merge_attributes(data.body['server'])
           true
         end
