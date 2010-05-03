@@ -29,10 +29,10 @@ module Fog
           @directory
         end
 
-        def copy(target_directory_name, target_file_key)
+        def copy(target_directory_key, target_file_key)
           requires :directory, :key
-          data = connection.copy_object(directory.name, @key, target_directory_name, target_file_key).body
-          target_directory = connection.directories.new(:name => target_directory_name)
+          data = connection.copy_object(directory.key, @key, target_directory_key, target_file_key).body
+          target_directory = connection.directories.new(:key => target_directory_key)
           target_file = target_directory.files.new(attributes.merge!(:key => target_file_key))
           copy_data = {}
           for key, value in data
@@ -46,7 +46,7 @@ module Fog
 
         def destroy
           requires :directory, :key
-          connection.delete_object(directory.name, @key)
+          connection.delete_object(directory.key, @key)
           true
         end
 
@@ -61,7 +61,7 @@ module Fog
 
         def save(options = {})
           requires :body, :directory, :key
-          data = connection.put_object(directory.name, @key, @body, options)
+          data = connection.put_object(directory.key, @key, @body, options)
           @etag = data.headers['ETag']
           true
         end
