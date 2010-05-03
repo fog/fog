@@ -32,7 +32,7 @@ module Fog
 
       class Mock
 
-        def deregister_instances_from_load_balancer(lb_name = [])
+        def deregister_instances_from_load_balancer(instance_ids, lb_name)
           raise MockNotImplemented.new("Contributions welcome!")
         end
 

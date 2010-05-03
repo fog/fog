@@ -14,7 +14,7 @@ module Fog
         #   * body<~Hash>:
         #     * 'ResponseMetadata'<~Hash>:
         #       * 'RequestId'<~String> - Id of request
-        #     * 'RegisterInstancesWithLoadBalancer'<~Hash>:
+        #     * 'RegisterInstancesWithLoadBalancerResult'<~Hash>:
         #       * 'Instances'<~Array> - array of hashes describing instances currently enabled
         #         * 'InstanceId'<~String>
         def register_instances_with_load_balancer(instance_ids, lb_name)
@@ -32,7 +32,7 @@ module Fog
 
       class Mock
 
-        def register_instances_with_load_balancer(lb_name = [])
+        def register_instances_with_load_balancer(instance_ids, lb_name)
           raise MockNotImplemented.new("Contributions welcome!")
         end
 
