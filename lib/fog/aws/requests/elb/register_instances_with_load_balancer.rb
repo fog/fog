@@ -12,8 +12,11 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'requestId'<~String> - Id of request
-        #     * 'return'<~Boolean> - success?
+        #     * 'ResponseMetadata'<~Hash>:
+        #       * 'RequestId'<~String> - Id of request
+        #     * 'RegisterInstancesWithLoadBalancer'<~Hash>:
+        #       * 'Instances'<~Array> - array of hashes describing instances currently enabled
+        #         * 'InstanceId'<~String>
         def register_instances_with_load_balancer(instance_ids, lb_name)
           params = ELB.indexed_param('Instances.member.%.InstanceId', [*instance_ids], 1)
           request({
