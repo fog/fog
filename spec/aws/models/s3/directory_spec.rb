@@ -8,7 +8,7 @@ describe 'Fog::AWS::S3::Directory' do
       now = Time.now
       directory = Fog::AWS::S3::Directory.new(
         'CreationDate' => now,
-        'Key'         => 'directorykey'
+        'Name'         => 'directorykey'
       )
       directory.creation_date.should == now
       directory.key.should == 'directorykey'
