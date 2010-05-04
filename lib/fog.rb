@@ -33,7 +33,7 @@ require 'fog/terremark'
 
 module Fog
 
-  unless VERSION
+  unless const_defined?(:VERSION)
     VERSION = '0.0.87'
   end
 
