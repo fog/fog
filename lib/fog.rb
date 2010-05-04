@@ -34,7 +34,7 @@ require 'fog/terremark'
 module Fog
 
   unless const_defined?(:VERSION)
-    VERSION = '0.0.88'
+    VERSION = '0.0.89'
   end
 
   module Mock
