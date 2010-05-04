@@ -19,7 +19,7 @@ module Fog
             'Action'        => 'ModifyImageAttribute',
             'Attribute'     => attribute,
             'ImageId'       => image_id,
-            'OperationType' => operation,
+            'OperationType' => operation_type,
             :parser         => Fog::Parsers::AWS::EC2::Basic.new
           }.merge!(params))
         end
@@ -28,7 +28,7 @@ module Fog
 
       class Mock
 
-        def modify_image_attributes(image_id, user_id, options = {})
+        def modify_image_attributes(image_id, attribute, operation_type, options = {})
           raise MockNotImplemented.new("Contributions welcome!")
         end
 
