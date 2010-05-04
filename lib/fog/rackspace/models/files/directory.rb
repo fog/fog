@@ -8,8 +8,9 @@ module Fog
       class Directory < Fog::Model
         extend Fog::Deprecation
         deprecate(:name, :key)
+        deprecate(:name=, :key=)
 
-        identity  :key, ['name', :name]
+        identity  :key, ['name']
 
         attribute :bytes
         attribute :count

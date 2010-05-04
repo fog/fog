@@ -9,8 +9,8 @@ module Fog
       model Fog::Local::File
 
       def all
-        if directory.collection.get(directory.name)
-          data = Dir.entries(connection.path_to(directory.name)).select do |key|
+        if directory.collection.get(directory.key)
+          data = Dir.entries(connection.path_to(directory.key)).select do |key|
             key[0...1] != '.' && !::File.directory?(connection.path_to(key))
           end.map do |key|
             path = file_path(key)
@@ -66,7 +66,7 @@ module Fog
       end
 
       def file_path(key)
-        connection.path_to(::File.join(directory.name, key))
+        connection.path_to(::File.join(directory.key, key))
       end
 
     end

@@ -49,7 +49,7 @@ module Fog
       end
 
       def path
-        connection.path_to(::File.join(directory.name, key))
+        connection.path_to(::File.join(directory.key, key))
       end
 
     end

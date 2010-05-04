@@ -8,7 +8,7 @@ module Fog
           warning = "[yellow][WARN] #{self} => ##{older} is deprecated, use ##{newer} instead[/]"
           warning << " [light_black](" << location << ")[/] "
           Formatador.display_line(warning)
-          #{newer}(*args)
+          send(:#{newer}, *args)
         end
       EOS
     end

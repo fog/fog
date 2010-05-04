@@ -5,11 +5,14 @@ module Fog
   module Local
 
     class Directory < Fog::Model
+      extend Fog::Deprecation
+      deprecate(:name, :key)
+      deprecate(:name=, :key=)
 
-      identity  :name
+      identity  :key
 
       def destroy
-        requires :name
+        requires :key
 
         if ::File.directory?(path)
           Dir.rmdir(path)
@@ -29,7 +32,7 @@ module Fog
       end
 
       def save
-        requires :name
+        requires :key
 
         Dir.mkdir(path)
         true
@@ -38,7 +41,7 @@ module Fog
       private
 
       def path
-        connection.path_to(name)
+        connection.path_to(key)
       end
 
     end

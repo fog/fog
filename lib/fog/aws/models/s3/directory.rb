@@ -8,8 +8,9 @@ module Fog
       class Directory < Fog::Model
         extend Fog::Deprecation
         deprecate(:name, :key)
+        deprecate(:name=, :key=)
 
-        identity  :key,           ['Name', 'name', :name]
+        identity  :key,           ['Name', 'name']
 
         attribute :creation_date, 'CreationDate'
 
