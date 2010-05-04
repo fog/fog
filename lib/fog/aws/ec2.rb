@@ -66,6 +66,7 @@ module Fog
           require 'fog/aws/requests/ec2/detach_volume'
           require 'fog/aws/requests/ec2/disassociate_address'
           require 'fog/aws/requests/ec2/get_console_output'
+          require 'fog/aws/requests/ec2/modify_image_attributes'
           require 'fog/aws/requests/ec2/reboot_instances'
           require 'fog/aws/requests/ec2/release_address'
           require 'fog/aws/requests/ec2/revoke_security_group_ingress'
