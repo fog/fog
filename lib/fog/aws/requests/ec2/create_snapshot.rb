@@ -35,7 +35,7 @@ module Fog
             response.status = 200
             snapshot_id = Fog::AWS::Mock.snapshot_id
             data = {
-              'progress'    => '',
+              'progress'    => nil,
               'snapshotId'  => snapshot_id,
               'startTime'   => Time.now,
               'status'      => 'pending',

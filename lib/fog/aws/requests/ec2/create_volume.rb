@@ -43,7 +43,7 @@ module Fog
               'attachmentSet'     => [],
               'createTime'        => Time.now,
               'size'              => size,
-              'snapshotId'        => snapshot_id || '',
+              'snapshotId'        => snapshot_id,
               'status'            => 'creating',
               'volumeId'          => volume_id
             }

@@ -107,7 +107,7 @@ module Fog
             instance = {
               'amiLaunchIndex'      => i,
               'blockDeviceMapping'  => [],
-              'dnsName'             => '',
+              'dnsName'             => nil,
               'imageId'             => image_id,
               'instanceId'          => instance_id,
               'instanceState'       => { 'code' => 0, 'name' => 'pending' },
@@ -117,17 +117,17 @@ module Fog
               'launchTime'          => Time.now,
               'monitoring'          => { 'state' => options['Monitoring.Enabled'] || false },
               'placement'           => { 'availabilityZone' => options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone },
-              'privateDnsName'      => '',
+              'privateDnsName'      => nil,
               'productCodes'        => [],
               'ramdiskId'           => options['RamdiskId'] || Fog::AWS::Mock.ramdisk_id,
-              'reason'              => '',
+              'reason'              => nil,
               'rootDeviceType'      => 'instance-store'
             }
             instances_set << instance
             @data[:instances][instance_id] = instance.merge({
               'groupSet'            => group_set,
               'ownerId'             => @owner_id,
-              'privateIpAddress'    => '',
+              'privateIpAddress'    => nil,
               'reservationId'       => reservation_id,
             })
           end

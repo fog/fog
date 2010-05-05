@@ -29,7 +29,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           if address = @data[:addresses][public_ip]
-            address['instanceId'] = ''
+            address['instanceId'] = nil
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,

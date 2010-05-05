@@ -27,7 +27,7 @@ module Fog
             response.status = 200
             public_ip = Fog::AWS::Mock.ip_address
             data ={
-              'instanceId' => '',
+              'instanceId' => nil,
               'publicIp'   => public_ip
             }
             @data[:addresses][public_ip] = data
