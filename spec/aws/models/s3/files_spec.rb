@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 describe 'Fog::AWS::S3::Files' do
 
   before(:each) do
-    @directory = AWS[:s3].directories.create(:name => 'fogdirectoryname')
+    @directory = AWS[:s3].directories.create(:key => 'fogdirectoryname')
   end
 
   after(:each) do
@@ -30,7 +30,7 @@ describe 'Fog::AWS::S3::Files' do
   describe "#all" do
 
     it "should return nil if the directory does not exist" do
-      directory = AWS[:s3].directories.new(:name => 'notadirectory')
+      directory = AWS[:s3].directories.new(:key => 'notadirectory')
       directory.files.all.should be_nil
     end
 

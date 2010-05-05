@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 describe 'Fog::AWS::S3::File' do
 
   before(:each) do
-    @directory = AWS[:s3].directories.create(:name => 'fogdirectoryname')
+    @directory = AWS[:s3].directories.create(:key => 'fogdirectoryname')
   end
 
   after(:each) do
@@ -53,7 +53,7 @@ describe 'Fog::AWS::S3::File' do
   describe "#copy" do
 
     it "should return a Fog::AWS::S3::File with matching attributes" do
-      other_directory = AWS[:s3].directories.create(:name => 'fogotherdirectoryname')
+      other_directory = AWS[:s3].directories.create(:key => 'fogotherdirectoryname')
       data = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
       file = @directory.files.create(:key => 'fogfilename', :body => data)
       other_file = file.copy('fogotherdirectoryname', 'fogotherfilename')
