@@ -11,10 +11,10 @@ module Fog
           end
 
           def start_element(name, attrs = [])
+            super
             if name == 'productCodes'
               @in_product_codes = true
             end
-            @value = ''
           end
           
           def end_element(name)

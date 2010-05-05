@@ -13,10 +13,10 @@ module Fog
           end
 
           def start_element(name, attrs = [])
+            super
             if name == 'attachmentSet'
               @in_attachment_set = true
             end
-            @value = ''
           end
 
           def end_element(name)

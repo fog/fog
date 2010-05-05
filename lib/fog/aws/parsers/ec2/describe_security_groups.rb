@@ -14,6 +14,7 @@ module Fog
           end
 
           def start_element(name, attrs = [])
+            super
             if name == 'groups'
               @in_groups = true
             elsif name == 'ipPermissions'
@@ -21,7 +22,6 @@ module Fog
             elsif name == 'ipRanges'
               @in_ip_ranges = true
             end
-            @value = ''
           end
 
           def end_element(name)

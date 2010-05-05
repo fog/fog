@@ -15,7 +15,7 @@ describe 'EC2.create_snapshot' do
 
     it "should return proper attributes" do
       actual = AWS[:ec2].create_snapshot(@volume_id)
-      actual.body['progress'].should be_a(String)
+      actual.body['progress'].should be_nil
       @snapshot_id = actual.body['snapshotId']
       actual.body['snapshotId'].should be_a(String)
       actual.body['startTime'].should be_a(Time)

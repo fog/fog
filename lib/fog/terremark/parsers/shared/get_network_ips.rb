@@ -10,10 +10,6 @@ module Fog
             @response = { 'IpAddresses' => [] }
           end
 
-          def start_element(name,attributes=[])
-            @value = ''
-          end
-
           def end_element(name)
             case name
             when 'Name', 'Status', 'Server'

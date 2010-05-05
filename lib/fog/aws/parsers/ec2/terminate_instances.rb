@@ -11,12 +11,12 @@ module Fog
           end
 
           def start_element(name, attrs = [])
+            super
             if name == 'previousState'
               @in_previous_state = true
             elsif name == 'currentState'
               @in_current_state = true
             end
-            @value = ''
           end
 
           def end_element(name)

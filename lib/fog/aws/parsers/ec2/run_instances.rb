@@ -12,6 +12,7 @@ module Fog
           end
 
           def start_element(name, attrs = [])
+            super
             case name
             when 'blockDeviceMapping'
               @in_block_device_mapping = true
@@ -20,7 +21,6 @@ module Fog
             when 'productCodes'
               @in_product_codes = true
             end
-            @value = ''
           end
 
           def end_element(name)

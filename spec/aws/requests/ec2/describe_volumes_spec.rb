@@ -18,7 +18,7 @@ describe 'EC2.describe_volumes' do
       volume['availabilityZone'].should be_a(String)
       volume['createTime'].should be_a(Time)
       volume['size'].should == 1
-      volume['snapshotId'].should == ''
+      volume['snapshotId'].should be_nil
       volume['status'].should be_a(String) 
       volume['volumeId'].should == @volume_id
       volume['attachmentSet'].should == []
@@ -31,7 +31,7 @@ describe 'EC2.describe_volumes' do
       volume['availabilityZone'].should be_a(String)
       volume['createTime'].should be_a(Time)
       volume['size'].should == 1
-      volume['snapshotId'].should == ''
+      volume['snapshotId'].should be_nil
       volume['status'].should be_a(String) 
       volume['volumeId'].should == @volume_id
       volume['attachmentSet'].should == []

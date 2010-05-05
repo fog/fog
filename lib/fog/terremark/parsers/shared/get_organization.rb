@@ -10,7 +10,7 @@ module Fog
           end
 
           def start_element(name, attributes)
-            @value = ''
+            super
             case name
             when 'Link'
               link = {}

@@ -13,6 +13,7 @@ module Fog
           end
 
           def start_element(name, attrs = [])
+            super
             case name
             when 'ListenerDescriptions'
               @in_listeners = true
@@ -29,7 +30,6 @@ module Fog
             when 'AppCookieStickinessPolicies'
               @in_app_cookies = true
             end
-            @value = ''
           end
 
           def end_element(name)

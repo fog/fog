@@ -18,7 +18,7 @@ describe 'EC2.run_instances' do
       instance['amiLaunchIndex'].should be_a(Integer)
       # instance['architecture'].should be_a(String)
       instance['blockDeviceMapping'].should be_an(Array)
-      instance['dnsName'].should be_a(String)
+      instance['dnsName'].should be_nil
       instance['imageId'].should be_a(String)
       instance['instanceId'].should be_a(String)
       instance['instanceState'].should be_an(Hash)
@@ -33,10 +33,10 @@ describe 'EC2.run_instances' do
       [false, true].should include(instance['monitoring']['state'])
       instance['placement'].should be_a(Hash)
       instance['placement']['availabilityZone'].should be_a(String)
-      instance['privateDnsName'].should be_a(String)
+      instance['privateDnsName'].should be_nil
       # instance['privateIpAddress'].should be_a(String)
       instance['ramdiskId'].should be_a(String)
-      instance['reason'].should be_a(String)
+      instance['reason'].should be_nil
       actual.body['ownerId'].should be_a(String)
       actual.body['requestId'].should be_a(String)
       actual.body['reservationId'].should be_a(String)

@@ -7,6 +7,7 @@ describe 'EC2.describe_instances' do
       run_instances = AWS[:ec2].run_instances(GENTOO_AMI, 1, 1).body
       @instance_id = run_instances['instancesSet'].first['instanceId']
       @reservation_id = run_instances['reservationId']
+      Fog.wait_for { AWS[:ec2].servers.get(@instance_id) }
       AWS[:ec2].servers.get(@instance_id).wait_for { ready? }
     end
 
@@ -45,7 +46,9 @@ describe 'EC2.describe_instances' do
       instance['productCodes'].should be_an(Array)
       instance['productCodes'].first.should be_a(String) if instance['productCodes'].first
       instance['ramdiskId'].should be_a(String)
-      instance['reason'].should be_a(String)
+      if instance['reason']
+        instance['reason'].should be_a(String)
+      end
       # instance['rootDeviceName'].should be_a(String)
       instance['rootDeviceType'].should be_a(String)
     end
@@ -81,7 +84,9 @@ describe 'EC2.describe_instances' do
       instance['productCodes'].should be_an(Array)
       instance['productCodes'].first.should be_a(String) if instance['productCodes'].first
       instance['ramdiskId'].should be_a(String)
-      instance['reason'].should be_a(String)
+      if instance['reason']
+        instance['reason'].should be_a(String)
+      end
       # instance['rootDeviceName'].should be_a(String)
       instance['rootDeviceType'].should be_a(String)
     end

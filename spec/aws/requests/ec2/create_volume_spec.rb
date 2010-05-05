@@ -13,7 +13,7 @@ describe 'EC2.create_volume' do
       actual.body['createTime'].should be_a(Time)
       actual.body['requestId'].should be_a(String)
       actual.body['size'].should == 1
-      actual.body['snapshotId'].should == ''
+      actual.body['snapshotId'].should be_nil
       actual.body['status'].should be_a(String)
       actual.body['volumeId'].should be_a(String)
       @volume_id = actual.body['volumeId']

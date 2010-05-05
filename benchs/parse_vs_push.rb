@@ -20,7 +20,7 @@ class Parser < Nokogiri::XML::SAX::Document
   end
 
   def start_element(name, attrs = [])
-    @value = ''
+    @value = nil
   end
 
   def end_element(name)

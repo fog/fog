@@ -13,11 +13,12 @@ module Fog
       end
 
       def characters(string)
+        @value ||= ''
         @value << string.strip
       end
 
       def start_element(name, attrs = [])
-        @value = ''
+        @value = nil
       end
 
     end
