@@ -91,8 +91,8 @@ module Fog
       if data = collection.get(identity)
         new_attributes = data.attributes
         merge_attributes(new_attributes)
+        self
       end
-      self
     end
 
     def requires(*args)
