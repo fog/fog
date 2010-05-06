@@ -28,11 +28,8 @@ Shindo.tests('Rackspace::Servers#reboot_server', 'rackspace') do
   tests('failure') do
 
     test('raises NotFound error if server does not exist') do
-      begin
+      has_error(Excon::Errors::NotFound) do
         Rackspace[:servers].reboot_server(0)
-        false
-      rescue Excon::Errors::NotFound
-        true
       end
     end
 

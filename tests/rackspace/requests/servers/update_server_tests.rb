@@ -12,18 +12,15 @@ Shindo.tests('Rackspace::Servers#update_server', 'rackspace') do
     end
 
     test('has proper output format') do
-      validate_format(@data, {'name' => String, 'adminPass' => String})
+      has_format(@data, {'name' => String, 'adminPass' => String})
     end
 
   end
   tests('failure') do
 
     test('raises NotFound error if server does not exist') do
-      begin
+      has_error(Excon::Errors::NotFound) do
         Rackspace[:servers].update_server(0, :name => 'fogupdatedserver', :adminPass => 'fogupdatedserver')
-        false
-      rescue Excon::Errors::NotFound
-        true
       end
     end
 

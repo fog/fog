@@ -16,11 +16,8 @@ Shindo.tests('Slicehost#delete_slice', 'slicehost') do
   tests('failure') do
 
     test('raises NotFound error if slice does not exist') do
-      begin
+      has_error(Excon::Errors::NotFound) do
         Slicehost[:slices].delete_slice(0)
-        false
-      rescue Excon::Errors::NotFound
-        true
       end
     end
 

@@ -6,18 +6,15 @@ Shindo.tests('Rackspace::Servers#get_flavor_details', 'rackspace') do
     end
 
     test('has proper output format') do
-      validate_format(@data, Rackspace::Servers::Formats::FLAVOR)
+      has_format(@data, Rackspace::Servers::Formats::FLAVOR)
     end
 
   end
   tests('failure') do
 
     test('raises NotFound error if flavor does not exist') do
-      begin
+      has_error(Excon::Errors::NotFound) do
         Rackspace[:servers].get_flavor_details(0)
-        false
-      rescue Excon::Errors::NotFound
-        true
       end
     end
 

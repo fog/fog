@@ -1,8 +1,22 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'fog'))
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'fog', 'bin'))
 
+if ENV["FOG_MOCK"] == "true"
+  Fog.mock!
+end
+
+def has_error(description, error, &block)
+  begin
+    yield
+    @formatador.display_line("[red]did not raise #{error}[/]")
+    false
+  rescue error
+    true
+  end
+end
+
 # TODO: Currently is true even if some of the keys in format do not appear
-def validate_format(original_data, format)
+def has_format(original_data, format)
   valid = true
   data = original_data.dup
   for key, value in format
@@ -14,14 +28,14 @@ def validate_format(original_data, format)
       for element in datum
         type = value.first
         if type.is_a?(Hash)
-          valid &&= validate_format({:element => element}, {:element => type})
+          valid &&= has_format({:element => element}, {:element => type})
         else
           valid &&= element.is_a?(type)
         end
       end
     when Hash
       valid &&= datum.is_a?(Hash)
-      valid &&= validate_format(datum, value)
+      valid &&= has_format(datum, value)
     else
       valid &&= datum.is_a?(value)
     end

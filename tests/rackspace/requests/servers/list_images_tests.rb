@@ -6,7 +6,7 @@ Shindo.tests('Rackspace::Servers#list_images', 'rackspace') do
     end
 
     test('has proper output format') do
-      validate_format(@data, Rackspace::Servers::Formats::SUMMARY)
+      has_format(@data, Rackspace::Servers::Formats::SUMMARY)
     end
 
   end

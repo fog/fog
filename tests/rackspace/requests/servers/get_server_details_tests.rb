@@ -12,18 +12,15 @@ Shindo.tests('Rackspace::Servers#get_server_details', 'rackspace') do
     end
 
     test('has proper output format') do
-      validate_format(@data, Rackspace::Servers::Formats::SERVER)
+      has_format(@data, Rackspace::Servers::Formats::SERVER)
     end
 
   end
   tests('failure') do
 
     test('raises NotFound error if server does not exist') do
-      begin
+      has_error(Excon::Errors::NotFound) do
         Rackspace[:servers].get_server_details(0)
-        false
-      rescue Excon::Errors::NotFound
-        true
       end
     end
 

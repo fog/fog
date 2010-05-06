@@ -13,7 +13,7 @@ Shindo.tests('Slicehost#get_slice', 'slicehost') do
     end
 
     test('has proper output format') do
-      validate_format(@data, Slicehost::Formats::SLICE)
+      has_format(@data, Slicehost::Formats::SLICE)
     end
 
   end
@@ -21,11 +21,8 @@ Shindo.tests('Slicehost#get_slice', 'slicehost') do
   tests('failure') do
 
     test('raises Forbidden error if flavor does not exist') do
-      begin
+      has_error(Excon::Errors::Forbidden)
         Slicehost[:slices].get_slice(0)
-        false
-      rescue Excon::Errors::Forbidden
-        true
       end
     end
 

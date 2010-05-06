@@ -12,7 +12,7 @@ Shindo.tests('Rackspace::Servers#list_servers_detail', 'rackspace') do
     end
 
     test('has proper output format') do
-      validate_format(@data, Rackspace::Servers::Formats::SERVER)
+      has_format(@data, Rackspace::Servers::Formats::SERVER)
     end
 
   end

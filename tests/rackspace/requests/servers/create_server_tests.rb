@@ -13,7 +13,7 @@ Shindo.tests('Rackspace::Servers#create_server', 'rackspace') do
     end
 
     test('has proper output format') do
-      validate_format(@data, Rackspace::Servers::Formats::SERVER.merge('adminPass' => String))
+      has_format(@data, Rackspace::Servers::Formats::SERVER.merge('adminPass' => String))
     end
 
   end

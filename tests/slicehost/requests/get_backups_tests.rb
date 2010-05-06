@@ -7,7 +7,7 @@ Shindo.tests('Slicehost#get_backups', 'slicehost') do
 
     # TODO: ensure this still works with a non-empty list
     test('has proper output format') do
-      validate_format(@data, { 'backups' => [Slicehost::Formats::BACKUP] })
+      has_format(@data, { 'backups' => [Slicehost::Formats::BACKUP] })
     end
 
   end

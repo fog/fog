@@ -20,11 +20,8 @@ Shindo.tests('Rackspace::Servers#delete_image', 'rackspace') do
   tests('failure') do
 
     test('raises NotFound error if image does not exist') do
-      begin
+      has_error(Excon::Errors::NotFound) do
         Rackspace[:servers].delete_image(0)
-        false
-      rescue Excon::Errors::NotFound
-        true
       end
     end
 

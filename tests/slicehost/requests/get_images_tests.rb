@@ -6,7 +6,7 @@ Shindo.tests('Slicehost#get_images', 'slicehost') do
     end
 
     test('has proper output format') do
-      validate_format(@data, { 'images' => [Slicehost::Formats::IMAGE] })
+      has_format(@data, { 'images' => [Slicehost::Formats::IMAGE] })
     end
 
   end
