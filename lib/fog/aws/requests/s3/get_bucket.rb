@@ -79,10 +79,10 @@ module Fog
                 data
               end,
               'IsTruncated' => false,
-              'Marker'      => options['marker'] || '',
+              'Marker'      => options['marker'],
               'MaxKeys'     => options['max-keys'] || 1000,
               'Name'        => bucket['Name'],
-              'Prefix'      => options['prefix'] || ''
+              'Prefix'      => options['prefix']
             }
             if options['max-keys'] && options['max-keys'] < response.body['Contents'].length
                 response.body['IsTruncated'] = true
