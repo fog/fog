@@ -39,7 +39,7 @@ describe 'EC2.attach_volume' do
       AWS[:ec2].delete_volume(@volume_id)
     end
 
-    it "should raise a BadRequest error if the address does not exist" do
+    it "should raise a BadRequest error if the volume does not exist" do
       @instance_id = AWS[:ec2].run_instances(GENTOO_AMI, 1, 1).body['instancesSet'].first['instanceId']
       lambda {
         AWS[:ec2].attach_volume(@instance_id, 'vol-00000000', '/dev/sdh')
