@@ -115,7 +115,10 @@ module Fog
 
     def wait_for(timeout = 600, &block)
       reload
-      Fog.wait_for(timeout) { reload && instance_eval(&block) }
+      Fog.wait_for(timeout) do
+        reload or raise StandardError.new("Reload failed, #{self.class} #{self.identity} went away.")
+        instance_eval(&block)
+      end
     end
 
     private
