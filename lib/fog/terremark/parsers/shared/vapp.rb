@@ -6,7 +6,7 @@ module Fog
         class Vapp < Fog::Parsers::Base
 
           def reset
-            @response = { 'Links' => [], 'VirtualHardware' => {} }
+            @response = { 'Links' => [], 'VirtualHardware' => {}, 'OperatingSystem' => {} }
             @in_operating_system = false
             @resource_type = nil
           end
