@@ -15,10 +15,14 @@ module Fog
             when 'item'
               @response['snapshotSet'] << @snapshot
               @snapshot = {}
-            when 'progress', 'snapshotId', 'status', 'volumeId'
+            when 'description', 'ownerId', 'progress', 'snapshotId', 'status', 'volumeId'
               @snapshot[name] = @value
+            when 'requestId'
+              @response[name] = @value
             when 'startTime'
               @snapshot[name] = Time.parse(@value)
+            when 'volumeSize'
+              @snapshot[name] = @value.to_i
             end
           end
 

@@ -17,11 +17,12 @@ module Fog
         #     * 'startTime'<~Time> - timestamp when snapshot was initiated
         #     * 'status'<~String> - state of snapshot
         #     * 'volumeId'<~String> - id of volume snapshot targets
-        def create_snapshot(volume_id)
+        def create_snapshot(volume_id, description = nil)
           request(
-            'Action'    => 'CreateSnapshot',
-            'VolumeId'  => volume_id,
-            :parser     => Fog::Parsers::AWS::EC2::CreateSnapshot.new
+            'Action'      => 'CreateSnapshot',
+            'Description' => description,
+            'VolumeId'    => volume_id,
+            :parser       => Fog::Parsers::AWS::EC2::CreateSnapshot.new
           )
         end
 

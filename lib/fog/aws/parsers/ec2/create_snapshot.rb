@@ -7,10 +7,14 @@ module Fog
 
           def end_element(name)
             case name
-            when 'progress', 'snapshotId', 'status', 'volumeId'
+            when 'description', 'ownerId', 'progress', 'snapshotId', 'status', 'volumeId'
+              @response[name] = @value
+            when 'requestId'
               @response[name] = @value
             when 'startTime'
               @response[name] = Time.parse(@value)
+            when 'volumeSize'
+              @response[name] = @value.to_i
             end
           end
 

@@ -46,6 +46,22 @@ module AWS
         'return'    => ::Fog::Boolean
       }
 
+      SNAPSHOT = {
+        'description' => NilClass,
+        'ownerId'     => String,
+        'progress'    => String,
+        'snapshotId'  => String,
+        'startTime'   => Time,
+        'status'      => String,
+        'volumeId'    => String,
+        'volumeSize'  => Integer
+      }
+
+      SNAPSHOTS = {
+        'requestId'   => String,
+        'snapshotSet' => [SNAPSHOT]
+      }
+
       VOLUME = {
         'availabilityZone'  => String,
         'createTime'        => Time,
