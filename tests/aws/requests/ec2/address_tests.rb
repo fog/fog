@@ -1,4 +1,4 @@
-Shindo.tests('AWS::EC2', ['aws']) do
+Shindo.tests('AWS::EC2 | address requests', ['aws']) do
 
   @server = AWS[:ec2].servers.create(:image_id => GENTOO_AMI)
   @server.wait_for { ready? }
@@ -68,11 +68,8 @@ Shindo.tests('AWS::EC2', ['aws']) do
     end
 
     test("#disassociate_addresses('127.0.0.1') raises BadRequest error") do
-      begin
+      has_error(Excon::Errors::BadRequest) do
         AWS[:ec2].disassociate_address('127.0.0.1')
-        false
-      rescue Excon::Errors::BadRequest
-        true
       end
     end
 

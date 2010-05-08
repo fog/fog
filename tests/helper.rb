@@ -5,7 +5,7 @@ if ENV["FOG_MOCK"] == "true"
   Fog.mock!
 end
 
-def has_error(description, error, &block)
+def has_error(error, &block)
   begin
     yield
     @formatador.display_line("[red]did not raise #{error}[/]")
@@ -15,13 +15,14 @@ def has_error(description, error, &block)
   end
 end
 
-# TODO: Currently is true even if some of the keys in format do not appear
-def has_format(original_data, format)
+def has_format(original_data, original_format)
   valid = true
   data = original_data.dup
+  format = original_format.dup
   for key, value in format
     valid &&= data.has_key?(key)
     datum = data.delete(key)
+    format.delete(key)
     case value
     when Array
       valid &&= datum.is_a?(Array)
@@ -40,9 +41,9 @@ def has_format(original_data, format)
       valid &&= datum.is_a?(value)
     end
   end
-  valid &&= data.empty?
+  valid &&= data.empty? && format.empty?
   unless valid
-    @formatador.display_line("[red]#{original_data.inspect} does not match #{format.inspect}[/]")
+    @formatador.display_line("[red]#{original_data.inspect} does not match #{original_format.inspect}[/]")
   end
   valid
 end
