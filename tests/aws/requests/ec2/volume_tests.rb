@@ -29,6 +29,7 @@ Shindo.tests('AWS::EC2 | volume requests', ['aws']) do
     end
 
     test("#detach_volume('#{@volume_id}')") do
+      AWS[:ec2].volumes.get(@volume_id).wait_for { state == 'attached' }
       @data = AWS[:ec2].detach_volume(@volume_id).body
       has_format(@data, AWS::EC2::Formats::VOLUME_ATTACHMENT)
     end
