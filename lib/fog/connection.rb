@@ -5,13 +5,15 @@ module Fog
       @excon = Excon.new(url)
     end
 
-    def request(params)
-      if parser = params.delete(:parser)
-        body = Nokogiri::XML::SAX::PushParser.new(parser)
-        params[:block] = lambda { |chunk| body << chunk }
+    def request(params, &block)
+      unless block_given?
+        if (parser = params.delete(:parser))
+          body = Nokogiri::XML::SAX::PushParser.new(parser)
+          block = lambda { |chunk| body << chunk }
+        end
       end
 
-      response = @excon.request(params)
+      response = @excon.request(params, &block)
 
       if parser
         body.finish

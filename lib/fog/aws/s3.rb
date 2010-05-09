@@ -141,12 +141,12 @@ module Fog
 
         private
 
-        def request(params)
+        def request(params, &block)
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
           params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
           params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
 
-          response = @connection.request(params)
+          response = @connection.request(params, &block)
 
           response
         end

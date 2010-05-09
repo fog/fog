@@ -112,7 +112,7 @@ module Fog
           response
         end
 
-        def storage_request(params, parse_json = true)
+        def storage_request(params, parse_json = true, &block)
           @storage_connection = Fog::Connection.new("#{@storage_scheme}://#{@storage_host}:#{@storage_port}")
           response = @storage_connection.request({
             :body     => params[:body],
@@ -125,7 +125,7 @@ module Fog
             :method   => params[:method],
             :path     => "#{@storage_path}/#{params[:path]}",
             :query    => params[:query]
-          })
+          }, &block)
           if !response.body.empty? && parse_json
             response.body = JSON.parse(response.body)
           end
