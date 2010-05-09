@@ -13,6 +13,7 @@ Shindo.tests('AWS::EC2 | snapshot requests', ['aws']) do
     end
 
     test("#describe_snapshots") do
+      AWS[:ec2].snapshots.get(@snapshot_id).wait_for { ready? }
       @data = AWS[:ec2].describe_snapshots.body
       has_format(@data, AWS::EC2::Formats::SNAPSHOTS)
     end
