@@ -10,10 +10,13 @@ module Fog
 
         identity  :id, 'snapshotId'
 
+        attribute :description
         attribute :progress
         attribute :created_at,  'startTime'
+        attribute :owner_id,    'ownerId'
         attribute :state,       'status'
         attribute :volume_id,   'volumeId'
+        attribute :volume_size, 'volumeSize'
 
         def destroy
           requires :id
