@@ -53,6 +53,9 @@ module Fog
                 elsif Time.now - snapshot['startTime'] > Fog::Mock.delay
                   snapshot['progress']  = '50%'
                   snapshot['status']    = 'in progress'
+                else
+                  snapshot['progress']  = '0%'
+                  snapshot['status']    = 'in progress'
                 end
               end
             end
