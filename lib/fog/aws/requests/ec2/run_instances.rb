@@ -92,8 +92,6 @@ module Fog
 
       class Mock
 
-        # TODO: allow for block device mapping in mocks
-        # TODO: allow for rootDeviceType specification
         def run_instances(image_id, min_count, max_count, options = {})
           response = Excon::Response.new
           response.status = 200

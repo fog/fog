@@ -44,7 +44,6 @@ module Fog
             for id in instance_id
               instance = @data[:instances][id]
               @data[:deleted_at][id] = Time.now
-              # TODO: the codes are mostly educated guessing, not certainty
               code = case instance['instanceState']['name']
               when 'pending'
                 0

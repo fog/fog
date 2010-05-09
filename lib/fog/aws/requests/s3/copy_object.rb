@@ -23,7 +23,6 @@ module Fog
         #     * 'ETag'<~String> - etag of new object
         #     * 'LastModified'<~Time> - date object was last modified
         #
-        # TODO: allow specifying new metadata (support all/some of put_object?)
         def copy_object(source_bucket_name, source_object_name, target_bucket_name, target_object_name, options = {})
           headers = { 'x-amz-copy-source' => "/#{source_bucket_name}/#{source_object_name}" }.merge!(options)
           request({

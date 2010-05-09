@@ -8,18 +8,6 @@ module Fog
         # ==== Parameters
         # * internet_service_id<~Integer> - Id of service to destroy
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash>:
-
-        # FIXME
-
-        #     * 'CatalogItems'<~Array>
-        #       * 'href'<~String> - linke to item
-        #       * 'name'<~String> - name of item
-        #       * 'type'<~String> - type of item
-        #     * 'description'<~String> - Description of catalog
-        #     * 'name'<~String> - Name of catalog
         def delete_internet_service(internet_service_id)
           request(
             :expects  => 200,

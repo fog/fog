@@ -5,7 +5,6 @@ module Fog
       # Commond methods shared by Real and Mock
       module Common
 
-        # TODO: bust cache on organization creation?
         def default_organization_id
           @default_organization_id ||= begin
             org_list = get_organizations.body['OrgList']

@@ -33,7 +33,6 @@ module Fog
 
       class Mock
 
-        # TODO: handle the GroupName/Source/Source case
         def revoke_security_group_ingress(options = {})
           if options['GroupName'] && options['SourceSecurityGroupName'] && options['SourceSecurityGroupOwnerId']
             raise MockNotImplemented.new("Contributions welcome!")

@@ -8,18 +8,6 @@ module Fog
         # ==== Parameters
         # * vapp_id<~Integer> - Id of vapp to destroy
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash>:
-
-        # FIXME
-
-        #     * 'CatalogItems'<~Array>
-        #       * 'href'<~String> - linke to item
-        #       * 'name'<~String> - name of item
-        #       * 'type'<~String> - type of item
-        #     * 'description'<~String> - Description of catalog
-        #     * 'name'<~String> - Name of catalog
         def delete_vapp(vapp_id)
           request(
             :expects  => 202,
