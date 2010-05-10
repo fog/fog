@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.0.91'
-  s.date              = '2010-05-05'
+  s.version           = '0.0.92'
+  s.date              = '2010-05-10'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -114,12 +114,15 @@ Gem::Specification.new do |s|
     lib/fog/aws/parsers/ec2/get_console_output.rb
     lib/fog/aws/parsers/ec2/run_instances.rb
     lib/fog/aws/parsers/ec2/terminate_instances.rb
+    lib/fog/aws/parsers/elb/create_load_balancer.rb
+    lib/fog/aws/parsers/elb/delete_load_balancer.rb
     lib/fog/aws/parsers/elb/deregister_instances_from_load_balancer.rb
     lib/fog/aws/parsers/elb/describe_instance_health.rb
     lib/fog/aws/parsers/elb/describe_load_balancers.rb
     lib/fog/aws/parsers/elb/disable_availability_zones_for_load_balancer.rb
     lib/fog/aws/parsers/elb/enable_availability_zones_for_load_balancer.rb
     lib/fog/aws/parsers/elb/register_instances_with_load_balancer.rb
+    lib/fog/aws/parsers/s3/access_control_list.rb
     lib/fog/aws/parsers/s3/copy_object.rb
     lib/fog/aws/parsers/s3/get_bucket.rb
     lib/fog/aws/parsers/s3/get_bucket_location.rb
@@ -161,6 +164,8 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/ec2/revoke_security_group_ingress.rb
     lib/fog/aws/requests/ec2/run_instances.rb
     lib/fog/aws/requests/ec2/terminate_instances.rb
+    lib/fog/aws/requests/elb/create_load_balancer.rb
+    lib/fog/aws/requests/elb/delete_load_balancer.rb
     lib/fog/aws/requests/elb/deregister_instances_from_load_balancer.rb
     lib/fog/aws/requests/elb/describe_instance_health.rb
     lib/fog/aws/requests/elb/describe_load_balancers.rb
@@ -171,12 +176,17 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/s3/delete_bucket.rb
     lib/fog/aws/requests/s3/delete_object.rb
     lib/fog/aws/requests/s3/get_bucket.rb
+    lib/fog/aws/requests/s3/get_bucket_acl.rb
     lib/fog/aws/requests/s3/get_bucket_location.rb
     lib/fog/aws/requests/s3/get_object.rb
+    lib/fog/aws/requests/s3/get_object_acl.rb
+    lib/fog/aws/requests/s3/get_object_torrent.rb
+    lib/fog/aws/requests/s3/get_object_url.rb
     lib/fog/aws/requests/s3/get_request_payment.rb
     lib/fog/aws/requests/s3/get_service.rb
     lib/fog/aws/requests/s3/head_object.rb
     lib/fog/aws/requests/s3/put_bucket.rb
+    lib/fog/aws/requests/s3/put_bucket_acl.rb
     lib/fog/aws/requests/s3/put_object.rb
     lib/fog/aws/requests/s3/put_request_payment.rb
     lib/fog/aws/requests/simpledb/batch_put_attributes.rb
@@ -351,32 +361,19 @@ Gem::Specification.new do |s|
     spec/aws/models/s3/directory_spec.rb
     spec/aws/models/s3/file_spec.rb
     spec/aws/models/s3/files_spec.rb
-    spec/aws/requests/ec2/allocate_address_spec.rb
-    spec/aws/requests/ec2/associate_address_spec.rb
-    spec/aws/requests/ec2/attach_volume_spec.rb
     spec/aws/requests/ec2/authorize_security_group_ingress_spec.rb
     spec/aws/requests/ec2/create_key_pair_spec.rb
     spec/aws/requests/ec2/create_security_group_spec.rb
-    spec/aws/requests/ec2/create_snapshot_spec.rb
-    spec/aws/requests/ec2/create_volume_spec.rb
     spec/aws/requests/ec2/delete_key_pair_spec.rb
     spec/aws/requests/ec2/delete_security_group_spec.rb
-    spec/aws/requests/ec2/delete_snapshot_spec.rb
-    spec/aws/requests/ec2/delete_volume_spec.rb
-    spec/aws/requests/ec2/describe_addresses_spec.rb
     spec/aws/requests/ec2/describe_availability_zones_spec.rb
     spec/aws/requests/ec2/describe_images_spec.rb
     spec/aws/requests/ec2/describe_instances_spec.rb
     spec/aws/requests/ec2/describe_key_pairs_spec.rb
     spec/aws/requests/ec2/describe_regions_spec.rb
     spec/aws/requests/ec2/describe_security_groups_spec.rb
-    spec/aws/requests/ec2/describe_snapshots_spec.rb
-    spec/aws/requests/ec2/describe_volumes_spec.rb
-    spec/aws/requests/ec2/detach_volume_spec.rb
-    spec/aws/requests/ec2/disassociate_address_spec.rb
     spec/aws/requests/ec2/get_console_output_spec.rb
     spec/aws/requests/ec2/reboot_instances_spec.rb
-    spec/aws/requests/ec2/release_address_spec.rb
     spec/aws/requests/ec2/revoke_security_group_ingress_spec.rb
     spec/aws/requests/ec2/run_instances_spec.rb
     spec/aws/requests/ec2/terminate_instances_spec.rb
@@ -423,6 +420,10 @@ Gem::Specification.new do |s|
     spec/slicehost/models/server_spec.rb
     spec/slicehost/models/servers_spec.rb
     spec/spec_helper.rb
+    tests/aws/helper.rb
+    tests/aws/requests/ec2/address_tests.rb
+    tests/aws/requests/ec2/snapshot_tests.rb
+    tests/aws/requests/ec2/volume_tests.rb
     tests/helper.rb
     tests/helper_tests.rb
     tests/rackspace/helper.rb
