@@ -31,7 +31,7 @@ dependencies:
   excon: 
     group: 
     - :default
-    version: ">= 0.0.22"
+    version: ">= 0.0.24"
   shindo: 
     group: 
     - :default
@@ -44,7 +44,7 @@ specs:
 - rake: 
     version: 0.8.7
 - excon: 
-    version: 0.0.22
+    version: 0.0.24
 - formatador: 
     version: 0.0.14
 - gestalt: 
@@ -63,7 +63,7 @@ specs:
     version: 0.4.0
 - shindo: 
     version: 0.0.18
-hash: a39d842433b002231eebfd269d32fe72b489b62f
+hash: f7c60e9940d07b3b405ee2ac71eda00f018df121
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org
