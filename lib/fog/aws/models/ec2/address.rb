@@ -10,6 +10,12 @@ module Fog
 
         attribute :server_id, 'instanceId'
 
+        def initialize(attributes = {})
+          # assign server first to prevent race condition with new_record?
+          self.server = attributes.delete(:server)
+          super
+        end
+
         def destroy
           requires :public_ip
 
