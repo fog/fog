@@ -130,7 +130,7 @@ module Fog
 
     def new(attributes = {})
       model.new(
-        attributes.merge!(
+        attributes.merge(
           :collection => self,
           :connection => connection
         )
