@@ -22,6 +22,9 @@ module Fog
               end
             when 'Id', 'Port'
               @node_service[name] = @value.to_i
+	    when 'NodeService'
+	      @response['NodeServices'] << @node_service
+ 	      @node_service = {}
             end
           end
 
