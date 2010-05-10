@@ -5,12 +5,16 @@ module Fog
       def self.new(options={})
 
         unless @required
+          require 'fog/aws/parsers/elb/create_load_balancer'
+          require 'fog/aws/parsers/elb/delete_load_balancer'
           require 'fog/aws/parsers/elb/deregister_instances_from_load_balancer'
           require 'fog/aws/parsers/elb/describe_instance_health'
           require 'fog/aws/parsers/elb/describe_load_balancers'
           require 'fog/aws/parsers/elb/disable_availability_zones_for_load_balancer'
           require 'fog/aws/parsers/elb/enable_availability_zones_for_load_balancer'
           require 'fog/aws/parsers/elb/register_instances_with_load_balancer'
+          require 'fog/aws/requests/elb/create_load_balancer'
+          require 'fog/aws/requests/elb/delete_load_balancer'
           require 'fog/aws/requests/elb/deregister_instances_from_load_balancer'
           require 'fog/aws/requests/elb/describe_instance_health'
           require 'fog/aws/requests/elb/describe_load_balancers'
