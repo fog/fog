@@ -42,7 +42,7 @@ Gem::Specification.new do |s|
 
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
-  s.add_dependency('excon', '>=0.0.21')
+  s.add_dependency('excon', '>=0.0.23')
   s.add_dependency('formatador', '>=0.0.10')
   s.add_dependency('json')
   s.add_dependency('mime-types')
