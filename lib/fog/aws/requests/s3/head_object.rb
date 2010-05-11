@@ -14,6 +14,7 @@ module Fog
         #   * 'If-None-Match'<~String> - Returns object only if its etag differs from this value, otherwise returns 304 (Not Modified)
         #   * 'If-Unmodified-Since'<~Time> - Returns object only if it has not been modified since this time, otherwise returns 412 (Precodition Failed).
         #   * 'Range'<~String> - Range of object to download
+        #   * 'versionId'<~String> - specify a particular version to retrieve
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -24,6 +25,7 @@ module Fog
         #     * 'ETag'<~String> - Etag of object
         #     * 'Last-Modified'<~String> - Last modified timestamp for object
         def head_object(bucket_name, object_name, options={})
+          version_id = options.delete('versionId')
           headers = {}
           headers['If-Modified-Since'] = options['If-Modified-Since'].utc.strftime("%a, %d %b %Y %H:%M:%S +0000") if options['If-Modified-Since']
           headers['If-Unmodified-Since'] = options['If-Unmodified-Since'].utc.strftime("%a, %d %b %Y %H:%M:%S +0000") if options['If-Modified-Since']
@@ -33,7 +35,8 @@ module Fog
             :headers  => headers,
             :host     => "#{bucket_name}.#{@host}",
             :method   => 'HEAD',
-            :path     => CGI.escape(object_name)
+            :path     => CGI.escape(object_name),
+            :query    => CGI.escape(version_id)
           })
         end
 

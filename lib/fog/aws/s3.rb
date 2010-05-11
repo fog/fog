@@ -13,6 +13,7 @@ module Fog
           require 'fog/aws/parsers/s3/copy_object'
           require 'fog/aws/parsers/s3/get_bucket'
           require 'fog/aws/parsers/s3/get_bucket_location'
+          require 'fog/aws/parsers/s3/get_bucket_versioning'
           require 'fog/aws/parsers/s3/get_request_payment'
           require 'fog/aws/parsers/s3/get_service'
           require 'fog/aws/requests/s3/copy_object'
@@ -21,6 +22,7 @@ module Fog
           require 'fog/aws/requests/s3/get_bucket'
           require 'fog/aws/requests/s3/get_bucket_acl'
           require 'fog/aws/requests/s3/get_bucket_location'
+          require 'fog/aws/requests/s3/get_bucket_versioning'
           require 'fog/aws/requests/s3/get_object'
           require 'fog/aws/requests/s3/get_object_acl'
           require 'fog/aws/requests/s3/get_object_torrent'
@@ -30,6 +32,7 @@ module Fog
           require 'fog/aws/requests/s3/head_object'
           require 'fog/aws/requests/s3/put_bucket'
           require 'fog/aws/requests/s3/put_bucket_acl'
+          require 'fog/aws/requests/s3/put_bucket_versioning'
           require 'fog/aws/requests/s3/put_object'
           require 'fog/aws/requests/s3/put_request_payment'
           @required = true
@@ -195,7 +198,7 @@ DATA
             canonical_resource << "#{CGI.escape(subdomain).downcase}/"
           end
           canonical_resource << "#{params[:path]}"
-          if ['acl', 'location', 'logging', 'requestPayment', 'torrent'].include?(params[:query])
+          if params[:query]
             canonical_resource << "?#{params[:query]}"
           end
           string_to_sign << "#{canonical_resource}"
