@@ -50,7 +50,7 @@ DATA
             data << "    </Grant>"
           end
 
-data <<
+          data <<
 <<-DATA
   </AccessControlList>
 </AccessControlPolicy>
