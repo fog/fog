@@ -203,7 +203,7 @@ DATA
             canonical_resource << "#{CGI.escape(subdomain).downcase}/"
           end
           canonical_resource << "#{params[:path]}"
-          if params[:query]
+          if params[:query] && !params[:query].empty?
             canonical_resource << "?#{params[:query]}"
           end
           string_to_sign << "#{canonical_resource}"
