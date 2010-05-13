@@ -29,6 +29,10 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           if address = @data[:addresses][public_ip]
+            instance_id = address['instanceId']
+            instance = @data[:instances][instance_id]
+            instance['ipAddress']         = instance['originalIpAddress']
+            instance['dnsName']           = Fog::AWS::Mock.dns_name_for(instance['ipAddress'])
             address['instanceId'] = nil
             response.status = 200
             response.body = {

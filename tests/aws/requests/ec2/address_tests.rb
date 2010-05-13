@@ -2,6 +2,7 @@ Shindo.tests('AWS::EC2 | address requests', ['aws']) do
 
   @server = AWS[:ec2].servers.create(:image_id => GENTOO_AMI)
   @server.wait_for { ready? }
+  @ip_address = @server.ip_address
 
   tests('success') do
 
@@ -32,11 +33,13 @@ Shindo.tests('AWS::EC2 | address requests', ['aws']) do
     test("#associate_address('#{@server.identity}', '#{@public_ip}')") do
       @data = AWS[:ec2].associate_address(@server.identity, @public_ip).body
       has_format(@data, AWS::EC2::Formats::BASIC)
+      @server.reload.ip_address == @public_ip
     end
 
     test("#disassociate_address('#{@public_ip}')") do
       @data = AWS[:ec2].disassociate_address(@public_ip).body
       has_format(@data, AWS::EC2::Formats::BASIC)
+      @server.reload.ip_address == @ip_address
     end
 
     test("#release_address('#{@public_ip}')") do
