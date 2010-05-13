@@ -8,17 +8,18 @@ module Fog
         # ==== Parameters
         # * bucket_name<~String> - name of bucket to list object keys from
         # * options<~Hash> - config arguments for list.  Defaults to {}.
-        #   * 'prefix'<~String> - limits object keys to those beginning with its value.
+        #   * 'delimiter'<~String> - causes keys with the same string between the prefix
+        #     value and the first occurence of delimiter to be rolled up
         #   * 'marker'<~String> - limits object keys to only those that appear
         #     lexicographically after its value.
         #   * 'max-keys'<~Integer> - limits number of object keys returned
-        #   * 'delimiter'<~String> - causes keys with the same string between the prefix
-        #     value and the first occurence of delimiter to be rolled up
+        #   * 'prefix'<~String> - limits object keys to those beginning with its value.
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'Delimeter'<~String> - Delimiter specified for query
+        #     * 'IsTruncated'<~Boolean> - Whether or not the listing is truncated
         #     * 'Marker'<~String> - Marker specified for query
         #     * 'MaxKeys'<~Integer> - Maximum number of keys specified for query
         #     * 'Name'<~String> - Name of the bucket
@@ -32,14 +33,14 @@ module Fog
         #         * 'ID'<~String> - Id of object owner
         #       * 'Size'<~Integer> - Size of object
         #       * 'StorageClass'<~String> - Storage class of object
+        #
         def get_bucket(bucket_name, options = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
-          options.reject! {|key, value| !['prefix', 'marker', 'max-keys', 'delimiter'].include?(key)}
           query = ''
           for key, value in options
-            query << "#{key}=#{CGI.escape(value.to_s).gsub(/\+/, '%20')};"
+            query << "#{key}=#{CGI.escape(value.to_s).gsub(/\+/, '%20')}&"
           end
           query.chop!
           request({
