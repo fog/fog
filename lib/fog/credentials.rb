@@ -10,9 +10,13 @@ module Fog
       @credential || :default
     end
 
+    def config_path
+      ENV["FOG_RC"] || '~/.fog'
+    end
+
     def credentials
       @credentials ||= begin
-        path = File.expand_path('~/.fog')
+        path = File.expand_path(config_path)
         credentials = if File.exists?(path)
           File.open(path) do |file|
             YAML.load(file.read)
@@ -21,7 +25,7 @@ module Fog
           nil
         end
         unless credentials && credentials[credential]
-          print("\n  To run as '#{credential}', add the following to ~/.fog\n")
+          print("\n  To run as '#{credential}', add the following to #{config_path}\n")
           yml = <<-YML
 
 :#{credential}:
