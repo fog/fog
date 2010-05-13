@@ -77,7 +77,8 @@ module Fog
               case instance['instanceState']['name']
               when 'pending'
                 if Time.now - instance['launchTime'] > Fog::Mock.delay
-                  instance['dnsName']           = "ec2-#{Fog::AWS::Mock.ip_address.gsub('.','-')}.compute-1.amazonaws.com"
+                  instance['ipAddress']         = Fog::AWS::Mock.ip_address
+                  instance['dnsName']           = "ec2-#{instance['ipAddress'].gsub('.','-')}.compute-1.amazonaws.com"
                   instance['privateIpAddress']  = Fog::AWS::Mock.ip_address
                   instance['privateDnsName']    = "ip-#{instance['privateIpAddress'].gsub('.','-')}.ec2.internal"
                   instance['instanceState']     = { 'code' => 16, 'name' => 'running' }
@@ -105,7 +106,7 @@ module Fog
                   'ownerId'       => instance['ownerId'],
                   'reservationId' => instance['reservationId']
                 }
-                reservation_set[instance['reservationId']]['instancesSet'] << instance.reject{|key,value| !['amiLaunchIndex', 'blockDeviceMapping', 'dnsName', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'privateDnsName', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType'].include?(key)}
+                reservation_set[instance['reservationId']]['instancesSet'] << instance.reject{|key,value| !['amiLaunchIndex', 'blockDeviceMapping', 'dnsName', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'ipAddress', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'privateDnsName', 'privateIpAddress', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType'].include?(key)}
               end
             end
 
