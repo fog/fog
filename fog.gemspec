@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.0.93'
-  s.date              = '2010-05-10'
+  s.version           = '0.0.94'
+  s.date              = '2010-05-13'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -126,6 +126,9 @@ Gem::Specification.new do |s|
     lib/fog/aws/parsers/s3/copy_object.rb
     lib/fog/aws/parsers/s3/get_bucket.rb
     lib/fog/aws/parsers/s3/get_bucket_location.rb
+    lib/fog/aws/parsers/s3/get_bucket_logging.rb
+    lib/fog/aws/parsers/s3/get_bucket_object_versions.rb
+    lib/fog/aws/parsers/s3/get_bucket_versioning.rb
     lib/fog/aws/parsers/s3/get_request_payment.rb
     lib/fog/aws/parsers/s3/get_service.rb
     lib/fog/aws/parsers/simpledb/basic.rb
@@ -178,6 +181,9 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/s3/get_bucket.rb
     lib/fog/aws/requests/s3/get_bucket_acl.rb
     lib/fog/aws/requests/s3/get_bucket_location.rb
+    lib/fog/aws/requests/s3/get_bucket_logging.rb
+    lib/fog/aws/requests/s3/get_bucket_object_versions.rb
+    lib/fog/aws/requests/s3/get_bucket_versioning.rb
     lib/fog/aws/requests/s3/get_object.rb
     lib/fog/aws/requests/s3/get_object_acl.rb
     lib/fog/aws/requests/s3/get_object_torrent.rb
@@ -187,6 +193,8 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/s3/head_object.rb
     lib/fog/aws/requests/s3/put_bucket.rb
     lib/fog/aws/requests/s3/put_bucket_acl.rb
+    lib/fog/aws/requests/s3/put_bucket_logging.rb
+    lib/fog/aws/requests/s3/put_bucket_versioning.rb
     lib/fog/aws/requests/s3/put_object.rb
     lib/fog/aws/requests/s3/put_request_payment.rb
     lib/fog/aws/requests/simpledb/batch_put_attributes.rb
@@ -344,6 +352,25 @@ Gem::Specification.new do |s|
     lib/fog/terremark/requests/shared/power_shutdown.rb
     lib/fog/terremark/shared.rb
     lib/fog/terremark/vcloud.rb
+    lib/fog/vcloud.rb
+    lib/fog/vcloud/bin.rb
+    lib/fog/vcloud/parser.rb
+    lib/fog/vcloud/parsers/get_organization.rb
+    lib/fog/vcloud/parsers/get_vdc.rb
+    lib/fog/vcloud/parsers/get_versions.rb
+    lib/fog/vcloud/parsers/login.rb
+    lib/fog/vcloud/requests/get_organization.rb
+    lib/fog/vcloud/requests/get_vdc.rb
+    lib/fog/vcloud/requests/get_versions.rb
+    lib/fog/vcloud/requests/login.rb
+    lib/fog/vcloud/terremark/all.rb
+    lib/fog/vcloud/terremark/ecloud.rb
+    lib/fog/vcloud/terremark/ecloud/parsers/get_vdc.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_vdc.rb
+    lib/fog/vcloud/terremark/ecloud/requests/login.rb
+    lib/fog/vcloud/terremark/vcloud.rb
+    lib/fog/vcloud/terremark/vcloud/parsers/get_vdc.rb
+    lib/fog/vcloud/terremark/vcloud/requests/get_vdc.rb
     spec/aws/models/ec2/address_spec.rb
     spec/aws/models/ec2/addresses_spec.rb
     spec/aws/models/ec2/flavors_spec.rb
@@ -420,6 +447,16 @@ Gem::Specification.new do |s|
     spec/slicehost/models/server_spec.rb
     spec/slicehost/models/servers_spec.rb
     spec/spec_helper.rb
+    spec/vcloud/bin_spec.rb
+    spec/vcloud/requests/get_organization_spec.rb
+    spec/vcloud/requests/get_vdc_spec.rb
+    spec/vcloud/requests/get_versions_spec.rb
+    spec/vcloud/requests/login_spec.rb
+    spec/vcloud/spec_helper.rb
+    spec/vcloud/terremark/ecloud/requests/get_vdc_spec.rb
+    spec/vcloud/terremark/ecloud/requests/login_spec.rb
+    spec/vcloud/terremark/vcloud/requests/get_vdc_spec.rb
+    spec/vcloud/vcloud_spec.rb
     tests/aws/helper.rb
     tests/aws/requests/ec2/address_tests.rb
     tests/aws/requests/ec2/snapshot_tests.rb
