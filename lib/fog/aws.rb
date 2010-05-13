@@ -164,17 +164,13 @@ module Fog
       end
 
       def self.numbers(length)
-        random_selection(
-          '0123456789',
-          length
-        )
+        max = ('9' * length).to_i
+        rand(max).to_s
       end
 
       def self.hex(length)
-        random_selection(
-          '0123456789abcdef',
-          length
-        )
+        max = ('f' * length).to_i(16)
+        rand(max).to_s(16)
       end
 
       def self.base64(length)
