@@ -44,7 +44,7 @@ module Fog
             :host     => "#{bucket_name}.#{@host}",
             :method   => 'HEAD',
             :path     => CGI.escape(object_name),
-            :query    => CGI.escape(version_id)
+            :query    => query
           })
         end
 
