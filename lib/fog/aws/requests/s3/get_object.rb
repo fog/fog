@@ -32,7 +32,9 @@ module Fog
           unless object_name
             raise ArgumentError.new('object_name is required')
           end
-          version_id = options.delete('versionId')
+          if version_id = options.delete('versionId')
+            query = CGI.escape(version_id)
+          end
           headers = {}
           headers['If-Modified-Since'] = options['If-Modified-Since'].utc.strftime("%a, %d %b %Y %H:%M:%S +0000") if options['If-Modified-Since']
           headers['If-Unmodified-Since'] = options['If-Unmodified-Since'].utc.strftime("%a, %d %b %Y %H:%M:%S +0000") if options['If-Modified-Since']
@@ -44,7 +46,7 @@ module Fog
             :idempotent => true,
             :method   => 'GET',
             :path     => CGI.escape(object_name),
-            :query    => CGI.escape(version_id)
+            :query    => query
           }, &block)
         end
 
