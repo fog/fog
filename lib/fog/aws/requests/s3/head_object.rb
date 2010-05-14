@@ -25,7 +25,15 @@ module Fog
         #     * 'ETag'<~String> - Etag of object
         #     * 'Last-Modified'<~String> - Last modified timestamp for object
         def head_object(bucket_name, object_name, options={})
-          version_id = options.delete('versionId')
+          unless bucket_name
+            raise ArgumentError.new('bucket_name is required')
+          end
+          unless object_name
+            raise ArgumentError.new('object_name is required')
+          end
+          if version_id = options.delete('versionId')
+            query = CGI.escape(version_id)
+          end
           headers = {}
           headers['If-Modified-Since'] = options['If-Modified-Since'].utc.strftime("%a, %d %b %Y %H:%M:%S +0000") if options['If-Modified-Since']
           headers['If-Unmodified-Since'] = options['If-Unmodified-Since'].utc.strftime("%a, %d %b %Y %H:%M:%S +0000") if options['If-Modified-Since']
