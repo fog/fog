@@ -25,7 +25,7 @@ module Vcloud
       false
     end
 
-    if Vcloud.services.all? { |service| Vcloud.complete_service_options?(service) }
+    if Vcloud.services.any? && Vcloud.services.all? { |service| Vcloud.complete_service_options?(service) }
 
       def initialized?
         true

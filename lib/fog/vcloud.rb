@@ -278,7 +278,7 @@ module Fog
         end
 
         if mod = credentials[:module]
-          instance.extend eval "#{mod}"
+          instance.extend eval("#{mod}")
         end
 
         instance
