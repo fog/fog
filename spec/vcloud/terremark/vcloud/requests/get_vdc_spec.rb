@@ -7,7 +7,7 @@ describe "Fog::Vcloud, initialized w/ the TMRK Vcloud module", :type => :tmrk_vc
 
   describe :get_vdc do
     context "with a valid vdc uri" do
-      before { @vdc = @vcloud.get_vdc(@mock_vdc[:href]) }
+      before { @vdc = @vcloud.get_vdc(URI.parse(@mock_vdc[:href])) }
       subject { @vdc }
 
       it_should_behave_like "all requests"
@@ -27,7 +27,7 @@ describe "Fog::Vcloud, initialized w/ the TMRK Vcloud module", :type => :tmrk_vc
         it_should_behave_like "a tmrk vdc"
 
         its(:name) { should == @mock_vdc[:name] }
-        its(:href) { should == @mock_vdc[:href] }
+        its(:href) { should == URI.parse(@mock_vdc[:href]) }
 
         describe "#links" do
           subject { @vdc.body.links }
@@ -43,7 +43,7 @@ describe "Fog::Vcloud, initialized w/ the TMRK Vcloud module", :type => :tmrk_vc
 
             it_should_behave_like "all rel=down vcloud links"
             it_should_behave_like "all vcloud application/xml types"
-            specify { subject.href.should == @mock_vdc[:href] + "/publicIps" }
+            specify { subject.href.should == URI.parse(@mock_vdc[:href] + "/publicIps") }
           end
 
           describe "#link[2]" do
@@ -51,7 +51,7 @@ describe "Fog::Vcloud, initialized w/ the TMRK Vcloud module", :type => :tmrk_vc
 
             it_should_behave_like "all rel=down vcloud links"
             it_should_behave_like "all vcloud application/xml types"
-            specify { subject.href.should == @mock_vdc[:href] + "/internetServices" }
+            specify { subject.href.should == URI.parse(@mock_vdc[:href] + "/internetServices") }
           end
         end
         describe :networks do

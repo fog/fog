@@ -39,7 +39,7 @@ module Fog
           end
           org_list = @login_results.body.organizations
           if organization = @login_results.body.organizations.first
-            URI.parse(organization[:href])
+            organization[:href]
           else
             nil
           end
@@ -131,6 +131,23 @@ module Fog
       {
         :versions => [
           { :version => "v0.8", :login_url => "https://fakey.com/api/v0.8/login", :supported => true }
+        ],
+        :vdc_resources => [
+          {
+            :type => "application/vnd.vmware.vcloud.vApp+xml",
+            :href => "https://fakey.com/api/v0.8/vapp/61",
+            :name => "Foo App 1"
+          },
+          {
+            :type => "application/vnd.vmware.vcloud.vApp+xml",
+            :href => "https://fakey.com/api/v0.8/vapp/62",
+            :name => "Bar App 1"
+          },
+          {
+            :type => "application/vnd.vmware.vcloud.vApp+xml",
+            :href => "https://fakey.com/api/v0.8/vapp/63",
+            :name => "Bar App 2"
+          }
         ],
         :organizations =>
         [
@@ -250,7 +267,11 @@ module Fog
     class <<self
       def new(credentials = {})
         unless @required
+          require 'fog/vcloud/model'
+          require 'fog/vcloud/collection'
           require 'fog/vcloud/parser'
+          require 'fog/vcloud/models/vdc'
+          require 'fog/vcloud/models/vdcs'
           require 'fog/vcloud/terremark/vcloud'
           require 'fog/vcloud/terremark/ecloud'
           require 'fog/vcloud/requests/get_organization'
@@ -263,11 +284,12 @@ module Fog
           require 'fog/vcloud/parsers/login'
 
           Struct.new("VcloudLink", :rel, :href, :type, :name)
-          Struct.new("VcloudVdc", :links, :href, :type, :name, :xmlns, :allocation_model, :description)
+          Struct.new("VcloudVdc", :links, :resource_entities, :networks, :cpu_capacity, :storage_capacity, :memory_capacity, :href, :type, :name, :xmlns,
+                                  :allocation_model, :network_quota, :nic_quota, :vm_quota, :enabled, :description)
           Struct.new("VcloudOrganization", :links, :name, :href, :type, :xmlns, :description)
           Struct.new("VcloudVersion", :version, :login_url, :supported)
           Struct.new("VcloudOrgList", :organizations, :xmlns)
-          Struct.new("VcloudOrgLink", :name, :href, :type)
+          Struct.new("VcloudXCapacity", :units, :allocated, :used, :limit)
           @required = true
         end
 

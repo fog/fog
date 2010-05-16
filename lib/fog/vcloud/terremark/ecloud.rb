@@ -11,13 +11,14 @@ module Fog
           #Do anything we need to do here that's specific to ecloud
           unless @required
             require 'fog/vcloud/terremark/all'
+            require 'fog/vcloud/terremark/ecloud/models/vdc'
+            require 'fog/vcloud/terremark/ecloud/models/vdcs'
             require 'fog/vcloud/terremark/ecloud/parsers/get_vdc'
             require 'fog/vcloud/terremark/ecloud/requests/login'
             require 'fog/vcloud/terremark/ecloud/requests/get_vdc'
             Struct.new("TmrkEcloudVdc", :links, :resource_entities, :networks,
                        :cpu_capacity, :storage_capacity, :memory_capacity, :deployed_vm_quota, :instantiated_vm_quota,
                        :href, :type, :name, :xmlns, :description)
-            Struct.new("TmrkEcloudXCapacity", :units, :allocated, :used, :limit)
             @required = true
           end
           if Fog.mocking?

@@ -22,7 +22,7 @@ module Fog
           #https://community.vcloudexpress.terremark.com/en-us/product_docs/w/wiki/09-get-vdc.aspx
 
           def get_vdc(vdc_uri)
-            if vdc = mock_data[:organizations].map { |org| org[:vdcs] }.flatten.detect { |vdc| vdc[:href] == vdc_uri }
+            if vdc = mock_data[:organizations].map { |org| org[:vdcs] }.flatten.detect { |vdc| URI.parse(vdc[:href]) == vdc_uri }
               xml = Builder::XmlMarkup.new
               mock_it Fog::Parsers::Vcloud::Terremark::Vcloud::GetVdc.new, 200,
                 xml.Vdc(xmlns.merge(:href => vdc[:href], :name => vdc[:name])) {

@@ -35,10 +35,14 @@ module Fog
       end
     end
 
-    def self.model(new_model)
-      @model = new_model
+    def self.model(new_model=nil)
+      if new_model == nil
+        @model
+      else
+        @model = new_model
+      end
     end
-    
+
     def self.aliases
       @aliases ||= {}
     end

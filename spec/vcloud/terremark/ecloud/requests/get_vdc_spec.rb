@@ -7,7 +7,7 @@ describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :tmrk_ec
 
   describe "#get_vdc" do
     context "with a valid vdc uri" do
-      before { @vdc = @vcloud.get_vdc(@mock_vdc[:href]) }
+      before { @vdc = @vcloud.get_vdc(URI.parse(@mock_vdc[:href])) }
       subject { @vdc }
 
       it_should_behave_like "all requests"
@@ -33,7 +33,7 @@ describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :tmrk_ec
         it { should respond_to :instantiated_vm_quota }
 
         its(:name) { should == @mock_vdc[:name] }
-        its(:href) { should == @mock_vdc[:href] }
+        its(:href) { should == URI.parse(@mock_vdc[:href]) }
         its(:description) { should == '' }
 
         describe "#links" do
@@ -51,7 +51,7 @@ describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :tmrk_ec
             it_should_behave_like "all rel=down vcloud links"
             it_should_behave_like "all tmrk ecloud publicIpList links"
 
-            specify { subject.href.should == @mock_vdc[:href].sub('/vdc','/extensions/vdc') + "/publicIps" }
+            specify { subject.href.should == URI.parse(@mock_vdc[:href].sub('/vdc','/extensions/vdc') + "/publicIps") }
           end
 
           describe "[2]" do
@@ -60,7 +60,7 @@ describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :tmrk_ec
             it_should_behave_like "all rel=down vcloud links"
             it_should_behave_like "all tmrk ecloud internetServicesList links"
 
-            specify { subject.href.should == @mock_vdc[:href] + "/internetServices" }
+            specify { subject.href.should == URI.parse(@mock_vdc[:href] + "/internetServices") }
           end
 
           describe "[3]" do
@@ -69,7 +69,7 @@ describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :tmrk_ec
             it_should_behave_like "all rel=down vcloud links"
             it_should_behave_like "all tmrk ecloud firewallAclList links"
 
-            specify { subject.href.should == @mock_vdc[:href].sub('/vdc','/extensions/vdc') + "/firewallAcls" }
+            specify { subject.href.should == URI.parse(@mock_vdc[:href].sub('/vdc','/extensions/vdc') + "/firewallAcls") }
           end
         end
 
@@ -96,7 +96,7 @@ describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :tmrk_ec
 
         describe "#memory_capacity" do
           subject { @vdc.body.memory_capacity }
-          it { should be_an_instance_of Struct::TmrkEcloudXCapacity }
+          it { should be_an_instance_of Struct::VcloudXCapacity }
           its(:units) { should == "bytes * 2^20" }
           its(:allocated) { should == @mock_vdc[:memory][:allocated] }
           its(:used) { should == nil }
@@ -105,7 +105,7 @@ describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :tmrk_ec
 
         describe "#deployed_vm_quota" do
           subject { @vdc.body.deployed_vm_quota }
-          it { should be_an_instance_of Struct::TmrkEcloudXCapacity }
+          it { should be_an_instance_of Struct::VcloudXCapacity }
           its(:limit) { should == -1 }
           its(:used) { should == -1 }
           its(:units) { should == nil }
@@ -113,7 +113,7 @@ describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :tmrk_ec
         end
         describe "#instantiated_vm_quota" do
           subject { @vdc.body.instantiated_vm_quota }
-          it { should be_an_instance_of Struct::TmrkEcloudXCapacity }
+          it { should be_an_instance_of Struct::VcloudXCapacity }
           its(:limit) { should == -1 }
           its(:used) { should == -1 }
           its(:units) { should == nil }

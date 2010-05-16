@@ -23,7 +23,7 @@ module Fog
         # 
         # vCloud API Guide v0.9 - Page 26
         #
-        if org = DATA[:organizations].detect { |org| org[:info][:href] == organization_uri.to_s }
+        if org = mock_data[:organizations].detect { |org| URI.parse(org[:info][:href]) == organization_uri }
           xml = Builder::XmlMarkup.new
 
           mock_it Fog::Parsers::Vcloud::GetOrganization.new, 200,

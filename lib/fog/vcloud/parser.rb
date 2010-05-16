@@ -10,6 +10,9 @@ module Fog
           until attributes.empty?
             link[attributes.shift.downcase] = attributes.shift
           end
+          if link.href
+            link.href = URI.parse(link.href)
+          end
           link
         end
 
@@ -23,7 +26,7 @@ module Fog
               root[attributes.shift.downcase] = attributes.shift
             end
           end
-          @response.href = root['href']
+          @response.href = URI.parse(root['href'])
           @response.name = root['name']
           @response.type = root['type']
           @response.xmlns = root['xmlns']

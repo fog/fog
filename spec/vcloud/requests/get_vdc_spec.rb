@@ -11,7 +11,7 @@ describe Fog::Vcloud, :type => :vcloud_request do
 
   describe :get_vdc, :type => :vcloud_request do
     context "with a valid vdc uri" do
-      before { @vdc = @vcloud.get_vdc(@mock_vdc[:href]) }
+      before { @vdc = @vcloud.get_vdc(URI.parse(@mock_vdc[:href])) }
       subject { @vdc }
 
       it_should_behave_like "all requests"
@@ -30,13 +30,16 @@ describe Fog::Vcloud, :type => :vcloud_request do
         it_should_behave_like "it has a vcloud v0.8 xmlns"
 
         its(:links) { should have(7).links }
+        its(:resource_entities) { should have(3).links }
+        its(:networks) { should have(2).networks }
+
         its(:name) { should == @mock_vdc[:name] }
-        its(:href) { should == @mock_vdc[:href] }
+        its(:href) { should == URI.parse(@mock_vdc[:href]) }
 
         let(:link) { subject.links[0] }
         specify { link.should be_an_instance_of Struct::VcloudLink }
         specify { link.rel.should == "up" }
-        specify { link.href.should == @mock_organization[:info][:href] }
+        specify { link.href.should == URI.parse(@mock_organization[:info][:href]) }
         specify { link.type.should == "application/vnd.vmware.vcloud.org+xml" }
       end
     end

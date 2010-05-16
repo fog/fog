@@ -8,9 +8,9 @@ module Fog
 
             def reset
               @target = nil
-              @response = Struct::TmrkEcloudVdc.new([],[],[],Struct::TmrkEcloudXCapacity.new,Struct::TmrkEcloudXCapacity.new,
-                                                             Struct::TmrkEcloudXCapacity.new,Struct::TmrkEcloudXCapacity.new,
-                                                             Struct::TmrkEcloudXCapacity.new)
+              @response = Struct::TmrkEcloudVdc.new([],[],[],Struct::VcloudXCapacity.new,Struct::VcloudXCapacity.new,
+                                                             Struct::VcloudXCapacity.new,Struct::VcloudXCapacity.new,
+                                                             Struct::VcloudXCapacity.new)
             end
 
             def start_element(name, attributes)

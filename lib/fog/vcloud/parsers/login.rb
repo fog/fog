@@ -2,7 +2,7 @@ module Fog
   module Parsers
     module Vcloud
 
-      class Login < Fog::Parsers::Base
+      class Login < Fog::Parsers::Vcloud::Base
         #
         # Based off of:
         # http://support.theenterprisecloud.com/kb/default.asp?id=536&Lang=1&SID=
@@ -26,11 +26,7 @@ module Fog
               end
             end
           when 'Org'
-            organization = Struct::VcloudOrgLink.new
-            until attributes.empty?
-              organization[attributes.shift.downcase.to_sym] = attributes.shift
-            end
-            @response.organizations << organization
+            @response.organizations << generate_link(attributes)
           end
         end
 
