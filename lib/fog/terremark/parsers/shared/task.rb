@@ -12,7 +12,7 @@ module Fog
           def start_element(name, attributes)
             super
             case name
-            when 'Owner', 'Result'
+            when 'Owner', 'Result', 'Link', 'Error'
               data = {}
               until attributes.empty?
                 data[attributes.shift] = attributes.shift
