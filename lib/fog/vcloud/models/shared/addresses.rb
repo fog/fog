@@ -1,22 +1,22 @@
 module Fog
-  module Terremark
+  module Vcloud
     module Shared
 
       module Mock
         def addresses(options = {})
-          Fog::Terremark::Shared::Addresses.new(options.merge(:connection => self))
+          Fog::Vcloud::Shared::Addresses.new(options.merge(:connection => self))
         end
       end
 
       module Real
         def addresses(options = {})
-          Fog::Terremark::Shared::Addresses.new(options.merge(:connection => self))
+          Fog::Vcloud::Shared::Addresses.new(options.merge(:connection => self))
         end
       end
 
       class Addresses < Fog::Collection
 
-        model Fog::Terremark::Shared::Address
+        model Fog::Vcloud::Shared::Address
 
         def all
           load(connection.get_public_ips(vdc_id).body['PublicIpAddresses'])

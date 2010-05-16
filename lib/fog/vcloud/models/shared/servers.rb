@@ -1,25 +1,25 @@
 require 'fog/collection'
-require 'fog/terremark/models/shared/server'
+require 'fog/vcloud/models/shared/server'
 
 module Fog
-  module Terremark
+  module Vcloud
     module Shared
 
       module Mock
         def servers(options = {})
-          Fog::Terremark::Shared::Servers.new(options.merge(:connection => self))
+          Fog::Vcloud::Shared::Servers.new(options.merge(:connection => self))
         end
       end
 
       module Real
         def servers(options = {})
-          Fog::Terremark::Shared::Servers.new(options.merge(:connection => self))
+          Fog::Vcloud::Shared::Servers.new(options.merge(:connection => self))
         end
       end
 
       class Servers < Fog::Collection
 
-        model Fog::Terremark::Shared::Server
+        model Fog::Vcloud::Shared::Server
 
         def all
           data = connection.get_vdc(vdc_id).body['ResourceEntities'].select do |entity|

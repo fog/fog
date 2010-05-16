@@ -1,7 +1,7 @@
 require 'fog/model'
 
 module Fog
-  module Terremark
+  module Vcloud
     module Shared
 
       class Network < Fog::Model

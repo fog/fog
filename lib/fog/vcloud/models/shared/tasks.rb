@@ -1,25 +1,25 @@
 require 'fog/collection'
-require 'fog/terremark/models/shared/server'
+require 'fog/vcloud/models/shared/server'
 
 module Fog
-  module Terremark
+  module Vcloud
     module Shared
 
       module Mock
         def tasks
-          Fog::Terremark::Shared::Tasks.new(:connection => self)
+          Fog::Vcloud::Shared::Tasks.new(:connection => self)
         end
       end
 
       module Real
         def tasks
-          Fog::Terremark::Shared::Tasks.new(:connection => self)
+          Fog::Vcloud::Shared::Tasks.new(:connection => self)
         end
       end
 
       class Tasks < Fog::Collection
 
-        model Fog::Terremark::Shared::Task
+        model Fog::Vcloud::Shared::Task
 
         def all
           data = connection.get_tasks_list(task_list_id).body['Tasks']

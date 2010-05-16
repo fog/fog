@@ -1,22 +1,22 @@
 module Fog
-  module Terremark
+  module Vcloud
     module Shared
 
       module Mock
         def vdcs(options = {})
-          Fog::Terremark::Shared::Vdcs.new(options.merge(:connection => self))
+          Fog::Vcloud::Shared::Vdcs.new(options.merge(:connection => self))
         end
       end
 
       module Real
         def vdcs(options = {})
-          Fog::Terremark::Shared::Vdcs.new(options.merge(:connection => self))
+          Fog::Vcloud::Shared::Vdcs.new(options.merge(:connection => self))
         end
       end
 
       class Vdcs < Fog::Collection
 
-        model Fog::Terremark::Shared::Vdc
+        model Fog::Vcloud::Shared::Vdc
 
         def all
           data = connection.get_organization(organization_id).body['Links'].select do |entity|
