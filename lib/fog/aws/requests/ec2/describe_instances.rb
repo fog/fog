@@ -51,8 +51,9 @@ module Fog
         def describe_instances(instance_id = [])
           params = AWS.indexed_param('InstanceId', instance_id)
           request({
-            'Action'  => 'DescribeInstances',
-            :parser   => Fog::Parsers::AWS::EC2::DescribeInstances.new
+            'Action'    => 'DescribeInstances',
+            :idempotent => true
+            :parser     => Fog::Parsers::AWS::EC2::DescribeInstances.new
           }.merge!(params))
         end
 
