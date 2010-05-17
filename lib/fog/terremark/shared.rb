@@ -85,7 +85,8 @@ module Fog
       module Mock
         include Common
 
-        DATA = {
+        def self.mock_data
+        {
           :organizations =>
           [
             {
@@ -167,6 +168,7 @@ module Fog
             }
           ]
         }
+        end
 
         def self.error_headers
           {"X-Powered-By"=>"ASP.NET",
@@ -199,7 +201,7 @@ module Fog
           self.class.instance_eval '
             def self.data
               @data ||= Hash.new do |hash, key|
-                hash[key] = Fog::Terremark::Shared::Mock::DATA
+                hash[key] = Fog::Terremark::Shared::Mock.mock_data
               end
             end'
           self.class.instance_eval '
