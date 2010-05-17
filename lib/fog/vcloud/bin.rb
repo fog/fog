@@ -32,7 +32,7 @@ module Vcloud
       end
 
       def startup_notice
-        puts "You have acess to the following Vcloud services: #{Vcloud.registered_services}."
+        puts "You have access to the following vCloud services: #{Vcloud.registered_services}."
       end
 
       def [](service)
