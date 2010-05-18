@@ -10,6 +10,8 @@ module Fog
 
         attribute :name
         attribute :status
+        attribute :OperatingSystem
+        attribute :VirtualHardware
 
         def destroy
           requires :id

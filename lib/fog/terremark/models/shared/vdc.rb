@@ -18,6 +18,10 @@ module Fog
           connection.addresses(:vdc_id => @id)
         end
 
+        def servers
+          connection.servers(:vdc_id => @id)
+        end
+
         private
 
         def href=(new_href)

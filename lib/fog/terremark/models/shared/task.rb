@@ -13,8 +13,8 @@ module Fog
         attribute :result,      'Result'
         attribute :start_time,  'startTime'
         attribute :status
-        attribute :link         'Link'
-        attribute :error        'Error'
+        attribute :link,         'Link'
+        attribute :error,        'Error'
 
         def initialize(attributes = {})
           new_owner  = attributes.delete('Owner')
