@@ -120,7 +120,7 @@ module Fog
             options['Placement.AvailabilityZone'] = @availability_zone
           end
           unless @groups.empty?
-            options.merge!(AWS.indexed_param("SecurityGroup", @groups))
+            options['SecurityGroup'] = @groups
           end
           if @kernel_id
             options['KernelId'] = @kernel_id
