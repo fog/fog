@@ -52,7 +52,7 @@ module Fog
           params = AWS.indexed_param('InstanceId', instance_id)
           request({
             'Action'    => 'DescribeInstances',
-            :idempotent => true
+            :idempotent => true,
             :parser     => Fog::Parsers::AWS::EC2::DescribeInstances.new
           }.merge!(params))
         end
