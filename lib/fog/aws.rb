@@ -6,10 +6,13 @@ require 'fog/aws/simpledb'
 module Fog
   module AWS
 
-    def self.indexed_param(key, values)
+    def self.indexed_param(key, values, offset = 0)
       params = {}
+      unless key.include?('%d')
+        key << '.%d'
+      end
       [*values].each_with_index do |value, index|
-        params["#{key}.#{index}"] = value
+        params[format(key, index + offset)] = value
       end
       params
     end
