@@ -1,22 +1,22 @@
 module Fog
-  module Vcloud
+  module Terremark
     module Shared
 
       module Mock
         def networks(options = {})
-          Fog::Vcloud::Shared::Networks.new(options.merge(:connection => self))
+          Fog::Terremark::Shared::Networks.new(options.merge(:connection => self))
         end
       end
 
       module Real
         def networks(options = {})
-          Fog::Vcloud::Shared::Networks.new(options.merge(:connection => self))
+          Fog::Terremark::Shared::Networks.new(options.merge(:connection => self))
         end
       end
 
       class Networks < Fog::Collection
 
-        model Fog::Vcloud::Shared::Network
+        model Fog::Terremark::Shared::Network
 
         def all
           data = connection.get_vdc(vdc_id).body['AvailableNetworks'].map do |network|

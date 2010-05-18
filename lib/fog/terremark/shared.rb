@@ -221,9 +221,16 @@ module Fog
       end
 
       def shared_requires
-        include Fog::Vcloud::Shared
-        shared_requires
-
+        require 'fog/terremark/models/shared/address'
+        require 'fog/terremark/models/shared/addresses'
+        require 'fog/terremark/models/shared/network'
+        require 'fog/terremark/models/shared/networks'
+        require 'fog/terremark/models/shared/server'
+        require 'fog/terremark/models/shared/servers'
+        require 'fog/terremark/models/shared/task'
+        require 'fog/terremark/models/shared/tasks'
+        require 'fog/terremark/models/shared/vdc'
+        require 'fog/terremark/models/shared/vdcs'
         require 'fog/terremark/parsers/shared/get_catalog'
         require 'fog/terremark/parsers/shared/get_catalog_item'
         require 'fog/terremark/parsers/shared/get_internet_services'

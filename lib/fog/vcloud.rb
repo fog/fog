@@ -250,10 +250,6 @@ module Fog
     class <<self
       def new(credentials = {})
         unless @required
-          require 'fog/vcloud/shared'
-          include Fog::vcloud::Shared
-          shared_requires
-
           require 'fog/vcloud/parser'
           require 'fog/vcloud/terremark/vcloud'
           require 'fog/vcloud/terremark/ecloud'

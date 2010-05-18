@@ -1,7 +1,7 @@
 require 'fog/model'
 
 module Fog
-  module Vcloud
+  module Terremark
     module Shared
 
       class Address < Fog::Model
