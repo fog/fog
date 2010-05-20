@@ -15,7 +15,7 @@ def has_error(error, &block)
   end
 end
 
-def has_format(original_data, original_format)
+def has_format(original_data, original_format, original = true)
   valid = true
   data = original_data.dup
   format = original_format.dup
@@ -29,20 +29,20 @@ def has_format(original_data, original_format)
       for element in datum
         type = value.first
         if type.is_a?(Hash)
-          valid &&= has_format({:element => element}, {:element => type})
+          valid &&= has_format({:element => element}, {:element => type}, false)
         else
           valid &&= element.is_a?(type)
         end
       end
     when Hash
       valid &&= datum.is_a?(Hash)
-      valid &&= has_format(datum, value)
+      valid &&= has_format(datum, value, false)
     else
       valid &&= datum.is_a?(value)
     end
   end
   valid &&= data.empty? && format.empty?
-  unless valid
+  if !valid && original
     @formatador.display_line("[red]#{original_data.inspect} does not match #{original_format.inspect}[/]")
   end
   valid
