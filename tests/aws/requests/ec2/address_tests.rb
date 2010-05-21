@@ -8,43 +8,46 @@ Shindo.tests('AWS::EC2 | address requests', ['aws']) do
 
     @public_ip = nil
 
-    test('#allocate_address') do
-      @data = AWS[:ec2].allocate_address.body
-      @public_ip = @data['publicIp']
-      has_format(
-        @data,
-        {
-          'publicIp'  => String,
-          'requestId' => String
-        }
-      )
+    tests('#allocate_address').formats({'publicIp' => String, 'requestId' => String}) do
+      data = AWS[:ec2].allocate_address.body
+      @public_ip = data['publicIp']
+      data
     end
 
-    test("#describe_addresses") do
-      @data = AWS[:ec2].describe_addresses.body
-      has_format(@data, AWS::EC2::Formats::ADDRESSES)
+    tests('#describe_addresses').formats(AWS::EC2::Formats::ADDRESSES) do
+      AWS[:ec2].describe_addresses.body
     end
 
-    test("#describe_addresses('#{@public_ip}')") do
-      @data = AWS[:ec2].describe_addresses(@public_ip).body
-      has_format(@data, AWS::EC2::Formats::ADDRESSES)
+    tests("#describe_addresses('#{@public_Ip}')").formats(AWS::EC2::Formats::ADDRESSES) do
+      AWS[:ec2].describe_addresses(@public_ip).body
     end
 
-    test("#associate_address('#{@server.identity}', '#{@public_ip}')") do
-      @data = AWS[:ec2].associate_address(@server.identity, @public_ip).body
-      has_format(@data, AWS::EC2::Formats::BASIC)
-      @server.reload.ip_address == @public_ip
+    tests("#associate_addresses('#{@server.identity}', '#{@public_Ip}')") do
+
+      formats(AWS::EC2::Formats::BASIC) do
+        AWS[:ec2].associate_address(@server.identity, @public_ip).body
+      end
+
+      tests('server.ip_address').returns(@public_ip) do
+        @server.reload.ip_address
+      end
+
     end
 
-    test("#disassociate_address('#{@public_ip}')") do
-      @data = AWS[:ec2].disassociate_address(@public_ip).body
-      has_format(@data, AWS::EC2::Formats::BASIC)
-      @server.reload.ip_address == @ip_address
+    tests("#dissassociate_address('#{@public_ip}')") do
+
+      formats(AWS::EC2::Formats::BASIC) do
+        AWS[:ec2].disassociate_address(@public_ip).body
+      end
+
+      test("server.ip_address is not #{@public_ip}") do
+        @server.reload.ip_address != @public_ip
+      end
+
     end
 
-    test("#release_address('#{@public_ip}')") do
-      @data = AWS[:ec2].release_address(@public_ip).body
-      has_format(@data, AWS::EC2::Formats::BASIC)
+    tests("#release_address('#{@public_ip}')").formats(AWS::EC2::Formats::BASIC) do
+      AWS[:ec2].release_address(@public_ip).body
     end
 
   end
@@ -52,34 +55,24 @@ Shindo.tests('AWS::EC2 | address requests', ['aws']) do
 
     @address = AWS[:ec2].addresses.create
 
-    test("#describe_addresses('127.0.0.1') raises BadRequest error") do
-      has_error(Excon::Errors::BadRequest) do
-        AWS[:ec2].describe_addresses('127.0.0.1')
-      end
+    tests("#describe_addresses('127.0.0.1')").raises(Excon::Errors::BadRequest) do
+      AWS[:ec2].describe_addresses('127.0.0.1')
     end
 
-    test("#associate_addresses('i-00000000', '#{@address.identity}') raises BadRequest error") do
-      has_error(Excon::Errors::BadRequest) do
-        AWS[:ec2].associate_address('i-00000000', @address.identity)
-      end
+    tests("#associate_addresses('i-00000000', '#{@address.identity}')").raises(Excon::Errors::BadRequest) do
+      AWS[:ec2].associate_address('i-00000000', @address.identity)
     end
 
-    test("#associate_addresses('#{@server.identity}', '127.0.0.1') raises BadRequest error") do
-      has_error(Excon::Errors::BadRequest) do
-        AWS[:ec2].associate_address(@server.identity, '127.0.0.1')
-      end
+    tests("#associate_addresses('#{@server.identity}', '127.0.0.1')").raises(Excon::Errors::BadRequest) do
+      AWS[:ec2].associate_address(@server.identity, '127.0.0.1')
     end
 
-    test("#disassociate_addresses('127.0.0.1') raises BadRequest error") do
-      has_error(Excon::Errors::BadRequest) do
-        AWS[:ec2].disassociate_address('127.0.0.1')
-      end
+    tests("#disassociate_addresses('127.0.0.1') raises BadRequest error").raises(Excon::Errors::BadRequest) do
+      AWS[:ec2].disassociate_address('127.0.0.1')
     end
 
-    test("#release_address('127.0.0.1') raises BadRequest error") do
-      has_error(Excon::Errors::BadRequest) do
-        AWS[:ec2].release_address('127.0.0.1')
-      end
+    tests("#release_address('127.0.0.1')").raises(Excon::Errors::BadRequest) do
+      AWS[:ec2].release_address('127.0.0.1')
     end
 
     @address.destroy

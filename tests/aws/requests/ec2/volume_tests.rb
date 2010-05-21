@@ -7,37 +7,33 @@ Shindo.tests('AWS::EC2 | volume requests', ['aws']) do
 
     @volume_id = nil
 
-    test('#create_volume') do
-      @data = AWS[:ec2].create_volume(@server.availability_zone, 1).body
-      @volume_id = @data['volumeId']
-      has_format(@data, AWS::EC2::Formats::VOLUME)
+    tests('#create_volume').formats(AWS::EC2::Formats::VOLUME) do
+      data = AWS[:ec2].create_volume(@server.availability_zone, 1).body
+      @volume_id = data['volumeId']
+      data
     end
 
-    test('#describe_volumes') do
-      @data = AWS[:ec2].describe_volumes.body
-      has_format(@data, AWS::EC2::Formats::VOLUMES)
+    tests('#describe_volumes').formats(AWS::EC2::Formats::VOLUMES) do
+      AWS[:ec2].describe_volumes.body
     end
 
-    test("#describe_volumes(#{@volume_id})") do
-      @data = AWS[:ec2].describe_volumes.body
-      has_format(@data, AWS::EC2::Formats::VOLUMES)
+    tests("#describe_volumes(#{@volume_id})").formats(AWS::EC2::Formats::VOLUMES) do
+      AWS[:ec2].describe_volumes.body
     end
 
-    test("#attach_volume(#{@server.identity}, #{@volume_id}, '/dev/sdh')") do
-      @data = AWS[:ec2].attach_volume(@server.identity, @volume_id, '/dev/sdh').body
-      has_format(@data, AWS::EC2::Formats::VOLUME_ATTACHMENT)
-    end
-
-    test("#detach_volume('#{@volume_id}')") do
-      AWS[:ec2].volumes.get(@volume_id).wait_for { state == 'attached' }
-      @data = AWS[:ec2].detach_volume(@volume_id).body
-      has_format(@data, AWS::EC2::Formats::VOLUME_ATTACHMENT)
-    end
-
-    test("#delete_volume('#{@volume_id}')") do
+    tests("#attach_volume(#{@server.identity}, #{@volume_id}, '/dev/sdh')").formats(AWS::EC2::Formats::VOLUME_ATTACHMENT) do
       AWS[:ec2].volumes.get(@volume_id).wait_for { ready? }
-      @data = AWS[:ec2].delete_volume(@volume_id).body
-      has_format(@data, AWS::EC2::Formats::BASIC)
+      AWS[:ec2].attach_volume(@server.identity, @volume_id, '/dev/sdh').body
+    end
+
+    tests("#detach_volume('#{@volume_id}')").formats(AWS::EC2::Formats::VOLUME_ATTACHMENT) do
+      AWS[:ec2].volumes.get(@volume_id).wait_for { p state; state == 'in-use' }
+      AWS[:ec2].detach_volume(@volume_id).body
+    end
+
+    tests("#delete_volume('#{@volume_id}')").formats(AWS::EC2::Formats::BASIC) do
+      AWS[:ec2].volumes.get(@volume_id).wait_for { ready? }
+      AWS[:ec2].delete_volume(@volume_id).body
     end
 
   end
@@ -45,34 +41,24 @@ Shindo.tests('AWS::EC2 | volume requests', ['aws']) do
 
     @volume = AWS[:ec2].volumes.create(:availability_zone => @server.availability_zone, :size => 1)
 
-    test("#describe_volume('vol-00000000') raises BadRequest error") do
-      has_error(Excon::Errors::BadRequest) do
-        AWS[:ec2].describe_volumes('vol-00000000')
-      end
+    tests("#describe_volume('vol-00000000')").raises(Excon::Errors::BadRequest) do
+      AWS[:ec2].describe_volumes('vol-00000000')
     end
 
-    test("#attach_volume('i-00000000', '#{@volume.identity}', '/dev/sdh') raises BadRequest error") do
-      has_error(Excon::Errors::BadRequest) do
-        AWS[:ec2].attach_volume('i-00000000', @volume.identity, '/dev/sdh')
-      end
+    tests("#attach_volume('i-00000000', '#{@volume.identity}', '/dev/sdh')").raises(Excon::Errors::BadRequest) do
+      AWS[:ec2].attach_volume('i-00000000', @volume.identity, '/dev/sdh')
     end
 
-    test("#attach_volume('#{@server.identity}', 'vol-00000000', '/dev/sdh') raises BadRequest error") do
-      has_error(Excon::Errors::BadRequest) do
-        AWS[:ec2].attach_volume(@server.identity, 'vol-00000000', '/dev/sdh')
-      end
+    tests("#attach_volume('#{@server.identity}', 'vol-00000000', '/dev/sdh')").raises(Excon::Errors::BadRequest) do
+      AWS[:ec2].attach_volume(@server.identity, 'vol-00000000', '/dev/sdh')
     end
 
-    test("#detach_volume('vol-00000000') raises BadRequest error") do
-      has_error(Excon::Errors::BadRequest) do
-        AWS[:ec2].detach_volume('vol-00000000')
-      end
+    tests("#detach_volume('vol-00000000')").raises(Excon::Errors::BadRequest) do
+      AWS[:ec2].detach_volume('vol-00000000')
     end
 
-    test("#delete_volume('vol-00000000') raises BadRequest error") do
-      has_error(Excon::Errors::BadRequest) do
-        AWS[:ec2].delete_volume('vol-00000000')
-      end
+    tests("#delete_volume('vol-00000000')").raises(Excon::Errors::BadRequest) do
+      AWS[:ec2].delete_volume('vol-00000000')
     end
 
     @volume.destroy

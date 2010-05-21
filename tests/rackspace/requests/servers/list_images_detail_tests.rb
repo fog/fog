@@ -1,12 +1,8 @@
 Shindo.tests('Rackspace::Servers#list_images_detail', 'rackspace') do
   tests('success') do
 
-    before do
-      @data = Rackspace[:servers].list_images_detail.body['images']
-    end
-
-    test('has proper output format') do
-      has_format(@data, Rackspace::Servers::Formats::IMAGE)
+    tests('#list_images_detail').formats({'images' => [Rackspace::Servers::Formats::IMAGE]})
+      Rackspace[:servers].list_images_detail.body
     end
 
   end

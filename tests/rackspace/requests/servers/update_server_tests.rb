@@ -1,27 +1,20 @@
 Shindo.tests('Rackspace::Servers#update_server', 'rackspace') do
   tests('success') do
 
-    before do
-      @server_id = Rackspace[:servers].create_server(1, 3, 'fogupdateserver').body['server']['id']
-      Fog.wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
-      @data = Rackspace[:servers].update_server(@server_id, :name => 'fogupdatedserver', :adminPass => 'fogupdatedserver')
+    @server = Rackspace[:servers].servers.create(:flavor_id => 1, :image_id => 19, :name => 'fogupdateserver')
+    @server.wait_for { ready? }
+
+    tests("#update_server(#{@server.id}, :name => 'fogupdatedserver', :adminPass => 'fogupdatedserver')").succeeds do
+      Rackspace[:servers].update_server(@server.id, :name => 'fogupdatedserver', :adminPass => 'fogupdatedserver')
     end
 
-    after do
-      Rackspace[:servers].delete_server(@server_id)
-    end
-
-    test('has proper output format') do
-      has_format(@data, {'name' => String, 'adminPass' => String})
-    end
+    @server.destroy
 
   end
   tests('failure') do
 
-    test('raises NotFound error if server does not exist') do
-      has_error(Excon::Errors::NotFound) do
-        Rackspace[:servers].update_server(0, :name => 'fogupdatedserver', :adminPass => 'fogupdatedserver')
-      end
+    tests("#update_server(0, :name => 'fogupdatedserver', :adminPass => 'fogupdatedserver')").raises(Excon::Errors::NotFound) do
+      Rackspace[:servers].update_server(0, :name => 'fogupdatedserver', :adminPass => 'fogupdatedserver')
     end
 
   end

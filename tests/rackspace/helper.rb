@@ -35,8 +35,10 @@ module Rackspace
       }
 
       IMAGE = {
+        'created'   => String,
         'id'        => Integer,
         'name'      => String,
+        'progress'  => Integer,
         'serverId'  => Integer,
         'status'    => String,
         'updated'   => String

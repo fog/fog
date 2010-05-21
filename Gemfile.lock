@@ -39,7 +39,7 @@ dependencies:
   shindo: 
     group: 
     - :default
-    version: ">= 0"
+    version: ">= 0.1"
   nokogiri: 
     group: 
     - :default
@@ -54,7 +54,7 @@ specs:
 - formatador: 
     version: 0.0.14
 - gestalt: 
-    version: 0.0.6
+    version: 0.0.11
 - json: 
     version: 1.4.3
 - mime-types: 
@@ -68,8 +68,8 @@ specs:
 - ruby-hmac: 
     version: 0.4.0
 - shindo: 
-    version: 0.0.18
-hash: 9a6ccfd107913e3f8ca98af1fe437f5d2b7b112a
+    version: 0.1.0
+hash: 34dbaab023e9759dbe8b2247a6d85fc7ae6095ee
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org

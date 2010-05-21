@@ -1,36 +1,28 @@
 Shindo.tests('Rackspace::Servers#reboot_server', 'rackspace') do
   tests('success') do
 
+    @server = Rackspace[:servers].servers.create(:flavor_id => 1, :image_id => 19, :name => 'fogrebootserver')
+
     before do
-      @server_id = Rackspace[:servers].create_server(1, 3, 'fogrebootserver').body['server']['id']
+      @server.wait_for { ready? }
     end
 
-    after do
-      Fog.wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
-      Rackspace[:servers].delete_server(@server_id)
+    tests("#reboot_server(#{@server.id}, 'HARD')").succeeds do
+      Rackspace[:servers].reboot_server(@server.id, 'HARD')
     end
 
-    tests('HARD') do
-      test('has proper output format') do
-        Fog.wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
-        Rackspace[:servers].reboot_server(@server_id, 'HARD')
-      end
+    tests("#reboot_server(#{@server.id}, 'SOFT')").succeeds do
+      Rackspace[:servers].reboot_server(@server.id, 'SOFT')
     end
 
-    tests('SOFT') do
-      test('has proper output format') do
-        Fog.wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
-        Rackspace[:servers].reboot_server(@server_id, 'SOFT')
-      end
-    end
+    @server.wait_for { ready? }
+    @server.destroy
 
   end
   tests('failure') do
 
-    test('raises NotFound error if server does not exist') do
-      has_error(Excon::Errors::NotFound) do
-        Rackspace[:servers].reboot_server(0)
-      end
+    tests('#reboot_server(0)').raises(Excon::Errors::NotFound) do
+      Rackspace[:servers].reboot_server(0)
     end
 
   end

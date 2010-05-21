@@ -11,6 +11,7 @@ module Fog
         attribute :name
         attribute :created_at,  'created'
         attribute :updated_at,  'updated'
+        attribute :progress
         attribute :status
         attribute :server_id,   'serverId'
 
@@ -25,6 +26,10 @@ module Fog
 
           connection.delete_image(@id)
           true
+        end
+
+        def ready?
+          status == 'ACTIVE'
         end
 
         def save

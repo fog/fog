@@ -1,19 +1,14 @@
 Shindo.tests('Rackspace::Servers#list_servers_detail', 'rackspace') do
   tests('success') do
 
-    before do
-      @server_id = Rackspace[:servers].create_server(1, 3, 'foglistserversdetail').body['server']['id']
-      @data = Rackspace[:servers].list_servers_detail.body['servers']
+    @server = Rackspace[:servers].servers.create(:flavor_id => 1, :image_id => 19, :name => 'foglistserversdetail')
+
+    tests('#list_servers_detail').formats({'servers' => [Rackspace::Servers::Formats::SERVER]}) do
+      Rackspace[:servers].list_servers_detail.body
     end
 
-    after do
-      Fog.wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
-      Rackspace[:servers].delete_server(@server_id)
-    end
-
-    test('has proper output format') do
-      has_format(@data, Rackspace::Servers::Formats::SERVER)
-    end
+    @server.wait_for { ready? }
+    @server.destroy
 
   end
 end

@@ -1,27 +1,20 @@
 Shindo.tests('Rackspace::Servers#list_addresses', 'rackspace') do
   tests('success') do
 
-    before do
-      @server_id = Rackspace[:servers].create_server(1, 3, 'foglistaddresses').body['server']['id']
-      @data = Rackspace[:servers].list_addresses(@server_id).body
+    @server = Rackspace[:servers].servers.create(:flavor_id => 1, :image_id => 19, :name => 'foglistaddresses')
+
+    tests("#list_addresses(#{@server.id})").formats({'addresses' => {'private' => [String], 'public' => [String]}}) do
+      Rackspace[:servers].list_addresses(@server.id).body
     end
 
-    after do
-      Fog.wait_for { Rackspace[:servers].get_server_details(@server_id).body['server']['status'] == 'ACTIVE' }
-      Rackspace[:servers].delete_server(@server_id)
-    end
-
-    test('has proper output format') do
-      has_format(@data, {'private' => [String], 'public' => [String]})
-    end
+    @server.wait_for { ready? }
+    @server.destroy
 
   end
   tests('failure') do
 
-    test('raises NotFound error if server does not exist') do
-      has_error(Excon::Errors::NotFound) do
-        Rackspace[:servers].list_addresses(0)
-      end
+    tests('#list_addresses(0)').raises(Excon::Errors::NotFound) do
+      Rackspace[:servers].list_addresses(0)
     end
 
   end

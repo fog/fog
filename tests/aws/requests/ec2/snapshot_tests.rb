@@ -6,41 +6,34 @@ Shindo.tests('AWS::EC2 | snapshot requests', ['aws']) do
 
     @snapshot_id = nil
 
-    test("#create_snapshot(#{@volume.identity})") do
-      @data = AWS[:ec2].create_snapshot(@volume.identity).body
-      @snapshot_id = @data['snapshotId']
-      has_format(@data, AWS::EC2::Formats::SNAPSHOT.merge('progress' => NilClass, 'requestId' => String))
+    tests("#create_snapshot(#{@volume.identity})").formats(AWS::EC2::Formats::SNAPSHOT.merge('progress' => NilClass, 'requestId' => String)) do
+      data = AWS[:ec2].create_snapshot(@volume.identity).body
+      @snapshot_id = data['snapshotId']
+      data
     end
 
-    test("#describe_snapshots") do
+    tests("#describe_snapshots").formats(AWS::EC2::Formats::SNAPSHOTS) do
       AWS[:ec2].snapshots.get(@snapshot_id).wait_for { ready? }
-      @data = AWS[:ec2].describe_snapshots.body
-      has_format(@data, AWS::EC2::Formats::SNAPSHOTS)
+      AWS[:ec2].describe_snapshots.body
     end
 
-    test("#describe_snapshots('#{@snapshot_id}')") do
-      @data = AWS[:ec2].describe_snapshots(@snapshot_id).body
-      has_format(@data, AWS::EC2::Formats::SNAPSHOTS)
+    tests("#describe_snapshots('#{@snapshot_id}')").formats(AWS::EC2::Formats::SNAPSHOTS) do
+      AWS[:ec2].describe_snapshots(@snapshot_id).body
     end
 
-    test("#delete_snapshots(#{@snapshot_id})") do
-      @data = AWS[:ec2].delete_snapshot(@snapshot_id).body
-      has_format(@data, AWS::EC2::Formats::BASIC)
+    tests("#delete_snapshots(#{@snapshot_id})").formats(AWS::EC2::Formats::BASIC) do
+      AWS[:ec2].delete_snapshot(@snapshot_id).body
     end
 
   end
   tests ('failure') do
 
-    test("#describe_snapshot('snap-00000000') raises BadRequest error") do
-      has_error(Excon::Errors::BadRequest) do
-        AWS[:ec2].describe_snapshots('snap-00000000')
-      end
+    tests("#describe_snapshot('snap-00000000')").raises(Excon::Errors::BadRequest) do
+      AWS[:ec2].describe_snapshots('snap-00000000')
     end
 
-    test("#delete_snapshot('snap-00000000') raises BadRequest error") do
-      has_error(Excon::Errors::BadRequest) do
-        AWS[:ec2].delete_snapshot('snap-00000000')
-      end
+    tests("#delete_snapshot('snap-00000000')").raises(Excon::Errors::BadRequest) do
+      AWS[:ec2].delete_snapshot('snap-00000000')
     end
 
   end
