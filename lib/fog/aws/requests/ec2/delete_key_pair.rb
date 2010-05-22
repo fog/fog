@@ -15,9 +15,10 @@ module Fog
         #     * 'return'<~Boolean> - success?
         def delete_key_pair(key_name)
           request(
-            'Action'  => 'DeleteKeyPair',
-            'KeyName' => key_name,
-            :parser   => Fog::Parsers::AWS::EC2::Basic.new
+            'Action'    => 'DeleteKeyPair',
+            'KeyName'   => key_name,
+            :idempotent => true,
+            :parser     => Fog::Parsers::AWS::EC2::Basic.new
           )
         end
 
