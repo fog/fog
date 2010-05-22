@@ -46,6 +46,22 @@ module AWS
         'return'    => ::Fog::Boolean
       }
 
+      SECURITY_GROUPS = {
+        'requestId'           => String,
+        'securityGroupInfo' => [{
+          'groupDescription'  => String,
+          'groupName'         => String,
+          'ipPermissions'     => [{
+            'fromPort'    => Integer,
+            'groups'      => [{ 'groupName' => String, 'userId' => String }],
+            'ipProtocol'  => String,
+            'ipRanges'    => [],
+            'toPort'      => Integer,
+          }],
+          'ownerId'           => String
+        }]
+      }
+
       SNAPSHOT = {
         'description' => NilClass,
         'ownerId'     => String,
