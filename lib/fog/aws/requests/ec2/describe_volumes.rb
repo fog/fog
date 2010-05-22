@@ -51,7 +51,7 @@ module Fog
               when 'attaching'
                 if Time.now - volume['attachmentSet'].first['attachTime'] > Fog::Mock.delay
                   volume['attachmentSet'].first['status'] = 'in-use'
-                  volume['status'] = 'in_use'
+                  volume['status'] = 'in-use'
                 end
               when 'creating'
                 if Time.now - volume['createTime'] > Fog::Mock.delay
