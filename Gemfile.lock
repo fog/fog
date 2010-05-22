@@ -39,7 +39,7 @@ dependencies:
   shindo: 
     group: 
     - :default
-    version: ">= 0.1.1"
+    version: ">= 0.1.2"
   nokogiri: 
     group: 
     - :default
@@ -68,8 +68,8 @@ specs:
 - ruby-hmac: 
     version: 0.4.0
 - shindo: 
-    version: 0.1.1
-hash: 25867edf1806747584b6dc00c7a096acc34dad82
+    version: 0.1.2
+hash: 4e55927c1be02ee00fc3353e71caecdebd9d4817
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org
