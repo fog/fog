@@ -46,6 +46,14 @@ module AWS
         'return'    => ::Fog::Boolean
       }
 
+      REGIONS = {
+        'regionInfo'  => [{
+          'regionEndpoint'  => String,
+          'regionName'      => String
+        }],
+        'requestId'   => String
+      }
+
       SECURITY_GROUPS = {
         'requestId'           => String,
         'securityGroupInfo' => [{
