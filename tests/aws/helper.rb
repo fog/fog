@@ -41,6 +41,15 @@ module AWS
         'requestId' => String
       }
 
+      AVAILABILITY_ZONES = {
+        'availabilityZoneInfo'  => [{
+          'regionName'  => String,
+          'zoneName'    => String,
+          'zoneState'   => String
+        }],
+        'requestId'             => String
+      }
+
       BASIC = {
         'requestId' => String,
         'return'    => ::Fog::Boolean

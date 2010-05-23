@@ -1,4 +1,5 @@
 Shindo.tests('AWS::EC2 | region requests', ['aws']) do
+
   tests('success') do
 
     tests("#describe_regions").formats(AWS::EC2::Formats::REGIONS) do
@@ -10,10 +11,12 @@ Shindo.tests('AWS::EC2 | region requests', ['aws']) do
     end
 
   end
+
   tests('failure') do
 
     tests("#describe_regions('not-a-region')").raises(Excon::Errors::BadRequest) do
-      AWS[:ec2].describe_regions('not-a-region').body
+      AWS[:ec2].describe_regions('not-a-region')
     end
   end
+
 end
