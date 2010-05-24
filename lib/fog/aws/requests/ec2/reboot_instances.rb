@@ -16,8 +16,9 @@ module Fog
         def reboot_instances(instance_id = [])
           params = AWS.indexed_param('InstanceId', instance_id)
           request({
-            'Action'  => 'RebootInstances',
-            :parser   => Fog::Parsers::AWS::EC2::Basic.new
+            'Action'    => 'RebootInstances',
+            :idempotent => true,
+            :parser     => Fog::Parsers::AWS::EC2::Basic.new
           }.merge!(params))
         end
 

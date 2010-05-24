@@ -28,8 +28,9 @@ module Fog
         def describe_security_groups(group_name = [])
           params = AWS.indexed_param('GroupName', group_name)
           request({
-            'Action'  => 'DescribeSecurityGroups',
-            :parser   => Fog::Parsers::AWS::EC2::DescribeSecurityGroups.new
+            'Action'    => 'DescribeSecurityGroups',
+            :idempotent => true,
+            :parser     => Fog::Parsers::AWS::EC2::DescribeSecurityGroups.new
           }.merge!(params))
         end
 

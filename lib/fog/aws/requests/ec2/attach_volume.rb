@@ -25,6 +25,7 @@ module Fog
             'VolumeId'    => volume_id,
             'InstanceId'  => instance_id,
             'Device'      => device,
+            :idempotent   => true,
             :parser       => Fog::Parsers::AWS::EC2::AttachVolume.new
           )
         end

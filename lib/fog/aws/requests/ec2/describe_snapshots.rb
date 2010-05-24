@@ -25,8 +25,9 @@ module Fog
           options['Owner'] ||= 'self'
           options.merge!(AWS.indexed_param('SnapshotId', snapshot_id))
           request({
-            'Action'  => 'DescribeSnapshots',
-            :parser   => Fog::Parsers::AWS::EC2::DescribeSnapshots.new
+            'Action'    => 'DescribeSnapshots',
+            :idempotent => true,
+            :parser     => Fog::Parsers::AWS::EC2::DescribeSnapshots.new
           }.merge!(options))
         end
 

@@ -14,6 +14,7 @@ module Fog
           request(
             'Action'    => 'ReleaseAddress',
             'PublicIp'  => public_ip,
+            :idempotent => true,
             :parser     => Fog::Parsers::AWS::EC2::Basic.new
           )
         end

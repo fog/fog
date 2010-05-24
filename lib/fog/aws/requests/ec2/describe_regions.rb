@@ -18,8 +18,9 @@ module Fog
         def describe_regions(region_name = [])
           params = AWS.indexed_param('RegionName', region_name)
           request({
-            'Action'  => 'DescribeRegions',
-            :parser   => Fog::Parsers::AWS::EC2::DescribeRegions.new
+            'Action'    => 'DescribeRegions',
+            :idempotent => true,
+            :parser     => Fog::Parsers::AWS::EC2::DescribeRegions.new
           }.merge!(params))
         end
 

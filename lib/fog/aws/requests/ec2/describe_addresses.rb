@@ -18,8 +18,9 @@ module Fog
         def describe_addresses(public_ip = [])
           params = AWS.indexed_param('PublicIp', public_ip)
           request({
-            'Action'  => 'DescribeAddresses',
-            :parser   => Fog::Parsers::AWS::EC2::DescribeAddresses.new
+            'Action'    => 'DescribeAddresses',
+            :idempotent => true,
+            :parser     => Fog::Parsers::AWS::EC2::DescribeAddresses.new
           }.merge!(params))
         end
 

@@ -33,8 +33,9 @@ module Fog
             options.merge!(AWS.indexed_param('ImageId', image_id))
           end
           request({
-            'Action'  => 'DescribeImages',
-            :parser   => Fog::Parsers::AWS::EC2::DescribeImages.new
+            'Action'    => 'DescribeImages',
+            :idempotent => true,
+            :parser     => Fog::Parsers::AWS::EC2::DescribeImages.new
           }.merge!(options))
         end
 

@@ -17,6 +17,7 @@ module Fog
           request(
             'Action'    => 'DeleteVolume',
             'VolumeId'  => volume_id,
+            :idempotent => true,
             :parser     => Fog::Parsers::AWS::EC2::Basic.new
           )
         end

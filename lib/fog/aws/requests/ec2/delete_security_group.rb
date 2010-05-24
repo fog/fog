@@ -17,6 +17,7 @@ module Fog
           request(
             'Action'    => 'DeleteSecurityGroup',
             'GroupName' => name,
+            :idempotent => true,
             :parser     => Fog::Parsers::AWS::EC2::Basic.new
           )
         end

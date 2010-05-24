@@ -18,8 +18,9 @@ module Fog
         def describe_key_pairs(key_name = [])
           params = AWS.indexed_param('KeyName', key_name)
           request({
-            'Action'  => 'DescribeKeyPairs',
-            :parser   => Fog::Parsers::AWS::EC2::DescribeKeyPairs.new
+            'Action'    => 'DescribeKeyPairs',
+            :idempotent => true,
+            :parser     => Fog::Parsers::AWS::EC2::DescribeKeyPairs.new
           }.merge!(params))
         end
 

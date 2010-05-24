@@ -19,6 +19,7 @@ module Fog
             'Action'      => 'AssociateAddress',
             'InstanceId'  => instance_id,
             'PublicIp'    => public_ip,
+            :idempotent   => true,
             :parser       => Fog::Parsers::AWS::EC2::Basic.new
           )
         end

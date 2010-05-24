@@ -17,6 +17,7 @@ module Fog
           request(
             'Action'    => 'DisassociateAddress',
             'PublicIp'  => public_ip,
+            :idempotent => true,
             :parser     => Fog::Parsers::AWS::EC2::Basic.new
           )
         end

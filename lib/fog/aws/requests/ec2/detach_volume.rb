@@ -25,6 +25,7 @@ module Fog
           request({
             'Action'    => 'DetachVolume',
             'VolumeId'  => volume_id,
+            :idempotent => true,
             :parser     => Fog::Parsers::AWS::EC2::DetachVolume.new
           }.merge!(options))
         end

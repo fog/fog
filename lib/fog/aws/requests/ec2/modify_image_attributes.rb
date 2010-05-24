@@ -20,6 +20,7 @@ module Fog
             'Attribute'     => attribute,
             'ImageId'       => image_id,
             'OperationType' => operation_type,
+            :idempotent     => true,
             :parser         => Fog::Parsers::AWS::EC2::Basic.new
           }.merge!(params))
         end

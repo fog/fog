@@ -24,8 +24,9 @@ module Fog
         #     * 'return'<~Boolean> - success?
         def revoke_security_group_ingress(options = {})
           request({
-            'Action'  => 'RevokeSecurityGroupIngress',
-            :parser   => Fog::Parsers::AWS::EC2::Basic.new
+            'Action'    => 'RevokeSecurityGroupIngress',
+            :idempotent => true,
+            :parser     => Fog::Parsers::AWS::EC2::Basic.new
           }.merge!(options))
         end
 

@@ -23,8 +23,9 @@ module Fog
         def terminate_instances(instance_id)
           params = AWS.indexed_param('InstanceId', instance_id)
           request({
-            'Action' => 'TerminateInstances',
-            :parser  => Fog::Parsers::AWS::EC2::TerminateInstances.new
+            'Action'    => 'TerminateInstances',
+            :idempotent => true,
+            :parser     => Fog::Parsers::AWS::EC2::TerminateInstances.new
           }.merge!(params))
         end
 

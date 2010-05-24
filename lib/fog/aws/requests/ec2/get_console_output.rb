@@ -19,6 +19,7 @@ module Fog
           request(
             'Action'      => 'GetConsoleOutput',
             'InstanceId'  => instance_id,
+            :idempotent   => true,
             :parser       => Fog::Parsers::AWS::EC2::GetConsoleOutput.new
           )
         end

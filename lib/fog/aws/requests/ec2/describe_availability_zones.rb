@@ -19,8 +19,9 @@ module Fog
         def describe_availability_zones(zone_name = [])
           params = AWS.indexed_param('ZoneName', zone_name)
           request({
-            'Action'  => 'DescribeAvailabilityZones',
-            :parser   => Fog::Parsers::AWS::EC2::DescribeAvailabilityZones.new
+            'Action'    => 'DescribeAvailabilityZones',
+            :idempotent => true,
+            :parser     => Fog::Parsers::AWS::EC2::DescribeAvailabilityZones.new
           }.merge!(params))
         end
 

@@ -27,8 +27,9 @@ module Fog
         def describe_volumes(volume_id = [])
           params = AWS.indexed_param('VolumeId', volume_id)
           request({
-            'Action'  => 'DescribeVolumes',
-            :parser   => Fog::Parsers::AWS::EC2::DescribeVolumes.new
+            'Action'    => 'DescribeVolumes',
+            :idempotent => true,
+            :parser     => Fog::Parsers::AWS::EC2::DescribeVolumes.new
           }.merge!(params))
         end
 

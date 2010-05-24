@@ -17,6 +17,7 @@ module Fog
           request(
             'Action'      => 'DeleteSnapshot',
             'SnapshotId'  => snapshot_id,
+            :idempotent   => true,
             :parser       => Fog::Parsers::AWS::EC2::Basic.new
           )
         end
