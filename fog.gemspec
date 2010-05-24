@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.1.0'
-  s.date              = '2010-05-18'
+  s.version           = '0.1.1'
+  s.date              = '2010-05-23'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -388,20 +388,10 @@ Gem::Specification.new do |s|
     spec/aws/models/s3/directory_spec.rb
     spec/aws/models/s3/file_spec.rb
     spec/aws/models/s3/files_spec.rb
-    spec/aws/requests/ec2/authorize_security_group_ingress_spec.rb
-    spec/aws/requests/ec2/create_key_pair_spec.rb
-    spec/aws/requests/ec2/create_security_group_spec.rb
-    spec/aws/requests/ec2/delete_key_pair_spec.rb
-    spec/aws/requests/ec2/delete_security_group_spec.rb
-    spec/aws/requests/ec2/describe_availability_zones_spec.rb
     spec/aws/requests/ec2/describe_images_spec.rb
     spec/aws/requests/ec2/describe_instances_spec.rb
-    spec/aws/requests/ec2/describe_key_pairs_spec.rb
-    spec/aws/requests/ec2/describe_regions_spec.rb
-    spec/aws/requests/ec2/describe_security_groups_spec.rb
     spec/aws/requests/ec2/get_console_output_spec.rb
     spec/aws/requests/ec2/reboot_instances_spec.rb
-    spec/aws/requests/ec2/revoke_security_group_ingress_spec.rb
     spec/aws/requests/ec2/run_instances_spec.rb
     spec/aws/requests/ec2/terminate_instances_spec.rb
     spec/aws/requests/s3/copy_object_spec.rb
@@ -459,6 +449,10 @@ Gem::Specification.new do |s|
     spec/vcloud/vcloud_spec.rb
     tests/aws/helper.rb
     tests/aws/requests/ec2/address_tests.rb
+    tests/aws/requests/ec2/availability_zone_tests.rb
+    tests/aws/requests/ec2/key_pair_tests.rb
+    tests/aws/requests/ec2/region_tests.rb
+    tests/aws/requests/ec2/security_group_tests.rb
     tests/aws/requests/ec2/snapshot_tests.rb
     tests/aws/requests/ec2/volume_tests.rb
     tests/helper.rb
