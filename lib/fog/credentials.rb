@@ -37,7 +37,7 @@ module Fog
   :slicehost_password:    INTENTIONALLY_LEFT_BLANK
   :terremark_username:    INTENTIONALLY_LEFT_BLANK
   :terremark_password:    INTENTIONALLY_LEFT_BLANK
-
+  :bluebox_api_key:       INTENTIONALLY_LEFT_BLANK
 YML
           print(yml)
           raise(ArgumentError.new("Missing Credentials"))

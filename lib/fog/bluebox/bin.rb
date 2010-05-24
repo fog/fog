@@ -1,5 +1,6 @@
 module Bluebox
   class << self
+
     if Fog.credentials[:bluebox_api_key]
 
       def initialized?
@@ -9,10 +10,10 @@ module Bluebox
       def [](service)
         @@connections ||= Hash.new do |hash, key|
           credentials = Fog.credentials.reject do |k,v|
-            ![:bluebox_api_key].include?(k)
+            ![:bluebox_api_key, :bluebox_host, :bluebox_port, :bluebox_scheme].include?(k)
           end
           hash[key] = case key
-          when :slices
+          when :blocks
             Fog::Bluebox.new(credentials)
           end
         end
@@ -20,15 +21,15 @@ module Bluebox
       end
 
       def flavors
-        self[:slices].flavors
+        self[:blocks].flavors
       end
 
       def images
-        self[:slices].images
+        self[:blocks].images
       end
 
       def servers
-        self[:slices].servers
+        self[:blocks].servers
       end
 
     else

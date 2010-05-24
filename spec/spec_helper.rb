@@ -70,6 +70,22 @@ module Slicehost
   end
 end
 
+module Bluebox
+  class << self
+    def [](service)
+      @@connections ||= Hash.new do |hash, key|
+        credentials = Fog.credentials.reject do |k, v|
+          ![:bluebox_api_key, :bluebox_host, :bluebox_port, :bluebox_scheme].include?(k)
+        end
+        hash[key] = case key
+        when :blocks
+          Fog::Bluebox.new(credentials)
+        end
+      end
+      @@connections[service]
+    end
+  end
+end
 
 
 def eventually(max_delay = 16, &block)

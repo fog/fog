@@ -3,12 +3,13 @@ require 'fog/model'
 module Fog
   module Bluebox
 
-    class Product < Fog::Model
+    class Flavor < Fog::Model
 
       identity :id
 
       attribute :name
       attribute :cost
+      attribute :description
 
       def bits
         # 64

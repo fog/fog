@@ -5,7 +5,7 @@ require 'yaml'
 require File.join('fog', 'credentials')
 require File.join('fog', 'bin')
 
-Fog.credential = (ARGV.first && :"#{ARGV.first}") || :default
+Fog.credential = ARGV.first  ? :"#{ARGV.first}" : :default
 unless Fog.credentials
   exit
 end
@@ -16,6 +16,7 @@ require File.join('fog', 'rackspace', 'bin')
 require File.join('fog', 'slicehost', 'bin')
 require File.join('fog', 'terremark', 'bin')
 require File.join('fog', 'vcloud', 'bin')
+require File.join('fog', 'bluebox', 'bin')
 
 if ARGV.length > 1
   print(instance_eval(ARGV[1..-1].join(' ')).to_json)

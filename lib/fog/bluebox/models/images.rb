@@ -1,12 +1,12 @@
 require 'fog/collection'
-require 'fog/bluebox/models/template'
+require 'fog/bluebox/models/image'
 
 module Fog
   module Bluebox
 
     class Mock
       def images(attributes = {})
-        Fog::Bluebox::Templates.new({
+        Fog::Bluebox::Images.new({
           :connection => self
         }.merge!(attributes))
       end
@@ -14,7 +14,7 @@ module Fog
 
     class Real
       def images(attributes = {})
-        Fog::Bluebox::Templates.new({
+        Fog::Bluebox::Images.new({
           :connection => self
         }.merge!(attributes))
       end
@@ -22,7 +22,7 @@ module Fog
 
     class Templates < Fog::Collection
 
-      model Fog::Bluebox::Template
+      model Fog::Bluebox::Image
 
       def all
         data = connection.get_templates.body['templates']

@@ -3,7 +3,7 @@ require 'fog/model'
 module Fog
   module Bluebox
 
-    class Template < Fog::Model
+    class Image < Fog::Model
 
       identity :id
 

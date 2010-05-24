@@ -5,7 +5,7 @@ module Fog
 
     def services
       services = []
-      [::AWS, ::Local, ::Rackspace, ::Slicehost, ::Terremark, ::Vcloud].each do |service|
+      [::AWS, ::Local, ::Rackspace, ::Slicehost, ::Terremark, ::Vcloud, ::Bluebox].each do |service|
         if service.initialized?
           services << service
         end

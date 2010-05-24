@@ -2,7 +2,7 @@ module Fog
   module Bluebox
     class Real
 
-      require 'fog/bluebox/parsers/get_templates'
+      require 'fog/bluebox/parsers/get_images'
 
       # Get list of OS templates
       #
@@ -13,11 +13,11 @@ module Fog
       #     * 'description'<~String> - Description of the image
       #     * 'public'<~Boolean> - Public / Private image
       #     * 'created'<~Datetime> - Timestamp of when the image was created
-      def get_templates
+      def get_images
         request(
           :expects  => 200,
           :method   => 'GET',
-          :parser   => Fog::Parsers::Bluebox::GetTemplates.new,
+          :parser   => Fog::Parsers::Bluebox::GetImages.new,
           :path     => 'api/block_templates.xml'
         )
       end

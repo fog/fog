@@ -1,15 +1,20 @@
 module Fog
   module Bluebox
+    require 'fog/bluebox/models/images'
+    require 'fog/bluebox/requests/get_images'
+    require 'fog/bluebox/models/flavors'
+    require 'fog/bluebox/requests/get_flavors'
+    require 'fog/bluebox/models/flavor'
+    require 'fog/bluebox/requests/get_flavor'
+    require 'fog/bluebox/models/servers'
+    require 'fog/bluebox/requests/get_blocks'
+    require 'fog/bluebox/models/server'
+    require 'fog/bluebox/requests/get_block'
+    require 'fog/bluebox/requests/create_block'
+    require 'fog/bluebox/requests/destroy_block'
+    require 'fog/bluebox/requests/reboot_block'
 
     def self.new(options={})
-
-      unless @required
-        require 'fog/bluebox/models/templates'
-        require 'fog/bluebox/requests/get_templates'
-        require 'fog/bluebox/models/products'
-        require 'fog/bluebox/requests/get_products'
-        @required = true
-      end
 
       unless options[:bluebox_api_key]
         raise ArgumentError.new('bluebox_api_key is required to access Blue Box')
@@ -50,9 +55,9 @@ module Fog
 
       def initialize(options={})
         @bluebox_api_key = options[:bluebox_api_key]
-        @host   = options[:host]    || "boxpanel.blueboxgrp.com"
-        @port   = options[:port]    || 443
-        @scheme = options[:scheme]  || 'https'
+        @host   = options[:bluebox_host]    || "boxpanel.blueboxgrp.com"
+        @port   = options[:bluebox_port]    || 443
+        @scheme = options[:bluebox_scheme]  || 'https'
       end
 
       def request(params)
@@ -67,7 +72,7 @@ module Fog
           headers['Content-Type'] = 'application/xml'
         end
 
-        response = @connection.request({
+        @connection.request({
           :body     => params[:body],
           :expects  => params[:expects],
           :headers  => headers.merge!(params[:headers] || {}),
@@ -76,8 +81,6 @@ module Fog
           :parser   => params[:parser],
           :path     => params[:path]
         })
-
-        response
       end
 
     end

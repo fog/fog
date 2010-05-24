@@ -209,6 +209,27 @@ Gem::Specification.new do |s|
     lib/fog/aws/s3.rb
     lib/fog/aws/simpledb.rb
     lib/fog/bin.rb
+    lib/fog/bluebox.rb
+    lib/fog/bluebox/bin.rb
+    lib/fog/bluebox/models/flavor.rb
+    lib/fog/bluebox/models/flavors.rb
+    lib/fog/bluebox/models/image.rb
+    lib/fog/bluebox/models/images.rb
+    lib/fog/bluebox/models/server.rb
+    lib/fog/bluebox/models/servers.rb
+    lib/fog/bluebox/parsers/create_block.rb
+    lib/fog/bluebox/parsers/get_block.rb
+    lib/fog/bluebox/parsers/get_blocks.rb
+    lib/fog/bluebox/parsers/get_flavor.rb
+    lib/fog/bluebox/parsers/get_flavors.rb
+    lib/fog/bluebox/parsers/get_images.rb
+    lib/fog/bluebox/requests/create_block.rb
+    lib/fog/bluebox/requests/destroy_block.rb
+    lib/fog/bluebox/requests/get_block.rb
+    lib/fog/bluebox/requests/get_blocks.rb
+    lib/fog/bluebox/requests/get_flavor.rb
+    lib/fog/bluebox/requests/get_flavors.rb
+    lib/fog/bluebox/requests/get_images.rb
     lib/fog/collection.rb
     lib/fog/connection.rb
     lib/fog/credentials.rb
@@ -416,6 +437,9 @@ Gem::Specification.new do |s|
     spec/aws/requests/simpledb/list_domains_spec.rb
     spec/aws/requests/simpledb/put_attributes_spec.rb
     spec/aws/requests/simpledb/select_spec.rb
+    spec/bluebox/models/flavors_spec.rb
+    spec/bluebox/models/server_spec.rb
+    spec/bluebox/models/servers_spec.rb
     spec/compact_progress_bar_formatter.rb
     spec/lorem.txt
     spec/rackspace/models/servers/flavors_spec.rb
