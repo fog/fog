@@ -64,7 +64,7 @@ module Fog
           unless (mime_types = MIME::Types.of(filename)).empty?
             metadata[:headers]['Content-Type'] = mime_types.first.content_type
           end
-          metadata[:body] = data.read
+          metadata[:body] = data
           metadata[:headers]['Content-Length'] = ::File.size(data.path).to_s
         end
         # metadata[:headers]['Content-MD5'] = Base64.encode64(Digest::MD5.digest(metadata[:body])).strip
@@ -151,12 +151,16 @@ module Fog
             end
           @port       = options[:port]      || 443
           @scheme     = options[:scheme]    || 'https'
+          reset
+        end
+
+        def reset
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
         end
 
         private
 
         def request(params, &block)
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
           params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
           params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
 
@@ -181,8 +185,8 @@ DATA
             end
           end
           amz_headers = amz_headers.sort {|x, y| x[0] <=> y[0]}
-          for pair in amz_headers
-            canonical_amz_headers << "#{pair[0]}:#{pair[1]}\n"
+          for key, value in amz_headers
+            canonical_amz_headers << "#{key}:#{value}\n"
           end
           string_to_sign << "#{canonical_amz_headers}"
 
