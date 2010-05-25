@@ -43,6 +43,9 @@ module Fog
 
         def put_object(bucket_name, object_name, data, options = {})
           data = Fog::AWS::S3.parse_data(data)
+          unless data[:body].is_a?(String)
+            data[:body] = data[:body].read
+          end
           response = Excon::Response.new
           if (bucket = @data[:buckets][bucket_name])
             response.status = 200
