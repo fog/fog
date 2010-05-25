@@ -30,8 +30,9 @@ module Fog
             { :bits => 32, :cores =>  5, :disk => 350,  :id => 'c1.medium', :name => 'High-CPU Medium',      :ram => 1740.8},
             { :bits => 64, :cores => 20, :disk => 1690, :id => 'c1.xlarge', :name => 'High-CPU Extra Large', :ram => 7168},
 
-            { :bits => 64, :cores => 13, :disk => 850,  :id => 'm2.2xlarge', :name => 'High Memory Double Extra Large',    :ram => 35020.8},
-            { :bits => 64, :cores => 26, :disk => 1690, :id => 'm2.4xlarge', :name => 'High Memory Quadruple Extra Large', :ram => 70041.6},
+            { :bits => 64, :cores => 6.5, :disk => 420,  :id => 'm2.xlarge',  :name => 'High-Memory Extra Large',           :ram => 17510.4},
+            { :bits => 64, :cores =>  13, :disk => 850,  :id => 'm2.2xlarge', :name => 'High Memory Double Extra Large',    :ram => 35020.8},
+            { :bits => 64, :cores =>  26, :disk => 1690, :id => 'm2.4xlarge', :name => 'High Memory Quadruple Extra Large', :ram => 70041.6},
           ]
           load(data)
           self
