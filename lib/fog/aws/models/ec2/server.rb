@@ -117,7 +117,7 @@ module Fog
 
           options = {
             'BlockDeviceMapping'          => @block_device_mapping,
-            'InstanceType'                => flavor.id,
+            'InstanceType'                => flavor_id,
             'KernelId'                    => @kernel_id,
             'KeyName'                     => @key_name,
             'Monitoring.Enabled'          => @monitoring,
