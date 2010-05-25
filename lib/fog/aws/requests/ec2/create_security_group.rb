@@ -31,8 +31,8 @@ module Fog
           response = Excon::Response.new
           unless @data[:security_groups][name]
             data = {
-              'groupDescription'  => description,
-              'groupName'         => name,
+              'groupDescription'  => CGI.escape(description).gsub('%20', '+'),
+              'groupName'         => CGI.escape(name).gsub('%20', '+'),
               'ipPermissions'     => [],
               'ownerId'           => @owner_id
             }

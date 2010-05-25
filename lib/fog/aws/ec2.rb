@@ -96,40 +96,42 @@ module Fog
 
         def self.data
           @data ||= Hash.new do |hash, key|
+            owner_id = Fog::AWS::Mock.owner_id
             hash[key] = {
               :deleted_at => {},
-              :addresses => {},
-              :instances => {},
-              :key_pairs => {},
-              :limits => { :addresses => 5 },
+              :addresses  => {},
+              :instances  => {},
+              :key_pairs  => {},
+              :limits     => { :addresses => 5 },
+              :owner_id   => owner_id,
               :security_groups => {
                 'default' => {
                   'groupDescription'  => 'default group',
                   'groupName'         => 'default',
                   'ipPermissions'     => [
                     {
-                      'groups'      => [{'groupName' => 'default', 'userId' => @owner_id}],
+                      'groups'      => [{'groupName' => 'default', 'userId' => owner_id}],
                       'fromPort'    => -1,
                       'toPort'      => -1,
                       'ipProtocol'  => 'icmp',
                       'ipRanges'    => []
                     },
                     {
-                      'groups'      => [{'groupName' => 'default', 'userId' => @owner_id}],
+                      'groups'      => [{'groupName' => 'default', 'userId' => owner_id}],
                       'fromPort'    => 0,
                       'toPort'      => 65535,
                       'ipProtocol'  => 'tcp',
                       'ipRanges'    => []
                     },
                     {
-                      'groups'      => [{'groupName' => 'default', 'userId' => @owner_id}],
+                      'groups'      => [{'groupName' => 'default', 'userId' => owner_id}],
                       'fromPort'    => 0,
                       'toPort'      => 65535,
                       'ipProtocol'  => 'udp',
                       'ipRanges'    => []
                     }
                   ],
-                  'ownerId'           => @owner_id
+                  'ownerId'           => owner_id
                 }
               },
               :snapshots => {},
@@ -146,8 +148,8 @@ module Fog
 
         def initialize(options={})
           @aws_access_key_id = options[:aws_access_key_id]
-          @owner_id = Fog::AWS::Mock.owner_id
           @data = self.class.data[@aws_access_key_id]
+          @owner_id = @data[:owner_id]
         end
 
       end

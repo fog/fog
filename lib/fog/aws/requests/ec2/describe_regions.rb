@@ -41,11 +41,16 @@ module Fog
             region_info = regions.values
           end
 
-          response.status = 200
-          response.body = {
-            'requestId'   => Fog::AWS::Mock.request_id,
-            'regionInfo'  => region_info
-          }
+          if region_name.length == 0 || region_name.length == region_info.length
+            response.status = 200
+            response.body = {
+              'requestId'   => Fog::AWS::Mock.request_id,
+              'regionInfo'  => region_info
+            }
+          else
+            response.status = 400
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
           response
         end
 

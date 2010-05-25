@@ -35,28 +35,38 @@ module Fog
       class Mock
 
         def revoke_security_group_ingress(options = {})
-          if options['GroupName'] && options['SourceSecurityGroupName'] && options['SourceSecurityGroupOwnerId']
-            raise MockNotImplemented.new("Contributions welcome!")
-          else
-            response = Excon::Response.new
-            group = @data[:security_groups][options['GroupName']]
-
-            ingress = group['ipPermissions'].select {|permission|
-              permission['fromPort']    == options['FromPort'] &&
-              permission['ipProtocol']  == options['IpProtocol'] &&
-              permission['toPort']      == options['ToPort'] &&
-              permission['ipRanges'].first['cidrIp'] == options['CidrIp']
-            }.first
-
-            group['ipPermissions'].delete(ingress)
-
+          response = Excon::Response.new
+          group = @data[:security_groups][options['GroupName']]
+          if group
+            if options['GroupName'] && options['SourceSecurityGroupName'] && options['SourceSecurityGroupOwnerId']
+              group['ipPermissions'].delete_if {|permission|
+                permission['groups'].first['groupName'] == options['GroupName']
+              }
+            else
+              ingress = group['ipPermissions'].select {|permission|
+                permission['fromPort']    == options['FromPort'] &&
+                permission['ipProtocol']  == options['IpProtocol'] &&
+                permission['toPort']      == options['ToPort'] &&
+                (
+                  permission['ipRanges'].empty? ||
+                  (
+                    permission['ipRanges'].first &&
+                    permission['ipRanges'].first['cidrIp'] == options['CidrIp']
+                  )
+                )
+              }.first
+              group['ipPermissions'].delete(ingress)
+            end
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,
               'return'    => true
             }
-            response
+          else
+            response.status = 400
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
+          response
         end
 
       end

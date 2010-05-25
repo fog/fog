@@ -44,11 +44,16 @@ module Fog
             availability_zone_info = zones.values
           end
 
-          response.status = 200
-          response.body = {
-            'requestId'             => Fog::AWS::Mock.request_id,
-            'availabilityZoneInfo'  => availability_zone_info
-          }
+          if zone_name.length == 0 || zone_name.length == availability_zone_info.length
+            response.status = 200
+            response.body = {
+              'requestId'             => Fog::AWS::Mock.request_id,
+              'availabilityZoneInfo'  => availability_zone_info
+            }
+          else
+            response.status = 400
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
           response
         end
 
