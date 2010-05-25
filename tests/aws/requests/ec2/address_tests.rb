@@ -22,28 +22,12 @@ Shindo.tests('AWS::EC2 | address requests', ['aws']) do
       AWS[:ec2].describe_addresses(@public_ip).body
     end
 
-    tests("#associate_addresses('#{@server.identity}', '#{@public_Ip}')") do
-
-      formats(AWS::EC2::Formats::BASIC) do
-        AWS[:ec2].associate_address(@server.identity, @public_ip).body
-      end
-
-      tests('server.ip_address').returns(@public_ip) do
-        @server.reload.ip_address
-      end
-
+    tests("#associate_addresses('#{@server.identity}', '#{@public_Ip}')").formats(AWS::EC2::Formats::BASIC) do
+      AWS[:ec2].associate_address(@server.identity, @public_ip).body
     end
 
-    tests("#dissassociate_address('#{@public_ip}')") do
-
-      formats(AWS::EC2::Formats::BASIC) do
-        AWS[:ec2].disassociate_address(@public_ip).body
-      end
-
-      test("server.ip_address is not #{@public_ip}") do
-        @server.reload.ip_address != @public_ip
-      end
-
+    tests("#dissassociate_address('#{@public_ip}')").formats(AWS::EC2::Formats::BASIC) do
+      AWS[:ec2].disassociate_address(@public_ip).body
     end
 
     tests("#release_address('#{@public_ip}')").formats(AWS::EC2::Formats::BASIC) do
