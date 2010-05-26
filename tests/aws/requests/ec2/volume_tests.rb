@@ -41,23 +41,23 @@ Shindo.tests('AWS::EC2 | volume requests', ['aws']) do
 
     @volume = AWS[:ec2].volumes.create(:availability_zone => @server.availability_zone, :size => 1)
 
-    tests("#describe_volume('vol-00000000')").raises(Excon::Errors::BadRequest) do
+    tests("#describe_volume('vol-00000000')").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].describe_volumes('vol-00000000')
     end
 
-    tests("#attach_volume('i-00000000', '#{@volume.identity}', '/dev/sdh')").raises(Excon::Errors::BadRequest) do
+    tests("#attach_volume('i-00000000', '#{@volume.identity}', '/dev/sdh')").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].attach_volume('i-00000000', @volume.identity, '/dev/sdh')
     end
 
-    tests("#attach_volume('#{@server.identity}', 'vol-00000000', '/dev/sdh')").raises(Excon::Errors::BadRequest) do
+    tests("#attach_volume('#{@server.identity}', 'vol-00000000', '/dev/sdh')").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].attach_volume(@server.identity, 'vol-00000000', '/dev/sdh')
     end
 
-    tests("#detach_volume('vol-00000000')").raises(Excon::Errors::BadRequest) do
+    tests("#detach_volume('vol-00000000')").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].detach_volume('vol-00000000')
     end
 
-    tests("#delete_volume('vol-00000000')").raises(Excon::Errors::BadRequest) do
+    tests("#delete_volume('vol-00000000')").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].delete_volume('vol-00000000')
     end
 

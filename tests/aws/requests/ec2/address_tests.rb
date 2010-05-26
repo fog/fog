@@ -39,23 +39,27 @@ Shindo.tests('AWS::EC2 | address requests', ['aws']) do
 
     @address = AWS[:ec2].addresses.create
 
-    tests("#describe_addresses('127.0.0.1')").raises(Excon::Errors::BadRequest) do
+    tests("#describe_addresses('127.0.0.1')").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].describe_addresses('127.0.0.1')
     end
 
-    tests("#associate_addresses('i-00000000', '#{@address.identity}')").raises(Excon::Errors::BadRequest) do
+    tests("#associate_addresses('i-00000000', '#{@address.identity}')").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].associate_address('i-00000000', @address.identity)
     end
 
-    tests("#associate_addresses('#{@server.identity}', '127.0.0.1')").raises(Excon::Errors::BadRequest) do
+    tests("#associate_addresses('#{@server.identity}', '127.0.0.1')").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].associate_address(@server.identity, '127.0.0.1')
     end
 
-    tests("#disassociate_addresses('127.0.0.1') raises BadRequest error").raises(Excon::Errors::BadRequest) do
+    tests("#associate_addresses('i-00000000', '127.0.0.1')").raises(Fog::AWS::EC2::Error) do
+      AWS[:ec2].associate_address('i-00000000', '127.0.0.1')
+    end
+
+    tests("#disassociate_addresses('127.0.0.1') raises BadRequest error").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].disassociate_address('127.0.0.1')
     end
 
-    tests("#release_address('127.0.0.1')").raises(Excon::Errors::BadRequest) do
+    tests("#release_address('127.0.0.1')").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].release_address('127.0.0.1')
     end
 

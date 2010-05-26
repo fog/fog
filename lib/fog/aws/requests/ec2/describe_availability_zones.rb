@@ -50,11 +50,10 @@ module Fog
               'requestId'             => Fog::AWS::Mock.request_id,
               'availabilityZoneInfo'  => availability_zone_info
             }
+            response
           else
-            response.status = 400
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+            raise Fog::AWS::EC2::Error.new("InvalidParameterValue => Invalid availability zone: #{zone_name.inspect}")
           end
-          response
         end
 
       end

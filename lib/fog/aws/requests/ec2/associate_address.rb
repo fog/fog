@@ -43,11 +43,12 @@ module Fog
               'requestId' => Fog::AWS::Mock.request_id,
               'return'    => true
             }
-          else
-            response.status = 400
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+            response
+          elsif !instance
+            raise Fog::AWS::EC2::Error.new("InvalidInstanceID.NotFound => The instance ID '#{instance_id}' does not exist")
+          elsif !address
+            raise Fog::AWS::EC2::Error.new("AuthFailure => The address '#{public_ip}' does not belong to you.")
           end
-          response
         end
 
       end

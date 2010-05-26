@@ -34,11 +34,10 @@ module Fog
               'requestId' => Fog::AWS::Mock.request_id,
               'return'    => true
             }
+            response
           else
-            response.status = 400
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+            raise Fog::AWS::EC2::Error.new("InvalidSnapshot.NotFound => The snapshot '#{snapshot_id}' does not exist.")
           end
-          response
         end
 
       end

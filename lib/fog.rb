@@ -25,6 +25,10 @@ require 'fog/model'
 require 'fog/parser'
 require 'fog/ssh'
 
+module Fog
+  class Error < StandardError; end
+end
+
 require 'fog/aws'
 require 'fog/local'
 require 'fog/rackspace'
@@ -33,6 +37,8 @@ require 'fog/terremark'
 require 'fog/vcloud'
 
 module Fog
+
+  class MockNotImplemented < Fog::Error; end
 
   unless const_defined?(:VERSION)
     VERSION = '0.1.2'
@@ -49,8 +55,6 @@ module Fog
       @delay = new_delay
     end
   end
-
-  class MockNotImplemented < StandardError; end
 
   def self.mock!
     @mocking = true

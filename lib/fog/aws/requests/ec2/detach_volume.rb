@@ -44,11 +44,10 @@ module Fog
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id
             }.merge!(data)
+            response
           else
-            response.status = 400
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+            raise Fog::AWS::EC2::Error.new("InvalidVolume.NotFound => The volume '#{volume_id}' does not exist.")
           end
-          response
         end
 
       end

@@ -29,11 +29,11 @@ Shindo.tests('AWS::EC2 | key pair requests', ['aws']) do
 
     @key_pair = AWS[:ec2].key_pairs.create(:name => 'fog_key_pair')
 
-    tests("duplicate #create_key_pair('#{@key_pair.name}')").raises(Excon::Errors::BadRequest) do
+    tests("duplicate #create_key_pair('#{@key_pair.name}')").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].create_key_pair(@key_pair.name)
     end
 
-    tests("#describe_key_pair('not_a_key_name')").raises(Excon::Errors::BadRequest) do
+    tests("#describe_key_pair('not_a_key_name')").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].describe_key_pairs('not_a_key_name').body
     end
 

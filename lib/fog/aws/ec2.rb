@@ -2,6 +2,8 @@ module Fog
   module AWS
     module EC2
 
+      class Error < Fog::Error; end
+
       def self.new(options={})
 
         unless @required
@@ -212,15 +214,23 @@ module Fog
             }
           )
 
-          response = @connection.request({
-            :body       => body,
-            :expects    => 200,
-            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-            :idempotent => idempotent,
-            :host       => @host,
-            :method     => 'POST',
-            :parser     => parser
-          })
+          begin
+            response = @connection.request({
+              :body       => body,
+              :expects    => 200,
+              :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+              :idempotent => idempotent,
+              :host       => @host,
+              :method     => 'POST',
+              :parser     => parser
+            })
+          rescue Excon::Errors::Error => error
+            if match = error.message.match(/<Code>(.*)<\/Code><Message>(.*)<\/Message>/)
+              raise Fog::AWS::EC2::Error.new("#{match[1]} => #{match[2]}")
+            else
+              raise error
+            end
+          end
 
           response
         end

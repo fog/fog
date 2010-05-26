@@ -77,11 +77,11 @@ module Fog
                 detach_volume(volume['volumeId'])
               end
             end
+
+            response
           else
-            response.status = 400
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+            raise Fog::AWS::EC2::Error.new("InvalidInstanceID.NotFound => The instance ID '#{instance_id}' does not exist")
           end
-          response
         end
 
       end

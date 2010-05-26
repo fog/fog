@@ -54,24 +54,23 @@ module Fog
               response.body = {
                 'requestId' => Fog::AWS::Mock.request_id
               }.merge!(data)
-            else
-              response.status = 400
-              raise(Excon::Errors.status_error({:expects => 200}, response))
+              response
+            elsif !instance
+              raise Fog::AWS::EC2::Error.new("InvalidInstanceID.NotFound => The instance ID '#{instance_id}' does not exist.")
+            elsif !volume
+              raise Fog::AWS::EC2::Error.new("InvalidVolume.NotFound => The volume '#{volume_id}' does not exist.")
             end
           else
-            response.status = 400
-            response.body = {
-              'Code' => 'MissingParameter'
-            }
+            message = 'MissingParameter => '
             if !instance_id
-              response['Message'] = 'The request must contain the parameter instance_id'
+              message << 'The request must contain the parameter instance_id'
             elsif !volume_id
-              response['Message'] = 'The request must contain the parameter volume_id'
+              message << 'The request must contain the parameter volume_id'
             else
-              response['Message'] = 'The request must contain the parameter device'
+              message << 'The request must contain the parameter device'
             end
+            raise Fog::AWS::EC2::Error.new(message)
           end
-          response
         end
 
       end

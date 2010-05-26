@@ -38,11 +38,10 @@ module Fog
               'requestId'     => Fog::AWS::Mock.request_id,
               'timestamp'     => Time.now
             }
-          else
-            response.status = 400
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+            response
+          else;
+            raise Fog::AWS::EC2::Error.new("InvalidInstanceID.NotFound => The instance ID '#{instance_id}' does not exist")
           end
-          response
         end
 
       end

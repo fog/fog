@@ -59,11 +59,11 @@ Shindo.tests('AWS::EC2 | security group requests', ['aws']) do
 
     @security_group = AWS[:ec2].security_groups.create(:description => 'tests group', :name => 'fog_security_group')
 
-    tests("duplicate #create_security_group(#{@security_group.name}, #{@security_group.description})").raises(Excon::Errors::BadRequest) do
+    tests("duplicate #create_security_group(#{@security_group.name}, #{@security_group.description})").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].create_security_group(@security_group.name, @security_group.description)
     end
 
-    tests("#authorize_security_group_ingress({'FromPort' => 80, 'GroupName' => 'not_a_group_name', 'IpProtocol' => 'tcp', 'toPort' => 80})").raises(Excon::Errors::BadRequest) do
+    tests("#authorize_security_group_ingress({'FromPort' => 80, 'GroupName' => 'not_a_group_name', 'IpProtocol' => 'tcp', 'toPort' => 80})").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].authorize_security_group_ingress({
         'FromPort' => 80,
         'GroupName' => 'not_a_group_name',
@@ -72,7 +72,7 @@ Shindo.tests('AWS::EC2 | security group requests', ['aws']) do
       })
     end
 
-    tests("#authorize_security_group_ingress({'GroupName' => 'not_a_group_name', 'SourceSecurityGroupName' => 'not_a_group_name', 'SourceSecurityGroupOwnerId' => '#{@owner_id}'})").raises(Excon::Errors::BadRequest) do
+    tests("#authorize_security_group_ingress({'GroupName' => 'not_a_group_name', 'SourceSecurityGroupName' => 'not_a_group_name', 'SourceSecurityGroupOwnerId' => '#{@owner_id}'})").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].authorize_security_group_ingress({
         'GroupName'                   => 'not_a_group_name',
         'SourceSecurityGroupName'     => 'not_a_group_name',
@@ -80,11 +80,11 @@ Shindo.tests('AWS::EC2 | security group requests', ['aws']) do
       })
     end
 
-    tests("#describe_security_group('not_a_group_name)").raises(Excon::Errors::BadRequest) do
+    tests("#describe_security_group('not_a_group_name)").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].describe_security_groups('not_a_group_name')
     end
 
-    tests("#revoke_security_group_ingress({'FromPort' => 80, 'GroupName' => 'not_a_group_name', 'IpProtocol' => 'tcp', 'toPort' => 80})").raises(Excon::Errors::BadRequest) do
+    tests("#revoke_security_group_ingress({'FromPort' => 80, 'GroupName' => 'not_a_group_name', 'IpProtocol' => 'tcp', 'toPort' => 80})").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].revoke_security_group_ingress({
         'FromPort' => 80,
         'GroupName' => 'not_a_group_name',
@@ -93,7 +93,7 @@ Shindo.tests('AWS::EC2 | security group requests', ['aws']) do
       })
     end
 
-    tests("#revoke_security_group_ingress({'GroupName' => 'not_a_group_name', 'SourceSecurityGroupName' => 'not_a_group_name', 'SourceSecurityGroupOwnerId' => '#{@owner_id}'})").raises(Excon::Errors::BadRequest) do
+    tests("#revoke_security_group_ingress({'GroupName' => 'not_a_group_name', 'SourceSecurityGroupName' => 'not_a_group_name', 'SourceSecurityGroupOwnerId' => '#{@owner_id}'})").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].revoke_security_group_ingress({
         'GroupName'                   => 'not_a_group_name',
         'SourceSecurityGroupName'     => 'not_a_group_name',
@@ -101,7 +101,7 @@ Shindo.tests('AWS::EC2 | security group requests', ['aws']) do
       })
     end
 
-    tests("#delete_security_group('not_a_group_name')").raises(Excon::Errors::BadRequest) do
+    tests("#delete_security_group('not_a_group_name')").raises(Fog::AWS::EC2::Error) do
       AWS[:ec2].delete_security_group('not_a_group_name')
     end
 

@@ -31,11 +31,10 @@ module Fog
               'requestId' => Fog::AWS::Mock.request_id,
               'return'    => true
             }
+            response
           else
-            response.status = 400
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+            raise Fog::AWS::EC2::Error.new("AuthFailure => The address '#{public_ip}' does not belong to you.")
           end
-          response
         end
 
       end

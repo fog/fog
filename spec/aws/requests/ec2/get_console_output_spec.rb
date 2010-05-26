@@ -25,10 +25,10 @@ describe 'EC2.get_console_output' do
   end
   describe 'failure' do
 
-    it "should raise a BadRequest error if the instance does not exist" do
+    it "should raise a Fog::AWS::EC2::Error if the instance does not exist" do
       lambda {
         AWS[:ec2].get_console_output('i-00000000')
-      }.should raise_error(Excon::Errors::BadRequest)
+      }.should raise_error(Fog::AWS::EC2::Error)
     end
 
   end

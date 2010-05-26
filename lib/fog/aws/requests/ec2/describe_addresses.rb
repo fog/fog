@@ -42,11 +42,10 @@ module Fog
               'requestId'     => Fog::AWS::Mock.request_id,
               'addressesSet'  => addresses_set
             }
+            response
           else
-            response.status = 400
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+            raise Fog::AWS::EC2::Error.new("InvalidAddress.NotFound => Address #{public_ip.inspect} not found.")
           end
-          response
         end
 
       end

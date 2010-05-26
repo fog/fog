@@ -44,11 +44,10 @@ module Fog
                 key.reject {|key,value| !['keyFingerprint', 'keyName'].include?(key)}
               end
             }
+            response
           else
-            response.status = 400
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+            raise Fog::AWS::EC2::Error.new("InvalidKeyPair.NotFound => The key pair #{key_name.inspect} does not exist")
           end
-          response
         end
 
       end
