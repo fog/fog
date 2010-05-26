@@ -226,7 +226,9 @@ module Fog
             })
           rescue Excon::Errors::Error => error
             if match = error.message.match(/<Code>(.*)<\/Code><Message>(.*)<\/Message>/)
-              raise Fog::AWS::EC2::Error.new("#{match[1]} => #{match[2]}")
+              new_error = Fog::AWS::EC2::Error.new("#{match[1]} => #{match[2]}")
+              new_error.set_backtrace(error.backtrace)
+              raise new_error
             else
               raise error
             end
