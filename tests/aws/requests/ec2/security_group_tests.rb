@@ -1,5 +1,21 @@
 Shindo.tests('AWS::EC2 | security group requests', ['aws']) do
 
+  @security_groups_format = {
+    'requestId'           => String,
+    'securityGroupInfo' => [{
+      'groupDescription'  => String,
+      'groupName'         => String,
+      'ipPermissions'     => [{
+        'fromPort'    => Integer,
+        'groups'      => [{ 'groupName' => String, 'userId' => String }],
+        'ipProtocol'  => String,
+        'ipRanges'    => [],
+        'toPort'      => Integer,
+      }],
+      'ownerId'           => String
+    }]
+  }
+
   @owner_id = AWS[:ec2].describe_security_groups('default').body['securityGroupInfo'].first['ownerId']
 
   tests('success') do
@@ -25,11 +41,11 @@ Shindo.tests('AWS::EC2 | security group requests', ['aws']) do
       }).body
     end
 
-    tests("#describe_security_groups").formats(AWS::EC2::Formats::SECURITY_GROUPS) do
+    tests("#describe_security_groups").formats(@security_groups_format) do
       AWS[:ec2].describe_security_groups.body
     end
 
-    tests("#describe_security_groups('fog_security_group')").formats(AWS::EC2::Formats::SECURITY_GROUPS) do
+    tests("#describe_security_groups('fog_security_group')").formats(@security_groups_format) do
       AWS[:ec2].describe_security_groups('fog_security_group').body
     end
 

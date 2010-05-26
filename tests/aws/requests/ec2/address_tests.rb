@@ -1,5 +1,13 @@
 Shindo.tests('AWS::EC2 | address requests', ['aws']) do
 
+  @addresses_format = {
+    'addressesSet' => [{
+      'instanceId'  => NilClass,
+      'publicIp'    => String
+    }],
+    'requestId' => String
+  }
+
   @server = AWS[:ec2].servers.create(:image_id => GENTOO_AMI)
   @server.wait_for { ready? }
   @ip_address = @server.ip_address
@@ -14,11 +22,11 @@ Shindo.tests('AWS::EC2 | address requests', ['aws']) do
       data
     end
 
-    tests('#describe_addresses').formats(AWS::EC2::Formats::ADDRESSES) do
+    tests('#describe_addresses').formats(@addresses_format) do
       AWS[:ec2].describe_addresses.body
     end
 
-    tests("#describe_addresses('#{@public_Ip}')").formats(AWS::EC2::Formats::ADDRESSES) do
+    tests("#describe_addresses('#{@public_Ip}')").formats(@addresses_format) do
       AWS[:ec2].describe_addresses(@public_ip).body
     end
 

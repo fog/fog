@@ -1,12 +1,20 @@
 Shindo.tests('AWS::EC2 | region requests', ['aws']) do
 
+  @regions_format = {
+    'regionInfo'  => [{
+      'regionEndpoint'  => String,
+      'regionName'      => String
+    }],
+    'requestId'   => String
+  }
+
   tests('success') do
 
-    tests("#describe_regions").formats(AWS::EC2::Formats::REGIONS) do
+    tests("#describe_regions").formats(@regions_format) do
       AWS[:ec2].describe_regions.body
     end
 
-    tests("#describe_regions('us-east-1')").formats(AWS::EC2::Formats::REGIONS) do
+    tests("#describe_regions('us-east-1')").formats(@regions_format) do
       AWS[:ec2].describe_regions('us-east-1').body
     end
 

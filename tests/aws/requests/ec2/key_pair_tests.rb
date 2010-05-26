@@ -2,17 +2,32 @@ Shindo.tests('AWS::EC2 | key pair requests', ['aws']) do
 
   tests('success') do
 
+    @keypair_format = {
+      'keyFingerprint'  => String,
+      'keyMaterial'     => String,
+      'keyName'         => String,
+      'requestId'       => String
+    }
+
+    @keypairs_format = {
+      'keySet' => [{
+        'keyFingerprint' => String,
+        'keyName' => String
+      }],
+      'requestId' => String
+    }
+
     @key_pair_name = 'fog_key_pair'
 
-    tests("#create_key_pair('#{@key_pair_name}')").formats({ 'keyFingerprint' => String, 'keyMaterial' => String, 'keyName' => String, 'requestId' => String }) do
+    tests("#create_key_pair('#{@key_pair_name}')").formats(@keypair_format) do
       AWS[:ec2].create_key_pair(@key_pair_name).body
     end
 
-    tests('#describe_key_pairs').formats({ 'keySet' => [{'keyFingerprint' => String, 'keyName' => String}], 'requestId' => String }) do
+    tests('#describe_key_pairs').formats(@keypairs_format) do
       AWS[:ec2].describe_key_pairs.body
     end
 
-    tests("#describe_key_pairs(#{@key_pair_name})").formats({ 'keySet' => [{'keyFingerprint' => String, 'keyName' => String}], 'requestId' => String }) do
+    tests("#describe_key_pairs(#{@key_pair_name})").formats(@keypairs_format) do
       AWS[:ec2].describe_key_pairs(@key_pair_name).body
     end
 
