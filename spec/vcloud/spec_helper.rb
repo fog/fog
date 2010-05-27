@@ -169,6 +169,7 @@ Spec::Example::ExampleGroupFactory.register(:tmrk_vcloud_request, Class.new(Spec
 Spec::Runner.configure do |config|
   config.before(:all) do
     @mock_data = Fog::Vcloud::Mock::DATA
+    @base_url = Fog::Vcloud::Mock._base_url
     @mock_version = @mock_data[:versions][0]
     @mock_organization = @mock_data[:organizations][0]
     @mock_vdc = @mock_organization[:vdcs][0]

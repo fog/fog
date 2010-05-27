@@ -28,6 +28,7 @@ describe "Fog::Vcloud::Terremark::Ecloud::Vdc", :type => :tmrk_ecloud_model do
     its(:href)                  { should == URI.parse(@mock_vdc[:href]) }
     its(:identity)              { should == URI.parse(@mock_vdc[:href]) }
     its(:name)                  { should == @mock_vdc[:name] }
+    its(:public_ips)            { should be_an_instance_of Fog::Vcloud::Terremark::Ecloud::PublicIps }
     its(:other_links)           { should have(4).items }
     its(:resource_entity_links) { should have(3).items }
     its(:network_links)         { should have(2).items }

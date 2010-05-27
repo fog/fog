@@ -127,25 +127,29 @@ module Fog
     end
 
     class Mock < Real
+      def self._base_url
+        "https://fakey.com/api/v0.8"
+      end
+
       DATA =
       {
         :versions => [
-          { :version => "v0.8", :login_url => "https://fakey.com/api/v0.8/login", :supported => true }
+          { :version => "v0.8", :login_url => "#{_base_url}/login", :supported => true }
         ],
         :vdc_resources => [
           {
             :type => "application/vnd.vmware.vcloud.vApp+xml",
-            :href => "https://fakey.com/api/v0.8/vapp/61",
+            :href => "#{_base_url}/vapp/61",
             :name => "Foo App 1"
           },
           {
             :type => "application/vnd.vmware.vcloud.vApp+xml",
-            :href => "https://fakey.com/api/v0.8/vapp/62",
+            :href => "#{_base_url}/vapp/62",
             :name => "Bar App 1"
           },
           {
             :type => "application/vnd.vmware.vcloud.vApp+xml",
-            :href => "https://fakey.com/api/v0.8/vapp/63",
+            :href => "#{_base_url}/vapp/63",
             :name => "Bar App 2"
           }
         ],
@@ -153,24 +157,24 @@ module Fog
         [
           {
             :info => {
-              :href => "https://fakey.com/api/v0.8/org/1",
+              :href => "#{_base_url}/org/1",
               :name => "Boom Inc.",
             },
             :vdcs => [
-              { :href => "https://fakey.com/api/v0.8/vdc/21",
+              { :href => "#{_base_url}/vdc/21",
                 :name => "Boomstick",
                 :storage => { :used => 105, :allocated => 200 },
                 :cpu => { :allocated => 10000 },
                 :memory => { :allocated => 20480 },
                 :networks => [
-                  { :href => "https://fakey.com/api/v0.8/network/31",
+                  { :href => "#{_base_url}/network/31",
                     :name => "1.2.3.0/24",
                     :subnet => "1.2.3.0/24",
                     :gateway => "1.2.3.1",
                     :netmask => "255.255.255.0",
                     :fencemode => "isolated"
                   },
-                  { :href => "https://fakey.com/api/v0.8/network/32",
+                  { :href => "#{_base_url}/network/32",
                     :name => "4.5.6.0/24",
                     :subnet => "4.5.6.0/24",
                     :gateway => "4.5.6.1",
@@ -179,13 +183,13 @@ module Fog
                   },
                 ],
                 :vms => [
-                  { :href => "https://fakey.com/api/v0.8/vap/41",
+                  { :href => "#{_base_url}/vap/41",
                     :name => "Broom 1"
                   },
-                  { :href => "https://fakey.com/api/v0.8/vap/42",
+                  { :href => "#{_base_url}/vap/42",
                     :name => "Broom 2"
                   },
-                  { :href => "https://fakey.com/api/v0.8/vap/43",
+                  { :href => "#{_base_url}/vap/43",
                     :name => "Email!"
                   }
                 ],
@@ -201,13 +205,13 @@ module Fog
                   }
                 ]
               },
-              { :href => "https://fakey.com/api/v0.8/vdc/22",
+              { :href => "#{_base_url}/vdc/22",
                 :storage => { :used => 40, :allocated => 150 },
                 :cpu => { :allocated => 1000 },
                 :memory => { :allocated => 2048 },
                 :name => "Rock-n-Roll",
                 :networks => [
-                  { :href => "https://fakey.com/api/v0.8/network/33",
+                  { :href => "#{_base_url}/network/33",
                     :name => "7.8.9.0/24",
                     :subnet => "7.8.9.0/24",
                     :gateway => "7.8.9.1",
@@ -216,7 +220,7 @@ module Fog
                   }
                 ],
                 :vms => [
-                  { :href => "https://fakey.com/api/v0.8/vap/44",
+                  { :href => "#{_base_url}/vap/44",
                     :name => "Master Blaster"
                   }
                 ],
