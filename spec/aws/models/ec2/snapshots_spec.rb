@@ -61,7 +61,7 @@ describe 'Fog::AWS::EC2::Snapshots' do
     end
 
     it "should return nil if no matching address exists" do
-      AWS[:ec2].snapshots.get('vol-00000000').should be_nil
+      AWS[:ec2].snapshots.get('snap-00000000').should be_nil
     end
 
   end

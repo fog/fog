@@ -18,7 +18,7 @@ shared_examples_for "Servers" do
     end
 
     it "should return nil if no matching server exists" do
-      @servers.get('0').should be_nil
+      @servers.get('i-00000000').should be_nil
     end
 
   end

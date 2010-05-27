@@ -122,7 +122,7 @@ module Fog
               'instanceState'       => { 'code' => 0, 'name' => 'pending' },
               'instanceType'        => options['InstanceType'] || 'm1.small',
               'kernelId'            => options['KernelId'] || Fog::AWS::Mock.kernel_id,
-              'keyName'             => options['KeyName'] || '',
+              # 'keyName'             => options['KeyName'],
               'launchTime'          => Time.now,
               'monitoring'          => { 'state' => options['Monitoring.Enabled'] || false },
               'placement'           => { 'availabilityZone' => options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone },
@@ -134,6 +134,7 @@ module Fog
             }
             instances_set << instance
             @data[:instances][instance_id] = instance.merge({
+              'architecture'        => 'i386',
               'groupSet'            => group_set,
               'ownerId'             => @owner_id,
               'privateIpAddress'    => nil,

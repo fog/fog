@@ -34,7 +34,7 @@ module Fog
             response.status = 200
             response.body = {
               'instanceId'    => instance_id,
-              'output'        => Fog::AWS::Mock.console_output,
+              'output'        => nil,
               'requestId'     => Fog::AWS::Mock.request_id,
               'timestamp'     => Time.now
             }

@@ -1,11 +1,3 @@
-# Boolean hax
-module Fog
-  module Boolean
-  end
-end
-FalseClass.send(:include, Fog::Boolean)
-TrueClass.send(:include, Fog::Boolean)
-
 module AWS
 
   class << self

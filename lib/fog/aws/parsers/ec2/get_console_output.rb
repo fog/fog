@@ -14,8 +14,10 @@ module Fog
             when 'instanceId', 'requestId'
               @response[name] = @value
             when 'output'
-              if @value
-                @response[name] = Base64.decode64(@value)
+              @response[name] = if @value
+                Base64.decode64(@value)
+              else
+                nil
               end
             when 'timestamp'
               @response[name] = Time.parse(@value)
