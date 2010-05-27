@@ -54,7 +54,7 @@ module Fog
       module Mock
 
         def create_internet_service(vdc_id)
-          raise MockNotImplemented.new("Contributions welcome!")
+          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
         end
 
       end

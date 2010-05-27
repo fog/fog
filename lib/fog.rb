@@ -27,8 +27,13 @@ require 'fog/ssh'
 
 module Fog
   module Errors
+
     class Error < StandardError; end
+
+    class MockNotImplemented < Fog::Errors::Error; end
+
     class NotFound < Fog::Errors::Error; end
+
   end
 end
 
@@ -40,8 +45,6 @@ require 'fog/terremark'
 require 'fog/vcloud'
 
 module Fog
-
-  class MockNotImplemented < Fog::Errors::Error; end
 
   unless const_defined?(:VERSION)
     VERSION = '0.1.3'

@@ -27,7 +27,7 @@ module Fog
     class Mock
 
       def get_backups
-        raise MockNotImplemented.new("Contributions welcome!")
+        raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
       end
 
     end

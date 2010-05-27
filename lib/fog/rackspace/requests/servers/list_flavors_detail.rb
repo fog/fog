@@ -25,7 +25,7 @@ module Fog
       class Mock
 
         def list_flavors_detail
-          raise MockNotImplemented.new("Contributions welcome!")
+          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
         end
 
       end

@@ -37,7 +37,7 @@ module Fog
       class Mock
 
         def describe_reserved_instances(reserved_instances_id = {})
-          raise MockNotImplemented.new("Contributions welcome!")
+          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
         end
 
       end

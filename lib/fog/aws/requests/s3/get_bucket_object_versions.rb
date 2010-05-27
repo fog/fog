@@ -74,7 +74,7 @@ module Fog
       class Mock
 
         def get_bucket_object_versions(bucket_name, options = {})
-          raise MockNotImplemented.new("Contributions welcome!")
+          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
         end
 
       end

@@ -33,7 +33,7 @@ module Fog
     class Mock
 
       def get_slices
-        raise MockNotImplemented.new("Contributions welcome!")
+        raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
       end
 
     end

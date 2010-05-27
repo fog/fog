@@ -33,7 +33,7 @@ module Fog
       class Mock
 
         def register_instances_with_load_balancer(instance_ids, lb_name)
-          raise MockNotImplemented.new("Contributions welcome!")
+          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
         end
 
         alias :register_instances :register_instances_with_load_balancer

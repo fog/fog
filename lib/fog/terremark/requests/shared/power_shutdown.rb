@@ -23,7 +23,7 @@ module Fog
       module Mock
 
         def power_shutdown(vapp_id)
-          raise MockNotImplemented.new("Contributions welcome!")
+          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
         end
 
       end

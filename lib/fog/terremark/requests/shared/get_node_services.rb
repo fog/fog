@@ -29,7 +29,7 @@ module Fog
       module Mock
 
         def get_node_services(vdc_id)
-          raise MockNotImplemented.new("Contributions welcome!")
+          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
         end
 
       end

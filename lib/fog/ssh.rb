@@ -31,7 +31,7 @@ module Fog
       end
 
       def run(commands)
-        raise MockNotImplemented.new("Contributions welcome!")
+        raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
       end
 
     end

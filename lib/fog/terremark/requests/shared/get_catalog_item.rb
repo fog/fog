@@ -34,7 +34,7 @@ module Fog
       module Mock
 
         def get_catalog_item(catalog_item_id)
-          raise MockNotImplemented.new("Contributions welcome!")
+          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
         end
 
       end

@@ -32,7 +32,7 @@ module Fog
       class Mock
 
         def enable_availability_zones_for_load_balancer(availability_zones, lb_name)
-          raise MockNotImplemented.new("Contributions welcome!")
+          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
         end
 
         alias :enable_zones :enable_availability_zones_for_load_balancer

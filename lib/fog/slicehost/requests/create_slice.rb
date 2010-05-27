@@ -39,7 +39,7 @@ module Fog
     class Mock
 
       def create_slice(flavor_id, image_id, name)
-        raise MockNotImplemented.new("Contributions welcome!")
+        raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
       end
 
     end

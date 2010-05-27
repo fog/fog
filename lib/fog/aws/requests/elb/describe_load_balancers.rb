@@ -48,7 +48,7 @@ module Fog
       class Mock
 
         def describe_load_balancers(lb_name = [])
-          raise MockNotImplemented.new("Contributions welcome!")
+          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
         end
 
       end
