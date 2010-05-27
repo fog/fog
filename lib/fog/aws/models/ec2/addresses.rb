@@ -51,7 +51,7 @@ module Fog
           if public_ip
             all(public_ip).first
           end
-        rescue Excon::Errors::BadRequest
+        rescue Fog::Errors::NotFound
           nil
         end
 

@@ -38,7 +38,7 @@ module Fog
           if group_name
             all(group_name).first
           end
-        rescue Excon::Errors::BadRequest
+        rescue Fog::Errors::NotFound
           nil
         end
 

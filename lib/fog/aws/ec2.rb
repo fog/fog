@@ -2,7 +2,8 @@ module Fog
   module AWS
     module EC2
 
-      class Error < Fog::Error; end
+      class Error < Fog::Errors::Error; end
+      class NotFound < Fog::Errors::NotFound; end
 
       def self.new(options={})
 
@@ -226,7 +227,12 @@ module Fog
             })
           rescue Excon::Errors::Error => error
             if match = error.message.match(/<Code>(.*)<\/Code><Message>(.*)<\/Message>/)
-              new_error = Fog::AWS::EC2::Error.new("#{match[1]} => #{match[2]}")
+              new_error = case match[1].split('.').last
+              when 'NotFound'
+                Fog::AWS::EC2::NotFound.new(match[2])
+              else
+                Fog::AWS::EC2::Error.new("#{match[1]} => #{match[2]}")
+              end
               new_error.set_backtrace(error.backtrace)
               raise new_error
             else

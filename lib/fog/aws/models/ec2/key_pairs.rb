@@ -38,7 +38,7 @@ module Fog
           if key_name
             all(key_name).first
           end
-        rescue Excon::Errors::BadRequest
+        rescue Fog::Errors::NotFound
           nil
         end
 

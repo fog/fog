@@ -44,7 +44,7 @@ module Fog
           if server_id
             all(server_id).first
           end
-        rescue Excon::Errors::BadRequest
+        rescue Fog::Errors::NotFound
           nil
         end
 

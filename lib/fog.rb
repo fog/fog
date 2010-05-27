@@ -26,7 +26,10 @@ require 'fog/parser'
 require 'fog/ssh'
 
 module Fog
-  class Error < StandardError; end
+  module Errors
+    class Error < StandardError; end
+    class NotFound < Fog::Errors::Error; end
+  end
 end
 
 require 'fog/aws'
@@ -38,7 +41,7 @@ require 'fog/vcloud'
 
 module Fog
 
-  class MockNotImplemented < Fog::Error; end
+  class MockNotImplemented < Fog::Errors::Error; end
 
   unless const_defined?(:VERSION)
     VERSION = '0.1.3'

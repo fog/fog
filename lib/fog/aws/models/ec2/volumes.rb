@@ -47,7 +47,7 @@ module Fog
           if volume_id
             all(volume_id).first
           end
-        rescue Excon::Errors::BadRequest
+        rescue Fog::Errors::NotFound
           nil
         end
 

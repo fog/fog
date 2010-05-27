@@ -38,7 +38,7 @@ module Fog
           if image_id
             all(image_id).first
           end
-        rescue Excon::Errors::BadRequest
+        rescue Fog::Errors::NotFound
           nil
         end
       end
