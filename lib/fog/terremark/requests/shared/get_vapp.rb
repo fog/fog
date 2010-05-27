@@ -41,7 +41,7 @@ module Fog
       module Mock
 
         def get_vapp(vapp_id)
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
       end

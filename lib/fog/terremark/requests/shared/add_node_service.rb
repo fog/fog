@@ -54,7 +54,7 @@ module Fog
       module Mock
 
         def add_node_service(ip)
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
       end

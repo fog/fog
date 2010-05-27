@@ -38,7 +38,7 @@ module Fog
       module Mock
 
         def get_task(task_id)
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
       end

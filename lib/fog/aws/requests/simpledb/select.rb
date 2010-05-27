@@ -31,7 +31,7 @@ module Fog
       class Mock
 
         def select(select_expression, next_token = nil)
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
       end

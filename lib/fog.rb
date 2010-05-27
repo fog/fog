@@ -60,6 +60,11 @@ module Fog
       raise ArgumentError, "delay must be non-negative" unless new_delay >= 0
       @delay = new_delay
     end
+
+    def self.not_implemented
+      raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+    end
+
   end
 
   def self.mock!

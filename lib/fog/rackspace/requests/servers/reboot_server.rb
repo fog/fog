@@ -23,7 +23,7 @@ module Fog
       class Mock
 
         def reboot_server(server_id, type)
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
       end

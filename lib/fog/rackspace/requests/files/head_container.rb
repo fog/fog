@@ -28,7 +28,7 @@ module Fog
       class Mock
 
         def head_container(container)
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
       end

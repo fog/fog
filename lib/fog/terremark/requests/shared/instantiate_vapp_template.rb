@@ -70,7 +70,7 @@ DATA
       module Mock
 
         def instatiate_vapp_template(vapp_template_id)
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
       end

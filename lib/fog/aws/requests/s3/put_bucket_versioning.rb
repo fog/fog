@@ -31,7 +31,7 @@ DATA
       class Mock
 
         def put_bucket_versioning(bucket_name, status)
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
       end

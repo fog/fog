@@ -34,7 +34,7 @@ module Fog
       class Mock
 
         def describe_instance_health(lb_name, instance_ids = [])
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
       end

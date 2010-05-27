@@ -55,7 +55,7 @@ module Fog
       class Mock
 
         def get_object_acl(bucket_name, object_name)
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
       end

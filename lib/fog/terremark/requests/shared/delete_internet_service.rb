@@ -21,7 +21,7 @@ module Fog
       module Mock
 
         def delete_internet_service(internet_service_id)
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
       end

@@ -33,7 +33,7 @@ module Fog
       class Mock
 
         def deregister_instances_from_load_balancer(instance_ids, lb_name)
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
         alias :deregister_instances :deregister_instances_from_load_balancer

@@ -30,7 +30,7 @@ module Fog
       class Mock
 
         def delete_load_balancer(lb_name)
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
       end

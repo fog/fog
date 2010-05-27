@@ -47,7 +47,7 @@ module Fog
       class Mock
 
         def create_load_balancer(availability_zones, lb_name, listeners)
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
       end

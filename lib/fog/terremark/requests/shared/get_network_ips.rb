@@ -30,7 +30,7 @@ module Fog
       module Mock
 
         def get_network_ips(network_id)
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
       end

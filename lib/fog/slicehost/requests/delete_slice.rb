@@ -35,7 +35,7 @@ module Fog
     class Mock
 
       def delete_slice(slice_id)
-        raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+        Fog::Mock.not_implemented
       end
 
     end

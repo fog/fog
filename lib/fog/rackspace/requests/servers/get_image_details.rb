@@ -26,7 +26,7 @@ module Fog
       class Mock
 
         def get_image_details(image_id)
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
       end

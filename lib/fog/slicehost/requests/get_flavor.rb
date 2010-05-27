@@ -30,7 +30,7 @@ module Fog
     class Mock
 
       def get_flavor(flavor_id)
-        raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+        Fog::Mock.not_implemented
       end
 
     end

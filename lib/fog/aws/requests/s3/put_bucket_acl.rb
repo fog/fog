@@ -71,7 +71,7 @@ DATA
       class Mock
 
         def put_bucket_acl(bucket_name, acl)
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
       end

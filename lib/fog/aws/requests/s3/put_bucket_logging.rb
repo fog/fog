@@ -78,7 +78,7 @@ DATA
       class Mock
 
         def put_bucket_logging(bucket_name, logging_status)
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
       end

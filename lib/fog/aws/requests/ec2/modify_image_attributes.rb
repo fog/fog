@@ -30,7 +30,7 @@ module Fog
       class Mock
 
         def modify_image_attributes(image_id, attribute, operation_type, options = {})
-          raise Fog::Errors::MockNotImplemented.new("Contributions welcome!")
+          Fog::Mock.not_implemented
         end
 
       end
