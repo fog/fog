@@ -22,8 +22,8 @@ Shindo.tests('AWS::EC2 | region requests', ['aws']) do
 
   tests('failure') do
 
-    tests("#describe_regions('not-a-region')").raises(Fog::AWS::EC2::Error) do
-      AWS[:ec2].describe_regions('not-a-region')
+    tests("#describe_regions('us-east-2')").raises(Fog::AWS::EC2::Error) do
+      AWS[:ec2].describe_regions('us-east-2')
     end
   end
 

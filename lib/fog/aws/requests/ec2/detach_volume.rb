@@ -46,7 +46,7 @@ module Fog
             }.merge!(data)
             response
           else
-            raise Fog::AWS::EC2::Error.new("InvalidVolume.NotFound => The volume '#{volume_id}' does not exist.")
+            raise Fog::AWS::EC2::NotFound.new("The volume '#{volume_id}' does not exist.")
           end
         end
 

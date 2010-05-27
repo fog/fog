@@ -45,11 +45,11 @@ Shindo.tests('AWS::EC2 | snapshot requests', ['aws']) do
   end
   tests ('failure') do
 
-    tests("#describe_snapshot('snap-00000000')").raises(Fog::AWS::EC2::Error) do
+    tests("#describe_snapshot('snap-00000000')").raises(Fog::AWS::EC2::NotFound) do
       AWS[:ec2].describe_snapshots('snap-00000000')
     end
 
-    tests("#delete_snapshot('snap-00000000')").raises(Fog::AWS::EC2::Error) do
+    tests("#delete_snapshot('snap-00000000')").raises(Fog::AWS::EC2::NotFound) do
       AWS[:ec2].delete_snapshot('snap-00000000')
     end
 

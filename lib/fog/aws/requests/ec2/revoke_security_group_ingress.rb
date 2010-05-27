@@ -64,7 +64,7 @@ module Fog
             }
             response
           else
-            raise Fog::AWS::EC2::Error.new("InvalidGroup.NotFound => The security group '#{options['GroupName']}' does not exist")
+            raise Fog::AWS::EC2::NotFound.new("The security group '#{options['GroupName']}' does not exist")
           end
         end
 

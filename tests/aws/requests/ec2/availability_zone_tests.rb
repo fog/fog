@@ -23,8 +23,8 @@ Shindo.tests('AWS::EC2 | availability zone requests', ['aws']) do
 
   tests('failure') do
 
-    tests("#describe_availability_zones('not-a-zone')").raises(Fog::AWS::EC2::Error) do
-      AWS[:ec2].describe_availability_zones('not-a-zone')
+    tests("#describe_availability_zones('us-east-1e')").raises(Fog::AWS::EC2::Error) do
+      AWS[:ec2].describe_availability_zones('us-east-1e')
     end
 
   end

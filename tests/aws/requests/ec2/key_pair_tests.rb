@@ -48,7 +48,7 @@ Shindo.tests('AWS::EC2 | key pair requests', ['aws']) do
       AWS[:ec2].create_key_pair(@key_pair.name)
     end
 
-    tests("#describe_key_pair('not_a_key_name')").raises(Fog::AWS::EC2::Error) do
+    tests("#describe_key_pair('not_a_key_name')").raises(Fog::AWS::EC2::NotFound) do
       AWS[:ec2].describe_key_pairs('not_a_key_name').body
     end
 

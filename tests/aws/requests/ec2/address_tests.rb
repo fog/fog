@@ -47,11 +47,11 @@ Shindo.tests('AWS::EC2 | address requests', ['aws']) do
 
     @address = AWS[:ec2].addresses.create
 
-    tests("#describe_addresses('127.0.0.1')").raises(Fog::AWS::EC2::Error) do
+    tests("#describe_addresses('127.0.0.1')").raises(Fog::AWS::EC2::NotFound) do
       AWS[:ec2].describe_addresses('127.0.0.1')
     end
 
-    tests("#associate_addresses('i-00000000', '#{@address.identity}')").raises(Fog::AWS::EC2::Error) do
+    tests("#associate_addresses('i-00000000', '#{@address.identity}')").raises(Fog::AWS::EC2::NotFound) do
       AWS[:ec2].associate_address('i-00000000', @address.identity)
     end
 
@@ -59,7 +59,7 @@ Shindo.tests('AWS::EC2 | address requests', ['aws']) do
       AWS[:ec2].associate_address(@server.identity, '127.0.0.1')
     end
 
-    tests("#associate_addresses('i-00000000', '127.0.0.1')").raises(Fog::AWS::EC2::Error) do
+    tests("#associate_addresses('i-00000000', '127.0.0.1')").raises(Fog::AWS::EC2::NotFound) do
       AWS[:ec2].associate_address('i-00000000', '127.0.0.1')
     end
 

@@ -40,7 +40,7 @@ module Fog
             }
             response
           else
-            raise Fog::AWS::EC2::Error.new("InvalidInstanceID.NotFound => The instance ID #{instance_id.inspect} does not exist")
+            raise Fog::AWS::EC2::NotFound.new("The instance ID #{instance_id.inspect} does not exist")
           end
         end
 

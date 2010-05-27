@@ -46,7 +46,7 @@ module Fog
             }
             response
           else
-            raise Fog::AWS::EC2::Error.new("InvalidKeyPair.NotFound => The key pair #{key_name.inspect} does not exist")
+            raise Fog::AWS::EC2::NotFound.new("The key pair #{key_name.inspect} does not exist")
           end
         end
 

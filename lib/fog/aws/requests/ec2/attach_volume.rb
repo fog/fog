@@ -56,9 +56,9 @@ module Fog
               }.merge!(data)
               response
             elsif !instance
-              raise Fog::AWS::EC2::Error.new("InvalidInstanceID.NotFound => The instance ID '#{instance_id}' does not exist.")
+              raise Fog::AWS::EC2::NotFound.new("The instance ID '#{instance_id}' does not exist.")
             elsif !volume
-              raise Fog::AWS::EC2::Error.new("InvalidVolume.NotFound => The volume '#{volume_id}' does not exist.")
+              raise Fog::AWS::EC2::NotFound.new("The volume '#{volume_id}' does not exist.")
             end
           else
             message = 'MissingParameter => '

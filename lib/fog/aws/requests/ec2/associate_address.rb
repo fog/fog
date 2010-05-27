@@ -45,7 +45,7 @@ module Fog
             }
             response
           elsif !instance
-            raise Fog::AWS::EC2::Error.new("InvalidInstanceID.NotFound => The instance ID '#{instance_id}' does not exist")
+            raise Fog::AWS::EC2::NotFound.new("The instance ID '#{instance_id}' does not exist")
           elsif !address
             raise Fog::AWS::EC2::Error.new("AuthFailure => The address '#{public_ip}' does not belong to you.")
           end
