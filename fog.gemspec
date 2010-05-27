@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.1.4'
-  s.date              = '2010-05-26'
+  s.version           = '0.1.5'
+  s.date              = '2010-05-27'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -354,6 +354,10 @@ Gem::Specification.new do |s|
     lib/fog/terremark/vcloud.rb
     lib/fog/vcloud.rb
     lib/fog/vcloud/bin.rb
+    lib/fog/vcloud/collection.rb
+    lib/fog/vcloud/model.rb
+    lib/fog/vcloud/models/vdc.rb
+    lib/fog/vcloud/models/vdcs.rb
     lib/fog/vcloud/parser.rb
     lib/fog/vcloud/parsers/get_organization.rb
     lib/fog/vcloud/parsers/get_vdc.rb
@@ -365,6 +369,8 @@ Gem::Specification.new do |s|
     lib/fog/vcloud/requests/login.rb
     lib/fog/vcloud/terremark/all.rb
     lib/fog/vcloud/terremark/ecloud.rb
+    lib/fog/vcloud/terremark/ecloud/models/vdc.rb
+    lib/fog/vcloud/terremark/ecloud/models/vdcs.rb
     lib/fog/vcloud/terremark/ecloud/parsers/get_vdc.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_vdc.rb
     lib/fog/vcloud/terremark/ecloud/requests/login.rb
@@ -389,11 +395,6 @@ Gem::Specification.new do |s|
     spec/aws/models/s3/file_spec.rb
     spec/aws/models/s3/files_spec.rb
     spec/aws/requests/ec2/describe_images_spec.rb
-    spec/aws/requests/ec2/describe_instances_spec.rb
-    spec/aws/requests/ec2/get_console_output_spec.rb
-    spec/aws/requests/ec2/reboot_instances_spec.rb
-    spec/aws/requests/ec2/run_instances_spec.rb
-    spec/aws/requests/ec2/terminate_instances_spec.rb
     spec/aws/requests/s3/copy_object_spec.rb
     spec/aws/requests/s3/delete_bucket_spec.rb
     spec/aws/requests/s3/delete_object_spec.rb
@@ -438,11 +439,15 @@ Gem::Specification.new do |s|
     spec/slicehost/models/servers_spec.rb
     spec/spec_helper.rb
     spec/vcloud/bin_spec.rb
+    spec/vcloud/models/vdc_spec.rb
+    spec/vcloud/models/vdcs_spec.rb
     spec/vcloud/requests/get_organization_spec.rb
     spec/vcloud/requests/get_vdc_spec.rb
     spec/vcloud/requests/get_versions_spec.rb
     spec/vcloud/requests/login_spec.rb
     spec/vcloud/spec_helper.rb
+    spec/vcloud/terremark/ecloud/models/vdc_spec.rb
+    spec/vcloud/terremark/ecloud/models/vdcs_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_vdc_spec.rb
     spec/vcloud/terremark/ecloud/requests/login_spec.rb
     spec/vcloud/terremark/vcloud/requests/get_vdc_spec.rb
@@ -450,6 +455,7 @@ Gem::Specification.new do |s|
     tests/aws/helper.rb
     tests/aws/requests/ec2/address_tests.rb
     tests/aws/requests/ec2/availability_zone_tests.rb
+    tests/aws/requests/ec2/instance_tests.rb
     tests/aws/requests/ec2/key_pair_tests.rb
     tests/aws/requests/ec2/region_tests.rb
     tests/aws/requests/ec2/security_group_tests.rb
