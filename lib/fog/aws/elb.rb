@@ -33,15 +33,6 @@ module Fog
         Fog::AWS::ELB::Real.new(options)
       end
 
-      def self.indexed_param(key, values, idx_offset = 0)
-        params = {}
-        key.concat(".%") unless key.include?("%")
-        [*values].each_with_index do |value, index|
-          params["#{key.gsub("%", (index + idx_offset).to_s)}"] = value
-        end
-        return params
-      end
-
       class Real
 
         # Initialize connection to ELB
