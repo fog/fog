@@ -20,12 +20,12 @@ module Fog
       #vCloud API Guide v0.9 - Page 27
 
       def get_vdc(vdc_uri)
-        if vdc = DATA[:organizations].map { |org| org[:vdcs] }.flatten.detect { |vdc| URI.parse(vdc[:href]) == vdc_uri }
+        if vdc = Fog::Vcloud::Mock.data[:organizations].map { |org| org[:vdcs] }.flatten.detect { |vdc| URI.parse(vdc[:href]) == vdc_uri }
           xml = Builder::XmlMarkup.new
           mock_it Fog::Parsers::Vcloud::GetVdc.new, 200,
             xml.Vdc(xmlns.merge(:href => vdc[:href], :name => vdc[:name])) {
               xml.Link(:rel => "up",
-                       :href => DATA[:organizations].detect { |org| org[:vdcs].detect { |_vdc| vdc[:href] == _vdc[:href] }[:href] == vdc[:href] }[:info][:href],
+                       :href => Fog::Vcloud::Mock.data[:organizations].detect { |org| org[:vdcs].detect { |_vdc| vdc[:href] == _vdc[:href] }[:href] == vdc[:href] }[:info][:href],
                        :type => "application/vnd.vmware.vcloud.org+xml")
               xml.Link(:rel => "add",
                        :href => vdc[:href] + "/action/uploadVAppTemplate",
@@ -48,7 +48,7 @@ module Fog
               xml.AllocationModel("AllocationPool")
               xml.Description(vdc[:name] + " VDC")
               xml.ResourceEntities {
-                DATA[:vdc_resources].each do |resource|
+                Fog::Vcloud::Mock.data[:vdc_resources].each do |resource|
                   xml.ResourceEntity(resource)
                 end
               }

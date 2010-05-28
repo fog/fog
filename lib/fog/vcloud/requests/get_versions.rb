@@ -28,7 +28,7 @@ module Fog
         mock_it Fog::Parsers::Vcloud::GetVersions.new, 200,
           xml.SupportedVersions( xmlns.merge("xmlns" => "http://www.vmware.com/vcloud/versions")) {
 
-            DATA[:versions].select {|version| version[:supported] }.each do |version|
+            Fog::Vcloud::Mock.data[:versions].select {|version| version[:supported] }.each do |version|
               xml.VersionInfo {
                 xml.Version(version[:version])
                 xml.LoginUrl(version[:login_url])

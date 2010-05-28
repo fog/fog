@@ -15,7 +15,7 @@ describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :tmrk_ec
       its(:headers) { should include "Content-Type" }
       specify { subject.headers['Content-Type'].should == "application/vnd.tmrk.ecloud.publicIpsList+xml" }
 
-      its(:body) { should be_an_instance_of Struct::TmrkEcloudPublicIpList }
+      its(:body) { should be_an_instance_of Struct::TmrkEcloudList }
 
       describe "#body" do
         describe "#links" do
@@ -29,7 +29,7 @@ describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :tmrk_ec
             specify { ip.should be_an_instance_of Struct::TmrkEcloudPublicIp }
             specify { ip.name.should == mock_ip[:name] }
             specify { ip.id.should == mock_ip[:id] }
-            specify { ip.href.should == URI.parse("https://fakey.com/api/v0.8/extensions/publicIp/#{mock_ip[:id]}") }
+            specify { ip.href.should == URI.parse("#{@base_url}/extensions/publicIp/#{mock_ip[:id]}") }
           end
         end
       end

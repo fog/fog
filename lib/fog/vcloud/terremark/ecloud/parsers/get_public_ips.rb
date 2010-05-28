@@ -7,7 +7,7 @@ module Fog
           class GetPublicIps < Fog::Parsers::Vcloud::Base
 
             def reset
-              @response = Struct::TmrkEcloudPublicIpList.new([])
+              @response = Struct::TmrkEcloudList.new([])
             end
 
             def start_element(name, attributes)

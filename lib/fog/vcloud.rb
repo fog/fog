@@ -127,116 +127,147 @@ module Fog
     end
 
     class Mock < Real
-      def self._base_url
+      def self.base_url
         "https://fakey.com/api/v0.8"
       end
 
-      DATA =
-      {
-        :versions => [
-          { :version => "v0.8", :login_url => "#{_base_url}/login", :supported => true }
-        ],
-        :vdc_resources => [
-          {
-            :type => "application/vnd.vmware.vcloud.vApp+xml",
-            :href => "#{_base_url}/vapp/61",
-            :name => "Foo App 1"
-          },
-          {
-            :type => "application/vnd.vmware.vcloud.vApp+xml",
-            :href => "#{_base_url}/vapp/62",
-            :name => "Bar App 1"
-          },
-          {
-            :type => "application/vnd.vmware.vcloud.vApp+xml",
-            :href => "#{_base_url}/vapp/63",
-            :name => "Bar App 2"
-          }
-        ],
-        :organizations =>
-        [
-          {
-            :info => {
-              :href => "#{_base_url}/org/1",
-              :name => "Boom Inc.",
+      def self.data_reset
+        @mock_data = nil
+      end
+
+      def self.data
+        @mock_data ||=
+        {
+          :versions => [
+            { :version => "v0.8", :login_url => "#{base_url}/login", :supported => true }
+          ],
+          :vdc_resources => [
+            {
+              :type => "application/vnd.vmware.vcloud.vApp+xml",
+              :href => "#{base_url}/vapp/61",
+              :name => "Foo App 1"
             },
-            :vdcs => [
-              { :href => "#{_base_url}/vdc/21",
-                :name => "Boomstick",
-                :storage => { :used => 105, :allocated => 200 },
-                :cpu => { :allocated => 10000 },
-                :memory => { :allocated => 20480 },
-                :networks => [
-                  { :href => "#{_base_url}/network/31",
-                    :name => "1.2.3.0/24",
-                    :subnet => "1.2.3.0/24",
-                    :gateway => "1.2.3.1",
-                    :netmask => "255.255.255.0",
-                    :fencemode => "isolated"
-                  },
-                  { :href => "#{_base_url}/network/32",
-                    :name => "4.5.6.0/24",
-                    :subnet => "4.5.6.0/24",
-                    :gateway => "4.5.6.1",
-                    :netmask => "255.255.255.0",
-                    :fencemode => "isolated"
-                  },
-                ],
-                :vms => [
-                  { :href => "#{_base_url}/vap/41",
-                    :name => "Broom 1"
-                  },
-                  { :href => "#{_base_url}/vap/42",
-                    :name => "Broom 2"
-                  },
-                  { :href => "#{_base_url}/vap/43",
-                    :name => "Email!"
-                  }
-                ],
-                :public_ips => [
-                  { :id => 51,
-                    :name => "99.1.2.3"
-                  },
-                  { :id => 52,
-                    :name => "99.1.2.4"
-                  },
-                  { :id => 53,
-                    :name => "99.1.9.7"
-                  }
-                ]
+            {
+              :type => "application/vnd.vmware.vcloud.vApp+xml",
+              :href => "#{base_url}/vapp/62",
+              :name => "Bar App 1"
+            },
+            {
+              :type => "application/vnd.vmware.vcloud.vApp+xml",
+              :href => "#{base_url}/vapp/63",
+              :name => "Bar App 2"
+            }
+          ],
+          :organizations =>
+          [
+            {
+              :info => {
+                :href => "#{base_url}/org/1",
+                :name => "Boom Inc.",
               },
-              { :href => "#{_base_url}/vdc/22",
-                :storage => { :used => 40, :allocated => 150 },
-                :cpu => { :allocated => 1000 },
-                :memory => { :allocated => 2048 },
-                :name => "Rock-n-Roll",
-                :networks => [
-                  { :href => "#{_base_url}/network/33",
-                    :name => "7.8.9.0/24",
-                    :subnet => "7.8.9.0/24",
-                    :gateway => "7.8.9.1",
-                    :netmask => "255.255.255.0",
-                    :fencemode => "isolated"
-                  }
-                ],
-                :vms => [
-                  { :href => "#{_base_url}/vap/44",
-                    :name => "Master Blaster"
-                  }
-                ],
-                :public_ips => [
-                  { :id => 54,
-                    :name => "99.99.99.99"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+              :vdcs => [
+                { :href => "#{base_url}/vdc/21",
+                  :id => 21,
+                  :name => "Boomstick",
+                  :storage => { :used => 105, :allocated => 200 },
+                  :cpu => { :allocated => 10000 },
+                  :memory => { :allocated => 20480 },
+                  :networks => [
+                    { :href => "#{base_url}/network/31",
+                      :name => "1.2.3.0/24",
+                      :subnet => "1.2.3.0/24",
+                      :gateway => "1.2.3.1",
+                      :netmask => "255.255.255.0",
+                      :fencemode => "isolated"
+                    },
+                    { :href => "#{base_url}/network/32",
+                      :name => "4.5.6.0/24",
+                      :subnet => "4.5.6.0/24",
+                      :gateway => "4.5.6.1",
+                      :netmask => "255.255.255.0",
+                      :fencemode => "isolated"
+                    },
+                  ],
+                  :vms => [
+                    { :href => "#{base_url}/vap/41",
+                      :name => "Broom 1"
+                    },
+                    { :href => "#{base_url}/vap/42",
+                      :name => "Broom 2"
+                    },
+                    { :href => "#{base_url}/vap/43",
+                      :name => "Email!"
+                    }
+                  ],
+                  :public_ips => [
+                    { :id => 51,
+                      :name => "99.1.2.3",
+                      :services => [
+                        { :id => 71, :port => 80, :protocol => 'HTTP', :enabled => true, :timeout => 2, :name => 'Web Site', :description => 'Web Servers' },
+                        { :id => 72, :port => 7000, :protocol => 'HTTP', :enabled => true, :timeout => 2, :name => 'An SSH Map', :description => 'SSH 1' }
+                      ]
+                    },
+                    { :id => 52,
+                      :name => "99.1.2.4",
+                      :services => [
+                        { :id => 73, :port => 80, :protocol => 'HTTP', :enabled => true, :timeout => 2, :name => 'Web Site', :description => 'Web Servers' },
+                        { :id => 74, :port => 7000, :protocol => 'HTTP', :enabled => true, :timeout => 2, :name => 'An SSH Map', :description => 'SSH 2' }
+                      ]
+                    },
+                    { :id => 53,
+                      :name => "99.1.9.7",
+                      :services => []
+                    }
+                  ]
+                },
+                { :href => "#{base_url}/vdc/22",
+                  :id => 22,
+                  :storage => { :used => 40, :allocated => 150 },
+                  :cpu => { :allocated => 1000 },
+                  :memory => { :allocated => 2048 },
+                  :name => "Rock-n-Roll",
+                  :networks => [
+                    { :href => "#{base_url}/network/33",
+                      :name => "7.8.9.0/24",
+                      :subnet => "7.8.9.0/24",
+                      :gateway => "7.8.9.1",
+                      :netmask => "255.255.255.0",
+                      :fencemode => "isolated"
+                    }
+                  ],
+                  :vms => [
+                    { :href => "#{base_url}/vap/44",
+                      :name => "Master Blaster"
+                    }
+                  ],
+                  :public_ips => [
+                    { :id => 54,
+                      :name => "99.99.99.99",
+                      :services => []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      end
+
+      def self.vdc_from_uri(uri)
+        match = Regexp.new(%r:.*/vdc/(\d+):).match(uri.to_s)
+        if match
+          Fog::Vcloud::Mock.data[:organizations].map { |org| org[:vdcs] }.flatten.detect { |vdc| vdc[:id] == match[1].to_i }
+        end
+      end
+
+      def self.ip_from_uri(uri)
+        match = Regexp.new(%r:.*/publicIp/(\d+):).match(uri.to_s)
+        if match
+          Fog::Vcloud::Mock.data[:organizations].map { |org| org[:vdcs] }.flatten.map { |vdc| vdc[:public_ips] }.flatten.compact.detect { |public_ip| public_ip[:id] == match[1].to_i }
+        end
+      end
 
       def initialize(credentials = {})
-        require 'builder'
         @versions_uri = URI.parse('https://vcloud.fakey.com/api/versions')
         @login_uri = get_login_uri
       end
@@ -248,12 +279,16 @@ module Fog
       end
 
       def mock_it(parser, status, mock_data, mock_headers = {})
-        body = Nokogiri::XML::SAX::PushParser.new(parser)
-        body << mock_data
-        body.finish
         response = Excon::Response.new
+        if parser
+          body = Nokogiri::XML::SAX::PushParser.new(parser)
+          body << mock_data
+          body.finish
+          response.body = parser.response
+        else
+          response.body = mock_data
+        end
         response.status = status
-        response.body = parser.response
         response.headers = mock_headers
         response
       end
@@ -263,7 +298,7 @@ module Fog
       end
 
       def mock_data
-        DATA
+        Fog::Vcloud::Mock.data
       end
 
     end
@@ -286,6 +321,8 @@ module Fog
           require 'fog/vcloud/parsers/get_vdc'
           require 'fog/vcloud/parsers/get_versions'
           require 'fog/vcloud/parsers/login'
+
+          require 'builder'
 
           Struct.new("VcloudLink", :rel, :href, :type, :name)
           Struct.new("VcloudVdc", :links, :resource_entities, :networks, :cpu_capacity, :storage_capacity, :memory_capacity, :href, :type, :name, :xmlns,

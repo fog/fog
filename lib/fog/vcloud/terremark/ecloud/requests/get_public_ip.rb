@@ -33,7 +33,7 @@ module Fog
               mock_it(Fog::Parsers::Vcloud::Terremark::Ecloud::GetPublicIp.new, 200,
                 xml.PublicIp(:xmlns => "urn:tmrk:eCloudExtensions-2.0", :"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance") {
                   xml.Id(ip[:id])
-                  xml.Href("https://fakey.com/api/v0.8/extensions/publicIp/#{ip[:id]}")
+                  xml.Href("#{Fog::Vcloud::Terremark::Ecloud::Mock.base_url}/extensions/publicIp/#{ip[:id]}")
                   xml.Name(ip[:name])
                 }, { 'Content-Type' => 'application/vnd.tmrk.ecloud.publicIp+xml' }
               )

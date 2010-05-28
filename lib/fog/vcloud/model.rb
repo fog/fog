@@ -35,7 +35,8 @@ module Fog
       end
 
       def merge_get_raw_result(data)
-        data.body.each_pair do |key,value|
+        #data.body.each_pair do |key,value|
+        (data.respond_to?(:body) ? data.body : data).each_pair do |key,value|
           if aliased_key = self.class.aliases[key]
             send("#{aliased_key}=", value)
           else

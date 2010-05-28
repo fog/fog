@@ -39,6 +39,9 @@ describe "Fog::Vcloud::Terremark::Ecloud::Vdc", :type => :tmrk_ecloud_model do
 
     its(:deployed_vm_quota)     { should == Struct::VcloudXCapacity.new(nil,nil,-1,-1) }
     its(:instantiated_vm_quota) { should == Struct::VcloudXCapacity.new(nil,nil,-1,-1) }
+
+    its(:public_ips)            { should have(3).public_ips }
+    its(:internet_services)     { should have(4).services }
  
   end
 end

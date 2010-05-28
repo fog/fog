@@ -1,6 +1,9 @@
 require 'spec'
 require 'pp'
 
+#Initialize this to a known seed
+srand 1234
+
 current_directory = File.dirname(__FILE__)
 require "#{current_directory}/../../lib/fog"
 require "#{current_directory}/../../lib/fog/bin"
@@ -168,11 +171,14 @@ Spec::Example::ExampleGroupFactory.register(:tmrk_vcloud_request, Class.new(Spec
 
 Spec::Runner.configure do |config|
   config.before(:all) do
-    @mock_data = Fog::Vcloud::Mock::DATA
-    @base_url = Fog::Vcloud::Mock._base_url
+    @mock_data = Fog::Vcloud::Mock.data
+    @base_url = Fog::Vcloud::Mock.base_url
     @mock_version = @mock_data[:versions][0]
     @mock_organization = @mock_data[:organizations][0]
     @mock_vdc = @mock_organization[:vdcs][0]
+  end
+  config.after(:all) do
+    Fog::Vcloud::Mock.data_reset
   end
   config.before(:each, :type => :vcloud_model) do
     @vcloud = Fog::Vcloud.new
@@ -180,8 +186,16 @@ Spec::Runner.configure do |config|
   config.before(:each, :type => :vcloud_request) do
     @vcloud = Fog::Vcloud.new
   end
+  config.before(:all, :type => :tmrk_ecloud_request) do
+    @base_url = Fog::Vcloud::Terremark::Ecloud::Mock.base_url
+    @mock_data = Fog::Vcloud::Terremark::Ecloud::Mock.data
+  end
   config.before(:each, :type => :tmrk_ecloud_request) do
     @vcloud = Fog::Vcloud.new(:module => "Fog::Vcloud::Terremark::Ecloud")
+  end
+  config.before(:all, :type => :tmrk_ecloud_model) do
+    @base_url = Fog::Vcloud::Terremark::Ecloud::Mock.base_url
+    @mock_data = Fog::Vcloud::Terremark::Ecloud::Mock.data
   end
   config.before(:each, :type => :tmrk_ecloud_model) do
     @vcloud = Fog::Vcloud.new(:module => "Fog::Vcloud::Terremark::Ecloud")

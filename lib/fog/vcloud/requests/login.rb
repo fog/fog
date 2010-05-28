@@ -31,7 +31,7 @@ module Fog
 
         mock_it Fog::Parsers::Vcloud::Login.new, 200,
           xml.OrgList(xmlns) {
-              DATA[:organizations].each do |org|
+              Fog::Vcloud::Mock.data[:organizations].each do |org|
                 xml.Org( org[:info].merge( "type" => "application/vnd.vmware.vcloud.org+xml" ) ) {}
               end
             },

@@ -29,7 +29,7 @@ module Fog
                   vdc[:public_ips].each do |ip|
                     xml.PublicIPAddress {
                       xml.Id(ip[:id])
-                      xml.Href("https://fakey.com/api/v0.8/extensions/publicIp/#{ip[:id]}")
+                      xml.Href("#{Fog::Vcloud::Terremark::Ecloud::Mock.base_url}/extensions/publicIp/#{ip[:id]}")
                       xml.Name(ip[:name])
                     }
                   end

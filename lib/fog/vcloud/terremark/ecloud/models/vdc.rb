@@ -18,6 +18,12 @@ module Fog
                                                                            :href => other_links.detect { |link| link.type == "application/vnd.tmrk.ecloud.publicIpsList+xml" }.href )
           end
 
+          def internet_services
+            @internet_services ||= Fog::Vcloud::Terremark::Ecloud::InternetServices.
+              new( :connection => connection,
+                   :href => href.to_s.gsub('vdc','extensions/vdc') + "/internetServices" )
+          end
+
         end
       end
     end

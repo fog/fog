@@ -36,6 +36,8 @@ describe "Fog::Vcloud::Terremark::Ecloud::PublicIp", :type => :tmrk_ecloud_model
     its(:identity)              { should == @mock_ip_uri }
     its(:name)                  { should == @mock_ip[:name] }
     its(:id)                    { should == @mock_ip[:id] }
+
+    its(:internet_services)     { should have(2).services }
  
   end
 end

@@ -1,6 +1,11 @@
 module Fog
   module Parsers
     module Vcloud
+
+      def self.de_camel(str)
+        str.gsub(/(.)([A-Z])/,'\1_\2').downcase
+      end
+
       class Base < Fog::Parsers::Base
 
         private
