@@ -39,6 +39,7 @@ module Fog
           require 'fog/aws/requests/s3/put_bucket_logging'
           require 'fog/aws/requests/s3/put_bucket_versioning'
           require 'fog/aws/requests/s3/put_object'
+          require 'fog/aws/requests/s3/put_object_url'
           require 'fog/aws/requests/s3/put_request_payment'
           @required = true
         end
