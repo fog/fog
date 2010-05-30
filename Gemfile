@@ -9,5 +9,5 @@ gem 'net-ssh', ">= 0"
 gem 'nokogiri', ">= 0"
 gem 'ruby-hmac', ">= 0"
 gem 'rspec', '>= 0'
-gem 'shindo', '>= 0.1.2'
+gem 'shindo', '>= 0.1.4'
 gem 'builder', '>= 0'
