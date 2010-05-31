@@ -29,11 +29,10 @@ module Fog
           if server = list_servers_detail.body['servers'].detect { |server| server['id'] == server_id }
             response.status = [200, 203][rand(1)]
             response.body = { 'private' => server['addresses']['private'] }
+            response
           else
-            response.status = 404
-            raise(Excon::Errors.status_error({:expects => 202}, response))
+            raise Fog::Rackspace::Servers::NotFound
           end
-          response
         end
 
       end
