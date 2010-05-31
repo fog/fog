@@ -2,6 +2,9 @@ module Fog
   module Rackspace
     module Servers
 
+      class Error < Fog::Errors::Error; end
+      class NotFound < Fog::Errors::NotFound; end
+
       def self.new(options={})
 
         unless @required
@@ -85,17 +88,27 @@ module Fog
 
         def request(params)
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
-          response = @connection.request({
-            :body     => params[:body],
-            :expects  => params[:expects],
-            :headers  => {
-              'Content-Type' => 'application/json',
-              'X-Auth-Token' => @auth_token
-            }.merge!(params[:headers] || {}),
-            :host     => @host,
-            :method   => params[:method],
-            :path     => "#{@path}/#{params[:path]}"
-          })
+
+          begin
+            response = @connection.request({
+              :body     => params[:body],
+              :expects  => params[:expects],
+              :headers  => {
+                'Content-Type' => 'application/json',
+                'X-Auth-Token' => @auth_token
+              }.merge!(params[:headers] || {}),
+              :host     => @host,
+              :method   => params[:method],
+              :path     => "#{@path}/#{params[:path]}"
+            })
+          rescue Excon::Errors::Error => error
+            case error
+            when Excon::Errors::NotFound
+              raise Fog::Rackspace::Servers::NotFound
+            else
+              raise error
+            end
+          end
           unless response.body.empty?
             response.body = JSON.parse(response.body)
           end

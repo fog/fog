@@ -22,7 +22,7 @@ module Fog
 
       class Mock
 
-        def reboot_server(server_id, type)
+        def reboot_server(server_id, type = 'SOFT')
           Fog::Mock.not_implemented
         end
 

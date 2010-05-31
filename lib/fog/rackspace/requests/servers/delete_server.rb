@@ -31,11 +31,10 @@ module Fog
               @data[:servers].delete(server_id)
               response.status = 202
             end
+            response
           else
-            response.status = 404
-            raise(Excon::Errors.status_error({:expects => 202}, response))
+            raise Fog::Rackspace::Servers::NotFound
           end
-          response
         end
 
       end

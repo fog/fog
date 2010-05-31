@@ -67,7 +67,7 @@ module Fog
 
       class Mock
 
-        def create_server(flavor_id, image_id, name, options = {})
+        def create_server(flavor_id, image_id, options = {})
           response = Excon::Response.new
           response.status = 202
 
@@ -77,15 +77,14 @@ module Fog
             'id'        => 123456,
             'imageId'   => image_id,
             'hostId'    => "123456789ABCDEF01234567890ABCDEF",
-            'metadata'  => options[:metadata] || {},
-            'name'      => name,
+            'metadata'  => options['metadata'] || {},
+            'name'      => options['name'] || "server_#{rand(999)}",
             'progress'  => 0,
             'status'    => 'BUILD'
           }
-          data['adminPass'] = "#{data['name']}password"
           @data[:last_modified][:servers][data['id']] = Time.now
           @data[:servers][data['id']] = data
-          response.body = { 'server' => data }
+          response.body = { 'server' => data.merge({'adminPass' => 'password'}) }
           response
         end
 

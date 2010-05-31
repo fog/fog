@@ -44,21 +44,6 @@ module Rackspace
         'updated'   => String
       }
 
-      SERVER = {
-        'addresses' => {
-          'private' => [String],
-          'public'  => [String]
-        },
-        'flavorId'  => Integer,
-        'hostId'    => String,
-        'id'        => Integer,
-        'imageId'   => Integer,
-        'metadata'  => {},
-        'name'      => String,
-        'progress'  => Integer,
-        'status'    => String
-      }
-
       SUMMARY = {
         'id'    => Integer,
         'name'  => String

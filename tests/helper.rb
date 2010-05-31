@@ -24,12 +24,8 @@ module Shindo
 
     def succeeds(&block)
       test('succeeds') do
-        begin
-          instance_eval(&block)
-          true
-        rescue Exception, Interrupt
-          false
-        end
+        instance_eval(&block)
+        true
       end
     end
 
