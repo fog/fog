@@ -31,11 +31,12 @@ module Fog
               @data[:images].delete(image_id)
               response.status = 202
             end
+            response
           else
             response.status = 400
             raise(Excon::Errors.status_error({:expects => 202}, response))
           end
-          response
+
         end
 
       end

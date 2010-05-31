@@ -27,16 +27,6 @@ module Rackspace
 
     module Formats
 
-      IMAGE = {
-        'created'   => String,
-        'id'        => Integer,
-        'name'      => String,
-        'progress'  => Integer,
-        'serverId'  => Integer,
-        'status'    => String,
-        'updated'   => String
-      }
-
       SUMMARY = {
         'id'    => Integer,
         'name'  => String
