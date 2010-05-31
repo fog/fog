@@ -27,13 +27,6 @@ module Rackspace
 
     module Formats
 
-      FLAVOR = {
-        'disk'  => Integer,
-        'id'    => Integer,
-        'name'  => String,
-        'ram'   => Integer
-      }
-
       IMAGE = {
         'created'   => String,
         'id'        => Integer,
