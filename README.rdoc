@@ -89,6 +89,7 @@ It will return an excon response, which has headers and body methods. Both give 
 == Go forth and conquer
 
 That should give you some stuff to try and places to look.
+For a more in depth walk through, check out the {getting started guide}[http://wiki.github.com/geemus/fog/getting-started-with-fog].
 
 You should try out the (varying) support fog has for:
 * AWS [EC2, S3, SimpleDB]
@@ -101,6 +102,7 @@ Enjoy, and let me know what I can do to continue improving fog!
 * Follow {@geemus}[http://twitter.com/geemus] on Twitter.
 * See upcoming work in the {tracker}[http://www.pivotaltracker.com/projects/54635].
 * Report bugs in {issues}[http://github.com/geemus/fog/issues].
+* Learn about {contributing}[http://wiki.github.com/geemus/fog/contributors-guide].
 
 == Copyright
 
