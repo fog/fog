@@ -1,6 +1,9 @@
 module Fog
   module Slicehost
 
+    class Error < Fog::Errors::Error; end
+    class NotFound < Fog::Errors::NotFound; end
+
     def self.new(options={})
 
       unless @required
@@ -79,15 +82,24 @@ module Fog
           headers['Content-Type'] = 'application/xml'
         end
 
-        response = @connection.request({
-          :body     => params[:body],
-          :expects  => params[:expects],
-          :headers  => headers.merge!(params[:headers] || {}),
-          :host     => @host,
-          :method   => params[:method],
-          :parser   => params[:parser],
-          :path     => params[:path]
-        })
+        begin
+          response = @connection.request({
+            :body     => params[:body],
+            :expects  => params[:expects],
+            :headers  => headers.merge!(params[:headers] || {}),
+            :host     => @host,
+            :method   => params[:method],
+            :parser   => params[:parser],
+            :path     => params[:path]
+          })
+        rescue Excon::Errors::Error => error
+          case error
+          when Excon::Errors::NotFound
+            raise Fog::Slicehost::NotFound
+          else
+            raise error
+          end
+        end
 
         response
       end
