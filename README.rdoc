@@ -96,6 +96,7 @@ You should try out the (varying) support fog has for:
 * Rackspace [Files, Servers]
 * Slicehost
 * Terremark vCloud Express
+* Blue Box Group [Blocks]
 
 Enjoy, and let me know what I can do to continue improving fog!
 
