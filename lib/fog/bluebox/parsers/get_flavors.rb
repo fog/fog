@@ -16,7 +16,7 @@ module Fog
             @product = {}
           when 'cost'
             @product[name] = @value.to_f
-          else
+          when 'description', 'id'
             @product[name] = @value
           end
         end

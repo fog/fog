@@ -12,10 +12,7 @@ module Fog
       # ==== Returns
       # * response<~Excon::Response>:
       #   * body<~Array>:
-      #     * 'id'<~Integer> - Id of the flavor
-      #     * 'name'<~String> - Name of the flavor
-      #     * 'price'<~Integer> - Price in cents
-      #     * 'ram'<~Integer> - Amount of ram for the flavor
+      # TODO
       def get_flavor(flavor_id)
         request(
           :expects  => 200,
