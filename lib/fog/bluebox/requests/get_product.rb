@@ -4,16 +4,16 @@ module Fog
 
       require 'fog/bluebox/parsers/get_flavor'
 
-      # Get details of a flavor
+      # Get details of a product
       #
       # ==== Parameters
-      # * flavor_id<~Integer> - Id of flavor to lookup
+      # * product_id<~Integer> - Id of flavor to lookup
       #
       # ==== Returns
       # * response<~Excon::Response>:
       #   * body<~Array>:
       # TODO
-      def get_flavor(flavor_id)
+      def get_product(product_id)
         request(
           :expects  => 200,
           :method   => 'GET',
@@ -26,7 +26,7 @@ module Fog
 
     class Mock
 
-      def get_flavor(flavor_id)
+      def get_product(product_id)
         Fog::Mock.not_implemented
       end
 

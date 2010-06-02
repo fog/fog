@@ -2,11 +2,11 @@ module Fog
   module Parsers
     module Bluebox
 
-      class GetImages < Fog::Parsers::Base
+      class GetTemplates < Fog::Parsers::Base
 
         def reset
           @template = {}
-          @response = { 'images' => [] }
+          @response = { 'templates' => [] }
         end
 
         def end_element(name)
@@ -18,7 +18,7 @@ module Fog
           when 'description'
             @template[name] = @value
           when 'record'
-            @response['images'] << @template
+            @response['templates'] << @template
             @template = {}
           end
         end

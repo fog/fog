@@ -21,12 +21,12 @@ module Fog
       model Fog::Bluebox::Flavor
 
       def all
-        data = connection.get_flavors.body['flavors']
+        data = connection.get_product.body['products']
         load(data)
       end
 
       def get(product_id)
-        response = connection.get_flavor(product_id)
+        response = connection.get_product(product_id)
         new(response.body)
       rescue Excon::Errors::Forbidden, Excon::Errors::NotFound
         nil

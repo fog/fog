@@ -2,7 +2,7 @@ module Fog
   module Parsers
     module Bluebox
 
-      class GetFlavor < Fog::Parsers::Base
+      class GetProduct < Fog::Parsers::Base
 
         def reset
           @response = {}

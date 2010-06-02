@@ -30,7 +30,7 @@ module Fog
       end
 
       def get(template_id)
-        response = connection.get_image(template_id)
+        response = connection.get_template(template_id)
         new(response.body)
       rescue Excon::Errors::Forbidden, Excon::Errors::NotFound
         nil
