@@ -18,6 +18,23 @@ describe 'SimpleDB.put_attributes' do
       actual.body['BoxUsage'].should be_a(Float)
     end
 
+    it 'conditional put should succeed' do
+      actual = AWS[:sdb].put_conditional(@domain_name, 'foo', { 'version' => '1' }, { 'version' => nil })
+      actual = AWS[:sdb].put_conditional(@domain_name, 'foo', { 'version' => '2' }, { 'version' => '1' })
+      actual.body['RequestId'].should be_a(String)
+      actual.body['BoxUsage'].should be_a(Float)
+    end
+
+    it 'conditional put should raise Conflict error' do
+      actual = AWS[:sdb].put_conditional(@domain_name, 'foo', { 'version' => '2' })
+      actual.body['RequestId'].should be_a(String)
+      actual.body['BoxUsage'].should be_a(Float)
+
+      lambda {
+        actual = AWS[:sdb].put_conditional(@domain_name, 'foo', { 'version' => '2' }, { 'version' => '1' })
+      }.should raise_error(Excon::Errors::Conflict)
+    end
+
   end
   describe 'failure' do
 

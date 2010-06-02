@@ -73,9 +73,17 @@ module Fog
 
         private
 
-        def encode_attributes(attributes, replace_attributes = [])
+        def encode_attributes(attributes, replace_attributes = {}, expected_attributes = {})
           encoded_attributes = {}
           if attributes
+
+            expected_attributes.keys.each_with_index do |exkey, index|
+              for value in Array(expected_attributes[exkey])
+                encoded_attributes["Expected.#{index}.Name"] = exkey.to_s
+                encoded_attributes["Expected.#{index}.Value"] = sdb_encode(value)
+              end
+            end
+
             index = 0
             for key in attributes.keys
               for value in Array(attributes[key])
@@ -132,7 +140,7 @@ module Fog
               :aws_access_key_id  => @aws_access_key_id,
               :hmac               => @hmac,
               :host               => @host,
-              :version            => '2007-11-07'
+              :version            => '2009-04-15'
             }
           )
 

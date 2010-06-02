@@ -1,3 +1,4 @@
+require 'yaml'
 module Fog
   class << self
 

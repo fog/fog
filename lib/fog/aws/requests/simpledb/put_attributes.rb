@@ -29,6 +29,15 @@ module Fog
           )
         end
 
+        def put_conditional(domain_name, item_name, attributes, expected_attributes = {})
+          request({
+            'Action'      => 'PutAttributes',
+            'DomainName'  => domain_name,
+            :parser       => Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string),
+            'ItemName' => item_name
+          }.merge!(encode_attributes(attributes, {}, expected_attributes)))
+        end
+
       end
 
       class Mock
@@ -40,6 +49,28 @@ module Fog
             { item_name => replace_attributes }
           )
         end
+
+        def put_conditional(domain_name, item_name, attributes, expected_attributes = {})
+          response = Excon::Response.new
+          if @data[:domains][domain_name]
+            expected_attributes.each do |ck, cv|
+              if @data[:domains][domain_name][item_name][ck] != cv
+                response.status = 409
+                raise(Excon::Errors.status_error({:expects => 200}, response))
+              end
+            end
+            attributes.each do |key, value|
+              @data[:domains][domain_name][item_name] ||= {}
+              @data[:domains][domain_name][item_name][key.to_s] = value
+            end
+            response.status = 200
+            response.body = {
+              'BoxUsage'  => Fog::AWS::Mock.box_usage,
+              'RequestId' => Fog::AWS::Mock.request_id
+            }
+          response
+        end
+      end
 
       end
     end
