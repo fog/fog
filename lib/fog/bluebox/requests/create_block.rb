@@ -41,7 +41,7 @@ module Fog
     class Mock
 
       def create_block(flavor_id, image_id, name, password)
-        raise MockNotImplemented.new("Contributions welcome!")
+        Fog::Mock.not_implemented
       end
 
     end

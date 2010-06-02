@@ -35,7 +35,7 @@ module Fog
     class Mock
 
       def destroy_block(block_id)
-        raise MockNotImplemented.new("Contributions welcome!")
+        Fog::Mock.not_implemented
       end
 
     end

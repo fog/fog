@@ -30,11 +30,7 @@ module Fog
     class Mock
 
       def get_flavor(flavor_id)
-        if flavor_id == "0"
-          nil
-        else
-          Flavor.new(:cost => 0.15, :description => "Test product", :id => "94fd37a7-2606-47f7-84d5-9000deda52ae", :name => "Bob's Haus o' Servers")
-        end
+        Fog::Mock.not_implemented
       end
 
     end

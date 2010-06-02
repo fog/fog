@@ -32,8 +32,8 @@ module Fog
 
     class Mock
 
-      def get_block(id)
-        raise MockNotImplemented.new("Contributions welcome!")
+      def reboot_block(block_id, type = 'SOFT')
+        Fog::Mock.not_implemented
       end
 
     end

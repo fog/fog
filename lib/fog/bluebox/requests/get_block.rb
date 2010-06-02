@@ -36,7 +36,7 @@ module Fog
     class Mock
 
       def get_slice(id)
-        raise MockNotImplemented.new("Contributions welcome!")
+        Fog::Mock.not_implemented
       end
 
     end

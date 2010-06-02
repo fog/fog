@@ -26,10 +26,7 @@ module Fog
     class Mock
 
       def get_flavors
-        response = Excon::Response.new
-        response.status = 200
-        response.body = { 'flavors' => [{:cost => 0.15, :description => "Test product", :id => "94fd37a7-2606-47f7-84d5-9000deda52ae", :name => "Bob's Haus o' Servers"}]}
-        response
+        Fog::Mock.not_implemented
       end
 
     end
