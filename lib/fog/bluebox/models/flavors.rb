@@ -27,11 +27,8 @@ module Fog
 
       def get(product_id)
         response = connection.get_flavor(product_id)
-        model.new(response.body)
-      rescue Excon::Errors::NotFound
-        # Whoops - no image with that id.
-        nil
-      rescue Excon::Errors::Forbidden
+        new(response.body)
+      rescue Excon::Errors::Forbidden, Excon::Errors::NotFound
         nil
       end
 

@@ -28,13 +28,8 @@ module Fog
       def get(server_id)
         if server_id && server = connection.get_block(server_id).body
           new(server)
-        elsif !server_id
-          nil
         end
-      rescue Excon::Errors::NotFound
-        # No server found with that id
-        nil
-      rescue Excon::Errors::Forbidden
+      rescue Excon::Errors::Forbidden, Excon::Errors::NotFound
         nil
       end
 

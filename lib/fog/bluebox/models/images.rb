@@ -20,7 +20,7 @@ module Fog
       end
     end
 
-    class Templates < Fog::Collection
+    class Images < Fog::Collection
 
       model Fog::Bluebox::Image
 
@@ -30,8 +30,9 @@ module Fog
       end
 
       def get(template_id)
-        connection.get_image(template_id)
-      rescue Excon::Errors::Forbidden
+        response = connection.get_image(template_id)
+        new(response.body)
+      rescue Excon::Errors::Forbidden, Excon::Errors::NotFound
         nil
       end
 
