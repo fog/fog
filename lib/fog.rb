@@ -38,12 +38,12 @@ module Fog
 end
 
 require 'fog/aws'
+require 'fog/bluebox'
 require 'fog/local'
 require 'fog/rackspace'
 require 'fog/slicehost'
 require 'fog/terremark'
 require 'fog/vcloud'
-require 'fog/bluebox'
 
 module Fog
 
