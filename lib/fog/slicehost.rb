@@ -72,14 +72,15 @@ module Fog
 
       def request(params)
         @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
-        headers = {
-          'Authorization' => "Basic #{Base64.encode64(@slicehost_password).chop!}"
-        }.merge!(params[:headers] || {})
+        params[:headers] ||= {}
+        params[:headers].merge!({
+          'Authorization' => "Basic #{Base64.encode64(@slicehost_password).delete("\r\n")}"
+        })
         case params[:method]
         when 'DELETE', 'GET', 'HEAD'
-          headers['Accept'] = 'application/xml'
+          params[:headers]['Accept'] = 'application/xml'
         when 'POST', 'PUT'
-          headers['Content-Type'] = 'application/xml'
+          params[:headers]['Content-Type'] = 'application/xml'
         end
 
         begin
