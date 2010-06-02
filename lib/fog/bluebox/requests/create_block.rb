@@ -30,7 +30,7 @@ DATA
 
         request(
           :body     => data,
-          :expects  => [200, 409],
+          :expects  => 200,
           :method   => 'POST',
           :parser   => Fog::Parsers::Bluebox::CreateBlock.new,
           :path     => '/api/blocks.xml'

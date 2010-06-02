@@ -29,9 +29,6 @@ module Fog
             @response['image_id'] = @value
           when 'product'
             @scope = nil
-          when 'error' # An error occurred
-            @response['status'] = 'error'
-            @response[name] = @value
           end
         end
 

@@ -38,7 +38,6 @@ module Fog
       end
 
       def ready?
-        raise Fog::Bluebox::BlockInstantiationError, "Error creating block #{self.id}" if @status == 'error'
         @status == 'running'
       end
 
