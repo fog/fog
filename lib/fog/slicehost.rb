@@ -73,8 +73,8 @@ module Fog
       def request(params)
         @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
         headers = {
-          'Authorization' => "Basic #{Base64.encode64(@slicehost_password).delete("\r\n")}"
-        }
+          'Authorization' => "Basic #{Base64.encode64(@slicehost_password).chop!}"
+        }.merge!(params[:headers] || {})
         case params[:method]
         when 'DELETE', 'GET', 'HEAD'
           headers['Accept'] = 'application/xml'
@@ -83,15 +83,7 @@ module Fog
         end
 
         begin
-          response = @connection.request({
-            :body     => params[:body],
-            :expects  => params[:expects],
-            :headers  => headers.merge!(params[:headers] || {}),
-            :host     => @host,
-            :method   => params[:method],
-            :parser   => params[:parser],
-            :path     => params[:path]
-          })
+          response = @connection.request({:host => @host}.merge!(params))
         rescue Excon::Errors::Error => error
           case error
           when Excon::Errors::NotFound

@@ -63,8 +63,8 @@ module Fog
       def request(params)
         @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
         headers = {
-          'Authorization' => "Basic #{Base64.encode64(@bluebox_api_key).delete("\r\n")}"
-        }
+          'Authorization' => "Basic #{Base64.encode64(@bluebox_api_key).chop!}"
+        }.merge!(params[:headers] || {})
         case params[:method]
         when 'DELETE', 'GET', 'HEAD'
           headers['Accept'] = 'application/xml'
@@ -72,15 +72,7 @@ module Fog
           headers['Content-Type'] = 'application/xml'
         end
 
-        @connection.request({
-          :body     => params[:body],
-          :expects  => params[:expects],
-          :headers  => headers.merge!(params[:headers] || {}),
-          :host     => @host,
-          :method   => params[:method],
-          :parser   => params[:parser],
-          :path     => params[:path]
-        })
+        @connection.request({:host => @host}.merge!(params))
       end
 
     end
