@@ -25,15 +25,24 @@ module Fog
       #     * 'root-password'<~String> - Root password of slice
       #     * 'status'<~String> - Current status of the slice
       def create_block(flavor_id, image_id, name, password)
-        response = request(
-          :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><block><product type="string">#{flavor_id}</product><template type="string">#{image_id}</template><name>#{name}</name><password>#{password}</password></block>}, # ["template=#{image_id}","product=#{flavor_id}"].join("\n"),
+        data =
+<<-DATA
+<?xml version="1.0" encoding="UTF-8"?>
+<block>
+  <name>#{name}</name>
+  <password>#{password}</password>
+  <product type="string">#{flavor_id}</product>
+  <template type="string">#{image_id}</template>
+</block>
+DATA
+
+        request(
+          :body     => data,
           :expects  => [200, 409],
           :method   => 'POST',
           :parser   => Fog::Parsers::Bluebox::CreateBlock.new,
           :path     => '/api/blocks.xml'
         )
-
-        response
       end
 
     end
