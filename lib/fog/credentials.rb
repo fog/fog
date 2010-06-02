@@ -32,6 +32,7 @@ module Fog
   :aws_access_key_id:     INTENTIONALLY_LEFT_BLANK
   :aws_secret_access_key: INTENTIONALLY_LEFT_BLANK
   :bluebox_api_key:       INTENTIONALLY_LEFT_BLANK
+  :bluebox_customer_id:   INTENTIONALLY_LEFT_BLANK
   :local_root:            INTENTIONALLY_LEFT_BLANK
   :rackspace_api_key:     INTENTIONALLY_LEFT_BLANK
   :rackspace_username:    INTENTIONALLY_LEFT_BLANK

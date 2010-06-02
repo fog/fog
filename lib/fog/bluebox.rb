@@ -15,9 +15,11 @@ module Fog
     require 'fog/bluebox/requests/reboot_block'
 
     def self.new(options={})
-
       unless options[:bluebox_api_key]
         raise ArgumentError.new('bluebox_api_key is required to access Blue Box')
+      end
+      unless options[:bluebox_customer_id]
+        raise ArgumentError.new('bluebox_customer_id is required to access Blue Box')
       end
       if Fog.mocking?
         Fog::Bluebox::Mock.new(options)
@@ -54,7 +56,8 @@ module Fog
     class Real
 
       def initialize(options={})
-        @bluebox_api_key = options[:bluebox_api_key]
+        @bluebox_api_key      = options[:bluebox_api_key]
+        @bluebox_customer_id  = options[:bluebox_customer_id]
         @host   = options[:bluebox_host]    || "boxpanel.blueboxgrp.com"
         @port   = options[:bluebox_port]    || 443
         @scheme = options[:bluebox_scheme]  || 'https'
@@ -64,7 +67,7 @@ module Fog
         @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
         params[:headers] ||= {}
         params[:headers].merge!({
-          'Authorization' => "Basic #{Base64.encode64(@bluebox_api_key).delete("\r\n")}"
+          'Authorization' => "Basic #{Base64.encode64([@bluebox_customer_id, @bluebox_api_key].join(':')).delete("\r\n")}"
         })
         case params[:method]
         when 'DELETE', 'GET', 'HEAD'

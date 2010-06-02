@@ -10,7 +10,7 @@ module Bluebox
       def [](service)
         @@connections ||= Hash.new do |hash, key|
           credentials = Fog.credentials.reject do |k,v|
-            ![:bluebox_api_key, :bluebox_host, :bluebox_port, :bluebox_scheme].include?(k)
+            ![:bluebox_api_key, :bluebox_customer_id].include?(k)
           end
           hash[key] = case key
           when :blocks
