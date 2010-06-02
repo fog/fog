@@ -1,11 +1,11 @@
 module Fog
   module Bluebox
     require 'fog/bluebox/models/images'
-    require 'fog/bluebox/requests/get_images'
+    require 'fog/bluebox/requests/get_templates'
     require 'fog/bluebox/models/flavors'
-    require 'fog/bluebox/requests/get_flavors'
+    require 'fog/bluebox/requests/get_products'
     require 'fog/bluebox/models/flavor'
-    require 'fog/bluebox/requests/get_flavor'
+    require 'fog/bluebox/requests/get_product'
     require 'fog/bluebox/models/servers'
     require 'fog/bluebox/requests/get_blocks'
     require 'fog/bluebox/models/server'

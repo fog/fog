@@ -2,7 +2,7 @@ module Fog
   module Bluebox
     class Real
 
-      require 'fog/bluebox/parsers/get_flavor'
+      require 'fog/bluebox/parsers/get_product'
 
       # Get details of a product
       #
