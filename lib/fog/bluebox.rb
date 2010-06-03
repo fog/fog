@@ -1,21 +1,26 @@
 module Fog
   module Bluebox
-    require 'fog/bluebox/models/flavor'
-    require 'fog/bluebox/models/flavors'
-    require 'fog/bluebox/models/images'
-    require 'fog/bluebox/models/server'
-    require 'fog/bluebox/models/servers'
-    require 'fog/bluebox/requests/create_block'
-    require 'fog/bluebox/requests/destroy_block'
-    require 'fog/bluebox/requests/get_block'
-    require 'fog/bluebox/requests/get_blocks'
-    require 'fog/bluebox/requests/get_product'
-    require 'fog/bluebox/requests/get_products'
-    require 'fog/bluebox/requests/get_template'
-    require 'fog/bluebox/requests/get_templates'
-    require 'fog/bluebox/requests/reboot_block'
 
     def self.new(options={})
+
+      unless @required
+        require 'fog/bluebox/models/flavor'
+        require 'fog/bluebox/models/flavors'
+        require 'fog/bluebox/models/images'
+        require 'fog/bluebox/models/server'
+        require 'fog/bluebox/models/servers'
+        require 'fog/bluebox/requests/create_block'
+        require 'fog/bluebox/requests/destroy_block'
+        require 'fog/bluebox/requests/get_block'
+        require 'fog/bluebox/requests/get_blocks'
+        require 'fog/bluebox/requests/get_product'
+        require 'fog/bluebox/requests/get_products'
+        require 'fog/bluebox/requests/get_template'
+        require 'fog/bluebox/requests/get_templates'
+        require 'fog/bluebox/requests/reboot_block'
+        @required = true
+      end
+
       unless options[:bluebox_api_key]
         raise ArgumentError.new('bluebox_api_key is required to access Blue Box')
       end
