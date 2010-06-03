@@ -28,7 +28,7 @@ module Fog
       def get(product_id)
         response = connection.get_product(product_id)
         new(response.body)
-      rescue Excon::Errors::Forbidden, Excon::Errors::NotFound
+      rescue Excon::Errors::NotFound
         nil
       end
 

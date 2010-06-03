@@ -29,7 +29,7 @@ module Fog
         if server_id && server = connection.get_block(server_id).body
           new(server)
         end
-      rescue Excon::Errors::Forbidden, Excon::Errors::NotFound
+      rescue Excon::Errors::NotFound
         nil
       end
 
