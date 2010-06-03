@@ -8,19 +8,21 @@ module Fog
       # * product_id<~Integer> - Id of product to create block with
       # * template_id<~Integer> - Id of template to create block with
       # * name<~String> - Name of block
-      # * password<~String> - Password for block
+      # * options<~Hash>:
+      #     * password<~String> - Password for block
+      #   or
+      #     * ssh_key<~String> - ssh public key
       #
       # ==== Returns
       # * response<~Excon::Response>:
       #   * body<~Hash>:
       # TODO
-      def create_block(product_id, template_id, name, password)
+      def create_block(product_id, template_id, name, options = {})
         data = {
           'name'      => name,
-          'password'  => password,
           'product'   => product_id,
           'template'  => template_id
-        }
+        }.merge!(options)
 
         request(
           :body     => data.to_json,
