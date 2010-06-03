@@ -11,6 +11,7 @@ module Fog
     require 'fog/bluebox/requests/get_blocks'
     require 'fog/bluebox/requests/get_product'
     require 'fog/bluebox/requests/get_products'
+    require 'fog/bluebox/requests/get_template'
     require 'fog/bluebox/requests/get_templates'
     require 'fog/bluebox/requests/reboot_block'
 
