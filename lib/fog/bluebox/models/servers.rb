@@ -21,7 +21,7 @@ module Fog
       model Fog::Bluebox::Server
 
       def all
-        data = connection.get_blocks.body['blocks']
+        data = connection.get_blocks.body
         load(data)
       end
 

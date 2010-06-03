@@ -15,7 +15,7 @@ module Fog
         request(
           :expects  => 200,
           :method   => 'DELETE',
-          :path     => "api/blocks/#{block_id}.xml"
+          :path     => "api/blocks/#{block_id}.json"
         )
       end
 

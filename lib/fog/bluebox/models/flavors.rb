@@ -21,7 +21,7 @@ module Fog
       model Fog::Bluebox::Flavor
 
       def all
-        data = connection.get_products.body['products']
+        data = connection.get_products.body
         load(data)
       end
 

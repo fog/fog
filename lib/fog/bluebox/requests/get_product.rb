@@ -2,8 +2,6 @@ module Fog
   module Bluebox
     class Real
 
-      require 'fog/bluebox/parsers/get_product'
-
       # Get details of a product
       #
       # ==== Parameters
@@ -17,8 +15,7 @@ module Fog
         request(
           :expects  => 200,
           :method   => 'GET',
-          :parser   => Fog::Parsers::Bluebox::GetFlavor.new,
-          :path     => "api/block_products/#{flavor_id}.xml"
+          :path     => "api/block_products/#{flavor_id}.json"
         )
       end
 

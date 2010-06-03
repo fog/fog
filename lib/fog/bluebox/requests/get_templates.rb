@@ -2,8 +2,6 @@ module Fog
   module Bluebox
     class Real
 
-      require 'fog/bluebox/parsers/get_templates'
-
       # Get list of OS templates
       #
       # ==== Returns
@@ -17,8 +15,7 @@ module Fog
         request(
           :expects  => 200,
           :method   => 'GET',
-          :parser   => Fog::Parsers::Bluebox::GetTemplates.new,
-          :path     => 'api/block_templates.xml'
+          :path     => 'api/block_templates.json'
         )
       end
 

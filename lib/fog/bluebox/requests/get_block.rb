@@ -2,8 +2,6 @@ module Fog
   module Bluebox
     class Real
 
-      require 'fog/bluebox/parsers/get_block'
-
       # Get details of a block.
       #
       # ==== Parameters
@@ -17,8 +15,7 @@ module Fog
         request(
           :expects  => 200,
           :method   => 'GET',
-          :parser   => Fog::Parsers::Bluebox::GetBlock.new,
-          :path     => "api/blocks/#{block_id}.xml"
+          :path     => "api/blocks/#{block_id}.json"
         )
       end
 

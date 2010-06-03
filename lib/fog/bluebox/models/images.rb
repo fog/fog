@@ -25,7 +25,7 @@ module Fog
       model Fog::Bluebox::Image
 
       def all
-        data = connection.get_templates.body['templates']
+        data = connection.get_templates.body
         load(data)
       end
 

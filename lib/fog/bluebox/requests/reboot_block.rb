@@ -16,7 +16,7 @@ module Fog
         request(
           :expects  => 200,
           :method   => 'PUT',
-          :path     => "api/blocks/#{block_id}/#{'soft_' if type == 'SOFT'}reboot.xml"
+          :path     => "api/blocks/#{block_id}/#{'soft_' if type == 'SOFT'}reboot.json"
         )
       end
 
