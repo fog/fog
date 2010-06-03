@@ -38,7 +38,7 @@ module Fog
         def get(image_id)
           data = connection.get_image_details(image_id).body['image']
           new(data)
-        rescue Excon::Errors::NotFound
+        rescue Fog::Rackspace::Servers::NotFound
           nil
         end
 

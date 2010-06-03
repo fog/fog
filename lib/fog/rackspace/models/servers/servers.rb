@@ -30,7 +30,7 @@ module Fog
           if server = connection.get_server_details(server_id).body['server']
             new(server)
           end
-        rescue Excon::Errors::NotFound
+        rescue Fog::Rackspace::Servers::NotFound
           nil
         end
 

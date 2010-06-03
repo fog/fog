@@ -29,7 +29,7 @@ module Fog
         def get(flavor_id)
           data = connection.get_flavor_details(flavor_id).body['flavor']
           new(data)
-        rescue Excon::Errors::NotFound
+        rescue Fog::Rackspace::Servers::NotFound
           nil
         end
 
