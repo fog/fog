@@ -32,7 +32,7 @@ module Fog
       def get(template_id)
         response = connection.get_template(template_id)
         new(response.body)
-      rescue Excon::Errors::NotFound
+      rescue Fog::Bluebox::NotFound
         nil
       end
 

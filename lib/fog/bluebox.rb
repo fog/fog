@@ -1,6 +1,9 @@
 module Fog
   module Bluebox
 
+    class Error < Fog::Errors::Error; end
+    class NotFound < Fog::Errors::NotFound; end
+
     def self.new(options={})
 
       unless @required
@@ -76,7 +79,16 @@ module Fog
           'Authorization' => "Basic #{Base64.encode64([@bluebox_customer_id, @bluebox_api_key].join(':')).delete("\r\n")}"
         })
 
-        response = @connection.request({:host => @host}.merge!(params))
+        begin
+          response = @connection.request({:host => @host}.merge!(params))
+        rescue Excon::Errors::Error => error
+          case error
+          when Excon::Errors::NotFound
+            raise Fog::Bluebox::NotFound
+          else
+            raise error
+          end
+        end
         unless response.body.empty?
           response.body = JSON.parse(response.body)
         end

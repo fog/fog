@@ -28,7 +28,7 @@ module Fog
       def get(product_id)
         response = connection.get_product(product_id)
         new(response.body)
-      rescue Excon::Errors::NotFound
+      rescue Fog::Bluebox::NotFound
         nil
       end
 
