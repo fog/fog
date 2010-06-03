@@ -15,7 +15,7 @@ module Fog
         request(
           :expects  => 200,
           :method   => 'GET',
-          :path     => "api/block_products/#{flavor_id}.json"
+          :path     => "api/block_products/#{product_id}.json"
         )
       end
 
