@@ -22,7 +22,7 @@ module Fog
       attribute :template
 
       # Not reported by the API, but used at create time
-      attr_accessor :name, :password, :ssh_key
+      attr_accessor :password, :ssh_key, :user
 
       def destroy
         requires :id
@@ -59,7 +59,10 @@ module Fog
         elsif @password
           {'password' => @password}
         end
-        data = connection.create_block(@flavor_id, @image_id, @name, options)
+        if @user
+          options['user'] = @user
+        end
+        data = connection.create_block(@flavor_id, @image_id, options)
         merge_attributes(data.body)
         true
       end

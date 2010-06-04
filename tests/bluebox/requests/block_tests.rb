@@ -17,12 +17,12 @@ Shindo.tests('Bluebox | block requests', ['bluebox']) do
 
     @product_id   = '94fd37a7-2606-47f7-84d5-9000deda52ae' # 1 GB
     @template_id  = 'a00baa8f-b5d0-4815-8238-b471c4c4bf72' # Ubuntu 9.10 64bit
-    @password     = 'R8p6ikXOfCxoKy'
+    @password     = 'chunkybacon'
 
     @block_id = nil
 
-    tests("create_block('#{@product_id}', '#{@template_id}', 'fog_block', 'password' => '#{@password}')").formats(@block_format) do
-      data = Bluebox[:blocks].create_block(@product_id, @template_id, 'fog_block', 'password' => @password).body
+    tests("create_block('#{@product_id}', '#{@template_id}', 'password' => '#{@password}')").formats(@block_format) do
+      data = Bluebox[:blocks].create_block(@product_id, @template_id, 'password' => @password).body
       @block_id = data['id']
       data
     end

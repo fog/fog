@@ -8,7 +8,7 @@ describe 'Fog::Bluebox::Server' do
   subject {
     @flavor_id  = '94fd37a7-2606-47f7-84d5-9000deda52ae' # Block 1GB Virtual Server
     @image_id   = 'a00baa8f-b5d0-4815-8238-b471c4c4bf72' # Ubuntu 9.10 64bit
-    @server = @servers.new(:flavor_id => @flavor_id, :image_id => @image_id, :name => Time.now.to_i.to_s, :password => "chunkybacon")
+    @server = @servers.new(:flavor_id => @flavor_id, :image_id => @image_id, :password => "chunkybacon")
   }
 
   before(:each) do
