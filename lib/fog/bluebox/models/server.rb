@@ -16,7 +16,8 @@ module Fog
       attribute :ips
       attribute :status
       attribute :flavor_id
-      attribute :image_id
+      # attribute :image_id
+      attribute :template
 
       # Not reported by the API, but used at create time
       attr_accessor :name, :password, :hash, :text, :error
@@ -53,6 +54,13 @@ module Fog
         merge_attributes(data.body)
         true
       end
+
+      private
+
+      def product=(new_product)
+        @flavor_id = new_product['id']
+      end
+
     end
 
   end

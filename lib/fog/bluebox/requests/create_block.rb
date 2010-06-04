@@ -24,11 +24,18 @@ module Fog
           'template'  => template_id
         }.merge!(options)
 
+        query = ''
+        for key, value in data
+          query << "#{key}=#{CGI.escape(value.to_s).gsub(/\+/, '%20')}&"
+        end
+        query.chop!
+
         request(
-          :body     => data.to_json,
+          # :body     => data.to_json,
           :expects  => 200,
           :method   => 'POST',
-          :path     => '/api/blocks.json'
+          :path     => '/api/blocks.json',
+          :query    => query
         )
       end
 

@@ -29,7 +29,7 @@ module Fog
         if server_id && server = connection.get_block(server_id).body
           new(server)
         end
-      rescue Fog::BlueBox::NotFound
+      rescue Fog::Bluebox::NotFound
         nil
       end
 

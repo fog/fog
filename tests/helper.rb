@@ -35,6 +35,10 @@ module Shindo
       valid = true
       data = original_data.dup
       format = original_format.dup
+      if format.is_a?(Array)
+        data   = {:element => data}
+        format = {:element => format}
+      end
       for key, value in format
         valid &&= data.has_key?(key)
         datum = data.delete(key)
