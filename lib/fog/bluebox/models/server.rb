@@ -17,10 +17,12 @@ module Fog
       attribute :status
       attribute :flavor_id
       # attribute :image_id
+
+      attr_accessor :image_id
       attribute :template
 
       # Not reported by the API, but used at create time
-      attr_accessor :name, :password, :hash, :text, :error
+      attr_accessor :name, :password, :ssh_key
 
       def destroy
         requires :id
@@ -49,8 +51,15 @@ module Fog
       end
 
       def save
-        requires :flavor_id, :image_id, :name, :password
-        data = connection.create_block(@flavor_id, @image_id, @name, @password)
+        requires :flavor_id, :image_id, :name
+        options = if !@password && !@ssh_key
+          raise(ArgumentError, "password or ssh_key is required for this operation")
+        elsif @ssh_key
+          {'ssh_key' => @ssh_key}
+        elsif @password
+          {'password' => @password}
+        end
+        data = connection.create_block(@flavor_id, @image_id, @name, options)
         merge_attributes(data.body)
         true
       end
