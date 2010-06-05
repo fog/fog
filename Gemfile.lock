@@ -31,7 +31,7 @@ dependencies:
   excon: 
     group: 
     - :default
-    version: ">= 0.0.24"
+    version: ">= 0.0.25"
   builder: 
     group: 
     - :default
@@ -50,7 +50,7 @@ specs:
 - builder: 
     version: 2.1.2
 - excon: 
-    version: 0.0.24
+    version: 0.0.25
 - formatador: 
     version: 0.0.14
 - gestalt: 
@@ -60,7 +60,7 @@ specs:
 - mime-types: 
     version: "1.16"
 - net-ssh: 
-    version: 2.0.22
+    version: 2.0.23
 - nokogiri: 
     version: 1.4.2
 - rspec: 
@@ -69,7 +69,7 @@ specs:
     version: 0.4.0
 - shindo: 
     version: 0.1.4
-hash: 3e4f041a5b790fadb4d85f239577c92b71b9dd78
+hash: 47be4240cdce9d626cc1834c503ca8e275e76307
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org

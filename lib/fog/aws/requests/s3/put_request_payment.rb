@@ -21,7 +21,7 @@ DATA
             :headers  => {},
             :host     => "#{bucket_name}.#{@host}",
             :method   => 'PUT',
-            :query    => "requestPayment"
+            :query    => {'requestPayment' => nil}
           })
         end
 

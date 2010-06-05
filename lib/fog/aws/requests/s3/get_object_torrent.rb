@@ -37,7 +37,7 @@ module Fog
             :idempotent => true,
             :method     => 'GET',
             :path       => CGI.escape(object_name),
-            :query      => 'torrent'
+            :query      => {'torrent' => nil}
           })
         end
 

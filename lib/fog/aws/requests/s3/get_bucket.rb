@@ -38,11 +38,6 @@ module Fog
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
-          query = ''
-          for key, value in options
-            query << "#{key}=#{CGI.escape(value.to_s).gsub(/\+/, '%20')}&"
-          end
-          query.chop!
           request({
             :expects  => 200,
             :headers  => {},
@@ -50,7 +45,7 @@ module Fog
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::AWS::S3::GetBucket.new,
-            :query    => query
+            :query    => options
           })
         end
 

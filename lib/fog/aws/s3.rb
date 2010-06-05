@@ -208,9 +208,13 @@ DATA
             canonical_resource << "#{CGI.escape(subdomain).downcase}/"
           end
           canonical_resource << "#{params[:path]}"
-          if ['acl', 'location', 'logging', 'requestPayment', 'torrent', 'versions', 'versioning'].include?(params[:query])
-            canonical_resource << "?#{params[:query]}"
+          canonical_resource << '?'
+          for key in params[:query].keys
+            if ['acl', 'location', 'logging', 'requestPayment', 'torrent', 'versions', 'versioning'].include?(key)
+              canonical_resource << "#{key}&"
+            end
           end
+          canonical_resource.chop!
           string_to_sign << "#{canonical_resource}"
 
           hmac = @hmac.update(string_to_sign)

@@ -18,17 +18,11 @@ module Fog
         #       * 'count'<~Integer>: - Number of items in container
         #       * 'name'<~String>: - Name of container
         def get_containers(options = {})
-          options = { 'format' => 'json' }.merge!(options)
-          query = ''
-          for key, value in options
-            query << "#{key}=#{CGI.escape(value)}&"
-          end
-          query.chop!
           response = storage_request(
             :expects  => [200, 204],
             :method   => 'GET',
             :path     => '',
-            :query    => query
+            :query    => {'format' => 'json'}.merge!(options)
           )
           response
         end

@@ -25,7 +25,7 @@ module Fog
             :idempotent => true,
             :method     => 'GET',
             :parser     => Fog::Parsers::AWS::S3::GetBucketVersioning.new,
-            :query      => 'versioning'
+            :query      => {'versioning' => nil}
           })
         end
 

@@ -22,7 +22,7 @@ DATA
             :headers  => {},
             :host     => "#{bucket_name}.#{@host}",
             :method   => 'PUT',
-            :query    => 'versioning'
+            :query    => {'versioning' => nil}
           })
         end
 

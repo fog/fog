@@ -20,7 +20,7 @@ module Fog
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::AWS::S3::GetRequestPayment.new,
-            :query    => 'requestPayment'
+            :query    => {'requestPayment' => nil}
           })
         end
 

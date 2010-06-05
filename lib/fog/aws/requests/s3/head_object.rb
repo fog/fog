@@ -32,7 +32,7 @@ module Fog
             raise ArgumentError.new('object_name is required')
           end
           if version_id = options.delete('versionId')
-            query = CGI.escape(version_id)
+            query = {'versionId' => version_id}
           end
           headers = {}
           headers['If-Modified-Since'] = options['If-Modified-Since'].utc.strftime("%a, %d %b %Y %H:%M:%S +0000") if options['If-Modified-Since']
