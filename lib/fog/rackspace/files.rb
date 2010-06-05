@@ -94,18 +94,14 @@ module Fog
 
         def cdn_request(params)
           @cdn_connection = Fog::Connection.new("#{@cdn_scheme}://#{@cdn_host}:#{@cdn_port}")
-          response = @cdn_connection.request({
-            :body     => params[:body],
-            :expects  => params[:expects],
+          response = @cdn_connection.request(params.merge!({
             :headers  => {
               'Content-Type' => 'application/json',
               'X-Auth-Token' => @auth_token
             }.merge!(params[:headers] || {}),
             :host     => @cdn_host,
-            :method   => params[:method],
             :path     => "#{@cdn_path}/#{params[:path]}",
-            :query    => params[:query]
-          })
+          }))
           unless response.body.empty?
             response.body = JSON.parse(response.body)
           end
@@ -114,18 +110,14 @@ module Fog
 
         def storage_request(params, parse_json = true, &block)
           @storage_connection = Fog::Connection.new("#{@storage_scheme}://#{@storage_host}:#{@storage_port}")
-          response = @storage_connection.request({
-            :body     => params[:body],
-            :expects  => params[:expects],
+          response = @storage_connection.request(params.merge!({
             :headers  => {
               'Content-Type' => 'application/json',
               'X-Auth-Token' => @auth_token
             }.merge!(params[:headers] || {}),
             :host     => @storage_host,
-            :method   => params[:method],
             :path     => "#{@storage_path}/#{params[:path]}",
-            :query    => params[:query]
-          }, &block)
+          }), &block)
           if !response.body.empty? && parse_json
             response.body = JSON.parse(response.body)
           end

@@ -90,17 +90,14 @@ module Fog
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
 
           begin
-            response = @connection.request({
-              :body     => params[:body],
-              :expects  => params[:expects],
+            response = @connection.request(params.merge!({
               :headers  => {
                 'Content-Type' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
               :host     => @host,
-              :method   => params[:method],
               :path     => "#{@path}/#{params[:path]}"
-            })
+            }))
           rescue Excon::Errors::Error => error
             case error
             when Excon::Errors::NotFound

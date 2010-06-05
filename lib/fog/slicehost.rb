@@ -84,7 +84,7 @@ module Fog
         end
 
         begin
-          response = @connection.request({:host => @host}.merge!(params))
+          response = @connection.request(params.merge!({:host => @host}))
         rescue Excon::Errors::Error => error
           case error
           when Excon::Errors::NotFound
