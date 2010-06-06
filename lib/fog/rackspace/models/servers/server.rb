@@ -9,7 +9,6 @@ module Fog
         identity :id
 
         attribute :addresses
-        attribute :password,    'adminPass'
         attribute :flavor_id,   'flavorId'
         attribute :host_id,     'hostId'
         attribute :image_id,    'imageId'
@@ -18,6 +17,8 @@ module Fog
         attribute :personality
         attribute :progress
         attribute :status
+
+        attr_accessor :password, :private_key_path, :public_key_path
 
         def destroy
           requires :id
@@ -50,6 +51,14 @@ module Fog
           true
         end
 
+        def private_key_path
+          @private_key_path || Fog.credentials[:private_key_path]
+        end
+
+        def public_key_path
+          @public_key_path || Fog.credentials[:public_key_path]
+        end
+
         def save
           requires :flavor_id, :image_id
           options = {
@@ -63,8 +72,35 @@ module Fog
           true
         end
 
+        def ssh(commands)
+          requires :addresses, :identity, :private_key_path
+          @ssh ||= Fog::SSH.new(@addresses['public'].first, 'root', :keys => [private_key_path])
+          @ssh.run(commands)
+        end
+
+        def setup
+          requires :addresses, :identity, :password, :public_key_path
+          Fog::SSH.new(@addresses['public'].first, 'root', :password => password).run([
+            %{mkdir .ssh},
+            %{echo "#{File.read(File.expand_path(public_key_path))}" >> ~/.ssh/authorized_keys},
+            %{passwd -l root},
+            %{echo "#{attributes.to_json}" >> ~/attributes.json},
+            %{echo "#{metadata.to_json}" >> ~/metadata.json}
+          ])
+        rescue Errno::ECONNREFUSED
+          sleep(1)
+          retry
+        end
+
+        private
+
+        def adminPass=(new_admin_pass)
+          @password = new_admin_pass
+        end
+
       end
 
     end
   end
+
 end

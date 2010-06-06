@@ -20,6 +20,13 @@ module Fog
           load(data)
         end
 
+        def bootstrap(new_attributes = {})
+          server = create(new_attributes)
+          server.wait_for { ready? }
+          server.setup
+          server
+        end
+
         def get(server_id)
           if server = connection.get_server_details(server_id).body['server']
             new(server)

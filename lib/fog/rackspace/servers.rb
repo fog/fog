@@ -77,7 +77,6 @@ module Fog
 
         def request(params)
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
-
           begin
             response = @connection.request(params.merge!({
               :headers  => {
