@@ -16,6 +16,8 @@ module Fog
 
         class Vdcs < Fog::Vcloud::Vdcs
 
+          undef_method :create
+
           model Fog::Vcloud::Terremark::Ecloud::Vdc
 
           #get_request :get_vdc

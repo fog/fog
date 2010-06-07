@@ -17,7 +17,7 @@ module Fog
 
         class PublicIps < Fog::Vcloud::Collection
 
-          attr_accessor :href
+          undef_method :create
 
           model Fog::Vcloud::Terremark::Ecloud::PublicIp
 

@@ -41,6 +41,7 @@ module Fog
             require 'fog/vcloud/terremark/ecloud/parsers/get_vdc'
             require 'fog/vcloud/terremark/ecloud/parsers/internet_service'
             require 'fog/vcloud/terremark/ecloud/requests/add_internet_service'
+            require 'fog/vcloud/terremark/ecloud/requests/configure_internet_service'
             require 'fog/vcloud/terremark/ecloud/requests/delete_internet_service'
             require 'fog/vcloud/terremark/ecloud/requests/get_internet_services'
             require 'fog/vcloud/terremark/ecloud/requests/get_public_ip'

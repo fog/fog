@@ -27,9 +27,13 @@ module Fog
         end
       end
 
+      attr_accessor :loaded
+      alias_method :loaded?, :loaded
+
       def reload
         if data = collection.get_raw(identity)
           merge_get_raw_result(data)
+          @loaded = true
           self
         end
       end

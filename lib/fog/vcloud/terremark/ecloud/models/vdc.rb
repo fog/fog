@@ -14,6 +14,9 @@ module Fog
           attribute :instantiated_vm_quota
 
           def public_ips
+            unless @loaded
+              reload
+            end
             @public_ips ||= Fog::Vcloud::Terremark::Ecloud::PublicIps.new( :connection => connection,
                                                                            :href => other_links.detect { |link| link.type == "application/vnd.tmrk.ecloud.publicIpsList+xml" }.href )
           end

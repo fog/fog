@@ -17,15 +17,18 @@ module Fog
             }
           end
 
-          def self.validate_internet_service_request_data(service_data)
+          def self.validate_internet_service_data(service_data, configure=false)
             valid_opts = [:name, :protocol, :port, :description, :enabled, :description]
+            if configure
+              valid_opts + [ :id, :href, :timeout ]
+            end
             unless valid_opts.all? { |opt| service_data.keys.include?(opt) }
               raise ArgumentError.new("Required Internet Service data missing: #{(valid_opts - service_data.keys).map(&:inspect).join(", ")}")
             end
           end
 
-          def add_internet_service(internet_service_uri, service_data)
-            Fog::Vcloud::Terremark::Ecloud::Real.validate_internet_service_request_data(service_data)
+          def add_internet_service(internet_services_uri, service_data)
+            Fog::Vcloud::Terremark::Ecloud::Real.validate_internet_service_data(service_data)
 
             request(
               :body     => Fog::Vcloud::Terremark::Ecloud::Real.generate_internet_service_request(service_data),
@@ -33,7 +36,7 @@ module Fog
               :headers  => {'Content-Type' => 'application/vnd.tmrk.ecloud.internetService+xml'},
               :method   => 'POST',
               :parser   => Fog::Parsers::Vcloud::Terremark::Ecloud::InternetService.new,
-              :uri      => internet_service_uri
+              :uri      => internet_services_uri
             )
           end
 
@@ -45,10 +48,10 @@ module Fog
           # http://support.theenterprisecloud.com/kb/default.asp?id=561&Lang=1&SID=
           #
 
-          def add_internet_service(internet_service_uri, service_data)
-            Fog::Vcloud::Terremark::Ecloud::Real.validate_internet_service_request_data(service_data)
+          def add_internet_service(internet_services_uri, service_data)
+            Fog::Vcloud::Terremark::Ecloud::Real.validate_internet_service_data(service_data)
 
-            if ip = Fog::Vcloud::Mock.ip_from_uri(internet_service_uri.to_s)
+            if ip = Fog::Vcloud::Mock.ip_from_uri(internet_services_uri.to_s)
               new_service = service_data.merge!( { :id => rand(1000), :timeout => 2 } )
               ip[:services] << new_service
               builder = Builder::XmlMarkup.new

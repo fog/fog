@@ -13,11 +13,13 @@ module Fog
           attribute :id
 
           def internet_services
+            unless @loaded
+              reload
+            end
             @internet_services ||= Fog::Vcloud::Terremark::Ecloud::InternetServices.
               new( :connection => connection,
                    :href => href.to_s + "/internetServices" )
           end
-
         end
       end
     end

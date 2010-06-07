@@ -53,13 +53,32 @@ module Fog
         end
       end
 
-      def [](index)
-        self.slice(index).reload
+      attr_accessor :href
+
+      def create(attributes = {})
+        attributes.merge!(:new => true)
+        obj = super(attributes)
+        self << obj
+        obj
       end
 
-      def reload
-        self.all
+      def each
+        super do |item|
+          item.reload
+          yield(item)
+        end
       end
+
+      def [](index)
+        if obj = super
+          obj.reload unless obj.loaded?
+        end
+        obj
+      end
+
+      #def reload
+      #  self.all
+      #end
 
     end
   end

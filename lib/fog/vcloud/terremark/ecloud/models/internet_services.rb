@@ -17,12 +17,10 @@ module Fog
 
         class InternetServices < Fog::Vcloud::Collection
 
-          attr_accessor :href
-
           model Fog::Vcloud::Terremark::Ecloud::InternetService
 
           vcloud_type "application/vnd.tmrk.ecloud.internetService+xml"
-          all_request lambda { |internet_services| internet_services.raw_results }
+          all_request lambda { |internet_services| internet_services.send(:raw_results) }
 
           def get(uri)
             if internet_service = get_raw(uri)
@@ -32,17 +30,14 @@ module Fog
           end
 
           def get_raw(uri)
-            raw_results.body.links.detect { |link| link.href == uri }
+            raw_results.body.links.detect { |link| link.href.to_s == uri.to_s }
           end
+
+          private
 
           def raw_results
-            @raw_results ||= connection.get_internet_services(self.href)
+            connection.get_internet_services(self.href)
           end
-
-          #def reload
-          #  super
-          #  @raw_results = nil
-          #end
 
         end
       end
