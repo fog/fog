@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.1.5'
-  s.date              = '2010-05-27'
+  s.version           = '0.1.6'
+  s.date              = '2010-06-06'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -68,6 +68,7 @@ Gem::Specification.new do |s|
     benchs/params.rb
     benchs/parse_vs_push.rb
     bin/fog
+    examples/bluebox_create.rb
     fog.gemspec
     lib/fog.rb
     lib/fog/aws.rb
@@ -196,6 +197,7 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/s3/put_bucket_logging.rb
     lib/fog/aws/requests/s3/put_bucket_versioning.rb
     lib/fog/aws/requests/s3/put_object.rb
+    lib/fog/aws/requests/s3/put_object_url.rb
     lib/fog/aws/requests/s3/put_request_payment.rb
     lib/fog/aws/requests/simpledb/batch_put_attributes.rb
     lib/fog/aws/requests/simpledb/create_domain.rb
@@ -217,19 +219,15 @@ Gem::Specification.new do |s|
     lib/fog/bluebox/models/images.rb
     lib/fog/bluebox/models/server.rb
     lib/fog/bluebox/models/servers.rb
-    lib/fog/bluebox/parsers/create_block.rb
-    lib/fog/bluebox/parsers/get_block.rb
-    lib/fog/bluebox/parsers/get_blocks.rb
-    lib/fog/bluebox/parsers/get_flavor.rb
-    lib/fog/bluebox/parsers/get_flavors.rb
-    lib/fog/bluebox/parsers/get_images.rb
     lib/fog/bluebox/requests/create_block.rb
     lib/fog/bluebox/requests/destroy_block.rb
     lib/fog/bluebox/requests/get_block.rb
     lib/fog/bluebox/requests/get_blocks.rb
-    lib/fog/bluebox/requests/get_flavor.rb
-    lib/fog/bluebox/requests/get_flavors.rb
-    lib/fog/bluebox/requests/get_images.rb
+    lib/fog/bluebox/requests/get_product.rb
+    lib/fog/bluebox/requests/get_products.rb
+    lib/fog/bluebox/requests/get_template.rb
+    lib/fog/bluebox/requests/get_templates.rb
+    lib/fog/bluebox/requests/reboot_block.rb
     lib/fog/collection.rb
     lib/fog/connection.rb
     lib/fog/credentials.rb
@@ -390,9 +388,22 @@ Gem::Specification.new do |s|
     lib/fog/vcloud/requests/login.rb
     lib/fog/vcloud/terremark/all.rb
     lib/fog/vcloud/terremark/ecloud.rb
+    lib/fog/vcloud/terremark/ecloud/models/internet_service.rb
+    lib/fog/vcloud/terremark/ecloud/models/internet_services.rb
+    lib/fog/vcloud/terremark/ecloud/models/public_ip.rb
+    lib/fog/vcloud/terremark/ecloud/models/public_ips.rb
     lib/fog/vcloud/terremark/ecloud/models/vdc.rb
     lib/fog/vcloud/terremark/ecloud/models/vdcs.rb
+    lib/fog/vcloud/terremark/ecloud/parsers/get_internet_services.rb
+    lib/fog/vcloud/terremark/ecloud/parsers/get_public_ip.rb
+    lib/fog/vcloud/terremark/ecloud/parsers/get_public_ips.rb
     lib/fog/vcloud/terremark/ecloud/parsers/get_vdc.rb
+    lib/fog/vcloud/terremark/ecloud/parsers/internet_service.rb
+    lib/fog/vcloud/terremark/ecloud/requests/add_internet_service.rb
+    lib/fog/vcloud/terremark/ecloud/requests/delete_internet_service.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_internet_services.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_public_ip.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_public_ips.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_vdc.rb
     lib/fog/vcloud/terremark/ecloud/requests/login.rb
     lib/fog/vcloud/terremark/vcloud.rb
@@ -470,8 +481,17 @@ Gem::Specification.new do |s|
     spec/vcloud/requests/get_versions_spec.rb
     spec/vcloud/requests/login_spec.rb
     spec/vcloud/spec_helper.rb
+    spec/vcloud/terremark/ecloud/models/internet_service_spec.rb
+    spec/vcloud/terremark/ecloud/models/internet_services_spec.rb
+    spec/vcloud/terremark/ecloud/models/public_ip_spec.rb
+    spec/vcloud/terremark/ecloud/models/public_ips_spec.rb
     spec/vcloud/terremark/ecloud/models/vdc_spec.rb
     spec/vcloud/terremark/ecloud/models/vdcs_spec.rb
+    spec/vcloud/terremark/ecloud/requests/add_internet_service_spec.rb
+    spec/vcloud/terremark/ecloud/requests/delete_internet_service_spec.rb
+    spec/vcloud/terremark/ecloud/requests/get_internet_services_spec.rb
+    spec/vcloud/terremark/ecloud/requests/get_public_ip_spec.rb
+    spec/vcloud/terremark/ecloud/requests/get_public_ips_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_vdc_spec.rb
     spec/vcloud/terremark/ecloud/requests/login_spec.rb
     spec/vcloud/terremark/vcloud/requests/get_vdc_spec.rb
@@ -485,38 +505,22 @@ Gem::Specification.new do |s|
     tests/aws/requests/ec2/security_group_tests.rb
     tests/aws/requests/ec2/snapshot_tests.rb
     tests/aws/requests/ec2/volume_tests.rb
+    tests/bluebox/helper.rb
+    tests/bluebox/requests/block_tests.rb
+    tests/bluebox/requests/product_tests.rb
+    tests/bluebox/requests/template_tests.rb
     tests/helper.rb
     tests/helper_tests.rb
     tests/rackspace/helper.rb
-    tests/rackspace/requests/servers/create_image_tests.rb
-    tests/rackspace/requests/servers/create_server_tests.rb
-    tests/rackspace/requests/servers/delete_image_tests.rb
-    tests/rackspace/requests/servers/delete_server_tests.rb
-    tests/rackspace/requests/servers/get_flavor_details_tests.rb
-    tests/rackspace/requests/servers/get_image_details_tests.rb
-    tests/rackspace/requests/servers/get_server_details_tests.rb
-    tests/rackspace/requests/servers/list_addresses_tests.rb
-    tests/rackspace/requests/servers/list_flavors_detail_tests.rb
-    tests/rackspace/requests/servers/list_flavors_tests.rb
-    tests/rackspace/requests/servers/list_images_detail_tests.rb
-    tests/rackspace/requests/servers/list_images_tests.rb
-    tests/rackspace/requests/servers/list_private_addresses_tests.rb
-    tests/rackspace/requests/servers/list_public_addresses_tests.rb
-    tests/rackspace/requests/servers/list_servers_detail_tests.rb
-    tests/rackspace/requests/servers/list_servers_tests.rb
-    tests/rackspace/requests/servers/reboot_server_tests.rb
-    tests/rackspace/requests/servers/update_server_tests.rb
+    tests/rackspace/requests/servers/address_tests.rb
+    tests/rackspace/requests/servers/flavor_tests.rb
+    tests/rackspace/requests/servers/image_tests.rb
+    tests/rackspace/requests/servers/server_tests.rb
     tests/slicehost/helper.rb
-    tests/slicehost/requests/create_slice_tests.rb
-    tests/slicehost/requests/delete_slice_tests.rb
-    tests/slicehost/requests/get_backups_tests.rb
-    tests/slicehost/requests/get_flavor_tests.rb
-    tests/slicehost/requests/get_flavors_tests.rb
-    tests/slicehost/requests/get_image_tests.rb
-    tests/slicehost/requests/get_images_tests.rb
-    tests/slicehost/requests/get_slice_tests.rb
-    tests/slicehost/requests/get_slices_tests.rb
-    tests/slicehost/requests/reboot_slice_tests.rb
+    tests/slicehost/requests/backup_tests.rb
+    tests/slicehost/requests/flavor_tests.rb
+    tests/slicehost/requests/image_tests.rb
+    tests/slicehost/requests/slice_tests.rb
   ]
   # = MANIFEST =
 
