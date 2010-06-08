@@ -1,8 +1,8 @@
 module Fog
   class Model
 
-    extend Attributes::ClassMethods
-    include Attributes::InstanceMethods
+    extend Fog::Attributes::ClassMethods
+    include Fog::Attributes::InstanceMethods
 
     attr_accessor :connection
 

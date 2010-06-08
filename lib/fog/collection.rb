@@ -1,8 +1,8 @@
 module Fog
   class Collection < Array
 
-    extend Attributes::ClassMethods
-    include Attributes::InstanceMethods
+    extend Fog::Attributes::ClassMethods
+    include Fog::Attributes::InstanceMethods
 
     Array.public_instance_methods(false).each do |method|
       class_eval <<-RUBY
