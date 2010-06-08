@@ -51,7 +51,7 @@ module Fog
       end
 
       def save
-        requires :flavor_id, :image_id, :name
+        requires :flavor_id, :image_id
         options = if !@password && !@ssh_key
           raise(ArgumentError, "password or ssh_key is required for this operation")
         elsif @ssh_key
