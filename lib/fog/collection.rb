@@ -7,7 +7,9 @@ module Fog
     Array.public_instance_methods(false).each do |method|
       class_eval <<-RUBY
         def #{method}(*args)
-          lazy_load
+          unless @loaded
+            lazy_load
+          end
           super
         end
       RUBY
@@ -16,9 +18,11 @@ module Fog
     %w[reject select].each do |method|
       class_eval <<-RUBY
         def #{method}(*args)
-          lazy_load
+          unless @loaded
+            lazy_load
+          end
           data = super
-          self.class.new(:connection => self.connection).load(data.map {|member| member.attributes})
+          result = self.clone.clear.concat(data)
         end
       RUBY
     end
@@ -33,6 +37,11 @@ module Fog
 
     attr_accessor :connection
 
+    def clear
+      @loaded = true
+      super
+    end
+
     def create(attributes = {})
       object = new(attributes)
       object.save
@@ -41,7 +50,6 @@ module Fog
 
     def initialize(attributes = {})
       merge_attributes(attributes)
-      @loaded = false
     end
 
     def inspect
@@ -69,10 +77,7 @@ module Fog
     end
 
     def load(objects)
-      if @loaded
-        clear
-      end
-      @loaded = true
+      clear
       for object in objects
         self << new(object)
       end
@@ -93,7 +98,9 @@ module Fog
     end
 
     def reload
-      self.clear.concat(all)
+      clear
+      lazy_load
+      self
     end
 
     def table(attributes = nil)
@@ -107,9 +114,7 @@ module Fog
     private
 
     def lazy_load
-      unless @loaded
-        self.all
-      end
+      self.all
     end
 
   end
