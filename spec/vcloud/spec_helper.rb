@@ -176,6 +176,7 @@ Spec::Runner.configure do |config|
     @mock_version = @mock_data[:versions][0]
     @mock_organization = @mock_data[:organizations][0]
     @mock_vdc = @mock_organization[:vdcs][0]
+    @mock_network = @mock_vdc[:networks][0]
   end
   config.after(:all) do
     Fog::Vcloud::Mock.data_reset

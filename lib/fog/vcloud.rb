@@ -178,14 +178,20 @@ module Fog
                       :subnet => "1.2.3.0/24",
                       :gateway => "1.2.3.1",
                       :netmask => "255.255.255.0",
-                      :fencemode => "isolated"
+                      :dns => "8.8.8.8",
+                      :features => [
+                        { :type => :fencemode, :value => "isolated" }
+                      ]
                     },
                     { :href => "#{base_url}/network/32",
                       :name => "4.5.6.0/24",
                       :subnet => "4.5.6.0/24",
                       :gateway => "4.5.6.1",
                       :netmask => "255.255.255.0",
-                      :fencemode => "isolated"
+                      :dns => "8.8.8.8",
+                      :features => [
+                        { :type => :fencemode, :value => "isolated" }
+                      ]
                     },
                   ],
                   :vms => [
@@ -231,8 +237,11 @@ module Fog
                       :name => "7.8.9.0/24",
                       :subnet => "7.8.9.0/24",
                       :gateway => "7.8.9.1",
+                      :dns => "8.8.8.8",
                       :netmask => "255.255.255.0",
-                      :fencemode => "isolated"
+                      :features => [
+                        { :type => :fencemode, :value => "isolated" }
+                      ]
                     }
                   ],
                   :vms => [
@@ -313,6 +322,7 @@ module Fog
           require 'fog/vcloud/models/vdcs'
           require 'fog/vcloud/terremark/vcloud'
           require 'fog/vcloud/terremark/ecloud'
+          require 'fog/vcloud/requests/get_network'
           require 'fog/vcloud/requests/get_organization'
           require 'fog/vcloud/requests/get_vdc'
           require 'fog/vcloud/requests/get_versions'
@@ -321,6 +331,7 @@ module Fog
           require 'fog/vcloud/parsers/get_vdc'
           require 'fog/vcloud/parsers/get_versions'
           require 'fog/vcloud/parsers/login'
+          require 'fog/vcloud/parsers/network'
 
           require 'builder'
 
@@ -331,6 +342,9 @@ module Fog
           Struct.new("VcloudVersion", :version, :login_url, :supported)
           Struct.new("VcloudOrgList", :organizations, :xmlns)
           Struct.new("VcloudXCapacity", :units, :allocated, :used, :limit)
+          Struct.new("VcloudNetwork", :features, :configuration, :href, :type, :name, :xmlns, :description)
+          Struct.new("VcloudNetworkConfiguration", :gateway, :netmask, :dns)
+          Struct.new("VcloudNetworkFenceMode", :mode)
           @required = true
         end
 
