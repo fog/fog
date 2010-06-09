@@ -44,20 +44,28 @@ module Fog
             require 'fog/vcloud/terremark/ecloud/parsers/get_public_ips'
             require 'fog/vcloud/terremark/ecloud/parsers/get_vdc'
             require 'fog/vcloud/terremark/ecloud/parsers/internet_service'
+            require 'fog/vcloud/terremark/ecloud/parsers/network'
+            require 'fog/vcloud/terremark/ecloud/parsers/network_ips'
             require 'fog/vcloud/terremark/ecloud/requests/add_internet_service'
             require 'fog/vcloud/terremark/ecloud/requests/configure_internet_service'
             require 'fog/vcloud/terremark/ecloud/requests/delete_internet_service'
             require 'fog/vcloud/terremark/ecloud/requests/get_internet_services'
+            require 'fog/vcloud/terremark/ecloud/requests/get_network'
+            require 'fog/vcloud/terremark/ecloud/requests/get_network_ips'
             require 'fog/vcloud/terremark/ecloud/requests/get_public_ip'
             require 'fog/vcloud/terremark/ecloud/requests/get_public_ips'
             require 'fog/vcloud/terremark/ecloud/requests/login'
             require 'fog/vcloud/terremark/ecloud/requests/get_vdc'
-            Struct.new("TmrkEcloudVdc", :links, :resource_entities, :networks,
-                       :cpu_capacity, :storage_capacity, :memory_capacity, :deployed_vm_quota, :instantiated_vm_quota,
-                       :href, :type, :name, :xmlns, :description)
+            Struct.new("TmrkEcloudVdc", :links, :resource_entities, :networks, :cpu_capacity, :storage_capacity, 
+                                        :memory_capacity, :deployed_vm_quota, :instantiated_vm_quota, :href, :type,
+                                        :name, :xmlns, :description)
             Struct.new("TmrkEcloudList", :links)
             Struct.new("TmrkEcloudPublicIp", :type, :href, :name, :id)
-            Struct.new("TmrkEcloudInternetService", :type, :href, :id, :name, :public_ip, :port, :protocol, :enabled, :timeout, :description, :url_send_string, :http_header)
+            Struct.new("TmrkEcloudInternetService", :type, :href, :id, :name, :public_ip, :port, :protocol, 
+                                                    :enabled, :timeout, :description, :url_send_string, :http_header)
+            Struct.new("TmrkEcloudNetwork", :features, :configuration, :ips_link, :name, :type, :href, :xmlns)
+            Struct.new("TmrkEcloudNetworkIps", :addresses)
+            Struct.new("TmrkEcloudNetworkIp", :name, :status, :server)
             @required = true
           end
           if Fog.mocking?

@@ -181,7 +181,8 @@ module Fog
                       :dns => "8.8.8.8",
                       :features => [
                         { :type => :fencemode, :value => "isolated" }
-                      ]
+                      ],
+                      :ips => { "1.2.3.3" => "Broom 1", "1.2.3.4" => "Broom 2", "1.2.3.10" => "Email" }
                     },
                     { :href => "#{base_url}/network/32",
                       :name => "4.5.6.0/24",
@@ -191,7 +192,8 @@ module Fog
                       :dns => "8.8.8.8",
                       :features => [
                         { :type => :fencemode, :value => "isolated" }
-                      ]
+                      ],
+                      :ips => { }
                     },
                   ],
                   :vms => [
@@ -241,7 +243,8 @@ module Fog
                       :netmask => "255.255.255.0",
                       :features => [
                         { :type => :fencemode, :value => "isolated" }
-                      ]
+                      ],
+                      :ips => { "7.8.9.10" => "Master Blaster" }
                     }
                   ],
                   :vms => [
