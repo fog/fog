@@ -27,6 +27,12 @@ module Fog
                    :href => href.to_s.gsub('vdc','extensions/vdc') + "/internetServices" )
           end
 
+          def networks
+            @networks ||= Fog::Vcloud::Terremark::Ecloud::Networks.
+              new( :connection => connection,
+                   :href => href )
+          end
+
         end
       end
     end

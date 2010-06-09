@@ -8,8 +8,6 @@ describe "Fog::Vcloud::Terremark::Ecloud::PublicIp", :type => :tmrk_ecloud_model
 
   subject { @vcloud }
 
-  it { should respond_to :get_public_ip }
-
   describe :class do
     subject { Fog::Vcloud::Terremark::Ecloud::PublicIp }
 

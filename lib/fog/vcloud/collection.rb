@@ -18,7 +18,8 @@ module Fog
             @all_request = all_request
             class_eval <<-EOS, __FILE__, __LINE__
               def all
-                data = self.class.all_request.call(self).body.links.select do |link|
+                raw_all = self.class.all_request.call(self)
+                data = (raw_all.is_a?(Array) ? raw_all : raw_all.body.links).select do |link|
                   link.type == self.class.vcloud_type
                 end.map { |link| {:href => link.href, :name => link.name } }
                 load(data)

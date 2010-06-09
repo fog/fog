@@ -33,10 +33,15 @@ module Fog
             raw_results.body.links.detect { |link| link.href.to_s == uri.to_s }
           end
 
+          def reload
+            super
+            @raw_results = nil
+          end
+
           private
 
           def raw_results
-            connection.get_internet_services(self.href)
+            @raw_results ||= connection.get_internet_services(self.href)
           end
 
         end
