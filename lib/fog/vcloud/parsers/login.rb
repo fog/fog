@@ -14,8 +14,8 @@ module Fog
           @response = Struct::VcloudOrgList.new([])
         end
 
-        def start_element(name, attributes)
-          @value = ''
+        def start_element(name, attributes=[])
+          super
           case name
           when 'OrgList'
             until attributes.empty?

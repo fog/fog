@@ -12,8 +12,8 @@ module Fog
           @response = Struct::VcloudVdc.new([],[],[],Struct::VcloudXCapacity.new,Struct::VcloudXCapacity.new,Struct::VcloudXCapacity.new)
         end
 
-        def start_element(name, attributes)
-          @value = ''
+        def start_element(name, attributes=[])
+          super
           case name
           when 'Cpu'
             @target = :cpu_capacity

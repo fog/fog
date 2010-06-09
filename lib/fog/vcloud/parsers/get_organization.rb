@@ -14,8 +14,8 @@ module Fog
           @response = Struct::VcloudOrganization.new([])
         end
 
-        def start_element(name, attributes)
-          @value = ''
+        def start_element(name, attributes=[])
+          super
           case name
           when 'Link'
             @response.links << generate_link(attributes)
