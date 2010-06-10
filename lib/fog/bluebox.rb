@@ -82,11 +82,14 @@ module Fog
         begin
           response = @connection.request(params.merge!({:host => @host}))
         rescue Excon::Errors::Error => error
-          case error
+          raise case error
           when Excon::Errors::NotFound
-            raise Fog::Bluebox::NotFound
+            new_error = Fog::Bluebox::NotFound
+            new_error.set_backtrace(error.backtrace)
+            new_error.verbose = error.message
+            new_error
           else
-            raise error
+            error
           end
         end
         unless response.body.empty?

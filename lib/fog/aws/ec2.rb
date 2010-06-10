@@ -234,6 +234,7 @@ module Fog
                 Fog::AWS::EC2::Error.new("#{match[1]} => #{match[2]}")
               end
               new_error.set_backtrace(error.backtrace)
+              new_error.verbose = error.message
               raise new_error
             else
               raise error

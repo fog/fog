@@ -29,7 +29,9 @@ require 'fog/ssh'
 module Fog
   module Errors
 
-    class Error < StandardError; end
+    class Error < StandardError
+      attr_accessor :verbose
+    end
 
     class MockNotImplemented < Fog::Errors::Error; end
 

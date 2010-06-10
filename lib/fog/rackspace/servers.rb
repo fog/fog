@@ -99,11 +99,14 @@ module Fog
               :path     => "#{@path}/#{params[:path]}"
             }))
           rescue Excon::Errors::Error => error
-            case error
+            raise case error
             when Excon::Errors::NotFound
-              raise Fog::Rackspace::Servers::NotFound
+              new_error = Fog::Rackspace::Servers::NotFound
+              new_error.set_backtrace(error.backtrace)
+              new_error.verbose = error.message
+              new_error
             else
-              raise error
+              error
             end
           end
           unless response.body.empty?
