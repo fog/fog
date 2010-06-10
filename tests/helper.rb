@@ -51,6 +51,8 @@ module Shindo
               type = value.first
               if type.is_a?(Hash)
                 valid &&= formats_kernel({:element => element}, {:element => type}, false)
+              elsif type.nil?
+                p "#{key} => #{value}"
               else
                 valid &&= element.is_a?(type)
               end
