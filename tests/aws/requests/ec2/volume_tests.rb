@@ -45,6 +45,8 @@ Shindo.tests('AWS::EC2 | volume requests', ['aws']) do
       data
     end
 
+    AWS[:ec2].volumes.get(@volume_id).wait_for { ready? }
+
     tests('#describe_volumes').formats(@volumes_format) do
       AWS[:ec2].describe_volumes.body
     end
@@ -52,8 +54,6 @@ Shindo.tests('AWS::EC2 | volume requests', ['aws']) do
     tests("#describe_volumes(#{@volume_id})").formats(@volumes_format) do
       AWS[:ec2].describe_volumes.body
     end
-
-    AWS[:ec2].volumes.get(@volume_id).wait_for { ready? }
 
     tests("#attach_volume(#{@server.identity}, #{@volume_id}, '/dev/sdh')").formats(@volume_attachment_format) do
       AWS[:ec2].attach_volume(@server.identity, @volume_id, '/dev/sdh').body
