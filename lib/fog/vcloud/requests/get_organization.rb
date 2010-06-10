@@ -3,13 +3,12 @@ module Fog
 
     class Real
       def get_organization(organization_uri)
-        response = request(
+        request(
           :expects  => 200,
           :method   => 'GET',
           :parser   => Fog::Parsers::Vcloud::GetOrganization.new,
           :uri      => organization_uri
         )
-        response
       end
 
     end
