@@ -30,18 +30,13 @@ module Fog
           end
 
           def save
-            if new?
+            if new_record?
               result = connection.add_internet_service( collection.href, _compose_service_data )
               self.href = result.body.href
               self.reload
-              @new = false
             else
               connection.configure_internet_service( self.href, _compose_service_data, _compose_ip_data )
             end
-          end
-
-          def new?
-            @new ||= false
           end
 
           private
