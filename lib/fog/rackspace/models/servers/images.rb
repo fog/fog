@@ -5,15 +5,7 @@ module Fog
   module Rackspace
     module Servers
 
-      class Real
-        def images(attributes = {})
-          Fog::Rackspace::Servers::Images.new({
-            :connection => self
-          }.merge!(attributes))
-        end
-      end
-
-      class Mock
+      module Collections
         def images(attributes = {})
           Fog::Rackspace::Servers::Images.new({
             :connection => self

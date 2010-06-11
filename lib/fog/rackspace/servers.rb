@@ -5,6 +5,8 @@ module Fog
       class Error < Fog::Errors::Error; end
       class NotFound < Fog::Errors::NotFound; end
 
+      module Collections; end
+
       def self.new(options={})
 
         unless @required
@@ -47,6 +49,7 @@ module Fog
       end
 
       class Mock
+        include Collections
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -75,6 +78,7 @@ module Fog
       end
 
       class Real
+        include Collections
 
         def initialize(options={})
           credentials = Fog::Rackspace.authenticate(options)

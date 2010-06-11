@@ -5,13 +5,7 @@ module Fog
   module Rackspace
     module Servers
 
-      class Real
-        def flavors
-          Fog::Rackspace::Servers::Flavors.new(:connection => self)
-        end
-      end
-
-      class Mock
+      module Collections
         def flavors
           Fog::Rackspace::Servers::Flavors.new(:connection => self)
         end
