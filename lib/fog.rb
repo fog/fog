@@ -22,23 +22,10 @@ require 'fog/attributes'
 require 'fog/collection'
 require 'fog/connection'
 require 'fog/deprecation'
+require 'fog/errors'
 require 'fog/model'
 require 'fog/parser'
 require 'fog/ssh'
-
-module Fog
-  module Errors
-
-    class Error < StandardError
-      attr_accessor :verbose
-    end
-
-    class MockNotImplemented < Fog::Errors::Error; end
-
-    class NotFound < Fog::Errors::Error; end
-
-  end
-end
 
 require 'fog/aws'
 require 'fog/bluebox'
