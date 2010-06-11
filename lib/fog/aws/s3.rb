@@ -116,6 +116,8 @@ module Fog
 
       class Real
         include Utils
+        extend Fog::Deprecation
+        deprecate(:reset, :reload)
 
         # Initialize connection to S3
         #
@@ -155,7 +157,7 @@ module Fog
           reset
         end
 
-        def reset
+        def reload
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
         end
 
