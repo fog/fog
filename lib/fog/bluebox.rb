@@ -84,10 +84,7 @@ module Fog
         rescue Excon::Errors::Error => error
           raise case error
           when Excon::Errors::NotFound
-            new_error = Fog::Bluebox::NotFound
-            new_error.set_backtrace(error.backtrace)
-            new_error.verbose = error.message
-            new_error
+            Fog::Bluebox::NotFound.slurp(error)
           else
             error
           end
