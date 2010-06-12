@@ -25,6 +25,7 @@ require 'fog/deprecation'
 require 'fog/errors'
 require 'fog/model'
 require 'fog/parser'
+require 'fog/service'
 require 'fog/ssh'
 
 require 'fog/aws'

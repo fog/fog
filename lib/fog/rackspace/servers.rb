@@ -1,52 +1,35 @@
 module Fog
   module Rackspace
     module Servers
+      extend Fog::Service
 
-      class Error < Fog::Errors::Error; end
-      class NotFound < Fog::Errors::NotFound; end
+      model_path 'fog/rackspace/models/servers'
+      model 'flavor'
+      model 'flavors'
+      model 'image'
+      model 'images'
+      model 'server'
+      model 'servers'
 
-      module Collections; end
-
-      def self.new(options={})
-
-        unless @required
-          require 'fog/rackspace/models/servers/flavor'
-          require 'fog/rackspace/models/servers/flavors'
-          require 'fog/rackspace/models/servers/image'
-          require 'fog/rackspace/models/servers/images'
-          require 'fog/rackspace/models/servers/server'
-          require 'fog/rackspace/models/servers/servers'
-          require 'fog/rackspace/requests/servers/create_image'
-          require 'fog/rackspace/requests/servers/create_server'
-          require 'fog/rackspace/requests/servers/delete_image'
-          require 'fog/rackspace/requests/servers/delete_server'
-          require 'fog/rackspace/requests/servers/get_flavor_details'
-          require 'fog/rackspace/requests/servers/get_image_details'
-          require 'fog/rackspace/requests/servers/get_server_details'
-          require 'fog/rackspace/requests/servers/list_addresses'
-          require 'fog/rackspace/requests/servers/list_private_addresses'
-          require 'fog/rackspace/requests/servers/list_public_addresses'
-          require 'fog/rackspace/requests/servers/list_flavors'
-          require 'fog/rackspace/requests/servers/list_flavors_detail'
-          require 'fog/rackspace/requests/servers/list_images'
-          require 'fog/rackspace/requests/servers/list_images_detail'
-          require 'fog/rackspace/requests/servers/list_servers'
-          require 'fog/rackspace/requests/servers/list_servers_detail'
-          require 'fog/rackspace/requests/servers/reboot_server'
-          require 'fog/rackspace/requests/servers/update_server'
-          @required = true
-        end
-
-        if Fog.mocking?
-          Fog::Rackspace::Servers::Mock.new(options)
-        else
-          Fog::Rackspace::Servers::Real.new(options)
-        end
-      end
-
-      def self.reset_data(keys=Mock.data.keys)
-        Mock.reset_data(keys)
-      end
+      request_path 'fog/rackspace/requests/servers'
+      request 'create_image'
+      request 'create_server'
+      request 'delete_image'
+      request 'delete_server'
+      request 'get_flavor_details'
+      request 'get_image_details'
+      request 'get_server_details'
+      request 'list_addresses'
+      request 'list_private_addresses'
+      request 'list_public_addresses'
+      request 'list_flavors'
+      request 'list_flavors_detail'
+      request 'list_images'
+      request 'list_images_detail'
+      request 'list_servers'
+      request 'list_servers_detail'
+      request 'reboot_server'
+      request 'update_server'
 
       class Mock
         include Collections

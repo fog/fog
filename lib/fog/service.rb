@@ -1,0 +1,77 @@
+module Fog
+  module Service
+
+    def self.extended(other)
+      super
+      other.module_eval <<-EOS, __FILE__, __LINE__
+        class Error < Fog::Errors::Error; end
+        class NotFound < Fog::Errors::NotFound; end
+
+        module Collections; end
+
+        def self.new(options={})
+          unless @required
+            for model in models
+              require [@model_path, model].join('/')
+            end
+            for parser in parsers
+              require [@parser_path, parser].join('/')
+            end
+            for request in requests
+              require [@request_path, request].join('/')
+            end
+            @required = true
+          end
+
+          if Fog.mocking?
+            Mock.new(options)
+          else
+            Real.new(options)
+          end
+        end
+      EOS
+    end
+
+    def model_path(new_path)
+      @model_path = new_path
+    end
+
+    def model(new_model)
+      models << new_model
+    end
+
+    def models
+      @models ||= []
+    end
+
+    def parser_path(new_path)
+      @parser_path = new_path
+    end
+
+    def parser(new_parser)
+      parsers << new_parser
+    end
+
+    def parsers
+      @parsers ||= []
+    end
+
+    def request_path(new_path)
+      @request_path = new_path
+    end
+
+    def request(new_request)
+      requests << new_request
+    end
+
+    def requests
+      @requests ||= []
+    end
+
+    def reset_data(keys=Mock.data.keys)
+      Mock.reset_data(keys)
+    end
+
+  end
+end
+
