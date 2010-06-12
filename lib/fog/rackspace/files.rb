@@ -3,6 +3,8 @@ module Fog
     module Files
       extend Fog::Service
 
+      requires :rackspace_api_key, :rackspace_username
+
       model_path 'fog/rackspace/models/files'
       model 'directory'
       model 'directories'

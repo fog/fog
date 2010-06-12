@@ -10,6 +10,18 @@ module Fog
         module Collections; end
 
         def self.new(options={})
+          missing = []
+          for requirement in requirements
+            missing << requirement unless options[requirement]
+          end
+          unless missing.empty?
+            if missing.length == 1
+              raise(ArgumentError, [missing.first, "is required for this service"].join(' '))
+            else
+              raise(ArgumentError, [missing[0...-1].join(", "), 'and', missing[-1], 'are required for this service'].join(' '))
+            end
+          end
+
           unless @required
             for model in models
               require [@model_path, model].join('/')
@@ -66,6 +78,14 @@ module Fog
 
     def requests
       @requests ||= []
+    end
+
+    def requires(*args)
+      requirements.concat(args)
+    end
+
+    def requirements
+      @requirements ||= []
     end
 
     def reset_data(keys=Mock.data.keys)
