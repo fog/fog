@@ -5,13 +5,7 @@ module Fog
   module Rackspace
     module Files
 
-      class Real
-        def directories
-          Fog::Rackspace::Files::Directories.new(:connection => self)
-        end
-      end
-
-      class Mock
+      module Collections
         def directories
           Fog::Rackspace::Files::Directories.new(:connection => self)
         end

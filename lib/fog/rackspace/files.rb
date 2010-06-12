@@ -1,33 +1,25 @@
 module Fog
   module Rackspace
     module Files
+      extend Fog::Service
 
-      def self.new(options={})
+      model_path 'fog/rackspace/models/files'
+      model 'directory'
+      model 'directories'
+      model 'file'
+      model 'files'
 
-        unless @required
-          require 'fog/rackspace/models/files/directory'
-          require 'fog/rackspace/models/files/directories'
-          require 'fog/rackspace/models/files/file'
-          require 'fog/rackspace/models/files/files'
-          require 'fog/rackspace/requests/files/delete_container'
-          require 'fog/rackspace/requests/files/delete_object'
-          require 'fog/rackspace/requests/files/get_container'
-          require 'fog/rackspace/requests/files/get_containers'
-          require 'fog/rackspace/requests/files/get_object'
-          require 'fog/rackspace/requests/files/head_container'
-          require 'fog/rackspace/requests/files/head_containers'
-          require 'fog/rackspace/requests/files/head_object'
-          require 'fog/rackspace/requests/files/put_container'
-          require 'fog/rackspace/requests/files/put_object'
-          @required = true
-        end
-
-        if Fog.mocking?
-          Fog::Rackspace::Files::Mock.new(options)
-        else
-          Fog::Rackspace::Files::Real.new(options)
-        end
-      end
+      request_path 'fog/rackspace/requests/files'
+      request 'delete_container'
+      request 'delete_object'
+      request 'get_container'
+      request 'get_containers'
+      request 'get_object'
+      request 'head_container'
+      request 'head_containers'
+      request 'head_object'
+      request 'put_container'
+      request 'put_object'
 
       def self.parse_data(data)
         metadata = {
@@ -50,11 +42,8 @@ module Fog
         metadata
       end
 
-      def self.reset_data(keys=Mock.data.keys)
-        Mock.reset_data(keys)
-      end
-
       class Mock
+        include Collections
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -76,6 +65,7 @@ module Fog
       end
 
       class Real
+        include Collections
 
         def initialize(options={})
           credentials = Fog::Rackspace.authenticate(options)
