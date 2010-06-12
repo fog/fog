@@ -103,4 +103,19 @@ describe 'Fog::AWS::S3::File' do
 
   end
 
+  describe "#url" do
+
+    it "should return a signed expiring url" do
+      data = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
+      file = @directory.files.create(:key => 'fogfilename', :body => data)
+      url = file.url(Time.now + 60 * 10)
+      url.should include("fogfilename", "Expires")
+      unless Fog.mocking?
+        open(url).read.should == File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r').read
+      end
+      file.destroy
+    end
+
+  end
+
 end

@@ -66,6 +66,11 @@ module Fog
           true
         end
 
+        def url(expires)
+          requires :key
+          collection.get_url(key, expires)
+        end
+
         private
 
         def directory=(new_directory)
