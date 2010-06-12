@@ -4,13 +4,7 @@ require 'fog/bluebox/models/server'
 module Fog
   module Bluebox
 
-    class Mock
-      def servers
-        Fog::Bluebox::Servers.new(:connection => self)
-      end
-    end
-
-    class Real
+    module Collections
       def servers
         Fog::Bluebox::Servers.new(:connection => self)
       end

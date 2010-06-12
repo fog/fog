@@ -3,6 +3,8 @@ module Fog
     module EC2
       class Real
 
+        require 'fog/aws/parsers/ec2/terminate_instances'
+
         # Terminate specified instances
         #
         # ==== Parameters

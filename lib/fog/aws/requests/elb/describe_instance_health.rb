@@ -3,6 +3,8 @@ module Fog
     module ELB
       class Real
 
+        require 'fog/aws/parsers/elb/describe_instance_health'
+
         # Get health status for one or more instances on an existing ELB
         #
         # ==== Parameters

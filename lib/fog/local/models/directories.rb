@@ -4,13 +4,7 @@ require 'fog/local/models/directory'
 module Fog
   module Local
 
-    class Real
-      def directories
-        Fog::Local::Directories.new(:connection => self)
-      end
-    end
-
-    class Mock
+    module Collections
       def directories
         Fog::Local::Directories.new(:connection => self)
       end

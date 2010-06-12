@@ -3,6 +3,8 @@ module Fog
     module ELB
       class Real
 
+        require 'fog/aws/parsers/elb/describe_load_balancers'
+
         # Describe all or specified load balancers
         #
         # ==== Parameters

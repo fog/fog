@@ -4,15 +4,7 @@ require 'fog/slicehost/models/image'
 module Fog
   module Slicehost
 
-    class Mock
-      def images(attributes = {})
-        Fog::Slicehost::Images.new({
-          :connection => self
-        }.merge!(attributes))
-      end
-    end
-
-    class Real
+    module Collections
       def images(attributes = {})
         Fog::Slicehost::Images.new({
           :connection => self

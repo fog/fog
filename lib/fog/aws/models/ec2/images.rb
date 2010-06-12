@@ -5,13 +5,7 @@ module Fog
   module AWS
     module EC2
 
-      class Mock
-        def images
-          Fog::AWS::EC2::Images.new(:connection => self)
-        end
-      end
-
-      class Real
+      module Collections
         def images
           Fog::AWS::EC2::Images.new(:connection => self)
         end

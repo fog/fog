@@ -3,6 +3,8 @@ module Fog
     module S3
       class Real
 
+        require 'fog/aws/parsers/s3/get_bucket_object_versions'
+
         # List information about object versions in an S3 bucket
         #
         # ==== Parameters

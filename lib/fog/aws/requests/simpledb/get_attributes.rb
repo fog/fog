@@ -3,6 +3,8 @@ module Fog
     module SimpleDB
       class Real
 
+        require 'fog/aws/parsers/simpledb/get_attributes'
+
         # List metadata for SimpleDB domain
         #
         # ==== Parameters

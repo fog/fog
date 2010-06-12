@@ -26,9 +26,6 @@ module Fog
             for model in models
               require [@model_path, model].join('/')
             end
-            for parser in parsers
-              require [@parser_path, parser].join('/')
-            end
             for request in requests
               require [@request_path, request].join('/')
             end
@@ -54,18 +51,6 @@ module Fog
 
     def models
       @models ||= []
-    end
-
-    def parser_path(new_path)
-      @parser_path = new_path
-    end
-
-    def parser(new_parser)
-      parsers << new_parser
-    end
-
-    def parsers
-      @parsers ||= []
     end
 
     def request_path(new_path)

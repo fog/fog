@@ -5,13 +5,7 @@ module Fog
   module AWS
     module S3
 
-      class Real
-        def directories
-          Fog::AWS::S3::Directories.new(:connection => self)
-        end
-      end
-
-      class Mock
+      module Collections
         def directories
           Fog::AWS::S3::Directories.new(:connection => self)
         end

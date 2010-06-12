@@ -3,6 +3,8 @@ module Fog
     module EC2
       class Real
 
+        require 'fog/aws/parsers/ec2/get_console_output'
+
         # Retrieve console output for specified instance
         #
         # ==== Parameters

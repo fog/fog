@@ -1,47 +1,29 @@
 module Fog
   module Bluebox
+    extend Fog::Service
 
-    class Error < Fog::Errors::Error; end
-    class NotFound < Fog::Errors::NotFound; end
+    requires :bluebox_api_key, :bluebox_customer_id
 
-    def self.new(options={})
+    model_path 'fog/bluebox/models'
+    model 'flavor'
+    model 'flavors'
+    model 'images'
+    model 'server'
+    model 'servers'
 
-      unless @required
-        require 'fog/bluebox/models/flavor'
-        require 'fog/bluebox/models/flavors'
-        require 'fog/bluebox/models/images'
-        require 'fog/bluebox/models/server'
-        require 'fog/bluebox/models/servers'
-        require 'fog/bluebox/requests/create_block'
-        require 'fog/bluebox/requests/destroy_block'
-        require 'fog/bluebox/requests/get_block'
-        require 'fog/bluebox/requests/get_blocks'
-        require 'fog/bluebox/requests/get_product'
-        require 'fog/bluebox/requests/get_products'
-        require 'fog/bluebox/requests/get_template'
-        require 'fog/bluebox/requests/get_templates'
-        require 'fog/bluebox/requests/reboot_block'
-        @required = true
-      end
-
-      unless options[:bluebox_api_key]
-        raise ArgumentError.new('bluebox_api_key is required to access Blue Box')
-      end
-      unless options[:bluebox_customer_id]
-        raise ArgumentError.new('bluebox_customer_id is required to access Blue Box')
-      end
-      if Fog.mocking?
-        Fog::Bluebox::Mock.new(options)
-      else
-        Fog::Bluebox::Real.new(options)
-      end
-    end
-
-    def self.reset_data(keys=Mock.data.keys)
-      Mock.reset_data(keys)
-    end
+    request_path 'fog/bluebox/requests'
+    request 'create_block'
+    request 'destroy_block'
+    request 'get_block'
+    request 'get_blocks'
+    request 'get_product'
+    request 'get_products'
+    request 'get_template'
+    request 'get_templates'
+    request 'reboot_block'
 
     class Mock
+      include Collections
 
       def self.data
         @data ||= Hash.new do |hash, key|
@@ -63,6 +45,7 @@ module Fog
     end
 
     class Real
+      include Collections
 
       def initialize(options={})
         @bluebox_api_key      = options[:bluebox_api_key]

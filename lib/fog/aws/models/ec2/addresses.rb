@@ -5,15 +5,7 @@ module Fog
   module AWS
     module EC2
 
-      class Mock
-        def addresses(attributes = {})
-          Fog::AWS::EC2::Addresses.new({
-            :connection => self
-          }.merge!(attributes))
-        end
-      end
-
-      class Real
+      module Collections
         def addresses(attributes = {})
           Fog::AWS::EC2::Addresses.new({
             :connection => self

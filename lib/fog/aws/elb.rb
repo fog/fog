@@ -1,39 +1,31 @@
 module Fog
   module AWS
     module ELB
+      extend Fog::Service
 
-      def self.new(options={})
+      requires :aws_access_key_id, :aws_secret_access_key
 
-        unless @required
-          require 'fog/aws/parsers/elb/create_load_balancer'
-          require 'fog/aws/parsers/elb/delete_load_balancer'
-          require 'fog/aws/parsers/elb/deregister_instances_from_load_balancer'
-          require 'fog/aws/parsers/elb/describe_instance_health'
-          require 'fog/aws/parsers/elb/describe_load_balancers'
-          require 'fog/aws/parsers/elb/disable_availability_zones_for_load_balancer'
-          require 'fog/aws/parsers/elb/enable_availability_zones_for_load_balancer'
-          require 'fog/aws/parsers/elb/register_instances_with_load_balancer'
-          require 'fog/aws/requests/elb/create_load_balancer'
-          require 'fog/aws/requests/elb/delete_load_balancer'
-          require 'fog/aws/requests/elb/deregister_instances_from_load_balancer'
-          require 'fog/aws/requests/elb/describe_instance_health'
-          require 'fog/aws/requests/elb/describe_load_balancers'
-          require 'fog/aws/requests/elb/disable_availability_zones_for_load_balancer'
-          require 'fog/aws/requests/elb/enable_availability_zones_for_load_balancer'
-          require 'fog/aws/requests/elb/register_instances_with_load_balancer'
-          @required = true
+      request_path 'fog/aws/requests/elb'
+      request 'create_load_balancer'
+      request 'delete_load_balancer'
+      request 'deregister_instances_from_load_balancer'
+      request 'describe_instance_health'
+      request 'describe_load_balancers'
+      request 'disable_availability_zones_for_load_balancer'
+      request 'enable_availability_zones_for_load_balancer'
+      request 'register_instances_with_load_balancer'
+
+      class Mock
+        include Collections
+
+        def initialize(options={})
+          Fog::Mock.not_implemented
         end
 
-        unless options[:aws_access_key_id]
-          raise ArgumentError.new('aws_access_key_id is required to access elb')
-        end
-        unless options[:aws_secret_access_key]
-          raise ArgumentError.new('aws_secret_access_key is required to access elb')
-        end
-        Fog::AWS::ELB::Real.new(options)
       end
 
       class Real
+        include Collections
 
         # Initialize connection to ELB
         #

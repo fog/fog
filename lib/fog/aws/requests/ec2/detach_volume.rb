@@ -3,6 +3,8 @@ module Fog
     module EC2
       class Real
 
+        require 'fog/aws/parsers/ec2/detach_volume'
+
         # Detach an Amazon EBS volume from a running instance
         #
         # ==== Parameters

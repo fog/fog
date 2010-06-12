@@ -23,29 +23,34 @@ module Fog
       request 'put_container'
       request 'put_object'
 
-      def self.parse_data(data)
-        metadata = {
-          :body => nil,
-          :headers => {}
-        }
+      module Utils
 
-        if data.is_a?(String)
-          metadata[:body] = data
-          metadata[:headers]['Content-Length'] = metadata[:body].size.to_s
-        else
-          filename = ::File.basename(data.path)
-          unless (mime_types = MIME::Types.of(filename)).empty?
-            metadata[:headers]['Content-Type'] = mime_types.first.content_type
+        def parse_data(data)
+          metadata = {
+            :body => nil,
+            :headers => {}
+          }
+
+          if data.is_a?(String)
+            metadata[:body] = data
+            metadata[:headers]['Content-Length'] = metadata[:body].size.to_s
+          else
+            filename = ::File.basename(data.path)
+            unless (mime_types = MIME::Types.of(filename)).empty?
+              metadata[:headers]['Content-Type'] = mime_types.first.content_type
+            end
+            metadata[:body] = data.read
+            metadata[:headers]['Content-Length'] = ::File.size(data.path).to_s
           end
-          metadata[:body] = data.read
-          metadata[:headers]['Content-Length'] = ::File.size(data.path).to_s
+          # metadata[:headers]['Content-MD5'] = Base64.encode64(Digest::MD5.digest(metadata[:body])).strip
+          metadata
         end
-        # metadata[:headers]['Content-MD5'] = Base64.encode64(Digest::MD5.digest(metadata[:body])).strip
-        metadata
+
       end
 
       class Mock
         include Collections
+        include Utils
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -68,6 +73,7 @@ module Fog
 
       class Real
         include Collections
+        include Utils
 
         def initialize(options={})
           credentials = Fog::Rackspace.authenticate(options)

@@ -3,6 +3,8 @@ module Fog
     module S3
       class Real
 
+        require 'fog/aws/parsers/s3/get_service'
+
         # List information about S3 buckets for authorized user
         #
         # ==== Returns

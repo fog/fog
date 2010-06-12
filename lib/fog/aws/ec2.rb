@@ -1,101 +1,65 @@
 module Fog
   module AWS
     module EC2
+      extend Fog::Service
 
-      class Error < Fog::Errors::Error; end
-      class NotFound < Fog::Errors::NotFound; end
+      requires :aws_access_key_id, :aws_secret_access_key
 
-      def self.new(options={})
+      model_path 'fog/aws/models/ec2'
+      model 'address'
+      model 'addresses'
+      model 'flavor'
+      model 'flavors'
+      model 'image'
+      model 'images'
+      model 'key_pair'
+      model 'key_pairs'
+      model 'security_group'
+      model 'security_groups'
+      model 'server'
+      model 'servers'
+      model 'snapshot'
+      model 'snapshots'
+      model 'volume'
+      model 'volumes'
 
-        unless @required
-          require 'fog/aws/models/ec2/address'
-          require 'fog/aws/models/ec2/addresses'
-          require 'fog/aws/models/ec2/flavor'
-          require 'fog/aws/models/ec2/flavors'
-          require 'fog/aws/models/ec2/image'
-          require 'fog/aws/models/ec2/images'
-          require 'fog/aws/models/ec2/key_pair'
-          require 'fog/aws/models/ec2/key_pairs'
-          require 'fog/aws/models/ec2/security_group'
-          require 'fog/aws/models/ec2/security_groups'
-          require 'fog/aws/models/ec2/server'
-          require 'fog/aws/models/ec2/servers'
-          require 'fog/aws/models/ec2/snapshot'
-          require 'fog/aws/models/ec2/snapshots'
-          require 'fog/aws/models/ec2/volume'
-          require 'fog/aws/models/ec2/volumes'
-          require 'fog/aws/parsers/ec2/allocate_address'
-          require 'fog/aws/parsers/ec2/attach_volume'
-          require 'fog/aws/parsers/ec2/basic'
-          require 'fog/aws/parsers/ec2/create_key_pair'
-          require 'fog/aws/parsers/ec2/create_snapshot'
-          require 'fog/aws/parsers/ec2/create_volume'
-          require 'fog/aws/parsers/ec2/describe_addresses'
-          require 'fog/aws/parsers/ec2/describe_availability_zones'
-          require 'fog/aws/parsers/ec2/describe_images'
-          require 'fog/aws/parsers/ec2/describe_instances'
-          require 'fog/aws/parsers/ec2/describe_key_pairs'
-          require 'fog/aws/parsers/ec2/describe_regions'
-          require 'fog/aws/parsers/ec2/describe_reserved_instances'
-          require 'fog/aws/parsers/ec2/describe_security_groups'
-          require 'fog/aws/parsers/ec2/describe_snapshots'
-          require 'fog/aws/parsers/ec2/describe_volumes'
-          require 'fog/aws/parsers/ec2/detach_volume'
-          require 'fog/aws/parsers/ec2/get_console_output'
-          require 'fog/aws/parsers/ec2/run_instances'
-          require 'fog/aws/parsers/ec2/terminate_instances'
-          require 'fog/aws/requests/ec2/allocate_address'
-          require 'fog/aws/requests/ec2/associate_address'
-          require 'fog/aws/requests/ec2/attach_volume'
-          require 'fog/aws/requests/ec2/authorize_security_group_ingress'
-          require 'fog/aws/requests/ec2/create_key_pair'
-          require 'fog/aws/requests/ec2/create_security_group'
-          require 'fog/aws/requests/ec2/create_snapshot'
-          require 'fog/aws/requests/ec2/create_volume'
-          require 'fog/aws/requests/ec2/delete_key_pair'
-          require 'fog/aws/requests/ec2/delete_security_group'
-          require 'fog/aws/requests/ec2/delete_snapshot'
-          require 'fog/aws/requests/ec2/delete_volume'
-          require 'fog/aws/requests/ec2/describe_addresses'
-          require 'fog/aws/requests/ec2/describe_availability_zones'
-          require 'fog/aws/requests/ec2/describe_images'
-          require 'fog/aws/requests/ec2/describe_instances'
-          require 'fog/aws/requests/ec2/describe_reserved_instances'
-          require 'fog/aws/requests/ec2/describe_key_pairs'
-          require 'fog/aws/requests/ec2/describe_regions'
-          require 'fog/aws/requests/ec2/describe_security_groups'
-          require 'fog/aws/requests/ec2/describe_snapshots'
-          require 'fog/aws/requests/ec2/describe_volumes'
-          require 'fog/aws/requests/ec2/detach_volume'
-          require 'fog/aws/requests/ec2/disassociate_address'
-          require 'fog/aws/requests/ec2/get_console_output'
-          require 'fog/aws/requests/ec2/modify_image_attributes'
-          require 'fog/aws/requests/ec2/reboot_instances'
-          require 'fog/aws/requests/ec2/release_address'
-          require 'fog/aws/requests/ec2/revoke_security_group_ingress'
-          require 'fog/aws/requests/ec2/run_instances'
-          require 'fog/aws/requests/ec2/terminate_instances'
-          @required = true
-        end
+      require 'fog/aws/parsers/ec2/basic'
 
-        unless options[:aws_access_key_id]
-          raise ArgumentError.new('aws_access_key_id is required to access ec2')
-        end
-        unless options[:aws_secret_access_key]
-          raise ArgumentError.new('aws_secret_access_key is required to access ec2')
-        end
-        if Fog.mocking?
-          Fog::AWS::EC2::Mock.new(options)
-        else
-          Fog::AWS::EC2::Real.new(options)
-        end
-      end
-
-      def self.reset_data(keys=Mock.data.keys)
-        Mock.reset_data(keys)
-      end
+      request_path 'fog/aws/requests/ec2'
+      request 'allocate_address'
+      request 'associate_address'
+      request 'attach_volume'
+      request 'authorize_security_group_ingress'
+      request 'create_key_pair'
+      request 'create_security_group'
+      request 'create_snapshot'
+      request 'create_volume'
+      request 'delete_key_pair'
+      request 'delete_security_group'
+      request 'delete_snapshot'
+      request 'delete_volume'
+      request 'describe_addresses'
+      request 'describe_availability_zones'
+      request 'describe_images'
+      request 'describe_instances'
+      request 'describe_reserved_instances'
+      request 'describe_key_pairs'
+      request 'describe_regions'
+      request 'describe_security_groups'
+      request 'describe_snapshots'
+      request 'describe_volumes'
+      request 'detach_volume'
+      request 'disassociate_address'
+      request 'get_console_output'
+      request 'modify_image_attributes'
+      request 'reboot_instances'
+      request 'release_address'
+      request 'revoke_security_group_ingress'
+      request 'run_instances'
+      request 'terminate_instances'
 
       class Mock
+        include Collections
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -158,6 +122,7 @@ module Fog
       end
 
       class Real
+        include Collections
 
         # Initialize connection to EC2
         #

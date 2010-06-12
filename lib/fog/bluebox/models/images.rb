@@ -4,15 +4,7 @@ require 'fog/bluebox/models/image'
 module Fog
   module Bluebox
 
-    class Mock
-      def images(attributes = {})
-        Fog::Bluebox::Images.new({
-          :connection => self
-        }.merge!(attributes))
-      end
-    end
-
-    class Real
+    module Collections
       def images(attributes = {})
         Fog::Bluebox::Images.new({
           :connection => self

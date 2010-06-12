@@ -5,13 +5,7 @@ module Fog
   module AWS
     module EC2
 
-      class Mock
-        def security_groups
-          Fog::AWS::EC2::SecurityGroups.new(:connection => self)
-        end
-      end
-
-      class Real
+      module Collections
         def security_groups
           Fog::AWS::EC2::SecurityGroups.new(:connection => self)
         end

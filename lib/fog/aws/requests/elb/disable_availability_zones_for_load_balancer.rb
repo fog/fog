@@ -3,6 +3,8 @@ module Fog
     module ELB
       class Real
 
+        require 'fog/aws/parsers/elb/disable_availability_zones_for_load_balancer'
+
         # Disable an availability zone for an existing ELB
         #
         # ==== Parameters

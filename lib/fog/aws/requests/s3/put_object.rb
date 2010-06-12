@@ -24,7 +24,7 @@ module Fog
         #   * headers<~Hash>:
         #     * 'ETag'<~String> - etag of new object
         def put_object(bucket_name, object_name, data, options = {})
-          data = Fog::AWS::S3.parse_data(data)
+          data = parse_data(data)
           headers = data[:headers].merge!(options)
           request({
             :body       => data[:body],
@@ -42,7 +42,7 @@ module Fog
       class Mock
 
         def put_object(bucket_name, object_name, data, options = {})
-          data = Fog::AWS::S3.parse_data(data)
+          data = parse_data(data)
           unless data[:body].is_a?(String)
             data[:body] = data[:body].read
           end

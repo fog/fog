@@ -5,13 +5,7 @@ module Fog
   module AWS
     module EC2
 
-      class Mock
-        def flavors
-          Fog::AWS::EC2::Flavors.new(:connection => self)
-        end
-      end
-
-      class Real
+      module Collections
         def flavors
           Fog::AWS::EC2::Flavors.new(:connection => self)
         end

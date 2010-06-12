@@ -3,6 +3,8 @@ module Fog
     module EC2
       class Real
 
+        require 'fog/aws/parsers/ec2/describe_reserved_instances'
+
         # Describe all or specified reserved instances
         #
         # ==== Parameters

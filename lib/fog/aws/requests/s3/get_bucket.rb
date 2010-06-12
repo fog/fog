@@ -3,6 +3,8 @@ module Fog
     module S3
       class Real
 
+        require 'fog/aws/parsers/s3/get_bucket'
+
         # List information about objects in an S3 bucket
         #
         # ==== Parameters

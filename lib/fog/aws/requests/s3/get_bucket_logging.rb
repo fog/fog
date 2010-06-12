@@ -3,6 +3,8 @@ module Fog
     module S3
       class Real
 
+        require 'fog/aws/parsers/s3/get_bucket_logging'
+
         # Get logging status for an S3 bucket
         #
         # ==== Parameters

@@ -3,6 +3,8 @@ module Fog
     module ELB
       class Real
 
+        require 'fog/aws/parsers/elb/create_load_balancer'
+
         # Create a new Elastic Load Balancer
         #
         # ==== Parameters

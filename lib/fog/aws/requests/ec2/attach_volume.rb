@@ -3,6 +3,8 @@ module Fog
     module EC2
       class Real
 
+        require 'fog/aws/parsers/ec2/attach_volume'
+
         # Attach an Amazon EBS volume with a running instance, exposing as specified device
         #
         # ==== Parameters

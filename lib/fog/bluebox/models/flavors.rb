@@ -4,13 +4,7 @@ require 'fog/bluebox/models/flavor'
 module Fog
   module Bluebox
 
-    class Mock
-      def flavors
-        Fog::Bluebox::Flavors.new(:connection => self)
-      end
-    end
-
-    class Real
+    module Collections
       def flavors
         Fog::Bluebox::Flavors.new(:connection => self)
       end

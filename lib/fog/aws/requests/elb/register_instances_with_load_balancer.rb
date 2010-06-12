@@ -3,6 +3,8 @@ module Fog
     module ELB
       class Real
 
+        require 'fog/aws/parsers/elb/register_instances_with_load_balancer'
+
         # Register an instance with an existing ELB
         #
         # ==== Parameters

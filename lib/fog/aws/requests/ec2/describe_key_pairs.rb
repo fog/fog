@@ -3,6 +3,8 @@ module Fog
     module EC2
       class Real
 
+        require 'fog/aws/parsers/ec2/describe_key_pairs'
+
         # Describe all or specified key pairs
         #
         # ==== Parameters

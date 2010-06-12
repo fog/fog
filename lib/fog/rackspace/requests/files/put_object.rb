@@ -9,7 +9,7 @@ module Fog
         # * container<~String> - Name for container, should be < 256 bytes and must not contain '/'
         #
         def put_object(container, object, data)
-          data = Fog::Rackspace::Files.parse_data(data)
+          data = parse_data(data)
           response = storage_request(
             :body     => data[:body],
             :expects  => 201,

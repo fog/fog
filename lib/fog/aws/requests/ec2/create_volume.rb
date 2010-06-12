@@ -3,6 +3,8 @@ module Fog
     module EC2
       class Real
 
+        require 'fog/aws/parsers/ec2/create_volume'
+
         # Create an EBS volume
         #
         # ==== Parameters
