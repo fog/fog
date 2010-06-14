@@ -25,21 +25,21 @@ Now just type 'fog' to trying stuff out, confident that fog should let you know 
 == Collections
 
 Nouns like Images and Servers are collections, which form the interface to the cloud.
-Collections provide all, create, get and new methods.
-* all fetches every object of that type from the cloud.
-* create initializes a new record locally and then persists it to the cloud.
-* get fetches a single object by its identity.
-* new initializes a new record locally.
+Some of these collections are shared across multiple providers.
+The shared collections for compute resources are flavors, images and servers.
+Shared collections for storage are directory and file.
 
-Common compute nouns are flavors, images and servers.
+Some common methods for all of these collections are:
+* #all - fetch every object of that type from the provider.
+* #create  initialize a new record locally and then persists it with the provider.
+* #get - fetch a single object by its identity from the provider.
+* #new - initialize a new record locally, but do not persist it to the provider.
 
-Common storage nouns are directory and file.
-
-As an example, we'll try initializing and persisting a rackspace server:
+As an example, we'll try initializing and persisting a Rackspace Cloud server:
 
   require 'fog'
 
-  # initialize a connection to Rackspace Servers
+  # initialize a connection to Rackspace Cloud Servers
   connection = Fog::Rackspace::Servers.new(
     :rackspace_api_key => key,
     :rackspace_username => username
@@ -59,40 +59,40 @@ As an example, we'll try initializing and persisting a rackspace server:
 == Models
 
 Many of the collection methods return individual objects, which provide destroy, save and wait_for methods.
-* destroy will destroy the persisted object from the cloud
-* save will persist the object to the cloud
-* wait_for takes a block and waits for either the block to return true for the object or for a timeout (defaults to 10 minutes)
+* #destroy - will destroy the persisted object from the provider
+* #save - persist the object to the provider
+* #wait_for - takes a block and waits for either the block to return true for the object or for a timeout (defaults to 10 minutes)
 
 == Mocks
 
-Mocking provides an in memory representation of clouds as you make different requests.
-This representation allows subsequent calls to mimic the behavior of the cloud while eliminating the cost and time needed to actually run tests against various providers.
-Mocking is easy to use, just write any functions as you normally would and then in your tests ensure you call:
+Mocking provides an in memory representation of the state of cloud resources as you make requests.
+Mocked calls to mimic the behavior of each provider while eliminating the cost and time needed to actually use cloud resources.
+Enabling mocking easy to use, before you run any other commands run:
 
   Fog.mock!
 
-Make sure you call it first (before you initialize any connections) and all your calls should now run in mock mode.
-If you run into the edges of mock implementation it should let you know that they haven't been implemented yet.
+Then you can run other commands just like you always would.
+Some mocks are not implemented just yet, but fog will raise an error to let you know and contributions are always welcome!
 
 == Requests
 
 Requests allow you to dive deeper when the models just can't cut it.
-For instance, ec2 provides methods related to reserved instances that don't have any models (yet anyway).
-You can get a description of your reserved instances like this:
+For instance, ec2 provides methods related to reserved instances that don't have any models (yet).
+Here is how you can lookup your reserved instances:
 
   $ fog
   >> AWS[:ec2].describe_reserved_instances
   #<Excon::Response [...]>
 
-It will return an excon response, which has headers and body methods. Both give nice ruby hash representations of the result.
+It will return an excon response, which has #headers and #body. Both return nice hashes.
 
 == Go forth and conquer
 
 That should give you some stuff to try and places to look.
-For a more in depth walk through, check out the {getting started guide}[http://wiki.github.com/geemus/fog/getting-started-with-fog].
+Play around and use the console to explore or check out the {getting started guide}[http://wiki.github.com/geemus/fog/getting-started-with-fog] for more details.
 
 You should try out the (varying) support fog has for:
-* AWS [EC2, S3, SimpleDB]
+* AWS [EC2, ELB, S3, SimpleDB]
 * Rackspace [Files, Servers]
 * Slicehost
 * Terremark vCloud Express
@@ -100,6 +100,7 @@ You should try out the (varying) support fog has for:
 
 Enjoy, and let me know what I can do to continue improving fog!
 
+* Work for twitter? I'd love to reclaim the unused @fog account!
 * Follow {@geemus}[http://twitter.com/geemus] on Twitter.
 * See upcoming work in the {tracker}[http://www.pivotaltracker.com/projects/54635].
 * Report bugs in {issues}[http://github.com/geemus/fog/issues].
