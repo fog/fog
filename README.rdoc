@@ -92,15 +92,15 @@ That should give you some stuff to try and places to look.
 Play around and use the console to explore or check out the {getting started guide}[http://wiki.github.com/geemus/fog/getting-started-with-fog] for more details.
 
 You should try out the (varying) support fog has for:
-* AWS [EC2, ELB, S3, SimpleDB]
-* Rackspace [Files, Servers]
-* Slicehost
-* Terremark vCloud Express
-* Blue Box Group [Blocks]
+* AWS [{EC2|http://aws.amazon.com/ec2}, {ELB|http://aws.amazon.com/elasticloadbalancing}, {S3|http://aws.amazon.com/s3}, {SimpleDB|http://aws.amazon.com/simpledb}]
+* Rackspace [{Files|http://www.rackspacecloud.com/cloud_hosting_products/files}, {Servers|http://www.rackspacecloud.com/cloud_hosting_products/servers}]
+* {Slicehost|http://www.slicehost.com}
+* Terremark [{vCloud Express|http://vcloudexpress.terremark.com}]
+* Blue Box Group [{Blocks|http://www.blueboxgrp.com/blocks}]
 
 Enjoy, and let me know what I can do to continue improving fog!
 
-* Work for twitter? I'd love to reclaim the unused @fog account!
+* Work for {twitter|http://twitter.com}? I'd love to reclaim the unused {@fog|http://twitter.com/fog} account!
 * Follow {@geemus}[http://twitter.com/geemus] on Twitter.
 * See upcoming work in the {tracker}[http://www.pivotaltracker.com/projects/54635].
 * Report bugs in {issues}[http://github.com/geemus/fog/issues].
