@@ -91,11 +91,11 @@ It will return an {excon}[http://github.com/geemus/excon] response, which has #h
 Play around and use the console to explore or check out the {getting started guide}[http://wiki.github.com/geemus/fog/getting-started-with-fog] for more details.
 
 You should try out the (varying) support fog has for:
-* AWS [{EC2}[http://aws.amazon.com/ec2], {ELB}[http://aws.amazon.com/elasticloadbalancing], {S3}[http://aws.amazon.com/s3], {SimpleDB}[http://aws.amazon.com/simpledb]]
-* Rackspace [{Files}[http://www.rackspacecloud.com/cloud_hosting_products/files], {Servers}[http://www.rackspacecloud.com/cloud_hosting_products/servers]]
+* {AWS}[http://aws.amazon.com] [{EC2}[http://aws.amazon.com/ec2], {ELB}[http://aws.amazon.com/elasticloadbalancing], {S3}[http://aws.amazon.com/s3], {SimpleDB}[http://aws.amazon.com/simpledb]]
+* {Rackspace|http://www.rackspace.com} [{Files}[http://www.rackspacecloud.com/cloud_hosting_products/files], {Servers}[http://www.rackspacecloud.com/cloud_hosting_products/servers]]
 * {Slicehost}[http://www.slicehost.com]
-* Terremark [{vCloud Express}[http://vcloudexpress.terremark.com]]
-* Blue Box Group [{Blocks}[http://www.blueboxgrp.com/blocks]]
+* {Terremark}[http://www.terremark.com] [{vCloud Express}[http://vcloudexpress.terremark.com]]
+* {Blue Box Group}[http://www.blueboxgrp.com] [{Blocks}[http://www.blueboxgrp.com/blocks]]
 
 Enjoy, and let me know what I can do to continue improving fog!
 
