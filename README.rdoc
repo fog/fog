@@ -84,11 +84,10 @@ Here is how you can lookup your reserved instances:
   >> AWS[:ec2].describe_reserved_instances
   #<Excon::Response [...]>
 
-It will return an excon response, which has #headers and #body. Both return nice hashes.
+It will return an {excon}[http://github.com/geemus/excon] response, which has #headers and #body. Both return nice hashes.
 
 == Go forth and conquer
 
-That should give you some stuff to try and places to look.
 Play around and use the console to explore or check out the {getting started guide}[http://wiki.github.com/geemus/fog/getting-started-with-fog] for more details.
 
 You should try out the (varying) support fog has for:
