@@ -65,7 +65,14 @@ module Fog
 
       def each
         super do |item|
-          item.reload
+          item.reload unless item.loaded?
+          yield(item)
+        end
+      end
+
+      def map
+        super do |item|
+          item.reload unless item.loaded?
           yield(item)
         end
       end
