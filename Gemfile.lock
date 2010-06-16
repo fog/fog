@@ -20,9 +20,11 @@ specs:
     version: 1.4.2
 - rspec: 
     version: 1.3.0
+- ruby-hmac: 
+    version: 0.4.0
 - shindo: 
     version: 0.1.5
-hash: 58a08d793d993ef27b7140767d8a94aa21a49a13
+hash: 12012795f07111bf764cef89d9ba91f521c54956
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org
@@ -35,11 +37,15 @@ dependencies:
     version: ">= 0"
     group: 
     - :default
+  rake: 
+    version: ">= 0"
+    group: 
+    - :default
   rspec: 
     version: ">= 0"
     group: 
     - :default
-  rake: 
+  ruby-hmac: 
     version: ">= 0"
     group: 
     - :default
@@ -51,12 +57,12 @@ dependencies:
     version: ">= 0"
     group: 
     - :default
-  json: 
-    version: ">= 0"
-    group: 
-    - :default
   excon: 
     version: ">= 0.0.26"
+    group: 
+    - :default
+  json: 
+    version: ">= 0"
     group: 
     - :default
   builder: 
