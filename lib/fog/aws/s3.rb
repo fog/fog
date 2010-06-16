@@ -124,8 +124,8 @@ module Fog
         def initialize(options={})
           @aws_access_key_id = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
-          @hmac       = HMAC::SHA1.new(@aws_secret_access_key)
-          @host       = options[:host] || case options[:region]
+          @digest = OpenSSL::Digest::Digest.new('sha1')
+          @host   = options[:host] || case options[:region]
             when 'ap-southeast-1'
               's3-ap-southeast-1.amazonaws.com'
             when 'us-west-1'
@@ -200,8 +200,8 @@ DATA
           canonical_resource.chop!
           string_to_sign << "#{canonical_resource}"
 
-          hmac = @hmac.update(string_to_sign)
-          signature = Base64.encode64(hmac.digest).chomp!
+          signed_string = OpenSSL::HMAC.digest(@digest, @aws_secret_access_key, string_to_sign)
+          signature = Base64.encode64(signed_string).chomp!
         end
       end
     end
