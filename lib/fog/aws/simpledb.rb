@@ -63,7 +63,7 @@ module Fog
         def initialize(options={})
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
-          @hmac       = HMAC::SHA256.new(@aws_secret_access_key)
+          @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)
           @host       = options[:host]      || 'sdb.amazonaws.com'
           @nil_string = options[:nil_string]|| 'nil'
           @port       = options[:port]      || 443
