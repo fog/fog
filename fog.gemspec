@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.1.8'
-  s.date              = '2010-06-07'
+  s.version           = '0.1.9'
+  s.date              = '2010-06-15'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -233,6 +233,8 @@ Gem::Specification.new do |s|
     lib/fog/connection.rb
     lib/fog/credentials.rb
     lib/fog/deprecation.rb
+    lib/fog/errors.rb
+    lib/fog/hmac.rb
     lib/fog/local.rb
     lib/fog/local/bin.rb
     lib/fog/local/models/directories.rb
@@ -283,6 +285,7 @@ Gem::Specification.new do |s|
     lib/fog/rackspace/requests/servers/reboot_server.rb
     lib/fog/rackspace/requests/servers/update_server.rb
     lib/fog/rackspace/servers.rb
+    lib/fog/service.rb
     lib/fog/slicehost.rb
     lib/fog/slicehost/bin.rb
     lib/fog/slicehost/models/flavor.rb
@@ -383,6 +386,8 @@ Gem::Specification.new do |s|
     lib/fog/vcloud/parsers/get_vdc.rb
     lib/fog/vcloud/parsers/get_versions.rb
     lib/fog/vcloud/parsers/login.rb
+    lib/fog/vcloud/parsers/network.rb
+    lib/fog/vcloud/requests/get_network.rb
     lib/fog/vcloud/requests/get_organization.rb
     lib/fog/vcloud/requests/get_vdc.rb
     lib/fog/vcloud/requests/get_versions.rb
@@ -391,6 +396,10 @@ Gem::Specification.new do |s|
     lib/fog/vcloud/terremark/ecloud.rb
     lib/fog/vcloud/terremark/ecloud/models/internet_service.rb
     lib/fog/vcloud/terremark/ecloud/models/internet_services.rb
+    lib/fog/vcloud/terremark/ecloud/models/ip.rb
+    lib/fog/vcloud/terremark/ecloud/models/ips.rb
+    lib/fog/vcloud/terremark/ecloud/models/network.rb
+    lib/fog/vcloud/terremark/ecloud/models/networks.rb
     lib/fog/vcloud/terremark/ecloud/models/public_ip.rb
     lib/fog/vcloud/terremark/ecloud/models/public_ips.rb
     lib/fog/vcloud/terremark/ecloud/models/vdc.rb
@@ -400,9 +409,14 @@ Gem::Specification.new do |s|
     lib/fog/vcloud/terremark/ecloud/parsers/get_public_ips.rb
     lib/fog/vcloud/terremark/ecloud/parsers/get_vdc.rb
     lib/fog/vcloud/terremark/ecloud/parsers/internet_service.rb
+    lib/fog/vcloud/terremark/ecloud/parsers/network.rb
+    lib/fog/vcloud/terremark/ecloud/parsers/network_ips.rb
     lib/fog/vcloud/terremark/ecloud/requests/add_internet_service.rb
+    lib/fog/vcloud/terremark/ecloud/requests/configure_internet_service.rb
     lib/fog/vcloud/terremark/ecloud/requests/delete_internet_service.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_internet_services.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_network.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_network_ips.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_public_ip.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_public_ips.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_vdc.rb
@@ -477,6 +491,7 @@ Gem::Specification.new do |s|
     spec/vcloud/bin_spec.rb
     spec/vcloud/models/vdc_spec.rb
     spec/vcloud/models/vdcs_spec.rb
+    spec/vcloud/requests/get_network_spec.rb
     spec/vcloud/requests/get_organization_spec.rb
     spec/vcloud/requests/get_vdc_spec.rb
     spec/vcloud/requests/get_versions_spec.rb
@@ -484,13 +499,20 @@ Gem::Specification.new do |s|
     spec/vcloud/spec_helper.rb
     spec/vcloud/terremark/ecloud/models/internet_service_spec.rb
     spec/vcloud/terremark/ecloud/models/internet_services_spec.rb
+    spec/vcloud/terremark/ecloud/models/ip_spec.rb
+    spec/vcloud/terremark/ecloud/models/ips_spec.rb
+    spec/vcloud/terremark/ecloud/models/network_spec.rb
+    spec/vcloud/terremark/ecloud/models/networks_spec.rb
     spec/vcloud/terremark/ecloud/models/public_ip_spec.rb
     spec/vcloud/terremark/ecloud/models/public_ips_spec.rb
     spec/vcloud/terremark/ecloud/models/vdc_spec.rb
     spec/vcloud/terremark/ecloud/models/vdcs_spec.rb
     spec/vcloud/terremark/ecloud/requests/add_internet_service_spec.rb
+    spec/vcloud/terremark/ecloud/requests/configure_internet_service_spec.rb
     spec/vcloud/terremark/ecloud/requests/delete_internet_service_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_internet_services_spec.rb
+    spec/vcloud/terremark/ecloud/requests/get_network_ips_spec.rb
+    spec/vcloud/terremark/ecloud/requests/get_network_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_public_ip_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_public_ips_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_vdc_spec.rb
