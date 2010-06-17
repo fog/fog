@@ -61,7 +61,7 @@ describe 'Fog::AWS::EC2::Volume' do
 
     after(:each) do
       if @volume.id
-        @volume.wait_for { state == 'attached' }
+        @volume.wait_for { state == 'in-use' }
         @volume.server = nil
         @volume.wait_for { ready? }
         @volume.destroy
