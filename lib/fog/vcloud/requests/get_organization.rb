@@ -2,15 +2,7 @@ module Fog
   module Vcloud
 
     class Real
-      def get_organization(organization_uri)
-        request(
-          :expects  => 200,
-          :method   => 'GET',
-          :parser   => Fog::Parsers::Vcloud::GetOrganization.new,
-          :uri      => organization_uri
-        )
-      end
-
+      basic_request :get_organization
     end
 
     class Mock
@@ -22,10 +14,11 @@ module Fog
         # 
         # vCloud API Guide v0.9 - Page 26
         #
-        if org = mock_data[:organizations].detect { |org| URI.parse(org[:info][:href]) == organization_uri }
+        organization_uri = ensure_unparsed(organization_uri)
+        if org = mock_data[:organizations].detect { |org| org[:info][:href] == organization_uri }
           xml = Builder::XmlMarkup.new
 
-          mock_it Fog::Parsers::Vcloud::GetOrganization.new, 200,
+          mock_it 200,
             xml.Org(xmlns.merge(:href => org[:info][:href], :name => org[:info][:name])) {
 
               org[:vdcs].each do |vdc|

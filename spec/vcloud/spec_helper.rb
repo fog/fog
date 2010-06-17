@@ -1,6 +1,21 @@
 require 'spec'
 require 'pp'
 
+module Spec
+  module Example
+    module Subject
+      module ExampleGroupMethods
+        def its(attribute, &block)
+          describe(attribute) do
+            define_method(:subject) { s = super(); s.is_a?(Hash) ? s[attribute] : s.send(attribute) }
+            it(&block)
+          end
+        end
+      end
+    end
+  end
+end
+
 #Initialize this to a known seed
 srand 1234
 
@@ -8,15 +23,21 @@ current_directory = File.dirname(__FILE__)
 require "#{current_directory}/../../lib/fog"
 require "#{current_directory}/../../lib/fog/bin"
 
-Fog.mock!
+Fog.mock! if ENV['FOG_MOCK']
 
 require "#{current_directory}/../../lib/fog/vcloud/bin"
 
-shared_examples_for "all requests" do
+shared_examples_for "all responses" do
   it { should respond_to :body }
   it { should respond_to :headers }
   it { should have_at_least(1).body }
   it { should have_at_least(0).headers }
+  its(:body) { should be_an_instance_of Hash }
+  its(:headers) { should be_an_instance_of Hash }
+end
+
+shared_examples_for "it has a Content-Type header" do
+  its(:headers) { should include "Content-Type" }
 end
 
 shared_examples_for "all rel=down vcloud links" do
@@ -65,37 +86,45 @@ shared_examples_for "all login requests" do
     before { @login = @vcloud.login }
     subject { @login }
 
-    it_should_behave_like "all requests"
+    it_should_behave_like "all responses"
 
     its(:headers) { should include "Set-Cookie" }
-    its(:headers) { should include "Content-Type" }
-    its(:body) { should be_an_instance_of Struct::VcloudOrgList }
+
+    it { should have_headers_denoting_a_content_type_of "application/vnd.vmware.vcloud.orgslist+xml" }
 
     describe "#body" do
-      before { @orglist = @login.body }
-      subject { @orglist }
+      subject { @login.body }
 
-      its(:xmlns) { should == "http://www.vmware.com/vcloud/v0.8" }
+      it { should have(4).organizations }
 
-      it { should have(1).organizations }
-
-      describe "#first" do
-        before { @org = @orglist.organizations.first }
-        subject { @org }
-
-        it { should be_an_instance_of Struct::VcloudLink }
-
-        its(:href) { should == URI.parse(@mock_organization[:info][:href]) }
-        its(:name) { should == @mock_organization[:info][:name] }
-        its(:type) { should == "application/vnd.vmware.vcloud.org+xml" }
-
-      end
+      it_should_behave_like "it has the standard vcloud v0.8 xmlns attributes"   # 3 keys
+      its(:Org) { should == { :type => "application/vnd.vmware.vcloud.org+xml",
+                              :href => @mock_organization[:info][:href],
+                              :name => @mock_organization[:info][:name]} }
     end
   end
 end
 
 shared_examples_for "it has a vcloud v0.8 xmlns" do
   its(:xmlns) { should == 'http://www.vmware.com/vcloud/v0.8' }
+end
+
+shared_examples_for "it has the proper xmlns_xsi" do
+  its(:xmlns_xsi) { should == "http://www.w3.org/2001/XMLSchema-instance" }
+end
+
+shared_examples_for "it has the proper xmlns_xsd" do
+  its(:xmlns_xsd) { should == "http://www.w3.org/2001/XMLSchema" }
+end
+
+shared_examples_for "it has the standard xmlns attributes" do
+  it_should_behave_like "it has the proper xmlns_xsi"
+  it_should_behave_like "it has the proper xmlns_xsd"
+end
+
+shared_examples_for "it has the standard vcloud v0.8 xmlns attributes" do
+  it_should_behave_like "it has a vcloud v0.8 xmlns"
+  it_should_behave_like "it has the standard xmlns attributes"
 end
 
 shared_examples_for "a request for a resource that doesn't exist" do
@@ -106,12 +135,6 @@ shared_examples_for "a vdc catalog link" do
   it_should_behave_like "all rel=down vcloud links"
   it_should_behave_like "all vcloud catalog links"
   its(:href) { should == URI.parse(@mock_vdc[:href] + "/catalog") }
-end
-
-shared_examples_for "a tmrk vdc" do
-  it { should respond_to :links }
-  it { should respond_to :networks }
-  it { should respond_to :resource_entities }
 end
 
 shared_examples_for "a tmrk network link" do
@@ -163,14 +186,30 @@ shared_examples_for "the mocked tmrk resource entity links" do
   end
 end
 
+Spec::Example::ExampleGroupFactory.register(:mock_vcloud_request, Class.new(Spec::Example::ExampleGroup))
+Spec::Example::ExampleGroupFactory.register(:mock_vcloud_model, Class.new(Spec::Example::ExampleGroup))
+Spec::Example::ExampleGroupFactory.register(:mock_tmrk_ecloud_request, Class.new(Spec::Example::ExampleGroup))
+Spec::Example::ExampleGroupFactory.register(:mock_tmrk_ecloud_model, Class.new(Spec::Example::ExampleGroup))
 Spec::Example::ExampleGroupFactory.register(:vcloud_request, Class.new(Spec::Example::ExampleGroup))
-Spec::Example::ExampleGroupFactory.register(:vcloud_model, Class.new(Spec::Example::ExampleGroup))
 Spec::Example::ExampleGroupFactory.register(:tmrk_ecloud_request, Class.new(Spec::Example::ExampleGroup))
-Spec::Example::ExampleGroupFactory.register(:tmrk_ecloud_model, Class.new(Spec::Example::ExampleGroup))
 Spec::Example::ExampleGroupFactory.register(:tmrk_vcloud_request, Class.new(Spec::Example::ExampleGroup))
 
 Spec::Runner.configure do |config|
-  config.before(:all) do
+  config.after(:all) do
+    Fog::Vcloud::Mock.data_reset
+  end
+  config.before(:each, :type => :mock_vcloud_model) do
+    @vcloud = Fog::Vcloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions")
+  end
+  config.before(:all, :type => :mock_vcloud_model) do
+    @base_url = Fog::Vcloud::Mock.base_url
+    @mock_data = Fog::Vcloud::Mock.data
+    @mock_version = @mock_data[:versions][0]
+    @mock_organization = @mock_data[:organizations][0]
+    @mock_vdc = @mock_organization[:vdcs][0]
+    @mock_network = @mock_vdc[:networks][0]
+  end
+  config.before(:all, :type => :mock_vcloud_request) do
     @mock_data = Fog::Vcloud::Mock.data
     @base_url = Fog::Vcloud::Mock.base_url
     @mock_version = @mock_data[:versions][0]
@@ -178,31 +217,33 @@ Spec::Runner.configure do |config|
     @mock_vdc = @mock_organization[:vdcs][0]
     @mock_network = @mock_vdc[:networks][0]
   end
-  config.after(:all) do
-    Fog::Vcloud::Mock.data_reset
+  config.before(:each, :type => :mock_vcloud_request) do
+    @vcloud = Fog::Vcloud.new(:username => "", :password => "bar", :versions_uri => "http://fakey.com/api/versions")
   end
-  config.before(:each, :type => :vcloud_model) do
-    @vcloud = Fog::Vcloud.new
+  config.before(:each, :type => :mock_tmrk_ecloud_request) do
+    @vcloud = Fog::Vcloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions", :module => "Fog::Vcloud::Terremark::Ecloud")
   end
-  config.before(:each, :type => :vcloud_request) do
-    @vcloud = Fog::Vcloud.new
-  end
-  config.before(:all, :type => :tmrk_ecloud_request) do
+  config.before(:all, :type => :mock_tmrk_ecloud_request) do
     @base_url = Fog::Vcloud::Terremark::Ecloud::Mock.base_url
     @mock_data = Fog::Vcloud::Terremark::Ecloud::Mock.data
+    @mock_version = @mock_data[:versions][0]
+    @mock_organization = @mock_data[:organizations][0]
+    @mock_vdc = @mock_organization[:vdcs][0]
+    @mock_network = @mock_vdc[:networks][0]
   end
-  config.before(:each, :type => :tmrk_ecloud_request) do
-    @vcloud = Fog::Vcloud.new(:module => "Fog::Vcloud::Terremark::Ecloud")
+  config.after(:all, :type => :mock_tmrk_ecloud_request) do
+    Fog::Vcloud::Terremark::Ecloud::Mock.data_reset
   end
-  config.before(:all, :type => :tmrk_ecloud_model) do
+  config.before(:all, :type => :mock_tmrk_ecloud_model) do
     @base_url = Fog::Vcloud::Terremark::Ecloud::Mock.base_url
     @mock_data = Fog::Vcloud::Terremark::Ecloud::Mock.data
+    @mock_version = @mock_data[:versions][0]
+    @mock_organization = @mock_data[:organizations][0]
+    @mock_vdc = @mock_organization[:vdcs][0]
+    @mock_network = @mock_vdc[:networks][0]
   end
-  config.before(:each, :type => :tmrk_ecloud_model) do
-    @vcloud = Fog::Vcloud.new(:module => "Fog::Vcloud::Terremark::Ecloud")
-  end
-  config.before(:each, :type => :tmrk_vcloud_request) do
-    @vcloud = Fog::Vcloud.new(:module => "Fog::Vcloud::Terremark::Vcloud")
+  config.before(:each, :type => :mock_tmrk_ecloud_model) do
+    @vcloud = Fog::Vcloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions", :module => "Fog::Vcloud::Terremark::Ecloud")
   end
 end
 
@@ -232,5 +273,55 @@ end
 Spec::Matchers.define :have_members_of_the_right_model do
   match do |actual|
     actual.all? { |member| member.is_a?(actual.model) }
+  end
+end
+
+Spec::Matchers.define :have_key_with_value do |expected_key, expected_value|
+  match do |actual|
+    actual.has_key?(expected_key) && actual[expected_key] == expected_value
+  end
+end
+
+Spec::Matchers.define :have_key_with_array do |expected_key, expected_array|
+  match do |actual|
+    actual[expected_key].all? { |item| expected_array.include?(item) } && actual[expected_key].length == expected_array.length
+  end
+end
+
+Spec::Matchers.define :have_headers_denoting_a_content_type_of do |expected|
+  match do |actual|
+    actual.headers["Content-Type"] == expected
+  end
+end
+
+Spec::Matchers.define :have_keys_with_values do |expected|
+  match do |actual|
+    actual.each_pair.all? do |key, value|
+      expected.keys.include?(key) && expected[key] == value
+    end
+  end
+end
+
+Spec::Matchers.define :be_a_vapp_link_to do |expected|
+  match do |actual|
+    actual.is_a?(Hash) and
+    actual[:type] == "application/vnd.vmware.vcloud.vApp+xml" and
+    actual[:href] == expected[:href] and
+    actual[:name] == expected[:name]
+  end
+end
+
+Spec::Matchers.define :be_a_network_link_to do |expected|
+  match do |actual|
+    actual.is_a?(Hash) and
+    actual[:type] == "application/vnd.vmware.vcloud.network+xml" and
+    actual[:href] == expected[:href] and
+    actual[:name] == expected[:name]
+  end
+end
+
+Spec::Matchers.define :have_all_attributes_be_nil do
+  match do |actual|
+    actual.class.attributes.all? { |attribute| actual.send(attribute.to_sym) == nil }
   end
 end

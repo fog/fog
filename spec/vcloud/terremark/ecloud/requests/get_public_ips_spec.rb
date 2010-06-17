@@ -1,44 +1,52 @@
-require "spec_helper"
+require File.join(File.dirname(__FILE__), '..', '..', '..', 'spec_helper')
 
-describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :tmrk_ecloud_request do
-  subject { @vcloud }
+if Fog.mocking?
+  describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do
+    subject { @vcloud }
 
-  it { should respond_to :get_public_ips }
+    it { should respond_to :get_public_ips }
 
-  describe "#get_public_ips" do
-    context "with a valid public_ips_uri" do
-      before { @public_ips = @vcloud.get_public_ips(URI.parse(@mock_vdc[:href] + "/publicIps")) }
-      subject { @public_ips }
+    describe "#get_public_ips" do
+      context "with a valid public_ips_uri" do
+        before { @public_ips = @vcloud.get_public_ips(URI.parse(@mock_vdc[:href] + "/publicIps")) }
+        subject { @public_ips }
 
-      it_should_behave_like "all requests"
+        it_should_behave_like "all responses"
+        it { should have_headers_denoting_a_content_type_of "application/vnd.tmrk.ecloud.publicIpsList+xml" }
 
-      its(:headers) { should include "Content-Type" }
-      specify { subject.headers['Content-Type'].should == "application/vnd.tmrk.ecloud.publicIpsList+xml" }
+        describe "#body" do
+          subject { @public_ips.body }
 
-      its(:body) { should be_an_instance_of Struct::TmrkEcloudList }
+          it { should have(1).item }
 
-      describe "#body" do
-        describe "#links" do
-          subject { @public_ips.body.links }
+          describe "[:PublicIPAddress]" do
+            subject { @public_ips.body[:PublicIPAddress] }
 
-          it { should have(3).ips }
+            it { should have(@mock_vdc[:public_ips].length).addresses }
 
-          [0,1,2].each do |idx|
-            let(:ip) { subject[idx] }
-            let(:mock_ip) { @mock_vdc[:public_ips][idx] }
-            specify { ip.should be_an_instance_of Struct::TmrkEcloudPublicIp }
-            specify { ip.name.should == mock_ip[:name] }
-            specify { ip.id.should == mock_ip[:id] }
-            specify { ip.href.should == URI.parse("#{@base_url}/extensions/publicIp/#{mock_ip[:id]}") }
+            [0,1,2].each do |idx|
+
+              context "[#{idx}]" do
+                subject { @public_ips.body[:PublicIPAddress][idx] }
+                let(:public_ip) { @mock_vdc[:public_ips][idx] }
+                its(:Href) { should == public_ip[:href] }
+                its(:Id) { should == public_ip[:id] }
+                its(:Name) { should == public_ip[:name] }
+              end
+
+            end
+
           end
+
         end
       end
-    end
 
-    context "with a public_ips_uri that doesn't exist" do
-      subject { lambda { @vcloud.get_public_ips(URI.parse('https://www.fakey.c/piv8vc99')) } }
+      context "with a public_ips_uri that doesn't exist" do
+        subject { lambda { @vcloud.get_public_ips(URI.parse('https://www.fakey.c/piv8vc99')) } }
 
-      it_should_behave_like "a request for a resource that doesn't exist"
+        it_should_behave_like "a request for a resource that doesn't exist"
+      end
     end
   end
+else
 end

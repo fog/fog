@@ -2,21 +2,12 @@ module Fog
   module Vcloud
 
     class Real
-
-      def get_versions
-        unauthenticated_request({
-          :expects  => 200,
-          :method   => 'GET',
-          :parser   => Fog::Parsers::Vcloud::GetVersions.new,
-          :uri      => @versions_uri
-        })
-      end
-
+      unauthenticated_basic_request :get_versions
     end
 
     class Mock
 
-      def get_versions
+      def get_versions(versions_uri)
         #
         # Based off of:
         # http://support.theenterprisecloud.com/kb/default.asp?id=535&Lang=1&SID=
@@ -25,10 +16,10 @@ module Fog
         #
         xml = Builder::XmlMarkup.new
 
-        mock_it Fog::Parsers::Vcloud::GetVersions.new, 200,
+        mock_it 200,
           xml.SupportedVersions( xmlns.merge("xmlns" => "http://www.vmware.com/vcloud/versions")) {
 
-            Fog::Vcloud::Mock.data[:versions].select {|version| version[:supported] }.each do |version|
+            mock_data[:versions].select {|version| version[:supported] }.each do |version|
               xml.VersionInfo {
                 xml.Version(version[:version])
                 xml.LoginUrl(version[:login_url])

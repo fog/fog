@@ -1,10 +1,5 @@
 module Fog
   module Vcloud
-    class Mock
-      def vdcs(options = {})
-        @vdcs ||= Fog::Vcloud::Vdcs.new(options.merge(:connection => self))
-      end
-    end
 
     class Real
       def vdcs(options = {})
@@ -16,9 +11,19 @@ module Fog
 
       model Fog::Vcloud::Vdc
 
-      get_request :get_vdc
-      vcloud_type "application/vnd.vmware.vcloud.vdc+xml"
-      all_request lambda { |vdcs| vdcs.connection.get_organization(vdcs.organization_uri) }
+      def all
+        data = connection.get_organization(organization_uri).body[:Link].select { |link| link[:type] == "application/vnd.vmware.vcloud.vdc+xml" }
+        data.each { |link| link.delete_if { |key, value| [:rel].include?(key) } }
+        load(data)
+      end
+
+      def get(uri)
+        if data = connection.get_vdc(uri)
+          new(data.body)
+        end
+      rescue Fog::Errors::NotFound
+        nil
+      end
 
       def organization_uri
         @organizatio_uri ||= connection.default_organization_uri

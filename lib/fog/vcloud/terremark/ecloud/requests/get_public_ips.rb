@@ -4,15 +4,7 @@ module Fog
       module Ecloud
 
         module Real
-
-          def get_public_ips(public_ips_uri)
-            request(
-              :expects  => 200,
-              :method   => 'GET',
-              :parser   => Fog::Parsers::Vcloud::Terremark::Ecloud::GetPublicIps.new,
-              :uri      => public_ips_uri
-            )
-          end
+          basic_request :get_public_ips
         end
 
         module Mock
@@ -22,14 +14,15 @@ module Fog
           #http://support.theenterprisecloud.com/kb/default.asp?id=577&Lang=1&SID=
           #
           def get_public_ips(public_ips_uri)
-            if vdc = mock_data[:organizations].map { |org| org[:vdcs] }.flatten.detect { |vdc| vdc[:href].split('/').last == public_ips_uri.to_s.split('/')[-2] }
+            public_ips_uri = ensure_unparsed(public_ips_uri)
+            if vdc = mock_data[:organizations].map { |org| org[:vdcs] }.flatten.detect { |vdc| vdc[:href].split('/').last == public_ips_uri.split('/')[-2] }
               xml = Builder::XmlMarkup.new
-              mock_it Fog::Parsers::Vcloud::Terremark::Ecloud::GetPublicIps.new, 200,
+              mock_it 200,
                 xml.PublicIPAddresses {
                   vdc[:public_ips].each do |ip|
                     xml.PublicIPAddress {
                       xml.Id(ip[:id])
-                      xml.Href("#{Fog::Vcloud::Terremark::Ecloud::Mock.base_url}/extensions/publicIp/#{ip[:id]}")
+                      xml.Href(ip[:href])
                       xml.Name(ip[:name])
                     }
                   end

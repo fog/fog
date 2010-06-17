@@ -3,12 +3,6 @@ module Fog
     module Terremark
       module Ecloud
 
-        module Mock
-          def internet_services(options = {})
-            @internet_services ||= Fog::Vcloud::Terremark::Ecloud::InternetServices.new(options.merge(:connection => self))
-          end
-        end
-
         module Real
           def internet_services(options = {})
             @internet_services ||= Fog::Vcloud::Terremark::Ecloud::InternetServices.new(options.merge(:connection => self))
@@ -19,29 +13,21 @@ module Fog
 
           model Fog::Vcloud::Terremark::Ecloud::InternetService
 
-          vcloud_type "application/vnd.tmrk.ecloud.internetService+xml"
-          all_request lambda { |internet_services| internet_services.send(:raw_results) }
+          attribute :href, :aliases => :Href
 
-          def get(uri)
-            if internet_service = get_raw(uri)
-              item = new(:href => internet_service.href)
-              item.reload
+          def all
+            if data = connection.get_internet_services(href).body[:InternetService]
+              load(data)
             end
           end
 
-          def get_raw(uri)
-            raw_results.body.links.detect { |link| link.href.to_s == uri.to_s }
-          end
-
-          def reload
-            super
-            @raw_results = nil
-          end
-
-          private
-
-          def raw_results
-            @raw_results ||= connection.get_internet_services(self.href)
+          # Optimize later, no need to get_internet_services again
+          def get(uri)
+            if data = connection.get_internet_services(href).body[:InternetService].detect { |service| service[:Href] == uri }
+              new(data)
+            end
+          rescue Fog::Errors::NotFound
+            nil
           end
 
         end

@@ -4,16 +4,7 @@ module Fog
       module Vcloud
 
         module Real
-
-          # Get details of a vdc
-          def get_vdc(vdc_uri)
-            request(
-              :expects  => 200,
-              :method   => 'GET',
-              :parser   => Fog::Parsers::Vcloud::Terremark::Vcloud::GetVdc.new,
-              :uri      => vdc_uri
-            )
-          end
+          # Handled by the main Vcloud get_vdc
         end
 
         module Mock
@@ -22,9 +13,10 @@ module Fog
           #https://community.vcloudexpress.terremark.com/en-us/product_docs/w/wiki/09-get-vdc.aspx
 
           def get_vdc(vdc_uri)
-            if vdc = mock_data[:organizations].map { |org| org[:vdcs] }.flatten.detect { |vdc| URI.parse(vdc[:href]) == vdc_uri }
+            vdc_uri = ensure_unparsed(vdc_uri)
+            if vdc = mock_data[:organizations].map { |org| org[:vdcs] }.flatten.detect { |vdc| vdc[:href] == vdc_uri }
               xml = Builder::XmlMarkup.new
-              mock_it Fog::Parsers::Vcloud::Terremark::Vcloud::GetVdc.new, 200,
+              mock_it 200,
                 xml.Vdc(xmlns.merge(:href => vdc[:href], :name => vdc[:name])) {
                   xml.Link(:rel => "down",
                            :href => vdc[:href] + "/catalog",

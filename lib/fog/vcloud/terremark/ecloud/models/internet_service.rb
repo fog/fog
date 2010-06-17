@@ -1,49 +1,48 @@
-require 'fog/model'
-
 module Fog
   module Vcloud
     module Terremark
       module Ecloud
         class InternetService < Fog::Vcloud::Model
 
-          identity :href
+          identity :href, :Href
 
-          attribute :name
-          attribute :id
-          attribute :type
-          attribute :protocol
-          attribute :port
-          attribute :enabled
-          attribute :description
-          attribute :public_ip
-          attribute :timeout
-          attribute :url_send_string
-          attribute :http_header
+          ignore_attributes :xmlns, :xmlns_i
 
-          attr_accessor :new
+          attribute :name, :aliases => :Name
+          attribute :id, :aliases => :Id
+          attribute :protocol, :aliases => :Protocol
+          attribute :port, :aliases => :Port
+          attribute :enabled, :aliases => :Enabled
+          attribute :description, :aliases => :Description
+          attribute :public_ip, :aliases => :PublicIpAddress
+          attribute :timeout, :aliases => :Timeout
+          attribute :redirect_url, :aliases => :RedirectURL
+          attribute :monitor, :aliases => :Monitor
 
           def delete
             requires :href
 
-            connection.delete_internet_service( self.href )
-            collection.reload
+            connection.delete_internet_service( href )
           end
 
           def save
             if new_record?
               result = connection.add_internet_service( collection.href, _compose_service_data )
-              self.href = result.body.href
-              self.reload
+              merge_attributes(result.body)
             else
-              connection.configure_internet_service( self.href, _compose_service_data, _compose_ip_data )
+              connection.configure_internet_service( href, _compose_service_data, _compose_ip_data )
             end
+          end
+
+          def nodes
+            @nodes ||= Fog::Vcloud::Terremark::Ecloud::Nodes.new( :connection => connection, :href => href + "/nodeServices" )
           end
 
           private
 
           def _compose_service_data
             service_data = {}
-            self.class.attributes.select{ |attribute| !attribute.nil? }.each { |attribute| service_data[attribute] = send(attribute).to_s }
+            self.class.attributes.select{ |attribute| !send(attribute).nil? }.each { |attribute| service_data[attribute] = send(attribute).to_s }
             service_data
           end
 
@@ -51,7 +50,7 @@ module Fog
             if public_ip.nil?
               {}
             else
-              { :id => self.public_ip.id, :href => self.public_ip.href.to_s, :name => self.public_ip.name }
+              { :id => public_ip[:Id], :href => public_ip[:Href], :name => public_ip[:Name] }
             end
           end
 

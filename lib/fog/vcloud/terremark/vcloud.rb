@@ -2,26 +2,12 @@ module Fog
   module Vcloud
     module Terremark
       module Vcloud
+        extend Fog::Vcloud::Extension
 
-        module Versions
-          SUPPORTED = ["v0.8"]
-        end
+        versions "v0.8"
 
-        def self.extended(klass)
-          #Do anything we need to do here that's specific to ecloud
-          unless @required
-            require 'fog/vcloud/terremark/all'
-            require 'fog/vcloud/terremark/vcloud/parsers/get_vdc'
-            require 'fog/vcloud/terremark/vcloud/requests/get_vdc'
-            Struct.new("TmrkVcloudVdc", :links, :resource_entities, :networks, :href, :type, :name, :xmlns)
-            @required = true
-          end
-          if Fog.mocking?
-            klass.extend Fog::Vcloud::Terremark::Vcloud::Mock
-          else
-            klass.extend Fog::Vcloud::Terremark::Vcloud::Real
-          end
-        end
+        request_path 'fog/vcloud/terremark/vcloud/requests'
+        request :get_vdc
 
         private
 

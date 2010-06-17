@@ -41,6 +41,8 @@ module Fog
       last = @stack.pop
       if last.empty? && @value.empty?
         @stack.last[name.to_sym] = ''
+      elsif last == {:i_nil=>"true"}
+        @stack.last[name.to_sym] = nil
       elsif !@value.empty?
         @stack.last[name.to_sym] = @value
       end

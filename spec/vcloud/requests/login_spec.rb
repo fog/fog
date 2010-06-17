@@ -1,8 +1,11 @@
-require 'spec_helper'
+require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 
-describe Fog::Vcloud, :type => :vcloud_request do
-  subject { @vcloud }
+if Fog.mocking?
+  describe Fog::Vcloud, :type => :mock_vcloud_request do
+    subject { @vcloud }
 
-  it_should_behave_like "all login requests"
+    it_should_behave_like "all login requests"
+  end
+else
 end
 

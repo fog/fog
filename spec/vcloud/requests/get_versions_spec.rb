@@ -1,28 +1,28 @@
-require 'spec_helper'
+require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 
-describe Fog::Vcloud, :type => :vcloud_request do
-  subject { @vcloud }
+if Fog.mocking?
+  describe Fog::Vcloud, :type => :mock_vcloud_request do
+    subject { @vcloud }
 
-  it { should respond_to :get_versions }
+    it { should respond_to :get_versions }
 
-  describe "#get_versions" do
-    before { @versions = @vcloud.get_versions }
-    subject { @versions }
+    describe "#get_versions" do
+      before { @versions = @vcloud.get_versions( @vcloud.versions_uri ) }
+      subject { @versions }
 
-    it_should_behave_like "all requests"
+      it_should_behave_like "all responses"
 
-    its(:body) { should have(1).version }
+      describe "body" do
+        subject { @versions.body }
 
-    describe "body.first" do
-      let(:version) { @versions.body.first }
-      subject { version }
+        it { should have(4).keys }
+        it_should_behave_like "it has the standard xmlns attributes"   # 2 keys
 
-      its(:login_url) { should == @mock_version[:login_url] }
+        its(:xmlns) { should == "http://www.vmware.com/vcloud/versions" }
+        its(:VersionInfo) { should == { :LoginUrl => @mock_version[:login_url] , :Version => @mock_version[:version] } }
 
-      its(:version) { should == @mock_version[:version] }
-
-      its(:supported) { should == @mock_version[:supported] }
-
+      end
     end
   end
+else
 end

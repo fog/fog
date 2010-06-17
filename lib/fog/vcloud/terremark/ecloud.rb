@@ -2,14 +2,130 @@ module Fog
   module Vcloud
     module Terremark
       module Ecloud
+        extend Fog::Vcloud::Extension
+
+        model_path 'fog/vcloud/terremark/ecloud/models'
+        model :catalog_item
+        model :catalog
+        model :internet_service
+        model :internet_services
+        model :ip
+        model :ips
+        model :network
+        model :networks
+        model :node
+        model :nodes
+        model :public_ip
+        model :public_ips
+        model :server
+        model :servers
+        model :task
+        model :tasks
+        model :vdc
+        model :vdcs
+
+        request_path 'fog/vcloud/terremark/ecloud/requests'
+        request :add_internet_service
+        request :add_node
+        request :configure_internet_service
+        request :configure_network
+        request :configure_network_ip
+        request :configure_node
+        request :configure_vapp
+        request :delete_internet_service
+        request :delete_node
+        request :delete_vapp
+        request :get_catalog
+        request :get_catalog_item
+        request :get_customization_options
+        request :get_internet_services
+        request :get_network
+        request :get_network_ip
+        request :get_network_ips
+        request :get_network_extensions
+        request :get_node
+        request :get_nodes
+        request :get_public_ip
+        request :get_public_ips
+        request :get_task
+        request :get_task_list
+        request :get_vapp
+        request :get_vdc
+        request :power_off
+        request :power_on
+        request :power_reset
+        request :power_shutdown
+
+        versions "v0.8b-ext2.3"
 
         module Mock
           def self.base_url
-            "https://fakey.com/api/v0.8a-ext2.0"
+            "https://fakey.com/api/v0.8b-ext2.3"
           end
 
-          def self.data
-            @mock_data ||= Fog::Vcloud::Mock.data
+          def self.data_reset
+            @mock_data = nil
+            Fog::Vcloud::Mock.data_reset
+          end
+
+          def self.extension_url
+            self.base_url + "/extensions"
+          end
+
+          def self.data( base_url = self.base_url )
+            @mock_data ||= begin
+              extension_href = 
+              vcloud_data = Fog::Vcloud::Mock.data(base_url)
+              vcloud_data.delete( :versions )
+              vcloud_data.merge!( :versions => [ { :version => "v0.8b-ext2.3", :login_url => "#{base_url}/login", :supported => true } ] )
+
+              vcloud_data[:organizations][0][:vdcs][0][:public_ips] =
+                  [
+                    { :id => "51",
+                      :href => extension_url + "/publicIp/51",
+                      :name => "99.1.2.3",
+                      :services => [
+                        { :id => "71", :port => "80", :protocol => 'HTTP', :enabled => "true", :timeout => "2", :name => 'Web Site', :description => 'Web Servers' },
+                        { :id => "72", :port => "7000", :protocol => 'HTTP', :enabled => "true", :timeout => "2", :name => 'An SSH Map', :description => 'SSH 1' }
+                      ]
+                    },
+                    { :id => "52",
+                      :href => extension_url + "/publicIp/52",
+                      :name => "99.1.2.4",
+                      :services => [
+                        { :id => "73", :port => "80", :protocol => 'HTTP', :enabled => "true", :timeout => "2", :name => 'Web Site', :description => 'Web Servers' },
+                        { :id => "74", :port => "7000", :protocol => 'HTTP', :enabled => "true", :timeout => "2", :name => 'An SSH Map', :description => 'SSH 2' }
+                      ]
+                    },
+                    { :id => "53",
+                      :href => extension_url + "/publicIp/53",
+                      :name => "99.1.9.7",
+                      :services => []
+                    }
+                  ]
+
+              vcloud_data[:organizations][0][:vdcs][1][:public_ips] =
+                  [
+                    { :id => "54",
+                      :href => extension_url + "/publicIp/54",
+                      :name => "99.99.99.99",
+                      :services => []
+                    }
+                  ]
+
+              vcloud_data[:organizations].each do |organization|
+                organization[:info][:extension_href] = extension_url
+                organization[:vdcs].each do | vdc|
+                  vdc[:extension_href] = "#{base_url}/extensions/vdc/#{vdc[:id]}"
+                  vdc[:networks].each do |network|
+                    network[:extension_href] = "#{extension_url}/network/#{network[:id]}"
+                    network[:rnat] = vdc[:public_ips].first[:name]
+                  end
+                end
+              end
+
+              vcloud_data
+            end
           end
 
           def self.public_ip_href(ip)
@@ -19,61 +135,16 @@ module Fog
           def self.internet_service_href(internet_service)
             "#{base_url}/extensions/internetService/#{internet_service[:id]}"
           end
-        end
 
-        module Versions
-          SUPPORTED = ["v0.8", "v0.8a-ext2.0"]
-        end
-
-        def self.extended(klass)
-          #Do anything we need to do here that's specific to ecloud
-          unless @required
-            require 'fog/vcloud/terremark/all'
-            require 'fog/vcloud/terremark/ecloud/models/internet_service'
-            require 'fog/vcloud/terremark/ecloud/models/internet_services'
-            require 'fog/vcloud/terremark/ecloud/models/ip'
-            require 'fog/vcloud/terremark/ecloud/models/ips'
-            require 'fog/vcloud/terremark/ecloud/models/network'
-            require 'fog/vcloud/terremark/ecloud/models/networks'
-            require 'fog/vcloud/terremark/ecloud/models/public_ip'
-            require 'fog/vcloud/terremark/ecloud/models/public_ips'
-            require 'fog/vcloud/terremark/ecloud/models/vdc'
-            require 'fog/vcloud/terremark/ecloud/models/vdcs'
-            require 'fog/vcloud/terremark/ecloud/parsers/get_internet_services'
-            require 'fog/vcloud/terremark/ecloud/parsers/get_public_ip'
-            require 'fog/vcloud/terremark/ecloud/parsers/get_public_ips'
-            require 'fog/vcloud/terremark/ecloud/parsers/get_vdc'
-            require 'fog/vcloud/terremark/ecloud/parsers/internet_service'
-            require 'fog/vcloud/terremark/ecloud/parsers/network'
-            require 'fog/vcloud/terremark/ecloud/parsers/network_ips'
-            require 'fog/vcloud/terremark/ecloud/requests/add_internet_service'
-            require 'fog/vcloud/terremark/ecloud/requests/configure_internet_service'
-            require 'fog/vcloud/terremark/ecloud/requests/delete_internet_service'
-            require 'fog/vcloud/terremark/ecloud/requests/get_internet_services'
-            require 'fog/vcloud/terremark/ecloud/requests/get_network'
-            require 'fog/vcloud/terremark/ecloud/requests/get_network_ips'
-            require 'fog/vcloud/terremark/ecloud/requests/get_public_ip'
-            require 'fog/vcloud/terremark/ecloud/requests/get_public_ips'
-            require 'fog/vcloud/terremark/ecloud/requests/login'
-            require 'fog/vcloud/terremark/ecloud/requests/get_vdc'
-            Struct.new("TmrkEcloudVdc", :links, :resource_entities, :networks, :cpu_capacity, :storage_capacity, 
-                                        :memory_capacity, :deployed_vm_quota, :instantiated_vm_quota, :href, :type,
-                                        :name, :xmlns, :description)
-            Struct.new("TmrkEcloudList", :links)
-            Struct.new("TmrkEcloudPublicIp", :type, :href, :name, :id)
-            Struct.new("TmrkEcloudInternetService", :type, :href, :id, :name, :public_ip, :port, :protocol, 
-                                                    :enabled, :timeout, :description, :url_send_string, :http_header)
-            Struct.new("TmrkEcloudNetwork", :features, :configuration, :ips_link, :name, :type, :href, :xmlns)
-            Struct.new("TmrkEcloudNetworkIps", :addresses)
-            Struct.new("TmrkEcloudNetworkIp", :name, :status, :server)
-            @required = true
+          def ecloud_xmlns
+            { :xmlns => "urn:tmrk:eCloudExtensions-2.3", :"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance" }
           end
-          if Fog.mocking?
-            klass.extend Fog::Vcloud::Terremark::Ecloud::Mock
-          else
-            klass.extend Fog::Vcloud::Terremark::Ecloud::Real
+
+          def mock_data
+            Fog::Vcloud::Terremark::Ecloud::Mock.data
           end
         end
+
 
         private
 

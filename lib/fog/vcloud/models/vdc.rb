@@ -1,34 +1,24 @@
-require 'fog/model'
-
 module Fog
   module Vcloud
     class Vdc < Fog::Vcloud::Model
 
       identity :href
 
+      ignore_attributes :xmlns, :xmlns_xsi, :xmlns_xsd
+
       attribute :name
-      attribute :other_links, :links
-      attribute :resource_entity_links, :resource_entities
-      attribute :network_links, :networks
-      attribute :cpu_capacity
-      attribute :storage_capacity
-      attribute :memory_capacity
-      attribute :vm_quota
-      attribute :enabled
-      attribute :nic_quota
-      attribute :network_quota
-      attribute :vcloud_type, :type
-      attribute :xmlns
-      attribute :description
-      attribute :allocation_model
-
-      #def networks
-      #  connection.networks(:vdc_uri => @uri)
-      #end
-
-      #def addresses
-      #  connection.addresses(:vdc_uri => @uri)
-      #end
+      attribute :type
+      attribute :description, :aliases => :Description
+      attribute :other_links, :aliases => :Link
+      attribute :compute_capacity, :aliases => :ComputeCapacity
+      attribute :storage_capacity, :aliases => :StorageCapacity
+      attribute :available_networks, :aliases => :AvailableNetworks, :squash => :Network
+      attribute :resource_entities, :aliases => :ResourceEntities, :squash => :ResourceEntity
+      attribute :enabled, :aliases => :IsEnabled
+      attribute :vm_quota, :aliases => :VmQuota
+      attribute :nic_quota, :aliases => :NicQuota
+      attribute :network_quota, :aliases => :NetworkQuota
+      attribute :allocation_model, :aliases => :AllocationModel
 
     end
 

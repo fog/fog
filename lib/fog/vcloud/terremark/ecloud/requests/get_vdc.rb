@@ -4,16 +4,7 @@ module Fog
       module Ecloud
 
         module Real
-
-          # Get details of a vdc
-          def get_vdc(vdc_uri)
-            request(
-              :expects  => 200,
-              :method   => 'GET',
-              :parser   => Fog::Parsers::Vcloud::Terremark::Ecloud::GetVdc.new,
-              :uri      => vdc_uri
-            )
-          end
+          # Handled by the main Vcloud get_vdc
         end
 
         module Mock
@@ -22,24 +13,25 @@ module Fog
           #http://support.theenterprisecloud.com/kb/default.asp?id=545&Lang=1&SID=
 
           def get_vdc(vdc_uri)
-            if vdc = mock_data[:organizations].map { |org| org[:vdcs] }.flatten.detect { |vdc| URI.parse(vdc[:href]) == vdc_uri }
+            vdc_uri = ensure_unparsed(vdc_uri)
+            if vdc = mock_data[:organizations].map { |org| org[:vdcs] }.flatten.detect { |vdc| vdc[:href] == vdc_uri }
               xml = Builder::XmlMarkup.new
-              mock_it Fog::Parsers::Vcloud::Terremark::Ecloud::GetVdc.new, 200,
+              mock_it 200,
                 xml.Vdc(xmlns.merge(:href => vdc[:href], :name => vdc[:name])) {
                   xml.Link(:rel => "down",
                            :href => vdc[:href] + "/catalog",
                            :type => "application/vnd.vmware.vcloud.catalog+xml",
                            :name => vdc[:name])
                   xml.Link(:rel => "down",
-                           :href => vdc[:href].gsub('/vdc','/extensions/vdc') + "/publicIps",
+                           :href => vdc[:extension_href] + "/publicIps",
                            :type => "application/vnd.tmrk.ecloud.publicIpsList+xml",
                            :name => "Public IPs")
                   xml.Link(:rel => "down",
-                           :href => vdc[:href] + "/internetServices",
+                           :href => vdc[:extension_href] + "/internetServices",
                            :type => "application/vnd.tmrk.ecloud.internetServicesList+xml",
                            :name => "Internet Services")
                   xml.Link(:rel => "down",
-                           :href => vdc[:href].sub('/vdc','/extensions/vdc') + "/firewallAcls",
+                           :href => vdc[:extension_href] + "/firewallAcls",
                            :type => "application/vnd.tmrk.ecloud.firewallAclsList+xml",
                            :name => "Firewall Access List")
                   xml.Description("")

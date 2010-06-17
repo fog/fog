@@ -62,10 +62,36 @@ module Fog
               end
             end
           EOS
-        else
+        when :array
           class_eval <<-EOS, __FILE__, __LINE__
-            attr_writer :#{name}
+          def #{name}=(new_#{name})
+            @#{name} = if new_#{name}.is_a?(Array)
+              new_#{name}
+            else
+              @#{name} = [ new_#{name} ]
+            end
+          end
           EOS
+        else
+          if squash = options[:squash]
+            class_eval <<-EOS, __FILE__, __LINE__
+              def #{name}=(new_data)
+                if new_data.is_a?(Hash)
+                  if new_data[:#{squash}]
+                    @#{name} = new_data[:#{squash}]
+                  else
+                    @#{name} = [ new_data ]
+                  end
+                else
+                  @#{name} = new_data
+                end
+              end
+            EOS
+          else
+            class_eval <<-EOS, __FILE__, __LINE__
+              attr_writer :#{name}
+            EOS
+          end
         end
         @attributes ||= []
         @attributes |= [name]
@@ -76,7 +102,15 @@ module Fog
 
       def identity(name, other_names = [])
         @identity = name
-        self.attribute(name, other_names)
+        self.attribute(name, {:aliases => other_names})
+      end
+
+      def ignore_attributes(*args)
+        @ignored_attributes = args
+      end
+
+      def ignored_attributes
+        @ignored_attributes ||= []
       end
 
     end
@@ -105,10 +139,12 @@ module Fog
 
       def merge_attributes(new_attributes = {})
         for key, value in new_attributes
-          if aliased_key = self.class.aliases[key]
-            send("#{aliased_key}=", value)
-          else
-            send("#{key}=", value)
+          unless self.class.ignored_attributes.include?(key)
+            if aliased_key = self.class.aliases[key]
+              send("#{aliased_key}=", value)
+            else
+              send("#{key}=", value)
+            end
           end
         end
         self

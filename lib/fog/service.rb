@@ -32,11 +32,16 @@ module Fog
             @required = true
           end
 
-          if Fog.mocking?
+          instance = if Fog.mocking?
             Mock.new(options)
           else
             Real.new(options)
           end
+
+          if self.respond_to?(:after_new)
+            instance = self.after_new(instance, options)
+          end
+          instance
         end
       EOS
     end

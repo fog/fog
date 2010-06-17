@@ -1,46 +1,53 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Fog::Vcloud, :type => :vcloud_request do
-  subject { @vcloud }
+if Fog.mocking?
+  describe Fog::Vcloud, :type => :mock_vcloud_request do
+    subject { @vcloud }
 
-  it { should respond_to :get_organization }
+    it { should respond_to :get_organization }
 
-  describe "#get_organization" do
-    context "with a valid organization uri" do
-      before { @organization = @vcloud.get_organization(@vcloud.default_organization_uri) }
-      subject { @organization }
+    describe "#get_organization" do
+      context "with a valid organization uri" do
+        before { @organization = @vcloud.get_organization(@vcloud.default_organization_uri) }
+        subject { @organization }
 
-      it_should_behave_like "all requests"
+        it_should_behave_like "all responses"
+        it { should have_headers_denoting_a_content_type_of "application/vnd.vmware.vcloud.org+xml" }
 
-      its(:headers) { should include "Content-Type" }
-      its(:body) { should be_an_instance_of Struct::VcloudOrganization }
+        describe "#body" do
+          subject { @organization.body }
 
-      describe :headers do
-        let(:header){ @organization.headers["Content-Type"] }
-        specify{ header.should == "application/vnd.vmware.vcloud.org+xml" }
+
+          let(:links) { subject[:Link] }
+
+          it { should have(6).keys }
+
+          it_should_behave_like "it has the standard vcloud v0.8 xmlns attributes"   # 3 keys
+          it { should have_key_with_value :href, @mock_organization[:info][:href] }
+          it { should have_key_with_value :name, @mock_organization[:info][:name] }
+          it { should have_key_with_array :Link, @mock_organization[:vdcs].map { |vdc|
+                                                 [{ :type => "application/vnd.vmware.vcloud.vdc+xml",
+                                                    :href => vdc[:href],
+                                                    :name => vdc[:name],
+                                                    :rel => "down" },
+                                                  { :type => "application/vnd.vmware.vcloud.catalog+xml",
+                                                    :href => vdc[:href] + "/catalog",
+                                                    :name => vdc[:name] + " Catalog",
+                                                    :rel => "down" },
+                                                  { :type => "application/vnd.vmware.vcloud.tasksList+xml",
+                                                    :href => vdc[:href] + "/tasksList",
+                                                    :name => vdc[:name] + " Tasks List",
+                                                    :rel => "down" }]
+                                                  }.flatten }
+
+        end
       end
-
-      describe "#body" do
-        subject { @organization.body }
-
-        it_should_behave_like "it has a vcloud v0.8 xmlns"
-
-        its(:links) { should have(@mock_organization[:vdcs].length * 3).links }
-        its(:name) { should == @mock_organization[:info][:name] }
-        its(:href) { should == URI.parse(@mock_organization[:info][:href]) }
-
-        let(:link) { subject.links[0] }
-        specify { link.should be_an_instance_of Struct::VcloudLink }
-        specify { link.rel.should == "down" }
-        specify { link.href.should == URI.parse(@mock_vdc[:href]) }
-        specify { link.type.should == "application/vnd.vmware.vcloud.vdc+xml" }
-        specify { link.name.should == @mock_vdc[:name] }
+      context "with an organization uri that doesn't exist" do
+        subject { lambda { @vcloud.get_organization(URI.parse('https://www.fakey.com/api/v0.8/org/999')) } }
+        it_should_behave_like "a request for a resource that doesn't exist"
       end
-    end
-    context "with an organization uri that doesn't exist" do
-      subject { lambda { @vcloud.get_organization(URI.parse('https://www.fakey.com/api/v0.8/org/999')) } }
-      it_should_behave_like "a request for a resource that doesn't exist"
     end
   end
+else
 end
 

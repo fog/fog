@@ -3,12 +3,6 @@ module Fog
     module Terremark
       module Ecloud
 
-        module Mock
-          def networks(options = {})
-            @networks ||= Fog::Vcloud::Terremark::Ecloud::Networks.new(options.merge(:connection => self))
-          end
-        end
-
         module Real
           def networks(options = {})
             @networks ||= Fog::Vcloud::Terremark::Ecloud::Networks.new(options.merge(:connection => self))
@@ -21,14 +15,21 @@ module Fog
 
           model Fog::Vcloud::Terremark::Ecloud::Network
 
-          get_request :get_network
-          vcloud_type "application/vnd.vmware.vcloud.network+xml"
-          all_request lambda { |networks| networks.connection.get_vdc(networks.href).body.networks }
+          attribute :href
 
-          #def all
-          #  pp connection.get_vdc(href).body.networks
-          #  load(connection.get_vdc(href).body.networks.map { |network| { } } )
-          #end
+          def all
+            if data = connection.get_vdc(href).body[:AvailableNetworks][:Network]
+              load(data)
+            end
+          end
+
+          def get(uri)
+            if data = connection.get_network(uri)
+              new(data.body)
+            end
+            rescue Fog::Errors::NotFound
+            nil
+          end
 
         end
       end

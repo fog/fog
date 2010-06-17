@@ -4,15 +4,7 @@ module Fog
       module Ecloud
 
         module Real
-
-          def get_internet_services(internet_services_uri)
-            request(
-              :expects  => 200,
-              :method   => 'GET',
-              :parser   => Fog::Parsers::Vcloud::Terremark::Ecloud::GetInternetServices.new,
-              :uri      => internet_services_uri
-            )
-          end
+          basic_request :get_internet_services
         end
 
         module Mock
@@ -39,28 +31,29 @@ module Fog
                 xml.Enabled(service[:enabled])
                 xml.Timeout(service[:timeout])
                 xml.Description(service[:description])
-                xml.UrlSendString
-                xml.HttpHeader
+                xml.RedirectURL
+                xml.Monitor
               }
             end
           end
 
           def get_internet_services(internet_services_uri)
+            internet_services_uri = ensure_unparsed(internet_services_uri)
             xml = nil
             builder = Builder::XmlMarkup.new
-            if vdc = Fog::Vcloud::Mock.vdc_from_uri(internet_services_uri)
-              xml = builder.InternetServices( :xmlns => "urn:tmrk:eCloudExtensions-2.0",:"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance" ) { |xml|
+            if vdc = vdc_from_uri(internet_services_uri)
+              xml = builder.InternetServices( :xmlns => "urn:tmrk:eCloudExtensions-2.3",:"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance" ) { |xml|
                 vdc[:public_ips].each do |ip|
                   Fog::Vcloud::Terremark::Ecloud::Mock.internet_services_for_ip(xml,ip)
                 end
               }
-            elsif ip = Fog::Vcloud::Mock.ip_from_uri(internet_services_uri)
-              xml = builder.InternetServices( :xmlns => "urn:tmrk:eCloudExtensions-2.0",:"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance" ) { |xml|
+            elsif ip = ip_from_uri(internet_services_uri)
+              xml = builder.InternetServices( :xmlns => "urn:tmrk:eCloudExtensions-2.3",:"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance" ) { |xml|
                 Fog::Vcloud::Terremark::Ecloud::Mock.internet_services_for_ip(xml,ip)
               }
             end
             if xml
-              mock_it Fog::Parsers::Vcloud::Terremark::Ecloud::GetInternetServices.new, 200,
+              mock_it 200,
                 xml, { 'Content-Type' => 'application/vnd.tmrk.ecloud.internetServicesList+xml' }
             else
               mock_error 200, "401 Unauthorized"

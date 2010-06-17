@@ -1,53 +1,63 @@
-require "spec_helper"
+require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 
 #
 # WARNING: INCOMPLETE
 #
 
-describe Fog::Vcloud, :type => :vcloud_request do
-  subject { @vcloud }
+if Fog.mocking?
+  describe Fog::Vcloud, :type => :mock_vcloud_request do
+    subject { @vcloud }
 
-  it { should respond_to :get_vdc }
+    it { should respond_to :get_vdc }
 
-  describe :get_vdc, :type => :vcloud_request do
-    context "with a valid vdc uri" do
-      before { @vdc = @vcloud.get_vdc(URI.parse(@mock_vdc[:href])) }
-      subject { @vdc }
+    describe :get_vdc, :type => :vcloud_request do
+      context "with a valid vdc uri" do
+        before { @vdc = @vcloud.get_vdc(URI.parse(@mock_vdc[:href])) }
+        subject { @vdc }
 
-      it_should_behave_like "all requests"
+        it_should_behave_like "all responses"
+        it { should have_headers_denoting_a_content_type_of "application/vnd.vmware.vcloud.vdc+xml" }
 
-      its(:headers) { should include "Content-Type" }
-      its(:body) { should be_an_instance_of Struct::VcloudVdc }
+        describe :body do
+          subject { @vdc.body }
 
-      describe :headers do
-        let(:header) { @vdc.headers["Content-Type"] }
-        specify { header.should == "application/vnd.vmware.vcloud.vdc+xml" }
+          it { should have(16).items }
+
+          it_should_behave_like "it has the standard vcloud v0.8 xmlns attributes"   # 3 keys
+
+          its(:name)            { should == @mock_vdc[:name] }
+          its(:href)            { should == @mock_vdc[:href] }
+          its(:VmQuota)         { should == "0" }
+          its(:Description)     { should == @mock_vdc[:name] + " VDC" }
+          its(:NicQuota)        { should == "0" }
+          its(:IsEnabled)       { should == "true" }
+          its(:NetworkQuota)    { should == "0" }
+          its(:AllocationModel) { should == "AllocationPool" }
+          its(:Link)            { should have(7).links }
+          its(:ResourceEntities) { should have(1).resource }
+
+          let(:resource_entities) { subject[:ResourceEntities][:ResourceEntity] }
+          specify { resource_entities.should have(3).vapps  }
+          #FIXME: test for the resources
+
+          its(:ComputeCapacity) { should == {:Memory => { :Units => "MB", :Allocated => @mock_vdc[:memory][:allocated], :Limit => @mock_vdc[:memory][:allocated] },
+                                             :Cpu => { :Units => "Mhz", :Allocated => @mock_vdc[:cpu][:allocated], :Limit => @mock_vdc[:cpu][:allocated] } } }
+
+          its(:StorageCapacity) { should == {:Units => "MB", :Allocated => @mock_vdc[:storage][:allocated], :Limit => @mock_vdc[:storage][:allocated] } }
+
+          let(:available_networks) { subject[:AvailableNetworks][:Network] }
+          specify { available_networks.should have(2).networks }
+          #FIXME :test the available networks
+
+        end
       end
-
-      describe :body do
-        subject { @vdc.body }
-
-        it_should_behave_like "it has a vcloud v0.8 xmlns"
-
-        its(:links) { should have(7).links }
-        its(:resource_entities) { should have(3).links }
-        its(:networks) { should have(2).networks }
-
-        its(:name) { should == @mock_vdc[:name] }
-        its(:href) { should == URI.parse(@mock_vdc[:href]) }
-
-        let(:link) { subject.links[0] }
-        specify { link.should be_an_instance_of Struct::VcloudLink }
-        specify { link.rel.should == "up" }
-        specify { link.href.should == URI.parse(@mock_organization[:info][:href]) }
-        specify { link.type.should == "application/vnd.vmware.vcloud.org+xml" }
+      context "with a vdc uri that doesn't exist" do
+        subject { lambda { @vcloud.get_vdc(URI.parse('https://www.fakey.com/api/v0.8/vdc/999')) } }
+        it_should_behave_like "a request for a resource that doesn't exist"
       end
-    end
-    context "with a vdc uri that doesn't exist" do
-      subject { lambda { @vcloud.get_vdc(URI.parse('https://www.fakey.com/api/v0.8/vdc/999')) } }
-      it_should_behave_like "a request for a resource that doesn't exist"
     end
   end
+else
 end
 
 

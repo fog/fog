@@ -3,12 +3,12 @@ require 'spec_helper'
 describe Vcloud do
   it { should be_initialized }
 
-  it { should have(2).services }
+  it { should have(3).services }
 
   describe "#registered_services" do
     subject { Vcloud.registered_services }
 
-    it { should == ":ecloud, :vcloud" }
+    it { should == ":ecloud, :etest, :vcloud" }
   end
 
   describe "when indexing it like an array" do

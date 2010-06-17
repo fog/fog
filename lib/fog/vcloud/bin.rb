@@ -17,7 +17,7 @@ module Vcloud
       if Fog.credentials.has_key?(:vcloud)
         if Fog.credentials[:vcloud].has_key?(service)
           service = Fog.credentials[:vcloud][service]
-          if Fog::Vcloud::Options::REQUIRED.all? { |option| service.has_key?(option) }
+          if Fog::Vcloud.requirements.all? { |option| service.has_key?(option) }
             return true
           end
         end
@@ -38,7 +38,7 @@ module Vcloud
       def [](service)
         @@connections ||= Hash.new do |hash, key|
           if credentials = Fog.credentials[:vcloud][key]
-            hash[key] = Fog::Vcloud.new(credentials.reject { |k,value| Fog::Vcloud::Options::ALL.include?(value) })
+            hash[key] = Fog::Vcloud.new(credentials)
           else
             raise ArgumentError.new("Unregistered service: :#{key}. Registered services are: #{Vcloud.registered_services}")
           end

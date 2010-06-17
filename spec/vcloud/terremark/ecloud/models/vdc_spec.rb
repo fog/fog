@@ -1,47 +1,63 @@
 require File.join(File.dirname(__FILE__),'..','..','..','spec_helper')
 
-describe "Fog::Vcloud::Terremark::Ecloud::Vdc", :type => :tmrk_ecloud_model do
-  subject { @vcloud }
+if Fog.mocking?
+  describe "Fog::Vcloud::Terremark::Ecloud::Vdc", :type => :mock_tmrk_ecloud_model do
+    subject { @vcloud }
 
-  it { should respond_to :get_vdc }
+    it { should respond_to :get_vdc }
 
-  describe :class do
-    subject { Fog::Vcloud::Terremark::Ecloud::Vdc }
+    describe :class do
+      subject { Fog::Vcloud::Terremark::Ecloud::Vdc }
 
-    it { should have_identity :href }
-    it { should have_only_these_attributes [:href, :name, :other_links, :resource_entity_links, :network_links, :cpu_capacity, 
-                                            :storage_capacity, :memory_capacity, :vcloud_type, :xmlns, :description,
-                                            :deployed_vm_quota, :instantiated_vm_quota] }
+      it { should have_identity :href }
+      it { should have_only_these_attributes [:href, :name, :type, :description, :other_links, :compute_capacity, :storage_capacity, :available_networks,
+                                              :resource_entities, :deployed_vm_quota, :instantiated_vm_quota] }
+    end
+
+    context "with no uri" do
+
+      subject { Fog::Vcloud::Terremark::Ecloud::Vdc.new() }
+
+      it { should have_all_attributes_be_nil }
+    end
+
+    context "as a collection member" do
+      subject { @vcloud.vdcs[0].reload; @vcloud.vdcs[0] }
+
+      its(:href)                  { should == @mock_vdc[:href] }
+      its(:identity)              { should == @mock_vdc[:href] }
+      its(:name)                  { should == @mock_vdc[:name] }
+      its(:public_ips)            { should be_an_instance_of Fog::Vcloud::Terremark::Ecloud::PublicIps }
+      its(:other_links)           { should have(4).items }
+      its(:resource_entities)     { should have(3).items }
+      its(:available_networks)    { should have(2).items }
+
+      its(:compute_capacity)      { should == {:Memory =>
+                                                {:Allocated => @mock_vdc[:memory][:allocated], :Units => "bytes * 2^20"}, 
+                                               :DeployedVmsQuota =>
+                                                {:Limit => "-1", :Used => "-1"},
+                                               :InstantiatedVmsQuota =>
+                                                {:Limit => "-1", :Used => "-1"}, 
+                                               :Cpu =>
+                                                {:Allocated => @mock_vdc[:cpu][:allocated], :Units => "hz * 10^6"}} }
+
+      its(:storage_capacity)      { should == {:Allocated => @mock_vdc[:storage][:allocated], :Used => @mock_vdc[:storage][:used], :Units => "bytes * 10^9"} }
+
+      its(:deployed_vm_quota)     { should == nil }
+      its(:instantiated_vm_quota) { should == nil }
+
+      its(:public_ips)            { should have(3).public_ips }
+      its(:internet_services)     { should have(4).services }
+      its(:networks)              { should have(2).networks }
+      its(:servers)               { should have(3).servers }
+
+      #FIXME: need to mock tasks related requests first
+      #its(:tasks)                 { should have(0).tasks }
+
+      #FIXME: need to mock catalog related requests first
+      #its(:catalog)               { should have(0).entries }
+
+    end
   end
-
-  context "with no uri" do
-
-    subject { Fog::Vcloud::Terremark::Ecloud::Vdc.new() }
-
-    its(:href) { should be_nil }
-    its(:identity) { should be_nil }
-  end
-
-  context "as a collection member" do
-    subject { @vcloud.vdcs[0] }
-
-    its(:href)                  { should == URI.parse(@mock_vdc[:href]) }
-    its(:identity)              { should == URI.parse(@mock_vdc[:href]) }
-    its(:name)                  { should == @mock_vdc[:name] }
-    its(:public_ips)            { should be_an_instance_of Fog::Vcloud::Terremark::Ecloud::PublicIps }
-    its(:other_links)           { should have(4).items }
-    its(:resource_entity_links) { should have(3).items }
-    its(:network_links)         { should have(2).items }
- 
-    its(:cpu_capacity)          { should == Struct::VcloudXCapacity.new('hz * 10^6',@mock_vdc[:cpu][:allocated]) }
-    its(:memory_capacity)       { should == Struct::VcloudXCapacity.new('bytes * 2^20',@mock_vdc[:memory][:allocated]) }
-    its(:storage_capacity)      { should == Struct::VcloudXCapacity.new('bytes * 10^9',@mock_vdc[:storage][:allocated], @mock_vdc[:storage][:used]) }
-
-    its(:deployed_vm_quota)     { should == Struct::VcloudXCapacity.new(nil,nil,-1,-1) }
-    its(:instantiated_vm_quota) { should == Struct::VcloudXCapacity.new(nil,nil,-1,-1) }
-
-    its(:public_ips)            { should have(3).public_ips }
-    its(:internet_services)     { should have(4).services }
- 
-  end
+else
 end

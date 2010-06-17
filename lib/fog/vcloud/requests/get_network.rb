@@ -1,16 +1,8 @@
 module Fog
   module Vcloud
+
     class Real
-
-      def get_network(network_uri)
-       request(
-          :expects  => 200,
-          :method   => 'GET',
-          :parser   => Fog::Parsers::Vcloud::Network.new,
-          :uri      => uri
-        )
-      end
-
+      basic_request :get_network
     end
 
     class Mock
@@ -23,11 +15,12 @@ module Fog
         # Did not implement AssociatedNetwork, seems redundant, haven't seen it in use yet
         # Did not implement the following features: Dhcp, Nat & Firewall
         #
+        network_uri = ensure_unparsed(network_uri)
         type = "application/vnd.vmware.vcloud.network+xml"
         response = Excon::Response.new
         if network = mock_data[:organizations].map { |org| org[:vdcs].map { |vdc| vdc[:networks] } }.flatten.detect { |network| network[:href] == network_uri.to_s }
           xml = Builder::XmlMarkup.new
-          mock_it Fog::Parsers::Vcloud::Network.new, 200,
+          mock_it 200,
             xml.Network(xmlns.merge(:href => network[:href], :name => network[:name], :type => type)) {
               xml.Description(network[:name])
               xml.Configuration {

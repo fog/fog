@@ -11,7 +11,7 @@ module Fog
             'Authorization' => authorization_header
           },
           :method   => 'POST',
-          :parser   => Fog::Parsers::Vcloud::Login.new,
+          :parse    => true,
           :uri      => @login_uri
         })
       end
@@ -29,10 +29,10 @@ module Fog
         #
         xml = Builder::XmlMarkup.new
 
-        mock_it Fog::Parsers::Vcloud::Login.new, 200,
+        mock_it 200,
           xml.OrgList(xmlns) {
-              Fog::Vcloud::Mock.data[:organizations].each do |org|
-                xml.Org( org[:info].merge( "type" => "application/vnd.vmware.vcloud.org+xml" ) ) {}
+              mock_data[:organizations].each do |org|
+                xml.Org( :type => "application/vnd.vmware.vcloud.org+xml", :href => org[:info][:href], :name => org[:info][:name] )
               end
             },
             { 'Set-Cookie' => 'vcloud-token=fc020a05-21d7-4f33-9b2a-25d8cd05a44e; path=/',
