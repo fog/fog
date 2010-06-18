@@ -30,9 +30,9 @@ module Fog
           data = connection.get_bucket(key, options).body
           directory = new(:key => data['Name'])
           options = {}
-          for key, value in data
-            if ['Delimiter', 'IsTruncated', 'Marker', 'MaxKeys', 'Prefix'].include?(key)
-              options[key] = value
+          for k, v in data
+            if ['Delimiter', 'IsTruncated', 'Marker', 'MaxKeys', 'Prefix'].include?(k)
+              options[k] = v
             end
           end
           directory.files.merge_attributes(options)
