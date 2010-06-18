@@ -14,14 +14,59 @@ module Fog
         @attributes ||= []
       end
 
-      def attribute(name, other_names = [])
+      def attribute(name, options = {})
+        # FIXME: handle legacy where options would have been one or more aliases
+        if !options.is_a?(Hash)
+          options = {:aliases => options}
+        end
         class_eval <<-EOS, __FILE__, __LINE__
-          attr_accessor :#{name}
+          attr_reader :#{name}
         EOS
+        case options[:type]
+        when :boolean
+          class_eval <<-EOS, __FILE__, __LINE__
+            def #{name}=(new_#{name})
+              @#{name} = case new_#{name}
+              when 'true'
+                true
+              when 'false'
+                false
+              end
+            end
+          EOS
+        when :float
+          class_eval <<-EOS, __FILE__, __LINE__
+            def #{name}=(new_#{name})
+              @#{name} = new_#{name}.to_f
+            end
+          EOS
+        when :integer
+          class_eval <<-EOS, __FILE__, __LINE__
+            def #{name}=(new_#{name})
+              @#{name} = new_#{name}.to_i
+            end
+          EOS
+        when :string
+          class_eval <<-EOS, __FILE__, __LINE__
+            def #{name}=(new_#{name})
+              @#{name} = new_#{name}.to_s
+            end
+          EOS
+        when :time
+          class_eval <<-EOS, __FILE__, __LINE__
+            def #{name}=(new_#{name})
+              @#{name} = Time.parse(new_#{name})
+            end
+          EOS
+        else
+          class_eval <<-EOS, __FILE__, __LINE__
+            attr_writer :#{name}
+          EOS
+        end
         @attributes ||= []
         @attributes |= [name]
-        for other_name in [*other_names]
-          aliases[other_name] = name
+        for new_alias in [*options[:aliases]]
+          aliases[new_alias] = name
         end
       end
 
