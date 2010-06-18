@@ -26,7 +26,7 @@ module Fog
 end
 
 module Fog
-  class ToHashParser
+  class ToHashDocument < Nokogiri::XML::SAX::Document
 
     def initialize
       @stack = []
@@ -41,7 +41,7 @@ module Fog
       last = @stack.pop
       if last.empty? && @value.empty?
         @stack.last[name.to_sym] = ''
-      elsif @value.empty?
+      elsif !@value.empty?
         @stack.last[name.to_sym] = @value
       end
       @value = ''
@@ -60,7 +60,7 @@ module Fog
         else
           key, value = attributes.shift, attributes.shift
         end
-        parsed_attributes[key.to_sym.gsub(':','_')] = value
+        parsed_attributes[key.gsub(':','_').to_sym] = value
       end
       if @stack.last.is_a?(Array)
         @stack.last << {name.to_sym => parsed_attributes}
