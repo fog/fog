@@ -38,11 +38,13 @@ module Fog
     end
 
     def end_element(name)
-      @stack.pop
-      unless @value.empty?
+      last = @stack.pop
+      if last.empty?
+        @stack.last[name.to_sym] = ''
+      elsif @value.empty?
         @stack.last[name.to_sym] = @value
-        @value = ''
       end
+      @value = ''
     end
 
     def body
@@ -58,7 +60,7 @@ module Fog
         else
           key, value = attributes.shift, attributes.shift
         end
-        parsed_attributes[key.to_sym] = value
+        parsed_attributes[key.to_sym.gsub(':','_')] = value
       end
       if @stack.last.is_a?(Array)
         @stack.last << {name.to_sym => parsed_attributes}
