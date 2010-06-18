@@ -39,7 +39,7 @@ module Fog
 
     def end_element(name)
       last = @stack.pop
-      if last.empty?
+      if last.empty? && @value.empty?
         @stack.last[name.to_sym] = ''
       elsif @value.empty?
         @stack.last[name.to_sym] = @value
