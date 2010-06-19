@@ -36,12 +36,7 @@ module Fog
             end
           end
           directory.files.merge_attributes(options)
-          files = data['Contents']
-          while data['IsTruncated']
-            data = connection.get_bucket(key, options.merge!('marker' => files.last['Key'])).body
-            files.concat(data['Contents'])
-          end
-          directory.files.load(files)
+          directory.files.load(data['Contents'])
           directory
         rescue Excon::Errors::NotFound
           nil
