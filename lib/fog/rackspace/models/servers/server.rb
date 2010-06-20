@@ -20,6 +20,11 @@ module Fog
 
         attr_accessor :password, :private_key_path, :public_key_path
 
+        def initialize(attributes={})
+          @flavor_id ||= 1
+          super
+        end
+
         def destroy
           requires :id
           connection.delete_server(@id)

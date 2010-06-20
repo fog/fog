@@ -31,7 +31,7 @@ module Fog
         attribute :state,                 'instanceState'
         attribute :user_data
 
-        def initialize(attributes)
+        def initialize(attributes={})
           @groups ||= ["default"]
           @flavor_id ||= 'm1.small'
           super
