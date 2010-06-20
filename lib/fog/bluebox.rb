@@ -53,10 +53,14 @@ module Fog
         @host   = options[:bluebox_host]    || "boxpanel.blueboxgrp.com"
         @port   = options[:bluebox_port]    || 443
         @scheme = options[:bluebox_scheme]  || 'https'
+        @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+      end
+
+      def reload
+        @connection.reset
       end
 
       def request(params)
-        @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
         params[:headers] ||= {}
         params[:headers].merge!({
           'Authorization' => "Basic #{Base64.encode64([@bluebox_customer_id, @bluebox_api_key].join(':')).delete("\r\n")}"

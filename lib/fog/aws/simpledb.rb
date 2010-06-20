@@ -68,6 +68,7 @@ module Fog
           @nil_string = options[:nil_string]|| 'nil'
           @port       = options[:port]      || 443
           @scheme     = options[:scheme]    || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
         end
 
         private
@@ -117,8 +118,11 @@ module Fog
           encoded_attributes
         end
 
+        def reload
+          @connection.reset
+        end
+
         def request(params)
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
           idempotent = params.delete(:idempotent)
           parser = params.delete(:parser)
 

@@ -42,6 +42,7 @@ module Fog
           @path   = options[:path]   || Fog::Terremark::Ecloud::Defaults::PATH
           @port   = options[:port]   || Fog::Terremark::Ecloud::Defaults::PORT
           @scheme = options[:scheme] || Fog::Terremark::Ecloud::Defaults::SCHEME
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
         end
 
       end

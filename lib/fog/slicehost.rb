@@ -54,10 +54,14 @@ module Fog
         @host   = options[:host]    || "api.slicehost.com"
         @port   = options[:port]    || 443
         @scheme = options[:scheme]  || 'https'
+        @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+      end
+
+      def reload
+        @connection.reset
       end
 
       def request(params)
-        @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
         params[:headers] ||= {}
         params[:headers].merge!({
           'Authorization' => "Basic #{Base64.encode64(@slicehost_password).delete("\r\n")}"

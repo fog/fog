@@ -73,10 +73,14 @@ module Fog
           @path   = uri.path
           @port   = uri.port
           @scheme = uri.scheme
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+        end
+
+        def reload
+          @connection.reset
         end
 
         def request(params)
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
           begin
             response = @connection.request(params.merge!({
               :headers  => {

@@ -160,13 +160,16 @@ module Fog
             end
           @port   = options[:port]      || 443
           @scheme = options[:scheme]    || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+        end
+
+        def reload
+          @connection.reset
         end
 
         private
 
         def request(params)
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
-
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 

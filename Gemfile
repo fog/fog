@@ -1,7 +1,7 @@
 source 'http://gemcutter.org'
 
 gem 'rake'
-gem 'excon', '>= 0.1.0'
+gem 'excon', '>= 0.1.1'
 gem 'formatador', ">= 0.0.10"
 gem 'json', ">= 0"
 gem 'mime-types', ">= 0"

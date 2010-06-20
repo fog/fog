@@ -135,11 +135,11 @@ module Fog
             end
           @port   = options[:port]      || 443
           @scheme = options[:scheme]    || 'https'
-          reload
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent] || true)
         end
 
         def reload
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
+          @connection.reset
         end
 
         private

@@ -1,11 +1,15 @@
 module Fog
   class Connection
 
-    def initialize(url)
+    def initialize(url, persistent=false)
       @excon = Excon.new(url)
+      @persistent = persistent
     end
 
     def request(params, &block)
+      unless @persistent
+        reset
+      end
       unless block_given?
         if (parser = params.delete(:parser))
           body = Nokogiri::XML::SAX::PushParser.new(parser)
@@ -21,6 +25,10 @@ module Fog
       end
 
       response
+    end
+
+    def reset
+      @excon.reset
     end
 
   end

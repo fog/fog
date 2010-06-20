@@ -51,8 +51,11 @@ module Fog
           response.headers['Set-Cookie']
         end
 
+        def reload
+          @connection.reset
+        end
+
         def request(params)
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
           unless @cookie
             @cookie = auth_token
           end

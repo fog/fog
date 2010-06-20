@@ -78,20 +78,27 @@ module Fog
         def initialize(options={})
           credentials = Fog::Rackspace.authenticate(options)
           @auth_token = credentials['X-Auth-Token']
+
           cdn_uri = URI.parse(credentials['X-CDN-Management-Url'])
           @cdn_host   = cdn_uri.host
           @cdn_path   = cdn_uri.path
           @cdn_port   = cdn_uri.port
           @cdn_scheme = cdn_uri.scheme
+          @cdn_connection = Fog::Connection.new("#{@cdn_scheme}://#{@cdn_host}:#{@cdn_port}", options[:persistent])
+
           storage_uri = URI.parse(credentials['X-Storage-Url'])
           @storage_host   = storage_uri.host
           @storage_path   = storage_uri.path
           @storage_port   = storage_uri.port
           @storage_scheme = storage_uri.scheme
+          @storage_connection = Fog::Connection.new("#{@storage_scheme}://#{@storage_host}:#{@storage_port}", options[:persistent])
+        end
+
+        def reload
+          @connection.reset
         end
 
         def cdn_request(params)
-          @cdn_connection = Fog::Connection.new("#{@cdn_scheme}://#{@cdn_host}:#{@cdn_port}")
           response = @cdn_connection.request(params.merge!({
             :headers  => {
               'Content-Type' => 'application/json',
@@ -107,7 +114,6 @@ module Fog
         end
 
         def storage_request(params, parse_json = true, &block)
-          @storage_connection = Fog::Connection.new("#{@storage_scheme}://#{@storage_host}:#{@storage_port}")
           response = @storage_connection.request(params.merge!({
             :headers  => {
               'Content-Type' => 'application/json',
