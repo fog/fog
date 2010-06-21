@@ -22,11 +22,12 @@ module Fog
         #     * 'BoxUsage'
         #     * 'RequestId'
         def put_attributes(domain_name, item_name, attributes, replace_attributes = [])
-          batch_put_attributes(
-            domain_name,
-            { item_name => attributes },
-            { item_name => replace_attributes }
-          )
+          request({
+            'Action'      => 'PutAttributes',
+            'DomainName'  => domain_name,
+            :parser       => Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string),
+            'ItemName' => item_name
+          }.merge!(encode_attributes(attributes, replace_attributes, {})))
         end
 
         def put_conditional(domain_name, item_name, attributes, expected_attributes = {})
@@ -35,7 +36,7 @@ module Fog
             'DomainName'  => domain_name,
             :parser       => Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string),
             'ItemName' => item_name
-          }.merge!(encode_attributes(attributes, {}, expected_attributes)))
+          }.merge!(encode_attributes(attributes, expected_attributes.keys, expected_attributes)))
         end
 
       end
@@ -43,34 +44,50 @@ module Fog
       class Mock
 
         def put_attributes(domain_name, item_name, attributes, replace_attributes = [])
-          batch_put_attributes(
-            domain_name,
-            { item_name => attributes },
-            { item_name => replace_attributes }
-          )
-        end
-
-        def put_conditional(domain_name, item_name, attributes, expected_attributes = {})
           response = Excon::Response.new
+# TODO: mock out replace_attributes support
           if @data[:domains][domain_name]
-            expected_attributes.each do |ck, cv|
-              if @data[:domains][domain_name][item_name][ck] != cv
-                response.status = 409
-                raise(Excon::Errors.status_error({:expects => 200}, response))
-              end
-            end
             attributes.each do |key, value|
               @data[:domains][domain_name][item_name] ||= {}
-              @data[:domains][domain_name][item_name][key.to_s] = value
+              @data[:domains][domain_name][item_name][key.to_s] = [value.to_s]
             end
             response.status = 200
             response.body = {
               'BoxUsage'  => Fog::AWS::Mock.box_usage,
               'RequestId' => Fog::AWS::Mock.request_id
             }
+          else
+            response.status = 400
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
           response
         end
-      end
+
+        def put_conditional(domain_name, item_name, attributes, expected_attributes = {})
+          response = Excon::Response.new
+          if @data[:domains][domain_name]
+            expected_attributes.each do |ck, cv|
+              if @data[:domains][domain_name][item_name][ck] != [cv]
+                response.status = 409
+                raise(Excon::Errors.status_error({:expects => 200}, response))
+              end
+            end
+            attributes.each do |key, value|
+              @data[:domains][domain_name][item_name] ||= {}
+              @data[:domains][domain_name][item_name][key.to_s] = [value.to_s]
+            end
+            response.status = 200
+            response.body = {
+              'BoxUsage'  => Fog::AWS::Mock.box_usage,
+              'RequestId' => Fog::AWS::Mock.request_id
+            }
+          else
+            response.status = 400
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+
+          end
+          response
+        end
 
       end
     end

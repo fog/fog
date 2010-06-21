@@ -19,8 +19,9 @@ describe 'SimpleDB.put_attributes' do
     end
 
     it 'conditional put should succeed' do
-      actual = AWS[:sdb].put_conditional(@domain_name, 'foo', { 'version' => '1' }, { 'version' => nil })
-      actual = AWS[:sdb].put_conditional(@domain_name, 'foo', { 'version' => '2' }, { 'version' => '1' })
+      AWS[:sdb].put_attributes(@domain_name, 'foo', { 'version' => '1' })
+      AWS[:sdb].put_conditional(@domain_name, 'foo', { 'version' => '2' }, { 'version' => '1' })
+      actual = AWS[:sdb].put_conditional(@domain_name, 'foo', { 'version' => '3' }, { 'version' => '2' })
       actual.body['RequestId'].should be_a(String)
       actual.body['BoxUsage'].should be_a(Float)
     end

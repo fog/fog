@@ -73,7 +73,7 @@ module Fog
 
         private
 
-        def encode_attributes(attributes, replace_attributes = {}, expected_attributes = {})
+        def encode_attributes(attributes, replace_attributes = [], expected_attributes = {})
           encoded_attributes = {}
           if attributes
 
