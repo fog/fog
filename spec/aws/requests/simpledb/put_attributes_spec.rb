@@ -20,8 +20,8 @@ describe 'SimpleDB.put_attributes' do
 
     it 'conditional put should succeed' do
       AWS[:sdb].put_attributes(@domain_name, 'foo', { 'version' => '1' })
-      AWS[:sdb].put_attributes(@domain_name, 'foo', { 'version' => '2' }, :expect => { 'version' => '1' })
-      actual = AWS[:sdb].put_attributes(@domain_name, 'foo', { 'version' => '3' }, :expect => { 'version' => '2' })
+      AWS[:sdb].put_attributes(@domain_name, 'foo', { 'version' => '2' }, :expect => { 'version' => '1' }, :replace => ['version'])
+      actual = AWS[:sdb].put_attributes(@domain_name, 'foo', { 'version' => '3' }, :expect => { 'version' => '2' }, :replace => ['version'])
       actual.body['RequestId'].should be_a(String)
       actual.body['BoxUsage'].should be_a(Float)
     end
@@ -32,7 +32,7 @@ describe 'SimpleDB.put_attributes' do
       actual.body['BoxUsage'].should be_a(Float)
 
       lambda {
-        actual = AWS[:sdb].put_attributes(@domain_name, 'foo', { 'version' => '2' }, :expect => { 'version' => '1' })
+        actual = AWS[:sdb].put_attributes(@domain_name, 'foo', { 'version' => '2' }, :expect => { 'version' => '1' }, :replace => ['version'])
       }.should raise_error(Excon::Errors::Conflict)
     end
 

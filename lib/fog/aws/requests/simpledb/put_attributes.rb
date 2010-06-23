@@ -16,7 +16,7 @@ module Fog
         #   and sequences not allowed in xml are not valid.  Each name and value can
         #   be up to 1024 bytes long.
         # * options<~Hash> - Accepts the following keys.
-        #   :replace => [Array of keys to replace, will be combined with any keys from :expect]
+        #   :replace => [Array of keys to replace]
         #   :expect => {name/value pairs for performing conditional put}
         #
         # ==== Returns
@@ -27,7 +27,6 @@ module Fog
         def put_attributes(domain_name, item_name, attributes, options = {})
           options[:expect] = {} unless options[:expect]
           options[:replace] = [] unless options[:replace]
-          options[:replace] += options[:expect].keys
           request({
             'Action'      => 'PutAttributes',
             'DomainName'  => domain_name,
@@ -43,7 +42,6 @@ module Fog
         def put_attributes(domain_name, item_name, attributes, options = {})
           options[:expect] = {} unless options[:expect]
           options[:replace] = [] unless options[:replace]
-          options[:replace] += options[:expect].keys
           response = Excon::Response.new
           if @data[:domains][domain_name]
             options[:expect].each do |ck, cv|
