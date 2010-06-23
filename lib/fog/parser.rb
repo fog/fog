@@ -51,6 +51,10 @@ module Fog
       @stack.first
     end
 
+    def response
+      body
+    end
+
     def start_element(name, attributes = [])
       @value = ''
       parsed_attributes = {}

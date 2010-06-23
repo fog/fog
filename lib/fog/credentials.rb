@@ -35,6 +35,8 @@ module Fog
   :bluebox_api_key:       INTENTIONALLY_LEFT_BLANK
   :bluebox_customer_id:   INTENTIONALLY_LEFT_BLANK
   :local_root:            INTENTIONALLY_LEFT_BLANK
+  :new_servers_password:  INTENTIONALLY_LEFT_BLANK
+  :new_servers_username:  INTENTIONALLY_LEFT_BLANK
   :public_key_path:       INTENTIONALLY_LEFT_BLANK
   :private_key_path:      INTENTIONALLY_LEFT_BLANK
   :rackspace_api_key:     INTENTIONALLY_LEFT_BLANK

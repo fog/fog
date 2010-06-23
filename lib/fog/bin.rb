@@ -1,11 +1,18 @@
-require File.join(File.dirname(__FILE__), 'credentials')
+require 'fog/aws/bin'
+require 'fog/local/bin'
+require 'fog/new_servers/bin'
+require 'fog/rackspace/bin'
+require 'fog/slicehost/bin'
+require 'fog/terremark/bin'
+require 'fog/vcloud/bin'
+require 'fog/bluebox/bin'
 
 module Fog
   class << self
 
     def services
       services = []
-      [::AWS, ::Local, ::Rackspace, ::Slicehost, ::Terremark, ::Vcloud, ::Bluebox].each do |service|
+      [::AWS, ::Local, ::NewServers, ::Rackspace, ::Slicehost, ::Terremark, ::Vcloud, ::Bluebox].each do |service|
         if service.initialized?
           services << service
         end
