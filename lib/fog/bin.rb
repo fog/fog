@@ -1,3 +1,5 @@
+require 'fog/credentials'
+
 require 'fog/aws/bin'
 require 'fog/local/bin'
 require 'fog/new_servers/bin'
