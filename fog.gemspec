@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.2.0'
-  s.date              = '2010-06-18'
+  s.version           = '0.2.1'
+  s.date              = '2010-06-27'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -243,6 +243,15 @@ Gem::Specification.new do |s|
     lib/fog/local/models/file.rb
     lib/fog/local/models/files.rb
     lib/fog/model.rb
+    lib/fog/new_servers.rb
+    lib/fog/new_servers/bin.rb
+    lib/fog/new_servers/requests/add_server.rb
+    lib/fog/new_servers/requests/cancel_server.rb
+    lib/fog/new_servers/requests/get_server.rb
+    lib/fog/new_servers/requests/list_images.rb
+    lib/fog/new_servers/requests/list_plans.rb
+    lib/fog/new_servers/requests/list_servers.rb
+    lib/fog/new_servers/requests/reboot_server.rb
     lib/fog/parser.rb
     lib/fog/rackspace.rb
     lib/fog/rackspace/bin.rb
@@ -379,51 +388,66 @@ Gem::Specification.new do |s|
     lib/fog/vcloud.rb
     lib/fog/vcloud/bin.rb
     lib/fog/vcloud/collection.rb
+    lib/fog/vcloud/extension.rb
+    lib/fog/vcloud/generators.rb
     lib/fog/vcloud/model.rb
     lib/fog/vcloud/models/vdc.rb
     lib/fog/vcloud/models/vdcs.rb
-    lib/fog/vcloud/parser.rb
-    lib/fog/vcloud/parsers/get_organization.rb
-    lib/fog/vcloud/parsers/get_vdc.rb
-    lib/fog/vcloud/parsers/get_versions.rb
-    lib/fog/vcloud/parsers/login.rb
-    lib/fog/vcloud/parsers/network.rb
     lib/fog/vcloud/requests/get_network.rb
     lib/fog/vcloud/requests/get_organization.rb
     lib/fog/vcloud/requests/get_vdc.rb
     lib/fog/vcloud/requests/get_versions.rb
     lib/fog/vcloud/requests/login.rb
-    lib/fog/vcloud/terremark/all.rb
     lib/fog/vcloud/terremark/ecloud.rb
+    lib/fog/vcloud/terremark/ecloud/models/catalog.rb
+    lib/fog/vcloud/terremark/ecloud/models/catalog_item.rb
     lib/fog/vcloud/terremark/ecloud/models/internet_service.rb
     lib/fog/vcloud/terremark/ecloud/models/internet_services.rb
     lib/fog/vcloud/terremark/ecloud/models/ip.rb
     lib/fog/vcloud/terremark/ecloud/models/ips.rb
     lib/fog/vcloud/terremark/ecloud/models/network.rb
     lib/fog/vcloud/terremark/ecloud/models/networks.rb
+    lib/fog/vcloud/terremark/ecloud/models/node.rb
+    lib/fog/vcloud/terremark/ecloud/models/nodes.rb
     lib/fog/vcloud/terremark/ecloud/models/public_ip.rb
     lib/fog/vcloud/terremark/ecloud/models/public_ips.rb
+    lib/fog/vcloud/terremark/ecloud/models/server.rb
+    lib/fog/vcloud/terremark/ecloud/models/servers.rb
+    lib/fog/vcloud/terremark/ecloud/models/task.rb
+    lib/fog/vcloud/terremark/ecloud/models/tasks.rb
     lib/fog/vcloud/terremark/ecloud/models/vdc.rb
     lib/fog/vcloud/terremark/ecloud/models/vdcs.rb
-    lib/fog/vcloud/terremark/ecloud/parsers/get_internet_services.rb
-    lib/fog/vcloud/terremark/ecloud/parsers/get_public_ip.rb
-    lib/fog/vcloud/terremark/ecloud/parsers/get_public_ips.rb
-    lib/fog/vcloud/terremark/ecloud/parsers/get_vdc.rb
-    lib/fog/vcloud/terremark/ecloud/parsers/internet_service.rb
-    lib/fog/vcloud/terremark/ecloud/parsers/network.rb
-    lib/fog/vcloud/terremark/ecloud/parsers/network_ips.rb
     lib/fog/vcloud/terremark/ecloud/requests/add_internet_service.rb
+    lib/fog/vcloud/terremark/ecloud/requests/add_node.rb
     lib/fog/vcloud/terremark/ecloud/requests/configure_internet_service.rb
+    lib/fog/vcloud/terremark/ecloud/requests/configure_network.rb
+    lib/fog/vcloud/terremark/ecloud/requests/configure_network_ip.rb
+    lib/fog/vcloud/terremark/ecloud/requests/configure_node.rb
+    lib/fog/vcloud/terremark/ecloud/requests/configure_vapp.rb
     lib/fog/vcloud/terremark/ecloud/requests/delete_internet_service.rb
+    lib/fog/vcloud/terremark/ecloud/requests/delete_node.rb
+    lib/fog/vcloud/terremark/ecloud/requests/delete_vapp.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_catalog.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_catalog_item.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_customization_options.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_internet_services.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_network.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_network_extensions.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_network_ip.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_network_ips.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_node.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_nodes.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_public_ip.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_public_ips.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_task.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_task_list.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_vapp.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_vdc.rb
-    lib/fog/vcloud/terremark/ecloud/requests/login.rb
+    lib/fog/vcloud/terremark/ecloud/requests/power_off.rb
+    lib/fog/vcloud/terremark/ecloud/requests/power_on.rb
+    lib/fog/vcloud/terremark/ecloud/requests/power_reset.rb
+    lib/fog/vcloud/terremark/ecloud/requests/power_shutdown.rb
     lib/fog/vcloud/terremark/vcloud.rb
-    lib/fog/vcloud/terremark/vcloud/parsers/get_vdc.rb
     lib/fog/vcloud/terremark/vcloud/requests/get_vdc.rb
     spec/aws/models/ec2/address_spec.rb
     spec/aws/models/ec2/addresses_spec.rb
@@ -512,13 +536,13 @@ Gem::Specification.new do |s|
     spec/vcloud/terremark/ecloud/requests/configure_internet_service_spec.rb
     spec/vcloud/terremark/ecloud/requests/delete_internet_service_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_internet_services_spec.rb
+    spec/vcloud/terremark/ecloud/requests/get_network_ip_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_network_ips_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_network_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_public_ip_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_public_ips_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_vdc_spec.rb
     spec/vcloud/terremark/ecloud/requests/login_spec.rb
-    spec/vcloud/terremark/vcloud/requests/get_vdc_spec.rb
     spec/vcloud/vcloud_spec.rb
     tests/aws/helper.rb
     tests/aws/requests/ec2/address_tests.rb
