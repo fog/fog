@@ -5,3 +5,4 @@ rdoc
 pkg
 spec/credentials.yml
 .bundle
+*.gem
