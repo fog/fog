@@ -23,7 +23,9 @@ module Fog
 
           # Optimize later, no need to get_internet_services again
           def get(uri)
-            if data = connection.get_internet_services(href).body[:InternetService].detect { |service| service[:Href] == uri }
+            internet_services = connection.get_internet_services(href).body[:InternetService]
+            internet_services = [ internet_services ] if internet_services.is_a?(Hash)
+            if data = internet_services.detect { |service| service[:Href] == uri }
               new(data)
             end
           rescue Fog::Errors::NotFound
