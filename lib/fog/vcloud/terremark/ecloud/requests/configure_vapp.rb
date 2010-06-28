@@ -97,7 +97,8 @@ module Fog
               :expects  => 202,
               :headers  => {'Content-Type' => 'application/vnd.vmware.vcloud.vApp+xml' },
               :method   => 'PUT',
-              :uri      => vapp_uri
+              :uri      => vapp_uri,
+              :parse    => true
             )
           end
 

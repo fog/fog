@@ -42,7 +42,8 @@ module Fog
               :expects  => 200,
               :headers  => {'Content-Type' => 'application/vnd.tmrk.ecloud.internetService+xml'},
               :method   => 'PUT',
-              :uri      => internet_service_uri
+              :uri      => internet_service_uri,
+              :parse    => true
             )
           end
 
