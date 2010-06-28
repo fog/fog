@@ -16,7 +16,7 @@ module Fog
               builder.Enabled(service_data[:enabled])
               builder.Description(service_data[:description])
               builder.Timeout(service_data[:timeout])
-              builder.RedirectUrl(service_data[:redirect_url])
+              builder.RedirectURL(service_data[:redirect_url])
               builder.PublicIpAddress {
                 builder.Id(ip_address_data[:id])
                 builder.Href(ip_address_data[:href].to_s)
