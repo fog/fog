@@ -4,12 +4,12 @@ module Fog
       module Ecloud
 
         module Real
-          basic_request :delete_node, 200, 'DELETE', {}, ""
+          basic_request :delete_internet_service, 200, 'DELETE', {}, ""
         end
 
         module Mock
 
-          def delete_node(node_uri)
+          def delete_internet_service(service_uri)
             Fog::Mock.not_implemented
           end
         end
