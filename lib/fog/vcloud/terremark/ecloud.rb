@@ -149,6 +149,10 @@ module Fog
             { :xmlns => "urn:tmrk:eCloudExtensions-2.3", :"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance" }
           end
 
+          def mock_ip_from_service_url(uri)
+            mock_data[:organizations].map { |org| org[:vdcs] }.flatten.map { |vdc| vdc[:public_ips] }.flatten.compact.detect { |pip| pip[:services].detect { |service| service[:href] == uri } }
+          end
+
           def mock_data
             Fog::Vcloud::Terremark::Ecloud::Mock.data
           end

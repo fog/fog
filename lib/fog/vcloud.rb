@@ -353,11 +353,15 @@ module Fog
         response = Excon::Response.new
 
         #Parse the response body into a hash
-        document = Fog::ToHashDocument.new
-        parser = Nokogiri::XML::SAX::PushParser.new(document)
-        parser << mock_data
-        parser.finish
-        response.body = document.body
+        if mock_data.empty?
+          response.body = mock_data
+        else
+          document = Fog::ToHashDocument.new
+          parser = Nokogiri::XML::SAX::PushParser.new(document)
+          parser << mock_data
+          parser.finish
+          response.body = document.body
+        end
 
         response.status = status
         response.headers = mock_headers

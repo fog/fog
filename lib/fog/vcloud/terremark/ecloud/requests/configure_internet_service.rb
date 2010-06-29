@@ -4,7 +4,7 @@ module Fog
       module Ecloud
         module Real
 
-          def generate_configure_internet_service_response(service_data,ip_address_data)
+          def generate_internet_service_response(service_data,ip_address_data)
             builder = Builder::XmlMarkup.new
             builder.InternetService(:"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance",
                                     :xmlns => "urn:tmrk:eCloudExtensions-2.3") {
@@ -38,7 +38,7 @@ module Fog
             validate_public_ip_address_data(ip_address_data)
 
             request(
-              :body     => generate_configure_internet_service_response(service_data, ip_address_data),
+              :body     => generate_internet_service_response(service_data, ip_address_data),
               :expects  => 200,
               :headers  => {'Content-Type' => 'application/vnd.tmrk.ecloud.internetService+xml'},
               :method   => 'PUT',
@@ -67,7 +67,7 @@ module Fog
             if ip = ip_from_uri(ip_address_data[:href])
               if service = ip[:services].detect { |service| service[:id] == internet_service_uri.split('/')[-1] }
                 ip[:services][ip[:services].index(service)] = service_data
-                xml = generate_configure_internet_service_response(service_data, ip)
+                xml = generate_internet_service_response(service_data, ip)
               end
             end
 

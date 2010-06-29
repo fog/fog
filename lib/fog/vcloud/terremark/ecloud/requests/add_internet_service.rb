@@ -66,25 +66,9 @@ module Fog
             internet_services_uri = ensure_unparsed(internet_services_uri)
 
             if ip = ip_from_uri(internet_services_uri)
-              new_service = service_data.merge!( { :id => rand(1000), :timeout => 2 } )
+              new_service = service_data.merge!( { :href => Fog::Vcloud::Terremark::Ecloud::Mock.internet_service_href( { :id =>  rand(1000) } ), :timeout => 2 } )
               ip[:services] << new_service
-              builder = Builder::XmlMarkup.new
-              xml = builder.InternetService(:xmlns => "urn:tmrk:eCloudExtensions-2.0",
-                                            :"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance") {
-                builder.Id(new_service[:id])
-                builder.Href(Fog::Vcloud::Terremark::Ecloud::Mock.internet_service_href(new_service))
-                builder.Name(new_service[:name])
-                builder.PublicIpAddress {
-                  builder.Id(ip[:id])
-                  builder.Href(Fog::Vcloud::Terremark::Ecloud::Mock.public_ip_href(ip))
-                  builder.Name(ip[:name])
-                }
-                builder.Protocol(new_service[:protocol])
-                builder.Port(new_service[:port])
-                builder.Enabled(new_service[:enabled])
-                builder.Description(new_service[:description])
-                builder.Timeout(new_service[:timeout])
-              }
+              xml = generate_internet_service_response( service_data, ip )
 
               mock_it 200, xml, {'Content-Type' => 'application/vnd.tmrk.ecloud.internetService+xml'}
             else

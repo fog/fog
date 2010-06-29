@@ -36,10 +36,12 @@ if Fog.mocking?
 
         its(:body) { should be_an_instance_of Hash }
         specify { body[:Href].should == Fog::Vcloud::Terremark::Ecloud::Mock.internet_service_href( { :id => 372 } ) }
-        specify { body[:Name].should == "Test Service" }
-        specify { body[:Protocol].should == "HTTP" }
-        specify { body[:Enabled].should == "true" }
-        specify { body[:Description].should == "this is a test" }
+        specify { body[:Name].should == @new_service_data[:name] }
+        specify { body[:Protocol].should == @new_service_data[:protocol] }
+        specify { body[:Enabled].should == @new_service_data[:enabled] }
+        specify { body[:Description].should == @new_service_data[:description] }
+        specify { body[:RedirectURL].should == @new_service_data[:redirect_url] }
+        specify { body[:Monitor].should == nil }
 
         let(:public_ip) { subject.body[:PublicIpAddress] }
         specify { public_ip.should be_an_instance_of Hash }
