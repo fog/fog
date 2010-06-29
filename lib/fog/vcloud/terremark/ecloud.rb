@@ -74,7 +74,6 @@ module Fog
 
           def self.data( base_url = self.base_url )
             @mock_data ||= begin
-              extension_href = 
               vcloud_data = Fog::Vcloud::Mock.data(base_url)
               vcloud_data.delete( :versions )
               vcloud_data.merge!( :versions => [ { :version => "v0.8b-ext2.3", :login_url => "#{base_url}/login", :supported => true } ] )
@@ -85,20 +84,26 @@ module Fog
                       :href => extension_url + "/publicIp/51",
                       :name => "99.1.2.3",
                       :services => [
-                        { :id => "71", :port => "80", :protocol => 'HTTP', :enabled => "true", :timeout => "2", :name => 'Web Site',
-                          :description => 'Web Servers', :redirect_url => 'http://fakey.com' },
-                        { :id => "72", :port => "7000", :protocol => 'HTTP', :enabled => "true", :timeout => "2", :name => 'An SSH Map',
-                          :description => 'SSH 1', :redirect_url => '' }
+                        { :id => "71", :href => extension_url + "/internetService/71", :port => "80", :protocol => 'HTTP', :enabled => "true",
+                          :timeout => "2", :name => 'Web Site', :description => 'Web Servers', :redirect_url => 'http://fakey.com',
+                          :nodes => [ {:ip => "1.2.3.5", :name => "Test Node 1", :port => "80", :enabled => "true", :description => "web 1" }
+                                    ] },
+                        { :id => "72", :href => extension_url + "/internetService/72", :port => "7000", :protocol => 'HTTP', :enabled => "true",
+                          :timeout => "2", :name => 'An SSH Map', :description => 'SSH 1', :redirect_url => '',
+                          :nodes => [ {:ip => "1.2.3.5", :name => "SSH", :port => "22", :enabled => "true", :description => "web ssh" } 
+                                    ] }
                       ]
                     },
                     { :id => "52",
                       :href => extension_url + "/publicIp/52",
                       :name => "99.1.2.4",
                       :services => [
-                        { :id => "73", :port => "80", :protocol => 'HTTP', :enabled => "true", :timeout => "2", :name => 'Web Site',
-                          :description => 'Web Servers', :redirect_url => 'http://fakey.com' },
-                        { :id => "74", :port => "7000", :protocol => 'HTTP', :enabled => "true", :timeout => "2", :name => 'An SSH Map',
-                          :description => 'SSH 2', :redirect_url => '' }
+                        { :id => "73", :href => extension_url + "/internetService/73", :port => "80", :protocol => 'HTTP', :enabled => "true",
+                          :timeout => "2", :name => 'Web Site', :description => 'Web Servers', :redirect_url => 'http://fakey.com',
+                          :nodes => [] },
+                        { :id => "74", :href => extension_url + "/internetService/74", :port => "7000", :protocol => 'HTTP', :enabled => "true",
+                          :timeout => "2", :name => 'An SSH Map', :description => 'SSH 2', :redirect_url => '',
+                          :nodes => [] }
                       ]
                     },
                     { :id => "53",
