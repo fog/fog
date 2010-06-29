@@ -14,7 +14,7 @@ module Fog
               builder.Port(service_data[:port])
               builder.Enabled(service_data[:enabled])
               builder.Description(service_data[:description])
-              builder.RedirectUrl(service_data[:redirect_url])
+              builder.RedirectURL(service_data[:redirect_url])
               #builder.Monitor {
               #  builder.MonitorType {}
               #  builder.UrlSendString {}

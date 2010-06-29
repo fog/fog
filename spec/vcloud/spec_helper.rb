@@ -226,10 +226,12 @@ Spec::Runner.configure do |config|
   config.before(:all, :type => :mock_tmrk_ecloud_request) do
     @base_url = Fog::Vcloud::Terremark::Ecloud::Mock.base_url
     @mock_data = Fog::Vcloud::Terremark::Ecloud::Mock.data
-    @mock_version = @mock_data[:versions][0]
-    @mock_organization = @mock_data[:organizations][0]
-    @mock_vdc = @mock_organization[:vdcs][0]
-    @mock_network = @mock_vdc[:networks][0]
+    @mock_version = @mock_data[:versions].first
+    @mock_organization = @mock_data[:organizations].first
+    @mock_vdc = @mock_organization[:vdcs].first
+    @mock_public_ip = @mock_vdc[:public_ips].first
+    @mock_service = @mock_public_ip[:services].first
+    @mock_network = @mock_vdc[:networks].first
   end
   config.after(:all, :type => :mock_tmrk_ecloud_request) do
     Fog::Vcloud::Terremark::Ecloud::Mock.data_reset
@@ -237,10 +239,12 @@ Spec::Runner.configure do |config|
   config.before(:all, :type => :mock_tmrk_ecloud_model) do
     @base_url = Fog::Vcloud::Terremark::Ecloud::Mock.base_url
     @mock_data = Fog::Vcloud::Terremark::Ecloud::Mock.data
-    @mock_version = @mock_data[:versions][0]
-    @mock_organization = @mock_data[:organizations][0]
-    @mock_vdc = @mock_organization[:vdcs][0]
-    @mock_network = @mock_vdc[:networks][0]
+    @mock_version = @mock_data[:versions].first
+    @mock_organization = @mock_data[:organizations].first
+    @mock_vdc = @mock_organization[:vdcs].first
+    @mock_public_ip = @mock_vdc[:public_ips].first
+    @mock_service = @mock_public_ip[:services].first
+    @mock_network = @mock_vdc[:networks].first
   end
   config.before(:each, :type => :mock_tmrk_ecloud_model) do
     @vcloud = Fog::Vcloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions", :module => "Fog::Vcloud::Terremark::Ecloud")

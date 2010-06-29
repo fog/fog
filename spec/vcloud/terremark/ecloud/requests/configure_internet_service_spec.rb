@@ -8,7 +8,7 @@ if Fog.mocking?
 
     describe "#configure_internet_service" do
       before do
-        @public_ip = @vcloud.vdcs[0].public_ips[0]
+        @public_ip = @vcloud.vdcs.first.public_ips.first
         @original_service = @vcloud.get_internet_services(@public_ip.href).body[:InternetService].first
         @ip_data = { :id => @public_ip.id, :name => @public_ip.name, :href => @public_ip.href.to_s }
         @service_data = { :name => @original_service[:Name], :protocol => @original_service[:Protocol],
@@ -26,12 +26,23 @@ if Fog.mocking?
         context "with some changed data" do
           before do
             @service_data[:description] = "TEST BOOM"
+            @service_data[:redirect_url] = "http://google.com"
+            @service_data[:port] = "80"
           end
           it "should change data" do
-            @original_service[:Description].should == "Web Servers"
+            @original_service[:Description].should == @mock_service[:description]
+            @original_service[:RedirectURL].should == @mock_service[:redirect_url]
+            @original_service[:Port].should == @mock_service[:port]
             result = subject
-            result.body[:Description].should == "TEST BOOM"
-            @vcloud.get_internet_services(@public_ip.href).body[:InternetService].first[:Description].should == "TEST BOOM"
+            result.body[:Description].should == @service_data[:description]
+            result.body[:RedirectURL].should == @service_data[:redirect_url]
+            result.body[:Port].should        == @service_data[:port]
+
+            new_result = @vcloud.get_internet_services(@public_ip.href).body[:InternetService].first
+
+            new_result[:Description].should == @service_data[:description]
+            new_result[:RedirectURL].should == @service_data[:redirect_url]
+            new_result[:Port].should        == @service_data[:port]
           end
         end
 

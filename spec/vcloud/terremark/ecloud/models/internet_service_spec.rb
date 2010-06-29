@@ -3,8 +3,6 @@ require File.join(File.dirname(__FILE__),'..','..','..','spec_helper')
 if Fog.mocking?
   describe "Fog::Vcloud::Terremark::Ecloud::InternetService", :type => :mock_tmrk_ecloud_model do
     before do
-      @mock_ip = @mock_vdc[:public_ips].first
-      @mock_service = @mock_ip[:services].first
       @mock_service_uri = "#{@base_url}/extensions/internetService/#{@mock_service[:id]}"
     end
 
@@ -41,13 +39,13 @@ if Fog.mocking?
       its(:identity)              { should == @mock_service_uri }
       its(:name)                  { should == @mock_service[:name] }
       its(:id)                    { should == @mock_service[:id] }
-      its(:protocol)              { should == "HTTP" }
-      its(:port)                  { should == "80" }
-      its(:enabled)               { should == "true" }
-      its(:description)           { should == "Web Servers" }
+      its(:protocol)              { should == @mock_service[:protocol] }
+      its(:port)                  { should == @mock_service[:port] }
+      its(:enabled)               { should == @mock_service[:enabled] }
+      its(:description)           { should == @mock_service[:description] }
       its(:public_ip)             { should == public_ip }
-      its(:timeout)               { should == "2" }
-      its(:redirect_url)          { should == "" }
+      its(:timeout)               { should == @mock_service[:timeout] }
+      its(:redirect_url)          { should == @mock_service[:redirect_url] }
       its(:monitor)               { should == "" }
 
       specify { composed_public_ip_data[:href].should == public_ip[:Href].to_s }

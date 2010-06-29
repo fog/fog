@@ -85,16 +85,20 @@ module Fog
                       :href => extension_url + "/publicIp/51",
                       :name => "99.1.2.3",
                       :services => [
-                        { :id => "71", :port => "80", :protocol => 'HTTP', :enabled => "true", :timeout => "2", :name => 'Web Site', :description => 'Web Servers' },
-                        { :id => "72", :port => "7000", :protocol => 'HTTP', :enabled => "true", :timeout => "2", :name => 'An SSH Map', :description => 'SSH 1' }
+                        { :id => "71", :port => "80", :protocol => 'HTTP', :enabled => "true", :timeout => "2", :name => 'Web Site',
+                          :description => 'Web Servers', :redirect_url => 'http://fakey.com' },
+                        { :id => "72", :port => "7000", :protocol => 'HTTP', :enabled => "true", :timeout => "2", :name => 'An SSH Map',
+                          :description => 'SSH 1', :redirect_url => '' }
                       ]
                     },
                     { :id => "52",
                       :href => extension_url + "/publicIp/52",
                       :name => "99.1.2.4",
                       :services => [
-                        { :id => "73", :port => "80", :protocol => 'HTTP', :enabled => "true", :timeout => "2", :name => 'Web Site', :description => 'Web Servers' },
-                        { :id => "74", :port => "7000", :protocol => 'HTTP', :enabled => "true", :timeout => "2", :name => 'An SSH Map', :description => 'SSH 2' }
+                        { :id => "73", :port => "80", :protocol => 'HTTP', :enabled => "true", :timeout => "2", :name => 'Web Site',
+                          :description => 'Web Servers', :redirect_url => 'http://fakey.com' },
+                        { :id => "74", :port => "7000", :protocol => 'HTTP', :enabled => "true", :timeout => "2", :name => 'An SSH Map',
+                          :description => 'SSH 2', :redirect_url => '' }
                       ]
                     },
                     { :id => "53",

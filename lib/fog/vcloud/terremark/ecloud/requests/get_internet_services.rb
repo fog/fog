@@ -31,7 +31,7 @@ module Fog
                 xml.Enabled(service[:enabled])
                 xml.Timeout(service[:timeout])
                 xml.Description(service[:description])
-                xml.RedirectURL
+                xml.RedirectURL(service[:redirect_url])
                 xml.Monitor
               }
             end

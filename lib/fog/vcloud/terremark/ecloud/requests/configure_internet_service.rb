@@ -4,7 +4,7 @@ module Fog
       module Ecloud
         module Real
 
-          def generate_configure_internet_service_request(service_data,ip_address_data)
+          def generate_configure_internet_service_response(service_data,ip_address_data)
             builder = Builder::XmlMarkup.new
             builder.InternetService(:"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance",
                                     :xmlns => "urn:tmrk:eCloudExtensions-2.3") {
@@ -38,7 +38,7 @@ module Fog
             validate_public_ip_address_data(ip_address_data)
 
             request(
-              :body     => generate_configure_internet_service_request(service_data, ip_address_data),
+              :body     => generate_configure_internet_service_response(service_data, ip_address_data),
               :expects  => 200,
               :headers  => {'Content-Type' => 'application/vnd.tmrk.ecloud.internetService+xml'},
               :method   => 'PUT',
@@ -62,33 +62,16 @@ module Fog
 
             internet_service_uri = ensure_unparsed(internet_service_uri)
 
-            found = false
             xml = nil
+
             if ip = ip_from_uri(ip_address_data[:href])
               if service = ip[:services].detect { |service| service[:id] == internet_service_uri.split('/')[-1] }
-                found = true
                 ip[:services][ip[:services].index(service)] = service_data
-
-                builder = Builder::XmlMarkup.new
-                xml = builder.InternetService(:xmlns => "urn:tmrk:eCloudExtensions-2.0",
-                                              :"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance") {
-                  builder.Id(service_data[:id])
-                  builder.Href(Fog::Vcloud::Terremark::Ecloud::Mock.internet_service_href(service_data))
-                  builder.Name(service_data[:name])
-                  builder.PublicIpAddress {
-                    builder.Id(ip[:id])
-                    builder.Href(Fog::Vcloud::Terremark::Ecloud::Mock.public_ip_href(ip))
-                    builder.Name(ip[:name])
-                  }
-                  builder.Protocol(service_data[:protocol])
-                  builder.Port(service_data[:port])
-                  builder.Enabled(service_data[:enabled])
-                  builder.Description(service_data[:description])
-                  builder.Timeout(service_data[:timeout])
-                }
+                xml = generate_configure_internet_service_response(service_data, ip)
               end
             end
-            if found
+
+            if xml
               mock_it 200, xml, {'Content-Type' => 'application/vnd.tmrk.ecloud.internetService+xml'}
             else
               mock_error 200, "401 Unauthorized"
