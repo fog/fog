@@ -31,7 +31,7 @@ dependencies:
   excon: 
     group: 
     - :default
-    version: ">= 0.1.2"
+    version: ">= 0.1.3"
   builder: 
     group: 
     - :default
@@ -50,7 +50,7 @@ specs:
 - builder: 
     version: 2.1.2
 - excon: 
-    version: 0.1.2
+    version: 0.1.3
 - formatador: 
     version: 0.0.14
 - gestalt: 
@@ -69,7 +69,7 @@ specs:
     version: 0.4.0
 - shindo: 
     version: 0.1.6
-hash: 5799aef7324bea69e03170607cb33bea95a3e975
+hash: a596598313ef742252ac66c844f4838a2a0ac699
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org
