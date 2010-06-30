@@ -35,7 +35,7 @@ if Fog.mocking?
         let(:body) { subject.body }
 
         its(:body) { should be_an_instance_of Hash }
-        specify { body[:Href].should == Fog::Vcloud::Terremark::Ecloud::Mock.internet_service_href( { :id => 372 } ) }
+        specify { body[:Href].should_not be_empty }
         specify { body[:Name].should == @new_service_data[:name] }
         specify { body[:Protocol].should == @new_service_data[:protocol] }
         specify { body[:Enabled].should == @new_service_data[:enabled] }

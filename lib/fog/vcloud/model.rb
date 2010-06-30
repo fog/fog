@@ -6,8 +6,9 @@ module Fog
       alias_method :loaded?, :loaded
 
       def reload
-        super
+        instance = super
         @loaded = true
+        instance
       end
 
       def load_unless_loaded!

@@ -34,7 +34,18 @@ module Fog
         module Mock
 
           def configure_node(node_uri, node_data)
-            Fog::Mock.not_implemented
+            node_uri = ensure_unparsed(node_uri)
+
+            validate_node_data(node_data, true)
+
+            if node = mock_node_from_url(node_uri)
+              node[:name] = node_data[:name]
+              node[:enabled] = node_data[:enabled]
+              node[:description] = node_data[:description]
+              mock_it 200, mock_node_service_response(node, ecloud_xmlns), { 'Content-Type' => 'application/vnd.tmrk.ecloud.nodeService+xml' }
+            else
+              mock_error 200, "401 Unauthorized"
+            end
           end
         end
       end

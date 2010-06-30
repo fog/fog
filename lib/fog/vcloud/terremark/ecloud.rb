@@ -86,11 +86,15 @@ module Fog
                       :services => [
                         { :id => "71", :href => extension_url + "/internetService/71", :port => "80", :protocol => 'HTTP', :enabled => "true",
                           :timeout => "2", :name => 'Web Site', :description => 'Web Servers', :redirect_url => 'http://fakey.com',
-                          :nodes => [ {:ip => "1.2.3.5", :name => "Test Node 1", :port => "80", :enabled => "true", :description => "web 1" }
+                          :nodes => [ {:id => "81", :href => extension_url + "/nodeService/81", :ip_address => "1.2.3.5",
+                                       :name => "Test Node 1", :port => "80", :enabled => "true", :description => "web 1" },
+                                      {:id => "82", :href => extension_url + "/nodeService/82", :ip_address => "1.2.3.6",
+                                       :name => "Test Node 2", :port => "80", :enabled => "true", :description => "web 2" },
                                     ] },
                         { :id => "72", :href => extension_url + "/internetService/72", :port => "7000", :protocol => 'HTTP', :enabled => "true",
                           :timeout => "2", :name => 'An SSH Map', :description => 'SSH 1', :redirect_url => '',
-                          :nodes => [ {:ip => "1.2.3.5", :name => "SSH", :port => "22", :enabled => "true", :description => "web ssh" } 
+                          :nodes => [ {:id => "83", :href => extension_url + "/nodeService/83", :ip_address => "1.2.3.5",
+                                       :name => "SSH", :port => "22", :enabled => "true", :description => "web ssh" } 
                                     ] }
                       ]
                     },
@@ -151,6 +155,26 @@ module Fog
 
           def mock_ip_from_service_url(uri)
             mock_data[:organizations].map { |org| org[:vdcs] }.flatten.map { |vdc| vdc[:public_ips] }.flatten.compact.detect { |pip| pip[:services].detect { |service| service[:href] == uri } }
+          end
+
+          def mock_ip_and_service_from_service_url(uri)
+            if ip = mock_data[:organizations].map { |org| org[:vdcs] }.flatten.map { |vdc| vdc[:public_ips] }.flatten.compact.detect { |pip| pip[:services].detect { |service| service[:href] == uri } }
+              if service = ip[:services].detect { |service| service[:href] == uri }
+                [ip, service]
+              else
+                [ip, nil]
+              end
+            else
+              [nil, nil]
+            end
+          end
+
+          def mock_node_from_url(uri)
+            mock_data[:organizations].map { |org| org[:vdcs] }.flatten.map { |vdc| vdc[:public_ips] }.flatten.map { |pip| pip[:services] }.flatten.map { |service| service[:nodes] }.flatten.detect { |node| node[:href] == uri }
+          end
+
+          def mock_service_from_node_url(uri)
+            mock_data[:organizations].map { |org| org[:vdcs] }.flatten.map { |vdc| vdc[:public_ips] }.flatten.map { |pip| pip[:services] }.flatten.map { |service| service }.detect {|service| service[:nodes].map { |node| node[:href] }.include?(uri) }
           end
 
           def mock_data

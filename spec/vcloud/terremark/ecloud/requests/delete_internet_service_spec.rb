@@ -8,23 +8,25 @@ if Fog.mocking?
     it { should respond_to :delete_internet_service }
 
     describe "#delete_internet_service" do
-      let(:public_ip) { @vcloud.vdcs[0].public_ips[0] }
-      let(:before_services) { @vcloud.get_internet_services(public_ip.href) }
-      let(:internet_service) { before_services.body[:InternetService].first }
-
       context "with a valid internet service uri" do
-        subject { @vcloud.delete_internet_service( internet_service[:Href] ) }
+        subject { @vcloud.delete_internet_service(@mock_service[:href]) }
 
-        it "should have the right count" do
-          before_services.body[:InternetService].count.should == 2
+        it_should_behave_like "all delete responses"
+
+        let(:public_ip) { @vcloud.vdcs.first.public_ips.first }
+
+        it "should change the count by -1" do
+          public_ip.internet_services.length.should == 2
+          subject
+          public_ip.internet_services.reload.length.should == 1
         end
 
-        # This actually calls it
-        it { should be_an_instance_of Excon::Response }
-
-        it "should remove the service" do
-          before_services.body[:InternetService].count.should == 11  #it's now a hash, with 11 keys
+        describe "#body" do
+          its(:body) { should == '' }
         end
+
+
+
       end
 
     end
