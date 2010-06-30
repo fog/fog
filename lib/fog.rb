@@ -39,7 +39,7 @@ require 'fog/vcloud'
 module Fog
 
   unless const_defined?(:VERSION)
-    VERSION = '0.2.6'
+    VERSION = '0.2.7'
   end
 
   module Mock

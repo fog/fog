@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.2.6'
-  s.date              = '2010-06-29'
+  s.version           = '0.2.7'
+  s.date              = '2010-06-30'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -528,17 +528,24 @@ Gem::Specification.new do |s|
     spec/vcloud/terremark/ecloud/models/ips_spec.rb
     spec/vcloud/terremark/ecloud/models/network_spec.rb
     spec/vcloud/terremark/ecloud/models/networks_spec.rb
+    spec/vcloud/terremark/ecloud/models/node_spec.rb
+    spec/vcloud/terremark/ecloud/models/nodes_spec.rb
     spec/vcloud/terremark/ecloud/models/public_ip_spec.rb
     spec/vcloud/terremark/ecloud/models/public_ips_spec.rb
     spec/vcloud/terremark/ecloud/models/vdc_spec.rb
     spec/vcloud/terremark/ecloud/models/vdcs_spec.rb
     spec/vcloud/terremark/ecloud/requests/add_internet_service_spec.rb
+    spec/vcloud/terremark/ecloud/requests/add_node_spec.rb
     spec/vcloud/terremark/ecloud/requests/configure_internet_service_spec.rb
+    spec/vcloud/terremark/ecloud/requests/configure_node_spec.rb
     spec/vcloud/terremark/ecloud/requests/delete_internet_service_spec.rb
+    spec/vcloud/terremark/ecloud/requests/delete_node_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_internet_services_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_network_ip_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_network_ips_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_network_spec.rb
+    spec/vcloud/terremark/ecloud/requests/get_node_spec.rb
+    spec/vcloud/terremark/ecloud/requests/get_nodes_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_public_ip_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_public_ips_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_vdc_spec.rb
