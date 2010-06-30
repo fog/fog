@@ -48,6 +48,14 @@ if Fog.mocking?
         specify { public_ip[:Name].should == @public_ip.name }
         specify { public_ip[:Id].should == @public_ip.id }
 
+        it "should update the mock object properly" do
+          subject
+          ip, service = @vcloud.mock_ip_and_service_from_service_url(body[:Href])
+          service[:href].should == body[:Href]
+          service[:id].should == body[:Id]
+          service[:nodes].should == []
+        end
+
       end
 
       context "with a public_ips_uri that doesn't exist" do

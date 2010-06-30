@@ -64,9 +64,13 @@ module Fog
             validate_internet_service_data(service_data)
 
             internet_services_uri = ensure_unparsed(internet_services_uri)
-
+          
             if ip = ip_from_uri(internet_services_uri)
-              new_service = service_data.merge!( { :href => Fog::Vcloud::Terremark::Ecloud::Mock.internet_service_href( { :id =>  rand(1000) } ), :timeout => 2 } )
+              id = rand(1000)
+              new_service = service_data.merge!( { :href => Fog::Vcloud::Terremark::Ecloud::Mock.internet_service_href( { :id => id } ),
+                                                   :id => id.to_s,
+                                                   :timeout => 2,
+                                                   :nodes => [] } )
               ip[:services] << new_service
               xml = generate_internet_service_response( service_data, ip )
 
