@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.2.8'
-  s.date              = '2010-06-30'
+  s.version           = '0.2.9'
+  s.date              = '2010-07-01'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -401,6 +401,8 @@ Gem::Specification.new do |s|
     lib/fog/vcloud/terremark/ecloud.rb
     lib/fog/vcloud/terremark/ecloud/models/catalog.rb
     lib/fog/vcloud/terremark/ecloud/models/catalog_item.rb
+    lib/fog/vcloud/terremark/ecloud/models/firewall_acl.rb
+    lib/fog/vcloud/terremark/ecloud/models/firewall_acls.rb
     lib/fog/vcloud/terremark/ecloud/models/internet_service.rb
     lib/fog/vcloud/terremark/ecloud/models/internet_services.rb
     lib/fog/vcloud/terremark/ecloud/models/ip.rb
@@ -419,6 +421,7 @@ Gem::Specification.new do |s|
     lib/fog/vcloud/terremark/ecloud/models/vdcs.rb
     lib/fog/vcloud/terremark/ecloud/requests/add_internet_service.rb
     lib/fog/vcloud/terremark/ecloud/requests/add_node.rb
+    lib/fog/vcloud/terremark/ecloud/requests/clone_vapp.rb
     lib/fog/vcloud/terremark/ecloud/requests/configure_internet_service.rb
     lib/fog/vcloud/terremark/ecloud/requests/configure_network.rb
     lib/fog/vcloud/terremark/ecloud/requests/configure_network_ip.rb
@@ -430,6 +433,8 @@ Gem::Specification.new do |s|
     lib/fog/vcloud/terremark/ecloud/requests/get_catalog.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_catalog_item.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_customization_options.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_firewall_acl.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_firewall_acls.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_internet_services.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_network.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_network_extensions.rb
@@ -442,7 +447,9 @@ Gem::Specification.new do |s|
     lib/fog/vcloud/terremark/ecloud/requests/get_task.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_task_list.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_vapp.rb
+    lib/fog/vcloud/terremark/ecloud/requests/get_vapp_template.rb
     lib/fog/vcloud/terremark/ecloud/requests/get_vdc.rb
+    lib/fog/vcloud/terremark/ecloud/requests/instantiate_vapp_template.rb
     lib/fog/vcloud/terremark/ecloud/requests/power_off.rb
     lib/fog/vcloud/terremark/ecloud/requests/power_on.rb
     lib/fog/vcloud/terremark/ecloud/requests/power_reset.rb
