@@ -20,15 +20,11 @@ module Fog
           attribute :instantiated_vm_quota
 
           def public_ips
-            load_unless_loaded!
-            @public_ips ||= Fog::Vcloud::Terremark::Ecloud::PublicIps.new( :connection => connection,
-                                                                           :href => other_links.detect { |link| link[:type] == "application/vnd.tmrk.ecloud.publicIpsList+xml" }[:href] )
+            @public_ips ||= collection_based_on_type("application/vnd.tmrk.ecloud.publicIpsList+xml")
           end
 
           def internet_services
-            @internet_services ||= Fog::Vcloud::Terremark::Ecloud::InternetServices.
-              new( :connection => connection,
-                   :href => href.to_s.gsub('vdc','extensions/vdc') + "/internetServices" )
+            @internet_services ||= collection_based_on_type("application/vnd.tmrk.ecloud.internetServicesList+xml")
           end
 
           def networks
@@ -50,11 +46,32 @@ module Fog
           end
 
           def catalog
-            @catalog ||= Fog::Vcloud::Terremark::Ecloud::Catalog.
-              new( :connection => connection,
-                   :href => href + "/catalog" )
+            @catalog ||= collection_based_on_type("application/vnd.vmware.vcloud.catalog+xml")
           end
 
+          def firewall_acls
+            @firewall_acls ||= collection_based_on_type("application/vnd.tmrk.ecloud.firewallAclsList+xml")
+          end
+
+          private
+
+          def collection_based_on_type(type)
+            load_unless_loaded!
+            if link = other_links.detect { |link| link[:type] == type }
+              case type
+              when "application/vnd.tmrk.ecloud.publicIpsList+xml"
+                Fog::Vcloud::Terremark::Ecloud::PublicIps
+              when "application/vnd.tmrk.ecloud.internetServicesList+xml"
+                Fog::Vcloud::Terremark::Ecloud::InternetServices
+              when "application/vnd.vmware.vcloud.catalog+xml"
+                Fog::Vcloud::Terremark::Ecloud::Catalog
+              when "application/vnd.tmrk.ecloud.firewallAclsList+xml"
+                Fog::Vcloud::Terremark::Ecloud::FirewallAcls
+              end.new( :connection => connection, :href => link[:href] )
+            else
+              [ ]
+            end
+          end
         end
       end
     end

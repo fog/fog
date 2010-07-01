@@ -91,7 +91,7 @@ module Fog
 
           def memory
             { :amount => memory_mess[:VirtualQuantity].to_i,
-              :units => memory_mess[:VirtualQuantityUnits] }
+              :units => memory_mess[:AllocationUnits] }
           end
 
           def memory=(amount)
@@ -132,17 +132,14 @@ module Fog
           end
 
           def reload
-            super
             reset_tracking
+            super
           end
 
           def save
             if new_record?
-              requires :name
-              puts "NOOP"
-              return false
-              #result = connection.instantiate_vapp_template( stuff )
-              #merge_attributes(result.body)
+              #Lame ...
+              raise RuntimeError, "Should not be here"
             else
               if on?
                 if @changed
@@ -159,7 +156,6 @@ module Fog
           def reset_tracking
             @disk_change = false
             @changed = false
-            true
           end
 
           def _compose_vapp_data

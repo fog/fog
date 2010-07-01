@@ -73,6 +73,12 @@ module Fog
         end
       end
 
+      def xmlns
+        { "xmlns" => "http://www.vmware.com/vcloud/v0.8",
+          "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
+          "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema" }
+      end
+
       def reload
         @connections.each_value { |k,v| v.reset if v }
       end
@@ -341,12 +347,6 @@ module Fog
       def initialize(credentials = {})
         @versions_uri = URI.parse('https://vcloud.fakey.com/api/versions')
         @login_uri = get_login_uri
-      end
-
-      def xmlns
-        { "xmlns" => "http://www.vmware.com/vcloud/v0.8",
-          "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
-          "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema" }
       end
 
       def mock_it(status, mock_data, mock_headers = {})

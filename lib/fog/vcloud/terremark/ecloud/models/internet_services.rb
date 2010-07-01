@@ -21,7 +21,7 @@ module Fog
             end
           end
 
-          # Optimize later, no need to get_internet_services again
+          # Optimize later, no need to get_internet_services again?
           def get(uri)
             internet_services = connection.get_internet_services(href).body[:InternetService]
             internet_services = [ internet_services ] if internet_services.is_a?(Hash)

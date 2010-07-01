@@ -7,6 +7,8 @@ module Fog
         model_path 'fog/vcloud/terremark/ecloud/models'
         model :catalog_item
         model :catalog
+        model :firewall_acl
+        model :firewall_acls
         model :internet_service
         model :internet_services
         model :ip
@@ -27,6 +29,7 @@ module Fog
         request_path 'fog/vcloud/terremark/ecloud/requests'
         request :add_internet_service
         request :add_node
+        request :clone_vapp
         request :configure_internet_service
         request :configure_network
         request :configure_network_ip
@@ -38,6 +41,8 @@ module Fog
         request :get_catalog
         request :get_catalog_item
         request :get_customization_options
+        request :get_firewall_acls
+        request :get_firewall_acl
         request :get_internet_services
         request :get_network
         request :get_network_ip
@@ -50,7 +55,9 @@ module Fog
         request :get_task
         request :get_task_list
         request :get_vapp
+        request :get_vapp_template
         request :get_vdc
+        request :instantiate_vapp_template
         request :power_off
         request :power_on
         request :power_reset
