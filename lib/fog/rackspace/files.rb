@@ -122,7 +122,7 @@ module Fog
             :host     => @storage_host,
             :path     => "#{@storage_path}/#{params[:path]}",
           }), &block)
-          if !response.body.empty? && parse_json
+          if !response.body.empty? && parse_json && response.headers['Content-Type'] == 'application/json'
             response.body = JSON.parse(response.body)
           end
           response
