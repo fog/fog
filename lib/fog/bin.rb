@@ -1,6 +1,7 @@
 require 'fog/credentials'
 
 require 'fog/aws/bin'
+require 'fog/linode/bin'
 require 'fog/local/bin'
 require 'fog/new_servers/bin'
 require 'fog/rackspace/bin'
@@ -14,7 +15,7 @@ module Fog
 
     def services
       services = []
-      [::AWS, ::Local, ::NewServers, ::Rackspace, ::Slicehost, ::Terremark, ::Vcloud, ::Bluebox].each do |service|
+      [::AWS, ::Linode, ::Local, ::NewServers, ::Rackspace, ::Slicehost, ::Terremark, ::Vcloud, ::Bluebox].each do |service|
         if service.initialized?
           services << service
         end
