@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.2.11'
-  s.date              = '2010-07-02'
+  s.version           = '0.2.12'
+  s.date              = '2010-07-09'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -236,6 +236,12 @@ Gem::Specification.new do |s|
     lib/fog/deprecation.rb
     lib/fog/errors.rb
     lib/fog/hmac.rb
+    lib/fog/linode.rb
+    lib/fog/linode/bin.rb
+    lib/fog/linode/requests/avail_datacenters.rb
+    lib/fog/linode/requests/avail_distributions.rb
+    lib/fog/linode/requests/avail_kernels.rb
+    lib/fog/linode/requests/avail_linodeplans.rb
     lib/fog/local.rb
     lib/fog/local/bin.rb
     lib/fog/local/models/directories.rb
