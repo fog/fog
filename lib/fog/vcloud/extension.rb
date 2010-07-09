@@ -12,9 +12,9 @@ module Fog
           end
           module #{other}::Mock
           end
-          module #{other}::Versions
-            SUPPORTED = @versions
-          end
+            def self.supported_versions
+              @versions
+            end
           def self.extended(klass)
             unless @required
               models.each do |model|

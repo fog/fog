@@ -44,7 +44,7 @@ module Fog
       extend Fog::Vcloud::Generators
 
       attr_accessor :login_uri
-      attr_reader :supported_versions, :versions_uri
+      attr_reader :versions_uri
 
       def initialize(options = {})
         @connections = {}
@@ -53,7 +53,6 @@ module Fog
         @version = options[:version]
         @username = options[:username]
         @password = options[:password]
-        @login_uri = get_login_uri
         @persistent = options[:persistent]
       end
 
@@ -98,6 +97,9 @@ module Fog
         end
       end
 
+      def supported_versions
+        @supported_versions ||= get_versions(@versions_uri).body[:VersionInfo]
+      end
 
       private
 
@@ -118,31 +120,31 @@ module Fog
       end
 
       def supported_version_numbers
-        case @supported_versions
+        case supported_versions
         when Array
-          @supported_versions.map { |version| version[:Version] }
+          supported_versions.map { |version| version[:Version] }
         when Hash
-          @supported_versions[:Version]
+          [ supported_versions[:Version] ]
         end
       end
 
       def get_login_uri
         check_versions
-        URI.parse case @supported_versions
+        URI.parse case supported_versions
         when Array
-          @supported_versions.detect {|version| version[:Version] == @version }[:LoginUrl]
+          supported_versions.detect {|version| version[:Version] == @version }[:LoginUrl]
         when Hash
-          @supported_versions[:LoginUrl]
+          supported_versions[:LoginUrl]
         end
       end
 
-      # Load up @all_versions and @supported_versions from the provided :versions_uri
+      # Load up @all_versions and supported_versions from the provided :versions_uri
       # If there are no supported versions raise an error
       # And choose a default version is none is specified
       def check_versions
-        @supported_versions = get_versions(@versions_uri).body[:VersionInfo]
+        supported_versions = get_versions(@versions_uri).body[:VersionInfo]
 
-        if @supported_versions.empty?
+        if supported_versions.empty?
           raise UnsupportedVersion.new("No supported versions found @ #{@version_uri}")
         end
 
@@ -164,6 +166,7 @@ module Fog
       # login handles the auth, but we just need the Set-Cookie
       # header from that call.
       def do_login
+        @login_uri ||= get_login_uri
         @login_results = login
         @cookie = @login_results.headers['Set-Cookie']
       end
@@ -346,7 +349,6 @@ module Fog
 
       def initialize(credentials = {})
         @versions_uri = URI.parse('https://vcloud.fakey.com/api/versions')
-        @login_uri = get_login_uri
       end
 
       def mock_it(status, mock_data, mock_headers = {})
