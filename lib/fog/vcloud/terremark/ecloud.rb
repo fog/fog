@@ -195,13 +195,18 @@ module Fog
           # If we don't support any versions the service does, then raise an error.
           # If the @version that super selected isn't in our supported list, then select one that is.
           def check_versions
-            super
-            unless (supported_version_numbers & Fog::Vcloud::Terremark::Ecloud.supported_versions).length > 0
-              raise UnsupportedVersion.new("\nService @ #{@versions_uri} supports: #{supported_version_numbers.join(', ')}\n" +
-                                           "Fog::Vcloud::Terremark::Ecloud supports: #{Fog::Vcloud::Terremark::Ecloud.supported_versions.join(', ')}")
-            end
-            unless supported_version_numbers.include?(@version)
-              @version = (supported_version_numbers & Fog::Vcloud::Terremark::Ecloud.supported_versions).sort.first
+            if @version
+              unless supported_version_numbers.include?(@version.to_s)
+                raise UnsupportedVersion.new("#{@version} is not supported by the server.")
+              end
+              unless Fog::Vcloud::Terremark::Ecloud.supported_versions.include?(@version.to_s)
+                raise UnsupportedVersion.new("#{@version} is not supported by Fog::Vcloud::Terremark::Ecloud")
+              end
+            else
+                unless @version = (supported_version_numbers & Fog::Vcloud::Terremark::Ecloud.supported_versions).sort.first
+                  raise UnsupportedVersion.new("\nService @ #{@versions_uri} supports: #{supported_version_numbers.join(', ')}\n" +
+                                               "Fog::Vcloud::Terremark::Ecloud supports: #{Fog::Vcloud::Terremark::Ecloud.supported_versions.join(', ')}")
+                end
             end
           end
         end
