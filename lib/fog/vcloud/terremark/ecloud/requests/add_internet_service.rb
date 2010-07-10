@@ -30,12 +30,12 @@ module Fog
           end
 
           def validate_internet_service_data(service_data, configure=false)
-            valid_opts = [:name, :protocol, :port, :description, :enabled, :redirect_url]
+            required_opts = [:name, :protocol, :port, :description, :enabled]
             if configure
-              valid_opts + [ :id, :href, :timeout ]
+              required_opts + [ :id, :href, :timeout ]
             end
-            unless valid_opts.all? { |opt| service_data.keys.include?(opt) }
-              raise ArgumentError.new("Required Internet Service data missing: #{(valid_opts - service_data.keys).map(&:inspect).join(", ")}")
+            unless required_opts.all? { |opt| service_data.keys.include?(opt) }
+              raise ArgumentError.new("Required Internet Service data missing: #{(required_opts - service_data.keys).map(&:inspect).join(", ")}")
             end
           end
 
