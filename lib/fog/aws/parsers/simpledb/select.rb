@@ -24,7 +24,7 @@ module Fog
                 response['Items'][@item_name] = {}
               else
                 @attribute_name = @value
-                response['Items'][@item_name][@attribute_name] = []
+                response['Items'][@item_name][@attribute_name] = [] unless response['Items'][@item_name][@attribute_name].is_a?(Array)
               end
             when 'NextToken', 'RequestId'
               response[name] = @value

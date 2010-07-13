@@ -20,7 +20,7 @@ module Fog
               response[name] = @value.to_f
             when 'Name'
               @attribute = @value
-              response['Attributes'][@attribute] = []
+              response['Attributes'][@attribute] = [] unless response['Attributes'][@attribute].is_a?(Array)
             when 'RequestId'
               response[name] = @value
             when 'Value'
