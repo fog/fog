@@ -22,8 +22,10 @@ describe 'SimpleDB.get_attributes' do
     it 'should return multi-value attributes from get_attributes' do
       AWS[:sdb].put_attributes(@domain_name, 'buzz', { "attr" => "foo" })
       AWS[:sdb].put_attributes(@domain_name, 'buzz', { "attr" => "foo2" })
-      actual = AWS[:sdb].get_attributes(@domain_name, 'buzz')
-      actual.body["Attributes"]["attr"].should == ['foo', 'foo2']
+      eventually do
+        actual = AWS[:sdb].get_attributes(@domain_name, 'buzz')
+        actual.body["Attributes"]["attr"].should == ['foo', 'foo2']
+      end
     end
 
     it 'should have attributes for foo after put_attributes' do
