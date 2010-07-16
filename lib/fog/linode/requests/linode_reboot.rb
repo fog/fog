@@ -2,22 +2,22 @@ module Fog
   module Linode
     class Real
 
-      # Get available kernels
+      # Issues a shutdown, and then a boot job for a given linode
       #
       # ==== Parameters
+      # * linode_id<~Integer>: id of linode to reboot
       # * options<~Hash>:
-      #   * kernelId<~Integer>: id to limit results to
-      #   * isXen<~Integer>: if 1 limits results to only zen
+      #   * configId<~Boolean>: id of config to boot server with
       #
       # ==== Returns
       # * response<~Excon::Response>:
       #   * body<~Array>:
       # TODO: docs
-      def avail_kernels(options={})
+      def linode_reboot(linode_id, options={})
         request(
           :expects  => 200,
           :method   => 'GET',
-          :query    => { :api_action => 'avail.kernels' }.merge!(options)
+          :query    => { :api_action => 'linode.reboot', :linodeId => linode_id }.merge!(options)
         )
       end
 
@@ -25,7 +25,7 @@ module Fog
 
     class Mock
 
-      def avail_kernels(options={})
+      def linode_reboot(linode_id, options={})
         Fog::Mock.not_implemented
       end
 

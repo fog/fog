@@ -2,22 +2,22 @@ module Fog
   module Linode
     class Real
 
-      # Get available kernels
+      # List all linodes user has access or delete to
       #
       # ==== Parameters
+      # * linode_id<~Integer>: id of linode to delete
       # * options<~Hash>:
-      #   * kernelId<~Integer>: id to limit results to
-      #   * isXen<~Integer>: if 1 limits results to only zen
+      #   * skipChecks<~Boolean>: skips safety checks and always deletes
       #
       # ==== Returns
       # * response<~Excon::Response>:
       #   * body<~Array>:
       # TODO: docs
-      def avail_kernels(options={})
+      def linode_delete(linode_id, options={})
         request(
           :expects  => 200,
           :method   => 'GET',
-          :query    => { :api_action => 'avail.kernels' }.merge!(options)
+          :query    => { :api_action => 'linode.delete', :linodeId => linode_id }.merge!(options)
         )
       end
 
@@ -25,7 +25,7 @@ module Fog
 
     class Mock
 
-      def avail_kernels(options={})
+      def linode_delete(linode_id, options={})
         Fog::Mock.not_implemented
       end
 

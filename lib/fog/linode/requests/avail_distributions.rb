@@ -24,7 +24,7 @@ module Fog
 
     class Mock
 
-      def avail_distributions(distribution_id)
+      def avail_distributions(options={})
         Fog::Mock.not_implemented
       end
 
