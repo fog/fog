@@ -65,7 +65,7 @@ module Fog
         end
 
         def save
-          requires :flavor_id, :image_id
+          requires :flavor_id, :image_id, :name
           options = {
             'metadata'    => @metadata,
             'name'        => @name,

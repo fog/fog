@@ -18,6 +18,11 @@ module Fog
       attribute :progress
       attribute :status
 
+      def initialize(attributes={})
+        @flavor_id ||= 1
+        super
+      end
+
       def destroy
         requires :id
         connection.delete_slice(@id)
