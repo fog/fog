@@ -17,7 +17,7 @@ module Fog
         def all(options = {})
           merge_attributes(options)
           parent = directory.collection.get(
-            directory.name,
+            directory.key,
             options
           )
           if parent
