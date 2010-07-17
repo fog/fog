@@ -41,9 +41,9 @@ module Fog
           end
         end
 
-        def save(options = {})
+        def save
           requires :body, :directory, :key
-          data = connection.put_object(directory.name, @key, @body, options)
+          data = connection.put_object(directory.name, @key, @body)
           @etag = data.headers['ETag']
           true
         end
