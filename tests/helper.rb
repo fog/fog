@@ -1,6 +1,8 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'fog'))
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'fog', 'bin'))
 
+require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'model_helper'))
+
 if ENV["FOG_MOCK"] == "true"
   Fog.mock!
 end
