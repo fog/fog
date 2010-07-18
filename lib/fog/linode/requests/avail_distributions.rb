@@ -5,14 +5,17 @@ module Fog
       # Get available distributions
       #
       # ==== Parameters
-      # * options<~Hash>:
-      #   * distributionId<~Integer>: id to limit results to
+      # * distributionId<~Integer>: id to limit results to
       #
       # ==== Returns
       # * response<~Excon::Response>:
       #   * body<~Array>:
       # TODO: docs
-      def avail_distributions(options={})
+      def avail_distributions(distribution_id=nil)
+        options = {}
+        if distribution_id
+          options.merge!(:distributionId => distribution_id)
+        end
         request(
           :expects  => 200,
           :method   => 'GET',

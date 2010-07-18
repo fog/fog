@@ -58,19 +58,19 @@ module Fog
         params[:query] ||= {}
         params[:query].merge!(:api_key => @linode_api_key)
 
-        begin
-          response = @connection.request(params.merge!({:host => @host}))
-        rescue Excon::Errors::Error => error
-          raise case error
-          when Excon::Errors::NotFound
-            Fog::Linode::NotFound.slurp(error)
-          else
-            error
-          end
-        end
+        response = @connection.request(params.merge!({:host => @host}))
 
         unless response.body.empty?
           response.body = JSON.parse(response.body)
+          if data = response.body['ERRORARRAY'].first
+            error = case data['ERRORCODE']
+            when 5
+              Fog::Linode::NotFound
+            else
+              Fog::Linode::Error
+            end
+            raise error.new(data['ERRORMESSAGE'])
+          end
         end
         response
       end

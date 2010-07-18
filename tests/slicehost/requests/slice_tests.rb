@@ -54,7 +54,7 @@ Shindo.tests('Slicehost | slice requests', ['slicehost']) do
       Slicehost[:slices].reboot_slice(0)
     end
 
-    tests('delete_slice(0)').raises(Fog::Slicehost::NotFound) do
+    tests('#delete_slice(0)').raises(Fog::Slicehost::NotFound) do
       Slicehost[:slices].delete_slice(0)
     end
 

@@ -8,11 +8,15 @@ module Fog
       # * response<~Excon::Response>:
       #   * body<~Array>:
       # TODO: docs
-      def avail_linodeplans
+      def avail_linodeplans(linodeplan_id=nil)
+        options = {}
+        if linodeplan_id
+          options.merge!(:planId => linodeplan_id)
+        end
         request(
           :expects  => 200,
           :method   => 'GET',
-          :query    => { :api_action => 'avail.linodeplans' }
+          :query    => { :api_action => 'avail.linodeplans' }.merge!(options)
         )
       end
 
