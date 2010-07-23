@@ -57,6 +57,8 @@ module Fog
       request 'revoke_security_group_ingress'
       request 'run_instances'
       request 'terminate_instances'
+      request 'start_instances'
+      request 'stop_instances'
 
       class Mock
         include Collections

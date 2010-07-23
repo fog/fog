@@ -132,6 +132,18 @@ module Fog
           true
         end
 
+        def start
+          requires :id
+          connection.stop_instances(@id)
+          true
+        end
+
+        def stop
+          requires :id
+          connection.stop_instances(@id)
+          true
+        end
+
         def volumes
           requires :id
 
