@@ -63,8 +63,6 @@ module Fog
         request :power_reset
         request :power_shutdown
 
-        versions "v0.8b-ext2.3", "0.8b-ext2.3"
-
         module Mock
           def self.base_url
             "https://fakey.com/api/v0.8b-ext2.3"
@@ -190,26 +188,11 @@ module Fog
         end
 
         module Real
-          private
-
-          # If we don't support any versions the service does, then raise an error.
-          # If the @version that super selected isn't in our supported list, then select one that is.
-          def check_versions
-            if @version
-              unless supported_version_numbers.include?(@version.to_s)
-                raise UnsupportedVersion.new("#{@version} is not supported by the server.")
-              end
-              unless Fog::Vcloud::Terremark::Ecloud.supported_versions.include?(@version.to_s)
-                raise UnsupportedVersion.new("#{@version} is not supported by Fog::Vcloud::Terremark::Ecloud")
-              end
-            else
-                unless @version = (supported_version_numbers & Fog::Vcloud::Terremark::Ecloud.supported_versions).sort.first
-                  raise UnsupportedVersion.new("\nService @ #{@versions_uri} supports: #{supported_version_numbers.join(', ')}\n" +
-                                               "Fog::Vcloud::Terremark::Ecloud supports: #{Fog::Vcloud::Terremark::Ecloud.supported_versions.join(', ')}")
-                end
-            end
+          def supporting_versions
+            ["v0.8b-ext2.3", "0.8b-ext2.3"]
           end
         end
+
       end
     end
   end

@@ -3,8 +3,9 @@ require 'fog/vcloud/model'
 require 'fog/vcloud/collection'
 require 'fog/vcloud/generators'
 require 'fog/vcloud/extension'
-require 'fog/vcloud/terremark/vcloud'
 require 'fog/vcloud/terremark/ecloud'
+require 'fog/vcloud/terremark/vcloud'
+
 
 module URI
   class Generic
@@ -45,6 +46,10 @@ module Fog
 
       attr_accessor :login_uri
       attr_reader :versions_uri
+
+      def supporting_versions
+        ["v0.8"]
+      end
 
       def initialize(options = {})
         @connections = {}
@@ -138,18 +143,21 @@ module Fog
         end
       end
 
-      # Load up @all_versions and supported_versions from the provided :versions_uri
-      # If there are no supported versions raise an error
-      # And choose a default version is none is specified
+      # If we don't support any versions the service does, then raise an error.
+      # If the @version that super selected isn't in our supported list, then select one that is.
       def check_versions
-        supported_versions = get_versions(@versions_uri).body[:VersionInfo]
-
-        if supported_versions.empty?
-          raise UnsupportedVersion.new("No supported versions found @ #{@version_uri}")
-        end
-
-        unless @version
-          @version = supported_version_numbers.first
+        if @version
+          unless supported_version_numbers.include?(@version.to_s)
+            raise UnsupportedVersion.new("#{@version} is not supported by the server.")
+          end
+          unless supporting_versions.include?(@version.to_s)
+            raise UnsupportedVersion.new("#{@version} is not supported by #{self.class}")
+          end
+        else
+          unless @version = (supported_version_numbers & supporting_versions).sort.first
+            raise UnsupportedVersion.new("\nService @ #{@versions_uri} supports: #{supported_version_numbers.join(', ')}\n" +
+                                         "#{self.class} supports: #{supporting_versions.join(', ')}")
+          end
         end
       end
 

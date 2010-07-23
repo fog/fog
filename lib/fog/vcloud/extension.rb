@@ -12,9 +12,6 @@ module Fog
           end
           module #{other}::Mock
           end
-            def self.supported_versions
-              @versions
-            end
           def self.extended(klass)
             unless @required
               models.each do |model|
@@ -33,10 +30,6 @@ module Fog
             end
           end
         EOS
-      end
-
-      def versions(*args)
-        @versions = args
       end
 
     end
