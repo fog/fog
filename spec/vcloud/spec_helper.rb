@@ -102,17 +102,27 @@ shared_examples_for "all login requests" do
 
     its(:headers) { should include "Set-Cookie" }
 
-    it { should have_headers_denoting_a_content_type_of "application/vnd.vmware.vcloud.orgslist+xml" }
-
     describe "#body" do
       subject { @login.body }
 
-      it { should have(4).organizations }
-
+      it { should have(4).items }
       it_should_behave_like "it has the standard vcloud v0.8 xmlns attributes"   # 3 keys
-      its(:Org) { should == { :type => "application/vnd.vmware.vcloud.org+xml",
-                              :href => @mock_organization[:info][:href],
-                              :name => @mock_organization[:info][:name]} }
+      it { should include(:Org) }
+
+      describe ":Org" do
+        subject { arrayify(@login.body[:Org]) }
+
+        specify do
+          subject.each do |org|
+            org.should include(:type)
+            org[:type].should be_of_type "application/vnd.vmware.vcloud.org+xml"
+            org.should include(:name)
+            org[:name].should be_an_instance_of String
+            org.should include(:href)
+            org[:href].should be_a_url
+          end
+        end
+      end
     end
   end
 end
@@ -351,5 +361,23 @@ end
 Spec::Matchers.define :be_either_a_hash_or_array  do
   match do |actual|
     actual.is_a?(Hash) || actual.is_a?(Array)
+  end
+end
+
+Spec::Matchers.define :be_a_known_vmware_type do
+  match do |actual|
+    ["application/vnd.vmware.vcloud.org+xml"].include?(actual)
+  end
+end
+
+Spec::Matchers.define :be_of_type do |type|
+  match do |actual|
+    actual == type ||
+      if actual.is_a?(Hash) && actual[:type]
+        actual[:type] == type
+      end ||
+      if actual.respond_to(:type)
+        actual.type == type
+      end
   end
 end

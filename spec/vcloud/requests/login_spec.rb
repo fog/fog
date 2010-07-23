@@ -8,6 +8,13 @@ end
 if Fog.mocking?
   describe Fog::Vcloud, :type => :mock_vcloud_request do
     it_should_behave_like "real or mock login requests"
+
+    describe "#body" do
+      subject { @vcloud.login.body }
+      its(:Org) { should == { :type => "application/vnd.vmware.vcloud.org+xml",
+                              :href => @mock_organization[:info][:href],
+                              :name => @mock_organization[:info][:name]} }
+    end
   end
 else
   describe Fog::Vcloud, :type => :vcloud_request do
