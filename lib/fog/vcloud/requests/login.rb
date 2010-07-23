@@ -12,7 +12,7 @@ module Fog
           },
           :method   => 'POST',
           :parse    => true,
-          :uri      => @login_uri
+          :uri      => login_uri
         })
       end
 

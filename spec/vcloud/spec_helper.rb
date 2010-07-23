@@ -27,6 +27,10 @@ Fog.mock! if ENV['FOG_MOCK']
 
 require "#{current_directory}/../../lib/fog/vcloud/bin"
 
+def arrayify(item)
+  item.is_a?(Array) ? item : [ item ]
+end
+
 shared_examples_for "all responses" do
   it { should be_an_instance_of Excon::Response }
   it { should respond_to :body }
@@ -218,7 +222,12 @@ Spec::Runner.configure do |config|
   config.after(:all) do
     Fog::Vcloud::Mock.data_reset
   end
-  config.before(:each, :type => :mock_vcloud_model) do
+
+  config.before(:each, :type => :vcloud_request) do
+    @vcloud = Fog.services.detect { |service| service == Vcloud }[:vcloud]
+  end
+
+  config.before(:all, :type => :mock_vcloud_model) do
     @vcloud = Fog::Vcloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions")
   end
   config.before(:all, :type => :mock_vcloud_model) do
@@ -330,5 +339,17 @@ end
 Spec::Matchers.define :have_all_attributes_be_nil do
   match do |actual|
     actual.class.attributes.all? { |attribute| actual.send(attribute.to_sym) == nil }
+  end
+end
+
+Spec::Matchers.define :be_a_url do
+  match do |actual|
+    actual.match(/^(http|https):\/\/[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$/ix)
+  end
+end
+
+Spec::Matchers.define :be_either_a_hash_or_array  do
+  match do |actual|
+    actual.is_a?(Hash) || actual.is_a?(Array)
   end
 end

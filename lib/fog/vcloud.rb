@@ -171,10 +171,13 @@ module Fog
         "Basic #{Base64.encode64("#{@username}:#{@password}").chomp!}"
       end
 
+      def login_uri
+        @login_uri ||= get_login_uri
+      end
+
       # login handles the auth, but we just need the Set-Cookie
       # header from that call.
       def do_login
-        @login_uri ||= get_login_uri
         @login_results = login
         @cookie = @login_results.headers['Set-Cookie']
       end
