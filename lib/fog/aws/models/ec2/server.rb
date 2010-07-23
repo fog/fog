@@ -134,7 +134,7 @@ module Fog
 
         def start
           requires :id
-          connection.stop_instances(@id)
+          connection.start_instances(@id)
           true
         end
 
