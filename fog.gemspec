@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.2.15'
-  s.date              = '2010-07-17'
+  s.version           = '0.2.16'
+  s.date              = '2010-07-22'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -116,6 +116,7 @@ Gem::Specification.new do |s|
     lib/fog/aws/parsers/ec2/detach_volume.rb
     lib/fog/aws/parsers/ec2/get_console_output.rb
     lib/fog/aws/parsers/ec2/run_instances.rb
+    lib/fog/aws/parsers/ec2/start_stop_instances.rb
     lib/fog/aws/parsers/ec2/terminate_instances.rb
     lib/fog/aws/parsers/elb/create_load_balancer.rb
     lib/fog/aws/parsers/elb/delete_load_balancer.rb
@@ -169,6 +170,8 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/ec2/release_address.rb
     lib/fog/aws/requests/ec2/revoke_security_group_ingress.rb
     lib/fog/aws/requests/ec2/run_instances.rb
+    lib/fog/aws/requests/ec2/start_instances.rb
+    lib/fog/aws/requests/ec2/stop_instances.rb
     lib/fog/aws/requests/ec2/terminate_instances.rb
     lib/fog/aws/requests/elb/create_load_balancer.rb
     lib/fog/aws/requests/elb/delete_load_balancer.rb
@@ -570,6 +573,7 @@ Gem::Specification.new do |s|
     spec/vcloud/terremark/ecloud/requests/login_spec.rb
     spec/vcloud/vcloud_spec.rb
     tests/aws/helper.rb
+    tests/aws/models/s3/directory_tests.rb
     tests/aws/requests/ec2/address_tests.rb
     tests/aws/requests/ec2/availability_zone_tests.rb
     tests/aws/requests/ec2/instance_tests.rb
@@ -584,6 +588,12 @@ Gem::Specification.new do |s|
     tests/bluebox/requests/template_tests.rb
     tests/helper.rb
     tests/helper_tests.rb
+    tests/helpers/model_helper.rb
+    tests/linode/helper.rb
+    tests/linode/requests/datacenter_tests.rb
+    tests/linode/requests/distribution_tests.rb
+    tests/linode/requests/linode_tests.rb
+    tests/linode/requests/linodeplans_tests.rb
     tests/rackspace/helper.rb
     tests/rackspace/requests/servers/address_tests.rb
     tests/rackspace/requests/servers/flavor_tests.rb
