@@ -93,7 +93,7 @@ module Fog
                   @data[:deleted_at].delete(instance['instanceId'])
                   @data[:instances].delete(instance['instanceId'])
                 elsif Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock.delay
-                  instance['instanceState'] = { 'code' => 16, 'name' => 'terminating' }
+                  instance['instanceState'] = { 'code' => 48, 'name' => 'terminating' }
                 end
               when 'terminating'
                 if Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock.delay

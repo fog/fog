@@ -55,9 +55,11 @@ module Fog
               when 'shutting-down'
                 32
               when 'terminated'
+                48
+              when 'stopping'
                 64
-              when 'rebooting'
-                128
+              when 'stopped'
+                80
               end
               state = { 'name' => 'shutting-down', 'code' => 32}
               response.body['instancesSet'] << {
