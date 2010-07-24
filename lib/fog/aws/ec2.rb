@@ -33,6 +33,7 @@ module Fog
       request 'create_key_pair'
       request 'create_security_group'
       request 'create_snapshot'
+      request 'create_image'
       request 'create_volume'
       request 'delete_key_pair'
       request 'delete_security_group'
