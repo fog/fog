@@ -19,7 +19,7 @@ module Fog
           
           def end_element(name)
             case name
-            when 'architecture',  'imageId', 'imageLocation', 'imageOwnerId', 'imageState', 'imageType', 'kernelId', 'platform', 'ramdiskId'
+            when 'architecture',  'imageId', 'imageLocation', 'imageOwnerId', 'imageState', 'imageType', 'kernelId', 'platform', 'ramdiskId', 'rootDeviceType','rootDeviceName'
               @image[name] = @value
             when 'isPublic'
               if @value == 'true'

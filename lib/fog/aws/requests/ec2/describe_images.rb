@@ -30,6 +30,8 @@ module Fog
         #       * 'platform'<~String> - Operating platform of the image
         #       * 'productCodes'<~Array> - Product codes for the image
         #       * 'ramdiskId'<~String> - Ramdisk id associated with image, if any
+        #       * 'rootDeviceName'<~String> - Root device name, e.g. /dev/sda1
+        #       * 'rootDeviceType'<~String> - Root device type, ebs or instance-store
         def describe_images(options = {})
           if image_id = options.delete('ImageId')
             options.merge!(AWS.indexed_param('ImageId', image_id))

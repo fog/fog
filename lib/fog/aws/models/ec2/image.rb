@@ -9,15 +9,21 @@ module Fog
         identity :id,             'imageId'
 
         attribute :architecture
-        attribute :location,      'imageLocation'
-        attribute :owner_id,      'imageOwnerId'
-        attribute :state,         'imageState'
-        attribute :type,          'imageType'
-        attribute :is_public,     'isPublic'
-        attribute :kernel_id,     'kernelId'
+        attribute :location,         'imageLocation'
+        attribute :owner_id,         'imageOwnerId'
+        attribute :state,            'imageState'
+        attribute :type,             'imageType'
+        attribute :is_public,        'isPublic'
+        attribute :kernel_id,        'kernelId'
         attribute :platform
-        attribute :product_codes, 'productCodes'
-        attribute :ramdisk_id,    'ramdiskId'
+        attribute :product_codes,    'productCodes'
+        attribute :ramdisk_id,       'ramdiskId'
+        attribute :root_device_type, 'rootDeviceType'
+        attribute :root_device_name, 'rootDeviceName'
+
+        def deregister
+          connection.deregister_image(@id)
+        end
 
       end
 

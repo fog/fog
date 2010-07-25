@@ -17,6 +17,9 @@ describe 'EC2.describe_images' do
       image['kernelId'].should be_a(String) if image['kernelId']
       image['platform'].should be_a(String) if image['platform']
       image['ramdiskId'].should be_a(String) if image['ramdiskId']
+      image['rootDeviceName'].should be_a(String) if image['rootDeviceName']
+      ["ebs","instance-store"].should include(image['rootDeviceType'])
+      image['rootDeviceName'].should be_a(String) if image['rootDeviceName']
     end
   
     it "should return proper attributes with params" do
@@ -33,6 +36,8 @@ describe 'EC2.describe_images' do
       image['kernelId'].should be_a(String) if image['kernelId']
       image['platform'].should be_a(String) if image['platform']
       image['ramdiskId'].should be_a(String) if image['ramdiskId']
+      ["ebs","instance-store"].should include(image['rootDeviceType'])
+      image['rootDeviceName'].should be_a(String) if image['rootDeviceName']
     end
 
   end

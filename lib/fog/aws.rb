@@ -67,16 +67,18 @@ module Fog
           path << letters(rand(9) + 8)
         end
         {
-          "imageOwnerId"  => letters(rand(5) + 4),
-          "productCodes"  => [],
-          "kernelId"      => kernel_id,
-          "ramdiskId"     => ramdisk_id,
-          "imageState"    => "available",
-          "imageId"       => image_id,
-          "architecture"  => "i386",
-          "isPublic"      => true,
-          "imageLocation" => path.join('/'),
-          "imageType"     => "machine"
+          "imageOwnerId"   => letters(rand(5) + 4),
+          "productCodes"   => [],
+          "kernelId"       => kernel_id,
+          "ramdiskId"      => ramdisk_id,
+          "imageState"     => "available",
+          "imageId"        => image_id,
+          "architecture"   => "i386",
+          "isPublic"       => true,
+          "imageLocation"  => path.join('/'),
+          "imageType"      => "machine",
+          "rootDeviceType" => ["ebs","instance-store"][rand(2)],
+          "rootDeviceName" => "/dev/sda1"
         }
       end
 

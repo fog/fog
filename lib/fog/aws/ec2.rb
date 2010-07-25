@@ -39,6 +39,7 @@ module Fog
       request 'delete_security_group'
       request 'delete_snapshot'
       request 'delete_volume'
+      request 'deregister_image'
       request 'describe_addresses'
       request 'describe_availability_zones'
       request 'describe_images'
