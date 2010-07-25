@@ -68,6 +68,7 @@ module Fog
         end
         {
           "imageOwnerId"   => letters(rand(5) + 4),
+          "blockDeviceMapping" => [],
           "productCodes"   => [],
           "kernelId"       => kernel_id,
           "ramdiskId"      => ramdisk_id,

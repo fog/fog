@@ -6,7 +6,7 @@ module Fog
         class DescribeImages < Fog::Parsers::Base
 
           def reset
-            @image = { 'productCodes' => [] }
+            @image = { 'productCodes' => [], 'blockDeviceMapping' => nil }
             @response = { 'imagesSet' => [] }
           end
 
@@ -14,6 +14,11 @@ module Fog
             super
             if name == 'productCodes'
               @in_product_codes = true
+            elsif name == 'blockDeviceMapping'
+              @in_block_device_mapping = true
+              @image['blockDeviceMapping'] = []
+             elsif name == 'item' && @in_block_device_mapping
+              @image['blockDeviceMapping'] << {}
             end
           end
           
@@ -28,7 +33,8 @@ module Fog
                 @image[name] = false
               end
             when 'item'
-              unless @in_product_codes
+              if @in_block_device_mapping
+              elsif !@in_product_codes
                 @response['imagesSet'] << @image
                 @image = { 'productCodes' => [] }
               end
@@ -36,8 +42,13 @@ module Fog
               @image['productCodes'] << @value
             when 'productCodes'
               @in_product_codes = false
+            when 'blockDeviceMapping'
+              @in_block_device_mapping = false
             when 'requestId'
               @response[name] = @value
+            when 'deviceName','virtualName','snapshotId','volumeSize','deleteOnTermination'
+              l = @image['blockDeviceMapping'].length
+              @image['blockDeviceMapping'][l-1].store(name,@value)
             end
           end
 
