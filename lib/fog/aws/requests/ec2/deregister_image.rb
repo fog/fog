@@ -5,7 +5,7 @@ module Fog
 
         require 'fog/aws/parsers/ec2/deregister_image'
 
-        # Attach an Amazon EBS volume with a running instance, exposing as specified device
+        # deregister an image
         #
         # ==== Parameters
         # * image_id<~String> - Id of image to deregister 
