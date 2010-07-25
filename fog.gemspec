@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.2.18'
-  s.date              = '2010-07-24'
+  s.version           = '0.2.19'
+  s.date              = '2010-07-25'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -104,6 +104,7 @@ Gem::Specification.new do |s|
     lib/fog/aws/parsers/ec2/create_key_pair.rb
     lib/fog/aws/parsers/ec2/create_snapshot.rb
     lib/fog/aws/parsers/ec2/create_volume.rb
+    lib/fog/aws/parsers/ec2/deregister_image.rb
     lib/fog/aws/parsers/ec2/describe_addresses.rb
     lib/fog/aws/parsers/ec2/describe_availability_zones.rb
     lib/fog/aws/parsers/ec2/describe_images.rb
@@ -154,6 +155,7 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/ec2/delete_security_group.rb
     lib/fog/aws/requests/ec2/delete_snapshot.rb
     lib/fog/aws/requests/ec2/delete_volume.rb
+    lib/fog/aws/requests/ec2/deregister_image.rb
     lib/fog/aws/requests/ec2/describe_addresses.rb
     lib/fog/aws/requests/ec2/describe_availability_zones.rb
     lib/fog/aws/requests/ec2/describe_images.rb
@@ -240,6 +242,13 @@ Gem::Specification.new do |s|
     lib/fog/credentials.rb
     lib/fog/deprecation.rb
     lib/fog/errors.rb
+    lib/fog/go_grid.rb
+    lib/fog/go_grid/bin.rb
+    lib/fog/go_grid/requests/common_lookup_list.rb
+    lib/fog/go_grid/requests/grid_image_list.rb
+    lib/fog/go_grid/requests/grid_ip_list.rb
+    lib/fog/go_grid/requests/grid_loadbalancer_list.rb
+    lib/fog/go_grid/requests/grid_server_list.rb
     lib/fog/hmac.rb
     lib/fog/linode.rb
     lib/fog/linode/bin.rb
