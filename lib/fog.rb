@@ -29,6 +29,7 @@ require 'fog/ssh'
 
 require 'fog/aws'
 require 'fog/bluebox'
+require 'fog/go_grid'
 require 'fog/linode'
 require 'fog/local'
 require 'fog/new_servers'
