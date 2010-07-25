@@ -28,7 +28,6 @@ module Fog
             case name
             when 'cidrIp'
               @ip_range[name] = @value
-              puts "got cidr ip #{@value}"
             when 'fromPort', 'toPort'
               @ip_permission[name] = @value.to_i
             when 'groups'
