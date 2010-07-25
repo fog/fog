@@ -18,8 +18,6 @@ module Fog
       # TODO: docs
       def grid_ip_list(options={})
         request(
-          :expects  => 200,
-          :method   => 'GET',
           :path     => 'grid/ip/list',
           :query    => options
         )

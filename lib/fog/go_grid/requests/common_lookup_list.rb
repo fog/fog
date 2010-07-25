@@ -16,8 +16,6 @@ module Fog
       # TODO: docs
       def common_lookup_list(lookup, options={})
         request(
-          :expects  => 200,
-          :method   => 'GET',
           :path     => 'common/lookup/list',
           :query    => {'lookup' => lookup}.merge!(options)
         )

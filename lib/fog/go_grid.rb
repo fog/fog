@@ -12,7 +12,11 @@ module Fog
     request 'grid_image_list'
     request 'grid_ip_list'
     request 'grid_loadbalancer_list'
+    request 'grid_server_add'
+    request 'grid_server_delete'
+    request 'grid_server_get'
     request 'grid_server_list'
+    request 'grid_server_power'
 
     class Mock
       include Collections
@@ -55,6 +59,11 @@ module Fog
       end
 
       def request(params)
+        params = {
+          :expects  => 200,
+          :method   => 'GET'
+        }.merge!(params)
+
         params[:query] ||= {}
         params[:query].merge!({
           'api_key' => @go_grid_api_key,

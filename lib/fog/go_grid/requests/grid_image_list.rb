@@ -19,8 +19,6 @@ module Fog
       # TODO: docs
       def grid_image_list(options={})
         request(
-          :expects  => 200,
-          :method   => 'GET',
           :path     => 'grid/image/list',
           :query    => options
         )

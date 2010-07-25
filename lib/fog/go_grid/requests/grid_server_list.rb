@@ -18,8 +18,6 @@ module Fog
       # TODO: docs
       def grid_server_list(options={})
         request(
-          :expects  => 200,
-          :method   => 'GET',
           :path     => 'grid/server/list',
           :query    => options
         )

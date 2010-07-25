@@ -16,8 +16,6 @@ module Fog
       # TODO: docs
       def grid_loadbalancer_list(options={})
         request(
-          :expects  => 200,
-          :method   => 'GET',
           :path     => 'grid/loadbalancer/list',
           :query    => options
         )
