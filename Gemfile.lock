@@ -3,16 +3,8 @@ dependencies:
   formatador: 
     group: 
     - :default
-    version: ">= 0.0.10"
+    version: ">= 0.0.15"
   rake: 
-    group: 
-    - :default
-    version: ">= 0"
-  ruby-hmac: 
-    group: 
-    - :default
-    version: ">= 0"
-  mime-types: 
     group: 
     - :default
     version: ">= 0"
@@ -20,7 +12,11 @@ dependencies:
     group: 
     - :default
     version: ">= 0"
-  json: 
+  mime-types: 
+    group: 
+    - :default
+    version: ">= 0"
+  ruby-hmac: 
     group: 
     - :default
     version: ">= 0"
@@ -28,18 +24,22 @@ dependencies:
     group: 
     - :default
     version: ">= 0"
-  excon: 
-    group: 
-    - :default
-    version: ">= 0.1.4"
-  builder: 
+  json: 
     group: 
     - :default
     version: ">= 0"
+  excon: 
+    group: 
+    - :default
+    version: ">= 0.2.0"
   shindo: 
     group: 
     - :default
     version: ">= 0.1.6"
+  builder: 
+    group: 
+    - :default
+    version: ">= 0"
   nokogiri: 
     group: 
     - :default
@@ -50,9 +50,9 @@ specs:
 - builder: 
     version: 2.1.2
 - excon: 
-    version: 0.1.4
+    version: 0.2.0
 - formatador: 
-    version: 0.0.14
+    version: 0.0.15
 - gestalt: 
     version: 0.0.11
 - json: 
@@ -69,7 +69,7 @@ specs:
     version: 0.4.0
 - shindo: 
     version: 0.1.6
-hash: 8520ed00122d3f78644dafa479a1f96842291e8f
+hash: a94a7d8b9e04932b845e2e2c6c594c7e49b13ae1
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org

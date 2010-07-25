@@ -42,19 +42,19 @@ Gem::Specification.new do |s|
 
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
-  s.add_dependency('excon', '>=0.1.4')
-  s.add_dependency('formatador', '>=0.0.10')
+  s.add_dependency('builder')
+  s.add_dependency('excon', '>=0.2.0')
+  s.add_dependency('formatador', '>=0.0.15')
   s.add_dependency('json')
   s.add_dependency('mime-types')
   s.add_dependency('net-ssh')
   s.add_dependency('nokogiri')
   s.add_dependency('ruby-hmac')
-  s.add_dependency('builder')
 
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development
   s.add_development_dependency('rspec')
-  s.add_development_dependency('shindo')
+  s.add_development_dependency('shindo', '0.1.6')
 
   ## Leave this section as-is. It will be automatically generated from the
   ## contents of your Git repository via the gemspec task. DO NOT REMOVE
