@@ -22,6 +22,9 @@ module Fog
                 builder.Href(ip_address_data[:href].to_s)
                 builder.Name(ip_address_data[:name])
               }
+              if monitor = service_data[:monitor]
+                generate_monitor_section(builder,monitor)
+              end
             }
           end
 
@@ -36,6 +39,11 @@ module Fog
             validate_internet_service_data(service_data, true)
 
             validate_public_ip_address_data(ip_address_data)
+
+            if monitor = service_data[:monitor]
+              validate_internet_service_monitor(monitor)
+              ensure_monitor_defaults!(monitor)
+            end
 
             request(
               :body     => generate_internet_service_response(service_data, ip_address_data),

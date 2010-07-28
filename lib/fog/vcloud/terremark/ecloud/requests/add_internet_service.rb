@@ -15,17 +15,23 @@ module Fog
               builder.Enabled(service_data[:enabled])
               builder.Description(service_data[:description])
               builder.RedirectURL(service_data[:redirect_url])
-              #builder.Monitor {
-              #  builder.MonitorType {}
-              #  builder.UrlSendString {}
-              #  builder.HttpHeader {}
-              #  builder.ReceiveString {}
-              #  builder.Interval {}
-              #  builder.ResponseTimeOut {}
-              #  builder.DownTime {}
-              #  builder.Retries {}
-              #  builder.IsEnabled {}
-              #}
+              if monitor = service_data[:monitor]
+                generate_monitor_section(builder,monitor)
+              end
+            }
+          end
+
+          def generate_monitor_section(builder, monitor)
+            builder.Monitor {
+              builder.MonitorType(monitor[:type])
+              builder.UrlSendString(monitor[:url_send_string])
+              builder.HttpHeader(monitor[:http_headers].join("\n"))
+              builder.ReceiveString(monitor[:receive_string])
+              builder.Interval(monitor[:interval])
+              builder.ResponseTimeOut(monitor[:response_timeout])
+              builder.DownTime(monitor[:downtime])
+              builder.Retries(monitor[:retries])
+              builder.IsEnabled(monitor[:is_enabled])
             }
           end
 
@@ -39,8 +45,55 @@ module Fog
             end
           end
 
+          def validate_internet_service_monitor(monitor)
+            #FIXME: Refactor this type of function into something generic
+            required_opts = [:type, :url_send_string, :http_headers, :receive_string, :is_enabled]
+
+            unless required_opts.all? { |opt| monitor.keys.include?(opt) && monitor[opt] }
+              raise ArgumentError.new("Required Monitor data missing: #{(required_opts - monitor.keys).map(&:inspect).join(", ")}")
+            end
+
+            unless ['HTTP','ECV'].include?(monitor[:type])
+              raise ArgumentError.new("Supported monitor types are: ECV & HTTP")
+            end
+
+            unless monitor[:http_headers].is_a?(Array) || monitor[:http_headers].is_a?(String)
+              raise ArgumentError.new("Monitor :http_headers must be a String or Array")
+            end
+
+            unless [true, false, "true", "false"].include?(monitor[:is_enabled])
+              raise ArgumentError.new("Monitor :is_enabled must be true or false")
+            end
+          end
+
+          def ensure_monitor_defaults!(monitor)
+            if monitor[:http_headers].is_a?(String)
+              monitor[:http_headers] = [ monitor[:http_headers] ]
+            end
+
+            unless monitor[:retries]
+              monitor[:retries] = 3
+            end
+
+            unless monitor[:response_timeout]
+              monitor[:response_timeout] = 2
+            end
+
+            unless monitor[:down_time]
+              monitor[:down_time] = 30
+            end
+
+            unless monitor[:interval]
+              monitor[:interval] = 5
+            end
+          end
+
           def add_internet_service(internet_services_uri, service_data)
             validate_internet_service_data(service_data)
+            if monitor = service_data[:monitor]
+              validate_internet_service_monitor(monitor)
+              ensure_monitor_defaults!(monitor)
+            end
 
             request(
               :body     => generate_internet_service_request(service_data),
@@ -64,7 +117,7 @@ module Fog
             validate_internet_service_data(service_data)
 
             internet_services_uri = ensure_unparsed(internet_services_uri)
-          
+
             if ip = ip_from_uri(internet_services_uri)
               id = rand(1000)
               new_service = service_data.merge!( { :href => Fog::Vcloud::Terremark::Ecloud::Mock.internet_service_href( { :id => id } ),
