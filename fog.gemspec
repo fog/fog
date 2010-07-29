@@ -48,7 +48,7 @@ Gem::Specification.new do |s|
   s.add_dependency('json')
   s.add_dependency('mime-types')
   s.add_dependency('net-ssh')
-  s.add_dependency('nokogiri')
+  s.add_dependency('nokogiri', '>=1.4.3.1')
   s.add_dependency('ruby-hmac')
 
   ## List your development dependencies here. Development dependencies are

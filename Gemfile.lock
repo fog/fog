@@ -43,7 +43,7 @@ dependencies:
   nokogiri: 
     group: 
     - :default
-    version: ">= 0"
+    version: ">= 1.4.3.1"
 specs: 
 - rake: 
     version: 0.8.7
@@ -62,14 +62,14 @@ specs:
 - net-ssh: 
     version: 2.0.23
 - nokogiri: 
-    version: 1.4.2
+    version: 1.4.3.1
 - rspec: 
     version: 1.3.0
 - ruby-hmac: 
     version: 0.4.0
 - shindo: 
     version: 0.1.6
-hash: a94a7d8b9e04932b845e2e2c6c594c7e49b13ae1
+hash: b335ed8d32bece98ea7a84d858b85cbf21025c82
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org
