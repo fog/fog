@@ -12,8 +12,8 @@ module Fog
         #
         def modify_snapshot_attribute(snapshot_id, attribute, operation_type, options = {})
           params = {}
-          params.merge!(AWS.indexed_param('UserId', options['UserId']))
-          params.merge!(AWS.indexed_param('UserGroup', options['UserGroup']))
+          params.merge!(AWS.indexed_param('UserId', options['UserId'], 1))
+          params.merge!(AWS.indexed_param('UserGroup', options['UserGroup'], 1))
           request({
             'Action'        => 'ModifySnapshotAttribute',
             'Attribute'     => attribute,
