@@ -1,4 +1,4 @@
-module Fog
+	module Fog
   module AWS
     module EC2
       extend Fog::Service
@@ -54,6 +54,7 @@ module Fog
       request 'disassociate_address'
       request 'get_console_output'
       request 'modify_image_attributes'
+      request 'modify_snapshot_attribute'
       request 'reboot_instances'
       request 'release_address'
       request 'revoke_security_group_ingress'
