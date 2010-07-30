@@ -57,6 +57,7 @@
       request 'modify_snapshot_attribute'
       request 'reboot_instances'
       request 'release_address'
+      request 'register_image'
       request 'revoke_security_group_ingress'
       request 'run_instances'
       request 'terminate_instances'
