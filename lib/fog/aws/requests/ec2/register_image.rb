@@ -29,7 +29,6 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'return'<~Boolean> - Returns true if deregistration succeeded
         #     * 'imageId'<~String> - Id of newly created AMI
 
         def register_image(name, description, location, block_devices=[], options={})
@@ -37,6 +36,7 @@ module Fog
             'Action'      => 'RegisterImage',
             'Name'        => name,
             'Description' => description,
+            :parser       => Fog::Parsers::AWS::EC2::RegisterImage.new
           }
 
           # This determines if we are doing a snapshot or a S3 backed AMI.
