@@ -14,6 +14,7 @@ module Fog
           attribute :owner, :aliases => :Owner
           attribute :start_time, :aliases => :startTime, :type => :time
           attribute :end_time, :aliases => :endTime, :type => :time
+          attribute :error, :aliases => :Error
 
         end
       end
