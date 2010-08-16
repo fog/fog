@@ -43,6 +43,14 @@ describe 'Fog::AWS::EC2::Volume' do
       volume.destroy.should be_true
     end
 
+    it 'should fail if the volume is attached to an instance' do
+      server = AWS[:ec2].servers.create(:image_id => GENTOO_AMI)
+      server.wait_for { ready? }
+      volume = AWS[:ec2].volumes.create(:availability_zone => server.availability_zone, :size => 1, :device => '/dev/sdz1')
+      volume.server = server
+      lambda { volume.destroy }.should raise_error
+    end
+
   end
 
   describe "#server=" do
