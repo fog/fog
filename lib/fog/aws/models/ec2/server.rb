@@ -29,10 +29,11 @@ module Fog
         attribute :root_device_name,      'rootDeviceName'
         attribute :root_device_type,      'rootDeviceType'
         attribute :state,                 'instanceState'
+        attribute :subnet_id,             'subnetId'
         attribute :user_data
 
         def initialize(attributes={})
-          @groups ||= ["default"]
+          @groups ||= ["default"] if attributes[:subnet_id].blank?
           @flavor_id ||= 'm1.small'
           super
         end
@@ -57,7 +58,7 @@ module Fog
         end
 
         # def security_group
-        #   connection.security_groups.all(@group_id)
+        #  connection.security_groups.all(@group_id)
         # end
         #
         # def security_group=(new_security_group)
@@ -124,8 +125,18 @@ module Fog
             'Placement.AvailabilityZone'  => @availability_zone,
             'RamdiskId'                   => @ramdisk_id,
             'SecurityGroup'               => @groups,
+            'SubnetId'                    => subnet_id,
             'UserData'                    => @user_data
           }
+          
+          # If subnet is defined we are working on a virtual private cloud
+          # subnet & security group cannot co-exist. I wish VPC just ignored
+          # the security group parameter instead, it would be much easier!
+          if subnet_id.blank?
+            options.delete('SubnetId') 
+          else
+            options.delete('SecurityGroup')
+          end
 
           data = connection.run_instances(@image_id, 1, 1, options)
           merge_attributes(data.body['instancesSet'].first)

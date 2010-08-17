@@ -76,6 +76,8 @@ module Fog
               else
                 @instance['monitoring'][name] = false
               end
+            when 'subnetId'
+              @response[name] = @value
             end
           end
 

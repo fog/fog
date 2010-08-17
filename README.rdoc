@@ -1,5 +1,14 @@
 http://geemus.com/fog.png
 
+= VIRTUAL PRIVATE CLOUD ON AMAZON:
+
+This version of fog has been modified to support Amazon's virtual private cloud. It is based on v0.2.22 (which was available at the time). It should be regarded as experimental. We have made a pull request to the fog maintainers. This patch was uploaded to Github on 17 August 2010.
+
+= CHANGES FOR VPC COMPATIBILITY:
+
+* Introduction of a subnet parameter (to define which subnet_id the virtual private instance will run on)
+* Remove security groups from the EC2 API request when there is a subnet_id present
+
 fog is the Ruby cloud computing library.
 
 The quick and dirty, top to bottom:

@@ -86,7 +86,7 @@ module Fog
               end
             end
           end
-          if security_groups = [*options.delete('SecurityGroup')]
+          if  security_groups = [*options.delete('SecurityGroup')]  # cannot use Security Groups on Virtual Private Clouds
             options.merge!(AWS.indexed_param('SecurityGroup', security_groups))
           end
           if options['UserData']
