@@ -26,7 +26,7 @@ module Fog
         #     * 'Ebs.SnapshotId'<~String> - id of snapshot to boot volume from
         #     * 'Ebs.VolumeSize'<~String> - size of volume in GiBs required unless snapshot is specified
         #     * 'Ebs.DeleteOnTermination'<~String> - specifies whether or not to delete the volume on instance termination
-        #   * 'SecurityGroup'<~Array> or <~String> - Name of security group(s) for instances
+        #   * 'SecurityGroup'<~Array> or <~String> - Name of security group(s) for instances (you must omit this parameter if using Virtual Private Clouds)
         #   * 'InstanceInitiatedShutdownBehaviour'<~String> - specifies whether volumes are stopped or terminated when instance is shutdown
         #   * 'InstanceType'<~String> - Type of instance to boot. Valid options
         #     in ['m1.small', 'm1.large', 'm1.xlarge', 'c1.medium', 'c1.xlarge', 'm2.2xlarge', 'm2.4xlarge']
@@ -86,7 +86,7 @@ module Fog
               end
             end
           end
-          if  security_groups = [*options.delete('SecurityGroup')]  # cannot use Security Groups on Virtual Private Clouds
+          if security_groups = [*options.delete('SecurityGroup')]
             options.merge!(AWS.indexed_param('SecurityGroup', security_groups))
           end
           if options['UserData']

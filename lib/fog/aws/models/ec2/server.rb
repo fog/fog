@@ -58,7 +58,7 @@ module Fog
         end
 
         # def security_group
-        #  connection.security_groups.all(@group_id)
+        #   connection.security_groups.all(@group_id)
         # end
         #
         # def security_group=(new_security_group)
@@ -129,7 +129,7 @@ module Fog
             'UserData'                    => @user_data
           }
           
-          # If subnet is defined we are working on a virtual private cloud
+          # If subnet is defined we are working on a virtual private cloud.
           # subnet & security group cannot co-exist. I wish VPC just ignored
           # the security group parameter instead, it would be much easier!
           if subnet_id.blank?
