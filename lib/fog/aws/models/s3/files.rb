@@ -30,6 +30,7 @@ module Fog
             options
           )
           if parent
+            merge_attributes(parent.files.attributes)
             load(parent.files.map {|file| file.attributes})
           else
             nil

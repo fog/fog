@@ -3,10 +3,13 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 describe 'Fog::AWS::S3::Files' do
 
   before(:each) do
-    @directory = AWS[:s3].directories.create(:key => 'fogdirectoryname')
+    @directory = AWS[:s3].directories.create(:key => "fog#{Time.now.to_f}")
   end
 
   after(:each) do
+    until @directory.files.reload.empty?
+      @directory.files.each {|file| file.destroy}
+    end
     @directory.destroy
   end
 
@@ -32,6 +35,25 @@ describe 'Fog::AWS::S3::Files' do
     it "should return nil if the directory does not exist" do
       directory = AWS[:s3].directories.new(:key => 'notadirectory')
       directory.files.all.should be_nil
+    end
+
+    it "should return 1000 files and report truncated" do
+      1010.times do |n|
+        @directory.files.create(:key => "file-#{n}")
+      end
+      response = @directory.files.all
+      response.should have(1000).items
+      response.is_truncated.should be_true
+    end
+
+    it "should limit the max_keys to 1000" do
+      1010.times do |n|
+        @directory.files.create(:key => "file-#{n}")
+      end
+      response = @directory.files.all(:max_keys => 2000)
+      response.should have(1000).items
+      response.max_keys.should == 2000
+      response.is_truncated.should be_true
     end
 
   end
