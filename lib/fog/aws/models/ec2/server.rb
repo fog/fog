@@ -33,7 +33,7 @@ module Fog
         attribute :user_data
 
         def initialize(attributes={})
-          @groups ||= ["default"] if attributes[:subnet_id].blank?
+          @groups ||= ["default"] unless attributes[:subnet_id]
           @flavor_id ||= 'm1.small'
           super
         end
@@ -132,10 +132,10 @@ module Fog
           # If subnet is defined we are working on a virtual private cloud.
           # subnet & security group cannot co-exist. I wish VPC just ignored
           # the security group parameter instead, it would be much easier!
-          if subnet_id.blank?
-            options.delete('SubnetId') 
-          else
+          if subnet_id
             options.delete('SecurityGroup')
+          else
+            options.delete('SubnetId')
           end
 
           data = connection.run_instances(@image_id, 1, 1, options)
