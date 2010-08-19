@@ -5,7 +5,8 @@ module Fog
   module Rackspace
 
     def self.authenticate(options)
-      connection = Fog::Connection.new("https://auth.api.rackspacecloud.com")
+      rackspace_auth_url = options[:rackspace_auth_url] || "auth.api.rackspacecloud.com"
+      connection = Fog::Connection.new("https://" + rackspace_auth_url)
       @rackspace_api_key  = options[:rackspace_api_key]
       @rackspace_username = options[:rackspace_username]
       response = connection.request({
@@ -14,7 +15,7 @@ module Fog
           'X-Auth-Key'  => @rackspace_api_key,
           'X-Auth-User' => @rackspace_username
         },
-        :host     => 'auth.api.rackspacecloud.com',
+        :host     => rackspace_auth_url,
         :method   => 'GET',
         :path     => 'v1.0'
       })

@@ -79,12 +79,14 @@ module Fog
           credentials = Fog::Rackspace.authenticate(options)
           @auth_token = credentials['X-Auth-Token']
 
-          cdn_uri = URI.parse(credentials['X-CDN-Management-Url'])
-          @cdn_host   = cdn_uri.host
-          @cdn_path   = cdn_uri.path
-          @cdn_port   = cdn_uri.port
-          @cdn_scheme = cdn_uri.scheme
-          @cdn_connection = Fog::Connection.new("#{@cdn_scheme}://#{@cdn_host}:#{@cdn_port}", options[:persistent])
+          if(credentials['X-CDN-Management-Url'])
+            cdn_uri = URI.parse(credentials['X-CDN-Management-Url'])
+            @cdn_host   = cdn_uri.host
+            @cdn_path   = cdn_uri.path
+            @cdn_port   = cdn_uri.port
+            @cdn_scheme = cdn_uri.scheme
+            @cdn_connection = Fog::Connection.new("#{@cdn_scheme}://#{@cdn_host}:#{@cdn_port}", options[:persistent])
+          end
 
           storage_uri = URI.parse(credentials['X-Storage-Url'])
           @storage_host   = storage_uri.host
