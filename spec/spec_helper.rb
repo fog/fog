@@ -1,15 +1,12 @@
 require 'spec'
 require 'open-uri'
-
-current_directory = File.dirname(__FILE__)
-require "#{current_directory}/../lib/fog"
-require "#{current_directory}/../lib/fog/bin"
+require 'fog'
+require 'fog/bin'
+require 'fog/vcloud/bin'
 
 if ENV["FOG_MOCK"] == "true"
   Fog.mock!
 end
-
-require "#{current_directory}/../lib/fog/vcloud/bin"
 
 module AWS
   class << self
