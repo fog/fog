@@ -1,75 +1,48 @@
---- 
-dependencies: 
-  formatador: 
-    group: 
-    - :default
-    version: ">= 0.0.15"
-  rake: 
-    group: 
-    - :default
-    version: ">= 0"
-  rspec: 
-    group: 
-    - :default
-    version: ">= 0"
-  mime-types: 
-    group: 
-    - :default
-    version: ">= 0"
-  ruby-hmac: 
-    group: 
-    - :default
-    version: ">= 0"
-  net-ssh: 
-    group: 
-    - :default
-    version: ">= 0"
-  json: 
-    group: 
-    - :default
-    version: ">= 0"
-  excon: 
-    group: 
-    - :default
-    version: ">= 0.2.0"
-  shindo: 
-    group: 
-    - :default
-    version: ">= 0.1.6"
-  builder: 
-    group: 
-    - :default
-    version: ">= 0"
-  nokogiri: 
-    group: 
-    - :default
-    version: ">= 1.4.3.1"
-specs: 
-- rake: 
-    version: 0.8.7
-- builder: 
-    version: 2.1.2
-- excon: 
-    version: 0.2.0
-- formatador: 
-    version: 0.0.15
-- gestalt: 
-    version: 0.0.11
-- json: 
-    version: 1.4.3
-- mime-types: 
-    version: "1.16"
-- net-ssh: 
-    version: 2.0.23
-- nokogiri: 
-    version: 1.4.3.1
-- rspec: 
-    version: 1.3.0
-- ruby-hmac: 
-    version: 0.4.0
-- shindo: 
-    version: 0.1.6
-hash: b335ed8d32bece98ea7a84d858b85cbf21025c82
-sources: 
-- Rubygems: 
-    uri: http://gemcutter.org
+PATH
+  remote: .
+  specs:
+    fog (0.2.27)
+      builder
+      excon (>= 0.2.0)
+      formatador (>= 0.0.15)
+      json
+      mime-types
+      net-ssh
+      nokogiri (>= 1.4.3.1)
+      ruby-hmac
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    builder (2.1.2)
+    excon (0.2.0)
+    formatador (0.0.15)
+    gestalt (0.0.11)
+      formatador (>= 0.0.12)
+    json (1.4.6)
+    mime-types (1.16)
+    net-ssh (2.0.23)
+    nokogiri (1.4.3.1)
+    rake (0.8.7)
+    rspec (1.3.0)
+    ruby-hmac (0.4.0)
+    shindo (0.1.6)
+      formatador (>= 0.0.14)
+      gestalt (>= 0.0.11)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  builder
+  excon (>= 0.2.0)
+  fog!
+  formatador (>= 0.0.15)
+  json
+  mime-types
+  net-ssh
+  nokogiri (>= 1.4.3.1)
+  rake
+  rspec
+  ruby-hmac
+  shindo (= 0.1.6)

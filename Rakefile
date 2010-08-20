@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'rake'
+require 'bundler/setup'
 require 'date'
 
 #############################################################################
