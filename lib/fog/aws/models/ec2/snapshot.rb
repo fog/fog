@@ -32,7 +32,7 @@ module Fog
         def save
           requires :volume_id
 
-          data = connection.create_snapshot(@volume_id).body
+          data = connection.create_snapshot(@volume_id, @description).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           true

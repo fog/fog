@@ -24,11 +24,13 @@ describe 'Fog::AWS::EC2::Snapshot' do
       snapshot = AWS[:ec2].snapshots.new(
         'snapshotId'  => 'snap-00000000',
         'startTime'   => 'now',
-        'volumeId'    => 'vol-00000000'
+        'volumeId'    => 'vol-00000000',
+        'description' => 'taken for safety'
       )
       snapshot.id.should == 'snap-00000000'
       snapshot.created_at.should == 'now'
       snapshot.volume_id.should == 'vol-00000000'
+      snapshot.description.should == 'taken for safety'
     end
 
   end
@@ -60,14 +62,16 @@ describe 'Fog::AWS::EC2::Snapshot' do
 
   describe "#save" do
 
-    before(:each) do
-      @snapshot = @volume.snapshots.new
-    end
-
     it "should persist the snapshot" do
+      @snapshot = @volume.snapshots.new
       AWS[:ec2].snapshots.get(@snapshot.id).should be_nil
       @snapshot.save.should be_true
       AWS[:ec2].snapshots.get(@snapshot.id).should_not be_nil
+    end
+
+    it "should allow a description" do
+      @snapshot = @volume.snapshots.create(:description => 'taken for safety')
+      AWS[:ec2].snapshots.get(@snapshot.id).description.should == 'taken for safety'
     end
 
   end
