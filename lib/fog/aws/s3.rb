@@ -125,13 +125,16 @@ module Fog
           @aws_access_key_id = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
           @hmac = Fog::HMAC.new('sha1', @aws_secret_access_key)
+          options[:region] ||= 'us-east-1'
           @host = options[:host] || case options[:region]
+            when 'us-east-1'
+              's3.amazonaws.com'
             when 'ap-southeast-1'
               's3-ap-southeast-1.amazonaws.com'
             when 'us-west-1'
               's3-us-west-1.amazonaws.com'
             else
-              's3.amazonaws.com'
+              raise ArgumentError, "Unknown region: #{options[:region].inspect}"
             end
           @port   = options[:port]      || 443
           @scheme = options[:scheme]    || 'https'
