@@ -99,6 +99,7 @@ You should try out the (varying) support fog has for:
 
 Enjoy, and let me know what I can do to continue improving fog!
 
+* See what already uses fog and add your own stuff to {the list}[http://wiki.github.com/geemus/fog/in-the-wild].
 * Work for {twitter}[http://twitter.com]? I'd love to reclaim the unused {@fog}[http://twitter.com/fog] account!
 * Follow {@geemus}[http://twitter.com/geemus] on Twitter.
 * See upcoming work in the {tracker}[http://www.pivotaltracker.com/projects/54635].
