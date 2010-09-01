@@ -33,9 +33,9 @@ module Fog
             listener_instance_port.push(listener['InstancePort'])
           end
 
-          params.merge!(AWS.indexed_param('Listeners.member.%.Protocol', listener_protocol, 1))
-          params.merge!(AWS.indexed_param('Listeners.member.%.LoadBalancerPort', listener_lb_port, 1))
-          params.merge!(AWS.indexed_param('Listeners.member.%.InstancePort', listener_instance_port, 1))
+          params.merge!(AWS.indexed_param('Listeners.member.%d.Protocol', listener_protocol, 1))
+          params.merge!(AWS.indexed_param('Listeners.member.%d.LoadBalancerPort', listener_lb_port, 1))
+          params.merge!(AWS.indexed_param('Listeners.member.%d.InstancePort', listener_instance_port, 1))
 
           request({
             'Action'           => 'CreateLoadBalancer',
