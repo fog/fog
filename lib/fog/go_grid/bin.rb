@@ -8,12 +8,9 @@ module GoGrid
 
       def [](service)
         @@connections ||= Hash.new do |hash, key|
-          credentials = Fog.credentials.reject do |k,v|
-            ![:go_grid_api_key, :go_grid_shared_secret].include?(k)
-          end
           hash[key] = case key
           when :go_grid
-            Fog::GoGrid.new(credentials)
+            Fog::GoGrid.new
           end
         end
         @@connections[service]

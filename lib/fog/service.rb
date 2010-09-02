@@ -10,6 +10,11 @@ module Fog
         module Collections; end
 
         def self.new(options={})
+          if Fog.bin
+            default_credentials = Fog.credentials.reject {|key, value| !requirements.include?(key)}
+            options = default_credentials.merge(options)
+          end
+
           missing = []
           for requirement in requirements
             missing << requirement unless options[requirement]

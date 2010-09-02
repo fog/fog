@@ -8,12 +8,9 @@ module Local
 
       def [](service)
         @@connections ||= Hash.new do |hash, key|
-          credentials = Fog.credentials.reject do |k,v|
-            ![:local_root].include?(k)
-          end
           hash[key] = case key
           when :files
-            Fog::Local.new(credentials)
+            Fog::Local.new
           end
         end
         @@connections[service]

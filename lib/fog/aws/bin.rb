@@ -9,18 +9,15 @@ module AWS
 
       def [](service)
         @@connections ||= Hash.new do |hash, key|
-          credentials = Fog.credentials.reject do |k, v|
-            ![:aws_access_key_id, :aws_secret_access_key].include?(k)
-          end
           hash[key] = case key
           when :ec2
-            Fog::AWS::EC2.new(credentials)
+            Fog::AWS::EC2.new
           when :elb
-            Fog::AWS::ELB.new(credentials)
+            Fog::AWS::ELB.new
           when :simpledb
-            Fog::AWS::SimpleDB.new(credentials)
+            Fog::AWS::SimpleDB.new
           when :s3
-            Fog::AWS::S3.new(credentials)
+            Fog::AWS::S3.new
           end
         end
         @@connections[service]

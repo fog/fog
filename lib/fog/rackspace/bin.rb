@@ -8,14 +8,11 @@ module Rackspace
 
       def [](service)
         @@connections ||= Hash.new do |hash, key|
-          credentials = Fog.credentials.reject do |k,v|
-            ![:rackspace_api_key, :rackspace_username].include?(k)
-          end
           hash[key] = case key
           when :files
-            Fog::Rackspace::Files.new(credentials)
+            Fog::Rackspace::Files.new
           when :servers
-            Fog::Rackspace::Servers.new(credentials)
+            Fog::Rackspace::Servers.new
           end
         end
         @@connections[service]

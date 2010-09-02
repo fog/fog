@@ -3,7 +3,8 @@ require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
 require 'irb'
 require 'yaml'
 require File.join('fog', 'credentials')
-Fog.credential = ARGV.first ? :"#{ARGV.first}" : :default
+Fog.credential = ARGV.first
+Fog.bin = true
 unless Fog.credentials
   exit
 end

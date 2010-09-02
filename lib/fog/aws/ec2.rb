@@ -1,4 +1,4 @@
-	module Fog
+module Fog
   module AWS
     module EC2
       extend Fog::Service
