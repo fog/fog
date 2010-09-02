@@ -45,11 +45,18 @@ end
 
 task :default => :test
 
-require 'rake/testtask'
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
+task :test do
+  sh("export FOG_MOCK=true  && bundle exec spec -cfs spec") &&
+  sh("export FOG_MOCK=true  && bundle exec shindo tests") &&
+  sh("export FOG_MOCK=false && bundle exec spec -cfs spec") &&
+  sh("export FOG_MOCK=false && bundle exec shindo tests")
+end
+
+task :ci do
+  sh("export FOG_MOCK=true  && bundle exec spec spec") &&
+  sh("export FOG_MOCK=true  && bundle exec shindont tests") &&
+  sh("export FOG_MOCK=false && bundle exec spec spec") &&
+  sh("export FOG_MOCK=false && bundle exec shindont tests")
 end
 
 desc "Generate RCov test coverage and open in your browser"
@@ -72,20 +79,6 @@ desc "Open an irb session preloaded with this library"
 task :console do
   sh "irb -rubygems -r ./lib/#{name}.rb"
 end
-
-#############################################################################
-#
-# Custom tasks (add your own tasks here)
-#
-#############################################################################
-
-require 'spec/rake/spectask'
-Spec::Rake::SpecTask.new(:spec) do |spec|
-  spec.libs << 'lib' << 'spec' << File.expand_path("../", __FILE__)
-  spec.spec_opts = ['--colour', "--format", "specdoc"]
-  spec.spec_files = FileList['spec/**/*_spec.rb']
-end
-
 
 #############################################################################
 #
