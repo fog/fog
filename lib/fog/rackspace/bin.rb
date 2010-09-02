@@ -18,22 +18,22 @@ module Rackspace
         @@connections[service]
       end
 
-      def directories
-        self[:files].directories
+      for collection in Fog::Rackspace::Files.collections
+        module_eval <<-EOS, __FILE__, __LINE__
+          def #{collection}
+            self[:files].#{collection}
+          end
+        EOS
       end
 
-      def flavors
-        self[:servers].flavors
+      for collection in Fog::Rackspace::Servers.collections
+        module_eval <<-EOS, __FILE__, __LINE__
+          def #{collection}
+            self[:servers].#{collection}
+          end
+        EOS
       end
 
-      def images
-        self[:servers].images
-      end
-
-      def servers
-        self[:servers].servers
-      end
-      
     else
 
       def initialized?

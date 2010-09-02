@@ -23,40 +23,20 @@ module AWS
         @@connections[service]
       end
 
-      def addresses
-        self[:ec2].addresses
+      for collection in Fog::AWS::EC2.collections
+        module_eval <<-EOS, __FILE__, __LINE__
+          def #{collection}
+            self[:ec2].#{collection}
+          end
+        EOS
       end
 
-      def directories
-        self[:s3].directories
-      end
-
-      def flavors
-        self[:ec2].flavors
-      end
-
-      def images
-        self[:ec2].images
-      end
-
-      def servers
-        self[:ec2].servers
-      end
-
-      def key_pairs
-        self[:ec2].key_pairs
-      end
-
-      def security_groups
-        self[:ec2].security_groups
-      end
-
-      def snapshots
-        self[:ec2].snapshots
-      end
-
-      def volumes
-        self[:ec2].volumes
+      for collection in Fog::AWS::S3.collections
+        module_eval <<-EOS, __FILE__, __LINE__
+          def #{collection}
+            self[:s3].#{collection}
+          end
+        EOS
       end
 
     else
@@ -67,4 +47,5 @@ module AWS
 
     end
   end
+
 end

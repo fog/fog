@@ -6,22 +6,22 @@ module Fog
       requires :rackspace_api_key, :rackspace_username
 
       model_path 'fog/rackspace/models/files'
-      model 'directory'
-      model 'directories'
-      model 'file'
-      model 'files'
+      model       :directory
+      collection  :directories
+      model       :file
+      collection  :files
 
       request_path 'fog/rackspace/requests/files'
-      request 'delete_container'
-      request 'delete_object'
-      request 'get_container'
-      request 'get_containers'
-      request 'get_object'
-      request 'head_container'
-      request 'head_containers'
-      request 'head_object'
-      request 'put_container'
-      request 'put_object'
+      request :delete_container
+      request :delete_object
+      request :get_container
+      request :get_containers
+      request :get_object
+      request :head_container
+      request :head_containers
+      request :head_object
+      request :put_container
+      request :put_object
 
       module Utils
 

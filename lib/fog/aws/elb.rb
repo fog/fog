@@ -6,14 +6,14 @@ module Fog
       requires :aws_access_key_id, :aws_secret_access_key
 
       request_path 'fog/aws/requests/elb'
-      request 'create_load_balancer'
-      request 'delete_load_balancer'
-      request 'deregister_instances_from_load_balancer'
-      request 'describe_instance_health'
-      request 'describe_load_balancers'
-      request 'disable_availability_zones_for_load_balancer'
-      request 'enable_availability_zones_for_load_balancer'
-      request 'register_instances_with_load_balancer'
+      request :create_load_balancer
+      request :delete_load_balancer
+      request :deregister_instances_from_load_balancer
+      request :describe_instance_health
+      request :describe_load_balancers
+      request :disable_availability_zones_for_load_balancer
+      request :enable_availability_zones_for_load_balancer
+      request :register_instances_with_load_balancer
 
       class Mock
         include Collections

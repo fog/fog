@@ -7,15 +7,15 @@ module Fog
     model_path 'fog/linode/models'
 
     request_path 'fog/linode/requests'
-    request 'avail_datacenters'
-    request 'avail_distributions'
-    request 'avail_kernels'
-    request 'avail_linodeplans'
-    request 'avail_stackscripts'
-    request 'linode_create'
-    request 'linode_delete'
-    request 'linode_list'
-    request 'linode_reboot'
+    request :avail_datacenters
+    request :avail_distributions
+    request :avail_kernels
+    request :avail_linodeplans
+    request :avail_stackscripts
+    request :linode_create
+    request :linode_delete
+    request :linode_list
+    request :linode_reboot
 
     class Mock
       include Collections

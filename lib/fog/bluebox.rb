@@ -5,22 +5,23 @@ module Fog
     requires :bluebox_api_key, :bluebox_customer_id
 
     model_path 'fog/bluebox/models'
-    model 'flavor'
-    model 'flavors'
-    model 'images'
-    model 'server'
-    model 'servers'
+    model       :flavor
+    collection  :flavors
+    model       :image
+    collection  :images
+    model       :server
+    collection  :servers
 
     request_path 'fog/bluebox/requests'
-    request 'create_block'
-    request 'destroy_block'
-    request 'get_block'
-    request 'get_blocks'
-    request 'get_product'
-    request 'get_products'
-    request 'get_template'
-    request 'get_templates'
-    request 'reboot_block'
+    request :create_block
+    request :destroy_block
+    request :get_block
+    request :get_blocks
+    request :get_product
+    request :get_products
+    request :get_template
+    request :get_templates
+    request :reboot_block
 
     class Mock
       include Collections

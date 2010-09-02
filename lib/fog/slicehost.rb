@@ -5,24 +5,24 @@ module Fog
     requires :slicehost_password
 
     model_path 'fog/slicehost/models'
-    model 'flavor'
-    model 'flavors'
-    model 'image'
-    model 'images'
-    model 'server'
-    model 'servers'
+    model       :flavor
+    collection  :flavors
+    model       :image
+    collection  :images
+    model       :server
+    collection  :servers
 
     request_path 'fog/slicehost/requests'
-    request 'create_slice'
-    request 'delete_slice'
-    request 'get_backups'
-    request 'get_flavor'
-    request 'get_flavors'
-    request 'get_image'
-    request 'get_images'
-    request 'get_slice'
-    request 'get_slices'
-    request 'reboot_slice'
+    request :create_slice
+    request :delete_slice
+    request :get_backups
+    request :get_flavor
+    request :get_flavors
+    request :get_image
+    request :get_images
+    request :get_slice
+    request :get_slices
+    request :reboot_slice
 
     class Mock
       include Collections

@@ -5,10 +5,10 @@ module Fog
     requires :local_root
 
     model_path 'fog/local/models'
-    model 'directories'
-    model 'directory'
-    model 'file'
-    model 'files'
+    collection  :directories
+    model       :directory
+    model       :file
+    collection  :files
 
     class Mock
       include Collections

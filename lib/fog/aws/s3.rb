@@ -6,35 +6,35 @@ module Fog
       requires :aws_access_key_id, :aws_secret_access_key
 
       model_path 'fog/aws/models/s3'
-      model 'directories'
-      model 'directory'
-      model 'files'
-      model 'file'
+      collection  :directories
+      model       :directory
+      collection  :files
+      model       :file
 
       request_path 'fog/aws/requests/s3'
-      request 'copy_object'
-      request 'delete_bucket'
-      request 'delete_object'
-      request 'get_bucket'
-      request 'get_bucket_acl'
-      request 'get_bucket_location'
-      request 'get_bucket_logging'
-      request 'get_bucket_object_versions'
-      request 'get_bucket_versioning'
-      request 'get_object'
-      request 'get_object_acl'
-      request 'get_object_torrent'
-      request 'get_object_url'
-      request 'get_request_payment'
-      request 'get_service'
-      request 'head_object'
-      request 'put_bucket'
-      request 'put_bucket_acl'
-      request 'put_bucket_logging'
-      request 'put_bucket_versioning'
-      request 'put_object'
-      request 'put_object_url'
-      request 'put_request_payment'
+      request :copy_object
+      request :delete_bucket
+      request :delete_object
+      request :get_bucket
+      request :get_bucket_acl
+      request :get_bucket_location
+      request :get_bucket_logging
+      request :get_bucket_object_versions
+      request :get_bucket_versioning
+      request :get_object
+      request :get_object_acl
+      request :get_object_torrent
+      request :get_object_url
+      request :get_request_payment
+      request :get_service
+      request :head_object
+      request :put_bucket
+      request :put_bucket_acl
+      request :put_bucket_logging
+      request :put_bucket_versioning
+      request :put_object
+      request :put_object_url
+      request :put_request_payment
 
       module Utils
 

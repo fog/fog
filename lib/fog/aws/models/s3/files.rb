@@ -5,6 +5,12 @@ module Fog
   module AWS
     module S3
 
+      module Collections
+        def files
+          Fog::AWS::S3::Files.new(:connection => self)
+        end
+      end
+
       class Files < Fog::Collection
 
         attribute :delimiter,     'Delimiter'
@@ -17,6 +23,7 @@ module Fog
         model Fog::AWS::S3::File
 
         def all(options = {})
+          requires :directory
           options = {
             'delimiter'   => @delimiter,
             'marker'      => @marker,
@@ -38,6 +45,7 @@ module Fog
         end
 
         def get(key, options = {}, &block)
+          requires :directory
           data = connection.get_object(directory.key, key, options, &block)
           file_data = {
             :body => data.body,
@@ -54,10 +62,12 @@ module Fog
         end
 
         def get_url(key, expires)
+          requires :directory
           connection.get_object_url(directory.key, key, expires)
         end
 
         def head(key, options = {})
+          requires :directory
           data = connection.head_object(directory.key, key, options)
           file_data = {
             :key => key
@@ -73,6 +83,7 @@ module Fog
         end
 
         def new(attributes = {})
+          requires :directory
           super({ :directory => directory }.merge!(attributes))
         end
 

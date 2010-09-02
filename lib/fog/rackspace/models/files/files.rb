@@ -5,8 +5,15 @@ module Fog
   module Rackspace
     module Files
 
+      module Collections
+        def files
+          Fog::Rackspace::Files::Files.new(:connection => self)
+        end
+      end
+
       class Files < Fog::Collection
 
+        attribute :directory
         attribute :limit
         attribute :marker
         attribute :path
@@ -15,6 +22,7 @@ module Fog
         model Fog::Rackspace::Files::File
 
         def all(options = {})
+          requires :directory
           merge_attributes(options)
           parent = directory.collection.get(
             directory.key,
@@ -27,11 +35,8 @@ module Fog
           end
         end
 
-        def directory
-          @directory
-        end
-
         def get(key, options = {}, &block)
+          requires :directory
           options = {
             'limit'   => @limit,
             'marker'  => @marker,
@@ -54,10 +59,12 @@ module Fog
         end
 
         def get_url(key, expires)
+          requires :directory
           connection.get_object_url(directory.name, key, expires)
         end
 
         def head(key, options = {})
+          requires :directory
           data = connection.head_object(directory.name, key, options)
           file_data = { :key => key }
           for key, value in data.headers
@@ -71,13 +78,8 @@ module Fog
         end
 
         def new(attributes = {})
+          requires :directory
           super({ :directory => directory }.merge!(attributes))
-        end
-
-        private
-
-        def directory=(new_directory)
-          @directory = new_directory
         end
 
       end

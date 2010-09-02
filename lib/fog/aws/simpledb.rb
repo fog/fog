@@ -6,15 +6,15 @@ module Fog
       requires :aws_access_key_id, :aws_secret_access_key
 
       request_path 'fog/aws/requests/simpledb'
-      request 'batch_put_attributes'
-      request 'create_domain'
-      request 'delete_attributes'
-      request 'delete_domain'
-      request 'domain_metadata'
-      request 'get_attributes'
-      request 'list_domains'
-      request 'put_attributes'
-      request 'select'
+      request :batch_put_attributes
+      request :create_domain
+      request :delete_attributes
+      request :delete_domain
+      request :domain_metadata
+      request :get_attributes
+      request :list_domains
+      request :put_attributes
+      request :select
 
       class Mock
         include Collections

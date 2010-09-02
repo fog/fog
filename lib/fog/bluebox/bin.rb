@@ -17,16 +17,12 @@ module Bluebox
         @@connections[service]
       end
 
-      def flavors
-        self[:blocks].flavors
-      end
-
-      def images
-        self[:blocks].images
-      end
-
-      def servers
-        self[:blocks].servers
+      for collection in Fog::Bluebox.collections
+        module_eval <<-EOS, __FILE__, __LINE__
+          def #{collection}
+            self[:blocks].#{collection}
+          end
+        EOS
       end
 
     else

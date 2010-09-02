@@ -10,13 +10,13 @@ module Fog
     model_path 'fog/new_servers/models'
 
     request_path 'fog/new_servers/requests'
-    request 'add_server'
-    request 'cancel_server'
-    request 'get_server'
-    request 'list_images'
-    request 'list_plans'
-    request 'list_servers'
-    request 'reboot_server'
+    request :add_server
+    request :cancel_server
+    request :get_server
+    request :list_images
+    request :list_plans
+    request :list_servers
+    request :reboot_server
 
     class Mock
       include Collections

@@ -8,15 +8,15 @@ module Fog
     model_path 'fog/go_grid/models'
 
     request_path 'fog/go_grid/requests'
-    request 'common_lookup_list'
-    request 'grid_image_list'
-    request 'grid_ip_list'
-    request 'grid_loadbalancer_list'
-    request 'grid_server_add'
-    request 'grid_server_delete'
-    request 'grid_server_get'
-    request 'grid_server_list'
-    request 'grid_server_power'
+    request :common_lookup_list
+    request :grid_image_list
+    request :grid_ip_list
+    request :grid_loadbalancer_list
+    request :grid_server_add
+    request :grid_server_delete
+    request :grid_server_get
+    request :grid_server_list
+    request :grid_server_power
 
     class Mock
       include Collections

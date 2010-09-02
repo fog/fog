@@ -16,16 +16,12 @@ module Slicehost
         @@connections[service]
       end
 
-      def flavors
-        self[:slices].flavors
-      end
-
-      def images
-        self[:slices].images
-      end
-
-      def servers
-        self[:slices].servers
+      for collection in Fog::Slicehost.collections
+        module_eval <<-EOS, __FILE__, __LINE__
+          def #{collection}
+            self[:slices].#{collection}
+          end
+        EOS
       end
 
     else

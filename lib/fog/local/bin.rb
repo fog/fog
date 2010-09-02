@@ -16,8 +16,12 @@ module Local
         @@connections[service]
       end
 
-      def directories
-        self[:files].directories
+      for collection in Fog::Local.collections
+        module_eval <<-EOS, __FILE__, __LINE__
+          def #{collection}
+            self[:files].#{collection}
+          end
+        EOS
       end
 
     else

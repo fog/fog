@@ -7,8 +7,6 @@ module Fog
         class Error < Fog::Errors::Error; end
         class NotFound < Fog::Errors::NotFound; end
 
-        module Collections; end
-
         def self.new(options={})
           if Fog.bin
             default_credentials = Fog.credentials.reject {|key, value| !requirements.include?(key)}
@@ -28,6 +26,9 @@ module Fog
           end
 
           unless @required
+            for collection in collections
+              require [@model_path, collection].join('/')
+            end
             for model in models
               require [@model_path, model].join('/')
             end
@@ -48,11 +49,36 @@ module Fog
           end
           instance
         end
+
+        module Collections
+
+          def collections
+            service.collections
+          end
+
+          def requests
+            service.requests
+          end
+
+          def service
+            @service ||= eval(self.class.to_s.split('::')[0...-1].join('::'))
+          end
+
+        end
+
       EOS
     end
 
     def model_path(new_path)
       @model_path = new_path
+    end
+
+    def collection(new_collection)
+      collections << new_collection
+    end
+
+    def collections
+      @collections ||= []
     end
 
     def model(new_model)

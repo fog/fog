@@ -6,32 +6,32 @@ module Fog
       requires :rackspace_api_key, :rackspace_username
 
       model_path 'fog/rackspace/models/servers'
-      model 'flavor'
-      model 'flavors'
-      model 'image'
-      model 'images'
-      model 'server'
-      model 'servers'
+      model       :flavor
+      collection  :flavors
+      model       :image
+      collection  :images
+      model       :server
+      collection  :servers
 
       request_path 'fog/rackspace/requests/servers'
-      request 'create_image'
-      request 'create_server'
-      request 'delete_image'
-      request 'delete_server'
-      request 'get_flavor_details'
-      request 'get_image_details'
-      request 'get_server_details'
-      request 'list_addresses'
-      request 'list_private_addresses'
-      request 'list_public_addresses'
-      request 'list_flavors'
-      request 'list_flavors_detail'
-      request 'list_images'
-      request 'list_images_detail'
-      request 'list_servers'
-      request 'list_servers_detail'
-      request 'reboot_server'
-      request 'update_server'
+      request :create_image
+      request :create_server
+      request :delete_image
+      request :delete_server
+      request :get_flavor_details
+      request :get_image_details
+      request :get_server_details
+      request :list_addresses
+      request :list_private_addresses
+      request :list_public_addresses
+      request :list_flavors
+      request :list_flavors_detail
+      request :list_images
+      request :list_images_detail
+      request :list_servers
+      request :list_servers_detail
+      request :reboot_server
+      request :update_server
 
       class Mock
         include Collections

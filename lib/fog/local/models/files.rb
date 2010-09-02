@@ -4,11 +4,20 @@ require 'fog/local/models/file'
 module Fog
   module Local
 
+    module Collections
+      def files
+        Fog::Local::Files.new(:connection => self)
+      end
+    end
+
     class Files < Fog::Collection
+
+      attribute :directory
 
       model Fog::Local::File
 
       def all
+        requires :directory
         if directory.collection.get(directory.key)
           data = Dir.entries(connection.path_to(directory.key)).select do |key|
             key[0...1] != '.' && !::File.directory?(connection.path_to(key))
@@ -26,11 +35,8 @@ module Fog
         end
       end
 
-      def directory
-        @directory
-      end
-
       def get(key, &block)
+        requires :directory
         path = file_path(key)
         if ::File.exists?(path)
           data = {
@@ -56,14 +62,11 @@ module Fog
       end
 
       def new(attributes = {})
+        requires :directory
         super({ :directory => directory }.merge!(attributes))
       end
 
       private
-
-      def directory=(new_directory)
-        @directory = new_directory
-      end
 
       def file_path(key)
         connection.path_to(::File.join(directory.key, key))

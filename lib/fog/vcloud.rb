@@ -22,8 +22,8 @@ module Fog
     requires :username, :password, :versions_uri
 
     model_path 'fog/vcloud/models'
-    model 'vdc'
-    model 'vdcs'
+    model :vdc
+    model :vdcs
 
     request_path 'fog/vcloud/requests'
     request :login
