@@ -2,7 +2,7 @@ require 'fog/model'
 # require 'fog/local/models/files'
 
 module Fog
-  module Local
+  class Local
 
     class Directory < Fog::Model
       extend Fog::Deprecation

@@ -1,5 +1,5 @@
 module Fog
-  module Vcloud
+  class Vcloud
     class Collection < Fog::Collection
 
       def load(objects)

@@ -2,15 +2,7 @@ require 'fog/collection'
 require 'fog/slicehost/models/image'
 
 module Fog
-  module Slicehost
-
-    module Collections
-      def images(attributes = {})
-        Fog::Slicehost::Images.new({
-          :connection => self
-        }.merge!(attributes))
-      end
-    end
+  class Slicehost
 
     class Images < Fog::Collection
 

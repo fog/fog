@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    module EC2
+    class EC2
       class Real
 
         # Create a new security group

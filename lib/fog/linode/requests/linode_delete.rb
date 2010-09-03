@@ -1,5 +1,5 @@
 module Fog
-  module Linode
+  class Linode
     class Real
 
       # List all linodes user has access or delete to

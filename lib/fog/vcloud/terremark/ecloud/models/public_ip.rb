@@ -1,5 +1,5 @@
 module Fog
-  module Vcloud
+  class Vcloud
     module Terremark
       module Ecloud
         class PublicIp < Fog::Vcloud::Model

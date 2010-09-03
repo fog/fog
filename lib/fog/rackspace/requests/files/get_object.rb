@@ -1,6 +1,6 @@
 module Fog
   module Rackspace
-    module Files
+    class Files
       class Real
 
         # Get details for object

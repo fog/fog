@@ -1,7 +1,6 @@
 module Fog
   module AWS
-    module S3
-      extend Fog::Service
+    class S3 < Fog::Service
 
       requires :aws_access_key_id, :aws_secret_access_key
 

@@ -1,8 +1,7 @@
 require 'fog/parser'
 
 module Fog
-  module NewServers
-    extend Fog::Service
+  class NewServers < Fog::Service
 
     requires :new_servers_password
     requires :new_servers_username

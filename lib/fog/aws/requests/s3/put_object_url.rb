@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    module S3
+    class S3
       class Real
 
         # Get an expiring object url from S3 for putting an object

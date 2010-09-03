@@ -1,6 +1,5 @@
 module Fog
-  module Linode
-    extend Fog::Service
+  class Linode < Fog::Service
 
     requires :linode_api_key
 

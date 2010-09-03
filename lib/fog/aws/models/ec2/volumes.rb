@@ -3,15 +3,7 @@ require 'fog/aws/models/ec2/volume'
 
 module Fog
   module AWS
-    module EC2
-
-      module Collections
-        def volumes(attributes = {})
-          Fog::AWS::EC2::Volumes.new({
-            :connection => self
-          }.merge!(attributes))
-        end
-      end
+    class EC2
 
       class Volumes < Fog::Collection
 

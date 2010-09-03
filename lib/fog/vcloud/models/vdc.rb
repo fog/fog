@@ -1,5 +1,5 @@
 module Fog
-  module Vcloud
+  class Vcloud
     class Vdc < Fog::Vcloud::Model
 
       identity :href

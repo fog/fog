@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    module EC2
+    class EC2
       class Real
 
         # Associate an elastic IP address with an instance

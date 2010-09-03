@@ -2,7 +2,7 @@ require 'fog/model'
 
 module Fog
   module AWS
-    module S3
+    class S3
 
       class File < Fog::Model
 

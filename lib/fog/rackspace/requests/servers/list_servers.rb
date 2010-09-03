@@ -1,6 +1,6 @@
 module Fog
   module Rackspace
-    module Servers
+    class Servers
       class Real
 
         # List all servers (IDs and names only)

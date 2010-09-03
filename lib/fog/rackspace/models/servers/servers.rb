@@ -3,13 +3,7 @@ require 'fog/rackspace/models/servers/server'
 
 module Fog
   module Rackspace
-    module Servers
-
-      module Collections
-        def servers
-          Fog::Rackspace::Servers::Servers.new(:connection => self)
-        end
-      end
+    class Servers
 
       class Servers < Fog::Collection
 

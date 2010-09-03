@@ -1,7 +1,6 @@
 module Fog
   module Rackspace
-    module Servers
-      extend Fog::Service
+    class Servers < Fog::Service
 
       requires :rackspace_api_key, :rackspace_username
 

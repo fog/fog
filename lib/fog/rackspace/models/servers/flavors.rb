@@ -3,13 +3,7 @@ require 'fog/rackspace/models/servers/flavor'
 
 module Fog
   module Rackspace
-    module Servers
-
-      module Collections
-        def flavors
-          Fog::Rackspace::Servers::Flavors.new(:connection => self)
-        end
-      end
+    class Servers
 
       class Flavors < Fog::Collection
 

@@ -1,5 +1,5 @@
 module Fog
-  module NewServers
+  class NewServers
     class Real
 
       # List servers
@@ -40,4 +40,3 @@ module Fog
     end
   end
 end
- 

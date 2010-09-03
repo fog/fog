@@ -1,6 +1,6 @@
 module Fog
   module Rackspace
-    module Servers
+    class Servers
       class Real
 
         # Get details about a server

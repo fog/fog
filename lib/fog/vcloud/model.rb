@@ -1,5 +1,5 @@
 module Fog
-  module Vcloud
+  class Vcloud
     class Model < Fog::Model
 
       attr_accessor :loaded

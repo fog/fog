@@ -3,13 +3,7 @@ require 'fog/aws/models/ec2/security_group'
 
 module Fog
   module AWS
-    module EC2
-
-      module Collections
-        def security_groups
-          Fog::AWS::EC2::SecurityGroups.new(:connection => self)
-        end
-      end
+    class EC2
 
       class SecurityGroups < Fog::Collection
 

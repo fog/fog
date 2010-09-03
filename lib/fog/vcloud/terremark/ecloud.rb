@@ -1,8 +1,7 @@
 module Fog
-  module Vcloud
+  class Vcloud
     module Terremark
-      module Ecloud
-        extend Fog::Vcloud::Extension
+      class Ecloud < Fog::Vcloud::Service
 
         model_path 'fog/vcloud/terremark/ecloud/models'
         model :catalog_item

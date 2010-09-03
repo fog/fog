@@ -3,15 +3,7 @@ require 'fog/aws/models/ec2/snapshot'
 
 module Fog
   module AWS
-    module EC2
-
-      module Collections
-        def snapshots(attributes = {})
-          Fog::AWS::EC2::Snapshots.new({
-            :connection => self
-          }.merge!(attributes))
-        end
-      end
+    class EC2
 
       class Snapshots < Fog::Collection
 

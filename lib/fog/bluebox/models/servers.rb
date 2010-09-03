@@ -2,13 +2,7 @@ require 'fog/collection'
 require 'fog/bluebox/models/server'
 
 module Fog
-  module Bluebox
-
-    module Collections
-      def servers
-        Fog::Bluebox::Servers.new(:connection => self)
-      end
-    end
+  class Bluebox
 
     class Servers < Fog::Collection
 

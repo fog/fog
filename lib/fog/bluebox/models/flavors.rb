@@ -2,13 +2,7 @@ require 'fog/collection'
 require 'fog/bluebox/models/flavor'
 
 module Fog
-  module Bluebox
-
-    module Collections
-      def flavors
-        Fog::Bluebox::Flavors.new(:connection => self)
-      end
-    end
+  class Bluebox
 
     class Flavors < Fog::Collection
 

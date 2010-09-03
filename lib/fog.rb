@@ -27,17 +27,6 @@ require 'fog/parser'
 require 'fog/service'
 require 'fog/ssh'
 
-require 'fog/aws'
-require 'fog/bluebox'
-require 'fog/go_grid'
-require 'fog/linode'
-require 'fog/local'
-require 'fog/new_servers'
-require 'fog/rackspace'
-require 'fog/slicehost'
-require 'fog/terremark'
-require 'fog/vcloud'
-
 module Fog
 
   unless const_defined?(:VERSION)
@@ -92,3 +81,14 @@ module Fog
   end
 
 end
+
+require 'fog/aws'
+require 'fog/bluebox'
+require 'fog/go_grid'
+require 'fog/linode'
+require 'fog/local'
+require 'fog/new_servers'
+require 'fog/rackspace'
+require 'fog/slicehost'
+require 'fog/terremark'
+require 'fog/vcloud'

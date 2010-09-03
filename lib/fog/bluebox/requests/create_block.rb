@@ -1,5 +1,5 @@
 module Fog
-  module Bluebox
+  class Bluebox
     class Real
 
       # Create a new block

@@ -1,6 +1,5 @@
 module Fog
-  module Local
-    extend Fog::Service
+  class Local < Fog::Service
 
     requires :local_root
 

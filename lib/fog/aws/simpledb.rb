@@ -1,7 +1,6 @@
 module Fog
   module AWS
-    module SimpleDB
-      extend Fog::Service
+    class SimpleDB < Fog::Service
 
       requires :aws_access_key_id, :aws_secret_access_key
 

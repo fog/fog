@@ -1,5 +1,5 @@
 module Fog
-  module Vcloud
+  class Vcloud
 
     class Real
       unauthenticated_basic_request :get_versions

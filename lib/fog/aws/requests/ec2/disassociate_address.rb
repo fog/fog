@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    module EC2
+    class EC2
       class Real
 
         # Disassociate an elastic IP address from its instance (if any)

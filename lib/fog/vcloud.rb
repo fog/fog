@@ -1,11 +1,10 @@
+require 'fog/vcloud/service'
 require 'builder'
 require 'fog/vcloud/model'
 require 'fog/vcloud/collection'
 require 'fog/vcloud/generators'
-require 'fog/vcloud/extension'
 require 'fog/vcloud/terremark/ecloud'
 require 'fog/vcloud/terremark/vcloud'
-
 
 module URI
   class Generic
@@ -16,8 +15,7 @@ module URI
 end
 
 module Fog
-  module Vcloud
-    extend Fog::Service
+  class Vcloud < Fog::Service
 
     requires :username, :password, :versions_uri
 
@@ -32,13 +30,6 @@ module Fog
     request :get_organization
     request :get_network
 
-    def self.after_new(instance, options={})
-      if mod = options[:module]
-        instance.extend eval("#{mod}")
-      end 
-      instance
-    end
-
     class UnsupportedVersion < Exception ; end
 
     class Real
@@ -48,7 +39,7 @@ module Fog
       attr_reader :versions_uri
 
       def supporting_versions
-        ["v0.8"]
+        ["0.8"]
       end
 
       def initialize(options = {})

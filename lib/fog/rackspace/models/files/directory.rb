@@ -3,7 +3,7 @@ require 'fog/rackspace/models/files/files'
 
 module Fog
   module Rackspace
-    module Files
+    class Files
 
       class Directory < Fog::Model
         extend Fog::Deprecation

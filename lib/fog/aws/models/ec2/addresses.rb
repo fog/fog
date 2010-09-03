@@ -3,15 +3,7 @@ require 'fog/aws/models/ec2/address'
 
 module Fog
   module AWS
-    module EC2
-
-      module Collections
-        def addresses(attributes = {})
-          Fog::AWS::EC2::Addresses.new({
-            :connection => self
-          }.merge!(attributes))
-        end
-      end
+    class EC2
 
       class Addresses < Fog::Collection
 

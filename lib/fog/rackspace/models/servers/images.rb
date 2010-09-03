@@ -3,15 +3,7 @@ require 'fog/rackspace/models/servers/image'
 
 module Fog
   module Rackspace
-    module Servers
-
-      module Collections
-        def images(attributes = {})
-          Fog::Rackspace::Servers::Images.new({
-            :connection => self
-          }.merge!(attributes))
-        end
-      end
+    class Servers
 
       class Images < Fog::Collection
 

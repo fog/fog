@@ -1,5 +1,5 @@
 module Fog
-  module Slicehost
+  class Slicehost
     class Real
 
       require 'fog/slicehost/parsers/get_backups'

@@ -3,13 +3,7 @@ require 'fog/aws/models/s3/directory'
 
 module Fog
   module AWS
-    module S3
-
-      module Collections
-        def directories
-          Fog::AWS::S3::Directories.new(:connection => self)
-        end
-      end
+    class S3
 
       class Directories < Fog::Collection
 

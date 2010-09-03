@@ -3,13 +3,7 @@ require 'fog/aws/models/ec2/image'
 
 module Fog
   module AWS
-    module EC2
-
-      module Collections
-        def images
-          Fog::AWS::EC2::Images.new(:connection => self)
-        end
-      end
+    class EC2
 
       class Images < Fog::Collection
 

@@ -1,5 +1,5 @@
 module Fog
-  module Linode
+  class Linode
     class Real
 
       # Issues a shutdown, and then a boot job for a given linode

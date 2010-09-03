@@ -1,5 +1,5 @@
 module Fog
-  module Bluebox
+  class Bluebox
     class Real
 
       # Get list of products

@@ -3,13 +3,7 @@ require 'fog/rackspace/models/files/file'
 
 module Fog
   module Rackspace
-    module Files
-
-      module Collections
-        def files
-          Fog::Rackspace::Files::Files.new(:connection => self)
-        end
-      end
+    class Files
 
       class Files < Fog::Collection
 

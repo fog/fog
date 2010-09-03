@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    module EC2
+    class EC2
       class Real
 
         # Release an elastic IP address.

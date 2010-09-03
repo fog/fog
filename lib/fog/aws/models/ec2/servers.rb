@@ -3,13 +3,7 @@ require 'fog/aws/models/ec2/server'
 
 module Fog
   module AWS
-    module EC2
-
-      module Collections
-        def servers
-          Fog::AWS::EC2::Servers.new(:connection => self)
-        end
-      end
+    class EC2
 
       class Servers < Fog::Collection
 

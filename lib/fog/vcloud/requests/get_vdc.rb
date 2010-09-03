@@ -1,5 +1,5 @@
 module Fog
-  module Vcloud
+  class Vcloud
 
     class Real
       basic_request :get_vdc

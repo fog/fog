@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    module SimpleDB
+    class SimpleDB
       class Real
 
         # Create a SimpleDB domain

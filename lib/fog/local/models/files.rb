@@ -2,13 +2,7 @@ require 'fog/collection'
 require 'fog/local/models/file'
 
 module Fog
-  module Local
-
-    module Collections
-      def files
-        Fog::Local::Files.new(:connection => self)
-      end
-    end
+  class Local
 
     class Files < Fog::Collection
 

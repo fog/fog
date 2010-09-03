@@ -1,5 +1,5 @@
 module Fog
-  module NewServers
+  class NewServers
     class Real
 
       # Boot a new server

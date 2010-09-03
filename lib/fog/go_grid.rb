@@ -1,6 +1,5 @@
 module Fog
-  module GoGrid
-    extend Fog::Service
+  class GoGrid < Fog::Service
 
     requires :go_grid_api_key
     requires :go_grid_shared_secret

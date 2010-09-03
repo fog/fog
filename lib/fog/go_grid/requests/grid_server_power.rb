@@ -1,5 +1,5 @@
 module Fog
-  module GoGrid
+  class GoGrid
     class Real
 
       # Start, Stop or Restart a server

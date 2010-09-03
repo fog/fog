@@ -1,5 +1,5 @@
 module Fog
-  module Vcloud
+  class Vcloud
 
     class Real
       def vdcs(options = {})

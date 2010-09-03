@@ -1,6 +1,6 @@
 module Fog
   module Rackspace
-    module Files
+    class Files
       class Real
 
         # List number of containers and total bytes stored

@@ -1,7 +1,6 @@
 module Fog
   module Rackspace
-    module Files
-      extend Fog::Service
+    class Files < Fog::Service
 
       requires :rackspace_api_key, :rackspace_username
 

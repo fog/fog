@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    module SimpleDB
+    class SimpleDB
       class Real
 
         require 'fog/aws/parsers/simpledb/select'

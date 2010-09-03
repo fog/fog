@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    module ELB
+    class ELB
       class Real
 
         require 'fog/aws/parsers/elb/deregister_instances_from_load_balancer'

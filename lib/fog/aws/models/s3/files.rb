@@ -3,13 +3,7 @@ require 'fog/aws/models/s3/file'
 
 module Fog
   module AWS
-    module S3
-
-      module Collections
-        def files
-          Fog::AWS::S3::Files.new(:connection => self)
-        end
-      end
+    class S3
 
       class Files < Fog::Collection
 

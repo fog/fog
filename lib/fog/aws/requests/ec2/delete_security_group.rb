@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    module EC2
+    class EC2
       class Real
 
         # Delete a security group that you own

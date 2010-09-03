@@ -1,6 +1,5 @@
 module Fog
-  module Bluebox
-    extend Fog::Service
+  class Bluebox < Fog::Service
 
     requires :bluebox_api_key, :bluebox_customer_id
 

@@ -3,13 +3,7 @@ require 'fog/aws/models/ec2/key_pair'
 
 module Fog
   module AWS
-    module EC2
-
-      module Collections
-        def key_pairs
-          Fog::AWS::EC2::KeyPairs.new(:connection => self)
-        end
-      end
+    class EC2
 
       class KeyPairs < Fog::Collection
 

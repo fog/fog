@@ -2,7 +2,7 @@ require 'fog/model'
 
 module Fog
   module AWS
-    module EC2
+    class EC2
 
       class Flavor < Fog::Model
 

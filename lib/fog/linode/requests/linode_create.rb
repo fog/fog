@@ -1,5 +1,5 @@
 module Fog
-  module Linode
+  class Linode
     class Real
 
       # Creates a linode and assigns you full privileges

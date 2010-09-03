@@ -1,8 +1,7 @@
 module Fog
-  module Vcloud
+  class Vcloud
     module Terremark
-      module Vcloud
-        extend Fog::Vcloud::Extension
+      class Vcloud < Fog::Vcloud::Service
 
         request_path 'fog/vcloud/terremark/vcloud/requests'
         request :get_vdc

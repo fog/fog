@@ -1,5 +1,5 @@
 module Fog
-  module GoGrid
+  class GoGrid
     class Real
 
       # Get one or more servers by name

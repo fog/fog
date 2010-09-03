@@ -1,6 +1,5 @@
 module Fog
-  module Slicehost
-    extend Fog::Service
+  class Slicehost < Fog::Service
 
     requires :slicehost_password
 

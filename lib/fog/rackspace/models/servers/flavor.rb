@@ -2,7 +2,7 @@ require 'fog/model'
 
 module Fog
   module Rackspace
-    module Servers
+    class Servers
 
       class Flavor < Fog::Model
 

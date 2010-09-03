@@ -1,7 +1,7 @@
 require 'fog/model'
 
 module Fog
-  module Local
+  class Local
 
     class File < Fog::Model
 

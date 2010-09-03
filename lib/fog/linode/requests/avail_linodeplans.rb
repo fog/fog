@@ -1,5 +1,5 @@
 module Fog
-  module Linode
+  class Linode
     class Real
 
       # Get available plans

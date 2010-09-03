@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    module SimpleDB
+    class SimpleDB
       class Real
 
         # Put items attributes into a SimpleDB domain

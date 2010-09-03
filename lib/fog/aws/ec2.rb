@@ -1,7 +1,6 @@
 module Fog
   module AWS
-    module EC2
-      extend Fog::Service
+    class EC2 < Fog::Service
 
       requires :aws_access_key_id, :aws_secret_access_key
 
