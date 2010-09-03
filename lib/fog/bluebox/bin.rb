@@ -17,6 +17,10 @@ module Bluebox
         @@connections[service]
       end
 
+      def services
+        [:blocks]
+      end
+
       for collection in Fog::Bluebox.collections
         module_eval <<-EOS, __FILE__, __LINE__
           def #{collection}

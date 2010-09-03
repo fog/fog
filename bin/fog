@@ -24,17 +24,17 @@ else
   @irb.context.prompt_mode = :FOG
   @irb.context.workspace = IRB::WorkSpace.new(binding)
 
-  services = Fog.services.map{|service| service.to_s}
-  available_services = if services.length > 1
-    services[0...-1].join(', ') << ' and ' << services[-1]
+  modules = Fog.modules.map{|_module_| _module_.to_s}
+  modules = if modules.length > 1
+    modules[0...-1].join(', ') << ' and ' << modules[-1]
   else
-    services.first
+    modules.first
   end
   print "Welcome to fog interactive!\n"
-  print "Your '#{Fog.credential.to_s}' configuration provides access to #{available_services}.\n"
-  Fog.services.each do |service|
-    if service.respond_to?(:startup_notice)
-      service.send(:startup_notice)
+  print "Your '#{Fog.credential.to_s}' configuration provides access to #{modules}.\n"
+  Fog.modules.each do |_module_|
+    if _module_.respond_to?(:startup_notice)
+      _module_.send(:startup_notice)
     end
   end
 

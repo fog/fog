@@ -18,6 +18,10 @@ module Rackspace
         @@connections[service]
       end
 
+      def services
+        [:files, :servers]
+      end
+
       for collection in Fog::Rackspace::Files.collections
         module_eval <<-EOS, __FILE__, __LINE__
           def #{collection}

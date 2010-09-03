@@ -16,6 +16,10 @@ module Linode
         @@connections[service]
       end
 
+      def services
+        [:linode]
+      end
+
     else
 
       def initialized?

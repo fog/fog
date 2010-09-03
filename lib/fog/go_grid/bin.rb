@@ -16,6 +16,10 @@ module GoGrid
         @@connections[service]
       end
 
+      def services
+        [:go_grid]
+      end
+
     else
 
       def initialized?

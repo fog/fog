@@ -16,6 +16,10 @@ module Slicehost
         @@connections[service]
       end
 
+      def services
+        [:slices]
+      end
+
       for collection in Fog::Slicehost.collections
         module_eval <<-EOS, __FILE__, __LINE__
           def #{collection}

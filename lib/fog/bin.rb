@@ -14,54 +14,20 @@ require 'fog/bluebox/bin'
 module Fog
   class << self
 
-    def services
-      services = []
-      [::AWS, ::GoGrid, ::Linode, ::Local, ::NewServers, ::Rackspace, ::Slicehost, ::Terremark, ::Vcloud, ::Bluebox].each do |service|
-        if service.initialized?
-          services << service
-        end
-      end
-      services
-    end
+    def modules
+      [
+        ::AWS,
+        ::GoGrid,
+        ::Linode,
+        ::Local,
+        ::NewServers,
+        ::Rackspace,
+        ::Slicehost,
+        ::Terremark,
+        ::Vcloud,
+        ::Bluebox
+      ].select {|_module_| _module_.initialized?}
 
-    def directories
-      directories = {}
-      services.each do |service|
-        if service.respond_to?(:directories)
-          directories[service] = service.directories
-        end
-      end
-      directories
-    end
-
-    def flavors
-      flavors = {}
-      services.each do |service|
-        if service.respond_to?(:flavors)
-          flavors[service] = service.flavors
-        end
-      end
-      flavors
-    end
-
-    def images
-      images = {}
-      services.each do |service|
-        if service.respond_to?(:images)
-          images[service] = service.images
-        end
-      end
-      images
-    end
-
-    def servers
-      servers = {}
-      services.each do |service|
-        if service.respond_to?(:servers)
-          servers[service] = service.servers
-        end
-      end
-      servers
     end
 
   end

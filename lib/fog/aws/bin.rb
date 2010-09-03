@@ -23,6 +23,10 @@ module AWS
         @@connections[service]
       end
 
+      def services
+        [:ec2, :elb, :simpledb, :s3]
+      end
+
       for collection in Fog::AWS::EC2.collections
         module_eval <<-EOS, __FILE__, __LINE__
           def #{collection}

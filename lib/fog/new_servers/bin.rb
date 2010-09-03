@@ -16,6 +16,10 @@ module NewServers
         @@connections[service]
       end
 
+      def services
+        [:new_servers]
+      end
+
     else
 
       def initialized?

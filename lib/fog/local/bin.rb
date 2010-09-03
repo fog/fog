@@ -16,6 +16,10 @@ module Local
         @@connections[service]
       end
 
+      def services
+        [:files]
+      end
+
       for collection in Fog::Local.collections
         module_eval <<-EOS, __FILE__, __LINE__
           def #{collection}
