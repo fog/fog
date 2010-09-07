@@ -102,7 +102,7 @@ You should try out the (varying) support fog has for:
 There are also the basics of these providers (that could use your love):
 * {GoGrid}[http://www.gogrid.com]
 * {Linode}[http://www.linode.com]
-* {Local} [Files]
+* Local [Files]
 * {New Servers}[http://www.newservers.com]
 
 Enjoy, and let me know what I can do to continue improving fog!
