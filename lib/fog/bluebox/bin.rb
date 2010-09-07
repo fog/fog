@@ -11,7 +11,7 @@ module Bluebox
         @@connections ||= Hash.new do |hash, key|
           hash[key] = case key
           when :blocks
-            Fog::Bluebox.new
+            Fog::Bluebox::Blocks.new
           end
         end
         @@connections[service]
@@ -21,7 +21,7 @@ module Bluebox
         [:blocks]
       end
 
-      for collection in Fog::Bluebox.collections
+      for collection in Fog::Bluebox::Blocks.collections
         module_eval <<-EOS, __FILE__, __LINE__
           def #{collection}
             self[:blocks].#{collection}
