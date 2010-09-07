@@ -3,7 +3,7 @@ http://geemus.com/fog.png
 fog is the Ruby cloud computing library.
 
 The quick and dirty, top to bottom:
-* Models provide a simplified interface, making clouds easier to work with and switch between.
+* Collections provide a simplified interface, making clouds easier to work with and switch between.
 * Requests allow power users to get the most out of the features of each individual cloud.
 * Mocks make testing and integrating a breeze.
 
@@ -24,10 +24,11 @@ Now just type 'fog' to trying stuff out, confident that fog should let you know 
 
 == Collections
 
-Nouns like Images and Servers are collections, which form the interface to the cloud.
+A high level interface to each cloud is provided through collections, such as images and servers.
+You can see a list of available collections by calling #collections on the connection object.
 Some of these collections are shared across multiple providers.
-The shared collections for compute resources are flavors, images and servers.
-Shared collections for storage are directory and file.
+Shared collections for compute are: flavors, images and servers.
+Shared collections for storage are: directory and file.
 
 Some common methods for all of these collections are:
 * #all - fetch every object of that type from the provider.
@@ -58,7 +59,7 @@ As an example, we'll try initializing and persisting a Rackspace Cloud server:
 
 == Models
 
-Many of the collection methods return individual objects, which provide destroy, save and wait_for methods.
+Many of the collection methods return individual objects, which also provide some common methods:
 * #destroy - will destroy the persisted object from the provider
 * #save - persist the object to the provider
 * #wait_for - takes a block and waits for either the block to return true for the object or for a timeout (defaults to 10 minutes)
@@ -77,6 +78,7 @@ Some mocks are not implemented just yet, but fog will raise an error to let you 
 == Requests
 
 Requests allow you to dive deeper when the models just can't cut it.
+You can see a list of available requests by calling #requests on the connection object.
 For instance, ec2 provides methods related to reserved instances that don't have any models (yet).
 Here is how you can lookup your reserved instances:
 
