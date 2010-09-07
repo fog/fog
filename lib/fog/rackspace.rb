@@ -1,8 +1,11 @@
-require 'fog/rackspace/files'
-require 'fog/rackspace/servers'
-
 module Fog
   module Rackspace
+
+    extend Fog::Provider
+
+    service_path 'fog/rackspace'
+    service 'files'
+    service 'servers'
 
     def self.authenticate(options)
       rackspace_auth_url = options[:rackspace_auth_url] || "auth.api.rackspacecloud.com"

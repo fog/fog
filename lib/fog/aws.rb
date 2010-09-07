@@ -1,10 +1,13 @@
-require 'fog/aws/ec2.rb'
-require 'fog/aws/elb.rb'
-require 'fog/aws/s3'
-require 'fog/aws/simpledb'
-
 module Fog
   module AWS
+
+    extend Fog::Provider
+
+    service_path 'fog/aws'
+    service 'ec2'
+    service 'elb'
+    service 's3'
+    service 'simpledb'
 
     def self.indexed_param(key, values, offset = 0)
       params = {}

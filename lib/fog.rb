@@ -24,6 +24,7 @@ require 'fog/errors'
 require 'fog/hmac'
 require 'fog/model'
 require 'fog/parser'
+require 'fog/provider'
 require 'fog/service'
 require 'fog/ssh'
 
