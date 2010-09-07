@@ -15,10 +15,6 @@ module Fog
       end
 
       def attribute(name, options = {})
-        # FIXME: handle legacy where options would have been one or more aliases
-        if !options.is_a?(Hash)
-          options = {:aliases => options}
-        end
         class_eval <<-EOS, __FILE__, __LINE__
           attr_reader :#{name}
         EOS
@@ -100,9 +96,9 @@ module Fog
         end
       end
 
-      def identity(name, other_names = [])
+      def identity(name, options = {})
         @identity = name
-        self.attribute(name, {:aliases => other_names})
+        self.attribute(name, options)
       end
 
       def ignore_attributes(*args)

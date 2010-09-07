@@ -6,11 +6,11 @@ module Fog
 
       class SecurityGroup < Fog::Model
 
-        identity  :name,            'groupName'
+        identity  :name,            :aliases => 'groupName'
 
-        attribute :description,     'groupDescription'
-        attribute :ip_permissions,  'ipPermissions'
-        attribute :owner_id,        'ownerId'
+        attribute :description,     :aliases => 'groupDescription'
+        attribute :ip_permissions,  :aliases => 'ipPermissions'
+        attribute :owner_id,        :aliases => 'ownerId'
 
         def authorize_group_and_owner(group, owner)
           requires :name

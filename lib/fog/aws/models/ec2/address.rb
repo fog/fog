@@ -6,9 +6,9 @@ module Fog
 
       class Address < Fog::Model
 
-        identity  :public_ip,   'publicIp'
+        identity  :public_ip, :aliases => 'publicIp'
 
-        attribute :server_id, 'instanceId'
+        attribute :server_id, :aliases => 'instanceId'
 
         def initialize(attributes = {})
           # assign server first to prevent race condition with new_record?

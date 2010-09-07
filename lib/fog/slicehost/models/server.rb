@@ -8,13 +8,13 @@ module Fog
       identity :id
 
       attribute :addresses
-      attribute :backup_id,     'backup-id'
-      attribute :bandwidth_in,  'bw-in'
-      attribute :bandwidth_out, 'bw-out'
-      attribute :flavor_id,     'flavor-id'
-      attribute :image_id,      'image-id'
+      attribute :backup_id,     :aliases => 'backup-id'
+      attribute :bandwidth_in,  :aliases => 'bw-in'
+      attribute :bandwidth_out, :aliases => 'bw-out'
+      attribute :flavor_id,     :aliases => 'flavor-id'
+      attribute :image_id,      :aliases => 'image-id'
       attribute :name
-      attribute :password,      'root-password'
+      attribute :password,      :aliases => 'root-password'
       attribute :progress
       attribute :status
 

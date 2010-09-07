@@ -10,9 +10,9 @@ module Fog
         deprecate(:name, :key)
         deprecate(:name=, :key=)
 
-        identity  :key,           ['Name', 'name']
+        identity  :key,           :aliases => ['Name', 'name']
 
-        attribute :creation_date, 'CreationDate'
+        attribute :creation_date, :aliases => 'CreationDate'
 
         def destroy
           requires :key

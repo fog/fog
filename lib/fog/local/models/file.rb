@@ -8,9 +8,9 @@ module Fog
       identity  :key,             'Key'
 
       attr_accessor :body
-      attribute :content_length,  'Content-Length'
-      # attribute :content_type,    'Content-Type'
-      attribute :last_modified,   'Last-Modified'
+      attribute :content_length,  :aliases => 'Content-Length'
+      # attribute :content_type,    :aliases => 'Content-Type'
+      attribute :last_modified,   :aliases => 'Last-Modified'
 
       def body
         @body ||= if last_modified

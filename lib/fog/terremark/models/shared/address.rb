@@ -8,7 +8,7 @@ module Fog
 
         identity :id
 
-        attribute :ip, 'name'
+        attribute :ip, :aliases => 'name'
 
         def destroy
          requires :id

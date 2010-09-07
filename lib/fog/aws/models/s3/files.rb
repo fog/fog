@@ -7,12 +7,12 @@ module Fog
 
       class Files < Fog::Collection
 
-        attribute :delimiter,     'Delimiter'
+        attribute :delimiter,     :aliases => 'Delimiter'
         attribute :directory
-        attribute :is_truncated,  'IsTruncated'
-        attribute :marker,        'Marker'
-        attribute :max_keys,      ['MaxKeys', 'max-keys']
-        attribute :prefix,        'Prefix'
+        attribute :is_truncated,  :aliases => 'IsTruncated'
+        attribute :marker,        :aliases => 'Marker'
+        attribute :max_keys,      :aliases => ['MaxKeys', 'max-keys']
+        attribute :prefix,        :aliases => 'Prefix'
 
         model Fog::AWS::S3::File
 

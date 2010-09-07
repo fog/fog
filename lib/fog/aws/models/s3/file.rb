@@ -6,16 +6,16 @@ module Fog
 
       class File < Fog::Model
 
-        identity  :key,             'Key'
+        identity  :key,             :aliases => 'Key'
 
         attr_accessor :body
-        attribute :content_length,  'Content-Length'
-        attribute :content_type,    'Content-Type'
-        attribute :etag,            ['Etag', 'ETag']
-        attribute :last_modified,   ['Last-Modified', 'LastModified']
-        attribute :owner,           'Owner'
-        attribute :size,            'Size'
-        attribute :storage_class,   'StorageClass'
+        attribute :content_length,  :aliases => 'Content-Length'
+        attribute :content_type,    :aliases => 'Content-Type'
+        attribute :etag,            :aliases => ['Etag', 'ETag']
+        attribute :last_modified,   :aliases => ['Last-Modified', 'LastModified']
+        attribute :owner,           :aliases => 'Owner'
+        attribute :size,            :aliases => 'Size'
+        attribute :storage_class,   :aliases => 'StorageClass'
 
         def body
           @body ||= if last_modified && (file = collection.get(identity))

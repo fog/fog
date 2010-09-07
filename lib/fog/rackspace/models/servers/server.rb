@@ -9,9 +9,9 @@ module Fog
         identity :id
 
         attribute :addresses
-        attribute :flavor_id,   'flavorId'
-        attribute :host_id,     'hostId'
-        attribute :image_id,    'imageId'
+        attribute :flavor_id,   :aliases => 'flavorId'
+        attribute :host_id,     :aliases => 'hostId'
+        attribute :image_id,    :aliases => 'imageId'
         attribute :metadata
         attribute :name
         attribute :personality

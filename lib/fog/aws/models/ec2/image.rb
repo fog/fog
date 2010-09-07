@@ -6,21 +6,21 @@ module Fog
 
       class Image < Fog::Model
 
-        identity :id,                    'imageId'
+        identity :id,                     :aliases => 'imageId'
 
         attribute :architecture
-        attribute :block_device_mapping, 'blockDeviceMapping'
-        attribute :location,             'imageLocation'
-        attribute :owner_id,             'imageOwnerId'
-        attribute :state,                'imageState'
-        attribute :type,                 'imageType'
-        attribute :is_public,            'isPublic'
-        attribute :kernel_id,            'kernelId'
+        attribute :block_device_mapping,  :aliases => 'blockDeviceMapping'
+        attribute :location,              :aliases => 'imageLocation'
+        attribute :owner_id,              :aliases => 'imageOwnerId'
+        attribute :state,                 :aliases => 'imageState'
+        attribute :type,                  :aliases => 'imageType'
+        attribute :is_public,             :aliases => 'isPublic'
+        attribute :kernel_id,             :aliases => 'kernelId'
         attribute :platform
-        attribute :product_codes,        'productCodes'
-        attribute :ramdisk_id,           'ramdiskId'
-        attribute :root_device_type,     'rootDeviceType'
-        attribute :root_device_name,     'rootDeviceName'
+        attribute :product_codes,         :aliases => 'productCodes'
+        attribute :ramdisk_id,            :aliases => 'ramdiskId'
+        attribute :root_device_type,      :aliases => 'rootDeviceType'
+        attribute :root_device_name,      :aliases => 'rootDeviceName'
 
         def deregister(delete_snapshot = false)
           connection.deregister_image(@id)

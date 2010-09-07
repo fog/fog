@@ -6,30 +6,30 @@ module Fog
 
       class Server < Fog::Model
 
-        identity  :id,                    'instanceId'
+        identity  :id,                    :aliases => 'instanceId'
 
         attr_accessor :architecture
-        attribute :ami_launch_index,      'amiLaunchIndex'
-        attribute :availability_zone,     'availabilityZone'
-        attribute :block_device_mapping,  'blockDeviceMapping'
-        attribute :dns_name,              'dnsName'
+        attribute :ami_launch_index,      :aliases => 'amiLaunchIndex'
+        attribute :availability_zone,     :aliases => 'availabilityZone'
+        attribute :block_device_mapping,  :aliases => 'blockDeviceMapping'
+        attribute :dns_name,              :aliases => 'dnsName'
         attribute :groups
-        attribute :flavor_id,             'instanceType'
-        attribute :image_id,              'imageId'
-        attribute :ip_address,            'ipAddress'
-        attribute :kernel_id,             'kernelId'
-        attribute :key_name,              'keyName'
-        attribute :created_at,            'launchTime'
+        attribute :flavor_id,             :aliases => 'instanceType'
+        attribute :image_id,              :aliases => 'imageId'
+        attribute :ip_address,            :aliases => 'ipAddress'
+        attribute :kernel_id,             :aliases => 'kernelId'
+        attribute :key_name,              :aliases => 'keyName'
+        attribute :created_at,            :aliases => 'launchTime'
         attribute :monitoring
-        attribute :product_codes,         'productCodes'
-        attribute :private_dns_name,      'privateDnsName'
-        attribute :private_ip_address,    'privateIpAddress'
-        attribute :ramdisk_id,            'ramdiskId'
+        attribute :product_codes,         :aliases => 'productCodes'
+        attribute :private_dns_name,      :aliases => 'privateDnsName'
+        attribute :private_ip_address,    :aliases => 'privateIpAddress'
+        attribute :ramdisk_id,            :aliases => 'ramdiskId'
         attribute :reason
-        attribute :root_device_name,      'rootDeviceName'
-        attribute :root_device_type,      'rootDeviceType'
-        attribute :state,                 'instanceState'
-        attribute :subnet_id,             'subnetId'
+        attribute :root_device_name,      :aliases => 'rootDeviceName'
+        attribute :root_device_type,      :aliases => 'rootDeviceType'
+        attribute :state,                 :aliases => 'instanceState'
+        attribute :subnet_id,             :aliases => 'subnetId'
         attribute :user_data
 
         def initialize(attributes={})

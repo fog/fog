@@ -8,15 +8,15 @@ module Fog
         extend Fog::Deprecation
         deprecate(:status, :state)
 
-        identity  :id, 'snapshotId'
+        identity  :id,          :aliases => 'snapshotId'
 
         attribute :description
         attribute :progress
-        attribute :created_at,  'startTime'
-        attribute :owner_id,    'ownerId'
-        attribute :state,       'status'
-        attribute :volume_id,   'volumeId'
-        attribute :volume_size, 'volumeSize'
+        attribute :created_at,  :aliases => 'startTime'
+        attribute :owner_id,    :aliases => 'ownerId'
+        attribute :state,       :aliases => 'status'
+        attribute :volume_id,   :aliases => 'volumeId'
+        attribute :volume_size, :aliases => 'volumeSize'
 
         def destroy
           requires :id

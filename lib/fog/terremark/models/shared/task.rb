@@ -8,13 +8,13 @@ module Fog
 
         identity :id
 
-        attribute :end_time,    'endTime'
-        attribute :owner,       'Owner'
-        attribute :result,      'Result'
-        attribute :start_time,  'startTime'
+        attribute :end_time,    :aliases => 'endTime'
+        attribute :owner,       :aliases => 'Owner'
+        attribute :result,      :aliases => 'Result'
+        attribute :start_time,  :aliases => 'startTime'
         attribute :status
-        attribute :link,         'Link'
-        attribute :error,        'Error'
+        attribute :link,        :aliases => 'Link'
+        attribute :error,       :aliases => 'Error'
 
         def initialize(attributes = {})
           new_owner  = attributes.delete('Owner')

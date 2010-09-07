@@ -9,11 +9,11 @@ module Fog
         identity :id
 
         attribute :name
-        attribute :created_at,  'created'
-        attribute :updated_at,  'updated'
+        attribute :created_at,  :aliases => 'created'
+        attribute :updated_at,  :aliases => 'updated'
         attribute :progress
         attribute :status
-        attribute :server_id,   'serverId'
+        attribute :server_id,   :aliases => 'serverId'
 
         def server=(new_server)
           requires :id

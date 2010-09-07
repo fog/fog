@@ -6,10 +6,10 @@ module Fog
 
       class KeyPair < Fog::Model
 
-        identity  :name,        'keyName'
+        identity  :name,        :aliases => 'keyName'
 
-        attribute :fingerprint, 'keyFingerprint'
-        attribute :material,    'keyMaterial'
+        attribute :fingerprint, :aliases => 'keyFingerprint'
+        attribute :material,    :aliases => 'keyMaterial'
 
         def destroy
           requires :name

@@ -9,7 +9,7 @@ module Fog
 
       attribute :description
       attribute :public
-      attribute :created_at, 'created'
+      attribute :created_at, :aliases => 'created'
 
     end
 
