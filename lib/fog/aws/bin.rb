@@ -1,6 +1,6 @@
 module AWS
   class << self
-    credential = (ARGV.first && :"#{ARGV.first}") || :default
+
     if Fog.credentials[:aws_access_key_id] && Fog.credentials[:aws_secret_access_key]
 
       def initialized?
