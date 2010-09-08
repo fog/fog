@@ -1,91 +1,18 @@
 module Fog
-  class Slicehost < Fog::Service
+  module Slicehost
 
-    requires :slicehost_password
+    extend Fog::Provider
 
-    model_path 'fog/slicehost/models'
-    model       :flavor
-    collection  :flavors
-    model       :image
-    collection  :images
-    model       :server
-    collection  :servers
+    service_path 'fog/slicehost'
+    service :compute
 
-    request_path 'fog/slicehost/requests'
-    request :create_slice
-    request :delete_slice
-    request :get_backups
-    request :get_flavor
-    request :get_flavors
-    request :get_image
-    request :get_images
-    request :get_slice
-    request :get_slices
-    request :reboot_slice
-
-    class Mock
-      include Collections
-
-      def self.data
-        @data ||= Hash.new do |hash, key|
-          hash[key] = {}
-        end
-      end
-
-      def self.reset_data(keys=data.keys)
-        for key in [*keys]
-          data.delete(key)
-        end
-      end
-
-      def initialize(options={})
-        @slicehost_password = options[:slicehost_password]
-        @data = self.class.data[@slicehost_password]
-      end
-
+    def self.new(attributes = {})
+      location = caller.first
+      warning = "[yellow][WARN] Fog::Slicehost#new is deprecated, use Fog::Bluebox::Compute#new instead[/]"
+      warning << " [light_black](" << location << ")[/] "
+      Formatador.display_line(warning)
+      Fog::Slicehost::Compute.new(attributes)
     end
 
-    class Real
-      include Collections
-
-      def initialize(options={})
-        @slicehost_password = options[:slicehost_password]
-        @host   = options[:host]    || "api.slicehost.com"
-        @port   = options[:port]    || 443
-        @scheme = options[:scheme]  || 'https'
-        @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
-      end
-
-      def reload
-        @connection.reset
-      end
-
-      def request(params)
-        params[:headers] ||= {}
-        params[:headers].merge!({
-          'Authorization' => "Basic #{Base64.encode64(@slicehost_password).delete("\r\n")}"
-        })
-        case params[:method]
-        when 'DELETE', 'GET', 'HEAD'
-          params[:headers]['Accept'] = 'application/xml'
-        when 'POST', 'PUT'
-          params[:headers]['Content-Type'] = 'application/xml'
-        end
-
-        begin
-          response = @connection.request(params.merge!({:host => @host}))
-        rescue Excon::Errors::Error => error
-          raise case error
-          when Excon::Errors::NotFound
-            Fog::Slicehost::NotFound.slurp(error)
-          else
-            error
-          end
-        end
-
-        response
-      end
-
-    end
   end
 end
