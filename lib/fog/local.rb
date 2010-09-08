@@ -1,57 +1,17 @@
 module Fog
-  class Local < Fog::Service
+  module Local
 
-    requires :local_root
+    extend Fog::Provider
 
-    model_path 'fog/local/models'
-    collection  :directories
-    model       :directory
-    model       :file
-    collection  :files
+    service_path 'fog/local'
+    service 'storage'
 
-    class Mock
-      include Collections
-
-      def self.data
-        @data ||= Hash.new do |hash, key|
-          hash[key] = {}
-        end
-      end
-
-      def self.reset_data(keys=data.keys)
-        for key in [*keys]
-          data.delete(key)
-        end
-      end
-
-      def initialize(options={})
-        @local_root = ::File.expand_path(options[:local_root])
-        @data       = self.class.data[@local_root]
-      end
-
-      def local_root
-        @local_root
-      end
-
-      def path(partial)
-        partial
-      end
-    end
-
-    class Real
-      include Collections
-
-      def initialize(options={})
-        @local_root = ::File.expand_path(options[:local_root])
-      end
-
-      def local_root
-        @local_root
-      end
-
-      def path_to(partial)
-        ::File.join(@local_root, partial)
-      end
+    def self.new(attributes = {})
+      location = caller.first
+      warning = "[yellow][WARN] Fog::Local#new is deprecated, use Fog::Local::Storage#new instead[/]"
+      warning << " [light_black](" << location << ")[/] "
+      Formatador.display_line(warning)
+      Fog::Local::Storage.new(attributes)
     end
 
   end
