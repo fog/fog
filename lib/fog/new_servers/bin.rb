@@ -9,15 +9,15 @@ module NewServers
       def [](service)
         @@connections ||= Hash.new do |hash, key|
           hash[key] = case key
-          when :new_servers
-            Fog::NewServers.new
+          when :compute
+            Fog::NewServers::Compute.new
           end
         end
         @@connections[service]
       end
 
       def services
-        [:new_servers]
+        [:compute]
       end
 
     else
