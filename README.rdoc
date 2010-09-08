@@ -112,6 +112,7 @@ Enjoy, and let me know what I can do to continue improving fog!
 * Follow {@geemus}[http://twitter.com/geemus] on Twitter.
 * See upcoming work in the {tracker}[http://www.pivotaltracker.com/projects/54635].
 * Report bugs in {issues}[http://github.com/geemus/fog/issues].
+* Discuss on the {mailing list}[http://groups.google.com/group/ruby-fog].
 * Learn about {contributing}[http://wiki.github.com/geemus/fog/contributors-guide].
 
 == Copyright
