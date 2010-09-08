@@ -9,15 +9,15 @@ module Linode
       def [](service)
         @@connections ||= Hash.new do |hash, key|
           hash[key] = case key
-          when :linode
-            Fog::Linode.new
+          when :compute
+            Fog::Linode::Compute.new
           end
         end
         @@connections[service]
       end
 
       def services
-        [:linode]
+        [:compute]
       end
 
     else
