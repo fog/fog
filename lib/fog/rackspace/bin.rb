@@ -9,31 +9,31 @@ module Rackspace
       def [](service)
         @@connections ||= Hash.new do |hash, key|
           hash[key] = case key
-          when :files
-            Fog::Rackspace::Files.new
-          when :servers
-            Fog::Rackspace::Servers.new
+          when :compute
+            Fog::Rackspace::Compute.new
+          when :storage
+            Fog::Rackspace::Storage.new
           end
         end
         @@connections[service]
       end
 
       def services
-        [:files, :servers]
+        [:compute, :storage]
       end
 
-      for collection in Fog::Rackspace::Files.collections
+      for collection in Fog::Rackspace::Compute.collections
         module_eval <<-EOS, __FILE__, __LINE__
           def #{collection}
-            self[:files].#{collection}
+            self[:compute].#{collection}
           end
         EOS
       end
 
-      for collection in Fog::Rackspace::Servers.collections
+      for collection in Fog::Rackspace::Storage.collections
         module_eval <<-EOS, __FILE__, __LINE__
           def #{collection}
-            self[:servers].#{collection}
+            self[:storage].#{collection}
           end
         EOS
       end
