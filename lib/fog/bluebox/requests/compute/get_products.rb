@@ -1,22 +1,21 @@
 module Fog
   module Bluebox
-    class Blocks
+    class Compute
       class Real
 
-        # Get details of a template
-        #
-        # ==== Parameters
-        # * template_id<~Integer> - Id of template to lookup
+        # Get list of products
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Array>:
-        # TODO
-        def get_template(template_id)
+        #     * 'id'<~String> - UUID of the product
+        #     * 'description'<~String> - Description of the product
+        #     * 'cost'<~Decimal> - Hourly cost of the product
+        def get_products
           request(
             :expects  => 200,
             :method   => 'GET',
-            :path     => "api/block_templates/#{template_id}.json"
+            :path     => 'api/block_products.json'
           )
         end
 
@@ -24,7 +23,7 @@ module Fog
 
       class Mock
 
-        def get_template(template_id)
+        def get_products
           Fog::Mock.not_implemented
         end
 

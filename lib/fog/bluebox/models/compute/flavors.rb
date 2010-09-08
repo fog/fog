@@ -3,7 +3,7 @@ require 'fog/bluebox/models/flavor'
 
 module Fog
   module Bluebox
-    class Blocks
+    class Compute
 
       class Flavors < Fog::Collection
 

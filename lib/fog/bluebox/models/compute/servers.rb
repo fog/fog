@@ -3,7 +3,7 @@ require 'fog/bluebox/models/server'
 
 module Fog
   module Bluebox
-    class Blocks
+    class Compute
 
       class Servers < Fog::Collection
 

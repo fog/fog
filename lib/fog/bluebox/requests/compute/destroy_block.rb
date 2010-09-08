@@ -1,22 +1,22 @@
 module Fog
   module Bluebox
-    class Blocks
+    class Compute
       class Real
 
-        # Get details of a product
+        # Destroy a block
         #
         # ==== Parameters
-        # * product_id<~Integer> - Id of flavor to lookup
+        # * block_id<~Integer> - Id of block to destroy
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Array>:
+        #   * body<~Hash>:
         # TODO
-        def get_product(product_id)
+        def destroy_block(block_id)
           request(
             :expects  => 200,
-            :method   => 'GET',
-            :path     => "api/block_products/#{product_id}.json"
+            :method   => 'DELETE',
+            :path     => "api/blocks/#{block_id}.json"
           )
         end
 
@@ -24,7 +24,7 @@ module Fog
 
       class Mock
 
-        def get_product(product_id)
+        def destroy_block(block_id)
           Fog::Mock.not_implemented
         end
 

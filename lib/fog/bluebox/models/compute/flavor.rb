@@ -2,7 +2,7 @@ require 'fog/model'
 
 module Fog
   module Bluebox
-    class Blocks
+    class Compute
 
       class Flavor < Fog::Model
 

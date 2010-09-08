@@ -1,22 +1,22 @@
 module Fog
   module Bluebox
-    class Blocks
+    class Compute
       class Real
 
-        # Destroy a block
+        # Get details of a template
         #
         # ==== Parameters
-        # * block_id<~Integer> - Id of block to destroy
+        # * template_id<~Integer> - Id of template to lookup
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>:
+        #   * body<~Array>:
         # TODO
-        def destroy_block(block_id)
+        def get_template(template_id)
           request(
             :expects  => 200,
-            :method   => 'DELETE',
-            :path     => "api/blocks/#{block_id}.json"
+            :method   => 'GET',
+            :path     => "api/block_templates/#{template_id}.json"
           )
         end
 
@@ -24,7 +24,7 @@ module Fog
 
       class Mock
 
-        def destroy_block(block_id)
+        def get_template(template_id)
           Fog::Mock.not_implemented
         end
 

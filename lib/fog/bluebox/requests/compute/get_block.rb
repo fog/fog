@@ -1,6 +1,6 @@
 module Fog
   module Bluebox
-    class Blocks
+    class Compute
       class Real
 
         # Get details of a block.

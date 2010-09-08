@@ -1,10 +1,10 @@
 module Fog
   module Bluebox
-    class Blocks < Fog::Service
+    class Compute < Fog::Service
 
       requires :bluebox_api_key, :bluebox_customer_id
 
-      model_path 'fog/bluebox/models/blocks'
+      model_path 'fog/bluebox/models/compute'
       model       :flavor
       collection  :flavors
       model       :image
@@ -12,7 +12,7 @@ module Fog
       model       :server
       collection  :servers
 
-      request_path 'fog/bluebox/requests/blocks'
+      request_path 'fog/bluebox/requests/compute'
       request :create_block
       request :destroy_block
       request :get_block

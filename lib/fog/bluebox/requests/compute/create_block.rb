@@ -1,6 +1,6 @@
 module Fog
   module Bluebox
-    class Blocks
+    class Compute
       class Real
 
         # Create a new block

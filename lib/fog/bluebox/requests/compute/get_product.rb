@@ -1,21 +1,22 @@
 module Fog
   module Bluebox
-    class Blocks
+    class Compute
       class Real
 
-        # Get list of products
+        # Get details of a product
+        #
+        # ==== Parameters
+        # * product_id<~Integer> - Id of flavor to lookup
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Array>:
-        #     * 'id'<~String> - UUID of the product
-        #     * 'description'<~String> - Description of the product
-        #     * 'cost'<~Decimal> - Hourly cost of the product
-        def get_products
+        # TODO
+        def get_product(product_id)
           request(
             :expects  => 200,
             :method   => 'GET',
-            :path     => 'api/block_products.json'
+            :path     => "api/block_products/#{product_id}.json"
           )
         end
 
@@ -23,7 +24,7 @@ module Fog
 
       class Mock
 
-        def get_products
+        def get_product(product_id)
           Fog::Mock.not_implemented
         end
 

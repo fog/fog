@@ -3,7 +3,7 @@ require 'fog/bluebox/models/image'
 
 module Fog
   module Bluebox
-    class Blocks
+    class Compute
 
       class Images < Fog::Collection
 
