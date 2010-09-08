@@ -4,10 +4,12 @@ module Fog
     extend Fog::Provider
 
     service_path 'fog/aws'
+    service 'compute'
     service 'ec2'
     service 'elb'
     service 's3'
     service 'simpledb'
+    service 'storage'
 
     def self.indexed_param(key, values, offset = 0)
       params = {}

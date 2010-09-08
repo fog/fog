@@ -10,35 +10,47 @@ module AWS
       def [](service)
         @@connections ||= Hash.new do |hash, key|
           hash[key] = case key
+          when :compute
+            Fog::AWS::Compute.new
           when :ec2
-            Fog::AWS::EC2.new
+            location = caller.first
+            warning = "[yellow][WARN] AWS[:ec2] is deprecated, use AWS[:compute] instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+            Fog::AWS::Compute.new
           when :elb
             Fog::AWS::ELB.new
           when :simpledb
             Fog::AWS::SimpleDB.new
           when :s3
-            Fog::AWS::S3.new
+            location = caller.first
+            warning = "[yellow][WARN] AWS[:s3] is deprecated, use AWS[:storage] instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+            Fog::AWS::Storage.new
+          when :storage
+            Fog::AWS::Storage.new
           end
         end
         @@connections[service]
       end
 
       def services
-        [:ec2, :elb, :simpledb, :s3]
+        [:compute, :elb, :simpledb, :storage]
       end
 
-      for collection in Fog::AWS::EC2.collections
+      for collection in Fog::AWS::Compute.collections
         module_eval <<-EOS, __FILE__, __LINE__
           def #{collection}
-            self[:ec2].#{collection}
+            self[:compute].#{collection}
           end
         EOS
       end
 
-      for collection in Fog::AWS::S3.collections
+      for collection in Fog::AWS::Storage.collections
         module_eval <<-EOS, __FILE__, __LINE__
           def #{collection}
-            self[:s3].#{collection}
+            self[:storage].#{collection}
           end
         EOS
       end
