@@ -110,9 +110,9 @@ Enjoy, and let me know what I can do to continue improving fog!
 * See what already uses fog and add your own stuff to {the list}[http://wiki.github.com/geemus/fog/in-the-wild].
 * Work for {twitter}[http://twitter.com]? I'd love to reclaim the unused {@fog}[http://twitter.com/fog] account!
 * Follow {@geemus}[http://twitter.com/geemus] on Twitter.
+* Discuss in irc on the {#ruby-fog}[irc://irc.freenode.net/ruby-fog]#ruby-fog channel on Freenode or via email on the {mailing list}[http://groups.google.com/group/ruby-fog].
 * See upcoming work in the {tracker}[http://www.pivotaltracker.com/projects/54635].
 * Report bugs in {issues}[http://github.com/geemus/fog/issues].
-* Discuss on the {mailing list}[http://groups.google.com/group/ruby-fog].
 * Learn about {contributing}[http://wiki.github.com/geemus/fog/contributors-guide].
 
 == Copyright
