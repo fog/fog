@@ -1,23 +1,25 @@
 module Fog
   module GoGrid
-    class Servers
+    class Compute
       class Real
 
-        # List load balancers
+        # List ips
         #
         # ==== Parameters
         # * options<~Hash>:
         #   * 'datacenter'<~String> - datacenter to limit results to
+        #   * 'ip.state'<~String>      - state to limit results to in ip.state
+        #   * 'ip.type'<~String>       - type to limit results to in ip.type
         #   * 'num_items'<~Integer> - Number of items to return
-        #   * 'page'<~Integer> - Page index for paginated results
+        #   * 'page'<~Integer>      - Page index for paginated results
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Array>:
         # TODO: docs
-        def grid_loadbalancer_list(options={})
+        def grid_ip_list(options={})
           request(
-            :path     => 'grid/loadbalancer/list',
+            :path     => 'grid/ip/list',
             :query    => options
           )
         end
@@ -26,7 +28,7 @@ module Fog
 
       class Mock
 
-        def grid_loadbalancer_list(options={})
+        def grid_ip_list(options={})
           Fog::Mock.not_implemented
         end
 

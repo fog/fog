@@ -1,13 +1,13 @@
 module Fog
   module GoGrid
-    class Servers < Fog::Service
+    class Compute < Fog::Service
 
       requires :go_grid_api_key
       requires :go_grid_shared_secret
 
-      model_path 'fog/go_grid/models'
+      model_path 'fog/go_grid/models/compute'
 
-      request_path 'fog/go_grid/requests'
+      request_path 'fog/go_grid/requests/compute'
       request :common_lookup_list
       request :grid_image_list
       request :grid_ip_list

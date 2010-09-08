@@ -9,15 +9,15 @@ module GoGrid
       def [](service)
         @@connections ||= Hash.new do |hash, key|
           hash[key] = case key
-          when :servers
-            Fog::GoGrid::Servers.new
+          when :compute
+            Fog::GoGrid::Compute.new
           end
         end
         @@connections[service]
       end
 
       def services
-        [:servers]
+        [:compute]
       end
 
     else

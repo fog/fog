@@ -1,6 +1,6 @@
 module Fog
   module GoGrid
-    class Servers
+    class Compute
       class Real
 
         # List options and lookups

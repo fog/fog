@@ -1,21 +1,21 @@
 module Fog
   module GoGrid
-    class Servers
+    class Compute
       class Real
 
-        # Get one or more servers by name
+        # Delete a server
         #
         # ==== Parameters
-        # * 'server'<~String> - id or name of server(s) to lookup
+        # * 'server'<~String> - id or name of server to delete
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Array>:
         # TODO: docs
-        def grid_server_get(servers)
+        def grid_server_delete(server)
           request(
-            :path     => 'grid/server/get',
-            :query    => {'server' => [*servers]}
+            :path     => 'grid/server/delete',
+            :query    => {'server' => server}
           )
         end
 
@@ -23,7 +23,7 @@ module Fog
 
       class Mock
 
-        def grid_server_get(servers)
+        def grid_server_delete(server)
           Fog::Mock.not_implemented
         end
 

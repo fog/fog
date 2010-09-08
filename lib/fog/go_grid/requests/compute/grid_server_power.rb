@@ -1,20 +1,21 @@
 module Fog
   module GoGrid
-    class Servers
+    class Compute
       class Real
 
-        # Delete a server
+        # Start, Stop or Restart a server
         #
         # ==== Parameters
-        # * 'server'<~String> - id or name of server to delete
+        # * 'server'<~String> - id or name of server to power
+        # * 'power'<~String>  - power operation, in ['restart', 'start', 'stop']
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Array>:
         # TODO: docs
-        def grid_server_delete(server)
+        def grid_server_delete(server, power)
           request(
-            :path     => 'grid/server/delete',
+            :path     => 'grid/server/power',
             :query    => {'server' => server}
           )
         end

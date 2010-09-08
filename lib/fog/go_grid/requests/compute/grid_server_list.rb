@@ -1,26 +1,25 @@
 module Fog
   module GoGrid
-    class Servers
+    class Compute
       class Real
 
-        # List images
+        # List servers
         #
         # ==== Parameters
         # * options<~Hash>:
         #   * 'datacenter'<~String> - datacenter to limit results to
-        #   * 'isPublic'<~String>   - If true only returns public images, in ['false', 'true']
+        #   * 'isSandbox'<~String> - If true only  returns Image Sandbox servers, in ['false', 'true']
         #   * 'num_items'<~Integer> - Number of items to return
-        #   * 'page'<~Integer>      - Page index for paginated results
-        #   * 'state'<~String>      - state to limit results to, in ['Saving', 'Available']
-        #   * 'type'<~String>       - image type to limit results to
+        #   * 'page'<~Integer> - Page index for paginated results
+        #   * 'server.type'<~String> - server type to limit results to
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Array>:
         # TODO: docs
-        def grid_image_list(options={})
+        def grid_server_list(options={})
           request(
-            :path     => 'grid/image/list',
+            :path     => 'grid/server/list',
             :query    => options
           )
         end
@@ -29,7 +28,7 @@ module Fog
 
       class Mock
 
-        def grid_image_list(options={})
+        def grid_server_list(options={})
           Fog::Mock.not_implemented
         end
 
