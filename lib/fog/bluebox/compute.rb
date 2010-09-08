@@ -72,7 +72,7 @@ module Fog
           rescue Excon::Errors::Error => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Bluebox::NotFound.slurp(error)
+              Fog::Bluebox::Compute::NotFound.slurp(error)
             else
               error
             end

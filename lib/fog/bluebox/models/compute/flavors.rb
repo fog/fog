@@ -1,5 +1,5 @@
 require 'fog/collection'
-require 'fog/bluebox/models/flavor'
+require 'fog/bluebox/models/compute/flavor'
 
 module Fog
   module Bluebox
@@ -7,7 +7,7 @@ module Fog
 
       class Flavors < Fog::Collection
 
-        model Fog::Bluebox::Flavor
+        model Fog::Bluebox::Compute::Flavor
 
         def all
           data = connection.get_products.body
@@ -17,7 +17,7 @@ module Fog
         def get(product_id)
           response = connection.get_product(product_id)
           new(response.body)
-        rescue Fog::Bluebox::NotFound
+        rescue Fog::Bluebox::Compute::NotFound
           nil
         end
 

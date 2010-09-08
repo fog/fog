@@ -1,5 +1,5 @@
 require 'fog/collection'
-require 'fog/rackspace/models/servers/server'
+require 'fog/rackspace/models/compute/server'
 
 module Fog
   module Rackspace

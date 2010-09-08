@@ -75,7 +75,7 @@ module Fog
           rescue Excon::Errors::Error => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::NewServers::NotFound.slurp(error)
+              Fog::NewServers::Compute::NotFound.slurp(error)
             else
               error
             end

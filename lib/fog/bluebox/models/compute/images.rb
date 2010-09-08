@@ -1,5 +1,5 @@
 require 'fog/collection'
-require 'fog/bluebox/models/image'
+require 'fog/bluebox/models/compute/image'
 
 module Fog
   module Bluebox
@@ -7,7 +7,7 @@ module Fog
 
       class Images < Fog::Collection
 
-        model Fog::Bluebox::Image
+        model Fog::Bluebox::Compute::Image
 
         def all
           data = connection.get_templates.body
@@ -17,7 +17,7 @@ module Fog
         def get(template_id)
           response = connection.get_template(template_id)
           new(response.body)
-        rescue Fog::Bluebox::NotFound
+        rescue Fog::Bluebox::Compute::NotFound
           nil
         end
 

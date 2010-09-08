@@ -79,7 +79,7 @@ module Fog
           rescue Excon::Errors::Error => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Go_Grid::NotFound.slurp(error)
+              Fog::GoGrid::Compute::NotFound.slurp(error)
             else
               error
             end

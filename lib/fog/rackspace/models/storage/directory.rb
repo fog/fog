@@ -1,5 +1,5 @@
 require 'fog/model'
-require 'fog/rackspace/models/files/files'
+require 'fog/rackspace/models/storage/files'
 
 module Fog
   module Rackspace
@@ -25,7 +25,7 @@ module Fog
 
         def files
           @files ||= begin
-            Fog::Rackspace::Files::Files.new(
+            Fog::Rackspace::Storage::Files.new(
               :directory    => self,
               :connection   => connection
             )

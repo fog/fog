@@ -65,9 +65,9 @@ module Fog
             if data = response.body['ERRORARRAY'].first
               error = case data['ERRORCODE']
               when 5
-                Fog::Linode::NotFound
+                Fog::Linode::Compute::NotFound
               else
-                Fog::Linode::Error
+                Fog::Linode::Compute::Error
               end
               raise error.new(data['ERRORMESSAGE'])
             end
