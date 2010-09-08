@@ -51,7 +51,7 @@ module Fog
         when :time
           class_eval <<-EOS, __FILE__, __LINE__
             def #{name}=(new_#{name})
-              if new_#{name}.nil? || new_#{name}.is_a?(Time)
+              if new_#{name}.nil? || new_#{name} == "" || new_#{name}.is_a?(Time)
                 @#{name} = new_#{name}
               else
                 @#{name} = Time.parse(new_#{name})
