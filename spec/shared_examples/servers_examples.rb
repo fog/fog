@@ -13,6 +13,7 @@ shared_examples_for "Servers" do
 
     it "should return a matching server if one exists" do
       subject.save
+      subject.wait_for { ready? }
       get = @servers.get(subject.id)
       subject.attributes.should == get.attributes
     end
