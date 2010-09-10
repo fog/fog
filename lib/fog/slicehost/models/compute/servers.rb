@@ -1,5 +1,5 @@
 require 'fog/collection'
-require 'fog/slicehost/models/server'
+require 'fog/slicehost/models/compute/server'
 
 module Fog
   module Slicehost
@@ -7,7 +7,7 @@ module Fog
 
       class Servers < Fog::Collection
 
-        model Fog::Slicehost::Server
+        model Fog::Slicehost::Compute::Server
 
         def all
           data = connection.get_slices.body['slices']

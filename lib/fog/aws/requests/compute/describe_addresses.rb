@@ -46,7 +46,7 @@ module Fog
             }
             response
           else
-            raise Fog::AWS::EC2::NotFound.new("Address #{public_ip.inspect} not found.")
+            raise Fog::AWS::Compute::NotFound.new("Address #{public_ip.inspect} not found.")
           end
         end
 

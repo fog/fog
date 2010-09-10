@@ -22,7 +22,7 @@ module Fog
       model       :volume
       collection  :volumes
 
-      require 'fog/aws/parsers/ec2/basic'
+      require 'fog/aws/parsers/compute/basic'
 
       request_path 'fog/aws/requests/compute'
       request :allocate_address
@@ -203,9 +203,9 @@ module Fog
             if match = error.message.match(/<Code>(.*)<\/Code><Message>(.*)<\/Message>/)
               raise case match[1].split('.').last
               when 'NotFound'
-                Fog::AWS::EC2::NotFound.slurp(error, match[2])
+                Fog::AWS::Compute::NotFound.slurp(error, match[2])
               else
-                Fog::AWS::EC2::Error.slurp(error, "#{match[1]} => #{match[2]}")
+                Fog::AWS::Compute::Error.slurp(error, "#{match[1]} => #{match[2]}")
               end
             else
               raise error

@@ -41,7 +41,7 @@ module Fog
             if !instance_id
               message << 'The request must contain the parameter image_id'
             end
-            raise Fog::AWS::EC2::Error.new(message)
+            raise Fog::AWS::Compute::Error.new(message)
           end
         end
 

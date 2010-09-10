@@ -6,8 +6,8 @@ module Slicehost
         ![:slicehost_password].include?(k)
       end
       hash[key] = case key
-      when :slices
-        Fog::Slicehost.new(credentials)
+      when :compute
+        Fog::Slicehost::Compute.new(credentials)
       end
     end
     @@connections[service]

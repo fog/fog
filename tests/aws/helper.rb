@@ -7,21 +7,21 @@ module AWS
           ![:aws_access_key_id, :aws_secret_access_key].include?(k)
         end
         hash[key] = case key
-        when :ec2
-          Fog::AWS::EC2.new(credentials)
-        when :eu_s3
-          Fog::AWS::S3.new(credentials.merge!(:host => 's3-external-3.amazonaws.com'))
+        when :compute
+          Fog::AWS::Compute.new(credentials)
+        when :eu_storage
+          Fog::AWS::Storage.new(credentials.merge!(:host => 's3-external-3.amazonaws.com'))
         when :sdb
           Fog::AWS::SimpleDB.new(credentials)
-        when :s3
-          Fog::AWS::S3.new(credentials)
+        when :storage
+          Fog::AWS::Storage.new(credentials)
         end
       end
       @@connections[service]
     end
   end
 
-  module EC2
+  module Compute
 
     module Formats
 

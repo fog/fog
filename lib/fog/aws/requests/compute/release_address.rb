@@ -33,7 +33,7 @@ module Fog
             }
             response
           else
-            raise Fog::AWS::EC2::Error.new("AuthFailure => The address '#{public_ip}' does not belong to you.")
+            raise Fog::AWS::Compute::Error.new("AuthFailure => The address '#{public_ip}' does not belong to you.")
           end
         end
 

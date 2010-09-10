@@ -1,19 +1,19 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
-describe 'S3.get_service' do
+describe 'Storage.get_service' do
   describe 'success' do
 
     before(:all) do
-      AWS[:s3].put_bucket('foggetservice')
-      Fog.wait_for { AWS[:s3].directories.get('foggetservice') }
+      AWS[:storage].put_bucket('foggetservice')
+      Fog.wait_for { AWS[:storage].directories.get('foggetservice') }
     end
 
     after(:all) do
-      AWS[:s3].delete_bucket('foggetservice')
+      AWS[:storage].delete_bucket('foggetservice')
     end
 
     it 'should return proper_attributes' do
-      actual = AWS[:s3].get_service
+      actual = AWS[:storage].get_service
       actual.body['Buckets'].should be_an(Array)
       bucket = actual.body['Buckets'].select {|bucket| bucket['Name'] == 'foggetservice'}.first
       bucket['CreationDate'].should be_a(Time)
@@ -24,7 +24,7 @@ describe 'S3.get_service' do
     end
 
     it 'should include foggetservice in get_service' do
-      actual = AWS[:s3].get_service
+      actual = AWS[:storage].get_service
       actual.body['Buckets'].collect { |bucket| bucket['Name'] }.should include('foggetservice')
     end
 

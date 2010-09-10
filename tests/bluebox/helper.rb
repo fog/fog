@@ -6,20 +6,24 @@ module Bluebox
         ![:bluebox_api_key, :bluebox_customer_id].include?(k)
       end
       hash[key] = case key
-      when :blocks
-        Fog::Bluebox.new(credentials)
+      when :compute
+        Fog::Bluebox::Compute.new(credentials)
       end
     end
     @@connections[service]
   end
 
-  module Formats
+  module Compute
 
-    PRODUCT = {
-      'cost'        => Float,
-      'description' => String,
-      'id'          => String
-    }
+    module Formats
+
+      PRODUCT = {
+        'cost'        => Float,
+        'description' => String,
+        'id'          => String
+      }
+
+    end
 
   end
 

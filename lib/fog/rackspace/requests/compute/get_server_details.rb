@@ -42,7 +42,7 @@ module Fog
             response.body = { 'server' => server }
             response
           else
-            raise Fog::Rackspace::Servers::NotFound
+            raise Fog::Rackspace::Compute::NotFound
           end
         end
 

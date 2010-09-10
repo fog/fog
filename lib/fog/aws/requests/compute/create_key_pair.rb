@@ -44,7 +44,7 @@ module Fog
             }.merge!(data)
             response
           else
-            raise Fog::AWS::EC2::Error.new("InvalidKeyPair.Duplicate => The keypair '#{key_name}' already exists.")
+            raise Fog::AWS::Compute::Error.new("InvalidKeyPair.Duplicate => The keypair '#{key_name}' already exists.")
           end
         end
 

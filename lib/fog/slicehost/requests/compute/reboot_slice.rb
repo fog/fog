@@ -34,7 +34,7 @@ module Fog
 
       class Mock
 
-        def get_slice(id)
+        def reboot_slice(id)
           Fog::Mock.not_implemented
         end
 

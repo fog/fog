@@ -7,8 +7,8 @@ module Fog
 
       class Snapshots < Fog::Collection
 
-        attribute :owner,         'Owner'
-        attribute :restorable_by, 'RestorableBy'
+        attribute :owner,         :aliases => 'Owner'
+        attribute :restorable_by, :aliases => 'RestorableBy'
         attribute :snapshot_id
         attribute :volume
 

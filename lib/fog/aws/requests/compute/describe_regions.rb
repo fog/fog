@@ -51,7 +51,7 @@ module Fog
             }
             response
           else
-            raise Fog::AWS::EC2::Error.new("InvalidParameterValue => Invalid region: #{region_name.inspect}")
+            raise Fog::AWS::Compute::Error.new("InvalidParameterValue => Invalid region: #{region_name.inspect}")
           end
         end
 

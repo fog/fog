@@ -6,24 +6,16 @@ module Rackspace
         ![:rackspace_api_key, :rackspace_username].include?(k)
       end
       hash[key] = case key
-      when :files
-        Fog::Rackspace::Files.new(credentials)
-      when :servers
-        Fog::Rackspace::Servers.new(credentials)
+      when :compute
+        Fog::Rackspace::Compute.new(credentials)
+      when :storage
+        Fog::Rackspace::Storage.new(credentials)
       end
     end
     @@connections[service]
   end
 
-  module Files
-
-    module Formats
-
-    end
-
-  end
-
-  module Servers
+  module Compute
 
     module Formats
 

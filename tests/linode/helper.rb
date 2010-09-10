@@ -6,19 +6,23 @@ module Linode
         ![:linode_api_key].include?(k)
       end
       hash[key] = case key
-      when :linode
-        Fog::Linode.new(credentials)
+      when :compute
+        Fog::Linode::Compute.new(credentials)
       end
     end
     @@connections[service]
   end
 
-  module Formats
+  module Compute
 
-    BASIC = {
-      'ERRORARRAY'  => [],
-      'ACTION'      => String
-    }
+    module Formats
+
+      BASIC = {
+        'ERRORARRAY'  => [],
+        'ACTION'      => String
+      }
+
+    end
 
   end
 

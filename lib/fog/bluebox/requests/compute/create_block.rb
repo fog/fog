@@ -31,7 +31,7 @@ module Fog
 
       class Mock
 
-        def create_block(product_id, template_id, name, password)
+        def create_block(product_id, template_id, options = {})
           Fog::Mock.not_implemented
         end
 

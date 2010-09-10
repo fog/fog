@@ -16,14 +16,14 @@ module AWS
           ![:aws_access_key_id, :aws_secret_access_key].include?(k)
         end
         hash[key] = case key
-        when :ec2
-          Fog::AWS::EC2.new(credentials)
-        when :eu_s3
-          Fog::AWS::S3.new(credentials.merge!(:host => 's3-external-3.amazonaws.com'))
+        when :compute
+          Fog::AWS::Compute.new(credentials)
+        when :eu_storage
+          Fog::AWS::Storage.new(credentials.merge!(:host => 's3-external-3.amazonaws.com'))
         when :sdb
           Fog::AWS::SimpleDB.new(credentials)
-        when :s3
-          Fog::AWS::S3.new(credentials)
+        when :storage
+          Fog::AWS::Storage.new(credentials)
         end
       end
       @@connections[service]
@@ -39,10 +39,10 @@ module Rackspace
           ![:rackspace_api_key, :rackspace_username].include?(k)
         end
         hash[key] = case key
-        when :files
-          Fog::Rackspace::Files.new(credentials)
-        when :servers
-          Fog::Rackspace::Servers.new(credentials)
+        when :compute
+          Fog::Rackspace::Compute.new(credentials)
+        when :storage
+          Fog::Rackspace::Storage.new(credentials)
         end
       end
       @@connections[service]
@@ -58,8 +58,8 @@ module Slicehost
           ![:slicehost_password].include?(k)
         end
         hash[key] = case key
-        when :slices
-          Fog::Slicehost.new(credentials)
+        when :compute
+          Fog::Slicehost::Compute.new(credentials)
         end
       end
       @@connections[service]
@@ -75,8 +75,8 @@ module Bluebox
           ![:bluebox_api_key, :bluebox_customer_id].include?(k)
         end
         hash[key] = case key
-        when :blocks
-          Fog::Bluebox.new(credentials)
+        when :compute
+          Fog::Bluebox::Compute.new(credentials)
         end
       end
       @@connections[service]

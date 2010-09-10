@@ -36,7 +36,7 @@ module Fog
             }
             response
           else
-            raise Fog::AWS::EC2::NotFound.new("The snapshot '#{snapshot_id}' does not exist.")
+            raise Fog::AWS::Compute::NotFound.new("The snapshot '#{snapshot_id}' does not exist.")
           end
         end
 

@@ -43,7 +43,7 @@ module Fog
             }
             response
           else
-            raise Fog::AWS::EC2::Error.new("InvalidGroup.Duplicate => The security group '#{name}' already exists")
+            raise Fog::AWS::Compute::Error.new("InvalidGroup.Duplicate => The security group '#{name}' already exists")
           end
         end
 

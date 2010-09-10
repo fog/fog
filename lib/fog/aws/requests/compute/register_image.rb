@@ -79,7 +79,7 @@ module Fog
             if name.empty?
               message << 'The request must contain the parameter name'
             end
-            raise Fog::AWS::EC2::Error.new(message)
+            raise Fog::AWS::Compute::Error.new(message)
           end
         end
 

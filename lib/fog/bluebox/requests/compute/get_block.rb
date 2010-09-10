@@ -24,7 +24,7 @@ module Fog
 
       class Mock
 
-        def get_slice(id)
+        def get_block(block_id)
           Fog::Mock.not_implemented
         end
 

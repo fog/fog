@@ -1,20 +1,20 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
-describe 'S3.head_object' do
+describe 'Storage.head_object' do
   describe 'success' do
 
     before(:each) do
-      AWS[:s3].put_bucket('fogheadobject')
-      AWS[:s3].put_object('fogheadobject', 'fog_head_object', lorem_file)
+      AWS[:storage].put_bucket('fogheadobject')
+      AWS[:storage].put_object('fogheadobject', 'fog_head_object', lorem_file)
     end
 
     after(:each) do
-      AWS[:s3].delete_object('fogheadobject', 'fog_head_object')
-      AWS[:s3].delete_bucket('fogheadobject')
+      AWS[:storage].delete_object('fogheadobject', 'fog_head_object')
+      AWS[:storage].delete_bucket('fogheadobject')
     end
 
     it 'should return proper attributes' do
-      actual = AWS[:s3].head_object('fogheadobject', 'fog_head_object')
+      actual = AWS[:storage].head_object('fogheadobject', 'fog_head_object')
       actual.status.should == 200
       data = lorem_file.read
       actual.headers['Content-Length'].should == data.length.to_s

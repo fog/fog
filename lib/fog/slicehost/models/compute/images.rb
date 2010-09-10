@@ -1,5 +1,5 @@
 require 'fog/collection'
-require 'fog/slicehost/models/image'
+require 'fog/slicehost/models/compute/image'
 
 module Fog
   module Slicehost
@@ -7,7 +7,7 @@ module Fog
 
       class Images < Fog::Collection
 
-        model Fog::Slicehost::Image
+        model Fog::Slicehost::Compute::Image
 
         def all
           data = connection.get_images.body['images']

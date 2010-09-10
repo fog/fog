@@ -54,7 +54,7 @@ module Fog
             }
             response
           else
-            raise Fog::AWS::EC2::Error.new("InvalidParameterValue => Invalid availability zone: #{zone_name.inspect}")
+            raise Fog::AWS::Compute::Error.new("InvalidParameterValue => Invalid availability zone: #{zone_name.inspect}")
           end
         end
 

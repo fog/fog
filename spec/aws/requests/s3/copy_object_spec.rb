@@ -1,23 +1,23 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
 
-describe 'S3.copy_object' do
+describe 'Storage.copy_object' do
   describe 'success' do
 
     before(:each) do
-      AWS[:s3].put_bucket('fogcopyobjectsource')
-      AWS[:s3].put_object('fogcopyobjectsource', 'fog_copy_object_source', lorem_file)
-      AWS[:s3].put_bucket('fogcopyobjectdestination')
+      AWS[:storage].put_bucket('fogcopyobjectsource')
+      AWS[:storage].put_object('fogcopyobjectsource', 'fog_copy_object_source', lorem_file)
+      AWS[:storage].put_bucket('fogcopyobjectdestination')
     end
 
     after(:each) do
-      AWS[:s3].delete_object('fogcopyobjectdestination', 'fog_copy_object_destination')
-      AWS[:s3].delete_bucket('fogcopyobjectdestination')
-      AWS[:s3].delete_object('fogcopyobjectsource', 'fog_copy_object_source')
-      AWS[:s3].delete_bucket('fogcopyobjectsource')
+      AWS[:storage].delete_object('fogcopyobjectdestination', 'fog_copy_object_destination')
+      AWS[:storage].delete_bucket('fogcopyobjectdestination')
+      AWS[:storage].delete_object('fogcopyobjectsource', 'fog_copy_object_source')
+      AWS[:storage].delete_bucket('fogcopyobjectsource')
     end
 
     it 'should return proper attributes' do
-      actual = AWS[:s3].copy_object(
+      actual = AWS[:storage].copy_object(
         'fogcopyobjectsource', 'fog_copy_object_source',
         'fogcopyobjectdestination', 'fog_copy_object_destination'
       )
@@ -31,7 +31,7 @@ describe 'S3.copy_object' do
 
     it 'should raise a NotFound error if the source_bucket does not exist' do
       lambda {
-        AWS[:s3].copy_object(
+        AWS[:storage].copy_object(
           'fognotabucket', 'fog_copy_object_source',
           'fogcopyobjectdestination', 'fog_copy_object_destination'
         )
@@ -40,7 +40,7 @@ describe 'S3.copy_object' do
 
     it 'should raise a NotFound error if the source_object does not exist' do
       lambda {
-        AWS[:s3].copy_object(
+        AWS[:storage].copy_object(
           'fogcopyobjectsource', 'fog_not_an_object',
           'fogcopyobjectdestination', 'fog_copy_object_destination'
         )
@@ -49,7 +49,7 @@ describe 'S3.copy_object' do
 
     it 'should raise a NotFound error if the target_bucket does not exist' do
       lambda {
-        AWS[:s3].copy_object(
+        AWS[:storage].copy_object(
           'fogcopyobjectsource', 'fog_copy_object_source',
           'fognotabucket', 'fog_copy_object_destination'
         )

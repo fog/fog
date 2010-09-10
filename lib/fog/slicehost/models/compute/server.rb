@@ -46,7 +46,7 @@ module Fog
 
         def reboot(type = 'SOFT')
           requires :id
-          connection.reboot_server(@id, type)
+          connection.reboot_slice(@id, type)
           true
         end
 

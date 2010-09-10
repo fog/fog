@@ -31,7 +31,7 @@ module Fog
             response.body = { 'public' => server['addresses']['public'] }
             response
           else
-            raise Fog::Rackspace::Servers::NotFound
+            raise Fog::Rackspace::Compute::NotFound
           end
         end
 

@@ -58,9 +58,9 @@ module Fog
               }.merge!(data)
               response
             elsif !instance
-              raise Fog::AWS::EC2::NotFound.new("The instance ID '#{instance_id}' does not exist.")
+              raise Fog::AWS::Compute::NotFound.new("The instance ID '#{instance_id}' does not exist.")
             elsif !volume
-              raise Fog::AWS::EC2::NotFound.new("The volume '#{volume_id}' does not exist.")
+              raise Fog::AWS::Compute::NotFound.new("The volume '#{volume_id}' does not exist.")
             end
           else
             message = 'MissingParameter => '
@@ -71,7 +71,7 @@ module Fog
             else
               message << 'The request must contain the parameter device'
             end
-            raise Fog::AWS::EC2::Error.new(message)
+            raise Fog::AWS::Compute::Error.new(message)
           end
         end
 
