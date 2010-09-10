@@ -56,7 +56,7 @@ module Fog
           options = if !@password && !@ssh_key
             raise(ArgumentError, "password or ssh_key is required for this operation")
           elsif @ssh_key
-            {'ssh_key' => @ssh_key}
+            {'ssh_public_key' => @ssh_key}
           elsif @password
             {'password' => @password}
           end
