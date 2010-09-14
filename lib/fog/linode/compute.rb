@@ -18,7 +18,6 @@ module Fog
       request :linode_reboot
 
       class Mock
-        include Collections
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -40,7 +39,6 @@ module Fog
       end
 
       class Real
-        include Collections
 
         def initialize(options={})
           @linode_api_key = options[:linode_api_key]

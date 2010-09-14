@@ -70,7 +70,6 @@ module Fog
       end
 
       class Mock
-        include Collections
         include Utils
 
         def self.data
@@ -98,7 +97,6 @@ module Fog
       end
 
       class Real
-        include Collections
         include Utils
         extend Fog::Deprecation
         deprecate(:reset, :reload)

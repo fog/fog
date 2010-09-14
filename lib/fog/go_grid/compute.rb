@@ -19,7 +19,6 @@ module Fog
       request :grid_server_power
 
       class Mock
-        include Collections
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -42,7 +41,6 @@ module Fog
       end
 
       class Real
-        include Collections
 
         def initialize(options={})
           @go_grid_api_key = options[:go_grid_api_key]

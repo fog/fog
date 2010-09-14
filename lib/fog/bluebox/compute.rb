@@ -24,7 +24,6 @@ module Fog
       request :reboot_block
 
       class Mock
-        include Collections
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -46,7 +45,6 @@ module Fog
       end
 
       class Real
-        include Collections
 
         def initialize(options={})
           @bluebox_api_key      = options[:bluebox_api_key]

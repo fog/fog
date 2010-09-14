@@ -15,7 +15,6 @@ module Fog
       request :register_instances_with_load_balancer
 
       class Mock
-        include Collections
 
         def initialize(options={})
           Fog::Mock.not_implemented
@@ -24,7 +23,6 @@ module Fog
       end
 
       class Real
-        include Collections
 
         # Initialize connection to ELB
         #

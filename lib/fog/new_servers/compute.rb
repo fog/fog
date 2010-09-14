@@ -19,7 +19,6 @@ module Fog
       request :reboot_server
 
       class Mock
-        include Collections
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -41,7 +40,6 @@ module Fog
       end
 
       class Real
-        include Collections
 
         def initialize(options={})
           @new_servers_password = options[:new_servers_password]

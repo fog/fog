@@ -11,7 +11,6 @@ module Fog
       collection  :files
 
       class Mock
-        include Collections
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -40,7 +39,6 @@ module Fog
       end
 
       class Real
-        include Collections
 
         def initialize(options={})
           @local_root = ::File.expand_path(options[:local_root])

@@ -63,7 +63,6 @@ module Fog
         request :power_shutdown
 
         class Mock < Fog::Vcloud::Mock
-          include Collections
 
           def initialize(options={})
           end
@@ -192,7 +191,6 @@ module Fog
         end
 
         class Real < Fog::Vcloud::Real
-          include Collections
 
           def supporting_versions
             ["v0.8b-ext2.3", "0.8b-ext2.3"]

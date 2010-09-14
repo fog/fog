@@ -6,7 +6,6 @@ module Fog
         request :get_vdc
 
         class Real < Fog::Vcloud::Real
-          include Collections
 
           def supporting_versions
             ["0.8", "0.8a-ext1.6"]
@@ -15,8 +14,6 @@ module Fog
         end
 
         class Mock < Fog::Vcloud::Mock
-          include Collections
-
         end
 
       end

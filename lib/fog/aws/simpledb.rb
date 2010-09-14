@@ -16,7 +16,6 @@ module Fog
       request :select
 
       class Mock
-        include Collections
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -40,7 +39,6 @@ module Fog
       end
 
       class Real
-        include Collections
 
         # Initialize connection to SimpleDB
         #

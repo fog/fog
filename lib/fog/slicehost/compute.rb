@@ -25,7 +25,6 @@ module Fog
       request :reboot_slice
 
       class Mock
-        include Collections
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -47,7 +46,6 @@ module Fog
       end
 
       class Real
-        include Collections
 
         def initialize(options={})
           @slicehost_password = options[:slicehost_password]

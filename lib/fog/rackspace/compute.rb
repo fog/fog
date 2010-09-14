@@ -33,7 +33,6 @@ module Fog
       request :update_server
 
       class Mock
-        include Collections
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -62,7 +61,6 @@ module Fog
       end
 
       class Real
-        include Collections
 
         def initialize(options={})
           credentials = Fog::Rackspace.authenticate(options)
