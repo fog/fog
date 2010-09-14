@@ -1,7 +1,9 @@
+require 'lib/fog/vcloud/terremark/ecloud/models/node'
+
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
         class Nodes < Fog::Vcloud::Collection
 

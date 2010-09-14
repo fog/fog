@@ -1,14 +1,14 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
         class Ip < Fog::Vcloud::Model
 
           ignore_attributes :xmlns_i, :xmlns
 
-          identity :href, :Href
+          identity :href, :aliases => :Href
 
-          attribute :name, :Name
+          attribute :name, :aliases => :Name
           attribute :status, :aliases => :Status
           attribute :server, :aliases => :Server
           attribute :rnat, :aliases => :RnatAddress

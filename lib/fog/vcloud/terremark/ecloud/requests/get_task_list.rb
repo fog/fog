@@ -1,13 +1,13 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
-        module Real
+        class Real
           basic_request :get_task_list
         end
 
-        module Mock
+        class Mock
           def get_task_list(task_list_uri)
             Fog::Mock.not_implemented
           end

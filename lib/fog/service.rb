@@ -52,12 +52,28 @@ module Fog
           end
         end
 
+        setup_requirements
+
+        if Fog.mocking?
+          service::Mock.send(:include, service::Collections)
+          service::Mock.new(options)
+        else
+          service::Real.send(:include, service::Collections)
+          service::Real.new(options)
+        end
+      end
+
+      def setup_requirements
+        if superclass.respond_to?(:setup_requirements)
+          superclass.setup_requirements
+        end
+
         unless @required
           for collection in collections
             require [@model_path, collection].join('/')
             constant = collection.to_s.split('_').map {|characters| characters[0...1].upcase << characters[1..-1]}.join('')
             service::Collections.module_eval <<-EOS, __FILE__, __LINE__
-              def #{collection}(attributes={})
+              def #{collection}(attributes = {})
                 #{service}::#{constant}.new({:connection => self}.merge(attributes))
               end
             EOS
@@ -69,12 +85,6 @@ module Fog
             require [@request_path, request].join('/')
           end
           @required = true
-        end
-
-        if Fog.mocking?
-          service::Mock.new(options)
-        else
-          service::Real.new(options)
         end
       end
 

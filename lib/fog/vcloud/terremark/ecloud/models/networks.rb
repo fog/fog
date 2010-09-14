@@ -1,13 +1,9 @@
+require 'lib/fog/vcloud/terremark/ecloud/models/network'
+
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
-
-        module Real
-          def networks(options = {})
-            @networks ||= Fog::Vcloud::Terremark::Ecloud::Networks.new(options.merge(:connection => self))
-          end
-        end
+      class Ecloud
 
         class Networks < Fog::Vcloud::Collection
 

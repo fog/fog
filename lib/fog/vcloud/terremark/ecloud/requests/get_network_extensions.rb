@@ -1,13 +1,13 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
-        module Real
+        class Real
           basic_request :get_network_extensions
         end
 
-        module Mock
+        class Mock
 
           def get_network_extensions(network_uri)
             network_uri = ensure_unparsed(network_uri)

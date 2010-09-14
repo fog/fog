@@ -1,13 +1,13 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
-        module Real
+        class Real
           basic_request :get_customization_options
         end
 
-        module Mock
+        class Mock
           def get_customization_options( options_uri )
             Fog::Mock.not_implemented
           end

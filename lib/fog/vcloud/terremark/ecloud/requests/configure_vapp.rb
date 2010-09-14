@@ -1,8 +1,8 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
-        module Real
+      class Ecloud
+        class Real
 
           def generate_configure_vapp_request(vapp_uri, vapp_data)
             rasd_xmlns = { "xmlns" => "http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData" }
@@ -104,7 +104,7 @@ module Fog
 
         end
 
-        module Mock
+        class Mock
           def configure_vapp(vapp_uri, vapp_data)
             Fog::Mock.not_implemented
           end

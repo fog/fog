@@ -1,12 +1,7 @@
+require 'fog/vcloud/models/vdc'
+
 module Fog
   class Vcloud
-
-    class Real
-      def vdcs(options = {})
-        @vdcs ||= Fog::Vcloud::Vdcs.new(options.merge(:connection => self))
-      end
-    end
-
     class Vdcs < Fog::Vcloud::Collection
 
       model Fog::Vcloud::Vdc
@@ -36,6 +31,5 @@ module Fog
       end
 
     end
-
   end
 end

@@ -1,8 +1,8 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
-        module Real
+      class Ecloud
+        class Real
 
           def validate_network_ip_data(network_ip_data, configure=false)
             valid_opts = [:id, :href, :name, :status, :server, :rnat]
@@ -41,7 +41,7 @@ module Fog
 
         end
 
-        module Mock
+        class Mock
 
           def configure_network_ip(network_ip_uri, network_ip_data)
             Fog::Mock.not_implemented

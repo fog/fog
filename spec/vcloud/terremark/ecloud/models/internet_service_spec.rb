@@ -46,7 +46,7 @@ if Fog.mocking?
       its(:public_ip)             { should == public_ip }
       its(:timeout)               { should == @mock_service[:timeout] }
       its(:redirect_url)          { should == @mock_service[:redirect_url] }
-      its(:monitor)               { should == "" }
+      its(:monitor)               { should == nil }
 
       specify { composed_public_ip_data[:href].should == public_ip[:Href].to_s }
       specify { composed_public_ip_data[:name].should == public_ip[:Name] }

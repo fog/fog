@@ -234,12 +234,9 @@ Spec::Runner.configure do |config|
   end
 
   config.before(:each, :type => :vcloud_request) do
-    @vcloud = Fog.services.detect { |service| service == Vcloud }[:vcloud]
+    @vcloud = Fog::Vcloud::Terremark::Ecloud.new(Fog.credentials[:vcloud][:ecloud])
   end
 
-  config.before(:all, :type => :mock_vcloud_model) do
-    @vcloud = Fog::Vcloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions")
-  end
   config.before(:all, :type => :mock_vcloud_model) do
     @base_url = Fog::Vcloud::Mock.base_url
     @mock_data = Fog::Vcloud::Mock.data
@@ -256,20 +253,23 @@ Spec::Runner.configure do |config|
     @mock_vdc = @mock_organization[:vdcs][0]
     @mock_network = @mock_vdc[:networks][0]
   end
+  config.before(:all, :type => :mock_vcloud_model) do
+    @vcloud = Fog::Vcloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions")
+  end
   config.before(:each, :type => :mock_vcloud_request) do
-    @vcloud = Fog::Vcloud.new(:username => "", :password => "bar", :versions_uri => "http://fakey.com/api/versions")
+    @vcloud = Fog::Vcloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions")
   end
   config.before(:each, :type => :mock_tmrk_ecloud_request) do
     Fog::Vcloud::Mock.data_reset
     Fog::Vcloud::Terremark::Ecloud::Mock.data_reset
     setup_ecloud_mock_data
-    @vcloud = Fog::Vcloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions", :module => "Fog::Vcloud::Terremark::Ecloud")
+    @vcloud = Fog::Vcloud::Terremark::Ecloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions", :module => "Fog::Vcloud::Terremark::Ecloud")
   end
   config.before(:each, :type => :mock_tmrk_ecloud_model) do
     Fog::Vcloud::Mock.data_reset
     Fog::Vcloud::Terremark::Ecloud::Mock.data_reset
     setup_ecloud_mock_data
-    @vcloud = Fog::Vcloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions", :module => "Fog::Vcloud::Terremark::Ecloud")
+    @vcloud = Fog::Vcloud::Terremark::Ecloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions", :module => "Fog::Vcloud::Terremark::Ecloud")
   end
 end
 

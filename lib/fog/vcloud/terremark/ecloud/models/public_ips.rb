@@ -1,19 +1,9 @@
+require 'lib/fog/vcloud/terremark/ecloud/models/public_ip'
+
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
-
-        module Mock
-          def public_ips(options = {})
-            @public_ips ||= Fog::Vcloud::Terremark::Ecloud::PublicIps.new(options.merge(:connection => self))
-          end
-        end
-
-        module Real
-          def public_ips(options = {})
-            @public_ips ||= Fog::Vcloud::Terremark::Ecloud::PublicIps.new(options.merge(:connection => self))
-          end
-        end
+      class Ecloud
 
         class PublicIps < Fog::Vcloud::Collection
 

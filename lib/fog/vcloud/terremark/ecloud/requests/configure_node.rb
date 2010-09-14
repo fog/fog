@@ -1,8 +1,8 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
-        module Real
+      class Ecloud
+        class Real
 
           def configure_node(node_uri, node_data)
             validate_node_data(node_data, true)
@@ -31,7 +31,7 @@ module Fog
 
         end
 
-        module Mock
+        class Mock
 
           def configure_node(node_uri, node_data)
             node_uri = ensure_unparsed(node_uri)

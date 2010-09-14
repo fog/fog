@@ -1,13 +1,13 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
-        module Real
+        class Real
           # Handled by the main Vcloud get_vdc
         end
 
-        module Mock
+        class Mock
           #
           #Based off of:
           #http://support.theenterprisecloud.com/kb/default.asp?id=545&Lang=1&SID=

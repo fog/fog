@@ -1,7 +1,9 @@
+require 'lib/fog/vcloud/terremark/ecloud/models/ip'
+
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
         class Ips < Fog::Vcloud::Collection
 

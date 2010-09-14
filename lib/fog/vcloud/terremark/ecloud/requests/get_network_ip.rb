@@ -5,13 +5,13 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
-        module Real
+        class Real
           basic_request :get_network_ip
         end
 
-        module Mock
+        class Mock
 
           def get_network_ip(ip_uri)
             response = Excon::Response.new

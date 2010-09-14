@@ -1,13 +1,13 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
-        module Real
+        class Real
           basic_request :get_public_ip
         end
 
-        module Mock
+        class Mock
           #
           #Based off of:
           #http://support.theenterprisecloud.com/kb/default.asp?id=567&Lang=1&SID=

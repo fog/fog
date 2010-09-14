@@ -1,13 +1,13 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
-        module Real
+        class Real
           basic_request :delete_internet_service, 200, 'DELETE', {}, ""
         end
 
-        module Mock
+        class Mock
 
           def delete_internet_service(service_uri)
 

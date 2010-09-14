@@ -1,29 +1,29 @@
 module Fog
   class Vcloud
     module Terremark
-      class Ecloud < Fog::Vcloud::Service
+      class Ecloud < Fog::Vcloud
 
         model_path 'fog/vcloud/terremark/ecloud/models'
         model :catalog_item
         model :catalog
         model :firewall_acl
-        model :firewall_acls
+        collection :firewall_acls
         model :internet_service
-        model :internet_services
+        collection :internet_services
         model :ip
-        model :ips
+        collection :ips
         model :network
-        model :networks
+        collection :networks
         model :node
-        model :nodes
+        collection :nodes
         model :public_ip
-        model :public_ips
+        collection :public_ips
         model :server
-        model :servers
+        collection :servers
         model :task
-        model :tasks
+        collection :tasks
         model :vdc
-        model :vdcs
+        collection :vdcs
 
         request_path 'fog/vcloud/terremark/ecloud/requests'
         request :add_internet_service
@@ -62,7 +62,12 @@ module Fog
         request :power_reset
         request :power_shutdown
 
-        module Mock
+        class Mock < Fog::Vcloud::Mock
+          include Collections
+
+          def initialize(options={})
+          end
+
           def self.base_url
             "https://fakey.com/api/v0.8b-ext2.3"
           end
@@ -186,10 +191,13 @@ module Fog
           end
         end
 
-        module Real
+        class Real < Fog::Vcloud::Real
+          include Collections
+
           def supporting_versions
             ["v0.8b-ext2.3", "0.8b-ext2.3"]
           end
+
         end
 
       end

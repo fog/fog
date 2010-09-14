@@ -1,10 +1,10 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
         class InternetService < Fog::Vcloud::Model
 
-          identity :href, :Href
+          identity :href, :aliases => :Href
 
           ignore_attributes :xmlns, :xmlns_i
 
@@ -35,7 +35,7 @@ module Fog
           end
 
           def monitor=(new_monitor = {})
-            if new_monitor.nil?
+            if new_monitor.nil? || new_monitor.empty?
               @monitor = nil
             elsif new_monitor.is_a?(Hash)
               @monitor = {}

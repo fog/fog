@@ -1,13 +1,13 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
-        module Real
+        class Real
           basic_request :get_node
         end
 
-        module Mock
+        class Mock
 
           #
           # Based on http://support.theenterprisecloud.com/kb/default.asp?id=641&Lang=1&SID=

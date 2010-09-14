@@ -1,10 +1,10 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
         class Server < Fog::Vcloud::Model
 
-          identity :href, :Href
+          identity :href, :aliases => :Href
 
           ignore_attributes :xmlns, :xmlns_i, :xmlns_xsi, :xmlns_xsd
 
@@ -14,7 +14,7 @@ module Fog
           attribute :network_connections, :aliases => :NetworkConnectionSection, :squash => :NetworkConnection
           attribute :os, :aliases => :OperatingSystemSection
           attribute :virtual_hardware, :aliases => :VirtualHardwareSection
-          attribute :storage_size, :size
+          attribute :storage_size, :aliases => :size
           attribute :links, :aliases => :Link, :type => :array
 
           def friendly_status

@@ -5,13 +5,13 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
-        module Real
+        class Real
           basic_request :get_network_ips
         end
 
-        module Mock
+        class Mock
           require 'ipaddr'
 
           def get_network_ips(network_ips_uri)

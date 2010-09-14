@@ -1,8 +1,8 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
-        module Real
+      class Ecloud
+        class Real
 
           def generate_internet_service_request(service_data)
             builder = Builder::XmlMarkup.new
@@ -107,7 +107,7 @@ module Fog
 
         end
 
-        module Mock
+        class Mock
           #
           # Based on
           # http://support.theenterprisecloud.com/kb/default.asp?id=561&Lang=1&SID=

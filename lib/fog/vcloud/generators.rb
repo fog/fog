@@ -1,5 +1,5 @@
 module Fog
-  class Vcloud
+  class Vcloud < Fog::Service
     module Generators
 
       def unauthenticated_basic_request(*args)

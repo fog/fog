@@ -1,13 +1,13 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
-        module Real
+        class Real
           basic_request :get_internet_services
         end
 
-        module Mock
+        class Mock
 
           #
           #Based off of:

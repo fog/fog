@@ -1,7 +1,9 @@
+require 'lib/fog/vcloud/terremark/ecloud/models/task'
+
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
         class Tasks < Fog::Vcloud::Collection
 

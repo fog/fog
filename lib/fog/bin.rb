@@ -17,6 +17,7 @@ module Fog
     def modules
       [
         ::AWS,
+        ::Bluebox,
         ::GoGrid,
         ::Linode,
         ::Local,
@@ -24,10 +25,8 @@ module Fog
         ::Rackspace,
         ::Slicehost,
         ::Terremark,
-        ::Vcloud,
-        ::Bluebox
+        ::Vcloud
       ].select {|_module_| _module_.initialized?}
-
     end
 
   end

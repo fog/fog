@@ -1,13 +1,9 @@
+require 'lib/fog/vcloud/terremark/ecloud/models/internet_service'
+
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
-
-        module Real
-          def internet_services(options = {})
-            @internet_services ||= Fog::Vcloud::Terremark::Ecloud::InternetServices.new(options.merge(:connection => self))
-          end
-        end
+      class Ecloud
 
         class InternetServices < Fog::Vcloud::Collection
 

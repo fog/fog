@@ -1,13 +1,13 @@
 module Fog
   class Vcloud
     module Terremark
-      module Vcloud
+      class Vcloud
 
-        module Real
+        class Real
           # Handled by the main Vcloud get_vdc
         end
 
-        module Mock
+        class Mock
           #
           #Based off of:
           #https://community.vcloudexpress.terremark.com/en-us/product_docs/w/wiki/09-get-vdc.aspx

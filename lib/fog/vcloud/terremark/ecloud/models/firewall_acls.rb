@@ -1,7 +1,9 @@
+require 'lib/fog/vcloud/terremark/ecloud/models/firewall_acl'
+
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
         class FirewallAcls < Fog::Vcloud::Collection
 

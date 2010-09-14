@@ -1,13 +1,13 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
-        module Real
+        class Real
           basic_request :get_firewall_acls
         end
 
-        module Mock
+        class Mock
           def get_firewall_acls(firewall_acls_uri)
             Fog::Mock.not_implemented
           end

@@ -1,13 +1,13 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
-        module Real
+        class Real
           # Handled by the main Vcloud get_network
         end
 
-        module Mock
+        class Mock
 
           def get_network(network_uri)
             #

@@ -1,8 +1,8 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
-        module Real
+      class Ecloud
+        class Real
 
           def add_node(nodes_uri, node_data)
             validate_node_data(node_data)
@@ -43,7 +43,7 @@ module Fog
           end
         end
 
-        module Mock
+        class Mock
 
           def add_node(nodes_uri, node_data)
             validate_node_data(node_data)

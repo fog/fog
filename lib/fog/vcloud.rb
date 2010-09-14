@@ -1,10 +1,8 @@
-require 'fog/vcloud/service'
 require 'builder'
 require 'fog/vcloud/model'
 require 'fog/vcloud/collection'
 require 'fog/vcloud/generators'
-require 'fog/vcloud/terremark/ecloud'
-require 'fog/vcloud/terremark/vcloud'
+# ecloud/vcloud requires at the bottom so that the following will be defined
 
 module URI
   class Generic
@@ -21,7 +19,7 @@ module Fog
 
     model_path 'fog/vcloud/models'
     model :vdc
-    model :vdcs
+    collection :vdcs
 
     request_path 'fog/vcloud/requests'
     request :login
@@ -32,7 +30,55 @@ module Fog
 
     class UnsupportedVersion < Exception ; end
 
+    module Shared
+
+      def default_organization_uri
+        @default_organization_uri ||= begin
+          unless @login_results
+            do_login
+          end
+          case @login_results.body[:Org]
+          when Array
+            @login_results.body[:Org].first[:href]
+          when Hash
+            @login_results.body[:Org][:href]
+          else
+            nil
+          end
+        end
+      end
+
+      # login handles the auth, but we just need the Set-Cookie
+      # header from that call.
+      def do_login
+        @login_results = login
+        @cookie = @login_results.headers['Set-Cookie']
+      end
+
+      def supported_versions
+        @supported_versions ||= get_versions(@versions_uri).body[:VersionInfo]
+      end
+
+      def xmlns
+        { "xmlns" => "http://www.vmware.com/vcloud/v0.8",
+          "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
+          "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema" }
+      end
+
+      # private
+
+      def ensure_unparsed(uri)
+        if uri.is_a?(String)
+          uri
+        else
+          uri.to_s
+        end
+      end
+
+    end
+
     class Real
+      include Shared
       extend Fog::Vcloud::Generators
 
       attr_accessor :login_uri
@@ -68,12 +114,6 @@ module Fog
         end
       end
 
-      def xmlns
-        { "xmlns" => "http://www.vmware.com/vcloud/v0.8",
-          "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
-          "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema" }
-      end
-
       def reload
         @connections.each_value { |k,v| v.reset if v }
       end
@@ -93,10 +133,6 @@ module Fog
         end
       end
 
-      def supported_versions
-        @supported_versions ||= get_versions(@versions_uri).body[:VersionInfo]
-      end
-
       private
 
       def ensure_parsed(uri)
@@ -104,14 +140,6 @@ module Fog
           URI.parse(uri)
         else
           uri
-        end
-      end
-
-      def ensure_unparsed(uri)
-        if uri.is_a?(String)
-          uri
-        else
-          uri.to_s
         end
       end
 
@@ -218,7 +246,9 @@ module Fog
       end
     end
 
-    class Mock < Real
+    class Mock
+      include Shared
+
       def self.base_url
         "https://fakey.com/api/v0.8"
       end
@@ -349,7 +379,7 @@ module Fog
         end
       end
 
-      def initialize(credentials = {})
+      def initialize(options = {})
         @versions_uri = URI.parse('https://vcloud.fakey.com/api/versions')
       end
 
@@ -383,3 +413,6 @@ module Fog
     end
   end
 end
+
+require 'fog/vcloud/terremark/ecloud'
+require 'fog/vcloud/terremark/vcloud'

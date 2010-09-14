@@ -1,9 +1,9 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
-        module Real
+        class Real
 
           def validate_clone_vapp_options(options)
             valid_opts = [:name, :poweron]
@@ -38,7 +38,7 @@ module Fog
           end
         end
 
-        module Mock
+        class Mock
           def clone_vapp(vdc_uri, vapp_uri, customization_data)
             validate_customization_data(customization_data)
             Fog::Mock.not_implemented

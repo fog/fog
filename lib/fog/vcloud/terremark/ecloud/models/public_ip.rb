@@ -1,10 +1,10 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
         class PublicIp < Fog::Vcloud::Model
 
-          identity :href, :Href
+          identity :href, :aliases => :Href
 
           ignore_attributes :xmlns, :xmlns_i
 

@@ -1,9 +1,9 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
-        module Real
+        class Real
 
           def validate_instantiate_vapp_template_options(catalog_item_uri, options)
             valid_opts = [:name, :vdc_uri, :network_uri, :cpus, :memory, :row, :group]
@@ -89,7 +89,7 @@ module Fog
           end
         end
 
-        module Mock
+        class Mock
           def instantiate_vapp_template(vdc_uri)
             Fog::Mock.not_implemented
           end

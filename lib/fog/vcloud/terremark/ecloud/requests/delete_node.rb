@@ -1,13 +1,13 @@
 module Fog
   class Vcloud
     module Terremark
-      module Ecloud
+      class Ecloud
 
-        module Real
+        class Real
           basic_request :delete_node, 200, 'DELETE', {}, ""
         end
 
-        module Mock
+        class Mock
 
           def delete_node(node_uri)
             node_uri = ensure_unparsed(node_uri)
