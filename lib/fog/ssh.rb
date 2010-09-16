@@ -2,8 +2,8 @@ module Fog
   module SSH
 
     def self.new(address, username, options = {})
-      unless options[:keys] || options[:password]
-        raise ArgumentError.new(':keys or :password are required to initialize SSH')
+      unless options[:key_data] || options[:keys] || options[:password]
+        raise ArgumentError.new(':key_data, :keys or :password are required to initialize SSH')
       end
       if Fog.mocking?
         Fog::SSH::Mock.new(address, username, options)
@@ -41,7 +41,8 @@ module Fog
       def initialize(address, username, options)
         @address  = address
         @username = username
-        @options  = options.merge!(:paranoid => false)
+        @options  = options.merge(:paranoid => false)
+        @options.merge(:verbose => true)
       end
 
       def run(commands)
@@ -50,11 +51,11 @@ module Fog
         begin
           Net::SSH.start(@address, @username, @options) do |ssh|
             commands.each do |command|
+              sudoable_command  = command.sub(/^sudo/, %{sudo -p 'fog sudo password:'})
+              escaped_command   = sudoable_command.sub(/'/, %{'"'"'})
+              result = Result.new(escaped_command)
               ssh.open_channel do |channel|
-                sudoable_command  = command.sub(/^sudo/, %{sudo -p 'fog sudo password:'})
-                escaped_command   = sudoable_command.sub(/'/, %{'"'"'})
                 channel.request_pty
-                result = Result.new(escaped_command)
                 channel.exec(%{bash -lc '#{escaped_command}'}) do |channel, success|
                   unless success
                     raise "Could not execute command: #{command.inspect}"
@@ -77,9 +78,9 @@ module Fog
                     result.status = 255
                   end
                 end
-                results << result
               end
               ssh.loop
+              results << result
             end
           end
         rescue Net::SSH::HostKeyMismatch => exception
@@ -95,6 +96,14 @@ module Fog
     class Result
 
       attr_accessor :command, :stderr, :stdout, :status
+
+      def display_stdout
+        Formatador.display_line(stdout.split("\r\n"))
+      end
+
+      def display_stderr
+        Formatador.display_line(stderr.split("\r\n"))
+      end
 
       def initialize(command)
         @command = command

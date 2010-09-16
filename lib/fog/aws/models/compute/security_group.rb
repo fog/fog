@@ -30,7 +30,7 @@ module Fog
             'FromPort'    => range.min,
             'GroupName'   => @name,
             'ToPort'      => range.max,
-            'IpProtocol'  => options[:ip_protocol] || 'tcp' 
+            'IpProtocol'  => options[:ip_protocol] || 'tcp'
           )
         end
 
@@ -39,6 +39,28 @@ module Fog
 
           connection.delete_security_group(@name)
           true
+        end
+
+        def revoke_group_and_owner(group, owner)
+          requires :name
+
+          connection.revoke_security_group_ingress(
+            'GroupName'                   => @name,
+            'SourceSecurityGroupName'     => group,
+            'SourceSecurityGroupOwnerId'  => owner
+          )
+        end
+
+        def revoke_port_range(range, options = {})
+          requires :name
+
+          connection.revoke_security_group_ingress(
+            'CidrIp'      => options[:cidr_ip] || '0.0.0.0/0',
+            'FromPort'    => range.min,
+            'GroupName'   => @name,
+            'ToPort'      => range.max,
+            'IpProtocol'  => options[:ip_protocol] || 'tcp'
+          )
         end
 
         def save
