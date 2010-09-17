@@ -30,8 +30,8 @@ else
   else
     modules.first
   end
-  print "Welcome to fog interactive!\n"
-  print "Your '#{Fog.credential.to_s}' configuration provides access to #{modules}.\n"
+  Formatador.display_line('Welcome to fog interactive!')
+  Formatador.display_line(":#{Fog.credential.to_s} credentials provide #{modules}")
   Fog.modules.each do |_module_|
     if _module_.respond_to?(:startup_notice)
       _module_.send(:startup_notice)
