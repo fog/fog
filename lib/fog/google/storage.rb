@@ -23,7 +23,6 @@ module Fog
       request :get_object_acl
       request :get_object_torrent
       request :get_object_url
-      request :get_request_payment
       request :get_service
       request :head_object
       request :put_bucket
@@ -32,7 +31,6 @@ module Fog
       request :put_bucket_versioning
       request :put_object
       request :put_object_url
-      request :put_request_payment
 
       module Utils
 
