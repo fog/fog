@@ -151,10 +151,11 @@ DATA
 
           google_headers, canonical_google_headers = {}, ''
           for key, value in params[:headers]
-            if key[0..5] == 'x-goog-'
+            if key[0..6] == 'x-goog-'
               google_headers[key] = value
             end
           end
+
           google_headers = google_headers.sort {|x, y| x[0] <=> y[0]}
           for key, value in google_headers
             canonical_google_headers << "#{key}:#{value}\n"
