@@ -39,16 +39,6 @@ describe 'Fog::Google::Storage::Directory' do
 
   end
 
-  describe "#location" do
-
-    it "should return the location constraint" do
-      directory = Google[:storage].directories.create(:key => 'fogmodeleudirectory', :location => 'EU')
-      directory.location.should == 'EU'
-      Google[:eu_storage].directories.get('fogmodeleudirectory').destroy
-    end
-
-  end
-
   describe "#payer" do
 
     it "should return the request payment value" do

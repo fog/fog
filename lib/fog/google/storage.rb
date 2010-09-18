@@ -16,7 +16,6 @@ module Fog
       request :delete_object
       request :get_bucket
       request :get_bucket_acl
-      request :get_bucket_location
       request :get_bucket_logging
       request :get_bucket_object_versions
       request :get_bucket_versioning

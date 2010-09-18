@@ -22,16 +22,6 @@ module Fog
           false
         end
 
-        def location
-          requires :key
-          data = connection.get_bucket_location(key)
-          data.body['LocationConstraint']
-        end
-
-        def location=(new_location)
-          @location = new_location
-        end
-
         def files
           @files ||= begin
             Fog::Google::Storage::Files.new(
