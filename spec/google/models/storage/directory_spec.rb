@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/../../../spec_helper'
+require File.dirname(__FILE__) + '/../../../../lib/fog/google/models/storage/directory'
 
 describe 'Fog::Google::Storage::Directory' do
 
@@ -35,26 +36,6 @@ describe 'Fog::Google::Storage::Directory' do
     it "should return false if the directory does not exist" do
       directory = Google[:storage].directories.new(:key => 'fogmodeldirectory')
       directory.destroy.should be_false
-    end
-
-  end
-
-  describe "#payer" do
-
-    it "should return the request payment value" do
-      directory = Google[:storage].directories.create(:key => 'fogmodeldirectory')
-      directory.payer.should == 'BucketOwner'
-      directory.destroy.should be_true
-    end
-
-  end
-
-  describe "#payer=" do
-
-    it "should set the request payment value" do
-      directory = Google[:storage].directories.create(:key => 'fogmodeldirectory')
-      (directory.payer = 'Requester').should == 'Requester'
-      directory.destroy.should
     end
 
   end
