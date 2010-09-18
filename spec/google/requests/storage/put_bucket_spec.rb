@@ -11,8 +11,10 @@ describe 'Storage.put_bucket' do
       Google[:storage].delete_bucket('fogputbucket')
     end
 
-    it 'should not raise an error if the bucket already exists' do
-      Google[:storage].put_bucket('fogputbucket')
+    it 'should raise an error if the bucket already exists' do
+      lambda {
+        Google[:storage].put_bucket('fogputbucket')
+      }.should raise_error(Excon::Errors::Conflict)
     end
 
   end
