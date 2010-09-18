@@ -10,8 +10,8 @@ module Fog
         model Fog::Google::Storage::Directory
 
         def all
-#          data = connection.get_service.body['Buckets']
-#          load(data)
+         data = connection.get_service.body['Buckets']
+         load(data)
         end
 
         def get(key, options = {})
