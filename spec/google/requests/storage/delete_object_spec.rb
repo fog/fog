@@ -26,9 +26,11 @@ describe 'Storage.delete_object' do
       }.should raise_error(Excon::Errors::NotFound)
     end
 
-    it 'should not raise an error if the object does not exist' do
+    it 'should raise an error if the object does not exist' do
       Google[:storage].put_bucket('fogdeleteobject')
-      Google[:storage].delete_object('fogdeleteobject', 'fog_not_an_object')
+      lambda {
+        Google[:storage].delete_object('fogdeleteobject', 'fog_not_an_object')
+      }.should raise_error(Excon::Errors::NotFound)
       Google[:storage].delete_bucket('fogdeleteobject')
     end
 

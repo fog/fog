@@ -5,7 +5,7 @@ describe 'Storage.get_object' do
 
     before(:each) do
       Google[:storage].put_bucket('foggetobject')
-      Google[:storage].put_object('foggetobject', 'fog_get_object', lorem_file)
+      Google[:storage].put_object('foggetobject', 'fog_get_object', lorem_file,{'x-goog-acl' => 'public-read'})
     end
 
     after(:each) do
@@ -18,7 +18,7 @@ describe 'Storage.get_object' do
       actual.status.should == 200
       data = lorem_file.read
       actual.body.should == data
-      actual.headers['Content-Length'].should == data.length.to_s
+      actual.body.length.should == data.length
       actual.headers['Content-Type'].should be_a(String)
       actual.headers['ETag'].should be_a(String)
       actual.headers['Last-Modified'].should be_a(String)

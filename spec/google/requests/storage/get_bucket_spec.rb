@@ -19,7 +19,6 @@ describe 'Storage.get_bucket' do
       actual = Google[:storage].get_bucket('foggetbucket')
       actual.body['IsTruncated'].should == false
       actual.body['Marker'].should be_nil
-      actual.body['MaxKeys'].should be_an(Integer)
       actual.body['Name'].should be_a(String)
       actual.body['Prefix'].should be_nil
       actual.body['Contents'].should be_an(Array)
@@ -39,7 +38,6 @@ describe 'Storage.get_bucket' do
       actual = Google[:storage].get_bucket('foggetbucket', 'marker' => 'fog_object')
       actual.body['IsTruncated'].should == false
       actual.body['Marker'].should be_a(String)
-      actual.body['MaxKeys'].should be_an(Integer)
       actual.body['Name'].should be_a(String)
       actual.body['Prefix'].should be_nil
       actual.body['Contents'].should be_an(Array)
@@ -59,7 +57,6 @@ describe 'Storage.get_bucket' do
       actual = Google[:storage].get_bucket('foggetbucket', 'max-keys' => 1)
       actual.body['IsTruncated'].should == true
       actual.body['Marker'].should be_nil
-      actual.body['MaxKeys'].should be_an(Integer)
       actual.body['Name'].should be_a(String)
       actual.body['Prefix'].should be_nil
       actual.body['Contents'].should be_an(Array)
@@ -79,7 +76,6 @@ describe 'Storage.get_bucket' do
       actual = Google[:storage].get_bucket('foggetbucket', 'prefix' => 'fog_ob')
       actual.body['IsTruncated'].should == false
       actual.body['Marker'].should be_nil
-      actual.body['MaxKeys'].should be_an(Integer)
       actual.body['Name'].should be_a(String)
       actual.body['Prefix'].should be_a(String)
       actual.body['Contents'].should be_an(Array)
@@ -107,7 +103,7 @@ describe 'Storage.get_bucket' do
     it 'should request non-subdomain buckets and raise a NotFound error' do
       lambda {
         Google[:storage].get_bucket('A-invalid--name')
-      }.should raise_error(Excon::Errors::NotFound)
+      }.should raise_error(Excon::Errors::BadRequest)
     end
 
   end

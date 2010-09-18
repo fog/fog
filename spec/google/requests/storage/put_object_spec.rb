@@ -18,9 +18,9 @@ describe 'Storage.put_object' do
     end
 
     it 'should not raise an error if the object already exists' do
-      actual = Google[:storage].put_object('fogputobject', 'fog_put_object', lorem_file)
-      actual.status.should == 200
-    end
+       actual = Google[:storage].put_object('fogputobject', 'fog_put_object', lorem_file)
+       actual.status.should == 200
+     end
 
   end
   describe 'failure' do
