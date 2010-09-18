@@ -16,8 +16,8 @@ module Fog
         #   * 'Content-Length'<~String> - Size of object in bytes (defaults to object.read.length)
         #   * 'Content-MD5'<~String> - Base64 encoded 128-bit MD5 digest of message (defaults to Base64 encoded MD5 of object.read)
         #   * 'Content-Type'<~String> - Standard MIME type describing contents (defaults to MIME::Types.of.first)
-        #   * 'x-amz-acl'<~String> - Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
-        #   * "x-amz-meta-#{name}" - Headers to be returned with object, note total size of request without body must be less than 8 KB.
+        #   * 'x-goog-acl'<~String> - Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
+        #   * "x-goog-meta-#{name}" - Headers to be returned with object, note total size of request without body must be less than 8 KB.
         #
         # ==== Returns
         # * response<~Excon::Response>:
