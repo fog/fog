@@ -8,6 +8,7 @@ module Fog
         ::AWS,
         ::Bluebox,
         ::GoGrid,
+        ::Google,
         ::Linode,
         ::Local,
         ::NewServers,
@@ -68,6 +69,7 @@ end
 require 'fog/aws/bin'
 require 'fog/bluebox/bin'
 require 'fog/go_grid/bin'
+require 'fog/google/bin'
 require 'fog/linode/bin'
 require 'fog/local/bin'
 require 'fog/new_servers/bin'
