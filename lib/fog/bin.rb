@@ -10,6 +10,7 @@ require 'fog/slicehost/bin'
 require 'fog/terremark/bin'
 require 'fog/vcloud/bin'
 require 'fog/bluebox/bin'
+require 'fog/google/bin'
 
 module Fog
   class << self
@@ -25,7 +26,8 @@ module Fog
         ::Rackspace,
         ::Slicehost,
         ::Terremark,
-        ::Vcloud
+        ::Vcloud,
+        ::Google,
       ].select {|_module_| _module_.initialized?}
     end
 

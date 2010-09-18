@@ -84,6 +84,22 @@ module Bluebox
   end
 end
 
+module Google
+  class << self
+    def [](service)
+      @@connections ||= Hash.new do |hash, key|
+        credentials = Fog.credentials.reject do |k, v|
+          ![:google_storage_access_key_id, :google_storage_secret_access_key].include?(k)
+        end
+        hash[key] = case key
+        when :storage
+          Fog::Google::Storage.new(credentials)
+        end
+      end
+      @@connections[service]
+    end
+  end
+end
 
 def eventually(max_delay = 16, &block)
   delays = [0]
