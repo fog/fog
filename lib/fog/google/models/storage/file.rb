@@ -46,7 +46,10 @@ module Fog
 
         def destroy
           requires :directory, :key
-          connection.delete_object(directory.key, @key)
+          begin
+            connection.delete_object(directory.key, @key)
+          rescue Excon::Errors::NotFound
+          end
           true
         end
 
