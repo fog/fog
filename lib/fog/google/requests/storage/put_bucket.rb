@@ -53,8 +53,11 @@ DATA
           else
             bucket['LocationConstraint'] = ''
           end
-          unless @data[:buckets][bucket_name]
+          if @data[:buckets][bucket_name].nil?
             @data[:buckets][bucket_name] = bucket
+          else
+            response.status = 409
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

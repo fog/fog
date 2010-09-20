@@ -30,8 +30,13 @@ module Fog
         def delete_object(bucket_name, object_name)
           response = Excon::Response.new
           if bucket = @data[:buckets][bucket_name]
-            response.status = 204
-            bucket[:objects].delete(object_name)
+            if object = bucket[:objects][object_name]
+              response.status = 204
+              bucket[:objects].delete(object_name)
+            else
+              response.status = 404
+              raise(Excon::Errors.status_error({:expects => 204}, response))
+            end
           else
             response.status = 404
             raise(Excon::Errors.status_error({:expects => 204}, response))

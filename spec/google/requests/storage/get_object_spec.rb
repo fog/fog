@@ -32,7 +32,7 @@ describe 'Storage.get_object' do
       data.should == lorem_file.read
     end
 
-    it 'should return a signed expiring url' do
+    it 'should return a url' do
       url = Google[:storage].get_object_url('foggetobject', 'fog_get_object', Time.now + 60 * 10)
       unless Fog.mocking?
         open(url).read.should == lorem_file.read
