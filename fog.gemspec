@@ -263,6 +263,41 @@ Gem::Specification.new do |s|
     lib/fog/go_grid/requests/compute/grid_server_get.rb
     lib/fog/go_grid/requests/compute/grid_server_list.rb
     lib/fog/go_grid/requests/compute/grid_server_power.rb
+    lib/fog/google.rb
+    lib/fog/google/bin.rb
+    lib/fog/google/models/storage/directories.rb
+    lib/fog/google/models/storage/directory.rb
+    lib/fog/google/models/storage/file.rb
+    lib/fog/google/models/storage/files.rb
+    lib/fog/google/parsers/storage/access_control_list.rb
+    lib/fog/google/parsers/storage/copy_object.rb
+    lib/fog/google/parsers/storage/get_bucket.rb
+    lib/fog/google/parsers/storage/get_bucket_logging.rb
+    lib/fog/google/parsers/storage/get_bucket_object_versions.rb
+    lib/fog/google/parsers/storage/get_bucket_versioning.rb
+    lib/fog/google/parsers/storage/get_request_payment.rb
+    lib/fog/google/parsers/storage/get_service.rb
+    lib/fog/google/requests/storage/copy_object.rb
+    lib/fog/google/requests/storage/delete_bucket.rb
+    lib/fog/google/requests/storage/delete_object.rb
+    lib/fog/google/requests/storage/get_bucket.rb
+    lib/fog/google/requests/storage/get_bucket_acl.rb
+    lib/fog/google/requests/storage/get_bucket_logging.rb
+    lib/fog/google/requests/storage/get_bucket_object_versions.rb
+    lib/fog/google/requests/storage/get_bucket_versioning.rb
+    lib/fog/google/requests/storage/get_object.rb
+    lib/fog/google/requests/storage/get_object_acl.rb
+    lib/fog/google/requests/storage/get_object_torrent.rb
+    lib/fog/google/requests/storage/get_object_url.rb
+    lib/fog/google/requests/storage/get_service.rb
+    lib/fog/google/requests/storage/head_object.rb
+    lib/fog/google/requests/storage/put_bucket.rb
+    lib/fog/google/requests/storage/put_bucket_acl.rb
+    lib/fog/google/requests/storage/put_bucket_logging.rb
+    lib/fog/google/requests/storage/put_bucket_versioning.rb
+    lib/fog/google/requests/storage/put_object.rb
+    lib/fog/google/requests/storage/put_object_url.rb
+    lib/fog/google/storage.rb
     lib/fog/hmac.rb
     lib/fog/linode.rb
     lib/fog/linode/bin.rb
@@ -544,6 +579,19 @@ Gem::Specification.new do |s|
     spec/bluebox/models/compute/server_spec.rb
     spec/bluebox/models/compute/servers_spec.rb
     spec/compact_progress_bar_formatter.rb
+    spec/google/models/storage/directories_spec.rb
+    spec/google/models/storage/directory_spec.rb
+    spec/google/models/storage/file_spec.rb
+    spec/google/models/storage/files_spec.rb
+    spec/google/requests/storage/copy_object_spec.rb
+    spec/google/requests/storage/delete_bucket_spec.rb
+    spec/google/requests/storage/delete_object_spec.rb
+    spec/google/requests/storage/get_bucket_spec.rb
+    spec/google/requests/storage/get_object_spec.rb
+    spec/google/requests/storage/get_service_spec.rb
+    spec/google/requests/storage/head_object_spec.rb
+    spec/google/requests/storage/put_bucket_spec.rb
+    spec/google/requests/storage/put_object_spec.rb
     spec/lorem.txt
     spec/rackspace/models/compute/flavors_spec.rb
     spec/rackspace/models/compute/server_spec.rb
