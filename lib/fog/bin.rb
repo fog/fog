@@ -42,11 +42,13 @@ module Fog
         if availability
           for service in services
             for collection in self[service].collections
-              self.class_eval <<-EOS, __FILE__, __LINE__
-                def #{collection}
-                  self[:#{service}].#{collection}
-                end
-              EOS
+              unless self.respond_to?(collection)
+                self.class_eval <<-EOS, __FILE__, __LINE__
+                  def self.#{collection}
+                    self[:#{service}].#{collection}
+                  end
+                EOS
+              end
             end
           end
         end
