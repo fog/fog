@@ -32,7 +32,7 @@ module Vcloud
       end
 
       def startup_notice
-        puts "You have access to the following vCloud services: #{Vcloud.registered_services}."
+        Formatador.display_line("You have access to the following Vcloud services: #{Vcloud.registered_services}.")
       end
 
       def [](service)

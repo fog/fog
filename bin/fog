@@ -24,14 +24,15 @@ else
   @irb.context.prompt_mode = :FOG
   @irb.context.workspace = IRB::WorkSpace.new(binding)
 
-  modules = Fog.modules.map{|_module_| _module_.to_s}
-  modules = if modules.length > 1
-    modules[0...-1].join(', ') << ' and ' << modules[-1]
+  providers = Fog.providers.map{|provider| provider.to_s}
+  providers = if providers.length > 1
+    providers[0...-1].join(', ') << ' and ' << providers[-1]
   else
-    modules.first
+    providers.first
   end
   Formatador.display_line('Welcome to fog interactive!')
-  Formatador.display_line(":#{Fog.credential.to_s} credentials provide #{modules}")
+  Formatador.display_line(":#{Fog.credential.to_s} credentials provide #{providers}")
+  providers = Fog.providers
   Fog.modules.each do |_module_|
     if _module_.respond_to?(:startup_notice)
       _module_.send(:startup_notice)
