@@ -1,10 +1,6 @@
 class Slicehost < Fog::Bin
   class << self
 
-    def initialized?
-      true
-    end
-
     def [](service)
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
