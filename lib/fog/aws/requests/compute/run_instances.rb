@@ -26,6 +26,7 @@ module Fog
         #     * 'Ebs.SnapshotId'<~String> - id of snapshot to boot volume from
         #     * 'Ebs.VolumeSize'<~String> - size of volume in GiBs required unless snapshot is specified
         #     * 'Ebs.DeleteOnTermination'<~String> - specifies whether or not to delete the volume on instance termination
+        #   * 'ClientToken'<~String> - unique case-sensitive token for ensuring idempotency
         #   * 'SecurityGroup'<~Array> or <~String> - Name of security group(s) for instances (you must omit this parameter if using Virtual Private Clouds)
         #   * 'InstanceInitiatedShutdownBehaviour'<~String> - specifies whether volumes are stopped or terminated when instance is shutdown
         #   * 'InstanceType'<~String> - Type of instance to boot. Valid options
