@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.2.30'
-  s.date              = '2010-09-01'
+  s.version           = '0.3.0'
+  s.date              = '2010-09-22'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -76,52 +76,54 @@ Gem::Specification.new do |s|
     lib/fog/attributes.rb
     lib/fog/aws.rb
     lib/fog/aws/bin.rb
+    lib/fog/aws/compute.rb
     lib/fog/aws/ec2.rb
     lib/fog/aws/elb.rb
-    lib/fog/aws/models/ec2/address.rb
-    lib/fog/aws/models/ec2/addresses.rb
-    lib/fog/aws/models/ec2/flavor.rb
-    lib/fog/aws/models/ec2/flavors.rb
-    lib/fog/aws/models/ec2/image.rb
-    lib/fog/aws/models/ec2/images.rb
-    lib/fog/aws/models/ec2/key_pair.rb
-    lib/fog/aws/models/ec2/key_pairs.rb
-    lib/fog/aws/models/ec2/security_group.rb
-    lib/fog/aws/models/ec2/security_groups.rb
-    lib/fog/aws/models/ec2/server.rb
-    lib/fog/aws/models/ec2/servers.rb
-    lib/fog/aws/models/ec2/snapshot.rb
-    lib/fog/aws/models/ec2/snapshots.rb
-    lib/fog/aws/models/ec2/volume.rb
-    lib/fog/aws/models/ec2/volumes.rb
-    lib/fog/aws/models/s3/directories.rb
-    lib/fog/aws/models/s3/directory.rb
-    lib/fog/aws/models/s3/file.rb
-    lib/fog/aws/models/s3/files.rb
-    lib/fog/aws/parsers/ec2/allocate_address.rb
-    lib/fog/aws/parsers/ec2/attach_volume.rb
-    lib/fog/aws/parsers/ec2/basic.rb
-    lib/fog/aws/parsers/ec2/create_image.rb
-    lib/fog/aws/parsers/ec2/create_key_pair.rb
-    lib/fog/aws/parsers/ec2/create_snapshot.rb
-    lib/fog/aws/parsers/ec2/create_volume.rb
-    lib/fog/aws/parsers/ec2/deregister_image.rb
-    lib/fog/aws/parsers/ec2/describe_addresses.rb
-    lib/fog/aws/parsers/ec2/describe_availability_zones.rb
-    lib/fog/aws/parsers/ec2/describe_images.rb
-    lib/fog/aws/parsers/ec2/describe_instances.rb
-    lib/fog/aws/parsers/ec2/describe_key_pairs.rb
-    lib/fog/aws/parsers/ec2/describe_regions.rb
-    lib/fog/aws/parsers/ec2/describe_reserved_instances.rb
-    lib/fog/aws/parsers/ec2/describe_security_groups.rb
-    lib/fog/aws/parsers/ec2/describe_snapshots.rb
-    lib/fog/aws/parsers/ec2/describe_volumes.rb
-    lib/fog/aws/parsers/ec2/detach_volume.rb
-    lib/fog/aws/parsers/ec2/get_console_output.rb
-    lib/fog/aws/parsers/ec2/register_image.rb
-    lib/fog/aws/parsers/ec2/run_instances.rb
-    lib/fog/aws/parsers/ec2/start_stop_instances.rb
-    lib/fog/aws/parsers/ec2/terminate_instances.rb
+    lib/fog/aws/models/compute/address.rb
+    lib/fog/aws/models/compute/addresses.rb
+    lib/fog/aws/models/compute/flavor.rb
+    lib/fog/aws/models/compute/flavors.rb
+    lib/fog/aws/models/compute/image.rb
+    lib/fog/aws/models/compute/images.rb
+    lib/fog/aws/models/compute/key_pair.rb
+    lib/fog/aws/models/compute/key_pairs.rb
+    lib/fog/aws/models/compute/security_group.rb
+    lib/fog/aws/models/compute/security_groups.rb
+    lib/fog/aws/models/compute/server.rb
+    lib/fog/aws/models/compute/servers.rb
+    lib/fog/aws/models/compute/snapshot.rb
+    lib/fog/aws/models/compute/snapshots.rb
+    lib/fog/aws/models/compute/volume.rb
+    lib/fog/aws/models/compute/volumes.rb
+    lib/fog/aws/models/storage/directories.rb
+    lib/fog/aws/models/storage/directory.rb
+    lib/fog/aws/models/storage/file.rb
+    lib/fog/aws/models/storage/files.rb
+    lib/fog/aws/parsers/compute/allocate_address.rb
+    lib/fog/aws/parsers/compute/attach_volume.rb
+    lib/fog/aws/parsers/compute/basic.rb
+    lib/fog/aws/parsers/compute/create_image.rb
+    lib/fog/aws/parsers/compute/create_key_pair.rb
+    lib/fog/aws/parsers/compute/create_snapshot.rb
+    lib/fog/aws/parsers/compute/create_volume.rb
+    lib/fog/aws/parsers/compute/deregister_image.rb
+    lib/fog/aws/parsers/compute/describe_addresses.rb
+    lib/fog/aws/parsers/compute/describe_availability_zones.rb
+    lib/fog/aws/parsers/compute/describe_images.rb
+    lib/fog/aws/parsers/compute/describe_instances.rb
+    lib/fog/aws/parsers/compute/describe_key_pairs.rb
+    lib/fog/aws/parsers/compute/describe_regions.rb
+    lib/fog/aws/parsers/compute/describe_reserved_instances.rb
+    lib/fog/aws/parsers/compute/describe_security_groups.rb
+    lib/fog/aws/parsers/compute/describe_snapshots.rb
+    lib/fog/aws/parsers/compute/describe_volumes.rb
+    lib/fog/aws/parsers/compute/detach_volume.rb
+    lib/fog/aws/parsers/compute/get_console_output.rb
+    lib/fog/aws/parsers/compute/import_key_pair.rb
+    lib/fog/aws/parsers/compute/register_image.rb
+    lib/fog/aws/parsers/compute/run_instances.rb
+    lib/fog/aws/parsers/compute/start_stop_instances.rb
+    lib/fog/aws/parsers/compute/terminate_instances.rb
     lib/fog/aws/parsers/elb/create_load_balancer.rb
     lib/fog/aws/parsers/elb/delete_load_balancer.rb
     lib/fog/aws/parsers/elb/deregister_instances_from_load_balancer.rb
@@ -130,57 +132,58 @@ Gem::Specification.new do |s|
     lib/fog/aws/parsers/elb/disable_availability_zones_for_load_balancer.rb
     lib/fog/aws/parsers/elb/enable_availability_zones_for_load_balancer.rb
     lib/fog/aws/parsers/elb/register_instances_with_load_balancer.rb
-    lib/fog/aws/parsers/s3/access_control_list.rb
-    lib/fog/aws/parsers/s3/copy_object.rb
-    lib/fog/aws/parsers/s3/get_bucket.rb
-    lib/fog/aws/parsers/s3/get_bucket_location.rb
-    lib/fog/aws/parsers/s3/get_bucket_logging.rb
-    lib/fog/aws/parsers/s3/get_bucket_object_versions.rb
-    lib/fog/aws/parsers/s3/get_bucket_versioning.rb
-    lib/fog/aws/parsers/s3/get_request_payment.rb
-    lib/fog/aws/parsers/s3/get_service.rb
     lib/fog/aws/parsers/simpledb/basic.rb
     lib/fog/aws/parsers/simpledb/domain_metadata.rb
     lib/fog/aws/parsers/simpledb/get_attributes.rb
     lib/fog/aws/parsers/simpledb/list_domains.rb
     lib/fog/aws/parsers/simpledb/select.rb
-    lib/fog/aws/requests/ec2/allocate_address.rb
-    lib/fog/aws/requests/ec2/associate_address.rb
-    lib/fog/aws/requests/ec2/attach_volume.rb
-    lib/fog/aws/requests/ec2/authorize_security_group_ingress.rb
-    lib/fog/aws/requests/ec2/create_image.rb
-    lib/fog/aws/requests/ec2/create_key_pair.rb
-    lib/fog/aws/requests/ec2/create_security_group.rb
-    lib/fog/aws/requests/ec2/create_snapshot.rb
-    lib/fog/aws/requests/ec2/create_volume.rb
-    lib/fog/aws/requests/ec2/delete_key_pair.rb
-    lib/fog/aws/requests/ec2/delete_security_group.rb
-    lib/fog/aws/requests/ec2/delete_snapshot.rb
-    lib/fog/aws/requests/ec2/delete_volume.rb
-    lib/fog/aws/requests/ec2/deregister_image.rb
-    lib/fog/aws/requests/ec2/describe_addresses.rb
-    lib/fog/aws/requests/ec2/describe_availability_zones.rb
-    lib/fog/aws/requests/ec2/describe_images.rb
-    lib/fog/aws/requests/ec2/describe_instances.rb
-    lib/fog/aws/requests/ec2/describe_key_pairs.rb
-    lib/fog/aws/requests/ec2/describe_regions.rb
-    lib/fog/aws/requests/ec2/describe_reserved_instances.rb
-    lib/fog/aws/requests/ec2/describe_security_groups.rb
-    lib/fog/aws/requests/ec2/describe_snapshots.rb
-    lib/fog/aws/requests/ec2/describe_volumes.rb
-    lib/fog/aws/requests/ec2/detach_volume.rb
-    lib/fog/aws/requests/ec2/disassociate_address.rb
-    lib/fog/aws/requests/ec2/get_console_output.rb
-    lib/fog/aws/requests/ec2/modify_image_attributes.rb
-    lib/fog/aws/requests/ec2/modify_snapshot_attribute.rb
-    lib/fog/aws/requests/ec2/reboot_instances.rb
-    lib/fog/aws/requests/ec2/register_image.rb
-    lib/fog/aws/requests/ec2/release_address.rb
-    lib/fog/aws/requests/ec2/revoke_security_group_ingress.rb
-    lib/fog/aws/requests/ec2/run_instances.rb
-    lib/fog/aws/requests/ec2/start_instances.rb
-    lib/fog/aws/requests/ec2/stop_instances.rb
-    lib/fog/aws/requests/ec2/terminate_instances.rb
+    lib/fog/aws/parsers/storage/access_control_list.rb
+    lib/fog/aws/parsers/storage/copy_object.rb
+    lib/fog/aws/parsers/storage/get_bucket.rb
+    lib/fog/aws/parsers/storage/get_bucket_location.rb
+    lib/fog/aws/parsers/storage/get_bucket_logging.rb
+    lib/fog/aws/parsers/storage/get_bucket_object_versions.rb
+    lib/fog/aws/parsers/storage/get_bucket_versioning.rb
+    lib/fog/aws/parsers/storage/get_request_payment.rb
+    lib/fog/aws/parsers/storage/get_service.rb
+    lib/fog/aws/requests/compute/allocate_address.rb
+    lib/fog/aws/requests/compute/associate_address.rb
+    lib/fog/aws/requests/compute/attach_volume.rb
+    lib/fog/aws/requests/compute/authorize_security_group_ingress.rb
+    lib/fog/aws/requests/compute/create_image.rb
+    lib/fog/aws/requests/compute/create_key_pair.rb
+    lib/fog/aws/requests/compute/create_security_group.rb
+    lib/fog/aws/requests/compute/create_snapshot.rb
+    lib/fog/aws/requests/compute/create_volume.rb
+    lib/fog/aws/requests/compute/delete_key_pair.rb
+    lib/fog/aws/requests/compute/delete_security_group.rb
+    lib/fog/aws/requests/compute/delete_snapshot.rb
+    lib/fog/aws/requests/compute/delete_volume.rb
+    lib/fog/aws/requests/compute/deregister_image.rb
+    lib/fog/aws/requests/compute/describe_addresses.rb
+    lib/fog/aws/requests/compute/describe_availability_zones.rb
+    lib/fog/aws/requests/compute/describe_images.rb
+    lib/fog/aws/requests/compute/describe_instances.rb
+    lib/fog/aws/requests/compute/describe_key_pairs.rb
+    lib/fog/aws/requests/compute/describe_regions.rb
+    lib/fog/aws/requests/compute/describe_reserved_instances.rb
+    lib/fog/aws/requests/compute/describe_security_groups.rb
+    lib/fog/aws/requests/compute/describe_snapshots.rb
+    lib/fog/aws/requests/compute/describe_volumes.rb
+    lib/fog/aws/requests/compute/detach_volume.rb
+    lib/fog/aws/requests/compute/disassociate_address.rb
+    lib/fog/aws/requests/compute/get_console_output.rb
+    lib/fog/aws/requests/compute/import_key_pair.rb
+    lib/fog/aws/requests/compute/modify_image_attributes.rb
+    lib/fog/aws/requests/compute/modify_snapshot_attribute.rb
+    lib/fog/aws/requests/compute/reboot_instances.rb
+    lib/fog/aws/requests/compute/register_image.rb
+    lib/fog/aws/requests/compute/release_address.rb
+    lib/fog/aws/requests/compute/revoke_security_group_ingress.rb
+    lib/fog/aws/requests/compute/run_instances.rb
+    lib/fog/aws/requests/compute/start_instances.rb
+    lib/fog/aws/requests/compute/stop_instances.rb
+    lib/fog/aws/requests/compute/terminate_instances.rb
     lib/fog/aws/requests/elb/create_load_balancer.rb
     lib/fog/aws/requests/elb/delete_load_balancer.rb
     lib/fog/aws/requests/elb/deregister_instances_from_load_balancer.rb
@@ -189,29 +192,6 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/elb/disable_availability_zones_for_load_balancer.rb
     lib/fog/aws/requests/elb/enable_availability_zones_for_load_balancer.rb
     lib/fog/aws/requests/elb/register_instances_with_load_balancer.rb
-    lib/fog/aws/requests/s3/copy_object.rb
-    lib/fog/aws/requests/s3/delete_bucket.rb
-    lib/fog/aws/requests/s3/delete_object.rb
-    lib/fog/aws/requests/s3/get_bucket.rb
-    lib/fog/aws/requests/s3/get_bucket_acl.rb
-    lib/fog/aws/requests/s3/get_bucket_location.rb
-    lib/fog/aws/requests/s3/get_bucket_logging.rb
-    lib/fog/aws/requests/s3/get_bucket_object_versions.rb
-    lib/fog/aws/requests/s3/get_bucket_versioning.rb
-    lib/fog/aws/requests/s3/get_object.rb
-    lib/fog/aws/requests/s3/get_object_acl.rb
-    lib/fog/aws/requests/s3/get_object_torrent.rb
-    lib/fog/aws/requests/s3/get_object_url.rb
-    lib/fog/aws/requests/s3/get_request_payment.rb
-    lib/fog/aws/requests/s3/get_service.rb
-    lib/fog/aws/requests/s3/head_object.rb
-    lib/fog/aws/requests/s3/put_bucket.rb
-    lib/fog/aws/requests/s3/put_bucket_acl.rb
-    lib/fog/aws/requests/s3/put_bucket_logging.rb
-    lib/fog/aws/requests/s3/put_bucket_versioning.rb
-    lib/fog/aws/requests/s3/put_object.rb
-    lib/fog/aws/requests/s3/put_object_url.rb
-    lib/fog/aws/requests/s3/put_request_payment.rb
     lib/fog/aws/requests/simpledb/batch_put_attributes.rb
     lib/fog/aws/requests/simpledb/create_domain.rb
     lib/fog/aws/requests/simpledb/delete_attributes.rb
@@ -221,26 +201,51 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/simpledb/list_domains.rb
     lib/fog/aws/requests/simpledb/put_attributes.rb
     lib/fog/aws/requests/simpledb/select.rb
+    lib/fog/aws/requests/storage/copy_object.rb
+    lib/fog/aws/requests/storage/delete_bucket.rb
+    lib/fog/aws/requests/storage/delete_object.rb
+    lib/fog/aws/requests/storage/get_bucket.rb
+    lib/fog/aws/requests/storage/get_bucket_acl.rb
+    lib/fog/aws/requests/storage/get_bucket_location.rb
+    lib/fog/aws/requests/storage/get_bucket_logging.rb
+    lib/fog/aws/requests/storage/get_bucket_object_versions.rb
+    lib/fog/aws/requests/storage/get_bucket_versioning.rb
+    lib/fog/aws/requests/storage/get_object.rb
+    lib/fog/aws/requests/storage/get_object_acl.rb
+    lib/fog/aws/requests/storage/get_object_torrent.rb
+    lib/fog/aws/requests/storage/get_object_url.rb
+    lib/fog/aws/requests/storage/get_request_payment.rb
+    lib/fog/aws/requests/storage/get_service.rb
+    lib/fog/aws/requests/storage/head_object.rb
+    lib/fog/aws/requests/storage/put_bucket.rb
+    lib/fog/aws/requests/storage/put_bucket_acl.rb
+    lib/fog/aws/requests/storage/put_bucket_logging.rb
+    lib/fog/aws/requests/storage/put_bucket_versioning.rb
+    lib/fog/aws/requests/storage/put_object.rb
+    lib/fog/aws/requests/storage/put_object_url.rb
+    lib/fog/aws/requests/storage/put_request_payment.rb
     lib/fog/aws/s3.rb
     lib/fog/aws/simpledb.rb
+    lib/fog/aws/storage.rb
     lib/fog/bin.rb
     lib/fog/bluebox.rb
     lib/fog/bluebox/bin.rb
-    lib/fog/bluebox/models/flavor.rb
-    lib/fog/bluebox/models/flavors.rb
-    lib/fog/bluebox/models/image.rb
-    lib/fog/bluebox/models/images.rb
-    lib/fog/bluebox/models/server.rb
-    lib/fog/bluebox/models/servers.rb
-    lib/fog/bluebox/requests/create_block.rb
-    lib/fog/bluebox/requests/destroy_block.rb
-    lib/fog/bluebox/requests/get_block.rb
-    lib/fog/bluebox/requests/get_blocks.rb
-    lib/fog/bluebox/requests/get_product.rb
-    lib/fog/bluebox/requests/get_products.rb
-    lib/fog/bluebox/requests/get_template.rb
-    lib/fog/bluebox/requests/get_templates.rb
-    lib/fog/bluebox/requests/reboot_block.rb
+    lib/fog/bluebox/compute.rb
+    lib/fog/bluebox/models/compute/flavor.rb
+    lib/fog/bluebox/models/compute/flavors.rb
+    lib/fog/bluebox/models/compute/image.rb
+    lib/fog/bluebox/models/compute/images.rb
+    lib/fog/bluebox/models/compute/server.rb
+    lib/fog/bluebox/models/compute/servers.rb
+    lib/fog/bluebox/requests/compute/create_block.rb
+    lib/fog/bluebox/requests/compute/destroy_block.rb
+    lib/fog/bluebox/requests/compute/get_block.rb
+    lib/fog/bluebox/requests/compute/get_blocks.rb
+    lib/fog/bluebox/requests/compute/get_product.rb
+    lib/fog/bluebox/requests/compute/get_products.rb
+    lib/fog/bluebox/requests/compute/get_template.rb
+    lib/fog/bluebox/requests/compute/get_templates.rb
+    lib/fog/bluebox/requests/compute/reboot_block.rb
     lib/fog/collection.rb
     lib/fog/connection.rb
     lib/fog/credentials.rb
@@ -248,113 +253,121 @@ Gem::Specification.new do |s|
     lib/fog/errors.rb
     lib/fog/go_grid.rb
     lib/fog/go_grid/bin.rb
-    lib/fog/go_grid/requests/common_lookup_list.rb
-    lib/fog/go_grid/requests/grid_image_list.rb
-    lib/fog/go_grid/requests/grid_ip_list.rb
-    lib/fog/go_grid/requests/grid_loadbalancer_list.rb
-    lib/fog/go_grid/requests/grid_server_add.rb
-    lib/fog/go_grid/requests/grid_server_delete.rb
-    lib/fog/go_grid/requests/grid_server_get.rb
-    lib/fog/go_grid/requests/grid_server_list.rb
-    lib/fog/go_grid/requests/grid_server_power.rb
+    lib/fog/go_grid/compute.rb
+    lib/fog/go_grid/requests/compute/common_lookup_list.rb
+    lib/fog/go_grid/requests/compute/grid_image_list.rb
+    lib/fog/go_grid/requests/compute/grid_ip_list.rb
+    lib/fog/go_grid/requests/compute/grid_loadbalancer_list.rb
+    lib/fog/go_grid/requests/compute/grid_server_add.rb
+    lib/fog/go_grid/requests/compute/grid_server_delete.rb
+    lib/fog/go_grid/requests/compute/grid_server_get.rb
+    lib/fog/go_grid/requests/compute/grid_server_list.rb
+    lib/fog/go_grid/requests/compute/grid_server_power.rb
     lib/fog/hmac.rb
     lib/fog/linode.rb
     lib/fog/linode/bin.rb
-    lib/fog/linode/requests/avail_datacenters.rb
-    lib/fog/linode/requests/avail_distributions.rb
-    lib/fog/linode/requests/avail_kernels.rb
-    lib/fog/linode/requests/avail_linodeplans.rb
-    lib/fog/linode/requests/avail_stackscripts.rb
-    lib/fog/linode/requests/linode_create.rb
-    lib/fog/linode/requests/linode_delete.rb
-    lib/fog/linode/requests/linode_list.rb
-    lib/fog/linode/requests/linode_reboot.rb
+    lib/fog/linode/compute.rb
+    lib/fog/linode/requests/compute/avail_datacenters.rb
+    lib/fog/linode/requests/compute/avail_distributions.rb
+    lib/fog/linode/requests/compute/avail_kernels.rb
+    lib/fog/linode/requests/compute/avail_linodeplans.rb
+    lib/fog/linode/requests/compute/avail_stackscripts.rb
+    lib/fog/linode/requests/compute/linode_create.rb
+    lib/fog/linode/requests/compute/linode_delete.rb
+    lib/fog/linode/requests/compute/linode_list.rb
+    lib/fog/linode/requests/compute/linode_reboot.rb
     lib/fog/local.rb
     lib/fog/local/bin.rb
-    lib/fog/local/models/directories.rb
-    lib/fog/local/models/directory.rb
-    lib/fog/local/models/file.rb
-    lib/fog/local/models/files.rb
+    lib/fog/local/models/storage/directories.rb
+    lib/fog/local/models/storage/directory.rb
+    lib/fog/local/models/storage/file.rb
+    lib/fog/local/models/storage/files.rb
+    lib/fog/local/storage.rb
     lib/fog/model.rb
     lib/fog/new_servers.rb
     lib/fog/new_servers/bin.rb
-    lib/fog/new_servers/requests/add_server.rb
-    lib/fog/new_servers/requests/cancel_server.rb
-    lib/fog/new_servers/requests/get_server.rb
-    lib/fog/new_servers/requests/list_images.rb
-    lib/fog/new_servers/requests/list_plans.rb
-    lib/fog/new_servers/requests/list_servers.rb
-    lib/fog/new_servers/requests/reboot_server.rb
+    lib/fog/new_servers/compute.rb
+    lib/fog/new_servers/requests/compute/add_server.rb
+    lib/fog/new_servers/requests/compute/cancel_server.rb
+    lib/fog/new_servers/requests/compute/get_server.rb
+    lib/fog/new_servers/requests/compute/list_images.rb
+    lib/fog/new_servers/requests/compute/list_plans.rb
+    lib/fog/new_servers/requests/compute/list_servers.rb
+    lib/fog/new_servers/requests/compute/reboot_server.rb
     lib/fog/parser.rb
+    lib/fog/provider.rb
     lib/fog/rackspace.rb
     lib/fog/rackspace/bin.rb
+    lib/fog/rackspace/compute.rb
     lib/fog/rackspace/files.rb
-    lib/fog/rackspace/models/files/directories.rb
-    lib/fog/rackspace/models/files/directory.rb
-    lib/fog/rackspace/models/files/file.rb
-    lib/fog/rackspace/models/files/files.rb
-    lib/fog/rackspace/models/servers/flavor.rb
-    lib/fog/rackspace/models/servers/flavors.rb
-    lib/fog/rackspace/models/servers/image.rb
-    lib/fog/rackspace/models/servers/images.rb
-    lib/fog/rackspace/models/servers/server.rb
-    lib/fog/rackspace/models/servers/servers.rb
-    lib/fog/rackspace/requests/files/delete_container.rb
-    lib/fog/rackspace/requests/files/delete_object.rb
-    lib/fog/rackspace/requests/files/get_container.rb
-    lib/fog/rackspace/requests/files/get_containers.rb
-    lib/fog/rackspace/requests/files/get_object.rb
-    lib/fog/rackspace/requests/files/head_container.rb
-    lib/fog/rackspace/requests/files/head_containers.rb
-    lib/fog/rackspace/requests/files/head_object.rb
-    lib/fog/rackspace/requests/files/put_container.rb
-    lib/fog/rackspace/requests/files/put_object.rb
-    lib/fog/rackspace/requests/servers/create_image.rb
-    lib/fog/rackspace/requests/servers/create_server.rb
-    lib/fog/rackspace/requests/servers/delete_image.rb
-    lib/fog/rackspace/requests/servers/delete_server.rb
-    lib/fog/rackspace/requests/servers/get_flavor_details.rb
-    lib/fog/rackspace/requests/servers/get_image_details.rb
-    lib/fog/rackspace/requests/servers/get_server_details.rb
-    lib/fog/rackspace/requests/servers/list_addresses.rb
-    lib/fog/rackspace/requests/servers/list_flavors.rb
-    lib/fog/rackspace/requests/servers/list_flavors_detail.rb
-    lib/fog/rackspace/requests/servers/list_images.rb
-    lib/fog/rackspace/requests/servers/list_images_detail.rb
-    lib/fog/rackspace/requests/servers/list_private_addresses.rb
-    lib/fog/rackspace/requests/servers/list_public_addresses.rb
-    lib/fog/rackspace/requests/servers/list_servers.rb
-    lib/fog/rackspace/requests/servers/list_servers_detail.rb
-    lib/fog/rackspace/requests/servers/reboot_server.rb
-    lib/fog/rackspace/requests/servers/update_server.rb
+    lib/fog/rackspace/models/compute/flavor.rb
+    lib/fog/rackspace/models/compute/flavors.rb
+    lib/fog/rackspace/models/compute/image.rb
+    lib/fog/rackspace/models/compute/images.rb
+    lib/fog/rackspace/models/compute/server.rb
+    lib/fog/rackspace/models/compute/servers.rb
+    lib/fog/rackspace/models/storage/directories.rb
+    lib/fog/rackspace/models/storage/directory.rb
+    lib/fog/rackspace/models/storage/file.rb
+    lib/fog/rackspace/models/storage/files.rb
+    lib/fog/rackspace/requests/compute/create_image.rb
+    lib/fog/rackspace/requests/compute/create_server.rb
+    lib/fog/rackspace/requests/compute/delete_image.rb
+    lib/fog/rackspace/requests/compute/delete_server.rb
+    lib/fog/rackspace/requests/compute/get_flavor_details.rb
+    lib/fog/rackspace/requests/compute/get_image_details.rb
+    lib/fog/rackspace/requests/compute/get_server_details.rb
+    lib/fog/rackspace/requests/compute/list_addresses.rb
+    lib/fog/rackspace/requests/compute/list_flavors.rb
+    lib/fog/rackspace/requests/compute/list_flavors_detail.rb
+    lib/fog/rackspace/requests/compute/list_images.rb
+    lib/fog/rackspace/requests/compute/list_images_detail.rb
+    lib/fog/rackspace/requests/compute/list_private_addresses.rb
+    lib/fog/rackspace/requests/compute/list_public_addresses.rb
+    lib/fog/rackspace/requests/compute/list_servers.rb
+    lib/fog/rackspace/requests/compute/list_servers_detail.rb
+    lib/fog/rackspace/requests/compute/reboot_server.rb
+    lib/fog/rackspace/requests/compute/update_server.rb
+    lib/fog/rackspace/requests/storage/delete_container.rb
+    lib/fog/rackspace/requests/storage/delete_object.rb
+    lib/fog/rackspace/requests/storage/get_container.rb
+    lib/fog/rackspace/requests/storage/get_containers.rb
+    lib/fog/rackspace/requests/storage/get_object.rb
+    lib/fog/rackspace/requests/storage/head_container.rb
+    lib/fog/rackspace/requests/storage/head_containers.rb
+    lib/fog/rackspace/requests/storage/head_object.rb
+    lib/fog/rackspace/requests/storage/put_container.rb
+    lib/fog/rackspace/requests/storage/put_object.rb
     lib/fog/rackspace/servers.rb
+    lib/fog/rackspace/storage.rb
     lib/fog/service.rb
     lib/fog/slicehost.rb
     lib/fog/slicehost/bin.rb
-    lib/fog/slicehost/models/flavor.rb
-    lib/fog/slicehost/models/flavors.rb
-    lib/fog/slicehost/models/image.rb
-    lib/fog/slicehost/models/images.rb
-    lib/fog/slicehost/models/server.rb
-    lib/fog/slicehost/models/servers.rb
-    lib/fog/slicehost/parsers/create_slice.rb
-    lib/fog/slicehost/parsers/get_backups.rb
-    lib/fog/slicehost/parsers/get_flavor.rb
-    lib/fog/slicehost/parsers/get_flavors.rb
-    lib/fog/slicehost/parsers/get_image.rb
-    lib/fog/slicehost/parsers/get_images.rb
-    lib/fog/slicehost/parsers/get_slice.rb
-    lib/fog/slicehost/parsers/get_slices.rb
-    lib/fog/slicehost/requests/create_slice.rb
-    lib/fog/slicehost/requests/delete_slice.rb
-    lib/fog/slicehost/requests/get_backups.rb
-    lib/fog/slicehost/requests/get_flavor.rb
-    lib/fog/slicehost/requests/get_flavors.rb
-    lib/fog/slicehost/requests/get_image.rb
-    lib/fog/slicehost/requests/get_images.rb
-    lib/fog/slicehost/requests/get_slice.rb
-    lib/fog/slicehost/requests/get_slices.rb
-    lib/fog/slicehost/requests/reboot_slice.rb
+    lib/fog/slicehost/compute.rb
+    lib/fog/slicehost/models/compute/flavor.rb
+    lib/fog/slicehost/models/compute/flavors.rb
+    lib/fog/slicehost/models/compute/image.rb
+    lib/fog/slicehost/models/compute/images.rb
+    lib/fog/slicehost/models/compute/server.rb
+    lib/fog/slicehost/models/compute/servers.rb
+    lib/fog/slicehost/parsers/compute/create_slice.rb
+    lib/fog/slicehost/parsers/compute/get_backups.rb
+    lib/fog/slicehost/parsers/compute/get_flavor.rb
+    lib/fog/slicehost/parsers/compute/get_flavors.rb
+    lib/fog/slicehost/parsers/compute/get_image.rb
+    lib/fog/slicehost/parsers/compute/get_images.rb
+    lib/fog/slicehost/parsers/compute/get_slice.rb
+    lib/fog/slicehost/parsers/compute/get_slices.rb
+    lib/fog/slicehost/requests/compute/create_slice.rb
+    lib/fog/slicehost/requests/compute/delete_slice.rb
+    lib/fog/slicehost/requests/compute/get_backups.rb
+    lib/fog/slicehost/requests/compute/get_flavor.rb
+    lib/fog/slicehost/requests/compute/get_flavors.rb
+    lib/fog/slicehost/requests/compute/get_image.rb
+    lib/fog/slicehost/requests/compute/get_images.rb
+    lib/fog/slicehost/requests/compute/get_slice.rb
+    lib/fog/slicehost/requests/compute/get_slices.rb
+    lib/fog/slicehost/requests/compute/reboot_slice.rb
     lib/fog/ssh.rb
     lib/fog/terremark.rb
     lib/fog/terremark/bin.rb
@@ -421,7 +434,6 @@ Gem::Specification.new do |s|
     lib/fog/vcloud.rb
     lib/fog/vcloud/bin.rb
     lib/fog/vcloud/collection.rb
-    lib/fog/vcloud/extension.rb
     lib/fog/vcloud/generators.rb
     lib/fog/vcloud/model.rb
     lib/fog/vcloud/models/vdc.rb
@@ -489,24 +501,24 @@ Gem::Specification.new do |s|
     lib/fog/vcloud/terremark/ecloud/requests/power_shutdown.rb
     lib/fog/vcloud/terremark/vcloud.rb
     lib/fog/vcloud/terremark/vcloud/requests/get_vdc.rb
-    spec/aws/models/ec2/address_spec.rb
-    spec/aws/models/ec2/addresses_spec.rb
-    spec/aws/models/ec2/flavors_spec.rb
-    spec/aws/models/ec2/key_pair_spec.rb
-    spec/aws/models/ec2/key_pairs_spec.rb
-    spec/aws/models/ec2/security_group_spec.rb
-    spec/aws/models/ec2/security_groups_spec.rb
-    spec/aws/models/ec2/server_spec.rb
-    spec/aws/models/ec2/servers_spec.rb
-    spec/aws/models/ec2/snapshot_spec.rb
-    spec/aws/models/ec2/snapshots_spec.rb
-    spec/aws/models/ec2/volume_spec.rb
-    spec/aws/models/ec2/volumes_spec.rb
-    spec/aws/models/s3/directories_spec.rb
-    spec/aws/models/s3/directory_spec.rb
-    spec/aws/models/s3/file_spec.rb
-    spec/aws/models/s3/files_spec.rb
-    spec/aws/requests/ec2/describe_images_spec.rb
+    spec/aws/models/compute/address_spec.rb
+    spec/aws/models/compute/addresses_spec.rb
+    spec/aws/models/compute/flavors_spec.rb
+    spec/aws/models/compute/key_pair_spec.rb
+    spec/aws/models/compute/key_pairs_spec.rb
+    spec/aws/models/compute/security_group_spec.rb
+    spec/aws/models/compute/security_groups_spec.rb
+    spec/aws/models/compute/server_spec.rb
+    spec/aws/models/compute/servers_spec.rb
+    spec/aws/models/compute/snapshot_spec.rb
+    spec/aws/models/compute/snapshots_spec.rb
+    spec/aws/models/compute/volume_spec.rb
+    spec/aws/models/compute/volumes_spec.rb
+    spec/aws/models/storage/directories_spec.rb
+    spec/aws/models/storage/directory_spec.rb
+    spec/aws/models/storage/file_spec.rb
+    spec/aws/models/storage/files_spec.rb
+    spec/aws/requests/compute/describe_images_spec.rb
     spec/aws/requests/s3/copy_object_spec.rb
     spec/aws/requests/s3/delete_bucket_spec.rb
     spec/aws/requests/s3/delete_object_spec.rb
@@ -528,30 +540,30 @@ Gem::Specification.new do |s|
     spec/aws/requests/simpledb/list_domains_spec.rb
     spec/aws/requests/simpledb/put_attributes_spec.rb
     spec/aws/requests/simpledb/select_spec.rb
-    spec/bluebox/models/flavors_spec.rb
-    spec/bluebox/models/server_spec.rb
-    spec/bluebox/models/servers_spec.rb
+    spec/bluebox/models/compute/flavors_spec.rb
+    spec/bluebox/models/compute/server_spec.rb
+    spec/bluebox/models/compute/servers_spec.rb
     spec/compact_progress_bar_formatter.rb
     spec/lorem.txt
-    spec/rackspace/models/servers/flavors_spec.rb
-    spec/rackspace/models/servers/server_spec.rb
-    spec/rackspace/models/servers/servers_spec.rb
-    spec/rackspace/requests/files/delete_container_spec.rb
-    spec/rackspace/requests/files/delete_object_spec.rb
-    spec/rackspace/requests/files/get_container_spec.rb
-    spec/rackspace/requests/files/get_containers_spec.rb
-    spec/rackspace/requests/files/get_object_spec.rb
-    spec/rackspace/requests/files/head_container_spec.rb
-    spec/rackspace/requests/files/head_containers_spec.rb
-    spec/rackspace/requests/files/head_object_spec.rb
-    spec/rackspace/requests/files/put_container_spec.rb
-    spec/rackspace/requests/files/put_object_spec.rb
+    spec/rackspace/models/compute/flavors_spec.rb
+    spec/rackspace/models/compute/server_spec.rb
+    spec/rackspace/models/compute/servers_spec.rb
+    spec/rackspace/requests/storage/delete_container_spec.rb
+    spec/rackspace/requests/storage/delete_object_spec.rb
+    spec/rackspace/requests/storage/get_container_spec.rb
+    spec/rackspace/requests/storage/get_containers_spec.rb
+    spec/rackspace/requests/storage/get_object_spec.rb
+    spec/rackspace/requests/storage/head_container_spec.rb
+    spec/rackspace/requests/storage/head_containers_spec.rb
+    spec/rackspace/requests/storage/head_object_spec.rb
+    spec/rackspace/requests/storage/put_container_spec.rb
+    spec/rackspace/requests/storage/put_object_spec.rb
     spec/shared_examples/flavors_examples.rb
     spec/shared_examples/server_examples.rb
     spec/shared_examples/servers_examples.rb
-    spec/slicehost/models/flavors_spec.rb
-    spec/slicehost/models/server_spec.rb
-    spec/slicehost/models/servers_spec.rb
+    spec/slicehost/models/compute/flavors_spec.rb
+    spec/slicehost/models/compute/server_spec.rb
+    spec/slicehost/models/compute/servers_spec.rb
     spec/spec_helper.rb
     spec/vcloud/bin_spec.rb
     spec/vcloud/models/vdc_spec.rb
@@ -592,37 +604,37 @@ Gem::Specification.new do |s|
     spec/vcloud/terremark/ecloud/requests/login_spec.rb
     spec/vcloud/vcloud_spec.rb
     tests/aws/helper.rb
-    tests/aws/models/s3/directory_tests.rb
-    tests/aws/requests/ec2/address_tests.rb
-    tests/aws/requests/ec2/availability_zone_tests.rb
-    tests/aws/requests/ec2/instance_tests.rb
-    tests/aws/requests/ec2/key_pair_tests.rb
-    tests/aws/requests/ec2/region_tests.rb
-    tests/aws/requests/ec2/security_group_tests.rb
-    tests/aws/requests/ec2/snapshot_tests.rb
-    tests/aws/requests/ec2/volume_tests.rb
+    tests/aws/models/storage/directory_tests.rb
+    tests/aws/requests/compute/address_tests.rb
+    tests/aws/requests/compute/availability_zone_tests.rb
+    tests/aws/requests/compute/instance_tests.rb
+    tests/aws/requests/compute/key_pair_tests.rb
+    tests/aws/requests/compute/region_tests.rb
+    tests/aws/requests/compute/security_group_tests.rb
+    tests/aws/requests/compute/snapshot_tests.rb
+    tests/aws/requests/compute/volume_tests.rb
     tests/bluebox/helper.rb
-    tests/bluebox/requests/block_tests.rb
-    tests/bluebox/requests/product_tests.rb
-    tests/bluebox/requests/template_tests.rb
+    tests/bluebox/requests/compute/block_tests.rb
+    tests/bluebox/requests/compute/product_tests.rb
+    tests/bluebox/requests/compute/template_tests.rb
     tests/helper.rb
     tests/helper_tests.rb
     tests/helpers/model_helper.rb
     tests/linode/helper.rb
-    tests/linode/requests/datacenter_tests.rb
-    tests/linode/requests/distribution_tests.rb
-    tests/linode/requests/linode_tests.rb
-    tests/linode/requests/linodeplans_tests.rb
+    tests/linode/requests/compute/datacenter_tests.rb
+    tests/linode/requests/compute/distribution_tests.rb
+    tests/linode/requests/compute/linode_tests.rb
+    tests/linode/requests/compute/linodeplans_tests.rb
     tests/rackspace/helper.rb
-    tests/rackspace/requests/servers/address_tests.rb
-    tests/rackspace/requests/servers/flavor_tests.rb
-    tests/rackspace/requests/servers/image_tests.rb
-    tests/rackspace/requests/servers/server_tests.rb
+    tests/rackspace/requests/compute/address_tests.rb
+    tests/rackspace/requests/compute/flavor_tests.rb
+    tests/rackspace/requests/compute/image_tests.rb
+    tests/rackspace/requests/compute/server_tests.rb
     tests/slicehost/helper.rb
-    tests/slicehost/requests/backup_tests.rb
-    tests/slicehost/requests/flavor_tests.rb
-    tests/slicehost/requests/image_tests.rb
-    tests/slicehost/requests/slice_tests.rb
+    tests/slicehost/requests/compute/backup_tests.rb
+    tests/slicehost/requests/compute/flavor_tests.rb
+    tests/slicehost/requests/compute/image_tests.rb
+    tests/slicehost/requests/compute/slice_tests.rb
   ]
   # = MANIFEST =
 
