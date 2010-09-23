@@ -124,6 +124,8 @@ module Fog
           @hmac = Fog::HMAC.new('sha1', @aws_secret_access_key)
           options[:region] ||= 'us-east-1'
           @host = options[:host] || case options[:region]
+            when 'eu-west-1'
+              's3-eu-west-1.amazonaws.com'
             when 'us-east-1'
               's3.amazonaws.com'
             when 'ap-southeast-1'

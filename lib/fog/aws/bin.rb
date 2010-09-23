@@ -14,7 +14,9 @@ class AWS < Fog::Bin
           Fog::AWS::Compute.new
         when :elb
           Fog::AWS::ELB.new
-        when :simpledb
+        when :eu_storage
+          Fog::AWS::Storage.new(:region => 'eu-west-1')
+        when :sdb
           Fog::AWS::SimpleDB.new
         when :s3
           location = caller.first

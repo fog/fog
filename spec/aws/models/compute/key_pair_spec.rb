@@ -11,7 +11,7 @@ describe 'Fog::AWS::Compute::KeyPair' do
         'keyName'         => 'name'
       )
       key_pair.fingerprint.should == 'fingerprint'
-      key_pair.material.should == 'material'
+      key_pair.private_key.should == 'material'
       key_pair.name.should == 'name'
     end
 
