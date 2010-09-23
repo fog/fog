@@ -11,13 +11,13 @@ module Fog
     service 'simpledb'
     service 'storage'
 
-    def self.indexed_param(key, values, offset = 0)
+    def self.indexed_param(key, values)
       params = {}
       unless key.include?('%d')
         key << '.%d'
       end
       [*values].each_with_index do |value, index|
-        params[format(key, index + offset)] = value
+        params[format(key, index + 1)] = value
       end
       params
     end

@@ -22,7 +22,7 @@ module Fog
         #     * 'CreateLoadBalancerResult'<~Hash>:
         #       * 'DNSName'<~String> - DNS name for the newly created ELB
         def create_load_balancer(availability_zones, lb_name, listeners)
-          params = ELB.indexed_param('AvailabilityZones.member', [*availability_zones], 1)
+          params = ELB.indexed_param('AvailabilityZones.member', [*availability_zones])
 
           listener_protocol = []
           listener_lb_port = []
@@ -33,9 +33,9 @@ module Fog
             listener_instance_port.push(listener['InstancePort'])
           end
 
-          params.merge!(AWS.indexed_param('Listeners.member.%d.Protocol', listener_protocol, 1))
-          params.merge!(AWS.indexed_param('Listeners.member.%d.LoadBalancerPort', listener_lb_port, 1))
-          params.merge!(AWS.indexed_param('Listeners.member.%d.InstancePort', listener_instance_port, 1))
+          params.merge!(AWS.indexed_param('Listeners.member.%d.Protocol', listener_protocol))
+          params.merge!(AWS.indexed_param('Listeners.member.%d.LoadBalancerPort', listener_lb_port))
+          params.merge!(AWS.indexed_param('Listeners.member.%d.InstancePort', listener_instance_port))
 
           request({
             'Action'           => 'CreateLoadBalancer',
