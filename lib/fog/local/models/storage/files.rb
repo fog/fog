@@ -9,7 +9,7 @@ module Fog
 
         attribute :directory
 
-        model Fog::Local::File
+        model Fog::Local::Storage::File
 
         def all
           requires :directory

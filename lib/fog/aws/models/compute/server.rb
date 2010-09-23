@@ -32,7 +32,8 @@ module Fog
         attribute :subnet_id,             :aliases => 'subnetId'
         attribute :user_data
 
-        attr_accessor :password, :private_key_path, :public_key_path, :username
+        attr_accessor :password, :username
+        attr_writer   :private_key_path, :public_key_path
 
         def initialize(attributes={})
           @groups ||= ["default"] unless attributes[:subnet_id]
@@ -150,7 +151,7 @@ module Fog
           sleep(10) # takes a bit before EC2 instances will play nice
           Fog::SSH.new(ip_address, username, credentials).run([
             %{mkdir .ssh},
-            %{echo "#{File.read(File.expand_path(public_key_path))}" >> ~/.ssh/authorized_keys},
+            %{echo "#{File.read(public_key_path)}" >> ~/.ssh/authorized_keys},
             %{passwd -l root},
             %{echo "#{attributes.to_json}" >> ~/attributes.json}
           ])

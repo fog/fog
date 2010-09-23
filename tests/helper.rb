@@ -1,5 +1,6 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'fog'))
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'fog', 'bin'))
+require 'fog'
+require 'fog/bin'
+Fog.bin = true
 
 require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'model_helper'))
 

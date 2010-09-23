@@ -52,6 +52,7 @@ module Fog
       request :detach_volume
       request :disassociate_address
       request :get_console_output
+      request :import_key_pair
       request :modify_image_attributes
       request :modify_snapshot_attribute
       request :reboot_instances
@@ -183,7 +184,7 @@ module Fog
               :aws_access_key_id  => @aws_access_key_id,
               :hmac               => @hmac,
               :host               => @host,
-              :version            => '2009-11-30'
+              :version            => '2010-08-31'
             }
           )
 

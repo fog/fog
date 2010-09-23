@@ -1,11 +1,5 @@
-module Bluebox
+class Bluebox < Fog::Bin
   class << self
-
-    if Fog.credentials[:bluebox_api_key]
-
-      def initialized?
-        true
-      end
 
       def [](service)
         @@connections ||= Hash.new do |hash, key|
@@ -27,20 +21,5 @@ module Bluebox
         [:compute]
       end
 
-      for collection in Fog::Bluebox::Compute.collections
-        module_eval <<-EOS, __FILE__, __LINE__
-          def #{collection}
-            self[:compute].#{collection}
-          end
-        EOS
-      end
-
-    else
-
-      def initialized?
-        false
-      end
-
-    end
   end
 end

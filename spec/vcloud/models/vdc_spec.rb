@@ -21,7 +21,7 @@ if Fog.mocking?
     end
 
     context "as a collection member" do
-      subject { p @vcloud.vdcs[0]; @vcloud.vdcs[0].reload; @vcloud.vdcs[0] }
+      subject { @vcloud.vdcs[0].reload; @vcloud.vdcs[0] }
 
       it { should be_an_instance_of Fog::Vcloud::Vdc }
 

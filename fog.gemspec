@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.2.30'
-  s.date              = '2010-09-20'
+  s.version           = '0.3.0'
+  s.date              = '2010-09-23'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -72,6 +72,8 @@ Gem::Specification.new do |s|
     bin/fog
     examples/bluebox_create.rb
     fog.gemspec
+    fog.gemspec
+    fog.gemspec
     lib/fog.rb
     lib/fog/attributes.rb
     lib/fog/aws.rb
@@ -119,6 +121,7 @@ Gem::Specification.new do |s|
     lib/fog/aws/parsers/compute/describe_volumes.rb
     lib/fog/aws/parsers/compute/detach_volume.rb
     lib/fog/aws/parsers/compute/get_console_output.rb
+    lib/fog/aws/parsers/compute/import_key_pair.rb
     lib/fog/aws/parsers/compute/register_image.rb
     lib/fog/aws/parsers/compute/run_instances.rb
     lib/fog/aws/parsers/compute/start_stop_instances.rb
@@ -172,6 +175,7 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/compute/detach_volume.rb
     lib/fog/aws/requests/compute/disassociate_address.rb
     lib/fog/aws/requests/compute/get_console_output.rb
+    lib/fog/aws/requests/compute/import_key_pair.rb
     lib/fog/aws/requests/compute/modify_image_attributes.rb
     lib/fog/aws/requests/compute/modify_snapshot_attribute.rb
     lib/fog/aws/requests/compute/reboot_instances.rb

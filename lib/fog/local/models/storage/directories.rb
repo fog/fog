@@ -1,5 +1,5 @@
 require 'fog/collection'
-require 'fog/local/models/directory'
+require 'fog/local/models/storage/directory'
 
 module Fog
   module Local
@@ -7,7 +7,7 @@ module Fog
 
       class Directories < Fog::Collection
 
-        model Fog::Local::Directory
+        model Fog::Local::Storage::Directory
 
         def all
           data = Dir.entries(connection.local_root).select do |entry|

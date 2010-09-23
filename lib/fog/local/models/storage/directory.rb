@@ -25,7 +25,7 @@ module Fog
 
         def files
           @files ||= begin
-            Fog::Local::Files.new(
+            Fog::Local::Storage::Files.new(
               :directory    => self,
               :connection   => connection
             )
