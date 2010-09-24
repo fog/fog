@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.3.1'
+  s.version           = '0.3.2'
   s.date              = '2010-09-24'
   s.rubyforge_project = 'fog'
 
@@ -282,9 +282,6 @@ Gem::Specification.new do |s|
     lib/fog/google/requests/storage/delete_object.rb
     lib/fog/google/requests/storage/get_bucket.rb
     lib/fog/google/requests/storage/get_bucket_acl.rb
-    lib/fog/google/requests/storage/get_bucket_logging.rb
-    lib/fog/google/requests/storage/get_bucket_object_versions.rb
-    lib/fog/google/requests/storage/get_bucket_versioning.rb
     lib/fog/google/requests/storage/get_object.rb
     lib/fog/google/requests/storage/get_object_acl.rb
     lib/fog/google/requests/storage/get_object_torrent.rb
@@ -293,8 +290,6 @@ Gem::Specification.new do |s|
     lib/fog/google/requests/storage/head_object.rb
     lib/fog/google/requests/storage/put_bucket.rb
     lib/fog/google/requests/storage/put_bucket_acl.rb
-    lib/fog/google/requests/storage/put_bucket_logging.rb
-    lib/fog/google/requests/storage/put_bucket_versioning.rb
     lib/fog/google/requests/storage/put_object.rb
     lib/fog/google/requests/storage/put_object_url.rb
     lib/fog/google/storage.rb
