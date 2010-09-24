@@ -95,6 +95,7 @@ Play around and use the console to explore or check out the {getting started gui
 You should try out the (varying) support fog has for:
 * {AWS}[http://aws.amazon.com] [{EC2}[http://aws.amazon.com/ec2], {ELB}[http://aws.amazon.com/elasticloadbalancing], {S3}[http://aws.amazon.com/s3], {SimpleDB}[http://aws.amazon.com/simpledb]]
 * {Blue Box Group}[http://www.blueboxgrp.com] [{Blocks}[http://www.blueboxgrp.com/blocks]]
+* {Google}[http://www.google.com] [{Storage}[http://code.google.com/apis/storage]]
 * {Rackspace}[http://www.rackspace.com] [{Files}[http://www.rackspacecloud.com/cloud_hosting_products/files], {Servers}[http://www.rackspacecloud.com/cloud_hosting_products/servers]]
 * {Slicehost}[http://www.slicehost.com]
 * {Terremark}[http://www.terremark.com] [{vCloud Express}[http://vcloudexpress.terremark.com]]
