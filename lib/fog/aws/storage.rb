@@ -64,7 +64,8 @@ module Fog
           query << "AWSAccessKeyId=#{@aws_access_key_id}"
           query << "Signature=#{CGI.escape(signature(params))}"
           query << "Expires=#{params[:headers]['Date']}"
-          "http://#{params[:host]}/#{params[:path]}?#{query.join('&')}"
+          bucket = params[:host].split('.').first
+          "https://#{@host}/#{params[:path]}?#{query.join('&')}"
         end
 
       end
