@@ -33,8 +33,9 @@ module Fog
 
           # first or create fog_#{credential} keypair
           unless server.key_pair = connection.key_pairs.get("fog_#{Fog.credential}")
+            name = Fog.respond_to?(:credential) && Fog.credential || :default
             server.key_pair = connection.key_pairs.create(
-              :name => "fog_#{Fog.credential}",
+              :name => "fog_#{name}",
               :public_key => server.public_key
             )
           end
