@@ -5,7 +5,7 @@ module Fog
 
         require 'fog/google/parsers/storage/get_service'
 
-        # List information about S3 buckets for authorized user
+        # List information about Google Storage buckets for authorized user
         #
         # ==== Returns
         # * response<~Excon::Response>:

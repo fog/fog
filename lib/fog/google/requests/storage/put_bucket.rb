@@ -3,7 +3,7 @@ module Fog
     class Storage
       class Real
 
-        # Create an S3 bucket
+        # Create an Google Storage bucket
         #
         # ==== Parameters
         # * bucket_name<~String> - name of bucket to create

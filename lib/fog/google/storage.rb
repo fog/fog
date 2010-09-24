@@ -16,9 +16,6 @@ module Fog
       request :delete_object
       request :get_bucket
       request :get_bucket_acl
-      request :get_bucket_logging
-      request :get_bucket_object_versions
-      request :get_bucket_versioning
       request :get_object
       request :get_object_acl
       request :get_object_torrent
@@ -27,8 +24,6 @@ module Fog
       request :head_object
       request :put_bucket
       request :put_bucket_acl
-      request :put_bucket_logging
-      request :put_bucket_versioning
       request :put_object
       request :put_object_url
 
@@ -98,14 +93,14 @@ module Fog
         extend Fog::Deprecation
         deprecate(:reset, :reload)
 
-        # Initialize connection to S3
+        # Initialize connection to Google Storage
         #
         # ==== Notes
         # options parameter must include values for :google_storage_access_key_id and
         # :google_storage_secret_access_key in order to create a connection
         #
         # ==== Examples
-        #   s3 = S3.new(
+        #   google_storage = Storage.new(
         #     :google_storage_access_key_id => your_google_storage_access_key_id,
         #     :google_storage_secret_access_key => your_google_storage_secret_access_key
         #   )
@@ -114,7 +109,7 @@ module Fog
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
         #
         # ==== Returns
-        # * S3 object with connection to google.
+        # * Storage object with connection to google.
         def initialize(options={})
           @google_storage_access_key_id = options[:google_storage_access_key_id]
           @google_storage_secret_access_key = options[:google_storage_secret_access_key]
@@ -164,7 +159,7 @@ DATA
 
           subdomain = params[:host].split(".#{@host}").first
           unless subdomain =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
-            Formatador.display_line("[yellow][WARN] fog: the specified s3 bucket name(#{subdomain}) is not a valid dns name.  See: http://docs.amazonwebservices.com/AmazonS3/latest/dev/index.html?Introduction.html[/]")
+            Formatador.display_line("[yellow][WARN] fog: the specified google storage bucket name(#{subdomain}) is not a valid dns name.  See: http://code.google.com/apis/storage/docs/developer-guide.html#naming ")
             params[:host] = params[:host].split("#{subdomain}.")[-1]
             if params[:path]
               params[:path] = "#{subdomain}/#{params[:path]}"

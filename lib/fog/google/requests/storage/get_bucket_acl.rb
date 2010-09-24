@@ -5,7 +5,7 @@ module Fog
 
         require 'fog/google/parsers/storage/access_control_list'
 
-        # Get access control list for an S3 bucket
+        # Get access control list for an Google Storage bucket
         #
         # ==== Parameters
         # * bucket_name<~String> - name of bucket to get access control list for

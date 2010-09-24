@@ -14,7 +14,7 @@ describe 'Fog::Google::Storage::Directories' do
 
   describe "#create" do
 
-     it "should exist on s3" do
+     it "should exist on google storage" do
        directory = Google[:storage].directories.create(:key => 'fogdirectorykey')
        Google[:storage].directories.get(directory.key).should_not be_nil
        directory.destroy

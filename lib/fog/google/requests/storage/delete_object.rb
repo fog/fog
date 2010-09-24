@@ -3,7 +3,7 @@ module Fog
     class Storage
       class Real
 
-        # Delete an object from S3
+        # Delete an object from Google Storage
         #
         # ==== Parameters
         # * bucket_name<~String> - Name of bucket containing object to delete

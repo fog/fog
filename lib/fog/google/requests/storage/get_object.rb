@@ -3,7 +3,7 @@ module Fog
     class Storage
       class Real
 
-        # Get an object from S3
+        # Get an object from Google Storage
         #
         # ==== Parameters
         # * bucket_name<~String> - Name of bucket to read from

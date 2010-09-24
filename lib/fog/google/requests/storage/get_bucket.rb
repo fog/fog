@@ -6,7 +6,7 @@ module Fog
 
         require 'fog/google/parsers/storage/get_bucket'
 
-        # List information about objects in an S3 bucket
+        # List information about objects in an Google Storage bucket
         #
         # ==== Parameters
         # * bucket_name<~String> - name of bucket to list object keys from
