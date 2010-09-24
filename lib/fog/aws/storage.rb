@@ -74,10 +74,12 @@ module Fog
         include Utils
 
         def self.data
-          @data ||= Hash.new do |hash, key|
-            hash[key] = {
-              :buckets => {}
-            }
+          @data ||= Hash.new do |hash, region|
+            hash[region] = Hash.new do |hash, key|
+              hash[key] = {
+                :buckets => {}
+              }
+            end
           end
         end
 
@@ -89,7 +91,8 @@ module Fog
 
         def initialize(options={})
           @aws_access_key_id = options[:aws_access_key_id]
-          @data = self.class.data[@aws_access_key_id]
+          @region = options[:region] || 'us-east-1'
+          @data = self.class.data[@region][@aws_access_key_id]
         end
 
         def signature(params)
