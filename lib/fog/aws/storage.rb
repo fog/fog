@@ -91,7 +91,7 @@ module Fog
 
         def initialize(options={})
           @aws_access_key_id = options[:aws_access_key_id]
-          @region = options[:region] || 'us-east-1'
+          options[:region] ||= 'us-east-1'
           @host = options[:host] || case options[:region]
           when 'eu-west-1'
             's3-eu-west-1.amazonaws.com'
@@ -104,7 +104,7 @@ module Fog
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end
-          @data = self.class.data[@region][@aws_access_key_id]
+          @data = self.class.data[options[:region]][@aws_access_key_id]
         end
 
         def signature(params)
