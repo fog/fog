@@ -3,7 +3,7 @@ module Fog
     class Storage
       class Real
 
-        # Change access control list for an S3 bucket
+        # Change access control list for an Google Storage bucket
         #
         # ==== Parameters
         # * bucket_name<~String> - name of bucket to modify

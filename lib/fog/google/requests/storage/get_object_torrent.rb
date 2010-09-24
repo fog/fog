@@ -3,7 +3,7 @@ module Fog
     class Storage
       class Real
 
-        # Get torrent for an S3 object
+        # Get torrent for an Google Storage object
         #
         # ==== Parameters
         # * bucket_name<~String> - name of bucket containing object

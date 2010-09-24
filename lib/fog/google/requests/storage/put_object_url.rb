@@ -3,7 +3,7 @@ module Fog
     class Storage
       class Real
 
-        # Get an expiring object url from S3 for putting an object
+        # Get an expiring object url from Google Storage for putting an object
         #
         # ==== Parameters
         # * bucket_name<~String> - Name of bucket containing object

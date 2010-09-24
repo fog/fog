@@ -63,7 +63,7 @@ describe 'Fog::Google::Storage::Files' do
 
   describe "#create" do
 
-    it "should exist on s3" do
+    it "should exist on google storage" do
       data = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
       file = @directory.files.create(:key => 'fogfilename', :body => data)
       @directory.files.get('fogfilename').should_not be_nil
