@@ -32,7 +32,7 @@ class AWS < Fog::Bin
     end
 
     def services
-      [:compute, :elb, :simpledb, :storage]
+      [:compute, :elb, :sdb, :storage]
     end
 
   end

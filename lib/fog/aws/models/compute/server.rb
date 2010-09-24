@@ -33,7 +33,7 @@ module Fog
         attribute :user_data
 
         attr_accessor :password, :username
-        attr_writer   :private_key_path, :public_key_path
+        attr_writer   :private_key, :private_key_path, :public_key, :public_key_path
 
         def initialize(attributes={})
           @groups ||= ["default"] unless attributes[:subnet_id]
@@ -79,7 +79,7 @@ module Fog
         end
 
         def key_pair=(new_keypair)
-          @key_name = new_keypair.name
+          @key_name = new_keypair && new_keypair.name
         end
 
         def monitoring=(new_monitoring)
@@ -99,13 +99,20 @@ module Fog
         end
 
         def private_key_path
-          @private_key_path ||= Fog.credentials[:private_key_path]
+          File.expand_path(@private_key_path ||= Fog.credentials[:private_key_path])
+        end
+
+        def private_key
+          @private_key ||= File.read(private_key_path)
         end
 
         def public_key_path
-          @public_key_path ||= Fog.credentials[:public_key_path]
+          File.expand_path(@public_key_path ||= Fog.credentials[:public_key_path])
         end
 
+        def public_key
+          @public_key ||= File.read(public_key_path)
+        end
         def ready?
           @state == 'running'
         end
@@ -147,11 +154,11 @@ module Fog
         end
 
         def setup(credentials = {})
-          requires :ip_address, :identity, :public_key_path, :username
+          requires :identity, :ip_address, :public_key, :username
           sleep(10) # takes a bit before EC2 instances will play nice
           Fog::SSH.new(ip_address, username, credentials).run([
             %{mkdir .ssh},
-            %{echo "#{File.read(public_key_path)}" >> ~/.ssh/authorized_keys},
+            %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
             %{passwd -l root},
             %{echo "#{attributes.to_json}" >> ~/attributes.json}
           ])
@@ -161,8 +168,8 @@ module Fog
         end
 
         def ssh(commands)
-          requires :identity, :ip_address, :private_key_path, :username
-          @ssh ||= Fog::SSH.new(ip_address, username, :keys => [private_key_path])
+          requires :identity, :ip_address, :private_key, :username
+          @ssh ||= Fog::SSH.new(ip_address, username, :key_data => [private_key])
           @ssh.run(commands)
         end
 

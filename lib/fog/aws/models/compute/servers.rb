@@ -9,8 +9,6 @@ module Fog
 
         attribute :server_id
 
-        attr_writer :private_key_path, :public_key_path
-
         model Fog::AWS::Compute::Server
 
         def initialize(attributes)
@@ -31,10 +29,14 @@ module Fog
         end
 
         def bootstrap(new_attributes = {})
+          server = connection.servers.new(new_attributes)
+
           # first or create fog_#{credential} keypair
-          unless key_pair = connection.key_pairs.get("fog_#{Fog.credential}")
-            public_key = File.read(public_key_path)
-            key_pair = connection.key_pairs.create(:name => "fog_#{Fog.credential}", :public_key => public_key)
+          unless server.key_pair = connection.key_pairs.get("fog_#{Fog.credential}")
+            server.key_pair = connection.key_pairs.create(
+              :name => "fog_#{Fog.credential}",
+              :public_key => server.public_key
+            )
           end
 
           # make sure port 22 is open in the first security group
@@ -49,11 +51,9 @@ module Fog
             security_group.authorize_port_range(22..22)
           end
 
+          server.save
           server.wait_for { ready? }
-          private_key = File.read(private_key_path)
-          server.setup(:key_data => [private_key])
-
-          server.merge_attributes(:private_key_path => private_key_path, :public_key_path => public_key_path)
+          server.setup(:key_data => [server.private_key])
           server
         end
 
@@ -63,14 +63,6 @@ module Fog
           end
         rescue Fog::Errors::NotFound
           nil
-        end
-
-        def private_key_path
-          @private_key_path ||= Fog.credentials[:private_key_path]
-        end
-
-        def public_key_path
-          @public_key_path ||= Fog.credentials[:public_key_path]
         end
 
       end
