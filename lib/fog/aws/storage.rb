@@ -165,6 +165,7 @@ module Fog
         def request(params, &block)
           params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
           params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
+          params[:expects] = [params[:expects] || [], 307].flatten
 
           response = @connection.request(params, &block)
 
