@@ -32,7 +32,7 @@ require 'fog/ssh'
 module Fog
 
   unless const_defined?(:VERSION)
-    VERSION = '0.3.5'
+    VERSION = '0.3.6'
   end
 
   module Mock

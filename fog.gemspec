@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.3.5'
-  s.date              = '2010-09-24'
+  s.version           = '0.3.6'
+  s.date              = '2010-09-27'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -549,18 +549,6 @@ Gem::Specification.new do |s|
     spec/aws/models/storage/file_spec.rb
     spec/aws/models/storage/files_spec.rb
     spec/aws/requests/compute/describe_images_spec.rb
-    spec/aws/requests/s3/copy_object_spec.rb
-    spec/aws/requests/s3/delete_bucket_spec.rb
-    spec/aws/requests/s3/delete_object_spec.rb
-    spec/aws/requests/s3/get_bucket_location_spec.rb
-    spec/aws/requests/s3/get_bucket_spec.rb
-    spec/aws/requests/s3/get_object_spec.rb
-    spec/aws/requests/s3/get_request_payment_spec.rb
-    spec/aws/requests/s3/get_service_spec.rb
-    spec/aws/requests/s3/head_object_spec.rb
-    spec/aws/requests/s3/put_bucket_spec.rb
-    spec/aws/requests/s3/put_object_spec.rb
-    spec/aws/requests/s3/put_request_payment_spec.rb
     spec/aws/requests/simpledb/batch_put_attributes_spec.rb
     spec/aws/requests/simpledb/create_domain_spec.rb
     spec/aws/requests/simpledb/delete_attributes_spec.rb
@@ -570,6 +558,18 @@ Gem::Specification.new do |s|
     spec/aws/requests/simpledb/list_domains_spec.rb
     spec/aws/requests/simpledb/put_attributes_spec.rb
     spec/aws/requests/simpledb/select_spec.rb
+    spec/aws/requests/storage/copy_object_spec.rb
+    spec/aws/requests/storage/delete_bucket_spec.rb
+    spec/aws/requests/storage/delete_object_spec.rb
+    spec/aws/requests/storage/get_bucket_location_spec.rb
+    spec/aws/requests/storage/get_bucket_spec.rb
+    spec/aws/requests/storage/get_object_spec.rb
+    spec/aws/requests/storage/get_request_payment_spec.rb
+    spec/aws/requests/storage/get_service_spec.rb
+    spec/aws/requests/storage/head_object_spec.rb
+    spec/aws/requests/storage/put_bucket_spec.rb
+    spec/aws/requests/storage/put_object_spec.rb
+    spec/aws/requests/storage/put_request_payment_spec.rb
     spec/bluebox/models/compute/flavors_spec.rb
     spec/bluebox/models/compute/server_spec.rb
     spec/bluebox/models/compute/servers_spec.rb
