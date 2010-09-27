@@ -168,6 +168,11 @@ module Fog
 
           response = @connection.request(params, &block)
 
+          if response.status == 307
+            params[:host] = response['Error']['Endpoint']
+            response = @connection.request(params, &block)
+          end
+
           response
         end
 
