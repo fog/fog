@@ -165,13 +165,17 @@ module Fog
         def request(params, &block)
           params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
           params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
+          org_params = params.dup
           params[:expects] = [params[:expects] || [], 307].flatten
 
           response = @connection.request(params, &block)
-
-          if response.status == 307
-            params[:host] = response['Error']['Endpoint']
-            response = @connection.request(params, &block)
+          
+          if response.status == 307 && endpoint = response.body.match(/<Endpoint>([^<]+)<\/Endpoint>/)[1]
+            params = org_params
+            params[:host] = endpoint
+            # params[:expects] will now be reset to what it was before
+            # Redo the request, but to the specified endpoint            
+            response = Fog::Connection.new("https://#{endpoint}:443", false).request(params, &block)
           end
 
           response
