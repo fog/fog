@@ -14,6 +14,13 @@ module Fog
           load(data)
         end
 
+        def bootstrap(new_attributes = {})
+          server = create(new_attributes)
+          server.wait_for { ready? }
+          server.setup(:password => server.password)
+          server
+        end
+
         def get(server_id)
           if server_id && server = connection.get_slice(server_id).body
             new(server)

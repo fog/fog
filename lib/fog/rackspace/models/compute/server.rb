@@ -18,8 +18,8 @@ module Fog
         attribute :progress
         attribute :status
 
-        attr_accessor :password, :username
-        attr_writer :private_key, :private_key_path, :public_key, :public_key_path
+        attr_reader :password
+        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username
 
         def initialize(attributes={})
           @flavor_id ||= 1

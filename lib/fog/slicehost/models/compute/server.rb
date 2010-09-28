@@ -15,9 +15,12 @@ module Fog
         attribute :flavor_id,     :aliases => 'flavor-id'
         attribute :image_id,      :aliases => 'image-id'
         attribute :name
-        attribute :password,      :aliases => 'root-password'
         attribute :progress
         attribute :status
+
+        attr_accessor :password
+        alias_method :'root-password=', :password=
+        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username
 
         def initialize(attributes={})
           @flavor_id ||= 1
@@ -40,6 +43,22 @@ module Fog
           connection.images.get(@image_id)
         end
 
+        def private_key_path
+          File.expand_path(@private_key_path ||= Fog.credentials[:private_key_path])
+        end
+
+        def private_key
+          @private_key ||= File.read(private_key_path)
+        end
+
+        def public_key_path
+          File.expand_path(@public_key_path ||= Fog.credentials[:public_key_path])
+        end
+
+        def public_key
+          @public_key ||= File.read(public_key_path)
+        end
+
         def ready?
           @status == 'active'
         end
@@ -55,6 +74,29 @@ module Fog
           data = connection.create_slice(@flavor_id, @image_id, @name)
           merge_attributes(data.body)
           true
+        end
+
+        def setup(credentials = {})
+          requires :addresses, :identity, :public_key, :username
+          Fog::SSH.new(addresses.first, username, credentials).run([
+            %{mkdir .ssh},
+            %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
+            %{passwd -l root},
+            %{echo "#{attributes.to_json}" >> ~/attributes.json}
+          ])
+        rescue Errno::ECONNREFUSED
+          sleep(1)
+          retry
+        end
+
+        def ssh(commands)
+          requires :addresses, :identity, :private_key, :username
+          @ssh ||= Fog::SSH.new(addresses.first, username, :key_data => [private_key])
+          @ssh.run(commands)
+        end
+
+        def username
+          @username ||= 'root'
         end
 
       end
