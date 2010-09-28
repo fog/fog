@@ -173,6 +173,7 @@ module Fog
 
           if response.status == 307
             uri = URI.parse(response.headers['Location'])
+            Formatador.display_line("[yellow][WARN] fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant[/]")
             response = Fog::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false).request(original_params, &block)
           end
 
