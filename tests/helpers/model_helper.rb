@@ -1,65 +1,72 @@
-def tests_models
+def tests_model
+  tests_model_first
+  tests_collection
+  tests_model_last
+end
 
-  tests('model#save') do
+def tests_model_first
 
-    test('does not exist remotely before save') do
-      !@collection.get(@model.identity)
-    end
+  tests(@model.class) do
 
-    test('succeeds') do
+    test('#save') do
       @model.save
     end
 
-    test('does exist remotely after save') do
-      @model.save
-      if @model.respond_to?(:ready?)
-        @model.wait_for { ready? }
-      end
+    if @model.respond_to?(:ready?)
+      @model.wait_for { ready? }
+    end
+
+    test('#reload') do
       reloaded = @model.reload
       @model.attributes == reloaded.attributes
     end
 
   end
 
-  test('model#reload') do
-    if @model.respond_to?(:ready?)
-      @model.wait_for { ready? }
-    end
-    reloaded = @model.reload
-    @model.attributes == reloaded.attributes
-  end
+end
 
-  test('collection#all includes persisted models') do
-    @model.save
-    @collection.all.map {|model| model.identity}.include? @model.identity
-  end
+def tests_collection
 
-  tests('collection#get') do
+  tests(@collection.class) do
 
-    test 'should return a matching model if one exists' do
-      @model.save
-      get = @collection.get(@model.identity)
-      @model.attributes == get.attributes
+    test('collection#all includes persisted models') do
+      @collection.all.map {|model| model.identity}.include?(@model.identity)
     end
 
-    test 'should return nil if no matching model exists' do
-      !@collection.get('0')
+    tests('collection#get') do
+
+      test 'should return a matching model if one exists' do
+        get = @collection.get(@model.identity)
+        @model.attributes == get.attributes
+      end
+
+      test 'should return nil if no matching model exists' do
+        !@collection.get(@non_id)
+      end
+
+    end
+
+    test('collection#reload') do
+      @collection.all
+      reloaded = @collection.reload
+      @collection.attributes == reloaded.attributes
     end
 
   end
 
-  test('collection#reload') do
-    @model.save
-    @collection.all
-    reloaded = @collection.reload
-    @collection.attributes == reloaded.attributes
-  end
+end
 
-  test('model#destroy') do
-    if @model.respond_to?(:ready?)
-      @model.wait_for{ ready? }
+def tests_model_last
+
+  tests(@model.class) do
+
+    test('#destroy') do
+      if @model.respond_to?(:ready?)
+        @model.wait_for{ ready? }
+      end
+      @model.destroy
     end
-    @model.destroy
+
   end
 
 end
