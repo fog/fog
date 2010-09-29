@@ -1,4 +1,4 @@
-require 'fog/credentials'
+require 'fog/core/credentials'
 
 module Fog
   class << self

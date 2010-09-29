@@ -21,7 +21,7 @@ srand 1234
 
 current_directory = File.dirname(__FILE__)
 require "#{current_directory}/../../lib/fog"
-require "#{current_directory}/../../lib/fog/bin"
+require "#{current_directory}/../../lib/fog/core/bin"
 
 Fog.mock! if ENV['FOG_MOCK']
 

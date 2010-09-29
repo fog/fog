@@ -2,14 +2,14 @@
 require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
 require 'irb'
 require 'yaml'
-require File.join('fog', 'credentials')
+require File.join('fog', 'core', 'credentials')
 Fog.credential = ARGV.first ? ARGV.first.to_sym : nil
 Fog.bin = true
 unless Fog.credentials
   exit
 end
 
-require 'fog/bin'
+require 'fog/core/bin'
 
 if ARGV.length > 1
   print(instance_eval(ARGV[1..-1].join(' ')).to_json)

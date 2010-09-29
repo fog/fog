@@ -1,5 +1,5 @@
 require 'fog'
-require 'fog/bin'
+require 'fog/core/bin'
 Fog.bin = true
 
 require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'model_helper'))

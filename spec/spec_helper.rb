@@ -2,7 +2,7 @@ require 'spec'
 require 'open-uri'
 require 'fog'
 Fog.bin = true
-require 'fog/bin'
+require 'fog/core/bin'
 require 'fog/vcloud/bin'
 
 if ENV["FOG_MOCK"] == "true"
