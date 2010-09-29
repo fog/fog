@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.3.6'
-  s.date              = '2010-09-27'
+  s.version           = '0.3.7'
+  s.date              = '2010-09-29'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -548,7 +548,6 @@ Gem::Specification.new do |s|
     spec/aws/models/storage/directory_spec.rb
     spec/aws/models/storage/file_spec.rb
     spec/aws/models/storage/files_spec.rb
-    spec/aws/requests/compute/describe_images_spec.rb
     spec/aws/requests/simpledb/batch_put_attributes_spec.rb
     spec/aws/requests/simpledb/create_domain_spec.rb
     spec/aws/requests/simpledb/delete_attributes_spec.rb
@@ -650,6 +649,7 @@ Gem::Specification.new do |s|
     tests/aws/models/storage/directory_tests.rb
     tests/aws/requests/compute/address_tests.rb
     tests/aws/requests/compute/availability_zone_tests.rb
+    tests/aws/requests/compute/image_tests.rb
     tests/aws/requests/compute/instance_tests.rb
     tests/aws/requests/compute/key_pair_tests.rb
     tests/aws/requests/compute/region_tests.rb
