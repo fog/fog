@@ -63,9 +63,10 @@ module Fog
           @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)
           @host       = options[:host]      || 'sdb.amazonaws.com'
           @nil_string = options[:nil_string]|| 'nil'
+          @path       = options[:path]      || '/'
           @port       = options[:port]      || 443
           @scheme     = options[:scheme]    || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
         end
 
         private
@@ -137,6 +138,7 @@ module Fog
               :aws_access_key_id  => @aws_access_key_id,
               :hmac               => @hmac,
               :host               => @host,
+              :path               => @path,
               :version            => '2009-04-15'
             }
           )

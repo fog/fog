@@ -59,9 +59,10 @@ module Fog
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end
+          @path       = options[:path]      || '/'
           @port       = options[:port]      || 443
           @scheme     = options[:scheme]    || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
         end
 
         def reload
@@ -80,6 +81,7 @@ module Fog
               :aws_access_key_id  => @aws_access_key_id,
               :hmac               => @hmac,
               :host               => @host,
+              :path               => @path,
               :version            => '2009-11-25'
             }
           )

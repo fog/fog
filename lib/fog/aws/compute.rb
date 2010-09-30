@@ -153,8 +153,15 @@ module Fog
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
           @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
-          options[:region] ||= 'us-east-1'
-          @host = options[:host] || case options[:region]
+          if @endpoint = options[:endpoint]
+            endpoint = URI.parse(@endpoint)
+            @host = endpoint.host
+            @path = endpoint.path
+            @port = endpoint.port
+            @scheme = endpoint.scheme
+          else
+            options[:region] ||= 'us-east-1'
+            @host = options[:host] || case options[:region]
             when 'ap-southeast-1'
               'ec2.ap-southeast-1.amazonaws.com'
             when 'eu-west-1'
@@ -166,9 +173,11 @@ module Fog
             else
               raise ArgumentError, "Unknown region: #{options[:region].inspect}"
             end
-          @port   = options[:port]      || 443
-          @scheme = options[:scheme]    || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+            @path   = options[:path]      || '/'
+            @port   = options[:port]      || 443
+            @scheme = options[:scheme]    || 'https'
+          end
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
         end
 
         def reload
@@ -187,6 +196,7 @@ module Fog
               :aws_access_key_id  => @aws_access_key_id,
               :hmac               => @hmac,
               :host               => @host,
+              :path               => @path,
               :version            => '2010-08-31'
             }
           )

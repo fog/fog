@@ -138,8 +138,15 @@ module Fog
           @aws_access_key_id = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
           @hmac = Fog::HMAC.new('sha1', @aws_secret_access_key)
-          options[:region] ||= 'us-east-1'
-          @host = options[:host] || case options[:region]
+          if @endpoint = options[:endpoint]
+            endpoint = URI.parse(@endpoint)
+            @host = endpoint.host
+            @path = endpoint.path
+            @port = endpoint.port
+            @scheme = endpoint.scheme
+          else
+            options[:region] ||= 'us-east-1'
+            @host = options[:host] || case options[:region]
             when 'eu-west-1'
               's3-eu-west-1.amazonaws.com'
             when 'us-east-1'
@@ -151,9 +158,11 @@ module Fog
             else
               raise ArgumentError, "Unknown region: #{options[:region].inspect}"
             end
-          @port   = options[:port]      || 443
-          @scheme = options[:scheme]    || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent] || true)
+            @path   = options[:path]      || '/'
+            @port   = options[:port]      || 443
+            @scheme = options[:scheme]    || 'https'
+          end
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent] || true)
         end
 
         def reload
@@ -213,7 +222,7 @@ DATA
             subdomain = nil
           end
 
-          canonical_resource  = "/"
+          canonical_resource  = @path
           unless subdomain.nil? || subdomain == @host
             canonical_resource << "#{CGI.escape(subdomain).downcase}/"
           end
