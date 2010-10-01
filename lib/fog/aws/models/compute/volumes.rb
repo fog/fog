@@ -29,7 +29,7 @@ module Fog
 
         def get(volume_id)
           if volume_id
-            all(volume_id).first
+            self.class.new(:connection => connection).all(volume_id).first
           end
         rescue Fog::Errors::NotFound
           nil

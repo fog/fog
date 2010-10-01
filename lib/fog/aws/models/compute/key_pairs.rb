@@ -24,7 +24,7 @@ module Fog
 
         def get(key_name)
           if key_name
-            all(key_name).first
+            self.class.new(:connection => connection).all(key_name).first
           end
         rescue Fog::Errors::NotFound
           nil

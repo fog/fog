@@ -36,7 +36,7 @@ module Fog
 
         def get(snapshot_id)
           if snapshot_id
-            all(snapshot_id).first
+            self.class.new(:connection => connection).all(snapshot_id).first
           end
         rescue Fog::Errors::NotFound
           nil

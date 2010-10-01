@@ -33,7 +33,7 @@ module Fog
 
         def get(public_ip)
           if public_ip
-            all(public_ip).first
+            self.class.new(:connection => connection).all(public_ip).first
           end
         rescue Fog::Errors::NotFound
           nil

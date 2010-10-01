@@ -24,7 +24,7 @@ module Fog
 
         def get(image_id)
           if image_id
-            all(image_id).first
+            self.class.new(:connection => connection).all(image_id).first
           end
         rescue Fog::Errors::NotFound
           nil

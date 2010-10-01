@@ -60,7 +60,7 @@ module Fog
 
         def get(server_id)
           if server_id
-            all(server_id).first
+            self.class.new(:connection => connection).all(server_id).first
           end
         rescue Fog::Errors::NotFound
           nil

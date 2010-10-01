@@ -24,7 +24,7 @@ module Fog
 
         def get(group_name)
           if group_name
-            all(group_name).first
+            self.class.new(:connection => connection).all(group_name).first
           end
         rescue Fog::Errors::NotFound
           nil

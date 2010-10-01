@@ -29,7 +29,7 @@ module Fog
         end
 
         def get(flavor_id)
-          all.detect {|flavor| flavor.id == flavor_id}
+          self.class.new(:connection => connection).all.detect {|flavor| flavor.id == flavor_id}
         end
 
       end
