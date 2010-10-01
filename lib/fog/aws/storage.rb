@@ -222,7 +222,7 @@ DATA
             subdomain = nil
           end
 
-          canonical_resource  = @path
+          canonical_resource  = @path.dup
           unless subdomain.nil? || subdomain == @host
             canonical_resource << "#{CGI.escape(subdomain).downcase}/"
           end
