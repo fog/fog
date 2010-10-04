@@ -5,6 +5,7 @@ require 'yaml'
 require File.join('fog', 'core', 'credentials')
 Fog.credential = ARGV.first ? ARGV.first.to_sym : nil
 Fog.bin = true
+Fog.mock! if ENV['FOG_MOCK']
 unless Fog.credentials
   exit
 end
