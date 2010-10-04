@@ -21,7 +21,7 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
     'ramdiskId'           => String,
     'reason'              => NilClass,
     # 'rootDeviceName'      => String,
-    'rootDeviceType'      => String
+    'rootDeviceType'      => String,
   }
 
   @run_instances_format = {
@@ -40,7 +40,8 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
         'dnsName'           => String,
         'ipAddress'         => String,
         'privateDnsName'    => String,
-        'privateIpAddress'  => String
+        'privateIpAddress'  => String,
+        'stateReason'       => {}
       )],
       'ownerId'       => String,
       'reservationId' => String
@@ -81,8 +82,8 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
     #   AWS[:compute].describe_instances.body
     # end
 
-    tests("#describe_instances('#{@instance_id}')").formats(@describe_instances_format) do
-      AWS[:compute].describe_instances(@instance_id).body
+    tests("#describe_instances('instance-id' => '#{@instance_id}')").formats(@describe_instances_format) do
+      AWS[:compute].describe_instances('instance-id' => @instance_id).body
     end
 
     tests("#get_console_output('#{@instance_id}')").formats(@get_console_output_format) do
@@ -100,10 +101,6 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
   end
 
   tests('failure') do
-
-    tests("#describe_instances('i-00000000')").raises(Fog::AWS::Compute::NotFound) do
-      AWS[:compute].describe_instances('i-00000000')
-    end
 
     tests("#get_console_output('i-00000000')").raises(Fog::AWS::Compute::NotFound) do
       AWS[:compute].get_console_output('i-00000000')

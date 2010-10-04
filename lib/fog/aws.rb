@@ -22,6 +22,19 @@ module Fog
       params
     end
 
+    def self.indexed_filters(filters)
+      params = {}
+      filters.keys.each_with_index do |key, key_index|
+        key_index += 1
+        params[format('Filter.%d.Name', key_index)] = key
+        [*filters[key]].each_with_index do |value, value_index|
+          value_index += 1
+          params[format('Filter.%d.Value.%d', key_index, value_index)] = value
+        end
+      end
+      params
+    end
+
     def self.signed_params(params, options = {})
       params.merge!({
         'AWSAccessKeyId'    => options[:aws_access_key_id],

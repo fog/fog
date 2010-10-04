@@ -15,11 +15,12 @@ module Fog
 
           def start_element(name, attrs = [])
             super
-            if name == 'groups'
+            case name
+            when 'groups'
               @in_groups = true
-            elsif name == 'ipPermissions'
+            when 'ipPermissions'
               @in_ip_permissions = true
-            elsif name == 'ipRanges'
+            when 'ipRanges'
               @in_ip_ranges = true
             end
           end

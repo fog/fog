@@ -8,7 +8,7 @@ module Fog
         # Describe all or specified availability zones
         #
         # ==== Params
-        # * zone_name<~String> - List of availability zones to describe, defaults to all
+        # * filters<~Hash> - List of filters to limit results with
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -18,8 +18,12 @@ module Fog
         #       * 'regionName'<~String> - Name of region
         #       * 'zoneName'<~String> - Name of zone
         #       * 'zoneState'<~String> - State of zone
-        def describe_availability_zones(zone_name = [])
-          params = AWS.indexed_param('ZoneName', zone_name)
+        def describe_availability_zones(filters = {})
+          unless filters.is_a?(Hash)
+            Formatador.display_line("[yellow][WARN] describe_availability_zones with #{filters.class} param is deprecated, use describe_availability_zones('zone-name' => []) instead[/] [light_black](#{caller.first})[/]")
+            filters = {'public-ip' => [*filters]}
+          end
+          params = AWS.indexed_filters(filters)
           request({
             'Action'    => 'DescribeAvailabilityZones',
             :idempotent => true,
@@ -31,31 +35,33 @@ module Fog
 
       class Mock
 
-        def describe_availability_zones(zone_name = [])
-          response = Excon::Response.new
-          zone_name = [*zone_name]
-          zones = {
-            'us-east-1a' => {"zoneName"=>"us-east-1a", "regionName"=>"us-east-1", "zoneState"=>"available"}, 
-            'us-east-1b' => {"zoneName"=>"us-east-1b", "regionName"=>"us-east-1", "zoneState"=>"available"}, 
-            'us-east-1c' => {"zoneName"=>"us-east-1c", "regionName"=>"us-east-1", "zoneState"=>"available"}, 
-            'us-east-1d' => {"zoneName"=>"us-east-1d", "regionName"=>"us-east-1", "zoneState"=>"available"}
-          }
-          if zone_name != []
-            availability_zone_info = zones.reject {|key, value| !zone_name.include?(key)}.values
-          else
-            availability_zone_info = zones.values
+        def describe_availability_zones(filters = {})
+          unless filters.is_a?(Hash)
+            Formatador.display_line("[yellow][WARN] describe_availability_zones with #{filters.class} param is deprecated, use describe_availability_zones('zone-name' => []) instead[/] [light_black](#{caller.first})[/]")
+            filters = {'public-ip' => [*filters]}
           end
 
-          if zone_name.length == 0 || zone_name.length == availability_zone_info.length
-            response.status = 200
-            response.body = {
-              'requestId'             => Fog::AWS::Mock.request_id,
-              'availabilityZoneInfo'  => availability_zone_info
-            }
-            response
-          else
-            raise Fog::AWS::Compute::Error.new("InvalidParameterValue => Invalid availability zone: #{zone_name.inspect}")
+          response = Excon::Response.new
+
+          availability_zone_info = [
+            {"regionName"=>"us-east-1", "zoneName"=>"us-east-1a", "zoneState"=>"available"},
+            {"regionName"=>"us-east-1", "zoneName"=>"us-east-1b", "zoneState"=>"available"},
+            {"regionName"=>"us-east-1", "zoneName"=>"us-east-1c", "zoneState"=>"available"},
+            {"regionName"=>"us-east-1", "zoneName"=>"us-east-1d", "zoneState"=>"available"}
+          ]
+
+          aliases = {'region-name' => 'regionName', 'zone-name' => 'zoneName', 'state' => 'zoneState'}
+          for filter_key, filter_value in filters
+            aliased_key = aliases[filter_key]
+            availability_zone_info = availability_zone_info.reject{|availability_zone| ![*filter_value].include?(availability_zone[aliased_key])}
           end
+
+          response.status = 200
+          response.body = {
+            'requestId'             => Fog::AWS::Mock.request_id,
+            'availabilityZoneInfo'  => availability_zone_info
+          }
+          response
         end
 
       end

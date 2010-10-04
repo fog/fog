@@ -8,7 +8,8 @@ module Fog
         # Describe all or specified images.
         #
         # ==== Params
-        # * options<~Hash> - Optional params
+        # * filters<~Hash> - List of filters to limit results with
+        #   * filters and/or the following
         #   * 'ExecutableBy'<~String> - Only return images that the executable_by
         #     user has explicit permission to launch
         #   * 'ImageId'<~Array> - Ids of images to describe
@@ -33,10 +34,14 @@ module Fog
         #       * 'ramdiskId'<~String> - Ramdisk id associated with image, if any
         #       * 'rootDeviceName'<~String> - Root device name, e.g. /dev/sda1
         #       * 'rootDeviceType'<~String> - Root device type, ebs or instance-store
-        def describe_images(options = {})
-          if image_id = options.delete('ImageId')
-            options.merge!(AWS.indexed_param('ImageId', image_id))
+        def describe_images(filters = {})
+          options = {}
+          for key in ['ExecutableBy', 'ImageId', 'Owner']
+            if filters.key?(key)
+              options[key] = filters[key]
+            end
           end
+          params = AWS.indexed_filters(filters).merge!(options)
           request({
             'Action'    => 'DescribeImages',
             :idempotent => true,
@@ -48,20 +53,8 @@ module Fog
 
       class Mock
 
-        def describe_images(options = {})
-          response = Excon::Response.new
-          images = []
-
-          (rand(101 + 100)).times do
-            images << Fog::AWS::Mock.image
-          end
-
-          response.status = 200
-          response.body = {
-            'requestId' => Fog::AWS::Mock.request_id,
-            'imagesSet' => images
-          }
-          response
+        def describe_images(filters = {})
+          Fog::Mock.not_implemented
         end
 
       end

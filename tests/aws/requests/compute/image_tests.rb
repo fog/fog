@@ -31,11 +31,4 @@ Shindo.tests('AWS::Compute | image requests', ['aws']) do
 
   end
 
-  tests('failure') do
-
-    tests("#describe_images('ImageId' => 'ami-00000000')").raises(Fog::AWS::Compute::Error) do
-      AWS[:compute].describe_regions('ImageId' => 'ami-00000000')
-    end
-  end
-
 end

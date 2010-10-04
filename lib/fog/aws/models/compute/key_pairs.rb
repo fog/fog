@@ -12,22 +12,20 @@ module Fog
         model Fog::AWS::Compute::KeyPair
 
         def initialize(attributes)
-          @key_name ||= []
+          @filters ||= {}
           super
         end
 
-        def all(key_name = @key_name)
-          @key_name = key_name
-          data = connection.describe_key_pairs(key_name).body
+        def all(filters = @filters)
+          @filters = filters
+          data = connection.describe_key_pairs(filters).body
           load(data['keySet'])
         end
 
         def get(key_name)
           if key_name
-            self.class.new(:connection => connection).all(key_name).first
+            self.class.new(:connection => connection).all('key-name' => key_name).first
           end
-        rescue Fog::Errors::NotFound
-          nil
         end
 
       end

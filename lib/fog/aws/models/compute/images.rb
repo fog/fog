@@ -7,27 +7,25 @@ module Fog
 
       class Images < Fog::Collection
 
-        attribute :image_id
+        attribute :filters
 
         model Fog::AWS::Compute::Image
 
         def initialize(attributes)
-          @image_id ||= []
+          @filters ||= []
           super
         end
 
-        def all(image_id = @image_id)
-          @image_id = image_id
-          data = connection.describe_images('ImageId' => image_id).body
+        def all(filters = @filters)
+          @filters = filters
+          data = connection.describe_images(@filters).body
           load(data['imagesSet'])
         end
 
         def get(image_id)
           if image_id
-            self.class.new(:connection => connection).all(image_id).first
+            self.class.new(:connection => connection).all('image-id' => image_id).first
           end
-        rescue Fog::Errors::NotFound
-          nil
         end
       end
 

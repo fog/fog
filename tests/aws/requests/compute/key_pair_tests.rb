@@ -27,8 +27,8 @@ Shindo.tests('AWS::Compute | key pair requests', ['aws']) do
       AWS[:compute].describe_key_pairs.body
     end
 
-    tests("#describe_key_pairs(#{@key_pair_name})").formats(@keypairs_format) do
-      AWS[:compute].describe_key_pairs(@key_pair_name).body
+    tests("#describe_key_pairs('key-name' => '#{@key_pair_name}')").formats(@keypairs_format) do
+      AWS[:compute].describe_key_pairs('key-name' => @key_pair_name).body
     end
 
     tests("#delete_key_pair('#{@key_pair_name}')").formats(AWS::Compute::Formats::BASIC) do
@@ -54,10 +54,6 @@ Shindo.tests('AWS::Compute | key pair requests', ['aws']) do
 
     tests("duplicate #create_key_pair('#{@key_pair.name}')").raises(Fog::AWS::Compute::Error) do
       AWS[:compute].create_key_pair(@key_pair.name)
-    end
-
-    tests("#describe_key_pair('not_a_key_name')").raises(Fog::AWS::Compute::NotFound) do
-      AWS[:compute].describe_key_pairs('not_a_key_name').body
     end
 
     @key_pair.destroy

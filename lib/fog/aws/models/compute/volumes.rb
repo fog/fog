@@ -7,19 +7,19 @@ module Fog
 
       class Volumes < Fog::Collection
 
-        attribute :volume_id
+        attribute :filters
         attribute :server
 
         model Fog::AWS::Compute::Volume
 
         def initialize(attributes)
-          @volume_id ||= []
+          @filters ||= {}
           super
         end
 
-        def all(volume_id = @volume_id)
-          @volume_id = volume_id
-          data = connection.describe_volumes(volume_id).body
+        def all(filters = @filters)
+          @filters = filters
+          data = connection.describe_volumes(@filters).body
           load(data['volumeSet'])
           if server
             self.replace(self.select {|volume| volume.server_id == server.id})
@@ -29,10 +29,8 @@ module Fog
 
         def get(volume_id)
           if volume_id
-            self.class.new(:connection => connection).all(volume_id).first
+            self.class.new(:connection => connection).all('volume-id' => volume_id).first
           end
-        rescue Fog::Errors::NotFound
-          nil
         end
 
         def new(attributes = {})

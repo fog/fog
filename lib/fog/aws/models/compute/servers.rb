@@ -7,18 +7,20 @@ module Fog
 
       class Servers < Fog::Collection
 
+        attribute :filters
+
         attribute :server_id
 
         model Fog::AWS::Compute::Server
 
         def initialize(attributes)
-          @server_id ||= []
+          @filters ||= {}
           super
         end
 
-        def all(server_id = @server_id)
-          @server_id = server_id
-          data = connection.describe_instances(server_id).body
+        def all(filters = @filters)
+          @filters = filters
+          data = connection.describe_instances(filters).body
           load(
             data['reservationSet'].map do |reservation|
               reservation['instancesSet'].map do |instance|
@@ -60,7 +62,7 @@ module Fog
 
         def get(server_id)
           if server_id
-            self.class.new(:connection => connection).all(server_id).first
+            self.class.new(:connection => connection).all('instance-id' => server_id).first
           end
         rescue Fog::Errors::NotFound
           nil

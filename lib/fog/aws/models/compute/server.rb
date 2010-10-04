@@ -29,6 +29,7 @@ module Fog
         attribute :root_device_name,      :aliases => 'rootDeviceName'
         attribute :root_device_type,      :aliases => 'rootDeviceType'
         attribute :state,                 :aliases => 'instanceState'
+        attribute :state_reason,          :aliases => 'stateReason'
         attribute :subnet_id,             :aliases => 'subnetId'
         attribute :user_data
 

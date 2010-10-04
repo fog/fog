@@ -8,7 +8,7 @@ module Fog
         # Describe all or specified instances
         #
         # ==== Parameters
-        # * instance_id<~Array> - List of instance ids to describe, defaults to all
+        # * filters<~Hash> - List of filters to limit results with
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -50,8 +50,13 @@ module Fog
         #           * 'rootDeviceType'<~String> - root device type used by AMI in [ebs, instance-store]
         #           * 'ramdiskId'<~String> - Id of ramdisk used to launch instance
         #           * 'reason'<~String> - reason for most recent state transition, or blank
-        def describe_instances(instance_id = [])
-          params = AWS.indexed_param('InstanceId', instance_id)
+        def describe_instances(filters = {})
+          unless filters.is_a?(Hash)
+            Formatador.display_line("[yellow][WARN] describe_instances with #{filters.class} param is deprecated, use describe_instances('instance-id' => []) instead[/] [light_black](#{caller.first})[/]")
+            filters = {'instance-id' => [*filters]}
+          end
+          params = AWS.indexed_filters(filters)
+
           request({
             'Action'    => 'DescribeInstances',
             :idempotent => true,
@@ -63,64 +68,126 @@ module Fog
 
       class Mock
 
-        def describe_instances(instance_id = [])
-          response = Excon::Response.new
-          instance_id = [*instance_id]
-          if instance_id != []
-            instance_set = @data[:instances].reject {|key,value| !instance_id.include?(key)}.values
-          else
-            instance_set = @data[:instances].values
+        def describe_instances(filters = {})
+          unless filters.is_a?(Hash)
+            Formatador.display_line("[yellow][WARN] describe_instances with #{filters.class} param is deprecated, use describe_instances('instance-id' => []) instead[/] [light_black](#{caller.first})[/]")
+            filters = {'instance-id' => [*filters]}
           end
 
-          if instance_id.length == 0 || instance_id.length == instance_set.length
-            response.status = 200
-            reservation_set = {}
+          response = Excon::Response.new
 
-            instance_set.each do |instance|
-              case instance['instanceState']['name']
-              when 'pending'
-                if Time.now - instance['launchTime'] > Fog::Mock.delay
-                  instance['ipAddress']         = Fog::AWS::Mock.ip_address
-                  instance['dnsName']           = Fog::AWS::Mock.dns_name_for(instance['ipAddress'])
-                  instance['privateIpAddress']  = Fog::AWS::Mock.ip_address
-                  instance['privateDnsName']    = Fog::AWS::Mock.private_dns_name_for(instance['privateIpAddress'])
-                  instance['instanceState']     = { 'code' => 16, 'name' => 'running' }
-                end
-              when 'rebooting'
-                instance['instanceState'] = { 'code' => 16, 'name' => 'running' }
-              when 'shutting-down'
-                if Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock.delay * 2
-                  @data[:deleted_at].delete(instance['instanceId'])
-                  @data[:instances].delete(instance['instanceId'])
-                elsif Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock.delay
-                  instance['instanceState'] = { 'code' => 48, 'name' => 'terminating' }
-                end
-              when 'terminating'
-                if Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock.delay
-                  @data[:deleted_at].delete(instance['instanceId'])
-                  @data[:instances].delete(instance['instanceId'])
-                end
+          instance_set = @data[:instances].values
+
+          aliases = {
+            'architecture'      => 'architecture',
+            'availability-zone' => 'availabilityZone',
+            'client-token'      => 'clientToken',
+            'dns-token'         => 'dnsName',
+            'group-id'          => 'groupId',
+            'image-id'          => 'imageId',
+            'instance-id'       => 'instanceId',
+            'instance-lifecycle'  => 'instanceLifecycle',
+            'instance-type'     => 'instanceType',
+            'ip-address'        => 'ipAddress',
+            'kernel-id'         => 'kernelId',
+            'key-name'          => 'key-name',
+            'launch-index'      => 'launchIndex',
+            'launch-time'       => 'launchTime',
+            'monitoring-state'  => 'monitoringState',
+            'owner-id'          => 'ownerId',
+            'placement-group-name' => 'placementGroupName',
+            'platform'          => 'platform',
+            'private-dns-name'  => 'privateDnsName',
+            'private-ip-address'  => 'privateIpAddress',
+            'product-code'      => 'productCode',
+            'ramdisk-id'        => 'ramdiskId',
+            'reason'            => 'reason',
+            'requester-id'      => 'requesterId',
+            'reservation-id'    => 'reservationId',
+            'root-device-name'  => 'rootDeviceName',
+            'root-device-type'  => 'rootDeviceType',
+            'spot-instance-request-id' => 'spotInstanceRequestId',
+            'subnet-id'         => 'subnetId',
+            'virtualization-type' => 'virtualizationType',
+            'vpc-id'            => 'vpcId'
+          }
+          block_device_mapping_aliases = {
+            'attach-time'           => 'attachTime',
+            'delete-on-termination' => 'deleteOnTermination',
+            'device-name'           => 'deviceName',
+            'status'                => 'status',
+            'volume-id'             => 'volumeId',
+          }
+          instance_state_aliases = {
+            'code' => 'code',
+            'name' => 'name'
+          }
+          state_reason_aliases = {
+            'code'    => 'code',
+            'message' => 'message'
+          }
+          for filter_key, filter_value in filters
+            if block_device_mapping_key = filter_key.split('block-device-mapping.')[1]
+              aliased_key = block_device_mapping_aliases[block_device_mapping_key]
+              instance_set = instance_set.reject{|instance| !instance['blockDeviceMapping'].detect {|block_device_mapping| [*filter_value].include?(block_device_mapping[aliased_key])}}
+            elsif instance_state_key = filter_key.split('instance-state-')[1]
+              aliased_key = instance_state_aliases[instance_state_key]
+              instance_set = instance_set.reject{|instance| ![*filter_value].include?(instance['instanceState'][aliased_key])}
+            elsif state_reason_key = filter_key.split('state-reason-')[1]
+              aliased_key = state_reason_aliases[state_reason_key]
+              instance_set = instance_set.reject{|instance| ![*filter_value].include?(instance['stateReason'][aliased_key])}
+            else
+              aliased_key = aliases[filter_key]
+              instance_set = instance_set.reject {|instance| ![*filter_value].include?(instance[aliased_key])}
+            end
+          end
+
+          response.status = 200
+          reservation_set = {}
+
+          instance_set.each do |instance|
+            case instance['instanceState']['name']
+            when 'pending'
+              if Time.now - instance['launchTime'] > Fog::Mock.delay
+                instance['ipAddress']         = Fog::AWS::Mock.ip_address
+                instance['dnsName']           = Fog::AWS::Mock.dns_name_for(instance['ipAddress'])
+                instance['privateIpAddress']  = Fog::AWS::Mock.ip_address
+                instance['privateDnsName']    = Fog::AWS::Mock.private_dns_name_for(instance['privateIpAddress'])
+                instance['instanceState']     = { 'code' => 16, 'name' => 'running' }
               end
-
-              if @data[:instances][instance['instanceId']]
-                reservation_set[instance['reservationId']] ||= {
-                  'groupSet'      => instance['groupSet'],
-                  'instancesSet'  => [],
-                  'ownerId'       => instance['ownerId'],
-                  'reservationId' => instance['reservationId']
-                }
-                reservation_set[instance['reservationId']]['instancesSet'] << instance.reject{|key,value| !['amiLaunchIndex', 'architecture', 'blockDeviceMapping', 'dnsName', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'ipAddress', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'privateDnsName', 'privateIpAddress', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType'].include?(key)}
+            when 'rebooting'
+              instance['instanceState'] = { 'code' => 16, 'name' => 'running' }
+            when 'shutting-down'
+              if Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock.delay * 2
+                @data[:deleted_at].delete(instance['instanceId'])
+                @data[:instances].delete(instance['instanceId'])
+              elsif Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock.delay
+                instance['instanceState'] = { 'code' => 48, 'name' => 'terminating' }
+              end
+            when 'terminating'
+              if Time.now - @data[:deleted_at][instance['instanceId']] > Fog::Mock.delay
+                @data[:deleted_at].delete(instance['instanceId'])
+                @data[:instances].delete(instance['instanceId'])
               end
             end
 
-            response.body = {
-              'requestId'       => Fog::AWS::Mock.request_id,
-              'reservationSet' => reservation_set.values
-            }
-            response
-          else
-            raise Fog::AWS::Compute::NotFound.new("The instance ID #{instance_id.inspect} does not exist")
+            if @data[:instances][instance['instanceId']]
+
+              reservation_set[instance['reservationId']] ||= {
+                'groupSet'      => instance['groupSet'],
+                'instancesSet'  => [],
+                'ownerId'       => instance['ownerId'],
+                'reservationId' => instance['reservationId']
+              }
+              reservation_set[instance['reservationId']]['instancesSet'] << instance.reject{|key,value| !['amiLaunchIndex', 'architecture', 'blockDeviceMapping', 'dnsName', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'ipAddress', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'privateDnsName', 'privateIpAddress', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType'].include?(key)}
+            end
           end
+
+          response.body = {
+            'requestId'       => Fog::AWS::Mock.request_id,
+            'reservationSet' => reservation_set.values
+          }
+          response
         end
 
       end

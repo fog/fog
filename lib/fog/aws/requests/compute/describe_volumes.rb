@@ -8,7 +8,7 @@ module Fog
         # Describe all or specified volumes.
         #
         # ==== Parameters
-        # * volume_id<~Array> - List of volumes to describe, defaults to all
+        # * filters<~Hash> - List of filters to limit results with
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -26,8 +26,12 @@ module Fog
         #         * 'instanceId'<~String> - Reference to attached instance
         #         * 'status'<~String> - Attachment state
         #         * 'volumeId'<~String> - Reference to volume
-        def describe_volumes(volume_id = [])
-          params = AWS.indexed_param('VolumeId', volume_id)
+        def describe_volumes(filters = {})
+          unless filters.is_a?(Hash)
+            Formatador.display_line("[yellow][WARN] describe_volumes with #{filters.class} param is deprecated, use describe_volumes('volume-id' => []) instead[/] [light_black](#{caller.first})[/]")
+            filters = {'volume-id' => [*filters]}
+          end
+          params = AWS.indexed_filters(filters)
           request({
             'Action'    => 'DescribeVolumes',
             :idempotent => true,
@@ -39,45 +43,67 @@ module Fog
 
       class Mock
 
-        def describe_volumes(volume_id = [])
-          response = Excon::Response.new
-          volume_id = [*volume_id]
-          if volume_id != []
-            volume_set = @data[:volumes].reject {|key,value| !volume_id.include?(key)}.values
-          else
-            volume_set = @data[:volumes].values
+        def describe_volumes(filters = {})
+          unless filters.is_a?(Hash)
+            Formatador.display_line("[yellow][WARN] describe_volumes with #{filters.class} param is deprecated, use describe_volumes('volume-id' => []) instead[/] [light_black](#{caller.first})[/]")
+            filters = {'volume-id' => [*filters]}
           end
 
-          if volume_id.length == 0 || volume_id.length == volume_set.length
-            volume_set.each do |volume|
-              case volume['status']
-              when 'attaching'
-                if Time.now - volume['attachmentSet'].first['attachTime'] > Fog::Mock.delay
-                  volume['attachmentSet'].first['status'] = 'in-use'
-                  volume['status'] = 'in-use'
-                end
-              when 'creating'
-                if Time.now - volume['createTime'] > Fog::Mock.delay
-                  volume['status'] = 'available'
-                end
-              when 'deleting'
-                if Time.now - @data[:deleted_at][volume['volumeId']] > Fog::Mock.delay
-                  @data[:deleted_at].delete(volume['volumeId'])
-                  @data[:volumes].delete(volume['volumeId'])
-                end
+          response = Excon::Response.new
+
+          volume_set = @data[:volumes].values
+
+          aliases = {
+            'availability-zone' => 'availabilityZone',
+            'create-time' => 'createTime',
+            'size' => 'size',
+            'snapshot-id' => 'snapshotId',
+            'status' => 'status',
+            'volume-id' => 'volumeId'
+          }
+          attachment_aliases = {
+            'attach-time' => 'attachTime',
+            'delete-on-termination' => 'deleteOnTermination',
+            'device'      => 'device',
+            'instance-id' => 'instanceId',
+            'status'      => 'status'
+          }
+          for filter_key, filter_value in filters
+            if attachment_key = filter_key.split('attachment.')[1]
+              aliased_key = permission_aliases[filter_key]
+              volume_set = volume_set.reject{|volume| !volume['attachmentSet'].detect {|attachment| [*filter_value].include?(attachment[aliased_key])}}
+            else
+              aliased_key = aliases[filter_key]
+              volume_set = volume_set.reject{|volume| ![*filter_value].include?(volume[aliased_key])}
+            end
+          end
+
+          volume_set.each do |volume|
+            case volume['status']
+            when 'attaching'
+              if Time.now - volume['attachmentSet'].first['attachTime'] > Fog::Mock.delay
+                volume['attachmentSet'].first['status'] = 'in-use'
+                volume['status'] = 'in-use'
+              end
+            when 'creating'
+              if Time.now - volume['createTime'] > Fog::Mock.delay
+                volume['status'] = 'available'
+              end
+            when 'deleting'
+              if Time.now - @data[:deleted_at][volume['volumeId']] > Fog::Mock.delay
+                @data[:deleted_at].delete(volume['volumeId'])
+                @data[:volumes].delete(volume['volumeId'])
               end
             end
-
-            volume_set = volume_set.reject {|volume| !@data[:volumes][volume['volumeId']]}
-            response.status = 200
-            response.body = {
-              'requestId' => Fog::AWS::Mock.request_id,
-              'volumeSet' => volume_set
-            }
-            response
-          else
-            raise Fog::AWS::Compute::NotFound.new("The volume #{volume_id.inspect} does not exist.")
           end
+          volume_set = volume_set.reject {|volume| !@data[:volumes][volume['volumeId']]}
+
+          response.status = 200
+          response.body = {
+            'requestId' => Fog::AWS::Mock.request_id,
+            'volumeSet' => volume_set
+          }
+          response
         end
 
       end

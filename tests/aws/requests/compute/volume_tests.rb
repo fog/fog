@@ -51,8 +51,8 @@ Shindo.tests('AWS::Compute | volume requests', ['aws']) do
       AWS[:compute].describe_volumes.body
     end
 
-    tests("#describe_volumes(#{@volume_id})").formats(@volumes_format) do
-      AWS[:compute].describe_volumes.body
+    tests("#describe_volumes('volume-id' => #{@volume_id})").formats(@volumes_format) do
+      AWS[:compute].describe_volumes('volume-id' => @volume_id).body
     end
 
     tests("#attach_volume(#{@server.identity}, #{@volume_id}, '/dev/sdh')").formats(@volume_attachment_format) do
@@ -75,10 +75,6 @@ Shindo.tests('AWS::Compute | volume requests', ['aws']) do
   tests ('failure') do
 
     @volume = AWS[:compute].volumes.create(:availability_zone => @server.availability_zone, :size => 1)
-
-    tests("#describe_volume('vol-00000000')").raises(Fog::AWS::Compute::NotFound) do
-      AWS[:compute].describe_volumes('vol-00000000')
-    end
 
     tests("#attach_volume('i-00000000', '#{@volume.identity}', '/dev/sdh')").raises(Fog::AWS::Compute::NotFound) do
       AWS[:compute].attach_volume('i-00000000', @volume.identity, '/dev/sdh')

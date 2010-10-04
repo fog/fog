@@ -8,8 +8,8 @@ module Fog
         # Describe all or specified snapshots
         #
         # ==== Parameters
-        # * snapshot_id<~Array> - List of snapshots to describe, defaults to all
-        # * options<~Array>:
+        # * filters<~Hash> - List of filters to limit results with
+        # * options<~Hash>:
         #   * 'Owner'<~String> - Owner of snapshot in ['self', 'amazon', account_id]
         #   * 'RestorableBy'<~String> - Account id of user who can create volumes from this snapshot
         #
@@ -23,55 +23,86 @@ module Fog
         #       * 'startTime'<~Time>: Timestamp of when snapshot was initiated
         #       * 'status'<~String>: Snapshot state, in ['pending', 'completed']
         #       * 'volumeId'<~String>: Id of volume that snapshot contains
-        def describe_snapshots(snapshot_id = [], options = {})
-          options['Owner'] ||= 'self'
-          options.merge!(AWS.indexed_param('SnapshotId', snapshot_id))
+        def describe_snapshots(filters = {}, options = {})
+          unless filters.is_a?(Hash)
+            Formatador.display_line("[yellow][WARN] describe_snapshots with #{filters.class} param is deprecated, use describe_snapshots('snapshot-id' => []) instead[/] [light_black](#{caller.first})[/]")
+            filters = {'snapshot-id' => [*filters]}
+          end
+          unless options.empty?
+            Formatador.display_line("[yellow][WARN] describe_snapshots with a second param is deprecated, use describe_snapshots(options) instead[/] [light_black](#{caller.first})[/]")
+          end
+          for key in ['ExecutableBy', 'ImageId', 'Owner', 'RestorableBy']
+            if filters.has_key?(key)
+              options[key] = filters.delete(key)
+            end
+          end
+          options['RestorableBy'] ||= 'self'
+          params = AWS.indexed_filters(filters).merge!(options)
           request({
             'Action'    => 'DescribeSnapshots',
             :idempotent => true,
             :parser     => Fog::Parsers::AWS::Compute::DescribeSnapshots.new
-          }.merge!(options))
+          }.merge!(params))
         end
 
       end
 
       class Mock
 
-        def describe_snapshots(snapshot_id = [])
-          response = Excon::Response.new
-          snapshot_id = [*snapshot_id]
-          if snapshot_id != []
-            snapshot_set = @data[:snapshots].reject {|key,value| !snapshot_id.include?(key)}.values
-          else
-            snapshot_set = @data[:snapshots].values
+        def describe_snapshots(filters = {}, options = {})
+          unless filters.is_a?(Hash)
+            Formatador.display_line("[yellow][WARN] describe_snapshots with #{filters.class} param is deprecated, use describe_snapshots('snapshot-id' => []) instead[/] [light_black](#{caller.first})[/]")
+            filters = {'snapshot-id' => [*filters]}
+          end
+          unless options.empty?
+            Formatador.display_line("[yellow][WARN] describe_snapshots with a second param is deprecated, use describe_snapshots(options) instead[/] [light_black](#{caller.first})[/]")
           end
 
-          if snapshot_id.length == 0 || snapshot_id.length == snapshot_set.length
-            snapshot_set.each do |snapshot|
-              case snapshot['status']
-              when 'in progress', 'pending'
-                if Time.now - snapshot['startTime'] > Fog::Mock.delay * 2
-                  snapshot['progress']  = '100%'
-                  snapshot['status']    = 'completed'
-                elsif Time.now - snapshot['startTime'] > Fog::Mock.delay
-                  snapshot['progress']  = '50%'
-                  snapshot['status']    = 'in progress'
-                else
-                  snapshot['progress']  = '0%'
-                  snapshot['status']    = 'in progress'
-                end
+          response = Excon::Response.new
+
+          snapshot_set = @data[:snapshots].values
+
+          if filters.delete('owner-alias')
+            Formatador.display_line("[yellow][WARN] describe_snapshots with owner-alias is not mocked[/] [light_black](#{caller.first})[/]")
+          end
+
+          aliases = {
+            'description' => 'description',
+            'owner-id'    => 'ownerId',
+            'progress'    => 'progress',
+            'snapshot-id' => 'snapshotId',
+            'start-time'  => 'startTime',
+            'status'      => 'status',
+            'volume-id'   => 'volumeId',
+            'volume-size' => 'volumeSize'
+          }
+          for filter_key, filter_value in filters
+            aliased_key = aliases[filter_key]
+            snapshot_set = snapshot_set.reject{|snapshot| ![*filter_value].include?(snapshot[aliased_key])}
+          end
+
+          snapshot_set.each do |snapshot|
+            case snapshot['status']
+            when 'in progress', 'pending'
+              if Time.now - snapshot['startTime'] > Fog::Mock.delay * 2
+                snapshot['progress']  = '100%'
+                snapshot['status']    = 'completed'
+              elsif Time.now - snapshot['startTime'] > Fog::Mock.delay
+                snapshot['progress']  = '50%'
+                snapshot['status']    = 'in progress'
+              else
+                snapshot['progress']  = '0%'
+                snapshot['status']    = 'in progress'
               end
             end
-
-            response.status = 200
-            response.body = {
-              'requestId' => Fog::AWS::Mock.request_id,
-              'snapshotSet' => snapshot_set
-            }
-            response
-          else
-            raise Fog::AWS::Compute::NotFound.new("The snapshot #{snapshot_id.inspect} does not exist.")
           end
+
+          response.status = 200
+          response.body = {
+            'requestId' => Fog::AWS::Mock.request_id,
+            'snapshotSet' => snapshot_set
+          }
+          response
         end
 
       end

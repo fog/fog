@@ -8,7 +8,7 @@ module Fog
         # Describe all or specified regions
         #
         # ==== Params
-        # * region_name<~String> - List of regions to describe, defaults to all
+        # * filters<~Hash> - List of filters to limit results with
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -17,8 +17,12 @@ module Fog
         #     * 'regionInfo'<~Array>:
         #       * 'regionName'<~String> - Name of region
         #       * 'regionEndpoint'<~String> - Service endpoint for region
-        def describe_regions(region_name = [])
-          params = AWS.indexed_param('RegionName', region_name)
+        def describe_regions(filters = {})
+          unless filters.is_a?(Hash)
+            Formatador.display_line("[yellow][WARN] describe_regions with #{filters.class} param is deprecated, use describe_regions('region-name' => []) instead[/] [light_black](#{caller.first})[/]")
+            filters = {'region-name' => [*filters]}
+          end
+          params = AWS.indexed_filters(filters)
           request({
             'Action'    => 'DescribeRegions',
             :idempotent => true,
@@ -30,29 +34,30 @@ module Fog
 
       class Mock
 
-        def describe_regions(region_name = [])
-          response = Excon::Response.new
-          region_name = [*region_name]
-          regions = {
-            'eu-west-1' => {"regionName"=>"eu-west-1", "regionEndpoint"=>"eu-west-1.ec2.amazonaws.com"},
-            'us-east-1' => {"regionName"=>"us-east-1", "regionEndpoint"=>"us-east-1.ec2.amazonaws.com"}
-          }
-          if region_name != []
-            region_info = regions.reject {|key, value| !region_name.include?(key)}.values
-          else
-            region_info = regions.values
+        def describe_regions(filters = {})
+          unless filters.is_a?(Hash)
+            Formatador.display_line("[yellow][WARN] describe_regions with #{filters.class} param is deprecated, use describe_regions('region-name' => []) instead[/] [light_black](#{caller.first})[/]")
+            filters = {'region-name' => [*filters]}
           end
 
-          if region_name.length == 0 || region_name.length == region_info.length
-            response.status = 200
-            response.body = {
-              'requestId'   => Fog::AWS::Mock.request_id,
-              'regionInfo'  => region_info
-            }
-            response
-          else
-            raise Fog::AWS::Compute::Error.new("InvalidParameterValue => Invalid region: #{region_name.inspect}")
+          response = Excon::Response.new
+          region_info = [
+            {"regionName"=>"eu-west-1", "regionEndpoint"=>"eu-west-1.ec2.amazonaws.com"},
+            {"regionName"=>"us-east-1", "regionEndpoint"=>"us-east-1.ec2.amazonaws.com"}
+          ]
+
+          aliases = {'region-name' => 'regionName', 'endpoint' => 'regionEndpoint'}
+          for filter_key, filter_value in filters
+            aliased_key = aliases[filter_key]
+            region_info = region_info.reject{|region| ![*filter_value].include?(region[aliased_key])}
           end
+
+          response.status = 200
+          response.body = {
+            'requestId'   => Fog::AWS::Mock.request_id,
+            'regionInfo'  => region_info
+          }
+          response
         end
 
       end

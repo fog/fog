@@ -26,8 +26,8 @@ Shindo.tests('AWS::Compute | address requests', ['aws']) do
       AWS[:compute].describe_addresses.body
     end
 
-    tests("#describe_addresses('#{@public_Ip}')").formats(@addresses_format) do
-      AWS[:compute].describe_addresses(@public_ip).body
+    tests("#describe_addresses('public-ip' => #{@public_Ip}')").formats(@addresses_format) do
+      AWS[:compute].describe_addresses('public-ip' => @public_ip).body
     end
 
     tests("#associate_addresses('#{@server.identity}', '#{@public_Ip}')").formats(AWS::Compute::Formats::BASIC) do
@@ -46,10 +46,6 @@ Shindo.tests('AWS::Compute | address requests', ['aws']) do
   tests ('failure') do
 
     @address = AWS[:compute].addresses.create
-
-    tests("#describe_addresses('127.0.0.1')").raises(Fog::AWS::Compute::NotFound) do
-      AWS[:compute].describe_addresses('127.0.0.1')
-    end
 
     tests("#associate_addresses('i-00000000', '#{@address.identity}')").raises(Fog::AWS::Compute::NotFound) do
       AWS[:compute].associate_address('i-00000000', @address.identity)

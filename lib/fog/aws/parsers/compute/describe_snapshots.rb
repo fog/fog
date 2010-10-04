@@ -16,7 +16,7 @@ module Fog
               @response['snapshotSet'] << @snapshot
               @snapshot = {}
             when 'description', 'ownerId', 'progress', 'snapshotId', 'status', 'volumeId'
-              @snapshot[name] = @value
+              @snapshot[name] ||= @value
             when 'requestId'
               @response[name] = @value
             when 'startTime'

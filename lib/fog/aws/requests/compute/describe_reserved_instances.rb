@@ -8,7 +8,7 @@ module Fog
         # Describe all or specified reserved instances
         #
         # ==== Parameters
-        # * reserved_instances_id<~Array> - List of reserved instance ids to describe, defaults to all
+        # * filters<~Hash> - List of filters to limit results with
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -25,8 +25,12 @@ module Fog
         #       * 'start'<~Time> - start time for reservation
         #       * 'state'<~String> - state of reserved instance purchase, in .[pending-payment, active, payment-failed, retired]
         #       * 'usagePrice"<~Float> - usage price of reserved instances, per hour
-        def describe_reserved_instances(reserved_instances_id = [])
-          params = AWS.indexed_param('ReservedInstancesId', reserved_instances_id)
+        def describe_reserved_instances(filters = {})
+          unless filters.is_a?(Hash)
+            Formatador.display_line("[yellow][WARN] describe_reserved_instances with #{filters.class} param is deprecated, use describe_reserved_instances('reserved-instances-id' => []) instead[/] [light_black](#{caller.first})[/]")
+            filters = {'reserved-instances-id' => [*filters]}
+          end
+          params = AWS.indexed_filters(filters)
           request({
             'Action'    => 'DescribeReservedInstances',
             :idempotent => true,
@@ -38,7 +42,7 @@ module Fog
 
       class Mock
 
-        def describe_reserved_instances(reserved_instances_id = {})
+        def describe_reserved_instances(filters = {})
           Fog::Mock.not_implemented
         end
 

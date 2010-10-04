@@ -16,7 +16,7 @@ Shindo.tests('AWS::Compute | security group requests', ['aws']) do
     }]
   }
 
-  @owner_id = AWS[:compute].describe_security_groups('default').body['securityGroupInfo'].first['ownerId']
+  @owner_id = AWS[:compute].describe_security_groups('group-name' => 'default').body['securityGroupInfo'].first['ownerId']
 
   tests('success') do
 
@@ -45,8 +45,8 @@ Shindo.tests('AWS::Compute | security group requests', ['aws']) do
       AWS[:compute].describe_security_groups.body
     end
 
-    tests("#describe_security_groups('fog_security_group')").formats(@security_groups_format) do
-      AWS[:compute].describe_security_groups('fog_security_group').body
+    tests("#describe_security_groups('group-name' => 'fog_security_group')").formats(@security_groups_format) do
+      AWS[:compute].describe_security_groups('group-name' => 'fog_security_group').body
     end
 
     tests("#revoke_security_group_ingress({'FromPort' => 80, 'GroupName' => 'fog_security_group', 'IpProtocol' => 'tcp', 'toPort' => 80})").formats(AWS::Compute::Formats::BASIC) do
@@ -94,10 +94,6 @@ Shindo.tests('AWS::Compute | security group requests', ['aws']) do
         'SourceSecurityGroupName'     => 'not_a_group_name',
         'SourceSecurityGroupOwnerId'  => @owner_id
       })
-    end
-
-    tests("#describe_security_group('not_a_group_name)").raises(Fog::AWS::Compute::NotFound) do
-      AWS[:compute].describe_security_groups('not_a_group_name')
     end
 
     tests("#revoke_security_group_ingress({'FromPort' => 80, 'GroupName' => 'not_a_group_name', 'IpProtocol' => 'tcp', 'toPort' => 80})").raises(Fog::AWS::Compute::NotFound) do
