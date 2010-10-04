@@ -93,11 +93,15 @@ module Fog
           if options['UserData']
             options['UserData'] = Base64.encode64(options['UserData'])
           end
+
+          idempotent = !options['ClientToken'].empty?
+
           request({
             'Action'    => 'RunInstances',
             'ImageId'   => image_id,
             'MinCount'  => min_count,
             'MaxCount'  => max_count,
+            :idempotent => idempotent,
             :parser     => Fog::Parsers::AWS::Compute::RunInstances.new
           }.merge!(options))
         end
