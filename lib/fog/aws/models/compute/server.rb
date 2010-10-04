@@ -12,6 +12,7 @@ module Fog
         attribute :ami_launch_index,      :aliases => 'amiLaunchIndex'
         attribute :availability_zone,     :aliases => 'availabilityZone'
         attribute :block_device_mapping,  :aliases => 'blockDeviceMapping'
+        attribute :client_token,          :aliases => 'clientToken'
         attribute :dns_name,              :aliases => 'dnsName'
         attribute :groups
         attribute :flavor_id,             :aliases => 'instanceType'
@@ -33,7 +34,7 @@ module Fog
         attribute :subnet_id,             :aliases => 'subnetId'
         attribute :user_data
 
-        attr_accessor :client_token, :password, :username
+        attr_accessor :password, :username
         attr_writer   :private_key, :private_key_path, :public_key, :public_key_path
 
         def initialize(attributes={})
