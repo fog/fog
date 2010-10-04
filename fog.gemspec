@@ -246,7 +246,7 @@ Gem::Specification.new do |s|
     lib/fog/bluebox/requests/compute/get_template.rb
     lib/fog/bluebox/requests/compute/get_templates.rb
     lib/fog/bluebox/requests/compute/reboot_block.rb
-    lib/fog/collection.rb
+    lib/fog/core/collection.rb
     lib/fog/connection.rb
     lib/fog/credentials.rb
     lib/fog/deprecation.rb
@@ -313,7 +313,7 @@ Gem::Specification.new do |s|
     lib/fog/local/models/storage/file.rb
     lib/fog/local/models/storage/files.rb
     lib/fog/local/storage.rb
-    lib/fog/model.rb
+    lib/fog/core/model.rb
     lib/fog/new_servers.rb
     lib/fog/new_servers/bin.rb
     lib/fog/new_servers/compute.rb

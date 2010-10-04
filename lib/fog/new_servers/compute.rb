@@ -1,4 +1,4 @@
-require 'fog/parser'
+require 'fog/core/parser'
 
 module Fog
   module NewServers

@@ -1,4 +1,4 @@
-require 'fog/collection'
+require 'fog/core/collection'
 require 'fog/bluebox/models/compute/flavor'
 
 module Fog
