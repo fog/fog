@@ -4,6 +4,7 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
     # 'architecture'    => String,
     'amiLaunchIndex'      => Integer,
     'blockDeviceMapping'  => [],
+    'clientToken'         => NilClass,
     'dnsName'             => NilClass,
     'imageId'             => String,
     'instanceId'          => String,

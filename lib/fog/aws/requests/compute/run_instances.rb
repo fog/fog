@@ -94,7 +94,7 @@ module Fog
             options['UserData'] = Base64.encode64(options['UserData'])
           end
 
-          idempotent = !options['ClientToken'].empty?
+          idempotent = options['ClientToken'].nil? || options['ClientToken'].empty?
 
           request({
             'Action'    => 'RunInstances',
@@ -123,6 +123,7 @@ module Fog
             instance = {
               'amiLaunchIndex'      => i,
               'blockDeviceMapping'  => [],
+              'clientToken'         => options['clientToken'],
               'dnsName'             => nil,
               'imageId'             => image_id,
               'instanceId'          => instance_id,

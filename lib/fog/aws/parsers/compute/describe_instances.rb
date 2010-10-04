@@ -34,10 +34,10 @@ module Fog
               @instance[name] = @value.to_i
             when 'availabilityZone'
               @instance['placement'][name] = @value
-            when 'architecture', 'clientToken', 'dnsName', 'imageId', 'instanceId',
-                  'instanceType', 'ipAddress', 'kernelId', 'keyName',
-                  'privateDnsName', 'privateIpAddress', 'ramdiskId', 'reason',
-                  'rootDeviceType'
+            when 'architecture', 'clientToken', 'dnsName', 'imageId',
+                  'instanceId', 'instanceType', 'ipAddress', 'kernelId',
+                  'keyName', 'privateDnsName', 'privateIpAddress', 'ramdiskId',
+                  'reason', 'rootDeviceType'
               @instance[name] = @value
             when 'attachTime'
               @block_device_mapping[name] = Time.parse(@value)

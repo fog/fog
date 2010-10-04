@@ -27,10 +27,10 @@ module Fog
             case name
             when 'amiLaunchIndex'
               @instance[name] = @value.to_i
-            when 'architecture', 'dnsName', 'imageId', 'instanceId',
-                  'instanceType', 'ipAddress', 'kernelId', 'keyName',
-                  'privateDnsName', 'privateIpAddress', 'ramdiskId', 'reason',
-                  'rootDeviceType'
+            when 'architecture', 'clientToken', 'dnsName', 'imageId',
+                  'instanceId', 'instanceType', 'ipAddress', 'kernelId',
+                  'keyName', 'privateDnsName', 'privateIpAddress', 'ramdiskId',
+                  'reason', 'rootDeviceType'
               @instance[name] = @value
             when 'availabilityZone'
               @instance['placement'][name] = @value
