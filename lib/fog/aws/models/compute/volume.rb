@@ -36,15 +36,8 @@ module Fog
           state == 'available'
         end
 
-        def server=(new_server)
-          if new_server
-            attach(new_server)
-          else
-            detach
-          end
-        end
-
         def save
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :availability_zone, :size
 
           data = connection.create_volume(@availability_zone, @size, @snapshot_id).body
@@ -54,6 +47,14 @@ module Fog
             self.server = @server
           end
           true
+        end
+
+        def server=(new_server)
+          if new_server
+            attach(new_server)
+          else
+            detach
+          end
         end
 
         def snapshots

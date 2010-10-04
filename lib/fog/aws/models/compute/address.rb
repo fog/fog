@@ -32,6 +32,7 @@ module Fog
         end
 
         def save
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           data = connection.allocate_address
           @public_ip = data.body['publicIp']
           if @server

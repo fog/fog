@@ -76,6 +76,7 @@ module Fog
         end
 
         def save
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :flavor_id, :image_id
           options = if !password && !public_key
             raise(ArgumentError, "password or public_key is required for this operation")

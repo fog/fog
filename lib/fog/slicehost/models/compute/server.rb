@@ -70,7 +70,9 @@ module Fog
         end
 
         def save
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :flavor_id, :image_id, :name
+
           data = connection.create_slice(@flavor_id, @image_id, @name)
           merge_attributes(data.body)
           true

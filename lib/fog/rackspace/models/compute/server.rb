@@ -47,16 +47,6 @@ module Fog
           connection.images(:server => self)
         end
 
-        def ready?
-          @status == 'ACTIVE'
-        end
-
-        def reboot(type = 'SOFT')
-          requires :id
-          connection.reboot_server(@id, type)
-          true
-        end
-
         def private_key_path
           File.expand_path(@private_key_path ||= Fog.credentials[:private_key_path])
         end
@@ -73,7 +63,18 @@ module Fog
           @public_key ||= File.read(public_key_path)
         end
 
+        def ready?
+          @status == 'ACTIVE'
+        end
+
+        def reboot(type = 'SOFT')
+          requires :id
+          connection.reboot_server(@id, type)
+          true
+        end
+
         def save
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :flavor_id, :image_id, :name
           options = {
             'metadata'    => @metadata,
