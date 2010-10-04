@@ -23,6 +23,7 @@ describe 'Fog::AWS::Compute::Server' do
     it "should remap attributes from parser" do
       server = @servers.new({
         'amiLaunchIndex'    => 'ami_launch_index',
+        'clientToken'       => 'client_token',
         'dnsName'           => 'dns_name',
         'imageId'           => 'image_id',
         'instanceId'        => 'instance_id',
@@ -35,6 +36,7 @@ describe 'Fog::AWS::Compute::Server' do
         'ramdiskId'         => 'ramdisk_id'
       })
       server.ami_launch_index.should == 'ami_launch_index'
+      server.client_token.should == 'client_token'
       server.dns_name.should == 'dns_name'
       server.image_id.should == 'image_id'
       server.id.should == 'instance_id'
