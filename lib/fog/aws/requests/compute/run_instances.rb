@@ -34,7 +34,7 @@ module Fog
         #     default is 'm1.small'
         #   * 'KernelId'<~String> - Id of kernel with which to launch
         #   * 'KeyName'<~String> - Name of a keypair to add to booting instances
-        #   * 'Monitoring.Enabled'<~Boolean> - Enables monitoring, defaults to 
+        #   * 'Monitoring.Enabled'<~Boolean> - Enables monitoring, defaults to
         #     disabled
         #   * 'RamdiskId'<~String> - Id of ramdisk with which to launch
         #   * 'UserData'<~String> -  Additional data to provide to booting instances
@@ -94,7 +94,7 @@ module Fog
             options['UserData'] = Base64.encode64(options['UserData'])
           end
 
-          idempotent = options['ClientToken'].nil? || options['ClientToken'].empty?
+          idempotent = !(options['ClientToken'].nil? || options['ClientToken'].empty?)
 
           request({
             'Action'    => 'RunInstances',
