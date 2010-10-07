@@ -3,7 +3,9 @@ http://geemus.com/fog.png
 fog is the Ruby cloud computing library.
 
 ################################################################################
+
 Thursday, October 14, 2010 10:00 am PST, hear it straight from {geemus}[http://github.com/geemus] in the {fog webinar}[http://pages.engineyard.com/FogWebinar.html]
+
 ################################################################################
 
 The quick and dirty, top to bottom:
