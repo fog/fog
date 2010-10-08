@@ -1,4 +1,4 @@
-require 'lib/fog/vcloud/terremark/ecloud/models/server'
+require 'fog/vcloud/terremark/ecloud/models/server'
 
 module Fog
   class Vcloud

@@ -1,4 +1,4 @@
-require 'lib/fog/vcloud/terremark/ecloud/models/public_ip'
+require 'fog/vcloud/terremark/ecloud/models/public_ip'
 
 module Fog
   class Vcloud

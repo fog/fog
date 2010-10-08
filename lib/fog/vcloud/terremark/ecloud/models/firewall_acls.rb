@@ -1,4 +1,4 @@
-require 'lib/fog/vcloud/terremark/ecloud/models/firewall_acl'
+require 'fog/vcloud/terremark/ecloud/models/firewall_acl'
 
 module Fog
   class Vcloud
