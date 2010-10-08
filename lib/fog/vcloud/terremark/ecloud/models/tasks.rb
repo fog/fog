@@ -1,4 +1,4 @@
-require 'lib/fog/vcloud/terremark/ecloud/models/task'
+require 'fog/vcloud/terremark/ecloud/models/task'
 
 module Fog
   class Vcloud
