@@ -8,7 +8,7 @@ module Fog
         end
 
         class Mock
-          def get_catalog(catalog_uri)
+          def get_catalog_item(catalog_item_uri)
             Fog::Mock.not_implemented
           end
         end

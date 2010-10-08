@@ -295,6 +295,14 @@ module Fog
                   :storage => { :used => "105", :allocated => "200" },
                   :cpu => { :allocated => "10000" },
                   :memory => { :allocated => "20480" },
+                  :catalog => {
+                     :name => "The catalog",
+                     :items => [
+                        { :id => 0, :name => "Item 0" },
+                        { :id => 1, :name => "Item 1" },
+                        { :id => 2, :name => "Item 2" },
+                     ]
+                  },
                   :networks => [
                     { :id => "31",
                       :href => "#{base_url}/network/31",
