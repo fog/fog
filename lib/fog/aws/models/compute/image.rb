@@ -36,7 +36,13 @@ module Fog
 
           return true
         end
+        
+        def tags
+          requires :id
 
+          connection.tags(:filters => {'resource-id' => @id})
+        end
+                
       end
 
     end

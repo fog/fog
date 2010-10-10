@@ -19,6 +19,8 @@ module Fog
       collection  :servers
       model       :snapshot
       collection  :snapshots
+      model       :tag
+      collection  :tags
       model       :volume
       collection  :volumes
 
@@ -48,6 +50,7 @@ module Fog
       request :describe_regions
       request :describe_security_groups
       request :describe_snapshots
+      request :describe_tags
       request :describe_volumes
       request :detach_volume
       request :disassociate_address

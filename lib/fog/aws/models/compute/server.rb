@@ -188,6 +188,12 @@ module Fog
           connection.stop_instances(@id)
           true
         end
+        
+        def tags
+          requires :id
+
+          connection.tags(:filters => {'resource-id' => @id})
+        end
 
         def username
           @username ||= 'root'

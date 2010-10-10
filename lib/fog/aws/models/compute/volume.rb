@@ -62,6 +62,12 @@ module Fog
 
           connection.snapshots(:volume => self)
         end
+        
+        def tags
+          requires :id
+
+          connection.tags(:filters => {'resource-id' => @id})
+        end
 
         private
 
