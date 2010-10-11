@@ -59,14 +59,12 @@ module Fog
 
         def snapshots
           requires :id
-
           connection.snapshots(:volume => self)
         end
-        
+
         def tags
           requires :id
-
-          connection.tags(:filters => {'resource-id' => @id})
+          connection.tags.all('resource-id' => identity)
         end
 
         private

@@ -39,9 +39,13 @@ module Fog
           true
         end
 
+        def tags
+          requires :id
+          connection.tags.all('resource-id' => identity)
+        end
+
         def volume
           requires :id
-
           connection.describe_volumes(@volume_id)
         end
 

@@ -188,11 +188,10 @@ module Fog
           connection.stop_instances(@id)
           true
         end
-        
+
         def tags
           requires :id
-
-          connection.tags(:filters => {'resource-id' => @id})
+          connection.tags.all('resource-id' => identity)
         end
 
         def username
@@ -201,7 +200,6 @@ module Fog
 
         def volumes
           requires :id
-
           connection.volumes(:server => self)
         end
 

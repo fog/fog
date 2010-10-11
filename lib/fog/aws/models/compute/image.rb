@@ -36,13 +36,13 @@ module Fog
 
           return true
         end
-        
+
         def tags
           requires :id
 
-          connection.tags(:filters => {'resource-id' => @id})
+          connection.tags.all('resource-id' => identity)
         end
-                
+
       end
 
     end
