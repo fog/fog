@@ -17,6 +17,10 @@ module Fog
         end
 
         def all(filters = @filters)
+          unless filters.is_a?(Hash)
+            Formatador.display_line("[yellow][WARN] all with #{filters.class} param is deprecated, use all('group-name' => []) instead[/] [light_black](#{caller.first})[/]")
+            filters = {'group-name' => [*filters]}
+          end
           @filters = filters
           data = connection.describe_security_groups(@filters).body
           load(data['securityGroupInfo'])

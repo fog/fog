@@ -17,6 +17,10 @@ module Fog
         end
 
         def all(filters = @filters)
+          unless filters.is_a?(Hash)
+            Formatador.display_line("[yellow][WARN] all with #{filters.class} param is deprecated, use all('key-name' => []) instead[/] [light_black](#{caller.first})[/]")
+            filters = {'key-name' => [*filters]}
+          end
           @filters = filters
           data = connection.describe_key_pairs(filters).body
           load(data['keySet'])

@@ -18,6 +18,10 @@ module Fog
         end
 
         def all(filters = @filters)
+          unless filters.is_a?(Hash)
+            Formatador.display_line("[yellow][WARN] all with #{filters.class} param is deprecated, use all('public-ip' => []) instead[/] [light_black](#{caller.first})[/]")
+            filters = {'public-ip' => [*filters]}
+          end
           @filters = filters
           data = connection.describe_addresses(filters).body
           load(

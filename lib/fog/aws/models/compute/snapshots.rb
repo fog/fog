@@ -18,10 +18,11 @@ module Fog
         end
 
         def all(filters = @filters, options = {})
-          unless options.empty?
-            Formatador.display_line("[yellow][WARN] describe_snapshots with a second param is deprecated, use describe_snapshots(options) instead[/] [light_black](#{caller.first})[/]")
-            filters.merge!(options)
+          unless filters.is_a?(Hash)
+            Formatador.display_line("[yellow][WARN] all with #{filters.class} param is deprecated, use all('snapshot-id' => []) instead[/] [light_black](#{caller.first})[/]")
+            filters = {'snapshot-id' => [*filters]}
           end
+          @filters = filters
           data = connection.describe_snapshots(filters.merge!(options)).body
           load(data['snapshotSet'])
           if volume
