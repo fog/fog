@@ -2,21 +2,7 @@ module Fog
   class Vcloud
     module Terremark
       class Ecloud
-        class Real
-
-          def configure_node(node_uri, node_data)
-            validate_node_data(node_data, true)
-
-            request(
-              :body     => generate_configure_node_request(node_data),
-              :expects  => 200,
-              :headers  => {'Content-Type' => 'application/vnd.tmrk.ecloud.nodeService+xml'},
-              :method   => 'PUT',
-              :uri      => node_uri,
-              :parse    => true
-            )
-          end
-
+        module Shared
           private
 
           def generate_configure_node_request(node_data)
@@ -31,7 +17,26 @@ module Fog
 
         end
 
+        class Real
+          include Shared
+
+          def configure_node(node_uri, node_data)
+            validate_node_data(node_data, true)
+
+            request(
+              :body     => generate_configure_node_request(node_data),
+              :expects  => 200,
+              :headers  => {'Content-Type' => 'application/vnd.tmrk.ecloud.nodeService+xml'},
+              :method   => 'PUT',
+              :uri      => node_uri,
+              :parse    => true
+            )
+          end
+
+        end
+
         class Mock
+          include Shared
 
           def configure_node(node_uri, node_data)
             node_uri = ensure_unparsed(node_uri)

@@ -15,19 +15,16 @@ module Fog
             if vdc = vdc_from_uri(catalog_uri)
               builder = Builder::XmlMarkup.new
 
-              xml = builder.Catalog(
-                                    :type => "application/vnd.vmware.vcloud.catalog+xml",
-                                    :href => catalog_uri,
-                                    :name => vdc[:catalog][:name],
-                                    "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema",
-                                    "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
-                                    "xmlns" => "http://www.vmware.com/vcloud/v0.8"
-                                    ) do |xml|
+              xml = builder.Catalog(xmlns.merge(
+                                                :type => "application/vnd.vmware.vcloud.catalog+xml",
+                                                :href => catalog_uri,
+                                                :name => vdc[:catalog][:name]
+                                    )) do |xml|
                 xml.CatalogItems do |xml|
                   vdc[:catalog][:items].each do |catalog_item|
                     xml.CatalogItem(
                                     :type => "application/vnd.vmware.vcloud.catalogItem+xml",
-                                    :href => "#{self.class.base_url}/catalogItem/#{catalog_item[:id]}",
+                                    :href => "#{self.class.base_url}/catalogItem/#{catalog_item[:id]}-#{vdc[:id]}",
                                     :name => catalog_item[:name]
                                     )
                   end

@@ -2,7 +2,8 @@ module Fog
   class Vcloud
     module Terremark
       class Ecloud
-        class Real
+        module Shared
+          private
 
           def generate_internet_service_response(service_data,ip_address_data)
             builder = Builder::XmlMarkup.new
@@ -34,6 +35,10 @@ module Fog
               raise ArgumentError.new("Required Internet Service data missing: #{(valid_opts - ip_address_data.keys).map(&:inspect).join(", ")}")
             end
           end
+        end
+
+        class Real
+          include Shared
 
           def configure_internet_service(internet_service_uri, service_data, ip_address_data)
             validate_internet_service_data(service_data, true)
@@ -58,6 +63,8 @@ module Fog
         end
 
         class Mock
+          include Shared
+
           #
           # Based on
           # http://support.theenterprisecloud.com/kb/default.asp?id=583&Lang=1&SID=

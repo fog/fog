@@ -102,7 +102,7 @@ module Fog
                         { :id => "72", :href => extension_url + "/internetService/72", :port => "7000", :protocol => 'HTTP', :enabled => "true",
                           :timeout => "2", :name => 'An SSH Map', :description => 'SSH 1', :redirect_url => '',
                           :nodes => [ {:id => "83", :href => extension_url + "/nodeService/83", :ip_address => "1.2.3.5",
-                                       :name => "SSH", :port => "22", :enabled => "true", :description => "web ssh" } 
+                                       :name => "SSH", :port => "22", :enabled => "true", :description => "web ssh" }
                                     ] }
                       ]
                     },
@@ -155,6 +155,18 @@ module Fog
 
           def self.internet_service_href(internet_service)
             "#{base_url}/extensions/internetService/#{internet_service[:id]}"
+          end
+
+          def self.vapp_href(options)
+            "#{base_url}/vapp/#{options[:id]}"
+          end
+
+          def self.vapp_template_href(options)
+            "#{base_url}/vappTemplate/#{options[:id]}"
+          end
+
+          def self.catalog_item_customization_href(options)
+            "#{base_url}/extensions/template/#{options[:id]}/options/customization"
           end
 
           def ecloud_xmlns
