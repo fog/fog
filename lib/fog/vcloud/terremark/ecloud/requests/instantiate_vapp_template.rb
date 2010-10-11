@@ -2,8 +2,8 @@ module Fog
   class Vcloud
     module Terremark
       class Ecloud
-
-        class Real
+        module Shared
+          private
 
           def validate_instantiate_vapp_template_options(catalog_item_uri, options)
             valid_opts = [:name, :vdc_uri, :network_uri, :cpus, :memory, :row, :group]
@@ -74,6 +74,10 @@ module Fog
               }
             }
           end
+        end
+
+        class Real
+          include Shared
 
           def instantiate_vapp_template(catalog_item_uri, options = {})
             validate_instantiate_vapp_template_options(catalog_item_uri, options)
@@ -90,8 +94,46 @@ module Fog
         end
 
         class Mock
-          def instantiate_vapp_template(vdc_uri)
-            Fog::Mock.not_implemented
+          include Shared
+
+          #
+          # Based on
+          # http://support.theenterprisecloud.com/kb/default.asp?id=554&Lang=1&SID=
+          #
+
+          def instantiate_vapp_template(catalog_item_uri, options = {})
+            validate_instantiate_vapp_template_options(catalog_item_uri, options)
+
+            xml = nil
+            if vdc = vdc_from_uri(options[:vdc_uri])
+              id = rand(1000)
+              vapp_uri = Fog::Vcloud::Terremark::Ecloud::Mock.vapp_href(:id => id)
+              options.update(:id => id.to_s, :href => vapp_uri)
+              vdc[:vms] << options
+
+              xml = generate_instantiate_vapp_template_response(vdc[:href], options[:name], vapp_uri)
+            end
+
+            if xml
+              mock_it 200, xml, {'Content-Type' => 'application/xml'}
+            else
+              mock_error 200, "401 Unauthorized"
+            end
+          end
+
+          private
+
+          def generate_instantiate_vapp_template_response(vdc_uri, vapp_name, vapp_uri)
+            builder = Builder::XmlMarkup.new
+            builder.VApp(xmlns.merge(
+                                     :href => vapp_uri,
+                                     :type => "application/vnd.vmware.vcloud.vApp+xml",
+                                     :name => vapp_name,
+                                     :status => 0,
+                                     :size => 4
+                                     )) {
+              builder.Link(:rel => "up", :href => vdc_uri, :type => "application/vnd.vmware.vcloud.vdc+xml")
+            }
           end
         end
       end
