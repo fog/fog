@@ -11,7 +11,7 @@ module Fog
       warning = "[yellow][WARN] Fog::GoGrid#new is deprecated, use Fog::GoGrid::Compute#new instead[/]"
       warning << " [light_black](" << location << ")[/] "
       Formatador.display_line(warning)
-      Fog::Bluebox::Compute.new(attributes)
+      Fog::GoGrid::Compute.new(attributes)
     end
 
   end
