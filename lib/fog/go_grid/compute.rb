@@ -67,7 +67,7 @@ module Fog
             'api_key' => @go_grid_api_key,
             'format'  => 'json',
             'sig'     => Digest::MD5.hexdigest("#{@go_grid_api_key}#{@go_grid_shared_secret}#{Time.now.to_i}"),
-            'v'       => '1.4'
+            'v'       => '1.5'
           })
 
           begin

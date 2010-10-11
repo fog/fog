@@ -7,20 +7,17 @@ module Fog
         #
         # ==== Parameters
         # * options<~Hash>:
-        #   * 'datacenter'<~String> - datacenter to limit results to
-        #   * 'isPublic'<~String>   - If true only returns public images, in ['false', 'true']
-        #   * 'num_items'<~Integer> - Number of items to return
-        #   * 'page'<~Integer>      - Page index for paginated results
-        #   * 'state'<~String>      - state to limit results to, in ['Saving', 'Available']
-        #   * 'type'<~String>       - image type to limit results to
+        #   * 'id'<~String>         - ID of the image
+        #   * 'name'<~String>       - Name of the image
+        #   * 'image'<~String>      - ID(s) or Name(s) of the images to retrive. Can be speicifed multiple times
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Array>:
         # TODO: docs
-        def grid_image_list(options={})
+        def grid_image_get(options={})
           request(
-            :path     => 'grid/image/list',
+            :path     => 'grid/image/get',
             :query    => options
           )
         end
@@ -29,7 +26,7 @@ module Fog
 
       class Mock
 
-        def grid_image_list(options={})
+        def grid_image_get(options={})
           #response = Excon::Response.new
 
           #images = @data[:list].values
