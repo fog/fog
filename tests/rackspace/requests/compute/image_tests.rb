@@ -4,13 +4,13 @@ Shindo.tests('Rackspace::Compute | image requests', ['rackspace']) do
     'id'        => Integer,
     'name'      => String,
     'status'    => String,
-    'updated'   => String
+    'updated'   => String,
+    'serverId'  => Integer,
   }
 
   @image_format = @images_format.merge({
     'created'  => String,
     'progress' => Integer,
-    'serverId'  => Integer,
   })
 
   tests('success') do
@@ -19,7 +19,7 @@ Shindo.tests('Rackspace::Compute | image requests', ['rackspace']) do
     @server.wait_for { ready? }
     @image_id = nil
 
-    tests("#create_image(#{@server.id})").formats(@images_format) do
+    tests("#create_image(#{@server.id})").formats(@images_format.merge('serverId' => Integer)) do
       data = Rackspace[:compute].create_image(@server.id).body['image']
       @image_id = data['id']
       data
@@ -27,7 +27,7 @@ Shindo.tests('Rackspace::Compute | image requests', ['rackspace']) do
 
     Rackspace[:compute].images.get(@image_id).wait_for { ready? }
 
-    tests("#get_image_details(#{@image_id})").formats(@image_format) do
+    tests("#get_image_details(#{@image_id})").formats(@images_format) do
       Rackspace[:compute].get_image_details(@image_id).body['image']
     end
 

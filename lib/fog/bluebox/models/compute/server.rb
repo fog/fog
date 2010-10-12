@@ -15,14 +15,15 @@ module Fog
 
         identity :id
 
-        attribute :memory
-        attribute :storage
-        attribute :hostname
         attribute :cpu
-        attribute :ips
-        attribute :status
+        attribute :description
         attribute :flavor_id
+        attribute :hostname
         attribute :image_id
+        attribute :ips
+        attribute :memory
+        attribute :status
+        attribute :storage
         attribute :template
 
         attr_accessor :password

@@ -40,13 +40,19 @@ Shindo.tests('Rackspace::Compute | server requests', ['rackspace']) do
       Rackspace[:compute].list_servers_detail.body
     end
 
+    Rackspace[:compute].servers.get(@server_id).wait_for { ready? }
+
     tests("#update_server(#{@server_id}, :name => 'fogupdatedserver', :adminPass => 'fogupdatedserver')").succeeds do
       Rackspace[:compute].update_server(@server_id, :name => 'fogupdatedserver', :adminPass => 'fogupdatedserver')
     end
 
+    Rackspace[:compute].servers.get(@server_id).wait_for { ready? }
+
     tests("#reboot_server(#{@server_id}, 'HARD')").succeeds do
       Rackspace[:compute].reboot_server(@server_id, 'HARD')
     end
+
+    Rackspace[:compute].servers.get(@server_id).wait_for { ready? }
 
     tests("#reboot_server(#{@server_id}, 'SOFT')").succeeds do
       Rackspace[:compute].reboot_server(@server_id, 'SOFT')

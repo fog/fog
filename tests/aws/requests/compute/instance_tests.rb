@@ -42,7 +42,8 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
         'ipAddress'         => String,
         'privateDnsName'    => String,
         'privateIpAddress'  => String,
-        'stateReason'       => {}
+        'stateReason'       => {},
+        'tagSet'            => {}
       )],
       'ownerId'       => String,
       'reservationId' => String

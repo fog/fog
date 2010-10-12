@@ -1,15 +1,16 @@
 Shindo.tests('Bluebox::Compute | block requests', ['bluebox']) do
 
   @block_format = {
-    'cpu'       => Float,
-    'hostname'  => String,
-    'id'        => String,
-    'ips'       => [{'address' => String}],
-    'memory'    => Integer,
-    'product'   => Bluebox::Compute::Formats::PRODUCT,
-    'status'    => String,
-    'storage'   => Integer,
-    'template'  => String
+    'cpu'         => Float,
+    'description' => String,
+    'hostname'    => String,
+    'id'          => String,
+    'ips'         => [{'address' => String}],
+    'memory'      => Integer,
+    'product'     => Bluebox::Compute::Formats::PRODUCT,
+    'status'      => String,
+    'storage'     => Integer,
+    'template'    => String
   }
 
   tests('success') do

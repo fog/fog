@@ -13,7 +13,7 @@ Shindo.tests('AWS::Compute | snapshot requests', ['aws']) do
 
   @snapshots_format = {
     'requestId'   => String,
-    'snapshotSet' => [@snapshot_format]
+    'snapshotSet' => [@snapshot_format.merge('tagSet' => {})]
   }
 
   @volume = AWS[:compute].volumes.create(:availability_zone => 'us-east-1a', :size => 1)
