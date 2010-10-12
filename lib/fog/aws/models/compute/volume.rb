@@ -18,6 +18,7 @@ module Fog
         attribute :size
         attribute :snapshot_id,       :aliases => 'snapshotId'
         attribute :state,             :aliases => 'status'
+        attribute :tags,              :aliases => 'tagSet'
 
         def initialize(attributes = {})
           # assign server first to prevent race condition with new_record?
@@ -60,11 +61,6 @@ module Fog
         def snapshots
           requires :id
           connection.snapshots(:volume => self)
-        end
-
-        def tags
-          requires :id
-          connection.tags.all('resource-id' => identity)
         end
 
         private

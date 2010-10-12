@@ -37,7 +37,7 @@ module Fog
         def describe_images(filters = {})
           options = {}
           for key in ['ExecutableBy', 'ImageId', 'Owner']
-            if filters.key?(key)
+            if filters.is_a?(Hash) && filters.key?(key)
               options[key] = filters[key]
             end
           end

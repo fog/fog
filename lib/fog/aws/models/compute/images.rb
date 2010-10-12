@@ -12,7 +12,7 @@ module Fog
         model Fog::AWS::Compute::Image
 
         def initialize(attributes)
-          @filters ||= []
+          @filters ||= {}
           super
         end
 

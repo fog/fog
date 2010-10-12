@@ -14,8 +14,11 @@ module Fog
 
           def start_element(name, attrs = [])
             super
-            if name == 'attachmentSet'
+            case name
+            when 'attachmentSet'
               @in_attachment_set = true
+            when 'tagSet'
+              @in_tag_set = true
             end
           end
 
@@ -31,6 +34,15 @@ module Fog
               when 'item'
                 @volume['attachmentSet'] << @attachment
                 @attachment = {}
+              end
+            elsif @in_tag_set
+              case name
+              when 'key', 'value'
+                @tag[name] = @value
+              when 'item'
+                @volume['tagSet'][@tag['key']] = @tag['value']
+              when 'tagSet'
+                @in_tag_set = false
               end
             else
               case name

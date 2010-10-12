@@ -15,6 +15,7 @@ module Fog
         attribute :created_at,  :aliases => 'startTime'
         attribute :owner_id,    :aliases => 'ownerId'
         attribute :state,       :aliases => 'status'
+        attribute :tags,        :aliases => 'tagSet'
         attribute :volume_id,   :aliases => 'volumeId'
         attribute :volume_size, :aliases => 'volumeSize'
 
@@ -37,11 +38,6 @@ module Fog
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           true
-        end
-
-        def tags
-          requires :id
-          connection.tags.all('resource-id' => identity)
         end
 
         def volume

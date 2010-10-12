@@ -32,6 +32,7 @@ module Fog
         attribute :state,                 :aliases => 'instanceState'
         attribute :state_reason,          :aliases => 'stateReason'
         attribute :subnet_id,             :aliases => 'subnetId'
+        attribute :tags,                  :aliases => 'tagSet'
         attribute :user_data
 
         attr_accessor :password, :username
@@ -187,11 +188,6 @@ module Fog
           requires :id
           connection.stop_instances(@id)
           true
-        end
-
-        def tags
-          requires :id
-          connection.tags.all('resource-id' => identity)
         end
 
         def username

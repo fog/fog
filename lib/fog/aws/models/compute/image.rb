@@ -21,6 +21,7 @@ module Fog
         attribute :ramdisk_id,            :aliases => 'ramdiskId'
         attribute :root_device_type,      :aliases => 'rootDeviceType'
         attribute :root_device_name,      :aliases => 'rootDeviceName'
+        attribute :tags,                  :aliases => 'tagSet'
 
         def deregister(delete_snapshot = false)
           connection.deregister_image(@id)
@@ -35,12 +36,6 @@ module Fog
           end
 
           return true
-        end
-
-        def tags
-          requires :id
-
-          connection.tags.all('resource-id' => identity)
         end
 
       end

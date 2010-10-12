@@ -7,9 +7,10 @@ module Fog
 
           def reset
             @block_device_mapping = {}
-            @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [], 'stateReason' => {} }
+            @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
             @reservation = { 'groupSet' => [], 'instancesSet' => [] }
             @response = { 'reservationSet' => [] }
+            @tag = {}
           end
 
           def start_element(name, attrs = [])
@@ -25,6 +26,8 @@ module Fog
               @in_instance_state = true
             when 'stateReason'
               @in_state_reason = true
+            when 'tagSet'
+              @in_tag_set = true
             end
           end
 
@@ -71,11 +74,16 @@ module Fog
                 @block_device_mapping = {}
               elsif @in_instances_set
                 @reservation['instancesSet'] << @instance
-                @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [], 'stateReason' => {} }
+                @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
+              elsif @in_tag_set
+                @instance['tagSet'][@tag['key']] = @tag['value']
+                @tag = {}
               elsif !@in_subset
                 @response['reservationSet'] << @reservation
                 @reservation = { 'groupSet' => [], 'instancesSet' => [] }
               end
+            when 'key', 'value'
+              @tag[name] = @value
             when 'launchTime'
               @instance[name] = Time.parse(@value)
             when 'name'
@@ -98,6 +106,8 @@ module Fog
               end
             when 'stateReason'
               @in_state_reason = false
+            when 'tagSet'
+              @in_tag_set = false
             end
           end
 

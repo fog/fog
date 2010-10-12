@@ -31,14 +31,16 @@ module Fog
       request :associate_address
       request :attach_volume
       request :authorize_security_group_ingress
+      request :create_image
       request :create_key_pair
       request :create_security_group
       request :create_snapshot
-      request :create_image
+      request :create_tags
       request :create_volume
       request :delete_key_pair
       request :delete_security_group
       request :delete_snapshot
+      request :delete_tags
       request :delete_volume
       request :deregister_image
       request :describe_addresses
