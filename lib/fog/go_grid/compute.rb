@@ -6,9 +6,14 @@ module Fog
       requires :go_grid_shared_secret
 
       model_path 'fog/go_grid/models/compute'
+      model         :image
+      collection    :images
+      model         :server
+      collection    :servers
 
       request_path 'fog/go_grid/requests/compute'
       request :common_lookup_list
+      request :grid_image_get
       request :grid_image_list
       request :grid_ip_list
       request :grid_loadbalancer_list
