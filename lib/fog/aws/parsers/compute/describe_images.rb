@@ -6,26 +6,27 @@ module Fog
         class DescribeImages < Fog::Parsers::Base
 
           def reset
-            @image = { 'productCodes' => [], 'blockDeviceMapping' => nil }
+            @block_device_mapping = {}
+            @image = { 'blockDeviceMapping' => [], 'productCodes' => [] }
             @response = { 'imagesSet' => [] }
           end
 
           def start_element(name, attrs = [])
             super
-            if name == 'productCodes'
+            case name
+            when 'productCodes'
               @in_product_codes = true
-            elsif name == 'blockDeviceMapping'
+            when 'blockDeviceMapping'
               @in_block_device_mapping = true
-              @image['blockDeviceMapping'] = []
-             elsif name == 'item' && @in_block_device_mapping
-              @image['blockDeviceMapping'] << {}
             end
           end
-          
+
           def end_element(name)
             case name
             when 'architecture',  'imageId', 'imageLocation', 'imageOwnerId', 'imageState', 'imageType', 'kernelId', 'platform', 'ramdiskId', 'rootDeviceType','rootDeviceName'
               @image[name] = @value
+            when 'deviceName', 'virtualName', 'snapshotId', 'volumeSize', 'deleteOnTermination'
+              @block_device_mapping[name] = @value
             when 'isPublic'
               if @value == 'true'
                 @image[name] = true
@@ -34,9 +35,11 @@ module Fog
               end
             when 'item'
               if @in_block_device_mapping
+                @image['blockDeviceMapping'] << @block_device_mapping
+                @block_device_mapping = {}
               elsif !@in_product_codes
                 @response['imagesSet'] << @image
-                @image = { 'productCodes' => [] }
+                @image = { 'blockDeviceMapping' => [], 'productCodes' => [] }
               end
             when 'productCode'
               @image['productCodes'] << @value
@@ -46,9 +49,8 @@ module Fog
               @in_block_device_mapping = false
             when 'requestId'
               @response[name] = @value
-            when 'deviceName','virtualName','snapshotId','volumeSize','deleteOnTermination'
-              l = @image['blockDeviceMapping'].length
-              @image['blockDeviceMapping'][l-1].store(name,@value)
+            when 'volumeSize'
+              @block_device_mapping[name] = @value.to_i
             end
           end
 
