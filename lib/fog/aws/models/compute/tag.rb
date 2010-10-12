@@ -24,7 +24,7 @@ module Fog
 
         def save
           requires :key, :resource_id
-          connection.create_tags(resource_id, key, value)
+          connection.create_tags(resource_id, key => value)
           true
         end
 
