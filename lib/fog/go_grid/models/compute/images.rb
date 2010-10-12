@@ -14,10 +14,14 @@ module Fog
         def all
           data = connection.grid_image_list.body['list']
           load(data)
+          if server
+            self.replace(self.select {|image| image.server_id == server.id})
+          end
         end
 
         def get(image_id)
           response = connection.grid_image_get.body['list'][image_id]
+          new(data)
         rescue Fog::GoGrid::Compute::NotFound
           nil
         end
