@@ -73,7 +73,6 @@ Gem::Specification.new do |s|
     examples/bluebox_create.rb
     fog.gemspec
     lib/fog.rb
-    lib/fog/attributes.rb
     lib/fog/aws.rb
     lib/fog/aws/bin.rb
     lib/fog/aws/compute.rb
@@ -227,7 +226,6 @@ Gem::Specification.new do |s|
     lib/fog/aws/s3.rb
     lib/fog/aws/simpledb.rb
     lib/fog/aws/storage.rb
-    lib/fog/bin.rb
     lib/fog/bluebox.rb
     lib/fog/bluebox/bin.rb
     lib/fog/bluebox/compute.rb
@@ -246,14 +244,26 @@ Gem::Specification.new do |s|
     lib/fog/bluebox/requests/compute/get_template.rb
     lib/fog/bluebox/requests/compute/get_templates.rb
     lib/fog/bluebox/requests/compute/reboot_block.rb
+    lib/fog/core/bin.rb
+    lib/fog/core/attributes.rb
     lib/fog/core/collection.rb
-    lib/fog/connection.rb
-    lib/fog/credentials.rb
-    lib/fog/deprecation.rb
-    lib/fog/errors.rb
+    lib/fog/core/connection.rb
+    lib/fog/core/credentials.rb
+    lib/fog/core/deprecation.rb
+    lib/fog/core/errors.rb
+    lib/fog/core/hmac.rb
+    lib/fog/core/model.rb
+    lib/fog/core/parser.rb
+    lib/fog/core/provider.rb
+    lib/fog/core/service.rb
+    lib/fog/core/ssh.rb
     lib/fog/go_grid.rb
     lib/fog/go_grid/bin.rb
     lib/fog/go_grid/compute.rb
+    lib/fog/go_grid/models/compute/image.rb
+    lib/fog/go_grid/models/compute/images.rb
+    lib/fog/go_grid/models/compute/server.rb
+    lib/fog/go_grid/models/compute/servers.rb
     lib/fog/go_grid/requests/compute/common_lookup_list.rb
     lib/fog/go_grid/requests/compute/grid_image_list.rb
     lib/fog/go_grid/requests/compute/grid_ip_list.rb
@@ -293,7 +303,6 @@ Gem::Specification.new do |s|
     lib/fog/google/requests/storage/put_object.rb
     lib/fog/google/requests/storage/put_object_url.rb
     lib/fog/google/storage.rb
-    lib/fog/hmac.rb
     lib/fog/linode.rb
     lib/fog/linode/bin.rb
     lib/fog/linode/compute.rb
@@ -313,7 +322,6 @@ Gem::Specification.new do |s|
     lib/fog/local/models/storage/file.rb
     lib/fog/local/models/storage/files.rb
     lib/fog/local/storage.rb
-    lib/fog/core/model.rb
     lib/fog/new_servers.rb
     lib/fog/new_servers/bin.rb
     lib/fog/new_servers/compute.rb
@@ -324,8 +332,6 @@ Gem::Specification.new do |s|
     lib/fog/new_servers/requests/compute/list_plans.rb
     lib/fog/new_servers/requests/compute/list_servers.rb
     lib/fog/new_servers/requests/compute/reboot_server.rb
-    lib/fog/parser.rb
-    lib/fog/provider.rb
     lib/fog/rackspace.rb
     lib/fog/rackspace/bin.rb
     lib/fog/rackspace/compute.rb
@@ -370,7 +376,6 @@ Gem::Specification.new do |s|
     lib/fog/rackspace/requests/storage/put_object.rb
     lib/fog/rackspace/servers.rb
     lib/fog/rackspace/storage.rb
-    lib/fog/service.rb
     lib/fog/slicehost.rb
     lib/fog/slicehost/bin.rb
     lib/fog/slicehost/compute.rb
@@ -398,7 +403,6 @@ Gem::Specification.new do |s|
     lib/fog/slicehost/requests/compute/get_slice.rb
     lib/fog/slicehost/requests/compute/get_slices.rb
     lib/fog/slicehost/requests/compute/reboot_slice.rb
-    lib/fog/ssh.rb
     lib/fog/terremark.rb
     lib/fog/terremark/bin.rb
     lib/fog/terremark/ecloud.rb
