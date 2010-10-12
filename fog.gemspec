@@ -244,6 +244,7 @@ Gem::Specification.new do |s|
     lib/fog/bluebox/requests/compute/get_template.rb
     lib/fog/bluebox/requests/compute/get_templates.rb
     lib/fog/bluebox/requests/compute/reboot_block.rb
+    lib/fog/core.rb
     lib/fog/core/bin.rb
     lib/fog/core/attributes.rb
     lib/fog/core/collection.rb
