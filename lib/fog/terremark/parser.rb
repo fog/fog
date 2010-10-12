@@ -3,6 +3,7 @@ module Fog
     module Shared
       module Parser
 
+        remove_method :parse
         def parse(data)
           case data['type']
           when 'application/vnd.vmware.vcloud.vApp+xml'

@@ -68,6 +68,7 @@ module Fog
           superclass.setup_requirements
         end
 
+        @required ||= false
         unless @required
           for collection in collections
             require [@model_path, collection].join('/')

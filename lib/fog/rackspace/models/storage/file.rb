@@ -8,7 +8,6 @@ module Fog
 
         identity  :key,             :aliases => 'Key'
 
-        attr_accessor :body
         attribute :content_length,  :aliases => 'Content-Length'
         attribute :content_type,    :aliases => 'Content-Type'
         attribute :etag,            :aliases => 'Etag'

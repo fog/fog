@@ -17,6 +17,7 @@ module Fog
 
     %w[reject select].each do |method|
       class_eval <<-RUBY
+        remove_method :#{method}
         def #{method}(*args)
           unless @loaded
             lazy_load
@@ -37,6 +38,7 @@ module Fog
 
     attr_accessor :connection
 
+    remove_method :clear
     def clear
       @loaded = true
       super
@@ -49,9 +51,11 @@ module Fog
     end
 
     def initialize(attributes = {})
+      @loaded = false
       merge_attributes(attributes)
     end
 
+    remove_method :inspect
     def inspect
       Thread.current[:formatador] ||= Formatador.new
       data = "#{Thread.current[:formatador].indentation}<#{self.class.name}\n"

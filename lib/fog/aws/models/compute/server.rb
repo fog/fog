@@ -35,7 +35,7 @@ module Fog
         attribute :tags,                  :aliases => 'tagSet'
         attribute :user_data
 
-        attr_accessor :password, :username
+        attr_accessor :password
         attr_writer   :private_key, :private_key_path, :public_key, :public_key_path
 
         def initialize(attributes={})
@@ -63,6 +63,7 @@ module Fog
           true
         end
 
+        remove_method :flavor_id
         def flavor_id
           @flavor && @flavor.id || @flavor_id
         end
@@ -85,6 +86,7 @@ module Fog
           @key_name = new_keypair && new_keypair.name
         end
 
+        remove_method :monitoring=
         def monitoring=(new_monitoring)
           if new_monitoring.is_a?(Hash)
             @monitoring = new_monitoring['state']
@@ -201,6 +203,7 @@ module Fog
 
         private
 
+        remove_method :state=
         def state=(new_state)
           if new_state.is_a?(Hash)
             @state = new_state['name']

@@ -13,7 +13,7 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Array>:
         # TODO: docs
-        def grid_server_delete(server, power)
+        def grid_server_power(server, power)
           request(
             :path     => 'grid/server/power',
             :query    => {'server' => server}
@@ -24,7 +24,7 @@ module Fog
 
       class Mock
 
-        def grid_server_delete(server)
+        def grid_server_power(server)
           Fog::Mock.not_implemented
         end
 

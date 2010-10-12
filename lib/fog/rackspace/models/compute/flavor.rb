@@ -8,8 +8,6 @@ module Fog
 
         identity :id
 
-        attribute :bits
-        attribute :cores
         attribute :disk
         attribute :name
         attribute :ram

@@ -113,10 +113,6 @@ module Fog
         fingerprint.join(':')
       end
 
-      def self.image_id
-        "ami-#{hex(8)}"
-      end
-
       def self.instance_id
         "i-#{hex(8)}"
       end

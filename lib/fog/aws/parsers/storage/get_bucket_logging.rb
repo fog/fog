@@ -3,7 +3,7 @@ module Fog
     module AWS
       module Storage
 
-        class AccessControlList < Fog::Parsers::Base
+        class GetBucketLogging < Fog::Parsers::Base
 
           def reset
             @grant = { 'Grantee' => {} }
