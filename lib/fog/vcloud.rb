@@ -82,8 +82,6 @@ module Fog
       include Shared
       extend Fog::Vcloud::Generators
 
-      attr_accessor :login_uri
-
       def supporting_versions
         ["0.8"]
       end

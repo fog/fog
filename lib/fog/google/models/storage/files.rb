@@ -81,12 +81,6 @@ module Fog
           super({ :directory => directory }.merge!(attributes))
         end
 
-        private
-
-        def directory=(new_directory)
-          @directory = new_directory
-        end
-
       end
 
     end
