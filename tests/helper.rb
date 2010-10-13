@@ -16,6 +16,10 @@ end
 FalseClass.send(:include, Fog::Boolean)
 TrueClass.send(:include, Fog::Boolean)
 
+def lorem_file
+  File.open(File.dirname(__FILE__) + '/lorem.txt', 'r')
+end
+
 module Shindo
   class Tests
 
