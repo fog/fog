@@ -9,7 +9,8 @@ module Fog
             @attachment = {}
             @in_attachment_set = false
             @response = { 'volumeSet' => [] }
-            @volume = { 'attachmentSet' => [] }
+            @tag = {}
+            @volume = { 'attachmentSet' => [], 'tagSet' => {} }
           end
 
           def start_element(name, attrs = [])
@@ -41,6 +42,7 @@ module Fog
                 @tag[name] = @value
               when 'item'
                 @volume['tagSet'][@tag['key']] = @tag['value']
+                @tag = {}
               when 'tagSet'
                 @in_tag_set = false
               end
@@ -52,7 +54,7 @@ module Fog
                 @volume[name] = Time.parse(@value)
               when 'item'
                 @response['volumeSet'] << @volume
-                @volume = { 'attachmentSet' => [] }
+                @volume = { 'attachmentSet' => [], 'tagSet' => {} }
               when 'requestId'
                 @response[name] = @value
               when 'size'
