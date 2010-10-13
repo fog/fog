@@ -33,7 +33,7 @@ module Fog
               @response['MaxKeys'] = @value.to_i
             when 'Size'
               @object['Size'] = @value.to_i
-            when 'Delimeter', 'Key', 'Name', 'StorageClass'
+            when 'Delimeter', 'Key', 'StorageClass'
               @object[name] = @value
             end
           end

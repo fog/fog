@@ -75,8 +75,8 @@ module Fog
 
         def self.data
           @data ||= Hash.new do |hash, region|
-            hash[region] = Hash.new do |hash, key|
-              hash[key] = {
+            hash[region] = Hash.new do |region_hash, key|
+              region_hash[key] = {
                 :buckets => {}
               }
             end

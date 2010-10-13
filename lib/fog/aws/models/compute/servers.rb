@@ -48,13 +48,13 @@ module Fog
 
           # make sure port 22 is open in the first security group
           security_group = connection.security_groups.get(server.groups.first)
-          ip_permission = security_group.ip_permissions.detect do |ip_permission|
+          authorized = security_group.ip_permissions.detect do |ip_permission|
             ip_permission['ipRanges'].first && ip_permission['ipRanges'].first['cidrIp'] == '0.0.0.0/0' &&
             ip_permission['fromPort'] == 22 &&
             ip_permission['ipProtocol'] == 'tcp' &&
             ip_permission['toPort'] == 22
           end
-          unless ip_permission
+          unless authorized
             security_group.authorize_port_range(22..22)
           end
 

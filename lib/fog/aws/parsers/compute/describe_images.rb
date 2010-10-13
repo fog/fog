@@ -30,7 +30,7 @@ module Fog
               @image[name] = @value
             when 'blockDeviceMapping'
               @in_block_device_mapping = false
-            when 'deviceName', 'virtualName', 'snapshotId', 'volumeSize', 'deleteOnTermination'
+            when 'deviceName', 'virtualName', 'snapshotId', 'deleteOnTermination'
               @block_device_mapping[name] = @value
             when 'isPublic'
               if @value == 'true'

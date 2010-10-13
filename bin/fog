@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'fog'))
 require 'irb'
 require 'yaml'
 require File.join('fog', 'core', 'credentials')

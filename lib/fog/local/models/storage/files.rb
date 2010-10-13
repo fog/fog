@@ -45,10 +45,7 @@ module Fog
               file.close
               new(data)
             else
-              body = nil
-              ::File.open(path) do |file|
-                body = file.read
-              end
+              body = ::File.read(path)
               new(data.merge!(:body => body))
             end
           else
