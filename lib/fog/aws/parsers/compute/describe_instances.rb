@@ -72,12 +72,12 @@ module Fog
               if @in_block_device_mapping
                 @instance['blockDeviceMapping'] << @block_device_mapping
                 @block_device_mapping = {}
-              elsif @in_instances_set
-                @reservation['instancesSet'] << @instance
-                @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
               elsif @in_tag_set
                 @instance['tagSet'][@tag['key']] = @tag['value']
                 @tag = {}
+              elsif @in_instances_set
+                @reservation['instancesSet'] << @instance
+                @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
               elsif !@in_subset
                 @response['reservationSet'] << @reservation
                 @reservation = { 'groupSet' => [], 'instancesSet' => [] }
