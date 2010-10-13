@@ -563,16 +563,11 @@ Gem::Specification.new do |s|
     spec/aws/requests/simpledb/put_attributes_spec.rb
     spec/aws/requests/simpledb/select_spec.rb
     spec/aws/requests/storage/copy_object_spec.rb
-    spec/aws/requests/storage/delete_bucket_spec.rb
-    spec/aws/requests/storage/delete_object_spec.rb
     spec/aws/requests/storage/get_bucket_location_spec.rb
     spec/aws/requests/storage/get_bucket_spec.rb
     spec/aws/requests/storage/get_object_spec.rb
     spec/aws/requests/storage/get_request_payment_spec.rb
-    spec/aws/requests/storage/get_service_spec.rb
     spec/aws/requests/storage/head_object_spec.rb
-    spec/aws/requests/storage/put_bucket_spec.rb
-    spec/aws/requests/storage/put_object_spec.rb
     spec/aws/requests/storage/put_request_payment_spec.rb
     spec/bluebox/models/compute/flavors_spec.rb
     spec/bluebox/models/compute/server_spec.rb

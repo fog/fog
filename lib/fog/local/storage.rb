@@ -1,6 +1,6 @@
 module Fog
   module Local
-  class Storage < Fog::Service
+    class Storage < Fog::Service
 
       requires :local_root
 

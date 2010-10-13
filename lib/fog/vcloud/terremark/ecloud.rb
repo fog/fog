@@ -179,8 +179,8 @@ module Fog
 
           def mock_ip_and_service_from_service_url(uri)
             if ip = mock_data[:organizations].map { |org| org[:vdcs] }.flatten.map { |vdc| vdc[:public_ips] }.flatten.compact.detect { |pip| pip[:services].detect { |service| service[:href] == uri } }
-              if service = ip[:services].detect { |service| service[:href] == uri }
-                [ip, service]
+              if desired_service = ip[:services].detect { |service| service[:href] == uri }
+                [ip, desired_service]
               else
                 [ip, nil]
               end

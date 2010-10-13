@@ -25,9 +25,9 @@ module Fog
 
        if Fog.mocking?
           Fog::Terremark::Ecloud::Mock.new(options)
-        else
+       else
           Fog::Terremark::Ecloud::Real.new(options)
-        end
+       end
      end
 
      class Real
@@ -45,7 +45,7 @@ module Fog
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
         end
 
-      end
+    end
 
      class Mock
        include Fog::Terremark::Shared::Mock
@@ -60,7 +60,7 @@ module Fog
        end
      end
 
-    end
+   end
   end
 end
 

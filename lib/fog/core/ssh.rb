@@ -54,27 +54,27 @@ module Fog
               sudoable_command  = command.sub(/^sudo/, %{sudo -p 'fog sudo password:'})
               escaped_command   = sudoable_command.sub(/'/, %{'"'"'})
               result = Result.new(escaped_command)
-              ssh.open_channel do |channel|
-                channel.request_pty
-                channel.exec(%{bash -lc '#{escaped_command}'}) do |channel, success|
+              ssh.open_channel do |ssh_channel|
+                ssh_channel.request_pty
+                ssh_channel.exec(%{bash -lc '#{escaped_command}'}) do |channel, success|
                   unless success
                     raise "Could not execute command: #{command.inspect}"
                   end
 
-                  channel.on_data do |channel, data|
+                  channel.on_data do |ch, data|
                     result.stdout << data
                   end
 
-                  channel.on_extended_data do |channel, type, data|
+                  channel.on_extended_data do |ch, type, data|
                     next unless type == 1
                     result.stderr << data
                   end
 
-                  channel.on_request('exit-status') do |channel, data|
+                  channel.on_request('exit-status') do |ch, data|
                     result.status = data.read_long
                   end
 
-                  channel.on_request('exit-signal') do |channel, data|
+                  channel.on_request('exit-signal') do |ch, data|
                     result.status = 255
                   end
                 end
