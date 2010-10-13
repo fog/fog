@@ -74,6 +74,11 @@ module Fog
             filters = {'instance-id' => [*filters]}
           end
 
+          if Fog.mocking? && filter.keys.any? {|key| key =~ /^tag/}
+            Formatador.display_line("[yellow][WARN] describe_instances tag filters are not yet mocked[/] [light_black](#{caller.first})[/]")
+            Fog::Mock.not_implemented
+          end
+
           response = Excon::Response.new
 
           instance_set = @data[:instances].values
