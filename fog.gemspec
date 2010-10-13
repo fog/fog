@@ -43,7 +43,7 @@ Gem::Specification.new do |s|
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
   s.add_dependency('builder')
-  s.add_dependency('excon', '>=0.2.3')
+  s.add_dependency('excon', '>=0.2.4')
   s.add_dependency('formatador', '>=0.0.15')
   s.add_dependency('json')
   s.add_dependency('mime-types')
@@ -55,7 +55,7 @@ Gem::Specification.new do |s|
   ## those that are only needed during development
   s.add_development_dependency('rake')
   s.add_development_dependency('rspec')
-  s.add_development_dependency('shindo', '0.1.6')
+  s.add_development_dependency('shindo', '0.1.7')
 
   ## Leave this section as-is. It will be automatically generated from the
   ## contents of your Git repository via the gemspec task. DO NOT REMOVE
