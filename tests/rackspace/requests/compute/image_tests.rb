@@ -5,7 +5,6 @@ Shindo.tests('Rackspace::Compute | image requests', ['rackspace']) do
     'name'      => String,
     'status'    => String,
     'updated'   => String,
-    'serverId'  => Integer,
   }
 
   @image_format = @images_format.merge({
@@ -27,7 +26,7 @@ Shindo.tests('Rackspace::Compute | image requests', ['rackspace']) do
 
     Rackspace[:compute].images.get(@image_id).wait_for { ready? }
 
-    tests("#get_image_details(#{@image_id})").formats(@images_format) do
+    tests("#get_image_details(#{@image_id})").formats(@image_format) do
       Rackspace[:compute].get_image_details(@image_id).body['image']
     end
 
