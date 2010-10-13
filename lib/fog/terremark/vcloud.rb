@@ -25,9 +25,9 @@ module Fog
 
        if Fog.mocking?
           Fog::Terremark::Vcloud::Mock.new(options)
-        else
+       else
           Fog::Terremark::Vcloud::Real.new(options)
-        end
+       end
      end
 
      class Real
@@ -91,7 +91,7 @@ module Fog
             nil
           end
         end
-      end
+     end
 
      class Mock
        include Fog::Terremark::Shared::Mock
@@ -106,7 +106,7 @@ module Fog
        end
      end
 
-    end
+   end
   end
 end
 
