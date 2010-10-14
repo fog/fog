@@ -41,16 +41,19 @@ Shindo.tests('Linode::Compute | linode requests', ['linode']) do
 
     # (2 => Dallas, TX, USA), (1 => 1 month), (1 => Linode 512)
     tests('#linode_create(2, 1, 1)').formats(@linode_format) do
+      pending if Fog.mocking?
       data = Linode[:compute].linode_create(2, 1, 1).body
       @linode_id = data['DATA']['LinodeID']
       data
     end
 
     tests("#linode_list(#{@linode_id})").formats(@linodes_format) do
+      pending if Fog.mocking?
       Linode[:compute].linode_list(@linode_id).body
     end
 
     tests('#linode_list').formats(@linodes_format) do
+      pending if Fog.mocking?
       Linode[:compute].linode_list.body
     end
 
@@ -59,6 +62,7 @@ Shindo.tests('Linode::Compute | linode requests', ['linode']) do
     # end
 
     tests('#linode_delete(#{@linode_id})').succeeds do
+      pending if Fog.mocking?
       Linode[:compute].linode_delete(@linode_id)
     end
 
@@ -67,10 +71,12 @@ Shindo.tests('Linode::Compute | linode requests', ['linode']) do
   tests('failure') do
 
     tests('#linode_reboot(0)').raises(Fog::Linode::Compute::NotFound) do
+      pending if Fog.mocking?
       Linode[:compute].linode_reboot(0)
     end
 
     tests('#linode_delete(0)').raises(Fog::Linode::Compute::NotFound) do
+      pending if Fog.mocking?
       Linode[:compute].linode_delete(0)
     end
 

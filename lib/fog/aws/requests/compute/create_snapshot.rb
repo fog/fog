@@ -51,6 +51,7 @@ module Fog
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id
             }.merge!(data)
+            @data[:snapshots][snapshot_id]['tagSet'] = {}
           else
             response.status = 400
             raise(Excon::Errors.status_error({:expects => 200}, response))

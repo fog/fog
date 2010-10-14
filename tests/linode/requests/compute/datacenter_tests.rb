@@ -10,6 +10,7 @@ Shindo.tests('Linode::Compute | datacenter requests', ['linode']) do
   tests('success') do
 
     tests('#avail_datacenters').formats(@datacenters_format) do
+      pending if Fog.mocking?
       Linode[:compute].avail_datacenters.body
     end
 

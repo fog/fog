@@ -32,14 +32,14 @@ module Fog
           for image in images
             case image['status']
             when 'SAVING'
-              if Time.now - @data[:last_modified][:images][image['id']] > 2
+              if Time.now - @data[:last_modified][:images][image['id']] > Fog::Mock.delay
                 image['status'] = 'ACTIVE'
               end
             end
           end
 
           response.status = [200, 203][rand(1)]
-          response.body = { 'images' => images }
+          response.body = { 'images' => images.map {|image| image.reject {|key, value| !['id', 'name', 'status', 'updated'].include?(key)}} }
           response
         end
 

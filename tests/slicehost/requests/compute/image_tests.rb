@@ -8,10 +8,12 @@ Shindo.tests('Slicehost::Compute | image requests', ['slicehost']) do
   tests('success') do
 
     tests('#get_image(19)').formats(@image_format) do
+      pending if Fog.mocking?
       Slicehost[:compute].get_image(19).body
     end
 
     tests('#get_images').formats({ 'images' => [@image_format] }) do
+      pending if Fog.mocking?
       Slicehost[:compute].get_images.body
     end
 
@@ -20,6 +22,7 @@ Shindo.tests('Slicehost::Compute | image requests', ['slicehost']) do
   tests('failure') do
 
     tests('#get_image(0)').raises(Excon::Errors::Forbidden) do
+      pending if Fog.mocking?
       Slicehost[:compute].get_image(0)
     end
 

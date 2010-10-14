@@ -49,12 +49,14 @@ Shindo.tests('Rackspace::Compute | server requests', ['rackspace']) do
     Rackspace[:compute].servers.get(@server_id).wait_for { ready? }
 
     tests("#reboot_server(#{@server_id}, 'HARD')").succeeds do
+      pending if Fog.mocking?
       Rackspace[:compute].reboot_server(@server_id, 'HARD')
     end
 
     Rackspace[:compute].servers.get(@server_id).wait_for { ready? }
 
     tests("#reboot_server(#{@server_id}, 'SOFT')").succeeds do
+      pending if Fog.mocking?
       Rackspace[:compute].reboot_server(@server_id, 'SOFT')
     end
 
@@ -81,6 +83,7 @@ Shindo.tests('Rackspace::Compute | server requests', ['rackspace']) do
     end
 
     tests('#reboot_server(0)').raises(Fog::Rackspace::Compute::NotFound) do
+      pending if Fog.mocking?
       Rackspace[:compute].reboot_server(0)
     end
 

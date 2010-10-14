@@ -59,7 +59,7 @@ module Fog
             Formatador.display_line("[yellow][WARN] describe_snapshots with a second param is deprecated, use describe_snapshots(options) instead[/] [light_black](#{caller.first})[/]")
           end
 
-          if Fog.mocking? && filter.keys.any? {|key| key =~ /^tag/}
+          if filters.keys.any? {|key| key =~ /^tag/}
             Formatador.display_line("[yellow][WARN] describe_snapshots tag filters are not yet mocked[/] [light_black](#{caller.first})[/]")
             Fog::Mock.not_implemented
           end

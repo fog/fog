@@ -147,6 +147,8 @@ module Fog
               'ownerId'             => @owner_id,
               'privateIpAddress'    => nil,
               'reservationId'       => reservation_id,
+              'stateReason'         => {},
+              'tagSet'              => {}
             })
           end
           response.body = {

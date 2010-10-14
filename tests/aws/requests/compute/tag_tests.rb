@@ -15,14 +15,17 @@ Shindo.tests('AWS::Compute | tag requests', ['aws']) do
   tests('success') do
 
     tests("#create_tags('#{@volume.identity}', 'foo' => 'bar')").formats(AWS::Compute::Formats::BASIC) do
+      pending if Fog.mocking?
       AWS[:compute].create_tags(@volume.identity, 'foo' => 'bar').body
     end
 
     tests('#describe_tags').formats(@tags_format) do
+      pending if Fog.mocking?
       AWS[:compute].describe_tags.body
     end
 
     tests("#delete_tags('#{@volume.identity}', 'foo' => 'bar')").formats(AWS::Compute::Formats::BASIC) do
+      pending if Fog.mocking?
       AWS[:compute].delete_tags(@volume.identity, 'foo' => 'bar').body
     end
 
@@ -31,10 +34,12 @@ Shindo.tests('AWS::Compute | tag requests', ['aws']) do
   tests('failure') do
 
     tests("#create_tags('vol-00000000', 'baz' => 'qux')").raises(Fog::Service::NotFound) do
+      pending if Fog.mocking?
       AWS[:compute].create_tags('vol-00000000', 'baz' => 'qux')
     end
 
     tests("#delete_tags('vol-00000000', 'baz' => 'qux')").raises(Fog::Service::NotFound) do
+      pending if Fog.mocking?
       AWS[:compute].delete_tags('vol-00000000', 'baz' => 'qux')
     end
 

@@ -16,12 +16,14 @@ Shindo.tests('Linode::Compute | distribution requests', ['linode']) do
     @distribution_id = nil
 
     tests('#avail_distributions').formats(@distributions_format) do
+      pending if Fog.mocking?
       data = Linode[:compute].avail_distributions.body
       @distribution_id = data['DATA'].first['DISTRIBUTIONID']
       data
     end
 
     tests("@avail_distributions(#{@distribution_id})").formats(@distributions_format) do
+      pending if Fog.mocking?
       Linode[:compute].avail_distributions(@distribution_id).body
     end
 
