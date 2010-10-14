@@ -36,10 +36,51 @@ module Fog
       class Mock
 
         def create_tags(resources, tags)
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          resources = [*resources]
+          resource_tags = {}
+          objects = resources.map do |resource_id|
+            if resource = @data[:instances][resource_id]
+              [resource, 'instance']
+            elsif resource = @data[:images][resource_id]
+              [resource, 'image']
+            elsif resource = @data[:volumes][resource_id]
+              [resource, 'volume']
+            elsif resource = @data[:snapshots][resource_id]
+              [resource, 'snapshot']
+            end
+          end
+        
+          if objects.all?
+            response.status = 200
+            @data[:tags] ||= []
+            tags.each do |key, value|
+              resources.each_with_index do |resource_id, i|
+                object, resource_type = objects[i]
+                object['tagSet'] ||= {}
+                object['tagSet'][key] = value
+                @data[:tags] << {
+                  'key' => key,
+                  'value' => value,
+                  'resourceId' => resource_id,
+                  'resourceType' => resource_type
+                }
+              end
+            end
+            
+            response.body = {
+              'requestId' => Fog::AWS::Mock.request_id,
+              'return' => 'true'
+            }
+          else
+            response.status = 400
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
+          response
         end
-
+        
       end
+      
     end
   end
 end

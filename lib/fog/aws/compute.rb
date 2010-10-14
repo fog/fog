@@ -113,7 +113,8 @@ module Fog
                   }
                 },
                 :snapshots => {},
-                :volumes => {}
+                :volumes => {},
+                :tags => []
               }
             end
           end
