@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.3.7'
-  s.date              = '2010-09-29'
+  s.version           = '0.3.8'
+  s.date              = '2010-10-14'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -92,6 +92,8 @@ Gem::Specification.new do |s|
     lib/fog/aws/models/compute/servers.rb
     lib/fog/aws/models/compute/snapshot.rb
     lib/fog/aws/models/compute/snapshots.rb
+    lib/fog/aws/models/compute/tag.rb
+    lib/fog/aws/models/compute/tags.rb
     lib/fog/aws/models/compute/volume.rb
     lib/fog/aws/models/compute/volumes.rb
     lib/fog/aws/models/storage/directories.rb
@@ -115,6 +117,7 @@ Gem::Specification.new do |s|
     lib/fog/aws/parsers/compute/describe_reserved_instances.rb
     lib/fog/aws/parsers/compute/describe_security_groups.rb
     lib/fog/aws/parsers/compute/describe_snapshots.rb
+    lib/fog/aws/parsers/compute/describe_tags.rb
     lib/fog/aws/parsers/compute/describe_volumes.rb
     lib/fog/aws/parsers/compute/detach_volume.rb
     lib/fog/aws/parsers/compute/get_console_output.rb
@@ -153,10 +156,12 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/compute/create_key_pair.rb
     lib/fog/aws/requests/compute/create_security_group.rb
     lib/fog/aws/requests/compute/create_snapshot.rb
+    lib/fog/aws/requests/compute/create_tags.rb
     lib/fog/aws/requests/compute/create_volume.rb
     lib/fog/aws/requests/compute/delete_key_pair.rb
     lib/fog/aws/requests/compute/delete_security_group.rb
     lib/fog/aws/requests/compute/delete_snapshot.rb
+    lib/fog/aws/requests/compute/delete_tags.rb
     lib/fog/aws/requests/compute/delete_volume.rb
     lib/fog/aws/requests/compute/deregister_image.rb
     lib/fog/aws/requests/compute/describe_addresses.rb
@@ -168,6 +173,7 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/compute/describe_reserved_instances.rb
     lib/fog/aws/requests/compute/describe_security_groups.rb
     lib/fog/aws/requests/compute/describe_snapshots.rb
+    lib/fog/aws/requests/compute/describe_tags.rb
     lib/fog/aws/requests/compute/describe_volumes.rb
     lib/fog/aws/requests/compute/detach_volume.rb
     lib/fog/aws/requests/compute/disassociate_address.rb
@@ -245,8 +251,8 @@ Gem::Specification.new do |s|
     lib/fog/bluebox/requests/compute/get_templates.rb
     lib/fog/bluebox/requests/compute/reboot_block.rb
     lib/fog/core.rb
-    lib/fog/core/bin.rb
     lib/fog/core/attributes.rb
+    lib/fog/core/bin.rb
     lib/fog/core/collection.rb
     lib/fog/core/connection.rb
     lib/fog/core/credentials.rb
@@ -266,6 +272,7 @@ Gem::Specification.new do |s|
     lib/fog/go_grid/models/compute/server.rb
     lib/fog/go_grid/models/compute/servers.rb
     lib/fog/go_grid/requests/compute/common_lookup_list.rb
+    lib/fog/go_grid/requests/compute/grid_image_get.rb
     lib/fog/go_grid/requests/compute/grid_image_list.rb
     lib/fog/go_grid/requests/compute/grid_ip_list.rb
     lib/fog/go_grid/requests/compute/grid_loadbalancer_list.rb
@@ -565,9 +572,7 @@ Gem::Specification.new do |s|
     spec/aws/requests/storage/copy_object_spec.rb
     spec/aws/requests/storage/get_bucket_location_spec.rb
     spec/aws/requests/storage/get_bucket_spec.rb
-    spec/aws/requests/storage/get_object_spec.rb
     spec/aws/requests/storage/get_request_payment_spec.rb
-    spec/aws/requests/storage/head_object_spec.rb
     spec/aws/requests/storage/put_request_payment_spec.rb
     spec/bluebox/models/compute/flavors_spec.rb
     spec/bluebox/models/compute/server_spec.rb
@@ -634,6 +639,9 @@ Gem::Specification.new do |s|
     spec/vcloud/terremark/ecloud/requests/configure_node_spec.rb
     spec/vcloud/terremark/ecloud/requests/delete_internet_service_spec.rb
     spec/vcloud/terremark/ecloud/requests/delete_node_spec.rb
+    spec/vcloud/terremark/ecloud/requests/get_catalog_item_spec.rb
+    spec/vcloud/terremark/ecloud/requests/get_catalog_spec.rb
+    spec/vcloud/terremark/ecloud/requests/get_customization_options_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_internet_services_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_network_ip_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_network_ips_spec.rb
@@ -643,6 +651,7 @@ Gem::Specification.new do |s|
     spec/vcloud/terremark/ecloud/requests/get_public_ip_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_public_ips_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_vdc_spec.rb
+    spec/vcloud/terremark/ecloud/requests/instantiate_vapp_template_spec.rb
     spec/vcloud/terremark/ecloud/requests/login_spec.rb
     spec/vcloud/vcloud_spec.rb
     tests/aws/helper.rb
@@ -655,11 +664,16 @@ Gem::Specification.new do |s|
     tests/aws/requests/compute/region_tests.rb
     tests/aws/requests/compute/security_group_tests.rb
     tests/aws/requests/compute/snapshot_tests.rb
+    tests/aws/requests/compute/tag_tests.rb
     tests/aws/requests/compute/volume_tests.rb
+    tests/aws/requests/storage/bucket_tests.rb
+    tests/aws/requests/storage/object_tests.rb
     tests/bluebox/helper.rb
     tests/bluebox/requests/compute/block_tests.rb
     tests/bluebox/requests/compute/product_tests.rb
     tests/bluebox/requests/compute/template_tests.rb
+    tests/go_grid/helper.rb
+    tests/go_grid/requests/compute/image_tests.rb
     tests/helper.rb
     tests/helper_tests.rb
     tests/helpers/model_helper.rb
@@ -668,6 +682,7 @@ Gem::Specification.new do |s|
     tests/linode/requests/compute/distribution_tests.rb
     tests/linode/requests/compute/linode_tests.rb
     tests/linode/requests/compute/linodeplans_tests.rb
+    tests/lorem.txt
     tests/rackspace/helper.rb
     tests/rackspace/requests/compute/address_tests.rb
     tests/rackspace/requests/compute/flavor_tests.rb
