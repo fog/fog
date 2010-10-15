@@ -36,51 +36,43 @@ module Fog
       class Mock
 
         def create_tags(resources, tags)
-          response = Excon::Response.new
           resources = [*resources]
-          resource_tags = {}
-          objects = resources.map do |resource_id|
-            if resource = @data[:instances][resource_id]
-              [resource, 'instance']
-            elsif resource = @data[:images][resource_id]
-              [resource, 'image']
-            elsif resource = @data[:volumes][resource_id]
-              [resource, 'volume']
-            elsif resource = @data[:snapshots][resource_id]
-              [resource, 'snapshot']
+
+          tagged = resources.map do |resource_id|
+            type = case resource_id
+            when /^ami\-[a-z0-9]{8}$/i
+              'image'
+            when /^i\-[a-z0-9]{8}$/i
+              'instance'
+            when /^snap\-[a-z0-9]{8}$/i
+              'snapshot'
+            when /^vol\-[a-z0-9]{8}$/i
+              'volume'
+            end
+            if type && @data[:"#{type}s"][resource_id]
+              { 'resourceId' => resource_id, 'resourceType' => type }
+            else
+              raise(Fog::Service::NotFound.new("The #{type} ID '#{resource_id}' does not exist"))
             end
           end
-        
-          if objects.all?
-            response.status = 200
-            @data[:tags] ||= []
-            tags.each do |key, value|
-              resources.each_with_index do |resource_id, i|
-                object, resource_type = objects[i]
-                object['tagSet'] ||= {}
-                object['tagSet'][key] = value
-                @data[:tags] << {
-                  'key' => key,
-                  'value' => value,
-                  'resourceId' => resource_id,
-                  'resourceType' => resource_type
-                }
-              end
-            end
-            
-            response.body = {
-              'requestId' => Fog::AWS::Mock.request_id,
-              'return' => 'true'
-            }
-          else
-            response.status = 400
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+
+          tags.each do |key, value|
+            @data[:tags][key] ||= {}
+            @data[:tags][key][value] ||= []
+            @data[:tags][key][value] = @data[:tags][key][value] & tagged
           end
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            'requestId' => Fog::AWS::Mock.request_id,
+            'return'    => true
+          }
           response
         end
-        
+
       end
-      
+
     end
   end
 end

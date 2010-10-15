@@ -78,6 +78,7 @@ module Fog
               region_hash[key] = {
                 :deleted_at => {},
                 :addresses  => {},
+                :images     => {},
                 :instances  => {},
                 :key_pairs  => {},
                 :limits     => { :addresses => 5 },
@@ -114,7 +115,7 @@ module Fog
                 },
                 :snapshots => {},
                 :volumes => {},
-                :tags => []
+                :tags => {}
               }
             end
           end
