@@ -170,7 +170,7 @@ module Fog
       end
 
       private
-
+      
       def self.random_selection(characters, length)
         selection = ''
         length.times do
@@ -194,7 +194,7 @@ module Fog
 
       def self.hex(length)
         max = ('f' * length).to_i(16)
-        rand(max).to_s(16)
+        rand(max).to_s(16).rjust(length, '0')
       end
 
       def self.base64(length)
