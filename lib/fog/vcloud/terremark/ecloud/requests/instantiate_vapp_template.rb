@@ -103,12 +103,13 @@ module Fog
 
           def instantiate_vapp_template(catalog_item_uri, options = {})
             validate_instantiate_vapp_template_options(catalog_item_uri, options)
+            catalog_item, _ = catalog_item_and_vdc_from_catalog_item_uri(catalog_item_uri)
 
             xml = nil
             if vdc = vdc_from_uri(options[:vdc_uri])
-              id = rand(1000)
-              vapp_uri = Fog::Vcloud::Terremark::Ecloud::Mock.vapp_href(:id => id)
-              options.update(:id => id.to_s, :href => vapp_uri)
+              vapp_id = rand(1000)
+              vapp_uri = Fog::Vcloud::Terremark::Ecloud::Mock.vapp_href(:id => vapp_id)
+              options.update(:id => vapp_id.to_s, :href => vapp_uri, :disks => catalog_item[:disks], :ip => random_ip_in_network(options[:network_uri]))
               vdc[:vms] << options
 
               xml = generate_instantiate_vapp_template_response(vdc[:href], options[:name], vapp_uri)
@@ -122,6 +123,13 @@ module Fog
           end
 
           private
+
+          def random_ip_in_network(network_uri)
+            network = mock_data[:organizations].map { |org| org[:vdcs].map { |vdc| vdc[:networks] } }.flatten.detect { |network| network[:href] == network_uri }
+            subnet_ipaddr = IPAddr.new(network[:subnet])
+            ips = subnet_ipaddr.to_range.to_a[3..-2]
+            ips[rand(ips.size)].to_s
+          end
 
           def generate_instantiate_vapp_template_response(vdc_uri, vapp_name, vapp_uri)
             builder = Builder::XmlMarkup.new

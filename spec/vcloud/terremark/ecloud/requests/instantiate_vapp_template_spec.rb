@@ -9,6 +9,7 @@ if Fog.mocking?
     describe "#instantiate_vapp_template" do
       let(:vdc) { @vcloud.vdcs.first }
       let(:catalog_item) { vdc.catalog.first }
+      let(:catalog_item_data) { @vcloud.catalog_item_and_vdc_from_catalog_item_uri(catalog_item.href).first }
       let(:new_vapp_data) do
         {
           :name => "foobar",
@@ -37,6 +38,10 @@ if Fog.mocking?
 
           it { should include :id }
           it { should include :href }
+          it { should include :disks }
+          it { should include :ip }
+
+          its(:disks) { should == catalog_item_data[:disks] }
 
           specify { subject.values_at(*new_vapp_data.keys).should == new_vapp_data.values }
         end

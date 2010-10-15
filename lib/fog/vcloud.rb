@@ -296,7 +296,7 @@ module Fog
                   :catalog => {
                      :name => "The catalog",
                      :items => [
-                        { :id => "0", :name => "Item 0" },
+                        { :id => "0", :name => "Item 0", :disks => [{ :size => 25 }] },
                         { :id => "1", :name => "Item 1" },
                         { :id => "2", :name => "Item 2" },
                      ]
@@ -329,10 +329,15 @@ module Fog
                   ],
                   :vms => [
                     { :href => "#{base_url}/vap/41",
-                      :name => "Broom 1"
+                      :name => "Broom 1",
+                      :ip   => "1.2.3.3",
+                      :memory => 1024,
+                      :cpus => 1,
+                      :disks => [{ :size => 25 }]
                     },
                     { :href => "#{base_url}/vap/42",
-                      :name => "Broom 2"
+                      :name => "Broom 2",
+                      :ip => "1.2.3.4"
                     },
                     { :href => "#{base_url}/vap/43",
                       :name => "Email!"
@@ -360,7 +365,7 @@ module Fog
                     }
                   ],
                   :vms => [
-                    { :href => "#{base_url}/vap/44",
+                    { :href => "#{base_url}/vapp/44",
                       :name => "Master Blaster"
                     }
                   ]
@@ -384,6 +389,26 @@ module Fog
         match = Regexp.new(%r:.*/publicIp/(\d+):).match(uri.to_s)
         if match
           mock_data[:organizations].map { |org| org[:vdcs] }.flatten.map { |vdc| vdc[:public_ips] }.flatten.compact.detect { |public_ip| public_ip[:id] == match[1] }
+        end
+      end
+
+      def vapp_and_vdc_from_vapp_uri(uri)
+        if vdc = mock_data[:organizations].map {|o| o[:vdcs] }.flatten.detect {|vd| vd[:vms].detect {|vm| vm[:href] == uri } }
+          vapp = vdc[:vms].detect {|v| v[:href] == uri }
+          if vapp
+            [vapp, vdc]
+          end
+        end
+      end
+
+      def catalog_item_and_vdc_from_catalog_item_uri(uri)
+        catalog_item_id, vdc_id = uri.split("/").last.split("-")
+        vdc = vdc_from_id(vdc_id)
+        if vdc
+          catalog_item = vdc[:catalog][:items].detect {|ci| ci[:id] == catalog_item_id }
+          if catalog_item
+            [catalog_item, vdc]
+          end
         end
       end
 

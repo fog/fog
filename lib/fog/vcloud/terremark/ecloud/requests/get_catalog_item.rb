@@ -15,29 +15,25 @@ module Fog
           #
 
           def get_catalog_item(catalog_item_uri)
-            catalog_item_id, vdc_id = catalog_item_uri.split("/").last.split("-")
-            xml = nil
+            if catalog_item_and_vdc = catalog_item_and_vdc_from_catalog_item_uri(catalog_item_uri)
+              catalog_item, vdc = catalog_item_and_vdc
+              builder = Builder::XmlMarkup.new
 
-            if vdc = vdc_from_id(vdc_id)
-              if catalog_item = vdc[:catalog][:items].detect {|ci| ci[:id] == catalog_item_id }
-                builder = Builder::XmlMarkup.new
+              xml = builder.CatalogItem(xmlns.merge(:href => catalog_item_uri, :name => catalog_item[:name])) do
+                builder.Link(
+                             :rel => "down",
+                             :href => Fog::Vcloud::Terremark::Ecloud::Mock.catalog_item_customization_href(:id => catalog_item[:id]),
+                             :type => "application/vnd.tmrk.ecloud.catalogItemCustomizationParameters+xml",
+                             :name => "Customization Options"
+                             )
 
-                xml = builder.CatalogItem(xmlns.merge(:href => catalog_item_uri, :name => catalog_item[:name])) do
-                  builder.Link(
-                              :rel => "down",
-                              :href => Fog::Vcloud::Terremark::Ecloud::Mock.catalog_item_customization_href(:id => catalog_item_id),
-                              :type => "application/vnd.tmrk.ecloud.catalogItemCustomizationParameters+xml",
-                              :name => "Customization Options"
-                              )
+                builder.Entity(
+                               :href => Fog::Vcloud::Terremark::Ecloud::Mock.vapp_template_href(:id => catalog_item[:id]),
+                               :type => "application/vnd.vmware.vcloud.vAppTemplate+xml",
+                               :name => catalog_item[:name]
+                               )
 
-                  builder.Entity(
-                                 :href => Fog::Vcloud::Terremark::Ecloud::Mock.vapp_template_href(:id => catalog_item_id),
-                                 :type => "application/vnd.vmware.vcloud.vAppTemplate+xml",
-                                 :name => catalog_item[:name]
-                                 )
-
-                  builder.Property(0, :key => "LicensingCost")
-                end
+                builder.Property(0, :key => "LicensingCost")
               end
             end
 
