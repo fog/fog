@@ -9,7 +9,7 @@ if Fog.mocking?
     describe :power_on, :type => :vcloud_request do
       context "with a valid vapp uri" do
         let(:vm_data) { @vcloud.mock_data[:organizations].first[:vdcs].first[:vms].first }
-        before { vm_data[:status] = 2; @power_on = @vcloud.power_on(@vcloud.vdcs.first.servers.first.href) }
+        before { vm_data[:status] = 2; @power_on = @vcloud.power_on(@vcloud.vdcs.first.servers.first.href + "/power/action/powerOn") }
         subject { @power_on }
 
         it_should_behave_like "all responses"

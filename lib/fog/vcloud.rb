@@ -328,7 +328,7 @@ module Fog
                     },
                   ],
                   :vms => [
-                    { :href => "#{base_url}/vap/41",
+                    { :href => "#{base_url}/vapp/41",
                       :name => "Broom 1",
                       :ip   => "1.2.3.3",
                       :memory => 1024,
@@ -336,11 +336,11 @@ module Fog
                       :disks => [{ :size => 25 }],
                       :status => 2
                     },
-                    { :href => "#{base_url}/vap/42",
+                    { :href => "#{base_url}/vapp/42",
                       :name => "Broom 2",
                       :ip => "1.2.3.4"
                     },
-                    { :href => "#{base_url}/vap/43",
+                    { :href => "#{base_url}/vapp/43",
                       :name => "Email!"
                     }
                   ]
@@ -394,8 +394,8 @@ module Fog
       end
 
       def vapp_and_vdc_from_vapp_uri(uri)
-        if vdc = mock_data[:organizations].map {|o| o[:vdcs] }.flatten.detect {|vd| vd[:vms].detect {|vm| vm[:href] == uri } }
-          vapp = vdc[:vms].detect {|v| v[:href] == uri }
+        if vdc = mock_data[:organizations].map {|o| o[:vdcs] }.flatten.detect {|vd| vd[:vms].detect {|vm| uri =~ %r{^#{Regexp.escape(vm[:href])}($|/)} } }
+          vapp = vdc[:vms].detect {|v| uri =~ %r{^#{Regexp.escape(v[:href])}($|/)} }
           if vapp
             [vapp, vdc]
           end
