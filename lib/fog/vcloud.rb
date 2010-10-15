@@ -333,7 +333,8 @@ module Fog
                       :ip   => "1.2.3.3",
                       :memory => 1024,
                       :cpus => 1,
-                      :disks => [{ :size => 25 }]
+                      :disks => [{ :size => 25 }],
+                      :status => 2
                     },
                     { :href => "#{base_url}/vap/42",
                       :name => "Broom 2",

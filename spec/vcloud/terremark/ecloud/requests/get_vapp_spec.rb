@@ -26,8 +26,8 @@ if Fog.mocking?
 
           its(:href) { should == vm_data[:href] }
           its(:name) { should == vm_data[:name] }
-          its(:status) { should == "2" }
-          its(:size) { (25 * 1024).to_s }
+          its(:status) { should == vm_data[:status].to_s }
+          its(:size) { (vm_data[:disks].inject(0) {|s, d| s += d[:size] } * 1024).to_s }
 
           describe "Link" do
             subject { @vapp.body[:Link] }

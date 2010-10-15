@@ -41,6 +41,7 @@ if Fog.mocking?
           it { should include :href }
           it { should include :disks }
           it { should include :ip }
+          its(:status) { should == 2 }
 
           its(:disks) { should == catalog_item_data[:disks] }
 

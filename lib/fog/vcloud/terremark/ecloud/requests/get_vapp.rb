@@ -30,7 +30,7 @@ module Fog
                                      :href => vapp[:href],
                                      :type => "application/vnd.vmware.vcloud.vApp+xml",
                                      :name => vapp[:name],
-                                     :status => 2
+                                     :status => vapp[:status] || 4
                                      )) do
               builder.Link(:rel => "up", :href => vdc[:href], :type => "application/vnd.vmware.vcloud.vdc+xml")
 

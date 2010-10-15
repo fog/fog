@@ -109,7 +109,7 @@ module Fog
             if vdc = vdc_from_uri(options[:vdc_uri])
               vapp_id = rand(1000)
               vapp_uri = Fog::Vcloud::Terremark::Ecloud::Mock.vapp_href(:id => vapp_id)
-              options.update(:id => vapp_id.to_s, :href => vapp_uri, :disks => catalog_item[:disks], :ip => random_ip_in_network(options[:network_uri]))
+              options.update(:id => vapp_id.to_s, :href => vapp_uri, :disks => catalog_item[:disks], :ip => random_ip_in_network(options[:network_uri]), :status => 2)
               vdc[:vms] << options
 
               xml = generate_instantiate_vapp_template_response(vdc[:href], options[:name], vapp_uri)
