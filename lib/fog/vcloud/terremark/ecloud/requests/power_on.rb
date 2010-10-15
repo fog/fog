@@ -8,8 +8,17 @@ module Fog
         end
 
         class Mock
-          def power_on(on_uri)
-            Fog::Mock.not_implemented
+          def power_on(vapp_uri)
+            vapp, vdc = vapp_and_vdc_from_vapp_uri(vapp_uri)
+
+            if vapp
+              vapp[:status] = 4
+
+              builder = Builder::XmlMarkup.new
+              mock_it 200, builder.Task(xmlns)
+            else
+              mock_error 200, "401 Unauthorized"
+            end
           end
         end
       end
