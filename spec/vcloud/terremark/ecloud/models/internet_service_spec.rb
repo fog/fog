@@ -2,10 +2,6 @@ require File.join(File.dirname(__FILE__),'..','..','..','spec_helper')
 
 if Fog.mocking?
   describe "Fog::Vcloud::Terremark::Ecloud::InternetService", :type => :mock_tmrk_ecloud_model do
-    before do
-      @mock_service_uri = "#{@base_url}/extensions/internetService/#{@mock_service[:id]}"
-    end
-
     subject { @vcloud.vdcs[0].public_ips[0].internet_services[0] }
 
     describe :class do
@@ -35,17 +31,17 @@ if Fog.mocking?
 
       it { should be_an_instance_of Fog::Vcloud::Terremark::Ecloud::InternetService }
 
-      its(:href)                  { should == @mock_service_uri }
-      its(:identity)              { should == @mock_service_uri }
-      its(:name)                  { should == @mock_service[:name] }
-      its(:id)                    { should == @mock_service[:id] }
-      its(:protocol)              { should == @mock_service[:protocol] }
-      its(:port)                  { should == @mock_service[:port] }
-      its(:enabled)               { should == @mock_service[:enabled] }
-      its(:description)           { should == @mock_service[:description] }
+      its(:href)                  { should == @mock_service.href }
+      its(:identity)              { should == @mock_service.href }
+      its(:name)                  { should == @mock_service.name }
+      its(:id)                    { should == @mock_service.object_id.to_s }
+      its(:protocol)              { should == @mock_service.protocol }
+      its(:port)                  { should == @mock_service.port.to_s }
+      its(:enabled)               { should == @mock_service.enabled.to_s }
+      its(:description)           { should == @mock_service.description }
       its(:public_ip)             { should == public_ip }
-      its(:timeout)               { should == @mock_service[:timeout] }
-      its(:redirect_url)          { should == @mock_service[:redirect_url] }
+      its(:timeout)               { should == @mock_service.timeout.to_s }
+      its(:redirect_url)          { should == @mock_service.redirect_url }
       its(:monitor)               { should == nil }
 
       specify { composed_public_ip_data[:href].should == public_ip[:Href].to_s }

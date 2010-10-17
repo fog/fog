@@ -18,25 +18,29 @@ if Fog.mocking?
 
       context "with a valid node services uri" do
 
-        subject { @vcloud.add_node(@mock_service[:href] + "/nodeServices", new_node_data) }
+        subject { @vcloud.add_node(@mock_service.node_collection.href, new_node_data) }
 
         it_should_behave_like "all responses"
 
         let(:service) { @vcloud.vdcs.first.public_ips.first.internet_services.first }
 
         it "should change the count by 1" do
-          service.nodes.length.should == 2
-          subject
-          service.nodes.reload.length.should == 3
+          expect { subject }.to change { @vcloud.get_nodes(@mock_service.node_collection.href).body[:NodeService].length}.by(1)
         end
 
         describe "#body" do
-          subject { @vcloud.add_node(@mock_service[:href] + "/nodeServices", new_node_data).body }
+          subject { @vcloud.add_node(@mock_service.node_collection.href, new_node_data).body }
           its(:Enabled) { should == new_node_data[:enabled] }
           its(:Port) { should == new_node_data[:port] }
           its(:IpAddress) { should == new_node_data[:ip_address] }
           its(:Name) { should == new_node_data[:name] }
           its(:Description) { should == new_node_data[:description] }
+        end
+
+        describe "added mock data" do
+          let(:added_mock_node) { @vcloud.mock_data.public_ip_internet_service_node_from_href(subject.body[:Href]) }
+
+          specify { added_mock_node._parent.should == @mock_service.node_collection }
         end
       end
 

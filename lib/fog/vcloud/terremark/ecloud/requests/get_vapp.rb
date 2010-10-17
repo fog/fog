@@ -8,11 +8,23 @@ module Fog
         end
 
         class Mock
+          def return_vapp_as_creating!(name)
+            vapps_to_return_as_creating[name] = true
+          end
+
+          def vapps_to_return_as_creating
+            @vapps_to_return_as_creating ||= {}
+          end
+
           def get_vapp(vapp_uri)
             xml = nil
 
-            if vapp_and_vdc = vapp_and_vdc_from_vapp_uri(vapp_uri)
-              xml = generate_get_vapp_response(*vapp_and_vdc)
+            if vapp = mock_data.virtual_machine_from_href(vapp_uri)
+              if vapps_to_return_as_creating[vapp.name]
+                xml = generate_instantiate_vapp_template_response(vapp)
+              else
+                xml = generate_get_vapp_response(vapp)
+              end
             end
 
             if xml
@@ -24,19 +36,20 @@ module Fog
 
           private
 
-          def generate_get_vapp_response(vapp, vdc)
+          def generate_get_vapp_response(vapp)
             builder = Builder::XmlMarkup.new
             builder.VApp(xmlns.merge(
-                                     :href => vapp[:href],
+                                     :href => vapp.href,
                                      :type => "application/vnd.vmware.vcloud.vApp+xml",
-                                     :name => vapp[:name],
-                                     :status => vapp[:status] || 4
+                                     :name => vapp.name,
+                                     :status => vapp.status,
+                                     :size => vapp.size
                                      )) do
-              builder.Link(:rel => "up", :href => vdc[:href], :type => "application/vnd.vmware.vcloud.vdc+xml")
+              builder.Link(:rel => "up", :href => vapp._parent.href, :type => "application/vnd.vmware.vcloud.vdc+xml")
 
               builder.NetworkConnectionSection(:xmlns => "http://schemas.dmtf.org/ovf/envelope/1") do
                 builder.NetworkConnection(:Network => "Internal", :xmlns => "http://www.vmware.com/vcloud/v0.8") do
-                  builder.IpAddress vapp[:ip]
+                  builder.IpAddress vapp.ip
                 end
               end
 
@@ -53,12 +66,12 @@ module Fog
                 builder.System
                 builder.Item do
                   # CPUs
-                  builder.VirtualQuantity vapp[:cpus] || 1
+                  builder.VirtualQuantity vapp.cpus
                   builder.ResourceType 3
                 end
                 builder.Item do
                   # memory
-                  builder.VirtualQuantity vapp[:memory] || 1024
+                  builder.VirtualQuantity vapp.memory
                   builder.ResourceType 4
                 end
                 builder.Item do
@@ -67,13 +80,16 @@ module Fog
                   builder.ResourceType 6
                   builder.InstanceId 3
                 end
-                builder.Item do
-                  # Hard Disk 1
-                  builder.Parent 3
-                  builder.VirtualQuantity vapp[:disks].first[:size] * 1024 # MB
-                  builder.HostResource vapp[:disks].first[:size] * 1024 # MB
-                  builder.ResourceType 17
-                  builder.AddressOnParent 0
+
+                # Hard Disks
+                vapp.disks.each do |disk|
+                  builder.Item do
+                    builder.Parent 3
+                    builder.VirtualQuantity disk.vcloud_size
+                    builder.HostResource disk.vcloud_size
+                    builder.ResourceType 17
+                    builder.AddressOnParent disk.address
+                  end
                 end
               end
             end

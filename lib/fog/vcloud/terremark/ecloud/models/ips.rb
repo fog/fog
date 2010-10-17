@@ -14,6 +14,7 @@ module Fog
           attribute :href
 
           def all
+            check_href!( :messages => "Ips href of a Network you want to enumerate" )
             if data = connection.get_network_ips(href).body[:IpAddress]
               load(data)
             end

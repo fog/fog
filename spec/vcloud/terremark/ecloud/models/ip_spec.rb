@@ -12,22 +12,19 @@ if Fog.mocking?
     end
 
     context "with no uri" do
-
       subject { Fog::Vcloud::Terremark::Ecloud::Ip.new() }
-      it { should have_all_attributes_be_nil }
 
+      it { should have_all_attributes_be_nil }
     end
 
     context "as a collection member" do
-      subject        { @vcloud.vdcs[0].networks[0].ips[0].reload; @vcloud.vdcs[0].networks[0].ips[0] }
-      let(:status)   { @mock_network[:ips].keys.include?(@vcloud.vdcs[0].networks[0].ips[0].name) ? "Assigned" : nil }
-      let(:server)   { @mock_network[:ips][@vcloud.vdcs[0].networks[0].ips[0].name] }
+      subject { @ip = @vcloud.vdcs[0].networks[0].ips[0] }
 
       it { should be_an_instance_of Fog::Vcloud::Terremark::Ecloud::Ip }
 
-      its(:name)   { should == IPAddr.new(@mock_network[:name]).to_range.to_a[3].to_s }
-      its(:status) { should == status }
-      its(:server) { should == server }
+      its(:name) { should == @mock_data.network_ip_from_href(@ip.href).name }
+      its(:status) { should == @mock_data.network_ip_from_href(@ip.href).status }
+      its(:server) { should == @mock_data.network_ip_from_href(@ip.href).used_by.name }
 
     end
   end

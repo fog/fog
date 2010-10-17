@@ -19,7 +19,7 @@ if Fog.mocking?
 
         it { should be_an_instance_of Fog::Vcloud::Terremark::Ecloud::Nodes }
 
-        its(:length) { should == 2 }
+        its(:length) { should == 3 }
 
         it { should have_members_of_the_right_model }
       end

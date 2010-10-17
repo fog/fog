@@ -9,8 +9,7 @@ if Fog.mocking?
     describe "#get_public_ip" do
       context "with a valid public_ip_uri" do
         before do
-          @mock_ip = @mock_vdc[:public_ips].first
-          @public_ip = @vcloud.get_public_ip( @mock_ip[:href] )
+          @public_ip = @vcloud.get_public_ip(@mock_public_ip.href)
         end
 
         subject { @public_ip }
@@ -21,9 +20,9 @@ if Fog.mocking?
         describe "#body" do
           subject { @public_ip.body }
 
-          its(:Name) { should == @mock_ip[:name] }
-          its(:Href) { should == @mock_ip[:href] }
-          its(:Id)   { should == @mock_ip[:id] }
+          its(:Name) { should == @mock_public_ip.name }
+          its(:Href) { should == @mock_public_ip.href }
+          its(:Id)   { should == @mock_public_ip.object_id.to_s }
 
         end
       end

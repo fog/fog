@@ -12,8 +12,8 @@ if Fog.mocking?
     describe "#body" do
       subject { @vcloud.login.body }
       its(:Org) { should == { :type => "application/vnd.vmware.vcloud.org+xml",
-                              :href => @mock_organization[:info][:href],
-                              :name => @mock_organization[:info][:name]} }
+                              :href => @mock_organization.href,
+                              :name => @mock_organization.name} }
     end
   end
 else

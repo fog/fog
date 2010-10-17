@@ -8,7 +8,7 @@ if Fog.mocking?
 
     describe "#get_network_ips" do
       context "with a valid VDC network ips_uri" do
-        before { @ips = @vcloud.get_network_ips( @mock_network[:href] + "/ips" ) }
+        before { @ips = @vcloud.get_network_ips(@mock_network_ip_collection.href) }
         subject { @ips }
 
         it_should_behave_like "all responses"

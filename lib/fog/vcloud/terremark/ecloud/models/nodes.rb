@@ -12,6 +12,7 @@ module Fog
           attribute :href, :aliases => :Href
 
           def all
+            check_href!( :messages => "the Nodes href of the Internet Service you want to enumerate" )
             if data = connection.get_nodes(href).body[:NodeService]
               load(data)
             end

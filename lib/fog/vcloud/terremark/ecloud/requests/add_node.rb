@@ -51,13 +51,10 @@ module Fog
 
           def add_node(nodes_uri, node_data)
             validate_node_data(node_data)
-            nodes_uri = ensure_unparsed(nodes_uri)
-            service_uri = nodes_uri.gsub('/nodeServices','')
-            ip, service = mock_ip_and_service_from_service_url(service_uri)
-            if ip and service
-              id = rand(1000)
-              service[:nodes] << node_data.merge!( :id => id.to_s, :href => Fog::Vcloud::Terremark::Ecloud::Mock.extension_url + "/nodeService/#{id}" )
-              mock_it 200, mock_node_service_response(node_data, ecloud_xmlns), { 'Content-Type' => 'application/vnd.tmrk.ecloud.nodeService+xml' }
+            if node_collection = mock_data.public_ip_internet_service_node_collection_from_href(ensure_unparsed(nodes_uri))
+              new_node = MockPublicIpInternetServiceNode.new(node_data, node_collection)
+              node_collection.items << new_node
+              mock_it 200, mock_node_service_response(new_node), { 'Content-Type' => 'application/vnd.tmrk.ecloud.nodeService+xml' }
             else
               mock_error 200, "401 Unauthorized"
             end

@@ -12,20 +12,20 @@ module Fog
             catalog_uri = ensure_unparsed(catalog_uri)
             xml = nil
 
-            if vdc = vdc_from_uri(catalog_uri)
+            if catalog = mock_data.catalog_from_href(catalog_uri)
               builder = Builder::XmlMarkup.new
 
               xml = builder.Catalog(xmlns.merge(
                                                 :type => "application/vnd.vmware.vcloud.catalog+xml",
-                                                :href => catalog_uri,
-                                                :name => vdc[:catalog][:name]
+                                                :href => catalog.href,
+                                                :name => catalog.name
                                     )) do |xml|
                 xml.CatalogItems do |xml|
-                  vdc[:catalog][:items].each do |catalog_item|
+                  catalog.items.each do |catalog_item|
                     xml.CatalogItem(
                                     :type => "application/vnd.vmware.vcloud.catalogItem+xml",
-                                    :href => "#{self.class.base_url}/catalogItem/#{catalog_item[:id]}-#{vdc[:id]}",
-                                    :name => catalog_item[:name]
+                                    :href => catalog_item.href,
+                                    :name => catalog_item.name
                                     )
                   end
                 end

@@ -14,6 +14,7 @@ module Fog
           attribute :href
 
           def all
+            check_href!("Vdc")
             if data = connection.get_vdc(href).body[:AvailableNetworks][:Network]
               load(data)
             end
