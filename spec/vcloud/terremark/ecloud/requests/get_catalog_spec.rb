@@ -8,7 +8,7 @@ if Fog.mocking?
 
     describe "#get_catalog" do
       context "with a valid vdc catalog_uri" do
-        before { @catalog = @vcloud.get_catalog(@mock_vdc[:href] + "/catalog") }
+        before { @catalog = @vcloud.get_catalog(@mock_vdc.catalog.href) }
         subject { @catalog }
 
         it_should_behave_like "all responses"
@@ -21,7 +21,7 @@ if Fog.mocking?
 
           it_should_behave_like "it has the standard vcloud v0.8 xmlns attributes"   # 3 keys
 
-          its(:name) { should == "The catalog" }
+          its(:name) { should == @mock_vdc.catalog.name }
 
           it { should include :CatalogItems }
 

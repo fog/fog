@@ -18,6 +18,7 @@ module Fog
           #all_request lambda { |public_ips| public_ips.connection.get_public_ips(public_ips.href) }
 
           def all
+            check_href!(:message => "the Public Ips href of the Vdc you want to enumerate")
             if data = connection.get_public_ips(href).body[:PublicIPAddress]
               load(data)
             end

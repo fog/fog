@@ -22,26 +22,26 @@ if Fog.mocking?
     end
 
     context "as a collection member" do
-      subject { @vcloud.vdcs[0].reload; @vcloud.vdcs[0] }
+      subject { @vcloud.vdcs[0].reload }
 
-      its(:href)                  { should == @mock_vdc[:href] }
-      its(:identity)              { should == @mock_vdc[:href] }
-      its(:name)                  { should == @mock_vdc[:name] }
+      its(:href)                  { should == @mock_vdc.href }
+      its(:identity)              { should == @mock_vdc.href }
+      its(:name)                  { should == @mock_vdc.name }
       its(:public_ips)            { should be_an_instance_of Fog::Vcloud::Terremark::Ecloud::PublicIps }
       its(:other_links)           { should have(4).items }
       its(:resource_entities)     { should have(3).items }
       its(:available_networks)    { should have(2).items }
 
       its(:compute_capacity)      { should == {:Memory =>
-                                                {:Allocated => @mock_vdc[:memory][:allocated], :Units => "bytes * 2^20"}, 
+                                                {:Allocated => @mock_vdc.memory_allocated.to_s, :Units => "bytes * 2^20"}, 
                                                :DeployedVmsQuota =>
                                                 {:Limit => "-1", :Used => "-1"},
                                                :InstantiatedVmsQuota =>
                                                 {:Limit => "-1", :Used => "-1"}, 
                                                :Cpu =>
-                                                {:Allocated => @mock_vdc[:cpu][:allocated], :Units => "hz * 10^6"}} }
+                                                {:Allocated => @mock_vdc.cpu_allocated.to_s, :Units => "hz * 10^6"}} }
 
-      its(:storage_capacity)      { should == {:Allocated => @mock_vdc[:storage][:allocated], :Used => @mock_vdc[:storage][:used], :Units => "bytes * 10^9"} }
+      its(:storage_capacity)      { should == {:Allocated => @mock_vdc.storage_allocated.to_s, :Used => @mock_vdc.storage_used.to_s, :Units => "bytes * 10^9"} }
 
       its(:deployed_vm_quota)     { should == nil }
       its(:instantiated_vm_quota) { should == nil }

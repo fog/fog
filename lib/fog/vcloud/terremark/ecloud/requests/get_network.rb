@@ -8,34 +8,33 @@ module Fog
         end
 
         class Mock
+          #
+          # Based off of:
+          # http://support.theenterprisecloud.com/kb/default.asp?id=546&Lang=1&SID=
+          #
 
           def get_network(network_uri)
-            #
-            # Based off of:
-            # http://support.theenterprisecloud.com/kb/default.asp?id=546&Lang=1&SID=
-            #
             network_uri = ensure_unparsed(network_uri)
-            type = "application/vnd.vmware.vcloud.network+xml"
-            response = Excon::Response.new
-            if network = mock_data[:organizations].map { |org| org[:vdcs].map { |vdc| vdc[:networks] } }.flatten.detect { |network| network[:href] == network_uri }
-              xml = Builder::XmlMarkup.new
-              mock_it 200,
-                xml.Network(xmlns.merge(:href => network[:href], :name => network[:name], :type => type)) {
-                  xml.Link( :rel => "down", :href => network[:href] + "/ips", :type => "application/xml", :name => "IP Addresses" )
-                  xml.Link( :rel => "down", :href => network[:extension_href], :type => "application/xml", :name => network[:name] )
-                  xml.Configuration {
-                    xml.Gateway(network[:gateway])
-                    xml.Netmask(network[:netmask])
+
+            if network = mock_data.network_from_href(network_uri)
+              builder = Builder::XmlMarkup.new
+              xml = builder.Network(xmlns.merge(:href => network.href, :name => network.name, :type => "application/vnd.vmware.vcloud.network+xml")) {
+                builder.Link(:rel => "down", :href => network.ip_collection.href, :type => "application/xml", :name => network.ip_collection.name)
+                builder.Link(:rel => "down", :href => network.extensions.href, :type => "application/xml", :name => network.name)
+                builder.Configuration {
+                  builder.Gateway(network.gateway)
+                  builder.Netmask(network.netmask)
+                }
+                if network.features
+                  builder.Features {
+                    network.features.each do |feature|
+                      builder.tag!(feature[:type], feature[:value])
+                    end
                   }
-                  if network[:features]
-                    xml.Features {
-                      network[:features].each do |feature|
-                        eval "xml.#{feature[:type].to_sym}('#{feature[:value]}')"
-                      end
-                    }
-                  end
-                },
-                { 'Content-Type' => type }
+                end
+              }
+
+              mock_it 200, xml, { "Content-Type" => "application/vnd.vmware.vcloud.network+xml" }
             else
               mock_error 200, "401 Unauthorized"
             end

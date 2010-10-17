@@ -15,13 +15,14 @@ module Fog
 
           def get_public_ip(public_ip_uri)
             public_ip_uri = ensure_unparsed(public_ip_uri)
-            if ip = mock_data[:organizations].map { |org| org[:vdcs] }.flatten.map { |vdc| vdc[:public_ips] }.flatten.detect { |ip| ip[:href] == public_ip_uri }
+
+            if public_ip = mock_data.public_ip_from_href(public_ip_uri)
               xml = Builder::XmlMarkup.new
               mock_it 200,
                 xml.PublicIp(:xmlns => "urn:tmrk:eCloudExtensions-2.0", :"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance") {
-                  xml.Id(ip[:id])
-                  xml.Href(ip[:href])
-                  xml.Name(ip[:name])
+                  xml.Id public_ip.object_id
+                  xml.Href public_ip.href
+                  xml.Name public_ip.name
                 }, { 'Content-Type' => 'application/vnd.tmrk.ecloud.publicIp+xml' }
             else
               mock_error 200, "401 Unauthorized"

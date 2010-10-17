@@ -8,8 +8,15 @@ module Fog
         end
 
         class Mock
-          def power_off(off_uri)
-            Fog::Mock.not_implemented
+          def power_off(vapp_uri)
+            if vapp = mock_data.virtual_machine_from_href(vapp_uri)
+              vapp.power_off!
+
+              builder = Builder::XmlMarkup.new
+              mock_it 200, builder.Task(xmlns)
+            else
+              mock_error 200, "401 Unauthorized"
+            end
           end
         end
       end

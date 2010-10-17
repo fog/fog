@@ -12,35 +12,33 @@ module Fog
         end
 
         class Mock
-          require 'ipaddr'
 
           def get_network_ips(network_ips_uri)
             network_ips_uri = ensure_unparsed(network_ips_uri)
-            response = Excon::Response.new
-            if network = mock_data[:organizations].map { |org| org[:vdcs].map { |vdc| vdc[:networks] } }.flatten.detect { |network| network[:href] == network_ips_uri.gsub(%r:/ips$:,'') }
-              xml = Builder::XmlMarkup.new
-              mock_it 200,
-                xml.IpAddresses {
-                  IPAddr.new(network[:name]).to_range.to_a[3..-2].each do |ip|
-                    xml.IpAddress {
-                      xml.Name(ip.to_s)
-                      xml.Href("#{Fog::Vcloud::Terremark::Ecloud::Mock.extension_url}/ip/#{ip.to_s.gsub('.','')}")
-                      if network[:ips].has_key?(ip.to_s)
-                        xml.Status("Assigned")
-                        xml.Server(network[:ips][ip.to_s])
-                      else
-                        xml.Status("Available")
-                      end
-                      xml.RnatAddress(network[:rnat])
-                    }
+
+            if network_ip_collection = mock_data.network_ip_collection_from_href(network_ips_uri)
+              builder = Builder::XmlMarkup.new
+              xml = builder.IpAddresses do
+                network_ip_collection.ordered_ips.each do |network_ip|
+                  builder.IpAddress do
+                    builder.Name network_ip.name
+                    builder.Href network_ip.href
+
+                    if network_ip.used_by
+                      builder.Status("Assigned")
+                      builder.Server(network_ip.used_by.name)
+                    else
+                      builder.Status("Available")
+                    end
+                    builder.RnatAddress(network_ip.rnat)
                   end
-                },
-                { 'Content-Type' => 'application/vnd.tmrk.ecloud.ipAddressesList+xml' }
+                end
+              end
+
+              mock_it 200, xml, { 'Content-Type' => 'application/vnd.tmrk.ecloud.ipAddressesList+xml' }
             else
               mock_error 200, "401 Unauthorized"
             end
-            
-
           end
 
         end

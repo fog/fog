@@ -2,7 +2,19 @@ module Fog
   class Vcloud
     module Terremark
       class Ecloud
+        module Shared
+          private
+
+          def validate_vapp_data(vapp_data)
+            valid_opts = [:name, :cpus, :memory, :disks]
+            unless valid_opts.all? { |opt| vapp_data.keys.include?(opt) }
+              raise ArgumentError.new("Required Vapp data missing: #{(valid_opts - vapp_data.keys).map(&:inspect).join(", ")}")
+            end
+          end
+        end
+
         class Real
+          include Shared
 
           def generate_configure_vapp_request(vapp_uri, vapp_data)
             rasd_xmlns = { "xmlns" => "http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData" }
@@ -42,7 +54,7 @@ module Fog
 
             #puts xml.root.to_s
             xml.root.to_s
-            
+
             #builder = Builder::XmlMarkup.new
             #builder.Vapp(:href => vapp_uri.to_s,
             #             :type => 'application/vnd.vmware.vcloud.vApp+xml',
@@ -82,13 +94,6 @@ module Fog
             #}
           end
 
-          def validate_vapp_data(vapp_data)
-            valid_opts = [:name, :cpus, :memory, :disks]
-            unless valid_opts.all? { |opt| vapp_data.keys.include?(opt) }
-              raise ArgumentError.new("Required Vapp data missing: #{(valid_opts - vapp_data.keys).map(&:inspect).join(", ")}")
-            end
-          end
-
           def configure_vapp(vapp_uri, vapp_data)
             validate_vapp_data(vapp_data)
 
@@ -105,8 +110,34 @@ module Fog
         end
 
         class Mock
+          include Shared
+
           def configure_vapp(vapp_uri, vapp_data)
-            Fog::Mock.not_implemented
+            validate_vapp_data(vapp_data)
+
+            if vapp = mock_data.virtual_machine_from_href(vapp_uri)
+              vapp_data.each do |key, value|
+                case key
+                when :cpus, :memory
+                  vapp[key] = value
+                when :disks
+                  addresses_to_delete = vapp.disks.map {|d| d.address } - value.map {|d| d[:number] }
+                  addresses_to_delete.each do |address_to_delete|
+                    vapp.disks.delete(vapp.disks.at_address(address_to_delete))
+                  end
+
+                  current_addresses = vapp.disks.map {|d| d.address }
+                  disks_to_add = value.find_all {|d| !current_addresses.include?(d[:number]) }
+                  disks_to_add.each do |disk_to_add|
+                    vapp.disks << MockVirtualMachineDisk.new(:size => disk_to_add[:size] / 1024, :address => disk_to_add[:number])
+                  end
+                end
+              end
+
+              mock_it 200, '', { "Location" => mock_data.base_url + "/some_tasks/1234" }
+            else
+              mock_error 200, "401 Unauthorized"
+            end
           end
         end
       end

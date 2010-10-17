@@ -103,16 +103,17 @@ module Fog
 
           def instantiate_vapp_template(catalog_item_uri, options = {})
             validate_instantiate_vapp_template_options(catalog_item_uri, options)
-            catalog_item, _ = catalog_item_and_vdc_from_catalog_item_uri(catalog_item_uri)
+            catalog_item = mock_data.catalog_item_from_href(catalog_item_uri)
 
             xml = nil
-            if vdc = vdc_from_uri(options[:vdc_uri])
-              vapp_id = rand(1000)
-              vapp_uri = Fog::Vcloud::Terremark::Ecloud::Mock.vapp_href(:id => vapp_id)
-              options.update(:id => vapp_id.to_s, :href => vapp_uri, :disks => catalog_item[:disks], :ip => random_ip_in_network(options[:network_uri]), :status => 2)
-              vdc[:vms] << options
+            if vdc = mock_data.vdc_from_href(options[:vdc_uri])
+              if network = mock_data.network_from_href(options[:network_uri])
+                new_vm = MockVirtualMachine.new({ :name => options[:name], :ip => network.random_ip, :cpus => options[:cpus], :memory => options[:memory] }, vdc)
+                new_vm.disks.push(*catalog_item.disks.dup)
+                vdc.virtual_machines << new_vm
 
-              xml = generate_instantiate_vapp_template_response(vdc[:href], options[:name], vapp_uri)
+                xml = generate_instantiate_vapp_template_response(new_vm)
+              end
             end
 
             if xml
@@ -124,23 +125,16 @@ module Fog
 
           private
 
-          def random_ip_in_network(network_uri)
-            network = mock_data[:organizations].map { |org| org[:vdcs].map { |vdc| vdc[:networks] } }.flatten.detect { |network| network[:href] == network_uri }
-            subnet_ipaddr = IPAddr.new(network[:subnet])
-            ips = subnet_ipaddr.to_range.to_a[3..-2]
-            ips[rand(ips.size)].to_s
-          end
-
-          def generate_instantiate_vapp_template_response(vdc_uri, vapp_name, vapp_uri)
+          def generate_instantiate_vapp_template_response(vapp)
             builder = Builder::XmlMarkup.new
             builder.VApp(xmlns.merge(
-                                     :href => vapp_uri,
+                                     :href => vapp.href,
                                      :type => "application/vnd.vmware.vcloud.vApp+xml",
-                                     :name => vapp_name,
+                                     :name => vapp.name,
                                      :status => 0,
                                      :size => 4
                                      )) {
-              builder.Link(:rel => "up", :href => vdc_uri, :type => "application/vnd.vmware.vcloud.vdc+xml")
+              builder.Link(:rel => "up", :href => vapp._parent.href, :type => "application/vnd.vmware.vcloud.vdc+xml")
             }
           end
         end

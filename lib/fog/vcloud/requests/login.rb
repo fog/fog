@@ -31,8 +31,8 @@ module Fog
 
         mock_it 200,
           xml.OrgList(xmlns) {
-              mock_data[:organizations].each do |org|
-                xml.Org( :type => "application/vnd.vmware.vcloud.org+xml", :href => org[:info][:href], :name => org[:info][:name] )
+              mock_data.organizations.each do |organization|
+                xml.Org( :type => "application/vnd.vmware.vcloud.org+xml", :href => organization.href, :name => organization.name )
               end
             },
             { 'Set-Cookie' => 'vcloud-token=fc020a05-21d7-4f33-9b2a-25d8cd05a44e; path=/',

@@ -29,7 +29,7 @@ module Fog
           def reload
             super
             @changed = false
-            true
+            self
           end
 
           private

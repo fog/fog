@@ -12,6 +12,7 @@ module Fog
           attribute :href, :aliases => :Href
 
           def all
+            check_href! :message => "the Firewall ACL href for the network you want to enumerate"
             if data = connection.get_firewall_acls(href).body[:FirewallAcl]
               data = [ data ] if data.is_a?(Hash)
               load(data)

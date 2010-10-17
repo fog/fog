@@ -15,22 +15,21 @@ module Fog
           #
 
           def get_catalog_item(catalog_item_uri)
-            if catalog_item_and_vdc = catalog_item_and_vdc_from_catalog_item_uri(catalog_item_uri)
-              catalog_item, vdc = catalog_item_and_vdc
+            if catalog_item = mock_data.catalog_item_from_href(catalog_item_uri)
               builder = Builder::XmlMarkup.new
 
-              xml = builder.CatalogItem(xmlns.merge(:href => catalog_item_uri, :name => catalog_item[:name])) do
+              xml = builder.CatalogItem(xmlns.merge(:href => catalog_item.href, :name => catalog_item.name)) do
                 builder.Link(
                              :rel => "down",
-                             :href => Fog::Vcloud::Terremark::Ecloud::Mock.catalog_item_customization_href(:id => catalog_item[:id]),
+                             :href => catalog_item.customization.href,
                              :type => "application/vnd.tmrk.ecloud.catalogItemCustomizationParameters+xml",
-                             :name => "Customization Options"
+                             :name => catalog_item.customization.name
                              )
 
                 builder.Entity(
-                               :href => Fog::Vcloud::Terremark::Ecloud::Mock.vapp_template_href(:id => catalog_item[:id]),
+                               :href => catalog_item.vapp_template.href,
                                :type => "application/vnd.vmware.vcloud.vAppTemplate+xml",
-                               :name => catalog_item[:name]
+                               :name => catalog_item.vapp_template.name
                                )
 
                 builder.Property(0, :key => "LicensingCost")

@@ -2,10 +2,6 @@ require File.join(File.dirname(__FILE__),'..','..','..','spec_helper')
 
 if Fog.mocking?
   describe "Fog::Vcloud::Terremark::Ecloud::PublicIp", :type => :mock_tmrk_ecloud_model do
-    before do
-      @mock_ip = @mock_vdc[:public_ips].first
-    end
-
     subject { @vcloud }
 
     describe :class do
@@ -27,10 +23,10 @@ if Fog.mocking?
 
       it { should be_an_instance_of Fog::Vcloud::Terremark::Ecloud::PublicIp }
 
-      its(:href)                  { should == @mock_ip[:href] }
-      its(:identity)              { should == @mock_ip[:href] }
-      its(:name)                  { should == @mock_ip[:name] }
-      its(:id)                    { should == @mock_ip[:id] }
+      its(:href)                  { should == @mock_public_ip.href }
+      its(:identity)              { should == @mock_public_ip.href }
+      its(:name)                  { should == @mock_public_ip.name }
+      its(:id)                    { should == @mock_public_ip.object_id.to_s }
 
       its(:internet_services)     { should have(2).services }
 

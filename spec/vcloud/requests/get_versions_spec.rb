@@ -44,7 +44,7 @@ if Fog.mocking?
 
     describe "body" do
       subject { @vcloud.get_versions( @vcloud.versions_uri ).body }
-      its(:VersionInfo) { should == { :LoginUrl => @mock_version[:login_url] , :Version => @mock_version[:version] } }
+      its(:VersionInfo) { should == { :LoginUrl => @mock_version.login_url , :Version => @mock_version.version } }
     end
   end
 else

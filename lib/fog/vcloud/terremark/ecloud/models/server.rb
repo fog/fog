@@ -80,8 +80,10 @@ module Fog
           end
 
           def cpus
-            { :count => cpu_mess[:VirtualQuantity].to_i,
-              :units => cpu_mess[:AllocationUnits] }
+            if cpu_mess
+              { :count => cpu_mess[:VirtualQuantity].to_i,
+                :units => cpu_mess[:AllocationUnits] }
+            end
           end
 
           def cpus=(qty)
@@ -90,8 +92,10 @@ module Fog
           end
 
           def memory
-            { :amount => memory_mess[:VirtualQuantity].to_i,
-              :units => memory_mess[:AllocationUnits] }
+            if memory_mess
+              { :amount => memory_mess[:VirtualQuantity].to_i,
+                :units => memory_mess[:AllocationUnits] }
+            end
           end
 
           def memory=(amount)
@@ -112,7 +116,7 @@ module Fog
               @disk_change = :added
               load_unless_loaded!
               virtual_hardware[:Item] << { :ResourceType => '17',
-                                           :AddressOnParent => (disk_mess.map { |dm| dm[:AddressOnParent] }.sort.last.to_i + 1).to_s, 
+                                           :AddressOnParent => (disk_mess.map { |dm| dm[:AddressOnParent] }.sort.last.to_i + 1).to_s,
                                            :VirtualQuantity => size.to_s }
             end
             true
@@ -168,17 +172,25 @@ module Fog
 
           def memory_mess
             load_unless_loaded!
-            virtual_hardware[:Item].detect { |item| item[:ResourceType] == "4" }
+            if virtual_hardware && virtual_hardware[:Item]
+              virtual_hardware[:Item].detect { |item| item[:ResourceType] == "4" }
+            end
           end
 
           def cpu_mess
             load_unless_loaded!
-            virtual_hardware[:Item].detect { |item| item[:ResourceType] == "3" }
+            if virtual_hardware && virtual_hardware[:Item]
+              virtual_hardware[:Item].detect { |item| item[:ResourceType] == "3" }
+            end
           end
 
           def disk_mess
             load_unless_loaded!
-            virtual_hardware[:Item].select { |item| item[:ResourceType] == "17" }
+            if virtual_hardware && virtual_hardware[:Item]
+              virtual_hardware[:Item].select { |item| item[:ResourceType] == "17" }
+            else
+              []
+            end
           end
 
           def power_operation(op)
