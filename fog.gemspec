@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.3.8'
-  s.date              = '2010-10-14'
+  s.version           = '0.3.9'
+  s.date              = '2010-10-18'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -650,9 +650,11 @@ Gem::Specification.new do |s|
     spec/vcloud/terremark/ecloud/requests/get_nodes_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_public_ip_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_public_ips_spec.rb
+    spec/vcloud/terremark/ecloud/requests/get_vapp_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_vdc_spec.rb
     spec/vcloud/terremark/ecloud/requests/instantiate_vapp_template_spec.rb
     spec/vcloud/terremark/ecloud/requests/login_spec.rb
+    spec/vcloud/terremark/ecloud/requests/power_on_spec.rb
     spec/vcloud/vcloud_spec.rb
     tests/aws/helper.rb
     tests/aws/models/storage/directory_tests.rb
