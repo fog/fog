@@ -12,8 +12,8 @@ module Fog
 
         identity  :key, :aliases => 'name'
 
-        attribute :bytes
-        attribute :count
+        attribute :bytes, :aliases => 'X-Container-Bytes-Used'
+        attribute :count, :aliases => 'X-Container-Object-Count'
 
         def destroy
           requires :key
