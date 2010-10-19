@@ -27,6 +27,7 @@ module Fog
       request :get_request_payment
       request :get_service
       request :head_object
+      request :post_object_hidden_fields
       request :put_bucket
       request :put_bucket_acl
       request :put_bucket_logging
