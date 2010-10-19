@@ -112,7 +112,7 @@ module Fog
     end
 
     def to_json
-      self.map {|member| member}.to_json
+      self.map {|member| member.attributes}.to_json
     end
 
     private
