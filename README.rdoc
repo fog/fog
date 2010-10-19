@@ -1,4 +1,4 @@
-http://geemus.com/fog.png
+http://geemus.s3.amazonaws.com/fog.png
 
 fog is the Ruby cloud computing library.
 
