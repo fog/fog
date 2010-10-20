@@ -59,6 +59,9 @@ module Fog
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
+          if options['delimiter']
+            Fog::Mock.not_implemented
+          end
           response = Excon::Response.new
           if bucket = @data[:buckets][bucket_name]
             contents = bucket[:objects].values.sort {|x,y| x['Key'] <=> y['Key']}.reject do |object|
