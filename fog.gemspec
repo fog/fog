@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.3.9'
-  s.date              = '2010-10-18'
+  s.version           = '0.3.10'
+  s.date              = '2010-10-20'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -222,6 +222,7 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/storage/get_request_payment.rb
     lib/fog/aws/requests/storage/get_service.rb
     lib/fog/aws/requests/storage/head_object.rb
+    lib/fog/aws/requests/storage/post_object_hidden_fields.rb
     lib/fog/aws/requests/storage/put_bucket.rb
     lib/fog/aws/requests/storage/put_bucket_acl.rb
     lib/fog/aws/requests/storage/put_bucket_logging.rb

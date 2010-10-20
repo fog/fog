@@ -24,7 +24,7 @@ module Fog
   @mocking = false
 
   unless const_defined?(:VERSION)
-    VERSION = '0.3.9'
+    VERSION = '0.3.10'
   end
 
   module Mock
