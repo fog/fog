@@ -182,8 +182,7 @@ module Fog
 
         def ssh(commands)
           requires :identity, :ip_address, :private_key, :username
-          @ssh ||= Fog::SSH.new(ip_address, username, :key_data => [private_key])
-          @ssh.run(commands)
+          Fog::SSH.new(ip_address, username, :key_data => [private_key]).run(commands)
         end
 
         def start

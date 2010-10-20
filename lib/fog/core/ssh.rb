@@ -51,8 +51,7 @@ module Fog
         begin
           Net::SSH.start(@address, @username, @options) do |ssh|
             commands.each do |command|
-              sudoable_command  = command.sub(/^sudo/, %{sudo -p 'fog sudo password:'})
-              escaped_command   = sudoable_command.sub(/'/, %{'"'"'})
+              escaped_command = command.sub(/'/, %{'"'"'})
               result = Result.new(escaped_command)
               ssh.open_channel do |ssh_channel|
                 ssh_channel.request_pty
