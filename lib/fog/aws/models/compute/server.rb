@@ -104,20 +104,23 @@ module Fog
         end
 
         def private_key_path
-          File.expand_path(@private_key_path ||= Fog.credentials[:private_key_path])
+          @private_key_path ||= Fog.credentials[:private_key_path]
+          @private_key_path &&= File.expand_path(@private_key_path)
         end
 
         def private_key
-          @private_key ||= File.read(private_key_path)
+          @private_key ||= private_key_path && File.read(private_key_path)
         end
 
         def public_key_path
-          File.expand_path(@public_key_path ||= Fog.credentials[:public_key_path])
+          @public_key_path ||= Fog.credentials[:public_key_path]
+          @public_key_path &&= File.expand_path(@public_key_path)
         end
 
         def public_key
-          @public_key ||= File.read(public_key_path)
+          @public_key ||= public_key_path && File.read(public_key_path)
         end
+
         def ready?
           @state == 'running'
         end
@@ -161,14 +164,17 @@ module Fog
         end
 
         def setup(credentials = {})
-          requires :identity, :ip_address, :public_key, :username
+          requires :identity, :ip_address, :username
           sleep(10) # takes a bit before EC2 instances will play nice
-          Fog::SSH.new(ip_address, username, credentials).run([
+          commands = [
             %{mkdir .ssh},
-            %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
             %{passwd -l root},
             %{echo "#{attributes.to_json}" >> ~/attributes.json}
-          ])
+          ]
+          if public_key
+            commands << %{echo "#{public_key}" >> ~/.ssh/authorized_keys}
+          end
+          Fog::SSH.new(ip_address, username, credentials).run(commands)
         rescue Errno::ECONNREFUSED => e
           sleep(1)
           retry

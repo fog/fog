@@ -37,13 +37,15 @@ module Fog
         def bootstrap(new_attributes = {})
           server = connection.servers.new(new_attributes)
 
-          # first or create fog_#{credential} keypair
-          unless server.key_pair = connection.key_pairs.get("fog_#{Fog.credential}")
+          unless new_attributes[:key_name]
+            # first or create fog_#{credential} keypair
             name = Fog.respond_to?(:credential) && Fog.credential || :default
-            server.key_pair = connection.key_pairs.create(
-              :name => "fog_#{name}",
-              :public_key => server.public_key
-            )
+            unless server.key_pair = connection.key_pairs.get("fog_#{name}")
+              server.key_pair = connection.key_pairs.create(
+                :name => "fog_#{name}",
+                :public_key => server.public_key
+              )
+            end
           end
 
           # make sure port 22 is open in the first security group
