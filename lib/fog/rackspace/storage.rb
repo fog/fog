@@ -14,11 +14,14 @@ module Fog
       request :delete_container
       request :delete_object
       request :get_container
+      request :get_cdn_containers
       request :get_containers
       request :get_object
+      request :head_cdn_container
       request :head_container
       request :head_containers
       request :head_object
+      request :put_cdn_container
       request :put_container
       request :put_object
 
@@ -94,10 +97,11 @@ module Fog
         end
 
         def reload
-          @connection.reset
+          @cdn_connection.reset
+          @storage_connection.reset
         end
 
-        def cdn_request(params)
+        def cdn_request(params, parse_json = true)
           begin
             response = @cdn_connection.request(params.merge!({
               :headers  => {
