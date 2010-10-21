@@ -1,7 +1,6 @@
 require 'rubygems'
-require 'aws/s3'
-require 'benchmark'
-require 'right_aws'
+require 'bundler/setup'
+Bundler.require(:benchmark)
 
 require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
 
