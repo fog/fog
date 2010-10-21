@@ -1,15 +1,10 @@
 require 'rubygems'
 require 'base64'
-require 'cgi'
 require 'digest/md5'
-require 'excon'
-require 'formatador'
-require 'json'
-require 'mime/types'
-require 'net/ssh'
-require 'nokogiri'
 require 'tempfile'
 require 'time'
+require 'bundler/setup'
+Bundler.require(:default, :production)
 
 __DIR__ = File.dirname(__FILE__)
 
