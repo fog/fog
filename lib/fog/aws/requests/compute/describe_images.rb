@@ -46,7 +46,7 @@ module Fog
             'Action'    => 'DescribeImages',
             :idempotent => true,
             :parser     => Fog::Parsers::AWS::Compute::DescribeImages.new
-          }.merge!(options))
+          }.merge!(params))
         end
 
       end
