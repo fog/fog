@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.3.11'
+  s.version           = '0.3.12'
   s.date              = '2010-10-20'
   s.rubyforge_project = 'fog'
 
@@ -375,12 +375,15 @@ Gem::Specification.new do |s|
     lib/fog/rackspace/requests/compute/update_server.rb
     lib/fog/rackspace/requests/storage/delete_container.rb
     lib/fog/rackspace/requests/storage/delete_object.rb
+    lib/fog/rackspace/requests/storage/get_cdn_containers.rb
     lib/fog/rackspace/requests/storage/get_container.rb
     lib/fog/rackspace/requests/storage/get_containers.rb
     lib/fog/rackspace/requests/storage/get_object.rb
+    lib/fog/rackspace/requests/storage/head_cdn_container.rb
     lib/fog/rackspace/requests/storage/head_container.rb
     lib/fog/rackspace/requests/storage/head_containers.rb
     lib/fog/rackspace/requests/storage/head_object.rb
+    lib/fog/rackspace/requests/storage/put_cdn_container.rb
     lib/fog/rackspace/requests/storage/put_container.rb
     lib/fog/rackspace/requests/storage/put_object.rb
     lib/fog/rackspace/servers.rb
