@@ -37,6 +37,81 @@ def replace_header(head, header_name)
   head.sub!(/(\.#{header_name}\s*= ').*'/) { "#{$1}#{send(header_name)}'"}
 end
 
+def bdd_state(state)
+  state.to_s=='mocked' ? true : false
+end
+
+def exec_vendor_specs(vendor='aws', state='mocked')
+  begin
+    puts "Spec run:  #{state} #{bdd_state(state)}"
+    if Dir.exists?("spec/#{vendor}")
+      sh("export FOG_MOCK=#{bdd_state(state)} && bundle exec spec -cfs spec/#{vendor}")
+    end
+  rescue Exception => e
+    puts e.message
+    puts e.backtrace.inspect
+  ensure
+    puts "Continuing..."
+  end
+end
+def exec_vendor_tests(vendor='aws', state='mocked')
+  begin
+    puts "Tests run:  #{state} #{bdd_state(state)}"
+    if Dir.exists?("tests/#{vendor}")
+      sh("export FOG_MOCK=#{bdd_state(state)} && bundle exec shindo tests/#{vendor}")
+    end
+  rescue Exception => e
+    puts e.message
+    puts e.backtrace.inspect
+  ensure
+    puts "Continuing..."
+  end  
+end
+def exec_vendor_spec_async(vendor='aws', state='mocked', file='spec/aws')
+  puts "Async spec run:  #{state} #{bdd_state(state)}"
+  sh("export FOG_MOCK=#{bdd_state(state)} && bundle exec spec -cfs #{file} &")
+end
+def exec_vendor_test_async(vendor='aws', state='mocked', file='tests/aws')
+  sh("export FOG_MOCK=#{bdd_state(state)} && bundle exec shindo #{file} &")
+end
+def exec_vendor(name, state)
+  exec_vendor_specs(name, state)
+  exec_vendor_tests(name, state)
+end
+def exec_spec_files(fs, state, vnd)
+  fs.each do |f|
+    exec_vendor_spec_async(vnd, state, f)
+  end
+end
+def exec_test_files(fs, state, vnd)
+  fs.each do |f|
+    exec_vendor_test_async(vnd, state, f)
+  end
+end
+def exec_vendor_async(vnd, state)
+  root=File.expand_path('.')
+  spec_files=Dir.glob("#{root}/spec/#{vnd}/**/*_spec.rb")
+  test_files=Dir.glob("#{root}/tests/#{vnd}/**/*_tests.rb")
+  exec_spec_files(spec_files, state, vnd) if spec_files.length > 0
+  exec_test_files(test_files, state, vnd) if test_files.length > 0
+end
+
+def clouds_lists
+  dl={:tests => [], :spec => []};
+  Dir["./{spec,tests}/*"].each do |d|
+    if File.directory?(d)
+      unless ( d =~ /help|example/ )
+        if ( d =~ /\.\/tests\// )
+          dl[:tests] << d.sub(/\.\/tests\//,'')
+        elsif
+          dl[:spec] << d.sub(/\.\/spec\//,'')
+        end        
+      end
+    end
+  end
+  dl
+end
+
 #############################################################################
 #
 # Standard tasks
@@ -57,6 +132,95 @@ task :ci do
   sh("export FOG_MOCK=true  && bundle exec shindont tests") &&
   sh("export FOG_MOCK=false && bundle exec spec spec") &&
   sh("export FOG_MOCK=false && bundle exec shindont tests")
+end
+
+
+namespace :spec do
+
+  namespace :clouds do
+
+#    desc "Run Fog's RSpec for all cloud vendors and both states, live and mocked."
+#    task :all => ['aws:all']
+
+    desc "List all cloud vendors and whether they have live and mock tests and spec's"
+    task :list do
+      tbl=[]
+      tbl<< 'Vendor         BDD State'
+      tbl<< '======         ========='
+      cls=clouds_lists
+      cl=cls[:tests]|cls[:spec]
+      cl.sort.each do |v|
+        tbl << "#{v.to_s}".ljust(14, '.') + "live  ".rjust(12, '.')
+        tbl << "#{v.to_s}".ljust(14, '.') + "mocked".rjust(10, '.')
+      end
+      puts tbl
+    end
+
+  end
+
+  namespace :async do
+
+    desc 'Async run Fog\'s RSpec for vendor (default :aws) and state (default :mocked)'
+    task :cloud, [:vendor, :state] => [:pre_vendor, :pre_state] do |t, args|
+      args.with_defaults(:vendor => :aws, :state => :mocked)
+      exec_vendor_async(args.vendor, args.state)
+    end
+
+    desc 'Async run Fog\'s RSpec for all vendors with state (default :mocked)'
+    task :all, [:state] do |t, args|
+      args.with_defaults(:state => :mocked)
+      cls=clouds_lists
+      cl=cls[:tests]|cls[:spec]
+      cl.sort.each do |v|
+        exec_vendor_async(v, args.state)
+      end
+    end
+
+  end
+
+  desc "Run Fog's RSpec for vendor (default :aws) and state (default :mocked)"
+  task :cloud, [:vendor, :state] => [:pre_vendor, :pre_state] do |t, args|
+    args.with_defaults(:vendor => :aws, :state => :mocked)
+    exec_vendor(args.vendor, args.state)
+  end
+
+  #  Prepare to run Fog's RSpec for vendor (default :aws) and state (default :mocked)"
+  task :pre_vendor do |t|
+    # puts "Vendor preparation task"
+  end
+  task :pre_state do |t|
+    # puts "State preparation task"
+  end
+
+  desc 'Run Fog\'s RSpec for all vendors with state (default :mocked)'
+  task :all, [:state] do |t, args|
+    args.with_defaults(:state => :mocked)
+    cls=clouds_lists
+    cl=cls[:tests]|cls[:spec]
+    cl.sort.each do |v|
+      puts "Vendor: #{v} State: #{args.state}"
+      exec_vendor(v, args.state)
+    end
+  end
+
+end
+
+
+desc "Run AWS Fog specs and tests live or mocked"
+task :aws, [:state] do |t, args|
+  args.with_defaults(:state => :mocked)
+  exec_vendor(t.name, args.state)
+end
+
+namespace :async do
+
+  desc "Async run AWS Fog specs and tests live or mocked"
+  task :aws, [:state] do |t, args|
+    args.with_defaults(:state => :mocked)
+    vnd=tsk.name.split(':').last
+    exec_vendor_async(vnd, args.state)
+  end
+
 end
 
 desc "Generate RCov test coverage and open in your browser"
