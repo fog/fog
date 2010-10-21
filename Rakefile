@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
+Bundler.require(:common) if defined?(Bundler)
 require 'date'
 
 #############################################################################

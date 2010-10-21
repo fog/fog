@@ -4,7 +4,7 @@ require 'digest/md5'
 require 'tempfile'
 require 'time'
 require 'bundler/setup'
-Bundler.require(:default, :production)
+Bundler.require(:common, :production)
 
 __DIR__ = File.dirname(__FILE__)
 
