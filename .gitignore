@@ -6,3 +6,4 @@ pkg
 spec/credentials.yml
 .bundle
 *.gem
+.idea
