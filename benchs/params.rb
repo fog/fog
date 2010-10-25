@@ -1,4 +1,5 @@
-require 'benchmark'
+require 'bundler/setup'
+Bundler.require(:common, :production, :benchmark) if defined?(Bundler)
 
 def hash(options)
   result = "#{options.delete(:name)}"

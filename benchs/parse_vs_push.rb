@@ -1,6 +1,7 @@
-require 'benchmark'
 require 'rubygems'
-require 'nokogiri'
+require 'benchmark'
+require 'bundler/setup'
+Bundler.require(:common, :production, :benchmark) if defined?(Bundler)
 
 class Parser < Nokogiri::XML::SAX::Document
 

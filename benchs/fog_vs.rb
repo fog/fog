@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
-Bundler.require(:benchmark)
+Bundler.require(:common, :production, :benchmark) if defined?(Bundler)
 
 require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
 
