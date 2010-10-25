@@ -1,5 +1,5 @@
 require 'bundler/setup'
-Bundler.require(:test_common, :rspec)
+Bundler.require(:test_common, :rspec)  if defined?(Bundler)
 require 'open-uri'
 require 'fog'
 Fog.bin = true
