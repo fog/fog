@@ -118,11 +118,13 @@ module Fog
       end
 
       def attributes
-        attributes = {}
-        for attribute in self.class.attributes
-          attributes[attribute] = send("#{attribute}")
+        @attributes ||= begin
+          attributes = {}
+          for attribute in self.class.attributes
+            attributes[attribute] = send("#{attribute}")
+          end
+          attributes
         end
-        attributes
       end
 
       def identity
@@ -138,8 +140,10 @@ module Fog
           unless self.class.ignored_attributes.include?(key)
             if aliased_key = self.class.aliases[key]
               send("#{aliased_key}=", value)
-            else
+            elsif (self.class.attributes | [:collection, :connection]).include?(key)
               send("#{key}=", value)
+            else
+              attributes.merge!(key => value)
             end
           end
         end
