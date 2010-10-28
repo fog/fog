@@ -140,7 +140,7 @@ module Fog
           unless self.class.ignored_attributes.include?(key)
             if aliased_key = self.class.aliases[key]
               send("#{aliased_key}=", value)
-            elsif (self.class.attributes | [:collection, :connection]).include?(key)
+            elsif (self.class.attributes | [:collection, :connection]).include?(key.to_sym)
               send("#{key}=", value)
             else
               attributes.merge!(key => value)
