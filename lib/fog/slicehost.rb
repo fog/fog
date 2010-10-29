@@ -1,3 +1,6 @@
+require 'nokogiri'
+require 'fog/core/parser'
+
 module Fog
   module Slicehost
 

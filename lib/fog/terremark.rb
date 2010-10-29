@@ -1,3 +1,6 @@
+require 'nokogiri'
+require 'fog/core/parser'
+
 require 'fog/terremark/shared'
 require 'fog/terremark/parser'
 require 'fog/terremark/ecloud'
