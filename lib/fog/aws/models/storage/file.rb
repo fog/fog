@@ -70,8 +70,11 @@ module Fog
 
         def save(options = {})
           requires :body, :directory, :key
+          if options != {}
+            Formatador.display_line("[yellow][WARN] options param is deprecated, use acl= instead[/] [light_black](#{caller.first})[/]")
+          end
           if @acl
-            options['x-amz-acl'] = @acl
+            options['x-amz-acl'] ||= @acl
           end
           data = connection.put_object(directory.key, @key, @body, options)
           @etag = data.headers['ETag']
