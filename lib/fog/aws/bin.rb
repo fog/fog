@@ -16,6 +16,8 @@ class AWS < Fog::Bin
           Fog::AWS::ELB.new
         when :eu_storage
           Fog::AWS::Storage.new(:region => 'eu-west-1')
+        when :iam
+          Fog::AWS::IAM.new
         when :sdb
           Fog::AWS::SimpleDB.new
         when :s3
@@ -32,7 +34,7 @@ class AWS < Fog::Bin
     end
 
     def services
-      [:compute, :elb, :sdb, :storage]
+      [:compute, :elb, :iam, :sdb, :storage]
     end
 
   end

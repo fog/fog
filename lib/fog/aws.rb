@@ -7,6 +7,7 @@ module Fog
     service 'compute'
     service 'ec2'
     service 'elb'
+    service 'iam'
     service 's3'
     service 'simpledb'
     service 'storage'
