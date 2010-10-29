@@ -28,7 +28,7 @@ module Fog
 
         def destroy
           requires :directory, :key
-          connection.delete_object(directory.name, @key)
+          connection.delete_object(directory.key, @key)
           true
         end
 
@@ -43,7 +43,7 @@ module Fog
 
         def save(options = {})
           requires :body, :directory, :key
-          data = connection.put_object(directory.name, @key, @body, options)
+          data = connection.put_object(directory.key, @key, @body, options)
           @etag = data.headers['ETag']
           true
         end
