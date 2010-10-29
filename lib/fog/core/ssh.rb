@@ -39,6 +39,7 @@ module Fog
     class Real
 
       def initialize(address, username, options)
+        require 'net/ssh'
         @address  = address
         @username = username
         @options  = options.merge(:paranoid => false)

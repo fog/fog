@@ -48,6 +48,8 @@ module Fog
       class Real
 
         def initialize(options={})
+          require 'digest/md5'
+          require 'json'
           @go_grid_api_key = options[:go_grid_api_key]
           @go_grid_shared_secret = options[:go_grid_shared_secret]
           @host   = options[:host]    || "api.gogrid.com"

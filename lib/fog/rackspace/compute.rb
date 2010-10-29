@@ -63,6 +63,7 @@ module Fog
       class Real
 
         def initialize(options={})
+          require 'json'
           credentials = Fog::Rackspace.authenticate(options)
           @auth_token = credentials['X-Auth-Token']
           uri = URI.parse(credentials['X-Server-Management-Url'])

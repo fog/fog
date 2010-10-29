@@ -66,6 +66,7 @@ module Fog
         end
 
         def initialize(options={})
+          require 'mime/types'
           @rackspace_username = options[:rackspace_username]
           @data = self.class.data[@rackspace_username]
         end
@@ -76,6 +77,8 @@ module Fog
         include Utils
 
         def initialize(options={})
+          require 'mime/types'
+          require 'json'
           credentials = Fog::Rackspace.authenticate(options)
           @auth_token = credentials['X-Auth-Token']
 

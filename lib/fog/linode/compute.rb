@@ -41,6 +41,7 @@ module Fog
       class Real
 
         def initialize(options={})
+          require 'json'
           @linode_api_key = options[:linode_api_key]
           @host   = options[:host]    || "api.linode.com"
           @port   = options[:port]    || 443
