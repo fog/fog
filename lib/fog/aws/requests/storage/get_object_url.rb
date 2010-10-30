@@ -34,7 +34,7 @@ module Fog
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def get_object_url(bucket_name, object_name, expires)
           unless bucket_name

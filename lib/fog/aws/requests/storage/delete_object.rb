@@ -29,7 +29,7 @@ module Fog
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def delete_object(bucket_name, object_name)
           response = Excon::Response.new

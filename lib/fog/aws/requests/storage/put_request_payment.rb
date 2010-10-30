@@ -31,7 +31,7 @@ DATA
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def put_request_payment(bucket_name, payer)
           response = Excon::Response.new

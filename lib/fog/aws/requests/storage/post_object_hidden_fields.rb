@@ -38,7 +38,7 @@ module Fog
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def post_object_hidden_fields(options = {})
           Fog::Mock.not_implemented

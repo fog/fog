@@ -43,7 +43,7 @@ module Fog
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def put_object(bucket_name, object_name, data, options = {})
           data = parse_data(data)

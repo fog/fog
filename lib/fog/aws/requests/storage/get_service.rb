@@ -34,7 +34,7 @@ module Fog
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def get_service
           response = Excon::Response.new

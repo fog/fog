@@ -42,7 +42,7 @@ module Fog
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def copy_object(source_bucket_name, source_object_name, target_bucket_name, target_object_name, options = {})
           response = Excon::Response.new

@@ -32,7 +32,7 @@ module Fog
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def get_request_payment(bucket_name)
           response = Excon::Response.new

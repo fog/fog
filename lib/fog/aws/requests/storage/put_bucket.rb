@@ -41,7 +41,7 @@ DATA
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def put_bucket(bucket_name, options = {})
           response = Excon::Response.new

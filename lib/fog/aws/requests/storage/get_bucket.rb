@@ -56,7 +56,7 @@ module Fog
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def get_bucket(bucket_name, options = {})
           unless bucket_name

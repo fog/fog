@@ -46,7 +46,7 @@ module Fog
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def get_object_object(bucket_name, object_name)
           Fog::Mock.not_implemented

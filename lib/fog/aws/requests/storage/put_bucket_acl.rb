@@ -72,7 +72,7 @@ DATA
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def put_bucket_acl(bucket_name, acl)
           Fog::Mock.not_implemented

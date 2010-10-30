@@ -54,7 +54,7 @@ module Fog
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def head_object(bucket_name, object_name, options = {})
           response = get_object(bucket_name, object_name, options)
