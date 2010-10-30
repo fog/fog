@@ -55,7 +55,7 @@ DATA
           if options['LocationConstraint']
             bucket['LocationConstraint'] = options['LocationConstraint']
           else
-            bucket['LocationConstraint'] = ''
+            bucket['LocationConstraint'] = nil
           end
           unless @data[:buckets][bucket_name]
             @data[:buckets][bucket_name] = bucket
