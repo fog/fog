@@ -8,6 +8,12 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       AWS[:storage].put_object(@directory.identity, 'fog_object', lorem_file)
     end
 
+    tests("#copy_object('#{@directory.identity}', 'fog_object', '#{@directory.identity}', 'fog_other_object')").succeeds do
+      AWS[:storage].copy_object(@directory.identity, 'fog_object', @directory.identity, 'fog_other_object')
+    end
+
+    @directory.files.get('fog_other_object').destroy
+
     tests("#get_object('#{@directory.identity}', 'fog_object')").returns(lorem_file.read) do
       AWS[:storage].get_object(@directory.identity, 'fog_object').body
     end
@@ -34,6 +40,18 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
 
     tests("#put_object('fognonbucket', 'fog_non_object', lorem_file)").raises(Excon::Errors::NotFound) do
       AWS[:storage].put_object('fognonbucket', 'fog_non_object', lorem_file)
+    end
+
+    tests("#copy_object('fognonbucket', 'fog_object', '#{@directory.identity}', 'fog_other_object')").raises(Excon::Errors::NotFound) do
+      AWS[:storage].copy_object('fognonbucket', 'fog_object', @directory.identity, 'fog_other_object')
+    end
+
+    tests("#copy_object('#{@directory.identity}', 'fog_non_object', '#{@directory.identity}', 'fog_other_object')").raises(Excon::Errors::NotFound) do
+      AWS[:storage].copy_object(@directory.identity, 'fog_non_object', @directory.identity, 'fog_other_object')
+    end
+
+    tests("#copy_object('#{@directory.identity}', 'fog_object', 'fognonbucket', 'fog_other_object')").raises(Excon::Errors::NotFound) do
+      AWS[:storage].copy_object(@directory.identity, 'fog_object', 'fognonbucket', 'fog_other_object')
     end
 
     tests("#get_object('fognonbucket', 'fog_non_object')").raises(Excon::Errors::NotFound) do
