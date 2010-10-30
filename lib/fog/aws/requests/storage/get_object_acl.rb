@@ -29,6 +29,9 @@ module Fog
         #              * 'URI'<~String> - URI of group to grant access for
         #           * 'Permission'<~String> - Permission, in [FULL_CONTROL, WRITE, WRITE_ACP, READ, READ_ACP]
         #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectGETacl.html
+
         def get_object_acl(bucket_name, object_name, options = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')

@@ -12,6 +12,10 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * status<~Integer> - 204
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectDELETE.html
+
         def delete_object(bucket_name, object_name)
           request({
             :expects    => 204,

@@ -23,6 +23,9 @@ module Fog
         #             * 'ID'<~String> - Id of grantee
         #           * 'Permission'<~String> - Permission, in [FULL_CONTROL, WRITE, WRITE_ACP, READ, READ_ACP]
         #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectGETtorrent.html
+
         def get_object_torrent(bucket_name, object_name)
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')

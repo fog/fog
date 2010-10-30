@@ -20,6 +20,10 @@ module Fog
         #       or
         #         * 'URI'<~String> - URI of group to grant access for
         #     * Permission<~String> - Permission, in [FULL_CONTROL, WRITE, WRITE_ACP, READ, READ_ACP]
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTlogging.html
+
         def put_bucket_logging(bucket_name, logging_status)
           if logging_status['LoggingEnabled'].empty?
             data =

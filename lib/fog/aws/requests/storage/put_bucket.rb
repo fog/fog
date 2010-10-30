@@ -15,8 +15,9 @@ module Fog
         # * response<~Excon::Response>:
         #   * status<~Integer> - 200
         #
-        # ==== API Reference
+        # ==== See Also
         # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUT.html
+
         def put_bucket(bucket_name, options = {})
           if location_constraint = options.delete('LocationConstraint')
             data =

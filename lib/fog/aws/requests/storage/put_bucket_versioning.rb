@@ -8,6 +8,10 @@ module Fog
         # ==== Parameters
         # * bucket_name<~String> - name of bucket to modify
         # * status<~String> - Status to change to in ['Enabled', 'Suspended']
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUTVersioningStatus.html
+
         def put_bucket_versioning(bucket_name, status)
           data =
 <<-DATA

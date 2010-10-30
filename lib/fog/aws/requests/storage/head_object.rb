@@ -24,6 +24,10 @@ module Fog
         #     * 'Content-Type'<~String> - MIME type of object
         #     * 'ETag'<~String> - Etag of object
         #     * 'Last-Modified'<~String> - Last modified timestamp for object
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectHEAD.html
+
         def head_object(bucket_name, object_name, options={})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')

@@ -22,8 +22,9 @@ module Fog
         #   * x-amz-security-token - devpay security token
         #   * x-amz-meta-... - meta data tags
         #
-        # See also: http://docs.amazonwebservices.com/AmazonS3/latest/dev/HTTPPOSTForms.html
-        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/dev/HTTPPOSTForms.html
+
         def post_object_hidden_fields(options = {})
           if options['policy']
             options['policy'] = options['policy'].to_json

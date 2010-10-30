@@ -14,6 +14,10 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'Payer'<~String> - Specifies who pays for download and requests
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTrequestPaymentGET.html
+
         def get_request_payment(bucket_name)
           request({
             :expects  => 200,

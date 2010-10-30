@@ -16,6 +16,9 @@ module Fog
         #     * 'VersioningConfiguration'<~Hash>
         #         * Status<~String>: Versioning status in ['Enabled', 'Suspended', nil]
         #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGETversioningStatus.html
+
         def get_bucket_versioning(bucket_name)
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')

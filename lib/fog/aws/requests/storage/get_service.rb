@@ -16,6 +16,10 @@ module Fog
         #     * 'Owner'<~Hash>:
         #       * 'DisplayName'<~String> - Display name of bucket owner
         #       * 'ID'<~String> - Id of bucket owner
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTServiceGET.html
+
         def get_service
           request({
             :expects  => 200,

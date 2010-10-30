@@ -23,6 +23,10 @@ module Fog
         # * response<~Excon::Response>:
         #   * headers<~Hash>:
         #     * 'ETag'<~String> - etag of new object
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectPUT.html
+
         def put_object(bucket_name, object_name, data, options = {})
           data = parse_data(data)
           headers = data[:headers].merge!(options)
