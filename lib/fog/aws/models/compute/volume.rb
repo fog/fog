@@ -91,6 +91,16 @@ module Fog
           end
         end
 
+        def force_detach
+          @server = nil
+          @server_id = nil
+          unless new_record?
+            connection.detach_volume(@id, 'Force' => true)
+            reload
+          end
+        end
+
+
       end
 
     end
