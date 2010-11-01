@@ -8,6 +8,7 @@ module Fog
 
       request_path 'fog/aws/requests/cdn'
       request 'get_distribution_list'
+      request 'post_invalidation'
 
       class Mock
 
