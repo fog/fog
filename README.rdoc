@@ -3,6 +3,7 @@ http://geemus.s3.amazonaws.com/fog.png
 fog is the Ruby cloud computing library.
 
 The quick and dirty, top to bottom:
+
 * Collections provide a simplified interface, making clouds easier to work with and switch between.
 * Requests allow power users to get the most out of the features of each individual cloud.
 * Mocks make testing and integrating a breeze.
@@ -25,16 +26,18 @@ Now just type 'fog' to trying stuff out, confident that fog should let you know 
 == Collections
 
 A high level interface to each cloud is provided through collections, such as images and servers.
-You can see a list of available collections by calling #collections on the connection object.
-Some of these collections are shared across multiple providers.
-Shared collections for compute are: flavors, images and servers.
-Shared collections for storage are: directory and file.
+You can see a list of available collections by calling #collections on the connection object. You can try it out using the `fog` command:
 
-Some common methods for all of these collections are:
-* #all - fetch every object of that type from the provider.
-* #create  initialize a new record locally and then persists it with the provider.
-* #get - fetch a single object by its identity from the provider.
-* #new - initialize a new record locally, but do not persist it to the provider.
+  >> server = AWS.collections
+  [:addresses, :directories, :files, :flavors, :images, :key_pairs, :security_groups, :servers, :snapshots, :volumes]
+
+Some of these collections are available across multiple providers. For example, all compute providers have +flavors+, +images+ and +servers+, and storage providers have +directory+ and +file+. 
+
+Collections share most of the basic CRUD type operations, such as:
+* +#all+ - fetch every object of that type from the provider.
+* +#create+  initialize a new record locally and then persists it with the provider.
+* +#get+ - fetch a single object by its identity from the provider.
+* +#new+ - initialize a new record locally, but do not persist it to the provider.
 
 As an example, we'll try initializing and persisting a Rackspace Cloud server:
 
@@ -60,11 +63,13 @@ As an example, we'll try initializing and persisting a Rackspace Cloud server:
 == Models
 
 Many of the collection methods return individual objects, which also provide some common methods:
-* #destroy - will destroy the persisted object from the provider
-* #save - persist the object to the provider
-* #wait_for - takes a block and waits for either the block to return true for the object or for a timeout (defaults to 10 minutes)
+* +#destroy+ - will destroy the persisted object from the provider
+* +#save+ - persist the object to the provider
+* +#wait_for+ - takes a block and waits for either the block to return true for the object or for a timeout (defaults to 10 minutes)
 
 == Mocks
+
+As you might imagine, testing code using Fog could be feasibly slow and expensive to constantly be turning and and shutting down instances. Fortunately, fog includes support for mocking itself out.
 
 Mocking provides an in memory representation of the state of cloud resources as you make requests.
 Mocked calls to mimic the behavior of each provider while eliminating the cost and time needed to actually use cloud resources.
