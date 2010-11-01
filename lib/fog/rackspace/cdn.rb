@@ -4,48 +4,10 @@ module Fog
 
       requires :rackspace_api_key, :rackspace_username
 
-      model_path 'fog/rackspace/models/storage'
-      model       :directory
-      collection  :directories
-      model       :file
-      collection  :files
-
-      request_path 'fog/rackspace/requests/storage'
-      request :delete_container
-      request :delete_object
-      request :get_container
-      request :get_containers
-      request :get_object
-      request :head_container
-      request :head_containers
-      request :head_object
-      request :put_container
-      request :put_object
-
-      module Utils
-
-        def parse_data(data)
-          metadata = {
-            :body => nil,
-            :headers => {}
-          }
-
-          if data.is_a?(String)
-            metadata[:body] = data
-            metadata[:headers]['Content-Length'] = metadata[:body].size.to_s
-          else
-            filename = ::File.basename(data.path)
-            unless (mime_types = MIME::Types.of(filename)).empty?
-              metadata[:headers]['Content-Type'] = mime_types.first.content_type
-            end
-            metadata[:body] = data.read
-            metadata[:headers]['Content-Length'] = ::File.size(data.path).to_s
-          end
-          # metadata[:headers]['Content-MD5'] = Base64.encode64(Digest::MD5.digest(metadata[:body])).strip
-          metadata
-        end
-
-      end
+      request_path 'fog/rackspace/requests/cdn'
+      request :get_cdn_containers
+      request :head_cdn_container
+      request :put_cdn_container
 
       class Mock
         include Utils
@@ -63,7 +25,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'mime/types'
           @rackspace_username = options[:rackspace_username]
           @data = self.class.data[@rackspace_username]
         end
@@ -74,12 +35,11 @@ module Fog
         include Utils
 
         def initialize(options={})
-          require 'mime/types'
           require 'json'
           credentials = Fog::Rackspace.authenticate(options)
           @auth_token = credentials['X-Auth-Token']
 
-          uri = URI.parse(credentials['X-Storage-Url'])
+          uri = URI.parse(credentials['X-CDN-Management-Url'])
           @host   = uri.host
           @path   = uri.path
           @port   = uri.port
@@ -88,10 +48,10 @@ module Fog
         end
 
         def reload
-          @storage_connection.reset
+          @cdn_connection.reset
         end
 
-        def request(params, parse_json = true, &block)
+        def request(params, parse_json = true)
           begin
             response = @connection.request(params.merge!({
               :headers  => {
@@ -100,7 +60,7 @@ module Fog
               }.merge!(params[:headers] || {}),
               :host     => @host,
               :path     => "#{@path}/#{params[:path]}",
-            }), &block)
+            }))
           rescue Excon::Errors::Error => error
             raise case error
             when Excon::Errors::NotFound

@@ -11,7 +11,7 @@ module Fog
         def put_object(container, object, data, options = {})
           data = parse_data(data)
           headers = data[:headers].merge!(options)
-          response = storage_request(
+          response = request(
             :body     => data[:body],
             :expects  => 201,
             :headers  => headers,

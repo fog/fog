@@ -4,6 +4,7 @@ module Fog
     extend Fog::Provider
 
     service_path 'fog/rackspace'
+    service 'cdn'
     service 'compute'
     service 'files'
     service 'servers'

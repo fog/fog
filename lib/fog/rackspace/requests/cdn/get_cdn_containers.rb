@@ -16,7 +16,7 @@ module Fog
         #   * body<~Array>:
         #     * container<~String>: Name of container
         def get_cdn_containers(options = {})
-          response = cdn_request(
+          response = request(
             :expects  => [200, 204],
             :method   => 'GET',
             :path     => '',

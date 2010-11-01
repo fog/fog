@@ -14,7 +14,7 @@ module Fog
         #     * 'X-Container-Object-Count'<~String> - Count of containers
         #     * 'X-Container-Bytes-Used'<~String>   - Bytes used
         def head_container(container)
-          response = storage_request(
+          response = request(
             :expects  => 204,
             :method   => 'HEAD',
             :path     => container,
