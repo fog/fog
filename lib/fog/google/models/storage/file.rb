@@ -79,6 +79,9 @@ module Fog
           if @acl
             options['x-amz-acl'] ||= @acl
           end
+          if content_type
+            options['Content-Type'] = content_type
+          end
           data = connection.put_object(directory.key, @key, @body, options)
           @etag = data.headers['ETag']
           true
