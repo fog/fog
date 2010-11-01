@@ -7,6 +7,7 @@ module Fog
     extend Fog::Provider
 
     service_path 'fog/aws'
+    service 'cdn'
     service 'compute'
     service 'ec2'
     service 'elb'

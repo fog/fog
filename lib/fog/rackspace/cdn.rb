@@ -1,8 +1,10 @@
 module Fog
   module Rackspace
-    class Storage < Fog::Service
+    class CDN < Fog::Service
 
       requires :rackspace_api_key, :rackspace_username
+
+      model_path 'fog/rackspace/models/cdn'
 
       request_path 'fog/rackspace/requests/cdn'
       request :get_cdn_containers
@@ -10,7 +12,6 @@ module Fog
       request :put_cdn_container
 
       class Mock
-        include Utils
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -32,7 +33,6 @@ module Fog
       end
 
       class Real
-        include Utils
 
         def initialize(options={})
           require 'json'
