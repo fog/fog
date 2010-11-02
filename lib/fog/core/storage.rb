@@ -2,17 +2,17 @@ module Fog
   class Storage
 
     def self.new(attributes)
-      case provider = attributes.delete(:provider)
-      when 'AWS'
+      case provider = attributes.delete(:provider).to_sym
+      when :AWS
         require 'fog/aws'
         Fog::AWS::Storage.new(attributes)
-      when 'Google'
+      when :Google
         require 'fog/google'
         Fog::Google::Storage.new(attributes)
-      when 'Local'
+      when :Local
         require 'fog/local'
         Fog::Local::Storage.new(attributes)
-      when 'Rackspace'
+      when :Rackspace
         require 'fog/rackspace'
         Fog::Rackspace::Storage.new(attributes)
       else

@@ -2,26 +2,26 @@ module Fog
   class Storage
 
     def self.new(attributes)
-      case attributes.delete(:provider)
-      when 'AWS'
+      case attributes.delete(:provider).to_sym
+      when :AWS
         require 'fog/aws'
         Fog::AWS::Compute.new(attributes)
-      when 'Bluebox'
+      when :Bluebox
         require 'fog/bluebox'
         Fog::Bluebox::Compute.new(attributes)
-      when 'GoGrid'
+      when :GoGrid
         require 'fog/go_grid'
         Fog::GoGrid::Compute.new(attributes)
-      when 'Linode'
+      when :Linode
         require 'fog/linode'
         Fog::Linode::Compute.new(attributes)
-      when 'NewServers'
+      when :NewServers
         require 'fog/new_servers'
         Fog::NewServers::Compute.new(attributes)
-      when 'Rackspace'
+      when :Rackspace
         require 'fog/rackspace'
         Fog::Rackspace::Compute.new(attributes)
-      when 'Slicehost'
+      when :Slicehost
         require 'fog/slicehost'
         Fog::Slicehost::Compute.new(attributes)
       else
