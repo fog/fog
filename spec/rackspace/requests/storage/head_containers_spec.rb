@@ -4,7 +4,9 @@ describe 'Rackspace::Storage.head_containers' do
   describe 'success' do
 
     before(:each) do
-      Rackspace[:storage].put_container('container_name')
+      unless Fog.mocking?
+        Rackspace[:storage].put_container('container_name')
+      end
     end
 
     after(:each) do
@@ -12,6 +14,7 @@ describe 'Rackspace::Storage.head_containers' do
     end
 
     it "should return proper attributes" do
+      pending if Fog.mocking?
       Rackspace[:storage].head_containers
     end
 

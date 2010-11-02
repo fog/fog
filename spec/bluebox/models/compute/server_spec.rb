@@ -3,7 +3,11 @@ require File.dirname(__FILE__) + '/../../../shared_examples/server_examples'
 
 describe 'Fog::Bluebox::Compute::Server' do
 
-  it_should_behave_like "Server"
+  if Fog.mocking?
+    it "needs to have mocks implemented"
+  else
+    it_should_behave_like "Server"
+  end
 
   subject {
     @flavor_id  = '94fd37a7-2606-47f7-84d5-9000deda52ae' # Block 1GB Virtual Server

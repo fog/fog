@@ -3,7 +3,11 @@ require File.dirname(__FILE__) + '/../../../shared_examples/server_examples'
 
 describe 'Fog::Slicehost::Compute::Server' do
 
-  it_should_behave_like "Server"
+  if Fog.mocking?
+    it "needs to have mocks implemented"
+  else
+    it_should_behave_like "Server"
+  end
 
   # flavor 1 = 256, image 49 = Ubuntu 10.04 LTS (lucid)
   subject { @server = @servers.new(:flavor_id => 1, :image_id => 49, :name => Time.now.to_i.to_s) }

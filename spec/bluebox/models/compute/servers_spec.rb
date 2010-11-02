@@ -3,7 +3,11 @@ require File.dirname(__FILE__) + '/../../../shared_examples/servers_examples'
 
 describe 'Fog::Bluebox::Compute::Servers' do
 
-  it_should_behave_like "Servers"
+  if Fog.mocking?
+    it "needs to have mocks implemented"
+  else
+    it_should_behave_like "Servers"
+  end
 
   # flavor 1 = 256, image 3 = gentoo 2008.0
   subject {

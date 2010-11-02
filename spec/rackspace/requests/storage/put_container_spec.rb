@@ -8,6 +8,7 @@ describe 'Rackspace::Storage.put_container' do
     end
 
     it "should return proper attributes" do
+      pending if Fog.mocking?
       Rackspace[:storage].put_container('container_name')
     end
 

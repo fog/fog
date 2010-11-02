@@ -4,8 +4,10 @@ describe 'Rackspace::Storage.get_object' do
   describe 'success' do
 
     before(:each) do
-      Rackspace[:storage].put_container('container_name')
-      Rackspace[:storage].put_object('container_name', 'object_name', lorem_file)
+      unless Fog.mocking?
+        Rackspace[:storage].put_container('container_name')
+        Rackspace[:storage].put_object('container_name', 'object_name', lorem_file)
+      end
     end
     
     after(:each) do
@@ -14,6 +16,7 @@ describe 'Rackspace::Storage.get_object' do
     end
 
     it "should return proper attributes" do
+      pending if Fog.mocking?
       Rackspace[:storage].get_object('container_name', 'object_name')
     end
 

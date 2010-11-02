@@ -42,6 +42,7 @@ describe 'Fog::AWS::Storage::Directory' do
   describe "#location" do
 
     it "should return the location constraint" do
+      pending if Fog.mocking?
       directory = AWS[:storage].directories.create(:key => 'fogmodeleudirectory', :location => 'EU')
       directory.location.should == 'EU'
       AWS[:eu_storage].directories.get('fogmodeleudirectory').destroy

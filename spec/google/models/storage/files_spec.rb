@@ -106,8 +106,7 @@ describe 'Fog::Google::Storage::Files' do
 
     it "should return a url" do
       data = File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r')
-      file = @directory.files.new(:key => 'fogfilename', :body => data)
-      file.save({'x-goog-acl' => 'public-read'})
+      file = @directory.files.create(:acl => 'public-read', :key => 'fogfilename', :body => data)
       url = @directory.files.get_url('fogfilename', Time.now + 60 * 10)
       unless Fog.mocking?
         open(url).read.should == File.open(File.dirname(__FILE__) + '/../../../lorem.txt', 'r').read

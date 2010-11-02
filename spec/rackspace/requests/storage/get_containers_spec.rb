@@ -4,7 +4,9 @@ describe 'Rackspace::Storage.get_containers' do
   describe 'success' do
 
     before(:each) do
-      Rackspace[:storage].put_container('container_name')
+      unless Fog.mocking?
+        Rackspace[:storage].put_container('container_name')
+      end
     end
 
     after(:each) do
@@ -12,6 +14,7 @@ describe 'Rackspace::Storage.get_containers' do
     end
 
     it "should return proper attributes" do
+      pending if Fog.mocking?
       actual = Rackspace[:storage].get_containers.body
       actual.first['bytes'].should be_an(Integer)
       actual.first['count'].should be_an(Integer)
