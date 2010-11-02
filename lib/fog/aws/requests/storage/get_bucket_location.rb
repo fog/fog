@@ -14,6 +14,10 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'LocationConstraint'<~String> - Location constraint of the bucket
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGETlocation.html
+
         def get_bucket_location(bucket_name)
           request({
             :expects  => 200,
@@ -28,7 +32,7 @@ module Fog
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def get_bucket_location(bucket_name)
           response = Excon::Response.new

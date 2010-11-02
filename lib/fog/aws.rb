@@ -1,12 +1,17 @@
+require 'nokogiri'
+require 'fog/core/parser'
+
 module Fog
   module AWS
 
     extend Fog::Provider
 
     service_path 'fog/aws'
+    service 'cdn'
     service 'compute'
     service 'ec2'
     service 'elb'
+    service 'iam'
     service 's3'
     service 'simpledb'
     service 'storage'

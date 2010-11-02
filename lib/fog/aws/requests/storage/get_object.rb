@@ -25,6 +25,9 @@ module Fog
         #     * 'ETag'<~String> - Etag of object
         #     * 'Last-Modified'<~String> - Last modified timestamp for object
         #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectGET.html
+
         def get_object(bucket_name, object_name, options = {}, &block)
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
@@ -52,7 +55,7 @@ module Fog
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def get_object(bucket_name, object_name, options = {}, &block)
           unless bucket_name

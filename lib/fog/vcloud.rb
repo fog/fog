@@ -1,3 +1,6 @@
+require 'nokogiri'
+require 'fog/core/parser'
+
 require 'builder'
 require 'fog/vcloud/model'
 require 'fog/vcloud/collection'

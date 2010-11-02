@@ -79,6 +79,7 @@ module Fog
         end
 
         def initialize(options={})
+          require 'mime/types'
           @google_storage_access_key_id = options[:google_storage_access_key_id]
           @data = self.class.data[@google_storage_access_key_id]
         end
@@ -111,6 +112,7 @@ module Fog
         # ==== Returns
         # * Storage object with connection to google.
         def initialize(options={})
+          require 'mime/types'
           @google_storage_access_key_id = options[:google_storage_access_key_id]
           @google_storage_secret_access_key = options[:google_storage_secret_access_key]
           @hmac = Fog::HMAC.new('sha1', @google_storage_secret_access_key)

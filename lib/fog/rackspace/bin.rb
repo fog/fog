@@ -4,6 +4,8 @@ class Rackspace < Fog::Bin
     def [](service)
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
+        when :cdn
+          Fog::Rackspace::CDN.new
         when :compute
           Fog::Rackspace::Compute.new
         when :files
@@ -26,7 +28,7 @@ class Rackspace < Fog::Bin
     end
 
     def services
-      [:compute, :storage]
+      [:cdn, :compute, :storage]
     end
 
   end

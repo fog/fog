@@ -18,7 +18,7 @@ module Fog
         #       * 'count'<~Integer>: - Number of items in container
         #       * 'name'<~String>: - Name of container
         def get_containers(options = {})
-          response = storage_request(
+          response = request(
             :expects  => [200, 204],
             :method   => 'GET',
             :path     => '',

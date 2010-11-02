@@ -1,7 +1,5 @@
 require 'rubygems'
 require 'base64'
-require 'digest/md5'
-require 'tempfile'
 require 'time'
 require 'bundler/setup'
 Bundler.require(:common, :production)

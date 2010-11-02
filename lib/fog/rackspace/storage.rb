@@ -14,14 +14,11 @@ module Fog
       request :delete_container
       request :delete_object
       request :get_container
-      request :get_cdn_containers
       request :get_containers
       request :get_object
-      request :head_cdn_container
       request :head_container
       request :head_containers
       request :head_object
-      request :put_cdn_container
       request :put_container
       request :put_object
 
@@ -66,6 +63,7 @@ module Fog
         end
 
         def initialize(options={})
+          require 'mime/types'
           @rackspace_username = options[:rackspace_username]
           @data = self.class.data[@rackspace_username]
         end
@@ -76,64 +74,32 @@ module Fog
         include Utils
 
         def initialize(options={})
+          require 'mime/types'
+          require 'json'
           credentials = Fog::Rackspace.authenticate(options)
           @auth_token = credentials['X-Auth-Token']
 
-          if(credentials['X-CDN-Management-Url'])
-            cdn_uri = URI.parse(credentials['X-CDN-Management-Url'])
-            @cdn_host   = cdn_uri.host
-            @cdn_path   = cdn_uri.path
-            @cdn_port   = cdn_uri.port
-            @cdn_scheme = cdn_uri.scheme
-            @cdn_connection = Fog::Connection.new("#{@cdn_scheme}://#{@cdn_host}:#{@cdn_port}", options[:persistent])
-          end
-
-          storage_uri = URI.parse(credentials['X-Storage-Url'])
-          @storage_host   = storage_uri.host
-          @storage_path   = storage_uri.path
-          @storage_port   = storage_uri.port
-          @storage_scheme = storage_uri.scheme
-          @storage_connection = Fog::Connection.new("#{@storage_scheme}://#{@storage_host}:#{@storage_port}", options[:persistent])
+          uri = URI.parse(credentials['X-Storage-Url'])
+          @host   = uri.host
+          @path   = uri.path
+          @port   = uri.port
+          @scheme = uri.scheme
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
         end
 
         def reload
-          @cdn_connection.reset
           @storage_connection.reset
         end
 
-        def cdn_request(params, parse_json = true)
+        def request(params, parse_json = true, &block)
           begin
-            response = @cdn_connection.request(params.merge!({
+            response = @connection.request(params.merge!({
               :headers  => {
                 'Content-Type' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @cdn_host,
-              :path     => "#{@cdn_path}/#{params[:path]}",
-            }))
-          rescue Excon::Errors::Error => error
-            raise case error
-            when Excon::Errors::NotFound
-              Fog::Rackspace::Storage::NotFound.slurp(error)
-            else
-              error
-            end
-          end
-          if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
-            response.body = JSON.parse(response.body)
-          end
-          response
-        end
-
-        def storage_request(params, parse_json = true, &block)
-          begin
-            response = @storage_connection.request(params.merge!({
-              :headers  => {
-                'Content-Type' => 'application/json',
-                'X-Auth-Token' => @auth_token
-              }.merge!(params[:headers] || {}),
-              :host     => @storage_host,
-              :path     => "#{@storage_path}/#{params[:path]}",
+              :host     => @host,
+              :path     => "#{@path}/#{params[:path]}",
             }), &block)
           rescue Excon::Errors::Error => error
             raise case error

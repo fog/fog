@@ -18,7 +18,7 @@ module Fog
         #     * 'X-User-Agent-ACL'<~String> - ?
         #     * 'X-Referrer-ACL'<~String> - ?
         def head_cdn_container(container)
-          response = cdn_request(
+          response = request(
             :expects  => 204,
             :method   => 'HEAD',
             :path     => container,

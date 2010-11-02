@@ -1,9 +1,11 @@
+*.gem
 *.sw?
+.bundle
 .DS_Store
 coverage
+doc/*
 rdoc
 pkg
 spec/credentials.yml
-.bundle
-*.gem
+
 .idea

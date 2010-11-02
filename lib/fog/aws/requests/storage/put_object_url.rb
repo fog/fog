@@ -14,6 +14,9 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~String> - url for object
         #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/dev/S3_QSAuth.html
+
         def put_object_url(bucket_name, object_name, expires)
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
@@ -31,7 +34,7 @@ module Fog
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def put_object_url(bucket_name, object_name, expires)
           unless bucket_name

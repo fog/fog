@@ -47,6 +47,7 @@ module Fog
       class Real
 
         def initialize(options={})
+          require 'json'
           @bluebox_api_key      = options[:bluebox_api_key]
           @bluebox_customer_id  = options[:bluebox_customer_id]
           @host   = options[:bluebox_host]    || "boxpanel.blueboxgrp.com"

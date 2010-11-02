@@ -17,6 +17,14 @@ module Fog
         attribute :size,            :aliases => 'Size'
         attribute :storage_class,   :aliases => 'StorageClass'
 
+        def acl=(new_acl)
+          valid_acls = ['private', 'public-read', 'public-read-write', 'authenticated-read']
+          unless valid_acls.include?(new_acl)
+            raise ArgumentError.new("acl must be one of [#{valid_acls.join(', ')}]")
+          end
+          @acl = new_acl
+        end
+
         def body
           @body ||= if last_modified && (file = collection.get(identity))
             file.body
@@ -65,6 +73,15 @@ module Fog
 
         def save(options = {})
           requires :body, :directory, :key
+          if options != {}
+            Formatador.display_line("[yellow][WARN] options param is deprecated, use acl= instead[/] [light_black](#{caller.first})[/]")
+          end
+          if @acl
+            options['x-amz-acl'] ||= @acl
+          end
+          if content_type
+            options['Content-Type'] = content_type
+          end
           data = connection.put_object(directory.key, @key, @body, options)
           @etag = data.headers['ETag']
           true

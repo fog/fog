@@ -36,6 +36,9 @@ module Fog
         #       * 'Size'<~Integer> - Size of object
         #       * 'StorageClass'<~String> - Storage class of object
         #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGET.html
+
         def get_bucket(bucket_name, options = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
@@ -53,7 +56,7 @@ module Fog
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def get_bucket(bucket_name, options = {})
           unless bucket_name

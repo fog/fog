@@ -4,6 +4,8 @@ class AWS < Fog::Bin
     def [](service)
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
+        when :cdn
+          Fog::AWS::CDN.new
         when :compute
           Fog::AWS::Compute.new
         when :ec2
@@ -16,6 +18,8 @@ class AWS < Fog::Bin
           Fog::AWS::ELB.new
         when :eu_storage
           Fog::AWS::Storage.new(:region => 'eu-west-1')
+        when :iam
+          Fog::AWS::IAM.new
         when :sdb
           Fog::AWS::SimpleDB.new
         when :s3
@@ -32,7 +36,7 @@ class AWS < Fog::Bin
     end
 
     def services
-      [:compute, :elb, :sdb, :storage]
+      [:cdn, :compute, :elb, :iam, :sdb, :storage]
     end
 
   end

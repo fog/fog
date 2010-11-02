@@ -8,17 +8,22 @@ module Fog
         # ==== Parameters
         # * bucket_name<~String> - name of bucket to create
         # * options<~Hash> - config arguments for bucket.  Defaults to {}.
-        #   * :location_constraint<~Symbol> - sets the location for the bucket
+        #   * 'LocationConstraint'<~Symbol> - sets the location for the bucket
+        #   * 'x-amz-acl'<~String> - Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * status<~Integer> - 200
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUT.html
+
         def put_bucket(bucket_name, options = {})
-          if options['LocationConstraint']
+          if location_constraint = options.delete('LocationConstraint')
             data =
 <<-DATA
   <CreateBucketConfiguration>
-    <LocationConstraint>#{options['LocationConstraint']}</LocationConstraint>
+    <LocationConstraint>#{location_constraint}</LocationConstraint>
   </CreateBucketConfiguration>
 DATA
           else
@@ -27,7 +32,7 @@ DATA
           request({
             :expects    => 200,
             :body       => data,
-            :headers    => {},
+            :headers    => options,
             :idempotent => true,
             :host       => "#{bucket_name}.#{@host}",
             :method     => 'PUT'
@@ -36,7 +41,7 @@ DATA
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def put_bucket(bucket_name, options = {})
           response = Excon::Response.new
@@ -51,7 +56,7 @@ DATA
           if options['LocationConstraint']
             bucket['LocationConstraint'] = options['LocationConstraint']
           else
-            bucket['LocationConstraint'] = ''
+            bucket['LocationConstraint'] = nil
           end
           unless @data[:buckets][bucket_name]
             @data[:buckets][bucket_name] = bucket

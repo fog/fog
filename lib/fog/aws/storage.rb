@@ -91,6 +91,7 @@ module Fog
         end
 
         def initialize(options={})
+          require 'mime/types'
           @aws_access_key_id = options[:aws_access_key_id]
           options[:region] ||= 'us-east-1'
           @host = options[:host] || case options[:region]
@@ -136,6 +137,7 @@ module Fog
         # ==== Returns
         # * S3 object with connection to aws.
         def initialize(options={})
+          require 'mime/types'
           @aws_access_key_id = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
           @hmac = Fog::HMAC.new('sha1', @aws_secret_access_key)
