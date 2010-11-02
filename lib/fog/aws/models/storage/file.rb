@@ -39,17 +39,9 @@ module Fog
 
         def copy(target_directory_key, target_file_key)
           requires :directory, :key
-          data = connection.copy_object(directory.key, @key, target_directory_key, target_file_key).body
+          connection.copy_object(directory.key, @key, target_directory_key, target_file_key)
           target_directory = connection.directories.new(:key => target_directory_key)
-          target_file = target_directory.files.new(attributes.merge!(:key => target_file_key))
-          copy_data = {}
-          for key, value in data
-            if ['ETag', 'LastModified'].include?(key)
-              copy_data[key] = value
-            end
-          end
-          target_file.merge_attributes(copy_data)
-          target_file
+          target_directory.files.get(target_file_key)
         end
 
         def destroy
