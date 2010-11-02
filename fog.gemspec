@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.3.13'
-  s.date              = '2010-10-20'
+  s.version           = '0.3.14'
+  s.date              = '2010-11-02'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -75,9 +75,11 @@ Gem::Specification.new do |s|
     lib/fog.rb
     lib/fog/aws.rb
     lib/fog/aws/bin.rb
+    lib/fog/aws/cdn.rb
     lib/fog/aws/compute.rb
     lib/fog/aws/ec2.rb
     lib/fog/aws/elb.rb
+    lib/fog/aws/iam.rb
     lib/fog/aws/models/compute/address.rb
     lib/fog/aws/models/compute/addresses.rb
     lib/fog/aws/models/compute/flavor.rb
@@ -100,6 +102,9 @@ Gem::Specification.new do |s|
     lib/fog/aws/models/storage/directory.rb
     lib/fog/aws/models/storage/file.rb
     lib/fog/aws/models/storage/files.rb
+    lib/fog/aws/parsers/cdn/distribution.rb
+    lib/fog/aws/parsers/cdn/get_distribution_list.rb
+    lib/fog/aws/parsers/cdn/post_invalidation.rb
     lib/fog/aws/parsers/compute/allocate_address.rb
     lib/fog/aws/parsers/compute/attach_volume.rb
     lib/fog/aws/parsers/compute/basic.rb
@@ -134,6 +139,9 @@ Gem::Specification.new do |s|
     lib/fog/aws/parsers/elb/disable_availability_zones_for_load_balancer.rb
     lib/fog/aws/parsers/elb/enable_availability_zones_for_load_balancer.rb
     lib/fog/aws/parsers/elb/register_instances_with_load_balancer.rb
+    lib/fog/aws/parsers/iam/basic.rb
+    lib/fog/aws/parsers/iam/create_group.rb
+    lib/fog/aws/parsers/iam/list_groups.rb
     lib/fog/aws/parsers/simpledb/basic.rb
     lib/fog/aws/parsers/simpledb/domain_metadata.rb
     lib/fog/aws/parsers/simpledb/get_attributes.rb
@@ -148,6 +156,11 @@ Gem::Specification.new do |s|
     lib/fog/aws/parsers/storage/get_bucket_versioning.rb
     lib/fog/aws/parsers/storage/get_request_payment.rb
     lib/fog/aws/parsers/storage/get_service.rb
+    lib/fog/aws/requests/cdn/delete_distribution.rb
+    lib/fog/aws/requests/cdn/get_distribution.rb
+    lib/fog/aws/requests/cdn/get_distribution_list.rb
+    lib/fog/aws/requests/cdn/post_distribution.rb
+    lib/fog/aws/requests/cdn/post_invalidation.rb
     lib/fog/aws/requests/compute/allocate_address.rb
     lib/fog/aws/requests/compute/associate_address.rb
     lib/fog/aws/requests/compute/attach_volume.rb
@@ -197,6 +210,9 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/elb/disable_availability_zones_for_load_balancer.rb
     lib/fog/aws/requests/elb/enable_availability_zones_for_load_balancer.rb
     lib/fog/aws/requests/elb/register_instances_with_load_balancer.rb
+    lib/fog/aws/requests/iam/create_group.rb
+    lib/fog/aws/requests/iam/delete_group.rb
+    lib/fog/aws/requests/iam/list_groups.rb
     lib/fog/aws/requests/simpledb/batch_put_attributes.rb
     lib/fog/aws/requests/simpledb/create_domain.rb
     lib/fog/aws/requests/simpledb/delete_attributes.rb
@@ -255,6 +271,7 @@ Gem::Specification.new do |s|
     lib/fog/core/attributes.rb
     lib/fog/core/bin.rb
     lib/fog/core/collection.rb
+    lib/fog/core/compute.rb
     lib/fog/core/connection.rb
     lib/fog/core/credentials.rb
     lib/fog/core/deprecation.rb
@@ -265,6 +282,7 @@ Gem::Specification.new do |s|
     lib/fog/core/provider.rb
     lib/fog/core/service.rb
     lib/fog/core/ssh.rb
+    lib/fog/core/storage.rb
     lib/fog/go_grid.rb
     lib/fog/go_grid/bin.rb
     lib/fog/go_grid/compute.rb
@@ -343,6 +361,7 @@ Gem::Specification.new do |s|
     lib/fog/new_servers/requests/compute/reboot_server.rb
     lib/fog/rackspace.rb
     lib/fog/rackspace/bin.rb
+    lib/fog/rackspace/cdn.rb
     lib/fog/rackspace/compute.rb
     lib/fog/rackspace/files.rb
     lib/fog/rackspace/models/compute/flavor.rb
@@ -355,6 +374,9 @@ Gem::Specification.new do |s|
     lib/fog/rackspace/models/storage/directory.rb
     lib/fog/rackspace/models/storage/file.rb
     lib/fog/rackspace/models/storage/files.rb
+    lib/fog/rackspace/requests/cdn/get_cdn_containers.rb
+    lib/fog/rackspace/requests/cdn/head_cdn_container.rb
+    lib/fog/rackspace/requests/cdn/put_cdn_container.rb
     lib/fog/rackspace/requests/compute/create_image.rb
     lib/fog/rackspace/requests/compute/create_server.rb
     lib/fog/rackspace/requests/compute/delete_image.rb
@@ -375,15 +397,12 @@ Gem::Specification.new do |s|
     lib/fog/rackspace/requests/compute/update_server.rb
     lib/fog/rackspace/requests/storage/delete_container.rb
     lib/fog/rackspace/requests/storage/delete_object.rb
-    lib/fog/rackspace/requests/storage/get_cdn_containers.rb
     lib/fog/rackspace/requests/storage/get_container.rb
     lib/fog/rackspace/requests/storage/get_containers.rb
     lib/fog/rackspace/requests/storage/get_object.rb
-    lib/fog/rackspace/requests/storage/head_cdn_container.rb
     lib/fog/rackspace/requests/storage/head_container.rb
     lib/fog/rackspace/requests/storage/head_containers.rb
     lib/fog/rackspace/requests/storage/head_object.rb
-    lib/fog/rackspace/requests/storage/put_cdn_container.rb
     lib/fog/rackspace/requests/storage/put_container.rb
     lib/fog/rackspace/requests/storage/put_object.rb
     lib/fog/rackspace/servers.rb
@@ -573,11 +592,6 @@ Gem::Specification.new do |s|
     spec/aws/requests/simpledb/list_domains_spec.rb
     spec/aws/requests/simpledb/put_attributes_spec.rb
     spec/aws/requests/simpledb/select_spec.rb
-    spec/aws/requests/storage/copy_object_spec.rb
-    spec/aws/requests/storage/get_bucket_location_spec.rb
-    spec/aws/requests/storage/get_bucket_spec.rb
-    spec/aws/requests/storage/get_request_payment_spec.rb
-    spec/aws/requests/storage/put_request_payment_spec.rb
     spec/bluebox/models/compute/flavors_spec.rb
     spec/bluebox/models/compute/server_spec.rb
     spec/bluebox/models/compute/servers_spec.rb
@@ -599,16 +613,6 @@ Gem::Specification.new do |s|
     spec/rackspace/models/compute/flavors_spec.rb
     spec/rackspace/models/compute/server_spec.rb
     spec/rackspace/models/compute/servers_spec.rb
-    spec/rackspace/requests/storage/delete_container_spec.rb
-    spec/rackspace/requests/storage/delete_object_spec.rb
-    spec/rackspace/requests/storage/get_container_spec.rb
-    spec/rackspace/requests/storage/get_containers_spec.rb
-    spec/rackspace/requests/storage/get_object_spec.rb
-    spec/rackspace/requests/storage/head_container_spec.rb
-    spec/rackspace/requests/storage/head_containers_spec.rb
-    spec/rackspace/requests/storage/head_object_spec.rb
-    spec/rackspace/requests/storage/put_container_spec.rb
-    spec/rackspace/requests/storage/put_object_spec.rb
     spec/shared_examples/flavors_examples.rb
     spec/shared_examples/server_examples.rb
     spec/shared_examples/servers_examples.rb
@@ -694,6 +698,8 @@ Gem::Specification.new do |s|
     tests/rackspace/requests/compute/flavor_tests.rb
     tests/rackspace/requests/compute/image_tests.rb
     tests/rackspace/requests/compute/server_tests.rb
+    tests/rackspace/requests/storage/container_tests.rb
+    tests/rackspace/requests/storage/object_tests.rb
     tests/slicehost/helper.rb
     tests/slicehost/requests/compute/backup_tests.rb
     tests/slicehost/requests/compute/flavor_tests.rb
