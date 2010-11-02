@@ -7,7 +7,10 @@ module Fog
       model_path 'fog/aws/models/cdn'
 
       request_path 'fog/aws/requests/cdn'
+      request 'delete_distribution'
+      request 'get_distribution'
       request 'get_distribution_list'
+      request 'post_distribution'
       request 'post_invalidation'
 
       class Mock

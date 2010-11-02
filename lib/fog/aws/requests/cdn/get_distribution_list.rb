@@ -21,15 +21,15 @@ module Fog
         #     * 'MaxItems'<~Integer> - Maximum number of keys specified for query
         #     * 'NextMarker'<~String> - Marker to specify for next page (id of last result of current page)
         #     * 'DistributionSummary'<~Array>:
-        #       * 'Id'<~String>: Id of distribution
-        #       * 'LastModifiedTime'<~String>: Timestamp of last modification of distribution
-        #       * 'Status'<~String>: Status of distribution
-        #       * 'DomainName'<~String>: Domain name of distribution
-        #       * 'Origin'<~String>: s3 origin bucket
-        #       * 'CNAME'<~Array>: array of associated cnames
-        #       * 'Comment'<~String>: comment associated with distribution
-        #       * 'Enabled'<~Boolean>: whether or not distribution is enabled
-        #       * 'TrustedSigners'<~Array>: trusted signers
+        #       * 'Comment'<~String> - comment associated with distribution
+        #       * 'CNAME'<~Array> - array of associated cnames
+        #       * 'DomainName'<~String> - Domain name of distribution
+        #       * 'Enabled'<~Boolean> - whether or not distribution is enabled
+        #       * 'Id'<~String> - Id of distribution
+        #       * 'LastModifiedTime'<~String> - Timestamp of last modification of distribution
+        #       * 'Origin'<~String> - s3 origin bucket
+        #       * 'Status'<~String> - Status of distribution
+        #       * 'TrustedSigners'<~Array> - trusted signers
         #
         # ==== See Also
         # http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/ListDistributions.html

@@ -15,7 +15,7 @@ module Fog
             when 'DistributionSummary'
               @response['DistributionSummary'] << @distribution_summary
               @distribution_summary = { 'CNAME' => [], 'TrustedSigners' => [] }
-            when 'Comment', 'DomainName', 'ID', 'Origin', 'Status'
+            when 'Comment', 'DomainName', 'Id', 'Origin', 'Status'
               @distribution_summary[name] = @value
             when 'CNAME'
               @distribution_summary[name] << @value

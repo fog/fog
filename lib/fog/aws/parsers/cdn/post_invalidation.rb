@@ -13,7 +13,7 @@ module Fog
             case name
             when 'CallerReference'
               @response['InvalidationBatch'][name] = @value
-            when 'CreateTime', 'ID', 'Status'
+            when 'CreateTime', 'Id', 'Status'
               @response[name] = @value
             when 'Path'
               @response['InvalidationBatch'][name] << @value

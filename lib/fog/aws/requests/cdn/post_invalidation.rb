@@ -20,8 +20,8 @@ module Fog
         #     * 'Status'<~String> - Status of invalidation
         #     * 'CreateTime'<~Integer> - Time of invalidation creation
         #     * 'InvalidationBatch'<~Array>:
-        #       * 'Path'<~Array>: Array of strings of objects to invalidate
-        #       * 'CallerReference'<~String>: Used to prevent replay, defaults to Time.now.to_i.to_s
+        #       * 'Path'<~Array> - Array of strings of objects to invalidate
+        #       * 'CallerReference'<~String> - Used to prevent replay, defaults to Time.now.to_i.to_s
         #
         # ==== See Also
         # http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/CreateInvalidation.html
@@ -35,6 +35,7 @@ module Fog
           body << "<CallerReference>" << caller_reference << "</CallerReference>"
           body << "</InvalidationBatch>"
           request({
+            :body       => body,
             :expects    => 201,
             :headers    => {'Content-Type' => 'text/xml'},
             :idempotent => true,
