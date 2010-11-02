@@ -15,7 +15,6 @@ module Fog
       ENV["FOG_RC"] || '~/.fog'
     end
 
-    remove_method :credentials
     def credentials
       @credentials ||= begin
         path = File.expand_path(config_path)

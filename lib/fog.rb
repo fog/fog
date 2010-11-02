@@ -46,10 +46,6 @@ module Fog
     @bin = new_bin
   end
 
-  def self.credentials
-    {}
-  end
-
   def self.mock!
     @mocking = true
   end
