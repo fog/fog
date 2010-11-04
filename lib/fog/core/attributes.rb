@@ -140,7 +140,7 @@ module Fog
           unless self.class.ignored_attributes.include?(key)
             if aliased_key = self.class.aliases[key]
               send("#{aliased_key}=", value)
-            elsif (methods | private_methods ).include?("#{key}=")
+            elsif (public_methods | private_methods).detect {|method| ["#{key}=", :"#{key}="].include?(method)}
               send("#{key}=", value)
             else
               attributes[key] = value
