@@ -17,6 +17,12 @@ module Fog
 
         def all(options = {})
           requires :directory
+          options = {
+            'limit'   => @limit,
+            'marker'  => @marker,
+            'path'    => @path,
+            'prefix'  => @prefix
+          }.merge!(options)
           merge_attributes(options)
           parent = directory.collection.get(
             directory.key,
@@ -29,15 +35,9 @@ module Fog
           end
         end
 
-        def get(key, options = {}, &block)
+        def get(key, &block)
           requires :directory
-          options = {
-            'limit'   => @limit,
-            'marker'  => @marker,
-            'path'    => @path,
-            'prefix'  => @prefix
-          }.merge!(options)
-          data = connection.get_object(directory.name, key, options, &block)
+          data = connection.get_object(directory.key, key, &block)
           file_data = {
             :body => data.body,
             :key  => key
