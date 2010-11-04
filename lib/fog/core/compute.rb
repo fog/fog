@@ -2,7 +2,7 @@ module Fog
   class Storage
 
     def self.new(attributes)
-      case attributes.delete(:provider)
+      case provider = attributes.delete(:provider)
       when 'AWS'
         require 'fog/aws'
         Fog::AWS::Compute.new(attributes)
