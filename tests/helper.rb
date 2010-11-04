@@ -3,6 +3,10 @@ require 'fog/core/bin'
 Fog.bin = true
 
 require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'model_helper'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'storage', 'directory_tests'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'storage', 'directories_tests'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'storage', 'file_tests'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'storage', 'files_tests'))
 
 if ENV["FOG_MOCK"] == "true"
   Fog.mock!
