@@ -1,4 +1,5 @@
 *.gem
+*.rbc
 *.sw?
 .bundle
 .DS_Store

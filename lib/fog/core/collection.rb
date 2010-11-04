@@ -17,7 +17,7 @@ module Fog
 
     %w[reject select].each do |method|
       class_eval <<-RUBY
-        remove_method :#{method}
+        # remove_method :#{method}
         def #{method}(*args)
           unless @loaded
             lazy_load
