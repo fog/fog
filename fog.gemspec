@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.3.15'
-  s.date              = '2010-11-03'
+  s.version           = '0.3.16'
+  s.date              = '2010-11-04'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -579,10 +579,6 @@ Gem::Specification.new do |s|
     spec/aws/models/compute/snapshots_spec.rb
     spec/aws/models/compute/volume_spec.rb
     spec/aws/models/compute/volumes_spec.rb
-    spec/aws/models/storage/directories_spec.rb
-    spec/aws/models/storage/directory_spec.rb
-    spec/aws/models/storage/file_spec.rb
-    spec/aws/models/storage/files_spec.rb
     spec/aws/requests/simpledb/batch_put_attributes_spec.rb
     spec/aws/requests/simpledb/create_domain_spec.rb
     spec/aws/requests/simpledb/delete_attributes_spec.rb
@@ -596,10 +592,6 @@ Gem::Specification.new do |s|
     spec/bluebox/models/compute/server_spec.rb
     spec/bluebox/models/compute/servers_spec.rb
     spec/compact_progress_bar_formatter.rb
-    spec/google/models/storage/directories_spec.rb
-    spec/google/models/storage/directory_spec.rb
-    spec/google/models/storage/file_spec.rb
-    spec/google/models/storage/files_spec.rb
     spec/google/requests/storage/copy_object_spec.rb
     spec/google/requests/storage/delete_bucket_spec.rb
     spec/google/requests/storage/delete_object_spec.rb
@@ -665,7 +657,10 @@ Gem::Specification.new do |s|
     spec/vcloud/terremark/ecloud/requests/power_on_spec.rb
     spec/vcloud/vcloud_spec.rb
     tests/aws/helper.rb
+    tests/aws/models/storage/directories_tests.rb
     tests/aws/models/storage/directory_tests.rb
+    tests/aws/models/storage/file_tests.rb
+    tests/aws/models/storage/files_tests.rb
     tests/aws/requests/compute/address_tests.rb
     tests/aws/requests/compute/availability_zone_tests.rb
     tests/aws/requests/compute/image_tests.rb
@@ -684,16 +679,31 @@ Gem::Specification.new do |s|
     tests/bluebox/requests/compute/template_tests.rb
     tests/go_grid/helper.rb
     tests/go_grid/requests/compute/image_tests.rb
+    tests/google/models/storage/directories_tests.rb
+    tests/google/models/storage/directory_tests.rb
+    tests/google/models/storage/file_tests.rb
+    tests/google/models/storage/files_tests.rb
     tests/helper.rb
     tests/helper_tests.rb
-    tests/helpers/model_helper.rb
+    tests/helpers/storage/directories_tests.rb
+    tests/helpers/storage/directory_tests.rb
+    tests/helpers/storage/file_tests.rb
+    tests/helpers/storage/files_tests.rb
     tests/linode/helper.rb
     tests/linode/requests/compute/datacenter_tests.rb
     tests/linode/requests/compute/distribution_tests.rb
     tests/linode/requests/compute/linode_tests.rb
     tests/linode/requests/compute/linodeplans_tests.rb
+    tests/local/models/storage/directories_tests.rb
+    tests/local/models/storage/directory_tests.rb
+    tests/local/models/storage/file_tests.rb
+    tests/local/models/storage/files_tests.rb
     tests/lorem.txt
     tests/rackspace/helper.rb
+    tests/rackspace/models/storage/directories_tests.rb
+    tests/rackspace/models/storage/directory_tests.rb
+    tests/rackspace/models/storage/file_tests.rb
+    tests/rackspace/models/storage/files_tests.rb
     tests/rackspace/requests/compute/address_tests.rb
     tests/rackspace/requests/compute/flavor_tests.rb
     tests/rackspace/requests/compute/image_tests.rb
