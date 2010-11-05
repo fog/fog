@@ -24,6 +24,13 @@ module Fog
 
       module Utils
 
+        def cdn
+          @cdn ||= Fog::Rackspace::CDN.new(
+            :rackspace_api_key => @rackspace_api_key,
+            :rackspace_username => @rackspace_username
+          )
+        end
+
         def parse_data(data)
           metadata = {
             :body => nil,
@@ -64,6 +71,7 @@ module Fog
 
         def initialize(options={})
           require 'mime/types'
+          @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
           @data = self.class.data[@rackspace_username]
         end
@@ -76,6 +84,8 @@ module Fog
         def initialize(options={})
           require 'mime/types'
           require 'json'
+          @rackspace_api_key = options[:rackspace_api_key]
+          @rackspace_username = options[:rackspace_username]
           credentials = Fog::Rackspace.authenticate(options)
           @auth_token = credentials['X-Auth-Token']
 

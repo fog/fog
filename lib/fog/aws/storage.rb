@@ -38,6 +38,13 @@ module Fog
 
       module Utils
 
+        def cdn
+          @cdn ||= Fog::AWS::CDN.new(
+            :aws_access_key_id => @aws_access_key_id,
+            :aws_secret_access_key => @aws_secret_access_key
+          )
+        end
+
         def parse_data(data)
           metadata = {
             :body => nil,
@@ -93,6 +100,7 @@ module Fog
         def initialize(options={})
           require 'mime/types'
           @aws_access_key_id = options[:aws_access_key_id]
+          @aws_secret_access_key = options[:aws_secret_access_key]
           options[:region] ||= 'us-east-1'
           @host = options[:host] || case options[:region]
           when 'eu-west-1'

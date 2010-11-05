@@ -41,6 +41,13 @@ module Fog
           end
         end
 
+        def public_url
+          requires :directory, :key
+          if @directory.public_url
+            "#{@directory.public_url}/#{key}"
+          end
+        end
+
         def save(options = {})
           requires :body, :directory, :key
           data = connection.put_object(directory.key, @key, @body, options)

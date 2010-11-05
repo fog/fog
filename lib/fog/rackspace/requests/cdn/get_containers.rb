@@ -1,6 +1,6 @@
 module Fog
   module Rackspace
-    class Storage
+    class CDN
       class Real
 
         # List existing cdn-enabled storage containers
@@ -15,7 +15,7 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Array>:
         #     * container<~String>: Name of container
-        def get_cdn_containers(options = {})
+        def get_containers(options = {})
           response = request(
             :expects  => [200, 204],
             :method   => 'GET',
@@ -29,7 +29,7 @@ module Fog
 
       class Mock
 
-        def get_cdn_containers(options = {})
+        def get_containers(options = {})
           Fog::Mock.not_implemented
         end
 

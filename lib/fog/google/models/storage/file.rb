@@ -63,6 +63,21 @@ module Fog
           end
         end
 
+        def public_url
+          requires :directory, :key
+          if directory.public_url
+            "#{directory.public_url}/#{key}"
+          elsif connection.get_object_acl(directory.key, key).body['AccessControlList'].detect {|entry| entry['Scope']['type'] == 'AllUsers' && entry['Permission'] == 'READ'}
+            if directory.key.to_s =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
+              "https://#{directory.key}.commondatastorage.googleapis/#{key}"
+            else
+              "https://commondatastorage.googleapis.com/#{directory.key}/#{key}"
+            end
+          else
+            nil
+          end
+        end
+
         def save(options = {})
           requires :body, :directory, :key
           if options != {}

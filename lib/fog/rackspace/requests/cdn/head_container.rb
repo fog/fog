@@ -1,6 +1,6 @@
 module Fog
   module Rackspace
-    class Storage
+    class CDN
       class Real
 
         # List cdn properties for a container
@@ -17,7 +17,7 @@ module Fog
         #     * 'X-Log-Retention'<~Boolean> - ?
         #     * 'X-User-Agent-ACL'<~String> - ?
         #     * 'X-Referrer-ACL'<~String> - ?
-        def head_cdn_container(container)
+        def head_container(container)
           response = request(
             :expects  => 204,
             :method   => 'HEAD',
@@ -31,7 +31,7 @@ module Fog
 
       class Mock
 
-        def head_cdn_container(container)
+        def head_container(container)
           Fog::Mock.not_implemented
         end
 

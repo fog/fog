@@ -16,6 +16,14 @@ def directory_tests(connection, mocks_implemented = true)
       @directory.destroy
     end
 
+    tests("#public=(true)").succeeds do
+      @directory.public=(true)
+    end
+
+    tests("#respond_to?(:public_url)").succeeds do
+      @directory.respond_to?(:public_url)
+    end
+
   end
 
   tests('failure') do

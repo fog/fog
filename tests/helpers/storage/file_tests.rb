@@ -20,6 +20,10 @@ def file_tests(connection, mocks_implemented = true)
       @file.destroy
     end
 
+    tests("#respond_to?(:public_url)").succeeds do
+      @directory.respond_to?(:public_url)
+    end
+
   end
 
   tests('failure') do

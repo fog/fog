@@ -7,9 +7,9 @@ module Fog
       model_path 'fog/rackspace/models/cdn'
 
       request_path 'fog/rackspace/requests/cdn'
-      request :get_cdn_containers
-      request :head_cdn_container
-      request :put_cdn_container
+      request :get_containers
+      request :head_container
+      request :put_container
 
       class Mock
 
