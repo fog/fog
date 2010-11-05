@@ -13,7 +13,8 @@ module Fog
               vdc = virtual_machine._parent
 
               if vdc.internet_service_collection.items.detect {|is| is.node_collection.items.any? {|isn| isn.ip_address == virtual_machine.ip } } ||
-                  virtual_machine.status != 2
+                  virtual_machine.status != 2 ||
+                  virtual_machine.network_ip.rnat_set?
                 mock_it 202, '', {}
               else
                 vdc.virtual_machines.delete(virtual_machine)

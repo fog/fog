@@ -69,6 +69,15 @@ if Fog.mocking?
           it_should_behave_like "all delete responses"
           it_should_behave_like "a failed vapp deletion"
         end
+
+        context "when the VM's IP has an rnat set" do
+          before do
+            @mock_vm.network_ip[:rnat] = "1.2.3.4"
+          end
+
+          it_should_behave_like "all delete responses"
+          it_should_behave_like "a failed vapp deletion"
+        end
       end
 
       context "with a vapp uri that doesn't exist" do

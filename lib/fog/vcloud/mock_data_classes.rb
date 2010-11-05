@@ -47,17 +47,7 @@ module Fog
         end
 
         def inspect
-          "<#{self.class.name} #{object_id} data=#{super} method_data=#{method_data.inspect}>"
-        end
-
-        private
-
-        def unique_methods
-          (public_methods - self.class.superclass.public_instance_methods).reject {|m| m.to_s =~ /!$/ }
-        end
-
-        def method_data
-          (unique_methods + [:href]).sort_by(&:to_s).find_all {|m| method(m).arity == 0 }.inject({}) {|md, m| md.update(m => send(m)) }
+          "<#{self.class.name} #{object_id} data=#{super}>"
         end
       end
 
@@ -434,6 +424,10 @@ module Fog
         def rnat
           self[:rnat] || _parent._parent.rnat
         end
+
+        def rnat_set?
+          !!self[:rnat]
+        end
       end
 
       class MockNetworkExtensions < Base
@@ -493,6 +487,12 @@ module Fog
 
         def size
           disks.inject(0) {|s, d| s + d.vcloud_size }
+        end
+
+        def network_ip
+          if network = _parent.networks.detect {|n| n.ip_collection.items[ip] }
+            network.ip_collection.items[ip]
+          end
         end
 
         # from fog ecloud server's _compose_vapp_data
