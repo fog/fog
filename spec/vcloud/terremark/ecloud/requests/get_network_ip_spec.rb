@@ -23,6 +23,8 @@ if Fog.mocking?
           its(:Name) { should == @mock_network_ip.name }
           its(:Href) { should == @mock_network_ip.href }
           its(:Id)   { should == @mock_network_ip.object_id.to_s }
+          its(:RnatAddress) { should == @mock_network_ip.rnat }
+          its(:Status) { should == @mock_network_ip.status }
 
         end
       end
