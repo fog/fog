@@ -36,7 +36,9 @@ if Fog.mocking?
 
           #Stuff that should change
           it "should change the rnat" do
-            expect { subject }.to change { @vcloud.get_network_ip(@mock_network_ip.href).body[:RnatAddress] }.to(network_ip_data[:rnat])
+            expect { subject }.to change { @vcloud.get_network_ip(@mock_network_ip.href).body[:RnatAddress] }.
+              from(@mock_network.rnat).
+              to(network_ip_data[:rnat])
           end
         end
 
