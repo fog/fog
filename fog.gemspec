@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.3.16'
-  s.date              = '2010-11-04'
+  s.version           = '0.3.17'
+  s.date              = '2010-11-05'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -374,9 +374,9 @@ Gem::Specification.new do |s|
     lib/fog/rackspace/models/storage/directory.rb
     lib/fog/rackspace/models/storage/file.rb
     lib/fog/rackspace/models/storage/files.rb
-    lib/fog/rackspace/requests/cdn/get_cdn_containers.rb
-    lib/fog/rackspace/requests/cdn/head_cdn_container.rb
-    lib/fog/rackspace/requests/cdn/put_cdn_container.rb
+    lib/fog/rackspace/requests/cdn/get_containers.rb
+    lib/fog/rackspace/requests/cdn/head_container.rb
+    lib/fog/rackspace/requests/cdn/put_container.rb
     lib/fog/rackspace/requests/compute/create_image.rb
     lib/fog/rackspace/requests/compute/create_server.rb
     lib/fog/rackspace/requests/compute/delete_image.rb
@@ -500,6 +500,7 @@ Gem::Specification.new do |s|
     lib/fog/vcloud/bin.rb
     lib/fog/vcloud/collection.rb
     lib/fog/vcloud/generators.rb
+    lib/fog/vcloud/mock_data_classes.rb
     lib/fog/vcloud/model.rb
     lib/fog/vcloud/models/vdc.rb
     lib/fog/vcloud/models/vdcs.rb
@@ -631,14 +632,17 @@ Gem::Specification.new do |s|
     spec/vcloud/terremark/ecloud/models/nodes_spec.rb
     spec/vcloud/terremark/ecloud/models/public_ip_spec.rb
     spec/vcloud/terremark/ecloud/models/public_ips_spec.rb
+    spec/vcloud/terremark/ecloud/models/server_spec.rb
     spec/vcloud/terremark/ecloud/models/vdc_spec.rb
     spec/vcloud/terremark/ecloud/models/vdcs_spec.rb
     spec/vcloud/terremark/ecloud/requests/add_internet_service_spec.rb
     spec/vcloud/terremark/ecloud/requests/add_node_spec.rb
     spec/vcloud/terremark/ecloud/requests/configure_internet_service_spec.rb
     spec/vcloud/terremark/ecloud/requests/configure_node_spec.rb
+    spec/vcloud/terremark/ecloud/requests/configure_vapp_spec.rb
     spec/vcloud/terremark/ecloud/requests/delete_internet_service_spec.rb
     spec/vcloud/terremark/ecloud/requests/delete_node_spec.rb
+    spec/vcloud/terremark/ecloud/requests/delete_vapp_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_catalog_item_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_catalog_spec.rb
     spec/vcloud/terremark/ecloud/requests/get_customization_options_spec.rb
@@ -654,6 +658,7 @@ Gem::Specification.new do |s|
     spec/vcloud/terremark/ecloud/requests/get_vdc_spec.rb
     spec/vcloud/terremark/ecloud/requests/instantiate_vapp_template_spec.rb
     spec/vcloud/terremark/ecloud/requests/login_spec.rb
+    spec/vcloud/terremark/ecloud/requests/power_off_spec.rb
     spec/vcloud/terremark/ecloud/requests/power_on_spec.rb
     spec/vcloud/vcloud_spec.rb
     tests/aws/helper.rb
