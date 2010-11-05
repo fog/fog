@@ -84,7 +84,7 @@ module Fog
             Formatador.display_line("[yellow][WARN] options param is deprecated, use acl= instead[/] [light_black](#{caller.first})[/]")
           end
           if @acl
-            options['x-amz-acl'] ||= @acl
+            options['x-goog-acl'] ||= @acl
           end
           if content_type
             options['Content-Type'] = content_type

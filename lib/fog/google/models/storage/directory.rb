@@ -65,7 +65,7 @@ module Fog
           requires :key
           options = {}
           if @acl
-            options['x-amz-acl'] = @acl
+            options['x-goog-acl'] = @acl
           end
           if @location
             options['LocationConstraint'] = @location
