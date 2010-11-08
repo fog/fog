@@ -9,6 +9,9 @@ module Fog
       when 'Bluebox'
         require 'fog/bluebox'
         Fog::Bluebox::Compute.new(attributes)
+      when 'Brightbox'
+        require 'fog/brightbox'
+        Fog::Brightbox::Compute.new(attributes)
       when 'GoGrid'
         require 'fog/go_grid'
         Fog::GoGrid::Compute.new(attributes)

@@ -102,6 +102,7 @@ Play around and use the console to explore or check out the {getting started gui
 You should try out the (varying) support fog has for:
 * {AWS}[http://aws.amazon.com] [{Compute}[http://aws.amazon.com/ec2], {ELB}[http://aws.amazon.com/elasticloadbalancing], {Storage}[http://aws.amazon.com/s3], {SimpleDB}[http://aws.amazon.com/simpledb]]
 * {Blue Box Group}[http://www.blueboxgrp.com] [{Compute}[http://www.blueboxgrp.com/blocks]]
+* {Brightbox}[http://www.brightbox.co.uk] [{Compute}[http://beta.brightbox.com/]]
 * {Google}[http://www.google.com] [{Storage}[http://code.google.com/apis/storage]]
 * {Rackspace}[http://www.rackspace.com] [{Compute}[http://www.rackspacecloud.com/cloud_hosting_products/servers], {Storage}[http://www.rackspacecloud.com/cloud_hosting_products/files]]
 * {Slicehost}[http://www.slicehost.com] [{Compute}[http://www.slicehost.com]]
