@@ -1,5 +1,5 @@
 module Fog
-  class Storage
+  class Compute
 
     def self.new(attributes)
       case provider = attributes.delete(:provider)
@@ -25,7 +25,7 @@ module Fog
         require 'fog/slicehost'
         Fog::Slicehost::Compute.new(attributes)
       else
-        raise ArgumentError.new("#{provider} is not a recognized storage provider")
+        raise ArgumentError.new("#{provider} is not a recognized compute provider")
       end
     end
 
