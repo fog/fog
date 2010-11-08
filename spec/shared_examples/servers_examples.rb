@@ -1,12 +1,12 @@
 shared_examples_for "Servers" do
 
   describe "#all" do
-
+  
     it "should include persisted servers" do
       subject.save
       @servers.all.map {|server| server.id}.should include(subject.id)
     end
-
+  
   end
 
   describe "#get" do
@@ -25,14 +25,14 @@ shared_examples_for "Servers" do
   end
 
   describe "#reload" do
-
+  
     it "should reset attributes to remote state" do
       subject.save
       servers = @servers.all
       reloaded = servers.reload
       servers.attributes.should == reloaded.attributes
     end
-
+  
   end
 
 end
