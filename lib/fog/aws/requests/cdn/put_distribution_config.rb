@@ -5,9 +5,10 @@ module Fog
 
         require 'fog/aws/parsers/cdn/distribution'
 
-        # create a new distribution in CloudFront
+        # update a distribution in CloudFront
         #
         # ==== Parameters
+        # * distribution_id<~String> - Id of distribution to update config for
         # * options<~Hash> - config for distribution.  Defaults to {}.
         #   REQUIRED:
         #   * 'S3Origin'<~Hash>:
@@ -53,14 +54,13 @@ module Fog
         # ==== See Also
         # http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/CreateDistribution.html
 
-        def post_distribution(options = {})
-          options['CallerReference'] = Time.now.to_i.to_s
+        def put_distribution_config(distribution_id, etag, options = {})
           data = '<?xml version="1.0" encoding="UTF-8"?>'
           data << "<DistributionConfig xmlns=\"http://cloudfront.amazonaws.com/doc/#{@version}/\">"
           for key, value in options
             case value
             when Array
-              for item in array
+              for item in value
                 data << "<#{key}>#{item}</#{key}>"
               end
             when Hash
@@ -76,12 +76,15 @@ module Fog
           data << "</DistributionConfig>"
           request({
             :body       => data,
-            :expects    => 201,
-            :headers    => { 'Content-Type' => 'text/xml' },
+            :expects    => 200,
+            :headers    => {
+              'Content-Type'  => 'text/xml',
+              'If-Match'      => etag
+            },
             :idempotent => true,
-            :method     => 'POST',
+            :method     => 'PUT',
             :parser     => Fog::Parsers::AWS::CDN::Distribution.new,
-            :path       => "/distribution"
+            :path       => "/distribution/#{distribution_id}/config"
           })
         end
 
@@ -89,7 +92,7 @@ module Fog
 
       class Mock # :nodoc:all
 
-        def post_distribution(options = {})
+        def put_distribution_config(distribution_id, etag, options = {})
           Fog::Mock.not_implemented
         end
 

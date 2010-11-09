@@ -13,7 +13,16 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'DomainName'<~String>: Domain name of distribution
+        #     * 'S3Origin'<~Hash>:
+        #       * 'DNSName'<~String> - origin to associate with distribution, ie 'mybucket.s3.amazonaws.com'
+        #       * 'OriginAccessIdentity'<~String> - Optional: Used when serving private content
+        #     or
+        #     * 'CustomOrigin'<~Hash>:
+        #       * 'DNSName'<~String> - origin to associate with distribution, ie 'www.example.com'
+        #       * 'HTTPPort'<~Integer> - HTTP port of origin, in [80, 443] or (1024...65535)
+        #       * 'HTTPSPort'<~Integer> - HTTPS port of origin, in [80, 443] or (1024...65535)
+        #       * 'OriginProtocolPolicy'<~String> - Policy on using http vs https, in ['http-only', 'match-viewer']
+        #
         #     * 'Id'<~String> - Id of distribution
         #     * 'LastModifiedTime'<~String> - Timestamp of last modification of distribution
         #     * 'Status'<~String> - Status of distribution
@@ -22,6 +31,7 @@ module Fog
         #       * 'CNAME'<~Array> - array of associated cnames
         #       * 'Comment'<~String> - comment associated with distribution
         #       * 'Enabled'<~Boolean> - whether or not distribution is enabled
+        #       * 'InProgressInvalidationBatches'<~Integer> - number of invalidation batches in progress
         #       * 'Logging'<~Hash>:
         #         * 'Bucket'<~String> - bucket logs are stored in
         #         * 'Prefix'<~String> - prefix logs are stored with
