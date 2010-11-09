@@ -27,8 +27,7 @@ module Fog
             :name => @name
           }
 
-          response = connection.update_user(identity, options)
-          data = JSON.parse(response.body)
+          data = connection.update_user(identity, options)
           merge_attributes(data)
           true
         end

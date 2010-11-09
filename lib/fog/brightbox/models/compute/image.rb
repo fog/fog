@@ -34,8 +34,7 @@ module Fog
             :name => @name,
             :description => @description
           }.delete_if {|k,v| v.nil? || v == "" }
-          response = connection.create_image(options)
-          data = JSON.parse(response.body)
+          data = connection.create_image(options)
           merge_attributes(data)
           true
         end

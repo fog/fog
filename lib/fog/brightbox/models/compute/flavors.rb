@@ -10,13 +10,13 @@ module Fog
         model Fog::Brightbox::Compute::Flavor
 
         def all
-          data = connection.list_server_types.body
-          load(JSON.parse(data))
+          data = connection.list_server_types
+          load(data)
         end
 
         def get(identifier)
-          response = connection.get_server_type(identifier)
-          new(JSON.parse(response.body))
+          data = connection.get_server_type(identifier)
+          new(data)
         rescue Excon::Errors::NotFound
           nil
         end

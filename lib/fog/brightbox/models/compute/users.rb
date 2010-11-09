@@ -10,13 +10,13 @@ module Fog
         model Fog::Brightbox::Compute::User
 
         def all
-          data = JSON.parse(connection.list_users.body)
+          data = connection.list_users
           load(data)
         end
 
         def get(identifier)
           return nil if identifier.nil? || identifier == ""
-          data = JSON.parse(connection.get_user(identifier).body)
+          data = connection.get_user(identifier)
           new(data)
         rescue Excon::Errors::NotFound
           nil

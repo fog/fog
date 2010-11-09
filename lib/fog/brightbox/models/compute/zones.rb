@@ -10,13 +10,13 @@ module Fog
         model Fog::Brightbox::Compute::Zone
 
         def all
-          data = JSON.parse(connection.list_zones.body)
+          data = connection.list_zones
           load(data)
         end
 
         def get(identifier)
           return nil if identifier.nil? || identifier == ""
-          data = JSON.parse(connection.get_zone(identifier).body)
+          data = connection.get_zone(identifier)
           new(data)
         rescue Excon::Errors::NotFound
           nil

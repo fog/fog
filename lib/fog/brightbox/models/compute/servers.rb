@@ -10,13 +10,13 @@ module Fog
         model Fog::Brightbox::Compute::Server
 
         def all
-          data = JSON.parse(connection.list_servers.body)
+          data = connection.list_servers
           load(data)
         end
 
         def get(identifier)
           return nil if identifier.nil? || identifier == ""
-          data = JSON.parse(connection.get_server(identifier).body)
+          data = connection.get_server(identifier)
           new(data)
         rescue Excon::Errors::NotFound
           nil
