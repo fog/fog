@@ -5,16 +5,18 @@ module Fog
     class Storage
 
       class File < Fog::Model
+        extend Fog::Deprecation
+        deprecate(:size, :content_length)
+        deprecate(:size=, :content_length=)
 
         identity  :key,             :aliases => 'Key'
 
         attr_writer :body
-        attribute :content_length,  :aliases => 'Content-Length'
+        attribute :content_length,  :aliases => ['Content-Length', 'Size'], :type => :integer
         attribute :content_type,    :aliases => 'Content-Type'
         attribute :etag,            :aliases => ['Etag', 'ETag']
-        attribute :last_modified,   :aliases => ['Last-Modified', 'LastModified']
+        attribute :last_modified,   :aliases => ['Last-Modified', 'LastModified'], :type => :time
         attribute :owner,           :aliases => 'Owner'
-        attribute :size,            :aliases => 'Size'
         attribute :storage_class,   :aliases => 'StorageClass'
 
         def acl=(new_acl)

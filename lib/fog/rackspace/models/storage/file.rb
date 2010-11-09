@@ -9,10 +9,10 @@ module Fog
         identity  :key,             :aliases => 'name'
 
         attr_writer :body
-        attribute :content_length,  :aliases => ['bytes', 'Content-Length']
+        attribute :content_length,  :aliases => ['bytes', 'Content-Length'], :type => :integer
         attribute :content_type,    :aliases => ['content_type', 'Content-Type']
         attribute :etag,            :aliases => ['hash', 'Etag']
-        attribute :last_modified,   :aliases => ['last_modified', 'Last-Modified']
+        attribute :last_modified,   :aliases => ['last_modified', 'Last-Modified'], :type => :time
 
         def body
           @body ||= if last_modified
