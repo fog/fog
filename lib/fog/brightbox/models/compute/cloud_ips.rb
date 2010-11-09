@@ -10,20 +10,20 @@ module Fog
         model Fog::Brightbox::Compute::CloudIp
 
         def all
-          data = JSON.parse(connection.list_cloud_ips.body)
+          data = connection.list_cloud_ips
           load(data)
         end
 
         def get(identifier)
           return nil if identifier.nil? || identifier == ""
-          data = JSON.parse(connection.get_cloud_ip(identifier).body)
+          data = connection.get_cloud_ip(identifier)
           new(data)
         rescue Excon::Errors::NotFound
           nil
         end
 
         def allocate
-          data = JSON.parse(connection.create_cloud_ip.body)
+          data = connection.create_cloud_ip
           new(data)
         end
 

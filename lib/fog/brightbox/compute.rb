@@ -89,11 +89,13 @@ module Fog
             get_oauth_token
             response = authenticated_request(params)
           end
-          response
+          unless response.body.empty?
+            response = JSON.parse(response.body)
+          end
         end
 
         def account
-          Fog::Brightbox::Compute::Account.new(JSON.parse(get_account.body))
+          Fog::Brightbox::Compute::Account.new(get_account)
         end
 
       private

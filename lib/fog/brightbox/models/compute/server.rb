@@ -87,8 +87,7 @@ module Fog
             :zone => @zone_id,
             :user_data => @user_data
           }.delete_if {|k,v| v.nil? || v == "" }
-          response = connection.create_server(options)
-          data = JSON.parse(response.body)
+          data = connection.create_server(options)
           merge_attributes(data)
           true
         end

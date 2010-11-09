@@ -10,13 +10,13 @@ module Fog
         model Fog::Brightbox::Compute::Image
 
         def all
-          data = connection.list_images.body
-          load(JSON.parse(data))
+          data = connection.list_images
+          load(data)
         end
 
         def get(identifier)
-          response = connection.get_image(identifier)
-          new(JSON.parse(response.body))
+          data = connection.get_image(identifier)
+          new(data)
         rescue Excon::Errors::NotFound
           nil
         end
