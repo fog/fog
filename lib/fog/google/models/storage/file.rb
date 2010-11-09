@@ -12,12 +12,17 @@ module Fog
         identity  :key,             :aliases => 'Key'
 
         attr_writer :body
-        attribute :content_length,  :aliases => ['Content-Length', 'Size'], :type => :integer
-        attribute :content_type,    :aliases => 'Content-Type'
-        attribute :etag,            :aliases => ['Etag', 'ETag']
-        attribute :last_modified,   :aliases => ['Last-Modified', 'LastModified'], :type => :time
-        attribute :owner,           :aliases => 'Owner'
-        attribute :storage_class,   :aliases => 'StorageClass'
+        attribute :cache_control,       :aliases => 'Cache-Control'
+        attribute :content_disposition, :aliases => 'Content-Disposition'
+        attribute :content_encoding,    :aliases => 'Content-Encoding'
+        attribute :content_length,      :aliases => ['Content-Length', 'Size'], :type => :integer
+        attribute :content_md5,         :aliases => 'Content-MD5'
+        attribute :content_type,        :aliases => 'Content-Type'
+        attribute :etag,                :aliases => ['Etag', 'ETag']
+        attribute :expires,             :aliases => 'Expires'
+        attribute :last_modified,       :aliases => ['Last-Modified', 'LastModified'], :type => :time
+        attribute :owner,               :aliases => 'Owner'
+        attribute :storage_class,       :aliases => ['x-goog-storage-class', 'StorageClass']
 
         def acl=(new_acl)
           valid_acls = ['private', 'public-read', 'public-read-write', 'authenticated-read']
@@ -85,12 +90,14 @@ module Fog
           if options != {}
             Formatador.display_line("[yellow][WARN] options param is deprecated, use acl= instead[/] [light_black](#{caller.first})[/]")
           end
-          if @acl
-            options['x-goog-acl'] ||= @acl
-          end
-          if content_type
-            options['Content-Type'] = content_type
-          end
+          options['x-goog-acl'] ||= @acl if @acl
+          options['Cache-Control'] = cache_control if cache_control
+          options['Content-Disposition'] = content_disposition if content_disposition
+          options['Content-Encoding'] = content_encoding if content_encoding
+          options['Content-MD5'] = content_md5 if content_md5
+          options['Content-Type'] = content_type if content_type
+          options['Expires'] = expires if expires
+
           data = connection.put_object(directory.key, @key, @body, options)
           @etag = data.headers['ETag']
           true

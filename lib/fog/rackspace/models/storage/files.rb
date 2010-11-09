@@ -43,7 +43,7 @@ module Fog
             :key  => key
           }
           for key, value in data.headers
-            if ['Content-Length', 'Content-Type', 'ETag', 'Last-Modified'].include?(key)
+            if model.aliases.include?(key)
               file_data[key] = value
             end
           end
@@ -62,7 +62,7 @@ module Fog
           data = connection.head_object(directory.name, key, options)
           file_data = { :key => key }
           for key, value in data.headers
-            if ['Content-Length', 'Content-Type', 'ETag', 'Last-Modified'].include?(key)
+            if model.aliases.include?(key)
               file_data[key] = value
             end
           end
