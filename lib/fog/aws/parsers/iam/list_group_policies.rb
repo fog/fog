@@ -6,17 +6,13 @@ module Fog
         class ListGroups < Fog::Parsers::Base
 
           def reset
-            @group = {}
-            @response = { 'Groups' => [] }
+            @response = { 'PolicyNames' => [] }
           end
 
           def end_element(name)
             case name
-            when 'Arn', 'GroupId', 'GroupName', 'Path'
-              @group[name] = @value
             when 'member'
-              @response['Groups'] << @group
-              @group = {}
+              @response['PolicyNames'] << @value
             when 'IsTruncated'
               response[name] = (@value == 'true')
             when 'Marker', 'RequestId'

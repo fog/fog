@@ -3,16 +3,16 @@ module Fog
     module AWS
       module IAM
 
-        class CreateGroup < Fog::Parsers::Base
+        class CreateUser < Fog::Parsers::Base
 
           def reset
-            @response = { 'Group' => {} }
+            @response = { 'User' => {} }
           end
 
           def end_element(name)
             case name
-            when 'Arn', 'GroupId', 'GroupName', 'Path'
-              @response['Group'][name] = @value
+            when 'Arn', 'UserId', 'UserName', 'Path'
+              @response['User'][name] = @value
             when 'RequestId'
               @response[name] = @value
             end

@@ -3,18 +3,18 @@ module Fog
     class IAM
       class Real
 
-        require 'fog/aws/parsers/iam/create_group'
+        require 'fog/aws/parsers/iam/create_user'
 
-        # Create a new group
+        # Create a new user
         # 
         # ==== Parameters
-        # * group_name<~String>: name of the group to create (do not include path)
+        # * user_name<~String>: name of the user to create (do not include path)
         # * path<~String>: optional path to group, defaults to '/'
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'Group'<~Hash>:
+        #     * 'User'<~Hash>:
         #       * Arn<~String> -
         #       * GroupId<~String> -
         #       * GroupName<~String> -
@@ -22,14 +22,14 @@ module Fog
         #     * 'RequestId'<~String> - Id of the request
         #
         # ==== See Also
-        # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_CreateGroup.html
+        # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_CreateUser.html
         #
-        def create_group(group_name, path = '/')
+        def create_user(user_name, path = '/')
           request(
-            'Action'    => 'CreateGroup',
-            'GroupName' => group_name,
+            'Action'    => 'CreateUser',
+            'UserName'  => user_name,
             'Path'      => path,
-            :parser     => Fog::Parsers::AWS::IAM::CreateGroup.new
+            :parser     => Fog::Parsers::AWS::IAM::CreateUser.new
           )
         end
 
@@ -37,7 +37,7 @@ module Fog
 
       class Mock
 
-        def create_group(group_name, path = '/')
+        def create_user(user_name, path = '/')
           Fog::Mock.not_implemented
         end
 

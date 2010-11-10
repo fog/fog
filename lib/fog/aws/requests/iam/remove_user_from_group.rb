@@ -5,10 +5,11 @@ module Fog
 
         require 'fog/aws/parsers/iam/basic'
 
-        # Delete a group
+        # Remove a user from a group
         # 
         # ==== Parameters
-        # * group_name<~String>: name of the group to delete
+        # * group_name<~String>: name of the group
+        # * user_name<~String>: name of user to remove
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -16,12 +17,13 @@ module Fog
         #     * 'RequestId'<~String> - Id of the request
         #
         # ==== See Also
-        # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_DeleteGroup.html
+        # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_RemoveUserFromGroup.html
         #
-        def delete_group(group_name)
+        def remove_user_from_group(group_name, user_name)
           request(
-            'Action'    => 'DeleteGroup',
+            'Action'    => 'RemoveUserFromGroup',
             'GroupName' => group_name,
+            'UserName'  => user_name,
             :parser     => Fog::Parsers::AWS::IAM::Basic.new
           )
         end
@@ -30,7 +32,7 @@ module Fog
 
       class Mock
 
-        def delete_group(group_name)
+        def remove_user_from_group(group_name, user_name)
           Fog::Mock.not_implemented
         end
 
