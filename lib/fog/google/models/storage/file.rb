@@ -99,7 +99,7 @@ module Fog
           options['Expires'] = expires if expires
 
           data = connection.put_object(directory.key, @key, @body, options)
-          @etag = data.headers['ETag']
+          merge_attributes(data.headers)
           true
         end
 

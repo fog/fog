@@ -97,7 +97,7 @@ module Fog
           options['x-amz-storage-class'] = storage_class if storage_class
 
           data = connection.put_object(directory.key, @key, @body, options)
-          @etag = data.headers['ETag']
+          merge_attributes(data.headers)
           true
         end
 

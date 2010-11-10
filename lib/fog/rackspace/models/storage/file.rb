@@ -51,7 +51,7 @@ module Fog
         def save(options = {})
           requires :body, :directory, :key
           data = connection.put_object(directory.key, @key, @body, options)
-          @etag = data.headers['ETag']
+          merge_attributes(data.headers)
           true
         end
 

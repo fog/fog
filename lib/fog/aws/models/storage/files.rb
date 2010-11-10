@@ -41,15 +41,10 @@ module Fog
         def get(key, options = {}, &block)
           requires :directory
           data = connection.get_object(directory.key, key, options, &block)
-          file_data = {
+          file_data = data.headers.merge({
             :body => data.body,
             :key  => key
-          }
-          for key, value in data.headers
-            if model.aliases.include?(key)
-              file_data[key] = value
-            end
-          end
+          })
           new(file_data)
         rescue Excon::Errors::NotFound
           nil
@@ -63,14 +58,9 @@ module Fog
         def head(key, options = {})
           requires :directory
           data = connection.head_object(directory.key, key, options)
-          file_data = {
+          file_data = data.headers.merge({
             :key => key
-          }
-          for key, value in data.headers
-            if model.aliases.include?(key)
-              file_data[key] = value
-            end
-          end
+          })
           new(file_data)
         rescue Excon::Errors::NotFound
           nil
