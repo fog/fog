@@ -4,6 +4,7 @@ module Fog
       class Real
 
         def snapshot_server(identifier, options = {})
+          return nil if identifier.nil? || identifier == ""
           request(
             :expects  => [202],
             :method   => 'POST',

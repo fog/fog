@@ -4,6 +4,7 @@ module Fog
       class Real
 
         def get_cloud_ip(identifier, options = {})
+          return nil if identifier.nil? || identifier == ""
           request(
             :expects  => [200],
             :method   => 'GET',
