@@ -67,7 +67,7 @@ module Fog
       { :duration => duration }
     end
   end
-
+  
 end
 
 require 'fog/aws'
