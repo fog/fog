@@ -4,6 +4,7 @@ module Fog
       class Real
 
         def get_image(identifier, options = {})
+          return nil if identifier.nil? || identifier == ""
           request(
             :expects  => [200],
             :method   => 'GET',

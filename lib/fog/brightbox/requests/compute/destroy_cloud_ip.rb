@@ -4,6 +4,7 @@ module Fog
       class Real
 
         def destroy_cloud_ip(identifier, options = {})
+          return nil if identifier.nil? || identifier == ""
           request(
             :expects  => [200],
             :method   => 'DELETE',

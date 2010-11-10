@@ -4,6 +4,7 @@ module Fog
       class Real
 
         def update_api_client(identifier, options = {})
+          return nil if identifier.nil? || identifier == ""
           request(
             :expects  => [200],
             :method   => 'PUT',
