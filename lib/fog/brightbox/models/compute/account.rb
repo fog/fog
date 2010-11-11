@@ -28,7 +28,7 @@ module Fog
         attribute :library_ftp_user
         # This is always returned as null/nil unless performing a reset_ftp_password request
         attribute :library_ftp_password
-        attribute :created_at
+        attribute :created_at, :type => :time
 
 
 
