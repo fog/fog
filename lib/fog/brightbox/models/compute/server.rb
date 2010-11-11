@@ -18,7 +18,6 @@ module Fog
         attribute :user_data
 
         attribute :resource_type
-        attribute :description
 
         attribute :account_id, :aliases => "account", :squash => "id"
         attribute :image_id, :aliases => "image", :squash => "id"
