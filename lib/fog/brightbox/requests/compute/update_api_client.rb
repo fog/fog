@@ -5,6 +5,7 @@ module Fog
 
         def update_api_client(identifier, options = {})
           return nil if identifier.nil? || identifier == ""
+          return nil if options.empty? || options.nil?
           request(
             :expects  => [200],
             :method   => 'PUT',

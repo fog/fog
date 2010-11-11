@@ -4,6 +4,7 @@ module Fog
       class Real
 
         def update_account(options = {})
+          return nil if options.empty? || options.nil?
           request(
             :expects  => [200],
             :method   => 'PUT',
