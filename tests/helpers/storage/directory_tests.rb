@@ -6,9 +6,7 @@ def directory_tests(connection, params = {:key => 'fogdirectorytests'}, mocks_im
       @instance.public=(true)
     end
 
-    tests("#respond_to?(:public_url)").succeeds do
-      @instance.respond_to?(:public_url)
-    end
+    responds_to(:public_url)
 
   end
 
