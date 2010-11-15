@@ -40,10 +40,7 @@ module Fog
           options = default_credentials.merge(options)
         end
 
-        validate_arguments options, \
-          :required => requirements, 
-          :optional => recognized
-          
+        validate_arguments(options)
         setup_requirements
 
         if Fog.mocking?
@@ -133,26 +130,16 @@ module Fog
         Mock.reset_data(keys)
       end
 
-      def validate_arguments(opts, spec = {})
-        spec[:required] ||= []
-        spec[:optional] ||= []
-
-        sorter  = lambda{ |x, y| x.to_s <=> y.to_s }
-        allowed = (spec[:optional] + spec[:required]).sort &sorter
-        keys    = opts.keys.map{ |k| k.to_sym }
-
-        keys.sort! &sorter
-        spec[:required].sort! &sorter
-
-        unless spec[:required].empty? 
-          k = spec[:required] & keys
-          raise ArgumentError, "Missing required arguments: #{(spec[:required] - k).join(', ')}" \
-            unless k == spec[:required]
+      def validate_arguments(options)
+        missing = requirements - options.keys
+        unless missing.empty?
+          raise ArgumentError, "Missing required arguments: #{missing.join(', ')}"
         end
 
-        k = keys - allowed    
-        raise ArgumentError, "Unrecognized arguments: #{k.join(', ')}" \
-          unless k.empty?
+        unrecognized = options.keys - requirements - recognized
+        unless unrecognized.empty?
+          raise ArgumentError, "Unrecognized arguments: #{unrecognized.join(', ')}"
+        end
       end
 
     end
