@@ -22,6 +22,7 @@ module Fog
         #       * 'volumeId'<~String> - Reference to volume
         #       * 'attachmentSet'<~Array>:
         #         * 'attachmentTime'<~Time> - Timestamp for attachment
+        #         * 'deleteOnTermination'<~Boolean> - Whether or not to delete volume on instance termination
         #         * 'device'<~String> - How value is exposed to instance
         #         * 'instanceId'<~String> - Reference to attached instance
         #         * 'status'<~String> - Attachment state

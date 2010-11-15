@@ -8,17 +8,18 @@ module Fog
         extend Fog::Deprecation
         deprecate(:status, :state)
 
-        identity  :id,                :aliases => 'volumeId'
+        identity  :id,                    :aliases => 'volumeId'
 
-        attribute :attached_at,       :aliases => 'attachTime'
-        attribute :availability_zone, :aliases => 'availabilityZone'
-        attribute :created_at,        :aliases => 'createTime'
+        attribute :attached_at,           :aliases => 'attachTime'
+        attribute :availability_zone,     :aliases => 'availabilityZone'
+        attribute :created_at,            :aliases => 'createTime'
+        attribute :delete_on_termination, :aliases => 'deleteOnTermination'
         attribute :device
-        attribute :server_id,         :aliases => 'instanceId'
+        attribute :server_id,             :aliases => 'instanceId'
         attribute :size
-        attribute :snapshot_id,       :aliases => 'snapshotId'
-        attribute :state,             :aliases => 'status'
-        attribute :tags,              :aliases => 'tagSet'
+        attribute :snapshot_id,           :aliases => 'snapshotId'
+        attribute :state,                 :aliases => 'status'
+        attribute :tags,                  :aliases => 'tagSet'
 
         def initialize(attributes = {})
           # assign server first to prevent race condition with new_record?

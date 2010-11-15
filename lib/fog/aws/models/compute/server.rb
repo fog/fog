@@ -17,6 +17,7 @@ module Fog
         attribute :groups
         attribute :flavor_id,             :aliases => 'instanceType'
         attribute :image_id,              :aliases => 'imageId'
+        attr_accessor :instance_initiated_shutdown_behavior
         attribute :ip_address,            :aliases => 'ipAddress'
         attribute :kernel_id,             :aliases => 'kernelId'
         attribute :key_name,              :aliases => 'keyName'
@@ -138,6 +139,7 @@ module Fog
           options = {
             'BlockDeviceMapping'          => block_device_mapping,
             'ClientToken'                 => client_token,
+            'InstanceInitiatedShutdownBehavior' => instance_initiated_shutdown_behavior,
             'InstanceType'                => flavor_id,
             'KernelId'                    => kernel_id,
             'KeyName'                     => key_name,
@@ -148,6 +150,7 @@ module Fog
             'SubnetId'                    => subnet_id,
             'UserData'                    => user_data
           }
+          options.delete_if {|key, value| value.nil?}
 
           # If subnet is defined we are working on a virtual private cloud.
           # subnet & security group cannot co-exist. I wish VPC just ignored
