@@ -17,7 +17,9 @@ def collection_tests(collection, params, mocks_implemented = true)
       collection.all
     end
 
-    @identity = @instance.identity
+    if !Fog.mocking? || mocks_implemented
+      @identity = @instance.identity
+    end
 
     tests("#get(#{@identity})").succeeds do
       pending if Fog.mocking? && !mocks_implemented
@@ -35,7 +37,9 @@ def collection_tests(collection, params, mocks_implemented = true)
 
   tests('failure') do
 
-    @identity = @identity.gsub(/\w/, '0')
+    if !Fog.mocking? || mocks_implemented
+      @identity = @identity.gsub(/\w/, '0')
+    end
 
     tests("#get('#{@identity}')").returns(nil) do
       pending if Fog.mocking? && !mocks_implemented

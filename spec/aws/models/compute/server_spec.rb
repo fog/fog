@@ -3,8 +3,6 @@ require File.dirname(__FILE__) + '/../../../shared_examples/server_examples'
 
 describe 'Fog::AWS::Compute::Server' do
 
-  it_should_behave_like "Server"
-
   subject { @server = @servers.new(:image_id => GENTOO_AMI) }
 
   before(:each) do
