@@ -10,7 +10,7 @@ describe 'Fog::Brightbox::Compute::Server' do
   end
 
   subject {
-    @image_id = "img-9vxqi" # Ubuntu Maverick 10.10 server
+    @image_id = "img-t4p09" # Ubuntu Maverick 10.10 server
     @server = @servers.new(:image_id => @image_id)
   }
 

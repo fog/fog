@@ -50,7 +50,6 @@ module Fog
       request :rebuild_server
       request :reset_ftp_password_account
       request :resize_server
-      request :restart_server
       request :shutdown_server
       request :snapshot_server
       request :start_server
