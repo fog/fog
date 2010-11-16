@@ -1,4 +1,4 @@
-require 'spec/vcloud/spec_helper.rb'
+require File.dirname(__FILE__) + '/spec_helper'
 
 if Fog.mocking?
   describe Fog::Vcloud, :type => :mock_vcloud_request do
