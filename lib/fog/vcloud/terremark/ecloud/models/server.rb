@@ -199,7 +199,7 @@ module Fog
               connection.send(op.keys.first, href + "/power/action/#{op.values.first}" )
             rescue Excon::Errors::InternalServerError => e
               #Frankly we shouldn't get here ...
-              raise e unless e.to_s =~ /because it is already powered on/
+              raise e unless e.to_s =~ /because it is already powered o(n|ff)/
             end
             true
           end
