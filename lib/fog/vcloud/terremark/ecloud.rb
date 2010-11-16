@@ -3,6 +3,9 @@ module Fog
     module Terremark
       class Ecloud < Fog::Vcloud
 
+        requires   :username, :password, :versions_uri
+        recognizes :version
+
         model_path 'fog/vcloud/terremark/ecloud/models'
         model :catalog_item
         model :catalog
