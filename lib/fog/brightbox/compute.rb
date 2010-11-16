@@ -47,7 +47,6 @@ module Fog
       request :list_users
       request :list_zones
       request :map_cloud_ip
-      request :rebuild_server
       request :reset_ftp_password_account
       request :resize_server
       request :shutdown_server
