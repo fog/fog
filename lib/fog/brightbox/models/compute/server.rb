@@ -34,10 +34,8 @@ module Fog
           connection.snapshot_server(identity)
         end
 
-        def reboot(type = "soft")
-          requires :identity
-          connection.restart_server(identity, :type => type)
-          true
+        def reboot
+          false
         end
 
         def start
