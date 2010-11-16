@@ -55,7 +55,7 @@ Gem::Specification.new do |s|
   ## those that are only needed during development
   s.add_development_dependency('rake')
   s.add_development_dependency('rspec', '1.3.1')
-  s.add_development_dependency('shindo', '0.1.7')
+  s.add_development_dependency('shindo', '0.1.8')
 
   ## Leave this section as-is. It will be automatically generated from the
   ## contents of your Git repository via the gemspec task. DO NOT REMOVE
