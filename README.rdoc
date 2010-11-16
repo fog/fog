@@ -117,7 +117,8 @@ There are also the basics of these providers (that could use your love):
 Enjoy, and let me know what I can do to continue improving fog!
 
 * Follow {@fog}[http://twitter.com/fog] and/or {@geemus}[http://twitter.com/geemus] on Twitter
-* Discuss in irc on the {#ruby-fog}[irc://irc.freenode.net/ruby-fog] channel on Freenode or via email on the {mailing list}[http://groups.google.com/group/ruby-fog]
+* Discuss in irc on the {#ruby-fog}[irc://irc.freenode.net/ruby-fog] channel on Freenode
+* Discuss via email on the {mailing list}[http://groups.google.com/group/ruby-fog] (note: release notes appear on this list)
 * See upcoming work in the {tracker}[http://www.pivotaltracker.com/projects/54635]
 * Report bugs in {issues}[http://github.com/geemus/fog/issues]
 * Learn about {contributing}[http://github.com/geemus/fog/wiki/contributor-guide] or find more info about the {Providers}[http://github.com/geemus/fog/wiki/Providers] (including some todo items)
