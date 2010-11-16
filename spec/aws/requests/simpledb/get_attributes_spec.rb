@@ -36,6 +36,17 @@ describe 'SimpleDB.get_attributes' do
       end
     end
 
+    context "foo item is put with bar attribute as an array" do
+      it "should return the array for foo's bar attribute" do
+        the_array = %w{A B C}
+        AWS[:sdb].put_attributes(@domain_name, 'foo', { :bar => the_array })
+        eventually do
+          actual = AWS[:sdb].get_attributes(@domain_name, 'foo')
+          actual.body['Attributes']['bar'].should =~ the_array
+        end
+      end
+    end
+
   end
   describe 'failure' do
 
