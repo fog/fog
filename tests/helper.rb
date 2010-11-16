@@ -49,7 +49,7 @@ module Shindo
 
     def formats(format)
       test('has proper format') do
-        formats_kernel(instance_eval(&block), format)
+        formats_kernel(instance_eval(&Proc.new), format)
       end
     end
 
