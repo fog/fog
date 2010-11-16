@@ -5,11 +5,14 @@ def server_tests(connection, params = {}, mocks_implemented = true)
     responds_to([:ready?, :state])
 
     tests('#reboot').succeeds do
+      pending if Fog.mocking? && !mocks_implemented
       @instance.wait_for { ready? }
       @instance.reboot
     end
 
-    @instance.wait_for { ready? }
+    if !Fog.mocking? || mocks_implemented
+      @instance.wait_for { ready? }
+    end
 
   end
 
