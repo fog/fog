@@ -1,4 +1,4 @@
-def model_tests(collection, params, mocks_implemented = true)
+def model_tests(collection, params = {}, mocks_implemented = true)
 
   tests('success') do
 

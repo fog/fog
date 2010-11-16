@@ -85,7 +85,6 @@ module Fog
                 'Contents'    => truncated_contents,
                 'IsTruncated' => truncated_contents.size != contents.size,
                 'Marker'      => options['marker'],
-                'MaxKeys'     => max_keys,
                 'Name'        => bucket['Name'],
                 'Prefix'      => options['prefix']
               }

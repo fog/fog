@@ -1,12 +1,12 @@
-def files_tests(connection, params = {:key => 'fog_files_tests', :body => lorem_file}, mocks_implemented = true)
+def files_tests(connection, params = {}, mocks_implemented = true)
+
+  params = {:key => 'fog_files_tests', :body => lorem_file}.merge!(params)
 
   if !Fog.mocking? || mocks_implemented
     @directory = connection.directories.create(:key => 'fogfilestests')
-  end
 
-  collection_tests(@directory.files, params, mocks_implemented)
+    collection_tests(@directory.files, params, mocks_implemented)
 
-  if !Fog.mocking? || mocks_implemented
     @directory.destroy
   end
 

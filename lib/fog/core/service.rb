@@ -136,9 +136,12 @@ module Fog
           raise ArgumentError, "Missing required arguments: #{missing.join(', ')}"
         end
 
-        unrecognized = options.keys - requirements - recognized
-        unless unrecognized.empty?
-          raise ArgumentError, "Unrecognized arguments: #{unrecognized.join(', ')}"
+        # FIXME: avoid failing for the services that don't have recognizes yet
+        unless recognizes.empty?
+          unrecognized = options.keys - requirements - recognized
+          unless unrecognized.empty?
+            raise ArgumentError, "Unrecognized arguments: #{unrecognized.join(', ')}"
+          end
         end
       end
 

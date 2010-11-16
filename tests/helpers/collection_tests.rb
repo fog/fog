@@ -1,4 +1,4 @@
-def collection_tests(collection, params, mocks_implemented = true)
+def collection_tests(collection, params = {}, mocks_implemented = true)
 
   tests('success') do
 
@@ -38,7 +38,7 @@ def collection_tests(collection, params, mocks_implemented = true)
   tests('failure') do
 
     if !Fog.mocking? || mocks_implemented
-      @identity = @identity.gsub(/\w/, '0')
+      @identity = @identity.to_s.gsub(/\w/, '0')
     end
 
     tests("#get('#{@identity}')").returns(nil) do
