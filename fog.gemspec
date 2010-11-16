@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.3.17'
-  s.date              = '2010-11-05'
+  s.version           = '0.3.18'
+  s.date              = '2010-11-16'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -141,6 +141,8 @@ Gem::Specification.new do |s|
     lib/fog/aws/parsers/elb/register_instances_with_load_balancer.rb
     lib/fog/aws/parsers/iam/basic.rb
     lib/fog/aws/parsers/iam/create_group.rb
+    lib/fog/aws/parsers/iam/create_user.rb
+    lib/fog/aws/parsers/iam/list_group_policies.rb
     lib/fog/aws/parsers/iam/list_groups.rb
     lib/fog/aws/parsers/simpledb/basic.rb
     lib/fog/aws/parsers/simpledb/domain_metadata.rb
@@ -148,6 +150,7 @@ Gem::Specification.new do |s|
     lib/fog/aws/parsers/simpledb/list_domains.rb
     lib/fog/aws/parsers/simpledb/select.rb
     lib/fog/aws/parsers/storage/access_control_list.rb
+    lib/fog/aws/parsers/storage/complete_multipart_upload.rb
     lib/fog/aws/parsers/storage/copy_object.rb
     lib/fog/aws/parsers/storage/get_bucket.rb
     lib/fog/aws/parsers/storage/get_bucket_location.rb
@@ -156,11 +159,15 @@ Gem::Specification.new do |s|
     lib/fog/aws/parsers/storage/get_bucket_versioning.rb
     lib/fog/aws/parsers/storage/get_request_payment.rb
     lib/fog/aws/parsers/storage/get_service.rb
+    lib/fog/aws/parsers/storage/initiate_multipart_upload.rb
+    lib/fog/aws/parsers/storage/list_multipart_uploads.rb
+    lib/fog/aws/parsers/storage/list_parts.rb
     lib/fog/aws/requests/cdn/delete_distribution.rb
     lib/fog/aws/requests/cdn/get_distribution.rb
     lib/fog/aws/requests/cdn/get_distribution_list.rb
     lib/fog/aws/requests/cdn/post_distribution.rb
     lib/fog/aws/requests/cdn/post_invalidation.rb
+    lib/fog/aws/requests/cdn/put_distribution_config.rb
     lib/fog/aws/requests/compute/allocate_address.rb
     lib/fog/aws/requests/compute/associate_address.rb
     lib/fog/aws/requests/compute/attach_volume.rb
@@ -210,9 +217,16 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/elb/disable_availability_zones_for_load_balancer.rb
     lib/fog/aws/requests/elb/enable_availability_zones_for_load_balancer.rb
     lib/fog/aws/requests/elb/register_instances_with_load_balancer.rb
+    lib/fog/aws/requests/iam/add_user_to_group.rb
     lib/fog/aws/requests/iam/create_group.rb
+    lib/fog/aws/requests/iam/create_user.rb
     lib/fog/aws/requests/iam/delete_group.rb
+    lib/fog/aws/requests/iam/delete_group_policy.rb
+    lib/fog/aws/requests/iam/delete_user.rb
+    lib/fog/aws/requests/iam/list_group_policies.rb
     lib/fog/aws/requests/iam/list_groups.rb
+    lib/fog/aws/requests/iam/put_group_policy.rb
+    lib/fog/aws/requests/iam/remove_user_from_group.rb
     lib/fog/aws/requests/simpledb/batch_put_attributes.rb
     lib/fog/aws/requests/simpledb/create_domain.rb
     lib/fog/aws/requests/simpledb/delete_attributes.rb
@@ -222,6 +236,8 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/simpledb/list_domains.rb
     lib/fog/aws/requests/simpledb/put_attributes.rb
     lib/fog/aws/requests/simpledb/select.rb
+    lib/fog/aws/requests/storage/abort_multipart_upload.rb
+    lib/fog/aws/requests/storage/complete_multipart_upload.rb
     lib/fog/aws/requests/storage/copy_object.rb
     lib/fog/aws/requests/storage/delete_bucket.rb
     lib/fog/aws/requests/storage/delete_object.rb
@@ -238,6 +254,9 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/storage/get_request_payment.rb
     lib/fog/aws/requests/storage/get_service.rb
     lib/fog/aws/requests/storage/head_object.rb
+    lib/fog/aws/requests/storage/initiate_multipart_upload.rb
+    lib/fog/aws/requests/storage/list_multipart_uploads.rb
+    lib/fog/aws/requests/storage/list_parts.rb
     lib/fog/aws/requests/storage/post_object_hidden_fields.rb
     lib/fog/aws/requests/storage/put_bucket.rb
     lib/fog/aws/requests/storage/put_bucket_acl.rb
@@ -246,6 +265,7 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/storage/put_object.rb
     lib/fog/aws/requests/storage/put_object_url.rb
     lib/fog/aws/requests/storage/put_request_payment.rb
+    lib/fog/aws/requests/storage/upload_part.rb
     lib/fog/aws/s3.rb
     lib/fog/aws/simpledb.rb
     lib/fog/aws/storage.rb
@@ -267,6 +287,59 @@ Gem::Specification.new do |s|
     lib/fog/bluebox/requests/compute/get_template.rb
     lib/fog/bluebox/requests/compute/get_templates.rb
     lib/fog/bluebox/requests/compute/reboot_block.rb
+    lib/fog/brightbox.rb
+    lib/fog/brightbox/bin.rb
+    lib/fog/brightbox/compute.rb
+    lib/fog/brightbox/models/compute/account.rb
+    lib/fog/brightbox/models/compute/cloud_ip.rb
+    lib/fog/brightbox/models/compute/cloud_ips.rb
+    lib/fog/brightbox/models/compute/flavor.rb
+    lib/fog/brightbox/models/compute/flavors.rb
+    lib/fog/brightbox/models/compute/image.rb
+    lib/fog/brightbox/models/compute/images.rb
+    lib/fog/brightbox/models/compute/server.rb
+    lib/fog/brightbox/models/compute/servers.rb
+    lib/fog/brightbox/models/compute/user.rb
+    lib/fog/brightbox/models/compute/users.rb
+    lib/fog/brightbox/models/compute/zone.rb
+    lib/fog/brightbox/models/compute/zones.rb
+    lib/fog/brightbox/requests/compute/create_api_client.rb
+    lib/fog/brightbox/requests/compute/create_cloud_ip.rb
+    lib/fog/brightbox/requests/compute/create_image.rb
+    lib/fog/brightbox/requests/compute/create_server.rb
+    lib/fog/brightbox/requests/compute/destroy_api_client.rb
+    lib/fog/brightbox/requests/compute/destroy_cloud_ip.rb
+    lib/fog/brightbox/requests/compute/destroy_image.rb
+    lib/fog/brightbox/requests/compute/destroy_server.rb
+    lib/fog/brightbox/requests/compute/get_account.rb
+    lib/fog/brightbox/requests/compute/get_api_client.rb
+    lib/fog/brightbox/requests/compute/get_cloud_ip.rb
+    lib/fog/brightbox/requests/compute/get_image.rb
+    lib/fog/brightbox/requests/compute/get_interface.rb
+    lib/fog/brightbox/requests/compute/get_server.rb
+    lib/fog/brightbox/requests/compute/get_server_type.rb
+    lib/fog/brightbox/requests/compute/get_user.rb
+    lib/fog/brightbox/requests/compute/get_zone.rb
+    lib/fog/brightbox/requests/compute/list_api_clients.rb
+    lib/fog/brightbox/requests/compute/list_cloud_ips.rb
+    lib/fog/brightbox/requests/compute/list_images.rb
+    lib/fog/brightbox/requests/compute/list_server_types.rb
+    lib/fog/brightbox/requests/compute/list_servers.rb
+    lib/fog/brightbox/requests/compute/list_users.rb
+    lib/fog/brightbox/requests/compute/list_zones.rb
+    lib/fog/brightbox/requests/compute/map_cloud_ip.rb
+    lib/fog/brightbox/requests/compute/reset_ftp_password_account.rb
+    lib/fog/brightbox/requests/compute/resize_server.rb
+    lib/fog/brightbox/requests/compute/shutdown_server.rb
+    lib/fog/brightbox/requests/compute/snapshot_server.rb
+    lib/fog/brightbox/requests/compute/start_server.rb
+    lib/fog/brightbox/requests/compute/stop_server.rb
+    lib/fog/brightbox/requests/compute/unmap_cloud_ip.rb
+    lib/fog/brightbox/requests/compute/update_account.rb
+    lib/fog/brightbox/requests/compute/update_api_client.rb
+    lib/fog/brightbox/requests/compute/update_image.rb
+    lib/fog/brightbox/requests/compute/update_server.rb
+    lib/fog/brightbox/requests/compute/update_user.rb
     lib/fog/core.rb
     lib/fog/core/attributes.rb
     lib/fog/core/bin.rb
@@ -569,13 +642,11 @@ Gem::Specification.new do |s|
     lib/fog/vcloud/terremark/vcloud/requests/get_vdc.rb
     spec/aws/models/compute/address_spec.rb
     spec/aws/models/compute/addresses_spec.rb
-    spec/aws/models/compute/flavors_spec.rb
     spec/aws/models/compute/key_pair_spec.rb
     spec/aws/models/compute/key_pairs_spec.rb
     spec/aws/models/compute/security_group_spec.rb
     spec/aws/models/compute/security_groups_spec.rb
     spec/aws/models/compute/server_spec.rb
-    spec/aws/models/compute/servers_spec.rb
     spec/aws/models/compute/snapshot_spec.rb
     spec/aws/models/compute/snapshots_spec.rb
     spec/aws/models/compute/volume_spec.rb
@@ -589,29 +660,9 @@ Gem::Specification.new do |s|
     spec/aws/requests/simpledb/list_domains_spec.rb
     spec/aws/requests/simpledb/put_attributes_spec.rb
     spec/aws/requests/simpledb/select_spec.rb
-    spec/bluebox/models/compute/flavors_spec.rb
-    spec/bluebox/models/compute/server_spec.rb
-    spec/bluebox/models/compute/servers_spec.rb
     spec/compact_progress_bar_formatter.rb
-    spec/google/requests/storage/copy_object_spec.rb
-    spec/google/requests/storage/delete_bucket_spec.rb
-    spec/google/requests/storage/delete_object_spec.rb
-    spec/google/requests/storage/get_bucket_spec.rb
-    spec/google/requests/storage/get_object_spec.rb
-    spec/google/requests/storage/get_service_spec.rb
-    spec/google/requests/storage/head_object_spec.rb
-    spec/google/requests/storage/put_bucket_spec.rb
-    spec/google/requests/storage/put_object_spec.rb
+    spec/core/attributes_spec.rb
     spec/lorem.txt
-    spec/rackspace/models/compute/flavors_spec.rb
-    spec/rackspace/models/compute/server_spec.rb
-    spec/rackspace/models/compute/servers_spec.rb
-    spec/shared_examples/flavors_examples.rb
-    spec/shared_examples/server_examples.rb
-    spec/shared_examples/servers_examples.rb
-    spec/slicehost/models/compute/flavors_spec.rb
-    spec/slicehost/models/compute/server_spec.rb
-    spec/slicehost/models/compute/servers_spec.rb
     spec/spec_helper.rb
     spec/vcloud/bin_spec.rb
     spec/vcloud/models/vdc_spec.rb
@@ -662,6 +713,9 @@ Gem::Specification.new do |s|
     spec/vcloud/terremark/ecloud/requests/power_on_spec.rb
     spec/vcloud/vcloud_spec.rb
     tests/aws/helper.rb
+    tests/aws/models/compute/flavors_tests.rb
+    tests/aws/models/compute/server_tests.rb
+    tests/aws/models/compute/servers_tests.rb
     tests/aws/models/storage/directories_tests.rb
     tests/aws/models/storage/directory_tests.rb
     tests/aws/models/storage/file_tests.rb
@@ -677,19 +731,34 @@ Gem::Specification.new do |s|
     tests/aws/requests/compute/tag_tests.rb
     tests/aws/requests/compute/volume_tests.rb
     tests/aws/requests/storage/bucket_tests.rb
+    tests/aws/requests/storage/multipart_upload_tests.rb
     tests/aws/requests/storage/object_tests.rb
     tests/bluebox/helper.rb
+    tests/bluebox/models/compute/flavors_tests.rb
+    tests/bluebox/models/compute/server_tests.rb
+    tests/bluebox/models/compute/servers_tests.rb
     tests/bluebox/requests/compute/block_tests.rb
     tests/bluebox/requests/compute/product_tests.rb
     tests/bluebox/requests/compute/template_tests.rb
+    tests/brightbox/helper.rb
+    tests/brightbox/models/compute/flavors_tests.rb
+    tests/brightbox/models/compute/server_tests.rb
+    tests/brightbox/models/compute/servers_tests.rb
     tests/go_grid/helper.rb
     tests/go_grid/requests/compute/image_tests.rb
     tests/google/models/storage/directories_tests.rb
     tests/google/models/storage/directory_tests.rb
     tests/google/models/storage/file_tests.rb
     tests/google/models/storage/files_tests.rb
+    tests/google/requests/storage/bucket_tests.rb
+    tests/google/requests/storage/object_tests.rb
     tests/helper.rb
     tests/helper_tests.rb
+    tests/helpers/collection_tests.rb
+    tests/helpers/compute/flavors_tests.rb
+    tests/helpers/compute/server_tests.rb
+    tests/helpers/compute/servers_tests.rb
+    tests/helpers/model_tests.rb
     tests/helpers/storage/directories_tests.rb
     tests/helpers/storage/directory_tests.rb
     tests/helpers/storage/file_tests.rb
@@ -705,6 +774,9 @@ Gem::Specification.new do |s|
     tests/local/models/storage/files_tests.rb
     tests/lorem.txt
     tests/rackspace/helper.rb
+    tests/rackspace/models/compute/flavors_tests.rb
+    tests/rackspace/models/compute/server_tests.rb
+    tests/rackspace/models/compute/servers_tests.rb
     tests/rackspace/models/storage/directories_tests.rb
     tests/rackspace/models/storage/directory_tests.rb
     tests/rackspace/models/storage/file_tests.rb
@@ -716,6 +788,9 @@ Gem::Specification.new do |s|
     tests/rackspace/requests/storage/container_tests.rb
     tests/rackspace/requests/storage/object_tests.rb
     tests/slicehost/helper.rb
+    tests/slicehost/models/compute/flavors_tests.rb
+    tests/slicehost/models/compute/server_tests.rb
+    tests/slicehost/models/compute/servers_tests.rb
     tests/slicehost/requests/compute/backup_tests.rb
     tests/slicehost/requests/compute/flavor_tests.rb
     tests/slicehost/requests/compute/image_tests.rb
