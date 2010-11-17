@@ -41,9 +41,6 @@ if Fog.mocking?
 
           it { should have(3).items }
 
-          its(:xmlns) { should == "urn:tmrk:eCloudExtensions-2.3" }
-          its(:xmlns_i) { should == "http://www.w3.org/2001/XMLSchema-instance" }
-
           context "[:InternetService]" do
             subject { @services.body[:InternetService] }
 
@@ -73,9 +70,6 @@ if Fog.mocking?
           subject { @services.body }
 
           it { should have(3).items }
-
-          its(:xmlns) { should == "urn:tmrk:eCloudExtensions-2.3" }
-          its(:xmlns_i) { should == "http://www.w3.org/2001/XMLSchema-instance" }
 
           context "[:InternetService]" do
             subject { @services.body[:InternetService] }

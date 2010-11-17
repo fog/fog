@@ -71,7 +71,7 @@ module Fog
           end
 
           def self.base_url
-            "https://fakey.com/api/v0.8b-ext2.3"
+            "https://fakey.com/api/v0.8b-ext2.5"
           end
 
           def self.data_reset
@@ -82,7 +82,7 @@ module Fog
           def self.data( base_url = self.base_url )
             @mock_data ||= Fog::Vcloud::Mock.data(base_url).tap do |vcloud_mock_data|
               vcloud_mock_data.versions.clear
-              vcloud_mock_data.versions << MockVersion.new(:version => "v0.8b-ext2.3")
+              vcloud_mock_data.versions << MockVersion.new(:version => "v0.8b-ext2.5")
 
               vcloud_mock_data.organizations.detect {|o| o.name == "Boom Inc." }.tap do |mock_organization|
                 mock_organization.vdcs.detect {|v| v.name == "Boomstick" }.tap do |mock_vdc|
@@ -153,7 +153,11 @@ module Fog
           end
 
           def ecloud_xmlns
-            { :xmlns => "urn:tmrk:eCloudExtensions-2.3", :"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance" }
+            {
+              "xmlns"     => "urn:tmrk:eCloudExtensions-2.5",
+              "xmlns:i"   => "http://www.w3.org/2001/XMLSchema-instance",
+              # "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema"
+            }
           end
 
           def mock_data
@@ -164,7 +168,7 @@ module Fog
         class Real < Fog::Vcloud::Real
 
           def supporting_versions
-            ["v0.8b-ext2.3", "0.8b-ext2.3"]
+            ["v0.8b-ext2.5", "0.8b-ext2.5"]
           end
 
         end

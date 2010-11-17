@@ -33,8 +33,7 @@ module Fog
 
           def generate_configure_network_ip_request(network_ip_data)
             builder = Builder::XmlMarkup.new
-            builder.IpAddress(:"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance",
-                              :xmlns => "urn:tmrk:eCloudExtensions-2.3") {
+            builder.IpAddress(ecloud_xmlns) {
               builder.Id(network_ip_data[:id])
               builder.Href(network_ip_data[:href])
               builder.Name(network_ip_data[:name])

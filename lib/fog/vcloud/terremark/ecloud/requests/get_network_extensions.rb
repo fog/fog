@@ -13,7 +13,7 @@ module Fog
             if network_extension = mock_data.network_extension_from_href(ensure_unparsed(network_extension_uri))
               xml = Builder::XmlMarkup.new
               mock_it 200,
-                xml.Network(:xmlns => "urn:tmrk:eCloudExtensions-2.3", :"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance") {
+                xml.Network(ecloud_xmlns) {
                   xml.Address network_extension.address
                   xml.RnatAddress network_extension.rnat
                   xml.Href network_extension.href

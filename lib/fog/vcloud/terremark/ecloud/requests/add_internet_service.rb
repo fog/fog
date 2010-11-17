@@ -59,9 +59,7 @@ module Fog
 
           def generate_internet_service_request(service_data)
             builder = Builder::XmlMarkup.new
-            builder.CreateInternetServiceRequest(:"xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
-                                                 :"xmlns:xsd" => "http://www.w3.org/2001/XMLSchema",
-                                                 :xmlns => "urn:tmrk:eCloudExtensions-2.3") {
+            builder.CreateInternetServiceRequest(ecloud_xmlns) {
               builder.Name(service_data[:name])
               builder.Protocol(service_data[:protocol])
               builder.Port(service_data[:port])

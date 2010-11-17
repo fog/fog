@@ -7,8 +7,7 @@ module Fog
 
           def generate_internet_service_response(public_ip_internet_service)
             builder = Builder::XmlMarkup.new
-            builder.InternetService(:"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance",
-                                    :xmlns => "urn:tmrk:eCloudExtensions-2.3") {
+            builder.InternetService(ecloud_xmlns) {
               builder.Id(public_ip_internet_service.object_id)
               builder.Href(public_ip_internet_service.href)
               builder.Name(public_ip_internet_service.name)

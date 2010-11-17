@@ -28,8 +28,7 @@ module Fog
 
           def generate_configure_network_request(network_data)
             builder = Builder::XmlMarkup.new
-            builder.Network(:"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance",
-                            :xmlns => "urn:tmrk:eCloudExtensions-2.3") {
+            builder.Network(ecloud_xmlns) {
               builder.Id(network_data[:id])
               builder.Href(network_data[:href])
               builder.Name(network_data[:name])

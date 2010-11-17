@@ -273,13 +273,13 @@ Spec::Runner.configure do |config|
     Fog::Vcloud::Mock.data_reset
     Fog::Vcloud::Terremark::Ecloud::Mock.data_reset
     setup_ecloud_mock_data
-    @vcloud = Fog::Vcloud::Terremark::Ecloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions", :module => "Fog::Vcloud::Terremark::Ecloud")
+    @vcloud = Fog::Vcloud::Terremark::Ecloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions")
   end
   config.before(:each, :type => :mock_tmrk_ecloud_model) do
     Fog::Vcloud::Mock.data_reset
     Fog::Vcloud::Terremark::Ecloud::Mock.data_reset
     setup_ecloud_mock_data
-    @vcloud = Fog::Vcloud::Terremark::Ecloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions", :module => "Fog::Vcloud::Terremark::Ecloud")
+    @vcloud = Fog::Vcloud::Terremark::Ecloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions")
   end
 end
 
