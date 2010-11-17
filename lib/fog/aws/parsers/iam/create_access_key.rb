@@ -11,8 +11,8 @@ module Fog
 
           def end_element(name)
             case name
-            when 'AccessKey', 'UserName', 'SecretAccessKey', 'Status'
-              @response['User'][name] = @value
+            when 'AccessKeyId', 'UserName', 'SecretAccessKey', 'Status'
+              @response['AccessKey'][name] = @value
             when 'RequestId'
               @response[name] = @value
             end

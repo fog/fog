@@ -13,8 +13,10 @@ module Fog
       request :delete_group
       request :delete_group_policy
       request :delete_user
+      request :list_access_keys
       request :list_groups
       request :list_group_policies
+      request :list_users
       request :put_group_policy
       request :remove_user_from_group
 

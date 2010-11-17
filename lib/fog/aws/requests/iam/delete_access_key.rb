@@ -9,7 +9,8 @@ module Fog
         # 
         # ==== Parameters
         # * access_key_id<~String> - Access key id to delete
-        # * user_name<~String> - optional: name of the user to delete access key from
+        # * options<~Hash>:
+        #   * 'UserName'<~String> - name of the user to create (do not include path)
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -19,16 +20,12 @@ module Fog
         # ==== See Also
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_DeleteAccessKey.html
         #
-        def delete_access_key(access_key_id, user_name = nil)
-          params = {
+        def delete_access_key(access_key_id, options = {})
+          request({
             'AccessKeyId' => access_key_id,
-            'Action'      => 'DeleteUser',
+            'Action'      => 'DeleteAccessKey',
             :parser       => Fog::Parsers::AWS::IAM::Basic.new
-          }
-          if user_name
-            params['UserName'] = user_name
-          end
-          request(params)
+          }.merge!(options))
         end
 
       end

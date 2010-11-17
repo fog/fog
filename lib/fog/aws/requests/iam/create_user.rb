@@ -16,9 +16,9 @@ module Fog
         #   * body<~Hash>:
         #     * 'User'<~Hash>:
         #       * 'Arn'<~String> -
-        #       * 'GroupId'<~String> -
-        #       * 'GroupName'<~String> -
         #       * 'Path'<~String> -
+        #       * 'UserId'<~String> -
+        #       * 'UserName'<~String> -
         #     * 'RequestId'<~String> - Id of the request
         #
         # ==== See Also

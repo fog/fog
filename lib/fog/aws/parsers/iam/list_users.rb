@@ -3,16 +3,20 @@ module Fog
     module AWS
       module IAM
 
-        class ListGroupPolicies < Fog::Parsers::Base
+        class ListUsers < Fog::Parsers::Base
 
           def reset
-            @response = { 'PolicyNames' => [] }
+            @user = {}
+            @response = { 'Users' => [] }
           end
 
           def end_element(name)
             case name
+            when 'Arn', 'UserId', 'UserName', 'Path'
+              @user[name] = @value
             when 'member'
-              @response['PolicyNames'] << @value
+              @response['Users'] << @user
+              @user = {}
             when 'IsTruncated'
               response[name] = (@value == 'true')
             when 'Marker', 'RequestId'

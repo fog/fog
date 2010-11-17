@@ -7,7 +7,7 @@ module Fog
 
           def end_element(name)
             case name
-            when 'requestId'
+            when 'RequestId'
               @response[name] = @value
             end
           end

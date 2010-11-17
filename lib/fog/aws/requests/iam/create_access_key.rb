@@ -8,13 +8,14 @@ module Fog
         # Create a access keys for user (by default detects user from access credentials)
         # 
         # ==== Parameters
-        # * user_name<~String> - optional: name of the user to create (do not include path)
+        # * options<~Hash>:
+        #   * 'UserName'<~String> - name of the user to create (do not include path)
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'User'<~Hash>:
-        #       * 'AccessKey'<~String> -
+        #     * 'AccessKey'<~Hash>:
+        #       * 'AccessKeyId'<~String> -
         #       * 'Username'<~String> -
         #       * 'SecretAccessKey'<~String> -
         #       * 'Status'<~String> -
@@ -23,15 +24,11 @@ module Fog
         # ==== See Also
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_CreateAccessKey.html
         #
-        def create_access_key(user_name = nil)
-          params = {
+        def create_access_key(options = {})
+          request({
             'Action'    => 'CreateAccessKey',
             :parser     => Fog::Parsers::AWS::IAM::CreateAccessKey.new
-          }
-          if user_name
-            params['UserName'] = user_name
-          end
-          request(params)
+          }.merge!(options))
         end
 
       end
