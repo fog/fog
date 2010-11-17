@@ -33,6 +33,10 @@ Shindo.tests('AWS::IAM | access key requests', ['aws']) do
       AWS[:iam].list_access_keys('UserName' => 'fog_access_key_tests').body
     end
 
+    tests("#update_access_key('#{@access_key_id}', 'Inactive', 'UserName' => 'fog_access_key_tests')").formats(AWS::IAM::Formats::BASIC) do
+      AWS[:iam].update_access_key(@access_key_id, 'Inactive', 'UserName' => 'fog_access_key_tests').body
+    end
+
     tests("#delete_access_key('#{@access_key_id}', 'UserName' => 'fog_access_key_tests)").formats(AWS::IAM::Formats::BASIC) do
       AWS[:iam].delete_access_key(@access_key_id, 'UserName' => 'fog_access_key_tests').body
     end

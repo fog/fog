@@ -22,6 +22,7 @@ module Fog
       request :put_group_policy
       request :put_user_policy
       request :remove_user_from_group
+      request :update_access_key
 
       class Mock
 
