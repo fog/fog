@@ -18,6 +18,9 @@ module Fog
           attribute :address, :aliases => :Address
           attribute :rnat, :aliases => :RnatAddress
           attribute :extension_href, :aliases => :Href
+          attribute :network_type, :aliases => :NetworkType
+          attribute :vlan, :aliases => :Vlan
+          attribute :friendly_name, :aliases => :FriendlyName
 
           def ips
             load_unless_loaded!

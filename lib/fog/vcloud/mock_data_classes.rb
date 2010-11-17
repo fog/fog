@@ -450,6 +450,18 @@ module Fog
         def rnat
           _parent.rnat
         end
+
+        def type
+          self[:type] || "DMZ"
+        end
+
+        def vlan
+          object_id.to_s
+        end
+
+        def friendly_name
+          "#{name} (#{type}_#{object_id})"
+        end
       end
 
       class MockVirtualMachine < Base
