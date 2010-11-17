@@ -3,7 +3,7 @@ module Fog
     module AWS
       module IAM
 
-        class ListGroupPolicies < Fog::Parsers::Base
+        class ListPolicies < Fog::Parsers::Base
 
           def reset
             @response = { 'PolicyNames' => [] }
