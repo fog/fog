@@ -6,8 +6,10 @@ module Fog
 
       request_path 'fog/aws/requests/iam'
       request :add_user_to_group
+      request :create_access_key
       request :create_group
       request :create_user
+      request :delete_access_key
       request :delete_group
       request :delete_group_policy
       request :delete_user

@@ -15,10 +15,10 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'User'<~Hash>:
-        #       * Arn<~String> -
-        #       * GroupId<~String> -
-        #       * GroupName<~String> -
-        #       * Path<~String> -
+        #       * 'Arn'<~String> -
+        #       * 'GroupId'<~String> -
+        #       * 'GroupName'<~String> -
+        #       * 'Path'<~String> -
         #     * 'RequestId'<~String> - Id of the request
         #
         # ==== See Also
