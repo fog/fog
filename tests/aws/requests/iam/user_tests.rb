@@ -1,6 +1,8 @@
 Shindo.tests('AWS::IAM | user requests', ['aws']) do
 
-  AWS[:iam].create_group('fog_user_tests')
+  unless Fog.mocking?
+    AWS[:iam].create_group('fog_user_tests')
+  end
 
   tests('success') do
 
@@ -15,6 +17,7 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
     }
 
     tests("#create_user('fog_user')").formats(@user_format) do
+      pending if Fog.mocking?
       AWS[:iam].create_user('fog_user').body
     end
 
@@ -30,18 +33,22 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
     }
 
     tests("#list_users").formats(@users_format) do
+      pending if Fog.mocking?
       AWS[:iam].list_users.body
     end
 
     tests("#add_user_to_group('fog_user_tests', 'fog_user')").formats(AWS::IAM::Formats::BASIC) do
+      pending if Fog.mocking?
       AWS[:iam].add_user_to_group('fog_user_tests', 'fog_user').body
     end
 
     tests("#remove_user_from_group('fog_user_tests', 'fog_user')").formats(AWS::IAM::Formats::BASIC) do
+      pending if Fog.mocking?
       AWS[:iam].remove_user_from_group('fog_user_tests', 'fog_user').body
     end
 
     tests("#delete_user('fog_user')").formats(AWS::IAM::Formats::BASIC) do
+      pending if Fog.mocking?
       AWS[:iam].delete_user('fog_user').body
     end
 
@@ -51,6 +58,8 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
     test('failing conditions')
   end
 
-  AWS[:iam].delete_group('fog_user_tests')
+  unless Fog.mocking?
+    AWS[:iam].delete_group('fog_user_tests')
+  end
 
 end
