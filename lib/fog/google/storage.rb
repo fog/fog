@@ -64,6 +64,48 @@ module Fog
       class Mock
         include Utils
 
+        def self.acls(type)
+          case type
+          when 'private'
+            @private ||= {
+              "AccessControlList"=> [
+                {
+                  "Permission" => "FULL_CONTROL",
+                  "Scope" => {"ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0", "type" => "UserById"}
+                }
+              ],
+              "Owner" => {"ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0"}
+            }
+          when 'public-read'
+            @public_read ||= begin
+              public_read = self.acls('private').dup
+              public_read['AccessControlList'] << {
+                "Permission" => "READ",
+                "Scope" => {"type" => "AllUsers"}
+              }
+              public_read
+            end
+          when 'public-read-write'
+            @public_read_write ||= begin
+              public_read_write = self.acls('private').dup
+              public_read_write['AccessControlList'] << {
+                "Permission" => "WRITE",
+                "Scope" => {"type" => "AllUsers"}
+              }
+              public_read_write
+            end
+          when 'authenticated-read'
+            @authenticated_read ||= begin
+              authenticated_read = self.acls('private').dup
+              authenticated_read['AccessControlList'] << {
+                "Permission" => "READ",
+                "Scope" => {"type" => "AllAuthenticatedUsers"}
+              }
+              authenticated_read
+            end
+          end
+        end
+
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {

@@ -60,7 +60,15 @@ module Fog
       class Mock # :nodoc:all
 
         def get_object_acl(bucket_name, object_name)
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          if acl = @data[:acls][:object][bucket_name] && @data[:acls][:object][bucket_name][object_name]
+            response.status = 200
+            response.body = acl
+          else
+            response.status = 404
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
+          response
         end
 
       end
