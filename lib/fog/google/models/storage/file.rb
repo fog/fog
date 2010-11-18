@@ -70,11 +70,18 @@ module Fog
           end
         end
 
+        def public=(new_public)
+          if new_public
+            @acl = 'public-read'
+          else
+            @acl = 'private'
+          end
+          new_public
+        end
+
         def public_url
           requires :directory, :key
-          if directory.public_url
-            "#{directory.public_url}/#{key}"
-          elsif connection.get_object_acl(directory.key, key).body['AccessControlList'].detect {|entry| entry['Scope']['type'] == 'AllUsers' && entry['Permission'] == 'READ'}
+          if connection.get_object_acl(directory.key, key).body['AccessControlList'].detect {|entry| entry['Scope']['type'] == 'AllUsers' && entry['Permission'] == 'READ'}
             if directory.key.to_s =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
               "https://#{directory.key}.commondatastorage.googleapis/#{key}"
             else

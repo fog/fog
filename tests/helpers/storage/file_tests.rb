@@ -7,6 +7,11 @@ def file_tests(connection, params = {}, mocks_implemented = true)
 
     model_tests(@directory.files, params, mocks_implemented) do
 
+      tests("#public=(true)").succeeds do
+        pending if Fog.mocking? && !mocks_implemented
+        @instance.public=(true)
+      end
+
       tests("#respond_to?(:public_url)").succeeds do
         @instance.respond_to?(:public_url)
       end

@@ -41,6 +41,10 @@ module Fog
           end
         end
 
+        def public=(new_public)
+          new_public
+        end
+
         def public_url
           requires :directory, :key
           if @directory.public_url

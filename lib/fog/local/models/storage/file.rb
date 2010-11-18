@@ -31,6 +31,10 @@ module Fog
           true
         end
 
+        def public=(new_public)
+          new_public
+        end
+
         def public_url
           nil
         end
