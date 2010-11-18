@@ -109,6 +109,10 @@ module Fog
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
+              :acls => {
+                :bucket => {},
+                :object => {}
+              },
               :buckets => {}
             }
           end
