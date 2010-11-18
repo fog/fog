@@ -142,7 +142,7 @@ module Fog
               attributes[aliased_key] = value
               send("#{aliased_key}=", value)
             elsif (public_methods | private_methods).detect {|method| ["#{key}=", :"#{key}="].include?(method)}
-              attributes[key] = value
+              attributes[key.to_sym] = value
               send("#{key}=", value)
             else
               attributes[key] = value
