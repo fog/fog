@@ -32,9 +32,27 @@ module Fog
           end
         end
 
+        def public=(new_public)
+          @public = new_public
+        end
+
+        def public_url
+          requires :key
+          @public_url ||= begin
+            begin response = connection.cdn.head_container(key)
+              response.headers['X-CDN-URI']
+            rescue Fog::Service::NotFound
+              nil
+            end
+          end
+        end
+
         def save
           requires :key
           connection.put_container(key)
+          if @public
+            @public_url = connection.cdn.put_container(key).headers['X-CDN-URI']
+          end
           true
         end
 

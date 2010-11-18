@@ -32,6 +32,14 @@ module Fog
           end
         end
 
+        def public=(new_public)
+          new_public
+        end
+
+        def public_url
+          nil
+        end
+
         def save
           requires :key
 

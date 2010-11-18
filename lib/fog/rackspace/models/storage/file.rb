@@ -9,10 +9,10 @@ module Fog
         identity  :key,             :aliases => 'name'
 
         attr_writer :body
-        attribute :content_length,  :aliases => ['bytes', 'Content-Length']
+        attribute :content_length,  :aliases => ['bytes', 'Content-Length'], :type => :integer
         attribute :content_type,    :aliases => ['content_type', 'Content-Type']
         attribute :etag,            :aliases => ['hash', 'Etag']
-        attribute :last_modified,   :aliases => ['last_modified', 'Last-Modified']
+        attribute :last_modified,   :aliases => ['last_modified', 'Last-Modified'], :type => :time
 
         def body
           @body ||= if last_modified
@@ -41,10 +41,22 @@ module Fog
           end
         end
 
+        def public_url
+          requires :directory, :key
+          if @directory.public_url
+            "#{@directory.public_url}/#{key}"
+          end
+        end
+
         def save(options = {})
           requires :body, :directory, :key
           data = connection.put_object(directory.key, @key, @body, options)
-          @etag = data.headers['ETag']
+          merge_attributes(data.headers)
+          if body.is_a?(String)
+            self.content_length = body.size
+          else
+            self.content_length = ::File.size(body.path)
+          end
           true
         end
 

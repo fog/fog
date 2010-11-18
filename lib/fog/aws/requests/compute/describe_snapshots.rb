@@ -71,6 +71,9 @@ module Fog
           if filters.delete('owner-alias')
             Formatador.display_line("[yellow][WARN] describe_snapshots with owner-alias is not mocked[/] [light_black](#{caller.first})[/]")
           end
+          if filters.delete('RestorableBy')
+            Formatador.display_line("[yellow][WARN] describe_snapshots with RestorableBy is not mocked[/] [light_black](#{caller.first})[/]")
+          end
 
           aliases = {
             'description' => 'description',

@@ -8,12 +8,16 @@ module Fog
         # Delete a group
         # 
         # ==== Parameters
-        # * 'GroupName'<~String>: name of the group to delete
+        # * group_name<~String>: name of the group to delete
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         #     * 'RequestId'<~String> - Id of the request
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_DeleteGroup.html
+        #
         def delete_group(group_name)
           request(
             'Action'    => 'DeleteGroup',

@@ -19,10 +19,10 @@ module Fog
         mock_it 200,
           xml.SupportedVersions( xmlns.merge("xmlns" => "http://www.vmware.com/vcloud/versions")) {
 
-            mock_data[:versions].select {|version| version[:supported] }.each do |version|
+            mock_data.versions.select {|version| version.supported }.each do |version|
               xml.VersionInfo {
-                xml.Version(version[:version])
-                xml.LoginUrl(version[:login_url])
+                xml.Version(version.version)
+                xml.LoginUrl(version.login_url)
               }
             end
           }

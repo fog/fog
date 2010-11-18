@@ -90,7 +90,7 @@ Shindo.tests('AWS::Storage | bucket requests', ['aws']) do
       AWS[:storage].get_bucket_location('fognonbucket')
     end
 
-    tests("#gett_request_payment('fognonbucket')").raises(Excon::Errors::NotFound) do
+    tests("#get_request_payment('fognonbucket')").raises(Excon::Errors::NotFound) do
       AWS[:storage].get_request_payment('fognonbucket')
     end
 

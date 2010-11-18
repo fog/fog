@@ -13,25 +13,21 @@ module Fog
 
         class Mock
 
-          def get_network_ip(ip_uri)
-            response = Excon::Response.new
-            ip_id = ip_uri.split("/").last
-            if network = mock_data[:organizations].map { |org| org[:vdcs].map { |vdc| vdc[:networks] } }.flatten.detect { |network| IPAddr.new(network[:subnet]).to_range.map { |ip| ip.to_s.gsub('.','') }.include?(ip_id) }
-              ip = IPAddr.new(network[:subnet]).to_range.detect { |ip| ip.to_s.gsub('.','') == ip_id }
-              xml = Builder::XmlMarkup.new
-              mock_it 200,
-                xml.IpAddress(ecloud_xmlns) {
-                  xml.Id( ip_id )
-                  xml.Href( ip_uri.to_s )
-                  xml.Name( ip.to_s )
-                  if network[:ips].has_key?(ip.to_s)
-                    xml.Status( "Assigned" )
-                    xml.Server( network[:ips][ip.to_s] )
-                  else
-                    xml.Status( "Available" )
-                  end
-                },
-                { 'Content-Type' => 'application/vnd.tmrk.ecloud.ip+xml' }
+          def get_network_ip(network_ip_uri)
+            if network_ip = mock_data.network_ip_from_href(network_ip_uri)
+              builder = Builder::XmlMarkup.new
+              xml = builder.IpAddress(ecloud_xmlns) do
+                builder.Id network_ip.object_id
+                builder.Href network_ip.href
+                builder.Name network_ip.name
+
+                builder.Status network_ip.status
+                if network_ip.used_by
+                  builder.Server network_ip.used_by
+                end
+              end
+
+              mock_it 200, xml, { 'Content-Type' => 'application/vnd.tmrk.ecloud.ip+xml' }
             else
               mock_error 200, "401 Unauthorized"
             end

@@ -8,7 +8,7 @@ if Fog.mocking?
 
     describe "#get_public_ips" do
       context "with a valid public_ips_uri" do
-        before { @public_ips = @vcloud.get_public_ips(URI.parse(@mock_vdc[:href] + "/publicIps")) }
+        before { @public_ips = @vcloud.get_public_ips(@mock_public_ip_collection.href) }
         subject { @public_ips }
 
         it_should_behave_like "all responses"
@@ -22,16 +22,16 @@ if Fog.mocking?
           describe "[:PublicIPAddress]" do
             subject { @public_ips.body[:PublicIPAddress] }
 
-            it { should have(@mock_vdc[:public_ips].length).addresses }
+            it { should have(@mock_public_ip_collection.items.length).addresses }
 
             [0,1,2].each do |idx|
 
               context "[#{idx}]" do
                 subject { @public_ips.body[:PublicIPAddress][idx] }
-                let(:public_ip) { @mock_vdc[:public_ips][idx] }
-                its(:Href) { should == public_ip[:href] }
-                its(:Id) { should == public_ip[:id] }
-                its(:Name) { should == public_ip[:name] }
+                let(:public_ip) { @mock_public_ip_collection.items[idx] }
+                its(:Href) { should == public_ip.href }
+                its(:Id) { should == public_ip.object_id.to_s }
+                its(:Name) { should == public_ip.name }
               end
 
             end

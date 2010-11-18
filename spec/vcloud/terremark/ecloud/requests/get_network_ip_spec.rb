@@ -9,10 +9,7 @@ if Fog.mocking?
     describe "#get_network_ip" do
       context "with a valid ip_uri" do
         before do
-          @mock_network = @mock_vdc[:networks][0]
-          @mock_ip = @mock_network[:ips].keys.first
-          @mock_ip_href = "#{Fog::Vcloud::Terremark::Ecloud::Mock.extension_url}/ip/#{@mock_ip.gsub('.','')}"
-          @ip = @vcloud.get_network_ip( @mock_ip_href )
+          @ip = @vcloud.get_network_ip(@mock_network_ip.href)
         end
 
         subject { @ip }
@@ -23,9 +20,9 @@ if Fog.mocking?
         describe "#body" do
           subject { @ip.body }
 
-          its(:Name) { should == @mock_ip }
-          its(:Href) { should == @mock_ip_href }
-          its(:Id)   { should == @mock_ip.gsub('.','') }
+          its(:Name) { should == @mock_network_ip.name }
+          its(:Href) { should == @mock_network_ip.href }
+          its(:Id)   { should == @mock_network_ip.object_id.to_s }
 
         end
       end

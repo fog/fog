@@ -8,7 +8,7 @@ if Fog.mocking?
 
     describe :get_network, :type => :vcloud_request do
       context "with a valid network uri" do
-        before { @network = @vcloud.get_network(URI.parse(@mock_network[:href])) }
+        before { @network = @vcloud.get_network(URI.parse(@mock_network.href)) }
         subject { @network }
 
         it_should_behave_like "all responses"
@@ -21,13 +21,13 @@ if Fog.mocking?
 
           it_should_behave_like "it has the standard vcloud v0.8 xmlns attributes"   # 3 keys
           it { should have_key_with_value :type, "application/vnd.vmware.vcloud.network+xml" }
-          it { should have_key_with_value :Features, "" }
-          it { should have_key_with_value :Description, @mock_network[:name] }
-          it { should have_key_with_value :href, @mock_network[:href] }
-          it { should have_key_with_value :name, @mock_network[:name] }
-          it { should have_key_with_value :Configuration, {:Gateway => @mock_network[:gateway],
-                                                           :Netmask => @mock_network[:netmask],
-                                                           :Dns => @mock_network[:dns] } }
+          it { should have_key_with_value :Features, {:FenceMode => "isolated"} }
+          it { should have_key_with_value :Description, @mock_network.name }
+          it { should have_key_with_value :href, @mock_network.href }
+          it { should have_key_with_value :name, @mock_network.name }
+          it { should have_key_with_value :Configuration, {:Gateway => @mock_network.gateway,
+                                                           :Netmask => @mock_network.netmask,
+                                                           :Dns => @mock_network.dns } }
         end
       end
       context "with a network uri that doesn't exist" do

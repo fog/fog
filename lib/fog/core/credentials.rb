@@ -15,7 +15,6 @@ module Fog
       ENV["FOG_RC"] || '~/.fog'
     end
 
-    remove_method :credentials
     def credentials
       @credentials ||= begin
         path = File.expand_path(config_path)
@@ -35,6 +34,8 @@ module Fog
   :aws_secret_access_key: INTENTIONALLY_LEFT_BLANK
   :bluebox_api_key:       INTENTIONALLY_LEFT_BLANK
   :bluebox_customer_id:   INTENTIONALLY_LEFT_BLANK
+  :brightbox_client_id:   INTENTIONALLY_LEFT_BLANK
+  :brightbox_secret:      INTENTIONALLY_LEFT_BLANK
   :go_grid_api_key:       INTENTIONALLY_LEFT_BLANK
   :go_grid_shared_secret: INTENTIONALLY_LEFT_BLANK
   :local_root:            INTENTIONALLY_LEFT_BLANK

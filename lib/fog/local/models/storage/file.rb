@@ -31,6 +31,10 @@ module Fog
           true
         end
 
+        def public_url
+          nil
+        end
+
         def save(options = {})
           requires :body, :directory, :key
           file = ::File.new(path, 'w')

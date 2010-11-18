@@ -21,13 +21,14 @@ Shindo.tests('AWS::Compute | volume requests', ['aws']) do
 
   @volumes_format = {
     'volumeSet' => [{
-      'availabilityZone'    => String,
-      'attachmentSet'       => [],
-      'createTime'          => Time,
-      'size'                => Integer,
-      'snapshotId'          => NilClass,
-      'status'              => String,
-      'volumeId'            => String
+      'availabilityZone'  => String,
+      'attachmentSet'     => [],
+      'createTime'        => Time,
+      'size'              => Integer,
+      'snapshotId'        => NilClass,
+      'status'            => String,
+      'tagSet'            => {},
+      'volumeId'          => String
     }],
     'requestId' => String
   }

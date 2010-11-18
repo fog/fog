@@ -12,7 +12,7 @@ if Fog.mocking?
 
     describe :get_vdc, :type => :vcloud_request do
       context "with a valid vdc uri" do
-        before { @vdc = @vcloud.get_vdc(URI.parse(@mock_vdc[:href])) }
+        before { @vdc = @vcloud.get_vdc(URI.parse(@mock_vdc.href)) }
         subject { @vdc }
 
         it_should_behave_like "all responses"
@@ -25,10 +25,10 @@ if Fog.mocking?
 
           it_should_behave_like "it has the standard vcloud v0.8 xmlns attributes"   # 3 keys
 
-          its(:name)            { should == @mock_vdc[:name] }
-          its(:href)            { should == @mock_vdc[:href] }
+          its(:name)            { should == @mock_vdc.name }
+          its(:href)            { should == @mock_vdc.href }
           its(:VmQuota)         { should == "0" }
-          its(:Description)     { should == @mock_vdc[:name] + " VDC" }
+          its(:Description)     { should == @mock_vdc.name + " VDC" }
           its(:NicQuota)        { should == "0" }
           its(:IsEnabled)       { should == "true" }
           its(:NetworkQuota)    { should == "0" }
@@ -40,10 +40,10 @@ if Fog.mocking?
           specify { resource_entities.should have(3).vapps  }
           #FIXME: test for the resources
 
-          its(:ComputeCapacity) { should == {:Memory => { :Units => "MB", :Allocated => @mock_vdc[:memory][:allocated], :Limit => @mock_vdc[:memory][:allocated] },
-                                             :Cpu => { :Units => "Mhz", :Allocated => @mock_vdc[:cpu][:allocated], :Limit => @mock_vdc[:cpu][:allocated] } } }
+          its(:ComputeCapacity) { should == {:Memory => { :Units => "MB", :Allocated => @mock_vdc.memory_allocated.to_s, :Limit => @mock_vdc.memory_allocated.to_s },
+                                             :Cpu => { :Units => "Mhz", :Allocated => @mock_vdc.cpu_allocated.to_s, :Limit => @mock_vdc.cpu_allocated.to_s } } }
 
-          its(:StorageCapacity) { should == {:Units => "MB", :Allocated => @mock_vdc[:storage][:allocated], :Limit => @mock_vdc[:storage][:allocated] } }
+          its(:StorageCapacity) { should == {:Units => "MB", :Allocated => @mock_vdc.storage_allocated.to_s, :Limit => @mock_vdc.storage_allocated.to_s } }
 
           let(:available_networks) { subject[:AvailableNetworks][:Network] }
           specify { available_networks.should have(2).networks }

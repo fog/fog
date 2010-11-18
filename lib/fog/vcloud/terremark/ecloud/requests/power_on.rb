@@ -9,10 +9,8 @@ module Fog
 
         class Mock
           def power_on(vapp_uri)
-            vapp, vdc = vapp_and_vdc_from_vapp_uri(vapp_uri)
-
-            if vapp
-              vapp[:status] = 4
+            if vapp = mock_data.virtual_machine_from_href(vapp_uri)
+              vapp.power_on!
 
               builder = Builder::XmlMarkup.new
               mock_it 200, builder.Task(xmlns)

@@ -2,7 +2,8 @@ module Fog
   module AWS
     class Compute < Fog::Service
 
-      requires :aws_access_key_id, :aws_secret_access_key
+      requires   :aws_access_key_id, :aws_secret_access_key
+      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent
 
       model_path 'fog/aws/models/compute'
       model       :address
@@ -192,7 +193,7 @@ module Fog
         end
 
         private
-
+        
         def request(params)
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)

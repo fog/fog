@@ -19,7 +19,7 @@ module Fog
               @group = {}
             when 'IsTruncated'
               response[name] = (@value == 'true')
-            when 'RequestId'
+            when 'Marker', 'RequestId'
               response[name] = @value
             end
           end

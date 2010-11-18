@@ -8,8 +8,18 @@ module Fog
         # create a new distribution in CloudFront
         #
         # ==== Parameters
-        # * origin<~String> - s3 bucket, ie 'mybucket.s3.amazonaws.com'
-        # * config<~Hash> - config for distribution.  Defaults to {}.
+        # * options<~Hash> - config for distribution.  Defaults to {}.
+        #   REQUIRED:
+        #   * 'S3Origin'<~Hash>:
+        #     * 'DNSName'<~String> - origin to associate with distribution, ie 'mybucket.s3.amazonaws.com'
+        #     * 'OriginAccessIdentity'<~String> - Optional: Used when serving private content
+        #   or
+        #   * 'CustomOrigin'<~Hash>:
+        #     * 'DNSName'<~String> - origin to associate with distribution, ie 'www.example.com'
+        #     * 'HTTPPort'<~Integer> - HTTP port of origin, in [80, 443] or (1024...65535)
+        #     * 'HTTPSPort'<~Integer> - HTTPS port of origin, in [80, 443] or (1024...65535)
+        #     * 'OriginProtocolPolicy'<~String> - Policy on using http vs https, in ['http-only', 'match-viewer']
+        #   OPTIONAL:
         #   * 'CallerReference'<~String> - Used to prevent replay, defaults to Time.now.to_i.to_s
         #   * 'Comment'<~String> - Optional comment about distribution
         #   * 'CNAME'<~Array> - Optional array of strings to set as CNAMEs
@@ -43,7 +53,8 @@ module Fog
         # ==== See Also
         # http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/CreateDistribution.html
 
-        def post_distribution(origin, options = {})
+        def post_distribution(options = {})
+          options['CallerReference'] = Time.now.to_i.to_s
           data = '<?xml version="1.0" encoding="UTF-8"?>'
           data << "<DistributionConfig xmlns=\"http://cloudfront.amazonaws.com/doc/#{@version}/\">"
           for key, value in options
@@ -78,7 +89,7 @@ module Fog
 
       class Mock # :nodoc:all
 
-        def post_distribution(origin, options = {})
+        def post_distribution(options = {})
           Fog::Mock.not_implemented
         end
 

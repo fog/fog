@@ -9,6 +9,8 @@ module Fog
 
           model Fog::Vcloud::Terremark::Ecloud::Vdc
 
+          undef_method :create
+
           def all
             data = connection.get_organization(organization_uri).body[:Link].select { |link| link[:type] == "application/vnd.vmware.vcloud.vdc+xml" }
             data.each { |link| link.delete_if { |key, value| [:rel].include?(key) } }

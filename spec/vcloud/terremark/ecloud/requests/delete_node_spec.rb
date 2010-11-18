@@ -9,16 +9,12 @@ if Fog.mocking?
 
     describe "#delete_node" do
       context "with a valid node service uri" do
-        subject { @vcloud.delete_node(@mock_node[:href]) }
+        subject { @vcloud.delete_node(@mock_node.href) }
 
-        #it_should_behave_like "all delete responses"
-
-        let(:internet_service) { @vcloud.vdcs.first.public_ips.first.internet_services.first }
+        it_should_behave_like "all delete responses"
 
         it "should change the count by -1" do
-          internet_service.nodes.length.should == 2
-          subject
-          internet_service.nodes.reload.length.should == 1
+          expect { subject }.to change { @vcloud.get_nodes(@mock_node_collection.href).body[:NodeService].length }.by(-1)
         end
       end
 

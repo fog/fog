@@ -1,6 +1,28 @@
 require File.join(File.dirname(__FILE__), '..', '..', '..', 'spec_helper')
 
 if Fog.mocking?
+  shared_examples_for "the expected internet service item" do
+    specify { service.should be_an_instance_of Hash }
+    specify { service.should have(11).attributes }
+    specify { service[:Name].should == mock_service.name }
+    specify { service[:Id].should == mock_service.object_id.to_s }
+    specify { service[:Href].should == mock_service.href }
+
+    specify { service[:PublicIpAddress].should be_an_instance_of Hash }
+    specify { service[:PublicIpAddress].should have(3).attributes }
+    specify { service[:PublicIpAddress][:Name].should == mock_ip.name }
+    specify { service[:PublicIpAddress][:Href].should == mock_ip.href }
+    specify { service[:PublicIpAddress][:Id].should == mock_ip.object_id.to_s }
+
+    specify { service[:Port].should == mock_service.port.to_s }
+    specify { service[:Protocol].should == mock_service.protocol }
+    specify { service[:Enabled].should == mock_service.enabled.to_s }
+    specify { service[:Timeout].should == mock_service.timeout.to_s }
+    specify { service[:Description].should == mock_service.description }
+    specify { service[:RedirectURL].should == (mock_service.redirect_url || "") }
+    specify { service[:Monitor].should == "" }
+  end
+
   describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do
     subject { @vcloud }
 
@@ -8,7 +30,7 @@ if Fog.mocking?
 
     describe "#get_internet_services" do
       context "with a valid VDC internet_services_uri" do
-        before { @services = @vcloud.get_internet_services( @mock_vdc[:href] + "/internetServices" ) }
+        before { @services = @vcloud.get_internet_services(@mock_vdc_service_collection.href) }
         subject { @services }
 
         it_should_behave_like "all responses"
@@ -29,26 +51,10 @@ if Fog.mocking?
 
             [0,1,2,3].each do |idx|
               let(:service) { subject[idx] }
-              let(:mock_service) { @mock_vdc[:public_ips].map { |ip| ip[:services] }.flatten[idx] }
-              let(:mock_ip) { @mock_vdc[:public_ips].detect { |ip| ip[:services].detect { |ipservice| ipservice[:id] == service[:Id] } } }
-              specify { service.should be_an_instance_of Hash }
-              specify { service.should have(11).attributes }
-              specify { service[:Name].should == mock_service[:name] }
-              specify { service[:Id].should == mock_service[:id] }
-              specify { service[:Href].should == Fog::Vcloud::Terremark::Ecloud::Mock.internet_service_href(mock_service) }
+              let(:mock_service) { @mock_vdc.public_ip_collection.items.map {|ip| ip.internet_service_collection.items }.flatten[idx] }
+              let(:mock_ip) { mock_service._parent._parent }
 
-              specify { service[:PublicIpAddress].should be_an_instance_of Hash }
-              specify { service[:PublicIpAddress].should have(3).attributes }
-              specify { service[:PublicIpAddress][:Name].should == mock_ip[:name] }
-              specify { service[:PublicIpAddress][:Id].should == mock_ip[:id] }
-
-              specify { service[:Port].should == mock_service[:port] }
-              specify { service[:Protocol].should == mock_service[:protocol] }
-              specify { service[:Enabled].should == mock_service[:enabled] }
-              specify { service[:Timeout].should == mock_service[:timeout] }
-              specify { service[:Description].should == mock_service[:description] }
-              specify { service[:RedirectURL].should == mock_service[:redirect_url] }
-              specify { service[:Monitor].should == "" }
+              it_should_behave_like "the expected internet service item"
             end
           end
         end
@@ -56,8 +62,7 @@ if Fog.mocking?
 
       context "with a valid Public IP uri" do
         before do
-          @mock_public_ip = @mock_vdc[:public_ips].first
-          @services = @vcloud.get_internet_services( @mock_public_ip[:href] + "/internetServices" ) 
+          @services = @vcloud.get_internet_services(@mock_service_collection.href)
         end
         subject { @services }
 
@@ -79,26 +84,10 @@ if Fog.mocking?
 
             [0,1].each do |idx|
               let(:service) { subject[idx] }
-              let(:mock_service) { @mock_public_ip[:services][idx] }
+              let(:mock_service) { @mock_service_collection.items[idx] }
               let(:mock_ip) { @mock_public_ip }
-              specify { service.should be_an_instance_of Hash }
-              specify { service.should have(11).attributes }
-              specify { service[:Name].should == mock_service[:name] }
-              specify { service[:Id].should == mock_service[:id] }
-              specify { service[:Href].should == Fog::Vcloud::Terremark::Ecloud::Mock.internet_service_href(mock_service) }
 
-              specify { service[:PublicIpAddress].should be_an_instance_of Hash }
-              specify { service[:PublicIpAddress].should have(3).attributes }
-              specify { service[:PublicIpAddress][:Name].should == mock_ip[:name] }
-              specify { service[:PublicIpAddress][:Id].should == mock_ip[:id] }
-
-              specify { service[:Port].should == mock_service[:port] }
-              specify { service[:Protocol].should == mock_service[:protocol] }
-              specify { service[:Enabled].should == mock_service[:enabled] }
-              specify { service[:Timeout].should == mock_service[:timeout] }
-              specify { service[:Description].should == mock_service[:description] }
-              specify { service[:RedirectURL].should == mock_service[:redirect_url] }
-              specify { service[:Monitor].should == "" }
+              it_should_behave_like "the expected internet service item"
             end
           end
         end

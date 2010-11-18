@@ -8,14 +8,15 @@ module Fog
         # ==== Parameters
         # * bucket_name<~String> - Name of bucket to create object in
         # * object_name<~String> - Name of object to create
-        # * data<~File> - File or String to create object from
+        # * data<~File||String> - File or String to create object from
         # * options<~Hash>:
         #   * 'Cache-Control'<~String> - Caching behaviour
         #   * 'Content-Disposition'<~String> - Presentational information for the object
         #   * 'Content-Encoding'<~String> - Encoding of object data
         #   * 'Content-Length'<~String> - Size of object in bytes (defaults to object.read.length)
-        #   * 'Content-MD5'<~String> - Base64 encoded 128-bit MD5 digest of message (defaults to Base64 encoded MD5 of object.read)
+        #   * 'Content-MD5'<~String> - Base64 encoded 128-bit MD5 digest of message
         #   * 'Content-Type'<~String> - Standard MIME type describing contents (defaults to MIME::Types.of.first)
+        #   * 'Expires'<~String> - Cache expiry
         #   * 'x-amz-acl'<~String> - Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
         #   * "x-amz-meta-#{name}" - Headers to be returned with object, note total size of request without body must be less than 8 KB.
         #
@@ -26,7 +27,7 @@ module Fog
         #
         # ==== See Also
         # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectPUT.html
-
+        #
         def put_object(bucket_name, object_name, data, options = {})
           data = parse_data(data)
           headers = data[:headers].merge!(options)
@@ -53,15 +54,22 @@ module Fog
           response = Excon::Response.new
           if (bucket = @data[:buckets][bucket_name])
             response.status = 200
-            bucket[:objects][object_name] = {
+            object = {
               :body           => data[:body],
+              'Content-Type'  => data[:headers]['Content-Type'],
               'ETag'          => Fog::AWS::Mock.etag,
               'Key'           => object_name,
               'LastModified'  => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000"),
               'Size'          => data[:headers]['Content-Length'],
               'StorageClass'  => 'STANDARD'
             }
-            bucket[:objects][object_name]['Content-Type'] = data[:headers]['Content-Type']
+            bucket[:objects][object_name] = object
+            response.headers = {
+              'Content-Length'  => object['Size'],
+              'Content-Type'    => object['Content-Type'],
+              'ETag'            => object['ETag'],
+              'Last-Modified'   => object['LastModified']
+            }
           else
             response.status = 404
             raise(Excon::Errors.status_error({:expects => 200}, response))

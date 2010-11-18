@@ -17,7 +17,7 @@ module Fog
   @mocking = false
 
   unless const_defined?(:VERSION)
-    VERSION = '0.3.13'
+    VERSION = '0.3.21'
   end
 
   module Mock
@@ -45,10 +45,6 @@ module Fog
     @bin = new_bin
   end
 
-  def self.credentials
-    {}
-  end
-
   def self.mock!
     @mocking = true
   end
@@ -70,11 +66,12 @@ module Fog
       { :duration => duration }
     end
   end
-
+  
 end
 
 require 'fog/aws'
 require 'fog/bluebox'
+require 'fog/brightbox'
 require 'fog/go_grid'
 require 'fog/linode'
 require 'fog/local'

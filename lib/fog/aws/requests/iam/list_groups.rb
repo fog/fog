@@ -23,19 +23,24 @@ module Fog
         #         * GroupName<~String> -
         #         * Path<~String> -
         #     * 'IsTruncated<~Boolean> - Whether or not results were truncated
+        #     * 'Marker'<~String> - appears when IsTruncated is true as the next marker to use
         #     * 'RequestId'<~String> - Id of the request
-        def list_groups
-          request(
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_ListGroups.html
+        #
+        def list_groups(options = {})
+          request({
             'Action'  => 'ListGroups',
             :parser   => Fog::Parsers::AWS::IAM::ListGroups.new
-          )
+          }.merge!(options))
         end
 
       end
 
       class Mock
 
-        def list_groups
+        def list_groups(options = {})
           Fog::Mock.not_implemented
         end
 

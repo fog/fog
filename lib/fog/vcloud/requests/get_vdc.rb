@@ -12,59 +12,59 @@ module Fog
 
       def get_vdc(vdc_uri)
         vdc_uri = ensure_unparsed(vdc_uri)
-        if vdc = mock_data[:organizations].map { |org| org[:vdcs] }.flatten.detect { |vdc| vdc[:href] == vdc_uri }
+        if vdc = mock_data.organizations.map { |org| org.vdcs }.flatten.detect { |vdc| vdc.href == vdc_uri }
           xml = Builder::XmlMarkup.new
           mock_it 200,
-            xml.Vdc(xmlns.merge(:href => vdc[:href], :name => vdc[:name])) {
+            xml.Vdc(xmlns.merge(:href => vdc.href, :name => vdc.name)) {
               xml.Link(:rel => "up",
-                       :href => Fog::Vcloud::Mock.data[:organizations].detect { |org| org[:vdcs].detect { |_vdc| vdc[:href] == _vdc[:href] }[:href] == vdc[:href] }[:info][:href],
+                       :href => mock_data.organizations.detect { |org| org.vdcs.detect { |_vdc| vdc.href == _vdc.href }.href == vdc.href }.href,
                        :type => "application/vnd.vmware.vcloud.org+xml")
               xml.Link(:rel => "add",
-                       :href => vdc[:href] + "/action/uploadVAppTemplate",
+                       :href => vdc.href + "/action/uploadVAppTemplate",
                        :type => "application/vnd.vmware.vcloud.uploadVAppTemplateParams+xml")
               xml.Link(:rel => "add",
-                       :href => vdc[:href] + "/media",
+                       :href => vdc.href + "/media",
                        :type => "application/vnd.vmware.vcloud.media+xml")
               xml.Link(:rel => "add",
-                       :href => vdc[:href] + "/action/instantiateVAppTemplate",
+                       :href => vdc.href + "/action/instantiateVAppTemplate",
                        :type => "application/vnd.vmware.vcloud.instantiateVAppTemplateParams+xml")
               xml.Link(:rel => "add",
                        :type => "application/vnd.vmware.vcloud.cloneVAppParams+xml",
-                       :href => vdc[:href] + "/action/cloneVApp")
+                       :href => vdc.href + "/action/cloneVApp")
               xml.Link(:rel => "add",
                        :type => "application/vnd.vmware.vcloud.captureVAppParams+xml",
-                       :href => vdc[:href] + "/action/captureVApp")
+                       :href => vdc.href + "/action/captureVApp")
               xml.Link(:rel => "add",
                        :type => "application/vnd.vmware.vcloud.composeVAppParams+xml",
-                       :href => vdc[:href] + "/action/composeVApp")
+                       :href => vdc.href + "/action/composeVApp")
               xml.AllocationModel("AllocationPool")
               xml.Description(vdc[:name] + " VDC")
               xml.ResourceEntities {
-                Fog::Vcloud::Mock.data[:vdc_resources].each do |resource|
+                mock_data.organizations.first.vdcs.first.virtual_machines.each do |resource|
                   xml.ResourceEntity(resource)
                 end
               }
               xml.AvailableNetworks {
-                vdc[:networks].each do |network|
-                  xml.Network( :name => network[:name], :href => network[:href], :type => "application/vnd.vmware.vcloud.network+xml" )
+                vdc.networks.each do |network|
+                  xml.Network( :name => network.name, :href => network.href, :type => "application/vnd.vmware.vcloud.network+xml" )
                 end
               }
               xml.ComputeCapacity{
                 xml.Cpu {
                   xml.Units("Mhz")
-                  xml.Allocated(vdc[:cpu][:allocated])
-                  xml.Limit(vdc[:cpu][:allocated])
+                  xml.Allocated(vdc.cpu_allocated)
+                  xml.Limit(vdc.cpu_allocated)
                 }
                 xml.Memory {
                   xml.Units("MB")
-                  xml.Allocated(vdc[:memory][:allocated])
-                  xml.Limit(vdc[:memory][:allocated])
+                  xml.Allocated(vdc.memory_allocated)
+                  xml.Limit(vdc.memory_allocated)
                 }
               }
               xml.StorageCapacity{
                 xml.Units("MB")
-                xml.Allocated(vdc[:storage][:allocated])
-                xml.Limit(vdc[:storage][:allocated])
+                xml.Allocated(vdc.storage_allocated)
+                xml.Limit(vdc.storage_allocated)
               }
               xml.VmQuota(0)
               xml.NicQuota(0)

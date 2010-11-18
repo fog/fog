@@ -19,7 +19,7 @@ module Fog
         #
         # ==== See Also
         # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTServiceGET.html
-
+        #
         def get_service
           request({
             :expects  => 200,

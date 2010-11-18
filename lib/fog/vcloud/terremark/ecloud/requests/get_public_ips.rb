@@ -8,22 +8,23 @@ module Fog
         end
 
         class Mock
+          #
+          # Based off of:
+          # http://support.theenterprisecloud.com/kb/default.asp?id=577&Lang=1&SID=
+          #
 
-          #
-          #Based off of:
-          #http://support.theenterprisecloud.com/kb/default.asp?id=577&Lang=1&SID=
-          #
           def get_public_ips(public_ips_uri)
             public_ips_uri = ensure_unparsed(public_ips_uri)
-            if vdc = mock_data[:organizations].map { |org| org[:vdcs] }.flatten.detect { |vdc| vdc[:href].split('/').last == public_ips_uri.split('/')[-2] }
+
+            if public_ip_collection = mock_data.public_ip_collection_from_href(public_ips_uri)
               xml = Builder::XmlMarkup.new
               mock_it 200,
                 xml.PublicIPAddresses {
-                  vdc[:public_ips].each do |ip|
+                  public_ip_collection.items.each do |ip|
                     xml.PublicIPAddress {
-                      xml.Id(ip[:id])
-                      xml.Href(ip[:href])
-                      xml.Name(ip[:name])
+                      xml.Id ip.object_id
+                      xml.Href ip.href
+                      xml.Name ip.name
                     }
                   end
                 }, { 'Content-Type' => 'application/vnd.tmrk.ecloud.publicIpsList+xml'}

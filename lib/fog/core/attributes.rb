@@ -51,7 +51,7 @@ module Fog
         when :time
           class_eval <<-EOS, __FILE__, __LINE__
             def #{name}=(new_#{name})
-              if new_#{name}.nil? || new_#{name}.is_a?(Time)
+              if new_#{name}.nil? || new_#{name} == "" || new_#{name}.is_a?(Time)
                 @#{name} = new_#{name}
               else
                 @#{name} = Time.parse(new_#{name})
@@ -73,8 +73,8 @@ module Fog
             class_eval <<-EOS, __FILE__, __LINE__
               def #{name}=(new_data)
                 if new_data.is_a?(Hash)
-                  if new_data[:#{squash}]
-                    @#{name} = new_data[:#{squash}]
+                  if new_data[:#{squash}] || new_data["#{squash}"]
+                    @#{name} = new_data[:#{squash}] || new_data["#{squash}"]
                   else
                     @#{name} = [ new_data ]
                   end
@@ -139,8 +139,10 @@ module Fog
         for key, value in new_attributes
           unless self.class.ignored_attributes.include?(key)
             if aliased_key = self.class.aliases[key]
+              attributes[aliased_key] = value
               send("#{aliased_key}=", value)
-            elsif (methods | private_methods ).include?("#{key}=")
+            elsif (public_methods | private_methods).detect {|method| ["#{key}=", :"#{key}="].include?(method)}
+              attributes[key] = value
               send("#{key}=", value)
             else
               attributes[key] = value

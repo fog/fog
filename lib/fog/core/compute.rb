@@ -1,14 +1,17 @@
 module Fog
-  class Storage
+  class Compute
 
     def self.new(attributes)
-      case attributes.delete(:provider)
+      case provider = attributes.delete(:provider)
       when 'AWS'
         require 'fog/aws'
         Fog::AWS::Compute.new(attributes)
       when 'Bluebox'
         require 'fog/bluebox'
         Fog::Bluebox::Compute.new(attributes)
+      when 'Brightbox'
+        require 'fog/brightbox'
+        Fog::Brightbox::Compute.new(attributes)
       when 'GoGrid'
         require 'fog/go_grid'
         Fog::GoGrid::Compute.new(attributes)
@@ -25,7 +28,7 @@ module Fog
         require 'fog/slicehost'
         Fog::Slicehost::Compute.new(attributes)
       else
-        raise ArgumentError.new("#{provider} is not a recognized storage provider")
+        raise ArgumentError.new("#{provider} is not a recognized compute provider")
       end
     end
 

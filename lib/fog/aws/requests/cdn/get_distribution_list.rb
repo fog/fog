@@ -21,9 +21,17 @@ module Fog
         #     * 'MaxItems'<~Integer> - Maximum number of keys specified for query
         #     * 'NextMarker'<~String> - Marker to specify for next page (id of last result of current page)
         #     * 'DistributionSummary'<~Array>:
+        #       * 'S3Origin'<~Hash>:
+        #         * 'DNSName'<~String> - origin to associate with distribution, ie 'mybucket.s3.amazonaws.com'
+        #         * 'OriginAccessIdentity'<~String> - Optional: Used when serving private content
+        #       or
+        #       * 'CustomOrigin'<~Hash>:
+        #         * 'DNSName'<~String> - origin to associate with distribution, ie 'www.example.com'
+        #         * 'HTTPPort'<~Integer> - HTTP port of origin, in [80, 443] or (1024...65535)
+        #         * 'HTTPSPort'<~Integer> - HTTPS port of origin, in [80, 443] or (1024...65535)
+        #       * 'OriginProtocolPolicy'<~String> - Policy on using http vs https, in ['http-only', 'match-viewer']
         #       * 'Comment'<~String> - comment associated with distribution
         #       * 'CNAME'<~Array> - array of associated cnames
-        #       * 'DomainName'<~String> - Domain name of distribution
         #       * 'Enabled'<~Boolean> - whether or not distribution is enabled
         #       * 'Id'<~String> - Id of distribution
         #       * 'LastModifiedTime'<~String> - Timestamp of last modification of distribution
