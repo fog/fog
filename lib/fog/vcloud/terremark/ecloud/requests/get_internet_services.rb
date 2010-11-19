@@ -44,11 +44,15 @@ module Fog
                   xml.Id service.object_id
                   xml.Href service.href
                   xml.Name service.name
-                  xml.PublicIpAddress {
-                    xml.Id service._parent._parent.object_id
-                    xml.Href service._parent._parent.href
-                    xml.Name service._parent._parent.name
-                  }
+                  if MockDataClasses::MockBackupInternetService === service
+                    xml.PublicIpAddress "i:nil" => true
+                  else
+                    xml.PublicIpAddress {
+                      xml.Id service._parent._parent.object_id
+                      xml.Href service._parent._parent.href
+                      xml.Name service._parent._parent.name
+                    }
+                  end
                   xml.Port service.port
                   xml.Protocol service.protocol
                   xml.Enabled service.enabled
@@ -56,6 +60,9 @@ module Fog
                   xml.Description service.description
                   xml.RedirectURL service.redirect_url
                   xml.Monitor
+                  xml.IsBackupService MockDataClasses::MockBackupInternetService === service
+                  xml.BackupService "i:nil" => true
+                  xml.BackupOf
                 }
               end
             }

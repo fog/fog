@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), '..', '..', '..', 'spec_helper')
 if Fog.mocking?
   shared_examples_for "the expected internet service item" do
     specify { service.should be_an_instance_of Hash }
-    specify { service.should have(11).attributes }
+    specify { service.should have(14).attributes }
     specify { service[:Name].should == mock_service.name }
     specify { service[:Id].should == mock_service.object_id.to_s }
     specify { service[:Href].should == mock_service.href }
@@ -21,6 +21,30 @@ if Fog.mocking?
     specify { service[:Description].should == mock_service.description }
     specify { service[:RedirectURL].should == (mock_service.redirect_url || "") }
     specify { service[:Monitor].should == "" }
+    specify { service[:IsBackupService].should == "false" }
+    specify { service[:BackupService].should be_nil }
+    specify { service[:BackupOf].should == "" }
+  end
+
+  shared_examples_for "the expected backup internet service item" do
+    specify { service.should be_an_instance_of Hash }
+    specify { service.should have(14).attributes }
+    specify { service[:Name].should == mock_service.name }
+    specify { service[:Id].should == mock_service.object_id.to_s }
+    specify { service[:Href].should == mock_service.href }
+
+    specify { service[:PublicIpAddress].should be_nil }
+
+    specify { service[:Port].should == mock_service.port.to_s }
+    specify { service[:Protocol].should == mock_service.protocol }
+    specify { service[:Enabled].should == mock_service.enabled.to_s }
+    specify { service[:Timeout].should == mock_service.timeout.to_s }
+    specify { service[:Description].should == mock_service.description }
+    specify { service[:RedirectURL].should == (mock_service.redirect_url || "") }
+    specify { service[:Monitor].should == "" }
+    specify { service[:IsBackupService].should == "true" }
+    specify { service[:BackupService].should be_nil }
+    specify { service[:BackupOf].should == "" }
   end
 
   describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do
@@ -44,14 +68,21 @@ if Fog.mocking?
           context "[:InternetService]" do
             subject { @services.body[:InternetService] }
 
-            it { should have(4).items }
+            it { should have(5).items }
 
             [0,1,2,3].each do |idx|
               let(:service) { subject[idx] }
-              let(:mock_service) { @mock_vdc.public_ip_collection.items.map {|ip| ip.internet_service_collection.items }.flatten[idx] }
+              let(:mock_service) { @mock_vdc.internet_service_collection.items[idx] }
               let(:mock_ip) { mock_service._parent._parent }
 
               it_should_behave_like "the expected internet service item"
+            end
+
+            context "for a backup internet service" do
+              let(:service) { subject[4] }
+              let(:mock_service) { @mock_vdc.internet_service_collection.backup_internet_services.first }
+
+              it_should_behave_like "the expected backup internet service item"
             end
           end
         end

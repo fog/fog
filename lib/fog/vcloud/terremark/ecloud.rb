@@ -131,6 +131,8 @@ module Fog
                   end
 
                   mock_vdc.public_ip_collection.items << MockPublicIp.new(:name => "99.1.9.7")
+
+                  mock_vdc.internet_service_collection.backup_internet_services << MockBackupInternetService.new({ :port => 10000, :protocol => "TCP"}, self)
                 end
 
                 mock_organization.vdcs.detect {|v| v.name == "Rock-n-Roll" }.tap do |mock_vdc|
@@ -155,8 +157,7 @@ module Fog
           def ecloud_xmlns
             {
               "xmlns"     => "urn:tmrk:eCloudExtensions-2.5",
-              "xmlns:i"   => "http://www.w3.org/2001/XMLSchema-instance",
-              # "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema"
+              "xmlns:i"   => "http://www.w3.org/2001/XMLSchema-instance"
             }
           end
 

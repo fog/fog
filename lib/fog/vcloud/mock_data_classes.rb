@@ -586,9 +586,47 @@ module Fog
         end
 
         def items
+          public_ip_internet_services + backup_internet_services
+        end
+
+        def public_ip_internet_services
           _parent.public_ip_collection.items.inject([]) do |services, public_ip|
             services + public_ip.internet_service_collection.items
           end
+        end
+
+        def backup_internet_services
+          @backup_internet_services ||= []
+        end
+      end
+
+      class MockBackupInternetService < Base
+        def name
+          self[:name] || "Backup Internet Service #{object_id}"
+        end
+
+        def protocol
+          self[:protocol]
+        end
+
+        def port
+          0
+        end
+
+        def enabled
+          self[:enabled].to_s.downcase != "false"
+        end
+
+        def timeout
+          self[:timeout] || 2
+        end
+
+        def description
+          self[:description] || "Description for Backup Service #{name}"
+        end
+
+        def redirect_url
+          nil
         end
       end
 
