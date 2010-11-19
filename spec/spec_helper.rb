@@ -1,10 +1,14 @@
+require 'pathname'
 require 'bundler/setup'
-Bundler.require(:test_common, :rspec)  if defined?(Bundler)
+Bundler.require(:bdd, :rspec)  if defined?(Bundler)
 require 'open-uri'
 require 'fog'
 Fog.bin = true
 require 'fog/core/bin'
 require 'fog/vcloud/bin'
+require 'fog/core/bdd'
+
+require 'fakefs/spec_helpers'
 
 if ENV["FOG_MOCK"] == "true"
   Fog.mock!
