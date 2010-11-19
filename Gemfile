@@ -1,11 +1,10 @@
 source :rubygems
 
-gem 'bundler', '~>1.0.3'
-
 #
-# Common refers to across production, test and benchmark groups.
+# Common, i.e. across production, testing and benchmark groups.
 #
 group :common do
+  gem 'rake', '0.8.7'
   gem 'builder', '2.1.2'
   gem 'excon', '>= 0.2.4'
   gem 'formatador', '>= 0.0.15'
