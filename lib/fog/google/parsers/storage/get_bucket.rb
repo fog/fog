@@ -7,11 +7,21 @@ module Fog
 
           def reset
             @object = { 'Owner' => {} }
-            @response = { 'Contents' => [] }
+            @response = { 'Contents' => [], 'CommonPrefixes' => [] }
+          end
+
+          def start_element(name, attrs = [])
+            super
+            case name
+            when 'CommonPrefixes'
+              @in_common_prefixes = true
+            end
           end
 
           def end_element(name)
             case name
+            when 'CommonPrefixes'
+              @in_common_prefixes = false
             when 'Contents'
               @response['Contents'] << @object
               @object = { 'Owner' => {} }
@@ -27,10 +37,16 @@ module Fog
               end
             when 'LastModified'
               @object['LastModified'] = Time.parse(@value)
-            when 'Marker', 'Name', 'Prefix'
+            when 'Marker', 'Name'
               @response[name] = @value
             when 'MaxKeys'
               @response['MaxKeys'] = @value.to_i
+            when 'Prefix'
+              if @in_common_prefixes
+                @response['CommonPrefixes'] << @value
+              else
+                @response[name] = @value
+              end
             when 'Size'
               @object['Size'] = @value.to_i
             when 'Delimeter', 'Key', 'StorageClass'

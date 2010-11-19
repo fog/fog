@@ -7,12 +7,13 @@ module Fog
 
       class Files < Fog::Collection
 
-        attribute :delimiter,     :aliases => 'Delimiter'
+        attribute :common_prefixes, :aliases => 'CommonPrefixes'
+        attribute :delimiter,       :aliases => 'Delimiter'
         attribute :directory
-        attribute :is_truncated,  :aliases => 'IsTruncated'
-        attribute :marker,        :aliases => 'Marker'
-        attribute :max_keys,      :aliases => ['MaxKeys', 'max-keys']
-        attribute :prefix,        :aliases => 'Prefix'
+        attribute :is_truncated,    :aliases => 'IsTruncated'
+        attribute :marker,          :aliases => 'Marker'
+        attribute :max_keys,        :aliases => ['MaxKeys', 'max-keys']
+        attribute :prefix,          :aliases => 'Prefix'
 
         model Fog::Google::Storage::File
 

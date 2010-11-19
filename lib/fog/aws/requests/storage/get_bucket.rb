@@ -26,6 +26,7 @@ module Fog
         #     * 'MaxKeys'<~Integer> - Maximum number of keys specified for query
         #     * 'Name'<~String> - Name of the bucket
         #     * 'Prefix'<~String> - Prefix specified for query
+        #     * 'CommonPrefixes'<~Array> - Array of strings for common prefixes
         #     * 'Contents'<~Array>:
         #       * 'ETag'<~String>: Etag of object
         #       * 'Key'<~String>: Name of object
