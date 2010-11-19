@@ -18,10 +18,10 @@ module Fog
         def all(options = {})
           requires :directory
           options = {
-            'limit'   => @limit,
-            'marker'  => @marker,
-            'path'    => @path,
-            'prefix'  => @prefix
+            'limit'   => limit,
+            'marker'  => marker,
+            'path'    => path,
+            'prefix'  => prefix
           }.merge!(options)
           merge_attributes(options)
           parent = directory.collection.get(

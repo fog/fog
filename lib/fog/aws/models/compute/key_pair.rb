@@ -18,7 +18,7 @@ module Fog
         def destroy
           requires :name
 
-          connection.delete_key_pair(@name)
+          connection.delete_key_pair(name)
           true
         end
 

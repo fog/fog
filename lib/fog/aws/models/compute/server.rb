@@ -10,7 +10,7 @@ module Fog
 
         attr_accessor :architecture
         attribute :ami_launch_index,      :aliases => 'amiLaunchIndex'
-        attribute :availability_zone,     :aliases => ['availabilityZone', 'placement']
+        attribute :availability_zone,     :aliases => ['availabilityZone', 'placement'], :squash => 'availabilityZone'
         attribute :block_device_mapping,  :aliases => 'blockDeviceMapping'
         attribute :client_token,          :aliases => 'clientToken'
         attribute :dns_name,              :aliases => 'dnsName'
@@ -22,7 +22,7 @@ module Fog
         attribute :kernel_id,             :aliases => 'kernelId'
         attribute :key_name,              :aliases => 'keyName'
         attribute :created_at,            :aliases => 'launchTime'
-        attribute :monitoring
+        attribute :monitoring,            :squash => 'state'
         attribute :product_codes,         :aliases => 'productCodes'
         attribute :private_dns_name,      :aliases => 'privateDnsName'
         attribute :private_ip_address,    :aliases => 'privateIpAddress'
@@ -30,7 +30,7 @@ module Fog
         attribute :reason
         attribute :root_device_name,      :aliases => 'rootDeviceName'
         attribute :root_device_type,      :aliases => 'rootDeviceType'
-        attribute :state,                 :aliases => 'instanceState'
+        attribute :state,                 :aliases => 'instanceState', :squash => 'name'
         attribute :state_reason,          :aliases => 'stateReason'
         attribute :subnet_id,             :aliases => 'subnetId'
         attribute :tags,                  :aliases => 'tagSet'
@@ -40,8 +40,8 @@ module Fog
         attr_writer   :private_key, :private_key_path, :public_key, :public_key_path, :username
 
         def initialize(attributes={})
-          @groups ||= ["default"] unless attributes[:subnet_id]
-          @flavor_id ||= 'm1.small'
+          self.groups ||= ["default"] unless attributes[:subnet_id]
+          self.flavor_id ||= 'm1.small'
           super
         end
 
@@ -51,31 +51,22 @@ module Fog
           connection.addresses(:server => self)
         end
 
-        remove_method :availability_zone=
-        def availability_zone=(new_availability_zone)
-          if new_availability_zone.is_a?(Hash)
-            @availability_zone = new_availability_zone['availabilityZone']
-          else
-            @availability_zone = new_availability_zone
-          end
-        end
-
         def console_output
           requires :id
 
-          connection.get_console_output(@id)
+          connection.get_console_output(id)
         end
 
         def destroy
           requires :id
 
-          connection.terminate_instances(@id)
+          connection.terminate_instances(id)
           true
         end
 
         remove_method :flavor_id
         def flavor_id
-          @flavor && @flavor.id || @flavor_id
+          @flavor && @flavor.id || attributes[:flavor_id]
         end
 
         def flavor=(new_flavor)
@@ -83,26 +74,17 @@ module Fog
         end
 
         def flavor
-          @flavor ||= connection.flavors.all.detect {|flavor| flavor.id == @flavor_id}
+          @flavor ||= connection.flavors.all.detect {|flavor| flavor.id == flavor_id}
         end
 
         def key_pair
           requires :key_name
 
-          connection.keypairs.all(@key_name).first
+          connection.keypairs.all(key_name).first
         end
 
         def key_pair=(new_keypair)
-          @key_name = new_keypair && new_keypair.name
-        end
-
-        remove_method :monitoring=
-        def monitoring=(new_monitoring)
-          if new_monitoring.is_a?(Hash)
-            @monitoring = new_monitoring['state']
-          else
-            @monitoring = new_monitoring
-          end
+          key_name = new_keypair && new_keypair.name
         end
 
         def private_key_path
@@ -124,12 +106,12 @@ module Fog
         end
 
         def ready?
-          @state == 'running'
+          state == 'running'
         end
 
         def reboot
           requires :id
-          connection.reboot_instances(@id)
+          connection.reboot_instances(id)
           true
         end
 
@@ -191,13 +173,13 @@ module Fog
 
         def start
           requires :id
-          connection.start_instances(@id)
+          connection.start_instances(id)
           true
         end
 
         def stop
           requires :id
-          connection.stop_instances(@id)
+          connection.stop_instances(id)
           true
         end
 
@@ -208,17 +190,6 @@ module Fog
         def volumes
           requires :id
           connection.volumes(:server => self)
-        end
-
-        private
-
-        remove_method :state=
-        def state=(new_state)
-          if new_state.is_a?(Hash)
-            @state = new_state['name']
-          else
-            @state = new_state
-          end
         end
 
       end

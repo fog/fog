@@ -23,24 +23,24 @@ module Fog
         attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username
 
         def initialize(attributes={})
-          @flavor_id ||= 1
+          self.flavor_id ||= 1
           super
         end
 
         def destroy
           requires :id
-          connection.delete_slice(@id)
+          connection.delete_slice(id)
           true
         end
 
         def flavor
           requires :flavor_id
-          connection.flavors.get(@flavor_id)
+          connection.flavors.get(flavor_id)
         end
 
         def image
           requires :image_id
-          connection.images.get(@image_id)
+          connection.images.get(image_id)
         end
 
         def private_key_path
@@ -62,12 +62,12 @@ module Fog
         end
 
         def ready?
-          @status == 'active'
+          status == 'active'
         end
 
         def reboot(type = 'SOFT')
           requires :id
-          connection.reboot_slice(@id, type)
+          connection.reboot_slice(id, type)
           true
         end
 
@@ -75,7 +75,7 @@ module Fog
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :flavor_id, :image_id, :name
 
-          data = connection.create_slice(@flavor_id, @image_id, @name)
+          data = connection.create_slice(flavor_id, image_id, name)
           merge_attributes(data.body)
           true
         end

@@ -18,13 +18,13 @@ module Fog
         def server=(new_server)
           requires :id
 
-          @server_id = new_server.id
+          self.server_id = new_server.id
         end
 
         def destroy
           requires :id
 
-          connection.delete_image(@id)
+          connection.delete_image(id)
           true
         end
 
@@ -36,7 +36,7 @@ module Fog
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :server_id
 
-          data = connection.create_image(@server_id, 'name' => name)
+          data = connection.create_image(server_id, 'name' => name)
           merge_attributes(data.body['image'])
           true
         end

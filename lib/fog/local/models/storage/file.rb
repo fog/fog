@@ -8,17 +8,20 @@ module Fog
 
         identity  :key,             :aliases => 'Key'
 
-        attr_writer :body
         attribute :content_length,  :aliases => 'Content-Length'
         # attribute :content_type,    :aliases => 'Content-Type'
         attribute :last_modified,   :aliases => 'Last-Modified'
 
         def body
-          @body ||= if last_modified
+          attributes[:body] ||= if last_modified
             collection.get(identity).body
           else
             ''
           end
+        end
+
+        def body=(new_body)
+          attributes[:body] = new_body
         end
 
         def directory

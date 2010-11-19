@@ -16,13 +16,15 @@ module Fog
 
       def attribute(name, options = {})
         class_eval <<-EOS, __FILE__, __LINE__
-          attr_reader :#{name}
+          def #{name}
+            attributes[:#{name}]
+          end
         EOS
         case options[:type]
         when :boolean
           class_eval <<-EOS, __FILE__, __LINE__
             def #{name}=(new_#{name})
-              @#{name} = case new_#{name}
+              attributes[:#{name}] = case new_#{name}
               when 'true'
                 true
               when 'false'
@@ -33,39 +35,35 @@ module Fog
         when :float
           class_eval <<-EOS, __FILE__, __LINE__
             def #{name}=(new_#{name})
-              @#{name} = new_#{name}.to_f
+              attributes[:#{name}] = new_#{name}.to_f
             end
           EOS
         when :integer
           class_eval <<-EOS, __FILE__, __LINE__
             def #{name}=(new_#{name})
-              @#{name} = new_#{name}.to_i
+              attributes[:#{name}] = new_#{name}.to_i
             end
           EOS
         when :string
           class_eval <<-EOS, __FILE__, __LINE__
             def #{name}=(new_#{name})
-              @#{name} = new_#{name}.to_s
+              attributes[:#{name}] = new_#{name}.to_s
             end
           EOS
         when :time
           class_eval <<-EOS, __FILE__, __LINE__
             def #{name}=(new_#{name})
-              if new_#{name}.nil? || new_#{name} == "" || new_#{name}.is_a?(Time)
-                @#{name} = new_#{name}
+              attributes[:#{name}] = if new_#{name}.nil? || new_#{name} == "" || new_#{name}.is_a?(Time)
+                new_#{name}
               else
-                @#{name} = Time.parse(new_#{name})
+                Time.parse(new_#{name})
               end
             end
           EOS
         when :array
           class_eval <<-EOS, __FILE__, __LINE__
           def #{name}=(new_#{name})
-            @#{name} = if new_#{name}.is_a?(Array)
-              new_#{name}
-            else
-              @#{name} = [ new_#{name} ]
-            end
+            attributes[:#{name}] = [*new_#{name}]
           end
           EOS
         else
@@ -74,18 +72,20 @@ module Fog
               def #{name}=(new_data)
                 if new_data.is_a?(Hash)
                   if new_data[:#{squash}] || new_data["#{squash}"]
-                    @#{name} = new_data[:#{squash}] || new_data["#{squash}"]
+                    attributes[:#{name}] = new_data[:#{squash}] || new_data["#{squash}"]
                   else
-                    @#{name} = [ new_data ]
+                    attributes[:#{name}] = [ new_data ]
                   end
                 else
-                  @#{name} = new_data
+                  attributes[:#{name}] = new_data
                 end
               end
             EOS
           else
             class_eval <<-EOS, __FILE__, __LINE__
-              attr_writer :#{name}
+              def #{name}=(new_#{name})
+                attributes[:#{name}] = new_#{name}
+              end
             EOS
           end
         end
@@ -118,13 +118,7 @@ module Fog
       end
 
       def attributes
-        @attributes ||= begin
-          attributes = {}
-          for attribute in self.class.attributes
-            attributes[attribute] = send("#{attribute}")
-          end
-          attributes
-        end
+        @attributes ||= {}
       end
 
       def identity
@@ -139,10 +133,8 @@ module Fog
         for key, value in new_attributes
           unless self.class.ignored_attributes.include?(key)
             if aliased_key = self.class.aliases[key]
-              attributes[aliased_key] = value
               send("#{aliased_key}=", value)
             elsif (public_methods | private_methods).detect {|method| ["#{key}=", :"#{key}="].include?(method)}
-              attributes[key.to_sym] = value
               send("#{key}=", value)
             else
               attributes[key] = value

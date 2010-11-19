@@ -30,7 +30,7 @@ module Fog
         def destroy
           requires :id
 
-          connection.delete_volume(@id)
+          connection.delete_volume(id)
           true
         end
 
@@ -42,7 +42,7 @@ module Fog
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :availability_zone, :size
 
-          data = connection.create_volume(@availability_zone, @size, @snapshot_id).body
+          data = connection.create_volume(availability_zone, size, snapshot_id).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           if @server
@@ -73,19 +73,19 @@ module Fog
         def attach(new_server)
           if new_record?
             @server = new_server
-            @availability_zone = new_server.availability_zone
+            self.availability_zone = new_server.availability_zone
           elsif new_server
             requires :device
             @server = nil
-            @server_id = new_server.id
-            connection.attach_volume(@server_id, @id, @device)
+            self.server_id = new_server.id
+            connection.attach_volume(server_id, id, device)
             reload
           end
         end
 
         def detach
           @server = nil
-          @server_id = nil
+          self.server_id = nil
           unless new_record?
             connection.detach_volume(@id)
             reload
@@ -94,7 +94,7 @@ module Fog
 
         def force_detach
           @server = nil
-          @server_id = nil
+          self.server_id = nil
           unless new_record?
             connection.detach_volume(@id, 'Force' => true)
             reload

@@ -33,11 +33,15 @@ module Fog
         end
 
         def body
-          @body ||= if last_modified && (file = collection.get(identity))
+          attributes[:body] ||= if last_modified && (file = collection.get(identity))
             file.body
           else
             ''
           end
+        end
+
+        def body=(new_body)
+          attributes[:body] = new_body
         end
 
         def directory
@@ -46,21 +50,21 @@ module Fog
 
         def copy(target_directory_key, target_file_key)
           requires :directory, :key
-          connection.copy_object(directory.key, @key, target_directory_key, target_file_key)
+          connection.copy_object(directory.key, key, target_directory_key, target_file_key)
           target_directory = connection.directories.new(:key => target_directory_key)
           target_directory.files.get(target_file_key)
         end
 
         def destroy
           requires :directory, :key
-          connection.delete_object(directory.key, @key)
+          connection.delete_object(directory.key, key)
           true
         end
 
         remove_method :owner=
         def owner=(new_owner)
           if new_owner
-            @owner = {
+            attributes[:owner] = {
               :display_name => new_owner['DisplayName'],
               :id           => new_owner['ID']
             }
@@ -103,7 +107,7 @@ module Fog
           options['Expires'] = expires if expires
           options['x-amz-storage-class'] = storage_class if storage_class
 
-          data = connection.put_object(directory.key, @key, @body, options)
+          data = connection.put_object(directory.key, key, body, options)
           merge_attributes(data.headers)
           if body.is_a?(String)
             self.content_length = body.size

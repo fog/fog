@@ -29,10 +29,10 @@ module Fog
         def save
           requires :source, :arch
           options = {
-            :source => @source,
-            :arch => @arch,
-            :name => @name,
-            :description => @description
+            :source => source,
+            :arch => arch,
+            :name => name,
+            :description => description
           }.delete_if {|k,v| v.nil? || v == "" }
           data = connection.create_image(options)
           merge_attributes(data)
