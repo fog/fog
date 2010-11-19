@@ -31,10 +31,10 @@ module Fog
 
           def save
             if new_record?
-              result = connection.add_internet_service( collection.href, _compose_service_data )
+              result = connection.add_backup_internet_service( collection.href, _compose_service_data )
               merge_attributes(result.body)
             else
-              connection.configure_internet_service( href, _compose_service_data, _compose_ip_data )
+              connection.configure_backup_internet_service( href, _compose_service_data )
             end
           end
 

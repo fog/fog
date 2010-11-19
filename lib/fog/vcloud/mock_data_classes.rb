@@ -121,6 +121,14 @@ module Fog
           find_href_in(href, all_vdc_internet_service_collections)
         end
 
+        def all_backup_internet_services
+          all_vdc_internet_service_collections.map(&:backup_internet_services).flatten
+        end
+
+        def backup_internet_service_from_href(href)
+          find_href_in(href, all_backup_internet_services)
+        end
+
         def all_public_ip_collections
           all_vdcs.map {|v| v.public_ip_collection }.flatten
         end
@@ -627,6 +635,10 @@ module Fog
 
         def redirect_url
           nil
+        end
+
+        def node_collection
+          @node_collection ||= MockPublicIpInternetServiceNodes.new({}, self)
         end
       end
 

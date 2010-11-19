@@ -32,6 +32,7 @@ module Fog
 
         request_path 'fog/vcloud/terremark/ecloud/requests'
         request :add_internet_service
+        request :add_backup_internet_service
         request :add_node
         request :clone_vapp
         request :configure_internet_service
