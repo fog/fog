@@ -49,7 +49,7 @@ module Fog
               end
             when 'Size'
               @object['Size'] = @value.to_i
-            when 'Delimeter', 'Key', 'StorageClass'
+            when 'Delimiter', 'Key', 'StorageClass'
               @object[name] = @value
             end
           end
