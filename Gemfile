@@ -18,6 +18,11 @@ end
 group :production do
 end
 
+group :rake do
+  gem 'rake', '0.8.7'
+  gem 'i18n', '>=0.4.2'
+end
+
 #
 # Test_common collects gems required by Rspec and Shindo
 #
