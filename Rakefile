@@ -1,7 +1,27 @@
 require 'rubygems'
-require 'bundler/setup'
-Bundler.require(:common) if defined?(Bundler)
+unless ENV['NOBUNDLE']
+  begin
+    require 'bundler/setup' unless defined?(Bundler)
+  rescue LoadError
+    $stderr.puts "Run `gem install bundler` and `bundle install` to install missing gems"
+    $stderr.puts caller.join("\n")
+    exit e.status_code
+  end
+end
+
+begin
+  Bundler.require(:common, :rake)
+rescue LoadError
+  $stderr.puts "Run `bundle install` to install gems missing from common or rake groups"
+  $stderr.puts caller.join("\n")
+  exit e.status_code
+end
+
+$LOAD_PATH.unshift('lib')
+
+require 'rake'
 require 'date'
+require 'fog'
 
 #############################################################################
 #
