@@ -13,6 +13,8 @@ module Fog
         collection :firewall_acls
         model :internet_service
         collection :internet_services
+        model :backup_internet_service
+        collection :backup_internet_services
         model :ip
         collection :ips
         model :network

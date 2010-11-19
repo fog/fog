@@ -233,6 +233,7 @@ def setup_ecloud_mock_data
   @mock_public_ip = @mock_public_ip_collection.items.first
   @mock_service_collection = @mock_public_ip.internet_service_collection
   @mock_service = @mock_service_collection.items.first
+  @mock_backup_service = @mock_vdc_service_collection.backup_internet_services.first
   @mock_node_collection = @mock_service.node_collection
   @mock_node = @mock_node_collection.items.first
   @mock_catalog = @mock_vdc.catalog
