@@ -24,11 +24,14 @@ group :rake do
 end
 
 #
-# Test_common collects gems required by Rspec and Shindo
+# bdd collects gems required by Rspec, Shindo, Cucumber and ...
 #
-group :test_common do
+group :bdd do
   gem 'rake', '0.8.7'
-  gem 'gestalt', '>= 0.0.11'
+  gem 'fakefs', '0.2.1', :require => 'fakefs/safe'
+  gem 'fakefs-require', '0.2.1', :require => 'fakefs/require'
+end
+
 end
 
 group :rspec do
