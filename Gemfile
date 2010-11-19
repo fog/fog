@@ -56,6 +56,8 @@ group :benchmark do
 end
 
 group :development do
+  gem 'rake', '0.8.7'
+  gem 'grit', '2.3.0'
   gem 'builder', '2.1.2'
   gem 'excon', '>= 0.2.4'
   gem 'formatador', '>= 0.0.15'
@@ -64,4 +66,15 @@ group :development do
   gem 'net-ssh', '~> 2.0.23'
   gem 'nokogiri', '~> 1.4.3.1'
   gem 'ruby-hmac', '0.4.0'
+end
+
+group :debug do
+  gem 'ruby_core_source', '0.1.4'
+  gem 'archive-tar-minitar', '0.5.2'
+  gem 'columnize', '0.3.1'
+  gem 'linecache19', '0.5.11'
+  gem 'ruby-debug19', :require => 'ruby-debug' if Config::CONFIG['RUBY_PROGRAM_VERSION'] =~ /1\.9/
+  gem 'ruby-debug-base19' if Config::CONFIG['RUBY_PROGRAM_VERSION'] =~ /1\.9/
+  gem 'ruby-debug-ide19', '~>0.4.10', :require => 'ruby-debug-ide' if Config::CONFIG['RUBY_PROGRAM_VERSION'] =~ /1\.9/
+  gem 'ruby-debug-ide', '~>0.4.10' if Config::CONFIG['RUBY_PROGRAM_VERSION'] =~ /1\.8/
 end
