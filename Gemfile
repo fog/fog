@@ -43,6 +43,9 @@ end
 
 group :shindo do
   gem 'shindo', '0.1.7'
+  gem 'gestalt', '>= 0.0.11'
+end
+
 end
 
 group :benchmark do
