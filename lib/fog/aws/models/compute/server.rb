@@ -10,7 +10,7 @@ module Fog
 
         attr_accessor :architecture
         attribute :ami_launch_index,      :aliases => 'amiLaunchIndex'
-        attribute :availability_zone,     :aliases => 'availabilityZone'
+        attribute :availability_zone,     :aliases => ['availabilityZone', 'placement']
         attribute :block_device_mapping,  :aliases => 'blockDeviceMapping'
         attribute :client_token,          :aliases => 'clientToken'
         attribute :dns_name,              :aliases => 'dnsName'
@@ -49,6 +49,15 @@ module Fog
           requires :id
 
           connection.addresses(:server => self)
+        end
+
+        remove_method :availability_zone=
+        def availability_zone=(new_availability_zone)
+          if new_availability_zone.is_a?(Hash)
+            @availability_zone = new_availability_zone['availabilityZone']
+          else
+            @availability_zone = new_availability_zone
+          end
         end
 
         def console_output
@@ -93,14 +102,6 @@ module Fog
             @monitoring = new_monitoring['state']
           else
             @monitoring = new_monitoring
-          end
-        end
-
-        def placement=(new_placement)
-          if new_placement.is_a?(Hash)
-            @availability_zone = new_placement['availabilityZone']
-          else
-            @availability_zone = new_placement
           end
         end
 
