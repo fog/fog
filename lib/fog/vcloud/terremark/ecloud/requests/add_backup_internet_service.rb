@@ -56,7 +56,8 @@ module Fog
 
           #
           # Based on
-          # http://support.theenterprisecloud.com/kb/default.asp?id=561&Lang=1&SID=
+          # http://support.theenterprisecloud.com/kb/default.asp?id=729&Lang=1&SID=
+          # and many tears shed.
           #
 
           def add_backup_internet_service(internet_services_uri, service_data)
