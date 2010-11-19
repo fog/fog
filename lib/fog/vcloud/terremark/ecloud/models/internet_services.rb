@@ -13,7 +13,7 @@ module Fog
 
           def all
             check_href! :message => "the Internet Services for the Vdc you want to enumerate"
-            if data = connection.get_internet_services(href).body[:InternetService].find_all {|i| i[:IsBackupService] == "false" }
+            if data = [connection.get_internet_services(href).body[:InternetService]].flatten.find_all {|i| i[:IsBackupService] == "false" }
               load(data)
             end
           end
