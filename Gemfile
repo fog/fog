@@ -32,6 +32,9 @@ group :bdd do
   gem 'fakefs-require', '0.2.1', :require => 'fakefs/require'
 end
 
+group :cukes do
+  gem 'cucumber', '0.9.3'
+  gem 'aruba', '0.2.4'    # Load order matters
 end
 
 group :rspec do
