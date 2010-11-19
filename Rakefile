@@ -23,6 +23,10 @@ require 'rake'
 require 'date'
 require 'fog'
 
+Dir.glob("tasks/*.rake").each do |f|
+  Rake.application.rake_require "./../tasks/#{File.basename(f, '.rake')}"
+end
+
 #############################################################################
 #
 # Helper functions
