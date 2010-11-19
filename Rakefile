@@ -27,6 +27,18 @@ Dir.glob("tasks/*.rake").each do |f|
   Rake.application.rake_require "./../tasks/#{File.basename(f, '.rake')}"
 end
 
+# Work around an issue introduced between Bundler 1.0.3 and 1.0.7
+module Bundler
+  class GemHelper
+    def self.install_tasks(opts = nil)
+      dir = Rake.application.find_rakefile_location[1]
+      self.new(dir, opts && opts[:name]).install
+    end
+  end
+end
+
+Bundler::GemHelper.install_tasks(:name => 'fog' )
+
 #############################################################################
 #
 # Helper functions
