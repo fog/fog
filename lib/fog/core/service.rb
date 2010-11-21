@@ -35,12 +35,12 @@ module Fog
       end
 
       def new(options={})
-        if Fog.bin
-          default_credentials = Fog.credentials.reject {|key, value| !requirements.include?(key)}
-          options = default_credentials.merge(options)
-        end
+        # TODO: check if this section of the code is still required...
+        #if Fog.bin
+        #  default_credentials = Fog.credentials.reject {|key, value| !requirements.include?(key)}
+        #  options = default_credentials.merge(options)
+        #end
 
-        validate_arguments(options)
         setup_requirements
 
         if Fog.mocking?
@@ -110,39 +110,8 @@ module Fog
         @requests ||= []
       end
 
-      def requires(*args)
-        requirements.concat(args)
-      end
-
-      def requirements
-        @requirements ||= []
-      end
-
-      def recognizes(*args)
-        recognized.concat(args)
-      end
-
-      def recognized
-        @recognized ||= []
-      end
-
       def reset_data(keys=Mock.data.keys)
         Mock.reset_data(keys)
-      end
-
-      def validate_arguments(options)
-        missing = requirements - options.keys
-        unless missing.empty?
-          raise ArgumentError, "Missing required arguments: #{missing.join(', ')}"
-        end
-
-        # FIXME: avoid failing for the services that don't have recognizes yet
-        unless recognizes.empty?
-          unrecognized = options.keys - requirements - recognized
-          unless unrecognized.empty?
-            raise ArgumentError, "Unrecognized arguments: #{unrecognized.join(', ')}"
-          end
-        end
       end
 
     end

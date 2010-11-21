@@ -4,6 +4,7 @@ require 'cgi'
 require 'excon'
 require 'formatador'
 require 'time'
+require 'named-parameters'
 
 __DIR__ = File.dirname(__FILE__)
 
