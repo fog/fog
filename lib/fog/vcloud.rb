@@ -20,6 +20,7 @@ module Fog
   class Vcloud < Fog::Service
 
     requires :username, :password, :versions_uri
+    recognizes :module, :version, :persistent
 
     model_path 'fog/vcloud/models'
     model :vdc

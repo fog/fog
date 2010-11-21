@@ -5,6 +5,7 @@ module Fog
       API_URL = "https://api.gb1.brightbox.com/"
 
       requires :brightbox_client_id, :brightbox_secret
+      recognizes :brightbox_auth_url, :brightbox_api_url
 
       model_path 'fog/brightbox/models/compute'
       model :account # Singular resource, no collection

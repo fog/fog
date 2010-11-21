@@ -3,6 +3,7 @@ module Fog
     class IAM < Fog::Service
 
       requires :aws_access_key_id, :aws_secret_access_key
+      recognizes :host, :path, :port, :scheme, :persistent
 
       request_path 'fog/aws/requests/iam'
       request :add_user_to_group

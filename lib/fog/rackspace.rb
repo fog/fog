@@ -1,6 +1,7 @@
 module Fog
   module Rackspace
-
+    
+    include NamedParameters
     extend Fog::Provider
 
     service_path 'fog/rackspace'
@@ -10,6 +11,9 @@ module Fog
     service 'servers'
     service 'storage'
 
+    has_named_parameters :'self.authenticate', 
+      :required => [ :rackspace_api_key, :rackspace_username ],
+      :optional => [ :rackspace_auth_url ]
     def self.authenticate(options)
       rackspace_auth_url = options[:rackspace_auth_url] || "auth.api.rackspacecloud.com"
       connection = Fog::Connection.new("https://" + rackspace_auth_url)
