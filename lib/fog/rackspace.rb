@@ -11,6 +11,8 @@ module Fog
     service 'servers'
     service 'storage'
 
+    # NOTE: might be better to rely on the caller alone to enforce parameter 
+    # requirements...
     has_named_parameters :'self.authenticate', 
       :required => [ :rackspace_api_key, :rackspace_username ],
       :optional => [ :rackspace_auth_url ]
