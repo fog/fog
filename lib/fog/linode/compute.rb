@@ -3,6 +3,7 @@ module Fog
     class Compute < Fog::Service
 
       requires :linode_api_key
+      recognizes :port, :scheme, :persistent
 
       model_path 'fog/linode/models/compute'
 

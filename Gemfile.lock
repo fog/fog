@@ -1,12 +1,13 @@
 PATH
   remote: .
   specs:
-    fog (0.3.23)
+    fog (0.3.25)
       builder
       excon (>= 0.2.4)
       formatador (>= 0.0.16)
       json
       mime-types
+      named-parameters (>= 0.0.14)
       net-ssh (~> 2.0.23)
       nokogiri (~> 1.4.3.1)
       ruby-hmac
@@ -21,6 +22,7 @@ GEM
       formatador (>= 0.0.12)
     json (1.4.6)
     mime-types (1.16)
+    named-parameters (0.0.14)
     net-ssh (2.0.23)
     nokogiri (1.4.3.1)
     rake (0.8.7)
@@ -40,6 +42,7 @@ DEPENDENCIES
   formatador (>= 0.0.16)
   json
   mime-types
+  named-parameters (>= 0.0.14)
   net-ssh (~> 2.0.23)
   nokogiri (~> 1.4.3.1)
   rake

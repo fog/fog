@@ -3,7 +3,8 @@ module Fog
     class Storage < Fog::Service
 
       requires :aws_access_key_id, :aws_secret_access_key
-
+      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent
+      
       model_path 'fog/aws/models/storage'
       collection  :directories
       model       :directory
@@ -38,6 +39,7 @@ module Fog
       request :put_bucket_logging
       request :put_bucket_versioning
       request :put_object
+      request :put_object_acl
       request :put_object_url
       request :put_request_payment
       request :upload_part
@@ -174,6 +176,7 @@ module Fog
         end
       end
 
+      
       class Real
         include Utils
         extend Fog::Deprecation

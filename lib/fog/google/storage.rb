@@ -3,6 +3,7 @@ module Fog
     class Storage < Fog::Service
 
       requires :google_storage_access_key_id, :google_storage_secret_access_key
+      recognizes :host, :port, :scheme, :persistent
 
       model_path 'fog/google/models/storage'
       collection  :directories
@@ -135,6 +136,7 @@ module Fog
         end
       end
 
+    
       class Real
         include Utils
         extend Fog::Deprecation

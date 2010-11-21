@@ -34,13 +34,24 @@ module Fog
         EOS
       end
 
+      def requirements
+        declared_parameters_for :new, :required
+      end
+
       def new(options={})
         if Fog.bin
-          default_credentials = Fog.credentials.reject {|key, value| !requirements.include?(key)}
+          #requirements = declared_parameters
+          #puts "*x" * 10
+          #puts "[#{self}]"
+          #puts "* credentials: #{Fog.credentials.inspect}"
+          #puts "- requirements: #{requirements.inspect}"
+          #puts "* options (before filter): #{options.inspect}"
+          default_credentials = filter_parameters(Fog.credentials)
           options = default_credentials.merge(options)
+          #puts "* options (after filter): #{options.inspect}"
+          #puts "*x" * 10
         end
 
-        validate_arguments(options)
         setup_requirements
 
         if Fog.mocking?
@@ -110,39 +121,8 @@ module Fog
         @requests ||= []
       end
 
-      def requires(*args)
-        requirements.concat(args)
-      end
-
-      def requirements
-        @requirements ||= []
-      end
-
-      def recognizes(*args)
-        recognized.concat(args)
-      end
-
-      def recognized
-        @recognized ||= []
-      end
-
       def reset_data(keys=Mock.data.keys)
         Mock.reset_data(keys)
-      end
-
-      def validate_arguments(options)
-        missing = requirements - options.keys
-        unless missing.empty?
-          raise ArgumentError, "Missing required arguments: #{missing.join(', ')}"
-        end
-
-        # FIXME: avoid failing for the services that don't have recognizes yet
-        unless recognizes.empty?
-          unrecognized = options.keys - requirements - recognized
-          unless unrecognized.empty?
-            raise ArgumentError, "Unrecognized arguments: #{unrecognized.join(', ')}"
-          end
-        end
       end
 
     end
