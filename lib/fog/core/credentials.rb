@@ -28,7 +28,6 @@ module Fog
         unless credentials && credentials[credential]
           print("\n  To run as '#{credential}', add the following to #{config_path}\n")
           yml = <<-YML
-
 :#{credential}:
   :aws_access_key_id:                INTENTIONALLY_LEFT_BLANK
   :aws_secret_access_key:            INTENTIONALLY_LEFT_BLANK
@@ -51,7 +50,7 @@ module Fog
   :terremark_username:               INTENTIONALLY_LEFT_BLANK
   :terremark_password:               INTENTIONALLY_LEFT_BLANK
 YML
-          print(yml)
+          print("\n#{yml}\n")
           raise(ArgumentError.new("Missing Credentials"))
         end
         credentials[credential]

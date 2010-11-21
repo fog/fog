@@ -3,6 +3,7 @@ module Fog
     class Compute < Fog::Service
 
       requires :slicehost_password
+      recognizes :host, :port, :scheme, :persistent
 
       model_path 'fog/slicehost/models/compute'
       model       :flavor
