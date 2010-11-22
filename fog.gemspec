@@ -274,6 +274,7 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/storage/put_bucket_logging.rb
     lib/fog/aws/requests/storage/put_bucket_versioning.rb
     lib/fog/aws/requests/storage/put_object.rb
+    lib/fog/aws/requests/storage/put_object_acl.rb
     lib/fog/aws/requests/storage/put_object_url.rb
     lib/fog/aws/requests/storage/put_request_payment.rb
     lib/fog/aws/requests/storage/upload_part.rb
