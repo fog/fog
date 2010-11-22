@@ -70,17 +70,24 @@ module Fog
           #
 
           def configure_internet_service(internet_service_uri, service_data, ip_address_data)
+            service_data = service_data.dup
+
             validate_internet_service_data(service_data, true)
 
             validate_public_ip_address_data(ip_address_data)
 
             internet_service_uri = ensure_unparsed(internet_service_uri)
 
+            backup_service_uri = service_data.delete(:backup_service_uri)
+            backup_service = backup_service_uri && mock_data.backup_internet_service_from_href(backup_service_uri)
+
             xml = nil
 
-            if public_ip_internet_service = mock_data.public_ip_internet_service_from_href(internet_service_uri)
+            if (public_ip_internet_service = mock_data.public_ip_internet_service_from_href(internet_service_uri)) &&
+                (backup_service_uri.nil? || backup_service)
               public_ip_internet_service.update(service_data.reject {|k, v| [:id, :href].include?(k) })
-              xml = generate_internet_service_response(public_ip_internet_service)
+              public_ip_internet_service[:backup_service] = backup_service
+              xml = generate_internet_service(Builder::XmlMarkup.new, public_ip_internet_service)
             end
 
             if xml
