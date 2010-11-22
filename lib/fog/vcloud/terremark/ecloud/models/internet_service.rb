@@ -59,10 +59,16 @@ module Fog
             @nodes ||= Fog::Vcloud::Terremark::Ecloud::Nodes.new( :connection => connection, :href => href + "/nodeServices" )
           end
 
-          def backup_service_href
+          def backup_service_uri
             if backup_service_data
               backup_service_data[:Href]
             end
+          end
+
+          def backup_service_uri=(new_value)
+            self.backup_service_data = {
+              :Href => new_value
+            }
           end
 
           private
@@ -70,7 +76,9 @@ module Fog
           def _compose_service_data
             #For some reason inject didn't work
             service_data = {}
-            self.class.attributes.select{ |attribute| !send(attribute).nil? }.each { |attribute| service_data[attribute] = send(attribute) }
+            self.class.attributes.select{ |attribute| attribute != :backup_service_data }.each { |attribute| service_data[attribute] = send(attribute) }
+            service_data[:backup_service_uri] = backup_service_uri
+            service_data.reject! {|k, v| v.nil? }
             service_data
           end
 

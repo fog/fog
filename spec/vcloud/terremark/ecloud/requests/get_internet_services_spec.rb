@@ -50,7 +50,7 @@ if Fog.mocking?
     specify { service[:Timeout].should == mock_service.timeout.to_s }
     specify { service[:Description].should == mock_service.description }
     specify { service[:RedirectURL].should == (mock_service.redirect_url || "") }
-    specify { service[:Monitor].should == "" }
+    specify { service[:Monitor].should be_nil }
     specify { service[:IsBackupService].should == "true" }
     specify { service[:BackupService].should be_nil }
     specify { service[:BackupOf].should == "" }

@@ -31,19 +31,19 @@ if Fog.mocking?
 
       it { should be_an_instance_of Fog::Vcloud::Terremark::Ecloud::InternetService }
 
-      its(:href)                    { should == @mock_service.href }
-      its(:identity)                { should == @mock_service.href }
-      its(:name)                    { should == @mock_service.name }
-      its(:id)                      { should == @mock_service.object_id.to_s }
-      its(:protocol)                { should == @mock_service.protocol }
-      its(:port)                    { should == @mock_service.port.to_s }
-      its(:enabled)                 { should == @mock_service.enabled.to_s }
-      its(:description)             { should == @mock_service.description }
-      its(:public_ip)               { should == public_ip }
-      its(:timeout)                 { should == @mock_service.timeout.to_s }
-      its(:redirect_url)            { should == @mock_service.redirect_url }
-      its(:monitor)                 { should == nil }
-      its(:backup_service_href)     { should be_nil }
+      its(:href)               { should == @mock_service.href }
+      its(:identity)           { should == @mock_service.href }
+      its(:name)               { should == @mock_service.name }
+      its(:id)                 { should == @mock_service.object_id.to_s }
+      its(:protocol)           { should == @mock_service.protocol }
+      its(:port)               { should == @mock_service.port.to_s }
+      its(:enabled)            { should == @mock_service.enabled.to_s }
+      its(:description)        { should == @mock_service.description }
+      its(:public_ip)          { should == public_ip }
+      its(:timeout)            { should == @mock_service.timeout.to_s }
+      its(:redirect_url)       { should == @mock_service.redirect_url }
+      its(:monitor)            { should == nil }
+      its(:backup_service_uri) { should be_nil }
 
       specify { composed_public_ip_data[:href].should == public_ip[:Href].to_s }
       specify { composed_public_ip_data[:name].should == public_ip[:Name] }
@@ -61,7 +61,19 @@ if Fog.mocking?
       context "with a backup internet service" do
         before { @mock_service[:backup_service] = @mock_backup_service }
 
-        its(:backup_service_href) { should == @mock_backup_service.href }
+        its(:backup_service_uri) { should == @mock_backup_service.href }
+      end
+
+      describe "#backup_service_uri=" do
+        specify do
+          expect { subject.backup_service_uri = @mock_backup_service.href }.
+            to change { subject.backup_service_uri }.from(nil).to(@mock_backup_service.href)
+        end
+
+        specify do
+          expect { subject.backup_service_uri = @mock_backup_service.href }.
+            to change { subject.send(:_compose_service_data)[:backup_service_uri] }.from(nil).to(@mock_backup_service.href)
+        end
       end
     end
   end

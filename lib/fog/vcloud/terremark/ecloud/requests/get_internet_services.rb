@@ -65,7 +65,7 @@ module Fog
               xml.Timeout service.timeout
               xml.Description service.description
               xml.RedirectURL service.redirect_url
-              xml.Monitor
+              xml.Monitor "i:nil" => true
               xml.IsBackupService MockDataClasses::MockBackupInternetService === service
               if MockDataClasses::MockPublicIpInternetService === service && service.backup_service
                 xml.BackupService do
