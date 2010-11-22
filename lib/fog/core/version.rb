@@ -8,7 +8,7 @@ module ::Fog
   module Version
     MAJOR = 0
     MINOR = 3
-    PATCH = 21
+    PATCH = 23
     BUILD = 0
     STRING = "#{MAJOR}.#{MINOR}.#{PATCH}.#{BUILD}"
   end
