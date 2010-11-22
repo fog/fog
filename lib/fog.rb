@@ -17,7 +17,7 @@ module Fog
   @mocking = false
 
   unless const_defined?(:VERSION)
-    VERSION = '0.3.21'
+    VERSION = ::Fog::Version::STRING
   end
 
   module Mock
@@ -68,7 +68,6 @@ module Fog
   end
   
 end
-
 require 'fog/aws'
 require 'fog/bluebox'
 require 'fog/brightbox'

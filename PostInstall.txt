@@ -1,0 +1,8 @@
+Fog has been installed using the Bundler command:
+
+    bundle install --without bdd benchmark cukes debug development rspec shindo metrics
+
+To run Fog's test suites, or install Fog's development dependencies please see:
+    https://github.com/geemus/fog
+
+Here's to Fog in your cloud!
