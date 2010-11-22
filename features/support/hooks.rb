@@ -48,7 +48,7 @@ end
 # Only be executed before/after scenarios that are tagged the same
 # and after steps in scenarios tagged the same
 
-Before('@fakefs') do
+Before('@fakefs, @vcs') do
   @active_project_folder = File.expand_path(File.dirname(__FILE__) + "/../..")
   @repo = Grit::Repo.new(@active_project_folder)
 end
