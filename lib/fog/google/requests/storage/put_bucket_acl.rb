@@ -12,13 +12,14 @@ module Fog
         #     * ID<~String>: id of owner
         #     * DisplayName<~String>: display name of owner
         #   * AccessControlList<~Array>:
-        #     * Grantee<~Hash>:
-        #         * 'DisplayName'<~String> - Display name of grantee
+        #     * scope<~Hash>:
+        #         * 'type'<~String> - 'UserById'
         #         * 'ID'<~String> - Id of grantee
         #       or
+        #         * 'type'<~String> - 'UserByEmail'
         #         * 'EmailAddress'<~String> - Email address of grantee
         #       or
-        #         * 'URI'<~String> - URI of group to grant access for
+        #         * 'type'<~String> - type of user to grant permission to
         #     * Permission<~String> - Permission, in [FULL_CONTROL, WRITE, WRITE_ACP, READ, READ_ACP]
         def put_bucket_acl(bucket_name, acl)
           data =

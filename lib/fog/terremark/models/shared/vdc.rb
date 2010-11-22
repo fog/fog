@@ -11,21 +11,21 @@ module Fog
         attribute :name
 
         def networks
-          connection.networks(:vdc_id => @id)
+          connection.networks(:vdc_id => id)
         end
 
         def addresses
-          connection.addresses(:vdc_id => @id)
+          connection.addresses(:vdc_id => id)
         end
 
         def servers
-          connection.servers(:vdc_id => @id)
+          connection.servers(:vdc_id => id)
         end
 
         private
 
         def href=(new_href)
-          @id = new_href.split('/').last.to_i
+          self.id = new_href.split('/').last.to_i
         end
 
         def type=(new_type); end

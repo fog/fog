@@ -40,6 +40,13 @@ DATA
       class Mock
 
         def put_bucket(bucket_name, options = {})
+          if options['x-goog-acl']
+            unless ['private', 'public-read', 'public-read-write', 'authenticated-read']
+              raise Excon::Errors::BadRequest.new('invalid x-goog-acl')
+            else
+              @data[:acls][:bucket][bucket_name] = self.class.acls(options['x-goog-acl'])
+            end
+          end
           response = Excon::Response.new
           response.status = 200
           bucket = {

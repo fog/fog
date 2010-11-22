@@ -13,16 +13,16 @@ module Fog
         model Fog::AWS::Compute::Address
 
         def initialize(attributes)
-          @filters ||= {}
+          self.filters ||= {}
           super
         end
 
-        def all(filters = @filters)
+        def all(filters = filters)
           unless filters.is_a?(Hash)
             Formatador.display_line("[yellow][WARN] all with #{filters.class} param is deprecated, use all('public-ip' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'public-ip' => [*filters]}
           end
-          @filters = filters
+          self.filters = filters
           data = connection.describe_addresses(filters).body
           load(
             data['addressesSet'].map do |address|
