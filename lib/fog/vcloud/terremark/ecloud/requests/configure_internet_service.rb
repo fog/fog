@@ -55,7 +55,7 @@ module Fog
                 builder.Href(ip_address_data[:href])
                 builder.Name(ip_address_data[:name])
               }
-              if monitor = public_ip_internet_service.monitor
+              if monitor = service_data[:monitor]
                 generate_monitor_section(builder, monitor)
               end
               if service_data[:backup_service_uri]

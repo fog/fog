@@ -68,7 +68,17 @@ module Fog
         request :power_reset
         request :power_shutdown
 
+        module Shared
+          def ecloud_xmlns
+            {
+              "xmlns"     => "urn:tmrk:eCloudExtensions-2.5",
+              "xmlns:i"   => "http://www.w3.org/2001/XMLSchema-instance"
+            }
+          end
+        end
+
         class Mock < Fog::Vcloud::Mock
+          include Shared
 
           def initialize(options={})
           end
@@ -157,19 +167,13 @@ module Fog
             end
           end
 
-          def ecloud_xmlns
-            {
-              "xmlns"     => "urn:tmrk:eCloudExtensions-2.5",
-              "xmlns:i"   => "http://www.w3.org/2001/XMLSchema-instance"
-            }
-          end
-
           def mock_data
             Fog::Vcloud::Terremark::Ecloud::Mock.data
           end
         end
 
         class Real < Fog::Vcloud::Real
+          include Shared
 
           def supporting_versions
             ["v0.8b-ext2.5", "0.8b-ext2.5"]
