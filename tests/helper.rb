@@ -1,12 +1,16 @@
+__DIR__ = File.dirname(__FILE__)
+__LIB_DIR__ = File.join(__DIR__, '../lib')
+
+[ __DIR__, __LIB_DIR__ ].each do |directory|
+  $LOAD_PATH.unshift directory unless
+    $LOAD_PATH.include?(directory) ||
+    $LOAD_PATH.include?(File.expand_path(directory))
+end
+
 require 'fog'
 require 'fog/core/bin'
+
 Fog.bin = true
-
-__DIR__ = File.dirname(__FILE__)
-
-$LOAD_PATH.unshift __DIR__ unless
-  $LOAD_PATH.include?(__DIR__) ||
-  $LOAD_PATH.include?(File.expand_path(__DIR__))
 
 require 'tests/helpers/collection_tests'
 require 'tests/helpers/model_tests'
