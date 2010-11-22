@@ -1,3 +1,9 @@
+Given /^the current version numbers$/ do
+  @version_dir = ::Fog::Bdd.core_dir
+  @version_helper = ::Fog::Bdd.version_helper
+  @version_helper.reset_version
+  ::Fog::Version::STRING.should match "#{@fog_version_major}.#{@fog_version_minor}.#{@fog_version_patch}.#{@fog_version_build}"
+end
 
 Given /^I intend to BDD with (\w+)$/ do |testing_framework|
   @testing_framework = testing_framework.to_sym
