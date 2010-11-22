@@ -45,17 +45,61 @@ Bundler::GemHelper.install_tasks(:name => 'fog' )
 #
 #############################################################################
 
+# Kudos Ken Collins, Eugene Bolshakov, John Wood, and Mark Foster
+# - we want to redirect Bundler's release task (this works in namespaces too).
+# - See http://www.metaskills.net/2010/5/26/the-alias_method_chain-of-rake-override-rake-task
+Rake::TaskManager.class_eval do
+  def alias_task(fq_name)
+    new_name = "#{fq_name}:original"
+    @tasks[new_name] = @tasks.delete(fq_name)
+  end
+end
+
+def alias_task(fq_name)
+  Rake.application.alias_task(fq_name)
+end
+
+def override_task(*args, &block)
+  name, params, deps = Rake.application.resolve_args(args.dup)
+  fq_name = Rake.application.instance_variable_get(:@scope).dup.push(name).join(':')
+  alias_task(fq_name)
+  rt = Rake.application.tasks.select {|t| t.name =~ /release/ }
+  cmt = "You must use a type of release task. Example - increment build number: rake release:build"
+  rt[0].instance_variable_set(:@comment, cmt)
+  Rake::Task.define_task(*args, &block)
+end
+
+override_task :release do
+  msg = "You must use a type of release task. Example - increment build number: rake release:build"
+  raise Exception.new(msg)
+  # To invoke the original Bundler task add ":original" i.e rake release:original
+end
+
+@rakefile_dir = Rake.application.find_rakefile_location[1]
+@version_helper = ::Fog::VersionHelper.new(File.join(@rakefile_dir,'lib','fog','core'))
+
 def name
   @name ||= Dir['*.gemspec'].first.split('.').first
 end
 
-def version
-  line = File.read("lib/#{name}.rb")[/^\s*VERSION\s*=\s*.*/]
-  line.match(/.*VERSION\s*=\s*['"](.*)['"]/)[1]
+def preview_version(vt)
+  @version_helper.preview_version(vt)
 end
 
-def date
-  Date.today.to_s
+def version
+  ::Fog::VERSION
+end
+
+def preview_tag(vt)
+  "v#{preview_version(vt)}"
+end
+
+def version_tag
+  "v#{version}"
+end
+
+def version_dir
+  File.expand_path("lib/fog/core/")
 end
 
 def rubyforge_project
@@ -119,37 +163,46 @@ end
 
 #############################################################################
 #
-# Packaging tasks
+# Release tasks
 #
 #############################################################################
 
-task :release => :build do
-  unless `git branch` =~ /^\* master$/
-    puts "You must be on the master branch to release!"
-    exit!
+namespace 'release' do
+  desc "Create tag #{preview_tag(:major)} and build and push #{name}-#{preview_version(:major)}.gem to Rubygems"
+  task :major do
+    ver = ::Fog::VersionHelper.new(version_dir)
+    ver.bump_major
+    Rake::Task["release:original"].execute # Run Bundler's release task
   end
-  sh "sudo gem install pkg/#{name}-#{version}.gem"
-  sh "git commit --allow-empty -a -m 'Release #{version}'"
-  sh "git tag v#{version}"
-  sh "git push origin master"
-  sh "git push origin v#{version}"
-  sh "gem push pkg/#{name}-#{version}.gem"
-end
 
-task :build do
-  sh "mkdir -p pkg"
-  sh "gem build #{gemspec_file}"
-  sh "mv #{gem_file} pkg"
-end
+  desc "Create tag #{preview_tag(:minor)} and build and push #{name}-#{preview_version(:minor)}.gem to Rubygems"
+  task :minor do
+    ver = ::Fog::VersionHelper.new(version_dir)
+    ver.bump_minor
+    Rake::Task["release:original"].execute # Run Bundler's release task
+  end
 
-task :validate do
-  libfiles = Dir['lib/*'] - ["lib/#{name}.rb", "lib/#{name}"]
-  unless libfiles.empty?
-    puts "Directory `lib` should only contain a `#{name}.rb` file and `#{name}` dir."
-    exit!
+  desc "Create tag #{preview_tag(:patch)} and build and push #{name}-#{preview_version(:patch)}.gem to Rubygems"
+  task :patch do
+    ver = ::Fog::VersionHelper.new(version_dir)
+    ver.bump_patch
+    Rake::Task["release:original"].execute # Run Bundler's release task
   end
-  unless Dir['VERSION*'].empty?
-    puts "A `VERSION` file at root level violates Gem best practices."
-    exit!
+
+  desc "Create tag #{preview_tag(:build)} and build and push #{name}-#{preview_version(:build)}.gem to Rubygems"
+  task :build do
+    ver = ::Fog::VersionHelper.new(version_dir)
+    ver.bump_build
+    Rake::Task["release:original"].execute # Run Bundler's release task
   end
+
+  desc "Writes out an explicit version. Respects (default is 0) the environment variables: MAJOR, MINOR, PATCH, BUILD."
+  task :custom, :major, :minor, :patch, :build do |t, args|
+    args.with_defaults(:major => ENV['MAJOR'].to_i, :minor => ENV['MINOR'].to_i, :patch => ENV['PATCH'].to_i, :build => ENV['BUILD'].to_i)
+    ver = ::Fog::VersionHelper.new(version_dir)
+    ver.bump_custom(args)
+    Rake::Task["release:original"].execute # Run Bundler's release task
+    $stdout.puts "Updated version: #{ver.to_s}"
+  end
+
 end
