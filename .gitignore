@@ -1,12 +1,16 @@
 *.gem
 *.rbc
 *.sw?
+*.orig
+*.tmp
+*.bak
 .bundle
 .DS_Store
 coverage
+.yardoc
+tmp
 doc/*
 rdoc
 pkg
 spec/credentials.yml
-
 .idea
