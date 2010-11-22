@@ -18,6 +18,7 @@ module Fog
           attribute :timeout, :aliases => :Timeout
           attribute :redirect_url, :aliases => :RedirectURL
           attribute :monitor, :aliases => :Monitor
+          attribute :backup_service_data, :aliases => :BackupService
 
           def delete
             requires :href
@@ -56,6 +57,12 @@ module Fog
 
           def nodes
             @nodes ||= Fog::Vcloud::Terremark::Ecloud::Nodes.new( :connection => connection, :href => href + "/nodeServices" )
+          end
+
+          def backup_service_href
+            if backup_service_data
+              backup_service_data[:Href]
+            end
           end
 
           private

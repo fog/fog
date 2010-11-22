@@ -61,7 +61,13 @@ module Fog
                   xml.RedirectURL service.redirect_url
                   xml.Monitor
                   xml.IsBackupService MockDataClasses::MockBackupInternetService === service
-                  xml.BackupService "i:nil" => true
+                  if MockDataClasses::MockPublicIpInternetService === service && service.backup_service
+                    xml.BackupService do
+                      xml.Href service.backup_service.href
+                    end
+                  else
+                    xml.BackupService "i:nil" => true
+                  end
                   xml.BackupOf
                 }
               end

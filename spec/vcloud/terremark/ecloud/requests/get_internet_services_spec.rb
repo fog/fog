@@ -1,7 +1,7 @@
 require File.join(File.dirname(__FILE__), '..', '..', '..', 'spec_helper')
 
 if Fog.mocking?
-  shared_examples_for "the expected internet service item" do
+  shared_examples_for "a basic internet service" do
     specify { service.should be_an_instance_of Hash }
     specify { service.should have(14).attributes }
     specify { service[:Name].should == mock_service.name }
@@ -22,11 +22,20 @@ if Fog.mocking?
     specify { service[:RedirectURL].should == (mock_service.redirect_url || "") }
     specify { service[:Monitor].should == "" }
     specify { service[:IsBackupService].should == "false" }
-    specify { service[:BackupService].should be_nil }
     specify { service[:BackupOf].should == "" }
   end
 
-  shared_examples_for "the expected backup internet service item" do
+  shared_examples_for "an internet service without a backup internet service set" do
+    specify { service[:BackupService].should be_nil }
+  end
+
+  shared_examples_for "an internet service with a backup internet service set" do
+    specify { service[:BackupService].should be_an_instance_of Hash }
+    specify { service[:BackupService].should include :Href }
+    specify { service[:BackupService][:Href].should == @mock_backup_service.href }
+  end
+
+  shared_examples_for "a backup internet service" do
     specify { service.should be_an_instance_of Hash }
     specify { service.should have(14).attributes }
     specify { service[:Name].should == mock_service.name }
@@ -54,7 +63,11 @@ if Fog.mocking?
 
     describe "#get_internet_services" do
       context "with a valid VDC internet_services_uri" do
-        before { @services = @vcloud.get_internet_services(@mock_vdc_service_collection.href) }
+        before do
+          @mock_vdc.internet_service_collection.items[3][:backup_service] = @mock_backup_service
+          @services = @vcloud.get_internet_services(@mock_vdc_service_collection.href)
+        end
+
         subject { @services }
 
         it_should_behave_like "all responses"
@@ -70,19 +83,27 @@ if Fog.mocking?
 
             it { should have(5).items }
 
-            [0,1,2,3].each do |idx|
+            [0,1,2].each do |idx|
               let(:service) { subject[idx] }
               let(:mock_service) { @mock_vdc.internet_service_collection.items[idx] }
               let(:mock_ip) { mock_service._parent._parent }
 
-              it_should_behave_like "the expected internet service item"
+              it_should_behave_like "an internet service without a backup internet service set"
+            end
+
+            context "for a service with a backup internet service" do
+              let(:service) { subject[3] }
+              let(:mock_service) { @mock_vdc.internet_service_collection.items[3] }
+              let(:mock_ip) { mock_service._parent._parent }
+
+              it_should_behave_like "an internet service with a backup internet service set"
             end
 
             context "for a backup internet service" do
               let(:service) { subject[4] }
               let(:mock_service) { @mock_vdc.internet_service_collection.backup_internet_services.first }
 
-              it_should_behave_like "the expected backup internet service item"
+              it_should_behave_like "a backup internet service"
             end
           end
         end
@@ -112,7 +133,7 @@ if Fog.mocking?
               let(:mock_service) { @mock_service_collection.items[idx] }
               let(:mock_ip) { @mock_public_ip }
 
-              it_should_behave_like "the expected internet service item"
+              it_should_behave_like "an internet service without a backup internet service set"
             end
           end
         end

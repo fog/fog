@@ -714,6 +714,10 @@ module Fog
         def monitor
           nil
         end
+
+        def backup_service
+          self[:backup_service]
+        end
       end
 
       class MockPublicIpInternetServiceNodes < Base
