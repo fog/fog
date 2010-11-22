@@ -178,6 +178,7 @@ DEPENDENCIES
   ffi (= 0.6.3)
   flay (= 1.4.1)
   flog (= 2.5.0)
+  formatador (>= 0.0.15)
   gestalt (>= 0.0.11)
   grit (= 2.3.0)
   guard (= 0.2.2)
