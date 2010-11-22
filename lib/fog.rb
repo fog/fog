@@ -73,6 +73,7 @@ end
 require 'fog/aws'
 require 'fog/bluebox'
 require 'fog/brightbox'
+require 'fog/ganeti'
 require 'fog/go_grid'
 require 'fog/linode'
 require 'fog/local'

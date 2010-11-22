@@ -121,6 +121,7 @@ You should try out the (varying) support fog has for:
 There are also the basics of these providers (that could use your love):
 * {GoGrid}[http://www.gogrid.com] [{Compute}[http://www.gogrid.com]]
 * {Linode}[http://www.linode.com] [{Compute}[http://www.linode.com]]
+* {Ganeti}[http://code.google.com/p/ganeti/] [{Compute}[http://docs.ganeti.org/ganeti/2.2/html/rapi.html]]
 * Local [Storage]
 * {New Servers}[http://www.newservers.com] [{Compute}[http://www.newservers.com]]
 
