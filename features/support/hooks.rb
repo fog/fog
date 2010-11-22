@@ -35,8 +35,11 @@ end
 #
 ####################################################################
 
-#AfterStep |scenario| do
-#  Do something after each step.
+# stub_chain on a Grit repo's file status clobbers the status so we have
+# to regenerate a fresh Grit repo instance.  Currently this does not seem
+# to execute...
+#AfterStep('@newrepo') do |scenario|
+#  @repo = Grit::Repo.new(@active_project_folder)
 #end
 
 ####################################################################
