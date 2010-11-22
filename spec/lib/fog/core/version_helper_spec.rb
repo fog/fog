@@ -385,7 +385,7 @@ module Fog
         # TODO: The following should pass when FakeFS can fake load (or fakefs-require gem improves)
         # it "should return the updated version string" do
         #  @version_helper.bump_patch
-        #  @version_helper.to_s.should match /(\d+).1.1.0/
+        #  @version_helper.to_s.should match /(\d+).1.1.1/
         # end
       end
     end
@@ -402,7 +402,7 @@ module Fog
         # TODO: The following should pass when FakeFS can fake load (or fakefs-require gem improves)
         # it "should return the updated version string" do
         #  @version_helper.bump_patch
-        #  @version_helper.to_s.should match /(\d+).1.1.0/
+        #  @version_helper.to_s.should match /(\d+).n.n.n/
         # end
       end
     end
