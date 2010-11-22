@@ -45,7 +45,11 @@ module Fog
         def save(options = {})
           requires :body, :directory, :key
           file = ::File.new(path, 'w')
-          file.write(body)
+          if body.is_a?(String)
+            file.write(body)
+          else
+            file.write(body.read)
+          end
           file.close
           merge_attributes(
             :content_length => ::File.size(path),
