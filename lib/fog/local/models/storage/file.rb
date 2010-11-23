@@ -65,7 +65,7 @@ module Fog
         end
 
         def path
-          connection.path_to(::File.join(directory.key, key))
+          connection.path_to(::File.join(directory.key, CGI.escape(key)))
         end
 
       end
