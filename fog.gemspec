@@ -602,6 +602,8 @@ Gem::Specification.new do |s|
     lib/fog/vcloud/requests/get_versions.rb
     lib/fog/vcloud/requests/login.rb
     lib/fog/vcloud/terremark/ecloud.rb
+    lib/fog/vcloud/terremark/ecloud/models/backup_internet_service.rb
+    lib/fog/vcloud/terremark/ecloud/models/backup_internet_services.rb
     lib/fog/vcloud/terremark/ecloud/models/catalog.rb
     lib/fog/vcloud/terremark/ecloud/models/catalog_item.rb
     lib/fog/vcloud/terremark/ecloud/models/firewall_acl.rb
