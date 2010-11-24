@@ -75,7 +75,7 @@ module Fog
           end
 
           def name=(new_name)
-            @name = new_name
+            attributes[:name] = new_name
             @changed = true
           end
 

@@ -25,7 +25,7 @@ module Fog
 
           def monitor=(new_monitor = {})
             if new_monitor.nil? || new_monitor.empty?
-              @monitor = nil
+              attributes[:monitor] = nil
             end
           end
 
