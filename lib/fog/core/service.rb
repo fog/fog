@@ -35,11 +35,11 @@ module Fog
       end
 
       def new(options={})
-        # TODO: check if this section of the code is still required...
-        #if Fog.bin
-        #  default_credentials = Fog.credentials.reject {|key, value| !requirements.include?(key)}
-        #  options = default_credentials.merge(options)
-        #end
+        if Fog.bin
+          requirements = recognized_parameters 
+          default_credentials = Fog.credentials.reject {|key, value| !requirements.include?(key)}
+          options = default_credentials.merge(options)
+        end
 
         setup_requirements
 
