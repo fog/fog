@@ -39,6 +39,7 @@ module Fog
       request :put_bucket_logging
       request :put_bucket_versioning
       request :put_object
+      request :put_object_acl
       request :put_object_url
       request :put_request_payment
       request :upload_part

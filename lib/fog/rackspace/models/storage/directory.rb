@@ -40,7 +40,7 @@ module Fog
           requires :key
           @public_url ||= begin
             begin response = connection.cdn.head_container(key)
-              response.headers['X-CDN-URI']
+              response.headers['X-CDN-Enabled'] == 'True' && response.headers['X-CDN-URI']
             rescue Fog::Service::NotFound
               nil
             end
@@ -51,7 +51,10 @@ module Fog
           requires :key
           connection.put_container(key)
           if @public
-            @public_url = connection.cdn.put_container(key).headers['X-CDN-URI']
+            @public_url = connection.cdn.put_container(key, 'X-CDN-Enabled' => 'True').headers['X-CDN-URI']
+          else
+            connection.cdn.put_container(key, 'X-CDN-Enabled' => 'False')
+            @public_url = nil
           end
           true
         end
