@@ -36,7 +36,7 @@ module Fog
 
       def new(options={})
         if Fog.bin
-          requirements = declared_parameters
+          #requirements = declared_parameters
           #puts "*x" * 10
           #puts "[#{self}]"
           #puts "* credentials: #{Fog.credentials.inspect}"
