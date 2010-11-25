@@ -36,8 +36,8 @@ module Fog
 
       def new(options={})
         if Fog.bin
-          requirements = recognized_parameters 
-          default_credentials = Fog.credentials.reject {|key, value| !requirements.include?(key)}
+          requirements = declared_parameters 
+          default_credentials = Fog.credentials.reject{ |key, value| !requirements.include?(key) }
           options = default_credentials.merge(options)
         end
 
