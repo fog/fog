@@ -36,9 +36,16 @@ module Fog
 
       def new(options={})
         if Fog.bin
-          requirements = declared_parameters 
-          default_credentials = Fog.credentials.reject{ |key, value| !requirements.include?(key) }
+          requirements = declared_parameters
+          #puts "*x" * 10
+          #puts "[#{self}]"
+          #puts "* credentials: #{Fog.credentials.inspect}"
+          #puts "- requirements: #{requirements.inspect}"
+          #puts "* options (before filter): #{options.inspect}"
+          default_credentials = filter_parameters(Fog.credentials)
           options = default_credentials.merge(options)
+          #puts "* options (after filter): #{options.inspect}"
+          #puts "*x" * 10
         end
 
         setup_requirements
