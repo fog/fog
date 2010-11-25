@@ -7,7 +7,7 @@ PATH
       formatador (>= 0.0.16)
       json
       mime-types
-      named-parameters (>= 0.0.10)
+      named-parameters (>= 0.0.11)
       net-ssh (~> 2.0.23)
       nokogiri (~> 1.4.3.1)
       ruby-hmac
@@ -22,7 +22,7 @@ GEM
       formatador (>= 0.0.12)
     json (1.4.6)
     mime-types (1.16)
-    named-parameters (0.0.10)
+    named-parameters (0.0.11)
     net-ssh (2.0.23)
     nokogiri (1.4.3.1)
     rake (0.8.7)
@@ -42,7 +42,7 @@ DEPENDENCIES
   formatador (>= 0.0.16)
   json
   mime-types
-  named-parameters (>= 0.0.10)
+  named-parameters (>= 0.0.11)
   net-ssh (~> 2.0.23)
   nokogiri (~> 1.4.3.1)
   rake
