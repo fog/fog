@@ -3,7 +3,7 @@ module Fog
     class Compute < Fog::Service
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent
+      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :public_key_path, :private_key_path
 
       model_path 'fog/aws/models/compute'
       model       :address
