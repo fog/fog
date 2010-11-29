@@ -33,17 +33,17 @@ module Fog
 
           def ready?
             load_unless_loaded!
-            @status == '2'
+            status == '2'
           end
 
           def on?
             load_unless_loaded!
-            @status == '4'
+            status == '4'
           end
 
           def off?
             load_unless_loaded!
-            @status == '2'
+            status == '2'
           end
 
           def power_on
