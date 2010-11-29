@@ -29,8 +29,10 @@ module Fog
       request :list_images_detail
       request :list_servers
       request :list_servers_detail
-      request :reboot_server
       request :update_server
+      request :action
+      request :reboot_server
+      request :resize_server
 
       class Mock
 
