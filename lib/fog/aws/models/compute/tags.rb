@@ -21,7 +21,7 @@ module Fog
           data = connection.describe_tags(@filters).body
           load(data['tagSet'])
         end
-
+        
         def get(key)
           if key
             self.class.new(:connection => connection).all('key' => key)

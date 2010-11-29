@@ -31,7 +31,13 @@ module Fog
       end
 
       class Mock
-
+        
+        #
+        # Usage
+        #
+        # AWS[:compute].create_snapshot("vol-f7c23423", "latest snapshot")
+        #
+        
         def create_snapshot(volume_id, description = nil)
           response = Excon::Response.new
           if volume = @data[:volumes][volume_id]
