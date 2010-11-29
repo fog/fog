@@ -30,7 +30,7 @@ module Fog
           end
 
           def rnat=(new_rnat)
-            @rnat = new_rnat
+            attributes[:rnat] = new_rnat
             @changed = true
           end
 
