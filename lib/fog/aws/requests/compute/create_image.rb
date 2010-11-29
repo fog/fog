@@ -18,6 +18,7 @@ module Fog
         #   * body<~Hash>:
         #     * 'imageId'<~String> - The ID of the created AMI.
         #     * 'requestId'<~String> - Id of request.
+        
         def create_image(instance_id, name, description, no_reboot = false)
           request(
             'Action'            => 'CreateImage',
@@ -31,7 +32,12 @@ module Fog
       end
 
       class Mock
-
+        
+        # Usage
+        # 
+        # AWS[:compute].create_image("i-ac65ee8c", "test", "something")
+        #
+        
         def create_image(instance_id, name, description, no_reboot = false)
           response = Excon::Response.new
           if instance_id && !name.empty?

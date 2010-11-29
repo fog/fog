@@ -9,9 +9,9 @@ module Fog
 
         model Fog::AWS::Compute::Flavor
 
-        # Returns an array of all key pairs that have been created
+        # Returns an array of all flavors that have been created
         #
-        # AWS.key_pairs.all
+        # AWS.flavors.all
         #
         # ==== Returns
         #
@@ -28,78 +28,7 @@ module Fog
         #        name="Micro Instance",
         #        ram=613
         #      >,
-        #      <Fog::AWS::Compute::Flavor
-        #        id="m1.small",
-        #        bits=32,
-        #        cores=1,
-        #        disk=160,
-        #        name="Small Instance",
-        #        ram=1740.8
-        #      >,
-        #      <Fog::AWS::Compute::Flavor
-        #        id="m1.large",
-        #        bits=64,
-        #        cores=4,
-        #        disk=850,
-        #        name="Large Instance",
-        #        ram=7680
-        #      >,
-        #      <Fog::AWS::Compute::Flavor
-        #        id="m1.xlarge",
-        #        bits=64,
-        #        cores=8,
-        #        disk=1690,
-        #        name="Extra Large Instance",
-        #        ram=15360
-        #      >,
-        #      <Fog::AWS::Compute::Flavor
-        #        id="c1.medium",
-        #        bits=32,
-        #        cores=5,
-        #        disk=350,
-        #        name="High-CPU Medium",
-        #        ram=1740.8
-        #      >,
-        #      <Fog::AWS::Compute::Flavor
-        #        id="c1.xlarge",
-        #        bits=64,
-        #        cores=20,
-        #        disk=1690,
-        #        name="High-CPU Extra Large",
-        #        ram=7168
-        #      >,
-        #      <Fog::AWS::Compute::Flavor
-        #        id="m2.xlarge",
-        #        bits=64,
-        #        cores=6.5,
-        #        disk=420,
-        #        name="High-Memory Extra Large",
-        #        ram=17510.4
-        #      >,
-        #      <Fog::AWS::Compute::Flavor
-        #        id="m2.2xlarge",
-        #        bits=64,
-        #        cores=13,
-        #        disk=850,
-        #        name="High Memory Double Extra Large",
-        #        ram=35020.8
-        #      >,
-        #      <Fog::AWS::Compute::Flavor
-        #        id="m2.4xlarge",
-        #        bits=64,
-        #        cores=26,
-        #        disk=1690,
-        #        name="High Memory Quadruple Extra Large",
-        #        ram=70041.6
-        #      >,
-        #      <Fog::AWS::Compute::Flavor
-        #        id="cc1.4xlarge",
-        #        bits=64,
-        #        cores=33.5,
-        #        disk=1690,
-        #        name="Cluster Compute Quadruple Extra Large",
-        #        ram=23552
-        #      >,
+        #      ....
         #      <Fog::AWS::Compute::Flavor
         #        id="cg1.4xlarge",
         #        bits=64,
