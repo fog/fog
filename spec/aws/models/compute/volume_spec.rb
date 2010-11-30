@@ -67,42 +67,64 @@ describe 'Fog::AWS::Compute::Volume' do
       @volume = AWS[:compute].volumes.new(:availability_zone => @server.availability_zone, :size => 1, :device => '/dev/sdz1')
     end
 
-    after(:each) do
-      if @volume.id
-        @volume.wait_for { state == 'in-use' }
-        @volume.server = nil
-        @volume.wait_for { ready? }
+    describe "when set to a server" do
+      after(:each) do
+        if @volume.id
+          @volume.wait_for { state == 'in-use' }
+          @volume.server = nil
+          @volume.wait_for { ready? }
+          @volume.destroy
+        end
+      end
+
+      it "should not attach to server if the volume has not been saved" do
+        @volume.server = @server
+        @volume.server_id.should_not == @server.id
+      end
+
+      it "should change the availability_zone if the volume has not been saved" do
+        @volume.server = @server
+        @volume.availability_zone.should == @server.availability_zone
+      end
+
+      it "should attach to server when the volume is saved" do
+        @volume.server = @server
+        @volume.save.should be_true
+        @volume.server_id.should == @server.id
+      end
+
+      it "should attach to server to an already saved volume" do
+        @volume.save.should be_true
+        @volume.server = @server
+        @volume.server_id.should == @server.id
+      end
+
+      it "should not change the availability_zone if the volume has been saved" do
+        @volume.save.should be_true
+        @volume.server = @server
+        @volume.availability_zone.should == @server.availability_zone
+      end
+
+    end
+
+    describe "when set to nil" do
+      after(:each) do
         @volume.destroy
       end
+
+      it "should detach from server if the volume has been saved" do
+        @volume.server = @server
+        @volume.save.should be_true
+        @server.reload.volumes.map(&:id).should include(@volume.id)
+
+        @volume.server = nil
+        @volume.wait_for { ready? }
+        @volume.server_id.should be_nil
+        @server.reload.volumes.map(&:id).should_not include(@volume.id)
+      end
+
     end
 
-    it "should not attach to server if the volume has not been saved" do
-      @volume.server = @server
-      @volume.server_id.should_not == @server.id
-    end
-
-    it "should change the availability_zone if the volume has not been saved" do
-      @volume.server = @server
-      @volume.availability_zone.should == @server.availability_zone
-    end
-
-    it "should attach to server when the volume is saved" do
-      @volume.server = @server
-      @volume.save.should be_true
-      @volume.server_id.should == @server.id
-    end
-
-    it "should attach to server to an already saved volume" do
-      @volume.save.should be_true
-      @volume.server = @server
-      @volume.server_id.should == @server.id
-    end
-
-    it "should not change the availability_zone if the volume has been saved" do
-      @volume.save.should be_true
-      @volume.server = @server
-      @volume.availability_zone.should == @server.availability_zone
-    end
   end
 
   describe "#reload" do

@@ -87,7 +87,7 @@ module Fog
           @server = nil
           self.server_id = nil
           unless new_record?
-            connection.detach_volume(@id)
+            connection.detach_volume(id)
             reload
           end
         end
@@ -96,7 +96,7 @@ module Fog
           @server = nil
           self.server_id = nil
           unless new_record?
-            connection.detach_volume(@id, 'Force' => true)
+            connection.detach_volume(id, 'Force' => true)
             reload
           end
         end
