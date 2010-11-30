@@ -10,7 +10,7 @@ module Fog
         # * body<~.to_json object> - Body of the request, describes the action (see reboot_server as an example)
         # * expect<~Integer> - expected return, 202 except for confirm resize (204)
         #
-        def action(server_id, body, expects=202)
+        def server_action(server_id, body, expects=202)
           request(
             :body     => body.to_json,
             :expects  => expects,
@@ -23,7 +23,7 @@ module Fog
 
       class Mock
 
-        def action(server_id, body)
+        def server_action(server_id, body)
           Fog::Mock.not_implemented
         end
 

@@ -13,6 +13,7 @@ module Fog
       collection  :servers
 
       request_path 'fog/rackspace/requests/compute'
+      request :confirm_resized_server
       request :create_image
       request :create_server
       request :delete_image
@@ -29,10 +30,11 @@ module Fog
       request :list_images_detail
       request :list_servers
       request :list_servers_detail
-      request :update_server
-      request :action
       request :reboot_server
+      request :revert_resized_server
       request :resize_server
+      request :server_action
+      request :update_server
 
       class Mock
 
