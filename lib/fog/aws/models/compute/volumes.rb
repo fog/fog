@@ -33,11 +33,7 @@ module Fog
         #
         # The volume can be retreived by running AWS.volumes.get("vol-1e2028b9").  See get method below.
         #
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> 7ca702e46c91aa2d30643d4ed3fddf5ef4df7953
         def initialize(attributes)
           self.filters ||= {}
           super
@@ -48,10 +44,7 @@ module Fog
         #
         # ==== Returns
         #
-<<<<<<< HEAD
         #>>AWS.volumes.all
-=======
->>>>>>> 7ca702e46c91aa2d30643d4ed3fddf5ef4df7953
         #<Fog::AWS::Compute::Volume
         #  id="vol-1e2028b9",
         #  attached_at=nil,
@@ -68,13 +61,8 @@ module Fog
         #
         # The volume can be retreived by running AWS.volumes.get("vol-1e2028b9").  See get method below.
         #
-<<<<<<< HEAD
-        
-        def all(filters = @filters)
-=======
 
         def all(filters = filters)
->>>>>>> 7ca702e46c91aa2d30643d4ed3fddf5ef4df7953
           unless filters.is_a?(Hash)
             Formatador.display_line("[yellow][WARN] all with #{filters.class} param is deprecated, use all('volume-id' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'volume-id' => [*filters]}
@@ -111,11 +99,7 @@ module Fog
         #    tags={}
         #  >
         #
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> 7ca702e46c91aa2d30643d4ed3fddf5ef4df7953
         def get(volume_id)
           if volume_id
             self.class.new(:connection => connection).all('volume-id' => volume_id).first
