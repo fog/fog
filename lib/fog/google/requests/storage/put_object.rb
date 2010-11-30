@@ -49,15 +49,22 @@ module Fog
           response = Excon::Response.new
           if (bucket = @data[:buckets][bucket_name])
             response.status = 200
-            bucket[:objects][object_name] = {
+            object = {
               :body           => data[:body],
+              'Content-Type'  => data[:headers]['Content-Type'],
               'ETag'          => Fog::Google::Mock.etag,
               'Key'           => object_name,
               'LastModified'  => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000"),
               'Size'          => data[:headers]['Content-Length'],
               'StorageClass'  => 'STANDARD'
             }
-            bucket[:objects][object_name]['Content-Type'] = data[:headers]['Content-Type']
+            bucket[:objects][object_name] = object
+            response.headers = {
+              'Content-Length'  => object['Size'],
+              'Content-Type'    => object['Content-Type'],
+              'ETag'            => object['ETag'],
+              'Last-Modified'   => object['LastModified']
+            }
           else
             response.status = 404
             raise(Excon::Errors.status_error({:expects => 200}, response))

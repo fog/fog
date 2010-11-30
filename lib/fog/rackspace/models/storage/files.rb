@@ -38,15 +38,10 @@ module Fog
         def get(key, &block)
           requires :directory
           data = connection.get_object(directory.key, key, &block)
-          file_data = {
+          file_data = data.headers.merge({
             :body => data.body,
             :key  => key
-          }
-          for key, value in data.headers
-            if ['Content-Length', 'Content-Type', 'ETag', 'Last-Modified'].include?(key)
-              file_data[key] = value
-            end
-          end
+          })
           new(file_data)
         rescue Fog::Rackspace::Storage::NotFound
           nil
@@ -60,12 +55,9 @@ module Fog
         def head(key, options = {})
           requires :directory
           data = connection.head_object(directory.name, key, options)
-          file_data = { :key => key }
-          for key, value in data.headers
-            if ['Content-Length', 'Content-Type', 'ETag', 'Last-Modified'].include?(key)
-              file_data[key] = value
-            end
-          end
+          file_data = data.headers.merge({
+            :key => key
+          })
           new(file_data)
         rescue Fog::Rackspace::Storage::NotFound
           nil

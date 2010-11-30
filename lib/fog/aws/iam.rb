@@ -5,9 +5,16 @@ module Fog
       requires :aws_access_key_id, :aws_secret_access_key
 
       request_path 'fog/aws/requests/iam'
+      request :add_user_to_group
       request :create_group
+      request :create_user
       request :delete_group
+      request :delete_group_policy
+      request :delete_user
       request :list_groups
+      request :list_group_policies
+      request :put_group_policy
+      request :remove_user_from_group
 
       class Mock
 
@@ -36,6 +43,7 @@ module Fog
         # ==== Returns
         # * IAM object with connection to AWS.
         def initialize(options={})
+          require 'json'
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
           @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)

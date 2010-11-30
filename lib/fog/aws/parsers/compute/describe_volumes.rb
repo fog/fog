@@ -30,6 +30,8 @@ module Fog
                 @in_attachment_set = false
               when 'attachTime'
                 @attachment[name] = Time.parse(@value)
+              when 'deleteOnTermination'
+                @attachment[name] = @value == 'true'
               when 'device', 'instanceId', 'status', 'volumeId'
                 @attachment[name] = @value
               when 'item'

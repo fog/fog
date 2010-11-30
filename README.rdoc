@@ -18,8 +18,10 @@ Now just type 'fog' to trying stuff out, confident that fog should let you know 
 
   >> server = AWS.servers.create
   ArgumentError: image_id is required for this operation
+
   >> server = AWS.servers.create(:image_id => 'ami-5ee70037')
   <Fog::AWS::EC2::Server [...]>
+
   >> server.destroy # cleanup after yourself or regret it, trust me
   true
 
@@ -34,10 +36,10 @@ You can see a list of available collections by calling #collections on the conne
 Some of these collections are available across multiple providers. For example, all compute providers have +flavors+, +images+ and +servers+, and storage providers have +directory+ and +file+. 
 
 Collections share most of the basic CRUD type operations, such as:
-* +#all+ - fetch every object of that type from the provider.
-* +#create+  initialize a new record locally and then persists it with the provider.
-* +#get+ - fetch a single object by its identity from the provider.
-* +#new+ - initialize a new record locally, but do not persist it to the provider.
+* +all+ - fetch every object of that type from the provider.
+* +create+ - initialize a new record locally and then persists it with the provider.
+* +get+ - fetch a single object by its identity from the provider.
+* +new+ - initialize a new record locally, but do not persist it to the provider.
 
 As an example, we'll try initializing and persisting a Rackspace Cloud server:
 
@@ -63,9 +65,9 @@ As an example, we'll try initializing and persisting a Rackspace Cloud server:
 == Models
 
 Many of the collection methods return individual objects, which also provide some common methods:
-* +#destroy+ - will destroy the persisted object from the provider
-* +#save+ - persist the object to the provider
-* +#wait_for+ - takes a block and waits for either the block to return true for the object or for a timeout (defaults to 10 minutes)
+* +destroy+ - will destroy the persisted object from the provider
+* +save+ - persist the object to the provider
+* +wait_for+ - takes a block and waits for either the block to return true for the object or for a timeout (defaults to 10 minutes)
 
 == Mocks
 
@@ -120,6 +122,12 @@ Enjoy, and let me know what I can do to continue improving fog!
 * Report bugs in {issues}[http://github.com/geemus/fog/issues]
 * Learn about {contributing}[http://github.com/geemus/fog/wiki/contributor-guide] or find more info about the {Providers}[http://github.com/geemus/fog/wiki/Providers] (including some todo items)
 * See what already uses fog and add your own stuff to {the list}[http://wiki.github.com/geemus/fog/in-the-wild]
+
+== Sponsorship
+
+http://www.engineyard.com/images/logo.png
+
+All new work on fog is sponsored by {Engine Yard}[http://engineyard.com]
 
 == Copyright
 

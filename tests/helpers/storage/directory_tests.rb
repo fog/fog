@@ -1,32 +1,18 @@
-def directory_tests(connection, mocks_implemented = true)
+def directory_tests(connection, params = {}, mocks_implemented = true)
 
-  tests('success') do
+  params = {:key => 'fogdirectorytests'}.merge!(params)
 
-    if !Fog.mocking? || mocks_implemented
-      @directory = connection.directories.new(:key => 'fogdirectorytests')
-    end
-
-    tests("#save").succeeds do
-      pending if Fog.mocking? && !mocks_implemented
-      @directory.save
-    end
-
-    tests("#destroy").succeeds do
-      pending if Fog.mocking? && !mocks_implemented
-      @directory.destroy
-    end
+  model_tests(connection.directories, params, mocks_implemented) do
 
     tests("#public=(true)").succeeds do
-      @directory.public=(true)
+      pending if Fog.mocking? && !mocks_implemented
+      @instance.public=(true)
     end
 
-    tests("#respond_to?(:public_url)").succeeds do
-      @directory.respond_to?(:public_url)
+    if !Fog.mocking? || mocks_implemented
+      responds_to(:public_url)
     end
 
-  end
-
-  tests('failure') do
   end
 
 end

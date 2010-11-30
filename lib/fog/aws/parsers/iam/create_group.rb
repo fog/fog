@@ -3,7 +3,7 @@ module Fog
     module AWS
       module IAM
 
-        class CreateGroups < Fog::Parsers::Base
+        class CreateGroup < Fog::Parsers::Base
 
           def reset
             @response = { 'Group' => {} }
@@ -14,7 +14,7 @@ module Fog
             when 'Arn', 'GroupId', 'GroupName', 'Path'
               @response['Group'][name] = @value
             when 'RequestId'
-              response[name] = @value
+              @response[name] = @value
             end
           end
 

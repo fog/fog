@@ -12,6 +12,7 @@ module Fog
       request 'get_distribution_list'
       request 'post_distribution'
       request 'post_invalidation'
+      request 'put_distribution_config'
 
       class Mock
 
@@ -69,7 +70,7 @@ module Fog
           @path     = options[:path]      || '/'
           @port     = options[:port]      || 443
           @scheme   = options[:scheme]    || 'https'
-          @version  = options[:version]  || '2010-08-01'
+          @version  = options[:version]  || '2010-11-01'
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent] || true)
         end
 

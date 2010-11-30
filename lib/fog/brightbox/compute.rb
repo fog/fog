@@ -62,6 +62,11 @@ module Fog
 
       class Mock
 
+        def initialize(options)
+          @brightbox_client_id = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
+          @brightbox_secret = options[:brightbox_secret] || Fog.credentials[:brightbox_secret]
+        end
+
         def request(options)
           raise "Not implemented"
         end
@@ -74,8 +79,8 @@ module Fog
           # Currently authentication and api endpoints are the same but may change
           @auth_url = options[:brightbox_auth_url] || Fog.credentials[:brightbox_auth_url] || API_URL
           @api_url = options[:brightbox_api_url] || Fog.credentials[:brightbox_api_url] || API_URL
-          @brightbox_client_id = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id] || nil
-          @brightbox_secret = options[:brightbox_secret] || Fog.credentials[:brightbox_secret] || nil
+          @brightbox_client_id = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
+          @brightbox_secret = options[:brightbox_secret] || Fog.credentials[:brightbox_secret]
           @connection = Fog::Connection.new(@api_url)
         end
 

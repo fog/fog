@@ -8,6 +8,13 @@ $LOAD_PATH.unshift __DIR__ unless
   $LOAD_PATH.include?(__DIR__) ||
   $LOAD_PATH.include?(File.expand_path(__DIR__))
 
+require 'tests/helpers/collection_tests'
+require 'tests/helpers/model_tests'
+
+require 'tests/helpers/compute/flavors_tests'
+require 'tests/helpers/compute/server_tests'
+require 'tests/helpers/compute/servers_tests'
+
 require 'tests/helpers/storage/directory_tests'
 require 'tests/helpers/storage/directories_tests'
 require 'tests/helpers/storage/file_tests'
@@ -32,15 +39,23 @@ end
 module Shindo
   class Tests
 
-    def formats(format, &block)
-      test('has proper format') do
-        formats_kernel(instance_eval(&block), format)
+    def responds_to(method_names)
+      for method_name in [*method_names]
+        tests("#respond_to?(:#{method_name})").succeeds do
+          @instance.respond_to?(method_name)
+        end
       end
     end
 
-    def succeeds(&block)
+    def formats(format)
+      test('has proper format') do
+        formats_kernel(instance_eval(&Proc.new), format)
+      end
+    end
+
+    def succeeds
       test('succeeds') do
-        instance_eval(&block)
+        instance_eval(&Proc.new)
         true
       end
     end

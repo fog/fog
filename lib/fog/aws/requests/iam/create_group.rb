@@ -8,8 +8,8 @@ module Fog
         # Create a new group
         # 
         # ==== Parameters
-        # * 'GroupName'<~String>: name of the group to create (do not include path)
-        # * 'Path'<~String>: optional path to group, defaults to '/'
+        # * group_name<~String>: name of the group to create (do not include path)
+        # * path<~String>: optional path to group, defaults to '/'
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -20,12 +20,16 @@ module Fog
         #       * GroupName<~String> -
         #       * Path<~String> -
         #     * 'RequestId'<~String> - Id of the request
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_CreateGroup.html
+        #
         def create_group(group_name, path = '/')
           request(
             'Action'    => 'CreateGroup',
             'GroupName' => group_name,
             'Path'      => path,
-            :parser     => Fog::Parsers::AWS::IAM::CreateGroups.new
+            :parser     => Fog::Parsers::AWS::IAM::CreateGroup.new
           )
         end
 

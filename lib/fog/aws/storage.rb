@@ -11,6 +11,8 @@ module Fog
       model       :file
 
       request_path 'fog/aws/requests/storage'
+      request :abort_multipart_upload
+      request :complete_multipart_upload
       request :copy_object
       request :delete_bucket
       request :delete_object
@@ -27,6 +29,9 @@ module Fog
       request :get_request_payment
       request :get_service
       request :head_object
+      request :initiate_multipart_upload
+      request :list_multipart_uploads
+      request :list_parts
       request :post_object_hidden_fields
       request :put_bucket
       request :put_bucket_acl
@@ -35,6 +40,7 @@ module Fog
       request :put_object
       request :put_object_url
       request :put_request_payment
+      request :upload_part
 
       module Utils
 
@@ -219,7 +225,7 @@ DATA
           for key, value in amz_headers
             canonical_amz_headers << "#{key}:#{value}\n"
           end
-          string_to_sign << "#{canonical_amz_headers}"
+          string_to_sign << canonical_amz_headers
 
           subdomain = params[:host].split(".#{@host}").first
           unless subdomain =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
@@ -228,7 +234,7 @@ DATA
             if params[:path]
               params[:path] = "#{subdomain}/#{params[:path]}"
             else
-              params[:path] = "#{subdomain}"
+              params[:path] = subdomain
             end
             subdomain = nil
           end
@@ -237,15 +243,15 @@ DATA
           unless subdomain.nil? || subdomain == @host
             canonical_resource << "#{CGI.escape(subdomain).downcase}/"
           end
-          canonical_resource << "#{params[:path]}"
+          canonical_resource << params[:path].to_s
           canonical_resource << '?'
           for key in (params[:query] || {}).keys
-            if ['acl', 'location', 'logging', 'requestPayment', 'torrent', 'versions', 'versioning'].include?(key)
-              canonical_resource << "#{key}&"
+            if %w{acl location logging notification partNumber policy requestPayment torrent uploadId uploads versionId versioning versions}.include?(key)
+              canonical_resource << "#{key}#{"=#{params[:query][key]}" unless params[:query][key].nil?}&"
             end
           end
           canonical_resource.chop!
-          string_to_sign << "#{canonical_resource}"
+          string_to_sign << canonical_resource
 
           signed_string = @hmac.sign(string_to_sign)
           signature = Base64.encode64(signed_string).chomp!
