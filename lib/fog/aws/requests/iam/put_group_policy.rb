@@ -15,7 +15,7 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'RequestId'<~String> - Id of the request        def put_group_policy(group_name, path = '/')
+        #     * 'RequestId'<~String> - Id of the request
         #
         # ==== See Also
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_PutGroupPolicy.html

@@ -42,6 +42,14 @@ module Fog
       class Mock
 
         def put_object(bucket_name, object_name, data, options = {})
+          if options['x-goog-acl']
+            unless ['private', 'public-read', 'public-read-write', 'authenticated-read']
+              raise Excon::Errors::BadRequest.new('invalid x-goog-acl')
+            else
+              @data[:acls][:object][bucket_name] ||= {}
+              @data[:acls][:object][bucket_name][object_name] = self.class.acls(options['x-goog-acl'])
+            end
+          end
           data = parse_data(data)
           unless data[:body].is_a?(String)
             data[:body] = data[:body].read

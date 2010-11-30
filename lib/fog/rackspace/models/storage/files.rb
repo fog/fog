@@ -18,10 +18,10 @@ module Fog
         def all(options = {})
           requires :directory
           options = {
-            'limit'   => @limit,
-            'marker'  => @marker,
-            'path'    => @path,
-            'prefix'  => @prefix
+            'limit'   => limit,
+            'marker'  => marker,
+            'path'    => path,
+            'prefix'  => prefix
           }.merge!(options)
           merge_attributes(options)
           parent = directory.collection.get(
@@ -49,12 +49,12 @@ module Fog
 
         def get_url(key, expires)
           requires :directory
-          connection.get_object_url(directory.name, key, expires)
+          connection.get_object_url(directory.key, key, expires)
         end
 
         def head(key, options = {})
           requires :directory
-          data = connection.head_object(directory.name, key, options)
+          data = connection.head_object(directory.key, key)
           file_data = data.headers.merge({
             :key => key
           })

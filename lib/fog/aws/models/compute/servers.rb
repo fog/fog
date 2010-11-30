@@ -9,21 +9,19 @@ module Fog
 
         attribute :filters
 
-        attribute :server_id
-
         model Fog::AWS::Compute::Server
 
         def initialize(attributes)
-          @filters ||= {}
+          self.filters ||= {}
           super
         end
 
-        def all(filters = @filters)
+        def all(filters = self.filters)
           unless filters.is_a?(Hash)
             Formatador.display_line("[yellow][WARN] all with #{filters.class} param is deprecated, use all('instance-id' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'instance-id' => [*filters]}
           end
-          @filters = filters
+          self.filters = filters
           data = connection.describe_instances(filters).body
           load(
             data['reservationSet'].map do |reservation|

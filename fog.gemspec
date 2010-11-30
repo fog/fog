@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.3.18'
-  s.date              = '2010-11-16'
+  s.version           = '0.3.25'
+  s.date              = '2010-11-23'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -44,7 +44,7 @@ Gem::Specification.new do |s|
   ## that are needed for an end user to actually USE your code.
   s.add_dependency('builder')
   s.add_dependency('excon', '>=0.2.4')
-  s.add_dependency('formatador', '>=0.0.15')
+  s.add_dependency('formatador', '>=0.0.16')
   s.add_dependency('json')
   s.add_dependency('mime-types')
   s.add_dependency('net-ssh', '~>2.0.23')
@@ -55,7 +55,7 @@ Gem::Specification.new do |s|
   ## those that are only needed during development
   s.add_development_dependency('rake')
   s.add_development_dependency('rspec', '1.3.1')
-  s.add_development_dependency('shindo', '0.1.9')
+  s.add_development_dependency('shindo', '0.1.10')
 
   ## Leave this section as-is. It will be automatically generated from the
   ## contents of your Git repository via the gemspec task. DO NOT REMOVE
@@ -140,10 +140,13 @@ Gem::Specification.new do |s|
     lib/fog/aws/parsers/elb/enable_availability_zones_for_load_balancer.rb
     lib/fog/aws/parsers/elb/register_instances_with_load_balancer.rb
     lib/fog/aws/parsers/iam/basic.rb
+    lib/fog/aws/parsers/iam/create_access_key.rb
     lib/fog/aws/parsers/iam/create_group.rb
     lib/fog/aws/parsers/iam/create_user.rb
-    lib/fog/aws/parsers/iam/list_group_policies.rb
+    lib/fog/aws/parsers/iam/list_access_keys.rb
     lib/fog/aws/parsers/iam/list_groups.rb
+    lib/fog/aws/parsers/iam/list_policies.rb
+    lib/fog/aws/parsers/iam/list_users.rb
     lib/fog/aws/parsers/simpledb/basic.rb
     lib/fog/aws/parsers/simpledb/domain_metadata.rb
     lib/fog/aws/parsers/simpledb/get_attributes.rb
@@ -218,15 +221,23 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/elb/enable_availability_zones_for_load_balancer.rb
     lib/fog/aws/requests/elb/register_instances_with_load_balancer.rb
     lib/fog/aws/requests/iam/add_user_to_group.rb
+    lib/fog/aws/requests/iam/create_access_key.rb
     lib/fog/aws/requests/iam/create_group.rb
     lib/fog/aws/requests/iam/create_user.rb
+    lib/fog/aws/requests/iam/delete_access_key.rb
     lib/fog/aws/requests/iam/delete_group.rb
     lib/fog/aws/requests/iam/delete_group_policy.rb
     lib/fog/aws/requests/iam/delete_user.rb
+    lib/fog/aws/requests/iam/delete_user_policy.rb
+    lib/fog/aws/requests/iam/list_access_keys.rb
     lib/fog/aws/requests/iam/list_group_policies.rb
     lib/fog/aws/requests/iam/list_groups.rb
+    lib/fog/aws/requests/iam/list_user_policies.rb
+    lib/fog/aws/requests/iam/list_users.rb
     lib/fog/aws/requests/iam/put_group_policy.rb
+    lib/fog/aws/requests/iam/put_user_policy.rb
     lib/fog/aws/requests/iam/remove_user_from_group.rb
+    lib/fog/aws/requests/iam/update_access_key.rb
     lib/fog/aws/requests/simpledb/batch_put_attributes.rb
     lib/fog/aws/requests/simpledb/create_domain.rb
     lib/fog/aws/requests/simpledb/delete_attributes.rb
@@ -263,6 +274,7 @@ Gem::Specification.new do |s|
     lib/fog/aws/requests/storage/put_bucket_logging.rb
     lib/fog/aws/requests/storage/put_bucket_versioning.rb
     lib/fog/aws/requests/storage/put_object.rb
+    lib/fog/aws/requests/storage/put_object_acl.rb
     lib/fog/aws/requests/storage/put_object_url.rb
     lib/fog/aws/requests/storage/put_request_payment.rb
     lib/fog/aws/requests/storage/upload_part.rb
@@ -730,6 +742,11 @@ Gem::Specification.new do |s|
     tests/aws/requests/compute/snapshot_tests.rb
     tests/aws/requests/compute/tag_tests.rb
     tests/aws/requests/compute/volume_tests.rb
+    tests/aws/requests/iam/access_key_tests.rb
+    tests/aws/requests/iam/group_policy_tests.rb
+    tests/aws/requests/iam/group_tests.rb
+    tests/aws/requests/iam/user_policy_tests.rb
+    tests/aws/requests/iam/user_tests.rb
     tests/aws/requests/storage/bucket_tests.rb
     tests/aws/requests/storage/multipart_upload_tests.rb
     tests/aws/requests/storage/object_tests.rb

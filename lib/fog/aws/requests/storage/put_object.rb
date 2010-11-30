@@ -16,6 +16,7 @@ module Fog
         #   * 'Content-Length'<~String> - Size of object in bytes (defaults to object.read.length)
         #   * 'Content-MD5'<~String> - Base64 encoded 128-bit MD5 digest of message
         #   * 'Content-Type'<~String> - Standard MIME type describing contents (defaults to MIME::Types.of.first)
+        #   * 'Expires'<~String> - Cache expiry
         #   * 'x-amz-acl'<~String> - Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
         #   * "x-amz-meta-#{name}" - Headers to be returned with object, note total size of request without body must be less than 8 KB.
         #
@@ -46,6 +47,14 @@ module Fog
       class Mock # :nodoc:all
 
         def put_object(bucket_name, object_name, data, options = {})
+          if options['x-amz-acl']
+            unless ['private', 'public-read', 'public-read-write', 'authenticated-read']
+              raise Excon::Errors::BadRequest.new('invalid x-amz-acl')
+            else
+              @data[:acls][:object][bucket_name] ||= {}
+              @data[:acls][:object][bucket_name][object_name] = self.class.acls(options['x-amz-acl'])
+            end
+          end
           data = parse_data(data)
           unless data[:body].is_a?(String)
             data[:body] = data[:body].read

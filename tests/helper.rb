@@ -1,12 +1,16 @@
+__DIR__ = File.dirname(__FILE__)
+__LIB_DIR__ = File.join(__DIR__, '../lib')
+
+[ __DIR__, __LIB_DIR__ ].each do |directory|
+  $LOAD_PATH.unshift directory unless
+    $LOAD_PATH.include?(directory) ||
+    $LOAD_PATH.include?(File.expand_path(directory))
+end
+
 require 'fog'
 require 'fog/core/bin'
+
 Fog.bin = true
-
-__DIR__ = File.dirname(__FILE__)
-
-$LOAD_PATH.unshift __DIR__ unless
-  $LOAD_PATH.include?(__DIR__) ||
-  $LOAD_PATH.include?(File.expand_path(__DIR__))
 
 require 'tests/helpers/collection_tests'
 require 'tests/helpers/model_tests'
@@ -22,6 +26,14 @@ require 'tests/helpers/storage/files_tests'
 
 if ENV["FOG_MOCK"] == "true"
   Fog.mock!
+end
+
+# check to see which credentials are available and add others to the skipped tags list
+all_providers = ['aws', 'bluebox', 'brightbox', 'gogrid', 'google', 'linode', 'local', 'newservers', 'rackspace', 'slicehost', 'terremark']
+available_providers = Fog.providers.map {|provider| provider.to_s.downcase}
+for provider in (all_providers - available_providers)
+  Formatador.display_line("[yellow]Skipping tests for [bold]#{provider}[/] [yellow]due to lacking credentials (add some to '~/.fog' to run them)[/]")
+  Thread.current[:tags] << ('-' << provider)
 end
 
 # Boolean hax

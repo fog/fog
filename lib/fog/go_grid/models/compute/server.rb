@@ -24,13 +24,13 @@ module Fog
 
         def destroy
           requires :id
-          connection.grid_server_destroy(@id)
+          connection.grid_server_destroy(id)
           true
         end
 
         def image
           requires :image_id
-          connection.grid_image_get(@image_id)
+          connection.grid_image_get(image_id)
         end
 
         def ready?

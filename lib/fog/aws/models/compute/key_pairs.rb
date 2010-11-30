@@ -7,21 +7,22 @@ module Fog
 
       class KeyPairs < Fog::Collection
 
+        attribute :filters
         attribute :key_name
 
         model Fog::AWS::Compute::KeyPair
 
         def initialize(attributes)
-          @filters ||= {}
+          self.filters ||= {}
           super
         end
 
-        def all(filters = @filters)
+        def all(filters = filters)
           unless filters.is_a?(Hash)
             Formatador.display_line("[yellow][WARN] all with #{filters.class} param is deprecated, use all('key-name' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'key-name' => [*filters]}
           end
-          @filters = filters
+          self.filters = filters
           data = connection.describe_key_pairs(filters).body
           load(data['keySet'])
         end

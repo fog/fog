@@ -22,9 +22,9 @@ module Fog
           requires :identity
 
           options = {
-            :email_address => @email_address,
-            :ssh_key => @ssh_key,
-            :name => @name
+            :email_address => email_address,
+            :ssh_key => ssh_key,
+            :name => name
           }
 
           data = connection.update_user(identity, options)

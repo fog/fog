@@ -7,22 +7,23 @@ module Fog
 
       class Files < Fog::Collection
 
-        attribute :delimiter,     :aliases => 'Delimiter'
+        attribute :common_prefixes, :aliases => 'CommonPrefixes'
+        attribute :delimiter,       :aliases => 'Delimiter'
         attribute :directory
-        attribute :is_truncated,  :aliases => 'IsTruncated'
-        attribute :marker,        :aliases => 'Marker'
-        attribute :max_keys,      :aliases => ['MaxKeys', 'max-keys']
-        attribute :prefix,        :aliases => 'Prefix'
+        attribute :is_truncated,    :aliases => 'IsTruncated'
+        attribute :marker,          :aliases => 'Marker'
+        attribute :max_keys,        :aliases => ['MaxKeys', 'max-keys']
+        attribute :prefix,          :aliases => 'Prefix'
 
         model Fog::AWS::Storage::File
 
         def all(options = {})
           requires :directory
           options = {
-            'delimiter'   => @delimiter,
-            'marker'      => @marker,
-            'max-keys'    => @max_keys,
-            'prefix'      => @prefix
+            'delimiter'   => delimiter,
+            'marker'      => marker,
+            'max-keys'    => max_keys,
+            'prefix'      => prefix
           }.merge!(options)
           options = options.reject {|key,value| value.nil? || value.to_s.empty?}
           merge_attributes(options)

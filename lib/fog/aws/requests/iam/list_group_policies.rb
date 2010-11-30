@@ -3,7 +3,7 @@ module Fog
     class IAM
       class Real
 
-        require 'fog/aws/parsers/iam/list_group_policies'
+        require 'fog/aws/parsers/iam/list_policies'
 
         # List policies for a group
         # 
@@ -29,7 +29,7 @@ module Fog
           request({
             'Action'    => 'ListGroupPolicies',
             'GroupName' => group_name,
-            :parser     => Fog::Parsers::AWS::IAM::ListGroupPolicies.new
+            :parser     => Fog::Parsers::AWS::IAM::ListPolicies.new
           }.merge!(options))
         end
 

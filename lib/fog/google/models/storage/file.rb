@@ -11,7 +11,6 @@ module Fog
 
         identity  :key,             :aliases => 'Key'
 
-        attr_writer :body
         attribute :cache_control,       :aliases => 'Cache-Control'
         attribute :content_disposition, :aliases => 'Content-Disposition'
         attribute :content_encoding,    :aliases => 'Content-Encoding'
@@ -33,11 +32,15 @@ module Fog
         end
 
         def body
-          @body ||= if last_modified && (file = collection.get(identity))
+          attributes[:body] ||= if last_modified && (file = collection.get(identity))
             file.body
           else
             ''
           end
+        end
+
+        def body=(new_body)
+          attributes[:body] = new_body
         end
 
         def directory
@@ -46,7 +49,7 @@ module Fog
 
         def copy(target_directory_key, target_file_key)
           requires :directory, :key
-          connection.copy_object(directory.key, @key, target_directory_key, target_file_key)
+          connection.copy_object(directory.key, key, target_directory_key, target_file_key)
           target_directory = connection.directories.new(:key => target_directory_key)
           target_directory.files.get(target_file_key)
         end
@@ -54,7 +57,7 @@ module Fog
         def destroy
           requires :directory, :key
           begin
-            connection.delete_object(directory.key, @key)
+            connection.delete_object(directory.key, key)
           rescue Excon::Errors::NotFound
           end
           true
@@ -63,20 +66,27 @@ module Fog
         remove_method :owner=
         def owner=(new_owner)
           if new_owner
-            @owner = {
+            attributes[:owner] = {
               :display_name => new_owner['DisplayName'],
               :id           => new_owner['ID']
             }
           end
         end
 
+        def public=(new_public)
+          if new_public
+            @acl = 'public-read'
+          else
+            @acl = 'private'
+          end
+          new_public
+        end
+
         def public_url
           requires :directory, :key
-          if directory.public_url
-            "#{directory.public_url}/#{key}"
-          elsif connection.get_object_acl(directory.key, key).body['AccessControlList'].detect {|entry| entry['Scope']['type'] == 'AllUsers' && entry['Permission'] == 'READ'}
+          if connection.get_object_acl(directory.key, key).body['AccessControlList'].detect {|entry| entry['Scope']['type'] == 'AllUsers' && entry['Permission'] == 'READ'}
             if directory.key.to_s =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
-              "https://#{directory.key}.commondatastorage.googleapis/#{key}"
+              "https://#{directory.key}.commondatastorage.googleapis.com/#{key}"
             else
               "https://commondatastorage.googleapis.com/#{directory.key}/#{key}"
             end
@@ -98,8 +108,13 @@ module Fog
           options['Content-Type'] = content_type if content_type
           options['Expires'] = expires if expires
 
-          data = connection.put_object(directory.key, @key, @body, options)
+          data = connection.put_object(directory.key, key, body, options)
           merge_attributes(data.headers)
+          if body.is_a?(String)
+            self.content_length = body.size
+          else
+            self.content_length = ::File.size(body.path)
+          end
           true
         end
 

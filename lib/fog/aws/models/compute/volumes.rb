@@ -13,17 +13,17 @@ module Fog
         model Fog::AWS::Compute::Volume
 
         def initialize(attributes)
-          @filters ||= {}
+          self.filters ||= {}
           super
         end
 
-        def all(filters = @filters)
+        def all(filters = filters)
           unless filters.is_a?(Hash)
             Formatador.display_line("[yellow][WARN] all with #{filters.class} param is deprecated, use all('volume-id' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'volume-id' => [*filters]}
           end
-          @filters = filters
-          data = connection.describe_volumes(@filters).body
+          self.filters = filters
+          data = connection.describe_volumes(filters).body
           load(data['volumeSet'])
           if server
             self.replace(self.select {|volume| volume.server_id == server.id})

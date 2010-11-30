@@ -38,6 +38,7 @@ module Fog
       request :put_bucket_logging
       request :put_bucket_versioning
       request :put_object
+      request :put_object_acl
       request :put_object_url
       request :put_request_payment
       request :upload_part
@@ -87,10 +88,56 @@ module Fog
       class Mock
         include Utils
 
+        def self.acls(type)
+          case type
+          when 'private'
+            @private ||= {
+              "AccessControlList" => [
+                {
+                  "Permission" => "FULL_CONTROL",
+                  "Grantee" => {"DisplayName" => "me", "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0"}
+                }
+              ],
+              "Owner" => {"DisplayName" => "me", "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0"}
+            }
+          when 'public-read'
+            @public_read ||= begin
+              public_read = self.acls('private').dup
+              public_read['AccessControlList'] << {
+                "Permission" => "READ",
+                "Grantee" => {"URI" => "http://acs.amazonaws.com/groups/global/AllUsers"}
+              }
+              public_read
+            end
+          when 'public-read-write'
+            @public_read_write ||= begin
+              public_read_write = self.acls('public-read').dup
+              public_read_write['AccessControlList'] << {
+                "Permission" => "WRITE",
+                "Grantee" => {"URI" => "http://acs.amazonaws.com/groups/global/AllUsers"}
+              }
+              public_read_write
+            end
+          when 'authenticated-read'
+            @authenticated_read ||= begin
+              authenticated_read = self.acls('private').dup
+              authenticated_read['AccessControlList'] << {
+                "Permission" => "READ",
+                "Grantee" => {"URI" => "http://acs.amazonaws.com/groups/global/AuthenticatedUsers"}
+              }
+              authenticated_read
+            end
+          end
+        end
+
         def self.data
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
+                :acls => {
+                  :bucket => {},
+                  :object => {}
+                },
                 :buckets => {}
               }
             end
