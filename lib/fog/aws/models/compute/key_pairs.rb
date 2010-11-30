@@ -25,11 +25,7 @@ module Fog
         #
         # The key_pair can be retreived by running AWS.key_pairs.get("test").  See get method below.
         #
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> 7ca702e46c91aa2d30643d4ed3fddf5ef4df7953
         def initialize(attributes)
           self.filters ||= {}
           super
@@ -51,15 +47,9 @@ module Fog
         #    >
         #  ]
         #>
-<<<<<<< HEAD
         # 
-        
-        def all(filters = @filters)
-=======
-        #
 
         def all(filters = filters)
->>>>>>> 7ca702e46c91aa2d30643d4ed3fddf5ef4df7953
           unless filters.is_a?(Hash)
             Formatador.display_line("[yellow][WARN] all with #{filters.class} param is deprecated, use all('key-name' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'key-name' => [*filters]}
@@ -68,11 +58,7 @@ module Fog
           data = connection.describe_key_pairs(filters).body
           load(data['keySet'])
         end
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> 7ca702e46c91aa2d30643d4ed3fddf5ef4df7953
         # Used to retreive a key pair that was created with the AWS.key_pairs.create method.
         # The name is required to get the associated key_pair information.
         #
@@ -88,11 +74,7 @@ module Fog
         #    private_key=nil
         #  >
         #
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> 7ca702e46c91aa2d30643d4ed3fddf5ef4df7953
         def get(key_name)
           if key_name
             self.class.new(:connection => connection).all('key-name' => key_name).first

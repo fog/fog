@@ -9,15 +9,12 @@ module Fog
 
         model Fog::AWS::Compute::Flavor
 
-<<<<<<< HEAD
         # Returns an array of all flavors that have been created
         #
         # AWS.flavors.all
-=======
         # Returns an array of all key pairs that have been created
         #
         # AWS.key_pairs.all
->>>>>>> 7ca702e46c91aa2d30643d4ed3fddf5ef4df7953
         #
         # ==== Returns
         #
@@ -34,9 +31,7 @@ module Fog
         #        name="Micro Instance",
         #        ram=613
         #      >,
-<<<<<<< HEAD
         #      ....
-=======
         #      <Fog::AWS::Compute::Flavor
         #        id="m1.small",
         #        bits=32,
@@ -109,7 +104,6 @@ module Fog
         #        name="Cluster Compute Quadruple Extra Large",
         #        ram=23552
         #      >,
->>>>>>> 7ca702e46c91aa2d30643d4ed3fddf5ef4df7953
         #      <Fog::AWS::Compute::Flavor
         #        id="cg1.4xlarge",
         #        bits=64,
