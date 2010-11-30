@@ -92,7 +92,7 @@ module Fog
               :host     => @host,
               :path     => "#{@path}/#{params[:path]}"
             }))
-          rescue Excon::Errors::Error => error
+          rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
               Fog::Rackspace::Compute::NotFound.slurp(error)
