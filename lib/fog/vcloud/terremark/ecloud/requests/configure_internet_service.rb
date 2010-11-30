@@ -93,7 +93,7 @@ module Fog
                 (backup_service_uri.nil? || backup_service)
               public_ip_internet_service.update(service_data.reject {|k, v| [:id, :href].include?(k) })
               public_ip_internet_service[:backup_service] = backup_service
-              xml = generate_internet_service(Builder::XmlMarkup.new, public_ip_internet_service)
+              xml = generate_internet_service(Builder::XmlMarkup.new, public_ip_internet_service, true)
             end
 
             if xml

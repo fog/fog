@@ -80,7 +80,7 @@ module Fog
 
           def generate_backup_internet_service_added_response(new_backup_internet_service)
             builder = Builder::XmlMarkup.new
-            builder.InternetService {
+            builder.InternetService("xmlns" => "urn:tmrk:eCloudExtensions-2.5", "xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance") {
               builder.Id new_backup_internet_service.object_id
               builder.Href new_backup_internet_service.href
               builder.Name new_backup_internet_service.name

@@ -125,7 +125,7 @@ module Fog
             if public_ip_internet_service_collection = mock_data.public_ip_internet_service_collection_from_href(internet_services_uri)
               new_public_ip_internet_service = MockPublicIpInternetService.new(service_data, public_ip_internet_service_collection)
               public_ip_internet_service_collection.items << new_public_ip_internet_service
-              xml = generate_internet_service(Builder::XmlMarkup.new, new_public_ip_internet_service)
+              xml = generate_internet_service(Builder::XmlMarkup.new, new_public_ip_internet_service, true)
 
               mock_it 200, xml, {'Content-Type' => 'application/vnd.tmrk.ecloud.internetService+xml'}
             else

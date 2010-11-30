@@ -38,15 +38,15 @@ module Fog
           def generate_internet_services(services)
             builder = Builder::XmlMarkup.new
 
-            builder.InternetServices(ecloud_xmlns) {|xml|
+            builder.InternetServices("xmlns" => "urn:tmrk:eCloudExtensions-2.5", "xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance") {|xml|
               services.each do |service|
                 generate_internet_service(xml, service)
               end
             }
           end
 
-          def generate_internet_service(xml, service)
-            xml.InternetService {
+          def generate_internet_service(xml, service, by_itself = false)
+            xml.InternetService(by_itself ? { "xmlns" => "urn:tmrk:eCloudExtensions-2.5", "xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance" } : {}) {
               xml.Id service.object_id
               xml.Href service.href
               xml.Name service.name
