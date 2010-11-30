@@ -11,7 +11,7 @@ module Fog
         attribute :server
 
         model Fog::AWS::Compute::Address
-        
+
         # Used to create an IP address
         #
         # ==== Returns
