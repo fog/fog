@@ -34,6 +34,10 @@ module Fog
         EOS
       end
 
+      def requirements
+        declared_parameters_for :new, :required
+      end
+
       def new(options={})
         if Fog.bin
           #requirements = declared_parameters
