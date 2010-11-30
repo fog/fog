@@ -40,13 +40,13 @@ module Fog
         #
         
         def initialize(attributes)
-          @filters ||= {}
+          self.filters ||= {}
           super
         end
         
         def all(filters = @filters)
-          @filters = filters
-          data = connection.describe_images(@filters).body
+          self.filters = filters
+          data = connection.describe_images(filters).body
           load(data['imagesSet'])
         end
         

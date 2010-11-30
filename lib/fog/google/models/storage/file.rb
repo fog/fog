@@ -11,7 +11,6 @@ module Fog
 
         identity  :key,             :aliases => 'Key'
 
-        attr_writer :body
         attribute :cache_control,       :aliases => 'Cache-Control'
         attribute :content_disposition, :aliases => 'Content-Disposition'
         attribute :content_encoding,    :aliases => 'Content-Encoding'
@@ -33,11 +32,15 @@ module Fog
         end
 
         def body
-          @body ||= if last_modified && (file = collection.get(identity))
+          attributes[:body] ||= if last_modified && (file = collection.get(identity))
             file.body
           else
             ''
           end
+        end
+
+        def body=(new_body)
+          attributes[:body] = new_body
         end
 
         def directory
@@ -46,7 +49,7 @@ module Fog
 
         def copy(target_directory_key, target_file_key)
           requires :directory, :key
-          connection.copy_object(directory.key, @key, target_directory_key, target_file_key)
+          connection.copy_object(directory.key, key, target_directory_key, target_file_key)
           target_directory = connection.directories.new(:key => target_directory_key)
           target_directory.files.get(target_file_key)
         end
@@ -54,7 +57,7 @@ module Fog
         def destroy
           requires :directory, :key
           begin
-            connection.delete_object(directory.key, @key)
+            connection.delete_object(directory.key, key)
           rescue Excon::Errors::NotFound
           end
           true
@@ -63,7 +66,7 @@ module Fog
         remove_method :owner=
         def owner=(new_owner)
           if new_owner
-            @owner = {
+            attributes[:owner] = {
               :display_name => new_owner['DisplayName'],
               :id           => new_owner['ID']
             }
@@ -105,7 +108,7 @@ module Fog
           options['Content-Type'] = content_type if content_type
           options['Expires'] = expires if expires
 
-          data = connection.put_object(directory.key, @key, @body, options)
+          data = connection.put_object(directory.key, key, body, options)
           merge_attributes(data.headers)
           if body.is_a?(String)
             self.content_length = body.size

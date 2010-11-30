@@ -63,12 +63,12 @@ module Fog
 
         def flavor
           requires :flavor_id
-          connection.flavors.get(@flavor_id)
+          connection.flavors.get(flavor_id)
         end
 
         def image
           requires :image_id
-          connection.images.get(@image_id)
+          connection.images.get(image_id)
         end
 
         def ready?
@@ -78,11 +78,11 @@ module Fog
         def save
           requires :image_id
           options = {
-            :image => @image_id,
-            :server_type => @flavor_id,
-            :name => @name,
-            :zone => @zone_id,
-            :user_data => @user_data
+            :image => image_id,
+            :server_type => flavor_id,
+            :name => name,
+            :zone => zone_id,
+            :user_data => user_data
           }.delete_if {|k,v| v.nil? || v == "" }
           data = connection.create_server(options)
           merge_attributes(data)

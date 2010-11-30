@@ -26,10 +26,11 @@ module Fog
         #
         
         def initialize(attributes)
-          @filters ||= {}
+          self.filters ||= {}
           super
         end
 
+<<<<<<< HEAD
         # AWS.addresses.all
         #
         # ==== Returns
@@ -55,11 +56,14 @@ module Fog
         #>>
 
         def all(filters = @filters)
+=======
+        def all(filters = filters)
+>>>>>>> 7ca702e46c91aa2d30643d4ed3fddf5ef4df7953
           unless filters.is_a?(Hash)
             Formatador.display_line("[yellow][WARN] all with #{filters.class} param is deprecated, use all('public-ip' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'public-ip' => [*filters]}
           end
-          @filters = filters
+          self.filters = filters
           data = connection.describe_addresses(filters).body
           load(
             data['addressesSet'].map do |address|
