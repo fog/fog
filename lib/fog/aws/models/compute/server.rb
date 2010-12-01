@@ -84,7 +84,7 @@ module Fog
         end
 
         def key_pair=(new_keypair)
-          key_name = new_keypair && new_keypair.name
+          self.key_name = new_keypair && new_keypair.name
         end
 
         def private_key_path
