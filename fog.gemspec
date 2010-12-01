@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.3.25'
-  s.date              = '2010-11-23'
+  s.version           = '0.3.26'
+  s.date              = '2010-12-01'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -462,6 +462,7 @@ Gem::Specification.new do |s|
     lib/fog/rackspace/requests/cdn/get_containers.rb
     lib/fog/rackspace/requests/cdn/head_container.rb
     lib/fog/rackspace/requests/cdn/put_container.rb
+    lib/fog/rackspace/requests/compute/confirm_resized_server.rb
     lib/fog/rackspace/requests/compute/create_image.rb
     lib/fog/rackspace/requests/compute/create_server.rb
     lib/fog/rackspace/requests/compute/delete_image.rb
@@ -479,6 +480,9 @@ Gem::Specification.new do |s|
     lib/fog/rackspace/requests/compute/list_servers.rb
     lib/fog/rackspace/requests/compute/list_servers_detail.rb
     lib/fog/rackspace/requests/compute/reboot_server.rb
+    lib/fog/rackspace/requests/compute/resize_server.rb
+    lib/fog/rackspace/requests/compute/revert_resized_server.rb
+    lib/fog/rackspace/requests/compute/server_action.rb
     lib/fog/rackspace/requests/compute/update_server.rb
     lib/fog/rackspace/requests/storage/delete_container.rb
     lib/fog/rackspace/requests/storage/delete_object.rb
@@ -801,6 +805,7 @@ Gem::Specification.new do |s|
     tests/rackspace/requests/compute/address_tests.rb
     tests/rackspace/requests/compute/flavor_tests.rb
     tests/rackspace/requests/compute/image_tests.rb
+    tests/rackspace/requests/compute/resize_tests.rb
     tests/rackspace/requests/compute/server_tests.rb
     tests/rackspace/requests/storage/container_tests.rb
     tests/rackspace/requests/storage/object_tests.rb
