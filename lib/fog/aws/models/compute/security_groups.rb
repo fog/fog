@@ -61,7 +61,7 @@ module Fog
             filters = {'group-name' => [*filters]}
           end
           self.filters = filters
-          data = connection.describe_security_groups(@filters).body
+          data = connection.describe_security_groups(filters).body
           load(data['securityGroupInfo'])
         end
 

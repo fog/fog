@@ -39,7 +39,7 @@ describe 'Fog::AWS::Compute::Volumes' do
   describe "#get" do
 
     it "should return a Fog::AWS::Compute::Volume if a matching volume exists" do
-      volume = AWS[:compute].volumes.create(:availability_zone => 'us-east-1a', :size => 1, :device => 'dev/sdz1')
+      volume = AWS[:compute].volumes.create(:availability_zone => 'us-east-1a', :size => 1)
       volume.wait_for { ready? }
       get = AWS[:compute].volumes.get(volume.id)
       volume.attributes.should == get.attributes

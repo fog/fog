@@ -3,11 +3,12 @@ Shindo.tests('AWS::Storage | bucket requests', ['aws']) do
   tests('success') do
 
     @bucket_format = {
-      'IsTruncated' => Fog::Boolean,
-      'Marker'      => NilClass,
-      'MaxKeys'     => Integer,
-      'Name'        => String,
-      'Prefix'      => NilClass,
+      'CommonPrefixes'  => [],
+      'IsTruncated'     => Fog::Boolean,
+      'Marker'          => NilClass,
+      'MaxKeys'         => Integer,
+      'Name'            => String,
+      'Prefix'          => NilClass,
       'Contents'    => [{
         'ETag'          => String,
         'Key'           => String,
