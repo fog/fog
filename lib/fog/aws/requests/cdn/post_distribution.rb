@@ -60,7 +60,7 @@ module Fog
           for key, value in options
             case value
             when Array
-              for item in array
+              for item in value
                 data << "<#{key}>#{item}</#{key}>"
               end
             when Hash

@@ -50,7 +50,7 @@ module Fog
           else
             @server = nil
             self.server_id = new_server.id
-            connection.associate_address(@server_id, @public_ip)
+            connection.associate_address(server_id, public_ip)
           end
         end
 
@@ -58,7 +58,7 @@ module Fog
           @server = nil
           self.server_id = nil
           unless new_record?
-            connection.disassociate_address(@public_ip)
+            connection.disassociate_address(public_ip)
           end
         end
 

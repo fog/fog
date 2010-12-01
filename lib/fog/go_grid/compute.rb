@@ -81,7 +81,7 @@ module Fog
             response = @connection.request(
               params.merge!(:path => "#{@path}/#{params[:path]}")
             )
-          rescue Excon::Errors::Error => error
+          rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
               Fog::GoGrid::Compute::NotFound.slurp(error)

@@ -44,6 +44,7 @@ module Fog
         #
         # ==== Returns
         #
+        #>>AWS.volumes.all
         #<Fog::AWS::Compute::Volume
         #  id="vol-1e2028b9",
         #  attached_at=nil,

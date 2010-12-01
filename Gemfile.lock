@@ -3,20 +3,20 @@ PATH
   specs:
     fog (0.3.25)
       builder
-      excon (>= 0.2.4)
+      excon (>= 0.2.8)
       formatador (>= 0.0.16)
       json
       mime-types
       named-parameters (>= 0.0.14)
-      net-ssh (~> 2.0.23)
-      nokogiri (~> 1.4.3.1)
+      net-ssh (>= 2.0.23)
+      nokogiri (>= 1.4.4)
       ruby-hmac
 
 GEM
   remote: http://rubygems.org/
   specs:
     builder (2.1.2)
-    excon (0.2.4)
+    excon (0.2.8)
     formatador (0.0.16)
     gestalt (0.0.11)
       formatador (>= 0.0.12)
@@ -24,7 +24,7 @@ GEM
     mime-types (1.16)
     named-parameters (0.0.14)
     net-ssh (2.0.23)
-    nokogiri (1.4.3.1)
+    nokogiri (1.4.4)
     rake (0.8.7)
     rspec (1.3.1)
     ruby-hmac (0.4.0)
@@ -37,14 +37,14 @@ PLATFORMS
 
 DEPENDENCIES
   builder
-  excon (>= 0.2.4)
+  excon (>= 0.2.8)
   fog!
   formatador (>= 0.0.16)
   json
   mime-types
   named-parameters (>= 0.0.14)
-  net-ssh (~> 2.0.23)
-  nokogiri (~> 1.4.3.1)
+  net-ssh (>= 2.0.23)
+  nokogiri (>= 1.4.4)
   rake
   rspec (= 1.3.1)
   ruby-hmac

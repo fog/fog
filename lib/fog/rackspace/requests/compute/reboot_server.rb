@@ -10,12 +10,8 @@ module Fog
         # * type<~String> - Type of reboot, must be in ['HARD', 'SOFT']
         #
         def reboot_server(server_id, type = 'SOFT')
-          request(
-            :body     => { 'reboot' => { 'type' => type }}.to_json,
-            :expects  => 202,
-            :method   => 'POST',
-            :path     => "servers/#{server_id}/action.json"
-          )
+          body = { 'reboot' => { 'type' => type }}
+          server_action(server_id, body)
         end
 
       end
@@ -23,7 +19,9 @@ module Fog
       class Mock
 
         def reboot_server(server_id, type = 'SOFT')
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          response.status = 202
+          response
         end
 
       end

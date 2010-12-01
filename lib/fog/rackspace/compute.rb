@@ -16,6 +16,7 @@ module Fog
       collection  :servers
 
       request_path 'fog/rackspace/requests/compute'
+      request :confirm_resized_server
       request :create_image
       request :create_server
       request :delete_image
@@ -33,6 +34,9 @@ module Fog
       request :list_servers
       request :list_servers_detail
       request :reboot_server
+      request :revert_resized_server
+      request :resize_server
+      request :server_action
       request :update_server
 
       class Mock
@@ -91,7 +95,7 @@ module Fog
               :host     => @host,
               :path     => "#{@path}/#{params[:path]}"
             }))
-          rescue Excon::Errors::Error => error
+          rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
               Fog::Rackspace::Compute::NotFound.slurp(error)

@@ -43,13 +43,13 @@ Gem::Specification.new do |s|
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
   s.add_dependency('builder')
-  s.add_dependency('excon', '>=0.2.4')
+  s.add_dependency('excon', '>=0.2.8')
   s.add_dependency('formatador', '>=0.0.16')
   s.add_dependency('json')
   s.add_dependency('mime-types')
   s.add_dependency('named-parameters', '>=0.0.14')
-  s.add_dependency('net-ssh', '~>2.0.23')
-  s.add_dependency('nokogiri', '~>1.4.3.1')
+  s.add_dependency('net-ssh', '>=2.0.23')
+  s.add_dependency('nokogiri', '>=1.4.4')
   s.add_dependency('ruby-hmac')
 
   ## List your development dependencies here. Development dependencies are

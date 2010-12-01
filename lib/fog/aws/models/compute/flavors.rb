@@ -9,9 +9,9 @@ module Fog
 
         model Fog::AWS::Compute::Flavor
 
-        # Returns an array of all key pairs that have been created
+        # Returns an array of all flavors that have been created
         #
-        # AWS.key_pairs.all
+        # AWS.flavors.all
         #
         # ==== Returns
         #
