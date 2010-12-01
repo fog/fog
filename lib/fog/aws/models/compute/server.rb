@@ -151,6 +151,7 @@ module Fog
 
         def setup(credentials = {})
           requires :identity, :ip_address, :username
+          require 'json'
           sleep(10) # takes a bit before EC2 instances will play nice
           commands = [
             %{mkdir .ssh},
