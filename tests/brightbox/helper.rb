@@ -5,6 +5,23 @@ class Brightbox
       IMAGE_IDENTIFER = "img-9vxqi"
     end
     module Formats
+      module Struct
+        LB_LISTENER = {
+          'in'       => Integer,
+          'out'      => Integer,
+          'protocol' => String
+        }
+        LB_HEALTHCHECK = {
+          'type'           => String,
+          'request'        => String,
+          'port'           => Integer,
+          'interval'       => Integer,
+          'timeout'        => Integer,
+          'threshold_up'   => Integer,
+          'threshold_down' => Integer
+        }
+      end
+
       module Nested
         SERVER_TYPE = {
           "name"            => String,
@@ -80,6 +97,22 @@ class Brightbox
           'interfaces'      => [Brightbox::Compute::Formats::Nested::INTERFACE],
           'zone'            => Brightbox::Compute::Formats::Nested::ZONE
         }
+
+        LOAD_BALANCER = {
+          'id'                  => String,
+          'resource_type'       => String,
+          'url'                 => String,
+          'name'                => String,
+          'status'              => String,
+          'listeners'           => [Brightbox::Compute::Formats::Struct::LB_LISTENER],
+          'policy'              => String,
+          'healthcheck'         => Hash,
+          'created_at'          => String,
+          'deleted_at'          => NilClass,
+          'account'             => Hash,
+          'nodes'               => [Hash]
+        }
+
       end
 
       module Collected
@@ -101,10 +134,22 @@ class Brightbox
           'interfaces'      => [Brightbox::Compute::Formats::Nested::INTERFACE],
           'zone'            => Brightbox::Compute::Formats::Nested::ZONE
         }
+
+        LOAD_BALANCER = {
+          'id'                  => String,
+          'resource_type'       => String,
+          'url'                 => String,
+          'name'                => String,
+          'status'              => String,
+          'created_at'          => String,
+          'deleted_at'          => NilClass
+        }
+
       end
 
       module Collection
         SERVERS = [Brightbox::Compute::Formats::Collected::SERVER]
+        LOAD_BALANCERS = [Brightbox::Compute::Formats::Collected::LOAD_BALANCER]
       end
 
     end

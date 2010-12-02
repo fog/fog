@@ -25,16 +25,19 @@ module Fog
       request :create_api_client
       request :create_cloud_ip
       request :create_image
+      request :create_load_balancer
       request :create_server
       request :destroy_api_client
       request :destroy_cloud_ip
       request :destroy_image
+      request :destroy_load_balancer
       request :destroy_server
       request :get_account
       request :get_api_client
       request :get_cloud_ip
       request :get_image
       request :get_interface
+      request :get_load_balancer
       request :get_server
       request :get_server_type
       request :get_user
@@ -42,6 +45,7 @@ module Fog
       request :list_api_clients
       request :list_cloud_ips
       request :list_images
+      request :list_load_balancers
       request :list_server_types
       request :list_servers
       request :list_users
