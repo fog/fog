@@ -1,5 +1,9 @@
 class Brightbox
   module Compute
+    module TestSupport
+      # image img-9vxqi = Ubuntu Maverick 10.10 server
+      IMAGE_IDENTIFER = "img-9vxqi"
+    end
     module Formats
       module Nested
         SERVER_TYPE = {
