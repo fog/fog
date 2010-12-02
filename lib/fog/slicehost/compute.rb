@@ -73,7 +73,7 @@ module Fog
 
           begin
             response = @connection.request(params.merge!({:host => @host}))
-          rescue Excon::Errors::Error => error
+          rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
               Fog::Slicehost::Compute::NotFound.slurp(error)

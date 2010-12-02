@@ -77,7 +77,7 @@ module Fog
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          requires :flavor_id, :image_id, :name
+          requires :flavor_id, :image_id
           options = {
             'metadata'    => metadata,
             'name'        => name,

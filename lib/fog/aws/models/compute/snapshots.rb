@@ -30,7 +30,7 @@ module Fog
           end
           self
         end
-
+        
         def get(snapshot_id)
           if snapshot_id
             self.class.new(:connection => connection).all('snapshot-id' => snapshot_id).first
