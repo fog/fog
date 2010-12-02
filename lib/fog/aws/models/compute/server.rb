@@ -152,7 +152,7 @@ module Fog
         def setup(credentials = {})
           requires :identity, :ip_address, :username
           require 'json'
-          sleep(10) # takes a bit before EC2 instances will play nice
+
           commands = [
             %{mkdir .ssh},
             %{passwd -l root},
@@ -161,7 +161,16 @@ module Fog
           if public_key
             commands << %{echo "#{public_key}" >> ~/.ssh/authorized_keys}
           end
-          Fog::SSH.new(ip_address, username, credentials).run(commands)
+          # allow some retries over the first 120 seconds because aws is weird
+          Timeout::timeout(120) do
+            begin
+              Timeout::timeout(4) do
+                Fog::SSH.new(ip_address, username, credentials).run(commands)
+              end
+            rescue Net::SSH::AuthenticationFailed, Timeout::Error
+              retry
+            end
+          end
         rescue Errno::ECONNREFUSED => e
           sleep(1)
           retry
