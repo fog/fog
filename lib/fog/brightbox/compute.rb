@@ -14,6 +14,8 @@ module Fog
       model :flavor
       collection :images
       model :image
+      collection :load_balancers
+      model :load_balancer
       collection :zones
       model :zone
       collection :cloud_ips

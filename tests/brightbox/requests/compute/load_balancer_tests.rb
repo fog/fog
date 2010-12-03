@@ -25,6 +25,8 @@ Shindo.tests('Brightbox::Compute | load balancer requests', ['brightbox']) do
       data
     end
 
+    Brightbox[:compute].load_balancers.get(@load_balancer_id).wait_for { ready? }
+
     # tests("#list_load_balancers()").formats(Brightbox::Compute::Formats::Collection::LOAD_BALANCERS) do
     #   Brightbox[:compute].list_load_balancers
     # end
@@ -33,10 +35,9 @@ Shindo.tests('Brightbox::Compute | load balancer requests', ['brightbox']) do
       Brightbox[:compute].get_load_balancer(@load_balancer_id)
     end
 
-    # May fail since the load balancer is likely to still be "creating" when this test is called
-    # tests("#destroy_load_balancer('#{@load_balancer_id}')").formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER) do
-    #   Brightbox[:compute].destroy_load_balancer(@load_balancer_id)
-    # end
+    tests("#destroy_load_balancer('#{@load_balancer_id}')").formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER) do
+      Brightbox[:compute].destroy_load_balancer(@load_balancer_id)
+    end
 
   end
 
