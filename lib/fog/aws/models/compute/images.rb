@@ -43,8 +43,8 @@ module Fog
           self.filters ||= {}
           super
         end
-        
-        def all(filters = @filters)
+
+        def all(filters = self.filters)
           self.filters = filters
           data = connection.describe_images(filters).body
           load(data['imagesSet'])
