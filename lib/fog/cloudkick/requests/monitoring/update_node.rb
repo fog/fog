@@ -3,13 +3,14 @@ module Fog
     class Monitoring
       class Real
 
-        def list_nodes(options = {})
+        def update_node(node_id, options= {})
           query = options.map {|opt| opt.join("=")}.join("&")
           request(
-            :headers  => {'Content-Type' => 'application/json'},
+            :headers  => { 'Content-Type' => 'application/x-www-form-urlencoded' },
             :expects  => [200],
-            :method   => 'GET',
-            :path     => "/#{API_VERSION}/nodes?#{query}"
+            :method   => 'PUT',
+            :path     => "/#{API_VERSION}/node/#{node_id}?#{query}",
+            :body     => query
           )
         end
 
@@ -17,7 +18,7 @@ module Fog
 
       class Mock
 
-        def list_nodes(options = {})
+        def update_node(node_id, options= {})
           Fog::Mock.not_implemented
         end
 
@@ -25,4 +26,6 @@ module Fog
     end
   end
 end
+
+
 

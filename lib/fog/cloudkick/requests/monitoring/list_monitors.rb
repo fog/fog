@@ -3,13 +3,13 @@ module Fog
     class Monitoring
       class Real
 
-        def list_nodes(options = {})
+        def list_monitors(options = {})
           query = options.map {|opt| opt.join("=")}.join("&")
           request(
             :headers  => {'Content-Type' => 'application/json'},
             :expects  => [200],
             :method   => 'GET',
-            :path     => "/#{API_VERSION}/nodes?#{query}"
+            :path     => "/#{API_VERSION}/monitors?#{query}"
           )
         end
 
@@ -17,7 +17,7 @@ module Fog
 
       class Mock
 
-        def list_nodes(options = {})
+        def list_monitors(options = {})
           Fog::Mock.not_implemented
         end
 
