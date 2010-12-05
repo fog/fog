@@ -58,11 +58,19 @@ module Fog
           "#{@secret}&"
         end
 
-        def oauth_header(request_method, request_uri)
+        def oauth_header(request_method, request_url)
           #puts oauth_header(:get, 'https://api.cloudkick.com/2.0/nodes')
-          nonce = oauth_nonce
-          timestamp = oauth_timestamp
-          "OAuth oauth_consumer_key=\"#{@key}\", oauth_nonce=\"#{nonce}\", oauth_signature=\"#{oauth_signature(request_method,request_uri,nonce,timestamp)}\", oauth_signature_method=\"#{oauth_signature_method}\", oauth_timestamp=\"#{timestamp}\", oauth_version=\"#{oauth_version}\""
+          oauth_options = { 'request_method' => request_method,
+                            'request_url' => request_url.to_s.sub("?#{request_url.query}",""),
+                            'oauth_consumer_key' => @key,
+                            'oauth_nonce' => oauth_nonce,
+                            'oauth_signature_method' => oauth_signature_method,
+                            'oauth_timestamp' => oauth_timestamp,
+                            'oauth_version' => oauth_version
+                          }
+          oauth_options.merge!(request_url.query.split("&").inject({}) {|acc,i| k,v = i.split("="); acc[k] = v; acc}) if request_url.query
+          oauth_options['oauth_signature'] = oauth_signature(oauth_options)
+          "OAuth #{oauth_options.sort.select {|opt| opt[0] =~ /^oauth/}.map { |opt| "#{opt[0]}=\"#{opt[1]}\""}.join(", ")}"
         end
 
         def oauth_nonce(size=32)
@@ -70,24 +78,19 @@ module Fog
           Base64.encode64(OpenSSL::Random.random_bytes(size)).gsub(/\W/, '')
         end
 
-        def oauth_signature(request_method, request_uri, nonce, timestamp)
+        def oauth_signature(oauth_options)
           #X4Wpis%2BvvToVgpKlppHTCIsli9k%3D
           oauth_escape(Base64.encode64(
-            @hmac.sign(raw_oauth_signature(request_method, request_uri, nonce, timestamp))
+            @hmac.sign(raw_oauth_signature(oauth_options))
           ).chomp.gsub(/\n/,''))
           #Digest::HMAC.digest(raw_oauth_signature(request_method, request_uri, nonce, timestamp), "#{@secret}&", Digest::SHA1)
         end
 
-        def raw_oauth_signature(request_method, request_uri, nonce, timestamp)
-          [ request_method.to_s.upcase,
-            oauth_escape(request_uri),
-            oauth_escape("oauth_consumer_key=#{@key}")].join("&") + oauth_escape("&") +
-          oauth_escape([
-            "oauth_nonce=#{nonce}",
-            "oauth_signature_method=#{oauth_signature_method}",
-            "oauth_timestamp=#{timestamp}",
-            "oauth_version=#{oauth_version}"
-          ].join("&"))
+        def raw_oauth_signature(oauth_options)
+          [ oauth_options.delete('request_method').to_s.upcase,
+            oauth_escape(oauth_options.delete('request_url')),
+            oauth_escape(oauth_options.sort.map {|opt| opt.map { |i| oauth_escape(i) }.join("=")}.join("&"))
+          ].join("&")
         end
 
         def oauth_reserved_characters
