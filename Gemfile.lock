@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    fog (0.3.27)
+    fog (0.3.28)
       builder
       excon (>= 0.2.8)
       formatador (>= 0.0.16)
