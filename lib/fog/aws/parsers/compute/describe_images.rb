@@ -26,7 +26,7 @@ module Fog
 
           def end_element(name)
             case name
-            when 'architecture',  'imageId', 'imageLocation', 'imageOwnerId', 'imageState', 'imageType', 'kernelId', 'platform', 'ramdiskId', 'rootDeviceType','rootDeviceName'
+            when 'architecture',  'description', 'imageId', 'imageLocation', 'imageOwnerId', 'imageState', 'imageType', 'kernelId', 'platform', 'ramdiskId', 'rootDeviceType','rootDeviceName'
               @image[name] = @value
             when 'blockDeviceMapping'
               @in_block_device_mapping = false
