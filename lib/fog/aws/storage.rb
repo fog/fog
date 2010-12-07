@@ -2,8 +2,8 @@ module Fog
   module AWS
     class Storage < Fog::Service
 
-      requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent
+      requires :aws_access_key_id, :aws_secret_access_key, &inject_parameter_specs
+      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, &inject_parameter_specs
       
       model_path 'fog/aws/models/storage'
       collection  :directories

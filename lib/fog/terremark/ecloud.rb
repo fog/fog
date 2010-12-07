@@ -32,6 +32,8 @@ module Fog
       end
 
       class Real
+        # NOTE: When this vbecomes a service, take care to pass the &inject_parameter_specs 
+        # block on call to requires and recognizes        
         requires :terremark_ecloud_password, :terremark_ecloud_username
         recognizes :host, :path, :port, :scheme, :persistent
         

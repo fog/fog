@@ -19,8 +19,8 @@ end
 module Fog
   class Vcloud < Fog::Service
 
-    requires :username, :password, :module, :versions_uri
-    recognizes :version, :persistent
+    requires :username, :password, :module, :versions_uri, &inject_parameter_specs
+    recognizes :version, :persistent, &inject_parameter_specs
 
     model_path 'fog/vcloud/models'
     model :vdc
