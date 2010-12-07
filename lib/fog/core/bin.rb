@@ -34,16 +34,20 @@ module Fog
         availability = true
         for service in services
           begin
-            service = eval(self[service].class.to_s.split('::')[0...-1].join('::'))
-            availability &&= service.requirements.all? {|requirement| Fog.credentials.include?(requirement)}
-          rescue
+            service = self.class_for(service)
+            availability &&= service.requirements.all? { |requirement| Fog.credentials.include?(requirement) }
+          rescue ArgumentError => e
+            warning = "[yellow][WARN] #{e.message}[/]"
+            Formatador.display_line(warning)
+            availability = false
+          rescue => e
             availability = false
           end
         end
 
         if availability
           for service in services
-            for collection in self[service].collections
+            for collection in self.class_for(service).collections
               unless self.respond_to?(collection)
                 self.class_eval <<-EOS, __FILE__, __LINE__
                   def self.#{collection}
