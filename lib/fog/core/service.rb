@@ -18,6 +18,26 @@ module Fog
 
     class << self
 
+      # this is to accomodate Real implementations of Service subclasses
+      # NOTE: it might be good to enforce parameter specs to Mock classes as well.
+      def inject_parameter_specs
+        lambda do |spec|
+          implementation = "Real"
+          self.const_set(implementation, Class.new) unless self.const_defined? implementation
+          realclass = self.const_get implementation
+
+          if realclass.declared_parameters_for(:'self.new', :required).empty?
+            required = declared_parameters_for(:'self.new', :required)
+            realclass.send(:requires, *required)
+          end
+        
+          if realclass.declared_parameters_for(:'self.new', :optional).empty?
+            optional = declared_parameters_for(:'self.new', :optional)
+            realclass.send(:recognizes, *optional) 
+          end
+        end
+      end
+
       def inherited(child)
         child.class_eval <<-EOS, __FILE__, __LINE__
           module Collections
@@ -35,7 +55,7 @@ module Fog
       end
 
       def requirements
-        declared_parameters_for :new, :required
+        declared_parameters_for :'self.new', :required
       end
 
       def new(options={})
