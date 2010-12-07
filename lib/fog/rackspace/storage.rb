@@ -2,10 +2,8 @@ module Fog
   module Rackspace
     class Storage < Fog::Service
 
-      requires :rackspace_api_key, :rackspace_username
-      # NOTE: recognizes clause delegates to Fog::Rackspace.authenticate's so 
-      #       we also declare those parameters that the authenticate expects...
-      recognizes :rackspace_auth_url, :persistent
+      requires :rackspace_api_key, :rackspace_username, &inject_parameter_specs
+      recognizes :rackspace_auth_url, :persistent, &inject_parameter_specs
 
       model_path 'fog/rackspace/models/storage'
       model       :directory
