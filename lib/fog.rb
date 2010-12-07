@@ -3,8 +3,8 @@ require 'base64'
 require 'cgi'
 require 'excon'
 require 'formatador'
-require 'named-parameters'
 require 'time'
+require 'named-parameters'
 
 __DIR__ = File.dirname(__FILE__)
 

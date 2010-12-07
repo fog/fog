@@ -47,7 +47,7 @@ Gem::Specification.new do |s|
   s.add_dependency('formatador', '>=0.0.16')
   s.add_dependency('json')
   s.add_dependency('mime-types')
-  s.add_dependency('named-parameters', '=0.0.14')
+  s.add_dependency('named-parameters', '>=0.0.16')
   s.add_dependency('net-ssh', '>=2.0.23')
   s.add_dependency('nokogiri', '>=1.4.4')
   s.add_dependency('ruby-hmac')
