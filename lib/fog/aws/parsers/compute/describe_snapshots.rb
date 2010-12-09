@@ -25,7 +25,7 @@ module Fog
                 @snapshot['tagSet'][@tag['key']] = @tag['value']
                 @tag = {}
               when 'key', 'value'
-                @tag[key] = value
+                @tag[name] = @value
               when 'tagSet'
                 @in_tag_set = false
               end

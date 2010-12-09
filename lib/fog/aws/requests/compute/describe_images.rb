@@ -22,6 +22,7 @@ module Fog
         #     * 'imagesSet'<~Array>:
         #       * 'architecture'<~String> - Architecture of the image
         #       * 'blockDeviceMapping'<~Array> - An array of mapped block devices
+        #       * 'description'<~String> - Description of image
         #       * 'imageId'<~String> - Id of the image
         #       * 'imageLocation'<~String> - Location of the image
         #       * 'imageOwnerId'<~String> - Id of the owner of the image

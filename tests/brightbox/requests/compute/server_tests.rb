@@ -13,10 +13,9 @@ Shindo.tests('Brightbox::Compute | server requests', ['brightbox']) do
 
     Brightbox[:compute].servers.get(server_id).wait_for { ready? }
 
-    # Collection of Servers fails to match since deleted_at can be a String OR a NilClass
-    # tests("#list_servers()").formats(Brightbox::Compute::Formats::Collection::SERVERS) do
-    #   Brightbox[:compute].list_servers()
-    # end
+    tests("#list_servers()").formats(Brightbox::Compute::Formats::Collection::SERVERS) do
+      Brightbox[:compute].list_servers()
+    end
 
     tests("#get_server('#{server_id}')").formats(Brightbox::Compute::Formats::Full::SERVER) do
       Brightbox[:compute].get_server(server_id)

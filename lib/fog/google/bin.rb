@@ -1,12 +1,18 @@
 class Google < Fog::Bin
   class << self
 
+    def class_for(key)
+      case key
+      when :storage
+        Fog::Google::Storage
+      else 
+        raise ArgumentError, "Unsupported #{self} service: #{key}"
+      end
+    end
+
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        hash[key] = case key
-        when :storage
-          Fog::Google::Storage.new
-        end
+        hash[key] = class_for(key).new
       end
       @@connections[service]
     end
@@ -16,5 +22,4 @@ class Google < Fog::Bin
     end
 
   end
-
 end

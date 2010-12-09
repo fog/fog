@@ -84,7 +84,7 @@ module Fog
         end
 
         def key_pair=(new_keypair)
-          key_name = new_keypair && new_keypair.name
+          self.key_name = new_keypair && new_keypair.name
         end
 
         def private_key_path
@@ -151,7 +151,8 @@ module Fog
 
         def setup(credentials = {})
           requires :identity, :ip_address, :username
-          sleep(10) # takes a bit before EC2 instances will play nice
+          require 'json'
+
           commands = [
             %{mkdir .ssh},
             %{passwd -l root},
@@ -160,7 +161,16 @@ module Fog
           if public_key
             commands << %{echo "#{public_key}" >> ~/.ssh/authorized_keys}
           end
-          Fog::SSH.new(ip_address, username, credentials).run(commands)
+          # allow some retries over the first 120 seconds because aws is weird
+          Timeout::timeout(120) do
+            begin
+              Timeout::timeout(4) do
+                Fog::SSH.new(ip_address, username, credentials).run(commands)
+              end
+            rescue Timeout::Error
+              retry
+            end
+          end
         rescue Errno::ECONNREFUSED => e
           sleep(1)
           retry

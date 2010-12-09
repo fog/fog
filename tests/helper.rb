@@ -1,28 +1,25 @@
-__DIR__ = File.dirname(__FILE__)
-__LIB_DIR__ = File.join(__DIR__, '../lib')
-
-[ __DIR__, __LIB_DIR__ ].each do |directory|
-  $LOAD_PATH.unshift directory unless
-    $LOAD_PATH.include?(directory) ||
-    $LOAD_PATH.include?(File.expand_path(directory))
-end
-
-require 'fog'
+require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
 require 'fog/core/bin'
 
 Fog.bin = true
 
-require 'tests/helpers/collection_tests'
-require 'tests/helpers/model_tests'
+__DIR__ = File.dirname(__FILE__)
 
-require 'tests/helpers/compute/flavors_tests'
-require 'tests/helpers/compute/server_tests'
-require 'tests/helpers/compute/servers_tests'
+$LOAD_PATH.unshift __DIR__ unless
+  $LOAD_PATH.include?(__DIR__) ||
+  $LOAD_PATH.include?(File.expand_path(__DIR__))
 
-require 'tests/helpers/storage/directory_tests'
-require 'tests/helpers/storage/directories_tests'
-require 'tests/helpers/storage/file_tests'
-require 'tests/helpers/storage/files_tests'
+require 'helpers/collection_tests'
+require 'helpers/model_tests'
+
+require 'helpers/compute/flavors_tests'
+require 'helpers/compute/server_tests'
+require 'helpers/compute/servers_tests'
+
+require 'helpers/storage/directory_tests'
+require 'helpers/storage/directories_tests'
+require 'helpers/storage/file_tests'
+require 'helpers/storage/files_tests'
 
 # Use so you can run in mock mode from the command line:
 #

@@ -26,6 +26,10 @@ module Fog
         attribute :disk_size
         attribute :created_at
 
+        def ready?
+          status == "available"
+        end
+
         def save
           requires :source, :arch
           options = {

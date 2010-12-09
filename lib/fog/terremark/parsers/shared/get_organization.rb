@@ -15,8 +15,13 @@ module Fog
             when 'Link'
               link = {}
               until attributes.empty?
-                link[attributes.shift] = attributes.shift
-              end            
+                if attributes.first.is_a?(Array)
+                  attribute = attributes.shift
+                  link[attribute.first] = attribute.last
+                else
+                  link[attributes.shift] = attributes.shift
+                end
+              end
               @response['Links'] << link
             when 'Org'
               org = {}
