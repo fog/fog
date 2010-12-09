@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   ## the sub! line in the Rakefile
   s.name              = 'fog'
   s.version           = '0.3.30'
-  s.date              = '2010-12-08'
+  s.date              = '2010-12-09'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -514,6 +514,7 @@ Gem::Specification.new do |s|
     lib/fog/slicehost/parsers/compute/get_images.rb
     lib/fog/slicehost/parsers/compute/get_slice.rb
     lib/fog/slicehost/parsers/compute/get_slices.rb
+    lib/fog/slicehost/parsers/compute/get_zones.rb
     lib/fog/slicehost/requests/compute/create_slice.rb
     lib/fog/slicehost/requests/compute/delete_slice.rb
     lib/fog/slicehost/requests/compute/get_backups.rb
@@ -523,6 +524,7 @@ Gem::Specification.new do |s|
     lib/fog/slicehost/requests/compute/get_images.rb
     lib/fog/slicehost/requests/compute/get_slice.rb
     lib/fog/slicehost/requests/compute/get_slices.rb
+    lib/fog/slicehost/requests/compute/get_zones.rb
     lib/fog/slicehost/requests/compute/reboot_slice.rb
     lib/fog/terremark.rb
     lib/fog/terremark/bin.rb

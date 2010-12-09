@@ -12,18 +12,13 @@ module Fog
 
           def end_element(name)
             case name
-            when 'address'
-              @slice['addresses'] ||= []
-              @slice['addresses'] << @value
-            when 'backup-id', 'flavor-id', 'id', 'image-id', 'progress'
-              @slice[name] = @value.to_i
-            when 'bw-in', 'bw-out'
-              @slice[name] = @value.to_f
-            when 'name', 'status'
-              @slice[name] = @value
-            when 'slice'
-              @response['slices'] << @slice
-              @slice = {}
+            when 'ttl', 'id'
+              @zone[name] = @value.to_i
+            when 'active', 'origin'
+              @zone[name] = @value
+            when 'zone'
+              @response['zones'] << @zone
+              @zone = {}
             end
           end
 
