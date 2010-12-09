@@ -24,6 +24,7 @@ module Fog
       request :get_slice
       request :get_slices
       request :reboot_slice
+      request :get_zones
 
       class Mock
 
