@@ -1,6 +1,6 @@
 module Fog
   module Rackspace
-
+    
     extend Fog::Provider
 
     service_path 'fog/rackspace'

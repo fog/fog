@@ -14,7 +14,12 @@ module Fog
             if name == 'Org'
               organization = {}
               until attributes.empty?
-                organization[attributes.shift] = attributes.shift
+                if attributes.first.is_a?(Array)
+                  attribute = attributes.shift
+                  organization[attribute.first] = attribute.last
+                else
+                  organization[attributes.shift] = attributes.shift
+                end
               end
               @response['OrgList'] << organization
             end

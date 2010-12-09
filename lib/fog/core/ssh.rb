@@ -42,8 +42,7 @@ module Fog
         require 'net/ssh'
         @address  = address
         @username = username
-        @options  = options.merge(:paranoid => false)
-        @options.merge(:verbose => true)
+        @options  = { :paranoid => false }.merge(options)
       end
 
       def run(commands)

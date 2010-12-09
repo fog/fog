@@ -148,6 +148,7 @@ module Fog
         !identity
       end
 
+      # check that the attributes specified in args exist and is not nil
       def requires(*args)
         missing = []
         for arg in [:connection] | args

@@ -17,7 +17,7 @@ module Fog
             when 'Entries'
               @in_entries = true
             when 'Scope'
-              key, value = attrs
+              key, value = attrs.first
               @entry['Scope'][key] = value
             end
           end

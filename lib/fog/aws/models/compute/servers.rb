@@ -98,7 +98,19 @@ module Fog
           end
 
           server.save
-          server.wait_for { ready? }
+          # eventual consistency sometimes means a delay before it appears
+          retries = 3
+          begin
+            server.wait_for { ready? }
+          rescue Fog::Errors::Error => error
+            sleep(1)
+            retries -= 1
+            if retries > 0
+              retry
+            else
+              raise error
+            end
+          end
           server.setup(:key_data => [server.private_key])
           server
         end

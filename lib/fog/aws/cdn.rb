@@ -2,7 +2,8 @@ module Fog
   module AWS
     class CDN < Fog::Service
 
-      requires :aws_access_key_id, :aws_secret_access_key
+      requires :aws_access_key_id, :aws_secret_access_key, &inject_parameter_specs
+      recognizes :host, :path, :port, :scheme, :version, :persistent, &inject_parameter_specs
 
       model_path 'fog/aws/models/cdn'
 
