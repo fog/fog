@@ -147,7 +147,7 @@ class Brightbox
           "reverse_dns"     => String,
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
           "interface"       => Fog::Brightbox::Nullable::Interface,
-          "server"          => NilClass
+          "server"          => Fog::Brightbox::Nullable::String
         }
 
         IMAGE = {
@@ -208,7 +208,7 @@ class Brightbox
           "name"            => String,
           "email_address"   => String,
           "email_verified"  => Fog::Boolean,
-          "accounts"        => [],
+          "accounts"        => [Brightbox::Compute::Formats::Nested::ACCOUNT],
           "default_account" => NilClass
         }
 
@@ -351,7 +351,7 @@ class Brightbox
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
-          "handle"          => String
+          "handle"          => Fog::Brightbox::Nullable::String
         }
       end
 
