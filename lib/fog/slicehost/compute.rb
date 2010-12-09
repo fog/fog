@@ -2,7 +2,8 @@ module Fog
   module Slicehost
     class Compute < Fog::Service
 
-      requires :slicehost_password
+      requires :slicehost_password, &inject_parameter_specs
+      recognizes :host, :port, :scheme, :persistent, &inject_parameter_specs
 
       model_path 'fog/slicehost/models/compute'
       model       :flavor

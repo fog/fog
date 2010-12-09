@@ -37,7 +37,12 @@ module Fog
             when 'Link'
               link = {}
               until attributes.empty?
-                link[attributes.shift] = attributes.shift
+                if attributes.first.is_a?(Array)
+                  attribute = attributes.shift
+                  link[attribute.first] = attribute.last
+                else
+                  link[attributes.shift] = attributes.shift
+                end
               end
               @response['links'] << link
             when 'Memory'
@@ -45,13 +50,23 @@ module Fog
             when 'Network'
               network = {}
               until attributes.empty?
-                network[attributes.shift] = attributes.shift
+                if attributes.first.is_a?(Array)
+                  attribute = attributes.shift
+                  network[attribute.first] = attribute.last
+                else
+                  network[attributes.shift] = attributes.shift
+                end
               end
               @response['AvailableNetworks'] << network
             when 'ResourceEntity'
               resource_entity = {}
               until attributes.empty?
-                resource_entity[attributes.shift] = attributes.shift
+                if attributes.first.is_a?(Array)
+                  attribute = attributes.shift
+                  resource_entity[attribute.first] = attribute.last
+                else
+                  resource_entity[attributes.shift] = attributes.shift
+                end
               end
               @response['ResourceEntities'] << resource_entity
             when 'StorageCapacity'

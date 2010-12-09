@@ -3,11 +3,12 @@ Shindo.tests('Google::Storage | bucket requests', ['google']) do
   tests('success') do
 
     @bucket_format = {
-      'IsTruncated' => Fog::Boolean,
-      'Marker'      => NilClass,
-      'Name'        => String,
-      'Prefix'      => NilClass,
-      'Contents'    => [{
+      'CommonPrefixes' => [],
+      'IsTruncated'     => Fog::Boolean,
+      'Marker'          => NilClass,
+      'Name'            => String,
+      'Prefix'          => NilClass,
+      'Contents'        => [{
         'ETag'          => String,
         'Key'           => String,
         'LastModified'  => Time,
@@ -16,7 +17,7 @@ Shindo.tests('Google::Storage | bucket requests', ['google']) do
           'ID'          => String
         },
         'Size' => Integer,
-        'StorageClass' => String
+        'StorageClass'  => String
       }]
     }
 

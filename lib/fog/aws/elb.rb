@@ -2,7 +2,8 @@ module Fog
   module AWS
     class ELB < Fog::Service
 
-      requires :aws_access_key_id, :aws_secret_access_key
+      requires :aws_access_key_id, :aws_secret_access_key, &inject_parameter_specs
+      recognizes :region, :host, :path, :port, :scheme, :persistent, &inject_parameter_specs
 
       request_path 'fog/aws/requests/elb'
       request :create_load_balancer

@@ -18,6 +18,26 @@ module Fog
 
     class << self
 
+      # this is to accomodate Real implementations of Service subclasses
+      # NOTE: it might be good to enforce parameter specs to Mock classes as well.
+      def inject_parameter_specs
+        lambda do |spec|
+          implementation = "Real"
+          self.const_set(implementation, Class.new) unless self.const_defined? implementation
+          realclass = self.const_get implementation
+
+          if realclass.declared_parameters_for(:'self.new', :required).empty?
+            required = declared_parameters_for(:'self.new', :required)
+            realclass.send(:requires, *required)
+          end
+        
+          if realclass.declared_parameters_for(:'self.new', :optional).empty?
+            optional = declared_parameters_for(:'self.new', :optional)
+            realclass.send(:recognizes, *optional) 
+          end
+        end
+      end
+
       def inherited(child)
         child.class_eval <<-EOS, __FILE__, __LINE__
           module Collections
@@ -34,13 +54,16 @@ module Fog
         EOS
       end
 
+      def requirements
+        declared_parameters_for :'self.new', :required
+      end
+
       def new(options={})
         if Fog.bin
-          default_credentials = Fog.credentials.reject {|key, value| !requirements.include?(key)}
+          default_credentials = filter_parameters(Fog.credentials)
           options = default_credentials.merge(options)
         end
 
-        validate_arguments(options)
         setup_requirements
 
         if Fog.mocking?
@@ -110,39 +133,8 @@ module Fog
         @requests ||= []
       end
 
-      def requires(*args)
-        requirements.concat(args)
-      end
-
-      def requirements
-        @requirements ||= []
-      end
-
-      def recognizes(*args)
-        recognized.concat(args)
-      end
-
-      def recognized
-        @recognized ||= []
-      end
-
       def reset_data(keys=Mock.data.keys)
         Mock.reset_data(keys)
-      end
-
-      def validate_arguments(options)
-        missing = requirements - options.keys
-        unless missing.empty?
-          raise ArgumentError, "Missing required arguments: #{missing.join(', ')}"
-        end
-
-        # FIXME: avoid failing for the services that don't have recognizes yet
-        unless recognizes.empty?
-          unrecognized = options.keys - requirements - recognized
-          unless unrecognized.empty?
-            raise ArgumentError, "Unrecognized arguments: #{unrecognized.join(', ')}"
-          end
-        end
       end
 
     end

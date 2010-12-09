@@ -4,6 +4,7 @@ require 'cgi'
 require 'excon'
 require 'formatador'
 require 'time'
+require 'named-parameters'
 
 __DIR__ = File.dirname(__FILE__)
 
@@ -18,7 +19,7 @@ module Fog
   @mocking = false
 
   unless const_defined?(:VERSION)
-    VERSION = '0.3.26'
+    VERSION = '0.3.30'
   end
 
   module Mock
