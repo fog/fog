@@ -12,8 +12,6 @@ module Fog
         #   * body<~Array>:
         #     * 'addresses'<~Array> - Ip addresses for the slice
         #     * 'backup-id'<~Integer> - Id of backup slice was booted from
-        #     * 'bw-in'<~Float> - Incoming bandwidth total for current billing cycle, in Gigabytes
-        #     * 'bw-out'<~Float> - Outgoing bandwidth total for current billing cycle, in Gigabytes
         #     * 'flavor_id'<~Integer> - Id of flavor slice was booted from
         #     * 'id'<~Integer> - Id of the slice
         #     * 'image-id'<~Integer> - Id of image slice was booted from

@@ -3,7 +3,7 @@ module Fog
     class Compute
       class Real
 
-        require 'fog/slicehost/parsers/compute/get_records'
+        require 'fog/slicehost/parsers/compute/get_record'
 
         # Get all the DNS records across all the DNS zones for this account 
         #
@@ -18,12 +18,12 @@ module Fog
         #     * 'name'<~String> - Name of the slice
         #     * 'progress'<~Integer> - Progress of current action, in percentage
         #     * 'status'<~String> - Current status of the slice
-        def get_records
+        def get_record( record_id)
           request(
             :expects  => 200,
             :method   => 'GET',
             :parser   => Fog::Parsers::Slicehost::Compute::GetRecords.new,
-            :path     => "records.xml"
+            :path     => "records/#{record_id}.xml"
           )
         end
 
@@ -31,7 +31,7 @@ module Fog
 
       class Mock
 
-        def get_records
+        def get_record(record_id)
           Fog::Mock.not_implemented
         end
 

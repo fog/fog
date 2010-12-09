@@ -28,10 +28,10 @@ module Fog
       request :delete_zone
       request :get_zones
       request :get_zone
-      # request :create_record
-      # request :delete_record
-      # request :get_records
-      # request :get_record
+      request :create_record
+      request :delete_record
+      request :get_records
+      request :get_record
 
       class Mock
 
