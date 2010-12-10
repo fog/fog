@@ -32,7 +32,7 @@ module Fog
     if config && config[credential]
       return config[credential]
     else
-      raise LoadError.new missing_credentials(credential, config_path)
+      raise LoadError.new missing_credentials
     end
   end
 
@@ -40,10 +40,10 @@ private
   # @param [String] _cred The name of the credential being used
   # @param [String] _path Resource Config File's Path
   # @return [String] The error message that will be raised, if credentials cannot be found
-  def self.missing_credentials(_cred, _path) <<-YML
+  def self.missing_credentials <<-YML
 Missing Credentials
 
-To run as '#{_cred}', add the following to your resource config file: #{_path}
+To run as '#{credential}', add the following to your resource config file: #{config_path}
 An alternate file may be used by placing its path in the FOG_RC environment variable
 
 #######################################################
@@ -51,7 +51,7 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
 #
 # Key-value pairs should look like:
 # :aws_access_key_id:                022QF06E7MXBSAMPLE
-:#{_cred}:
+:#{credential}:
   :aws_access_key_id:                
   :aws_secret_access_key:            
   :bluebox_api_key:                  
