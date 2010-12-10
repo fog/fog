@@ -14,7 +14,7 @@ module Fog
       request :avail_linodeplans
       request :avail_stackscripts
       request :domain_create
-      # request :domain_delete
+      request :domain_delete
       request :domain_list
       # request :domain_update
       # request :domain_resource_create

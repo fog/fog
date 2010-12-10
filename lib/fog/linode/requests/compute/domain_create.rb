@@ -6,7 +6,8 @@ module Fog
         # Creates a domain record
         #
         # ==== Parameters
-        # * domain<~String>: The zone's name
+        # * domain<~String>: The zone's name.  Note, if master zone, SOA_email is required and if slave
+        #                    master_ips is/are required
         # * type<~String>: master or slave 
         # * options<~Hash>
         #   * description<~String> Currently undisplayed
@@ -20,9 +21,12 @@ module Fog
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Array>:
-        # TODO: docs
-        def domain_create( domain, type, options)
+        #   * body<~Hash>:
+        #     * DATA<~Hash>:
+        #       * 'DomainID'<~Integer>: domain ID
+        def domain_create( domain, type, options = {})
+
+          query= {}
           request(
             :expects  => 200,
             :method   => 'GET',
@@ -30,7 +34,7 @@ module Fog
               :api_action   => 'domain.create',
               :domain => domain,
               :type  => type
-            }
+            }.merge!( options)
           )
         end
 
