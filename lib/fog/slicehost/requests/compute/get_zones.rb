@@ -5,19 +5,15 @@ module Fog
 
         require 'fog/slicehost/parsers/compute/get_zones'
 
-        # Get list of DNS zones
+        # Get list of all DNS zones hosted on Slicehost (for this account)
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Array>:
-        #     * 'addresses'<~Array> - Ip addresses for the slice
-        #     * 'backup-id'<~Integer> - Id of backup slice was booted from
-        #     * 'flavor_id'<~Integer> - Id of flavor slice was booted from
-        #     * 'id'<~Integer> - Id of the slice
-        #     * 'image-id'<~Integer> - Id of image slice was booted from
-        #     * 'name'<~String> - Name of the slice
-        #     * 'progress'<~Integer> - Progress of current action, in percentage
-        #     * 'status'<~String> - Current status of the slice
+        #     * 'origin'<~String> - domain name to host (ie example.com)
+        #     * 'id'<~Integer> - Id of the zone
+        #     * 'ttl'<~Integer> - TimeToLive (ttl) for the domain, in seconds (> 60)
+        #     * 'active'<~String> - whether zone is active in Slicehost DNS server - 'Y' or 'N'
         def get_zones
           request(
             :expects  => 200,

@@ -15,6 +15,7 @@ module Fog
               @response[name] = @value.to_i
             when 'record-type', 'name', 'data', 'active', 'aux'
               @response[name] = @value
+            end
           end
 
         end

@@ -8,19 +8,31 @@ module Fog
         # Create a new zone for Slicehost's DNS servers to serve/host
         # ==== Parameters
         # * origin<~String> - domain name to host (ie example.com)
-        # * ttl<~Integer> - TimeToLive (ttl) for the domain, in seconds (> 60)
-        # * active<~String> - whether zone is active in Slicehost DNS server - 'Y' or 'N'
+        # * options<~Hash> - optional paramaters
+        #   * ttl<~Integer> - TimeToLive (ttl) for the domain, in seconds (> 60)
+        #   * active<~String> - whether zone is active in Slicehost DNS server - 'Y' or 'N'
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Array>:
-        #     * 'origin'<~String> - domain added 
-        #     * 'id'<~Integer> - Id of zone/domain
-        #     * 'ttl'<~Integer> - TimeToLive for zone (how long client can cache)
-        #     * 'active'<~String> - whether zone is active or disabled
-        def create_zone(origin, ttl, active)
+        #   * body<~Hash>:
+        #     * 'origin'<~String> - as above
+        #     * 'id'<~Integer> - Id of zone/domain - used in future API calls
+        #     * 'ttl'<~Integer> - as above
+        #     * 'active'<~String> - as above
+        def create_zone(origin, options = {})
+
+          optional_tags= ''
+          options.each { |option, value|
+            case option
+            when :ttl
+              optional_tags+= "<ttl type='interger'>#{value}</ttl>"
+            when :active
+              optional_tags+= "<active>#{value}</active>"
+            end
+          }
+          
           request(
-            :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><zone><origin>#{origin}</origin><ttl type="integer">#{ttl}</ttl><active>#{active}</active></zone>},
+            :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><zone><origin>#{origin}</origin>#{optional_tags}</zone>},
             :expects  => 201,
             :method   => 'POST',
             :parser   => Fog::Parsers::Slicehost::Compute::CreateZone.new,

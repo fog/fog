@@ -13,10 +13,10 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'origin'<~String> - Name of zone details are being requested of
+        #     * 'origin'<~String> - domain name to host (ie example.com)
         #     * 'id'<~Integer> - Id of the zone
-        #     * 'ttl'<~Integer> - TimeToLive (ttl) for the zone
-        #     * 'active'<~String> - 'Y' or 'N' - if the zone is active or disabled
+        #     * 'ttl'<~Integer> - TimeToLive (ttl) for the domain, in seconds (> 60)
+        #     * 'active'<~String> - whether zone is active in Slicehost DNS server - 'Y' or 'N'
         def get_zone(zone_id)
           request(
             :expects  => 200,

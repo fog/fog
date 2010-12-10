@@ -3,12 +3,12 @@ module Fog
     class Compute
       class Real
 
-        # Delete a record from DNS zone
+        # Delete a record from the specified DNS zone
         # ==== Parameters
         # * record_id<~Integer> - Id of DNS record to delete
         #
         # ==== Returns
-        # * response<~Excon::Response>:
+        # * response<~Excon::Response>: - HTTP status code will be result
         def delete_record(record_id)
           request(
             :expects  => 200,
