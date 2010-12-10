@@ -15,7 +15,10 @@ class AWS < Fog::Bin
         Fog::AWS::SimpleDB
       when :eu_storage, :s3, :storage
         Fog::AWS::Storage
-      else 
+      else
+        # @todo Replace most instances of ArgumentError with NotImplementedError
+        # @todo For a list of widely supported Exceptions, see:
+        # => http://www.zenspider.com/Languages/Ruby/QuickRef.html#35
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
     end
