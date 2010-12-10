@@ -37,8 +37,6 @@ module Fog
   end
 
 private
-  # @param [String] _cred The name of the credential being used
-  # @param [String] _path Resource Config File's Path
   # @return [String] The error message that will be raised, if credentials cannot be found
   def self.missing_credentials <<-YML
 Missing Credentials
