@@ -16,11 +16,47 @@ def show_linode_dns_usage( api_key)
   end
 
   begin
+    #connect to Linode
     options = { :linode_api_key => api_key }    
     cloud= Fog::Linode::Compute.new( options)
+
+    #create a zone for a domain
+    domain = 'sample-domain.com'
+    type = 'master'
+    options = { :SOA_email => 'netops@sample-domain.com', :description => "Sample-Domain Inc", :status => 0}
+    response = cloud.domain_create( domain, type, options)
+    if response.status == 200
+      master_zone_id = response.body['DATA']['DOMAINID']
+    end
     
-    # will add samples once finished adding linode DNS API to fog
-     
+    #create a slave zone
+    domain = 'sample-slave-domain.com'
+    type = 'slave'
+    options = { :master_ips => '1.2.3.4; 1.2.3.5'}
+    response = cloud.domain_create( domain, type, options)
+    if response.status == 200
+      slave_zone_id = response.body['DATA']['DOMAINID']
+    end
+    
+    #add an A record for website 
+    
+    #get a list of zones Linode hosted for account
+    response = cloud.domain_list()
+    if response.status == 200
+      num_zones = response.body['DATA'].count
+      puts "Linode is hosting #{num_zones} DNS zones for this account"
+    end
+        
+    #finally cleanup by deleting the zone we created
+    response = cloud.domain_delete( master_zone_id)
+    if response.status == 200
+      puts "master zone deleted"
+    end
+    response = cloud.domain_delete( slave_zone_id)
+    if response.status == 200
+      puts "slave zone deleted"
+    end
+       
   rescue
     #opps, ran into a problem
     puts $!.message
@@ -43,13 +79,6 @@ def show_slicehost_dns_usage( password)
     options = { :slicehost_password => password }    
     cloud= Fog::Slicehost::Compute.new( options)
     
-    #start by getting a list of existing zones Slicehost hosted for account
-    response = cloud.get_zones()
-    if response.status == 200
-      num_zones= response.body['zones'].count
-      puts "Slicehost is hosting #{num_zones} DNS zones for this account"
-    end
-  
     #create a zone for a domain
     zone_id = 0
     options = { :ttl => 1800, :active => 'N' }
@@ -66,14 +95,21 @@ def show_slicehost_dns_usage( password)
       record_id= response.body['id']
     end
     
-    #now get details on zone and A record for www
+    #get a list of zones Slicehost hosted for account
+    response = cloud.get_zones()
+    if response.status == 200
+      num_zones= response.body['zones'].count
+      puts "Slicehost is hosting #{num_zones} DNS zones for this account"
+    end
+  
+    #now get details on www record for the zone
     if record_id > 0
       response = cloud.get_record( record_id)
       if response.status == 200
         record = response.body['records'][0]
         name = record['name']
         type = record['record-type']
-        puts "got #{type} record for #{name} domain"
+        puts "record is an #{type} record for #{name} domain"
       end
     end
   

@@ -25,7 +25,7 @@ module Fog
 
       class Mock
 
-        def linode_delete(linode_id, options={})
+        def domain_delete(domain_id)
           Fog::Mock.not_implemented
         end
 

@@ -3,13 +3,13 @@ module Fog
     class Compute
       class Real
 
-        # Creates a domain record
+        # Update a domain record
         #
         # ==== Parameters
-        # * domain<~String>: The zone's name.  Note, if master zone, SOA_email is required and if slave
-        #                    master_ips is/are required
-        # * type<~String>: master or slave 
+        # * domain_id<~Integer>: The ID to identify the zone
         # * options<~Hash>
+        #   * domain<~String>: The zone's name.  
+        #   * type<~String>: master or slave 
         #   * description<~String> Currently undisplayed
         #   * SOA_email<~String> Required when type=master
         #   * refresh_sec<~Integer> numeric, default: '0'
@@ -24,14 +24,14 @@ module Fog
         #   * body<~Hash>:
         #     * DATA<~Hash>:
         #       * 'DomainID'<~Integer>: domain ID
-        def domain_create( domain, type, options = {})
+        def domain_update( domain_id, options = {})
 
           query= {}
           request(
             :expects  => 200,
             :method   => 'GET',
             :query    => {
-              :api_action   => 'domain.create',
+              :api_action   => 'domain.update',
               :domain => domain,
               :type  => type
             }.merge!( options)
@@ -42,7 +42,7 @@ module Fog
 
       class Mock
 
-        def domain_create( domain, type, options ={})
+        def domain_update(datacenter_id, payment_term, plan_id)
           Fog::Mock.not_implemented
         end
 
