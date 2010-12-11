@@ -19,7 +19,7 @@ module Fog
         #   * port<~Integer>: default: 80 
         #   * protocol<~String>: The protocol to append to an SRV record. Ignored on other record 
         #                        types. default: udp 
-        #   * ttl_sec<~Integer>: default: 0
+        #   * ttl_sec<~Integer>: note, Linode will round the input to set values (300, 3600, 7200, etc)
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
