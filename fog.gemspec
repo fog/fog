@@ -7,8 +7,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.3.30'
-  s.date              = '2010-12-08'
+  s.version           = '0.3.31'
+  s.date              = '2010-12-10'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -43,7 +43,7 @@ Gem::Specification.new do |s|
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
   s.add_dependency('builder')
-  s.add_dependency('excon', '>=0.2.8')
+  s.add_dependency('excon', '>=0.3.3')
   s.add_dependency('formatador', '>=0.0.16')
   s.add_dependency('json')
   s.add_dependency('mime-types')
@@ -766,6 +766,15 @@ Gem::Specification.new do |s|
     tests/brightbox/models/compute/flavors_tests.rb
     tests/brightbox/models/compute/server_tests.rb
     tests/brightbox/models/compute/servers_tests.rb
+    tests/brightbox/requests/compute/account_tests.rb
+    tests/brightbox/requests/compute/api_client_tests.rb
+    tests/brightbox/requests/compute/cloud_ip_tests.rb
+    tests/brightbox/requests/compute/image_tests.rb
+    tests/brightbox/requests/compute/interface_tests.rb
+    tests/brightbox/requests/compute/server_tests.rb
+    tests/brightbox/requests/compute/server_type_tests.rb
+    tests/brightbox/requests/compute/user_tests.rb
+    tests/brightbox/requests/compute/zone_tests.rb
     tests/go_grid/helper.rb
     tests/go_grid/requests/compute/image_tests.rb
     tests/google/models/storage/directories_tests.rb

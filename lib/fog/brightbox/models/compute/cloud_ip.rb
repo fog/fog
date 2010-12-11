@@ -26,6 +26,10 @@ module Fog
           connection.map_cloud_ip(identity, :interface => interface_to_map)
         end
 
+        def mapped?
+          status == "mapped"
+        end
+
         def unmap
           requires :identity
           connection.unmap_cloud_ip(identity)
