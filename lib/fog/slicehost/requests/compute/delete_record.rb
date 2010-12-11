@@ -3,17 +3,17 @@ module Fog
     class Compute
       class Real
 
-        # Delete a given slice
+        # Delete a record from the specified DNS zone
         # ==== Parameters
-        # * slice_id<~Integer> - Id of slice to delete
+        # * record_id<~Integer> - Id of DNS record to delete
         #
         # ==== Returns
-        # * response<~Excon::Response>: - HTTP status code is the return value
-        def delete_slice(slice_id)
+        # * response<~Excon::Response>: - HTTP status code will be result
+        def delete_record(record_id)
           request(
             :expects  => 200,
             :method   => 'DELETE',
-            :path     => "slices/#{slice_id}.xml"
+            :path     => "records/#{record_id}.xml"
           )
         end
 
@@ -21,7 +21,7 @@ module Fog
 
       class Mock
 
-        def delete_slice(slice_id)
+        def delete_record(record_id)
           Fog::Mock.not_implemented
         end
 

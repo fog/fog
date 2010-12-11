@@ -24,6 +24,14 @@ module Fog
       request :get_slice
       request :get_slices
       request :reboot_slice
+      request :create_zone
+      request :delete_zone
+      request :get_zones
+      request :get_zone
+      request :create_record
+      request :delete_record
+      request :get_records
+      request :get_record
 
       class Mock
 
