@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-# require 'fog'
-require '/Users/anuaimi/code/fog/lib/fog'
+require 'fog'
 
 LINODE_API_KEY = '--put-your-key-here--'
 SLICEHOST_PASSWORD = '--put-your-key-here--'
@@ -16,6 +15,7 @@ def show_linode_dns_usage( api_key)
   end
 
   begin
+    
     #connect to Linode
     options = { :linode_api_key => api_key }    
     cloud= Fog::Linode::Compute.new( options)
@@ -26,7 +26,7 @@ def show_linode_dns_usage( api_key)
     options = { :SOA_email => 'netops@sample-domain.com', :description => "Sample-Domain Inc", :status => 0}
     response = cloud.domain_create( domain, type, options)
     if response.status == 200
-      master_zone_id = response.body['DATA']['DOMAINID']
+      master_zone_id = response.body['DATA']['DomainID']
     end
     
     #create a slave zone
@@ -35,18 +35,43 @@ def show_linode_dns_usage( api_key)
     options = { :master_ips => '1.2.3.4; 1.2.3.5'}
     response = cloud.domain_create( domain, type, options)
     if response.status == 200
-      slave_zone_id = response.body['DATA']['DOMAINID']
+      slave_zone_id = response.body['DATA']['DomainID']
     end
-    
-    #add an A record for website 
-    
+
     #get a list of zones Linode hosted for account
     response = cloud.domain_list()
     if response.status == 200
       num_zones = response.body['DATA'].count
       puts "Linode is hosting #{num_zones} DNS zones for this account"
     end
-        
+
+    #add an A and a MX record
+    options = { :name => 'www.sample-domain.com', :target => '4.5.6.7', :ttl_sec => 7200 }
+    response = cloud.domain_resource_create( master_zone_id, 'A', options)
+    if response.status == 200
+      resource_id = response.body['DATA']['ResourceID']
+    end
+
+    options = { :target => 'mail.sample-domain.com', :priority => 1 }
+    response = cloud.domain_resource_create( master_zone_id, 'MX', options)
+    if response.status == 200
+      resource_id = response.body['DATA']['ResourceID']
+    end
+
+    #change MX to have a lower priority
+    options = { :priority => 5 }
+    response = cloud.domain_resource_update( master_zone_id, resource_id, options)
+    if response.status == 200
+      resource_id = response.body['DATA']['ResourceID']
+    end
+    
+    #get the list of resource records for the domain
+    response = cloud.domain_resource_list( master_zone_id)
+    if response.status == 200
+      num_records = response.body['DATA'].count
+      puts "Domain has #{num_records} records  for this domain"
+    end
+
     #finally cleanup by deleting the zone we created
     response = cloud.domain_delete( master_zone_id)
     if response.status == 200
