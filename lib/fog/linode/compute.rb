@@ -16,10 +16,10 @@ module Fog
       request :domain_create
       request :domain_delete
       request :domain_list
-      # request :domain_update
-      # request :domain_resource_create
-      # request :domain_resource_delete
-      # request :domain_resource_list
+      request :domain_update
+      request :domain_resource_create
+      request :domain_resource_delete
+      request :domain_resource_list
       # request :domain_resource_update
       # request :linode_boot
       request :linode_create

@@ -40,7 +40,7 @@ module Fog
 
       class Mock
 
-        def avail_kernels(options={})
+        def domain_list(domain_id = nil)
           Fog::Mock.not_implemented
         end
 
