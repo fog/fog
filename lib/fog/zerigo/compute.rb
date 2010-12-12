@@ -11,11 +11,10 @@ module Fog
 
       request_path 'fog/zerigo/requests/compute'
       request :list_zones
-      # request :count_zones
-      # request :get_zone
-      # request :get_zone_stats
-      # request :get_blank_zone
-      # request :create_zone
+      request :count_zones
+      request :get_zone
+      request :get_zone_stats
+      request :create_zone
       # request :update_zone
       # request :delete_zone
       # request :list_hosts
