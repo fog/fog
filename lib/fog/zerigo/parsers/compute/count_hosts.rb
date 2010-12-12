@@ -1,20 +1,18 @@
 module Fog
   module Parsers
-    module Slicehost
+    module Zerigo
       module Compute
 
-        class GetRecord < Fog::Parsers::Base
+        class CountHosts < Fog::Parsers::Base
 
           def reset
-            @response = { }
+            @response = {}
           end
 
           def end_element(name)
             case name
-            when 'zone-id', 'ttl'
+            when 'count'
               @response[name] = @value.to_i
-            when 'record-type', 'name', 'data', 'active', 'aux'
-              @response[name] = @value
             end
           end
 

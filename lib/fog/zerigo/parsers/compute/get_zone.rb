@@ -1,5 +1,3 @@
-require 'date'
-
 module Fog
   module Parsers
     module Zerigo
@@ -27,9 +25,9 @@ module Fog
             if (@in_hosts)
               #in hosts part of response
               case name
-              when 'id', 'priority', 'ttl'
+              when 'id', 'priority', 'ttl', 'zone-id'
                 @host[name] = @value.to_i
-              when 'data', 'fgdn', 'host-type', 'hostname', 'notes', 'zone-id', 'created-at type', 'updated-at'
+              when 'data', 'fqdn', 'host-type', 'hostname', 'notes', 'zone-id', 'created-at', 'updated-at'
                 @host[name] = @value
               when 'host'
                 @hosts << @host
@@ -41,9 +39,9 @@ module Fog
             else
               #in zone part of data
               case name
-              when 'default-ttl', 'id', 'nx-ttl'
+              when 'default-ttl', 'id', 'nx-ttl', 'hosts-count'
                 @response[name] = @value.to_i
-              when 'created-at', 'updated-at', 'domain', 'hostmaster', 'custom-nameservers', 'slave-nameservers', 'custom-ns', 'ns-type', 'ns1', 'notes'
+              when 'created-at', 'custom-nameservers', 'custom-ns', 'domain', 'hostmaster', 'notes', 'ns1', 'ns-type', 'slave-nameservers', 'tag-list', 'updated-at', 'hosts', 'axfr-ips', 'restrict-axfr'
                 @response[name] = @value
               end
             end

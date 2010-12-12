@@ -1,19 +1,19 @@
 module Fog
-  module Slicehost
+  module Zerigo
     class Compute
       class Real
 
-        # Delete a record from the specified DNS zone
+        # Delete a zone from Zerigo
         # ==== Parameters
-        # * record_id<~Integer> - Id of DNS record to delete
+        # * zone_id<~Integer> - Id of zone to delete
         #
         # ==== Returns
         # * response<~Excon::Response>: - HTTP status code will be result
-        def delete_record(record_id)
+        def delete_host(host_id)
           request(
             :expects  => 200,
             :method   => 'DELETE',
-            :path     => "/api/1.1./records/#{record_id}.xml"
+            :path     => "/api/1.1/hosts/#{host_id}.xml"
           )
         end
 
@@ -21,7 +21,7 @@ module Fog
 
       class Mock
 
-        def delete_record(record_id)
+        def delete_host(host_id)
           Fog::Mock.not_implemented
         end
 

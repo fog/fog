@@ -13,7 +13,7 @@ module Fog
             case name
             when 'default-ttl', 'id', 'nx-ttl', 'hosts-count'
               @response[name] = @value.to_i
-            when 'created-at', 'custom-nameservers', 'custom-ns', 'domain', 'hostmaster', 'notes', 'ns1', 'ns-type', 'slave-nameservers', 'tag-list', 'updated-at', 'hosts'
+            when 'created-at', 'custom-nameservers', 'custom-ns', 'domain', 'hostmaster', 'notes', 'ns1', 'ns-type', 'slave-nameservers', 'tag-list', 'updated-at', 'hosts', 'axfr-ips', 'restrict-axfr'
               @response[name] = @value
             end
           end

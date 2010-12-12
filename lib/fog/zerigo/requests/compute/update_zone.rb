@@ -3,15 +3,15 @@ module Fog
     class Compute
       class Real
 
-        require 'fog/zerigo/parsers/compute/create_zone'
+        require 'fog/zerigo/parsers/compute/update_zone'
 
-        # Create a new zone for Slicehost's DNS servers to serve/host
+        # Update the parameters of a zone
         # ==== Parameters
         #
-        # * domain<~String>
-        # * default_ttl<~Integer>
-        # * ns_type<~String>
+        # * zone_id<~Integer>
         # * options<~Hash> - optional paramaters
+        #   * default_ttl<~Integer>
+        #   * ns_type<~String>
         #   * ns1<~String> - required if ns_type == sec
         #   * nx_ttl<~Integer> -
         #   * slave_nameservers<~String> - required if ns_type == pri
@@ -30,11 +30,15 @@ module Fog
         #     * 'id'<~Integer> - Id of zone/domain - used in future API calls
         #     * 'ttl'<~Integer> - as above
         #     * 'active'<~String> - as above
-        def create_zone( domain, default_ttl, ns_type, options = {})
+        def update_zone( zone_id, options = {})
 
           optional_tags= ''
           options.each { |option, value|
             case option
+            when :default_ttl
+              optional_tags+= "<default-ttl>#{value}</default-ttl>"
+            when :ns_type
+              optional_tags+= "<ns-type>#{value}</ns-type>"
             when :ns1
               optional_tags+= "<ns1>#{value}</ns1>"
             when :nx_ttl
@@ -62,7 +66,7 @@ module Fog
             :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><zone><domain>#{domain}</domain><default-ttl type="integer">#{default_ttl}</default-ttl><ns-type>#{ns_type}</ns-type>#{optional_tags}</zone>},
             :expects  => 201,
             :method   => 'POST',
-            :parser   => Fog::Parsers::Slicehost::Compute::CreateZone.new,
+            :parser   => Fog::Parsers::Slicehost::Compute::UpdateZone.new,
             :path     => '/api/1.1/zones.xml'
           )
         end
@@ -71,7 +75,7 @@ module Fog
 
       class Mock
 
-        def create_zone(domain, default_ttl, ns_type, options = {})
+        def update_zone(domain, default_ttl, ns_type, options = {})
           Fog::Mock.not_implemented
         end
 

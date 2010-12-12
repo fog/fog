@@ -1,9 +1,9 @@
 module Fog
-  module Slicehost
+  module Zerigo
     class Compute
       class Real
 
-        # Delete a zone from Slicehost's DNS
+        # Delete a zone from Zerigo
         # ==== Parameters
         # * zone_id<~Integer> - Id of zone to delete
         #
@@ -13,7 +13,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'DELETE',
-            :path     => "/api/1.1./zones/#{zone_id}.xml"
+            :path     => "/api/1.1/zones/#{zone_id}.xml"
           )
         end
 

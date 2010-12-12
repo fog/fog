@@ -15,15 +15,15 @@ module Fog
       request :get_zone
       request :get_zone_stats
       request :create_zone
-      # request :update_zone
-      # request :delete_zone
-      # request :list_hosts
-      # request :count_hosts
-      # request :get_host
-      # request :get_blank_host
-      # request :create_host
-      # request :update_host
-      # request :delete_host
+      request :update_zone
+      request :delete_zone
+      request :list_hosts
+      request :find_hosts
+      request :count_hosts
+      request :get_host
+      request :create_host
+      request :update_host
+      request :delete_host
 
       class Mock
 

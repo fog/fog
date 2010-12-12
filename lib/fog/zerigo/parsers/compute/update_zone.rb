@@ -3,22 +3,18 @@ module Fog
     module Zerigo
       module Compute
 
-        class ListZones < Fog::Parsers::Base
+        class UpdateZone < Fog::Parsers::Base
 
           def reset
-            @zone = {}
-            @response = { 'zones' => [] }
+            @response = {}
           end
 
           def end_element(name)
             case name
             when 'default-ttl', 'id', 'nx-ttl', 'hosts-count'
-              @zone[name] = @value.to_i
+              @response[name] = @value.to_i
             when 'created-at', 'custom-nameservers', 'custom-ns', 'domain', 'hostmaster', 'notes', 'ns1', 'ns-type', 'slave-nameservers', 'tag-list', 'updated-at', 'hosts', 'axfr-ips', 'restrict-axfr'
-              @zone[name] = @value
-            when 'zone'
-              @response['zones'] << @zone
-              @zone = {}
+              @response[name] = @value
             end
           end
 
