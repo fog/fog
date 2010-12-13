@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-# require 'fog'
-require '/Users/anuaimi/code/fog/lib/fog'
+require 'fog'
 
 LINODE_API_KEY = '--put-your-key-here--'
 SLICEHOST_PASSWORD = '--put-your-key-here--'
