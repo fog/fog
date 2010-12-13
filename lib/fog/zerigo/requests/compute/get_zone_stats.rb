@@ -19,6 +19,8 @@ module Fog
         #     * 'period-being'<~String> - date in following format 2010-07-01
         #     * 'period-end'<~String> - date
         #     * 'queries'<~Integer> - # of queries for the zone during period
+        #   * 'status'<~Integer> - 200 indicates success
+        
         def get_zone_stats(zone_id)
           request(
             :expects  => 200,

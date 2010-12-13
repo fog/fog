@@ -7,9 +7,10 @@ module Fog
         #
         # ==== Parameters
         # * zone_id<~Integer> - Id of zone to delete
-        #
         # ==== Returns
-        # * response<~Excon::Response>: - HTTP status code will be result
+        # * response<~Excon::Response>:
+        #   * 'status'<~Integer> - 200 indicates success
+        
         def delete_zone(zone_id)
           request(
             :expects  => 200,

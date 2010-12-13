@@ -3,7 +3,7 @@ module Fog
     module Zerigo
       module Compute
 
-        class FindZones < Fog::Parsers::Base
+        class FindHosts < Fog::Parsers::Base
 
           def reset
             @host = {}

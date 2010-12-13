@@ -29,6 +29,7 @@ module Fog
         #       * 'hosts'<~String>
         #       * 'axfr-ips'<~String>
         #       * 'restrict-axfr'<~String>    
+        #   * 'status'<~Integer> - 200 indicates success
         def list_zones
           request(
             :expects  => 200,

@@ -3,8 +3,6 @@ module Fog
     class Compute
       class Real
 
-        require 'fog/zerigo/parsers/compute/update_host'
-
         # Update a host record
         #
         # ==== Parameters
@@ -18,6 +16,7 @@ module Fog
         #   * ttl<~Integer>
         # ==== Returns
         # * response<~Excon::Response>: 
+        #   * 'status'<~Integer> - 200 for success
         #
         def update_host( host_id, options = {})
 
@@ -43,7 +42,6 @@ module Fog
             :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><host>#{optional_tags}</host>},
             :expects  => 200,
             :method   => 'PUT',
-            :parser   => Fog::Parsers::Zerigo::Compute::UpdateHost.new,
             :path     => "/api/1.1/hosts/#{host_id}.xml"
           )
         end

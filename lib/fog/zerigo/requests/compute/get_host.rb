@@ -23,6 +23,7 @@ module Fog
         #     * 'ttl'<~Integer>
         #     * 'updated-at'<~String>
         #     * 'zone-id'<~String>
+        #   * 'status'<~Integer> - 200 indicates success
         def get_host( host_id)
           request(
             :expects  => 200,

@@ -23,9 +23,7 @@ module Fog
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * header<~Hash>
-        #     * 'status'<~Integer> - 200 for success
-        #
+        #   * 'status'<~Integer> - 200 for success
         def update_zone( zone_id, options = {})
 
           optional_tags= ''

@@ -1,10 +1,13 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-require 'fog'
+# require 'fog'
+require '/Users/anuaimi/code/fog/lib/fog'
 
 LINODE_API_KEY = '--put-your-key-here--'
 SLICEHOST_PASSWORD = '--put-your-key-here--'
+ZERIGO_USER = '--put-your-username-here--'
+ZERIGO_PASSWORD = '--put-your-password-here--'
 
 
 # example of how to use Linode DNS calls
@@ -155,6 +158,111 @@ def show_slicehost_dns_usage( password)
   true
 end
 
+# example of how to use Zerigo DNS calls
+def show_zerigo_dns_usage( username, password)
+  
+  #check if we have a value api key for this cloud
+  if username == '--put-your-username-here--'
+    return false 
+  end
+
+  begin
+    #connect to Zerigo
+    options = { :zerigo_user => username, :zerigo_password => password }    
+    cloud = Fog::Zerigo::Compute.new( options)
+
+    #create a domain
+    options = { :nx_ttl => 1800 }
+    response = cloud.create_zone( "sample-domain.com", 3600, 'pri_sec', options) 
+    if response.status == 201
+      zone_id = response.body['id']
+    end
+
+    #update zone
+    options = { :notes => "domain for client ABC"}
+    response = cloud.update_zone( zone_id, options)
+    if response.status == 200
+      puts "update of zone #{zone_id} worked"
+    end
+    
+    #get details on the zone
+    response = cloud.get_zone( zone_id)
+    if response.status == 200
+      domain = response.body['domain']
+      hosts = response.body['hosts']
+    end
+    
+    #get zone stats    
+    response = cloud.get_zone_stats( zone_id)
+    if response.status == 200
+      queries = response.body['queries']
+    end
+    
+    #list all domains on this accont
+    response= cloud.list_zones()
+    if response.status == 200
+      zone_count = response.headers['X-Query-Count'].to_i
+    end
+   
+    #add an A record to the zone
+    options = { :hostname => 'www' }
+    response = cloud.create_host( zone_id, 'A', '1.2.3.4', options )
+    if response.status == 201
+      host_id = response.body['id']
+    end
+    
+    #add an MX record to the zone
+    options = { :priority => 5 }
+    response = cloud.create_host( zone_id, 'MX', 'mail.sample-domain.com', options)
+    if response.status == 201
+      mail_host_id = response.body['id']
+    end
+    
+    #update the record
+    options = { :priority => 10 }
+    response = cloud.update_host( mail_host_id, options)
+    if response.status == 200
+      #updated priority
+    end
+  
+    #find a specific record
+    response = cloud.find_hosts( "sample-domain.com" )
+    if response.status == 200
+      hosts= response.body['hosts']
+      num_records = hosts.count
+    end
+    
+    #get host record
+    response = cloud.get_host( host_id)
+    if response.status == 200
+      fqdn = response.body['fqdn']
+    end
+    
+    #list hosts
+    response = cloud.list_hosts( zone_id)
+    if response.status == 200
+      hosts = response.body['hosts']
+    end
+    
+    #delete the host record
+    response = cloud.delete_host( host_id)
+    if response.status == 200
+      puts "host record #{host_id} deleted from zone"
+    end
+    
+    #delete the zone we created
+    response = cloud.delete_zone( zone_id)
+    if response.status == 200
+      puts "deleted zone #{zone_id}"
+    end  
+    
+  rescue
+    #opps, ran into a problem
+    puts $!.message
+    return false
+  end
+  
+end
 
 ######################################
 
@@ -162,3 +270,4 @@ end
 
 show_linode_dns_usage( LINODE_API_KEY)
 show_slicehost_dns_usage( SLICEHOST_PASSWORD)
+show_zerigo_dns_usage( ZERIGO_USER, ZERIGO_PASSWORD)

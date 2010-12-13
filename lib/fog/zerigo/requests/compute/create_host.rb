@@ -18,17 +18,19 @@ module Fog
         #   * ttl<~Integer>
         # ==== Returns
         # * response<~Excon::Response>: 
-        #   * 'created-at'<~String>
-        #   * 'data'<~String>
-        #   * 'fqdn'<~String>
-        #   * 'host-type'<~String>
-        #   * 'hostname'<~String>
-        #   * 'id'<~Integer>
-        #   * 'notes'<~String>
-        #   * 'priority'<~Integer>
-        #   * 'ttl'<~Integer>
-        #   * 'updated-at'<~String>
-        #   * 'zone-id'<~String>
+        #   * body<~Hash>
+        #     * 'created-at'<~String>
+        #     * 'data'<~String>
+        #     * 'fqdn'<~String>
+        #     * 'host-type'<~String>
+        #     * 'hostname'<~String>
+        #     * 'id'<~Integer>
+        #     * 'notes'<~String>
+        #     * 'priority'<~Integer>
+        #     * 'ttl'<~Integer>
+        #     * 'updated-at'<~String>
+        #     * 'zone-id'<~String>
+        #   * 'status'<~Integer> - 201 if successful        
         def create_host( zone_id, host_type, data, options = {} )
           
           optional_tags= ''
@@ -47,7 +49,7 @@ module Fog
             
           request(
             :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><host><host-type>#{host_type}</host-type><data>#{data}</data>#{optional_tags}</host>},
-            :expects  => 200,
+            :expects  => 201,
             :method   => 'POST',
             :parser   => Fog::Parsers::Zerigo::Compute::CreateHost.new,
             :path     => "/api/1.1/zones/#{zone_id}/hosts.xml"

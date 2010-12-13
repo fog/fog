@@ -27,6 +27,8 @@ module Fog
         #       * 'ttl'<~Integer>
         #       * 'updated-at'<~String>
         #       * 'zone-id'<~String>
+        #   * 'status'<~Integer> - 200 indicated success
+        #
         def find_hosts( fqdn, zone_id = nil)
           if zone_id.nil?
             #look for matching host across all zones

@@ -10,7 +10,9 @@ module Fog
         #
         # ==== Returns
         # * response<~Excon::Response>: 
-        #   * 'count'<~Integer> 
+        #   * body<~Hash>
+        #     * 'count'<~Integer> 
+        #   * 'status'<~Integer> - 200 indicates success
         def count_hosts( zone_id)
           request(
             :expects  => 200,

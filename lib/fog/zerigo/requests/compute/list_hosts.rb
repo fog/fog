@@ -12,7 +12,7 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'hosts'<~Hash>
+        #     * 'hosts'<~Array>
         #       * 'created-at'<~String>
         #       * 'data'<~String>
         #       * 'fqdn'<~String>
@@ -24,6 +24,7 @@ module Fog
         #       * 'ttl'<~Integer>
         #       * 'updated-at'<~String>
         #       * 'zone-id'<~String>
+        # * 'status'<~Integer> - 200 indicates success
         def list_hosts( zone_id)
           request(
             :expects  => 200,

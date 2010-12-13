@@ -7,9 +7,9 @@ module Fog
         #
         # ==== Parameters
         # * host_id<~Integer> - Id of host record to delete
-        #
         # ==== Returns
-        # * response<~Excon::Response>: - HTTP status code will be result
+        # * response<~Excon::Response>: 
+        #   * 'status'<~Integer> - 200 indicates success
         def delete_host(host_id)
           request(
             :expects  => 200,

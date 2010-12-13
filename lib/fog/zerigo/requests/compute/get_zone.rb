@@ -32,6 +32,8 @@ module Fog
         #     * 'hosts'<~Array> - a list of all host records. For the format of host info, see get_host() 
         #     * 'axfr-ips'<~String>
         #     * 'restrict-axfr'<~String>    
+        #   * 'status'<~Integer> - 200 indicates success
+        
         def get_zone(zone)
           request(
             :expects  => 200,

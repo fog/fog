@@ -12,6 +12,7 @@ module Fog
         # * response<~Excon::Response>: 
         #   * body<~Hash>
         #     * 'count'<~Integer> 
+        #   * 'status'<~Integer> - 200 indicates success
         def count_zones()
           request(
             :expects  => 200,

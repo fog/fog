@@ -44,6 +44,8 @@ module Fog
         #     * 'hosts'<~String>
         #     * 'axfr-ips'<~String>
         #     * 'restrict-axfr'<~String>    
+        #   * 'status'<~Integer> - 201 if successful        
+        
         def create_zone( domain, default_ttl, ns_type, options = {})
 
           optional_tags= ''
