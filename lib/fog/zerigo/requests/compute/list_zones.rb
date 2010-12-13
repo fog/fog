@@ -9,11 +9,26 @@ module Fog
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Array>:
-        #     * 'origin'<~String> - domain name to host (ie example.com)
-        #     * 'id'<~Integer> - Id of the zone
-        #     * 'ttl'<~Integer> - TimeToLive (ttl) for the domain, in seconds (> 60)
-        #     * 'active'<~String> - whether zone is active in Slicehost DNS server - 'Y' or 'N'
+        #   * body<~Hash>:
+        #     * 'zones'<~Array>
+        #       * 'default-ttl'<~Integer>
+        #       * 'id'<~Integer>
+        #       * 'nx-ttl'<~Integer>
+        #       * 'hosts-count'<~Integer>
+        #       * 'created-at'<~String>
+        #       * 'custom-nameservers'<~String>
+        #       * 'custom-ns'<~String>
+        #       * 'domain'<~String>
+        #       * 'hostmaster'<~String>
+        #       * 'notes'<~String>
+        #       * 'ns1'<~String>
+        #       * 'ns-type'<~String>
+        #       * 'slave-nameservers'<~String>
+        #       * 'tag-list'<~String>
+        #       * 'updated-at'<~String>
+        #       * 'hosts'<~String>
+        #       * 'axfr-ips'<~String>
+        #       * 'restrict-axfr'<~String>    
         def list_zones
           request(
             :expects  => 200,

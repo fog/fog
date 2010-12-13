@@ -4,6 +4,7 @@ module Fog
       class Real
 
         # Delete a zone from Zerigo
+        #
         # ==== Parameters
         # * zone_id<~Integer> - Id of zone to delete
         #

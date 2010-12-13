@@ -5,7 +5,7 @@ module Fog
 
         require 'fog/zerigo/parsers/compute/get_zone'
 
-        # Get details of a DNS zone. This response is similar to list_zones, with the 
+        # Get details of a DNS zone. The response is similar to list_zones, with the 
         # addition of hosts-count and possibly hosts.
         #
         # ==== Parameters
@@ -14,10 +14,24 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'origin'<~String> - domain name to host (ie example.com)
-        #     * 'id'<~Integer> - Id of the zone
-        #     * 'ttl'<~Integer> - TimeToLive (ttl) for the domain, in seconds (> 60)
-        #     * 'active'<~String> - whether zone is active in Slicehost DNS server - 'Y' or 'N'
+        #     * 'default-ttl'<~Integer>
+        #     * 'id'<~Integer>
+        #     * 'nx-ttl'<~Integer>
+        #     * 'hosts-count'<~Integer>
+        #     * 'created-at'<~String>
+        #     * 'custom-nameservers'<~String>
+        #     * 'custom-ns'<~String>
+        #     * 'domain'<~String>
+        #     * 'hostmaster'<~String>
+        #     * 'notes'<~String>
+        #     * 'ns1'<~String>
+        #     * 'ns-type'<~String>
+        #     * 'slave-nameservers'<~String>
+        #     * 'tag-list'<~String>
+        #     * 'updated-at'<~String>
+        #     * 'hosts'<~Array> - a list of all host records. For the format of host info, see get_host() 
+        #     * 'axfr-ips'<~String>
+        #     * 'restrict-axfr'<~String>    
         def get_zone(zone)
           request(
             :expects  => 200,

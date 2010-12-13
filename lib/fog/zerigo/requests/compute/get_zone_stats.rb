@@ -9,7 +9,7 @@ module Fog
         # beginning of the current period through the time of the API call.
         #
         # ==== Parameters
-        # * zone<~Integer> - the zone ID 
+        # * zone_id<~Integer> - the zone ID 
         #
         # ==== Returns
         # * response<~Excon::Response>:

@@ -5,14 +5,47 @@ module Fog
 
         require 'fog/zerigo/parsers/compute/create_host'
 
-        # Total number of zones hosted Zerigo for this account. It is the same value as provided 
-        # in the X-Query-Count header in the list_zones API method
+        # Create a new host in the specified zone
         #
+        # ==== Parameters
+        # * zone_id<~Integer>
+        # * host_type<~String>
+        # * data<~String>
+        # * options<~Hash> - optional paramaters
+        #   * hostname<~String> - Note: normally this is set/required!!
+        #   * notes<~String>
+        #   * priority<~Integer> - Note: required for MX or SRV records
+        #   * ttl<~Integer>
         # ==== Returns
         # * response<~Excon::Response>: 
-        #   * 'count'<~Integer> 
-        def create_host( zone_id, hostname, host-type, data, options)
+        #   * 'created-at'<~String>
+        #   * 'data'<~String>
+        #   * 'fqdn'<~String>
+        #   * 'host-type'<~String>
+        #   * 'hostname'<~String>
+        #   * 'id'<~Integer>
+        #   * 'notes'<~String>
+        #   * 'priority'<~Integer>
+        #   * 'ttl'<~Integer>
+        #   * 'updated-at'<~String>
+        #   * 'zone-id'<~String>
+        def create_host( zone_id, host_type, data, options = {})
+          
+          optional_tags= ''
+          options.each { |option, value|
+            case option
+            when :hostname
+              optional_tags+= "<hostname>#{value}</hostname>"
+            when :notes
+              optional_tags+= "<notes>#{value}</notes>"
+            when :priority
+              optional_tags+= "<priority>#{value}</priority>"
+            when :ttl
+              optional_tags+= "<ttl>#{value}</ttl>"
+            end
+            
           request(
+            :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><host><host-type>#{host_type}</host-type><data>#{data}</data>#{optional_tags}</host>},
             :expects  => 200,
             :method   => 'POST',
             :parser   => Fog::Parsers::Zerigo::Compute::CreateHost.new,
@@ -24,7 +57,7 @@ module Fog
 
       class Mock
 
-        def create_host( host_id)
+        def create_host( zone_id, host_type, data, options = {})
           Fog::Mock.not_implemented
         end
 

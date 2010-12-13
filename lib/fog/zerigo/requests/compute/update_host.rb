@@ -5,14 +5,41 @@ module Fog
 
         require 'fog/zerigo/parsers/compute/update_host'
 
-        # Total number of zones hosted Zerigo for this account. It is the same value as provided 
-        # in the X-Query-Count header in the list_zones API method
+        # Update a host record
         #
+        # ==== Parameters
+        # * host_id<~Integer> - host ID of the record to update
+        # * options<~Hash> - optional paramaters
+        #   * host_type<~String>
+        #   * data<~String>
+        #   * hostname<~String> - Note: normally this is set/required!!
+        #   * notes<~String>
+        #   * priority<~Integer> - Note: required for MX or SRV records
+        #   * ttl<~Integer>
         # ==== Returns
         # * response<~Excon::Response>: 
-        #   * 'count'<~Integer> 
+        #
         def update_host( host_id, options = {})
+
+          optional_tags= ''
+          options.each { |option, value|
+            case option
+            when :host_type
+              optional_tags+= "<host-type>#{host_type}</host-type>"
+            when :data
+              optional_tags+= "<data>#{data}</data>"
+            when :hostname
+              optional_tags+= "<hostname>#{value}</hostname>"
+            when :notes
+              optional_tags+= "<notes>#{value}</notes>"
+            when :priority
+              optional_tags+= "<priority>#{value}</priority>"
+            when :ttl
+              optional_tags+= "<ttl>#{value}</ttl>"
+            end
+
           request(
+            :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><host>#{optional_tags}</host>},
             :expects  => 200,
             :method   => 'PUT',
             :parser   => Fog::Parsers::Zerigo::Compute::UpdateHost.new,

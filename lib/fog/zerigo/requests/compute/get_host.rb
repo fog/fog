@@ -3,19 +3,31 @@ module Fog
     class Compute
       class Real
 
-        require 'fog/zerigo/parsers/compute/get_hosts'
+        require 'fog/zerigo/parsers/compute/get_host'
 
-        # Total number of zones hosted Zerigo for this account. It is the same value as provided 
-        # in the X-Query-Count header in the list_zones API method
+        # get details about a given host record
         #
+        # ==== Parameters
+        # * host_id<~Integer> - ID of the host record to retrieve
         # ==== Returns
         # * response<~Excon::Response>: 
-        #   * 'count'<~Integer> 
+        #   * body<~Hash>:
+        #     * 'created-at'<~String>
+        #     * 'data'<~String>
+        #     * 'fqdn'<~String>
+        #     * 'host-type'<~String>
+        #     * 'hostname'<~String>
+        #     * 'id'<~Integer>
+        #     * 'notes'<~String>
+        #     * 'priority'<~Integer>
+        #     * 'ttl'<~Integer>
+        #     * 'updated-at'<~String>
+        #     * 'zone-id'<~String>
         def get_host( host_id)
           request(
             :expects  => 200,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Zerigo::Compute::GetZone.new,
+            :parser   => Fog::Parsers::Zerigo::Compute::GetHost.new,
             :path     => "/api/1.1/hosts/#{host_id}.xml"
           )
         end

@@ -6,8 +6,7 @@ module Fog
         class GetHost < Fog::Parsers::Base
 
           def reset
-            @host = {}
-            @response = { 'hosts' => [] }
+            @response = {}
           end
 
           def end_element(name)
@@ -17,8 +16,7 @@ module Fog
             when 'data', 'fqdn', 'host-type', 'hostname', 'notes', 'zone-id', 'created-at', 'updated-at'
               @host[name] = @value
             when 'host'
-              @response['hosts'] << @host
-              @host = {}
+              @response['host'] = @host
             end
           end
 

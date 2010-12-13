@@ -5,15 +5,28 @@ module Fog
 
         require 'fog/zerigo/parsers/compute/find_hosts'
 
-        # Get list of all DNS zones hosted on Slicehost (for this account)
+        # Get list of all the host records that match the FQDN.  If desired, can limit
+        # search to a specific zone
         #
+        #
+        # ==== Parameters
+        # * fqdn<~String> - domain to look for
+        # * zone_id<~Integer> - if want to limit search to specific zone
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Array>:
-        #     * 'origin'<~String> - domain name to host (ie example.com)
-        #     * 'id'<~Integer> - Id of the zone
-        #     * 'ttl'<~Integer> - TimeToLive (ttl) for the domain, in seconds (> 60)
-        #     * 'active'<~String> - whether zone is active in Slicehost DNS server - 'Y' or 'N'
+        #   * body<~Hash>:
+        #     * 'hosts'<~Hash>
+        #       * 'created-at'<~String>
+        #       * 'data'<~String>
+        #       * 'fqdn'<~String>
+        #       * 'host-type'<~String>
+        #       * 'hostname'<~String>
+        #       * 'id'<~Integer>
+        #       * 'notes'<~String>
+        #       * 'priority'<~Integer>
+        #       * 'ttl'<~Integer>
+        #       * 'updated-at'<~String>
+        #       * 'zone-id'<~String>
         def find_hosts( fqdn, zone_id = nil)
           if zone_id.nil?
             #look for matching host across all zones
@@ -21,7 +34,7 @@ module Fog
               :expects  => 200,
               :method   => 'GET',
               :parser   => Fog::Parsers::Zerigo::Compute::FindHosts.new,
-              :path     => "/api/1.1/hosts.xml"
+              :path     => "/api/1.1/hosts.xml?fqdn=#{fqdn}"
             )
           else
             #look for hosts in a specific zone
@@ -29,7 +42,7 @@ module Fog
               :expects  => 200,
               :method   => 'GET',
               :parser   => Fog::Parsers::Zerigo::Compute::FindHosts.new,
-              :path     => "/api/1.1/zones/#{zone_id}/hosts.xml"
+              :path     => "/api/1.1/zones/#{zone_id}/hosts.xml?fqdn=#{fqdn}"
             )
           end
         end

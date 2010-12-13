@@ -26,10 +26,7 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'origin'<~String> - as above
-        #     * 'id'<~Integer> - Id of zone/domain - used in future API calls
-        #     * 'ttl'<~Integer> - as above
-        #     * 'active'<~String> - as above
+        #
         def update_zone( zone_id, options = {})
 
           optional_tags= ''
@@ -64,10 +61,10 @@ module Fog
           
           request(
             :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><zone><domain>#{domain}</domain><default-ttl type="integer">#{default_ttl}</default-ttl><ns-type>#{ns_type}</ns-type>#{optional_tags}</zone>},
-            :expects  => 201,
-            :method   => 'POST',
+            :expects  => 200,
+            :method   => 'PUT',
             :parser   => Fog::Parsers::Slicehost::Compute::UpdateZone.new,
-            :path     => '/api/1.1/zones.xml'
+            :path     => "/api/1.1/zones/#{zone_id}.xml"
           )
         end
 
@@ -75,7 +72,7 @@ module Fog
 
       class Mock
 
-        def update_zone(domain, default_ttl, ns_type, options = {})
+        def update_zone(zone_id, options = {})
           Fog::Mock.not_implemented
         end
 

@@ -3,9 +3,10 @@ module Fog
     class Compute
       class Real
 
-        # Delete a zone from Zerigo
+        # Delete a host record 
+        #
         # ==== Parameters
-        # * zone_id<~Integer> - Id of zone to delete
+        # * host_id<~Integer> - Id of host record to delete
         #
         # ==== Returns
         # * response<~Excon::Response>: - HTTP status code will be result

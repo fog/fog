@@ -7,13 +7,23 @@ module Fog
 
         # Get list of all DNS zones hosted on Slicehost (for this account)
         #
+        # ==== Parameters
+        # * zone_id<~Integer> - the zone ID of the zone from which to get the host records for
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Array>:
-        #     * 'origin'<~String> - domain name to host (ie example.com)
-        #     * 'id'<~Integer> - Id of the zone
-        #     * 'ttl'<~Integer> - TimeToLive (ttl) for the domain, in seconds (> 60)
-        #     * 'active'<~String> - whether zone is active in Slicehost DNS server - 'Y' or 'N'
+        #   * body<~Hash>:
+        #     * 'hosts'<~Hash>
+        #       * 'created-at'<~String>
+        #       * 'data'<~String>
+        #       * 'fqdn'<~String>
+        #       * 'host-type'<~String>
+        #       * 'hostname'<~String>
+        #       * 'id'<~Integer>
+        #       * 'notes'<~String>
+        #       * 'priority'<~Integer>
+        #       * 'ttl'<~Integer>
+        #       * 'updated-at'<~String>
+        #       * 'zone-id'<~String>
         def list_hosts( zone_id)
           request(
             :expects  => 200,

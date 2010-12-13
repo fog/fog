@@ -5,7 +5,7 @@ module Fog
 
         require 'fog/zerigo/parsers/compute/create_zone'
 
-        # Create a new zone for Slicehost's DNS servers to serve/host
+        # Create a new zone for Zerigo's DNS servers to serve/host
         # ==== Parameters
         #
         # * domain<~String>
@@ -26,10 +26,24 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'origin'<~String> - as above
-        #     * 'id'<~Integer> - Id of zone/domain - used in future API calls
-        #     * 'ttl'<~Integer> - as above
-        #     * 'active'<~String> - as above
+        #     * 'default-ttl'<~Integer>
+        #     * 'id'<~Integer>
+        #     * 'nx-ttl'<~Integer>
+        #     * 'hosts-count'<~Integer>
+        #     * 'created-at'<~String>
+        #     * 'custom-nameservers'<~String>
+        #     * 'custom-ns'<~String>
+        #     * 'domain'<~String>
+        #     * 'hostmaster'<~String>
+        #     * 'notes'<~String>
+        #     * 'ns1'<~String>
+        #     * 'ns-type'<~String>
+        #     * 'slave-nameservers'<~String>
+        #     * 'tag-list'<~String>
+        #     * 'updated-at'<~String>
+        #     * 'hosts'<~String>
+        #     * 'axfr-ips'<~String>
+        #     * 'restrict-axfr'<~String>    
         def create_zone( domain, default_ttl, ns_type, options = {})
 
           optional_tags= ''
