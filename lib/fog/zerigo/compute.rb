@@ -64,7 +64,6 @@ module Fog
         end
 
         def request(params)
-          key= "#{@zerigo_user}:#{@zerigo_password}"
           params[:headers] ||= {}
           key= "#{@zerigo_user}:#{@zerigo_password}"
           params[:headers].merge!({

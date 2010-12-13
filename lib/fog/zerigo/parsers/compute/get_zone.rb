@@ -7,7 +7,7 @@ module Fog
 
           def reset
             @host = {}
-            @hosts = {}
+            @hosts = []
             @response = {}
             @in_hosts = false
           end
@@ -33,7 +33,7 @@ module Fog
                 @hosts << @host
                 @host = {}
               when 'hosts'
-                @response[name] << @hosts
+                @response[name] = @hosts
                 @in_hosts = false
               end
             else

@@ -3,8 +3,6 @@ module Fog
     class Compute
       class Real
 
-        require 'fog/zerigo/parsers/compute/update_zone'
-
         # Update the parameters of a zone
         # ==== Parameters
         #
@@ -25,7 +23,8 @@ module Fog
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>:
+        #   * header<~Hash>
+        #     * 'status'<~Integer> - 200 for success
         #
         def update_zone( zone_id, options = {})
 
@@ -45,7 +44,7 @@ module Fog
             when :axfr_ips
               optional_tags+= "<axfr-ips>#{value}</axfr-ips>"
             when :custom_nameservers
-              optional_tags+= "<custom_nameservers>#{value}</custom-nameservers>"
+              optional_tags+= "<custom-nameservers>#{value}</custom-nameservers>"
             when :custom_ns
               optional_tags+= "<custom-ns>#{value}</custom-ns>"
             when :hostmaster
@@ -60,10 +59,9 @@ module Fog
           }
           
           request(
-            :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><zone><domain>#{domain}</domain><default-ttl type="integer">#{default_ttl}</default-ttl><ns-type>#{ns_type}</ns-type>#{optional_tags}</zone>},
+            :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><zone>#{optional_tags}</zone>},
             :expects  => 200,
             :method   => 'PUT',
-            :parser   => Fog::Parsers::Slicehost::Compute::UpdateZone.new,
             :path     => "/api/1.1/zones/#{zone_id}.xml"
           )
         end

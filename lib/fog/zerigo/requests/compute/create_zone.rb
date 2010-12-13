@@ -26,8 +26,8 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
+        #     * 'id'<~Integer> - zone ID to use for future calls
         #     * 'default-ttl'<~Integer>
-        #     * 'id'<~Integer>
         #     * 'nx-ttl'<~Integer>
         #     * 'hosts-count'<~Integer>
         #     * 'created-at'<~String>
@@ -76,7 +76,7 @@ module Fog
             :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><zone><domain>#{domain}</domain><default-ttl type="integer">#{default_ttl}</default-ttl><ns-type>#{ns_type}</ns-type>#{optional_tags}</zone>},
             :expects  => 201,
             :method   => 'POST',
-            :parser   => Fog::Parsers::Slicehost::Compute::CreateZone.new,
+            :parser   => Fog::Parsers::Zerigo::Compute::CreateZone.new,
             :path     => '/api/1.1/zones.xml'
           )
         end

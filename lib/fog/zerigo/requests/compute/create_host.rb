@@ -29,7 +29,7 @@ module Fog
         #   * 'ttl'<~Integer>
         #   * 'updated-at'<~String>
         #   * 'zone-id'<~String>
-        def create_host( zone_id, host_type, data, options = {})
+        def create_host( zone_id, host_type, data, options = {} )
           
           optional_tags= ''
           options.each { |option, value|
@@ -43,6 +43,7 @@ module Fog
             when :ttl
               optional_tags+= "<ttl>#{value}</ttl>"
             end
+          }
             
           request(
             :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><host><host-type>#{host_type}</host-type><data>#{data}</data>#{optional_tags}</host>},

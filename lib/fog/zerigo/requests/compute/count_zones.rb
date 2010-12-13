@@ -10,7 +10,8 @@ module Fog
         #
         # ==== Returns
         # * response<~Excon::Response>: 
-        #   * 'count'<~Integer> 
+        #   * body<~Hash>
+        #     * 'count'<~Integer> 
         def count_zones()
           request(
             :expects  => 200,
