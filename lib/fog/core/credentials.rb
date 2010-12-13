@@ -38,7 +38,8 @@ module Fog
 
 private
   # @return [String] The error message that will be raised, if credentials cannot be found
-  def self.missing_credentials <<-YML
+  def self.missing_credentials
+    <<-YML
 Missing Credentials
 
 To run as '#{credential}', add the following to your resource config file: #{config_path}
