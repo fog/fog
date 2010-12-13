@@ -114,15 +114,16 @@ You should try out the (varying) support fog has for:
 * {Blue Box Group}[http://www.blueboxgrp.com] [{Compute}[http://www.blueboxgrp.com/blocks]]
 * {Brightbox}[http://www.brightbox.co.uk] [{Compute}[http://beta.brightbox.com/]]
 * {Google}[http://www.google.com] [{Storage}[http://code.google.com/apis/storage]]
+* Local [Storage]
 * {Rackspace}[http://www.rackspace.com] [{Compute}[http://www.rackspacecloud.com/cloud_hosting_products/servers], {Storage}[http://www.rackspacecloud.com/cloud_hosting_products/files]]
-* {Slicehost}[http://www.slicehost.com] [{Compute}[http://www.slicehost.com]]
+* {Slicehost}[http://www.slicehost.com] [{Compute}[http://www.slicehost.com], {DNS}[http://www.slicehost.com]]
 * {Terremark}[http://www.terremark.com] [{vCloud Express}[http://vcloudexpress.terremark.com]]
 
 There are also the basics of these providers (that could use your love):
 * {GoGrid}[http://www.gogrid.com] [{Compute}[http://www.gogrid.com]]
-* {Linode}[http://www.linode.com] [{Compute}[http://www.linode.com]]
-* Local [Storage]
+* {Linode}[http://www.linode.com] [{Compute}[http://www.linode.com], {DNS}[http://www.linode.com]]
 * {New Servers}[http://www.newservers.com] [{Compute}[http://www.newservers.com]]
+* {Zerigo}[http://www.zerigo.com] [{DNS}[http://www.zerigo.com/managed-dns]
 
 Enjoy, and let me know what I can do to continue improving fog!
 
