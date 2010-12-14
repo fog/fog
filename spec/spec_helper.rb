@@ -36,7 +36,3 @@ end
 unless defined?(GENTOO_AMI)
   GENTOO_AMI = 'ami-5ee70037'
 end
-
-def lorem_file
-  File.open(File.dirname(__FILE__) + '/lorem.txt', 'r')
-end
