@@ -57,7 +57,8 @@ module Fog
           query << "GoogleAccessKeyId=#{@google_storage_access_key_id}"
           query << "Signature=#{CGI.escape(signature(params))}"
           query << "Expires=#{params[:headers]['Date']}"
-          "http://#{params[:host]}/#{params[:path]}?#{query.join('&')}"
+          path = CGI.escape(params[:path]).gsub('%2F', '/')
+          "http://#{params[:host]}/#{path}?#{query.join('&')}"
         end
 
       end

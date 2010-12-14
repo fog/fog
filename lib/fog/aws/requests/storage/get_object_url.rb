@@ -28,7 +28,7 @@ module Fog
             :headers  => {},
             :host     => @host,
             :method   => 'GET',
-            :path     => [bucket_name, CGI.escape(object_name)].join('/')
+            :path     => "#{bucket_name}/#{object_name}"
           }, expires)
         end
 
@@ -47,7 +47,7 @@ module Fog
             :headers  => {},
             :host     => @host,
             :method   => 'GET',
-            :path     => [bucket_name, CGI.escape(object_name)].join('/')
+            :path     => "#{bucket_name}/#{object_name}"
           }, expires)
         end
 

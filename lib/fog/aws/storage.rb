@@ -81,7 +81,8 @@ module Fog
           query << "Signature=#{CGI.escape(signature(params))}"
           query << "Expires=#{params[:headers]['Date']}"
           bucket = params[:host].split('.').first
-          "https://#{@host}/#{params[:path]}?#{query.join('&')}"
+          path = CGI.escape(params[:path]).gsub('%2F', '/')
+          "https://#{@host}/#{path}?#{query.join('&')}"
         end
 
       end
