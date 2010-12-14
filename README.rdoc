@@ -116,7 +116,7 @@ There are also the basics of these providers (that could use your love):
 * {GoGrid}[http://www.gogrid.com] [{Compute}[http://www.gogrid.com]]
 * {Linode}[http://www.linode.com] [{Compute}[http://www.linode.com], {DNS}[http://www.linode.com]]
 * {New Servers}[http://www.newservers.com] [{Compute}[http://www.newservers.com]]
-* {Zerigo}[http://www.zerigo.com] [{DNS}[http://www.zerigo.com/managed-dns]
+* {Zerigo}[http://www.zerigo.com] [{DNS}[http://www.zerigo.com/managed-dns]]
 
 Enjoy, and let me know what I can do to continue improving fog!
 
