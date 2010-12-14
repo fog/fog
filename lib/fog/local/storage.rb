@@ -33,8 +33,8 @@ module Fog
           @local_root
         end
 
-        def path(partial)
-          partial
+        def path_to(partial)
+          ::File.join(@local_root, partial)
         end
       end
 
