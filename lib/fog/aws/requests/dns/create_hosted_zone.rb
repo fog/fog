@@ -1,0 +1,72 @@
+module Fog
+  module AWS
+    class DNS
+      class Real
+
+        require 'fog/aws/parsers/dns/create_hosted_zone'
+
+        # Creates a new hosted zone
+        #
+        # ==== Parameters
+        # * name<~String> - The name of the domain. Must be a fully-specified domain that ends with a period
+        # * options<~Hash>
+        #   * caller_ref<~String> - unique string that identifies the request & allows failed 
+        #                           calls to be retried without the risk of executing the operation twice
+        #   * comment<~Integer> - 
+        #
+        # ==== Returns
+        # * response<~Excon::Response>:
+        #   * body<~Hash>:
+        #     * 'HostedZone'<~Hash>:
+        #       * 'Id'<~String> - 
+        #       * 'Name'<~String> - 
+        #       * 'CallerReference'<~String>
+        #       * 'Comment'<~String> - 
+        #     * 'ChangeInfo'<~Hash> -
+        #       * 'Id'<~String>
+        #       * 'Status'<~String>
+        #       * 'SubmittedAt'<~String>
+        #     * 'NameServers'<~Array>
+        #       * 'NameServer'<~String>
+        #   * status<~Integer> - 201 when successful
+        def create_hosted_zone( name, options = {})
+
+          optional_tags = ''
+          options.each { |option, value|
+            case option
+            when :caller_ref
+              optional_tags+= "<CallerReference>#{value}</CallerReference>"
+            when :comment
+              optional_tags+= "<HostedZoneConfig><Comment>#{value}</Comment></HostedZoneConfig>"
+            end
+          }
+
+          #make sure we have a unique call reference
+          if options[:caller_ref].nil?
+            caller_ref = "ref-#{rand(1000000).to_s}"
+            optional_tags+= "<CallerReference>#{caller_ref}</CallerReference>"            
+          end
+          
+          request({
+            :body       => %Q{<?xml version="1.0" encoding="UTF-8"?><CreateHostedZoneRequest xmlns="https://route53.amazonaws.com/doc/2010-10-01/"><Name>#{name}</Name>#{optional_tags}</CreateHostedZoneRequest>},
+            :parser     => Fog::Parsers::AWS::DNS::CreateHostedZone.new,
+            :expects    => 201,
+            :method     => 'POST',
+            :path       => "hostedzone"
+          })
+
+        end
+
+      end
+
+      class Mock
+
+        def create_hosted_zone(filters = {})
+          Fog::Mock.not_implemented
+        end
+
+
+      end
+    end
+  end
+end
