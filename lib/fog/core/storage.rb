@@ -2,7 +2,7 @@ module Fog
   class Storage
 
     def self.new(attributes)
-      case provider = attributes.delete(:provider)
+      case provider = attributes.dup.delete(:provider)
       when 'AWS'
         require 'fog/aws'
         Fog::AWS::Storage.new(attributes)
