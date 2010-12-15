@@ -2,7 +2,8 @@ Shindo.tests('Brightbox::Compute | load balancer requests', ['brightbox']) do
 
   tests('success') do
 
-    node_id = Brightbox[:compute].list_servers.first["id"]
+    @node = Brightbox[:compute].servers.create(:image_id => Brightbox::Compute::TestSupport::IMAGE_IDENTIFER)
+    node_id = @node.id
 
     creation_args = {
       :nodes => [{
@@ -38,6 +39,8 @@ Shindo.tests('Brightbox::Compute | load balancer requests', ['brightbox']) do
     tests("#destroy_load_balancer('#{@load_balancer_id}')").formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER) do
       Brightbox[:compute].destroy_load_balancer(@load_balancer_id)
     end
+
+    @node.destroy
 
   end
 

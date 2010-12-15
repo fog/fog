@@ -25,6 +25,7 @@ module Fog
       model :user
 
       request_path 'fog/brightbox/requests/compute'
+      request :add_nodes_load_balancer
       request :create_api_client
       request :create_cloud_ip
       request :create_image
@@ -54,6 +55,7 @@ module Fog
       request :list_users
       request :list_zones
       request :map_cloud_ip
+      request :remove_nodes_load_balancer
       request :reset_ftp_password_account
       request :resize_server
       request :shutdown_server
@@ -64,6 +66,7 @@ module Fog
       request :update_account
       request :update_api_client
       request :update_image
+      request :update_load_balancer
       request :update_server
       request :update_user
 
