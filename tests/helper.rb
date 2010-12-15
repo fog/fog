@@ -1,8 +1,6 @@
 require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
 require 'fog/core/bin'
 
-Fog.bin = true
-
 __DIR__ = File.dirname(__FILE__)
 
 $LOAD_PATH.unshift __DIR__ unless

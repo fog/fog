@@ -1,42 +1,43 @@
 require 'yaml'
 
 module Fog
-  # Assign a new set of credentials for use in Fog
-  #   @param [String, Symbol] new_credential The name of the new credential to use in Fog
-  #   @ return [String, Symbol] The name of the new Fog credential
+  require 'fog/core/deprecation'
+  extend Fog::Deprecation
+  self_deprecate(:config_path, :credentials_path)
+
+  # Assign a new credential to use from configuration file
+  #   @param [String, Symbol] new_credential name of new credential to use
+  #   @ return [String, Symbol] name of the new credential
   def self.credential=(new_credential)
-    @credentials  = nil
-    @credential   = new_credential
+    @credential = new_credential
   end
 
-  # @return [String, Symbol] The credential in use by Fog
+  # @return [String, Symbol] The credential to use in Fog
   def self.credential
     @credential ||= :default
   end
 
-  # @return [String] The credential's configuration path, read by Fog
-  def self.config_path
-    File.expand_path(ENV["FOG_RC"] || '~/.fog')
+  # @return [String] The path for configuration_file
+  def self.credentials_path
+    @credential_path ||= File.expand_path(ENV["FOG_RC"] || '~/.fog')
   end
 
-  # @return [Hash] The credentials pulled from the config_path file
+  # @return [String] The new path for credentials file
+  def self.credentials_path=(new_credentials_path)
+    @credential_path = new_credentials_path
+  end
+
+  # @return [Hash] The credentials pulled from the configuration file
+  # @raise [LoadError] Configuration unavailable in configuration file
   def self.credentials
-    @credentials  ||= parse_config
-  end
-
-  # @return [Hash] The credentials pulled from the config_path file
-  # @raise [LoadError] Incorrect credential for config file
-  def self.parse_config
-    config = YAML.load_file(config_path)
-
-    if config && config[credential]
-      return config[credential]
-    else
-      raise LoadError.new missing_credentials
+    @credentials  ||= begin
+      credentials = YAML.load_file(credentials_path)
+      (credentials && credentials[credential]) or raise LoadError.new missing_credentials
     end
   end
 
 private
+
   # @return [String] The error message that will be raised, if credentials cannot be found
   def self.missing_credentials
     <<-YML

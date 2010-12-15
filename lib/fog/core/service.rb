@@ -59,9 +59,12 @@ module Fog
       end
 
       def new(options={})
-        if Fog.bin
+        # attempt to load credentials from config file
+        begin
           default_credentials = filter_parameters(Fog.credentials)
           options = default_credentials.merge(options)
+        rescue LoadError
+          # if there are no configured credentials, do nothing
         end
 
         setup_requirements

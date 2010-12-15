@@ -39,14 +39,6 @@ module Fog
 
   end
 
-  def self.bin
-    @bin ||= false
-  end
-
-  def self.bin=(new_bin)
-    @bin = new_bin
-  end
-
   def self.mock!
     @mocking = true
   end

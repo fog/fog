@@ -1,7 +1,6 @@
 require 'spec'
 require 'open-uri'
 require 'fog'
-Fog.bin = true
 require 'fog/core/bin'
 require 'fog/vcloud/bin'
 
