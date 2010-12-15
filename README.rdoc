@@ -126,6 +126,7 @@ Enjoy, and let me know what I can do to continue improving fog!
 * Report bugs or find stuff to work on in {issues}[http://github.com/geemus/fog/issues]
 * Learn about {contributing}[http://github.com/geemus/fog/wiki/contributor-guide] or find more info about the {Providers}[http://github.com/geemus/fog/wiki/Providers] (including some todo items)
 * See what already uses fog and add your own stuff to {the list}[http://wiki.github.com/geemus/fog/in-the-wild]
+* Check out blog posts and other mentions from elsewhere {press}[http://wiki.github.com/geemus/fog/press]
 
 == Sponsorship
 
