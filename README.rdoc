@@ -41,22 +41,19 @@ As an example, we'll try initializing and persisting a Rackspace Cloud server:
 
   require 'fog'
 
-  # initialize a connection to Rackspace Cloud Servers
-  connection = Fog::Rackspace::Servers.new(
-    :rackspace_api_key => key,
+  compute = Fog::Compute.new(
+    :provider           => 'Rackspace',
+    :rackspace_api_key  => key,
     :rackspace_username => username
   )
 
   # boot a gentoo server (flavor 1 = 256, image 3 = gentoo 2008.0)
-  server = connection.servers.create(:flavor_id => 1, :image_id => 3, :name => 'my_server')
-
-  # wait for it to be ready to do stuff
-  server.wait_for { ready? }
+  server = compute.servers.create(:flavor_id => 1, :image_id => 3, :name => 'my_server')
+  server.wait_for { ready? } # give server time to boot
 
   # DO STUFF
 
-  # shutdown the server
-  server.destroy
+  server.destroy # cleanup after yourself or regret it, trust me
 
 == Models
 
