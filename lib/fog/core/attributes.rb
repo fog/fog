@@ -132,12 +132,12 @@ module Fog
       def merge_attributes(new_attributes = {})
         for key, value in new_attributes
           unless self.class.ignored_attributes.include?(key)
-            if aliased_key = self.class.aliases[key]
+            if aliased_key = self.class.aliases[key.to_sym]
               send("#{aliased_key}=", value)
             elsif (public_methods | private_methods).detect {|method| ["#{key}=", :"#{key}="].include?(method)}
               send("#{key}=", value)
             else
-              attributes[key] = value
+              attributes[key.to_sym] = value
             end
           end
         end
