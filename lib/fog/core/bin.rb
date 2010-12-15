@@ -15,7 +15,8 @@ module Fog
         ::NewServers,
         ::Rackspace,
         ::Slicehost,
-        ::Terremark
+        ::Terremark,
+        ::Zerigo
       ].select {|provider| provider.available?}
     end
 
@@ -83,3 +84,4 @@ require 'fog/rackspace/bin'
 require 'fog/slicehost/bin'
 require 'fog/terremark/bin'
 require 'fog/vcloud/bin'
+require 'fog/zerigo/bin'
