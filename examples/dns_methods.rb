@@ -5,7 +5,7 @@ require 'fog'
 
 LINODE_API_KEY = '--put-your-key-here--'
 SLICEHOST_PASSWORD = '--put-your-key-here--'
-ZERIGO_USER = '--put-your-username-here--'
+ZERIGO_EMAIL = '--put-your-email-here--'
 ZERIGO_PASSWORD = '--put-your-password-here--'
 
 
@@ -158,21 +158,21 @@ def show_slicehost_dns_usage( password)
 end
 
 # example of how to use Zerigo DNS calls
-def show_zerigo_dns_usage( username, password)
+def show_zerigo_dns_usage(email, password)
   
   #check if we have a value api key for this cloud
-  if username == '--put-your-username-here--'
+  if email == '--put-your-email-here--'
     return false 
   end
 
   begin
     #connect to Zerigo
-    options = { :zerigo_user => username, :zerigo_password => password }    
+    options = { :zerigo_email => email, :zerigo_password => password }
     cloud = Fog::Zerigo::Compute.new( options)
 
     #create a domain
     options = { :nx_ttl => 1800 }
-    response = cloud.create_zone( "sample-domain.com", 3600, 'pri_sec', options) 
+    response = cloud.create_zone( "sample-domain.com", 3600, 'pri_sec', options)
     if response.status == 201
       zone_id = response.body['id']
     end
@@ -267,6 +267,6 @@ end
 
 # note, if you have not added your key for a given provider, the related function will do nothing
 
-show_linode_dns_usage( LINODE_API_KEY)
-show_slicehost_dns_usage( SLICEHOST_PASSWORD)
-show_zerigo_dns_usage( ZERIGO_USER, ZERIGO_PASSWORD)
+show_linode_dns_usage(LINODE_API_KEY)
+show_slicehost_dns_usage(SLICEHOST_PASSWORD)
+show_zerigo_dns_usage(ZERIGO_EMAIL, ZERIGO_PASSWORD)

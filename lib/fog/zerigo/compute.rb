@@ -2,7 +2,7 @@ module Fog
   module Zerigo
     class Compute < Fog::Service
 
-      requires :zerigo_user, :zerigo_password, &inject_parameter_specs
+      requires :zerigo_email, :zerigo_password, &inject_parameter_specs
       recognizes :timeout, :persistent, &inject_parameter_specs
 
       # model_path 'fog/zerigo/models/compute'
@@ -40,9 +40,9 @@ module Fog
         end
 
         def initialize(options={})
-          @zerigo_user = options[:zerigo_user]
+          @zerigo_email = options[:zerigo_email]
           @zerigo_password = options[:zerigo_password]
-          @data = self.class.data[@zerigo_user]
+          @data = self.class.data[@zerigo_email]
           @data = self.class.data[@zerigo_password]
         end
 
@@ -51,8 +51,8 @@ module Fog
       class Real
 
         def initialize(options={})
-          @zerigo_user = options[:zerigo_user]
-          @zerigo_password = options[:zerigo_password]
+          @zerigo_email     = options[:zerigo_email]
+          @zerigo_password  = options[:zerigo_password]
           @host   = options[:host]    || "ns.zerigo.com"
           @port   = options[:port]    || 80
           @scheme = options[:scheme]  || 'http'
@@ -65,7 +65,7 @@ module Fog
 
         def request(params)
           params[:headers] ||= {}
-          key= "#{@zerigo_user}:#{@zerigo_password}"
+          key= "#{@zerigo_email}:#{@zerigo_password}"
           params[:headers].merge!({
             'Authorization' => "Basic #{Base64.encode64(key).delete("\r\n")}"
           })
