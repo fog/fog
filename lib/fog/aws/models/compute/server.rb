@@ -167,7 +167,7 @@ module Fog
               Timeout::timeout(4) do
                 Fog::SSH.new(ip_address, username, credentials).run(commands)
               end
-            rescue Timeout::Error
+            rescue Net::SSH::AuthenticationFailed, Timeout::Error
               retry
             end
           end
