@@ -39,14 +39,6 @@ module Fog
 
   end
 
-  def self.bin
-    @bin ||= false
-  end
-
-  def self.bin=(new_bin)
-    @bin = new_bin
-  end
-
   def self.mock!
     @mocking = true
   end
@@ -75,6 +67,7 @@ require 'fog/aws'
 require 'fog/bluebox'
 require 'fog/brightbox'
 require 'fog/go_grid'
+require 'fog/google'
 require 'fog/linode'
 require 'fog/local'
 require 'fog/new_servers'
@@ -82,4 +75,4 @@ require 'fog/rackspace'
 require 'fog/slicehost'
 require 'fog/terremark'
 require 'fog/vcloud'
-require 'fog/google'
+require 'fog/zerigo'

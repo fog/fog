@@ -2,6 +2,7 @@ module Fog
   class Compute
 
     def self.new(attributes)
+      attributes = attributes.dup # prevent delete from having side effects
       case provider = attributes.delete(:provider)
       when 'AWS'
         require 'fog/aws'

@@ -2,9 +2,7 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'fog'))
 require 'irb'
 require 'yaml'
-require File.join('fog', 'core', 'credentials')
 Fog.credential = ARGV.first ? ARGV.first.to_sym : nil
-Fog.bin = true
 Fog.mock! if ENV['FOG_MOCK']
 unless Fog.credentials
   exit
@@ -35,7 +33,7 @@ else
   @irb.context.workspace = IRB::WorkSpace.new(binding)
 
   Formatador.display_line('Welcome to fog interactive!')
-  Formatador.display_line(":#{Fog.credential.to_s} credentials provide #{providers}")
+  Formatador.display_line(":#{Fog.credential} provides #{providers}")
   providers = Fog.providers
   Fog.modules.each do |_module_|
     if _module_.respond_to?(:startup_notice)

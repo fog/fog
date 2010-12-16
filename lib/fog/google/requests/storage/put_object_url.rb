@@ -23,9 +23,9 @@ module Fog
           end
           url({
             :headers  => {},
-            :host     => "#{bucket_name}.#{@host}",
+            :host     => @host,
             :method   => 'PUT',
-            :path     => CGI.escape(object_name)
+            :path     => "#{bucket_name}/#{object_name}"
           }, expires)
         end
 
@@ -42,9 +42,9 @@ module Fog
           end
           url({
             :headers  => {},
-            :host     => "#{bucket_name}.#{@host}",
+            :host     => @host,
             :method   => 'PUT',
-            :path     => CGI.escape(object_name)
+            :path     => "#{bucket_name}/#{object_name}"
           }, expires)
         end
 
