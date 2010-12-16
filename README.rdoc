@@ -35,7 +35,7 @@ Collections share basic CRUD type operations, such as:
 * +all+ - fetch every object of that type from the provider.
 * +create+ - initialize a new record locally and a remote resource with the provider.
 * +get+ - fetch a single object by it's identity from the provider.
-* +new+ - initialize a new record locally, but create a remote resource with the provider.
+* +new+ - initialize a new record locally, but do not create a remote resource with the provider.
 
 As an example, we'll try initializing and persisting a Rackspace Cloud server:
 
