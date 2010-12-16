@@ -2,7 +2,7 @@ module Fog
   module Local
     class Storage < Fog::Service
 
-      requires :local_root, &inject_parameter_specs
+      requires :local_root
 
       model_path 'fog/local/models/storage'
       collection  :directories

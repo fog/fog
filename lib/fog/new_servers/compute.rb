@@ -4,8 +4,8 @@ module Fog
   module NewServers
     class Compute < Fog::Service
 
-      requires :new_servers_password, :new_servers_username, &inject_parameter_specs
-      recognizes :host, :port, :scheme, :persistent, &inject_parameter_specs
+      requires :new_servers_password, :new_servers_username
+      recognizes :host, :port, :scheme, :persistent
 
       model_path 'fog/new_servers/models/compute'
 

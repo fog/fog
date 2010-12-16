@@ -2,8 +2,8 @@ module Fog
   module Google
     class Storage < Fog::Service
 
-      requires :google_storage_access_key_id, :google_storage_secret_access_key, &inject_parameter_specs
-      recognizes :host, :port, :scheme, :persistent, &inject_parameter_specs
+      requires :google_storage_access_key_id, :google_storage_secret_access_key
+      recognizes :host, :port, :scheme, :persistent
 
       model_path 'fog/google/models/storage'
       collection  :directories

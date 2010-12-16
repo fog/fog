@@ -2,8 +2,8 @@ module Fog
   module Rackspace
     class Storage < Fog::Service
 
-      requires :rackspace_api_key, :rackspace_username, &inject_parameter_specs
-      recognizes :rackspace_auth_url, :persistent, &inject_parameter_specs
+      requires :rackspace_api_key, :rackspace_username
+      recognizes :rackspace_auth_url, :persistent
 
       model_path 'fog/rackspace/models/storage'
       model       :directory

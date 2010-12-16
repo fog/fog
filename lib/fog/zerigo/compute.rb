@@ -2,8 +2,8 @@ module Fog
   module Zerigo
     class Compute < Fog::Service
 
-      requires :zerigo_email, :zerigo_password, &inject_parameter_specs
-      recognizes :timeout, :persistent, &inject_parameter_specs
+      requires :zerigo_email, :zerigo_password
+      recognizes :timeout, :persistent
 
       # model_path 'fog/zerigo/models/compute'
       # model       :server

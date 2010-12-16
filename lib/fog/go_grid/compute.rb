@@ -2,8 +2,8 @@ module Fog
   module GoGrid
     class Compute < Fog::Service
 
-      requires :go_grid_api_key, :go_grid_shared_secret, &inject_parameter_specs
-      recognizes :host, :path, :port, :scheme, :persistent, &inject_parameter_specs
+      requires :go_grid_api_key, :go_grid_shared_secret
+      recognizes :host, :path, :port, :scheme, :persistent
 
       model_path 'fog/go_grid/models/compute'
       model         :image

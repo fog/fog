@@ -2,8 +2,8 @@ module Fog
   module Linode
     class Compute < Fog::Service
 
-      requires :linode_api_key, &inject_parameter_specs
-      recognizes :port, :scheme, :persistent, &inject_parameter_specs
+      requires :linode_api_key
+      recognizes :port, :scheme, :persistent
 
       model_path 'fog/linode/models/compute'
 

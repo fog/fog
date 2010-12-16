@@ -2,8 +2,8 @@ module Fog
   module AWS
     class Compute < Fog::Service
 
-      requires :aws_access_key_id, :aws_secret_access_key, &inject_parameter_specs
-      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, &inject_parameter_specs
+      requires :aws_access_key_id, :aws_secret_access_key
+      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent
 
       model_path 'fog/aws/models/compute'
       model       :address

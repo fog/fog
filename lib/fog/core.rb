@@ -12,7 +12,6 @@ require 'excon'
 require 'formatador'
 require 'time'
 require 'timeout'
-require 'named-parameters'
 
 # internal core dependencies
 require 'fog/core/attributes'

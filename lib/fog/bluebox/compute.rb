@@ -2,8 +2,8 @@ module Fog
   module Bluebox
     class Compute < Fog::Service
 
-      requires :bluebox_api_key, :bluebox_customer_id, &inject_parameter_specs
-      recognizes :bluebox_host, :bluebox_port, :bluebox_scheme, :persistent, &inject_parameter_specs
+      requires :bluebox_api_key, :bluebox_customer_id
+      recognizes :bluebox_host, :bluebox_port, :bluebox_scheme, :persistent
 
       model_path 'fog/bluebox/models/compute'
       model       :flavor
