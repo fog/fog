@@ -8,9 +8,9 @@ Fog.bin = true
 
 #mark true for each cloud you wish to enable/run the sample for
 RUN_AWS_SAMPLE = true
-RUN_LINODE_SAMPLE = true
+RUN_LINODE_SAMPLE = false
 RUN_SLICEHOST_SAMPLE = false
-RUN_ZERIGO_SAMPLE = false
+RUN_ZERIGO_SAMPLE = true
 
 #sample data 
 TEST_DOMAIN='sample53-domain.com'
@@ -369,6 +369,6 @@ if RUN_SLICEHOST_SAMPLE and Fog::credentials[:slicehost_password]
   show_slicehost_dns_usage
 end
 
-# if RUN_ZERIGO_SAMPLE and Fog::credentials[:zerigo_user] and Fog::credentials[:zerigo_password]
-#   show_zerigo_dns_usage
-# end
+if RUN_ZERIGO_SAMPLE and Fog::credentials[:zerigo_user] and Fog::credentials[:zerigo_password]
+  show_zerigo_dns_usage
+end
