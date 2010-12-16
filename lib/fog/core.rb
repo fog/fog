@@ -1,4 +1,4 @@
-__LIB_DIR__ = File.join(File.dirname(__FILE__), '..')
+__LIB_DIR__ = File.expand_path(File.join(File.dirname(__FILE__), '..'))
 
 $LOAD_PATH.unshift __LIB_DIR__ unless
   $LOAD_PATH.include?(__LIB_DIR__) ||
@@ -10,8 +10,8 @@ require 'base64'
 require 'cgi'
 require 'excon'
 require 'formatador'
-require 'nokogiri'
 require 'time'
+require 'timeout'
 require 'named-parameters'
 
 # internal core dependencies
