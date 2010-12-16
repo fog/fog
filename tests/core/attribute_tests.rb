@@ -1,5 +1,5 @@
 class FogAttributeTestModel < Fog::Model
-  attribute :key, :aliases => :keys, :squash => "id"
+  attribute :key, :aliases => 'keys', :squash => "id"
   attribute :time, :type => :time
 end
 
@@ -9,13 +9,13 @@ Shindo.tests('Fog::Attributes', 'core') do
 
   tests('squash') do
 
-    tests(':keys => {:id => "value"}').returns('value') do
-      @model.merge_attributes(:keys => {:id => "value"})
+    tests('"keys" => {:id => "value"}').returns('value') do
+      @model.merge_attributes("keys" => {:id => "value"})
       @model.key
     end
 
-    tests(':keys => {"id" => "value"}').returns('value') do
-      @model.merge_attributes(:keys => {'id' => "value"})
+    tests('"keys" => {"id" => "value"}').returns('value') do
+      @model.merge_attributes("keys" => {'id' => "value"})
       @model.key
     end
 
