@@ -16,16 +16,7 @@ module Fog
           def get_network_ip(network_ip_uri)
             if network_ip = mock_data.network_ip_from_href(network_ip_uri)
               builder = Builder::XmlMarkup.new
-              xml = builder.IpAddress(ecloud_xmlns) do
-                builder.Id network_ip.object_id
-                builder.Href network_ip.href
-                builder.Name network_ip.name
-
-                builder.Status network_ip.status
-                if network_ip.used_by
-                  builder.Server network_ip.used_by
-                end
-              end
+              xml = network_ip_response(builder, network_ip, ecloud_xmlns)
 
               mock_it 200, xml, { 'Content-Type' => 'application/vnd.tmrk.ecloud.ip+xml' }
             else
@@ -33,6 +24,20 @@ module Fog
             end
           end
 
+          def network_ip_response(builder, network_ip, xmlns = {})
+            builder.IpAddress(xmlns) do
+              builder.Id network_ip.object_id
+              builder.Href network_ip.href
+              builder.Name network_ip.name
+
+              builder.Status network_ip.status
+              if network_ip.used_by
+                builder.Server network_ip.used_by.name
+              end
+
+              builder.RnatAddress(network_ip.rnat)
+            end
+          end
         end
       end
     end

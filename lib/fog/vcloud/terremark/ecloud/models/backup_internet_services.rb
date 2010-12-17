@@ -1,20 +1,20 @@
-require 'fog/vcloud/terremark/ecloud/models/internet_service'
+require 'fog/vcloud/terremark/ecloud/models/backup_internet_service'
 
 module Fog
   class Vcloud
     module Terremark
       class Ecloud
 
-        class InternetServices < Fog::Vcloud::Collection
+        class BackupInternetServices < Fog::Vcloud::Collection
 
-          model Fog::Vcloud::Terremark::Ecloud::InternetService
+          model Fog::Vcloud::Terremark::Ecloud::BackupInternetService
 
           attribute :href, :aliases => :Href
 
           def all
             check_href! :message => "the Internet Services for the Vdc you want to enumerate"
-            if internet_service_data = connection.get_internet_services(href).body[:InternetService]
-              load(Array[internet_service_data].flatten.find_all {|i| i[:IsBackupService] == "false" })
+            if data = connection.get_internet_services(href).body[:InternetService].find_all {|i| i[:IsBackupService] == "true" }
+              load(data)
             end
           end
 

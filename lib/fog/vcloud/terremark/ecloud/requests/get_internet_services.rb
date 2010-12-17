@@ -38,26 +38,43 @@ module Fog
           def generate_internet_services(services)
             builder = Builder::XmlMarkup.new
 
-            builder.InternetServices(:xmlns => "urn:tmrk:eCloudExtensions-2.3",:"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance") {|xml|
+            builder.InternetServices("xmlns" => "urn:tmrk:eCloudExtensions-2.5", "xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance") {|xml|
               services.each do |service|
-                xml.InternetService {
-                  xml.Id service.object_id
-                  xml.Href service.href
-                  xml.Name service.name
-                  xml.PublicIpAddress {
-                    xml.Id service._parent._parent.object_id
-                    xml.Href service._parent._parent.href
-                    xml.Name service._parent._parent.name
-                  }
-                  xml.Port service.port
-                  xml.Protocol service.protocol
-                  xml.Enabled service.enabled
-                  xml.Timeout service.timeout
-                  xml.Description service.description
-                  xml.RedirectURL service.redirect_url
-                  xml.Monitor
+                generate_internet_service(xml, service)
+              end
+            }
+          end
+
+          def generate_internet_service(xml, service, by_itself = false)
+            xml.InternetService(by_itself ? { "xmlns" => "urn:tmrk:eCloudExtensions-2.5", "xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance" } : {}) {
+              xml.Id service.object_id
+              xml.Href service.href
+              xml.Name service.name
+              if MockDataClasses::MockBackupInternetService === service
+                xml.PublicIpAddress "i:nil" => true
+              else
+                xml.PublicIpAddress {
+                  xml.Id service._parent._parent.object_id
+                  xml.Href service._parent._parent.href
+                  xml.Name service._parent._parent.name
                 }
               end
+              xml.Port service.port
+              xml.Protocol service.protocol
+              xml.Enabled service.enabled
+              xml.Timeout service.timeout
+              xml.Description service.description
+              xml.RedirectURL service.redirect_url
+              xml.Monitor "i:nil" => true
+              xml.IsBackupService MockDataClasses::MockBackupInternetService === service
+              if MockDataClasses::MockPublicIpInternetService === service && service.backup_service
+                xml.BackupService do
+                  xml.Href service.backup_service.href
+                end
+              else
+                xml.BackupService "i:nil" => true
+              end
+              xml.BackupOf
             }
           end
         end

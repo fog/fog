@@ -33,17 +33,17 @@ module Fog
 
           def ready?
             load_unless_loaded!
-            @status == '2'
+            status == '2'
           end
 
           def on?
             load_unless_loaded!
-            @status == '4'
+            status == '4'
           end
 
           def off?
             load_unless_loaded!
-            @status == '2'
+            status == '2'
           end
 
           def power_on
@@ -75,7 +75,7 @@ module Fog
           end
 
           def name=(new_name)
-            @name = new_name
+            attributes[:name] = new_name
             @changed = true
           end
 
@@ -199,7 +199,7 @@ module Fog
               connection.send(op.keys.first, href + "/power/action/#{op.values.first}" )
             rescue Excon::Errors::InternalServerError => e
               #Frankly we shouldn't get here ...
-              raise e unless e.to_s =~ /because it is already powered on/
+              raise e unless e.to_s =~ /because it is already powered o(n|ff)/
             end
             true
           end

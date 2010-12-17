@@ -8,7 +8,7 @@ if Fog.mocking?
       subject { Fog::Vcloud::Terremark::Ecloud::Network }
 
       it { should have_identity :href }
-      it { should have_only_these_attributes [:href, :name, :features, :links, :type, :gateway, :broadcast, :address, :rnat, :extension_href] }
+      it { should have_only_these_attributes [:href, :name, :features, :links, :type, :gateway, :broadcast, :address, :rnat, :extension_href, :network_type, :vlan, :friendly_name] }
     end
 
     context "with no uri" do
@@ -32,6 +32,9 @@ if Fog.mocking?
       its(:address)               { should == @mock_network.address }
       its(:rnat)                  { should == @mock_network.rnat }
       its(:extension_href)        { should == @mock_network.extensions.href }
+      its(:network_type)          { should == @mock_network.extensions.type }
+      its(:vlan)                  { should == @mock_network.extensions.vlan }
+      its(:friendly_name)         { should == @mock_network.extensions.friendly_name }
 
       it { should have(1).features }
 
