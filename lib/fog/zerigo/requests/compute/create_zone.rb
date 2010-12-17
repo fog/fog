@@ -60,7 +60,7 @@ module Fog
             when :axfr_ips
               optional_tags+= "<axfr-ips>#{value}</axfr-ips>"
             when :custom_nameservers
-              optional_tags+= "<custom_nameservers>#{value}</custom-nameservers>"
+              optional_tags+= "<custom-nameservers>#{value}</custom-nameservers>"
             when :custom_ns
               optional_tags+= "<custom-ns>#{value}</custom-ns>"
             when :hostmaster

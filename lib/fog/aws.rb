@@ -11,6 +11,7 @@ module Fog
     service_path 'fog/aws'
     service 'cdn'
     service 'compute'
+    service 'dns'
     service 'ec2'
     service 'elb'
     service 'iam'

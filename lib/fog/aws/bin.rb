@@ -7,6 +7,8 @@ class AWS < Fog::Bin
         Fog::AWS::CDN
       when :compute, :ec2
         Fog::AWS::Compute
+      when :dns
+        Fog::AWS::DNS
       when :elb
         Fog::AWS::ELB
       when :iam
@@ -49,7 +51,7 @@ class AWS < Fog::Bin
     end
 
     def services
-      [:cdn, :compute, :elb, :iam, :sdb, :storage]
+      [:cdn, :compute, :dns, :elb, :iam, :sdb, :storage]
     end
 
   end
