@@ -4,110 +4,74 @@ require 'rubygems'
 require File.join(File.dirname(File.expand_path(__FILE__)), '..', 'lib', 'fog')
 require 'fog/core/bin'
 
-Fog.bin = true
-
 #mark true for each cloud you wish to enable/run the sample for
 RUN_AWS_SAMPLE = true
 RUN_LINODE_SAMPLE = false
 RUN_SLICEHOST_SAMPLE = false
-RUN_ZERIGO_SAMPLE = true
+RUN_ZERIGO_SAMPLE = false
 
-#sample data 
-TEST_DOMAIN='sample53-domain.com'
-
+#domain to use in examples
+TEST_DOMAIN = 'test-343246324434.com'
 
 # example of how to use AWS Route 53 DNS calls
 def show_aws_dns_usage
 
   begin    
     
-    aws = AWS[:dns].list_hosted_zones
-
-    debugger
+    #use to keep track of zone we create
+    zone_id= nil
     
-    response = AWS[:dns].create_hosted_zone( TEST_DOMAIN)
-    if response.status == 201
-      zone_id = response.body['HostedZone']['Id']
-      aws.delete_hosted_zone( zone_id)
-      (response.status == 200) ? true : false
-    end
-
-    #get a list of the zones AWS is hosting for this account
-    options= { :max_items => 50 }
-    response= AWS[:dns].list_hosted_zones( options)
+    # see if domain is already hosted on AWS
+    # important to check as AWS will let you create multiple zones with the same domain name
+    options= { :max_items => 200 }
+    response = AWS[:dns].list_hosted_zones( options)
     if response.status == 200
-      domain_count = response.body['HostedZones'].count
-      puts "you have #{domain_count} zones hosted at AWS Route 53"
-    end
-
-    # debugger
-        
-    #delete all the zones
-    zones= response.body['HostedZones']
-    zones.each { |zone|
-
-      zone_id = zone['Id']
-      puts "starting process of deleting zone #{zone_id}"
-
-      #get the list of record sets
-      options = { :max_items => 50 }
-      response = AWS[:dns].list_resource_record_sets( zone_id, options)
-      if response.status == 200
-        records= response.body['ResourceRecordSets']
-        count= records.count
-        
-        if count > 0
-          puts "#{count} resource records to delete"
-          #need to build a change batch
-          change_batch = []
-          records.each { |record|
-            #can't delete NS or SOA that AWS added so skip 
-            if record[:type] == 'NS' or record[:type] == 'SOA'
-              continue
-            else
-              #add to batch of records to delete
-              resource_record_set = { :action => 'DELETE', :name => record['Name'], :type => record['Type'],
-                                      :ttl => record['TTL'], :resource_records => record['ResourceRecords'] }
-              change_batch << resource_record_set
-            end
-          }
-          
-          if change_batch.count > 0
-            response = AWS[:dns].change_resource_record_sets( zone_id, change_batch)
-            debugger
-            if response.status == 200
-              #zone should now be in a state where it can be deleted
-            end
-          end
-          
+      zones = response.body['HostedZones']
+      zones.each { |zone|
+        domain_name = zone['Name']
+        if domain_name.chop == TEST_DOMAIN
+          zone_id = zone['Id'].sub('/hostedzone/', '')
         end
-        
-      end
-      
-      #delete the records
-      
-      response = AWS[:dns].delete_hosted_zone( zone_id)
-      if response.status == 200
-        change_id = response.body['ChangeInfo']['Id']
-        puts "request delete zone #{zone_id} is in progress and has change ID #{change_id}"
-      end
-
-    }
-
-    # debugger
+      }
+    end
     
-    #add a zone - note required period at end of domain
-    options= { :comment => 'for client ABC' }
-    response= AWS[:dns].create_hosted_zone( 'sample-domain.com.' )
-    if response.status == 201
-      zone_id = response.body['HostedZone']['Id']
-      change_id = response.body['ChangeInfo']['Id']
-      status = response.body['ChangeInfo']['Status']
+    #if domain not yet created, do so now
+    if zone_id.nil?
+      options= { :comment => 'test domain - not for production use' }
+      response = AWS[:dns].create_hosted_zone( TEST_DOMAIN, options)
+      if response.status == 201
+        zone_id = response.body['HostedZone']['Id']
+        change_id = response.body['ChangeInfo']['Id']
+        status = response.body['ChangeInfo']['Status']
+      end
+    end
+    
+    #get details about zone including name servers (which AWS adds automatically)
+    response = AWS[:dns].get_hosted_zone( zone_id)
+    if response.status == 200
+      zone_info = response.body['HostedZone']
+      name_servers = response.body['NameServers']
+      num_ns_servers = name_servers.count
     end
 
-    # debugger
+    #add an A record for www
+    change_batch = []
+    host = 'www.' + TEST_DOMAIN
+    ip_addr = '1.2.3.4'
+    record = { :name => host, :type => 'A', :resource_records => [ip_addr], :ttl => 3600 }
     
-    #wait until zone ready
+    resource_record_set = record.merge( :action => 'CREATE' )
+    change_batch << resource_record_set
+    options = { :comment => 'add A record for www'}
+    response = AWS[:dns].change_resource_record_sets( zone_id, change_batch, options)
+    if response.status == 200
+      change_id = response.body['Id']
+      status = response.body['Status']
+    end
+    
+    debugger
+
+    #wait until new zone is live across all name servers
     while status == 'PENDING'
       sleep 2
       response = AWS[:dns].get_change( change_id)
@@ -118,69 +82,23 @@ def show_aws_dns_usage
       puts "your changes are #{status}"    
     end
 
-    # debugger
-    
-    response = AWS[:dns].get_hosted_zone( zone_id)
+    # get resource records for zone
+    response = AWS[:dns].list_resource_record_sets( zone_id)
     if response.status == 200
-      name_servers = response.body['NameServers']
+      record_sets= response.body['ResourceRecordSets']
+      num_records= record_sets.count
     end
 
-    debugger
-    
-    #add resource records to zone
+    #now delete record for www
+    resource_record_set = record.merge( :action => 'DELETE' )
     change_batch = []
-    resource_record_set = { :action => 'CREATE', :name => 'www.sample-domain.com.', :type => 'A',
-                        :ttl => 3600, :resource_records => ['1.2.3.4'] }
     change_batch << resource_record_set
-=begin
-    resource_record_set = { :action => 'CREATE', :name => 'mail.sample-domain.com.', :type => 'CNAME',
-                        :ttl => 3600, :resource_records => ['www.sample-domain.com'] }
-    change_batch << resource_record_set
-    resource_record_set = { :action => 'CREATE', :name => 'sample-domain.com.', :type => 'MX',
-                        :ttl => 3600, :resource_records => ['10 mail.sample-domain.com'] }
-    change_batch << resource_record
-=end    
-    options = { :comment => 'migrate records from BIND'}
+    options = { :comment => 'remove A record for www'}
     response = AWS[:dns].change_resource_record_sets( zone_id, change_batch, options)
     if response.status == 200
       change_id = response.body['Id']
       status = response.body['Status']
     end
-    
-    debugger
-    
-    #wait until zone ready
-    while status == 'PENDING'
-      sleep 2
-      response = AWS[:dns].get_change( change_id)
-      if response.status == 200
-        change_id = response.body['Id']
-        status = response.body['Id']
-      end
-      puts "your changes are #{status}"
-    end
-    
-    #get a list of the zones AWS is hosting for this account
-    options= { :max_items => 5 }
-    response= AWS[:dns].list_hosted_zones( )
-    if response.status == 200
-    end
-    
-    response = AWS[:dns].get_hosted_zone()
-    if response.status == 200
-    end
-    
-    response = AWS[:dns].list_resource_record_sets
-    if response.status == 200
-    end
-    
-    #delete the resource records
-    response = AWS[:dns].change_resource_record_sets( zone_id, change_batch, options)
-    if response.status == 200
-      change_id = response.body['ChangeInfo']['Id']
-    end
-
-    #wait?
     
     #delete the zone
     response = AWS[:dns].delete_hosted_zone( zone_id)
@@ -348,6 +266,103 @@ def show_slicehost_dns_usage
   true
 end
 
+# example of how to use Zerigo DNS calls
+def show_zerigo_dns_usage
+  
+  begin
+    #create a domain
+    options = { :nx_ttl => 1800 }
+    response = Zerigo[:compute].create_zone( "sample-domain.com", 3600, 'pri_sec', options)
+    if response.status == 201
+      zone_id = response.body['id']
+    end
+
+    #update zone
+    options = { :notes => "domain for client ABC"}
+    response = Zerigo[:compute].update_zone( zone_id, options)
+    if response.status == 200
+      puts "update of zone #{zone_id} worked"
+    end
+    
+    #get details on the zone
+    response = Zerigo[:compute].get_zone( zone_id)
+    if response.status == 200
+      domain = response.body['domain']
+      hosts = response.body['hosts']
+    end
+    
+    #get zone stats    
+    response = Zerigo[:compute].get_zone_stats( zone_id)
+    if response.status == 200
+      queries = response.body['queries']
+    end
+    
+    #list all domains on this accont
+    response= Zerigo[:compute].list_zones()
+    if response.status == 200
+      zone_count = response.headers['X-Query-Count'].to_i
+    end
+   
+    #add an A record to the zone
+    options = { :hostname => 'www' }
+    response = Zerigo[:compute].create_host( zone_id, 'A', '1.2.3.4', options )
+    if response.status == 201
+      host_id = response.body['id']
+    end
+    
+    #add an MX record to the zone
+    options = { :priority => 5 }
+    response = Zerigo[:compute].create_host( zone_id, 'MX', 'mail.sample-domain.com', options)
+    if response.status == 201
+      mail_host_id = response.body['id']
+    end
+    
+    #update the record
+    options = { :priority => 10 }
+    response = Zerigo[:compute].update_host( mail_host_id, options)
+    if response.status == 200
+      #updated priority
+    end
+  
+    #find a specific record
+    response = Zerigo[:compute].find_hosts( "sample-domain.com" )
+    if response.status == 200
+      hosts= response.body['hosts']
+      num_records = hosts.count
+    end
+    
+    #get host record
+    response = Zerigo[:compute].get_host( host_id)
+    if response.status == 200
+      fqdn = response.body['fqdn']
+    end
+    
+    #list hosts
+    response = Zerigo[:compute].list_hosts( zone_id)
+    if response.status == 200
+      hosts = response.body['hosts']
+    end
+    
+    #delete the host record
+    response = Zerigo[:compute].delete_host( host_id)
+    if response.status == 200
+      puts "host record #{host_id} deleted from zone"
+    end
+    
+    #delete the zone we created
+    response = Zerigo[:compute].delete_zone( zone_id)
+    if response.status == 200
+      puts "deleted zone #{zone_id}"
+    end  
+    
+  rescue
+    #opps, ran into a problem
+    puts $!.message
+    return false
+  end
+  
+end
+
 ######################################
 
 # make sure Fog credentials file has been setup 
@@ -369,6 +384,6 @@ if RUN_SLICEHOST_SAMPLE and Fog::credentials[:slicehost_password]
   show_slicehost_dns_usage
 end
 
-if RUN_ZERIGO_SAMPLE and Fog::credentials[:zerigo_user] and Fog::credentials[:zerigo_password]
+if RUN_ZERIGO_SAMPLE and Fog::credentials[:zerigo_email] and Fog::credentials[:zerigo_password]
   show_zerigo_dns_usage
 end

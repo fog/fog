@@ -1,8 +1,20 @@
 Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
 
-  @test_domain = 'test-fog.com.'
+  @domain = ''
   @new_zones = []
   @new_records =[]
+  
+  def generate_unique_domain( with_trailing_dot = false)
+    #get time (with 1/100th of sec accuracy)
+    #want unique domain name and if provider is fast, this can be called more than once per second
+    time= (Time.now.to_f * 100).to_i   
+    domain = 'test-' + time.to_s + '.com'
+    if with_trailing_dot
+      domain+= '.'
+    end
+    
+    domain
+  end
   
   tests( 'success') do
     
@@ -22,7 +34,8 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
     test('create zone - simple') do
       pending if Fog.mocking?
 
-      response = Slicehost[:compute].create_zone(@test_domain)
+      domain = generate_unique_domain( true)
+      response = Slicehost[:compute].create_zone(domain)
       if response.status == 201
         zone_id = response.body['id']
         @new_zones << zone_id
@@ -35,8 +48,8 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
       pending if Fog.mocking?
 
       options = { :ttl => 1800, :active => 'N' }
-      domain= 'sub.' + @test_domain
-      response = Slicehost[:compute].create_zone( domain, options)
+      @domain= generate_unique_domain( true)
+      response = Slicehost[:compute].create_zone( @domain, options)
       if response.status == 201
         @zone_id = response.body['id']
         @new_zones << @zone_id
@@ -45,16 +58,15 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
       response.status == 201
     end
 
-    test("get zone #{@zone_id} - check all parameters") do
+    test("get zone #{@zone_id} - check all parameters for #{@domain}") do
       pending if Fog.mocking?
 
       result= false
       
-      domain= 'sub.' + @test_domain
       response = Slicehost[:compute].get_zone( @zone_id)
       if response.status == 200
         zone = response.body
-        if (zone['origin'] == 'sub.' + @test_domain) and (zone['ttl'] == 1800) and
+        if (zone['origin'] == @domain) and (zone['ttl'] == 1800) and
           (zone['active'] == 'N') 
           result= true;
         end
@@ -89,7 +101,7 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
         zones = response.body['zones']
         zones.each { |zone|
           if zone['id'] == @new_zones[1]
-             if (zone['origin'] == 'sub.' + @test_domain) and (zone['ttl'] == 1800) and
+             if (zone['origin'] == 'sub.' + @domain) and (zone['ttl'] == 1800) and
                (zone['active'] == 'N') 
                result= true;
              end
@@ -106,9 +118,9 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
     test('create record - simple A record') do
       pending if Fog.mocking?
 
-      domain= 'sub.' + @test_domain
+      host= 'www.' + @domain
       zone_id= @new_zones[1]
-      response = Slicehost[:compute].create_record( 'A', zone_id, domain, '1.2.3.4')
+      response = Slicehost[:compute].create_record( 'A', zone_id, host, '1.2.3.4')
       if response.status == 201
         record_id = response.body['id']
         @new_records << record_id
@@ -120,10 +132,10 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
     test('create record - A record - all parameters set') do
       pending if Fog.mocking?
 
-      domain= 'sub2.' + @test_domain
+      host= 'ftp.' + @domain
       zone_id= @new_zones[1]
       options = { :ttl => 3600, :active => 'N'}
-      response = Slicehost[:compute].create_record( 'A', zone_id, domain, '1.2.3.4', options)
+      response = Slicehost[:compute].create_record( 'A', zone_id, host, '1.2.3.4', options)
       if response.status == 201
         record_id = response.body['id']
         @new_records << record_id
@@ -135,9 +147,8 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
     test('create record - CNAME record') do
       pending if Fog.mocking?
 
-      domain= 'sub.' + @test_domain
       zone_id= @new_zones[1]
-      response = Slicehost[:compute].create_record( 'CNAME', zone_id, 'www', domain)
+      response = Slicehost[:compute].create_record( 'CNAME', zone_id, 'mail', @domain)
       if response.status == 201
         record_id = response.body['id']
         @new_records << record_id
@@ -149,11 +160,10 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
     test('create record - NS record') do
       pending if Fog.mocking?
 
-      domain= 'sub.' + @test_domain
-      ns_domain = 'ns.' + @test_domain
+      ns_domain = 'ns.' + @domain
       zone_id= @new_zones[1]
       options = { :ttl => 3600, :active => 'N'}
-      response = Slicehost[:compute].create_record( 'NS', zone_id, domain, ns_domain, options)
+      response = Slicehost[:compute].create_record( 'NS', zone_id, @domain, ns_domain, options)
       if response.status == 201
         record_id = response.body['id']
         @new_records << record_id
@@ -165,11 +175,10 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
     test('create record - MX record') do
       pending if Fog.mocking?
 
-      domain= 'sub.' + @test_domain
-      mail_domain = 'mail.' + @test_domain
+      mail_domain = 'mail.' + @domain
       zone_id= @new_zones[1]
       options = { :ttl => 3600, :active => 'N', :aux => '10'}
-      response = Slicehost[:compute].create_record( 'MX', zone_id, domain, mail_domain, options)
+      response = Slicehost[:compute].create_record( 'MX', zone_id, @domain, mail_domain, options)
       if response.status == 201
         @record_id = response.body['id']
         @new_records << @record_id
@@ -185,10 +194,9 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
       
       response = Slicehost[:compute].get_record(@record_id)
       if response.status == 200
-        domain= 'sub.' + @test_domain
-        mail_domain = 'mail.' + @test_domain
+        mail_domain = 'mail.' + @domain
         record = response.body['records'][0]
-        if (record['record-type'] == 'MX') and (record['name'] == domain) and
+        if (record['record-type'] == 'MX') and (record['name'] == @domain) and
           (record['data'] == mail_domain) and (record['ttl'] == 3600) and (record['active'] == 'N') and
           (record['aux'] == "10")
           result= true
@@ -211,9 +219,8 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
         records.each {|record|
           if record['record-type'] == 'MX'
 
-            domain= 'sub.' + @test_domain
-            mail_domain = 'mail.' + @test_domain
-            if (record['record-type'] == 'MX') and (record['name'] == domain) and
+            mail_domain = 'mail.' + @domain
+            if (record['record-type'] == 'MX') and (record['name'] == @domain) and
               (record['data'] == mail_domain) and (record['ttl'] == 3600) and (record['active'] == 'N') and
               (record['aux'] == "10")
               result= true

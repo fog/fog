@@ -32,21 +32,17 @@ module Fog
         def create_hosted_zone( name, options = {})
 
           optional_tags = ''
-          options.each { |option, value|
-            case option
-            when :caller_ref
-              optional_tags+= "<CallerReference>#{value}</CallerReference>"
-            when :comment
-              optional_tags+= "<HostedZoneConfig><Comment>#{value}</Comment></HostedZoneConfig>"
-            end
-          }
-
-          #make sure we have a unique call reference
-          if options[:caller_ref].nil?
+          if options[:caller_ref]
+              optional_tags+= "<CallerReference>#{options[:call_ref]}</CallerReference>"
+          else
+            #make sure we have a unique call reference
             caller_ref = "ref-#{rand(1000000).to_s}"
             optional_tags+= "<CallerReference>#{caller_ref}</CallerReference>"            
           end
-          
+          if options[:comment]
+              optional_tags+= "<HostedZoneConfig><Comment>#{options[:comment]}</Comment></HostedZoneConfig>"
+          end
+            
           request({
             :body       => %Q{<?xml version="1.0" encoding="UTF-8"?><CreateHostedZoneRequest xmlns="https://route53.amazonaws.com/doc/2010-10-01/"><Name>#{name}</Name>#{optional_tags}</CreateHostedZoneRequest>},
             :parser     => Fog::Parsers::AWS::DNS::CreateHostedZone.new,

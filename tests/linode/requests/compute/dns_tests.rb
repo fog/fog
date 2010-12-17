@@ -1,8 +1,20 @@
 Shindo.tests('Linode::Compute | DNS requests', ['linode', 'dns']) do
 
-  @test_domain = 'test-fog.com'
+  @domain = ''
   @new_zones = []
   @new_records =[]
+    
+  def generate_unique_domain( with_trailing_dot = false)
+    #get time (with 1/100th of sec accuracy)
+    #want unique domain name and if provider is fast, this can be called more than once per second
+    time= (Time.now.to_f * 100).to_i   
+    domain = 'test-' + time.to_s + '.com'
+    if with_trailing_dot
+      domain+= '.'
+    end
+    
+    domain
+  end
     
   tests( 'success') do
 
@@ -23,8 +35,9 @@ Shindo.tests('Linode::Compute | DNS requests', ['linode', 'dns']) do
       pending if Fog.mocking?
 
       type = 'master'
-      options = { :SOA_email => "netops@#{@test_domain}", :description => "Sample-Domain Inc", :status => 0}
-      response = Linode[:compute].domain_create( @test_domain, type, options)
+      domain= generate_unique_domain
+      options = { :SOA_email => "netops@#{domain}", :description => "Sample-Domain Inc", :status => 0}
+      response = Linode[:compute].domain_create( domain, type, options)
       if response.status == 200
         @master_zone_id = response.body['DATA']['DomainID']
         @new_zones << @master_zone_id
@@ -37,10 +50,10 @@ Shindo.tests('Linode::Compute | DNS requests', ['linode', 'dns']) do
       pending if Fog.mocking?
 
       type = 'slave'
-      options = { :SOA_email => "netops@#{@test_domain}", :refresh_sec => 14400, :retry_sec => 3600, 
+      @domain= generate_unique_domain
+      options = { :SOA_email => "netops@#{@domain}", :refresh_sec => 14400, :retry_sec => 3600, 
                   :expire_sec => 604800, :ttl_sec => 28800, :status => 0, :master_ips => '1.2.3.4;2.3.4.5' }
-      domain= 'sub.' + @test_domain
-      response = Linode[:compute].domain_create( domain, type, options)
+      response = Linode[:compute].domain_create( @domain, type, options)
       if response.status == 200
         @slave_zone_id = response.body['DATA']['DomainID']
         @new_zones << @slave_zone_id
@@ -49,21 +62,20 @@ Shindo.tests('Linode::Compute | DNS requests', ['linode', 'dns']) do
       response.status == 200
     end
 
-    test("get zone #{@slave_zone_id} - check all parameters") do
+    test("get zone #{@slave_zone_id} - check all parameters for #{@domain}") do
       pending if Fog.mocking?
 
       result= false
       
-      domain= 'sub.' + @test_domain
       response = Linode[:compute].domain_list( @slave_zone_id)
       if response.status == 200
         zones = response.body['DATA']
         num_zones = zones.count
         if num_zones == 1
           zone= zones[0]
-          if (zone['SOA_EMAIL'] == "netops@#{@test_domain}") and (zone['REFRESH_SEC'] == 14400) and
+          if (zone['SOA_EMAIL'] == "netops@#{@domain}") and (zone['REFRESH_SEC'] == 14400) and
             (zone['RETRY_SEC'] == 3600) and (zone['EXPIRE_SEC'] == 604800) and (zone['TTL_SEC'] == 28800) and
-            (zone['STATUS'] == 0) and (zone['DOMAIN'] == domain) and (zone['TYPE'] == 'slave') 
+            (zone['STATUS'] == 0) and (zone['DOMAIN'] == @domain) and (zone['TYPE'] == 'slave') 
             (zone['MASTER_IPS'] == '1.2.3.4;2.3.4.5')
             result= true
           end          
@@ -110,8 +122,8 @@ Shindo.tests('Linode::Compute | DNS requests', ['linode', 'dns']) do
     test('create record - simple A record') do
       pending if Fog.mocking?
 
-      domain= 'www.' + @test_domain
-      options = { :name => domain, :target => '4.5.6.7', :ttl_sec => 3600 }
+      host= 'www.' + @domain
+      options = { :name => host, :target => '4.5.6.7', :ttl_sec => 3600 }
       response = Linode[:compute].domain_resource_create( @master_zone_id, 'A', options)
       if response.status == 200
         record_id = response.body['DATA']['ResourceID']
@@ -124,8 +136,8 @@ Shindo.tests('Linode::Compute | DNS requests', ['linode', 'dns']) do
     test('create record - CNAME record') do
       pending if Fog.mocking?
 
-      domain= 'mail'
-      options = { :name => domain, :target => 'www.' + @test_domain }
+      host= 'mail'
+      options = { :name => host, :target => 'www.' + @domain }
       response = Linode[:compute].domain_resource_create( @master_zone_id, 'CNAME', options)
       if response.status == 200
         record_id = response.body['DATA']['ResourceID']
@@ -138,7 +150,7 @@ Shindo.tests('Linode::Compute | DNS requests', ['linode', 'dns']) do
     test('create record - NS record') do
       pending if Fog.mocking?
 
-      options = { :name => @test_domain, :target => 'ns.' + @test_domain}
+      options = { :name => @domain, :target => 'ns.' + @domain}
       response = Linode[:compute].domain_resource_create( @master_zone_id, 'NS', options)
       if response.status == 200
         record_id = response.body['DATA']['ResourceID']
@@ -151,7 +163,7 @@ Shindo.tests('Linode::Compute | DNS requests', ['linode', 'dns']) do
     test('create record - MX record') do
       pending if Fog.mocking?
 
-      options = { :target => 'mail.' + @test_domain, :ttl_sec => 7200, :priority => 5 }
+      options = { :target => 'mail.' + @domain, :ttl_sec => 7200, :priority => 5 }
       response = Linode[:compute].domain_resource_create( @master_zone_id, 'MX', options)
       if response.status == 200
         @record_id = response.body['DATA']['ResourceID']
@@ -166,7 +178,7 @@ Shindo.tests('Linode::Compute | DNS requests', ['linode', 'dns']) do
 
       result= false
       
-      domain= 'mail.' + @test_domain
+      domain= 'mail.' + @domain
       response = Linode[:compute].domain_resource_list(@master_zone_id, @record_id)
       if response.status == 200
 
@@ -187,7 +199,7 @@ Shindo.tests('Linode::Compute | DNS requests', ['linode', 'dns']) do
     test("update record #{@record_id} - change target") do 
       pending if Fog.mocking?
 
-      options = { :target => 'mail2.' + @test_domain }
+      options = { :target => 'mail2.' + @domain }
       response = Linode[:compute].domain_resource_update( @master_zone_id, @record_id, options)
 
       response.status == 200
@@ -198,7 +210,7 @@ Shindo.tests('Linode::Compute | DNS requests', ['linode', 'dns']) do
 
       result= false
       
-      domain= 'mail2.' + @test_domain
+      domain= 'mail2.' + @domain
       response = Linode[:compute].domain_resource_list(@master_zone_id, @record_id)
       if response.status == 200
 
