@@ -39,9 +39,9 @@ if Fog.mocking?
       it { should have(1).features }
 
       describe :features do
-        let(:feature) { subject.features[0] }
-        specify { feature.should be_an_instance_of Hash }
-        specify { feature[:FenceMode].should == @mock_network.features[0][:value] }
+        let(:feature) { subject.features.first }
+        specify { feature.should be_an_instance_of Array }
+        specify { feature.last.should == @mock_network.features[0][:value] }
       end
 
       it { should have(2).links }
