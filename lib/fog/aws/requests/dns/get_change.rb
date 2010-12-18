@@ -17,7 +17,7 @@ module Fog
         #     * 'Status'<~String>
         #     * 'SubmittedAt'<~String>
         #   * status<~Integer> - 200 when successful
-        def get_change( change_id )
+        def get_change(change_id)
 
           # AWS methods return change_ids that looks like '/change/id'.  Let the caller either use 
           # that form or just the actual id (which is what this request needs)
@@ -37,7 +37,7 @@ module Fog
 
       class Mock
 
-        def get_change( change_id )
+        def get_change(change_id)
           Fog::Mock.not_implemented
         end
 

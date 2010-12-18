@@ -2,10 +2,10 @@ module Fog
   module AWS
     class DNS < Fog::Service
 
-      requires :aws_access_key_id, :aws_secret_access_key, &inject_parameter_specs
-      recognizes :host, :path, :port, :scheme, :version, :persistent, &inject_parameter_specs
+      requires :aws_access_key_id, :aws_secret_access_key
+      recognizes :host, :path, :port, :scheme, :version, :persistent
 
-      # model_path 'fog/aws/models/cdn'
+      # model_path 'fog/aws/models/dns'
 
       request_path 'fog/aws/requests/dns'
       request :create_hosted_zone

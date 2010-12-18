@@ -21,7 +21,7 @@ module Fog
         #     * 'NameServers'<~Array>
         #       * 'NameServer'<~String>
         #   * status<~Integer> - 201 when successful
-        def get_hosted_zone( zone_id)
+        def get_hosted_zone(zone_id)
 
           # AWS methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use 
           # that form or just the actual id (which is what this request needs)
@@ -40,7 +40,7 @@ module Fog
 
       class Mock
 
-        def get_hosted_zone()
+        def get_hosted_zone(zone_id)
           Fog::Mock.not_implemented
         end
 

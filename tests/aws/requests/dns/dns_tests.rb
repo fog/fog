@@ -215,6 +215,8 @@ Shindo.tests('AWS::DNS | DNS requests', ['aws', 'dns']) do
     }
 
     test("list resource records")  {
+      pending if Fog.mocking?
+
       # get resource records for zone
       response = AWS[:dns].list_resource_record_sets( @zone_id)
       if response.status == 200
@@ -238,7 +240,7 @@ Shindo.tests('AWS::DNS | DNS requests', ['aws', 'dns']) do
       options = { :comment => 'remove records from domain'}             
       response = AWS[:dns].change_resource_record_sets( @zone_id, change_batch, options)
       if response.status != 200
-        result == false
+        result = false
         break
       end
 
@@ -257,22 +259,15 @@ Shindo.tests('AWS::DNS | DNS requests', ['aws', 'dns']) do
 
 
   tests( 'failure') do
-    tests('create hosted zone using invalid domain name') do
-      
+    tests('create hosted zone using invalid domain name').raises(Excon::Errors::BadRequest) do
       pending if Fog.mocking?
-
-      raises( Excon::Errors::BadRequest) {
-        response = AWS[:dns].create_hosted_zone( 'invalid-domain')
-      }
+      response = AWS[:dns].create_hosted_zone('invalid-domain')
     end
     
-    tests('get hosted zone using invalid ID') do
+    tests('get hosted zone using invalid ID').raises(Excon::Errors::BadRequest) do
       pending if Fog.mocking?
-
-      raises(Excon::Errors::BadRequest) {
-        zone_id = 'dummy-id'
-        response = AWS[:dns].get_hosted_zone( zone_id)
-      }        
+      zone_id = 'dummy-id'
+      response = AWS[:dns].get_hosted_zone(zone_id)
     end
   
   end

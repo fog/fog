@@ -26,7 +26,7 @@ module Fog
         #     * 'IsTruncated'<~String> - 
         #     * 'NextMarket'<~String>
         #   * status<~Integer> - 200 when successful
-        def list_hosted_zones( options = {})
+        def list_hosted_zones(options = {})
 
           parameters = {}
           options.each { |option, value|
@@ -53,7 +53,7 @@ module Fog
 
       class Mock
 
-        def list_hosted_zones( options = {})
+        def list_hosted_zones(options = {})
           Fog::Mock.not_implemented
         end
 

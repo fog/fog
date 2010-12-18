@@ -27,7 +27,7 @@ module Fog
         #       * 'Status'<~String> - status of the request - PENDING | INSYNC
         #       * 'SubmittedAt'<~String> - The date and time the change was made
         #   * status<~Integer> - 201 when successful
-        def change_resource_record_sets( zone_id, change_batch, options = {})
+        def change_resource_record_sets(zone_id, change_batch, options = {})
 
           # AWS methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use 
           # that form or just the actual id (which is what this request needs)
@@ -80,7 +80,7 @@ module Fog
 
       class Mock
 
-        def change_resource_record_sets()
+        def change_resource_record_sets(zone_id, change_batch, options = {})
           Fog::Mock.not_implemented
         end
 

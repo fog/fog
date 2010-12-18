@@ -29,7 +29,7 @@ module Fog
         #     * 'NameServers'<~Array>
         #       * 'NameServer'<~String>
         #   * status<~Integer> - 201 when successful
-        def create_hosted_zone( name, options = {})
+        def create_hosted_zone(name, options = {})
 
           optional_tags = ''
           if options[:caller_ref]
@@ -57,7 +57,7 @@ module Fog
 
       class Mock
 
-        def create_hosted_zone(filters = {})
+        def create_hosted_zone(name, options = {})
           Fog::Mock.not_implemented
         end
 

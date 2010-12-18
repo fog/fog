@@ -18,7 +18,7 @@ module Fog
         #       * 'Status'<~String> The current state of the hosted zone
         #       * 'SubmittedAt'<~String> The date and time the change was made
         #   * status<~Integer> - 200 when successful
-        def delete_hosted_zone( zone_id )
+        def delete_hosted_zone(zone_id)
 
           # AWS methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use 
           # that form or just the actual id (which is what this request needs)
@@ -38,7 +38,7 @@ module Fog
 
       class Mock
 
-        def delete_hosted_zone( zone_id)
+        def delete_hosted_zone(zone_id)
           Fog::Mock.not_implemented
         end
 

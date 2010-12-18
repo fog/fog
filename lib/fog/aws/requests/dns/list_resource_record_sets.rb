@@ -28,7 +28,7 @@ module Fog
         #     * 'NextRecordName'<~String>
         #     * 'NexRecordType'<~String>
         #   * status<~Integer> - 201 when successful
-        def list_resource_record_sets( zone_id, options = {})
+        def list_resource_record_sets(zone_id, options = {})
 
           # AWS methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use 
           # that form or just the actual id (which is what this request needs)
@@ -58,7 +58,7 @@ module Fog
 
       class Mock
 
-        def create_hosted_zone(filters = {})
+        def list_resource_record_sets(zone_id, options = {})
           Fog::Mock.not_implemented
         end
 
