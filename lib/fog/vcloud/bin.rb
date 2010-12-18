@@ -38,7 +38,9 @@ module Vcloud
       def [](service)
         @@connections ||= Hash.new do |hash, key|
           if credentials = Fog.credentials[:vcloud][key]
-            hash[key] = eval(credentials[:module]).new(credentials)
+            credentials = credentials.dup
+            _module_ = eval(credentials.delete(:module))
+            hash[key] = _module_.new(credentials)
           else
             raise ArgumentError.new("Unregistered service: :#{key}. Registered services are: #{Vcloud.registered_services}")
           end
