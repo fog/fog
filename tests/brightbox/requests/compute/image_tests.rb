@@ -15,13 +15,15 @@ Shindo.tests('Brightbox::Compute | image requests', ['brightbox']) do
 
     # Brightbox[:compute].images.get(@image_id).wait_for { ready? }
 
-    tests("#list_images()").formats(Brightbox::Compute::Formats::Collection::IMAGES) do
-      data = Brightbox[:compute].list_images()
+    tests("#list_images").formats(Brightbox::Compute::Formats::Collection::IMAGES) do
+      pending if Fog.mocking?
+      data = Brightbox[:compute].list_images
       @image_id = data.first["id"]
       data
     end
 
     tests("#get_image('#{@image_id}')").formats(Brightbox::Compute::Formats::Full::IMAGE) do
+      pending if Fog.mocking?
       Brightbox[:compute].get_image(@image_id)
     end
 
@@ -41,12 +43,15 @@ Shindo.tests('Brightbox::Compute | image requests', ['brightbox']) do
   tests('failure') do
 
     tests("#get_image('img-00000')").raises(Excon::Errors::NotFound) do
+      pending if Fog.mocking?
       Brightbox[:compute].get_image('img-00000')
     end
 
-    tests("#get_image()").raises(ArgumentError) do
-      Brightbox[:compute].get_image()
+    tests("#get_image").raises(ArgumentError) do
+      pending if Fog.mocking?
+      Brightbox[:compute].get_image
     end
+
   end
 
 end
