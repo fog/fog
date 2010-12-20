@@ -1,13 +1,5 @@
 require File.join(File.dirname(__FILE__), 'fog', 'core')
 
-module Fog
-
-  unless const_defined?(:VERSION)
-    VERSION = '0.3.31'
-  end
-
-end
-
 require 'fog/aws'
 require 'fog/bluebox'
 require 'fog/brightbox'
