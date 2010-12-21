@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), 'fog', 'core')
 module Fog
 
   unless const_defined?(:VERSION)
-    VERSION = '0.3.31'
+    VERSION = '0.3.32'
   end
 
 end
@@ -21,3 +21,4 @@ require 'fog/slicehost'
 require 'fog/terremark'
 require 'fog/vcloud'
 require 'fog/zerigo'
+
