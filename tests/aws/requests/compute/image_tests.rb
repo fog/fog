@@ -2,21 +2,22 @@ Shindo.tests('AWS::Compute | image requests', ['aws']) do
 
   @images_format = {
     'imagesSet'    => [{
-      'architecture'    => String,
-      'blockDeviceMapping' =>[],
-      'imageId'         => String,
-      'imageLocation'   => String,
-      'imageOwnerId'    => String,
-      'imageState'      => String,
-      'imageType'       => String,
-      'isPublic'        => Fog::Boolean,
-      'kernelId'        => String,
-      'productCodes'    => [],
-      'ramdiskId'       => String,
-      'rootDeviceType'  => String,
-      'tagSet'          => {}
+      'architecture'        => String,
+      'blockDeviceMapping'  =>[],
+      'imageId'             => String,
+      'imageLocation'       => String,
+      'imageOwnerId'        => String,
+      'imageState'          => String,
+      'imageType'           => String,
+      'isPublic'            => Fog::Boolean,
+      'kernelId'            => String,
+      'productCodes'        => [],
+      'ramdiskId'           => String,
+      'rootDeviceType'      => String,
+      'tagSet'              => {},
+      'virtualizationType'  => String
     }],
-      'requestId'     => String,
+    'requestId'     => String,
   }
 
   tests('success') do

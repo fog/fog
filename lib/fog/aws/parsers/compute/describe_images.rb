@@ -47,7 +47,7 @@ module Fog
               end
             else
               case name
-              when 'name','requestId','architecture', 'description', 'imageId', 'imageLocation', 'imageOwnerId', 'imageState', 'imageType', 'kernelId', 'platform', 'ramdiskId', 'rootDeviceType','rootDeviceName','virtualizationType'
+              when 'architecture', 'description', 'imageId', 'imageLocation', 'imageOwnerId', 'imageState', 'imageType', 'kernelId', 'name', 'platform', 'ramdiskId', 'rootDeviceType','rootDeviceName','virtualizationType'
                 @image[name] = @value
               when 'isPublic'
                 if @value == 'true'
@@ -60,6 +60,8 @@ module Fog
                 @image = { 'blockDeviceMapping' => [], 'productCodes' => [], 'tagSet' => {} }
               when 'productCode'
                 @image['productCodes'] << @value
+              when 'requestId'
+                @response[name] = @value
               end
             end
           end

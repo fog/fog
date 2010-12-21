@@ -35,6 +35,7 @@ module Fog
         #       * 'ramdiskId'<~String> - Ramdisk id associated with image, if any
         #       * 'rootDeviceName'<~String> - Root device name, e.g. /dev/sda1
         #       * 'rootDeviceType'<~String> - Root device type, ebs or instance-store
+        #       * 'virtualizationType'<~String> - Type of virtualization
         def describe_images(filters = {})
           options = {}
           for key in ['ExecutableBy', 'ImageId', 'Owner']
