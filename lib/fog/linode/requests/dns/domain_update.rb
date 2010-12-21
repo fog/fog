@@ -1,6 +1,6 @@
 module Fog
   module Linode
-    class Compute
+    class DNS
       class Real
 
         # Update a domain record

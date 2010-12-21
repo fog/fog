@@ -1,6 +1,6 @@
 module Fog
   module Linode
-    class Compute
+    class DNS
       class Real
 
         # Creates a resource record in a domain

@@ -3,9 +3,11 @@ class Linode < Fog::Bin
 
     def class_for(key)
       case key
-      when :compute, :linode
+      when :compute
         Fog::Linode::Compute
-      else 
+      when :dns
+        Fog::Linode::DNS
+      else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
     end
@@ -24,7 +26,7 @@ class Linode < Fog::Bin
     end
 
     def services
-      [:compute]
+      [:compute, :dns]
     end
 
   end

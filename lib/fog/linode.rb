@@ -7,6 +7,7 @@ module Fog
 
     service_path 'fog/linode'
     service 'compute'
+    service 'dns'
 
     def self.new(attributes = {})
       location = caller.first

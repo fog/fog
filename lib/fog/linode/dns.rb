@@ -1,26 +1,21 @@
 module Fog
   module Linode
-    class Compute < Fog::Service
+    class DNS < Fog::Service
 
       requires :linode_api_key
       recognizes :port, :scheme, :persistent
 
-      model_path 'fog/linode/models/compute'
+      model_path 'fog/linode/models/dns'
 
-      request_path 'fog/linode/requests/compute'
-      request :avail_datacenters
-      request :avail_distributions
-      request :avail_kernels
-      request :avail_linodeplans
-      request :avail_stackscripts
-      # request :linode_boot
-      request :linode_create
-      request :linode_delete
-      request :linode_list
-      request :linode_reboot
-      # request :linode_resize
-      # request :linode_shutdown
-      # request :linode_update
+      request_path 'fog/linode/requests/dns'
+      request :domain_create
+      request :domain_delete
+      request :domain_list
+      request :domain_update
+      request :domain_resource_create
+      request :domain_resource_delete
+      request :domain_resource_list
+      request :domain_resource_update
 
       class Mock
 
@@ -69,9 +64,9 @@ module Fog
             if data = response.body['ERRORARRAY'].first
               error = case data['ERRORCODE']
               when 5
-                Fog::Linode::Compute::NotFound
+                Fog::Linode::DNS::NotFound
               else
-                Fog::Linode::Compute::Error
+                Fog::Linode::DNS::Error
               end
               raise error.new(data['ERRORMESSAGE'])
             end
