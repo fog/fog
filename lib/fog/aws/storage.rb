@@ -42,6 +42,7 @@ module Fog
       request :put_object_acl
       request :put_object_url
       request :put_request_payment
+      request :sync_clock
       request :upload_part
 
       module Utils
