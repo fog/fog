@@ -1,9 +1,9 @@
 module Fog
   module Slicehost
-    class Compute
+    class DNS
       class Real
 
-        require 'fog/slicehost/parsers/compute/create_zone'
+        require 'fog/slicehost/parsers/dns/create_zone'
 
         # Create a new zone for Slicehost's DNS servers to serve/host
         # ==== Parameters
@@ -35,7 +35,7 @@ module Fog
             :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><zone><origin>#{origin}</origin>#{optional_tags}</zone>},
             :expects  => 201,
             :method   => 'POST',
-            :parser   => Fog::Parsers::Slicehost::Compute::CreateZone.new,
+            :parser   => Fog::Parsers::Slicehost::DNS::CreateZone.new,
             :path     => 'zones.xml'
           )
         end

@@ -1,29 +1,21 @@
 module Fog
   module Slicehost
-    class Compute < Fog::Service
+    class DNS < Fog::Service
 
       requires :slicehost_password
       recognizes :host, :port, :scheme, :persistent
 
-      model_path 'fog/slicehost/models/compute'
-      model       :flavor
-      collection  :flavors
-      model       :image
-      collection  :images
-      model       :server
-      collection  :servers
+      model_path 'fog/slicehost/models/dns'
 
-      request_path 'fog/slicehost/requests/compute'
-      request :create_slice
-      request :delete_slice
-      request :get_backups
-      request :get_flavor
-      request :get_flavors
-      request :get_image
-      request :get_images
-      request :get_slice
-      request :get_slices
-      request :reboot_slice
+      request_path 'fog/slicehost/requests/dns'
+      request :create_record
+      request :create_zone
+      request :delete_record
+      request :delete_zone
+      request :get_record
+      request :get_records
+      request :get_zone
+      request :get_zones
 
       class Mock
 
@@ -77,7 +69,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Slicehost::Compute::NotFound.slurp(error)
+              Fog::Slicehost::DNS::NotFound.slurp(error)
             else
               error
             end

@@ -1,6 +1,6 @@
 module Fog
   module Slicehost
-    class Compute
+    class DNS
       class Real
 
         # Delete a zone from Slicehost's DNS

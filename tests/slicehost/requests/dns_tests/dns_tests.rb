@@ -1,4 +1,4 @@
-Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
+Shindo.tests('Slicehost::dns | DNS requests', ['slicehost', 'dns']) do
 
   @domain = ''
   @new_zones = []
@@ -22,7 +22,7 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
       pending if Fog.mocking?
 
       @org_zone_count= 0
-      response = Slicehost[:compute].get_zones()
+      response = Slicehost[:dns].get_zones()
       if response.status == 200
         zones = response.body['zones']
         @org_zone_count = zones.count
@@ -35,7 +35,7 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
       pending if Fog.mocking?
 
       domain = generate_unique_domain( true)
-      response = Slicehost[:compute].create_zone(domain)
+      response = Slicehost[:dns].create_zone(domain)
       if response.status == 201
         zone_id = response.body['id']
         @new_zones << zone_id
@@ -49,7 +49,7 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
 
       options = { :ttl => 1800, :active => 'N' }
       @domain= generate_unique_domain( true)
-      response = Slicehost[:compute].create_zone( @domain, options)
+      response = Slicehost[:dns].create_zone( @domain, options)
       if response.status == 201
         @zone_id = response.body['id']
         @new_zones << @zone_id
@@ -63,7 +63,7 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
 
       result= false
       
-      response = Slicehost[:compute].get_zone( @zone_id)
+      response = Slicehost[:dns].get_zone( @zone_id)
       if response.status == 200
         zone = response.body
         if (zone['origin'] == @domain) and (zone['ttl'] == 1800) and
@@ -80,7 +80,7 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
 
       result= false
       
-      response = Slicehost[:compute].get_zones()
+      response = Slicehost[:dns].get_zones()
       if response.status == 200
         zones = response.body['zones']
         if (@org_zone_count+2) == zones.count
@@ -96,7 +96,7 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
 
       result= false
       
-      response = Slicehost[:compute].get_zones()
+      response = Slicehost[:dns].get_zones()
       if response.status == 200
         zones = response.body['zones']
         zones.each { |zone|
@@ -120,7 +120,7 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
 
       host= 'www.' + @domain
       zone_id= @new_zones[1]
-      response = Slicehost[:compute].create_record( 'A', zone_id, host, '1.2.3.4')
+      response = Slicehost[:dns].create_record( 'A', zone_id, host, '1.2.3.4')
       if response.status == 201
         record_id = response.body['id']
         @new_records << record_id
@@ -135,7 +135,7 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
       host= 'ftp.' + @domain
       zone_id= @new_zones[1]
       options = { :ttl => 3600, :active => 'N'}
-      response = Slicehost[:compute].create_record( 'A', zone_id, host, '1.2.3.4', options)
+      response = Slicehost[:dns].create_record( 'A', zone_id, host, '1.2.3.4', options)
       if response.status == 201
         record_id = response.body['id']
         @new_records << record_id
@@ -148,7 +148,7 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
       pending if Fog.mocking?
 
       zone_id= @new_zones[1]
-      response = Slicehost[:compute].create_record( 'CNAME', zone_id, 'mail', @domain)
+      response = Slicehost[:dns].create_record( 'CNAME', zone_id, 'mail', @domain)
       if response.status == 201
         record_id = response.body['id']
         @new_records << record_id
@@ -163,7 +163,7 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
       ns_domain = 'ns.' + @domain
       zone_id= @new_zones[1]
       options = { :ttl => 3600, :active => 'N'}
-      response = Slicehost[:compute].create_record( 'NS', zone_id, @domain, ns_domain, options)
+      response = Slicehost[:dns].create_record( 'NS', zone_id, @domain, ns_domain, options)
       if response.status == 201
         record_id = response.body['id']
         @new_records << record_id
@@ -178,7 +178,7 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
       mail_domain = 'mail.' + @domain
       zone_id= @new_zones[1]
       options = { :ttl => 3600, :active => 'N', :aux => '10'}
-      response = Slicehost[:compute].create_record( 'MX', zone_id, @domain, mail_domain, options)
+      response = Slicehost[:dns].create_record( 'MX', zone_id, @domain, mail_domain, options)
       if response.status == 201
         @record_id = response.body['id']
         @new_records << @record_id
@@ -192,7 +192,7 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
 
       result= false
       
-      response = Slicehost[:compute].get_record(@record_id)
+      response = Slicehost[:dns].get_record(@record_id)
       if response.status == 200
         mail_domain = 'mail.' + @domain
         record = response.body['records'][0]
@@ -211,7 +211,7 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
 
       result= false
       
-      response = Slicehost[:compute].get_records()
+      response = Slicehost[:dns].get_records()
       if response.status == 200
         records = response.body['records']
         
@@ -239,7 +239,7 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
 
       result= true
       @new_records.each { |record_id|
-        response = Slicehost[:compute].delete_record( record_id)
+        response = Slicehost[:dns].delete_record( record_id)
         if response.status != 200
             result= false;
         end
@@ -253,7 +253,7 @@ Shindo.tests('Slicehost::Compute | DNS requests', ['slicehost', 'dns']) do
       result= true
       
       @new_zones.each { |zone_id|
-        response = Slicehost[:compute].delete_zone( zone_id)
+        response = Slicehost[:dns].delete_zone( zone_id)
         if response.status != 200
             result= false;
         end

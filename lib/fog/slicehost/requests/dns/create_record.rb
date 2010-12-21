@@ -1,9 +1,9 @@
 module Fog
   module Slicehost
-    class Compute
+    class DNS
       class Real
 
-        require 'fog/slicehost/parsers/compute/create_record'
+        require 'fog/slicehost/parsers/dns/create_record'
 
         # Create a new record in a DNS zone - or update an existing one
         # ==== Parameters
@@ -42,7 +42,7 @@ module Fog
             :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><record><record_type>#{record_type}</record_type><zone_id type="integer">#{zone_id}</zone_id><name>#{name}</name><data>#{data}</data>#{optional_tags}</record>},
             :expects  => 201,
             :method   => 'POST',
-            :parser   => Fog::Parsers::Slicehost::Compute::CreateRecord.new,
+            :parser   => Fog::Parsers::Slicehost::DNS::CreateRecord.new,
             :path     => 'records.xml'
           )
         end

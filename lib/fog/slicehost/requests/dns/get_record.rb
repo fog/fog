@@ -1,9 +1,9 @@
 module Fog
   module Slicehost
-    class Compute
+    class DNS
       class Real
 
-        require 'fog/slicehost/parsers/compute/get_record'
+        require 'fog/slicehost/parsers/dns/get_record'
 
         # Get an individual DNS record from the specified zone 
         #
@@ -21,7 +21,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Slicehost::Compute::GetRecords.new,
+            :parser   => Fog::Parsers::Slicehost::DNS::GetRecords.new,
             :path     => "records/#{record_id}.xml"
           )
         end

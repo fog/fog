@@ -1,7 +1,7 @@
 module Fog
   module Parsers
     module Slicehost
-      module Compute
+      module DNS
 
         class GetZones < Fog::Parsers::Base
 

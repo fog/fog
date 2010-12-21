@@ -10,6 +10,7 @@ module Fog
 
     service_path 'fog/slicehost'
     service :compute
+    service :dns
 
     def self.new(attributes = {})
       location = caller.first

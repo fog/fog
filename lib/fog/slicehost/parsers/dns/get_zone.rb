@@ -1,19 +1,19 @@
 module Fog
   module Parsers
     module Slicehost
-      module Compute
+      module DNS
 
-        class GetRecord < Fog::Parsers::Base
+        class GetZone < Fog::Parsers::Base
 
           def reset
-            @response = { }
+            @response = {}
           end
 
           def end_element(name)
             case name
-            when 'zone-id', 'ttl'
+            when 'ttl', 'id'
               @response[name] = @value.to_i
-            when 'record-type', 'name', 'data', 'active', 'aux'
+            when 'origin', 'active'
               @response[name] = @value
             end
           end

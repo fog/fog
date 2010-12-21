@@ -5,6 +5,8 @@ class Slicehost < Fog::Bin
       case key
       when :compute, :slices
         Fog::Slicehost::Compute
+      when :dns
+        Fog::Slicehost::DNS
       else 
         raise ArgumentError, "Unrecognized service: #{key}"
       end
