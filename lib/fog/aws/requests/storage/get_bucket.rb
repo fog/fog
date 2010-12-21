@@ -26,6 +26,7 @@ module Fog
         #     * 'MaxKeys'<~Integer> - Maximum number of keys specified for query
         #     * 'Name'<~String> - Name of the bucket
         #     * 'Prefix'<~String> - Prefix specified for query
+        #     * 'CommonPrefixes'<~Array> - Array of strings for common prefixes
         #     * 'Contents'<~Array>:
         #       * 'ETag'<~String>: Etag of object
         #       * 'Key'<~String>: Name of object
@@ -36,6 +37,9 @@ module Fog
         #       * 'Size'<~Integer> - Size of object
         #       * 'StorageClass'<~String> - Storage class of object
         #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGET.html
+
         def get_bucket(bucket_name, options = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
@@ -53,11 +57,14 @@ module Fog
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def get_bucket(bucket_name, options = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
+          end
+          if options['delimiter']
+            Fog::Mock.not_implemented
           end
           response = Excon::Response.new
           if bucket = @data[:buckets][bucket_name]
@@ -79,12 +86,13 @@ module Fog
 
             response.status = 200
             response.body = {
-              'Contents'    => truncated_contents,
-              'IsTruncated' => truncated_contents.size != contents.size,
-              'Marker'      => options['marker'],
-              'MaxKeys'     => max_keys,
-              'Name'        => bucket['Name'],
-              'Prefix'      => options['prefix']
+              'CommonPrefixes'  => [],
+              'Contents'        => truncated_contents,
+              'IsTruncated'     => truncated_contents.size != contents.size,
+              'Marker'          => options['marker'],
+              'MaxKeys'         => max_keys,
+              'Name'            => bucket['Name'],
+              'Prefix'          => options['prefix']
             }
             if options['max-keys'] && options['max-keys'] < response.body['Contents'].length
                 response.body['IsTruncated'] = true

@@ -1,3 +1,8 @@
+require 'nokogiri'
+
+require File.join(File.dirname(__FILE__), 'core')
+require 'fog/core/parser'
+
 module Fog
   module Slicehost
 
@@ -8,7 +13,7 @@ module Fog
 
     def self.new(attributes = {})
       location = caller.first
-      warning = "[yellow][WARN] Fog::Slicehost#new is deprecated, use Fog::Bluebox::Compute#new instead[/]"
+      warning = "[yellow][WARN] Fog::Slicehost#new is deprecated, use Fog::Slicehost::Compute#new instead[/]"
       warning << " [light_black](" << location << ")[/] "
       Formatador.display_line(warning)
       Fog::Slicehost::Compute.new(attributes)

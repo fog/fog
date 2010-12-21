@@ -10,7 +10,7 @@ module Fog
         # * object<~String> - Name of object to look for
         #
         def get_object(container, object, &block)
-          response = storage_request({
+          response = request({
             :block    => block,
             :expects  => 200,
             :method   => 'GET',
@@ -23,7 +23,7 @@ module Fog
 
       class Mock
 
-        def get_object(container, object)
+        def get_object(container, object, &block)
           Fog::Mock.not_implemented
         end
 

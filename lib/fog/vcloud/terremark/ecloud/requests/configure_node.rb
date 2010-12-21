@@ -39,15 +39,14 @@ module Fog
           include Shared
 
           def configure_node(node_uri, node_data)
-            node_uri = ensure_unparsed(node_uri)
-
             validate_node_data(node_data, true)
 
-            if node = mock_node_from_url(node_uri)
-              node[:name] = node_data[:name]
-              node[:enabled] = node_data[:enabled]
-              node[:description] = node_data[:description]
-              mock_it 200, mock_node_service_response(node, ecloud_xmlns), { 'Content-Type' => 'application/vnd.tmrk.ecloud.nodeService+xml' }
+            if node = mock_data.public_ip_internet_service_node_from_href(ensure_unparsed(node_uri))
+              node.update(node_data)
+              #if node_data[:enabled] 
+              #  node.enabled = (node_data[:enabled] == "true") ? true : false
+              #end
+              mock_it 200, mock_node_service_response(node), { 'Content-Type' => 'application/vnd.tmrk.ecloud.nodeService+xml' }
             else
               mock_error 200, "401 Unauthorized"
             end

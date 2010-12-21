@@ -22,24 +22,24 @@ module Fog
         attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username
 
         def initialize(attributes={})
-          @flavor_id ||= 1
+          self.flavor_id ||= 1
           super
         end
 
         def destroy
           requires :id
-          connection.delete_server(@id)
+          connection.delete_server(id)
           true
         end
 
         def flavor
           requires :flavor_id
-          connection.flavors.get(@flavor_id)
+          connection.flavors.get(flavor_id)
         end
 
         def image
           requires :image_id
-          connection.images.get(@image_id)
+          connection.images.get(image_id)
         end
 
         def images
@@ -48,41 +48,43 @@ module Fog
         end
 
         def private_key_path
-          File.expand_path(@private_key_path ||= Fog.credentials[:private_key_path])
+          @private_key_path ||= Fog.credentials[:private_key_path]
+          @private_key_path &&= File.expand_path(@private_key_path)
         end
 
         def private_key
-          @private_key ||= File.read(private_key_path)
+          @private_key ||= private_key_path && File.read(private_key_path)
         end
 
         def public_key_path
-          File.expand_path(@public_key_path ||= Fog.credentials[:public_key_path])
+          @public_key_path ||= Fog.credentials[:public_key_path]
+          @public_key_path &&= File.expand_path(@public_key_path)
         end
 
         def public_key
-          @public_key ||= File.read(public_key_path)
+          @public_key ||= public_key_path && File.read(public_key_path)
         end
 
         def ready?
-          @status == 'ACTIVE'
+          status == 'ACTIVE'
         end
 
         def reboot(type = 'SOFT')
           requires :id
-          connection.reboot_server(@id, type)
+          connection.reboot_server(id, type)
           true
         end
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          requires :flavor_id, :image_id, :name
+          requires :flavor_id, :image_id
           options = {
-            'metadata'    => @metadata,
-            'name'        => @name,
-            'personality' => @personality
+            'metadata'    => metadata,
+            'name'        => name,
+            'personality' => personality
           }
           options = options.reject {|key, value| value.nil?}
-          data = connection.create_server(@flavor_id, @image_id, options)
+          data = connection.create_server(flavor_id, image_id, options)
           merge_attributes(data.body['server'])
           true
         end
@@ -103,8 +105,7 @@ module Fog
 
         def ssh(commands)
           requires :addresses, :identity, :private_key, :username
-          @ssh ||= Fog::SSH.new(addresses['public'].first, username, :key_data => [private_key])
-          @ssh.run(commands)
+          Fog::SSH.new(addresses['public'].first, username, :key_data => [private_key]).run(commands)
         end
 
         def username

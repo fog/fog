@@ -8,7 +8,7 @@ if Fog.mocking?
 
     describe "#get_network_ips" do
       context "with a valid VDC network ips_uri" do
-        before { @ips = @vcloud.get_network_ips( @mock_network[:href] + "/ips" ) }
+        before { @ips = @vcloud.get_network_ips(@mock_network_ip_collection.href) }
         subject { @ips }
 
         it_should_behave_like "all responses"
@@ -30,16 +30,16 @@ if Fog.mocking?
 
           context "one we know is assigned" do
             let(:address) { @ips.body[:IpAddress][0] }
-            specify { address.should have(5).keys }
+            specify { address.should have(6).keys }
             specify { address[:Status].should == "Assigned" }
             specify { address[:Server].should == "Broom 1" }
             specify { address[:Name].should == "1.2.3.3" }
             specify { address[:RnatAddress].should == "99.1.2.3" }
           end
 
-          context "one we know is assigned" do
+          context "one we know is not assigned" do
             let(:address) { @ips.body[:IpAddress][100] }
-            specify { address.should have(4).keys }
+            specify { address.should have(5).keys }
             specify { address[:Status].should == "Available" }
             specify { address.has_key?(:Server).should be_false }
             specify { address[:Name].should == "1.2.3.103" }

@@ -7,6 +7,7 @@ module Fog
       [
         ::AWS,
         ::Bluebox,
+        ::Brightbox,
         ::GoGrid,
         ::Google,
         ::Linode,
@@ -14,7 +15,8 @@ module Fog
         ::NewServers,
         ::Rackspace,
         ::Slicehost,
-        ::Terremark
+        ::Terremark,
+        ::Zerigo
       ].select {|provider| provider.available?}
     end
 
@@ -33,16 +35,20 @@ module Fog
         availability = true
         for service in services
           begin
-            service = eval(self[service].class.to_s.split('::')[0...-1].join('::'))
-            availability &&= service.requirements.all? {|requirement| Fog.credentials.include?(requirement)}
-          rescue
+            service = self.class_for(service)
+            availability &&= service.requirements.all? { |requirement| Fog.credentials.include?(requirement) }
+          rescue ArgumentError => e
+            warning = "[yellow][WARN] #{e.message}[/]"
+            Formatador.display_line(warning)
+            availability = false
+          rescue => e
             availability = false
           end
         end
 
         if availability
           for service in services
-            for collection in self[service].collections
+            for collection in self.class_for(service).collections
               unless self.respond_to?(collection)
                 self.class_eval <<-EOS, __FILE__, __LINE__
                   def self.#{collection}
@@ -68,6 +74,7 @@ end
 
 require 'fog/aws/bin'
 require 'fog/bluebox/bin'
+require 'fog/brightbox/bin'
 require 'fog/go_grid/bin'
 require 'fog/google/bin'
 require 'fog/linode/bin'
@@ -77,3 +84,4 @@ require 'fog/rackspace/bin'
 require 'fog/slicehost/bin'
 require 'fog/terremark/bin'
 require 'fog/vcloud/bin'
+require 'fog/zerigo/bin'

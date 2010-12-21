@@ -10,7 +10,7 @@ module Fog
         # * object<~String> - Name of object to delete
         #
         def delete_object(container, object)
-          response = storage_request(
+          response = request(
             :expects  => 204,
             :method   => 'DELETE',
             :path     => "#{CGI.escape(container)}/#{CGI.escape(object)}"

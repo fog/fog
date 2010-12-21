@@ -65,17 +65,17 @@ module Fog
               elsif @in_version
                 @version
               end['LastModified'] = Time.parse(@value)
-            when 'KeyMarker', 'Name', 'Prefix', 'VersionIdMarker'
-              @response[name] = @value
             when 'MaxKeys'
               @response['MaxKeys'] = @value.to_i
             when 'Size'
               @version['Size'] = @value.to_i
-            when 'Key', 'Name', 'StorageClass', 'VersionId'
+            when 'Key', 'KeyMarker', 'Name', 'Prefix', 'StorageClass', 'VersionId', 'VersionIdMarker'
               if @in_delete_marker
                 @delete_marker
               elsif @in_version
                 @version
+              else
+                @response
               end[name] = @value
             end
           end

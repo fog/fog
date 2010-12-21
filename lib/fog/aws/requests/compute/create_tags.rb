@@ -36,10 +36,43 @@ module Fog
       class Mock
 
         def create_tags(resources, tags)
-          Fog::Mock.not_implemented
+          resources = [*resources]
+
+          tagged = resources.map do |resource_id|
+            type = case resource_id
+            when /^ami\-[a-z0-9]{8}$/i
+              'image'
+            when /^i\-[a-z0-9]{8}$/i
+              'instance'
+            when /^snap\-[a-z0-9]{8}$/i
+              'snapshot'
+            when /^vol\-[a-z0-9]{8}$/i
+              'volume'
+            end
+            if type && @data[:"#{type}s"][resource_id]
+              { 'resourceId' => resource_id, 'resourceType' => type }
+            else
+              raise(Fog::Service::NotFound.new("The #{type} ID '#{resource_id}' does not exist"))
+            end
+          end
+
+          tags.each do |key, value|
+            @data[:tags][key] ||= {}
+            @data[:tags][key][value] ||= []
+            @data[:tags][key][value] = @data[:tags][key][value] & tagged
+          end
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            'requestId' => Fog::AWS::Mock.request_id,
+            'return'    => true
+          }
+          response
         end
 
       end
+
     end
   end
 end

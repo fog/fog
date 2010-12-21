@@ -22,6 +22,7 @@ module Fog
         #     * 'imagesSet'<~Array>:
         #       * 'architecture'<~String> - Architecture of the image
         #       * 'blockDeviceMapping'<~Array> - An array of mapped block devices
+        #       * 'description'<~String> - Description of image
         #       * 'imageId'<~String> - Id of the image
         #       * 'imageLocation'<~String> - Location of the image
         #       * 'imageOwnerId'<~String> - Id of the owner of the image
@@ -38,7 +39,7 @@ module Fog
           options = {}
           for key in ['ExecutableBy', 'ImageId', 'Owner']
             if filters.is_a?(Hash) && filters.key?(key)
-              options[key] = filters[key]
+              options[key] = filters.delete(key)
             end
           end
           params = AWS.indexed_filters(filters).merge!(options)
@@ -46,7 +47,7 @@ module Fog
             'Action'    => 'DescribeImages',
             :idempotent => true,
             :parser     => Fog::Parsers::AWS::Compute::DescribeImages.new
-          }.merge!(options))
+          }.merge!(params))
         end
 
       end

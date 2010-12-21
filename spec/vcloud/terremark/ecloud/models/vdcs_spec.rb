@@ -21,7 +21,7 @@ if Fog.mocking?
 
       it { should have_members_of_the_right_model }
 
-      its(:organization_uri) { should == @mock_organization[:info][:href] }
+      its(:organization_uri) { should == @mock_organization.href }
     end
   end
 else

@@ -12,8 +12,9 @@ module Fog
           attribute :href, :aliases => :Href
 
           def all
-            if data = connection.get_internet_services(href).body[:InternetService]
-              load(data)
+            check_href! :message => "the Internet Services for the Vdc you want to enumerate"
+            if internet_service_data = connection.get_internet_services(href).body[:InternetService]
+              load(Array[internet_service_data].flatten.find_all {|i| i[:IsBackupService] == "false" })
             end
           end
 

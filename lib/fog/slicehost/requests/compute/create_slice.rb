@@ -5,7 +5,7 @@ module Fog
 
         require 'fog/slicehost/parsers/compute/create_slice'
 
-        # Get list of slices
+        # Create a new slice
         # ==== Parameters
         # * flavor_id<~Integer> - Id of flavor to create slice with
         # * image_id<~Integer> - Id of image to create slice with
@@ -13,7 +13,7 @@ module Fog
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Array>:
+        #   * body<~Hash>:
         #     * 'addresses'<~Array> - Ip addresses for the slice
         #     * 'backup-id'<~Integer> - Id of backup slice was booted from
         #     * 'bw-in'<~Integer> - Incoming bandwidth total for current billing cycle, in Gigabytes

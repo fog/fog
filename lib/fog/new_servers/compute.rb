@@ -4,8 +4,8 @@ module Fog
   module NewServers
     class Compute < Fog::Service
 
-      requires :new_servers_password
-      requires :new_servers_username
+      requires :new_servers_password, :new_servers_username
+      recognizes :host, :port, :scheme, :persistent
 
       model_path 'fog/new_servers/models/compute'
 
@@ -70,7 +70,7 @@ module Fog
 
           begin
             response = @connection.request(params.merge!({:host => @host}))
-          rescue Excon::Errors::Error => error
+          rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
               Fog::NewServers::Compute::NotFound.slurp(error)

@@ -31,6 +31,7 @@ module Fog
           unless options.empty?
             Formatador.display_line("[yellow][WARN] describe_snapshots with a second param is deprecated, use describe_snapshots(options) instead[/] [light_black](#{caller.first})[/]")
           end
+
           for key in ['ExecutableBy', 'ImageId', 'Owner', 'RestorableBy']
             if filters.has_key?(key)
               options[key] = filters.delete(key)
@@ -58,12 +59,20 @@ module Fog
             Formatador.display_line("[yellow][WARN] describe_snapshots with a second param is deprecated, use describe_snapshots(options) instead[/] [light_black](#{caller.first})[/]")
           end
 
+          if filters.keys.any? {|key| key =~ /^tag/}
+            Formatador.display_line("[yellow][WARN] describe_snapshots tag filters are not yet mocked[/] [light_black](#{caller.first})[/]")
+            Fog::Mock.not_implemented
+          end
+
           response = Excon::Response.new
 
           snapshot_set = @data[:snapshots].values
 
           if filters.delete('owner-alias')
             Formatador.display_line("[yellow][WARN] describe_snapshots with owner-alias is not mocked[/] [light_black](#{caller.first})[/]")
+          end
+          if filters.delete('RestorableBy')
+            Formatador.display_line("[yellow][WARN] describe_snapshots with RestorableBy is not mocked[/] [light_black](#{caller.first})[/]")
           end
 
           aliases = {

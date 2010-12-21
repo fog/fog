@@ -23,20 +23,20 @@ if Fog.mocking?
           it { should have(6).keys }
 
           it_should_behave_like "it has the standard vcloud v0.8 xmlns attributes"   # 3 keys
-          it { should have_key_with_value :href, @mock_organization[:info][:href] }
-          it { should have_key_with_value :name, @mock_organization[:info][:name] }
-          it { should have_key_with_array :Link, @mock_organization[:vdcs].map { |vdc|
+          it { should have_key_with_value :href, @mock_organization.href }
+          it { should have_key_with_value :name, @mock_organization.name }
+          it { should have_key_with_array :Link, @mock_organization.vdcs.map { |vdc|
                                                  [{ :type => "application/vnd.vmware.vcloud.vdc+xml",
-                                                    :href => vdc[:href],
-                                                    :name => vdc[:name],
+                                                    :href => vdc.href,
+                                                    :name => vdc.name,
                                                     :rel => "down" },
                                                   { :type => "application/vnd.vmware.vcloud.catalog+xml",
-                                                    :href => vdc[:href] + "/catalog",
-                                                    :name => vdc[:name] + " Catalog",
+                                                    :href => vdc.catalog.href,
+                                                    :name => vdc.catalog.name,
                                                     :rel => "down" },
                                                   { :type => "application/vnd.vmware.vcloud.tasksList+xml",
-                                                    :href => vdc[:href] + "/tasksList",
-                                                    :name => vdc[:name] + " Tasks List",
+                                                    :href => vdc.task_list.href,
+                                                    :name => vdc.task_list.name,
                                                     :rel => "down" }]
                                                   }.flatten }
 

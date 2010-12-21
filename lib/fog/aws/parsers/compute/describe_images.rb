@@ -26,11 +26,11 @@ module Fog
 
           def end_element(name)
             case name
-            when 'architecture',  'imageId', 'imageLocation', 'imageOwnerId', 'imageState', 'imageType', 'kernelId', 'platform', 'ramdiskId', 'rootDeviceType','rootDeviceName'
+            when 'architecture',  'description', 'imageId', 'imageLocation', 'imageOwnerId', 'imageState', 'imageType', 'kernelId', 'platform', 'ramdiskId', 'rootDeviceType','rootDeviceName'
               @image[name] = @value
             when 'blockDeviceMapping'
               @in_block_device_mapping = false
-            when 'deviceName', 'virtualName', 'snapshotId', 'volumeSize', 'deleteOnTermination'
+            when 'deviceName', 'virtualName', 'snapshotId', 'deleteOnTermination'
               @block_device_mapping[name] = @value
             when 'isPublic'
               if @value == 'true'

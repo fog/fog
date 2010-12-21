@@ -14,6 +14,7 @@ module Fog
           attribute :href, :aliases => :Href
 
           def all
+            check_href!(:parent => "Vdc")
             load(_vapps)
           end
 

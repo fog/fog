@@ -5,19 +5,20 @@ module Fog
     include Fog::Attributes::InstanceMethods
 
     Array.public_instance_methods(false).each do |method|
-      class_eval <<-RUBY
-        def #{method}(*args)
-          unless @loaded
-            lazy_load
+      unless [:reject, :select].include?(method.to_sym)
+        class_eval <<-RUBY
+          def #{method}(*args)
+            unless @loaded
+              lazy_load
+            end
+            super
           end
-          super
-        end
-      RUBY
+        RUBY
+      end
     end
 
     %w[reject select].each do |method|
       class_eval <<-RUBY
-        remove_method :#{method}
         def #{method}(*args)
           unless @loaded
             lazy_load
@@ -112,7 +113,7 @@ module Fog
     end
 
     def to_json
-      self.map {|member| member}.to_json
+      self.map {|member| member.attributes}.to_json
     end
 
     private

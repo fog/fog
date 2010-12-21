@@ -1,10 +1,8 @@
 #!/usr/bin/env ruby
-require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'fog'))
 require 'irb'
 require 'yaml'
-require File.join('fog', 'core', 'credentials')
 Fog.credential = ARGV.first ? ARGV.first.to_sym : nil
-Fog.bin = true
 Fog.mock! if ENV['FOG_MOCK']
 unless Fog.credentials
   exit
@@ -12,8 +10,17 @@ end
 
 require 'fog/core/bin'
 
+providers = Fog.providers.map{|provider| provider.to_s}
+providers = if providers.length > 1
+  providers[0...-1].join(', ') << ' and ' << providers[-1]
+else
+  providers.first
+end
+
 if ARGV.length > 1
-  print(instance_eval(ARGV[1..-1].join(' ')).to_json)
+
+  puts(instance_eval(ARGV[1..-1].join(' ')).to_json)
+
 else
 
   ARGV.clear # Avoid passing args to IRB
@@ -25,14 +32,8 @@ else
   @irb.context.prompt_mode = :FOG
   @irb.context.workspace = IRB::WorkSpace.new(binding)
 
-  providers = Fog.providers.map{|provider| provider.to_s}
-  providers = if providers.length > 1
-    providers[0...-1].join(', ') << ' and ' << providers[-1]
-  else
-    providers.first
-  end
   Formatador.display_line('Welcome to fog interactive!')
-  Formatador.display_line(":#{Fog.credential.to_s} credentials provide #{providers}")
+  Formatador.display_line(":#{Fog.credential} provides #{providers}")
   providers = Fog.providers
   Fog.modules.each do |_module_|
     if _module_.respond_to?(:startup_notice)

@@ -8,9 +8,8 @@ if Fog.mocking?
 
     describe "#configure_internet_service" do
       before do
-        @public_ip = @vcloud.vdcs.first.public_ips.first
-        @original_service = @vcloud.get_internet_services(@public_ip.href).body[:InternetService].first
-        @ip_data = { :id => @public_ip.id, :name => @public_ip.name, :href => @public_ip.href.to_s }
+        @original_service = @vcloud.get_internet_services(@mock_public_ip.internet_service_collection.href).body[:InternetService].first
+        @ip_data = { :id => @mock_public_ip.object_id, :name => @mock_public_ip.name, :href => @mock_public_ip.href.to_s }
         @service_data = { :name => @original_service[:Name], :protocol => @original_service[:Protocol],
                           :port => @original_service[:Port], :description => @original_service[:Description],
                           :enabled => @original_service[:Enabled], :redirect_url => @original_service[:RedirectURL],
@@ -18,7 +17,6 @@ if Fog.mocking?
       end
 
       context "with a valid Internet Service uri and valid data" do
-
         subject { @vcloud.configure_internet_service(@original_service[:Href], @service_data, @ip_data) }
 
         it_should_behave_like "all responses"
@@ -28,24 +26,27 @@ if Fog.mocking?
             @service_data[:description] = "TEST BOOM"
             @service_data[:redirect_url] = "http://google.com"
             @service_data[:port] = "80"
+            @service_data[:backup_service_uri] = @mock_backup_service.href
           end
+
           it "should change data" do
             @original_service[:Description].should == @mock_service[:description]
             @original_service[:RedirectURL].should == @mock_service[:redirect_url]
-            @original_service[:Port].should == @mock_service[:port]
+            @original_service[:Port].should == @mock_service[:port].to_s
             result = subject
             result.body[:Description].should == @service_data[:description]
             result.body[:RedirectURL].should == @service_data[:redirect_url]
             result.body[:Port].should        == @service_data[:port]
+            result.body[:BackupService][:Href].should == @service_data[:backup_service_uri]
 
-            new_result = @vcloud.get_internet_services(@public_ip.href).body[:InternetService].first
+            new_result = @vcloud.get_internet_services(@mock_public_ip.internet_service_collection.href).body[:InternetService].first
 
             new_result[:Description].should == @service_data[:description]
             new_result[:RedirectURL].should == @service_data[:redirect_url]
             new_result[:Port].should        == @service_data[:port]
+            new_result[:BackupService][:Href].should == @service_data[:backup_service_uri]
           end
         end
-
       end
 
       context "with an internet_services_uri that doesn't exist" do

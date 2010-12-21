@@ -10,6 +10,7 @@ module Fog
 
         attribute :architecture
         attribute :block_device_mapping,  :aliases => 'blockDeviceMapping'
+        attribute :description
         attribute :location,              :aliases => 'imageLocation'
         attribute :owner_id,              :aliases => 'imageOwnerId'
         attribute :state,                 :aliases => 'imageState'
@@ -24,18 +25,14 @@ module Fog
         attribute :tags,                  :aliases => 'tagSet'
 
         def deregister(delete_snapshot = false)
-          connection.deregister_image(@id)
+          connection.deregister_image(id)
 
-          if(delete_snapshot && @root_device_type=="ebs")
-            @block_device_mapping.each do |block_device|
-              next if block_device["deviceName"] != @root_device_name
-              snapshot_id = block_device["snapshotId"]
-              snapshot = @connection.snapshots.get(snapshot_id)
-              return snapshot.destroy
-            end
+          if(delete_snapshot && root_device_type == "ebs")
+            block_device = block_device_mapping.detect {|block_device| block_device['deviceName'] == root_device_name}
+            @connection.snapshots.new(:id => block_device['snapshotId']).destroy
+          else
+            true
           end
-
-          return true
         end
 
       end

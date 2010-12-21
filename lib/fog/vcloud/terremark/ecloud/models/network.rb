@@ -6,10 +6,10 @@ module Fog
 
           identity :href
 
-          ignore_attributes :xmlns, :xmlns_xsi, :xmlns_xsd, :xmlns_i, :Configuration
+          ignore_attributes :xmlns, :xmlns_xsi, :xmlns_xsd, :xmlns_i, :Configuration, :Id
 
           attribute :name, :aliases => :Name
-          attribute :id, :aliases => :Id
+          #attribute :id, :aliases => :Id
           attribute :features, :aliases => :Features, :type => :array
           attribute :links, :aliases => :Link, :type => :array
           attribute :type
@@ -18,6 +18,9 @@ module Fog
           attribute :address, :aliases => :Address
           attribute :rnat, :aliases => :RnatAddress
           attribute :extension_href, :aliases => :Href
+          attribute :network_type, :aliases => :NetworkType
+          attribute :vlan, :aliases => :Vlan
+          attribute :friendly_name, :aliases => :FriendlyName
 
           def ips
             load_unless_loaded!
@@ -27,7 +30,7 @@ module Fog
           end
 
           def rnat=(new_rnat)
-            @rnat = new_rnat
+            attributes[:rnat] = new_rnat
             @changed = true
           end
 
@@ -41,6 +44,7 @@ module Fog
           def reload
             super
             merge_attributes(extension_data.body)
+            self
           end
 
           private

@@ -13,16 +13,16 @@ module Fog
         model Fog::AWS::Compute::Snapshot
 
         def initialize(attributes)
-          @filters ||= { 'RestorableBy' => 'self' }
+          self.filters ||= { 'RestorableBy' => 'self' }
           super
         end
 
-        def all(filters = @filters, options = {})
+        def all(filters = filters, options = {})
           unless filters.is_a?(Hash)
             Formatador.display_line("[yellow][WARN] all with #{filters.class} param is deprecated, use all('snapshot-id' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'snapshot-id' => [*filters]}
           end
-          @filters = filters
+          self.filters = filters
           data = connection.describe_snapshots(filters.merge!(options)).body
           load(data['snapshotSet'])
           if volume
@@ -30,7 +30,7 @@ module Fog
           end
           self
         end
-
+        
         def get(snapshot_id)
           if snapshot_id
             self.class.new(:connection => connection).all('snapshot-id' => snapshot_id).first

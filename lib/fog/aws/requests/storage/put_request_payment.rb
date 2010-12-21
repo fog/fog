@@ -8,6 +8,10 @@ module Fog
         # ==== Parameters
         # * bucket_name<~String> - name of bucket to modify
         # * payer<~String> - valid values are BucketOwner or Requester
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTrequestPaymentPUT.html
+
         def put_request_payment(bucket_name, payer)
           data =
 <<-DATA
@@ -27,7 +31,7 @@ DATA
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def put_request_payment(bucket_name, payer)
           response = Excon::Response.new

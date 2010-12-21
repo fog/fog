@@ -3,6 +3,7 @@ module Fog
     class Compute < Fog::Service
 
       requires :linode_api_key
+      recognizes :port, :scheme, :persistent
 
       model_path 'fog/linode/models/compute'
 
@@ -12,10 +13,22 @@ module Fog
       request :avail_kernels
       request :avail_linodeplans
       request :avail_stackscripts
+      request :domain_create
+      request :domain_delete
+      request :domain_list
+      request :domain_update
+      request :domain_resource_create
+      request :domain_resource_delete
+      request :domain_resource_list
+      request :domain_resource_update
+      # request :linode_boot
       request :linode_create
       request :linode_delete
       request :linode_list
       request :linode_reboot
+      # request :linode_resize
+      # request :linode_shutdown
+      # request :linode_update
 
       class Mock
 
@@ -41,6 +54,7 @@ module Fog
       class Real
 
         def initialize(options={})
+          require 'json'
           @linode_api_key = options[:linode_api_key]
           @host   = options[:host]    || "api.linode.com"
           @port   = options[:port]    || 443

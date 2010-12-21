@@ -16,7 +16,7 @@ module Fog
           requires :name
 
           connection.authorize_security_group_ingress(
-            'GroupName'                   => @name,
+            'GroupName'                   => name,
             'SourceSecurityGroupName'     => group,
             'SourceSecurityGroupOwnerId'  => owner
           )
@@ -28,7 +28,7 @@ module Fog
           connection.authorize_security_group_ingress(
             'CidrIp'      => options[:cidr_ip] || '0.0.0.0/0',
             'FromPort'    => range.min,
-            'GroupName'   => @name,
+            'GroupName'   => name,
             'ToPort'      => range.max,
             'IpProtocol'  => options[:ip_protocol] || 'tcp'
           )
@@ -37,7 +37,7 @@ module Fog
         def destroy
           requires :name
 
-          connection.delete_security_group(@name)
+          connection.delete_security_group(name)
           true
         end
 
@@ -45,7 +45,7 @@ module Fog
           requires :name
 
           connection.revoke_security_group_ingress(
-            'GroupName'                   => @name,
+            'GroupName'                   => name,
             'SourceSecurityGroupName'     => group,
             'SourceSecurityGroupOwnerId'  => owner
           )
@@ -57,7 +57,7 @@ module Fog
           connection.revoke_security_group_ingress(
             'CidrIp'      => options[:cidr_ip] || '0.0.0.0/0',
             'FromPort'    => range.min,
-            'GroupName'   => @name,
+            'GroupName'   => name,
             'ToPort'      => range.max,
             'IpProtocol'  => options[:ip_protocol] || 'tcp'
           )
@@ -66,7 +66,7 @@ module Fog
         def save
           requires :description, :name
 
-          data = connection.create_security_group(@name, @description).body
+          data = connection.create_security_group(name, description).body
           true
         end
 

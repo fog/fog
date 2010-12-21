@@ -216,16 +216,37 @@ Spec::Example::ExampleGroupFactory.register(:vcloud_request, Class.new(Spec::Exa
 Spec::Example::ExampleGroupFactory.register(:tmrk_ecloud_request, Class.new(Spec::Example::ExampleGroup))
 Spec::Example::ExampleGroupFactory.register(:tmrk_vcloud_request, Class.new(Spec::Example::ExampleGroup))
 
+def setup_generic_mock_data
+  @mock_version = @mock_data.versions.first
+  @mock_organization = @mock_data.organizations.first
+  @mock_vdc = @mock_organization.vdcs.first
+  @mock_vm = @mock_vdc.virtual_machines.first
+  @mock_network = @mock_vdc.networks.first
+end
+
 def setup_ecloud_mock_data
-    @base_url = Fog::Vcloud::Terremark::Ecloud::Mock.base_url
-    @mock_data = Fog::Vcloud::Terremark::Ecloud::Mock.data
-    @mock_version = @mock_data[:versions].first
-    @mock_organization = @mock_data[:organizations].first
-    @mock_vdc = @mock_organization[:vdcs].first
-    @mock_public_ip = @mock_vdc[:public_ips].first
-    @mock_service = @mock_public_ip[:services].first
-    @mock_node = @mock_service[:nodes].first
-    @mock_network = @mock_vdc[:networks].first
+  @base_url = Fog::Vcloud::Terremark::Ecloud::Mock.base_url
+  @mock_data = Fog::Vcloud::Terremark::Ecloud::Mock.data
+  setup_generic_mock_data
+  @mock_vdc_service_collection = @mock_vdc.internet_service_collection
+  @mock_public_ip_collection = @mock_vdc.public_ip_collection
+  @mock_public_ip = @mock_public_ip_collection.items.first
+  @mock_service_collection = @mock_public_ip.internet_service_collection
+  @mock_service = @mock_service_collection.items.first
+  @mock_backup_service = @mock_vdc_service_collection.backup_internet_services.first
+  @mock_node_collection = @mock_service.node_collection
+  @mock_node = @mock_node_collection.items.first
+  @mock_catalog = @mock_vdc.catalog
+  @mock_catalog_item = @mock_catalog.items.first
+  @mock_network_ip_collection = @mock_network.ip_collection
+  @mock_network_ip = @mock_network_ip_collection.items.values.first
+  @mock_network_extensions = @mock_network.extensions
+end
+
+def setup_vcloud_mock_data
+  @base_url = Fog::Vcloud::Mock.base_url
+  @mock_data = Fog::Vcloud::Mock.data
+  setup_generic_mock_data
 end
 
 Spec::Runner.configure do |config|
@@ -238,38 +259,28 @@ Spec::Runner.configure do |config|
   end
 
   config.before(:all, :type => :mock_vcloud_model) do
-    @base_url = Fog::Vcloud::Mock.base_url
-    @mock_data = Fog::Vcloud::Mock.data
-    @mock_version = @mock_data[:versions][0]
-    @mock_organization = @mock_data[:organizations][0]
-    @mock_vdc = @mock_organization[:vdcs][0]
-    @mock_network = @mock_vdc[:networks][0]
+    Fog::Vcloud::Mock.data_reset
+    setup_vcloud_mock_data
+    @vcloud = Fog::Vcloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions")
   end
+
   config.before(:all, :type => :mock_vcloud_request) do
-    @mock_data = Fog::Vcloud::Mock.data
-    @base_url = Fog::Vcloud::Mock.base_url
-    @mock_version = @mock_data[:versions][0]
-    @mock_organization = @mock_data[:organizations][0]
-    @mock_vdc = @mock_organization[:vdcs][0]
-    @mock_network = @mock_vdc[:networks][0]
-  end
-  config.before(:all, :type => :mock_vcloud_model) do
+    Fog::Vcloud::Mock.data_reset
+    setup_vcloud_mock_data
     @vcloud = Fog::Vcloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions")
   end
-  config.before(:each, :type => :mock_vcloud_request) do
-    @vcloud = Fog::Vcloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions")
-  end
+
   config.before(:each, :type => :mock_tmrk_ecloud_request) do
     Fog::Vcloud::Mock.data_reset
     Fog::Vcloud::Terremark::Ecloud::Mock.data_reset
     setup_ecloud_mock_data
-    @vcloud = Fog::Vcloud::Terremark::Ecloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions", :module => "Fog::Vcloud::Terremark::Ecloud")
+    @vcloud = Fog::Vcloud::Terremark::Ecloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions")
   end
   config.before(:each, :type => :mock_tmrk_ecloud_model) do
     Fog::Vcloud::Mock.data_reset
     Fog::Vcloud::Terremark::Ecloud::Mock.data_reset
     setup_ecloud_mock_data
-    @vcloud = Fog::Vcloud::Terremark::Ecloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions", :module => "Fog::Vcloud::Terremark::Ecloud")
+    @vcloud = Fog::Vcloud::Terremark::Ecloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions")
   end
 end
 
@@ -312,6 +323,11 @@ Spec::Matchers.define :have_key_with_array do |expected_key, expected_array|
   match do |actual|
     actual[expected_key].all? { |item| expected_array.include?(item) } && actual[expected_key].length == expected_array.length
   end
+  failure_message_for_should do |actual|
+    "Items not found in array:\n#{expected_array.select { |expected_item| !actual[expected_key].include?(expected_item) }.map { |item| item.inspect }.join("\n")}\n"  +
+    "Orignal items:\n#{actual[expected_key].map { |item| item.inspect }.join("\n") }\n"+
+    "Length Difference: #{expected_array.length - actual[expected_key].length}"
+  end
 end
 
 Spec::Matchers.define :have_headers_denoting_a_content_type_of do |expected|
@@ -332,8 +348,8 @@ Spec::Matchers.define :be_a_vapp_link_to do |expected|
   match do |actual|
     actual.is_a?(Hash) and
     actual[:type] == "application/vnd.vmware.vcloud.vApp+xml" and
-    actual[:href] == expected[:href] and
-    actual[:name] == expected[:name]
+    actual[:href] == expected.href and
+    actual[:name] == expected.name
   end
 end
 
@@ -341,8 +357,8 @@ Spec::Matchers.define :be_a_network_link_to do |expected|
   match do |actual|
     actual.is_a?(Hash) and
     actual[:type] == "application/vnd.vmware.vcloud.network+xml" and
-    actual[:href] == expected[:href] and
-    actual[:name] == expected[:name]
+    actual[:href] == expected.href and
+    actual[:name] == expected.name
   end
 end
 

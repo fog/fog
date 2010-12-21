@@ -25,7 +25,7 @@ module Fog
 
         def update_server(server_id, options)
           response = Excon::Response.new
-          if server = list_servers_detail.body['servers'].detect { |server| server['id'] == server_id }
+          if server = list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
             if options['adminPass']
               server['adminPass'] = options['adminPass']
             end

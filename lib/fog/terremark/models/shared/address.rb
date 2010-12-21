@@ -12,14 +12,14 @@ module Fog
 
         def destroy
          requires :id
-         connection.delete_public_ip(@id)
+         connection.delete_public_ip(id)
          true
         end
 
         private
 
         def href=(new_href)
-          @id = new_href.split('/').last.to_i
+          self.id = new_href.split('/').last.to_i
         end
 
       end

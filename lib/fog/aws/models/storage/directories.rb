@@ -25,7 +25,7 @@ module Fog
           directory = new(:key => data['Name'])
           options = {}
           for k, v in data
-            if ['Delimiter', 'IsTruncated', 'Marker', 'MaxKeys', 'Prefix'].include?(k)
+            if ['CommonPrefixes', 'Delimiter', 'IsTruncated', 'Marker', 'MaxKeys', 'Prefix'].include?(k)
               options[k] = v
             end
           end

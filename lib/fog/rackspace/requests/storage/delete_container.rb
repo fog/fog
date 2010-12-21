@@ -9,7 +9,7 @@ module Fog
         # * name<~String> - Name of container to delete
         #
         def delete_container(name)
-          response = storage_request(
+          response = request(
             :expects  => 204,
             :method   => 'DELETE',
             :path     => CGI.escape(name)

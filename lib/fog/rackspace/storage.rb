@@ -3,6 +3,7 @@ module Fog
     class Storage < Fog::Service
 
       requires :rackspace_api_key, :rackspace_username
+      recognizes :rackspace_auth_url, :persistent
 
       model_path 'fog/rackspace/models/storage'
       model       :directory
@@ -23,6 +24,13 @@ module Fog
       request :put_object
 
       module Utils
+
+        def cdn
+          @cdn ||= Fog::Rackspace::CDN.new(
+            :rackspace_api_key => @rackspace_api_key,
+            :rackspace_username => @rackspace_username
+          )
+        end
 
         def parse_data(data)
           metadata = {
@@ -63,6 +71,8 @@ module Fog
         end
 
         def initialize(options={})
+          require 'mime/types'
+          @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
           @data = self.class.data[@rackspace_username]
         end
@@ -73,65 +83,36 @@ module Fog
         include Utils
 
         def initialize(options={})
+          require 'mime/types'
+          require 'json'
+          @rackspace_api_key = options[:rackspace_api_key]
+          @rackspace_username = options[:rackspace_username]
           credentials = Fog::Rackspace.authenticate(options)
           @auth_token = credentials['X-Auth-Token']
 
-          if(credentials['X-CDN-Management-Url'])
-            cdn_uri = URI.parse(credentials['X-CDN-Management-Url'])
-            @cdn_host   = cdn_uri.host
-            @cdn_path   = cdn_uri.path
-            @cdn_port   = cdn_uri.port
-            @cdn_scheme = cdn_uri.scheme
-            @cdn_connection = Fog::Connection.new("#{@cdn_scheme}://#{@cdn_host}:#{@cdn_port}", options[:persistent])
-          end
-
-          storage_uri = URI.parse(credentials['X-Storage-Url'])
-          @storage_host   = storage_uri.host
-          @storage_path   = storage_uri.path
-          @storage_port   = storage_uri.port
-          @storage_scheme = storage_uri.scheme
-          @storage_connection = Fog::Connection.new("#{@storage_scheme}://#{@storage_host}:#{@storage_port}", options[:persistent])
+          uri = URI.parse(credentials['X-Storage-Url'])
+          @host   = uri.host
+          @path   = uri.path
+          @port   = uri.port
+          @scheme = uri.scheme
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
         end
 
         def reload
-          @connection.reset
+          @storage_connection.reset
         end
 
-        def cdn_request(params)
+        def request(params, parse_json = true, &block)
           begin
-            response = @cdn_connection.request(params.merge!({
+            response = @connection.request(params.merge!({
               :headers  => {
                 'Content-Type' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
-              :host     => @cdn_host,
-              :path     => "#{@cdn_path}/#{params[:path]}",
-            }))
-          rescue Excon::Errors::Error => error
-            raise case error
-            when Excon::Errors::NotFound
-              Fog::Rackspace::Storage::NotFound.slurp(error)
-            else
-              error
-            end
-          end
-          if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
-            response.body = JSON.parse(response.body)
-          end
-          response
-        end
-
-        def storage_request(params, parse_json = true, &block)
-          begin
-            response = @storage_connection.request(params.merge!({
-              :headers  => {
-                'Content-Type' => 'application/json',
-                'X-Auth-Token' => @auth_token
-              }.merge!(params[:headers] || {}),
-              :host     => @storage_host,
-              :path     => "#{@storage_path}/#{params[:path]}",
+              :host     => @host,
+              :path     => "#{@path}/#{params[:path]}",
             }), &block)
-          rescue Excon::Errors::Error => error
+          rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
               Fog::Rackspace::Storage::NotFound.slurp(error)

@@ -8,7 +8,7 @@ if Fog.mocking?
 
     describe "#get_node" do
       context "with a valid nodes_uri" do
-        before { @node = @vcloud.get_node(@mock_node[:href]) }
+        before { @node = @vcloud.get_node(@mock_node.href) }
         subject { @node }
 
         it_should_behave_like "all responses"
@@ -19,13 +19,13 @@ if Fog.mocking?
 
           it { should have(9).keys }
 
-          its(:Href) { should == @mock_node[:href] }
-          its(:Id) { should == @mock_node[:id] }
-          its(:Name) { should == @mock_node[:name] }
-          its(:Enabled) { should == @mock_node[:enabled] }
-          its(:Port) { should == @mock_node[:port] }
-          its(:Description) { should == @mock_node[:description]}
-          its(:IpAddress) { should == @mock_node[:ip_address]}
+          its(:Href) { should == @mock_node.href }
+          its(:Id) { should == @mock_node.object_id.to_s }
+          its(:Name) { should == @mock_node.name }
+          its(:Enabled) { should == @mock_node.enabled.to_s }
+          its(:Port) { should == @mock_node.port.to_s }
+          its(:Description) { should == @mock_node.description }
+          its(:IpAddress) { should == @mock_node.ip_address }
 
         end
       end

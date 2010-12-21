@@ -15,7 +15,7 @@ module Fog
           attribute :id, :aliases => :Id, :type => :integer
 
           def rnat=(new_rnat)
-            @rnat = new_rnat
+            attributes[:rnat] = new_rnat
             @changed = true
           end
 
@@ -29,7 +29,7 @@ module Fog
           def reload
             super
             @changed = false
-            true
+            self
           end
 
           private

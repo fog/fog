@@ -13,6 +13,7 @@ describe 'SimpleDB.select' do
     end
 
     it 'should return multi-value attributes when present' do
+      pending if Fog.mocking?
       @item = "someitem_fog_domain_#{Time.now.to_i}"
       AWS[:sdb].put_attributes(@domain_name, @item, { "attr" => "foo" })
       AWS[:sdb].put_attributes(@domain_name, @item, { "attr" => "foo2" })

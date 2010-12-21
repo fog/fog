@@ -12,17 +12,54 @@ module Fog
 
         model Fog::AWS::Compute::Address
 
+        # Used to create an IP address
+        #
+        # ==== Returns
+        #
+        #>> AWS.addresses.create
+        #  <Fog::AWS::Compute::Address
+        #    public_ip="4.88.524.95",
+        #    server_id=nil
+        #  >
+        #
+        # The IP address can be retreived by running AWS.addresses.get("test").  See get method below.
+        #
+
         def initialize(attributes)
-          @filters ||= {}
+          self.filters ||= {}
           super
         end
 
-        def all(filters = @filters)
+        # AWS.addresses.all
+        #
+        # ==== Returns
+        #
+        # Returns an array of all IP addresses
+        #
+        #>> AWS.addresses.all
+        #  <Fog::AWS::Compute::Addresses
+        #    filters={},
+        #    server=nil
+        #    [
+        #      <Fog::AWS::Compute::Address
+        #        public_ip="76.7.46.54",
+        #        server_id=nil
+        #      >,
+        #      .......
+        #      <Fog::AWS::Compute::Address
+        #        public_ip="4.88.524.95",
+        #        server_id=nil
+        #      >
+        #    ]
+        #  >
+        #>>
+
+        def all(filters = filters)
           unless filters.is_a?(Hash)
             Formatador.display_line("[yellow][WARN] all with #{filters.class} param is deprecated, use all('public-ip' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'public-ip' => [*filters]}
           end
-          @filters = filters
+          self.filters = filters
           data = connection.describe_addresses(filters).body
           load(
             data['addressesSet'].map do |address|
@@ -34,6 +71,13 @@ module Fog
           end
           self
         end
+
+        # Used to retreive an IP address
+        #
+        # public_ip is required to get the associated IP information.
+        #
+        # You can run the following command to get the details:
+        # AWS.addresses.get("76.7.46.54")
 
         def get(public_ip)
           if public_ip

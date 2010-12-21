@@ -26,6 +26,9 @@ module Fog
         #              * 'URI'<~String> - URI of group to grant access for
         #           * 'Permission'<~String> - Permission, in [FULL_CONTROL, WRITE, WRITE_ACP, READ, READ_ACP]
         #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGETacl.html
+
         def get_bucket_acl(bucket_name)
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
@@ -43,10 +46,18 @@ module Fog
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def get_bucket_acl(bucket_name)
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          if acl = @data[:acls][:bucket][bucket_name]
+            response.status = 200
+            response.body = acl
+          else
+            response.status = 404
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
+          response
         end
 
       end

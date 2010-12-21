@@ -31,7 +31,13 @@ module Fog
       end
 
       class Mock
-
+        
+        #
+        # Usage
+        #
+        # AWS[:compute].create_snapshot("vol-f7c23423", "latest snapshot")
+        #
+        
         def create_snapshot(volume_id, description = nil)
           response = Excon::Response.new
           if volume = @data[:volumes][volume_id]
@@ -51,6 +57,7 @@ module Fog
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id
             }.merge!(data)
+            @data[:snapshots][snapshot_id]['tagSet'] = {}
           else
             response.status = 400
             raise(Excon::Errors.status_error({:expects => 200}, response))

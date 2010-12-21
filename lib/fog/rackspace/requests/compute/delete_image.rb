@@ -22,7 +22,7 @@ module Fog
 
         def delete_image(image_id)
           response = Excon::Response.new
-          if image = list_images_detail.body['images'].detect {|image| image['id'] == image_id}
+          if image = list_images_detail.body['images'].detect {|_| _['id'] == image_id}
             if image['status'] == 'SAVING'
               response.status = 409
               raise(Excon::Errors.status_error({:expects => 202}, response))

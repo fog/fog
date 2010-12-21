@@ -27,6 +27,7 @@ Shindo.tests('AWS::Compute | image requests', ['aws']) do
     # end
 
     tests("#describe_images('ImageId' => '#{GENTOO_AMI}')").formats(@images_format) do
+      pending if Fog.mocking?
       AWS[:compute].describe_images('ImageId' => GENTOO_AMI).body
     end
 

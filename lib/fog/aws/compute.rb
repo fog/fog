@@ -3,6 +3,7 @@ module Fog
     class Compute < Fog::Service
 
       requires :aws_access_key_id, :aws_secret_access_key
+      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent
 
       model_path 'fog/aws/models/compute'
       model       :address
@@ -74,10 +75,11 @@ module Fog
         def self.data
           @data ||= Hash.new do |hash, region|
             owner_id = Fog::AWS::Mock.owner_id
-            hash[region] = Hash.new do |hash, key|
-              hash[key] = {
+            hash[region] = Hash.new do |region_hash, key|
+              region_hash[key] = {
                 :deleted_at => {},
                 :addresses  => {},
+                :images     => {},
                 :instances  => {},
                 :key_pairs  => {},
                 :limits     => { :addresses => 5 },
@@ -113,7 +115,8 @@ module Fog
                   }
                 },
                 :snapshots => {},
-                :volumes => {}
+                :volumes => {},
+                :tags => {}
               }
             end
           end
@@ -190,7 +193,7 @@ module Fog
         end
 
         private
-
+        
         def request(params)
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
@@ -216,7 +219,7 @@ module Fog
               :method     => 'POST',
               :parser     => parser
             })
-          rescue Excon::Errors::Error => error
+          rescue Excon::Errors::HTTPStatusError => error
             if match = error.message.match(/<Code>(.*)<\/Code><Message>(.*)<\/Message>/)
               raise case match[1].split('.').last
               when 'NotFound'

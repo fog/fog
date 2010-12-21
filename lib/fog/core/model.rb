@@ -4,11 +4,7 @@ module Fog
     extend Fog::Attributes::ClassMethods
     include Fog::Attributes::InstanceMethods
 
-    attr_accessor :connection
-
-    def collection
-      @collection
-    end
+    attr_accessor :collection, :connection
 
     def initialize(new_attributes = {})
       merge_attributes(new_attributes)
@@ -28,6 +24,7 @@ module Fog
     end
 
     def reload
+      requires :identity
       if data = collection.get(identity)
         new_attributes = data.attributes
         merge_attributes(new_attributes)
@@ -42,15 +39,17 @@ module Fog
     def wait_for(timeout=600, interval=1, &block)
       reload
       Fog.wait_for(timeout, interval) do
-        reload or raise Fog::Errors::Error.new("Reload failed, #{self.class} #{self.identity} went away.")
+        retries = 3
+        if reload
+          retries = 3
+        elsif retries > 0
+          retries -= 1
+          sleep(1)
+        elsif retries == 0
+          raise Fog::Errors::Error.new("Reload failed, #{self.class} #{self.identity} went away.")
+        end
         instance_eval(&block)
       end
-    end
-
-    private
-
-    def collection=(new_collection)
-      @collection = new_collection
     end
 
   end

@@ -44,10 +44,10 @@ module Fog
           response = Excon::Response.new
 
           availability_zone_info = [
-            {"regionName"=>"us-east-1", "zoneName"=>"us-east-1a", "zoneState"=>"available"},
-            {"regionName"=>"us-east-1", "zoneName"=>"us-east-1b", "zoneState"=>"available"},
-            {"regionName"=>"us-east-1", "zoneName"=>"us-east-1c", "zoneState"=>"available"},
-            {"regionName"=>"us-east-1", "zoneName"=>"us-east-1d", "zoneState"=>"available"}
+            {"messageSet" => [], "regionName" => "us-east-1", "zoneName" => "us-east-1a", "zoneState" => "available"},
+            {"messageSet" => [], "regionName" => "us-east-1", "zoneName" => "us-east-1b", "zoneState" => "available"},
+            {"messageSet" => [], "regionName" => "us-east-1", "zoneName" => "us-east-1c", "zoneState" => "available"},
+            {"messageSet" => [], "regionName" => "us-east-1", "zoneName" => "us-east-1d", "zoneState" => "available"},
           ]
 
           aliases = {'region-name' => 'regionName', 'zone-name' => 'zoneName', 'state' => 'zoneState'}
@@ -58,8 +58,8 @@ module Fog
 
           response.status = 200
           response.body = {
-            'requestId'             => Fog::AWS::Mock.request_id,
-            'availabilityZoneInfo'  => availability_zone_info
+            'availabilityZoneInfo'  => availability_zone_info,
+            'requestId'             => Fog::AWS::Mock.request_id
           }
           response
         end

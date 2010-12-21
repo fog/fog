@@ -47,12 +47,12 @@ module Fog
             'name'      => options['name'] || '',
             'serverId'  => server_id,
             'status'    => 'SAVING',
-            'updated'   => now,
+            'updated'   => now.to_s,
           }
 
           @data[:last_modified][:images][data['id']] = now
           @data[:images][data['id']] = data
-          response.body = { 'image' => data.reject {|key, value| !['id', 'name', 'serverId'].include?(key)} }
+          response.body = { 'image' => data.reject {|key, value| !['id', 'name', 'serverId', 'status', 'updated'].include?(key)} }
           response
         end
 

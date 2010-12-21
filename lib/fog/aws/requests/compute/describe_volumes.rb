@@ -22,6 +22,7 @@ module Fog
         #       * 'volumeId'<~String> - Reference to volume
         #       * 'attachmentSet'<~Array>:
         #         * 'attachmentTime'<~Time> - Timestamp for attachment
+        #         * 'deleteOnTermination'<~Boolean> - Whether or not to delete volume on instance termination
         #         * 'device'<~String> - How value is exposed to instance
         #         * 'instanceId'<~String> - Reference to attached instance
         #         * 'status'<~String> - Attachment state
@@ -47,6 +48,11 @@ module Fog
           unless filters.is_a?(Hash)
             Formatador.display_line("[yellow][WARN] describe_volumes with #{filters.class} param is deprecated, use describe_volumes('volume-id' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'volume-id' => [*filters]}
+          end
+
+          if filters.keys.any? {|key| key =~ /^tag/}
+            Formatador.display_line("[yellow][WARN] describe_volumes tag filters are not yet mocked[/] [light_black](#{caller.first})[/]")
+            Fog::Mock.not_implemented
           end
 
           response = Excon::Response.new

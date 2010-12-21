@@ -1,39 +1,42 @@
 module Fog
   module Terremark
-   module Ecloud
+    module Ecloud
 
-     module Bin
-     end
+      module Bin
+      end
 
-     module Defaults
-       HOST   = 'services.enterprisecloud.terremark.com'
-       PATH   = '/api/v0.8a-ext2.0'
-       PORT   = 443
-       SCHEME = 'https'
-     end
+      module Defaults
+        HOST   = 'services.enterprisecloud.terremark.com'
+        PATH   = '/api/v0.8a-ext2.0'
+        PORT   = 443
+        SCHEME = 'https'
+      end
 
-     extend Fog::Terremark::Shared
+      extend Fog::Terremark::Shared
 
-     def self.new(options={})
+      def self.new(options={})
 
-       unless @required
-         shared_requires
-         @required = true
-       end
+        unless @required
+          shared_requires
+          @required = true
+        end
 
-       check_shared_options(options)
+        check_shared_options(options)
 
-       if Fog.mocking?
+        if Fog.mocking?
           Fog::Terremark::Ecloud::Mock.new(options)
         else
           Fog::Terremark::Ecloud::Real.new(options)
         end
-     end
 
-     class Real
+      end
 
-       include Fog::Terremark::Shared::Real
-       include Fog::Terremark::Shared::Parser
+      class Real
+        # requires :terremark_ecloud_password, :terremark_ecloud_username
+        # recognizes :host, :path, :port, :scheme, :persistent
+        
+        include Fog::Terremark::Shared::Real
+        include Fog::Terremark::Shared::Parser
 
         def initialize(options={})
           @terremark_password = options[:terremark_ecloud_password]
@@ -47,18 +50,18 @@ module Fog
 
       end
 
-     class Mock
-       include Fog::Terremark::Shared::Mock
-       include Fog::Terremark::Shared::Parser
+      class Mock
+        include Fog::Terremark::Shared::Mock
+        include Fog::Terremark::Shared::Parser
 
-       def initialize(option = {})
-         super
-         @base_url = Fog::Terremark::Ecloud::Defaults::SCHEME + "://" +
-                     Fog::Terremark::Ecloud::Defaults::HOST +
-                     Fog::Terremark::Ecloud::Defaults::PATH
-         @data = self.class.data[:terremark_ecloud_username]
-       end
-     end
+        def initialize(option = {})
+          super
+          @base_url = Fog::Terremark::Ecloud::Defaults::SCHEME + "://" +
+          Fog::Terremark::Ecloud::Defaults::HOST +
+          Fog::Terremark::Ecloud::Defaults::PATH
+          @data = self.class.data[:terremark_ecloud_username]
+        end
+      end
 
     end
   end

@@ -12,8 +12,8 @@ module Fog
 
         identity  :key, :aliases => 'name'
 
-        attribute :bytes
-        attribute :count
+        attribute :bytes, :aliases => 'X-Container-Bytes-Used'
+        attribute :count, :aliases => 'X-Container-Object-Count'
 
         def destroy
           requires :key
@@ -32,9 +32,30 @@ module Fog
           end
         end
 
+        def public=(new_public)
+          @public = new_public
+        end
+
+        def public_url
+          requires :key
+          @public_url ||= begin
+            begin response = connection.cdn.head_container(key)
+              response.headers['X-CDN-Enabled'] == 'True' && response.headers['X-CDN-URI']
+            rescue Fog::Service::NotFound
+              nil
+            end
+          end
+        end
+
         def save
           requires :key
           connection.put_container(key)
+          if @public
+            @public_url = connection.cdn.put_container(key, 'X-CDN-Enabled' => 'True').headers['X-CDN-URI']
+          else
+            connection.cdn.put_container(key, 'X-CDN-Enabled' => 'False')
+            @public_url = nil
+          end
           true
         end
 

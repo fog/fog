@@ -1,12 +1,20 @@
+require 'nokogiri'
+
+require File.join(File.dirname(__FILE__), 'core')
+require 'fog/core/parser'
+
 module Fog
   module AWS
 
     extend Fog::Provider
 
     service_path 'fog/aws'
+    service 'cdn'
     service 'compute'
+    service 'dns'
     service 'ec2'
     service 'elb'
+    service 'iam'
     service 's3'
     service 'simpledb'
     service 'storage'
@@ -170,7 +178,7 @@ module Fog
       end
 
       private
-
+      
       def self.random_selection(characters, length)
         selection = ''
         length.times do
@@ -194,7 +202,7 @@ module Fog
 
       def self.hex(length)
         max = ('f' * length).to_i(16)
-        rand(max).to_s(16)
+        rand(max).to_s(16).rjust(length, '0')
       end
 
       def self.base64(length)

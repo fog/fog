@@ -21,24 +21,24 @@ if Fog.mocking?
     end
 
     context "as a collection member" do
-      subject { @vcloud.vdcs[0].reload; @vcloud.vdcs[0] }
+      subject { @vcloud.vdcs[0].reload }
 
       it { should be_an_instance_of Fog::Vcloud::Vdc }
 
-      its(:href)                  { should == @mock_vdc[:href] }
-      its(:identity)              { should == @mock_vdc[:href] }
-      its(:name)                  { should == @mock_vdc[:name] }
+      its(:href)                  { should == @mock_vdc.href }
+      its(:identity)              { should == @mock_vdc.href }
+      its(:name)                  { should == @mock_vdc.name }
       its(:other_links)           { should have(7).items }
       its(:resource_entities)     { should have(3).items }
       its(:available_networks)    { should have(2).items }
 
       its(:compute_capacity)      { should be_an_instance_of Hash }
-      its(:compute_capacity)      { should == {:Cpu => 
-                                                {:Units => "Mhz", :Allocated => @mock_vdc[:cpu][:allocated], :Limit => @mock_vdc[:cpu][:allocated]}, 
+      its(:compute_capacity)      { should == {:Cpu =>
+                                                {:Units => "Mhz", :Allocated => @mock_vdc.cpu_allocated.to_s, :Limit => @mock_vdc.cpu_allocated.to_s},
                                                :Memory =>
-                                                {:Units => "MB", :Allocated => @mock_vdc[:memory][:allocated], :Limit => @mock_vdc[:memory][:allocated]}} }
+                                                {:Units => "MB", :Allocated => @mock_vdc.memory_allocated.to_s, :Limit => @mock_vdc.memory_allocated.to_s}} }
       its(:storage_capacity)      { should be_an_instance_of Hash }
-      its(:storage_capacity)      { should == {:Limit => @mock_vdc[:storage][:allocated], :Units=>"MB", :Allocated => @mock_vdc[:storage][:allocated]} }
+      its(:storage_capacity)      { should == {:Limit => @mock_vdc.storage_allocated.to_s, :Units=>"MB", :Allocated => @mock_vdc.storage_allocated.to_s} }
 
       its(:vm_quota)              { should == "0" }
       its(:nic_quota)             { should == "0" }

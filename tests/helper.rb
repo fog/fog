@@ -1,11 +1,38 @@
-require 'fog'
+require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
 require 'fog/core/bin'
-Fog.bin = true
 
-require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'model_helper'))
+__DIR__ = File.dirname(__FILE__)
+
+$LOAD_PATH.unshift __DIR__ unless
+  $LOAD_PATH.include?(__DIR__) ||
+  $LOAD_PATH.include?(File.expand_path(__DIR__))
+
+require 'helpers/collection_tests'
+require 'helpers/model_tests'
+
+require 'helpers/compute/flavors_tests'
+require 'helpers/compute/server_tests'
+require 'helpers/compute/servers_tests'
+
+require 'helpers/storage/directory_tests'
+require 'helpers/storage/directories_tests'
+require 'helpers/storage/file_tests'
+require 'helpers/storage/files_tests'
+
+# Use so you can run in mock mode from the command line:
+#
+# FOG_MOCK=true fog
 
 if ENV["FOG_MOCK"] == "true"
   Fog.mock!
+end
+
+# check to see which credentials are available and add others to the skipped tags list
+all_providers = ['aws', 'bluebox', 'brightbox', 'gogrid', 'google', 'linode', 'local', 'newservers', 'rackspace', 'slicehost', 'terremark']
+available_providers = Fog.providers.map {|provider| provider.to_s.downcase}
+for provider in (all_providers - available_providers)
+  Formatador.display_line("[yellow]Skipping tests for [bold]#{provider}[/] [yellow]due to lacking credentials (add some to '~/.fog' to run them)[/]")
+  Thread.current[:tags] << ('-' << provider)
 end
 
 # Boolean hax
@@ -23,15 +50,23 @@ end
 module Shindo
   class Tests
 
-    def formats(format, &block)
-      test('has proper format') do
-        formats_kernel(instance_eval(&block), format)
+    def responds_to(method_names)
+      for method_name in [*method_names]
+        tests("#respond_to?(:#{method_name})").succeeds do
+          @instance.respond_to?(method_name)
+        end
       end
     end
 
-    def succeeds(&block)
+    def formats(format)
+      test('has proper format') do
+        formats_kernel(instance_eval(&Proc.new), format)
+      end
+    end
+
+    def succeeds
       test('succeeds') do
-        instance_eval(&block)
+        instance_eval(&Proc.new)
         true
       end
     end

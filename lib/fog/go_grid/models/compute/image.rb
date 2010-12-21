@@ -36,7 +36,7 @@ module Fog
         def destroy
           requires :id
 
-          connection.grid_server_delete(@id)
+          connection.grid_server_delete(id)
           true
         end
 
@@ -48,7 +48,7 @@ module Fog
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :server_id
 
-          data = connection.grid_server_add(@server_id, 'name' => name)
+          data = connection.grid_server_add(server_id, 'name' => name)
           merge_attributes(data.body['image'])
           true
         end

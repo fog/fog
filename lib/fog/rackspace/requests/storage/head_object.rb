@@ -10,7 +10,7 @@ module Fog
         # * object<~String> - Name of object to look for
         #
         def head_object(container, object)
-          response = storage_request({
+          response = request({
             :expects  => 200,
             :method   => 'GET',
             :path     => "#{CGI.escape(container)}/#{CGI.escape(object)}"

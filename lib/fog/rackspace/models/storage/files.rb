@@ -17,6 +17,12 @@ module Fog
 
         def all(options = {})
           requires :directory
+          options = {
+            'limit'   => limit,
+            'marker'  => marker,
+            'path'    => path,
+            'prefix'  => prefix
+          }.merge!(options)
           merge_attributes(options)
           parent = directory.collection.get(
             directory.key,
@@ -29,24 +35,13 @@ module Fog
           end
         end
 
-        def get(key, options = {}, &block)
+        def get(key, &block)
           requires :directory
-          options = {
-            'limit'   => @limit,
-            'marker'  => @marker,
-            'path'    => @path,
-            'prefix'  => @prefix
-          }.merge!(options)
-          data = connection.get_object(directory.name, key, options, &block)
-          file_data = {
+          data = connection.get_object(directory.key, key, &block)
+          file_data = data.headers.merge({
             :body => data.body,
             :key  => key
-          }
-          for key, value in data.headers
-            if ['Content-Length', 'Content-Type', 'ETag', 'Last-Modified'].include?(key)
-              file_data[key] = value
-            end
-          end
+          })
           new(file_data)
         rescue Fog::Rackspace::Storage::NotFound
           nil
@@ -54,18 +49,15 @@ module Fog
 
         def get_url(key, expires)
           requires :directory
-          connection.get_object_url(directory.name, key, expires)
+          connection.get_object_url(directory.key, key, expires)
         end
 
         def head(key, options = {})
           requires :directory
-          data = connection.head_object(directory.name, key, options)
-          file_data = { :key => key }
-          for key, value in data.headers
-            if ['Content-Length', 'Content-Type', 'ETag', 'Last-Modified'].include?(key)
-              file_data[key] = value
-            end
-          end
+          data = connection.head_object(directory.key, key)
+          file_data = data.headers.merge({
+            :key => key
+          })
           new(file_data)
         rescue Fog::Rackspace::Storage::NotFound
           nil

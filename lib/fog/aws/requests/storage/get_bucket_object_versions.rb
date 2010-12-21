@@ -51,6 +51,9 @@ module Fog
         #           * 'StorageClass'<~String> - Storage class of object
         #           * 'VersionId'<~String> - The id of this version
         #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGETVersion.html
+
         def get_bucket_object_versions(bucket_name, options = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
@@ -68,7 +71,7 @@ module Fog
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def get_bucket_object_versions(bucket_name, options = {})
           Fog::Mock.not_implemented

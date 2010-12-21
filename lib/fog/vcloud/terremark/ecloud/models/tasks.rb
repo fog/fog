@@ -12,6 +12,7 @@ module Fog
           attribute :href, :aliases => :Href
 
           def all
+            check_href!
             if data = connection.get_task_list(href).body[:Task]
               load(data)
             end

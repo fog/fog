@@ -19,7 +19,7 @@ module Fog
         def destroy
           requires :public_ip
 
-          connection.release_address(@public_ip)
+          connection.release_address(public_ip)
           true
         end
 
@@ -33,8 +33,9 @@ module Fog
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          data = connection.allocate_address
-          @public_ip = data.body['publicIp']
+          data = connection.allocate_address.body
+          new_attributes = data.reject {|key,value| key == 'requestId'}
+          merge_attributes(new_attributes)
           if @server
             self.server = @server
           end
@@ -48,16 +49,16 @@ module Fog
             @server = new_server
           else
             @server = nil
-            @server_id = new_server.id
-            connection.associate_address(@server_id, @public_ip)
+            self.server_id = new_server.id
+            connection.associate_address(server_id, public_ip)
           end
         end
 
         def disassociate
           @server = nil
-          @server_id = nil
+          self.server_id = nil
           unless new_record?
-            connection.disassociate_address(@public_ip)
+            connection.disassociate_address(public_ip)
           end
         end
 

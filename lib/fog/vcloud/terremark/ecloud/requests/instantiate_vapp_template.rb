@@ -103,15 +103,17 @@ module Fog
 
           def instantiate_vapp_template(catalog_item_uri, options = {})
             validate_instantiate_vapp_template_options(catalog_item_uri, options)
+            catalog_item = mock_data.catalog_item_from_href(catalog_item_uri)
 
             xml = nil
-            if vdc = vdc_from_uri(options[:vdc_uri])
-              id = rand(1000)
-              vapp_uri = Fog::Vcloud::Terremark::Ecloud::Mock.vapp_href(:id => id)
-              options.update(:id => id.to_s, :href => vapp_uri)
-              vdc[:vms] << options
+            if vdc = mock_data.vdc_from_href(options[:vdc_uri])
+              if network = mock_data.network_from_href(options[:network_uri])
+                new_vm = MockVirtualMachine.new({ :name => options[:name], :ip => network.random_ip, :cpus => options[:cpus], :memory => options[:memory] }, vdc)
+                new_vm.disks.push(*catalog_item.disks.dup)
+                vdc.virtual_machines << new_vm
 
-              xml = generate_instantiate_vapp_template_response(vdc[:href], options[:name], vapp_uri)
+                xml = generate_instantiate_vapp_template_response(new_vm)
+              end
             end
 
             if xml
@@ -123,16 +125,16 @@ module Fog
 
           private
 
-          def generate_instantiate_vapp_template_response(vdc_uri, vapp_name, vapp_uri)
+          def generate_instantiate_vapp_template_response(vapp)
             builder = Builder::XmlMarkup.new
             builder.VApp(xmlns.merge(
-                                     :href => vapp_uri,
+                                     :href => vapp.href,
                                      :type => "application/vnd.vmware.vcloud.vApp+xml",
-                                     :name => vapp_name,
+                                     :name => vapp.name,
                                      :status => 0,
                                      :size => 4
                                      )) {
-              builder.Link(:rel => "up", :href => vdc_uri, :type => "application/vnd.vmware.vcloud.vdc+xml")
+              builder.Link(:rel => "up", :href => vapp._parent.href, :type => "application/vnd.vmware.vcloud.vdc+xml")
             }
           end
         end

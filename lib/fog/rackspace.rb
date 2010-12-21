@@ -1,9 +1,12 @@
+require File.join(File.dirname(__FILE__), 'core')
+
 module Fog
   module Rackspace
-
+    
     extend Fog::Provider
 
     service_path 'fog/rackspace'
+    service 'cdn'
     service 'compute'
     service 'files'
     service 'servers'

@@ -8,7 +8,7 @@ if Fog.mocking?
 
     describe "#get_nodes" do
       context "with a valid nodes_uri" do
-        before { @nodes = @vcloud.get_nodes(@mock_service[:href] + "/nodeServices") }
+        before { @nodes = @vcloud.get_nodes(@mock_node_collection.href) }
         subject { @nodes }
 
         it_should_behave_like "all responses"
@@ -22,22 +22,22 @@ if Fog.mocking?
           describe "[:NodeService]" do
             subject { @nodes.body[:NodeService] }
 
-            it { should have(@mock_service[:nodes].length).nodes }
+            it { should have(@mock_node_collection.items.length).nodes }
 
             [0,1].each do |idx|
 
               context "[#{idx}]" do
                 subject { @nodes.body[:NodeService][idx] }
-                let(:mock_node) { @mock_service[:nodes][idx] }
-                let(:keys) { subject.keys.sort {|a,b| a.to_s <=> b.to_s } }
+                let(:mock_node) { @mock_node_collection.items[idx] }
+                let(:keys) { subject.keys.sort_by(&:to_s) }
                 specify { keys.should == [:Description, :Enabled, :Href, :Id, :IpAddress, :Name, :Port] }
-                its(:Href) { should == mock_node[:href] }
-                its(:Id) { should == mock_node[:id] }
-                its(:Name) { should == mock_node[:name] }
-                its(:Enabled) { should == mock_node[:enabled] }
-                its(:Port) { should == mock_node[:port] }
-                its(:IpAddress) { should == mock_node[:ip_address] }
-                its(:Description) { should == mock_node[:description] }
+                its(:Href) { should == mock_node.href }
+                its(:Id) { should == mock_node.object_id.to_s }
+                its(:Name) { should == mock_node.name }
+                its(:Enabled) { should == mock_node.enabled.to_s }
+                its(:Port) { should == mock_node.port.to_s }
+                its(:IpAddress) { should == mock_node.ip_address }
+                its(:Description) { should == mock_node.description }
               end
 
             end

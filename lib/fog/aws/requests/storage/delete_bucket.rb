@@ -11,6 +11,10 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * status<~Integer> - 204
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketDELETE.html
+
         def delete_bucket(bucket_name)
           request({
             :expects  => 204,
@@ -22,7 +26,7 @@ module Fog
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def delete_bucket(bucket_name)
           response = Excon::Response.new

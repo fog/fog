@@ -2,8 +2,8 @@ module Fog
   module GoGrid
     class Compute < Fog::Service
 
-      requires :go_grid_api_key
-      requires :go_grid_shared_secret
+      requires :go_grid_api_key, :go_grid_shared_secret
+      recognizes :host, :path, :port, :scheme, :persistent
 
       model_path 'fog/go_grid/models/compute'
       model         :image
@@ -48,6 +48,8 @@ module Fog
       class Real
 
         def initialize(options={})
+          require 'digest/md5'
+          require 'json'
           @go_grid_api_key = options[:go_grid_api_key]
           @go_grid_shared_secret = options[:go_grid_shared_secret]
           @host   = options[:host]    || "api.gogrid.com"
@@ -79,7 +81,7 @@ module Fog
             response = @connection.request(
               params.merge!(:path => "#{@path}/#{params[:path]}")
             )
-          rescue Excon::Errors::Error => error
+          rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
               Fog::GoGrid::Compute::NotFound.slurp(error)

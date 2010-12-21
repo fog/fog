@@ -1,4 +1,4 @@
-require 'spec_helper'
+require File.dirname(__FILE__) + '/spec_helper'
 
 if Fog.mocking?
   describe Fog::Vcloud, :type => :mock_vcloud_request do
@@ -12,7 +12,7 @@ if Fog.mocking?
 
     it { should have_at_least(1).supported_versions }
 
-    its(:default_organization_uri) { should == @mock_organization[:info][:href] }
+    its(:default_organization_uri) { should == @mock_organization.href }
 
   end
 end

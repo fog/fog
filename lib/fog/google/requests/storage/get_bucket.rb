@@ -27,6 +27,7 @@ module Fog
         #     * 'MaxKeys'<~Integer> - Maximum number of keys specified for query
         #     * 'Name'<~String> - Name of the bucket
         #     * 'Prefix'<~String> - Prefix specified for query
+        #     * 'CommonPrefixes'<~Array> - Array of strings for common prefixes
         #     * 'Contents'<~Array>:
         #       * 'ETag'<~String>: Etag of object
         #       * 'Key'<~String>: Name of object
@@ -82,12 +83,12 @@ module Fog
 
               response.status = 200
               response.body = {
-                'Contents'    => truncated_contents,
-                'IsTruncated' => truncated_contents.size != contents.size,
-                'Marker'      => options['marker'],
-                'MaxKeys'     => max_keys,
-                'Name'        => bucket['Name'],
-                'Prefix'      => options['prefix']
+                'CommonPrefixes'  => [],
+                'Contents'        => truncated_contents,
+                'IsTruncated'     => truncated_contents.size != contents.size,
+                'Marker'          => options['marker'],
+                'Name'            => bucket['Name'],
+                'Prefix'          => options['prefix']
               }
               if options['max-keys'] && options['max-keys'] < response.body['Contents'].length
                   response.body['IsTruncated'] = true

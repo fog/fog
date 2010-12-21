@@ -17,7 +17,7 @@ module Fog
 
         attribute :cpu
         attribute :description
-        attribute :flavor_id
+        attribute :flavor_id,   :aliases => :product, :squash => 'id'
         attribute :hostname
         attribute :image_id
         attribute :ips
@@ -30,49 +30,51 @@ module Fog
         attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username
 
         def initialize(attributes={})
-          @flavor_id ||= '94fd37a7-2606-47f7-84d5-9000deda52ae'
+          self.flavor_id ||= '94fd37a7-2606-47f7-84d5-9000deda52ae'
           super
         end
 
         def destroy
           requires :id
-          connection.destroy_block(@id)
+          connection.destroy_block(id)
           true
         end
 
         def flavor
           requires :flavor_id
-          connection.flavors.get(@flavor_id)
+          connection.flavors.get(flavor_id)
         end
 
         def image
           requires :image_id
-          connection.images.get(@image_id)
+          connection.images.get(image_id)
         end
 
         def private_key_path
-          File.expand_path(@private_key_path ||= Fog.credentials[:private_key_path])
+          @private_key_path ||= Fog.credentials[:private_key_path]
+          @private_key_path &&= File.expand_path(@private_key_path)
         end
 
         def private_key
-          @private_key ||= File.read(private_key_path)
+          @private_key ||= private_key_path && File.read(private_key_path)
         end
 
         def public_key_path
-          File.expand_path(@public_key_path ||= Fog.credentials[:public_key_path])
+          @public_key_path ||= Fog.credentials[:public_key_path]
+          @public_key_path &&= File.expand_path(@public_key_path)
         end
 
         def public_key
-          @public_key ||= File.read(public_key_path)
+          @public_key ||= public_key_path && File.read(public_key_path)
         end
 
         def ready?
-          @status == 'running'
+          status == 'running'
         end
 
         def reboot(type = 'SOFT')
           requires :id
-          connection.reboot_block(@id, type)
+          connection.reboot_block(id, type)
           true
         end
 
@@ -107,18 +109,11 @@ module Fog
 
         def ssh(commands)
           requires :identity, :ips, :private_key, :username
-          @ssh ||= Fog::SSH.new(ips.first['address'], username, :key_data => [private_key])
-          @ssh.run(commands)
+          Fog::SSH.new(ips.first['address'], username, :key_data => [private_key]).run(commands)
         end
 
         def username
           @username ||= 'deploy'
-        end
-
-        private
-
-        def product=(new_product)
-          @flavor_id = new_product['id']
         end
 
       end

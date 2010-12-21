@@ -20,7 +20,7 @@ module Fog
               path = file_path(key)
               {
                 :content_length => ::File.size(path),
-                :key            => key,
+                :key            => CGI.unescape(key),
                 :last_modified  => ::File.mtime(path)
               }
             end
@@ -32,7 +32,7 @@ module Fog
 
         def get(key, &block)
           requires :directory
-          path = file_path(key)
+          path = file_path(CGI.escape(key))
           if ::File.exists?(path)
             data = {
               :content_length => ::File.size(path),
@@ -45,12 +45,23 @@ module Fog
               file.close
               new(data)
             else
-              body = nil
-              ::File.open(path) do |file|
-                body = file.read
-              end
+              body = ::File.read(path)
               new(data.merge!(:body => body))
             end
+          else
+            nil
+          end
+        end
+
+        def head(key)
+          requires :directory
+          path = file_path(CGI.escape(key))
+          if ::File.exists?(path)
+            new({
+              :content_length => ::File.size(path),
+              :key            => key,
+              :last_modified  => ::File.mtime(path)
+            })
           else
             nil
           end

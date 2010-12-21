@@ -24,13 +24,13 @@ if Fog.mocking?
 
       it { should be_an_instance_of Fog::Vcloud::Terremark::Ecloud::Node }
 
-      its(:href)                  { should == @mock_node[:href] }
-      its(:identity)              { should == @mock_node[:href] }
-      its(:name)                  { should == @mock_node[:name] }
-      its(:id)                    { should == @mock_node[:id] }
-      its(:port)                  { should == @mock_node[:port] }
-      its(:enabled)               { should == @mock_node[:enabled] }
-      its(:description)           { should == @mock_node[:description] }
+      its(:href)                  { should == @mock_node.href }
+      its(:identity)              { should == @mock_node.href }
+      its(:name)                  { should == @mock_node.name }
+      its(:id)                    { should == @mock_node.object_id.to_s }
+      its(:port)                  { should == @mock_node.port.to_s }
+      its(:enabled)               { should == @mock_node.enabled.to_s }
+      its(:description)           { should == @mock_node.description }
 
     end
   end
