@@ -1,9 +1,9 @@
 module Fog
   module Zerigo
-    class Compute
+    class DNS
       class Real
 
-        require 'fog/zerigo/parsers/compute/find_hosts'
+        require 'fog/zerigo/parsers/dns/find_hosts'
 
         # Get list of all the host records that match the FQDN.  If desired, can limit
         # search to a specific zone
@@ -35,7 +35,7 @@ module Fog
             request(
               :expects  => 200,
               :method   => 'GET',
-              :parser   => Fog::Parsers::Zerigo::Compute::FindHosts.new,
+              :parser   => Fog::Parsers::Zerigo::DNS::FindHosts.new,
               :path     => "/api/1.1/hosts.xml?fqdn=#{fqdn}"
             )
           else
@@ -43,7 +43,7 @@ module Fog
             request(
               :expects  => 200,
               :method   => 'GET',
-              :parser   => Fog::Parsers::Zerigo::Compute::FindHosts.new,
+              :parser   => Fog::Parsers::Zerigo::DNS::FindHosts.new,
               :path     => "/api/1.1/zones/#{zone_id}/hosts.xml?fqdn=#{fqdn}"
             )
           end

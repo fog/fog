@@ -1,9 +1,9 @@
 module Fog
   module Parsers
     module Zerigo
-      module Compute
+      module DNS
 
-        class CountHosts < Fog::Parsers::Base
+        class GetZoneStats < Fog::Parsers::Base
 
           def reset
             @response = {}
@@ -11,9 +11,11 @@ module Fog
 
           def end_element(name)
             case name
-            when 'count'
+            when 'id', 'queries'
               @response[name] = @value.to_i
-            end
+            when 'domain', 'period-begin', 'period-end'
+              @response[name] = @value
+            end            
           end
 
         end

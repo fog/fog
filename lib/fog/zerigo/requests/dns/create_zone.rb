@@ -1,9 +1,9 @@
 module Fog
   module Zerigo
-    class Compute
+    class DNS
       class Real
 
-        require 'fog/zerigo/parsers/compute/create_zone'
+        require 'fog/zerigo/parsers/dns/create_zone'
 
         # Create a new zone for Zerigo's DNS servers to serve/host
         # ==== Parameters
@@ -78,7 +78,7 @@ module Fog
             :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><zone><domain>#{domain}</domain><default-ttl type="integer">#{default_ttl}</default-ttl><ns-type>#{ns_type}</ns-type>#{optional_tags}</zone>},
             :expects  => 201,
             :method   => 'POST',
-            :parser   => Fog::Parsers::Zerigo::Compute::CreateZone.new,
+            :parser   => Fog::Parsers::Zerigo::DNS::CreateZone.new,
             :path     => '/api/1.1/zones.xml'
           )
         end

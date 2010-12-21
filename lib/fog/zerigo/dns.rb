@@ -1,15 +1,15 @@
 module Fog
   module Zerigo
-    class Compute < Fog::Service
+    class DNS < Fog::Service
 
-      requires :zerigo_email, :zerigo_password
+      requires :zerigo_email, :zerigo_token
       recognizes :timeout, :persistent
 
-      # model_path 'fog/zerigo/models/compute'
+      # model_path 'fog/zerigo/models/dns'
       # model       :server
       # collection  :servers
 
-      request_path 'fog/zerigo/requests/compute'
+      request_path 'fog/zerigo/requests/dns'
       request :list_zones
       request :count_zones
       request :get_zone
@@ -41,7 +41,7 @@ module Fog
 
         def initialize(options={})
           @zerigo_email = options[:zerigo_email]
-          @zerigo_password = options[:zerigo_password]
+          @zerigo_token = options[:zerigo_token]
           @data = self.class.data[@zerigo_email]
           @data = self.class.data[@zerigo_password]
         end
@@ -52,7 +52,7 @@ module Fog
 
         def initialize(options={})
           @zerigo_email     = options[:zerigo_email]
-          @zerigo_password  = options[:zerigo_password]
+          @zerigo_token  = options[:zerigo_token]
           @host   = options[:host]    || "ns.zerigo.com"
           @port   = options[:port]    || 80
           @scheme = options[:scheme]  || 'http'
@@ -65,7 +65,7 @@ module Fog
 
         def request(params)
           params[:headers] ||= {}
-          key= "#{@zerigo_email}:#{@zerigo_password}"
+          key= "#{@zerigo_email}:#{@zerigo_token}"
           params[:headers].merge!({
             'Authorization' => "Basic #{Base64.encode64(key).delete("\r\n")}"
           })
@@ -81,7 +81,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Zerigo::Compute::NotFound.slurp(error)
+              Fog::Zerigo::DNS::NotFound.slurp(error)
             else
               error
             end

@@ -1,9 +1,9 @@
 module Fog
   module Zerigo
-    class Compute
+    class DNS
       class Real
 
-        require 'fog/zerigo/parsers/compute/get_zone_stats'
+        require 'fog/zerigo/parsers/dns/get_zone_stats'
 
         # returns current traffic statistics about this zone. Queries is measured from the 
         # beginning of the current period through the time of the API call.
@@ -25,7 +25,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Zerigo::Compute::GetZoneStats.new,
+            :parser   => Fog::Parsers::Zerigo::DNS::GetZoneStats.new,
             :path     => "/api/1.1/zones/#{zone_id}/stats.xml"
           )
         end

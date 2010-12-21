@@ -1,6 +1,6 @@
 module Fog
   module Zerigo
-    class Compute
+    class DNS
       class Real
 
         # Delete a host record 

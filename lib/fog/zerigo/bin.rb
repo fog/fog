@@ -3,8 +3,8 @@ class Zerigo < Fog::Bin
 
     def class_for(key)
       case key
-      when :compute
-        Fog::Zerigo::Compute
+      when :dns
+        Fog::Zerigo::DNS
       else 
         raise ArgumentError, "Unrecognized service: #{key}"
       end
@@ -18,7 +18,7 @@ class Zerigo < Fog::Bin
     end
 
     def services
-      [:compute]
+      [:dns]
     end
 
   end

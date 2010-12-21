@@ -1,9 +1,9 @@
 module Fog
   module Zerigo
-    class Compute
+    class DNS
       class Real
 
-        require 'fog/zerigo/parsers/compute/get_host'
+        require 'fog/zerigo/parsers/dns/get_host'
 
         # get details about a given host record
         #
@@ -28,7 +28,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Zerigo::Compute::GetHost.new,
+            :parser   => Fog::Parsers::Zerigo::DNS::GetHost.new,
             :path     => "/api/1.1/hosts/#{host_id}.xml"
           )
         end

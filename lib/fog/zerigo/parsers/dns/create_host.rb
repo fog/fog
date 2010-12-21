@@ -1,9 +1,9 @@
 module Fog
   module Parsers
     module Zerigo
-      module Compute
+      module DNS
 
-        class CountZones < Fog::Parsers::Base
+        class CreateHost < Fog::Parsers::Base
 
           def reset
             @response = {}
@@ -11,8 +11,10 @@ module Fog
 
           def end_element(name)
             case name
-            when 'count'
+            when 'id', 'priority', 'ttl', 'zone-id'
               @response[name] = @value.to_i
+            when 'data', 'fqdn', 'host-type', 'hostname', 'notes', 'zone-id', 'created-at', 'updated-at'
+              @response[name] = @value
             end
           end
 

@@ -1,7 +1,7 @@
 module Fog
   module Parsers
     module Zerigo
-      module Compute
+      module DNS
 
         class CreateZone < Fog::Parsers::Base
 

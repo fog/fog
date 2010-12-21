@@ -1,9 +1,9 @@
 module Fog
   module Parsers
     module Zerigo
-      module Compute
+      module DNS
 
-        class FindHosts < Fog::Parsers::Base
+        class ListHosts < Fog::Parsers::Base
 
           def reset
             @host = {}

@@ -1,9 +1,9 @@
 module Fog
   module Zerigo
-    class Compute
+    class DNS
       class Real
 
-        require 'fog/zerigo/parsers/compute/get_zone'
+        require 'fog/zerigo/parsers/dns/get_zone'
 
         # Get details of a DNS zone. The response is similar to list_zones, with the 
         # addition of hosts-count and possibly hosts.
@@ -38,7 +38,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Zerigo::Compute::GetZone.new,
+            :parser   => Fog::Parsers::Zerigo::DNS::GetZone.new,
             :path     => "/api/1.1/zones/#{zone}.xml"
           )
         end
