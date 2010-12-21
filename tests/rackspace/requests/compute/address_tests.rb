@@ -2,7 +2,7 @@ Shindo.tests('Rackspace::Compute | address requests', ['rackspace']) do
 
   tests('success') do
 
-    @server = Rackspace[:compute].servers.create(:flavor_id => 1, :image_id => 19, :name => 'foglistaddresses')
+    @server = Rackspace[:compute].servers.create(:flavor_id => 1, :image_id => 19)
 
     tests("#list_addresses(#{@server.id})").formats({'addresses' => {'private' => [String], 'public' => [String]}}) do
       Rackspace[:compute].list_addresses(@server.id).body

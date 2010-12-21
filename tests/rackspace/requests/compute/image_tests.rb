@@ -14,7 +14,7 @@ Shindo.tests('Rackspace::Compute | image requests', ['rackspace']) do
 
   tests('success') do
 
-    @server = Rackspace[:compute].servers.create(:flavor_id => 1, :image_id => 19, :name => 'foggetserverdetails')
+    @server = Rackspace[:compute].servers.create(:flavor_id => 1, :image_id => 19)
     @server.wait_for { ready? }
     @image_id = nil
 
