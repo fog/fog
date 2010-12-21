@@ -15,6 +15,7 @@ module Fog
       request :delete_group_policy
       request :delete_user
       request :delete_user_policy
+      request :get_user
       request :list_access_keys
       request :list_groups
       request :list_group_policies
