@@ -3,6 +3,7 @@
 *.sw?
 .bundle
 .DS_Store
+_site/*
 coverage
 doc/*
 rdoc
