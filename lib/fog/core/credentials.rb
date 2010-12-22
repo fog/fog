@@ -31,8 +31,12 @@ module Fog
   # @raise [LoadError] Configuration unavailable in configuration file
   def self.credentials
     @credentials  ||= begin
-      credentials = YAML.load_file(credentials_path)
-      (credentials && credentials[credential]) or raise LoadError.new missing_credentials
+      if File.exists?(credentials_path)
+        credentials = YAML.load_file(credentials_path)
+        (credentials && credentials[credential]) or raise LoadError.new missing_credentials
+      else
+        {}
+      end
     end
   end
 
