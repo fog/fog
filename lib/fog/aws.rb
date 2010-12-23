@@ -58,7 +58,7 @@ module Fog
           body << "#{key}=#{CGI.escape(value.to_s).gsub(/\+/, '%20')}&"
         end
       end
-      string_to_sign = "POST\n#{options[:host]}\n#{options[:path]}\n" << body.chop
+      string_to_sign = "POST\n#{options[:host]}:#{options[:port]}\n#{options[:path]}\n" << body.chop
       signed_string = options[:hmac].sign(string_to_sign)
       body << "Signature=#{CGI.escape(Base64.encode64(signed_string).chomp!).gsub(/\+/, '%20')}"
 

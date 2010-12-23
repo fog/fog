@@ -140,6 +140,7 @@ module Fog
               :hmac               => @hmac,
               :host               => @host,
               :path               => @path,
+              :port               => @port,
               :version            => '2009-04-15'
             }
           )
