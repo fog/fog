@@ -36,7 +36,13 @@ module Fog
           options[:notes]     = notes if notes
           options[:priority]  = priority if priority
           options[:ttl]       = ttl if ttl
-          data = connection.create_host(@zone.id, type, ip, options)
+          data = unless identity
+            connection.create_host(@zone.id, type, ip, options)
+          else
+            options[:host_type] = type
+            options[:data]      = data
+            connection.update_host(identity, options)
+          end
           merge_attributes(data.body)
           true
         end
