@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    fog (0.3.33)
+    fog (0.3.34)
       builder
-      excon (>= 0.3.3)
+      excon (>= 0.3.6)
       formatador (>= 0.0.16)
       json
       mime-types
