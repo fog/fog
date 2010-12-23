@@ -26,7 +26,7 @@ class Slicehost < Fog::Bin
     end
 
     def services
-      [:compute]
+      [:compute, :dns]
     end
 
   end

@@ -17,7 +17,7 @@ module Fog
         #     * 'ttl'<~Integer> - time to live in seconds
         #     * 'active'<~String> - whether this record is active or not ('Y' or 'N')
         #     * 'aux'<~String> - extra data required by the record
-        def get_record( record_id)
+        def get_record(record_id)
           request(
             :expects  => 200,
             :method   => 'GET',

@@ -24,8 +24,7 @@ module Fog
         #     * 'data'<~String> - as above
         #     * 'active'<~String> - as above
         #     * 'aux'<~String> - as above
-        def create_record( record_type, zone_id, name, data, options = {})
-          
+        def create_record(record_type, zone_id, name, data, options = {})
           optional_tags= ''
           options.each { |option, value|
             case option
@@ -51,7 +50,7 @@ module Fog
 
       class Mock
 
-        def create_record( record_type, zone_id, name, data)
+        def create_record(record_type, zone_id, name, data)
           Fog::Mock.not_implemented
         end
 

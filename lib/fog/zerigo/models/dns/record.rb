@@ -19,6 +19,11 @@ module Fog
         attribute :updated_at,  :aliases => 'updated-at'
         attribute :zone_id,     :aliases => 'zone-id'
 
+        def initialize(attributes={})
+          self.ttl    ||= 3600
+          super
+        end
+
         def destroy
           requires :identity
           connection.delete_host(identity)

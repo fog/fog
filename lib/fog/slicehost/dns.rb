@@ -6,6 +6,10 @@ module Fog
       recognizes :host, :port, :scheme, :persistent
 
       model_path 'fog/slicehost/models/dns'
+      model       :record
+      collection  :records
+      model       :zone
+      collection  :zones
 
       request_path 'fog/slicehost/requests/dns'
       request :create_record
