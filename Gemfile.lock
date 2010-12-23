@@ -15,7 +15,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     builder (3.0.0)
-    excon (0.3.3)
+    excon (0.3.6)
     formatador (0.0.16)
     gestalt (0.0.11)
       formatador (>= 0.0.12)
@@ -35,7 +35,7 @@ PLATFORMS
 
 DEPENDENCIES
   builder
-  excon (>= 0.3.3)
+  excon (>= 0.3.6)
   fog!
   formatador (>= 0.0.16)
   json
