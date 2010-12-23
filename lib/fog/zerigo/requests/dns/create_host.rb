@@ -31,7 +31,7 @@ module Fog
         #     * 'updated-at'<~String>
         #     * 'zone-id'<~String>
         #   * 'status'<~Integer> - 201 if successful        
-        def create_host( zone_id, host_type, data, options = {} )
+        def create_host(zone_id, host_type, data, options = {})
           
           optional_tags= ''
           options.each { |option, value|

@@ -5,25 +5,27 @@ module Fog
       requires :zerigo_email, :zerigo_token
       recognizes :timeout, :persistent
 
-      # model_path 'fog/zerigo/models/dns'
-      # model       :server
-      # collection  :servers
+      model_path 'fog/zerigo/models/dns'
+      model       :record
+      collection  :records
+      model       :zone
+      collection  :zones
 
       request_path 'fog/zerigo/requests/dns'
-      request :list_zones
+      request :count_hosts
       request :count_zones
+      request :create_host
+      request :create_zone
+      request :delete_host
+      request :delete_zone
+      request :find_hosts
+      request :get_host
       request :get_zone
       request :get_zone_stats
-      request :create_zone
-      request :update_zone
-      request :delete_zone
+      request :list_zones
       request :list_hosts
-      request :find_hosts
-      request :count_hosts
-      request :get_host
-      request :create_host
       request :update_host
-      request :delete_host
+      request :update_zone
 
       class Mock
 
