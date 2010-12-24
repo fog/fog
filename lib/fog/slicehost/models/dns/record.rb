@@ -9,11 +9,11 @@ module Fog
         identity :id
 
         attribute :active
-        attribute :ip,      :aliases => 'ip'
+        attribute :ip,          :aliases => 'ip'
         attribute :name
-        attribute :notes,   :aliases => 'aux'
+        attribute :description, :aliases => 'aux'
         attribute :ttl
-        attribute :type,    :aliases => 'record_type'
+        attribute :type,        :aliases => 'record_type'
         attribute :zone_id
 
         def initialize(attributes={})

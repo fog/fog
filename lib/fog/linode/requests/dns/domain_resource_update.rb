@@ -26,7 +26,7 @@ module Fog
         #   * body<~Hash>:
         #     * DATA<~Hash>:
         #       * 'ResourceID'<~Integer>: ID of the resource record updated
-        def domain_resource_update( domain_id, resource_id, options = {})
+        def domain_resource_update(domain_id, resource_id, options = {})
 
           query= {}
           request(
@@ -44,7 +44,7 @@ module Fog
 
       class Mock
 
-        def domain_resource_update( domain_id, resource_id, options = {})
+        def domain_resource_update(domain_id, resource_id, options = {})
           Fog::Mock.not_implemented
         end
 

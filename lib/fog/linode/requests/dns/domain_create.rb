@@ -24,8 +24,7 @@ module Fog
         #   * body<~Hash>:
         #     * DATA<~Hash>:
         #       * 'DomainID'<~Integer>: domain ID
-        def domain_create( domain, type, options = {})
-
+        def domain_create(domain, type, options = {})
           query= {}
           request(
             :expects  => 200,
@@ -42,7 +41,7 @@ module Fog
 
       class Mock
 
-        def domain_create( domain, type, options ={})
+        def domain_create(domain, type, options ={})
           Fog::Mock.not_implemented
         end
 

@@ -26,11 +26,14 @@ module Fog
         #       * 'DOMAINID'<~Interger>: ID of the domain that this record belongs to
         #       * 'NAME'<~Interger>: The hostname or FQDN. When Type=MX, the subdomain to delegate to        
         def domain_resource_list(domain_id, resource_id = nil)
-          
+          query = { :api_action => 'domain.resource.list', :domainID => domain_id }
+          if resource_id
+            query[:resourceID] = resource_id
+          end
           request(
             :expects  => 200,
             :method   => 'GET',
-            :query    => { :api_action => 'domain.resource.list', :domainID => domain_id, :resourceID => resource_id }
+            :query    => query
           )
         end
 

@@ -24,7 +24,7 @@ module Fog
         #   * body<~Hash>:
         #     * DATA<~Hash>:
         #       * 'DomainID'<~Integer>: domain ID
-        def domain_update( domain_id, options = {})
+        def domain_update(domain_id, options = {})
           
           request(
             :expects  => 200,
@@ -38,7 +38,7 @@ module Fog
 
       class Mock
 
-        def domain_update(datacenter_id, payment_term, plan_id)
+        def domain_update(domain_id, options = {})
           Fog::Mock.not_implemented
         end
 

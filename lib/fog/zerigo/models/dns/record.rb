@@ -12,7 +12,7 @@ module Fog
         attribute :ip,          :aliases => 'data'
         attribute :domain,      :aliases => 'fqdn'
         attribute :name,        :aliases => 'hostname'
-        attribute :notes
+        attribute :description, :aliases => 'notes'
         attribute :priority
         attribute :ttl
         attribute :type,        :aliases => 'host-type'

@@ -11,7 +11,7 @@ module Fog
         # * options<~Hash>
         #   * name<~String>: The hostname or FQDN. When Type=MX the subdomain to delegate to the 
         #                    Target MX server
-        #   * targe<~String> When Type=MX the hostname. When Type=CNAME the target of the alias. 
+        #   * target<~String> When Type=MX the hostname. When Type=CNAME the target of the alias.
         #                    When Type=TXT the value of the record. When Type=A or AAAA the token 
         #                    of '[remote_addr]' will be substituted with the IP address of the request. 
         #   * priority<~Integer>: priority for MX and SRV records, 0-255 - default: 10 
@@ -25,7 +25,7 @@ module Fog
         #   * body<~Hash>:
         #     * DATA<~Hash>:
         #       * 'ResourceID'<~Integer>: ID of the resource record created
-        def domain_resource_create( domain_id, type, options = {})
+        def domain_resource_create(domain_id, type, options = {})
 
           query= {}
           request(
@@ -43,7 +43,7 @@ module Fog
 
       class Mock
 
-        def domain_resource_create( domain_id, type, options = {})
+        def domain_resource_create(domain_id, type, options = {})
           Fog::Mock.not_implemented
         end
 
