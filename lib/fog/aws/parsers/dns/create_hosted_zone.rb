@@ -17,7 +17,7 @@ module Fog
             if @section == :hosted_zone
               case name
               when 'Id'
-                @hosted_zone[name]= @value.sub('/hostedzone/', '')
+                @hosted_zone[name] = @value.sub('/hostedzone/', '')
               when 'Name', 'CallerReference', 'Comment'
                 @hosted_zone[name]= @value
               when 'HostedZone'

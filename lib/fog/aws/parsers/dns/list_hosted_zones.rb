@@ -13,7 +13,9 @@ module Fog
 
           def end_element(name)
             case name
-            when 'Id', 'Name', 'CallerReference', 'Comment'
+            when 'Id'
+              @zone[name] = @value.sub('/hostedzone/', '')
+            when 'Name', 'CallerReference', 'Comment'
               @zone[name] = @value
             when 'HostedZone'
               @hosted_zones << @zone
