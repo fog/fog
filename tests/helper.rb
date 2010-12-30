@@ -14,11 +14,6 @@ require 'helpers/compute/flavors_tests'
 require 'helpers/compute/server_tests'
 require 'helpers/compute/servers_tests'
 
-require 'helpers/storage/directory_tests'
-require 'helpers/storage/directories_tests'
-require 'helpers/storage/file_tests'
-require 'helpers/storage/files_tests'
-
 # Use so you can run in mock mode from the command line:
 #
 # FOG_MOCK=true fog

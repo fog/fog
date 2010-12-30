@@ -1,11 +1,16 @@
-def file_tests(connection, params = {}, mocks_implemented = true)
+for provider, config in dns_providers
 
-  params = {:key => 'fog_file_tests', :body => lorem_file, :public => true}.merge!(params)
+  params = {
+    :key => 'fog_file_tests',
+    :body => lorem_file,
+    :public => true
+  }.merge!(config[:directory_params] || {})
 
   if !Fog.mocking? || mocks_implemented
-    @directory = connection.directories.create(:key => 'fogfilestests')
 
-    model_tests(@directory.files, params, mocks_implemented) do
+    @directory = provider[:storage].directories.create(:key => 'fogfilestests')
+
+    model_tests(@directory.files, params, config[:mocked]) do
 
       responds_to(:public_url)
 
@@ -22,6 +27,7 @@ def file_tests(connection, params = {}, mocks_implemented = true)
     end
 
     @directory.destroy
+
   end
 
 end

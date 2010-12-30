@@ -1,8 +1,10 @@
-def directory_tests(connection, params = {}, mocks_implemented = true)
+for provider, config in dns_providers
 
-  params = {:key => 'fogdirectorytests'}.merge!(params)
+  params = {
+    :key => 'fogdirectorytests'
+  }.merge!(config[:directory_params] || {})
 
-  model_tests(connection.directories, params, mocks_implemented) do
+  model_tests(provider[:storage].directory, params, config[:mocked]) do
 
     tests("#public=(true)").succeeds do
       pending if Fog.mocking? && !mocks_implemented
