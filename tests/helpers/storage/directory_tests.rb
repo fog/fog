@@ -10,7 +10,7 @@ def directory_tests(connection, params = {}, mocks_implemented = true)
     end
 
     if !Fog.mocking? || mocks_implemented
-      responds_to(:public_url)
+      @instance.responds_to(:public_url)
     end
 
   end

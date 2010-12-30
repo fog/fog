@@ -14,6 +14,11 @@ require 'helpers/compute/flavors_tests'
 require 'helpers/compute/server_tests'
 require 'helpers/compute/servers_tests'
 
+require 'helpers/dns/record_tests'
+require 'helpers/dns/records_tests'
+require 'helpers/dns/zone_tests'
+require 'helpers/dns/zones_tests'
+
 require 'helpers/storage/directory_tests'
 require 'helpers/storage/directories_tests'
 require 'helpers/storage/file_tests'
