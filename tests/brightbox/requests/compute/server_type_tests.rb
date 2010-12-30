@@ -27,6 +27,7 @@ Shindo.tests('Brightbox::Compute | server type requests', ['brightbox']) do
       pending if Fog.mocking?
       Brightbox[:compute].get_server_type
     end
+
   end
 
 end

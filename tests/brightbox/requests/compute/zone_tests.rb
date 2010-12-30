@@ -27,6 +27,7 @@ Shindo.tests('Brightbox::Compute | zone requests', ['brightbox']) do
       pending if Fog.mocking?
       Brightbox[:compute].get_zone
     end
+
   end
 
 end

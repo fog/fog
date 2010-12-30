@@ -36,6 +36,23 @@ class Brightbox
       IMAGE_IDENTIFER = "img-9vxqi"
     end
     module Formats
+      module Struct
+        LB_LISTENER = {
+          "in"              => Integer,
+          "out"             => Integer,
+          "protocol"        => String
+        }
+        LB_HEALTHCHECK = {
+          "type"            => String,
+          "request"         => String,
+          "port"            => Integer,
+          "interval"        => Integer,
+          "timeout"         => Integer,
+          "threshold_up"    => Integer,
+          "threshold_down"  => Integer
+        }
+      end
+
       module Nested
         ACCOUNT = {
           "name"            => String,
@@ -168,6 +185,16 @@ class Brightbox
           "virtual_size"    => Integer,
           "disk_size"       => Integer,
           "ancestor"        => Fog::Brightbox::Nullable::Image
+        }
+
+        LOAD_BALANCER = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "status"          => String,
+          "created_at"      => String,
+          "deleted_at"      => Fog::Brightbox::Nullable::String
         }
 
         SERVER = {
@@ -303,6 +330,21 @@ class Brightbox
           "server"          => Brightbox::Compute::Formats::Nested::SERVER
         }
 
+        LOAD_BALANCER = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "status"          => String,
+          "listeners"       => [Brightbox::Compute::Formats::Struct::LB_LISTENER],
+          "policy"          => String,
+          "healthcheck"     => Brightbox::Compute::Formats::Struct::LB_HEALTHCHECK,
+          "created_at"      => String,
+          "deleted_at"      => Fog::Brightbox::Nullable::String,
+          "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
+          "nodes"           => [Brightbox::Compute::Formats::Nested::SERVER]
+        }
+
         SERVER = {
           "id"              => String,
           "resource_type"   => String,
@@ -353,12 +395,14 @@ class Brightbox
           "url"             => String,
           "handle"          => Fog::Brightbox::Nullable::String
         }
+
       end
 
       module Collection
         API_CLIENTS = [Brightbox::Compute::Formats::Collected::API_CLIENT]
         CLOUD_IPS = [Brightbox::Compute::Formats::Collected::CLOUD_IP]
         IMAGES = [Brightbox::Compute::Formats::Collected::IMAGE]
+        LOAD_BALANCERS = [Brightbox::Compute::Formats::Collected::LOAD_BALANCER]
         SERVERS = [Brightbox::Compute::Formats::Collected::SERVER]
         SERVER_TYPES = [Brightbox::Compute::Formats::Collected::SERVER_TYPE]
         USERS = [Brightbox::Compute::Formats::Collected::USER]

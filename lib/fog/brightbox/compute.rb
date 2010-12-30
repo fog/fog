@@ -15,6 +15,8 @@ module Fog
       model :flavor
       collection :images
       model :image
+      collection :load_balancers
+      model :load_balancer
       collection :zones
       model :zone
       collection :cloud_ips
@@ -23,19 +25,23 @@ module Fog
       model :user
 
       request_path 'fog/brightbox/requests/compute'
+      request :add_nodes_load_balancer
       request :create_api_client
       request :create_cloud_ip
       request :create_image
+      request :create_load_balancer
       request :create_server
       request :destroy_api_client
       request :destroy_cloud_ip
       request :destroy_image
+      request :destroy_load_balancer
       request :destroy_server
       request :get_account
       request :get_api_client
       request :get_cloud_ip
       request :get_image
       request :get_interface
+      request :get_load_balancer
       request :get_server
       request :get_server_type
       request :get_user
@@ -43,11 +49,13 @@ module Fog
       request :list_api_clients
       request :list_cloud_ips
       request :list_images
+      request :list_load_balancers
       request :list_server_types
       request :list_servers
       request :list_users
       request :list_zones
       request :map_cloud_ip
+      request :remove_nodes_load_balancer
       request :reset_ftp_password_account
       request :resize_server
       request :shutdown_server
@@ -58,6 +66,7 @@ module Fog
       request :update_account
       request :update_api_client
       request :update_image
+      request :update_load_balancer
       request :update_server
       request :update_user
 
