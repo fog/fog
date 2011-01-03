@@ -1,18 +1,22 @@
-for provider, config in dns_providers
+for provider, config in storage_providers
 
-  params = {
-    :key => 'fogdirectorytests'
-  }.merge!(config[:directory_params] || {})
+  Shindo.tests("#{provider}::Storage | directory", [provider.to_s.downcase]) do
 
-  model_tests(provider[:storage].directory, params, config[:mocked]) do
+    params = {
+      :key => 'fogdirectorytests'
+    }.merge!(config[:directory_params] || {})
 
-    tests("#public=(true)").succeeds do
-      pending if Fog.mocking? && !mocks_implemented
-      @instance.public=(true)
-    end
+    model_tests(provider[:storage].directory, params, config[:mocked]) do
 
-    if !Fog.mocking? || mocks_implemented
-      @instance.responds_to(:public_url)
+      tests("#public=(true)").succeeds do
+        pending if Fog.mocking? && !config[:mocked]
+        @instance.public=(true)
+      end
+
+      if !Fog.mocking? || config[:mocked]
+        @instance.responds_to(:public_url)
+      end
+
     end
 
   end

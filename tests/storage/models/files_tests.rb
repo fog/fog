@@ -1,17 +1,21 @@
-for provider, config in dns_providers
+for provider, config in storage_providers
 
-  params = {
-    :key => 'fog_files_tests',
-    :body => lorem_file
-  }.merge!(config[:files_params] || {})
+  Shindo.tests("#{provider}::Storage | files", [provider.to_s.downcase]) do
 
-  if !Fog.mocking? || mocks_implemented
+    params = {
+      :key => 'fog_files_tests',
+      :body => lorem_file
+    }.merge!(config[:files_params] || {})
 
-    @directory = provider.directories.create(:key => 'fogfilestests')
+    if !Fog.mocking? || config[:mocked]
 
-    collection_tests(@directory.files, params, config[:mocked])
+      @directory = provider.directories.create(:key => 'fogfilestests')
 
-    @directory.destroy
+      collection_tests(@directory.files, params, config[:mocked])
+
+      @directory.destroy
+
+    end
 
   end
 

@@ -1,9 +1,13 @@
-for provider, config in dns_providers
+for provider, config in storage_providers
 
-  params = {
-    :key => 'fogdirectoriestests',
-  }.merge!(config[:directories_params] || {})
+  Shindo.tests("#{provider}::Storage | directories", [provider.to_s.downcase]) do
 
-  collection_tests(provider[:storage].directories, params, config[:mocked])
+    params = {
+      :key => 'fogdirectoriestests',
+    }.merge!(config[:directories_params] || {})
+
+    collection_tests(provider[:storage].directories, params, config[:mocked])
+
+  end
 
 end
