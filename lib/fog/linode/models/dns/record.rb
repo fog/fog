@@ -25,8 +25,8 @@ module Fog
         end
 
         def destroy
-          requires :identity
-          connection.domain_resource_delete(identity)
+          requires :identity, :zone
+          connection.domain_resource_delete(zone.id, identity)
           true
         end
 
@@ -46,13 +46,13 @@ module Fog
           options[:priority]  = priority if priority
           options[:target]    = ip if ip
           options[:ttl_sec]   = ttl if ttl
-          data = unless identity
-            connection.domain_resource_create(zone.id, type)
+          response = unless identity
+            connection.domain_resource_create(zone.identity, type, options)
           else
             options[:type] = type if type
-            connection.domain_resource_update(zone.id, identity, optionts)
+            connection.domain_resource_update(zone.identity, identity, options)
           end
-          merge_attributes(data.body)
+          merge_attributes(response.body['DATA'])
           true
         end
 

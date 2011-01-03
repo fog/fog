@@ -20,7 +20,7 @@ module Fog
         def get(record_id)
           data = connection.get_record(record_id).body
           new(data)
-        rescue Excon::Errors::NotFound
+        rescue Excon::Errors::Forbidden
           nil
         end
 

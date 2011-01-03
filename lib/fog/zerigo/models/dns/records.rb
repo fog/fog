@@ -25,7 +25,7 @@ module Fog
         def get(record_id)
           data = connection.get_host(record_id).body
           new(data)
-        rescue Excon::Errors::NotFound
+        rescue Fog::Service::NotFound
           nil
         end
 

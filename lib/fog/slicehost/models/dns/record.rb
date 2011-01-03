@@ -46,7 +46,7 @@ module Fog
           requires :ip, :name, :type, :zone
           options = {}
           options[:active]  = active ? 'Y' : 'N'
-          options[:aux]     = notes if notes
+          options[:aux]     = description if description
           options[:ttl]     = ttl if ttl
           data = connection.create_record(type, zone.id, name, ip, options)
           merge_attributes(data.body)

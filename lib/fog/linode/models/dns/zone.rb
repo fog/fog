@@ -7,7 +7,7 @@ module Fog
 
       class Zone < Fog::Model
 
-        identity :id,           :aliases => ['DOMAINID', 'ResourceID']
+        identity :id,           :aliases => ['DomainID', 'DOMAINID', 'ResourceID']
 
         attribute :description, :aliases => 'DESCRIPTION'
         attribute :domain,      :aliases => 'DOMAIN'
@@ -66,14 +66,14 @@ module Fog
           options[:description] = description if description
           options[:soa_email]   = email if email
           options[:ttl_sec]     = ttl if ttl
-          data = unless identity
-            connection.domain_create(domain, type, options).body['DATA']
+          response = unless identity
+            connection.domain_create(domain, type, options)
           else
             options[:domain]  = domain if domain
             options[:type]    = type if type
             connection.domain_update(identity, options)
           end
-          merge_attributes(data)
+          merge_attributes(response.body['DATA'])
           true
         end
 

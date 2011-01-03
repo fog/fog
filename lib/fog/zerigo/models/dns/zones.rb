@@ -19,7 +19,7 @@ module Fog
           zone = new(data)
           zone.records.load(data['hosts'])
           zone
-        rescue Excon::Errors::Forbidden
+        rescue Fog::Service::NotFound
           nil
         end
 

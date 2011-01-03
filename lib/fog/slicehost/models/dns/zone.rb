@@ -36,7 +36,7 @@ module Fog
 
         def records
           @records ||= begin
-            Fog::Zerigo::DNS::Records.new(
+            Fog::Slicehost::DNS::Records.new(
               :zone       => self,
               :connection => connection
             )

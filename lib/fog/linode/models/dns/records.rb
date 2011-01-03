@@ -18,10 +18,11 @@ module Fog
         end
 
         def get(record_id)
-          data = connection.domain_resource_list(zone.id, record_id).body['DATA']
-          new(data)
-        rescue Excon::Errors::NotFound
-          nil
+          if data = connection.domain_resource_list(zone.id, record_id).body['DATA'].first
+            new(data)
+          else
+            nil
+          end
         end
 
         def new(attributes = {})

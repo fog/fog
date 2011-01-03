@@ -15,10 +15,11 @@ module Fog
         end
 
         def get(zone_id)
-          data = connection.domain_list(zone_id).body['DATA']
-          new(data)
-        rescue Excon::Errors::Forbidden
-          nil
+          if data = connection.domain_list(zone_id).body['DATA'].first
+            new(data)
+          else
+            nil
+          end
         end
 
       end

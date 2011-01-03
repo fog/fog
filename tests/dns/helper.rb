@@ -4,7 +4,10 @@ def dns_providers
       :mocked => false
     },
     Linode    => {
-      :mocked => false
+      :mocked => false,
+      :zone_attributes => {
+        :email => 'fog@example.com'
+      }
     },
     Slicehost => {
       :mocked => false

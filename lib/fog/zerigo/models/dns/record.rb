@@ -38,7 +38,7 @@ module Fog
           requires :zone, :type, :ip
           options = {}
           options[:hostname]  = name if name
-          options[:notes]     = notes if notes
+          options[:notes]     = description if description
           options[:priority]  = priority if priority
           options[:ttl]       = ttl if ttl
           data = unless identity
