@@ -6,6 +6,8 @@ module Fog
       recognizes :host, :path, :port, :scheme, :version, :persistent
 
       model_path 'fog/aws/models/dns'
+      model       :record
+      collection  :records
       model       :zone
       collection  :zones
 

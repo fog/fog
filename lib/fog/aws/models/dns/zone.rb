@@ -22,12 +22,12 @@ module Fog
         end
 
         def records
-          # @records ||= begin
-          #   Fog::Linode::DNS::Records.new(
-          #     :zone       => self,
-          #     :connection => connection
-          #   )
-          # end
+          @records ||= begin
+            Fog::AWS::DNS::Records.new(
+              :zone       => self,
+              :connection => connection
+            )
+          end
         end
 
         def save
