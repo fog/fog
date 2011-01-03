@@ -2,11 +2,11 @@ for provider, config in dns_providers
 
   Shindo.tests("#{provider}::DNS | zones", [provider.to_s.downcase]) do
 
-    params = {
+    attributes = {
       :domain => 'fogzonestests.com'
-    }.merge!(config[:zones_params] || {})
+    }.merge!(config[:zones_attributes] || {})
 
-    collection_tests(provider[:dns].zones, params, config[:mocked])
+    collection_tests(provider[:dns].zones, attributes, config[:mocked])
 
   end
 

@@ -2,17 +2,17 @@ for provider, config in storage_providers
 
   Shindo.tests("#{provider}::Storage | file", [provider.to_s.downcase]) do
 
-    params = {
+    attributes = {
       :key => 'fog_file_tests',
       :body => lorem_file,
       :public => true
-    }.merge!(config[:directory_params] || {})
+    }.merge!(config[:directory_attributes] || {})
 
     if !Fog.mocking? || config[:mocked]
 
       @directory = provider[:storage].directories.create(:key => 'fogfilestests')
 
-      model_tests(@directory.files, params, config[:mocked]) do
+      model_tests(@directory.files, attributes, config[:mocked]) do
 
         responds_to(:public_url)
 
