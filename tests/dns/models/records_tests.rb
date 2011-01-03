@@ -8,7 +8,7 @@ for provider, config in dns_providers
       :type => 'A'
     }.merge!(config[:records_params] || {})
 
-    if !Fog.mocking? || provider[:mocked]
+    if !Fog.mocking? || config[:mocked]
       @zone = provider[:dns].zones.create(:domain => 'fogrecordstests.com')
 
       collection_tests(@zone.records, params, config[:mocked])
