@@ -1,20 +1,7 @@
 require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
 require 'fog/core/bin'
 
-__DIR__ = File.dirname(__FILE__)
-
-$LOAD_PATH.unshift __DIR__ unless
-  $LOAD_PATH.include?(__DIR__) ||
-  $LOAD_PATH.include?(File.expand_path(__DIR__))
-
-require 'helpers/collection_tests'
-require 'helpers/model_tests'
-
-require 'helpers/compute/flavors_tests'
-require 'helpers/compute/server_tests'
-require 'helpers/compute/servers_tests'
-
-# Use so you can run in mock mode from the command line:
+# Use so you can run in mock mode from the command line
 #
 # FOG_MOCK=true fog
 
