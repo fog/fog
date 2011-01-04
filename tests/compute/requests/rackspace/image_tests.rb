@@ -1,16 +1,14 @@
 Shindo.tests('Rackspace::Compute | image requests', ['rackspace']) do
 
-  @images_format = {
+  @image_format = {
+    'created'   => Fog::Nullable::String,
     'id'        => Integer,
     'name'      => String,
+    'progress'  => Fog::Nullable::Integer,
+    'serverId'  => Fog::Nullable::Integer,
     'status'    => String,
-    'updated'   => String,
+    'updated'   => String
   }
-
-  @image_format = @images_format.merge({
-    'created'  => String,
-    'progress' => Integer,
-  })
 
   tests('success') do
 
@@ -18,7 +16,7 @@ Shindo.tests('Rackspace::Compute | image requests', ['rackspace']) do
     @server.wait_for { ready? }
     @image_id = nil
 
-    tests("#create_image(#{@server.id})").formats(@images_format.merge('serverId' => Integer)) do
+    tests("#create_image(#{@server.id})").formats(@image_format) do
       data = Rackspace[:compute].create_image(@server.id).body['image']
       @image_id = data['id']
       data
@@ -37,7 +35,7 @@ Shindo.tests('Rackspace::Compute | image requests', ['rackspace']) do
       Rackspace[:compute].list_images.body
     end
 
-    tests('#list_images_detail').formats({'images' => [@images_format]}) do
+    tests('#list_images_detail').formats({'images' => [@image_format]}) do
       Rackspace[:compute].list_images_detail.body
     end
 

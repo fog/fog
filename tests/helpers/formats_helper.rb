@@ -4,11 +4,13 @@
 module Fog
   module Boolean; end
   module Nullable
+    module Integer; end
     module String; end
   end
 end
 [FalseClass, TrueClass].each {|klass| klass.send(:include, Fog::Boolean)}
-[NilClass, String].each {|klass| klass.send(:include, Fog::String)}
+[NilClass, String].each {|klass| klass.send(:include, Fog::Nullable::String)}
+[Integer, NilClass].each {|klass| klass.send(:include, Fog::Nullable::Integer)}
 
 module Shindo
   class Tests
@@ -30,7 +32,6 @@ module Shindo
         format = {:element => format}
       end
       for key, value in format
-        valid &&= data.has_key?(key)
         datum = data.delete(key)
         format.delete(key)
         case value
@@ -41,8 +42,6 @@ module Shindo
               type = value.first
               if type.is_a?(Hash)
                 valid &&= formats_kernel({:element => element}, {:element => type}, false)
-              elsif type.nil?
-                p "#{key} => #{value}"
               else
                 valid &&= element.is_a?(type)
               end
