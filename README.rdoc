@@ -103,10 +103,12 @@ Play around and use the console to explore or check out the {getting started gui
 
 geemus says: "That should give you everything you need to get started, but let me know if there is anything I can do to help!"
 
+== Providers
+
 You should try out the (varying) support fog has for:
 * {AWS}[http://aws.amazon.com] [{Compute}[http://aws.amazon.com/ec2], {ELB}[http://aws.amazon.com/elasticloadbalancing], {Storage}[http://aws.amazon.com/s3], {SimpleDB}[http://aws.amazon.com/simpledb]]
-* {<em>Blue Box Group</em>}[http://www.blueboxgrp.com] [{Compute}[http://www.blueboxgrp.com/blocks]]
-* {Brightbox}[http://www.brightbox.co.uk] [{Compute}[http://beta.brightbox.com/]]
+* <b><em>{Blue Box Group}[http://www.blueboxgrp.com]</em></b> [{Compute}[http://www.blueboxgrp.com/blocks]]
+* <b><em>{Brightbox}[http://www.brightbox.co.uk]</em></b> [{Compute}[http://beta.brightbox.com/]]
 * {Google}[http://www.google.com] [{Storage}[http://code.google.com/apis/storage]]
 * {Linode}[http://www.linode.com] [{DNS}[http://www.linode.com]]
 * Local [Storage]
@@ -116,11 +118,13 @@ You should try out the (varying) support fog has for:
 * {Zerigo}[http://www.zerigo.com] [{DNS}[http://www.zerigo.com/managed-dns]]
 
 There are also the basics of these providers (that could use your love):
-* {GoGrid}[http://www.gogrid.com] [{Compute}[http://www.gogrid.com]]
+* <b><em>{GoGrid}[http://www.gogrid.com]</b></em> [{Compute}[http://www.gogrid.com]]
 * {Linode}[http://www.linode.com] [{Compute}[http://www.linode.com]]
 * {New Servers}[http://www.newservers.com] [{Compute}[http://www.newservers.com]]
 
-Special thanks to providers listed in <em>italics</em> for donating resources for fog tests!
+Special thanks to providers listed in <b><em>bold italics</em></b> for donating resources for fog tests!
+
+== Additional Resources
 
 Enjoy, and let me know what I can do to continue improving fog!
 
