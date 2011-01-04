@@ -43,7 +43,7 @@ module Fog
           now = Time.now
           data = {
             'created'   => now,
-            'id'        => Fog::Mock.random_numbers(6),
+            'id'        => Fog::Mock.random_numbers(6).to_i,
             'name'      => options['name'] || '',
             'serverId'  => server_id,
             'status'    => 'SAVING',
