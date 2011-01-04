@@ -17,13 +17,18 @@ for provider in (all_providers - available_providers)
   Thread.current[:tags] << ('-' << provider)
 end
 
-# Boolean hax
+# format related hackery
+# allows both true.is_a?(Fog::Boolean) and false.is_a?(Fog::Boolean)
+# allows both nil.is_a?(Fog::Nullable::String) and ''.is_a?(Fog::Nullable::String)
 module Fog
-  module Boolean
+  module Boolean; end
+  module Nullable
+    module String; end
   end
 end
-FalseClass.send(:include, Fog::Boolean)
-TrueClass.send(:include, Fog::Boolean)
+
+[FalseClass, TrueClass].each {|klass| klass.send(:include, Fog::Boolean)}
+[NilClass, String].each {|klass| klass.send(:include, Fog::String)}
 
 def lorem_file
   File.open(File.dirname(__FILE__) + '/lorem.txt', 'r')

@@ -1,7 +1,6 @@
 module Fog
   module Brightbox
     module Nullable
-      module String; end
       module Account; end
       module Image; end
       module Interface; end
@@ -11,9 +10,6 @@ module Fog
     end
   end
 end
-
-String.send :include, Fog::Brightbox::Nullable::String
-NilClass.send :include, Fog::Brightbox::Nullable::String
 
 Hash.send :include, Fog::Brightbox::Nullable::Account
 NilClass.send :include, Fog::Brightbox::Nullable::Account
@@ -115,8 +111,8 @@ class Brightbox
           "status"          => String,
           "hostname"        => String,
           "created_at"      => String,
-          "started_at"      => Fog::Brightbox::Nullable::String,
-          "deleted_at"      => Fog::Brightbox::Nullable::String
+          "started_at"      => Fog::Nullable::String,
+          "deleted_at"      => Fog::Nullable::String
         }
 
         SERVER_TYPE = {
@@ -145,7 +141,7 @@ class Brightbox
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
-          "handle"          => Fog::Brightbox::Nullable::String
+          "handle"          => Fog::Nullable::String
         }
       end
 
@@ -169,7 +165,7 @@ class Brightbox
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
           "interface"       => Fog::Brightbox::Nullable::Interface,
           "load_balancer"   => Fog::Brightbox::Nullable::LoadBalancer,
-          "server"          => Fog::Brightbox::Nullable::String
+          "server"          => Fog::Nullable::String
         }
 
         IMAGE = {
@@ -199,7 +195,7 @@ class Brightbox
           "name"            => String,
           "status"          => String,
           "created_at"      => String,
-          "deleted_at"      => Fog::Brightbox::Nullable::String
+          "deleted_at"      => Fog::Nullable::String
         }
 
         SERVER = {
@@ -210,8 +206,8 @@ class Brightbox
           "status"          => String,
           "hostname"        => String,
           "created_at"      => String,
-          "started_at"      => Fog::Brightbox::Nullable::String,
-          "deleted_at"      => Fog::Brightbox::Nullable::String,
+          "started_at"      => Fog::Nullable::String,
+          "deleted_at"      => Fog::Nullable::String,
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
           "server_type"     => Brightbox::Compute::Formats::Nested::SERVER_TYPE,
           "cloud_ips"       => [Brightbox::Compute::Formats::Nested::CLOUD_IP],
@@ -225,7 +221,7 @@ class Brightbox
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
-          "handle"          => Fog::Brightbox::Nullable::String,
+          "handle"          => Fog::Nullable::String,
           "name"            => String,
           "status"          => String,
           "cores"           => Integer,
@@ -248,7 +244,7 @@ class Brightbox
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
-          "handle"          => Fog::Brightbox::Nullable::String
+          "handle"          => Fog::Nullable::String
         }
       end
 
@@ -266,7 +262,7 @@ class Brightbox
           "postcode"        => String,
           "country_code"    => String,
           "country_name"    => String,
-          "vat_registration_number" => Fog::Brightbox::Nullable::String,
+          "vat_registration_number" => Fog::Nullable::String,
           "telephone_number" => String,
           "telephone_verified" => Fog::Boolean,
           "created_at"      => String,
@@ -275,7 +271,7 @@ class Brightbox
           "limits_cloudips" => Integer,
           "library_ftp_host" => String,
           "library_ftp_user" => String,
-          "library_ftp_password" => Fog::Brightbox::Nullable::String,
+          "library_ftp_password" => Fog::Nullable::String,
           "owner"           => Brightbox::Compute::Formats::Nested::USER,
           "users"           => [Brightbox::Compute::Formats::Nested::USER],
           "clients"         => [Brightbox::Compute::Formats::Nested::API_CLIENT],
@@ -290,7 +286,7 @@ class Brightbox
           "url"             => String,
           "name"            => String,
           "description"     => String,
-          "secret"          => Fog::Brightbox::Nullable::String,
+          "secret"          => Fog::Nullable::String,
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT
         }
 
@@ -346,7 +342,7 @@ class Brightbox
           "policy"          => String,
           "healthcheck"     => Brightbox::Compute::Formats::Struct::LB_HEALTHCHECK,
           "created_at"      => String,
-          "deleted_at"      => Fog::Brightbox::Nullable::String,
+          "deleted_at"      => Fog::Nullable::String,
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
           "nodes"           => [Brightbox::Compute::Formats::Nested::SERVER]
         }
@@ -359,9 +355,9 @@ class Brightbox
           "status"          => String,
           "hostname"        => String,
           "created_at"      => String,
-          "started_at"      => Fog::Brightbox::Nullable::String,
-          "deleted_at"      => Fog::Brightbox::Nullable::String,
-          "user_data"       => Fog::Brightbox::Nullable::String,
+          "started_at"      => Fog::Nullable::String,
+          "deleted_at"      => Fog::Nullable::String,
+          "user_data"       => Fog::Nullable::String,
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
           "server_type"     => Brightbox::Compute::Formats::Nested::SERVER_TYPE,
           "cloud_ips"       => [Brightbox::Compute::Formats::Nested::CLOUD_IP],
@@ -375,7 +371,7 @@ class Brightbox
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
-          "handle"          => Fog::Brightbox::Nullable::String,
+          "handle"          => Fog::Nullable::String,
           "name"            => String,
           "status"          => String,
           "cores"           => Integer,
@@ -392,14 +388,14 @@ class Brightbox
           "email_verified"  => Fog::Boolean,
           "accounts"        => [Brightbox::Compute::Formats::Nested::ACCOUNT],
           "default_account" => Fog::Brightbox::Nullable::Account,
-          "ssh_key"         => Fog::Brightbox::Nullable::String
+          "ssh_key"         => Fog::Nullable::String
         }
 
         ZONE = {
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
-          "handle"          => Fog::Brightbox::Nullable::String
+          "handle"          => Fog::Nullable::String
         }
 
       end
