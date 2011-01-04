@@ -5,6 +5,7 @@ module Fog
       module Account; end
       module Image; end
       module Interface; end
+      module LoadBalancer; end
       module Server; end
       module Zone; end
     end
@@ -22,6 +23,9 @@ NilClass.send :include, Fog::Brightbox::Nullable::Image
 
 Hash.send :include, Fog::Brightbox::Nullable::Interface
 NilClass.send :include, Fog::Brightbox::Nullable::Interface
+
+Hash.send :include, Fog::Brightbox::Nullable::LoadBalancer
+NilClass.send :include, Fog::Brightbox::Nullable::LoadBalancer
 
 Hash.send :include, Fog::Brightbox::Nullable::Server
 NilClass.send :include, Fog::Brightbox::Nullable::Server
@@ -164,6 +168,7 @@ class Brightbox
           "reverse_dns"     => String,
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
           "interface"       => Fog::Brightbox::Nullable::Interface,
+          "load_balancer"   => Fog::Brightbox::Nullable::LoadBalancer,
           "server"          => Fog::Brightbox::Nullable::String
         }
 
@@ -296,8 +301,9 @@ class Brightbox
           "public_ip"       => String,
           "status"          => String,
           "reverse_dns"     => String,
-          "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
+          "account"         => Fog::Brightbox::Nullable::Account,
           "interface"       => Fog::Brightbox::Nullable::Interface,
+          "load_balancer"   => Fog::Brightbox::Nullable::LoadBalancer,
           "server"          => Fog::Brightbox::Nullable::Server
         }
 

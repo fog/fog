@@ -2,16 +2,20 @@ Shindo.tests('Brightbox::Compute | cloud ip requests', ['brightbox']) do
 
   tests('success') do
 
-    tests("#create_cloud_ip()").formats(Brightbox::Compute::Formats::Full::CLOUD_IP) do
+    unless Fog.mocking?
+      @server = Brightbox[:compute].servers.create(compute_providers[Brightbox][:server_attributes])
+    end
+
+    tests("#create_cloud_ip").formats(Brightbox::Compute::Formats::Full::CLOUD_IP) do
       pending if Fog.mocking?
-      data = Brightbox[:compute].create_cloud_ip()
+      data = Brightbox[:compute].create_cloud_ip
       @cloud_ip_id = data["id"]
       data
     end
 
-    tests("#list_cloud_ips()").formats(Brightbox::Compute::Formats::Collection::CLOUD_IPS) do
+    tests("#list_cloud_ips").formats(Brightbox::Compute::Formats::Collection::CLOUD_IPS) do
       pending if Fog.mocking?
-      Brightbox[:compute].list_cloud_ips()
+      Brightbox[:compute].list_cloud_ips
     end
 
     tests("#get_cloud_ip('#{@cloud_ip_id}')").formats(Brightbox::Compute::Formats::Full::CLOUD_IP) do
@@ -20,9 +24,8 @@ Shindo.tests('Brightbox::Compute | cloud ip requests', ['brightbox']) do
     end
 
     unless Fog.mocking?
-      server = Brightbox[:compute].servers.first
-      interface_id = server.interfaces.first["id"]
-      map_options = {:interface => interface_id}
+      @server.wait_for { ready? }
+      map_options = {:interface => @server.interfaces.first["id"]}
     end
 
     tests("#map_cloud_ip('#{@cloud_ip_id}', #{map_options.inspect})").formats(Brightbox::Compute::Formats::Full::CLOUD_IP) do
@@ -44,6 +47,10 @@ Shindo.tests('Brightbox::Compute | cloud ip requests', ['brightbox']) do
       Brightbox[:compute].destroy_cloud_ip(@cloud_ip_id)
     end
 
+    unless Fog.mocking?
+      @server.destroy
+    end
+
   end
 
   tests('failure') do
@@ -59,5 +66,6 @@ Shindo.tests('Brightbox::Compute | cloud ip requests', ['brightbox']) do
     end
 
   end
+
 
 end
