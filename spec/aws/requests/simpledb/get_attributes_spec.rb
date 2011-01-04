@@ -42,7 +42,7 @@ describe 'SimpleDB.get_attributes' do
         AWS[:sdb].put_attributes(@domain_name, 'foo', { :bar => the_array })
         Fog.wait_for do
           actual = AWS[:sdb].get_attributes(@domain_name, 'foo')
-          actual.body['Attributes']['bar'] =~ the_array
+          actual.body['Attributes']['bar'] == the_array
         end
       end
     end

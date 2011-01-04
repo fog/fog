@@ -130,7 +130,6 @@ module Fog
         end
 
         def request(params)
-          idempotent = params.delete(:idempotent)
           parser = params.delete(:parser)
 
           body = AWS.signed_params(
@@ -150,7 +149,7 @@ module Fog
             :expects    => 200,
             :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
             :host       => @host,
-            :idempotent => idempotent,
+            :idempotent => true,
             :method     => 'POST',
             :parser     => parser
           })
