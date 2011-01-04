@@ -30,8 +30,8 @@ module Fog
           request({
             'Action'      => 'PutAttributes',
             'DomainName'  => domain_name,
-            :parser       => Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string),
-            'ItemName' => item_name
+            'ItemName'    => item_name,
+            :parser       => Fog::Parsers::AWS::SimpleDB::Basic.new(@nil_string)
           }.merge!(encode_attributes(attributes, options[:replace], options[:expect])))
         end
 
