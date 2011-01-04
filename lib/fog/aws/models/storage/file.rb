@@ -21,6 +21,7 @@ module Fog
         attribute :etag,                :aliases => ['Etag', 'ETag']
         attribute :expires,             :aliases => 'Expires'
         attribute :last_modified,       :aliases => ['Last-Modified', 'LastModified']
+        attribute :metadata
         attribute :owner,               :aliases => 'Owner'
         attribute :storage_class,       :aliases => ['x-amz-storage-class', 'StorageClass']
 
@@ -59,6 +60,16 @@ module Fog
           requires :directory, :key
           connection.delete_object(directory.key, key)
           true
+        end
+
+        remove_method :metadata
+        def metadata
+          attributes.reject {|key, value| !(key.to_s =~ /^x-amz-meta-/)}
+        end
+
+        remove_method :metadata=
+        def metadata=(new_metadata)
+          merge_attributes(new_metadata)
         end
 
         remove_method :owner=
@@ -105,6 +116,7 @@ module Fog
           options['Content-MD5'] = content_md5 if content_md5
           options['Content-Type'] = content_type if content_type
           options['Expires'] = expires if expires
+          options.merge(metadata)
           options['x-amz-storage-class'] = storage_class if storage_class
 
           data = connection.put_object(directory.key, key, body, options)
