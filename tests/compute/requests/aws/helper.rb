@@ -13,18 +13,6 @@ class AWS
 
   end
 
-  module IAM
-
-    module Formats
-
-      BASIC = {
-        'RequestId' => String
-      }
-
-    end
-
-  end
-
 end
 
 unless defined?(GENTOO_AMI)
