@@ -68,7 +68,7 @@ module Fog
     class Mock
 
       def self.availability_zone
-        "us-east-1" << random_selection('abcd', 1)
+        "us-east-1" << Fog::Mock.random_selection('abcd', 1)
       end
 
       def self.box_usage
@@ -84,16 +84,16 @@ module Fog
       end
 
       def self.etag
-        hex(32)
+        Fog::Mock.random_hex(32)
       end
 
       def self.image
         path = []
         (rand(3) + 2).times do
-          path << letters(rand(9) + 8)
+          path << Fog::Mock.random_letters(rand(9) + 8)
         end
         {
-          "imageOwnerId"   => letters(rand(5) + 4),
+          "imageOwnerId"   => Fog::Mock.random_letters(rand(5) + 4),
           "blockDeviceMapping" => [],
           "productCodes"   => [],
           "kernelId"       => kernel_id,
@@ -110,106 +110,71 @@ module Fog
       end
 
       def self.image_id
-        "ami-#{hex(8)}"
+        "ami-#{Fog::Mock.random_hex(8)}"
       end
 
       def self.key_fingerprint
         fingerprint = []
         20.times do
-          fingerprint << hex(2)
+          fingerprint << Fog::Mock.random_hex(2)
         end
         fingerprint.join(':')
       end
 
       def self.instance_id
-        "i-#{hex(8)}"
+        "i-#{Fog::Mock.random_hex(8)}"
       end
 
       def self.ip_address
         ip = []
         4.times do
-          ip << numbers(rand(3) + 1).to_i.to_s # remove leading 0
+          ip << Fog::Mock.random_numbers(rand(3) + 1).to_i.to_s # remove leading 0
         end
         ip.join('.')
       end
 
       def self.kernel_id
-        "aki-#{hex(8)}"
+        "aki-#{Fog::Mock.random_hex(8)}"
       end
 
       def self.key_material
         key_material = ['-----BEGIN RSA PRIVATE KEY-----']
         20.times do
-          key_material << base64(76)
+          key_material << Fog::Mock.random_base64(76)
         end
-        key_material << base64(67) + '='
+        key_material << Fog::Mock.random_base64(67) + '='
         key_material << '-----END RSA PRIVATE KEY-----'
         key_material.join("\n")
       end
 
       def self.owner_id
-        numbers(12)
+        Fog::Mock.random_numbers(12)
       end
 
       def self.ramdisk_id
-        "ari-#{hex(8)}"
+        "ari-#{Fog::Mock.random_hex(8)}"
       end
 
       def self.request_id
         request_id = []
-        request_id << hex(8)
+        request_id << Fog::Mock.random_hex(8)
         3.times do
-          request_id << hex(4)
+          request_id << Fog::Mock.random_hex(4)
         end
-        request_id << hex(12)
+        request_id << Fog::Mock.random_hex(12)
         request_id.join('-')
       end
 
       def self.reservation_id
-        "r-#{hex(8)}"
+        "r-#{Fog::Mock.random_hex(8)}"
       end
 
       def self.snapshot_id
-        "snap-#{hex(8)}"
+        "snap-#{Fog::Mock.random_hex(8)}"
       end
 
       def self.volume_id
-        "vol-#{hex(8)}"
-      end
-
-      private
-      
-      def self.random_selection(characters, length)
-        selection = ''
-        length.times do
-          position = rand(characters.length)
-          selection << characters[position..position]
-        end
-        selection
-      end
-
-      def self.letters(length)
-        random_selection(
-          'abcdefghijklmnopqrstuvwxyz',
-          length
-        )
-      end
-
-      def self.numbers(length)
-        max = ('9' * length).to_i
-        rand(max).to_s
-      end
-
-      def self.hex(length)
-        max = ('f' * length).to_i(16)
-        rand(max).to_s(16).rjust(length, '0')
-      end
-
-      def self.base64(length)
-        random_selection(
-          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
-          length
-        )
+        "vol-#{Fog::Mock.random_hex(8)}"
       end
 
     end
