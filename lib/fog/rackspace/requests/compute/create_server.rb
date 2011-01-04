@@ -74,7 +74,7 @@ module Fog
           data = {
             'addresses' => { 'private' => ['0.0.0.0'], 'public' => ['0.0.0.0'] },
             'flavorId'  => flavor_id,
-            'id'        => 123456,
+            'id'        => Fog::Mock.random_numbers(6),
             'imageId'   => image_id,
             'hostId'    => "123456789ABCDEF01234567890ABCDEF",
             'metadata'  => options['metadata'] || {},
