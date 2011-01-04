@@ -13,26 +13,26 @@ describe 'SimpleDB.get_attributes' do
     end
 
     it 'should have no attributes for foo before put_attributes' do
-      eventually do
+      Fog.wait_for do
         actual = AWS[:sdb].get_attributes(@domain_name, 'foo')
-        actual.body['Attributes'].should be_empty
+        actual.body['Attributes'].empty?
       end
     end
 
     it 'should return multi-value attributes from get_attributes' do
       AWS[:sdb].put_attributes(@domain_name, 'buzz', { "attr" => "foo" })
       AWS[:sdb].put_attributes(@domain_name, 'buzz', { "attr" => "foo2" })
-      eventually do
+      Fog.wait_for do
         actual = AWS[:sdb].get_attributes(@domain_name, 'buzz')
-        actual.body["Attributes"]["attr"].should == ['foo', 'foo2']
+        actual.body["Attributes"]["attr"] == ['foo', 'foo2']
       end
     end
 
     it 'should have attributes for foo after put_attributes' do
       AWS[:sdb].put_attributes(@domain_name, 'foo', { :bar => :baz })
-      eventually do
+      Fog.wait_for do
         actual = AWS[:sdb].get_attributes(@domain_name, 'foo')
-        actual.body['Attributes'].should == { 'bar' => ['baz'] }
+        actual.body['Attributes'] == { 'bar' => ['baz'] }
       end
     end
 
@@ -40,9 +40,9 @@ describe 'SimpleDB.get_attributes' do
       it "should return the array for foo's bar attribute" do
         the_array = %w{A B C}
         AWS[:sdb].put_attributes(@domain_name, 'foo', { :bar => the_array })
-        eventually do
+        Fog.wait_for do
           actual = AWS[:sdb].get_attributes(@domain_name, 'foo')
-          actual.body['Attributes']['bar'].should =~ the_array
+          actual.body['Attributes']['bar'] =~ the_array
         end
       end
     end

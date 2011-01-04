@@ -20,9 +20,8 @@ describe 'SimpleDB.list_domains' do
 
     it 'should include created domains' do
       AWS[:sdb].create_domain(@domain_name)
-      eventually do
-        actual = AWS[:sdb].list_domains
-        actual.body['Domains'].should include(@domain_name)
+      Fog.wait_fog do
+        AWS[:sdb].list_domains.body['Domains'].include?(@domain_name)
       end
     end
 
