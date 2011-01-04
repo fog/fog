@@ -105,7 +105,7 @@ geemus says: "That should give you everything you need to get started, but let m
 
 You should try out the (varying) support fog has for:
 * {AWS}[http://aws.amazon.com] [{Compute}[http://aws.amazon.com/ec2], {ELB}[http://aws.amazon.com/elasticloadbalancing], {Storage}[http://aws.amazon.com/s3], {SimpleDB}[http://aws.amazon.com/simpledb]]
-* {Blue Box Group}[http://www.blueboxgrp.com] [{Compute}[http://www.blueboxgrp.com/blocks]]
+* {<em>Blue Box Group</em>}[http://www.blueboxgrp.com] [{Compute}[http://www.blueboxgrp.com/blocks]]
 * {Brightbox}[http://www.brightbox.co.uk] [{Compute}[http://beta.brightbox.com/]]
 * {Google}[http://www.google.com] [{Storage}[http://code.google.com/apis/storage]]
 * {Linode}[http://www.linode.com] [{DNS}[http://www.linode.com]]
@@ -119,6 +119,8 @@ There are also the basics of these providers (that could use your love):
 * {GoGrid}[http://www.gogrid.com] [{Compute}[http://www.gogrid.com]]
 * {Linode}[http://www.linode.com] [{Compute}[http://www.linode.com]]
 * {New Servers}[http://www.newservers.com] [{Compute}[http://www.newservers.com]]
+
+Special thanks to providers listed in <em>italics</em> for donating resources for fog tests!
 
 Enjoy, and let me know what I can do to continue improving fog!
 
