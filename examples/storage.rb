@@ -9,8 +9,8 @@ Shindo.tests('storage tests', 'storage') do
   # iterate over all the providers
   Fog.providers.each do |provider|
 
-    # return immediately if provider does not have storage
-    break unless provider.services.include?(:storage)
+    # skip if provider does not have storage
+    next unless provider.respond_to?(:services) && provider.services.include?(:storage)
 
     tests(provider, provider.to_s.downcase) do
 
@@ -25,11 +25,21 @@ Shindo.tests('storage tests', 'storage') do
           # create a directory
           #   key should be a unique string
           #   public should be a boolean
-          tests('@directory = @directories.create').succeeds do
+          tests('@directory = @storage.directories.create').succeeds do
             @directory = @storage.directories.create(
               :key    => "fogstoragedirectory#{Time.now.to_i}",
               :public => publicity
             )
+          end
+
+          # list directories
+          tests('@directories = @storage.directories').succeeds do
+            @directories = @storage.directories
+          end
+
+          # get a directory
+          tests('@storage.directories.get(@directory.identity)').succeeds do
+            @storage.directories.get(@directory.identity)
           end
 
           # create a file in the directory
@@ -49,19 +59,9 @@ Shindo.tests('storage tests', 'storage') do
             @files = @directory.files
           end
 
-          # fetch the latest files data
-          tests('@files.reload').succeeds do
-            @files.reload
-          end
-
           # get a file
-          tests('@directory.files.get(@file.key)').succeeds do
-            @directory.files.get(@file.key)
-          end
-
-          # fetch the latest file data
-          tests('@file.reload').succeeds do
-            @file.reload
+          tests('@directory.files.get(@file.identity)').succeeds do
+            @directory.files.get(@file.identity)
           end
 
           # test the publicity of files
