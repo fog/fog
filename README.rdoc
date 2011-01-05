@@ -142,6 +142,14 @@ http://www.engineyard.com/images/logo.png
 
 All new work on fog is sponsored by {Engine Yard}[http://engineyard.com]
 
+== T-Shirts
+
+Wonder how you can get a shirt? Look no further!
+
+* Blue shirts go to people who have contributed indirectly, where contribution is a judgement call on geemus's part (but he is a pretty nice guy).
+* Grey shirts and a follow from @fog go to people who have made it on to the {contributors list}[https://github.com/geemus/fog/contributors] by submitting code.
+* Black shirts go to people who have made it on to the {collaborators list}[https://github.com/api/v2/json/repos/show/geemus/fog/collaborators] by coercing geemus into adding them (geemus is currently the only member of this list).
+
 == Copyright
 
 (The MIT License)
