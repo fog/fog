@@ -45,7 +45,13 @@ end
 
 task :default => :test
 
-task :test do
+task :examples do
+  sh("export FOG_MOCK=false && bundle exec shindont examples")
+  # some don't provide mocks so we'll leave this out for now
+  # sh("export FOG_MOCK=true  && bundle exec shindont examples")
+end
+
+task :test => :examples do
   sh("export FOG_MOCK=true  && bundle exec spec spec") &&
   sh("export FOG_MOCK=true  && bundle exec shindont tests") &&
   sh("export FOG_MOCK=false && bundle exec spec spec") &&
