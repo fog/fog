@@ -3,7 +3,7 @@ PATH
   specs:
     fog (0.3.34)
       builder
-      excon (>= 0.3.6)
+      excon (>= 0.3.7)
       formatador (>= 0.0.16)
       json
       mime-types
@@ -15,7 +15,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     builder (3.0.0)
-    excon (0.3.6)
+    excon (0.3.7)
     formatador (0.0.16)
     gestalt (0.0.11)
       formatador (>= 0.0.12)
@@ -35,7 +35,7 @@ PLATFORMS
 
 DEPENDENCIES
   builder
-  excon (>= 0.3.6)
+  excon (>= 0.3.7)
   fog!
   formatador (>= 0.0.16)
   json
