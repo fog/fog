@@ -5,13 +5,13 @@ module Fog
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent
       
-      model_path 'fog/aws/models/storage'
+      model_path 'fog/storage/models/aws'
       collection  :directories
       model       :directory
       collection  :files
       model       :file
 
-      request_path 'fog/aws/requests/storage'
+      request_path 'fog/storage/requests/aws'
       request :abort_multipart_upload
       request :complete_multipart_upload
       request :copy_object

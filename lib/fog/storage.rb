@@ -1,3 +1,8 @@
+require 'fog/aws'
+require 'fog/google'
+require 'fog/local'
+require 'fog/rackspace'
+
 module Fog
   class Storage
 

@@ -1,12 +1,11 @@
-require 'pp'
 module Fog
-  module Google
+  module AWS
     class Storage
       class Real
 
-        require 'fog/google/parsers/storage/get_bucket'
+        require 'fog/storage/parsers/aws/get_bucket'
 
-        # List information about objects in an Google Storage bucket
+        # List information about objects in an S3 bucket
         #
         # ==== Parameters
         # * bucket_name<~String> - name of bucket to list object keys from
@@ -38,6 +37,9 @@ module Fog
         #       * 'Size'<~Integer> - Size of object
         #       * 'StorageClass'<~String> - Storage class of object
         #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGET.html
+
         def get_bucket(bucket_name, options = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
@@ -48,59 +50,57 @@ module Fog
             :host     => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Google::Storage::GetBucket.new,
+            :parser   => Fog::Parsers::AWS::Storage::GetBucket.new,
             :query    => options
           })
         end
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def get_bucket(bucket_name, options = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
+          if options['delimiter']
+            Fog::Mock.not_implemented
+          end
           response = Excon::Response.new
-          name = /(\w+\.?)*/.match(bucket_name)
-          if bucket_name == name.to_s
-            if bucket = @data[:buckets][bucket_name]
-              contents = bucket[:objects].values.sort {|x,y| x['Key'] <=> y['Key']}.reject do |object|
-                  (options['prefix'] && object['Key'][0...options['prefix'].length] != options['prefix']) ||
-                  (options['marker'] && object['Key'] <= options['marker'])
-                end.map do |object|
-                  data = object.reject {|key, value| !['ETag', 'Key', 'LastModified', 'Size', 'StorageClass'].include?(key)}
-                  data.merge!({
-                    'LastModified' => Time.parse(data['LastModified']),
-                    'Owner'        => bucket['Owner'],
-                    'Size'         => data['Size'].to_i
-                  })
-                data
-              end
-              max_keys = options['max-keys'] || 1000
-              size = [max_keys, 1000].min
-              truncated_contents = contents[0...size]
+          if bucket = @data[:buckets][bucket_name]
+            contents = bucket[:objects].values.sort {|x,y| x['Key'] <=> y['Key']}.reject do |object|
+                (options['prefix'] && object['Key'][0...options['prefix'].length] != options['prefix']) ||
+                (options['marker'] && object['Key'] <= options['marker'])
+              end.map do |object|
+                data = object.reject {|key, value| !['ETag', 'Key', 'LastModified', 'Size', 'StorageClass'].include?(key)}
+                data.merge!({
+                  'LastModified' => Time.parse(data['LastModified']),
+                  'Owner'        => bucket['Owner'],
+                  'Size'         => data['Size'].to_i
+                })
+              data
+            end
+            max_keys = options['max-keys'] || 1000
+            size = [max_keys, 1000].min
+            truncated_contents = contents[0...size]
 
-              response.status = 200
-              response.body = {
-                'CommonPrefixes'  => [],
-                'Contents'        => truncated_contents,
-                'IsTruncated'     => truncated_contents.size != contents.size,
-                'Marker'          => options['marker'],
-                'Name'            => bucket['Name'],
-                'Prefix'          => options['prefix']
-              }
-              if options['max-keys'] && options['max-keys'] < response.body['Contents'].length
-                  response.body['IsTruncated'] = true
-                  response.body['Contents'] = response.body['Contents'][0...options['max-keys']]
-              end
-            else
-              response.status = 404
-              raise(Excon::Errors.status_error({:expects => 200}, response))
+            response.status = 200
+            response.body = {
+              'CommonPrefixes'  => [],
+              'Contents'        => truncated_contents,
+              'IsTruncated'     => truncated_contents.size != contents.size,
+              'Marker'          => options['marker'],
+              'MaxKeys'         => max_keys,
+              'Name'            => bucket['Name'],
+              'Prefix'          => options['prefix']
+            }
+            if options['max-keys'] && options['max-keys'] < response.body['Contents'].length
+                response.body['IsTruncated'] = true
+                response.body['Contents'] = response.body['Contents'][0...options['max-keys']]
             end
           else
-              response.status = 400
-              raise(Excon::Errors.status_error({:expects => 200}, response))
+            response.status = 404
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end

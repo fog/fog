@@ -9,7 +9,7 @@ module Fog
     service(:compute, 'rackspace/compute')
     service(:files,   'rackspace/files')
     service(:servers, 'rackspace/servers')
-    service(:storage, 'rackspace/storage')
+    service(:storage, 'storage/rackspace')
 
     def self.authenticate(options)
       rackspace_auth_url = options[:rackspace_auth_url] || "auth.api.rackspacecloud.com"

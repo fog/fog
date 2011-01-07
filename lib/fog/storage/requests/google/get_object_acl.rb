@@ -1,11 +1,11 @@
 module Fog
-  module AWS
+  module Google
     class Storage
       class Real
 
-        require 'fog/aws/parsers/storage/access_control_list'
+        require 'fog/storage/parsers/google/access_control_list'
 
-        # Get access control list for an S3 object
+        # Get access control list for an Google Storage object
         #
         # ==== Parameters
         # * bucket_name<~String> - name of bucket containing object
@@ -29,9 +29,6 @@ module Fog
         #              * 'URI'<~String> - URI of group to grant access for
         #           * 'Permission'<~String> - Permission, in [FULL_CONTROL, WRITE, WRITE_ACP, READ, READ_ACP]
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectGETacl.html
-
         def get_object_acl(bucket_name, object_name, options = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
@@ -49,7 +46,7 @@ module Fog
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method     => 'GET',
-            :parser     => Fog::Parsers::AWS::Storage::AccessControlList.new,
+            :parser     => Fog::Parsers::Google::Storage::AccessControlList.new,
             :path       => CGI.escape(object_name),
             :query      => query
           })
@@ -57,7 +54,7 @@ module Fog
 
       end
 
-      class Mock # :nodoc:all
+      class Mock
 
         def get_object_acl(bucket_name, object_name)
           response = Excon::Response.new

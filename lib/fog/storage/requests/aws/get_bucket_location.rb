@@ -3,30 +3,30 @@ module Fog
     class Storage
       class Real
 
-        require 'fog/aws/parsers/storage/get_request_payment'
+        require 'fog/storage/parsers/aws/get_bucket_location'
 
-        # Get configured payer for an S3 bucket
+        # Get location constraint for an S3 bucket
         #
         # ==== Parameters
-        # * bucket_name<~String> - name of bucket to get payer for
+        # * bucket_name<~String> - name of bucket to get location constraint for
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'Payer'<~String> - Specifies who pays for download and requests
+        #     * 'LocationConstraint'<~String> - Location constraint of the bucket
         #
         # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTrequestPaymentGET.html
+        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGETlocation.html
 
-        def get_request_payment(bucket_name)
+        def get_bucket_location(bucket_name)
           request({
             :expects  => 200,
             :headers  => {},
             :host     => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::AWS::Storage::GetRequestPayment.new,
-            :query    => {'requestPayment' => nil}
+            :parser   => Fog::Parsers::AWS::Storage::GetBucketLocation.new,
+            :query    => {'location' => nil}
           })
         end
 
@@ -34,11 +34,11 @@ module Fog
 
       class Mock # :nodoc:all
 
-        def get_request_payment(bucket_name)
+        def get_bucket_location(bucket_name)
           response = Excon::Response.new
           if bucket = @data[:buckets][bucket_name]
             response.status = 200
-            response.body = { 'Payer' => bucket['Payer'] }
+            response.body = {'LocationConstraint' => bucket['LocationConstraint'] }
           else
             response.status = 404
             raise(Excon::Errors.status_error({:expects => 200}, response))

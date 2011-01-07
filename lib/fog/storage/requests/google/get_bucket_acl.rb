@@ -3,7 +3,7 @@ module Fog
     class Storage
       class Real
 
-        require 'fog/google/parsers/storage/access_control_list'
+        require 'fog/storage/parsers/google/access_control_list'
 
         # Get access control list for an Google Storage bucket
         #

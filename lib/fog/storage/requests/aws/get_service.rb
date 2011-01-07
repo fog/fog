@@ -3,7 +3,7 @@ module Fog
     class Storage
       class Real
 
-        require 'fog/aws/parsers/storage/get_service'
+        require 'fog/storage/parsers/aws/get_service'
 
         # List information about S3 buckets for authorized user
         #

@@ -3,7 +3,7 @@ module Fog
     class Storage
       class Real
 
-        require 'fog/aws/parsers/storage/list_parts'
+        require 'fog/storage/parsers/aws/list_parts'
 
         # List parts for a multipart upload
         #
