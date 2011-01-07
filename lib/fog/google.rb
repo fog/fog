@@ -8,8 +8,7 @@ module Fog
 
     extend Fog::Provider
 
-    service_path 'fog/google'
-    service 'storage'
+    service(:storage, 'google/storage')
 
     class Mock
 

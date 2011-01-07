@@ -5,9 +5,8 @@ module Fog
 
     extend Fog::Provider
 
-    service_path 'fog/linode'
-    service 'compute'
-    service 'dns'
+    service(:compute, 'linode/compute')
+    service(:dns,     'linode/dns')
 
     def self.new(attributes = {})
       location = caller.first

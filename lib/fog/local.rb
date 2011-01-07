@@ -5,8 +5,7 @@ module Fog
 
     extend Fog::Provider
 
-    service_path 'fog/local'
-    service 'storage'
+    service(:storage, 'local/storage')
 
     def self.new(attributes = {})
       location = caller.first

@@ -5,8 +5,7 @@ module Fog
 
     extend Fog::Provider
 
-    service_path 'fog/go_grid'
-    service 'compute'
+    service(:compute, 'go_grid/compute')
 
     def self.new(attributes = {})
       location = caller.first
