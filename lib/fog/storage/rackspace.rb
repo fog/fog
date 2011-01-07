@@ -5,13 +5,13 @@ module Fog
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :persistent
 
-      model_path 'fog/rackspace/models/storage'
+      model_path 'fog/storage/models/rackspace'
       model       :directory
       collection  :directories
       model       :file
       collection  :files
 
-      request_path 'fog/rackspace/requests/storage'
+      request_path 'fog/storage/requests/rackspace'
       request :delete_container
       request :delete_object
       request :get_container

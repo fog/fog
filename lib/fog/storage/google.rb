@@ -5,13 +5,13 @@ module Fog
       requires :google_storage_access_key_id, :google_storage_secret_access_key
       recognizes :host, :port, :scheme, :persistent
 
-      model_path 'fog/google/models/storage'
+      model_path 'fog/storage/models/google'
       collection  :directories
       model       :directory
       collection  :files
       model       :file
 
-      request_path 'fog/google/requests/storage'
+      request_path 'fog/storage/requests/google'
       request :copy_object
       request :delete_bucket
       request :delete_object

@@ -8,7 +8,7 @@ unless Fog.credentials
   exit
 end
 
-require 'fog/core/bin'
+require 'fog/bin'
 
 providers = Fog.providers.map{|provider| provider.to_s}
 providers = if providers.length > 1
