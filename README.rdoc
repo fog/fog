@@ -106,7 +106,7 @@ geemus says: "That should give you everything you need to get started, but let m
 == Providers
 
 You should try out the (varying) support fog has for:
-* {AWS}[http://aws.amazon.com] [{Compute}[http://aws.amazon.com/ec2], {ELB}[http://aws.amazon.com/elasticloadbalancing], {Storage}[http://aws.amazon.com/s3], {SimpleDB}[http://aws.amazon.com/simpledb]]
+* {AWS}[http://aws.amazon.com] [{Compute}[http://aws.amazon.com/ec2], {DNS}[http://aws.amazon.com/route53], {ELB}[http://aws.amazon.com/elasticloadbalancing], {Storage}[http://aws.amazon.com/s3], {SimpleDB}[http://aws.amazon.com/simpledb]]
 * <b><em>{Blue Box Group}[http://www.blueboxgrp.com]</em></b> [{Compute}[http://www.blueboxgrp.com/blocks]]
 * <b><em>{Brightbox}[http://www.brightbox.co.uk]</em></b> [{Compute}[http://beta.brightbox.com/]]
 * {Google}[http://www.google.com] [{Storage}[http://code.google.com/apis/storage]]
