@@ -5,28 +5,28 @@ module Fog
       attributes = attributes.dup # prevent delete from having side effects
       case provider = attributes.delete(:provider)
       when 'AWS'
-        require 'fog/aws'
+        require 'fog/compute/aws'
         Fog::AWS::Compute.new(attributes)
       when 'Bluebox'
-        require 'fog/bluebox'
+        require 'fog/compute/bluebox'
         Fog::Bluebox::Compute.new(attributes)
       when 'Brightbox'
-        require 'fog/brightbox'
+        require 'fog/compute/brightbox'
         Fog::Brightbox::Compute.new(attributes)
       when 'GoGrid'
-        require 'fog/go_grid'
+        require 'fog/compute/go_grid'
         Fog::GoGrid::Compute.new(attributes)
       when 'Linode'
-        require 'fog/linode'
+        require 'fog/compute/linode'
         Fog::Linode::Compute.new(attributes)
       when 'NewServers'
-        require 'fog/new_servers'
+        require 'fog/compute/new_servers'
         Fog::NewServers::Compute.new(attributes)
       when 'Rackspace'
-        require 'fog/rackspace'
+        require 'fog/compute/rackspace'
         Fog::Rackspace::Compute.new(attributes)
       when 'Slicehost'
-        require 'fog/slicehost'
+        require 'fog/compute/slicehost'
         Fog::Slicehost::Compute.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized compute provider")

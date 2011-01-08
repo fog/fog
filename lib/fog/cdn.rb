@@ -5,10 +5,10 @@ module Fog
       attributes = attributes.dup # prevent delete from having side effects
       case provider = attributes.delete(:provider)
       when 'AWS'
-        require 'fog/aws'
+        require 'fog/cdn/aws'
         Fog::AWS::CDN.new(attributes)
       when 'Rackspace'
-        require 'fog/rackspace'
+        require 'fog/cdn/rackspace'
         Fog::Rackspace::CDN.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized storage provider")

@@ -5,16 +5,16 @@ module Fog
       attributes = attributes.dup # prevent delete from having side effects
       case provider = attributes.delete(:provider)
       when 'AWS'
-        require 'fog/aws'
+        require 'fog/dns/aws'
         Fog::AWS::DNS.new(attributes)
       when 'Linode'
-        require 'fog/linode'
+        require 'fog/dns/linode'
         Fog::Linode::DNS.new(attributes)
       when 'Slicehost'
-        require 'fog/slicehost'
+        require 'fog/dns/slicehost'
         Fog::Slicehost::DNS.new(attributes)
       when 'Zerigo'
-        require 'fog/zerigo'
+        require 'fog/dns/zerigo'
         Fog::Zerigo::DNS.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized storage provider")

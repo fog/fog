@@ -6,9 +6,9 @@ module Fog
     extend Fog::Provider
 
     service(:cdn,     'cdn/rackspace')
-    service(:compute, 'rackspace/compute')
+    service(:compute, 'compute/rackspace')
     service(:files,   'storage/rackspace')
-    service(:servers, 'rackspace/compute')
+    service(:servers, 'compute/rackspace')
     service(:storage, 'storage/rackspace')
 
     def self.authenticate(options)
