@@ -1,12 +1,3 @@
-require 'fog/aws'
-require 'fog/bluebox'
-require 'fog/brightbox'
-require 'fog/go_grid'
-require 'fog/linode'
-require 'fog/new_servers'
-require 'fog/rackspace'
-require 'fog/slicehost'
-
 module Fog
   class Compute
 

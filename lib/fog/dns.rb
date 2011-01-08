@@ -1,8 +1,3 @@
-require 'fog/aws'
-require 'fog/linode'
-require 'fog/slicehost'
-require 'fog/zerigo'
-
 module Fog
   class DNS
 
