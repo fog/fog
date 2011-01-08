@@ -8,6 +8,7 @@ module Fog
 
 end
 
+# FIXME: these should go away (force usage of Fog::[Compute, CDN, DNS, Storage]  etc)
 require 'fog/aws'
 require 'fog/bluebox'
 require 'fog/brightbox'
@@ -23,5 +24,6 @@ require 'fog/vcloud'
 require 'fog/zerigo'
 
 require 'fog/compute'
+require 'fog/cdn'
 require 'fog/dns'
 require 'fog/storage'

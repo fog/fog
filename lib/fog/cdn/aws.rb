@@ -5,9 +5,9 @@ module Fog
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :host, :path, :port, :scheme, :version, :persistent
 
-      model_path 'fog/aws/models/cdn'
+      model_path 'fog/cdn/models/aws'
 
-      request_path 'fog/aws/requests/cdn'
+      request_path 'fog/cdn/requests/aws'
       request 'delete_distribution'
       request 'get_distribution'
       request 'get_distribution_list'

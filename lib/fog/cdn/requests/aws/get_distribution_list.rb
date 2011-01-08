@@ -3,7 +3,7 @@ module Fog
     class CDN
       class Real
 
-        require 'fog/aws/parsers/cdn/get_distribution_list'
+        require 'fog/cdn/parsers/aws/get_distribution_list'
 
         # List information about distributions in CloudFront
         #

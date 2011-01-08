@@ -3,7 +3,7 @@ module Fog
     class CDN
       class Real
 
-        require 'fog/aws/parsers/cdn/distribution'
+        require 'fog/cdn/parsers/aws/distribution'
 
         # update a distribution in CloudFront
         #
