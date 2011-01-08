@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), 'core')
+require File.join(File.dirname(__FILE__), '..', 'core')
 
 module Fog
   module Rackspace
