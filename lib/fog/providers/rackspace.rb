@@ -7,8 +7,8 @@ module Fog
 
     service(:cdn,     'cdn/rackspace')
     service(:compute, 'rackspace/compute')
-    service(:files,   'rackspace/files')
-    service(:servers, 'rackspace/servers')
+    service(:files,   'storage/rackspace')
+    service(:servers, 'rackspace/compute')
     service(:storage, 'storage/rackspace')
 
     def self.authenticate(options)
