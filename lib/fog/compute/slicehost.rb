@@ -4,6 +4,7 @@ module Fog
 
       requires :slicehost_password
       recognizes :host, :port, :scheme, :persistent
+      recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/slicehost'
       model       :flavor
@@ -40,6 +41,13 @@ module Fog
         end
 
         def initialize(options={})
+          unless options.delete(:provider)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::Slicehost::Compute.new is deprecated, use Fog::Compute.new(:provider => 'Slicehost') instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+          end
+
           @slicehost_password = options[:slicehost_password]
           @data = self.class.data[@slicehost_password]
         end
@@ -49,6 +57,13 @@ module Fog
       class Real
 
         def initialize(options={})
+          unless options.delete(:provider)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::Slicehost::Compute.new is deprecated, use Fog::Compute.new(:provider => 'Slicehost') instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+          end
+
           @slicehost_password = options[:slicehost_password]
           @host   = options[:host]    || "api.slicehost.com"
           @port   = options[:port]    || 443

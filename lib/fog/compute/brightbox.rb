@@ -6,6 +6,7 @@ module Fog
 
       requires :brightbox_client_id, :brightbox_secret
       recognizes :brightbox_auth_url, :brightbox_api_url
+      recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/brightbox'
       model       :account # Singular resource, no collection
@@ -73,6 +74,13 @@ module Fog
       class Mock
 
         def initialize(options)
+          unless options.delete(:provider)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::Brightbox::Compute.new is deprecated, use Fog::Compute.new(:provider => 'Brightbox') instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+          end
+
           @brightbox_client_id = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
           @brightbox_secret = options[:brightbox_secret] || Fog.credentials[:brightbox_secret]
         end
@@ -85,6 +93,13 @@ module Fog
       class Real
 
         def initialize(options)
+          unless options.delete(:provider)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::Brightbox::Compute.new is deprecated, use Fog::Compute.new(:provider => 'Brightbox') instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+          end
+
           require "json"
           # Currently authentication and api endpoints are the same but may change
           @auth_url = options[:brightbox_auth_url] || Fog.credentials[:brightbox_auth_url] || API_URL

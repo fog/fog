@@ -3,6 +3,7 @@ module Fog
     class Storage < Fog::Service
 
       requires :local_root
+      recognizes :provider # remove post deprecation
 
       model_path 'fog/storage/models/local'
       collection  :directories
@@ -25,6 +26,13 @@ module Fog
         end
 
         def initialize(options={})
+          unless options.delete(:provider)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::Local::Storage.new is deprecated, use Fog::Storage.new(:provider => 'Local') instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+          end
+
           @local_root = ::File.expand_path(options[:local_root])
           @data       = self.class.data[@local_root]
         end
@@ -41,6 +49,13 @@ module Fog
       class Real
 
         def initialize(options={})
+          unless options.delete(:provider)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::Local::Storage.new is deprecated, use Fog::Storage.new(:provider => 'Local') instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+          end
+
           @local_root = ::File.expand_path(options[:local_root])
         end
 

@@ -20,6 +20,7 @@ module Fog
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :persistent
+      recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/rackspace'
       model       :flavor
@@ -75,6 +76,13 @@ module Fog
         end
 
         def initialize(options={})
+          unless options.delete(:provider)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::Rackspace::Compute.new is deprecated, use Fog::Compute.new(:provider => 'Rackspace') instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+          end
+
           @rackspace_username = options[:rackspace_username]
           @data = self.class.data[@rackspace_username]
         end
@@ -84,6 +92,13 @@ module Fog
       class Real
 
         def initialize(options={})
+          unless options.delete(:provider)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::Rackspace::Compute.new is deprecated, use Fog::Compute.new(:provider => 'Rackspace') instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+          end
+
           require 'json'
           credentials = Fog::Rackspace.authenticate(options)
           @auth_token = credentials['X-Auth-Token']

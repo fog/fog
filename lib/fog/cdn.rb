@@ -3,7 +3,7 @@ module Fog
 
     def self.new(attributes)
       attributes = attributes.dup # prevent delete from having side effects
-      case provider = attributes.delete(:provider)
+      case provider = attributes[:provider] # attributes.delete(:provider)
       when 'AWS'
         require 'fog/cdn/aws'
         Fog::AWS::CDN.new(attributes)

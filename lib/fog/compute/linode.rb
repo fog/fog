@@ -4,6 +4,7 @@ module Fog
 
       requires :linode_api_key
       recognizes :port, :scheme, :persistent
+      recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/linode'
 
@@ -37,6 +38,13 @@ module Fog
         end
 
         def initialize(options={})
+          unless options.delete(:provider)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::Linode::Compute.new is deprecated, use Fog::Compute.new(:provider => 'Linode') instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+          end
+
           @linode_api_key = options[:linode_api_key]
           @data = self.class.data[@linode_api_key]
         end
@@ -46,6 +54,13 @@ module Fog
       class Real
 
         def initialize(options={})
+          unless options.delete(:provider)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::Linode::Compute.new is deprecated, use Fog::Compute.new(:provider => 'Linode') instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+          end
+
           require 'json'
           @linode_api_key = options[:linode_api_key]
           @host   = options[:host]    || "api.linode.com"

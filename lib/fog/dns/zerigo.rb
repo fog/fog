@@ -4,6 +4,7 @@ module Fog
 
       requires :zerigo_email, :zerigo_token
       recognizes :timeout, :persistent
+      recognizes :provider # remove post deprecation
 
       model_path 'fog/dns/models/zerigo'
       model       :record
@@ -42,6 +43,13 @@ module Fog
         end
 
         def initialize(options={})
+          unless options.delete(:provider)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::Zerigo::DNS.new is deprecated, use Fog::DNS.new(:provider => 'Zerigo') instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+          end
+
           @zerigo_email = options[:zerigo_email]
           @zerigo_token = options[:zerigo_token]
           @data = self.class.data[@zerigo_email]
@@ -53,7 +61,14 @@ module Fog
       class Real
 
         def initialize(options={})
-          @zerigo_email     = options[:zerigo_email]
+          unless options.delete(:provider)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::Zerigo::DNS.new is deprecated, use Fog::DNS.new(:provider => 'Zerigo') instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+          end
+
+          @zerigo_email  = options[:zerigo_email]
           @zerigo_token  = options[:zerigo_token]
           @host   = options[:host]    || "ns.zerigo.com"
           @port   = options[:port]    || 80

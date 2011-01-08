@@ -4,6 +4,7 @@ module Fog
 
       requires :bluebox_api_key, :bluebox_customer_id
       recognizes :bluebox_host, :bluebox_port, :bluebox_scheme, :persistent
+      recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/bluebox'
       model       :flavor
@@ -39,6 +40,13 @@ module Fog
         end
 
         def initialize(options={})
+          unless options.delete(:provider)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::Bluebox::Compute.new is deprecated, use Fog::Compute.new(:provider => 'Bluebox') instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+          end
+
           @bluebox_api_key = options[:bluebox_api_key]
           @data = self.class.data[@bluebox_api_key]
         end
@@ -48,6 +56,13 @@ module Fog
       class Real
 
         def initialize(options={})
+          unless options.delete(:provider)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::Bluebox::Compute.new is deprecated, use Fog::Compute.new(:provider => 'Bluebox') instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+          end
+
           require 'json'
           @bluebox_api_key      = options[:bluebox_api_key]
           @bluebox_customer_id  = options[:bluebox_customer_id]

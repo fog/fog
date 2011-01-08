@@ -20,6 +20,7 @@ module Fog
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :persistent
+      recognizes :provider # remove post deprecation
 
       model_path 'fog/storage/models/rackspace'
       model       :directory
@@ -87,6 +88,13 @@ module Fog
         end
 
         def initialize(options={})
+          unless options.delete(:provider)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::Rackspace::Storage.new is deprecated, use Fog::Storage.new(:provider => 'Rackspace') instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+          end
+
           require 'mime/types'
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
@@ -99,6 +107,13 @@ module Fog
         include Utils
 
         def initialize(options={})
+          unless options.delete(:provider)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::Rackspace::Storage.new is deprecated, use Fog::Storage.new(:provider => 'Rackspace') instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+          end
+
           require 'mime/types'
           require 'json'
           @rackspace_api_key = options[:rackspace_api_key]

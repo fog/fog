@@ -4,6 +4,7 @@ module Fog
 
       requires :go_grid_api_key, :go_grid_shared_secret
       recognizes :host, :path, :port, :scheme, :persistent
+      recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/go_grid'
       model         :image
@@ -38,6 +39,13 @@ module Fog
         end
 
         def initialize(options={})
+          unless options.delete(:provider)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::GoGrid::Compute.new is deprecated, use Fog::Compute.new(:provider => 'GoGrid') instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+          end
+
           @go_grid_api_key = options[:go_grid_api_key]
           @go_grid_shared_secret = options[:go_grid_shared_secret]
           @data = self.class.data[@go_grid_api_key]
@@ -48,6 +56,13 @@ module Fog
       class Real
 
         def initialize(options={})
+          unless options.delete(:provider)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::GoGrid::Compute.new is deprecated, use Fog::Compute.new(:provider => 'GoGrid') instead[/]"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+          end
+
           require 'digest/md5'
           require 'json'
           @go_grid_api_key = options[:go_grid_api_key]
