@@ -9,7 +9,7 @@ module Fog
     extend Fog::Provider
 
     service(:compute, 'slicehost/compute')
-    service(:dns,     'slicehost/dns')
+    service(:dns,     'dns/slicehost')
 
     def self.new(attributes = {})
       location = caller.first

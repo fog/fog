@@ -8,7 +8,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:dns, 'zerigo/dns')
+    service(:dns, 'dns/zerigo')
 
   end
 end
