@@ -8,7 +8,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'new_servers/compute')
+    service(:compute, 'compute/new_servers')
 
     def self.new(attributes = {})
       location = caller.first

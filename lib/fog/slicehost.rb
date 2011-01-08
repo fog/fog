@@ -8,7 +8,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'slicehost/compute')
+    service(:compute, 'compute/slicehost')
     service(:dns,     'dns/slicehost')
 
     def self.new(attributes = {})

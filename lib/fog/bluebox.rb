@@ -5,7 +5,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'bluebox/compute')
+    service(:compute, 'compute/bluebox')
 
     def self.new(attributes = {})
       location = caller.first

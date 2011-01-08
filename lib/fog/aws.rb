@@ -9,7 +9,7 @@ module Fog
     extend Fog::Provider
 
     service(:cdn,       'aws/cdn')
-    service(:compute,   'aws/compute')
+    service(:compute,   'compute/aws')
     service(:dns,       'dns/aws')
     service(:ec2,       'aws/ec2')
     service(:elb,       'aws/elb')

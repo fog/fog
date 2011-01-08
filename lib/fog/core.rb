@@ -16,7 +16,6 @@ require 'timeout'
 # internal core dependencies
 require 'fog/core/attributes'
 require 'fog/core/collection'
-require 'fog/core/compute'
 require 'fog/core/connection'
 require 'fog/core/credentials'
 require 'fog/core/deprecation'

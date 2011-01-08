@@ -5,7 +5,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'linode/compute')
+    service(:compute, 'compute/linode')
     service(:dns,     'dns/linode')
 
     def self.new(attributes = {})

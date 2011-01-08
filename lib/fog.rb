@@ -22,4 +22,6 @@ require 'fog/terremark'
 require 'fog/vcloud'
 require 'fog/zerigo'
 
+require 'fog/compute'
+require 'fog/dns'
 require 'fog/storage'
