@@ -16,6 +16,8 @@ module Shindo
   class Tests
 
     def formats(format)
+      raise ArgumentError, 'format is nil' unless format
+
       test('has proper format') do
         formats_kernel(instance_eval(&Proc.new), format)
       end
