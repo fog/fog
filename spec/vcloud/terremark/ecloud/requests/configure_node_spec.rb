@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', '..', '..', 'spec_helper')
+require 'vcloud/spec_helper'
 
 if Fog.mocking?
   describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do

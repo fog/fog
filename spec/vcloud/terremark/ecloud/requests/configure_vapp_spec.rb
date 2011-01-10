@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', '..', '..', 'spec_helper')
+require 'vcloud/spec_helper'
 
 shared_examples_for "a successful configure vapp" do
   specify { after_vapp_data.should == new_vapp_data }

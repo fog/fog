@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', '..', '..', 'spec_helper')
+require 'vcloud/spec_helper'
 
 shared_examples_for "a failed vapp deletion" do
   it "should not change the mock data" do

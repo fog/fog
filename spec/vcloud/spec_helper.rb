@@ -19,13 +19,12 @@ end
 #Initialize this to a known seed
 srand 1234
 
-current_directory = File.dirname(__FILE__)
-require "#{current_directory}/../../lib/fog"
-require "#{current_directory}/../../lib/fog/core/bin"
+require 'fog'
+require 'fog/bin'
 
 Fog.mock! if ENV['FOG_MOCK']
 
-require "#{current_directory}/../../lib/fog/vcloud/bin"
+require 'fog/bin/vcloud'
 
 def arrayify(item)
   item.is_a?(Array) ? item : [ item ]
