@@ -1,5 +1,7 @@
-require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
-require 'fog/core/bin'
+$LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), %w[ .. lib fog]))
+
+require 'fog'
+require 'fog/bin'
 
 # Use so you can run in mock mode from the command line
 #
