@@ -15,6 +15,10 @@ module Fog
       extend Fog::Terremark::Shared
 
       def self.new(options={})
+        location = caller.first
+        warning = "[yellow][WARN] Fog::Terremark::Ecloud is deprecated, use Fog::Vcloud::Terremark::Ecloud[/]"
+        warning << " [light_black](" << location << ")[/] "
+        Formatador.display_line(warning)
 
         unless @required
           shared_requires
