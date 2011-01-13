@@ -25,7 +25,9 @@ module Fog
           options['Type']     ||= type
           data = connection.list_resource_record_sets(zone.id, options).body
           merge_attributes(data.reject {|key, value| !['IsTruncated', 'MaxItems', 'NextRecordName', 'NextRecordType'].include?(key)})
-          load(data['ResourceRecordSets'])
+          # leave out the default, read only records
+          data = data['ResourceRecordSets'].reject {|record| ['NS', 'SOA'].include?(record['Type'])}
+          load(data)
         end
 
         def get(record_id)
