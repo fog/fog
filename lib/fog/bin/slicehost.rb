@@ -20,7 +20,14 @@ class Slicehost < Fog::Bin
           warning << " [light_black](" << location << ")[/] "
           Formatador.display_line(warning)
         end
-        hash[key] = class_for(key).new
+        hash[key] = case service
+        when :compute, :slices
+          Fog::Compute.new(:provider => 'Slicehost')
+        when :dns
+          Fog::DNS.new(:provider => 'Slicehost')
+        else
+          raise ArgumentError, "Unrecognized service: #{service}"
+        end
       end
       @@connections[service]
     end

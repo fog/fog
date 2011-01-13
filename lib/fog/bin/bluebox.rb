@@ -12,13 +12,18 @@ class Bluebox < Fog::Bin
 
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        if key == :blocks
+        hash[key] = case service
+        when :blocks
           location = caller.first
           warning = "[yellow][WARN] Bluebox[:blocks] is deprecated, use Bluebox[:compute] instead[/]"
           warning << " [light_black](" << location << ")[/] "
           Formatador.display_line(warning)
+          Fog::Compute.new(:provider => 'Brightbox')
+        when :compute
+          Fog::Compute.new(:provider => 'Brightbox')
+        else
+          raise ArgumentError, "Unrecognized service: #{service}"
         end
-        hash[key] = class_for(key).new
       end
       @@connections[service]
     end

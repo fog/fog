@@ -12,13 +12,18 @@ class GoGrid < Fog::Bin
 
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        if key == :servers
+        hash[key] = case service
+        when :compute
+          Fog::Compute.new(:provider => 'GoGrid')
+        when :servers
           location = caller.first
           warning = "[yellow][WARN] GoGrid[:servers] is deprecated, use GoGrid[:compute] instead[/]"
           warning << " [light_black](" << location << ")[/] "
           Formatador.display_line(warning)
+          Fog::Compute.new(:provider => 'GoGrid')
+        else
+          raise ArgumentError, "Unrecognized service: #{service}"
         end
-        hash[key] = class_for(key).new
       end
       @@connections[service]
     end

@@ -12,7 +12,12 @@ class Brightbox < Fog::Bin
 
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        hash[key] = class_for(key).new
+        hash[key] = case service
+        when :compute
+          Fog::Compute.new(:provider => 'Brightbox')
+        else
+          raise ArgumentError, "Unrecognized service: #{service}"
+        end
       end
       @@connections[service]
     end

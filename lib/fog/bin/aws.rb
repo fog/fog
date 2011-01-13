@@ -27,24 +27,37 @@ class AWS < Fog::Bin
 
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        klazz = class_for(key)
-        hash[key] = case key 
+        hash[key] = case service
+        when :cdn
+          Fog::CDN.new(:provider => 'AWS')
+        when :compute
+          Fog::Compute.new(:provider => 'AWS')
+        when :dns
+          Fog::DNS.new(:provider => 'AWS')
         when :ec2
           location = caller.first
           warning = "[yellow][WARN] AWS[:ec2] is deprecated, use AWS[:compute] instead[/]"
           warning << " [light_black](" << location << ")[/] "
           Formatador.display_line(warning)
-          klazz.new
+          Fog::Compute.new(:provider => 'AWS')
+        when :elb
+          Fog::AWS::ELB.new
+        when :iam
+          Fog::AWS::IAM.new
         when :eu_storage
-          klazz.new(:region => 'eu-west-1')
+          Fog::Storage.new(:provider => 'AWS', :region => 'eu-west-1')
+        when :sdb
+          Fog::AWS::SimpleDB.new
         when :s3
           location = caller.first
           warning = "[yellow][WARN] AWS[:s3] is deprecated, use AWS[:storage] instead[/]"
           warning << " [light_black](" << location << ")[/] "
           Formatador.display_line(warning)
-          klazz.new
+          Fog::Storage.new(:provider => 'AWS')
+        when :storage
+          Fog::Storage.new(:provider => 'AWS')
         else
-          klazz.new
+          raise ArgumentError, "Unrecognized service: #{service}"
         end
       end
       @@connections[service]

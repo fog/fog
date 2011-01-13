@@ -14,13 +14,20 @@ class Linode < Fog::Bin
 
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        if key == :linode
+        hash[key] = case service
+        when :compute
+          Fog::Compute.new(:provider => 'Linode')
+        when :dns
+          Fog::DNS.new(:provider => 'Linode')
+        when :linode
           location = caller.first
           warning = "[yellow][WARN] Linode[:linode] is deprecated, use Linode[:compute] instead[/]"
           warning << " [light_black](" << location << ")[/] "
           Formatador.display_line(warning)
+          Fog::Compute.new(:provider => 'Linode')
+        else
+          raise ArgumentError, "Unrecognized service: #{service}"
         end
-        hash[key] = class_for(key).new
       end
       @@connections[service]
     end

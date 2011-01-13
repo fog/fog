@@ -12,13 +12,18 @@ class Local < Fog::Bin
 
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        if key == :files
+        hash[key] = case service
+        when :files
           location = caller.first
           warning = "[yellow][WARN] Local[:files] is deprecated, use Local[:storage] instead[/]"
           warning << " [light_black](" << location << ")[/] "
           Formatador.display_line(warning)
+          Fog::Storage.new(:provider => 'Local')
+        when :storage
+          Fog::Storage.new(:provider => 'Local')
+        else
+          raise ArgumentError, "Unrecognized service: #{service}"
         end
-        hash[key] = class_for(key).new
       end
       @@connections[service]
     end

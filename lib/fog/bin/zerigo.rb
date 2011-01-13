@@ -12,7 +12,12 @@ class Zerigo < Fog::Bin
 
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        hash[key] = class_for(key).new
+        hash[key] = case service
+        when :dns
+          Fog::DNS.new(:provider => 'Zerigo')
+        else
+          raise ArgumentError, "Unrecognized service: #{service}"
+        end
       end
       @@connections[service]
     end

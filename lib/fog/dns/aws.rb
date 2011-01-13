@@ -79,7 +79,7 @@ module Fog
         def initialize(options={})
           unless options.delete(:provider)
             location = caller.first
-            warning = "[yellow][WARN] Fog::AWS::DNS.new is deprecated, use Fog::Storage.new(:provider => 'DNS') instead[/]"
+            warning = "[yellow][WARN] Fog::AWS::DNS.new is deprecated, use Fog::DNS.new(:provider => 'DNS') instead[/]"
             warning << " [light_black](" << location << ")[/] "
             Formatador.display_line(warning)
           end

@@ -12,13 +12,18 @@ class NewServers < Fog::Bin
 
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        if key == :new_servers
+        hash[key] = case service
+        when :compute
+          Fog::Compute.new(:provider => 'NewServers')
+        when :new_servers
           location = caller.first
-          warning = "[yellow][WARN] NewServers[:servers] is deprecated, use NewServers[:compute] instead[/]"
+          warning = "[yellow][WARN] NewServers[:new_servers] is deprecated, use NewServers[:compute] instead[/]"
           warning << " [light_black](" << location << ")[/] "
           Formatador.display_line(warning)
+          Fog::Compute.new(:provider => 'NewServers')
+        else
+          raise ArgumentError, "Unrecognized service: #{service}"
         end
-        hash[key] = class_for(key).new
       end
       @@connections[service]
     end
