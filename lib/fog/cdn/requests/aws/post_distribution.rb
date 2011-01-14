@@ -16,8 +16,8 @@ module Fog
         #   or
         #   * 'CustomOrigin'<~Hash>:
         #     * 'DNSName'<~String> - origin to associate with distribution, ie 'www.example.com'
-        #     * 'HTTPPort'<~Integer> - HTTP port of origin, in [80, 443] or (1024...65535)
-        #     * 'HTTPSPort'<~Integer> - HTTPS port of origin, in [80, 443] or (1024...65535)
+        #     * 'HTTPPort'<~Integer> - Optional HTTP port of origin, in [80, 443] or (1024...65535), defaults to 80
+        #     * 'HTTPSPort'<~Integer> - Optional HTTPS port of origin, in [80, 443] or (1024...65535), defaults to 443
         #     * 'OriginProtocolPolicy'<~String> - Policy on using http vs https, in ['http-only', 'match-viewer']
         #   OPTIONAL:
         #   * 'CallerReference'<~String> - Used to prevent replay, defaults to Time.now.to_i.to_s
