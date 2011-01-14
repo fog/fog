@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/slicehost/models/compute/image'
+require 'fog/compute/models/slicehost/image'
 
 module Fog
   module Slicehost

@@ -12,7 +12,7 @@ module Fog
       model       :zone
       collection  :zones
 
-      request_path 'fog/dns/models/zerigo'
+      request_path 'fog/dns/requests/zerigo'
       request :count_hosts
       request :count_zones
       request :create_host

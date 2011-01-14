@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/google/models/storage/file'
+require 'fog/storage/models/google/file'
 
 module Fog
   module Google

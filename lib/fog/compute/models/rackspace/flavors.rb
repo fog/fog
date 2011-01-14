@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/rackspace/models/compute/flavor'
+require 'fog/compute/models/rackspace/flavor'
 
 module Fog
   module Rackspace

@@ -12,7 +12,7 @@ module Fog
       model       :zone
       collection  :zones
 
-      request_path 'fog/dns/models/linode'
+      request_path 'fog/dns/requests/linode'
       request :domain_create
       request :domain_delete
       request :domain_list

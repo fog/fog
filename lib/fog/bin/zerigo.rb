@@ -12,7 +12,7 @@ class Zerigo < Fog::Bin
 
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        hash[key] = case service
+        hash[key] = case key
         when :dns
           Fog::DNS.new(:provider => 'Zerigo')
         else

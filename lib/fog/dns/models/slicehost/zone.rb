@@ -1,5 +1,5 @@
 require 'fog/core/model'
-require 'fog/slicehost/models/dns/records'
+require 'fog/dns/models/slicehost/records'
 
 module Fog
   module Slicehost

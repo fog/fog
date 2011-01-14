@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/local/models/storage/file'
+require 'fog/storage/models/local/file'
 
 module Fog
   module Local

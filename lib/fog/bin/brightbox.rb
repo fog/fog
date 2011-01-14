@@ -12,7 +12,7 @@ class Brightbox < Fog::Bin
 
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        hash[key] = case service
+        hash[key] = case key
         when :compute
           Fog::Compute.new(:provider => 'Brightbox')
         else

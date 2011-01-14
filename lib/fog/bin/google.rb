@@ -12,7 +12,7 @@ class Google < Fog::Bin
 
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        hash[key] = case service
+        hash[key] = case key
         when :storage
           Fog::Storage.new(:provider => 'Google')
         else

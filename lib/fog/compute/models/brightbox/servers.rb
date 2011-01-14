@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/brightbox/models/compute/server'
+require 'fog/compute/models/brightbox/server'
 
 module Fog
   module Brightbox

@@ -20,7 +20,7 @@ class Slicehost < Fog::Bin
           warning << " [light_black](" << location << ")[/] "
           Formatador.display_line(warning)
         end
-        hash[key] = case service
+        hash[key] = case key
         when :compute, :slices
           Fog::Compute.new(:provider => 'Slicehost')
         when :dns

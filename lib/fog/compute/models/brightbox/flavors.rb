@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/brightbox/models/compute/flavor'
+require 'fog/compute/models/brightbox/flavor'
 
 module Fog
   module Brightbox

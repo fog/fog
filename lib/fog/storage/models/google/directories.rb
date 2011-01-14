@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/google/models/storage/directory'
+require 'fog/storage/models/google/directory'
 
 module Fog
   module Google

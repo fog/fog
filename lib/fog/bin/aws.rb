@@ -27,7 +27,7 @@ class AWS < Fog::Bin
 
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        hash[key] = case service
+        hash[key] = case key
         when :cdn
           Fog::CDN.new(:provider => 'AWS')
         when :compute

@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/brightbox/models/compute/load_balancer'
+require 'fog/compute/models/brightbox/load_balancer'
 
 module Fog
   module Brightbox

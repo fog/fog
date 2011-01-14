@@ -12,7 +12,7 @@ class Local < Fog::Bin
 
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        hash[key] = case service
+        hash[key] = case key
         when :files
           location = caller.first
           warning = "[yellow][WARN] Local[:files] is deprecated, use Local[:storage] instead[/]"

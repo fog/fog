@@ -1,5 +1,5 @@
 require 'fog/core/model'
-require 'fog/linode/models/dns/records'
+require 'fog/dns/models/linode/records'
 
 module Fog
   module Linode
