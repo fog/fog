@@ -1,8 +1,19 @@
 require 'spec'
 require 'open-uri'
 require 'fog'
+
+test_value = "!!! test value !!!"
+
+Fog.credentials[:aws_access_key_id]     = test_value
+Fog.credentials[:aws_secret_access_key] = test_value
+
+Fog.credentials[:vcloud] = { 
+  :ecloud => {  :username     => test_value,
+                :password     => test_value,
+                :versions_uri => test_value,
+                :module       => "Hash" } }
+
 require 'fog/bin'
-require 'fog/bin/vcloud'
 
 if ENV["FOG_MOCK"] == "true"
   Fog.mock!

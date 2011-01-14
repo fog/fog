@@ -1,6 +1,12 @@
 $LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), %w[ .. lib fog]))
 
 require 'fog'
+
+test_value = "!!! test value !!!"
+
+Fog.credentials[:zerigo_email] = test_value
+Fog.credentials[:zerigo_token] = test_value
+
 require 'fog/bin'
 
 # Use so you can run in mock mode from the command line
