@@ -47,7 +47,7 @@ private
     <<-YML
 Missing Credentials
 
-To run as '#{credential}', add the following to your resource config file: #{config_path}
+To run as '#{credential}', add the following to your resource config file: #{credentials_path}
 An alternate file may be used by placing its path in the FOG_RC environment variable
 
 #######################################################
