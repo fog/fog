@@ -1,5 +1,5 @@
 require 'fog/core/model'
-require 'fog/zerigo/models/dns/records'
+require 'fog/dns/models/zerigo/records'
 
 module Fog
   module Zerigo

@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/aws/models/compute/server'
+require 'fog/compute/models/aws/server'
 
 module Fog
   module AWS
