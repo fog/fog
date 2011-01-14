@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/bluebox/models/compute/flavor'
+require 'fog/compute/models/bluebox/flavor'
 
 module Fog
   module Bluebox
