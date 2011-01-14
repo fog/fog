@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/aws/models/compute/volume'
+require 'fog/compute/models/aws/volume'
 
 module Fog
   module AWS

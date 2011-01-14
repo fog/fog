@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/aws/models/compute/key_pair'
+require 'fog/compute/models/aws/key_pair'
 
 module Fog
   module AWS

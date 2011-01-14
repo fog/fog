@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/aws/models/compute/flavor'
+require 'fog/compute/models/aws/flavor'
 
 module Fog
   module AWS
