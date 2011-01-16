@@ -66,7 +66,7 @@ module Fog
           require 'json'
           @bluebox_api_key      = options[:bluebox_api_key]
           @bluebox_customer_id  = options[:bluebox_customer_id]
-          @host   = options[:bluebox_host]    || "boxpanel.blueboxgrp.com"
+          @host   = options[:bluebox_host]    || "boxpanel.bluebox.net"
           @port   = options[:bluebox_port]    || 443
           @scheme = options[:bluebox_scheme]  || 'https'
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
