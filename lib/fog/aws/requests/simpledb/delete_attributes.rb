@@ -44,8 +44,6 @@ module Fog
                   @data[:domains][domain_name][key].delete('value')
                 end
               end
-            else
-              @data[:domains].delete(domain_name)
             end
             response.status = 200
             response.body = {

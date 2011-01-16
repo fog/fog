@@ -1,4 +1,6 @@
 require 'nokogiri'
+
+require 'fog/core'
 require 'fog/core/parser'
 
 require 'fog/terremark/shared'

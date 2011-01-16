@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', '..', '..', 'spec_helper')
+require 'vcloud/spec_helper'
 
 if Fog.mocking?
   #FIXME: with rspec2

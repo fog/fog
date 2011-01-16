@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__),'..','..','..','spec_helper')
+require 'vcloud/spec_helper'
 
 if Fog.mocking?
   describe "Fog::Vcloud::Terremark::Ecloud::Vdc", :type => :mock_tmrk_ecloud_model do
@@ -26,6 +26,26 @@ if Fog.mocking?
       its(:cpus)                  { should == { :count => @mock_vm.cpus, :units => nil } }
       its(:memory)                { should == { :amount => @mock_vm.memory, :units => nil } }
       its(:disks)                 { should == @mock_vm.to_configure_vapp_hash[:disks] }
+
+      describe "question methods" do
+        describe "#ready?" do
+          before { subject.power_off }
+
+          it { should be_ready }
+        end
+
+        describe "#on?" do
+          before { subject.power_on }
+
+          it { should be_on }
+        end
+
+        describe "#off?" do
+          before { subject.power_off }
+
+          it { should be_off }
+        end
+      end
     end
 
     context "as a new server without all info" do

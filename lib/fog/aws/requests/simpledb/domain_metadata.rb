@@ -27,6 +27,7 @@ module Fog
           request(
             'Action'      => 'DomainMetadata',
             'DomainName'  => domain_name,
+            :idempotent   => true,
             :parser       => Fog::Parsers::AWS::SimpleDB::DomainMetadata.new(@nil_string)
           )
         end

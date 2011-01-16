@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', '..', '..', 'spec_helper')
+require 'vcloud/spec_helper'
 
 if Fog.mocking?
   describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do
@@ -30,16 +30,16 @@ if Fog.mocking?
 
           context "one we know is assigned" do
             let(:address) { @ips.body[:IpAddress][0] }
-            specify { address.should have(5).keys }
+            specify { address.should have(6).keys }
             specify { address[:Status].should == "Assigned" }
             specify { address[:Server].should == "Broom 1" }
             specify { address[:Name].should == "1.2.3.3" }
             specify { address[:RnatAddress].should == "99.1.2.3" }
           end
 
-          context "one we know is assigned" do
+          context "one we know is not assigned" do
             let(:address) { @ips.body[:IpAddress][100] }
-            specify { address.should have(4).keys }
+            specify { address.should have(5).keys }
             specify { address[:Status].should == "Available" }
             specify { address.has_key?(:Server).should be_false }
             specify { address[:Name].should == "1.2.3.103" }

@@ -27,6 +27,10 @@ module Fog
             @internet_services ||= collection_based_on_type("application/vnd.tmrk.ecloud.internetServicesList+xml")
           end
 
+          def backup_internet_services
+            @backup_internet_services ||= collection_based_on_type("application/vnd.tmrk.ecloud.internetServicesList+xml", BackupInternetServices)
+          end
+
           def networks
             @networks ||= Fog::Vcloud::Terremark::Ecloud::Networks.
               new( :connection => connection,
@@ -55,14 +59,14 @@ module Fog
 
           private
 
-          def collection_based_on_type(type)
+          def collection_based_on_type(type, klass = nil)
             load_unless_loaded!
             if link = other_links.detect { |link| link[:type] == type }
               case type
               when "application/vnd.tmrk.ecloud.publicIpsList+xml"
                 Fog::Vcloud::Terremark::Ecloud::PublicIps
               when "application/vnd.tmrk.ecloud.internetServicesList+xml"
-                Fog::Vcloud::Terremark::Ecloud::InternetServices
+                klass || Fog::Vcloud::Terremark::Ecloud::InternetServices
               when "application/vnd.vmware.vcloud.catalog+xml"
                 Fog::Vcloud::Terremark::Ecloud::Catalog
               when "application/vnd.tmrk.ecloud.firewallAclsList+xml"

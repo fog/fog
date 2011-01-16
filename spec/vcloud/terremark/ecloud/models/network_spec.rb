@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__),'..','..','..','spec_helper')
+require 'vcloud/spec_helper'
 
 if Fog.mocking?
   describe "Fog::Vcloud::Terremark::Ecloud::Network", :type => :mock_tmrk_ecloud_model do
@@ -8,7 +8,7 @@ if Fog.mocking?
       subject { Fog::Vcloud::Terremark::Ecloud::Network }
 
       it { should have_identity :href }
-      it { should have_only_these_attributes [:href, :name, :features, :links, :type, :gateway, :broadcast, :address, :rnat, :extension_href] }
+      it { should have_only_these_attributes [:href, :name, :features, :links, :type, :gateway, :broadcast, :address, :rnat, :extension_href, :network_type, :vlan, :friendly_name] }
     end
 
     context "with no uri" do
@@ -32,13 +32,16 @@ if Fog.mocking?
       its(:address)               { should == @mock_network.address }
       its(:rnat)                  { should == @mock_network.rnat }
       its(:extension_href)        { should == @mock_network.extensions.href }
+      its(:network_type)          { should == @mock_network.extensions.type }
+      its(:vlan)                  { should == @mock_network.extensions.vlan }
+      its(:friendly_name)         { should == @mock_network.extensions.friendly_name }
 
       it { should have(1).features }
 
       describe :features do
-        let(:feature) { subject.features[0] }
-        specify { feature.should be_an_instance_of Hash }
-        specify { feature[:FenceMode].should == @mock_network.features[0][:value] }
+        let(:feature) { subject.features.first }
+        specify { feature.should be_an_instance_of Array }
+        specify { feature.last.should == @mock_network.features[0][:value] }
       end
 
       it { should have(2).links }

@@ -31,6 +31,7 @@ module Fog
             'Action'      => 'GetAttributes',
             'DomainName'  => domain_name,
             'ItemName'    => item_name,
+            :idempotent   => true,
             :parser       => Fog::Parsers::AWS::SimpleDB::GetAttributes.new(@nil_string)
           }.merge!(encode_attribute_names(attributes)))
         end

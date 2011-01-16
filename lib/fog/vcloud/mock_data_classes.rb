@@ -47,17 +47,7 @@ module Fog
         end
 
         def inspect
-          "<#{self.class.name} #{object_id} data=#{super} method_data=#{method_data.inspect}>"
-        end
-
-        private
-
-        def unique_methods
-          (public_methods - self.class.superclass.public_instance_methods).reject {|m| m.to_s =~ /!$/ }
-        end
-
-        def method_data
-          (unique_methods + [:href]).sort_by(&:to_s).find_all {|m| method(m).arity == 0 }.inject({}) {|md, m| md.update(m => send(m)) }
+          "<#{self.class.name} #{object_id} data=#{super}>"
         end
       end
 
@@ -129,6 +119,14 @@ module Fog
 
         def vdc_internet_service_collection_from_href(href)
           find_href_in(href, all_vdc_internet_service_collections)
+        end
+
+        def all_backup_internet_services
+          all_vdc_internet_service_collections.map(&:backup_internet_services).flatten
+        end
+
+        def backup_internet_service_from_href(href)
+          find_href_in(href, all_backup_internet_services)
         end
 
         def all_public_ip_collections
@@ -434,6 +432,10 @@ module Fog
         def rnat
           self[:rnat] || _parent._parent.rnat
         end
+
+        def rnat_set?
+          !!self[:rnat]
+        end
       end
 
       class MockNetworkExtensions < Base
@@ -455,6 +457,18 @@ module Fog
 
         def rnat
           _parent.rnat
+        end
+
+        def type
+          self[:type] || "DMZ"
+        end
+
+        def vlan
+          object_id.to_s
+        end
+
+        def friendly_name
+          "#{name} (#{type}_#{object_id})"
         end
       end
 
@@ -493,6 +507,12 @@ module Fog
 
         def size
           disks.inject(0) {|s, d| s + d.vcloud_size }
+        end
+
+        def network_ip
+          if network = _parent.networks.detect {|n| n.ip_collection.items[ip] }
+            network.ip_collection.items[ip]
+          end
         end
 
         # from fog ecloud server's _compose_vapp_data
@@ -574,9 +594,51 @@ module Fog
         end
 
         def items
+          public_ip_internet_services + backup_internet_services
+        end
+
+        def public_ip_internet_services
           _parent.public_ip_collection.items.inject([]) do |services, public_ip|
             services + public_ip.internet_service_collection.items
           end
+        end
+
+        def backup_internet_services
+          @backup_internet_services ||= []
+        end
+      end
+
+      class MockBackupInternetService < Base
+        def name
+          self[:name] || "Backup Internet Service #{object_id}"
+        end
+
+        def protocol
+          self[:protocol]
+        end
+
+        def port
+          0
+        end
+
+        def enabled
+          self[:enabled].to_s.downcase != "false"
+        end
+
+        def timeout
+          self[:timeout] || 2
+        end
+
+        def description
+          self[:description] || "Description for Backup Service #{name}"
+        end
+
+        def redirect_url
+          nil
+        end
+
+        def node_collection
+          @node_collection ||= MockPublicIpInternetServiceNodes.new({}, self)
         end
       end
 
@@ -651,6 +713,10 @@ module Fog
 
         def monitor
           nil
+        end
+
+        def backup_service
+          self[:backup_service]
         end
       end
 

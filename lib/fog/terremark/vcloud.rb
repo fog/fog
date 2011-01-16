@@ -15,6 +15,10 @@ module Fog
      extend Fog::Terremark::Shared
 
      def self.new(options={})
+       location = caller.first
+       warning = "[yellow][WARN] Fog::Terremark::Vcloud is deprecated, to be replaced with Vcloud 1.0 someday/maybe[/]"
+       warning << " [light_black](" << location << ")[/] "
+       Formatador.display_line(warning)
 
        unless @required
          shared_requires

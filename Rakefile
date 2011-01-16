@@ -45,14 +45,13 @@ end
 
 task :default => :test
 
-task :test do
-  sh("export FOG_MOCK=true  && bundle exec spec -cfs spec") &&
-  sh("export FOG_MOCK=true  && bundle exec shindo tests") &&
-  sh("export FOG_MOCK=false && bundle exec spec -cfs spec") &&
-  sh("export FOG_MOCK=false && bundle exec shindo tests")
+task :examples do
+  sh("export FOG_MOCK=false && bundle exec shindont examples")
+  # some don't provide mocks so we'll leave this out for now
+  # sh("export FOG_MOCK=true  && bundle exec shindont examples")
 end
 
-task :ci do
+task :test => :examples do
   sh("export FOG_MOCK=true  && bundle exec spec spec") &&
   sh("export FOG_MOCK=true  && bundle exec shindont tests") &&
   sh("export FOG_MOCK=false && bundle exec spec spec") &&
@@ -91,7 +90,7 @@ task :release => :build do
     puts "You must be on the master branch to release!"
     exit!
   end
-  sh "sudo gem install pkg/#{name}-#{version}.gem"
+  sh "gem install pkg/#{name}-#{version}.gem"
   sh "git commit --allow-empty -a -m 'Release #{version}'"
   sh "git tag v#{version}"
   sh "git push origin master"
@@ -108,27 +107,14 @@ end
 task :gemspec => :validate do
   # read spec file and split out manifest section
   spec = File.read(gemspec_file)
-  head, manifest, tail = spec.split("  # = MANIFEST =\n")
 
   # replace name version and date
-  replace_header(head, :name)
-  replace_header(head, :version)
-  replace_header(head, :date)
+  replace_header(spec, :name)
+  replace_header(spec, :version)
+  replace_header(spec, :date)
   #comment this out if your rubyforge_project has a different name
-  replace_header(head, :rubyforge_project)
+  replace_header(spec, :rubyforge_project)
 
-  # determine file list from git ls-files
-  files = `git ls-files`.
-    split("\n").
-    sort.
-    reject { |file| file =~ /^\./ }.
-    reject { |file| file =~ /^(rdoc|pkg)/ }.
-    map { |file| "    #{file}" }.
-    join("\n")
-
-  # piece file back together and write
-  manifest = "  s.files = %w[\n#{files}\n  ]\n"
-  spec = [head, manifest, tail].join("  # = MANIFEST =\n")
   File.open(gemspec_file, 'w') { |io| io.write(spec) }
   puts "Updated #{gemspec_file}"
 end

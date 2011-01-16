@@ -7,9 +7,7 @@ module Fog
 
           def generate_node_request(node_data)
             builder = Builder::XmlMarkup.new
-            builder.CreateNodeServiceRequest(:"xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
-                                             :"xmlns:xsd" => "http://www.w3.org/2001/XMLSchema",
-                                             :xmlns => "urn:tmrk:eCloudExtensions-2.3") {
+            builder.CreateNodeServiceRequest(ecloud_xmlns) {
               builder.IpAddress(node_data[:ip_address])
               builder.Name(node_data[:name])
               builder.Port(node_data[:port])

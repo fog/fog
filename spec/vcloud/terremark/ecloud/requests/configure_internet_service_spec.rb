@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', '..', '..', 'spec_helper')
+require 'vcloud/spec_helper'
 
 if Fog.mocking?
   describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do
@@ -26,6 +26,7 @@ if Fog.mocking?
             @service_data[:description] = "TEST BOOM"
             @service_data[:redirect_url] = "http://google.com"
             @service_data[:port] = "80"
+            @service_data[:backup_service_uri] = @mock_backup_service.href
           end
 
           it "should change data" do
@@ -36,12 +37,14 @@ if Fog.mocking?
             result.body[:Description].should == @service_data[:description]
             result.body[:RedirectURL].should == @service_data[:redirect_url]
             result.body[:Port].should        == @service_data[:port]
+            result.body[:BackupService][:Href].should == @service_data[:backup_service_uri]
 
             new_result = @vcloud.get_internet_services(@mock_public_ip.internet_service_collection.href).body[:InternetService].first
 
             new_result[:Description].should == @service_data[:description]
             new_result[:RedirectURL].should == @service_data[:redirect_url]
             new_result[:Port].should        == @service_data[:port]
+            new_result[:BackupService][:Href].should == @service_data[:backup_service_uri]
           end
         end
       end

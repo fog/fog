@@ -2,8 +2,8 @@ module Fog
   module AWS
     class SimpleDB < Fog::Service
 
-      requires :aws_access_key_id, :aws_secret_access_key, &inject_parameter_specs
-      recognizes :host, :nil_string, :path, :port, :scheme, :persistent, &inject_parameter_specs
+      requires :aws_access_key_id, :aws_secret_access_key
+      recognizes :host, :nil_string, :path, :port, :scheme, :persistent
       
       request_path 'fog/aws/requests/simpledb'
       request :batch_put_attributes
@@ -140,6 +140,7 @@ module Fog
               :hmac               => @hmac,
               :host               => @host,
               :path               => @path,
+              :port               => @port,
               :version            => '2009-04-15'
             }
           )

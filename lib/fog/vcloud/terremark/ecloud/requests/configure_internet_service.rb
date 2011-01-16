@@ -5,30 +5,6 @@ module Fog
         module Shared
           private
 
-          def generate_internet_service_response(public_ip_internet_service)
-            builder = Builder::XmlMarkup.new
-            builder.InternetService(:"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance",
-                                    :xmlns => "urn:tmrk:eCloudExtensions-2.3") {
-              builder.Id(public_ip_internet_service.object_id)
-              builder.Href(public_ip_internet_service.href)
-              builder.Name(public_ip_internet_service.name)
-              builder.Protocol(public_ip_internet_service.protocol)
-              builder.Port(public_ip_internet_service.port)
-              builder.Enabled(public_ip_internet_service.enabled)
-              builder.Description(public_ip_internet_service.description)
-              builder.Timeout(public_ip_internet_service.timeout)
-              builder.RedirectURL(public_ip_internet_service.redirect_url)
-              builder.PublicIpAddress {
-                builder.Id(public_ip_internet_service._parent._parent.object_id)
-                builder.Href(public_ip_internet_service._parent._parent.href)
-                builder.Name(public_ip_internet_service._parent._parent.name)
-              }
-              if monitor = public_ip_internet_service.monitor
-                generate_monitor_section(builder, public_ip_internet_service.monitor)
-              end
-            }
-          end
-
           def validate_public_ip_address_data(ip_address_data)
             valid_opts = [:name, :href, :id]
             unless valid_opts.all? { |opt| ip_address_data.keys.include?(opt) }
@@ -51,7 +27,7 @@ module Fog
             end
 
             request(
-              :body     => generate_internet_service_response(service_data, ip_address_data),
+              :body     => generate_configure_internet_service_request(service_data, ip_address_data),
               :expects  => 200,
               :headers  => {'Content-Type' => 'application/vnd.tmrk.ecloud.internetService+xml'},
               :method   => 'PUT',
@@ -60,6 +36,35 @@ module Fog
             )
           end
 
+          private
+
+          def generate_configure_internet_service_request(service_data, ip_address_data)
+            builder = Builder::XmlMarkup.new
+            builder.InternetService(ecloud_xmlns) {
+              builder.Id(service_data[:id])
+              builder.Href(service_data[:href])
+              builder.Name(service_data[:name])
+              builder.Protocol(service_data[:protocol])
+              builder.Port(service_data[:port])
+              builder.Enabled(service_data[:enabled])
+              builder.Description(service_data[:description])
+              builder.Timeout(service_data[:timeout])
+              builder.RedirectURL(service_data[:redirect_url])
+              builder.PublicIpAddress {
+                builder.Id(ip_address_data[:id])
+                builder.Href(ip_address_data[:href])
+                builder.Name(ip_address_data[:name])
+              }
+              if monitor = service_data[:monitor]
+                generate_monitor_section(builder, monitor)
+              end
+              if service_data[:backup_service_uri]
+                builder.BackupService do
+                  builder.Href(service_data[:backup_service_uri])
+                end
+              end
+            }
+          end
         end
 
         class Mock
@@ -71,17 +76,24 @@ module Fog
           #
 
           def configure_internet_service(internet_service_uri, service_data, ip_address_data)
+            service_data = service_data.dup
+
             validate_internet_service_data(service_data, true)
 
             validate_public_ip_address_data(ip_address_data)
 
             internet_service_uri = ensure_unparsed(internet_service_uri)
 
+            backup_service_uri = service_data.delete(:backup_service_uri)
+            backup_service = backup_service_uri && mock_data.backup_internet_service_from_href(backup_service_uri)
+
             xml = nil
 
-            if public_ip_internet_service = mock_data.public_ip_internet_service_from_href(internet_service_uri)
+            if (public_ip_internet_service = mock_data.public_ip_internet_service_from_href(internet_service_uri)) &&
+                (backup_service_uri.nil? || backup_service)
               public_ip_internet_service.update(service_data.reject {|k, v| [:id, :href].include?(k) })
-              xml = generate_internet_service_response(public_ip_internet_service)
+              public_ip_internet_service[:backup_service] = backup_service
+              xml = generate_internet_service(Builder::XmlMarkup.new, public_ip_internet_service, true)
             end
 
             if xml

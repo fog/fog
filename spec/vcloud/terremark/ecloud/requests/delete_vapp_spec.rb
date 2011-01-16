@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__), '..', '..', '..', 'spec_helper')
+require 'vcloud/spec_helper'
 
 shared_examples_for "a failed vapp deletion" do
   it "should not change the mock data" do
@@ -64,6 +64,15 @@ if Fog.mocking?
         context "when the VM is powered on" do
           before do
             @mock_vm.power_on!
+          end
+
+          it_should_behave_like "all delete responses"
+          it_should_behave_like "a failed vapp deletion"
+        end
+
+        context "when the VM's IP has an rnat set" do
+          before do
+            @mock_vm.network_ip[:rnat] = "1.2.3.4"
           end
 
           it_should_behave_like "all delete responses"

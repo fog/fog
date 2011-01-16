@@ -15,6 +15,10 @@ module Fog
       extend Fog::Terremark::Shared
 
       def self.new(options={})
+        location = caller.first
+        warning = "[yellow][WARN] Fog::Terremark::Ecloud is deprecated, use Fog::Vcloud::Terremark::Ecloud[/]"
+        warning << " [light_black](" << location << ")[/] "
+        Formatador.display_line(warning)
 
         unless @required
           shared_requires
@@ -32,10 +36,8 @@ module Fog
       end
 
       class Real
-        # NOTE: When this vbecomes a service, take care to pass the &inject_parameter_specs 
-        # block on call to requires and recognizes        
-        requires :terremark_ecloud_password, :terremark_ecloud_username
-        recognizes :host, :path, :port, :scheme, :persistent
+        # requires :terremark_ecloud_password, :terremark_ecloud_username
+        # recognizes :host, :path, :port, :scheme, :persistent
         
         include Fog::Terremark::Shared::Real
         include Fog::Terremark::Shared::Parser

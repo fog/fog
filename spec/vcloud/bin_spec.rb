@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/spec_helper'
+require 'vcloud/spec_helper'
 
 describe Vcloud do
   it { should be_initialized }

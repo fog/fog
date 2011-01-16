@@ -3,6 +3,9 @@ module Fog
     module Terremark
       class Ecloud < Fog::Vcloud
 
+        requires   :username, :password, :versions_uri
+        recognizes :module, :version
+
         model_path 'fog/vcloud/terremark/ecloud/models'
         model :catalog_item
         model :catalog
@@ -10,6 +13,8 @@ module Fog
         collection :firewall_acls
         model :internet_service
         collection :internet_services
+        model :backup_internet_service
+        collection :backup_internet_services
         model :ip
         collection :ips
         model :network
@@ -27,6 +32,7 @@ module Fog
 
         request_path 'fog/vcloud/terremark/ecloud/requests'
         request :add_internet_service
+        request :add_backup_internet_service
         request :add_node
         request :clone_vapp
         request :configure_internet_service
@@ -62,13 +68,23 @@ module Fog
         request :power_reset
         request :power_shutdown
 
+        module Shared
+          def ecloud_xmlns
+            {
+              "xmlns"     => "urn:tmrk:eCloudExtensions-2.5",
+              "xmlns:i"   => "http://www.w3.org/2001/XMLSchema-instance"
+            }
+          end
+        end
+
         class Mock < Fog::Vcloud::Mock
+          include Shared
 
           def initialize(options={})
           end
 
           def self.base_url
-            "https://fakey.com/api/v0.8b-ext2.3"
+            "https://fakey.com/api/v0.8b-ext2.5"
           end
 
           def self.data_reset
@@ -79,7 +95,7 @@ module Fog
           def self.data( base_url = self.base_url )
             @mock_data ||= Fog::Vcloud::Mock.data(base_url).tap do |vcloud_mock_data|
               vcloud_mock_data.versions.clear
-              vcloud_mock_data.versions << MockVersion.new(:version => "v0.8b-ext2.3")
+              vcloud_mock_data.versions << MockVersion.new(:version => "v0.8b-ext2.5")
 
               vcloud_mock_data.organizations.detect {|o| o.name == "Boom Inc." }.tap do |mock_organization|
                 mock_organization.vdcs.detect {|v| v.name == "Boomstick" }.tap do |mock_vdc|
@@ -128,6 +144,8 @@ module Fog
                   end
 
                   mock_vdc.public_ip_collection.items << MockPublicIp.new(:name => "99.1.9.7")
+
+                  mock_vdc.internet_service_collection.backup_internet_services << MockBackupInternetService.new({ :port => 10000, :protocol => "TCP"}, self)
                 end
 
                 mock_organization.vdcs.detect {|v| v.name == "Rock-n-Roll" }.tap do |mock_vdc|
@@ -149,19 +167,16 @@ module Fog
             end
           end
 
-          def ecloud_xmlns
-            { :xmlns => "urn:tmrk:eCloudExtensions-2.3", :"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance" }
-          end
-
           def mock_data
             Fog::Vcloud::Terremark::Ecloud::Mock.data
           end
         end
 
         class Real < Fog::Vcloud::Real
+          include Shared
 
           def supporting_versions
-            ["v0.8b-ext2.3", "0.8b-ext2.3"]
+            ["v0.8b-ext2.5", "0.8b-ext2.5"]
           end
 
         end

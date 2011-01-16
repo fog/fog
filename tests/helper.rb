@@ -1,27 +1,9 @@
-require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
-require 'fog/core/bin'
+$LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), %w[ .. lib fog]))
 
-Fog.bin = true
+require 'fog'
+require 'fog/bin'
 
-__DIR__ = File.dirname(__FILE__)
-
-$LOAD_PATH.unshift __DIR__ unless
-  $LOAD_PATH.include?(__DIR__) ||
-  $LOAD_PATH.include?(File.expand_path(__DIR__))
-
-require 'helpers/collection_tests'
-require 'helpers/model_tests'
-
-require 'helpers/compute/flavors_tests'
-require 'helpers/compute/server_tests'
-require 'helpers/compute/servers_tests'
-
-require 'helpers/storage/directory_tests'
-require 'helpers/storage/directories_tests'
-require 'helpers/storage/file_tests'
-require 'helpers/storage/files_tests'
-
-# Use so you can run in mock mode from the command line:
+# Use so you can run in mock mode from the command line
 #
 # FOG_MOCK=true fog
 
@@ -29,95 +11,40 @@ if ENV["FOG_MOCK"] == "true"
   Fog.mock!
 end
 
+# if in mocked mode, fill in some fake credentials for us
+if Fog.mock?
+  Fog.instance_variable_set(:@credentials, {
+    :aws_access_key_id                => 'aws_access_key_id',
+    :aws_secret_access_key            => 'aws_secret_access_key',
+    :bluebox_api_key                  => 'bluebox_api_key',
+    :bluebox_customer_id              => 'bluebox_customer_id',
+    :brightbox_client_id              => 'brightbox_client_id',
+    :brightbox_secret                 => 'brightbox_secret',
+    :go_grid_api_key                  => 'go_grid_api_key',
+    :go_grid_shared_secret            => 'go_grid_shared_secret',
+    :google_storage_access_key_id     => 'google_storage_access_key_id',
+    :google_storage_secret_access_key => 'google_storage_secret_access_key',
+    :linode_api_key                   => 'linode_api_key',
+    :new_servers_password             => 'new_servers_password',
+    :new_servers_username             => 'new_servers_username',
+#    :public_key_path                  => '~/.ssh/id_rsa.pub',
+#    :private_key_path                 => '~/.ssh/id_rsa',
+    :rackspace_api_key                => 'rackspace_api_key',
+    :rackspace_username               => 'rackspace_username',
+    :slicehost_password               => 'slicehost_password',
+    :zerigo_email                     => 'zerigo_email',
+    :zerigo_token                     => 'zerigo_token'
+  })
+end
+
 # check to see which credentials are available and add others to the skipped tags list
-all_providers = ['aws', 'bluebox', 'brightbox', 'gogrid', 'google', 'linode', 'local', 'newservers', 'rackspace', 'slicehost', 'terremark']
+all_providers = ['aws', 'bluebox', 'brightbox', 'gogrid', 'google', 'linode', 'local', 'newservers', 'rackspace', 'slicehost', 'zerigo']
 available_providers = Fog.providers.map {|provider| provider.to_s.downcase}
 for provider in (all_providers - available_providers)
   Formatador.display_line("[yellow]Skipping tests for [bold]#{provider}[/] [yellow]due to lacking credentials (add some to '~/.fog' to run them)[/]")
   Thread.current[:tags] << ('-' << provider)
 end
 
-# Boolean hax
-module Fog
-  module Boolean
-  end
-end
-FalseClass.send(:include, Fog::Boolean)
-TrueClass.send(:include, Fog::Boolean)
-
 def lorem_file
   File.open(File.dirname(__FILE__) + '/lorem.txt', 'r')
-end
-
-module Shindo
-  class Tests
-
-    def responds_to(method_names)
-      for method_name in [*method_names]
-        tests("#respond_to?(:#{method_name})").succeeds do
-          @instance.respond_to?(method_name)
-        end
-      end
-    end
-
-    def formats(format)
-      test('has proper format') do
-        formats_kernel(instance_eval(&Proc.new), format)
-      end
-    end
-
-    def succeeds
-      test('succeeds') do
-        instance_eval(&Proc.new)
-        true
-      end
-    end
-
-    private
-
-    def formats_kernel(original_data, original_format, original = true)
-      valid = true
-      data = original_data.dup
-      format = original_format.dup
-      if format.is_a?(Array)
-        data   = {:element => data}
-        format = {:element => format}
-      end
-      for key, value in format
-        valid &&= data.has_key?(key)
-        datum = data.delete(key)
-        format.delete(key)
-        case value
-        when Array
-          valid &&= datum.is_a?(Array)
-          if datum.is_a?(Array)
-            for element in datum
-              type = value.first
-              if type.is_a?(Hash)
-                valid &&= formats_kernel({:element => element}, {:element => type}, false)
-              elsif type.nil?
-                p "#{key} => #{value}"
-              else
-                valid &&= element.is_a?(type)
-              end
-            end
-          end
-        when Hash
-          valid &&= datum.is_a?(Hash)
-          valid &&= formats_kernel(datum, value, false)
-        else
-          p "#{key} => #{value}" unless datum.is_a?(value)
-          valid &&= datum.is_a?(value)
-        end
-      end
-      p data unless data.empty?
-      p format unless format.empty?
-      valid &&= data.empty? && format.empty?
-      if !valid && original
-        @message = "#{original_data.inspect} does not match #{original_format.inspect}"
-      end
-      valid
-    end
-
-  end
 end

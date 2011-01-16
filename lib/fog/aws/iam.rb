@@ -2,8 +2,8 @@ module Fog
   module AWS
     class IAM < Fog::Service
 
-      requires :aws_access_key_id, :aws_secret_access_key, &inject_parameter_specs
-      recognizes :host, :path, :port, :scheme, :persistent, &inject_parameter_specs
+      requires :aws_access_key_id, :aws_secret_access_key
+      recognizes :host, :path, :port, :scheme, :persistent
 
       request_path 'fog/aws/requests/iam'
       request :add_user_to_group
@@ -15,6 +15,7 @@ module Fog
       request :delete_group_policy
       request :delete_user
       request :delete_user_policy
+      request :get_user
       request :list_access_keys
       request :list_groups
       request :list_group_policies
@@ -80,6 +81,7 @@ module Fog
               :hmac               => @hmac,
               :host               => @host,
               :path               => @path,
+              :port               => @port,
               :version            => '2010-05-08'
             }
           )
