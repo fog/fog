@@ -118,6 +118,7 @@ module Fog
 
           data = connection.put_object(directory.key, key, body, options)
           data.headers.delete('Content-Length')
+          data.headers['ETag'].gsub!('"','')
           merge_attributes(data.headers)
           self.content_length = connection.get_body_size(body)
           true
