@@ -26,6 +26,8 @@ module Fog
         end
 
         def initialize(options={})
+          Fog::Mock.not_implemented
+
           unless options.delete(:provider)
             location = caller.first
             warning = "[yellow][WARN] Fog::Local::Storage.new is deprecated, use Fog::Storage.new(:provider => 'Local') instead[/]"
