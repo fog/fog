@@ -117,7 +117,9 @@ module Fog
           options['x-amz-storage-class'] = storage_class if storage_class
 
           data = connection.put_object(directory.key, key, body, options)
+          data.headers.delete('Content-Length')
           merge_attributes(data.headers)
+          self.content_length = connection.get_body_size(body)
           true
         end
 

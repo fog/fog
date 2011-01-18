@@ -58,6 +58,16 @@ module Fog
           )
         end
 
+        def get_body_size(body)
+          case
+          when body.respond_to?(:bytesize) then body.bytesize
+          when body.respond_to?(:size) then body.size
+          when body.respond_to?(:stat) then body.stat.size
+          else
+            0
+          end
+        end
+
         def parse_data(data)
           metadata = {
             :body => nil,
@@ -65,7 +75,7 @@ module Fog
           }
 
           metadata[:body] = data
-          metadata[:headers]['Content-Length'] = data.size
+          metadata[:headers]['Content-Length'] = get_body_size(data)
 
           if data.respond_to?(:path)
             filename = ::File.basename(data.path)
