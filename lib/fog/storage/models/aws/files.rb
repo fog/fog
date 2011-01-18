@@ -46,6 +46,9 @@ module Fog
             :body => data.body,
             :key  => key
           })
+          file_data['Last-Modified'] = Time.parse(file_data['Last-Modified'])
+          file_data['ETag'].gsub!('"','')
+          file_data['Content-Length'] = file_data['Content-Length'].to_i
           new(file_data)
         rescue Excon::Errors::NotFound
           nil
