@@ -10,12 +10,12 @@ module Fog
         model Fog::Voxel::Compute::Image
 
         def all
-          data = connection.list_images.body['images']
+          data = connection.images_list
           load(data)
         end
 
         def get(image_id)
-          data = connection.list_images(image_id).body['image']
+          data = connection.images_list(image_id).body['image']
           new(data)
         rescue Fog::Voxel::Compute::NotFound
           nil

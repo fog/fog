@@ -6,10 +6,8 @@ module Fog
       class Image < Fog::Model
 
         identity :id
-
         attribute :name
       end
-
     end
   end
 end
