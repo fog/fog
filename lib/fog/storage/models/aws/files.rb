@@ -46,9 +46,7 @@ module Fog
             :body => data.body,
             :key  => key
           })
-          file_data['Last-Modified'] = Time.parse(file_data['Last-Modified'])
-          file_data['ETag'].gsub!('"','')
-          file_data['Content-Length'] = file_data['Content-Length'].to_i
+          normalise_headers(file_data)
           new(file_data)
         rescue Excon::Errors::NotFound
           nil
@@ -65,6 +63,7 @@ module Fog
           file_data = data.headers.merge({
             :key => key
           })
+          normalise_headers(file_data)
           new(file_data)
         rescue Excon::Errors::NotFound
           nil
@@ -73,6 +72,12 @@ module Fog
         def new(attributes = {})
           requires :directory
           super({ :directory => directory }.merge!(attributes))
+        end
+
+        def normalise_headers(headers)
+          headers['Last-Modified'] = Time.parse(headers['Last-Modified'])
+          headers['ETag'].gsub!('"','')
+          headers['Content-Length'] = headers['Content-Length'].to_i
         end
 
       end
