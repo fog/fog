@@ -7,9 +7,12 @@ module Fog
       model_path 'fog/compute/models/voxel'
       model       :image
       collection  :images
+      model       :server
+      collection  :servers
 
       request_path 'fog/compute/requests/voxel'
       request :images_list
+      request :devices_list
 
       class Mock
         include Collections
@@ -23,9 +26,9 @@ module Fog
           @connection = HAPI.new( :authkey => { :key => options[:voxel_api_key], :secret => options[:voxel_api_secret] }, :default_format => :ruby ) 
         end
 
-        def request(voxel_method_name, options = {})
-          STDERR.puts "Got called"
-          @connection.send(voxel_method_name, options)
+        def request(method_name, options = {})
+          api_method_name = @connection.translate_api_to_method( method_name )
+          @connection.send(api_method_name, options)
         end
       end
     end
