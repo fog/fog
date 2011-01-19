@@ -28,6 +28,9 @@ module Fog
       when 'Rackspace'
         require 'fog/compute/rackspace'
         Fog::Rackspace::Compute.new(attributes)
+      when 'Voxel'
+        require 'fog/compute/voxel'
+        Fog::Voxel::Compute.new(attributes)
       when 'Slicehost'
         require 'fog/compute/slicehost'
         Fog::Slicehost::Compute.new(attributes)

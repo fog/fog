@@ -9,3 +9,4 @@ doc/*
 rdoc
 pkg
 spec/credentials.yml
+*~

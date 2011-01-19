@@ -75,6 +75,8 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :slicehost_password:
   :terremark_username:
   :terremark_password:
+  :voxel_api_key:
+  :voxel_api_secret:
   :zerigo_email:
   :zerigo_token:
 #
