@@ -25,7 +25,7 @@ module Fog
       end
 
       class Mock
-        def images_list
+        def voxcloud_status( device_id = nil )
           Fog::Mock.not_implemented
         end
       end

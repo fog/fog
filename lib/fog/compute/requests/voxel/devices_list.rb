@@ -34,7 +34,7 @@ module Fog
       end
 
       class Mock
-        def images_list
+        def devices_list
           Fog::Mock.not_implemented
         end
       end
