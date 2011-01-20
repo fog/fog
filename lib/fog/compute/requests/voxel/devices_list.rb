@@ -27,7 +27,8 @@ module Fog
             { :id               => device['id'],
               :name             => device['label'],
               :processing_cores => device['processor']['cores'],
-              :facility         => device['location']['facility']['code'] }
+              :facility         => device['location']['facility']['code'],
+              :disk_size        => device['storage']['drive']['size'] }
           end
         end
       end
