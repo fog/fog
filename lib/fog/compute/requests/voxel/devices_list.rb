@@ -16,8 +16,14 @@ module Fog
 
           data = request("voxel.devices.list", options)
 
+          if data['devices']['device'].is_a?(Hash)
+            devices = [ data['devices']['device'] ]
+          else
+            devices = data['devices']['device']
+          end
+
           ## TODO find both voxserver and voxcloud devices
-          data['devices']['device'].select { |d| d['type']['id'] == '3' }.map do |device|
+          devices.select { |d| d['type']['id'] == '3' }.map do |device|
             { :id               => device['id'],
               :name             => device['label'],
               :processing_cores => device['processor']['cores'],

@@ -12,10 +12,11 @@ module Fog
 
         attribute :name
         attribute :processing_cores
-        #attribute :image_id        # id or name
+        attribute :image_id
         #attribute :ip
         attribute :status
         attribute :facility
+        attribute :disk_size
 
         def initialize(attributes={})
           super
@@ -38,13 +39,13 @@ module Fog
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          requires :name, :image_id, :processing_cores, :facility
+          requires :name, :image_id, :processing_cores, :facility, :disk_size
 
-          options = { :hostname => name, :image_id => 16, :processing_cores => processing_cores, :facility => facility }
+          options = { :hostname => name, :image_id => image_id, :processing_cores => processing_cores, :facility => facility, :disk_size => disk_size }
 
           data = connection.voxcloud_create(options)
 
-          merge_attributes(data)
+          merge_attributes(data.first)
 
           true
         end
