@@ -13,6 +13,8 @@ module Fog
       request_path 'fog/compute/requests/voxel'
       request :images_list
       request :devices_list
+      request :voxcloud_create
+      request :voxcloud_status
 
       class Mock
         include Collections
