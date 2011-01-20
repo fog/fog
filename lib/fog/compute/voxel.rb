@@ -24,13 +24,42 @@ module Fog
         include Collections
 
         def initialize(options = {})
-          require 'hapi'
-          @connection = HAPI.new( :authkey => { :key => options[:voxel_api_key], :secret => options[:voxel_api_secret] }, :default_format => :ruby )
+          require 'json'
+          require 'time'
+          require 'digest/md5'
+
+          @voxel_api_key = options[:voxel_api_key]
+          @voxel_api_secret = options[:voxel_api_secret]
+
+          Excon.ssl_verify_peer = false
+
+          @connection = Fog::Connection.new("https://api.voxel.net:443")
         end
 
         def request(method_name, options = {})
-          api_method_name = @connection.translate_api_to_method( method_name )
-          @connection.send(api_method_name, options)
+          begin
+            options.merge!( { :format => 'json_v2', :method => method_name, :timestamp => Time.now.xmlschema, :key => @voxel_api_key } )
+            options[:api_sig] = create_signature(@voxel_api_secret, options)
+            response = @connection.request( :host => "api.voxel.net", :path => "/version/1.0/", :query => options )
+          rescue Excon::Errors::HTTPStatusError => error
+            raise case error
+            when Excon::Errors::NotFound
+              Fog::Voxel::Compute::NotFound.slurp(error)
+            else
+              error
+            end
+          end
+
+          unless response.body.empty?
+            response.body = JSON.parse(response.body)
+          end
+
+          response
+        end
+
+        def create_signature(secret, options)
+          to_sign = options.keys.map { |k| k.to_s }.sort.map { |k| "#{k}#{options[k.to_sym]}" }.join("")
+          Digest::MD5.hexdigest( secret + to_sign )
         end
       end
     end
