@@ -17,7 +17,7 @@ module Fog
       end
 
       class Mock
-        def images_list
+        def voxcloud_create( options )
           Fog::Mock.not_implemented
         end
       end

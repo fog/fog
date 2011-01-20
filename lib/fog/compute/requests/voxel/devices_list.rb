@@ -15,6 +15,9 @@ module Fog
           end
             
           data = request("voxel.devices.list", options)
+
+          require 'pp'
+          pp data.body
          
           if data['devices']['device'].is_a?(Hash)
             devices = [ data['devices']['device'] ]
@@ -34,7 +37,7 @@ module Fog
       end
 
       class Mock
-        def images_list
+        def devices_list
           Fog::Mock.not_implemented
         end
       end
