@@ -11,49 +11,33 @@ class TerremarkEcloud
     end
 
     def self.preferred_vdc
-      @preferred_vdc ||= TerremarkEcloud[:compute].get_vdc(vdc_from_list(TerremarkEcloud[:compute].get_organization.body['vdcs'])['uri']).body
+      @preferred_vdc ||= begin
+        href = vdc_from_list(TerremarkEcloud[:compute].get_organization.body['Link'])['href']
+        TerremarkEcloud[:compute].get_vdc(href).body
+      end
+    end
+
+    def self.preferred_catalog
+      @preferred_catalog ||= begin
+        catalog_href = preferred_vdc['Link'].detect {|link| link['type'] == 'application/vnd.vmware.vcloud.catalog+xml' }['href']
+        TerremarkEcloud[:compute].get_catalog(catalog_href).body
+      end
     end
 
     def self.preferred_catalog_item
-      return @preferred_catalog_item if @preferred_catalog_item
-
-      catalog = TerremarkEcloud[:compute].get_catalog(preferred_vdc['catalog_uri']).body
-      catalog_item = catalog['catalogItems'].detect do |item|
-        item['name'] == 'Ubuntu Server 10.04 x32'
+      @preferred_catalog_item ||= begin
+        catalog_item = preferred_catalog['CatalogItems'].detect do |item|
+          item['name'] == 'Ubuntu Server 10.04 x32'
+        end
+        TerremarkEcloud[:compute].get_catalog_item(catalog_item['href']).body
       end
-
-      @preferred_catalog_item = TerremarkEcloud[:compute].get_catalog_item(catalog_item['uri']).body
     end
 
     def self.preferred_network
-      return @preferred_network if @preferred_network
-
-      preferred_vdc['networks'].detect do |network|
-        fetched_network = TerremarkEcloud[:compute].get_network(network['uri']).body
-        network_extensions_uri = fetched_network['extensions_uri']
-        if TerremarkEcloud[:compute].get_network_extensions(network_extensions_uri).body['type'] == 'DMZ'
-          return @preferred_network = fetched_network
-        end
+      @preferred_network ||= begin
+        network_href = preferred_vdc['AvailableNetworks'].first['href']
+        TerremarkEcloud[:compute].get_network(network_href).body
       end
-    end
-
-    def self.create_vm!(options = {})
-      data = TerremarkEcloud[:compute].instantiate_vm_template({
-          'vdc_uri' => preferred_vdc['uri'],
-          'catalog_item_uri' => preferred_catalog_item['uri'],
-          'network_uri' => preferred_network['uri'],
-          'name' => options['name'] || "fogtest-#{rand(99999)}",
-          'row' => options['row'] || 'fogtest',
-          'group' => options['group'] || 'fogtest'
-        }).body
-
-      if options[:wait_for_powered_off]
-        Fog.wait_for(600, 10) do
-          TerremarkEcloud[:compute].get_vm(data['uri']).body['status'] == 'powered_off'
-        end
-      end
-
-      data
     end
 
   end

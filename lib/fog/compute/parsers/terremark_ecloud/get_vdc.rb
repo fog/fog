@@ -7,84 +7,99 @@ module Fog
 
           def reset
             @response = {
-              'storageCapacity' => {}, 'cpuCapacity' => {},
-              'memoryCapacity' => {}, 'networks' => [], 'vms' => []
+              'AvailableNetworks' => [],
+              'ComputeCapacity'   => {
+                'Cpu'                   => {},
+                'DeployedVmsQuota'      => {},
+                'InstantiatedVmsQuota'  => {},
+                'Memory'                => {}
+              },
+              'Link'              => [],
+              'ResourceEntities'  => [],
+              'StorageCapacity'   => {}
             }
           end
 
           def start_element(name, attrs = [])
             case name
-            when 'Vdc'
-              @response['name'] = attr_value('name', attrs)
-              @response['uri']  = attr_value('href', attrs)
+            when 'Cpu'
+              @in_cpu = true
+            when 'DeployedVmsQuota'
+              @in_deployed_vms_quota = true
+            when 'InstantiatedVmsQuota'
+              @in_instantiated_vms_quota = true
             when 'Link'
-              href = attr_value('href', attrs)
-
-              case attr_value('type', attrs)
-              when 'application/vnd.vmware.vcloud.catalog+xml'
-                @response['catalog_uri'] = href
-              when 'application/vnd.tmrk.ecloud.publicIpsList+xml'
-                @response['publicIpsList_uri'] = href
-              when 'application/vnd.tmrk.ecloud.internetServicesList+xml'
-                @response['internetServicesList_uri'] = href
-              when 'application/vnd.tmrk.ecloud.firewallAclsList+xml'
-                @response['firewallAclsList_uri'] = href
-              when 'application/vnd.tmrk.ecloud.networkGroupList+xml'
-                @response['trustedNetworkGroupsList_uri'] = href
+              link = {}
+              for attribute in %w{href name rel type}
+                if value = attr_value(attribute, attrs)
+                  link[attribute] = value
+                end
               end
+              @response['Link'] << link
+            when 'Memory'
+              @in_memory = true
+            when 'Network'
+              network = {}
+              for attribute in %w{href name type}
+                if value = attr_value(attribute, attrs)
+                  network[attribute] = value
+                end
+              end
+              @response['AvailableNetworks'] << network
             when 'StorageCapacity'
               @in_storage_capacity = true
-            when 'ComputeCapacity'
-              @in_compute_capacity = true
-            when 'Cpu'
-              @in_compute_capacity && @in_cpu_capacity = true
-            when 'Memory'
-              @in_compute_capacity && @in_memory_capacity = true
-            when 'ResourceEntities'
-              @in_resource_entities = true
             when 'ResourceEntity'
-              if @in_resource_entities
-                @response['vms'].push({
-                                        'name' => attr_value('name', attrs),
-                                        'uri'  => attr_value('href', attrs)
-                                      })
+              resource_entity = {}
+              for attribute in %w{href name type}
+                if value = attr_value(attribute, attrs)
+                  resource_entity[attribute] = value
+                end
               end
-            when 'AvailableNetworks'
-              @in_available_networks = true
-            when 'Network'
-              if @in_available_networks
-                @response['networks'].push({
-                                             'name' => attr_value('name', attrs),
-                                             'uri'  => attr_value('href', attrs)
-                                           })
+              @response['ResourceEntities'] << resource_entity
+            when 'Vdc'
+              for attribute in %w{href name}
+                if value = attr_value(attribute, attrs)
+                  @response[attribute] = value
+                end
               end
             end
-
             super
           end
 
           def end_element(name)
             case name
-            when 'Allocated', 'Used'
-              if @in_storage_capacity
-                @response['storageCapacity'][name.downcase] = @value.to_i
-              elsif @in_cpu_capacity
-                @response['cpuCapacity'][name.downcase] = @value.to_i
-              elsif @in_memory_capacity
-                @response['memoryCapacity'][name.downcase] = @value.to_i
+            when 'Description'
+              @response[name] = @value
+            when 'Allocated', 'Limit', 'Used'
+              if @in_cpu
+                @response['ComputeCapacity']['Cpu'][name] = @value.to_i
+              elsif @in_deployed_vms_quota
+                @response['ComputeCapacity']['DeployedVmsQuota'][name] = @value.to_i
+              elsif @in_instantiated_vms_quota
+                @response['ComputeCapacity']['InstantiatedVmsQuota'][name] = @value.to_i
+              elsif @in_memory
+                @response['ComputeCapacity']['Memory'][name] = @value.to_i
+              elsif @in_storage_capacity
+                @response['StorageCapacity'][name] = @value.to_i
               end
+            when 'Cpu'
+              @in_cpu = false
+            when 'DeployedVmsQuota'
+              @in_deployed_vms_quota = false
+            when 'InstantiatedVmsQuota'
+              @in_instantiated_vms_quota = false
+            when 'Memory'
+              @in_memory = false
             when 'StorageCapacity'
               @in_storage_capacity = false
-            when 'ComputeCapacity'
-              @in_compute_capacity = false
-            when 'Cpu'
-              @in_compute_capacity && @in_cpu_capacity = false
-            when 'Memory'
-              @in_compute_capacity && @in_memory_capacity = false
-            when 'ResourceEntities'
-              @in_resource_entities = false
-            when 'AvailableNetworks'
-              @in_available_networks = false
+            when 'Units'
+              if @in_storage_capacity
+                @response['StorageCapacity'][name] = @value
+              elsif @in_cpu
+                @response['ComputeCapacity']['Cpu'][name] = @value
+              elsif @in_memory
+                @response['ComputeCapacity']['Memory'][name] = @value
+              end
             end
           end
 

@@ -6,22 +6,26 @@ module Fog
         class GetNetwork < Fog::Parsers::Base
 
           def reset
-            @response = { 'configuration' => {}, 'features' => {} }
+            @response = {
+              'Configuration' => {},
+              'Features' => {},
+              'Link' => {}
+            }
           end
 
           def start_element(name, attrs = [])
             case name
             when 'Network'
-              @response['name'] = attr_value('name', attrs)
-              @response['uri']  = attr_value('href', attrs)
+              for attribute in %w{href name}
+                if value = attr_value(attribute, attrs)
+                  @response[attribute] = value
+                end
+              end
             when 'Link'
-              href = attr_value('href', attrs)
-
-              case attr_value('name', attrs) # wut
-              when @response['name']
-                @response['extensions_uri'] = href
-              when 'IP Addresses'
-                @response['extensions_ips_uri'] = href
+              for attribute in %w{href name rel type}
+                if value = attr_value(attribute, attrs)
+                  @response[name][attribute] = value
+                end
               end
             when 'Configuration'
               @in_configuration = true
@@ -38,13 +42,13 @@ module Fog
               @in_configuration = false
             when 'Gateway', 'Netmask'
               if @in_configuration
-                @response['configuration'][name.downcase] = @value
+                @response['Configuration'][name] = @value
               end
             when 'Features'
               @in_features = false
             else
               if @in_features
-                @response['features'][name] = @value
+                @response['Features'][name] = @value
               end
             end
           end

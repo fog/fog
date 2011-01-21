@@ -6,28 +6,24 @@ module Fog
         class GetOrganization < Fog::Parsers::Base
 
           def reset
-            @response = { 'vdcs' => [] }
+            @response = { 'Link' => [] }
           end
 
           def start_element(name, attrs = [])
             case name
-            when 'Org'
-              @response['name'] = attr_value('name', attrs)
-              @response['uri']  = attr_value('href', attrs)
             when 'Link'
-              href = attr_value('href', attrs)
-
-              case attr_value('type', attrs)
-              when 'application/vnd.vmware.vcloud.vdc+xml'
-                @response['vdcs'].push({ 'name' => attr_value('name', attrs), 'uri' => href })
-              when 'application/vnd.vmware.vcloud.catalog+xml'
-                @response['catalog_uri'] = href
-              when 'application/vnd.vmware.vcloud.tasksList+xml'
-                @response['tasksList_uri'] = href
-              when 'application/vnd.tmrk.ecloud.keysList+xml'
-                @response['keysList_uri'] = href
-              when 'application/vnd.tmrk.ecloud.tagsList+xml'
-                @response['tagsList_uri'] = href
+              link = {}
+              for attribute in %w{href name rel type}
+                if value = attr_value(attribute, attrs)
+                  link[attribute] = value
+                end
+              end
+              @response['Link'] << link
+            when 'Org'
+              for attribute in %w{href name}
+                if value = attr_value(attribute, attrs)
+                  @response[attribute] = value
+                end
               end
             end
           end

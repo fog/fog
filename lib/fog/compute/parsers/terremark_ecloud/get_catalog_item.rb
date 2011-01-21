@@ -6,22 +6,22 @@ module Fog
         class GetCatalogItem < Fog::Parsers::Base
 
           def reset
-            @response = { 'properties' => [] }
+            @response = { 'Entity' => {}, 'Link' => {}, 'Property' => {} }
           end
 
           def start_element(name, attrs = [])
             case name
             when 'CatalogItem'
-              @response['name'] = attr_value('name', attrs)
-              @response['uri']  = attr_value('href', attrs)
+              for attribute in %w{href type name}
+                if value = attr_value(attribute, attrs)
+                  @response[attribute] = value
+                end
+              end
             when 'Link', 'Entity'
-              href = attr_value('href', attrs)
-
-              case attr_value('type', attrs)
-              when 'application/vnd.tmrk.ecloud.catalogItemCustomizationParameters+xml'
-                @response['customization_uri'] = href
-              when 'application/vnd.vmware.vcloud.vAppTemplate+xml'
-                @response['template_uri'] = href
+              for attribute in %w{href name rel type}
+                if value = attr_value(attribute, attrs)
+                  @response[name][attribute] = value
+                end
               end
             when 'Property'
               @property_key = attr_value('key', attrs)
@@ -33,7 +33,7 @@ module Fog
           def end_element(name)
             case name
             when 'Property'
-              @response['properties'].push({ 'key' => @property_key, 'value' => @value})
+              @response['Property'][@property_key] = @value
             end
           end
         end
