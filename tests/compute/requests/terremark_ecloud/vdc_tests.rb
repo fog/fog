@@ -48,6 +48,7 @@ Shindo.tests('TerremarkEcloud::Compute | vdc requests', ['terremark_ecloud']) do
   tests('success') do
 
     tests("#get_vdc").formats(@vdc_format) do
+      pending if Fog.mocking?
       vdc     = TerremarkEcloud::Compute.preferred_vdc
       vdc_href = vdc['href']
 

@@ -14,6 +14,7 @@ Shindo.tests('TerremarkEcloud::Compute | organization requests', ['terremark_ecl
   tests('success') do
 
     tests("#get_organization").formats(@organization_format) do
+      pending if Fog.mocking?
       TerremarkEcloud[:compute].get_organization.body
     end
 

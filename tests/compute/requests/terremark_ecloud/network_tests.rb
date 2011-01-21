@@ -21,6 +21,7 @@ Shindo.tests('TerremarkEcloud::Compute | network requests', ['terremark_ecloud']
   tests('success') do
 
     tests("#get_network").formats(@network_format) do
+      pending if Fog.mocking?
       TerremarkEcloud[:compute].get_network(TerremarkEcloud::Compute.preferred_network['href']).body
     end
 

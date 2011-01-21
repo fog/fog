@@ -33,10 +33,12 @@ Shindo.tests('TerremarkEcloud::Compute | catalog requests', ['terremark_ecloud']
   tests('success') do
 
     tests("#get_catalog").formats(@catalog_format) do
+      pending if Fog.mocking?
       TerremarkEcloud[:compute].get_catalog(TerremarkEcloud::Compute.preferred_catalog['href']).body
     end
 
     tests("#get_catalog_item").formats(@catalog_item_format) do
+      pending if Fog.mocking?
       TerremarkEcloud[:compute].get_catalog_item(TerremarkEcloud::Compute.preferred_catalog_item['href']).body
     end
 
