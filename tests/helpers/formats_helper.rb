@@ -39,7 +39,7 @@ module Shindo
         case value
         when Array
           valid &&= datum.is_a?(Array)
-          if datum.is_a?(Array)
+          if datum.is_a?(Array) && !value.empty?
             for element in datum
               type = value.first
               if type.is_a?(Hash)
