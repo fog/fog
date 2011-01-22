@@ -44,13 +44,13 @@ DATA
       class Mock # :nodoc:all
 
         def put_bucket(bucket_name, options = {})
-          if options['x-amz-acl']
-            unless ['private', 'public-read', 'public-read-write', 'authenticated-read']
-              raise Excon::Errors::BadRequest.new('invalid x-amz-acl')
-            else
-              @data[:acls][:bucket][bucket_name] = self.class.acls(options['x-amz-acl'])
-            end
+          acl = options['x-amz-acl'] || 'private'
+          if !['private', 'public-read', 'public-read-write', 'authenticated-read'].include?(acl)
+            raise Excon::Errors::BadRequest.new('invalid x-amz-acl')
+          else
+            @data[:acls][:bucket][bucket_name] = self.class.acls(acl)
           end
+
           response = Excon::Response.new
           response.status = 200
           bucket = {
