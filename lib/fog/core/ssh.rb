@@ -2,8 +2,8 @@ module Fog
   module SSH
 
     def self.new(address, username, options = {})
-      unless options[:key_data] || options[:keys] || options[:password]
-        raise ArgumentError.new(':key_data, :keys or :password are required to initialize SSH')
+      unless options[:key_data] || options[:keys] || options[:password] || ENV['SSH_AUTH_SOCK']
+        raise ArgumentError.new(':key_data, :keys, :password or ENV[\'SSH_AUTH_SOCK\'] are required to initialize SSH')
       end
       if Fog.mocking?
         Fog::SSH::Mock.new(address, username, options)
