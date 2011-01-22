@@ -43,8 +43,9 @@ module Fog
       module Utils
 
         def cdn
-          @cdn ||= Fog::Rackspace::CDN.new(
-            :rackspace_api_key => @rackspace_api_key,
+          @cdn ||= Fog::CDN.new(
+            :provider           => 'Rackspace',
+            :rackspace_api_key  => @rackspace_api_key,
             :rackspace_username => @rackspace_username
           )
         end
