@@ -1,4 +1,4 @@
-Shindo.tests('TerremarkEcloud::Compute | network requests', ['terremark_ecloud']) do
+Shindo.tests('TerremarkEcloud::Compute | network requests', ['terremarkecloud']) do
 
   @network_format = {
     'Configuration' => {

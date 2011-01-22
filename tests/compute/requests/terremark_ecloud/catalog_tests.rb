@@ -1,4 +1,4 @@
-Shindo.tests('TerremarkEcloud::Compute | catalog requests', ['terremark_ecloud']) do
+Shindo.tests('TerremarkEcloud::Compute | catalog requests', ['terremarkecloud']) do
 
   @catalog_format = {
     'name' => String,

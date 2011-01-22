@@ -1,4 +1,4 @@
-Shindo.tests('TerremarkEcloud::Compute | vdc requests', ['terremark_ecloud']) do
+Shindo.tests('TerremarkEcloud::Compute | vdc requests', ['terremarkecloud']) do
 
   @vdc_format = {
     'AvailableNetworks' => [{

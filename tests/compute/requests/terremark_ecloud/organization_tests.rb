@@ -1,4 +1,4 @@
-Shindo.tests('TerremarkEcloud::Compute | organization requests', ['terremark_ecloud']) do
+Shindo.tests('TerremarkEcloud::Compute | organization requests', ['terremarkecloud']) do
 
   @organization_format = {
     'name'  => String,
