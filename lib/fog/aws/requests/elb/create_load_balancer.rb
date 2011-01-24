@@ -22,7 +22,7 @@ module Fog
         #     * 'CreateLoadBalancerResult'<~Hash>:
         #       * 'DNSName'<~String> - DNS name for the newly created ELB
         def create_load_balancer(availability_zones, lb_name, listeners)
-          params = ELB.indexed_param('AvailabilityZones.member', [*availability_zones])
+          params = AWS.indexed_param('AvailabilityZones.member', [*availability_zones])
 
           listener_protocol = []
           listener_lb_port = []
