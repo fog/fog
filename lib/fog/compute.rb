@@ -31,6 +31,9 @@ module Fog
       when 'Slicehost'
         require 'fog/compute/slicehost'
         Fog::Slicehost::Compute.new(attributes)
+      when 'TerremarkEcloud'
+        require 'fog/compute/terremark_ecloud'
+        Fog::TerremarkEcloud::Compute.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized compute provider")
       end

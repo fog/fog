@@ -94,8 +94,11 @@ module Fog
         end
 
         def ssh(commands)
-          requires :addresses, :identity, :private_key, :username
-          Fog::SSH.new(addresses.first, username, :key_data => [private_key]).run(commands)
+          requires :addresses, :identity, :username
+
+          options = {}
+          options[:key_data] = [private_key] if private_key
+          Fog::SSH.new(addresses.first, username, options).run(commands)
         end
 
         def username

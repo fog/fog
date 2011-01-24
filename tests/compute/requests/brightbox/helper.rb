@@ -189,6 +189,7 @@ class Brightbox
         }
 
         LOAD_BALANCER = {
+          "cloud_ips"       => Array,
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
@@ -202,6 +203,7 @@ class Brightbox
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
+          "listed"          => Fog::Boolean,
           "name"            => String,
           "status"          => String,
           "hostname"        => String,

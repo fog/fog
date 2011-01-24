@@ -47,14 +47,14 @@ module Fog
       class Mock # :nodoc:all
 
         def put_object(bucket_name, object_name, data, options = {})
-          if options['x-amz-acl']
-            unless ['private', 'public-read', 'public-read-write', 'authenticated-read']
-              raise Excon::Errors::BadRequest.new('invalid x-amz-acl')
-            else
-              @data[:acls][:object][bucket_name] ||= {}
-              @data[:acls][:object][bucket_name][object_name] = self.class.acls(options['x-amz-acl'])
-            end
+          acl = options['x-amz-acl'] || 'private'
+          if !['private', 'public-read', 'public-read-write', 'authenticated-read'].include?(acl)
+            raise Excon::Errors::BadRequest.new('invalid x-amz-acl')
+          else
+            @data[:acls][:object][bucket_name] ||= {}
+            @data[:acls][:object][bucket_name][object_name] = self.class.acls(acl)
           end
+
           data = parse_data(data)
           unless data[:body].is_a?(String)
             data[:body] = data[:body].read
