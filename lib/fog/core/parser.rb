@@ -21,6 +21,10 @@ module Fog
         @value = nil
       end
 
+      def attr_value(name, attrs)
+        (entry = attrs.detect {|a, v| a == name }) && entry.last
+      end
+
     end
   end
 end

@@ -16,6 +16,8 @@ module Shindo
   class Tests
 
     def formats(format)
+      raise ArgumentError, 'format is nil' unless format
+
       test('has proper format') do
         formats_kernel(instance_eval(&Proc.new), format)
       end
@@ -37,7 +39,7 @@ module Shindo
         case value
         when Array
           valid &&= datum.is_a?(Array)
-          if datum.is_a?(Array)
+          if datum.is_a?(Array) && !value.empty?
             for element in datum
               type = value.first
               if type.is_a?(Hash)

@@ -1,8 +1,8 @@
 module Fog
   class Connection
 
-    def initialize(url, persistent=false)
-      @excon = Excon.new(url)
+    def initialize(url, persistent=false, params={})
+      @excon = Excon.new(url, params)
       @persistent = persistent
     end
 

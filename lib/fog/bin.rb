@@ -17,6 +17,7 @@ module Fog
         ::Slicehost,
         ::Terremark,
         ::Voxel,
+        ::TerremarkEcloud,
         ::Zerigo
       ].select {|provider| provider.available?}
     end
@@ -84,6 +85,7 @@ require 'fog/bin/new_servers'
 require 'fog/bin/rackspace'
 require 'fog/bin/slicehost'
 require 'fog/bin/terremark'
+require 'fog/bin/terremark_ecloud'
 require 'fog/bin/vcloud'
 require 'fog/bin/voxel'
 require 'fog/bin/zerigo'

@@ -56,7 +56,54 @@ module Fog
       class Mock
 
         def describe_images(filters = {})
-          Fog::Mock.not_implemented
+          unless filters.is_a?(Hash)
+            Formatador.display_line("[yellow][WARN] describe_images with #{filters.class} param is deprecated, use describe_snapshots('snapshot-id' => []) instead[/] [light_black](#{caller.first})[/]")
+            filters = {'snapshot-id' => [*filters]}
+          end
+          
+          if filters.keys.any? {|key| key =~ /^block-device/}
+            Formatador.display_line("[yellow][WARN] describe_images block-device-mapping filters are not yet mocked[/] [light_black](#{caller.first})[/]")
+            Fog::Mock.not_implemented
+          end
+          
+          if filters.keys.any? {|key| key =~ /^tag/}
+            Formatador.display_line("[yellow][WARN] describe_images tag filters are not yet mocked[/] [light_black](#{caller.first})[/]")
+            Fog::Mock.not_implemented
+          end
+          
+          response = Excon::Response.new
+          
+          aliases = {
+            'architecture'        => 'architecture',
+            'description'         => 'description',
+            'hypervisor'          => 'hypervisor',
+            'image-id'            => 'imageId',
+            'image-type'          => 'imageType',
+            'is-public'           => 'isPublic',
+            'kernel-id'           => 'kernelId',
+            'manifest-location'   => 'manifestLocation',
+            'name'                => 'name',            
+            'owner-id'            => 'imageOwnerId',
+            'ramdisk-id'          => 'ramdiskId',
+            'root-device-name'    => 'rootDeviceName',
+            'root-device-type'    => 'rootDeviceType',
+            'state'               => 'imageState',
+            'virtualization-type' => 'virtualizationType'
+          }
+          
+          image_set = @data[:images].values
+          
+          for filter_key, filter_value in filters
+            aliased_key = aliases[filter_key]
+            image_set = image_set.reject{|image| ![*filter_value].include?(image[aliased_key])}
+          end
+
+          response.status = 200
+          response.body = {
+            'requestId' => Fog::AWS::Mock.request_id,
+            'imagesSet' => image_set
+          }
+          response
         end
 
       end
