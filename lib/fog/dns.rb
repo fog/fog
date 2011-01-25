@@ -7,6 +7,9 @@ module Fog
       when 'AWS'
         require 'fog/dns/aws'
         Fog::AWS::DNS.new(attributes)
+      when 'Bluebox'
+        require 'fog/dns/bluebox'
+        Fog::Bluebox::DNS.new(attributes)
       when 'Linode'
         require 'fog/dns/linode'
         Fog::Linode::DNS.new(attributes)
