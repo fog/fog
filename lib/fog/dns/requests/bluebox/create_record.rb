@@ -17,9 +17,9 @@ module Fog
         #     * 'data'<~String> - as above
         #     * 'active'<~String> - as above
         #     * 'aux'<~String> - as above
-        def create_record(zone_id, type, domain, content)
+        def create_record(zone_id, type, name, content)
           request(
-            :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><record><type>#{type}</type><name>#{domain}</name><content>#{content}</content></record>},
+            :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><record><type>#{type}</type><name>#{name}</name><content>#{content}</content></record>},
             :expects  => 202,
             :method   => 'POST',
             :path     => "/api/domains/#{zone_id}/records.xml"
@@ -30,7 +30,7 @@ module Fog
 
       class Mock
 
-        def create_record(zone_id, type, domain, content)
+        def create_record(zone_id, type, name, content)
           Fog::Mock.not_implemented
         end
 
