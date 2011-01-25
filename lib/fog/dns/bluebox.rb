@@ -74,9 +74,8 @@ module Fog
 
           params[:headers]['Authorization'] = "Basic #{auth_header}"
 
+          params[:headers]['Accept'] = 'application/xml'
           case params[:method]
-          when 'DELETE', 'GET', 'HEAD'
-            params[:headers]['Accept'] = 'application/xml'
           when 'POST', 'PUT'
             params[:headers]['Content-Type'] = 'application/xml'
           end
