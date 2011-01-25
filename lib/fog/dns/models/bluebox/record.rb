@@ -30,11 +30,7 @@ module Fog
 
         def save
           requires :zone, :type, :domain, :content
-          data = unless identity
-            connection.create_record(@zone.id, type, domain, content)
-          else
-            connection.update_record(identity)
-          end
+          data =  connection.create_record(@zone.id, type, domain, content)
           merge_attributes(data.body)
           true
         end
