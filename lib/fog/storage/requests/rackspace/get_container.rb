@@ -29,7 +29,7 @@ module Fog
         #       * 'last_modified'<~String> - Last modified timestamp
         #       * 'name'<~String> - Name of object
         def get_container(container, options = {})
-          options.reject! {|key, value| value.nil?}
+          options = options.reject {|key, value| value.nil?}
           response = request(
             :expects  => 200,
             :method   => 'GET',

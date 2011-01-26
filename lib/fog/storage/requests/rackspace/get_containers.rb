@@ -18,7 +18,7 @@ module Fog
         #       * 'count'<~Integer>: - Number of items in container
         #       * 'name'<~String>: - Name of container
         def get_containers(options = {})
-          options.reject! {|key, value| value.nil?}
+          options = options.reject {|key, value| value.nil?}
           response = request(
             :expects  => [200, 204],
             :method   => 'GET',
