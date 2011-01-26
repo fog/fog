@@ -8,7 +8,7 @@ module Fog
 
         identity  :key,             :aliases => 'Key'
 
-        attribute :content_length,  :aliases => 'Content-Length'
+        attribute :content_length,  :aliases => 'Content-Length', :type => :integer
         # attribute :content_type,    :aliases => 'Content-Type'
         attribute :last_modified,   :aliases => 'Last-Modified'
 

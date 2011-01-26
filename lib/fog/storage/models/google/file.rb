@@ -14,7 +14,7 @@ module Fog
         attribute :cache_control,       :aliases => 'Cache-Control'
         attribute :content_disposition, :aliases => 'Content-Disposition'
         attribute :content_encoding,    :aliases => 'Content-Encoding'
-        attribute :content_length,      :aliases => ['Content-Length', 'Size']
+        attribute :content_length,      :aliases => ['Content-Length', 'Size'], :type => :integer
         attribute :content_md5,         :aliases => 'Content-MD5'
         attribute :content_type,        :aliases => 'Content-Type'
         attribute :etag,                :aliases => ['Etag', 'ETag']
