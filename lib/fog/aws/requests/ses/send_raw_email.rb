@@ -8,10 +8,10 @@ module Fog
         # Delete an existing verified email address
         #
         # ==== Parameters
-        # * Destinations <~Array> - The destination for this email, composed of To:, From:, and CC: fields.
-        # * RawMessage <~Hash> - The message to be sent.
-        #   * Data <~String>
-        # * Source <~String> - The sender's email address
+        # * RawMessage <~String> - The message to be sent.
+        # * Options <~Hash>
+        #   * Source <~String> - The sender's email address
+        #   * Destinations <~Array> - The destination for this email, composed of To:, From:, and CC: fields.
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -19,13 +19,19 @@ module Fog
         #     * 'DeleteVerfiedEmailAddressResponse'<~nil>
         #     * 'ResponseMetadata'<~Hash>:
         #       * 'RequestId'<~String> - Id of request
-        def send_raw_email()
-          # TODO: Make this work
-          params = AWS.indexed_param('ReplyToAddresses.member', [*reply_to_addresses])
+        def send_raw_email(raw_message, options = {})
+          params = {}
+          if options.has_key?('Destinations')
+            params['Destinations'] = AWS.indexed_param('Destinations.member', [*options['Destinations']])
+          end
+          if options.has_key?('Source')
+            params['Source'] = options['Source']
+          end
 
           request({
-            'Action'           => 'SendRawEmail',
-            :parser            => Fog::Parsers::AWS::SES::SendRawEmail.new
+            'Action'          => 'SendRawEmail',
+            'RawMessage.Data' => Base64.encode64(raw_message).chomp!,
+            :parser           => Fog::Parsers::AWS::SES::SendRawEmail.new
           }.merge(params))
         end
 
@@ -33,7 +39,7 @@ module Fog
 
       class Mock
 
-        def send_raw_email()
+        def send_raw_email(source, destinations, raw_message)
           Fog::Mock.not_implemented
         end
 

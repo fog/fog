@@ -15,6 +15,8 @@ class AWS < Fog::Bin
         Fog::AWS::IAM
       when :sdb
         Fog::AWS::SimpleDB
+      when :ses
+        Fog::AWS::SES
       when :eu_storage, :s3, :storage
         Fog::AWS::Storage
       else
@@ -48,6 +50,8 @@ class AWS < Fog::Bin
           Fog::Storage.new(:provider => 'AWS', :region => 'eu-west-1')
         when :sdb
           Fog::AWS::SimpleDB.new
+        when :ses
+          Fog::AWS::SES.new
         when :s3
           location = caller.first
           warning = "[yellow][WARN] AWS[:s3] is deprecated, use AWS[:storage] instead[/]"
@@ -64,7 +68,7 @@ class AWS < Fog::Bin
     end
 
     def services
-      [:cdn, :compute, :dns, :elb, :iam, :sdb, :storage]
+      [:cdn, :compute, :dns, :elb, :iam, :sdb, :ses, :storage]
     end
 
   end

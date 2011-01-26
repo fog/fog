@@ -68,22 +68,29 @@ module Fog
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
-          body = AWS.signed_params(
-            params,
-            {
-              :aws_access_key_id  => @aws_access_key_id,
-              :hmac               => @hmac,
-              :host               => @host,
-              :path               => @path,
-              :port               => @port,
-              :version            => '2009-11-25'
-            }
-          )
+          headers = {
+            'Content-Type'  => 'application/x-www-form-urlencoded',
+            'Date'          => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
+          }
+
+          #AWS3-HTTPS AWSAccessKeyId=<Your AWS Access Key ID>, Algorithm=HmacSHA256, Signature=<Signature>
+          headers['X-Amzn-Authorization'] = 'AWS3-HTTPS '
+          headers['X-Amzn-Authorization'] << 'AWSAccessKeyId=' << @aws_access_key_id
+          headers['X-Amzn-Authorization'] << ', Algorithm=HmacSHA256'
+          headers['X-Amzn-Authorization'] << ', Signature=' << Base64.encode64(@hmac.sign(headers['Date'])).chomp!
+
+          body = ''
+          for key in params.keys.sort
+            unless (value = params[key]).nil?
+              body << "#{key}=#{CGI.escape(value.to_s).gsub(/\+/, '%20')}&"
+            end
+          end
+          body.chop! # remove trailing '&'
 
           response = @connection.request({
             :body       => body,
             :expects    => 200,
-            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+            :headers    => headers,
             :idempotent => idempotent,
             :host       => @host,
             :method     => 'POST',

@@ -3,7 +3,7 @@ module Fog
     class SES
       class Real
 
-        require 'fog/aws/parsers/ses/delete_verified_email'
+        require 'fog/aws/parsers/ses/delete_verified_email_address'
 
         # Delete an existing verified email address
         #

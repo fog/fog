@@ -5,9 +5,10 @@ module Fog
 
         require 'fog/aws/parsers/ses/send_email'
 
-        # Delete an existing verified email address
+        # Send an email
         #
         # ==== Parameters
+        # * Source <~String> - The sender's email address
         # * Destination <~Hash> - The destination for this email, composed of To:, From:, and CC: fields.
         #   * BccAddresses <~Array> - The BCC: field(s) of the message.
         #   * CcAddresses <~Array> - The CC: field(s) of the message.
@@ -23,9 +24,9 @@ module Fog
         #   * Subject <~Hash>
         #     * Charset <~String>
         #     * Data <~String>
-        # * ReplyToAddresses <~Array> - The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
-        # * ReturnPath <~String> - The email address to which bounce notifications are to be forwarded. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter.
-        # * Source <~String> - The sender's email address
+        # * options <~Hash>:
+        #   * ReplyToAddresses <~Array> - The reply-to email address(es) for the message. If the recipient replies to the message, each reply-to address will receive the reply.
+        #   * ReturnPath <~String> - The email address to which bounce notifications are to be forwarded. If the message cannot be delivered to the recipient, then an error message will be returned from the recipient's ISP; this message will then be forwarded to the email address specified by the ReturnPath parameter.
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -33,13 +34,36 @@ module Fog
         #     * 'DeleteVerfiedEmailAddressResponse'<~nil>
         #     * 'ResponseMetadata'<~Hash>:
         #       * 'RequestId'<~String> - Id of request
-        def send_email()
-          params = AWS.indexed_param('ReplyToAddresses.member', [*reply_to_addresses])
+        def send_email(source, destination, message, options = {})
+          params = {
+            'Source' => source
+          }
+
+          for key, values in destination
+            params.merge!(AWS.indexed_param("Destination.#{key}.member", [*values]))
+          end
+
+          for key, value in message['Subject']
+            params["Message.Subject.#{key}"] = value
+          end
+
+          for type, data in message['Body']
+            for key, value in data
+              params["Message.Body.#{type}.#{key}"] = value
+            end
+          end
+
+          if options.has_key?('ReplyToAddresses')
+            params.merge!(AWS.indexed_param("ReplyToAddresses.member", [*options['ReplyToAddresses']]))
+          end
+
+          if options.has_key?('ReturnPath')
+            params['ReturnPath'] = options['ReturnPath']
+          end
 
           request({
-            'Action'           => 'DeleteVerifiedEmailAddress',
-            'EmailAddress'     => email_address,
-            :parser            => Fog::Parsers::AWS::SES::DeleteVerifiedEmailAddress.new
+            'Action'           => 'SendEmail',
+            :parser            => Fog::Parsers::AWS::SES::SendEmail.new
           }.merge(params))
         end
 
@@ -47,7 +71,7 @@ module Fog
 
       class Mock
 
-        def delete_verified_email_address(email_address)
+        def send_email(source, destination, message, options = {})
           Fog::Mock.not_implemented
         end
 
