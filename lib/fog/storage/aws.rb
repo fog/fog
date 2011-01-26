@@ -343,7 +343,7 @@ DATA
           unless subdomain.nil? || subdomain == @host
             canonical_resource << "#{CGI.escape(subdomain).downcase}/"
           end
-          canonical_resource << params[:path].to_s
+          canonical_resource << CGI.escape(params[:path].to_s).gsub('%2F', '/')
           canonical_resource << '?'
           for key in (params[:query] || {}).keys
             if %w{acl location logging notification partNumber policy requestPayment torrent uploadId uploads versionId versioning versions}.include?(key)
