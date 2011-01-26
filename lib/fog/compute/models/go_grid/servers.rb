@@ -21,7 +21,7 @@ module Fog
         end
 
         def get(server_id)
-          if server_id && server = connection.grid_server_get(server_id).body['list']
+          if server_id && server = connection.grid_server_get(server_id).body['list'].first
             new(server)
           end
         rescue Fog::GoGrid::Compute::NotFound
