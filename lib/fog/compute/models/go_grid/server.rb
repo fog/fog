@@ -11,7 +11,7 @@ module Fog
         identity :id
 
         attribute :name
-        attribute :image_id        # id or name
+        attribute :image_id     # id or name
         attribute :ip
         attribute :memory       # server.ram
         attribute :state
@@ -55,11 +55,10 @@ module Fog
           requires :name, :image_id, :ip, :memory
           options = {
             'isSandbox'   => sandbox,
-            'server.ram'  => memory,
             'image'       => image_id
           }
           options = options.reject {|key, value| value.nil?}
-          data = connection.grid_server_add(name, image, ip, options)
+          data = connection.grid_server_add(image, ip, name, memory, options)
           merge_attributes(data.body)
           true
         end

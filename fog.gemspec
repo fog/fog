@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   ## Leave these as is they will be modified for you by the rake gemspec task.
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
-  s.name              = 'phpfog-fog'
-  s.version           = '0.4.1.3'
+  s.name              = 'fog'
+  s.version           = '0.4.1'
   s.date              = '2011-01-21'
   s.rubyforge_project = 'fog'
 
