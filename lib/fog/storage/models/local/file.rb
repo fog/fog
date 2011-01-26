@@ -24,6 +24,14 @@ module Fog
           attributes[:body] = new_body
         end
 
+        def content_type
+          @content_type ||= begin
+            unless (mime_types = ::MIME::Types.of(key)).empty?
+              mime_types.first.content_type
+            end
+          end
+        end
+
         def directory
           @directory
         end

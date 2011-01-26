@@ -28,6 +28,7 @@ module Fog
         def initialize(options={})
           Fog::Mock.not_implemented
 
+          require 'mime/types'
           unless options.delete(:provider)
             location = caller.first
             warning = "[yellow][WARN] Fog::Local::Storage.new is deprecated, use Fog::Storage.new(:provider => 'Local') instead[/]"
@@ -58,6 +59,7 @@ module Fog
             Formatador.display_line(warning)
           end
 
+          require 'mime/types'
           @local_root = ::File.expand_path(options[:local_root])
         end
 
