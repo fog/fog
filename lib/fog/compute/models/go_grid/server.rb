@@ -47,6 +47,7 @@ module Fog
           }
           options = options.reject {|key, value| value.nil?}
           data = connection.grid_server_add(name, image, ip, options)
+          puts data.body.inspect
           merge_attributes(data.body)
           true
         end
