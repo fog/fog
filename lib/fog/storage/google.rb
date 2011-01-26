@@ -54,12 +54,12 @@ module Fog
 
         def url(params, expires)
           params[:headers]['Date'] = expires.to_i
+          params[:path] = CGI.escape(params[:path]).gsub('%2F', '/')
           query = [params[:query]].compact
           query << "GoogleAccessKeyId=#{@google_storage_access_key_id}"
           query << "Signature=#{CGI.escape(signature(params))}"
           query << "Expires=#{params[:headers]['Date']}"
-          path = CGI.escape(params[:path]).gsub('%2F', '/')
-          "http://#{params[:host]}/#{path}?#{query.join('&')}"
+          "http://#{params[:host]}/#{params[:path]}?#{query.join('&')}"
         end
 
       end

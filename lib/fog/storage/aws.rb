@@ -94,13 +94,13 @@ module Fog
 
         def url(params, expires)
           params[:headers]['Date'] = expires.to_i
+          params[:path] = CGI.escape(params[:path]).gsub('%2F', '/')
           query = [params[:query]].compact
           query << "AWSAccessKeyId=#{@aws_access_key_id}"
           query << "Signature=#{CGI.escape(signature(params))}"
           query << "Expires=#{params[:headers]['Date']}"
           bucket = params[:host].split('.').first
-          path = CGI.escape(params[:path]).gsub('%2F', '/')
-          "https://#{@host}/#{path}?#{query.join('&')}"
+          "https://#{@host}/#{params[:path]}?#{query.join('&')}"
         end
 
       end
@@ -343,7 +343,7 @@ DATA
           unless subdomain.nil? || subdomain == @host
             canonical_resource << "#{CGI.escape(subdomain).downcase}/"
           end
-          canonical_resource << CGI.escape(params[:path].to_s).gsub('%2F', '/')
+          canonical_resource << params[:path].to_s
           canonical_resource << '?'
           for key in (params[:query] || {}).keys
             if %w{acl location logging notification partNumber policy requestPayment torrent uploadId uploads versionId versioning versions}.include?(key)
