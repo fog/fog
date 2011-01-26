@@ -34,7 +34,20 @@ module Fog
         end
 
         def ready?
-          @state == 'On'
+          @state && @state["name"] == 'On'
+        end
+
+        def reload
+          requires :name
+          begin
+            if data = collection.get(name)
+              new_attributes = data.attributes
+              merge_attributes(new_attributes)
+              self
+            end
+          rescue Excon::Errors::BadRequest
+            false
+          end
         end
 
         def save
