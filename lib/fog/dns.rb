@@ -17,7 +17,7 @@ module Fog
         require 'fog/dns/zerigo'
         Fog::Zerigo::DNS.new(attributes)
       else
-        raise ArgumentError.new("#{provider} is not a recognized storage provider")
+        raise ArgumentError.new("#{provider} is not a recognized dns provider")
       end
     end
 

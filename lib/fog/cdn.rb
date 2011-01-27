@@ -11,7 +11,7 @@ module Fog
         require 'fog/cdn/rackspace'
         Fog::Rackspace::CDN.new(attributes)
       else
-        raise ArgumentError.new("#{provider} is not a recognized storage provider")
+        raise ArgumentError.new("#{provider} is not a recognized cdn provider")
       end
     end
 
