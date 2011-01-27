@@ -6,7 +6,7 @@ module Fog
         class GetSendStatistics < Fog::Parsers::Base
 
           def reset
-            @response = { 'GetSendStatisticsResult' => { 'SendDataPoints' => [] }, 'ResponseMetadata' => {} }
+            @response = { 'SendDataPoints' => [], 'ResponseMetadata' => {} }
             @send_data_point = {}
           end
 
@@ -15,8 +15,8 @@ module Fog
             when "Bounces", "Complaints", "DeliveryAttempts", "Rejects", "Timestamp"
               @send_data_point[name] = @value
             when 'member'
-              @response['GetSendStatisticsResult']['SendDataPoints'] << @send_data_point
-              @instance_state = {}
+              @response['SendDataPoints'] << @send_data_point
+              @send_data_point = {}
             when 'RequestId'
               @response['ResponseMetadata'][name] = @value
             end

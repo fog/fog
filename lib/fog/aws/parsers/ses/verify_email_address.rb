@@ -6,7 +6,7 @@ module Fog
         class VerifyEmailAddress < Fog::Parsers::Base
 
           def reset
-            @response = { 'VerifyEmailAddressResult' => nil, 'ResponseMetadata' => {} }
+            @response = { 'ResponseMetadata' => {} }
           end
 
           def end_element(name)

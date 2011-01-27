@@ -12,8 +12,7 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'ListVerifiedEmailAddressesResult'<~Hash>
-        #       * 'VerifiedEmailAddresses' <~Array>
+        #     * 'VerifiedEmailAddresses' <~Array>
         #     * 'ResponseMetadata'<~Hash>:
         #       * 'RequestId'<~String> - Id of request
         def list_verified_email_addresses

@@ -12,7 +12,6 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'VerifyEmailAddressResult'<~nil>
         #     * 'ResponseMetadata'<~Hash>:
         #       * 'RequestId'<~String> - Id of request
         def verify_email_address(email_address)

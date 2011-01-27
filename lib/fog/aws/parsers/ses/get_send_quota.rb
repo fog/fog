@@ -6,13 +6,13 @@ module Fog
         class GetSendQuota < Fog::Parsers::Base
 
           def reset
-            @response = { 'GetSendQuotaResult' => {}, 'ResponseMetadata' => {} }
+            @response = { 'ResponseMetadata' => {} }
           end
 
           def end_element(name)
             case name
             when "Max24HourSend", "MaxSendRate", "SentLast24Hours"
-              @response['GetSendQuotaResult'][name] = @value
+              @response[name] = @value
             when 'RequestId'
               @response['ResponseMetadata'][name] = @value
             end

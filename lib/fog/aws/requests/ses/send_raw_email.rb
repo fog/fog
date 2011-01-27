@@ -16,7 +16,7 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'DeleteVerfiedEmailAddressResponse'<~nil>
+        #     * 'MessageId'<~String> - Id of message
         #     * 'ResponseMetadata'<~Hash>:
         #       * 'RequestId'<~String> - Id of request
         def send_raw_email(raw_message, options = {})

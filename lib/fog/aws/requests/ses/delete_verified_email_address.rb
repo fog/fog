@@ -12,7 +12,6 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'DeleteVerfiedEmailAddressResponse'<~nil>
         #     * 'ResponseMetadata'<~Hash>:
         #       * 'RequestId'<~String> - Id of request
         def delete_verified_email_address(email_address)

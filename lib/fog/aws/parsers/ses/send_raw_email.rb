@@ -6,13 +6,13 @@ module Fog
         class SendRawEmail < Fog::Parsers::Base
 
           def reset
-            @response = { 'SendRawEmailResult' => {}, 'ResponseMetadata' => {} }
+            @response = { 'ResponseMetadata' => {} }
           end
 
           def end_element(name)
             case name
             when 'MessageId'
-              @response['SendRawEmailResult'][name] = @value
+              @response[name] = @value
             when 'RequestId'
               @response['ResponseMetadata'][name] = @value
             end
