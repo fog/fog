@@ -100,13 +100,10 @@ module Fog
           end
 
           require 'json'
-          credentials = Fog::Rackspace.authenticate(options)
-          @auth_token = credentials['X-Auth-Token']
-          uri = URI.parse(credentials['X-Server-Management-Url'])
-          @host   = uri.host
-          @path   = uri.path
-          @port   = uri.port
-          @scheme = uri.scheme
+          @rackspace_api_key = options[:rackspace_api_key]
+          @rackspace_username = options[:rackspace_username]
+          @rackspace_auth_url = options[:rackspace_auth_url]
+          authenticate
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
         end
 
@@ -124,6 +121,13 @@ module Fog
               :host     => @host,
               :path     => "#{@path}/#{params[:path]}"
             }))
+          rescue Excon::Errors::Unauthorized => error
+            if JSON.parse(response.body)['unauthorized']['message'] == 'Invalid authentication token.  Please renew.'
+              authenticate
+              retry
+            else
+              raise error
+            end
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
@@ -136,6 +140,23 @@ module Fog
             response.body = JSON.parse(response.body)
           end
           response
+        end
+
+        private
+
+        def authenticate
+          options = {
+            :rackspace_api_key  => @rackspace_api_key,
+            :rackspace_username => @rackspace_username,
+            :rackspace_auth_url => @rackspace_auth_url
+          }
+          credentials = Fog::Rackspace.authenticate(options)
+          @auth_token = credentials['X-Auth-Token']
+          uri = URI.parse(credentials['X-Server-Management-Url'])
+          @host   = uri.host
+          @path   = uri.path
+          @port   = uri.port
+          @scheme = uri.scheme
         end
 
       end
