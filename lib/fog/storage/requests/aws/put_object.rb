@@ -67,7 +67,7 @@ module Fog
               'Content-Type'  => data[:headers]['Content-Type'],
               'ETag'          => Fog::AWS::Mock.etag,
               'Key'           => object_name,
-              'LastModified'  => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000"),
+              'LastModified'  => Fog::Time.now.to_date_header,
               'Size'          => data[:headers]['Content-Length'],
               'StorageClass'  => 'STANDARD'
             }

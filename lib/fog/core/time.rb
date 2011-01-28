@@ -1,21 +1,27 @@
 module Fog
   class Time < ::Time
-    class << self
 
-      def now
-        ::Time.now - offset
-      end
+    DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
-      def now=(new_now)
-        old_now = ::Time.now
-        @offset = old_now - new_now
-        new_now
-      end
-
-      def offset
-        @offset ||= 0
-      end
-
+    def self.now
+      at((::Time.now - offset).to_i)
     end
+
+    def self.now=(new_now)
+      old_now = ::Time.now
+      @offset = old_now - new_now
+      new_now
+    end
+
+    def self.offset
+      @offset ||= 0
+    end
+
+    def to_date_header
+      now = self.class.now.utc
+      now.strftime("#{DAYS[now.wday]}, %d #{MONTHS[now.month - 1]} %Y %H:%M:%S +0000")
+    end
+
   end
 end

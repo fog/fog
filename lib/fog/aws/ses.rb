@@ -70,7 +70,7 @@ module Fog
 
           headers = {
             'Content-Type'  => 'application/x-www-form-urlencoded',
-            'Date'          => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
+            'Date'          => Fog::Time.now.to_date_header
           }
 
           #AWS3-HTTPS AWSAccessKeyId=<Your AWS Access Key ID>, Algorithm=HmacSHA256, Signature=<Signature>

@@ -212,7 +212,7 @@ module Fog
         private
 
         def request(params, &block)
-          params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
+          params[:headers]['Date'] = Fog::Time.now.to_date_header
           params[:headers]['Authorization'] = "GOOG1 #{@google_storage_access_key_id}:#{signature(params)}"
 
           response = @connection.request(params, &block)
