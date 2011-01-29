@@ -19,6 +19,7 @@ module Fog
       request :get_user
       request :list_access_keys
       request :list_groups
+      request :list_groups_for_user
       request :list_group_policies
       request :list_signing_certificates
       request :list_user_policies
