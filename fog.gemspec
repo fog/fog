@@ -55,7 +55,7 @@ Gem::Specification.new do |s|
   ## those that are only needed during development
   s.add_development_dependency('rake')
   s.add_development_dependency('rspec', '1.3.1')
-  s.add_development_dependency('shindo', '0.2.0')
+  s.add_development_dependency('shindo', '0.2.2')
 
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {spec,tests}/*`.split("\n")
