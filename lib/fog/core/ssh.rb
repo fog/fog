@@ -2,9 +2,6 @@ module Fog
   module SSH
 
     def self.new(address, username, options = {})
-      unless options[:key_data] || options[:keys] || options[:password] || ENV['SSH_AUTH_SOCK']
-        raise ArgumentError.new(':key_data, :keys, :password or ENV[\'SSH_AUTH_SOCK\'] are required to initialize SSH')
-      end
       if Fog.mocking?
         Fog::SSH::Mock.new(address, username, options)
       else
@@ -40,6 +37,13 @@ module Fog
 
       def initialize(address, username, options)
         require 'net/ssh'
+
+        key_manager = Net::SSH::Authentication::KeyManager.new(nil, options)
+
+        unless options[:key_data] || options[:keys] || options[:password] || key_manager.agent
+          raise ArgumentError.new(':key_data, :keys, :password or a loaded ssh-agent is required to initialize SSH')
+        end
+
         @address  = address
         @username = username
         @options  = { :paranoid => false }.merge(options)

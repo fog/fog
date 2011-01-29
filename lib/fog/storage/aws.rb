@@ -94,13 +94,13 @@ module Fog
 
         def url(params, expires)
           params[:headers]['Date'] = expires.to_i
+          params[:path] = CGI.escape(params[:path]).gsub('%2F', '/')
           query = [params[:query]].compact
           query << "AWSAccessKeyId=#{@aws_access_key_id}"
           query << "Signature=#{CGI.escape(signature(params))}"
           query << "Expires=#{params[:headers]['Date']}"
           bucket = params[:host].split('.').first
-          path = CGI.escape(params[:path]).gsub('%2F', '/')
-          "https://#{@host}/#{path}?#{query.join('&')}"
+          "https://#{@host}/#{params[:path]}?#{query.join('&')}"
         end
 
       end
@@ -289,7 +289,7 @@ module Fog
         private
 
         def request(params, &block)
-          params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
+          params[:headers]['Date'] = Fog::Time.now.to_date_header
           params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
           params[:expects] = [307, *params[:expects]].flatten
           # FIXME: ToHashParser should make this not needed

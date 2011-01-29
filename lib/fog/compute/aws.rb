@@ -68,6 +68,7 @@ module Fog
       request :describe_reserved_instances
       request :describe_key_pairs
       request :describe_regions
+      request :describe_reserved_instances_offerings
       request :describe_security_groups
       request :describe_snapshots
       request :describe_tags
