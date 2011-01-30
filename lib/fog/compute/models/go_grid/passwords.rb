@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/go_grid/models/compute/password'
+require 'fog/compute/models/go_grid/password'
 
 module Fog
   module GoGrid
