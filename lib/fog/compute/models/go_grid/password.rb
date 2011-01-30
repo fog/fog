@@ -12,7 +12,7 @@ module Fog
 
         attribute :server_id
         attribute :applicationtype
-        attribute :username	# server.ram
+        attribute :username	
         attribute :password_id,	:aliases => 'id'
         attribute :password
         attribute :server
