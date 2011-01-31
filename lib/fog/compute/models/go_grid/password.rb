@@ -4,8 +4,6 @@ module Fog
   module GoGrid
     class Compute
 
-      class BlockInstantiationError < StandardError; end
-
       class Password < Fog::Model
 
         identity :id
