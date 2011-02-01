@@ -94,7 +94,7 @@ module Fog
           Fog::SSH.new(addresses['public'].first, username, credentials).run([
             %{mkdir .ssh},
             %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
-            %{passwd -l root},
+            %{passwd -l #{username}},
             %{echo "#{attributes.to_json}" >> ~/attributes.json},
             %{echo "#{metadata.to_json}" >> ~/metadata.json}
           ])

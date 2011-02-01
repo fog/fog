@@ -155,7 +155,7 @@ module Fog
 
           commands = [
             %{mkdir .ssh},
-            %{passwd -l root},
+            %{passwd -l #{username}},
             %{echo "#{attributes.to_json}" >> ~/attributes.json}
           ]
           if public_key
