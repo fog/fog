@@ -1,4 +1,3 @@
-$LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), %w[ .. lib fog]))
 require 'fog'
 require 'fog/bin'
 

@@ -289,7 +289,7 @@ module Fog
         private
 
         def request(params, &block)
-          params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
+          params[:headers]['Date'] = Fog::Time.now.to_date_header
           params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
           params[:expects] = [307, *params[:expects]].flatten
           # FIXME: ToHashParser should make this not needed
