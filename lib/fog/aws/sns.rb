@@ -39,7 +39,21 @@ module Fog
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
           @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)
-          @host       = options[:host]      || 'sns.amazonaws.com'
+
+          options[:region] ||= 'us-east-1'
+          @host = options[:host] || case options[:region]
+          when 'ap-southeast-1'
+            'sns.ap-southeast-1.amazonaws.com'
+          when 'eu-west-1'
+            'sns.eu-west-1.amazonaws.com'
+          when 'us-east-1'
+            'sns.us-east-1.amazonaws.com'
+          when 'us-west-1'
+            'sns.us-west-1.amazonaws.com'
+          else
+            raise ArgumentError, "Unknown region: #{options[:region].inspect}"
+          end
+
           @path       = options[:path]      || '/'
           @port       = options[:port]      || 443
           @scheme     = options[:scheme]    || 'https'
@@ -63,8 +77,7 @@ module Fog
               :hmac               => @hmac,
               :host               => @host,
               :path               => @path,
-              :port               => @port,
-              #:version            => '2010-05-08'
+              :port               => @port
             }
           )
 
@@ -72,7 +85,7 @@ module Fog
             :body       => body,
             :expects    => 200,
             :idempotent => idempotent,
-            #:headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
             :host       => @host,
             :method     => 'POST',
             :parser     => parser

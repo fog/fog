@@ -6,15 +6,13 @@ module Fog
         class ListTopics < Fog::Parsers::Base
 
           def reset
-            @user = {}
             @response = { 'Topics' => [] }
           end
 
           def end_element(name)
             case name
-            when 'TopicARN'
-              @response['Topics'] << @user
-              @user = {}
+            when 'TopicArn'
+              @response['Topics'] << @value
             when 'NextToken', 'RequestId'
               response[name] = @value
             end
