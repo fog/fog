@@ -18,6 +18,7 @@ module Fog
         #   * 'Content-Type'<~String> - Standard MIME type describing contents (defaults to MIME::Types.of.first)
         #   * 'Expires'<~String> - Cache expiry
         #   * 'x-amz-acl'<~String> - Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
+        #   * 'x-amz-storage-class'<~String> - Default is 'STANDARD', set to 'REDUCED_REDUNDANCY' for non-critical, reproducable data
         #   * "x-amz-meta-#{name}" - Headers to be returned with object, note total size of request without body must be less than 8 KB.
         #
         # ==== Returns
