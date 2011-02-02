@@ -8,6 +8,7 @@ module Fog
       request_path 'fog/aws/requests/sns'
       request :get_topic_attributes
       request :list_subscriptions
+      request :list_subscriptions_by_topic
       request :list_topics
 
       class Mock
