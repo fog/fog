@@ -59,13 +59,21 @@ module Fog
             response.status = 200
             object = {
               :body           => data[:body],
-              'Content-Type'  => data[:headers]['Content-Type'],
+              'Content-Type'  => options['Content-Type'] || data[:headers]['Content-Type'],
               'ETag'          => Fog::Google::Mock.etag,
               'Key'           => object_name,
               'LastModified'  => Fog::Time.now.to_date_header,
-              'Size'          => data[:headers]['Content-Length'],
+              'Size'          => options['Content-Length'] || data[:headers]['Content-Length'],
               'StorageClass'  => 'STANDARD'
             }
+
+            for key, value in options
+              case key
+              when 'Cache-Control', 'Content-Disposition', 'Content-Encoding', 'Content-MD5', 'Expires', /^x-goog-meta-/
+                object[key] = value
+              end
+            end
+
             bucket[:objects][object_name] = object
             response.headers = {
               'Content-Length'  => object['Size'],

@@ -65,13 +65,21 @@ module Fog
             response.status = 200
             object = {
               :body           => data[:body],
-              'Content-Type'  => data[:headers]['Content-Type'],
+              'Content-Type'  => options['Content-Type'] || data[:headers]['Content-Type'],
               'ETag'          => Fog::AWS::Mock.etag,
               'Key'           => object_name,
               'LastModified'  => Fog::Time.now.to_date_header,
-              'Size'          => data[:headers]['Content-Length'],
-              'StorageClass'  => 'STANDARD'
+              'Size'          => options['Content-Length'] || data[:headers]['Content-Length'],
+              'StorageClass'  => options['x-amz-storage-class'] || 'STANDARD'
             }
+
+            for key, value in options
+              case key
+              when 'Cache-Control', 'Content-Disposition', 'Content-Encoding', 'Content-MD5', 'Expires', /^x-amz-meta-/
+                object[key] = value
+              end
+            end
+
             bucket[:objects][object_name] = object
             response.headers = {
               'Content-Length'  => object['Size'],

@@ -76,12 +76,7 @@ module Fog
               response.status = 412
             else
               response.status = 200
-              response.headers = {
-                'Content-Length'  => object['Size'],
-                'Content-Type'    => object['Content-Type'],
-                'ETag'            => object['ETag'],
-                'Last-Modified'   => object['LastModified']
-              }
+              response.headers = object.reject {|key, value| key == :body}
               unless block_given?
                 response.body = object[:body]
               else
