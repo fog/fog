@@ -18,6 +18,7 @@ module Fog
         #   * 'x-amz-copy_source-if-modified_since'<~Time> - Copies object it it has been modified since this time
         #   * 'x-amz-copy_source-if-none-match'<~String> - Copies object if its etag does not match this value
         #   * 'x-amz-copy_source-if-unmodified-since'<~Time> - Copies object it it has not been modified since this time
+        #   * 'x-amz-storage-class'<~String> - Default is 'STANDARD', set to 'REDUCED_REDUNDANCY' for non-critical, reproducable data
         #
         # ==== Returns
         # * response<~Excon::Response>:
