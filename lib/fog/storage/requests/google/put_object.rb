@@ -58,13 +58,13 @@ module Fog
           if (bucket = @data[:buckets][bucket_name])
             response.status = 200
             object = {
-              :body           => data[:body],
-              'Content-Type'  => options['Content-Type'] || data[:headers]['Content-Type'],
-              'ETag'          => Fog::Google::Mock.etag,
-              'Key'           => object_name,
-              'LastModified'  => Fog::Time.now.to_date_header,
-              'Size'          => options['Content-Length'] || data[:headers]['Content-Length'],
-              'StorageClass'  => 'STANDARD'
+              :body             => data[:body],
+              'Content-Type'    => options['Content-Type'] || data[:headers]['Content-Type'],
+              'ETag'            => Fog::Google::Mock.etag,
+              'Key'             => object_name,
+              'Last-Modified'   => Fog::Time.now.to_date_header,
+              'Content-Length'  => options['Content-Length'] || data[:headers]['Content-Length'],
+              'StorageClass'    => 'STANDARD'
             }
 
             for key, value in options
@@ -76,10 +76,10 @@ module Fog
 
             bucket[:objects][object_name] = object
             response.headers = {
-              'Content-Length'  => object['Size'],
+              'Content-Length'  => object['Content-Length'],
               'Content-Type'    => object['Content-Type'],
               'ETag'            => object['ETag'],
-              'Last-Modified'   => object['LastModified']
+              'Last-Modified'   => object['Last-Modified']
             }
           else
             response.status = 404
