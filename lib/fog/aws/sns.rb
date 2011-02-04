@@ -16,6 +16,7 @@ module Fog
       request :publish
       request :remove_permission
       request :set_topic_attributes
+      request :subscribe
 
       class Mock
 
