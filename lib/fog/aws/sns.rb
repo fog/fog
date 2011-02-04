@@ -14,6 +14,7 @@ module Fog
       request :list_subscriptions_by_topic
       request :list_topics
       request :publish
+      request :remove_permission
 
       class Mock
 
