@@ -6,6 +6,7 @@ module Fog
       recognizes :host, :path, :port, :scheme, :persistent
 
       request_path 'fog/aws/requests/sns'
+      request :add_permission
       request :create_topic
       request :delete_topic
       request :get_topic_attributes
