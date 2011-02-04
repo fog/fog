@@ -38,14 +38,14 @@ class Rackspace < Fog::Bin
         when :storage
           Fog::Storage.new(:provider => 'Rackspace')
         else
-          raise ArgumentError, "Unrecognized service: #{service}"
+          raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
       end
       @@connections[service]
     end
 
     def services
-      [:cdn, :compute, :storage]
+      Fog::Rackspace.services
     end
 
   end

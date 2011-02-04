@@ -26,14 +26,14 @@ class Linode < Fog::Bin
           Formatador.display_line(warning)
           Fog::Compute.new(:provider => 'Linode')
         else
-          raise ArgumentError, "Unrecognized service: #{service}"
+          raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
       end
       @@connections[service]
     end
 
     def services
-      [:compute, :dns]
+      Fog::Linode.services
     end
 
   end

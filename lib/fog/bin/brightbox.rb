@@ -16,18 +16,18 @@ class Brightbox < Fog::Bin
         when :compute
           Fog::Compute.new(:provider => 'Brightbox')
         else
-          raise ArgumentError, "Unrecognized service: #{service}"
+          raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
       end
       @@connections[service]
     end
 
-    def services
-      [:compute]
-    end
-
     def account
       @@connections[:compute].account
+    end
+
+    def services
+      Fog::Brightbox.services
     end
 
   end

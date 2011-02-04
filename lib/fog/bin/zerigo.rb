@@ -16,14 +16,14 @@ class Zerigo < Fog::Bin
         when :dns
           Fog::DNS.new(:provider => 'Zerigo')
         else
-          raise ArgumentError, "Unrecognized service: #{service}"
+          raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
       end
       @@connections[service]
     end
 
     def services
-      [:dns]
+      Fog::Zerigo.services
     end
 
   end
