@@ -7,6 +7,7 @@ module Fog
 
       request_path 'fog/aws/requests/sns'
       request :add_permission
+      request :confirm_subscription
       request :create_topic
       request :delete_topic
       request :get_topic_attributes
@@ -17,6 +18,7 @@ module Fog
       request :remove_permission
       request :set_topic_attributes
       request :subscribe
+      request :unsubscribe
 
       class Mock
 
