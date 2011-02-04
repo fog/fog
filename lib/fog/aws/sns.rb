@@ -12,6 +12,7 @@ module Fog
       request :list_subscriptions
       request :list_subscriptions_by_topic
       request :list_topics
+      request :publish
 
       class Mock
 
