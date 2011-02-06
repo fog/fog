@@ -9,6 +9,7 @@ module Fog
       request :create_queue
       request :delete_message
       request :delete_queue
+      request :get_queue_attributes
       request :list_queues
       request :receive_message
       request :send_message
