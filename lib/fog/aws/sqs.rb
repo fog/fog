@@ -7,8 +7,11 @@ module Fog
 
       request_path 'fog/aws/requests/sqs'
       request :create_queue
-      request :list_queues
+      request :delete_message
       request :delete_queue
+      request :list_queues
+      request :receive_message
+      request :send_message
 
       class Mock
 
@@ -65,6 +68,19 @@ module Fog
         end
 
         private
+
+        def extract_url_with_name_from_list(name)
+          list_queues.body['QueueUrls'].detect { |url| url.match(/\/#{name}$/) }
+        end
+
+        def extract_path_from_url(url)
+          url.gsub(/.*\.com/, '')
+        end
+
+        def path_from_queue_name(name)
+          url = extract_url_with_name_from_list(name)
+          path = extract_path_from_url(url)
+        end
 
         def request(params)
           idempotent  = params.delete(:idempotent)
