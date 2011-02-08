@@ -345,7 +345,7 @@ DATA
           end
           canonical_resource << params[:path].to_s
           canonical_resource << '?'
-          for key in (params[:query] || {}).keys
+          for key in (params[:query] || {}).keys.sort
             if %w{acl location logging notification partNumber policy requestPayment torrent uploadId uploads versionId versioning versions}.include?(key)
               canonical_resource << "#{key}#{"=#{params[:query][key]}" unless params[:query][key].nil?}&"
             end
