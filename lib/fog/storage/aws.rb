@@ -286,26 +286,6 @@ module Fog
           @connection.reset
         end
 
-        private
-
-        def request(params, &block)
-          params[:headers]['Date'] = Fog::Time.now.to_date_header
-          params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
-          params[:expects] = [307, *params[:expects]].flatten
-          # FIXME: ToHashParser should make this not needed
-          original_params = params.dup
-
-          response = @connection.request(params, &block)
-
-          if response.status == 307
-            uri = URI.parse(response.headers['Location'])
-            Formatador.display_line("[yellow][WARN] fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant[/]")
-            response = Fog::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false).request(original_params, &block)
-          end
-
-          response
-        end
-
         def signature(params)
           string_to_sign =
 <<-DATA
@@ -355,6 +335,27 @@ DATA
 
           signed_string = @hmac.sign(string_to_sign)
           signature = Base64.encode64(signed_string).chomp!
+        end
+
+
+        private
+
+        def request(params, &block)
+          params[:headers]['Date'] = Fog::Time.now.to_date_header
+          params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
+          params[:expects] = [307, *params[:expects]].flatten
+          # FIXME: ToHashParser should make this not needed
+          original_params = params.dup
+
+          response = @connection.request(params, &block)
+
+          if response.status == 307
+            uri = URI.parse(response.headers['Location'])
+            Formatador.display_line("[yellow][WARN] fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant[/]")
+            response = Fog::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false).request(original_params, &block)
+          end
+
+          response
         end
       end
     end
