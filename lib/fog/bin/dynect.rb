@@ -1,5 +1,3 @@
-require 'fog/dns/dynect'
-
 class Dynect < Fog::Bin
   class << self
 
