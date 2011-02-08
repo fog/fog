@@ -1,13 +1,10 @@
 Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
   tests( 'success') do
     test ('start api session') do
-
       response = Dynect[:dns].session
-      if response.status == 200
-        @auth_token = response.body['token']
-      end
-
-      response.status == 200
+      returns(true) { response.body['API-Token'] =~ /.+=$/ && true }
+      returns(true) { response.body['API-Version'] == "2.3.1" }
+      returns(true) { response.status == 200 }
     end
   end
 end

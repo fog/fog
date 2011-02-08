@@ -2,6 +2,9 @@ module Fog
   module Dynect
     class DNS
       class Real
+
+        require 'fog/dns/parsers/dynect/session'
+
         def session
           builder = Builder::XmlMarkup.new
           xml = builder.parameters do |root|
@@ -11,6 +14,7 @@ module Fog
           end
 
           request(
+                  :parser   => Fog::Parsers::Dynect::DNS::Session.new,
                   :expects  => 200,
                   :method   => "POST",
                   :path     => "/REST/Session/",
@@ -25,6 +29,8 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
+            'API-Version' => '2.3.1',
+            'API-Token' => 'thetoken=='
           }
           response
         end
