@@ -47,6 +47,9 @@ if Fog.mock?
     :voxel_api_key                    => 'voxel_api_key',
     :voxel_api_secret                 => 'voxel_api_secret',
     :zerigo_email                     => 'zerigo_email',
-    :zerigo_token                     => 'zerigo_token'
+    :zerigo_token                     => 'zerigo_token',
+    :dynect_customer                  => 'dynect_customer',
+    :dynect_username                  => 'dynect_username',
+    :dynect_password                  => 'dynect_password'
   })
 end

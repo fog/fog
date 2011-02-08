@@ -22,7 +22,11 @@ module Fog
       class Mock
 
         def session
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+          }
+          response
         end
 
       end
