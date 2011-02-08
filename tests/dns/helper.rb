@@ -26,6 +26,9 @@ def dns_providers
     },
     :zerigo       => {
       :mocked => false
+    },
+    Dynect    => {
+      :mocked => false
     }
   }
 end
