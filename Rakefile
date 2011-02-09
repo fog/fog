@@ -48,7 +48,9 @@ task :default => :test
 
 namespace :test do
   task :dynect do
-    sh("export FOG_MOCK=false && bundle exec shindont tests/dns/requests/dynect")
+    [false, true].each do |mock|
+      sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/dns/requests/dynect")
+    end
   end
 end
 
