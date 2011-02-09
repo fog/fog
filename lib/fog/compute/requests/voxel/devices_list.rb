@@ -3,7 +3,7 @@ module Fog
     class Compute
       class Real
         def devices_list( device_id = nil )
-          options = { :verbosity => 'extended' }
+          options = { :verbosity => 'normal' }
 
           unless device_id.nil?
             options[:device_id] = device_id

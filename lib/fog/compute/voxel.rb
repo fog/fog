@@ -15,6 +15,7 @@ module Fog
       request :devices_list
       request :voxcloud_create
       request :voxcloud_status
+			request :voxcloud_delete
 
       class Mock
         include Collections
