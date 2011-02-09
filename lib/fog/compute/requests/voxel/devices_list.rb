@@ -7,18 +7,12 @@ module Fog
 
           options = { :verbosity => 'normal' }
 
-          ## TODO remove this
-          options[:customer_id] = 1470
-
           unless device_id.nil?
             options[:device_id] = device_id
           end
             
           data = request("voxel.devices.list", options)
 
-          require 'pp'
-          pp data.body
-         
           if data['devices']['device'].is_a?(Hash)
             devices = [ data['devices']['device'] ]
           else

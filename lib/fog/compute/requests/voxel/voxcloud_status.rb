@@ -5,13 +5,10 @@ module Fog
         def voxcloud_status( device_id = nil )
           options = { :verbosity => 'compact' }
 
-          ## TODO remove this
-          options[:customer_id] = 1470
-
           unless device_id.nil?
             options[:device_id] = device_id
           end
-            
+          
           data = request("voxel.voxcloud.status", options)
 
           if data['devices']['device'].is_a?(Hash)
