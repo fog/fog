@@ -3,9 +3,6 @@ module Fog
     class Compute
       class Real
         def voxcloud_create( options )
-          ## TODO Remove this
-          options.merge! :customer_id => 1470
-
           data = request("voxel.voxcloud.create", options)
 
           unless data['stat'] == 'ok'

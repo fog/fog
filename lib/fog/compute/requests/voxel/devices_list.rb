@@ -7,9 +7,6 @@ module Fog
 
           options = { :verbosity => 'normal' }
 
-          ## TODO remove this
-          options[:customer_id] = 1470
-
           unless device_id.nil?
             options[:device_id] = device_id
           end
