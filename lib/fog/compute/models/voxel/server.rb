@@ -17,6 +17,8 @@ module Fog
         attribute :status
         attribute :facility
         attribute :disk_size
+				attribute :addresses
+				attribute :password
 
         def initialize(attributes={})
           super
