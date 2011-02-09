@@ -17,7 +17,7 @@ module Fog
                   :parser   => Fog::Parsers::Dynect::DNS::Session.new,
                   :expects  => 200,
                   :method   => "POST",
-                  :path     => "/REST/Session/",
+                  :path     => "Session",
                   :body =>  xml
                   )
         end
