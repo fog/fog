@@ -4,7 +4,6 @@ module Fog
       class Real
         def devices_list( device_id = nil )
           # name, processing_cores, status, facility
-
           options = { :verbosity => 'normal' }
 
           unless device_id.nil?
