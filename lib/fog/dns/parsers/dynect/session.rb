@@ -12,7 +12,7 @@ module Fog
           def end_element(name)
             case name
             when 'token'
-              @response['API-Token'] = @value
+              @response['Auth-Token'] = @value
             when 'version'
               @response['API-Version'] = @value
             end
