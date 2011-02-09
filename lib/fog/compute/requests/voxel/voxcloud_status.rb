@@ -11,20 +11,34 @@ module Fog
           
           data = request("voxel.voxcloud.status", options)
 
-          if data['devices']['device'].is_a?(Hash)
-            devices = [ data['devices']['device'] ]
-          else
-            devices = data['devices']['device']
-          end
+					if data['stat'] == 'fail'
+						[]
+					else
+						if data['devices']['device'].is_a?(Hash)
+							devices = [ data['devices']['device'] ]
+						else
+							devices = data['devices']['device']
+						end
 
-          devices.map { |d| { :id => d['id'], :status => d['status'] } }
-        end
+						devices.map { |d| { :id => d['id'], :status => d['status'] } }
+					end
+				end
       end
 
       class Mock
         def voxcloud_status( device_id = nil )
-          Fog::Mock.not_implemented
-        end
+					devices = [
+            { :id => '12345', :status => "QEUEUED" },
+            { :id => '67890', :status => "FAILED" },
+            { :id => '54321', :status => "IN_PROGRESS" },
+            { :id => '10986', :status => "SUCCEEDED" } ]
+
+					if device_id.nil?
+						devices
+					else
+						devices.select { |d| d[:id] == device_id }
+					end
+				end
       end
     end
   end

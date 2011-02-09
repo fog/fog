@@ -39,7 +39,9 @@ module Fog
           begin
             options.merge!( { :method => method_name, :timestamp => Time.now.xmlschema, :key => @voxel_api_key } )
             options[:api_sig] = create_signature(@voxel_api_secret, options)
-            response = @connection.request( :host => "api.voxel.net", :path => "/version/1.0/", :parser => Fog::ToHashDocument.new, :query => options )
+            require 'xmlsimple'
+            response = @connection.request( :host => "api.voxel.net", :path => "/version/1.0/", :query => options )
+            XmlSimple.xml_in( response.body, 'ForceArray' => false )
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
@@ -48,8 +50,6 @@ module Fog
               error
             end
           end
-
-          response
         end
 
         def create_signature(secret, options)
