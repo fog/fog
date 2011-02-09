@@ -18,6 +18,7 @@ module Fog
         #   * 'Content-Type'<~String> - Standard MIME type describing contents (defaults to MIME::Types.of.first)
         #   * 'Expires'<~String> - Cache expiry
         #   * 'x-amz-acl'<~String> - Permissions, must be in ['private', 'public-read', 'public-read-write', 'authenticated-read']
+        #   * 'x-amz-storage-class'<~String> - Default is 'STANDARD', set to 'REDUCED_REDUNDANCY' for non-critical, reproducable data
         #   * "x-amz-meta-#{name}" - Headers to be returned with object, note total size of request without body must be less than 8 KB.
         #
         # ==== Returns
@@ -63,20 +64,28 @@ module Fog
           if (bucket = @data[:buckets][bucket_name])
             response.status = 200
             object = {
-              :body           => data[:body],
-              'Content-Type'  => data[:headers]['Content-Type'],
-              'ETag'          => Fog::AWS::Mock.etag,
-              'Key'           => object_name,
-              'LastModified'  => Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000"),
-              'Size'          => data[:headers]['Content-Length'],
-              'StorageClass'  => 'STANDARD'
+              :body             => data[:body],
+              'Content-Type'    => options['Content-Type'] || data[:headers]['Content-Type'],
+              'ETag'            => Fog::AWS::Mock.etag,
+              'Key'             => object_name,
+              'Last-Modified'   => Fog::Time.now.to_date_header,
+              'Content-Length'  => options['Content-Length'] || data[:headers]['Content-Length'],
+              'StorageClass'    => options['x-amz-storage-class'] || 'STANDARD'
             }
+
+            for key, value in options
+              case key
+              when 'Cache-Control', 'Content-Disposition', 'Content-Encoding', 'Content-MD5', 'Expires', /^x-amz-meta-/
+                object[key] = value
+              end
+            end
+
             bucket[:objects][object_name] = object
             response.headers = {
-              'Content-Length'  => object['Size'],
+              'Content-Length'  => object['Content-Length'],
               'Content-Type'    => object['Content-Type'],
               'ETag'            => object['ETag'],
-              'Last-Modified'   => object['LastModified']
+              'Last-Modified'   => object['Last-Modified']
             }
           else
             response.status = 404

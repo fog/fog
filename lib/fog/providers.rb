@@ -1,3 +1,11 @@
+module Fog
+
+  def self.providers
+    @providers ||= []
+  end
+
+end
+
 require 'fog/providers/aws'
 require 'fog/providers/bluebox'
 require 'fog/providers/brightbox'
@@ -9,4 +17,5 @@ require 'fog/providers/new_servers'
 require 'fog/providers/rackspace'
 require 'fog/providers/slicehost'
 require 'fog/providers/terremark_ecloud'
+require 'fog/providers/voxel'
 require 'fog/providers/zerigo'

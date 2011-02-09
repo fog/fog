@@ -22,14 +22,14 @@ class Local < Fog::Bin
         when :storage
           Fog::Storage.new(:provider => 'Local')
         else
-          raise ArgumentError, "Unrecognized service: #{service}"
+          raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
       end
       @@connections[service]
     end
 
     def services
-      [:storage]
+      Fog::Local.services
     end
 
   end

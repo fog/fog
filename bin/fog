@@ -10,7 +10,7 @@ end
 
 require 'fog/bin'
 
-providers = Fog.providers.map{|provider| provider.to_s}
+providers = Fog.providers.map{|provider| provider.to_s.split('::').last}
 providers = if providers.length > 1
   providers[0...-1].join(', ') << ' and ' << providers[-1]
 else

@@ -26,14 +26,14 @@ class Slicehost < Fog::Bin
         when :dns
           Fog::DNS.new(:provider => 'Slicehost')
         else
-          raise ArgumentError, "Unrecognized service: #{service}"
+          raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
       end
       @@connections[service]
     end
 
     def services
-      [:compute, :dns]
+      Fog::Slicehost.services
     end
 
   end

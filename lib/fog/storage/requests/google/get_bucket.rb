@@ -69,11 +69,11 @@ module Fog
                   (options['prefix'] && object['Key'][0...options['prefix'].length] != options['prefix']) ||
                   (options['marker'] && object['Key'] <= options['marker'])
                 end.map do |object|
-                  data = object.reject {|key, value| !['ETag', 'Key', 'LastModified', 'Size', 'StorageClass'].include?(key)}
+                  data = object.reject {|key, value| !['ETag', 'Key', 'StorageClass'].include?(key)}
                   data.merge!({
-                    'LastModified' => Time.parse(data['LastModified']),
+                    'LastModified' => Time.parse(object['Last-Modified']),
                     'Owner'        => bucket['Owner'],
-                    'Size'         => data['Size'].to_i
+                    'Size'         => object['Content-Length'].to_i
                   })
                 data
               end

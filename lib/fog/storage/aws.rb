@@ -94,13 +94,13 @@ module Fog
 
         def url(params, expires)
           params[:headers]['Date'] = expires.to_i
+          params[:path] = CGI.escape(params[:path]).gsub('%2F', '/')
           query = [params[:query]].compact
           query << "AWSAccessKeyId=#{@aws_access_key_id}"
           query << "Signature=#{CGI.escape(signature(params))}"
           query << "Expires=#{params[:headers]['Date']}"
           bucket = params[:host].split('.').first
-          path = CGI.escape(params[:path]).gsub('%2F', '/')
-          "https://#{@host}/#{path}?#{query.join('&')}"
+          "https://#{@host}/#{params[:path]}?#{query.join('&')}"
         end
 
       end
@@ -286,26 +286,6 @@ module Fog
           @connection.reset
         end
 
-        private
-
-        def request(params, &block)
-          params[:headers]['Date'] = Time.now.utc.strftime("%a, %d %b %Y %H:%M:%S +0000")
-          params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
-          params[:expects] = [307, *params[:expects]].flatten
-          # FIXME: ToHashParser should make this not needed
-          original_params = params.dup
-
-          response = @connection.request(params, &block)
-
-          if response.status == 307
-            uri = URI.parse(response.headers['Location'])
-            Formatador.display_line("[yellow][WARN] fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant[/]")
-            response = Fog::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false).request(original_params, &block)
-          end
-
-          response
-        end
-
         def signature(params)
           string_to_sign =
 <<-DATA
@@ -345,7 +325,7 @@ DATA
           end
           canonical_resource << params[:path].to_s
           canonical_resource << '?'
-          for key in (params[:query] || {}).keys
+          for key in (params[:query] || {}).keys.sort
             if %w{acl location logging notification partNumber policy requestPayment torrent uploadId uploads versionId versioning versions}.include?(key)
               canonical_resource << "#{key}#{"=#{params[:query][key]}" unless params[:query][key].nil?}&"
             end
@@ -355,6 +335,27 @@ DATA
 
           signed_string = @hmac.sign(string_to_sign)
           signature = Base64.encode64(signed_string).chomp!
+        end
+
+
+        private
+
+        def request(params, &block)
+          params[:headers]['Date'] = Fog::Time.now.to_date_header
+          params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
+          params[:expects] = [307, *params[:expects]].flatten
+          # FIXME: ToHashParser should make this not needed
+          original_params = params.dup
+
+          response = @connection.request(params, &block)
+
+          if response.status == 307
+            uri = URI.parse(response.headers['Location'])
+            Formatador.display_line("[yellow][WARN] fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant[/]")
+            response = Fog::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false).request(original_params, &block)
+          end
+
+          response
         end
       end
     end

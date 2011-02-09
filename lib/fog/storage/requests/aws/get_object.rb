@@ -39,8 +39,8 @@ module Fog
             query = {'versionId' => version_id}
           end
           headers = {}
-          headers['If-Modified-Since'] = options['If-Modified-Since'].utc.strftime("%a, %d %b %Y %H:%M:%S +0000") if options['If-Modified-Since']
-          headers['If-Unmodified-Since'] = options['If-Unmodified-Since'].utc.strftime("%a, %d %b %Y %H:%M:%S +0000") if options['If-Modified-Since']
+          headers['If-Modified-Since'] = Fog::Time.at(options['If-Modified-Since'].to_i).to_date_header if options['If-Modified-Since']
+          headers['If-Unmodified-Since'] = Fog::Time.at(options['If-Unmodified-Since'].to_i).to_date_header if options['If-Modified-Since']
           headers.merge!(options)
           request({
             :expects  => 200,
@@ -68,20 +68,20 @@ module Fog
           if (bucket = @data[:buckets][bucket_name]) && (object = bucket[:objects][object_name])
             if options['If-Match'] && options['If-Match'] != object['ETag']
               response.status = 412
-            elsif options['If-Modified-Since'] && options['If-Modified-Since'] > Time.parse(object['LastModified'])
+            elsif options['If-Modified-Since'] && options['If-Modified-Since'] > Time.parse(object['Last-Modified'])
               response.status = 304
             elsif options['If-None-Match'] && options['If-None-Match'] == object['ETag']
               response.status = 304
-            elsif options['If-Unmodified-Since'] && options['If-Unmodified-Since'] < Time.parse(object['LastModified'])
+            elsif options['If-Unmodified-Since'] && options['If-Unmodified-Since'] < Time.parse(object['Last-Modified'])
               response.status = 412
             else
               response.status = 200
-              response.headers = {
-                'Content-Length'  => object['Size'],
-                'Content-Type'    => object['Content-Type'],
-                'ETag'            => object['ETag'],
-                'Last-Modified'   => object['LastModified']
-              }
+              for key, value in object
+                case key
+                when 'Cache-Control', 'Content-Disposition', 'Content-Encoding', 'Content-Length', 'Content-MD5', 'Content-Type', 'ETag', 'Expires', 'Last-Modified', /^x-amz-meta-/
+                  response.headers[key] = value
+                end
+              end
               unless block_given?
                 response.body = object[:body]
               else

@@ -8,7 +8,7 @@ module Fog
 
         identity  :key,             :aliases => 'Key'
 
-        attribute :content_length,  :aliases => 'Content-Length'
+        attribute :content_length,  :aliases => 'Content-Length', :type => :integer
         # attribute :content_type,    :aliases => 'Content-Type'
         attribute :last_modified,   :aliases => 'Last-Modified'
 
@@ -22,6 +22,14 @@ module Fog
 
         def body=(new_body)
           attributes[:body] = new_body
+        end
+
+        def content_type
+          @content_type ||= begin
+            unless (mime_types = ::MIME::Types.of(key)).empty?
+              mime_types.first.content_type
+            end
+          end
         end
 
         def directory

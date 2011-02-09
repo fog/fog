@@ -1,8 +1,7 @@
-$LOAD_PATH.unshift File.expand_path(File.join(File.dirname(__FILE__), %w[ .. lib fog]))
 require 'fog'
 require 'fog/bin'
 
-require File.join(File.dirname(__FILE__), 'helpers', 'mock_helper')
+require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'mock_helper'))
 
 def lorem_file
   File.open(File.dirname(__FILE__) + '/lorem.txt', 'r')

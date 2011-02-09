@@ -29,7 +29,7 @@ class Bluebox < Fog::Bin
     end
 
     def services
-      [:compute]
+      Fog::Bluebox.services
     end
 
   end

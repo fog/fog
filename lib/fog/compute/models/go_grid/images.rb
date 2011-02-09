@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/go_grid/models/compute/image'
+require 'fog/compute/models/go_grid/image'
 
 module Fog
   module GoGrid
