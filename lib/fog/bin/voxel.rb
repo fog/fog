@@ -16,14 +16,14 @@ class Voxel < Fog::Bin
         when :compute
           Fog::Compute.new(:provider => 'Voxel')
         else
-          raise ArgumentError, "Unrecognized service: #{service}"
+          raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
       end
       @@connections[service]
     end
 
     def services
-      [:compute]
+      Fog::Voxel.services
     end
 
   end
