@@ -30,7 +30,7 @@ module Fog
           response.status = 200
           response.body = {
             'API-Version' => '2.3.1',
-            'API-Token' => 'thetoken=='
+            'Auth-Token' => 'thetoken=='
           }
           response
         end
