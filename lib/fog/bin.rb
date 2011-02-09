@@ -3,25 +3,6 @@ require 'fog/core/credentials'
 module Fog
   class << self
 
-    def providers
-      [
-        ::AWS,
-        ::Bluebox,
-        ::Brightbox,
-        ::GoGrid,
-        ::Google,
-        ::Linode,
-        ::Local,
-        ::NewServers,
-        ::Rackspace,
-        ::Slicehost,
-        ::Terremark,
-        ::Voxel,
-        ::TerremarkEcloud,
-        ::Zerigo
-      ].select {|provider| provider.available?}
-    end
-
     def modules
       [
         ::Vcloud

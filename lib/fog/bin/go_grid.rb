@@ -22,14 +22,14 @@ class GoGrid < Fog::Bin
           Formatador.display_line(warning)
           Fog::Compute.new(:provider => 'GoGrid')
         else
-          raise ArgumentError, "Unrecognized service: #{service}"
+          raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
       end
       @@connections[service]
     end
 
     def services
-      [:compute]
+      Fog::GoGrid.services
     end
 
   end

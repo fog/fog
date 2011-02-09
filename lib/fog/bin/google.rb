@@ -16,14 +16,14 @@ class Google < Fog::Bin
         when :storage
           Fog::Storage.new(:provider => 'Google')
         else
-          raise ArgumentError, "Unrecognized service: #{service}"
+          raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
       end
       @@connections[service]
     end
 
     def services
-      [:storage]
+      Fog::Google.services
     end
 
   end

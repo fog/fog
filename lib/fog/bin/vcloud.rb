@@ -42,7 +42,7 @@ module Vcloud
             _module_ = eval(credentials.delete(:module))
             hash[key] = _module_.new(credentials)
           else
-            raise ArgumentError.new("Unregistered service: :#{key}. Registered services are: #{Vcloud.registered_services}")
+            raise ArgumentError.new("Unregistered service: #{key.inspect}. Registered services are: #{Vcloud.registered_services}")
           end
         end
         @@connections[service]

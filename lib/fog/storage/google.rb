@@ -209,17 +209,6 @@ module Fog
           @connection.reset
         end
 
-        private
-
-        def request(params, &block)
-          params[:headers]['Date'] = Fog::Time.now.to_date_header
-          params[:headers]['Authorization'] = "GOOG1 #{@google_storage_access_key_id}:#{signature(params)}"
-
-          response = @connection.request(params, &block)
-
-          response
-        end
-
         def signature(params)
           string_to_sign =
 <<-DATA
@@ -270,6 +259,18 @@ DATA
 
           signed_string = @hmac.sign(string_to_sign)
           signature = Base64.encode64(signed_string).chomp!
+        end
+
+
+        private
+
+        def request(params, &block)
+          params[:headers]['Date'] = Fog::Time.now.to_date_header
+          params[:headers]['Authorization'] = "GOOG1 #{@google_storage_access_key_id}:#{signature(params)}"
+
+          response = @connection.request(params, &block)
+
+          response
         end
       end
     end

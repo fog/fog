@@ -21,7 +21,7 @@ class TerremarkEcloud < Fog::Bin
     end
 
     def services
-      [:compute]
+      Fog::TerremarkEcloud.services
     end
 
   end

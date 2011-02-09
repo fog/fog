@@ -11,6 +11,8 @@ module Fog
       collection    :images
       model         :server
       collection    :servers
+      model         :password
+      collection    :passwords
 
       request_path 'fog/compute/requests/go_grid'
       request :common_lookup_list
@@ -23,6 +25,8 @@ module Fog
       request :grid_server_get
       request :grid_server_list
       request :grid_server_power
+      request :support_password_get
+      request :support_password_list
 
       class Mock
 
