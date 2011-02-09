@@ -9,9 +9,9 @@ module Fog
             options[:verbosity] = 'extended'
             options[:image_id] = image_id
           end
-            
-          data = request("voxel.images.list", options)
-          data['images']['image'].map { |i| { :id => i['id'], :name => i['summary'] } }
+
+          data = request("voxel.images.list", options).body
+          data[:images][:image].map { |i| { :id => i[:id], :name => i[:summary] } }
         end
       end
 
