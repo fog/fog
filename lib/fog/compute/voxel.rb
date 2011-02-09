@@ -24,7 +24,6 @@ module Fog
         include Collections
 
         def initialize(options = {})
-          require 'json'
           require 'time'
           require 'digest/md5'
 
@@ -38,9 +37,11 @@ module Fog
 
         def request(method_name, options = {})
           begin
-            options.merge!( { :format => 'json_v2', :method => method_name, :timestamp => Time.now.xmlschema, :key => @voxel_api_key } )
+            options.merge!( { :method => method_name, :timestamp => Time.now.xmlschema, :key => @voxel_api_key } )
             options[:api_sig] = create_signature(@voxel_api_secret, options)
+            require 'xmlsimple'
             response = @connection.request( :host => "api.voxel.net", :path => "/version/1.0/", :query => options )
+            XmlSimple.xml_in( response.body, 'ForceArray' => false )
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
@@ -49,12 +50,6 @@ module Fog
               error
             end
           end
-
-          unless response.body.empty?
-            response.body = JSON.parse(response.body)
-          end
-
-          response
         end
 
         def create_signature(secret, options)

@@ -9,7 +9,7 @@ module Fog
           data = request("voxel.voxcloud.create", options)
 
           unless data['stat'] == 'ok'
-            raise "Error from hAPI: #{data['err']['msg']}"
+            raise "Error from Voxel hAPI: #{data['err']['msg']}"
           end
 
           devices_list(data['device']['id'])
@@ -18,7 +18,7 @@ module Fog
 
       class Mock
         def voxcloud_create( options )
-          Fog::Mock.not_implemented
+          devices_list(12345)
         end
       end
     end

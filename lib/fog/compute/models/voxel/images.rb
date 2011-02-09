@@ -15,12 +15,14 @@ module Fog
         end
 
         def get(image_id)
-          data = connection.images_list(image_id).body['image']
-          new(data)
-        rescue Fog::Voxel::Compute::NotFound
-          nil
-        end
+          data = connection.images_list(image_id)
 
+					if data.empty?
+						nil
+					else
+						new(data.first)
+					end
+        end
       end
 
     end
