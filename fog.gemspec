@@ -50,6 +50,7 @@ Gem::Specification.new do |s|
   s.add_dependency('net-ssh', '>=2.0.23')
   s.add_dependency('nokogiri', '>=1.4.4')
   s.add_dependency('ruby-hmac')
+	s.add_dependency('xml-simple')
 
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development
