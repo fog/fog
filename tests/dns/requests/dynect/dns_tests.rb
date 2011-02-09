@@ -6,5 +6,11 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       returns(true) { response.body['API-Version'] == "2.3.1" }
       returns(true) { response.status == 200 }
     end
+
+    test "list zones" do
+      response = Dynect[:dns].zone
+      returns(true) { response.body['zones'].size > 0 }
+      returns(true) { response.status == 200 }
+    end
   end
 end

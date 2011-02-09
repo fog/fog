@@ -14,6 +14,7 @@ module Fog
 
       request_path 'fog/dns/requests/dynect'
       request :session
+      request :zone
 
       class Real
         def initialize(options={})
@@ -29,20 +30,20 @@ module Fog
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent] || true)
         end
 
+        def auth_token
+          @auth_token ||= session.body['Auth-Token']
+        end
+
         def request(params)
           begin
             params[:headers] ||= {}
             params[:headers]['Content-Type'] = 'text/xml'
             params[:headers]['API-Version'] = @version
+            params[:headers]['Auth-Token'] = auth_token unless params[:path] == "Session"
             params[:path] = "#{@path}/#{params[:path]}"
             response = @connection.request(params.merge!({:host => @host}))
           rescue Excon::Errors::HTTPStatusError => error
-            raise case error
-                  when Excon::Errors::NotFound
-                    Fog::Dynect::DNS::NotFound.slurp(error)
-                  else
-                    error
-                  end
+            raise error
           end
 
           response
@@ -50,8 +51,6 @@ module Fog
       end
 
       class Mock
-        def zones
-        end
       end
 
     end
