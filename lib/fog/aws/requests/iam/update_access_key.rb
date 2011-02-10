@@ -31,14 +31,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def update_access_key(access_key_id, status, user_name = nil)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

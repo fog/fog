@@ -86,14 +86,6 @@ module Fog
         end
 
       end
-
-      class Mock # :nodoc:all
-
-        def post_distribution(options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

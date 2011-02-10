@@ -68,14 +68,6 @@ DATA
         end
 
       end
-
-      class Mock
-
-        def put_bucket_acl(bucket_name, acl)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

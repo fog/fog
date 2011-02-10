@@ -50,14 +50,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def find_hosts( fqdn, zone_id = nil)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

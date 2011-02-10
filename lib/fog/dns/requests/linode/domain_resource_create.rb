@@ -39,14 +39,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def domain_resource_create(domain_id, type, options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

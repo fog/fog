@@ -19,14 +19,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def reboot_server(server_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

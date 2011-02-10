@@ -31,14 +31,6 @@ DATA
         end
 
       end
-
-      class Mock # :nodoc:all
-
-        def put_bucket_versioning(bucket_name, status)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

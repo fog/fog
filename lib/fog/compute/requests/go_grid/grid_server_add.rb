@@ -31,14 +31,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def grid_server_add(image, ip, name, server_ram, options={})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

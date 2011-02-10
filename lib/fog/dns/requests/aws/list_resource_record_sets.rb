@@ -55,14 +55,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def list_resource_record_sets(zone_id, options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

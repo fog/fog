@@ -50,14 +50,6 @@ module Fog
         end
 
       end
-
-      module Mock
-
-        def add_node_service(ip)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

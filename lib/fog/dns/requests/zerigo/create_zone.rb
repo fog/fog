@@ -84,14 +84,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def create_zone(domain, default_ttl, ns_type, options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

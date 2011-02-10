@@ -52,14 +52,6 @@ module Fog
         end
 
       end
-
-      class Mock # :nodoc:all
-
-        def get_distribution(distribution_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

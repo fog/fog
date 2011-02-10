@@ -14,14 +14,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def create_server(options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

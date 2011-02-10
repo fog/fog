@@ -35,14 +35,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def list_access_keys(options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

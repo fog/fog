@@ -14,14 +14,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def get_organization(href = organization_href)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

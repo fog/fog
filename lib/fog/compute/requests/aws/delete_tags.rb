@@ -32,14 +32,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def delete_tags(resources, tags)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

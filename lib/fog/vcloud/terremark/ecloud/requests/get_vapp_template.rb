@@ -7,11 +7,6 @@ module Fog
           basic_request :get_vapp_template
         end
 
-        class Mock
-          def get_vapp_template(templace_uri)
-            Fog::Mock.not_implemented
-          end
-        end
       end
     end
   end

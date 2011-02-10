@@ -34,14 +34,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def list_group_policies(group_name, options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

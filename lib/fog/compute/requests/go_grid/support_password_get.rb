@@ -17,17 +17,9 @@ module Fog
           request(
             :path     => 'support/password/get',
             :query    => {
-		'id'	=> id
-		}.merge!(options)
+              'id'    => id
+            }.merge!(options)
           )
-        end
-
-      end
-
-      class Mock
-
-        def support_password_get(options={})
-          Fog::Mock.not_implemented
         end
 
       end

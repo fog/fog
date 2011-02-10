@@ -54,14 +54,6 @@ module Fog
         end
 
       end
-
-      class Mock # :nodoc:all
-
-        def list_parts(bucket_name, object_name, upload_id, options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

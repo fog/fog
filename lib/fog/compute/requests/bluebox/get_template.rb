@@ -21,14 +21,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def get_template(template_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

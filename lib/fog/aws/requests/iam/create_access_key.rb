@@ -32,14 +32,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def create_access_key(user_name = nil)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

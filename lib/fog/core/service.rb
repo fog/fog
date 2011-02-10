@@ -10,6 +10,10 @@ module Fog
         service.collections
       end
 
+      def mocked_requests
+        service.mocked_requests
+      end
+
       def requests
         service.requests
       end
@@ -76,6 +80,15 @@ module Fog
           end
           for request in requests
             require [@request_path, request].join('/')
+            if service::Mock.method_defined?(request)
+              mocked_requests << request
+            else
+              service::Mock.module_eval <<-EOS, __FILE__, __LINE__
+                def #{request}(*args)
+                  Fog::Mock.not_implemented
+                end
+              EOS
+            end
           end
           @required = true
         end
@@ -91,6 +104,10 @@ module Fog
 
       def collections
         @collections ||= []
+      end
+
+      def mocked_requests
+        @mocked_requests ||= []
       end
 
       def model(new_model)

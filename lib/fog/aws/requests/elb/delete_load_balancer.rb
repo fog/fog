@@ -28,15 +28,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def delete_load_balancer(lb_name)
-          Fog::Mock.not_implemented
-        end
-
-      end
-
     end
   end
 end

@@ -17,14 +17,6 @@ module Fog
         end
 
       end
-
-      module Mock
-
-        def delete_internet_service(internet_service_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

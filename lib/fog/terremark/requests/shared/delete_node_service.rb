@@ -17,14 +17,6 @@ module Fog
         end
 
       end
-
-      module Mock
-
-        def delete_node_service(node_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

@@ -29,14 +29,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def add_user_to_group(group_name, user_name)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

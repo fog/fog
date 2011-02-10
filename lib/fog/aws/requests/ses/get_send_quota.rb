@@ -26,15 +26,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def get_send_quota
-          Fog::Mock.not_implemented
-        end
-
-      end
-
     end
   end
 end

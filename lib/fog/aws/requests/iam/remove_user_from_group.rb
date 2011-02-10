@@ -29,14 +29,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def remove_user_from_group(group_name, user_name)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

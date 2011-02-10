@@ -80,14 +80,6 @@ DATA
         end
 
       end
-
-      class Mock # :nodoc:all
-
-        def put_object_acl(bucket_name, object_name, options, acl)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end
