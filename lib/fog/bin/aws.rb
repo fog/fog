@@ -13,7 +13,7 @@ class AWS < Fog::Bin
         Fog::AWS::ELB
       when :iam
         Fog::AWS::IAM
-      when :sdb
+      when :sdb, :simpledb
         Fog::AWS::SimpleDB
       when :ses
         Fog::AWS::SES
@@ -48,7 +48,7 @@ class AWS < Fog::Bin
           Fog::AWS::IAM.new
         when :eu_storage
           Fog::Storage.new(:provider => 'AWS', :region => 'eu-west-1')
-        when :sdb
+        when :sdb, :simpledb
           Fog::AWS::SimpleDB.new
         when :ses
           Fog::AWS::SES.new
