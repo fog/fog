@@ -36,15 +36,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def send_raw_email(source, destinations, raw_message)
-          Fog::Mock.not_implemented
-        end
-
-      end
-
     end
   end
 end

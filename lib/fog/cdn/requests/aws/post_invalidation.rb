@@ -46,14 +46,6 @@ module Fog
         end
 
       end
-
-      class Mock # :nodoc:all
-
-        def post_invalidation(distribution_id, paths, caller_reference = Time.now.to_i.to_s)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

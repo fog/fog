@@ -89,14 +89,6 @@ module Fog
         end
 
       end
-
-      class Mock # :nodoc:all
-
-        def put_distribution_config(distribution_id, etag, options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

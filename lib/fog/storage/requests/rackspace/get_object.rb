@@ -20,14 +20,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def get_object(container, object, &block)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

@@ -45,15 +45,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def create_load_balancer(availability_zones, lb_name, listeners)
-          Fog::Mock.not_implemented
-        end
-
-      end
-
     end
   end
 end

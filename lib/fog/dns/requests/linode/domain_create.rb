@@ -38,14 +38,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def domain_create(domain, type, options ={})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

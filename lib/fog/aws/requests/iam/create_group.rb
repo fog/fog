@@ -34,14 +34,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def create_group(group_name, path = '/')
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

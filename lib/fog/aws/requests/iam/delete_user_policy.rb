@@ -29,14 +29,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def delete_user_policy(user_name, policy_name)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

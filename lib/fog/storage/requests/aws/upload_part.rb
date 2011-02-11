@@ -38,14 +38,6 @@ module Fog
         end
 
       end # Real
-
-      class Mock # :nodoc:all
-
-        def upload_part(bucket_name, object_name, upload_id, part_number, data, options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end # Mock
     end # Storage
   end # AWS
 end # Fog

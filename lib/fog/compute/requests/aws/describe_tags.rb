@@ -29,14 +29,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def describe_tags(filters = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

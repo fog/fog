@@ -28,14 +28,6 @@ module Fog
         end
 
       end
-
-      module Mock
-
-        def get_public_ip(public_ip_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

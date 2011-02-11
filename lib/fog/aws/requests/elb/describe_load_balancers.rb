@@ -46,14 +46,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def describe_load_balancers(lb_name = [])
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

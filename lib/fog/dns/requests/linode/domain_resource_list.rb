@@ -38,14 +38,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def domain_resource_list(domain_id, resource_id = nil)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

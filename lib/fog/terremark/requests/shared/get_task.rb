@@ -34,14 +34,6 @@ module Fog
         end
 
       end
-
-      module Mock
-
-        def get_task(task_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

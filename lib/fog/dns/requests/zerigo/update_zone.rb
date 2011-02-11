@@ -65,14 +65,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def update_zone(zone_id, options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

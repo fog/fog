@@ -70,14 +70,6 @@ module Fog
         end
 
       end
-
-      class Mock # :nodoc:all
-
-        def get_bucket_object_versions(bucket_name, options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

@@ -20,14 +20,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def server_action(server_id, body)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

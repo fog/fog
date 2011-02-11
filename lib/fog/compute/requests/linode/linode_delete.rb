@@ -23,14 +23,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def linode_delete(linode_id, options={})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

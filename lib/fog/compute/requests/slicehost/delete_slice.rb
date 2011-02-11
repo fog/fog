@@ -18,14 +18,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def delete_slice(slice_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

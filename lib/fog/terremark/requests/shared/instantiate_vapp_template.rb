@@ -66,14 +66,6 @@ DATA
         end
 
       end
-
-      module Mock
-
-        def instatiate_vapp_template(vapp_template_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

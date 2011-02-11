@@ -40,13 +40,6 @@ module Fog
           end
 
         end
-
-        class Mock
-
-          def configure_network(network_uri, network_data)
-            Fog::Mock.not_implemented
-          end
-        end
       end
     end
   end

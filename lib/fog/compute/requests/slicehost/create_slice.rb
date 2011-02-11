@@ -36,14 +36,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def create_slice(flavor_id, image_id, name)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

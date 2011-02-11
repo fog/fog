@@ -18,14 +18,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def avail_datacenters
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

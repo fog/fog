@@ -20,14 +20,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def get_products
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

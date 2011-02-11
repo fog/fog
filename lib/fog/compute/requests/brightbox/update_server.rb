@@ -16,14 +16,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def update_server(identifier, options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

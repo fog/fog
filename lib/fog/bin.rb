@@ -3,6 +3,10 @@ require 'fog/core/credentials'
 module Fog
   class << self
 
+    def providers
+      @providers.select {|provider| eval("::#{provider.to_s.split('::').last}").available?}
+    end
+
     def modules
       [
         ::Vcloud

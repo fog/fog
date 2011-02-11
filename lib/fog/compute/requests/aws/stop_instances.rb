@@ -25,14 +25,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def stop_instances(instance_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end
