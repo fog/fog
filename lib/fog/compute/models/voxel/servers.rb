@@ -33,7 +33,6 @@ module Fog
 						else
 							status = connection.voxcloud_status(device_id)
 							server.first[:status] = status.first[:status]
-            
 							new(server.first)
 						end
           end
