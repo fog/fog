@@ -36,7 +36,7 @@ module Fog
         end
 
         def ready?
-          @status == 'SUCCEEDED'
+					status == 'SUCCEEDED'
         end
 
         def save
