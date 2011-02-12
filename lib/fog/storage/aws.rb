@@ -337,20 +337,19 @@ DATA
           signature = Base64.encode64(signed_string).chomp!
         end
 
-
         private
 
         def request(params, &block)
           params[:headers]['Date'] = Fog::Time.now.to_date_header
           params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
-          params[:expects] = [307, *params[:expects]].flatten
+
           # FIXME: ToHashParser should make this not needed
           original_params = params.dup
 
-          response = @connection.request(params, &block)
-
-          if response.status == 307
-            uri = URI.parse(response.headers['Location'])
+          begin
+            response = @connection.request(params, &block)
+          rescue Excon::Errors::TemporaryRedirect => error
+            uri = URI.parse(error.response.headers['Location'])
             Formatador.display_line("[yellow][WARN] fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant[/]")
             response = Fog::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false).request(original_params, &block)
           end
