@@ -12,10 +12,6 @@ module Fog
             :method   => 'GET',
             :parser   => Fog::Parsers::TerremarkEcloud::Compute::GetVersions.new
           });
-          version_info = response.body['SupportedVersions'].detect {|version_info| version_info['Version'] == @version}
-          unless login_url = version_info && version_info['LoginUrl']
-            raise "TerremarkEcloud does not support version #{@version}"
-          end
         end
 
       end

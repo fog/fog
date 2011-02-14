@@ -16,7 +16,9 @@ module Fog
       request :get_organization
       request :get_task
       request :get_task_list
+      request :get_versions
       request :get_vdc
+      request :login
 
       class Mock
 
@@ -79,31 +81,14 @@ module Fog
 
         def get_token_and_organization
           # lookup LoginUrl for specified version
-          connection = Fog::Connection.new(@versions_endpoint)
-          response = connection.request({
-            :expects  => 200,
-            :method   => 'GET',
-            :parser   => Fog::Parsers::TerremarkEcloud::Compute::GetVersions.new
-          });
+          response = self.get_versions
           version_info = response.body['SupportedVersions'].detect {|version_info| version_info['Version'] == @version}
-          unless login_url = version_info && version_info['LoginUrl']
+          unless @login_url = version_info && version_info['LoginUrl']
             # no LoginUrl matches specified version
             raise "TerremarkEcloud does not support version #{@version}"
           end
 
-          connection = Fog::Connection.new(login_url)
-          response   = connection.request({
-            :expects => 200,
-            :method  => 'POST',
-            :headers => {
-              'Authorization' => ('Basic ' << Base64.encode64("#{@username}:#{@password}").chomp!),
-              'Content-Type'  => 'application/vnd.vmware.vcloud.orgList+xml'
-            },
-            :parser   => Fog::Parsers::TerremarkEcloud::Compute::Login.new
-          })
-
-          @token = response.headers['Set-Cookie']
-
+          response = self.login
           # if there is only one organization we will note it as a starting point
           if (response.body['OrgList'].length == 1) && (organization = response.body['OrgList'].first)
             @organization_href = organization['href']
