@@ -30,6 +30,10 @@ def arrayify(item)
   item.is_a?(Array) ? item : [ item ]
 end
 
+def ecloud_disabled_default_monitor
+  {:url_send_string=>nil, :receive_string=>nil, :response_timeout=>2, :retries=>3, :is_enabled=>"true", :down_time=>30, :type=>"Disabled", :http_headers=>nil, :interval=>5, :downtime=>nil}
+end
+
 shared_examples_for "all responses" do
   it { should be_an_instance_of Excon::Response }
   it { should respond_to :body }

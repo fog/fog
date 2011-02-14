@@ -41,6 +41,28 @@ module Fog
               raise ArgumentError.new("Required Internet Service data missing: #{(required_opts - service_data.keys).map(&:inspect).join(", ")}")
             end
           end
+
+          def ensure_monitor_defaults!(monitor)
+            if monitor[:http_headers].is_a?(String)
+              monitor[:http_headers] = [ monitor[:http_headers] ]
+            end
+
+            unless monitor[:retries]
+              monitor[:retries] = 3
+            end
+
+            unless monitor[:response_timeout]
+              monitor[:response_timeout] = 2
+            end
+
+            unless monitor[:down_time]
+              monitor[:down_time] = 30
+            end
+
+            unless monitor[:interval]
+              monitor[:interval] = 5
+            end
+          end
         end
 
         class Real
@@ -97,27 +119,6 @@ module Fog
             }
           end
 
-          def ensure_monitor_defaults!(monitor)
-            if monitor[:http_headers].is_a?(String)
-              monitor[:http_headers] = [ monitor[:http_headers] ]
-            end
-
-            unless monitor[:retries]
-              monitor[:retries] = 3
-            end
-
-            unless monitor[:response_timeout]
-              monitor[:response_timeout] = 2
-            end
-
-            unless monitor[:down_time]
-              monitor[:down_time] = 30
-            end
-
-            unless monitor[:interval]
-              monitor[:interval] = 5
-            end
-          end
         end
 
         class Mock
