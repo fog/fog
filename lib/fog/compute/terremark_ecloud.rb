@@ -101,7 +101,8 @@ module Fog
 
           @token = response.headers['Set-Cookie']
 
-          if organization = response.body['OrgList'].first
+          # if there is only one organization we will note it as a starting point
+          if (response.body['OrgList'].length == 1) && (organization = response.body['OrgList'].first)
             @organization_href = organization['href']
           end
         end
