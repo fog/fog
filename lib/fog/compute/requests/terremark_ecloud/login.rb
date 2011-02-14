@@ -6,6 +6,9 @@ module Fog
         require 'fog/compute/parsers/terremark_ecloud/login'
 
         def login
+          unless @login_url
+            get_versions
+          end
           connection = Fog::Connection.new(@login_url)
           response   = connection.request({
             :expects => 200,

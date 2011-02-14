@@ -80,14 +80,6 @@ module Fog
         private
 
         def get_token_and_organization
-          # lookup LoginUrl for specified version
-          response = self.get_versions
-          version_info = response.body['SupportedVersions'].detect {|version_info| version_info['Version'] == @version}
-          unless @login_url = version_info && version_info['LoginUrl']
-            # no LoginUrl matches specified version
-            raise "TerremarkEcloud does not support version #{@version}"
-          end
-
           response = self.login
           # if there is only one organization we will note it as a starting point
           if (response.body['OrgList'].length == 1) && (organization = response.body['OrgList'].first)
