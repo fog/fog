@@ -75,6 +75,14 @@ if Fog.mocking?
             to change { subject.send(:_compose_service_data)[:backup_service_uri] }.from(nil).to(@mock_backup_service.href)
         end
       end
+
+      context "with a disabled monitor" do
+        specify do
+          expect { subject.monitor = {:type => "Disabled", :is_enabled => "true" }; subject.save }.to 
+            change {@mock_service[:monitor]}.from(nil).
+              to({:url_send_string=>nil, :http_headers=>nil, :receive_string=>nil, :interval=>nil, :is_enabled=>"true", :type=>"Disabled", :response_timeout=>nil, :downtime=>nil, :retries=>nil})
+        end
+      end
     end
   end
 else

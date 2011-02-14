@@ -80,6 +80,11 @@ module Fog
 
             validate_internet_service_data(service_data, true)
 
+            if monitor = service_data[:monitor]
+              validate_internet_service_monitor(monitor)
+              ensure_monitor_defaults!(monitor)
+            end
+
             validate_public_ip_address_data(ip_address_data)
 
             internet_service_uri = ensure_unparsed(internet_service_uri)
