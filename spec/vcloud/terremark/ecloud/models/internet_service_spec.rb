@@ -76,11 +76,26 @@ if Fog.mocking?
         end
       end
 
-      context "with a disabled monitor" do
+      describe "disable monitoring via #monitor=" do
         specify do
-          expect { subject.monitor = {:type => "Disabled", :is_enabled => "true" }; subject.save }.to 
-            change {@mock_service[:monitor]}.from(nil).
-              to({:url_send_string=>nil, :http_headers=>nil, :receive_string=>nil, :interval=>nil, :is_enabled=>"true", :type=>"Disabled", :response_timeout=>nil, :downtime=>nil, :retries=>nil})
+          expect { subject.monitor = {:type => "Disabled", :is_enabled => "true" }; subject.save }.to change {subject.monitor}.from(nil).to(ecloud_disabled_default_monitor)
+        end
+
+      end
+
+      describe "disable monitoring via #disable_monitor" do
+        specify do
+          expect { subject.disable_monitor }.to change {subject.monitor}.from(nil).to(ecloud_disabled_default_monitor)
+        end
+      end
+
+      context "with a disabled monitor" do
+        before { subject.disable_monitor }
+
+        describe "enable ping monitoring via #enable_ping_monitor" do
+          specify do
+            expect { subject.enable_ping_monitor }.to change {subject.monitor}.from(ecloud_disabled_default_monitor).to(nil)
+          end
         end
       end
     end
