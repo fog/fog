@@ -10,6 +10,7 @@ module Fog
       request_path 'fog/compute/requests/terremark_ecloud'
       request :get_catalog
       request :get_catalog_item
+      request :get_ip_address
       request :get_ip_addresses
       request :get_network
       request :get_organization
