@@ -36,6 +36,7 @@ module Fog
           @password = options[:terremark_ecloud_password]
           @version  = '0.8b-ext2.6'
           @versions_endpoint = options[:versions_endpoint] || 'https://services.enterprisecloud.terremark.com/api/versions'
+          @connection = Fog::Connection.new(@versions_endpoint, options[:persistent])
         end
 
         def organization_href
@@ -54,14 +55,16 @@ module Fog
           end
 
           begin
-            Fog::Connection.new(params[:href]).request({
-              :parser  => params[:parser],
-              :expects => params[:expects] || 200,
-              :method  => params[:method]  || 'GET',
-              :body    => params[:body],
-              :headers => {
+            uri = URI.parse(params.delete(:href))
+            @connection.request({
+              :body     => params[:body],
+              :expects  => params[:expects] || 200,
+              :headers  => {
                 'Cookie' => @token
-              }.merge(params[:headers] || {})
+              }.merge(params[:headers] || {}),
+              :method   => params[:method]  || 'GET',
+              :parser   => params[:parser],
+              :path     => uri.path
             })
           rescue Excon::Errors::Unauthorized # expired token
             get_token_and_organization
