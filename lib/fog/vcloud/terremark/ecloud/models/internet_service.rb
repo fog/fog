@@ -35,6 +35,22 @@ module Fog
             end
           end
 
+          # disables monitoring for this service
+          def disable_monitor
+            if self.monitor and self.monitor[:type] == "Disabled"
+              raise RuntimeError.new("Monitoring already disabled")
+            else
+              self.monitor = {:type => "Disabled", :is_enabled => "true"}
+              self.save
+            end
+          end
+
+          # enable default ping monitoring, use monitor= for more exotic forms (ECV & HTTP)
+          def enable_ping_monitor
+            self.monitor = nil
+            self.save
+          end
+
           def monitor=(new_monitor = {})
             if new_monitor.nil? || new_monitor.empty?
               attributes[:monitor] = nil
