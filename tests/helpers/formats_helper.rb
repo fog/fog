@@ -6,10 +6,12 @@ module Fog
   module Nullable
     module Integer; end
     module String; end
+    module Time; end
   end
 end
 [FalseClass, TrueClass].each {|klass| klass.send(:include, Fog::Boolean)}
 [NilClass, String].each {|klass| klass.send(:include, Fog::Nullable::String)}
+[NilClass, Time].each {|klass| klass.send(:include, Fog::Nullable::Time)}
 [Integer, NilClass].each {|klass| klass.send(:include, Fog::Nullable::Integer)}
 
 module Shindo
@@ -38,7 +40,7 @@ module Shindo
         format.delete(key)
         case value
         when Array
-          valid &&= datum.is_a?(Array)
+          valid &&= datum.is_a?(Array) || p("not Array: #{datum.inspect}")
           if datum.is_a?(Array) && !value.empty?
             for element in datum
               type = value.first
@@ -50,10 +52,10 @@ module Shindo
             end
           end
         when Hash
-          valid &&= datum.is_a?(Hash)
+          valid &&= datum.is_a?(Hash) || p("not Hash: #{datum.inspect}")
           valid &&= formats_kernel(datum, value, false)
         else
-          p "#{key} => #{value}" unless datum.is_a?(value)
+          p "#{key} not #{value}: #{datum.inspect}" unless datum.is_a?(value)
           valid &&= datum.is_a?(value)
         end
       end

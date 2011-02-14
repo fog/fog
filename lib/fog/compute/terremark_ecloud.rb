@@ -14,6 +14,8 @@ module Fog
       request :get_ip_addresses
       request :get_network
       request :get_organization
+      request :get_task
+      request :get_task_list
       request :get_vdc
 
       class Mock
