@@ -43,7 +43,13 @@ module Fog
               attributes[:monitor][:type] = new_monitor[:MonitorType] || new_monitor[:type]
               attributes[:monitor][:url_send_string] = new_monitor[:UrlSendString] || new_monitor[:url_send_string]
               attributes[:monitor][:http_headers] = new_monitor[:HttpHeader] || new_monitor[:http_headers]
-              attributes[:monitor][:http_headers] = attributes[:monitor][:http_headers].split("\n") unless attributes[:monitor][:http_headers].is_a?(Array)
+              if attributes[:monitor][:http_headers]
+                if attributes[:monitor][:http_headers].is_a?(String)
+                  attributes[:monitor][:http_headers] = attributes[:monitor][:http_headers].split("\n")
+                else
+                  attributes[:monitor][:http_headers] = attributes[:monitor][:http_headers]
+                end
+              end
               attributes[:monitor][:receive_string] = new_monitor[:ReceiveString] || new_monitor[:receive_string]
               attributes[:monitor][:interval] = new_monitor[:Interval] || new_monitor[:interval]
               attributes[:monitor][:response_timeout] = new_monitor[:ResponseTimeOut] || new_monitor[:response_timeout]

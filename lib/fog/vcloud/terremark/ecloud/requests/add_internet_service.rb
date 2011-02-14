@@ -5,18 +5,26 @@ module Fog
         module Shared
           def validate_internet_service_monitor(monitor)
             #FIXME: Refactor this type of function into something generic
-            required_opts = [:type, :url_send_string, :http_headers, :receive_string, :is_enabled]
+            unless ['Disabled','HTTP','ECV'].include?(monitor[:type])
+              raise ArgumentError.new("Supported monitor types are: ECV & HTTP")
+            end
+
+            required_opts = case monitor[:type]
+                            when "Disabled"
+                              [:type, :is_enabled]
+                            else
+                              [:type, :url_send_string, :http_headers, :receive_string, :is_enabled]
+                            end
 
             unless required_opts.all? { |opt| monitor.keys.include?(opt) && monitor[opt] }
               raise ArgumentError.new("Required Monitor data missing: #{(required_opts - monitor.keys).map(&:inspect).join(", ")}")
             end
 
-            unless ['HTTP','ECV'].include?(monitor[:type])
-              raise ArgumentError.new("Supported monitor types are: ECV & HTTP")
-            end
-
-            unless monitor[:http_headers].is_a?(Array) || monitor[:http_headers].is_a?(String)
-              raise ArgumentError.new("Monitor :http_headers must be a String or Array")
+            case monitor[:type]
+              when "HTTP", "ECV"
+                unless monitor[:http_headers].is_a?(Array) || monitor[:http_headers].is_a?(String)
+                  raise ArgumentError.new("Monitor :http_headers must be a String or Array")
+                end
             end
 
             unless [true, false, "true", "false"].include?(monitor[:is_enabled])
@@ -75,13 +83,16 @@ module Fog
           def generate_monitor_section(builder, monitor)
             builder.Monitor {
               builder.MonitorType(monitor[:type])
-              builder.UrlSendString(monitor[:url_send_string])
-              builder.HttpHeader(monitor[:http_headers].join("\n"))
-              builder.ReceiveString(monitor[:receive_string])
-              builder.Interval(monitor[:interval])
-              builder.ResponseTimeOut(monitor[:response_timeout])
-              builder.DownTime(monitor[:downtime])
-              builder.Retries(monitor[:retries])
+              case monitor[:type]
+              when "ECV","HTTP"
+                builder.UrlSendString(monitor[:url_send_string])
+                builder.HttpHeader(monitor[:http_headers].join("\n"))
+                builder.ReceiveString(monitor[:receive_string])
+                builder.Interval(monitor[:interval])
+                builder.ResponseTimeOut(monitor[:response_timeout])
+                builder.DownTime(monitor[:downtime])
+                builder.Retries(monitor[:retries])
+              end
               builder.IsEnabled(monitor[:is_enabled])
             }
           end
