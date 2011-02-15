@@ -202,7 +202,10 @@ module Fog
           @host = options[:host] || 'commondatastorage.googleapis.com'
           @port   = options[:port]      || 443
           @scheme = options[:scheme]    || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent] || true)
+          unless options.has_key?(:persistent)
+            options[:persistent] = true
+          end
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
         end
 
         def reload

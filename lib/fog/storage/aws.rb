@@ -220,7 +220,6 @@ module Fog
         end
       end
 
-      
       class Real
         include Utils
         extend Fog::Deprecation
@@ -277,8 +276,11 @@ module Fog
             @path   = options[:path]      || '/'
             @port   = options[:port]      || 443
             @scheme = options[:scheme]    || 'https'
+            unless options.has_key?(:persistent)
+              options[:persistent] = true
+            end
           end
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent] || true)
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
         end
 
         def reload
