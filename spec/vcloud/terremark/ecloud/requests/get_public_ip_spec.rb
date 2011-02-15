@@ -4,7 +4,7 @@ if Fog.mocking?
   describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do
     subject { @vcloud }
 
-    it { should respond_to :get_public_ip }
+    it { should respond_to(:get_public_ip) }
 
     describe "#get_public_ip" do
       context "with a valid public_ip_uri" do
@@ -15,7 +15,7 @@ if Fog.mocking?
         subject { @public_ip }
 
         it_should_behave_like "all responses"
-        it { should have_headers_denoting_a_content_type_of "application/vnd.tmrk.ecloud.publicIp+xml" }
+        it { should have_headers_denoting_a_content_type_of("application/vnd.tmrk.ecloud.publicIp+xml") }
 
         describe "#body" do
           subject { @public_ip.body }

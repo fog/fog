@@ -4,7 +4,7 @@ if Fog.mocking?
   describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do
     subject { @vcloud }
 
-    it { should respond_to :configure_internet_service }
+    it { should respond_to(:configure_internet_service) }
 
     describe "#configure_internet_service" do
       before do

@@ -4,7 +4,7 @@ if Fog.mocking?
   describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do
     subject { @vcloud }
 
-    it { should respond_to :configure_node }
+    it { should respond_to(:configure_node) }
 
     describe "#configure_node" do
       let(:original_node) { @vcloud.get_node(@mock_node.href).body }

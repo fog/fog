@@ -4,7 +4,7 @@ shared_examples_for "real or mock get_versions requests" do
 
   subject { @vcloud }
 
-  it { should respond_to :get_versions }
+  it { should respond_to(:get_versions) }
 
   describe "#get_versions" do
     subject { @vcloud.get_versions( @vcloud.versions_uri ) }
@@ -29,7 +29,7 @@ shared_examples_for "real or mock get_versions requests" do
             version_info.should include(:LoginUrl)
             version_info[:LoginUrl].should be_a_url
             version_info.should include(:Version)
-            version_info[:Version].should be_an_instance_of String
+            version_info[:Version].should be_an_instance_of(String)
           end
         }
       end

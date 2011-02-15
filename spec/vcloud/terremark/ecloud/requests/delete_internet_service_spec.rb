@@ -5,7 +5,7 @@ if Fog.mocking?
   describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do
     subject { @vcloud }
 
-    it { should respond_to :delete_internet_service }
+    it { should respond_to(:delete_internet_service) }
 
     describe "#delete_internet_service" do
       context "with a valid internet service uri" do

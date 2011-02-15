@@ -33,7 +33,7 @@ module Fog
     @credentials  ||= begin
       if File.exists?(credentials_path)
         credentials = YAML.load_file(credentials_path)
-        (credentials && credentials[credential]) or raise LoadError.new missing_credentials
+        (credentials && credentials[credential]) or raise LoadError.new(missing_credentials)
       else
         {}
       end

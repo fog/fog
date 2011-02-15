@@ -7,8 +7,8 @@ if Fog.mocking?
     describe :class do
       subject { Fog::Vcloud::Terremark::Ecloud::Network }
 
-      it { should have_identity :href }
-      it { should have_only_these_attributes [:href, :name, :features, :links, :type, :gateway, :broadcast, :address, :rnat, :extension_href, :network_type, :vlan, :friendly_name] }
+      it { should have_identity(:href) }
+      it { should have_only_these_attributes([:href, :name, :features, :links, :type, :gateway, :broadcast, :address, :rnat, :extension_href, :network_type, :vlan, :friendly_name]) }
     end
 
     context "with no uri" do
@@ -21,7 +21,7 @@ if Fog.mocking?
     context "as a collection member" do
       subject { @vcloud.vdcs[0].networks[0].reload }
 
-      it { should be_an_instance_of Fog::Vcloud::Terremark::Ecloud::Network }
+      it { should be_an_instance_of(Fog::Vcloud::Terremark::Ecloud::Network) }
 
       its(:href)                  { should == @mock_network.href }
       its(:identity)              { should == @mock_network.href }
@@ -40,7 +40,7 @@ if Fog.mocking?
 
       describe :features do
         let(:feature) { subject.features.first }
-        specify { feature.should be_an_instance_of Array }
+        specify { feature.should be_an_instance_of(Array) }
         specify { feature.last.should == @mock_network.features[0][:value] }
       end
 

@@ -8,7 +8,7 @@ shared_examples_for "a successful configure vapp" do
   end
 
   describe "#headers" do
-    its(:headers) { should include "Location" }
+    its(:headers) { should include("Location") }
   end
 end
 
@@ -16,7 +16,7 @@ if Fog.mocking?
   describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do
     subject { @vcloud }
 
-    it { should respond_to :configure_vapp }
+    it { should respond_to(:configure_vapp) }
 
     let(:original_vapp_data) { vapp_data.dup }
     let(:vapp_data)          { @mock_vm.to_configure_vapp_hash }

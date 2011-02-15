@@ -8,7 +8,7 @@ if Fog.mocking?
   describe Fog::Vcloud, :type => :mock_vcloud_request do
     subject { @vcloud }
 
-    it { should respond_to :get_vdc }
+    it { should respond_to(:get_vdc) }
 
     describe :get_vdc, :type => :vcloud_request do
       context "with a valid vdc uri" do
@@ -16,14 +16,14 @@ if Fog.mocking?
         subject { @vdc }
 
         it_should_behave_like "all responses"
-        it { should have_headers_denoting_a_content_type_of "application/vnd.vmware.vcloud.vdc+xml" }
+        it { should have_headers_denoting_a_content_type_of("application/vnd.vmware.vcloud.vdc+xml") }
 
         describe :body do
           subject { @vdc.body }
 
           it { should have(16).items }
 
-          it_should_behave_like "it has the standard vcloud v0.8 xmlns attributes"   # 3 keys
+          it_should_behave_like("it has the standard vcloud v0.8 xmlns attributes")   # 3 keys
 
           its(:name)            { should == @mock_vdc.name }
           its(:href)            { should == @mock_vdc.href }
@@ -53,11 +53,10 @@ if Fog.mocking?
       end
       context "with a vdc uri that doesn't exist" do
         subject { lambda { @vcloud.get_vdc(URI.parse('https://www.fakey.com/api/v0.8/vdc/999')) } }
-        it_should_behave_like "a request for a resource that doesn't exist"
+        it_should_behave_like("a request for a resource that doesn't exist")
       end
     end
   end
-else
 end
 
 

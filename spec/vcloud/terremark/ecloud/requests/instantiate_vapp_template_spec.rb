@@ -4,7 +4,7 @@ if Fog.mocking?
   describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do
     subject { @vcloud }
 
-    it { should respond_to :instantiate_vapp_template }
+    it { should respond_to(:instantiate_vapp_template) }
 
     describe "#instantiate_vapp_template" do
       let(:vdc) { @vcloud.vdcs.first }
@@ -32,7 +32,7 @@ if Fog.mocking?
         subject { template_instantiation }
 
         it_should_behave_like "all responses"
-        it { should have_headers_denoting_a_content_type_of "application/xml" }
+        it { should have_headers_denoting_a_content_type_of("application/xml") }
 
         it "updates the mock data properly" do
           expect { subject }.to change { mock_vdc.virtual_machines.size }.by(1)
@@ -42,7 +42,7 @@ if Fog.mocking?
           before  { template_instantiation }
           subject { added_mock_data }
 
-          it { should be_an_instance_of Fog::Vcloud::MockDataClasses::MockVirtualMachine }
+          it { should be_an_instance_of(Fog::Vcloud::MockDataClasses::MockVirtualMachine) }
 
           its(:name) { should == new_vapp_data[:name] }
           its(:memory) { should == new_vapp_data[:memory] }
@@ -68,7 +68,7 @@ if Fog.mocking?
 
           it { should have(9).items }
 
-          it_should_behave_like "it has the standard vcloud v0.8 xmlns attributes"   # 3 keys
+          it_should_behave_like("it has the standard vcloud v0.8 xmlns attributes")   # 3 keys
 
           its(:href) { should == added_mock_data.href }
           its(:type) { should == "application/vnd.vmware.vcloud.vApp+xml" }
@@ -76,7 +76,7 @@ if Fog.mocking?
           its(:status) { should == "0" }
           its(:size) { should == "4" }
 
-          it { should include :Link }
+          it { should include(:Link) }
 
           describe "Link" do
             subject { template_instantiation.body[:Link] }
@@ -92,5 +92,4 @@ if Fog.mocking?
       end
     end
   end
-else
 end

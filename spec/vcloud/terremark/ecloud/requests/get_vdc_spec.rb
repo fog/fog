@@ -4,7 +4,7 @@ if Fog.mocking?
   describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do
     subject { @vcloud }
 
-    it { should respond_to :get_vdc }
+    it { should respond_to(:get_vdc) }
 
     describe "#get_vdc" do
       context "with a valid vdc uri" do
@@ -12,14 +12,14 @@ if Fog.mocking?
         subject { @vdc }
 
         it_should_behave_like "all responses"
-        it { should have_headers_denoting_a_content_type_of "application/vnd.vmware.vcloud.vdc+xml" }
+        it { should have_headers_denoting_a_content_type_of("application/vnd.vmware.vcloud.vdc+xml") }
 
         describe "#body" do
           subject { @vdc.body }
 
           it { should have(11).items }
 
-          it_should_behave_like "it has the standard vcloud v0.8 xmlns attributes"   # 3 keys
+          it_should_behave_like("it has the standard vcloud v0.8 xmlns attributes")   # 3 keys
 
           its(:href) { should == @mock_vdc.href }
           its(:name) { should == @mock_vdc.name }
@@ -72,15 +72,15 @@ if Fog.mocking?
           describe "[:ResourceEntities][:ResourceEntity]" do
             context "[0]" do
               subject { @vdc.body[:ResourceEntities][:ResourceEntity][0] }
-              it { should be_a_vapp_link_to @mock_vdc.virtual_machines[0] }
+              it { should be_a_vapp_link_to(@mock_vdc.virtual_machines[0]) }
             end
             context "[1]" do
               subject { @vdc.body[:ResourceEntities][:ResourceEntity][1] }
-              it { should be_a_vapp_link_to @mock_vdc.virtual_machines[1] }
+              it { should be_a_vapp_link_to(@mock_vdc.virtual_machines[1]) }
             end
             context "[2]" do
               subject { @vdc.body[:ResourceEntities][:ResourceEntity][2] }
-              it { should be_a_vapp_link_to @mock_vdc.virtual_machines[2] }
+              it { should be_a_vapp_link_to(@mock_vdc.virtual_machines[2]) }
             end
           end
 
@@ -92,11 +92,11 @@ if Fog.mocking?
           describe "[:AvailableNetworks][:Network]" do
             context "[0]" do
               subject { @vdc.body[:AvailableNetworks][:Network][0] }
-              it { should be_a_network_link_to @mock_vdc.networks[0] }
+              it { should be_a_network_link_to(@mock_vdc.networks[0]) }
             end
             context "[1]" do
               subject { @vdc.body[:AvailableNetworks][:Network][1] }
-              it { should be_a_network_link_to @mock_vdc.networks[1] }
+              it { should be_a_network_link_to(@mock_vdc.networks[1]) }
             end
           end
         end
@@ -105,9 +105,8 @@ if Fog.mocking?
       context "with a vdc uri that doesn't exist" do
         subject { lambda { @vcloud.get_vdc(URI.parse('https://www.fakey.com/api/v0.8/vdc/999')) } }
 
-        it_should_behave_like "a request for a resource that doesn't exist"
+        it_should_behave_like("a request for a resource that doesn't exist")
       end
     end
   end
-else
 end

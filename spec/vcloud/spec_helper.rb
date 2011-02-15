@@ -35,33 +35,33 @@ def ecloud_disabled_default_monitor
 end
 
 shared_examples_for "all responses" do
-  it { should be_an_instance_of Excon::Response }
-  it { should respond_to :body }
-  it { should respond_to :headers }
+  it { should be_an_instance_of(Excon::Response) }
+  it { should respond_to(:body) }
+  it { should respond_to(:headers) }
   it { should have_at_least(1).body }
   it { should have_at_least(0).headers }
-  its(:body) { should be_an_instance_of Hash }
-  its(:headers) { should be_an_instance_of Hash }
+  its(:body) { should be_an_instance_of(Hash) }
+  its(:headers) { should be_an_instance_of(Hash) }
 end
 
 shared_examples_for "all delete responses" do
-  it { should be_an_instance_of Excon::Response }
-  it { should respond_to :body }
-  it { should respond_to :headers }
-  its(:headers) { should be_an_instance_of Hash }
+  it { should be_an_instance_of(Excon::Response) }
+  it { should respond_to(:body) }
+  it { should respond_to(:headers) }
+  its(:headers) { should be_an_instance_of(Hash) }
 end
 
 shared_examples_for "it has a Content-Type header" do
-  its(:headers) { should include "Content-Type" }
+  its(:headers) { should include("Content-Type") }
 end
 
 shared_examples_for "all rel=down vcloud links" do
-  it { should be_an_instance_of Struct::VcloudLink }
+  it { should be_an_instance_of(Struct::VcloudLink) }
   specify { subject.rel.should == "down" }
 end
 
 shared_examples_for "all vcloud links w/o a rel" do
-  it { should be_an_instance_of Struct::VcloudLink }
+  it { should be_an_instance_of(Struct::VcloudLink) }
   specify { subject.rel.should == nil }
 end
 
@@ -95,21 +95,21 @@ end
 
 shared_examples_for "all login requests" do
 
-  it { should respond_to :login }
+  it { should respond_to(:login) }
 
   describe "#login" do
     before { @login = @vcloud.login }
     subject { @login }
 
-    it_should_behave_like "all responses"
+    it_should_behave_like("all responses")
 
-    its(:headers) { should include "Set-Cookie" }
+    its(:headers) { should include("Set-Cookie") }
 
     describe "#body" do
       subject { @login.body }
 
       it { should have(4).items }
-      it_should_behave_like "it has the standard vcloud v0.8 xmlns attributes"   # 3 keys
+      it_should_behave_like("it has the standard vcloud v0.8 xmlns attributes")   # 3 keys
       it { should include(:Org) }
 
       describe ":Org" do
@@ -118,11 +118,11 @@ shared_examples_for "all login requests" do
         specify do
           subject.each do |org|
             org.should include(:type)
-            org[:type].should be_of_type "application/vnd.vmware.vcloud.org+xml"
+            org[:type].should be_of_type("application/vnd.vmware.vcloud.org+xml")
             org.should include(:name)
-            org[:name].should be_an_instance_of String
+            org[:name].should be_an_instance_of(String)
             org.should include(:href)
-            org[:href].should be_a_url
+            org[:href].should(be_a_url)
           end
         end
       end
@@ -143,17 +143,17 @@ shared_examples_for "it has the proper xmlns_xsd" do
 end
 
 shared_examples_for "it has the standard xmlns attributes" do
-  it_should_behave_like "it has the proper xmlns_xsi"
-  it_should_behave_like "it has the proper xmlns_xsd"
+  it_should_behave_like("it has the proper xmlns_xsi")
+  it_should_behave_like("it has the proper xmlns_xsd")
 end
 
 shared_examples_for "it has the standard vcloud v0.8 xmlns attributes" do
-  it_should_behave_like "it has a vcloud v0.8 xmlns"
-  it_should_behave_like "it has the standard xmlns attributes"
+  it_should_behave_like("it has a vcloud v0.8 xmlns")
+  it_should_behave_like("it has the standard xmlns attributes")
 end
 
 shared_examples_for "a request for a resource that doesn't exist" do
-  it { should raise_error Excon::Errors::Unauthorized }
+  it { should raise_error(Excon::Errors::Unauthorized) }
 end
 
 shared_examples_for "a vdc catalog link" do
@@ -163,8 +163,8 @@ shared_examples_for "a vdc catalog link" do
 end
 
 shared_examples_for "a tmrk network link" do
-  it_should_behave_like "all vcloud links w/o a rel"
-  it_should_behave_like "all vcloud network types"
+  it_should_behave_like("all vcloud links w/o a rel")
+  it_should_behave_like("all vcloud network types")
 end
 
 shared_examples_for "the mocked tmrk network links" do
@@ -190,22 +190,22 @@ shared_examples_for "the mocked tmrk resource entity links" do
 
   describe "[0]" do
     subject { @vdc.body.resource_entities[0] }
-    it_should_behave_like "a vapp type"
-    it_should_behave_like "all vcloud links w/o a rel"
+    it_should_behave_like("a vapp type")
+    it_should_behave_like("all vcloud links w/o a rel")
     its(:href) { should == URI.parse(@mock_vdc[:vms][0][:href]) }
     its(:name) { should == @mock_vdc[:vms][0][:name] }
   end
   describe "[1]" do
     subject { @vdc.body.resource_entities[1] }
-    it_should_behave_like "a vapp type"
-    it_should_behave_like "all vcloud links w/o a rel"
+    it_should_behave_like("a vapp type")
+    it_should_behave_like("all vcloud links w/o a rel")
     its(:href) { should == URI.parse(@mock_vdc[:vms][1][:href]) }
     its(:name) { should == @mock_vdc[:vms][1][:name] }
   end
   describe "[2]" do
     subject { @vdc.body.resource_entities[2] }
-    it_should_behave_like "a vapp type"
-    it_should_behave_like "all vcloud links w/o a rel"
+    it_should_behave_like("a vapp type")
+    it_should_behave_like("all vcloud links w/o a rel")
     its(:href) { should == URI.parse(@mock_vdc[:vms][2][:href]) }
     its(:name) { should == @mock_vdc[:vms][2][:name] }
   end

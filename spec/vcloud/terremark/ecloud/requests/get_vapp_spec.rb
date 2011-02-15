@@ -4,7 +4,7 @@ if Fog.mocking?
   describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do
     subject { @vcloud }
 
-    it { should respond_to :get_vapp }
+    it { should respond_to(:get_vapp) }
 
     describe "#get_vapp" do
       context "with a valid vapp_uri" do
@@ -13,7 +13,7 @@ if Fog.mocking?
         let(:vapp_id) { @vapp.body[:href].split("/").last }
 
         it_should_behave_like "all responses"
-        it { should have_headers_denoting_a_content_type_of "application/vnd.vmware.vcloud.vApp+xml" }
+        it { should have_headers_denoting_a_content_type_of("application/vnd.vmware.vcloud.vApp+xml") }
 
         describe "#body" do
           subject { @vapp.body }
@@ -25,7 +25,7 @@ if Fog.mocking?
                                                             :type,                         :xmlns,
                                                             :xmlns_xsd,                    :xmlns_xsi] }
 
-          it_should_behave_like "it has the standard vcloud v0.8 xmlns attributes"   # 3 keys
+          it_should_behave_like("it has the standard vcloud v0.8 xmlns attributes")   # 3 keys
 
           its(:href)   { should == @mock_vm.href }
           its(:name)   { should == @mock_vm.name }
@@ -43,7 +43,7 @@ if Fog.mocking?
           describe "NetworkConnectionSection" do
             subject { @vapp.body[:NetworkConnectionSection] }
 
-            it { should include :NetworkConnection }
+            it { should include(:NetworkConnection) }
 
             describe "NetworkConnection" do
               subject { @vapp.body[:NetworkConnectionSection][:NetworkConnection] }
@@ -118,9 +118,8 @@ if Fog.mocking?
       context "with a vapp uri that doesn't exist" do
         subject { lambda { @vcloud.get_vapp(URI.parse('https://www.fakey.com/api/v0.8/vApp/99999')) } }
 
-        it_should_behave_like "a request for a resource that doesn't exist"
+        it_should_behave_like("a request for a resource that doesn't exist")
       end
     end
   end
-else
 end

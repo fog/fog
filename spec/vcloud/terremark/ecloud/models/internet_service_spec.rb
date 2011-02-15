@@ -7,8 +7,8 @@ if Fog.mocking?
     describe :class do
       subject { Fog::Vcloud::Terremark::Ecloud::InternetService }
 
-      it { should have_identity :href }
-      it { should have_only_these_attributes [:href, :name, :id, :protocol, :port, :enabled, :description, :public_ip, :timeout, :redirect_url, :monitor, :backup_service_data] }
+      it { should have_identity(:href) }
+      it { should have_only_these_attributes([:href, :name, :id, :protocol, :port, :enabled, :description, :public_ip, :timeout, :redirect_url, :monitor, :backup_service_data]) }
     end
 
     context "with no uri" do
@@ -29,7 +29,7 @@ if Fog.mocking?
       let(:composed_public_ip_data) { @vcloud.vdcs[0].public_ips[0].internet_services[0].send(:_compose_ip_data) }
       let(:composed_service_data) { @vcloud.vdcs[0].public_ips[0].internet_services[0].send(:_compose_service_data) }
 
-      it { should be_an_instance_of Fog::Vcloud::Terremark::Ecloud::InternetService }
+      it { should be_an_instance_of(Fog::Vcloud::Terremark::Ecloud::InternetService) }
 
       its(:href)               { should == @mock_service.href }
       its(:identity)           { should == @mock_service.href }

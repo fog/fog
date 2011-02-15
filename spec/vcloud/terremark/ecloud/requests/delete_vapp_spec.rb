@@ -14,7 +14,7 @@ shared_examples_for "a failed vapp deletion" do
   end
 
   describe "#headers" do
-    its(:headers) { should_not include "Location" }
+    its(:headers) { should_not include("Location") }
   end
 end
 
@@ -23,7 +23,7 @@ if Fog.mocking?
   describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do
     subject { @vcloud }
 
-    it { should respond_to :delete_vapp }
+    it { should respond_to(:delete_vapp) }
 
     describe "#delete_vapp" do
       context "with a valid vapp uri" do
@@ -31,7 +31,7 @@ if Fog.mocking?
         let(:vdc) { @vcloud.vdcs.first }
 
         context "when there are no internet service nodes attached" do
-          it_should_behave_like "all delete responses"
+          it_should_behave_like("all delete responses")
 
           it "should change the mock data" do
             expect { subject }.to change { @mock_vdc.virtual_machines.count }.by(-1)
@@ -46,7 +46,7 @@ if Fog.mocking?
           end
 
           describe "#headers" do
-            its(:headers) { should include "Location" }
+            its(:headers) { should include("Location") }
           end
         end
 

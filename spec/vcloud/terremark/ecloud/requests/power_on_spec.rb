@@ -4,7 +4,7 @@ if Fog.mocking?
   describe Fog::Vcloud, :type => :mock_tmrk_ecloud_request do
     subject { @vcloud }
 
-    it { should respond_to :power_on }
+    it { should respond_to(:power_on) }
 
     describe :power_on, :type => :vcloud_request do
       context "with a valid vapp uri" do

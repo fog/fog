@@ -4,7 +4,7 @@ if Fog.mocking?
   describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do
     subject { @vcloud }
 
-    it { should respond_to :get_network_ips }
+    it { should respond_to(:get_network_ips) }
 
     describe "#get_network_ips" do
       context "with a valid VDC network ips_uri" do
@@ -12,7 +12,7 @@ if Fog.mocking?
         subject { @ips }
 
         it_should_behave_like "all responses"
-        it { should have_headers_denoting_a_content_type_of "application/vnd.tmrk.ecloud.ipAddressesList+xml" }
+        it { should have_headers_denoting_a_content_type_of("application/vnd.tmrk.ecloud.ipAddressesList+xml") }
 
         describe "#body" do
           subject { @ips.body }
@@ -51,9 +51,8 @@ if Fog.mocking?
       context "with a network ips uri that doesn't exist" do
         subject { lambda { @vcloud.get_network_ips(URI.parse('https://www.fakey.c/piv8vc99')) } }
 
-        it_should_behave_like "a request for a resource that doesn't exist"
+        it_should_behave_like("a request for a resource that doesn't exist")
       end
     end
   end
-else
 end

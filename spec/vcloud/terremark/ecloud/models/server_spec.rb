@@ -7,8 +7,8 @@ if Fog.mocking?
     describe :class do
       subject { Fog::Vcloud::Terremark::Ecloud::Server }
 
-      it { should have_identity :href }
-      it { should have_only_these_attributes [:href, :type, :name, :status, :network_connections, :os, :virtual_hardware, :storage_size, :links] }
+      it { should have_identity(:href) }
+      it { should have_only_these_attributes([:href, :type, :name, :status, :network_connections, :os, :virtual_hardware, :storage_size, :links]) }
     end
 
     context "with no uri" do

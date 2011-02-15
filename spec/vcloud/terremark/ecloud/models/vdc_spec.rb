@@ -4,14 +4,14 @@ if Fog.mocking?
   describe "Fog::Vcloud::Terremark::Ecloud::Vdc", :type => :mock_tmrk_ecloud_model do
     subject { @vcloud }
 
-    it { should respond_to :get_vdc }
+    it { should respond_to(:get_vdc) }
 
     describe :class do
       subject { Fog::Vcloud::Terremark::Ecloud::Vdc }
 
-      it { should have_identity :href }
-      it { should have_only_these_attributes [:href, :name, :type, :description, :other_links, :compute_capacity, :storage_capacity, :available_networks,
-                                              :resource_entities, :deployed_vm_quota, :instantiated_vm_quota] }
+      it { should have_identity(:href) }
+      it { should have_only_these_attributes([:href, :name, :type, :description, :other_links, :compute_capacity, :storage_capacity, :available_networks,
+                                              :resource_entities, :deployed_vm_quota, :instantiated_vm_quota]) }
     end
 
     context "with no uri" do
@@ -27,7 +27,7 @@ if Fog.mocking?
       its(:href)                  { should == @mock_vdc.href }
       its(:identity)              { should == @mock_vdc.href }
       its(:name)                  { should == @mock_vdc.name }
-      its(:public_ips)            { should be_an_instance_of Fog::Vcloud::Terremark::Ecloud::PublicIps }
+      its(:public_ips)            { should be_an_instance_of(Fog::Vcloud::Terremark::Ecloud::PublicIps) }
       its(:other_links)           { should have(4).items }
       its(:resource_entities)     { should have(3).items }
       its(:available_networks)    { should have(2).items }

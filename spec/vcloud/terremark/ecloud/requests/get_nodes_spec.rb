@@ -4,7 +4,7 @@ if Fog.mocking?
   describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do
     subject { @vcloud }
 
-    it { should respond_to :get_nodes }
+    it { should respond_to(:get_nodes) }
 
     describe "#get_nodes" do
       context "with a valid nodes_uri" do
@@ -12,7 +12,7 @@ if Fog.mocking?
         subject { @nodes }
 
         it_should_behave_like "all responses"
-        it { should have_headers_denoting_a_content_type_of "application/vnd.tmrk.ecloud.nodeService+xml" }
+        it { should have_headers_denoting_a_content_type_of("application/vnd.tmrk.ecloud.nodeService+xml") }
 
         describe "#body" do
           subject { @nodes.body }

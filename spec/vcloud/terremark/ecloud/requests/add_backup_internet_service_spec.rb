@@ -4,7 +4,7 @@ if Fog.mocking?
   describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do
     subject { @vcloud }
 
-    it { should respond_to :add_backup_internet_service }
+    it { should respond_to(:add_backup_internet_service) }
 
     describe "#add_backup_internet_service" do
       before do
@@ -28,7 +28,7 @@ if Fog.mocking?
 
         let(:body) { subject.body }
 
-        its(:body) { should be_an_instance_of Hash }
+        its(:body) { should be_an_instance_of(Hash) }
         specify { body[:Href].should_not be_empty }
         specify { body[:Name].should == @new_backup_service_data[:name] }
         specify { body[:Protocol].should == @new_backup_service_data[:protocol] }

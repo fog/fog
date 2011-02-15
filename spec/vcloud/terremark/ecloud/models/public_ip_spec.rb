@@ -7,8 +7,8 @@ if Fog.mocking?
     describe :class do
       subject { Fog::Vcloud::Terremark::Ecloud::PublicIp }
 
-      it { should have_identity :href }
-      it { should have_only_these_attributes [:name, :id, :href] }
+      it { should have_identity(:href) }
+      it { should have_only_these_attributes([:name, :id, :href]) }
     end
 
     context "with no uri" do
@@ -21,7 +21,7 @@ if Fog.mocking?
     context "as a collection member" do
       subject { @vcloud.vdcs[0].public_ips[0].reload; @vcloud.vdcs[0].public_ips[0] }
 
-      it { should be_an_instance_of Fog::Vcloud::Terremark::Ecloud::PublicIp }
+      it { should be_an_instance_of(Fog::Vcloud::Terremark::Ecloud::PublicIp) }
 
       its(:href)                  { should == @mock_public_ip.href }
       its(:identity)              { should == @mock_public_ip.href }

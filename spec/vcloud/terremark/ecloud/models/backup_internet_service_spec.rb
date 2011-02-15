@@ -7,8 +7,8 @@ if Fog.mocking?
     describe :class do
       subject { Fog::Vcloud::Terremark::Ecloud::BackupInternetService }
 
-      it { should have_identity :href }
-      it { should have_only_these_attributes [:href, :name, :id, :protocol, :enabled, :description, :timeout, :redirect_url, :monitor] }
+      it { should have_identity(:href) }
+      it { should have_only_these_attributes([:href, :name, :id, :protocol, :enabled, :description, :timeout, :redirect_url, :monitor]) }
     end
 
     context "with no uri" do
@@ -23,7 +23,7 @@ if Fog.mocking?
 
       let(:composed_service_data) { @vcloud.vdcs[0].backup_internet_services[0].send(:_compose_service_data) }
 
-      it { should be_an_instance_of Fog::Vcloud::Terremark::Ecloud::BackupInternetService }
+      it { should be_an_instance_of(Fog::Vcloud::Terremark::Ecloud::BackupInternetService) }
 
       its(:href)                  { should == @mock_backup_service.href }
       its(:identity)              { should == @mock_backup_service.href }
@@ -45,5 +45,4 @@ if Fog.mocking?
       specify { composed_service_data[:timeout].should == subject.timeout.to_s }
     end
   end
-else
 end

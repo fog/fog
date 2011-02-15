@@ -4,7 +4,7 @@ if Fog.mocking?
   describe "Fog::Vcloud, initialized w/ the TMRK Ecloud module", :type => :mock_tmrk_ecloud_request do
     subject { @vcloud }
 
-    it { should respond_to :get_catalog }
+    it { should respond_to(:get_catalog) }
 
     describe "#get_catalog" do
       context "with a valid vdc catalog_uri" do
@@ -12,7 +12,7 @@ if Fog.mocking?
         subject { @catalog }
 
         it_should_behave_like "all responses"
-        it { should have_headers_denoting_a_content_type_of "application/vnd.vmware.vcloud.catalog+xml" }
+        it { should have_headers_denoting_a_content_type_of("application/vnd.vmware.vcloud.catalog+xml") }
 
         describe "#body" do
           subject { @catalog.body }
@@ -23,7 +23,7 @@ if Fog.mocking?
 
           its(:name) { should == @mock_vdc.catalog.name }
 
-          it { should include :CatalogItems }
+          it { should include(:CatalogItems) }
 
           describe "CatalogItems" do
             subject { @catalog.body[:CatalogItems] }

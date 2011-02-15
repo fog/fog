@@ -5,7 +5,7 @@ if Fog.mocking?
     context "as an attribute of an internet_service" do
       subject { @vcloud.vdcs.first.public_ips.first.internet_services.first }
 
-      it { should respond_to :nodes }
+      it { should respond_to(:nodes) }
 
       describe :class do
         subject { @vcloud.vdcs.first.public_ips.first.internet_services.first.nodes.class }
@@ -15,9 +15,9 @@ if Fog.mocking?
       describe :nodes do
         subject { @vcloud.vdcs.first.public_ips.first.internet_services.first.nodes }
 
-        it { should respond_to :create }
+        it { should respond_to(:create) }
 
-        it { should be_an_instance_of Fog::Vcloud::Terremark::Ecloud::Nodes }
+        it { should be_an_instance_of(Fog::Vcloud::Terremark::Ecloud::Nodes) }
 
         its(:length) { should == 3 }
 
@@ -25,5 +25,4 @@ if Fog.mocking?
       end
     end
   end
-else
 end
