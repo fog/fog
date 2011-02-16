@@ -11,7 +11,6 @@ module Fog
     service(:cdn,       'cdn/aws')
     service(:compute,   'compute/aws')
     service(:dns,       'dns/aws')
-    service(:ec2,       'compute/aws')
     service(:elb,       'aws/elb')
     service(:iam,       'aws/iam')
     service(:s3,        'storage/aws')

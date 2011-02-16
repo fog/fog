@@ -5,7 +5,7 @@ class AWS < Fog::Bin
       case key
       when :cdn
         Fog::AWS::CDN
-      when :compute, :ec2
+      when :compute
         Fog::AWS::Compute
       when :dns
         Fog::AWS::DNS
@@ -36,12 +36,6 @@ class AWS < Fog::Bin
           Fog::Compute.new(:provider => 'AWS')
         when :dns
           Fog::DNS.new(:provider => 'AWS')
-        when :ec2
-          location = caller.first
-          warning = "[yellow][WARN] AWS[:ec2] is deprecated, use AWS[:compute] instead[/]"
-          warning << " [light_black](" << location << ")[/] "
-          Formatador.display_line(warning)
-          Fog::Compute.new(:provider => 'AWS')
         when :elb
           Fog::AWS::ELB.new
         when :iam
