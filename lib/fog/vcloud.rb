@@ -1,1 +1,0 @@
-require 'fog/vcloud/terremark/ecloud'

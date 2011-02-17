@@ -35,11 +35,6 @@ else
   Formatador.display_line('Welcome to fog interactive!')
   Formatador.display_line(":#{Fog.credential} provides #{providers}")
   providers = Fog.providers
-  Fog.modules.each do |_module_|
-    if _module_.respond_to?(:startup_notice)
-      _module_.send(:startup_notice)
-    end
-  end
 
   catch(:IRB_EXIT) { @irb.eval_input }
 
