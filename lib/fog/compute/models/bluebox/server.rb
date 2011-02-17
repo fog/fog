@@ -7,11 +7,6 @@ module Fog
       class BlockInstantiationError < StandardError; end
 
       class Server < Fog::Model
-        extend Fog::Deprecation
-        deprecate(:ssh_key, :public_key)
-        deprecate(:ssh_key=, :public_key=)
-        deprecate(:user, :username)
-        deprecate(:user=, :username=)
 
         identity :id
 

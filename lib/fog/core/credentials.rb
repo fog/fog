@@ -2,8 +2,6 @@ require 'yaml'
 
 module Fog
   require 'fog/core/deprecation'
-  extend Fog::Deprecation
-  self_deprecate(:config_path, :credentials_path)
 
   # Assign a new credential to use from configuration file
   #   @param [String, Symbol] new_credential name of new credential to use

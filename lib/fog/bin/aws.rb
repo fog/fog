@@ -17,7 +17,7 @@ class AWS < Fog::Bin
         Fog::AWS::SimpleDB
       when :ses
         Fog::AWS::SES
-      when :eu_storage, :s3, :storage
+      when :eu_storage, :storage
         Fog::AWS::Storage
       else
         # @todo Replace most instances of ArgumentError with NotImplementedError
@@ -46,12 +46,6 @@ class AWS < Fog::Bin
           Fog::AWS::SimpleDB.new
         when :ses
           Fog::AWS::SES.new
-        when :s3
-          location = caller.first
-          warning = "[yellow][WARN] AWS[:s3] is deprecated, use AWS[:storage] instead[/]"
-          warning << " [light_black](" << location << ")[/] "
-          Formatador.display_line(warning)
-          Fog::Storage.new(:provider => 'AWS')
         when :storage
           Fog::Storage.new(:provider => 'AWS')
         else

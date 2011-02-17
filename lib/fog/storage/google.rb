@@ -167,8 +167,6 @@ module Fog
     
       class Real
         include Utils
-        extend Fog::Deprecation
-        deprecate(:reset, :reload)
 
         # Initialize connection to Google Storage
         #
