@@ -10,14 +10,6 @@ require 'fog/vcloud/generators'
 require 'fog/vcloud/mock_data_classes'
 # ecloud/vcloud requires at the bottom so that the following will be defined
 
-module URI
-  class Generic
-    def host_url
-      @host_url ||= "#{self.scheme}://#{self.host}#{self.port ? ":#{self.port}" : ''}"
-    end
-  end
-end
-
 module Fog
   class Vcloud < Fog::Service
 
@@ -205,10 +197,11 @@ module Fog
         if params[:uri].is_a?(String)
           params[:uri] = URI.parse(params[:uri])
         end
+        host_url = "#{self.scheme}://#{self.host}#{self.port ? ":#{self.port}" : ''}"
 
         # Hash connections on the host_url ... There's nothing to say we won't get URI's that go to
         # different hosts.
-        @connections[params[:uri].host_url] ||= Fog::Connection.new(params[:uri].host_url, @persistent)
+        @connections[host_url] ||= Fog::Connection.new(host_url, @persistent)
 
         # Set headers to an empty hash if none are set.
         headers = params[:headers] || {}
@@ -219,7 +212,7 @@ module Fog
         end
 
         # Make the request
-        response = @connections[params[:uri].host_url].request({
+        response = @connections[host_url].request({
           :body     => params[:body] || '',
           :expects  => params[:expects] || 200,
           :headers  => headers,
