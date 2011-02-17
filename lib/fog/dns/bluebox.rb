@@ -15,6 +15,9 @@ module Fog
       request :create_record
       request :update_record
       request :delete_record
+      request :create_zone
+      request :update_zone
+      request :delete_zone
       request :get_record
       request :get_records
       request :get_zone

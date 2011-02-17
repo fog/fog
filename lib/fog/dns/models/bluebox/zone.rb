@@ -43,12 +43,20 @@ module Fog
           ]
         end
 
-        def save
-          raise Fog::Errors::Error.new('Not implemented')
+        def destroy
+          requires :identity
+          connection.delete_zone(identity)
+          true
         end
 
+        def save
+          requires :name, :ttl
+          options = attributes.inject({}) {|h, kv| h[kv[0]] = kv[1]; h}
+          data = identity.nil? ? connection.create_zone(options) : connection.update_zone(identity, options)
+          merge_attributes(data.body)
+          true
+        end
       end
-
     end
   end
 end
