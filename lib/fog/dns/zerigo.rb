@@ -68,6 +68,8 @@ module Fog
             Formatador.display_line(warning)
           end
 
+          require 'fog/core/parser'
+
           @zerigo_email  = options[:zerigo_email]
           @zerigo_token  = options[:zerigo_token]
           @host   = options[:host]    || "ns.zerigo.com"

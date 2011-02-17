@@ -26,8 +26,6 @@ module Fog
       model       :volume
       collection  :volumes
 
-      require 'fog/compute/parsers/aws/basic'
-
       request_path 'fog/compute/requests/aws'
       request :allocate_address
       request :associate_address
@@ -138,6 +136,8 @@ module Fog
             Formatador.display_line(warning)
           end
 
+          require 'fog/compute/parsers/aws/basic'
+
           @aws_access_key_id = options[:aws_access_key_id]
           @region = options[:region] || 'us-east-1'
           @data = self.class.data[@region][@aws_access_key_id]
@@ -173,6 +173,8 @@ module Fog
             warning << " [light_black](" << location << ")[/] "
             Formatador.display_line(warning)
           end
+
+          require 'fog/core/parser'
 
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]

@@ -1,5 +1,3 @@
-require 'nokogiri'
-
 require 'fog/core'
 require 'fog/core/parser'
 
@@ -13,7 +11,6 @@ module Fog
     service(:dns,       'dns/aws')
     service(:elb,       'aws/elb')
     service(:iam,       'aws/iam')
-    service(:s3,        'storage/aws')
     service(:ses,       'aws/ses')
     service(:simpledb,  'aws/simpledb')
     service(:storage,   'storage/aws')

@@ -193,7 +193,9 @@ module Fog
             Formatador.display_line(warning)
           end
 
+          require 'fog/core/parser'
           require 'mime/types'
+
           @google_storage_access_key_id = options[:google_storage_access_key_id]
           @google_storage_secret_access_key = options[:google_storage_secret_access_key]
           @hmac = Fog::HMAC.new('sha1', @google_storage_secret_access_key)
