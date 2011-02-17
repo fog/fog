@@ -5,7 +5,9 @@ class Bluebox < Fog::Bin
       case key
       when :blocks, :compute
         Fog::Bluebox::Compute
-      else 
+      when :dns
+        Fog::Bluebox::DNS
+      else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
     end
@@ -21,6 +23,8 @@ class Bluebox < Fog::Bin
           Fog::Compute.new(:provider => 'Bluebox')
         when :compute
           Fog::Compute.new(:provider => 'Bluebox')
+        when :dns
+          Fog::DNS.new(:provider => 'Bluebox')
         else
           raise ArgumentError, "Unrecognized service: #{service}"
         end
@@ -29,7 +33,7 @@ class Bluebox < Fog::Bin
     end
 
     def services
-      [:compute]
+      [:compute, :dns]
     end
 
   end
