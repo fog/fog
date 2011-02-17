@@ -247,40 +247,26 @@ def setup_ecloud_mock_data
 end
 
 def setup_vcloud_mock_data
-  @base_url = Fog::Vcloud::Mock.base_url
-  @mock_data = Fog::Vcloud::Mock.data
+  @base_url = Fog::Vcloud::Terremark::Ecloud::Mock.base_url
+  @mock_data = Fog::Vcloud::Terremark::Ecloud::Mock.data
   setup_generic_mock_data
 end
 
 Spec::Runner.configure do |config|
   config.after(:all) do
-    Fog::Vcloud::Mock.data_reset
+    Fog::Vcloud::Terremark::Ecloud::Mock.data_reset
   end
 
   config.before(:each, :type => :vcloud_request) do
     @vcloud = Fog::Vcloud::Terremark::Ecloud.new(Fog.credentials[:vcloud][:ecloud])
   end
 
-  config.before(:all, :type => :mock_vcloud_model) do
-    Fog::Vcloud::Mock.data_reset
-    setup_vcloud_mock_data
-    @vcloud = Fog::Vcloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions")
-  end
-
-  config.before(:all, :type => :mock_vcloud_request) do
-    Fog::Vcloud::Mock.data_reset
-    setup_vcloud_mock_data
-    @vcloud = Fog::Vcloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions")
-  end
-
   config.before(:each, :type => :mock_tmrk_ecloud_request) do
-    Fog::Vcloud::Mock.data_reset
     Fog::Vcloud::Terremark::Ecloud::Mock.data_reset
     setup_ecloud_mock_data
     @vcloud = Fog::Vcloud::Terremark::Ecloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions")
   end
   config.before(:each, :type => :mock_tmrk_ecloud_model) do
-    Fog::Vcloud::Mock.data_reset
     Fog::Vcloud::Terremark::Ecloud::Mock.data_reset
     setup_ecloud_mock_data
     @vcloud = Fog::Vcloud::Terremark::Ecloud.new(:username => "foo", :password => "bar", :versions_uri => "http://fakey.com/api/versions")
