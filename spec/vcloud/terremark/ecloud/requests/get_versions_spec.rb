@@ -38,7 +38,7 @@ shared_examples_for "real or mock get_versions requests" do
 end
 
 if Fog.mocking?
-  describe Fog::Vcloud, :type => :mock_vcloud_request do
+  describe Fog::Vcloud, :type => :mock_tmrk_ecloud_request do
 
     it_should_behave_like "real or mock get_versions requests"
 
@@ -48,7 +48,7 @@ if Fog.mocking?
     end
   end
 else
-  describe Fog::Vcloud, :type => :vcloud_request do
+  describe Fog::Vcloud, :type => :mock_tmrk_ecloud_request do
     it_should_behave_like "real or mock get_versions requests"
   end
 end

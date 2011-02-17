@@ -53,6 +53,7 @@ module Fog
         request :get_network_ip
         request :get_network_ips
         request :get_network_extensions
+        request :get_organization
         request :get_node
         request :get_nodes
         request :get_public_ip
@@ -62,7 +63,9 @@ module Fog
         request :get_vapp
         request :get_vapp_template
         request :get_vdc
+        request :get_versions
         request :instantiate_vapp_template
+        request :login
         request :power_off
         request :power_on
         request :power_reset
@@ -95,7 +98,7 @@ module Fog
           def self.data( base_url = self.base_url )
             @mock_data ||= Fog::Vcloud::Mock.data(base_url).tap do |vcloud_mock_data|
               vcloud_mock_data.versions.clear
-              vcloud_mock_data.versions << MockVersion.new(:version => "v0.8b-ext2.6")
+              vcloud_mock_data.versions << MockVersion.new(:version => "v0.8b-ext2.6", :supported => true)
 
               vcloud_mock_data.organizations.detect {|o| o.name == "Boom Inc." }.tap do |mock_organization|
                 mock_organization.vdcs.detect {|v| v.name == "Boomstick" }.tap do |mock_vdc|

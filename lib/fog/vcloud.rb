@@ -25,15 +25,8 @@ module Fog
     recognizes :version, :persistent
 
     model_path 'fog/vcloud/models'
-    model :vdc
-    collection :vdcs
 
     request_path 'fog/vcloud/requests'
-    request :login
-    request :get_versions
-    request :get_vdc
-    request :get_organization
-    request :get_network
 
     class UnsupportedVersion < Exception ; end
 
@@ -334,4 +327,3 @@ module Fog
 end
 
 require 'fog/vcloud/terremark/ecloud'
-require 'fog/vcloud/terremark/vcloud'

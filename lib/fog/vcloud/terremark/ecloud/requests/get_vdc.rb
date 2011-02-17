@@ -4,7 +4,7 @@ module Fog
       class Ecloud
 
         class Real
-          # Handled by the main Vcloud get_vdc
+          basic_request :get_vdc
         end
 
         class Mock

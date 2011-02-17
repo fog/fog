@@ -1,10 +1,10 @@
 require 'vcloud/spec_helper'
 
 if Fog.mocking?
-  describe Fog::Vcloud, :type => :mock_vcloud_request do
-    subject { Fog::Vcloud.new(:username => "foo", :password => "bar", :versions_uri => "https://fakey.com/api/versions") }
+  describe Fog::Vcloud, :type => :mock_tmrk_ecloud_request do
+    subject { @vcloud }
 
-    it { should be_an_instance_of(Fog::Vcloud::Mock) }
+    it { should be_an_instance_of(Fog::Vcloud::Terremark::Ecloud::Mock) }
 
     it { should respond_to(:default_organization_uri) }
 
