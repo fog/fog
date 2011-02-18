@@ -14,6 +14,12 @@ def dns_providers
     },
     Zerigo    => {
       :mocked => false
+    },
+    Bluebox   => {
+      :mocked => false,
+      :zone_attributes => {
+        :ttl => 60
+      }
     }
   }
 end

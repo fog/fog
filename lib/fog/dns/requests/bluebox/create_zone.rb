@@ -3,6 +3,8 @@ module Fog
     class DNS
       class Real
 
+        require 'fog/dns/parsers/bluebox/create_zone'
+
         # Create a new DNS zone
         # ==== Parameters
         #     * 'name'<~String> - The name of the zone
@@ -31,6 +33,7 @@ module Fog
             :body     => body,
             :expects  => 202,
             :method   => 'POST',
+            :parser   => Fog::Parsers::Bluebox::DNS::CreateZone.new,
             :path     => "/api/domains.xml"
           )
         end

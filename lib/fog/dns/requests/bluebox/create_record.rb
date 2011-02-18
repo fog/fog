@@ -3,6 +3,8 @@ module Fog
     class DNS
       class Real
 
+        require 'fog/dns/parsers/bluebox/create_record'
+
         # Create a new record in a DNS zone
         # ==== Parameters
         # * type<~String> - type of DNS record to create (A, CNAME, etc)
@@ -17,11 +19,17 @@ module Fog
         #     * 'data'<~String> - as above
         #     * 'active'<~String> - as above
         #     * 'aux'<~String> - as above
-        def create_record(zone_id, type, name, content)
+        def create_record(zone_id, type, name, content, options={})
+          body = %Q{<?xml version="1.0" encoding="UTF-8"?><record><type>#{type}</type><name>#{name}</name><content>#{content}</content>}
+          options.each do |k,v|
+            body += %Q{<#{k}>#{v}</#{k}>}
+          end
+          body += %Q{</record>}
           request(
-            :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><record><type>#{type}</type><name>#{name}</name><content>#{content}</content></record>},
+            :body     => body,
             :expects  => 202,
             :method   => 'POST',
+            :parser   => Fog::Parsers::Bluebox::DNS::CreateRecord.new,
             :path     => "/api/domains/#{zone_id}/records.xml"
           )
         end

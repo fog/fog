@@ -4,7 +4,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
   @new_zones = []
   @new_records =[]
 
-  def generate_unique_domain( with_trailing_dot = false)
+  def generate_unique_domain(with_trailing_dot = false)
     #get time (with 1/100th of sec accuracy)
     #want unique domain name and if provider is fast, this can be called more than once per second
     time= (Time.now.to_f * 100).to_i
@@ -32,11 +32,26 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
     end
 
     test('create zone - simple') do
-      pending
+      domain = generate_unique_domain
+      response = Bluebox[:dns].create_zone(:name => domain, :ttl => 360)
+      if response.status == 202
+        zone_id = response.body['id']
+        @new_zones << zone_id
+      end
+
+      response.status == 202
     end
 
     test('create zone - set all parameters') do
-      pending
+      options = { :ttl => 60, :retry => 3600, :refresh => 1800, :minimum => 30 }
+      @domain= generate_unique_domain
+      response = Bluebox[:dns].create_zone(options.merge(:name => @domain))
+      if response.status == 202
+        @zone_id = response.body['id']
+        @new_zones << @zone_id
+      end
+
+      response.status == 202
     end
 
     test("get zone #{@zone_id} - check all parameters for #{@domain}") do
@@ -47,7 +62,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
       response = Bluebox[:dns].get_zone(@zone_id)
       if response.status == 200
         zone = response.body
-        if (zone['name'] == @domain) and (zone['ttl'] == 3600)
+        if (zone['name'] == @domain) and (zone['ttl'] == 60)
           result = true
         end
       end
@@ -62,7 +77,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       response = Bluebox[:dns].get_zones()
       if response.status == 200
-        zones = response.body['records']
+        zones = response.body['zones']
         if (@org_zone_count+2) == zones.count
           result= true;
         end
@@ -78,10 +93,11 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       response = Bluebox[:dns].get_zones()
       if response.status == 200
-        zones = response.body['records']
+        zones = response.body['zones']
         zones.each { |zone|
           if zone['id'] == @new_zones[1]
-             if (zone['name'] == 'sub.' + @domain) and (zone['ttl'] == 3600)
+            options = { :ttl => 60, :retry => 3600, :refresh => 1800, :minimum => 30 }
+             if (zone['name'] == @domain) and (zone['ttl'] == 60) and (zone['retry'] == 3600) and (zone['refresh'] == 1800) and (zone['minimum'] == 30)
                result = true;
              end
           end
@@ -99,13 +115,13 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       host= 'www.' + @domain
       zone_id= @new_zones[1]
-      response = Bluebox[:dns].create_record( 'A', zone_id, host, '1.2.3.4')
-      if response.status == 201
+      response = Bluebox[:dns].create_record(zone_id, 'A', host, '1.2.3.4')
+      if response.status == 202
         record_id = response.body['id']
         @new_records << record_id
       end
 
-      response.status == 201
+      response.status == 202
     end
 
     test('create record - A record - all parameters set') do
@@ -113,27 +129,26 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       host= 'ftp.' + @domain
       zone_id= @new_zones[1]
-      options = { :ttl => 3600, :active => 'N'}
-      response = Bluebox[:dns].create_record( 'A', zone_id, host, '1.2.3.4', options)
-      if response.status == 201
+      response = Bluebox[:dns].create_record( zone_id, 'A', host, '1.2.3.4')
+      if response.status == 202
         record_id = response.body['id']
         @new_records << record_id
       end
 
-      response.status == 201
+      response.status == 202
     end
 
     test('create record - CNAME record') do
       pending if Fog.mocking?
 
       zone_id= @new_zones[1]
-      response = Bluebox[:dns].create_record( 'CNAME', zone_id, 'mail', @domain)
-      if response.status == 201
+      response = Bluebox[:dns].create_record( zone_id, 'CNAME', 'mail', @domain)
+      if response.status == 202
         record_id = response.body['id']
         @new_records << record_id
       end
 
-      response.status == 201
+      response.status == 202
     end
 
     test('create record - NS record') do
@@ -141,14 +156,13 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       ns_domain = 'ns.' + @domain
       zone_id= @new_zones[1]
-      options = { :ttl => 3600, :active => 'N'}
-      response = Bluebox[:dns].create_record( 'NS', zone_id, @domain, ns_domain, options)
-      if response.status == 201
+      response = Bluebox[:dns].create_record( zone_id, 'NS', @domain, ns_domain)
+      if response.status == 202
         record_id = response.body['id']
         @new_records << record_id
       end
 
-      response.status == 201
+      response.status == 202
     end
 
     test('create record - MX record') do
@@ -156,14 +170,13 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       mail_domain = 'mail.' + @domain
       zone_id= @new_zones[1]
-      options = { :ttl => 3600, :active => 'N', :aux => '10'}
-      response = Slicehost[:dns].create_record( 'MX', zone_id, @domain, mail_domain, options)
-      if response.status == 201
+      response = Bluebox[:dns].create_record(  zone_id, 'MX', @domain, mail_domain, :priority => 10)
+      if response.status == 202
         @record_id = response.body['id']
         @new_records << @record_id
       end
 
-      response.status == 201
+      response.status == 202
     end
 
     test("get record #{@record_id} - verify all parameters") do
@@ -171,13 +184,11 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       result= false
 
-      response = Slicehost[:dns].get_record(@record_id)
+      response = Bluebox[:dns].get_record(@new_zones[1], @record_id)
       if response.status == 200
         mail_domain = 'mail.' + @domain
         record = response.body['records'][0]
-        if (record['record-type'] == 'MX') and (record['name'] == @domain) and
-          (record['data'] == mail_domain) and (record['ttl'] == 3600) and (record['active'] == 'N') and
-          (record['aux'] == "10")
+        if (record['type'] == 'MX') and (record['name'] == @domain) and (record['content'] == mail_domain) and (record['priority'] == 10)
           result= true
         end
       end
@@ -196,12 +207,10 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
         #find mx record
         records.each {|record|
-          if record['record-type'] == 'MX'
+          if record['type'] == 'MX'
 
             mail_domain = 'mail.' + @domain
-            if (record['record-type'] == 'MX') and (record['name'] == @domain) and
-              (record['data'] == mail_domain) and (record['ttl'] == 3600) and (record['active'] == 'N') and
-              (record['aux'] == "10")
+            if (record['type'] == 'MX') and (record['name'] == @domain) and (record['content'] == mail_domain) and (record['priority'] == 10)
               result= true
               break
             end
@@ -218,7 +227,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       result= true
       @new_records.each { |record_id|
-        response = Slicehost[:dns].delete_record( record_id)
+        response = Bluebox[:dns].delete_record(@new_zones[1], record_id)
         if response.status != 200
             result= false;
         end
@@ -232,7 +241,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
       result= true
 
       @new_zones.each { |zone_id|
-        response = Slicehost[:dns].delete_zone( zone_id)
+        response = Bluebox[:dns].delete_zone( zone_id)
         if response.status != 200
             result= false;
         end

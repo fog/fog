@@ -81,13 +81,14 @@ module Fog
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :flavor_id, :image_id
-          options = if !password && !public_key
-            raise(ArgumentError, "password or public_key is required for this operation")
-          elsif public_key
-            {'ssh_public_key' => public_key}
-          elsif @password
-            {'password' => password}
+          options = {}
+
+          if identity.nil?  # new record
+            raise(ArgumentError, "password or public_key is required for this operation") if !password && !public_key
+            options['ssh_public_key'] = public_key if @public_key
+            options['password'] = password if @password
           end
+
           options['username'] = username
           data = connection.create_block(flavor_id, image_id, options)
           merge_attributes(data.body)
