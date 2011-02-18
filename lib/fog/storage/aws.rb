@@ -17,6 +17,7 @@ module Fog
       request :complete_multipart_upload
       request :copy_object
       request :delete_bucket
+      request :delete_bucket_website
       request :delete_object
       request :get_bucket
       request :get_bucket_acl
@@ -24,6 +25,7 @@ module Fog
       request :get_bucket_logging
       request :get_bucket_object_versions
       request :get_bucket_versioning
+      request :get_bucket_website
       request :get_object
       request :get_object_acl
       request :get_object_torrent
@@ -39,6 +41,7 @@ module Fog
       request :put_bucket_acl
       request :put_bucket_logging
       request :put_bucket_versioning
+      request :put_bucket_website
       request :put_object
       request :put_object_acl
       request :put_object_url
@@ -312,7 +315,7 @@ DATA
           canonical_resource << params[:path].to_s
           canonical_resource << '?'
           for key in (params[:query] || {}).keys.sort
-            if %w{acl location logging notification partNumber policy requestPayment torrent uploadId uploads versionId versioning versions}.include?(key)
+            if %w{acl location logging notification partNumber policy requestPayment torrent uploadId uploads versionId versioning versions website}.include?(key)
               canonical_resource << "#{key}#{"=#{params[:query][key]}" unless params[:query][key].nil?}&"
             end
           end
