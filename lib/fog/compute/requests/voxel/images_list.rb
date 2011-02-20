@@ -15,10 +15,10 @@ module Fog
           if data['stat'] == "ok"
             images = data['images']['image']
             images = [ images ] if images.is_a?(Hash)
-           
-            images.map { |i| { :id => i['id'], :name => i['summary'] } }
+
+            images.map { |i| { :id => i['id'].to_i, :name => i['summary'] } }
           else
-            []
+            raise Fog::Voxel::Compute::NotFound
           end
         end
       end
@@ -30,7 +30,13 @@ module Fog
           if image_id.nil?
             images
           else
-            images.select { |i| i[:id] == image_id }
+            selected = images.select { |i| i[:id] == image_id }
+            
+            if selected.empty?
+              raise Fog::Voxel::Compute::NotFound
+            else
+              selected
+            end
           end
         end
       end
