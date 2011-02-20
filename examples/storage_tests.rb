@@ -9,6 +9,8 @@ Shindo.tests('storage tests', 'storage') do
   # iterate over all the providers
   Fog.providers.each do |provider|
 
+    provider = eval(provider) # convert from string to object
+
     # skip if provider does not have storage
     next unless provider.respond_to?(:services) && provider.services.include?(:storage)
 

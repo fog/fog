@@ -64,6 +64,8 @@ module Fog
             Formatador.display_line(warning)
           end
 
+          require 'fog/core/parser'
+
           @slicehost_password = options[:slicehost_password]
           @host   = options[:host]    || "api.slicehost.com"
           @port   = options[:port]    || 443

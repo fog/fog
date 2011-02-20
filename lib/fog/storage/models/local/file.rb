@@ -39,6 +39,23 @@ module Fog
         def destroy
           requires :directory, :key
           ::File.delete(path)
+          dirs = path.split(::File::SEPARATOR)[0...-1]
+          dirs.length.times do |index|
+            dir_path = dirs[0..-index].join(::File::SEPARATOR)
+            if dir_path.empty? # path starts with ::File::SEPARATOR
+              next
+            end
+            # don't delete the containing directory or higher
+            if dir_path == connection.path_to(directory.key)
+              break
+            end
+            pwd = Dir.pwd
+            Dir.chdir(dir_path)
+            if Dir.glob('*').empty?
+              Dir.rmdir(dir_path)
+            end
+            Dir.chdir(pwd)
+          end
           true
         end
 
@@ -52,6 +69,17 @@ module Fog
 
         def save(options = {})
           requires :body, :directory, :key
+          dirs = path.split(::File::SEPARATOR)[0...-1]
+          dirs.length.times do |index|
+            dir_path = dirs[0..index].join(::File::SEPARATOR)
+            if dir_path.empty? # path starts with ::File::SEPARATOR
+              next
+            end
+            # create directory if it doesn't already exist
+            unless ::File.directory?(dir_path)
+              Dir.mkdir(dir_path)
+            end
+          end
           file = ::File.new(path, 'w')
           if body.is_a?(String)
             file.write(body)
@@ -73,7 +101,7 @@ module Fog
         end
 
         def path
-          connection.path_to(::File.join(directory.key, CGI.escape(key)))
+          connection.path_to(::File.join(directory.key, key))
         end
 
       end

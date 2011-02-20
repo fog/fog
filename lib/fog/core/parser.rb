@@ -1,3 +1,5 @@
+require 'nokogiri'
+
 module Fog
   module Parsers
     class Base < Nokogiri::XML::SAX::Document

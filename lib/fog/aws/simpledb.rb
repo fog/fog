@@ -59,6 +59,8 @@ module Fog
         # ==== Returns
         # * SimpleDB object with connection to aws.
         def initialize(options={})
+          require 'fog/core/parser'
+
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
           @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)

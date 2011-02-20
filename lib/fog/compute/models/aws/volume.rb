@@ -5,8 +5,6 @@ module Fog
     class Compute
 
       class Volume < Fog::Model
-        extend Fog::Deprecation
-        deprecate(:status, :state)
 
         identity  :id,                    :aliases => 'volumeId'
 

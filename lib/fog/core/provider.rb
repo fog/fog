@@ -2,7 +2,7 @@ module Fog
   module Provider
 
     def self.extended(base)
-      Fog.providers << base
+      Fog.providers << base.to_s.split('::').last
     end
 
     def service(new_service, path)

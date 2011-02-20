@@ -113,6 +113,7 @@ module Fog
     end
 
     def to_json
+      require 'json'
       self.map {|member| member.attributes}.to_json
     end
 

@@ -5,8 +5,6 @@ module Fog
     class Compute
 
       class KeyPair < Fog::Model
-        extend Fog::Deprecation
-        deprecate(:material, :private_key)
 
         identity  :name,        :aliases => 'keyName'
 

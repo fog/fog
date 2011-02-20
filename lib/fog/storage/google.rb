@@ -167,8 +167,6 @@ module Fog
     
       class Real
         include Utils
-        extend Fog::Deprecation
-        deprecate(:reset, :reload)
 
         # Initialize connection to Google Storage
         #
@@ -195,14 +193,19 @@ module Fog
             Formatador.display_line(warning)
           end
 
+          require 'fog/core/parser'
           require 'mime/types'
+
           @google_storage_access_key_id = options[:google_storage_access_key_id]
           @google_storage_secret_access_key = options[:google_storage_secret_access_key]
           @hmac = Fog::HMAC.new('sha1', @google_storage_secret_access_key)
           @host = options[:host] || 'commondatastorage.googleapis.com'
           @port   = options[:port]      || 443
           @scheme = options[:scheme]    || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent] || true)
+          unless options.has_key?(:persistent)
+            options[:persistent] = true
+          end
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
         end
 
         def reload

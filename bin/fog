@@ -10,7 +10,7 @@ end
 
 require 'fog/bin'
 
-providers = Fog.providers.map{|provider| provider.to_s.split('::').last}
+providers = Fog.providers
 providers = if providers.length > 1
   providers[0...-1].join(', ') << ' and ' << providers[-1]
 else
@@ -35,11 +35,6 @@ else
   Formatador.display_line('Welcome to fog interactive!')
   Formatador.display_line(":#{Fog.credential} provides #{providers}")
   providers = Fog.providers
-  Fog.modules.each do |_module_|
-    if _module_.respond_to?(:startup_notice)
-      _module_.send(:startup_notice)
-    end
-  end
 
   catch(:IRB_EXIT) { @irb.eval_input }
 

@@ -14,16 +14,19 @@ module Fog
         def all
           requires :directory
           if directory.collection.get(directory.key)
-            data = Dir.entries(connection.path_to(directory.key)).select do |key|
-              key[0...1] != '.' && !::File.directory?(connection.path_to(key))
+            pwd = Dir.pwd
+            Dir.chdir(connection.path_to(directory.key))
+            data = Dir.glob('**/*').reject do |file|
+              ::File.directory?(file)
             end.map do |key|
               path = file_path(key)
               {
                 :content_length => ::File.size(path),
-                :key            => CGI.unescape(key),
+                :key            => key,
                 :last_modified  => ::File.mtime(path)
               }
             end
+            Dir.chdir(pwd)
             load(data)
           else
             nil
@@ -32,7 +35,7 @@ module Fog
 
         def get(key, &block)
           requires :directory
-          path = file_path(CGI.escape(key))
+          path = file_path(key)
           if ::File.exists?(path)
             data = {
               :content_length => ::File.size(path),
@@ -55,7 +58,7 @@ module Fog
 
         def head(key)
           requires :directory
-          path = file_path(CGI.escape(key))
+          path = file_path(key)
           if ::File.exists?(path)
             new({
               :content_length => ::File.size(path),

@@ -3,7 +3,7 @@ class Slicehost < Fog::Bin
 
     def class_for(key)
       case key
-      when :compute, :slices
+      when :compute
         Fog::Slicehost::Compute
       when :dns
         Fog::Slicehost::DNS
@@ -14,14 +14,8 @@ class Slicehost < Fog::Bin
 
     def [](service)
       @@connections ||= Hash.new do |hash, key|
-        if key == :slices
-          location = caller.first
-          warning = "[yellow][WARN] Slicehost[:blocks] is deprecated, use Bluebox[:compute] instead[/]"
-          warning << " [light_black](" << location << ")[/] "
-          Formatador.display_line(warning)
-        end
         hash[key] = case key
-        when :compute, :slices
+        when :compute
           Fog::Compute.new(:provider => 'Slicehost')
         when :dns
           Fog::DNS.new(:provider => 'Slicehost')
