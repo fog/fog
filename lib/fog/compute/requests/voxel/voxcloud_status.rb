@@ -27,16 +27,23 @@ module Fog
 
       class Mock
         def voxcloud_status( device_id = nil )
-					devices = [
-            { :id => '12345', :status => "QEUEUED" },
-            { :id => '67890', :status => "FAILED" },
-            { :id => '54321', :status => "IN_PROGRESS" },
-            { :id => '10986', :status => "SUCCEEDED" } ]
+          @data[:statuses].each_pair do |id, status|
+            if Time.now - @data[:last_modified][:statuses][id] > 2
+              case status
+              when "QUEUED"
+                @data[:statuses][id] = "IN_PROGRESS"
+                @data[:last_modified][:statuses][id] = Time.now
+              when "IN_PROGRESS"
+                @data[:statuses][id] = "SUCCEEDED"
+                @data[:last_modified][:statuses][id] = Time.now
+              end
+            end
+          end
 
-					if device_id.nil?
-						devices
+         if device_id.nil?
+            @data[:statuses].map { |status| { :id => status[0], :status => status[1] } }
 					else
-						devices.select { |d| d[:id] == device_id }
+						[ { :id => device_id, :status => @data[:statuses][device_id] } ]
 					end
 				end
       end

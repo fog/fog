@@ -15,7 +15,16 @@ module Fog
 
       class Mock
         def voxcloud_create( options )
-          devices_list(12345)
+          device_id = Fog::Mock.random_numbers(7).to_i
+          @data[:last_modified][:servers][device_id] = Time.now
+          @data[:last_modified][:statuses][device_id] = Time.now
+          @data[:statuses][device_id] = "QUEUED"
+          @data[:servers].push( options.merge( {
+            :password => "CHANGEME",
+            :id => device_id,
+            :addresses => { :private => '0.0.0.0', :public => '0.0.0.0' }
+          } ) )
+          devices_list(device_id)
         end
       end
     end

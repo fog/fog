@@ -13,12 +13,11 @@ module Fog
         attribute :name
         attribute :processing_cores
         attribute :image_id
-        #attribute :ip
         attribute :status
         attribute :facility
         attribute :disk_size
-				attribute :addresses
-				attribute :password
+        attribute :addresses
+        attribute :password
 
         def initialize(attributes={})
           super
@@ -36,7 +35,11 @@ module Fog
         end
 
         def ready?
-					status == 'SUCCEEDED'
+          status == 'SUCCEEDED'
+        end
+
+        def status
+          connection.voxcloud_status(id).first[:status]
         end
 
         def save
