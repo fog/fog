@@ -19,6 +19,27 @@ module Fog
 
       class Mock
         include Collections
+
+        def self.data
+          @data ||= {
+              :last_modified => { :servers => {}, :statuses => {}, :images => {} },
+              :servers => [],
+              :statuses => {},
+              :images  => [
+                { :id => 1, :name => "CentOS 5 x64" },
+                { :id => 2, :name => "Ubuntu 10.04 LTS x64" } ]
+            }
+        end
+
+        def self.reset_data(keys=data.keys)
+          for key in [*keys]
+            data.delete(key)
+          end
+        end
+
+        def initialize(options={})
+          @data = self.class.data
+        end
       end
 
       class Real

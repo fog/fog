@@ -16,21 +16,25 @@ module Fog
             images = data['images']['image']
             images = [ images ] if images.is_a?(Hash)
 
-            images.map { |i| { :id => i['id'], :name => i['summary'] } }
+            images.map { |i| { :id => i['id'].to_i, :name => i['summary'] } }
           else
-            []
+            raise Fog::Voxel::Compute::NotFound
           end
         end
       end
 
       class Mock
         def images_list( image_id = nil )
-          images = [ { :id => 1, :name => "CentOS 5 x64" }, { :id => 2, :name => "Ubuntu 10.04 LTS x64" } ]
-
           if image_id.nil?
-            images
+            @data[:images]
           else
-            images.select { |i| i[:id] == image_id }
+            selected = @data[:images].select { |i| i[:id] == image_id }
+
+            if selected.empty?
+              raise Fog::Voxel::Compute::NotFound
+            else
+              selected
+            end
           end
         end
       end

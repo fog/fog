@@ -10,12 +10,6 @@ module Fog
 
         def all
           data = connection.devices_list
-          statuses = connection.voxcloud_status
-
-          data.each_index do |i|
-            data[i][:status] = statuses.select { |s| s[:id] == data[i][:id] }.first[:status]
-          end
-
           load(data)
         end
 
@@ -31,8 +25,6 @@ module Fog
 						if server.empty?
 							nil
 						else
-							status = connection.voxcloud_status(device_id)
-							server.first[:status] = status.first[:status]
 							new(server.first)
 						end
           end

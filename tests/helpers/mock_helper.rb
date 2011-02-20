@@ -28,6 +28,8 @@ if Fog.mock?
     :rackspace_api_key                => 'rackspace_api_key',
     :rackspace_username               => 'rackspace_username',
     :slicehost_password               => 'slicehost_password',
+    :voxel_api_key                    => 'voxel_api_key',
+    :voxel_api_secret                 => 'voxel_api_secret',
     :zerigo_email                     => 'zerigo_email',
     :zerigo_token                     => 'zerigo_token'
   })
