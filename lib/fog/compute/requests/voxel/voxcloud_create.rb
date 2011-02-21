@@ -3,6 +3,14 @@ module Fog
     class Compute
       class Real
         def voxcloud_create( options )
+          options[:hostname] = options[:name]
+          options.delete(:name)
+
+          if options.has_key?(:password)
+            options[:admin_password] = options[:password]
+            options.delete(:password)
+          end
+
           data = request("voxel.voxcloud.create", options)
 
           unless data['stat'] == 'ok'
