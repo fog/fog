@@ -3,6 +3,7 @@ module Fog
     class Compute < Fog::Service
 
       requires :voxel_api_key, :voxel_api_secret
+      recognizes :provider, :host, :port, :scheme, :persistent
 
       model_path 'fog/compute/models/voxel'
       model       :image
@@ -49,21 +50,32 @@ module Fog
           require 'time'
           require 'digest/md5'
 
+          require 'fog/compute/parsers/voxel/images_list'
+          
           @voxel_api_key = options[:voxel_api_key]
           @voxel_api_secret = options[:voxel_api_secret]
 
+          @host   = options[:host]    || "api.voxel.net"
+          @port   = options[:port]    || 443
+          @scheme = options[:scheme]  || 'https'
+          
           Excon.ssl_verify_peer = false
 
-          @connection = Fog::Connection.new("https://api.voxel.net:443")
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", :path => "/version/1.0/", :method => "POST" )
         end
 
-        def request(method_name, options = {})
+        def request(method_name, options = {}, parser = nil)
           begin
             options.merge!( { :method => method_name, :timestamp => Time.now.xmlschema, :key => @voxel_api_key } )
             options[:api_sig] = create_signature(@voxel_api_secret, options)
             require 'xmlsimple'
-            response = @connection.request( :host => "api.voxel.net", :path => "/version/1.0/", :query => options )
-            XmlSimple.xml_in( response.body, 'ForceArray' => false )
+
+            if parser.nil?
+              response = @connection.request( :query => options )
+              XmlSimple.xml_in( response.body, 'ForceArray' => false )
+            else
+              @connection.request( :query => options, :parser => parser )
+            end
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
