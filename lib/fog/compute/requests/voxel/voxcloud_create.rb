@@ -14,7 +14,7 @@ module Fog
           data = request("voxel.voxcloud.create", options)
 
           unless data['stat'] == 'ok'
-            raise "Error from Voxel hAPI: #{data['err']['msg']}"
+            raise Fog::Voxel::Compute::Error, "Error from Voxel hAPI: #{data['err']['msg']}"
           end
 
           devices_list(data['device']['id'])
