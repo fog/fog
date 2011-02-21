@@ -16,12 +16,12 @@ module Fog
 
       class Mock
         def voxcloud_delete( device_id )
-					device = @data[:devices].select { |d| d[:id] == device_id }
+					device = @data[:servers].select { |d| d[:id] == device_id }
 
           if device.empty?
             false
           else
-            @data[:devices] = @data[:devices].select { |d| d[:id] != device_id }
+            @data[:servers] = @data[:servers].select { |d| d[:id] != device_id }
             @data[:statuses].delete(device_id)
             true
           end
