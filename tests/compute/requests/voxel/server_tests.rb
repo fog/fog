@@ -8,15 +8,15 @@ Shindo.tests('Voxel::Compute | server requests', ['voxel']) do
     :facility         => String,
     :disk_size        => Integer,
     :addresses        => {
-      :private  => String,
-      :public   => String
+      :frontend => [ String ],
+      :backend  => [ String ]
     },
     :password         => String
   }
 
   tests('success') do
 
-		@server_id = nil
+    @server_id = nil
 
     tests('#voxcloud_create( :name => "fog.test", :disk_size => 10, :processing_cores => 1, :image_id => 16, :facility => "LDJ1" )').formats([@server_format]) do
       data = Voxel[:compute].voxcloud_create( :name => "fog.test", :disk_size => 10, :processing_cores => 1, :image_id => 16, :facility => "LDJ1" )

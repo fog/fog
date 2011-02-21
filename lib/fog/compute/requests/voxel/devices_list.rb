@@ -10,28 +10,19 @@ module Fog
             options[:device_id] = device_id
           end
 
-          data = request("voxel.devices.list", options)
+          data = request("voxel.devices.list", options, Fog::Parsers::Voxel::Compute::DevicesList.new).body
 
-          if data['stat'] == 'fail'
+          if data[:stat] == 'fail'
             raise Fog::Voxel::Compute::NotFound
-          elsif data['devices'].empty?
+          elsif data[:devices].empty?
             []
           else
-            devices = data['devices']['device']
-            devices = [ devices ] if devices.is_a?(Hash)
+            devices = data[:devices]
 
             ## TODO find both voxserver and voxcloud devices
-            devices.select { |d| d['type']['id'] == '3' }.map do |device|
-              { :id               => device['id'].to_i,
-                :name             => device['label'],
-                :image_id         => 0,
-                :addresses        => {
-                  :public  => device['ipassignments']['ipassignment'].select { |i| i['type'] == "frontend" }.first['content'],
-                  :private => device['ipassignments']['ipassignment'].select { |i| i['type'] == "backend" }.first['content'] },
-                :processing_cores => device['processor']['cores'].to_i,
-                :facility         => device['location']['facility']['code'],
-                :disk_size        => device['storage']['drive']['size'].to_i,
-                :password         => device['accessmethods']['accessmethod'].select { |am| am['type'] == 'admin' }.first['password'] }
+            devices.select { |d| d[:type] == '3' }.map do |device|
+              device.delete(:type)
+              device.merge( :image_id => 0 )
             end
           end
         end

@@ -10,13 +10,10 @@ module Fog
             options[:image_id] = image_id
           end
 
-          data = request("voxel.images.list", options)
+          data = request("voxel.images.list", options, Fog::Parsers::Voxel::Compute::ImagesList.new).body
 
-          if data['stat'] == "ok"
-            images = data['images']['image']
-            images = [ images ] if images.is_a?(Hash)
-
-            images.map { |i| { :id => i['id'].to_i, :name => i['summary'] } }
+          if data[:stat] == "ok"
+            data[:images]
           else
             raise Fog::Voxel::Compute::NotFound
           end

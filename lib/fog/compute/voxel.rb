@@ -3,6 +3,7 @@ module Fog
     class Compute < Fog::Service
 
       requires :voxel_api_key, :voxel_api_secret
+      recognizes :provider, :host, :port, :scheme, :persistent
 
       model_path 'fog/compute/models/voxel'
       model       :image
@@ -22,13 +23,26 @@ module Fog
 
         def self.data
           @data ||= {
-              :last_modified => { :servers => {}, :statuses => {}, :images => {} },
-              :servers => [],
-              :statuses => {},
-              :images  => [
-                { :id => 1, :name => "CentOS 5 x64" },
-                { :id => 2, :name => "Ubuntu 10.04 LTS x64" } ]
-            }
+            :last_modified => { :servers => {}, :statuses => {}, :images => {} },
+            :servers => [],
+            :statuses => {},
+            :images  => [
+              {:id=>1, :name=>"CentOS 4, 32-bit, base install"},
+              {:id=>2, :name=>"CentOS 4, 64-bit, base install"},
+              {:id=>3, :name=>"CentOS 5, 32-bit, base install"},
+              {:id=>4, :name=>"CentOS 5, 64-bit, base install"},
+              {:id=>7, :name=>"Fedora 10, 32-bit, base install"},
+              {:id=>8, :name=>"Fedora 10, 64-bit, base install"},
+              {:id=>10, :name=>"OpenSUSE 11, 64-bit, base install"},
+              {:id=>11, :name=>"Debian 5.0 \"lenny\", 32-bit, base install"},
+              {:id=>12, :name=>"Debian 5.0 \"lenny\", 64-bit, base install"},
+              {:id=>13, :name=>"Ubuntu 8.04 \"Hardy\", 32-bit, base install"},
+              {:id=>14, :name=>"Ubuntu 8.04 \"Hardy\", 64-bit, base install"},
+              {:id=>15, :name=>"Voxel Server Environment (VSE), 32-bit, base install"},
+              {:id=>16, :name=>"Voxel Server Environment (VSE), 64-bit, base install"},
+              {:id=>32, :name=>"Pantheon Official Mercury Stack for Drupal (based on VSE/64)"},
+              {:id=>55, :name=>"Ubuntu 10.04 \"Lucid\", 64-bit, base install"} ]
+        }
         end
 
         def self.reset_data(keys=data.keys)
@@ -49,21 +63,30 @@ module Fog
           require 'time'
           require 'digest/md5'
 
+          require 'fog/compute/parsers/voxel/images_list'
+          require 'fog/compute/parsers/voxel/devices_list'
+          require 'fog/compute/parsers/voxel/voxcloud_create'
+          require 'fog/compute/parsers/voxel/voxcloud_status'
+          require 'fog/compute/parsers/voxel/voxcloud_delete'
+
           @voxel_api_key = options[:voxel_api_key]
           @voxel_api_secret = options[:voxel_api_secret]
 
+          @host   = options[:host]    || "api.voxel.net"
+          @port   = options[:port]    || 443
+          @scheme = options[:scheme]  || 'https'
+					@persistent = options[:persistent] || false
+
           Excon.ssl_verify_peer = false
 
-          @connection = Fog::Connection.new("https://api.voxel.net:443")
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent)
         end
 
-        def request(method_name, options = {})
+        def request(method_name, options = {}, parser)
           begin
             options.merge!( { :method => method_name, :timestamp => Time.now.xmlschema, :key => @voxel_api_key } )
             options[:api_sig] = create_signature(@voxel_api_secret, options)
-            require 'xmlsimple'
-            response = @connection.request( :host => "api.voxel.net", :path => "/version/1.0/", :query => options )
-            XmlSimple.xml_in( response.body, 'ForceArray' => false )
+            @connection.request( :path => "/version/1.0/", :method => "POST", :query => options, :parser => parser )
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
