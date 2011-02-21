@@ -7,7 +7,7 @@ module Fog
           data = request("voxel.voxcloud.delete", options )
 
           unless data['stat'] == 'ok'
-            raise "Error from Voxel hAPI: #{data['err']['msg']}"
+            raise Fog::Voxel::Compute::NotFound, "Error from Voxel hAPI: #{data['err']['msg']}"
           end
 					
 					true
