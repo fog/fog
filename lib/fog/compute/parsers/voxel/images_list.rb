@@ -11,10 +11,12 @@ module Fog
           end
 
           def start_element(name, attrs = [])
+            super
+
             case name
             when 'image'
               @image = {
-                :id => attr_value('id', attrs),
+                :id => attr_value('id', attrs).to_i,
                 :name => attr_value('summary', attrs)
               }
             when 'rsp'
