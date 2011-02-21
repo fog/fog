@@ -19,7 +19,7 @@ module Fog
 					device = @data[:servers].select { |d| d[:id] == device_id }
 
           if device.empty?
-            false
+            raise Fog::Voxel::Compute::NotFound
           else
             @data[:servers] = @data[:servers].select { |d| d[:id] != device_id }
             @data[:statuses].delete(device_id)

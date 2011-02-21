@@ -41,9 +41,17 @@ Shindo.tests('Voxel::Compute | server requests', ['voxel']) do
   end
 
   tests('failure') do
-    #tests('#images_list(0)').raises(Fog::Voxel::Compute::NotFound) do
-    #  Voxel[:compute].images_list(0)
-    #end
+    tests('#voxcloud_delete(0)').raises(Fog::Voxel::Compute::NotFound) do
+      Voxel[:compute].voxcloud_delete(0)
+    end
+
+    tests('#voxcloud_status(0)').raises(Fog::Voxel::Compute::NotFound) do
+      Voxel[:compute].voxcloud_status(0)
+    end
+
+    tests('#devices_list(0)').raises(Fog::Voxel::Compute::NotFound) do
+      Voxel[:compute].devices_list(0)
+    end
   end
 
 end

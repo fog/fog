@@ -12,7 +12,7 @@ module Fog
           data = request("voxel.voxcloud.status", options)
 
 					if data['stat'] == 'fail'
-						[]
+						raise Fog::Voxel::Compute::NotFound
 					else
 						if data['devices']['device'].is_a?(Hash)
 							devices = [ data['devices']['device'] ]
@@ -43,7 +43,11 @@ module Fog
          if device_id.nil?
             @data[:statuses].map { |status| { :id => status[0], :status => status[1] } }
 					else
-						[ { :id => device_id, :status => @data[:statuses][device_id] } ]
+            if @data[:statuses].has_key?(device_id)
+  						[ { :id => device_id, :status => @data[:statuses][device_id] } ]
+            else
+              raise Fog::Voxel::Compute::NotFound
+            end
 					end
 				end
       end
