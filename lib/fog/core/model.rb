@@ -33,6 +33,7 @@ module Fog
     end
 
     def to_json
+      require 'json'
       attributes.to_json
     end
 

@@ -32,14 +32,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def describe_reserved_instances_offerings(filters = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

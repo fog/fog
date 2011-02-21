@@ -113,7 +113,7 @@ module Fog
 
     module InstanceMethods
 
-      def _dump
+      def _dump(level)
         Marshal.dump(attributes)
       end
 

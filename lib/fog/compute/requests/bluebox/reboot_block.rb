@@ -22,14 +22,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def reboot_block(block_id, type = 'SOFT')
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

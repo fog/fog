@@ -42,14 +42,6 @@ module Fog
         end
 
       end # Real
-
-      class Mock # :nodoc:all
-
-        def initiate_multipart_upload(bucket_name, object_name, options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end # Mock
     end # Storage
   end # AWS
 end # Fog

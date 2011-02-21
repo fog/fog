@@ -5,9 +5,9 @@ class Rackspace < Fog::Bin
       case key
       when :cdn
         Fog::Rackspace::CDN
-      when :compute, :servers
+      when :compute
         Fog::Rackspace::Compute
-      when :files, :storage
+      when :storage
         Fog::Rackspace::Storage
       else 
         raise ArgumentError, "Unrecognized service: #{key}"
@@ -23,29 +23,17 @@ class Rackspace < Fog::Bin
           Fog::Compute.new(:provider => 'Rackspace')
         when :dns
           Fog::DNS.new(:provider => 'Rackspace')
-        when :files
-          location = caller.first
-          warning = "[yellow][WARN] Rackspace[:files] is deprecated, use Rackspace[:storage] instead[/]"
-          warning << " [light_black](" << location << ")[/] "
-          Formatador.display_line(warning)
-          Fog::Storage.new(:provider => 'Rackspace')
-        when :servers
-          location = caller.first
-          warning = "[yellow][WARN] Rackspace[:servers] is deprecated, use Rackspace[:compute] instead[/]"
-          warning << " [light_black](" << location << ")[/] "
-          Formatador.display_line(warning)
-          Fog::Compute.new(:provider => Rackspace)
         when :storage
           Fog::Storage.new(:provider => 'Rackspace')
         else
-          raise ArgumentError, "Unrecognized service: #{service}"
+          raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
       end
       @@connections[service]
     end
 
     def services
-      [:cdn, :compute, :storage]
+      Fog::Rackspace.services
     end
 
   end

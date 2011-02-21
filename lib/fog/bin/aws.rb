@@ -5,7 +5,7 @@ class AWS < Fog::Bin
       case key
       when :cdn
         Fog::AWS::CDN
-      when :compute, :ec2
+      when :compute
         Fog::AWS::Compute
       when :dns
         Fog::AWS::DNS
@@ -13,11 +13,11 @@ class AWS < Fog::Bin
         Fog::AWS::ELB
       when :iam
         Fog::AWS::IAM
-      when :sdb
+      when :sdb, :simpledb
         Fog::AWS::SimpleDB
       when :ses
         Fog::AWS::SES
-      when :eu_storage, :s3, :storage
+      when :eu_storage, :storage
         Fog::AWS::Storage
       else
         # @todo Replace most instances of ArgumentError with NotImplementedError
@@ -36,39 +36,27 @@ class AWS < Fog::Bin
           Fog::Compute.new(:provider => 'AWS')
         when :dns
           Fog::DNS.new(:provider => 'AWS')
-        when :ec2
-          location = caller.first
-          warning = "[yellow][WARN] AWS[:ec2] is deprecated, use AWS[:compute] instead[/]"
-          warning << " [light_black](" << location << ")[/] "
-          Formatador.display_line(warning)
-          Fog::Compute.new(:provider => 'AWS')
         when :elb
           Fog::AWS::ELB.new
         when :iam
           Fog::AWS::IAM.new
         when :eu_storage
           Fog::Storage.new(:provider => 'AWS', :region => 'eu-west-1')
-        when :sdb
+        when :sdb, :simpledb
           Fog::AWS::SimpleDB.new
         when :ses
           Fog::AWS::SES.new
-        when :s3
-          location = caller.first
-          warning = "[yellow][WARN] AWS[:s3] is deprecated, use AWS[:storage] instead[/]"
-          warning << " [light_black](" << location << ")[/] "
-          Formatador.display_line(warning)
-          Fog::Storage.new(:provider => 'AWS')
         when :storage
           Fog::Storage.new(:provider => 'AWS')
         else
-          raise ArgumentError, "Unrecognized service: #{service}"
+          raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
       end
       @@connections[service]
     end
 
     def services
-      [:cdn, :compute, :dns, :elb, :iam, :sdb, :ses, :storage]
+      Fog::AWS.services
     end
 
   end

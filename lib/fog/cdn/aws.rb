@@ -79,6 +79,8 @@ module Fog
             Formatador.display_line(warning)
           end
 
+          require 'fog/core/parser'
+
           @aws_access_key_id = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
           @hmac     = Fog::HMAC.new('sha1', @aws_secret_access_key)
@@ -87,7 +89,10 @@ module Fog
           @port     = options[:port]      || 443
           @scheme   = options[:scheme]    || 'https'
           @version  = options[:version]  || '2010-11-01'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent] || true)
+          unless options.has_key?(:persistent)
+            options[:persistent] = true
+          end
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
         end
 
         def reload

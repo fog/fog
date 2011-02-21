@@ -22,14 +22,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def get_image_details(image_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

@@ -167,8 +167,6 @@ module Fog
     
       class Real
         include Utils
-        extend Fog::Deprecation
-        deprecate(:reset, :reload)
 
         # Initialize connection to Google Storage
         #
@@ -195,29 +193,23 @@ module Fog
             Formatador.display_line(warning)
           end
 
+          require 'fog/core/parser'
           require 'mime/types'
+
           @google_storage_access_key_id = options[:google_storage_access_key_id]
           @google_storage_secret_access_key = options[:google_storage_secret_access_key]
           @hmac = Fog::HMAC.new('sha1', @google_storage_secret_access_key)
           @host = options[:host] || 'commondatastorage.googleapis.com'
           @port   = options[:port]      || 443
           @scheme = options[:scheme]    || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent] || true)
+          unless options.has_key?(:persistent)
+            options[:persistent] = true
+          end
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
         end
 
         def reload
           @connection.reset
-        end
-
-        private
-
-        def request(params, &block)
-          params[:headers]['Date'] = Fog::Time.now.to_date_header
-          params[:headers]['Authorization'] = "GOOG1 #{@google_storage_access_key_id}:#{signature(params)}"
-
-          response = @connection.request(params, &block)
-
-          response
         end
 
         def signature(params)
@@ -270,6 +262,18 @@ DATA
 
           signed_string = @hmac.sign(string_to_sign)
           signature = Base64.encode64(signed_string).chomp!
+        end
+
+
+        private
+
+        def request(params, &block)
+          params[:headers]['Date'] = Fog::Time.now.to_date_header
+          params[:headers]['Authorization'] = "GOOG1 #{@google_storage_access_key_id}:#{signature(params)}"
+
+          response = @connection.request(params, &block)
+
+          response
         end
       end
     end

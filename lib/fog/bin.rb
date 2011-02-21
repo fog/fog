@@ -4,27 +4,7 @@ module Fog
   class << self
 
     def providers
-      [
-        ::AWS,
-        ::Bluebox,
-        ::Brightbox,
-        ::GoGrid,
-        ::Google,
-        ::Linode,
-        ::Local,
-        ::NewServers,
-        ::Rackspace,
-        ::Slicehost,
-        ::Terremark,
-        ::TerremarkEcloud,
-        ::Zerigo
-      ].select {|provider| provider.available?}
-    end
-
-    def modules
-      [
-        ::Vcloud
-      ].select {|_module_| _module_.initialized?}
+      @providers.select {|provider| eval("::#{provider.to_s.split('::').last}").available?}
     end
 
   end
@@ -76,6 +56,7 @@ end
 require 'fog/bin/aws'
 require 'fog/bin/bluebox'
 require 'fog/bin/brightbox'
+require 'fog/bin/ecloud'
 require 'fog/bin/go_grid'
 require 'fog/bin/google'
 require 'fog/bin/linode'
@@ -84,6 +65,4 @@ require 'fog/bin/new_servers'
 require 'fog/bin/rackspace'
 require 'fog/bin/slicehost'
 require 'fog/bin/terremark'
-require 'fog/bin/terremark_ecloud'
-require 'fog/bin/vcloud'
 require 'fog/bin/zerigo'

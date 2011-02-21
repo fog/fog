@@ -1,5 +1,3 @@
-require 'fog/core/parser'
-
 module Fog
   module NewServers
     class Compute < Fog::Service
@@ -56,6 +54,8 @@ module Fog
             warning << " [light_black](" << location << ")[/] "
             Formatador.display_line(warning)
           end
+
+          require 'fog/core/parser'
 
           @new_servers_password = options[:new_servers_password]
           @new_servers_username = options[:new_servers_username]

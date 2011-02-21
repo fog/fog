@@ -26,14 +26,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def modify_image_attributes(image_id, attribute, operation_type, options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

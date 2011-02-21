@@ -26,17 +26,9 @@ module Fog
           params.merge!(AWS.indexed_param('Tag.%d.Key', tags.keys))
           params.merge!(AWS.indexed_param('Tag.%d.Value', tags.values))
           request({
-            'Action'            => 'CreateTags',
+            'Action'            => 'DeleteTags',
             :parser             => Fog::Parsers::AWS::Compute::Basic.new
           }.merge!(params))
-        end
-
-      end
-
-      class Mock
-
-        def delete_tags(resources, tags)
-          Fog::Mock.not_implemented
         end
 
       end

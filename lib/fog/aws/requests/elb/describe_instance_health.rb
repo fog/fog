@@ -32,15 +32,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def describe_instance_health(lb_name, instance_ids = [])
-          Fog::Mock.not_implemented
-        end
-
-      end
-
     end
   end
 end

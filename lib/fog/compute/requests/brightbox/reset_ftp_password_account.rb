@@ -14,14 +14,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def reset_ftp_password_account(options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

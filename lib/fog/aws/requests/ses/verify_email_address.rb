@@ -23,15 +23,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def verify_email_address(email_address)
-          Fog::Mock.not_implemented
-        end
-
-      end
-
     end
   end
 end

@@ -33,14 +33,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def list_signing_certificates(user_name = nil)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

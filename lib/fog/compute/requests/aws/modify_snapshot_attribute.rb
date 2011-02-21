@@ -25,14 +25,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def modify_snapshot_attribute(snapshot_id, attribute, operation_type, options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

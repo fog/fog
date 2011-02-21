@@ -23,14 +23,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def domain_resource_delete(domain_id, resource_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

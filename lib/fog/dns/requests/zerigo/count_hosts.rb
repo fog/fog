@@ -23,14 +23,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def count_hosts( zone_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

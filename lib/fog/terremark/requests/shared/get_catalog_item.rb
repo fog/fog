@@ -30,14 +30,6 @@ module Fog
         end
 
       end
-
-      module Mock
-
-        def get_catalog_item(catalog_item_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

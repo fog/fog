@@ -50,14 +50,6 @@ module Fog
         end
 
       end
-
-      module Mock
-
-        def create_internet_service(vdc_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

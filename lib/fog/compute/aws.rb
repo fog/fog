@@ -1,21 +1,5 @@
 module Fog
   module AWS
-    class EC2
-
-      def self.new(attributes = {})
-        location = caller.first
-        warning = "[yellow][WARN] Fog::AWS::EC2#new is deprecated, use Fog::AWS::Compute#new instead[/]"
-        warning << " [light_black](" << location << ")[/] "
-        Formatador.display_line(warning)
-        Fog::AWS::Compute.new(attributes)
-      end
-
-    end
-  end
-end
-
-module Fog
-  module AWS
     class Compute < Fog::Service
 
       requires :aws_access_key_id, :aws_secret_access_key
@@ -41,8 +25,6 @@ module Fog
       collection  :tags
       model       :volume
       collection  :volumes
-
-      require 'fog/compute/parsers/aws/basic'
 
       request_path 'fog/compute/requests/aws'
       request :allocate_address
@@ -154,6 +136,8 @@ module Fog
             Formatador.display_line(warning)
           end
 
+          require 'fog/compute/parsers/aws/basic'
+
           @aws_access_key_id = options[:aws_access_key_id]
           @region = options[:region] || 'us-east-1'
           @data = self.class.data[@region][@aws_access_key_id]
@@ -189,6 +173,8 @@ module Fog
             warning << " [light_black](" << location << ")[/] "
             Formatador.display_line(warning)
           end
+
+          require 'fog/core/parser'
 
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]

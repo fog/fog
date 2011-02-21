@@ -30,14 +30,6 @@ module Fog
         end
 
       end
-
-      module Mock
-
-        def power_on(vapp_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

@@ -1,21 +1,5 @@
 module Fog
   module AWS
-    class S3
-
-      def self.new(attributes = {})
-        location = caller.first
-        warning = "[yellow][WARN] Fog::AWS::S3#new is deprecated, use Fog::AWS::Storage#new instead[/]"
-        warning << " [light_black](" << location << ")[/] "
-        Formatador.display_line(warning)
-        Fog::AWS::Storage.new(attributes)
-      end
-
-    end
-  end
-end
-
-module Fog
-  module AWS
     class Storage < Fog::Service
 
       requires :aws_access_key_id, :aws_secret_access_key
@@ -33,6 +17,7 @@ module Fog
       request :complete_multipart_upload
       request :copy_object
       request :delete_bucket
+      request :delete_bucket_website
       request :delete_object
       request :get_bucket
       request :get_bucket_acl
@@ -40,6 +25,7 @@ module Fog
       request :get_bucket_logging
       request :get_bucket_object_versions
       request :get_bucket_versioning
+      request :get_bucket_website
       request :get_object
       request :get_object_acl
       request :get_object_torrent
@@ -55,6 +41,7 @@ module Fog
       request :put_bucket_acl
       request :put_bucket_logging
       request :put_bucket_versioning
+      request :put_bucket_website
       request :put_object
       request :put_object_acl
       request :put_object_url
@@ -99,7 +86,6 @@ module Fog
           query << "AWSAccessKeyId=#{@aws_access_key_id}"
           query << "Signature=#{CGI.escape(signature(params))}"
           query << "Expires=#{params[:headers]['Date']}"
-          bucket = params[:host].split('.').first
           "https://#{@host}/#{params[:path]}?#{query.join('&')}"
         end
 
@@ -221,11 +207,8 @@ module Fog
         end
       end
 
-      
       class Real
         include Utils
-        extend Fog::Deprecation
-        deprecate(:reset, :reload)
 
         # Initialize connection to S3
         #
@@ -251,7 +234,10 @@ module Fog
             warning << " [light_black](" << location << ")[/] "
             Formatador.display_line(warning)
           end
+
+          require 'fog/core/parser'
           require 'mime/types'
+
           @aws_access_key_id = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
           @hmac = Fog::HMAC.new('sha1', @aws_secret_access_key)
@@ -278,32 +264,15 @@ module Fog
             @path   = options[:path]      || '/'
             @port   = options[:port]      || 443
             @scheme = options[:scheme]    || 'https'
+            unless options.has_key?(:persistent)
+              options[:persistent] = true
+            end
           end
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent] || true)
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
         end
 
         def reload
           @connection.reset
-        end
-
-        private
-
-        def request(params, &block)
-          params[:headers]['Date'] = Fog::Time.now.to_date_header
-          params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
-          params[:expects] = [307, *params[:expects]].flatten
-          # FIXME: ToHashParser should make this not needed
-          original_params = params.dup
-
-          response = @connection.request(params, &block)
-
-          if response.status == 307
-            uri = URI.parse(response.headers['Location'])
-            Formatador.display_line("[yellow][WARN] fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant[/]")
-            response = Fog::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false).request(original_params, &block)
-          end
-
-          response
         end
 
         def signature(params)
@@ -345,8 +314,8 @@ DATA
           end
           canonical_resource << params[:path].to_s
           canonical_resource << '?'
-          for key in (params[:query] || {}).keys
-            if %w{acl location logging notification partNumber policy requestPayment torrent uploadId uploads versionId versioning versions}.include?(key)
+          for key in (params[:query] || {}).keys.sort
+            if %w{acl location logging notification partNumber policy requestPayment torrent uploadId uploads versionId versioning versions website}.include?(key)
               canonical_resource << "#{key}#{"=#{params[:query][key]}" unless params[:query][key].nil?}&"
             end
           end
@@ -355,6 +324,26 @@ DATA
 
           signed_string = @hmac.sign(string_to_sign)
           signature = Base64.encode64(signed_string).chomp!
+        end
+
+        private
+
+        def request(params, &block)
+          params[:headers]['Date'] = Fog::Time.now.to_date_header
+          params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
+
+          # FIXME: ToHashParser should make this not needed
+          original_params = params.dup
+
+          begin
+            response = @connection.request(params, &block)
+          rescue Excon::Errors::TemporaryRedirect => error
+            uri = URI.parse(error.response.headers['Location'])
+            Formatador.display_line("[yellow][WARN] fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant[/]")
+            response = Fog::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false).request(original_params, &block)
+          end
+
+          response
         end
       end
     end

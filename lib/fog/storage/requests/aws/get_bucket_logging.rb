@@ -45,14 +45,6 @@ module Fog
         end
 
       end
-
-      class Mock # :nodoc:all
-
-        def get_bucket_logging(bucket_name)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

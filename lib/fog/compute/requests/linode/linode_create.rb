@@ -28,14 +28,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def linode_create(datacenter_id, payment_term, plan_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

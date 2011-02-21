@@ -19,14 +19,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def delete_host(host_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

@@ -31,14 +31,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def put_group_policy(group_name, policy_name, policy_document)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

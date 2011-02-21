@@ -5,8 +5,6 @@ module Fog
     class Compute
 
       class Snapshot < Fog::Model
-        extend Fog::Deprecation
-        deprecate(:status, :state)
 
         identity  :id,          :aliases => 'snapshotId'
 

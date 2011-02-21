@@ -56,7 +56,7 @@ module Fog
             target_bucket[:objects][target_object_name] = target_object
             response.body = {
               'ETag'          => target_object['ETag'],
-              'LastModified'  => Time.parse(target_object['LastModified'])
+              'LastModified'  => Time.parse(target_object['Last-Modified'])
             }
           else
             response.status = 404

@@ -23,14 +23,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def common_lookup_list(lookup, options={})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

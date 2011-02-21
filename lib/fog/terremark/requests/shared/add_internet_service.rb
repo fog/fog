@@ -50,14 +50,6 @@ module Fog
         end
 
       end
-
-      module Mock
-
-        def add_internet_service(ip_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

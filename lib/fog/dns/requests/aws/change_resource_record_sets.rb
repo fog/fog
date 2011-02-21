@@ -77,14 +77,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def change_resource_record_sets(zone_id, change_batch, options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

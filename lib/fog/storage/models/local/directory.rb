@@ -6,9 +6,6 @@ module Fog
     class Storage
 
       class Directory < Fog::Model
-        extend Fog::Deprecation
-        deprecate(:name, :key)
-        deprecate(:name=, :key=)
 
         identity  :key
 

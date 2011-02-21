@@ -23,14 +23,6 @@ module Fog
         end
 
       end
-
-      class Mock # :nodoc:all
-
-        def delete_distribution(distribution_id, etag)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

@@ -23,14 +23,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def grid_loadbalancer_list(options={})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

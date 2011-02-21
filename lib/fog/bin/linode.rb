@@ -19,21 +19,15 @@ class Linode < Fog::Bin
           Fog::Compute.new(:provider => 'Linode')
         when :dns
           Fog::DNS.new(:provider => 'Linode')
-        when :linode
-          location = caller.first
-          warning = "[yellow][WARN] Linode[:linode] is deprecated, use Linode[:compute] instead[/]"
-          warning << " [light_black](" << location << ")[/] "
-          Formatador.display_line(warning)
-          Fog::Compute.new(:provider => 'Linode')
         else
-          raise ArgumentError, "Unrecognized service: #{service}"
+          raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
       end
       @@connections[service]
     end
 
     def services
-      [:compute, :dns]
+      Fog::Linode.services
     end
 
   end

@@ -22,14 +22,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def put_object(container, object, data, options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

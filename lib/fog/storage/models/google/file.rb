@@ -5,9 +5,6 @@ module Fog
     class Storage
 
       class File < Fog::Model
-        extend Fog::Deprecation
-        deprecate(:size, :content_length)
-        deprecate(:size=, :content_length=)
 
         identity  :key,             :aliases => 'Key'
 

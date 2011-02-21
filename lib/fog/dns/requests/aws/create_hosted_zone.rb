@@ -54,15 +54,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def create_hosted_zone(name, options = {})
-          Fog::Mock.not_implemented
-        end
-
-
-      end
     end
   end
 end

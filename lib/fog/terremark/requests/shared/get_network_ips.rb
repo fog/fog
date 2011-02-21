@@ -26,14 +26,6 @@ module Fog
         end
 
       end
-
-      module Mock
-
-        def get_network_ips(network_id)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

@@ -15,14 +15,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def update_account(options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

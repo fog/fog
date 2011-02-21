@@ -25,14 +25,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def get_zones
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end
