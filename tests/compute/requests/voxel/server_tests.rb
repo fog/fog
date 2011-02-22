@@ -16,7 +16,7 @@ Shindo.tests('Voxel::Compute | server requests', ['voxel']) do
 
   tests('success') do
 
-		@server_id = nil
+    @server_id = nil
 
     tests('#voxcloud_create( :name => "fog.test", :disk_size => 10, :processing_cores => 1, :image_id => 16, :facility => "LDJ1" )').formats([@server_format]) do
       data = Voxel[:compute].voxcloud_create( :name => "fog.test", :disk_size => 10, :processing_cores => 1, :image_id => 16, :facility => "LDJ1" )
@@ -25,7 +25,7 @@ Shindo.tests('Voxel::Compute | server requests', ['voxel']) do
     end
 
     Voxel[:compute].servers.get(@server_id).wait_for { ready? }
-		
+
     tests('#devices_list').formats([ @server_format ]) do
       Voxel[:compute].devices_list
     end
@@ -33,11 +33,11 @@ Shindo.tests('Voxel::Compute | server requests', ['voxel']) do
     tests('#devices_list(@server_id)').formats([ @server_format ]) do
       Voxel[:compute].devices_list(@server_id)
     end
-  
+
     tests("#voxcloud_delete(#{@server_id})").succeeds do
       Voxel[:compute].voxcloud_delete(@server_id)
     end
-  
+
   end
 
   tests('failure') do

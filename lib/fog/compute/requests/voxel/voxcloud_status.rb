@@ -8,21 +8,15 @@ module Fog
           unless device_id.nil?
             options[:device_id] = device_id
           end
-          
-          data = request("voxel.voxcloud.status", options)
 
-					if data['stat'] == 'fail'
-						raise Fog::Voxel::Compute::NotFound
-					else
-						if data['devices']['device'].is_a?(Hash)
-							devices = [ data['devices']['device'] ]
-						else
-							devices = data['devices']['device']
-						end
+          data = request("voxel.voxcloud.status", options, Fog::Parsers::Voxel::Compute::VoxcloudStatus.new ).body
 
-						devices.map { |d| { :id => d['id'], :status => d['status'] } }
-					end
-				end
+          if data[:stat] == 'fail'
+            raise Fog::Voxel::Compute::NotFound
+          else
+            data[:devices]
+          end
+        end
       end
 
       class Mock
@@ -42,14 +36,14 @@ module Fog
 
          if device_id.nil?
             @data[:statuses].map { |status| { :id => status[0], :status => status[1] } }
-					else
+          else
             if @data[:statuses].has_key?(device_id)
-  						[ { :id => device_id, :status => @data[:statuses][device_id] } ]
+              [ { :id => device_id, :status => @data[:statuses][device_id] } ]
             else
               raise Fog::Voxel::Compute::NotFound
             end
-					end
-				end
+          end
+        end
       end
     end
   end
