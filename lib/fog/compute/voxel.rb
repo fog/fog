@@ -75,24 +75,18 @@ module Fog
           @host   = options[:host]    || "api.voxel.net"
           @port   = options[:port]    || 443
           @scheme = options[:scheme]  || 'https'
+					@persistent = options[:persistent] || false
           
           Excon.ssl_verify_peer = false
 
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", false)
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent)
         end
 
         def request(method_name, options = {}, parser)
           begin
             options.merge!( { :method => method_name, :timestamp => Time.now.xmlschema, :key => @voxel_api_key } )
             options[:api_sig] = create_signature(@voxel_api_secret, options)
-            #require 'xmlsimple'
-
-            #if parser.nil?
-            #  response = @connection.request( :query => options )
-            #  XmlSimple.xml_in( response.body, 'ForceArray' => false )
-            #else
-              @connection.request( :path => "/version/1.0/", :method => "POST", :query => options, :parser => parser )
-            #end
+            @connection.request( :path => "/version/1.0/", :method => "POST", :query => options, :parser => parser )
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
