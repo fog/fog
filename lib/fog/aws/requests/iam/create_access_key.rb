@@ -16,7 +16,7 @@ module Fog
         #   * body<~Hash>:
         #     * 'AccessKey'<~Hash>:
         #       * 'AccessKeyId'<~String> -
-        #       * 'Username'<~String> -
+        #       * 'UserName'<~String> -
         #       * 'SecretAccessKey'<~String> -
         #       * 'Status'<~String> -
         #     * 'RequestId'<~String> - Id of the request
