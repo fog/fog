@@ -8,8 +8,8 @@ Shindo.tests('Voxel::Compute | server requests', ['voxel']) do
     :facility         => String,
     :disk_size        => Integer,
     :addresses        => {
-      :private  => String,
-      :public   => String
+      :frontend => [ String ],
+      :backend  => [ String ]
     },
     :password         => String
   }

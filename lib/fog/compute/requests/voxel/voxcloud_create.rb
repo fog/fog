@@ -11,13 +11,13 @@ module Fog
             options.delete(:password)
           end
 
-          data = request("voxel.voxcloud.create", options)
+          data = request("voxel.voxcloud.create", options, Fog::Parsers::Voxel::Compute::VoxcloudCreate.new).body
 
-          unless data['stat'] == 'ok'
+          unless data[:stat] == 'ok'
             raise Fog::Voxel::Compute::Error, "Error from Voxel hAPI: #{data['err']['msg']}"
           end
 
-          devices_list(data['device']['id'])
+          devices_list(data[:device][:id])
         end
       end
 
@@ -30,7 +30,7 @@ module Fog
           @data[:servers].push( options.merge( {
             :password => "CHANGEME",
             :id => device_id,
-            :addresses => { :private => '0.0.0.0', :public => '0.0.0.0' }
+            :addresses => { :backend => [ '0.0.0.0' ], :frontend => [ '0.0.0.0' ] }
           } ) )
           devices_list(device_id)
         end

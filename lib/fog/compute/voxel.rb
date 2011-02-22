@@ -52,6 +52,7 @@ module Fog
 
           require 'fog/compute/parsers/voxel/images_list'
           require 'fog/compute/parsers/voxel/devices_list'
+          require 'fog/compute/parsers/voxel/voxcloud_create'
 
           @voxel_api_key = options[:voxel_api_key]
           @voxel_api_secret = options[:voxel_api_secret]

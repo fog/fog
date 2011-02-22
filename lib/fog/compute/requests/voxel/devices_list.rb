@@ -18,21 +18,10 @@ module Fog
           else 
             devices = data[:devices]
 
-            require 'pp'
-            pp devices
-
             ## TODO find both voxserver and voxcloud devices
             devices.select { |d| d[:type] == '3' }.map do |device|
-              { :id               => device['id'].to_i,
-                :name             => device[:name],
-                :image_id         => 0,
-                :addresses        => {
-                  :public  => device['ipassignments']['ipassignment'].select { |i| i['type'] == "frontend" }.first['content'],
-                  :private => device['ipassignments']['ipassignment'].select { |i| i['type'] == "backend" }.first['content'] },
-                :processing_cores => device['processor']['cores'].to_i,
-                :facility         => device['location']['facility']['code'],
-                :disk_size        => device['storage']['drive']['size'].to_i,
-                :password         => device['accessmethods']['accessmethod'].select { |am| am['type'] == 'admin' }.first['password'] }
+              device.delete(:type)
+              device.merge( :image_id => 0 )
             end
           end
         end
