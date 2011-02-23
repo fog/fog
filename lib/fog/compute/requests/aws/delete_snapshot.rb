@@ -3,6 +3,8 @@ module Fog
     class Compute
       class Real
 
+        require 'fog/compute/parsers/aws/basic'
+
         # Delete a snapshot of an EBS volume that you own
         #
         # ==== Parameters

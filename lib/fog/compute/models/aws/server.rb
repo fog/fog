@@ -5,6 +5,8 @@ module Fog
     class Compute
 
       class Server < Fog::Model
+        extend Fog::Deprecation
+        deprecate :ip_address, :public_ip_address
 
         identity  :id,                    :aliases => 'instanceId'
 
@@ -18,7 +20,6 @@ module Fog
         attribute :flavor_id,             :aliases => 'instanceType'
         attribute :image_id,              :aliases => 'imageId'
         attr_accessor :instance_initiated_shutdown_behavior
-        attribute :ip_address,            :aliases => 'ipAddress'
         attribute :kernel_id,             :aliases => 'kernelId'
         attribute :key_name,              :aliases => 'keyName'
         attribute :created_at,            :aliases => 'launchTime'
@@ -26,6 +27,7 @@ module Fog
         attribute :product_codes,         :aliases => 'productCodes'
         attribute :private_dns_name,      :aliases => 'privateDnsName'
         attribute :private_ip_address,    :aliases => 'privateIpAddress'
+        attribute :public_ip_address,     :aliases => 'ipAddress'
         attribute :ramdisk_id,            :aliases => 'ramdiskId'
         attribute :reason
         attribute :root_device_name,      :aliases => 'rootDeviceName'

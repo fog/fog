@@ -71,6 +71,14 @@ module Fog
           connection.images.get(image_id)
         end
 
+        def private_ip_address
+          nil
+        end
+
+        def public_ip_address
+          cloud_ips.first
+        end
+
         def ready?
           status == 'active'
         end

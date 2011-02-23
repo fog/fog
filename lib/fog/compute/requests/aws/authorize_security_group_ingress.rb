@@ -3,11 +3,13 @@ module Fog
     class Compute
       class Real
 
+        require 'fog/compute/parsers/aws/basic'
+
         # Add permissions to a security group
         #
         # ==== Parameters
+        # * group_name<~String> - Name of group
         # * options<~Hash>:
-        #   * 'GroupName'<~String> - Name of group
         #   * 'SourceSecurityGroupName'<~String> - Name of security group to authorize
         #   * 'SourceSecurityGroupOwnerId'<~String> - Name of owner to authorize
         #   or
@@ -22,9 +24,18 @@ module Fog
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - success?
-        def authorize_security_group_ingress(options = {})
+        def authorize_security_group_ingress(group_name, options = {})
+          if group_name.is_a?(Hash)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::AWS::Compute#authorize_security_group_ingress now requires the 'group_name' parameter. Only specifying an options hash is now deprecated"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+            options = group_name
+            group_name = options['GroupName']
+          end
           request({
             'Action'    => 'AuthorizeSecurityGroupIngress',
+            'GroupName' => group_name,
             :idempotent => true,
             :parser     => Fog::Parsers::AWS::Compute::Basic.new
           }.merge!(options))
@@ -34,16 +45,25 @@ module Fog
 
       class Mock
 
-        def authorize_security_group_ingress(options = {})
+        def authorize_security_group_ingress(group_name, options = {})
+          if group_name.is_a?(Hash)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::AWS::Compute#authorize_security_group_ingress now requires the 'group_name' parameter. Only specifying an options hash is now deprecated"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+            options = group_name
+            group_name = options['GroupName']
+          end
+
           response = Excon::Response.new
-          group = @data[:security_groups][options['GroupName']]
+          group = @data[:security_groups][group_name]
 
           if group
             group['ipPermissions'] ||= []
-            if options['GroupName'] && options['SourceSecurityGroupName'] && options['SourceSecurityGroupOwnerId']
+            if group_name && options['SourceSecurityGroupName'] && options['SourceSecurityGroupOwnerId']
               ['tcp', 'udp'].each do |protocol|
                 group['ipPermissions'] << {
-                  'groups'      => [{'groupName' => options['GroupName'], 'userId' => @owner_id}],
+                  'groups'      => [{'groupName' => group_name, 'userId' => @owner_id}],
                   'fromPort'    => 1,
                   'ipRanges'    => [],
                   'ipProtocol'  => protocol,
@@ -51,7 +71,7 @@ module Fog
                 }
               end
               group['ipPermissions'] << {
-                'groups'      => [{'groupName' => options['GroupName'], 'userId' => @owner_id}],
+                'groups'      => [{'groupName' => group_name, 'userId' => @owner_id}],
                 'fromPort'    => -1,
                 'ipRanges'    => [],
                 'ipProtocol'  => 'icmp',
@@ -76,7 +96,7 @@ module Fog
             }
             response
           else
-            raise Fog::AWS::Compute::NotFound.new("The security group '#{options['GroupName']}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The security group '#{group_name}' does not exist")
           end
         end
 

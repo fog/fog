@@ -17,6 +17,7 @@ module Fog
       request :delete_user
       request :delete_user_policy
       request :get_user
+      request :get_group
       request :list_access_keys
       request :list_groups
       request :list_groups_for_user
@@ -28,6 +29,7 @@ module Fog
       request :put_user_policy
       request :remove_user_from_group
       request :update_access_key
+      request :update_user
       request :upload_signing_certificate
 
       class Mock

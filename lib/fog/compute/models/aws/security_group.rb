@@ -42,7 +42,7 @@ module Fog
           requires :name
 
           connection.authorize_security_group_ingress(
-            'GroupName'                   => name,
+            name,
             'SourceSecurityGroupName'     => group,
             'SourceSecurityGroupOwnerId'  => owner
           )
@@ -80,9 +80,9 @@ module Fog
           requires :name
 
           connection.authorize_security_group_ingress(
+            name,
             'CidrIp'      => options[:cidr_ip] || '0.0.0.0/0',
             'FromPort'    => range.min,
-            'GroupName'   => name,
             'ToPort'      => range.max,
             'IpProtocol'  => options[:ip_protocol] || 'tcp'
           )
@@ -134,7 +134,7 @@ module Fog
           requires :name
 
           connection.revoke_security_group_ingress(
-            'GroupName'                   => name,
+            name,
             'SourceSecurityGroupName'     => group,
             'SourceSecurityGroupOwnerId'  => owner
           )
@@ -172,9 +172,9 @@ module Fog
           requires :name
 
           connection.revoke_security_group_ingress(
+            name,
             'CidrIp'      => options[:cidr_ip] || '0.0.0.0/0',
             'FromPort'    => range.min,
-            'GroupName'   => name,
             'ToPort'      => range.max,
             'IpProtocol'  => options[:ip_protocol] || 'tcp'
           )
