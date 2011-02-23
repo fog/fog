@@ -186,9 +186,9 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       response = Bluebox[:dns].get_record(@new_zones[1], @record_id)
       if response.status == 200
-        mail_domain = 'mail.' + @domain
-        record = response.body['records'][0]
-        if (record['type'] == 'MX') and (record['name'] == @domain) and (record['content'] == mail_domain) and (record['priority'] == 10)
+        mail_domain = 'mail.' + @domain + "."
+        record = response.body
+        if (record['type'] == 'MX') and (record['name'] == @domain) and (record['content'] == mail_domain) and (record['priority'] == '10')
           result= true
         end
       end
@@ -201,7 +201,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       result= false
 
-      response = Bluebox[:dns].get_records()
+      response = Bluebox[:dns].get_records(@new_zones[1])
       if response.status == 200
         records = response.body['records']
 
@@ -209,8 +209,8 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
         records.each {|record|
           if record['type'] == 'MX'
 
-            mail_domain = 'mail.' + @domain
-            if (record['type'] == 'MX') and (record['name'] == @domain) and (record['content'] == mail_domain) and (record['priority'] == 10)
+            mail_domain = 'mail.' + @domain + "."
+            if (record['type'] == 'MX') and (record['name'] == @domain) and (record['content'] == mail_domain) and (record['priority'] == '10')
               result= true
               break
             end
