@@ -7,8 +7,7 @@ module Fog
 
           def reset
             @device          = {}
-            @response        = { :stat => nil, :devices => [] }
-            @in_accessmethod = false
+            @response        = { 'devices' => [] }
             @in_storage      = false
           end
 
@@ -16,49 +15,91 @@ module Fog
             super
 
             case name
+            when 'accessmethod'
+              @access_method = { 'type' => attr_value('type', attrs) }
+            when 'accessmethods'
+              @device['access_methods'] = []
             when 'device'
               @device = {
-                :id => attr_value('id', attrs).to_i,
-                :name => attr_value('label', attrs)
+                'id'      => attr_value('id', attrs),
+                'label'   => attr_value('label', attrs),
+                'status'  => attr_value('status', attrs)
               }
-            when 'type'
-              @device[:type] = attr_value('id', attrs)
-            when 'rsp'
-              @response[:stat] = attr_value('stat', attrs)
-            when 'ipassignment'
-              @device[:addresses] ||= {}
-              @current_type = attr_value('type', attrs).to_sym
-              @device[:addresses][@current_type] = []
-            when "facility"
-              @device[:facility] = attr_value('code', attrs)
-            when "storage"
-              @in_storage = true
-            when "accessmethod"
-              if attr_value('type', attrs) == "admin"
-                @in_accessmethod = true
+            when 'err'
+              @response['err'] = {
+                'code'  => attr_value('code', attrs),
+                'msg'   => attr_value('msg', attrs)
+              }
+            when 'cage', 'facility', 'rack', 'row', 'zone'
+              @device['location'][name] = { 'id' => attr_value('id', attrs) }
+              if code = attr_value('code', attrs)
+                @device['location'][name]['code'] = code
               end
+            when 'drive'
+              @drive = { 'position' => attr_value('position', attrs) }
+            when 'ipassignment'
+              type = attr_value('type', attrs)
+              @device['ipassignments'] = []
+              @device['ipassignments'] << {
+                'id'          => attr_value('id', attrs),
+                'type'        => attr_value('type', attrs),
+                'description' => attr_value('description', attrs),
+              }
+            when 'ipassignments'
+              @device['ipassignments'] = {}
+            when 'location'
+              @device['location'] = {}
+            when 'memory'
+              @device['memory'] = { 'size' =>  attr_value('size', attrs).to_i }
+            when 'model', 'type'
+              @device[name] = { 'id'    => attr_value('id', attrs) }
+            when 'operating_system'
+              @device['operating_system'] = {}
+            when 'power_consumption'
+              @device[name] = attr_value('unit', attrs)
+            when 'processor'
+              @device['processor'] = {}
+            when 'rsp'
+              @response['stat'] = attr_value('stat', attrs)
+            when 'storage'
+              @device['drives'] = []
             end
           end
 
           def end_element(name)
             case name
-            when 'device'
-              @response[:devices] << @device
-              @device = {}
+            when 'access_method'
+              @device['access_methods'] << @access_method
+            when 'architecture'
+              @device['operating_system'][name] = @value.to_i
+            when 'cage', 'facility', 'rack', 'row', 'zone'
+              @device['location'][name]['value'] = @value
             when 'cores'
-              @device[:processing_cores] = @value.to_i
+              @device['processor'][name] = @value.to_i
+            when 'description'
+              @device[name] = @value
+            when 'device'
+              @response['devices'] << @device
+              @device = {}
+            when 'drive'
+              @device['drives'] << @drive
+              @drive = {}
+            when 'cores'
+              @device['processing_cores'] = @value.to_i
             when 'ipassignment'
-              @device[:addresses][@current_type] << @value
-            when "size"
-              if @in_storage
-                @device[:disk_size] = @value.to_i
-                @in_storage = false
-              end
-            when "password"
-              if @in_accessmethod
-                @device[:password] = @value
-                @in_accessmethod = false
-              end
+              @device['ipassignments'].last['value'] = @value
+            when 'model', 'type'
+              @device[name]['value'] = @value
+            when 'name'
+              @device['operating_system'][name] = @value
+            when 'position'
+              @device['location'][name] = @value
+            when 'power_consumption'
+              @device[name] = [@value, @device[name]].join(' ')
+            when 'size'
+              @drive[name] = @value.to_i
+            when 'host', 'password', 'protocol', 'username'
+              @access_method[name] = @value
             end
           end
 

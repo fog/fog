@@ -2,18 +2,21 @@ module Fog
   module Voxel
     class Compute
       class Real
-        def images_list( image_id = nil )
-          options = { :verbosity => 'compact' }
+        def images_list(image_id = nil)
+          options = {
+            :parser     => Fog::Parsers::Voxel::Compute::ImagesList.new,
+            :verbosity  => 'compact'
+          }
 
           unless image_id.nil?
             options[:verbosity] = 'extended'
             options[:image_id] = image_id
           end
 
-          data = request("voxel.images.list", options, Fog::Parsers::Voxel::Compute::ImagesList.new).body
+          data = request("voxel.images.list", options).body
 
-          if data[:stat] == "ok"
-            data[:images]
+          if data['stat'] == "ok"
+            data['images']
           else
             raise Fog::Voxel::Compute::NotFound
           end
@@ -25,7 +28,7 @@ module Fog
           if image_id.nil?
             @data[:images]
           else
-            selected = @data[:images].select { |i| i[:id] == image_id }
+            selected = @data[:images].select { |i| i['id'] == image_id }
 
             if selected.empty?
               raise Fog::Voxel::Compute::NotFound

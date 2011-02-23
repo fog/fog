@@ -4,7 +4,7 @@ module Fog
       module Compute
         class VoxcloudStatus < Fog::Parsers::Base
           def reset
-            @response = { :stat => nil, :devices => [] }
+            @response = { 'devices' => [] }
             @device = {}
           end
 
@@ -13,9 +13,12 @@ module Fog
 
             case name
             when 'rsp'
-              @response[:stat] = attr_value('stat', attrs)
+              @response['stat'] = attr_value('stat', attrs)
             when 'err'
-              @response[:error] = attr_value('msg', attrs)
+              @response['err'] = {
+                'code'  => attr_value('code', attrs),
+                'msg'   => attr_value('msg', attrs)
+              }
             when 'device'
               @device = {}
             end
@@ -24,12 +27,12 @@ module Fog
           def end_element(name)
             case name
             when 'device'
-              @response[:devices] << @device
+              @response['devices'] << @device
               @device = {}
-            when 'id'
-              @device[:id] = @value
-            when 'status'
-              @device[:status] = @value
+            when 'id', 'status'
+              @device[name] = @value
+            when 'last_update'
+              @device[name] = Time.at(@value.to_i)
             end
           end
         end

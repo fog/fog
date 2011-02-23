@@ -4,8 +4,6 @@ module Fog
   module Voxel
     class Compute
 
-      class BlockInstantiationError < StandardError; end
-
       class Server < Fog::Model
 
         identity :id
@@ -13,11 +11,9 @@ module Fog
         attribute :name
         attribute :processing_cores
         attribute :image_id
-        attribute :status
         attribute :facility
         attribute :disk_size
-        attribute :addresses
-        attribute :password
+        attribute :ip_assignments, :aliases => 'ipassignments'
 
         def initialize(attributes={})
           super
@@ -31,26 +27,44 @@ module Fog
 
         def image
           requires :image_id
-          connection.images_list(image_id)
+          connection.images.get(image_id)
         end
 
         def ready?
           status == 'SUCCEEDED'
         end
 
+        def private_ip_address
+          ip_assignments.select {|ip_assignment| ip_assignment['type'] == 'internal'}.first
+        end
+
+        def public_ip_address
+          ip_assignments.select {|ip_assignment| ip_assignment['type'] == 'external'}.first
+        end
+
+        def reboot
+          requires :id
+          connection.devices_power(id, :reboot)
+          true
+        end
+
         def status
-          connection.voxcloud_status(id).first[:status]
+          @status ||= connection.voxcloud_status(id).body['devices'].first['status']
         end
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :name, :image_id, :processing_cores, :facility, :disk_size
 
-          options = { :hostname => name, :image_id => image_id, :processing_cores => processing_cores, :facility => facility, :disk_size => disk_size }
+          data = connection.voxcloud_create({
+            :disk_size => disk_size,
+            :facility => facility,
+            :hostname => name,
+            :image_id => image_id,
+            :processing_cores => processing_cores
+          }).body
 
-          data = connection.voxcloud_create(options)
-
-          merge_attributes(data.first)
+          merge_attributes(data['device'])
 
           true
         end
