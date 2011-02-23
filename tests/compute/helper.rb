@@ -6,12 +6,13 @@ def compute_providers
       },
       :mocked => true
     },
-    Bluebox   => {
-      :server_attributes => {
-        :image_id => 'a00baa8f-b5d0-4815-8238-b471c4c4bf72' # Ubuntu 9.10 64bit
-      },
-      :mocked => false
-    },
+    # Bluebox   => {
+    #   :server_attributes => {
+    #     :image_id => 'a00baa8f-b5d0-4815-8238-b471c4c4bf72',
+    #     :password => 'chunkybacon' # Ubuntu 9.10 64bit
+    #   },
+    #   :mocked => false
+    # },
     Brightbox => {
       :server_attributes => {
         :image_id => 'img-9vxqi' # image img-9vxqi = Ubuntu Maverick 10.10 server
