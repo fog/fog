@@ -11,11 +11,31 @@ module Fog
             @response = { 'Group' => {}, 'Users' => [] }
           end
 
+          def start_element(name, attrs = [])
+            super
+            case name
+            when 'Group'
+              @in_group = true
+            when 'Users'
+              @in_users = true
+            end
+          end
+
           def end_element(name)
             case name
-            when 'GroupName', 'GroupId', 'Arn'
+            when 'Arn'
+              if @in_group
+                @response['Group'][name] = @value
+              elsif @in_users
+                @user[name] = @value
+              end
+            when 'Group'
+              @in_group = false
+            when 'GroupName', 'GroupId'
               @response['Group'][name] = @value
-            when 'UserId', 'UserName', 'Path', 'Arn'
+            when 'Users'
+              @in_users = false
+            when 'UserId', 'UserName', 'Path'
               @user[name] = @value
             when 'member'
               @response['Users'] << @user              
