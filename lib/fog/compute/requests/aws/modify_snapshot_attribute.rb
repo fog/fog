@@ -2,6 +2,8 @@ module Fog
   module AWS
     class Compute
       class Real
+        
+        require 'fog/compute/parsers/aws/basic'
 
         # Modify snapshot attributes
         #

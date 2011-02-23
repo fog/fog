@@ -3,6 +3,8 @@ module Fog
     class Compute
       class Real
 
+        require 'fog/compute/parsers/aws/basic'
+
         # Release an elastic IP address.
         #
         # ==== Returns
