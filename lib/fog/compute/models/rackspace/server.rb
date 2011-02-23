@@ -47,6 +47,10 @@ module Fog
           connection.images(:server => self)
         end
 
+        def private_ip_address
+          nil
+        end
+
         def private_key_path
           @private_key_path ||= Fog.credentials[:private_key_path]
           @private_key_path &&= File.expand_path(@private_key_path)
@@ -54,6 +58,10 @@ module Fog
 
         def private_key
           @private_key ||= private_key_path && File.read(private_key_path)
+        end
+
+        def public_ip_address
+          addresses.first
         end
 
         def public_key_path

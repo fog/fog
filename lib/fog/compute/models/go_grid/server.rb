@@ -7,12 +7,14 @@ module Fog
       class BlockInstantiationError < StandardError; end
 
       class Server < Fog::Model
+        include Fog::Deprecation
+        deprecate(:ip, :public_ip_address)
 
         identity :id
 
         attribute :name
         attribute :image_id     # id or name
-        attribute :ip
+        attribute :public_ip_address, :aliases => 'ip'
         attribute :memory       # server.ram
         attribute :state
         attribute :description  # Optional
@@ -31,6 +33,10 @@ module Fog
         def image
           requires :image_id
           connection.grid_image_get(:image => image_id)
+        end
+
+        def private_ip_address
+          nil
         end
 
         def ready?

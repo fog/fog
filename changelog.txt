@@ -1,0 +1,51 @@
+0.5.3 02/15/11
+==============
+
+[terremark|ecloud] (thanks freeformz) 
+  initial support for Disabled monitor types 
+  InternetService#disable_monitor and #enable_ping_monitor 
+  spec fixes and tests for the new monitor functions 
+fix logic error which prevented turning off persistent connections 
+fix _dump for collections/models 
+require json for to_json of collection/model 
+add some missing parens to fix warnings
+
+0.5.2 02/11/11
+==============
+
+[aws|compute] fix delete AWS tags to use proper method. Thanks ody 
+[aws|storage] 
+  add sort for multi part upload fields. Thanks gavin 
+  better RRS docs. Thanks bensie 
+  Temporary redirect should not execute the block. Thanks vivienschillis
+[tests] fix mock_helper load path to allow test runs in 1.9.2. Thanks aeden
+[compute] disable password auth for current user, rather than always root
+[aws&google|storage] properly handle custom headers in mocks 
+[aws&google|storage] make signature public method 
+[aws&google] finish fixing headers in mocks 
+[core] cleanup providers/services setup 
+[README] add contributing section, recommendations for blue shirts, move providers to fog.io, cleanup resources
+implicitly add not_implemented mocks
+
+0.5.1 01/31/11
+==============
+
+Bug fixes. 
+[aws|iam] add signing certificate and list groups for user. thanks crazed
+[gogrid|compute] added support for password api calls. thanks lum
+[fog|time] add date header formatting that is non-localized
+
+0.5.0 01/27/11
+==============
+
+[aws|compute] describe reserved instances offerings 
+[aws|dns] Fix variable typo create_hosted_zone. Thanks mitchellh 
+[aws|ses] basic support. Thanks adelcambre 
+[aws|storage] Escape the path for signatures. Thanks croaker 
+[aws&google|storage] mock fixes 
+[local|storage] support file#content_type 
+[ssh] use an agent if available instead of requiring explicit keys. thanks davidx and tomstuart 
+[gogrid|compute] fix several issues. Thanks cardmagic 
+[rackspace|compute] get new auth token when one expires 
+[rackspace|storage] remove nil query params in requests 
+[terremark|ecloud] getting started on ecloud specific implementation
