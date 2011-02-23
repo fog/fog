@@ -7,7 +7,7 @@ module Fog
       class BlockInstantiationError < StandardError; end
 
       class Server < Fog::Model
-        include Fog::Deprecation
+        extend Fog::Deprecation
         deprecate(:ip, :public_ip_address)
 
         identity :id

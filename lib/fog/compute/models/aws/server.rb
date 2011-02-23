@@ -5,7 +5,7 @@ module Fog
     class Compute
 
       class Server < Fog::Model
-        include Fog::Deprecation
+        extend Fog::Deprecation
         deprecate :ip_address, :public_ip_address
 
         identity  :id,                    :aliases => 'instanceId'
