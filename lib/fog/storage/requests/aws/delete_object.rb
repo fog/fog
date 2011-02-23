@@ -16,10 +16,11 @@ module Fog
         # ==== See Also
         # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectDELETE.html
 
-        def delete_object(bucket_name, object_name)
-          request({
+        def delete_object(bucket_name, object_name, options = {})
+          headers = options
+					request({
             :expects    => 204,
-            :headers    => {},
+            :headers    => headers,
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method     => 'DELETE',
@@ -31,7 +32,7 @@ module Fog
 
       class Mock # :nodoc:all
 
-        def delete_object(bucket_name, object_name)
+        def delete_object(bucket_name, object_name, options = {})
           response = Excon::Response.new
           if bucket = @data[:buckets][bucket_name]
             response.status = 204
