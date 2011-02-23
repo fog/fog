@@ -17,6 +17,7 @@ module Fog
       request :complete_multipart_upload
       request :copy_object
       request :delete_bucket
+			request :delete_bucket_policy
       request :delete_bucket_website
       request :delete_object
       request :get_bucket
