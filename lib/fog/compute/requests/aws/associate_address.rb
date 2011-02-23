@@ -3,6 +3,8 @@ module Fog
     class Compute
       class Real
 
+        require 'fog/compute/parsers/aws/basic'
+
         # Associate an elastic IP address with an instance
         #
         # ==== Parameters

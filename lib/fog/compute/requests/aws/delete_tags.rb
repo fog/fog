@@ -3,6 +3,8 @@ module Fog
     class Compute
       class Real
 
+        require 'fog/compute/parsers/aws/basic'
+
         # Remove tags from resources
         #
         # ==== Parameters
