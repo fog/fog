@@ -28,6 +28,7 @@ module Fog
       request :put_user_policy
       request :remove_user_from_group
       request :update_access_key
+      request :update_user
       request :upload_signing_certificate
 
       class Mock
