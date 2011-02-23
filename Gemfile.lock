@@ -15,7 +15,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     builder (3.0.0)
-    excon (0.5.5)
+    excon (0.5.6)
     formatador (0.0.16)
     json (1.5.1)
     mime-types (1.16)
