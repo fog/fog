@@ -77,6 +77,8 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :terremark_password:
   :zerigo_email:
   :zerigo_token:
+  :dnsimple_email:
+  :dnsimple_password:
 #
 # End of Fog Credentials File
 #######################################################
