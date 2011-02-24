@@ -2,8 +2,6 @@ Shindo.tests('DNSimple::dns | DNS requests', ['dnsimple', 'dns']) do
 
   @domain = ''
   @domain_count = 0
-  @new_domains = []
-  @new_records = []
 
   def generate_unique_domain( with_trailing_dot = false)
     #get time (with 1/100th of sec accuracy)
@@ -36,35 +34,41 @@ Shindo.tests('DNSimple::dns | DNS requests', ['dnsimple', 'dns']) do
       domain = generate_unique_domain
       response = DNSimple[:dns].create_domain(domain)
       if response.status == 201
-        @new_domains << response.body
+        @domain = response.body["domain"]
       end
 
       response.status == 201
     end
 
-    test('get domain by id') do
+    test("get domain by id") do
       pending if Fog.mocking?
 
-      id = @new_domains.first["domain"]["id"]
-      response = DNSimple[:dns].get_domain(id)
-
+      response = DNSimple[:dns].get_domain(@domain["id"])
       response.status == 200
     end
 
-    test("delete #{@new_domains.count} domains created") do
+    test("create an A resource record") do
       pending if Fog.mocking?
 
-      result = true
+      domain = @domain["name"]
+      name = "www"
+      type = "A"
+      content = "1.2.3.4"
+      response = DNSimple[:dns].create_record(domain, name, type, content)
 
-      @new_domains.each do |domain|
-        name = domain["domain"]["name"]
-        response = DNSimple[:dns].delete_domain(name)
-        if response.status != 200
-          result= false;
-        end
+      if response.status == 201
+        @record = response.body
       end
 
-      result
+      response.status == 201
+
+    end
+
+    test("delete domain") do
+      pending if Fog.mocking?
+
+      response = DNSimple[:dns].delete_domain(@domain["name"])
+      response.status == 200
     end
 
   end
