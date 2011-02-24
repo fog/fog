@@ -11,6 +11,9 @@ module Fog
       request :get_domain
       request :delete_domain
       request :create_record
+      request :list_records
+      request :update_record
+      request :delete_record
 
       class Mock
         # TODO

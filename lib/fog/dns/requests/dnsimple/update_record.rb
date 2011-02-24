@@ -3,19 +3,19 @@ module Fog
     class DNS
       class Real
 
-        # Create a new host in the specified zone
+        # Update the given record for the given domain.
         #
         # ==== Parameters
         # * domain<~String>
-        # * name<~String>
-        # * type<~String>
-        # * content<~String>
+        # * record_id<~String>
         # * options<~Hash> - optional
+        #   * type<~String>
+        #   * content<~String>
         #   * priority<~Integer>
         #   * ttl<~Integer>
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>
+        #   * record<~Hash>
         #     * name<~String>
         #     * ttl<~Integer>
         #     * created_at<~String>
@@ -26,20 +26,14 @@ module Fog
         #     * content<~String>
         #     * record_type<~String>
         #     * prio<~Integer>
-        def create_record(domain, name, type, content, options = {})
+        def update_record(domain, record_id, options)
 
-          body = {
-            "record" => {
-              "name" => name,
-              "record_type" => type,
-              "content" => content } }
-
-          body["record"].merge!(options)
+          body = { "record" => options }
 
           request( :body     => body.to_json,
-                   :expects  => 201,
-                   :method   => 'POST',
-                   :path     => "/domains/#{domain}/records" )
+                   :expects  => 200,
+                   :method   => "PUT",
+                   :path     => "/domains/#{domain}/records/#{record_id}" )
         end
 
       end
