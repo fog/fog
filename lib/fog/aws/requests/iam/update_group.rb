@@ -6,7 +6,7 @@ module Fog
         require 'fog/aws/parsers/iam/update_group'
 
         # Update a Group
-        # 
+        #
         # ==== Parameters
         # * group_name<~String> - Required. Name of the Group to update. If you're changing the name of the Group, this is the original Group name.
         # * options<~Hash>:

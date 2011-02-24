@@ -5,7 +5,6 @@ module Fog
 
         class UpdateGroup < Fog::Parsers::Base
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/index.html?API_UpdateGroup.html
-        
           def reset
             @response = { 'Group' => {} }
           end
