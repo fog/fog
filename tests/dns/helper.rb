@@ -14,6 +14,9 @@ def dns_providers
     },
     Zerigo    => {
       :mocked => false
+    },
+    DNSimple  => {
+      :mocked => false
     }
   }
 end
