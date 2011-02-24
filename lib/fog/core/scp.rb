@@ -27,7 +27,7 @@ module Fog
         @options  = options
       end
 
-      def run(commands)
+      def upload(local_path, remote_path)
         Fog::Mock.not_implemented
       end
 
