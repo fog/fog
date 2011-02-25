@@ -15,7 +15,7 @@ module Fog
         end
 
         def get(zone_id)
-          data = connection.get_domain(zone_id).body["domain"]
+          data = connection.get_domain(zone_id).body['domain']
           new(data)
         rescue Excon::Errors::NotFound
           nil

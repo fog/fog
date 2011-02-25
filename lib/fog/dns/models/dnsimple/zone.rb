@@ -9,7 +9,7 @@ module Fog
 
         identity :id
 
-        attribute :domain,     :aliases => "name"
+        attribute :domain,     :aliases => [:name, 'name']
         attribute :created_at
         attribute :updated_at
 
