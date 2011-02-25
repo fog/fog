@@ -179,19 +179,19 @@ module Fog
         end
 
         def ssh(commands)
-          requires :identity, :ip_address, :username
+          requires :identity, :public_ip_address, :username
 
           options = {}
           options[:key_data] = [private_key] if private_key
-          Fog::SSH.new(ip_address, username, options).run(commands)
+          Fog::SSH.new(public_ip_address, username, options).run(commands)
         end
 
         def scp(local_path, remote_path)
-          requires :ip_address, :username
+          requires :public_ip_address, :username
 
           options = {}
           options[:key_data] = [private_key] if private_key
-          Fog::SCP.new(ip_address, username, options).upload(local_path, remote_path)
+          Fog::SCP.new(public_ip_address, username, options).upload(local_path, remote_path)
         end
 
         def start
