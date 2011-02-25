@@ -7,9 +7,9 @@ module Fog
 
       class Zone < Fog::Model
 
-        identity :id
+        identity :id,          :aliases => "name"
 
-        attribute :domain,      :aliases => "name"
+        attribute :domain,     :aliases => "name"
         attribute :created_at
         attribute :updated_at
 
@@ -39,7 +39,7 @@ module Fog
 
         def save
           requires :domain
-          data = connection.create_domain(domain).body
+          data = connection.create_domain(domain).body["domain"]
           true
         end
 

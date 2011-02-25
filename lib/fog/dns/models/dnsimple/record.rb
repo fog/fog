@@ -23,8 +23,7 @@ module Fog
         end
 
         def destroy
-          requires :identity
-          connection.delete_record(identity)
+          connection.delete_record(zone.domain, identity)
           true
         end
 
@@ -37,8 +36,8 @@ module Fog
           options = {}
           options[:prio] = priority if priority
           options[:ttl]  = ttl if ttl
-          connection.create_record(zone.id, name, type, ip, options)
-          merge_attributes(data.body)
+          data = connection.create_record(zone.domain, name, type, ip, options)
+          merge_attributes(data.body["record"])
           true
         end
 
