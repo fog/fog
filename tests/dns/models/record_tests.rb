@@ -10,8 +10,7 @@ for provider, config in dns_providers
 
     if !Fog.mocking? || config[:mocked]
       zone_attributes = {
-        :name => 'fogrecordtests.com',
-        :ttl => 60
+        :domain => 'fogrecordtests.com'
       }.merge(config[:zone_attributes] || {})
 
       @zone = provider[:dns].zones.create(zone_attributes)

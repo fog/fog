@@ -9,12 +9,12 @@ module Fog
 
         identity :id
 
-        attribute :name
+        attribute :domain,        :aliases => 'name'
         attribute :serial
         attribute :ttl
         attribute :retry
         attribute :expires
-        attribute :record_count, :aliases => 'record-count'
+        attribute :record_count,  :aliases => 'record-count'
         attribute :refresh
         attribute :minimum
 
@@ -50,8 +50,9 @@ module Fog
         end
 
         def save
-          requires :name, :ttl
-          options = attributes.inject({}) {|h, kv| h[kv[0]] = kv[1]; h}
+          requires :domain, :ttl
+          options = attributes.dup
+          options[:name] = options.delete(:domain)
           data = identity.nil? ? connection.create_zone(options) : connection.update_zone(identity, options)
           merge_attributes(data.body)
           true
