@@ -19,6 +19,16 @@ for provider, config in compute_providers
         @instance.responds_to(:public_ip_address)
       end
 
+      tests('responds_to(:scp)') do
+        pending if Fog.mocking? && !config[:mocked]
+        @instance.responds_to(:ssh)
+      end
+
+      tests('responds_to(:ssh)') do
+        pending if Fog.mocking? && !config[:mocked]
+        @instance.responds_to(:ssh)
+      end
+
     end
 
   end
