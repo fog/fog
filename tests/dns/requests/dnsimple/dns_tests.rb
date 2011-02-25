@@ -115,7 +115,6 @@ Shindo.tests('DNSimple::dns | DNS requests', ['dnsimple', 'dns']) do
       result
     end
 
-
     test("delete domain") do
       pending if Fog.mocking?
 
