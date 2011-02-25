@@ -16,10 +16,8 @@ module Fog
 
         def get(zone_id)
           data = connection.get_domain(zone_id).body["domain"]
-          zone = new(data)
-          zone.records.load(data["record"])
-          zone
-        rescue Fog::Service::NotFound
+          new(data)
+        rescue Excon::Errors::NotFound
           nil
         end
 

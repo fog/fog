@@ -7,14 +7,13 @@ module Fog
 
       class Zone < Fog::Model
 
-        identity :id,          :aliases => "name"
+        identity :id
 
         attribute :domain,     :aliases => "name"
         attribute :created_at
         attribute :updated_at
 
         def destroy
-          requires :identity
           connection.delete_domain(identity)
           true
         end
@@ -40,6 +39,7 @@ module Fog
         def save
           requires :domain
           data = connection.create_domain(domain).body["domain"]
+          merge_attributes(data)
           true
         end
 

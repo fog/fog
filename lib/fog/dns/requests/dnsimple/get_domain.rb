@@ -26,8 +26,8 @@ module Fog
         def get_domain(id)
           request(
                   :expects  => 200,
-                  :method   => 'GET',
-                  :path     => '/domains/#{id}'
+                  :method   => "GET",
+                  :path     => "/domains/#{id}"
                   )
         end
 
