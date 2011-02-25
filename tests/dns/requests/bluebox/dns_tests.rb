@@ -32,6 +32,8 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
     end
 
     test('create zone - simple') do
+      pending if Fog.mocking?
+
       domain = generate_unique_domain
       response = Bluebox[:dns].create_zone(:name => domain, :ttl => 360)
       if response.status == 202
@@ -43,6 +45,8 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
     end
 
     test('create zone - set all parameters') do
+      pending if Fog.mocking?
+
       options = { :ttl => 60, :retry => 3600, :refresh => 1800, :minimum => 30 }
       @domain= generate_unique_domain
       response = Bluebox[:dns].create_zone(options.merge(:name => @domain))
