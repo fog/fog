@@ -119,6 +119,14 @@ module Fog
           Fog::SSH.new(ips.first['address'], username, options).run(commands)
         end
 
+        def scp(local_path, remote_path)
+          requires :ips, :username
+
+          options = {}
+          options[:key_data] = [private_key] if private_key
+          Fog::SCP.new(ips.first['address'], username, options).upload(local_path, remote_path)
+        end
+
         def username
           @username ||= 'deploy'
         end
