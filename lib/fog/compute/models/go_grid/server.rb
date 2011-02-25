@@ -77,6 +77,14 @@ module Fog
           Fog::SSH.new(ip['ip'], username, options).run(commands)
         end
 
+        def scp(local_path, remote_path)
+          requires :ip, :username
+
+          options = {}
+          options[:key_data] = [private_key] if private_key
+          Fog::SCP.new(ip['ip'], username, options).upload(local_path, remote_path)
+        end
+
         def setup(credentials = {})
           requires :ip, :identity, :public_key, :username
           Fog::SSH.new(ip['ip'], username, credentials).run([
