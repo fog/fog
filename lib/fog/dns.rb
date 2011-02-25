@@ -19,6 +19,9 @@ module Fog
       when 'Zerigo'
         require 'fog/dns/zerigo'
         Fog::Zerigo::DNS.new(attributes)
+      when 'DNSimple'
+        require 'fog/dns/dnsimple'
+        Fog::DNSimple::DNS.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized dns provider")
       end
