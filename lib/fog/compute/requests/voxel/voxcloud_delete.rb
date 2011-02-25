@@ -2,6 +2,9 @@ module Fog
   module Voxel
     class Compute
       class Real
+
+        require 'fog/compute/parsers/voxel/voxcloud_delete'
+
         def voxcloud_delete(device_id)
           options = {
             :device_id  => device_id,
@@ -12,11 +15,6 @@ module Fog
         end
       end
 
-      class Mock
-        def voxcloud_delete(device_id)
-          Fog::Mock.not_implemented
-        end
-      end
     end
   end
 end

@@ -2,6 +2,9 @@ module Fog
   module Voxel
     class Compute
       class Real
+
+        require 'fog/compute/parsers/voxel/devices_list'
+
         def devices_list(device_id = nil)
           options = {
             :parser     => Fog::Parsers::Voxel::Compute::DevicesList.new,
@@ -16,11 +19,6 @@ module Fog
         end
       end
 
-      class Mock
-        def devices_list( device_id = nil)
-          Fog::Mock.not_implemented
-        end
-      end
     end
   end
 end

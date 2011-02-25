@@ -2,6 +2,9 @@ module Fog
   module Voxel
     class Compute
       class Real
+
+        require 'fog/compute/parsers/voxel/basic'
+
         def devices_power(device_id, power_action)
           options = {
             :device_id    => device_id,
@@ -14,11 +17,6 @@ module Fog
         end
       end
 
-      class Mock
-        def devices_power(device_id, power_action)
-          Fog::Mock.not_implemented
-        end
-      end
     end
   end
 end
