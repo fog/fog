@@ -65,7 +65,7 @@ module Fog
 
           @dnsimple_email = options[:dnsimple_email]
           @dnsimple_password  = options[:dnsimple_password]
-          @host   = options[:host]    || "test.dnsimple.com"
+          @host   = options[:host]    || "dnsimple.com"
           @port   = options[:port]    || 443
           @scheme = options[:scheme]  || 'https'
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
