@@ -19,6 +19,8 @@ class AWS < Fog::Bin
         Fog::AWS::SES
       when :eu_storage, :storage
         Fog::AWS::Storage
+      when :cloud_formation
+        Fog::AWS::CloudFormation
       else
         # @todo Replace most instances of ArgumentError with NotImplementedError
         # @todo For a list of widely supported Exceptions, see:
