@@ -18,10 +18,8 @@ module Fog
         #     * 'return'<~Boolean> - success?
         def delete_tags(resources, tags)
           resources = [*resources]
-          for key, value in tags
-            if value.nil?
-              tags[key] = ''
-            end
+          if tags.class != Hash
+            tags = { tags => nil }
           end
           params = {}
           params.merge!(AWS.indexed_param('ResourceId', resources))
