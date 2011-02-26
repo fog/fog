@@ -6,11 +6,11 @@ module Fog
       recognizes :host, :path, :port, :scheme, :persistent
 
       request_path 'fog/aws/requests/cloud_formation'
-      request :describe_stacks
-      request :describe_stack_events
-      request :describe_stack_resources
       request :create_stack
       request :delete_stack
+      request :describe_stack_events
+      request :describe_stack_resources
+      request :describe_stacks
       request :get_template
       request :validate_template
 
