@@ -6,15 +6,16 @@ module Fog
 
     extend Fog::Provider
 
-    service(:cdn,       'cdn/aws')
-    service(:compute,   'compute/aws')
-    service(:dns,       'dns/aws')
-    service(:elb,       'aws/elb')
-    service(:iam,       'aws/iam')
-    service(:ses,       'aws/ses')
-    service(:simpledb,  'aws/simpledb')
-    service(:storage,   'storage/aws')
-    service(:rds,   'aws/rds')
+    service(:cdn,             'cdn/aws')
+    service(:compute,         'compute/aws')
+    service(:cloud_formation, 'aws/cloud_formation')
+    service(:dns,             'dns/aws')
+    service(:elb,             'aws/elb')
+    service(:iam,             'aws/iam')
+    service(:rds,             'aws/rds')
+    service(:ses,             'aws/ses')
+    service(:simpledb,        'aws/simpledb')
+    service(:storage,         'storage/aws')
 
     def self.indexed_param(key, values)
       params = {}

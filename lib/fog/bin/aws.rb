@@ -5,6 +5,8 @@ class AWS < Fog::Bin
       case key
       when :cdn
         Fog::AWS::CDN
+      when :cloud_formation
+        Fog::AWS::CloudFormation
       when :compute
         Fog::AWS::Compute
       when :dns
