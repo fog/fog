@@ -19,6 +19,8 @@ class AWS < Fog::Bin
         Fog::AWS::SES
       when :eu_storage, :storage
         Fog::AWS::Storage
+      when :rds
+        Fog::AWS::RDS
       else
         # @todo Replace most instances of ArgumentError with NotImplementedError
         # @todo For a list of widely supported Exceptions, see:
@@ -40,6 +42,8 @@ class AWS < Fog::Bin
           Fog::AWS::ELB.new
         when :iam
           Fog::AWS::IAM.new
+        when :rds
+          Fog::AWS::RDS.new
         when :eu_storage
           Fog::Storage.new(:provider => 'AWS', :region => 'eu-west-1')
         when :sdb, :simpledb
