@@ -7,6 +7,7 @@ module Fog
   #   @param [String, Symbol] new_credential name of new credential to use
   #   @ return [String, Symbol] name of the new credential
   def self.credential=(new_credential)
+    @credentials = nil
     @credential = new_credential
   end
 
@@ -22,6 +23,7 @@ module Fog
 
   # @return [String] The new path for credentials file
   def self.credentials_path=(new_credentials_path)
+    @credentials = nil
     @credential_path = new_credentials_path
   end
 
