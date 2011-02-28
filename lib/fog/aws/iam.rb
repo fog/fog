@@ -13,6 +13,7 @@ module Fog
       request :delete_access_key
       request :delete_group
       request :delete_group_policy
+      request :delete_server_certificate
       request :delete_signing_certificate
       request :delete_user
       request :delete_user_policy
@@ -33,6 +34,7 @@ module Fog
       request :update_group
       request :update_user
       request :update_signing_certificate
+      request :upload_server_certificate
       request :upload_signing_certificate
 
       class Mock
