@@ -1,3 +1,37 @@
+0.6.0 02/28/2011
+================
+
+[aws|compute] fix method signature for security group requests. Thanks crazed
+
+[aws|iam]
+	fleshing out support. Thanks bdorry and coliver
+	fix get_group parser to set Arn on group/member as appropriate
+
+[bluebox|dns] added support. Thanks ggoodale
+
+[compute]
+	add basic scp support. Thanks crazed
+  consolidate ip accessors
+
+[core]
+	added changelog, covering 0.5+
+	reset credentials when changing key or path. Thanks ctennis
+
+[dnsimple|dns] added support. Thanks dje
+
+[ecloud|compute] cleaned up and reworked as basis for future ecloud work
+
+[aws|storage] add static website configuration methods
+
+[local|storage] rewrite using nested directories (NOTE: not backwards compatible)
+
+[rackspace|storage] disable cdn when deleting container
+
+[voxel|compute] added support. Thanks splaspood
+
+remove long standing deprecations
+
+
 0.5.3 02/15/11
 ==============
 
@@ -9,6 +43,7 @@ fix logic error which prevented turning off persistent connections
 fix _dump for collections/models 
 require json for to_json of collection/model 
 add some missing parens to fix warnings
+
 
 0.5.2 02/11/11
 ==============
@@ -27,6 +62,7 @@ add some missing parens to fix warnings
 [README] add contributing section, recommendations for blue shirts, move providers to fog.io, cleanup resources
 implicitly add not_implemented mocks
 
+
 0.5.1 01/31/11
 ==============
 
@@ -34,6 +70,7 @@ Bug fixes.
 [aws|iam] add signing certificate and list groups for user. thanks crazed
 [gogrid|compute] added support for password api calls. thanks lum
 [fog|time] add date header formatting that is non-localized
+
 
 0.5.0 01/27/11
 ==============
