@@ -7,6 +7,12 @@ module Fog
       recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/linode'
+      model :flavor
+      collection :flavors
+      model :image
+      collection :images
+      model :server
+      collection :servers
 
       request_path 'fog/compute/requests/linode'
       request :avail_datacenters
