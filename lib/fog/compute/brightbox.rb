@@ -26,6 +26,7 @@ module Fog
       model       :user
 
       request_path 'fog/compute/requests/brightbox'
+      request :activate_console_server
       request :add_listeners_load_balancer
       request :add_nodes_load_balancer
       request :create_api_client
