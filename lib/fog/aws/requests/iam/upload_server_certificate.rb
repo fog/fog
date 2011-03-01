@@ -3,7 +3,7 @@ module Fog
     class IAM
       class Real
 
-        require 'fog/aws/parsers/iam/basic'
+        require 'fog/aws/parsers/iam/upload_server_certificate'
 
         # Uploads a server certificate entity for the AWS Account.
         # Includes a public key certificate, a private key, and an optional certificate chain, which should all be PEM-encoded.
@@ -35,7 +35,7 @@ module Fog
             'CertificateBody'       => certificate,
             'PrivateKey'            => private_key,
             'ServerCertificateName' => name,
-            :parser                 => Fog::Parsers::AWS::IAM::Basic.new
+            :parser                 => Fog::Parsers::AWS::IAM::UploadServerCertificate.new
           }.merge!(options))
         end
 
