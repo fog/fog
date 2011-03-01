@@ -15,6 +15,8 @@ module Fog
       collection :servers
       model :kernel
       collection :kernels
+      model :data_center
+      collection :data_centers
 
       request_path 'fog/compute/requests/linode'
       request :avail_datacenters
