@@ -18,7 +18,7 @@ module Fog
 
         def destroy
           requires :key, :resource_id
-          connection.delete_tags(resource_id, key)
+          connection.delete_tags(resource_id, key => value)
           true
         end
 
