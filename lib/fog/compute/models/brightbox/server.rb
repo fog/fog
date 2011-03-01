@@ -83,6 +83,12 @@ module Fog
           status == 'active'
         end
 
+        def activate_console
+          requires :identity
+          response = connection.activate_console_server(identity)
+          [response["console_url"], response["console_token"], response["console_token_expires"]]
+        end
+
         def save
           requires :image_id
           options = {
