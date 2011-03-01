@@ -4,9 +4,7 @@ require 'fog/compute/models/linode/flavor'
 module Fog
   module Linode
     class Compute
-
       class Flavors < Fog::Collection
-
         model Fog::Linode::Compute::Flavor
 
         def all
@@ -20,13 +18,13 @@ module Fog
         end
 
         private
-        def flavors(flavor_id=nil)
-          connection.avail_linodeplans(flavor_id).body['DATA'].tap { |data| map_flavors data }
+        def flavors(id=nil)
+          connection.avail_linodeplans(id).body['DATA'].tap { |data| map_flavors data }
         end
         
         def map_flavors(flavors)
           flavors.map! { |flavor| flavor.each_with_object({}) { |(k, v), h| h[k.downcase.to_sym] = v  }  }
-          flavors.each { |flavor| flavor.merge! :name => flavor[:label], :id => flavor[:planid] }
+          flavors.each { |flavor| flavor.merge! :id => flavor[:planid], :name => flavor[:label] }
         end
       end
     end

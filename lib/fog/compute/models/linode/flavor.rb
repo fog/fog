@@ -5,7 +5,6 @@ module Fog
     class Compute
       class Flavor < Fog::Model
         identity :id
-
         attribute :disk
         attribute :name
         attribute :ram

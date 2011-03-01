@@ -2,16 +2,6 @@ module Fog
   module Linode
     class Compute
       class Real
-
-        # Get available distributions
-        #
-        # ==== Parameters
-        # * distributionId<~Integer>: id to limit results to
-        #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Array>:
-        # TODO: docs
         def avail_distributions(distribution_id=nil)
           options = {}
           if distribution_id
@@ -23,7 +13,6 @@ module Fog
             :query    => { :api_action => 'avail.distributions' }.merge!(options)
           )
         end
-
       end
     end
   end
