@@ -103,7 +103,8 @@ module Fog
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
               :host     => @host,
-              :path     => "#{@path}/#{params[:path]}"
+              :path     => "#{@path}/#{params[:path]}",
+              :query    => ('ignore_awful_caching' << Time.now.to_i.to_s)
             }))
           rescue Excon::Errors::Unauthorized => error
             if JSON.parse(response.body)['unauthorized']['message'] == 'Invalid authentication token.  Please renew.'
