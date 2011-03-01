@@ -19,12 +19,12 @@ module Fog
 
         private
         def kernels(id=nil)
-          connection.avail_kernels(id).body['DATA'].tap { |data| map_kernels data }
+          connection.avail_kernels(id).body['DATA'].map { |kernel| map_kernel kernel }
         end
         
-        def map_kernels(kernels)
-          kernels.map! { |kernel| kernel.each_with_object({}) { |(k, v), h| h[k.downcase.to_sym] = v  }  }
-          kernels.each { |kernel| kernel.merge! :id => kernel[:kernelid], :name => kernel[:label] }
+        def map_kernel(kernel)
+          kernel = kernel.each_with_object({}) { |(k, v), h| h[k.downcase.to_sym] = v  }
+          kernel.merge! :id => kernel[:kernelid], :name => kernel[:label]
         end
       end
     end

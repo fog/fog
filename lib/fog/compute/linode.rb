@@ -17,6 +17,10 @@ module Fog
       collection :kernels
       model :data_center
       collection :data_centers
+      model :stack_script
+      collection :stack_scripts
+      model :ip
+      collection :ips
 
       request_path 'fog/compute/requests/linode'
       request :avail_datacenters
@@ -24,14 +28,22 @@ module Fog
       request :avail_kernels
       request :avail_linodeplans
       request :avail_stackscripts
-      # request :linode_boot
+      request :linode_boot
+      request :linode_ip_list
+      request :linode_ip_addprivate
+      request :linode_config_list
       request :linode_create
       request :linode_delete
       request :linode_list
       request :linode_reboot
+      request :linode_disk_create
+      request :linode_disk_createfromdistribution
+      request :linode_disk_createfromstackscript
+      request :linode_config_create
+      request :stackscript_list
       # request :linode_resize
       # request :linode_shutdown
-      # request :linode_update
+      request :linode_update
 
       class Mock
 

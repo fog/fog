@@ -2,7 +2,7 @@ module Fog
   module Linode
     class Compute
       class Real
-        def linode_create(datacenter_id, payment_term, plan_id)
+        def linode_create(datacenter_id, plan_id, payment_term)
           request(
             :expects  => 200,
             :method   => 'GET',

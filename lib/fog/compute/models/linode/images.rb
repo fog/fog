@@ -19,15 +19,13 @@ module Fog
 
         private
         def images(id=nil)
-          connection.avail_distributions(id).body['DATA'].tap { |data| map_images data }
+          connection.avail_distributions(id).body['DATA'].map { |image| map_image image }
         end
         
-        def map_images(images)
-          images.map! { |image| image.each_with_object({}) { |(k, v), h| h[k.downcase.to_sym] = v  }  }
-          images.each do |image|
-            image.merge!(:id => image[:distributionid], :name => image[:label], :image_size => image[:minimagesize],
-                         :kernel_id => image[:requirespvopskernel], :bits => ((image[:is64bit] == 1) ? 64 : 32 ))
-          end
+        def map_image(image)
+          image = image.each_with_object({}) { |(k, v), h| h[k.downcase.to_sym] = v  }
+          image.merge!(:id => image[:distributionid], :name => image[:label], :image_size => image[:minimagesize],
+                       :kernel_id => image[:requirespvopskernel], :bits => ((image[:is64bit] == 1) ? 64 : 32 ))
         end
       end
     end

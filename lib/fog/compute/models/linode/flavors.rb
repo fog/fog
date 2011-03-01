@@ -19,12 +19,12 @@ module Fog
 
         private
         def flavors(id=nil)
-          connection.avail_linodeplans(id).body['DATA'].tap { |data| map_flavors data }
+          connection.avail_linodeplans(id).body['DATA'].map { |flavor| map_flavor flavor }
         end
         
-        def map_flavors(flavors)
-          flavors.map! { |flavor| flavor.each_with_object({}) { |(k, v), h| h[k.downcase.to_sym] = v  }  }
-          flavors.each { |flavor| flavor.merge! :id => flavor[:planid], :name => flavor[:label] }
+        def map_flavor(flavor)
+          flavor = flavor.each_with_object({}) { |(k, v), h| h[k.downcase.to_sym] = v  }
+          flavor.merge! :id => flavor[:planid], :name => flavor[:label]
         end
       end
     end

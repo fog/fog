@@ -13,12 +13,12 @@ module Fog
 
         private
         def datacenters(id=nil)
-          connection.avail_datacenters.body['DATA'].tap { |data| map_datacenters data }
+          connection.avail_datacenters.body['DATA'].map { |datacenter| map_datacenter datacenter }
         end
         
-        def map_datacenters(datacenters)
-          datacenters.map! { |datacenter| datacenter.each_with_object({}) { |(k, v), h| h[k.downcase.to_sym] = v  }  }
-          datacenters.each { |datacenter| datacenter.merge! :id => datacenter[:datacenterid], :name => datacenter[:location] }
+        def map_datacenter(datacenter)
+          datacenter = datacenter.each_with_object({}) { |(k, v), h| h[k.downcase.to_sym] = v  }
+          datacenter.merge! :id => datacenter[:datacenterid], :name => datacenter[:location]
         end
       end
     end

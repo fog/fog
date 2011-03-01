@@ -2,7 +2,7 @@ module Fog
   module Linode
     class Compute
       class Real
-        def avail_configs(linode_id, config_id=nil, options={})
+        def linode_config_list(linode_id, config_id=nil, options={})
           if config_id
             options.merge!(:configid => config_id)
           end
