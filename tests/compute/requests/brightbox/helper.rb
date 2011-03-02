@@ -117,12 +117,10 @@ class Brightbox
 
         SERVER_TYPE = {
           "name"            => String,
+          "handle"          => Fog::Nullable::String,
           "cores"           => Integer,
-          "created_at"      => String,
           "resource_type"   => String,
-          "updated_at"      => String,
           "disk_size"       => Integer,
-          "default"         => Fog::Boolean,
           "url"             => String,
           "id"              => String,
           "ram"             => Integer,
@@ -203,7 +201,6 @@ class Brightbox
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
-          "listed"          => Fog::Boolean,
           "name"            => String,
           "status"          => String,
           "hostname"        => String,
@@ -401,7 +398,7 @@ class Brightbox
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
-          "handle"          => Fog::Nullable::String
+          "handle"          => String
         }
 
       end
