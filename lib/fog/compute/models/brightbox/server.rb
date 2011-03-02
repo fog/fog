@@ -72,7 +72,7 @@ module Fog
         end
 
         def private_ip_address
-          nil
+          interfaces.first
         end
 
         def public_ip_address
