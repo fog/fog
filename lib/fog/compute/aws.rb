@@ -188,6 +188,8 @@ module Fog
           else
             options[:region] ||= 'us-east-1'
             @host = options[:host] || case options[:region]
+            when 'ap-northeast-1'
+              'ec2.ap-northeast-1.amazonaws.com'
             when 'ap-southeast-1'
               'ec2.ap-southeast-1.amazonaws.com'
             when 'eu-west-1'

@@ -71,8 +71,11 @@ module Fog
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
           @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
+
           options[:region] ||= 'us-east-1'
           @host = options[:host] || case options[:region]
+          when 'ap-northeast-1'
+            'rds.ap-northeast-1.amazonaws.com'
           when 'ap-southeast-1'
             'rds.ap-southeast-1.amazonaws.com'
           when 'eu-west-1'
