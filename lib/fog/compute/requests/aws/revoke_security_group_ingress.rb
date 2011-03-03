@@ -8,14 +8,13 @@ module Fog
         # Remove permissions from a security group
         #
         # ==== Parameters
+        # * 'GroupName'<~String> - Name of group
         # * options<~Hash>:
-        #   * 'GroupName'<~String> - Name of group
         #   * 'SourceSecurityGroupName'<~String> - Name of security group to authorize
         #   * 'SourceSecurityGroupOwnerId'<~String> - Name of owner to authorize
         #   or
         #   * 'CidrIp' - CIDR range
         #   * 'FromPort' - Start of port range (or -1 for ICMP wildcard)
-        #   * 'GroupName' - Name of group to modify
         #   * 'IpProtocol' - Ip protocol, must be in ['tcp', 'udp', 'icmp']
         #   * 'ToPort' - End of port range (or -1 for ICMP wildcard)
         #
@@ -24,9 +23,18 @@ module Fog
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - success?
-        def revoke_security_group_ingress(options = {})
+        def revoke_security_group_ingress(group_name, options = {})
+          if group_name.is_a?(Hash)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::AWS::Compute#revoke_security_group_ingress now requires the 'group_name' parameter. Only specifying an options hash is now deprecated"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+            options = group_name
+            group_name = options['GroupName']
+          end
           request({
             'Action'    => 'RevokeSecurityGroupIngress',
+            'GroupName' => group_name,
             :idempotent => true,
             :parser     => Fog::Parsers::AWS::Compute::Basic.new
           }.merge!(options))
@@ -36,13 +44,21 @@ module Fog
 
       class Mock
 
-        def revoke_security_group_ingress(options = {})
+        def revoke_security_group_ingress(group_name, options = {})
+          if group_name.is_a?(Hash)
+            location = caller.first
+            warning = "[yellow][WARN] Fog::AWS::Compute#revoke_security_group_ingress now requires the 'group_name' parameter. Only specifying an options hash is now deprecated"
+            warning << " [light_black](" << location << ")[/] "
+            Formatador.display_line(warning)
+            options = group_name
+            group_name = options['GroupName']
+          end
           response = Excon::Response.new
-          group = @data[:security_groups][options['GroupName']]
+          group = @data[:security_groups][group_name]
           if group
-            if options['GroupName'] && options['SourceSecurityGroupName'] && options['SourceSecurityGroupOwnerId']
+            if options['SourceSecurityGroupName'] && options['SourceSecurityGroupOwnerId']
               group['ipPermissions'].delete_if {|permission|
-                permission['groups'].first['groupName'] == options['GroupName']
+                permission['groups'].first['groupName'] == group_name
               }
             else
               ingress = group['ipPermissions'].select {|permission|
@@ -66,7 +82,7 @@ module Fog
             }
             response
           else
-            raise Fog::AWS::Compute::NotFound.new("The security group '#{options['GroupName']}' does not exist")
+            raise Fog::AWS::Compute::NotFound.new("The security group '#{group_name}' does not exist")
           end
         end
 

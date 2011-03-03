@@ -24,21 +24,25 @@ Shindo.tests('AWS::Compute | security group requests', ['aws']) do
       AWS[:compute].create_security_group('fog_security_group', 'tests group').body
     end
 
-    tests("#authorize_security_group_ingress({'FromPort' => 80, 'GroupName' => 'fog_security_group', 'IpProtocol' => 'tcp', 'toPort' => 80})").formats(AWS::Compute::Formats::BASIC) do
-      AWS[:compute].authorize_security_group_ingress({
-        'FromPort' => 80,
-        'GroupName' => 'fog_security_group',
-        'IpProtocol' => 'tcp',
-        'ToPort' => 80,
-      }).body
+    tests("#authorize_security_group_ingress('fog_security_group', {'FromPort' => 80, 'IpProtocol' => 'tcp', 'toPort' => 80})").formats(AWS::Compute::Formats::BASIC) do
+      AWS[:compute].authorize_security_group_ingress(
+        'fog_security_group',
+        {
+          'FromPort' => 80,
+          'IpProtocol' => 'tcp',
+          'ToPort' => 80,
+        }
+      ).body
     end
 
-    tests("#authorize_security_group_ingress({'GroupName' => 'fog_security_group', 'SourceSecurityGroupName' => 'fog_security_group', 'SourceSecurityGroupOwnerId' => '#{@owner_id}'})").formats(AWS::Compute::Formats::BASIC) do
-      AWS[:compute].authorize_security_group_ingress({
-        'GroupName'                   => 'fog_security_group',
-        'SourceSecurityGroupName'     => 'fog_security_group',
-        'SourceSecurityGroupOwnerId'  => @owner_id
-      }).body
+    tests("#authorize_security_group_ingress('fog_security_group', {'SourceSecurityGroupName' => 'fog_security_group', 'SourceSecurityGroupOwnerId' => '#{@owner_id}'})").formats(AWS::Compute::Formats::BASIC) do
+      AWS[:compute].authorize_security_group_ingress(
+        'fog_security_group',
+        {
+          'SourceSecurityGroupName'     => 'fog_security_group',
+          'SourceSecurityGroupOwnerId'  => @owner_id
+        }
+      ).body
     end
 
     tests("#describe_security_groups").formats(@security_groups_format) do
@@ -49,21 +53,26 @@ Shindo.tests('AWS::Compute | security group requests', ['aws']) do
       AWS[:compute].describe_security_groups('group-name' => 'fog_security_group').body
     end
 
-    tests("#revoke_security_group_ingress({'FromPort' => 80, 'GroupName' => 'fog_security_group', 'IpProtocol' => 'tcp', 'toPort' => 80})").formats(AWS::Compute::Formats::BASIC) do
-      AWS[:compute].revoke_security_group_ingress({
-        'FromPort' => 80,
-        'GroupName' => 'fog_security_group',
-        'IpProtocol' => 'tcp',
-        'ToPort' => 80,
-      }).body
+    tests("#revoke_security_group_ingress('fog_security_group', {'FromPort' => 80, 'IpProtocol' => 'tcp', 'toPort' => 80})").formats(AWS::Compute::Formats::BASIC) do
+      AWS[:compute].revoke_security_group_ingress(
+        'fog_security_group',
+        {
+          'FromPort' => 80,
+          'IpProtocol' => 'tcp',
+          'ToPort' => 80,
+        }
+      ).body
     end
 
-    tests("#revoke_security_group_ingress({'GroupName' => 'fog_security_group', 'SourceSecurityGroupName' => 'fog_security_group', 'SourceSecurityGroupOwnerId' => '#{@owner_id}'})").formats(AWS::Compute::Formats::BASIC) do
-      AWS[:compute].revoke_security_group_ingress({
-        'GroupName'                   => 'fog_security_group',
-        'SourceSecurityGroupName'     => 'fog_security_group',
-        'SourceSecurityGroupOwnerId'  => @owner_id
-      }).body
+    tests("#revoke_security_group_ingress('fog_security_group', {'SourceSecurityGroupName' => 'fog_security_group', 'SourceSecurityGroupOwnerId' => '#{@owner_id}'})").formats(AWS::Compute::Formats::BASIC) do
+      AWS[:compute].revoke_security_group_ingress(
+      'fog_security_group',
+        {
+          'GroupName'                   => 'fog_security_group',
+          'SourceSecurityGroupName'     => 'fog_security_group',
+          'SourceSecurityGroupOwnerId'  => @owner_id
+        }
+      ).body
     end
 
     tests("#delete_security_group('fog_security_group')").formats(AWS::Compute::Formats::BASIC) do
@@ -79,38 +88,46 @@ Shindo.tests('AWS::Compute | security group requests', ['aws']) do
       AWS[:compute].create_security_group(@security_group.name, @security_group.description)
     end
 
-    tests("#authorize_security_group_ingress({'FromPort' => 80, 'GroupName' => 'not_a_group_name', 'IpProtocol' => 'tcp', 'toPort' => 80})").raises(Fog::AWS::Compute::NotFound) do
-      AWS[:compute].authorize_security_group_ingress({
-        'FromPort' => 80,
-        'GroupName' => 'not_a_group_name',
-        'IpProtocol' => 'tcp',
-        'ToPort' => 80,
-      })
+    tests("#authorize_security_group_ingress('not_a_group_name', {'FromPort' => 80, 'IpProtocol' => 'tcp', 'toPort' => 80})").raises(Fog::AWS::Compute::NotFound) do
+      AWS[:compute].authorize_security_group_ingress(
+        'not_a_group_name',
+        {
+          'FromPort' => 80,
+          'IpProtocol' => 'tcp',
+          'ToPort' => 80,
+        }
+      )
     end
 
-    tests("#authorize_security_group_ingress({'GroupName' => 'not_a_group_name', 'SourceSecurityGroupName' => 'not_a_group_name', 'SourceSecurityGroupOwnerId' => '#{@owner_id}'})").raises(Fog::AWS::Compute::NotFound) do
-      AWS[:compute].authorize_security_group_ingress({
-        'GroupName'                   => 'not_a_group_name',
-        'SourceSecurityGroupName'     => 'not_a_group_name',
-        'SourceSecurityGroupOwnerId'  => @owner_id
-      })
+    tests("#authorize_security_group_ingress('not_a_group_name', {'SourceSecurityGroupName' => 'not_a_group_name', 'SourceSecurityGroupOwnerId' => '#{@owner_id}'})").raises(Fog::AWS::Compute::NotFound) do
+      AWS[:compute].authorize_security_group_ingress(
+        'not_a_group_name',
+        {
+          'SourceSecurityGroupName'     => 'not_a_group_name',
+          'SourceSecurityGroupOwnerId'  => @owner_id
+        }
+      )
     end
 
-    tests("#revoke_security_group_ingress({'FromPort' => 80, 'GroupName' => 'not_a_group_name', 'IpProtocol' => 'tcp', 'toPort' => 80})").raises(Fog::AWS::Compute::NotFound) do
-      AWS[:compute].revoke_security_group_ingress({
-        'FromPort' => 80,
-        'GroupName' => 'not_a_group_name',
-        'IpProtocol' => 'tcp',
-        'ToPort' => 80,
-      })
+    tests("#revoke_security_group_ingress('not_a_group_name', {'FromPort' => 80, 'IpProtocol' => 'tcp', 'toPort' => 80})").raises(Fog::AWS::Compute::NotFound) do
+      AWS[:compute].revoke_security_group_ingress(
+        'not_a_group_name',
+        {
+          'FromPort' => 80,
+          'IpProtocol' => 'tcp',
+          'ToPort' => 80,
+        }
+      )
     end
 
-    tests("#revoke_security_group_ingress({'GroupName' => 'not_a_group_name', 'SourceSecurityGroupName' => 'not_a_group_name', 'SourceSecurityGroupOwnerId' => '#{@owner_id}'})").raises(Fog::AWS::Compute::NotFound) do
-      AWS[:compute].revoke_security_group_ingress({
-        'GroupName'                   => 'not_a_group_name',
-        'SourceSecurityGroupName'     => 'not_a_group_name',
-        'SourceSecurityGroupOwnerId'  => @owner_id
-      })
+    tests("#revoke_security_group_ingress('not_a_group_name', {'SourceSecurityGroupName' => 'not_a_group_name', 'SourceSecurityGroupOwnerId' => '#{@owner_id}'})").raises(Fog::AWS::Compute::NotFound) do
+      AWS[:compute].revoke_security_group_ingress(
+        'not_a_group_name',
+        {
+          'SourceSecurityGroupName'     => 'not_a_group_name',
+          'SourceSecurityGroupOwnerId'  => @owner_id
+        }
+      )
     end
 
     tests("#delete_security_group('not_a_group_name')").raises(Fog::AWS::Compute::NotFound) do
