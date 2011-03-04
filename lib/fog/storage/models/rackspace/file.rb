@@ -57,6 +57,7 @@ module Fog
 
         def save(options = {})
           requires :body, :directory, :key
+          options['Content-Type'] = content_type if content_type
           data = connection.put_object(directory.key, key, body, options)
           merge_attributes(data.headers)
           if body.is_a?(String)
