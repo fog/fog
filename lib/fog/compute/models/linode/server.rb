@@ -12,6 +12,14 @@ module Fog
           connection.ips.all(self.id)
         end
 
+        def disks
+          connection.disks.all(self.id)
+        end
+
+        def disks?
+          not disks.empty?
+        end
+
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           data_center, flavor, image, name, password = attributes.values_at :data_center, :flavor, :image, :name, :password
@@ -33,6 +41,13 @@ module Fog
           new_server = connection.servers.get id
 #          merge_attributes(new_server)
           true
+        end
+
+        def delete
+          connection.linode_shutdown id
+          disks.each { |disk| disk.delete }
+          wait_for { not disks? }
+          connection.linode_delete id
         end
       end
     end
