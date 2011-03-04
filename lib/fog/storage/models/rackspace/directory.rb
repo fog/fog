@@ -15,7 +15,7 @@ module Fog
         def destroy
           requires :key
           connection.delete_container(key)
-          connection.cdn.put_container(key, 'X-CDN-Enabled' => 'False')
+          connection.cdn.post_container(key, 'X-CDN-Enabled' => 'False')
           true
         rescue Excon::Errors::NotFound
           false

@@ -11,6 +11,7 @@ module Fog
       request_path 'fog/cdn/requests/rackspace'
       request :get_containers
       request :head_container
+      request :post_container
       request :put_container
 
       class Mock

@@ -3,7 +3,7 @@ module Fog
     class CDN
       class Real
 
-        # enable CDN for a container
+        # modify CDN properties for a container
         #
         # ==== Parameters
         # * name<~String> - Name for container, should be < 256 bytes and must not contain '/'
@@ -14,11 +14,11 @@ module Fog
         #   * 'X-Log-Retention'<~Boolean> - ?
         #   * 'X-User-Agent-ACL'<~String> - ?
         #   * 'X-Referrer-ACL'<~String> - ?
-        def put_container(name, options = {})
+        def post_container(name, options = {})
           response = request(
             :expects  => [201, 202],
             :headers  => options,
-            :method   => 'PUT',
+            :method   => 'POST',
             :path     => CGI.escape(name)
           )
           response
