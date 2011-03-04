@@ -5,7 +5,7 @@ module Fog
     include Fog::Attributes::InstanceMethods
 
     Array.public_instance_methods(false).each do |method|
-      unless [:reject, :select].include?(method.to_sym)
+      unless [:reject, :select, :slice].include?(method.to_sym)
         class_eval <<-RUBY
           def #{method}(*args)
             unless @loaded
@@ -17,7 +17,7 @@ module Fog
       end
     end
 
-    %w[reject select].each do |method|
+    %w[reject select slice].each do |method|
       class_eval <<-RUBY
         def #{method}(*args)
           unless @loaded
