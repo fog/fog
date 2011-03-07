@@ -18,7 +18,7 @@ module Fog
 
   # @return [String] The path for configuration_file
   def self.credentials_path
-    @credential_path ||= File.expand_path(ENV["FOG_RC"] || '~/.fog')
+    @credential_path ||= File.expand_path(ENV["FOG_RC"] || (ENV['HOME'] && '~/.fog'))
   end
 
   # @return [String] The new path for credentials file
@@ -31,7 +31,7 @@ module Fog
   # @raise [LoadError] Configuration unavailable in configuration file
   def self.credentials
     @credentials  ||= begin
-      if File.exists?(credentials_path)
+      if credentials_path && File.exists?(credentials_path)
         credentials = YAML.load_file(credentials_path)
         (credentials && credentials[credential]) or raise LoadError.new(missing_credentials)
       else
