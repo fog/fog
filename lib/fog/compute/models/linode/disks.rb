@@ -6,15 +6,23 @@ module Fog
     class Compute
       class Disks < Fog::Collection
         model Fog::Linode::Compute::Disk
+        attribute :server
 
-        def all(linode_id)
-          load disks(linode_id)
+        def all
+          requires :server
+          load disks(server.id)
         end
 
-        def get(linode_id, id)
-          new disks(linode_id, id).first
+        def get(id)
+          requires :server
+          new disks(server.id, id).first
         rescue Fog::Linode::Compute::NotFound
           nil
+        end
+
+        def new(attributes = {})
+          requires :server
+          super({ :server => server }.merge!(attributes))
         end
 
         private

@@ -4,16 +4,17 @@ module Fog
   module Linode
     class Compute
       class Server < Fog::Model
+        attr_accessor :stack_script
         identity :id
         attribute :name
         attribute :status
 
         def ips
-          connection.ips.all(self.id)
+          @ips = Fog::Linode::Compute::Ips.new :server => self, :connection => connection
         end
 
         def disks
-          connection.disks.all(self.id)
+          @disks = Fog::Linode::Compute::Disks.new :server => self, :connection => connection
         end
 
         def disks?
@@ -22,32 +23,47 @@ module Fog
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          data_center, flavor, image, name, password = attributes.values_at :data_center, :flavor, :image, :name, :password
+          @data_center, @flavor, @image, @type, @payment_terms, @stack_script, @name, @password, @callback =
+            attributes.values_at :data_center, :flavor, :image, :type, :payment_terms, :stack_script, :name, :password, :callback
 
-          id = connection.linode_create(data_center.id, flavor.id, 1).body['DATA']['LinodeID']
-          
-          connection.linode_ip_addprivate id
-          ip = connection.ips.all(id).find { |ip| !ip.public }
-          
-          script = connection.stack_scripts.get 2161
-          script_options = { :hostname => name, :privip => ip.ip }
-
-          swap = connection.linode_disk_create(id, "#{name}_swap", 'swap', flavor.ram).body['DATA']['DiskID']
-          disk = connection.linode_disk_createfromstackscript(id, script.id, image.id, "#{name}_main",
-                                                              (flavor.disk*1024)-flavor.ram, password, script_options).body['DATA']['DiskID']
-          config = connection.linode_config_create(id, 110, name, "#{disk},#{swap},,,,,,,").body['DATA']['ConfigID']
-          connection.linode_update id, :label => name
-          connection.linode_boot id, config
-          new_server = connection.servers.get id
-#          merge_attributes(new_server)
-          true
+          create_linode
+          @callback.call self if @callback
+          create_disks
+          create_config
+          boot_linode
+        rescue Exception => ex
+          destroy if id
+          raise ex
         end
 
-        def delete
+        def destroy
+          requires :identity
           connection.linode_shutdown id
-          disks.each { |disk| disk.delete }
+          disks.each { |disk| disk.destroy }
           wait_for { not disks? }
           connection.linode_delete id
+        end
+
+        private
+        def create_linode
+          self.id = connection.linode_create(@data_center.id, @flavor.id, @payment_terms).body['DATA']['LinodeID']
+          reload
+          connection.linode_update id, :label => @name
+          ips.create
+        end
+        
+        def create_disks
+          @swap = disks.create :type => :swap, :name => @name, :size => @flavor.ram
+          @disk = disks.create(:type => @type, :image => @image, :stack_script => @stack_script, :password => @password,
+                               :script_options => @script_options, :name => @name, :size => (@flavor.disk*1024)-@flavor.ram)
+        end
+
+        def create_config
+          @config = connection.linode_config_create(id, 110, @name, "#{@disk.id},#{@swap.id},,,,,,,").body['DATA']['ConfigID']
+        end
+
+        def boot_linode
+          connection.linode_boot id, @config
         end
       end
     end

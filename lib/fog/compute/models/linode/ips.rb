@@ -6,16 +6,24 @@ module Fog
     class Compute
       class Ips < Fog::Collection
         model Fog::Linode::Compute::Ip
+        attribute :server
 
-        def all(linode_id)
-          load ips(linode_id)
+        def all
+          requires :server
+          load ips(server.id)
         end
 
-        def get(linode_id, id)
-          new ips(linode_id, id).first
+        def get(id)
+          requires :server
+          new ips(server.id, id).first
         rescue Fog::Linode::Compute::NotFound
           nil
-        end        
+        end
+
+        def new(attributes = {})
+          requires :server
+          super({ :server => server }.merge!(attributes))
+        end
 
         private
         def ips(linode_id, id=nil)
