@@ -2,6 +2,10 @@ module Fog
   module AWS
     class ELB < Fog::Service
 
+      class NotFound        < Fog::Errors::Error; end
+      class IdentifierTaken < Fog::Errors::Error; end
+      class InvalidInstance < Fog::Errors::Error; end
+
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :region, :host, :path, :port, :scheme, :persistent
 
@@ -22,6 +26,10 @@ module Fog
       request :register_instances_with_load_balancer
       #request :set_load_balancer_listener_ssl_certificate
       request :set_load_balancer_policies_of_listener
+
+      model_path 'fog/aws/elb/models'
+      model      :load_balancer
+      collection :load_balancers
 
       class Mock
 
@@ -97,22 +105,37 @@ module Fog
               :path               => @path,
               :port               => @port,
               :version            => '2010-07-01'
-            }
+          }
           )
-
-          response = @connection.request({
-            :body       => body,
-            :expects    => 200,
-            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-            :idempotent => idempotent,
-            :host       => @host,
-            :method     => 'POST',
-            :parser     => parser
-          })
+          begin
+            response = @connection.request({
+              :body       => body,
+              :expects    => 200,
+              :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+              :idempotent => idempotent,
+              :host       => @host,
+              :method     => 'POST',
+              :parser     => parser
+            })
+          rescue Excon::Errors::HTTPStatusError => error
+            if match = error.message.match(/<Code>(.*)<\/Code>/m)
+              case match[1]
+              when 'LoadBalancerNotFound'
+                raise Fog::AWS::ELB::NotFound
+              when 'DuplicateLoadBalancerName'
+                raise Fog::AWS::ELB::IdentifierTaken
+              when 'InvalidInstance'
+                raise Fog::AWS::ELB::InvalidInstance
+              else
+                raise
+              end
+            else
+              raise
+            end
+          end
 
           response
         end
-
       end
     end
   end
