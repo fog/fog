@@ -27,6 +27,12 @@ module Fog
       request :modify_db_parameter_group
       request :describe_db_parameter_groups
 
+      request :describe_db_security_groups
+      request :create_db_security_group
+      request :delete_db_security_group
+      request :authorize_db_security_group_ingress
+      request :revoke_db_security_group_ingress
+
       request :describe_db_parameters
       
       model_path 'fog/aws/rds/models'
@@ -39,6 +45,9 @@ module Fog
 
       model       :parameter
       collection  :parameters
+
+      model       :security_group
+      collection  :security_groups
 
       class Mock
 
