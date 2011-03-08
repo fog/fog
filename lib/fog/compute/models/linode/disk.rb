@@ -11,8 +11,8 @@ module Fog
         def save
           requires :server
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          @type, @image, @stack_script, @script_options, @name, @password, @size =
-            attributes.values_at :type, :image, :stack_script, :script_options, :name, :password, :size
+          @type, @image, @stack_script, @name, @password, @size =
+            attributes.values_at :type, :image, :stack_script, :name, :password, :size
           create_disk
         end        
 
@@ -51,8 +51,8 @@ module Fog
         end        
 
         def create_disk_from_stack_script
-          disk = connection.linode_disk_createfromstackscript(server.id, @script.id, @image.id,
-                                                              "#{@name}_main", @size, @password, @script_options)
+          disk = connection.linode_disk_createfromstackscript(server.id, @stack_script.id, @image.id,
+                                                              "#{@name}_main", @size, @password, @stack_script.options)
           self.id = disk.body['DATA']['DiskID']
           reload
         end

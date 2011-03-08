@@ -4,7 +4,7 @@ module Fog
   module Linode
     class Compute
       class Server < Fog::Model
-        attr_accessor :stack_script
+        attr_reader :stack_script
         identity :id
         attribute :name
         attribute :status
@@ -47,15 +47,15 @@ module Fog
         private
         def create_linode
           self.id = connection.linode_create(@data_center.id, @flavor.id, @payment_terms).body['DATA']['LinodeID']
-          reload
           connection.linode_update id, :label => @name
           ips.create
+          reload
         end
         
         def create_disks
           @swap = disks.create :type => :swap, :name => @name, :size => @flavor.ram
-          @disk = disks.create(:type => @type, :image => @image, :stack_script => @stack_script, :password => @password,
-                               :script_options => @script_options, :name => @name, :size => (@flavor.disk*1024)-@flavor.ram)
+          @disk = disks.create(:type => @type, :image => @image, :stack_script => @stack_script,
+                               :password => @password, :name => @name, :size => (@flavor.disk*1024)-@flavor.ram)
         end
 
         def create_config
