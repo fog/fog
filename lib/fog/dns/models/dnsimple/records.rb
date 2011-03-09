@@ -17,12 +17,10 @@ module Fog
         end
 
         def get(record_id)
-          all.each do |record|
-            if record["record"]["id"] == record_id
-              return new(record)
-            end
-          end
-
+          requires :zone
+          data = connection.get_record(zone.id, record_id).body["record"]
+          new(data)
+        rescue Excon::Errors::NotFound
           nil
         end
 

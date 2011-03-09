@@ -21,6 +21,7 @@ module Fog
       request :list_records
       request :update_record
       request :delete_record
+      request :get_record
 
       class Mock
 
