@@ -17,15 +17,11 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def describe_db_snapshots(opts={})
-          params = {}
-          params['DBInstanceIdentifier'] = opts[:identifier] if opts[:identifier]
-          params['DBSnapshotIdentifier'] = opts[:snapshot_id] if opts[:snapshot_id]
-          params['Marker'] = opts[:marker] if opts[:marker]
-          params['MaxRecords'] = opts[:max_records] if opts[:max_records]
+          opts = {'DBSnapshotIdentifier' => opts} if opts.is_a? String
           request({
             'Action'  => 'DescribeDBSnapshots',
             :parser   => Fog::Parsers::AWS::RDS::DescribeDBSnapshots.new
-          }.merge(params))
+          }.merge(opts))
         end
 
       end
