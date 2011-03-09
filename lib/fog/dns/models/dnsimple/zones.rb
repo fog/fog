@@ -10,8 +10,9 @@ module Fog
         model Fog::DNSimple::DNS::Zone
 
         def all
+          clear
           data = connection.list_domains.body
-          load(data)
+          data.each {|object| self << new(object["domain"]) }
         end
 
         def get(zone_id)
