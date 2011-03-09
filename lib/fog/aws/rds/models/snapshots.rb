@@ -25,7 +25,7 @@ module Fog
         end
 
         def get(identity)
-          data = connection.describe_db_snapshots(identity).body['DescribeDBSnapshotsResult']['DBSnapshots'].first
+          data = connection.describe_db_snapshots(:snapshot_id => identity).body['DescribeDBSnapshotsResult']['DBSnapshots'].first
           new(data) # data is an attribute hash
         rescue Fog::AWS::RDS::NotFound
           nil
