@@ -146,14 +146,6 @@ module Fog
         @recognized ||= []
       end
 
-      def reset_data(keys=Mock.data.keys)
-        Mock.reset_data(keys)
-      end
-
-      def reset_data(keys=Mock.data.keys)
-        Mock.reset_data(keys)
-      end
-
       def validate_options(options)
         missing = requirements - options.keys
         unless missing.empty?

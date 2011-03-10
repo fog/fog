@@ -26,14 +26,13 @@ module Fog
           end
         end
 
-        def self.reset_data(keys=data.keys)
-          for key in [*keys]
-            data.delete(key)
-          end
-        end
-
         def initialize(options={})
           @aws_access_key_id = options[:aws_access_key_id]
+          reset_data
+        end
+
+        def reset_data
+          self.class.data.delete(@aws_access_key_id)
           @data = self.class.data[@aws_access_key_id]
         end
 

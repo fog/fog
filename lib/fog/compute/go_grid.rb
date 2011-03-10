@@ -36,12 +36,6 @@ module Fog
           end
         end
 
-        def self.reset_data(keys=data.keys)
-          for key in [*keys]
-            data.delete(key)
-          end
-        end
-
         def initialize(options={})
           unless options.delete(:provider)
             location = caller.first
@@ -52,6 +46,11 @@ module Fog
 
           @go_grid_api_key = options[:go_grid_api_key]
           @go_grid_shared_secret = options[:go_grid_shared_secret]
+          reset_data
+        end
+
+        def reset_data
+          self.class.data.delete(@go_grid_api_key)
           @data = self.class.data[@go_grid_api_key]
         end
 

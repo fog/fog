@@ -34,12 +34,6 @@ module Fog
           end
         end
 
-        def self.reset_data(keys=data.keys)
-          for key in [*keys]
-            data.delete(key)
-          end
-        end
-
         def initialize(options={})
           unless options.delete(:provider)
             location = caller.first
@@ -49,6 +43,11 @@ module Fog
           end
 
           @slicehost_password = options[:slicehost_password]
+          reset_data
+        end
+
+        def reset_data
+          self.class.data.delete(@slicehost_password)
           @data = self.class.data[@slicehost_password]
         end
 

@@ -30,12 +30,6 @@ module Fog
           end
         end
 
-        def self.reset_data(keys=data.keys)
-          for key in [*keys]
-            data.delete(key)
-          end
-        end
-
         def initialize(options={})
           unless options.delete(:provider)
             location = caller.first
@@ -46,8 +40,12 @@ module Fog
 
           @bluebox_customer_id = options[:bluebox_customer_id]
           @bluebox_api_key = options[:bluebox_api_key]
+          reset_data
+        end
+
+        def reset_data
+          self.class.data.delete(@bluebox_customer_id)
           @data = self.class.data[@bluebox_customer_id]
-          @data = self.class.data[@bluebox_api_key]
         end
       end
 

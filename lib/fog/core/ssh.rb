@@ -9,10 +9,6 @@ module Fog
       end
     end
 
-    def self.reset_data(keys=Mock.data.keys)
-      Mock.reset_data(keys)
-    end
-
     class Mock
 
       def self.data

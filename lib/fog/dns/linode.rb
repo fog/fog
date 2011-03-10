@@ -30,12 +30,6 @@ module Fog
           end
         end
 
-        def self.reset_data(keys=data.keys)
-          for key in [*keys]
-            data.delete(key)
-          end
-        end
-
         def initialize(options={})
           unless options.delete(:provider)
             location = caller.first
@@ -45,6 +39,11 @@ module Fog
           end
 
           @linode_api_key = options[:linode_api_key]
+          reset_data
+        end
+
+        def reset_data
+          self.class.data.delete(@linode_api_key)
           @data = self.class.data[@linode_api_key]
         end
 

@@ -30,12 +30,6 @@ module Fog
           end
         end
 
-        def self.reset_data(keys=data.keys)
-          for key in [*keys]
-            data.delete(key)
-          end
-        end
-
         def initialize(options={})
           unless options.delete(:provider)
             location = caller.first
@@ -47,8 +41,13 @@ module Fog
           @dnsimple_email = options[:dnsimple_email]
           @dnsimple_password  = options[:dnsimple_password]
           @data = self.class.data[@dnsimple_email]
-          @data = self.class.data[@dnsimple_password]
         end
+
+        def reset_data
+          self.class.data.delete(@dnsimple_email)
+          @data = self.class.data[@dnsimple_email]
+        end
+
       end
 
       class Real

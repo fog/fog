@@ -25,12 +25,6 @@ module Fog
           end
         end
 
-        def self.reset_data(keys=data.keys)
-          for key in [*keys]
-            data.delete(key)
-          end
-        end
-
         def initialize(options={})
           unless options.delete(:provider)
             location = caller.first
@@ -40,6 +34,11 @@ module Fog
           end
 
           @new_server_username = options[:new_servers_username]
+          reset_data
+        end
+
+        def reset_data
+          self.class.data.delete(@new_server_username)
           @data = self.class.data[@new_server_username]
         end
 

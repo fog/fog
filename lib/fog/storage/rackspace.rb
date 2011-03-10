@@ -66,12 +66,6 @@ module Fog
           end
         end
 
-        def self.reset_data(keys=data.keys)
-          for key in [*keys]
-            data.delete(key)
-          end
-        end
-
         def initialize(options={})
           unless options.delete(:provider)
             location = caller.first
@@ -83,6 +77,11 @@ module Fog
           require 'mime/types'
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
+          reset_data
+        end
+
+        def reset_data
+          self.class.data.delete(@rackspace_username)
           @data = self.class.data[@rackspace_username]
         end
 

@@ -19,12 +19,6 @@ module Fog
           end
         end
 
-        def self.reset_data(keys=data.keys)
-          for key in [*keys]
-            data.delete(key)
-          end
-        end
-
         def initialize(options={})
           Fog::Mock.not_implemented
 
@@ -37,7 +31,7 @@ module Fog
           end
 
           @local_root = ::File.expand_path(options[:local_root])
-          @data       = self.class.data[@local_root]
+          reset_data
         end
 
         def local_root
@@ -47,6 +41,12 @@ module Fog
         def path_to(partial)
           ::File.join(@local_root, partial)
         end
+
+        def reset_data
+          self.class.data.delete(@local_root)
+          @data = self.class.data[@local_root]
+        end
+
       end
 
       class Real

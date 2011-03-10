@@ -33,12 +33,6 @@ module Fog
           end
         end
 
-        def self.reset_data(keys=data.keys)
-          for key in [*keys]
-            data.delete(key)
-          end
-        end
-
         def initialize(options={})
           unless options.delete(:provider)
             location = caller.first
@@ -48,8 +42,14 @@ module Fog
           end
 
           require 'mime/types'
-          @aws_access_key_id = options[:aws_access_key_id]
-          @data = self.class.data[options[:region]][@aws_access_key_id]
+          @aws_access_key_id  = options[:aws_access_key_id]
+          @region             = options[:region]
+          reset_data
+        end
+
+        def reset_data
+          self.class.data[@region].delete(@aws_access_key_id)
+          @data = self.class.data[@region][@aws_access_key_id]
         end
 
         def signature(params)
