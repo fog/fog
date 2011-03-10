@@ -13,7 +13,9 @@ module Fog
 
         def all
           requires :zone
-          data = connection.list_records(zone.id).body
+          clear
+          data = connection.list_records(zone.id).body          
+          data.each {|object| self << new(object["record"]) }
         end
 
         def get(record_id)
