@@ -11,8 +11,8 @@ module Fog
 
         def all
           clear
-          data = connection.list_domains.body
-          data.each {|object| self << new(object["domain"]) }
+          data = connection.list_domains.body.map {|zone| zone['domain']}
+          load(data)
         end
 
         def get(zone_id)
