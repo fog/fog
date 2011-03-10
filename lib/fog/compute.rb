@@ -28,12 +28,15 @@ module Fog
       when 'Rackspace'
         require 'fog/compute/rackspace'
         Fog::Rackspace::Compute.new(attributes)
-      when 'Voxel'
-        require 'fog/compute/voxel'
-        Fog::Voxel::Compute.new(attributes)
       when 'Slicehost'
         require 'fog/compute/slicehost'
         Fog::Slicehost::Compute.new(attributes)
+      when 'VirtualBox'
+        require 'fog/compute/virtual_box'
+        Fog::VirtualBox::Compute.new(attributes)
+      when 'Voxel'
+        require 'fog/compute/voxel'
+        Fog::Voxel::Compute.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized compute provider")
       end

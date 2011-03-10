@@ -10,6 +10,9 @@ module Fog
       when 'Bluebox'
         require 'fog/dns/bluebox'
         Fog::Bluebox::DNS.new(attributes)
+      when 'DNSimple'
+        require 'fog/dns/dnsimple'
+        Fog::DNSimple::DNS.new(attributes)
       when 'Linode'
         require 'fog/dns/linode'
         Fog::Linode::DNS.new(attributes)
@@ -19,9 +22,6 @@ module Fog
       when 'Zerigo'
         require 'fog/dns/zerigo'
         Fog::Zerigo::DNS.new(attributes)
-      when 'DNSimple'
-        require 'fog/dns/dnsimple'
-        Fog::DNSimple::DNS.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized dns provider")
       end
