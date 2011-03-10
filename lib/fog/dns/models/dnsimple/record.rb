@@ -36,7 +36,10 @@ module Fog
           options = {}
           options[:prio] = priority if priority
           options[:ttl]  = ttl if ttl
-          data = connection.create_record(zone.domain, name, type, ip, options)
+          options[:name] = name if name
+          options[:content] = ip if ip
+          options[:type] = type if type
+          data = connection.update_record(zone.domain, id, options)
           merge_attributes(data.body["record"])
           true
         end
