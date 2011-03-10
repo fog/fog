@@ -58,27 +58,6 @@ module Fog
           )
         end
 
-        def parse_data(data)
-          metadata = {
-            :body => nil,
-            :headers => {}
-          }
-
-          if data.is_a?(String)
-            metadata[:body] = data
-            metadata[:headers]['Content-Length'] = metadata[:body].size
-          else
-            filename = ::File.basename(data.path)
-            unless (mime_types = MIME::Types.of(filename)).empty?
-              metadata[:headers]['Content-Type'] = mime_types.first.content_type
-            end
-            metadata[:body] = data
-            metadata[:headers]['Content-Length'] = ::File.size(data.path)
-          end
-          # metadata[:headers]['Content-MD5'] = Base64.encode64(Digest::MD5.digest(metadata[:body])).strip
-          metadata
-        end
-
         def url(params, expires)
           params[:headers]['Date'] = expires.to_i
           params[:path] = CGI.escape(params[:path]).gsub('%2F', '/')

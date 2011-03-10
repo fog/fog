@@ -9,7 +9,7 @@ module Fog
         # * container<~String> - Name for container, should be < 256 bytes and must not contain '/'
         #
         def put_object(container, object, data, options = {})
-          data = parse_data(data)
+          data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)
           response = request(
             :body     => data[:body],

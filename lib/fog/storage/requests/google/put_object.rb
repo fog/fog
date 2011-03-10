@@ -24,7 +24,7 @@ module Fog
         #   * headers<~Hash>:
         #     * 'ETag'<~String> - etag of new object
         def put_object(bucket_name, object_name, data, options = {})
-          data = parse_data(data)
+          data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)
           request({
             :body       => data[:body],
@@ -50,7 +50,7 @@ module Fog
             @data[:acls][:object][bucket_name][object_name] = self.class.acls(acl)
           end
 
-          data = parse_data(data)
+          data = Fog::Storage.parse_data(data)
           unless data[:body].is_a?(String)
             data[:body] = data[:body].read
           end
