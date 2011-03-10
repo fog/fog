@@ -32,11 +32,21 @@ module Fog
   def self.credentials
     @credentials  ||= begin
       if credentials_path && File.exists?(credentials_path)
-        credentials = YAML.load_file(credentials_path)
+        credentials = self.symbolize_credentials(YAML.load_file(credentials_path))
         (credentials && credentials[credential]) or raise LoadError.new(missing_credentials)
       else
         {}
       end
+    end
+  end
+  
+  def self.symbolize_credentials(args)
+    if args.is_a? Hash
+      Hash[ args.collect do |key, value|
+        [key.to_sym, self.symbolize_credentials(value)]
+      end ]
+    else
+      args
     end
   end
 
