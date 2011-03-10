@@ -42,14 +42,14 @@ module Fog
 
           if data.is_a?(String)
             metadata[:body] = data
-            metadata[:headers]['Content-Length'] = metadata[:body].size.to_s
+            metadata[:headers]['Content-Length'] = metadata[:body].size
           else
             filename = ::File.basename(data.path)
             unless (mime_types = MIME::Types.of(filename)).empty?
               metadata[:headers]['Content-Type'] = mime_types.first.content_type
             end
-            metadata[:body] = data.read
-            metadata[:headers]['Content-Length'] = ::File.size(data.path).to_s
+            metadata[:body] = data
+            metadata[:headers]['Content-Length'] = ::File.size(data.path)
           end
           # metadata[:headers]['Content-MD5'] = Base64.encode64(Digest::MD5.digest(metadata[:body])).strip
           metadata
