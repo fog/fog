@@ -4,7 +4,7 @@ module Fog
 
       class NotFound < Fog::Errors::Error; end
       class IdentifierTaken < Fog::Errors::Error; end
-      
+
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :region, :host, :path, :port, :scheme, :persistent
 
@@ -16,7 +16,7 @@ module Fog
       request :delete_db_instance
       request :reboot_db_instance
       request :create_db_instance_read_replica
-      
+
       request :describe_db_snapshots
       request :create_db_snapshot
       request :delete_db_snapshot
@@ -34,7 +34,10 @@ module Fog
       request :revoke_db_security_group_ingress
 
       request :describe_db_parameters
-      
+
+      request :restore_db_instance_from_db_snapshot
+      request :restore_db_instance_to_point_in_time
+
       model_path 'fog/aws/rds/models'
       model       :server
       collection  :servers
