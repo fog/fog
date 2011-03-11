@@ -215,6 +215,29 @@ module Fog
           connection.volumes(:server => self)
         end
 
+        #I tried to call it monitoring= and be smart with attributes[]
+        #but in #save a merge_attribute is called after run_instance
+        #thus making an un-necessary request. Use this until finding a clever solution
+        def monitor=(boolean)
+
+          #we don't have a server yet. the status silently goes in the attributes for run_instances
+          if !identity
+            self.monitoring=boolean
+          end
+
+          case boolean
+            when true
+              response = connection.monitor_instances(identity)
+            when false
+              response = connection.unmonitor_instances(identity)
+            else
+              raise ArgumentError.new("only Boolean allowed here")
+          end
+
+          #set the attribute
+          response[identity] == 'enabled' ? self.monitoring=true : self.monitoring=false
+        end
+
       end
 
     end

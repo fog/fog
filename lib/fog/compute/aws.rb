@@ -69,6 +69,8 @@ module Fog
       request :terminate_instances
       request :start_instances
       request :stop_instances
+      request :monitor_instances
+      request :unmonitor_instances
 
       class Mock
 
@@ -134,8 +136,9 @@ module Fog
 
           @aws_access_key_id = options[:aws_access_key_id]
           @region = options[:region] || 'us-east-1'
-          @owner_id = @data[:owner_id]
+
           reset_data
+          @owner_id = @data[:owner_id]
         end
 
         def reset_data
