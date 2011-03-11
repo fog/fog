@@ -34,7 +34,6 @@ Shindo.tests('Voxel::Compute | server requests', ['voxel']) do
           'id'    => String,
           'value' => String
         },
-        'position'  => String,
         'rack'      => {
           'id'    => String,
           'value' => String
@@ -66,8 +65,8 @@ Shindo.tests('Voxel::Compute | server requests', ['voxel']) do
         'id'    => String,
         'value' => String
       },
-      'stat'  => String,
-    }]
+    }],
+    'stat'  => String,
   }
 
   tests('success') do

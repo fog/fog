@@ -1,5 +1,6 @@
 Shindo.tests('AWS::RDS | parameter group requests', ['aws', 'rds']) do
   tests('success') do
+    pending if Fog.mocking?
 
     tests("#create_db_parameter_groups").formats(AWS::RDS::Formats::CREATE_DB_PARAMETER_GROUP) do
       pending if Fog.mocking?

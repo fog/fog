@@ -74,7 +74,7 @@ module Fog
           when 'eu-west-1'
             'sdb.eu-west-1.amazonaws.com'
           when 'us-east-1'
-            'sdb.us-east-1.amazonaws.com'
+            'sdb.amazonaws.com'
           when 'us-west-1'
             'sdb.us-west-1.amazonaws.com'
           else

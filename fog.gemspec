@@ -44,7 +44,7 @@ Gem::Specification.new do |s|
   ## that are needed for an end user to actually USE your code.
   s.add_dependency('builder')
   s.add_dependency('excon', '>=0.5.5')
-  s.add_dependency('formatador', '>=0.0.16')
+  s.add_dependency('formatador', '>=0.1.1')
   s.add_dependency('json')
   s.add_dependency('mime-types')
   s.add_dependency('net-ssh', '>=2.0.23')
@@ -55,7 +55,7 @@ Gem::Specification.new do |s|
   ## those that are only needed during development
   s.add_development_dependency('rake')
   s.add_development_dependency('rspec', '1.3.1')
-  s.add_development_dependency('shindo', '0.2.2')
+  s.add_development_dependency('shindo', '0.3.2')
   s.add_development_dependency('virtualbox', '0.8.3')
 
   s.files = `git ls-files`.split("\n")

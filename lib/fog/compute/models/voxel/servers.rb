@@ -15,12 +15,13 @@ module Fog
 
         def get(device_id)
           if device_id && server = connection.devices_list(device_id).body['devices']
-
-            if server.empty?
-              nil
-            else
-              new(server.first)
-            end
+            new(server.first)
+          end
+        rescue Fog::Service::Error => error
+          if error.message == "The device_id passed in can't be matched to a valid device."
+            nil
+          else
+            raise error
           end
         end
 
