@@ -10,13 +10,16 @@ module Fog
       request :create_access_key
       request :create_group
       request :create_user
+      request :create_login_profile
       request :delete_access_key
       request :delete_group
       request :delete_group_policy
+      request :delete_login_profile
       request :delete_server_certificate
       request :delete_signing_certificate
       request :delete_user
       request :delete_user_policy
+      request :get_login_profile
       request :get_user
       request :get_user_policy
       request :get_group
@@ -32,6 +35,7 @@ module Fog
       request :remove_user_from_group
       request :update_access_key
       request :update_group
+      request :update_login_profile
       request :update_user
       request :update_signing_certificate
       request :upload_server_certificate
