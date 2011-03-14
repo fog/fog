@@ -55,7 +55,7 @@ Gem::Specification.new do |s|
   ## those that are only needed during development
   s.add_development_dependency('rake')
   s.add_development_dependency('rspec', '1.3.1')
-  s.add_development_dependency('shindo', '0.3.2')
+  s.add_development_dependency('shindo', '0.3.3')
   s.add_development_dependency('virtualbox', '0.8.3')
 
   s.files = `git ls-files`.split("\n")

@@ -26,7 +26,7 @@ GEM
     rake (0.8.7)
     rspec (1.3.1)
     ruby-hmac (0.4.0)
-    shindo (0.3.2)
+    shindo (0.3.3)
       formatador (>= 0.1.1)
     virtualbox (0.8.3)
       ffi (~> 0.6.3)
@@ -38,5 +38,5 @@ DEPENDENCIES
   fog!
   rake
   rspec (= 1.3.1)
-  shindo (= 0.3.2)
+  shindo (= 0.3.3)
   virtualbox (= 0.8.3)
