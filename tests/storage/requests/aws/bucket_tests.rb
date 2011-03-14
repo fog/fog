@@ -61,6 +61,16 @@ Shindo.tests('AWS::Storage | bucket requests', ['aws']) do
       AWS[:storage].put_request_payment('fogbuckettests', 'Requester')
     end
 
+    tests("#put_bucket_website('fogbuckettests', 'index.html')").succeeds do
+      pending if Fog.mocking?
+      AWS[:storage].put_bucket_website('fogbuckettests', 'index.html')
+    end
+
+    tests("#delete_bucket_website('fogbuckettests')").succeeds do
+      pending if Fog.mocking?
+      AWS[:storage].delete_bucket_website('fogbuckettests')
+    end
+
     tests("#delete_bucket('fogbuckettests')").succeeds do
       AWS[:storage].delete_bucket('fogbuckettests')
     end
