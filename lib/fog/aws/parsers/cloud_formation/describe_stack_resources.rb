@@ -7,16 +7,20 @@ module Fog
 
           def reset
             @resource = {}
-            @response = { 'Resources' => [] }
+            @response = { 'StackResources' => [] }
           end
 
           def end_element(name)
             case name
-            when 'StackId', 'StackName', 'LogicalResourceId', 'PhysicalResourceId', 'ResourceType', 'TimeStamp', 'ResourceStatus'
+            when 'StackId', 'StackName', 'LogicalResourceId', 'PhysicalResourceId', 'ResourceType', 'ResourceStatus'
               @resource[name] = @value
             when 'member'
-              @response['Resources'] << @resource
+              @response['StackResources'] << @resource
               @resource = {}
+            when 'RequestId'
+              @response[name] = @value
+            when 'Timestamp'
+              @resource[name] = Time.parse(@value)
             end
           end
 

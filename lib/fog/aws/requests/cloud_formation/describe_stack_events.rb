@@ -8,14 +8,14 @@ module Fog
         # Describe stack events
         #
         # ==== Parameters
+        # * stack_name<~String>: stack name to return events for
         # * options<~Hash>:
-        #   * StackName<~String>: only return events related to this stack name
         #   * NextToken<~String>: identifies the start of the next list of events, if there is one
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'Events'<~Array> - Matching resources
+        #     * 'StackEvents'<~Array> - Matching resources
         #       * event<~Hash>:
         #         * 'EventId'<~String> -
         #         * 'StackId'<~String> -
@@ -23,16 +23,17 @@ module Fog
         #         * 'LogicalResourceId'<~String> -
         #         * 'PhysicalResourceId'<~String> -
         #         * 'ResourceType'<~String> -
-        #         * 'Timestamp'<~String> -
+        #         * 'Timestamp'<~Time> -
         #         * 'ResourceStatus'<~String> -
         #         * 'ResourceStatusReason'<~String> -
         #
         # ==== See Also
         # http://docs.amazonwebservices.com/AWSCloudFormation/latest/APIReference/API_DescribeStackEvents.html
         #
-        def describe_stack_events(options = {})
+        def describe_stack_events(stack_name, options = {})
           request({
             'Action'    => 'DescribeStackEvents',
+            'StackName' => stack_name,
             :parser     => Fog::Parsers::AWS::CloudFormation::DescribeStackEvents.new
           }.merge!(options))
         end

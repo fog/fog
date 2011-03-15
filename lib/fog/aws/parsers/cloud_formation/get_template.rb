@@ -7,7 +7,7 @@ module Fog
 
           def end_element(name)
             case name
-            when 'TemplateBody'
+            when 'RequestId', 'TemplateBody'
               @response[name] = @value
             end
           end

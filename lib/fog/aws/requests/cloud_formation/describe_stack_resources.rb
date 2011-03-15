@@ -9,21 +9,22 @@ module Fog
         #
         # ==== Parameters
         # * options<~Hash>:
+        #   * 'PhysicalResourceId'<~String>: name or unique identifier that corresponds to a physical instance ID
+        #   or (one of PhysicalResourceId and StackName is required)
         #   * 'StackName'<~String>: only return events related to this stack name
         #   * 'LogicalResourceId'<~String>: logical name of the resource as specified in the template
-        #   * 'PhysicalResourceId'<~String>: name or unique identifier that corresponds to a physical instance ID
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'Resources'<~Array> - Matching resources
+        #     * 'StackResources'<~Array> - Matching resources
         #       * resource<~Hash>:
         #         * 'StackId'<~String> -
         #         * 'StackName'<~String> -
         #         * 'LogicalResourceId'<~String> -
         #         * 'PhysicalResourceId'<~String> -
         #         * 'ResourceType'<~String> -
-        #         * 'Timestamp'<~String> -
+        #         * 'Timestamp'<~Time> -
         #         * 'ResourceStatus'<~String> -
         #
         # ==== See Also

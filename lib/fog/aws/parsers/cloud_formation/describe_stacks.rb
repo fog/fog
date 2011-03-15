@@ -45,11 +45,22 @@ module Fog
               end
             else
               case name
-              when 'StackName', 'StackId', 'CreationTime', 'StackStatus', 'DisableRollback'
-                @stack[name] = @value
               when 'member'
                 @response['Stacks'] << @stack
                 @stack = { 'Outputs' => [], 'Parameters' => [] }
+              when 'RequestId'
+                @response[name] = @value
+              when 'CreationTime'
+                @stack[name] = Time.parse(@value)
+              when 'DisableRollback'
+                case @value
+                when 'false'
+                  @stack[name] = false
+                when 'true'
+                  @stack[name] = true
+                end
+              when 'StackName', 'StackId', 'StackStatus'
+                @stack[name] = @value
               end
             end
           end

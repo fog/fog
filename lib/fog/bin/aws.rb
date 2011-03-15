@@ -36,6 +36,8 @@ class AWS < Fog::Bin
         hash[key] = case key
         when :cdn
           Fog::CDN.new(:provider => 'AWS')
+        when :cloud_formation
+          Fog::AWS::CloudFormation.new
         when :compute
           Fog::Compute.new(:provider => 'AWS')
         when :dns
