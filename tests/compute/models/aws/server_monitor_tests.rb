@@ -28,16 +28,18 @@ Shindo.tests("AWS::Compute::Server | monitor", ['aws']) do
       #what I'd really like to test is if connection.monitor_instances is being called
       #this is a safeguard
       @instance.identity != nil
-      @instance.monitoring = true
-      @instance.attributes[:monitoring] == true
+      @instance.monitoring = false
+      @instance.monitor = true
+      @instance.monitoring == true
     end
 
     test('unmonitor') do
       #what I'd really like to test is if connection.monitor_instances is being called
       #this is a safeguard
       @instance.identity != nil
-      @instance.monitoring = false
-      @instance.attributes[:monitoring] == false
+      @instance.monitoring = true
+      @instance.monitor = false
+      @instance.monitoring == false
     end
 
   end
