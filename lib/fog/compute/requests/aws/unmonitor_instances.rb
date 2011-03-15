@@ -33,9 +33,18 @@ module Fog
         def unmonitor_instances(instance_ids)
           response        = Excon::Response.new
           response.status = 200
-          response.body   = instance_ids.inject({}) { |memo, id| {memo[id] => 'disabled'} }
+          [*instance_ids].each do |instance_id|
+            if instance = @data[:instances][instance_id]
+              instance['monitoring']['state'] = 'enabled'
+            else
+              raise Fog::AWS::Compute::NotFound.new("The instance ID '#{instance_ids}' does not exist")
+            end
+          end
+          instances_set = [*instance_ids].inject([]) { |memo, id| memo << {'instanceId' => id, 'monitoring' => 'disabled'} }
+          response.body = {'requestId' => 'some_request_id', 'instancesSet' => instances_set}
+          response
         end
-
+        
       end
 
     end

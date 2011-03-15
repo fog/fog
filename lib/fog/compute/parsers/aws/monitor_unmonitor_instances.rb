@@ -7,17 +7,23 @@ module Fog
 
           def reset
             @response = {}
-            @current_id = nil
+            @instance_set = []
+            @current_instance_set = {}
           end
 
           def end_element(name)
             case name
+            when 'requestId'
+              @response['requestId'] = @value
             when 'instanceId'
-              @current_id = @value
+              @current_instance_set['instanceId'] = @value
             when 'item'
-              @current_id = nil
+              @instance_set << @current_instance_set
+              @current_instance_set = {}
             when 'state'
-              @response[@current_id] = @value
+              @current_instance_set['monitoring'] = @value
+            when 'instancesSet'
+              @response['instancesSet'] = @instance_set
             end
           end
 

@@ -30,8 +30,17 @@ Shindo.tests('AWS::Compute::MonitorUnmonitorInstances | monitor/unmonitor parser
       body = Nokogiri::XML::SAX::PushParser.new(parser)
       body << aws_result
 
-      test('enabled') { parser.response['i-43a4412a'] == 'enabled' }
-      test('disabled') { parser.response['i-23a3397d'] == 'disabled' }
+      test('requestId') { parser.response['requestId'] == '59dbff89-35bd-4eac-99ed-be587EXAMPLE' }
+
+      test('enabled') do
+        selected = parser.response['instancesSet'].select { |item| item['instanceId'] == 'i-43a4412a' }[0]
+        selected['monitoring'] == 'enabled'
+      end
+
+      test('disabled') do
+        selected = parser.response['instancesSet'].select { |item| item['instanceId'] == 'i-23a3397d' }[0]
+        selected['monitoring'] == 'disabled'
+      end
       
     end
 

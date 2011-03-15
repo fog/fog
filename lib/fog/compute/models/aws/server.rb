@@ -234,8 +234,8 @@ module Fog
               raise ArgumentError.new("only Boolean allowed here")
           end
 
-          #set the attribute
-          response[identity] == 'enabled' ? self.monitoring=true : self.monitoring=false
+          #set the attribute, there is only one instance_id here
+          response.body['instancesSet'][0]['monitoring'] == 'enabled' ? self.monitoring=true : self.monitoring=false
         end
 
       end
