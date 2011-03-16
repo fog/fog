@@ -56,6 +56,7 @@ end
 require 'fog/bin/aws'
 require 'fog/bin/bluebox'
 require 'fog/bin/brightbox'
+require 'fog/bin/cloudkick'
 require 'fog/bin/dnsimple'
 require 'fog/bin/ecloud'
 require 'fog/bin/go_grid'

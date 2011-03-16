@@ -1,4 +1,5 @@
 require 'openssl'
+require 'json'
 require 'base64'
 
 module Fog
@@ -24,6 +25,8 @@ module Fog
       request :update_node
       request :create_node
       request :create_monitor
+      request :get_status
+      request :get_node
 
       class Mock
         def initialize(options)
@@ -68,6 +71,19 @@ module Fog
 
         private
 
+        # Converts a hash to a URI query string suitable for use by oauth
+        # i.e. it's sorted properly
+        def queryize(opts={})
+          opts.sort { |a,b| a[0].to_s <=> b[0].to_s }.map do |opt|
+            case opt[1]
+            when Array
+              opt[1].sort.map { |sub_opt| "#{opt[0]}=#{sub_opt}" }.join("&")
+            else
+              opt.join("=")
+            end
+          end.join("&")
+        end
+
         def oauth_secret
           "#{@secret}&"
         end
@@ -108,7 +124,11 @@ module Fog
           oauth_options.merge(
             query.split("&").inject({}) do |acc,item|
               key,value = item.split("=")
-              acc[key] = value
+              if acc.has_key?(key)
+                acc[key] = ([acc[key]] << value).compact
+              else
+                acc[key] = value
+              end
               acc
             end
           )
@@ -133,7 +153,7 @@ module Fog
         def raw_oauth_signature(request_method, request_url, oauth_options)
           [ request_method.to_s.upcase,
             oauth_escape(request_url),
-            oauth_escape(oauth_options.sort.map {|opt| opt.map { |i| oauth_escape(i) }.join("=")}.join("&"))
+            oauth_escape(queryize(oauth_options.sort))
           ].join("&")
         end
 
