@@ -4,7 +4,7 @@ module Fog
 
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :host, :nil_string, :path, :port, :scheme, :persistent
-      
+
       request_path 'fog/aws/requests/simpledb'
       request :batch_put_attributes
       request :create_domain
@@ -43,7 +43,7 @@ module Fog
         # Initialize connection to SimpleDB
         #
         # ==== Notes
-        # options parameter must include values for :aws_access_key_id and 
+        # options parameter must include values for :aws_access_key_id and
         # :aws_secret_access_key in order to create a connection
         #
         # ==== Examples
@@ -164,7 +164,7 @@ module Fog
           response = @connection.request({
             :body       => body,
             :expects    => 200,
-            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded; charset=utf-8' },
             :host       => @host,
             :idempotent => idempotent,
             :method     => 'POST',
