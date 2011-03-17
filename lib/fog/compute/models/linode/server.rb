@@ -21,10 +21,6 @@ module Fog
           not disks.empty?
         end
 
-        def config
-          connection.linode_config_list(id).body['DATA'].first['ConfigID']
-        end        
-
         def reboot
           connection.linode_reboot id
         end
@@ -39,8 +35,8 @@ module Fog
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          @data_center, @flavor, @image, @type, @payment_terms, @stack_script, @name, @password, @callback =
-            attributes.values_at :data_center, :flavor, :image, :type, :payment_terms, :stack_script, :name, :password, :callback
+          @data_center, @flavor, @image, @kernel, @type, @payment_terms, @stack_script, @name, @password, @callback =
+            attributes.values_at :data_center, :flavor, :image, :kernel, :type, :payment_terms, :stack_script, :name, :password, :callback
 
           create_linode
           @callback.call self if @callback
@@ -61,6 +57,10 @@ module Fog
         end
 
         private
+        def config
+          connection.linode_config_list(id).body['DATA'].first['ConfigID']
+        end
+        
         def create_linode
           self.id = connection.linode_create(@data_center.id, @flavor.id, @payment_terms).body['DATA']['LinodeID']
           connection.linode_update id, :label => @name
@@ -75,7 +75,7 @@ module Fog
         end
 
         def create_config
-          @config = connection.linode_config_create(id, 110, @name, "#{@disk.id},#{@swap.id},,,,,,,").body['DATA']['ConfigID']
+          @config = connection.linode_config_create(id, @kernel.id, @name, "#{@disk.id},#{@swap.id},,,,,,,").body['DATA']['ConfigID']
         end
 
         def boot_linode
