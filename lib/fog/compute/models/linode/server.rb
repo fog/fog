@@ -10,16 +10,32 @@ module Fog
         attribute :status
 
         def ips
-          @ips = Fog::Linode::Compute::Ips.new :server => self, :connection => connection
+          Fog::Linode::Compute::Ips.new :server => self, :connection => connection
         end
 
         def disks
-          @disks = Fog::Linode::Compute::Disks.new :server => self, :connection => connection
+          Fog::Linode::Compute::Disks.new :server => self, :connection => connection
         end
 
         def disks?
           not disks.empty?
         end
+
+        def config
+          connection.linode_config_list(id).body['DATA'].first['ConfigID']
+        end        
+
+        def reboot
+          connection.linode_reboot id
+        end
+
+        def shutdown
+          connection.linode_shutdown id
+        end
+
+        def boot
+          connection.linode_boot id, config
+        end        
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity

@@ -34,7 +34,7 @@ module Fog
       request :linode_disk_list
       request :linode_disk_delete
       request :linode_disk_createfromdistribution
-      request :linode_disk_createfromstackscript      
+      request :linode_disk_createfromstackscript     
       request :linode_ip_list
       request :linode_ip_addprivate
       request :linode_config_list
@@ -42,11 +42,11 @@ module Fog
       request :linode_create
       request :linode_delete
       request :linode_list
-      request :linode_boot      
+      request :linode_boot
       request :linode_reboot
       request :linode_shutdown
       request :linode_update
-      request :stackscript_list      
+      request :stackscript_list
       # request :linode_resize      
 
       class Mock
