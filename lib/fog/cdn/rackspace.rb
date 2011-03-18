@@ -60,6 +60,7 @@ module Fog
           @path   = uri.path
           @port   = uri.port
           @scheme = uri.scheme
+          Excon.ssl_verify_peer = false if options[:rackspace_servicenet] == true
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
         end
 
