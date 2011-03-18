@@ -72,12 +72,12 @@ Shindo.tests('Linode::Compute | linode requests', ['linode']) do
 
     tests('#linode_reboot(0)').raises(Fog::Linode::Compute::NotFound) do
       pending if Fog.mocking?
-      Linode[:compute].linode_reboot(0)
+      Linode[:compute].linode_reboot(1)
     end
 
     tests('#linode_delete(0)').raises(Fog::Linode::Compute::NotFound) do
       pending if Fog.mocking?
-      Linode[:compute].linode_delete(0)
+      Linode[:compute].linode_delete(1)
     end
 
   end

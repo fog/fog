@@ -43,6 +43,7 @@ module Fog
           create_disks
           create_config
           boot_linode
+          self
         rescue Exception => ex
           destroy if id
           raise ex
