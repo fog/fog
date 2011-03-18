@@ -1,3 +1,52 @@
+0.7.0 03/14/2011
+================
+
+[aws] added ap-northeast-1 (tokyo) region options
+
+[aws|cloudformation] add basic support. thanks crazed
+
+[aws|elb] add support for configuring https
+
+[aws|iam]
+  add support for server certificates. thanks bensie
+  add support for login profiles. thanks fcheung
+
+[aws|rds]
+  support basic rds operations. thanks fcheung
+  add support for restoring servers and security groups. thanks ktheory
+
+[cdn|rackspace] use post_container to update
+
+[compute]
+  [aws]
+    fix tag.destroy. thanks eabbott
+    allow deleting all tags (instead of just specific ones)
+    fix revoke_security_group method signature
+    FLAVORS is now a constant
+		allow for modifying server monitoring. thanks gilles
+  [brightbox] thanks tokengeek
+    Added listener management (add/remove) requests for Load Balancers
+    Added new Server console activation request
+    Added activate_console method to Brightbox servers
+    Set Server#private_ip_address to be the first interface
+  [rackspace] 'official' workaround for awful caching
+  [virtualbox] rough proof of concept/initial implementation
+
+[core]
+  fix behavior of slice on collections. thanks eabbott
+  fix reset_data to be instance method on mock connection (and work)
+  [credentials]
+    handle undefined ENV['HOME']
+    Allow string keys in credentials file [issue 179]. thanks ryanlower
+
+[dns|dnsimple] fix misc bugs in models. thanks ijonas
+
+[storage]
+  use shared parse_data across providers
+  [rackspace]
+    pass through explicit content-type
+    fix bug preventing file uploads to be streamed
+
 0.6.0 02/28/2011
 ================
 
