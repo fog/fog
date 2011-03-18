@@ -27,6 +27,7 @@ if Fog.mock?
 #    :private_key_path                 => '~/.ssh/id_rsa',
     :rackspace_api_key                => 'rackspace_api_key',
     :rackspace_username               => 'rackspace_username',
+    :rackspace_servicenet             => 'rackspace_servicenet',
     :slicehost_password               => 'slicehost_password',
     :voxel_api_key                    => 'voxel_api_key',
     :voxel_api_secret                 => 'voxel_api_secret',
