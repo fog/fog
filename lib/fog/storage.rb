@@ -21,26 +21,34 @@ module Fog
       end
     end
 
+    def self.get_body_size(body)
+      case
+      when body.respond_to?(:bytesize) then body.bytesize
+      when body.respond_to?(:size) then body.size
+      when body.respond_to?(:stat) then body.stat.size
+      else
+        0
+      end
+    end
+    
     def self.parse_data(data)
       metadata = {
         :body => nil,
         :headers => {}
       }
-
-      if data.is_a?(String)
-        metadata[:body] = data
-        metadata[:headers]['Content-Length'] = metadata[:body].size
-      else
+      
+      metadata[:body] = data
+      metadata[:headers]['Content-Length'] = get_body_size(data)
+      
+      if data.respond_to?(:path)
         filename = ::File.basename(data.path)
         unless (mime_types = MIME::Types.of(filename)).empty?
           metadata[:headers]['Content-Type'] = mime_types.first.content_type
         end
-        metadata[:body] = data
-        metadata[:headers]['Content-Length'] = ::File.size(data.path)
       end
       # metadata[:headers]['Content-MD5'] = Base64.encode64(Digest::MD5.digest(metadata[:body])).strip
       metadata
     end
-
+    
   end
 end
