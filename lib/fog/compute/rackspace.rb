@@ -3,7 +3,7 @@ module Fog
     class Compute < Fog::Service
 
       requires :rackspace_api_key, :rackspace_username
-      recognizes :rackspace_auth_url, :persistent
+      recognizes :rackspace_auth_url, :rackspace_servicenet, :persistent
       recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/rackspace'
@@ -86,7 +86,9 @@ module Fog
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
           @rackspace_auth_url = options[:rackspace_auth_url]
+          @rackspace_servicenet = options[:rackspace_servicenet]
           authenticate
+          Excon.ssl_verify_peer = false if options[:rackspace_servicenet] == true
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
         end
 
@@ -137,7 +139,7 @@ module Fog
           credentials = Fog::Rackspace.authenticate(options)
           @auth_token = credentials['X-Auth-Token']
           uri = URI.parse(credentials['X-Server-Management-Url'])
-          @host   = uri.host
+          @host   = @rackspace_servicenet == true ? "snet-#{uri.host}" : uri.host
           @path   = uri.path
           @port   = uri.port
           @scheme = uri.scheme
