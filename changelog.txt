@@ -1,3 +1,14 @@
+0.7.1 03/21/2011
+================
+
+[aws|storage] normalize headers. thanks pweldon
+
+[mock] fix reset_data to not be called in Mock#initialize
+
+[rackspace] add support for using servicenet. thanks minter
+
+[storage] provide for non file/string files. thanks pweldon
+
 0.7.0 03/14/2011
 ================
 
