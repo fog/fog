@@ -218,24 +218,18 @@ module Fog
         #I tried to call it monitoring= and be smart with attributes[]
         #but in #save a merge_attribute is called after run_instance
         #thus making an un-necessary request. Use this until finding a clever solution
-        def monitor=(boolean)
-
-          #we don't have a server yet. the status silently goes in the attributes for run_instances
-          if !identity
-            self.monitoring=boolean
-          end
-
-          case boolean
+        def monitor=(new_monitor)
+          if identity
+            case new_monitor
             when true
               response = connection.monitor_instances(identity)
             when false
               response = connection.unmonitor_instances(identity)
             else
               raise ArgumentError.new("only Boolean allowed here")
+            end
           end
-
-          #set the attribute, there is only one instance_id here
-          response.body['instancesSet'][0]['monitoring'] == 'enabled' ? self.monitoring=true : self.monitoring=false
+          self.monitoring = new_monitor
         end
 
       end
