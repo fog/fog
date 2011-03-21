@@ -16,11 +16,11 @@ Shindo.tests('Linode::Compute | stack_script requests', ['linode']) do
       'ISPUBLIC'            => Integer,
       'USERID'              => Integer
     }]
-  })
+  })  
 
   tests('success') do
 
-    tests('#avail_stack_scripts').formats(@stack_scripts_format) do
+    tests('#stackscript_list').formats(@stack_scripts_format) do
       pending if Fog.mocking?
       Linode[:compute].stackscript_list.body
     end
