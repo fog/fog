@@ -1,3 +1,4 @@
+*~
 *.gem
 *.rbc
 *.sw?
@@ -6,7 +7,7 @@
 _site/*
 coverage
 doc/*
+Gemfile.lock
 rdoc
 pkg
 spec/credentials.yml
-*~
