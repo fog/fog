@@ -175,7 +175,7 @@ module Fog
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end
           @region = options[:region]
-          reset_data
+          @data = self.class.data[@region][@aws_access_key_id]
         end
 
         def reset_data

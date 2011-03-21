@@ -28,7 +28,7 @@ module Fog
 
         def initialize(options={})
           @aws_access_key_id = options[:aws_access_key_id]
-          reset_data
+          @data = self.class.data[@aws_access_key_id]
         end
 
         def reset_data

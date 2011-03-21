@@ -31,7 +31,7 @@ module Fog
           end
 
           @rackspace_username = options[:rackspace_username]
-          reset_data
+          @data = self.class.data[@rackspace_username]
         end
 
         def reset_data

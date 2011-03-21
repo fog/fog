@@ -129,7 +129,7 @@ module Fog
 
           require 'mime/types'
           @google_storage_access_key_id = options[:google_storage_access_key_id]
-          reset_data
+          @data = self.class.data[@google_storage_access_key_id]
         end
 
         def reset_data

@@ -137,7 +137,7 @@ module Fog
           @aws_access_key_id = options[:aws_access_key_id]
           @region = options[:region] || 'us-east-1'
 
-          reset_data
+          @data = self.class.data[@region][@aws_access_key_id]
           @owner_id = @data[:owner_id]
         end
 

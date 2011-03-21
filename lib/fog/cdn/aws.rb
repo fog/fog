@@ -39,7 +39,7 @@ module Fog
           require 'mime/types'
           @aws_access_key_id  = options[:aws_access_key_id]
           @region             = options[:region]
-          reset_data
+          @data = self.class.data[@region][@aws_access_key_id]
         end
 
         def reset_data

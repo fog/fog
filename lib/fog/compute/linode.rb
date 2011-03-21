@@ -40,7 +40,7 @@ module Fog
           end
 
           @linode_api_key = options[:linode_api_key]
-          reset_data
+          @data = self.class.data[@linode_api_key]
         end
 
         def reset_data

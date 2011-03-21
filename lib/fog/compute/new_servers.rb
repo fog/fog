@@ -34,7 +34,7 @@ module Fog
           end
 
           @new_server_username = options[:new_servers_username]
-          reset_data
+          @data = self.class.data[@new_server_username]
         end
 
         def reset_data

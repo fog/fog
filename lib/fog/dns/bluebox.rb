@@ -40,7 +40,7 @@ module Fog
 
           @bluebox_customer_id = options[:bluebox_customer_id]
           @bluebox_api_key = options[:bluebox_api_key]
-          reset_data
+          @data = self.class.data[@bluebox_customer_id]
         end
 
         def reset_data

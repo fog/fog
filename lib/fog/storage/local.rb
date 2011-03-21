@@ -31,7 +31,7 @@ module Fog
           end
 
           @local_root = ::File.expand_path(options[:local_root])
-          reset_data
+          @data = self.class.data[@local_root]
         end
 
         def local_root

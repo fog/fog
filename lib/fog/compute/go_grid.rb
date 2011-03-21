@@ -46,7 +46,7 @@ module Fog
 
           @go_grid_api_key = options[:go_grid_api_key]
           @go_grid_shared_secret = options[:go_grid_shared_secret]
-          reset_data
+          @data = self.class.data[@go_grid_api_key]
         end
 
         def reset_data
