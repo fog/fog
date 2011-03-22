@@ -35,6 +35,10 @@ Shindo.tests('Linode::Compute | linode requests', ['linode']) do
     'DATA' => { 'JobID' => Integer }
   })
 
+  @ip_format = Linode::Compute::Formats::BASIC.merge({
+    'DATA' => { 'IPAddressID' => Integer }
+  })
+
   tests('success') do
 
     @linode_id = nil
@@ -60,6 +64,11 @@ Shindo.tests('Linode::Compute | linode requests', ['linode']) do
     tests('#linode_update').formats(@linode_format) do
       pending if Fog.mocking?
       Linode[:compute].linode_update(@linode_id, :label => 'testing').body
+    end
+
+    tests('#linode_ip_addprivate').formats(@ip_format) do
+      pending if Fog.mocking?
+      Linode[:compute].linode_ip_addprivate(@linode_id).body
     end
 
     # tests("#linode_reboot(#{@linode_id})").formats(@reboot_format) do
