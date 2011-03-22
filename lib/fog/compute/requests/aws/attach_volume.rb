@@ -43,7 +43,9 @@ module Fog
             instance = @data[:instances][instance_id]
             volume = @data[:volumes][volume_id]
             if instance && volume
-              raise Fog::AWS::Compute::Error.new("Client.VolumeInUse => Volume #{volume_id} is unavailable") unless volume['status'] == 'available'
+              unless volume['status'] == 'available'
+                raise Fog::AWS::Compute::Error.new("Client.VolumeInUse => Volume #{volume_id} is unavailable")
+              end
 
               data = {
                 'attachTime'  => Time.now,
