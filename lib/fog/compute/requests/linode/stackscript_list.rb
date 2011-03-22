@@ -7,11 +7,13 @@ module Fog
           if script_id
             options.merge!(:stackScriptID => script_id)
           end          
-          request(
+          result = request(
             :expects  => 200,
             :method   => 'GET',
             :query    => { :api_action => 'stackscript.list' }.merge!(options)
           )
+          result.body['DATA'].each { |r| r['DISTRIBUTIONIDLIST'] = r['DISTRIBUTIONIDLIST'].to_s }
+          result
         end
       end
     end

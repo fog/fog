@@ -5,7 +5,7 @@ Shindo.tests('Linode::Compute | stack_script requests', ['linode']) do
       'STACKSCRIPTID'       => Integer,
       'SCRIPT'              => String,
       'DESCRIPTION'         => String,
-      'DISTRIBUTIONIDLIST'  => Integer,
+      'DISTRIBUTIONIDLIST'  => String,
       'LABEL'               => String,
       'DEPLOYMENTSTOTAL'    => Integer,
       'LATESTREV'           => Integer,
@@ -20,6 +20,11 @@ Shindo.tests('Linode::Compute | stack_script requests', ['linode']) do
 
   tests('success') do
 
+    tests('#avail_stackscripts').formats(@stack_scripts_format) do
+      pending if Fog.mocking?
+      Linode[:compute].avail_stackscripts.body
+    end    
+    
     tests('#stackscript_list').formats(@stack_scripts_format) do
       pending if Fog.mocking?
       Linode[:compute].stackscript_list.body

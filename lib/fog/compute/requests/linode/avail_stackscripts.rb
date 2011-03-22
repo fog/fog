@@ -8,7 +8,7 @@ module Fog
             :method   => 'GET',
             :query    => { :api_action => 'avail.stackscripts' }.merge!(options)
           )
-          result.body['DATA']['DISTRIBUTIONIDLIST'] = result.body['DATA']['DISTRIBUTIONIDLIST'].to_s
+          result.body['DATA'].each { |r| r['DISTRIBUTIONIDLIST'] = r['DISTRIBUTIONIDLIST'].to_s }
           result
         end
       end
