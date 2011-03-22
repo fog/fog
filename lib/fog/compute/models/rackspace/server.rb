@@ -61,7 +61,7 @@ module Fog
         end
 
         def public_ip_address
-          addresses.first
+          addresses['public'].first
         end
 
         def public_key_path
@@ -98,8 +98,8 @@ module Fog
         end
 
         def setup(credentials = {})
-          requires :addresses, :identity, :public_key, :username
-          Fog::SSH.new(addresses['public'].first, username, credentials).run([
+          requires :public_ip_address, :identity, :public_key, :username
+          Fog::SSH.new(public_ip_address, username, credentials).run([
             %{mkdir .ssh},
             %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
             %{passwd -l #{username}},
@@ -112,19 +112,19 @@ module Fog
         end
 
         def ssh(commands)
-          requires :addresses, :identity, :username
+          requires :public_ip_address, :identity, :username
 
           options = {}
           options[:key_data] = [private_key] if private_key
-          Fog::SSH.new(addresses['public'].first, username, options).run(commands)
+          Fog::SSH.new(public_ip_address, username, options).run(commands)
         end
 
         def scp(local_path, remote_path)
-          requires :addresses, :username
+          requires :public_ip_address, :username
 
           options = {}
           options[:key_data] = [private_key] if private_key
-          Fog::SCP.new(addresses['public'].first, username, options).upload(local_path, remote_path)
+          Fog::SCP.new(public_ip_address, username, options).upload(local_path, remote_path)
         end
 
         def username
