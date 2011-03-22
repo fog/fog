@@ -39,6 +39,24 @@ Shindo.tests('Linode::Compute | linode requests', ['linode']) do
     'DATA' => { 'IPAddressID' => Integer }
   })
 
+  @disks_format = Linode::Compute::Formats::BASIC.merge({
+    'DATA' => [{
+      "UPDATE_DT"  => String,
+      "DISKID"     => Integer,
+      "LABEL"      => String,
+      "TYPE"       => String,
+      "LINODEID"   => Integer,
+      "ISREADONLY" => Integer,
+      "STATUS"     => Integer,
+      "CREATE_DT"  => String,
+      "SIZE"       => Integer
+    }]
+  })
+
+  @disk_format = Linode::Compute::Formats::BASIC.merge({
+    'DATA' => { 'JobID' => Integer, 'DiskID' => Integer }
+  })  
+
   tests('success') do
 
     @linode_id = nil
@@ -71,12 +89,38 @@ Shindo.tests('Linode::Compute | linode requests', ['linode']) do
       Linode[:compute].linode_ip_addprivate(@linode_id).body
     end
 
+    tests('#linode_disk_create').formats(@disk_format) do
+      pending if Fog.mocking?
+      data = Linode[:compute].linode_disk_create(@linode_id, 'test1', 'ext3', 1).body
+      @disk1_id = data['DATA']['DiskID']
+      data
+    end    
+
+    tests('#linode_disk_createfromdistribution').formats(@disk_format) do
+      pending if Fog.mocking?
+      data = Linode[:compute].linode_disk_createfromdistribution(@linode_id, 73, 'test1', 600, 'P@SSW)RD').body
+      @disk2_id = data['DATA']['DiskID']
+      data
+    end
+
+    tests('#linode_disk_list').formats(@disks_format) do
+      pending if Fog.mocking?
+      Linode[:compute].linode_disk_list(@linode_id).body
+    end        
+
+    tests('#linode_disk_delete').formats(@disk_format) do
+      pending if Fog.mocking?
+      Linode[:compute].linode_disk_delete(@linode_id, @disk1_id).body
+      Linode[:compute].linode_disk_delete(@linode_id, @disk2_id).body
+    end
+    
     # tests("#linode_reboot(#{@linode_id})").formats(@reboot_format) do
     #   Linode[:compute].linode_reboot(@linode_id).body
     # end
 
     tests('#linode_delete(#{@linode_id})').succeeds do
       pending if Fog.mocking?
+      sleep 1 until Linode[:compute].linode_disk_list(@linode_id).body['DATA'].size == 0
       Linode[:compute].linode_delete(@linode_id)
     end
 
