@@ -3,7 +3,7 @@ module Fog
     class Storage < Fog::Service
 
       requires :rackspace_api_key, :rackspace_username
-      recognizes :rackspace_auth_url, :rackspace_servicenet, :persistent
+      recognizes :rackspace_auth_url, :rackspace_servicenet, :rackspace_cdn_ssl, :persistent
       recognizes :provider # remove post deprecation
 
       model_path 'fog/storage/models/rackspace'
@@ -68,6 +68,7 @@ module Fog
 
       class Real
         include Utils
+        attr_reader :rackspace_cdn_ssl
 
         def initialize(options={})
           unless options.delete(:provider)
@@ -81,6 +82,7 @@ module Fog
           require 'json'
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
+          @rackspace_cdn_ssl = options[:rackspace_cdn_ssl]
           credentials = Fog::Rackspace.authenticate(options)
           @auth_token = credentials['X-Auth-Token']
 
