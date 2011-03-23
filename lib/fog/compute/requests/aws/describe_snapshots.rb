@@ -59,11 +59,6 @@ module Fog
             Formatador.display_line("[yellow][WARN] describe_snapshots with a second param is deprecated, use describe_snapshots(options) instead[/] [light_black](#{caller.first})[/]")
           end
 
-          if filters.keys.any? {|key| key =~ /^tag/}
-            Formatador.display_line("[yellow][WARN] describe_snapshots tag filters are not yet mocked[/] [light_black](#{caller.first})[/]")
-            Fog::Mock.not_implemented
-          end
-
           response = Excon::Response.new
 
           snapshot_set = @data[:snapshots].values
@@ -75,6 +70,8 @@ module Fog
             Formatador.display_line("[yellow][WARN] describe_snapshots with RestorableBy is not mocked[/] [light_black](#{caller.first})[/]")
           end
 
+          snapshot_set = apply_tag_filters(snapshot_set, filters)
+          
           aliases = {
             'description' => 'description',
             'owner-id'    => 'ownerId',
@@ -85,11 +82,12 @@ module Fog
             'volume-id'   => 'volumeId',
             'volume-size' => 'volumeSize'
           }
+          
           for filter_key, filter_value in filters
             aliased_key = aliases[filter_key]
             snapshot_set = snapshot_set.reject{|snapshot| ![*filter_value].include?(snapshot[aliased_key])}
           end
-
+          
           snapshot_set.each do |snapshot|
             case snapshot['status']
             when 'in progress', 'pending'

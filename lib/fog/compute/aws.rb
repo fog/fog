@@ -146,6 +146,18 @@ module Fog
           @data = self.class.data[@region][@aws_access_key_id]
         end
 
+        def apply_tag_filters(resources, filters)
+          tag_filters = {}
+          filters.keys.each do |key| 
+            tag_filters[key.gsub('tag:', '')] = filters.delete(key) if /^tag:/ =~ key
+          end
+          
+          for tag_key, tag_value in tag_filters
+            resources = resources.reject{|r| r['tagSet'][tag_key] != tag_value}
+          end
+          
+          resources
+        end
       end
 
       class Real
