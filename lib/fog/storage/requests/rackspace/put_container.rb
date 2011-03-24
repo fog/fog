@@ -12,7 +12,7 @@ module Fog
           response = request(
             :expects  => [201, 202],
             :method   => 'PUT',
-            :path     => CGI.escape(name)
+            :path     => URI.escape(name)
           )
           response
         end

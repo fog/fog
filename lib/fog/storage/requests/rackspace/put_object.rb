@@ -16,7 +16,7 @@ module Fog
             :expects  => 201,
             :headers  => headers,
             :method   => 'PUT',
-            :path     => "#{CGI.escape(container)}/#{CGI.escape(object)}"
+            :path     => "#{URI.escape(container)}/#{URI.escape(object)}"
           )
           response
         end

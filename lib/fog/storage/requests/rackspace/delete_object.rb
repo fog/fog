@@ -13,7 +13,7 @@ module Fog
           response = request(
             :expects  => 204,
             :method   => 'DELETE',
-            :path     => "#{CGI.escape(container)}/#{CGI.escape(object)}"
+            :path     => "#{URI.escape(container)}/#{URI.escape(object)}"
           )
           response
         end
