@@ -14,7 +14,7 @@ module Fog
             :block    => block,
             :expects  => 200,
             :method   => 'GET',
-            :path     => "#{CGI.escape(container)}/#{CGI.escape(object)}"
+            :path     => "#{URI.escape(container)}/#{URI.escape(object)}"
           }, false, &block)
           response
         end
