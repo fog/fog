@@ -85,6 +85,7 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :rackspace_api_key:
   :rackspace_username:
   :rackspace_servicenet:
+  :rackspace_cdn_ssl:
   :slicehost_password:
   :terremark_username:
   :terremark_password:
