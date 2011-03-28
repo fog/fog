@@ -147,13 +147,25 @@ module Fog
         end
 
         def apply_tag_filters(resources, filters)
+          # tag-key: match resources tagged with this key (any value)
+          if filters.has_key?('tag-key')
+            value = filters.delete('tag-key')
+            resources = resources.select{|r| r['tagSet'].has_key?(value)}
+          end
+          
+          # tag-value: match resources tagged with this value (any key)
+          if filters.has_key?('tag-value')
+            value = filters.delete('tag-value')
+            resources = resources.select{|r| r['tagSet'].values.include?(value)}
+          end
+          
+          # tag:key: match resources taged with a key-value pair.  Value may be an array, which is OR'd.
           tag_filters = {}
           filters.keys.each do |key| 
             tag_filters[key.gsub('tag:', '')] = filters.delete(key) if /^tag:/ =~ key
           end
-          
           for tag_key, tag_value in tag_filters
-            resources = resources.reject{|r| r['tagSet'][tag_key] != tag_value}
+            resources = resources.select{|r| tag_value.include?(r['tagSet'][tag_key])}
           end
           
           resources
