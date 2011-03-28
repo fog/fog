@@ -3,7 +3,7 @@ module Fog
     class CloudFormation < Fog::Service
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :path, :port, :scheme, :persistent
+      recognizes :host, :path, :port, :scheme, :persistent, :region
 
       request_path 'fog/aws/requests/cloud_formation'
       request :create_stack
