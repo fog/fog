@@ -62,6 +62,8 @@ module Fog
             @data[:tags][key] ||= {}
             @data[:tags][key][value] ||= []
             @data[:tags][key][value] = @data[:tags][key][value] & tagged
+            
+            tagged.each {|resource| @data[:"#{resource['resourceType']}s"][resource['resourceId']]['tagSet'][key] = value}
           end
 
           response = Excon::Response.new

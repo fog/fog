@@ -50,15 +50,11 @@ module Fog
             filters = {'volume-id' => [*filters]}
           end
 
-          if filters.keys.any? {|key| key =~ /^tag/}
-            Formatador.display_line("[yellow][WARN] describe_volumes tag filters are not yet mocked[/] [light_black](#{caller.first})[/]")
-            Fog::Mock.not_implemented
-          end
-
           response = Excon::Response.new
 
           volume_set = @data[:volumes].values
-
+          volume_set = apply_tag_filters(volume_set, filters)
+          
           aliases = {
             'availability-zone' => 'availabilityZone',
             'create-time' => 'createTime',
