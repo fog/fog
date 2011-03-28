@@ -83,7 +83,7 @@ module Fog
             'architecture'      => 'architecture',
             'availability-zone' => 'availabilityZone',
             'client-token'      => 'clientToken',
-            'dns-token'         => 'dnsName',
+            'dns-name'         => 'dnsName',
             'group-id'          => 'groupId',
             'image-id'          => 'imageId',
             'instance-id'       => 'instanceId',
