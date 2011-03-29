@@ -12,7 +12,7 @@ module Fog
         def head_object(container, object)
           response = request({
             :expects  => 200,
-            :method   => 'GET',
+            :method   => 'HEAD',
             :path     => "#{URI.escape(container)}/#{URI.escape(object)}"
           }, false)
           response
