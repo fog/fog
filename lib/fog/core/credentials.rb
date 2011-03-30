@@ -18,7 +18,10 @@ module Fog
 
   # @return [String] The path for configuration_file
   def self.credentials_path
-    @credential_path ||= File.expand_path(ENV["FOG_RC"] || (ENV['HOME'] && '~/.fog'))
+    @credential_path ||= begin
+      path = ENV["FOG_RC"] || (ENV['HOME'] && '~/.fog')
+      File.expand_path(path) if path
+    end
   end
 
   # @return [String] The new path for credentials file
