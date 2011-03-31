@@ -4,7 +4,7 @@
 *.sw?
 .bundle
 .DS_Store
-_site/*
+docs/_site/*
 coverage
 doc/*
 Gemfile.lock

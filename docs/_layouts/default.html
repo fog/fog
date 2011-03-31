@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+
+    <link rel="stylesheet" href="public/styles/reset.css" type="text/css" />
+    <link rel="stylesheet" href="public/styles/grids.css" type="text/css" />
+    <link rel="stylesheet" href="public/styles/template.css" type="text/css" />
+    <link rel="stylesheet" href="public/styles/default.css" type="text/css" />
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <title>{{ page.title }}</title>
+
+  </head>
+
+  <body>
+    <div class="page">
+      <div class="head line">
+        <div class="identity size3of4 unit">
+          <img src="public/images/fog.png" title="fog" />
+          <h1>The Ruby cloud services library</h1>
+        </div>
+        <div class="acquire size1of4 lastUnit">
+          <dl>
+            <dt>version</dt><dd>v0.7.1</dd>
+            <dt>install</dt><dd><code>gem install fog</code></dd>
+            <dt>source</dt><dd><a href="http://github.com/geemus/fog">geemus/fog</a></dd>
+          </dl>
+        </div>
+      </div>
+      <div class="body">
+        {{ content }}
+      </div>
+      <div class="foot">
+        sponsored by
+        <img height="20px" src="public/images/engineyard.png" title="engineyard" />
+      </div>
+    </div>
+  </body>
+</html>

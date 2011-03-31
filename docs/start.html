@@ -1,0 +1,29 @@
+---
+layout: default
+title:  fog - Getting Started
+---
+
+<h1>Getting Started</h1>
+
+<h2>Setup</h2>
+<div class="content">
+  <p>First off you'll need to install the gem:</p>
+  <pre><code>
+  $ gem install fog
+  </code></pre>
+</div>
+
+<h2>Setting Up Local Storage</h2>
+<div class="content">
+  <p>We will be using local storage in the example, so first off make a local directory that things can go in.</p>
+  <pre><code>
+  $ mkdir ~/fog
+  </code></pre>
+  <p>Now We can start building out our script to play with.  First thing's first, we'll setup a storage connection.</p>
+  <pre><code>
+  Fog::Storage.new(
+    :local_root =&gt; '~/fog',
+    :provider   =&gt; 'Local',
+  )
+  </code></pre>
+</div>
