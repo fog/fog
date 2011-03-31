@@ -33,8 +33,23 @@ module Fog
           true
         end
 
-        private
+        def write(path="#{ENV['HOME']}/.ssh/#{name}.pem")
+          if writable?
+            split_private_key = private_key.split(/\n/)
+            key_file = File.new(path, "w")
+            split_private_key.each {|line| key_file.puts line}
+            key_file.chmod 0600
+            key_file.close
+            "Key file built: #{path}"
+          else
+            "Invalid private key"
+          end
+        end
 
+        private
+          def writable?
+            !!private_key
+          end
       end
 
     end
