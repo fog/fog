@@ -1,42 +1,85 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!doctype html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-  <head>
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <link rel="stylesheet" href="public/styles/reset.css" type="text/css" />
-    <link rel="stylesheet" href="public/styles/grids.css" type="text/css" />
-    <link rel="stylesheet" href="public/styles/template.css" type="text/css" />
-    <link rel="stylesheet" href="public/styles/default.css" type="text/css" />
+  <title>{{ page.title }}</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="public/favicon.ico">
+  <link rel="apple-touch-icon" href="public/apple-touch-icon.png">
 
-    <title>{{ page.title }}</title>
+  <link rel="stylesheet" href="public/css/style.css?v=2">
+  <script src="public/js/libs/modernizr-1.6.min.js"></script>
 
-  </head>
+</head>
 
-  <body>
-    <div class="page">
-      <div class="head line">
-        <div class="identity size3of4 unit">
-          <img src="public/images/fog.png" title="fog" />
-          <h1>The Ruby cloud services library</h1>
-        </div>
-        <div class="acquire size1of4 lastUnit">
-          <dl>
-            <dt>version</dt><dd>v0.7.1</dd>
-            <dt>install</dt><dd><code>gem install fog</code></dd>
-            <dt>source</dt><dd><a href="http://github.com/geemus/fog">geemus/fog</a></dd>
-          </dl>
-        </div>
-      </div>
-      <div class="body">
-        {{ content }}
-      </div>
-      <div class="foot">
-        sponsored by
-        <img height="20px" src="public/images/engineyard.png" title="engineyard" />
-      </div>
+<body>
+
+  <div id="container">
+    <header>
+      <img src="public/images/fog.png" title="fog" />
+      <h1>The Ruby cloud services library</h1>
+      <dl>
+        <dt>version</dt><dd>v0.7.1</dd>
+        <dt>install</dt><dd><code>gem install fog</code></dd>
+        <dt>source</dt><dd><a href="http://github.com/geemus/fog">geemus/fog</a></dd>
+      </dl>
+    </header>
+
+    <div id="main">
+
+      {{ content }}
+
     </div>
-  </body>
+
+    <footer>
+      sponsored by
+      <img height="20px" src="public/images/engineyard.png" title="engineyard" />
+    </footer>
+  </div> <!-- end of #container -->
+
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="public/js/libs/jquery-1.4.2.js"%3E%3C/script%3E'))</script>
+
+
+  <!-- scripts concatenated and minified via ant build script-->
+  <script src="public/js/plugins.js"></script>
+  <script src="public/js/script.js"></script>
+  <!-- end concatenated and minified scripts-->
+
+
+  <!--[if lt IE 7 ]>
+    <script src="public/js/libs/dd_belatedpng.js"></script>
+    <script> DD_belatedPNG.fix('img, .png_bg'); </script>
+  <![endif]-->
+
+  <!-- yui profiler and profileviewer - remove for production -->
+  <script src="public/js/profiling/yahoo-profiling.min.js"></script>
+  <script src="public/js/profiling/config.js"></script>
+  <!-- end profiling code -->
+
+
+  <!-- change the UA-XXXXX-X to be your site's ID -->
+  <script>
+   var _gaq = [['_setAccount', 'UA-XXXXXX-X'], ['_trackPageview']];
+   (function(d, t) {
+    var g = d.createElement(t),
+        s = d.getElementsByTagName(t)[0];
+    g.async = true;
+    g.src = ('https:' == location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g, s);
+   })(document, 'script');
+  </script>
+
+</body>
 </html>
