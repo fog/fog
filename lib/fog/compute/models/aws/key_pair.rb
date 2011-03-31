@@ -33,7 +33,7 @@ module Fog
           true
         end
 
-        def write(path="#{ENV['HOME']}/.ssh/#{name}.pem")
+        def write(path="#{ENV['HOME']}/.ssh/fog_#{name}.pem")
           if writable?
             split_private_key = private_key.split(/\n/)
             key_file = File.new(path, "w")
