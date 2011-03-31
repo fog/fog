@@ -46,10 +46,11 @@ module Fog
           end
         end
 
-        private
-          def writable?
-            !!private_key
-          end
+        def writable?
+          !!private_key
+        end
+
+          private
       end
 
     end
