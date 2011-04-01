@@ -3,9 +3,7 @@ layout: default
 title:  The Ruby cloud services library
 ---
 
-## The Ruby cloud services library
-
-Whether you need compute, dns, storage, or a multitude of other services, fog provides an accessible entry point and facilitates cross service compatibility.</p>
+Whether you need compute, dns, storage, or a multitude of other services, fog provides an accessible entry point and facilitates cross service compatibility.
 
 Just getting started working with cloud resources? You are not alone, and having so many complicated options makes it hard to know where to start. fog delivers the knowledge of cloud experts to you, helping you to bootstrap your cloud usage and guiding you as your own expertise develops.
 
@@ -45,15 +43,15 @@ You can see a list of available collections by calling `collections` on the conn
 
 Some collections are available across multiple providers:
 
-* compute providers have +flavors+, +images+ and +servers+
-* dns providers have +zones+ and +records+
-* storage providers have +directories+ and +files+
+* compute providers have `flavors`, `images` and `servers`
+* dns providers have `zones` and `records`
+* storage providers have `directories` and `files`
 
 Collections share basic CRUD type operations, such as:
-* +all+ - fetch every object of that type from the provider.
-* +create+ - initialize a new record locally and a remote resource with the provider.
-* +get+ - fetch a single object by it's identity from the provider.
-* +new+ - initialize a new record locally, but do not create a remote resource with the provider.
+* `all` - fetch every object of that type from the provider.
+* `create` - initialize a new record locally and a remote resource with the provider.
+* `get` - fetch a single object by it's identity from the provider.
+* `new` - initialize a new record locally, but do not create a remote resource with the provider.
 
 As an example, we'll try initializing and persisting a Rackspace Cloud server:
 
@@ -76,9 +74,9 @@ As an example, we'll try initializing and persisting a Rackspace Cloud server:
 ## Models
 
 Many of the collection methods return individual objects, which also provide common methods:
-* +destroy+ - will destroy the persisted object from the provider
-* +save+ - persist the object to the provider
-* +wait_for+ - takes a block and waits for either the block to return true for the object or for a timeout (defaults to 10 minutes)
+* `destroy` - will destroy the persisted object from the provider
+* `save` - persist the object to the provider
+* `wait_for` - takes a block and waits for either the block to return true for the object or for a timeout (defaults to 10 minutes)
 
 ## Mocks
 
