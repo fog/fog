@@ -145,12 +145,6 @@ Enjoy, and let me know what I can do to continue improving fog!
 * See where fog is used and let the world know how you use it [in the wild](http://wiki.github.com/geemus/fog/in-the-wild)
 * Check out blog posts and other mentions in the [press](http://wiki.github.com/geemus/fog/press)
 
-## Sponsorship
-
-http://www.engineyard.com/images/logo.png
-
-All new work on fog is sponsored by [Engine Yard](http://engineyard.com)
-
 ## Copyright
 
 (The MIT License)
