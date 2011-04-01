@@ -17,4 +17,7 @@ With a rapidly expanding community and codebase the advantages of fog just keep 
 
 fog.io is very much a work in progress. In the meantime there are some great details available in the <a href="https://github.com/geemus/fog/blob/master/README.rdoc">README</a>.
 
-{{ site.posts }}
+## See Also:
+{% for post in site.posts %}
+* [{{ post.title }}]({{ post.url }})
+{% endfor %}
