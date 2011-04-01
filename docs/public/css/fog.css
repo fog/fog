@@ -47,6 +47,7 @@ header dl {
   background-color: #FFF;
   color: #333;
   border: 1px solid #70A1D2;
+  padding: 0 1em;
   margin-bottom: 2em;
 }
 
@@ -69,14 +70,11 @@ footer img {
 /* misc */
 
 h2 {
-  background-color: #EBF2F9;
-  border-color: #70A1D2;
-  border-style: solid;
-  border-width: 1px 0 1px 0;
-  margin: -1px;
+  border-bottom: 2px solid #A0C0E1;
   color: #70A1D2;
   font-size: 1.5em;
-  padding: 1.33333333333333em 0.75em 0.75em 0.75em;
+  margin-top: 1.33333333333333em;
+  padding: 0 0.75em 0.75em 0;
 }
 
 code, pre {
@@ -90,25 +88,18 @@ code {
 }
 
 p, ul {
-  padding: 0 1em;
-}
-
-p {
-  margin: 1em 0;
+  margin-bottom: 1em;
+  margin-top: 1em;
 }
 
 pre {
   -moz-border-radius: 0.5em;
   border-radius: 0.5em;
-  margin: 1em 2em;
+  margin: 1em;
 }
 
 pre code {
   border: none;
-}
-
-ul {
-  margin: 1em 0 1em 1.8em;
 }
 
 @media all and (orientation:portrait) {
