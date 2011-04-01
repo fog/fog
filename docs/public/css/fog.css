@@ -25,6 +25,10 @@ header {
   text-align: center;
 }
 
+header a, header a:active, header a:visited {
+  color: #FFF;
+}
+
 header img {
   position: absolute;
   left: 0;
@@ -37,17 +41,26 @@ header h1 {
 }
 
 header dl {
+  background-color: #70A1D2;
+  border-color: #70A1D2;
+  -moz-border-radius: 0 0 0.5em 0.5em;
+  border-radius: 0 0 0.5em 0.5em;
+  height: 140px; /* 154 - padding-top */
   position: absolute;
-  right: 1.5em;
-  text-align: left;
-  top: 1.5em;
+  padding: 14px 1.5em 0 1.5em;
+  right: 0;
+  top: 0;
+}
+
+header dl dt {
+  font-weight: bold;
 }
 
 #main {
   background-color: #FFF;
   -moz-border-radius: 0.5em;
   border-radius: 0.5em;
-  color: #333;
+  color: #666;
   border: 1px solid #70A1D2;
   padding: 0 1em;
   margin-bottom: 2em;
