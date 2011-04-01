@@ -1,6 +1,6 @@
 ---
 layout: default
-title:  fog - The Ruby cloud services library
+title:  The Ruby cloud services library
 ---
 
 ## The Ruby cloud services library
@@ -175,8 +175,3 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
 LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-## See Also:
-{% for post in site.posts %}
-* [{{ post.title }}]({{ post.url }})
-{% endfor %}

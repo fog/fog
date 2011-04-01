@@ -9,7 +9,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title>{{ page.title }}</title>
+  <title>fog - {{ page.title }}</title>
   <meta name="description" content="">
   <meta name="author" content="">
 
@@ -42,6 +42,12 @@
 
       {{ content }}
 
+      <h2>See Also:</h2>
+      <ul>
+        {% for post in site.posts %}
+        <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+        {% endfor %}
+      </ul>
     </div>
 
     <footer>
