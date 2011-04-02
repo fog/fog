@@ -31,15 +31,17 @@ module Fog
           new_attributes = data.reject {|key,value| !['keyFingerprint', 'keyMaterial', 'keyName'].include?(key)}
           merge_attributes(new_attributes)
           true
+
         end
 
         def write(path="#{ENV['HOME']}/.ssh/fog_#{Fog.credential.to_s}_#{name}.pem")
+          
           if writable?
             split_private_key = private_key.split(/\n/)
-            key_file = File.new(path, "w")
-            split_private_key.each {|line| key_file.puts line}
-            key_file.chmod 0600
-            key_file.close
+            File.open(path, "w") do |f|
+              split_private_key.each {|line| f.puts line}
+              f.chmod 0600
+            end
             "Key file built: #{path}"
           else
             "Invalid private key"
@@ -47,7 +49,7 @@ module Fog
         end
 
         def writable?
-          !!private_key
+          !!(private_key && ENV.has_key?('HOME'))
         end
 
           private
