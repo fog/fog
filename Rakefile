@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'date'
+require 'fog'
 
 #############################################################################
 #
@@ -129,4 +130,36 @@ task :validate do
     puts "A `VERSION` file at root level violates Gem best practices."
     exit!
   end
+end
+
+task :docs do
+  # build the docs locally
+  sh "jekyll docs docs/_site"
+
+  # connect to storage provider and write files to versioned 'folder'
+  Fog.credential = :geemus
+  storage = Fog::Storage.new(:provider => 'AWS')
+  directory = storage.directories.new(:key => 'fog.io')
+  for file_path in Dir.glob('docs/_site/**/*')
+    next if File.directory?(file_path)
+    file_name = file_path.gsub('docs/_site/', '')
+    key = '' << version << '/' << file_name
+    Formatador.redisplay(' ' * 80) # clear last line
+    Formatador.redisplay('Uploading ' << key)
+    directory.files.create(
+      :body         => File.open(file_path),
+      :key          => key,
+      :public       => true
+    )
+  end
+
+  # write base index with redirect to new version
+  directory.files.create(
+    :body         => '<!doctype html><head><script>window.location = "http://fog.io.s3-website-us-east-1.amazonaws.com/' << version << '/index.html"</script></head></html>',
+    :content_type => 'text/html',
+    :key          => 'index.html',
+    :public       => true
+  )
+
+  Formatador.display_line
 end
