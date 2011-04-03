@@ -146,8 +146,18 @@ task :docs do
     key = '' << version << '/' << file_name
     Formatador.redisplay(' ' * 80) # clear last line
     Formatador.redisplay('Uploading ' << key)
+    if File.extname(file_name) == '.html'
+      # rewrite links with version
+      body = File.read(file_path)
+      body.gsub!(/href="\//, 'href="/' << version << '/')
+      content_type = 'text/html'
+    else
+      body = File.open(file_path)
+      content_type = nil # leave it up to mime-types
+    end
     directory.files.create(
-      :body         => File.open(file_path),
+      :body         => body,
+      :content_type => content_type,
       :key          => key,
       :public       => true
     )
