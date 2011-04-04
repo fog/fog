@@ -83,15 +83,19 @@ Shindo.tests('AWS::CloudFormation | stack requests', ['aws', 'cloudformation']) 
 
   tests('success') do
 
-    @stack_name = 'fogstack' << Time.now.to_i.to_s
-    @keypair = AWS[:compute].key_pairs.create(:name => 'cloudformation')
-    @template_url = 'https://s3.amazonaws.com/cloudformation-templates-us-east-1/EC2InstanceSample-1.0.0.template'
+    unless Fog.mocking?
+      @stack_name = 'fogstack' << Time.now.to_i.to_s
+      @keypair = AWS[:compute].key_pairs.create(:name => 'cloudformation')
+      @template_url = 'https://s3.amazonaws.com/cloudformation-templates-us-east-1/EC2InstanceSample-1.0.0.template'
+    end
 
     tests("validate_template('TemplateURL' => '#{@template_url}')").formats(@validate_template_format) do
+      pending if Fog.mocking?
       AWS[:cloud_formation].validate_template('TemplateURL' => @template_url).body
     end
 
     tests("create_stack('#{@stack_name}', 'TemplateURL' => '#{@template_url}', Parameters => {'KeyName' => 'cloudformation'})").formats(@create_stack_format) do
+      pending if Fog.mocking?
       AWS[:cloud_formation].create_stack(
         @stack_name,
         'TemplateURL' => @template_url,
@@ -100,26 +104,33 @@ Shindo.tests('AWS::CloudFormation | stack requests', ['aws', 'cloudformation']) 
     end
 
     tests("get_template('#{@stack_name})").formats(@get_template_format) do
+      pending if Fog.mocking?
       AWS[:cloud_formation].get_template(@stack_name).body
     end
 
     tests("describe_stacks").formats(@describe_stacks_format) do
+      pending if Fog.mocking?
       AWS[:cloud_formation].describe_stacks.body
     end
 
     tests("describe_stack_events('#{@stack_name}')").formats(@describe_stack_events_format) do
+      pending if Fog.mocking?
       AWS[:cloud_formation].describe_stack_events(@stack_name).body
     end
 
     tests("describe_stack_resources('StackName' => '#{@stack_name}')").formats(@describe_stack_resources_format) do
+      pending if Fog.mocking?
       AWS[:cloud_formation].describe_stack_resources('StackName' => @stack_name).body
     end
 
     tests("delete_stack('#{@stack_name}')").succeeds do
+      pending if Fog.mocking?
       AWS[:cloud_formation].delete_stack(@stack_name)
     end
 
-    @keypair.destroy
+    unless Fog.mocking?
+      @keypair.destroy
+    end
 
   end
 
