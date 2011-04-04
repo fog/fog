@@ -13,7 +13,7 @@ module Fog
       unless block_given?
         if (parser = params.delete(:parser))
           body = Nokogiri::XML::SAX::PushParser.new(parser)
-          block = lambda { |chunk| body << chunk }
+          block = lambda { |chunk, remaining, total| body << chunk }
         end
       end
 
