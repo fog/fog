@@ -19,6 +19,7 @@ module Fog
         attribute :minimum
 
         def initialize(attributes = {})
+          self.ttl ||= 3600
           super(attributes)
         end
 

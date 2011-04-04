@@ -16,7 +16,7 @@ module Fog
         attribute :created_at,  :aliases => ['SubmittedAt']
 
         def initialize(attributes={})
-          self.ttl    ||= 3600
+          self.ttl ||= 3600
           super
         end
 
