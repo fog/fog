@@ -42,7 +42,8 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
     tests 'new storage' do
       returns(10){ server.allocated_storage}
     end
-    
+    server.wait_for { state == 'available'}
+
     tests("reboot db instance") do
       tests("#reboot").formats(AWS::RDS::Formats::REBOOT_DB_INSTANCE) do
         AWS[:rds].reboot_db_instance( @db_instance_id).body
