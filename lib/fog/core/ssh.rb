@@ -51,11 +51,10 @@ module Fog
         begin
           Net::SSH.start(@address, @username, @options) do |ssh|
             commands.each do |command|
-              escaped_command = command.sub(/'/, %{'"'"'})
-              result = Result.new(escaped_command)
+              result = Result.new(command)
               ssh.open_channel do |ssh_channel|
                 ssh_channel.request_pty
-                ssh_channel.exec(%{bash -lc '#{escaped_command}'}) do |channel, success|
+                ssh_channel.exec(command) do |channel, success|
                   unless success
                     raise "Could not execute command: #{command.inspect}"
                   end
