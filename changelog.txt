@@ -1,3 +1,41 @@
+0.7.2 04/05/2011
+================
+
+[aws|cloudformation]
+	enabling region parameter for AWS cloud formation requests. thanks flessa
+
+[compute]
+	[aws]
+		remove CGI escape from create_security_group. thanks coliver
+		replace remaining specs with shindo tests
+		update #keypairs reference to #key_pairs. thanks pvande
+		Emulate volume unavailability when mocking. thanks mtodd
+		Raise error on non-existent snapshot for create_volume. thanks mtodd
+		Add tag to resource data when creating a mock tag. thanks betamatt
+		Add tag filtering to mocks for snapshots, volumes, instances. thanks betamatt
+		Add delete_tags mock. thanks betamatt
+		Support tag-key, tag-value, tag:key filters. thanks betamatt
+		Correct name of dns-filter filter. thanks betamatt
+		allow key pair to write into properly chmodded files. thanks gerred
+		Making key pair names a little less potentially brittle. thanks gerred
+	[rackspace]
+		fix public_ip_address accessors
+
+[core]
+	updated base parser to not eagerly strip return data. thanks bdorry
+	don't escape ssh commands. thanks pvande
+	Deal with missing FOG_RC/HOME env vars better. thanks outerim
+	fix push parser block passed to excon > 0.6.0
+
+[docs]
+	move fog.io stuff into docs directory
+	pull in and format data from README, wiki, blog posts
+
+[storage|rackspace]
+	head_object should use HEAD. thanks nate
+	Support for serving Rackspace CDN objects via SSL. thanks minter
+	Use URI.escape instead of CGI.escape. thanks minter
+
 0.7.1 03/21/2011
 ================
 
@@ -146,3 +184,4 @@ Bug fixes.
 [rackspace|compute] get new auth token when one expires 
 [rackspace|storage] remove nil query params in requests 
 [terremark|ecloud] getting started on ecloud specific implementation
+
