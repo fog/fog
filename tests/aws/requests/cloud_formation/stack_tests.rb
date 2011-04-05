@@ -57,7 +57,7 @@ Shindo.tests('AWS::CloudFormation | stack requests', ['aws', 'cloudformation']) 
         'PhysicalResourceId'    => String,
         'ResourceProperties'    => String,
         'ResourceStatus'        => String,
-        'ResourceStatusReason'  => String,
+        'ResourceStatusReason'  => Fog::Nullable::String,
         'ResourceType'          => String,
         'StackId'               => String,
         'StackName'             => String,
