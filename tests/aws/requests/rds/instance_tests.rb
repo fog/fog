@@ -86,8 +86,9 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
     tests("replica identifiers") do
       returns([@db_replica_id]){server.read_replica_identifiers}
     end
-    
+
     tests("#delete_db_instance").formats(AWS::RDS::Formats::DELETE_DB_INSTANCE) do
+      server.wait_for { state == 'available'}
       AWS[:rds].delete_db_instance(@db_replica_id, nil, true)
       body = AWS[:rds].delete_db_instance(@db_instance_id, 'fog-final-snapshot').body
       Fog.wait_for do
