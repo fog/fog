@@ -21,8 +21,8 @@ module Fog
         attribute :storage
         attribute :template
 
-        attr_accessor :password
-        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :lb_applications, :lb_services, :lb_backends
+        attr_accessor :password, :lb_applications, :lb_services, :lb_backends
+        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username
 
         def initialize(attributes={})
           self.flavor_id ||= '94fd37a7-2606-47f7-84d5-9000deda52ae'
@@ -43,18 +43,6 @@ module Fog
         def image
           requires :image_id
           connection.images.get(image_id)
-        end
-
-        def lb_applications
-          @lb_applications
-        end
-
-        def lb_backends
-          @lb_backends
-        end
-
-        def lb_services
-          @lb_services
         end
 
         def private_ip_address

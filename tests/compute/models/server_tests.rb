@@ -11,6 +11,7 @@ for provider, config in compute_providers
         responds_to(:public_ip_address)
         responds_to(:scp)
         responds_to(:ssh)
+        responds_to(:lb_applications)
       end
 
     end
