@@ -22,7 +22,7 @@ module Fog
         attribute :template
 
         attr_accessor :password
-        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username
+        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :lb_applications, :lb_services, :lb_backends
 
         def initialize(attributes={})
           self.flavor_id ||= '94fd37a7-2606-47f7-84d5-9000deda52ae'
@@ -43,6 +43,18 @@ module Fog
         def image
           requires :image_id
           connection.images.get(image_id)
+        end
+
+        def lb_applications
+          @lb_applications
+        end
+
+        def lb_backends
+          @lb_backends
+        end
+
+        def lb_services
+          @lb_services
         end
 
         def private_ip_address
@@ -90,6 +102,14 @@ module Fog
             raise(ArgumentError, "password or public_key is required for this operation") if !password && !public_key
             options['ssh_public_key'] = public_key if @public_key
             options['password'] = password if @password
+          end
+
+          if @lb_backends
+            options['lb_backends'] = lb_backends
+          elsif @lb_services
+            options['lb_services'] = lb_services
+          elsif @lb_applications
+            options['lb_applications'] = lb_applications
           end
 
           options['username'] = username
