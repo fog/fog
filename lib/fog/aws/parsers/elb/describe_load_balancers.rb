@@ -6,10 +6,23 @@ module Fog
         class DescribeLoadBalancers < Fog::Parsers::Base
 
           def reset
-            @load_balancer = { 'ListenerDescriptions' => [], 'Instances' => [], 'AvailabilityZones' => [], 'Policies' => {'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [] }, 'HealthCheck' => {} }
-            @listener_description = { 'PolicyNames' => [], 'Listener' => {} }
+            reset_load_balancer
+            reset_listener_description
+            reset_policy
             @results = { 'LoadBalancerDescriptions' => [] }
             @response = { 'DescribeLoadBalancersResult' => {}, 'ResponseMetadata' => {} }
+          end
+
+          def reset_load_balancer
+            @load_balancer = { 'ListenerDescriptions' => [], 'Instances' => [], 'AvailabilityZones' => [], 'Policies' => {'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [] }, 'HealthCheck' => {} }
+          end
+
+          def reset_listener_description
+            @listener_description = { 'PolicyNames' => [], 'Listener' => {} }
+          end
+
+          def reset_policy
+            @policy = {}
           end
 
           def start_element(name, attrs = [])
@@ -41,14 +54,16 @@ module Fog
                 @load_balancer['AvailabilityZones'] << @value
               elsif @in_listeners
                 @load_balancer['ListenerDescriptions'] << @listener_description
-                @listener_description = { 'PolicyNames' => [], 'Listener' => {} }
+                reset_listener_description
               elsif @in_app_cookies
-                @load_balancer['Policies']['AppCookieStickinessPolicies'] << @value
+                @load_balancer['Policies']['AppCookieStickinessPolicies'] << @policy
+                reset_policy
               elsif @in_lb_cookies
-                @load_balancer['Policies']['LBCookieStickinessPolicies'] << @value
+                @load_balancer['Policies']['LBCookieStickinessPolicies'] << @policy
+                reset_policy
               elsif !@in_instances && !@in_policies
                 @results['LoadBalancerDescriptions'] << @load_balancer
-                @load_balancer = { 'ListenerDescriptions' => [], 'Instances' => [], 'AvailabilityZones' => [], 'Policies' => {'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [] }, 'HealthCheck' => {} }
+                reset_load_balancer
               end
 
             when 'LoadBalancerName', 'DNSName'
@@ -84,6 +99,11 @@ module Fog
               @load_balancer['HealthCheck'][name] = @value.to_i
             when 'Target'
               @load_balancer['HealthCheck'][name] = @value
+
+            when 'PolicyName', 'CookieName'
+              @policy[name] = @value
+            when 'CookieExpirationPeriod'
+              @policy[name] = @value.to_i
 
             when 'RequestId'
               @response['ResponseMetadata'][name] = @value
