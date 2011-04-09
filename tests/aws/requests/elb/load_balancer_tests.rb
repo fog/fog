@@ -14,6 +14,18 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
       AWS[:elb].describe_load_balancers.body
     end
 
+    tests("#configure_health_check").formats(AWS::ELB::Formats::CONFIGURE_HEALTH_CHECK) do
+      health_check = {
+        'Target' => 'HTTP:80/index.html',
+        'Interval' => 10,
+        'Timeout' => 5,
+        'UnhealthyThreshold' => 2,
+        'HealthyThreshold' => 3
+      }
+
+      AWS[:elb].configure_health_check(@load_balancer_id, health_check).body
+    end
+
     tests("#delete_load_balancer").formats(AWS::ELB::Formats::DELETE_LOAD_BALANCER) do
       AWS[:elb].delete_load_balancer(@load_balancer_id).body
     end
