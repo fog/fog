@@ -41,6 +41,10 @@ module Fog
       params
     end
 
+    def self.escape(string)
+      string.gsub( /([^a-zA-Z0-9_.-~]+)/n ) { |match| '%' + match.unpack( 'H2' * match.size ).join( '%' ).upcase }
+    end
+    
     def self.signed_params(params, options = {})
       params.merge!({
         'AWSAccessKeyId'    => options[:aws_access_key_id],
@@ -53,7 +57,7 @@ module Fog
       body = ''
       for key in params.keys.sort
         unless (value = params[key]).nil?
-          body << "#{key}=#{CGI.escape(value.to_s).gsub(/\+/, '%20')}&"
+          body << "#{key}=#{escape(value.to_s)}&"
         end
       end
       string_to_sign = "POST\n#{options[:host]}:#{options[:port]}\n#{options[:path]}\n" << body.chop
