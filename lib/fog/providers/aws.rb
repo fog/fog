@@ -42,7 +42,7 @@ module Fog
     end
 
     def self.escape(string)
-      string.gsub( /([^a-zA-Z0-9_.-~]+)/n ) { |match| '%' + match.unpack( 'H2' * match.size ).join( '%' ).upcase }
+      string.gsub( /([^-a-zA-Z0-9_.~]+)/n ) { |match| '%' + match.unpack( 'H2' * match.size ).join( '%' ).upcase }
     end
     
     def self.signed_params(params, options = {})
