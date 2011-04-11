@@ -5,6 +5,11 @@ title:  Press
 
 Mentions and blog posts from elsewhere in reverse chronological order by day (and alphasorted for same days).
 
+
+**April 7th, 2011**
+
+* [Testing multipart Uploads to S3 with Threads](http://blog.vicecity.co.uk/post/4425574978/multipart-uploads-fog-threads-win)
+
 **March 9th, 2011**
 
 * [Offsite Backups with fog](http://www.engineyard.com/blog/2011/offsite-backups-with-fog/)
