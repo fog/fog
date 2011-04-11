@@ -140,7 +140,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             if match = error.message.match(/<Code>(.*)<\/Code>[\s\\\w]+<Message>(.*)<\/Message>/m)
               case match[1].split('.').last
-              when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound'
+              when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound'
                 raise Fog::AWS::RDS::NotFound.slurp(error, match[2])
               when 'DBParameterGroupAlreadyExists'
                 raise Fog::AWS::RDS::IdentifierTaken.slurp(error, match[2])
