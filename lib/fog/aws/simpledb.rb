@@ -124,8 +124,8 @@ module Fog
             item_index = 0
             for item_key in items.keys
               encoded_attributes["Item.#{item_index}.ItemName"] = item_key.to_s
+              attribute_index = 0
               for attribute_key in items[item_key].keys
-                attribute_index = 0
                 for value in Array(items[item_key][attribute_key])
                   encoded_attributes["Item.#{item_index}.Attribute.#{attribute_index}.Name"] = attribute_key.to_s
                   if replace_attributes[item_key].include?(attribute_key)
@@ -134,8 +134,8 @@ module Fog
                   encoded_attributes["Item.#{item_index}.Attribute.#{attribute_index}.Value"] = sdb_encode(value)
                   attribute_index += 1
                 end
-                item_index += 1
               end
+              item_index += 1
             end
           end
           encoded_attributes
