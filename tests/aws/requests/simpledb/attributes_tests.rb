@@ -7,7 +7,6 @@ Shindo.tests('AWS::SimpleDB | attributes requests', ['aws']) do
   tests('success') do
 
     tests("#batch_put_attributes('#{@domain_name}', { 'a' => { 'b' => 'c', 'd' => 'e' }, 'x' => { 'y' => 'z' } }).body").formats(AWS::SimpleDB::Formats::BASIC) do
-      puts "-----batch_put_attributes-----"
       AWS[:sdb].batch_put_attributes(@domain_name, { 'a' => { 'b' => 'c', 'd' => 'e' }, 'x' => { 'y' => 'z' } }).body
     end
 
