@@ -28,7 +28,6 @@ Gem::Specification.new do |s|
 
   ## If your gem includes any executables, list them here.
   s.executables = ["fog"]
-  s.default_executable = 'fog'
 
   ## Specify any RDoc options here. You'll want to add your README and
   ## LICENSE files to the extra_rdoc_files list.
