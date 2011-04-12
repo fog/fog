@@ -165,7 +165,7 @@ task :docs do
 
   # write base index with redirect to new version
   directory.files.create(
-    :body         => '<!doctype html><head><script>window.location = "http://fog.io/' << version << '/index.html"</script></head></html>',
+    :body         => '<!doctype html><head><script>window.location = "http://fog.io/' << version << '"</script></head></html>',
     :content_type => 'text/html',
     :key          => 'index.html',
     :public       => true
