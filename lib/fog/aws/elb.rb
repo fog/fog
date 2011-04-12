@@ -6,14 +6,22 @@ module Fog
       recognizes :region, :host, :path, :port, :scheme, :persistent
 
       request_path 'fog/aws/requests/elb'
+      request :configure_health_check
+      #request :create_app_cookie_stickiness_policy
+      #request :create_db_cookie_stickiness_policy
       request :create_load_balancer
+      #request :create_load_balancer_listeners
       request :delete_load_balancer
+      #request :delete_load_balancer_listeners
+      #request :delete_load_balancer_policy
       request :deregister_instances_from_load_balancer
       request :describe_instance_health
       request :describe_load_balancers
       request :disable_availability_zones_for_load_balancer
       request :enable_availability_zones_for_load_balancer
       request :register_instances_with_load_balancer
+      #request :set_load_balancer_listener_ssl_certificate
+      #request :set_load_balancer_policies_of_listener
 
       class Mock
 

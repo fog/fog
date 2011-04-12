@@ -25,6 +25,16 @@ class AWS
         'DescribeLoadBalancersResult' => {'LoadBalancerDescriptions' => [LOAD_BALANCER]}
       })
 
+      CONFIGURE_HEALTH_CHECK = BASIC.merge({
+        'ConfigureHealthCheckResult' => {'HealthCheck' => {
+        'Target' => String,
+        'Interval' => Integer,
+        'Timeout' => Integer,
+        'UnhealthyThreshold' => Integer,
+        'HealthyThreshold' => Integer
+      }}
+      })
+
       DELETE_LOAD_BALANCER = BASIC.merge({
         'DeleteLoadBalancerResult' =>  NilClass
       })
