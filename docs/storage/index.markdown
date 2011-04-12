@@ -1,6 +1,6 @@
 ---
 layout: default
-title:  STORAGE
+title:  Storage
 ---
 
 Having Ruby experience makes you hirable; but how can you stand out? You need to demonstrate your abilities. What better way than using Ruby and "the cloud" to store and serve your resume!
