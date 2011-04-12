@@ -1,6 +1,6 @@
 ---
 layout: default
-title:  storage
+title:  STORAGE
 ---
 
 Having Ruby experience makes you hirable; but how can you stand out? You need to demonstrate your abilities. What better way than using Ruby and "the cloud" to store and serve your resume!
@@ -34,15 +34,15 @@ First, create a connection with your new account:
 
     # create a connection
     connection = Fog::Storage.new(
-      :provider                 =&gt; 'AWS',
-      :aws_secret_access_key    =&gt; YOUR_SECRET_ACCESS_KEY,
-      :aws_access_key_id =&gt; YOUR_SECRET_ACCESS_KEY_ID
+      :provider                 => 'AWS',
+      :aws_secret_access_key    => YOUR_SECRET_ACCESS_KEY,
+      :aws_access_key_id        => YOUR_SECRET_ACCESS_KEY_ID
     )
 
     # First, a place to contain the glorious details
     directory = connection.directories.create(
-      :key    =&gt; "fog-demo-#{Time.now.to_i}", # globally unique name
-      :public =&gt; true
+      :key    => "fog-demo-#{Time.now.to_i}", # globally unique name
+      :public => true
     )
 
     # list directories
@@ -50,9 +50,9 @@ First, create a connection with your new account:
 
     # upload that resume
     file = directory.files.create(
-      :key    =&gt; 'resume.html',
-      :body   =&gt; File.open("/path/to/my/resume.html"),
-      :public =&gt; true
+      :key    => 'resume.html',
+      :body   => File.open("/path/to/my/resume.html"),
+      :public => true
     )
 
 If you are anything like me, you will continually tweak your resume. Pushing updates is easy:
@@ -73,9 +73,9 @@ directory = connection.directories.get("proclamations1234567890")
 
     # also, create(attributes) is just new(attributes).save, so you can also do:
     file = directory.files.new(
-      :key =&gt; 'resume.html',
-      :body =&gt; 'improvements',
-      :public =&gt; true
+      :key    => 'resume.html',
+      :body   => 'improvements',
+      :public => true
     )
     file.save
 
@@ -92,9 +92,9 @@ More clouds? How much extra stuff will you have to do for these services!?! Hard
 Sign up <a href="http://gs-signup-redirect.appspot.com/">here</a> and get your credentials <a href="https://sandbox.google.com/storage/m/">here</a>.
 
     connection = Fog::Storage.new(
-      :provider =&gt; 'Google',
-      :google_storage_secret_access_key =&gt; YOUR_SECRET_ACCESS_KEY,
-      :google_storage_access_key_id =&gt; YOUR_SECRET_ACCESS_KEY_ID
+      :provider                         => 'Google',
+      :google_storage_secret_access_key => YOUR_SECRET_ACCESS_KEY,
+      :google_storage_access_key_id     => YOUR_SECRET_ACCESS_KEY_ID
     )
 
 ## Rackspace CloudFiles
@@ -102,20 +102,20 @@ Sign up <a href="http://gs-signup-redirect.appspot.com/">here</a> and get your c
 Rackspace has <a href="http://www.rackspacecloud.com/cloud_hosting_products/files">Cloud Files</a> and you can sign up <a href="https://www.rackspacecloud.com/signup">here</a> and get your credentials <a href="https://manage.rackspacecloud.com/APIAccess.do">here</a>.
 
     connection = Fog::Storage.new(
-      :provider =&gt; 'Rackspace',
-      :rackspace_username =&gt; RACKSPACE_USERNAME,
-      :rackspace_api_key =&gt; RACKSPACE_API_KEY
+      :provider           => 'Rackspace',
+      :rackspace_username => RACKSPACE_USERNAME,
+      :rackspace_api_key  => RACKSPACE_API_KEY
     )
 
-Then create, save, destroy as per fog-for-AWS. The `:public =&gt; true` option when creating directories (see above) is important for Rackspace; your folder and files won't be shared to Rackspace's CDN and hence your users without it.  Similarly the `:public =&gt; true` on files is important for AWS and Google or they will be private.
+Then create, save, destroy as per fog-for-AWS. The `:public => true` option when creating directories (see above) is important for Rackspace; your folder and files won't be shared to Rackspace's CDN and hence your users without it.  Similarly the `:public =&gt; true` on files is important for AWS and Google or they will be private.
 
 ## Local Storage
 
 While you are working out the kinks you might not want to do everything live though, ditto for while you are running tests, so you have a couple options to try before you buy.  First, you can use a local provider to store things in a directory on your machine.
 
     connection = Fog::Storage.new(
-      :provider =&gt; 'Local',
-      :local_root =&gt; '~/fog'
+      :provider   => 'Local',
+      :local_root => '~/fog'
     )
 
 ## Mocking out Cloud Storage

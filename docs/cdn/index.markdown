@@ -1,6 +1,6 @@
 ---
 layout: default
-title:  cdn
+title:  CDN
 ---
 
 Faster websites are better. <a href="http://www.websiteoptimization.com/speed/tweak/design-factors/">Better experience</a>, <a href="http://exp-platform.com/Documents/IEEEComputer2007OnlineExperiments.pdf">better sales</a>, <a href="http://www.stevesouders.com/blog/2009/07/27/wikia-fast-pages-retain-users/">you name it</a>. Unfortunately, making a website faster can be tough. Thankfully a content distribution network, or CDN, can give you great performance bang for your buck. A CDN helps speed things up by putting copies of your files closer to your users. It's like the difference between pizza delivery from across the street and pizza delivery from the next town over.
@@ -19,9 +19,9 @@ Now you'll need to <a href="https://aws-portal.amazon.com/gp/aws/developer/subsc
 
     # create a connection to the service
     cdn = Fog::CDN.new({
-      :provider               =&gt; 'AWS',
-      :aws_access_key_id      =&gt; AWS_ACCESS_KEY_ID,
-      :aws_secret_access_key  =&gt; AWS_SECRET_ACCESS_KEY
+      :provider               => 'AWS',
+      :aws_access_key_id      => AWS_ACCESS_KEY_ID,
+      :aws_secret_access_key  => AWS_SECRET_ACCESS_KEY
     }
 
 ## Setting Up Your CDN
@@ -29,9 +29,9 @@ Now you'll need to <a href="https://aws-portal.amazon.com/gp/aws/developer/subsc
 Now you'll need to create a 'distribution' which represents a mapping from the CDN to your domain. For the examples we'll pretend we are working on 'http://www.example.com', but you can just switch it to your actual domain. Some <a href="http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/CreateDistribution.html">other options</a> are available, but the only other one we need to fill in is OriginProtocolPolicy.  This sets what to do about http vs https. We will use 'match-viewer' which returns the same protocol as the request, but you can also choose 'http-only' which always returns http responses.
 
     data = cdn.post_distribution({
-      'CustomOrigin' =&gt; {
-        'DNSName'               =&gt; 'www.example.com',
-        'OriginProtocolPolicy'  =&gt; 'match-viewer'
+      'CustomOrigin' => {
+        'DNSName'               => 'www.example.com',
+        'OriginProtocolPolicy'  => 'match-viewer'
       }
     })
 
@@ -60,12 +60,12 @@ But, just in case you need to update things I'll run through how you can make ch
       distribution_id,
       etag,
       {
-        'CustomOrigin' =&gt; {
-          'DNSName'               =&gt; 'www.example.com',
-          'OriginProtocolPolicy'  =&gt; 'match-viewer'
+        'CustomOrigin'    => {
+          'DNSName'               => 'www.example.com',
+          'OriginProtocolPolicy'  => 'match-viewer'
         },
-        'CallerReference' =&gt; caller_reference,
-        'Enabled' =&gt; 'false'
+        'CallerReference' => caller_reference,
+        'Enabled'         => 'false'
       }
     )
 
