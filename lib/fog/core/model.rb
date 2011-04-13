@@ -25,11 +25,16 @@ module Fog
 
     def reload
       requires :identity
-      if data = collection.get(identity)
-        new_attributes = data.attributes
-        merge_attributes(new_attributes)
-        self
+
+      return unless data = begin
+        collection.get(identity)
+      rescue Excon::Errors::SocketError
+        nil
       end
+
+      new_attributes = data.attributes
+      merge_attributes(new_attributes)
+      self
     end
 
     def to_json
