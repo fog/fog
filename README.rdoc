@@ -1,5 +1,7 @@
 http://geemus.s3.amazonaws.com/fog.png
 
+Docs available at: {fog.io}[http://fog.io]
+
 fog is the Ruby cloud computing library, top to bottom:
 
 * Collections provide a simplified interface, making clouds easier to work with and switch between.
@@ -123,7 +125,6 @@ Wonder how you can get a lovely fog shirt? Look no further!
 
 Enjoy, and let me know what I can do to continue improving fog!
 
-* See a list of supported providers and services on the {providers page}[http://fog.io/providers].
 * Stay up to date by following {@fog}[http://twitter.com/fog] and/or {@geemus}[http://twitter.com/geemus] on Twitter.
 * Get and give help on the {#ruby-fog}[irc://irc.freenode.net/ruby-fog] irc channel on Freenode
 * Follow release notes and discussions on the {mailing list}[http://groups.google.com/group/ruby-fog]
