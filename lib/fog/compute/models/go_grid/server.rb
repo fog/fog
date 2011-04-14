@@ -21,6 +21,7 @@ module Fog
         attribute :sandbox      # Optional. Default: False
 
         def initialize(attributes={})
+          image_id ||= 'ubuntu_10_04_LTS_64_base' # Ubuntu 10.04 LTS 64bit
           super
         end
 

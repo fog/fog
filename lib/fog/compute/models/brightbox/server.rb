@@ -28,6 +28,12 @@ module Fog
         attribute :cloud_ips
         attribute :interfaces
 
+        def initialize(attributes={})
+          self.flavor_id  ||= 'typ-4nssg' # Nano
+          self.image_id   ||= 'img-tjjt6' # Lucid 10.04 LTS 64bit
+          super
+        end
+
         def snapshot
           requires :identity
           connection.snapshot_server(identity)

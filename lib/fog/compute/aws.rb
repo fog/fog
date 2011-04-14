@@ -205,6 +205,8 @@ module Fog
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
           @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
+          @region = options[:region] ||= 'us-east-1'
+
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
             @host = endpoint.host
@@ -212,7 +214,6 @@ module Fog
             @port = endpoint.port
             @scheme = endpoint.scheme
           else
-            options[:region] ||= 'us-east-1'
             @host = options[:host] || case options[:region]
             when 'ap-northeast-1'
               'ec2.ap-northeast-1.amazonaws.com'

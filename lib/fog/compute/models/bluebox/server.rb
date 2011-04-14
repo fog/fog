@@ -25,7 +25,8 @@ module Fog
         attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username
 
         def initialize(attributes={})
-          self.flavor_id ||= '94fd37a7-2606-47f7-84d5-9000deda52ae'
+          self.flavor_id  ||= '94fd37a7-2606-47f7-84d5-9000deda52ae' # Block 1GB Virtual Server
+          self.image_id   ||= '03807e08-a13d-44e4-b011-ebec7ef2c928' # Ubuntu LTS 10.04 64bit
           super
         end
 

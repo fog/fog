@@ -22,7 +22,8 @@ module Fog
         attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username
 
         def initialize(attributes={})
-          self.flavor_id ||= 1
+          self.flavor_id  ||= 1  # 256 server
+          self.image_id   ||= 49 # Ubuntu 10.04 LTS 64bit
           super
         end
 

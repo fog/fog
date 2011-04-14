@@ -42,8 +42,22 @@ module Fog
         attr_writer   :private_key, :private_key_path, :public_key, :public_key_path, :username
 
         def initialize(attributes={})
-          self.groups ||= ["default"] unless attributes[:subnet_id]
-          self.flavor_id ||= 'm1.small'
+          self.groups     ||= ["default"] unless attributes[:subnet_id]
+          self.flavor_id  ||= 'c1.medium'
+          self.image_id ||= begin
+            case attributes[:connection].instance_variable_get(:@region) # Ubuntu 10.04 LTS 64bit (EBS)
+            when 'ap-northeast-1'
+              'ami-5e0fa45f'
+            when 'ap-southeast-1'
+              'ami-f092eca2'
+            when 'eu-west-1'
+              'ami-3d1f2b49'
+            when 'us-east-1'
+              'ami-3202f25b'
+            when 'us-west-1'
+              'ami-f5bfefb0'
+            end
+          end
           super
         end
 

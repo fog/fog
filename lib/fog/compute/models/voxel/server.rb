@@ -16,6 +16,7 @@ module Fog
         attribute :ip_assignments, :aliases => 'ipassignments'
 
         def initialize(attributes={})
+          self.image_id ||= '55' # Ubuntu 10.04 LTS 64bit
           super
         end
 
