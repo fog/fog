@@ -43,7 +43,7 @@ module Fog
 
         def initialize(attributes={})
           self.groups     ||= ["default"] unless attributes[:subnet_id]
-          self.flavor_id  ||= 'c1.medium'
+          self.flavor_id  ||= 't1.micro'
           self.image_id ||= begin
             case attributes[:connection].instance_variable_get(:@region) # Ubuntu 10.04 LTS 64bit (EBS)
             when 'ap-northeast-1'
