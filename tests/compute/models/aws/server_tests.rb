@@ -4,7 +4,7 @@ Shindo.tests("AWS::Compute | monitor", ['aws']) do
     responds_to(association)
   end
 
-  @instance = AWS[:compute].servers.new(:image_id => 'ami-1a837773')
+  @instance = AWS[:compute].servers.new
 
   tests('new instance') do
 
@@ -36,4 +36,5 @@ Shindo.tests("AWS::Compute | monitor", ['aws']) do
 
   end
 
+  @instance.destroy
 end
