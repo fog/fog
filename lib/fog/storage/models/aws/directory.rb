@@ -51,11 +51,11 @@ module Fog
             Enumerable::Enumerator.new(self, :each_file)
           else
             page_of_files = files.all
-            page_of_files.each {|f| yield f }
+            page_of_files.each_nowarn {|f| yield f }
 
             while page_of_files.is_truncated
               page_of_files = files.all(:marker => page_of_files.last.key)
-              page_of_files.each {|f| yield f }
+              page_of_files.each_nowarn {|f| yield f }
             end
 
           end

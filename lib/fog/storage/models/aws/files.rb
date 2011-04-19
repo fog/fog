@@ -39,6 +39,12 @@ module Fog
           end
         end
 
+        alias :each_nowarn :each
+        def each
+          Formatador.display_line("[yellow][WARN] fog: AWS::Storage::Files#each only works on the first page of files; consider using AWS::Storage::Directory#each_file instead[/]")
+          super
+        end
+
         def get(key, options = {}, &block)
           requires :directory
           data = connection.get_object(directory.key, key, options, &block)
