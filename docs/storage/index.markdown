@@ -79,6 +79,27 @@ directory = connection.directories.get("proclamations1234567890")
     )
     file.save
 
+## Backing up your files
+
+Now you've got a bunch of files in S3: your resume, some code samples,
+and maybe some pictures of your cat doing funny stuff. Since this is
+all of vital importance, you need to back it up.
+
+   # copy each file to local disk
+   directory.each_file do |s3_file|
+     File.open(s3_file.key, 'w') do |local_file|
+       local_file.write(s3_file.body)
+     end
+   end
+
+One caveat: it's tempting to just write `directory.files.each` here,
+but that only works until you get a large number of files. S3's API
+for listing files forces pagination on you. `directory.each_file`
+takes pagination into account; `directory.files.each` will only
+operate on the first page.
+
+## Sending it out
+
 Alright, so you (eventually) become satisfied enough to send it off, what is the URL endpoint to your resume?
 
     puts file.public_url
