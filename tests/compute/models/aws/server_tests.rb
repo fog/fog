@@ -24,6 +24,12 @@ Shindo.tests("AWS::Compute | monitor", ['aws']) do
 
     @instance.save
 
+    [:id, :availability_zone, :flavor_id, :kernel_id, :image_id, :state].each do |attr|
+      test("instance##{attr} should not contain whitespace") do
+        nil == @instance.send(attr).match(/\s/)
+      end
+    end
+
     test('#monitor = true') do
       @instance.monitor = true
       @instance.monitoring == true
