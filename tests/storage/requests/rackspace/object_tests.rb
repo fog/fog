@@ -17,6 +17,7 @@ Shindo.tests('Rackspace::Storage | object requests', ['rackspace']) do
     end
 
     tests("#get_object('fogobjecttests', 'fog_object', &block)").returns(lorem_file.read) do
+      pending if Fog.mocking?
       data = ''
       Rackspace[:storage].get_object('fogobjecttests', 'fog_object') do |chunk, remaining_bytes, total_bytes|
         data << chunk
