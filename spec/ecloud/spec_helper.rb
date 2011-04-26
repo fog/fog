@@ -313,7 +313,7 @@ Spec::Matchers.define :have_key_with_array do |expected_key, expected_array|
   end
   failure_message_for_should do |actual|
     "Items not found in array:\n#{expected_array.select { |expected_item| !actual[expected_key].include?(expected_item) }.map { |item| item.inspect }.join("\n")}\n"  +
-    "Orignal items:\n#{actual[expected_key].map { |item| item.inspect }.join("\n") }\n"+
+    "Original items:\n#{actual[expected_key].map { |item| item.inspect }.join("\n") }\n"+
     "Length Difference: #{expected_array.length - actual[expected_key].length}"
   end
 end
