@@ -121,6 +121,12 @@ module Fog
         @attributes ||= {}
       end
 
+      def dup
+        copy = super
+        copy.attributes = attributes.dup
+        copy
+      end
+
       def identity
         send(self.class.instance_variable_get('@identity'))
       end
@@ -164,6 +170,10 @@ module Fog
           end
         end
       end
+
+      protected
+
+      attr_writer :attributes
 
       private
 
