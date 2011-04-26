@@ -39,10 +39,21 @@ module Fog
           end
         end
 
-        alias :each_nowarn :each
+        alias :each_file_this_page :each
         def each
-          Formatador.display_line("[yellow][WARN] fog: AWS::Storage::Files#each only works on the first page of files; consider using AWS::Storage::Directory#each_file instead[/]")
-          super
+          if !block_given?
+            self
+          else
+            subset = dup.all
+
+            subset.each_file_this_page {|f| yield f}
+            while subset.is_truncated
+              subset = subset.all(:marker => subset.last.key)
+              subset.each_file_this_page {|f| yield f}
+            end
+
+            self
+          end
         end
 
         def get(key, options = {}, &block)

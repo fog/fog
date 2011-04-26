@@ -46,21 +46,6 @@ module Fog
           end
         end
 
-        def each_file
-          if !block_given?
-            Enumerable::Enumerator.new(self, :each_file)
-          else
-            page_of_files = files.all
-            page_of_files.each_nowarn {|f| yield f }
-
-            while page_of_files.is_truncated
-              page_of_files = files.all(:marker => page_of_files.last.key)
-              page_of_files.each_nowarn {|f| yield f }
-            end
-
-          end
-        end
-
         def payer
           requires :key
           data = connection.get_request_payment(key)
