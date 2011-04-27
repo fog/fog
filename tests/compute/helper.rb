@@ -16,7 +16,7 @@ def compute_providers
     },
     Brightbox => {
       :server_attributes => {
-        :image_id => 'img-9vxqi' # image img-9vxqi = Ubuntu Maverick 10.10 server
+        :image_id => 'img-2ab98' # Ubuntu Lucid 10.04 server (i686)
       },
       :mocked => false
     },
