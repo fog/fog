@@ -3,12 +3,15 @@ module Fog
     class IBM
       class Real
 
-        # Delete an address
+        # Deletes the Address that the authenticated user manages with the specified :address_id
+        #
+        # ==== Parameters
+        # * address_id<~String> - Id of address
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>
-        # TODO: docs
+        #   * body<~Hash>:
+        #     *'success'<~Bool>: true or false for success
         def delete_address(address_id)
           request(
             :method   => 'DELETE',

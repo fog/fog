@@ -3,12 +3,15 @@ module Fog
     class IBM
       class Real
 
-        # Terminate an instance
+        # Deletes the Instance that the authenticated user manages with the specified :instance_id
+        #
+        # ==== Parameters
+        # * instance_id<~String> - Id of instance
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>
-        # TODO: docs
+        #   * body<~Hash>:
+        #     *'success'<~Bool>: true or false for success
         def delete_instance(instance_id)
           request(
             :method   => 'DELETE',

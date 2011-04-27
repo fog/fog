@@ -3,13 +3,23 @@ module Fog
     class IBM
       class Real
 
-        # Get vlans
+        # Returns the vlan offerings for user
+        #
+        # ==== Parameters
+        # No parameters
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * images<~Array>
-        # TODO: docs
+        #     * 'addresses'<~Array>: list of addresses
+        #       * 'location'<~String>: location of address
+        #       * 'mode'<~Integer>:
+        #       * 'offeringId'<~String>: offering ID
+        #       * 'id'<~String>: id
+        #       * 'type'<~Integer>: TODO unsure
+        #       * 'ip'<~String>: IP address.. with space at the end
+        #       * 'hostname'<~String>: seems to be same as ip
+        #       * 'state'<~Integer>: state of address
         def list_vlans
           request(
             :method   => 'GET',

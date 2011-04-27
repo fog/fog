@@ -3,12 +3,15 @@ module Fog
     class IBM
       class Real
 
-        # Delete a key
+        # Deletes the key specified with key_name
+        #
+        # ==== Parameters
+        # * key_name<~String> - name of key to be deleted
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>
-        # TODO: docs
+        #   * body<~Hash>:
+        #     *'success'<~Bool>: true or false for success
         def delete_key(key_name)
           request(
             :method   => 'DELETE',

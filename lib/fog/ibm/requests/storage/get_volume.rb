@@ -3,12 +3,14 @@ module Fog
     class IBM
       class Real
 
-        # Get a volume
+        # Used to retrieve the specified storage volume for specified volume_id
+        #
+        # ==== Parameters
+        # * volume_id<~String> - Id of storage volume
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>
-        # TODO: docs
+        #   * body<~Hash>:
         def get_volume(volume_id)
           request(
             :method   => 'GET',

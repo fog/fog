@@ -3,12 +3,19 @@ module Fog
     class IBM
       class Real
 
-        # Get a key
+        # Returns details of key by name specified
+        #
+        # ==== Parameters
+        # 'key_name'<~String>: name of key to request
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>
-        # TODO: docs
+        #   * body<~Hash>:
+        #     * 'keyName'<~String>: Name of key
+        #     * 'lastModifiedTime'<~Integer>: epoch time of last modification
+        #     * 'default'<~Bool>: bool if key is default for user
+        #     * 'instanceIds'<~Array>: list of instances associated with key
+        #     * 'keyMaterial'<~String>: public key
         def get_key(key_name)
           request(
             :method   => 'GET',

@@ -3,12 +3,20 @@ module Fog
     class IBM
       class Real
 
-        # Get an image
+        # Returns license agreement of image specified by id
+        #
+        # ==== Parameters
+        # 'image_id'<~String>: id of desired image
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>
-        # TODO: docs
+        #   * body<~Hash>:
+        #     * 'text'<~String>: text of license
+        #     * 'id'<~String>: id of image
+        #     * 'attachments'<~Array>: Additional agreements attached to image
+        #       * 'label'<~String>: description of attachment
+        #       * 'url'<~String>: url to retrieve attachment
+        #       * 'type'<~Integer>: type of attachment
         def get_image_agreement(image_id)
           request(
             :method   => 'GET',

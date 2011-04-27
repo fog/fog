@@ -3,12 +3,19 @@ module Fog
     class IBM
       class Real
 
-        # Create a key
+        # Requests a new keypair to be created
+        #
+        # ==== Parameters
+        # * name<~String> - name to give new key
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>
-        # TODO: docs
+        #   * body<~Hash>:
+        #     * 'keyName'<~String>: name of new key
+        #     * 'lastModifiedTime'<~Integer>: epoch time of last modification
+        #     * 'default'<~Bool>: is default?
+        #     * 'instanceIds'<~Array>: id's of instances using key (should be empty upon creation)
+        #     * 'keyMaterial'<~String>: private key contents
         def create_key(name, public_key=nil)
           request(
             :method   => 'POST',

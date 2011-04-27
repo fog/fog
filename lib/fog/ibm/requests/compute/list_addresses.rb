@@ -3,13 +3,23 @@ module Fog
     class IBM
       class Real
 
-        # Get addresses
+        # Returns the list of static IP addresses for current user
+        #
+        # ==== Parameters
+        # No parameters
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * instances<~Array>:
-        # TODO: docs
+        #     * 'addresses'<~Array>: list of addresses
+        #       * 'location'<~String>: location of address
+        #       * 'mode'<~Integer>:
+        #       * 'offeringId'<~String>: offering ID
+        #       * 'id'<~String>: id
+        #       * 'type'<~Integer>: TODO unsure
+        #       * 'ip'<~String>: IP address.. with space at the end
+        #       * 'hostname'<~String>: seems to be same as ip
+        #       * 'state'<~Integer>: state of address
         def list_addresses
           request(
             :method   => 'GET',

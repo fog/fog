@@ -5,10 +5,14 @@ module Fog
 
         # Modify a key
         #
+        # ==== Parameters
+        # * key_name<~String> - name of key to be modified
+        # * params<~Hash> - depends on type of request
+        #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>
-        # TODO: docs
+        #   * body<~Hash>:
+        #     * 'success'<~Bool>: success status of update request
         def modify_key(key_name, params={})
           request(
             :method   => 'PUT',

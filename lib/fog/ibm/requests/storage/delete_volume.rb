@@ -3,12 +3,15 @@ module Fog
     class IBM
       class Real
 
-        # Delete a volume
+        # Deletes the storage that the authenticated user manages with the specified :storage_id
+        #
+        # ==== Parameters
+        # * volume_id<~String> - Id of storage volume
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>
-        # TODO: docs
+        #   * body<~Hash>:
+        #     *'success'<~Bool>: true or false for success
         def delete_volume(volume_id)
           request(
             :method   => 'DELETE',

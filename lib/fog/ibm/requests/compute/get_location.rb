@@ -5,10 +5,23 @@ module Fog
 
         # Get a location
         #
+        # ==== Parameters
+        # * location_id<~String> - Id of location
+        #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>
-        # TODO: docs
+        #   * body<~Hash>:
+        #     * 'name'<~String>: location name
+        #     * 'location'<~String>:
+        #     * 'capabilities'<~Array>:
+        #       * 'oss.storage.format'<~Hash>:
+        #         * 'entries'<~Array>: list of supported volume formats
+        #         * 'oss.instance.spec.i386'<~Array>: unsure.. returns empty array
+        #         * 'oss.instance.spec.x86_64'<~Array>: unsure.. returns empty array
+        #         * 'oss.storage.availabilityarea'<~Array>: availability area unsupported
+        #     * 'id'<~String>: id of location
+        #     * 'description'<~String>: description including geographic location
+        #     * 'state'<~String>: state of datacenter
         def get_location(location_id)
           request(
             :method   => 'GET',

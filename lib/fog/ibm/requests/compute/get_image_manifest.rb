@@ -3,12 +3,15 @@ module Fog
     class IBM
       class Real
 
-        # Get an image manifest
+        # Returns manifest of image specified by id
+        #
+        # ==== Parameters
+        # 'image_id'<~String>: id of desired image
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>
-        # TODO: docs
+        #   * body<~Hash>:
+        #     * 'manifest'<~String>: manifest of image in xml
         def get_image_manifest(image_id)
           request(
             :method   => 'GET',

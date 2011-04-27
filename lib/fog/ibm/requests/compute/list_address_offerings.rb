@@ -3,7 +3,7 @@ module Fog
     class IBM
       class Real
 
-        # Returns address offerings
+        # Returns the offerings of static address types/pricing for the authenticated user
         #
         # ==== Parameters
         # No parameters
@@ -11,7 +11,18 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        # TODO: doc
+        #     * 'addresses'<~Array>: list of address offerings
+        #       * 'price'<~Hash>: pricing info for specific address offering
+        #       * 'price'<~Hash>: hash containing pricing information
+        #         * 'pricePerQuantity'<~Integer>:
+        #         * 'effectiveDate'<~Integer>: starting date price is effective
+        #         * 'rate'<~Float>: rate per unit
+        #         * 'countryCode'<~String>:
+        #         * 'unitOfMeasure'<~String>:
+        #         * 'currencyCode'<~String>: currency used
+        #       * 'location'<~String>: datacenter location string
+        #       * 'ipType'<~Integer>: type of ip address
+        #       * 'id'<~String>: id of offering
         def list_address_offerings
           request(
             :expects  => 200,

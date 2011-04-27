@@ -3,12 +3,15 @@ module Fog
     class IBM
       class Real
 
-        # Get all locations
+        # Returns the list of Images available to be provisioned on the IBM DeveloperCloud.
+        #
+        # ==== Parameters
+        # No parameters
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>
-        # TODO: docs
+        #   * body<~Hash>:
+        #     * 'locations'<~Array>: list of locations
         def list_locations
           request(
             :method   => 'GET',

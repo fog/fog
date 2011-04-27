@@ -3,12 +3,15 @@ module Fog
     class IBM
       class Real
 
-        # Delete an image
+        # Deletes the image that the authenticated user manages with the specified :image_id
+        #
+        # ==== Parameters
+        # * image_id<~String> - Id of image
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>
-        # TODO: docs
+        #   * body<~Hash>:
+        #     *'success'<~Bool>: true or false for success
         def delete_image(image_id)
           request(
             :method   => 'DELETE',

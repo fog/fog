@@ -3,13 +3,28 @@ module Fog
     class IBM
       class Real
 
-        # Get available storage offerings
+        # Returns the offerings of storage for the authenticated user
+        #
+        # ==== Parameters
+        # No parameters
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * volumes<~Array>
-        # TODO: docs
+        #     * 'volumes'<~Array>: list of images
+        #       * 'name'<~String>: Name of storage offering
+        #       * 'price'<~Hash>: hash containing pricing information
+        #         * 'pricePerQuantity'<~Integer>:
+        #         * 'effectiveDate'<~Integer>: starting date price is effective
+        #         * 'rate'<~Float>: rate per unit
+        #         * 'countryCode'<~String>:
+        #         * 'currencyCode'<~String>: currency used
+        #       * 'location'<~String>: datacenter location string
+        #       * 'id'<~String>: id of offering
+        #       * 'formats'<~Array>: filesystem format storage offered with
+        #         * 'label'<~String>: label for filesystem
+        #         * 'id'<~String>: string used for id of format
+        #       * 'capacity'<~Integer>: size in GB's
         def list_offerings
           request(
             :method   => 'GET',

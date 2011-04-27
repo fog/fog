@@ -3,12 +3,17 @@ module Fog
     class IBM
       class Real
 
-        # Clone an image
+        # Clones image specified by image_id
+        #
+        # ==== Parameters
+        # * image_id<~String> - id of image to be cloned
+        # * name<~String> - name of new image
+        # * description<~String> - description of new image
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>
-        # TODO: docs
+        #   * body<~Hash>:
+        #     * 'ImageID'<~String>: id of new image
         def clone_image(image_id, name, description)
           request(
             :method   => 'POST',

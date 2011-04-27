@@ -5,10 +5,25 @@ module Fog
 
         # Modify an instance
         #
+        # ==== Parameters
+        # * instance_id<~String> - id of instance to rename
+        # * params<~Hash> - depends on type of request
+        #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash>
-        # TODO: docs
+        #   * body<~Hash>:
+        #     * 'success'<~Bool>:
+        # OR
+        # * response<~Excon::Response>:
+        #   * body<~Hash>:
+        #     ????
+        #     * 'expirationTime'<~Integer>: new expiration time of instance (epoch)
+        #
+        #  Note: The feature of dynamically attaching or detaching storage is only
+        #  supported by data centers where the KVM host version is RHEL 6.1. If the
+        #  feature is not supported by the data center, you will get an exception like
+        #  "Unsupported exception. Dynamic features are not supported on the KVM
+        #  Host".
         def modify_instance(instance_id, options={})
           request(
             :method   => 'PUT',
