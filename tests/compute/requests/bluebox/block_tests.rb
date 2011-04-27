@@ -6,7 +6,7 @@ Shindo.tests('Bluebox::Compute | block requests', ['bluebox']) do
     'hostname'    => String,
     'id'          => String,
     'ips'         => [{'address' => String}],
-    'lb_applications' => [{'lb_application_name' => String, 'lb_application_id' => String}]
+    'lb_applications' => [{'lb_application_name' => String, 'lb_application_id' => String}],
     'memory'      => Integer,
     'product'     => Bluebox::Compute::Formats::PRODUCT,
     'status'      => String,

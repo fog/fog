@@ -32,8 +32,7 @@ NilClass.send :include, Fog::Brightbox::Nullable::Zone
 class Brightbox
   module Compute
     module TestSupport
-      # image img-9vxqi = Ubuntu Maverick 10.10 server
-      IMAGE_IDENTIFER = "img-9vxqi"
+      IMAGE_IDENTIFER = "img-2ab98" # Ubuntu Lucid 10.04 server (i686)
     end
     module Formats
       module Struct
