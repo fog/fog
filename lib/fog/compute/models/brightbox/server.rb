@@ -30,7 +30,7 @@ module Fog
 
         def initialize(attributes={})
           self.flavor_id  ||= 'typ-4nssg' # Nano
-          self.image_id   ||= 'img-tjjt6' # Lucid 10.04 LTS 64bit
+          self.image_id   ||= 'img-2ab98' # Ubuntu Lucid 10.04 server (i686)
           super
         end
 
