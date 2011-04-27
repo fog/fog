@@ -188,7 +188,8 @@ module Fog
         #
         # ==== Parameters
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
-        #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1']
+        #   * region<~String> - optional region to use, in
+        #     ['eu-west-1', 'us-east-1', 'us-west-1', 'ap-northeast-1', 'ap-southeast-1']
         #
         # ==== Returns
         # * EC2 object with connection to aws.
