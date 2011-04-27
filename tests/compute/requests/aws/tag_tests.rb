@@ -5,7 +5,7 @@ Shindo.tests('AWS::Compute | tag requests', ['aws']) do
       'key'          => String,
       'resourceId'   => String,
       'resourceType' => String,
-      'value'        => String
+      'value'        => Fog::Nullable::String
     }],
     'requestId' => String
   }
