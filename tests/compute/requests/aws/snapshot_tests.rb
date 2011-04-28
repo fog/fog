@@ -1,7 +1,7 @@
 Shindo.tests('AWS::Compute | snapshot requests', ['aws']) do
 
   @snapshot_format = {
-    'description' => NilClass,
+    'description' => Fog::Nullable::String,
     'ownerId'     => String,
     'progress'    => String,
     'snapshotId'  => String,

@@ -4,7 +4,7 @@ Shindo.tests("AWS::Compute | snapshot", ['aws']) do
   @volume.wait_for { ready? }
 
   model_tests(AWS[:compute].snapshots, {:volume_id => @volume.identity}, true)
-                    
+
   @volume.destroy
 
 end
