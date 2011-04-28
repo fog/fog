@@ -21,7 +21,7 @@ module Fog
       request :enable_availability_zones_for_load_balancer
       request :register_instances_with_load_balancer
       #request :set_load_balancer_listener_ssl_certificate
-      #request :set_load_balancer_policies_of_listener
+      request :set_load_balancer_policies_of_listener
 
       class Mock
 
