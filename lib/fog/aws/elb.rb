@@ -13,7 +13,7 @@ module Fog
       request :create_load_balancer_listeners
       request :delete_load_balancer
       request :delete_load_balancer_listeners
-      #request :delete_load_balancer_policy
+      request :delete_load_balancer_policy
       request :deregister_instances_from_load_balancer
       request :describe_instance_health
       request :describe_load_balancers

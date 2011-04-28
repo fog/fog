@@ -42,6 +42,11 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
       AWS[:elb].create_lb_cookie_stickiness_policy(@load_balancer_id, policy).body
     end
 
+    tests("#delete_load_balancer_policy").formats(AWS::ELB::Formats::BASIC) do
+      policy = 'fog-lb-no-expiry'
+      AWS[:elb].delete_load_balancer_policy(@load_balancer_id, policy).body
+    end
+
     tests("#create_load_balancer_listeners").formats(AWS::ELB::Formats::BASIC) do
       listeners = [
         {'Protocol' => 'tcp', 'LoadBalancerPort' => 443, 'InstancePort' => 443},
