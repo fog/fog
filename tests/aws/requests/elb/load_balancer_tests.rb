@@ -26,6 +26,20 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
       AWS[:elb].configure_health_check(@load_balancer_id, health_check).body
     end
 
+    tests("#create_load_balancer_listeners").formats(AWS::ELB::Formats::BASIC) do
+      listeners = [
+        {'Protocol' => 'tcp', 'LoadBalancerPort' => 443, 'InstancePort' => 443},
+        {'Protocol' => 'HTTP', 'LoadBalancerPort' => 80, 'InstancePort' => 80}
+      ]
+      AWS[:elb].create_load_balancer_listeners(@load_balancer_id, listeners).body
+    end
+
+    tests("#delete_load_balancer_listeners").formats(AWS::ELB::Formats::BASIC) do
+      ports = [80, 443]
+      AWS[:elb].delete_load_balancer_listeners(@load_balancer_id, ports).body
+    end
+
+
     tests("#delete_load_balancer").formats(AWS::ELB::Formats::DELETE_LOAD_BALANCER) do
       AWS[:elb].delete_load_balancer(@load_balancer_id).body
     end

@@ -10,9 +10,9 @@ module Fog
       #request :create_app_cookie_stickiness_policy
       #request :create_db_cookie_stickiness_policy
       request :create_load_balancer
-      #request :create_load_balancer_listeners
+      request :create_load_balancer_listeners
       request :delete_load_balancer
-      #request :delete_load_balancer_listeners
+      request :delete_load_balancer_listeners
       #request :delete_load_balancer_policy
       request :deregister_instances_from_load_balancer
       request :describe_instance_health
