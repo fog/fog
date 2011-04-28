@@ -121,6 +121,12 @@ module Fog
         @attributes ||= {}
       end
 
+      def dup
+        copy = super
+        copy.dup_attributes!
+        copy
+      end
+
       def identity
         send(self.class.instance_variable_get('@identity'))
       end
@@ -163,6 +169,12 @@ module Fog
             raise(ArgumentError, "#{missing[0...-1].join(", ")} and #{missing[-1]} are required for this operation")
           end
         end
+      end
+
+      protected
+
+      def dup_attributes!
+        @attributes = @attributes.dup
       end
 
       private
