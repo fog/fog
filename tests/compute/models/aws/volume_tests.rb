@@ -1,6 +1,6 @@
 Shindo.tests("AWS::Compute | volume", ['aws']) do
 
-  @server = AWS[:compute].servers.create(:image_id => GENTOO_AMI, :flavor_id => 'm1.small')
+  @server = AWS[:compute].servers.create
   @server.wait_for { ready? }
 
   model_tests(AWS[:compute].volumes, {:availability_zone => @server.availability_zone, :size => 1, :device => '/dev/sdz1'}, true) do

@@ -8,7 +8,7 @@ Shindo.tests('AWS::Compute | address requests', ['aws']) do
     'requestId' => String
   }
 
-  @server = AWS[:compute].servers.create(:image_id => GENTOO_AMI, :flavor_id => 'm1.small')
+  @server = AWS[:compute].servers.create
   @server.wait_for { ready? }
   @ip_address = @server.ip_address
 
