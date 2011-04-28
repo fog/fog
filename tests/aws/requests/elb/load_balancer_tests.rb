@@ -26,6 +26,22 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
       AWS[:elb].configure_health_check(@load_balancer_id, health_check).body
     end
 
+    tests("#create_app_cookie_stickiness_policy").formats(AWS::ELB::Formats::BASIC) do
+      cookie, policy = 'fog-app-cookie', 'fog-app-policy'
+      AWS[:elb].create_app_cookie_stickiness_policy(@load_balancer_id, policy, cookie).body
+    end
+
+    tests("#create_lb_cookie_stickiness_policy with expiry").formats(AWS::ELB::Formats::BASIC) do
+      policy = 'fog-lb-expiry'
+      expiry = 300
+      AWS[:elb].create_lb_cookie_stickiness_policy(@load_balancer_id, policy, expiry).body
+    end
+
+    tests("#create_lb_cookie_stickiness_policy without expiry").formats(AWS::ELB::Formats::BASIC) do
+      policy = 'fog-lb-no-expiry'
+      AWS[:elb].create_lb_cookie_stickiness_policy(@load_balancer_id, policy).body
+    end
+
     tests("#create_load_balancer_listeners").formats(AWS::ELB::Formats::BASIC) do
       listeners = [
         {'Protocol' => 'tcp', 'LoadBalancerPort' => 443, 'InstancePort' => 443},
@@ -38,7 +54,6 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
       ports = [80, 443]
       AWS[:elb].delete_load_balancer_listeners(@load_balancer_id, ports).body
     end
-
 
     tests("#delete_load_balancer").formats(AWS::ELB::Formats::DELETE_LOAD_BALANCER) do
       AWS[:elb].delete_load_balancer(@load_balancer_id).body
