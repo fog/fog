@@ -113,6 +113,17 @@ module Fog
 
     module InstanceMethods
 
+      include Comparable
+
+      # Compare models by their identities
+      def <=>(other)
+        # Return nil if comparing different classes
+        return nil unless self.class === other
+
+        # Delegate to identity
+        identity <=> other.identity
+      end
+
       def _dump(level)
         Marshal.dump(attributes)
       end

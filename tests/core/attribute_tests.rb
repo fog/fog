@@ -1,4 +1,5 @@
 class FogAttributeTestModel < Fog::Model
+  identity  :id
   attribute :key, :aliases => 'keys', :squash => "id"
   attribute :time, :type => :time
 end
@@ -39,6 +40,21 @@ Shindo.tests('Fog::Attributes', 'core') do
       @model.merge_attributes(:time => @time.to_s)
       @model.time
     end
+
+  end
+
+  tests("comparisons") do
+    model       = FogAttributeTestModel.new(:id => 'aaa')
+    model_copy  = FogAttributeTestModel.new(:id => 'aaa')
+    later_model = FogAttributeTestModel.new(:id => 'zzz')
+    tests("<=>") do
+      tests('0').returns(0) { model <=> model_copy }
+      tests('1').returns(1) { later_model <=> model }
+      tests('-1').returns(-1) { model <=> later_model }
+      tests('uncomparable').returns(nil) { model <=> '' }
+    end
+    tests("==").returns(true) { model == model_copy }
+    tests("<").returns(true) { model < later_model }
 
   end
 
