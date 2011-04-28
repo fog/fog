@@ -123,7 +123,7 @@ module Fog
 
       def dup
         copy = super
-        copy.attributes = attributes.dup
+        copy.dup_attributes!
         copy
       end
 
@@ -173,7 +173,9 @@ module Fog
 
       protected
 
-      attr_writer :attributes
+      def dup_attributes!
+        @attributes = @attributes.dup
+      end
 
       private
 
