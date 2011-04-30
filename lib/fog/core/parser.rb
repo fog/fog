@@ -15,7 +15,8 @@ module Fog
       end
 
       def characters(string)
-        @value = string
+        @value ||= ''
+        @value << string
       end
 
       def start_element(name, attrs = [])
