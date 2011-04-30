@@ -1,7 +1,7 @@
 require 'fog/core'
 
 module Fog
-  module Stormondemand
+  module StormOnDemand
 
     extend Fog::Provider
 

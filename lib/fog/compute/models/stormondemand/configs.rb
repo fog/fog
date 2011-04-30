@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/stormondemand/config'
 
 module Fog
-  module Stormondemand
+  module StormOnDemand
     class Compute
 
       class Configs < Fog::Collection
 
-        model Fog::Stormondemand::Compute::Config
+        model Fog::StormOnDemand::Compute::Config
 
         def all
           data = connection.list_configs.body['configs']

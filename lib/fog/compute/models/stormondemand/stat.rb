@@ -1,7 +1,7 @@
 require 'fog/core/model'
 
 module Fog
-  module Stormondemand
+  module StormOnDemand
     class Compute
 
       class Stat < Fog::Model

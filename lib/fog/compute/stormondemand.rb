@@ -1,5 +1,5 @@
 module Fog
-  module Stormondemand
+  module StormOnDemand
     class Compute < Fog::Service
       
       API_URL = 'https://api.stormondemand.com'
@@ -38,11 +38,7 @@ module Fog
       request :list_configs
       request :list_templates
       request :list_images
-      
-      # possibly broken, needs testing with monitored instance
       request :get_stats
-      
-      # broken:
       request :list_private_ips      
       
       class Mock
@@ -99,7 +95,9 @@ module Fog
                 'Authorization' => "Basic " + Base64.encode64("#{@stormondemand_username}:#{@stormondemand_password}").chomp
               }.merge!(params[:headers] || {}),
               :host     => @host,
-              :path     => "#{@path}/#{params[:path]}"
+              :path     => "#{@path}/#{params[:path]}",
+              :expects  => 200,
+              :method   => :post
             }))
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
@@ -113,7 +111,7 @@ module Fog
             response.body = JSON.parse(response.body)
           end
           if response.body.keys[0] == 'error_class'
-            raise Fog::Stormondemand::Compute::Error, response.body.inspect
+            raise Fog::StormOnDemand::Compute::Error, response.body.inspect
           end
           response
         end

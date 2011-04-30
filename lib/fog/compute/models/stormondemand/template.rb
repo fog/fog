@@ -1,7 +1,7 @@
 require 'fog/core/model'
 
 module Fog
-  module Stormondemand
+  module StormOnDemand
     class Compute
 
       class Template < Fog::Model

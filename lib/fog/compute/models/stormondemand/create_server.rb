@@ -1,5 +1,5 @@
 module Fog
-  module Stormondemand
+  module StormOnDemand
     class Compute
       class Real
 
