@@ -12,7 +12,7 @@ module Fog
         attribute :availability_zones,    :aliases => 'AvailabilityZones'
         attribute :instances,             :aliases => 'Instances'
         attribute :listener_descriptions, :aliases => 'ListenerDescriptions'
-        attribute :policies,              :aliases => 'Policies'
+        #attribute :policies,              :aliases => 'Policies'
 
         attr_accessor :listeners
 
@@ -81,22 +81,8 @@ module Fog
           reload
         end
 
-        def create_app_policy(policy_name, cookie_name)
-          requires :id
-          connection.create_app_cookie_stickiness_policy(id, policy_name, cookie_name)
-          reload
-        end
-
-        def create_lb_policy(policy_name, expiration=nil)
-          requires :id
-          connection.create_lb_cookie_stickiness_policy(id, policy_name, expiration)
-          reload
-        end
-
-        def destroy_policy(policy_name)
-          requires :id
-          connection.delete_load_balancer_policy(id, policy_name)
-          reload
+        def policies
+          Fog::AWS::ELB::Policies.new(:data => attributes['Policies'], :connection => connection, :load_balancer => self)
         end
 
         def set_listener_policy(port, policy_name)
@@ -131,6 +117,7 @@ module Fog
         def reload
           super
           @instance_health, @listeners = nil
+          self
         end
 
         def destroy

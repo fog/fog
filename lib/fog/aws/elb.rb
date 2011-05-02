@@ -30,6 +30,8 @@ module Fog
       model_path 'fog/aws/elb/models'
       model      :load_balancer
       collection :load_balancers
+      model      :policy
+      collection :policies
 
       class Mock
 

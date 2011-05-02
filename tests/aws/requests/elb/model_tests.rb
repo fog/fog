@@ -17,6 +17,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       elb = AWS[:elb].load_balancers.create(:id => elb_id)
       tests("dns names is set").returns(true) { elb.dns_name.is_a?(String) }
       tests("created_at is set").returns(true) { (Time.now-10..Time.now).include? elb.created_at }
+      tests("policies is empty").returns([]) { elb.policies }
     end
 
     tests('all') do
@@ -122,38 +123,48 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
     end
 
     tests('policies') do
-      app_policy = 'my-app-policy'
-      default_policies = {"LBCookieStickinessPolicies"=>[], "AppCookieStickinessPolicies"=>[]}
-      returns(default_policies) { elb.policies }
+      app_policy_id = 'my-app-policy'
+
+      tests 'are empty' do
+        returns([]) { elb.policies.to_a }
+      end
+
+      tests('#all') do
+        returns([]) { elb.policies.all.to_a }
+      end
 
       tests('create app policy') do
-        elb.create_app_policy(app_policy, 'my-app-cookie')
-        returns([{'PolicyName' => app_policy, 'CookieName' => 'my-app-cookie'}]) do
-          elb.policies['AppCookieStickinessPolicies']
-        end
+        elb.policies.create(:id => app_policy_id, :cookie => 'my-app-cookie', :cookie_stickiness => :app)
+        returns(app_policy_id) { elb.policies.first.id }
+      end
+
+      tests('get policy') do
+        returns(app_policy_id) { elb.policies.get(app_policy_id).id }
       end
 
       tests('destroy app policy') do
-        elb.destroy_policy(app_policy)
-        returns(default_policies) { elb.policies }
+        elb.policies.first.destroy
+        returns([]) { elb.policies.to_a }
       end
 
-      lb_policy = 'my-lb-policy'
+      lb_policy_id = 'my-lb-policy'
       tests('create lb policy') do
-        elb.create_lb_policy(lb_policy, 600)
-        returns([{'PolicyName' => lb_policy, 'CookieExpirationPeriod' => 600}]) do
-          elb.policies['LBCookieStickinessPolicies']
-        end
+        elb.policies.create(:id => lb_policy_id, :expiration => 600, :cookie_stickiness => :lb)
+        returns(lb_policy_id) { elb.policies.first.id }
       end
 
       tests('setting a listener policy') do
-        elb.set_listener_policy(80, lb_policy)
-        returns([lb_policy]) { elb.listener_descriptions.first['PolicyNames'] }
+        elb.set_listener_policy(80, lb_policy_id)
+        returns([lb_policy_id]) { elb.listener_descriptions.first['PolicyNames'] }
       end
 
       tests('unsetting a listener policy') do
         elb.unset_listener_policy(80)
         returns([]) { elb.listener_descriptions.first['PolicyNames'] }
+      end
+
+      tests('a malformed policy') do
+        raises(ArgumentError) { elb.policies.create(:id => 'foo', :cookie_stickiness => 'invalid stickiness') }
       end
     end
 
