@@ -35,6 +35,23 @@ module Fog
           end
         end
 
+        alias :each_file_this_page :each
+        def each
+          if !block_given?
+            self
+          else
+            subset = dup.all
+
+            subset.each_file_this_page {|f| yield f}
+            until subset.empty? || subset.length == (subset.limit || 10000)
+              subset = subset.all(:marker => subset.last.key)
+              subset.each_file_this_page {|f| yield f}
+            end
+
+            self
+          end
+        end
+
         def get(key, &block)
           requires :directory
           data = connection.get_object(directory.key, key, &block)
