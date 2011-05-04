@@ -4,8 +4,8 @@ require 'irb'
 require 'yaml'
 Fog.credential = ARGV.first ? ARGV.first.to_sym : nil
 Fog.mock! if ENV['FOG_MOCK']
-unless Fog.credentials
-  exit
+if Fog.credentials.empty?
+  Fog::Errors.missing_credentials
 end
 
 require 'fog/bin'

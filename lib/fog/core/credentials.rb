@@ -36,7 +36,7 @@ module Fog
     @credentials  ||= begin
       if credentials_path && File.exists?(credentials_path)
         credentials = self.symbolize_credentials(YAML.load_file(credentials_path))
-        (credentials && credentials[credential]) or raise LoadError.new(missing_credentials)
+        (credentials && credentials[credential]) || Fog::Errors.missing_credentials
       else
         {}
       end
@@ -53,57 +53,4 @@ module Fog
     end
   end
 
-private
-
-  # @return [String] The error message that will be raised, if credentials cannot be found
-  def self.missing_credentials
-    <<-YML
-Missing Credentials
-
-To run as '#{credential}', add the following to your resource config file: #{credentials_path}
-An alternate file may be used by placing its path in the FOG_RC environment variable
-
-#######################################################
-# Fog Credentials File
-#
-# Key-value pairs should look like:
-# :aws_access_key_id:                 022QF06E7MXBSAMPLE
-:#{credential}:
-  :aws_access_key_id:
-  :aws_secret_access_key:
-  :bluebox_api_key:
-  :bluebox_customer_id:
-  :brightbox_client_id:
-  :brightbox_secret:
-  :go_grid_api_key:
-  :go_grid_shared_secret:
-  :google_storage_access_key_id:
-  :google_storage_secret_access_key:
-  :linode_api_key:
-  :local_root:
-  :new_servers_password:
-  :new_servers_username:
-  :public_key_path:
-  :private_key_path:
-  :rackspace_api_key:
-  :rackspace_username:
-  :rackspace_servicenet:
-  :rackspace_cdn_ssl:
-  :slicehost_password:
-  :stormondemand_username:
-  :stormondemand_password:
-  :terremark_username:
-  :terremark_password:
-  :voxel_api_key:
-  :voxel_api_secret:
-  :zerigo_email:
-  :zerigo_token:
-  :dnsimple_email:
-  :dnsimple_password:
-#
-# End of Fog Credentials File
-#######################################################
-
-YML
-  end
 end
