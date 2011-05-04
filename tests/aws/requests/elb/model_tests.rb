@@ -108,17 +108,28 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
 
     tests('listeners') do
       default_listener_description = [{"Listener"=>{"InstancePort"=>80, "Protocol"=>"HTTP", "LoadBalancerPort"=>80}, "PolicyNames"=>[]}]
-      returns(default_listener_description) { elb.listener_descriptions }
+      tests('default') do
+        returns(1) { elb.listeners.size }
+
+        listener = elb.listeners.first
+        returns([80,80,'HTTP', []]) { [listener.instance_port, listener.lb_port, listener.protocol, listener.policy_names] }
+
+      end
+
+      tests('#get') do
+        returns(80) { elb.listeners.get(80).lb_port }
+      end
 
       tests('create') do
         new_listener = { 'InstancePort' => 443, 'LoadBalancerPort' => 443, 'Protocol' => 'TCP'}
-        elb.create_listener(new_listener)
-        returns(true) { elb.listener_descriptions.include?({'Listener' => new_listener, 'PolicyNames' => []}) }
+        elb.listeners.create(:instance_port => 443, :lb_port => 443, :protocol => 'TCP')
+        returns(2) { elb.listeners.size }
+        returns(443) { elb.listeners.get(443).lb_port }
       end
 
       tests('destroy') do
-        elb.destroy_listener(443)
-        returns(default_listener_description) { elb.listener_descriptions }
+        elb.listeners.get(443).destroy
+        returns(nil) { elb.listeners.get(443) }
       end
     end
 
@@ -155,12 +166,12 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
 
       tests('setting a listener policy') do
         elb.set_listener_policy(80, lb_policy_id)
-        returns([lb_policy_id]) { elb.listener_descriptions.first['PolicyNames'] }
+        returns([lb_policy_id]) { elb.listeners.get(80).policy_names }
       end
 
       tests('unsetting a listener policy') do
         elb.unset_listener_policy(80)
-        returns([]) { elb.listener_descriptions.first['PolicyNames'] }
+        returns([]) { elb.listeners.get(80).policy_names }
       end
 
       tests('a malformed policy') do

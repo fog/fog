@@ -3,6 +3,7 @@ module Fog
   module AWS
     class ELB
       class Policies < Fog::Collection
+
         model Fog::AWS::ELB::Policy
 
         attr_accessor :data, :load_balancer

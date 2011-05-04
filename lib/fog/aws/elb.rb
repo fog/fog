@@ -32,6 +32,8 @@ module Fog
       collection :load_balancers
       model      :policy
       collection :policies
+      model      :listener
+      collection :listeners
 
       class Mock
 

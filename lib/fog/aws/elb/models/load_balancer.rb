@@ -11,14 +11,14 @@ module Fog
         attribute :dns_name,              :aliases => 'DNSName'
         attribute :availability_zones,    :aliases => 'AvailabilityZones'
         attribute :instances,             :aliases => 'Instances'
-        attribute :listener_descriptions, :aliases => 'ListenerDescriptions'
-        #attribute :policies,              :aliases => 'Policies'
-
-        attr_accessor :listeners
 
         def initialize(attributes={})
           attributes[:availability_zones] ||= %w(us-east-1a us-east-1b us-east-1c us-east-1d)
-          attributes[:listeners] ||= [{'LoadBalancerPort' => 80, 'InstancePort' => 80, 'Protocol' => 'http'}]
+          attributes['ListenerDescriptions'] ||= [{
+            'Listener' => {'LoadBalancerPort' => 80, 'InstancePort' => 80, 'Protocol' => 'http'},
+            'PolicyNames' => []
+          }]
+          attributes['Policies'] ||= {'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => []}
           super
         end
 
@@ -67,22 +67,20 @@ module Fog
           merge_attributes(:health_check => data)
         end
 
-        def create_listener(listener)
-          requires :id
-          listener = [listener].flatten
-          connection.create_load_balancer_listeners(id, listener)
-          reload
-        end
-
-        def destroy_listener(port)
-          requires :id
-          port = [port].flatten
-          connection.delete_load_balancer_listeners(id, port)
-          reload
+        def listeners
+          Fog::AWS::ELB::Listeners.new({
+            :data => attributes['ListenerDescriptions'],
+            :connection => connection,
+            :load_balancer => self
+          })
         end
 
         def policies
-          Fog::AWS::ELB::Policies.new(:data => attributes['Policies'], :connection => connection, :load_balancer => self)
+          Fog::AWS::ELB::Policies.new({
+            :data => attributes['Policies'],
+            :connection => connection,
+            :load_balancer => self
+          })
         end
 
         def set_listener_policy(port, policy_name)
@@ -106,7 +104,7 @@ module Fog
           requires :listeners
           requires :availability_zones
 
-          connection.create_load_balancer(availability_zones, id, listeners)
+          connection.create_load_balancer(availability_zones, id, listeners.map{|l| l.to_params})
 
           # reload instead of merge attributes b/c some attrs (like HealthCheck)
           # may be set, but only the DNS name is returned in the create_load_balance
@@ -116,7 +114,7 @@ module Fog
 
         def reload
           super
-          @instance_health, @listeners = nil
+          @instance_health = nil
           self
         end
 
