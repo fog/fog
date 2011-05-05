@@ -25,53 +25,15 @@ module Fog
       #model       :user
 
       request_path 'fog/compute/requests/ninefold'
-      request :deploy_virtual_machine
-      #request :activate_console_server
-      #request :add_listeners_load_balancer
-      #request :add_nodes_load_balancer
-      #request :create_api_client
-      #request :create_cloud_ip
-      #request :create_image
-      #request :create_load_balancer
-      #request :destroy_api_client
-      #request :destroy_cloud_ip
-      #request :destroy_image
-      #request :destroy_load_balancer
-      #request :destroy_server
-      #request :get_account
-      #request :get_api_client
-      #request :get_cloud_ip
-      #request :get_image
-      #request :get_interface
-      #request :get_load_balancer
-      #request :get_server
-      #request :get_server_type
-      #request :get_user
-      #request :get_zone
-      #request :list_api_clients
-      #request :list_cloud_ips
-      #request :list_images
-      #request :list_load_balancers
-      #request :list_server_types
-      #request :list_servers
-      #request :list_users
-      #request :list_zones
-      #request :map_cloud_ip
-      #request :remove_listeners_load_balancer
-      #request :remove_nodes_load_balancer
-      #request :reset_ftp_password_account
-      #request :resize_server
-      #request :shutdown_server
-      #request :snapshot_server
-      #request :start_server
-      #request :stop_server
-      #request :unmap_cloud_ip
-      #request :update_account
-      #request :update_api_client
-      #request :update_image
-      #request :update_load_balancer
-      #request :update_server
-      #request :update_user
+      request :list_accounts
+      request :list_events
+      request :list_service_offerings
+      request :list_disk_offerings
+      request :list_capabilities
+      request :list_hypervisors
+      request :list_zones
+      request :list_network_offerings
+      request :list_resource_limits
 
       class Mock
 
@@ -126,7 +88,25 @@ module Fog
             response = @connection.request(options)
           end
           unless response.body.empty?
+            # Because the response is some weird xml-json thing, we need to try and mung
+            # the values out with a prefix, and if there is an empty data entry return an
+            # empty version of the expected type (if provided)
             response = JSON.parse(response.body)
+            if options.has_key? :response_prefix
+              keys = options[:response_prefix].split('/')
+              keys.each do |k|
+                if response[k]
+                  response = response[k]
+                elsif options[:response_type]
+                  response = options[:response_type]
+                  break
+                else
+                end
+              end
+              response
+            else
+              response
+            end
           end
         end
 
@@ -138,7 +118,6 @@ module Fog
         end
 
         def encode_signature(data)
-          p @ninefold_compute_secret
           Base64.encode64(OpenSSL::HMAC.digest('sha1', @ninefold_compute_secret, URI.encode(data.downcase).gsub('+', '%20'))).chomp
         end
       end
