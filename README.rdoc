@@ -1,7 +1,5 @@
 http://geemus.s3.amazonaws.com/fog.png
 
-Docs available at: {fog.io}[http://fog.io]
-
 fog is the Ruby cloud computing library, top to bottom:
 
 * Collections provide a simplified interface, making clouds easier to work with and switch between.
@@ -121,18 +119,9 @@ Wonder how you can get a lovely fog shirt? Look no further!
 * Grey shirts and a follow from @fog go to people who have made it on to the {contributors list}[https://github.com/geemus/fog/contributors] by submitting code.
 * Black shirts go to people who have made it on to the {collaborators list}[https://github.com/api/v2/json/repos/show/geemus/fog/collaborators] by coercing geemus into adding them (geemus is currently the only member of this list).
 
-== Resources
+== Additional Resources
 
-Enjoy, and let me know what I can do to continue improving fog!
-
-* Work through the {fog tutorial}[https://github.com/downloads/geemus/learn_fog/learn_fog.tar.gz]
-* Stay up to date by following {@fog}[http://twitter.com/fog] and/or {@geemus}[http://twitter.com/geemus] on Twitter.
-* Get and give help on the {#ruby-fog}[irc://irc.freenode.net/ruby-fog] irc channel on Freenode
-* Follow release notes and discussions on the {mailing list}[http://groups.google.com/group/ruby-fog]
-* Report bugs or find tasks to help with in the {issues}[http://github.com/geemus/fog/issues]
-* Learn about {contributing}[http://github.com/geemus/fog/wiki/contributor-guide]
-* See where fog is used and let the world know how you use it {in the wild}[http://wiki.github.com/geemus/fog/in-the-wild]
-* Check out blog posts and other mentions in the {press}[http://wiki.github.com/geemus/fog/press]
+{fog.io}[http://fog.io]
 
 == Sponsorship
 

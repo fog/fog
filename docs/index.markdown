@@ -28,7 +28,7 @@ Now type 'fog' to try stuff, confident that fog will let you know what to do. He
 
 ## Go forth and conquer
 
-Play around and use the console to explore or check out the [getting started guide](http://wiki.github.com/geemus/fog/getting-started-with-fog) for more details. Once you are reading to start scripting fog, here is a quick hint on how to make connections without the command line thing to help you.
+Play around and use the console to explore or check out the [getting started guide](/about/getting_started.html) for more details. Once you are reading to start scripting fog, here is a quick hint on how to make connections without the command line thing to help you.
 
     # create a compute connection
     compute = Fog::Compute.new(:provider => 'AWS', :aws_access_key_id => ACCESS_KEY_ID, :aws_secret_access_key => SECRET_ACCESS_KEY)
@@ -60,13 +60,14 @@ Wonder how you can get a lovely fog shirt? Look no further!
 
 Enjoy, and let me know what I can do to continue improving fog!
 
+* Work through the [fog tutorial](https://github.com/downloads/geemus/learn_fog/learn_fog.tar.gz)
 * Stay up to date by following [@fog](http://twitter.com/fog) and/or [@geemus](http://twitter.com/geemus) on Twitter.
 * Get and give help on the [#ruby-fog](irc://irc.freenode.net/ruby-fog) irc channel on Freenode
 * Follow release notes and discussions on the [mailing list](http://groups.google.com/group/ruby-fog)
 * Report bugs or find tasks to help with in the [issues](http://github.com/geemus/fog/issues)
-* Learn about [contributing](http://github.com/geemus/fog/wiki/contributor-guide)
-* See where fog is used and let the world know how you use it [in the wild](http://wiki.github.com/geemus/fog/in-the-wild)
-* Check out blog posts and other mentions in the [press](http://wiki.github.com/geemus/fog/press)
+* Learn about [contributing](/about/contributing.html)
+* See where fog is used and let the world know how you use it [in the wild](/about/users.html)
+* Check out blog posts and other mentions in the [press](/about/press.html)
 
 ## Copyright
 
