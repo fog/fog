@@ -15,6 +15,11 @@ First, make a local directory to hold your data.
 
     $ mkdir ~/fog
 
+Now we can start writing our script, first off we should require fog.
+
+    require 'rubygems'
+    require 'fog'
+
 Now in order to play with our data we need to setup a storage connection.
 
     storage = Fog::Storage.new(
