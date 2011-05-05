@@ -2,7 +2,6 @@ module Fog
   module AWS
     class ELB < Fog::Service
 
-      class NotFound        < Fog::Errors::Error; end
       class IdentifierTaken < Fog::Errors::Error; end
       class InvalidInstance < Fog::Errors::Error; end
 

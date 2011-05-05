@@ -14,6 +14,10 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
       AWS[:elb].describe_load_balancers.body
     end
 
+    tests('#describe_load_balancers with bad lb') do
+      raises(Fog::AWS::ELB::NotFound) { AWS[:elb].describe_load_balancers('none-such-lb') }
+    end
+
     tests("#configure_health_check").formats(AWS::ELB::Formats::CONFIGURE_HEALTH_CHECK) do
       health_check = {
         'Target' => 'HTTP:80/index.html',
