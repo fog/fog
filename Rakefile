@@ -149,7 +149,8 @@ task :docs do
     if File.extname(file_name) == '.html'
       # rewrite links with version
       body = File.read(file_path)
-      body.gsub!(/="\//, '="/' << version << '/')
+      body.gsub!(/='\//, %{='/} << version << '/')
+      body.gsub!(/="\//, %{="/} << version << '/')
       content_type = 'text/html'
     else
       body = File.open(file_path)
