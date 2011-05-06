@@ -37,7 +37,9 @@ module Fog
         private
 
         def _resource_entities
-          connection.get_vdc(href).body[:ResourceEntities][:ResourceEntity]
+          if Hash === resource_entities = connection.get_vdc(href).body[:ResourceEntities]
+            resource_entities[:ResourceEntity]
+          end
         end
 
         def _vapps
