@@ -10,7 +10,7 @@ Shindo.tests('AWS::IAM | server certificate requests', ['aws']) do
     'Path' => String,
     'ServerCertificateId' => String,
     'ServerCertificateName' => String,
-    'UploadDate' => String
+    'UploadDate' => Time
   },
     'RequestId' => String
   }
