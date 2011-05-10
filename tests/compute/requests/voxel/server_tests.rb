@@ -13,7 +13,7 @@ Shindo.tests('Voxel::Compute | server requests', ['voxel']) do
       'access_methods'    => [],
       'description'       => String,
       'drives'            => {
-        'position'  => Integer,
+        'position'  => Fog::Nullable::Integer,
         'size'      => Integer
       },
       'id'                => String,
