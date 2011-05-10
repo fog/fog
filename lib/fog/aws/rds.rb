@@ -2,7 +2,6 @@ module Fog
   module AWS
     class RDS < Fog::Service
 
-      class NotFound < Fog::Errors::Error; end
       class IdentifierTaken < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
