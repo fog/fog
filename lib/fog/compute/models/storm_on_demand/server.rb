@@ -37,7 +37,7 @@ module Fog
           load(data)
         end
 
-        def delete
+        def destroy
           requires :identity
           connection.delete_server(:uniq_id => identity)
           true

@@ -44,12 +44,12 @@ Shindo.tests('StormOnDemand::Compute | server requests', ['stormondemand']) do
     end
 
     unless Fog.mocking?
-      StormOnDemand[:compute].servers.get(:uniq_id => @uniq_id).wait_for { ready? }
+      StormOnDemand[:compute].servers.get(@uniq_id).wait_for { ready? }
     end
 
     tests("#delete_server(:uniq_id => #{@uniq_id})").succeeds do
       pending if Fog.mocking?
-      StormOnDemand[:compute].delete_server(@uniq_id)
+      StormOnDemand[:compute].delete_server(:uniq_id => @uniq_id)
     end
 
   end
@@ -57,7 +57,7 @@ Shindo.tests('StormOnDemand::Compute | server requests', ['stormondemand']) do
   tests('failure') do
     tests('#delete_server(0)').raises(Fog::StormOnDemand::Compute::Error) do
       pending if Fog.mocking?
-      StormOnDemand[:compute].delete_server(0)
+      StormOnDemand[:compute].delete_server(:uniq_id => 'XXXXXX')
     end
   end
 

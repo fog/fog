@@ -110,8 +110,8 @@ module Fog
           unless response.body.empty?
             response.body = JSON.parse(response.body)
           end
-          if response.body.keys[0] == 'error_class'
-            raise Fog::StormOnDemand::Compute::Error, response.body.inspect
+          if response.body.keys.include?('full_error')
+            raise(Fog::StormOnDemand::Compute::Error, response.body.inspect)
           end
           response
         end
