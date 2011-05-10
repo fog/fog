@@ -27,7 +27,6 @@ Shindo.tests('Google::Storage | bucket requests', ['google']) do
         'Name'          => String,
       }],
       'Owner'   => {
-        'DisplayName' => String,
         'ID'          => String
       }
     }
