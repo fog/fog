@@ -25,6 +25,7 @@ module Fog
       #model       :user
 
       request_path 'fog/compute/requests/ninefold'
+      # General list-only stuff
       request :list_accounts
       request :list_events
       request :list_service_offerings
@@ -34,6 +35,23 @@ module Fog
       request :list_zones
       request :list_network_offerings
       request :list_resource_limits
+      # Templates
+      request :list_templates
+      # Virtual Machines
+      request :deploy_virtual_machine
+      request :destroy_virtual_machine
+      request :list_virtual_machines
+      request :reboot_virtual_machine
+      request :stop_virtual_machine
+      request :start_virtual_machine
+      request :change_service_for_virtual_machine
+      request :reset_password_for_virtual_machine
+      request :update_virtual_machine
+      # Jobs
+      request :list_async_jobs
+      request :query_async_job_result
+      # Networks
+      request :list_networks
 
       class Mock
 
@@ -73,9 +91,10 @@ module Fog
         end
 
         def request(command, params, options)
-          params["response"] = "json"
+          params['response'] = "json"
           req = "apiKey=#{@ninefold_compute_key}&command=#{command}&"
-          req += URI.escape(params.sort.collect{|e| "#{e[0].to_s}=#{e[1].to_s}"}.join('&'))
+          # convert params to strings for sort
+          req += URI.escape(params.sort_by{|k,v| k.to_s }.collect{|e| "#{e[0].to_s}=#{e[1].to_s}"}.join('&'))
           encoded_signature = url_escape(encode_signature(req))
 
           options = {
@@ -98,7 +117,7 @@ module Fog
                 if response[k]
                   response = response[k]
                 elsif options[:response_type]
-                  response = options[:response_type]
+                  response = options[:response_type].new
                   break
                 else
                 end

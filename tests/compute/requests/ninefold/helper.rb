@@ -1,8 +1,16 @@
 class Ninefold
   module Compute
     module TestSupport
-      # image img-9vxqi = Ubuntu Maverick 10.10 server
-      IMAGE_IDENTIFER = "img-9vxqi"
+      # 1CPU, 1.7GB RAM, 160GB Storage
+      SERVICE_OFFERING = 67
+      # alternate for testing -
+      ALT_SERVICE_OFFERING = 68
+      # XEN Basic Ubuntu 10.04 Server x64 PV r2.0
+      TEMPLATE_ID = 421
+      # Sydney
+      ZONE_ID = 1
+      # Max time to wait for job completion (2 mins)
+      MAXWAIT = 2 * 60
     end
     module Formats
       module Lists
@@ -131,6 +139,126 @@ class Ninefold
                              "resourcetype"=>String,
                              "max"=>Integer
                            }]
+      end
+      module VirtualMachines
+        PENDING_VIRTUAL_MACHINE = {"id" => Integer, "jobid" => Integer}
+        ASYNC_VIRTUAL_MACHINE = {"jobid" => Integer}
+        VIRTUAL_MACHINE = {
+          "id"=>Integer,
+          "name"=>String,
+          "displayname"=>String,
+          "account"=>String,
+          "domainid"=>Integer,
+          "domain"=>String,
+          "created"=>String,
+          "state"=>String,
+          "haenable"=>Fog::Boolean,
+          "zoneid"=>Integer,
+          "zonename"=>String,
+          "templateid"=>Integer,
+          "templatename"=>String,
+          "templatedisplaytext"=>String,
+          "passwordenabled"=>Fog::Boolean,
+          "serviceofferingid"=>Integer,
+          "serviceofferingname"=>String,
+          "cpunumber"=>Integer,
+          "cpuspeed"=>Integer,
+          "memory"=>Integer,
+          "guestosid"=>Integer,
+          "rootdeviceid"=>Integer,
+          "rootdevicetype"=>String,
+          "securitygroup"=>Array,
+          "nic"=>[{
+                    "id"=>Integer,
+                    "networkid"=>Integer,
+                    "netmask"=>String,
+                    "gateway"=>String,
+                    "ipaddress"=>String,
+                    "traffictype"=>String,
+                    "type"=>String,
+                    "isdefault"=>Fog::Boolean,
+                  }],
+          "hypervisor"=>String,
+          "cpuused"=>String,
+          "networkkbsread"=>Integer,
+          "networkkbswrite"=>Integer
+        }
+        VIRTUAL_MACHINES = [VIRTUAL_MACHINE]
+      end
+      module Templates
+        TEMPLATES = [{
+                      "id"=>Integer,
+                       "name"=>String,
+                       "displaytext"=>String,
+                       "ispublic"=>Fog::Boolean,
+                       "created"=>String,
+                       "isready"=>Fog::Boolean,
+                       "passwordenabled"=>Fog::Boolean,
+                       "format"=>String,
+                       "isfeatured"=>Fog::Boolean,
+                       "crossZones"=>Fog::Boolean,
+                       "ostypeid"=>Integer,
+                       "ostypename"=>String,
+                       "account"=>String,
+                       "zoneid"=>Integer,
+                       "zonename"=>String,
+                       "size"=>Integer,
+                       "templatetype"=>String,
+                       "hypervisor"=>String,
+                       "domain"=>String,
+                       "domainid"=>Integer,
+                       "isextractable"=>Fog::Boolean,
+                     }]
+      end
+      module Jobs
+        JOB = {
+          "jobid"=>Integer,
+          "accountid"=>Integer,
+          "userid"=>Integer,
+          "cmd"=>String,
+          "jobstatus"=>Integer,
+          "jobprocstatus"=>Integer,
+          "jobresultcode"=>Integer,
+          "jobresult"=>Hash,
+          "created"=>String
+        }
+        JOBS = [JOB]
+        JOB_QUERY = {
+          "jobid"=>Integer,
+          "jobstatus"=>Integer,
+          "jobprocstatus"=>Integer,
+          "jobresultcode"=>Integer,
+          "jobresulttype"=>String,
+          "jobresult"=>Hash
+        }
+      end
+      module Networks
+        NETWORKS=[{"id"=>Integer,
+                    "name"=>String,
+                    "displaytext"=>String,
+                    "broadcastdomaintype"=>String,
+                    "traffictype"=>String,
+                    "zoneid"=>Integer,
+                    "networkofferingid"=>Integer,
+                    "networkofferingname"=>String,
+                    "networkofferingdisplaytext"=>String,
+                    "networkofferingavailability"=>String,
+                    "isshared"=>Fog::Boolean,
+                    "issystem"=>Fog::Boolean,
+                    "state"=>String,
+                    "related"=>Integer,
+                    "broadcasturi"=>String,
+                    "dns1"=>String,
+                    "dns2"=>String,
+                    "type"=>String,
+                    "account"=>String,
+                    "domainid"=>Integer,
+                    "domain"=>String,
+                    "isdefault"=>Fog::Boolean,
+                    "service"=>Array,
+                    "networkdomain"=>String,
+                    "securitygroupenabled"=>Fog::Boolean
+                    }]
       end
     end
   end
