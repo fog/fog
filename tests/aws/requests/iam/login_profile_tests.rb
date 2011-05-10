@@ -27,7 +27,7 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
       result
     end
 
-    tests("#modify_login_profile('fog_user')").formats(AWS::IAM::Formats::BASIC) do
+    tests("#update_login_profile('fog_user')").formats(AWS::IAM::Formats::BASIC) do
       pending if Fog.mocking?
       begin
         AWS[:iam].update_login_profile('fog_user', 'otherpassword').body
