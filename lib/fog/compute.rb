@@ -32,7 +32,7 @@ module Fog
         require 'fog/compute/slicehost'
         Fog::Slicehost::Compute.new(attributes)
       when 'StormOnDemand'
-        require 'fog/compute/stormondemand'
+        require 'fog/compute/storm_on_demand'
         Fog::StormOnDemand::Compute.new(attributes)
       when 'VirtualBox'
         require 'fog/compute/virtual_box'

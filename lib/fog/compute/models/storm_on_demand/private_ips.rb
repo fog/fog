@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/stormondemand/private_ip'
+require 'fog/compute/models/storm_on_demand/private_ip'
 
 module Fog
   module StormOnDemand

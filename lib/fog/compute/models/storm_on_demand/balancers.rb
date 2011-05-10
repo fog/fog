@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/stormondemand/balancer'
+require 'fog/compute/models/storm_on_demand/balancer'
 
 module Fog
   module StormOnDemand

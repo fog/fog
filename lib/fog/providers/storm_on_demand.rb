@@ -5,7 +5,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'compute/stormondemand')
+    service(:compute, 'compute/storm_on_demand')
 
   end
 end

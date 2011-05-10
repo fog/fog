@@ -4,11 +4,11 @@ module Fog
       
       API_URL = 'https://api.stormondemand.com'
       
-      requires :stormondemand_username, :stormondemand_password
-      recognizes :stormondemand_auth_url
+      requires :storm_on_demand_username, :storm_on_demand_password
+      recognizes :storm_on_demand_auth_url
       recognizes :provider # remove post deprecation
 
-      model_path 'fog/compute/models/stormondemand'
+      model_path 'fog/compute/models/storm_on_demand'
       model       :config
       collection  :configs
       model       :image
@@ -24,7 +24,7 @@ module Fog
       model       :template
       collection  :templates
 
-      request_path 'fog/compute/requests/stormondemand'
+      request_path 'fog/compute/requests/storm_on_demand'
       request :clone_server
       request :delete_server
       request :reboot_server
@@ -63,8 +63,8 @@ module Fog
         end
 
         def initialize(options={})
-          @stormondemand_username = options[:stormondemand_username]
-          @data = self.class.data[@stormondemand_username]
+          @storm_on_demand_username = options[:storm_on_demand_username]
+          @data = self.class.data[@storm_on_demand_username]
         end
 
       end
@@ -73,13 +73,13 @@ module Fog
 
         def initialize(options={})
           require 'json'
-          uri = URI.parse(options[:stormondemand_auth_url] ||= API_URL)
+          uri = URI.parse(options[:storm_on_demand_auth_url] ||= API_URL)
           @host   = uri.host
           @path   = uri.path
           @port   = uri.port
           @scheme = uri.scheme
-          @stormondemand_username = options[:stormondemand_username]
-          @stormondemand_password = options[:stormondemand_password]
+          @storm_on_demand_username = options[:storm_on_demand_username]
+          @storm_on_demand_password = options[:storm_on_demand_password]
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
         end
 
@@ -92,7 +92,7 @@ module Fog
             response = @connection.request(params.merge!({
               :headers  => {
                 'Content-Type' => 'application/json',
-                'Authorization' => "Basic " + Base64.encode64("#{@stormondemand_username}:#{@stormondemand_password}").chomp
+                'Authorization' => 'Basic ' << Base64.encode64("#{@storm_on_demand_username}:#{@storm_on_demand_password}").chomp
               }.merge!(params[:headers] || {}),
               :host     => @host,
               :path     => "#{@path}/#{params[:path]}",

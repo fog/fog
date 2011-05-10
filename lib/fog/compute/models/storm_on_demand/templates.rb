@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/stormondemand/template'
+require 'fog/compute/models/storm_on_demand/template'
 
 module Fog
   module StormOnDemand
