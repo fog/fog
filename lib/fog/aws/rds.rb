@@ -37,7 +37,7 @@ module Fog
       request :restore_db_instance_from_db_snapshot
       request :restore_db_instance_to_point_in_time
 
-      model_path 'fog/aws/rds/models'
+      model_path 'fog/aws/models/rds'
       model       :server
       collection  :servers
       model       :snapshot

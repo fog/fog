@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/aws/rds/models/parameter'
+require 'fog/aws/models/rds/parameter'
 
 module Fog
   module AWS

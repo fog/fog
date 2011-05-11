@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/aws/rds/models/snapshot'
+require 'fog/aws/models/rds/snapshot'
 
 module Fog
   module AWS

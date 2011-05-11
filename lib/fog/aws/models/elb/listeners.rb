@@ -1,4 +1,4 @@
-require 'fog/aws/elb/models/listener'
+require 'fog/aws/models/elb/listener'
 module Fog
   module AWS
     class ELB

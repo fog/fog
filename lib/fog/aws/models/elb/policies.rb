@@ -1,4 +1,4 @@
-require 'fog/aws/elb/models/policy'
+require 'fog/aws/models/elb/policy'
 module Fog
   module AWS
     class ELB

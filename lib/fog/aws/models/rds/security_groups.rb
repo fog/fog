@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/aws/rds/models/security_group'
+require 'fog/aws/models/rds/security_group'
 
 module Fog
   module AWS

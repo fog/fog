@@ -26,7 +26,7 @@ module Fog
       #request :set_load_balancer_listener_ssl_certificate
       request :set_load_balancer_policies_of_listener
 
-      model_path 'fog/aws/elb/models'
+      model_path 'fog/aws/models/elb'
       model      :load_balancer
       collection :load_balancers
       model      :policy

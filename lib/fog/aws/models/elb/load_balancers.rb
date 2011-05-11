@@ -1,4 +1,4 @@
-require 'fog/aws/elb/models/load_balancer'
+require 'fog/aws/models/elb/load_balancer'
 module Fog
   module AWS
     class ELB
