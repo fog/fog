@@ -33,7 +33,6 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
     server = AWS[:rds].servers.get(@db_instance_id)
     server.wait_for {ready?}
 
-
     new_storage = 6
     tests("#modify_db_instance with immediate apply").formats(AWS::RDS::Formats::MODIFY_DB_INSTANCE) do
       body = AWS[:rds].modify_db_instance(@db_instance_id, true, 'AllocatedStorage'=> new_storage).body
@@ -44,8 +43,9 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
       body
     end
 
-    server.wait_for { state == 'modifying' }
-    server.wait_for { state == 'available' }
+    server.reload.wait_for { state == 'modifying' }
+    server.reload.wait_for { state == 'available' }
+
     tests 'new storage' do
       returns(new_storage){ server.allocated_storage}
     end
@@ -54,10 +54,10 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
       tests("#reboot").formats(AWS::RDS::Formats::REBOOT_DB_INSTANCE) do
         AWS[:rds].reboot_db_instance(@db_instance_id).body
       end
-
-      server.wait_for { state == 'rebooting' }
-      server.wait_for { state == 'available'}
     end
+
+    server.reload.wait_for { state == 'rebooting' }
+    server.reload.wait_for { state == 'available'}
 
     tests("#create_db_snapshot").formats(AWS::RDS::Formats::CREATE_DB_SNAPSHOT) do
       body = AWS[:rds].create_db_snapshot(@db_instance_id, @db_snapshot_id).body
@@ -69,8 +69,9 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
       body = AWS[:rds].describe_db_snapshots.body
     end
 
+    server.reload.wait_for { state == 'available' }
+
     tests( "#create read replica").formats(AWS::RDS::Formats::CREATE_READ_REPLICA) do
-      AWS[:rds].servers.get(@db_instance_id).wait_for { ready? }
       AWS[:rds].create_db_instance_read_replica(@db_replica_id, @db_instance_id).body
     end
 
