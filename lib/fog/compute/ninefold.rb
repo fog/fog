@@ -52,6 +52,10 @@ module Fog
       request :query_async_job_result
       # Networks
       request :list_networks
+      # Addresses
+      request :associate_ip_address
+      request :list_public_ip_addresses
+      request :disassociate_ip_address
 
       class Mock
 

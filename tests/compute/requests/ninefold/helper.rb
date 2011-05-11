@@ -275,6 +275,39 @@ class Ninefold
                     "securitygroupenabled"=>Fog::Boolean
                     }]
       end
+      module Addresses
+        def fill_address_data(data)
+          if data.kind_of? Hash
+              data['virtualmachineid'] ||= 0
+              data['virtualmachinename'] ||= ''
+          elsif data.kind_of? Array
+            data.each {|d| fill_address_data(d) }
+          end
+          data
+        end
+
+        module_function :fill_address_data
+        ADDRESS = {
+          "id"=>Integer,
+          "ipaddress"=>String,
+          "allocated"=>String,
+          "zoneid"=>Integer,
+          "zonename"=>String,
+          "issourcenat"=>Fog::Boolean,
+          "account"=>String,
+          "domainid"=>Integer,
+          "domain"=>String,
+          "forvirtualnetwork"=>Fog::Boolean,
+          "isstaticnat"=>Fog::Boolean,
+          "associatednetworkid"=>Integer,
+          "networkid"=>Integer,
+          "state"=>String,
+          "virtualmachineid"=>Integer,
+          "virtualmachinename"=>String
+        }
+        ADDRESSES = [ADDRESS]
+        DISASSOC_ADDRESS = {"jobid"=>Integer}
+      end
     end
   end
 end
