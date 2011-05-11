@@ -23,7 +23,7 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       'MaxUploads'          => Integer,
       'KeyMarker'           => NilClass,
       'NextKeyMarker'       => String,
-      'NextUploadIdMarker'  => String,
+      'NextUploadIdMarker'  => Fog::Nullable::String,
       'Upload' => [{
         'Initiated'     => Time,
         'Initiator' => {
