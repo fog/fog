@@ -1,31 +1,30 @@
 Shindo.tests('Bluebox::Compute | block requests', ['bluebox']) do
 
   @block_format = {
-    'cpu'         => Float,
-    'description' => String,
-    'hostname'    => String,
-    'id'          => String,
-    'ips'         => [{'address' => String}],
-    'lb_applications' => [{'lb_application_name' => String, 'lb_application_id' => String}],
-    'memory'      => Integer,
-    'product'     => Bluebox::Compute::Formats::PRODUCT,
-    'status'      => String,
-    'storage'     => Integer,
-    'template'    => String
+    'cpu'             => Float,
+    'description'     => String,
+    'hostname'        => String,
+    'id'              => String,
+    'ips'             => [{'address' => String}],
+    'lb_applications' => [],
+    'memory'          => Integer,
+    'product'         => Bluebox::Compute::Formats::PRODUCT,
+    'status'          => String,
+    'storage'         => Integer,
+    'template'        => String
   }
 
   tests('success') do
 
     @product_id   = '94fd37a7-2606-47f7-84d5-9000deda52ae' # 1 GB
-    @template_id  = 'a00baa8f-b5d0-4815-8238-b471c4c4bf72' # Ubuntu 9.10 64bit
-    @lb_applications = '0ea478ca-d528-4764-9828-fc5f222c8c8c'
+    @template_id  = compute_providers[Bluebox][:server_attributes][:image_id]
     @password     = 'chunkybacon'
 
     @block_id = nil
 
-    tests("create_block('#{@product_id}', '#{@template_id}', {'password' => '#{@password}', 'lb_applications' => '#{@lb_applications}'})").formats(@block_format) do
+    tests("create_block('#{@product_id}', '#{@template_id}', {'password' => '#{@password}'})").formats(@block_format.merge('add_to_lb_application_results' => {'text' => String})) do
       pending if Fog.mocking?
-      data = Bluebox[:compute].create_block(@product_id, @template_id, {'password' => @password, 'lb_applications' => @lb_applications}).body
+      data = Bluebox[:compute].create_block(@product_id, @template_id, {'password' => @password}).body
       @block_id = data['id']
       data
     end

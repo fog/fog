@@ -8,9 +8,8 @@ def compute_providers
     },
     Bluebox   => {
       :server_attributes => {
-        :image_id => 'a00baa8f-b5d0-4815-8238-b471c4c4bf72', # Ubuntu 9.10 64bit
-        :password => 'chunkybacon',
-        :lb_applications => '0ea478ca-d528-4764-9828-fc5f222c8c8c'
+        :image_id => '03807e08-a13d-44e4-b011-ebec7ef2c928', # Ubuntu 10.04 64bit
+        :password => 'chunkybacon'
       },
       :mocked => false
     },
