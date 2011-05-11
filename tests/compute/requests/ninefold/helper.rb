@@ -318,6 +318,29 @@ class Ninefold
         ADDRESSES = [ADDRESS]
         DISASSOC_ADDRESS = {"jobid"=>Integer}
       end
+      module Nat
+        ENABLE_NAT_RESPONSE = {
+          'success' => String
+        }
+        DISABLE_NAT_RESPONSE = {
+          'success' => Fog::Boolean
+        }
+        DELETE_RULE_RESPONSE = {
+          'success' => Fog::Boolean
+        }
+        FORWARDING_RULE = {
+          "id"=>Integer,
+          "protocol"=>String,
+          "virtualmachineid"=>Integer,
+          "virtualmachinename"=>String,
+          "ipaddressid"=>Integer,
+          "ipaddress"=>String,
+          "startport"=>Integer,
+          "endport"=>Integer,
+          "state"=>String
+        }
+        FORWARDING_RULES = [FORWARDING_RULE]
+      end
     end
   end
 end

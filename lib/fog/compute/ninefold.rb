@@ -56,6 +56,12 @@ module Fog
       request :associate_ip_address
       request :list_public_ip_addresses
       request :disassociate_ip_address
+      # NAT
+      request :enable_static_nat
+      request :disable_static_nat
+      request :create_ip_forwarding_rule
+      request :delete_ip_forwarding_rule
+      request :list_ip_forwarding_rules
 
       class Mock
 
