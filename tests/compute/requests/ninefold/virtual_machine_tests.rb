@@ -28,12 +28,7 @@ Shindo.tests('Ninefold::Compute | server requests', ['ninefold']) do
       pending if Fog.mocking?
       vms = Ninefold[:compute].list_virtual_machines
       # This is a hack to work around the changing format - these fields may or may not exist.
-      vms.each do |vm|
-        vm['cpuused'] ||= ''
-        vm['networkkbsread'] ||= 0
-        vm['networkkbswrite'] ||= 0
-      end
-      vms
+      Ninefold::Compute::Formats::VirtualMachines::fill_virtual_machine_data(vms)
     end
 
     tests("#reboot_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::ASYNC_VIRTUAL_MACHINE) do
@@ -57,8 +52,9 @@ Shindo.tests('Ninefold::Compute | server requests', ['ninefold']) do
 
     tests("#change_service_for_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::VIRTUAL_MACHINE) do
       pending if Fog.mocking?
-      Ninefold[:compute].change_service_for_virtual_machine(:id => @newvmid,
+      vms = Ninefold[:compute].change_service_for_virtual_machine(:id => @newvmid,
                                                                   :serviceofferingid => Ninefold::Compute::TestSupport::ALT_SERVICE_OFFERING)
+      Ninefold::Compute::Formats::VirtualMachines::fill_virtual_machine_data(vms)
     end
 
     tests("#start_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::ASYNC_VIRTUAL_MACHINE) do

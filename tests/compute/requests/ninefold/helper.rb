@@ -141,6 +141,21 @@ class Ninefold
                            }]
       end
       module VirtualMachines
+        # Sometimes a few fields are missing from VM data - this method
+        # will fill them in if they don't exist, to ensure the format passes
+        def fill_virtual_machine_data(vms)
+          if vms.kind_of? Hash
+              vms['cpuused'] ||= ''
+              vms['networkkbsread'] ||= 0
+              vms['networkkbswrite'] ||= 0
+          elsif vms.kind_of? Array
+            vms.each {|vm| fill_virtual_machine_data(vm) }
+          end
+          vms
+        end
+
+        module_function :fill_virtual_machine_data
+
         PENDING_VIRTUAL_MACHINE = {"id" => Integer, "jobid" => Integer}
         ASYNC_VIRTUAL_MACHINE = {"jobid" => Integer}
         VIRTUAL_MACHINE = {
