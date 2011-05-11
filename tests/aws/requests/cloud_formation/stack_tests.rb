@@ -113,6 +113,8 @@ Shindo.tests('AWS::CloudFormation | stack requests', ['aws', 'cloudformation']) 
       AWS[:cloud_formation].describe_stacks.body
     end
 
+    sleep(1) # avoid throttling
+
     tests("describe_stack_events('#{@stack_name}')").formats(@describe_stack_events_format) do
       pending if Fog.mocking?
       AWS[:cloud_formation].describe_stack_events(@stack_name).body
