@@ -22,7 +22,7 @@ module Fog
         def get(zone_id)
           data = connection.get_hosted_zone(zone_id).body
           new(data)
-        rescue Excon::Errors::BadRequest
+        rescue Excon::Errors::Forbidden
           nil
         end
 

@@ -264,7 +264,7 @@ Shindo.tests('AWS::DNS | DNS requests', ['aws', 'dns']) do
       response = AWS[:dns].create_hosted_zone('invalid-domain')
     end
     
-    tests('get hosted zone using invalid ID').raises(Excon::Errors::BadRequest) do
+    tests('get hosted zone using invalid ID').raises(Excon::Errors::Forbidden) do
       pending if Fog.mocking?
       zone_id = 'dummy-id'
       response = AWS[:dns].get_hosted_zone(zone_id)
