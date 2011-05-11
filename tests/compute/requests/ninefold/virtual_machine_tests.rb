@@ -3,7 +3,7 @@ Shindo.tests('Ninefold::Compute | server requests', ['ninefold']) do
   tests('success') do
 
 
-    tests("#deploy_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::PENDING_VIRTUAL_MACHINE) do
+    tests("#deploy_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::VIRTUAL_MACHINE) do
       pending if Fog.mocking?
       networks = Ninefold[:compute].list_networks
 
@@ -16,12 +16,9 @@ Shindo.tests('Ninefold::Compute | server requests', ['ninefold']) do
                                                         :zoneid => Ninefold::Compute::TestSupport::ZONE_ID,
                                                         :networkids => networks[0]['id'])
       # wait for deployment, stash the job id.
-      @jobid = newvm['jobid']
       @newvmid = newvm['id']
-      while Ninefold[:compute].query_async_job_result(:jobid => @jobid)['jobstatus'] == 0
-        sleep 1
-      end
-      newvm
+      result = Ninefold::Compute::TestSupport.wait_for_job(newvm['jobid'])['jobresult']['virtualmachine']
+      Ninefold::Compute::Formats::VirtualMachines::fill_virtual_machine_data(result)
     end
 
     tests("#list_virtual_machines()").formats(Ninefold::Compute::Formats::VirtualMachines::VIRTUAL_MACHINES) do
@@ -31,22 +28,18 @@ Shindo.tests('Ninefold::Compute | server requests', ['ninefold']) do
       Ninefold::Compute::Formats::VirtualMachines::fill_virtual_machine_data(vms)
     end
 
-    tests("#reboot_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::ASYNC_VIRTUAL_MACHINE) do
+    tests("#reboot_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::VIRTUAL_MACHINE) do
       pending if Fog.mocking?
       job = Ninefold[:compute].reboot_virtual_machine(:id => @newvmid)
-      while Ninefold[:compute].query_async_job_result(:jobid => job['jobid'])['jobstatus'] == 0
-        sleep 1
-      end
-      job
+      result = Ninefold::Compute::TestSupport.wait_for_job(job)['jobresult']['virtualmachine']
+      Ninefold::Compute::Formats::VirtualMachines::fill_virtual_machine_data(result)
     end
 
-    tests("#stop_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::ASYNC_VIRTUAL_MACHINE) do
+    tests("#stop_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::VIRTUAL_MACHINE) do
       pending if Fog.mocking?
       job = Ninefold[:compute].stop_virtual_machine(:id => @newvmid)
-      while Ninefold[:compute].query_async_job_result(:jobid => job['jobid'])['jobstatus'] == 0
-        sleep 1
-      end
-      job
+      result = Ninefold::Compute::TestSupport.wait_for_job(job)['jobresult']['virtualmachine']
+      Ninefold::Compute::Formats::VirtualMachines::fill_virtual_machine_data(result)
     end
 
 
@@ -57,25 +50,18 @@ Shindo.tests('Ninefold::Compute | server requests', ['ninefold']) do
       Ninefold::Compute::Formats::VirtualMachines::fill_virtual_machine_data(vms)
     end
 
-    tests("#start_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::ASYNC_VIRTUAL_MACHINE) do
+    tests("#start_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::VIRTUAL_MACHINE) do
       pending if Fog.mocking?
       job = Ninefold[:compute].start_virtual_machine(:id => @newvmid)
-      while Ninefold[:compute].query_async_job_result(:jobid => job['jobid'])['jobstatus'] == 0
-        sleep 1
-      end
-      job
+      result = Ninefold::Compute::TestSupport.wait_for_job(job)['jobresult']['virtualmachine']
+      Ninefold::Compute::Formats::VirtualMachines::fill_virtual_machine_data(result)
     end
 
-    tests("#destroy_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::ASYNC_VIRTUAL_MACHINE) do
+    tests("#destroy_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::VIRTUAL_MACHINE) do
       pending if Fog.mocking?
-      destvm = Ninefold[:compute].destroy_virtual_machine(:id => @newvmid)
-
-      # wait for destroy, stash the job id.
-      @jobid = destvm['jobid']
-      while Ninefold[:compute].query_async_job_result(:jobid => @jobid)['jobstatus'] == 0
-        sleep 1
-      end
-      destvm
+      job = Ninefold[:compute].destroy_virtual_machine(:id => @newvmid)
+      result = Ninefold::Compute::TestSupport.wait_for_job(job)['jobresult']['virtualmachine']
+      Ninefold::Compute::Formats::VirtualMachines::fill_virtual_machine_data(result)
     end
 
   end

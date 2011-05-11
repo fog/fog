@@ -11,6 +11,18 @@ class Ninefold
       ZONE_ID = 1
       # Max time to wait for job completion (2 mins)
       MAXWAIT = 2 * 60
+
+      ## Waits for a job, returning the completed jobs payload.
+      ## Accepts an integer jobid, or a hash containing a jobid or id.
+      def wait_for_job(job)
+        job = job['jobid'] || job['id'] unless job.kind_of? Integer
+        while Ninefold[:compute].query_async_job_result(:jobid => job)['jobstatus'] == 0
+          sleep 1
+        end
+        Ninefold[:compute].query_async_job_result(:jobid => job)
+      end
+      module_function :wait_for_job
+
     end
     module Formats
       module Lists
@@ -156,8 +168,6 @@ class Ninefold
 
         module_function :fill_virtual_machine_data
 
-        PENDING_VIRTUAL_MACHINE = {"id" => Integer, "jobid" => Integer}
-        ASYNC_VIRTUAL_MACHINE = {"jobid" => Integer}
         VIRTUAL_MACHINE = {
           "id"=>Integer,
           "name"=>String,
