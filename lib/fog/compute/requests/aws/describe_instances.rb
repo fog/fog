@@ -55,7 +55,12 @@ module Fog
             Formatador.display_line("[yellow][WARN] describe_instances with #{filters.class} param is deprecated, use describe_instances('instance-id' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'instance-id' => [*filters]}
           end
-          params = AWS.indexed_filters(filters)
+          params = {}
+          # when seeking single instance id, old param style is most up to date
+          if filters['instance-id'] && !filters['instance-id'].is_a?(Array)
+            params.merge('InstanceId' => filters.delete('instance-id'))
+          end
+          params.merge!(AWS.indexed_filters(filters))
 
           request({
             'Action'    => 'DescribeInstances',
