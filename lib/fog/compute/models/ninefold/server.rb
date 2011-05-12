@@ -117,6 +117,7 @@ module Fog
             else
               # update with new values.
               merge_attributes(res['jobresult']['virtualmachine'])
+              true
             end
           else # No running job, we are ready. Refresh data.
             reload

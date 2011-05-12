@@ -14,14 +14,10 @@ module Fog
       collection  :flavors
       model       :image
       collection  :images
-      #collection  :load_balancers
-      #model       :load_balancer
-      #collection  :zones
-      #model       :zone
-      #collection  :cloud_ips
-      #model       :cloud_ip
-      #collection  :users
-      #model       :user
+      model       :address
+      collection  :addresses
+      model       :ip_forwarding_rule
+      collection  :ip_forwarding_rules
 
       request_path 'fog/compute/requests/ninefold'
       # General list-only stuff
