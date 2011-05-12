@@ -1,3 +1,126 @@
+0.8.0 05/12/2011
+================
+
+MVP! ktheory
+
+[aws|cloudformation] tests sleep to avoid throttling error :(
+
+[aws|elb] 
+  Add tests for create, describe, and delete. thanks ktheory
+  Fix Policies in describe_load_balancers parser. thanks ktheory
+  Stub out missing requests. thanks ktheory
+  Add configure_health_check request. thanks ktheory
+  Add support for creating and deleting listeners. thanks ktheory
+  Add requests for creating cookie policies. thanks ktheory
+  Add request ELB#delete_load_balancer_policy. thanks ktheory
+  Add request ELB#set_load_balancer_policies_of_listener. thanks ktheory
+  Create a model and collection for load_balancers. thanks ktheory
+  Create Policies collection and model. thanks ktheory
+  Create Listeners collection and model. thanks ktheory
+  Remove redundant NotFound error class. thanks ktheory
+  reorg model files for consistency
+
+[aws|iam]
+  Added server certificate tests. thanks ktheory
+  Parse server certificate UploadDate. thanks ktheory
+  Add list_server_certificates request. thanks ktheory
+  fix test description for update_login_profile
+
+[aws|rds]
+  Fix exception for missing DB security groups. thanks ktheory
+  Remove redundant NotFound class. thanks ktheory
+  Improve instance tests. thanks ktheory
+  reorg model files for consistency
+  change status waits for more consistent testing
+
+[aws|ses]
+  fix format of Destinations in send_raw_email and correct doc. thanks jhawthorne
+  Make specifying Destinations for send_raw_email work and match amazon docs. thanks jhawthorne
+  fix indent in doc. thanks jhawthorne
+
+[aws|simpledb]
+  correction for item and attribute counters in encode_batch_attributes. thanks joshounapoli
+  Fix a problem with the encoding of the tilde character. AWS needs tilde to be unescaped, or else the signature fails. CGI.escape escapes tilde; don't use it. thanks joshounapoli
+  Correction to the regular expression for unreserved characters. thanks joshounapoli
+  Test encode_batch_attributes with two attributes in one item to demonstrate an error in encode_batch_attributes. An unmocked test run will show a "400 Bad Request" response from SimpleDB. thanks joshounapoli
+
+[compute]
+  default to Ubuntu 10.04 LTS 64bit for image id
+  [aws]
+    Fix server tests. thanks ktheory
+    Fixes trailing whitespace in attributes. thanks ktheory
+    Fix & improve some tests. thanks ktheory
+    Use default AMI in tests. thanks ktheory
+    Add failing tests for keypair parsing. thanks ktheory
+    Add different availability zones for each region to the mock. thanks smerritt
+    Update docs for Compute::Real#initialize to include ap-* regions. thanks smerritt
+    change default flavor to t1.micro (so it will be 64-bit)
+    use old style, more consistent call to get single instance
+    fix console output format in tests
+  [bluebox]
+    Adding lb_applications, lb_services, lb_backends attributes to the model. thanks cparades
+    Adding in a few more tests for LB's. thanks cparades
+    Rolling back change. thanks cparades
+    Added in some data for testing. thanks cparades
+    Fixed typo in Bluebox test. thanks tokengeek
+    don't use a lb_application I don't own in tests
+  [brightbox]
+    Updated Image identifiers to match latest available Ubuntu Lucid 10.04 LTS 64bit image. thanks tokengeek
+  [ecloud]
+    1.9.2 compat, String#[] doesn't return nil as we expected. thanks dpiddy
+  [stormondemand]
+    Implement Stormondemand API. thanks seeingidog
+    cleanup
+    fixes for tests
+  [voxel]
+    Prevent voxel tests running if missing credentials. thanks tokengeek
+    minor fixes for voxel tests
+
+[core]
+  Parser does not concatenates all the strings when parsing. thanks geraud
+  Drop default_executable line from gemspec. thanks mattsa
+  Fix small logic error in Model#wait_for. thanks pvande
+  Make Model#reload more resilient against errors. thanks pvande
+  Simplify dup-ing of @attributes for models. thanks smerritt
+  Make Model#dup copy the attributes too. thanks smerritt
+  Fix typo in spec output. thanks smerritt
+  tighten excon dependency. Closes #250
+  cleanup gemspec. closes #251
+  Fixes error messaging when credentials missing
+  update parser to better handle whitespace
+
+[docs]
+  Add link to multipart upload and threads article. thanks gsandie
+  restructure toward same organization as rest of repo
+  simplify redirector to just point at directory instead of specifically index.html
+  generalize version subbing in href to catch src too
+  style cleanup for cdn/dns/storage
+  storage shouldn't be all caps
+  link to fog.io more prominently
+  fix new links to properly include version
+  replace getting started link
+  add link to learn_fog
+  remove confusion by linking to fog.io instead of wiki
+  reworking getting started guide
+  add requires
+
+[dns|aws] fix error handling for getting unknown keys
+
+[storage]
+  auto-paginate for #each     closes #268
+  [aws] 
+    Add #each_file method to directory model. thanks smerritt
+    Add documentation for #each_file method. thanks smerritt
+    Emit warning from Files#each. thanks smerritt
+    Make Files#each iterate all files, not just the first page. thanks smerritt
+    Fix docs to say files.each, not each_file. thanks smerritt
+    Issue #283: S3 get_object request doesn't really support the Range header. thanks yalon
+    fix format for multipart upload tests
+  [google]
+    fix format in bucket_tests
+  [rackspace]
+    mark get_object with block test pending when mocked
+
 0.7.2 04/05/2011
 ================
 
