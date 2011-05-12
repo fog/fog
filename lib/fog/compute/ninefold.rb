@@ -5,16 +5,15 @@ module Fog
       API_URL = "http://api.ninefold.com/compute/v1.0/"
 
       requires :ninefold_compute_key, :ninefold_compute_secret
-      #recognizes :brightbox_auth_url, :brightbox_api_url
       recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/ninefold'
-      #collection  :servers
-      #model       :server
-      #collection  :flavors
-      #model       :flavor
-      #collection  :images
-      #model       :image
+      model       :server
+      collection  :servers
+      model       :flavor
+      collection  :flavors
+      model       :image
+      collection  :images
       #collection  :load_balancers
       #model       :load_balancer
       #collection  :zones
