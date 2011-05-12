@@ -53,7 +53,7 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
 
   @get_console_output_format = {
     'instanceId'  => String,
-    'output'      => NilClass,
+    'output'      => Fog::Nullable::String,
     'requestId'   => String,
     'timestamp'   => Time
   }
