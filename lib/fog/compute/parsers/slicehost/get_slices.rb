@@ -14,13 +14,13 @@ module Fog
             case name
             when 'address'
               @slice['addresses'] ||= []
-              @slice['addresses'] << @value
+              @slice['addresses'] << value
             when 'backup-id', 'flavor-id', 'id', 'image-id', 'progress'
-              @slice[name] = @value.to_i
+              @slice[name] = value.to_i
             when 'bw-in', 'bw-out'
-              @slice[name] = @value.to_f
+              @slice[name] = value.to_f
             when 'name', 'status'
-              @slice[name] = @value
+              @slice[name] = value
             when 'slice'
               @response['slices'] << @slice
               @slice = {}

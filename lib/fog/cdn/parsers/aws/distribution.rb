@@ -21,31 +21,31 @@ module Fog
           def end_element(name)
             case name
             when 'AwsAccountNumber'
-              @response['DistributionConfig']['TrustedSigners'] << @value
+              @response['DistributionConfig']['TrustedSigners'] << value
             when 'Bucket', 'Prefix'
-              @response['DistributionConfig']['Logging'][name] = @value
+              @response['DistributionConfig']['Logging'][name] = value
             when 'CNAME'
-              @response['DistributionConfig']['CNAME'] << @value
+              @response['DistributionConfig']['CNAME'] << value
             when 'DNSName', 'OriginAccessIdentity', 'OriginProtocolPolicy'
-              @response['DistributionConfig'][@origin][name] = @value
+              @response['DistributionConfig'][@origin][name] = value
             when 'DomainName', 'Id', 'Status'
-              @response[name] = @value
+              @response[name] = value
             when 'CallerReference', 'Comment', 'DefaultRootObject', 'Origin', 'OriginAccessIdentity'
-              @response['DistributionConfig'][name] = @value
+              @response['DistributionConfig'][name] = value
             when 'Enabled'
-              if @value == 'true'
+              if value == 'true'
                 @response['DistributionConfig'][name] = true
               else
                 @response['DistributionConfig'][name] = false
               end
             when 'HTTPPort', 'HTTPSPort'
-              @response['DistributionConfig'][@origin][name] = @value.to_i
+              @response['DistributionConfig'][@origin][name] = value.to_i
             when 'InProgressInvalidationBatches'
-              @response[name] = @value.to_i
+              @response[name] = value.to_i
             when 'LastModifiedTime'
-              @response[name] = Time.parse(@value)
+              @response[name] = Time.parse(value)
             when 'Protocol'
-              @response['DistributionConfig']['RequireProtocols'] = @value
+              @response['DistributionConfig']['RequireProtocols'] = value
             when 'Self'
               @response['DistributionConfig']['TrustedSigners'] << 'Self'
             end

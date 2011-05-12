@@ -31,12 +31,12 @@ module Fog
               @entry = { 'Scope' => {} }
             when 'DisplayName', 'ID'
               if @in_entries
-                @entry['Scope'][name] = @value
+                @entry['Scope'][name] = value
               else
-                @response['Owner'][name] = @value
+                @response['Owner'][name] = value
               end
             when 'Permission'
-              @entry[name] = @value
+              @entry[name] = value
             end
           end
 

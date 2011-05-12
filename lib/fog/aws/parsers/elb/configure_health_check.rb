@@ -17,15 +17,15 @@ module Fog
           def end_element(name)
             case name
             when 'Target'
-              @health_check[name] = @value
+              @health_check[name] = value
             when 'Interval', 'Timeout', 'UnhealthyThreshold', 'HealthyThreshold'
-              @health_check[name] = @value.to_i
+              @health_check[name] = value.to_i
 
             when 'HealthCheck'
               @response['ConfigureHealthCheckResult'][name] = @health_check
 
             when 'RequestId'
-              @response['ResponseMetadata'][name] = @value
+              @response['ResponseMetadata'][name] = value
             end
           end
 

@@ -20,17 +20,17 @@ module Fog
 
           def end_element(name)
             case name
-            when 'AllocatedStorage' then @db_snapshot['AllocatedStorage'] = @value.to_i
-            when 'AvailabilityZone' then @db_snapshot['AvailabilityZone'] = @value
-            when 'DBInstanceIdentifier' then @db_snapshot['DBInstanceIdentifier'] = @value
-            when 'DBSnapshotIdentifier' then @db_snapshot['DBSnapshotIdentifier'] = @value
-            when 'Engine' then @db_snapshot['Engine'] = @value
-            when 'EngineVersion' then @db_snapshot['EngineVersion'] = @value
-            when 'InstanceCreateTime' then @db_snapshot['InstanceCreateTime'] = Time.parse @value
-            when 'MasterUsername' then @db_snapshot['MasterUsername'] = @value
-            when 'Port' then @db_snapshot['Port'] = @value.to_i
-            when 'SnapshotCreateTime' then @db_snapshot['SnapshotCreateTime'] = Time.parse @value
-            when 'Status' then @db_snapshot['Status'] = @value
+            when 'AllocatedStorage' then @db_snapshot['AllocatedStorage'] = value.to_i
+            when 'AvailabilityZone' then @db_snapshot['AvailabilityZone'] = value
+            when 'DBInstanceIdentifier' then @db_snapshot['DBInstanceIdentifier'] = value
+            when 'DBSnapshotIdentifier' then @db_snapshot['DBSnapshotIdentifier'] = value
+            when 'Engine' then @db_snapshot['Engine'] = value
+            when 'EngineVersion' then @db_snapshot['EngineVersion'] = value
+            when 'InstanceCreateTime' then @db_snapshot['InstanceCreateTime'] = Time.parse value
+            when 'MasterUsername' then @db_snapshot['MasterUsername'] = value
+            when 'Port' then @db_snapshot['Port'] = value.to_i
+            when 'SnapshotCreateTime' then @db_snapshot['SnapshotCreateTime'] = Time.parse value
+            when 'Status' then @db_snapshot['Status'] = value
             end
           end
         end

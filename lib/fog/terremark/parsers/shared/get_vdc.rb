@@ -90,15 +90,15 @@ module Fog
             case name
             when 'Allocated', 'Limit', 'Units', 'Used'
               if @in_cpu
-                @response['ComputeCapacity']['Cpu'][name] = @value
+                @response['ComputeCapacity']['Cpu'][name] = value
               elsif @in_deployed_vms_quota
-                @response['ComputeCapacity']['DeployedVmsQuota'][name] = @value
+                @response['ComputeCapacity']['DeployedVmsQuota'][name] = value
               elsif @in_instantiated_vms_quota
-                @response['ComputeCapacity']['InstantiatedVmsQuota'][name] = @value
+                @response['ComputeCapacity']['InstantiatedVmsQuota'][name] = value
               elsif @in_memory
-                @response['ComputeCapacity']['Memory'][name] = @value
+                @response['ComputeCapacity']['Memory'][name] = value
               elsif @in_storage_capacity
-                @response['StorageCapacity'][name] = @value
+                @response['StorageCapacity'][name] = value
               end
             when 'Cpu'
               @in_cpu = false
@@ -111,7 +111,7 @@ module Fog
             when 'StorageCapacity'
               @in_storage_capacity = false
             when 'Type'
-              @response[name] = @value
+              @response[name] = value
             end
           end
 

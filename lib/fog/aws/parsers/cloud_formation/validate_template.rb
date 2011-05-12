@@ -21,20 +21,20 @@ module Fog
           def end_element(name)
             case name
             when 'DefaultValue', 'ParameterKey'
-              @parameter[name] = @value
+              @parameter[name] = value
             when 'Description'
               if @in_parameters
-                @parameter[name] = @value
+                @parameter[name] = value
               else
-                @response[name] = @value
+                @response[name] = value
               end
             when 'RequestId'
-              @response[name] = @value
+              @response[name] = value
             when 'member'
               @response['Parameters'] << @parameter
               @parameter = {}
             when 'NoEcho'
-              case @value
+              case value
               when 'false'
                 @parameter[name] = false
               when 'true'

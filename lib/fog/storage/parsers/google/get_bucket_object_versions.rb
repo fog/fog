@@ -40,21 +40,21 @@ module Fog
                 @delete_marker
               elsif @in_version
                 @version
-              end['Owner'][name] = @value
+              end['Owner'][name] = value
             when 'ETag'
-              @version[name] = @value.gsub('"', '')
+              @version[name] = value.gsub('"', '')
             when 'IsLatest'
               if @in_delete_marker
                 @delete_marker
               elsif @in_version
                 @version
-              end['IsLatest'] = if @value == 'true'
+              end['IsLatest'] = if value == 'true'
                 true
               else
                 false
               end
             when 'IsTruncated'
-              if @value == 'true'
+              if value == 'true'
                 @response['IsTruncated'] = true
               else
                 @response['IsTruncated'] = false
@@ -64,19 +64,19 @@ module Fog
                 @delete_marker
               elsif @in_version
                 @version
-              end['LastModified'] = Time.parse(@value)
+              end['LastModified'] = Time.parse(value)
             when 'KeyMarker', 'Name', 'Prefix', 'VersionIdMarker'
-              @response[name] = @value
+              @response[name] = value
             when 'MaxKeys'
-              @response['MaxKeys'] = @value.to_i
+              @response['MaxKeys'] = value.to_i
             when 'Size'
-              @version['Size'] = @value.to_i
+              @version['Size'] = value.to_i
             when 'Key', 'Name', 'StorageClass', 'VersionId'
               if @in_delete_marker
                 @delete_marker
               elsif @in_version
                 @version
-              end[name] = @value
+              end[name] = value
             end
           end
 

@@ -12,9 +12,9 @@ module Fog
           def end_element(name)
             case name
             when 'member'
-              @response['DisableAvailabilityZonesForLoadBalancerResult']['AvailabilityZones'] << @value
+              @response['DisableAvailabilityZonesForLoadBalancerResult']['AvailabilityZones'] << value
             when 'RequestId'
-              @response['ResponseMetadata'][name] = @value
+              @response['ResponseMetadata'][name] = value
             end
           end
 

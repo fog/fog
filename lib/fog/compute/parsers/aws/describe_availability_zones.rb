@@ -16,11 +16,11 @@ module Fog
               @response['availabilityZoneInfo'] << @availability_zone
               @availability_zone = { 'messageSet' => [] }
             when 'message'
-              @availability_zone['messageSet'] << @value
+              @availability_zone['messageSet'] << value
             when 'regionName', 'zoneName', 'zoneState'
-              @availability_zone[name] = @value
+              @availability_zone[name] = value
             when 'requestId'
-              @response[name] = @value
+              @response[name] = value
             end
           end
 

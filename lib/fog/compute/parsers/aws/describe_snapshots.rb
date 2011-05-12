@@ -25,7 +25,7 @@ module Fog
                 @snapshot['tagSet'][@tag['key']] = @tag['value']
                 @tag = {}
               when 'key', 'value'
-                @tag[name] = @value
+                @tag[name] = value
               when 'tagSet'
                 @in_tag_set = false
               end
@@ -35,13 +35,13 @@ module Fog
                 @response['snapshotSet'] << @snapshot
                 @snapshot = { 'tagSet' => {} }
               when 'description', 'ownerId', 'progress', 'snapshotId', 'status', 'volumeId'
-                @snapshot[name] ||= @value
+                @snapshot[name] ||= value
               when 'requestId'
-                @response[name] = @value
+                @response[name] = value
               when 'startTime'
-                @snapshot[name] = Time.parse(@value)
+                @snapshot[name] = Time.parse(value)
               when 'volumeSize'
-                @snapshot[name] = @value.to_i
+                @snapshot[name] = value.to_i
               end
             end
           end

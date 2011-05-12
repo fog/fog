@@ -12,9 +12,9 @@ module Fog
           def end_element(name)
             case name
             when 'DNSName'
-              @response['CreateLoadBalancerResult'][name] = @value
+              @response['CreateLoadBalancerResult'][name] = value
             when 'RequestId'
-              @response['ResponseMetadata'][name] = @value
+              @response['ResponseMetadata'][name] = value
             end
           end
 

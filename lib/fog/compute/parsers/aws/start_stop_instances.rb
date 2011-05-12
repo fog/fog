@@ -22,14 +22,14 @@ module Fog
           def end_element(name)
             case name
             when 'code'
-              @instance[@state][name] = @value.to_s
+              @instance[@state][name] = value.to_s
             when 'instanceId'
-              @instance[name] = @value
+              @instance[name] = value
             when 'item'
               @response['instancesSet'] << @instance
               @instance = { 'currentState' => {}, 'previousState' => {} }
             when 'name'
-              @instance[@state][name] = @value
+              @instance[@state][name] = value
             end
           end
 

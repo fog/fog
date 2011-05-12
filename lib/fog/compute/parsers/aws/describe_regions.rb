@@ -16,9 +16,9 @@ module Fog
               @response['regionInfo'] << @region
               @region = {}
             when 'regionEndpoint', 'regionName'
-              @region[name] = @value
+              @region[name] = value
             when 'requestId'
-              @response[name] = @value
+              @response[name] = value
             end
           end
 

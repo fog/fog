@@ -10,7 +10,7 @@ module Fog
           end
 
           def end_element(name)
-            @response[name] = @value
+            @response[name] = value
           end
 
         end

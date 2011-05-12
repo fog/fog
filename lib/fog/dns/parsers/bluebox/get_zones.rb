@@ -13,9 +13,9 @@ module Fog
           def end_element(name)
             case name
             when 'serial', 'ttl', 'retry', 'expires', 'record-count', 'refresh', 'minimum'
-              @zone[name] = @value.to_i
+              @zone[name] = value.to_i
             when 'name', 'id'
-              @zone[name] = @value
+              @zone[name] = value
             when 'record'
               @response['zones'] << @zone
               @zone = {}

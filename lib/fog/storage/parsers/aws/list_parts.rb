@@ -13,22 +13,22 @@ module Fog
           def end_element(name)
             case name
             when 'Bucket', 'Key', 'NextPartNumberMarker', 'PartNumberMarker', 'StorageClass', 'UploadId'
-              @response[name] = @value
+              @response[name] = value
             when 'DisplayName', 'ID'
-              @response['Initiator'][name] = @value
+              @response['Initiator'][name] = value
             when 'ETag'
-              @part[name] = @value
+              @part[name] = value
             when 'IsTruncated'
-              @response[name] = @value == 'true'
+              @response[name] = value == 'true'
             when 'LastModified'
-              @part[name] = Time.parse(@value)
+              @part[name] = Time.parse(value)
             when 'MaxParts'
-              @response[name] = @value.to_i
+              @response[name] = value.to_i
             when 'Part'
               @response['Part'] << @part
               @part = {}
             when 'PartNumber', 'Size'
-              @part[name] = @value.to_i
+              @part[name] = value.to_i
             end
           end
 

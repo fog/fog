@@ -13,14 +13,14 @@ module Fog
           def end_element(name)
             case name
             when 'AccessKeyId', 'Status', 'Username'
-              @access_key[name] = @value
+              @access_key[name] = value
             when 'member'
               @response['AccessKeys'] << @access_key
               @access_key = {}
             when 'IsTruncated'
-              response[name] = (@value == 'true')
+              response[name] = (value == 'true')
             when 'Marker', 'RequestId'
-              response[name] = @value
+              response[name] = value
             end
           end
 

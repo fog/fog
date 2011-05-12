@@ -30,9 +30,9 @@ module Fog
               @response['devices'] << @device
               @device = {}
             when 'id', 'status'
-              @device[name] = @value
+              @device[name] = value
             when 'last_update'
-              @device[name] = Time.at(@value.to_i)
+              @device[name] = Time.at(value.to_i)
             end
           end
         end

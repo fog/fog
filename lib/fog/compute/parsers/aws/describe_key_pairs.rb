@@ -16,9 +16,9 @@ module Fog
               @response['keySet'] << @key
               @key = {}
             when 'keyFingerprint', 'keyName'
-              @key[name] = @value
+              @key[name] = value
             when 'requestId'
-              @response[name] = @value
+              @response[name] = value
             end
           end
 

@@ -34,7 +34,7 @@ module Fog
 
           def end_element(name)
             if name == 'Property'
-              @response['Properties'][@property_key] = @value
+              @response['Properties'][@property_key] = value
             end
           end
 

@@ -13,9 +13,9 @@ module Fog
           def end_element(name)
             case name
             when 'id', 'priority', 'ttl', 'zone-id'
-              @host[name] = @value.to_i
+              @host[name] = value.to_i
             when 'data', 'fqdn', 'host-type', 'hostname', 'notes', 'zone-id', 'created-at', 'updated-at'
-              @host[name] = @value
+              @host[name] = value
             when 'host'
               @response['hosts'] << @host
               @host = {}

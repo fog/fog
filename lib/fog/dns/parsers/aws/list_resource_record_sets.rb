@@ -18,9 +18,9 @@ module Fog
             if @section == :resource_record_set
               case name
               when 'Name', 'Type', 'TTL'
-                @resource_record_set[name] = @value
+                @resource_record_set[name] = value
               when 'Value'
-                @resource_record_set['ResourceRecords'] << @value
+                @resource_record_set['ResourceRecords'] << value
               when 'ResourceRecordSet'
                 @response['ResourceRecordSets'] << @resource_record_set
                 @resource_record_set = {}
@@ -31,9 +31,9 @@ module Fog
             elsif @section == :main
                 case name
                 when 'MaxItems'
-                  @response[name]= @value.to_i
+                  @response[name]= value.to_i
                 when 'IsTruncated', 'NextRecordName', 'NextRecordType'
-                  @response[name]= @value
+                  @response[name]= value
                 end
             end
           end

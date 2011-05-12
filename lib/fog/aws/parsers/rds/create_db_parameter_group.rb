@@ -17,15 +17,15 @@ module Fog
           def end_element(name)
             case name
             when 'DBParameterGroupFamily'
-              @db_parameter_group['DBParameterGroupFamily'] = @value
+              @db_parameter_group['DBParameterGroupFamily'] = value
             when 'Description'
-              @db_parameter_group['Description'] = @value
+              @db_parameter_group['Description'] = value
             when 'DBParameterGroupName'
-              @db_parameter_group['DBParameterGroupName'] = @value
+              @db_parameter_group['DBParameterGroupName'] = value
             when 'DBParameterGroup'
               @response['CreateDBParameterGroupResult']['DBParameterGroup']= @db_parameter_group
             when 'RequestId'
-              @response['ResponseMetadata'][name] = @value
+              @response['ResponseMetadata'][name] = value
             end
           end
         end

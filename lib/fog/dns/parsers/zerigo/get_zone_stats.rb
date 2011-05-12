@@ -12,9 +12,9 @@ module Fog
           def end_element(name)
             case name
             when 'id', 'queries'
-              @response[name] = @value.to_i
+              @response[name] = value.to_i
             when 'domain', 'period-begin', 'period-end'
-              @response[name] = @value
+              @response[name] = value
             end            
           end
 

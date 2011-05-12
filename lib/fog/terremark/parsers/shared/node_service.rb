@@ -12,15 +12,15 @@ module Fog
           def end_element(name)
             case name
             when 'Description', 'Href', 'IpAddress', 'Name', 'Protocol'
-              @response[name] = @value
+              @response[name] = value
             when 'Enabled'
-              if @value == 'false'
+              if value == 'false'
                 @response[name] = false
               else
                 @response[name] = true
               end
             when 'Id', 'Port'
-              @response[name] = @value.to_i
+              @response[name] = value.to_i
             end
           end
 

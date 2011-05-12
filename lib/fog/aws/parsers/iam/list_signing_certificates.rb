@@ -13,14 +13,14 @@ module Fog
           def end_element(name)
             case name
             when 'UserName', 'CertificateId', 'CertificateBody', 'Status'
-              @signing_certificate[name] = @value
+              @signing_certificate[name] = value
             when 'member'
               @response['SigningCertificates'] << @signing_certificate
               @signing_certificate = {}
             when 'IsTruncated'
-              response[name] = (@value == 'true')
+              response[name] = (value == 'true')
             when 'Marker', 'RequestId'
-              response[name] = @value
+              response[name] = value
             end
           end
 

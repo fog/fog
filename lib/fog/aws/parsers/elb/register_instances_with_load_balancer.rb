@@ -12,9 +12,9 @@ module Fog
           def end_element(name)
             case name
             when 'InstanceId'
-              @response['RegisterInstancesWithLoadBalancerResult']['Instances'] << {name => @value}
+              @response['RegisterInstancesWithLoadBalancerResult']['Instances'] << {name => value}
             when 'RequestId'
-              @response['ResponseMetadata'][name] = @value
+              @response['ResponseMetadata'][name] = value
             end
           end
 

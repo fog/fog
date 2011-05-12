@@ -13,13 +13,13 @@ module Fog
             case name
             when 'address'
               @response['addresses'] ||= []
-              @response['addresses'] << @value
+              @response['addresses'] << value
             when 'backup-id', 'flavor-id', 'id', 'image-id', 'progress'
-              @response[name] = @value.to_i
+              @response[name] = value.to_i
             when 'bw-in', 'bw-out'
-              @response[name] = @value.to_f
+              @response[name] = value.to_f
             when 'name', 'status'
-              @response[name] = @value
+              @response[name] = value
             end
           end
 

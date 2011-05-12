@@ -22,7 +22,7 @@ module Fog
               @response['RestoreDBInstanceToPointInTime']['DBInstance'] = @db_instance
               @db_instance = fresh_instance
             when 'RequestId'
-              @response['ResponseMetadata'][name] = @value
+              @response['ResponseMetadata'][name] = value
             else
               super
             end

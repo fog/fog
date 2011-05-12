@@ -21,7 +21,7 @@ module Fog
               @response['CreateDBSnapshotResult']['DBSnapshot'] = @db_snapshot
               @db_snapshot = fresh_snapshot
             when 'RequestId'
-              @response['ResponseMetadata'][name] = @value
+              @response['ResponseMetadata'][name] = value
             else
               super
             end

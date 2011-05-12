@@ -26,9 +26,9 @@ module Fog
           def end_element(name)
             case name
             when 'id'
-              @response['device'][name] = @value
+              @response['device'][name] = value
             when 'last_update'
-              @response['device'][name] = Time.at(@value.to_i)
+              @response['device'][name] = Time.at(value.to_i)
             end
           end
 

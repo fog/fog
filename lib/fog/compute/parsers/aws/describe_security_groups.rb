@@ -28,23 +28,23 @@ module Fog
           def end_element(name)
             case name
             when 'cidrIp'
-              @ip_range[name] = @value
+              @ip_range[name] = value
             when 'fromPort', 'toPort'
-              @ip_permission[name] = @value.to_i
+              @ip_permission[name] = value.to_i
             when 'groups'
               @in_groups = false
             when 'groupDescription', 'ownerId'
-              @security_group[name] = @value
+              @security_group[name] = value
             when 'groupName'
               if @in_groups
-                @group[name] = @value
+                @group[name] = value
               else
-                @security_group[name] = @value
+                @security_group[name] = value
               end
             when 'ipPermissions'
               @in_ip_permissions = false
             when 'ipProtocol'
-              @ip_permission[name] = @value
+              @ip_permission[name] = value
             when 'ipRanges'
               @in_ip_ranges = false
             when 'item'
@@ -62,9 +62,9 @@ module Fog
                 @security_group = { 'ipPermissions' => [] }
               end
             when 'requestId'
-              @response[name] = @value
+              @response[name] = value
             when 'userId'
-              @group[name] = @value
+              @group[name] = value
             end
           end
 

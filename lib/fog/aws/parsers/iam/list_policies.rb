@@ -12,11 +12,11 @@ module Fog
           def end_element(name)
             case name
             when 'member'
-              @response['PolicyNames'] << @value
+              @response['PolicyNames'] << value
             when 'IsTruncated'
-              response[name] = (@value == 'true')
+              response[name] = (value == 'true')
             when 'Marker', 'RequestId'
-              response[name] = @value
+              response[name] = value
             end
           end
 

@@ -25,31 +25,31 @@ module Fog
               @response['DistributionSummary'] << @distribution_summary
               @distribution_summary = { 'CNAME' => [], 'TrustedSigners' => [] }
             when 'Comment', 'DomainName', 'Id', 'Origin', 'Status'
-              @distribution_summary[name] = @value
+              @distribution_summary[name] = value
             when 'CNAME'
-              @distribution_summary[name] << @value
+              @distribution_summary[name] << value
             when 'DNSName', 'OriginAccessIdentity', 'OriginProtocolPolicy'
-              @distribution_summary[@origin][name] = @value
+              @distribution_summary[@origin][name] = value
             when 'Enabled'
-              if @value == 'true'
+              if value == 'true'
                 @distribution_summary[name] = true
               else
                 @distribution_summary[name] = false
               end
             when 'HTTPPort', 'HTTPSPort'
-              @distribution_summary[@origin][name] = @value.to_i
+              @distribution_summary[@origin][name] = value.to_i
             when 'LastModifiedTime'
-              @distribution_summary[name] = Time.parse(@value)
+              @distribution_summary[name] = Time.parse(value)
             when 'IsTruncated'
-              if @value == 'true'
+              if value == 'true'
                 @response[name] = true
               else
                 @response[name] = false
               end
             when 'Marker', 'NextMarker'
-              @response[name] = @value
+              @response[name] = value
             when 'MaxItems'
-              @response[name] = @value.to_i
+              @response[name] = value.to_i
             end
           end
 

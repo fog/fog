@@ -16,11 +16,11 @@ module Fog
               @response['Buckets'] << @bucket
               @bucket = {}
             when 'CreationDate'
-              @bucket['CreationDate'] = Time.parse(@value)
+              @bucket['CreationDate'] = Time.parse(value)
             when 'DisplayName', 'ID'
-              @response['Owner'][name] = @value
+              @response['Owner'][name] = value
             when 'Name'
-              @bucket[name] = @value
+              @bucket[name] = value
             end
           end
 

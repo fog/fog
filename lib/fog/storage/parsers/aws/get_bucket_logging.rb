@@ -14,9 +14,9 @@ module Fog
             case name
             when 'DisplayName', 'ID'
               if @in_access_control_list
-                @grant['Grantee'][name] = @value
+                @grant['Grantee'][name] = value
               else
-                @response['Owner'][name] = @value
+                @response['Owner'][name] = value
               end
             when 'Grant'
               @response['BucketLoggingStatus']['LoggingEnabled']['TargetGrants'] << @grant
@@ -24,11 +24,11 @@ module Fog
             when 'LoggingEnabled'
               @response['BucketLoggingStatus']['LoggingEnabled'] = { 'TargetGrants' => [] }
             when 'Permission'
-              @grant[name] = @value
+              @grant[name] = value
             when 'TargetBucket', 'TargetPrefix'
-              @response['BucketLoggingStatus'][name] = @value
+              @response['BucketLoggingStatus'][name] = value
             when 'URI'
-              @grant['Grantee'][name] = @value
+              @grant['Grantee'][name] = value
             end
           end
 

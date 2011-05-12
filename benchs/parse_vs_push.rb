@@ -16,6 +16,7 @@ class Parser < Nokogiri::XML::SAX::Document
   end
 
   def characters(string)
+    @value ||= ''
     @value << string.strip
   end
 
@@ -29,8 +30,12 @@ class Parser < Nokogiri::XML::SAX::Document
       @response[:items] << @item
       @item = {}
     when 'key'
-      @item[:key] = @value
+      @item[:key] = value
     end
+  end
+
+  def value
+    @value.dup
   end
 
 end
@@ -43,18 +48,22 @@ data = <<-DATA
 </items>
 DATA
 
-COUNT = 100
+COUNT = 10_000
 
 Benchmark.bmbm(25) do |bench|
   bench.report('parse') do
-    parser = Parser.new
-    Nokogiri::XML::SAX::Parser.new(parser).parse(data)
-    parser.response
+    COUNT.times do
+      parser = Parser.new
+      Nokogiri::XML::SAX::Parser.new(parser).parse(data)
+      parser.response
+    end
   end
 
   bench.report('push') do
-    parser = Parser.new
-    Nokogiri::XML::SAX::PushParser.new(parser).write(data, true)
-    parser.response
+    COUNT.times do
+      parser = Parser.new
+      Nokogiri::XML::SAX::PushParser.new(parser).write(data, true)
+      parser.response
+    end
   end
 end

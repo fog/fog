@@ -13,7 +13,7 @@ module Fog
           def end_element(name)
             case name
             when 'Id', 'Status', 'SubmittedAt'
-              @response['ChangeInfo'][name] = @value
+              @response['ChangeInfo'][name] = value
             end
           end
 

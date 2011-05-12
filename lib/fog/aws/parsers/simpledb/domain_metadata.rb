@@ -14,13 +14,13 @@ module Fog
           def end_element(name)
             case name
             when 'AttributeNameCount', 'AttributeNamesSizeBytes', 'AttributeValueCount', 'AttributeValuesSizeBytes', 'ItemCount', 'ItemNamesSizeBytes'
-              response[name] = @value.to_i
+              response[name] = value.to_i
             when 'BoxUsage'
-              response[name] = @value.to_f
+              response[name] = value.to_f
             when 'RequestId'
-              response[name] = @value
+              response[name] = value
             when 'Timestamp'
-              response[name] = Time.at(@value.to_i)
+              response[name] = Time.at(value.to_i)
             end
           end
 

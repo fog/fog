@@ -16,11 +16,11 @@ module Fog
               @response['backups'] << @backup
               @backup = {}
             when 'date'
-              @backup[name] = Time.parse(@value)
+              @backup[name] = Time.parse(value)
             when 'id', 'slice-id'
-              @backup[name] = @value.to_i
+              @backup[name] = value.to_i
             when 'name'
-              @backup[name] = @value
+              @backup[name] = value
             end
           end
 

@@ -71,13 +71,13 @@ module Fog
             when 'access_method'
               @device['access_methods'] << @access_method
             when 'architecture'
-              @device['operating_system'][name] = @value.to_i
+              @device['operating_system'][name] = value.to_i
             when 'cage', 'facility', 'rack', 'row', 'zone'
-              @device['location'][name]['value'] = @value
+              @device['location'][name]['value'] = value
             when 'cores'
-              @device['processor'][name] = @value.to_i
+              @device['processor'][name] = value.to_i
             when 'description'
-              @device[name] = @value
+              @device[name] = value
             when 'device'
               @response['devices'] << @device
               @device = {}
@@ -85,21 +85,21 @@ module Fog
               @device['drives'] << @drive
               @drive = {}
             when 'cores'
-              @device['processing_cores'] = @value.to_i
+              @device['processing_cores'] = value.to_i
             when 'ipassignment'
-              @device['ipassignments'].last['value'] = @value
+              @device['ipassignments'].last['value'] = value
             when 'model', 'type'
-              @device[name]['value'] = @value
+              @device[name]['value'] = value
             when 'name'
-              @device['operating_system'][name] = @value
+              @device['operating_system'][name] = value
             when 'position'
-              @device['location'][name] = @value
+              @device['location'][name] = value
             when 'power_consumption'
-              @device[name] = [@value, @device[name]].join(' ')
+              @device[name] = [value, @device[name]].join(' ')
             when 'size'
-              @drive[name] = @value.to_i
+              @drive[name] = value.to_i
             when 'host', 'password', 'protocol', 'username'
-              @access_method[name] = @value
+              @access_method[name] = value
             end
           end
 

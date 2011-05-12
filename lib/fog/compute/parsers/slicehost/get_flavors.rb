@@ -16,9 +16,9 @@ module Fog
               @response['flavors'] << @flavor
               @flavor = {}
             when 'id', 'price', 'ram'
-              @flavor[name] = @value.to_i
+              @flavor[name] = value.to_i
             when 'name'
-              @flavor[name] = @value
+              @flavor[name] = value
             end
           end
 

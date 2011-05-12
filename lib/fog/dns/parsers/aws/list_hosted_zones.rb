@@ -14,18 +14,18 @@ module Fog
           def end_element(name)
             case name
             when 'Id'
-              @zone[name] = @value.sub('/hostedzone/', '')
+              @zone[name] = value.sub('/hostedzone/', '')
             when 'Name', 'CallerReference', 'Comment'
-              @zone[name] = @value
+              @zone[name] = value
             when 'HostedZone'
               @hosted_zones << @zone
               @zone = {}
             when 'HostedZones'
               @response['HostedZones'] = @hosted_zones
             when 'MaxItems'
-              @response[name] = @value.to_i
+              @response[name] = value.to_i
             when 'IsTruncated', 'Marker', 'NextMarker'
-              @response[name] = @value
+              @response[name] = value
             end
           end
 

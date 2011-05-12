@@ -8,7 +8,7 @@ module Fog
           def end_element(name)
             case name
             when 'instanceId', 'requestId', 'name', 'description', 'noReboot', 'imageId'
-              @response[name] = @value
+              @response[name] = value
             end
           end
 

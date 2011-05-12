@@ -26,31 +26,31 @@ module Fog
               @response['Contents'] << @object
               @object = { 'Owner' => {} }
             when 'DisplayName', 'ID'
-              @object['Owner'][name] = @value
+              @object['Owner'][name] = value
             when 'ETag'
-              @object[name] = @value.gsub('"', '')
+              @object[name] = value.gsub('"', '')
             when 'IsTruncated'
-              if @value == 'true'
+              if value == 'true'
                 @response['IsTruncated'] = true
               else
                 @response['IsTruncated'] = false
               end
             when 'LastModified'
-              @object['LastModified'] = Time.parse(@value)
+              @object['LastModified'] = Time.parse(value)
             when 'Marker', 'Name'
-              @response[name] = @value
+              @response[name] = value
             when 'MaxKeys'
-              @response['MaxKeys'] = @value.to_i
+              @response['MaxKeys'] = value.to_i
             when 'Prefix'
               if @in_common_prefixes
-                @response['CommonPrefixes'] << @value
+                @response['CommonPrefixes'] << value
               else
-                @response[name] = @value
+                @response[name] = value
               end
             when 'Size'
-              @object['Size'] = @value.to_i
+              @object['Size'] = value.to_i
             when 'Delimiter', 'Key', 'StorageClass'
-              @object[name] = @value
+              @object[name] = value
             end
           end
 

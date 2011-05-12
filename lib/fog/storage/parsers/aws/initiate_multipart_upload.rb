@@ -12,7 +12,7 @@ module Fog
           def end_element(name)
             case name
             when 'Bucket', 'Key', 'UploadId'
-              @response[name] = @value
+              @response[name] = value
             end
           end
 

@@ -16,9 +16,9 @@ module Fog
             if @section == :hosted_zone
               case name
               when 'Id'
-                @hosted_zone[name]= @value.sub('/hostedzone/', '')
+                @hosted_zone[name]= value.sub('/hostedzone/', '')
               when 'Name', 'CallerReference', 'Comment'
-                @hosted_zone[name]= @value
+                @hosted_zone[name]= value
               when 'HostedZone'
                 @response['HostedZone'] = @hosted_zone
                 @hosted_zone = {}
@@ -27,7 +27,7 @@ module Fog
             elsif @section == :name_servers
               case name
               when 'NameServer'
-                @name_servers << @value
+                @name_servers << value
               when 'NameServers'
                 @response['NameServers'] = @name_servers
                 @name_servers = {}

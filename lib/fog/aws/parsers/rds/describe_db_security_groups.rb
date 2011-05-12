@@ -22,9 +22,9 @@ module Fog
               @response['DescribeDBSecurityGroupsResult']['DBSecurityGroups'] << @security_group
               @security_group = fresh_security_group
             when 'Marker'
-              @response['DescribeDBSecurityGroupsResult']['Marker'] = @value
+              @response['DescribeDBSecurityGroupsResult']['Marker'] = value
             when 'RequestId'
-              @response['ResponseMetadata'][name] = @value
+              @response['ResponseMetadata'][name] = value
             else
               super
             end

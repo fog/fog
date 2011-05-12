@@ -26,9 +26,9 @@ module Fog
               #in hosts part of response
               case name
               when 'id', 'priority', 'ttl', 'zone-id'
-                @host[name] = @value.to_i
+                @host[name] = value.to_i
               when 'data', 'fqdn', 'host-type', 'hostname', 'notes', 'zone-id', 'created-at', 'updated-at'
-                @host[name] = @value
+                @host[name] = value
               when 'host'
                 @hosts << @host
                 @host = {}
@@ -40,9 +40,9 @@ module Fog
               #in zone part of data
               case name
               when 'default-ttl', 'id', 'nx-ttl', 'hosts-count'
-                @response[name] = @value.to_i
+                @response[name] = value.to_i
               when 'created-at', 'custom-nameservers', 'custom-ns', 'domain', 'hostmaster', 'notes', 'ns1', 'ns-type', 'slave-nameservers', 'tag-list', 'updated-at', 'hosts', 'axfr-ips', 'restrict-axfr'
-                @response[name] = @value
+                @response[name] = value
               end
             end
             

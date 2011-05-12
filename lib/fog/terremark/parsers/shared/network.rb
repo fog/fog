@@ -39,7 +39,7 @@ module Fog
           def end_element(name)
             case name
             when "Gateway", "Netmask", "FenceMode"
-              @response[name.downcase] = @value
+              @response[name.downcase] = value
             end
           end
 

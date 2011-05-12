@@ -26,7 +26,7 @@ module Fog
             if @in_outputs
               case name
               when 'OutputKey', 'OutputValue'
-                @output[name] = @value
+                @output[name] = value
               when 'member'
                 @stack['Outputs'] << @output
                 @output = {}
@@ -36,7 +36,7 @@ module Fog
             elsif @in_parameters
               case name
               when 'ParameterKey', 'ParameterValue'
-                @parameter[name] = @value
+                @parameter[name] = value
               when 'member'
                 @stack['Parameters'] << @parameter
                 @parameter = {}
@@ -49,18 +49,18 @@ module Fog
                 @response['Stacks'] << @stack
                 @stack = { 'Outputs' => [], 'Parameters' => [] }
               when 'RequestId'
-                @response[name] = @value
+                @response[name] = value
               when 'CreationTime'
-                @stack[name] = Time.parse(@value)
+                @stack[name] = Time.parse(value)
               when 'DisableRollback'
-                case @value
+                case value
                 when 'false'
                   @stack[name] = false
                 when 'true'
                   @stack[name] = true
                 end
               when 'StackName', 'StackId', 'StackStatus'
-                @stack[name] = @value
+                @stack[name] = value
               end
             end
           end

@@ -8,7 +8,7 @@ module Fog
           def end_element(name)
             case name
             when 'LocationConstraint'
-              @response[name] = @value
+              @response[name] = value
             end
           end
 

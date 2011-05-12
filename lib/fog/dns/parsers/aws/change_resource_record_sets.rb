@@ -12,9 +12,9 @@ module Fog
           def end_element(name)
             case name
             when 'Id'  
-              @response[name] = @value.sub('/change/', '')
+              @response[name] = value.sub('/change/', '')
             when 'Status', 'SubmittedAt'
-              @response[name] = @value
+              @response[name] = value
             end
           end
 

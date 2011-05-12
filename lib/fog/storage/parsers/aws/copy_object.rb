@@ -8,9 +8,9 @@ module Fog
           def end_element(name)
             case name
             when 'ETag'
-              @response[name] = @value.gsub('"', '')
+              @response[name] = value.gsub('"', '')
             when 'LastModified'
-              @response[name] = Time.parse(@value)
+              @response[name] = Time.parse(value)
             end
           end
 

@@ -17,14 +17,14 @@ module Fog
             when 'Attribute'
               @attribute = nil
             when 'BoxUsage'
-              response[name] = @value.to_f
+              response[name] = value.to_f
             when 'Name'
-              @attribute = @value
+              @attribute = value
               response['Attributes'][@attribute] ||= []
             when 'RequestId'
-              response[name] = @value
+              response[name] = value
             when 'Value'
-              response['Attributes'][@attribute] << sdb_decode(@value)
+              response['Attributes'][@attribute] << sdb_decode(value)
             end
           end
 

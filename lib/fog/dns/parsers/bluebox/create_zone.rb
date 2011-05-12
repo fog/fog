@@ -12,9 +12,9 @@ module Fog
           def end_element(name)
             case name
             when 'serial', 'ttl', 'retry', 'refresh', 'minimum', 'record-count', 'expires'
-              @response[name] = @value.to_i
+              @response[name] = value.to_i
             when 'name', 'id'
-              @response[name] = @value
+              @response[name] = value
             end
           end
 

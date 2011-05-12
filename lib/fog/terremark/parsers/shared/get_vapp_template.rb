@@ -34,7 +34,7 @@ module Fog
 
           def end_element(name)
             if name == 'Description'
-              @response['Description'] = @value
+              @response['Description'] = value
             end
           end
 

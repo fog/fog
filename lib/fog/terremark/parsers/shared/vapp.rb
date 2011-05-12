@@ -39,15 +39,15 @@ module Fog
           def end_element(name)
             case name
             when 'IpAddress'
-              @response['IpAddress'] = @value
+              @response['IpAddress'] = value
             when 'Description'
               if @in_operating_system
-                @response['OperatingSystem'][name] = @value
+                @response['OperatingSystem'][name] = value
                 @in_operating_system = false
               end
             when 'ResourceType'
-              @resource_type = @value
-              case @value
+              @resource_type = value
+              case value
               when '3'
                 @get_cpu = true # cpu
               when '4'  # memory
@@ -58,12 +58,12 @@ module Fog
             when 'VirtualQuantity'
               case @resource_type
               when '3'
-                @response['VirtualHardware']['cpu'] = @value
+                @response['VirtualHardware']['cpu'] = value
               when '4'
-                @response['VirtualHardware']['ram'] = @value
+                @response['VirtualHardware']['ram'] = value
               when '17'
                 @response['VirtualHardware']['disks'] ||= []
-                @response['VirtualHardware']['disks'] << @value
+                @response['VirtualHardware']['disks'] << value
               end
             end
           end

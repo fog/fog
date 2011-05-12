@@ -12,9 +12,9 @@ module Fog
           def end_element(name)
             case name
             when 'Href', 'Name'
-              @response[name.downcase] = @value
+              @response[name.downcase] = value
             when 'Id'
-              @response['id'] = @value.to_i
+              @response['id'] = value.to_i
             end
           end
 

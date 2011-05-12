@@ -16,7 +16,7 @@ module Fog
               @response['records'] << @record
               @record = {}
             else
-              @record[name] = @value
+              @record[name] = value
             end
           end
         end

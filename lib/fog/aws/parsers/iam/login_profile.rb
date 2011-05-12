@@ -12,11 +12,11 @@ module Fog
           def end_element(name)
             case name
             when 'UserName'
-              @response['LoginProfile']['UserName'] = @value
+              @response['LoginProfile']['UserName'] = value
             when 'CreateDate'
-              @response['LoginProfile']['CreateDate'] = Time.parse(@value)
+              @response['LoginProfile']['CreateDate'] = Time.parse(value)
             when 'RequestId'
-              @response[name] = @value
+              @response[name] = value
             end
           end
 

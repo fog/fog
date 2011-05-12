@@ -25,25 +25,25 @@ module Fog
             case name
             when 'Arn'
               if @in_group
-                @response['Group'][name] = @value
+                @response['Group'][name] = value
               elsif @in_users
-                @user[name] = @value
+                @user[name] = value
               end
             when 'Group'
               @in_group = false
             when 'GroupName', 'GroupId'
-              @response['Group'][name] = @value
+              @response['Group'][name] = value
             when 'Users'
               @in_users = false
             when 'UserId', 'UserName', 'Path'
-              @user[name] = @value
+              @user[name] = value
             when 'member'
               @response['Users'] << @user              
               @user = {}
             when 'IsTruncated'	
-              response[name] = (@value == 'true')
+              response[name] = (value == 'true')
             when 'Marker', 'RequestId'              
-              @response[name] = @value
+              @response[name] = value
             end
           end
 

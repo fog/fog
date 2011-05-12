@@ -12,9 +12,9 @@ module Fog
           def end_element(name)
             case name
             when 'Arn', 'GroupId', 'GroupName', 'Path'
-              @response['Group'][name] = @value
+              @response['Group'][name] = value
             when 'RequestId'
-              @response[name] = @value
+              @response[name] = value
             end
           end
 

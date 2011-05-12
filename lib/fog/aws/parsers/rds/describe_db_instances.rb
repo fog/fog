@@ -22,9 +22,9 @@ module Fog
               @response['DescribeDBInstancesResult']['DBInstances'] << @db_instance
               @db_instance = fresh_instance
             when 'Marker'
-              @response['DescribeDBInstancesResult']['Marker'] = @value
+              @response['DescribeDBInstancesResult']['Marker'] = value
             when 'RequestId'
-              @response['ResponseMetadata'][name] = @value
+              @response['ResponseMetadata'][name] = value
             else
               super
             end

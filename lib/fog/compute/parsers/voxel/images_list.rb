@@ -36,18 +36,18 @@ module Fog
           def end_element(name)
             case name
             when 'architecture'
-              @image['operating_system'][name] = @value.to_i
+              @image['operating_system'][name] = value.to_i
             when 'admin_username', 'family', 'product_family', 'product_version', 'version'
-              @image['operating_system'][name] = @value
+              @image['operating_system'][name] = value
             when 'description'
-              @image[name] = @value
+              @image[name] = value
             when 'image'
               @response['images'] << @image
               @image = {}
             when 'size'
-              @image['filesystem'][name] = @value.to_i
+              @image['filesystem'][name] = value.to_i
             when 'type'
-              @image['filesystem'][name] = @value
+              @image['filesystem'][name] = value
             end
           end
 

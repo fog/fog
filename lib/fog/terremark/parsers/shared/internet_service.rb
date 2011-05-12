@@ -31,27 +31,27 @@ module Fog
           def end_element(name)
             case name
             when 'Description', 'Protocol'
-              @response[name] = @value
+              @response[name] = value
             when 'Enabled'
-              if @value == 'false'
+              if value == 'false'
                 @response[name] = false
               else
                 @response[name] = true
               end
             when 'Id'
               if @in_public_ip_address
-                @response['PublicIpAddress'][name] = @value.to_i
+                @response['PublicIpAddress'][name] = value.to_i
               else
-                @response[name] = @value.to_i
+                @response[name] = value.to_i
               end
             when 'Name'
               if @in_public_ip_address
-                @response['PublicIpAddress'][name] = @value
+                @response['PublicIpAddress'][name] = value
               else
-                @response[name] = @value
+                @response[name] = value
               end
             when 'Port', 'Timeout'
-              @response[name] = @value.to_i
+              @response[name] = value.to_i
             when 'PublicIpAddress'
               @in_public_ip_address = false
             end

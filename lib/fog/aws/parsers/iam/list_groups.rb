@@ -13,14 +13,14 @@ module Fog
           def end_element(name)
             case name
             when 'Arn', 'GroupId', 'GroupName', 'Path'
-              @group[name] = @value
+              @group[name] = value
             when 'member'
               @response['Groups'] << @group
               @group = {}
             when 'IsTruncated'
-              response[name] = (@value == 'true')
+              response[name] = (value == 'true')
             when 'Marker', 'RequestId'
-              response[name] = @value
+              response[name] = value
             end
           end
 

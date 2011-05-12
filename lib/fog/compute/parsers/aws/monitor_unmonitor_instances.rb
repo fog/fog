@@ -14,14 +14,14 @@ module Fog
           def end_element(name)
             case name
             when 'requestId'
-              @response['requestId'] = @value
+              @response['requestId'] = value
             when 'instanceId'
-              @current_instance_set['instanceId'] = @value
+              @current_instance_set['instanceId'] = value
             when 'item'
               @instance_set << @current_instance_set
               @current_instance_set = {}
             when 'state'
-              @current_instance_set['monitoring'] = @value
+              @current_instance_set['monitoring'] = value
             when 'instancesSet'
               @response['instancesSet'] = @instance_set
             end

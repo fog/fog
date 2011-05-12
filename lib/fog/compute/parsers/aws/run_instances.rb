@@ -26,30 +26,26 @@ module Fog
           def end_element(name)
             case name
             when 'amiLaunchIndex'
-              @instance[name] = @value.to_i
+              @instance[name] = value.to_i
             when 'architecture', 'clientToken', 'dnsName', 'imageId',
                   'instanceId', 'instanceType', 'ipAddress', 'kernelId',
                   'keyName', 'privateDnsName', 'privateIpAddress', 'ramdiskId',
                   'reason', 'rootDeviceType'
-              @instance[name] = @value
+              @instance[name] = value
             when 'availabilityZone'
-              @instance['placement'][name] = @value
+              @instance['placement'][name] = value
             when 'attachTime'
-              @block_device_mapping[name] = Time.parse(@value)
+              @block_device_mapping[name] = Time.parse(value)
             when 'blockDeviceMapping'
               @in_block_device_mapping = false
             when 'code'
-              @instance['instanceState'][name] = @value.to_i
+              @instance['instanceState'][name] = value.to_i
             when 'deleteOnTermination'
-              if @value == 'true'
-                @block_device_mapping[name] = true
-              else
-                @block_device_mapping[name] = false
-              end
+              @block_device_mapping[name] = (value == 'true')
             when 'deviceName', 'status', 'volumeId'
-              @block_device_mapping[name] = @value
+              @block_device_mapping[name] = value
             when 'groupId'
-              @response['groupSet'] << @value
+              @response['groupSet'] << value
             when 'groupSet'
               @in_group_set = false
             when 'item'
@@ -61,23 +57,19 @@ module Fog
                 @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
               end
             when 'launchTime'
-              @instance[name] = Time.parse(@value)
+              @instance[name] = Time.parse(value)
             when 'name'
-              @instance['instanceState'][name] = @value
+              @instance['instanceState'][name] = value
             when 'ownerId', 'requestId', 'reservationId'
-              @response[name] = @value
+              @response[name] = value
             when 'product_code'
-              @instance['productCodes'] << @value
+              @instance['productCodes'] << value
             when 'productCodes'
               @in_product_codes = false
             when 'state'
-              if @value == 'true'
-                @instance['monitoring'][name] = true
-              else
-                @instance['monitoring'][name] = false
-              end
+              @instance['monitoring'][name] = (value == 'true')
             when 'subnetId'
-              @response[name] = @value
+              @response[name] = value
             end
           end
 

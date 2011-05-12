@@ -13,9 +13,9 @@ module Fog
           def end_element(name)
             case name
             when 'zone-id', 'ttl'
-              @record[name] = @value.to_i
+              @record[name] = value.to_i
             when 'record-type', 'name', 'data', 'active', 'aux'
-              @record[name] = @value
+              @record[name] = value
             when 'record'
               @response['records'] << @record
               @record = {}

@@ -16,9 +16,9 @@ module Fog
           def end_element(name)
             case name
             when 'DBParameterGroupName'
-              @response['ModifyDBParameterGroupResult']['DBParameterGroupName'] = @value
+              @response['ModifyDBParameterGroupResult']['DBParameterGroupName'] = value
             when 'RequestId'
-              @response['ResponseMetadata'][name] = @value
+              @response['ResponseMetadata'][name] = value
             end
           end
         end

@@ -27,14 +27,14 @@ module Fog
               @grant = { 'Grantee' => {} }
             when 'DisplayName', 'ID'
               if @in_access_control_list
-                @grant['Grantee'][name] = @value
+                @grant['Grantee'][name] = value
               else
-                @response['Owner'][name] = @value
+                @response['Owner'][name] = value
               end
             when 'Permission'
-              @grant[name] = @value
+              @grant[name] = value
             when 'URI'
-              @grant['Grantee'][name] = @value
+              @grant['Grantee'][name] = value
             end
           end
 

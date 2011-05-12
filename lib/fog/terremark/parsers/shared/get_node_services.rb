@@ -13,15 +13,15 @@ module Fog
           def end_element(name)
             case name
             when 'Description', 'Href', 'Name', 'IpAddress'
-              @node_service[name] = @value
+              @node_service[name] = value
             when 'Enabled'
-              if @value == 'true'
+              if value == 'true'
                 @node_service[name] = true
               else
                 @node_service[name] = false
               end
             when 'Id', 'Port'
-              @node_service[name] = @value.to_i
+              @node_service[name] = value.to_i
             when 'NodeService'
               @response['NodeServices'] << @node_service
               @node_service = {}

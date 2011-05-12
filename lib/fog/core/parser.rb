@@ -10,21 +10,25 @@ module Fog
         reset
       end
 
+      def attr_value(name, attrs)
+        (entry = attrs.detect {|a, v| a == name }) && entry.last
+      end
+
       def reset
         @response = {}
       end
 
       def characters(string)
         @value ||= ''
-        @value << string.gsub(/\n.*/, '')
+        @value << string
       end
 
       def start_element(name, attrs = [])
         @value = nil
       end
 
-      def attr_value(name, attrs)
-        (entry = attrs.detect {|a, v| a == name }) && entry.last
+      def value
+        @value && @value.dup
       end
 
     end

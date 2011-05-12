@@ -12,9 +12,9 @@ module Fog
           def end_element(name)
             case name
             when "Max24HourSend", "MaxSendRate", "SentLast24Hours"
-              @response[name] = @value
+              @response[name] = value
             when 'RequestId'
-              @response['ResponseMetadata'][name] = @value
+              @response['ResponseMetadata'][name] = value
             end
           end
 

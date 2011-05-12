@@ -12,11 +12,11 @@ module Fog
           def end_element(name)
             case name
             when 'CallerReference'
-              @response['InvalidationBatch'][name] = @value
+              @response['InvalidationBatch'][name] = value
             when 'CreateTime', 'Id', 'Status'
-              @response[name] = @value
+              @response[name] = value
             when 'Path'
-              @response['InvalidationBatch'][name] << @value
+              @response['InvalidationBatch'][name] << value
             end
           end
 

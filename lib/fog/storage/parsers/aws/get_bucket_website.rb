@@ -12,9 +12,9 @@ module Fog
           def end_element(name)
             case name
             when 'Key'
-              @response['ErrorDocument'][name] = @value
+              @response['ErrorDocument'][name] = value
             when 'Suffix'
-              @response['IndexDocument'][name] = @value
+              @response['IndexDocument'][name] = value
             end
           end
 

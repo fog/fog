@@ -22,9 +22,9 @@ module Fog
               @response['DescribeDBSnapshotsResult']['DBSnapshots'] << @db_snapshot
               @db_snapshot = fresh_snapshot
             when 'Marker'
-              @response['DescribeDBSnapshotsResult']['Marker'] = @value
+              @response['DescribeDBSnapshotsResult']['Marker'] = value
             when 'RequestId'
-              @response['ResponseMetadata'][name] = @value
+              @response['ResponseMetadata'][name] = value
             else
               super
             end

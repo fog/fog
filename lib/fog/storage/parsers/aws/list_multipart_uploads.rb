@@ -23,23 +23,23 @@ module Fog
           def end_element(name)
             case name
             when 'Bucket', 'KeyMarker', 'NextKeyMarker', 'NextUploadIdMarker', 'UploadIdMarker'
-              @response[name] = @value
+              @response[name] = value
             when 'DisplayName', 'ID'
               if @in_initiator
-                @upload['Initiator'][name] = @value
+                @upload['Initiator'][name] = value
               elsif @in_owner
-                @upload['Owner'][name] = @value
+                @upload['Owner'][name] = value
               end
             when 'Initiated'
-              @upload[name] = Time.parse(@value)
+              @upload[name] = Time.parse(value)
             when 'Initiator'
               @in_initiator = false
             when 'IsTruncated'
-              @response[name] = @value == 'true'
+              @response[name] = value == 'true'
             when 'Key', 'StorageClass', 'UploadId'
-              @upload[name] = @value
+              @upload[name] = value
             when 'MaxUploads'
-              @response[name] = @value.to_i
+              @response[name] = value.to_i
             when 'Owner'
               @in_owner = false
             when 'Upload'

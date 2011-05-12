@@ -41,14 +41,14 @@ module Fog
             case name
               
             when 'LatestRestorableTime', 'InstanceCreateTime'
-              @db_instance[name] = Time.parse @value
+              @db_instance[name] = Time.parse value
             when 'Engine', 
               'DBInstanceStatus', 'DBInstanceIdentifier', 'EngineVersion', 
               'PreferredBackupWindow', 'PreferredMaintenanceWindow', 
               'AvailabilityZone', 'MasterUsername', 'DBName'
-              @db_instance[name] = @value
+              @db_instance[name] = value
             when 'MultiAZ', 'AutoMinorVersionUpgrade'
-              if @value == 'false'
+              if value == 'false'
                 @db_instance[name] = false
               else
                 @db_instance[name] = true
@@ -61,27 +61,27 @@ module Fog
               @db_parameter_group = {}
             when 'ParameterApplyStatus', 'DBParameterGroupName'
               if @in_db_parameter_groups
-                @db_parameter_group[name] = @value
+                @db_parameter_group[name] = value
               end
             
             when 'BackupRetentionPeriod'
               if @in_pending_modified_values
-                @pending_modified_values[name] = @value.to_i
+                @pending_modified_values[name] = value.to_i
               else
-                @db_instance[name] = @value.to_i
+                @db_instance[name] = value.to_i
               end
             when 'DBInstanceClass', 'EngineVersion', 'MasterUserPassword', 'MultiAZ'
               if @in_pending_modified_values
-                @pending_modified_values[name] = @value
+                @pending_modified_values[name] = value
               else
-                @db_instance[name] = @value
+                @db_instance[name] = value
               end
             when 'DBSecurityGroups'
               @in_db_security_groups = false
               @db_instance['DBSecurityGroups'] = @db_security_groups
             when 'Status', 'DBSecurityGroupName'
               if @in_db_security_groups
-                @db_security_group[name]=@value
+                @db_security_group[name]=value
               end
             when 'DBSecurityGroup'
               @db_security_groups << @db_security_group
@@ -89,17 +89,17 @@ module Fog
             
             when 'AllocatedStorage'
               if @in_pending_modified_values
-                @pending_modified_values[name] = @value.to_i
+                @pending_modified_values[name] = value.to_i
               else
-                @db_instance[name] = @value.to_i
+                @db_instance[name] = value.to_i
               end
             when 'Address'
-              @endpoint[name] = @value
+              @endpoint[name] = value
             when 'Port'
               if @in_pending_modified_values
-                @pending_modified_values[name] = @value.to_i
+                @pending_modified_values[name] = value.to_i
               elsif @in_endpoint
-                @endpoint[name] = @value.to_i
+                @endpoint[name] = value.to_i
               end
       
             when 'PendingModifiedValues'
@@ -109,9 +109,9 @@ module Fog
               @in_endpoint = false
               @db_instance['Endpoint'] = @endpoint
             when 'ReadReplicaDBInstanceIdentifier'
-              @db_instance['ReadReplicaDBInstanceIdentifiers'] << @value
+              @db_instance['ReadReplicaDBInstanceIdentifiers'] << value
             when 'ReadReplicaSourceDBInstanceIdentifier'
-              @db_instance['ReadReplicaSourceDBInstanceIdentifier'] = @value
+              @db_instance['ReadReplicaSourceDBInstanceIdentifier'] = value
             when 'DBInstance'
               @db_instance = fresh_instance
             end

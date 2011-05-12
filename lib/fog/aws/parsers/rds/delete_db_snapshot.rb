@@ -19,7 +19,7 @@ module Fog
           def end_element(name)
             case name
             when 'RequestId'
-              @response['ResponseMetadata'][name] = @value
+              @response['ResponseMetadata'][name] = value
             when 'DBSnapshot'
               @response['DeleteDBSnapshotResult']['DBSnapshot'] = @db_snapshot
               @db_snapshot = fresh_snapshot

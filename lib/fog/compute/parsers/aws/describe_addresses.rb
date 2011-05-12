@@ -13,12 +13,12 @@ module Fog
           def end_element(name)
             case name
             when 'instanceId', 'publicIp'
-              @address[name] = @value
+              @address[name] = value
             when 'item'
               @response['addressesSet'] << @address
               @address = {}
             when 'requestId'
-              @response[name] = @value
+              @response[name] = value
             end
           end
 

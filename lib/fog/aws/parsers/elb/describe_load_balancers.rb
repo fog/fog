@@ -49,9 +49,9 @@ module Fog
             case name
             when 'member'
               if @in_policy_names
-                @listener_description['PolicyNames'] << @value
+                @listener_description['PolicyNames'] << value
               elsif @in_availability_zones
-                @load_balancer['AvailabilityZones'] << @value
+                @load_balancer['AvailabilityZones'] << value
               elsif @in_listeners
                 @load_balancer['ListenerDescriptions'] << @listener_description
                 reset_listener_description
@@ -67,23 +67,23 @@ module Fog
               end
 
             when 'LoadBalancerName', 'DNSName'
-              @load_balancer[name] = @value
+              @load_balancer[name] = value
             when 'CreatedTime'
-              @load_balancer[name] = Time.parse(@value)
+              @load_balancer[name] = Time.parse(value)
 
             when 'ListenerDescriptions'
               @in_listeners = false
             when 'PolicyNames'
               @in_policy_names = false
             when 'Protocol'
-              @listener_description['Listener'][name] = @value
+              @listener_description['Listener'][name] = value
             when 'LoadBalancerPort', 'InstancePort'
-              @listener_description['Listener'][name] = @value.to_i
+              @listener_description['Listener'][name] = value.to_i
 
             when 'Instances'
               @in_instances = false
             when 'InstanceId'
-              @load_balancer['Instances'] << @value
+              @load_balancer['Instances'] << value
 
             when 'AvailabilityZones'
               @in_availability_zones = false
@@ -96,17 +96,17 @@ module Fog
               @in_lb_cookies = false
 
             when 'Interval', 'HealthyThreshold', 'Timeout', 'UnhealthyThreshold'
-              @load_balancer['HealthCheck'][name] = @value.to_i
+              @load_balancer['HealthCheck'][name] = value.to_i
             when 'Target'
-              @load_balancer['HealthCheck'][name] = @value
+              @load_balancer['HealthCheck'][name] = value
 
             when 'PolicyName', 'CookieName'
-              @policy[name] = @value
+              @policy[name] = value
             when 'CookieExpirationPeriod'
-              @policy[name] = @value.to_i
+              @policy[name] = value.to_i
 
             when 'RequestId'
-              @response['ResponseMetadata'][name] = @value
+              @response['ResponseMetadata'][name] = value
 
             when 'DescribeLoadBalancersResponse'
               @response['DescribeLoadBalancersResult'] = @results

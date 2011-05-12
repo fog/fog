@@ -13,12 +13,12 @@ module Fog
           def end_element(name)
             case name
             when 'id'
-              @image[name] = @value.to_i
+              @image[name] = value.to_i
             when 'image'
               @response['images'] << @image
               @image = {}
             when 'name'
-              @image[name] = @value
+              @image[name] = value
             end
           end
 

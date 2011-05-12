@@ -13,9 +13,9 @@ module Fog
           def end_element(name)
             case name
             when 'ttl', 'id'
-              @zone[name] = @value.to_i
+              @zone[name] = value.to_i
             when 'active', 'origin'
-              @zone[name] = @value
+              @zone[name] = value
             when 'zone'
               @response['zones'] << @zone
               @zone = {}

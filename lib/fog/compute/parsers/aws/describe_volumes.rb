@@ -29,11 +29,11 @@ module Fog
               when 'attachmentSet'
                 @in_attachment_set = false
               when 'attachTime'
-                @attachment[name] = Time.parse(@value)
+                @attachment[name] = Time.parse(value)
               when 'deleteOnTermination'
-                @attachment[name] = @value == 'true'
+                @attachment[name] = value == 'true'
               when 'device', 'instanceId', 'status', 'volumeId'
-                @attachment[name] = @value
+                @attachment[name] = value
               when 'item'
                 @volume['attachmentSet'] << @attachment
                 @attachment = {}
@@ -41,7 +41,7 @@ module Fog
             elsif @in_tag_set
               case name
               when 'key', 'value'
-                @tag[name] = @value
+                @tag[name] = value
               when 'item'
                 @volume['tagSet'][@tag['key']] = @tag['value']
                 @tag = {}
@@ -51,16 +51,16 @@ module Fog
             else
               case name
               when 'availabilityZone', 'snapshotId', 'status', 'volumeId'
-                @volume[name] = @value
+                @volume[name] = value
               when 'createTime'
-                @volume[name] = Time.parse(@value)
+                @volume[name] = Time.parse(value)
               when 'item'
                 @response['volumeSet'] << @volume
                 @volume = { 'attachmentSet' => [], 'tagSet' => {} }
               when 'requestId'
-                @response[name] = @value
+                @response[name] = value
               when 'size'
-                @volume[name] = @value.to_i
+                @volume[name] = value.to_i
               end
             end
           end

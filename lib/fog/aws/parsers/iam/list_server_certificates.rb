@@ -17,16 +17,16 @@ module Fog
           def end_element(name)
             case name
             when 'Arn', 'Path', 'ServerCertificateId', 'ServerCertificateName'
-              @certificate[name] = @value
+              @certificate[name] = value
             when 'UploadDate'
-              @certificate[name] = Time.parse(@value)
+              @certificate[name] = Time.parse(value)
             when 'member'
               @response['Certificates'] << @certificate
               reset_certificate
             when 'IsTrunctated'
-              @response[name] = !!@value
+              @response[name] = !!value
             when 'Marker'
-              @response[name] = @value
+              @response[name] = value
             end
           end
 
