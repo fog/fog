@@ -146,8 +146,8 @@ task :changelog do
   for line in shortlog.split("\n")
     if line =~ /^\S/
       committer = line.split(' (', 2).first
-    elsif line =~ /^\s*(Merge.*)?$/
-      # skip empty lines and Merge commits
+    elsif line =~ /^\s*((Merge.*)|(Release.*))?$/
+      # skip empty lines, Merge and Release commits
     else
       unless line[-1..-1] == '.'
         line << '.'
