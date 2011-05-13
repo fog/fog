@@ -21,9 +21,14 @@ Shindo.tests do
       Fog.credentials_path
     }
 
-    returns('/home/me/.fog', 'falls back to home path if FOG_RC not set') {
-      ENV['HOME'] = '/home/me'
+    returns(File.join(ENV['HOME'], '.fog'), 'falls back to home path if FOG_RC not set') {
       ENV.delete('FOG_RC')
+      Fog.credentials_path
+    }
+
+    returns(nil, 'ignores home path if it does not exist') {
+      ENV.delete('FOG_RC')
+      ENV['HOME'] = '/no/such/path'
       Fog.credentials_path
     }
 
