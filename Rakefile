@@ -98,6 +98,7 @@ task :release => :build do
   sh "git push origin v#{version}"
   sh "gem push pkg/#{name}-#{version}.gem"
   Rake::Task[:docs].invoke
+  Rake::Task[:changelog].invoke
 end
 
 task :build => :gemspec do
@@ -167,9 +168,8 @@ task :changelog do
     changelog << ''
   end
 
-  for line in changelog
-    print(line << "\n")
-  end
+  `echo "#{changelog.join("\n")}" | pbcopy`
+  p 'changelog copied to clipboard'
 end
 
 task :docs do
