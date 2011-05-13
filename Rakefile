@@ -133,6 +133,45 @@ task :validate do
   end
 end
 
+task :changelog do
+  timestamp = Time.now.utc.strftime('%m/%d/%Y')
+  sha = `git log | head -1`.split(' ').last
+  changelog = ["#{version} #{timestamp} #{sha}"]
+  changelog << ('=' * changelog[0].length)
+  changelog << ''
+
+  last_sha = `cat changelog.txt | head -1`.split(' ').last
+  shortlog = `git shortlog #{last_sha}..HEAD`
+  changes = {}
+  for line in shortlog.split("\n")
+    if line =~ /^\S/
+      committer = line.split(' (', 2).first
+    elsif line =~ /^\s*(Merge.*)?$/
+      # skip empty lines and Merge commits
+    else
+      unless line[-1..-1] == '.'
+        line << '.'
+      end
+      line.gsub!(/^\s*\[([^\]]*)\] /, '')
+      tag = $1 || 'misc'
+      changes[tag] ||= []
+      changes[tag] << (line << ' thanks ' << committer)
+    end
+  end
+
+  for tag in changes.keys.sort
+    changelog << ('[' << tag << ']')
+    for commit in changes[tag]
+      changelog << ('  ' << commit)
+    end
+    changelog << ''
+  end
+
+  for line in changelog
+    print(line << "\n")
+  end
+end
+
 task :docs do
   # build the docs locally
   sh "jekyll docs docs/_site"
