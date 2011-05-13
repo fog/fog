@@ -56,7 +56,7 @@ module Fog
             filters = {'instance-id' => [*filters]}
           end
           params = {}
-          # when seeking single instance id, old param style is most up to date
+          # when seeking single instance id, old param style provides more accurate data sooner
           if filters['instance-id'] && !filters['instance-id'].is_a?(Array)
             params.merge!('InstanceId' => filters.delete('instance-id'))
           end
