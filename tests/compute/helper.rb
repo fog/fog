@@ -1,9 +1,7 @@
 def compute_providers
   {
     AWS       => {
-      :server_attributes => {
-        :image_id => 'ami-1a837773' # image ami-1a837773 = Ubuntu
-      },
+      :server_attributes => {},
       :mocked => true
     },
     Bluebox   => {
