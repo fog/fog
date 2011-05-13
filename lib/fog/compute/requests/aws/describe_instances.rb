@@ -58,7 +58,7 @@ module Fog
           params = {}
           # when seeking single instance id, old param style is most up to date
           if filters['instance-id'] && !filters['instance-id'].is_a?(Array)
-            params.merge('InstanceId' => filters.delete('instance-id'))
+            params.merge!('InstanceId' => filters.delete('instance-id'))
           end
           params.merge!(AWS.indexed_filters(filters))
 
