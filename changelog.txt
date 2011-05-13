@@ -1,3 +1,20 @@
+0.8.1 05/13/2011 3a452347a396f0ad1fea7f5475fb3c349b10f527
+=========================================================
+
+[aws|compute]
+  less confusing explanation comment. thanks geemus
+
+[compute|aws]
+  Fix describe_instances filtering. thanks ktheory
+  Add get_password_data request. thanks ktheory
+
+[core]
+  Add test for Fog::Parsers::Base. thanks ktheory
+  handle busted ENV['HOME']. thanks pfalcone     closes #301. thanks geemus
+  update fog.io in release task. thanks geemus
+  add hash to changelog. thanks geemus
+  work toward automating changelog. thanks geemus
+
 0.8.0 05/12/2011 27bf76d1f881bec0f900cd11d5c2a10dce4856ca
 =========================================================
 
