@@ -97,6 +97,7 @@ task :release => :build do
   sh "git push origin master"
   sh "git push origin v#{version}"
   sh "gem push pkg/#{name}-#{version}.gem"
+  Rake::Task[:docs].invoke
 end
 
 task :build => :gemspec do
