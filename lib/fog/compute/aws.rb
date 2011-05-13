@@ -58,6 +58,7 @@ module Fog
       request :detach_volume
       request :disassociate_address
       request :get_console_output
+      request :get_password_data
       request :import_key_pair
       request :modify_image_attributes
       request :modify_snapshot_attribute

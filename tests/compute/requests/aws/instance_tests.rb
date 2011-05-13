@@ -11,16 +11,16 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
     'instanceState'       => {'code' => Integer, 'name' => String},
     'instanceType'        => String,
     # 'ipAddress'           => String,
-    'kernelId'            => String,
-    # 'keyName'             => String,
+    'kernelId'            => Fog::Nullable::String,
+    'keyName'             => Fog::Nullable::String,
     'launchTime'          => Time,
     'monitoring'          => {'state' => Fog::Boolean},
     'placement'           => {'availabilityZone' => String},
     'privateDnsName'      => NilClass,
     # 'privateIpAddress'    => String,
     'productCodes'        => [],
-    'ramdiskId'           => String,
-    'reason'              => NilClass,
+    'ramdiskId'           => Fog::Nullable::String,
+    'reason'              => Fog::Nullable::String,
     # 'rootDeviceName'      => String,
     'rootDeviceType'      => String,
   }
@@ -38,12 +38,12 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
       'groupSet'      => [String],
       'instancesSet'  => [@instance_format.merge(
         'architecture'      => String,
-        'dnsName'           => String,
-        'ipAddress'         => String,
-        'privateDnsName'    => String,
-        'privateIpAddress'  => String,
-        'stateReason'       => {},
-        'tagSet'            => {}
+        'dnsName'           => Fog::Nullable::String,
+        'ipAddress'         => Fog::Nullable::String,
+        'privateDnsName'    => Fog::Nullable::String,
+        'privateIpAddress'  => Fog::Nullable::String,
+        'stateReason'       => Hash,
+        'tagSet'            => Hash
       )],
       'ownerId'       => String,
       'reservationId' => String
@@ -58,6 +58,14 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
     'timestamp'   => Time
   }
 
+  @get_password_data_format = {
+    'instanceId'   => String,
+    'passwordData' => String,
+    'requestId'    => String,
+    'timestamp'    => Time
+  }
+
+
   @terminate_instances_format = {
     'instancesSet'  => [{
       'currentState' => {'code' => Integer, 'name' => String},
@@ -70,19 +78,30 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
   tests('success') do
 
     @instance_id = nil
+    # Use a MS Windows AMI to test #get_password_data
+    @windows_ami = 'ami-ee926087' # Microsoft Windows Server 2008 R2 Base 64-bit
 
-    tests("#run_instances('#{GENTOO_AMI}', 1, 1)").formats(@run_instances_format) do
-      data = AWS[:compute].run_instances(GENTOO_AMI, 1, 1).body
+    # Create a keypair for decrypting the password
+    key_name = 'fog-test-key'
+    key = AWS.key_pairs.create(:name => key_name)
+
+    tests("#run_instances").formats(@run_instances_format) do
+      data = AWS[:compute].run_instances(@windows_ami, 1, 1, 'InstanceType' => 't1.micro', 'KeyName' => key_name).body
       @instance_id = data['instancesSet'].first['instanceId']
       data
     end
 
-    AWS[:compute].servers.get(@instance_id).wait_for { ready? }
+    server = AWS[:compute].servers.get(@instance_id)
+    while server.nil? do
+      # It may take a moment to get the server after launching it
+      sleep 0.1
+      server = AWS[:compute].servers.get(@instance_id)
+    end
+    server.wait_for { ready? }
 
-    # The format changes depending on state of instance, so this would be brittle
-    # tests("#describe_instances").formats(@describe_instances_format) do
-    #   AWS[:compute].describe_instances.body
-    # end
+    tests("#describe_instances").formats(@describe_instances_format) do
+       AWS[:compute].describe_instances.body
+    end
 
     # Launch another instance to test filters
     another_server = AWS[:compute].servers.create
@@ -99,6 +118,24 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
       AWS[:compute].get_console_output(@instance_id).body
     end
 
+    tests("#get_password_data('#{@instance_id}')").formats(@get_password_data_format) do
+      pending if Fog.mock?
+      result = nil
+      Fog.wait_for do
+         result = AWS[:compute].get_password_data(@instance_id).body
+         !result['passwordData'].nil?
+      end
+
+      tests("key can decrypt passwordData").returns(true) do
+        decoded_password = Base64.decode64(result['passwordData'])
+        pkey = OpenSSL::PKey::RSA.new(key.private_key)
+        String === pkey.private_decrypt(decoded_password)
+      end
+      result
+    end
+
+    key.destroy
+
     tests("#reboot_instances('#{@instance_id}')").formats(AWS::Compute::Formats::BASIC) do
       AWS[:compute].reboot_instances(@instance_id).body
     end
@@ -113,6 +150,10 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
 
     tests("#get_console_output('i-00000000')").raises(Fog::AWS::Compute::NotFound) do
       AWS[:compute].get_console_output('i-00000000')
+    end
+
+    tests("#get_password_data('i-00000000')").raises(Fog::AWS::Compute::NotFound) do
+      AWS[:compute].get_password_data('i-00000000')
     end
 
     tests("#reboot_instances('i-00000000')").raises(Fog::AWS::Compute::NotFound) do
