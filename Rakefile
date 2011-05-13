@@ -204,9 +204,21 @@ task :docs do
     )
   end
 
+  redirecter = <<-HTML
+<!doctype html>
+<head>
+<title>fog</title>
+<meta http-equiv="REFRESH" content="0;url=http://fog.io/#{version}">
+</head>
+<body>
+  <a href="http://fog.io/#{version}">redirecting to lastest version => fog #{version}</a>
+</body>
+</html>
+HTML
+
   # write base index with redirect to new version
   directory.files.create(
-    :body         => '<!doctype html><head><script>window.location = "http://fog.io/' << version << '"</script></head></html>',
+    :body         => redirecter,
     :content_type => 'text/html',
     :key          => 'index.html',
     :public       => true
