@@ -84,9 +84,16 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
     #   AWS[:compute].describe_instances.body
     # end
 
+    # Launch another instance to test filters
+    another_server = AWS[:compute].servers.create
+
     tests("#describe_instances('instance-id' => '#{@instance_id}')").formats(@describe_instances_format) do
-      AWS[:compute].describe_instances('instance-id' => @instance_id).body
+      body = AWS[:compute].describe_instances('instance-id' => @instance_id).body
+      tests("returns 1 instance").returns(1) { body['reservationSet'].size }
+      body
     end
+
+    another_server.destroy
 
     tests("#get_console_output('#{@instance_id}')").formats(@get_console_output_format) do
       AWS[:compute].get_console_output(@instance_id).body
