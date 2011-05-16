@@ -9,6 +9,7 @@ module Fog
     service(:cdn,             'cdn/aws')
     service(:compute,         'compute/aws')
     service(:cloud_formation, 'aws/cloud_formation')
+    service(:cloud_watch, 'aws/cloud_watch')
     service(:dns,             'dns/aws')
     service(:elb,             'aws/elb')
     service(:iam,             'aws/iam')

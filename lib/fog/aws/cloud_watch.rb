@@ -8,6 +8,9 @@ module Fog
 
       request_path 'fog/aws/requests/cloud_watch'
 
+      request :list_metrics
+      request :get_metric_statistics
+      request :put_metric_data
 
       class Mock
 
