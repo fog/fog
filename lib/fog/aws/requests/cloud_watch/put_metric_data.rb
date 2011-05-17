@@ -29,9 +29,9 @@ module Fog
         #
         def put_metric_data(namespace, metric_data)
           statistics = options.delete 'Statistics'
-          options.merge!(AWS.indexed_param('Statistics.member.%d', [*statistics])
+          options.merge!(AWS.indexed_param('Statistics.member.%d', [*statistics]))
           
-          if dimensions = options.delete 'Dimensions'
+          if dimensions = options.delete('Dimensions')
             options.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.collect {|dimension| dimension['Name']}))
             options.merge!(AWS.indexed_param('Dimensions.member.%d.Value', dimensions.collect {|dimension| dimension['Value']}))
           end
