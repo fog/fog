@@ -136,6 +136,11 @@ module Fog
           require 'fog/compute/parsers/aws/basic'
 
           @aws_access_key_id = options[:aws_access_key_id]
+
+        unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1'].include?(options[:region])
+          raise ArgumentError, "Unknown region: #{options[:region].inspect}"
+        end
+
           @region = options[:region] || 'us-east-1'
 
           @data = self.class.data[@region][@aws_access_key_id]

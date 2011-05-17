@@ -133,7 +133,7 @@ module Fog
               # 'keyName'             => options['KeyName'],
               'launchTime'          => Time.now,
               'monitoring'          => { 'state' => options['Monitoring.Enabled'] || false },
-              'placement'           => { 'availabilityZone' => options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone },
+              'placement'           => { 'availabilityZone' => options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone(@region) },
               'privateDnsName'      => nil,
               'productCodes'        => [],
               'ramdiskId'           => options['RamdiskId'] || Fog::AWS::Mock.ramdisk_id,

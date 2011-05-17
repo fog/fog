@@ -69,8 +69,8 @@ module Fog
 
     class Mock
 
-      def self.availability_zone
-        "us-east-1" << Fog::Mock.random_selection('abcd', 1)
+      def self.availability_zone(region)
+        "#{region}#{Fog::Mock.random_selection('abcd', 1)}"
       end
 
       def self.box_usage
