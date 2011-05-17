@@ -7,6 +7,8 @@ class AWS < Fog::Bin
         Fog::AWS::CDN
       when :cloud_formation
         Fog::AWS::CloudFormation
+      when :cloud_watch
+        Fog::AWS::CloudWatch
       when :compute
         Fog::AWS::Compute
       when :dns
@@ -38,6 +40,8 @@ class AWS < Fog::Bin
           Fog::CDN.new(:provider => 'AWS')
         when :cloud_formation
           Fog::AWS::CloudFormation.new
+        when :cloud_watch
+          Fog::AWS::CloudWatch.new
         when :compute
           Fog::Compute.new(:provider => 'AWS')
         when :dns
