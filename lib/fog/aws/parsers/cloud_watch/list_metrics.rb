@@ -21,30 +21,38 @@ module Fog
           def start_element(name, attrs = [])
             super
             case name  
-            when 'Dimension'
-              reset_dimension
+            when 'Dimensions'
+              @in_dimensions = true
+            when 'member'
+              if @in_dimensions
+                reset_dimension
+              end
             end
           end
           
           def end_element(name)
             case name  
             when 'Name'
-              @dimension['Name'] = @value
+              @dimension['Name'] = value
             when 'Value'
-              @dimension['Value'] = @value
+              @dimension['Value'] = value
             when 'Namespace'
-              @metric['Namespace'] = @value
+              @metric['Namespace'] = value
             when 'MetricName'
-              @metric['MetricName'] = @value              
-            when 'Dimension'
-              @metric['Dimensions'] << @dimension
-            when 'Metric'
-              @response['ListMetricsResult']['Metrics'] << @metric
-              reset_metric
+              @metric['MetricName'] = value
+            when 'Dimensions'
+              @in_dimensions = false
             when 'NextMarker'
-              @response['ListMetricsResult'][name] = @value
+              @response['ListMetricsResult'][name] = value
             when 'RequestId'
-              @response['ResponseMetadata'][name] = @value
+              @response['ResponseMetadata'][name] = value
+            when 'member'
+              if !@in_dimensions
+                @response['ListMetricsResult']['Metrics'] << @metric
+                reset_metric
+              else
+                @metric['Dimensions'] << @dimension
+              end
             end
           end
         end
