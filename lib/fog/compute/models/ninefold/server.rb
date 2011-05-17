@@ -136,7 +136,8 @@ module Fog
             if networks.empty?
               raise "No networks. Please create one, or specify a network ID"
             else
-              networkids = networks[0]['id']
+              # use the network with the lowest ID - the safe default
+              self.networkids = networks.sort {|x,y| x['id'] <=> y['id']}[0]['id']
             end
           end
 
