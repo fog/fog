@@ -1,10 +1,11 @@
 Shindo.tests("AWS::Compute | monitor", ['aws']) do
 
-  [:addresses, :flavor, :key_pair, :key_pair=, :volume].each do |association|
+  @instance = AWS[:compute].servers.new
+
+  [:addresses, :flavor, :key_pair, :key_pair=, :volumes].each do |association|
     responds_to(association)
   end
 
-  @instance = AWS[:compute].servers.new
 
   tests('new instance') do
 

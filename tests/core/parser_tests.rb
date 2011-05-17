@@ -59,7 +59,7 @@ posuere eu odio. Donec sodales, ante porta condimentum
   }
 
 
-  tests('TestParser').returns(@response) do
+  tests('TestParser').returns(@response, "returns the response") do
     test_parser = TestParser.new
     Nokogiri::XML::SAX::Parser.new(test_parser).parse(@xml)
     test_parser.response
