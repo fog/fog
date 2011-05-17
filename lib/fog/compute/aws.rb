@@ -137,9 +137,9 @@ module Fog
 
           @aws_access_key_id = options[:aws_access_key_id]
 
-        unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1'].include?(options[:region])
-          raise ArgumentError, "Unknown region: #{options[:region].inspect}"
-        end
+          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1'].include?(options[:region])
+            raise ArgumentError, "Unknown region: #{options[:region].inspect}"
+          end
 
           @region = options[:region] || 'us-east-1'
 
