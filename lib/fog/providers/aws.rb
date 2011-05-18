@@ -1,5 +1,6 @@
 require 'fog/core'
 require 'fog/core/parser'
+require 'openssl' # For RSA key pairs
 
 module Fog
   module AWS
@@ -44,7 +45,7 @@ module Fog
     def self.escape(string)
       string.gsub( /([^-a-zA-Z0-9_.~]+)/n ) { |match| '%' + match.unpack( 'H2' * match.size ).join( '%' ).upcase }
     end
-    
+
     def self.signed_params(params, options = {})
       params.merge!({
         'AWSAccessKeyId'    => options[:aws_access_key_id],
@@ -140,13 +141,7 @@ module Fog
       end
 
       def self.key_material
-        key_material = ['-----BEGIN RSA PRIVATE KEY-----']
-        20.times do
-          key_material << Fog::Mock.random_base64(76)
-        end
-        key_material << Fog::Mock.random_base64(67) + '='
-        key_material << '-----END RSA PRIVATE KEY-----'
-        key_material.join("\n")
+        OpenSSL::PKey::RSA.generate(1024).to_s
       end
 
       def self.owner_id

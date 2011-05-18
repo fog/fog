@@ -60,7 +60,7 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
 
   @get_password_data_format = {
     'instanceId'   => String,
-    'passwordData' => String,
+    'passwordData' => Fog::Nullable::String,
     'requestId'    => String,
     'timestamp'    => Time
   }
@@ -119,15 +119,18 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
     end
 
     tests("#get_password_data('#{@instance_id}')").formats(@get_password_data_format) do
-      pending if Fog.mock?
-      result = nil
-      Fog.wait_for do
-         result = AWS[:compute].get_password_data(@instance_id).body
-         !result['passwordData'].nil?
-      end
+      result = AWS[:compute].get_password_data(@instance_id).body
 
       tests("key can decrypt passwordData").returns(true) do
-        decoded_password = Base64.decode64(result['passwordData'])
+
+        pending if Fog.mocking?
+
+        password_data = result['passwordData']
+        Fog.wait_for do
+          password_data ||= AWS[:compute].get_password_data(@instance_id).body['passwordData']
+        end
+
+        decoded_password = Base64.decode64(password_data)
         pkey = OpenSSL::PKey::RSA.new(key.private_key)
         String === pkey.private_decrypt(decoded_password)
       end
