@@ -11,6 +11,10 @@ module Fog
       request :list_metrics
       request :get_metric_statistics
       request :put_metric_data
+      
+      model_path 'fog/aws/models/cloud_watch'
+      model       :metric
+      collection  :metrics
 
       class Mock
 
