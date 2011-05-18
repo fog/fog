@@ -33,7 +33,19 @@ module Fog
       class Mock
 
         def get_password_data(instance_id)
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          if instance = @data[:instances][instance_id]
+            response.status = 200
+            response.body = {
+              'instanceId'   => instance_id,
+              'passwordData' => nil,
+              'requestId'    => Fog::AWS::Mock.request_id,
+              'timestamp'    => Time.now
+            }
+            response
+          else;
+            raise Fog::AWS::Compute::NotFound.new("The instance ID '#{instance_id}' does not exist")
+          end
         end
 
       end
