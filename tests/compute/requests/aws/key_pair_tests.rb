@@ -21,7 +21,7 @@ Shindo.tests('AWS::Compute | key pair requests', ['aws']) do
 
     tests("#create_key_pair('#{@key_pair_name}')").formats(@keypair_format.merge({'keyMaterial' => String})) do
       body = AWS[:compute].create_key_pair(@key_pair_name).body
-      tests("private key is valid RSA key").returns(OpenSSL::PKey::RSA) do
+      tests("key material").returns(OpenSSL::PKey::RSA, "is a valid private RSA key") do
         OpenSSL::PKey::RSA.new(body['keyMaterial']).class
       end
       body
