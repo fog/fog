@@ -32,14 +32,10 @@ module Fog
           
           def end_element(name)
             case name  
-            when 'Name'
-              @dimension['Name'] = value
-            when 'Value'
-              @dimension['Value'] = value
-            when 'Namespace'
-              @metric['Namespace'] = value
-            when 'MetricName'
-              @metric['MetricName'] = value
+            when 'Name', 'Value'
+              @dimension[name] = value
+            when 'Namespace', 'MetricName'
+              @metric[name] = value
             when 'Dimensions'
               @in_dimensions = false
             when 'NextMarker'
