@@ -91,10 +91,10 @@ module Fog
           snapshot_set.each do |snapshot|
             case snapshot['status']
             when 'in progress', 'pending'
-              if Time.now - snapshot['startTime'] > Fog::Mock.delay * 2
+              if Time.now - snapshot['startTime'] >= Fog::Mock.delay * 2
                 snapshot['progress']  = '100%'
                 snapshot['status']    = 'completed'
-              elsif Time.now - snapshot['startTime'] > Fog::Mock.delay
+              elsif Time.now - snapshot['startTime'] >= Fog::Mock.delay
                 snapshot['progress']  = '50%'
                 snapshot['status']    = 'in progress'
               else

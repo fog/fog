@@ -32,7 +32,7 @@ module Fog
           for image in images
             case image['status']
             when 'SAVING'
-              if Time.now - @data[:last_modified][:images][image['id']] > Fog::Mock.delay
+              if Time.now - @data[:last_modified][:images][image['id']] >= Fog::Mock.delay
                 image['status'] = 'ACTIVE'
               end
             end
