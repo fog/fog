@@ -31,6 +31,10 @@ module Fog
           end
         end
 
+        def self.reset
+          @data = nil
+        end
+
         def initialize(options={})
           unless options.delete(:provider)
             location = caller.first
