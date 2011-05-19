@@ -6,8 +6,6 @@ module Fog
     class CloudWatch
 
       class Metrics < Fog::Collection
-        attribute :server
-        attribute :filters
         model Fog::AWS::CloudWatch::Metric
         
         def all
