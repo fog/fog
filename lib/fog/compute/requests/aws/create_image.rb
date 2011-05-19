@@ -18,7 +18,8 @@ module Fog
         #   * body<~Hash>:
         #     * 'imageId'<~String> - The ID of the created AMI.
         #     * 'requestId'<~String> - Id of request.
-        
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CreateImage.html]
         def create_image(instance_id, name, description, no_reboot = false)
           request(
             'Action'            => 'CreateImage',

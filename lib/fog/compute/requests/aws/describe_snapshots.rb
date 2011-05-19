@@ -23,6 +23,8 @@ module Fog
         #       * 'startTime'<~Time>: Timestamp of when snapshot was initiated
         #       * 'status'<~String>: Snapshot state, in ['pending', 'completed']
         #       * 'volumeId'<~String>: Id of volume that snapshot contains
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSnapshots.html]
         def describe_snapshots(filters = {}, options = {})
           unless filters.is_a?(Hash)
             Formatador.display_line("[yellow][WARN] describe_snapshots with #{filters.class} param is deprecated, use describe_snapshots('snapshot-id' => []) instead[/] [light_black](#{caller.first})[/]")

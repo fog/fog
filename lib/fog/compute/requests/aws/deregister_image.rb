@@ -15,6 +15,8 @@ module Fog
         #   * body<~Hash>:
         #     * 'return'<~Boolean> - Returns true if deregistration succeeded
         #     * 'requestId'<~String> - Id of request
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DeregisterImage.html]
         def deregister_image(image_id)
           request(
             'Action'      => 'DeregisterImage',

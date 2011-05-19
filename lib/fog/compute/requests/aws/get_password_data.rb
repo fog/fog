@@ -19,6 +19,8 @@ module Fog
         #     * 'timestamp'<~Time> - Timestamp of last update to output
         #
         # See http://docs.amazonwebservices.com/AWSEC2/2010-08-31/APIReference/index.html?ApiReference-query-GetPasswordData.html
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-GetPasswordData.html]
         def get_password_data(instance_id)
           request(
             'Action'      => 'GetPasswordData',

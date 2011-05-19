@@ -19,6 +19,8 @@ module Fog
         #     * 'startTime'<~Time> - timestamp when snapshot was initiated
         #     * 'status'<~String> - state of snapshot
         #     * 'volumeId'<~String> - id of volume snapshot targets
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CreateSnapshot.html]
         def create_snapshot(volume_id, description = nil)
           request(
             'Action'      => 'CreateSnapshot',

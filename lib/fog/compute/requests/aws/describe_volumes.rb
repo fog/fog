@@ -27,6 +27,8 @@ module Fog
         #         * 'instanceId'<~String> - Reference to attached instance
         #         * 'status'<~String> - Attachment state
         #         * 'volumeId'<~String> - Reference to volume
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeVolumes.html]
         def describe_volumes(filters = {})
           unless filters.is_a?(Hash)
             Formatador.display_line("[yellow][WARN] describe_volumes with #{filters.class} param is deprecated, use describe_volumes('volume-id' => []) instead[/] [light_black](#{caller.first})[/]")

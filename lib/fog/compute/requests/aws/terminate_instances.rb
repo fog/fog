@@ -22,6 +22,8 @@ module Fog
         #       * 'shutdownState'<~Hash>: shutdown state of instance
         #         * 'code'<~Integer> - current status code
         #         * 'name'<~String> - name of current state
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-TerminateInstances.html]
         def terminate_instances(instance_id)
           params = AWS.indexed_param('InstanceId', instance_id)
           request({

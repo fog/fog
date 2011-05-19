@@ -24,6 +24,8 @@ module Fog
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - success?
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-AuthorizeSecurityGroupIngress.html]
         def authorize_security_group_ingress(group_name, options = {})
           if group_name.is_a?(Hash)
             location = caller.first

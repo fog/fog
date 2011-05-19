@@ -17,6 +17,8 @@ module Fog
         #     * 'keyFingerprint'<~String> - SHA-1 digest of DER encoded private key
         #     * 'keyName'<~String> - Name of key
         #     * 'requestId'<~String> - Id of request
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-ImportKeyPair.html]
         def import_key_pair(key_name, public_key_material)
           request(
             'Action'  => 'ImportKeyPair',

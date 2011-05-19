@@ -15,6 +15,8 @@ module Fog
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - success?
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DeleteSecurityGroup.html]
         def delete_security_group(name)
           request(
             'Action'    => 'DeleteSecurityGroup',

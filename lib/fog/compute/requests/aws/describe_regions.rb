@@ -17,6 +17,8 @@ module Fog
         #     * 'regionInfo'<~Array>:
         #       * 'regionName'<~String> - Name of region
         #       * 'regionEndpoint'<~String> - Service endpoint for region
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeRegions.html]
         def describe_regions(filters = {})
           unless filters.is_a?(Hash)
             Formatador.display_line("[yellow][WARN] describe_regions with #{filters.class} param is deprecated, use describe_regions('region-name' => []) instead[/] [light_black](#{caller.first})[/]")

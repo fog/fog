@@ -16,6 +16,8 @@ module Fog
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - success?
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CreateSecurityGroup.html]
         def create_security_group(name, description)
           request(
             'Action'            => 'CreateSecurityGroup',
