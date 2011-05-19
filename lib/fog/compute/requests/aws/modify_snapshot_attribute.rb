@@ -12,6 +12,10 @@ module Fog
         # * attribute<~String> - Attribute to modify, in ['createVolumePermission']
         # * operation_type<~String> - Operation to perform on attribute, in ['add', 'remove']
         #
+        #
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-ModifySnapshotAttribute.html]
+        #
         def modify_snapshot_attribute(snapshot_id, attribute, operation_type, options = {})
           params = {}
           params.merge!(AWS.indexed_param('UserId', options['UserId']))

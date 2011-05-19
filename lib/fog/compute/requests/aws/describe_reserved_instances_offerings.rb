@@ -22,6 +22,8 @@ module Fog
         #       * 'productDescription'<~String> - description of offering
         #       * 'reservedInstancesOfferingId'<~String> - id of offering
         #       * 'usagePrice'<~Float> - usage price of offering, per hour
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeReservedInstancesOfferings.html]
         def describe_reserved_instances_offerings(filters = {})
           params = AWS.indexed_filters(filters)
           request({

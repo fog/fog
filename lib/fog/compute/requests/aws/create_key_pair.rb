@@ -17,6 +17,8 @@ module Fog
         #     * 'keyMaterial'<~String> - Unencrypted encoded PEM private key
         #     * 'keyName'<~String> - Name of key
         #     * 'requestId'<~String> - Id of request
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CreateKeyPair.html]
         def create_key_pair(key_name)
           request(
             'Action'  => 'CreateKeyPair',

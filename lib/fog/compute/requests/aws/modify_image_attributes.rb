@@ -12,6 +12,10 @@ module Fog
         # * attribute<~String> - Attribute to modify, in ['launchPermission', 'productCodes']
         # * operation_type<~String> - Operation to perform on attribute, in ['add', 'remove']
         #
+        #
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-ModifyImageAttribute.html]
+        #
         def modify_image_attributes(image_id, attribute, operation_type, options = {})
           params = {}
           params.merge!(AWS.indexed_param('UserId', options['UserId']))

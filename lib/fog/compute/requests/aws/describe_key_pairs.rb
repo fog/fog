@@ -17,6 +17,8 @@ module Fog
         #     * 'keySet'<~Array>:
         #       * 'keyName'<~String> - Name of key
         #       * 'keyFingerprint'<~String> - Fingerprint of key
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeKeyPairs.html]
         def describe_key_pairs(filters = {})
           unless filters.is_a?(Hash)
             Formatador.display_line("[yellow][WARN] describe_key_pairs with #{filters.class} param is deprecated, use describe_key_pairs('key-name' => []) instead[/] [light_black](#{caller.first})[/]")

@@ -21,6 +21,8 @@ module Fog
         #     * 'requestId'<~String> - Id of request
         #     * 'status'<~String> - Status of volume
         #     * 'volumeId'<~String> - Reference to volume
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-AttachVolume.html]
         def attach_volume(instance_id, volume_id, device)
           request(
             'Action'      => 'AttachVolume',

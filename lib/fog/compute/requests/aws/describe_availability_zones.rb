@@ -18,6 +18,8 @@ module Fog
         #       * 'regionName'<~String> - Name of region
         #       * 'zoneName'<~String> - Name of zone
         #       * 'zoneState'<~String> - State of zone
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeAvailabilityZones.html]
         def describe_availability_zones(filters = {})
           unless filters.is_a?(Hash)
             Formatador.display_line("[yellow][WARN] describe_availability_zones with #{filters.class} param is deprecated, use describe_availability_zones('zone-name' => []) instead[/] [light_black](#{caller.first})[/]")

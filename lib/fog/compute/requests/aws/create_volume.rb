@@ -21,6 +21,8 @@ module Fog
         #     * 'snapshotId'<~String> - Snapshot volume was created from, if any
         #     * 'status's<~String> - State of volume
         #     * 'volumeId'<~String> - Reference to volume
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CreateVolume.html]
         def create_volume(availability_zone, size, snapshot_id = nil)
           request(
             'Action'            => 'CreateVolume',

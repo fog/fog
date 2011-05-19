@@ -50,6 +50,8 @@ module Fog
         #           * 'rootDeviceType'<~String> - root device type used by AMI in [ebs, instance-store]
         #           * 'ramdiskId'<~String> - Id of ramdisk used to launch instance
         #           * 'reason'<~String> - reason for most recent state transition, or blank
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeInstances.html]
         def describe_instances(filters = {})
           unless filters.is_a?(Hash)
             Formatador.display_line("[yellow][WARN] describe_instances with #{filters.class} param is deprecated, use describe_instances('instance-id' => []) instead[/] [light_black](#{caller.first})[/]")
