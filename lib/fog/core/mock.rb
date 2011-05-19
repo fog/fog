@@ -66,7 +66,7 @@ module Fog
     def self.reset
       providers = Fog.providers.map{|p| eval("Fog::#{p}")}
       services = providers.map{|p| p.constants.map{|s| eval("#{p}::#{s}")}}.flatten
-      services.select!{|s| s.constants.include?(:Mock)}
+      services = services.select {|s| s.constants.include?(:Mock)}
 
       services.each do |service|
         next unless service::Mock.respond_to?(:reset)

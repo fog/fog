@@ -42,12 +42,12 @@ module Fog
         
         def create_snapshot(volume_id, description = nil)
           response = Excon::Response.new
-          if volume = @data[:volumes][volume_id]
+          if volume = self.data[:volumes][volume_id]
             response.status = 200
             snapshot_id = Fog::AWS::Mock.snapshot_id
             data = {
               'description' => description,
-              'ownerId'     => @owner_id,
+              'ownerId'     => self.data[:owner_id],
               'progress'    => nil,
               'snapshotId'  => snapshot_id,
               'startTime'   => Time.now,
@@ -55,11 +55,11 @@ module Fog
               'volumeId'    => volume_id,
               'volumeSize'  => volume['size']
             }
-            @data[:snapshots][snapshot_id] = data
+            self.data[:snapshots][snapshot_id] = data
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id
             }.merge!(data)
-            @data[:snapshots][snapshot_id]['tagSet'] = {}
+            self.data[:snapshots][snapshot_id]['tagSet'] = {}
           else
             response.status = 400
             raise(Excon::Errors.status_error({:expects => 200}, response))

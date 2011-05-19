@@ -32,12 +32,12 @@ module Fog
 
         def delete_volume(volume_id)
           response = Excon::Response.new
-          if volume = @data[:volumes][volume_id]
+          if volume = self.data[:volumes][volume_id]
             if volume["attachmentSet"].any?
               attach = volume["attachmentSet"].first
               raise Fog::AWS::Compute::Error.new("Client.VolumeInUse => Volume #{volume_id} is currently attached to #{attach["instanceId"]}")
             end
-            @data[:deleted_at][volume_id] = Time.now
+            self.data[:deleted_at][volume_id] = Time.now
             volume['status'] = 'deleting'
             response.status = 200
             response.body = {

@@ -33,14 +33,14 @@ module Fog
 
         def create_security_group(name, description)
           response = Excon::Response.new
-          unless @data[:security_groups][name]
+          unless self.data[:security_groups][name]
             data = {
               'groupDescription'  => description,
               'groupName'         => name,
               'ipPermissions'     => [],
-              'ownerId'           => @owner_id
+              'ownerId'           => self.data[:owner_id]
             }
-            @data[:security_groups][name] = data
+            self.data[:security_groups][name] = data
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,
               'return'    => true

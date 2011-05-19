@@ -37,11 +37,11 @@ module Fog
 
         def delete_attributes(domain_name, item_name, attributes = nil)
           response = Excon::Response.new
-          if @data[:domains][domain_name]
+          if self.data[:domains][domain_name]
             if attributes
               for key, value in attributes
-                if @data[:domains][domain_name][key]
-                  @data[:domains][domain_name][key].delete('value')
+                if self.data[:domains][domain_name][key]
+                  self.data[:domains][domain_name][key].delete('value')
                 end
               end
             end

@@ -34,16 +34,16 @@ module Fog
 
         def batch_put_attributes(domain_name, items, replace_attributes = Hash.new([]))
           response = Excon::Response.new
-          if @data[:domains][domain_name]
+          if self.data[:domains][domain_name]
             for item_name, attributes in items do
               for key, value in attributes do
-                @data[:domains][domain_name][item_name] ||= {}
+                self.data[:domains][domain_name][item_name] ||= {}
                 if replace_attributes[item_name] && replace_attributes[item_name].include?(key)
-                  @data[:domains][domain_name][item_name][key.to_s] = []
+                  self.data[:domains][domain_name][item_name][key.to_s] = []
                 else
-                  @data[:domains][domain_name][item_name][key.to_s] ||= []
+                  self.data[:domains][domain_name][item_name][key.to_s] ||= []
                 end
-                @data[:domains][domain_name][item_name][key.to_s] << value.to_s
+                self.data[:domains][domain_name][item_name][key.to_s] << value.to_s
               end
             end
             response.status = 200

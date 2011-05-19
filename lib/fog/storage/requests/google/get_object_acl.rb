@@ -58,7 +58,7 @@ module Fog
 
         def get_object_acl(bucket_name, object_name)
           response = Excon::Response.new
-          if acl = @data[:acls][:object][bucket_name] && @data[:acls][:object][bucket_name][object_name]
+          if acl = self.data[:acls][:object][bucket_name] && self.data[:acls][:object][bucket_name][object_name]
             response.status = 200
             response.body = acl
           else

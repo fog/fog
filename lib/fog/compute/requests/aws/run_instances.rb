@@ -147,10 +147,10 @@ module Fog
               'rootDeviceType'      => 'instance-store'
             }
             instances_set << instance
-            @data[:instances][instance_id] = instance.merge({
+            self.data[:instances][instance_id] = instance.merge({
               'architecture'        => 'i386',
               'groupSet'            => group_set,
-              'ownerId'             => @owner_id,
+              'ownerId'             => self.data[:owner_id],
               'privateIpAddress'    => nil,
               'reservationId'       => reservation_id,
               'stateReason'         => {},
@@ -160,7 +160,7 @@ module Fog
           response.body = {
             'groupSet'      => group_set,
             'instancesSet'  => instances_set,
-            'ownerId'       => @owner_id,
+            'ownerId'       => self.data[:owner_id],
             'requestId'     => Fog::AWS::Mock.request_id,
             'reservationId' => reservation_id
           }

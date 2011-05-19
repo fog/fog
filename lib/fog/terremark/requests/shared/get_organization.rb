@@ -36,7 +36,7 @@ module Fog
           organization_id = organization_id.to_i
           response = Excon::Response.new
 
-          if org = @data[:organizations].detect { |org| org[:info][:id] == organization_id }
+          if org = self.data[:organizations].detect { |org| org[:info][:id] == organization_id }
 
             body = { "name" => org[:info][:name],
                      "href" => "#{@base_url}/org/#{org[:info][:id]}",

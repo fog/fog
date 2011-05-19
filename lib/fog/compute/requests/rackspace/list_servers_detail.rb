@@ -35,11 +35,11 @@ module Fog
         def list_servers_detail
           response = Excon::Response.new
 
-          servers = @data[:servers].values
+          servers = self.data[:servers].values
           for server in servers
             case server['status']
             when 'BUILD'
-              if Time.now - @data[:last_modified][:servers][server['id']] > 2
+              if Time.now - self.data[:last_modified][:servers][server['id']] > 2
                 server['status'] = 'ACTIVE'
               end
             end

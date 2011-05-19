@@ -50,12 +50,14 @@ module Fog
 
           @zerigo_email = options[:zerigo_email]
           @zerigo_token = options[:zerigo_token]
-          @data = self.class.data[@zerigo_email]
+        end
+
+        def data
+          self.class.data[@zerigo_email]
         end
 
         def reset_data
           self.class.data.delete(@zerigo_email)
-          @data = self.class.data[@zerigo_email]
         end
 
       end

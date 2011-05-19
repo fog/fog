@@ -40,7 +40,7 @@ module Fog
         def create_volume(availability_zone, size, snapshot_id = nil)
           response = Excon::Response.new
           if availability_zone && size
-            if snapshot_id && !@data[:snapshots][snapshot_id]
+            if snapshot_id && !self.data[:snapshots][snapshot_id]
               raise Fog::AWS::Compute::NotFound.new("The snapshot '#{snapshot_id}' does not exist.")
             end
 
@@ -56,7 +56,7 @@ module Fog
               'tagSet'            => {},
               'volumeId'          => volume_id
             }
-            @data[:volumes][volume_id] = data
+            self.data[:volumes][volume_id] = data
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id
             }.merge!(data.reject {|key,value| !['availabilityZone','createTime','size','snapshotId','status','volumeId'].include?(key) })

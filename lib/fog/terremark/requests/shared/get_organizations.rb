@@ -31,7 +31,7 @@ module Fog
 
         def get_organizations
           response = Excon::Response.new
-          org_list = @data[:organizations].map do |organization|
+          org_list = self.data[:organizations].map do |organization|
             { "name" => organization[:info][:name],
               "href" => "#{@base_url}/org/#{organization[:info][:id]}",
               "type" => "application/vnd.vmware.vcloud.org+xml"

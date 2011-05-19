@@ -53,7 +53,7 @@ module Fog
             when /^vol\-[a-z0-9]{8}$/i
               'volume'
             end
-            if type && @data[:"#{type}s"][resource_id]
+            if type && self.data[:"#{type}s"][resource_id]
               { 'resourceId' => resource_id, 'resourceType' => type }
             else
               raise(Fog::Service::NotFound.new("The #{type} ID '#{resource_id}' does not exist"))
@@ -61,11 +61,11 @@ module Fog
           end
           
           tags.each do |key, value|
-            @data[:tags][key][value] = @data[:tags][key][value] - tagged
+            self.data[:tags][key][value] = self.data[:tags][key][value] - tagged
           end
           
           tagged.each do |resource|
-            object = @data[:"#{resource['resourceType']}s"][resource['resourceId']]
+            object = self.data[:"#{resource['resourceType']}s"][resource['resourceId']]
             tags.each do |key, value|
               tagset = object['tagSet']
               tagset.delete(key) if tagset.has_key?(key) && (value.nil? || tagset[key] == value)

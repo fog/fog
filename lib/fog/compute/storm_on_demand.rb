@@ -68,7 +68,14 @@ module Fog
 
         def initialize(options={})
           @storm_on_demand_username = options[:storm_on_demand_username]
-          @data = self.class.data[@storm_on_demand_username]
+        end
+
+        def data
+          self.class.data[@storm_on_demand_username]
+        end
+
+        def reset_data
+          self.class.data.delete(@storm_on_demand_username)
         end
 
       end

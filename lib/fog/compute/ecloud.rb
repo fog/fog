@@ -1065,6 +1065,11 @@ module Fog
           @mock_data = nil
         end
 
+        def self.data_reset
+          Formatador.display_line("[yellow][WARN] #{self} => #data_reset is deprecated, use #reset instead[/] [light_black](#{caller.first})[/]")
+          self.reset
+        end
+
         def initialize(options = {})
           require 'builder'
           require 'fog/core/parser'

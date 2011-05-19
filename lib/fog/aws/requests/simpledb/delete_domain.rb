@@ -29,7 +29,7 @@ module Fog
 
         def delete_domain(domain_name)
           response = Excon::Response.new
-          if @data[:domains].delete(domain_name)
+          if self.data[:domains].delete(domain_name)
             response.status = 200
             response.body = {
               'BoxUsage'  => Fog::AWS::Mock.box_usage,

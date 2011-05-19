@@ -35,12 +35,14 @@ module Fog
           end
 
           @rackspace_username = options[:rackspace_username]
-          @data = self.class.data[@rackspace_username]
+        end
+
+        def data
+          self.class.data[@rackspace_username]
         end
 
         def reset_data
           self.class.data.delete(@rackspace_username)
-          @data = self.class.data[@rackspace_username]
         end
 
       end

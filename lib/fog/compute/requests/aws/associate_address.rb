@@ -35,8 +35,8 @@ module Fog
         def associate_address(instance_id, public_ip)
           response = Excon::Response.new
           response.status = 200
-          instance = @data[:instances][instance_id]
-          address = @data[:addresses][public_ip]
+          instance = self.data[:instances][instance_id]
+          address = self.data[:addresses][public_ip]
           if instance && address
             address['instanceId'] = instance_id
             instance['originalIpAddress'] = instance['ipAddress']

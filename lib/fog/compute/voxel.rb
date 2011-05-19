@@ -54,12 +54,14 @@ module Fog
 
         def initialize(options={})
           @voxel_api_key = options[:voxel_api_key]
-          @data = self.class.data[@voxel_api_key]
+        end
+
+        def data
+          self.class.data[@voxel_api_key]
         end
 
         def reset_data
           self.class.data.delete(@voxel_api_key)
-          @data = self.class.data[@voxel_api_key]
         end
 
       end

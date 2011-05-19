@@ -106,8 +106,18 @@ module Fog
          @base_url = Fog::Terremark::Vcloud::Defaults::SCHEME + "://" +
                      Fog::Terremark::Vcloud::Defaults::HOST +
                      Fog::Terremark::Vcloud::Defaults::PATH
-         @data = self.class.data[:terremark_vcloud_username]
+
+         @terremark_username = options[:terremark_vcloud_username]
        end
+
+       def data
+         self.class.data[@terremark_username]
+       end
+
+       def reset_data
+         self.class.data.delete(@terremark_username)
+       end
+
      end
 
    end

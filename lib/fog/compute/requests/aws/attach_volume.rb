@@ -42,8 +42,8 @@ module Fog
           response = Excon::Response.new
           if instance_id && volume_id && device
             response.status = 200
-            instance = @data[:instances][instance_id]
-            volume = @data[:volumes][volume_id]
+            instance = self.data[:instances][instance_id]
+            volume = self.data[:volumes][volume_id]
             if instance && volume
               unless volume['status'] == 'available'
                 raise Fog::AWS::Compute::Error.new("Client.VolumeInUse => Volume #{volume_id} is unavailable")

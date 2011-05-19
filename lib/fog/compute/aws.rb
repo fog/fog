@@ -146,14 +146,14 @@ module Fog
           unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
+        end
 
-          @data = self.class.data[@region][@aws_access_key_id]
-          @owner_id = @data[:owner_id]
+        def data
+          self.class.data[@region][@aws_access_key_id]
         end
 
         def reset_data
           self.class.data[@region].delete(@aws_access_key_id)
-          @data = self.class.data[@region][@aws_access_key_id]
         end
 
         def apply_tag_filters(resources, filters)

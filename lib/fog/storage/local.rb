@@ -35,7 +35,10 @@ module Fog
           end
 
           @local_root = ::File.expand_path(options[:local_root])
-          @data = self.class.data[@local_root]
+        end
+
+        def data
+          self.class.data[@local_root]
         end
 
         def local_root
@@ -48,7 +51,6 @@ module Fog
 
         def reset_data
           self.class.data.delete(@local_root)
-          @data = self.class.data[@local_root]
         end
 
       end

@@ -44,7 +44,7 @@ module Fog
 
           response = Excon::Response.new
 
-          key_set = @data[:key_pairs].values
+          key_set = self.data[:key_pairs].values
 
           aliases = {'fingerprint' => 'keyFingerprint', 'key-name' => 'keyName'}
           for filter_key, filter_value in filters

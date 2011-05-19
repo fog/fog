@@ -208,6 +208,10 @@ module Fog
               end
             end'
           self.class.instance_eval '
+            def self.reset
+              @data = nil
+            end
+
             def self.reset_data(keys=data.keys)
               for key in [*keys]
                 data.delete(key)

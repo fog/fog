@@ -32,7 +32,7 @@ module Fog
         def grid_image_list(options={})
           #response = Excon::Response.new
 
-          #images = @data[:list].values
+          #images = self.data[:list].values
           #for image in images
           #  case image['state']
           #  when 'Available'

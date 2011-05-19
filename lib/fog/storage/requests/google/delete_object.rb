@@ -29,7 +29,7 @@ module Fog
 
         def delete_object(bucket_name, object_name)
           response = Excon::Response.new
-          if bucket = @data[:buckets][bucket_name]
+          if bucket = self.data[:buckets][bucket_name]
             if object = bucket[:objects][object_name]
               response.status = 204
               bucket[:objects].delete(object_name)

@@ -42,16 +42,16 @@ module Fog
 
         def get_attributes(domain_name, item_name, attributes = nil)
           response = Excon::Response.new
-          if @data[:domains][domain_name]
+          if self.data[:domains][domain_name]
             object = {}
             if attributes
               for attribute in attributes
-                if @data[:domains][domain_name][item_name] && @data[:domains][domain_name][item_name]
-                  object[attribute] = @data[:domains][domain_name][item_name][attribute]
+                if self.data[:domains][domain_name][item_name] && self.data[:domains][domain_name][item_name]
+                  object[attribute] = self.data[:domains][domain_name][item_name][attribute]
                 end
               end
-            elsif @data[:domains][domain_name][item_name]
-              object = @data[:domains][domain_name][item_name]
+            elsif self.data[:domains][domain_name][item_name]
+              object = self.data[:domains][domain_name][item_name]
             end
             response.status = 200
             response.body = {

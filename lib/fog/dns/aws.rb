@@ -48,12 +48,14 @@ module Fog
           require 'mime/types'
           @aws_access_key_id  = options[:aws_access_key_id]
           @region             = options[:region]
-          @data = self.class.data[@region][@aws_access_key_id]
+        end
+
+        def data
+          self.class.data[@region][@aws_access_key_id]
         end
 
         def reset_data
           self.class.data[@region].delete(@aws_access_key_id)
-          @data = self.class.data[@region][@aws_access_key_id]
         end
 
         def signature(params)

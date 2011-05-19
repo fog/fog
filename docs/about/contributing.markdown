@@ -201,7 +201,7 @@ For instance:
         class Mock
 
           def destroy_server(server_identity)
-            if data = @data[:servers].delete(server_identity)
+            if data = self.data[:servers].delete(server_identity)
               response = Excon::Response.new
               response.status = 202
               response.body   = data

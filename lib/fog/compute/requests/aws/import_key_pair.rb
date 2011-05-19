@@ -34,13 +34,13 @@ module Fog
 
         def import_key_pair(key_name, public_key_material)
           response = Excon::Response.new
-          unless @data[:key_pairs][key_name]
+          unless self.data[:key_pairs][key_name]
             response.status = 200
             data = {
               'keyFingerprint'  => Fog::AWS::Mock.key_fingerprint,
               'keyName'         => key_name
             }
-            @data[:key_pairs][key_name] = data
+            self.data[:key_pairs][key_name] = data
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id
             }.merge!(data)

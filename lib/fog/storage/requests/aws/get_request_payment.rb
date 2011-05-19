@@ -36,7 +36,7 @@ module Fog
 
         def get_request_payment(bucket_name)
           response = Excon::Response.new
-          if bucket = @data[:buckets][bucket_name]
+          if bucket = self.data[:buckets][bucket_name]
             response.status = 200
             response.body = { 'Payer' => bucket['Payer'] }
           else

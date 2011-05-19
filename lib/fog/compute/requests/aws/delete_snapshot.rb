@@ -32,7 +32,7 @@ module Fog
 
         def delete_snapshot(snapshot_id)
           response = Excon::Response.new
-          if snapshot = @data[:snapshots].delete(snapshot_id)
+          if snapshot = self.data[:snapshots].delete(snapshot_id)
             response.status = true
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,

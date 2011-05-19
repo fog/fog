@@ -63,7 +63,7 @@ module Fog
 
           response = Excon::Response.new
 
-          snapshot_set = @data[:snapshots].values
+          snapshot_set = self.data[:snapshots].values
 
           if filters.delete('owner-alias')
             Formatador.display_line("[yellow][WARN] describe_snapshots with owner-alias is not mocked[/] [light_black](#{caller.first})[/]")

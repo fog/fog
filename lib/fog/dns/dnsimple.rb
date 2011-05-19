@@ -45,12 +45,14 @@ module Fog
 
           @dnsimple_email = options[:dnsimple_email]
           @dnsimple_password  = options[:dnsimple_password]
-          @data = self.class.data[@dnsimple_email]
+        end
+
+        def data
+          self.class.data[@dnsimple_email]
         end
 
         def reset_data
           self.class.data.delete(@dnsimple_email)
-          @data = self.class.data[@dnsimple_email]
         end
 
       end

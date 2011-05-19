@@ -46,8 +46,8 @@ module Fog
           if !['private', 'public-read', 'public-read-write', 'authenticated-read'].include?(acl)
             raise Excon::Errors::BadRequest.new('invalid x-goog-acl')
           else
-            @data[:acls][:object][bucket_name] ||= {}
-            @data[:acls][:object][bucket_name][object_name] = self.class.acls(acl)
+            self.data[:acls][:object][bucket_name] ||= {}
+            self.data[:acls][:object][bucket_name][object_name] = self.class.acls(acl)
           end
 
           data = Fog::Storage.parse_data(data)
@@ -55,7 +55,7 @@ module Fog
             data[:body] = data[:body].read
           end
           response = Excon::Response.new
-          if (bucket = @data[:buckets][bucket_name])
+          if (bucket = self.data[:buckets][bucket_name])
             response.status = 200
             object = {
               :body             => data[:body],

@@ -41,7 +41,7 @@ module Fog
         def detach_volume(volume_id, options = {})
           response = Excon::Response.new
           response.status = 200
-          if (volume = @data[:volumes][volume_id]) && !volume['attachmentSet'].empty?
+          if (volume = self.data[:volumes][volume_id]) && !volume['attachmentSet'].empty?
             data = volume['attachmentSet'].pop
             volume['status'] = 'available'
             response.status = 200

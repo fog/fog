@@ -48,7 +48,7 @@ DATA
           if !['private', 'public-read', 'public-read-write', 'authenticated-read'].include?(acl)
             raise Excon::Errors::BadRequest.new('invalid x-amz-acl')
           else
-            @data[:acls][:bucket][bucket_name] = self.class.acls(acl)
+            self.data[:acls][:bucket][bucket_name] = self.class.acls(acl)
           end
 
           response = Excon::Response.new
@@ -65,8 +65,8 @@ DATA
           else
             bucket['LocationConstraint'] = nil
           end
-          unless @data[:buckets][bucket_name]
-            @data[:buckets][bucket_name] = bucket
+          unless self.data[:buckets][bucket_name]
+            self.data[:buckets][bucket_name] = bucket
           end
           response
         end

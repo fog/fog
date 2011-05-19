@@ -29,7 +29,7 @@ module Fog
 
         def create_domain(domain_name)
           response = Excon::Response.new
-          @data[:domains][domain_name] = {}
+          self.data[:domains][domain_name] = {}
           response.status = 200
           response.body = {
             'BoxUsage'  => Fog::AWS::Mock.box_usage,

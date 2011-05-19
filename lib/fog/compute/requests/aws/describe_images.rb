@@ -93,7 +93,7 @@ module Fog
             'virtualization-type' => 'virtualizationType'
           }
           
-          image_set = @data[:images].values
+          image_set = self.data[:images].values
           
           for filter_key, filter_value in filters
             aliased_key = aliases[filter_key]

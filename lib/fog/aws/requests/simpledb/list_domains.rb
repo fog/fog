@@ -34,11 +34,11 @@ module Fog
 
         def list_domains(options = {})
           response = Excon::Response.new
-          keys = @data[:domains].keys
+          keys = self.data[:domains].keys
           max = options['MaxNumberOfDomains'] || keys.size
           offset = options['NextToken'] || 0
           domains = []
-          for key, value in @data[:domains].keys[offset...max]
+          for key, value in self.data[:domains].keys[offset...max]
             domains << key
           end
           response.status = 200

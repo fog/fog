@@ -39,7 +39,7 @@ module Fog
         def get_service
           response = Excon::Response.new
           response.headers['Status'] = 200
-          buckets = @data[:buckets].values.map do |bucket|
+          buckets = self.data[:buckets].values.map do |bucket|
             bucket.reject do |key, value|
               !['CreationDate', 'Name'].include?(key)
             end

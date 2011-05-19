@@ -83,7 +83,7 @@ module Fog
 
           response = Excon::Response.new
 
-          instance_set = @data[:instances].values
+          instance_set = self.data[:instances].values
           instance_set = apply_tag_filters(instance_set, filters)
           
           aliases = {
@@ -166,20 +166,20 @@ module Fog
             when 'rebooting'
               instance['instanceState'] = { 'code' => 16, 'name' => 'running' }
             when 'shutting-down'
-              if Time.now - @data[:deleted_at][instance['instanceId']] >= Fog::Mock.delay * 2
-                @data[:deleted_at].delete(instance['instanceId'])
-                @data[:instances].delete(instance['instanceId'])
-              elsif Time.now - @data[:deleted_at][instance['instanceId']] >= Fog::Mock.delay
+              if Time.now - self.data[:deleted_at][instance['instanceId']] >= Fog::Mock.delay * 2
+                self.data[:deleted_at].delete(instance['instanceId'])
+                self.data[:instances].delete(instance['instanceId'])
+              elsif Time.now - self.data[:deleted_at][instance['instanceId']] >= Fog::Mock.delay
                 instance['instanceState'] = { 'code' => 48, 'name' => 'terminating' }
               end
             when 'terminating'
-              if Time.now - @data[:deleted_at][instance['instanceId']] >= Fog::Mock.delay
-                @data[:deleted_at].delete(instance['instanceId'])
-                @data[:instances].delete(instance['instanceId'])
+              if Time.now - self.data[:deleted_at][instance['instanceId']] >= Fog::Mock.delay
+                self.data[:deleted_at].delete(instance['instanceId'])
+                self.data[:instances].delete(instance['instanceId'])
               end
             end
 
-            if @data[:instances][instance['instanceId']]
+            if self.data[:instances][instance['instanceId']]
 
               reservation_set[instance['reservationId']] ||= {
                 'groupSet'      => instance['groupSet'],

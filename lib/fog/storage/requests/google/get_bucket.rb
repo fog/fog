@@ -64,7 +64,7 @@ module Fog
           response = Excon::Response.new
           name = /(\w+\.?)*/.match(bucket_name)
           if bucket_name == name.to_s
-            if bucket = @data[:buckets][bucket_name]
+            if bucket = self.data[:buckets][bucket_name]
               contents = bucket[:objects].values.sort {|x,y| x['Key'] <=> y['Key']}.reject do |object|
                   (options['prefix'] && object['Key'][0...options['prefix'].length] != options['prefix']) ||
                   (options['marker'] && object['Key'] <= options['marker'])

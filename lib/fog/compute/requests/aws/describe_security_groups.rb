@@ -54,7 +54,7 @@ module Fog
 
           response = Excon::Response.new
 
-          security_group_info = @data[:security_groups].values
+          security_group_info = self.data[:security_groups].values
 
           aliases = {
             'description' => 'groupDescription',

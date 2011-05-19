@@ -31,8 +31,8 @@ module Fog
       class Mock
         def delete_security_group(name)
           response = Excon::Response.new
-          if @data[:security_groups][name]
-            @data[:security_groups].delete(name)
+          if self.data[:security_groups][name]
+            self.data[:security_groups].delete(name)
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,

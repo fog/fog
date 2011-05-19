@@ -82,8 +82,8 @@ module Fog
             'progress'  => 0,
             'status'    => 'BUILD'
           }
-          @data[:last_modified][:servers][data['id']] = Time.now
-          @data[:servers][data['id']] = data
+          self.data[:last_modified][:servers][data['id']] = Time.now
+          self.data[:servers][data['id']] = data
           response.body = { 'server' => data.merge({'adminPass' => 'password'}) }
           response
         end

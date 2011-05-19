@@ -28,11 +28,11 @@ module Fog
         def list_images_detail
           response = Excon::Response.new
 
-          images = @data[:images].values
+          images = self.data[:images].values
           for image in images
             case image['status']
             when 'SAVING'
-              if Time.now - @data[:last_modified][:images][image['id']] >= Fog::Mock.delay
+              if Time.now - self.data[:last_modified][:images][image['id']] >= Fog::Mock.delay
                 image['status'] = 'ACTIVE'
               end
             end

@@ -62,7 +62,7 @@ module Fog
             raise ArgumentError.new('object_name is required')
           end
           response = Excon::Response.new
-          if (bucket = @data[:buckets][bucket_name]) && (object = bucket[:objects][object_name])
+          if (bucket = self.data[:buckets][bucket_name]) && (object = bucket[:objects][object_name])
             if options['If-Match'] && options['If-Match'] != object['ETag']
               response.status = 412
             elsif options['If-Modified-Since'] && options['If-Modified-Since'] > Time.parse(object['Last-Modified'])

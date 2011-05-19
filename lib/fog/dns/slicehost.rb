@@ -43,12 +43,14 @@ module Fog
           end
 
           @slicehost_password = options[:slicehost_password]
-          @data = self.class.data[@slicehost_password]
+        end
+
+        def data
+          self.class.data[@slicehost_password]
         end
 
         def reset_data
           self.class.data.delete(@slicehost_password)
-          @data = self.class.data[@slicehost_password]
         end
 
       end

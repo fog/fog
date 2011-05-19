@@ -38,7 +38,7 @@ module Fog
 
         def domain_metadata(domain_name)
           response = Excon::Response.new
-          if domain = @data[:domains][domain_name]
+          if domain = self.data[:domains][domain_name]
             response.status = 200
           
             attribute_names = []

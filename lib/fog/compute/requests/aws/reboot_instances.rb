@@ -33,9 +33,9 @@ module Fog
         def reboot_instances(instance_id = [])
           response = Excon::Response.new
           instance_id = [*instance_id]
-          if (@data[:instances].keys & instance_id).length == instance_id.length
+          if (self.data[:instances].keys & instance_id).length == instance_id.length
             for instance_id in instance_id
-              @data[:instances][instance_id]['status'] = 'rebooting'
+              self.data[:instances][instance_id]['status'] = 'rebooting'
             end
             response.status = 200
             response.body = {

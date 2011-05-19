@@ -36,7 +36,7 @@ module Fog
           response        = Excon::Response.new
           response.status = 200
           [*instance_ids].each do |instance_id|
-            if instance = @data[:instances][instance_id]
+            if instance = self.data[:instances][instance_id]
               instance['monitoring']['state'] = 'enabled'
             else
               raise Fog::AWS::Compute::NotFound.new("The instance ID '#{instance_ids}' does not exist")

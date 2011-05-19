@@ -253,7 +253,7 @@ end
 
 Spec::Runner.configure do |config|
   config.after(:all) do
-    Fog::Ecloud::Compute::Mock.data_reset
+    Fog::Ecloud::Compute::Mock.reset
   end
 
   config.before(:each, :type => :vcloud_request) do
@@ -261,12 +261,12 @@ Spec::Runner.configure do |config|
   end
 
   config.before(:each, :type => :mock_tmrk_ecloud_request) do
-    Fog::Ecloud::Compute::Mock.data_reset
+    Fog::Ecloud::Compute::Mock.reset
     setup_ecloud_mock_data
     @vcloud = Fog::Ecloud::Compute.new(:ecloud_username => "foo", :ecloud_password => "bar", :ecloud_versions_uri => "http://fakey.com/api/versions")
   end
   config.before(:each, :type => :mock_tmrk_ecloud_model) do
-    Fog::Ecloud::Compute::Mock.data_reset
+    Fog::Ecloud::Compute::Mock.reset
     setup_ecloud_mock_data
     @vcloud = Fog::Ecloud::Compute.new(:ecloud_username => "foo", :ecloud_password => "bar", :ecloud_versions_uri => "http://fakey.com/api/versions")
   end

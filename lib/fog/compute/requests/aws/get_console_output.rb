@@ -34,7 +34,7 @@ module Fog
 
         def get_console_output(instance_id)
           response = Excon::Response.new
-          if instance = @data[:instances][instance_id]
+          if instance = self.data[:instances][instance_id]
             response.status = 200
             response.body = {
               'instanceId'    => instance_id,

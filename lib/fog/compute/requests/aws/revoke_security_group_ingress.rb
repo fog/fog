@@ -56,7 +56,7 @@ module Fog
             group_name = options['GroupName']
           end
           response = Excon::Response.new
-          group = @data[:security_groups][group_name]
+          group = self.data[:security_groups][group_name]
           if group
             if options['SourceSecurityGroupName'] && options['SourceSecurityGroupOwnerId']
               group['ipPermissions'].delete_if {|permission|

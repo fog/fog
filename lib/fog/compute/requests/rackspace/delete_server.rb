@@ -27,8 +27,8 @@ module Fog
               response.status = 409
               raise(Excon::Errors.status_error({:expects => 202}, response))
             else
-              @data[:last_modified][:servers].delete(server_id)
-              @data[:servers].delete(server_id)
+              self.data[:last_modified][:servers].delete(server_id)
+              self.data[:servers].delete(server_id)
               response.status = 202
             end
             response

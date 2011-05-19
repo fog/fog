@@ -33,14 +33,14 @@ module Fog
 
         def create_key_pair(key_name)
           response = Excon::Response.new
-          unless @data[:key_pairs][key_name]
+          unless self.data[:key_pairs][key_name]
             response.status = 200
             data = {
               'keyFingerprint'  => Fog::AWS::Mock.key_fingerprint,
               'keyMaterial'     => Fog::AWS::Mock.key_material,
               'keyName'         => key_name
             }
-            @data[:key_pairs][key_name] = data
+            self.data[:key_pairs][key_name] = data
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id
             }.merge!(data)

@@ -37,7 +37,7 @@ module Fog
           vdc_id = vdc_id.to_i
           response = Excon::Response.new
 
-          if vdc = @data[:organizations].map { |org| org[:vdcs] }.flatten.detect { |vdc| vdc[:id] == vdc_id }
+          if vdc = self.data[:organizations].map { |org| org[:vdcs] }.flatten.detect { |vdc| vdc[:id] == vdc_id }
 
             body = { "name" => vdc[:name],
                      "href" => "#{@base_url}/vdc/#{vdc[:id]}",

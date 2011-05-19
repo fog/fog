@@ -44,7 +44,7 @@ module Fog
 
           response = Excon::Response.new
 
-          addresses_set = @data[:addresses].values
+          addresses_set = self.data[:addresses].values
 
           aliases = {'public-ip' => 'publicIp', 'instance-id' => 'instanceId'}
           for filter_key, filter_value in filters

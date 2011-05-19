@@ -24,11 +24,11 @@ module Fog
           response.status = 202
 
           # keep track of this for reverts
-          @data[:servers][server_id]['old_flavorId'] = @data[:servers][server_id]['flavorId']
+          self.data[:servers][server_id]['old_flavorId'] = self.data[:servers][server_id]['flavorId']
 
-          @data[:servers][server_id]['flavorId'] = flavor_id
-          @data[:last_modified][:servers][server_id] = Time.now
-          @data[:servers][server_id]['status'] = 'VERIFY_RESIZE'
+          self.data[:servers][server_id]['flavorId'] = flavor_id
+          self.data[:last_modified][:servers][server_id] = Time.now
+          self.data[:servers][server_id]['status'] = 'VERIFY_RESIZE'
 
           response
         end

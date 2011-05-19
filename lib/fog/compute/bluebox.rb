@@ -46,12 +46,14 @@ module Fog
           end
 
           @bluebox_api_key = options[:bluebox_api_key]
-          @data = self.class.data[@bluebox_api_key]
+        end
+
+        def data
+          self.class.data[@bluebox_api_key]
         end
 
         def reset_data
           self.class.data.delete(@bluebox_api_key)
-          @data = self.class.data[@bluebox_api_key]
         end
 
       end

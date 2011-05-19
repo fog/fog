@@ -54,7 +54,7 @@ module Fog
 
           response = Excon::Response.new
 
-          volume_set = @data[:volumes].values
+          volume_set = self.data[:volumes].values
           volume_set = apply_tag_filters(volume_set, filters)
           
           aliases = {
@@ -94,13 +94,13 @@ module Fog
                 volume['status'] = 'available'
               end
             when 'deleting'
-              if Time.now - @data[:deleted_at][volume['volumeId']] >= Fog::Mock.delay
-                @data[:deleted_at].delete(volume['volumeId'])
-                @data[:volumes].delete(volume['volumeId'])
+              if Time.now - self.data[:deleted_at][volume['volumeId']] >= Fog::Mock.delay
+                self.data[:deleted_at].delete(volume['volumeId'])
+                self.data[:volumes].delete(volume['volumeId'])
               end
             end
           end
-          volume_set = volume_set.reject {|volume| !@data[:volumes][volume['volumeId']]}
+          volume_set = volume_set.reject {|volume| !self.data[:volumes][volume['volumeId']]}
 
           response.status = 200
           response.body = {

@@ -60,12 +60,14 @@ module Fog
           require 'mime/types'
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
-          @data = self.class.data[@rackspace_username]
+        end
+
+        def data
+          self.class.data[@rackspace_username]
         end
 
         def reset_data
           self.class.data.delete(@rackspace_username)
-          @data = self.class.data[@rackspace_username]
         end
 
       end

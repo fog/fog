@@ -43,20 +43,20 @@ module Fog
           options[:expect] = {} unless options[:expect]
           options[:replace] = [] unless options[:replace]
           response = Excon::Response.new
-          if @data[:domains][domain_name]
+          if self.data[:domains][domain_name]
             options[:expect].each do |ck, cv|
-              if @data[:domains][domain_name][item_name][ck] != [cv]
+              if self.data[:domains][domain_name][item_name][ck] != [cv]
                 response.status = 409
                 raise(Excon::Errors.status_error({:expects => 200}, response))
               end
             end
             attributes.each do |key, value|
-              @data[:domains][domain_name][item_name] ||= {}
-              @data[:domains][domain_name][item_name][key.to_s] = [] unless @data[:domains][domain_name][item_name][key.to_s]
+              self.data[:domains][domain_name][item_name] ||= {}
+              self.data[:domains][domain_name][item_name][key.to_s] = [] unless self.data[:domains][domain_name][item_name][key.to_s]
               if options[:replace].include?(key.to_s)
-                @data[:domains][domain_name][item_name][key.to_s] = [*value].map {|x| x.to_s}
+                self.data[:domains][domain_name][item_name][key.to_s] = [*value].map {|x| x.to_s}
               else
-                @data[:domains][domain_name][item_name][key.to_s] += [*value].map {|x| x.to_s}
+                self.data[:domains][domain_name][item_name][key.to_s] += [*value].map {|x| x.to_s}
               end
             end
             response.status = 200

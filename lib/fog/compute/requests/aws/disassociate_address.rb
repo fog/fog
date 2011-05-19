@@ -33,9 +33,9 @@ module Fog
         def disassociate_address(public_ip)
           response = Excon::Response.new
           response.status = 200
-          if address = @data[:addresses][public_ip]
+          if address = self.data[:addresses][public_ip]
             instance_id = address['instanceId']
-            instance = @data[:instances][instance_id]
+            instance = self.data[:instances][instance_id]
             instance['ipAddress']         = instance['originalIpAddress']
             instance['dnsName']           = Fog::AWS::Mock.dns_name_for(instance['ipAddress'])
             address['instanceId'] = nil

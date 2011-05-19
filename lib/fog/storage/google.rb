@@ -119,6 +119,10 @@ module Fog
           end
         end
 
+        def self.reset
+          @data = nil
+        end
+
         def initialize(options={})
           unless options.delete(:provider)
             location = caller.first
@@ -129,16 +133,14 @@ module Fog
 
           require 'mime/types'
           @google_storage_access_key_id = options[:google_storage_access_key_id]
-          @data = self.class.data[@google_storage_access_key_id]
         end
 
-        def self.reset
-          @data = nil
+        def data
+          self.class.data[@google_storage_access_key_id]
         end
 
         def reset_data
           self.class.data.delete(@google_storage_access_key_id)
-          @data = self.class.data[@google_storage_access_key_id]
         end
 
         def signature(params)

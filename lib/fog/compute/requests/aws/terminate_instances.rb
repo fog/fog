@@ -40,15 +40,15 @@ module Fog
         def terminate_instances(instance_id)
           response = Excon::Response.new
           instance_id = [*instance_id]
-          if (@data[:instances].keys & instance_id).length == instance_id.length
+          if (self.data[:instances].keys & instance_id).length == instance_id.length
             response.body = {
               'requestId'     => Fog::AWS::Mock.request_id,
               'instancesSet'  => []
             }
             response.status = 200
             for id in instance_id
-              instance = @data[:instances][id]
-              @data[:deleted_at][id] = Time.now
+              instance = self.data[:instances][id]
+              self.data[:deleted_at][id] = Time.now
               code = case instance['instanceState']['name']
               when 'pending'
                 0

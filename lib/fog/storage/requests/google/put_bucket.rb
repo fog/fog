@@ -44,7 +44,7 @@ DATA
           if !['private', 'public-read', 'public-read-write', 'authenticated-read'].include?(acl)
             raise Excon::Errors::BadRequest.new('invalid x-goog-acl')
           else
-            @data[:acls][:bucket][bucket_name] = self.class.acls(options[acl])
+            self.data[:acls][:bucket][bucket_name] = self.class.acls(options[acl])
           end
           response = Excon::Response.new
           response.status = 200
@@ -60,8 +60,8 @@ DATA
           else
             bucket['LocationConstraint'] = ''
           end
-          if @data[:buckets][bucket_name].nil?
-            @data[:buckets][bucket_name] = bucket
+          if self.data[:buckets][bucket_name].nil?
+            self.data[:buckets][bucket_name] = bucket
           else
             response.status = 409
             raise(Excon::Errors.status_error({:expects => 200}, response))

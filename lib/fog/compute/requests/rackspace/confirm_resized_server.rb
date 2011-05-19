@@ -21,9 +21,9 @@ module Fog
           response = Excon::Response.new
           response.status = 204
 
-          @data[:servers][server_id].delete('old_flavorId')
-          @data[:last_modified][:servers][server_id] = Time.now
-          @data[:servers][server_id]['status'] = 'ACTIVE'
+          self.data[:servers][server_id].delete('old_flavorId')
+          self.data[:last_modified][:servers][server_id] = Time.now
+          self.data[:servers][server_id]['status'] = 'ACTIVE'
 
           response
         end
