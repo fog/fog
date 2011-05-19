@@ -132,6 +132,10 @@ module Fog
           @data = self.class.data[@google_storage_access_key_id]
         end
 
+        def self.reset
+          @data = nil
+        end
+
         def reset_data
           self.class.data.delete(@google_storage_access_key_id)
           @data = self.class.data[@google_storage_access_key_id]

@@ -19,6 +19,10 @@ module Fog
           end
         end
 
+        def self.reset
+          @data = nil
+        end
+
         def initialize(options={})
           Fog::Mock.not_implemented
 
