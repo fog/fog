@@ -17,6 +17,8 @@ module Fog
         #     * 'output'<~String> - Console output
         #     * 'requestId'<~String> - Id of request
         #     * 'timestamp'<~Time> - Timestamp of last update to output
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-GetConsoleOutput.html]
         def get_console_output(instance_id)
           request(
             'Action'      => 'GetConsoleOutput',

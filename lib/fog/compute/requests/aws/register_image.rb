@@ -31,6 +31,10 @@ module Fog
         #   * body<~Hash>:
         #     * 'imageId'<~String> - Id of newly created AMI
 
+        #
+
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-RegisterImage.html]
+
         def register_image(name, description, location, block_devices=[], options={})
           common_options = {
             'Action'      => 'RegisterImage',

@@ -79,6 +79,8 @@ module Fog
         #     * 'ownerId'<~String> - Id of owner
         #     * 'requestId'<~String> - Id of request
         #     * 'reservationId'<~String> - Id of reservation
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-RunInstances.html]
         def run_instances(image_id, min_count, max_count, options = {})
           if block_device_mapping = options.delete('BlockDeviceMapping')
             block_device_mapping.each_with_index do |mapping, index|

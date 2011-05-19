@@ -12,6 +12,8 @@ module Fog
         #   * body<~Hash>:
         #     * 'publicIp'<~String> - The acquired address
         #     * 'requestId'<~String> - Id of the request
+        #
+        # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-AllocateAddress.html]
         def allocate_address
           request(
             'Action'  => 'AllocateAddress',
