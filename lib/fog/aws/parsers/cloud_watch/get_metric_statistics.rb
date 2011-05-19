@@ -3,7 +3,7 @@ module Fog
     module AWS
       module CloudWatch
 
-        class GetMetricStatisticsResult < Fog::Parsers::Base
+        class GetMetricStatistics < Fog::Parsers::Base
 
           def reset
             @response = { 'GetMetricStatisticsResult' => {'Datapoints' => []}, 'ResponseMetadata' => {} }
@@ -21,16 +21,18 @@ module Fog
           def end_element(name)
             case name  
             when 'Average', 'Maximum', 'Minimum', 'SampleCount', 'Sum'
-              @datapoint[name] = @value.to_f
+              @datapoint[name] = value.to_f
             when 'Unit'
-              @datapoint[name] = @value
+              @datapoint[name] = value
             when 'Timestamp'
-              @datapoint[name] = Time.parse @value
-            when 'Datapoint'
+              @datapoint[name] = Time.parse value
+            when 'member'
               @response['GetMetricStatisticsResult']['Datapoints'] << @datapoint
               reset_datapoint
+            when 'Label'
+              @response['GetMetricStatisticsResult'][name] = value
             when 'RequestId'
-              @response['ResponseMetadata'][name] = @value
+              @response['ResponseMetadata'][name] = value
             end
           end
         end

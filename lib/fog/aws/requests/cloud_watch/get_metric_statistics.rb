@@ -25,6 +25,9 @@ module Fog
         # http://docs.amazonwebservices.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html
         #
         def get_metric_statistics(options={})
+          %w{Statistics StartTime EndTime Period MetricName Namespace}.each do |required_parameter|
+            raise ArgumentError, "Must prodide #{required_parameter}" unless options.has_key?(required_parameter)
+          end
           statistics = options.delete 'Statistics'
           options.merge!(AWS.indexed_param('Statistics.member.%d', [*statistics]))
           
