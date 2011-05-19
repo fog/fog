@@ -959,10 +959,6 @@ module Fog
           "https://fakey.com/api/v0.8b-ext2.6"
         end
 
-        def self.data_reset
-          @mock_data = nil
-        end
-
         def self.data( base_url = self.base_url )
           @mock_data ||= MockData.new.tap do |vcloud_mock_data|
             vcloud_mock_data.versions.clear
@@ -1063,6 +1059,10 @@ module Fog
               end
             end
           end
+        end
+
+        def self.reset
+          @mock_data = nil
         end
 
         def initialize(options = {})
