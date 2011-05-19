@@ -116,7 +116,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
 
-          group_set = [ (options['SecurityGroup'] || 'default') ]
+          group_set = [ (options['SecurityGroup'] || 'default') ].flatten
           instances_set = []
           reservation_id = Fog::AWS::Mock.reservation_id
 
