@@ -120,6 +120,10 @@ module Fog
           instances_set = []
           reservation_id = Fog::AWS::Mock.reservation_id
 
+          if options['KeyName'] && describe_key_pairs('key-name' => options['KeyName']).body['keySet'].empty?
+            raise Fog::AWS::Compute::NotFound.new("The key pair '#{options['KeyName']}' does not exist")
+          end
+
           min_count.times do |i|
             instance_id = Fog::AWS::Mock.instance_id
             instance = {
@@ -132,7 +136,7 @@ module Fog
               'instanceState'       => { 'code' => 0, 'name' => 'pending' },
               'instanceType'        => options['InstanceType'] || 'm1.small',
               'kernelId'            => options['KernelId'] || Fog::AWS::Mock.kernel_id,
-              # 'keyName'             => options['KeyName'],
+              'keyName'             => options['KeyName'],
               'launchTime'          => Time.now,
               'monitoring'          => { 'state' => options['Monitoring.Enabled'] || false },
               'placement'           => { 'availabilityZone' => options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone(@region) },
