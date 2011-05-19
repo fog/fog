@@ -27,21 +27,46 @@ module Fog
         # ==== See Also
         # http://docs.amazonwebservices.com/AmazonCloudWatch/latest/APIReference/API_PutMetricData.html
         #
+        
         def put_metric_data(namespace, metric_data)
-          statistics = options.delete 'Statistics'
-          options.merge!(AWS.indexed_param('Statistics.member.%d', [*statistics]))
+          options = {'Namespace' => namespace}
           
-          if dimensions = options.delete('Dimensions')
-            options.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.collect {|dimension| dimension['Name']}))
-            options.merge!(AWS.indexed_param('Dimensions.member.%d.Value', dimensions.collect {|dimension| dimension['Value']}))
+          #first index the dimensions for any of the datums that have dimensions
+          metric_data.collect! do |metric_datum|
+            if dimensions = metric_datum.delete('Dimensions')
+              metric_datum.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.collect {|dimension| dimension['Name']}))
+              metric_datum.merge!(AWS.indexed_param('Dimensions.member.%d.Value', dimensions.collect {|dimension| dimension['Value']}))
+            end
+            metric_datum
           end
-
+          #then flatten out an hashes in the metric_data array
+          metric_data.collect! { |metric_datum| flatten_hash(metric_datum) }
+          #then index the metric_data array
+          options.merge!(AWS.indexed_param('MetricData.member.%d', [*metric_data]))
+          #then finally flatten out an hashes in the overall options array
+          options = flatten_hash(options)
+          
           request({
-              'Action'    => 'GetMetricStatistics',
-              :parser     => Fog::Parsers::AWS::CloudWatch::GetMetricStatistics.new
+              'Action'    => 'PutMetricData',
+              :parser     => Fog::Parsers::AWS::CloudWatch::PutMetricData.new
             }.merge(options))
         end
-
+        private
+        
+        def flatten_hash(starting)
+          finishing = {}
+          starting.each do |top_level_key, top_level_value|
+            if top_level_value.is_a?(Hash)
+              nested_hash = top_level_value
+              nested_hash.each do |nested_key, nested_value|
+                finishing["#{top_level_key}.#{nested_key}"] = nested_value
+              end
+            else
+              finishing[top_level_key] = top_level_value
+            end
+          end
+          return finishing
+        end
       end
     end
   end
