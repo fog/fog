@@ -176,15 +176,17 @@ task :docs do
   # build the docs locally
   sh "jekyll docs docs/_site"
 
-  # connect to storage provider and write files to versioned 'folder'
+  # connect to storage provider
   Fog.credential = :geemus
   storage = Fog::Storage.new(:provider => 'AWS')
   directory = storage.directories.new(:key => 'fog.io')
+
+  # write web page files to versioned 'folder'
   for file_path in Dir.glob('docs/_site/**/*')
     next if File.directory?(file_path)
     file_name = file_path.gsub('docs/_site/', '')
     key = '' << version << '/' << file_name
-    Formatador.redisplay(' ' * 80) # clear last line
+    Formatador.redisplay(' ' * 128)
     Formatador.redisplay('Uploading ' << key)
     if File.extname(file_name) == '.html'
       # rewrite links with version
@@ -204,6 +206,25 @@ task :docs do
       :public       => true
     )
   end
+  Formatador.redisplay(' ' * 128)
+  Formatador.redisplay('Uploaded docs/_site')
+
+  # write rdoc files to versioned 'folder'
+  Rake::Task[:rdoc].invoke
+  for file_path in Dir.glob('rdoc/**/*')
+    next if File.directory?(file_path)
+    file_name = file_path.gsub('rdoc/', '')
+    key = '' << version << '/rdoc/' << file_name
+    Formatador.redisplay(' ' * 128)
+    Formatador.redisplay('Uploading ' << key)
+    directory.files.create(
+      :body         => File.open(file_path),
+      :key          => key,
+      :public       => true
+    )
+  end
+  Formatador.redisplay(' ' * 128)
+  Formatador.redisplay('Uploaded rdoc')
 
   redirecter = <<-HTML
 <!doctype html>
