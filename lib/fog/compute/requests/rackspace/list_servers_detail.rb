@@ -39,7 +39,7 @@ module Fog
           for server in servers
             case server['status']
             when 'BUILD'
-              if Time.now - self.data[:last_modified][:servers][server['id']] > 2
+              if Time.now - self.data[:last_modified][:servers][server['id']] > Fog::Mock.delay * 2
                 server['status'] = 'ACTIVE'
               end
             end
