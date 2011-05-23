@@ -8,8 +8,8 @@ module Fog
       class Metrics < Fog::Collection
         model Fog::AWS::CloudWatch::Metric
         
-        def all
-          data = connection.list_metrics.body['ListMetricsResult']['Metrics']
+        def all(conditions={})
+          data = connection.list_metrics(conditions).body['ListMetricsResult']['Metrics']
           load(data) # data is an array of attribute hashes
         end
         
