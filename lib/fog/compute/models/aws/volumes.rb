@@ -13,7 +13,7 @@ module Fog
         model Fog::AWS::Compute::Volume
 
         # Used to create a volume.  There are 3 arguments and availability_zone and size are required.  You can generate a new key_pair as follows:
-        # AWS.volumes.create(:availability_zone => 'us-east-1a', :size => 't1.micro')
+        # AWS.volumes.create(:availability_zone => 'us-east-1a', :size => 10)
         #
         # ==== Returns
         #
@@ -25,7 +25,7 @@ module Fog
         #  delete_on_termination=nil,
         #  device=nil,
         #  server_id=nil,
-        #  size="t1.micro",
+        #  size=10,
         #  snapshot_id=nil,
         #  state="creating",
         #  tags=nil
@@ -53,7 +53,7 @@ module Fog
         #  delete_on_termination=nil,
         #  device=nil,
         #  server_id=nil,
-        #  size="t1.micro",
+        #  size=10,
         #  snapshot_id=nil,
         #  state="creating",
         #  tags=nil
@@ -93,7 +93,7 @@ module Fog
         #    delete_on_termination=nil,
         #    device=nil,
         #    server_id=nil,
-        #    size="t1.micro",
+        #    size=10,
         #    snapshot_id=nil,
         #    state="available",
         #    tags={}
