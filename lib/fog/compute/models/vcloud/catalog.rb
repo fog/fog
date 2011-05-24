@@ -1,25 +1,19 @@
 module Fog
   module Vcloud
     class Compute
-      class Catalog < Fog::Vcloud::Collection
+      class Catalog < Fog::Vcloud::Model
 
-        model Fog::Vcloud::Compute::CatalogItem
+        identity :href, :aliases => :Href
 
-        attribute :href, :aliases => :Href
+        ignore_attributes :xmlns, :xmlns_i, :xmlns_xsi, :xmlns_xsd
 
-        def all
-          check_href!
-          if data = connection.get_catalog(href).body[:CatalogItems][:CatalogItem]
-            load(data)
-          end
-        end
+        attribute :type
+        attribute :name
 
-        def get(uri)
-          if data = connection.get_catalog_item(uri)
-            new(data.body)
-          end
-        rescue Fog::Errors::NotFound
-          nil
+        def catalog_items
+          @catalog_items ||= Fog::Vcloud::Compute::CatalogItems.
+            new( :connection => connection,
+                 :href => href )
         end
 
       end

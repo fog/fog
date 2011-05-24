@@ -538,8 +538,11 @@ module Fog
       recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/vcloud'
-      model :catalog_item
       model :catalog
+      require 'fog/compute/models/vcloud/catalog' # why do I need to do this?
+      collection :catalogs
+      model :catalog_item
+      model :catalog_items
       model :ip
       collection :ips
       model :network
