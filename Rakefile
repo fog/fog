@@ -195,6 +195,12 @@ task :docs do
       body.gsub!(/='\//, %{='/} << version << '/')
       body.gsub!(/="\//, %{="/} << version << '/')
       content_type = 'text/html'
+      directory.files.create(
+        :body         => redirecter(key),
+        :content_type => 'text/html',
+        :key          => 'latest/' << file_name,
+        :public       => true
+      )
     else
       body = File.open(file_path)
       content_type = nil # leave it up to mime-types
@@ -224,27 +230,35 @@ task :docs do
     )
   end
   Formatador.redisplay(' ' * 128)
+  directory.files.create(
+    :body         => redirecter("#{version}/rdoc/index.html"),
+    :content_type => 'text/html',
+    :key          => 'latest/rdoc/index.html',
+    :public       => true
+  )
   Formatador.redisplay('Uploaded rdoc')
-
-  redirecter = <<-HTML
-<!doctype html>
-<head>
-<title>fog</title>
-<meta http-equiv="REFRESH" content="0;url=http://fog.io/#{version}">
-</head>
-<body>
-  <a href="http://fog.io/#{version}">redirecting to lastest version => fog #{version}</a>
-</body>
-</html>
-HTML
 
   # write base index with redirect to new version
   directory.files.create(
-    :body         => redirecter,
+    :body         => redirecter(version),
     :content_type => 'text/html',
     :key          => 'index.html',
     :public       => true
   )
 
   Formatador.display_line
+end
+
+def redirecter(path)
+  redirecter = <<-HTML
+<!doctype html>
+<head>
+<title>fog</title>
+<meta http-equiv="REFRESH" content="0;url=http://fog.io/#{path}">
+</head>
+<body>
+  <a href="http://fog.io/#{path}">redirecting to lastest (#{path})</a>
+</body>
+</html>
+HTML
 end
