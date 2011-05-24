@@ -32,7 +32,7 @@ module Fog
         end
 
         def ready?
-          status == 'SUCCEEDED'
+          self.state == 'SUCCEEDED'
         end
 
         def private_ip_address
@@ -49,8 +49,8 @@ module Fog
           true
         end
 
-        def status
-          @status ||= connection.voxcloud_status(id).body['devices'].first['status']
+        def state
+          @state ||= connection.voxcloud_status(id).body['devices'].first['status']
         end
 
         def save

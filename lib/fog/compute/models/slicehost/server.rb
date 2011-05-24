@@ -16,7 +16,7 @@ module Fog
         attribute :image_id,      :aliases => 'image-id'
         attribute :name
         attribute :progress
-        attribute :status
+        attribute :state,         :aliases => 'status'
 
         attr_accessor :password
         alias_method :'root-password=', :password=
@@ -71,7 +71,7 @@ module Fog
         end
 
         def ready?
-          status == 'active'
+          self.state == 'active'
         end
 
         def reboot(type = 'SOFT')

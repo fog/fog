@@ -17,7 +17,7 @@ module Fog
         attribute :image_id
         attribute :ips
         attribute :memory
-        attribute :status
+        attribute :state,       :aliases => :status
         attribute :storage
         attribute :template
 
@@ -73,7 +73,7 @@ module Fog
         end
 
         def ready?
-          status == 'running'
+          self.state == 'running'
         end
 
         def reboot(type = 'SOFT')

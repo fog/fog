@@ -3,6 +3,7 @@ def server_tests(connection, params = {}, mocks_implemented = true)
   model_tests(connection.servers, params, mocks_implemented) do
 
     tests('#reload').returns(true) do
+      pending if Fog.mocking? && !mocks_implemented
       identity = @instance.identity
       !identity.nil? && identity == @instance.reload.identity
     end

@@ -14,12 +14,12 @@ Shindo.tests('Rackspace::Compute | resize request', ['rackspace']) do
       Rackspace[:compute].resize_server(@revert_server.id, 2)
     end
 
-    @confirm_server.wait_for { status == 'VERIFY_RESIZE' }
+    @confirm_server.wait_for { state == 'VERIFY_RESIZE' }
     tests("#confirm_resized_server(#{@confirm_server.id})").succeeds do
       Rackspace[:compute].confirm_resized_server(@confirm_server.id)
     end
 
-    @revert_server.wait_for { status == 'VERIFY_RESIZE' }
+    @revert_server.wait_for { state == 'VERIFY_RESIZE' }
     tests("#revert_resized_server(#{@revert_server.id})").succeeds do
       Rackspace[:compute].revert_resized_server(@revert_server.id)
     end

@@ -10,19 +10,19 @@ module Fog
 
         attribute :url
         attribute :name
-        attribute :status
+        attribute :state,       :aliases => 'status'
         attribute :hostname
-        attribute :created_at, :type => :time
-        attribute :deleted_at, :type => :time
-        attribute :started_at, :type => :time
+        attribute :created_at,  :type => :time
+        attribute :deleted_at,  :type => :time
+        attribute :started_at,  :type => :time
         attribute :user_data
 
         attribute :resource_type
 
-        attribute :account_id, :aliases => "account", :squash => "id"
-        attribute :image_id, :aliases => "image", :squash => "id"
-        attribute :flavor_id, :aliases => "server_type", :squash => "id"
-        attribute :zone_id, :aliases => "zone", :squash => "id"
+        attribute :account_id,  :aliases => "account",      :squash => "id"
+        attribute :image_id,    :aliases => "image",        :squash => "id"
+        attribute :flavor_id,   :aliases => "server_type",  :squash => "id"
+        attribute :zone_id,     :aliases => "zone",         :squash => "id"
 
         attribute :snapshots
         attribute :cloud_ips
@@ -86,7 +86,7 @@ module Fog
         end
 
         def ready?
-          status == 'active'
+          self.state == 'active'
         end
 
         def activate_console

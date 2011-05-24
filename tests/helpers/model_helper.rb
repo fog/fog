@@ -2,9 +2,7 @@ def model_tests(collection, params = {}, mocks_implemented = true)
 
   tests('success') do
 
-    if !Fog.mocking? || mocks_implemented
-      @instance = collection.new(params)
-    end
+    @instance = collection.new(params)
 
     tests("#save").succeeds do
       pending if Fog.mocking? && !mocks_implemented

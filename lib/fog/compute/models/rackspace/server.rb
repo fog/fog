@@ -16,7 +16,7 @@ module Fog
         attribute :name
         attribute :personality
         attribute :progress
-        attribute :status
+        attribute :state,       :aliases => 'status'
 
         attr_reader :password
         attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username
@@ -75,7 +75,7 @@ module Fog
         end
 
         def ready?
-          status == 'ACTIVE'
+          self.state == 'ACTIVE'
         end
 
         def reboot(type = 'SOFT')
