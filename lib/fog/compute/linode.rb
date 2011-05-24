@@ -7,6 +7,22 @@ module Fog
       recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/linode'
+      model :flavor
+      collection :flavors
+      model :image
+      collection :images
+      model :server
+      collection :servers
+      model :kernel
+      collection :kernels
+      model :data_center
+      collection :data_centers
+      model :stack_script
+      collection :stack_scripts
+      model :ip
+      collection :ips
+      model :disk
+      collection :disks
 
       request_path 'fog/compute/requests/linode'
       request :avail_datacenters
@@ -14,14 +30,24 @@ module Fog
       request :avail_kernels
       request :avail_linodeplans
       request :avail_stackscripts
-      # request :linode_boot
+      request :linode_disk_create
+      request :linode_disk_list
+      request :linode_disk_delete
+      request :linode_disk_createfromdistribution
+      request :linode_disk_createfromstackscript     
+      request :linode_ip_list
+      request :linode_ip_addprivate
+      request :linode_config_list
+      request :linode_config_create
       request :linode_create
       request :linode_delete
       request :linode_list
+      request :linode_boot
       request :linode_reboot
-      # request :linode_resize
-      # request :linode_shutdown
-      # request :linode_update
+      request :linode_shutdown
+      request :linode_update
+      request :stackscript_list
+      # request :linode_resize      
 
       class Mock
 

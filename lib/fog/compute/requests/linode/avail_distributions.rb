@@ -11,7 +11,7 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Array>:
-        # TODO: docs
+        # TODO: docs        
         def avail_distributions(distribution_id=nil)
           options = {}
           if distribution_id
@@ -23,7 +23,6 @@ module Fog
             :query    => { :api_action => 'avail.distributions' }.merge!(options)
           )
         end
-
       end
     end
   end

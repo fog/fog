@@ -6,22 +6,23 @@ module Fog
         # Get available kernels
         #
         # ==== Parameters
-        # * options<~Hash>:
-        #   * kernelId<~Integer>: id to limit results to
-        #   * isXen<~Integer>: if 1 limits results to only zen
+        # * kernelId<~Integer>: id to limit results to
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Array>:
         # TODO: docs
-        def avail_kernels(options={})
+        def avail_kernels(kernel_id=nil)
+          options = {}
+          if kernel_id
+            options.merge!(:kernelId => kernel_id)
+          end          
           request(
             :expects  => 200,
             :method   => 'GET',
             :query    => { :api_action => 'avail.kernels' }.merge!(options)
           )
         end
-
       end
     end
   end
