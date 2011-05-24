@@ -3,7 +3,7 @@ module Fog
     class DNS < Fog::Service
 
       requires :dnsimple_email, :dnsimple_password
-      recognizes :host, :path, :port, :scheme, :persistent
+      recognizes :dnsimple_url, :host, :path, :port, :scheme, :persistent
       recognizes :provider # remove post deprecation
 
       model_path 'fog/dns/models/dnsimple'
@@ -71,6 +71,12 @@ module Fog
 
           @dnsimple_email = options[:dnsimple_email]
           @dnsimple_password  = options[:dnsimple_password]
+          if options[:dnsimple_url]
+            uri = URI.parse(options[:dnsimple_url])
+            options[:host]    = uri.host
+            options[:port]    = uri.port
+            options[:scheme]  = uri.scheme
+          end
           @host   = options[:host]    || "dnsimple.com"
           @port   = options[:port]    || 443
           @scheme = options[:scheme]  || 'https'
