@@ -47,7 +47,7 @@ module Fog
           if resource_entities.nil?
             []
           else
-            resource_entities
+            resource_entities.select {|re| re[:type] == 'application/vnd.vmware.vcloud.vApp+xml' }
           end
         end
 
