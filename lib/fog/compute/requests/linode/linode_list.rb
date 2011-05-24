@@ -23,7 +23,6 @@ module Fog
             :query    => { :api_action => 'linode.list' }.merge!(options)
           )
         end
-
       end
     end
   end

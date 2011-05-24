@@ -21,7 +21,6 @@ module Fog
             :query    => { :api_action => 'linode.delete', :linodeId => linode_id }.merge!(options)
           )
         end
-
       end
     end
   end
