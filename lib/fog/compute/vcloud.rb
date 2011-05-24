@@ -294,7 +294,7 @@ module Fog
         def random_ip
           usable_subnet_ips[rand(usable_subnet_ips.length)]
         end
-        
+
         def usable_subnet_ips
           subnet_ips[3..-2]
         end
@@ -627,7 +627,7 @@ module Fog
         include MockDataClasses
 
         def self.base_url
-          "https://fakey.com/api/v0.8b-ext2.6"
+          "https://fakey.com/api/v1.0"
         end
 
         def self.data_reset
@@ -750,10 +750,12 @@ module Fog
           @connections = {}
           @persistent = options[:persistent]
 
-          @host   = options[:vcloud_host]   || Fog::Vcloud::Compute::HOST
-          @path   = options[:vcloud_path]   || Fog::Vcloud::Compute::PATH
-          @port   = options[:vcloud_port]   || Fog::Vcloud::Compute::PORT
-          @scheme = options[:vcloud_scheme] || Fog::Vcloud::Compute::SCHEME
+          @username = options[:vcloud_username]
+          @password = options[:vcloud_password]
+          @host     = options[:vcloud_host]
+          @path     = options[:vcloud_path]   || Fog::Vcloud::Compute::PATH
+          @port     = options[:vcloud_port]   || Fog::Vcloud::Compute::PORT
+          @scheme   = options[:vcloud_scheme] || Fog::Vcloud::Compute::SCHEME
         end
 
         def default_organization_uri
@@ -804,6 +806,10 @@ module Fog
         # Don't need to  set the cookie for these or retry them if the cookie timed out
         def unauthenticated_request(params)
           do_request(params)
+        end
+
+        def base_url
+          "#{@scheme}://#{@host}:#{@port}#{@path}"
         end
 
         # Use this to set the Authorization header for login

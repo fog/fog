@@ -13,7 +13,7 @@ module Fog
             },
             :method   => 'POST',
             :parse    => true,
-            :uri      => login_uri
+            :uri      => "#{base_url}/login"
           })
         end
 
