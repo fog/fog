@@ -106,17 +106,17 @@ Shindo.tests('Linode::Compute | linode requests', ['linode']) do
     tests('#linode_disk_list').formats(@disks_format) do
       pending if Fog.mocking?
       Linode[:compute].linode_disk_list(@linode_id).body
-    end        
+    end
+
+    # tests("#linode_reboot(#{@linode_id})").formats(@reboot_format) do
+    #   Linode[:compute].linode_reboot(@linode_id).body
+    # end    
 
     tests('#linode_disk_delete').formats(@disk_format) do
       pending if Fog.mocking?
       Linode[:compute].linode_disk_delete(@linode_id, @disk1_id).body
       Linode[:compute].linode_disk_delete(@linode_id, @disk2_id).body
     end
-    
-    # tests("#linode_reboot(#{@linode_id})").formats(@reboot_format) do
-    #   Linode[:compute].linode_reboot(@linode_id).body
-    # end
 
     tests('#linode_delete(#{@linode_id})').succeeds do
       pending if Fog.mocking?
