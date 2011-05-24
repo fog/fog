@@ -2,6 +2,16 @@ module Fog
   module Linode
     class Compute
       class Real
+
+        # Get available plans
+        #
+        # ==== Parameters
+        # * linodeplanId<~Integer>: id to limit results to
+        #
+        # ==== Returns
+        # * response<~Excon::Response>:
+        #   * body<~Array>:
+        # TODO: docs        
         def avail_linodeplans(linodeplan_id = nil)
           options = {}
           if linodeplan_id

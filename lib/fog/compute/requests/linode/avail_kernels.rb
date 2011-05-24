@@ -2,6 +2,16 @@ module Fog
   module Linode
     class Compute
       class Real
+
+        # Get available kernels
+        #
+        # ==== Parameters
+        # * kernelId<~Integer>: id to limit results to
+        #
+        # ==== Returns
+        # * response<~Excon::Response>:
+        #   * body<~Array>:
+        # TODO: docs
         def avail_kernels(kernel_id=nil)
           options = {}
           if kernel_id

@@ -2,6 +2,16 @@ module Fog
   module Linode
     class Compute
       class Real
+
+        # Get available stack scripts
+        #
+        # ==== Parameters
+        # * scriptId<~Integer>: id to limit results to
+        #
+        # ==== Returns
+        # * response<~Excon::Response>:
+        #   * body<~Array>:
+        # TODO: docs        
         def stackscript_list(script_id=nil)
           options = {}
           if script_id
