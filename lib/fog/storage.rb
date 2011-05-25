@@ -22,12 +22,14 @@ module Fog
     end
 
     def self.get_body_size(body)
-      case
-      when body.respond_to?(:bytesize)
+      if body.respond_to?(:force_encoding)
+        body.force_encoding('BINARY')
+      end
+      if body.respond_to?(:bytesize)
         body.bytesize
-      when body.respond_to?(:size)
+      elsif body.respond_to?(:size)
         body.size
-      when body.respond_to?(:stat)
+      elsif body.respond_to?(:stat)
         body.stat.size
       else
         0

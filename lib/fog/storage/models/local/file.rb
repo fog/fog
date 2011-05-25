@@ -88,7 +88,7 @@ module Fog
           end
           file.close
           merge_attributes(
-            :content_length => ::File.size(path),
+            :content_length => Fog::Storage.get_body_size(body),
             :last_modified  => ::File.mtime(path)
           )
           true

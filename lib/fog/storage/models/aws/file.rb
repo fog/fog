@@ -117,7 +117,6 @@ module Fog
           options['x-amz-storage-class'] = storage_class if storage_class
 
           data = connection.put_object(directory.key, key, body, options)
-          data.headers.delete('Content-Length')
           data.headers['ETag'].gsub!('"','')
           merge_attributes(data.headers)
           self.content_length = Fog::Storage.get_body_size(body)
