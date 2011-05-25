@@ -170,6 +170,23 @@ Fog takes care of the rest so you can focus on your cover letter. And with the a
     file.destroy
     directory.destroy
 
+## Checking if a file already exists
+
+Sometimes you might want to find out some information about a file without retrieving the whole file. You can do that using 'head'.
+
+    #returns nil if the file doesn't exist
+    unless directory.files.head('resume.html')
+       #do something, like creating the file
+    end
+    
+    #returns a hash with the following data:
+    # 'key' - Key for the object
+    # 'Content-Length' - Size of object contents
+    # 'Content-Type' - MIME type of object
+    # 'ETag' - Etag of object
+    # 'Last-Modified' - Last modified timestamp for object
+    puts directory.files.head('resume.html')
+
 ## Summary
 
 All done. Try out all the different options and let me know if you have any bugs or issues.  I also wrote up a more <a href="https://gist.github.com/710869">consolidated example as a script</a> that you can use for reference.
