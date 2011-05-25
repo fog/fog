@@ -3,8 +3,8 @@ require 'fog/core/credentials'
 module Fog
   class << self
 
-    def providers
-      @providers.select {|provider| eval("::#{provider.to_s.split('::').last}").available?}
+    def available_providers
+      @providers.select {|provider| Kernel.const_get(provider).available?}
     end
 
   end
