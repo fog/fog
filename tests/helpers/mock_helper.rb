@@ -25,7 +25,7 @@ if Fog.mock?
     :google_storage_access_key_id     => 'google_storage_access_key_id',
     :google_storage_secret_access_key => 'google_storage_secret_access_key',
     :linode_api_key                   => 'linode_api_key',
-#    :local_root                       => '~/.fog'
+    :local_root                       => '~/.fog',
     :new_servers_password             => 'new_servers_password',
     :new_servers_username             => 'new_servers_username',
 #    :public_key_path                  => '~/.ssh/id_rsa.pub',

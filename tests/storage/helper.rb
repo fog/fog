@@ -7,7 +7,7 @@ def storage_providers
       :mocked => true
     },
     Local     => {
-      :mocked => true
+      :mocked => false
     },
     Rackspace => {
       :mocked => false

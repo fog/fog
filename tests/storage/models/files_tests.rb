@@ -2,12 +2,12 @@ for provider, config in storage_providers
 
   Shindo.tests("#{provider}::Storage | files", [provider.to_s.downcase]) do
 
-    file_attributes = {
-      :key => 'fog_files_tests',
-      :body => lorem_file
-    }.merge!(config[:file_attributes] || {})
-
     if !Fog.mocking? || config[:mocked]
+
+      file_attributes = {
+        :key => 'fog_files_tests',
+        :body => lorem_file
+      }.merge!(config[:file_attributes] || {})
 
       directory_attributes = {
         :key => 'fogfilestests'
