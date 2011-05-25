@@ -36,10 +36,6 @@ module Fog
                  :href => href + "/tasksList" )
         end
 
-        def catalog
-          @catalog ||= collection_based_on_type("application/vnd.vmware.vcloud.catalog+xml")
-        end
-
         private
 
         def collection_based_on_type(type, klass = nil)

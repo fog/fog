@@ -31,17 +31,17 @@ module Fog
         end
 
         def ready?
-          load_unless_loaded!
-          status == '2'
+          reload # always ensure we have the correct status
+          status != '0' # ready unless creating.
         end
 
         def on?
-          load_unless_loaded!
+          reload # always ensure we have the correct status
           status == '4'
         end
 
         def off?
-          load_unless_loaded!
+          reload # always ensure we have the correct status
           status == '2'
         end
 

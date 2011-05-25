@@ -5,7 +5,7 @@ module Fog
         private
 
         def validate_instantiate_vapp_template_options(catalog_item_uri, options)
-          valid_opts = [:name, :vdc_uri, :network_uri, :cpus, :memory, :row, :group]
+          valid_opts = [:name, :vdc_uri, :network_uri, :cpus, :memory]#, :row, :group]
           unless valid_opts.all? { |opt| options.keys.include?(opt) }
             raise ArgumentError.new("Required data missing: #{(valid_opts - options.keys).map(&:inspect).join(", ")}")
           end
@@ -21,56 +21,59 @@ module Fog
             raise RuntimeError.new("Unable to locate template uri for #{catalog_item_uri}")
           end
 
-          customization_options = begin
-              customization_href = catalog_item[:Link].detect { |link| link[:type] == "application/vnd.vmware.vcloud.catalogItemCustomizationParameters+xml" }[:href]
-              get_customization_options( customization_href ).body
-          rescue
-            raise RuntimeError.new("Unable to get customization options for #{catalog_item_uri}")
-          end
+          # customization_options = begin
+          #     customization_href = catalog_item[:Link].detect { |link| link[:type] == "application/vnd.vmware.vcloud.catalogItemCustomizationParameters+xml" }[:href]
+          #     get_customization_options( customization_href ).body
+          # rescue
+          #   raise RuntimeError.new("Unable to get customization options for #{catalog_item_uri}")
+          # end
 
-          # Check to see if we can set the password
-          if options[:password] and customization_options[:CustomizePassword] == "false"
-            raise ArgumentError.new("This catalog item (#{catalog_item_uri}) does not allow setting a password.")
-          end
+          # # Check to see if we can set the password
+          # if options[:password] and customization_options[:CustomizePassword] == "false"
+          #   raise ArgumentError.new("This catalog item (#{catalog_item_uri}) does not allow setting a password.")
+          # end
 
-          # According to the docs if CustomizePassword is "true" then we NEED to set a password
-          if customization_options[:CustomizePassword] == "true" and ( options[:password].nil? or options[:password].empty? )
-            raise ArgumentError.new("This catalog item (#{catalog_item_uri}) requires a :password to instantiate.")
-          end
+          # # According to the docs if CustomizePassword is "true" then we NEED to set a password
+          # if customization_options[:CustomizePassword] == "true" and ( options[:password].nil? or options[:password].empty? )
+          #   raise ArgumentError.new("This catalog item (#{catalog_item_uri}) requires a :password to instantiate.")
+          # end
         end
 
         def generate_instantiate_vapp_template_request(options)
           xml = Builder::XmlMarkup.new
           xml.InstantiateVAppTemplateParams(xmlns.merge!(:name => options[:name], :"xml:lang" => "en")) {
-            xml.VAppTemplate(:href => options[:template_uri])
-            xml.InstantiationParams {
-              xml.ProductSection( :"xmlns:q1" => "http://www.vmware.com/vcloud/v0.8", :"xmlns:ovf" => "http://schemas.dmtf.org/ovf/envelope/1") {
-                if options[:password]
-                  xml.Property( :xmlns => "http://schemas.dmtf.org/ovf/envelope/1", :"ovf:key" => "password", :"ovf:value" => options[:password] )
-                end
-                xml.Property( :xmlns => "http://schemas.dmtf.org/ovf/envelope/1", :"ovf:key" => "row", :"ovf:value" => options[:row] )
-                xml.Property( :xmlns => "http://schemas.dmtf.org/ovf/envelope/1", :"ovf:key" => "group", :"ovf:value" => options[:group] )
-              }
-              xml.VirtualHardwareSection( :"xmlns:q1" => "http://www.vmware.com/vcloud/v0.8" ) {
-                # # of CPUS
-                xml.Item( :xmlns => "http://schemas.dmtf.org/ovf/envelope/1" ) {
-                  xml.InstanceID(1, :xmlns => "http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData")
-                  xml.ResourceType(3, :xmlns => "http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData")
-                  xml.VirtualQuantity(options[:cpus], :xmlns => "http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData")
-                }
-                # Memory
-                xml.Item( :xmlns => "http://schemas.dmtf.org/ovf/envelope/1" ) {
-                  xml.InstanceID(2, :xmlns => "http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData")
-                  xml.ResourceType(4, :xmlns => "http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData")
-                  xml.VirtualQuantity(options[:memory], :xmlns => "http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData")
-                }
-              }
-              xml.NetworkConfigSection {
-                xml.NetworkConfig {
-                  xml.NetworkAssociation( :href => options[:network_uri] )
-                }
-              }
-            }
+            xml.Description(options[:description])
+            # xml.InstantiationParams {
+            #   xml.ProductSection( :"xmlns:q1" => "http://www.vmware.com/vcloud/v0.8", :"xmlns:ovf" => "http://schemas.dmtf.org/ovf/envelope/1") {
+            #     if options[:password]
+            #       xml.Property( :xmlns => "http://schemas.dmtf.org/ovf/envelope/1", :"ovf:key" => "password", :"ovf:value" => options[:password] )
+            #     end
+            #     xml.Property( :xmlns => "http://schemas.dmtf.org/ovf/envelope/1", :"ovf:key" => "row", :"ovf:value" => options[:row] )
+            #     xml.Property( :xmlns => "http://schemas.dmtf.org/ovf/envelope/1", :"ovf:key" => "group", :"ovf:value" => options[:group] )
+            #   }
+            #   xml.VirtualHardwareSection( :"xmlns:q1" => "http://www.vmware.com/vcloud/v0.8" ) {
+            #     # # of CPUS
+            #     xml.Item( :xmlns => "http://schemas.dmtf.org/ovf/envelope/1" ) {
+            #       xml.InstanceID(1, :xmlns => "http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData")
+            #       xml.ResourceType(3, :xmlns => "http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData")
+            #       xml.VirtualQuantity(options[:cpus], :xmlns => "http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData")
+            #     }
+            #     # Memory
+            #     xml.Item( :xmlns => "http://schemas.dmtf.org/ovf/envelope/1" ) {
+            #       xml.InstanceID(2, :xmlns => "http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData")
+            #       xml.ResourceType(4, :xmlns => "http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData")
+            #       xml.VirtualQuantity(options[:memory], :xmlns => "http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData")
+            #     }
+            #   }
+            #   xml.NetworkConfigSection {
+            #     xml.NetworkConfig {
+            #       xml.NetworkAssociation( :href => options[:network_uri] )
+            #     }
+            #   }
+            # }
+            # The template
+            xml.Source(:href => options[:template_uri])
+            xml.AllEULAsAccepted("true")
           }
         end
       end
@@ -83,10 +86,10 @@ module Fog
 
           request(
             :body     => generate_instantiate_vapp_template_request(options),
-            :expects  => 200,
+            :expects  => 201,
             :headers  => {'Content-Type' => 'application/vnd.vmware.vcloud.instantiateVAppTemplateParams+xml'},
             :method   => 'POST',
-            :uri      => options[:vdc_uri] + '/action/instantiatevAppTemplate',
+            :uri      => options[:vdc_uri] + '/action/instantiateVAppTemplate',
             :parse    => true
           )
         end
@@ -126,8 +129,16 @@ module Fog
                                    :type => "application/vnd.vmware.vcloud.vApp+xml",
                                    :name => vapp.name,
                                    :status => 0,
-                                   :size => 4
+                                   :size => 4,
+                                   :deployed => false
                                    )) {
+            # TODO - tasks!
+            # <Tasks>
+            # <Task status="running" startTime="2011-05-25T12:26:45.296+10:00" operation="Creating Virtual Application test(1150980960)" expiryTime="2011-08-23T12:26:45.296+10:00" endTime="9999-12-31T23:59:59.999+11:00" type="application/vnd.vmware.vcloud.task+xml" href="https://vcd01.esx.dev.int.realestate.com.au/api/v1.0/task/35jxx86xznh0jdjinqo">
+            # <Owner type="application/vnd.vmware.vcloud.vApp+xml" name="test" href="https://vcd01.esx.dev.int.realestate.com.au/api/v1.0/vApp/vapp-1150980960"/>
+            # </Task>
+            # </Tasks>
+
             builder.Link(:rel => "up", :href => vapp._parent.href, :type => "application/vnd.vmware.vcloud.vdc+xml")
           }
         end

@@ -615,7 +615,8 @@ module Fog
         end
 
         def xmlns
-          { "xmlns" => "http://www.vmware.com/vcloud/v0.8",
+          { "xmlns" => "http://www.vmware.com/vcloud/v1",
+            "xmlns:ovf" => "http://schemas.dmtf.org/ovf/envelope/1",
             "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
             "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema" }
         end
