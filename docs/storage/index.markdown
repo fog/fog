@@ -175,11 +175,12 @@ Fog takes care of the rest so you can focus on your cover letter. And with the a
 Sometimes you might want to find out some information about a file without retrieving the whole file. You can do that using 'head'.
 
     #returns nil if the file doesn't exist
-    if directory.files.head('resume.html')
-       #do something
+    unless directory.files.head('resume.html')
+       #do something, like creating the file
     end
     
     #returns a hash with the following data:
+    # 'key' - Key for the object
     # 'Content-Length' - Size of object contents
     # 'Content-Type' - MIME type of object
     # 'ETag' - Etag of object
