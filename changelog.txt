@@ -1,3 +1,110 @@
+0.8.2 05/26/2011 9e6ebb6f7316273eb489f8cb60eb1642e6df357b
+=========================================================
+
+MVP! nightshade427
+
+[aws|compute]
+  better region/zone handling for mocks. thanks geemus
+  indentation fix for last commit. thanks geemus
+  add class level reset for Fog::AWS::Compute::Mock. thanks geemus
+  make mock delay comparison >= so that delay 0 will work properly. thanks geemus
+  respect security zone choice in mocked run_instances     closes #314. thanks geemus
+  respect key_name in mocked run_instances. thanks geemus
+  fix instance format in tests. thanks geemus
+
+[brightbox|compute]
+  fix format for account in tests. thanks geemus
+
+[compute]
+  Test server reloading. thanks Aaron Suggs
+  consistency in #state call and mock test fixes. thanks geemus
+
+[compute|aws]
+  Fix server tests. thanks Aaron Suggs
+  Mock get_password_data request. thanks Aaron Suggs
+  Fix default region when mocking. thanks Aaron Suggs
+  Better key_pair tests. thanks Aaron Suggs
+  Make volumes format more flexible. thanks Aaron Suggs
+
+[core]
+  Fixed credential tests. thanks Aaron Suggs
+  Fix responds_to test helper. thanks Aaron Suggs
+  omit Release commits from changelog. thanks geemus
+  put changelog in clipboard to finish release. thanks geemus
+  more consistent redirector for fog.io. thanks geemus
+  create Fog.available_providers for bin rather than overriding Fog.providers. thanks geemus
+
+[dnsimple|dns]
+  add dnsimple_url param to facilitate using https://test.dnsimple.com     closes #323. thanks geemus
+
+[docs]
+  first pass at compute doc. thanks geemus
+  update version in header/layout. thanks geemus
+  also build/deploy rdocs. thanks geemus
+  make fog.io/latest/foo link to newest versioned docs. thanks geemus
+
+[ecloud]
+  mark bin specs pending unless credentials provided     closes #325. thanks geemus
+
+[local|storage]
+  fixes for pending mocked tests. thanks geemus
+
+[misc]
+  Flatten list of security groups. thanks Dan Peterson
+  Added an example of the head method. thanks Larry Wright
+  Clarified my example. thanks Larry Wright
+  Add a link to fog's Rubydocs. thanks Mathias Meyer
+  :size should be a number in GB, not an instance size (e.g. t1.micro). thanks Michael Conigliaro
+  tests. thanks Nicholas Ricketts
+  added rdoc comments. thanks Nicholas Ricketts
+  Add Amazon API reference link to requests' documentation. thanks Peter Weldon
+  Add reset method to mock classes. thanks anomalousthought
+  Add a reset method to Fog::Mock that resets all providers/services. thanks anomalousthought
+  Add reset method to other providers in addition to Compute providers. thanks anomalousthought
+  Add a reset method to Fog::Mock that resets all providers/services in addition to Compute providers. thanks anomalousthought
+  Public key results are cached, avoid a bug by using that cache. thanks bigfleet
+  0.8.1 changelog. thanks geemus
+  messy first pass at parallelization of testing. thanks geemus
+fix deprecated rdoc rake tasks. thanks geemus
+add mvp suggestion to changelog task. thanks geemus
+  started linode models. thanks nightshade427
+  added images models. thanks nightshade427
+  added kernel modes. thanks nightshade427
+  added datacenters models. thanks nightshade427
+  server provisioning completed. thanks nightshade427
+  server creation and deletion working. thanks nightshade427
+  generalize code. thanks nightshade427
+  creating via stackscripts with callbacks working. thanks nightshade427
+  added shutdown, reboot, boot. thanks nightshade427
+  made config private. thanks nightshade427
+  tests passing. thanks nightshade427
+  revert tests to proper error codes, waiting on fix from linode to support correct error codes. thanks nightshade427
+  code cleanup, tests passing. thanks nightshade427
+  more passing tests. thanks nightshade427
+  more test passing. thanks nightshade427
+  more test passing. thanks nightshade427
+  more test passing. thanks nightshade427
+  more test passing. thanks nightshade427
+  more test passing. thanks nightshade427
+
+[mock]
+  fix Fog::Mock.reset. thanks Dan Peterson
+  error sooner for completely unimplemented services. thanks geemus
+  cleanup and reset related fixes. thanks geemus
+
+[rackspace|compute]
+  make mocks respect Fog::Mock.delay. thanks geemus
+
+[storage]
+  fix/consolidate content-length for utf8. thanks geemus
+
+[tests]
+  add additional fake credentials for mocked tests. thanks geemus
+
+[voxel|compute]
+  fix format for servers in tests. thanks geemus
+
+
 0.8.1 05/13/2011 3a452347a396f0ad1fea7f5475fb3c349b10f527
 =========================================================
 
