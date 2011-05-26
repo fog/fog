@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'date'
-require 'fog'
+require 'lib/fog'
 
 #############################################################################
 #
@@ -52,11 +52,40 @@ task :examples do
   # sh("export FOG_MOCK=true  && bundle exec shindont examples")
 end
 
-task :test => :examples do
-  sh("export FOG_MOCK=true  && bundle exec spec spec") &&
-  sh("export FOG_MOCK=true  && bundle exec shindont tests") &&
-  sh("export FOG_MOCK=false && bundle exec spec spec") &&
-  sh("export FOG_MOCK=false && bundle exec shindont tests")
+task :test do # => :examples do
+  Rake::Task[:mock_tests].invoke
+  Rake::Task[:real_tests].invoke
+end
+
+def tests(mocked)
+  Formatador.display_line
+  sh("export FOG_MOCK=#{mocked} && bundle exec spec spec")
+  Formatador.display_line
+  start = Time.now.to_i
+  threads = []
+  Thread.main[:results] = []
+  Fog.providers.each do |provider|
+    threads << Thread.new do
+      Thread.main[:results] << {
+        :provider => provider,
+        :success  => sh("export FOG_MOCK=#{mocked} && bundle exec shindont +#{provider.downcase}")
+      }
+    end
+  end
+  threads.each do |thread|
+    thread.join
+  end
+  Formatador.display_table(Thread.main[:results].sort {|x,y| x[:provider] <=> y[:provider]})
+  Formatador.display_line("[bold]FOG_MOCK=#{mocked}[/] tests completed in [bold]#{Time.now.to_i - start}[/] seconds")
+  Formatador.display_line
+end
+
+task :mock_tests do
+  tests(true)
+end
+
+task :real_tests do
+  tests(false)
 end
 
 desc "Generate RCov test coverage and open in your browser"
@@ -187,7 +216,7 @@ task :docs do
     file_name = file_path.gsub('docs/_site/', '')
     key = '' << version << '/' << file_name
     Formatador.redisplay(' ' * 128)
-    Formatador.redisplay('Uploading ' << key)
+    Formatador.redisplay("Uploading [bold]#{key}[/]")
     if File.extname(file_name) == '.html'
       # rewrite links with version
       body = File.read(file_path)
@@ -222,7 +251,7 @@ task :docs do
     file_name = file_path.gsub('rdoc/', '')
     key = '' << version << '/rdoc/' << file_name
     Formatador.redisplay(' ' * 128)
-    Formatador.redisplay('Uploading ' << key)
+    Formatador.redisplay("Uploading [bold]#{key}[/]")
     directory.files.create(
       :body         => File.open(file_path),
       :key          => key,
