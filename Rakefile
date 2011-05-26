@@ -281,7 +281,7 @@ task :docs do
 
   # write base index with redirect to new version
   directory.files.create(
-    :body         => redirecter(version),
+    :body         => redirecter('latest'),
     :content_type => 'text/html',
     :key          => 'index.html',
     :public       => true
