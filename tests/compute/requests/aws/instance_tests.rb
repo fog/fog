@@ -4,7 +4,7 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
     # 'architecture'    => String,
     'amiLaunchIndex'      => Integer,
     'blockDeviceMapping'  => [],
-    'clientToken'         => NilClass,
+    'clientToken'         => Fog::Nullable::String,
     'dnsName'             => NilClass,
     'imageId'             => String,
     'instanceId'          => String,
