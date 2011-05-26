@@ -173,9 +173,11 @@ task :changelog do
   last_sha = `cat changelog.txt | head -1`.split(' ').last
   shortlog = `git shortlog #{last_sha}..HEAD`
   changes = {}
+  committers = {}
   for line in shortlog.split("\n")
     if line =~ /^\S/
       committer = line.split(' (', 2).first
+      committers[committer] = 0
     elsif line =~ /^\s*((Merge.*)|(Release.*))?$/
       # skip empty lines, Merge and Release commits
     else
@@ -186,7 +188,17 @@ task :changelog do
       tag = $1 || 'misc'
       changes[tag] ||= []
       changes[tag] << (line << ' thanks ' << committer)
+      committers[committer] += 1
     end
+  end
+
+  for committer, commits in committers.to_a.sort {|x,y| y[1] <=> x[1]}
+    if ['Aaron Suggs', 'geemus', 'Wesley Beary'].include?(committer)
+      next
+    end
+    changelog << "MVP! #{committer}"
+    changelog << ''
+    break
   end
 
   for tag in changes.keys.sort
