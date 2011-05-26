@@ -116,6 +116,7 @@ end
 #############################################################################
 
 task :release => :build do
+  Rake::Task[:changelog].invoke
   unless `git branch` =~ /^\* master$/
     puts "You must be on the master branch to release!"
     exit!
@@ -127,7 +128,6 @@ task :release => :build do
   sh "git push origin v#{version}"
   sh "gem push pkg/#{name}-#{version}.gem"
   Rake::Task[:docs].invoke
-  Rake::Task[:changelog].invoke
 end
 
 task :build => :gemspec do
@@ -184,7 +184,8 @@ task :changelog do
       unless line[-1..-1] == '.'
         line << '.'
       end
-      line.gsub!(/^\s*\[([^\]]*)\] /, '')
+      line.lstrip!
+      line.gsub!(/^\[([^\]]*)\] /, '')
       tag = $1 || 'misc'
       changes[tag] ||= []
       changes[tag] << (line << ' thanks ' << committer)
@@ -193,7 +194,12 @@ task :changelog do
   end
 
   for committer, commits in committers.to_a.sort {|x,y| y[1] <=> x[1]}
-    if ['Aaron Suggs', 'geemus', 'Wesley Beary'].include?(committer)
+    if [
+        'Aaron Suggs',
+        'geemus',
+        'nightshade427',
+        'Wesley Beary'
+      ].include?(committer)
       next
     end
     changelog << "MVP! #{committer}"
@@ -207,6 +213,13 @@ task :changelog do
       changelog << ('  ' << commit)
     end
     changelog << ''
+  end
+
+  old_changelog = File.read('changelog.txt')
+  File.open('changelog.txt', 'w') do |file|
+    file.write(changelog.join("\n"))
+    file.write("\n\n")
+    file.write(old_changelog)
   end
 
   `echo "#{changelog.join("\n")}" | pbcopy`
