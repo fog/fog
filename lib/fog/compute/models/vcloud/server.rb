@@ -42,7 +42,7 @@ module Fog
 
         def off?
           reload # always ensure we have the correct status
-          status == '2'
+          status == '8'
         end
 
         def power_on
