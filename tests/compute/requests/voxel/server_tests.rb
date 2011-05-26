@@ -34,6 +34,7 @@ Shindo.tests('Voxel::Compute | server requests', ['voxel']) do
           'id'    => String,
           'value' => String
         },
+        'position'  => Fog::Nullable::Integer,
         'rack'      => {
           'id'    => String,
           'value' => String
