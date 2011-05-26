@@ -4,12 +4,14 @@
 module Fog
   module Boolean; end
   module Nullable
+    module Boolean; end
     module Integer; end
     module String; end
     module Time; end
   end
 end
 [FalseClass, TrueClass].each {|klass| klass.send(:include, Fog::Boolean)}
+[NilClass, Fog::Boolean].each {|klass| klass.send(:include, Fog::Nullable::Boolean)}
 [NilClass, String].each {|klass| klass.send(:include, Fog::Nullable::String)}
 [NilClass, Time].each {|klass| klass.send(:include, Fog::Nullable::Time)}
 [Integer, NilClass].each {|klass| klass.send(:include, Fog::Nullable::Integer)}
