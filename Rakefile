@@ -96,8 +96,8 @@ task :coverage do
   sh "open coverage/index.html"
 end
 
-require 'rake/rdoctask'
-Rake::RDocTask.new do |rdoc|
+require 'rdoc/task'
+RDoc::Task.new do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title = "#{name} #{version}"
   rdoc.rdoc_files.include('README*')
