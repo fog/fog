@@ -13,6 +13,7 @@ module Fog
         attribute :network_connections, :aliases => :NetworkConnectionSection, :squash => :NetworkConnection
         attribute :os, :aliases => :OperatingSystemSection
         attribute :virtual_hardware, :aliases => :VirtualHardwareSection
+        attribute :description, :aliases => :Description
         attribute :storage_size, :aliases => :size
         attribute :links, :aliases => :Link, :type => :array
 
