@@ -534,7 +534,7 @@ module Fog
       SCHEME = 'https'
 
       requires   :vcloud_username, :vcloud_password, :vcloud_host
-      recognizes :vcloud_port, :vcloud_scheme, :vcloud_path
+      recognizes :vcloud_port, :vcloud_scheme, :vcloud_path, :vcloud_default_vdc
       recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/vcloud'
@@ -597,6 +597,10 @@ module Fog
               nil
             end
           end
+        end
+
+        def default_vdc_href
+          @vdc_href
         end
 
         # login handles the auth, but we just need the Set-Cookie
@@ -754,6 +758,7 @@ module Fog
           @username = options[:vcloud_username]
           @password = options[:vcloud_password]
           @host     = options[:vcloud_host]
+          @vdc_href     = options[:vcloud_default_vdc]
           @path     = options[:vcloud_path]   || Fog::Vcloud::Compute::PATH
           @port     = options[:vcloud_port]   || Fog::Vcloud::Compute::PORT
           @scheme   = options[:vcloud_scheme] || Fog::Vcloud::Compute::SCHEME
