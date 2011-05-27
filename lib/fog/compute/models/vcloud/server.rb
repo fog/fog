@@ -17,6 +17,13 @@ module Fog
         attribute :storage_size, :aliases => :size
         attribute :links, :aliases => :Link, :type => :array
 
+        attribute :vm_data, :aliases => :Children, :squash => :Vm
+
+        def ip_address
+          load_unless_loaded!
+          vm[0][:NetworkConnectionSection][:NetworkConnection][:IpAddress]
+        end
+
         def friendly_status
           load_unless_loaded!
           case status
@@ -74,6 +81,11 @@ module Fog
           connection.delete_vapp( href)
         end
 
+        def vm
+          load_unless_loaded!
+          self.vm_data
+        end
+
         def name=(new_name)
           attributes[:name] = new_name
           @changed = true
@@ -81,20 +93,20 @@ module Fog
 
         def cpus
           if cpu_mess
-            { :count => cpu_mess[:VirtualQuantity].to_i,
-              :units => cpu_mess[:AllocationUnits] }
+            { :count => cpu_mess[:"rasd:VirtualQuantity"].to_i,
+              :units => cpu_mess[:"rasd:AllocationUnits"] }
           end
         end
 
         def cpus=(qty)
           @changed = true
-          cpu_mess[:VirtualQuantity] = qty.to_s
+          cpu_mess[:"rasd:VirtualQuantity"] = qty.to_s
         end
 
         def memory
           if memory_mess
-            { :amount => memory_mess[:VirtualQuantity].to_i,
-              :units => memory_mess[:AllocationUnits] }
+            { :amount => memory_mess[:"rasd:VirtualQuantity"].to_i,
+              :units => memory_mess[:"rasd:AllocationUnits"] }
           end
         end
 
@@ -105,7 +117,7 @@ module Fog
 
         def disks
           disk_mess.map do |dm|
-            { :number => dm[:AddressOnParent], :size => dm[:VirtualQuantity].to_i, :resource => dm[:HostResource] }
+            { :number => dm[:"rasd:AddressOnParent"], :size => dm[:"rasd:VirtualQuantity"].to_i, :resource => dm[:"rasd:HostResource"] }
           end
         end
 
@@ -170,24 +182,29 @@ module Fog
           }
         end
 
+        def virtual_hardware_section
+          load_unless_loaded!
+          vm[0][:"ovf:VirtualHardwareSection"][:"ovf:Item"]
+        end
+
         def memory_mess
           load_unless_loaded!
-          if virtual_hardware && virtual_hardware[:Item]
-            virtual_hardware[:Item].detect { |item| item[:ResourceType] == "4" }
+          if virtual_hardware_section
+            virtual_hardware_section.detect { |item| item[:"rasd:ResourceType"] == "4" }
           end
         end
 
         def cpu_mess
           load_unless_loaded!
-          if virtual_hardware && virtual_hardware[:Item]
-            virtual_hardware[:Item].detect { |item| item[:ResourceType] == "3" }
+          if virtual_hardware_section
+            virtual_hardware_section.detect { |item| item[:"rasd:ResourceType"] == "3" }
           end
         end
 
         def disk_mess
           load_unless_loaded!
-          if virtual_hardware && virtual_hardware[:Item]
-            virtual_hardware[:Item].select { |item| item[:ResourceType] == "17" }
+          if virtual_hardware_section
+            virtual_hardware_section.select { |item| item[:"rasd:ResourceType"] == "17" }
           else
             []
           end
