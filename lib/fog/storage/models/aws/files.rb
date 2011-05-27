@@ -70,7 +70,7 @@ module Fog
           when /<Code>NoSuchKey<\/Code>/
             nil
           when /<Code>NoSuchBucket<\/Code>/
-            raise(Fog::AWS::DNS::NotFound.new("Directory #{directory.identity} does not exist."))
+            raise(Fog::AWS::Storage::NotFound.new("Directory #{directory.identity} does not exist."))
           else
             raise(error)
           end
