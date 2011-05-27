@@ -33,11 +33,11 @@ As an example, we'll try initializing and persisting a Rackspace Cloud server:
 
     require 'fog'
 
-    compute = Fog::Compute.new(
+    compute = Fog::Compute.new({
       :provider           => 'Rackspace',
       :rackspace_api_key  => key,
       :rackspace_username => username
-    )
+    })
 
     # boot a gentoo server (flavor 1 = 256, image 3 = gentoo 2008.0)
     server = compute.servers.create(:flavor_id => 1, :image_id => 3, :name => 'my_server')

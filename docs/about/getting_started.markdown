@@ -22,10 +22,10 @@ Now we can start writing our script, first off we should require fog.
 
 Now in order to play with our data we need to setup a storage connection.
 
-    storage = Fog::Storage.new(
+    storage = Fog::Storage.new({
       :local_root => '~/fog',
       :provider   => 'Local',
-    )
+    })
 
 `storage` will now contain our storage object, configured to use the Local provider from our specified directory.
 
@@ -70,11 +70,11 @@ Using the same interface you can also practice working against a real provider (
 This time we will turn on mocking and then, just like before, we will need to make a connection.
 
     Fog.mock!
-    storage = Fog::Storage.new(
+    storage = Fog::Storage.new({
       :aws_access_key_id      => 'fake_access_key_id',
       :aws_secret_access_key  => 'fake_secret_access_key',
       :provider               => 'AWS'
-    )
+    })
 
 You may notice that we used bogus credentials, this is fine since we are just simulating things.  To use real S3 you can simply omit `Fog.mock!` and swap in your real credentials.
 

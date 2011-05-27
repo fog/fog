@@ -33,11 +33,11 @@ First, create a connection with your new account:
     require 'fog'
 
     # create a connection
-    connection = Fog::Storage.new(
+    connection = Fog::Storage.new({
       :provider                 => 'AWS',
       :aws_secret_access_key    => YOUR_SECRET_ACCESS_KEY,
       :aws_access_key_id        => YOUR_SECRET_ACCESS_KEY_ID
-    )
+    })
 
     # First, a place to contain the glorious details
     directory = connection.directories.create(
@@ -72,11 +72,11 @@ directory = connection.directories.get("proclamations1234567890")
     file.save
 
     # also, create(attributes) is just new(attributes).save, so you can also do:
-    file = directory.files.new(
+    file = directory.files.new({
       :key    => 'resume.html',
       :body   => 'improvements',
       :public => true
-    )
+    })
     file.save
 
 ## Backing up your files
@@ -129,21 +129,21 @@ More clouds? How much extra stuff will you have to do for these services!?! Hard
 
 Sign up <a href="http://gs-signup-redirect.appspot.com/">here</a> and get your credentials <a href="https://sandbox.google.com/storage/m/">here</a>.
 
-    connection = Fog::Storage.new(
+    connection = Fog::Storage.new({
       :provider                         => 'Google',
       :google_storage_secret_access_key => YOUR_SECRET_ACCESS_KEY,
       :google_storage_access_key_id     => YOUR_SECRET_ACCESS_KEY_ID
-    )
+    })
 
 ## Rackspace CloudFiles
 
 Rackspace has <a href="http://www.rackspacecloud.com/cloud_hosting_products/files">Cloud Files</a> and you can sign up <a href="https://www.rackspacecloud.com/signup">here</a> and get your credentials <a href="https://manage.rackspacecloud.com/APIAccess.do">here</a>.
 
-    connection = Fog::Storage.new(
+    connection = Fog::Storage.new({
       :provider           => 'Rackspace',
       :rackspace_username => RACKSPACE_USERNAME,
       :rackspace_api_key  => RACKSPACE_API_KEY
-    )
+    })
 
 Then create, save, destroy as per fog-for-AWS. The `:public => true` option when creating directories (see above) is important for Rackspace; your folder and files won't be shared to Rackspace's CDN and hence your users without it.  Similarly the `:public =&gt; true` on files is important for AWS and Google or they will be private.
 
@@ -151,10 +151,10 @@ Then create, save, destroy as per fog-for-AWS. The `:public => true` option when
 
 While you are working out the kinks you might not want to do everything live though, ditto for while you are running tests, so you have a couple options to try before you buy.  First, you can use a local provider to store things in a directory on your machine.
 
-    connection = Fog::Storage.new(
+    connection = Fog::Storage.new({
       :provider   => 'Local',
       :local_root => '~/fog'
-    )
+    })
 
 ## Mocking out Cloud Storage
 
