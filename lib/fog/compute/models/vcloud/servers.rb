@@ -28,8 +28,6 @@ module Fog
 
         def create( catalog_item_uri, options )
           options[:vdc_uri] = href
-          options[:cpus] ||= 1
-          options[:memory] ||= 512
           data = connection.instantiate_vapp_template( catalog_item_uri, options ).body
           object = new(data)
           object
