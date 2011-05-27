@@ -40,6 +40,10 @@ module Fog
           if instance && address
             address['instanceId'] = instance_id
             instance['originalIpAddress'] = instance['ipAddress']
+            # detach other address (if any)
+            if self.data[:addresses][instance['originalIpAddress']]
+              self.data[:addresses][instance['originalIpAddress']]['instanceId'] = nil
+            end
             instance['ipAddress'] = public_ip
             instance['dnsName'] = Fog::AWS::Mock.dns_name_for(public_ip)
             response.status = 200
