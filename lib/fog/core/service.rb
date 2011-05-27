@@ -24,6 +24,9 @@ module Fog
 
       def inherited(child)
         child.class_eval <<-EOS, __FILE__, __LINE__
+          class Error < Fog::Service::Error; end
+          class NotFound < Fog::Service::NotFound; end
+
           module Collections
             include Fog::Service::Collections
 
