@@ -5,6 +5,9 @@ module Fog
     class DNS
 
       class Record < Fog::Model
+        extend Fog::Deprecation
+        deprecate :ip, :value
+        deprecate :ip=, :value=
 
         identity :id
 
@@ -12,7 +15,7 @@ module Fog
         attribute :domain_id,   :aliases => 'domain-id'
         attribute :domain
         attribute :type
-        attribute :ip,          :aliases => 'content'
+        attribute :value,       :aliases => 'content'
 
         def initialize(attributes={})
           super
@@ -29,11 +32,11 @@ module Fog
         end
 
         def save
-          requires :zone, :type, :name, :ip
+          requires :zone, :type, :name, :value
           data = unless identity
-            connection.create_record(zone.identity, type, name, ip)
+            connection.create_record(zone.identity, type, name, value)
           else
-            connection.update_record(zone.identity, identity, {:type => type, :name => name, :content => ip})
+            connection.update_record(zone.identity, identity, {:type => type, :name => name, :content => value})
           end
           merge_attributes(data.body)
           true

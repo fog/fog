@@ -5,11 +5,14 @@ module Fog
     class DNS
 
       class Record < Fog::Model
+        extend Fog::Deprecation
+        deprecate :ip, :value
+        deprecate :ip=, :value=
 
         identity :id
 
         attribute :active
-        attribute :ip,          :aliases => 'ip'
+        attribute :value,       :aliases => 'ip'
         attribute :name
         attribute :description, :aliases => 'aux'
         attribute :ttl
@@ -43,12 +46,12 @@ module Fog
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          requires :ip, :name, :type, :zone
+          requires :name, :type, :value, :zone
           options = {}
           options[:active]  = active ? 'Y' : 'N'
           options[:aux]     = description if description
           options[:ttl]     = ttl if ttl
-          data = connection.create_record(type, zone.id, name, ip, options)
+          data = connection.create_record(type, zone.id, name, value, options)
           merge_attributes(data.body)
           true
         end

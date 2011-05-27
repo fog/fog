@@ -5,11 +5,14 @@ module Fog
     class DNS
 
       class Record < Fog::Model
+        extend Fog::Deprecation
+        deprecate :ip, :value
+        deprecate :ip=, :value=
 
         identity :id
 
         attribute :name
-        attribute :ip,          :aliases => "content"
+        attribute :value,       :aliases => "content"
         attribute :ttl
         attribute :created_at
         attribute :updated_at
@@ -32,17 +35,17 @@ module Fog
         end
 
         def save
-          requires :name, :type, :ip
+          requires :name, :type, :value
           options = {}
           options[:prio] = priority if priority
           options[:ttl]  = ttl if ttl
 
           # decide whether its a new record or update of an existing
           if id.nil?
-            data = connection.create_record(zone.domain, name, type, ip, options)
+            data = connection.create_record(zone.domain, name, type, value, options)
           else
             options[:name] = name if name
-            options[:content] = ip if ip
+            options[:content] = value if value
             options[:type] = type if type
             data = connection.update_record(zone.domain, id, options)
           end

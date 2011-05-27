@@ -5,10 +5,13 @@ module Fog
     class DNS
 
       class Record < Fog::Model
+        extend Fog::Deprecation
+        deprecate :ip, :value
+        deprecate :ip=, :value=
 
         identity :id,         :aliases => ['ResourceID', 'RESOURCEID']
 
-        attribute :ip,        :aliases => 'TARGET'
+        attribute :value,     :aliases => 'TARGET'
         attribute :name,      :aliases => 'NAME'
         attribute :priority,  :aliases => 'PRIORITY'
         attribute :ttl,       :aliases => 'TTL_SEC'
@@ -44,7 +47,7 @@ module Fog
           #                        types. default: udp
           options[:name]      = name if name
           options[:priority]  = priority if priority
-          options[:target]    = ip if ip
+          options[:target]    = value if value
           options[:ttl_sec]   = ttl if ttl
           response = unless identity
             connection.domain_resource_create(zone.identity, type, options)

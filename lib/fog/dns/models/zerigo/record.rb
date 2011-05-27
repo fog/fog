@@ -5,11 +5,14 @@ module Fog
     class DNS
 
       class Record < Fog::Model
+        extend Fog::Deprecation
+        deprecate :ip, :value
+        deprecate :ip=, :value=
 
         identity :id
 
         attribute :created_at,  :aliases => 'created-at'
-        attribute :ip,          :aliases => 'data'
+        attribute :value,       :aliases => 'data'
         attribute :domain,      :aliases => 'fqdn'
         attribute :name,        :aliases => 'hostname'
         attribute :description, :aliases => 'notes'
@@ -35,14 +38,14 @@ module Fog
         end
 
         def save
-          requires :zone, :type, :ip
+          requires :zone, :type, :value
           options = {}
           options[:hostname]  = name if name
           options[:notes]     = description if description
           options[:priority]  = priority if priority
           options[:ttl]       = ttl if ttl
           data = unless identity
-            connection.create_host(@zone.id, type, ip, options)
+            connection.create_host(@zone.id, type, value, options)
           else
             options[:host_type] = type
             options[:data]      = data

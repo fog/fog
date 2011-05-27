@@ -3,9 +3,9 @@ for provider, config in dns_providers
   Shindo.tests("#{provider}::DNS | records", [provider.to_s.downcase]) do
 
     record_attributes = {
-      :ip => '1.2.3.4',
-      :name => 'www.fogrecordstests.com',
-      :type => 'A'
+      :name   => 'www.fogrecordstests.com',
+      :type   => 'A',
+      :value  => '1.2.3.4'
     }.merge!(config[:record_attributes] || {})
 
     if !Fog.mocking? || config[:mocked]
