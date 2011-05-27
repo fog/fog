@@ -25,11 +25,11 @@ First, create a connection with your new account:
     require 'fog'
 
     # create a connection
-    connection = Fog::Compute.new(
+    connection = Fog::Compute.new({
       :provider                 => 'AWS',
       :aws_secret_access_key    => YOUR_SECRET_ACCESS_KEY,
       :aws_access_key_id        => YOUR_SECRET_ACCESS_KEY_ID
-    )
+    })
 
 With that in hand we are ready to start making EC2 calls!
 
@@ -75,11 +75,11 @@ These return an array of results, where each has stdout, stderr and status value
 Rackspace has <a href="http://www.rackspacecloud.com/cloud_hosting_products/servers">Cloud Servers</a> and you can sign up <a href="https://www.rackspacecloud.com/signup">here</a> and get your credentials <a href="https://manage.rackspacecloud.com/APIAccess.do">here</a>.
 
     # create a connection
-    connection = Fog::Compute.new(
+    connection = Fog::Compute.new({
       :provider           => 'Rackspace',
       :rackspace_username => RACKSPACE_USERNAME,
       :rackspace_api_key  => RACKSPACE_API_KEY
-    )
+    })
 
 We will skip over learning how to do this the 'Rackspace Way' and instead jump right to using bootstrap to get their smallest Ubuntu 10.04 LTS server.
 
