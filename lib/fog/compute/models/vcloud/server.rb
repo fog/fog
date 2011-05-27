@@ -22,7 +22,7 @@ module Fog
           case status
           when '0'
             'creating'
-          when '2'
+          when '8'
             'off'
           when '4'
             'on'
