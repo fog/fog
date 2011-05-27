@@ -227,13 +227,28 @@ task :changelog do
 end
 
 task :docs do
-  # build the docs locally
-  sh "jekyll docs docs/_site"
+  Rake::Task[:upload_fog_io].invoke
+  Rake::Task[:upload_rdoc].invoke
 
+  # write base index with redirect to new version
+  directory.files.create(
+    :body         => redirecter('latest'),
+    :content_type => 'text/html',
+    :key          => 'index.html',
+    :public       => true
+  )
+
+  Formatador.display_line
+end
+
+task :upload_fog_io do
   # connect to storage provider
   Fog.credential = :geemus
   storage = Fog::Storage.new(:provider => 'AWS')
   directory = storage.directories.new(:key => 'fog.io')
+
+  # build the docs locally
+  sh "jekyll docs docs/_site"
 
   # write web page files to versioned 'folder'
   for file_path in Dir.glob('docs/_site/**/*')
@@ -267,7 +282,14 @@ task :docs do
     )
   end
   Formatador.redisplay(' ' * 128)
-  Formatador.redisplay('Uploaded docs/_site')
+  Formatador.redisplay("Uploaded docs/_site\n")
+end
+
+task :upload_rdoc do
+  # connect to storage provider
+  Fog.credential = :geemus
+  storage = Fog::Storage.new(:provider => 'AWS')
+  directory = storage.directories.new(:key => 'fog.io')
 
   # write rdoc files to versioned 'folder'
   Rake::Task[:rdoc].invoke
@@ -290,17 +312,7 @@ task :docs do
     :key          => 'latest/rdoc/index.html',
     :public       => true
   )
-  Formatador.redisplay('Uploaded rdoc')
-
-  # write base index with redirect to new version
-  directory.files.create(
-    :body         => redirecter('latest'),
-    :content_type => 'text/html',
-    :key          => 'index.html',
-    :public       => true
-  )
-
-  Formatador.display_line
+  Formatador.redisplay("Uploaded rdoc\n")
 end
 
 def redirecter(path)
