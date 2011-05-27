@@ -21,7 +21,7 @@ For this first example we will use Zerigo (see below for how to use other provid
       :provider     => 'Zerigo',
       :zerigo_email => ZERIGO_EMAIL,
       :zerigo_token => ZERIGO_TOKEN
-    }
+    })
 
 ## Getting in the Zone
 
@@ -68,11 +68,11 @@ You can add more specifics if you need to, but reasonable defaults make it just 
 
 If you already have an account with another service you can just as easily use this same code with different credentials. fog currently supports <a href="http://aws.amazon.com/route53/">AWS Route 53</a>, <a href="http://bluebox.net">Blue Box</a>, <a href="http://dnsimple.com">DNSimple</a>, <a href="http://www.linode.com">Linode</a>, <a href="http://www.slicehost.com">Slicehost</a> and <a href="http://www.zerigo.com/managed-dns">Zerigo</a>; so you can have your pick.  As an example you can connect to AWS instead of Zerigo:
 
-    dns = Fog::DNS.new(
+    dns = Fog::DNS.new({
       :provider               => 'AWS',
       :aws_access_key_id      => AWS_ACCESS_KEY_ID,
       :aws_secret_access_key  => AWS_SECRET_ACCESS_KEY
-    )
+    })
 
 ## Go Forth and Resolve
 
