@@ -65,8 +65,15 @@ module Fog
           })
           normalise_headers(file_data)
           new(file_data)
-        rescue Excon::Errors::NotFound
-          nil
+        rescue Excon::Errors::NotFound => error
+          case error.message
+          when /<Code>NoSuchKey<\/Code>/
+            nil
+          when /<Code>NoSuchBucket<\/Code>/
+            raise(Fog::AWS::DNS::NotFound.new("Directory #{directory.identity} does not exist."))
+          else
+            raise(error)
+          end
         end
 
         def get_url(key, expires)
