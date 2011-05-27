@@ -94,7 +94,9 @@ module Fog
     end
 
     def new(attributes = {})
-      raise ArgumentError, "Initialization parameters must be an attributes hash, got #{attributes.inspect}" unless attributes.respond_to? :merge
+      unless attributes.is_a?(Hash)
+        raise(ArgumentError.new("Initialization parameters must be an attributes hash, got #{attributes.inspect}"))
+      end
       model.new(
         attributes.merge(
           :collection => self,
