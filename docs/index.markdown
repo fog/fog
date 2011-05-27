@@ -61,7 +61,7 @@ Wonder how you can get a lovely fog shirt? Look no further!
 Enjoy, and let me know what I can do to continue improving fog!
 
 * Work through the [fog tutorial](https://github.com/downloads/geemus/learn_fog/learn_fog.tar.gz)
-* Read fog's [API documentation](/latest/rdoc)
+* Read fog's [API documentation](/rdoc)
 * Stay up to date by following [@fog](http://twitter.com/fog) and/or [@geemus](http://twitter.com/geemus) on Twitter.
 * Get and give help on the [#ruby-fog](irc://irc.freenode.net/ruby-fog) irc channel on Freenode
 * Follow release notes and discussions on the [mailing list](http://groups.google.com/group/ruby-fog)
