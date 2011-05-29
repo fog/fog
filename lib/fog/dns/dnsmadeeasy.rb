@@ -95,7 +95,7 @@ module Fog
 
           @dnsmadeeasy_api_key = options[:dnsmadeeasy_api_key]
           @dnsmadeeasy_secret_key = options[:dnsmadeeasy_secret_key]
-          @host     = options[:host]      || 'api.sandbox.dnsmadeeasy.com'
+          @host     = options[:host]      || 'api.dnsmadeeasy.com'
           @port     = options[:port]      || 80 #443 Not yet
           @scheme   = options[:scheme]    || 'http' #'https Not yet
           unless options.has_key?(:persistent)
