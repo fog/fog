@@ -23,6 +23,9 @@ def dns_providers
     },
     DNSimple  => {
       :mocked => false
+    },
+    DNSMadeEasy  => {
+      :mocked => false
     }
   }
 end
