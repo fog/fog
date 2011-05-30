@@ -112,10 +112,12 @@ module Fog
 
         def memory=(amount)
           @changed = true
-          memory_mess[:VirtualQuantity] = amount.to_s
+          @update_memory_value = amount
+          amount
         end
 
         def disks
+          pp disk_mess
           disk_mess.map do |dm|
             { :number => dm[:"rasd:AddressOnParent"], :size => dm[:"rasd:VirtualQuantity"].to_i, :resource => dm[:"rasd:HostResource"] }
           end
@@ -162,9 +164,14 @@ module Fog
                 raise RuntimeError, "Can't save cpu, name or memory changes while the VM is on."
               end
             end
-            connection.configure_vapp( href, _compose_vapp_data )
+            if @update_memory_value
+              memory_mess[:"rasd:VirtualQuantity"] = @update_memory_value.to_s
+              connection.configure_vm_memory(memory_mess)
+            end
+            #connection.configure_vapp( href, _compose_vapp_data )
           end
           reset_tracking
+          true
         end
 
         def destroy
@@ -183,6 +190,7 @@ module Fog
         def reset_tracking
           @disk_change = false
           @changed = false
+          @update_memory_value = nil
         end
 
         def _compose_vapp_data
