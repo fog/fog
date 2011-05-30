@@ -109,6 +109,7 @@ module Fog
       request :power_on
       request :power_reset
       request :power_shutdown
+      request :undeploy
 
       class Mock
         def request(options)
