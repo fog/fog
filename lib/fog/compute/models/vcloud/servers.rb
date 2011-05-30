@@ -13,7 +13,6 @@ module Fog
         attribute :href, :aliases => :Href
 
         def all
-          self.href = connection.default_vdc_href unless self.href
           check_href!(:parent => "Vdc")
           load(_vapps)
         end
@@ -27,6 +26,7 @@ module Fog
         end
 
         def create( catalog_item_uri, options )
+          check_href!
           options[:vdc_uri] = href
           data = connection.instantiate_vapp_template( catalog_item_uri, options ).body
           object = new(data)
