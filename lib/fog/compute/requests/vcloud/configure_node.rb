@@ -33,24 +33,6 @@ module Fog
         end
 
       end
-
-      class Mock
-        include Shared
-
-        def configure_node(node_uri, node_data)
-          validate_node_data(node_data, true)
-
-          if node = mock_data.public_ip_internet_service_node_from_href(ensure_unparsed(node_uri))
-            node.update(node_data)
-            #if node_data[:enabled] 
-            #  node.enabled = (node_data[:enabled] == "true") ? true : false
-            #end
-            mock_it 200, mock_node_service_response(node), { 'Content-Type' => 'application/vnd.vmware.vcloud.nodeService+xml' }
-          else
-            mock_error 200, "401 Unauthorized"
-          end
-        end
-      end
     end
   end
 end

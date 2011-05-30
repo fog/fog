@@ -41,24 +41,6 @@ module Fog
           }
         end
       end
-
-      class Mock
-        include Shared
-
-        def configure_network_ip(network_ip_uri, network_ip_data)
-          validate_network_ip_data(network_ip_data)
-
-          if network_ip = mock_data.network_ip_from_href(network_ip_uri)
-
-            builder = Builder::XmlMarkup.new
-            xml = network_ip_response(builder, network_ip, xmlns)
-
-            mock_it 200, xml, { 'Content-Type' => 'application/vnd.vmware.vcloud.ip+xml' }
-          else
-            mock_error 200, "401 Unauthorized"
-          end
-        end
-      end
     end
   end
 end

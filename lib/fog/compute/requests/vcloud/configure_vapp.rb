@@ -107,38 +107,6 @@ module Fog
         end
 
       end
-
-      class Mock
-        include Shared
-
-        def configure_vapp(vapp_uri, vapp_data)
-          validate_vapp_data(vapp_data)
-
-          if vapp = mock_data.virtual_machine_from_href(vapp_uri)
-            vapp_data.each do |key, value|
-              case key
-              when :cpus, :memory
-                vapp[key] = value
-              when :disks
-                addresses_to_delete = vapp.disks.map {|d| d.address } - value.map {|d| d[:number] }
-                addresses_to_delete.each do |address_to_delete|
-                  vapp.disks.delete(vapp.disks.at_address(address_to_delete))
-                end
-
-                current_addresses = vapp.disks.map {|d| d.address }
-                disks_to_add = value.find_all {|d| !current_addresses.include?(d[:number]) }
-                disks_to_add.each do |disk_to_add|
-                  vapp.disks << MockVirtualMachineDisk.new(:size => disk_to_add[:size] / 1024, :address => disk_to_add[:number])
-                end
-              end
-            end
-
-            mock_it 200, '', { "Location" => mock_data.base_url + "/some_tasks/1234" }
-          else
-            mock_error 200, "401 Unauthorized"
-          end
-        end
-      end
     end
   end
 end
