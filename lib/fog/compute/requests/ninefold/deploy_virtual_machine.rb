@@ -9,15 +9,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def deploy_virtual_machine(*args)
-          Fog::Mock.not_implemented
-        end
-
-      end
-
     end
   end
 end

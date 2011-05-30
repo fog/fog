@@ -9,15 +9,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def list_public_ip_addresses(*args)
-          Fog::Mock.not_implemented
-        end
-
-      end
-
     end
   end
 end

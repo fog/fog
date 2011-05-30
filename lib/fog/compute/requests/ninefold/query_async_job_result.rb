@@ -9,15 +9,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def query_async_job_result(*args)
-          Fog::Mock.not_implemented
-        end
-
-      end
-
     end
   end
 end

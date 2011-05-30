@@ -9,15 +9,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def list_ip_forwarding_rules(*args)
-          Fog::Mock.not_implemented
-        end
-
-      end
-
     end
   end
 end

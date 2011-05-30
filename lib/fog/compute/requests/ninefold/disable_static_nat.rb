@@ -9,15 +9,6 @@ module Fog
         end
 
       end
-
-      class Mock
-
-        def disable_static_nat(*args)
-          Fog::Mock.not_implemented
-        end
-
-      end
-
     end
   end
 end
