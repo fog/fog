@@ -108,7 +108,7 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2010-07-01'
+              :version            => '2011-04-05'
           }
           )
           begin
