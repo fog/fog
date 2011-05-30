@@ -18,6 +18,8 @@ module Fog
         #     * 'DescribeLoadBalancersResult'<~Hash>:
         #       * 'LoadBalancerDescriptions'<~Array>
         #         * 'AvailabilityZones'<~Array> - list of availability zones covered by this load balancer
+        #         * 'CanonicalHostedZoneName'<~String> - name of the Route 53 hosted zone associated with the load balancer
+        #         * 'CanonicalHostedZoneNameID'<~String> - ID of the Route 53 hosted zone associated with the load balancer
         #         * 'CreatedTime'<~Time> - time load balancer was created
         #         * 'DNSName'<~String> - external DNS name of load balancer
         #         * 'HealthCheck'<~Hash>:
@@ -37,6 +39,9 @@ module Fog
         #         * 'Policies'<~Hash>:
         #           * 'LBCookieStickinessPolicies'<~Array> - list of Load Balancer Generated Cookie Stickiness policies for the LoadBalancer
         #           * 'AppCookieStickinessPolicies'<~Array> - list of Application Generated Cookie Stickiness policies for the LoadBalancer
+        #         * 'SourceSecurityGroup'<~Hash>:
+        #           * 'GroupName'<~String> - Name of the source security group to use with inbound security group rules
+        #           * 'OwnerAlias'<~String> - Owner of the source security group
         def describe_load_balancers(lb_name = [])
           params = AWS.indexed_param('LoadBalancerNames.member', [*lb_name])
           request({

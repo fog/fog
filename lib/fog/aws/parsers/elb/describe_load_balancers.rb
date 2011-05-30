@@ -14,7 +14,7 @@ module Fog
           end
 
           def reset_load_balancer
-            @load_balancer = { 'ListenerDescriptions' => [], 'Instances' => [], 'AvailabilityZones' => [], 'Policies' => {'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [] }, 'HealthCheck' => {} }
+            @load_balancer = { 'ListenerDescriptions' => [], 'Instances' => [], 'AvailabilityZones' => [], 'Policies' => {'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [] }, 'HealthCheck' => {}, 'SourceSecurityGroup' => {} }
           end
 
           def reset_listener_description
@@ -66,7 +66,7 @@ module Fog
                 reset_load_balancer
               end
 
-            when 'LoadBalancerName', 'DNSName'
+            when 'CanonicalHostedZoneName', 'CanonicalHostedZoneNameID', 'LoadBalancerName', 'DNSName'
               @load_balancer[name] = value
             when 'CreatedTime'
               @load_balancer[name] = Time.parse(value)
@@ -94,6 +94,9 @@ module Fog
               @in_app_cookies = false
             when 'LBCookieStickinessPolicies'
               @in_lb_cookies = false
+
+            when 'OwnerAlias', 'GroupName'
+              @load_balancer['SourceSecurityGroup'][name] = value
 
             when 'Interval', 'HealthyThreshold', 'Timeout', 'UnhealthyThreshold'
               @load_balancer['HealthCheck'][name] = value.to_i
