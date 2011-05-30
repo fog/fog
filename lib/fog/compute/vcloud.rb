@@ -10,6 +10,7 @@ module Fog
       end
 
       def check_href!(opts = {})
+        self.href = connection.default_vdc_href unless href
         unless href
           if opts.is_a?(String)
             t = Hash.new

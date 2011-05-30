@@ -69,16 +69,16 @@ module Fog
           power_operation( :power_reset => :reset )
         end
 
+        # This is the real power-off operation
+        def undeploy
+          connection.undeploy href
+        end
+
         def graceful_restart
           requires :href
           shutdown
           wait_for { off? }
           power_on
-        end
-
-        def delete
-          requires :href
-          connection.delete_vapp( href)
         end
 
         def vm
@@ -166,6 +166,17 @@ module Fog
           end
           reset_tracking
         end
+
+        def destroy
+          if on?
+            undeploy
+            wait_for { off? }
+          end
+          wait_for { off? } # be sure..
+          sleep 2 # API lies. need to give it some time to be happy.
+          connection.delete_vapp(href).body[:status] == "running"
+        end
+        alias :delete :destroy
 
         private
 
