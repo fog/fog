@@ -16,7 +16,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
     tests('create') do
       elb = AWS[:elb].load_balancers.create(:id => elb_id)
       tests("dns names is set").returns(true) { elb.dns_name.is_a?(String) }
-      tests("created_at is set").returns(true) { (Time.now-10..Time.now).include? elb.created_at }
+      tests("created_at is set").returns(true) { Time === elb.created_at }
       tests("policies is empty").returns([]) { elb.policies }
     end
 
