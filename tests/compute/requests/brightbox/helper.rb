@@ -162,7 +162,7 @@ class Brightbox
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
           "interface"       => Fog::Brightbox::Nullable::Interface,
           "load_balancer"   => Fog::Brightbox::Nullable::LoadBalancer,
-          "server"          => Fog::Nullable::String
+          "server"          => Fog::Brightbox::Nullable::Server
         }
 
         IMAGE = {
@@ -270,8 +270,8 @@ class Brightbox
           "library_ftp_host" => String,
           "library_ftp_user" => String,
           "library_ftp_password" => Fog::Nullable::String,
-          "verified_telephone" => Fog::Nullable::Boolean,
-          "verified_at"     => Fog::Nullable::Time,
+          "verified_telephone" => Fog::Nullable::String,
+          "verified_at"     => Fog::Nullable::String,
           "verified_ip"     => Fog::Nullable::String,
           "owner"           => Brightbox::Compute::Formats::Nested::USER,
           "users"           => [Brightbox::Compute::Formats::Nested::USER],
