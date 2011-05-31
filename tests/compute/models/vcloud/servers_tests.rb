@@ -41,6 +41,40 @@ Shindo.tests("Vcloud::Compute | servers", ['vcloud']) do
     @svr.reload.memory[:amount]
   end
 
+  tests("#svr.add_disk(4096)").returns([2, "4096"]) do
+    pending if Fog.mocking?
+    raise 'Server template already has two disks' if @svr.disks.size == 2
+    @svr.wait_for { ready? }
+    @svr.add_disk(4096)
+    @svr.save
+    @svr.wait_for { ready? }
+    # Can take a little while for the VM to know it has different ram, and not tied to a task..
+    (1..20).each do |i|
+      break if @svr.reload.disks.size == 2
+      sleep 1
+    end
+    [
+     @svr.disks.size,
+     @svr.disks[1][:resource][:vcloud_capacity]
+    ]
+  end
+
+  tests("#svr.delete_disk(1)").returns(1) do
+    pending if Fog.mocking?
+    raise "Server doesn't have two disks - did previous step fail? " if @svr.disks.size != 2
+    @svr.wait_for { ready? }
+    sleep 5 # otherwise complains about being busy
+    @svr.delete_disk 1
+    @svr.save
+    @svr.wait_for { ready? }
+    # Can take a little while for the VM to know it has different ram, and not tied to a task..
+    (1..20).each do |i|
+      break if @svr.reload.disks.size == 1
+      sleep 1
+    end
+    @svr.disks.size
+  end
+
   tests("#svr.destroy").raises(Excon::Errors::Forbidden) do
     pending if Fog.mocking?
     @svr.destroy

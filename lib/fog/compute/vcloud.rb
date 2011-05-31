@@ -90,6 +90,7 @@ module Fog
       request :configure_network_ip
       request :configure_vapp
       request :configure_vm_memory
+      request :configure_vm_disks
       request :delete_vapp
       request :get_catalog
       request :get_catalog_item
@@ -103,6 +104,7 @@ module Fog
       request :get_task_list
       request :get_vapp
       request :get_vapp_template
+      request :get_vm_disks
       request :get_vm_memory
       request :get_vdc
       request :instantiate_vapp_template

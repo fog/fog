@@ -128,11 +128,14 @@ module Fog
           if @disk_change == :deleted
             raise RuntimeError, "Can't add a disk w/o saving changes or reloading"
           else
-            @disk_change = :added
             load_unless_loaded!
-            virtual_hardware[:Item] << { :ResourceType => '17',
-                                         :AddressOnParent => (disk_mess.map { |dm| dm[:AddressOnParent] }.sort.last.to_i + 1).to_s,
-                                         :VirtualQuantity => size.to_s }
+            @disk_change = :added
+
+            @add_disk = {
+              :'rasd:HostResource' => {:vcloud_capacity => size},
+              :'rasd:AddressOnParent' =>  (disk_mess.map { |dm| dm[:'rasd:AddressOnParent'] }.sort.last.to_i + 1).to_s,
+              :'rasd:ResourceType' => '17'
+            }
           end
           true
         end
@@ -141,10 +144,10 @@ module Fog
           if @disk_change == :added
             raise RuntimeError, "Can't delete a disk w/o saving changes or reloading"
           else
-            @disk_change = :deleted
             load_unless_loaded!
             unless number == 0
-              virtual_hardware[:Item].delete_if { |vh| vh[:ResourceType] == '17' && vh[:AddressOnParent].to_i == number }
+              @disk_change = :deleted
+              @remove_disk = number
             end
           end
           true
@@ -169,6 +172,18 @@ module Fog
               memory_mess[:"rasd:VirtualQuantity"] = @update_memory_value.to_s
               connection.configure_vm_memory(memory_mess)
             end
+            if @disk_change == :deleted
+              data = disk_mess.delete_if do |vh|
+                vh[:'rasd:ResourceType'] == '17' &&
+                  vh[:'rasd:AddressOnParent'].to_s == @remove_disk.to_s
+              end
+              connection.configure_vm_disks(vm_href, data)
+            end
+            if @disk_change == :added
+              data = disk_mess
+              data << @add_disk
+              connection.configure_vm_disks(vm_href, data)
+            end
             #connection.configure_vapp( href, _compose_vapp_data )
           end
           reset_tracking
@@ -186,6 +201,14 @@ module Fog
           connection.delete_vapp(href).body[:status] == "running"
         end
         alias :delete :destroy
+
+        def vm_href
+          load_unless_loaded!
+          #require 'pp'
+          #pp vm_data
+          #vm_data[0][:Link].select {|v| v[:rel] == 'edit'}[0][:href]
+          vm_data.kind_of?(Array)? vm_data[0][:href] : vm_data[:href]
+        end
 
         private
 
