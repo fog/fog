@@ -19,6 +19,8 @@ module Fog
 
         def get(uri)
           if data = connection.get_vapp(uri)
+            # If no tasks returned, set a mock entry to flush on reload
+            data.body[:Tasks] = {} unless data.body[:Tasks]
             new(data.body)
           end
         rescue Fog::Errors::NotFound

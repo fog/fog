@@ -16,6 +16,7 @@ module Fog
         attribute :description, :aliases => :Description
         attribute :storage_size, :aliases => :size
         attribute :links, :aliases => :Link, :type => :array
+        attribute :tasks, :aliases => :Tasks, :type => :array
 
         attribute :vm_data, :aliases => :Children, :squash => :Vm
 
@@ -39,17 +40,18 @@ module Fog
         end
 
         def ready?
-          reload # always ensure we have the correct status
-          status != '0' # ready unless creating.
+          reload_status # always ensure we have the correct status
+          running_tasks = tasks && tasks.flatten.any? {|ti| ti.kind_of?(Hash) && ti[:status] == 'running' }
+          status != '0' && !running_tasks # 0 is provisioning, and no running tasks
         end
 
         def on?
-          reload # always ensure we have the correct status
+          reload_status # always ensure we have the correct status
           status == '4'
         end
 
         def off?
-          reload # always ensure we have the correct status
+          reload_status # always ensure we have the correct status
           status == '8'
         end
 
@@ -117,7 +119,6 @@ module Fog
         end
 
         def disks
-          pp disk_mess
           disk_mess.map do |dm|
             { :number => dm[:"rasd:AddressOnParent"], :size => dm[:"rasd:VirtualQuantity"].to_i, :resource => dm[:"rasd:HostResource"] }
           end
@@ -180,6 +181,7 @@ module Fog
             wait_for { off? }
           end
           wait_for { off? } # be sure..
+          wait_for { ready? } # be doubly sure..
           sleep 2 # API lies. need to give it some time to be happy.
           connection.delete_vapp(href).body[:status] == "running"
         end
@@ -238,6 +240,10 @@ module Fog
             raise e unless e.to_s =~ /because it is already powered o(n|ff)/
           end
           true
+        end
+
+        def reload_status
+          self.status = connection.get_vapp(href).body[:status]
         end
 
       end
