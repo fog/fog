@@ -61,6 +61,8 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :zerigo_token:
   :dnsimple_email:
   :dnsimple_password:
+  :dnsmadeeasy_api_key:
+  :dnsmadeeasy_secret_key:
 #
 # End of Fog Credentials File
 #######################################################

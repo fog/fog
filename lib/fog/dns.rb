@@ -13,6 +13,9 @@ module Fog
       when 'DNSimple'
         require 'fog/dns/dnsimple'
         Fog::DNSimple::DNS.new(attributes)
+      when 'DNSMadeEasy'
+        require 'fog/dns/dnsmadeeasy'
+        Fog::DNSMadeEasy::DNS.new(attributes)
       when 'Linode'
         require 'fog/dns/linode'
         Fog::Linode::DNS.new(attributes)
