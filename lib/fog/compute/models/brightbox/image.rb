@@ -22,6 +22,7 @@ module Fog
         attribute :description
         attribute :public
         attribute :official
+        attribute :compatibility_mode
         attribute :virtual_size
         attribute :disk_size
         attribute :created_at
