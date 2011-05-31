@@ -162,7 +162,7 @@ class Brightbox
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
           "interface"       => Fog::Brightbox::Nullable::Interface,
           "load_balancer"   => Fog::Brightbox::Nullable::LoadBalancer,
-          "server"          => Fog::Nullable::String
+          "server"          => Fog::Brightbox::Nullable::Server
         }
 
         IMAGE = {
