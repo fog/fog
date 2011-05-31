@@ -1,0 +1,52 @@
+Shindo.tests("Vcloud::Compute | servers", ['vcloud']) do
+
+  tests("#server.new('#{Vcloud::Compute::TestSupport::template}')").returns(true) do
+    pending if Fog.mocking?
+    @svr = Vcloud.servers.create(Vcloud::Compute::TestSupport::template, :name => 'fog_test_run', :password => 'password')
+    print "Waiting for server to be ready"
+    @svr.wait_for(1200) { print '.' ; ready? }
+    puts ""
+    @svr.ready?
+  end
+
+  tests("#svr.power_on()").returns(true) do
+    pending if Fog.mocking?
+    @svr.power_on
+    @svr.wait_for { on? }
+    @svr.wait_for { ready? }
+    @svr.on?
+  end
+
+  # Power off only stops the OS, doesn't free up resources. #undeploy is for this.
+  tests("#svr.undeploy()").returns(true) do
+    pending if Fog.mocking?
+    @svr.undeploy
+    @svr.wait_for { off? }
+    @svr.wait_for { ready? }
+    @svr.off?
+  end
+
+  tests("#svr.memory(384)").returns(384) do
+    pending if Fog.mocking?
+    raise 'Server template memory already 384m - change to something different' if @svr.memory[:amount] == 384
+    @svr.wait_for { ready? }
+    @svr.memory = 384
+    @svr.save
+    @svr.wait_for { ready? }
+    # Can take a little while for the VM to know it has different ram, and not tied to a task..
+    (1..20).each do |i|
+      break if @svr.reload.memory[:amount] == '384'
+      sleep 1
+    end
+    @svr.reload.memory[:amount]
+  end
+
+  tests("#svr.destroy").raises(Excon::Errors::Forbidden) do
+    pending if Fog.mocking?
+    @svr.destroy
+    sleep 5 # allow cleanup..
+    Vcloud.servers.get(@svr.href) == nil
+  end
+
+
+end
