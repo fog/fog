@@ -58,7 +58,7 @@ module Fog
         #
         # ==== Parameters
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
-        #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1'i, 'ap-southeast-1']
+        #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1', 'ap-northeast-1', 'ap-southeast-1']
         #
         # ==== Returns
         # * ELB object with connection to AWS.
@@ -108,7 +108,7 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2010-07-01'
+              :version            => '2011-04-05'
           }
           )
           begin

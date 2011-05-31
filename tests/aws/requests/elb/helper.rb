@@ -7,14 +7,17 @@ class AWS
       }
 
       LOAD_BALANCER = {
-        "CreatedTime" => Time,
-        "ListenerDescriptions" => Array,
-        "HealthCheck" => {"HealthyThreshold" => Integer, "Timeout" => Integer, "UnhealthyThreshold" => Integer, "Interval" => Integer, "Target" => String},
-        "Policies" => {"LBCookieStickinessPolicies" => Array, "AppCookieStickinessPolicies" => Array},
         "AvailabilityZones" => Array,
+        "CanonicalHostedZoneName" => String,
+        "CanonicalHostedZoneNameID" => String,
+        "CreatedTime" => Time,
         "DNSName" => String,
-        "LoadBalancerName"=> String,
-        "Instances"=> Array
+        "HealthCheck" => {"HealthyThreshold" => Integer, "Timeout" => Integer, "UnhealthyThreshold" => Integer, "Interval" => Integer, "Target" => String},
+        "Instances" => Array,
+        "ListenerDescriptions" => Array,
+        "LoadBalancerName" => String,
+        "Policies" => {"LBCookieStickinessPolicies" => Array, "AppCookieStickinessPolicies" => Array},
+        "SourceSecurityGroup" => {"GroupName" => String, "OwnerAlias" => String},
       }
 
       CREATE_LOAD_BALANCER = BASIC.merge({

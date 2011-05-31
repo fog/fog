@@ -6,11 +6,12 @@ module Fog
       class LoadBalancer < Fog::Model
 
         identity  :id,                    :aliases => 'LoadBalancerName'
-        attribute :created_at,            :aliases => 'CreatedTime'
-        attribute :health_check,          :aliases => 'HealthCheck'
-        attribute :dns_name,              :aliases => 'DNSName'
         attribute :availability_zones,    :aliases => 'AvailabilityZones'
+        attribute :created_at,            :aliases => 'CreatedTime'
+        attribute :dns_name,              :aliases => 'DNSName'
+        attribute :health_check,          :aliases => 'HealthCheck'
         attribute :instances,             :aliases => 'Instances'
+        attribute :source_group,          :aliases => 'SourceSecurityGroup'
 
         def initialize(attributes={})
           attributes[:availability_zones] ||= %w(us-east-1a us-east-1b us-east-1c us-east-1d)
