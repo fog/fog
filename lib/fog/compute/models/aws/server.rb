@@ -166,7 +166,7 @@ module Fog
         end
 
         def setup(credentials = {})
-          requires :identity, :ip_address, :username
+          requires :identity, :public_ip_address, :username
           require 'json'
 
           commands = [
@@ -181,7 +181,7 @@ module Fog
           Timeout::timeout(120) do
             begin
               Timeout::timeout(4) do
-                Fog::SSH.new(ip_address, username, credentials).run(commands)
+                Fog::SSH.new(public_ip_address, username, credentials).run(commands)
               end
             rescue Net::SSH::AuthenticationFailed, Timeout::Error
               retry
