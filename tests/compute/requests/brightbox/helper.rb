@@ -55,13 +55,16 @@ class Brightbox
       module Nested
         ACCOUNT = {
           "name"            => String,
-          "ram_used"        => Integer,
           "resource_type"   => String,
-          "ram_limit"       => Integer,
           "url"             => String,
           "id"              => String,
           "status"          => String,
-          "limits_cloudips" => Integer
+          "ram_limit"       => Integer,
+          "ram_used"        => Integer,
+          "cloud_ips_limit" => Integer,
+          "cloud_ips_used"  => Integer,
+          "load_balancers_limit" => Integer,
+          "load_balancers_used" => Integer
         }
 
         API_CLIENT = {
@@ -266,7 +269,10 @@ class Brightbox
           "created_at"      => String,
           "ram_limit"       => Integer,
           "ram_used"        => Integer,
-          "limits_cloudips" => Integer,
+          "cloud_ips_limit" => Integer,
+          "cloud_ips_used"  => Integer,
+          "load_balancers_limit" => Integer,
+          "load_balancers_used" => Integer,
           "library_ftp_host" => String,
           "library_ftp_user" => String,
           "library_ftp_password" => Fog::Nullable::String,
