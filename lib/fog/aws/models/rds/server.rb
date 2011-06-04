@@ -45,7 +45,7 @@ module Fog
           state == 'available'
         end
    
-        def destroy(snapshot_identifier)
+        def destroy(snapshot_identifier=nil)
           requires :id
           connection.delete_db_instance(id, snapshot_identifier, snapshot_identifier.nil?)
           true
