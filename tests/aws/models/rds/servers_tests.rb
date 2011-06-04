@@ -1,9 +1,8 @@
 Shindo.tests("AWS::RDS | servers", ['aws', 'rds']) do
 
-  params = {:id => uniq_id, :allocated_storage => 5, :engine => 'mysql',
-    :master_username => 'foguser', :password => 'fogpassword',
-    :backup_retention_period => 0
-  }
+  pending if Fog.mocking?
 
-  collection_tests(AWS[:rds].servers, params, false)
+  collection_tests(AWS[:rds].servers, rds_default_server_params, false) do
+    @instance.wait_for { ready? }
+  end
 end

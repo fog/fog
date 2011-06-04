@@ -3,6 +3,7 @@ Shindo.tests("AWS::RDS | parameter_group", ['aws', 'rds']) do
   group_name = 'fog-test'
   params = {:id => group_name, :family => 'mysql5.1', :description => group_name}
 
+  pending if Fog.mocking?
   model_tests(AWS[:rds].parameter_groups, params, false) do
     tests('#parameters') do
       #search for a sample parameter

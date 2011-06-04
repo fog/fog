@@ -2,11 +2,11 @@ Shindo.tests("AWS::RDS | security_group", ['aws', 'rds']) do
   group_name = 'fog-test'
   params = {:id => group_name, :description => 'fog test'}
 
+  pending if Fog.mocking?
   model_tests(AWS[:rds].security_groups, params, false) do
 
     tests("#description").returns('fog test') { @instance.description }
-    # TODO:
-    tests("#ready?")
+
     tests("#authorize_ec2_security_group").succeeds do
       @ec2_sec_group = AWS[:compute].security_groups.create(:name => 'fog-test', :description => 'fog test')
 
