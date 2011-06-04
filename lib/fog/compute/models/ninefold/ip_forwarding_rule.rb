@@ -47,6 +47,7 @@ module Fog
         end
 
         def save
+          raise "Operation not supported" if self.identity
           requires :ipaddressid
           requires :protocol
           requires :startport
