@@ -17,6 +17,7 @@ module Fog
       request :get_domain
       request :create_domain
       request :delete_domain
+      request :delete_all_domains
 
       request :list_records
       request :create_record
