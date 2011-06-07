@@ -3,7 +3,7 @@ module Fog
     class SimpleDB < Fog::Service
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :nil_string, :path, :port, :scheme, :persistent
+      recognizes :host, :nil_string, :path, :port, :scheme, :persistent, :region
 
       request_path 'fog/aws/requests/simpledb'
       request :batch_put_attributes
