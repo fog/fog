@@ -12,8 +12,7 @@ module Fog
         #
         # ==== Parameters
         # * domain<~String> Domain name.
-        # * id<~Integer> Record id.
-        # * data<~String> Record data
+        # * record_id<~Integer> Record id.
         # * options<~Hash>
         #   * name<~String> Record name.
         #   * type<~String> Record type. Values: A, AAAA, CNAME, HTTPRED, MX, NS, PTR, SRV, TXT
@@ -42,14 +41,13 @@ module Fog
         #     * redirectType<~String>
         #     * hardLink<~Boolean>
         #   * 'status'<~Integer> - 201 - record successfully created, 400 - record not valid, see errors in response content, 404 - domain not found
-        def update_record(domain, id, options = {})
-          delete_record(domain, id)
-
-          name = options.delete(:name) {|el|''}
-          type = options.delete(:type)
-          ip = options.delete(:ip)
-
-          create_record(domain, name, type, ip, options)
+        def update_record(domain, record_id, options = {})
+          request(
+            :expects  => 200,
+            :method   => "PUT",
+            :path     => "/V1.2/domains/#{domain}/records/#{record_id}",
+            :body     => options.to_json
+          )
         end
 
       end
