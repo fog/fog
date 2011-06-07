@@ -72,7 +72,8 @@ class Brightbox
           "resource_type"   => String,
           "url"             => String,
           "name"            => String,
-          "description"     => String
+          "description"     => String,
+          "revoked_at"      => Fog::Nullable::String
         }
 
         CLOUD_IP = {
@@ -152,6 +153,7 @@ class Brightbox
           "url"             => String,
           "name"            => String,
           "description"     => String,
+          "revoked_at"      => Fog::Nullable::String,
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT
         }
 
@@ -293,6 +295,7 @@ class Brightbox
           "url"             => String,
           "name"            => String,
           "description"     => String,
+          "revoked_at"      => Fog::Nullable::String,
           "secret"          => Fog::Nullable::String,
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT
         }
