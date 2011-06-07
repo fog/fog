@@ -65,8 +65,6 @@ module Fog
           merge_attributes(data)
         end
 
-
-
       end
     end
   end
