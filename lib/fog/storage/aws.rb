@@ -62,6 +62,7 @@ module Fog
         end
 
         def url(params, expires)
+          params[:headers] ||= {}
           params[:headers]['Date'] = expires.to_i
           params[:path] = Fog::AWS.escape(params[:path]).gsub('%2F', '/')
           query = []
@@ -274,7 +275,7 @@ module Fog
         def signature(params)
           string_to_sign =
 <<-DATA
-#{params[:method]}
+#{params[:method].to_s.upcase}
 #{params[:headers]['Content-MD5']}
 #{params[:headers]['Content-Type']}
 #{params[:headers]['Date']}
