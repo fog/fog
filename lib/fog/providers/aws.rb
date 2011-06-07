@@ -63,7 +63,7 @@ module Fog
       end
       string_to_sign = "POST\n#{options[:host]}:#{options[:port]}\n#{options[:path]}\n" << body.chop
       signed_string = options[:hmac].sign(string_to_sign)
-      body << "Signature=#{CGI.escape(Base64.encode64(signed_string).chomp!).gsub(/\+/, '%20')}"
+      body << "Signature=#{escape(Base64.encode64(signed_string).chomp!)}"
 
       body
     end
