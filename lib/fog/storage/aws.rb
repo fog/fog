@@ -63,8 +63,11 @@ module Fog
 
         def url(params, expires)
           params[:headers]['Date'] = expires.to_i
-          params[:path] = CGI.escape(params[:path]).gsub('%2F', '/')
-          query = [params[:query]].compact
+          params[:path] = Fog::AWS.escape(params[:path]).gsub('%2F', '/')
+          query = []
+          for key, value in params[:query]
+            query << "#{key}=#{Fog::AWS.escape(value)}"
+          end
           query << "AWSAccessKeyId=#{@aws_access_key_id}"
           query << "Signature=#{CGI.escape(signature(params))}"
           query << "Expires=#{params[:headers]['Date']}"
@@ -303,12 +306,33 @@ DATA
 
           canonical_resource  = @path.dup
           unless subdomain.nil? || subdomain == @host
-            canonical_resource << "#{CGI.escape(subdomain).downcase}/"
+            canonical_resource << "#{Fog::AWS.escape(subdomain).downcase}/"
           end
           canonical_resource << params[:path].to_s
           canonical_resource << '?'
           for key in (params[:query] || {}).keys.sort
-            if %w{acl location logging notification partNumber policy requestPayment torrent uploadId uploads versionId versioning versions website}.include?(key)
+            if %w{
+              acl
+              location
+              logging
+              notification
+              partNumber
+              policy
+              requestPayment
+              reponse-cache-control
+              response-content-disposition
+              response-content-encoding
+              response-content-language
+              response-content-type
+              response-expires
+              torrent
+              uploadId
+              uploads
+              versionId
+              versioning
+              versions
+              website
+            }.include?(key)
               canonical_resource << "#{key}#{"=#{params[:query][key]}" unless params[:query][key].nil?}&"
             end
           end
