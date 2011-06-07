@@ -12,7 +12,7 @@ module Fog
         def delete_all_domains
           request(
             :expects  => 200,
-            :method   => 'GET',
+            :method   => 'DELETE',
             :path     => '/V1.2/domains'
           )
         end

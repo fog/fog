@@ -77,18 +77,26 @@ Shindo.tests('DNSMadeEasy::dns | DNS requests', ['dnsmadeeasy', 'dns']) do
       response.status == 201
     end
 
-    test("update a record -  - check IP/TTL parameters") do
+    test("update a record") do
       pending if Fog.mocking?
 
       domain = @domain["name"]
       record_id = @record["id"]
       options = {:name => '', :type => 'A', :data => "2.3.4.5", :ttl => 600}
-      result = false
 
       response = DNSMadeEasy[:dns].update_record(domain, record_id, options)
-      @record = response.body
 
-      if response.status == 201 && @record['data'] == '2.3.4.5' && @record['ttl'] == 600
+      response.status == 200
+    end
+
+    test("get record #{@record['id']} - check ip/ttl") do
+      pending if Fog.mocking?
+
+      response = DNSMadeEasy[:dns].get_record(@domain["name"], @record['id'])
+      record = response.body
+      result = false
+
+      if response.status == 200 && record['data'] == '2.3.4.5' && record['ttl'] == 600
         result = true
       end
 
