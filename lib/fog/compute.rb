@@ -25,6 +25,9 @@ module Fog
       when 'NewServers'
         require 'fog/compute/new_servers'
         Fog::NewServers::Compute.new(attributes)
+      when 'Ninefold'
+        require 'fog/compute/ninefold'
+        Fog::Ninefold::Compute.new(attributes)
       when 'Rackspace'
         require 'fog/compute/rackspace'
         Fog::Rackspace::Compute.new(attributes)

@@ -17,6 +17,9 @@ def compute_providers
       },
       :mocked => false
     },
+    Ninefold => {
+      :mocked => false
+    },
     Rackspace => {
       :server_attributes => {
         :image_id => 49, # image 49 = Ubuntu 10.04 LTS (lucid)
