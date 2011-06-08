@@ -66,8 +66,10 @@ module Fog
           params[:headers]['Date'] = expires.to_i
           params[:path] = Fog::AWS.escape(params[:path]).gsub('%2F', '/')
           query = []
-          for key, value in params[:query]
-            query << "#{key}=#{Fog::AWS.escape(value)}"
+          if params[:query]
+            for key, value in params[:query]
+              query << "#{key}=#{Fog::AWS.escape(value)}"
+            end
           end
           query << "AWSAccessKeyId=#{@aws_access_key_id}"
           query << "Signature=#{Fog::AWS.escape(signature(params))}"
