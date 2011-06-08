@@ -17,7 +17,7 @@ module Fog
       request :complete_multipart_upload
       request :copy_object
       request :delete_bucket
-			request :delete_bucket_policy
+      request :delete_bucket_policy
       request :delete_bucket_website
       request :delete_object
       request :get_bucket
@@ -25,7 +25,7 @@ module Fog
       request :get_bucket_location
       request :get_bucket_logging
       request :get_bucket_object_versions
-			request :get_bucket_policy
+      request :get_bucket_policy
       request :get_bucket_versioning
       request :get_bucket_website
       request :get_object
@@ -42,7 +42,7 @@ module Fog
       request :put_bucket
       request :put_bucket_acl
       request :put_bucket_logging
-			request :put_bucket_policy
+      request :put_bucket_policy
       request :put_bucket_versioning
       request :put_bucket_website
       request :put_object
