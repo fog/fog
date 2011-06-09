@@ -4,7 +4,7 @@ require 'shindo'
 require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
 require File.join(File.dirname(__FILE__), '..', 'tests', 'helper')
 
-Shindo.tests('storage tests', 'storage') do
+Shindo.tests('storage examples', 'storage') do
 
   # iterate over all the providers
   Fog.providers.each do |provider|

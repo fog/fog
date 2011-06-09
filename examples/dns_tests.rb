@@ -4,7 +4,7 @@ require 'shindo'
 require File.join(File.dirname(__FILE__), '..', 'lib', 'fog')
 require File.join(File.dirname(__FILE__), '..', 'tests', 'helper')
 
-Shindo.tests('dns tests', 'dns') do
+Shindo.tests('dns examples', 'dns') do
 
   # iterate over all the providers
   Fog.providers.each do |provider|
