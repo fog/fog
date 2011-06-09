@@ -2,7 +2,7 @@ Shindo.tests("Vcloud::Compute | servers", ['vcloud']) do
 
   tests("#server.new('#{Vcloud::Compute::TestSupport::template}')").returns(true) do
     pending if Fog.mocking?
-    @svr = Vcloud.servers.create(Vcloud::Compute::TestSupport::template, :name => 'fog_test_run', :password => 'password')
+    @svr = Vcloud.servers.create :catalog_item_uri => Vcloud::Compute::TestSupport::template, :name => 'fog_test_run', :password => 'password'
     print "Waiting for server to be ready"
     @svr.wait_for(1200) { print '.' ; ready? }
     puts ""

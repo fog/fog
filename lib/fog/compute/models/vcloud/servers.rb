@@ -27,10 +27,10 @@ module Fog
           nil
         end
 
-        def create( catalog_item_uri, options )
+        def create options
           check_href!
           options[:vdc_uri] = href
-          data = connection.instantiate_vapp_template( catalog_item_uri, options ).body
+          data = connection.instantiate_vapp_template(options).body
           object = new(data)
           object
         end

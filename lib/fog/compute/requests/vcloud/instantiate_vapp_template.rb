@@ -4,9 +4,9 @@ module Fog
       module Shared
         private
 
-        def validate_instantiate_vapp_template_options(catalog_item_uri, options)
+        def validate_instantiate_vapp_template_options options
           # :network_uri removed, if not specified will use template network config.
-          valid_opts = [:name, :vdc_uri]
+          valid_opts = [:catalog_item_uri, :name, :vdc_uri]
           unless valid_opts.all? { |opt| options.keys.include?(opt) }
             raise ArgumentError.new("Required data missing: #{(valid_opts - options.keys).map(&:inspect).join(", ")}")
           end
@@ -63,8 +63,8 @@ module Fog
       class Real
         include Shared
 
-        def instantiate_vapp_template(catalog_item_uri, options = {})
-          validate_instantiate_vapp_template_options(catalog_item_uri, options)
+        def instantiate_vapp_template options = {}
+          validate_instantiate_vapp_template_options options
 
           request(
             :body     => generate_instantiate_vapp_template_request(options),
