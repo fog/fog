@@ -10,6 +10,8 @@ module Fog
           unless valid_opts.all? { |opt| options.keys.include?(opt) }
             raise ArgumentError.new("Required data missing: #{(valid_opts - options.keys).map(&:inspect).join(", ")}")
           end
+          
+          catalog_item_uri = options[:catalog_item_uri]
 
           # Figure out the template_uri
           catalog_item = get_catalog_item( catalog_item_uri ).body
