@@ -49,10 +49,8 @@ module Fog
         end
 
         def public_url
-          requires :directory, :key
-          if @directory.public_url
-            "#{@directory.public_url}/#{key}"
-          end
+          requires :key
+          self.collection.get_url(self.key)
         end
 
         def save(options = {})

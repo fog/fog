@@ -64,9 +64,11 @@ module Fog
           nil
         end
 
-        def get_url(key, expires)
+        def get_url(key)
           requires :directory
-          connection.get_object_url(directory.key, key, expires)
+          if self.directory.public_url
+            "#{self.directory.public_url}/#{key}"
+          end
         end
 
         def head(key, options = {})
