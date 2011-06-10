@@ -102,7 +102,7 @@ module Fog
         end
 
         def reload
-          @storage_connection.reset
+          @connection.reset
         end
 
         def request(params, parse_json = true, &block)
