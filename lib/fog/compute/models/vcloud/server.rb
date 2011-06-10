@@ -184,7 +184,7 @@ module Fog
               data << @add_disk
               connection.configure_vm_disks(vm_href, data)
             end
-            #connection.configure_vapp( href, _compose_vapp_data )
+            connection.configure_vapp( href, _compose_vapp_data )
           end
           reset_tracking
           true
