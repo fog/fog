@@ -151,13 +151,13 @@ module Fog
           end
         end
 
-        def scp(local_path, remote_path)
+        def scp(local_path, remote_path, scp_options = {})
           raise 'Not Implemented'
           # requires :addresses, :username
-          # 
+          #
           # options = {}
           # options[:key_data] = [private_key] if private_key
-          # Fog::SCP.new(addresses['public'].first, username, options).upload(local_path, remote_path)
+          # Fog::SCP.new(addresses['public'].first, username, options).upload(local_path, remote_path, scp_options)
         end
 
         def setup(credentials = {})
@@ -178,7 +178,7 @@ module Fog
         def ssh(commands)
           raise 'Not Implemented'
           # requires :addresses, :identity, :username
-          # 
+          #
           # options = {}
           # options[:key_data] = [private_key] if private_key
           # Fog::SSH.new(addresses['public'].first, username, options).run(commands)
