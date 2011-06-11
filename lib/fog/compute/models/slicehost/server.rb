@@ -110,12 +110,14 @@ module Fog
           Fog::SSH.new(addresses.first, username, options).run(commands)
         end
 
-        def scp(local_path, remote_path)
+        def scp(local_path, remote_path, options = {})
           requires :addresses, :username
 
-          options = {}
+          upload_options = options.dup
+          #don't want to pass recursive to constructor
+          options.delete(:recursive)
           options[:key_data] = [private_key] if private_key
-          Fog::SCP.new(addresses.first, username, options).upload(local_path, remote_path)
+          Fog::SCP.new(addresses.first, username, options).upload(local_path, remote_path, upload_options)
         end
 
         def username
