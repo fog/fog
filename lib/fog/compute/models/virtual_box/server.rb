@@ -151,7 +151,7 @@ module Fog
           end
         end
 
-        def scp(local_path, remote_path, scp_options = nil)
+        def scp(local_path, remote_path, scp_options = {})
           raise 'Not Implemented'
           # requires :addresses, :username
           #

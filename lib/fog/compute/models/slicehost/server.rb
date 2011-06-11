@@ -110,7 +110,7 @@ module Fog
           Fog::SSH.new(addresses.first, username, options).run(commands)
         end
 
-        def scp(local_path, remote_path, scp_options = nil)
+        def scp(local_path, remote_path, scp_options = {})
           requires :addresses, :username
 
           options = {}

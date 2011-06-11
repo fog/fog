@@ -45,7 +45,7 @@ module Fog
         @options  = { :paranoid => false }.merge(options)
       end
 
-      def upload(local_path, remote_path, scp_options = nil)
+      def upload(local_path, remote_path, scp_options = {})
         begin
           Net::SCP.start(@address, @username, @options) do |scp|
             scp.upload!(local_path, remote_path, scp_options) do |ch, name, sent, total|

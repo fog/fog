@@ -120,7 +120,7 @@ module Fog
           Fog::SSH.new(public_ip_address, username, options).run(commands)
         end
 
-        def scp(local_path, remote_path, scp_options = nil)
+        def scp(local_path, remote_path, scp_options = {})
           requires :public_ip_address, :username
 
           options = {}
