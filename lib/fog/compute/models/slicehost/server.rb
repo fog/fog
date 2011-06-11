@@ -110,12 +110,12 @@ module Fog
           Fog::SSH.new(addresses.first, username, options).run(commands)
         end
 
-        def scp(local_path, remote_path)
+        def scp(local_path, remote_path, scp_options = nil)
           requires :addresses, :username
 
           options = {}
           options[:key_data] = [private_key] if private_key
-          Fog::SCP.new(addresses.first, username, options).upload(local_path, remote_path)
+          Fog::SCP.new(addresses.first, username, options).upload(local_path, remote_path, scp_options)
         end
 
         def username
