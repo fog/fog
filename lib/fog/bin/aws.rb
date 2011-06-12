@@ -3,6 +3,8 @@ class AWS < Fog::Bin
 
     def class_for(key)
       case key
+      when :auto_scaling
+        Fog::AWS::AutoScaling
       when :cdn
         Fog::AWS::CDN
       when :cloud_formation
@@ -34,6 +36,8 @@ class AWS < Fog::Bin
     def [](service)
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
+        when :auto_scaling
+          Fog::AWS::AutoScaling.new
         when :cdn
           Fog::CDN.new(:provider => 'AWS')
         when :cloud_formation
