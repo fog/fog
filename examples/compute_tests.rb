@@ -39,10 +39,16 @@ Shindo.tests('compute examples', 'compute') do
         @server.ssh('pwd')
       end
 
-      # scp to a server
+      # scp a file to a server
       lorem_path = File.join([File.dirname(__FILE__), '..', 'tests', 'lorem.txt'])
       tests("@server.scp('#{lorem_path}', 'lorem.txt')").succeeds do
         @server.scp(lorem_path, 'lorem.txt')
+      end
+
+      # scp a directory to a server
+      lorem_dir = File.join([File.dirname(__FILE__), '..', 'tests'])
+      tests("@server.scp('#{lorem_dir}', '/tmp/lorem', :recursive => true)").succeeds do
+        @server.scp(lorem_dir, '/tmp/lorem', :recursive => true)
       end
 
       # destroy the server

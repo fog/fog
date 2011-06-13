@@ -23,7 +23,7 @@ module Fog
         @options  = options
       end
 
-      def upload(local_path, remote_path, options = {} )
+      def upload(local_path, remote_path, upload_options = {})
         Fog::Mock.not_implemented
       end
 
@@ -45,10 +45,10 @@ module Fog
         @options  = { :paranoid => false }.merge(options)
       end
 
-      def upload(local_path, remote_path, options = {} )
+      def upload(local_path, remote_path, upload_options = {} )
         begin
           Net::SCP.start(@address, @username, @options) do |scp|
-            scp.upload!(local_path, remote_path, options ) do |ch, name, sent, total|
+            scp.upload!(local_path, remote_path, upload_options ) do |ch, name, sent, total|
               # TODO: handle progress display?
             end
           end
