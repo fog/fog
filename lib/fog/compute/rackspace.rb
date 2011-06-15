@@ -4,6 +4,7 @@ module Fog
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :rackspace_servicenet, :persistent
+      recognizes :rackspace_auth_token, :rackspace_management_url
       recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/rackspace'
@@ -93,6 +94,9 @@ module Fog
           @rackspace_username = options[:rackspace_username]
           @rackspace_auth_url = options[:rackspace_auth_url]
           @rackspace_servicenet = options[:rackspace_servicenet]
+          @rackspace_auth_token = options[:rackspace_auth_token]
+          @rackspace_management_url = options[:rackspace_management_url]
+          @rackspace_must_reauthenticate = false
           authenticate
           Excon.ssl_verify_peer = false if options[:rackspace_servicenet] == true
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
@@ -115,6 +119,7 @@ module Fog
             }))
           rescue Excon::Errors::Unauthorized => error
             if JSON.parse(response.body)['unauthorized']['message'] == 'Invalid authentication token.  Please renew.'
+              @rackspace_must_reauthenticate = true
               authenticate
               retry
             else
@@ -137,14 +142,19 @@ module Fog
         private
 
         def authenticate
-          options = {
-            :rackspace_api_key  => @rackspace_api_key,
-            :rackspace_username => @rackspace_username,
-            :rackspace_auth_url => @rackspace_auth_url
-          }
-          credentials = Fog::Rackspace.authenticate(options)
-          @auth_token = credentials['X-Auth-Token']
-          uri = URI.parse(credentials['X-Server-Management-Url'])
+          if @rackspace_must_reauthenticate or @rackspace_auth_token.empty?
+            options = {
+              :rackspace_api_key  => @rackspace_api_key,
+              :rackspace_username => @rackspace_username,
+              :rackspace_auth_url => @rackspace_auth_url
+            }
+            credentials = Fog::Rackspace.authenticate(options)
+            @auth_token = credentials['X-Auth-Token']
+            uri = URI.parse(credentials['X-Server-Management-Url'])
+          else
+            @auth_token = @rackspace_auth_token
+            uri = URI.parse(@rackspace_management_url)
+          end
           @host   = @rackspace_servicenet == true ? "snet-#{uri.host}" : uri.host
           @path   = uri.path
           @port   = uri.port
