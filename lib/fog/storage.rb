@@ -10,6 +10,9 @@ module Fog
       when 'Google'
         require 'fog/storage/google'
         Fog::Google::Storage.new(attributes)
+      when 'HP'
+        require 'fog/storage/hp'
+        Fog::HP::Storage.new(attributes)
       when 'Local'
         require 'fog/storage/local'
         Fog::Local::Storage.new(attributes)
