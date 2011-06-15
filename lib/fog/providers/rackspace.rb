@@ -11,7 +11,9 @@ module Fog
 
     def self.authenticate(options)
       rackspace_auth_url = options[:rackspace_auth_url] || "auth.api.rackspacecloud.com"
-      connection = Fog::Connection.new("https://" + rackspace_auth_url)
+      url = rackspace_auth_url.match(/^https?:/) ? \
+                rackspace_auth_url : 'https://' + rackspace_auth_url
+      connection = Fog::Connection.new(url)
       @rackspace_api_key  = options[:rackspace_api_key]
       @rackspace_username = options[:rackspace_username]
       response = connection.request({
