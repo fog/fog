@@ -14,15 +14,15 @@ module Fog
 
       request_path 'fog/storage/requests/hp'
       request :delete_container
-#      request :delete_object
+      request :delete_object
       request :get_container
       request :get_containers
-#      request :get_object
+      request :get_object
       request :head_container
       request :head_containers
-#      request :head_object
+      request :head_object
       request :put_container
-#      request :put_object
+      request :put_object
 
       module Utils
 
