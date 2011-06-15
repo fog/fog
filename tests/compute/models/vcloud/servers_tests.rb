@@ -17,6 +17,15 @@ Shindo.tests("Vcloud::Compute | servers", ['vcloud']) do
     @svr.on?
   end
 
+  tests("#svr.description(\"testing\")").returns("testing") do
+    pending if Fog.mocking?
+    @svr.wait_for { ready? }
+    @svr.description = "testing"
+    @svr.save
+    @svr.wait_for { ready? }
+    @svr.description
+  end
+
   # Power off only stops the OS, doesn't free up resources. #undeploy is for this.
   tests("#svr.undeploy()").returns(true) do
     pending if Fog.mocking?

@@ -90,6 +90,7 @@ module Fog
       request :configure_network_ip
       request :configure_vapp
       request :configure_vm_memory
+      request :configure_vm_name_description
       request :configure_vm_disks
       request :delete_vapp
       request :get_catalog

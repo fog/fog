@@ -153,6 +153,16 @@ module Fog
           true
         end
 
+        def description=(description)
+          @description_changed = true unless attributes[:description] == description || attributes[:description] == nil
+          attributes[:description] = description
+        end
+
+        def name=(name)
+          @name_changed = true unless attributes[:name] == name || attributes[:name] == nil
+          attributes[:name] = name
+        end
+
         def reload
           reset_tracking
           super
@@ -184,7 +194,11 @@ module Fog
               data << @add_disk
               connection.configure_vm_disks(vm_href, data)
             end
-            #connection.configure_vapp( href, _compose_vapp_data )
+            if @name_changed || @description_changed
+              edit_uri = links.select {|i| i[:rel] == 'edit'}
+              edit_uri = edit_uri.kind_of?(Array) ? edit_uri.flatten[0][:href] : edit_uri[:href]
+              connection.configure_vm_name_description(edit_uri, self.name, self.description)
+            end
           end
           reset_tracking
           true
@@ -216,6 +230,8 @@ module Fog
           @disk_change = false
           @changed = false
           @update_memory_value = nil
+          @name_changed = false
+          @description_changed = nil
         end
 
         def _compose_vapp_data
