@@ -1,6 +1,6 @@
 module Fog
-  module Google
-    class Storage
+  module Storage
+    class Google
       class Real
 
         # Get an expiring object url from Google Storage

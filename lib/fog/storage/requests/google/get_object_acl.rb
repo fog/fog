@@ -1,6 +1,6 @@
 module Fog
-  module Google
-    class Storage
+  module Storage
+    class Google
       class Real
 
         require 'fog/storage/parsers/google/access_control_list'
@@ -46,7 +46,7 @@ module Fog
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method     => 'GET',
-            :parser     => Fog::Parsers::Google::Storage::AccessControlList.new,
+            :parser     => Fog::Parsers::Storage::Google::AccessControlList.new,
             :path       => CGI.escape(object_name),
             :query      => query
           })

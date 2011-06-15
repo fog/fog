@@ -1,6 +1,6 @@
 module Fog
-  module Google
-    class Storage
+  module Storage
+    class Google
       class Real
 
         require 'fog/storage/parsers/google/get_service'
@@ -23,7 +23,7 @@ module Fog
             :host     => @host,
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Google::Storage::GetService.new,
+            :parser   => Fog::Parsers::Storage::Google::GetService.new,
             :url      => @host
           })
         end

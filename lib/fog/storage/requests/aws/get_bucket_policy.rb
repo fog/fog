@@ -1,21 +1,21 @@
 module Fog
-  module AWS
-    class Storage
+  module Storage
+    class AWS
       class Real
 
-				# Get bucket policy for an S3 bucket
+        # Get bucket policy for an S3 bucket
         #
         # ==== Parameters
         # * bucket_name<~String> - name of bucket to get policy for
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Hash> - policy document 
-				#     
+        #   * body<~Hash> - policy document
+        #
         # ==== See Also
         # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGETpolicy.html
-				
-				def get_bucket_policy(bucket_name)
+
+        def get_bucket_policy(bucket_name)
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
@@ -27,11 +27,11 @@ module Fog
             :method     => 'GET',
             :query      => {'policy' => nil}
           })
-					response.body = JSON.parse(response.body) unless response.body.nil?
+          response.body = JSON.parse(response.body) unless response.body.nil?
         end
 
       end
 
-		end
+    end
   end
 end

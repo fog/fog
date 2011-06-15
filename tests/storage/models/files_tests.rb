@@ -1,6 +1,6 @@
 for provider, config in storage_providers
 
-  Shindo.tests("#{provider}::Storage | files", [provider.to_s.downcase]) do
+  Shindo.tests("Storage[:#{provider}] | files", [provider]) do
 
     if !Fog.mocking? || config[:mocked]
 
@@ -13,7 +13,7 @@ for provider, config in storage_providers
         :key => 'fogfilestests'
       }.merge!(config[:directory_attributes] || {})
 
-      @directory = provider.directories.create(directory_attributes)
+      @directory = Fog::Storage[provider].directories.create(directory_attributes)
 
       collection_tests(@directory.files, file_attributes, config[:mocked])
 

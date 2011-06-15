@@ -1,6 +1,6 @@
 module Fog
-  module Rackspace
-    class Storage
+  module Storage
+    class Rackspace
       class Real
 
         # List number of objects and total bytes stored
@@ -14,13 +14,12 @@ module Fog
         #     * 'X-Container-Object-Count'<~String> - Count of containers
         #     * 'X-Container-Bytes-Used'<~String>   - Bytes used
         def head_container(container)
-          response = request(
+          request(
             :expects  => 204,
             :method   => 'HEAD',
             :path     => URI.escape(container),
             :query    => {'format' => 'json'}
           )
-          response
         end
 
       end

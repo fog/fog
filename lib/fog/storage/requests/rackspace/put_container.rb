@@ -1,6 +1,6 @@
 module Fog
-  module Rackspace
-    class Storage
+  module Storage
+    class Rackspace
       class Real
 
         # Create a new container
@@ -9,12 +9,11 @@ module Fog
         # * name<~String> - Name for container, should be < 256 bytes and must not contain '/'
         #
         def put_container(name)
-          response = request(
+          request(
             :expects  => [201, 202],
             :method   => 'PUT',
             :path     => URI.escape(name)
           )
-          response
         end
 
       end

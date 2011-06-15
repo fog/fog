@@ -4,7 +4,7 @@ class Local < Fog::Bin
     def class_for(key)
       case key
       when :storage
-        Fog::Local::Storage
+        Fog::Storage::Local
       else 
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
@@ -14,6 +14,7 @@ class Local < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :storage
+          Formatador.display_line("[yellow][WARN] Local[:storage] is deprecated, use Storage[:local] instead[/]")
           Fog::Storage.new(:provider => 'Local')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Storage
+  module Storage
+    class AWS
       class Real
 
         require 'fog/storage/parsers/aws/get_bucket_logging'
@@ -39,7 +39,7 @@ module Fog
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method     => 'GET',
-            :parser     => Fog::Parsers::AWS::Storage::GetBucketLogging.new,
+            :parser     => Fog::Parsers::Storage::AWS::GetBucketLogging.new,
             :query      => {'logging' => nil}
           })
         end

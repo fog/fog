@@ -2,8 +2,8 @@ require 'fog/core/collection'
 require 'fog/storage/models/aws/file'
 
 module Fog
-  module AWS
-    class Storage
+  module Storage
+    class AWS
 
       class Files < Fog::Collection
 
@@ -15,7 +15,7 @@ module Fog
         attribute :max_keys,        :aliases => ['MaxKeys', 'max-keys']
         attribute :prefix,          :aliases => 'Prefix'
 
-        model Fog::AWS::Storage::File
+        model Fog::Storage::AWS::File
 
         def all(options = {})
           requires :directory
@@ -70,7 +70,7 @@ module Fog
           when /<Code>NoSuchKey<\/Code>/
             nil
           when /<Code>NoSuchBucket<\/Code>/
-            raise(Fog::AWS::Storage::NotFound.new("Directory #{directory.identity} does not exist."))
+            raise(Fog::Storage::AWS::NotFound.new("Directory #{directory.identity} does not exist."))
           else
             raise(error)
           end

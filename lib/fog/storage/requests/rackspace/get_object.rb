@@ -1,6 +1,6 @@
 module Fog
-  module Rackspace
-    class Storage
+  module Storage
+    class Rackspace
       class Real
 
         # Get details for object
@@ -10,13 +10,12 @@ module Fog
         # * object<~String> - Name of object to look for
         #
         def get_object(container, object, &block)
-          response = request({
+          request({
             :block    => block,
             :expects  => 200,
             :method   => 'GET',
             :path     => "#{URI.escape(container)}/#{URI.escape(object)}"
           }, false, &block)
-          response
         end
 
       end

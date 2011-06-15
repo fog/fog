@@ -36,6 +36,9 @@ else
   Formatador.display_line(":#{Fog.credential} provides #{providers}")
   providers = Fog.providers
 
+  # FIXME: hacks until we can `include Fog` in bin
+  Storage = Fog::Storage
+
   catch(:IRB_EXIT) { @irb.eval_input }
 
 end

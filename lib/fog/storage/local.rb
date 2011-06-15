@@ -1,6 +1,6 @@
 module Fog
-  module Local
-    class Storage < Fog::Service
+  module Storage
+    class Local < Fog::Service
 
       requires :local_root
       recognizes :provider # remove post deprecation
@@ -27,13 +27,6 @@ module Fog
           Fog::Mock.not_implemented
 
           require 'mime/types'
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Local::Storage.new is deprecated, use Fog::Storage.new(:provider => 'Local') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           @local_root = ::File.expand_path(options[:local_root])
         end
 
@@ -58,13 +51,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Local::Storage.new is deprecated, use Fog::Storage.new(:provider => 'Local') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           require 'mime/types'
           @local_root = ::File.expand_path(options[:local_root])
         end

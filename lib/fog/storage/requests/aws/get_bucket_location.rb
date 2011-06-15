@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Storage
+  module Storage
+    class AWS
       class Real
 
         require 'fog/storage/parsers/aws/get_bucket_location'
@@ -25,7 +25,7 @@ module Fog
             :host     => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::AWS::Storage::GetBucketLocation.new,
+            :parser   => Fog::Parsers::Storage::AWS::GetBucketLocation.new,
             :query    => {'location' => nil}
           })
         end

@@ -2,8 +2,8 @@ require 'fog/core/model'
 require 'fog/storage/models/aws/files'
 
 module Fog
-  module AWS
-    class Storage
+  module Storage
+    class AWS
 
       class Directory < Fog::Model
 
@@ -39,7 +39,7 @@ module Fog
 
         def files
           @files ||= begin
-            Fog::AWS::Storage::Files.new(
+            Fog::Storage::AWS::Files.new(
               :directory    => self,
               :connection   => connection
             )

@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/storage/models/rackspace/directory'
 
 module Fog
-  module Rackspace
-    class Storage
+  module Storage
+    class Rackspace
 
       class Directories < Fog::Collection
 
-        model Fog::Rackspace::Storage::Directory
+        model Fog::Storage::Rackspace::Directory
 
         def all
           data = connection.get_containers.body
@@ -28,7 +28,7 @@ module Fog
             directory.files << directory.files.new(file)
           end
           directory
-        rescue Fog::Rackspace::Storage::NotFound
+        rescue Fog::Storage::Rackspace::NotFound
           nil
         end
 

@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Storage
+  module Storage
+    class AWS
       class Real
 
         require 'fog/storage/parsers/aws/get_service'
@@ -27,7 +27,7 @@ module Fog
             :host     => @host,
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::AWS::Storage::GetService.new,
+            :parser   => Fog::Parsers::Storage::AWS::GetService.new,
             :url      => @host
           })
         end

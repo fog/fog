@@ -1,6 +1,6 @@
 module Fog
-  module Rackspace
-    class Storage
+  module Storage
+    class Rackspace
       class Real
 
         # List existing storage containers
@@ -19,13 +19,12 @@ module Fog
         #       * 'name'<~String>: - Name of container
         def get_containers(options = {})
           options = options.reject {|key, value| value.nil?}
-          response = request(
+          request(
             :expects  => [200, 204],
             :method   => 'GET',
             :path     => '',
             :query    => {'format' => 'json'}.merge!(options)
           )
-          response
         end
 
       end

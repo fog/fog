@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module AWS
-    class Storage
+  module Storage
+    class AWS
 
       class File < Fog::Model
 

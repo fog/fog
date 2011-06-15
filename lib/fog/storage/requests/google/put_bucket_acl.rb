@@ -1,6 +1,6 @@
 module Fog
-  module Google
-    class Storage
+  module Storage
+    class Google
       class Real
 
         # Change access control list for an Google Storage bucket

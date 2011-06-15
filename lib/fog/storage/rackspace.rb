@@ -1,6 +1,6 @@
 module Fog
-  module Rackspace
-    class Storage < Fog::Service
+  module Storage
+    class Rackspace < Fog::Service
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :rackspace_servicenet, :rackspace_cdn_ssl, :persistent
@@ -50,13 +50,6 @@ module Fog
         end
 
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Rackspace::Storage.new is deprecated, use Fog::Storage.new(:provider => 'Rackspace') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           require 'mime/types'
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
@@ -77,13 +70,6 @@ module Fog
         attr_reader :rackspace_cdn_ssl
 
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Rackspace::Storage.new is deprecated, use Fog::Storage.new(:provider => 'Rackspace') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           require 'mime/types'
           require 'json'
           @rackspace_api_key = options[:rackspace_api_key]
@@ -118,7 +104,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Rackspace::Storage::NotFound.slurp(error)
+              Fog::Storage::Rackspace::NotFound.slurp(error)
             else
               error
             end

@@ -20,7 +20,7 @@ class AWS < Fog::Bin
       when :ses
         Fog::AWS::SES
       when :eu_storage, :storage
-        Fog::AWS::Storage
+        Fog::Storage::AWS
       when :rds
         Fog::AWS::RDS
       else
@@ -55,6 +55,7 @@ class AWS < Fog::Bin
         when :ses
           Fog::AWS::SES.new
         when :storage
+          Formatador.display_line("[yellow][WARN] AWS[:storage] is deprecated, use Storage[:aws] instead[/]")
           Fog::Storage.new(:provider => 'AWS')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

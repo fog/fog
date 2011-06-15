@@ -1,6 +1,6 @@
 module Fog
-  module Google
-    class Storage
+  module Storage
+    class Google
       class Real
 
         require 'fog/storage/parsers/google/copy_object'
@@ -32,7 +32,7 @@ module Fog
             :headers  => headers,
             :host     => "#{target_bucket_name}.#{@host}",
             :method   => 'PUT',
-            :parser   => Fog::Parsers::Google::Storage::CopyObject.new,
+            :parser   => Fog::Parsers::Storage::Storage::CopyObject.new,
             :path     => CGI.escape(target_object_name)
           })
         end

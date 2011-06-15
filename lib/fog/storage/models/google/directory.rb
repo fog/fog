@@ -2,8 +2,8 @@ require 'fog/core/model'
 require 'fog/storage/models/google/files'
 
 module Fog
-  module Google
-    class Storage
+  module Storage
+    class Google
 
       class Directory < Fog::Model
 
@@ -29,7 +29,7 @@ module Fog
 
         def files
           @files ||= begin
-            Fog::Google::Storage::Files.new(
+            Fog::Storage::Google::Files.new(
               :directory    => self,
               :connection   => connection
             )

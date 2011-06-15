@@ -1,6 +1,6 @@
 module Fog
-  module Google
-    class Storage < Fog::Service
+  module Storage
+    class Google < Fog::Service
 
       requires :google_storage_access_key_id, :google_storage_secret_access_key
       recognizes :host, :port, :scheme, :persistent
@@ -124,13 +124,6 @@ module Fog
         end
 
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Google::Storage.new is deprecated, use Fog::Storage.new(:provider => 'Google') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           require 'mime/types'
           @google_storage_access_key_id = options[:google_storage_access_key_id]
         end
@@ -171,13 +164,6 @@ module Fog
         # ==== Returns
         # * Storage object with connection to google.
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Google::Storage.new is deprecated, use Fog::Storage.new(:provider => 'Google') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           require 'fog/core/parser'
           require 'mime/types'
 

@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/storage/models/google/directory'
 
 module Fog
-  module Google
-    class Storage
+  module Storage
+    class Google
 
       class Directories < Fog::Collection
 
-        model Fog::Google::Storage::Directory
+        model Fog::Storage::Google::Directory
 
         def all
          data = connection.get_service.body['Buckets']

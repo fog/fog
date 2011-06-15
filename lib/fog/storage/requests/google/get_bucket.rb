@@ -1,7 +1,7 @@
 require 'pp'
 module Fog
-  module Google
-    class Storage
+  module Storage
+    class Google
       class Real
 
         require 'fog/storage/parsers/google/get_bucket'
@@ -48,7 +48,7 @@ module Fog
             :host     => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Google::Storage::GetBucket.new,
+            :parser   => Fog::Parsers::Storage::Google::GetBucket.new,
             :query    => options
           })
         end

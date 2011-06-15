@@ -1,6 +1,6 @@
 module Fog
-  module Rackspace
-    class Storage
+  module Storage
+    class Rackspace
       class Real
 
         # Create a new object
@@ -11,14 +11,13 @@ module Fog
         def put_object(container, object, data, options = {})
           data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)
-          response = request(
+          request(
             :body     => data[:body],
             :expects  => 201,
             :headers  => headers,
             :method   => 'PUT',
             :path     => "#{URI.escape(container)}/#{URI.escape(object)}"
           )
-          response
         end
 
       end

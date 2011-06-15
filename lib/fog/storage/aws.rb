@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Storage < Fog::Service
+  module Storage
+    class AWS < Fog::Service
 
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent
@@ -162,13 +162,6 @@ module Fog
         end
 
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::AWS::Storage.new is deprecated, use Fog::Storage.new(:provider => 'AWS') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           require 'mime/types'
           @aws_access_key_id = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
@@ -225,13 +218,6 @@ module Fog
         # ==== Returns
         # * S3 object with connection to aws.
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::AWS::Storage.new is deprecated, use Fog::Storage.new(:provider => 'AWS') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           require 'fog/core/parser'
           require 'mime/types'
 

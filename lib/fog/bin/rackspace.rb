@@ -8,7 +8,7 @@ class Rackspace < Fog::Bin
       when :compute
         Fog::Rackspace::Compute
       when :storage
-        Fog::Rackspace::Storage
+        Fog::Storage::Rackspace
       else 
         raise ArgumentError, "Unrecognized service: #{key}"
       end
@@ -24,6 +24,7 @@ class Rackspace < Fog::Bin
         when :dns
           Fog::DNS.new(:provider => 'Rackspace')
         when :storage
+          Formatador.display_line("[yellow][WARN] Rackspace[:storage] is deprecated, use Storage[:rackspace] instead[/]")
           Fog::Storage.new(:provider => 'Rackspace')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

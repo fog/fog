@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Storage
+  module Storage
+    class AWS
       class Real
 
         require 'fog/storage/parsers/aws/get_request_payment'
@@ -25,7 +25,7 @@ module Fog
             :host     => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::AWS::Storage::GetRequestPayment.new,
+            :parser   => Fog::Parsers::Storage::AWS::GetRequestPayment.new,
             :query    => {'requestPayment' => nil}
           })
         end

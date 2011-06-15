@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/storage/models/local/directory'
 
 module Fog
-  module Local
-    class Storage
+  module Storage
+    class Local
 
       class Directories < Fog::Collection
 
-        model Fog::Local::Storage::Directory
+        model Fog::Storage::Local::Directory
 
         def all
           data = Dir.entries(connection.local_root).select do |entry|

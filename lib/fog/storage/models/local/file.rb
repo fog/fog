@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module Local
-    class Storage
+  module Storage
+    class Local
 
       class File < Fog::Model
 

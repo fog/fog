@@ -1,24 +1,39 @@
 module Fog
-  class Storage
+  module Storage
+
+    def self.[](provider)
+      self.new(:provider => provider)
+    end
 
     def self.new(attributes)
       attributes = attributes.dup # prevent delete from having side effects
-      case provider = attributes[:provider] # attributes.delete(:provider)
-      when 'AWS'
+      case provider = attributes[:provider].to_s.downcase.to_sym # attributes.delete(:provider)
+      when :aws
         require 'fog/storage/aws'
-        Fog::AWS::Storage.new(attributes)
-      when 'Google'
+        Fog::Storage::AWS.new(attributes)
+      when :google
         require 'fog/storage/google'
-        Fog::Google::Storage.new(attributes)
-      when 'Local'
+        Fog::Storage::Google.new(attributes)
+      when :local
         require 'fog/storage/local'
-        Fog::Local::Storage.new(attributes)
-      when 'Rackspace'
+        Fog::Storage::Local.new(attributes)
+      when :rackspace
         require 'fog/storage/rackspace'
-        Fog::Rackspace::Storage.new(attributes)
+        Fog::Storage::Rackspace.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized storage provider")
       end
+    end
+
+    def self.directories
+      directories = []
+      for provider in [:aws, :google, :local, :rackspace]
+        begin
+          directories.concat(self[provider].directories)
+        rescue # ignore any missing credentials/etc
+        end
+      end
+      directories
     end
 
     def self.get_body_size(body)
