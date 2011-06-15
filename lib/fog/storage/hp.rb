@@ -18,8 +18,8 @@ module Fog
       request :get_container
       request :get_containers
 #      request :get_object
-#      request :head_container
-#      request :head_containers
+      request :head_container
+      request :head_containers
 #      request :head_object
       request :put_container
 #      request :put_object
