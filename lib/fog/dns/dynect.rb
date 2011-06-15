@@ -18,6 +18,8 @@ module Fog
 
       class Real
         def initialize(options={})
+          require 'builder'
+
           @dynect_customer = options[:dynect_customer]
           @dynect_username = options[:dynect_username]
           @dynect_password = options[:dynect_password]
