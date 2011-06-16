@@ -29,6 +29,13 @@ module Fog
           @directory
         end
 
+        def copy(target_directory_key, target_file_key)
+          requires :directory, :key
+          target_directory = connection.directories.new(:key => target_directory_key)
+          connection.put_object(target_directory_key, target_file_key, nil, {'X-Copy-From' => "/#{directory.key}/#{key}" })
+          target_directory.files.get(target_file_key)
+        end
+
         def destroy
           requires :directory, :key
           connection.delete_object(directory.key, key)
