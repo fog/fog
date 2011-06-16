@@ -1,5 +1,5 @@
 module Fog
-  class CDN
+  module CDN
 
     def self.[](provider)
       self.new(:provider => provider)
