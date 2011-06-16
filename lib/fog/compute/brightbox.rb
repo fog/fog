@@ -6,7 +6,6 @@ module Fog
 
       requires :brightbox_client_id, :brightbox_secret
       recognizes :brightbox_auth_url, :brightbox_api_url
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/brightbox'
       model       :account # Singular resource, no collection

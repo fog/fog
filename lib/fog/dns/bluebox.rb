@@ -1,9 +1,9 @@
 module Fog
   module DNS
     class Bluebox < Fog::Service
+
       requires :bluebox_api_key, :bluebox_customer_id
       recognizes :bluebox_host, :bluebox_port, :bluebox_scheme, :persistent
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/dns/models/bluebox'
       model       :record

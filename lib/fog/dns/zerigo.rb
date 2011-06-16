@@ -4,7 +4,6 @@ module Fog
 
       requires :zerigo_email, :zerigo_token
       recognizes :timeout, :persistent
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/dns/models/zerigo'
       model       :record

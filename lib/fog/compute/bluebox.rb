@@ -4,7 +4,6 @@ module Fog
 
       requires :bluebox_api_key, :bluebox_customer_id
       recognizes :bluebox_host, :bluebox_port, :bluebox_scheme, :persistent
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/bluebox'
       model       :flavor

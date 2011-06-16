@@ -4,7 +4,6 @@ module Fog
 
       requires :go_grid_api_key, :go_grid_shared_secret
       recognizes :host, :path, :port, :scheme, :persistent
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/go_grid'
       model         :image

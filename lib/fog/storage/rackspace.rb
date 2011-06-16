@@ -4,7 +4,6 @@ module Fog
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :rackspace_servicenet, :rackspace_cdn_ssl, :persistent
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/storage/models/rackspace'
       model       :directory

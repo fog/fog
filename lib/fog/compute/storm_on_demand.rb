@@ -6,7 +6,6 @@ module Fog
 
       requires :storm_on_demand_username, :storm_on_demand_password
       recognizes :storm_on_demand_auth_url
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/storm_on_demand'
       model       :config

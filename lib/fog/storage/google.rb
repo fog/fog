@@ -4,7 +4,6 @@ module Fog
 
       requires :google_storage_access_key_id, :google_storage_secret_access_key
       recognizes :host, :port, :scheme, :persistent
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/storage/models/google'
       collection  :directories

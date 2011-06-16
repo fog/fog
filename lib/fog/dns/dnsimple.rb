@@ -4,7 +4,6 @@ module Fog
 
       requires :dnsimple_email, :dnsimple_password
       recognizes :dnsimple_url, :host, :path, :port, :scheme, :persistent
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/dns/models/dnsimple'
       model       :record

@@ -4,7 +4,6 @@ module Fog
 
       requires :linode_api_key
       recognizes :port, :scheme, :persistent
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/linode'
       model :flavor

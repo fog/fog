@@ -4,7 +4,6 @@ module Fog
 
       requires :slicehost_password
       recognizes :host, :port, :scheme, :persistent
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/dns/models/slicehost'
       model       :record

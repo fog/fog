@@ -3,7 +3,7 @@ module Fog
     class Voxel < Fog::Service
 
       requires :voxel_api_key, :voxel_api_secret
-      recognizes :provider, :host, :port, :scheme, :persistent
+      recognizes :host, :port, :scheme, :persistent
 
       model_path 'fog/compute/models/voxel'
       model       :image

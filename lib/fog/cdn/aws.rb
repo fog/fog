@@ -4,7 +4,6 @@ module Fog
 
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :host, :path, :port, :scheme, :version, :persistent
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/cdn/models/aws'
 

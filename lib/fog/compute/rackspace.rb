@@ -4,7 +4,6 @@ module Fog
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :rackspace_servicenet, :persistent
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/rackspace'
       model       :flavor

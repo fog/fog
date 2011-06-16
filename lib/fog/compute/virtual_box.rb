@@ -2,8 +2,6 @@ module Fog
   module Compute
     class VirtualBox < Fog::Service
 
-      recognizes :provider # remove post deprecation
-
       model_path 'fog/compute/models/virtual_box'
       model       :medium
       collection  :mediums

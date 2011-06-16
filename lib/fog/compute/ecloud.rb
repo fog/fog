@@ -830,7 +830,6 @@ module Fog
 
       requires   :ecloud_username, :ecloud_password, :ecloud_versions_uri
       recognizes :ecloud_version
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/ecloud'
       model :catalog_item

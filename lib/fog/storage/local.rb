@@ -3,7 +3,6 @@ module Fog
     class Local < Fog::Service
 
       requires :local_root
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/storage/models/local'
       collection  :directories

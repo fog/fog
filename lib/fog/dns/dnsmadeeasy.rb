@@ -4,7 +4,6 @@ module Fog
 
       requires :dnsmadeeasy_api_key, :dnsmadeeasy_secret_key
       recognizes :host, :path, :port, :scheme, :persistent
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/dns/models/dnsmadeeasy'
       model       :record

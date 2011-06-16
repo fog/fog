@@ -4,7 +4,6 @@ module Fog
 
       requires :new_servers_password, :new_servers_username
       recognizes :host, :port, :scheme, :persistent
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/new_servers'
 

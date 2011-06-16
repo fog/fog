@@ -5,7 +5,6 @@ module Fog
       API_URL = "http://api.ninefold.com/compute/v1.0/"
 
       requires :ninefold_compute_key, :ninefold_compute_secret
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/ninefold'
       model       :server
