@@ -6,11 +6,11 @@ module Fog
       recognizes  :hp_auth_url, :hp_servicenet, :hp_cdn_ssl, :persistent
       recognizes  :provider # remove post deprecation
 
-#      model_path 'fog/storage/models/hp'
-#      model       :directory
-#      collection  :directories
-#      model       :file
-#      collection  :files
+      model_path 'fog/storage/models/hp'
+      model       :directory
+      collection  :directories
+      model       :file
+      collection  :files
 
       request_path 'fog/storage/requests/hp'
       request :delete_container
@@ -27,11 +27,12 @@ module Fog
       module Utils
 
         def cdn
-          @cdn ||= Fog::CDN.new(
-            :provider     => 'HP',
-            :hp_password  => @hp_password,
-            :hp_username  => @hp_username
-          )
+#          @cdn ||= Fog::CDN.new(
+#            :provider     => 'HP',
+#            :hp_password  => @hp_password,
+#            :hp_username  => @hp_username
+#          )
+          nil
         end
 
       end
