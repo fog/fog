@@ -4,7 +4,7 @@ class Vcloud
       def self.template
         template_name = ENV['VCLOUD_TEMPLATE']
         raise "Specify VApp template name in VCLOUD_TEMPLATE env var" unless template_name
-        template_res = Vcloud.catalogs.first.catalog_items.select {|ci| ci.name == template_name }[0]
+        template_res = Vcloud.catalogs.item_by_name template_name
         raise "URI Not found for specified template - check template name" unless template_res
         template_res.href
       end

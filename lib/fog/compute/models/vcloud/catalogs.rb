@@ -22,6 +22,17 @@ module Fog
           @organization_uri ||= connection.default_organization_uri
         end
 
+        def item_by_name(name)
+          res = nil
+          items = all.collect { |catalog| catalog.catalog_items }
+          items.each do |i|
+            i.collect do |ii|
+              res = ii if ii.name == name
+            end
+          end
+          res
+        end
+
       end
     end
   end
