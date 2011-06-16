@@ -17,9 +17,11 @@ module Fog
         end
 
         def records
+          @records ||= Fog::Dynect::DNS::Records.new(:zone => self, :connection => connection)
         end
 
         def nameservers
+          []
         end
 
         def save
