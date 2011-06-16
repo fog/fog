@@ -6,7 +6,7 @@ class Slicehost < Fog::Bin
       when :compute
         Fog::Slicehost::Compute
       when :dns
-        Fog::Slicehost::DNS
+        Fog::DNS::Slicehost
       else 
         raise ArgumentError, "Unrecognized service: #{key}"
       end
@@ -18,6 +18,7 @@ class Slicehost < Fog::Bin
         when :compute
           Fog::Compute.new(:provider => 'Slicehost')
         when :dns
+          Formatador.display_line("[yellow][WARN] Slicehost[:dns] is deprecated, use Storage[:slicehost] instead[/]")
           Fog::DNS.new(:provider => 'Slicehost')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

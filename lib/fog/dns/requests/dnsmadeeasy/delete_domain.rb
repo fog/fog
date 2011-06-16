@@ -1,6 +1,6 @@
 module Fog
-  module DNSMadeEasy
-    class DNS
+  module DNS
+    class DNSMadeEasy
       class Real
 
         # Delete the given domain from your account.

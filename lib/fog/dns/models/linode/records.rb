@@ -2,14 +2,14 @@ require 'fog/core/collection'
 require 'fog/dns/models/linode/record'
 
 module Fog
-  module Linode
-    class DNS
+  module DNS
+    class Linode
 
       class Records < Fog::Collection
 
         attribute :zone
 
-        model Fog::Linode::DNS::Record
+        model Fog::DNS::Linode::Record
 
         def all
           requires :zone

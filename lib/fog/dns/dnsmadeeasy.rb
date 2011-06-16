@@ -1,6 +1,6 @@
 module Fog
-  module DNSMadeEasy
-    class DNS < Fog::Service
+  module DNS
+    class DNSMadeEasy < Fog::Service
 
       requires :dnsmadeeasy_api_key, :dnsmadeeasy_secret_key
       recognizes :host, :path, :port, :scheme, :persistent
@@ -44,13 +44,6 @@ module Fog
         end
 
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::DNSMadeEasy::DNS.new is deprecated, use Fog::DNS.new(:provider => 'DNSMadeEasy') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           @dnsmadeeasy_api_key = options[:dnsmadeeasy_api_key]
           @dnsmadeeasy_secret_key = options[:dnsmadeeasy_secret_key]
         end
@@ -84,13 +77,6 @@ module Fog
         # ==== Returns
         # * dns object with connection to aws.
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::DNSMadeEasy::DNS.new is deprecated, use Fog::DNS.new(:provider => 'DNSMadeEasy') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           require 'fog/core/parser'
           require 'json'
 
@@ -125,7 +111,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::DNSMadeEasy::DNS::NotFound.slurp(error)
+              Fog::DNS::DNSMadeEasy::NotFound.slurp(error)
             else
               error
             end

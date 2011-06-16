@@ -4,7 +4,7 @@ class Zerigo < Fog::Bin
     def class_for(key)
       case key
       when :dns
-        Fog::Zerigo::DNS
+        Fog::DNS::Zerigo
       else 
         raise ArgumentError, "Unrecognized service: #{key}"
       end
@@ -14,6 +14,7 @@ class Zerigo < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :dns
+          Formatador.display_line("[yellow][WARN] Zerigo[:dns] is deprecated, use Storage[:zerigo] instead[/]")
           Fog::DNS.new(:provider => 'Zerigo')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

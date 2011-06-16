@@ -1,6 +1,6 @@
 module Fog
-  module DNSMadeEasy
-    class DNS
+  module DNS
+    class DNSMadeEasy
       class Real
 
         # Returns a record object representing the record with the specified id.

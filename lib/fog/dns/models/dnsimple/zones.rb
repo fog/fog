@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/dns/models/dnsimple/zone'
 
 module Fog
-  module DNSimple
-    class DNS
+  module DNS
+    class DNSimple
 
       class Zones < Fog::Collection
 
-        model Fog::DNSimple::DNS::Zone
+        model Fog::DNS::DNSimple::Zone
 
         def all
           clear

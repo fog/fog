@@ -2,8 +2,8 @@ require 'fog/core/collection'
 require 'fog/dns/models/aws/record'
 
 module Fog
-  module AWS
-    class DNS
+  module DNS
+    class AWS
 
       class Records < Fog::Collection
 
@@ -16,7 +16,7 @@ module Fog
 
         attribute :zone
 
-        model Fog::AWS::DNS::Record
+        model Fog::DNS::AWS::Record
 
         def all(options = {})
           requires :zone

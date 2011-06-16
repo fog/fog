@@ -2,15 +2,15 @@ require 'fog/core/collection'
 require 'fog/dns/models/aws/zone'
 
 module Fog
-  module AWS
-    class DNS
+  module DNS
+    class AWS
 
       class Zones < Fog::Collection
 
         attribute :marker,    :aliases => 'Marker'
         attribute :max_items, :aliases => 'MaxItems'
 
-        model Fog::AWS::DNS::Zone
+        model Fog::DNS::AWS::Zone
 
         def all(options = {})
           options['marker']   ||= marker

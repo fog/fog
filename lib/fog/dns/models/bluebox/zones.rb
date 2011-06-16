@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/dns/models/bluebox/zone'
 
 module Fog
-  module Bluebox
-    class DNS
+  module DNS
+    class Bluebox
 
       class Zones < Fog::Collection
 
-        model Fog::Bluebox::DNS::Zone
+        model Fog::DNS::Bluebox::Zone
 
         def all
           data = connection.get_zones.body['zones']

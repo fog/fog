@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module DNSMadeEasy
-    class DNS
+  module DNS
+    class DNSMadeEasy
 
       class Record < Fog::Model
         extend Fog::Deprecation

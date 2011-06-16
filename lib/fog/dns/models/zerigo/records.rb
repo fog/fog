@@ -2,14 +2,14 @@ require 'fog/core/collection'
 require 'fog/dns/models/zerigo/record'
 
 module Fog
-  module Zerigo
-    class DNS
+  module DNS
+    class Zerigo
 
       class Records < Fog::Collection
 
         attribute :zone
 
-        model Fog::Zerigo::DNS::Record
+        model Fog::DNS::Zerigo::Record
 
         def all
           requires :zone

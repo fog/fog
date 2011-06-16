@@ -1,7 +1,8 @@
 module Fog
   module Parsers
-    module Bluebox
-      module DNS
+    module DNS
+      module Bluebox
+
         class GetZone < Fog::Parsers::Base
 
           def reset
@@ -16,7 +17,9 @@ module Fog
               @response[name] = value
             end
           end
+
         end
+
       end
     end
   end

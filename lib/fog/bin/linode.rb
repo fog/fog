@@ -6,7 +6,7 @@ class Linode < Fog::Bin
       when :compute
         Fog::Linode::Compute
       when :dns
-        Fog::Linode::DNS
+        Fog::DNS::Linode
       else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
@@ -18,6 +18,7 @@ class Linode < Fog::Bin
         when :compute
           Fog::Compute.new(:provider => 'Linode')
         when :dns
+          Formatador.display_line("[yellow][WARN] Linode[:storage] is deprecated, use Storage[:linode] instead[/]")
           Fog::DNS.new(:provider => 'Linode')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

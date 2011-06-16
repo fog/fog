@@ -1,6 +1,6 @@
 module Fog
-  module Linode
-    class DNS < Fog::Service
+  module DNS
+    class Linode < Fog::Service
 
       requires :linode_api_key
       recognizes :port, :scheme, :persistent
@@ -35,13 +35,6 @@ module Fog
         end
 
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Linode::DNS.new is deprecated, use Fog::DNS.new(:provider => 'Linode') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           @linode_api_key = options[:linode_api_key]
         end
 
@@ -58,13 +51,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Linode::DNS.new is deprecated, use Fog::DNS.new(:provider => 'Linode') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           require 'json'
           @linode_api_key = options[:linode_api_key]
           @host   = options[:host]    || "api.linode.com"
@@ -88,9 +74,9 @@ module Fog
             if data = response.body['ERRORARRAY'].first
               error = case data['ERRORCODE']
               when 5
-                Fog::Linode::DNS::NotFound
+                Fog::DNS::Linode::NotFound
               else
-                Fog::Linode::DNS::Error
+                Fog::DNS::Linode::Error
               end
               raise error.new(data['ERRORMESSAGE'])
             end

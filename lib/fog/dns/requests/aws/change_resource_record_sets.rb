@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class DNS
+  module DNS
+    class AWS
       class Real
 
         require 'fog/dns/parsers/aws/change_resource_record_sets'
@@ -68,7 +68,7 @@ module Fog
           body =   %Q{<?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/2010-10-01/">#{changes}</ChangeResourceRecordSetsRequest>}
           request({
             :body       => body,
-            :parser     => Fog::Parsers::AWS::DNS::ChangeResourceRecordSets.new,
+            :parser     => Fog::Parsers::DNS::AWS::ChangeResourceRecordSets.new,
             :expects    => 200,
             :method     => 'POST',
             :path       => "hostedzone/#{zone_id}/rrset"

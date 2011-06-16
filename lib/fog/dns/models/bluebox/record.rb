@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module Bluebox
-    class DNS
+  module DNS
+    class Bluebox
 
       class Record < Fog::Model
         extend Fog::Deprecation

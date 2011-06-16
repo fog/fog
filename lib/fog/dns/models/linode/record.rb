@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module Linode
-    class DNS
+  module DNS
+    class Linode
 
       class Record < Fog::Model
         extend Fog::Deprecation

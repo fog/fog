@@ -1,6 +1,6 @@
 module Fog
-  module DNSMadeEasy
-    class DNS
+  module DNS
+    class DNSMadeEasy
       class Real
 
         # Deletes all domains for your account.

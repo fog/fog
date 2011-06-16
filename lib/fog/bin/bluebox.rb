@@ -6,7 +6,7 @@ class Bluebox < Fog::Bin
       when :compute
         Fog::Bluebox::Compute
       when :dns
-        Fog::Bluebox::DNS
+        Fog::DNS::Bluebox
       else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
@@ -18,6 +18,7 @@ class Bluebox < Fog::Bin
         when :compute
           Fog::Compute.new(:provider => 'Bluebox')
         when :dns
+          Formatador.display_line("[yellow][WARN] Bluebox[:storage] is deprecated, use Storage[:bluebox] instead[/]")
           Fog::DNS.new(:provider => 'Bluebox')
         else
           raise ArgumentError, "Unrecognized service: #{service}"

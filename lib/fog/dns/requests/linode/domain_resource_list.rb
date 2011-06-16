@@ -1,6 +1,6 @@
 module Fog
-  module Linode
-    class DNS
+  module DNS
+    class Linode
       class Real
 
         # List of resource records for a domain

@@ -1,6 +1,6 @@
 module Fog
-  module DNSMadeEasy
-    class DNS
+  module DNS
+    class DNSMadeEasy
       class Real
 
         # Deletes the record with the specified id. Note that records are not modifiable for domains that are locked to a template.

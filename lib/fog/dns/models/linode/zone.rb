@@ -2,8 +2,8 @@ require 'fog/core/model'
 require 'fog/dns/models/linode/records'
 
 module Fog
-  module Linode
-    class DNS
+  module DNS
+    class Linode
 
       class Zone < Fog::Model
 
@@ -36,7 +36,7 @@ module Fog
 
         def records
           @records ||= begin
-            Fog::Linode::DNS::Records.new(
+            Fog::DNS::Linode::Records.new(
               :zone       => self,
               :connection => connection
             )

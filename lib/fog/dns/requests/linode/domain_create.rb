@@ -1,6 +1,6 @@
 module Fog
-  module Linode
-    class DNS
+  module DNS
+    class Linode
       class Real
 
         # Creates a domain record

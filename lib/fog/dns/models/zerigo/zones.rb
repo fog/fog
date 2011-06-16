@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/dns/models/zerigo/zone'
 
 module Fog
-  module Zerigo
-    class DNS
+  module DNS
+    class Zerigo
 
       class Zones < Fog::Collection
 
-        model Fog::Zerigo::DNS::Zone
+        model Fog::DNS::Zerigo::Zone
 
         def all
           data = connection.list_zones.body['zones']

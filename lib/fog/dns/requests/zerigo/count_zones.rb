@@ -1,6 +1,6 @@
 module Fog
-  module Zerigo
-    class DNS
+  module DNS
+    class Zerigo
       class Real
 
         require 'fog/dns/parsers/zerigo/count_zones'
@@ -17,7 +17,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Zerigo::DNS::CountZones.new,
+            :parser   => Fog::Parsers::DNS::Zerigo::CountZones.new,
             :path     => "/api/1.1/zones/count.xml"
           )
         end

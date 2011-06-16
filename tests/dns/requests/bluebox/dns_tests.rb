@@ -1,4 +1,4 @@
-Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
+Shindo.tests('Fog::DNS[:bluebox] | DNS requests', ['bluebox', 'dns']) do
 
   @domain = ''
   @new_zones = []
@@ -22,7 +22,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
       pending if Fog.mocking?
 
       @org_zone_count= 0
-      response = Bluebox[:dns].get_zones()
+      response = Fog::DNS[:bluebox].get_zones()
       if response.status == 200
         zones = response.body['zones']
         @org_zone_count = zones.count
@@ -35,7 +35,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
       pending if Fog.mocking?
 
       domain = generate_unique_domain
-      response = Bluebox[:dns].create_zone(:name => domain, :ttl => 360)
+      response = Fog::DNS[:bluebox].create_zone(:name => domain, :ttl => 360)
       if response.status == 202
         zone_id = response.body['id']
         @new_zones << zone_id
@@ -49,7 +49,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       options = { :ttl => 60, :retry => 3600, :refresh => 1800, :minimum => 30 }
       @domain= generate_unique_domain
-      response = Bluebox[:dns].create_zone(options.merge(:name => @domain))
+      response = Fog::DNS[:bluebox].create_zone(options.merge(:name => @domain))
       if response.status == 202
         @zone_id = response.body['id']
         @new_zones << @zone_id
@@ -63,7 +63,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       result = false
 
-      response = Bluebox[:dns].get_zone(@zone_id)
+      response = Fog::DNS[:bluebox].get_zone(@zone_id)
       if response.status == 200
         zone = response.body
         if (zone['name'] == @domain) and (zone['ttl'] == 60)
@@ -79,7 +79,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       result = false
 
-      response = Bluebox[:dns].get_zones()
+      response = Fog::DNS[:bluebox].get_zones()
       if response.status == 200
         zones = response.body['zones']
         if (@org_zone_count+2) == zones.count
@@ -95,7 +95,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       result= false
 
-      response = Bluebox[:dns].get_zones()
+      response = Fog::DNS[:bluebox].get_zones()
       if response.status == 200
         zones = response.body['zones']
         zones.each { |zone|
@@ -119,7 +119,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       host= 'www.' + @domain
       zone_id= @new_zones[1]
-      response = Bluebox[:dns].create_record(zone_id, 'A', host, '1.2.3.4')
+      response = Fog::DNS[:bluebox].create_record(zone_id, 'A', host, '1.2.3.4')
       if response.status == 202
         record_id = response.body['id']
         @new_records << record_id
@@ -133,7 +133,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       host= 'ftp.' + @domain
       zone_id= @new_zones[1]
-      response = Bluebox[:dns].create_record( zone_id, 'A', host, '1.2.3.4')
+      response = Fog::DNS[:bluebox].create_record( zone_id, 'A', host, '1.2.3.4')
       if response.status == 202
         record_id = response.body['id']
         @new_records << record_id
@@ -146,7 +146,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
       pending if Fog.mocking?
 
       zone_id= @new_zones[1]
-      response = Bluebox[:dns].create_record( zone_id, 'CNAME', 'mail', @domain)
+      response = Fog::DNS[:bluebox].create_record( zone_id, 'CNAME', 'mail', @domain)
       if response.status == 202
         record_id = response.body['id']
         @new_records << record_id
@@ -160,7 +160,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       ns_domain = 'ns.' + @domain
       zone_id= @new_zones[1]
-      response = Bluebox[:dns].create_record( zone_id, 'NS', @domain, ns_domain)
+      response = Fog::DNS[:bluebox].create_record( zone_id, 'NS', @domain, ns_domain)
       if response.status == 202
         record_id = response.body['id']
         @new_records << record_id
@@ -174,7 +174,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       mail_domain = 'mail.' + @domain
       zone_id= @new_zones[1]
-      response = Bluebox[:dns].create_record(  zone_id, 'MX', @domain, mail_domain, :priority => 10)
+      response = Fog::DNS[:bluebox].create_record(  zone_id, 'MX', @domain, mail_domain, :priority => 10)
       if response.status == 202
         @record_id = response.body['id']
         @new_records << @record_id
@@ -188,7 +188,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       result= false
 
-      response = Bluebox[:dns].get_record(@new_zones[1], @record_id)
+      response = Fog::DNS[:bluebox].get_record(@new_zones[1], @record_id)
       if response.status == 200
         mail_domain = 'mail.' + @domain + "."
         record = response.body
@@ -205,7 +205,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       result= false
 
-      response = Bluebox[:dns].get_records(@new_zones[1])
+      response = Fog::DNS[:bluebox].get_records(@new_zones[1])
       if response.status == 200
         records = response.body['records']
 
@@ -231,7 +231,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
 
       result= true
       @new_records.each { |record_id|
-        response = Bluebox[:dns].delete_record(@new_zones[1], record_id)
+        response = Fog::DNS[:bluebox].delete_record(@new_zones[1], record_id)
         if response.status != 200
             result= false;
         end
@@ -245,7 +245,7 @@ Shindo.tests('Bluebox::dns | DNS requests', ['bluebox', 'dns']) do
       result= true
 
       @new_zones.each { |zone_id|
-        response = Bluebox[:dns].delete_zone( zone_id)
+        response = Fog::DNS[:bluebox].delete_zone( zone_id)
         if response.status != 200
             result= false;
         end

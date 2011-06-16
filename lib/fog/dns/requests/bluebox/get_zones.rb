@@ -1,6 +1,6 @@
 module Fog
-  module Bluebox
-    class DNS
+  module DNS
+    class Bluebox
       class Real
 
         require 'fog/dns/parsers/bluebox/get_zones'
@@ -24,7 +24,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Bluebox::DNS::GetZones.new,
+            :parser   => Fog::Parsers::DNS::Bluebox::GetZones.new,
             :path     => '/api/domains.xml'
           )
         end

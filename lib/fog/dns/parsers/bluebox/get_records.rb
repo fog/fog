@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Bluebox
-      module DNS
+    module DNS
+      module Bluebox
 
         class GetRecords < Fog::Parsers::Base
 
@@ -19,6 +19,7 @@ module Fog
               @record[name] = value
             end
           end
+
         end
 
       end

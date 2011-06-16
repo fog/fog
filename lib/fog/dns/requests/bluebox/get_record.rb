@@ -1,6 +1,6 @@
 module Fog
-  module Bluebox
-    class DNS
+  module DNS
+    class Bluebox
       class Real
 
         require 'fog/dns/parsers/bluebox/get_record'
@@ -21,7 +21,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Bluebox::DNS::GetRecord.new,
+            :parser   => Fog::Parsers::DNS::Bluebox::GetRecord.new,
             :path     => "/api/domains/#{zone_id}/records/#{record_id}.xml"
           )
         end

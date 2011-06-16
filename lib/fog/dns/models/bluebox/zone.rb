@@ -2,8 +2,8 @@ require 'fog/core/model'
 require 'fog/dns/models/bluebox/records'
 
 module Fog
-  module Bluebox
-    class DNS
+  module DNS
+    class Bluebox
 
       class Zone < Fog::Model
 
@@ -29,7 +29,7 @@ module Fog
 
         def records
           @records ||= begin
-            Fog::Bluebox::DNS::Records.new(
+            Fog::DNS::Bluebox::Records.new(
               :zone       => self,
               :connection => connection
             )

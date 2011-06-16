@@ -10,7 +10,7 @@ class AWS < Fog::Bin
       when :compute
         Fog::AWS::Compute
       when :dns
-        Fog::AWS::DNS
+        Fog::DNS::AWS
       when :elb
         Fog::AWS::ELB
       when :iam
@@ -41,6 +41,7 @@ class AWS < Fog::Bin
         when :compute
           Fog::Compute.new(:provider => 'AWS')
         when :dns
+          Formatador.display_line("[yellow][WARN] AWS[:dns] is deprecated, use DNS[:aws] instead[/]")
           Fog::DNS.new(:provider => 'AWS')
         when :elb
           Fog::AWS::ELB.new

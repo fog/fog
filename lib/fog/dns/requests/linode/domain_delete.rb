@@ -1,6 +1,6 @@
 module Fog
-  module Linode
-    class DNS
+  module DNS
+    class Linode
       class Real
 
         # Delete the given domain from the list Linode hosts

@@ -1,30 +1,30 @@
 def dns_providers
   {
-    AWS       => {
+    :aws          => {
       :mocked => false
     },
-    Bluebox   => {
+    :bluebox      => {
       :mocked => false,
       :zone_attributes => {
         :ttl => 60
       }
     },
-    Linode    => {
+    :dnsimple     => {
+      :mocked => false
+    },
+    :dnsmadeeasy  => {
+      :mocked => false
+    },
+    :linode       => {
       :mocked => false,
       :zone_attributes => {
         :email => 'fog@example.com'
       }
     },
-    Slicehost => {
+    :slicehost    => {
       :mocked => false
     },
-    Zerigo    => {
-      :mocked => false
-    },
-    DNSimple  => {
-      :mocked => false
-    },
-    DNSMadeEasy  => {
+    :zerigo       => {
       :mocked => false
     }
   }

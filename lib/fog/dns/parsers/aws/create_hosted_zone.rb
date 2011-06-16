@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module AWS
-      module DNS
+    module DNS
+      module AWS
 
         class CreateHostedZone < Fog::Parsers::Base
 
