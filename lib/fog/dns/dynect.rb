@@ -6,11 +6,11 @@ module Fog
       recognizes :timeout, :persistent
       recognizes :provider # remove post deprecation
 
-      # model_path 'fog/dns/models/dynect'
-      # model       :record
-      # collection  :records
-      # model       :zone
-      # collection  :zones
+      model_path 'fog/dns/models/dynect'
+      model       :record
+      collection  :records
+      model       :zone
+      collection  :zones
 
       request_path 'fog/dns/requests/dynect'
       request :session

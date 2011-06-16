@@ -12,5 +12,10 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       returns(true) { response.body['zones'].first =~ /\.com/ && true }
       returns(true) { response.status == 200 }
     end
+
+    tests "create record"
+    tests "delete record"
+    tests "update record"
+    tests "list jobs"
   end
 end
