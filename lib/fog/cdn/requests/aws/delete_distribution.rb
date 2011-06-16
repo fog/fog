@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class CDN
+  module CDN
+    class AWS
       class Real
 
         # Delete a distribution from CloudFront

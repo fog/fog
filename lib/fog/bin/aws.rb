@@ -4,7 +4,7 @@ class AWS < Fog::Bin
     def class_for(key)
       case key
       when :cdn
-        Fog::AWS::CDN
+        Fog::CDN::AWS
       when :cloud_formation
         Fog::AWS::CloudFormation
       when :compute
@@ -35,6 +35,7 @@ class AWS < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :cdn
+          Formatador.display_line("[yellow][WARN] AWS[:cdn] is deprecated, use CDN[:aws] instead[/]")
           Fog::CDN.new(:provider => 'AWS')
         when :cloud_formation
           Fog::AWS::CloudFormation.new

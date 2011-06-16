@@ -4,7 +4,7 @@ class Rackspace < Fog::Bin
     def class_for(key)
       case key
       when :cdn
-        Fog::Rackspace::CDN
+        Fog::CDN::Rackspace
       when :compute
         Fog::Rackspace::Compute
       when :storage
@@ -18,6 +18,7 @@ class Rackspace < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :cdn
+          Formatador.display_line("[yellow][WARN] Rackspace[:cdn] is deprecated, use CDN[:rackspace] instead[/]")
           Fog::CDN.new(:provider => 'Rackspace')
         when :compute
           Fog::Compute.new(:provider => 'Rackspace')
