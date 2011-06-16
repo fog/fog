@@ -2,10 +2,10 @@ require 'fog/core/collection'
 require 'fog/compute/models/linode/server'
 
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Servers < Fog::Collection
-        model Fog::Linode::Compute::Server
+        model Fog::Compute::Linode::Server
 
         def all
           load servers
@@ -13,7 +13,7 @@ module Fog
 
         def get(id)
           new servers(id).first
-        rescue Fog::Linode::Compute::NotFound
+        rescue Fog::Compute::Linode::NotFound
           nil
         end
 

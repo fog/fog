@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module VirtualBox
-    class Compute
+  module Compute
+    class VirtualBox
 
       class NATRedirect < Fog::Model
 

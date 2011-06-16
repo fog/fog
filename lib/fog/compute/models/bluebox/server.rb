@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module Bluebox
-    class Compute
+  module Compute
+    class Bluebox
 
       class BlockInstantiationError < StandardError; end
 

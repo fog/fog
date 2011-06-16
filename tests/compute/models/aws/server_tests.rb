@@ -1,6 +1,6 @@
-Shindo.tests("AWS::Compute | monitor", ['aws']) do
+Shindo.tests("Fog::Compute[:aws] | monitor", ['aws']) do
 
-  @instance = AWS[:compute].servers.new
+  @instance = Fog::Compute[:aws].servers.new
 
   [:addresses, :flavor, :key_pair, :key_pair=, :volumes].each do |association|
     responds_to(association)

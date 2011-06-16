@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/storm_on_demand/private_ip'
 
 module Fog
-  module StormOnDemand
-    class Compute
+  module Compute
+    class StormOnDemand
 
       class PrivateIps < Fog::Collection
 
-        model Fog::StormOnDemand::Compute::PrivateIp
+        model Fog::Compute::StormOnDemand::PrivateIp
 
         def all
           data = connection.list_private_ips.body['networks']

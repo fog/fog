@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/brightbox/load_balancer'
 
 module Fog
-  module Brightbox
-    class Compute
+  module Compute
+    class Brightbox
 
       class LoadBalancers < Fog::Collection
 
-        model Fog::Brightbox::Compute::LoadBalancer
+        model Fog::Compute::Brightbox::LoadBalancer
 
         def all
           data = connection.list_load_balancers

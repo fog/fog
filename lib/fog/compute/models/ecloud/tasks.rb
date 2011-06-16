@@ -1,12 +1,12 @@
 require 'fog/compute/models/ecloud/task'
 
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
 
       class Tasks < Fog::Ecloud::Collection
 
-        model Fog::Ecloud::Compute::Task
+        model Fog::Compute::Ecloud::Task
 
         attribute :href, :aliases => :Href
 

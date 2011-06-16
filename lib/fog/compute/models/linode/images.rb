@@ -2,10 +2,10 @@ require 'fog/core/collection'
 require 'fog/compute/models/linode/image'
 
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Images < Fog::Collection
-        model Fog::Linode::Compute::Image
+        model Fog::Compute::Linode::Image
 
         def all
           load images
@@ -13,7 +13,7 @@ module Fog
 
         def get(id)
           new images(id).first
-        rescue Fog::Linode::Compute::NotFound
+        rescue Fog::Compute::Linode::NotFound
           nil
         end
 

@@ -1,6 +1,6 @@
 module Fog
-  module Bluebox
-    class Compute < Fog::Service
+  module Compute
+    class Bluebox < Fog::Service
 
       requires :bluebox_api_key, :bluebox_customer_id
       recognizes :bluebox_host, :bluebox_port, :bluebox_scheme, :persistent
@@ -38,13 +38,6 @@ module Fog
         end
 
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Bluebox::Compute.new is deprecated, use Fog::Compute.new(:provider => 'Bluebox') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           @bluebox_api_key = options[:bluebox_api_key]
         end
 
@@ -61,13 +54,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Bluebox::Compute.new is deprecated, use Fog::Compute.new(:provider => 'Bluebox') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           require 'json'
           @bluebox_api_key      = options[:bluebox_api_key]
           @bluebox_customer_id  = options[:bluebox_customer_id]
@@ -92,7 +78,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Bluebox::Compute::NotFound.slurp(error)
+              Fog::Compute::Bluebox::NotFound.slurp(error)
             else
               error
             end

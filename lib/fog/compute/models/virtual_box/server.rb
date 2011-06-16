@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module VirtualBox
-    class Compute
+  module Compute
+    class VirtualBox
 
       class Server < Fog::Model
 
@@ -92,7 +92,7 @@ module Fog
         end
 
         def network_adapters
-          Fog::VirtualBox::Compute::NetworkAdapters.new(
+          Fog::Compute::VirtualBox::NetworkAdapters.new(
             :connection => connection,
             :machine => self
           )
@@ -198,7 +198,7 @@ module Fog
         end
 
         def storage_controllers
-          Fog::VirtualBox::Compute::StorageControllers.new(
+          Fog::Compute::VirtualBox::StorageControllers.new(
             :connection => connection,
             :machine    => self
           )

@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/basic'
@@ -27,7 +27,7 @@ module Fog
             'ImageId'       => image_id,
             'OperationType' => operation_type,
             :idempotent     => true,
-            :parser         => Fog::Parsers::AWS::Compute::Basic.new
+            :parser         => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(params))
         end
 

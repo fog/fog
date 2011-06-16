@@ -3,8 +3,8 @@
 #
 
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
 
       class Real
         basic_request :get_network_ip

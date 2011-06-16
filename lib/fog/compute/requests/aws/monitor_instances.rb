@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
 
       class Real
 
@@ -20,11 +20,11 @@ module Fog
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-MonitorInstances.html]
         def monitor_instances(instance_ids)
-          params = AWS.indexed_param('InstanceId', instance_ids)
+          params = Fog::AWS.indexed_param('InstanceId', instance_ids)
           request({
                           'Action' => 'MonitorInstances',
                           :idempotent => true,
-                          :parser => Fog::Parsers::AWS::Compute::MonitorUnmonitorInstances.new
+                          :parser => Fog::Parsers::Compute::AWS::MonitorUnmonitorInstances.new
                   }.merge!(params))
         end
 
@@ -39,7 +39,7 @@ module Fog
             if instance = self.data[:instances][instance_id]
               instance['monitoring']['state'] = 'enabled'
             else
-              raise Fog::AWS::Compute::NotFound.new("The instance ID '#{instance_ids}' does not exist")
+              raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_ids}' does not exist")
             end
           end
           instances_set = [*instance_ids].inject([]) { |memo, id| memo << {'instanceId' => id, 'monitoring' => 'enabled'} }

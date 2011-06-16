@@ -1,4 +1,4 @@
-Shindo.tests('StormOnDemand::Compute | server requests', ['stormondemand']) do
+Shindo.tests('Fog::Compute[:stormondemand] | server requests', ['stormondemand']) do
 
   @server_format = {
       'uniq_id'     => String,
@@ -33,31 +33,31 @@ Shindo.tests('StormOnDemand::Compute | server requests', ['stormondemand']) do
 
     tests("#create_server(:backup_enabled => 0, :config_id => 114, :domain => '#{@name}', :template => 'CENTOSUNMANAGED', :ip_count => 1, :password => 'B92bxfijsdK3!')").formats(@server_format) do
       pending if Fog.mocking?
-      data = StormOnDemand[:compute].create_server(:backup_enabled => 0,  :config_id => 114, :domain => @name, :template => 'CENTOSUNMANAGED', :ip_count => 1, :password => 'B92bxfijsdK3!').body
+      data = Fog::Compute[:stormondemand].create_server(:backup_enabled => 0,  :config_id => 114, :domain => @name, :template => 'CENTOSUNMANAGED', :ip_count => 1, :password => 'B92bxfijsdK3!').body
       @uniq_id = data['uniq_id']
       data
     end
 
     tests('#list_servers').formats(@servers_format) do
       pending if Fog.mocking?
-      StormOnDemand[:compute].list_servers.body
+      Fog::Compute[:stormondemand].list_servers.body
     end
 
     unless Fog.mocking?
-      StormOnDemand[:compute].servers.get(@uniq_id).wait_for { ready? }
+      Fog::Compute[:stormondemand].servers.get(@uniq_id).wait_for { ready? }
     end
 
     tests("#delete_server(:uniq_id => #{@uniq_id})").succeeds do
       pending if Fog.mocking?
-      StormOnDemand[:compute].delete_server(:uniq_id => @uniq_id)
+      Fog::Compute[:stormondemand].delete_server(:uniq_id => @uniq_id)
     end
 
   end
 
   tests('failure') do
-    tests('#delete_server(0)').raises(Fog::StormOnDemand::Compute::Error) do
+    tests('#delete_server(0)').raises(Fog::Compute::StormOnDemand::Error) do
       pending if Fog.mocking?
-      StormOnDemand[:compute].delete_server(:uniq_id => 'XXXXXX')
+      Fog::Compute[:stormondemand].delete_server(:uniq_id => 'XXXXXX')
     end
   end
 

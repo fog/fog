@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module AWS
-      module Compute
+    module Compute
+      module AWS
 
         class GetConsoleOutput < Fog::Parsers::Base
 

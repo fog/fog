@@ -1,6 +1,6 @@
 require 'fog/compute/parsers/aws/monitor_unmonitor_instances'
 
-Shindo.tests('AWS::Compute::MonitorUnmonitorInstances | monitor/unmonitor parser') do
+Shindo.tests('Compute::AWS::MonitorUnmonitorInstances | monitor/unmonitor parser') do
 
   tests('success') do
 
@@ -26,7 +26,7 @@ Shindo.tests('AWS::Compute::MonitorUnmonitorInstances | monitor/unmonitor parser
         </UnmonitorInstancesResponse>
       AWS
 
-      parser = Fog::Parsers::AWS::Compute::MonitorUnmonitorInstances.new
+      parser = Fog::Parsers::Compute::AWS::MonitorUnmonitorInstances.new
       body = Nokogiri::XML::SAX::PushParser.new(parser)
       body << aws_result
 

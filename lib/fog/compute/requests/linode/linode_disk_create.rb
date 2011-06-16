@@ -1,7 +1,8 @@
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Real
+
         def linode_disk_create(linode_id, name, type, size)
           request(
             :expects  => 200,
@@ -15,6 +16,7 @@ module Fog
             }
           )
         end
+
       end
     end
   end

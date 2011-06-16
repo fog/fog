@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module Ninefold
-    class Compute
+  module Compute
+    class Ninefold
 
       class Image < Fog::Model
 

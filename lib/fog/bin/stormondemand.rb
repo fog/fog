@@ -4,7 +4,7 @@ class StormOnDemand < Fog::Bin
     def class_for(key)
       case key
       when :compute
-        Fog::StormOnDemand::Compute
+        Fog::Compute::StormOnDemand
       else 
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
@@ -14,6 +14,7 @@ class StormOnDemand < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
+          Formatador.display_line("[yellow][WARN] StormOnDemand[:compute] is deprecated, use Compute[:stormondemand] instead[/]")
           Fog::Compute.new(:provider => 'StormOnDemand')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

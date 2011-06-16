@@ -1,6 +1,6 @@
 module Fog
-  module Ninefold
-    class Compute
+  module Compute
+    class Ninefold
       class Real
 
         def enable_static_nat(options = {})

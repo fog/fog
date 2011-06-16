@@ -1,8 +1,8 @@
 require 'fog/compute/models/ecloud/network'
 
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
 
       class Networks < Fog::Ecloud::Collection
 

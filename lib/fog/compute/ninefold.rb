@@ -1,6 +1,6 @@
 module Fog
-  module Ninefold
-    class Compute < Fog::Service
+  module Compute
+    class Ninefold < Fog::Service
 
       API_URL = "http://api.ninefold.com/compute/v1.0/"
 
@@ -61,13 +61,6 @@ module Fog
       class Mock
 
         def initialize(options)
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Ninefold::Compute.new is deprecated, use Fog::Compute.new(:provider => 'Ninefold') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           require "json"
 
           @api_url = options[:ninefold_api_url] || Fog.credentials[:ninefold_api_url] || API_URL
@@ -84,13 +77,6 @@ module Fog
       class Real
 
         def initialize(options)
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Ninefold::Compute.new is deprecated, use Fog::Compute.new(:provider => 'Ninefold') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           require "json"
 
           @api_url = options[:ninefold_api_url] || Fog.credentials[:ninefold_api_url] || API_URL

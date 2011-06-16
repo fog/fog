@@ -1,6 +1,6 @@
 module Fog
-  module Voxel
-    class Compute < Fog::Service
+  module Compute
+    class Voxel < Fog::Service
 
       requires :voxel_api_key, :voxel_api_secret
       recognizes :provider, :host, :port, :scheme, :persistent
@@ -104,7 +104,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Voxel::Compute::NotFound.slurp(error)
+              Fog::Compute::Voxel::NotFound.slurp(error)
             else
               error
             end

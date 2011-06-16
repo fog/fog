@@ -1,6 +1,6 @@
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
       module Shared
         def validate_internet_service_monitor(monitor)
           #FIXME: Refactor this type of function into something generic

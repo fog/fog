@@ -2,14 +2,14 @@ require 'fog/core/collection'
 require 'fog/compute/models/aws/security_group'
 
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
 
       class SecurityGroups < Fog::Collection
 
         attribute :filters
 
-        model Fog::AWS::Compute::SecurityGroup
+        model Fog::Compute::AWS::SecurityGroup
 
         # Creates a new security group
         #

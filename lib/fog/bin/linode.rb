@@ -4,7 +4,7 @@ class Linode < Fog::Bin
     def class_for(key)
       case key
       when :compute
-        Fog::Linode::Compute
+        Fog::Compute::Linode
       when :dns
         Fog::DNS::Linode
       else
@@ -16,6 +16,7 @@ class Linode < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
+          Formatador.display_line("[yellow][WARN] Linode[:compute] is deprecated, use Compute[:linode] instead[/]")
           Fog::Compute.new(:provider => 'Linode')
         when :dns
           Formatador.display_line("[yellow][WARN] Linode[:storage] is deprecated, use Storage[:linode] instead[/]")

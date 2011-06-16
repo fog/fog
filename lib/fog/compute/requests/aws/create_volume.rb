@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/create_volume'
@@ -29,7 +29,7 @@ module Fog
             'AvailabilityZone'  => availability_zone,
             'Size'              => size,
             'SnapshotId'        => snapshot_id,
-            :parser             => Fog::Parsers::AWS::Compute::CreateVolume.new
+            :parser             => Fog::Parsers::Compute::AWS::CreateVolume.new
           )
         end
 
@@ -41,7 +41,7 @@ module Fog
           response = Excon::Response.new
           if availability_zone && size
             if snapshot_id && !self.data[:snapshots][snapshot_id]
-              raise Fog::AWS::Compute::NotFound.new("The snapshot '#{snapshot_id}' does not exist.")
+              raise Fog::Compute::AWS::NotFound.new("The snapshot '#{snapshot_id}' does not exist.")
             end
 
             response.status = 200

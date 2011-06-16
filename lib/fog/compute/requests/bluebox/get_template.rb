@@ -1,6 +1,6 @@
 module Fog
-  module Bluebox
-    class Compute
+  module Compute
+    class Bluebox
       class Real
 
         # Get details of a template

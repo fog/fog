@@ -1,4 +1,4 @@
-Shindo.tests('Linode::Compute | stack_script requests', ['linode']) do
+Shindo.tests('Fog::Compute[:linode] | stack_script requests', ['linode']) do
 
   @stack_scripts_format = Linode::Compute::Formats::BASIC.merge({
     'DATA' => [{ 
@@ -22,12 +22,12 @@ Shindo.tests('Linode::Compute | stack_script requests', ['linode']) do
 
     tests('#avail_stackscripts').formats(@stack_scripts_format) do
       pending if Fog.mocking?
-      Linode[:compute].avail_stackscripts.body
+      Fog::Compute[:linode].avail_stackscripts.body
     end    
     
     tests('#stackscript_list').formats(@stack_scripts_format) do
       pending if Fog.mocking?
-      Linode[:compute].stackscript_list.body
+      Fog::Compute[:linode].stackscript_list.body
     end
 
   end

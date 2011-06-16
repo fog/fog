@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Server < Fog::Model
         attr_reader :stack_script
         identity :id
@@ -10,11 +10,11 @@ module Fog
         attribute :status
 
         def ips
-          Fog::Linode::Compute::Ips.new :server => self, :connection => connection
+          Fog::Compute::Linode::Ips.new :server => self, :connection => connection
         end
 
         def disks
-          Fog::Linode::Compute::Disks.new :server => self, :connection => connection
+          Fog::Compute::Linode::Disks.new :server => self, :connection => connection
         end
 
         def disks?

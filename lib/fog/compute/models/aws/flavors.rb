@@ -2,8 +2,8 @@ require 'fog/core/collection'
 require 'fog/compute/models/aws/flavor'
 
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
 
       FLAVORS = [
         { :bits => 0,  :cores =>   2,  :disk => 0,    :id =>  't1.micro',   :name => 'Micro Instance',       :ram => 613},
@@ -25,7 +25,7 @@ module Fog
 
       class Flavors < Fog::Collection
 
-        model Fog::AWS::Compute::Flavor
+        model Fog::Compute::AWS::Flavor
 
         # Returns an array of all flavors that have been created
         #
@@ -131,7 +131,7 @@ module Fog
         #
 
         def all
-          load(Fog::AWS::Compute::FLAVORS)
+          load(Fog::Compute::AWS::FLAVORS)
           self
         end
 

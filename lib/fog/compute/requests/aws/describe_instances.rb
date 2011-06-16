@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/describe_instances'
@@ -67,7 +67,7 @@ module Fog
           request({
             'Action'    => 'DescribeInstances',
             :idempotent => true,
-            :parser     => Fog::Parsers::AWS::Compute::DescribeInstances.new
+            :parser     => Fog::Parsers::Compute::AWS::DescribeInstances.new
           }.merge!(params))
         end
 

@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/basic'
@@ -22,7 +22,7 @@ module Fog
             'Action'    => 'DisassociateAddress',
             'PublicIp'  => public_ip,
             :idempotent => true,
-            :parser     => Fog::Parsers::AWS::Compute::Basic.new
+            :parser     => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
 
@@ -46,7 +46,7 @@ module Fog
             }
             response
           else
-            raise Fog::AWS::Compute::Error.new("AuthFailure => The address '#{public_ip}' does not belong to you.")
+            raise Fog::Compute::AWS::Error.new("AuthFailure => The address '#{public_ip}' does not belong to you.")
           end
         end
 

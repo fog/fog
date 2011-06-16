@@ -1,6 +1,6 @@
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
       class PublicIp < Fog::Ecloud::Model
 
         identity :href, :aliases => :Href
@@ -12,7 +12,7 @@ module Fog
 
         def internet_services
           load_unless_loaded!
-          @internet_services ||= Fog::Ecloud::Compute::InternetServices.
+          @internet_services ||= Fog::Compute::Ecloud::InternetServices.
             new( :connection => connection,
                  :href => href.to_s + "/internetServices" )
         end

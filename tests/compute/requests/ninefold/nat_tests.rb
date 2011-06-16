@@ -3,15 +3,15 @@
 # can optionally specify VM_ID and IP_ID as environment variables, and we will use those. Note:
 # The IP must not already have static nat enabled or any port mappings.
 
-Shindo.tests('Ninefold::Compute | server requests', ['ninefold']) do
+Shindo.tests('Fog::Compute[:ninefold] | server requests', ['ninefold']) do
 
   if ENV['VM_ID'] && ENV['IP_ID']
     @ipid, @vmid = ENV['IP_ID'], ENV['VM_ID']
-  else
+  elsif !Fog.mock?
     begin
       # Create a VM to work with
-      networks = Ninefold[:compute].list_networks
-      vm_job = Ninefold[:compute].deploy_virtual_machine(:serviceofferingid => Ninefold::Compute::TestSupport::SERVICE_OFFERING,
+      networks = Fog::Compute[:ninefold].list_networks
+      vm_job = Fog::Compute[:ninefold].deploy_virtual_machine(:serviceofferingid => Ninefold::Compute::TestSupport::SERVICE_OFFERING,
                                                          :templateid => Ninefold::Compute::TestSupport::TEMPLATE_ID,
                                                          :zoneid => Ninefold::Compute::TestSupport::ZONE_ID,
                                                          :networkids => networks[0]['id'])
@@ -19,7 +19,7 @@ Shindo.tests('Ninefold::Compute | server requests', ['ninefold']) do
       @vmid = @vm['id']
 
       # Allocate a public IP to work with
-      ip_job = Ninefold[:compute].associate_ip_address(:zoneid => Ninefold::Compute::TestSupport::ZONE_ID)
+      ip_job = Fog::Compute[:ninefold].associate_ip_address(:zoneid => Ninefold::Compute::TestSupport::ZONE_ID)
       @ip = Ninefold::Compute::TestSupport.wait_for_job(ip_job)['jobresult']['ipaddress']
       @ipid = @ip['id']
     rescue => e
@@ -32,12 +32,12 @@ Shindo.tests('Ninefold::Compute | server requests', ['ninefold']) do
 
     tests("#enable_static_nat()").formats(Ninefold::Compute::Formats::Nat::ENABLE_NAT_RESPONSE) do
       pending if Fog.mocking?
-      Ninefold[:compute].enable_static_nat(:ipaddressid => @ipid, :virtualmachineid => @vmid)
+      Fog::Compute[:ninefold].enable_static_nat(:ipaddressid => @ipid, :virtualmachineid => @vmid)
     end
 
     tests("#create_ip_forwarding_rule()").formats(Ninefold::Compute::Formats::Nat::FORWARDING_RULE) do
       pending if Fog.mocking?
-      job = Ninefold[:compute].create_ip_forwarding_rule(:ipaddressid => @ipid,
+      job = Fog::Compute[:ninefold].create_ip_forwarding_rule(:ipaddressid => @ipid,
                                                          :protocol => 'TCP',
                                                          :startport => 22)
       result = Ninefold::Compute::TestSupport.wait_for_job(job)['jobresult']['ipforwardingrule']
@@ -47,19 +47,19 @@ Shindo.tests('Ninefold::Compute | server requests', ['ninefold']) do
 
     tests("#list_ip_forwarding_rules()").formats(Ninefold::Compute::Formats::Nat::FORWARDING_RULES) do
       pending if Fog.mocking?
-      Ninefold[:compute].list_ip_forwarding_rules
+      Fog::Compute[:ninefold].list_ip_forwarding_rules
     end
 
     tests("#delete_ip_forwarding_rule()").formats(Ninefold::Compute::Formats::Nat::DELETE_RULE_RESPONSE) do
       pending if Fog.mocking?
-      job = Ninefold[:compute].delete_ip_forwarding_rule(:id => @fwd_rule_id)
+      job = Fog::Compute[:ninefold].delete_ip_forwarding_rule(:id => @fwd_rule_id)
       Ninefold::Compute::TestSupport.wait_for_job(job)['jobresult']
     end
 
 
     tests("#disable_static_nat()").formats(Ninefold::Compute::Formats::Nat::DISABLE_NAT_RESPONSE) do
       pending if Fog.mocking?
-      job = Ninefold[:compute].disable_static_nat(:ipaddressid => @ipid)
+      job = Fog::Compute[:ninefold].disable_static_nat(:ipaddressid => @ipid)
       Ninefold::Compute::TestSupport.wait_for_job(job)['jobresult']
     end
 
@@ -69,19 +69,19 @@ Shindo.tests('Ninefold::Compute | server requests', ['ninefold']) do
 
     tests("#associate_ip_address()").raises(Excon::Errors::HTTPStatusError) do
       pending if Fog.mocking?
-      Ninefold[:compute].associate_ip_address
+      Fog::Compute[:ninefold].associate_ip_address
     end
 
   end
 
-  unless ENV['VM_ID'] && ENV['IP_ID']
+  unless ENV['VM_ID'] && ENV['IP_ID'] || Fog.mock?
     begin
       # Kill test VM
-      vm_job = Ninefold[:compute].destroy_virtual_machine(:id => @vmid)
+      vm_job = Fog::Compute[:ninefold].destroy_virtual_machine(:id => @vmid)
       Ninefold::Compute::TestSupport.wait_for_job(vm_job)
 
       # Disassociate public IP
-      ip_job = Ninefold[:compute].disassociate_ip_address(:id => @ipid)
+      ip_job = Fog::Compute[:ninefold].disassociate_ip_address(:id => @ipid)
       Ninefold::Compute::TestSupport.wait_for_job(ip_job)
     rescue => e
       puts "*** DESTROYING VM OR IP FAILED - PLEASE TEST AND CORRECT THIS FIRST"

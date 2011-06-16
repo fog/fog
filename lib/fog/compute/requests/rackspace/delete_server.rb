@@ -1,6 +1,6 @@
 module Fog
-  module Rackspace
-    class Compute
+  module Compute
+    class Rackspace
       class Real
 
         # Delete an existing server
@@ -33,7 +33,7 @@ module Fog
             end
             response
           else
-            raise Fog::Rackspace::Compute::NotFound
+            raise Fog::Compute::Rackspace::NotFound
           end
         end
 

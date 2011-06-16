@@ -1,6 +1,6 @@
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
       class Ip < Fog::Ecloud::Model
 
         ignore_attributes :xmlns_i, :xmlns

@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/virtual_box/network_adapter'
 
 module Fog
-  module VirtualBox
-    class Compute
+  module Compute
+    class VirtualBox
 
       class NetworkAdapters < Fog::Collection
 
-        model Fog::VirtualBox::Compute::NetworkAdapter
+        model Fog::Compute::VirtualBox::NetworkAdapter
 
         attr_accessor :machine
 

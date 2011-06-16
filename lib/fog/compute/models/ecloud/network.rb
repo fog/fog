@@ -1,6 +1,6 @@
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
       class Network < Fog::Ecloud::Model
 
         identity :href
@@ -23,7 +23,7 @@ module Fog
 
         def ips
           load_unless_loaded!
-          Fog::Ecloud::Compute::Ips.new( :connection => connection,
+          Fog::Compute::Ecloud::Compute.new( :connection => connection,
                :href => links.detect { |link| link[:name] == "IP Addresses" }[:href] )
         end
 

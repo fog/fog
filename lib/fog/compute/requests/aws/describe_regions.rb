@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/describe_regions'
@@ -28,7 +28,7 @@ module Fog
           request({
             'Action'    => 'DescribeRegions',
             :idempotent => true,
-            :parser     => Fog::Parsers::AWS::Compute::DescribeRegions.new
+            :parser     => Fog::Parsers::Compute::AWS::DescribeRegions.new
           }.merge!(params))
         end
 

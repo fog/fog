@@ -2,11 +2,11 @@ require 'fog/core/collection'
 require 'fog/compute/models/storm_on_demand/stat'
 
 module Fog
-  module StormOnDemand
-    class Compute
+  module Compute
+    class StormOnDemand
 
       class Stats < Fog::Collection
-        model Fog::StormOnDemand::Compute::Stat
+        model Fog::Compute::StormOnDemand::Stat
 
         def get(options)
           data = connection.get_stats(options).body

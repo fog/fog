@@ -1,29 +1,29 @@
-Shindo.tests('Brightbox::Compute | account requests', ['brightbox']) do
+Shindo.tests('Fog::Compute[:brightbox] | account requests', ['brightbox']) do
 
   tests('success') do
 
     tests("#get_account").formats(Brightbox::Compute::Formats::Full::ACCOUNT) do
       pending if Fog.mocking?
-      Brightbox[:compute].get_account
+      Fog::Compute[:brightbox].get_account
     end
 
     unless Fog.mocking?
-      original_name = Brightbox[:compute].get_account["name"]
+      original_name = Fog::Compute[:brightbox].get_account["name"]
       update_args = {:name => "New name from Fog test"}
     end
 
     tests("#update_account(#{update_args.inspect})").formats(Brightbox::Compute::Formats::Full::ACCOUNT) do
       pending if Fog.mocking?
-      Brightbox[:compute].update_account(update_args)
+      Fog::Compute[:brightbox].update_account(update_args)
     end
 
     unless Fog.mocking?
-      Brightbox[:compute].update_account(:name => original_name)
+      Fog::Compute[:brightbox].update_account(:name => original_name)
     end
 
     tests("#reset_ftp_password_account").formats(Brightbox::Compute::Formats::Full::ACCOUNT) do
       pending if Fog.mocking?
-      Brightbox[:compute].reset_ftp_password_account
+      Fog::Compute[:brightbox].reset_ftp_password_account
     end
 
   end
@@ -32,7 +32,7 @@ Shindo.tests('Brightbox::Compute | account requests', ['brightbox']) do
 
     tests("#update_account").returns(nil) do
       pending if Fog.mocking?
-      Brightbox[:compute].update_account
+      Fog::Compute[:brightbox].update_account
     end
 
   end

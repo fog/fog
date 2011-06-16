@@ -1,9 +1,9 @@
 module Fog
-  module StormOnDemand
-    class Compute < Fog::Service
-      
+  module Compute
+    class StormOnDemand < Fog::Service
+
       API_URL = 'https://api.stormondemand.com'
-      
+
       requires :storm_on_demand_username, :storm_on_demand_password
       recognizes :storm_on_demand_auth_url
       recognizes :provider # remove post deprecation

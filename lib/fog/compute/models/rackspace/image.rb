@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module Rackspace
-    class Compute
+  module Compute
+    class Rackspace
 
       class Image < Fog::Model
 

@@ -1,14 +1,14 @@
 require 'fog/compute/models/ecloud/server'
 
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
 
       class Servers < Fog::Ecloud::Collection
 
         undef_method :create
 
-        model Fog::Ecloud::Compute::Server
+        model Fog::Compute::Ecloud::Server
 
         attribute :href, :aliases => :Href
 

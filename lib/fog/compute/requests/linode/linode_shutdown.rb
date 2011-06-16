@@ -1,7 +1,8 @@
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Real
+
         def linode_shutdown(linode_id)
           request(
             :expects => 200,
@@ -9,6 +10,7 @@ module Fog
             :query => { :api_action => 'linode.shutdown', :linodeId => linode_id }
           )
         end
+
       end
     end
   end

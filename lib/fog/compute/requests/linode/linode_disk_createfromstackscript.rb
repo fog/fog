@@ -1,7 +1,8 @@
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Real
+
         def linode_disk_createfromstackscript(linode_id, script_id, distro_id, name, size, password, options={})
           request(
             :expects  => 200,
@@ -18,6 +19,7 @@ module Fog
             }
           )
         end
+
       end
     end
   end

@@ -1,4 +1,4 @@
-Shindo.tests('Voxel::Compute | image requests', ['voxel']) do
+Shindo.tests('Fog::Compute[:voxel] | image requests', ['voxel']) do
 
   @images_format = {
     'images' => [{
@@ -33,19 +33,19 @@ Shindo.tests('Voxel::Compute | image requests', ['voxel']) do
   tests('success') do
     tests('#images_list').formats(@images_format) do
       pending if Fog.mocking?
-      Voxel[:compute].images_list.body
+      Fog::Compute[:voxel].images_list.body
     end
 
     tests('#images_list(1)').formats(@image_format) do
       pending if Fog.mocking?
-      Voxel[:compute].images_list(1).body
+      Fog::Compute[:voxel].images_list(1).body
     end
   end
 
   tests('failure') do
-    tests('#images_list(0)').raises(Fog::Voxel::Compute::Error) do
+    tests('#images_list(0)').raises(Fog::Compute::Voxel::Error) do
       pending if Fog.mocking?
-      Voxel[:compute].images_list(0).body
+      Fog::Compute[:voxel].images_list(0).body
     end
   end
 

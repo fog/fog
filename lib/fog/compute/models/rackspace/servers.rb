@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/rackspace/server'
 
 module Fog
-  module Rackspace
-    class Compute
+  module Compute
+    class Rackspace
 
       class Servers < Fog::Collection
 
-        model Fog::Rackspace::Compute::Server
+        model Fog::Compute::Rackspace::Server
 
         def all
           data = connection.list_servers_detail.body['servers']
@@ -25,7 +25,7 @@ module Fog
           if server = connection.get_server_details(server_id).body['server']
             new(server)
           end
-        rescue Fog::Rackspace::Compute::NotFound
+        rescue Fog::Compute::Rackspace::NotFound
           nil
         end
 

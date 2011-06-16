@@ -1,4 +1,4 @@
-Shindo.tests('Linode::Compute | linodeplans requests', ['linode']) do
+Shindo.tests('Fog::Compute[:linode] | linodeplans requests', ['linode']) do
 
   @linodeplans_format = Linode::Compute::Formats::BASIC.merge({
     'DATA' => [{ 
@@ -24,14 +24,14 @@ Shindo.tests('Linode::Compute | linodeplans requests', ['linode']) do
 
     tests('#avail_linodeplans').formats(@linodeplans_format) do
       pending if Fog.mocking?
-      data = Linode[:compute].avail_linodeplans.body
+      data = Fog::Compute[:linode].avail_linodeplans.body
       @linodeplan_id = data['DATA'].first['PLANID']
       data
     end
 
     tests("#avail_linodeplans(#{@linodeplan_id})").formats(@linodeplans_format) do
       pending if Fog.mocking?
-      Linode[:compute].avail_linodeplans(@linodeplan_id).body
+      Fog::Compute[:linode].avail_linodeplans(@linodeplan_id).body
     end
 
   end

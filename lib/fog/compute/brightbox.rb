@@ -1,6 +1,6 @@
 module Fog
-  module Brightbox
-    class Compute < Fog::Service
+  module Compute
+    class Brightbox < Fog::Service
 
       API_URL = "https://api.gb1.brightbox.com/"
 
@@ -77,13 +77,6 @@ module Fog
       class Mock
 
         def initialize(options)
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Brightbox::Compute.new is deprecated, use Fog::Compute.new(:provider => 'Brightbox') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           @brightbox_client_id = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
           @brightbox_secret = options[:brightbox_secret] || Fog.credentials[:brightbox_secret]
         end
@@ -96,13 +89,6 @@ module Fog
       class Real
 
         def initialize(options)
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Brightbox::Compute.new is deprecated, use Fog::Compute.new(:provider => 'Brightbox') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           require "json"
           # Currently authentication and api endpoints are the same but may change
           @auth_url = options[:brightbox_auth_url] || Fog.credentials[:brightbox_auth_url] || API_URL
@@ -126,7 +112,7 @@ module Fog
         end
 
         def account
-          Fog::Brightbox::Compute::Account.new(get_account)
+          Fog::Compute::Brightbox::Account.new(get_account)
         end
 
       private

@@ -1,6 +1,6 @@
 module Fog
-  module Slicehost
-    class Compute
+  module Compute
+    class Slicehost
       class Real
 
         require 'fog/compute/parsers/slicehost/create_slice'
@@ -30,7 +30,7 @@ module Fog
             :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><slice><flavor-id type="integer">#{flavor_id}</flavor-id><image-id type="integer">#{image_id}</image-id><name>#{name}</name></slice>},
             :expects  => 201,
             :method   => 'POST',
-            :parser   => Fog::Parsers::Slicehost::Compute::CreateSlice.new,
+            :parser   => Fog::Parsers::Compute::Slicehost::CreateSlice.new,
             :path     => 'slices.xml'
           )
         end

@@ -2,10 +2,10 @@ require 'fog/core/collection'
 require 'fog/compute/models/linode/stack_script'
 
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class StackScripts < Fog::Collection
-        model Fog::Linode::Compute::StackScript
+        model Fog::Compute::Linode::StackScript
 
         def all
           load stackscripts
@@ -13,7 +13,7 @@ module Fog
 
         def get(id)
           new stackscripts(id).first
-        rescue Fog::Linode::Compute::NotFound
+        rescue Fog::Compute::Linode::NotFound
           nil
         end        
 

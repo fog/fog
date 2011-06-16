@@ -2,11 +2,11 @@ require 'fog/core/collection'
 require 'fog/compute/models/voxel/server'
 
 module Fog
-  module Voxel
-    class Compute
+  module Compute
+    class Voxel
       class Servers < Fog::Collection
 
-        model Fog::Voxel::Compute::Server
+        model Fog::Compute::Voxel::Server
 
         def all
           data = connection.devices_list.body['devices'].select {|device| device['type']['id'] == '3'}

@@ -16,10 +16,10 @@ class Ninefold
       ## Accepts an integer jobid, or a hash containing a jobid or id.
       def wait_for_job(job)
         job = job['jobid'] || job['id'] unless job.kind_of? Integer
-        while Ninefold[:compute].query_async_job_result(:jobid => job)['jobstatus'] == 0
+        while Fog::Compute[:ninefold].query_async_job_result(:jobid => job)['jobstatus'] == 0
           sleep 1
         end
-        Ninefold[:compute].query_async_job_result(:jobid => job)
+        Fog::Compute[:ninefold].query_async_job_result(:jobid => job)
       end
       module_function :wait_for_job
 

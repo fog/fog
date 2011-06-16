@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/get_console_output'
@@ -24,7 +24,7 @@ module Fog
             'Action'      => 'GetConsoleOutput',
             'InstanceId'  => instance_id,
             :idempotent   => true,
-            :parser       => Fog::Parsers::AWS::Compute::GetConsoleOutput.new
+            :parser       => Fog::Parsers::Compute::AWS::GetConsoleOutput.new
           )
         end
 
@@ -44,7 +44,7 @@ module Fog
             }
             response
           else;
-            raise Fog::AWS::Compute::NotFound.new("The instance ID '#{instance_id}' does not exist")
+            raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_id}' does not exist")
           end
         end
 

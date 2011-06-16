@@ -1,4 +1,4 @@
-Shindo.tests('Slicehost::Compute | backup requests', ['slicehost']) do
+Shindo.tests('Fog::Compute[:slicehost] | backup requests', ['slicehost']) do
 
   @backup_format = {
     'date'      => String,
@@ -11,7 +11,7 @@ Shindo.tests('Slicehost::Compute | backup requests', ['slicehost']) do
 
     tests('#get_backups').formats({ 'backups' => [@backup_format] }) do
       pending if Fog.mocking?
-      Slicehost[:compute].get_backups.body
+      Fog::Compute[:slicehost].get_backups.body
     end
 
   end

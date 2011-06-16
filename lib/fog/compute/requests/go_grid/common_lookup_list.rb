@@ -1,6 +1,6 @@
 module Fog
-  module GoGrid
-    class Compute
+  module Compute
+    class GoGrid
       class Real
 
         # List options and lookups

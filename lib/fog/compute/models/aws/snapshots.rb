@@ -2,15 +2,15 @@ require 'fog/core/collection'
 require 'fog/compute/models/aws/snapshot'
 
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
 
       class Snapshots < Fog::Collection
 
         attribute :filters
         attribute :volume
 
-        model Fog::AWS::Compute::Snapshot
+        model Fog::Compute::AWS::Snapshot
 
         def initialize(attributes)
           self.filters ||= { 'RestorableBy' => 'self' }

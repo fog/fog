@@ -1,6 +1,6 @@
 module Fog
-  module StormOnDemand
-    class Compute
+  module Compute
+    class StormOnDemand
       class Real
 
         def resize_server(options = {})

@@ -1,4 +1,4 @@
-Shindo.tests('Slicehost::Compute | flavor requests', ['slicehost']) do
+Shindo.tests('Fog::Compute[:slicehost] | flavor requests', ['slicehost']) do
 
   @flavor_format = {
     'id'    => Integer,
@@ -11,12 +11,12 @@ Shindo.tests('Slicehost::Compute | flavor requests', ['slicehost']) do
 
     tests('#get_flavor(1)').formats(@flavor_format) do
       pending if Fog.mocking?
-      Slicehost[:compute].get_flavor(1).body
+      Fog::Compute[:slicehost].get_flavor(1).body
     end
 
     tests('#get_flavors').formats({ 'flavors' => [@flavor_format] }) do
       pending if Fog.mocking?
-      Slicehost[:compute].get_flavors.body
+      Fog::Compute[:slicehost].get_flavors.body
     end
 
   end
@@ -25,7 +25,7 @@ Shindo.tests('Slicehost::Compute | flavor requests', ['slicehost']) do
 
     tests('#get_flavor(0)').raises(Excon::Errors::Forbidden) do
       pending if Fog.mocking?
-      Slicehost[:compute].get_flavor(0)
+      Fog::Compute[:slicehost].get_flavor(0)
     end
 
   end

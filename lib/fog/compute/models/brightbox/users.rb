@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/brightbox/user'
 
 module Fog
-  module Brightbox
-    class Compute
+  module Compute
+    class Brightbox
 
       class Users < Fog::Collection
 
-        model Fog::Brightbox::Compute::User
+        model Fog::Compute::Brightbox::User
 
         def all
           data = connection.list_users

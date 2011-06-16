@@ -1,6 +1,6 @@
 module Fog
-  module NewServers
-    class Compute
+  module Compute
+    class NewServers
       class Real
 
         # Boot a new server

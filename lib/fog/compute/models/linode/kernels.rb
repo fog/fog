@@ -2,10 +2,10 @@ require 'fog/core/collection'
 require 'fog/compute/models/linode/kernel'
 
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Kernels < Fog::Collection
-        model Fog::Linode::Compute::Kernel
+        model Fog::Compute::Linode::Kernel
 
         def all
           load kernels
@@ -13,7 +13,7 @@ module Fog
 
         def get(id)
           new kernels(id).first
-        rescue Fog::Linode::Compute::NotFound
+        rescue Fog::Compute::Linode::NotFound
           nil
         end
 

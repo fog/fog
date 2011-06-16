@@ -1,51 +1,66 @@
 module Fog
-  class Compute
+  module Compute
+
+    def self.[](provider)
+      self.new(:provider => provider)
+    end
 
     def self.new(attributes)
       attributes = attributes.dup # prevent delete from having side effects
-      case provider = attributes[:provider] # attributes.delete(:provider)
-      when 'AWS'
+      case provider = attributes[:provider].to_s.downcase.to_sym
+      when :aws
         require 'fog/compute/aws'
-        Fog::AWS::Compute.new(attributes)
-      when 'Bluebox'
+        Fog::Compute::AWS.new(attributes)
+      when :bluebox
         require 'fog/compute/bluebox'
-        Fog::Bluebox::Compute.new(attributes)
-      when 'Brightbox'
+        Fog::Compute::Bluebox.new(attributes)
+      when :brightbox
         require 'fog/compute/brightbox'
-        Fog::Brightbox::Compute.new(attributes)
-      when 'Ecloud'
+        Fog::Compute::Brightbox.new(attributes)
+      when :ecloud
         require 'fog/compute/ecloud'
-        Fog::Ecloud::Compute.new(attributes)
-      when 'GoGrid'
+        Fog::Compute::Ecloud.new(attributes)
+      when :gogrid
         require 'fog/compute/go_grid'
-        Fog::GoGrid::Compute.new(attributes)
-      when 'Linode'
+        Fog::Compute::GoGrid.new(attributes)
+      when :linode
         require 'fog/compute/linode'
-        Fog::Linode::Compute.new(attributes)
-      when 'NewServers'
+        Fog::Compute::Linode.new(attributes)
+      when :newservers
         require 'fog/compute/new_servers'
-        Fog::NewServers::Compute.new(attributes)
-      when 'Ninefold'
+        Fog::Compute::NewServers.new(attributes)
+      when :ninefold
         require 'fog/compute/ninefold'
-        Fog::Ninefold::Compute.new(attributes)
-      when 'Rackspace'
+        Fog::Compute::Ninefold.new(attributes)
+      when :rackspace
         require 'fog/compute/rackspace'
-        Fog::Rackspace::Compute.new(attributes)
-      when 'Slicehost'
+        Fog::Compute::Rackspace.new(attributes)
+      when :slicehost
         require 'fog/compute/slicehost'
-        Fog::Slicehost::Compute.new(attributes)
-      when 'StormOnDemand'
+        Fog::Compute::Slicehost.new(attributes)
+      when :stormondemand
         require 'fog/compute/storm_on_demand'
-        Fog::StormOnDemand::Compute.new(attributes)
-      when 'VirtualBox'
+        Fog::Compute::StormOnDemand.new(attributes)
+      when :virtualbox
         require 'fog/compute/virtual_box'
-        Fog::VirtualBox::Compute.new(attributes)
-      when 'Voxel'
+        Fog::Compute::VirtualBox.new(attributes)
+      when :voxel
         require 'fog/compute/voxel'
-        Fog::Voxel::Compute.new(attributes)
+        Fog::Compute::Voxel.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized compute provider")
       end
+    end
+
+    def self.servers
+      servers = []
+      for provider in [:aws, :bluebox, :brightbox, :ecloud, :gogrid, :linode, :newservers, :ninefold, :rackspace, :slicehost, :stormondemand, :virtualbox, :voxel]
+        begin
+          servers.concat(self[provider].servers)
+        rescue # ignore any missing credentials/etc
+        end
+      end
+      servers
     end
 
   end

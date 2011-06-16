@@ -1,13 +1,13 @@
 module Fog
-  module Voxel
-    class Compute
-
-      require 'fog/compute/parsers/voxel/voxcloud_status'
-
+  module Compute
+    class Voxel
       class Real
+
+        require 'fog/compute/parsers/voxel/voxcloud_status'
+
         def voxcloud_status(device_id = nil)
           options = {
-            :parser     => Fog::Parsers::Voxel::Compute::VoxcloudStatus.new,
+            :parser     => Fog::Parsers::Compute::Voxel::VoxcloudStatus.new,
             :verbosity  => 'compact'
           }
 
@@ -17,12 +17,7 @@ module Fog
 
           request("voxel.voxcloud.status", options)
         end
-      end
 
-      class Mock
-        def voxcloud_status(device_id = nil)
-          Fog::Mock.not_implemented
-        end
       end
     end
   end

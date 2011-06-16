@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/basic'
@@ -21,7 +21,7 @@ module Fog
         def delete_tags(resources, tags)
           resources = [*resources]
           params = {}
-          params.merge!(AWS.indexed_param('ResourceId', resources))
+          params.merge!(Fog::AWS.indexed_param('ResourceId', resources))
 
           # can not rely on indexed_param because nil values should be omitted
           tags.keys.each_with_index do |key, index|
@@ -34,7 +34,7 @@ module Fog
 
           request({
             'Action'            => 'DeleteTags',
-            :parser             => Fog::Parsers::AWS::Compute::Basic.new
+            :parser             => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(params))
         end
 

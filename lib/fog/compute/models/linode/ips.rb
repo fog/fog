@@ -2,10 +2,10 @@ require 'fog/core/collection'
 require 'fog/compute/models/linode/ip'
 
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Ips < Fog::Collection
-        model Fog::Linode::Compute::Ip
+        model Fog::Compute::Linode::Ip
         attribute :server
 
         def all
@@ -16,7 +16,7 @@ module Fog
         def get(id)
           requires :server
           new ips(server.id, id).first
-        rescue Fog::Linode::Compute::NotFound
+        rescue Fog::Compute::Linode::NotFound
           nil
         end
 

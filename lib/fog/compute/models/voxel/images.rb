@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/voxel/image'
 
 module Fog
-  module Voxel
-    class Compute
+  module Compute
+    class Voxel
 
       class Images < Fog::Collection
 
-        model Fog::Voxel::Compute::Image
+        model Fog::Compute::Voxel::Image
 
         def all
           data = connection.images_list.body['images']

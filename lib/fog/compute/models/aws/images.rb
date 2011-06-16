@@ -2,14 +2,14 @@ require 'fog/core/collection'
 require 'fog/compute/models/aws/image'
 
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
 
       class Images < Fog::Collection
 
         attribute :filters
 
-        model Fog::AWS::Compute::Image
+        model Fog::Compute::AWS::Image
         
         # Creates a new Amazon machine image
         #

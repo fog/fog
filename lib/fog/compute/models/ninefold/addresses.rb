@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/ninefold/address'
 
 module Fog
-  module Ninefold
-    class Compute
+  module Compute
+    class Ninefold
 
       class Addresses < Fog::Collection
 
-        model Fog::Ninefold::Compute::Address
+        model Fog::Compute::Ninefold::Address
 
         def all
           data = connection.list_public_ip_addresses

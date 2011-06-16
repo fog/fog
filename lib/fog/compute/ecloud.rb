@@ -823,8 +823,8 @@ module Fog
 end
 
 module Fog
-  module Ecloud
-    class Compute < Fog::Service
+  module Compute
+    class Ecloud < Fog::Service
 
       class UnsupportedVersion < Exception ; end
 
@@ -953,7 +953,7 @@ module Fog
 
       class Mock
         include Shared
-        include MockDataClasses
+        include Fog::Ecloud::MockDataClasses
 
         def self.base_url
           "https://fakey.com/api/v0.8b-ext2.6"

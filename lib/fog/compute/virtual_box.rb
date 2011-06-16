@@ -1,6 +1,6 @@
 module Fog
-  module VirtualBox
-    class Compute < Fog::Service
+  module Compute
+    class VirtualBox < Fog::Service
 
       recognizes :provider # remove post deprecation
 

@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module StormOnDemand
-    class Compute
+  module Compute
+    class StormOnDemand
 
       class Stat < Fog::Model
         attribute :loadavg

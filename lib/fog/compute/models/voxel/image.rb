@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module Voxel
-    class Compute
+  module Compute
+    class Voxel
       class Image < Fog::Model
 
         identity :id

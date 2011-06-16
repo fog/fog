@@ -6,7 +6,7 @@ class Rackspace < Fog::Bin
       when :cdn
         Fog::CDN::Rackspace
       when :compute
-        Fog::Rackspace::Compute
+        Fog::Compute::Rackspace
       when :storage
         Fog::Storage::Rackspace
       else 
@@ -21,6 +21,7 @@ class Rackspace < Fog::Bin
           Formatador.display_line("[yellow][WARN] Rackspace[:cdn] is deprecated, use CDN[:rackspace] instead[/]")
           Fog::CDN.new(:provider => 'Rackspace')
         when :compute
+          Formatador.display_line("[yellow][WARN] Rackspace[:compute] is deprecated, use Compute[:rackspace] instead[/]")
           Fog::Compute.new(:provider => 'Rackspace')
         when :dns
           Fog::DNS.new(:provider => 'Rackspace')

@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/virtual_box/nat_redirect'
 
 module Fog
-  module VirtualBox
-    class Compute
+  module Compute
+    class VirtualBox
 
       class NATRedirects < Fog::Collection
 
-        model Fog::VirtualBox::Compute::NATRedirect
+        model Fog::Compute::VirtualBox::NATRedirect
 
         attr_accessor :machine, :nat_engine
 

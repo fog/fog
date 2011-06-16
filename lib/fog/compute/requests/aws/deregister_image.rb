@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/deregister_image'
@@ -21,7 +21,7 @@ module Fog
           request(
             'Action'      => 'DeregisterImage',
             'ImageId'     => image_id,
-            :parser       => Fog::Parsers::AWS::Compute::DeregisterImage.new
+            :parser       => Fog::Parsers::Compute::AWS::DeregisterImage.new
           )
         end
 
@@ -43,7 +43,7 @@ module Fog
             if !instance_id
               message << 'The request must contain the parameter image_id'
             end
-            raise Fog::AWS::Compute::Error.new(message)
+            raise Fog::Compute::AWS::Error.new(message)
           end
         end
 

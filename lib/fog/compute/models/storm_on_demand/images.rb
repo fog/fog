@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/storm_on_demand/image'
 
 module Fog
-  module StormOnDemand
-    class Compute
+  module Compute
+    class StormOnDemand
 
       class Images < Fog::Collection
 
-        model Fog::StormOnDemand::Compute::Image
+        model Fog::Compute::StormOnDemand::Image
 
         def all
           data = connection.list_images.body['images']

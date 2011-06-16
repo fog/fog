@@ -1,6 +1,6 @@
 module Fog
-  module Rackspace
-    class Compute
+  module Compute
+    class Rackspace
       class Real
 
         # List all server addresses
@@ -33,7 +33,7 @@ module Fog
             response.body = { 'addresses' => server['addresses'] }
             response
           else
-            raise Fog::Rackspace::Compute::NotFound
+            raise Fog::Compute::Rackspace::NotFound
           end
         end
 

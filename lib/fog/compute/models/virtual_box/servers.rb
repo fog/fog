@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/virtual_box/server'
 
 module Fog
-  module VirtualBox
-    class Compute
+  module Compute
+    class VirtualBox
 
       class Servers < Fog::Collection
 
-        model Fog::VirtualBox::Compute::Server
+        model Fog::Compute::VirtualBox::Server
 
         def all
           data = connection.machines.map do |machine|

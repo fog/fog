@@ -1,13 +1,13 @@
 module Fog
-  module Voxel
-    class Compute
+  module Compute
+    class Voxel
       class Real
 
         require 'fog/compute/parsers/voxel/images_list'
 
         def images_list(image_id = nil)
           options = {
-            :parser     => Fog::Parsers::Voxel::Compute::ImagesList.new,
+            :parser     => Fog::Parsers::Compute::Voxel::ImagesList.new,
             :verbosity  => 'compact'
           }
 
@@ -21,7 +21,7 @@ module Fog
           if data.body['stat'] == "ok"
             data
           else
-            raise Fog::Voxel::Compute::NotFound
+            raise Fog::Compute::Voxel::NotFound
           end
         end
       end

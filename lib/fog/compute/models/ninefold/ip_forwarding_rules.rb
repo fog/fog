@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/ninefold/ip_forwarding_rule'
 
 module Fog
-  module Ninefold
-    class Compute
+  module Compute
+    class Ninefold
 
       class IpForwardingRules < Fog::Collection
 
-        model Fog::Ninefold::Compute::IpForwardingRule
+        model Fog::Compute::Ninefold::IpForwardingRule
 
         def all
           data = connection.list_ip_forwarding_rules

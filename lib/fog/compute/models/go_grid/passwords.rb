@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/go_grid/password'
 
 module Fog
-  module GoGrid
-    class Compute
+  module Compute
+    class GoGrid
 
       class Passwords < Fog::Collection
 
-        model Fog::GoGrid::Compute::Password
+        model Fog::Compute::GoGrid::Password
 
         def all
           data = connection.support_password_list.body['list']
@@ -25,7 +25,7 @@ module Fog
           if id && server = connection.support_password_get(id).body['list']
             new(server)
           end
-        rescue Fog::GoGrid::Compute::NotFound
+        rescue Fog::Compute::GoGrid::NotFound
           nil
         end
 

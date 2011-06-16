@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/attach_volume'
@@ -30,7 +30,7 @@ module Fog
             'InstanceId'  => instance_id,
             'Device'      => device,
             :idempotent   => true,
-            :parser       => Fog::Parsers::AWS::Compute::AttachVolume.new
+            :parser       => Fog::Parsers::Compute::AWS::AttachVolume.new
           )
         end
 
@@ -46,7 +46,7 @@ module Fog
             volume = self.data[:volumes][volume_id]
             if instance && volume
               unless volume['status'] == 'available'
-                raise Fog::AWS::Compute::Error.new("Client.VolumeInUse => Volume #{volume_id} is unavailable")
+                raise Fog::Compute::AWS::Error.new("Client.VolumeInUse => Volume #{volume_id} is unavailable")
               end
 
               data = {
@@ -64,9 +64,9 @@ module Fog
               }.merge!(data)
               response
             elsif !instance
-              raise Fog::AWS::Compute::NotFound.new("The instance ID '#{instance_id}' does not exist.")
+              raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_id}' does not exist.")
             elsif !volume
-              raise Fog::AWS::Compute::NotFound.new("The volume '#{volume_id}' does not exist.")
+              raise Fog::Compute::AWS::NotFound.new("The volume '#{volume_id}' does not exist.")
             end
           else
             message = 'MissingParameter => '
@@ -77,7 +77,7 @@ module Fog
             else
               message << 'The request must contain the parameter device'
             end
-            raise Fog::AWS::Compute::Error.new(message)
+            raise Fog::Compute::AWS::Error.new(message)
           end
         end
 

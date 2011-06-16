@@ -1,8 +1,8 @@
 require 'fog/compute/models/ecloud/public_ip'
 
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
       class PublicIps < Fog::Ecloud::Collection
 
         undef_method :create

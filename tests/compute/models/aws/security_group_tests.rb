@@ -1,9 +1,9 @@
-Shindo.tests("AWS::Compute | security_group", ['aws']) do
+Shindo.tests("Fog::Compute[:aws] | security_group", ['aws']) do
 
-  model_tests(AWS[:compute].security_groups, {:description => 'foggroupdescription', :name => 'foggroupname'}, true)
+  model_tests(Fog::Compute[:aws].security_groups, {:description => 'foggroupdescription', :name => 'foggroupname'}, true)
 
   tests("a group with trailing whitespace") do
-    @group = AWS[:compute].security_groups.create(:name => "foggroup with spaces   ", :description => "   fog group desc   ")
+    @group = Fog::Compute[:aws].security_groups.create(:name => "foggroup with spaces   ", :description => "   fog group desc   ")
     test("name is correct") do
       @group.name ==  "foggroup with spaces   "
     end

@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/describe_security_groups'
@@ -38,7 +38,7 @@ module Fog
           request({
             'Action'    => 'DescribeSecurityGroups',
             :idempotent => true,
-            :parser     => Fog::Parsers::AWS::Compute::DescribeSecurityGroups.new
+            :parser     => Fog::Parsers::Compute::AWS::DescribeSecurityGroups.new
           }.merge!(params))
         end
 

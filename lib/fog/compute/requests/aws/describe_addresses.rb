@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/describe_addresses'
@@ -28,7 +28,7 @@ module Fog
           request({
             'Action'    => 'DescribeAddresses',
             :idempotent => true,
-            :parser     => Fog::Parsers::AWS::Compute::DescribeAddresses.new
+            :parser     => Fog::Parsers::Compute::AWS::DescribeAddresses.new
           }.merge!(params))
         end
 

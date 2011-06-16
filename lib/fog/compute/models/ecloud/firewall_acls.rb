@@ -1,11 +1,11 @@
 require 'fog/compute/models/ecloud/firewall_acl'
 
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
       class FirewallAcls < Fog::Ecloud::Collection
 
-        model Fog::Ecloud::Compute::FirewallAcl
+        model Fog::Compute::Ecloud::FirewallAcl
 
         attribute :href, :aliases => :Href
 

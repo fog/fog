@@ -1,6 +1,6 @@
 module Fog
-  module Rackspace
-    class Compute < Fog::Service
+  module Compute
+    class Rackspace < Fog::Service
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :rackspace_servicenet, :persistent
@@ -58,13 +58,6 @@ module Fog
         end
 
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Rackspace::Compute.new is deprecated, use Fog::Compute.new(:provider => 'Rackspace') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           @rackspace_username = options[:rackspace_username]
         end
 
@@ -81,13 +74,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Rackspace::Compute.new is deprecated, use Fog::Compute.new(:provider => 'Rackspace') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           require 'json'
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
@@ -123,7 +109,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Rackspace::Compute::NotFound.slurp(error)
+              Fog::Compute::Rackspace::NotFound.slurp(error)
             else
               error
             end

@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/describe_key_pairs'
@@ -28,7 +28,7 @@ module Fog
           request({
             'Action'    => 'DescribeKeyPairs',
             :idempotent => true,
-            :parser     => Fog::Parsers::AWS::Compute::DescribeKeyPairs.new
+            :parser     => Fog::Parsers::Compute::AWS::DescribeKeyPairs.new
           }.merge!(params))
         end
 

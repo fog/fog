@@ -1,6 +1,6 @@
 module Fog
-  module GoGrid
-    class Compute
+  module Compute
+    class GoGrid
       class Real
 
         # Create a new server

@@ -2,10 +2,10 @@ require 'fog/core/collection'
 require 'fog/compute/models/linode/disk'
 
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Disks < Fog::Collection
-        model Fog::Linode::Compute::Disk
+        model Fog::Compute::Linode::Disk
         attribute :server
 
         def all

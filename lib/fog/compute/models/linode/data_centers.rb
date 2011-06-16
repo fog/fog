@@ -2,10 +2,10 @@ require 'fog/core/collection'
 require 'fog/compute/models/linode/data_center'
 
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class DataCenters < Fog::Collection
-        model Fog::Linode::Compute::DataCenter
+        model Fog::Compute::Linode::DataCenter
 
         def all
           load datacenters
