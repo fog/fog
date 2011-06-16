@@ -14,9 +14,13 @@ module Fog
           load(data)
         end
 
+        # Supply the :cdn_cname option to use the Rackspace CDN CNAME functionality on the public_url.
+        #
+        # > fog.directories.get('video', :cdn_cname => 'http://cdn.lunenburg.org').files.first.public_url
+        # => 'http://cdn.lunenburg.org/hayley-dancing.mov'
         def get(key, options = {})
           data = connection.get_container(key, options)
-          directory = new(:key => key)
+          directory = new(:key => key, :cdn_cname => options[:cdn_cname])
           for key, value in data.headers
             if ['X-Container-Bytes-Used', 'X-Container-Object-Count'].include?(key)
               directory.merge_attributes(key => value)
