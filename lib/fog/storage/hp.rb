@@ -3,7 +3,7 @@ module Fog
     class Storage < Fog::Service
 
       requires    :hp_password, :hp_username
-      recognizes  :hp_auth_url, :hp_servicenet, :hp_cdn_ssl, :persistent
+      recognizes  :hp_host, :hp_port, :hp_auth_path, :hp_servicenet, :hp_cdn_ssl, :persistent
       recognizes  :provider # remove post deprecation
 
       model_path 'fog/storage/models/hp'
