@@ -14,8 +14,8 @@ module Fog
 
       request_path 'fog/dns/requests/dynect'
       request :session
-      request :zones
-      request :zone
+      request :list_zones
+      request :get_zone
 
       class Real
         def initialize(options={})

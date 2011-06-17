@@ -17,7 +17,7 @@ module Fog
         #     * 'serial'<~Integer>
         #     * 'zone'<~String>
 
-        def zone(zone_name)
+        def get_zone(zone_name)
           request(
                   :parser   => Fog::Parsers::Dynect::DNS::Zone.new,
                   :expects  => 200,
@@ -29,7 +29,7 @@ module Fog
 
       class Mock
 
-        def zone(zone_name)
+        def get_zone(zone_name)
           response = Excon::Response.new
           response.status = 200
           response.body = {

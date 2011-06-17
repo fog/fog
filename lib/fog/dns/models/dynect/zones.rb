@@ -10,6 +10,12 @@ module Fog
         model Fog::Dynect::DNS::Zone
 
         def all
+          zone_names = connection.list_zones.body["zones"]
+          load(zone_names.map {|name|
+                 {
+                   "zone" => name
+                 }
+               })
         end
 
         def get(zone_id)

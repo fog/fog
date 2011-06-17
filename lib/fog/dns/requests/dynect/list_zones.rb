@@ -5,7 +5,7 @@ module Fog
 
         require 'fog/dns/parsers/dynect/zones'
 
-        def zones
+        def list_zones
           request(
                   :parser   => Fog::Parsers::Dynect::DNS::Zones.new,
                   :expects  => 200,
@@ -17,7 +17,7 @@ module Fog
 
       class Mock
 
-        def zones
+        def list_zones
           response = Excon::Response.new
           response.status = 200
           response.body = {

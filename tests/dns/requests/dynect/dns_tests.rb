@@ -8,14 +8,14 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
     end
 
     tests "list zones" do
-      response = Dynect[:dns].zones
+      response = Dynect[:dns].list_zones
       returns(true) { response.body['zones'].first =~ /\.com/ && true }
       returns(true) { response.status == 200 }
     end
 
     tests "get zone" do
-      first_zone_name = Dynect[:dns].zones.body['zones'].first
-      response = Dynect[:dns].zone(first_zone_name)
+      first_zone_name = Dynect[:dns].list_zones.body['zones'].first
+      response = Dynect[:dns].get_zone(first_zone_name)
       returns(true) { response.body['zone'] == first_zone_name }
       returns(true) { response.body['serial'] > 0 }
       returns(true) { response.body['zone_type'] == "Primary" }
