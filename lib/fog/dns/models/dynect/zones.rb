@@ -19,6 +19,7 @@ module Fog
         end
 
         def get(zone_id)
+          new(connection.get_zone(zone_id).body)
         end
 
       end
