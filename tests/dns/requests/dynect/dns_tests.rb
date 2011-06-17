@@ -8,7 +8,7 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
     end
 
     tests "list zones" do
-      response = Dynect[:dns].zone
+      response = Dynect[:dns].zones
       returns(true) { response.body['zones'].first =~ /\.com/ && true }
       returns(true) { response.status == 200 }
     end
