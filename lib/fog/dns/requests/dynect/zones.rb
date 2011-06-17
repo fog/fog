@@ -3,11 +3,11 @@ module Fog
     class DNS
       class Real
 
-        require 'fog/dns/parsers/dynect/zone'
+        require 'fog/dns/parsers/dynect/zones'
 
         def zones
           request(
-                  :parser   => Fog::Parsers::Dynect::DNS::Zone.new,
+                  :parser   => Fog::Parsers::Dynect::DNS::Zones.new,
                   :expects  => 200,
                   :method   => "GET",
                   :path     => "Zone",

@@ -13,6 +13,17 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       returns(true) { response.status == 200 }
     end
 
+    tests "get zone" do
+      first_zone_name = Dynect[:dns].zones.body['zones'].first
+      response = Dynect[:dns].zone(first_zone_name)
+      returns(true) { response.body['zone'] == first_zone_name }
+      returns(true) { response.body['serial'] > 0 }
+      returns(true) { response.body['zone_type'] == "Primary" }
+      returns(true) { response.body['serial_style'] == "increment" }
+    end
+
+    tests "list records"
+
     tests "create record"
     tests "delete record"
     tests "update record"

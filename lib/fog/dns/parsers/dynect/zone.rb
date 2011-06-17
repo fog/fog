@@ -6,13 +6,15 @@ module Fog
         class Zone < Fog::Parsers::Base
 
           def reset
-            @response = {"zones" => []}
+            @response = {}
           end
 
           def end_element(name)
             case name
-            when 'ZoneURI'
-              @response['zones'] << @value.match(/\/REST\/Zone\/(.+)\//)[1]
+            when 'zone', 'zone_type', 'serial_style'
+              @response[name] = @value
+            when 'serial'
+              @response['serial'] = @value.to_i
             end
           end
 
