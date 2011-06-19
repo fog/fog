@@ -13,7 +13,7 @@ module Fog
           zone_names = connection.list_zones.body["zones"]
           load(zone_names.map {|name|
                  {
-                   "zone" => name
+                   "id" => name
                  }
                })
         end

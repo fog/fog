@@ -9,28 +9,20 @@ module Fog
         deprecate :ip, :value
         deprecate :ip=, :value=
 
-        identity :id
-        attribute :name
-        attribute :value,       :aliases => "content"
+        identity :id,           :aliases => "record_id"
+        attribute :name,        :aliases => "fqdn"
+        attribute :value,       :aliases => "rdata"
         attribute :ttl
-        attribute :created_at
-        attribute :updated_at
-        attribute :zone_id,     :aliases => "domain_id"
+        attribute :zone_id,     :aliases => "zone"
         attribute :type,        :aliases => "record_type"
-        attribute :priority,    :aliases => "prio"
-
-        def initialize(attributes={})
-        end
 
         def destroy
-        end
-
-        def zone
+          raise 'destroy not implemented'
         end
 
         def save
+          raise 'save not implemented'
         end
-
       end
 
     end

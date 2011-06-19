@@ -16,6 +16,8 @@ module Fog
       request :session
       request :list_zones
       request :get_zone
+      request :list_any_records
+      request :node_list
 
       class Real
         def initialize(options={})
@@ -45,6 +47,7 @@ module Fog
             params[:headers]['Auth-Token'] = auth_token unless params[:path] == "Session"
             params[:path] = "#{@path}/#{params[:path]}"
             response = @connection.request(params.merge!({:host => @host}))
+            response = handle_redirect(response) if response.status == 307
           rescue Excon::Errors::HTTPStatusError => error
             raise error
           end
@@ -53,8 +56,18 @@ module Fog
         end
       end
 
-      class Mock
+      def handle_redirect(response)
+          raise request({
+                    :expects  => 200,
+                    :method   => "GET",
+                    :path     => response.body
+                  })
+
+
       end
+
+      # class Mock
+      # end
 
     end
   end

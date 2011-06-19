@@ -7,25 +7,26 @@ module Fog
 
       class Zone < Fog::Model
 
-        identity :zone
+        identity :id,           :aliases => "zone"
         attribute :serial
         attribute :zone_type
         attribute :serial_style
 
         def destroy
-          raise 'Not Implemented'
+          raise 'destroy Not Implemented'
         end
 
         def records
-          raise 'Not Implemented'
+          @records ||= Fog::Dynect::DNS::Records.new(:zone => self, :connection => connection)
         end
 
         def nameservers
-          raise 'Not Implemented'
+          raise 'nameservers Not Implemented'
         end
 
         def save
-          raise 'Not Implemented'
+          #raise 'Not Implemented'
+          'dynect save'
         end
 
       end
