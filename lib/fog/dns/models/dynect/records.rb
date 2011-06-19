@@ -11,11 +11,11 @@ module Fog
 
         model Fog::Dynect::DNS::Record
 
-        def all(attributes={})
+        def all(filter=nil)
           selected_nodes = nodes
           selected_nodes = nodes.select do |node|
-            Array(attributes[:nodes]).include?(node)
-          end if attributes[:nodes]
+            node =~ /#{Regexp.escape(filter)}$/
+          end if filter
 
           data = selected_nodes.inject([]) do |m, node|
             m += connection.list_any_records(zone.id, node).map(&:body)

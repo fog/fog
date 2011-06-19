@@ -41,7 +41,7 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
     end
 
     tests "model" do
-      records = Fog::DNS.new(:provider => "Dynect").zones.get(zone).records.all(:nodes => fqdn)
+      records = Fog::DNS.new(:provider => "Dynect").zones.get(zone).records.all(fqdn)
       returns("127.0.0.2") { records.last.value }
     end
 
