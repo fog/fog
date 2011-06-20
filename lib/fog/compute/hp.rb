@@ -20,9 +20,9 @@ module Fog
       request :create_server
 #      request :delete_image
 #      request :delete_server
-#      request :get_flavor_details
-#      request :get_image_details
-#      request :get_server_details
+      request :get_flavor_details
+      request :get_image_details
+      request :get_server_details
 #      request :list_addresses
 #      request :list_private_addresses
 #      request :list_public_addresses
