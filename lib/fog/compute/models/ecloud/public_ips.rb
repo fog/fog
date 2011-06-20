@@ -9,7 +9,7 @@ module Fog
 
         attribute :href, :aliases => :Href
 
-        model Fog::Ecloud::Compute::PublicIp
+        model Fog::Compute::Ecloud::PublicIp
 
         #get_request :get_public_ip
         #vcloud_type "application/vnd.tmrk.ecloud.publicIp+xml"

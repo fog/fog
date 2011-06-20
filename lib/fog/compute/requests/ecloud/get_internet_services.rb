@@ -49,7 +49,7 @@ module Fog
             xml.Id service.object_id
             xml.Href service.href
             xml.Name service.name
-            if MockDataClasses::MockBackupInternetService === service
+            if Fog::Ecloud::MockDataClasses::MockBackupInternetService === service
               xml.PublicIpAddress "i:nil" => true
             else
               xml.PublicIpAddress {
@@ -65,8 +65,8 @@ module Fog
             xml.Description service.description
             xml.RedirectURL service.redirect_url
             xml.Monitor "i:nil" => true
-            xml.IsBackupService MockDataClasses::MockBackupInternetService === service
-            if MockDataClasses::MockPublicIpInternetService === service && service.backup_service
+            xml.IsBackupService Fog::Ecloud::MockDataClasses::MockBackupInternetService === service
+            if Fog::Ecloud::MockDataClasses::MockPublicIpInternetService === service && service.backup_service
               xml.BackupService do
                 xml.Href service.backup_service.href
               end

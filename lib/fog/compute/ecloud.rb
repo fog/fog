@@ -1077,7 +1077,7 @@ module Fog
         end
 
         def mock_data
-          Fog::Ecloud::Compute::Mock.data
+          Fog::Compute::Ecloud::Mock.data
         end
 
         def mock_error(expected, status, body='', headers={})

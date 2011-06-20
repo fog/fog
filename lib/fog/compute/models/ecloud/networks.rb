@@ -8,7 +8,7 @@ module Fog
 
         undef_method :create
 
-        model Fog::Ecloud::Compute::Network
+        model Fog::Compute::Ecloud::Network
 
         attribute :href
 

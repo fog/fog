@@ -23,8 +23,11 @@ module Fog
 
         def ips
           load_unless_loaded!
-          Fog::Compute::Ecloud::Compute.new( :connection => connection,
-               :href => links.detect { |link| link[:name] == "IP Addresses" }[:href] )
+          connection.ips.new
+          Fog::Compute::Ecloud::Ips.new(
+            :connection => connection,
+            :href => links.detect { |link| link[:name] == "IP Addresses" }[:href]
+          )
         end
 
         def rnat=(new_rnat)
