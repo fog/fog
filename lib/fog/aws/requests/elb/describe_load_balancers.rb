@@ -43,7 +43,7 @@ module Fog
         #           * 'GroupName'<~String> - Name of the source security group to use with inbound security group rules
         #           * 'OwnerAlias'<~String> - Owner of the source security group
         def describe_load_balancers(lb_name = [])
-          params = AWS.indexed_param('LoadBalancerNames.member', [*lb_name])
+          params = Fog::AWS.indexed_param('LoadBalancerNames.member', [*lb_name])
           request({
             'Action'  => 'DescribeLoadBalancers',
             :parser   => Fog::Parsers::AWS::ELB::DescribeLoadBalancers.new

@@ -18,9 +18,9 @@ module Fog
         #
         def modify_image_attributes(image_id, attribute, operation_type, options = {})
           params = {}
-          params.merge!(AWS.indexed_param('UserId', options['UserId']))
-          params.merge!(AWS.indexed_param('UserGroup', options['UserGroup']))
-          params.merge!(AWS.indexed_param('ProductCode', options['ProductCode']))
+          params.merge!(Fog::AWS.indexed_param('UserId', options['UserId']))
+          params.merge!(Fog::AWS.indexed_param('UserGroup', options['UserGroup']))
+          params.merge!(Fog::AWS.indexed_param('ProductCode', options['ProductCode']))
           request({
             'Action'        => 'ModifyImageAttribute',
             'Attribute'     => attribute,

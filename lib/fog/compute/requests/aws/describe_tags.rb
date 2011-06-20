@@ -22,7 +22,7 @@ module Fog
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeTags.html]
         def describe_tags(filters = {})
-          params = AWS.indexed_filters(filters)
+          params = Fog::AWS.indexed_filters(filters)
           request({
             'Action'    => 'DescribeTags',
             :idempotent => true,

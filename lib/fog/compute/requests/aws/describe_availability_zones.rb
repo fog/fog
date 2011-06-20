@@ -25,7 +25,7 @@ module Fog
             Formatador.display_line("[yellow][WARN] describe_availability_zones with #{filters.class} param is deprecated, use describe_availability_zones('zone-name' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'public-ip' => [*filters]}
           end
-          params = AWS.indexed_filters(filters)
+          params = Fog::AWS.indexed_filters(filters)
           request({
             'Action'    => 'DescribeAvailabilityZones',
             :idempotent => true,

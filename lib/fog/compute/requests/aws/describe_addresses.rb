@@ -24,7 +24,7 @@ module Fog
             Formatador.display_line("[yellow][WARN] describe_addresses with #{filters.class} param is deprecated, use describe_addresses('public-ip' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'public-ip' => [*filters]}
           end
-          params = AWS.indexed_filters(filters)
+          params = Fog::AWS.indexed_filters(filters)
           request({
             'Action'    => 'DescribeAddresses',
             :idempotent => true,

@@ -16,7 +16,7 @@ module Fog
         #     * 'ResponseMetadata'<~Hash>:
         #       * 'RequestId'<~String> - Id of request
         def delete_load_balancer_listeners(lb_name, load_balancer_ports)
-          params = AWS.indexed_param('LoadBalancerPorts.memeber.%d', load_balancer_ports)
+          params = Fog::AWS.indexed_param('LoadBalancerPorts.memeber.%d', load_balancer_ports)
 
           request({
             'Action'           => 'DeleteLoadBalancerListeners',

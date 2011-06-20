@@ -34,7 +34,7 @@ module Fog
             Formatador.display_line("[yellow][WARN] describe_security_groups with #{filters.class} param is deprecated, use describe_security_groups('group-name' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'group-name' => [*filters]}
           end
-          params = AWS.indexed_filters(filters)
+          params = Fog::AWS.indexed_filters(filters)
           request({
             'Action'    => 'DescribeSecurityGroups',
             :idempotent => true,

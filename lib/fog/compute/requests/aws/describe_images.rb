@@ -45,7 +45,7 @@ module Fog
               options[key] = filters.delete(key)
             end
           end
-          params = AWS.indexed_filters(filters).merge!(options)
+          params = Fog::AWS.indexed_filters(filters).merge!(options)
           request({
             'Action'    => 'DescribeImages',
             :idempotent => true,

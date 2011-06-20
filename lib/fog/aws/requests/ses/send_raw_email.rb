@@ -22,7 +22,7 @@ module Fog
         def send_raw_email(raw_message, options = {})
           params = {}
           if options.has_key?('Destinations')
-            params.merge!(AWS.indexed_param('Destinations.member', [*options['Destinations']]))
+            params.merge!(Fog::AWS.indexed_param('Destinations.member', [*options['Destinations']]))
           end
           if options.has_key?('Source')
             params['Source'] = options['Source']

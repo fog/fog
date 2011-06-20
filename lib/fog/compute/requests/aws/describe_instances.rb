@@ -62,7 +62,7 @@ module Fog
           if filters['instance-id'] && !filters['instance-id'].is_a?(Array)
             params.merge!('InstanceId' => filters.delete('instance-id'))
           end
-          params.merge!(AWS.indexed_filters(filters))
+          params.merge!(Fog::AWS.indexed_filters(filters))
 
           request({
             'Action'    => 'DescribeInstances',

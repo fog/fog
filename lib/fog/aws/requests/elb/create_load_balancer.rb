@@ -23,7 +23,7 @@ module Fog
         #     * 'CreateLoadBalancerResult'<~Hash>:
         #       * 'DNSName'<~String> - DNS name for the newly created ELB
         def create_load_balancer(availability_zones, lb_name, listeners)
-          params = AWS.indexed_param('AvailabilityZones.member', [*availability_zones])
+          params = Fog::AWS.indexed_param('AvailabilityZones.member', [*availability_zones])
 
           listener_protocol = []
           listener_lb_port = []
@@ -36,10 +36,10 @@ module Fog
             listener_ssl_certificate_id.push(listener['SSLCertificateId'])
           end
 
-          params.merge!(AWS.indexed_param('Listeners.member.%d.Protocol', listener_protocol))
-          params.merge!(AWS.indexed_param('Listeners.member.%d.LoadBalancerPort', listener_lb_port))
-          params.merge!(AWS.indexed_param('Listeners.member.%d.InstancePort', listener_instance_port))
-          params.merge!(AWS.indexed_param('Listeners.member.%d.SSLCertificateId', listener_ssl_certificate_id))
+          params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.Protocol', listener_protocol))
+          params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.LoadBalancerPort', listener_lb_port))
+          params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.InstancePort', listener_instance_port))
+          params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.SSLCertificateId', listener_ssl_certificate_id))
 
           request({
             'Action'           => 'CreateLoadBalancer',

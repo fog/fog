@@ -33,10 +33,10 @@ module Fog
             listener_ssl_certificate_id.push(listener['SSLCertificateId'])
           end
 
-          params.merge!(AWS.indexed_param('Listeners.member.%d.Protocol', listener_protocol))
-          params.merge!(AWS.indexed_param('Listeners.member.%d.LoadBalancerPort', listener_lb_port))
-          params.merge!(AWS.indexed_param('Listeners.member.%d.InstancePort', listener_instance_port))
-          params.merge!(AWS.indexed_param('Listeners.member.%d.SSLCertificateId', listener_ssl_certificate_id))
+          params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.Protocol', listener_protocol))
+          params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.LoadBalancerPort', listener_lb_port))
+          params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.InstancePort', listener_instance_port))
+          params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.SSLCertificateId', listener_ssl_certificate_id))
 
           request({
             'Action'           => 'CreateLoadBalancerListeners',

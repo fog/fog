@@ -24,7 +24,7 @@ module Fog
             Formatador.display_line("[yellow][WARN] describe_key_pairs with #{filters.class} param is deprecated, use describe_key_pairs('key-name' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'key-name' => [*filters]}
           end
-          params = AWS.indexed_filters(filters)
+          params = Fog::AWS.indexed_filters(filters)
           request({
             'Action'    => 'DescribeKeyPairs',
             :idempotent => true,

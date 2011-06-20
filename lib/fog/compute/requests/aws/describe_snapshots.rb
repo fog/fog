@@ -40,7 +40,7 @@ module Fog
             end
           end
           options['RestorableBy'] ||= 'self'
-          params = AWS.indexed_filters(filters).merge!(options)
+          params = Fog::AWS.indexed_filters(filters).merge!(options)
           request({
             'Action'    => 'DescribeSnapshots',
             :idempotent => true,

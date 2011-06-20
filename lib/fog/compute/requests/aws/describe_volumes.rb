@@ -34,7 +34,7 @@ module Fog
             Formatador.display_line("[yellow][WARN] describe_volumes with #{filters.class} param is deprecated, use describe_volumes('volume-id' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'volume-id' => [*filters]}
           end
-          params = AWS.indexed_filters(filters)
+          params = Fog::AWS.indexed_filters(filters)
           request({
             'Action'    => 'DescribeVolumes',
             :idempotent => true,

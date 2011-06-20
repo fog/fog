@@ -25,7 +25,7 @@ module Fog
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeReservedInstancesOfferings.html]
         def describe_reserved_instances_offerings(filters = {})
-          params = AWS.indexed_filters(filters)
+          params = Fog::AWS.indexed_filters(filters)
           request({
             'Action'    => 'DescribeReservedInstancesOfferings',
             :idempotent => true,
