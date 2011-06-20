@@ -39,9 +39,16 @@ module Fog
 
         def create_volume(availability_zone, size, snapshot_id = nil)
           response = Excon::Response.new
-          if availability_zone && size
-            if snapshot_id && !self.data[:snapshots][snapshot_id]
+          if availability_zone && (size || snapshot_id)
+            snapshot = self.data[:snapshots][snapshot_id]
+            if snapshot_id && !snapshot
               raise Fog::Compute::AWS::NotFound.new("The snapshot '#{snapshot_id}' does not exist.")
+            end
+
+            if snapshot && size && size != snapshot['volumeSize']
+              raise Fog::Compute::AWS::NotFound.new("The snapshot '#{snapshot_id}' with the specified size of '#{size}' does not exist.")
+            elsif snapshot && !size
+              size = snapshot['volumeSize']
             end
 
             response.status = 200
