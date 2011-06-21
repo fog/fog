@@ -34,7 +34,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Zerigo::DNS::ListZones.new,
+            :parser   => Fog::Parsers::DNS::Zerigo::ListZones.new,
             :path     => '/api/1.1/zones.xml'
           )
         end
