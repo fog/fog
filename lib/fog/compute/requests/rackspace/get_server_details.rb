@@ -1,6 +1,6 @@
 module Fog
-  module Rackspace
-    class Compute
+  module Compute
+    class Rackspace
       class Real
 
         # Get details about a server
@@ -42,7 +42,7 @@ module Fog
             response.body = { 'server' => server }
             response
           else
-            raise Fog::Rackspace::Compute::NotFound
+            raise Fog::Compute::Rackspace::NotFound
           end
         end
 

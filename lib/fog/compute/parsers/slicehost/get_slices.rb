@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Slicehost
-      module Compute
+    module Compute
+      module Slicehost
 
         class GetSlices < Fog::Parsers::Base
 

@@ -2,8 +2,8 @@ require 'fog/core/collection'
 require 'fog/storage/models/google/file'
 
 module Fog
-  module Google
-    class Storage
+  module Storage
+    class Google
 
       class Files < Fog::Collection
 
@@ -15,7 +15,7 @@ module Fog
         attribute :max_keys,        :aliases => ['MaxKeys', 'max-keys']
         attribute :prefix,          :aliases => 'Prefix'
 
-        model Fog::Google::Storage::File
+        model Fog::Storage::Google::File
 
         def all(options = {})
           requires :directory

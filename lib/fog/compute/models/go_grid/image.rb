@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module GoGrid
-    class Compute
+  module Compute
+    class GoGrid
 
       class Image < Fog::Model
 

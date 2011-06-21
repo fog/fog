@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Kernel < Fog::Model
         identity :id
         attribute :name

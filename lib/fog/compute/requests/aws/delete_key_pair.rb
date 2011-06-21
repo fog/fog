@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/basic'
@@ -22,7 +22,7 @@ module Fog
             'Action'    => 'DeleteKeyPair',
             'KeyName'   => key_name,
             :idempotent => true,
-            :parser     => Fog::Parsers::AWS::Compute::Basic.new
+            :parser     => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
 

@@ -1,11 +1,11 @@
 require 'fog/compute/models/ecloud/internet_service'
 
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
       class InternetServices < Fog::Ecloud::Collection
 
-        model Fog::Ecloud::Compute::InternetService
+        model Fog::Compute::Ecloud::InternetService
 
         attribute :href, :aliases => :Href
 

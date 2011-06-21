@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Voxel
-      module Compute
+    module Compute
+      module Voxel
         class VoxcloudStatus < Fog::Parsers::Base
           def reset
             @response = { 'devices' => [] }

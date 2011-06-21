@@ -1,12 +1,12 @@
 require 'fog/compute/models/ecloud/node'
 
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
 
       class Nodes < Fog::Ecloud::Collection
 
-        model Fog::Ecloud::Compute::Node
+        model Fog::Compute::Ecloud::Node
 
         attribute :href, :aliases => :Href
 

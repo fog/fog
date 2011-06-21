@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/rackspace/image'
 
 module Fog
-  module Rackspace
-    class Compute
+  module Compute
+    class Rackspace
 
       class Images < Fog::Collection
 
-        model Fog::Rackspace::Compute::Image
+        model Fog::Compute::Rackspace::Image
 
         attribute :server
 
@@ -22,7 +22,7 @@ module Fog
         def get(image_id)
           data = connection.get_image_details(image_id).body['image']
           new(data)
-        rescue Fog::Rackspace::Compute::NotFound
+        rescue Fog::Compute::Rackspace::NotFound
           nil
         end
 

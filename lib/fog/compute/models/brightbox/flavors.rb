@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/brightbox/flavor'
 
 module Fog
-  module Brightbox
-    class Compute
+  module Compute
+    class Brightbox
 
       class Flavors < Fog::Collection
 
-        model Fog::Brightbox::Compute::Flavor
+        model Fog::Compute::Brightbox::Flavor
 
         def all
           data = connection.list_server_types

@@ -2,8 +2,8 @@ require 'fog/core/model'
 require 'fog/dns/models/dnsmadeeasy/records'
 
 module Fog
-  module DNSMadeEasy
-    class DNS
+  module DNS
+    class DNSMadeEasy
 
       class Zone < Fog::Model
 
@@ -20,7 +20,7 @@ module Fog
 
         def records
           @records ||= begin
-            Fog::DNSMadeEasy::DNS::Records.new(
+            Fog::DNS::DNSMadeEasy::Records.new(
               :zone       => self,
               :connection => connection
             )

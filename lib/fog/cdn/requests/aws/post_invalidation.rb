@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class CDN
+  module CDN
+    class AWS
       class Real
 
         require 'fog/cdn/parsers/aws/post_invalidation'
@@ -40,7 +40,7 @@ module Fog
             :headers    => {'Content-Type' => 'text/xml'},
             :idempotent => true,
             :method     => 'POST',
-            :parser     => Fog::Parsers::AWS::CDN::PostInvalidation.new,
+            :parser     => Fog::Parsers::CDN::AWS::PostInvalidation.new,
             :path       => "/distribution/#{distribution_id}/invalidation"
           })
         end

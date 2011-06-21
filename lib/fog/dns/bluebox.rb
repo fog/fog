@@ -1,9 +1,9 @@
 module Fog
-  module Bluebox
-    class DNS < Fog::Service
+  module DNS
+    class Bluebox < Fog::Service
+
       requires :bluebox_api_key, :bluebox_customer_id
       recognizes :bluebox_host, :bluebox_port, :bluebox_scheme, :persistent
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/dns/models/bluebox'
       model       :record
@@ -35,13 +35,6 @@ module Fog
         end
 
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Bluebox::DNS.new is deprecated, use Fog::DNS.new(:provider => 'Bluebox') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           @bluebox_customer_id = options[:bluebox_customer_id]
           @bluebox_api_key = options[:bluebox_api_key]
         end
@@ -57,13 +50,6 @@ module Fog
 
       class Real
         def initialize(options ={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Bluebox::DNS.new is deprecated, use Fog::DNS.new(:provider => 'Bluebox') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           @bluebox_customer_id = options[:bluebox_customer_id]
           @bluebox_api_key = options[:bluebox_api_key]
 
@@ -93,7 +79,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Bluebox::DNS::NotFound.slurp(error)
+              Fog::DNS::Bluebox::NotFound.slurp(error)
             else
               error
             end

@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/describe_tags'
@@ -22,11 +22,11 @@ module Fog
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeTags.html]
         def describe_tags(filters = {})
-          params = AWS.indexed_filters(filters)
+          params = Fog::AWS.indexed_filters(filters)
           request({
             'Action'    => 'DescribeTags',
             :idempotent => true,
-            :parser     => Fog::Parsers::AWS::Compute::DescribeTags.new
+            :parser     => Fog::Parsers::Compute::AWS::DescribeTags.new
           }.merge!(params))
         end
 

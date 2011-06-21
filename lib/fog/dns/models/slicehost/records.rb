@@ -2,14 +2,14 @@ require 'fog/core/collection'
 require 'fog/dns/models/slicehost/record'
 
 module Fog
-  module Slicehost
-    class DNS
+  module DNS
+    class Slicehost
 
       class Records < Fog::Collection
 
         attribute :zone
 
-        model Fog::Slicehost::DNS::Record
+        model Fog::DNS::Slicehost::Record
 
         def all
           requires :zone

@@ -1,6 +1,6 @@
 module Fog
-  module Rackspace
-    class Compute
+  module Compute
+    class Rackspace
       class Real
 
         # Create an image from a running server

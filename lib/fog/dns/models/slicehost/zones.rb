@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/dns/models/slicehost/zone'
 
 module Fog
-  module Slicehost
-    class DNS
+  module DNS
+    class Slicehost
 
       class Zones < Fog::Collection
 
-        model Fog::Slicehost::DNS::Zone
+        model Fog::DNS::Slicehost::Zone
 
         def all
           data = connection.get_zones.body['zones']

@@ -93,7 +93,7 @@ module Fog
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
-          body = AWS.signed_params(
+          body = Fog::AWS.signed_params(
             params,
             {
               :aws_access_key_id  => @aws_access_key_id,

@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class CDN
+  module CDN
+    class AWS
       class Real
 
         require 'fog/cdn/parsers/aws/distribution'
@@ -83,7 +83,7 @@ module Fog
             },
             :idempotent => true,
             :method     => 'PUT',
-            :parser     => Fog::Parsers::AWS::CDN::Distribution.new,
+            :parser     => Fog::Parsers::CDN::AWS::Distribution.new,
             :path       => "/distribution/#{distribution_id}/config"
           })
         end

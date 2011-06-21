@@ -1,6 +1,6 @@
 module Fog
-  module Rackspace
-    class Storage
+  module Storage
+    class Rackspace
       class Real
 
         # Get details for container and total bytes stored
@@ -30,13 +30,12 @@ module Fog
         #       * 'name'<~String> - Name of object
         def get_container(container, options = {})
           options = options.reject {|key, value| value.nil?}
-          response = request(
+          request(
             :expects  => 200,
             :method   => 'GET',
             :path     => URI.escape(container),
             :query    => {'format' => 'json'}.merge!(options)
           )
-          response
         end
 
       end

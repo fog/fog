@@ -1,9 +1,9 @@
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
       class Catalog < Fog::Ecloud::Collection
 
-        model Fog::Ecloud::Compute::CatalogItem
+        model Fog::Compute::Ecloud::CatalogItem
 
         attribute :href, :aliases => :Href
 

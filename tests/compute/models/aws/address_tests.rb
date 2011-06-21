@@ -1,8 +1,8 @@
-Shindo.tests("AWS::Compute | address", ['aws']) do
+Shindo.tests("Fog::Compute[:aws] | address", ['aws']) do
 
-  model_tests(AWS[:compute].addresses, {}, true) do
+  model_tests(Fog::Compute[:aws].addresses, {}, true) do
 
-    @server = AWS[:compute].servers.create
+    @server = Fog::Compute[:aws].servers.create
     @server.wait_for { ready? }
 
     tests('#server=').succeeds do

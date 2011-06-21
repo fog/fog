@@ -1,6 +1,6 @@
 module Fog
-  module DNSimple
-    class DNS
+  module DNS
+    class DNSimple
       class Real
 
         # Delete the record with the given ID for the given domain.

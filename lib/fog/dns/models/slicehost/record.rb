@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module Slicehost
-    class DNS
+  module DNS
+    class Slicehost
 
       class Record < Fog::Model
         extend Fog::Deprecation

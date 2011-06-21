@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/bluebox/flavor'
 
 module Fog
-  module Bluebox
-    class Compute
+  module Compute
+    class Bluebox
 
       class Flavors < Fog::Collection
 
-        model Fog::Bluebox::Compute::Flavor
+        model Fog::Compute::Bluebox::Flavor
 
         def all
           data = connection.get_products.body
@@ -17,7 +17,7 @@ module Fog
         def get(product_id)
           response = connection.get_product(product_id)
           new(response.body)
-        rescue Fog::Bluebox::Compute::NotFound
+        rescue Fog::Compute::Bluebox::NotFound
           nil
         end
 

@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'date'
-require 'lib/fog'
+require File.dirname(__FILE__) + '/lib/fog'
 
 #############################################################################
 #
@@ -86,6 +86,19 @@ end
 
 task :real_tests do
   tests(false)
+end
+
+task :nuke do
+  Fog.providers.each do |provider|
+    begin
+      compute = Fog::Compute.new(:provider => provider)
+      for server in compute.servers
+        Formatador.display_line("[#{provider}] destroying server #{server.identity}")
+        server.destroy rescue nil
+      end
+    rescue
+    end
+  end
 end
 
 desc "Generate RCov test coverage and open in your browser"

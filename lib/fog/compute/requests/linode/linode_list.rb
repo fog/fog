@@ -1,6 +1,6 @@
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Real
 
         # List all linodes user has access or delete to
@@ -23,6 +23,7 @@ module Fog
             :query    => { :api_action => 'linode.list' }.merge!(options)
           )
         end
+
       end
     end
   end

@@ -1,6 +1,6 @@
 for provider, config in storage_providers
 
-  Shindo.tests("#{provider}::Storage | directory", [provider.to_s.downcase]) do
+  Shindo.tests("Storage[:#{provider}] | directory", [provider]) do
 
     if !Fog.mocking? || config[:mocked]
 
@@ -8,7 +8,7 @@ for provider, config in storage_providers
         :key => 'fogdirectorytests'
       }.merge!(config[:directory_attributes] || {})
 
-      model_tests(provider[:storage].directory, directory_attributes, config[:mocked]) do
+      model_tests(Fog::Storage[provider].directory, directory_attributes, config[:mocked]) do
 
         tests("#public=(true)").succeeds do
           pending if Fog.mocking? && !config[:mocked]

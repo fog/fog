@@ -2,8 +2,8 @@ require 'fog/core/model'
 require 'fog/compute/models/virtual_box/medium_format'
 
 module Fog
-  module VirtualBox
-    class Compute
+  module Compute
+    class VirtualBox
 
       class Medium < Fog::Model
 
@@ -38,7 +38,7 @@ module Fog
 
         undef_method :medium_format
         def medium_format
-          Fog::VirtualBox::Compute::MediumFormat.new(
+          Fog::Compute::VirtualBox::MediumFormat.new(
             :connection => connection,
             :raw        => raw.medium_format
           )

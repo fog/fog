@@ -1,6 +1,6 @@
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
       class InternetService < Fog::Ecloud::Model
 
         identity :href, :aliases => :Href
@@ -77,7 +77,7 @@ module Fog
         end
 
         def nodes
-          @nodes ||= Fog::Ecloud::Compute::Nodes.new( :connection => connection, :href => href + "/nodeServices" )
+          @nodes ||= Fog::Compute::Ecloud::Nodes.new( :connection => connection, :href => href + "/nodeServices" )
         end
 
         def backup_service_uri

@@ -1,6 +1,6 @@
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
       class Vdc < Fog::Ecloud::Model
 
         identity :href
@@ -31,19 +31,19 @@ module Fog
         end
 
         def networks
-          @networks ||= Fog::Ecloud::Compute::Networks.
+          @networks ||= Fog::Compute::Ecloud::Networks.
             new( :connection => connection,
                  :href => href )
         end
 
         def servers
-          @servers ||= Fog::Ecloud::Compute::Servers.
+          @servers ||= Fog::Compute::Ecloud::Servers.
             new( :connection => connection,
                  :href => href )
         end
 
         def tasks
-          @tasks ||= Fog::Ecloud::Compute::Tasks.
+          @tasks ||= Fog::Compute::Ecloud::Tasks.
             new( :connection => connection,
                  :href => href + "/tasksList" )
         end
@@ -63,13 +63,13 @@ module Fog
           if link = other_links.detect { |link| link[:type] == type }
             case type
             when "application/vnd.tmrk.ecloud.publicIpsList+xml"
-              Fog::Ecloud::Compute::PublicIps
+              Fog::Compute::Ecloud::PublicIps
             when "application/vnd.tmrk.ecloud.internetServicesList+xml"
-              klass || Fog::Ecloud::Compute::InternetServices
+              klass || Fog::Compute::Ecloud::InternetServices
             when "application/vnd.vmware.vcloud.catalog+xml"
-              Fog::Ecloud::Compute::Catalog
+              Fog::Compute::Ecloud::Catalog
             when "application/vnd.tmrk.ecloud.firewallAclsList+xml"
-              Fog::Ecloud::Compute::FirewallAcls
+              Fog::Compute::Ecloud::FirewallAcls
             end.new( :connection => connection, :href => link[:href] )
           else
             [ ]

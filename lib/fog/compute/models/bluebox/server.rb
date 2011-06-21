@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module Bluebox
-    class Compute
+  module Compute
+    class Bluebox
 
       class BlockInstantiationError < StandardError; end
 
@@ -128,12 +128,12 @@ module Fog
           Fog::SSH.new(ips.first['address'], username, options).run(commands)
         end
 
-        def scp(local_path, remote_path)
+        def scp(local_path, remote_path, upload_options = {})
           requires :ips, :username
 
-          options = {}
-          options[:key_data] = [private_key] if private_key
-          Fog::SCP.new(ips.first['address'], username, options).upload(local_path, remote_path)
+          scp_options = {}
+          scp_options[:key_data] = [private_key] if private_key
+          Fog::SCP.new(ips.first['address'], username, scp_options).upload(local_path, remote_path, upload_options)
         end
 
         def username

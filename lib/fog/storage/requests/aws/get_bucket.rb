@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Storage
+  module Storage
+    class AWS
       class Real
 
         require 'fog/storage/parsers/aws/get_bucket'
@@ -50,7 +50,7 @@ module Fog
             :host     => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::AWS::Storage::GetBucket.new,
+            :parser   => Fog::Parsers::Storage::AWS::GetBucket.new,
             :query    => options
           })
         end

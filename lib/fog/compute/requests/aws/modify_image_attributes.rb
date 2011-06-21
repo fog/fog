@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/basic'
@@ -18,16 +18,16 @@ module Fog
         #
         def modify_image_attributes(image_id, attribute, operation_type, options = {})
           params = {}
-          params.merge!(AWS.indexed_param('UserId', options['UserId']))
-          params.merge!(AWS.indexed_param('UserGroup', options['UserGroup']))
-          params.merge!(AWS.indexed_param('ProductCode', options['ProductCode']))
+          params.merge!(Fog::AWS.indexed_param('UserId', options['UserId']))
+          params.merge!(Fog::AWS.indexed_param('UserGroup', options['UserGroup']))
+          params.merge!(Fog::AWS.indexed_param('ProductCode', options['ProductCode']))
           request({
             'Action'        => 'ModifyImageAttribute',
             'Attribute'     => attribute,
             'ImageId'       => image_id,
             'OperationType' => operation_type,
             :idempotent     => true,
-            :parser         => Fog::Parsers::AWS::Compute::Basic.new
+            :parser         => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(params))
         end
 

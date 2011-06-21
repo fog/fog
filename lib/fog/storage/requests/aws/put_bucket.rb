@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Storage
+  module Storage
+    class AWS
       class Real
 
         # Create an S3 bucket

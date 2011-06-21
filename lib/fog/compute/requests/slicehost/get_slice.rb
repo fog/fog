@@ -1,6 +1,6 @@
 module Fog
-  module Slicehost
-    class Compute
+  module Compute
+    class Slicehost
       class Real
 
         require 'fog/compute/parsers/slicehost/get_slice'
@@ -27,7 +27,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Slicehost::Compute::GetSlice.new,
+            :parser   => Fog::Parsers::Compute::Slicehost::GetSlice.new,
             :path     => "/slices/#{slice_id}.xml"
           )
         end

@@ -1,10 +1,9 @@
 module Fog
-  module Zerigo
-    class DNS < Fog::Service
+  module DNS
+    class Zerigo < Fog::Service
 
       requires :zerigo_email, :zerigo_token
       recognizes :timeout, :persistent
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/dns/models/zerigo'
       model       :record
@@ -41,13 +40,6 @@ module Fog
         end
 
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Zerigo::DNS.new is deprecated, use Fog::DNS.new(:provider => 'Zerigo') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           @zerigo_email = options[:zerigo_email]
           @zerigo_token = options[:zerigo_token]
         end
@@ -65,13 +57,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::Zerigo::DNS.new is deprecated, use Fog::DNS.new(:provider => 'Zerigo') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           require 'fog/core/parser'
 
           @zerigo_email  = options[:zerigo_email]
@@ -104,7 +89,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Zerigo::DNS::NotFound.slurp(error)
+              Fog::DNS::Zerigo::NotFound.slurp(error)
             else
               error
             end

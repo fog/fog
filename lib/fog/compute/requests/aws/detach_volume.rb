@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/detach_volume'
@@ -30,7 +30,7 @@ module Fog
             'Action'    => 'DetachVolume',
             'VolumeId'  => volume_id,
             :idempotent => true,
-            :parser     => Fog::Parsers::AWS::Compute::DetachVolume.new
+            :parser     => Fog::Parsers::Compute::AWS::DetachVolume.new
           }.merge!(options))
         end
 
@@ -50,7 +50,7 @@ module Fog
             }.merge!(data)
             response
           else
-            raise Fog::AWS::Compute::NotFound.new("The volume '#{volume_id}' does not exist.")
+            raise Fog::Compute::AWS::NotFound.new("The volume '#{volume_id}' does not exist.")
           end
         end
 

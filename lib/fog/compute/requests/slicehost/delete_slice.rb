@@ -1,6 +1,6 @@
 module Fog
-  module Slicehost
-    class Compute
+  module Compute
+    class Slicehost
       class Real
 
         # Delete a given slice

@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/describe_addresses'
@@ -24,11 +24,11 @@ module Fog
             Formatador.display_line("[yellow][WARN] describe_addresses with #{filters.class} param is deprecated, use describe_addresses('public-ip' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'public-ip' => [*filters]}
           end
-          params = AWS.indexed_filters(filters)
+          params = Fog::AWS.indexed_filters(filters)
           request({
             'Action'    => 'DescribeAddresses',
             :idempotent => true,
-            :parser     => Fog::Parsers::AWS::Compute::DescribeAddresses.new
+            :parser     => Fog::Parsers::Compute::AWS::DescribeAddresses.new
           }.merge!(params))
         end
 

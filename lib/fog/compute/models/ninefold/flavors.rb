@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/ninefold/flavor'
 
 module Fog
-  module Ninefold
-    class Compute
+  module Compute
+    class Ninefold
 
       class Flavors < Fog::Collection
 
-        model Fog::Ninefold::Compute::Flavor
+        model Fog::Compute::Ninefold::Flavor
 
         def all
           data = connection.list_service_offerings

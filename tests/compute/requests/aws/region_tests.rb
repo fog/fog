@@ -1,4 +1,4 @@
-Shindo.tests('AWS::Compute | region requests', ['aws']) do
+Shindo.tests('Fog::Compute[:aws] | region requests', ['aws']) do
 
   @regions_format = {
     'regionInfo'  => [{
@@ -11,11 +11,11 @@ Shindo.tests('AWS::Compute | region requests', ['aws']) do
   tests('success') do
 
     tests("#describe_regions").formats(@regions_format) do
-      AWS[:compute].describe_regions.body
+      Fog::Compute[:aws].describe_regions.body
     end
 
     tests("#describe_regions('region-name' => 'us-east-1')").formats(@regions_format) do
-      AWS[:compute].describe_regions('region-name' => 'us-east-1').body
+      Fog::Compute[:aws].describe_regions('region-name' => 'us-east-1').body
     end
 
   end

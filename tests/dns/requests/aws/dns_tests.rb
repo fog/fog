@@ -1,4 +1,4 @@
-Shindo.tests('AWS::DNS | DNS requests', ['aws', 'dns']) do
+Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
 
   @org_zone_count = 0
   @zone_id = ''
@@ -18,7 +18,7 @@ Shindo.tests('AWS::DNS | DNS requests', ['aws', 'dns']) do
       
       @zone_id = nil
       
-      response = AWS[:dns].list_hosted_zones()
+      response = Fog::DNS[:aws].list_hosted_zones()
       if response.status == 200
         @hosted_zones = response.body['HostedZones']
       end
@@ -38,7 +38,7 @@ Shindo.tests('AWS::DNS | DNS requests', ['aws', 'dns']) do
       pending if Fog.mocking?
 
       @org_zone_count= 0
-      response = AWS[:dns].list_hosted_zones()
+      response = Fog::DNS[:aws].list_hosted_zones()
       if response.status == 200
         @hosted_zones = response.body['HostedZones']
         @org_zone_count = @hosted_zones.count
@@ -52,7 +52,7 @@ Shindo.tests('AWS::DNS | DNS requests', ['aws', 'dns']) do
 
       result = false
       
-      response = AWS[:dns].create_hosted_zone( @test_domain)
+      response = Fog::DNS[:aws].create_hosted_zone( @test_domain)
       if response.status == 201
 
         zone= response.body['HostedZone']
@@ -81,7 +81,7 @@ Shindo.tests('AWS::DNS | DNS requests', ['aws', 'dns']) do
       pending if Fog.mocking?
 
       result = false
-      response = AWS[:dns].get_change(@change_id)
+      response = Fog::DNS[:aws].get_change(@change_id)
       if response.status == 200
         status = response.body['Status']
         if (status == 'PENDING') or (status == 'INSYNC')
@@ -97,7 +97,7 @@ Shindo.tests('AWS::DNS | DNS requests', ['aws', 'dns']) do
 
       result = false
       
-      response = AWS[:dns].get_hosted_zone( @zone_id)
+      response = Fog::DNS[:aws].get_hosted_zone( @zone_id)
       if response.status == 200
         zone = response.body['HostedZone']
         zone_id = zone['Id']
@@ -121,7 +121,7 @@ Shindo.tests('AWS::DNS | DNS requests', ['aws', 'dns']) do
 
       result = false
       
-      response = AWS[:dns].list_hosted_zones()
+      response = Fog::DNS[:aws].list_hosted_zones()
       if response.status == 200
         
         zones= response.body['HostedZones']
@@ -156,7 +156,7 @@ Shindo.tests('AWS::DNS | DNS requests', ['aws', 'dns']) do
       change_batch = []
       change_batch << resource_record_set
       options = { :comment => 'add A record to domain'}             
-      response = AWS[:dns].change_resource_record_sets( @zone_id, change_batch, options)
+      response = Fog::DNS[:aws].change_resource_record_sets( @zone_id, change_batch, options)
       if response.status == 200
         change_id = response.body['Id']
         status = response.body['Status']
@@ -180,7 +180,7 @@ Shindo.tests('AWS::DNS | DNS requests', ['aws', 'dns']) do
       change_batch = []
       change_batch << resource_record_set
       options = { :comment => 'add CNAME record to domain'}             
-      response = AWS[:dns].change_resource_record_sets( @zone_id, change_batch, options)
+      response = Fog::DNS[:aws].change_resource_record_sets( @zone_id, change_batch, options)
       if response.status == 200
         change_id = response.body['Id']
         status = response.body['Status']
@@ -204,7 +204,7 @@ Shindo.tests('AWS::DNS | DNS requests', ['aws', 'dns']) do
       change_batch = []
       change_batch << resource_record_set
       options = { :comment => 'add MX record to domain'}             
-      response = AWS[:dns].change_resource_record_sets( @zone_id, change_batch, options)
+      response = Fog::DNS[:aws].change_resource_record_sets( @zone_id, change_batch, options)
       if response.status == 200
         change_id = response.body['Id']
         status = response.body['Status']
@@ -218,7 +218,7 @@ Shindo.tests('AWS::DNS | DNS requests', ['aws', 'dns']) do
       pending if Fog.mocking?
 
       # get resource records for zone
-      response = AWS[:dns].list_resource_record_sets( @zone_id)
+      response = Fog::DNS[:aws].list_resource_record_sets( @zone_id)
       if response.status == 200
         record_sets= response.body['ResourceRecordSets']
         num_records= record_sets.count
@@ -238,7 +238,7 @@ Shindo.tests('AWS::DNS | DNS requests', ['aws', 'dns']) do
         change_batch << resource_record_set
       }
       options = { :comment => 'remove records from domain'}             
-      response = AWS[:dns].change_resource_record_sets( @zone_id, change_batch, options)
+      response = Fog::DNS[:aws].change_resource_record_sets( @zone_id, change_batch, options)
       if response.status != 200
         result = false
         break
@@ -250,7 +250,7 @@ Shindo.tests('AWS::DNS | DNS requests', ['aws', 'dns']) do
     test("delete hosted zone #{@zone_id}") {
       pending if Fog.mocking?
 
-      response = AWS[:dns].delete_hosted_zone( @zone_id)
+      response = Fog::DNS[:aws].delete_hosted_zone( @zone_id)
 
       response.status == 200
     }
@@ -261,13 +261,13 @@ Shindo.tests('AWS::DNS | DNS requests', ['aws', 'dns']) do
   tests( 'failure') do
     tests('create hosted zone using invalid domain name').raises(Excon::Errors::BadRequest) do
       pending if Fog.mocking?
-      response = AWS[:dns].create_hosted_zone('invalid-domain')
+      response = Fog::DNS[:aws].create_hosted_zone('invalid-domain')
     end
     
     tests('get hosted zone using invalid ID').raises(Excon::Errors::Forbidden) do
       pending if Fog.mocking?
       zone_id = 'dummy-id'
-      response = AWS[:dns].get_hosted_zone(zone_id)
+      response = Fog::DNS[:aws].get_hosted_zone(zone_id)
     end
   
   end

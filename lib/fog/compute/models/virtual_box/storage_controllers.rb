@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/virtual_box/storage_controller'
 
 module Fog
-  module VirtualBox
-    class Compute
+  module Compute
+    class VirtualBox
 
       class StorageControllers < Fog::Collection
 
-        model Fog::VirtualBox::Compute::StorageController
+        model Fog::Compute::VirtualBox::StorageController
 
         attr_accessor :machine
 

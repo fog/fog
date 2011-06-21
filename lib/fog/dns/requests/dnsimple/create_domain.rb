@@ -1,6 +1,6 @@
 module Fog
-  module DNSimple
-    class DNS
+  module DNS
+    class DNSimple
       class Real
 
         # Create a single domain in DNSimple in your account.

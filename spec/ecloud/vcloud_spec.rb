@@ -4,7 +4,7 @@ if Fog.mocking?
   describe Fog::Ecloud, :type => :mock_tmrk_ecloud_request do
     subject { @vcloud }
 
-    it { should be_an_instance_of(Fog::Ecloud::Compute::Mock) }
+    it { should be_an_instance_of(Fog::Compute::Ecloud::Mock) }
 
     it { should respond_to(:default_organization_uri) }
 

@@ -1,6 +1,6 @@
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
       module Shared
         private
 

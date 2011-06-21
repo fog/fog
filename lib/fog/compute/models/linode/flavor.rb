@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Flavor < Fog::Model
         identity :id
         attribute :disk

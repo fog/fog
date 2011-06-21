@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class CDN
+  module CDN
+    class AWS
       class Real
 
         require 'fog/cdn/parsers/aws/distribution'
@@ -80,7 +80,7 @@ module Fog
             :headers    => { 'Content-Type' => 'text/xml' },
             :idempotent => true,
             :method     => 'POST',
-            :parser     => Fog::Parsers::AWS::CDN::Distribution.new,
+            :parser     => Fog::Parsers::CDN::AWS::Distribution.new,
             :path       => "/distribution"
           })
         end

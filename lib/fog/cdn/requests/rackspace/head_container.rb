@@ -1,6 +1,6 @@
 module Fog
-  module Rackspace
-    class CDN
+  module CDN
+    class Rackspace
       class Real
 
         # List cdn properties for a container

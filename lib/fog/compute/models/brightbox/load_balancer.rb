@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module Brightbox
-    class Compute
+  module Compute
+    class Brightbox
 
       class LoadBalancer < Fog::Model
 

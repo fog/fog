@@ -1,10 +1,9 @@
 module Fog
-  module AWS
-    class Compute < Fog::Service
+  module Compute
+    class AWS < Fog::Service
 
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/aws'
       model       :address
@@ -130,13 +129,6 @@ module Fog
         end
 
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::AWS::Compute.new is deprecated, use Fog::Compute.new(:provider => 'AWS') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           require 'fog/compute/parsers/aws/basic'
 
           @aws_access_key_id = options[:aws_access_key_id]
@@ -204,13 +196,6 @@ module Fog
         # ==== Returns
         # * EC2 object with connection to aws.
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::AWS::Compute.new is deprecated, use Fog::Compute.new(:provider => 'AWS') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           require 'fog/core/parser'
 
           @aws_access_key_id      = options[:aws_access_key_id]
@@ -256,7 +241,7 @@ module Fog
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
-          body = AWS.signed_params(
+          body = Fog::AWS.signed_params(
             params,
             {
               :aws_access_key_id  => @aws_access_key_id,
@@ -282,9 +267,9 @@ module Fog
             if match = error.message.match(/<Code>(.*)<\/Code><Message>(.*)<\/Message>/)
               raise case match[1].split('.').last
               when 'NotFound'
-                Fog::AWS::Compute::NotFound.slurp(error, match[2])
+                Fog::Compute::AWS::NotFound.slurp(error, match[2])
               else
-                Fog::AWS::Compute::Error.slurp(error, "#{match[1]} => #{match[2]}")
+                Fog::Compute::AWS::Error.slurp(error, "#{match[1]} => #{match[2]}")
               end
             else
               raise error

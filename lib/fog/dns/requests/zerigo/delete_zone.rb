@@ -1,6 +1,6 @@
 module Fog
-  module Zerigo
-    class DNS
+  module DNS
+    class Zerigo
       class Real
 
         # Delete a zone from Zerigo

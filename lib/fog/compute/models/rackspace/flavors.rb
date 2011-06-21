@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/rackspace/flavor'
 
 module Fog
-  module Rackspace
-    class Compute
+  module Compute
+    class Rackspace
 
       class Flavors < Fog::Collection
 
-        model Fog::Rackspace::Compute::Flavor
+        model Fog::Compute::Rackspace::Flavor
 
         def all
           data = connection.list_flavors_detail.body['flavors']
@@ -17,7 +17,7 @@ module Fog
         def get(flavor_id)
           data = connection.get_flavor_details(flavor_id).body['flavor']
           new(data)
-        rescue Fog::Rackspace::Compute::NotFound
+        rescue Fog::Compute::Rackspace::NotFound
           nil
         end
 

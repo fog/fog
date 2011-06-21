@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/run_instances'
@@ -90,7 +90,7 @@ module Fog
             end
           end
           if security_groups = options.delete('SecurityGroup')
-            options.merge!(AWS.indexed_param('SecurityGroup', [*security_groups]))
+            options.merge!(Fog::AWS.indexed_param('SecurityGroup', [*security_groups]))
           end
           if options['UserData']
             options['UserData'] = Base64.encode64(options['UserData'])
@@ -104,7 +104,7 @@ module Fog
             'MinCount'  => min_count,
             'MaxCount'  => max_count,
             :idempotent => idempotent,
-            :parser     => Fog::Parsers::AWS::Compute::RunInstances.new
+            :parser     => Fog::Parsers::Compute::AWS::RunInstances.new
           }.merge!(options))
         end
 
@@ -121,7 +121,7 @@ module Fog
           reservation_id = Fog::AWS::Mock.reservation_id
 
           if options['KeyName'] && describe_key_pairs('key-name' => options['KeyName']).body['keySet'].empty?
-            raise Fog::AWS::Compute::NotFound.new("The key pair '#{options['KeyName']}' does not exist")
+            raise Fog::Compute::AWS::NotFound.new("The key pair '#{options['KeyName']}' does not exist")
           end
 
           min_count.times do |i|

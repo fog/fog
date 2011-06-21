@@ -1,4 +1,4 @@
-Shindo.tests('AWS::Storage | bucket requests', ['aws']) do
+Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
 
   tests('success') do
 
@@ -34,45 +34,45 @@ Shindo.tests('AWS::Storage | bucket requests', ['aws']) do
     }
 
     tests("#put_bucket('fogbuckettests')").succeeds do
-      AWS[:storage].put_bucket('fogbuckettests')
+      Fog::Storage[:aws].put_bucket('fogbuckettests')
     end
 
     tests("#get_service").formats(@service_format) do
-      AWS[:storage].get_service.body
+      Fog::Storage[:aws].get_service.body
     end
 
-    file = AWS[:storage].directories.get('fogbuckettests').files.create(:body => 'y', :key => 'x')
+    file = Fog::Storage[:aws].directories.get('fogbuckettests').files.create(:body => 'y', :key => 'x')
 
     tests("#get_bucket('fogbuckettests)").formats(@bucket_format) do
-      AWS[:storage].get_bucket('fogbuckettests').body
+      Fog::Storage[:aws].get_bucket('fogbuckettests').body
     end
 
     file.destroy
 
     tests("#get_bucket_location('fogbuckettests)").formats('LocationConstraint' => NilClass) do
-      AWS[:storage].get_bucket_location('fogbuckettests').body
+      Fog::Storage[:aws].get_bucket_location('fogbuckettests').body
     end
 
     tests("#get_request_payment('fogbuckettests')").formats('Payer' => String) do
-      AWS[:storage].get_request_payment('fogbuckettests').body
+      Fog::Storage[:aws].get_request_payment('fogbuckettests').body
     end
 
     tests("#put_request_payment('fogbuckettests', 'Requester')").succeeds do
-      AWS[:storage].put_request_payment('fogbuckettests', 'Requester')
+      Fog::Storage[:aws].put_request_payment('fogbuckettests', 'Requester')
     end
 
     tests("#put_bucket_website('fogbuckettests', 'index.html')").succeeds do
       pending if Fog.mocking?
-      AWS[:storage].put_bucket_website('fogbuckettests', 'index.html')
+      Fog::Storage[:aws].put_bucket_website('fogbuckettests', 'index.html')
     end
 
     tests("#delete_bucket_website('fogbuckettests')").succeeds do
       pending if Fog.mocking?
-      AWS[:storage].delete_bucket_website('fogbuckettests')
+      Fog::Storage[:aws].delete_bucket_website('fogbuckettests')
     end
 
     tests("#delete_bucket('fogbuckettests')").succeeds do
-      AWS[:storage].delete_bucket('fogbuckettests')
+      Fog::Storage[:aws].delete_bucket('fogbuckettests')
     end
 
   end
@@ -80,33 +80,33 @@ Shindo.tests('AWS::Storage | bucket requests', ['aws']) do
   tests('failure') do
 
     tests("#delete_bucket('fognonbucket')").raises(Excon::Errors::NotFound) do
-      AWS[:storage].delete_bucket('fognonbucket')
+      Fog::Storage[:aws].delete_bucket('fognonbucket')
     end
 
-    @bucket = AWS[:storage].directories.create(:key => 'fognonempty')
+    @bucket = Fog::Storage[:aws].directories.create(:key => 'fognonempty')
     @file = @bucket.files.create(:key => 'foo', :body => 'bar')
 
     tests("#delete_bucket('fognonempty')").raises(Excon::Errors::Conflict) do
-      AWS[:storage].delete_bucket('fognonempty')
+      Fog::Storage[:aws].delete_bucket('fognonempty')
     end
 
     @file.destroy
     @bucket.destroy
 
     tests("#get_bucket('fognonbucket')").raises(Excon::Errors::NotFound) do
-      AWS[:storage].get_bucket('fognonbucket')
+      Fog::Storage[:aws].get_bucket('fognonbucket')
     end
 
     tests("#get_bucket_location('fognonbucket')").raises(Excon::Errors::NotFound) do
-      AWS[:storage].get_bucket_location('fognonbucket')
+      Fog::Storage[:aws].get_bucket_location('fognonbucket')
     end
 
     tests("#get_request_payment('fognonbucket')").raises(Excon::Errors::NotFound) do
-      AWS[:storage].get_request_payment('fognonbucket')
+      Fog::Storage[:aws].get_request_payment('fognonbucket')
     end
 
     tests("#put_request_payment('fognonbucket', 'Requester')").raises(Excon::Errors::NotFound) do
-      AWS[:storage].put_request_payment('fognonbucket', 'Requester')
+      Fog::Storage[:aws].put_request_payment('fognonbucket', 'Requester')
     end
 
   end

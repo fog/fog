@@ -1,6 +1,6 @@
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
       module Shared
         def validate_backup_internet_service_data(service_data, configure=false)
           required_opts = [:name, :protocol, :description, :enabled]

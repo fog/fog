@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/storage/models/aws/directory'
 
 module Fog
-  module AWS
-    class Storage
+  module Storage
+    class AWS
 
       class Directories < Fog::Collection
 
-        model Fog::AWS::Storage::Directory
+        model Fog::Storage::AWS::Directory
 
         def all
           data = connection.get_service.body['Buckets']

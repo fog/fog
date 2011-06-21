@@ -2,8 +2,8 @@ require 'fog/core/model'
 # require 'fog/dns/models/aws/records'
 
 module Fog
-  module AWS
-    class DNS
+  module DNS
+    class AWS
 
       class Zone < Fog::Model
 
@@ -23,7 +23,7 @@ module Fog
 
         def records
           @records ||= begin
-            Fog::AWS::DNS::Records.new(
+            Fog::DNS::AWS::Records.new(
               :zone       => self,
               :connection => connection
             )

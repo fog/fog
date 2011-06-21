@@ -121,7 +121,7 @@ module Fog
         end
 
         def encode_attribute_names(attributes)
-          AWS.indexed_param('AttributeName', attributes.map {|attribute| attributes.to_s})
+          Fog::AWS.indexed_param('AttributeName', attributes.map {|attribute| attributes.to_s})
         end
 
         def encode_batch_attributes(items, replace_attributes = Hash.new([]))
@@ -155,7 +155,7 @@ module Fog
           idempotent = params.delete(:idempotent)
           parser = params.delete(:parser)
 
-          body = AWS.signed_params(
+          body = Fog::AWS.signed_params(
             params,
             {
               :aws_access_key_id  => @aws_access_key_id,

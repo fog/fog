@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/storm_on_demand/server'
 
 module Fog
-  module StormOnDemand
-    class Compute
+  module Compute
+    class StormOnDemand
 
       class Servers < Fog::Collection
 
-        model Fog::StormOnDemand::Compute::Server
+        model Fog::Compute::StormOnDemand::Server
 
         def all
           data = connection.list_servers.body['servers']

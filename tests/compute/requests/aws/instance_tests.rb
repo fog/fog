@@ -1,4 +1,4 @@
-Shindo.tests('AWS::Compute | instance requests', ['aws']) do
+Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
 
   @instance_format = {
     # 'architecture'    => String,
@@ -86,28 +86,28 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
     key = AWS.key_pairs.create(:name => key_name)
 
     tests("#run_instances").formats(@run_instances_format) do
-      data = AWS[:compute].run_instances(@windows_ami, 1, 1, 'InstanceType' => 't1.micro', 'KeyName' => key_name).body
+      data = Fog::Compute[:aws].run_instances(@windows_ami, 1, 1, 'InstanceType' => 't1.micro', 'KeyName' => key_name).body
       @instance_id = data['instancesSet'].first['instanceId']
       data
     end
 
-    server = AWS[:compute].servers.get(@instance_id)
+    server = Fog::Compute[:aws].servers.get(@instance_id)
     while server.nil? do
       # It may take a moment to get the server after launching it
       sleep 0.1
-      server = AWS[:compute].servers.get(@instance_id)
+      server = Fog::Compute[:aws].servers.get(@instance_id)
     end
     server.wait_for { ready? }
 
     tests("#describe_instances").formats(@describe_instances_format) do
-       AWS[:compute].describe_instances.body
+       Fog::Compute[:aws].describe_instances.body
     end
 
     # Launch another instance to test filters
-    another_server = AWS[:compute].servers.create
+    another_server = Fog::Compute[:aws].servers.create
 
     tests("#describe_instances('instance-id' => '#{@instance_id}')").formats(@describe_instances_format) do
-      body = AWS[:compute].describe_instances('instance-id' => @instance_id).body
+      body = Fog::Compute[:aws].describe_instances('instance-id' => @instance_id).body
       tests("returns 1 instance").returns(1) { body['reservationSet'].size }
       body
     end
@@ -115,11 +115,11 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
     another_server.destroy
 
     tests("#get_console_output('#{@instance_id}')").formats(@get_console_output_format) do
-      AWS[:compute].get_console_output(@instance_id).body
+      Fog::Compute[:aws].get_console_output(@instance_id).body
     end
 
     tests("#get_password_data('#{@instance_id}')").formats(@get_password_data_format) do
-      result = AWS[:compute].get_password_data(@instance_id).body
+      result = Fog::Compute[:aws].get_password_data(@instance_id).body
 
       tests("key can decrypt passwordData").returns(true) do
 
@@ -127,7 +127,7 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
 
         password_data = result['passwordData']
         Fog.wait_for do
-          password_data ||= AWS[:compute].get_password_data(@instance_id).body['passwordData']
+          password_data ||= Fog::Compute[:aws].get_password_data(@instance_id).body['passwordData']
         end
 
         decoded_password = Base64.decode64(password_data)
@@ -140,31 +140,31 @@ Shindo.tests('AWS::Compute | instance requests', ['aws']) do
     key.destroy
 
     tests("#reboot_instances('#{@instance_id}')").formats(AWS::Compute::Formats::BASIC) do
-      AWS[:compute].reboot_instances(@instance_id).body
+      Fog::Compute[:aws].reboot_instances(@instance_id).body
     end
 
     tests("#terminate_instances('#{@instance_id}')").formats(@terminate_instances_format) do
-      AWS[:compute].terminate_instances(@instance_id).body
+      Fog::Compute[:aws].terminate_instances(@instance_id).body
     end
 
   end
 
   tests('failure') do
 
-    tests("#get_console_output('i-00000000')").raises(Fog::AWS::Compute::NotFound) do
-      AWS[:compute].get_console_output('i-00000000')
+    tests("#get_console_output('i-00000000')").raises(Fog::Compute::AWS::NotFound) do
+      Fog::Compute[:aws].get_console_output('i-00000000')
     end
 
-    tests("#get_password_data('i-00000000')").raises(Fog::AWS::Compute::NotFound) do
-      AWS[:compute].get_password_data('i-00000000')
+    tests("#get_password_data('i-00000000')").raises(Fog::Compute::AWS::NotFound) do
+      Fog::Compute[:aws].get_password_data('i-00000000')
     end
 
-    tests("#reboot_instances('i-00000000')").raises(Fog::AWS::Compute::NotFound) do
-      AWS[:compute].reboot_instances('i-00000000')
+    tests("#reboot_instances('i-00000000')").raises(Fog::Compute::AWS::NotFound) do
+      Fog::Compute[:aws].reboot_instances('i-00000000')
     end
 
-    tests("#terminate_instances('i-00000000')").raises(Fog::AWS::Compute::NotFound) do
-      AWS[:compute].terminate_instances('i-00000000')
+    tests("#terminate_instances('i-00000000')").raises(Fog::Compute::AWS::NotFound) do
+      Fog::Compute[:aws].terminate_instances('i-00000000')
     end
 
   end

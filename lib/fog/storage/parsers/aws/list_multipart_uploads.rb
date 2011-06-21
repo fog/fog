@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module AWS
-      module Storage
+    module Storage
+      module AWS
 
         class ListMultipartUploads < Fog::Parsers::Base
 

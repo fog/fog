@@ -1,6 +1,6 @@
 module Fog
-  module Brightbox
-    class Compute
+  module Compute
+    class Brightbox
       class Real
 
         def map_cloud_ip(identifier, options = {})

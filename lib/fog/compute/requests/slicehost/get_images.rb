@@ -1,6 +1,6 @@
 module Fog
-  module Slicehost
-    class Compute
+  module Compute
+    class Slicehost
       class Real
 
         require 'fog/compute/parsers/slicehost/get_images'
@@ -16,7 +16,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Slicehost::Compute::GetImages.new,
+            :parser   => Fog::Parsers::Compute::Slicehost::GetImages.new,
             :path     => 'images.xml'
           )
         end

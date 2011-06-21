@@ -1,6 +1,6 @@
 module Fog
-  module Rackspace
-    class Storage
+  module Storage
+    class Rackspace
       class Real
 
         # Delete an existing container
@@ -10,12 +10,11 @@ module Fog
         # * object<~String> - Name of object to delete
         #
         def delete_object(container, object)
-          response = request(
+          request(
             :expects  => 204,
             :method   => 'DELETE',
             :path     => "#{URI.escape(container)}/#{URI.escape(object)}"
           )
-          response
         end
 
       end

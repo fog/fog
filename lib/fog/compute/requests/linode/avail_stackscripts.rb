@@ -1,7 +1,8 @@
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Real
+
         def avail_stackscripts(options={})
           result = request(
             :expects  => 200,
@@ -11,6 +12,7 @@ module Fog
           result.body['DATA'].each { |r| r['DISTRIBUTIONIDLIST'] = r['DISTRIBUTIONIDLIST'].to_s }
           result
         end
+
       end
     end
   end

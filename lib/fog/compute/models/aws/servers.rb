@@ -2,14 +2,14 @@ require 'fog/core/collection'
 require 'fog/compute/models/aws/server'
 
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
 
       class Servers < Fog::Collection
 
         attribute :filters
 
-        model Fog::AWS::Compute::Server
+        model Fog::Compute::AWS::Server
 
         # Creates a new server
         #

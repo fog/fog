@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module VirtualBox
-    class Compute
+  module Compute
+    class VirtualBox
 
       class NATEngine < Fog::Model
 
@@ -35,7 +35,7 @@ module Fog
 
         undef_method :redirects
         def redirects
-          Fog::VirtualBox::Compute::NATRedirects.new(
+          Fog::Compute::VirtualBox::NATRedirects.new(
             :connection => connection,
             :machine    => machine,
             :nat_engine => self

@@ -1,10 +1,9 @@
 module Fog
-  module NewServers
-    class Compute < Fog::Service
+  module Compute
+    class NewServers < Fog::Service
 
       requires :new_servers_password, :new_servers_username
       recognizes :host, :port, :scheme, :persistent
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/new_servers'
 
@@ -30,13 +29,6 @@ module Fog
         end
 
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::NewServers::Compute.new is deprecated, use Fog::Compute.new(:provider => 'NewServers') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           @new_server_username = options[:new_servers_username]
         end
 
@@ -53,13 +45,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          unless options.delete(:provider)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::NewServers::Compute.new is deprecated, use Fog::Compute.new(:provider => 'NewServers') instead[/]"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
-          end
-
           require 'fog/core/parser'
 
           @new_servers_password = options[:new_servers_password]
@@ -93,7 +78,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::NewServers::Compute::NotFound.slurp(error)
+              Fog::Compute::NewServers::NotFound.slurp(error)
             else
               error
             end

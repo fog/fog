@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/describe_instances'
@@ -62,12 +62,12 @@ module Fog
           if filters['instance-id'] && !filters['instance-id'].is_a?(Array)
             params.merge!('InstanceId' => filters.delete('instance-id'))
           end
-          params.merge!(AWS.indexed_filters(filters))
+          params.merge!(Fog::AWS.indexed_filters(filters))
 
           request({
             'Action'    => 'DescribeInstances',
             :idempotent => true,
-            :parser     => Fog::Parsers::AWS::Compute::DescribeInstances.new
+            :parser     => Fog::Parsers::Compute::AWS::DescribeInstances.new
           }.merge!(params))
         end
 

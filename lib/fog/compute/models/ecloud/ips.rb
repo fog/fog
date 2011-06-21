@@ -1,11 +1,11 @@
 require 'fog/compute/models/ecloud/ip'
 
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
       class Ips < Fog::Ecloud::Collection
 
-        model Fog::Ecloud::Compute::Ip
+        model Fog::Compute::Ecloud::Ip
 
         undef_method :create
 

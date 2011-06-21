@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/ninefold/image'
 
 module Fog
-  module Ninefold
-    class Compute
+  module Compute
+    class Ninefold
 
       class Images < Fog::Collection
 
-        model Fog::Ninefold::Compute::Image
+        model Fog::Compute::Ninefold::Image
 
         def all(offering = 'executable')
           data = connection.list_templates(:templatefilter => offering)

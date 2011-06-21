@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Storage
+  module Storage
+    class AWS
       class Real
 
         # Sync clock against S3 to avoid skew errors

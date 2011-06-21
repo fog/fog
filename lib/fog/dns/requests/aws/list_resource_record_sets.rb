@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class DNS
+  module DNS
+    class AWS
       class Real
 
         require 'fog/dns/parsers/aws/list_resource_record_sets'
@@ -46,7 +46,7 @@ module Fog
           
           request({
             :query => parameters,
-            :parser     => Fog::Parsers::AWS::DNS::ListResourceRecordSets.new,
+            :parser     => Fog::Parsers::DNS::AWS::ListResourceRecordSets.new,
             :expects    => 200,
             :method     => 'GET',
             :path       => "hostedzone/#{zone_id}/rrset"

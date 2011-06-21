@@ -2,9 +2,9 @@ for provider, config in compute_providers
 
   next if [Voxel].include?(provider)
 
-  Shindo.tests("#{provider}::Compute | flavors", [provider.to_s.downcase]) do
+  Shindo.tests("Fog::Compute[:#{provider}] | flavors", [provider]) do
 
-    flavors_tests(provider[:compute], (config[:flavors_attributes] || {}), config[:mocked])
+    flavors_tests(Fog::Compute[provider], (config[:flavors_attributes] || {}), config[:mocked])
 
   end
 

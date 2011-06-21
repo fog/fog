@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module AWS
-      module CDN
+    module CDN
+      module AWS
 
         class GetDistributionList < Fog::Parsers::Base
 

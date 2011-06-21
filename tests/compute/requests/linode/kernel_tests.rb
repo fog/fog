@@ -1,4 +1,4 @@
-Shindo.tests('Linode::Compute | kernel requests', ['linode']) do
+Shindo.tests('Fog::Compute[:linode] | kernel requests', ['linode']) do
 
   @kernels_format = Linode::Compute::Formats::BASIC.merge({
     'DATA' => [{ 
@@ -14,14 +14,14 @@ Shindo.tests('Linode::Compute | kernel requests', ['linode']) do
 
     tests('#avail_kernels').formats(@kernels_format) do
       pending if Fog.mocking?
-      data = Linode[:compute].avail_kernels.body
+      data = Fog::Compute[:linode].avail_kernels.body
       @kernel_id = data['DATA'].first['KERNELID']
       data
     end
 
     tests("@avail_kernels(#{@kernel_id})").formats(@kernels_format) do
       pending if Fog.mocking?
-      Linode[:compute].avail_kernels(@kernel_id).body
+      Fog::Compute[:linode].avail_kernels(@kernel_id).body
     end
   end
 end

@@ -1,6 +1,6 @@
 module Fog
-  module Slicehost
-    class DNS
+  module DNS
+    class Slicehost
       class Real
 
         require 'fog/dns/parsers/slicehost/get_zone'
@@ -21,7 +21,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Slicehost::DNS::GetZone.new,
+            :parser   => Fog::Parsers::DNS::Slicehost::GetZone.new,
             :path     => "/zones/#{zone_id}.xml"
           )
         end

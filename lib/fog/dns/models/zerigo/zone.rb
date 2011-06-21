@@ -2,8 +2,8 @@ require 'fog/core/model'
 require 'fog/dns/models/zerigo/records'
 
 module Fog
-  module Zerigo
-    class DNS
+  module DNS
+    class Zerigo
 
       class Zone < Fog::Model
 
@@ -39,7 +39,7 @@ module Fog
 
         def records
           @records ||= begin
-            Fog::Zerigo::DNS::Records.new(
+            Fog::DNS::Zerigo::Records.new(
               :zone       => self,
               :connection => connection
             )

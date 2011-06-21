@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module AWS
-    class DNS
+  module DNS
+    class AWS
 
       class Record < Fog::Model
         extend Fog::Deprecation

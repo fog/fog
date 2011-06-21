@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module Rackspace
-    class Storage
+  module Storage
+    class Rackspace
 
       class File < Fog::Model
 

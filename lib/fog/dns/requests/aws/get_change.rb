@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class DNS
+  module DNS
+    class AWS
       class Real
 
         require 'fog/dns/parsers/aws/get_change'
@@ -25,7 +25,7 @@ module Fog
 
           request({
             :expects    => 200,
-            :parser     => Fog::Parsers::AWS::DNS::GetChange.new,
+            :parser     => Fog::Parsers::DNS::AWS::GetChange.new,
             :method     => 'GET',
             :path       => "change/#{change_id}"
           })

@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Storage
+  module Storage
+    class AWS
       class Real
 
         require 'fog/storage/parsers/aws/copy_object'
@@ -36,7 +36,7 @@ module Fog
             :headers  => headers,
             :host     => "#{target_bucket_name}.#{@host}",
             :method   => 'PUT',
-            :parser   => Fog::Parsers::AWS::Storage::CopyObject.new,
+            :parser   => Fog::Parsers::Storage::AWS::CopyObject.new,
             :path     => CGI.escape(target_object_name)
           })
         end

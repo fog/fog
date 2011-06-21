@@ -1,4 +1,4 @@
-Shindo.tests('Rackspace::Storage | container requests', ['rackspace']) do
+Shindo.tests('Fog::Storage[:rackspace] | container requests', [:rackspace]) do
 
   @container_format = [String]
 
@@ -12,51 +12,51 @@ Shindo.tests('Rackspace::Storage | container requests', ['rackspace']) do
 
     tests("#put_container('fogcontainertests')").succeeds do
       pending if Fog.mocking?
-      Rackspace[:storage].put_container('fogcontainertests')
+      Fog::Storage[:rackspace].put_container('fogcontainertests')
     end
 
     tests("#get_container('fogcontainertests')").formats(@container_format) do
       pending if Fog.mocking?
-      Rackspace[:storage].get_container('fogcontainertests').body
+      Fog::Storage[:rackspace].get_container('fogcontainertests').body
     end
 
     tests("#get_containers").formats(@containers_format) do
       pending if Fog.mocking?
-      Rackspace[:storage].get_containers.body
+      Fog::Storage[:rackspace].get_containers.body
     end
 
     tests("#head_container('fogcontainertests')").succeeds do
       pending if Fog.mocking?
-      Rackspace[:storage].head_container('fogcontainertests')
+      Fog::Storage[:rackspace].head_container('fogcontainertests')
     end
 
     tests("#head_containers").succeeds do
       pending if Fog.mocking?
-      Rackspace[:storage].head_containers
+      Fog::Storage[:rackspace].head_containers
     end
 
     tests("#delete_container('fogcontainertests')").succeeds do
       pending if Fog.mocking?
-      Rackspace[:storage].delete_container('fogcontainertests')
+      Fog::Storage[:rackspace].delete_container('fogcontainertests')
     end
 
   end
 
   tests('failure') do
 
-    tests("#get_container('fognoncontainer')").raises(Fog::Rackspace::Storage::NotFound) do
+    tests("#get_container('fognoncontainer')").raises(Fog::Storage::Rackspace::NotFound) do
       pending if Fog.mocking?
-      Rackspace[:storage].get_container('fognoncontainer')
+      Fog::Storage[:rackspace].get_container('fognoncontainer')
     end
 
-    tests("#head_container('fognoncontainer')").raises(Fog::Rackspace::Storage::NotFound) do
+    tests("#head_container('fognoncontainer')").raises(Fog::Storage::Rackspace::NotFound) do
       pending if Fog.mocking?
-      Rackspace[:storage].head_container('fognoncontainer')
+      Fog::Storage[:rackspace].head_container('fognoncontainer')
     end
 
-    tests("#delete_container('fognoncontainer')").raises(Fog::Rackspace::Storage::NotFound) do
+    tests("#delete_container('fognoncontainer')").raises(Fog::Storage::Rackspace::NotFound) do
       pending if Fog.mocking?
-      Rackspace[:storage].delete_container('fognoncontainer')
+      Fog::Storage[:rackspace].delete_container('fognoncontainer')
     end
 
   end

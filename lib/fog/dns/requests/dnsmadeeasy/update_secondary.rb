@@ -1,6 +1,6 @@
 module Fog
-  module DNSMadeEasy
-    class DNS
+  module DNS
+    class DNSMadeEasy
       class Real
 
         # Modifies a secondary entry with the specified name. Returns errors if name is not valid or conflicts with another domain.

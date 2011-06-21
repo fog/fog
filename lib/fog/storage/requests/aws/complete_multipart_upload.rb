@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Storage
+  module Storage
+    class AWS
       class Real
 
         require 'fog/storage/parsers/aws/complete_multipart_upload'
@@ -40,7 +40,7 @@ module Fog
             :headers    => { 'Content-Length' => data.length },
             :host       => "#{bucket_name}.#{@host}",
             :method     => 'POST',
-            :parser     => Fog::Parsers::AWS::Storage::CompleteMultipartUpload.new,
+            :parser     => Fog::Parsers::Storage::AWS::CompleteMultipartUpload.new,
             :path       => CGI.escape(object_name),
             :query      => {'uploadId' => upload_id}
           })

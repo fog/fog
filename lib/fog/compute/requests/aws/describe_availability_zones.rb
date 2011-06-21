@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/describe_availability_zones'
@@ -25,11 +25,11 @@ module Fog
             Formatador.display_line("[yellow][WARN] describe_availability_zones with #{filters.class} param is deprecated, use describe_availability_zones('zone-name' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'public-ip' => [*filters]}
           end
-          params = AWS.indexed_filters(filters)
+          params = Fog::AWS.indexed_filters(filters)
           request({
             'Action'    => 'DescribeAvailabilityZones',
             :idempotent => true,
-            :parser     => Fog::Parsers::AWS::Compute::DescribeAvailabilityZones.new
+            :parser     => Fog::Parsers::Compute::AWS::DescribeAvailabilityZones.new
           }.merge!(params))
         end
 

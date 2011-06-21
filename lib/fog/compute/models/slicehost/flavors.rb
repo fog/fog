@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/slicehost/flavor'
 
 module Fog
-  module Slicehost
-    class Compute
+  module Compute
+    class Slicehost
 
       class Flavors < Fog::Collection
 
-        model Fog::Slicehost::Compute::Flavor
+        model Fog::Compute::Slicehost::Flavor
 
         def all
           data = connection.get_flavors.body['flavors']

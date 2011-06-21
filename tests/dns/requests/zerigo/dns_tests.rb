@@ -1,12 +1,12 @@
-Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
+Shindo.tests('Fog::DNS[:zerigo] | DNS requests', ['zerigo', 'dns']) do
 
   # tests assume have a free acccount - ie need to limit # of zones to max of 3
-  
+
   @domain = ''
   @org_zone_count = 0
   @new_zones = []
   @new_records =[]
- 
+
   def generate_unique_domain( with_trailing_dot = false)
     #get time (with 1/100th of sec accuracy)
     #want unique domain name and if provider is fast, this can be called more than once per second
@@ -15,18 +15,17 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
     if with_trailing_dot
       domain+= '.'
     end
-    
+
     domain
   end
-  
- 
+
   tests( 'success') do
 
     test('get current zone count') do
       pending if Fog.mocking?
 
       @org_zone_count= 0
-      response = Zerigo[:dns].count_zones()
+      response = Fog::DNS[:zerigo].count_zones()
       if response.status == 200
         @org_zone_count = response.body['count']
       end
@@ -39,11 +38,11 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
 
       options = { :nx_ttl => 1800 }
       domain = generate_unique_domain
-      response = Zerigo[:dns].create_zone( domain, 3600, 'pri_sec', options)
+      response = Fog::DNS[:zerigo].create_zone( domain, 3600, 'pri_sec', options)
       if response.status == 201
         zone_id = response.body['id']
         #worked so can now delete
-        response = Zerigo[:dns].delete_zone( zone_id)
+        response = Fog::DNS[:zerigo].delete_zone( zone_id)
       end
       
       response.status == 200
@@ -54,11 +53,11 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
 
       options = { :active => 'N', :ns1=> '2.3.4.5' }
       domain= generate_unique_domain
-      response = Zerigo[:dns].create_zone( domain, 14400, 'sec', options )
+      response = Fog::DNS[:zerigo].create_zone( domain, 14400, 'sec', options )
       if response.status == 201
         zone_id = response.body['id']
         #worked so can now delete
-        response = Zerigo[:dns].delete_zone( zone_id)
+        response = Fog::DNS[:zerigo].delete_zone( zone_id)
       end
       
       response.status == 200
@@ -69,11 +68,11 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
 
       domain= generate_unique_domain
       options = { :active => 'N', :slave_nameservers=> "ns1.#{domain},ns2.#{domain}" }
-      response = Zerigo[:dns].create_zone( domain, 14400, 'pri', options )
+      response = Fog::DNS[:zerigo].create_zone( domain, 14400, 'pri', options )
       if response.status == 201
         zone_id = response.body['id']
         #worked so can now delete
-        response = Zerigo[:dns].delete_zone( zone_id)
+        response = Fog::DNS[:zerigo].delete_zone( zone_id)
       end
 
       response.status == 200
@@ -85,7 +84,7 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
       @domain = generate_unique_domain
       options = { :nx_ttl => 1800, :active => 'N', :hostmaster => "netops@#{@domain}", 
                   :notes => 'for client ABC', :tag_list=> 'sample-tag' }
-      response = Zerigo[:dns].create_zone( @domain, 14400, 'pri', options )
+      response = Fog::DNS[:zerigo].create_zone( @domain, 14400, 'pri', options )
       if response.status == 201
         @zone_id = response.body['id']
         @new_zones << @zone_id
@@ -99,7 +98,7 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
 
       result= false
       
-      response = Zerigo[:dns].get_zone( @zone_id)
+      response = Fog::DNS[:zerigo].get_zone( @zone_id)
       if response.status == 200
         zone = response.body
         if (zone['ns-type'] == 'pri') and (zone['tag-list'] == 'sample-tag') and 
@@ -118,7 +117,7 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
       pending if Fog.mocking?
       
       options = { :notes => 'for client XYZ', :tag_list=> 'testing-tag' }
-      response = Zerigo[:dns].update_zone( @zone_id, options )
+      response = Fog::DNS[:zerigo].update_zone( @zone_id, options )
       
       response.status == 200
     end
@@ -128,7 +127,7 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
 
       result= false
       
-      response = Zerigo[:dns].get_zone( @zone_id)
+      response = Fog::DNS[:zerigo].get_zone( @zone_id)
       if response.status == 200
         zone = response.body
         if (zone['tag-list'] == 'testing-tag') and (zone['notes'] == 'for client XYZ') 
@@ -144,7 +143,7 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
 
       result= false
       
-      response = Zerigo[:dns].get_zone_stats( @zone_id)
+      response = Fog::DNS[:zerigo].get_zone_stats( @zone_id)
       if response.status == 200
         zone = response.body
         if (zone['domain'] == @domain) and (zone['id'] == @zone_id) and
@@ -162,7 +161,7 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
 
        result= false
 
-       response = Zerigo[:dns].list_zones()
+       response = Fog::DNS[:zerigo].list_zones()
        if response.status == 200
          zones = response.body['zones']
          if (@org_zone_count+1) == zones.count
@@ -178,7 +177,7 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
 
       host= 'www'
       options = { :hostname => host }
-      response = Zerigo[:dns].create_host( @zone_id, 'A', '1.2.3.4', options)
+      response = Fog::DNS[:zerigo].create_host( @zone_id, 'A', '1.2.3.4', options)
       if response.status == 201
         record_id = response.body['id']
         @new_records << record_id
@@ -192,7 +191,7 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
       
       host = 'mail'
       options = { :hostname => host }
-      response = Zerigo[:dns].create_host( @zone_id, 'CNAME', @domain, options)
+      response = Fog::DNS[:zerigo].create_host( @zone_id, 'CNAME', @domain, options)
       if response.status == 201
         record_id = response.body['id']
         @new_records << record_id
@@ -210,7 +209,7 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
       sub_domain = 'subdomain'        # that we want to delete DNS for
       ns_host = 'ns.' + @domain
       options = { :hostname => sub_domain}
-      response = Zerigo[:dns].create_host( @zone_id, 'NS', ns_host, options)
+      response = Fog::DNS[:zerigo].create_host( @zone_id, 'NS', ns_host, options)
       if response.status == 201
         record_id = response.body['id']
         @new_records << record_id
@@ -224,7 +223,7 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
 
       mail_domain = 'mail.' + @domain
       options = { :hostname => @domain, :ttl => 3600, :priority => '3'}
-      response = Zerigo[:dns].create_host( @zone_id, 'MX', mail_domain, options)
+      response = Fog::DNS[:zerigo].create_host( @zone_id, 'MX', mail_domain, options)
       if response.status == 201
         @record_id = response.body['id']
         @new_records << @record_id
@@ -238,7 +237,7 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
 
       result = false
       
-      response = Zerigo[:dns].get_host( @record_id)
+      response = Fog::DNS[:zerigo].get_host( @record_id)
       if response.status == 200
         host = response.body
         if (host['id'] == @record_id) and (host['host-type'] == 'MX') and
@@ -256,9 +255,9 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
       result = false
       
       options = { :priority => 7 }
-      response = Zerigo[:dns].update_host( @record_id, options)
+      response = Fog::DNS[:zerigo].update_host( @record_id, options)
       if response.status == 200
-        response = Zerigo[:dns].get_host( @record_id)
+        response = Fog::DNS[:zerigo].get_host( @record_id)
         if response.status == 200
           host= response.body
           if (host['priority']  == 7)
@@ -274,7 +273,7 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
       pending if Fog.mocking?
 
       host_count = 0
-      response = Zerigo[:dns].count_hosts( @zone_id)
+      response = Fog::DNS[:zerigo].count_hosts( @zone_id)
       if response.status == 200
         host_count = response.body['count']
       end
@@ -287,7 +286,7 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
 
       result = false
       
-      response = Zerigo[:dns].list_hosts( @zone_id)
+      response = Fog::DNS[:zerigo].list_hosts( @zone_id)
       if response.status == 200
         hosts = response.body['hosts']
         if (hosts.count == 4)
@@ -309,7 +308,7 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
       result = false
       
       host = 'mail.' + @domain
-      response = Zerigo[:dns].find_hosts( host)
+      response = Fog::DNS[:zerigo].find_hosts( host)
       if response.status == 200
         hosts = response.body['hosts']
         host_count = hosts.count
@@ -327,7 +326,7 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
       result = false
       
       host = 'mail.' + @domain
-      response = Zerigo[:dns].find_hosts( host, @zone_id)
+      response = Fog::DNS[:zerigo].find_hosts( host, @zone_id)
       if response.status == 200
         hosts = response.body['hosts']
         host_count = hosts.count
@@ -344,7 +343,7 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
 
       result= true
       @new_records.each { |record_id|
-        response = Zerigo[:dns].delete_host( record_id)
+        response = Fog::DNS[:zerigo].delete_host( record_id)
         if response.status != 200
             result= false;
         end
@@ -358,7 +357,7 @@ Shindo.tests('Zerigo::dns | DNS requests', ['zerigo', 'dns']) do
 
       result= true
       @new_zones.each { |zone_id|
-        response = Zerigo[:dns].delete_zone( zone_id)
+        response = Fog::DNS[:zerigo].delete_zone( zone_id)
         if response.status != 200
             result= false;
         end

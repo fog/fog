@@ -1,6 +1,6 @@
 module Fog
-  module Bluebox
-    class DNS
+  module DNS
+    class Bluebox
       class Real
 
         # Updates an existing DNS zone

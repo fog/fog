@@ -1,6 +1,6 @@
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Real
 
         # Get available distributions
@@ -23,6 +23,7 @@ module Fog
             :query    => { :api_action => 'avail.distributions' }.merge!(options)
           )
         end
+
       end
     end
   end

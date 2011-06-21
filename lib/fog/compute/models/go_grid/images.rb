@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/go_grid/image'
 
 module Fog
-  module GoGrid
-    class Compute
+  module Compute
+    class GoGrid
 
       class Images < Fog::Collection
 
-        model Fog::GoGrid::Compute::Image
+        model Fog::Compute::GoGrid::Image
 
         attribute :server
 
@@ -22,7 +22,7 @@ module Fog
         def get(image_id)
           response = connection.grid_image_get.body['list'][image_id]
           new(data)
-        rescue Fog::GoGrid::Compute::NotFound
+        rescue Fog::Compute::GoGrid::NotFound
           nil
         end
 

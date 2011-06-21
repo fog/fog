@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class DNS
+  module DNS
+    class AWS
       class Real
 
         require 'fog/dns/parsers/aws/create_hosted_zone'
@@ -45,7 +45,7 @@ module Fog
 
           request({
             :body       => %Q{<?xml version="1.0" encoding="UTF-8"?><CreateHostedZoneRequest xmlns="https://route53.amazonaws.com/doc/2010-10-01/"><Name>#{name}</Name>#{optional_tags}</CreateHostedZoneRequest>},
-            :parser     => Fog::Parsers::AWS::DNS::CreateHostedZone.new,
+            :parser     => Fog::Parsers::DNS::AWS::CreateHostedZone.new,
             :expects    => 201,
             :method     => 'POST',
             :path       => "hostedzone"

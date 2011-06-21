@@ -1,6 +1,6 @@
 module Fog
-  module Bluebox
-    class Compute
+  module Compute
+    class Bluebox
       class Real
 
         # Destroy a block

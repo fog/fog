@@ -1,6 +1,6 @@
 module Fog
-  module Brightbox
-    class Compute
+  module Compute
+    class Brightbox
       class Real
 
         def list_zones(options = {})

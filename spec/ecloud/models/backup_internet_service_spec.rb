@@ -1,11 +1,11 @@
 require 'ecloud/spec_helper'
 
 if Fog.mocking?
-  describe "Fog::Ecloud::Compute::BackupInternetService", :type => :mock_tmrk_ecloud_model do
+  describe "Fog::Compute::Ecloud::BackupInternetService", :type => :mock_tmrk_ecloud_model do
     subject { @vcloud.vdcs[0].backup_internet_services[0] }
 
     describe :class do
-      subject { Fog::Ecloud::Compute::BackupInternetService }
+      subject { Fog::Compute::Ecloud::BackupInternetService }
 
       it { should have_identity(:href) }
       it { should have_only_these_attributes([:href, :name, :id, :protocol, :enabled, :description, :timeout, :redirect_url, :monitor]) }
@@ -13,7 +13,7 @@ if Fog.mocking?
 
     context "with no uri" do
 
-      subject { Fog::Ecloud::Compute::BackupInternetService.new() }
+      subject { Fog::Compute::Ecloud::BackupInternetService.new() }
       it { should have_all_attributes_be_nil }
 
     end
@@ -23,7 +23,7 @@ if Fog.mocking?
 
       let(:composed_service_data) { @vcloud.vdcs[0].backup_internet_services[0].send(:_compose_service_data) }
 
-      it { should be_an_instance_of(Fog::Ecloud::Compute::BackupInternetService) }
+      it { should be_an_instance_of(Fog::Compute::Ecloud::BackupInternetService) }
 
       its(:href)                  { should == @mock_backup_service.href }
       its(:identity)              { should == @mock_backup_service.href }

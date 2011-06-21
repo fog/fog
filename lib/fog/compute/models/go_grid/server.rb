@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module GoGrid
-    class Compute
+  module Compute
+    class GoGrid
 
       class BlockInstantiationError < StandardError; end
 
@@ -78,12 +78,12 @@ module Fog
           Fog::SSH.new(ip['ip'], username, options).run(commands)
         end
 
-        def scp(local_path, remote_path)
+        def scp(local_path, remote_path, upload_options = {})
           requires :ip, :username
 
-          options = {}
-          options[:key_data] = [private_key] if private_key
-          Fog::SCP.new(ip['ip'], username, options).upload(local_path, remote_path)
+          scp_options = {}
+          scp_options[:key_data] = [private_key] if private_key
+          Fog::SCP.new(ip['ip'], username, scp_options).upload(local_path, remote_path, upload_options)
         end
 
         def setup(credentials = {})

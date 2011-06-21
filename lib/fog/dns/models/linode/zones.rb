@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/dns/models/linode/zone'
 
 module Fog
-  module Linode
-    class DNS
+  module DNS
+    class Linode
 
       class Zones < Fog::Collection
 
-        model Fog::Linode::DNS::Zone
+        model Fog::DNS::Linode::Zone
 
         def all
           data = connection.domain_list.body['DATA']

@@ -1,6 +1,6 @@
 module Fog
-  module DNSimple
-    class DNS
+  module DNS
+    class DNSimple
       class Real
 
         # Get the details for a specific domain in your account. You

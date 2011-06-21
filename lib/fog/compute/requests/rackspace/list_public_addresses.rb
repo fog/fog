@@ -1,6 +1,6 @@
 module Fog
-  module Rackspace
-    class Compute
+  module Compute
+    class Rackspace
       class Real
 
         # List public server addresses
@@ -31,7 +31,7 @@ module Fog
             response.body = { 'public' => server['addresses']['public'] }
             response
           else
-            raise Fog::Rackspace::Compute::NotFound
+            raise Fog::Compute::Rackspace::NotFound
           end
         end
 

@@ -1,15 +1,15 @@
 require 'fog/compute/models/ecloud/public_ip'
 
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
       class PublicIps < Fog::Ecloud::Collection
 
         undef_method :create
 
         attribute :href, :aliases => :Href
 
-        model Fog::Ecloud::Compute::PublicIp
+        model Fog::Compute::Ecloud::PublicIp
 
         #get_request :get_public_ip
         #vcloud_type "application/vnd.tmrk.ecloud.publicIp+xml"

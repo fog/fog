@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/ninefold/server'
 
 module Fog
-  module Ninefold
-    class Compute
+  module Compute
+    class Ninefold
 
       class Servers < Fog::Collection
 
-        model Fog::Ninefold::Compute::Server
+        model Fog::Compute::Ninefold::Server
 
         def all
           data = connection.list_virtual_machines

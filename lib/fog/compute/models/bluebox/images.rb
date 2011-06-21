@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/bluebox/image'
 
 module Fog
-  module Bluebox
-    class Compute
+  module Compute
+    class Bluebox
 
       class Images < Fog::Collection
 
-        model Fog::Bluebox::Compute::Image
+        model Fog::Compute::Bluebox::Image
 
         def all
           data = connection.get_templates.body
@@ -17,7 +17,7 @@ module Fog
         def get(template_id)
           response = connection.get_template(template_id)
           new(response.body)
-        rescue Fog::Bluebox::Compute::NotFound
+        rescue Fog::Compute::Bluebox::NotFound
           nil
         end
 

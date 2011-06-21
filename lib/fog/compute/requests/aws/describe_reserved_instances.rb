@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/describe_reserved_instances'
@@ -32,11 +32,11 @@ module Fog
             Formatador.display_line("[yellow][WARN] describe_reserved_instances with #{filters.class} param is deprecated, use describe_reserved_instances('reserved-instances-id' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'reserved-instances-id' => [*filters]}
           end
-          params = AWS.indexed_filters(filters)
+          params = Fog::AWS.indexed_filters(filters)
           request({
             'Action'    => 'DescribeReservedInstances',
             :idempotent => true,
-            :parser     => Fog::Parsers::AWS::Compute::DescribeReservedInstances.new
+            :parser     => Fog::Parsers::Compute::AWS::DescribeReservedInstances.new
           }.merge!(params))
         end
 

@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/describe_images'
@@ -45,11 +45,11 @@ module Fog
               options[key] = filters.delete(key)
             end
           end
-          params = AWS.indexed_filters(filters).merge!(options)
+          params = Fog::AWS.indexed_filters(filters).merge!(options)
           request({
             'Action'    => 'DescribeImages',
             :idempotent => true,
-            :parser     => Fog::Parsers::AWS::Compute::DescribeImages.new
+            :parser     => Fog::Parsers::Compute::AWS::DescribeImages.new
           }.merge!(params))
         end
 

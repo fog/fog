@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
 
       class Tag < Fog::Model
 
@@ -27,8 +27,6 @@ module Fog
           connection.create_tags(resource_id, key => value)
           true
         end
-
-        private
 
       end
     end

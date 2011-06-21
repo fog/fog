@@ -1,13 +1,13 @@
 module Fog
-  module Voxel
-    class Compute
+  module Compute
+    class Voxel
       class Real
 
         require 'fog/compute/parsers/voxel/devices_list'
 
         def devices_list(device_id = nil)
           options = {
-            :parser     => Fog::Parsers::Voxel::Compute::DevicesList.new,
+            :parser     => Fog::Parsers::Compute::Voxel::DevicesList.new,
             :verbosity  => 'normal'
           }
 

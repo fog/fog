@@ -1,4 +1,4 @@
-Shindo.tests('DNSMadeEasy::dns | DNS requests', ['dnsmadeeasy', 'dns']) do
+Shindo.tests('Fog::DNS[:dnsmadeeasy] | DNS requests', ['dnsmadeeasy', 'dns']) do
 
   @domain = ''
   @domain_count = 0
@@ -20,7 +20,7 @@ Shindo.tests('DNSMadeEasy::dns | DNS requests', ['dnsmadeeasy', 'dns']) do
     test("get current domain count") do
       pending if Fog.mocking?
 
-      response = DNSMadeEasy[:dns].list_domains()
+      response = Fog::DNS[:dnsmadeeasy].list_domains()
       if response.status == 200
         @domain_count = response.body['list'].size
       end
@@ -32,7 +32,7 @@ Shindo.tests('DNSMadeEasy::dns | DNS requests', ['dnsmadeeasy', 'dns']) do
       pending if Fog.mocking?
 
       domain = generate_unique_domain
-      response = DNSMadeEasy[:dns].create_domain(domain)
+      response = Fog::DNS[:dnsmadeeasy].create_domain(domain)
       if response.status == 201
         @domain = response.body
       end
@@ -43,7 +43,7 @@ Shindo.tests('DNSMadeEasy::dns | DNS requests', ['dnsmadeeasy', 'dns']) do
     test("get domain by name") do
       pending if Fog.mocking?
 
-      response = DNSMadeEasy[:dns].get_domain(@domain["name"])
+      response = Fog::DNS[:dnsmadeeasy].get_domain(@domain["name"])
       response.status == 200
     end
 
@@ -54,7 +54,7 @@ Shindo.tests('DNSMadeEasy::dns | DNS requests', ['dnsmadeeasy', 'dns']) do
       name = "www"
       type = "A"
       data = "1.2.3.4"
-      response = DNSMadeEasy[:dns].create_record(domain, name, type, data)
+      response = Fog::DNS[:dnsmadeeasy].create_record(domain, name, type, data)
 
       if response.status == 201
         @record = response.body
@@ -72,7 +72,7 @@ Shindo.tests('DNSMadeEasy::dns | DNS requests', ['dnsmadeeasy', 'dns']) do
       type = "MX"
       data = "10 mail.#{domain}"
       options = { :ttl => 60 }
-      response = DNSMadeEasy[:dns].create_record(domain, name, type, data, options)
+      response = Fog::DNS[:dnsmadeeasy].create_record(domain, name, type, data, options)
 
       response.status == 201
     end
@@ -84,15 +84,15 @@ Shindo.tests('DNSMadeEasy::dns | DNS requests', ['dnsmadeeasy', 'dns']) do
       record_id = @record["id"]
       options = {:name => '', :type => 'A', :data => "2.3.4.5", :ttl => 600}
 
-      response = DNSMadeEasy[:dns].update_record(domain, record_id, options)
+      response = Fog::DNS[:dnsmadeeasy].update_record(domain, record_id, options)
 
       response.status == 200
     end
 
-    test("get record #{@record['id']} - check ip/ttl") do
+    test("get record - check ip/ttl") do
       pending if Fog.mocking?
 
-      response = DNSMadeEasy[:dns].get_record(@domain["name"], @record['id'])
+      response = Fog::DNS[:dnsmadeeasy].get_record(@domain["name"], @record['id'])
       record = response.body
       result = false
 
@@ -106,7 +106,7 @@ Shindo.tests('DNSMadeEasy::dns | DNS requests', ['dnsmadeeasy', 'dns']) do
     test("list records") do
       pending if Fog.mocking?
 
-      response = DNSMadeEasy[:dns].list_records(@domain["name"])
+      response = Fog::DNS[:dnsmadeeasy].list_records(@domain["name"])
 
       if response.status == 200
         @records = response.body
@@ -121,7 +121,7 @@ Shindo.tests('DNSMadeEasy::dns | DNS requests', ['dnsmadeeasy', 'dns']) do
 
       result = true
       @records.each do |record|
-        response = DNSMadeEasy[:dns].delete_record(domain, record["id"])
+        response = Fog::DNS[:dnsmadeeasy].delete_record(domain, record["id"])
         if(response.status != 200)
           result = false
           break
@@ -138,7 +138,7 @@ Shindo.tests('DNSMadeEasy::dns | DNS requests', ['dnsmadeeasy', 'dns']) do
       puts "THIS MOST LIKELY WILL FAIL ON LIVE because it can take while for DNS Made Easy to create a domain/zone, changing the host to api.sandbox.dnsmadeeasy.com should make it work"
       sleep 10
 
-      response = DNSMadeEasy[:dns].delete_domain(@domain["name"])
+      response = Fog::DNS[:dnsmadeeasy].delete_domain(@domain["name"])
       response.status == 200
     end
 

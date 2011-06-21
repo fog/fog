@@ -1,5 +1,5 @@
-Shindo.tests("AWS::Compute | addresses", ['aws']) do
+Shindo.tests("Fog::Compute[:aws] | addresses", ['aws']) do
 
-  collection_tests(AWS[:compute].addresses, {}, true)
+  collection_tests(Fog::Compute[:aws].addresses, {}, true)
 
 end

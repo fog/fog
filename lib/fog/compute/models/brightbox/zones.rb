@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/brightbox/zone'
 
 module Fog
-  module Brightbox
-    class Compute
+  module Compute
+    class Brightbox
 
       class Zones < Fog::Collection
 
-        model Fog::Brightbox::Compute::Zone
+        model Fog::Compute::Brightbox::Zone
 
         def all
           data = connection.list_zones

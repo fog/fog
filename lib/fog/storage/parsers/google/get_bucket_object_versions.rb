@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Google
-      module Storage
+    module Storage
+      module Google
 
         class GetBucketObjectVersions < Fog::Parsers::Base
 

@@ -2,8 +2,8 @@ require 'fog/core/model'
 require 'fog/compute/models/virtual_box/nat_engine'
 
 module Fog
-  module VirtualBox
-    class Compute
+  module Compute
+    class VirtualBox
 
       class NetworkAdapter < Fog::Model
 
@@ -40,7 +40,7 @@ module Fog
 
         undef_method :nat_driver
         def nat_driver
-          Fog::VirtualBox::Compute::NATEngine.new(
+          Fog::Compute::VirtualBox::NATEngine.new(
             :connection       => connection,
             :machine          => machine,
             :network_adapter  => self,

@@ -1,6 +1,6 @@
 module Fog
-  module Google
-    class Storage
+  module Storage
+    class Google
       class Real
 
         # Get headers for an object from Google Storage

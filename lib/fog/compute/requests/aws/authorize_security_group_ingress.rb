@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/basic'
@@ -39,7 +39,7 @@ module Fog
             'Action'    => 'AuthorizeSecurityGroupIngress',
             'GroupName' => group_name,
             :idempotent => true,
-            :parser     => Fog::Parsers::AWS::Compute::Basic.new
+            :parser     => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(options))
         end
 
@@ -98,7 +98,7 @@ module Fog
             }
             response
           else
-            raise Fog::AWS::Compute::NotFound.new("The security group '#{group_name}' does not exist")
+            raise Fog::Compute::AWS::NotFound.new("The security group '#{group_name}' does not exist")
           end
         end
 

@@ -1,33 +1,48 @@
 module Fog
-  class DNS
+  module DNS
+
+    def self.[](provider)
+      self.new(:provider => provider)
+    end
 
     def self.new(attributes)
       attributes = attributes.dup # prevent delete from having side effects
-      case provider = attributes[:provider] # attributes.delete(:provider)
-      when 'AWS'
+      case provider = attributes.delete(:provider).to_s.downcase.to_sym
+      when :aws
         require 'fog/dns/aws'
-        Fog::AWS::DNS.new(attributes)
-      when 'Bluebox'
+        Fog::DNS::AWS.new(attributes)
+      when :bluebox
         require 'fog/dns/bluebox'
-        Fog::Bluebox::DNS.new(attributes)
-      when 'DNSimple'
+        Fog::DNS::Bluebox.new(attributes)
+      when :dnsimple
         require 'fog/dns/dnsimple'
-        Fog::DNSimple::DNS.new(attributes)
-      when 'DNSMadeEasy'
+        Fog::DNS::DNSimple.new(attributes)
+      when :dnsmadeeasy
         require 'fog/dns/dnsmadeeasy'
-        Fog::DNSMadeEasy::DNS.new(attributes)
-      when 'Linode'
+        Fog::DNS::DNSMadeEasy.new(attributes)
+      when :linode
         require 'fog/dns/linode'
-        Fog::Linode::DNS.new(attributes)
-      when 'Slicehost'
+        Fog::DNS::Linode.new(attributes)
+      when :slicehost
         require 'fog/dns/slicehost'
-        Fog::Slicehost::DNS.new(attributes)
-      when 'Zerigo'
+        Fog::DNS::Slicehost.new(attributes)
+      when :zerigo
         require 'fog/dns/zerigo'
-        Fog::Zerigo::DNS.new(attributes)
+        Fog::DNS::Zerigo.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized dns provider")
       end
+    end
+
+    def self.zones
+      zones = []
+      for provider in [:aws, :bluebox, :dnsimple, :dnsmadeeasy, :linode, :slicehost, :zerigo]
+        begin
+          zones.concat(self[provider].zones)
+        rescue # ignore any missing credentials/etc
+        end
+      end
+      zones
     end
 
   end

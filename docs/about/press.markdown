@@ -5,6 +5,13 @@ title:  Press
 
 Mentions and blog posts from elsewhere in reverse chronological order by day (and alphasorted for same days).
 
+**June 21st, 2011**
+
+* [Mocking fog When Using It With Carrierwave](http://www.engineyard.com/blog/2011/mocking-fog-when-using-it-with-carrierwave/)
+
+**June 14th, 2011**
+
+* [Backing Up Your Data With Fog](http://larrywright.me/blog/articles/221-backing-up-your-data-with-fog)
 
 **April 7th, 2011**
 

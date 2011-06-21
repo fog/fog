@@ -1,18 +1,18 @@
 require 'ecloud/spec_helper'
 
 if Fog.mocking?
-  describe "Fog::Ecloud::Compute::Vdc", :type => :mock_tmrk_ecloud_model do
+  describe "Fog::Compute::Ecloud::Vdc", :type => :mock_tmrk_ecloud_model do
     subject { @vcloud }
 
     describe :class do
-      subject { Fog::Ecloud::Compute::Server }
+      subject { Fog::Compute::Ecloud::Server }
 
       it { should have_identity(:href) }
       it { should have_only_these_attributes([:href, :type, :name, :status, :network_connections, :os, :virtual_hardware, :storage_size, :links]) }
     end
 
     context "with no uri" do
-      subject { Fog::Ecloud::Compute::Server.new() }
+      subject { Fog::Compute::Ecloud::Server.new() }
 
       it { should have_all_attributes_be_nil }
     end

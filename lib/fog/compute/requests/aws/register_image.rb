@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/register_image'
@@ -40,7 +40,7 @@ module Fog
             'Action'      => 'RegisterImage',
             'Name'        => name,
             'Description' => description,
-            :parser       => Fog::Parsers::AWS::Compute::RegisterImage.new
+            :parser       => Fog::Parsers::Compute::AWS::RegisterImage.new
           }
 
           # This determines if we are doing a snapshot or a S3 backed AMI.
@@ -83,7 +83,7 @@ module Fog
             if name.empty?
               message << 'The request must contain the parameter name'
             end
-            raise Fog::AWS::Compute::Error.new(message)
+            raise Fog::Compute::AWS::Error.new(message)
           end
         end
 

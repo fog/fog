@@ -823,14 +823,13 @@ module Fog
 end
 
 module Fog
-  module Ecloud
-    class Compute < Fog::Service
+  module Compute
+    class Ecloud < Fog::Service
 
       class UnsupportedVersion < Exception ; end
 
       requires   :ecloud_username, :ecloud_password, :ecloud_versions_uri
       recognizes :ecloud_version
-      recognizes :provider # remove post deprecation
 
       model_path 'fog/compute/models/ecloud'
       model :catalog_item
@@ -953,7 +952,7 @@ module Fog
 
       class Mock
         include Shared
-        include MockDataClasses
+        include Fog::Ecloud::MockDataClasses
 
         def self.base_url
           "https://fakey.com/api/v0.8b-ext2.6"
@@ -1078,7 +1077,7 @@ module Fog
         end
 
         def mock_data
-          Fog::Ecloud::Compute::Mock.data
+          Fog::Compute::Ecloud::Mock.data
         end
 
         def mock_error(expected, status, body='', headers={})

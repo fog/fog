@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/go_grid/server'
 
 module Fog
-  module GoGrid
-    class Compute
+  module Compute
+    class GoGrid
 
       class Servers < Fog::Collection
 
-        model Fog::GoGrid::Compute::Server
+        model Fog::Compute::GoGrid::Server
 
         def all
           data = connection.grid_server_list.body['list']
@@ -24,7 +24,7 @@ module Fog
           if server_id && server = connection.grid_server_get(server_id).body['list'].first
             new(server)
           end
-        rescue Fog::GoGrid::Compute::NotFound
+        rescue Fog::Compute::GoGrid::NotFound
           nil
         end
 

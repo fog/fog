@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Zerigo
-      module DNS
+    module DNS
+      module Zerigo
 
         class FindHosts < Fog::Parsers::Base
 

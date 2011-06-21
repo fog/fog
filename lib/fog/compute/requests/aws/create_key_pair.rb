@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/create_key_pair'
@@ -23,7 +23,7 @@ module Fog
           request(
             'Action'  => 'CreateKeyPair',
             'KeyName' => key_name,
-            :parser   => Fog::Parsers::AWS::Compute::CreateKeyPair.new
+            :parser   => Fog::Parsers::Compute::AWS::CreateKeyPair.new
           )
         end
 
@@ -46,7 +46,7 @@ module Fog
             }.merge!(data)
             response
           else
-            raise Fog::AWS::Compute::Error.new("InvalidKeyPair.Duplicate => The keypair '#{key_name}' already exists.")
+            raise Fog::Compute::AWS::Error.new("InvalidKeyPair.Duplicate => The keypair '#{key_name}' already exists.")
           end
         end
 

@@ -1,4 +1,4 @@
-Shindo.tests('AWS::Compute | image requests', ['aws']) do
+Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
 
   @images_format = {
     'imagesSet'    => [{
@@ -24,12 +24,12 @@ Shindo.tests('AWS::Compute | image requests', ['aws']) do
 
     # the result for this is HUGE and relatively uninteresting...
     # tests("#describe_images").formats(@images_format) do
-    #   AWS[:compute].describe_images.body
+    #   Fog::Compute[:aws].describe_images.body
     # end
 
     tests("#describe_images('ImageId' => '#{GENTOO_AMI}')").formats(@images_format) do
       pending if Fog.mocking?
-      AWS[:compute].describe_images('ImageId' => GENTOO_AMI).body
+      Fog::Compute[:aws].describe_images('ImageId' => GENTOO_AMI).body
     end
 
   end

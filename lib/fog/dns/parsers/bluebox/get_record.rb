@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Bluebox
-      module DNS
+    module DNS
+      module Bluebox
 
         class GetRecord < Fog::Parsers::Base
 

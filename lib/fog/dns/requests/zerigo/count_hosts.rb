@@ -1,6 +1,6 @@
 module Fog
-  module Zerigo
-    class DNS
+  module DNS
+    class Zerigo
       class Real
 
         require 'fog/dns/parsers/zerigo/count_hosts'
@@ -17,7 +17,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Zerigo::DNS::CountHosts.new,
+            :parser   => Fog::Parsers::DNS::Zerigo::CountHosts.new,
             :path     => "/api/1.1/zones/#{zone_id}/hosts/count.xml"
           )
         end

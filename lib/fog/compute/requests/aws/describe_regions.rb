@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/describe_regions'
@@ -24,11 +24,11 @@ module Fog
             Formatador.display_line("[yellow][WARN] describe_regions with #{filters.class} param is deprecated, use describe_regions('region-name' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'region-name' => [*filters]}
           end
-          params = AWS.indexed_filters(filters)
+          params = Fog::AWS.indexed_filters(filters)
           request({
             'Action'    => 'DescribeRegions',
             :idempotent => true,
-            :parser     => Fog::Parsers::AWS::Compute::DescribeRegions.new
+            :parser     => Fog::Parsers::Compute::AWS::DescribeRegions.new
           }.merge!(params))
         end
 

@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class DNS
+  module DNS
+    class AWS
       class Real
 
         require 'fog/dns/parsers/aws/delete_hosted_zone'
@@ -26,7 +26,7 @@ module Fog
           
           request({
             :expects    => 200,
-            :parser     => Fog::Parsers::AWS::DNS::DeleteHostedZone.new,
+            :parser     => Fog::Parsers::DNS::AWS::DeleteHostedZone.new,
             :method     => 'DELETE',
             :path       => "hostedzone/#{zone_id}"
           })

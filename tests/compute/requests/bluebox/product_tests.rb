@@ -1,4 +1,4 @@
-Shindo.tests('Bluebox::Compute | product requests', ['bluebox']) do
+Shindo.tests('Fog::Compute[:bluebox] | product requests', ['bluebox']) do
 
   tests('success') do
 
@@ -6,21 +6,21 @@ Shindo.tests('Bluebox::Compute | product requests', ['bluebox']) do
 
     tests("get_product('#{@product_id}')").formats(Bluebox::Compute::Formats::PRODUCT) do
       pending if Fog.mocking?
-      Bluebox[:compute].get_product(@product_id).body
+      Fog::Compute[:bluebox].get_product(@product_id).body
     end
 
     tests("get_products").formats([Bluebox::Compute::Formats::PRODUCT]) do
       pending if Fog.mocking?
-      Bluebox[:compute].get_products.body
+      Fog::Compute[:bluebox].get_products.body
     end
 
   end
 
   tests('failure') do
 
-    tests("get_product('00000000-0000-0000-0000-000000000000')").raises(Fog::Bluebox::Compute::NotFound) do
+    tests("get_product('00000000-0000-0000-0000-000000000000')").raises(Fog::Compute::Bluebox::NotFound) do
       pending if Fog.mocking?
-      Bluebox[:compute].get_product('00000000-0000-0000-0000-000000000000')
+      Fog::Compute[:bluebox].get_product('00000000-0000-0000-0000-000000000000')
     end
 
   end

@@ -1,6 +1,6 @@
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Real
 
         # Get available kernels
@@ -23,6 +23,7 @@ module Fog
             :query    => { :api_action => 'avail.kernels' }.merge!(options)
           )
         end
+
       end
     end
   end

@@ -1,6 +1,6 @@
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Real
 
         # Creates a linode and assigns you full privileges
@@ -26,6 +26,7 @@ module Fog
             }
           )
         end
+
       end
     end
   end

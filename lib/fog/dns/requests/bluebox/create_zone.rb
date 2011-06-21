@@ -1,6 +1,6 @@
 module Fog
-  module Bluebox
-    class DNS
+  module DNS
+    class Bluebox
       class Real
 
         require 'fog/dns/parsers/bluebox/create_zone'
@@ -33,7 +33,7 @@ module Fog
             :body     => body,
             :expects  => 202,
             :method   => 'POST',
-            :parser   => Fog::Parsers::Bluebox::DNS::CreateZone.new,
+            :parser   => Fog::Parsers::DNS::Bluebox::CreateZone.new,
             :path     => "/api/domains.xml"
           )
         end

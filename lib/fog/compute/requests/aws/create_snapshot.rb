@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/create_snapshot'
@@ -26,7 +26,7 @@ module Fog
             'Action'      => 'CreateSnapshot',
             'Description' => description,
             'VolumeId'    => volume_id,
-            :parser       => Fog::Parsers::AWS::Compute::CreateSnapshot.new
+            :parser       => Fog::Parsers::Compute::AWS::CreateSnapshot.new
           )
         end
 

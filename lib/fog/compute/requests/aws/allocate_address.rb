@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/allocate_address'
@@ -17,7 +17,7 @@ module Fog
         def allocate_address
           request(
             'Action'  => 'AllocateAddress',
-            :parser   => Fog::Parsers::AWS::Compute::AllocateAddress.new
+            :parser   => Fog::Parsers::Compute::AWS::AllocateAddress.new
           )
         end
 

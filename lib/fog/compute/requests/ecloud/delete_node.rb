@@ -1,6 +1,6 @@
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
 
       class Real
         basic_request :delete_node, 200, 'DELETE', {}, ""

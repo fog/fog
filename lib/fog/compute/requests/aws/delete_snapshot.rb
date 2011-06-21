@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/basic'
@@ -22,7 +22,7 @@ module Fog
             'Action'      => 'DeleteSnapshot',
             'SnapshotId'  => snapshot_id,
             :idempotent   => true,
-            :parser       => Fog::Parsers::AWS::Compute::Basic.new
+            :parser       => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
 
@@ -40,7 +40,7 @@ module Fog
             }
             response
           else
-            raise Fog::AWS::Compute::NotFound.new("The snapshot '#{snapshot_id}' does not exist.")
+            raise Fog::Compute::AWS::NotFound.new("The snapshot '#{snapshot_id}' does not exist.")
           end
         end
 

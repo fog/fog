@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module Slicehost
-    class Compute
+  module Compute
+    class Slicehost
 
       class Image < Fog::Model
 

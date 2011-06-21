@@ -1,6 +1,6 @@
 module Fog
-  module Rackspace
-    class Compute
+  module Compute
+    class Rackspace
       class Real
 
         # Create a new server
@@ -57,7 +57,7 @@ module Fog
           end
           request(
             :body     => data.to_json,
-            :expects  => 202,
+            :expects  => [200, 202],
             :method   => 'POST',
             :path     => 'servers.json'
           )

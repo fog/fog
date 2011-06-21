@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/slicehost/image'
 
 module Fog
-  module Slicehost
-    class Compute
+  module Compute
+    class Slicehost
 
       class Images < Fog::Collection
 
-        model Fog::Slicehost::Compute::Image
+        model Fog::Compute::Slicehost::Image
 
         def all
           data = connection.get_images.body['images']

@@ -1,7 +1,7 @@
 require 'ecloud/spec_helper'
 
 if Fog.mocking?
-  describe "Fog::Ecloud::Compute::InternetServices", :type => :mock_tmrk_ecloud_model do
+  describe "Fog::Compute::Ecloud::InternetServices", :type => :mock_tmrk_ecloud_model do
     context "as an attribute of a VDC" do
       subject { @vcloud.vdcs[0] }
 
@@ -9,7 +9,7 @@ if Fog.mocking?
 
       describe :class do
         subject { @vcloud.vdcs[0].backup_internet_services.class }
-        its(:model)       { should == Fog::Ecloud::Compute::BackupInternetService }
+        its(:model)       { should == Fog::Compute::Ecloud::BackupInternetService }
       end
 
       describe :backup_internet_services do
@@ -17,7 +17,7 @@ if Fog.mocking?
 
         it { should respond_to(:create) }
 
-        it { should be_an_instance_of(Fog::Ecloud::Compute::BackupInternetServices) }
+        it { should be_an_instance_of(Fog::Compute::Ecloud::BackupInternetServices) }
 
         its(:length) { should == 1 }
 

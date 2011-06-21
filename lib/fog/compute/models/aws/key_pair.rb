@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
 
       class KeyPair < Fog::Model
 
@@ -52,7 +52,6 @@ module Fog
           !!(private_key && ENV.has_key?('HOME'))
         end
 
-          private
       end
 
     end

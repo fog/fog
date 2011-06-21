@@ -1,6 +1,6 @@
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
       class Real
 
         def validate_network_data(network_data, configure=false)

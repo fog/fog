@@ -1,6 +1,6 @@
 module Fog
-  module Brightbox
-    class Compute
+  module Compute
+    class Brightbox
       class Real
 
         def remove_listeners_load_balancer(identifier, options = {})

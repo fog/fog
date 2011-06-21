@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/describe_volumes'
@@ -34,11 +34,11 @@ module Fog
             Formatador.display_line("[yellow][WARN] describe_volumes with #{filters.class} param is deprecated, use describe_volumes('volume-id' => []) instead[/] [light_black](#{caller.first})[/]")
             filters = {'volume-id' => [*filters]}
           end
-          params = AWS.indexed_filters(filters)
+          params = Fog::AWS.indexed_filters(filters)
           request({
             'Action'    => 'DescribeVolumes',
             :idempotent => true,
-            :parser     => Fog::Parsers::AWS::Compute::DescribeVolumes.new
+            :parser     => Fog::Parsers::Compute::AWS::DescribeVolumes.new
           }.merge!(params))
         end
 

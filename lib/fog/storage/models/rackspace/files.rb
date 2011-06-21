@@ -2,8 +2,8 @@ require 'fog/core/collection'
 require 'fog/storage/models/rackspace/file'
 
 module Fog
-  module Rackspace
-    class Storage
+  module Storage
+    class Rackspace
 
       class Files < Fog::Collection
 
@@ -13,7 +13,7 @@ module Fog
         attribute :path
         attribute :prefix
 
-        model Fog::Rackspace::Storage::File
+        model Fog::Storage::Rackspace::File
 
         def all(options = {})
           requires :directory
@@ -60,7 +60,7 @@ module Fog
             :key  => key
           })
           new(file_data)
-        rescue Fog::Rackspace::Storage::NotFound
+        rescue Fog::Storage::Rackspace::NotFound
           nil
         end
 
@@ -78,7 +78,7 @@ module Fog
             :key => key
           })
           new(file_data)
-        rescue Fog::Rackspace::Storage::NotFound
+        rescue Fog::Storage::Rackspace::NotFound
           nil
         end
 

@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Compute
+  module Compute
+    class AWS
       class Real
 
         require 'fog/compute/parsers/aws/basic'
@@ -18,11 +18,11 @@ module Fog
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-RebootInstances.html]
         def reboot_instances(instance_id = [])
-          params = AWS.indexed_param('InstanceId', instance_id)
+          params = Fog::AWS.indexed_param('InstanceId', instance_id)
           request({
             'Action'    => 'RebootInstances',
             :idempotent => true,
-            :parser     => Fog::Parsers::AWS::Compute::Basic.new
+            :parser     => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(params))
         end
 
@@ -44,7 +44,7 @@ module Fog
             }
             response
           else
-            raise Fog::AWS::Compute::NotFound.new("The instance ID #{instance_id.inspect} does not exist")
+            raise Fog::Compute::AWS::NotFound.new("The instance ID #{instance_id.inspect} does not exist")
           end
         end
 

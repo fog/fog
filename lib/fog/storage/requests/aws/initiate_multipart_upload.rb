@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Storage
+  module Storage
+    class AWS
       class Real
 
         require 'fog/storage/parsers/aws/initiate_multipart_upload'
@@ -35,7 +35,7 @@ module Fog
             :headers    => options,
             :host       => "#{bucket_name}.#{@host}",
             :method     => 'POST',
-            :parser     => Fog::Parsers::AWS::Storage::InitiateMultipartUpload.new,
+            :parser     => Fog::Parsers::Storage::AWS::InitiateMultipartUpload.new,
             :path       => CGI.escape(object_name),
             :query      => {'uploads' => nil}
           })

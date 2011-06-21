@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Storage
+  module Storage
+    class AWS
       class Real
 
         require 'fog/storage/parsers/aws/access_control_list'
@@ -39,7 +39,7 @@ module Fog
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method     => 'GET',
-            :parser     => Fog::Parsers::AWS::Storage::AccessControlList.new,
+            :parser     => Fog::Parsers::Storage::AWS::AccessControlList.new,
             :query      => {'acl' => nil}
           })
         end

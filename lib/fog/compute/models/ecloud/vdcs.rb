@@ -1,12 +1,12 @@
 require 'fog/compute/models/ecloud/vdc'
 
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
 
       class Vdcs < Collection
 
-        model Fog::Ecloud::Compute::Vdc
+        model Fog::Compute::Ecloud::Vdc
 
         undef_method :create
 

@@ -6,13 +6,13 @@ class AWS < Fog::Bin
       when :auto_scaling
         Fog::AWS::AutoScaling
       when :cdn
-        Fog::AWS::CDN
+        Fog::CDN::AWS
       when :cloud_formation
         Fog::AWS::CloudFormation
       when :compute
-        Fog::AWS::Compute
+        Fog::Compute::AWS
       when :dns
-        Fog::AWS::DNS
+        Fog::DNS::AWS
       when :elb
         Fog::AWS::ELB
       when :iam
@@ -22,7 +22,7 @@ class AWS < Fog::Bin
       when :ses
         Fog::AWS::SES
       when :eu_storage, :storage
-        Fog::AWS::Storage
+        Fog::Storage::AWS
       when :rds
         Fog::AWS::RDS
       else
@@ -39,12 +39,15 @@ class AWS < Fog::Bin
         when :auto_scaling
           Fog::AWS::AutoScaling.new
         when :cdn
+          Formatador.display_line("[yellow][WARN] AWS[:cdn] is deprecated, use CDN[:aws] instead[/]")
           Fog::CDN.new(:provider => 'AWS')
         when :cloud_formation
           Fog::AWS::CloudFormation.new
         when :compute
+          Formatador.display_line("[yellow][WARN] AWS[:compute] is deprecated, use Compute[:aws] instead[/]")
           Fog::Compute.new(:provider => 'AWS')
         when :dns
+          Formatador.display_line("[yellow][WARN] AWS[:dns] is deprecated, use DNS[:aws] instead[/]")
           Fog::DNS.new(:provider => 'AWS')
         when :elb
           Fog::AWS::ELB.new
@@ -59,6 +62,7 @@ class AWS < Fog::Bin
         when :ses
           Fog::AWS::SES.new
         when :storage
+          Formatador.display_line("[yellow][WARN] AWS[:storage] is deprecated, use Storage[:aws] instead[/]")
           Fog::Storage.new(:provider => 'AWS')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

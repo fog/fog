@@ -19,7 +19,7 @@ module Fog
         #     * 'DisableAvailabilityZonesForLoadBalancerResult'<~Hash>:
         #       * 'AvailabilityZones'<~Array> - array of strings describing instances currently enabled
         def disable_availability_zones_for_load_balancer(availability_zones, lb_name)
-          params = AWS.indexed_param('AvailabilityZones.member', [*availability_zones])
+          params = Fog::AWS.indexed_param('AvailabilityZones.member', [*availability_zones])
           request({
             'Action'           => 'DisableAvailabilityZonesForLoadBalancer',
             'LoadBalancerName' => lb_name,

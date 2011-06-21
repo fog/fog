@@ -1,14 +1,14 @@
 require 'fog/compute/models/ecloud/network'
 
 module Fog
-  module Ecloud
-    class Compute
+  module Compute
+    class Ecloud
 
       class Networks < Fog::Ecloud::Collection
 
         undef_method :create
 
-        model Fog::Ecloud::Compute::Network
+        model Fog::Compute::Ecloud::Network
 
         attribute :href
 

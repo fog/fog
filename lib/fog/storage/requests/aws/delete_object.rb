@@ -1,6 +1,6 @@
 module Fog
-  module AWS
-    class Storage
+  module Storage
+    class AWS
       class Real
 
         # Delete an object from S3
@@ -18,7 +18,7 @@ module Fog
 
         def delete_object(bucket_name, object_name, options = {})
           headers = options
-					request({
+          request({
             :expects    => 204,
             :headers    => headers,
             :host       => "#{bucket_name}.#{@host}",

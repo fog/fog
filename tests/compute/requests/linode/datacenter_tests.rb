@@ -1,4 +1,4 @@
-Shindo.tests('Linode::Compute | datacenter requests', ['linode']) do
+Shindo.tests('Fog::Compute[:linode] | datacenter requests', ['linode']) do
 
   @datacenters_format = Linode::Compute::Formats::BASIC.merge({
     'DATA' => [{ 
@@ -11,7 +11,7 @@ Shindo.tests('Linode::Compute | datacenter requests', ['linode']) do
 
     tests('#avail_datacenters').formats(@datacenters_format) do
       pending if Fog.mocking?
-      Linode[:compute].avail_datacenters.body
+      Fog::Compute[:linode].avail_datacenters.body
     end
 
   end

@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/bluebox/server'
 
 module Fog
-  module Bluebox
-    class Compute
+  module Compute
+    class Bluebox
 
       class Servers < Fog::Collection
 
-        model Fog::Bluebox::Compute::Server
+        model Fog::Compute::Bluebox::Server
 
         def all
           data = connection.get_blocks.body
@@ -25,7 +25,7 @@ module Fog
           if server_id && server = connection.get_block(server_id).body
             new(server)
           end
-        rescue Fog::Bluebox::Compute::NotFound
+        rescue Fog::Compute::Bluebox::NotFound
           nil
         end
 

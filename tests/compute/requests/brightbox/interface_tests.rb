@@ -1,4 +1,4 @@
-Shindo.tests('Brightbox::Compute | interface requests', ['brightbox']) do
+Shindo.tests('Fog::Compute[:brightbox] | interface requests', ['brightbox']) do
 
   tests('success') do
 

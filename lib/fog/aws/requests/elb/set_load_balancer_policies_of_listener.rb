@@ -25,7 +25,7 @@ module Fog
         def set_load_balancer_policies_of_listener(lb_name, load_balancer_port, policy_names)
           params = {'LoadBalancerPort' => load_balancer_port}
           if policy_names.any?
-            params.merge!(AWS.indexed_param('PolicyNames.member', policy_names))
+            params.merge!(Fog::AWS.indexed_param('PolicyNames.member', policy_names))
           else
             params['PolicyNames'] = ''
           end

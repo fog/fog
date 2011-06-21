@@ -1,8 +1,8 @@
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Real
-        
+
         # Get available data centers
         #
         # ==== Returns
@@ -16,6 +16,7 @@ module Fog
             :query    => { :api_action => 'avail.datacenters' }
           )
         end
+
       end
     end
   end

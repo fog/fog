@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/storm_on_demand/balancer'
 
 module Fog
-  module StormOnDemand
-    class Compute
+  module Compute
+    class StormOnDemand
 
       class Balancers < Fog::Collection
 
-        model Fog::StormOnDemand::Compute::Balancer
+        model Fog::Compute::StormOnDemand::Balancer
 
         def all
           data = connection.list_balancers.body['loadbalancers']

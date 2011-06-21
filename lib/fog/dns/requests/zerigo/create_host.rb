@@ -1,6 +1,6 @@
 module Fog
-  module Zerigo
-    class DNS
+  module DNS
+    class Zerigo
       class Real
 
         require 'fog/dns/parsers/zerigo/create_host'
@@ -51,7 +51,7 @@ module Fog
             :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><host><host-type>#{host_type}</host-type><data>#{data}</data>#{optional_tags}</host>},
             :expects  => 201,
             :method   => 'POST',
-            :parser   => Fog::Parsers::Zerigo::DNS::CreateHost.new,
+            :parser   => Fog::Parsers::DNS::Zerigo::CreateHost.new,
             :path     => "/api/1.1/zones/#{zone_id}/hosts.xml"
           )
         end

@@ -1,4 +1,4 @@
-Shindo.tests('Bluebox::Compute | template requests', ['bluebox']) do
+Shindo.tests('Fog::Compute[:bluebox] | template requests', ['bluebox']) do
 
   @template_format = {
     'created'     => String,
@@ -13,21 +13,21 @@ Shindo.tests('Bluebox::Compute | template requests', ['bluebox']) do
 
     tests("get_template('#{@template_id}')").formats(@template_format) do
       pending if Fog.mocking?
-      Bluebox[:compute].get_template(@template_id).body
+      Fog::Compute[:bluebox].get_template(@template_id).body
     end
 
     tests("get_templates").formats([@template_format]) do
       pending if Fog.mocking?
-      Bluebox[:compute].get_templates.body
+      Fog::Compute[:bluebox].get_templates.body
     end
 
   end
 
   tests('failure') do
 
-    tests("get_template('00000000-0000-0000-0000-000000000000')").raises(Fog::Bluebox::Compute::NotFound) do
+    tests("get_template('00000000-0000-0000-0000-000000000000')").raises(Fog::Compute::Bluebox::NotFound) do
       pending if Fog.mocking?
-      Bluebox[:compute].get_template('00000000-0000-0000-0000-000000000000')
+      Fog::Compute[:bluebox].get_template('00000000-0000-0000-0000-000000000000')
     end
 
   end

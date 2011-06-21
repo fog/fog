@@ -2,14 +2,14 @@ require 'fog/core/collection'
 require 'fog/storage/models/local/file'
 
 module Fog
-  module Local
-    class Storage
+  module Storage
+    class Local
 
       class Files < Fog::Collection
 
         attribute :directory
 
-        model Fog::Local::Storage::File
+        model Fog::Storage::Local::File
 
         def all
           requires :directory

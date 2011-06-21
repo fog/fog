@@ -1,6 +1,6 @@
 module Fog
-  module Slicehost
-    class Compute
+  module Compute
+    class Slicehost
       class Real
 
         require 'fog/compute/parsers/slicehost/get_backups'
@@ -18,7 +18,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'GET',
-            :parser   => Fog::Parsers::Slicehost::Compute::GetBackups.new,
+            :parser   => Fog::Parsers::Compute::Slicehost::GetBackups.new,
             :path     => 'backups.xml'
           )
         end

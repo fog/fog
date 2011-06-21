@@ -2,8 +2,8 @@ require 'fog/core/model'
 require 'fog/dns/models/slicehost/records'
 
 module Fog
-  module Slicehost
-    class DNS
+  module DNS
+    class Slicehost
 
       class Zone < Fog::Model
 
@@ -36,7 +36,7 @@ module Fog
 
         def records
           @records ||= begin
-            Fog::Slicehost::DNS::Records.new(
+            Fog::DNS::Slicehost::Records.new(
               :zone       => self,
               :connection => connection
             )

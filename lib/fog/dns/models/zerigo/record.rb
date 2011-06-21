@@ -1,8 +1,8 @@
 require 'fog/core/model'
 
 module Fog
-  module Zerigo
-    class DNS
+  module DNS
+    class Zerigo
 
       class Record < Fog::Model
         extend Fog::Deprecation

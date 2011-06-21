@@ -2,12 +2,12 @@ require 'fog/core/collection'
 require 'fog/compute/models/virtual_box/medium'
 
 module Fog
-  module VirtualBox
-    class Compute
+  module Compute
+    class VirtualBox
 
       class Mediums < Fog::Collection
 
-        model Fog::VirtualBox::Compute::Medium
+        model Fog::Compute::VirtualBox::Medium
 
         def all
           data = []

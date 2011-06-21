@@ -1,7 +1,7 @@
 module Fog
   module Parsers
-    module Voxel
-      module Compute
+    module Compute
+      module Voxel
 
         class ImagesList < Fog::Parsers::Base
 

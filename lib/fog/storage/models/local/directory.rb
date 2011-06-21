@@ -2,8 +2,8 @@ require 'fog/core/model'
 require 'fog/storage/models/local/files'
 
 module Fog
-  module Local
-    class Storage
+  module Storage
+    class Local
 
       class Directory < Fog::Model
 
@@ -22,7 +22,7 @@ module Fog
 
         def files
           @files ||= begin
-            Fog::Local::Storage::Files.new(
+            Fog::Storage::Local::Files.new(
               :directory    => self,
               :connection   => connection
             )

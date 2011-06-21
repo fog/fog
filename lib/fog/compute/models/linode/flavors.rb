@@ -2,10 +2,10 @@ require 'fog/core/collection'
 require 'fog/compute/models/linode/flavor'
 
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Flavors < Fog::Collection
-        model Fog::Linode::Compute::Flavor
+        model Fog::Compute::Linode::Flavor
 
         def all
           load flavors

@@ -1,7 +1,8 @@
 module Fog
-  module Linode
-    class Compute
+  module Compute
+    class Linode
       class Real
+
         def linode_disk_list(linode_id, disk_id=nil)
           options = {}
           if disk_id
@@ -13,6 +14,7 @@ module Fog
             :query    => { :api_action => 'linode.disk.list', :linodeId => linode_id }.merge!(options)
           )
         end
+
       end
     end
   end
