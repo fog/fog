@@ -1,8 +1,10 @@
 require 'fog/aws/models/auto_scaling/configuration'
+
 module Fog
   module AWS
     class AutoScaling
       class Configurations < Fog::Collection
+
         model Fog::AWS::AutoScaling::Configuration
 
         # Creates a new launch configuration

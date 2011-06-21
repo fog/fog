@@ -1,8 +1,8 @@
 require 'fog/core/model'
+
 module Fog
   module AWS
     class AutoScaling
-
       class Group < Fog::Model
 
         identity  :id,                        :aliases => 'AutoScalingGroupName'
@@ -37,8 +37,26 @@ module Fog
           super
         end
 
+        def activities
+          requires :id
+          data = []
+          next_token = nil
+          loop do
+            result = connection.describe_scaling_activities('AutoScalingGroupName' => id, 'NextToken' => next_token).body['DescribeScalingActivitiesResult']
+            data += result['Activities']
+            next_token = result['NextToken']
+            break if next_token.nil?
+          end
+          Fog::AWS::AutoScaling::Activities.new({
+            :data => data,
+            :connection => connection,
+            #:load_balancer => self
+          })
+        end
+
         def configuration
-          connection.configurations.get(attributes['LaunchConfigurationName'])
+          requires :launch_configuration_name
+          connection.configurations.get(launch_configuration_name)
         end
 
         def disable_metrics_collection(metrics = {})
@@ -51,6 +69,21 @@ module Fog
           requires :id
           connection.enable_metrics_collection(id, 'Metrics' => metrics)
           reload
+        end
+
+        def instances
+          Fog::AWS::AutoScaling::Instances.new({
+            :data => attributes['Instances'],
+            :connection => connection
+          })
+        end
+
+        def instances_in_service
+          attributes[:instances].select {|hash| hash['LifecycleState'] == 'InService'}.map {|hash| hash['InstanceId']}
+        end
+
+        def instances_out_service
+          attributes[:instances].select {|hash| hash['LifecycleState'] == 'OutOfService'}.map {|hash| hash['InstanceId']}
         end
 
         def resume_processes(processes = [])
@@ -66,7 +99,9 @@ module Fog
         end
 
         def ready?
-          # AutoScaling requests are synchronous
+          # Is this useful?
+          #instances_in_service.length == desired_capacity
+          #instances_in_service.length >= min_size
           true
         end
 
@@ -81,11 +116,10 @@ module Fog
           reload
         end
 
-        def reload
-          super
-        #  @instance_health = nil
-          self
-        end
+        #def reload
+        #  super
+        #  self
+        #end
 
         def destroy
           requires :id

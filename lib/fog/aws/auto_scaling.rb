@@ -40,16 +40,12 @@ module Fog
       model_path 'fog/aws/models/auto_scaling'
       model      :activity
       collection :activities
-      model      :adjustment_type
-      collection :adjustment_types
       model      :configuration
       collection :configurations
       model      :group
       collection :groups
       model      :instance
       collection :instances
-      model      :process_type
-      collection :process_types
 
       class Real
 

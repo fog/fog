@@ -1,8 +1,10 @@
 require 'fog/aws/models/auto_scaling/group'
+
 module Fog
   module AWS
     class AutoScaling
       class Groups < Fog::Collection
+
         model Fog::AWS::AutoScaling::Group
 
         # Creates a new auto scaling group.
@@ -26,6 +28,7 @@ module Fog
           data = connection.describe_auto_scaling_groups('AutoScalingGroupNames' => identity).body['DescribeAutoScalingGroupsResult']['AutoScalingGroups'].first
           new(data) unless data.nil?
         end
+
       end
     end
   end

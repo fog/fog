@@ -1,8 +1,8 @@
 require 'fog/core/model'
+
 module Fog
   module AWS
     class AutoScaling
-
       class Configuration < Fog::Model
 
         identity  :id,                    :aliases => 'LaunchConfigurationName'

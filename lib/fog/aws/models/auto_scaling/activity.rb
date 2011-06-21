@@ -1,8 +1,8 @@
 require 'fog/core/model'
+
 module Fog
   module AWS
     class AutoScaling
-
       class Activity < Fog::Model
 
         identity  :id,                      :aliases => 'ActivityId'
@@ -17,6 +17,10 @@ module Fog
 
         def group
           connection.groups.get(attributes['AutoScalingGroupName'])
+        end
+
+        def save
+          raise "Operation not supported"
         end
 
       end

@@ -1,8 +1,10 @@
 require 'fog/aws/models/auto_scaling/activity'
+
 module Fog
   module AWS
     class AutoScaling
       class Activities < Fog::Collection
+
         model Fog::AWS::AutoScaling::Activity
 
         def all
