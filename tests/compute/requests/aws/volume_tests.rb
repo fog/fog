@@ -46,6 +46,22 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
       data
     end
 
+    tests('#create_volume from snapshot').formats(@volume_format) do
+      volume = Fog::Compute[:aws].volumes.create(:availability_zone => 'us-east-1d', :size => 1)
+      snapshot = Fog::Compute[:aws].create_snapshot(volume.identity).body
+      data = Fog::Compute[:aws].create_volume(@server.availability_zone, nil, snapshot['snapshotId']).body
+      @volume_id = data['volumeId']
+      data
+    end
+
+    tests('#create_volume from snapshot with size').formats(@volume_format) do
+      volume = Fog::Compute[:aws].volumes.create(:availability_zone => 'us-east-1d', :size => 1)
+      snapshot = Fog::Compute[:aws].create_snapshot(volume.identity).body
+      data = Fog::Compute[:aws].create_volume(@server.availability_zone, 1, snapshot['snapshotId']).body
+      @volume_id = data['volumeId']
+      data
+    end
+
     Fog::Compute[:aws].volumes.get(@volume_id).wait_for { ready? }
 
     tests('#describe_volumes').formats(@volumes_format) do
