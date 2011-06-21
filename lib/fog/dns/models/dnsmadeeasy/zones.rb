@@ -19,7 +19,7 @@ module Fog
           data = connection.get_domain(zone_id).body
           data.merge!(:id => data['name'])
           new(data)
-        rescue Excon::Errors::NotFound
+        rescue Fog::Service::NotFound
           nil
         end
 
