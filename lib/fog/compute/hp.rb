@@ -16,9 +16,9 @@ module Fog
 
       request_path 'fog/compute/requests/hp'
 #      request :confirm_resized_server
-#      request :create_image
+      request :create_image
       request :create_server
-#      request :delete_image
+      request :delete_image
 #      request :delete_server
       request :get_flavor_details
       request :get_image_details
