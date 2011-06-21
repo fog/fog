@@ -11,6 +11,7 @@ module Fog
 
         attribute :bytes, :aliases => 'X-Container-Bytes-Used'
         attribute :count, :aliases => 'X-Container-Object-Count'
+        attribute :cdn_cname
 
         def destroy
           requires :key
@@ -42,7 +43,7 @@ module Fog
                 if connection.rackspace_cdn_ssl == true
                   response.headers['X-CDN-SSL-URI']
                 else
-                  response.headers['X-CDN-URI']
+                  cdn_cname || response.headers['X-CDN-URI']
                 end
               end
             rescue Fog::Service::NotFound
