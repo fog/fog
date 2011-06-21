@@ -38,7 +38,7 @@ module Fog
             response.status = 200
             response.body = {
               'instanceId'    => instance_id,
-              'output'        => nil,
+              'output'        => (Time.now - instance['launchTime'] >= Fog::Mock.delay) ? nil : Fog::AWS::Mock.console_output,
               'requestId'     => Fog::AWS::Mock.request_id,
               'timestamp'     => Time.now
             }
