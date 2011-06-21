@@ -1,6 +1,7 @@
 require 'fog/core'
 require 'fog/core/parser'
 require 'openssl' # For RSA key pairs
+require 'base64' # For console output
 
 module Fog
   module AWS
@@ -76,6 +77,11 @@ module Fog
 
       def self.box_usage
         sprintf("%0.10f", rand / 100).to_f
+      end
+
+      def self.console_output
+        # "[ 0.000000] Linux version 2.6.18-xenU-ec2-v1.2 (root@domU-12-31-39-07-51-82) (gcc version 4.1.2 20070626 (Red Hat 4.1.2-13)) #2 SMP Wed Aug 19 09:04:38 EDT 2009"
+        Base64.decode64("WyAwLjAwMDAwMF0gTGludXggdmVyc2lvbiAyLjYuMTgteGVuVS1lYzItdjEu\nMiAocm9vdEBkb21VLTEyLTMxLTM5LTA3LTUxLTgyKSAoZ2NjIHZlcnNpb24g\nNC4xLjIgMjAwNzA2MjYgKFJlZCBIYXQgNC4xLjItMTMpKSAjMiBTTVAgV2Vk\nIEF1ZyAxOSAwOTowNDozOCBFRFQgMjAwOQ==\n")
       end
 
       def self.dns_name_for(ip_address)
@@ -173,7 +179,6 @@ module Fog
       def self.volume_id
         "vol-#{Fog::Mock.random_hex(8)}"
       end
-
     end
   end
 end
