@@ -1,5 +1,5 @@
 module Fog
-  module Storage
+  module Parsers
     module Storage
       module AWS
 
