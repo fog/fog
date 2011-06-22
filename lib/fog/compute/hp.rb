@@ -23,9 +23,9 @@ module Fog
       request :get_flavor_details
       request :get_image_details
       request :get_server_details
-#      request :list_addresses
-#      request :list_private_addresses
-#      request :list_public_addresses
+      request :list_addresses
+      request :list_private_addresses
+      request :list_public_addresses
       request :list_flavors
       request :list_flavors_detail
       request :list_images
