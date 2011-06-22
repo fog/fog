@@ -127,7 +127,7 @@ module Fog
         private
 
         def authenticate
-          if @rackspace_must_reauthenticate or @rackspace_auth_token.empty?
+          if @rackspace_must_reauthenticate || @rackspace_auth_token.nil?
             options = {
               :rackspace_api_key  => @rackspace_api_key,
               :rackspace_username => @rackspace_username,
