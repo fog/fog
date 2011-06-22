@@ -26,6 +26,7 @@ Shindo.tests('Fog::Compute[:linode] | stack_script requests', ['linode']) do
     end    
     
     tests('#stackscript_list').formats(@stack_scripts_format) do
+      pending # TODO: REV_NOTE can be either string or float?
       pending if Fog.mocking?
       Fog::Compute[:linode].stackscript_list.body
     end
