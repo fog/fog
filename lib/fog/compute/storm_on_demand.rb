@@ -121,7 +121,7 @@ module Fog
             response.body = JSON.parse(response.body)
           end
           if response.body.keys.include?('full_error')
-            raise(Fog::StormOnDemand::Compute::Error, response.body.inspect)
+            raise(Fog::Compute::StormOnDemand::Error, response.body.inspect)
           end
           response
         end

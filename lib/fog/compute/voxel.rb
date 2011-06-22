@@ -98,7 +98,7 @@ module Fog
               :path   => "/version/1.0/"
             )
             unless data.body['stat'] == 'ok'
-              raise Fog::Voxel::Compute::Error, "#{data.body['err']['msg']}"
+              raise Fog::Compute::Voxel::Error, "#{data.body['err']['msg']}"
             end
             data
           rescue Excon::Errors::HTTPStatusError => error
