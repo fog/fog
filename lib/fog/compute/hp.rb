@@ -19,7 +19,7 @@ module Fog
       request :create_image
       request :create_server
       request :delete_image
-#      request :delete_server
+      request :delete_server
       request :get_flavor_details
       request :get_image_details
       request :get_server_details
@@ -36,7 +36,7 @@ module Fog
 #      request :revert_resized_server
 #      request :resize_server
 #      request :server_action
-#      request :update_server
+      request :update_server
 
       class Mock
 
