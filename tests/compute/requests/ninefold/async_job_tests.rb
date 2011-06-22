@@ -1,6 +1,6 @@
 # This will fail until there are jobs in the system.
 
-Shindo.tests('Fog::Compute[:ninefold] | server requests', ['ninefold']) do
+Shindo.tests('Fog::Compute[:ninefold] | async job requests', ['ninefold']) do
 
   tests('success') do
 

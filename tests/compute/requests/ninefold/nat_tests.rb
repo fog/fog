@@ -3,7 +3,7 @@
 # can optionally specify VM_ID and IP_ID as environment variables, and we will use those. Note:
 # The IP must not already have static nat enabled or any port mappings.
 
-Shindo.tests('Fog::Compute[:ninefold] | server requests', ['ninefold']) do
+Shindo.tests('Fog::Compute[:ninefold] | nat requests', ['ninefold']) do
 
   if ENV['VM_ID'] && ENV['IP_ID']
     @ipid, @vmid = ENV['IP_ID'], ENV['VM_ID']

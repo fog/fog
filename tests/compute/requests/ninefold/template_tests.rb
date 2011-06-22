@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:ninefold] | server requests', ['ninefold']) do
+Shindo.tests('Fog::Compute[:ninefold] | template requests', ['ninefold']) do
 
   tests('success') do
 

@@ -153,21 +153,6 @@ class Ninefold
                            }]
       end
       module VirtualMachines
-        # Sometimes a few fields are missing from VM data - this method
-        # will fill them in if they don't exist, to ensure the format passes
-        def fill_virtual_machine_data(vms)
-          if vms.kind_of? Hash
-              vms['cpuused'] ||= ''
-              vms['networkkbsread'] ||= 0
-              vms['networkkbswrite'] ||= 0
-          elsif vms.kind_of? Array
-            vms.each {|vm| fill_virtual_machine_data(vm) }
-          end
-          vms
-        end
-
-        module_function :fill_virtual_machine_data
-
         VIRTUAL_MACHINE = {
           "id"=>Integer,
           "name"=>String,
@@ -196,17 +181,17 @@ class Ninefold
           "nic"=>[{
                     "id"=>Integer,
                     "networkid"=>Integer,
-                    "netmask"=>String,
-                    "gateway"=>String,
-                    "ipaddress"=>String,
+                    "netmask"=>Fog::Nullable::String,
+                    "gateway"=>Fog::Nullable::String,
+                    "ipaddress"=>Fog::Nullable::String,
                     "traffictype"=>String,
                     "type"=>String,
                     "isdefault"=>Fog::Boolean,
                   }],
           "hypervisor"=>String,
-          "cpuused"=>String,
-          "networkkbsread"=>Integer,
-          "networkkbswrite"=>Integer
+          "cpuused"=>Fog::Nullable::String,
+          "networkkbsread"=>Fog::Nullable::Integer,
+          "networkkbswrite"=>Fog::Nullable::Integer
         }
         VIRTUAL_MACHINES = [VIRTUAL_MACHINE]
       end
@@ -272,7 +257,7 @@ class Ninefold
                     "issystem"=>Fog::Boolean,
                     "state"=>String,
                     "related"=>Integer,
-                    "broadcasturi"=>String,
+                    "broadcasturi"=>Fog::Nullable::String,
                     "dns1"=>String,
                     "dns2"=>String,
                     "type"=>String,
@@ -286,17 +271,6 @@ class Ninefold
                     }]
       end
       module Addresses
-        def fill_address_data(data)
-          if data.kind_of? Hash
-              data['virtualmachineid'] ||= 0
-              data['virtualmachinename'] ||= ''
-          elsif data.kind_of? Array
-            data.each {|d| fill_address_data(d) }
-          end
-          data
-        end
-
-        module_function :fill_address_data
         ADDRESS = {
           "id"=>Integer,
           "ipaddress"=>String,
@@ -312,8 +286,8 @@ class Ninefold
           "associatednetworkid"=>Integer,
           "networkid"=>Integer,
           "state"=>String,
-          "virtualmachineid"=>Integer,
-          "virtualmachinename"=>String
+          "virtualmachineid"=>Fog::Nullable::Integer,
+          "virtualmachinename"=>Fog::Nullable::String
         }
         ADDRESSES = [ADDRESS]
         DISASSOC_ADDRESS = {"jobid"=>Integer}
