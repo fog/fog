@@ -53,8 +53,7 @@ task :examples do
 end
 
 task :test do # => :examples do
-  Rake::Task[:mock_tests].invoke
-  Rake::Task[:real_tests].invoke
+  Rake::Task[:mock_tests].invoke && Rake::Task[:examples].invoke && Rake::Task[:real_tests].invoke
 end
 
 def tests(mocked)
