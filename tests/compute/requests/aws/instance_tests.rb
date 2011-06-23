@@ -79,11 +79,11 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
 
     @instance_id = nil
     # Use a MS Windows AMI to test #get_password_data
-    @windows_ami = 'ami-ee926087' # Microsoft Windows Server 2008 R2 Base 64-bit
+    @windows_ami = 'ami-1cbd4475' # Microsoft Windows Server 2008 R2 Base 64-bit
 
     # Create a keypair for decrypting the password
     key_name = 'fog-test-key'
-    key = AWS.key_pairs.create(:name => key_name)
+    key = Fog::Compute[:aws].key_pairs.create(:name => key_name)
 
     tests("#run_instances").formats(@run_instances_format) do
       data = Fog::Compute[:aws].run_instances(@windows_ami, 1, 1, 'InstanceType' => 't1.micro', 'KeyName' => key_name).body
