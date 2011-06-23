@@ -15,7 +15,7 @@ module Fog
 #      collection  :servers
 
       request_path 'fog/compute/requests/hp'
-#      request :confirm_resized_server
+      request :confirm_resized_server
       request :create_image
       request :create_server
       request :delete_image
@@ -32,10 +32,10 @@ module Fog
       request :list_images_detail
       request :list_servers
       request :list_servers_detail
-#      request :reboot_server
-#      request :revert_resized_server
-#      request :resize_server
-#      request :server_action
+      request :reboot_server
+      request :revert_resized_server
+      request :resize_server
+      request :server_action
       request :update_server
 
       class Mock
