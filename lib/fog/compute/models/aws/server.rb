@@ -44,7 +44,8 @@ module Fog
         def initialize(attributes={})
           self.groups     ||= ["default"] unless attributes[:subnet_id]
           self.flavor_id  ||= 't1.micro'
-          self.image_id ||= begin
+          self.image_id   ||= begin
+            self.username = 'ubuntu'
             case attributes[:connection].instance_variable_get(:@region) # Ubuntu 10.04 LTS 64bit (EBS)
             when 'ap-northeast-1'
               'ami-5e0fa45f'
@@ -179,13 +180,15 @@ module Fog
           end
 
           # wait for aws to be ready
-          Timeout::timeout(120) do
+          Timeout::timeout(360) do
             begin
-              Fog::SSH.new(public_ip_address, username, credentials.merge(:timeout => 4)).run('pwd')
+              Timeout::timeout(8) do
+                Fog::SSH.new(public_ip_address, username, credentials.merge(:timeout => 4)).run('pwd')
+              end
             rescue Errno::ECONNREFUSED
               sleep(2)
               retry
-            rescue Net::SSH::AuthenticationFailed, Timeout::Error => e
+            rescue Net::SSH::AuthenticationFailed, Timeout::Error
               retry
             end
           end
