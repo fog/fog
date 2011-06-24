@@ -22,6 +22,7 @@ module Fog
       request :head_object
       request :put_container
       request :put_object
+      request :put_object_manifest
 
       module Utils
 

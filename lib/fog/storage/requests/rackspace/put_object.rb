@@ -7,6 +7,9 @@ module Fog
         #
         # ==== Parameters
         # * container<~String> - Name for container, should be < 256 bytes and must not contain '/'
+        # * object<~String> - Name for object
+        # * data<~String|File> - data to upload
+        # * options<~Hash> - config headers for object. Defaults to {}.
         #
         def put_object(container, object, data, options = {})
           data = Fog::Storage.parse_data(data)

@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Storage[:aws] | object requests', [:aws]) do
+Shindo.tests('Fog::Storage[:aws] | multipart upload requests', [:aws]) do
 
   @directory = Fog::Storage[:aws].directories.create(:key => 'fogmultipartuploadtests')
 
@@ -98,10 +98,7 @@ Shindo.tests('Fog::Storage[:aws] | object requests', [:aws]) do
 
     tests("#get_object('#{@directory.identity}', 'fog_multipart_upload').body").succeeds do
       pending if Fog.mocking?
-      data = Fog::Storage[:aws].get_object(@directory.identity, 'fog_multipart_upload').body
-      unless data == ('x' * 10 * 1024 * 1024)
-        raise 'content mismatch'
-      end
+      Fog::Storage[:aws].get_object(@directory.identity, 'fog_multipart_upload').body == ('x' * 10 * 1024 * 1024)
     end
 
     if !Fog.mocking?
