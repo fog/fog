@@ -1,7 +1,7 @@
 0.9.0 06/24/2011 32960d165a65f12d41785f924e6b6b6d8442516a
 =========================================================
 
-MVP! Lincoln Stoll
+MVPs! Lincoln Stoll and Luqman Amjad
 
 [aws]
   use AWS.escape instead of CGI.escape. thanks geemus

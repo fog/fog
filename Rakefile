@@ -209,6 +209,8 @@ task :changelog do
     if [
         'Aaron Suggs',
         'geemus',
+        'Lincoln Stoll',
+        'Luqman Amjad',
         'nightshade427',
         'Wesley Beary'
       ].include?(committer)
@@ -242,6 +244,10 @@ task :docs do
   Rake::Task[:upload_fog_io].invoke
   Rake::Task[:upload_rdoc].invoke
 
+  # connect to storage provider
+  Fog.credential = :geemus
+  storage = Fog::Storage.new(:provider => 'AWS')
+  directory = storage.directories.new(:key => 'fog.io')
   # write base index with redirect to new version
   directory.files.create(
     :body         => redirecter('latest'),
