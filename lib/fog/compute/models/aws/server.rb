@@ -177,19 +177,20 @@ module Fog
           if public_key
             commands << %{echo "#{public_key}" >> ~/.ssh/authorized_keys}
           end
-          # allow some retries over the first 120 seconds because aws is weird
+
+          # wait for aws to be ready
           Timeout::timeout(120) do
             begin
-              Timeout::timeout(4) do
-                Fog::SSH.new(public_ip_address, username, credentials).run(commands)
-              end
-            rescue Net::SSH::AuthenticationFailed, Timeout::Error
+              Fog::SSH.new(public_ip_address, username, credentials.merge(:timeout => 4)).run('pwd')
+            rescue Errno::ECONNREFUSED
+              sleep(2)
+              retry
+            rescue Net::SSH::AuthenticationFailed, Timeout::Error => e
+              p e
               retry
             end
           end
-        rescue Errno::ECONNREFUSED => e
-          sleep(1)
-          retry
+          Fog::SSH.new(public_ip_address, username, credentials).run(commands)
         end
 
         def ssh(commands)
