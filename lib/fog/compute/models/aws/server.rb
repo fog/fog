@@ -186,7 +186,6 @@ module Fog
               sleep(2)
               retry
             rescue Net::SSH::AuthenticationFailed, Timeout::Error => e
-              p e
               retry
             end
           end
