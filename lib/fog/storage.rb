@@ -60,7 +60,7 @@ module Fog
       metadata[:body] = data
       metadata[:headers]['Content-Length'] = get_body_size(data)
       
-      if data.respond_to?(:path)
+      if data.respond_to?(:path) and !data.path.nil?
         filename = ::File.basename(data.path)
         unless (mime_types = MIME::Types.of(filename)).empty?
           metadata[:headers]['Content-Type'] = mime_types.first.content_type
