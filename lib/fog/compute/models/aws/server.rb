@@ -12,7 +12,7 @@ module Fog
 
         attr_accessor :architecture
         attribute :ami_launch_index,      :aliases => 'amiLaunchIndex'
-        attribute :availability_zone,     :aliases => ['availabilityZone', 'placement'], :squash => 'availabilityZone'
+        attribute :availability_zone,     :aliases => 'availabilityZone'
         attribute :block_device_mapping,  :aliases => 'blockDeviceMapping'
         attribute :client_token,          :aliases => 'clientToken'
         attribute :dns_name,              :aliases => 'dnsName'
@@ -24,6 +24,7 @@ module Fog
         attribute :key_name,              :aliases => 'keyName'
         attribute :created_at,            :aliases => 'launchTime'
         attribute :monitoring,            :squash => 'state'
+        attribute :placement_group,       :aliases => 'groupName'
         attribute :product_codes,         :aliases => 'productCodes'
         attribute :private_dns_name,      :aliases => 'privateDnsName'
         attribute :private_ip_address,    :aliases => 'privateIpAddress'
@@ -35,6 +36,7 @@ module Fog
         attribute :state,                 :aliases => 'instanceState', :squash => 'name'
         attribute :state_reason,          :aliases => 'stateReason'
         attribute :subnet_id,             :aliases => 'subnetId'
+        attribute :tenancy
         attribute :tags,                  :aliases => 'tagSet'
         attribute :user_data
 
@@ -145,6 +147,8 @@ module Fog
             'KeyName'                     => key_name,
             'Monitoring.Enabled'          => monitoring,
             'Placement.AvailabilityZone'  => availability_zone,
+            'Placement.GroupName'         => placement_group,
+            'Placement.Tenancy'           => tenancy,
             'RamdiskId'                   => ramdisk_id,
             'SecurityGroup'               => groups,
             'SubnetId'                    => subnet_id,
@@ -247,6 +251,16 @@ module Fog
             end
           end
           self.monitoring = new_monitor
+        end
+
+        private
+
+        def placement=(new_placement)
+          if new_placement.is_a?(Hash)
+            merge_attributes(new_placement)
+          else
+            self.attributes[:placement] = new_placement
+          end
         end
 
       end

@@ -7,19 +7,16 @@ module Fog
 
           def reset
             @block_device_mapping = {}
+            @context = []
+            @contexts = ['blockDeviceMapping', 'groupSet', 'placement', 'productCodes']
             @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
             @response = { 'groupSet' => [], 'instancesSet' => [] }
           end
 
           def start_element(name, attrs = [])
             super
-            case name
-            when 'blockDeviceMapping'
-              @in_block_device_mapping = true
-            when 'groupSet'
-              @in_group_set = true
-            when 'productCodes'
-              @in_product_codes = true
+            if @contexts.include?(name)
+              @context.push(name)
             end
           end
 
@@ -32,12 +29,12 @@ module Fog
                   'keyName', 'privateDnsName', 'privateIpAddress', 'ramdiskId',
                   'reason', 'rootDeviceType'
               @instance[name] = value
-            when 'availabilityZone'
+            when 'availabilityZone', 'tenancy'
               @instance['placement'][name] = value
             when 'attachTime'
               @block_device_mapping[name] = Time.parse(value)
-            when 'blockDeviceMapping'
-              @in_block_device_mapping = false
+            when *@contexts
+              @context.pop
             when 'code'
               @instance['instanceState'][name] = value.to_i
             when 'deleteOnTermination'
@@ -46,13 +43,19 @@ module Fog
               @block_device_mapping[name] = value
             when 'groupId'
               @response['groupSet'] << value
-            when 'groupSet'
-              @in_group_set = false
+            when 'groupName'
+              case @context.last
+              when 'groupSet'
+                @response['groupSet'] << value
+              when 'placement'
+                @instance['placement'][name] = value
+              end
             when 'item'
-              if @in_block_device_mapping
+              case @context.last
+              when 'blockDeviceMapping'
                 @instance['blockDeviceMapping'] << @block_device_mapping
                 @block_device_mapping = {}
-              elsif !@in_group_set && !@in_product_codes
+              when nil
                 @response['instancesSet'] << @instance
                 @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [] }
               end
@@ -64,8 +67,6 @@ module Fog
               @response[name] = value
             when 'product_code'
               @instance['productCodes'] << value
-            when 'productCodes'
-              @in_product_codes = false
             when 'state'
               @instance['monitoring'][name] = (value == 'true')
             when 'subnetId'

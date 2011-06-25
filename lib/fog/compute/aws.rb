@@ -32,12 +32,14 @@ module Fog
       request :authorize_security_group_ingress
       request :create_image
       request :create_key_pair
+      request :create_placement_group
       request :create_security_group
       request :create_snapshot
       request :create_tags
       request :create_volume
       request :delete_key_pair
       request :delete_security_group
+      request :delete_placement_group
       request :delete_snapshot
       request :delete_tags
       request :delete_volume
@@ -48,6 +50,7 @@ module Fog
       request :describe_instances
       request :describe_reserved_instances
       request :describe_key_pairs
+      request :describe_placement_groups
       request :describe_regions
       request :describe_reserved_instances_offerings
       request :describe_security_groups
@@ -266,7 +269,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             if match = error.message.match(/<Code>(.*)<\/Code><Message>(.*)<\/Message>/)
               raise case match[1].split('.').last
-              when 'NotFound'
+              when 'NotFound', 'Unknown'
                 Fog::Compute::AWS::NotFound.slurp(error, match[2])
               else
                 Fog::Compute::AWS::Error.slurp(error, "#{match[1]} => #{match[2]}")

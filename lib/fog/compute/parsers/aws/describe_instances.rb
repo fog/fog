@@ -8,7 +8,7 @@ module Fog
           def reset
             @block_device_mapping = {}
             @context = []
-            @contexts = ['blockDeviceMapping', 'groupSet', 'instancesSet', 'instanceState', 'productCodes', 'stateReason', 'tagSet']
+            @contexts = ['blockDeviceMapping', 'groupSet', 'instancesSet', 'instanceState', 'placement', 'productCodes', 'stateReason', 'tagSet']
             @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
             @reservation = { 'groupSet' => [], 'instancesSet' => [] }
             @response = { 'reservationSet' => [] }
@@ -26,7 +26,7 @@ module Fog
             case name
             when 'amiLaunchIndex'
               @instance[name] = value.to_i
-            when 'availabilityZone'
+            when 'availabilityZone', 'tenancy'
               @instance['placement'][name] = value
             when 'architecture', 'clientToken', 'dnsName', 'imageId',
                   'instanceId', 'instanceType', 'ipAddress', 'kernelId',
@@ -44,7 +44,12 @@ module Fog
             when 'deviceName', 'status', 'volumeId'
               @block_device_mapping[name] = value
             when 'groupName'
-              @reservation['groupSet'] << value
+              case @context.last
+              when 'groupSet'
+                @reservation['groupSet'] << value
+              when 'placement'
+                @instance['placement'][name] = value
+              end
             when 'item'
               case @context.last
               when 'blockDeviceMapping'
