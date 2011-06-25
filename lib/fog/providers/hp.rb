@@ -12,7 +12,7 @@ module Fog
     def self.authenticate(options)
       scheme = options[:scheme] || "http://"
       #hp_auth_url = options[:hp_auth_url] || "auth.api.rackspacecloud.com"
-      @hp_host = options[:hp_host] || "auth.api.rackspacecloud.com"
+      @hp_host = options[:hp_host] || "fake-endpoint.api.hpcloud.com"
       @hp_port = options[:hp_port] || "80"
       @hp_auth_path = options[:hp_auth_path] || "auth/v1.0"
       hp_auth_url = "#{@hp_host}:#{@hp_port}"
