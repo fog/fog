@@ -14,7 +14,7 @@ module Fog
 
         attribute :name
         attribute :image_id     # id or name
-        attribute :public_ip_address, :aliases => 'ip'
+        attribute :public_ip_address, :aliases => 'ip', :squash => 'ip'
         attribute :memory       # server.ram
         attribute :state
         attribute :description  # Optional
@@ -59,36 +59,36 @@ module Fog
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          requires :name, :image_id, :ip, :memory
+          requires :name, :image_id, :memory, :public_ip_address
           options = {
             'isSandbox'   => sandbox,
             'image'       => image_id
           }
           options = options.reject {|key, value| value.nil?}
-          data = connection.grid_server_add(image, ip, name, memory, options)
+          data = connection.grid_server_add(image, public_ip_address, name, memory, options)
           merge_attributes(data.body)
           true
         end
 
         def ssh(commands)
-          requires :ip, :identity, :username
+          requires :identity, :public_ip_address, :username
 
           options = {}
           options[:key_data] = [private_key] if private_key
-          Fog::SSH.new(ip['ip'], username, options).run(commands)
+          Fog::SSH.new(public_ip_address, username, options).run(commands)
         end
 
         def scp(local_path, remote_path, upload_options = {})
-          requires :ip, :username
+          requires :public_ip_address, :username
 
           scp_options = {}
           scp_options[:key_data] = [private_key] if private_key
-          Fog::SCP.new(ip['ip'], username, scp_options).upload(local_path, remote_path, upload_options)
+          Fog::SCP.new(public_ip_address, username, scp_options).upload(local_path, remote_path, upload_options)
         end
 
         def setup(credentials = {})
-          requires :ip, :identity, :public_key, :username
-          Fog::SSH.new(ip['ip'], username, credentials).run([
+          requires :identity, :public_ip_address, :public_key, :username
+          Fog::SSH.new(public_ip_address, username, credentials).run([
             %{mkdir .ssh},
             %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
             %{passwd -l root},

@@ -9,7 +9,7 @@ Shindo.tests('Fog::Compute[:bluebox] | template requests', ['bluebox']) do
 
   tests('success') do
 
-    @template_id  = 'a00baa8f-b5d0-4815-8238-b471c4c4bf72' # Ubuntu 9.10 64bit
+    @template_id  = '03807e08-a13d-44e4-b011-ebec7ef2c928' # Ubuntu LTS 10.04 64bit
 
     tests("get_template('#{@template_id}')").formats(@template_format) do
       pending if Fog.mocking?

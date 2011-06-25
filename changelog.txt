@@ -1,3 +1,190 @@
+0.9.0 06/24/2011 32960d165a65f12d41785f924e6b6b6d8442516a
+=========================================================
+
+MVPs! Lincoln Stoll and Luqman Amjad
+
+[aws]
+  use AWS.escape instead of CGI.escape. thanks geemus
+
+[aws|compute]
+  Use #public_ip_address instead of deprecated #ip_address in Server#setup. thanks Martin Emde
+  mock: make address detach others before associating. thanks geemus
+
+[aws|elb]
+  Fix failing created_at test caused by Ruby 1.9 changes to     Range#include?. Use simpler test that doesn't care about the exact     created_at time. thanks Blake Gentry
+  Update ELB API to version 2011-04-05. thanks Blake Gentry
+  Fix typo in usage documentation and add 'ap-northeast-1' to     regions list. thanks Blake Gentry
+  Rearrange DescribeLoadBalancersResult contents to alphabetical order to match the official AWS docs and make it easier to update the list. thanks Blake Gentry
+  Add new attributes for 2011-04-05 API. thanks Blake Gentry
+
+[aws|rds]
+  Add parameter group tests. thanks Aaron Suggs
+  Add server model & collection tests. thanks Aaron Suggs
+  Add security_groups collection and model tests. thanks Aaron Suggs
+  Server#destroy argument is optional. thanks Aaron Suggs
+  Refactor RDS model & collection tests. thanks Aaron Suggs
+
+[aws|simpledb]
+  recognize :region option in SimpleDB.new(). thanks Nick Osborn
+
+[aws|storage]
+  Add get/put bucket policy support. thanks Michael Linderman
+  Add options argument to delete_object to set headers. thanks Michael Linderman
+  Add delete bucket policy. thanks Michael Linderman
+  discern between no file and no directory for files.get. thanks geemus
+  fix error type for non-directories in files.get. thanks geemus
+
+[brightbox|compute]
+  Added missing Image#compatibility_mode attribute. thanks Paul Thornthwaite
+  Fixed Format of Account representation. thanks Paul Thornthwaite
+  Fixed Format of nested CloudIP's server attribute. thanks Paul Thornthwaite
+  New account limits exposed in API, updating format test. thanks Paul Thornthwaite
+  ApiClient revoked time exposed in API. Updated format test. thanks Paul Thornthwaite
+
+[cdn]
+  refactor provider/service namespacing. thanks geemus
+  fix top level class/module mismatch. thanks geemus
+
+[compute]
+  first pass at examples. thanks geemus
+  refactor provider/service namespacing. thanks geemus
+  fixes/skips to get examples working. thanks geemus
+
+[compute|aws]
+  fix helpers to use Fog::AWS. thanks geemus
+  simplify describe_instances parser. thanks geemus
+  fix deprecated compute service accessor usage. thanks geemus
+  improve consistency of waiting for ssh to be ready. thanks geemus
+  remove debug output from last commit. thanks geemus
+
+[compute|bluebox]
+  fix format and template id in tests. thanks geemus
+
+[compute|brightbox]
+  Fixed missed lookup in broken tests caused by namespace rename. thanks Paul Thornthwaite
+
+[compute|ecloud]
+  fix namespace leftovers. thanks geemus
+
+[compute|ninefold]
+  test cleanup. thanks geemus
+
+[compute|rackspace]
+  fix nil check for auth token. thanks geemus
+
+[compute|stormondemand]
+  fix namespace issue. thanks geemus
+
+[compute|voxel]
+  fix flavor tests to properly skip voxel. thanks geemus
+  fix namespace issue. thanks geemus
+
+[core]
+  add namespaced errors for better messaging. thanks geemus
+  making collection.new error more idiomatic. thanks geemus
+  fix mock reset to work with new namespaces. thanks geemus
+
+[dns]
+  rename ip to value for record. thanks geemus
+  refactor provider/service namespacing. thanks geemus
+
+[dns|dnsmadeeasy]
+  skip model/collection tests for now (timing issue). thanks geemus
+
+[dns|examples]
+  fix deprecated record#ip= usage. thanks geemus
+
+[dns|zerigo]
+  fixes for namespacing. thanks geemus
+  namespace related fixes. thanks geemus
+
+[docs]
+  main index redirects to /latest. thanks geemus
+  fix rdoc link on index. thanks geemus
+  update to match refactorings. thanks geemus
+
+[examples]
+  fix descriptions. thanks geemus
+
+[linode|compute]
+  mark format test for stackscripts pending due to inconsistency of string/float for a value. thanks geemus
+
+[misc]
+  add braces for new  into the documents. thanks Chris Mague
+  use correct variable name in test description. thanks Dr Nic Williams
+  Not sure if I'm missing something here, but rake did not work. thanks Dylan Egan
+  You only need either the size or the snapshot_id. thanks Dylan Egan
+  Provide mocked console output if server has been up for over the delay time. thanks Dylan Egan
+  LIES!. thanks Dylan Egan
+  Add support for specifying a CDN CNAME when getting a Rackspace Cloud Files directory. thanks H. Wade Minter
+  add missing comma. thanks Joseph Anthony Pasquale Holsten
+  skip rackspace get_object test when mocking. thanks Joseph Anthony Pasquale Holsten
+  give a more useful error if someone tries to say connection.directories.create('dir'). thanks Joseph Anthony Pasquale Holsten
+  Added my blog post. thanks Larry Wright
+  Add recursive argument to server scp methods. Set to false by default. thanks Luke Robins
+  Add an options hash to scp. Set to {} by default. thanks Luke Robins
+  Added new DNS provider => DNS Made Easy. thanks Luqman Amjad
+  Removed sandbox url for DNS Made Easy. thanks Luqman Amjad
+  Added missing method "delete all domains". thanks Luqman Amjad
+  (DNSMadeEasy) added support for updating records via PUT. thanks Luqman Amjad
+  Added missing reference to delete_all_domains. thanks Luqman Amjad
+  Rescue 404 when fetching zone. thanks Luqman Amjad
+  Added new blog posting about fog and Carrierwave. thanks Mike Gehard
+  Edited docs/about/press.markdown via GitHub. thanks Mike Gehard
+  Typo fix. thanks Oge Nnadi
+  Fixed Fog::AWS::SimpleDB#delete_attributes. thanks Pan Thomakos
+  add Net::SCP options parameter to Fog::SCP proxy. thanks Phil Cohen
+  use a hash not nil for default scp_options. thanks Phil Cohen
+  rackspace auth url only prepend protocol as needed. thanks Todd Willey
+  Allow auth tokens to be shared among connections to rackspace api. thanks Todd Willey
+  OpenStack responds 200 when creating servers. thanks Todd Willey
+  added 0.8.2 changelog contents. thanks geemus
+  separate fog.io and rdoc tasks. thanks geemus
+  remove provider attribute from shared services. thanks geemus
+  [storage][aws] fix leftover namespace mismatch. thanks geemus
+  [storage][google] fix leftover namespace mismatch. thanks geemus
+  Edited lib/fog/storage/rackspace.rb via GitHub. thanks kbockmanrs
+
+[ninefold|compute]
+  Boilerplate for ninefold. thanks Lincoln Stoll
+  Ninefold List Functionality. thanks Lincoln Stoll
+  VM Operations + dependencies. thanks Lincoln Stoll
+  Fix data formats for virtual machines. thanks Lincoln Stoll
+  IP Address requests. thanks Lincoln Stoll
+  Refactor out job waiting functionality, test correct data. thanks Lincoln Stoll
+  NAT functionality. thanks Lincoln Stoll
+  Core model functionality. thanks Lincoln Stoll
+  Public IPs and Rules. thanks Lincoln Stoll
+  use lowest network ID as default, correct assignment. thanks Lincoln Stoll
+  No mocks, simplify code. thanks Lincoln Stoll
+  Save operations not supported. thanks Lincoln Stoll
+
+[rake]
+  add examples back into default rake task. thanks geemus
+
+[release]
+  update changelog during release process. thanks geemus
+
+[storage]
+  refactor provider/service namespacing. thanks geemus
+
+[storage|aws]
+  more robust query handling for signed url. thanks geemus
+  make url a bit more robust. thanks geemus
+  fix url to check for query. thanks geemus
+  fix whitespace errors. thanks geemus
+  more precise mocked get_object. thanks geemus
+
+[storage|rackspace]
+  fix files#get_url. thanks geemus
+
+[tests]
+  add dnsmadeeasy and ninefold to mock credentials. thanks geemus
+  nuke rake task for test related cleanup. thanks geemus
+  make collection gsub to find nils a bit more resilient/unique. thanks geemus
+  trying again to make collection gsub to get nils more resilient/unique. thanks geemus
+
+
 0.8.2 05/26/2011 9e6ebb6f7316273eb489f8cb60eb1642e6df357b
 =========================================================
 

@@ -17,6 +17,7 @@ module Fog
         def bootstrap(new_attributes = {})
           server = create(new_attributes)
           server.wait_for { ready? }
+          server.setup
           server
         end
 

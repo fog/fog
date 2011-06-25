@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:ninefold] | server requests', ['ninefold']) do
+Shindo.tests('Fog::Compute[:ninefold] | address requests', ['ninefold']) do
 
   tests('success') do
 
@@ -10,13 +10,13 @@ Shindo.tests('Fog::Compute[:ninefold] | server requests', ['ninefold']) do
       end
       result = Fog::Compute[:ninefold].query_async_job_result(:jobid => job['jobid'])['jobresult']['ipaddress']
       @newaddressid = result['id']
-      Ninefold::Compute::Formats::Addresses::fill_address_data(result)
+      result
     end
 
     tests("#list_public_ip_addresses()").formats(Ninefold::Compute::Formats::Addresses::ADDRESSES) do
       pending if Fog.mocking?
       result = Fog::Compute[:ninefold].list_public_ip_addresses
-      Ninefold::Compute::Formats::Addresses::fill_address_data(result)
+      result
     end
 
     tests("#disassociate_ip_address()").formats(Ninefold::Compute::Formats::Addresses::DISASSOC_ADDRESS) do

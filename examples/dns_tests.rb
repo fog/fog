@@ -35,9 +35,9 @@ Shindo.tests('dns examples', 'dns') do
       #   type is the type of record to create
       tests('@record = @zone.records.create').succeeds do
         @record = @zone.records.create(
-          :ip => '1.2.3.4',
-          :name => 'www.fogdnsexamples.com',
-          :type => 'A'
+          :value  => '1.2.3.4',
+          :name   => 'www.fogdnsexamples.com',
+          :type   => 'A'
         )
       end
 

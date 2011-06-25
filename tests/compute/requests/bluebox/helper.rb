@@ -5,7 +5,7 @@ class Bluebox
     module Formats
 
       PRODUCT = {
-        'cost'        => Float,
+        'cost'        => String,
         'description' => String,
         'id'          => String
       }

@@ -44,7 +44,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       raises(Fog::AWS::ELB::InvalidInstance) { elb.deregister_instances('i-00000000') }
     end
 
-    server = AWS[:compute].servers.create
+    server = Compute[:aws].servers.create
     tests('register instance') do
       begin
         elb.register_instances(server.id)

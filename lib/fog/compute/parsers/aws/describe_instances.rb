@@ -7,6 +7,8 @@ module Fog
 
           def reset
             @block_device_mapping = {}
+            @context = []
+            @contexts = ['blockDeviceMapping', 'groupSet', 'instancesSet', 'instanceState', 'placement', 'productCodes', 'stateReason', 'tagSet']
             @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
             @reservation = { 'groupSet' => [], 'instancesSet' => [] }
             @response = { 'reservationSet' => [] }
@@ -15,19 +17,8 @@ module Fog
 
           def start_element(name, attrs = [])
             super
-            case name
-            when 'blockDeviceMapping'
-              @in_block_device_mapping = true
-            when'groupSet', 'productCodes'
-              @in_subset = true
-            when 'instancesSet'
-              @in_instances_set = true
-            when 'instanceState'
-              @in_instance_state = true
-            when 'stateReason'
-              @in_state_reason = true
-            when 'tagSet'
-              @in_tag_set = true
+            if @contexts.include?(name)
+              @context.push(name)
             end
           end
 
@@ -35,7 +26,7 @@ module Fog
             case name
             when 'amiLaunchIndex'
               @instance[name] = value.to_i
-            when 'availabilityZone'
+            when 'availabilityZone', 'tenancy'
               @instance['placement'][name] = value
             when 'architecture', 'clientToken', 'dnsName', 'imageId',
                   'instanceId', 'instanceType', 'ipAddress', 'kernelId',
@@ -44,41 +35,33 @@ module Fog
               @instance[name] = value
             when 'attachTime'
               @block_device_mapping[name] = Time.parse(value)
-            when 'blockDeviceMapping'
-              @in_block_device_mapping = false
+            when *@contexts
+              @context.pop
             when 'code'
-              if @in_instance_state
-                @instance['instanceState'][name] = value.to_i
-              elsif @in_state_reason
-                @instance['stateReason'][name] = value.to_i
-              end
+              @instance[@context.last][name] = value.to_i
             when 'deleteOnTermination'
-              if value == 'true'
-                @block_device_mapping[name] = true
-              else
-                @block_device_mapping[name] = false
-              end
+              @block_device_mapping[name] = (value == 'true')
             when 'deviceName', 'status', 'volumeId'
               @block_device_mapping[name] = value
-            when 'groupId'
-              @reservation['groupSet'] << value
-            when 'groupSet', 'productCodes'
-              @in_subset = false
-            when 'instancesSet'
-              @in_instances_set = false
-            when 'instanceState'
-              @in_instance_state = false
+            when 'groupName'
+              case @context.last
+              when 'groupSet'
+                @reservation['groupSet'] << value
+              when 'placement'
+                @instance['placement'][name] = value
+              end
             when 'item'
-              if @in_block_device_mapping
+              case @context.last
+              when 'blockDeviceMapping'
                 @instance['blockDeviceMapping'] << @block_device_mapping
                 @block_device_mapping = {}
-              elsif @in_tag_set
-                @instance['tagSet'][@tag['key']] = @tag['value']
-                @tag = {}
-              elsif @in_instances_set
+              when 'instancesSet'
                 @reservation['instancesSet'] << @instance
                 @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
-              elsif !@in_subset
+              when 'tagSet'
+                @instance['tagSet'][@tag['key']] = @tag['value']
+                @tag = {}
+              when nil
                 @response['reservationSet'] << @reservation
                 @reservation = { 'groupSet' => [], 'instancesSet' => [] }
               end
@@ -87,11 +70,7 @@ module Fog
             when 'launchTime'
               @instance[name] = Time.parse(value)
             when 'name'
-              if @in_instance_state
-                @instance['instanceState'][name] = value
-              elsif @in_state_reason
-                @instance['stateReason'][name] = value
-              end
+              @instance[@context.last][name] = value
             when 'ownerId', 'reservationId'
               @reservation[name] = value
             when 'requestId'
@@ -99,15 +78,7 @@ module Fog
             when 'productCode'
               @instance['productCodes'] << value
             when 'state'
-              if value == 'true'
-                @instance['monitoring'][name] = true
-              else
-                @instance['monitoring'][name] = false
-              end
-            when 'stateReason'
-              @in_state_reason = false
-            when 'tagSet'
-              @in_tag_set = false
+              @instance['monitoring'][name] = (value == 'true')
             end
           end
 

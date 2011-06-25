@@ -9,9 +9,12 @@ Shindo.tests('compute examples', 'compute') do
   # iterate over all the providers
   Fog.providers.each do |provider|
 
+    # FIXME: implement expected shared compute stuff for these providers as well
+    next if ['Bluebox', 'Brightbox', 'Ecloud', 'GoGrid', 'Linode', 'NewServers', 'Ninefold', 'Slicehost', 'StormOnDemand', 'VirtualBox', 'Voxel'].include?(provider)
+
     provider = eval(provider) # convert from string to object
 
-    # skip if provider does not have storage
+    # skip if provider does not have compute
     next unless provider.respond_to?(:services) && provider.services.include?(:compute)
 
     tests(provider, provider.to_s.downcase) do
@@ -46,10 +49,15 @@ Shindo.tests('compute examples', 'compute') do
       end
 
       # scp a directory to a server
+      Dir.mkdir('/tmp/lorem')
+      file = ::File.new('/tmp/lorem/lorem.txt', 'w')
+      file.write(File.read(lorem_path))
       lorem_dir = File.join([File.dirname(__FILE__), '..', 'tests'])
       tests("@server.scp('#{lorem_dir}', '/tmp/lorem', :recursive => true)").succeeds do
         @server.scp(lorem_dir, '/tmp/lorem', :recursive => true)
       end
+      File.delete('/tmp/lorem/lorem.txt')
+      Dir.rmdir('/tmp/lorem')
 
       # destroy the server
       tests('@server.destroy').succeeds do

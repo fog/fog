@@ -17,51 +17,42 @@ Shindo.tests('Fog::Compute[:ninefold] | server requests', ['ninefold']) do
                                                         :networkids => networks[0]['id'])
       # wait for deployment, stash the job id.
       @newvmid = newvm['id']
-      result = Ninefold::Compute::TestSupport.wait_for_job(newvm['jobid'])['jobresult']['virtualmachine']
-      Ninefold::Compute::Formats::VirtualMachines::fill_virtual_machine_data(result)
+      Ninefold::Compute::TestSupport.wait_for_job(newvm['jobid'])['jobresult']['virtualmachine']
     end
 
     tests("#list_virtual_machines()").formats(Ninefold::Compute::Formats::VirtualMachines::VIRTUAL_MACHINES) do
       pending if Fog.mocking?
-      vms = Fog::Compute[:ninefold].list_virtual_machines
-      # This is a hack to work around the changing format - these fields may or may not exist.
-      Ninefold::Compute::Formats::VirtualMachines::fill_virtual_machine_data(vms)
+      Fog::Compute[:ninefold].list_virtual_machines
     end
 
     tests("#reboot_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::VIRTUAL_MACHINE) do
       pending if Fog.mocking?
       job = Fog::Compute[:ninefold].reboot_virtual_machine(:id => @newvmid)
-      result = Ninefold::Compute::TestSupport.wait_for_job(job)['jobresult']['virtualmachine']
-      Ninefold::Compute::Formats::VirtualMachines::fill_virtual_machine_data(result)
+      Ninefold::Compute::TestSupport.wait_for_job(job)['jobresult']['virtualmachine']
     end
 
     tests("#stop_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::VIRTUAL_MACHINE) do
       pending if Fog.mocking?
       job = Fog::Compute[:ninefold].stop_virtual_machine(:id => @newvmid)
-      result = Ninefold::Compute::TestSupport.wait_for_job(job)['jobresult']['virtualmachine']
-      Ninefold::Compute::Formats::VirtualMachines::fill_virtual_machine_data(result)
+      Ninefold::Compute::TestSupport.wait_for_job(job)['jobresult']['virtualmachine']
     end
-
 
     tests("#change_service_for_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::VIRTUAL_MACHINE) do
       pending if Fog.mocking?
-      vms = Fog::Compute[:ninefold].change_service_for_virtual_machine(:id => @newvmid,
+      Fog::Compute[:ninefold].change_service_for_virtual_machine(:id => @newvmid,
                                                                   :serviceofferingid => Ninefold::Compute::TestSupport::ALT_SERVICE_OFFERING)
-      Ninefold::Compute::Formats::VirtualMachines::fill_virtual_machine_data(vms)
     end
 
     tests("#start_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::VIRTUAL_MACHINE) do
       pending if Fog.mocking?
       job = Fog::Compute[:ninefold].start_virtual_machine(:id => @newvmid)
-      result = Ninefold::Compute::TestSupport.wait_for_job(job)['jobresult']['virtualmachine']
-      Ninefold::Compute::Formats::VirtualMachines::fill_virtual_machine_data(result)
+      Ninefold::Compute::TestSupport.wait_for_job(job)['jobresult']['virtualmachine']
     end
 
     tests("#destroy_virtual_machine()").formats(Ninefold::Compute::Formats::VirtualMachines::VIRTUAL_MACHINE) do
       pending if Fog.mocking?
       job = Fog::Compute[:ninefold].destroy_virtual_machine(:id => @newvmid)
-      result = Ninefold::Compute::TestSupport.wait_for_job(job)['jobresult']['virtualmachine']
-      Ninefold::Compute::Formats::VirtualMachines::fill_virtual_machine_data(result)
+      Ninefold::Compute::TestSupport.wait_for_job(job)['jobresult']['virtualmachine']
     end
 
   end
