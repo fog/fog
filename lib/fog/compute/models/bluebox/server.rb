@@ -109,7 +109,7 @@ module Fog
 
         def setup(credentials = {})
           requires :identity, :ips, :public_key, :username
-          Fog::SSH.new(ips.first['address'], username, credentials).run([
+          Fog::SSH.new(public_ip_address, username, credentials).run([
             %{mkdir .ssh},
             %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
             %{passwd -l #{username}},
@@ -125,7 +125,7 @@ module Fog
 
           options = {}
           options[:key_data] = [private_key] if private_key
-          Fog::SSH.new(ips.first['address'], username, options).run(commands)
+          Fog::SSH.new(public_ip_address, username, options).run(commands)
         end
 
         def scp(local_path, remote_path, upload_options = {})
@@ -133,7 +133,7 @@ module Fog
 
           scp_options = {}
           scp_options[:key_data] = [private_key] if private_key
-          Fog::SCP.new(ips.first['address'], username, scp_options).upload(local_path, remote_path, upload_options)
+          Fog::SCP.new(public_ip_address, username, scp_options).upload(local_path, remote_path, upload_options)
         end
 
         def username
