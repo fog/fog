@@ -17,6 +17,9 @@ module Fog
       when :local
         require 'fog/storage/local'
         Fog::Storage::Local.new(attributes)
+      when :ninefold
+        require 'fog/storage/ninefold'
+        Fog::Storage::Ninefold.new(attributes)
       when :rackspace
         require 'fog/storage/rackspace'
         Fog::Storage::Rackspace.new(attributes)
@@ -27,7 +30,7 @@ module Fog
 
     def self.directories
       directories = []
-      for provider in [:aws, :google, :local, :rackspace]
+      for provider in [:aws, :google, :local, :ninefold, :rackspace]
         begin
           directories.concat(self[provider].directories)
         rescue # ignore any missing credentials/etc
@@ -50,16 +53,16 @@ module Fog
         0
       end
     end
-    
+
     def self.parse_data(data)
       metadata = {
         :body => nil,
         :headers => {}
       }
-      
+
       metadata[:body] = data
       metadata[:headers]['Content-Length'] = get_body_size(data)
-      
+
       if data.respond_to?(:path)
         filename = ::File.basename(data.path)
         unless (mime_types = MIME::Types.of(filename)).empty?
@@ -69,6 +72,6 @@ module Fog
       # metadata[:headers]['Content-MD5'] = Base64.encode64(Digest::MD5.digest(metadata[:body])).strip
       metadata
     end
-    
+
   end
 end
