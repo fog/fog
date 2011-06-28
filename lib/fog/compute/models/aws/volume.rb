@@ -62,6 +62,10 @@ module Fog
           connection.snapshots(:volume => self)
         end
 
+        def force_detach
+          detach(true)
+        end
+
         private
 
         def attachmentSet=(new_attachment_set)
@@ -81,24 +85,14 @@ module Fog
           end
         end
 
-        def detach
+        def detach(force = false)
           @server = nil
           self.server_id = nil
           unless new_record?
-            connection.detach_volume(id)
+            connection.detach_volume(id, 'Force' => force)
             reload
           end
         end
-
-        def force_detach
-          @server = nil
-          self.server_id = nil
-          unless new_record?
-            connection.detach_volume(id, 'Force' => true)
-            reload
-          end
-        end
-
 
       end
 
