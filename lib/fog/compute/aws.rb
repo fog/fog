@@ -30,17 +30,20 @@ module Fog
       request :associate_address
       request :attach_volume
       request :authorize_security_group_ingress
+      request :cancel_spot_instance_requests
       request :create_image
       request :create_key_pair
       request :create_placement_group
       request :create_security_group
       request :create_snapshot
+      request :create_spot_datafeed_subscription
       request :create_tags
       request :create_volume
       request :delete_key_pair
       request :delete_security_group
       request :delete_placement_group
       request :delete_snapshot
+      request :delete_spot_datafeed_subscription
       request :delete_tags
       request :delete_volume
       request :deregister_image
@@ -55,6 +58,9 @@ module Fog
       request :describe_reserved_instances_offerings
       request :describe_security_groups
       request :describe_snapshots
+      request :describe_spot_datafeed_subscription
+      request :describe_spot_instance_requests
+      request :describe_spot_price_history
       request :describe_tags
       request :describe_volumes
       request :detach_volume
@@ -67,6 +73,7 @@ module Fog
       request :reboot_instances
       request :release_address
       request :register_image
+      request :request_spot_instances
       request :revoke_security_group_ingress
       request :run_instances
       request :terminate_instances
@@ -252,7 +259,7 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2010-08-31'
+              :version            => '2011-05-15'
             }
           )
 
