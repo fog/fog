@@ -12,13 +12,16 @@ module Fog
       requires :ninefold_storage_token, :ninefold_storage_secret
 
       model_path 'fog/storage/models/ninefold'
-      # model       :directory
-      # collection  :directories
+      model       :directory
+      collection  :directories
       # model       :file
       # collection  :files
 
       request_path 'fog/storage/requests/ninefold'
       # request :delete_container
+      request :get_namespace
+      request :post_namespace
+      request :delete_namespace
 
       module Utils
       end
@@ -85,7 +88,8 @@ module Fog
           signstring += "\n"
 
           signstring += "/rest/" + URI.unescape( req_path ).downcase
-          signstring += params[:query] if params[:query]
+          query_str = params[:query].map{|k,v| "#{k}=#{v}"}.join('&')
+          signstring += '?' + params[:query] unless query_str.empty?
           signstring += "\n"
 
           customheaders = {}
@@ -115,6 +119,15 @@ module Fog
               Fog::Storage::Ninefold::NotFound.slurp(error)
             else
               error
+            end
+          end
+          unless response.body.empty?
+            if params[:parse]
+              document = Fog::ToHashDocument.new
+              parser = Nokogiri::XML::SAX::PushParser.new(document)
+              parser << response.body
+              parser.finish
+              response.body = document.body
             end
           end
           response
