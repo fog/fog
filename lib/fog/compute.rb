@@ -47,6 +47,9 @@ module Fog
       when 'VirtualBox'
         require 'fog/compute/virtual_box'
         Fog::Compute::VirtualBox.new(attributes)
+      when :libvirt
+        require 'fog/compute/libvirt'
+        Fog::Compute::Libvirt.new(attributes)
       when :voxel
         require 'fog/compute/voxel'
         Fog::Compute::Voxel.new(attributes)
@@ -57,7 +60,7 @@ module Fog
 
     def self.servers
       servers = []
-      for provider in [:aws, :bluebox, :brightbox, :ecloud, :gogrid, :linode, :newservers, :ninefold, :rackspace, :slicehost, :stormondemand, :virtualbox, :voxel]
+      for provider in [:aws, :bluebox, :brightbox, :ecloud, :gogrid, :libvirt, :linode, :newservers, :ninefold, :rackspace, :slicehost, :stormondemand, :virtualbox, :voxel]
         begin
           servers.concat(self[provider].servers)
         rescue # ignore any missing credentials/etc
