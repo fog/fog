@@ -9,8 +9,8 @@ module Fog
       model_path 'fog/compute/models/hp'
       model       :flavor
       collection  :flavors
-#      model       :image
-#      collection  :images
+      model       :image
+      collection  :images
 #      model       :server
 #      collection  :servers
 
