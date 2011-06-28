@@ -6,9 +6,9 @@ module Fog
       recognizes :hp_host, :hp_port, :hp_auth_path, :hp_servicenet, :persistent
       recognizes :provider # remove post deprecation
 
-#      model_path 'fog/compute/models/hp'
-#      model       :flavor
-#      collection  :flavors
+      model_path 'fog/compute/models/hp'
+      model       :flavor
+      collection  :flavors
 #      model       :image
 #      collection  :images
 #      model       :server
