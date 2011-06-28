@@ -74,7 +74,7 @@ module Fog
           }
           for filter_key, filter_value in filters
             if attachment_key = filter_key.split('attachment.')[1]
-              aliased_key = permission_aliases[filter_key]
+              aliased_key = attachment_aliases[filter_key]
               volume_set = volume_set.reject{|volume| !volume['attachmentSet'].detect {|attachment| [*filter_value].include?(attachment[aliased_key])}}
             else
               aliased_key = aliases[filter_key]
