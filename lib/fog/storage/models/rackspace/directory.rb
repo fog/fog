@@ -55,9 +55,18 @@ module Fog
         def save
           requires :key
           connection.put_container(key)
-          if @public
+
+          # if user set cont as public but wed don't have a CDN connnection
+          # then error out.
+          if @public and !@connection.cdn
+            raise(Fog::Storage::Rackspace::Error.new("Directory can not be set as :public without a CDN provided"))
+          # if we set as public then set it and we sure we have connection.cdn
+          # or it would have error out.
+          elsif @public
             @public_url = connection.cdn.put_container(key, 'X-CDN-Enabled' => 'True').headers['X-CDN-URI']
-          else
+          # if we have cdn connectio but cont has not been public then let the
+          # CDN knows about it
+          elsif @connection.cdn
             connection.cdn.put_container(key, 'X-CDN-Enabled' => 'False')
             @public_url = nil
           end
