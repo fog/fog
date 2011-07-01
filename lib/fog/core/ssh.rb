@@ -24,7 +24,9 @@ module Fog
       end
 
       def run(commands)
-        Fog::Mock.not_implemented
+        commands.each do |command|
+          puts "#{@username}@#{@address}> #{command}"
+        end
       end
 
     end
