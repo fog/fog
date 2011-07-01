@@ -11,8 +11,8 @@ module Fog
       collection  :flavors
       model       :image
       collection  :images
-#      model       :server
-#      collection  :servers
+      model       :server
+      collection  :servers
 
       request_path 'fog/compute/requests/hp'
       request :confirm_resized_server
