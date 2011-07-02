@@ -12,10 +12,9 @@ module Fog
         attribute :request_type,               :aliases => 'type'
         attribute :created_at,                 :aliases => 'createTime'
         attribute :instance_count,             :aliases => 'instanceCount'
+        attribute :instance_id,                :aliases => 'instanceId'
         attribute :state
 
-        # TODO: not sure how to handle
-        #attribute :fault
         attribute :valid_from,                 :aliases => 'validFrom'
         attribute :valid_until,                :aliases => 'validUntil'
         attribute :launch_group,               :aliases => 'launchGroup'
@@ -24,10 +23,14 @@ module Fog
 
         attribute :groups,                     :aliases => 'LaunchSpecification.SecurityGroup'
         attribute :key_name,                   :aliases => 'LaunchSpecification.KeyName'
-        attribute :availability_zone,          :aliases => 'launchedAvailabilityZone'
+        attribute :availability_zone,          :aliases => 'LaunchSpecification.Placement.AvailabilityZone'
         attribute :flavor_id,                  :aliases => 'LaunchSpecification.InstanceType'
         attribute :image_id,                   :aliases => 'LaunchSpecification.ImageId'
         attribute :monitoring,                 :aliases => 'LaunchSpecification.Monitoring'
+        attribute :block_device_mapping,       :aliases => 'LaunchSpecification.BlockDeviceMapping'
+        attribute :tags,                       :aliases => 'tagSet'
+        attribute :fault,                      :squash  => 'message'
+        attribute :user_data
 
         attr_writer :username
 
@@ -49,28 +52,35 @@ module Fog
               'ami-f5bfefb0'
             end
           end
-          self.instance_count ||= 1
           super
         end
-
-#        def destroy
-#          requires :name
-
-#          connection.delete_spot_request(name)
-#          true
-#        end
 
         def save
           requires :image_id, :flavor_id, :price
 
           options = {
+            'AvailabilityZoneGroup'                          => availability_zone_group,
             'InstanceCount'                                  => instance_count,
+            'LaunchGroup'                                    => launch_group,
+            'LaunchSpecification.BlockDeviceMapping'         => block_device_mapping,
             'LaunchSpecification.KeyName'                    => key_name,
+            'LaunchSpecification.Monitoring.Enabled'         => monitoring,
             'LaunchSpecification.Placement.AvailabilityZone' => availability_zone,
             'LaunchSpecification.SecurityGroup'              => groups,
-            'Type'                                           => request_type }
+            'LaunchSpecification.UserData'                   => user_data,
+            'Type'                                           => request_type,
+            'ValidFrom'                                      => valid_from,
+            'ValidUntil'                                     => valid_until }
+          options.delete_if {|key, value| value.nil?}
 
-          connection.request_spot_instances(image_id, flavor_id, price, options)
+          data = connection.request_spot_instances(image_id, flavor_id, price, options).body
+          spot_instance_request = data['spotInstanceRequestSet'].first
+          spot_instance_request['launchSpecification'].each do |name,value|
+            spot_instance_request['LaunchSpecification.' + name[0,1].upcase + name[1..-1]] = value
+          end
+          spot_instance_request.merge(:groups => spot_instance_request['LaunchSpecification.GroupSet'])
+          spot_instance_request.merge(options)
+          merge_attributes( spot_instance_request )
         end
 
         def ready?

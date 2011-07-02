@@ -24,6 +24,7 @@ module Fog
           data = connection.describe_spot_instance_requests(filters).body
           load(
             data['spotInstanceRequestSet'].map do |spot_instance_request|
+              spot_instance_request['LaunchSpecification.Placement.AvailabilityZone'] = spot_instance_request['launchedAvailabilityZone']
               spot_instance_request['launchSpecification'].each do |name,value|
                 spot_instance_request['LaunchSpecification.' + name[0,1].upcase + name[1..-1]] = value
               end
