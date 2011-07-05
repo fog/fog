@@ -39,9 +39,13 @@ module Fog
             query = {'versionId' => version_id}
           end
           headers = {}
-          headers['If-Modified-Since'] = Fog::Time.at(options['If-Modified-Since'].to_i).to_date_header if options['If-Modified-Since']
-          headers['If-Unmodified-Since'] = Fog::Time.at(options['If-Unmodified-Since'].to_i).to_date_header if options['If-Modified-Since']
           headers.merge!(options)
+          if headers['If-Modified-Since']
+            headers['If-Modified-Since'] = Fog::Time.at(headers['If-Modified-Since'].to_i).to_date_header
+          end
+          if headers['If-Unmodified-Since']
+            headers['If-Unmodified-Since'] = Fog::Time.at(headers['If-Unmodified-Since'].to_i).to_date_header
+          end
           request({
             :expects  => [ 200, 206 ],
             :headers  => headers,
