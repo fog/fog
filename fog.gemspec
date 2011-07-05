@@ -38,7 +38,7 @@ Gem::Specification.new do |s|
   ## that are needed for an end user to actually USE your code.
   s.add_dependency('builder')
   s.add_dependency('excon', '~>0.6.4')
-  s.add_dependency('formatador', '~>0.1.3')
+  s.add_dependency('formatador', '~>0.1.5')
   s.add_dependency('json')
   s.add_dependency('mime-types')
   s.add_dependency('net-scp', '~>1.0.4')
