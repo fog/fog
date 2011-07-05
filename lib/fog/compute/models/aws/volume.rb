@@ -49,6 +49,11 @@ module Fog
           true
         end
 
+        def server
+          requires :server_id
+          connection.servers('instance-id' => server_id)
+        end
+
         def server=(new_server)
           if new_server
             attach(new_server)
