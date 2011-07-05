@@ -78,6 +78,10 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
 
     Fog::Compute[:aws].volumes.get(@volume_id).wait_for { state == 'in-use' }
 
+    tests("#describe_volume('attachment.device' => '/dev/sdh')").formats(@volumes_format) do
+      Fog::Compute[:aws].describe_volumes('attachment.device' => '/dev/sdh').body
+    end
+
     tests("#detach_volume('#{@volume_id}')").formats(@volume_attachment_format) do
       Fog::Compute[:aws].detach_volume(@volume_id).body
     end
