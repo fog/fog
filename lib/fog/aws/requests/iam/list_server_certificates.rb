@@ -37,6 +37,18 @@ module Fog
         end
 
       end
+
+      class Mock
+        def list_server_certificates(options = {})
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            'Certificates' => self.data[:server_certificates].collect { |name, data| data }
+          }
+
+          response
+        end
+      end
     end
   end
 end
