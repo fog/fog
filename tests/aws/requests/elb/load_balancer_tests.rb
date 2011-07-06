@@ -16,8 +16,6 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
       raises(Fog::AWS::ELB::NotFound) { AWS[:elb].describe_load_balancers('none-such-lb') }
     end
 
-    pending if Fog.mocking?
-
     tests("#configure_health_check").formats(AWS::ELB::Formats::CONFIGURE_HEALTH_CHECK) do
       health_check = {
         'Target' => 'HTTP:80/index.html',
@@ -34,6 +32,8 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
       cookie, policy = 'fog-app-cookie', 'fog-app-policy'
       AWS[:elb].create_app_cookie_stickiness_policy(@load_balancer_id, policy, cookie).body
     end
+
+    pending if Fog.mocking?
 
     tests("#create_lb_cookie_stickiness_policy with expiry").formats(AWS::ELB::Formats::BASIC) do
       policy = 'fog-lb-expiry'
