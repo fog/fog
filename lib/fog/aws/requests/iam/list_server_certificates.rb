@@ -43,7 +43,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            'Certificates' => self.data[:server_certificates].collect { |name, data| data }
+            'Certificates' => self.data[:server_certificates].values
           }
 
           response
