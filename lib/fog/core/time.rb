@@ -19,8 +19,7 @@ module Fog
     end
 
     def to_date_header
-      now = self.class.now.utc
-      now.strftime("#{DAYS[now.wday]}, %d #{MONTHS[now.month - 1]} %Y %H:%M:%S +0000")
+      self.utc.strftime("#{DAYS[self.utc.wday]}, %d #{MONTHS[self.utc.month - 1]} %Y %H:%M:%S +0000")
     end
 
   end
