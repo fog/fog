@@ -2,8 +2,6 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
   @load_balancer_id = 'fog-test-elb'
 
   tests('success') do
-    pending if Fog.mocking?
-
     tests("#create_load_balancer").formats(AWS::ELB::Formats::CREATE_LOAD_BALANCER) do
       zones = ['us-east-1a']
       listeners = [{'LoadBalancerPort' => 80, 'InstancePort' => 80, 'Protocol' => 'http'}]
@@ -17,6 +15,8 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
     tests('#describe_load_balancers with bad lb') do
       raises(Fog::AWS::ELB::NotFound) { AWS[:elb].describe_load_balancers('none-such-lb') }
     end
+
+    pending if Fog.mocking?
 
     tests("#configure_health_check").formats(AWS::ELB::Formats::CONFIGURE_HEALTH_CHECK) do
       health_check = {

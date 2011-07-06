@@ -51,6 +51,35 @@ module Fog
         end
 
       end
+
+      class Mock
+        def describe_load_balancers(lb_names = [])
+          lb_names = [*lb_names]
+          load_balancers = if lb_names.any?
+            lb_names.map do |lb_name|
+              lb = self.data[:load_balancers].find { |name, data| data if name == lb_name }
+              raise Fog::AWS::ELB::NotFound unless lb
+              lb
+            end.compact
+          else
+            self.data[:load_balancers].values
+          end
+
+          response = Excon::Response.new
+          response.status = 200
+
+          response.body = {
+            'ResponseMetadata' => {
+              'RequestId' => Fog::AWS::Mock.request_id
+            },
+            'DescribeLoadBalancersResult' => {
+              'LoadBalancerDescriptions' => load_balancers
+            }
+          }
+
+          response
+        end
+      end
     end
   end
 end
