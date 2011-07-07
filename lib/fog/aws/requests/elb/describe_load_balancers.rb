@@ -57,9 +57,9 @@ module Fog
           lb_names = [*lb_names]
           load_balancers = if lb_names.any?
             lb_names.map do |lb_name|
-              lb = self.data[:load_balancers].find { |name, data| data if name == lb_name }
+              lb = self.data[:load_balancers].find { |name, data| name == lb_name }
               raise Fog::AWS::ELB::NotFound unless lb
-              lb
+              lb[1]
             end.compact
           else
             self.data[:load_balancers].values
