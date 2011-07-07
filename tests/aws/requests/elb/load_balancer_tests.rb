@@ -49,8 +49,6 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
       AWS[:elb].delete_load_balancer_policy(@load_balancer_id, policy).body
     end
 
-    pending if Fog.mocking?
-
     tests("#create_load_balancer_listeners").formats(AWS::ELB::Formats::BASIC) do
       listeners = [
         {'Protocol' => 'tcp', 'LoadBalancerPort' => 443, 'InstancePort' => 443},
@@ -61,8 +59,10 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
 
     tests("#set_load_balancer_policies_of_listener adds policy").formats(AWS::ELB::Formats::BASIC) do
       port, policies = 80, ['fog-lb-expiry']
-      body = AWS[:elb].set_load_balancer_policies_of_listener(@load_balancer_id, port, policies).body
+      AWS[:elb].set_load_balancer_policies_of_listener(@load_balancer_id, port, policies).body
     end
+
+    pending if Fog.mocking?
 
     tests("#set_load_balancer_policies_of_listener removes policy").formats(AWS::ELB::Formats::BASIC) do
       port = 80
