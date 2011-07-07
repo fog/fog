@@ -62,13 +62,10 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
       AWS[:elb].set_load_balancer_policies_of_listener(@load_balancer_id, port, policies).body
     end
 
-    pending if Fog.mocking?
-
     tests("#set_load_balancer_policies_of_listener removes policy").formats(AWS::ELB::Formats::BASIC) do
       port = 80
-      body = AWS[:elb].set_load_balancer_policies_of_listener(@load_balancer_id, port, []).body
+      AWS[:elb].set_load_balancer_policies_of_listener(@load_balancer_id, port, []).body
     end
-
 
     tests("#delete_load_balancer_listeners").formats(AWS::ELB::Formats::BASIC) do
       ports = [80, 443]
@@ -76,6 +73,14 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
     end
 
     tests("#delete_load_balancer").formats(AWS::ELB::Formats::DELETE_LOAD_BALANCER) do
+      AWS[:elb].delete_load_balancer(@load_balancer_id).body
+    end
+
+    tests("#delete_load_balancer when non existant").formats(AWS::ELB::Formats::DELETE_LOAD_BALANCER) do
+      AWS[:elb].delete_load_balancer('non-existant').body
+    end
+
+    tests("#delete_load_balancer when already deleted").formats(AWS::ELB::Formats::DELETE_LOAD_BALANCER) do
       AWS[:elb].delete_load_balancer(@load_balancer_id).body
     end
   end

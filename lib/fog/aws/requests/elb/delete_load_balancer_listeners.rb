@@ -26,6 +26,25 @@ module Fog
         end
 
       end
+
+      class Mock
+        def delete_load_balancer_listeners(lb_name, load_balancer_ports)
+          raise Fog::AWS::ELB::NotFound unless load_balancer = self.data[:load_balancers][lb_name]
+
+          response = Excon::Response.new
+          response.status = 200
+
+          load_balancer['ListenerDescriptions'].delete_if { |listener| load_balancer_ports.include? listener['Listener']['LoadBalancerPort'] }
+
+          response.body = {
+            'ResponseMetadata' => {
+              'RequestId' => Fog::AWS::Mock.request_id
+            }
+          }
+
+          response
+        end
+      end
     end
   end
 end
