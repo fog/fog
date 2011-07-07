@@ -30,8 +30,12 @@ module Fog
           @cdn ||= Fog::CDN.new(
             :provider           => 'Rackspace',
             :rackspace_api_key  => @rackspace_api_key,
+            :rackspace_auth_url  => @rackspace_auth_url,
             :rackspace_username => @rackspace_username
           )
+          if @cdn.enabled?
+            return @cdn
+          end
         end
 
       end
@@ -75,6 +79,7 @@ module Fog
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
           @rackspace_cdn_ssl = options[:rackspace_cdn_ssl]
+          @rackspace_auth_url = options[:rackspace_auth_url]
           credentials = Fog::Rackspace.authenticate(options)
           @auth_token = credentials['X-Auth-Token']
 
