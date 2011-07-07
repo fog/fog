@@ -49,6 +49,51 @@ module Fog
         end
 
       end
+
+      class Mock
+        def create_load_balancer(availability_zones, lb_name, listeners)
+          response = Excon::Response.new
+          response.status = 200
+
+          dns_name = Fog::AWS::ELB::Mock.dns_name(lb_name, @region)
+          self.data[:load_balancers][lb_name] = {
+            'AvailabilityZones' => availability_zones,
+            'CanonicalHostedZoneName' => '',
+            'CanonicalHostedZoneNameID' => '',
+            'CreatedTime' => Time.now,
+            'DNSName' => dns_name,
+            'HealthCheck' => {
+              'HealthyThreshold' => 3,
+              'Interval' => 60,
+              'Target' => 'TCP:5000',
+              'Timeout' => 60,
+              'UnhealthyThreshold' => 2
+            },
+            'Instances' => [],
+            'ListenerDescriptions' => [],
+            'LoadBalancerName' => lb_name,
+            'Policies' => {
+              'LBCookieStickinessPolicies' => [],
+              'AppCookieStickinessPolicies' => []
+            },
+            'SourceSecurityGroup' => {
+              'GroupName' => '',
+              'OwnerAlias' => ''
+            }
+          }
+
+          response.body = {
+            'ResponseMetadata' => {
+              'RequestId' => Fog::AWS::Mock.request_id
+            },
+            'CreateLoadBalancerResult' => {
+              'DNSName' => dns_name
+            }
+          }
+
+          response
+        end
+      end
     end
   end
 end

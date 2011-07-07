@@ -36,6 +36,30 @@ module Fog
         end
 
       end
+
+      class Mock
+        def configure_health_check(lb_name, health_check)
+          if load_balancer = self.data[:load_balancers][lb_name]
+            response = Excon::Response.new
+            response.status = 200
+
+            load_balancer['HealthCheck'] = health_check
+
+            response.body = {
+              'ResponseMetadata' => {
+                'RequestId' => Fog::AWS::Mock.request_id
+              },
+              'ConfigureHealthCheckResult' => {
+                'HealthCheck' => load_balancer['HealthCheck']
+              }
+            }
+
+            response
+          else
+            raise Fog::AWS::ELB::NotFound
+          end
+        end
+      end
     end
   end
 end
