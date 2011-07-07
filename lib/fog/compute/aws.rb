@@ -139,8 +139,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'fog/compute/parsers/aws/basic'
-
           @aws_access_key_id = options[:aws_access_key_id]
 
           @region = options[:region] || 'us-east-1'
