@@ -33,8 +33,6 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
       AWS[:elb].create_app_cookie_stickiness_policy(@load_balancer_id, policy, cookie).body
     end
 
-    pending if Fog.mocking?
-
     tests("#create_lb_cookie_stickiness_policy with expiry").formats(AWS::ELB::Formats::BASIC) do
       policy = 'fog-lb-expiry'
       expiry = 300
@@ -50,6 +48,8 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
       policy = 'fog-lb-no-expiry'
       AWS[:elb].delete_load_balancer_policy(@load_balancer_id, policy).body
     end
+
+    pending if Fog.mocking?
 
     tests("#create_load_balancer_listeners").formats(AWS::ELB::Formats::BASIC) do
       listeners = [
