@@ -72,6 +72,10 @@ module Fog
 
     class Mock
 
+      def self.arn(vendor, account_id, path, region = nil)
+        "arn:aws:#{vendor}:#{region}:#{account_id}:#{path}"
+      end
+
       def self.availability_zone(region)
         "#{region}#{Fog::Mock.random_selection('abcd', 1)}"
       end

@@ -26,6 +26,29 @@ module Fog
         end
 
       end
+
+      class Mock
+        def delete_load_balancer_policy(lb_name, policy_name)
+          if load_balancer = self.data[:load_balancers][lb_name]
+            response = Excon::Response.new
+            response.status = 200
+
+            load_balancer['Policies'].each do |name, policies|
+              policies.delete_if { |p| p['PolicyName'] == policy_name }
+            end
+
+            response.body = {
+              'ResponseMetadata' => {
+                'RequestId' => Fog::AWS::Mock.request_id
+              }
+            }
+
+            response
+          else
+            raise Fog::AWS::ELB::NotFound
+          end
+        end
+      end
     end
   end
 end

@@ -38,7 +38,8 @@ module Fog
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          requires :availability_zone, :size
+          requires :availability_zone
+          requires_one :size, :snapshot_id
 
           data = connection.create_volume(availability_zone, size, snapshot_id).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
@@ -47,6 +48,11 @@ module Fog
             self.server = @server
           end
           true
+        end
+
+        def server
+          requires :server_id
+          connection.servers('instance-id' => server_id)
         end
 
         def server=(new_server)
@@ -60,6 +66,10 @@ module Fog
         def snapshots
           requires :id
           connection.snapshots(:volume => self)
+        end
+
+        def force_detach
+          detach(true)
         end
 
         private
@@ -81,24 +91,14 @@ module Fog
           end
         end
 
-        def detach
+        def detach(force = false)
           @server = nil
           self.server_id = nil
           unless new_record?
-            connection.detach_volume(id)
+            connection.detach_volume(id, 'Force' => force)
             reload
           end
         end
-
-        def force_detach
-          @server = nil
-          self.server_id = nil
-          unless new_record?
-            connection.detach_volume(id, 'Force' => true)
-            reload
-          end
-        end
-
 
       end
 

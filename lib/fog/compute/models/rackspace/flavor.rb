@@ -17,8 +17,9 @@ module Fog
         end
 
         def cores
-          # 2 quad-cores >= 2Ghz = 8 cores
-          8 * case ram
+          # Each server is assigned 4 virtual cores and
+	  # given a percentage of CPU cycles based on size
+          4 * case ram
           when 256
             1/64.0
           when 512

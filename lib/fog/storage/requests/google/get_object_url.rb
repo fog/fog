@@ -14,38 +14,21 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~String> - url for object
         #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AmazonS3/latest/dev/S3_QSAuth.html
+
         def get_object_url(bucket_name, object_name, expires)
-          unless bucket_name
-            raise ArgumentError.new('bucket_name is required')
-          end
-          unless object_name
-            raise ArgumentError.new('object_name is required')
-          end
-          url({
-            :headers  => {},
-            :host     => @host,
-            :method   => 'GET',
-            :path     => "#{bucket_name}/#{object_name}"
-          }, expires)
+          Formatador.display_line("[yellow][WARN] Fog::Storage::Google => ##{get_object_url} is deprecated, use ##{get_object_https_url} instead[/] [light_black](#{caller.first})[/]")
+          get_object_https_url(bucket_name, object_name, expires)
         end
 
       end
 
-      class Mock
+      class Mock # :nodoc:all
 
         def get_object_url(bucket_name, object_name, expires)
-          unless bucket_name
-            raise ArgumentError.new('bucket_name is required')
-          end
-          unless object_name
-            raise ArgumentError.new('object_name is required')
-          end
-          url({
-            :headers  => {},
-            :host     => @host,
-            :method   => 'GET',
-            :path     => "#{bucket_name}/#{object_name}"
-          }, expires)
+          Formatador.display_line("[yellow][WARN] Fog::Storage::Google => ##{get_object_url} is deprecated, use ##{get_object_https_url} instead[/] [light_black](#{caller.first})[/]")
+          get_object_https_url(bucket_name, object_name, expires)
         end
 
       end

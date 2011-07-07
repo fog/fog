@@ -43,11 +43,36 @@ module Fog
       request :upload_signing_certificate
 
       class Mock
-
-        def initialize(options={})
-          Fog::Mock.not_implemented
+        def self.data
+          @data ||= Hash.new do |hash, key|
+            hash[key] = {
+              :owner_id => Fog::AWS::Mock.owner_id,
+              :server_certificates => {}
+            }
+          end
         end
 
+        def self.reset
+          @data = nil
+        end
+
+        def self.server_certificate_id
+          Fog::Mock.random_hex(16)
+        end
+
+        def initialize(options={})
+          require 'fog/aws/parsers/iam/basic'
+
+          @aws_access_key_id = options[:aws_access_key_id]
+        end
+
+        def data
+          self.class.data[@aws_access_key_id]
+        end
+
+        def reset_data
+          self.class.data.delete(@aws_access_key_id)
+        end
       end
 
       class Real

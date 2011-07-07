@@ -402,7 +402,8 @@ class Brightbox
           "email_verified"  => Fog::Boolean,
           "accounts"        => [Brightbox::Compute::Formats::Nested::ACCOUNT],
           "default_account" => Fog::Brightbox::Nullable::Account,
-          "ssh_key"         => Fog::Nullable::String
+          "ssh_key"         => Fog::Nullable::String,
+          "messaging_pref"  => Fog::Boolean
         }
 
         ZONE = {

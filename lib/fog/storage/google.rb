@@ -20,6 +20,8 @@ module Fog
       request :get_object
       request :get_object_acl
       request :get_object_torrent
+      request :get_object_http_url
+      request :get_object_https_url
       request :get_object_url
       request :get_service
       request :head_object
@@ -30,14 +32,30 @@ module Fog
 
       module Utils
 
+
+        def http_url(params, expires)
+          "http://" << host_path_query(params, expires)
+        end
+
+        def https_url(params, expires)
+          "https://" << host_path_query(params, expires)
+        end
+
         def url(params, expires)
+          Formatador.display_line("[yellow][WARN] Fog::Storage::Google => #url is deprecated, use #https_url instead[/] [light_black](#{caller.first})[/]")
+          https_url(params, expires)
+        end
+
+        private
+
+        def host_path_query(params, expires)
           params[:headers]['Date'] = expires.to_i
           params[:path] = CGI.escape(params[:path]).gsub('%2F', '/')
           query = [params[:query]].compact
           query << "GoogleAccessKeyId=#{@google_storage_access_key_id}"
           query << "Signature=#{CGI.escape(signature(params))}"
           query << "Expires=#{params[:headers]['Date']}"
-          "http://#{params[:host]}/#{params[:path]}?#{query.join('&')}"
+          "#{params[:host]}/#{params[:path]}?#{query.join('&')}"
         end
 
       end

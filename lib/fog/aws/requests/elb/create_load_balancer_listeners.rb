@@ -46,6 +46,29 @@ module Fog
         end
 
       end
+
+      class Mock
+        def create_load_balancer_listeners(lb_name, listeners)
+          if load_balancer = self.data[:load_balancers][lb_name]
+            response = Excon::Response.new
+            response.status = 200
+
+            listeners.each do |listener|
+              load_balancer['ListenerDescriptions'] << {'Listener' => listener, 'PolicyNames' => []}
+            end
+
+            response.body = {
+              'ResponseMetadata' => {
+                'RequestId' => Fog::AWS::Mock.request_id
+              }
+            }
+
+            response
+          else
+            raise Fog::AWS::ELB::NotFound
+          end
+        end
+      end
     end
   end
 end

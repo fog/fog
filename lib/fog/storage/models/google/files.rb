@@ -6,6 +6,8 @@ module Fog
     class Google
 
       class Files < Fog::Collection
+        extend Fog::Deprecation
+        deprecate :get_url, :get_https_url
 
         attribute :common_prefixes, :aliases => 'CommonPrefixes'
         attribute :delimiter,       :aliases => 'Delimiter'
@@ -68,9 +70,14 @@ module Fog
           nil
         end
 
-        def get_url(key, expires)
+        def get_http_url(key, expires)
           requires :directory
-          connection.get_object_url(directory.key, key, expires)
+          connection.get_object_http_url(directory.key, key, expires)
+        end
+
+        def get_https_url(key, expires)
+          requires :directory
+          connection.get_object_https_url(directory.key, key, expires)
         end
 
         def head(key, options = {})

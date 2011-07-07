@@ -19,11 +19,12 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'UploadServerCertificateResult'<~Hash>:
-        #       * 'CertificateId'<~String> -
-        #       * 'UserName'<~String> -
-        #       * 'CertificateBody'<~String> -
-        #       * 'Status'<~String> -
+        #     * 'Certificate'<~Hash>:
+        #       * 'Arn'<~String> -
+        #       * 'Path'<~String> -
+        #       * 'ServerCertificateId'<~String> -
+        #       * 'ServerCertificateName'<~String> -
+        #       * 'UploadDate'<~Time>
         #     * 'RequestId'<~String> - Id of the request
         #
         # ==== See Also
@@ -39,6 +40,32 @@ module Fog
           }.merge!(options))
         end
 
+      end
+
+      class Mock
+        def upload_server_certificate(certificate, private_key, name, options = {})
+          response = Excon::Response.new
+
+          if self.data[:server_certificates][name]
+          else
+            response.status = 200
+            path = "server-certificates/#{name}"
+            data = {
+              'Arn' => Fog::AWS::Mock.arn('iam', self.data[:owner_id], path),
+              'Path' => path,
+              'ServerCertificateId' => Fog::AWS::IAM::Mock.server_certificate_id,
+              'ServerCertificateName' => name,
+              'UploadDate' => Time.now
+            }
+            self.data[:server_certificates][name] = data
+            response.body = {
+              'Certificate' => data,
+              'RequestId' => Fog::AWS::Mock.request_id
+            }
+          end
+
+          response
+        end
       end
     end
   end
