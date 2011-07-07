@@ -2,8 +2,6 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
 
 
   tests('success') do
-    pending if Fog.mocking?
-
     tests('load_balancers') do
       tests('getting a missing elb') do
         returns(nil) { AWS[:elb].load_balancers.get('no-such-elb') }
@@ -44,7 +42,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       raises(Fog::AWS::ELB::InvalidInstance) { elb.deregister_instances('i-00000000') }
     end
 
-    server = Compute[:aws].servers.create
+    server = Fog::Compute[:aws].servers.create
     tests('register instance') do
       begin
         elb.register_instances(server.id)
@@ -183,5 +181,4 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       elb.destroy
     end
   end
-
 end

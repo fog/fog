@@ -55,6 +55,8 @@ module Fog
           response = Excon::Response.new
           response.status = 200
 
+          raise Fog::AWS::ELB::IdentifierTaken if self.data[:load_balancers].has_key? lb_name
+
           dns_name = Fog::AWS::ELB::Mock.dns_name(lb_name, @region)
           self.data[:load_balancers][lb_name] = {
             'AvailabilityZones' => availability_zones,
@@ -63,14 +65,23 @@ module Fog
             'CreatedTime' => Time.now,
             'DNSName' => dns_name,
             'HealthCheck' => {
-              'HealthyThreshold' => 3,
-              'Interval' => 60,
-              'Target' => 'TCP:5000',
-              'Timeout' => 60,
-              'UnhealthyThreshold' => 2
+              'HealthyThreshold' => 10,
+              'Timeout' => 5,
+              'UnhealthyThreshold' => 2,
+              'Interval' => 30,
+              'Target' => 'TCP:80'
             },
             'Instances' => [],
-            'ListenerDescriptions' => [],
+            'ListenerDescriptions' => [
+              {
+                'Listener' => {
+                  'InstancePort' => 80,
+                  'Protocol' => 'HTTP',
+                  'LoadBalancerPort' => 80
+                },
+                'PolicyNames' => []
+              }
+            ],
             'LoadBalancerName' => lb_name,
             'Policies' => {
               'LBCookieStickinessPolicies' => [],
