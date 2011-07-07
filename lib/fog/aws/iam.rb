@@ -61,8 +61,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'fog/aws/parsers/iam/basic'
-
           @aws_access_key_id = options[:aws_access_key_id]
         end
 
