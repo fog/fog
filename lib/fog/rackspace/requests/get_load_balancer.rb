@@ -2,16 +2,16 @@ module Fog
   module Rackspace
     class LoadBalancer
       class Real
-        def delete_load_balancer(load_balancer_id)
+        def get_load_balancer(load_balancer_id)
           request(
-            :expects => 202,
+            :expects => 200,
             :path => "loadbalancers/#{load_balancer_id}.json",
-            :method => 'DELETE'
+            :method => 'GET'
           )
-        end
+         end
       end
       class Mock
-        def delete_load_balancer(load_balancer_id)
+        def get_load_balancer(options = {})
           Fog::Mock.not_implemented
         end
       end

@@ -13,6 +13,9 @@ module Fog
 
       request_path 'fog/rackspace/requests'
       request :create_load_balancer
+      request :get_load_balancer
+      request :list_load_balancers
+      request :update_load_balancer
       request :delete_load_balancer
 
       class Real
