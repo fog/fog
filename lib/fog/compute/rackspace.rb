@@ -1,5 +1,3 @@
-require 'json'
-
 module Fog
   module Compute
     class Rackspace < Fog::Service
@@ -76,6 +74,7 @@ module Fog
       class Real
 
         def initialize(options={})
+          require 'json'
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
           @rackspace_auth_url = options[:rackspace_auth_url]
