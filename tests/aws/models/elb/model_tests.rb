@@ -1,5 +1,5 @@
 Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
-
+  @availability_zones = Fog::Compute[:aws].describe_availability_zones('state' => 'available').body['availabilityZoneInfo'].collect{ |az| az['zoneName'] }
 
   tests('success') do
     tests('load_balancers') do
@@ -12,7 +12,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
     elb_id = 'fog-test'
 
     tests('create') do
-      elb = AWS[:elb].load_balancers.create(:id => elb_id)
+      elb = AWS[:elb].load_balancers.create(:id => elb_id, :availability_zones => @availability_zones)
       tests("dns names is set").returns(true) { elb.dns_name.is_a?(String) }
       tests("created_at is set").returns(true) { Time === elb.created_at }
       tests("policies is empty").returns([]) { elb.policies }
@@ -72,13 +72,13 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
     server.destroy
 
     tests('disable_availability_zones') do
-      elb.disable_availability_zones(%w{us-east-1c us-east-1d})
-      returns(%w{us-east-1a us-east-1b}) { elb.availability_zones.sort }
+      elb.disable_availability_zones(@availability_zones[1..-1])
+      returns(@availability_zones[0..0]) { elb.availability_zones.sort }
     end
 
     tests('enable_availability_zones') do
-      elb.enable_availability_zones(%w{us-east-1c us-east-1d})
-      returns(%w{us-east-1a us-east-1b us-east-1c us-east-1d}) { elb.availability_zones.sort }
+      elb.enable_availability_zones(@availability_zones[1..-1])
+      returns(@availability_zones) { elb.availability_zones.sort }
     end
 
     tests('default health check') do
