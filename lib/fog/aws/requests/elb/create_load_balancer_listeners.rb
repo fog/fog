@@ -52,7 +52,7 @@ module Fog
           if load_balancer = self.data[:load_balancers][lb_name]
             response = Excon::Response.new
 
-            certificate_ids = ::AWS[:iam].list_server_certificates.body['Certificates'].collect { |c| c['ServerCertificateId'] }
+            certificate_ids = ::AWS[:iam].list_server_certificates.body['Certificates'].collect { |c| c['Arn'] }
 
             listeners.each do |listener|
               if listener['SSLCertificateId'] and !certificate_ids.include? listener['SSLCertificateId']

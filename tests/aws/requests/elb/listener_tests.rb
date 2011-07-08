@@ -19,9 +19,11 @@ Shindo.tests('AWS::ELB | listener_tests', ['aws', 'elb']) do
       AWS[:elb].delete_load_balancer_listeners(@load_balancer_id, ports).body
     end
 
+    # This is sort of fucked up, but it may or may not fail, thanks AWS
     tests("#create_load_balancer_listeners with SSL certificate").formats(AWS::ELB::Formats::BASIC) do
+      sleep 1 unless Fog.mocking?
       listeners = [
-        {'Protocol' => 'HTTPS', 'LoadBalancerPort' => 443, 'InstancePort' => 443, 'SSLCertificateId' => @certificate['ServerCertificateId']},
+        {'Protocol' => 'HTTPS', 'LoadBalancerPort' => 443, 'InstancePort' => 443, 'SSLCertificateId' => @certificate['Arn']},
       ]
       AWS[:elb].create_load_balancer_listeners(@load_balancer_id, listeners).body
     end
