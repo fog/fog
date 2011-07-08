@@ -10,22 +10,17 @@ Shindo.tests('AWS::SimpleDB | attributes requests', ['aws']) do
       AWS[:sdb].batch_put_attributes(@domain_name, { 'a' => { 'b' => 'c', 'd' => 'e' }, 'x' => { 'y' => 'z' } }).body
     end
 
-    tests("#get_attributes('#{@domain_name}', 'a').body['Attributes']").returns({'b' => ['c'], 'd' => ['e']}) do
-      attributes = {}
-      Fog.wait_for {
-        attributes = AWS[:sdb].get_attributes(@domain_name, 'a').body['Attributes']
-        attributes != {}
-      }
-      attributes
+    tests("#get_attributes('#{@domain_name}', 'a', {'ConsistentRead' => true}).body['Attributes']").returns({'b' => ['c'], 'd' => ['e']}) do
+      AWS[:sdb].get_attributes(@domain_name, 'a', {'ConsistentRead' => true}).body['Attributes']
     end
 
     tests("#get_attributes('#{@domain_name}', 'notanattribute')").succeeds do
       AWS[:sdb].get_attributes(@domain_name, 'notanattribute')
     end
 
-    tests("#select('select * from #{@domain_name}').body['Items']").returns({'a' => { 'b' => ['c'], 'd' => ['e']}, 'x' => { 'y' => ['z'] } }) do
+    tests("#select('select * from #{@domain_name}', {'ConsistentRead' => true}).body['Items']").returns({'a' => { 'b' => ['c'], 'd' => ['e']}, 'x' => { 'y' => ['z'] } }) do
       pending if Fog.mocking?
-      AWS[:sdb].select("select * from #{@domain_name}").body['Items']
+      AWS[:sdb].select("select * from #{@domain_name}", {'ConsistentRead' => true}).body['Items']
     end
 
     tests("#put_attributes('#{@domain_name}', 'conditional', { 'version' => '1' }).body").formats(AWS::SimpleDB::Formats::BASIC) do
@@ -42,8 +37,8 @@ Shindo.tests('AWS::SimpleDB | attributes requests', ['aws']) do
     end
 
     # Verify that individually deleted attributes are actually removed.
-    tests("#get_attributes('#{@domain_name}', 'a', ['d']).body['Attributes']").returns({'d' => nil}) do
-      AWS[:sdb].get_attributes(@domain_name, 'a', ['d']).body['Attributes']
+    tests("#get_attributes('#{@domain_name}', 'a', {'AttributeName' => ['d'], 'ConsistentRead' => true}).body['Attributes']").returns({}) do
+      AWS[:sdb].get_attributes(@domain_name, 'a', {'AttributeName' => ['d'], 'ConsistentRead' => true}).body['Attributes']
     end
 
     tests("#delete_attributes('#{@domain_name}', 'a').body").formats(AWS::SimpleDB::Formats::BASIC) do
@@ -56,8 +51,8 @@ Shindo.tests('AWS::SimpleDB | attributes requests', ['aws']) do
     end
 
     # Verify that deleting a domain, item combination removes all related attributes.
-    tests("#get_attributes('#{@domain_name}', 'a').body['Attributes']").returns({}) do
-      AWS[:sdb].get_attributes(@domain_name, 'a').body['Attributes']
+    tests("#get_attributes('#{@domain_name}', 'a', {'ConsistentRead' => true}).body['Attributes']").returns({}) do
+      AWS[:sdb].get_attributes(@domain_name, 'a', {'ConsistentRead' => true}).body['Attributes']
     end
 
   end
