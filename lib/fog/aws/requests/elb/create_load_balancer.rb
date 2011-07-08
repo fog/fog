@@ -51,7 +51,7 @@ module Fog
       end
 
       class Mock
-        def create_load_balancer(availability_zones, lb_name, listeners)
+        def create_load_balancer(availability_zones, lb_name, listeners = [])
           response = Excon::Response.new
           response.status = 200
 
@@ -72,16 +72,7 @@ module Fog
               'Target' => 'TCP:80'
             },
             'Instances' => [],
-            'ListenerDescriptions' => [
-              {
-                'Listener' => {
-                  'InstancePort' => 80,
-                  'Protocol' => 'HTTP',
-                  'LoadBalancerPort' => 80
-                },
-                'PolicyNames' => []
-              }
-            ],
+            'ListenerDescriptions' => [*listeners].map { |listener| {'Listener' => listener, 'PolicyNames' => []}},
             'LoadBalancerName' => lb_name,
             'Policies' => {
               'LBCookieStickinessPolicies' => [],

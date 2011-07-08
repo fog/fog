@@ -105,13 +105,11 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
     end
 
     tests('listeners') do
-      default_listener_description = [{"Listener"=>{"InstancePort"=>80, "Protocol"=>"HTTP", "LoadBalancerPort"=>80}, "PolicyNames"=>[]}]
       tests('default') do
         returns(1) { elb.listeners.size }
 
         listener = elb.listeners.first
         returns([80,80,'HTTP', []]) { [listener.instance_port, listener.lb_port, listener.protocol, listener.policy_names] }
-
       end
 
       tests('#get') do
