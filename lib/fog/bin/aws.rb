@@ -7,6 +7,8 @@ class AWS < Fog::Bin
         Fog::CDN::AWS
       when :cloud_formation
         Fog::AWS::CloudFormation
+      when :cloud_watch
+        Fog::AWS::CloudWatch
       when :compute
         Fog::Compute::AWS
       when :dns
@@ -39,6 +41,8 @@ class AWS < Fog::Bin
           Fog::CDN.new(:provider => 'AWS')
         when :cloud_formation
           Fog::AWS::CloudFormation.new
+        when :cloud_watch
+          Fog::AWS::CloudWatch.new
         when :compute
           Formatador.display_line("[yellow][WARN] AWS[:compute] is deprecated, use Compute[:aws] instead[/]")
           Fog::Compute.new(:provider => 'AWS')
