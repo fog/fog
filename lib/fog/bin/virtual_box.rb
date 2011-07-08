@@ -24,7 +24,7 @@ module VirtualBox # deviates from other bin stuff to accomodate gem
     end
 
     def available?
-      availability = !Gem.source_index.find_name('virtualbox').empty?
+      availability = !Gem::Specification.find_all_by_name('virtualbox').empty?
       if availability
         for service in services
           for collection in self.class_for(service).collections
