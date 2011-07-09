@@ -6,17 +6,38 @@ module Fog
 
       class Directory < Fog::Model
 
-        identity :filename, :aliases => [:'Filename', :'key']
-        attribute :id, :aliases => :'ObjectID'
-        attribute :type, :aliases => :'FileType'
+        identity :key, :aliases => :Filename
+        attribute :objectid, :aliases => :ObjectID
+
+        def files
+          @files ||= begin
+                       Fog::Storage::Ninefold::Files.new(
+                                                          :directory    => self,
+                                                          :connection   => connection
+                                                          )
+          end
+        end
+
+        def directories
+          @directories ||= begin
+                       Fog::Storage::Ninefold::Directories.new(
+                                                               :directory    => self,
+                                                               :connection   => connection
+                                                               )
+          end
+        end
 
         def save
-          res = connection.post_namespace filename
+          self.key = attributes[:directory].key + '/' + key if attributes[:directory]
+          res = connection.post_namespace key
           reload
         end
 
-        def destroy
-          connection.delete_namespace filename
+        def destroy(opts={})
+          if opts[:recursive]
+            directories.each { |d| d.destroy(opts) }
+          end
+          connection.delete_namespace key
         end
 
 
