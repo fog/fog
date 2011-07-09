@@ -7,13 +7,18 @@ module Fog
 
       class Directories < Fog::Collection
 
+        attribute :directory
+
         model Fog::Storage::Ninefold::Directory
 
         def all
-          data = connection.get_namespace.body[:DirectoryList]
+          directory ? ns = directory.key : ns = ''
+          data = connection.get_namespace(ns).body[:DirectoryList]
           data = {:DirectoryEntry => []} if data.kind_of? String
           data[:DirectoryEntry] = [data[:DirectoryEntry]] if data[:DirectoryEntry].kind_of? Hash
-          load(data[:DirectoryEntry])
+          dirs = data[:DirectoryEntry].select {|de| de[:FileType] == 'directory'}
+          dirs.each {|d| d[:Filename] = ns + '/' + d[:Filename] if directory}
+          load(data[:DirectoryEntry].select {|de| de[:FileType] == 'directory'})
         end
 
         def get(key, options = {})
@@ -21,9 +26,14 @@ module Fog
           res = connection.get_namespace key
           emc_meta = res.headers['x-emc-meta']
           obj_id = emc_meta.scan(/objectid=(\w+),/).flatten[0]
-          new(:id => obj_id, :filename => key, :type => 'directory')
+          new(:objectid => obj_id, :key => key)
         rescue Fog::Storage::Ninefold::NotFound
           nil
+        end
+
+        def new(attributes ={})
+          attributes = {:directory => directory}.merge(attributes) if directory
+          super(attributes)
         end
 
       end
