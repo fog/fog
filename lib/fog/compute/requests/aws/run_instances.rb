@@ -135,6 +135,7 @@ module Fog
               'instanceId'          => instance_id,
               'instanceState'       => { 'code' => 0, 'name' => 'pending' },
               'instanceType'        => options['InstanceType'] || 'm1.small',
+              'kernelId'            => options['KernelId'] || Fog::AWS::Mock.kernel_id,
               'keyName'             => options['KeyName'],
               'launchTime'          => Time.now,
               'monitoring'          => { 'state' => options['Monitoring.Enabled'] || false },

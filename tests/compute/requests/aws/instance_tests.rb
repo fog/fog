@@ -11,7 +11,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     'instanceState'       => {'code' => Integer, 'name' => String},
     'instanceType'        => String,
     # 'ipAddress'           => String,
-    # 'kernelId'            => Fog::Nullable::String,
+    'kernelId'            => Fog::Nullable::String,
     'keyName'             => Fog::Nullable::String,
     'launchTime'          => Time,
     'monitoring'          => {'state' => Fog::Boolean},
@@ -139,7 +139,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
         String === pkey.private_decrypt(decoded_password)
       end
       result
-    end
+    end unless ENV['FASTER_TEST_PLEASE']
 
     key.destroy
 
