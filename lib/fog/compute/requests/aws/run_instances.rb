@@ -142,6 +142,7 @@ module Fog
               'placement'           => { 'availabilityZone' => options['Placement.AvailabilityZone'] || Fog::AWS::Mock.availability_zone(@region), 'groupName' => nil, 'tenancy' => 'default' },
               'privateDnsName'      => nil,
               'productCodes'        => [],
+              'ramdiskId'           => options['RamdiskId'] || Fog::AWS::Mock.ramdisk_id,
               'reason'              => nil,
               'rootDeviceType'      => 'instance-store'
             }
