@@ -50,15 +50,15 @@ module Fog
         def get_attributes(domain_name, item_name, options = {})
           unless options.empty? || options['AttributeName']
             Formatador.display_line("[yellow][WARN] get_attributes with array attributes param is deprecated, use 'AttributeName' => attributes) instead[/] [light_black](#{caller.first})[/]")
-            options['AttributeName'] ||= options
+            options['AttributeName'] ||= options if options.is_a?(Array)
           end
-          option['AttributeName'] ||= []
+          options['AttributeName'] ||= []
           response = Excon::Response.new
           if self.data[:domains][domain_name]
             object = {}
-            if options['AttributeName']
+            if !options['AttributeName'].empty?
               for attribute in options['AttributeName']
-                if self.data[:domains][domain_name][item_name] && self.data[:domains][domain_name][item_name]
+                if self.data[:domains][domain_name][item_name].keys.include?(attribute)
                   object[attribute] = self.data[:domains][domain_name][item_name][attribute]
                 end
               end
