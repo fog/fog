@@ -42,6 +42,8 @@ module Fog
       recognizes :rackspace_auth_token
 
       model_path 'fog/rackspace/models'
+      collection :load_balancers
+      model :load_balancer
 
       request_path 'fog/rackspace/requests'
       request :create_load_balancer

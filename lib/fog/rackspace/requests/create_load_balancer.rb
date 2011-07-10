@@ -2,13 +2,13 @@ module Fog
   module Rackspace
     class LoadBalancer
       class Real
-        def create_load_balancer(name, protocol, port, virtualIps, nodes)
+        def create_load_balancer(name, protocol, port, virtual_ips, nodes)
           data = {
             'loadBalancer' => {
               'name' => name,
               'port' => port,
               'protocol' => protocol,
-              'virtualIps' => virtualIps,
+              'virtualIps' => virtual_ips,
               'nodes' => nodes
               #Is algorithm allowed on create?
             }
