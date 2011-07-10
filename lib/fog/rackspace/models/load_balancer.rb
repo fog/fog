@@ -8,16 +8,16 @@ module Fog
         identity :id
 
         attribute :cluster
-        attribute :connection_logging
+        attribute :connection_logging,  :aliases => 'connectionLogging'
         attribute :port
         attribute :protocol
         attribute :algorithm
-        attribute :virtual_ips
+        attribute :virtual_ips,         :aliases => 'virtualIps'
         attribute :nodes
         attribute :created
         attribute :updated
         attribute :name
-        attribute :state,       :aliases => 'status'
+        attribute :state,               :aliases => 'status'
 
         def initialize(attributes={})
           super
