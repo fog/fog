@@ -4,15 +4,14 @@ module Fog
       class Real
 
         def post_namespace(namespace = '', options = {})
-          namespace = namespace + '/' unless namespace =~ /\/$/
           options = options.reject {|key, value| value.nil?}
-          request(
-                  :expects  => 201,
-                  :method   => 'POST',
-                  :path     => "namespace/" + namespace,
-                  :query    => options,
-                  :parse => true
-          )
+          request({
+                    :expects  => 201,
+                    :method   => 'POST',
+                    :path     => "namespace/" + namespace,
+                    :query    => {},
+                    :parse => true
+                  }.merge(options))
         end
 
       end

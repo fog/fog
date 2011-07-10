@@ -28,14 +28,19 @@ module Fog
         end
 
         def save
-          self.key = attributes[:directory].key + '/' + key if attributes[:directory]
+          self.key = attributes[:directory].key + key if attributes[:directory]
+          self.key = key + '/' unless key =~ /\/$/
           res = connection.post_namespace key
           reload
         end
 
         def destroy(opts={})
           if opts[:recursive]
-            directories.each { |d| d.destroy(opts) }
+            files.each {|f| f.destroy }
+            directories.each do |d|
+              d.files.each {|f| f.destroy }
+              d.destroy(opts)
+            end
           end
           connection.delete_namespace key
         end
