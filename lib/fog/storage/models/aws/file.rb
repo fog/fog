@@ -113,7 +113,7 @@ module Fog
           options['Content-MD5'] = content_md5 if content_md5
           options['Content-Type'] = content_type if content_type
           options['Expires'] = expires if expires
-          options.merge(metadata)
+          options.merge!(metadata)
           options['x-amz-storage-class'] = storage_class if storage_class
 
           data = connection.put_object(directory.key, key, body, options)
