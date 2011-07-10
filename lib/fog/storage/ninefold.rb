@@ -21,6 +21,7 @@ module Fog
       # request :delete_container
       request :get_namespace
       request :post_namespace
+      request :put_namespace
       request :delete_namespace
 
       module Utils

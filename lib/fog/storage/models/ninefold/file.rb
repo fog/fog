@@ -71,9 +71,14 @@ module Fog
           directory.kind_of?(Directory) ? ns = directory.key : ns = directory
           ns += key
           options['Content-Type'] = content_type if content_type
-          data = connection.post_namespace(ns, :body => body)
-          #p data
-          self.objectid = data.headers['location'].split('/')[-1]
+          if objectid
+            # pre-existing file, do a PUT
+            data = connection.put_namespace(ns, :body => body)
+          else
+            # new file, POST
+            data = connection.post_namespace(ns, :body => body)
+            self.objectid = data.headers['location'].split('/')[-1]
+          end
           merge_attributes(data.headers)
           true
         end
