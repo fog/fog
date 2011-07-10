@@ -4,15 +4,14 @@ module Fog
       class Real
 
         def get_namespace(namespace = '', options = {})
-          namespace = namespace + '/' unless namespace =~ /\/$/
           options = options.reject {|key, value| value.nil?}
-          request(
-                  :expects  => 200,
-                  :method   => 'GET',
-                  :path     => "namespace/" + namespace,
-                  :query    => options,
-                  :parse => true
-          )
+          request({
+                    :expects  => 200,
+                    :method   => 'GET',
+                    :path     => "namespace/" + namespace,
+                    :query    => {},
+                    :parse => true
+                  }.merge(options))
         end
 
       end

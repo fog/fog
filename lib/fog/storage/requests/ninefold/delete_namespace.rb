@@ -4,14 +4,13 @@ module Fog
       class Real
 
         def delete_namespace(namespace = '', options = {})
-          namespace = namespace + '/' unless namespace =~ /\/$/
           options = options.reject {|key, value| value.nil?}
-          request(
-                  :expects  => 204,
-                  :method   => 'DELETE',
-                  :path     => "namespace/" + namespace,
-                  :query    => options
-          )
+          request({
+                    :expects  => 204,
+                    :method   => 'DELETE',
+                    :path     => "namespace/" + namespace,
+                    :query    => options
+                  }.merge(options))
         end
 
       end

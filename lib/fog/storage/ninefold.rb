@@ -14,8 +14,8 @@ module Fog
       model_path 'fog/storage/models/ninefold'
       model       :directory
       collection  :directories
-      # model       :file
-      # collection  :files
+      model       :file
+      collection  :files
 
       request_path 'fog/storage/requests/ninefold'
       # request :delete_container
@@ -54,6 +54,15 @@ module Fog
           @connection = Fog::Connection.new("#{Fog::Storage::Ninefold::STORAGE_SCHEME}://#{Fog::Storage::Ninefold::STORAGE_HOST}:#{Fog::Storage::Ninefold::STORAGE_PORT}", true) # persistent
         end
 
+        def uid
+          @ninefold_storage_token#.split('/')[-1]
+        end
+
+        def sign(string)
+          value = ::HMAC::SHA1.digest( @ninefold_storage_secret_decoded, string )
+          Base64.encode64( value ).chomp()
+        end
+
         def reload
           @connection.reset
         end
@@ -89,7 +98,7 @@ module Fog
 
           signstring += "/rest/" + URI.unescape( req_path ).downcase
           query_str = params[:query].map{|k,v| "#{k}=#{v}"}.join('&')
-          signstring += '?' + params[:query] unless query_str.empty?
+          signstring += '?' + query_str unless query_str.empty?
           signstring += "\n"
 
           customheaders = {}

@@ -11,7 +11,7 @@ if storage_providers.keys.include? :ninefold
         ninefold.directories.get('sub').directories.count
       end
 
-      tests("create a directory in a sub dir").returns('sub/path/newdir') do
+      tests("create a directory in a sub dir").returns('sub/path/newdir/') do
         ninefold.directories.get('sub/path').directories.create(:key => 'newdir').identity
       end
 
