@@ -70,16 +70,19 @@ module Fog
           requires :body, :directory, :key
           directory.kind_of?(Directory) ? ns = directory.key : ns = directory
           ns += key
-          options['Content-Type'] = content_type if content_type
+          options[:headers] ||= {}
+          options[:headers]['Content-Type'] = content_type if content_type
+          options[:body] = body
+          p options
           if objectid
             # pre-existing file, do a PUT
-            data = connection.put_namespace(ns, :body => body)
+            data = connection.put_namespace(ns, options)
           else
             # new file, POST
-            data = connection.post_namespace(ns, :body => body)
+            data = connection.post_namespace(ns, options)
             self.objectid = data.headers['location'].split('/')[-1]
           end
-          merge_attributes(data.headers)
+          # merge_attributes(data.headers)
           true
         end
 
