@@ -2,8 +2,8 @@ module Fog
   module HP
     class Storage < Fog::Service
 
-      requires    :hp_password, :hp_username
-      recognizes  :hp_host, :hp_port, :hp_auth_path, :hp_servicenet, :hp_cdn_ssl, :persistent
+      requires    :hp_secret_key, :hp_account_id
+      recognizes  :hp_auth_uri, :hp_servicenet, :hp_cdn_ssl, :persistent
       recognizes  :provider # remove post deprecation
 
       model_path 'fog/storage/models/hp'
@@ -59,16 +59,16 @@ module Fog
           end
 
           require 'mime/types'
-          @hp_password = options[:hp_password]
-          @hp_username = options[:hp_username]
+          @hp_secret_key = options[:hp_secret_key]
+          @hp_account_id = options[:hp_account_id]
         end
 
         def data
-          self.class.data[@hp_username]
+          self.class.data[@hp_account_id]
         end
 
         def reset_data
-          self.class.data.delete(@hp_username)
+          self.class.data.delete(@hp_account_id)
         end
 
       end
@@ -87,8 +87,8 @@ module Fog
 
           require 'mime/types'
           require 'json'
-          @hp_password = options[:hp_password]
-          @hp_username = options[:hp_username]
+          @hp_secret_key = options[:hp_secret_key]
+          @hp_account_id = options[:hp_account_id]
           @hp_cdn_ssl = options[:hp_cdn_ssl]
           credentials = Fog::HP.authenticate(options)
           @auth_token = credentials['X-Auth-Token']

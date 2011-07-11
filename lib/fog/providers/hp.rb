@@ -10,25 +10,30 @@ module Fog
     service(:storage, 'storage/hp')
 
     def self.authenticate(options)
-      scheme = options[:scheme] || "http://"
-      #hp_auth_url = options[:hp_auth_url] || "auth.api.rackspacecloud.com"
-      @hp_host = options[:hp_host] || "fake-endpoint.api.hpcloud.com"
-      @hp_port = options[:hp_port] || "80"
-      @hp_auth_path = options[:hp_auth_path] || "auth/v1.0"
-      hp_auth_url = "#{@hp_host}:#{@hp_port}"
-      connection = Fog::Connection.new(scheme + hp_auth_url)
-      @hp_username = options[:hp_username]
-      @hp_password  = options[:hp_password]
+      hp_auth_uri = options[:hp_auth_uri] || "http://agpa-ge1.csbu.hpl.hp.com/auth/v1.0"
+      endpoint = URI.parse(hp_auth_uri)
+      @scheme = endpoint.scheme || "http"
+      @host = endpoint.host || "agpa-ge1.csbu.hpl.hp.com"
+      @port = endpoint.port.to_s || "80"
+      if (endpoint.path)
+        @auth_path = endpoint.path.slice(1, endpoint.path.length)  # remove the leading slash
+      else
+        @auth_path = "auth/v1.0"
+      end
+      service_url = "#{@scheme}://#{@host}:#{@port}"
+      connection = Fog::Connection.new(service_url)
+      @hp_account_id = options[:hp_account_id]
+      @hp_secret_key  = options[:hp_secret_key]
       response = connection.request({
         :expects  => [200, 204],
         :headers  => {
-          'X-Auth-Key'  => @hp_password,
-          'X-Auth-User' => @hp_username
+          'X-Auth-Key'  => @hp_secret_key,
+          'X-Auth-User' => @hp_account_id
         },
-        :host     => @hp_host,
-        :port     => @hp_port,
+        :host     => @host,
+        :port     => @port,
         :method   => 'GET',
-        :path     => @hp_auth_path
+        :path     => @auth_path
       })
       response.headers.reject do |key, value|
         !['X-Server-Management-Url', 'X-Storage-Url', 'X-CDN-Management-Url', 'X-Auth-Token'].include?(key)
