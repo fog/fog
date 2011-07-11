@@ -48,18 +48,18 @@ module Fog
           @enabled = false
 
           if credentials['X-CDN-Management-Url']
-              uri = URI.parse(credentials['X-CDN-Management-Url'])
-              @host   = uri.host
-              @path   = uri.path
-              @port   = uri.port
-              @scheme = uri.scheme
-              @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
-              @enabled = true
+            uri = URI.parse(credentials['X-CDN-Management-Url'])
+            @host   = uri.host
+            @path   = uri.path
+            @port   = uri.port
+            @scheme = uri.scheme
+            @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+            @enabled = true
           end
         end
 
         def enabled?
-            @enabled
+          @enabled
         end
 
         def reload

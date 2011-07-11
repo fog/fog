@@ -30,11 +30,11 @@ module Fog
           @cdn ||= Fog::CDN.new(
             :provider           => 'Rackspace',
             :rackspace_api_key  => @rackspace_api_key,
-            :rackspace_auth_url  => @rackspace_auth_url,
+            :rackspace_auth_url => @rackspace_auth_url,
             :rackspace_username => @rackspace_username
           )
           if @cdn.enabled?
-            return @cdn
+            @cdn
           end
         end
 
