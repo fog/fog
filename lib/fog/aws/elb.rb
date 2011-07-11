@@ -23,7 +23,7 @@ module Fog
       request :disable_availability_zones_for_load_balancer
       request :enable_availability_zones_for_load_balancer
       request :register_instances_with_load_balancer
-      #request :set_load_balancer_listener_ssl_certificate
+      request :set_load_balancer_listener_ssl_certificate
       request :set_load_balancer_policies_of_listener
 
       model_path 'fog/aws/models/elb'
