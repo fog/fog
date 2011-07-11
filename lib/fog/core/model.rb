@@ -42,7 +42,7 @@ module Fog
       attributes.to_json
     end
 
-    def wait_for(timeout=Fog::Mock.timeout, interval=1, &block)
+    def wait_for(timeout=Fog.timeout, interval=1, &block)
       reload
       retries = 3
       Fog.wait_for(timeout, interval) do

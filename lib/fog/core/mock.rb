@@ -21,16 +21,6 @@ module Fog
       @delay
     end
 
-    @timeout = 600
-    def self.timeout
-      @timeout
-    end
-
-    def self.timeout=(new_timeout)
-      raise ArgumentError, "timeout must be non-negative" unless new_timeout >= 0
-      @timeout = new_timeout
-    end
-
     def self.delay=(new_delay)
       raise ArgumentError, "delay must be non-negative" unless new_delay >= 0
       @delay = new_delay
