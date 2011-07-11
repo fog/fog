@@ -1,5 +1,4 @@
 Shindo.tests('Fog::Compute[:aws] | spot datafeed subscription requests', ['aws']) do
-
   @spot_datafeed_subscription_format = {
     'spotDatafeedSubscription' => {
       'bucket'  => String,
@@ -13,6 +12,7 @@ Shindo.tests('Fog::Compute[:aws] | spot datafeed subscription requests', ['aws']
   @directory = Fog::Storage[:aws].directories.create(:key => 'fogspotdatafeedsubscriptiontests')
 
   tests('success') do
+    pending if Fog.mocking?
 
     tests("#create_spot_datafeed_subscription('fogspotdatafeedsubscriptiontests', 'fogspotdatafeedsubscription/')").formats(@spot_datafeed_subscription_format) do
       Fog::Compute[:aws].create_spot_datafeed_subscription('fogspotdatafeedsubscriptiontests', 'fogspotdatafeedsubscription/').body
@@ -33,16 +33,15 @@ Shindo.tests('Fog::Compute[:aws] | spot datafeed subscription requests', ['aws']
     tests("duplicate #delete_spot_datafeed_subscription").succeeds do
       Fog::Compute[:aws].delete_spot_datafeed_subscription
     end
-
   end
+
   tests('failure') do
+    pending if Fog.mocking?
 
     tests("#describe_spot_datafeed_subscription").raises(Fog::Compute::AWS::NotFound) do
       Fog::Compute[:aws].describe_spot_datafeed_subscription
     end
-
   end
 
   @directory.destroy
-
 end

@@ -15,11 +15,15 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     'keyName'             => Fog::Nullable::String,
     'launchTime'          => Time,
     'monitoring'          => {'state' => Fog::Boolean},
-    'placement'           => {'availabilityZone' => String},
+    'placement'           => {
+      'availabilityZone' => String,
+      'groupName' => Fog::Nullable::String,
+      'tenancy' => String
+    },
     'privateDnsName'      => NilClass,
     # 'privateIpAddress'    => String,
     'productCodes'        => [],
-    'ramdiskId'           => Fog::Nullable::String,
+    # 'ramdiskId'           => Fog::Nullable::String,
     'reason'              => Fog::Nullable::String,
     # 'rootDeviceName'      => String,
     'rootDeviceType'      => String,
@@ -100,7 +104,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     server.wait_for { ready? }
 
     tests("#describe_instances").formats(@describe_instances_format) do
-       Fog::Compute[:aws].describe_instances.body
+       Fog::Compute[:aws].describe_instances('instance-state-name' => 'running').body
     end
 
     # Launch another instance to test filters
@@ -135,7 +139,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
         String === pkey.private_decrypt(decoded_password)
       end
       result
-    end
+    end unless ENV['FASTER_TEST_PLEASE']
 
     key.destroy
 
