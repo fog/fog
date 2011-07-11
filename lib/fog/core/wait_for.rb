@@ -1,6 +1,6 @@
 module Fog
 
-  def self.wait_for(timeout=600, interval=1, &block)
+  def self.wait_for(timeout=Fog.timeout, interval=1, &block)
     duration = 0
     start = Time.now
     until yield || duration > timeout
