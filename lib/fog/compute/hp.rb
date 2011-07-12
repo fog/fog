@@ -2,9 +2,9 @@ module Fog
   module HP
     class Compute < Fog::Service
 
-      requires   :hp_password, :hp_username
-      recognizes :hp_host, :hp_port, :hp_auth_path, :hp_servicenet, :persistent
-      recognizes :provider # remove post deprecation
+      requires    :hp_secret_key, :hp_account_id
+      recognizes  :hp_auth_uri, :hp_servicenet, :persistent
+      recognizes  :provider # remove post deprecation
 
       model_path 'fog/compute/models/hp'
       model       :flavor
@@ -65,15 +65,15 @@ module Fog
             Formatador.display_line(warning)
           end
 
-          @hp_username = options[:hp_username]
+          @hp_account_id = options[:hp_account_id]
         end
 
         def data
-          self.class.data[@hp_username]
+          self.class.data[@hp_account_id]
         end
 
         def reset_data
-          self.class.data.delete(@hp_username)
+          self.class.data.delete(@hp_account_id)
         end
 
       end
@@ -89,11 +89,9 @@ module Fog
           end
 
           require 'json'
-          @hp_password   = options[:hp_password]
-          @hp_username   = options[:hp_username]
-          @hp_host       = options[:hp_host]
-          @hp_port       = options[:hp_port]
-          @hp_auth_path  = options[:hp_auth_path]
+          @hp_secret_key = options[:hp_secret_key]
+          @hp_account_id = options[:hp_account_id]
+          @hp_auth_uri   = options[:hp_auth_uri]
           @hp_servicenet = options[:hp_servicenet]
           authenticate
           Excon.ssl_verify_peer = false if options[:hp_servicenet] == true
@@ -140,11 +138,9 @@ module Fog
 
         def authenticate
           options = {
-            :hp_password  => @hp_password,
-            :hp_username  => @hp_username,
-            :hp_host      => @hp_host,
-            :hp_port      => @hp_port,
-            :hp_auth_path => @hp_auth_path
+            :hp_secret_key  => @hp_secret_key,
+            :hp_account_id  => @hp_account_id,
+            :hp_auth_uri    => @hp_auth_uri,
           }
           credentials = Fog::HP.authenticate(options)
           @auth_token = credentials['X-Auth-Token']
