@@ -1,6 +1,7 @@
 module Fog
+  @timeout = 600
   def self.timeout
-    @timeout ||= 600
+    @timeout
   end
 
   def self.timeout=(timeout)
