@@ -45,7 +45,7 @@ module Fog
             when 'Engine', 
               'DBInstanceStatus', 'DBInstanceIdentifier', 'EngineVersion', 
               'PreferredBackupWindow', 'PreferredMaintenanceWindow', 
-              'AvailabilityZone', 'MasterUsername', 'DBName'
+              'AvailabilityZone', 'MasterUsername', 'DBName', 'LicenseModel'
               @db_instance[name] = value
             when 'MultiAZ', 'AutoMinorVersionUpgrade'
               if value == 'false'
