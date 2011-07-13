@@ -46,7 +46,7 @@ module Fog
             'AdjustmentType'       => adjustment_type,
             'AutoScalingGroupName' => auto_scaling_group_name,
             'PolicyName'           => policy_name,
-            'ScalingAdustment'     => scaling_adjustment,
+            'ScalingAdjustment'     => scaling_adjustment,
             :parser                => Fog::Parsers::AWS::AutoScaling::PutScalingPolicy.new
           }.merge!(options))
         end
