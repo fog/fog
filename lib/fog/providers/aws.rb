@@ -178,6 +178,10 @@ module Fog
         "r-#{Fog::Mock.random_hex(8)}"
       end
 
+      def self.reserved_instances_offering_id
+        request_id
+      end
+
       def self.snapshot_id
         "snap-#{Fog::Mock.random_hex(8)}"
       end

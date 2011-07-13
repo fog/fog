@@ -32,7 +32,30 @@ module Fog
             :parser     => Fog::Parsers::Compute::AWS::DescribeReservedInstancesOfferings.new
           }.merge!(params))
         end
+      end
 
+      class Mock
+        def describe_reserved_instances_offerings(filters = {})
+          response = Excon::Response.new
+          response.status = 200
+
+          response.body = {
+            'reservedInstancesOfferingsSet' => [{
+              'reservedInstancesOfferingId' => Fog::AWS::Mock.reserved_instances_offering_id,
+              'instanceType'        => 'm1.small',
+              'availabilityZone'    => 'us-east-1d',
+              'duration'            => 31536000,
+              'fixedPrice'          => 350.0,
+              'usagePrice'          => 0.03,
+              'productDescription'  => 'Linux/UNIX',
+              'instanceTenancy'     => 'default',
+              'currencyCode'         => 'USD'
+            }],
+            'requestId' => Fog::AWS::Mock.request_id
+          }
+
+          response
+        end
       end
     end
   end
