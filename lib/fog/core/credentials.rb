@@ -21,6 +21,8 @@ module Fog
     @credential_path ||= begin
       path = ENV["FOG_RC"] || (ENV['HOME'] && File.directory?(ENV['HOME']) && '~/.fog')
       File.expand_path(path) if path
+    rescue
+      nil
     end
   end
 
