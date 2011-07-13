@@ -29,11 +29,11 @@ module Fog
 
       #request :describe_events
 
-      # model_path 'fog/aws/models/acs'
+      model_path 'fog/aws/models/acs'
       # model :server
       # collection :servers
-      # model :security_group
-      # collection :security_groups
+      model :security_group
+      collection :security_groups
       # model :parameter_group
       # collection :parameter_groups
 
@@ -96,8 +96,20 @@ module Fog
               :parser     => parser
             })
           rescue Excon::Errors::HTTPStatusError => error
-            # TODO: handle not found errors
-            raise
+            if match = error.message.match(/<Code>(.*)<\/Code>/m)
+              case match[1]
+              when 'CacheSecurityGroupNotFound'
+                raise Fog::AWS::ACS::NotFound
+              when 'CacheSecurityGroupAlreadyExists'
+                raise Fog::AWS::ACS::IndentifierTaken
+              when 'InvalidParameterValue'
+                raise Fog::AWS::ACE::InvalidInstance
+              else
+                raise
+              end
+            else
+              raise
+            end
           end
 
           response
