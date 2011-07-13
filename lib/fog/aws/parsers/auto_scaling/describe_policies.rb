@@ -32,7 +32,7 @@ module Fog
             when 'AdjustmentType', 'AutoScalingGroupName', 'PolicyARN', 'PolicyName'
               @scaling_policy[name] = value
             when 'Cooldown', 'ScalingAdjustment'
-              @scaling_adjustment[name] = value.to_i
+              @results[name] = value.to_i
 
             when 'NextToken'
               @results[name] = value
