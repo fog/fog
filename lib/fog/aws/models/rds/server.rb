@@ -28,6 +28,7 @@ module Fog
         attribute :db_security_groups, :aliases => 'DBSecurityGroups'
         attribute :db_parameter_groups, :aliases => 'DBParameterGroups'
         attribute :backup_retention_period, :aliases => 'BackupRetentionPeriod', :type => :integer
+        attribute :license_model, :aliases => 'LicenseModel'
 
         attr_accessor :password, :parameter_group_name, :security_group_names, :port
         
@@ -89,7 +90,8 @@ module Fog
             'MasterUserPassword'            => password,
             'PreferredMaintenanceWindow'    => preferred_maintenance_window,
             'PreferredBackupWindow'         => preferred_backup_window,
-            'MultiAZ'                       => multi_az
+            'MultiAZ'                       => multi_az,
+            'LicenseModel'                  => license_model
           }
           options.delete_if {|key, value| value.nil?}
 

@@ -10,6 +10,7 @@ module Fog
             reset_alarm
             @results = { 'ScalingPolicies' => [] }
             @response = { 'DescribePoliciesResult' => {}, 'ResponseMetadata' => {} }
+            @in_alarms = false
           end
 
           def reset_scaling_policy
@@ -19,20 +20,24 @@ module Fog
           def reset_alarm
             @alarm = {}
           end
+          
+          def start_element(name, attrs = [])
+            super
+            case name
+            when 'Alarms'
+              @in_alarms = true              
+            end            
+          end
 
           def end_element(name)
             case name
-            when 'member'
-              @scaling_policy['Alarms'] << @alarm
-              reset_alarm
-
             when 'AlarmARN', 'AlarmName'
               @alarm[name] = value
 
             when 'AdjustmentType', 'AutoScalingGroupName', 'PolicyARN', 'PolicyName'
               @scaling_policy[name] = value
             when 'Cooldown', 'ScalingAdjustment'
-              @scaling_adjustment[name] = value.to_i
+              @scaling_policy[name] = value.to_i
 
             when 'NextToken'
               @results[name] = value
@@ -42,6 +47,15 @@ module Fog
 
             when 'DescribePoliciesResponse'
               @response['DescribePoliciesResult'] = @results
+            
+            when 'Alarms'
+              if @in_alarms == true
+                @scaling_policy['Alarms'] << @alarm
+                reset_alarm
+              end            
+            when 'member'
+              @results['ScalingPolicies'] << @scaling_policy
+              reset_scaling_policy              
             end
           end
 
