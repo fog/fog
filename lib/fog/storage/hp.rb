@@ -38,6 +38,23 @@ module Fog
         def url
           "#{@scheme}://#{@host}:#{@port}#{@path}"
         end
+
+        def acl_to_header(acl)
+          header = {}
+          case acl
+            when "private"
+              header['X-Container-Read']  = ""
+              header['X-Container-Write'] = ""
+            when "public-read"
+              header['X-Container-Read']  = ".r:*,.rlistings"
+            when "public-write"
+              header['X-Container-Write'] = "*"
+            when "public-read-write"
+              header['X-Container-Read']  = ".r:*,.rlistings"
+              header['X-Container-Write'] = "*"
+          end
+          header
+        end
       end
 
       class Mock
