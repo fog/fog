@@ -29,7 +29,7 @@ module Fog
             'AutoScalingGroupName' => auto_scaling_group_name,
             'PolicyName'           => policy_name,
             :parser                => Fog::Parsers::AWS::AutoScaling::Basic.new
-          }.merge!(options))
+          })
         end
 
       end
