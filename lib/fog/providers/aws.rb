@@ -46,9 +46,9 @@ module Fog
     end
 
     def self.escape(string)
-      string.gsub(/([^ a-zA-Z0-9_.\-~]+)/) {
+      string.gsub(/([^a-zA-Z0-9_.\-~]+)/) {
         "%" + $1.unpack("H2" * $1.bytesize).join("%").upcase
-      }.tr(" ", "+")
+      }
     end
 
     def self.signed_params(params, options = {})
