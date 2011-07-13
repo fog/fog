@@ -24,7 +24,7 @@ module Fog
             when 'requestId'
               @response[name] = value
             when 'start'
-              @response[name] = Time.parse(value)
+              @reserved_instance[name] = Time.parse(value)
             end
           end
 

@@ -94,6 +94,11 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     'requestId'     => String
   }
 
+  @purchase_reserved_instances_offering_format = {
+    'reservedInstancesId' => String,
+    'requestId' => String
+  }
+
   @describe_reserved_instances_format = {
     'reservedInstancesSet' => [{
       'reservedInstancesId' => String,
@@ -194,10 +199,8 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     end
 
     if Fog.mocking?
-      pending
-
-      @reserved_instance_offering_id = @reserved_instances["reservedInstancesOfferingSet"].first["reservedInstancesOfferingId"]
-      tests("#purchase_reserved_instances_offering('#{@reserved_instance_offering_id}')").formats(@purchase_reserved_instances_offerings_format) do
+      @reserved_instance_offering_id = @reserved_instances["reservedInstancesOfferingsSet"].first["reservedInstancesOfferingId"]
+      tests("#purchase_reserved_instances_offering('#{@reserved_instance_offering_id}')").formats(@purchase_reserved_instances_offering_format) do
         Fog::Compute[:aws].purchase_reserved_instances_offering(@reserved_instance_offering_id, 1).body
       end
 

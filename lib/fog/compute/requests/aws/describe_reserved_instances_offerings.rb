@@ -39,18 +39,20 @@ module Fog
           response = Excon::Response.new
           response.status = 200
 
+          self.data[:reserved_instances_offerings] ||= [{
+            'reservedInstancesOfferingId' => Fog::AWS::Mock.reserved_instances_offering_id,
+            'instanceType'        => 'm1.small',
+            'availabilityZone'    => 'us-east-1d',
+            'duration'            => 31536000,
+            'fixedPrice'          => 350.0,
+            'usagePrice'          => 0.03,
+            'productDescription'  => 'Linux/UNIX',
+            'instanceTenancy'     => 'default',
+            'currencyCode'         => 'USD'
+          }]
+
           response.body = {
-            'reservedInstancesOfferingsSet' => [{
-              'reservedInstancesOfferingId' => Fog::AWS::Mock.reserved_instances_offering_id,
-              'instanceType'        => 'm1.small',
-              'availabilityZone'    => 'us-east-1d',
-              'duration'            => 31536000,
-              'fixedPrice'          => 350.0,
-              'usagePrice'          => 0.03,
-              'productDescription'  => 'Linux/UNIX',
-              'instanceTenancy'     => 'default',
-              'currencyCode'         => 'USD'
-            }],
+            'reservedInstancesOfferingsSet' => self.data[:reserved_instances_offerings],
             'requestId' => Fog::AWS::Mock.request_id
           }
 
