@@ -51,6 +51,12 @@ module Fog
       request :list_load_balancers
       request :update_load_balancer
       request :delete_load_balancer
+      request :create_node
+      request :list_nodes
+      request :get_node
+      request :update_node
+      request :delete_node
+      request :delete_nodes
 
       class Real
         def initialize(options={})
