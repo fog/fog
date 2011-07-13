@@ -175,6 +175,10 @@ module Fog
         request_id << Fog::Mock.random_hex(12)
         request_id.join('-')
       end
+      class << self
+        alias :reserved_instances_id :request_id
+        alias :reserved_instances_offering_id :request_id
+      end
 
       def self.reservation_id
         "r-#{Fog::Mock.random_hex(8)}"

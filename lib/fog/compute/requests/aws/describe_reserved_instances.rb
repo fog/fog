@@ -41,6 +41,20 @@ module Fog
         end
 
       end
+
+      class Mock
+        def describe_reserved_instances(filters = {})
+          response = Excon::Response.new
+          response.status = 200
+
+          response.body = {
+            'reservedInstancesSet' => self.data[:reserved_instances].values,
+            'requestId' => Fog::AWS::Mock.request_id
+          }
+
+          response
+        end
+      end
     end
   end
 end
