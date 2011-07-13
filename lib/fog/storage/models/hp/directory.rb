@@ -12,6 +12,14 @@ module Fog
         attribute :bytes, :aliases => 'X-Container-Bytes-Used'
         attribute :count, :aliases => 'X-Container-Object-Count'
 
+        def acl=(new_acl)
+          valid_acls = ['private', 'public-read', 'public-write', 'public-read-write']
+          unless valid_acls.include?(new_acl)
+            raise ArgumentError.new("acl must be one of [#{valid_acls.join(', ')}]")
+          end
+          @acl = new_acl
+        end
+
         def destroy
           requires :key
           connection.delete_container(key)
@@ -34,6 +42,11 @@ module Fog
         end
 
         def public=(new_public)
+          if new_public
+            @acl = 'public-read'
+          else
+            @acl = 'private'
+          end
           @public = new_public
         end
 
@@ -64,7 +77,11 @@ module Fog
 
         def save
           requires :key
-          connection.put_container(key)
+          options = {}
+          if @acl
+            options.merge!(connection.acl_to_header(@acl))
+          end
+          connection.put_container(key, options)
           # Added an extra check to see if CDN is nil i.e. when CDN provider is not implemented yet.
           if !connection.cdn.nil?
             if @public
