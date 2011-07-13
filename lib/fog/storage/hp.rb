@@ -35,6 +35,9 @@ module Fog
           nil
         end
 
+        def url
+          "#{@scheme}://#{@host}:#{@port}#{@path}"
+        end
       end
 
       class Mock

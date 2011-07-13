@@ -40,16 +40,24 @@ module Fog
         def public_url
           requires :key
           @public_url ||= begin
-            begin response = connection.cdn.head_container(key)
-              if response.headers['X-CDN-Enabled'] == 'True'
-                if connection.hp_cdn_ssl == true
-                  response.headers['X-CDN-SSL-URI']
-                else
-                  response.headers['X-CDN-URI']
+            if !connection.cdn.nil?
+              begin response = connection.cdn.head_container(key)
+                if response.headers['X-CDN-Enabled'] == 'True'
+                  if connection.hp_cdn_ssl == true
+                    response.headers['X-CDN-SSL-URI']
+                  else
+                    response.headers['X-CDN-URI']
+                  end
                 end
+              rescue Fog::Service::NotFound
+                nil
               end
-            rescue Fog::Service::NotFound
-              nil
+            else
+              begin response = connection.head_container(key)
+                url = "#{connection.url}/#{key}"
+              rescue Fog::Service::NotFound
+                nil
+              end
             end
           end
         end
