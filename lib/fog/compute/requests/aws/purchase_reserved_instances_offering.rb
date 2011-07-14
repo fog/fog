@@ -31,7 +31,7 @@ module Fog
       end
 
       class Mock
-        def purchase_reserved_instances_offering(reserved_instances_offering_id, instance_count)
+        def purchase_reserved_instances_offering(reserved_instances_offering_id, instance_count = 1)
           response = Excon::Response.new
           response.status = 200
 
