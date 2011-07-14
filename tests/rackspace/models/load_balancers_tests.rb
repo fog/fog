@@ -11,12 +11,5 @@ Shindo.tests('Fog::Rackspace::LoadBalancer | load_balancers', ['rackspace']) do
     },
     false) do
     @instance.wait_for { ready? }
-
-    tests('saving existing load balancer').succeeds do
-      @instance.port = 88
-      @instance.save
-    end
-
-    @instance.wait_for { ready? }
   end
 end

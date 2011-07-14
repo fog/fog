@@ -13,24 +13,30 @@ module Fog
         attribute :protocol
         attribute :algorithm
         attribute :virtual_ips,         :aliases => 'virtualIps'
-        attribute :nodes
         attribute :created
         attribute :updated
         attribute :name
         attribute :state,               :aliases => 'status'
 
-        def initialize(attributes={})
-          super
+        def nodes
+          @nodes
+        end
+
+        def nodes=(new_nodes)
+          @nodes = Fog::Rackspace::LoadBalancer::Nodes.new({
+            :connection => connection,
+            :load_balancer => self})
+          @nodes.load(new_nodes)
         end
 
         def destroy
-          requires :id
-          connection.delete_load_balancer(id)
+          requires :identity
+          connection.delete_load_balancer(identity)
           true
         end
 
         def ready?
-          self.state == 'ACTIVE'
+          state == 'ACTIVE'
         end
 
         def save
@@ -45,18 +51,21 @@ module Fog
         private
         def create
           requires :name, :protocol, :port, :virtual_ips, :nodes
-          data = connection.create_load_balancer(name, protocol, port, virtual_ips, nodes)
+          data = connection.create_load_balancer(name, protocol, port, virtual_ips, nodes.to_object)
           merge_attributes(data.body['loadBalancer'])
         end
 
         def update
-          requires :name, :protool, :port, :algorithm
+          requires :name, :protocol, :port, :algorithm
           options = {
-            'name' => name,
-            'algorithm' => algorithm,
-            'protocol' => protocol,
-            'port' => port}
+            :name => name,
+            :algorithm => algorithm,
+            :protocol => protocol,
+            :port => port}
           connection.update_load_balancer(identity, options)
+
+          #TODO - Should this bubble down to nodes? Without tracking changes this would be very inefficient.
+          # For now, individual nodes will have to be saved individually after saving an LB
         end
       end
     end

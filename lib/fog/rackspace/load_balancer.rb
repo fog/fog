@@ -23,6 +23,7 @@ module Fog
       end
 
       class BadRequest < ServiceError
+        #TODO - Need to find a bette way to print out these validation errors when they are thrown
         attr_reader :validation_errors
 
         def self.slurp(error)
@@ -44,6 +45,8 @@ module Fog
       model_path 'fog/rackspace/models'
       collection :load_balancers
       model :load_balancer
+      collection :nodes
+      model :node
 
       request_path 'fog/rackspace/requests'
       request :create_load_balancer

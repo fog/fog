@@ -11,5 +11,12 @@ Shindo.tests('Fog::Rackspace::LoadBalancer | load_balancer', ['rackspace']) do
     },
     false) do
     @instance.wait_for { ready? }
+
+    tests('#save => saving existing with port = 88').succeeds do
+      @instance.port = 88
+      @instance.save
+    end
+
+    @instance.wait_for { ready? }
   end
 end
