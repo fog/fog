@@ -2,6 +2,8 @@ module Fog
   module AWS
     class ACS < Fog::Service
 
+      class IdentifierTaken < Fog::Errors::Error; end
+
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :region, :host, :path, :port, :scheme, :persistent
 
@@ -101,7 +103,7 @@ module Fog
               when 'CacheSecurityGroupNotFound'
                 raise Fog::AWS::ACS::NotFound
               when 'CacheSecurityGroupAlreadyExists'
-                raise Fog::AWS::ACS::IndentifierTaken
+                raise Fog::AWS::ACS::IdentifierTaken
               when 'InvalidParameterValue'
                 raise Fog::AWS::ACE::InvalidInstance
               else
