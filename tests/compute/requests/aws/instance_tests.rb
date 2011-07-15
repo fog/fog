@@ -15,11 +15,15 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     'keyName'             => Fog::Nullable::String,
     'launchTime'          => Time,
     'monitoring'          => {'state' => Fog::Boolean},
-    'placement'           => {'availabilityZone' => String},
+    'placement'           => {
+      'availabilityZone' => String,
+      'groupName' => Fog::Nullable::String,
+      'tenancy' => String
+    },
     'privateDnsName'      => NilClass,
     # 'privateIpAddress'    => String,
     'productCodes'        => [],
-    'ramdiskId'           => Fog::Nullable::String,
+    # 'ramdiskId'           => Fog::Nullable::String,
     'reason'              => Fog::Nullable::String,
     # 'rootDeviceName'      => String,
     'rootDeviceType'      => String,
@@ -75,6 +79,48 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     'requestId'     => String
   }
 
+  @describe_reserved_instances_offerings_format = {
+    'reservedInstancesOfferingsSet' => [{
+      'reservedInstancesOfferingId'     => String,
+      'instanceType'                    => String,
+      'availabilityZone'                => String,
+      'duration'                        => Integer,
+      'fixedPrice'                      => Float,
+      'usagePrice'                      => Float,
+      'productDescription'              => String,
+      'instanceTenancy'                 => String,
+      'currencyCode'                    => String
+    }],
+    'requestId'     => String
+  }
+
+  @purchase_reserved_instances_offering_format = {
+    'reservedInstancesId' => String,
+    'requestId' => String
+  }
+
+  @describe_reserved_instances_format = {
+    'reservedInstancesSet' => [{
+      'reservedInstancesId' => String,
+      'instanceType'        => String,
+      'availabilityZone'    => String,
+      'start'               => Time,
+      'duration'            => Integer,
+      'fixedPrice'          => Float,
+      'usagePrice'          => Float,
+      'instanceCount'       => Integer,
+      'productDescription'  => String,
+      'state'               => String,
+      'tagSet'              => [{
+        'key'                   => String,
+        'value'                 => String
+      }],
+      'instanceTenancy'     => String,
+      'currencyCode'        => String
+    }],
+    'requestId'     => String
+  }
+
   tests('success') do
 
     @instance_id = nil
@@ -100,7 +146,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     server.wait_for { ready? }
 
     tests("#describe_instances").formats(@describe_instances_format) do
-       Fog::Compute[:aws].describe_instances.body
+       Fog::Compute[:aws].describe_instances('instance-state-name' => 'running').body
     end
 
     # Launch another instance to test filters
@@ -135,7 +181,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
         String === pkey.private_decrypt(decoded_password)
       end
       result
-    end
+    end unless ENV['FASTER_TEST_PLEASE']
 
     key.destroy
 
@@ -147,6 +193,21 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
       Fog::Compute[:aws].terminate_instances(@instance_id).body
     end
 
+    tests("#describe_reserved_instances_offerings").formats(@describe_reserved_instances_offerings_format) do
+      @reserved_instances = Fog::Compute[:aws].describe_reserved_instances_offerings.body
+      @reserved_instances
+    end
+
+    if Fog.mocking?
+      @reserved_instance_offering_id = @reserved_instances["reservedInstancesOfferingsSet"].first["reservedInstancesOfferingId"]
+      tests("#purchase_reserved_instances_offering('#{@reserved_instance_offering_id}')").formats(@purchase_reserved_instances_offering_format) do
+        Fog::Compute[:aws].purchase_reserved_instances_offering(@reserved_instance_offering_id, 1).body
+      end
+
+      tests("#describe_reserved_instances").formats(@describe_reserved_instances_format) do
+        Fog::Compute[:aws].describe_reserved_instances.body
+      end
+    end
   end
 
   tests('failure') do

@@ -40,8 +40,11 @@ module Fog
         Fog::Compute::Slicehost.new(attributes)
       when :stormondemand
         require 'fog/compute/storm_on_demand'
-        Fog::Compute::StormOnDemand.new(attributes)
-      when :virtualbox
+        Fog::StormOnDemand::Compute.new(attributes)
+      when :vcloud
+        require 'fog/compute/vcloud'
+        Fog::Vcloud::Compute.new(attributes)
+      when 'VirtualBox'
         require 'fog/compute/virtual_box'
         Fog::Compute::VirtualBox.new(attributes)
       when :voxel

@@ -17,7 +17,7 @@ module Fog
         #     * 'ResponseMetadata'<~Hash>:
         #       * 'RequestId'<~String> - Id of request
         #     * 'DisableAvailabilityZonesForLoadBalancerResult'<~Hash>:
-        #       * 'AvailabilityZones'<~Array> - array of strings describing instances currently enabled
+        #       * 'AvailabilityZones'<~Array> - A list of updated Availability Zones for the LoadBalancer.
         def disable_availability_zones_for_load_balancer(availability_zones, lb_name)
           params = Fog::AWS.indexed_param('AvailabilityZones.member', [*availability_zones])
           request({
@@ -32,15 +32,28 @@ module Fog
       end
 
       class Mock
-
         def disable_availability_zones_for_load_balancer(availability_zones, lb_name)
-          Fog::Mock.not_implemented
+          raise Fog::AWS::ELB::NotFound unless load_balancer = self.data[:load_balancers][lb_name]
+
+          response = Excon::Response.new
+          response.status = 200
+
+          load_balancer['AvailabilityZones'].delete_if { |az| availability_zones.include? az }
+
+          response.body = {
+            'ResponseMetadata' => {
+              'RequestId' => Fog::AWS::Mock.request_id
+            },
+            'DisableAvailabilityZonesForLoadBalancerResult' => {
+              'AvailabilityZones' => load_balancer['AvailabilityZones']
+            }
+          }
+
+          response
         end
 
         alias :disable_zones :disable_availability_zones_for_load_balancer
-
       end
-
     end
   end
 end

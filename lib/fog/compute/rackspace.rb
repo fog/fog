@@ -58,6 +58,7 @@ module Fog
         end
 
         def initialize(options={})
+          require 'json'
           @rackspace_username = options[:rackspace_username]
         end
 

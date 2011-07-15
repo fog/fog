@@ -27,6 +27,20 @@ module Fog
         end
 
       end
+
+      class Mock
+        def delete_server_certificate(server_certificate_name)
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            'RequestId' => Fog::AWS::Mock.request_id
+          }
+
+          self.data[:server_certificates].delete(server_certificate_name)
+
+          response
+        end
+      end
     end
   end
 end

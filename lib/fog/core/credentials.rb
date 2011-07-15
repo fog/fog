@@ -21,6 +21,8 @@ module Fog
     @credential_path ||= begin
       path = ENV["FOG_RC"] || (ENV['HOME'] && File.directory?(ENV['HOME']) && '~/.fog')
       File.expand_path(path) if path
+    rescue
+      nil
     end
   end
 
@@ -45,9 +47,9 @@ module Fog
   
   def self.symbolize_credentials(args)
     if args.is_a? Hash
-      Hash[ args.collect do |key, value|
+      Hash[ *args.collect do |key, value|
         [key.to_sym, self.symbolize_credentials(value)]
-      end ]
+      end.flatten ]
     else
       args
     end

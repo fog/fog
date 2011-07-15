@@ -70,6 +70,7 @@ module Fog
       request :import_key_pair
       request :modify_image_attributes
       request :modify_snapshot_attribute
+      request :purchase_reserved_instances_offering
       request :reboot_instances
       request :release_address
       request :register_image
@@ -93,6 +94,7 @@ module Fog
                 :addresses  => {},
                 :images     => {},
                 :instances  => {},
+                :reserved_instances => {},
                 :key_pairs  => {},
                 :limits     => { :addresses => 5 },
                 :owner_id   => owner_id,
@@ -139,8 +141,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'fog/compute/parsers/aws/basic'
-
           @aws_access_key_id = options[:aws_access_key_id]
 
           @region = options[:region] || 'us-east-1'

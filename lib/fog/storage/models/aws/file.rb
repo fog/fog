@@ -92,9 +92,9 @@ module Fog
           requires :directory, :key
           if connection.get_object_acl(directory.key, key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
             if directory.key.to_s =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
-              "https://#{directory.key}.s3.amazonaws.com/#{key}"
+              "https://#{directory.key}.s3.amazonaws.com/#{Fog::AWS.escape(key)}"
             else
-              "https://s3.amazonaws.com/#{directory.key}/#{key}"
+              "https://s3.amazonaws.com/#{directory.key}/#{Fog::AWS.escape(key)}"
             end
           else
             nil
@@ -113,7 +113,7 @@ module Fog
           options['Content-MD5'] = content_md5 if content_md5
           options['Content-Type'] = content_type if content_type
           options['Expires'] = expires if expires
-          options.merge(metadata)
+          options.merge!(metadata)
           options['x-amz-storage-class'] = storage_class if storage_class
 
           data = connection.put_object(directory.key, key, body, options)

@@ -15,6 +15,8 @@ module Fog
       request :delete_db_instance
       request :reboot_db_instance
       request :create_db_instance_read_replica
+      request :describe_db_engine_versions
+      request :describe_db_reserved_instances
 
       request :describe_db_snapshots
       request :create_db_snapshot
@@ -123,7 +125,7 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2010-07-28'
+              :version            => '2011-04-01' #'2010-07-28'
             }
           )
 

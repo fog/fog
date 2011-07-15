@@ -32,6 +32,8 @@ Shindo.tests('Fog::Compute[:aws] | spot instance requests', ['aws']) do
 
   tests('success') do
 
+    pending if Fog.mocking?
+
     tests("#request_spot_instances('ami-3202f25b', 't1.micro', '0.001')").formats(@spot_instance_requests_format) do
       data = Fog::Compute[:aws].request_spot_instances('ami-3202f25b', 't1.micro', '0.001').body
       @spot_instance_request_id = data['spotInstanceRequestSet'].first['spotInstanceRequestId']

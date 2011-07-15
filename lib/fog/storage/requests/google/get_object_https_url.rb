@@ -1,6 +1,6 @@
 module Fog
   module Storage
-    class AWS
+    class Google
 
       module GetObjectHttpsUrl
 

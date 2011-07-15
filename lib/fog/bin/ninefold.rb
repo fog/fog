@@ -5,6 +5,8 @@ class Ninefold < Fog::Bin
       case key
       when :compute
         Fog::Compute::Ninefold
+      when :storage
+        Fog::Storage::Ninefold
       else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
@@ -16,6 +18,9 @@ class Ninefold < Fog::Bin
         when :compute
           Formatador.display_line("[yellow][WARN] Ninefold[:compute] is deprecated, use Compute[:ninefold] instead[/]")
           Fog::Compute.new(:provider => 'Ninefold')
+        when :storage
+          Formatador.display_line("[yellow][WARN] Ninefold[:storage] is deprecated, use Storage[:ninefold] instead[/]")
+          Fog::Storage.new(:provider => 'Ninefold')
         else
           raise ArgumentError, "Unrecognized service: #{service}"
         end

@@ -8,9 +8,11 @@ module Fog
 
     extend Fog::Provider
 
+    service(:auto_scaling,    'aws/auto_scaling')
     service(:cdn,             'cdn/aws')
     service(:compute,         'compute/aws')
     service(:cloud_formation, 'aws/cloud_formation')
+    service(:cloud_watch, 'aws/cloud_watch')
     service(:dns,             'dns/aws')
     service(:elb,             'aws/elb')
     service(:iam,             'aws/iam')
@@ -44,7 +46,9 @@ module Fog
     end
 
     def self.escape(string)
-      string.gsub( /([^-a-zA-Z0-9_.~]+)/n ) { |match| '%' + match.unpack( 'H2' * match.size ).join( '%' ).upcase }
+      string.gsub(/([^a-zA-Z0-9_.\-~]+)/) {
+        "%" + $1.unpack("H2" * $1.bytesize).join("%").upcase
+      }
     end
 
     def self.signed_params(params, options = {})
@@ -70,6 +74,10 @@ module Fog
     end
 
     class Mock
+
+      def self.arn(vendor, account_id, path, region = nil)
+        "arn:aws:#{vendor}:#{region}:#{account_id}:#{path}"
+      end
 
       def self.availability_zone(region)
         "#{region}#{Fog::Mock.random_selection('abcd', 1)}"
@@ -166,6 +174,10 @@ module Fog
         end
         request_id << Fog::Mock.random_hex(12)
         request_id.join('-')
+      end
+      class << self
+        alias :reserved_instances_id :request_id
+        alias :reserved_instances_offering_id :request_id
       end
 
       def self.reservation_id

@@ -43,7 +43,7 @@ module Fog
               @block_device_mapping[name] = (value == 'true')
             when 'deviceName', 'status', 'volumeId'
               @block_device_mapping[name] = value
-            when 'groupName'
+            when 'groupId', 'groupName'
               case @context.last
               when 'groupSet'
                 @reservation['groupSet'] << value

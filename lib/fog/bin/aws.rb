@@ -3,10 +3,14 @@ class AWS < Fog::Bin
 
     def class_for(key)
       case key
+      when :auto_scaling
+        Fog::AWS::AutoScaling
       when :cdn
         Fog::CDN::AWS
       when :cloud_formation
         Fog::AWS::CloudFormation
+      when :cloud_watch
+        Fog::AWS::CloudWatch
       when :compute
         Fog::Compute::AWS
       when :dns
@@ -34,11 +38,15 @@ class AWS < Fog::Bin
     def [](service)
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
+        when :auto_scaling
+          Fog::AWS::AutoScaling.new
         when :cdn
           Formatador.display_line("[yellow][WARN] AWS[:cdn] is deprecated, use CDN[:aws] instead[/]")
           Fog::CDN.new(:provider => 'AWS')
         when :cloud_formation
           Fog::AWS::CloudFormation.new
+        when :cloud_watch
+          Fog::AWS::CloudWatch.new
         when :compute
           Formatador.display_line("[yellow][WARN] AWS[:compute] is deprecated, use Compute[:aws] instead[/]")
           Fog::Compute.new(:provider => 'AWS')

@@ -32,6 +32,12 @@ Shindo.tests do
       Fog.credentials_path
     }
 
+    returns(nil, 'File.expand_path raises because of non-absolute path') {
+      ENV.delete('FOG_RC')
+      ENV['HOME'] = '.'
+      Fog.credentials_path
+    }
+
     returns(nil, 'returns nil when neither FOG_RC or HOME are set') {
       ENV.delete('HOME')
       ENV.delete('FOG_RC')

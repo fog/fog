@@ -1,5 +1,4 @@
 Shindo.tests('Fog::Compute[:aws] | placement group requests', ['aws']) do
-
   @placement_group_format = {
     'requestId'         => String,
     'placementGroupSet' => [{
@@ -10,7 +9,6 @@ Shindo.tests('Fog::Compute[:aws] | placement group requests', ['aws']) do
   }
 
   tests('success') do
-
     tests("#create_placement_group('fog_placement_group', 'cluster')").formats(AWS::Compute::Formats::BASIC) do
       pending if Fog.mocking?
       Fog::Compute[:aws].create_placement_group('fog_placement_group', 'cluster').body
@@ -30,13 +28,12 @@ Shindo.tests('Fog::Compute[:aws] | placement group requests', ['aws']) do
       pending if Fog.mocking?
       Fog::Compute[:aws].delete_placement_group('fog_placement_group').body
     end
-
   end
-  tests('failure') do
 
-    unless Fog.mocking?
-      Fog::Compute[:aws].create_placement_group('fog_placement_group', 'cluster')
-    end
+  tests('failure') do
+    pending if Fog.mocking?
+
+    Fog::Compute[:aws].create_placement_group('fog_placement_group', 'cluster')
 
     tests("duplicate #create_placement_group('fog_placement_group', 'cluster')").raises(Fog::Compute::AWS::Error) do
       Fog::Compute[:aws].create_placement_group('fog_placement_group', 'cluster')
@@ -46,9 +43,6 @@ Shindo.tests('Fog::Compute[:aws] | placement group requests', ['aws']) do
       Fog::Compute[:aws].delete_placement_group('not_a_group_name')
     end
 
-    unless Fog.mocking?
-      Fog::Compute[:aws].delete_placement_group('fog_placement_group')
-    end
-
+    Fog::Compute[:aws].delete_placement_group('fog_placement_group')
   end
 end

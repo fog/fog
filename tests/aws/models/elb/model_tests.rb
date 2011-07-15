@@ -1,9 +1,7 @@
 Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
-
+  @availability_zones = Fog::Compute[:aws].describe_availability_zones('state' => 'available').body['availabilityZoneInfo'].collect{ |az| az['zoneName'] }
 
   tests('success') do
-    pending if Fog.mocking?
-
     tests('load_balancers') do
       tests('getting a missing elb') do
         returns(nil) { AWS[:elb].load_balancers.get('no-such-elb') }
@@ -14,10 +12,24 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
     elb_id = 'fog-test'
 
     tests('create') do
-      elb = AWS[:elb].load_balancers.create(:id => elb_id)
-      tests("dns names is set").returns(true) { elb.dns_name.is_a?(String) }
-      tests("created_at is set").returns(true) { Time === elb.created_at }
-      tests("policies is empty").returns([]) { elb.policies }
+      tests('without availability zones') do
+        elb = AWS[:elb].load_balancers.create(:id => elb_id)
+        tests("availability zones are correct").returns(@availability_zones) { elb.availability_zones }
+        tests("dns names is set").returns(true) { elb.dns_name.is_a?(String) }
+        tests("created_at is set").returns(true) { Time === elb.created_at }
+        tests("policies is empty").returns([]) { elb.policies }
+        tests("default listener") do
+          tests("1 listener").returns(1) { elb.listeners.size }
+          tests("params").returns(AWS[:elb].listeners.new.to_params) { elb.listeners.first.to_params }
+        end
+      end
+
+      tests('with availability zones') do
+        azs = @availability_zones[1..-1]
+        elb2 = AWS[:elb].load_balancers.create(:id => "#{elb_id}-2", :availability_zones => azs)
+        tests("availability zones are correct").returns(azs) { elb2.availability_zones }
+        elb2.destroy
+      end
     end
 
     tests('all') do
@@ -26,8 +38,8 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
     end
 
     tests('get') do
-      elb2 = AWS[:elb].load_balancers.get(elb_id)
-      tests('ids match').returns(elb_id) { elb2.id }
+      elb_get = AWS[:elb].load_balancers.get(elb_id)
+      tests('ids match').returns(elb_id) { elb_get.id }
     end
 
     tests('createing a duplicate elb') do
@@ -44,7 +56,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       raises(Fog::AWS::ELB::InvalidInstance) { elb.deregister_instances('i-00000000') }
     end
 
-    server = Compute[:aws].servers.create
+    server = Fog::Compute[:aws].servers.create
     tests('register instance') do
       begin
         elb.register_instances(server.id)
@@ -74,13 +86,13 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
     server.destroy
 
     tests('disable_availability_zones') do
-      elb.disable_availability_zones(%w{us-east-1c us-east-1d})
-      returns(%w{us-east-1a us-east-1b}) { elb.availability_zones.sort }
+      elb.disable_availability_zones(@availability_zones[1..-1])
+      returns(@availability_zones[0..0]) { elb.availability_zones.sort }
     end
 
     tests('enable_availability_zones') do
-      elb.enable_availability_zones(%w{us-east-1c us-east-1d})
-      returns(%w{us-east-1a us-east-1b us-east-1c us-east-1d}) { elb.availability_zones.sort }
+      elb.enable_availability_zones(@availability_zones[1..-1])
+      returns(@availability_zones) { elb.availability_zones.sort }
     end
 
     tests('default health check') do
@@ -107,13 +119,11 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
     end
 
     tests('listeners') do
-      default_listener_description = [{"Listener"=>{"InstancePort"=>80, "Protocol"=>"HTTP", "LoadBalancerPort"=>80}, "PolicyNames"=>[]}]
       tests('default') do
         returns(1) { elb.listeners.size }
 
         listener = elb.listeners.first
         returns([80,80,'HTTP', []]) { [listener.instance_port, listener.lb_port, listener.protocol, listener.policy_names] }
-
       end
 
       tests('#get') do
@@ -183,5 +193,4 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       elb.destroy
     end
   end
-
 end

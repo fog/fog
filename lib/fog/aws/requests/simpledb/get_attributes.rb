@@ -13,11 +13,13 @@ module Fog
         # * item_name<~String> - Name of the item.  May use any UTF-8 characters valid
         #   in xml.  Control characters and sequences not allowed in xml are not
         #   valid.  Can be up to 1024 bytes long.
-        # * attributes<~Array> - Attributes to return from the item.  Defaults to
-        #   {}, which will return all attributes. Attribute names and values may use
-        #   any UTF-8 characters valid in xml. Control characters and sequences not 
-        #   allowed in xml are not valid.  Each name and value can be up to 1024
-        #   bytes long.
+        # * options<~Hash>:
+        #   * AttributeName<~Array> - Attributes to return from the item.  Defaults to
+        #     {}, which will return all attributes. Attribute names and values may use
+        #     any UTF-8 characters valid in xml. Control characters and sequences not
+        #     allowed in xml are not valid.  Each name and value can be up to 1024
+        #     bytes long.
+        #    * ConsistentRead<~Boolean> - When set to true, ensures most recent data is returned. Defaults to false.
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -25,28 +27,38 @@ module Fog
         #     * 'Attributes' - list of attribute name/values for the item
         #     * 'BoxUsage'
         #     * 'RequestId'
-        def get_attributes(domain_name, item_name, attributes = {})
-          
+        def get_attributes(domain_name, item_name, options = {})
+          if options.is_a?(Array)
+            Formatador.display_line("[yellow][WARN] get_attributes with array attributes param is deprecated, use 'AttributeName' => attributes) instead[/] [light_black](#{caller.first})[/]")
+            options = {'AttributeName' => options}
+          end
+          options['AttributeName'] ||= []
           request({
-            'Action'      => 'GetAttributes',
-            'DomainName'  => domain_name,
-            'ItemName'    => item_name,
-            :idempotent   => true,
-            :parser       => Fog::Parsers::AWS::SimpleDB::GetAttributes.new(@nil_string)
-          }.merge!(encode_attribute_names(attributes)))
+            'Action'          => 'GetAttributes',
+            'ConsistentRead'  => !!options['ConsistentRead'],
+            'DomainName'      => domain_name,
+            'ItemName'        => item_name,
+            :idempotent       => true,
+            :parser           => Fog::Parsers::AWS::SimpleDB::GetAttributes.new(@nil_string)
+          }.merge!(encode_attribute_names(options['AttributeName'])))
         end
 
       end
 
       class Mock
 
-        def get_attributes(domain_name, item_name, attributes = nil)
+        def get_attributes(domain_name, item_name, options = {})
+          unless options.empty? || options['AttributeName']
+            Formatador.display_line("[yellow][WARN] get_attributes with array attributes param is deprecated, use 'AttributeName' => attributes) instead[/] [light_black](#{caller.first})[/]")
+            options['AttributeName'] ||= options if options.is_a?(Array)
+          end
+          options['AttributeName'] ||= []
           response = Excon::Response.new
           if self.data[:domains][domain_name]
             object = {}
-            if attributes
-              for attribute in attributes
-                if self.data[:domains][domain_name][item_name] && self.data[:domains][domain_name][item_name]
+            if !options['AttributeName'].empty?
+              for attribute in options['AttributeName']
+                if self.data[:domains][domain_name].has_key?(item_name) && self.data[:domains][domain_name][item_name].has_key?(attribute)
                   object[attribute] = self.data[:domains][domain_name][item_name][attribute]
                 end
               end
