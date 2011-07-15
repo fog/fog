@@ -115,9 +115,9 @@ module Fog
       Formatador.display_table(self.map {|instance| instance.attributes}, attributes)
     end
 
-    def to_json
+    def to_json(options = {})
       require 'json'
-      self.map {|member| member.attributes}.to_json
+      self.map {|member| member.attributes}.to_json(options)
     end
 
     private
