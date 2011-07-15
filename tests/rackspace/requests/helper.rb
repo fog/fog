@@ -2,6 +2,7 @@ SINGLE_NODE_FORMAT = {'address' => String, 'id' => Integer, 'status' => String, 
 NODE_FORMAT = {'node' => SINGLE_NODE_FORMAT}
 NODES_FORMAT = {'nodes' => [SINGLE_NODE_FORMAT]}
 VIRTUAL_IP_FORMAT = {'type' => String, 'id' => Integer, 'type' => String, 'ipVersion' => String, 'address' => String}
+VIRTUAL_IPS_FORMAT = { 'virtualIps' => [VIRTUAL_IP_FORMAT] }
 
 STATUS_ACTIVE = 'ACTIVE'
 

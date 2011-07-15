@@ -60,6 +60,9 @@ module Fog
       request :update_node
       request :delete_node
       request :delete_nodes
+      request :create_virtual_ip
+      request :list_virtual_ips
+      request :delete_virtual_ip
 
       class Real
         def initialize(options={})
