@@ -17,9 +17,9 @@ module Fog
         end
 
         private
-        # Munge an array of ListernerDescription hashes like:
+        # Munge an array of ListenerDescription hashes like:
         # {'Listener' => listener, 'PolicyNames' => []}
-        # to an array of listeners withi a PolicyNames key
+        # to an array of listeners with a PolicyNames key
         def munged_data
           data.map {|description|
             description['Listener'].merge('PolicyNames' => description['PolicyNames'])

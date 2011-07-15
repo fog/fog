@@ -42,7 +42,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       tests('ids match').returns(elb_id) { elb_get.id }
     end
 
-    tests('createing a duplicate elb') do
+    tests('creating a duplicate elb') do
       raises(Fog::AWS::ELB::IdentifierTaken) do
         AWS[:elb].load_balancers.create(:id => elb_id, :availability_zones => ['us-east-1d'])
       end
