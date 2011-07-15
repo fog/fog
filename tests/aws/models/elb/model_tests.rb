@@ -8,6 +8,25 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       end
     end
 
+    tests('listeners') do
+      tests("default attributes") do
+        listener = AWS[:elb].listeners.new
+        tests('instance_port is 80').returns(80) { listener.instance_port }
+        tests('lb_port is 80').returns(80) { listener.lb_port }
+        tests('protocol is HTTP').returns('HTTP') { listener.protocol }
+        tests('policy_names is empty').returns([]) { listener.policy_names }
+      end
+
+      tests("specifying attributes") do
+        attributes = {:instance_port => 2000, :lb_port => 2001, :protocol => 'SSL', :policy_names => ['fake'] }
+        listener = AWS[:elb].listeners.new(attributes)
+        tests('instance_port is 2000').returns(2000) { listener.instance_port }
+        tests('lb_port is 2001').returns(2001) { listener.lb_port }
+        tests('protocol is SSL').returns('SSL') { listener.protocol }
+        tests('policy_names is [ fake ]').returns(['fake']) { listener.policy_names }
+      end
+    end
+
     elb = nil
     elb_id = 'fog-test'
 
