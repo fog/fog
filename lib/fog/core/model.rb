@@ -39,7 +39,7 @@ module Fog
 
     def to_json(options = {})
       require 'json'
-      attributes.to_json
+      attributes.to_json(options)
     end
 
     def wait_for(timeout=Fog.timeout, interval=1, &block)

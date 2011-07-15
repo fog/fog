@@ -117,7 +117,7 @@ module Fog
 
     def to_json(options = {})
       require 'json'
-      self.map {|member| member.attributes}.to_json
+      self.map {|member| member.attributes}.to_json(options)
     end
 
     private
