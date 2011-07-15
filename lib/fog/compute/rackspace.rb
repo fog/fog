@@ -94,7 +94,7 @@ module Fog
 
         def request(params)
           begin
-            response = @connection.request(params.merge!({
+            response = @connection.request(params.merge({
               :headers  => {
                 'Content-Type' => 'application/json',
                 'X-Auth-Token' => @auth_token
@@ -104,11 +104,11 @@ module Fog
               :query    => ('ignore_awful_caching' << Time.now.to_i.to_s)
             }))
           rescue Excon::Errors::Unauthorized => error
-            if JSON.parse(response.body)['unauthorized']['message'] == 'Invalid authentication token.  Please renew.'
+            if error.response.body != 'Bad username or password' # token expiration
               @rackspace_must_reauthenticate = true
               authenticate
               retry
-            else
+            else # bad credentials
               raise error
             end
           rescue Excon::Errors::HTTPStatusError => error
