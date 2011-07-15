@@ -1,6 +1,6 @@
 module Fog
-  module Dynect
-    class DNS < Fog::Service
+  module DNS
+    class Dynect < Fog::Service
 
       requires :dynect_customer, :dynect_username, :dynect_password
       recognizes :timeout, :persistent
@@ -13,15 +13,22 @@ module Fog
       collection  :zones
 
       request_path 'fog/dns/requests/dynect'
-      request :session
-      request :list_zones
+      request :delete_record
+      request :delete_zone
+      request :get_node_list
+      request :get_record
       request :get_zone
-      request :list_any_records
-      request :node_list
+      request :post_record
+      request :post_session
+      request :post_zone
+      request :put_zone
+
+      class Mock
+      end
 
       class Real
         def initialize(options={})
-          require 'builder'
+          require 'multi_json'
 
           @dynect_customer = options[:dynect_customer]
           @dynect_username = options[:dynect_username]
@@ -36,18 +43,23 @@ module Fog
         end
 
         def auth_token
-          @auth_token ||= session.body['Auth-Token']
+          @auth_token ||= post_session.body['data']['token']
         end
 
         def request(params)
           begin
             params[:headers] ||= {}
-            params[:headers]['Content-Type'] = 'text/xml'
+            params[:headers]['Content-Type'] = 'application/json'
             params[:headers]['API-Version'] = @version
             params[:headers]['Auth-Token'] = auth_token unless params[:path] == "Session"
             params[:path] = "#{@path}/#{params[:path]}"
             response = @connection.request(params.merge!({:host => @host}))
-            response = handle_redirect(response) if response.status == 307
+
+            unless response.body.empty?
+              response.body = MultiJson.decode(response.body)
+            end
+            response
+
           rescue Excon::Errors::HTTPStatusError => error
             raise error
           end
@@ -55,19 +67,6 @@ module Fog
           response
         end
       end
-
-      def handle_redirect(response)
-          raise request({
-                    :expects  => 200,
-                    :method   => "GET",
-                    :path     => response.body
-                  })
-
-
-      end
-
-      # class Mock
-      # end
 
     end
   end

@@ -20,6 +20,9 @@ module Fog
       when :dnsmadeeasy
         require 'fog/dns/dnsmadeeasy'
         Fog::DNS::DNSMadeEasy.new(attributes)
+      when :dynect
+        require 'fog/dns/dynect'
+        Fog::DNS::Dynect.new(attributes)
       when :linode
         require 'fog/dns/linode'
         Fog::DNS::Linode.new(attributes)
@@ -29,9 +32,6 @@ module Fog
       when :zerigo
         require 'fog/dns/zerigo'
         Fog::DNS::Zerigo.new(attributes)
-      when 'Dynect'
-        require 'fog/dns/dynect'
-        Fog::Dynect::DNS.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized dns provider")
       end

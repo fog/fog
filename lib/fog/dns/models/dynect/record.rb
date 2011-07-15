@@ -1,28 +1,65 @@
 require 'fog/core/model'
 
 module Fog
-  module Dynect
-    class DNS
+  module DNS
+    class Dynect
 
       class Record < Fog::Model
         extend Fog::Deprecation
-        deprecate :ip, :value
-        deprecate :ip=, :value=
 
-        identity :id,           :aliases => "record_id"
-        attribute :name,        :aliases => "fqdn"
-        attribute :value,       :aliases => "rdata"
+        identity  :id
+        attribute :name,        :aliases => [:fqdn, 'fqdn']
+        attribute :rdata
+        attribute :serial_style
         attribute :ttl
-        attribute :zone_id,     :aliases => "zone"
-        attribute :type,        :aliases => "record_type"
+        attribute :type,        :aliases => 'record_type'
+        attribute :value
 
         def destroy
-          raise 'destroy not implemented'
+          requires :identity, :name, :type, :zone
+          connection.delete_record(type, zone.identity, name, identity)
+          true
         end
 
         def save
-          raise 'save not implemented'
+          requires :name, :type, :value, :zone
+
+          options = {
+            :ttl => ttl
+          }
+          options.delete_if {|key, value| value.nil?}
+
+          data = connection.post_record(type, zone.identity, name, {'address' => value}, options).body['data']
+          # avoid overwriting zone object with zone string
+          data = data.reject {|key, value| key == 'zone'}
+          merge_attributes(data)
+
+          zone.publish
+          records = connection.get_record(type, zone.identity, name).body['data']
+          # data in format ['/REST/xRecord/domain/fqdn/identity]
+          records.map! do |record|
+            tokens = record.split('/')
+            {
+              :identity => tokens.last,
+              :type     => tokens[2][0...-6] # everything before 'Record'
+            }
+          end
+          record = records.detect {|record| record[:type] == type}
+          merge_attributes(record)
+
+          true
         end
+
+        def zone
+          @zone
+        end
+
+        private
+
+        def zone=(new_zone)
+          @zone = new_zone
+        end
+
       end
 
     end

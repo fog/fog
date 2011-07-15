@@ -15,6 +15,12 @@ def dns_providers
     :dnsmadeeasy  => {
       :mocked => false
     },
+    :dynect       => {
+      :mocked => false,
+      :zone_attributes => {
+        :email => 'fog@example.com'
+      }
+    },
     :linode       => {
       :mocked => false,
       :zone_attributes => {
@@ -25,9 +31,6 @@ def dns_providers
       :mocked => false
     },
     :zerigo       => {
-      :mocked => false
-    },
-    Dynect    => {
       :mocked => false
     }
   }

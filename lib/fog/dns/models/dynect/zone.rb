@@ -2,22 +2,44 @@ require 'fog/core/model'
 require 'fog/dns/models/dynect/records'
 
 module Fog
-  module Dynect
-    class DNS
+  module DNS
+    class Dynect
 
       class Zone < Fog::Model
 
-        identity :id,           :aliases => "zone"
+        identity  :domain
+
+        attribute :domain,        :aliases => 'zone'
+        attribute :email,         :aliases => 'rname'
         attribute :serial
-        attribute :zone_type
         attribute :serial_style
+        attribute :ttl
+        attribute :type,          :aliases => 'zone_type'
+
+        def initialize(attributes={})
+          self.ttl  ||= 3600
+          super
+        end
 
         def destroy
-          raise 'destroy Not Implemented'
+          requires :domain
+          connection.delete_zone(domain)
+          true
+        end
+
+        undef_method :domain=
+        def domain=(new_domain)
+          attributes[:domain] = new_domain.split('/').last
+        end
+
+        def publish
+          requires :identity
+          data = connection.put_zone(identity, :publish => true)
+          true
         end
 
         def records
-          @records ||= Fog::Dynect::DNS::Records.new(:zone => self, :connection => connection)
+          @records ||= Fog::DNS::Dynect::Records.new(:zone => self, :connection => connection)
         end
 
         def nameservers
@@ -25,8 +47,10 @@ module Fog
         end
 
         def save
-          #raise 'Not Implemented'
-          'dynect save'
+          requires :domain, :email, :ttl
+          data = connection.post_zone(email, ttl, domain).body['data']
+          merge_attributes(data)
+          true
         end
 
       end

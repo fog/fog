@@ -2,24 +2,24 @@ require 'fog/core/collection'
 require 'fog/dns/models/dynect/zone'
 
 module Fog
-  module Dynect
-    class DNS
+  module DNS
+    class Dynect
 
       class Zones < Fog::Collection
 
-        model Fog::Dynect::DNS::Zone
+        model Fog::DNS::Dynect::Zone
 
         def all
-          zone_names = connection.list_zones.body["zones"]
-          load(zone_names.map {|name|
-                 {
-                   "id" => name
-                 }
-               })
+          data = connection.get_zone.body['data'].map do |zone|
+            { :domain => zone }
+          end
+          load(data)
         end
 
         def get(zone_id)
-          new(connection.get_zone(zone_id).body)
+          new(connection.get_zone('zone' => zone_id).body['data'])
+        rescue Excon::Errors::NotFound
+          nil
         end
 
       end

@@ -1,48 +1,22 @@
 module Fog
-  module Dynect
-    class DNS
+  module DNS
+    class Dynect
       class Real
 
-        require 'fog/dns/parsers/dynect/zone'
-
-        # GET information for the given zone
-        # ==== Parameters
-        # * name<~String> - zone name (ie example.com)
+        # Get one or more zones
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash>:
-        #     * 'zone_type'<~String>
-        #     * 'serial_style'<~String>
-        #     * 'serial'<~Integer>
-        #     * 'zone'<~String>
+        # ==== Parameters
+        # * options<~Hash>:
+        #   * zone<~String> - name of zone to lookup, or omit to return list of zones
 
-        def get_zone(zone_name)
+        def get_zone(options = {})
           request(
-                  :parser   => Fog::Parsers::Dynect::DNS::Zone.new,
-                  :expects  => 200,
-                  :method   => "GET",
-                  :path     => "Zone/#{zone_name}/",
-                  )
+            :expects  => 200,
+            :method   => :get,
+            :path     => ['Zone', options['zone']].compact.join('/')
+          )
         end
       end
-
-      class Mock
-
-        def get_zone(zone_name)
-          response = Excon::Response.new
-          response.status = 200
-          response.body = {
-            "zone" => "example.com",
-            "serial" => 100,
-            "zone_type" => "Primary",
-            "serial_type" => "increment"
-          }
-          response
-        end
-
-      end
-
     end
   end
 end

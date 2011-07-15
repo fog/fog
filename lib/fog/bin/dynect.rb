@@ -4,7 +4,7 @@ class Dynect < Fog::Bin
     def class_for(key)
       case key
       when :dns
-        Fog::Dynect::DNS
+        Fog::DNS::Dynect
       else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
