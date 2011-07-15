@@ -3,19 +3,7 @@ Shindo.tests('Fog::DNS[:slicehost] | DNS requests', ['slicehost', 'dns']) do
   @domain = ''
   @new_zones = []
   @new_records =[]
-  
-  def generate_unique_domain( with_trailing_dot = false)
-    #get time (with 1/100th of sec accuracy)
-    #want unique domain name and if provider is fast, this can be called more than once per second
-    time= (Time.now.to_f * 100).to_i   
-    domain = 'test-' + time.to_s + '.com'
-    if with_trailing_dot
-      domain+= '.'
-    end
-    
-    domain
-  end
-  
+
   tests( 'success') do
     
     test('get current zone count') do
