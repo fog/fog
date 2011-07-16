@@ -60,7 +60,7 @@ module Fog
       class Mock
 
         def initialize(options)
-          require "json"
+          require 'multi_json'
 
           @api_url = options[:ninefold_api_url] || Fog.credentials[:ninefold_api_url] || API_URL
           @ninefold_compute_key = options[:ninefold_compute_key] || Fog.credentials[:ninefold_compute_key]
@@ -76,7 +76,7 @@ module Fog
       class Real
 
         def initialize(options)
-          require "json"
+          require 'multi_json'
 
           @api_url = options[:ninefold_api_url] || Fog.credentials[:ninefold_api_url] || API_URL
           @ninefold_compute_key = options[:ninefold_compute_key] || Fog.credentials[:ninefold_compute_key]
@@ -104,7 +104,7 @@ module Fog
             # Because the response is some weird xml-json thing, we need to try and mung
             # the values out with a prefix, and if there is an empty data entry return an
             # empty version of the expected type (if provided)
-            response = JSON.parse(response.body)
+            response = ::MultiJson.decode(response.body)
             if options.has_key? :response_prefix
               keys = options[:response_prefix].split('/')
               keys.each do |k|

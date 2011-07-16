@@ -98,7 +98,7 @@ module Fog
         # * IAM object with connection to AWS.
         def initialize(options={})
           require 'fog/core/parser'
-          require 'json'
+          require 'multi_json'
 
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
