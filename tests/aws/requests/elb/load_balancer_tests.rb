@@ -1,7 +1,10 @@
 Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
   @load_balancer_id = 'fog-test-elb'
+  @key_name = 'fog-test'
 
   tests('success') do
+    @certificate = AWS[:iam].upload_server_certificate(AWS::IAM::SERVER_CERT_PUBLIC_KEY, AWS::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
+
     tests("#create_load_balancer").formats(AWS::ELB::Formats::CREATE_LOAD_BALANCER) do
       zones = ['us-east-1a']
       listeners = [{'LoadBalancerPort' => 80, 'InstancePort' => 80, 'Protocol' => 'HTTP'}]
@@ -14,6 +17,19 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
 
     tests('#describe_load_balancers with bad lb') do
       raises(Fog::AWS::ELB::NotFound) { AWS[:elb].describe_load_balancers('none-such-lb') }
+    end
+
+    tests("#describe_load_balancers with SSL listener") do
+      sleep 5 unless Fog.mocking?
+      listeners = [
+        {'Protocol' => 'HTTPS', 'LoadBalancerPort' => 443, 'InstancePort' => 443, 'SSLCertificateId' => @certificate['Arn']},
+      ]
+      AWS[:elb].create_load_balancer_listeners(@load_balancer_id, listeners)
+      response = AWS[:elb].describe_load_balancers(@load_balancer_id).body
+      tests("SSLCertificateId is set").returns(@certificate['Arn']) do
+        listeners = response["DescribeLoadBalancersResult"]["LoadBalancerDescriptions"].first["ListenerDescriptions"]
+        listeners.find {|l| l["Listener"]["Protocol"] == 'HTTPS' }["Listener"]["SSLCertificateId"]
+      end
     end
 
     tests("#configure_health_check").formats(AWS::ELB::Formats::CONFIGURE_HEALTH_CHECK) do
@@ -39,5 +55,7 @@ Shindo.tests('AWS::ELB | load_balancer_tests', ['aws', 'elb']) do
     tests("#delete_load_balancer when already deleted").formats(AWS::ELB::Formats::DELETE_LOAD_BALANCER) do
       AWS[:elb].delete_load_balancer(@load_balancer_id).body
     end
+
+    AWS[:iam].delete_server_certificate(@key_name)
   end
 end

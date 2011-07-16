@@ -49,6 +49,23 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
         tests("availability zones are correct").returns(azs) { elb2.availability_zones }
         elb2.destroy
       end
+
+      tests('with ListenerDescriptions') do
+        listeners = [{
+            'Listener' => {'LoadBalancerPort' => 2030, 'InstancePort' => 2030, 'Protocol' => 'HTTP'},
+            'PolicyNames' => []
+          }, {
+            'Listener' => {'LoadBalancerPort' => 443, 'InstancePort' => 443, 'Protocol' => 'HTTPS'},
+            'PolicyNames' => []
+          }]
+        elb3 = AWS[:elb].load_balancers.create(:id => "#{elb_id}-3", 'ListenerDescriptions' => listeners)
+        tests('there are 2 listeners').returns(2) { elb3.listeners.count }
+        tests('instance_port is 2030').returns(2030) { elb3.listeners.first.instance_port }
+        tests('lb_port is 2030').returns(2030) { elb3.listeners.first.lb_port }
+        tests('protocol is HTTP').returns('HTTP') { elb3.listeners.first.protocol }
+        tests('protocol is HTTPS').returns('HTTPS') { elb3.listeners.last.protocol }
+        elb3.destroy
+      end
     end
 
     tests('all') do
