@@ -172,7 +172,7 @@ module Fog
 
         def setup(credentials = {})
           requires :identity, :public_ip_address, :username
-          require 'json'
+          require 'multi_json'
 
           commands = [
             %{mkdir .ssh},

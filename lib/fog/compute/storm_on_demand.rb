@@ -82,7 +82,7 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'json'
+          require 'multi_json'
           uri = URI.parse(options[:storm_on_demand_auth_url] ||= API_URL)
           @host   = uri.host
           @path   = uri.path
@@ -118,7 +118,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = JSON.parse(response.body)
+            response.body = ::MultiJson.decode(response.body)
           end
           if response.body.keys.include?('full_error')
             raise(Fog::Compute::StormOnDemand::Error, response.body.inspect)

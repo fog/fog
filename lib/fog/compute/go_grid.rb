@@ -58,7 +58,7 @@ module Fog
 
         def initialize(options={})
           require 'digest/md5'
-          require 'json'
+          require 'multi_json'
           @go_grid_api_key = options[:go_grid_api_key]
           @go_grid_shared_secret = options[:go_grid_shared_secret]
           @host   = options[:host]    || "api.gogrid.com"
@@ -100,7 +100,7 @@ module Fog
           end
 
           unless response.body.empty?
-            response.body = JSON.parse(response.body)
+            response.body = ::MultiJson.decode(response.body)
           end
 
           response

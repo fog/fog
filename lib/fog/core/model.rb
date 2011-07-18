@@ -38,7 +38,7 @@ module Fog
     end
 
     def to_json(options = {})
-      require 'json'
+      require 'multi_json'
       attributes.to_json(options)
     end
 
