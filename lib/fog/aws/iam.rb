@@ -2,6 +2,12 @@ module Fog
   module AWS
     class IAM < Fog::Service
 
+      class EntityAlreadyExists < Fog::AWS::IAM::Error; end
+      class KeyPairMismatch < Fog::AWS::IAM::Error; end
+      class LimitExceeded < Fog::AWS::IAM::Error; end
+      class MalformedCertificate < Fog::AWS::IAM::Error; end
+      class NotFound < Fog::AWS::IAM::Error; end
+
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :host, :path, :port, :scheme, :persistent
 
@@ -132,17 +138,41 @@ module Fog
             }
           )
 
-          response = @connection.request({
-            :body       => body,
-            :expects    => 200,
-            :idempotent => idempotent,
-            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-            :host       => @host,
-            :method     => 'POST',
-            :parser     => parser
-          })
+          begin
+            response = @connection.request({
+              :body       => body,
+              :expects    => 200,
+              :idempotent => idempotent,
+              :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+              :host       => @host,
+              :method     => 'POST',
+              :parser     => parser
+            })
 
-          response
+            response
+          rescue Excon::Errors::HTTPStatusError => error
+            if match = error.message.match(/<Code>(.*)<\/Code>(?:.*<Message>(.*)<\/Message>)?/m)
+              case match[1]
+              when 'CertificateNotFound'
+                raise Fog::AWS::IAM::NotFound.slurp(error, match[2])
+              when 'EntityAlreadyExists'
+                raise Fog::AWS::IAM::EntityAlreadyExists.slurp(error, match[2])
+              when 'KeyPairMismatch'
+                raise Fog::AWS::IAM::KeyPairMismatch.slurp(error, match[2])
+              when 'LimitExceeded'
+                raise Fog::AWS::IAM::LimitExceeded.slurp(error, match[2])
+              when 'MalformedCertificate'
+                raise Fog::AWS::IAM::MalformedCertificate.slurp(error, match[2])
+              else
+                raise Fog::AWS::IAM::Error.slurp(error, "#{match[1]} => #{match[2]}") if match[1]
+                raise
+              end
+            else
+              raise
+            end
+          end
+
+
         end
 
       end
