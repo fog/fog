@@ -6,7 +6,6 @@ module Fog
       class KeyPairMismatch < Fog::AWS::IAM::Error; end
       class LimitExceeded < Fog::AWS::IAM::Error; end
       class MalformedCertificate < Fog::AWS::IAM::Error; end
-      class NotFound < Fog::AWS::IAM::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :host, :path, :port, :scheme, :persistent
