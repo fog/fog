@@ -55,7 +55,7 @@ Shindo.tests('Fog::Compute[:brightbox] | load balancer requests', ['brightbox'])
 
   tests('failure') do
 
-    tests("#create_load_balancer").raises(Excon::Errors::BadRequest) do
+    tests("#create_load_balancer").raises(Excon::Errors::UnprocessableEntity) do
       pending if Fog.mocking?
       Fog::Compute[:brightbox].create_load_balancer
     end
