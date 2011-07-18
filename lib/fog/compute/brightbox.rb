@@ -88,7 +88,7 @@ module Fog
       class Real
 
         def initialize(options)
-          require "json"
+          require 'multi_json'
           # Currently authentication and api endpoints are the same but may change
           @auth_url = options[:brightbox_auth_url] || Fog.credentials[:brightbox_auth_url] || API_URL
           @api_url = options[:brightbox_api_url] || Fog.credentials[:brightbox_api_url] || API_URL
@@ -106,7 +106,7 @@ module Fog
             response = authenticated_request(params)
           end
           unless response.body.empty?
-            response = JSON.parse(response.body)
+            response = ::MultiJson.decode(response.body)
           end
         end
 
@@ -131,7 +131,7 @@ module Fog
             :method   => 'POST',
             :body     => @authentication_body
           })
-          @oauth_token = JSON.parse(response.body)["access_token"]
+          @oauth_token = ::MultiJson.decode(response.body)["access_token"]
           return @oauth_token
         end
 

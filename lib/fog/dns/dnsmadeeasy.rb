@@ -77,7 +77,7 @@ module Fog
         # * dns object with connection to aws.
         def initialize(options={})
           require 'fog/core/parser'
-          require 'json'
+          require 'multi_json'
 
           @dnsmadeeasy_api_key = options[:dnsmadeeasy_api_key]
           @dnsmadeeasy_secret_key = options[:dnsmadeeasy_secret_key]
@@ -117,7 +117,7 @@ module Fog
           end
 
           unless response.body.empty?
-            response.body = JSON.parse(response.body)
+            response.body = ::MultiJson.decode(response.body)
           end
 
           response
