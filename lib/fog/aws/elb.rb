@@ -144,34 +144,33 @@ module Fog
               :version            => '2011-04-05'
           }
           )
-          begin
-            response = @connection.request({
-              :body       => body,
-              :expects    => 200,
-              :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-              :idempotent => idempotent,
-              :host       => @host,
-              :method     => 'POST',
-              :parser     => parser
-            })
-          rescue Excon::Errors::HTTPStatusError => error
-            if match = error.message.match(/<Code>(.*)<\/Code>/m)
-              case match[1]
-              when 'LoadBalancerNotFound'
-                raise Fog::AWS::ELB::NotFound
-              when 'DuplicateLoadBalancerName'
-                raise Fog::AWS::ELB::IdentifierTaken
-              when 'InvalidInstance'
-                raise Fog::AWS::ELB::InvalidInstance
-              else
-                raise
-              end
+
+          response = @connection.request({
+            :body       => body,
+            :expects    => 200,
+            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+            :idempotent => idempotent,
+            :host       => @host,
+            :method     => 'POST',
+            :parser     => parser
+          })
+        rescue Excon::Errors::HTTPStatusError => error
+          if match = error.message.match(/<Code>(.*)<\/Code>(?:.*<Message>(.*)<\/Message>)?/m)
+            case match[1]
+            when 'CertificateNotFound'
+              raise Fog::AWS::IAM::NotFound.slurp(error, match[2])
+            when 'LoadBalancerNotFound'
+              raise Fog::AWS::ELB::NotFound.slurp(error, match[2])
+            when 'DuplicateLoadBalancerName'
+              raise Fog::AWS::ELB::IdentifierTaken.slurp(error, match[2])
+            when 'InvalidInstance'
+              raise Fog::AWS::ELB::InvalidInstance.slurp(error, match[2])
             else
               raise
             end
+          else
+            raise
           end
-
-          response
         end
       end
     end
