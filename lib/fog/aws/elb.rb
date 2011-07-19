@@ -160,11 +160,11 @@ module Fog
             when 'CertificateNotFound'
               raise Fog::AWS::IAM::NotFound.slurp(error, match[2])
             when 'LoadBalancerNotFound'
-              raise Fog::AWS::ELB::NotFound
+              raise Fog::AWS::ELB::NotFound.slurp(error, match[2])
             when 'DuplicateLoadBalancerName'
-              raise Fog::AWS::ELB::IdentifierTaken
+              raise Fog::AWS::ELB::IdentifierTaken.slurp(error, match[2])
             when 'InvalidInstance'
-              raise Fog::AWS::ELB::InvalidInstance
+              raise Fog::AWS::ELB::InvalidInstance.slurp(error, match[2])
             else
               raise
             end
