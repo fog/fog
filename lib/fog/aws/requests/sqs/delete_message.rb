@@ -3,26 +3,29 @@ module Fog
     class SQS
       class Real
 
-        require 'fog/aws/parsers/sqs/delete_message'
+        require 'fog/aws/parsers/sqs/basic'
 
-        def delete_message(queue_name, receipt_handle)
+        # Delete a message from a queue
+        #
+        # ==== Parameters
+        # * queue_url<~String> - Url of queue to delete message from
+        # * receipt_handle<~String> - Token from previous recieve message
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AWSSimpleQueueService/latest/APIReference/Query_QueryDeleteMessage.html
+        #
+
+        def delete_message(queue_url, receipt_handle)
           request({
             'Action'        => 'DeleteMessage',
             'ReceiptHandle' => receipt_handle,
-            :parser         => Fog::Parsers::AWS::SQS::DeleteMessage.new,
-            :path           => path_from_queue_name(queue_name)
+            :parser         => Fog::Parsers::AWS::SQS::Basic.new,
+            :path           => path_from_queue_url(queue_url),
           })
         end
 
       end
 
-      class Mock
-
-        def delete_message(queue_name, receipt_handle)
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

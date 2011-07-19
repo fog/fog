@@ -16,7 +16,14 @@ module Fog
             when 'Name'
               @current_attribute_name = @value
             when 'Value'
-              @response['Attributes'][@current_attribute_name] = @value
+              case @current_attribute_name
+              when 'ApproximateNumberOfMessages', 'ApproximateNumberOfMessagesNotVisible', 'MaximumMessageSize', 'MessageRetentionPeriod', 'VisibilityTimeout'
+                @response['Attributes'][@current_attribute_name] = @value.to_i
+              when 'CreatedTimestamp', 'LastModifiedTimestamp'
+                @response['Attributes'][@current_attribute_name] = Time.at(@value.to_i)
+              else
+                @response['Attributes'][@current_attribute_name] = @value
+              end
             end
           end
 

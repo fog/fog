@@ -6,6 +6,7 @@ module Fog
       recognizes :region, :host, :path, :port, :scheme, :persistent
 
       request_path 'fog/aws/requests/sqs'
+      request :change_message_visibility
       request :create_queue
       request :delete_message
       request :delete_queue
@@ -13,6 +14,7 @@ module Fog
       request :list_queues
       request :receive_message
       request :send_message
+      request :set_queue_attributes
 
       class Mock
 
@@ -70,17 +72,8 @@ module Fog
 
         private
 
-        def extract_url_with_name_from_list(name)
-          list_queues.body['QueueUrls'].detect { |url| url.match(/\/#{name}$/) }
-        end
-
-        def extract_path_from_url(url)
-          url.gsub(/.*\.com/, '')
-        end
-
-        def path_from_queue_name(name)
-          url = extract_url_with_name_from_list(name)
-          path = extract_path_from_url(url)
+        def path_from_queue_url(queue_url)
+          queue_url.split('.com', 2).last
         end
 
         def request(params)

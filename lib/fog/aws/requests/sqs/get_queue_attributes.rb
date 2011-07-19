@@ -5,21 +5,23 @@ module Fog
 
         require 'fog/aws/parsers/sqs/get_queue_attributes'
 
-        def get_queue_attributes(name)
+        # Get attributes of a queue
+        #
+        # ==== Parameters
+        # * queue_url<~String> - Url of queue to get attributes for
+        # * attributes<~Array> - List of attributes to return, in ['All', 'ApproximateNumberOfMessages', 'ApproximateNumberOfMessagesNotVisible', 'CreatedTimestamp', 'LastModifiedTimestamp', 'MaximumMessageSize', 'MessageRetentionPeriod', 'Policy', 'QueueArn', 'VisibilityTimeout']
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AWSSimpleQueueService/latest/APIReference/Query_QueryGetQueueAttributes.html
+        #
+
+        def get_queue_attributes(queue_url, attributes)
+          attributes = Fog::AWS.indexed_param('AttributeName', [*attributes])
           request({
             'Action'        => 'GetQueueAttributes',
-            'AttributeName' => 'All',
-            :path           => path_from_queue_name(name),
+            :path           => path_from_queue_url(queue_url),
             :parser         => Fog::Parsers::AWS::SQS::GetQueueAttributes.new
-          })
-        end
-
-      end
-
-      class Mock
-
-        def get_queue_attributes(name)
-          Fog::Mock.not_implemented
+          }.merge(attributes))
         end
 
       end

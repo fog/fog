@@ -5,21 +5,23 @@ module Fog
 
         require 'fog/aws/parsers/sqs/send_message'
 
-        def send_message(queue_name, message)
+        # Add a message to a queue
+        #
+        # ==== Parameters
+        # * queue_url<~String> - Url of queue to add message to
+        # * message<~String> - Message to add to queue
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/AWSSimpleQueueService/latest/APIReference/Query_QuerySendMessage.html
+        #
+
+        def send_message(queue_url, message)
           request({
             'Action'      => 'SendMessage',
             'MessageBody' => message,
-            :path         => path_from_queue_name(queue_name),
+            :path         => path_from_queue_url(queue_url),
             :parser       => Fog::Parsers::AWS::SQS::SendMessage.new
           })
-        end
-
-      end
-
-      class Mock
-
-        def send_message(queue_name, message)
-          Fog::Mock.not_implemented
         end
 
       end

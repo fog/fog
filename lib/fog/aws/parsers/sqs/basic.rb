@@ -2,7 +2,7 @@ module Fog
   module Parsers
     module AWS
       module SQS
-        class DeleteQueue < Fog::Parsers::Base
+        class Basic < Fog::Parsers::Base
 
           def reset
             @response = { 'ResponseMetadata' => {} }

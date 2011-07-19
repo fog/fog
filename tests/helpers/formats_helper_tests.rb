@@ -16,6 +16,10 @@ Shindo.tests('test_helper', 'meta') do
         formats_kernel({:a => {:b => :c}}, {:a => {:b => Symbol}})
       end
 
+      test('when format of nested hash with anonymous key and value') do
+        formats_kernel({:a => {:b => :c}}, {:a => {Symbol => Symbol}})
+      end
+
       test('when format of an array') do
         formats_kernel([{:a => :b}], [{:a => Symbol}])
       end
