@@ -103,6 +103,7 @@ class Brightbox
           "url"             => String,
           "id"              => String,
           "ipv4_address"    => String,
+          "ipv6_address"    => Fog::Nullable::String,
           "mac_address"     => String
         }
 
@@ -339,6 +340,7 @@ class Brightbox
           "url"             => String,
           "id"              => String,
           "ipv4_address"    => String,
+          "ipv6_address"    => Fog::Nullable::String,
           "mac_address"     => String,
           "server"          => Brightbox::Compute::Formats::Nested::SERVER
         }
