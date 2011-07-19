@@ -1,5 +1,6 @@
 Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
   @availability_zones = Fog::Compute[:aws].describe_availability_zones('state' => 'available').body['availabilityZoneInfo'].collect{ |az| az['zoneName'] }
+  @key_name = 'fog-test-model'
 
   tests('success') do
     tests('load_balancers') do
@@ -33,7 +34,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
     tests('create') do
       tests('without availability zones') do
         elb = AWS[:elb].load_balancers.create(:id => elb_id)
-        tests("availability zones are correct").returns(@availability_zones) { elb.availability_zones }
+        tests("availability zones are correct").returns(@availability_zones.sort) { elb.availability_zones.sort }
         tests("dns names is set").returns(true) { elb.dns_name.is_a?(String) }
         tests("created_at is set").returns(true) { Time === elb.created_at }
         tests("policies is empty").returns([]) { elb.policies }
@@ -46,16 +47,24 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       tests('with availability zones') do
         azs = @availability_zones[1..-1]
         elb2 = AWS[:elb].load_balancers.create(:id => "#{elb_id}-2", :availability_zones => azs)
-        tests("availability zones are correct").returns(azs) { elb2.availability_zones }
+        tests("availability zones are correct").returns(azs.sort) { elb2.availability_zones.sort }
         elb2.destroy
       end
 
+      # Need to sleep here for IAM changes to propgate
       tests('with ListenerDescriptions') do
+        @certificate = AWS[:iam].upload_server_certificate(AWS::IAM::SERVER_CERT_PUBLIC_KEY, AWS::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
+        sleep(8) unless Fog.mocking?
         listeners = [{
-            'Listener' => {'LoadBalancerPort' => 2030, 'InstancePort' => 2030, 'Protocol' => 'HTTP'},
+            'Listener' => {
+              'LoadBalancerPort' => 2030, 'InstancePort' => 2030, 'Protocol' => 'HTTP'
+            },
             'PolicyNames' => []
           }, {
-            'Listener' => {'LoadBalancerPort' => 443, 'InstancePort' => 443, 'Protocol' => 'HTTPS'},
+            'Listener' => {
+              'LoadBalancerPort' => 443, 'InstancePort' => 443, 'Protocol' => 'HTTPS',
+              'SSLCertificateId' => @certificate['Arn']
+            },
             'PolicyNames' => []
           }]
         elb3 = AWS[:elb].load_balancers.create(:id => "#{elb_id}-3", 'ListenerDescriptions' => listeners)
@@ -65,6 +74,14 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
         tests('protocol is HTTP').returns('HTTP') { elb3.listeners.first.protocol }
         tests('protocol is HTTPS').returns('HTTPS') { elb3.listeners.last.protocol }
         elb3.destroy
+      end
+
+      tests('with invalid Server Cert ARN').raises(Fog::AWS::IAM::NotFound) do
+        listeners = [{
+          'Listener' => {
+          'LoadBalancerPort' => 443, 'InstancePort' => 80, 'Protocol' => 'HTTPS', "SSLCertificateId" => "fakecert"}
+        }]
+        AWS[:elb].load_balancers.create(:id => "#{elb_id}-4", "ListenerDescriptions" => listeners)
       end
     end
 
@@ -228,5 +245,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
     tests('destroy') do
       elb.destroy
     end
+
+    AWS[:iam].delete_server_certificate(@key_name)
   end
 end
