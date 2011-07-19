@@ -7,7 +7,6 @@ module Fog
 
         def self.slurp(error)
           #TODO Where is the best place to do this json require
-          require 'json'
           if error.response.body.empty?
             data = nil
             message = nil
@@ -123,4 +122,3 @@ module Fog
     end
   end
 end
-

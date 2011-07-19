@@ -21,12 +21,6 @@ module Fog
         rescue Fog::Rackspace::LoadBalancer::NotFound
           nil
         end
-
-        def to_object
-          collect do |node|
-            node.to_object
-          end
-        end
       end
     end
   end

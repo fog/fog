@@ -8,7 +8,6 @@ Shindo.tests('Fog::Rackspace::LoadBalancer | nodes', ['rackspace']) do
       :virtual_ips => [{ :type => 'PUBLIC'}],
       :nodes => [{ :address => '10.0.0.1', :port => 80, :condition => 'ENABLED'}]
     })
-  #TODO - Add test to show that connection isn't passed to subcollections?
   @lb.wait_for { ready? }
 
   begin

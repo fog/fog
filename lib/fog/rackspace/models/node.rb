@@ -28,10 +28,6 @@ module Fog
           true
         end
 
-        def to_object
-          { :address => address, :port => port, :condition => condition, :weight => weight }
-        end
-
         private
         def load_balancer
           collection.load_balancer

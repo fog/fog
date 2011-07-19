@@ -25,10 +25,6 @@ module Fog
           true
         end
 
-        def to_object
-          { :type => type }
-        end
-
         private
         def load_balancer
           collection.load_balancer

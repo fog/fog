@@ -1,15 +1,16 @@
 Shindo.tests('Fog::Rackspace::LoadBalancer | load_balancer', ['rackspace']) do
 
-  @lb_name = 'fog' + Time.now.to_i.to_s
-  model_tests(Fog::Rackspace::LoadBalancer.new.load_balancers,
-    {
-      :name => @lb_name,
+  LOAD_BALANCER_ATTRIBUTES = {
+      :name => 'fog' + Time.now.to_i.to_s,
       :protocol => 'HTTP',
       :port => 80,
       :virtual_ips => [{ :type => 'PUBLIC'}],
       :nodes => [{ :address => '10.0.0.1', :port => 80, :condition => 'ENABLED'}]
-    },
-    false) do
+    }
+
+  @service = Fog::Rackspace::LoadBalancer.new
+
+  model_tests(@service.load_balancers, LOAD_BALANCER_ATTRIBUTES, false) do
     @instance.wait_for { ready? }
 
     tests('#save => saving existing with port = 88').succeeds do

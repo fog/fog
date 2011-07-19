@@ -11,10 +11,6 @@ module Fog
 
         def all
           data = connection.list_load_balancers.body['loadBalancers']
-          #TODO - Need to find a way to lazy load for performance.
-          data = data.collect do |lb|
-            connection.get_load_balancer(lb['id']).body['loadBalancer']
-          end
           load(data)
         end
 

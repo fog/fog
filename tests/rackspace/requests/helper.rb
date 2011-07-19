@@ -16,7 +16,7 @@ LOAD_BALANCERS_FORMAT = {
       'algorithm' => String,
       'status' => String,
       'virtualIps' => [VIRTUAL_IP_FORMAT],
-      'nodes' => NODES_FORMAT,
+      'nodes' => [SINGLE_NODE_FORMAT],
       'created' => { 'time' => String },
       'updated' => { 'time' => String }
     }]
@@ -31,7 +31,7 @@ LOAD_BALANCER_FORMAT = {
     'status' => String,
     'cluster' => { 'name' => String },
     'virtualIps' => [VIRTUAL_IP_FORMAT],
-    'nodes' => [NODE_FORMAT],
+    'nodes' => [SINGLE_NODE_FORMAT],
     'created' => { 'time' => String },
     'updated' => { 'time' => String },
     'connectionLogging' => { 'enabled' => Fog::Boolean }

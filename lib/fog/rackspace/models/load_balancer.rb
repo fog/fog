@@ -26,25 +26,27 @@ module Fog
         end
 
         def nodes
-          @nodes
+          @nodes ||= begin
+            Fog::Rackspace::LoadBalancer::Nodes.new({
+              :connection => connection,
+              :load_balancer => self})
+          end
         end
 
         def nodes=(new_nodes=[])
-          @nodes = Fog::Rackspace::LoadBalancer::Nodes.new({
-            :connection => connection,
-            :load_balancer => self})
-          @nodes.load(new_nodes)
+          nodes.load(new_nodes)
         end
 
         def virtual_ips
-          @virtual_ips
+          @virtual_ips ||= begin
+            Fog::Rackspace::LoadBalancer::VirtualIps.new({
+              :connection => connection,
+              :load_balancer => self})
+          end
         end
 
         def virtual_ips=(new_virtual_ips=[])
-          @virtual_ips = Fog::Rackspace::LoadBalancer::VirtualIps.new({
-            :connection => connection,
-            :load_balancer => self})
-          @virtual_ips.load(new_virtual_ips)
+          virtual_ips.load(new_virtual_ips)
         end
 
         def destroy
@@ -69,7 +71,7 @@ module Fog
         private
         def create
           requires :name, :protocol, :port, :virtual_ips, :nodes
-          data = connection.create_load_balancer(name, protocol, port, virtual_ips.to_object, nodes.to_object)
+          data = connection.create_load_balancer(name, protocol, port, virtual_ips_hash, nodes_hash)
           merge_attributes(data.body['loadBalancer'])
         end
 
@@ -84,6 +86,19 @@ module Fog
 
           #TODO - Should this bubble down to nodes? Without tracking changes this would be very inefficient.
           # For now, individual nodes will have to be saved individually after saving an LB
+        end
+
+        def virtual_ips_hash
+          virtual_ips.collect do |virtual_ip|
+            { :type => virtual_ip.type }
+          end
+
+        end
+
+        def nodes_hash
+          nodes.collect do |node|
+            { :address => node.address, :port => node.port, :condition => node.condition, :weight => node.weight }
+          end
         end
       end
     end

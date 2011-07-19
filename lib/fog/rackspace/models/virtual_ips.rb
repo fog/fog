@@ -21,12 +21,6 @@ module Fog
           data && new(data)
         end
 
-        def to_object
-          collect do |node|
-            node.to_object
-          end
-        end
-
         private
         def all_raw
           connection.list_virtual_ips(load_balancer.id).body['virtualIps']
