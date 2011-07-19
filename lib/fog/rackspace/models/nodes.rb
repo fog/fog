@@ -22,12 +22,6 @@ module Fog
           nil
         end
 
-        def save
-          each do |node|
-            node.save
-          end
-        end
-
         def to_object
           collect do |node|
             node.to_object

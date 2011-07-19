@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Rackspace::LoadBalancer | nodes', ['rackspace']) do
+Shindo.tests('Fog::Rackspace::LoadBalancer | virtual_ips', ['rackspace']) do
 
   @service = Fog::Rackspace::LoadBalancer.new
   @lb = @service.load_balancers.create({
@@ -8,11 +8,10 @@ Shindo.tests('Fog::Rackspace::LoadBalancer | nodes', ['rackspace']) do
       :virtual_ips => [{ :type => 'PUBLIC'}],
       :nodes => [{ :address => '10.0.0.1', :port => 80, :condition => 'ENABLED'}]
     })
-  #TODO - Add test to show that connection isn't passed to subcollections?
   @lb.wait_for { ready? }
 
   begin
-    collection_tests(@lb.nodes, { :address => '10.0.0.2', :port => 80, :condition => 'ENABLED'}, false) do
+    collection_tests(@lb.virtual_ips, { :type => 'PUBLIC'}, false) do
       @lb.wait_for { ready? }
     end
   ensure

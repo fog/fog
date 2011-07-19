@@ -47,6 +47,8 @@ module Fog
       model :load_balancer
       collection :nodes
       model :node
+      collection :virtual_ips
+      model :virtual_ip
 
       request_path 'fog/rackspace/requests'
       request :create_load_balancer

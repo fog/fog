@@ -17,16 +17,34 @@ module Fog
         attribute :updated
         attribute :name
         attribute :state,               :aliases => 'status'
+        attribute :nodes
+
+        def initialize(attributes)
+          #HACK - Since we are hacking how sub-collections work, we have to make sure the connection is valid first.
+          @connection = attributes[:connection]
+          super
+        end
 
         def nodes
           @nodes
         end
 
-        def nodes=(new_nodes)
+        def nodes=(new_nodes=[])
           @nodes = Fog::Rackspace::LoadBalancer::Nodes.new({
             :connection => connection,
             :load_balancer => self})
           @nodes.load(new_nodes)
+        end
+
+        def virtual_ips
+          @virtual_ips
+        end
+
+        def virtual_ips=(new_virtual_ips=[])
+          @virtual_ips = Fog::Rackspace::LoadBalancer::VirtualIps.new({
+            :connection => connection,
+            :load_balancer => self})
+          @virtual_ips.load(new_virtual_ips)
         end
 
         def destroy
@@ -51,7 +69,7 @@ module Fog
         private
         def create
           requires :name, :protocol, :port, :virtual_ips, :nodes
-          data = connection.create_load_balancer(name, protocol, port, virtual_ips, nodes.to_object)
+          data = connection.create_load_balancer(name, protocol, port, virtual_ips.to_object, nodes.to_object)
           merge_attributes(data.body['loadBalancer'])
         end
 
