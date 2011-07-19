@@ -5,19 +5,21 @@ module Fog
 
         require 'fog/aws/parsers/sns/get_topic_attributes'
 
-        def get_topic_attributes(options = {})
+        # Get attributes of a topic
+        #
+        # ==== Parameters
+        # * arn<~Hash>: The Arn of the topic to get attributes for
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/sns/latest/api/API_GetTopicAttributes.html
+        #
+
+        def get_topic_attributes(arn)
           request({
-            'Action' => 'GetTopicAttributes',
-            :parser  => Fog::Parsers::AWS::SNS::GetTopicAttributes.new
-          }.merge!(options))
-        end
-
-      end
-
-      class Mock
-
-        def get_topic_attributes
-          Fog::Mock.not_implemented
+            'Action'    => 'GetTopicAttributes',
+            'TopicArn'  => arn,
+            :parser     => Fog::Parsers::AWS::SNS::GetTopicAttributes.new
+          })
         end
 
       end

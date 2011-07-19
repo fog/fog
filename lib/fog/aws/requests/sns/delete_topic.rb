@@ -5,22 +5,25 @@ module Fog
 
         require 'fog/aws/parsers/sns/delete_topic'
 
-        def delete_topic(options = {})
+        # Delete a topic
+        #
+        # ==== Parameters
+        # * arn<~String> - The Arn of the topic to delete
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/sns/latest/api/API_DeleteTopic.html
+        #
+
+        def delete_topic(arn)
           request({
-            'Action'  => 'DeleteTopic',
-            :parser   => Fog::Parsers::AWS::SNS::DeleteTopic.new
-          }.merge!(options))
+            'Action'    => 'DeleteTopic',
+            'TopicArn'  => arn,
+            :parser     => Fog::Parsers::AWS::SNS::DeleteTopic.new
+          })
         end
 
       end
 
-      class Mock
-
-        def delete_topic(options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

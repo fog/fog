@@ -5,22 +5,25 @@ module Fog
 
         require 'fog/aws/parsers/sns/unsubscribe'
 
-        def unsubscribe(options = {})
+        # Delete a subscription
+        #
+        # ==== Parameters
+        # * arn<~String> - Arn of subscription to delete
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/sns/latest/api/API_Unsubscribe.html
+        #
+
+        def unsubscribe(arn)
           request({
-            'Action'  => 'Unsubscribe',
-            :parser   => Fog::Parsers::AWS::SNS::Unsubscribe.new
-          }.merge!(options))
+            'Action'          => 'Unsubscribe',
+            'SubscriptionArn' => arn,
+            :parser           => Fog::Parsers::AWS::SNS::Unsubscribe.new
+          })
         end
 
       end
 
-      class Mock
-
-        def unsubscribe(options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

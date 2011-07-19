@@ -40,9 +40,9 @@ Shindo.tests('AWS::SQS | queue requests', ['aws']) do
       }
     })
 
-    tests("#get_queue_attributes('#{@queue_url}', ['All'])").formats(get_queue_attributes_format) do
+    tests("#get_queue_attributes('#{@queue_url}', 'All')").formats(get_queue_attributes_format) do
       pending if Fog.mocking?
-      AWS[:sqs].get_queue_attributes(@queue_url, ['All']).body
+      AWS[:sqs].get_queue_attributes(@queue_url, 'All').body
     end
 
     tests("#delete_queue('#{@queue_url}')").formats(AWS::SQS::Formats::BASIC) do

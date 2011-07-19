@@ -5,22 +5,30 @@ module Fog
 
         require 'fog/aws/parsers/sns/publish'
 
-        def publish(options = {})
+        # Send a message to a topic
+        #
+        # ==== Parameters
+        # * arn<~String> - Arn of topic to send message to
+        # * message<~String> - Message to send to topic
+        # * options<~Hash>:
+        #   * MessageStructure<~String> - message structure, in ['json']
+        #   * Subject<~String> - value to use for subject when delivering by email
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/sns/latest/api/API_Publish.html
+        #
+
+        def publish(arn, message, options = {})
           request({
-            'Action'  => 'Publish',
-            :parser   => Fog::Parsers::AWS::SNS::Publish.new
+            'Action'    => 'Publish',
+            'Message'   => message,
+            'TopicArn'  => arn,
+            :parser     => Fog::Parsers::AWS::SNS::Publish.new
           }.merge!(options))
         end
 
       end
 
-      class Mock
-
-        def publish(options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

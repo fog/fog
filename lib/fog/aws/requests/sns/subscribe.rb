@@ -5,22 +5,29 @@ module Fog
 
         require 'fog/aws/parsers/sns/subscribe'
 
-        def subscribe(options = {})
+        # Create a subscription
+        #
+        # ==== Parameters
+        # * arn<~String> - Arn of topic to subscribe to
+        # * endpoint<~String> - Endpoint to notify
+        # * protocol<~String> - Protocol to notify endpoint with, in ['email', 'email-json', 'http', 'https', 'sqs']
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/sns/latest/api/API_Subscribe.html
+        #
+
+        def subscribe(arn, endpoint, protocol)
           request({
-            'Action'  => 'Subscribe',
-            :parser   => Fog::Parsers::AWS::SNS::Subscribe.new
-          }.merge!(options))
+            'Action'    => 'Subscribe',
+            'Endpoint'  => endpoint,
+            'Protocol'  => protocol,
+            'TopicArn'  => arn,
+            :parser     => Fog::Parsers::AWS::SNS::Subscribe.new
+          })
         end
 
       end
 
-      class Mock
-
-        def subscribe(options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

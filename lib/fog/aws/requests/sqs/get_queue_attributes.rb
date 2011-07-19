@@ -9,19 +9,19 @@ module Fog
         #
         # ==== Parameters
         # * queue_url<~String> - Url of queue to get attributes for
-        # * attributes<~Array> - List of attributes to return, in ['All', 'ApproximateNumberOfMessages', 'ApproximateNumberOfMessagesNotVisible', 'CreatedTimestamp', 'LastModifiedTimestamp', 'MaximumMessageSize', 'MessageRetentionPeriod', 'Policy', 'QueueArn', 'VisibilityTimeout']
+        # * attribute_name<~Array> - Name of attribute to return, in ['All', 'ApproximateNumberOfMessages', 'ApproximateNumberOfMessagesNotVisible', 'CreatedTimestamp', 'LastModifiedTimestamp', 'MaximumMessageSize', 'MessageRetentionPeriod', 'Policy', 'QueueArn', 'VisibilityTimeout']
         #
         # ==== See Also
         # http://docs.amazonwebservices.com/AWSSimpleQueueService/latest/APIReference/Query_QueryGetQueueAttributes.html
         #
 
-        def get_queue_attributes(queue_url, attributes)
-          attributes = Fog::AWS.indexed_param('AttributeName', [*attributes])
+        def get_queue_attributes(queue_url, attribute_name)
           request({
             'Action'        => 'GetQueueAttributes',
+            'AttributeName' => attribute_name,
             :path           => path_from_queue_url(queue_url),
             :parser         => Fog::Parsers::AWS::SQS::GetQueueAttributes.new
-          }.merge(attributes))
+          })
         end
 
       end

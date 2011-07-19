@@ -12,7 +12,7 @@ module Fog
           def end_element(name)
             case name
             when 'SubscriptionArn', 'RequestId'
-              @response[name] = @value
+              @response[name] = @value.rstrip
             end
           end
 

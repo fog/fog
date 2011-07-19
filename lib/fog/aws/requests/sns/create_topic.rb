@@ -5,22 +5,25 @@ module Fog
 
         require 'fog/aws/parsers/sns/create_topic'
 
-        def create_topic(options = {})
+        # Create a topic
+        #
+        # ==== Parameters
+        # * name<~String> - Name of topic to create
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/sns/latest/api/API_CreateTopic.html
+        #
+
+        def create_topic(name)
           request({
             'Action'  => 'CreateTopic',
+            'Name'    => name,
             :parser   => Fog::Parsers::AWS::SNS::CreateTopic.new
-          }.merge!(options))
+          })
         end
 
       end
 
-      class Mock
-
-        def create_topic(options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end

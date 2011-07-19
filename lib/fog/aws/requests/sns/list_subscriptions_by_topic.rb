@@ -3,21 +3,25 @@ module Fog
     class SNS
       class Real
 
-        require 'fog/aws/parsers/sns/list_subscriptions_by_topic'
+        require 'fog/aws/parsers/sns/list_subscriptions'
 
-        def list_subscriptions_by_topic(options = {})
+        # List subscriptions for a topic
+        #
+        # ==== Parameters
+        # * arn<~String> - Arn of topic to list subscriptions for
+        # * options<~Hash>:
+        #   * 'NextToken'<~String> - Token returned from previous request, used for pagination
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/sns/latest/api/API_ListSubscriptionsByTopic.html
+        #
+
+        def list_subscriptions_by_topic(arn, options = {})
           request({
-            'Action' => 'ListSubscriptionsByTopic',
-            :parser  => Fog::Parsers::AWS::SNS::ListSubscriptionsByTopic.new
+            'Action'    => 'ListSubscriptionsByTopic',
+            'TopicArn'  => arn,
+            :parser     => Fog::Parsers::AWS::SNS::ListSubscriptions.new
           }.merge!(options))
-        end
-
-      end
-
-      class Mock
-
-        def list_subscriptions_by_topic
-          Fog::Mock.not_implemented
         end
 
       end

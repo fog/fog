@@ -47,7 +47,7 @@ module Fog
         # ==== Returns
         # * SNS object with connection to AWS.
         def initialize(options={})
-          require 'json'
+          require 'multi_json'
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
           @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)

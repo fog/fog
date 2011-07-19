@@ -5,22 +5,29 @@ module Fog
 
         require 'fog/aws/parsers/sns/confirm_subscription'
 
-        def confirm_subscription(options = {})
+        # Confirm a subscription
+        #
+        # ==== Parameters
+        # * arn<~String> - Arn of topic to confirm subscription to
+        # * token<~String> - Token sent to endpoint during subscribe action
+        # * options<~Hash>:
+        #   * AuthenticateOnUnsubscribe<~Boolean> - whether or not unsubscription should be authenticated, defaults to false
+        #
+        # ==== See Also
+        # http://docs.amazonwebservices.com/sns/latest/api/API_ConfirmSubscription.html
+        #
+
+        def confirm_subscription(arn, token, options = {})
           request({
-            'Action'  => 'ConfirmSubscription',
-            :parser   => Fog::Parsers::AWS::SNS::ConfirmSubscription.new
+            'Action'    => 'ConfirmSubscription',
+            'Token'     => token,
+            'TopicArn'  => arn,
+            :parser     => Fog::Parsers::AWS::SNS::ConfirmSubscription.new
           }.merge!(options))
         end
 
       end
 
-      class Mock
-
-        def confirm_subscription(options = {})
-          Fog::Mock.not_implemented
-        end
-
-      end
     end
   end
 end
