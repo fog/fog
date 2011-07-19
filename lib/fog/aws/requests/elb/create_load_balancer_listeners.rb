@@ -43,15 +43,6 @@ module Fog
             'LoadBalancerName' => lb_name,
             :parser            => Fog::Parsers::AWS::ELB::Empty.new
           }.merge!(params))
-        rescue Excon::Errors::HTTPStatusError => error
-          if match = error.message.match(/<Code>(.*)<\/Code>(?:.*<Message>(.*)<\/Message>)?/m)
-            case match[1]
-            when 'CertificateNotFound'
-              raise Fog::AWS::IAM::NotFound.slurp(error, match[2])
-            else
-              raise
-            end
-          end
         end
 
       end
