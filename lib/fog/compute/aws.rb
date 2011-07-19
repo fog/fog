@@ -24,6 +24,8 @@ module Fog
       collection  :tags
       model       :volume
       collection  :volumes
+      model       :spot_request
+      collection  :spot_requests
 
       request_path 'fog/compute/requests/aws'
       request :allocate_address
