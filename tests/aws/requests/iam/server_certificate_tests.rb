@@ -19,6 +19,13 @@ Shindo.tests('AWS::IAM | server certificate requests', ['aws']) do
     AWS[:iam].upload_server_certificate(public_key, private_key, @key_name).body
   end
 
+  tests('#get_server_certificate').formats(@upload_format) do
+    tests('raises NotFound').raises(Fog::AWS::IAM::NotFound) do
+      AWS[:iam].get_server_certificate("#{@key_name}fake")
+    end
+    AWS[:iam].get_server_certificate(@key_name).body
+  end
+
   @list_format = { 'Certificates' => [@certificate_format] }
   tests('#list_server_certificates').formats(@list_format) do
     result = AWS[:iam].list_server_certificates.body

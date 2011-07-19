@@ -31,6 +31,7 @@ module Fog
       request :get_user_policy
       request :get_group
       request :get_group_policy
+      request :get_server_certificate
       request :list_access_keys
       request :list_account_aliases
       request :list_groups
@@ -152,7 +153,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             if match = error.message.match(/<Code>(.*)<\/Code>(?:.*<Message>(.*)<\/Message>)?/m)
               case match[1]
-              when 'CertificateNotFound'
+              when 'CertificateNotFound', 'NoSuchEntity'
                 raise Fog::AWS::IAM::NotFound.slurp(error, match[2])
               when 'EntityAlreadyExists'
                 raise Fog::AWS::IAM::EntityAlreadyExists.slurp(error, match[2])
