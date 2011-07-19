@@ -43,6 +43,15 @@ module Fog
             'LoadBalancerName' => lb_name,
             :parser            => Fog::Parsers::AWS::ELB::Empty.new
           }.merge!(params))
+        rescue Excon::Errors::HTTPStatusError => error
+          if match = error.message.match(/<Code>(.*)<\/Code>(?:.*<Message>(.*)<\/Message>)?/m)
+            case match[1]
+            when 'CertificateNotFound'
+              raise Fog::AWS::IAM::NotFound.slurp(error, match[2])
+            else
+              raise
+            end
+          end
         end
 
       end
@@ -56,9 +65,7 @@ module Fog
 
             listeners.each do |listener|
               if listener['SSLCertificateId'] and !certificate_ids.include? listener['SSLCertificateId']
-                response.status = 400
-                response.body = "<?xml version=\"1.0\"?><Response><Errors><Error><Code>CertificateNotFound</Code><Message>The specified SSL ID does not refer to a valid SSL certificate in the AWS Identity and Access Management Service..</Message></Error></Errors><RequestID>#{Fog::AWS::Mock.request_id}</RequestId></Response>"
-                raise Excon::Errors.status_error({:expects => 200}, response)
+                raise Fog::AWS::IAM::NotFound.new('CertificateNotFound')
               end
               load_balancer['ListenerDescriptions'] << {'Listener' => listener, 'PolicyNames' => []}
             end
