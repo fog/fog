@@ -38,7 +38,12 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
   tests('failure') do
 
     if !Fog.mocking? || mocks_implemented
-      @identity = @identity.to_s.gsub(/\w/, Fog::Mock.random_letters(1))
+      @identity = case @identity
+      when Integer
+        @identity.to_s.gsub(/\w/, Fog::Mock.random_numbers(1)).to_i
+      else
+        @identity.to_s.gsub(/\w/, Fog::Mock.random_letters(1))
+      end
     end
 
     tests("#get('#{@identity}')").returns(nil) do
