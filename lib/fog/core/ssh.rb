@@ -24,9 +24,19 @@ module Fog
       end
 
       def run(commands)
-        Fog::Mock.not_implemented
+        commands.collect do |command|
+          Result.new(command)
+        end
       end
 
+      class Result
+        attr_accessor :command, :stderr, :stdout, :status
+        def initialize(command)
+          @command = command
+          @stderr = command
+          @stdout = command
+        end
+      end
     end
 
     class Real
