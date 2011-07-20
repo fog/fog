@@ -19,6 +19,15 @@ Shindo.tests('Fog::Attributes', 'core') do
       @model.key
     end
 
+    tests('"keys" => {"id" => false}').returns(false) do
+      @model.merge_attributes("keys" => {'id' => false })
+      @model.key
+    end
+
+    tests('"keys" => {:id => false}').returns(false) do
+      @model.merge_attributes("keys" => {:id => false })
+      @model.key
+    end
   end
 
   tests(':type => :time') do
