@@ -50,6 +50,7 @@ module Fog
           response = Excon::Response.new
 
           if self.data[:server_certificates][name]
+            raise Fog::AWS::IAM::EntityAlreadyExists
           else
             response.status = 200
             path = "server-certificates/#{name}"

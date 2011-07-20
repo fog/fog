@@ -28,6 +28,10 @@ Shindo.tests('AWS::IAM | server certificate requests', ['aws']) do
     tests('format').formats(@upload_format) do
       AWS[:iam].upload_server_certificate(public_key, private_key, @key_name).body
     end
+
+    tests('duplicate name').raises(Fog::AWS::IAM::EntityAlreadyExists) do
+      AWS[:iam].upload_server_certificate(public_key, private_key, @key_name)
+    end
   end
 
   tests('#get_server_certificate').formats(@upload_format) do
