@@ -6,7 +6,7 @@ module Fog
         def create_server(options = {})
           request(
             :path     => "/storm/server/create",
-            :body     => {:params => options}.to_json
+            :body     => MultiJson.encode({:params => options})
           )
         end
 

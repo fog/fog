@@ -106,7 +106,7 @@ module Fog
             response = authenticated_request(params)
           end
           unless response.body.empty?
-            response = ::MultiJson.decode(response.body)
+            response = MultiJson.decode(response.body)
           end
         end
 
@@ -119,7 +119,7 @@ module Fog
           auth_url = options[:brightbox_auth_url] || @auth_url
 
           connection = Fog::Connection.new(auth_url)
-          @authentication_body = {'client_id' => @brightbox_client_id, 'grant_type' => 'none'}.to_json
+          @authentication_body = MultiJson.encode({'client_id' => @brightbox_client_id, 'grant_type' => 'none'})
 
           response = connection.request({
             :path => "/token",
@@ -131,7 +131,7 @@ module Fog
             :method   => 'POST',
             :body     => @authentication_body
           })
-          @oauth_token = ::MultiJson.decode(response.body)["access_token"]
+          @oauth_token = MultiJson.decode(response.body)["access_token"]
           return @oauth_token
         end
 

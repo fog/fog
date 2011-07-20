@@ -85,7 +85,7 @@ module Fog
             end
           end
           if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
-            response.body = ::MultiJson.decode(response.body)
+            response.body = MultiJson.decode(response.body)
           end
           response
         end

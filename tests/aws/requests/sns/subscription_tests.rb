@@ -7,7 +7,7 @@ Shindo.tests('AWS::SES | topic lifecycle tests', ['aws', 'sns']) do
     AWS[:sqs].set_queue_attributes(
       @queue_url,
       'Policy',
-      ::MultiJson.encode({
+      MultiJson.encode({
         'Id' => @topic_arn,
         'Statement' => {
           'Action'    => 'sqs:SendMessage',
@@ -60,7 +60,7 @@ Shindo.tests('AWS::SES | topic lifecycle tests', ['aws', 'sns']) do
       Fog.wait_for do
         message = AWS[:sqs].receive_message(@queue_url).body['Message'].first
       end
-      ::MultiJson.decode(message['Body'])['Message']
+      MultiJson.decode(message['Body'])['Message']
     end
 
     tests("#unsubscribe('#{@subscription_arn}')").formats(AWS::SNS::Formats::BASIC) do

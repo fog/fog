@@ -6,7 +6,7 @@ module Fog
         def list_templates(options = {})
           request(
             :path     => "/server/template/list",
-            :body     => options.to_json
+            :body     => MultiJson.encode(options)
           )
         end
 

@@ -100,7 +100,7 @@ module Fog
           end
 
           unless response.body.empty?
-            response.body = ::MultiJson.decode(response.body)
+            response.body = MultiJson.decode(response.body)
           end
 
           response

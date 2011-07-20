@@ -19,7 +19,10 @@ end
 
 if ARGV.length > 1
 
-  puts(instance_eval(ARGV[1..-1].join(' ')).to_json)
+  require 'multi_json'
+
+  result = instance_eval(ARGV[1..-1].join(' '))
+  puts(MultiJson.encode(result))
 
 else
 

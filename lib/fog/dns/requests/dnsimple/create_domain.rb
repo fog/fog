@@ -14,7 +14,7 @@ module Fog
         def create_domain(name)
           body = { "domain" => { "name" => name } }
           request(
-                  :body     => body.to_json,
+                  :body     => MultiJson.encode(body),
                   :expects  => 201,
                   :method   => 'POST',
                   :path     => '/domains'

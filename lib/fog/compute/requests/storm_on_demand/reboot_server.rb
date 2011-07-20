@@ -6,7 +6,7 @@ module Fog
         def reboot_server(options = {})
           request(
             :path     => "/storm/server/reboot",
-            :body     => {:params => options}.to_json
+            :body     => MultiJson.encode({:params => options})
           )
         end
 

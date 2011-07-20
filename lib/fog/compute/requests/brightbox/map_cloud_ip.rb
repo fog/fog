@@ -10,7 +10,7 @@ module Fog
             :method   => 'POST',
             :path     => "/1.0/cloud_ips/#{identifier}/map",
             :headers  => {"Content-Type" => "application/json"},
-            :body     => options.to_json
+            :body     => MultiJson.encode(options)
           )
         end
 
