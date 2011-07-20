@@ -6,6 +6,7 @@ module Fog
       class KeyPairMismatch < Fog::AWS::IAM::Error; end
       class LimitExceeded < Fog::AWS::IAM::Error; end
       class MalformedCertificate < Fog::AWS::IAM::Error; end
+      class ValidationError < Fog::AWS::IAM::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :host, :path, :port, :scheme, :persistent
@@ -163,6 +164,8 @@ module Fog
                 raise Fog::AWS::IAM::LimitExceeded.slurp(error, match[2])
               when 'MalformedCertificate'
                 raise Fog::AWS::IAM::MalformedCertificate.slurp(error, match[2])
+              when 'ValidationError'
+                raise Fog::AWS::IAM::ValidationError.slurp(error, match[2])
               else
                 raise Fog::AWS::IAM::Error.slurp(error, "#{match[1]} => #{match[2]}") if match[1]
                 raise

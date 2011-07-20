@@ -44,6 +44,9 @@ module Fog
 
       class Mock
         def upload_server_certificate(certificate, private_key, name, options = {})
+          if certificate.nil? || certificate.empty? || private_key.nil? || private_key.empty?
+            raise Fog::AWS::IAM::ValidationError.new
+          end
           response = Excon::Response.new
 
           if self.data[:server_certificates][name]
