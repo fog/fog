@@ -156,16 +156,8 @@ module Fog
               case match[1]
               when 'CertificateNotFound', 'NoSuchEntity'
                 raise Fog::AWS::IAM::NotFound.slurp(error, match[2])
-              when 'EntityAlreadyExists'
-                raise Fog::AWS::IAM::EntityAlreadyExists.slurp(error, match[2])
-              when 'KeyPairMismatch'
-                raise Fog::AWS::IAM::KeyPairMismatch.slurp(error, match[2])
-              when 'LimitExceeded'
-                raise Fog::AWS::IAM::LimitExceeded.slurp(error, match[2])
-              when 'MalformedCertificate'
-                raise Fog::AWS::IAM::MalformedCertificate.slurp(error, match[2])
-              when 'ValidationError'
-                raise Fog::AWS::IAM::ValidationError.slurp(error, match[2])
+              when 'EntityAlreadyExists', 'KeyPairMismatch', 'LimitExceeded', 'MalformedCertificate', 'ValidationError'
+                raise Fog::AWS::IAM.const_get(match[1]).slurp(error, match[2])
               else
                 raise Fog::AWS::IAM::Error.slurp(error, "#{match[1]} => #{match[2]}") if match[1]
                 raise
