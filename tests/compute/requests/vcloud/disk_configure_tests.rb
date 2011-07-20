@@ -59,18 +59,23 @@ EOF
     end
   end
 
-  Vcloud[:compute].stub!(:request).and_return(MockDiskResponse.new)
+  unless Fog.mocking?
+    Vcloud[:compute].stub!(:request).and_return(MockDiskResponse.new)
+  end
 
   tests("Call to generate config returns string").returns(true) do
+    pending if Fog.mocking?
     Vcloud[:compute].generate_configure_vm_disks_request('http://blah', disk_hash).kind_of? String
   end
 
   tests("Call to generate config with no changes returns input data").returns(true) do
+    pending if Fog.mocking?
     Nokogiri::XML(Vcloud[:compute].generate_configure_vm_disks_request('http://blah', disk_hash)).to_s ==
       Nokogiri::XML(MockDiskResponse.new.body).to_s
   end
 
   tests("Call to generate config with no disks removes disk").returns(true) do
+    pending if Fog.mocking?
     xml = Vcloud[:compute].generate_configure_vm_disks_request('http://blah', [])
     ng = Nokogiri::XML(xml)
     # Should have 2 controllers, but no disks.
@@ -79,6 +84,7 @@ EOF
   end
 
   tests("Call to generate config adding a disk").returns(['4096', true, true]) do
+    pending if Fog.mocking?
     disks = disk_hash
     disks << {
       :"rasd:AddressOnParent"=>"1",
@@ -101,7 +107,8 @@ EOF
      ng.xpath("//xmlns:ResourceType[ .='17']", @xmlns).size == 2
     ]
   end
-
-
-  Vcloud[:compute].unstub!(:request)
+  
+  unless Fog.mocking?
+    Vcloud[:compute].unstub!(:request)
+  end
 end

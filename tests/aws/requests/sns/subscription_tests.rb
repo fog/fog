@@ -44,18 +44,22 @@ Shindo.tests('AWS::SES | topic lifecycle tests', ['aws', 'sns']) do
     })
 
     tests("#list_subscriptions").formats(list_subscriptions_format) do
+      pending if Fog.mocking?
       AWS[:sns].list_subscriptions.body
     end
 
     tests("#list_subscriptions_by_topic('#{@topic_arn}')").formats(list_subscriptions_format) do
+      pending if Fog.mocking?
       body = AWS[:sns].list_subscriptions_by_topic(@topic_arn).body
     end
 
     tests("#publish('#{@topic_arn}', 'message')").formats(AWS::SNS::Formats::BASIC.merge('MessageId' => String)) do
+      pending if Fog.mocking?
       body = AWS[:sns].publish(@topic_arn, 'message').body
     end
 
     tests("#receive_message('#{@queue_url}')...").returns('message') do
+      pending if Fog.mocking?
       message = nil
       Fog.wait_for do
         message = AWS[:sqs].receive_message(@queue_url).body['Message'].first
@@ -64,6 +68,7 @@ Shindo.tests('AWS::SES | topic lifecycle tests', ['aws', 'sns']) do
     end
 
     tests("#unsubscribe('#{@subscription_arn}')").formats(AWS::SNS::Formats::BASIC) do
+      pending if Fog.mocking?
       AWS[:sns].unsubscribe(@subscription_arn).body
     end
 

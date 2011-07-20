@@ -12,7 +12,6 @@ Shindo.tests('AWS::ELB | listener_tests', ['aws', 'elb']) do
         {'Protocol' => 'HTTP', 'LoadBalancerPort' => 80, 'InstancePort' => 80}
       ]
       response = AWS[:elb].create_load_balancer_listeners(@load_balancer_id, listeners).body
-      puts response.inspect
       response
     end
 

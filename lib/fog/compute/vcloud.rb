@@ -117,9 +117,11 @@ module Fog
       request :undeploy
 
       class Mock
-        def request(options)
-          raise "Not implemented"
+
+        def initialize(options={})
+          Fog::Mock.not_implemented
         end
+
       end
 
       class Real
