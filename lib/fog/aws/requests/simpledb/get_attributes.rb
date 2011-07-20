@@ -48,7 +48,7 @@ module Fog
       class Mock
 
         def get_attributes(domain_name, item_name, options = {})
-          unless options.empty? || options['AttributeName']
+          if options.is_a?(Array)
             Formatador.display_line("[yellow][WARN] get_attributes with array attributes param is deprecated, use 'AttributeName' => attributes) instead[/] [light_black](#{caller.first})[/]")
             options['AttributeName'] ||= options if options.is_a?(Array)
           end
