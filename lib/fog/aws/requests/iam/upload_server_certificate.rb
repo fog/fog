@@ -44,9 +44,30 @@ module Fog
 
       class Mock
         def upload_server_certificate(certificate, private_key, name, options = {})
+          if certificate.nil? || certificate.empty? || private_key.nil? || private_key.empty?
+            raise Fog::AWS::IAM::ValidationError.new
+          end
           response = Excon::Response.new
 
+          # Validate cert and key
+          begin
+            cert = OpenSSL::X509::Certificate.new(certificate)
+            key = OpenSSL::PKey::RSA.new(private_key)
+          rescue OpenSSL::X509::CertificateError, OpenSSL::PKey::RSAError => e
+            message = if e.is_a?(OpenSSL::X509::CertificateError)
+                        "Invalid Public Key Certificate."
+                      else
+                        "Invalid Private Key."
+                      end
+            raise Fog::AWS::IAM::MalformedCertificate.new(message)
+          end
+
+          unless cert.check_private_key(key)
+            raise Fog::AWS::IAM::KeyPairMismatch.new
+          end
+
           if self.data[:server_certificates][name]
+            raise Fog::AWS::IAM::EntityAlreadyExists.new
           else
             response.status = 200
             path = "server-certificates/#{name}"
