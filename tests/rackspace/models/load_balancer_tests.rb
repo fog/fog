@@ -11,11 +11,23 @@ Shindo.tests('Fog::Rackspace::LoadBalancer | load_balancer', ['rackspace']) do
   @service = Fog::Rackspace::LoadBalancer.new
 
   model_tests(@service.load_balancers, LOAD_BALANCER_ATTRIBUTES, false) do
-    @instance.wait_for { ready? }
 
+    @instance.wait_for { ready? }
     tests('#save => saving existing with port = 88').succeeds do
       @instance.port = 88
       @instance.save
+    end
+
+    @instance.wait_for { ready? }
+    tests('#enable_connection_logging').succeeds do
+      @instance.enable_connection_logging
+      returns(true) { @instance.connection_logging }
+    end
+
+    @instance.wait_for { ready? }
+    tests('#disable_connection_logging').succeeds do
+      @instance.disable_connection_logging
+      returns(false) { @instance.connection_logging }
     end
 
     @instance.wait_for { ready? }

@@ -3,6 +3,11 @@ NODE_FORMAT = {'node' => SINGLE_NODE_FORMAT}
 NODES_FORMAT = {'nodes' => [SINGLE_NODE_FORMAT]}
 VIRTUAL_IP_FORMAT = {'type' => String, 'id' => Integer, 'type' => String, 'ipVersion' => String, 'address' => String}
 VIRTUAL_IPS_FORMAT = { 'virtualIps' => [VIRTUAL_IP_FORMAT] }
+CONNECTION_LOGGING_FORMAT = {
+  'connectionLogging' => {
+    'enabled' => Fog::Boolean
+  }
+}
 
 STATUS_ACTIVE = 'ACTIVE'
 
@@ -34,7 +39,7 @@ LOAD_BALANCER_FORMAT = {
     'nodes' => [SINGLE_NODE_FORMAT],
     'created' => { 'time' => String },
     'updated' => { 'time' => String },
-    'connectionLogging' => { 'enabled' => Fog::Boolean }
-}}
+  }.merge(CONNECTION_LOGGING_FORMAT)
+}
 
 

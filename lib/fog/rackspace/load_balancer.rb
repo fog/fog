@@ -21,6 +21,8 @@ module Fog
         end
       end
 
+      class InternalServerError < ServiceError; end
+
       class BadRequest < ServiceError
         #TODO - Need to find a bette way to print out these validation errors when they are thrown
         attr_reader :validation_errors
@@ -64,6 +66,10 @@ module Fog
       request :create_virtual_ip
       request :list_virtual_ips
       request :delete_virtual_ip
+      request :list_protocols
+      request :list_algorithms
+      request :get_connection_logging
+      request :set_connection_logging
 
       class Real
         def initialize(options={})
@@ -83,6 +89,14 @@ module Fog
           @connection = Fog::Connection.new(uri.to_s, options[:persistent])
         end
 
+        def protocols
+          list_protocols.body['protocols']
+        end
+
+        def algorithms
+          list_algorithms.body['algorithms'].collect { |i| i['name'] }
+        end
+
         def request(params)
           #TODO - Unify code with other rackspace services
           begin
@@ -98,6 +112,8 @@ module Fog
             raise NotFound.slurp error
           rescue Excon::Errors::BadRequest => error
             raise BadRequest.slurp error
+          rescue Excon::Errors::InternalServerError => error
+            raise InternalServerError.slurp error
           rescue Excon::Errors::HTTPStatusError => error
             raise ServiceError.slurp error
           end
