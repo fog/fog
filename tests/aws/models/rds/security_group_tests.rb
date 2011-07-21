@@ -8,7 +8,7 @@ Shindo.tests("AWS::RDS | security_group", ['aws', 'rds']) do
     tests("#description").returns('fog test') { @instance.description }
 
     tests("#authorize_ec2_security_group").succeeds do
-      @ec2_sec_group = Compute[:aws].security_groups.create(:name => 'fog-test', :description => 'fog test')
+      @ec2_sec_group = Fog::Compute[:aws].security_groups.create(:name => 'fog-test', :description => 'fog test')
 
       @instance.authorize_ec2_security_group(@ec2_sec_group.name)
       returns('authorizing') do
