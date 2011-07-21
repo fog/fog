@@ -11,6 +11,9 @@ module Fog
         def put_object(container, object, data, options = {})
           data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)
+          if headers.has_key?('Transfer-Encoding')
+            headers.delete('Content-Length')
+          end
           response = request(
             :body     => data[:body],
             :expects  => 201,
