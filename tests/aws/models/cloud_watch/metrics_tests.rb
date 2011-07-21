@@ -1,8 +1,7 @@
 Shindo.tests("AWS::CloudWatch | metrics", ['aws', 'cloudwatch']) do
 
   tests('success') do
-    pending if Fog.mocking?
-    
+    pending # FIXME: the hardcoded instance id won't be available
     tests("#all").succeeds do
       AWS[:cloud_watch].metrics.all
     end
