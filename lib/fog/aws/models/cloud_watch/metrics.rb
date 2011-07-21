@@ -19,11 +19,11 @@ module Fog
             dimensions_array = dimensions.collect do |name, value|
               {'Name' => name, 'Value' => value}
             end
-            puts dimensions_array.inspect
             # list_opts.merge!('Dimensions' => dimensions_array) 
           end
-          data = connection.list_metrics(list_opts).body['ListMetricsResult']['Metrics'].first
-          new(data)
+          if data = connection.list_metrics(list_opts).body['ListMetricsResult']['Metrics'].first
+            new(data)
+          end
         end
         
       end
