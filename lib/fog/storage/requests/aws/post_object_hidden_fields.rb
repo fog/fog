@@ -27,7 +27,7 @@ module Fog
 
         def post_object_hidden_fields(options = {})
           if options['policy']
-            options['policy'] = options['policy'].to_json
+            options['policy'] = MultiJson.encode(options['policy'])
             options['AWSAccessKeyId'] = @aws_access_key_id
             string_to_sign = Base64.encode64(options['policy']).chomp!
             signed_string = @hmac.sign(string_to_sign)

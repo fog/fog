@@ -56,7 +56,7 @@ module Fog
             end
           end
           request(
-            :body     => data.to_json,
+            :body     => MultiJson.encode(data),
             :expects  => [200, 202],
             :method   => 'POST',
             :path     => 'servers.json'

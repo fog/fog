@@ -9,7 +9,7 @@ module Fog
             :method   => 'POST',
             :path     => "/1.0/account/reset_ftp_password",
             :headers  => {"Content-Type" => "application/json"},
-            :body     => options.to_json
+            :body     => MultiJson.encode(options)
           )
         end
 

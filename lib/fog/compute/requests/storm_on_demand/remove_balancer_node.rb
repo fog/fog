@@ -6,7 +6,7 @@ module Fog
         def remove_balancer_node(options = {})
           request(
             :path     => "/network/loadbalancer/removenode",
-            :body     => {:params => options}.to_json
+            :body     => MultiJson.encode({:params => options})
           )
         end
 

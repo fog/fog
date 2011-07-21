@@ -11,7 +11,7 @@ module Fog
             :method   => 'PUT',
             :path     => "/1.0/servers/#{identifier}",
             :headers  => {"Content-Type" => "application/json"},
-            :body     => options.to_json
+            :body     => MultiJson.encode(options)
           )
         end
 

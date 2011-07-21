@@ -30,7 +30,7 @@ module Fog
 
           body = { "record" => options }
 
-          request( :body     => body.to_json,
+          request( :body     => MultiJson.encode(body),
                    :expects  => 200,
                    :method   => "PUT",
                    :path     => "/domains/#{domain}/records/#{record_id}" )

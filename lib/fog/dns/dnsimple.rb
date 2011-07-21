@@ -82,7 +82,7 @@ module Fog
           response = @connection.request(params.merge!({:host => @host}))
 
           unless response.body.empty?
-            response.body = ::MultiJson.decode(response.body)
+            response.body = MultiJson.decode(response.body)
           end
           response
         end

@@ -11,8 +11,8 @@ module Fog
         attribute :ssl_id,        :aliases => 'SSLCertificateId'
 
         def initialize(attributes={})
-          defaults = {:policy_names => [], :instance_port => 80, :lb_port => 80, :protocol => 'HTTP'}
-          attributes = defaults.merge(attributes)
+          # set defaults, which may be overridden in super
+          merge_attributes(:policy_names => [], :instance_port => 80, :lb_port => 80, :protocol => 'HTTP')
           super
         end
 

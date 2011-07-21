@@ -36,7 +36,7 @@ module Fog
 
           body["record"].merge!(options)
 
-          request( :body     => body.to_json,
+          request( :body     => MultiJson.encode(body),
                    :expects  => 201,
                    :method   => 'POST',
                    :path     => "/domains/#{domain}/records" )

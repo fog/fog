@@ -10,7 +10,7 @@ Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
 
   @server = Fog::Compute[:aws].servers.create
   @server.wait_for { ready? }
-  @ip_address = @server.ip_address
+  @ip_address = @server.public_ip_address
 
   tests('success') do
 

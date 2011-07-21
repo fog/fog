@@ -25,7 +25,7 @@ module Fog
             data['image']['name'] = options['name']
           end
           request(
-            :body     => data.to_json,
+            :body     => MultiJson.encode(data),
             :expects  => 202,
             :method   => 'POST',
             :path     => "images"

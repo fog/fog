@@ -113,7 +113,7 @@ module Fog
             %{mkdir .ssh},
             %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
             %{passwd -l #{username}},
-            %{echo "#{attributes.to_json}" >> ~/attributes.json}
+            %{echo "#{MultiJson.encode(attributes)}" >> ~/attributes.json}
           ])
         rescue Errno::ECONNREFUSED
           sleep(1)

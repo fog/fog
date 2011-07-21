@@ -23,10 +23,14 @@ class AWS < Fog::Bin
         Fog::AWS::SimpleDB
       when :ses
         Fog::AWS::SES
+      when :sqs
+        Fog::AWS::SQS
       when :eu_storage, :storage
         Fog::Storage::AWS
       when :rds
         Fog::AWS::RDS
+      when :sns
+        Fog::AWS::SNS
       else
         # @todo Replace most instances of ArgumentError with NotImplementedError
         # @todo For a list of widely supported Exceptions, see:
@@ -65,9 +69,13 @@ class AWS < Fog::Bin
           Fog::AWS::SimpleDB.new
         when :ses
           Fog::AWS::SES.new
+        when :sqs
+          Fog::AWS::SQS.new
         when :storage
           Formatador.display_line("[yellow][WARN] AWS[:storage] is deprecated, use Storage[:aws] instead[/]")
           Fog::Storage.new(:provider => 'AWS')
+        when :sns
+          Fog::AWS::SNS.new
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end

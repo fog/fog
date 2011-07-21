@@ -6,7 +6,7 @@ module Fog
         def delete_server(options = {})
           request(
             :path     => "/storm/server/destroy",
-            :body     => {:params => options}.to_json
+            :body     => MultiJson.encode({:params => options})
           )
         end
 

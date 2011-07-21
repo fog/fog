@@ -236,9 +236,6 @@ task :changelog do
     file.write("\n\n")
     file.write(old_changelog)
   end
-
-  `echo "#{changelog.join("\n")}" | pbcopy`
-  p 'changelog copied to clipboard'
 end
 
 task :docs do

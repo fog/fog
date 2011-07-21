@@ -46,7 +46,7 @@ module Fog
             :expects  => 200,
             :method   => "PUT",
             :path     => "/V1.2/domains/#{domain}/records/#{record_id}",
-            :body     => options.to_json
+            :body     => MultiJson.encode(options)
           )
         end
 

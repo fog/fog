@@ -1,5 +1,4 @@
 require 'fog/core'
-require 'fog/core/parser'
 require 'openssl' # For RSA key pairs
 require 'base64' # For console output
 
@@ -12,13 +11,15 @@ module Fog
     service(:cdn,             'cdn/aws')
     service(:compute,         'compute/aws')
     service(:cloud_formation, 'aws/cloud_formation')
-    service(:cloud_watch, 'aws/cloud_watch')
+    service(:cloud_watch,     'aws/cloud_watch')
     service(:dns,             'dns/aws')
     service(:elb,             'aws/elb')
     service(:iam,             'aws/iam')
     service(:rds,             'aws/rds')
     service(:ses,             'aws/ses')
     service(:simpledb,        'aws/simpledb')
+    service(:sns,             'aws/sns')
+    service(:sqs,             'aws/sqs')
     service(:storage,         'storage/aws')
 
     def self.indexed_param(key, values)

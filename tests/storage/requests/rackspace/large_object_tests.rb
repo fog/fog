@@ -1,30 +1,32 @@
 Shindo.tests('Fog::Storage[:rackspace] | large object requests', [:rackspace]) do
 
-  @directory = Fog::Storage[:rackspace].directories.create(:key => 'foglargeobjecttests')
+  unless Fog.mocking?
+    @directory = Fog::Storage[:rackspace].directories.create(:key => 'foglargeobjecttests')
+  end
 
   tests('success') do
 
-    tests("#put_object('#{@directory.identity}', 'fog_large_object/1', ('x' * 6 * 1024 * 1024))").succeeds do
+    tests("#put_object('foglargeobjecttests', 'fog_large_object/1', ('x' * 6 * 1024 * 1024))").succeeds do
       pending if Fog.mocking?
       Fog::Storage[:rackspace].put_object(@directory.identity, 'fog_large_object/1', ('x' * 6 * 1024 * 1024))
     end
 
-    tests("#put_object('#{@directory.identity}', 'fog_large_object/2', ('x' * 4 * 1024 * 1024))").succeeds do
+    tests("#put_object('foglargeobjecttests', 'fog_large_object/2', ('x' * 4 * 1024 * 1024))").succeeds do
       pending if Fog.mocking?
       Fog::Storage[:rackspace].put_object(@directory.identity, 'fog_large_object/2', ('x' * 4 * 1024 * 1024))
     end
 
-    tests("#put_object_manifest('#{@directory.identity}', 'fog_large_object')").succeeds do
+    tests("#put_object_manifest('foglargeobjecttests', 'fog_large_object')").succeeds do
       pending if Fog.mocking?
       Fog::Storage[:rackspace].put_object_manifest(@directory.identity, 'fog_large_object')
     end
 
-    tests("#get_object('#{@directory.identity}', 'fog_large_object').body").succeeds do
+    tests("#get_object('foglargeobjecttests', 'fog_large_object').body").succeeds do
       pending if Fog.mocking?
       Fog::Storage[:rackspace].get_object(@directory.identity, 'fog_large_object').body == ('x' * 10 * 1024 * 1024)
     end
 
-    if !Fog.mocking?
+    unless Fog.mocking?
       ['fog_large_object', 'fog_large_object/1', 'fog_large_object/2'].each do |key|
         @directory.files.new(:key => key).destroy
       end
@@ -38,6 +40,8 @@ Shindo.tests('Fog::Storage[:rackspace] | large object requests', [:rackspace]) d
 
   end
 
-  @directory.destroy
+  unless Fog.mocking?
+    @directory.destroy
+  end
 
 end

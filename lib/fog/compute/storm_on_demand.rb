@@ -118,7 +118,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = ::MultiJson.decode(response.body)
+            response.body = MultiJson.decode(response.body)
           end
           if response.body.keys.include?('full_error')
             raise(Fog::Compute::StormOnDemand::Error, response.body.inspect)

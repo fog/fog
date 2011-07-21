@@ -25,7 +25,7 @@ require 'fog/core/errors'
 require 'fog/core/hmac'
 require 'fog/core/model'
 require 'fog/core/mock'
-# require 'fog/core/parser'
+require 'fog/core/parser' # FIXME: would be better to only load when nokogiri is required
 require 'fog/core/provider'
 require 'fog/core/service'
 require 'fog/core/ssh'

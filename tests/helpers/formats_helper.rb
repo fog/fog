@@ -57,7 +57,7 @@ module Shindo
           valid &&= datum.is_a?(Hash) || p("not Hash: #{datum.inspect}")
           valid &&= formats_kernel(datum, value, false)
         else
-          p "#{key} not #{value}: #{datum.inspect}" unless datum.is_a?(value)
+          p "#{key.inspect} not #{value.inspect}: #{datum.inspect}" unless datum.is_a?(value)
           valid &&= datum.is_a?(value)
         end
       end

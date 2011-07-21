@@ -6,19 +6,19 @@ module Fog
 
     Array.public_instance_methods(false).each do |method|
       unless [:reject, :select, :slice].include?(method.to_sym)
-        class_eval <<-RUBY
+        class_eval <<-EOS, __FILE__, __LINE__
           def #{method}(*args)
             unless @loaded
               lazy_load
             end
             super
           end
-        RUBY
+        EOS
       end
     end
 
     %w[reject select slice].each do |method|
-      class_eval <<-RUBY
+      class_eval <<-EOS, __FILE__, __LINE__
         def #{method}(*args)
           unless @loaded
             lazy_load
@@ -26,7 +26,7 @@ module Fog
           data = super
           result = self.clone.clear.concat(data)
         end
-      RUBY
+      EOS
     end
 
     def self.model(new_model=nil)
@@ -117,7 +117,7 @@ module Fog
 
     def to_json(options = {})
       require 'multi_json'
-      self.map {|member| member.attributes}.to_json(options)
+      MultiJson.encode(self.map {|member| member.attributes})
     end
 
     private

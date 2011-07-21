@@ -14,8 +14,8 @@ Shindo.tests('AWS::SimpleDB | attributes requests', ['aws']) do
       AWS[:sdb].get_attributes(@domain_name, 'a', {'ConsistentRead' => true}).body['Attributes']
     end
 
-    tests("#get_attributes('#{@domain_name}', 'notanattribute')").succeeds do
-      AWS[:sdb].get_attributes(@domain_name, 'notanattribute')
+    tests("#get_attributes('#{@domain_name}', 'AttributeName' => 'notanattribute')").succeeds do
+      AWS[:sdb].get_attributes(@domain_name, 'AttributeName' => 'notanattribute')
     end
 
     tests("#select('select * from #{@domain_name}', {'ConsistentRead' => true}).body['Items']").returns({'a' => { 'b' => ['c'], 'd' => ['e']}, 'x' => { 'y' => ['z'] } }) do

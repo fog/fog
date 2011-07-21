@@ -6,7 +6,7 @@ module Fog
         def list_images(options = {})
           request(
             :path     => "/server/image/list",
-            :body     => options.to_json
+            :body     => MultiJson.encode(options)
           )
         end
 

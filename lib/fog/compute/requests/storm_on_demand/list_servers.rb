@@ -6,7 +6,7 @@ module Fog
         def list_servers(options = {})
           request(
             :path     => "/storm/server/list",
-            :body     => options.to_json
+            :body     => MultiJson.encode(options)
           )
         end
 

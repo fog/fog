@@ -4,6 +4,7 @@ if storage_providers.keys.include? :ninefold
     Shindo.tests("Storage[:ninefold] | nested directories", [provider]) do
       ninefold = Fog::Storage[:ninefold]
       tests("update a file").succeeds do
+        pending if Fog.mocking?
         dir = ninefold.directories.create(:key => 'updatefiletests')
         f = dir.files.create(:key => 'lorem.txt', :body => lorem_file)
         f.body = "xxxxxx"

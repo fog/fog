@@ -56,9 +56,7 @@ module Fog
 
             listeners.each do |listener|
               if listener['SSLCertificateId'] and !certificate_ids.include? listener['SSLCertificateId']
-                response.status = 400
-                response.body = "<?xml version=\"1.0\"?><Response><Errors><Error><Code>CertificateNotFound</Code><Message>The specified SSL ID does not refer to a valid SSL certificate in the AWS Identity and Access Management Service..</Message></Error></Errors><RequestID>#{Fog::AWS::Mock.request_id}</RequestId></Response>"
-                raise Excon::Errors.status_error({:expects => 200}, response)
+                raise Fog::AWS::IAM::NotFound.new('CertificateNotFound')
               end
               load_balancer['ListenerDescriptions'] << {'Listener' => listener, 'PolicyNames' => []}
             end
