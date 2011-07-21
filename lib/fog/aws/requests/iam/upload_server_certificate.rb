@@ -49,8 +49,20 @@ module Fog
           end
           response = Excon::Response.new
 
+          # Validate cert and key
+          begin
+            cert = OpenSSL::X509::Certificate.new(certificate)
+            key = OpenSSL::PKey::RSA.new(private_key)
+          rescue OpenSSL::X509::CertificateError, OpenSSL::PKey::RSAError => e
+            raise Fog::AWS::IAM::MalformedCertificate.new
+          end
+
+          unless cert.check_private_key(key)
+            raise Fog::AWS::IAM::KeyPairMismatch.new
+          end
+
           if self.data[:server_certificates][name]
-            raise Fog::AWS::IAM::EntityAlreadyExists
+            raise Fog::AWS::IAM::EntityAlreadyExists.new
           else
             response.status = 200
             path = "server-certificates/#{name}"

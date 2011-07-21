@@ -16,13 +16,26 @@ Shindo.tests('AWS::IAM | server certificate requests', ['aws']) do
   tests('#upload_server_certificate') do
     public_key  = AWS::IAM::SERVER_CERT_PUBLIC_KEY
     private_key = AWS::IAM::SERVER_CERT_PRIVATE_KEY
+    private_key_mismatch = AWS::IAM::SERVER_CERT_PRIVATE_KEY_MISMATCHED
 
     tests('empty public key').raises(Fog::AWS::IAM::ValidationError) do
-      AWS[:iam].upload_server_certificate('', private_key, @key_name).body
+      AWS[:iam].upload_server_certificate('', private_key, @key_name)
     end
 
     tests('empty private key').raises(Fog::AWS::IAM::ValidationError) do
-      AWS[:iam].upload_server_certificate(public_key, '', @key_name).body
+      AWS[:iam].upload_server_certificate(public_key, '', @key_name)
+    end
+
+    tests('invalid public key').raises(Fog::AWS::IAM::MalformedCertificate) do
+      AWS[:iam].upload_server_certificate('abcde', private_key, @key_name)
+    end
+
+    tests('invalid private key').raises(Fog::AWS::IAM::MalformedCertificate) do
+      AWS[:iam].upload_server_certificate(public_key, 'abcde', @key_name)
+    end
+
+    tests('mismatched private key').raises(Fog::AWS::IAM::KeyPairMismatch) do
+      AWS[:iam].upload_server_certificate(public_key, private_key_mismatch, @key_name)
     end
 
     tests('format').formats(@upload_format) do
