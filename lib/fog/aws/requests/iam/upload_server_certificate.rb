@@ -54,7 +54,12 @@ module Fog
             cert = OpenSSL::X509::Certificate.new(certificate)
             key = OpenSSL::PKey::RSA.new(private_key)
           rescue OpenSSL::X509::CertificateError, OpenSSL::PKey::RSAError => e
-            raise Fog::AWS::IAM::MalformedCertificate.new
+            message = if e.is_a?(OpenSSL::X509::CertificateError)
+                        "Invalid Public Key Certificate."
+                      else
+                        "Invalid Private Key."
+                      end
+            raise Fog::AWS::IAM::MalformedCertificate.new(message)
           end
 
           unless cert.check_private_key(key)
