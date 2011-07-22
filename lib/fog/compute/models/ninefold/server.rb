@@ -5,6 +5,9 @@ module Fog
     class Ninefold
 
       class Server < Fog::Model
+        extend Fog::Deprecation
+        deprecate :serviceofferingid, :flavor_id
+        deprecate :templateid,        :image_id
 
         identity  :id
 
@@ -13,10 +16,11 @@ module Fog
         attribute :cpuspeed
 
         attribute :cpuused
-        attribute :created, :type => :time
+        attribute :created,             :type => :time
         attribute :displayname
         attribute :domain
         attribute :domainid
+        attribute :flavor_id,           :aliases => :serviceofferingid
         attribute :forvirtualnetwork
         attribute :group
         attribute :groupid
@@ -25,6 +29,7 @@ module Fog
         attribute :hostid
         attribute :hostname
         attribute :hypervisor
+        attribute :image_id,            :aliases => :templateid
         #attribute :ipaddress
         attribute :isodisplaytext
         attribute :isoid
@@ -35,20 +40,18 @@ module Fog
         attribute :name
         attribute :networkkbsread
         attribute :networkkbswrite
+        attribute :nic
         attribute :password
         attribute :passwordenabled
         attribute :rootdeviceid
         attribute :rootdevicetype
-        attribute :serviceofferingid
+        attribute :securitygroup
         attribute :serviceofferingname
         attribute :state
         attribute :templatedisplaytext
-        attribute :templateid
         attribute :templatename
         attribute :zoneid
         attribute :zonename
-        attribute :nic
-        attribute :securitygroup
 
         # used for creation only.
         attribute :networkids
@@ -66,7 +69,7 @@ module Fog
 
         def initialize(attributes={})
           merge_attributes({
-            :serviceofferingid => 105 # '1CPU, 384MB, 80GB HDD'
+            :flavor_id => 105 # '1CPU, 384MB, 80GB HDD'
           })
           super
         end
@@ -102,13 +105,13 @@ module Fog
         end
 
         def flavor
-          requires :serviceofferingid
-          connection.flavors.get(serviceofferingid)
+          requires :flavor_id
+          connection.flavors.get(flavor_id)
         end
 
         def image
-          requires :templateid
-          connection.images.get(templateid)
+          requires :image_id
+          connection.images.get(image_id)
         end
 
         def ready?
@@ -130,9 +133,7 @@ module Fog
 
         def save
           raise "Operation not supported" if self.identity
-          requires :serviceofferingid
-          requires :templateid
-          requires :zoneid
+          requires :flavor_id, :image_id, :zoneid
 
           unless networkids
             # No network specified, use first in this zone.
@@ -146,8 +147,8 @@ module Fog
           end
 
           options = {
-            :serviceofferingid => serviceofferingid,
-            :templateid => templateid,
+            :serviceofferingid => flavor_id,
+            :templateid => image_id,
             :name => name,
             :zoneid => zoneid,
             :networkids => networkids,
