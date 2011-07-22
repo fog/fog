@@ -128,6 +128,7 @@ class Ninefold
                          "name"=>String
                        }]
         ZONES = [{
+                   "allocationstate"=>String,
                    "id"=>Integer,
                    "name"=>String,
                    "networktype"=>String,
@@ -177,7 +178,6 @@ class Ninefold
           "guestosid"=>Integer,
           "rootdeviceid"=>Integer,
           "rootdevicetype"=>String,
-          "securitygroup"=>Array,
           "nic"=>[{
                     "id"=>Integer,
                     "networkid"=>Integer,
