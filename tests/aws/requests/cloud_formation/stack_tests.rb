@@ -85,7 +85,7 @@ Shindo.tests('AWS::CloudFormation | stack requests', ['aws', 'cloudformation']) 
 
     unless Fog.mocking?
       @stack_name = 'fogstack' << Time.now.to_i.to_s
-      @keypair = Compute[:aws].key_pairs.create(:name => 'cloudformation')
+      @keypair = Fog::Compute[:aws].key_pairs.create(:name => 'cloudformation')
       @template_url = 'https://s3.amazonaws.com/cloudformation-templates-us-east-1/EC2InstanceSample-1.0.0.template'
     end
 

@@ -1,16 +1,19 @@
-if storage_providers.keys.include? :ninefold
-  for provider, config in storage_providers
+Shindo.tests("Storage[:ninefold] | nested directories", ['ninefold']) do
 
-    Shindo.tests("Storage[:ninefold] | nested directories", [provider]) do
-      ninefold = Fog::Storage[:ninefold]
-      tests("update a file").succeeds do
-        pending if Fog.mocking?
-        dir = ninefold.directories.create(:key => 'updatefiletests')
-        f = dir.files.create(:key => 'lorem.txt', :body => lorem_file)
-        f.body = "xxxxxx"
-        f.save
-      end
-    end
-
+  unless Fog.mocking?
+    @directory = Fog::Storage[:ninefold].directories.create(:key => 'updatefiletests')
   end
+
+  ninefold = Fog::Storage[:ninefold]
+  tests("update a file").succeeds do
+    pending if Fog.mocking?
+    file = @directory.files.create(:key => 'lorem.txt', :body => lorem_file)
+    file.body = "xxxxxx"
+    file.save
+  end
+
+  unless Fog.mocking?
+    @directory.destroy(:recursive => true)
+  end
+
 end
