@@ -65,6 +65,9 @@ module Fog
 
 
         def initialize(attributes={})
+          merge_attributes({
+            :serviceofferingid => 105 # '1CPU, 384MB, 80GB HDD'
+          })
           super
         end
 
