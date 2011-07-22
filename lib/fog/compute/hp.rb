@@ -129,7 +129,11 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = JSON.parse(response.body)
+            begin
+              response.body = JSON.parse(response.body)
+            rescue JSON::ParserError => error
+              response.body    #### the body is not in JSON format so just return it as it is
+            end
           end
           response
         end
