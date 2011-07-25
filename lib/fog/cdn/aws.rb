@@ -9,11 +9,17 @@ module Fog
 
       request_path 'fog/cdn/requests/aws'
       request 'delete_distribution'
+      request 'delete_streaming_distribution'
       request 'get_distribution'
       request 'get_distribution_list'
+      request 'get_invalidation_list'
+      request 'get_streaming_distribution'
+      request 'get_streaming_distribution_list'
       request 'post_distribution'
+      request 'post_streaming_distribution'
       request 'post_invalidation'
       request 'put_distribution_config'
+      request 'put_streaming_distribution_config'
 
       class Mock
 
