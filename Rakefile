@@ -128,7 +128,6 @@ end
 #############################################################################
 
 task :release => :build do
-  Rake::Task[:changelog].invoke
   unless `git branch` =~ /^\* master$/
     puts "You must be on the master branch to release!"
     exit!
