@@ -5,10 +5,10 @@ Gem::Specification.new do |s|
   ## Leave these as is they will be modified for you by the rake gemspec task.
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
-  s.name              = 'fog'
-  s.version           = '0.8.2'
-  s.date              = '2011-05-26'
-  s.rubyforge_project = 'fog'
+  s.name              = 'hpfog'
+  s.version           = '0.0.6'  # fog base 0.8.2
+  s.date              = '2011-07-26'
+  #s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
   ## as you like.
@@ -18,13 +18,18 @@ Gem::Specification.new do |s|
   ## List the primary authors. If there are a bunch of authors, it's probably
   ## better to set the email to an email list or something. If you don't have
   ## a custom homepage, consider using your GitHub URL or the like.
-  s.authors  = ["geemus (Wesley Beary)"]
-  s.email    = 'geemus@gmail.com'
-  s.homepage = 'http://github.com/geemus/fog'
+  s.authors  = ["Hewlett-Packard","geemus (Wesley Beary)"]
+  s.email    = %w{matt.sanders@hp.com rupak.ganguly@hp.com}
+  # s.email    = 'geemus@gmail.com'
+  # s.homepage = 'http://github.com/geemus/fog'
 
   ## This sections is only necessary if you have C extensions.
   # s.require_paths << 'ext'
   # s.extensions = %w[ext/extconf.rb]
+
+  ## This gets added to the $LOAD_PATH so that 'lib/NAME.rb' can be required as
+  ## require 'NAME.rb' or'/lib/NAME/file.rb' can be as require 'NAME/file.rb'
+  s.require_paths = %w[lib]
 
   ## If your gem includes any executables, list them here.
   s.executables = ["fog"]
