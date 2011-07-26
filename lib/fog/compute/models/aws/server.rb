@@ -25,6 +25,7 @@ module Fog
         attribute :created_at,            :aliases => 'launchTime'
         attribute :monitoring,            :squash => 'state'
         attribute :placement_group,       :aliases => 'groupName'
+        attribute :platform,              :aliases => 'platform'
         attribute :product_codes,         :aliases => 'productCodes'
         attribute :private_dns_name,      :aliases => 'privateDnsName'
         attribute :private_ip_address,    :aliases => 'privateIpAddress'
