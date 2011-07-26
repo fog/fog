@@ -30,7 +30,7 @@ module Fog
               @instance['placement'][name] = value
             when 'architecture', 'clientToken', 'dnsName', 'imageId',
                   'instanceId', 'instanceType', 'ipAddress', 'kernelId',
-                  'keyName', 'privateDnsName', 'privateIpAddress', 'ramdiskId',
+                  'keyName', 'platform', 'privateDnsName', 'privateIpAddress', 'ramdiskId',
                   'reason', 'rootDeviceType'
               @instance[name] = value
             when 'attachTime'
