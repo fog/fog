@@ -19,5 +19,9 @@ module Fog
       end
     end
 
+    def self.providers
+      Fog.services[:cdn]
+    end
+
   end
 end

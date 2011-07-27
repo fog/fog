@@ -30,7 +30,7 @@ module Fog
 
     def self.directories
       directories = []
-      for provider in [:aws, :google, :local, :ninefold, :rackspace]
+      for provider in self.providers
         begin
           directories.concat(self[provider].directories)
         rescue # ignore any missing credentials/etc
@@ -71,6 +71,10 @@ module Fog
       end
       # metadata[:headers]['Content-MD5'] = Base64.encode64(Digest::MD5.digest(metadata[:body])).strip
       metadata
+    end
+
+    def self.providers
+      Fog.services[:storage]
     end
 
   end

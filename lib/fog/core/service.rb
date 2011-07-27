@@ -1,4 +1,9 @@
 module Fog
+
+  def self.services
+    @services ||= {}
+  end
+
   class Service
 
     class Error < Fog::Errors::Error; end

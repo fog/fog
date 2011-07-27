@@ -55,9 +55,13 @@ module Fog
       end
     end
 
+    def self.providers
+      Fog.services[:compute]
+    end
+
     def self.servers
       servers = []
-      for provider in [:aws, :bluebox, :brightbox, :ecloud, :gogrid, :linode, :newservers, :ninefold, :rackspace, :slicehost, :stormondemand, :virtualbox, :voxel]
+      for provider in self.providers
         begin
           servers.concat(self[provider].servers)
         rescue # ignore any missing credentials/etc

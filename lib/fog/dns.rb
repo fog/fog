@@ -34,9 +34,13 @@ module Fog
       end
     end
 
+    def self.providers
+      Fog.services[:dns]
+    end
+
     def self.zones
       zones = []
-      for provider in [:aws, :bluebox, :dnsimple, :dnsmadeeasy, :linode, :slicehost, :zerigo]
+      for provider in self.providers
         begin
           zones.concat(self[provider].zones)
         rescue # ignore any missing credentials/etc
