@@ -44,6 +44,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
         'architecture'      => String,
         'dnsName'           => Fog::Nullable::String,
         'ipAddress'         => Fog::Nullable::String,
+        'platform'          => Fog::Nullable::String,
         'privateDnsName'    => Fog::Nullable::String,
         'privateIpAddress'  => Fog::Nullable::String,
         'stateReason'       => Hash,
