@@ -70,6 +70,10 @@ module Fog
       request :list_algorithms
       request :get_connection_logging
       request :set_connection_logging
+      request :create_access_rule
+      request :list_access_rules
+      request :delete_access_rule
+      request :delete_all_access_rules
 
       class Real
         def initialize(options={})

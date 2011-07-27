@@ -9,6 +9,16 @@ CONNECTION_LOGGING_FORMAT = {
   }
 }
 
+ACCESS_LIST_FORMAT = {
+  'accessList' => [
+    {
+      'address' => String,
+      'id' => Integer,
+      'type' => String
+    }
+  ]
+}
+
 STATUS_ACTIVE = 'ACTIVE'
 
 LOAD_BALANCERS_FORMAT = {
