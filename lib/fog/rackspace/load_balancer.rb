@@ -74,6 +74,9 @@ module Fog
       request :list_access_rules
       request :delete_access_rule
       request :delete_all_access_rules
+      request :get_session_persistence
+      request :set_session_persistence
+      request :remove_session_persistence
 
       class Real
         def initialize(options={})

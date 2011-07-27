@@ -8,6 +8,11 @@ CONNECTION_LOGGING_FORMAT = {
     'enabled' => Fog::Boolean
   }
 }
+SESSION_PERSISTENCE_FORMAT = {
+  'sessionPersistence' => {
+    'persistenceType' => Fog::Nullable::String
+  }
+}
 
 ACCESS_LIST_FORMAT = {
   'accessList' => [
