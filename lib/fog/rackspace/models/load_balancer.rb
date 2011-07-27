@@ -8,7 +8,7 @@ module Fog
         identity :id
 
         attribute :cluster
-        attribute :connection_logging,  :aliases => 'connectionLogging', :squash => 'enabled'
+        attribute :connection_logging,  :aliases => 'connectionLogging'
         attribute :port
         attribute :protocol
         attribute :algorithm
@@ -45,18 +45,22 @@ module Fog
           end
         end
 
+        def connection_logging
+          attributes[:connection_logging]
+        end
+
         def virtual_ips=(new_virtual_ips=[])
           virtual_ips.load(new_virtual_ips)
         end
 
         def enable_connection_logging
           connection.set_connection_logging identity, true
-          connection_logging = true
+          attributes[:connection_logging] = true
         end
 
         def disable_connection_logging
           connection.set_connection_logging identity, false
-          connection_logging = false
+          attributes[:connection_logging] = false
         end
 
         def destroy
@@ -110,6 +114,20 @@ module Fog
             { :address => node.address, :port => node.port, :condition => node.condition, :weight => node.weight }
           end
         end
+
+        def connection_logging=(new_value)
+          if !new_value.nil? and new_value.is_a?(Hash)
+            attributes[:connection_logging] = case new_value['enabled']
+                                              when 'true'
+                                                true
+                                              when 'false'
+                                                false
+                                              end
+          else
+            attributes[:connection_logging] = new_value
+          end
+        end
+
       end
     end
   end
