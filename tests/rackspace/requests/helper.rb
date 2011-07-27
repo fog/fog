@@ -8,6 +8,14 @@ CONNECTION_LOGGING_FORMAT = {
     'enabled' => Fog::Boolean
   }
 }
+CONNECTION_THROTTLING_FORMAT = {
+  'connectionThrottle' => {
+    'maxConnections' => Fog::Nullable::Integer,
+    'minConnections' => Fog::Nullable::Integer,
+    'maxConnectionRate' => Fog::Nullable::Integer,
+    'rateInterval' => Fog::Nullable::Integer
+  }
+}
 SESSION_PERSISTENCE_FORMAT = {
   'sessionPersistence' => {
     'persistenceType' => Fog::Nullable::String

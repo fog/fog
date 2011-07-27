@@ -77,6 +77,9 @@ module Fog
       request :get_session_persistence
       request :set_session_persistence
       request :remove_session_persistence
+      request :get_connection_throttling
+      request :remove_connection_throttling
+      request :set_connection_throttling
 
       class Real
         def initialize(options={})
