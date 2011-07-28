@@ -45,22 +45,78 @@ module Fog
           end
         end
 
-        def connection_logging
-          attributes[:connection_logging]
-        end
-
         def virtual_ips=(new_virtual_ips=[])
           virtual_ips.load(new_virtual_ips)
         end
 
+        def connection_logging
+          attributes[:connection_logging]
+        end
+
         def enable_connection_logging
+          requires :identity
           connection.set_connection_logging identity, true
           attributes[:connection_logging] = true
         end
 
         def disable_connection_logging
+          requires :identity
           connection.set_connection_logging identity, false
           attributes[:connection_logging] = false
+        end
+
+        def health_monitor
+          requires :identity
+          monitor = connection.get_monitor(identity).body['healthMonitor']
+          monitor.count == 0 ? nil : monitor
+        end
+
+        def enable_health_monitor(type, delay, timeout, attempsBeforeDeactivation, options = {})
+          requires :identity
+          connection.set_monitor(identity, type, delay, timeout, attempsBeforeDeactivation, options = {})
+          true
+        end
+
+        def disable_health_monitor
+          requires :identity
+          connection.remove_monitor(identity)
+          true
+        end
+
+        def connection_throttling
+          requires :identity
+          throttle = connection.get_connection_throttling(identity).body['connectionThrottle']
+          throttle.count == 0 ? nil : throttle
+        end
+
+        def enable_connection_throttling(max_connections, min_connections, max_connection_rate, rate_interval)
+          requires :identity
+          connection.set_connection_throttling(identity, max_connections, min_connections, max_connection_rate, rate_interval)
+          true
+        end
+
+        def disable_connection_throttling
+          requires :identity
+          connection.remove_connection_throttling(identity)
+          true
+        end
+
+        def session_persistence
+          requires :identity
+          persistence = connection.get_session_persistence(identity).body['sessionPersistence']
+          persistence.count == 0 ? nil : persistence
+        end
+
+        def enable_session_persistence(type)
+          requires :identity
+          connection.set_session_persistence(identity, type)
+          true
+        end
+
+        def disable_session_persistence
+          requires :identity
+          connection.remove_session_persistence(identity)
+          true
         end
 
         def destroy
@@ -80,6 +136,11 @@ module Fog
             create
           end
           true
+        end
+
+        def usage(options = {})
+          requires :identity
+          connection.get_load_balancer_usage(identity, options).body
         end
 
         private
