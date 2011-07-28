@@ -50,6 +50,8 @@ module Fog
       model :node
       collection :virtual_ips
       model :virtual_ip
+      collection :access_rules
+      model :access_rule
 
       request_path 'fog/rackspace/requests'
       request :create_load_balancer

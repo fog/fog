@@ -25,6 +25,18 @@ module Fog
           super
         end
 
+        def access_rules
+          @access_rules ||= begin
+            Fog::Rackspace::LoadBalancer::AccessRules.new({
+              :connection => connection,
+              :load_balancer => self})
+          end
+        end
+
+        def access_rules=(new_access_rules=[])
+          access_rules.load(new_access_rules)
+        end
+
         def nodes
           @nodes ||= begin
             Fog::Rackspace::LoadBalancer::Nodes.new({
