@@ -3,6 +3,36 @@ NODE_FORMAT = {'node' => SINGLE_NODE_FORMAT}
 NODES_FORMAT = {'nodes' => [SINGLE_NODE_FORMAT]}
 VIRTUAL_IP_FORMAT = {'type' => String, 'id' => Integer, 'type' => String, 'ipVersion' => String, 'address' => String}
 VIRTUAL_IPS_FORMAT = { 'virtualIps' => [VIRTUAL_IP_FORMAT] }
+USAGE_FORMAT = {
+  'accountId' => Integer,
+  'loadBalancerUsages' => [
+    {
+      'loadBalancerId' => Fog::Nullable::Integer,
+      'loadBalancerName' => Fog::Nullable::String,
+      'loadBalancerUsageRecords' => [
+        {
+          'id' => Fog::Nullable::Integer,
+          'eventType' => Fog::Nullable::String,
+          'averageNumConnections' => Fog::Nullable::Float,
+          'incomingTransfer' => Fog::Nullable::Integer,
+          'outgoingTransfer' => Fog::Nullable::Integer,
+          'numVips' => Fog::Nullable::Integer,
+          'numPolls' => Fog::Nullable::Integer,
+          'startTime' => Fog::Nullable::String,
+          'endTime' => Fog::Nullable::String
+        }
+      ]
+    }
+  ],
+  'accountUsage' => [
+    {
+      'startTime' => Fog::Nullable::String,
+      'numLoadBalancers' => Fog::Nullable::Integer,
+      'numPublicVips' => Fog::Nullable::Integer,
+      'numServicenetVips' => Fog::Nullable::Integer
+    }
+  ]
+}
 CONNECTION_LOGGING_FORMAT = {
   'connectionLogging' => {
     'enabled' => Fog::Boolean
