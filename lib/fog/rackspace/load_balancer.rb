@@ -6,7 +6,6 @@ module Fog
         attr_reader :response_data
 
         def self.slurp(error)
-          #TODO Where is the best place to do this json require
           if error.response.body.empty?
             data = nil
             message = nil
@@ -38,6 +37,7 @@ module Fog
 
       DFW_ENDPOINT = 'https://dfw.loadbalancers.api.rackspacecloud.com/v1.0/'
       ORD_ENDPOINT = 'https://ord.loadbalancers.api.rackspacecloud.com/v1.0/'
+      LON_ENDPOINT = 'https://lon.loadbalancers.api.rackspacecloud.com/v1.0/'
 
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url
@@ -152,8 +152,8 @@ module Fog
           @path = "#{@path}/#{account_id}"
         end
 
-        def usage
-          get_usage.body
+        def usage(options = {})
+          get_usage(options).body
         end
       end
     end

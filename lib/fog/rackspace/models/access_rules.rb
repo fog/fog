@@ -20,6 +20,7 @@ module Fog
 
         private
         def all_raw
+          requires :load_balancer
           data = connection.list_access_rules(load_balancer.id).body['accessList']
         end
       end

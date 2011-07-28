@@ -5,6 +5,15 @@ module Fog
     class LoadBalancer
       class LoadBalancer < Fog::Model
 
+        #States
+        ACTIVE = 'ACTIVE'
+        ERROR = 'ERROR'
+        PENDING_UPDATE = 'PENDING_UPDATE'
+        PENDING_DELTE = 'PENDING_DELETE'
+        SUSPENDED = 'SUSPENDED'
+        DELETED = 'DELETED'
+        BUILD = 'BUILD'
+
         identity :id
 
         attribute :cluster
@@ -138,7 +147,7 @@ module Fog
         end
 
         def ready?
-          state == 'ACTIVE'
+          state == ACTIVE
         end
 
         def save
