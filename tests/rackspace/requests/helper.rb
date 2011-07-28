@@ -31,6 +31,17 @@ ACCESS_LIST_FORMAT = {
     }
   ]
 }
+HEALTH_MONITOR_FORMAT = {
+  'healthMonitor' => {
+    'type' => Fog::Nullable::String,
+    'delay' => Fog::Nullable::Integer,
+    'timeout' => Fog::Nullable::Integer,
+    'attemptsBeforeDeactivation' => Fog::Nullable::Integer,
+    'path' => Fog::Nullable::String,
+    'bodyRegex' => Fog::Nullable::String,
+    'statusRegex' => Fog::Nullable::String
+  }
+}
 
 STATUS_ACTIVE = 'ACTIVE'
 

@@ -80,6 +80,9 @@ module Fog
       request :get_connection_throttling
       request :remove_connection_throttling
       request :set_connection_throttling
+      request :get_monitor
+      request :set_monitor
+      request :remove_monitor
 
       class Real
         def initialize(options={})
