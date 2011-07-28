@@ -151,6 +151,10 @@ module Fog
           account_id = credentials['X-Server-Management-Url'].match(/.*\/([\d]+)$/)[1]
           @path = "#{@path}/#{account_id}"
         end
+
+        def usage
+          get_usage.body
+        end
       end
     end
   end
