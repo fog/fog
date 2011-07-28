@@ -1,3 +1,280 @@
+0.10.0 07/25/2011 9ca8cffc000c417a792235438c12855a277fe1ce
+==========================================================
+
+MVPs! Christopher Oliver, Dylan Egan and Henry Addison
+
+[AWS Autoscaling]
+  Fixed typo in put scaling policy request. thanks Christopher Oliver
+  Fixed error in describe policies parser. thanks Christopher Oliver
+  Got describe policies returning correctly. thanks Christopher Oliver
+  Removed unnecessary options merge in Delete Policy request. thanks Christopher Oliver
+
+[AWS IAM]
+  Added Alias related functionality to IAM. Also added get_group_policy. thanks Christopher Oliver
+  Added missing request file for list account aliases. thanks Christopher Oliver
+
+[AWS RDS]
+  Added describe db engine versions and describe db reserved instances. Changed the signed params version to 2011-04-01 from 2010-07-28. thanks Christopher Oliver
+  Added LicenseModel to the db_parser. thanks Christopher Oliver
+
+[AWS|ELB]
+  fix bug that was causing availability zones to not parse properly on get/reload. thanks Blake Gentry
+  default values for Listeners. thanks Blake Gentry
+  offload Listener defaults to the Listener model. thanks Blake Gentry
+
+[AWS|SNS]
+  flesh out basics. thanks geemus
+
+[AWS|SQS]
+  flesh out basics. thanks geemus
+
+[aws|auto_scaling]
+  implement 2010-08-01 API. thanks Nick Osborn
+
+[aws|autoscaling]
+  metrics#get should return nil when not found. thanks geemus
+  mark unimplemented/unsupported tests as pending. thanks geemus
+
+[aws|cloudwatch]
+  mark overly specific test as pending. thanks geemus
+
+[aws|compute]
+  improve model and tests. thanks Nick Osborn
+
+[aws|elb]
+  add test to verify that ListenerDescriptions work when creating an ELB. thanks Blake Gentry
+  make describe_load_balancers parse SSLCertificateId. Verify with test. thanks Blake Gentry
+  Raise proper IAM error for CertificateNotFound when creating an ELB or creating Listeners. thanks Blake Gentry
+  move ELB error handling related to certs to the ELB service instead of duplicating at the request level. thanks Blake Gentry
+  use slurp when raising errors to properly capture exception details. thanks Blake Gentry
+  Add set_load_balancer_listener_ssl_certificate. thanks James Miller
+  fix listener defaults to use merge_attributes and therefore aliases. thanks geemus
+
+[aws|iam]
+  add error handling for common failures resulting from upload_server_certificate. thanks Blake Gentry
+  fix superclass mismatch. thanks Blake Gentry
+  add get_server_certificate request. thanks Blake Gentry
+  raise correct ValidationError when an empty cert or key is used. thanks Blake Gentry
+  Simplify error handling code for errors with custom classes. thanks Blake Gentry
+  raise EntityAlreadyExists when creating a duplicate cert name. thanks Blake Gentry
+  tests and mocks to support many types of key/cert issues. thanks Blake Gentry
+  add proper error messages. thanks Blake Gentry
+  fix expected error result from login_profile_tests. thanks geemus
+
+[aws|rds]
+  add LicenseModel to format. thanks geemus
+
+[aws|simpledb]
+  provide for using ConsistentRead on get_attributes and select. thanks geemus
+  fix get_attributes mock deprecation. thanks geemus
+
+[compute]
+  fix stormondemand namespace mismatch. thanks geemus
+
+[compute|aws]
+  cluster compute placement group implementation. thanks geemus
+  add request level support for spot instances. thanks geemus
+  fix describe_instances parser to get group ids correctly. thanks geemus
+  fix compute accessor in tests. thanks geemus
+
+[compute|bluebox]
+  fixes for ip accessor usage. thanks geemus
+
+[compute|brightbox]
+  Fixed typo in deprecation warning. thanks Paul Thornthwaite
+  Fixed deprecated use of Brightbox[:compute] to new Compute[:brightbox]. thanks Paul Thornthwaite
+  New preference exposed in API added to format test. thanks Paul Thornthwaite
+
+[compute|ninefold]
+  add default serviceofferingid (flavor). thanks geemus
+  fix zone format. thanks geemus
+  small consistency fixes for server. thanks geemus
+
+[compute|rackspace]
+  fix for token expiry/reauth. thanks geemus
+
+[compute|virtualbox]
+  backwards compatibility for gem availability check. thanks geemus
+
+[compute|voxel]
+  fix server format. thanks geemus
+
+[core]
+  avoid ArgumentError with Ruby 1.8.5 on CentOS. thanks Nick Osborn
+  fix to_date_header to use self.utc instead of self.class.now.utc. thanks geemus
+  avoid ||= in timeout lookup. thanks geemus
+
+[docs]
+  update index to use non-deprecated service accessor. thanks geemus
+
+[misc]
+  Fix ::AWS[] syntax that's only valid in Fog tests when bin/aws.rb is loaded. thanks Blake Gentry
+  Typos. thanks Blake Gentry
+  Require json needed for both Real and Mock implementation of Rackspace; SSH commands in Mock just print to command line. thanks Brian Hartsock
+  Revert "Require json needed for both Real and Mock implementation of Rackspace; SSH commands in Mock just print to command line". thanks Brian Hartsock
+  require json for rackspace compute mock. thanks Brian Hartsock
+  Fixed #444 - Unable to squash kvp with false values. thanks Brian Hartsock
+  Fix make OpenStack swift working properly. thanks Chmouel Boudjnah
+  Move the timeout to Mock and stop hardcoding. thanks Christopher Meiklejohn
+  Fix failures in the simpledb testing due to attribute array option deprecation. thanks Christopher Meiklejohn
+  Guard against item_name not being a valid key. thanks Christopher Meiklejohn
+  Switch to the has_key? syntax for cleanliness. thanks Christopher Meiklejohn
+  Move timeout up to Fog from Fog::Mock. thanks Christopher Meiklejohn
+  Fix deprecation messages. thanks Claudio Poli
+  Make Rails' respond_with play nice with to_json. thanks Claudio Poli
+  Use multi_json gem. thanks Claudio Poli
+  Public API for force_detach on Fog::Compute::AWS::Volume. thanks Dylan Egan
+  Should actually use the attachment_aliases hash. thanks Dylan Egan
+  server method for Fog::Compute::AWS::Volume to easily get the server instance. thanks Dylan Egan
+  requires_one, allows you to require at least one of the specified attributes. thanks Dylan Egan
+  Remove pending on iam/server_certificate_tests. Start the mocking. thanks Dylan Egan
+  list_server_certificates and delete_server_certificates. thanks Dylan Egan
+  Yes, yes it is better. thanks Dylan Egan
+  Start ELB mocks. Support create_load_balancer and describe_load_balancers. thanks Dylan Egan
+  configure_health_check and create_app_cookie_stickiness_policy. thanks Dylan Egan
+  create_lb_cookie_stickiness_policy and delete_load_balancer_policy. thanks Dylan Egan
+  create_load_balancer_listeneners and set_load_balancer_policies_of_listener. thanks Dylan Egan
+  delete_load_balancer_listeners and delete_load_balancer (with two more tests). thanks Dylan Egan
+  deregister_instances_from_load_balancer, describe_instance_health, disable_availability_for_load_balancer, enable_availability_zones_for_load_balancer, register_instances_with_load_balancer and updates to others to get ELB model_tests working. thanks Dylan Egan
+  Remove requirement of basic parsers. thanks Dylan Egan
+  Move things around a bit. Separate ELB test file per concerns. thanks Dylan Egan
+  SSL for ELB mocking. thanks Dylan Egan
+  Tested against AWS. Needed this. Apparently SSLCertificateId == Arn. thanks Dylan Egan
+  Use available availability_zones. thanks Dylan Egan
+  Wait for volume to be ready again. thanks Dylan Egan
+  AWS instance tests 100% against real. thanks Dylan Egan
+  Make stuff pending if you're mocking. Need to fix spot_price_history_tests, see comment. thanks Dylan Egan
+  Let's just sleep forever. thanks Dylan Egan
+  Reinstate ipAddress and privateIpAddress as they're provided for non-terminated instances. thanks Dylan Egan
+  Reinstate ramdiskId. thanks Dylan Egan
+  Revert "Reinstate ramdiskId." - fuckit! Seems like AWS doesn't return     ramdiskId for. thanks Dylan Egan
+  Clean up timeout and add tests. thanks Dylan Egan
+  Quick fix, ith != i. thanks Dylan Egan
+  Begin work on mocking reserved instances. Provide describe_reserved_instances_offerings for mocking and real. REAL TALK. thanks Dylan Egan
+  reserved_instances mocking. I think, it's hard to test against a real AWS account since it costs money. thanks Dylan Egan
+  Default to 1. thanks Dylan Egan
+  add spot instance request models. thanks Edward Middleton
+  fixed spot_requests. thanks Edward Middleton
+  spot instance fixes. thanks Edward Middleton
+  cloud_watch toplevel. thanks Frederick Cheung
+  add get/put/list metrics. thanks Frederick Cheung
+  Corrected a couple of syntax errors in the put and get metric cloudwatch requests. thanks Henry Addison
+  Fixed the parser for list metrics cloudwatch request. thanks Henry Addison
+  Added first test of successful list metrics. thanks Henry Addison
+  simplified a bit the long case statement in end element in list_metrics parser. thanks Henry Addison
+  added a few more cloudwatch request metric tests. thanks Henry Addison
+  added metrics collection and model for cloudwatch with all and get methods. thanks Henry Addison
+  split out and got passing get metric statistics request tests. thanks Henry Addison
+  Added metric statistics model and collection. thanks Henry Addison
+  removed old test file. thanks Henry Addison
+  removed empty test for for metric model (nothing to test at the moment). thanks Henry Addison
+  removed unnecessary attributes from metrics collection (naughty copy and pasting). thanks Henry Addison
+  got put_metric_data request working and tested. thanks Henry Addison
+  added model and collection methods and tests to allow putting of metric data. thanks Henry Addison
+  renamed argument for all method in cloud watch metric_statistics from filters to conditions as filters has a meaning in fog. thanks Henry Addison
+  added a conditions method to all metrics method to help filter all metrics. thanks Henry Addison
+  Added some defaults for StartTime, EndTime and Period to model for MetricStatistics. thanks Henry Addison
+  Begin SQS support. thanks Jon Crosby
+  Continued SQS support. thanks Jon Crosby
+  Add SQS get_queue_attributes. thanks Jon Crosby
+  Fix rubygems warning. thanks Jonas Pfenniger
+  Patch for AWS S3 Metadata problem. thanks Kenji Kabashima
+  Changed number of cores reported for rackspace flavors in order     to match current rackspace documentation. thanks Steven Danna
+  Checking path for nil. thanks Timothy Klim
+  Fixed escaping in Fog::AWS.escape. thanks croaker
+  Changed the encoding of the space character. thanks croaker
+  rebuild gemfile during release to include updated changelog. thanks geemus
+  bump excon dep. thanks geemus
+  loosen dependencies to avoid conflicts. thanks geemus
+  bump formatador dep. thanks geemus
+  to_json calls to use MultiJson. thanks geemus
+  make collection class_eval more consistent. thanks geemus
+  update gem deps to latest/greatest. thanks geemus
+  Return nil if HOME is non-absolute. Fixes #397. thanks jc00ke
+  Fix a bunch of paths. thanks phiggins
+  Start of SNS. thanks phiggins
+  Working ListUsers for SNS. thanks phiggins
+  Remove copied-and-pasted documentation. thanks phiggins
+  Add SNS's get_topic_attributes command. thanks phiggins
+  SNS ListSubscriptions. thanks phiggins
+  SNS ListSubscriptionsByTopic. thanks phiggins
+  SNS CreateTopic and DeleteTopic. thanks phiggins
+  SNS Publish. thanks phiggins
+  SNS AddPermission. thanks phiggins
+  SNS RemovePermission. thanks phiggins
+  SNS SetTopicAttributes. thanks phiggins
+  SNS Subscribe. thanks phiggins
+  SNS ConfirmSubscription and Unsubscribe. thanks phiggins
+  Add sns to fog bin. thanks phiggins
+  Start SNS tests. thanks phiggins
+
+[ninefold|storage]
+  Framework + request method for Ninefold storage. thanks Lincoln Stoll
+  Directories Functionality. thanks Lincoln Stoll
+  Nested directories. thanks Lincoln Stoll
+  File operations. thanks Lincoln Stoll
+  Update an existing file. thanks Lincoln Stoll
+  set content type correctly. thanks Lincoln Stoll
+
+[release]
+  add mvps and fix fog.io uploader. thanks geemus
+  remove problematic pbcopy from changelog rake task. thanks geemus
+  make changelog build separate from release. thanks geemus
+
+[storage]
+  provide http/https options for signed urls. thanks geemus
+
+[storage|aws]
+  properly format modified headers in get_object. thanks geemus
+  fix escaping for file#public_url. thanks geemus
+
+[storage|google]
+  fix get_object_https_url namespace copy/paste error. thanks geemus
+
+[storage|ninefold]
+  fix file#destroy and test cleanup. thanks geemus
+
+[storage|rackspace]
+  add large object support via put_object_manifest. thanks geemus
+  cleanup formatting/style. thanks geemus
+
+[tests]
+  make unimplemented mock tests pending. thanks geemus
+  fix collection helper to play nice with numeric ids. thanks geemus
+  replace letters with letters and numbers with numbers in collection#get failure test. thanks geemus
+
+[vcloud|compute]
+  create server now takes :catalog_items_uri as an option. thanks Kunal Parikh
+  now referencing catalog_item_uri from options. thanks Kunal Parikh
+  saving server attributes (uncommented code). thanks Kunal Parikh
+  Revert "saving server attributes (uncommented code)". thanks Kunal Parikh
+  duplicate ecloud code for vcloud, remove obvious terremark specific code. thanks Lincoln Stoll
+  update catalog models for 1.0. thanks Lincoln Stoll
+  make auth work. thanks Lincoln Stoll
+  filter non-server items from server list. thanks Lincoln Stoll
+  update for 1.0 functionality, server operations working. thanks Lincoln Stoll
+  use correct power status ID for 'off'. thanks Lincoln Stoll
+  allow specifying a default VDC uri as 'vcloud_default_vdc'. thanks Lincoln Stoll
+  Add description field to server model. thanks Lincoln Stoll
+  Correct friendly status power off check. thanks Lincoln Stoll
+  correct hardware attribute reading. thanks Lincoln Stoll
+  no longer possible to specify memory & cpu on vapp creation. thanks Lincoln Stoll
+  remove outdated/invalid mocking & specs. thanks Lincoln Stoll
+  fix deleting servers. thanks Lincoln Stoll
+  server creation outside of VDC. thanks Lincoln Stoll
+  undeploy request. thanks Lincoln Stoll
+  memory reconfiguration. thanks Lincoln Stoll
+  make status/ready handling more reliable. thanks Lincoln Stoll
+  server tests. thanks Lincoln Stoll
+  only require template name for tests. thanks Lincoln Stoll
+  add and remove disks. thanks Lincoln Stoll
+  ruby 1.8 compatibility. thanks Lincoln Stoll
+  fix error messages in test helper. thanks Lincoln Stoll
+  Fix setting of description. thanks Lincoln Stoll
+  method to find catalog item by name across all catalogs. thanks Lincoln Stoll
+  correct provider lookup. thanks Lincoln Stoll
+
+
 0.9.0 06/24/2011 32960d165a65f12d41785f924e6b6b6d8442516a
 =========================================================
 

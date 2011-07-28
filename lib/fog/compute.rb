@@ -40,7 +40,7 @@ module Fog
         Fog::Compute::Slicehost.new(attributes)
       when :stormondemand
         require 'fog/compute/storm_on_demand'
-        Fog::StormOnDemand::Compute.new(attributes)
+        Fog::Compute::StormOnDemand.new(attributes)
       when :vcloud
         require 'fog/compute/vcloud'
         Fog::Vcloud::Compute.new(attributes)

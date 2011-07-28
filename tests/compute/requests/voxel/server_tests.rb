@@ -12,10 +12,10 @@ Shindo.tests('Fog::Compute[:voxel] | server requests', ['voxel']) do
     'devices'   => [{
       'access_methods'    => [],
       'description'       => String,
-      'drives'            => {
+      'drives'            => [{
         'position'  => Fog::Nullable::Integer,
         'size'      => Integer
-      },
+      }],
       'id'                => String,
       'ipassignments'     => [{
         'description' => String,
