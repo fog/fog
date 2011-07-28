@@ -84,6 +84,7 @@ module Fog
       request :set_monitor
       request :remove_monitor
       request :get_usage
+      request :get_load_balancer_usage
 
       class Real
         def initialize(options={})

@@ -3,26 +3,29 @@ NODE_FORMAT = {'node' => SINGLE_NODE_FORMAT}
 NODES_FORMAT = {'nodes' => [SINGLE_NODE_FORMAT]}
 VIRTUAL_IP_FORMAT = {'type' => String, 'id' => Integer, 'type' => String, 'ipVersion' => String, 'address' => String}
 VIRTUAL_IPS_FORMAT = { 'virtualIps' => [VIRTUAL_IP_FORMAT] }
+LOAD_BALANCER_USAGE_FORMAT = {
+  'loadBalancerUsageRecords' => [
+    {
+      'id' => Fog::Nullable::Integer,
+      'eventType' => Fog::Nullable::String,
+      'averageNumConnections' => Fog::Nullable::Float,
+      'incomingTransfer' => Fog::Nullable::Integer,
+      'outgoingTransfer' => Fog::Nullable::Integer,
+      'numVips' => Fog::Nullable::Integer,
+      'numPolls' => Fog::Nullable::Integer,
+      'startTime' => Fog::Nullable::String,
+      'endTime' => Fog::Nullable::String
+    }
+  ]
+}
+
 USAGE_FORMAT = {
   'accountId' => Integer,
   'loadBalancerUsages' => [
     {
       'loadBalancerId' => Fog::Nullable::Integer,
-      'loadBalancerName' => Fog::Nullable::String,
-      'loadBalancerUsageRecords' => [
-        {
-          'id' => Fog::Nullable::Integer,
-          'eventType' => Fog::Nullable::String,
-          'averageNumConnections' => Fog::Nullable::Float,
-          'incomingTransfer' => Fog::Nullable::Integer,
-          'outgoingTransfer' => Fog::Nullable::Integer,
-          'numVips' => Fog::Nullable::Integer,
-          'numPolls' => Fog::Nullable::Integer,
-          'startTime' => Fog::Nullable::String,
-          'endTime' => Fog::Nullable::String
-        }
-      ]
-    }
+      'loadBalancerName' => Fog::Nullable::String
+    }.merge(LOAD_BALANCER_USAGE_FORMAT)
   ],
   'accountUsage' => [
     {
