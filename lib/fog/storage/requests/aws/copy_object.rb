@@ -30,7 +30,7 @@ module Fog
         # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectCOPY.html
 
         def copy_object(source_bucket_name, source_object_name, target_bucket_name, target_object_name, options = {})
-          headers = { 'x-amz-copy-source' => "/#{source_bucket_name}/#{source_object_name}" }.merge!(options)
+          headers = { 'x-amz-copy-source' => "/#{source_bucket_name}/#{CGI.escape(source_object_name)}" }.merge!(options)
           request({
             :expects  => 200,
             :headers  => headers,
