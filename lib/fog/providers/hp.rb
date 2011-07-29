@@ -40,5 +40,12 @@ module Fog
       end
     end
 
+    class Mock
+      def self.etag
+        Fog::Mock.random_hex(32)
+      end
+
+    end
+
   end
 end

@@ -29,6 +29,43 @@ module Fog
         end
 
       end
+
+      class Mock # :nodoc:all
+
+        def get_containers(options = {})
+          response = Excon::Response.new
+          acc_cont_count = 0
+          acc_obj_count = 0
+          acc_obj_bytes = 0
+          containers = self.data[:containers].map do |key, container|
+            acc_cont_count = acc_cont_count + 1
+            obj_count = 0
+            container[:objects].values.map do |object|
+              acc_obj_count = acc_obj_count + 1
+              acc_obj_bytes = acc_obj_bytes + object['Content-Length'].to_i
+              obj_count = obj_count + 1
+              container['Object-Count'] = obj_count
+            end
+            data = {
+              'name'  => key,
+              'count' => container['Object-Count'],
+              'bytes' => container['Content-Length'].to_i
+            }
+            data
+          end
+          response.body = containers
+          response.headers = {
+            'X-Account-Object-Count'    => acc_obj_count,
+            'X-Account-Bytes-Used'      => acc_obj_bytes,
+            'X-Account-Container-Count' => acc_cont_count,
+            'Accept-Ranges'             => 'bytes'
+          }
+          response.status = 200
+          response
+        end
+
+      end
+
     end
   end
 end

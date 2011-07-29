@@ -19,6 +19,23 @@ module Fog
         end
 
       end
+
+      class Mock # :nodoc:all
+
+        def delete_object(container_name, object_name, options = {})
+          response = Excon::Response.new
+          if container = self.data[:containers][container_name]
+            response.status = 204
+            container[:objects].delete(object_name)
+          else
+            response.status = 404
+            raise(Excon::Errors.status_error({:expects => 204}, response))
+          end
+          response
+        end
+
+      end
+
     end
   end
 end

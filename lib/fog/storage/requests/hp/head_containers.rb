@@ -21,6 +21,17 @@ module Fog
         end
 
       end
+
+      class Mock # :nodoc:all
+
+        def head_containers
+          response = get_containers
+          response.body = nil
+          response
+        end
+
+      end
+
     end
   end
 end

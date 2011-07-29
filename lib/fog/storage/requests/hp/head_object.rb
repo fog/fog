@@ -19,6 +19,17 @@ module Fog
         end
 
       end
+
+      class Mock # :nodoc:all
+
+        def head_object(container_name, object_name, options = {})
+          response = get_object(container_name, object_name, options)
+          response.body = nil
+          response
+        end
+
+      end
+
     end
   end
 end

@@ -40,6 +40,54 @@ module Fog
         end
 
       end
+
+      class Mock # :nodoc:all
+
+        def get_container(container_name, options = {})
+          unless container_name
+            raise ArgumentError.new('container_name is required')
+          end
+          if options['delimiter']
+            Fog::Mock.not_implemented
+          end
+          response = Excon::Response.new
+          obj_count = 0
+          obj_total_bytes = 0
+          if container = self.data[:containers][container_name]
+            contents = container[:objects].values.sort {|x,y| x['Key'] <=> y['Key']}.reject do |object|
+                (options['prefix'] && object['Key'][0...options['prefix'].length] != options['prefix']) ||
+                (options['marker'] && object['Key'] <= options['marker'])
+              end.map do |object|
+                obj_count = obj_count + 1
+                obj_total_bytes = obj_total_bytes + object['Content-Length'].to_i
+                data = {
+                  'name'          => object['Key'],
+                  'hash'          => object['ETag'],
+                  'bytes'         => object['Content-Length'].to_i,
+                  'content_type'  => object['Content-Type'],
+                  'last_modified' => Time.parse(object['Date'])
+                }
+              data
+            end
+
+            response.status = 200
+            response.body = contents
+            response.headers = {
+              'X-Container-Object-Count' => obj_count,
+              'X-Container-Bytes-Used'   => obj_total_bytes,
+              'Accept-Ranges'            => 'bytes',
+              'Content-Type'             => container['Content-Type'],
+              'Content-Length'           => container['Content-Length']
+            }
+          else
+            response.status = 404
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
+          response
+        end
+
+      end
+
     end
   end
 end

@@ -59,11 +59,20 @@ module Fog
 
       class Mock
         include Utils
+        def self.acls(type)
+          type
+        end
 
         def self.data
           @data ||= Hash.new do |hash, key|
-            hash[key] = {}
-          end
+            hash[key] = {
+              :acls => {
+                :container => {},
+                :object => {}
+              },
+              :containers => {}
+            }
+            end
         end
 
         def self.reset
