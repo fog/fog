@@ -60,17 +60,18 @@ module Fog
       class Mock # :nodoc:all
 
         def get_bucket(bucket_name, options = {})
+          prefix, marker, delimiter, max_keys = \
+            options['prefix'], options['marker'], options['delimiter'], options['max-keys']
+
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
-          end
-          if options['delimiter']
-            Fog::Mock.not_implemented
           end
           response = Excon::Response.new
           if bucket = self.data[:buckets][bucket_name]
             contents = bucket[:objects].values.sort {|x,y| x['Key'] <=> y['Key']}.reject do |object|
-                (options['prefix'] && object['Key'][0...options['prefix'].length] != options['prefix']) ||
-                (options['marker'] && object['Key'] <= options['marker'])
+                (prefix    && object['Key'][0...prefix.length] != prefix) ||
+                (marker    && object['Key'] <= marker) ||
+                (delimiter && object['Key'][(prefix ? prefix.length : 0)..-1].include?(delimiter))
               end.map do |object|
                 data = object.reject {|key, value| !['ETag', 'Key', 'StorageClass'].include?(key)}
                 data.merge!({
@@ -80,7 +81,7 @@ module Fog
                 })
               data
             end
-            max_keys = options['max-keys'] || 1000
+            max_keys = max_keys || 1000
             size = [max_keys, 1000].min
             truncated_contents = contents[0...size]
 
@@ -89,14 +90,14 @@ module Fog
               'CommonPrefixes'  => [],
               'Contents'        => truncated_contents,
               'IsTruncated'     => truncated_contents.size != contents.size,
-              'Marker'          => options['marker'],
+              'Marker'          => marker,
               'MaxKeys'         => max_keys,
               'Name'            => bucket['Name'],
-              'Prefix'          => options['prefix']
+              'Prefix'          => prefix
             }
-            if options['max-keys'] && options['max-keys'] < response.body['Contents'].length
+            if max_keys && max_keys < response.body['Contents'].length
                 response.body['IsTruncated'] = true
-                response.body['Contents'] = response.body['Contents'][0...options['max-keys']]
+                response.body['Contents'] = response.body['Contents'][0...max_keys]
             end
           else
             response.status = 404
