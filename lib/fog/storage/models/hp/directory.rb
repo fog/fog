@@ -50,6 +50,14 @@ module Fog
           @public = new_public
         end
 
+        def public?
+          if @acl.nil?
+            false
+          else
+            @acl == 'public-read'
+          end
+        end
+
         def public_url
           requires :key
           @public_url ||= begin
