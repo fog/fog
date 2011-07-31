@@ -6,7 +6,7 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
     # We'll need this later; create it early to avoid waiting
     @instance_with_final_snapshot = AWS[:rds].servers.create(rds_default_server_params.merge(:id => uniq_id("fog-snapshot-test"), :backup_retention_period => 1))
 
-    @instance.wait_for { ready? }
+    @instance.wait_for(20*60) { ready? }
 
     tests('#snapshots') do
       snapshot = nil
@@ -51,10 +51,10 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
       @instance.reload.wait_for { state == 'rebooting' }
       @instance.reload.wait_for { ready? }
 
-      # Restore back to original state
+      # Restore back to original state using symbols
       restore_options = {
-       'DBParameterGroupName' => orig_parameter_group,
-       'DBSecurityGroups' => orig_security_groups
+       :parameter_group_name => orig_parameter_group,
+       :security_group_names => orig_security_groups
       }
       @instance.modify(true, restore_options)
 
