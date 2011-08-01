@@ -10,6 +10,7 @@ module Fog
 
         attribute :poolname
         attribute :xml
+        attribute :create_persistent
         
         # Can be created by passing in :xml => "<xml to create volume>" 
         # A volume always belongs to a pool, :pool => "<name of pool>"
@@ -18,6 +19,7 @@ module Fog
         def initialize(attributes={} )
           self.xml  ||= nil unless attributes[:xml]
           self.poolname  ||= nil unless attributes[:poolname]
+          self.create_persistent ||=true unless attribues[:create_persistent]
           super
         end
 
@@ -30,7 +32,11 @@ module Fog
             volume=nil
             unless poolname.nil?
               pool=connection.lookup_storage_pool_by_name(poolname)
-              volume=pool.create_volume_xml(xml)
+              if create_persistent
+                volume=pool.define_volume_xml(xml)
+              else
+                volume=pool.create_volume_xml(xml)
+              end
               self.raw=volume
               true
             else
