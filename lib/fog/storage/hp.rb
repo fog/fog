@@ -55,6 +55,19 @@ module Fog
           end
           header
         end
+
+        def header_to_acl(read_header=nil, write_header=nil)
+          acl = nil
+          if read_header.nil? && write_header.nil?
+            acl = nil
+          elsif !read_header.nil? && read_header.include?(".r:*") && write_header.nil?
+            acl = "public-read"
+          elsif !write_header.nil? && write_header.include?("*") && read_header.nil?
+            acl = "public-write"
+          elsif !read_header.nil? && read_header.include?(".r:*") && !write_header.nil? && write_header.include?("*")
+            acl = "public-read-write"
+          end
+        end
       end
 
       class Mock
