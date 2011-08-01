@@ -1,3 +1,5 @@
+require 'fog/compute/models/libvirt/uri'
+
 module Fog
   module Compute
     class Libvirt < Fog::Service
@@ -26,12 +28,15 @@ module Fog
 
       class Real
 
+        attr_reader :connection
+        attr_reader :uri
+        
         def initialize(options={})
-          @uri = options[:libvirt_uri]
+          @uri = ::Fog::Compute::LibvirtUtil::URI.new(options[:libvirt_uri])
 
-          #libvirt is part of the gem => ruby-libvirt
+          # libvirt is part of the gem => ruby-libvirt
           require 'libvirt'
-          @connection = ::Libvirt::open(@uri)
+          @connection = ::Libvirt::open(@uri.uri)
         end
 
         # hack to provide 'requests'
@@ -42,7 +47,7 @@ module Fog
             super
           end
         end
-
+        
       end
     end
   end
