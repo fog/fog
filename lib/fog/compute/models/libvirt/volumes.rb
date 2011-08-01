@@ -20,11 +20,20 @@ module Fog
           load(data)
         end
 
-        # Retrieve the volume by uuid
-        def get(key)
+        # Retrieve the volume by type
+        def get(param)
+          volume=nil
+          volume=get_by_key(param[:key]) if param.has_key?(:key)
+          volume=get_by_path(param[:path]) if param.has_key?(:path)
+          volume=get_by_name(param[:name]) if param.has_key?(:name)
+          return volume
+        end
+        
+        # Retrieve the volume by name
+        def get_by_name(name)
           connection.list_storage_pools.each do |poolname|
             pool=connection.lookup_storage_pool_by_name(poolname)
-              volume=pool.lookup_volume_by_name(key)
+              volume=pool.lookup_volume_by_name(name)
               unless volume.nil? 
                 return new(:raw => volume)
             end
@@ -32,6 +41,33 @@ module Fog
           
           return nil
         end
+
+        # Retrieve the volume by key
+        def get_by_key(key)
+          connection.list_storage_pools.each do |poolname|
+            pool=connection.lookup_storage_pool_by_name(poolname)
+              volume=pool.lookup_volume_by_key(key)
+              unless volume.nil? 
+                return new(:raw => volume)
+            end
+          end          
+          
+          return nil
+        end
+
+        # Retrieve the volume by key
+        def get_by_path(path)
+          connection.list_storage_pools.each do |poolname|
+            pool=connection.lookup_storage_pool_by_name(poolname)
+              volume=pool.lookup_volume_by_key(path)
+              unless volume.nil? 
+                return new(:raw => volume)
+            end
+          end          
+          
+          return nil
+        end
+        
 
       end
 

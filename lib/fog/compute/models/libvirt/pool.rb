@@ -9,7 +9,7 @@ module Fog
         identity :id
         
         # These attributes are only used for creation
-        attribute :create_xml
+        attribute :xml
         attribute :create_persistent
         attribute :create_auto_build
         
@@ -17,18 +17,18 @@ module Fog
         def initialize(attributes={} )
           self.xml  ||= nil unless attributes[:xml]
           self.create_persistent  ||= true unless attributes[:create_persistent]
-          self.create_auto_build ||= true unless attributes[:auto_build]
+          self.create_auto_build ||= true unless attributes[:create_auto_build]
           super
         end
         
         def save
-          requires :create_xml
-          unless create_xml.nil?
+          requires :xml
+          unless xml.nil?
             pool=nil
             if create_persistent
-              pool=connection.connection.define_storage_pool_xml(create_xml)
+              pool=connection.connection.define_storage_pool_xml(xml)
             else
-              pool=connection.connection.create_storage_pool_xml(create_xml)
+              pool=connection.connection.create_storage_pool_xml(xml)
             end          
             self.raw=pool
             true
@@ -118,11 +118,7 @@ module Fog
           @raw.xml_desc unless @raw.nil?
         end
         
-        # Alias for xml_desc
-        def xml
-          xml_desc
-        end
-                
+
         # Retrieves the name of the pool
         def name
           requires :raw
@@ -169,9 +165,11 @@ module Fog
         
         # Retrieves the allocated disk space of the pool
         def volumes
+          
           volumes=Array.new
           @raw.list_volumes.each do |volume|
-          volumes << Fog::Compute::Libvirt::Volume.new(volume)
+            fog_volume=connection.volumes.get(:name => volume)
+            volumes << fog_volume
           end
           return volumes
         end
