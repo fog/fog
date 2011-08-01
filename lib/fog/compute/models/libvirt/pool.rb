@@ -8,53 +8,172 @@ module Fog
 
         identity :id
         
-        attribute :name
-        attribute :uuid        
-        attribute :xml
-
-        attr_reader :allocation
-        attr_reader :available
-        attr_reader :xml_desc
-        attr_reader :num_of_volumes
-        attr_reader :state
+        # These attributes are only used for creation
+        attribute :create_xml
+        attribute :create_persistent
+        attribute :create_auto_build
         
-        # There are two options to initialize a new Pool
-        # 1. provide :xml as an argument
-        # 2. provide :name, :path
-        def initialize(attributes={})
-#          unless attributes.has_key?(:xml)
-#            name = attributes[:name] || raise("Must provide a pool name")
-#            path = attributes[:path] || "/var/lib/libvirt/images"
-#          else
-#            @xml = attributes[:xml]
-#          end            
-          super          
-          
+        # Can be created by passing in XML 
+        def initialize(attributes={} )
+          self.xml  ||= nil unless attributes[:xml]
+          self.create_persistent  ||= true unless attributes[:create_persistent]
+          self.create_auto_build ||= true unless attributes[:auto_build]
+          super
         end
         
         def save
-          unless @xml.nil?
-            #connection.
+          requires :create_xml
+          unless create_xml.nil?
+            pool=nil
+            if create_persistent
+              pool=connection.connection.define_storage_pool_xml(create_xml)
+            else
+              pool=connection.connection.create_storage_pool_xml(create_xml)
+            end          
+            self.raw=pool
+            true
+          else
+            false
           end
         end
         
-        def destroy
+        
+        # Start the pool = make it active
+        # Performs a libvirt create (= start)
+        def start
+          requires :raw
+          
+          @raw.create
+        end
+        
+        # Stop the pool = make it non-active
+        # Performs a libvirt destroy (= stop)
+        def stop
+          requires :raw
+          
+          @raw.destroy
+        end
+        
+        # Shuts down the pool
+        def shutdown
+          requires :raw
+          
+          @raw.destroy
+          true
+        end
+        
+        # Build this storage pool
+        def build
+          requires :raw
+          
+          @raw.build unless @raw.nil?
+        end
+        
+        # Destroys the storage pool
+        def destroy( destroy_options={})
           requires :raw
           
           # Shutdown pool if active
-          if raw.active?
-            raw.destroy
-          end
-          # Delete corresponding data in this pool
-          raw.delete
+          @raw.destroy if @raw.active?
           
-          true
+          # Delete corresponding data in this pool
+          # @raw.delete
+
+          # If this is a persistent domain we need to undefine it
+          @raw.undefine if @raw.persistent?
+          
         end
         
-        def shutdown
+        # Set autostart value of the storage pool (true|false)
+        def auto_start=(flag)
           requires :raw
-          raw.destroy
-          true
+          
+          @raw.auto_start(flag)
+        end
+         
+        # Is the pool active or not?
+        def active?
+          requires :raw
+
+          @raw.active?
+        end
+        
+        # Will the pool autostart or not?
+        def auto_start?
+          requires :raw
+
+          @raw.autostart?
+        end
+        
+        # Is the pool persistent or not?
+        def persistent?
+          requires :raw
+          @raw.persistent?
+        end
+        
+        # Returns the xml description of the current pool
+        def xml_desc
+          requires :raw
+          
+          @raw.xml_desc unless @raw.nil?
+        end
+        
+        # Alias for xml_desc
+        def xml
+          xml_desc
+        end
+                
+        # Retrieves the name of the pool
+        def name
+          requires :raw
+          @raw.name
+        end
+
+        # Retrieves the uuid of the pool
+        def uuid
+          requires :raw
+          @raw.uuid
+        end
+        
+        # Retrieves the allocated disk space of the pool
+        def allocation
+          requires :raw
+          @raw.info.allocation
+        end
+        
+        # Retrieves the capacity of disk space of the pool
+        def capacity
+          requires :raw
+          @raw.info.capacity
+        end
+        
+        # Retrieves the number of volumes available in this pool
+        def num_of_volumes
+          requires :raw
+          @raw.num_of_volumes
+        end
+        
+        def state
+          requires :raw
+
+          #INACTIVE	=	INT2NUM(VIR_STORAGE_POOL_INACTIVE)	 	 virStoragePoolState
+          #BUILDING	=	INT2NUM(VIR_STORAGE_POOL_BUILDING)
+          #RUNNING	=	INT2NUM(VIR_STORAGE_POOL_RUNNING)
+          #DEGRADED	=	INT2NUM(VIR_STORAGE_POOL_DEGRADED)
+          #INACCESSIBLE	=	INT2NUM(VIR_STORAGE_POOL_INACCESSIBLE)
+          states=[:inactive, :building,:running,:degrated,:inaccessible]
+
+          return states[@raw.info.state]
+          
+        end
+        
+        # Retrieves the allocated disk space of the pool
+        def volumes
+          volumes=Array.new
+          @raw.list_volumes.each do |volume|
+          volumes << Fog::Compute::Libvirt::Volume.new(volume)
+          end
+          return volumes
         end
         
         private
@@ -68,22 +187,7 @@ module Fog
 
           raw_attributes = { 
             :id => new_raw.uuid,
-            :uuid => new_raw.uuid,
-            :name => new_raw.name,
-            :xml_desc => new_raw.xml_desc,
-            :num_of_volumes => new_raw.num_of_volumes,
-            :allocation => new_raw.info.allocation, 
-            :available => new_raw.info.available, 
-            :capacity => new_raw.info.capacity,
-            :state => new_raw.info.state,
           }
-          
-          # State
-          #INACTIVE	=	INT2NUM(VIR_STORAGE_POOL_INACTIVE)	 	 virStoragePoolState
-          #BUILDING	=	INT2NUM(VIR_STORAGE_POOL_BUILDING)
-          #RUNNING	=	INT2NUM(VIR_STORAGE_POOL_RUNNING)
-          #DEGRADED	=	INT2NUM(VIR_STORAGE_POOL_DEGRADED)
-          #INACCESSIBLE	=	INT2NUM(VIR_STORAGE_POOL_INACCESSIBLE)
           
           merge_attributes(raw_attributes)
         end
