@@ -5,6 +5,10 @@ title:  Press
 
 Mentions and blog posts from elsewhere in reverse chronological order by day (and alphasorted for same days).
 
+**August 1st, 2011**
+
+* [Using EBS Snapshots with Fog](http://www.mediamolecule.com/lab/article/using_ebs_snapshots_with_fog/)
+
 **June 21st, 2011**
 
 * [Mocking fog When Using It With Carrierwave](http://www.engineyard.com/blog/2011/mocking-fog-when-using-it-with-carrierwave/)
