@@ -13,6 +13,9 @@ module Fog
         attribute :count, :aliases => 'X-Container-Object-Count'
 
         def acl=(new_acl)
+          if new_acl.nil?
+            new_acl = "private"
+          end
           valid_acls = ['private', 'public-read', 'public-write', 'public-read-write']
           unless valid_acls.include?(new_acl)
             raise ArgumentError.new("acl must be one of [#{valid_acls.join(', ')}]")
