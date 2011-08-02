@@ -9,8 +9,10 @@ module Fog
 
       request_path 'fog/compute/requests/cloudstack'
       
+      request :create_domain
       request :create_user
 
+      request :delete_domain
       request :delete_user
       
       request :disable_user
@@ -21,6 +23,7 @@ module Fog
       request :list_async_jobs
       request :list_disk_offerings
       request :list_domains
+      request :list_domain_children
       request :list_events
       request :list_external_firewalls
       request :list_external_load_balancers
