@@ -14,7 +14,7 @@ module Fog
     end
     
     def self.signed_params(key,params)
-      query = params.to_a.sort.collect{|c| "#{c[0]}=#{escape(c[1])}"}.join('&').downcase
+      query = params.to_a.sort.collect{|c| "#{c[0]}=#{escape(c[1].to_s)}"}.join('&').downcase
       
       signed_string = Base64.encode64(OpenSSL::HMAC.digest(DIGEST,key,query)).strip
       

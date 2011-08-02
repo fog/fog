@@ -9,6 +9,13 @@ module Fog
 
       request_path 'fog/compute/requests/cloudstack'
       
+      request :create_user
+
+      request :delete_user
+      
+      request :disable_user
+      request :enable_user
+      
       request :list_accounts
       request :list_alerts
       request :list_async_jobs
@@ -39,6 +46,7 @@ module Fog
       request :list_volumes
       request :list_zones
       
+      request :update_user
 
       class Mock
 
