@@ -3,7 +3,7 @@ module Fog
     class Cloudstack
       class Real
 
-        # Creates a user for an account that already exists
+        # Deletes a specified domain.
         #
         # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/deleteDomain.html]
         def delete_domain(options={})
