@@ -17,6 +17,9 @@ module Fog
       when :brightbox
         require 'fog/compute/brightbox'
         Fog::Compute::Brightbox.new(attributes)
+      when :cloudstack
+        require 'fog/compute/cloudstack'
+        Fog::Compute::Cloudstack.new(attributes)
       when :ecloud
         require 'fog/compute/ecloud'
         Fog::Compute::Ecloud.new(attributes)

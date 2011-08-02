@@ -9,6 +9,7 @@ end
 require 'fog/providers/aws'
 require 'fog/providers/bluebox'
 require 'fog/providers/brightbox'
+require 'fog/providers/cloudstack'
 require 'fog/providers/dnsimple'
 require 'fog/providers/dnsmadeeasy'
 require 'fog/providers/ecloud'
