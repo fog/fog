@@ -38,6 +38,7 @@ module Fog
           self.all(:uuid => uuid).first
         end
         
+        #private # Making these private, screws up realod
         # Retrieve the network by uuid
         def get_by_uuid(uuid)
           network=connection.lookup_network_by_uuid(uuid)

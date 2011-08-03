@@ -31,6 +31,9 @@ module Fog
         attr_reader :connection
         attr_reader :uri
         
+        
+        # f=Fog::Compute.new(:provider => "Libvirt", :libvirt_uri => "qemu+ssh://patrick.debois@juno/system")
+        
         def initialize(options={})
           @uri = ::Fog::Compute::LibvirtUtil::URI.new(enhance_uri(options[:libvirt_uri]))
 

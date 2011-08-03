@@ -12,7 +12,7 @@ module Fog
         def all(filter=nil)
           data=[]
           if filter.nil?
-            connection.list_defined_domains.map do |server|
+            connection.list_defined_domains.map do |domain|
               data << { :raw => connection.lookup_domain_by_name(domain) }
             end
 
@@ -30,12 +30,12 @@ module Fog
             end
             data << { :raw => domain }
           end
-
+          
           load(data)
         end
         
-        def get(key)
-          self.all(:key => key).first
+        def get(uuid)
+          self.all(:uuid => uuid).first
         end
 
         def bootstrap(new_attributes = {})
@@ -46,8 +46,9 @@ module Fog
           # server.setup(:password => server.password)
           # server
         end
-
-        private
+        
+        # private #making these internals private screws up reload
+        
         # Retrieve the server by uuid
         def get_by_uuid(uuid)
           server=connection.lookup_domain_by_uuid(uuid)

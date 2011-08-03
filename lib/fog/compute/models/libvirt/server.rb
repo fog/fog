@@ -14,7 +14,12 @@ module Fog
 
         include Fog::Compute::LibvirtUtil
 
-        identity :id , :aliases => 'uuid'
+        identity :uuid
+        
+        attribute :cpus
+        attribute :os_type
+        attribute :memory_size
+        attribute :name
 
         attribute :poolname
         attribute :xml
@@ -40,7 +45,7 @@ module Fog
 
         def save
           
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if id 
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if uuid 
           
           # first check if we have either xml or template_options
           if xml.nil? && template_options.nil?
@@ -84,11 +89,18 @@ module Fog
 
 
             template_options2=template_defaults.merge(template_options)
-            template_options={ :disk_path => "#{template_options2[:name]}.#{template_options2[:disk_extension]}"}.merge(template_options2)
+            template_options={ 
+                      :disk_name => "#{template_options2[:name]}.#{template_options2[:disk_extension]}"
+            }.merge(template_options2)
+
+            validate_template_options(template_options)
+
 
             if !template_options[:disk_template_name].nil?
-              # Clone the volume
-              volume=connection.volumes.allocate(:name => template_options[:disk_template_name]).clone("#{template_options[:disk_path]}")
+              # Clone the volume              
+              volume=connection.volumes.allocate(:name => template_options[:disk_template_name]).clone("#{template_options[:disk_name]}")
+
+              # This gets passed to the domain to know the path of the disk
               template_options[:disk_path]=volume.path
             else
               # If no template volume was given, let's create our own volume
@@ -101,10 +113,10 @@ module Fog
                 :allocate => "#{template_options[:disk_allocate]}",
                 :size_unit => "#{template_options[:disk_size_unit]}" })
 
+                # This gets passed to the domain to know the path of the disk
                 template_options[:disk_path]=volume.path
 
               end
-              validate_template_options(template_options)
 
               xml=xml_from_template(template_options)
 
@@ -126,6 +138,9 @@ module Fog
             #if template_options[:disk_template_name].nil?
             #  raise Fog::Errors::Error.new('In order to make the disk boot, we require a template volume we can clone')            
             #end
+            unless template_options[:interface_type].nil?
+              raise Fog::Errors::Error.new("#{template_options[:interface_type]} is not a supported interface type") unless ["nat", "bridge"].include?(template_options[:interface_type])
+            end
 
           end
 
@@ -215,43 +230,6 @@ module Fog
             requires :raw
 
             @raw.shutdown
-          end
-
-          def mac
-
-            mac = document("domain/devices/interface/mac", "address")
-            return mac
-          end
-
-          def vnc_port
-
-            port = document("domain/devices/graphics[@type='vnc']", "port")
-            return port
-          end
-
-          def name
-            requires :raw
-            raw.name
-          end
-
-          def uuid
-            requires :raw
-            raw.uuid
-          end
-
-          def memory_size
-            requires :raw
-            raw.memory_size
-          end
-
-          def cpus
-            requires :raw
-            raw.cpus
-          end
-
-          def os_type
-            requires :raw
-            raw.os_type
           end
 
           def xml_desc
@@ -415,7 +393,19 @@ module Fog
             Fog::SSH.new(public_ip_address, username, credentials).run(commands)
           end
 
+          def mac
 
+            mac = document("domain/devices/interface/mac", "address")
+            return mac
+          end
+
+          def vnc_port
+
+            port = document("domain/devices/graphics[@type='vnc']", "port")
+            return port
+          end
+          
+          
           private
 
           def raw
@@ -426,7 +416,11 @@ module Fog
             @raw = new_raw
 
             raw_attributes = { 
-              :id => new_raw.uuid,     
+              :uuid => new_raw.uuid, 
+              :name => new_raw.name,
+              :memory_size => new_raw.info.max_mem,
+              :cpus => new_raw.info.nr_virt_cpu,
+              :os_type => new_raw.os_type
             }          
 
             merge_attributes(raw_attributes)

@@ -67,21 +67,17 @@ module Fog
               template_defaults={ 
                 :type => "raw",
                 :extension => "img",
-                :name => "fog-#{SecureRandom.random_number*10E14.to_i.round}",
                 :size => 10,
                 :allocate_unit => "G",
                 :size_unit => "G",
                 :allocate => 1,
               }
               template_options2=template_defaults.merge(template_options)
-              template_options={ :path => "#{template_options2[:name]}.#{template_options2[:extension]}"}.merge(template_options2)
+              template_options={ :name => "fog-#{SecureRandom.random_number*10E14.to_i.round}.#{template_options2[:extension]}"}.merge(template_options2)
 
               validate_template_options(template_options)
 
               xml=xml_from_template(template_options)
-              #            require 'pp'
-              #            pp xml
-              #            exit
 
             end
 
@@ -145,42 +141,10 @@ module Fog
             return connection.volumes.all(:name => name)
           end
 
-          def key
-            requires :raw
-            raw.key
-          end
-
-          def path
-            requires :raw
-            raw.path
-          end
-
-          def name
-            requires :raw
-            raw.name
-          end
-
           def xml_desc
             requires :raw
             raw.xml_desc
           end
-
-
-          def allocation
-            requires :raw
-            raw.info.allocation
-          end
-
-          def capacity
-            requires :raw
-            @capacity=raw.info.capacity
-          end
-
-          def type
-            requires :raw
-            @type=raw.info.type
-          end
-
 
           private
           def raw

@@ -39,7 +39,7 @@ module Fog
           self.all(:uuid => uuid).first
         end
         
-        private
+        #private # Making these private, screws up realod
         # Retrieve the pool by uuid        
         def get_by_uuid(uuid)
           pool=connection.lookup_storage_pool_by_uuid(uuid)

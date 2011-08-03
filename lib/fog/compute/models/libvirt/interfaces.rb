@@ -39,6 +39,7 @@ module Fog
           self.all(:name => name).first
         end       
 
+        #private # Making these private, screws up realod
         # Retrieve the interface by name
         def get_by_name(name)
           interface=connection.lookup_interface_by_name(name)
