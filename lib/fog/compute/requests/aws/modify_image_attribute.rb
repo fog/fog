@@ -16,7 +16,7 @@ module Fog
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-ModifyImageAttribute.html]
         #
-        def modify_image_attributes(image_id, attribute, operation_type, options = {})
+        def modify_image_attribute(image_id, attribute, operation_type, options = {})
           params = {}
           params.merge!(Fog::AWS.indexed_param('UserId', options['UserId']))
           params.merge!(Fog::AWS.indexed_param('UserGroup', options['UserGroup']))

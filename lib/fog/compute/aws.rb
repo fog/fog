@@ -70,7 +70,7 @@ module Fog
       request :get_console_output
       request :get_password_data
       request :import_key_pair
-      request :modify_image_attributes
+      request :modify_image_attribute
       request :modify_snapshot_attribute
       request :purchase_reserved_instances_offering
       request :reboot_instances
@@ -84,6 +84,16 @@ module Fog
       request :stop_instances
       request :monitor_instances
       request :unmonitor_instances
+
+      # deprecation
+      class Real
+
+        def modify_image_attributes(*params)
+          Formatador.display_line("[yellow][WARN] modify_image_attributes is deprecated, use modify_image_attribute instead[/] [light_black](#{caller.first})[/]")
+          modify_image_attribute(*params)
+        end
+
+      end
 
       class Mock
 
