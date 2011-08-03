@@ -62,6 +62,7 @@ module Fog
         def get_bucket(bucket_name, options = {})
           prefix, marker, delimiter, max_keys = \
             options['prefix'], options['marker'], options['delimiter'], options['max-keys']
+          common_prefixes = []
 
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
@@ -71,7 +72,8 @@ module Fog
             contents = bucket[:objects].values.sort {|x,y| x['Key'] <=> y['Key']}.reject do |object|
                 (prefix    && object['Key'][0...prefix.length] != prefix) ||
                 (marker    && object['Key'] <= marker) ||
-                (delimiter && object['Key'][(prefix ? prefix.length : 0)..-1].include?(delimiter))
+                (delimiter && object['Key'][(prefix ? prefix.length : 0)..-1].include?(delimiter) \
+                           && common_prefixes << object['Key'].sub(/^(#{prefix}[^#{delimiter}]+.).*/, '\1'))
               end.map do |object|
                 data = object.reject {|key, value| !['ETag', 'Key', 'StorageClass'].include?(key)}
                 data.merge!({
@@ -87,7 +89,7 @@ module Fog
 
             response.status = 200
             response.body = {
-              'CommonPrefixes'  => [],
+              'CommonPrefixes'  => common_prefixes.uniq,
               'Contents'        => truncated_contents,
               'IsTruncated'     => truncated_contents.size != contents.size,
               'Marker'          => marker,
