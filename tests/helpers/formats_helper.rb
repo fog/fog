@@ -8,6 +8,7 @@ module Fog
     module Integer; end
     module String; end
     module Time; end
+    module Float; end
   end
 end
 [FalseClass, TrueClass].each {|klass| klass.send(:include, Fog::Boolean)}
@@ -15,6 +16,7 @@ end
 [NilClass, String].each {|klass| klass.send(:include, Fog::Nullable::String)}
 [NilClass, Time].each {|klass| klass.send(:include, Fog::Nullable::Time)}
 [Integer, NilClass].each {|klass| klass.send(:include, Fog::Nullable::Integer)}
+[Float, NilClass].each {|klass| klass.send(:include, Fog::Nullable::Float)}
 
 module Shindo
   class Tests

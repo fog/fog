@@ -103,6 +103,7 @@ class Brightbox
           "url"             => String,
           "id"              => String,
           "ipv4_address"    => String,
+          "ipv6_address"    => Fog::Nullable::String,
           "mac_address"     => String
         }
 
@@ -281,6 +282,7 @@ class Brightbox
           "verified_telephone" => Fog::Nullable::String,
           "verified_at"     => Fog::Nullable::String,
           "verified_ip"     => Fog::Nullable::String,
+          "valid_credit_card" => Fog::Boolean,
           "owner"           => Brightbox::Compute::Formats::Nested::USER,
           "users"           => [Brightbox::Compute::Formats::Nested::USER],
           "clients"         => [Brightbox::Compute::Formats::Nested::API_CLIENT],
@@ -338,6 +340,7 @@ class Brightbox
           "url"             => String,
           "id"              => String,
           "ipv4_address"    => String,
+          "ipv6_address"    => Fog::Nullable::String,
           "mac_address"     => String,
           "server"          => Brightbox::Compute::Formats::Nested::SERVER
         }
