@@ -49,6 +49,59 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
 
     file.destroy
 
+    file1 = Fog::Storage[:aws].directories.get('fogbuckettests').files.create(:body => 'a',    :key => 'a/a1/file1')
+    file2 = Fog::Storage[:aws].directories.get('fogbuckettests').files.create(:body => 'ab',   :key => 'a/file2')
+    file3 = Fog::Storage[:aws].directories.get('fogbuckettests').files.create(:body => 'abc',  :key => 'b/file3')
+    file4 = Fog::Storage[:aws].directories.get('fogbuckettests').files.create(:body => 'abcd', :key => 'file4')
+
+    tests("#get_bucket('fogbuckettests')") do
+      before do
+        @bucket = Fog::Storage[:aws].get_bucket('fogbuckettests')
+      end
+
+      tests(".body['Contents'].map{|n| n['Key']}").returns(["a/a1/file1", "a/file2", "b/file3", "file4"]) do
+        @bucket.body['Contents'].map{|n| n['Key']}
+      end
+
+      tests(".body['Contents'].map{|n| n['Size']}").returns([1, 2, 3, 4]) do
+        @bucket.body['Contents'].map{|n| n['Size']}
+      end
+
+      tests(".body['CommonPrefixes']").returns([]) do
+        @bucket.body['CommonPrefixes']
+      end
+    end
+
+    tests("#get_bucket('fogbuckettests', 'delimiter' => '/')") do
+      before do
+        @bucket = Fog::Storage[:aws].get_bucket('fogbuckettests', 'delimiter' => '/')
+      end
+
+      tests(".body['Contents'].map{|n| n['Key']}").returns(['file4']) do
+        @bucket.body['Contents'].map{|n| n['Key']}
+      end
+
+      tests(".body['CommonPrefixes']").returns(['a/', 'b/']) do
+        @bucket.body['CommonPrefixes']
+      end
+    end
+
+    tests("#get_bucket('fogbuckettests', 'delimiter' => '/', 'prefix' => 'a/')") do
+      before do
+        @bucket = Fog::Storage[:aws].get_bucket('fogbuckettests', 'delimiter' => '/', 'prefix' => 'a/')
+      end
+
+      tests(".body['Contents'].map{|n| n['Key']}").returns(['a/file2']) do
+        @bucket.body['Contents'].map{|n| n['Key']}
+      end
+
+      tests(".body['CommonPrefixes']").returns(['a/a1/']) do
+        @bucket.body['CommonPrefixes']
+      end
+    end
+
+    file1.destroy; file2.destroy; file3.destroy; file4.destroy
+
     tests("#get_bucket_location('fogbuckettests)").formats('LocationConstraint' => NilClass) do
       Fog::Storage[:aws].get_bucket_location('fogbuckettests').body
     end
