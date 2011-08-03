@@ -6,7 +6,7 @@ module Fog
 
       class Pool < Fog::Model
 
-        identity :id
+        identity :uuid
         
         # These attributes are only used for creation
         attribute :xml
@@ -25,7 +25,7 @@ module Fog
           requires :xml
           unless xml.nil?
             pool=nil
-            if create_persistent
+            if self.create_persistent
               pool=connection.connection.define_storage_pool_xml(xml)
             else
               pool=connection.connection.create_storage_pool_xml(xml)
@@ -33,6 +33,7 @@ module Fog
             self.raw=pool
             true
           else
+            raise Fog::Errors::Error.new('Creating a new pool requires proper xml')            
             false
           end
         end
@@ -163,12 +164,12 @@ module Fog
           
         end
         
-        # Retrieves the allocated disk space of the pool
+        # Retrieves the volumes of this pool
         def volumes
           
           volumes=Array.new
           @raw.list_volumes.each do |volume|
-            fog_volume=connection.volumes.get(:name => volume)
+            fog_volume=connection.volumes.all(:name => volume).first
             volumes << fog_volume
           end
           return volumes
@@ -184,7 +185,8 @@ module Fog
           @raw = new_raw
 
           raw_attributes = { 
-            :id => new_raw.uuid,
+            :uuid => new_raw.uuid,
+            
           }
           
           merge_attributes(raw_attributes)

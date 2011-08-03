@@ -9,20 +9,50 @@ module Fog
 
         model Fog::Compute::Libvirt::Interface
 
-        def all 
+        def all(filter=nil)
           data=[]          
-          connection.list_interfaces.each do |ifname|
-            interface=connection.lookup_interface_by_name(ifname)            
-            data << { :raw => interface }
-          end          
+          if filter.nil?
+            connection.list_interfaces.each do |ifname|
+              interface=connection.lookup_interface_by_name(ifname)            
+              data << { :raw => interface }
+            end
+            connection.list_defined_interfaces.each do |ifname|
+              interface=connection.lookup_interface_by_name(ifname)            
+              data << { :raw => interface }
+            end
+
+          else
+            interface=nil
+            begin
+              interface=get_by_name(filter[:name]) if filter.has_key?(:name)
+              interface=get_by_mac(filter[:mac]) if filter.has_key?(:mac)
+            rescue ::Libvirt::RetrieveError
+              return nil
+            end
+            data << { :raw => interface}
+          end
+
           load(data)
+        end
+        
+        def get(key)
+          self.all(:name => name).first
+        end       
+
+        # Retrieve the interface by name
+        def get_by_name(name)
+          interface=connection.lookup_interface_by_name(name)
+          return interface
+          #          new(:raw => interface)
         end
 
         # Retrieve the interface by name
-        def get(name)
-          interface=connection.lookup_interface_by_name(name)
-          new(:raw => interface)
+        def get_by_mac(mac)
+          interface=connection.lookup_interface_by_mac(mac)
+          return interface
+          #          new(:raw => interface)
         end
+
 
       end #class
 

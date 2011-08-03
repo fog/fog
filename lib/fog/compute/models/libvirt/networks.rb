@@ -9,20 +9,49 @@ module Fog
 
         model Fog::Compute::Libvirt::Network
 
-        def all 
+        def all(filter=nil)
           data=[]          
-          connection.list_networks.each do |networkname|
-            network=connection.lookup_network_by_name(networkname)            
-            data << { :raw => network }
-          end          
+          if filter.nil?
+            connection.list_networks.each do |networkname|
+              network=connection.lookup_network_by_name(networkname)            
+              data << { :raw => network }
+            end          
+            connection.list_defined_networks.each do |networkname|
+              network=connection.lookup_network_by_name(networkname)
+              data << { :raw => network}
+            end
+          else
+            network=nil
+            begin
+              network=get_by_uuid(filter[:uuid]) if filter.has_key?(:uuid)
+              network=get_by_name(filter[:name]) if filter.has_key?(:name)
+            rescue ::Libvirt::RetrieveError
+              return nil
+            end
+            data << { :raw => network}
+          end
+
           load(data)
         end
 
-        # Retrieve the network by uuid
         def get(uuid)
-          network=connection.lookup_network_by_uuid(uuid)
-          new(:raw => network)
+          self.all(:uuid => uuid).first
         end
+        
+        # Retrieve the network by uuid
+        def get_by_uuid(uuid)
+          network=connection.lookup_network_by_uuid(uuid)
+          return network
+          #          new(:raw => network)
+        end
+
+        # Retrieve the network by name
+        def get_by_name(name)
+          network=connection.lookup_network_by_name(name)
+          return network
+          #          new(:raw => network)
+        end
+
 
       end #class
 

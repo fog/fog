@@ -9,15 +9,12 @@ module Fog
 
         include Fog::Compute::LibvirtUtil
 
-        identity :id        
-        attribute :uuid
+        identity :uuid
+
         attribute :name
         attribute :bridge_name
-        
         attribute :xml_desc
-        
-        attr_reader :template_path,:network_mode,:bridge_name
-
+  
         ##https://www.redhat.com/archives/libvirt-users/2011-May/msg00091.html
         # Bridged VLAN
         
@@ -27,17 +24,16 @@ module Fog
         # http://wiki.libvirt.org/page/Networking
         #http://wiki.libvirt.org/page/VirtualNetworking#Virtual_network_switches
         def initialize(attributes = {})
-          
-          @template_path  = attributes[:template_path]  || "network.xml.erb"
-          @network_mode  = attributes[:network_mode]  || "nat"
-          @bridge_name  = attributes[:bridge_name]  || "virbr0"
-          template_xml
+          super
+        end
+        
+        def save
+            raise Fog::Errors::Error.new('Creating a new network is not yet implemented. Contributions welcome!')
         end
         
         def destroy()
           requires :raw
           raw.destroy
-#          raw.undefine
           true
         end
         
@@ -51,7 +47,6 @@ module Fog
           @raw = new_raw
 
           raw_attributes = { 
-            :id => new_raw.uuid,
             :uuid => new_raw.uuid,
             :name => new_raw.name,
             :bridge_name => new_raw.bridge_name,

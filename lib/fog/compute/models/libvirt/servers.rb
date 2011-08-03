@@ -9,20 +9,33 @@ module Fog
 
         model Fog::Compute::Libvirt::Server
 
-        def all 
-          
-          data = connection.list_defined_domains.map do |machine|
-            {
-              :raw => connection.lookup_domain_by_name(machine)
-            }
+        def all(filter=nil)
+          data=[]
+          if filter.nil?
+            connection.list_defined_domains.map do |server|
+              data << { :raw => connection.lookup_domain_by_name(domain) }
+            end
+
+            connection.list_domains.each do |domain|
+              data << { :raw => connection.lookup_domain_by_id(domain) }
+            end
+          else
+            domain=nil
+            begin
+              domain=self.get_by_name(filter[:name]) if filter.has_key?(:name)
+              domain=self.get_by_uuid(filter[:uuid]) if filter.has_key?(:uuid)
+
+            rescue ::Libvirt::RetrieveError
+              return nil
+            end
+            data << { :raw => domain }
           end
 
-          connection.list_domains.each do |machine|
-            data << {
-              :raw => connection.lookup_domain_by_id(machine)
-            }
-          end
           load(data)
+        end
+        
+        def get(key)
+          self.all(:key => key).first
         end
 
         def bootstrap(new_attributes = {})
@@ -34,16 +47,19 @@ module Fog
           # server
         end
 
+        private
         # Retrieve the server by uuid
-        def get(server_id)
-          machine=connection.lookup_domain_by_uuid(server_id)          
-          new(:raw => machine)
+        def get_by_uuid(uuid)
+          server=connection.lookup_domain_by_uuid(uuid)
+          return server
+#          new(:raw => machine)
         end
 
         # Retrieve the server by name
         def get_by_name(name)
-          machine=connection.lookup_domain_by_name(name)                    
-          new(:raw => machine)
+          server=connection.lookup_domain_by_name(name)
+          return server                    
+#          new(:raw => machine)
         end
 
       end #class

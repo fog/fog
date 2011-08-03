@@ -1,9 +1,9 @@
 <volume>
-        <name>ubuntu.qcow2</name>
-        <allocation unit="G">10</allocation>
-        <capacity unit="G">10</capacity>
+        <name><%= "#{name}.#{extension}" %></name>
+        <allocation unit="<%= allocate_unit %>"><%= allocate %></allocation>
+        <capacity unit="<%= size_unit %>"><%= size %></capacity>
         <target>
-	  <format type="qcow2"/>
+	  <format type="<%= type %>"/>
           <permissions>
             <owner>0</owner>
             <group>0</group>

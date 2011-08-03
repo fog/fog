@@ -9,36 +9,45 @@ module Fog
 
         model Fog::Compute::Libvirt::Volume
 
-        def all 
+        def all(filter=nil)
           data=[]          
-          connection.list_storage_pools.each do |poolname|
-            pool=connection.lookup_storage_pool_by_name(poolname)
-            pool.list_volumes.each do |volumename|
-              data << { :raw => pool.lookup_volume_by_name(volumename) }
+          if filter.nil?
+            connection.list_storage_pools.each do |poolname|
+              pool=connection.lookup_storage_pool_by_name(poolname)
+              pool.list_volumes.each do |volumename|
+                data << { :raw => pool.lookup_volume_by_name(volumename) }
+              end
             end
-          end          
+          else
+            volume=nil
+            begin
+              volume=self.get_by_name(filter[:name]) if filter.has_key?(:name)
+              volume=self.get_by_key(filter[:key]) if filter.has_key?(:key)
+              volume=self.get_by_path(filter[:path]) if filter.has_key?(:path)
+            rescue ::Libvirt::RetrieveError
+              return nil
+            end
+            data << { :raw => volume}
+          end
+
           load(data)
         end
 
-        # Retrieve the volume by type
-        def get(param)
-          volume=nil
-          volume=get_by_key(param[:key]) if param.has_key?(:key)
-          volume=get_by_path(param[:path]) if param.has_key?(:path)
-          volume=get_by_name(param[:name]) if param.has_key?(:name)
-          return volume
+        def get(key)
+          self.all(:key => key).first
         end
+
         
         # Retrieve the volume by name
         def get_by_name(name)
           connection.list_storage_pools.each do |poolname|
             pool=connection.lookup_storage_pool_by_name(poolname)
-              volume=pool.lookup_volume_by_name(name)
-              unless volume.nil? 
-                return new(:raw => volume)
+            volume=pool.lookup_volume_by_name(name)
+            unless volume.nil? 
+              return volume
             end
           end          
-          
+
           return nil
         end
 
@@ -46,12 +55,12 @@ module Fog
         def get_by_key(key)
           connection.list_storage_pools.each do |poolname|
             pool=connection.lookup_storage_pool_by_name(poolname)
-              volume=pool.lookup_volume_by_key(key)
-              unless volume.nil? 
-                return new(:raw => volume)
+            volume=pool.lookup_volume_by_key(key)
+            unless volume.nil? 
+              return  volume
             end
           end          
-          
+
           return nil
         end
 
@@ -59,15 +68,15 @@ module Fog
         def get_by_path(path)
           connection.list_storage_pools.each do |poolname|
             pool=connection.lookup_storage_pool_by_name(poolname)
-              volume=pool.lookup_volume_by_key(path)
-              unless volume.nil? 
-                return new(:raw => volume)
+            volume=pool.lookup_volume_by_key(path)
+            unless volume.nil? 
+              return volume
             end
           end          
-          
+
           return nil
         end
-        
+
 
       end
 

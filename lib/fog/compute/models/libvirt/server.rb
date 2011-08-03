@@ -1,5 +1,10 @@
 require 'fog/core/model'
 require 'fog/compute/models/libvirt/util'
+require 'net/ssh/proxy/command'
+require 'rexml/document'
+require 'erb'
+require 'securerandom'
+
 
 module Fog
   module Compute
@@ -11,227 +16,433 @@ module Fog
 
         identity :id , :aliases => 'uuid'
 
-        attribute :memory_size
-        attribute :name
-        attribute :os,          :aliases => :os_type_id
-        attribute :xml_desc
-        attribute :cpus
-        attribute :arch
-        attribute :bridge_name
- 
-        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username
-        attr_reader :bridge_name,:arch, :cpus,:bridge_name, :name,:template_path,:memory_size,:os,:volume_path
+        attribute :poolname
+        attribute :xml
+        attribute :create_persistent
+        attribute :template_options
+        attribute :template_erb
 
-        def initialize(attributes = {})
-                   super
-        end
-                  
-        def create(attributes = {})
-          @name = attributes[:name] || raise("we need a name")
-          @bridge_name  = attributes[:bridge_name]  || "br0"
-          @cpus  = attributes[:cpus]  || 1
-          @memory_size = attributes[:memory_size] || 256
-          @username = attributes[:username] || "mccloud"
-          @os  = attributes[:os]  || "hvm"
-          @arch = attributes[:arch] || "x86_64"
-          @template_path  = attributes[:template_path]  || "guest.xml.erb"
-          #          super
-          volume=connection.volumes.get("ubuntu-10_10_amd64.qcow2").clone("#{name}.qcow2")
-          @volume_path=volume.path
-          connection.define_domain_xml(template_xml)
+        attr_accessor :password
+        attr_writer   :private_key, :private_key_path, :public_key, :public_key_path, :username
+
+        # Can be created by passing in :xml => "<xml to create domain/server>" 
+        # or by providing :template_options => { 
+        #                :name => "", :cpus => 1, :memory_size => 256 , :volume_template
+        #   :}
+        #
+        # @returns server/domain created
+        def initialize(attributes={} )
+          self.xml  ||= nil unless attributes[:xml]
+          self.create_persistent ||=true unless attributes[:create_persistent]
+          self.template_options ||=nil unless attributes[:template_options]
+          super
+        end         
+
+        def save
           
-        end
-        
-        def start
-          requires :raw
-
-          unless @raw.active?
-            begin
-              @raw.create
-            rescue 
-              print "An error occured :",$!,"\n"
-            end
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if id 
+          
+          # first check if we have either xml or template_options
+          if xml.nil? && template_options.nil?
+            raise Fog::Errors::Error.new('Creating a new domain/server requires either xml or passing template_options')            
           end
-        end        
 
-        
-        def destroy(options={ :destroy_volumes => false})
-          
-          #connection.volumes(name).destroy
-          requires :raw
-          if @raw.active?
-             @raw.destroy
-          end          
-          @raw.undefine
-        end
+          if !xml.nil? && !template_options.nil?
+            raise Fog::Errors::Error.new('Creating a new domain/server requires either xml or passing template_options,not both')            
+          end
 
-        
-        def ready?
-          
-          status == :running
-        end
+          # We have a template, let's generate some xml for it                        
+          if !template_options.nil?
 
-        def reboot
-          requires :raw
-                    
-          @raw.reboot
-        end
+            template_defaults={
+              :cpus => 1, 
+              :memory_size => 256, 
+              :arch => "x86_64", 
+              :os => "hvm",
+              :domain_type => "kvm",
+              :name => "fog-#{SecureRandom.random_number*10E14.to_i.round}",
+
+              # Network options
+              :interface_type => "nat", #or "bridge"
+              :nat_network_name => "default",
+              :bridge_name => "br0",
+
+              # Disk options
+              :disk_type => "raw",
+              :disk_size => 10,
+              :disk_size_unit => "G",
+              :disk_allocate => 1,
+              :disk_allocate_unit => "G",
+              :disk_extension => "img",
+              :disk_template_name => nil,
+              :poolname => nil,
+
+              # DVD options
+              :iso_file => nil ,
+              :iso_dir => "/var/lib/libvirt/images/"
+            }
 
 
-        def halt
-          requires :raw
-                    
-          @raw.shutdown
-        end
-        
-        def resume
-          requires :raw
-                    
-          @raw.resume
-        end
-        
-        def suspend
-          requires :raw
-                    
-          @raw.suspend
-        end
-        
-        def status
-          state=case @raw.info.state
-            when 0 then :nostate
-            when 1 then :running
-            when 2 then :paused
-            when 3 then :shuttingdown
-            when 4 then :shutoff
-            when 5 then :crashed
+            template_options2=template_defaults.merge(template_options)
+            template_options={ :disk_path => "#{template_options2[:name]}.#{template_options2[:disk_extension]}"}.merge(template_options2)
+
+            if !template_options[:disk_template_name].nil?
+              # Clone the volume
+              volume=connection.volumes.allocate(:name => template_options[:disk_template_name]).clone("#{template_options[:disk_path]}")
+              template_options[:disk_path]=volume.path
+            else
+              # If no template volume was given, let's create our own volume
+              volume=connection.volumes.create(:template_options => { 
+                :name => "#{template_options[:disk_name]}", 
+                :extension => "#{template_options[:disk_extension]}", 
+                :type => "#{template_options[:disk_type]}",
+                :size => "#{template_options[:disk_size]}",
+                :size_unit => "#{template_options[:disk_size_unit]}",
+                :allocate => "#{template_options[:disk_allocate]}",
+                :size_unit => "#{template_options[:disk_size_unit]}" })
+
+                template_options[:disk_path]=volume.path
+
+              end
+              validate_template_options(template_options)
+
+              xml=xml_from_template(template_options)
+
+            end
+
+            # We either now have xml provided by the user or generated by the template
+            if !xml.nil?
+              domain=nil
+              if create_persistent
+                domain=connection.define_domain_xml(xml)
+              else
+                domain=connection.create_domain_xml(xml)
+              end          
+              self.raw=domain
+            end            
+          end
+
+          def validate_template_options(template_options)
+            #if template_options[:disk_template_name].nil?
+            #  raise Fog::Errors::Error.new('In order to make the disk boot, we require a template volume we can clone')            
+            #end
+
+          end
+
+          def xml_from_template(template_options)                     
+
+            # We only want specific variables for ERB
+            vars = ErbBinding.new(template_options)
+            template_path=File.join(File.dirname(__FILE__),"templates","server.xml.erb")
+            template=File.open(template_path).readlines.join
+            erb = ERB.new(template)
+            vars_binding = vars.send(:get_binding)
+            result=erb.result(vars_binding)
+            return result
+          end
+
+          def username
+            @username ||= 'root'
+          end
+
+          def start
+            requires :raw
+
+            unless @raw.active?
+              begin
+                @raw.create
+                true
+              rescue 
+                false
+              end
+            end
+          end        
+
+          def destroy(options={ :destroy_volumes => false})
+
+            #connection.volumes(name).destroy
+            requires :raw
+            if @raw.active?
+              @raw.destroy
+            end          
+            @raw.undefine
+          end
+
+
+          def reboot
+            requires :raw
+
+            @raw.reboot
+          end
+
+
+          def halt
+            requires :raw
+
+            @raw.shutdown
+          end
+
+          def resume
+            requires :raw
+
+            @raw.resume
+          end
+
+          def suspend
+            requires :raw
+
+            @raw.suspend
+          end
+
+          def state
+            state=case @raw.info.state
+          when 0 then :nostate
+          when 1 then :running
+          when 2 then :paused
+          when 3 then :shuttingdown
+          when 4 then :shutoff
+          when 5 then :crashed
           end
           return state
         end
-        
-        def save()
-  
-            raise Fog::Errors::Error.new('Updating an existing server is not yet implemented. Contributions welcome!')
+
+        def ready?
+          state == :running
         end
 
-        def scp(local_path, remote_path, upload_options = {})
-          raise 'Not Implemented'
-           requires :addresses, :username
-          
-           scp_options = {}
-           scp_options[:key_data] = [private_key] if private_key           
-           Fog::SCP.new(addresses['public'].first, username, options).upload(local_path, remote_path, scp_options)
-        end
 
-        def setup(credentials = {})
-           requires :addresses, :identity, :public_key, :username
-           Fog::SSH.new(addresses['public'].first, username, credentials).run([
-             %{mkdir .ssh},
-             %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
-             %{echo "#{attributes.to_json}" >> ~/attributes.json},
-             %{echo "#{metadata.to_json}" >> ~/metadata.json}
-           ])
-         rescue Errno::ECONNREFUSED
-           sleep(1)
-           retry
-        end
-        
-        
-        ##Note this requires arpwatch to be running
-        ##and chmod o+x /var/lib/arpwatch
-        
-        def addresses
-          mac=self.mac
-          options={}
-          ipaddress=nil
-          if connected_by_ssh?
-           #command="arp -an|grep #{mac}|cut -d ' ' -f 2| cut -d '(' -f 2| cut -d ')' -f 1"
-           #command="grep #{mac} /var/log/daemon.log |sed -e 's/^.*address //'|cut -d ' ' -f 1"
-           command="grep #{mac} /var/lib/arpwatch/arp.dat|cut -f 2"
-           result=Fog::SSH.new(connection.hostname, "patrick.debois", options).run(command)
-            if result.first.status == 0
-              ipaddress=result.first.stdout.strip
-              #TODO check for valid IP
-              #TODO check time validity
-            else
-              #cat /var/log/daemon.log|grep "52:54:00:52:f6:22"|
-            end
-          else
-            #local execute arp -an to get the ip
+          def stop
+            requires :raw
+
+            @raw.shutdown
           end
-          return { 'public' => [ipaddress], 'private' => [ipaddress]}
-        end
 
+          def mac
 
-        def ssh(commands)
-           requires :addresses, :identity, :username
-
-           options = {}
-           #options[:key_data] = [private_key] if private_key
-           
-           require 'net/ssh/proxy/command'
-           options={ :password => "mccloud"}
-           if connected_by_ssh?
-             relay=connection.hostname
-             proxy = Net::SSH::Proxy::Command.new('ssh -l patrick.debois '+relay+' nc %h %p')
-             options[:proxy]= proxy
-           end
-           #Fog::SSH.new("192.168.122.48", "vagrant", options).run(commands)
-           Fog::SSH.new(addresses['public'].first, "mccloud", options).run(commands)           
-           
-        end
-
-        def stop
-          requires :raw
-
-          @raw.shutdown
-        end
-
-        def username
-          @username ||= 'root'
-        end
-        
-        def mac
-          require "rexml/document"
-          require 'erb'
-          
             mac = document("domain/devices/interface/mac", "address")
             return mac
+          end
+
+          def vnc_port
+
+            port = document("domain/devices/graphics[@type='vnc']", "port")
+            return port
+          end
+
+          def name
+            requires :raw
+            raw.name
+          end
+
+          def uuid
+            requires :raw
+            raw.uuid
+          end
+
+          def memory_size
+            requires :raw
+            raw.memory_size
+          end
+
+          def cpus
+            requires :raw
+            raw.cpus
+          end
+
+          def os_type
+            requires :raw
+            raw.os_type
+          end
+
+          def xml_desc
+            requires :raw
+            raw.xml_desc
+          end
+
+          ##Note this requires arpwatch to be running
+          ##and chmod o+x /var/lib/arpwatch
+
+          def addresses
+            mac=self.mac
+            ipaddress=nil
+            if @connection.uri.ssh_enabled?
+              #command="arp -an|grep #{mac}|cut -d ' ' -f 2| cut -d '(' -f 2| cut -d ')' -f 1"
+              #command="grep #{mac} /var/log/daemon.log |sed -e 's/^.*address //'|cut -d ' ' -f 1"
+              # TODO: check if this files exists
+              # Check if it is readable
+              command="grep #{mac} /var/lib/arpwatch/arp.dat|cut -f 2|tail -1"
+
+              # TODO: we need to take the time into account, when IP's are re-allocated, we might be executing 
+              # On the wrong host
+
+              # We can get the host, the 
+              user=connection.uri.user #could be nil
+              host=connection.uri.host
+              keyfile=connection.uri.keyfile
+              port=connection.uri.port
+
+              options={}
+              options[:keys]=[ keyfile ] unless keyfile.nil?
+              options[:port]=port unless keyfile.nil?
+              options[:paranoid]=true if connection.uri.no_verify?
+
+              result=Fog::SSH.new(host, user, options).run(command)
+              if result.first.status == 0
+                ipaddress=result.first.stdout.strip
+                #TODO check for valid IP
+                #TODO check time validity
+              else
+                # We couldn't retrieve any IP information
+                return { :public => nil , :private => nil}
+              end
+            else            
+              # TODO for locat execute
+              #No ssh just do it locally 
+              #cat /var/log/daemon.log|grep "52:54:00:52:f6:22"|
+              # or local execute arp -an to get the ip (as a last resort)
+
+            end
+            return { :public => [ipaddress], :private => [ipaddress]}
+          end
+
+          def private_ip_address
+            ip_address(:private)
+          end
+
+          def public_ip_address
+            ip_address(:public)
+          end
+          
+          def ip_address(key)
+            ips=addresses[key]
+            unless ips.nil?
+              return ips.first
+            else
+              return nil
+            end
+          end
+
+          def private_key_path
+            @private_key_path ||= Fog.credentials[:private_key_path]
+            @private_key_path &&= File.expand_path(@private_key_path)
+          end
+
+          def private_key
+            @private_key ||= private_key_path && File.read(private_key_path)
+          end
+
+          def public_key_path
+            @public_key_path ||= Fog.credentials[:public_key_path]
+            @public_key_path &&= File.expand_path(@public_key_path)
+          end
+
+          def public_key
+            @public_key ||= public_key_path && File.read(public_key_path)
+          end
+          
+          def ssh(commands)
+            requires :public_ip_address, :username
+
+            #requires :password, :private_key
+            ssh_options={}
+            ssh_options[:password] = password unless password.nil?
+            ssh_options[:key_data] = [private_key] if private_key
+            ssh_options[:proxy]= ssh_proxy unless ssh_proxy.nil?
+
+            Fog::SSH.new(public_ip_address, @username, ssh_options).run(commands)           
+
+          end
+
+
+          def ssh_proxy
+            proxy=nil
+            if @connection.uri.ssh_enabled?
+              relay=connection.uri.host
+              user_string=""
+              user_string="-l #{connection.uri.user}" unless connection.uri.user.nil?
+              proxy = Net::SSH::Proxy::Command.new("ssh #{user_string} "+relay+" nc %h %p")
+              return proxy
+            else
+              return nil
+              # This is a direct connection, so we don't need a proxy to be set
+            end
+          end
+          
+          # Transfers a file 
+          def scp(local_path, remote_path, upload_options = {})
+            requires :public_ip_address, :username
+
+            scp_options = {}
+            scp_options[:password] = password unless self.password.nil?
+            scp_options[:key_data] = [private_key] if self.private_key
+            scp_options[:proxy]= ssh_proxy unless self.ssh_proxy.nil?
+
+            Fog::SCP.new(public_ip_address, username, scp_options).upload(local_path, remote_path, upload_options)
+          end
+
+
+          # Sets up a new key
+          def setup(credentials = {})
+            requires :public_key, :public_ip_address, :username
+            require 'multi_json'
+
+            credentials[:proxy]= ssh_proxy unless ssh_proxy.nil?
+            credentials[:password] = password unless self.password.nil?
+            credentails[:key_data] = [private_key] if self.private_key
+            
+            commands = [
+              %{mkdir .ssh},
+#              %{passwd -l #{username}}, #Not sure if we need this here
+#              %{echo "#{MultiJson.encode(attributes)}" >> ~/attributes.json}
+            ]
+            if public_key
+              commands << %{echo "#{public_key}" >> ~/.ssh/authorized_keys}
+            end
+
+            # wait for domain to be ready
+            Timeout::timeout(360) do
+              begin
+                Timeout::timeout(8) do
+                  Fog::SSH.new(public_ip_address, username, credentials.merge(:timeout => 4)).run('pwd')
+                end
+              rescue Errno::ECONNREFUSED
+                sleep(2)
+                retry
+              rescue Net::SSH::AuthenticationFailed, Timeout::Error
+                retry
+              end
+            end
+            Fog::SSH.new(public_ip_address, username, credentials).run(commands)
+          end
+
+
+          private
+
+          def raw
+            @raw
+          end
+
+          def raw=(new_raw)
+            @raw = new_raw
+
+            raw_attributes = { 
+              :id => new_raw.uuid,     
+            }          
+
+            merge_attributes(raw_attributes)
+          end
+
+
+          # finds a value from xml
+          def document path, attribute=nil
+            xml = REXML::Document.new(xml_desc)
+            attribute.nil? ? xml.elements[path].text : xml.elements[path].attributes[attribute]
+          end
+
+
         end
 
-        private
-
-        def raw
-          @raw
-        end
-
-        def raw=(new_raw)
-          @raw = new_raw
-
-          raw_attributes = { 
-            :id => new_raw.uuid,
-            :memory_size => new_raw.info.max_mem ,
-            :name => new_raw.name,
-            :cpus => new_raw.info.nr_virt_cpu,
-            :os_type_id => new_raw.os_type,
-            :xml_desc => new_raw.xml_desc,
-     
-          }          
-                    
-          merge_attributes(raw_attributes)
-        end
-        
-        # finds a value from xml
-        def document path, attribute=nil
-          xml = REXML::Document.new(xml_desc)
-          attribute.nil? ? xml.elements[path].text : xml.elements[path].attributes[attribute]
-        end
-        
-        def connected_by_ssh?
-          return connection.uri.include?("+ssh")
-        end
       end
-
     end
-  end
 
-end
+  end

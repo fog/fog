@@ -32,13 +32,39 @@ module Fog
         attr_reader :uri
         
         def initialize(options={})
-          @uri = ::Fog::Compute::LibvirtUtil::URI.new(options[:libvirt_uri])
+          @uri = ::Fog::Compute::LibvirtUtil::URI.new(enhance_uri(options[:libvirt_uri]))
 
           # libvirt is part of the gem => ruby-libvirt
           require 'libvirt'
+          
+          
           @connection = ::Libvirt::open(@uri.uri)
         end
 
+        def enhance_uri(uri)
+          require 'cgi'
+          append=""
+
+          # on macosx, chances are we are using libvirt through homebrew
+          # the client will default to a socket location based on it's own location (/opt)
+          # we conveniently point it to /var/run/libvirt/libvirt-sock
+          # if no socket option has been specified explicitly
+
+          if RUBY_PLATFORM =~ /darwin/
+            querystring=::URI.parse(uri).query
+            if querystring.nil?
+              append="?socket=/var/run/libvirt/libvirt-sock"
+            else
+                        if !::CGI.parse(querystring).has_key?("socket")
+                          append="&socket=/var/run/libvirt/libvirt-sock"
+                        end
+            end
+          end
+          newuri=uri+append
+          return newuri
+        end
+        
+        
         # hack to provide 'requests'
         def method_missing(method_sym, *arguments, &block)
           if @connection.respond_to?(method_sym)
