@@ -3,7 +3,7 @@ module Fog
     class Zerigo < Fog::Service
 
       requires :zerigo_email, :zerigo_token
-      recognizes :timeout, :persistent
+      recognizes :host, :persistent, :port, :scheme, :timeout
 
       model_path 'fog/dns/models/zerigo'
       model       :record
