@@ -36,8 +36,8 @@ module Fog
         def create_server(flavor_id, image_id, options = {})
           data = {
             'server' => {
-              'flavorRef'  => flavor_id,
-              'imageRef'   => image_id
+              'flavorId'  => flavor_id,
+              'imageId'   => image_id
             }
           }
           if options['metadata']
