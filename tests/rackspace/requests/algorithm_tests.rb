@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Rackspace::LoadBalancer | algorithm_tests', ['rackspace']) do
+Shindo.tests('Fog::Rackspace::LoadBalancers | algorithm_tests', ['rackspace']) do
 
   ALGORITHMS_FORMAT = {
     'algorithms' => [

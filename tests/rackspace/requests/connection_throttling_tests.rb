@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Rackspace::LoadBalancer | connection_throttling', ['rackspace']) do
+Shindo.tests('Fog::Rackspace::LoadBalancers | connection_throttling', ['rackspace']) do
 
   given_a_load_balancer_service do
     given_a_load_balancer do

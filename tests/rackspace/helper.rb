@@ -1,7 +1,7 @@
 module Shindo
   class Tests
     def given_a_load_balancer_service(&block)
-      @service = Fog::Rackspace::LoadBalancer.new
+      @service = Fog::Rackspace::LoadBalancers.new
       instance_eval(&block)
     end
     def given_a_load_balancer(&block)

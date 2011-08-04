@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Rackspace::LoadBalancer | session_persistence', ['rackspace']) do
+Shindo.tests('Fog::Rackspace::LoadBalancers | session_persistence', ['rackspace']) do
 
   given_a_load_balancer_service do
     given_a_load_balancer do

@@ -9,8 +9,8 @@ class Rackspace < Fog::Bin
         Fog::Compute::Rackspace
       when :storage
         Fog::Storage::Rackspace
-      when :load_balancer
-        Fog::Rackspace::LoadBalancer
+      when :load_balancers
+        Fog::Rackspace::LoadBalancers
       else 
         raise ArgumentError, "Unrecognized service: #{key}"
       end
@@ -27,6 +27,8 @@ class Rackspace < Fog::Bin
           Fog::Compute.new(:provider => 'Rackspace')
         when :dns
           Fog::DNS.new(:provider => 'Rackspace')
+        when :load_balancers
+          Fog::Rackspace::LoadBalancers.new
         when :storage
           Formatador.display_line("[yellow][WARN] Rackspace[:storage] is deprecated, use Storage[:rackspace] instead[/]")
           Fog::Storage.new(:provider => 'Rackspace')

@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Rackspace::LoadBalancer | load_balancer_tests', ['rackspace']) do
+Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer_tests', ['rackspace']) do
 
   given_a_load_balancer_service do
     given_a_load_balancer do

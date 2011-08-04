@@ -1,6 +1,6 @@
-Shindo.tests('Fog::Rackspace::LoadBalancer', ['rackspace']) do
+Shindo.tests('Fog::Rackspace::LoadBalancers', ['rackspace']) do
 
-  @service = Fog::Rackspace::LoadBalancer.new
+  @service = Fog::Rackspace::LoadBalancers.new
 
   tests('#algorithms').succeeds do
     data = @service.algorithms

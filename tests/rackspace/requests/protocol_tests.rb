@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Rackspace::LoadBalancer | protocol_tests', ['rackspace']) do
+Shindo.tests('Fog::Rackspace::LoadBalancers | protocol_tests', ['rackspace']) do
 
   PROTOCOLS_FORMAT = {
     'protocols' => [

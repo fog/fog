@@ -8,7 +8,7 @@ module Fog
     service(:cdn,     'cdn/rackspace')
     service(:compute, 'compute/rackspace')
     service(:storage, 'storage/rackspace')
-    service(:load_balancer, 'rackspace/load_balancer')
+    service(:load_balancers, 'rackspace/load_balancers')
 
     def self.authenticate(options)
       rackspace_auth_url = options[:rackspace_auth_url] || "auth.api.rackspacecloud.com"
