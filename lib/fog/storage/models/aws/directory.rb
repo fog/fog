@@ -86,9 +86,7 @@ module Fog
           if @acl
             options['x-amz-acl'] = @acl
           end
-          if @location
-            options['LocationConstraint'] = @location
-          end
+          options['LocationConstraint'] = @location || self.connection.region
           connection.put_bucket(key, options)
           true
         end
