@@ -2,7 +2,6 @@ module Fog
   module Compute
     class AWS
       class Real
-
         require 'fog/compute/parsers/aws/register_image'
 
         # register an image
@@ -50,32 +49,74 @@ module Fog
             common_options['ImageLocation'] = location
           end
 
-          bdi = 0
-          block_devices.each do |bd|
-            bdi += 1
+          block_devices.each_with_index do |bd, index|
+            index += 1
             ["DeviceName","VirtualName"].each do |n|
-              common_options["BlockDeviceMapping.#{bdi}.#{n}"] = bd["#{n}"] if bd["#{n}"]
+              common_options["BlockDeviceMapping.#{index}.#{n}"] = bd[n] if bd[n]
             end
             ["SnapshotId","VolumeSize","NoDevice","DeleteOnTermination"].each do |n|
-              common_options["BlockDeviceMapping.#{bdi}.Ebs.#{n}"] = bd["#{n}"] if bd["#{n}"]
+              common_options["BlockDeviceMapping.#{index}.Ebs.#{n}"] = bd[n] if bd[n]
             end
-
           end
 
           request(common_options.merge!(options))
         end
-
       end
 
       class Mock
-
         def register_image(name, description, location, block_devices=[], options={})
-          response = Excon::Response.new
-          if !name.empty?
+          unless name.empty?
+            image = {
+              'imageId' => Fog::AWS::Mock.image_id,
+              'imageLocation' => '',
+              'imageState' => 'available',
+              'imageOwnerId' => self.data[:owner_id],
+              'isPublic' => false,
+              'productCodes' => [],
+              'architecture' => 'i386',
+              'imageType' => 'machine',
+              'kernelId' => Fog::AWS::Mock.kernel_id,
+              'ramdiskId' => Fog::AWS::Mock.ramdisk_id,
+              'platform' => 'Linux',
+              'stateReason' => {},
+              'imageOwnerAlias' => self.data[:owner_id],
+              'name' => name,
+              'description' => description,
+              'rootDeviceType' => '',
+              'rootDeviceName' => '',
+              'blockDeviceMapping' => [],
+              'virtualizationType' => 'paravirtual',
+              'tagSet' => {},
+              'hypervisor' => 'xen'
+            }
+
+            if location[/^\/dev\/sd[a-p]\d{0,2}$/]
+              image['rootDeviceName'] = location
+              image['rootDeviceType'] = 'ebs'
+            else
+              image['imageLocation'] = location
+            end
+
+            block_devices.each do |bd|
+              block_device_mapping = {
+                'ebs' => {}
+              }
+              ["DeviceName","VirtualName"].each do |n|
+                block_device_mapping = bd[n] if bd[n]
+              end
+              ["SnapshotId","VolumeSize","NoDevice","DeleteOnTermination"].each do |n|
+                block_device_mapping['ebs'][n] = bd[n] if bd[n]
+              end
+              image['blockDeviceMapping'] << block_device_mapping
+            end
+
+            self.data[:images][image['imageId']] = image
+
+            response = Excon::Response.new
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,
-              'imageId' => Fog::AWS::Mock.image_id
+              'imageId' => image['imageId']
             }
             response
           else
@@ -86,7 +127,6 @@ module Fog
             raise Fog::Compute::AWS::Error.new(message)
           end
         end
-
       end
     end
   end

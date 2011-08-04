@@ -7,8 +7,9 @@ module Fog
 
           def reset
             @block_device_mapping = {}
-            @image = { 'blockDeviceMapping' => [], 'productCodes' => [], 'tagSet' => {} }
+            @image = { 'blockDeviceMapping' => [], 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
             @response = { 'imagesSet' => [] }
+            @state_reason = {}
             @tag = {}
           end
 
@@ -17,6 +18,8 @@ module Fog
             case name
             when 'blockDeviceMapping'
               @in_block_device_mapping = true
+            when 'stateReason'
+              @in_state_reason = true
             when 'tagSet'
               @in_tag_set = true
             end
@@ -45,9 +48,18 @@ module Fog
                   @image['blockDeviceMapping'] << @block_device_mapping
                   @block_device_mapping = {}
               end
+            elsif @in_state_reason
+              case name
+              when 'code', 'message'
+                @state_reason[name] = value
+              when 'stateReason'
+                @image['stateReason'] = @state_reason
+                @state_reason = {}
+                @in_state_reason = false
+              end
             else
               case name
-              when 'architecture', 'description', 'imageId', 'imageLocation', 'imageOwnerId', 'imageState', 'imageType', 'kernelId', 'name', 'platform', 'ramdiskId', 'rootDeviceType','rootDeviceName','virtualizationType'
+              when 'architecture', 'description', 'hypervisor', 'imageId', 'imageLocation', 'imageOwnerAlias', 'imageOwnerId', 'imageState', 'imageType', 'kernelId', 'name', 'platform', 'ramdiskId', 'rootDeviceType','rootDeviceName','virtualizationType'
                 @image[name] = value
               when 'isPublic'
                 if value == 'true'
@@ -57,7 +69,7 @@ module Fog
                 end
               when 'item'
                 @response['imagesSet'] << @image
-                @image = { 'blockDeviceMapping' => [], 'productCodes' => [], 'tagSet' => {} }
+                @image = { 'blockDeviceMapping' => [], 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
               when 'productCode'
                 @image['productCodes'] << value
               when 'requestId'
