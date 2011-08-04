@@ -14,7 +14,3 @@ class AWS
   end
 
 end
-
-unless defined?(GENTOO_AMI)
-  GENTOO_AMI = 'ami-5ee70037'
-end

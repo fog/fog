@@ -59,22 +59,17 @@ module Fog
 
         def describe_images(filters = {})
           unless filters.is_a?(Hash)
-            Formatador.display_line("[yellow][WARN] describe_images with #{filters.class} param is deprecated, use describe_snapshots('snapshot-id' => []) instead[/] [light_black](#{caller.first})[/]")
-            filters = {'snapshot-id' => [*filters]}
+            Formatador.display_line("[yellow][WARN] describe_images with #{filters.class} param is deprecated, use describe_images('image-id' => []) instead[/] [light_black](#{caller.first})[/]")
+            filters = {'image-id' => [*filters]}
           end
-          
+
           if filters.keys.any? {|key| key =~ /^block-device/}
             Formatador.display_line("[yellow][WARN] describe_images block-device-mapping filters are not yet mocked[/] [light_black](#{caller.first})[/]")
             Fog::Mock.not_implemented
           end
-          
-          if filters.keys.any? {|key| key =~ /^tag/}
-            Formatador.display_line("[yellow][WARN] describe_images tag filters are not yet mocked[/] [light_black](#{caller.first})[/]")
-            Fog::Mock.not_implemented
-          end
-          
+
           response = Excon::Response.new
-          
+
           aliases = {
             'architecture'        => 'architecture',
             'description'         => 'description',
@@ -84,7 +79,7 @@ module Fog
             'is-public'           => 'isPublic',
             'kernel-id'           => 'kernelId',
             'manifest-location'   => 'manifestLocation',
-            'name'                => 'name',            
+            'name'                => 'name',
             'owner-id'            => 'imageOwnerId',
             'ramdisk-id'          => 'ramdiskId',
             'root-device-name'    => 'rootDeviceName',
@@ -92,12 +87,16 @@ module Fog
             'state'               => 'imageState',
             'virtualization-type' => 'virtualizationType'
           }
-          
+
           image_set = self.data[:images].values
-          
+
           for filter_key, filter_value in filters
-            aliased_key = aliases[filter_key]
-            image_set = image_set.reject{|image| ![*filter_value].include?(image[aliased_key])}
+            if tag_key = filter_key.split('tag:')[1]
+              image_set = image_set.reject{|image| ![*filter_value].include?(image['tagSet'][tag_key])}
+            else
+              aliased_key = aliases[filter_key]
+              image_set = image_set.reject{|image| ![*filter_value].include?(image[aliased_key])}
+            end
           end
 
           response.status = 200
