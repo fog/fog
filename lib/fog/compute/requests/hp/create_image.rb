@@ -18,7 +18,7 @@ module Fog
         def create_image(server_id, options = {})
           data = {
             'image' => {
-              'serverRef' => server_id
+              'serverId' => server_id
             }
           }
           if options['name']
