@@ -55,6 +55,8 @@ module Fog
 
       module Utils
 
+        attr_accessor :region
+
         def cdn
           @cdn ||= Fog::AWS::CDN.new(
             :aws_access_key_id => @aws_access_key_id,
@@ -92,16 +94,7 @@ module Fog
           query << "Expires=#{params[:headers]['Date']}"
           "#{@host}/#{params[:path]}?#{query.join('&')}"
         end
-        
-        def host
-          @host
-        end
-        
-        def region
-          region = @region || host.split('.').first.gsub(/s3-?/, '')
-          region.empty? ? 'us-east-1' : region
-        end
-        
+
       end
 
       class Mock
