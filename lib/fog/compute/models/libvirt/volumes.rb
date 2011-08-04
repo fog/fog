@@ -24,6 +24,8 @@ module Fog
               volume=self.get_by_name(filter[:name]) if filter.has_key?(:name)
               volume=self.get_by_key(filter[:key]) if filter.has_key?(:key)
               volume=self.get_by_path(filter[:path]) if filter.has_key?(:path)
+              return nil if volume.nil?
+                
             rescue ::Libvirt::RetrieveError
               return nil
             end

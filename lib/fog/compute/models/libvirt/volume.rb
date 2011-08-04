@@ -107,6 +107,11 @@ module Fog
           def xml_from_template(template_options)                     
 
             # We only want specific variables for ERB
+            
+            # we can't use an option of name type
+            # This clashes with ruby 1.8 Erb.type which is equivalent of .class
+            new_template_options={:vol_type => template_options[:type]}.merge(template_options)
+            
             vars = ErbBinding.new(template_options)
             template_path=File.join(File.dirname(__FILE__),"templates","volume.xml.erb")
             template=File.open(template_path).readlines.join
