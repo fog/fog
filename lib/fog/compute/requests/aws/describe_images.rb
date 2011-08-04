@@ -69,6 +69,14 @@ module Fog
             Fog::Mock.not_implemented
           end
 
+          if owner = filters.delete('Owner')
+            if owner == 'self'
+              filters['owner-id'] = self.data[:owner_id]
+            else
+              filters['owner-alias'] = owner
+            end
+          end
+
           response = Excon::Response.new
 
           aliases = {

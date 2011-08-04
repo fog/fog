@@ -44,10 +44,20 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
       end
 
       @image_id = @image['imageId']
+
+      tests("#describe_images('Owner' => 'self')").formats(@describe_images_format) do
+        Fog::Compute[:aws].describe_images('Owner' => 'self').body
+      end
     end
 
     tests("#describe_images('image-id' => '#{@image_id}')").formats(@describe_images_format) do
-      Fog::Compute[:aws].describe_images('image-id' => @image_id).body
+      @other_image = Fog::Compute[:aws].describe_images('image-id' => @image_id).body
+    end
+
+    unless Fog.mocking?
+      tests("#describe_images('Owner' => '#{@other_image['imageOwnerAlias']}', 'image-id' => '#{@image_id}')").formats(@describe_images_format) do
+        Fog::Compute[:aws].describe_images('Owner' => @other_image['imageOwnerAlias'], 'image-id' => @image_id).body
+      end
     end
   end
 end
