@@ -10,7 +10,7 @@ module Fog
 
         attribute :value
         attribute :resource_id,           :aliases => 'resourceId'
-        attribute :resource_type,         :aliases => 'resourceType'        
+        attribute :resource_type,         :aliases => 'resourceType'
 
         def initialize(attributes = {})
           super
