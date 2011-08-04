@@ -9,22 +9,22 @@ module Fog
         #
         # ==== Parameters
         # * snapshot_id<~String> - Id of snapshot to modify
-        # * attribute<~String> - Attribute to modify, in ['createVolumePermission']
-        # * operation_type<~String> - Operation to perform on attribute, in ['add', 'remove']
-        #
-        #
+        # * attributes<~Hash>:
+        #   * 'Add.Group'<~Array> - One or more groups to grant volume create permission to
+        #   * 'Add.UserId'<~Array> - One or more account ids to grant volume create permission to
+        #   * 'Remove.Group'<~Array> - One or more groups to revoke volume create permission from
+        #   * 'Remove.UserId'<~Array> - One or more account ids to revoke volume create permission from
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-ModifySnapshotAttribute.html]
         #
-        def modify_snapshot_attribute(snapshot_id, attribute, operation_type, options = {})
+        def modify_snapshot_attribute(snapshot_id, attributes)
           params = {}
-          params.merge!(Fog::AWS.indexed_param('UserId', options['UserId']))
-          params.merge!(Fog::AWS.indexed_param('UserGroup', options['UserGroup']))
+          params.merge!(Fog::AWS.indexed_param('CreateVolumePermission.Add.%d.Group', attributes['Add.Group'] || []))
+          params.merge!(Fog::AWS.indexed_param('CreateVolumePermission.Add.%d.UserId', attributes['Add.UserId'] || []))
+          params.merge!(Fog::AWS.indexed_param('CreateVolumePermission.Remove.%d.Group', attributes['Remove.Group'] || []))
+          params.merge!(Fog::AWS.indexed_param('CreateVolumePermission.Remove.%d.UserId', attributes['Remove.UserId'] || []))
           request({
             'Action'        => 'ModifySnapshotAttribute',
-            'Attribute'     => attribute,
-            'SnapshotId'    => snapshot_id,
-            'OperationType' => operation_type,
             :idempotent     => true,
             :parser         => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(params))
