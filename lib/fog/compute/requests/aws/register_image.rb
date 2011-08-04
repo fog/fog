@@ -110,7 +110,7 @@ module Fog
               image['blockDeviceMapping'] << block_device_mapping
             end
 
-            self.data[:images][name] = image
+            self.data[:images][image['imageId']] = image
 
             response = Excon::Response.new
             response.status = 200
