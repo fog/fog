@@ -25,6 +25,7 @@ module Fog
         #       * 'description'<~String> - Description of image
         #       * 'imageId'<~String> - Id of the image
         #       * 'imageLocation'<~String> - Location of the image
+        #       * 'imageOwnerAlias'<~String> - Alias of the owner of the image
         #       * 'imageOwnerId'<~String> - Id of the owner of the image
         #       * 'imageState'<~String> - State of the image
         #       * 'imageType'<~String> - Type of the image
@@ -80,6 +81,7 @@ module Fog
             'kernel-id'           => 'kernelId',
             'manifest-location'   => 'manifestLocation',
             'name'                => 'name',
+            'owner-alias'         => 'imageOwnerAlias',
             'owner-id'            => 'imageOwnerId',
             'ramdisk-id'          => 'ramdiskId',
             'root-device-name'    => 'rootDeviceName',

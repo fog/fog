@@ -79,7 +79,7 @@ module Fog
               'ramdiskId' => Fog::AWS::Mock.ramdisk_id,
               'platform' => 'Linux',
               'stateReason' => {},
-              'imageOwnerAlias' => self.data[:owner_id],
+              'imageOwnerAlias' => 'self',
               'name' => name,
               'description' => description,
               'rootDeviceType' => '',

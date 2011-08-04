@@ -13,6 +13,7 @@ module Fog
         attribute :description
         attribute :location,              :aliases => 'imageLocation'
         attribute :owner_id,              :aliases => 'imageOwnerId'
+        attribute :owner_alias,           :aliases => 'imageOwnerAlias'
         attribute :state,                 :aliases => 'imageState'
         attribute :type,                  :aliases => 'imageType'
         attribute :is_public,             :aliases => 'isPublic'
