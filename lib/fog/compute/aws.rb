@@ -71,6 +71,7 @@ module Fog
       request :get_password_data
       request :import_key_pair
       request :modify_image_attribute
+      request :modify_instance_attribute
       request :modify_snapshot_attribute
       request :purchase_reserved_instances_offering
       request :reboot_instances
