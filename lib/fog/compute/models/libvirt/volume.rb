@@ -143,7 +143,7 @@ module Fog
             xml.root.elements['/volume/key'].text=name
             xml.delete_element('/volume/target/path')
             pool.create_volume_xml_from(xml.to_s,@raw)
-            return connection.volumes.all(:name => name)
+            return connection.volumes.all(:name => name).first
           end
 
           def xml_desc

@@ -98,7 +98,7 @@ module Fog
 
             if !template_options[:disk_template_name].nil?
               # Clone the volume              
-              volume=connection.volumes.allocate(:name => template_options[:disk_template_name]).clone("#{template_options[:disk_name]}")
+              volume=connection.volumes.all(:name => template_options[:disk_template_name]).first.clone("#{template_options[:disk_name]}")
 
               # This gets passed to the domain to know the path of the disk
               template_options[:disk_path]=volume.path
@@ -111,7 +111,7 @@ module Fog
                 :size => "#{template_options[:disk_size]}",
                 :size_unit => "#{template_options[:disk_size_unit]}",
                 :allocate => "#{template_options[:disk_allocate]}",
-                :size_unit => "#{template_options[:disk_size_unit]}" })
+                :allocate_unit => "#{template_options[:disk_allocate_unit]}" })
 
                 # This gets passed to the domain to know the path of the disk
                 template_options[:disk_path]=volume.path
@@ -190,8 +190,18 @@ module Fog
             @raw.reboot
           end
 
-
           def halt
+            requires :raw
+
+            @raw.halt
+          end
+
+          def poweroff
+            requires :raw
+            @raw.destroy
+          end
+
+          def shutdown
             requires :raw
 
             @raw.shutdown
@@ -248,7 +258,8 @@ module Fog
               #command="grep #{mac} /var/log/daemon.log |sed -e 's/^.*address //'|cut -d ' ' -f 1"
               # TODO: check if this files exists
               # Check if it is readable
-              command="grep #{mac} /var/lib/arpwatch/arp.dat|cut -f 2|tail -1"
+              command="grep #{mac} /var/log/arpwatch.log |cut -d ':' -f 4-| cut -d ' ' -f 4"
+#              command="grep #{mac} /var/lib/arpwatch/arp.dat|cut -f 2|tail -1"
 
               # TODO: we need to take the time into account, when IP's are re-allocated, we might be executing 
               # On the wrong host
