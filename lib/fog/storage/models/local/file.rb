@@ -38,7 +38,7 @@ module Fog
 
         def destroy
           requires :directory, :key
-          ::File.delete(path)
+          ::File.delete(path) if ::File.exists?(path)
           dirs = path.split(::File::SEPARATOR)[0...-1]
           dirs.length.times do |index|
             dir_path = dirs[0..-index].join(::File::SEPARATOR)
@@ -50,11 +50,13 @@ module Fog
               break
             end
             pwd = Dir.pwd
-            Dir.chdir(dir_path)
-            if Dir.glob('*').empty?
-              Dir.rmdir(dir_path)
+            if ::Dir.exists?(dir_path)
+              Dir.chdir(dir_path)
+              if Dir.glob('*').empty?
+                Dir.rmdir(dir_path)
+              end
+              Dir.chdir(pwd)
             end
-            Dir.chdir(pwd)
           end
           true
         end
@@ -80,7 +82,7 @@ module Fog
               Dir.mkdir(dir_path)
             end
           end
-          file = ::File.new(path, 'w')
+          file = ::File.new(path, 'wb')
           if body.is_a?(String)
             file.write(body)
           else
