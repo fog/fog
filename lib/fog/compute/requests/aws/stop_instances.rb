@@ -17,8 +17,9 @@ module Fog
         #     * TODO: fill in the blanks
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-StopInstances.html]
-        def stop_instances(instance_id)
+        def stop_instances(instance_id, force = false)
           params = Fog::AWS.indexed_param('InstanceId', instance_id)
+          params.merge!('Force' => 'true') if force
           request({
             'Action'    => 'StopInstances',
             :idempotent => true,

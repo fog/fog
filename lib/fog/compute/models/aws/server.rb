@@ -222,9 +222,9 @@ module Fog
           true
         end
 
-        def stop
+        def stop(force = false)
           requires :id
-          connection.stop_instances(id)
+          connection.stop_instances(id, force)
           true
         end
 
