@@ -168,6 +168,15 @@ module Fog
 
           data = connection.run_instances(image_id, 1, 1, options)
           merge_attributes(data.body['instancesSet'].first)
+
+          for key, value in self.tags
+            connection.tags.create(
+              :key          => key,
+              :resource_id  => self.identity,
+              :value        => value
+            )
+          end
+
           true
         end
 

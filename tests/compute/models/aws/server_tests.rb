@@ -6,7 +6,6 @@ Shindo.tests("Fog::Compute[:aws] | monitor", ['aws']) do
     responds_to(association)
   end
 
-
   tests('new instance') do
 
     test('#monitor = true') do
@@ -44,4 +43,16 @@ Shindo.tests("Fog::Compute[:aws] | monitor", ['aws']) do
   end
 
   @instance.destroy
+
+  tests('tags') do
+    @instance = Fog::Compute[:aws].servers.create(:tags => {'key' => 'value'})
+
+    tests('@instance.reload.tags').returns({'key' => 'value'}) do
+      @instance.reload.tags
+    end
+
+    Fog::Compute[:aws].tags.all('resource-id' => @instance.identity).each {|tag| tag.destroy}
+    @instance.destroy
+  end
+
 end
