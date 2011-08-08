@@ -45,14 +45,14 @@ module Fog
             'created'   => now,
             'id'        => Fog::Mock.random_numbers(6).to_i,
             'name'      => options['name'] || '',
-            'serverRef'  => server_id,
+            'serverId'  => server_id,
             'status'    => 'SAVING',
             'updated'   => now.to_s,
           }
 
           self.data[:last_modified][:images][data['id']] = now
           self.data[:images][data['id']] = data
-          response.body = { 'image' => data.reject {|key, value| !['id', 'name', 'serverRef', 'status', 'updated'].include?(key)} }
+          response.body = { 'image' => data.reject {|key, value| !['id', 'name', 'serverId', 'status', 'updated'].include?(key)} }
           response
         end
 
