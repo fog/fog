@@ -30,10 +30,10 @@ module Fog
             end
             data << { :raw => domain }
           end
-          
+
           load(data)
         end
-        
+
         def get(uuid)
           self.all(:uuid => uuid).first
         end
@@ -46,9 +46,9 @@ module Fog
           # server.setup(:password => server.password)
           # server
         end
-        
+
         # private #making these internals private screws up reload
-        
+
         # Retrieve the server by uuid
         def get_by_uuid(uuid)
           server=connection.lookup_domain_by_uuid(uuid)
@@ -59,7 +59,7 @@ module Fog
         # Retrieve the server by name
         def get_by_name(name)
           server=connection.lookup_domain_by_name(name)
-          return server                    
+          return server
 #          new(:raw => machine)
         end
 

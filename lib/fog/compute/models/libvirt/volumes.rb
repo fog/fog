@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Libvirt::Volume
 
         def all(filter=nil)
-          data=[]          
+          data=[]
           if filter.nil?
             connection.list_storage_pools.each do |poolname|
               pool=connection.lookup_storage_pool_by_name(poolname)
@@ -25,7 +25,7 @@ module Fog
               volume=self.get_by_key(filter[:key]) if filter.has_key?(:key)
               volume=self.get_by_path(filter[:path]) if filter.has_key?(:path)
               return nil if volume.nil?
-                
+
             rescue ::Libvirt::RetrieveError
               return nil
             end
@@ -39,16 +39,16 @@ module Fog
           self.all(:key => key).first
         end
 
-        
+
         # Retrieve the volume by name
         def get_by_name(name)
           connection.list_storage_pools.each do |poolname|
             pool=connection.lookup_storage_pool_by_name(poolname)
             volume=pool.lookup_volume_by_name(name)
-            unless volume.nil? 
+            unless volume.nil?
               return volume
             end
-          end          
+          end
 
           return nil
         end
@@ -58,10 +58,10 @@ module Fog
           connection.list_storage_pools.each do |poolname|
             pool=connection.lookup_storage_pool_by_name(poolname)
             volume=pool.lookup_volume_by_key(key)
-            unless volume.nil? 
+            unless volume.nil?
               return  volume
             end
-          end          
+          end
 
           return nil
         end
@@ -71,10 +71,10 @@ module Fog
           connection.list_storage_pools.each do |poolname|
             pool=connection.lookup_storage_pool_by_name(poolname)
             volume=pool.lookup_volume_by_key(path)
-            unless volume.nil? 
+            unless volume.nil?
               return volume
             end
-          end          
+          end
 
           return nil
         end

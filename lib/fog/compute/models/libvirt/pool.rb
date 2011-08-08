@@ -153,11 +153,11 @@ module Fog
         def state
           requires :raw
 
-          #INACTIVE	=	INT2NUM(VIR_STORAGE_POOL_INACTIVE)	 	 virStoragePoolState
-          #BUILDING	=	INT2NUM(VIR_STORAGE_POOL_BUILDING)
-          #RUNNING	=	INT2NUM(VIR_STORAGE_POOL_RUNNING)
-          #DEGRADED	=	INT2NUM(VIR_STORAGE_POOL_DEGRADED)
-          #INACCESSIBLE	=	INT2NUM(VIR_STORAGE_POOL_INACCESSIBLE)
+          #INACTIVE = INT2NUM(VIR_STORAGE_POOL_INACTIVE)     virStoragePoolState
+          #BUILDING = INT2NUM(VIR_STORAGE_POOL_BUILDING)
+          #RUNNING  = INT2NUM(VIR_STORAGE_POOL_RUNNING)
+          #DEGRADED = INT2NUM(VIR_STORAGE_POOL_DEGRADED)
+          #INACCESSIBLE = INT2NUM(VIR_STORAGE_POOL_INACCESSIBLE)
           states=[:inactive, :building,:running,:degrated,:inaccessible]
 
           return states[@raw.info.state]
