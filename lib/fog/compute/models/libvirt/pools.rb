@@ -50,7 +50,7 @@ module Fog
         def get_by_name(name)
           pool=connection.lookup_storage_pool_by_name(name)
           return pool
-#          new(:raw => pool)
+          #          new(:raw => pool)
         end
 
       end #class

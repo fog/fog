@@ -53,14 +53,14 @@ module Fog
         def get_by_uuid(uuid)
           server=connection.lookup_domain_by_uuid(uuid)
           return server
-#          new(:raw => machine)
+          #          new(:raw => machine)
         end
 
         # Retrieve the server by name
         def get_by_name(name)
           server=connection.lookup_domain_by_name(name)
           return server
-#          new(:raw => machine)
+          #          new(:raw => machine)
         end
 
       end #class

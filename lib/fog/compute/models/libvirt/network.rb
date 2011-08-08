@@ -28,7 +28,7 @@ module Fog
         end
 
         def save
-            raise Fog::Errors::Error.new('Creating a new network is not yet implemented. Contributions welcome!')
+          raise Fog::Errors::Error.new('Creating a new network is not yet implemented. Contributions welcome!')
         end
 
         def destroy()

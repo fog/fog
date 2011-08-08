@@ -82,14 +82,14 @@ module Fog
         end
 
         def no_verify?
-            no_verify=value("no_verify")
-            return false if no_verify.nil?
+          no_verify=value("no_verify")
+          return false if no_verify.nil?
 
-            if no_verify.to_s=="0"
-              return false
-            else
-              return true
-            end
+          if no_verify.to_s=="0"
+            return false
+          else
+            return true
+          end
         end
 
         def verify?

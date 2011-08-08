@@ -19,7 +19,7 @@ module Fog
         attribute :xml
         attribute :template_options
 
-#        attribute :key
+        #        attribute :key
         attribute :path
         attribute :name
         attribute :capacity
@@ -43,7 +43,7 @@ module Fog
             if first_pool.nil?
               raise Fog::Errors::Error.new('We could not find a pool called "default" and there was no other pool defined')
             else
-               default_pool_name=first_pool.name
+              default_pool_name=first_pool.name
             end
 
           end
@@ -54,8 +54,8 @@ module Fog
 
         # Takes a pool and either uses :xml  or :template_options->xml to create the volume
         def save
-#          requires :xml
-#          requires :poolname
+          #          requires :xml
+          #          requires :poolname
 
           if poolname
             # :disk_type => "raw",
@@ -100,80 +100,80 @@ module Fog
 
         end
 
-          def validate_template_options(template_options)
-            # Here we can validate the template_options
-          end
+        def validate_template_options(template_options)
+          # Here we can validate the template_options
+        end
 
-          def xml_from_template(template_options)
+        def xml_from_template(template_options)
 
-            # We only want specific variables for ERB
+          # We only want specific variables for ERB
 
-            # we can't use an option of name type
-            # This clashes with ruby 1.8 Erb.type which is equivalent of .class
-            new_template_options={:vol_type => template_options[:type]}.merge(template_options)
+          # we can't use an option of name type
+          # This clashes with ruby 1.8 Erb.type which is equivalent of .class
+          new_template_options={:vol_type => template_options[:type]}.merge(template_options)
 
-            vars = ErbBinding.new(template_options)
-            template_path=File.join(File.dirname(__FILE__),"templates","volume.xml.erb")
-            template=File.open(template_path).readlines.join
-            erb = ERB.new(template)
-            vars_binding = vars.send(:get_binding)
-            result=erb.result(vars_binding)
-            return result
-          end
+          vars = ErbBinding.new(template_options)
+          template_path=File.join(File.dirname(__FILE__),"templates","volume.xml.erb")
+          template=File.open(template_path).readlines.join
+          erb = ERB.new(template)
+          vars_binding = vars.send(:get_binding)
+          result=erb.result(vars_binding)
+          return result
+        end
 
-          # Destroy a volume
-          def destroy
-            requires :raw
-            raw.delete
-            true
-          end
+        # Destroy a volume
+        def destroy
+          requires :raw
+          raw.delete
+          true
+        end
 
-          # Wipes a volume , zeroes disk
-          def wipe
-            requires :raw
-            raw.wipe
-            true
-          end
+        # Wipes a volume , zeroes disk
+        def wipe
+          requires :raw
+          raw.wipe
+          true
+        end
 
-          # Clones this volume to the name provided
-          def clone(name)
-            pool=@raw.pool
-            xml = REXML::Document.new(xml_desc)
-            xml.root.elements['/volume/name'].text=name
-            xml.root.elements['/volume/key'].text=name
-            xml.delete_element('/volume/target/path')
-            pool.create_volume_xml_from(xml.to_s,@raw)
-            return connection.volumes.all(:name => name).first
-          end
+        # Clones this volume to the name provided
+        def clone(name)
+          pool=@raw.pool
+          xml = REXML::Document.new(xml_desc)
+          xml.root.elements['/volume/name'].text=name
+          xml.root.elements['/volume/key'].text=name
+          xml.delete_element('/volume/target/path')
+          pool.create_volume_xml_from(xml.to_s,@raw)
+          return connection.volumes.all(:name => name).first
+        end
 
-          def xml_desc
-            requires :raw
-            raw.xml_desc
-          end
+        def xml_desc
+          requires :raw
+          raw.xml_desc
+        end
 
-          private
-          def raw
-            @raw
-          end
+        private
+        def raw
+          @raw
+        end
 
-          def raw=(new_raw)
-            @raw = new_raw
+        def raw=(new_raw)
+          @raw = new_raw
 
-            raw_attributes = {
-              :key => new_raw.key,
-              :path => new_raw.path,
-              :name => new_raw.name,
-              :allocation => new_raw.info.allocation,
-              :capacity => new_raw.info.capacity,
-              :type => new_raw.info.type
-            }
+          raw_attributes = {
+            :key => new_raw.key,
+            :path => new_raw.path,
+            :name => new_raw.name,
+            :allocation => new_raw.info.allocation,
+            :capacity => new_raw.info.capacity,
+            :type => new_raw.info.type
+          }
 
-            merge_attributes(raw_attributes)
-          end
-
+          merge_attributes(raw_attributes)
         end
 
       end
-    end
 
+    end
   end
+
+end

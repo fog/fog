@@ -12,7 +12,7 @@ module Fog
         attribute :xml_desc
 
         def save
-           raise Fog::Errors::Error.new('Creating a new interface is not yet implemented. Contributions welcome!')
+          raise Fog::Errors::Error.new('Creating a new interface is not yet implemented. Contributions welcome!')
         end
 
         def destroy
