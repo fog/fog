@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Libvirt::Pool
 
         def all(filter=nil)
-          data=[]          
+          data=[]
           if filter.nil?
             connection.list_storage_pools.each do |poolname|
-              pool=connection.lookup_storage_pool_by_name(poolname)            
+              pool=connection.lookup_storage_pool_by_name(poolname)
               data << { :raw => pool }
-            end          
+            end
             connection.list_defined_storage_pools.each do |poolname|
               data << {
                 :raw => connection.lookup_storage_pool_by_name(poolname)
@@ -31,16 +31,16 @@ module Fog
             end
             data << { :raw => pool}
           end
-          
+
           load(data)
         end
 
         def get(uuid)
           self.all(:uuid => uuid).first
         end
-        
+
         #private # Making these private, screws up realod
-        # Retrieve the pool by uuid        
+        # Retrieve the pool by uuid
         def get_by_uuid(uuid)
           pool=connection.lookup_storage_pool_by_uuid(uuid)
           return pool

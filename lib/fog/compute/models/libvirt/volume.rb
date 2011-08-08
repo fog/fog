@@ -15,10 +15,10 @@ module Fog
         identity :key
 
         attribute :poolname
-        
+
         attribute :xml
         attribute :template_options
-        
+
 #        attribute :key
         attribute :path
         attribute :name
@@ -26,15 +26,15 @@ module Fog
         attribute :allocation
         attribute :type
 
-        # Can be created by passing in :xml => "<xml to create volume>" 
+        # Can be created by passing in :xml => "<xml to create volume>"
         # A volume always belongs to a pool, :poolname => "<name of pool>"
         #
         # @returns volume created
         def initialize(attributes={} )
           self.xml  ||= nil unless attributes[:xml]
-          
+
           super
-          
+
           # Try to guess the default/first pool of no poolname was specificed
           default_pool_name="default"
           default_pool=connection.pools.all(:name => "default")
@@ -42,14 +42,14 @@ module Fog
             first_pool=connection.pools.first
             if first_pool.nil?
               raise Fog::Errors::Error.new('We could not find a pool called "default" and there was no other pool defined')
-            else  
+            else
                default_pool_name=first_pool.name
             end
-            
+
           end
-          
+
           self.poolname  ||= default_pool_name unless attributes[:poolname]
-          
+
         end
 
         # Takes a pool and either uses :xml  or :template_options->xml to create the volume
@@ -61,10 +61,10 @@ module Fog
             # :disk_type => "raw",
             # :disk_extension => "img",
             # :disk_size => "10000",
-            # We have a template, let's generate some xml for it                        
+            # We have a template, let's generate some xml for it
             if !template_options.nil?
 
-              template_defaults={ 
+              template_defaults={
                 :type => "raw",
                 :extension => "img",
                 :size => 10,
@@ -99,19 +99,19 @@ module Fog
           end
 
         end
-        
+
           def validate_template_options(template_options)
             # Here we can validate the template_options
           end
 
-          def xml_from_template(template_options)                     
+          def xml_from_template(template_options)
 
             # We only want specific variables for ERB
-            
+
             # we can't use an option of name type
             # This clashes with ruby 1.8 Erb.type which is equivalent of .class
             new_template_options={:vol_type => template_options[:type]}.merge(template_options)
-            
+
             vars = ErbBinding.new(template_options)
             template_path=File.join(File.dirname(__FILE__),"templates","volume.xml.erb")
             template=File.open(template_path).readlines.join
@@ -135,7 +135,7 @@ module Fog
             true
           end
 
-          # Clones this volume to the name provided     
+          # Clones this volume to the name provided
           def clone(name)
             pool=@raw.pool
             xml = REXML::Document.new(xml_desc)
@@ -159,7 +159,7 @@ module Fog
           def raw=(new_raw)
             @raw = new_raw
 
-            raw_attributes = { 
+            raw_attributes = {
               :key => new_raw.key,
               :path => new_raw.path,
               :name => new_raw.name,

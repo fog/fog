@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Libvirt::Network
 
         def all(filter=nil)
-          data=[]          
+          data=[]
           if filter.nil?
             connection.list_networks.each do |networkname|
-              network=connection.lookup_network_by_name(networkname)            
+              network=connection.lookup_network_by_name(networkname)
               data << { :raw => network }
-            end          
+            end
             connection.list_defined_networks.each do |networkname|
               network=connection.lookup_network_by_name(networkname)
               data << { :raw => network}
@@ -37,7 +37,7 @@ module Fog
         def get(uuid)
           self.all(:uuid => uuid).first
         end
-        
+
         #private # Making these private, screws up realod
         # Retrieve the network by uuid
         def get_by_uuid(uuid)

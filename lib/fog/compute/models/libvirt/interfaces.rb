@@ -10,14 +10,14 @@ module Fog
         model Fog::Compute::Libvirt::Interface
 
         def all(filter=nil)
-          data=[]          
+          data=[]
           if filter.nil?
             connection.list_interfaces.each do |ifname|
-              interface=connection.lookup_interface_by_name(ifname)            
+              interface=connection.lookup_interface_by_name(ifname)
               data << { :raw => interface }
             end
             connection.list_defined_interfaces.each do |ifname|
-              interface=connection.lookup_interface_by_name(ifname)            
+              interface=connection.lookup_interface_by_name(ifname)
               data << { :raw => interface }
             end
 
@@ -34,10 +34,10 @@ module Fog
 
           load(data)
         end
-        
+
         def get(key)
           self.all(:name => name).first
-        end       
+        end
 
         #private # Making these private, screws up realod
         # Retrieve the interface by name

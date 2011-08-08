@@ -7,20 +7,20 @@ module Fog
       class Interface < Fog::Model
 
         identity :name
-        
+
         attribute :mac
         attribute :xml_desc
 
         def save
            raise Fog::Errors::Error.new('Creating a new interface is not yet implemented. Contributions welcome!')
         end
-        
+
         def destroy
           requires :raw
           raw.delete
           true
         end
-        
+
         private
 
         def raw
@@ -30,7 +30,7 @@ module Fog
         def raw=(new_raw)
           @raw = new_raw
 
-          raw_attributes = { 
+          raw_attributes = {
             :name => new_raw.name,
             :mac => new_raw.mac,
             :xml_desc => new_raw.xml_desc,
@@ -39,7 +39,7 @@ module Fog
           merge_attributes(raw_attributes)
 
         end
-        
+
       end
 
     end

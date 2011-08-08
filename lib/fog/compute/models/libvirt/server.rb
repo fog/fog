@@ -15,7 +15,7 @@ module Fog
         include Fog::Compute::LibvirtUtil
 
         identity :uuid
-        
+
         attribute :cpus
         attribute :os_type
         attribute :memory_size
@@ -30,8 +30,8 @@ module Fog
         attr_accessor :password
         attr_writer   :private_key, :private_key_path, :public_key, :public_key_path, :username
 
-        # Can be created by passing in :xml => "<xml to create domain/server>" 
-        # or by providing :template_options => { 
+        # Can be created by passing in :xml => "<xml to create domain/server>"
+        # or by providing :template_options => {
         #                :name => "", :cpus => 1, :memory_size => 256 , :volume_template
         #   :}
         #
@@ -41,28 +41,28 @@ module Fog
           self.create_persistent ||=true unless attributes[:create_persistent]
           self.template_options ||=nil unless attributes[:template_options]
           super
-        end         
+        end
 
         def save
-          
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if uuid 
-          
+
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if uuid
+
           # first check if we have either xml or template_options
           if xml.nil? && template_options.nil?
-            raise Fog::Errors::Error.new('Creating a new domain/server requires either xml or passing template_options')            
+            raise Fog::Errors::Error.new('Creating a new domain/server requires either xml or passing template_options')
           end
 
           if !xml.nil? && !template_options.nil?
-            raise Fog::Errors::Error.new('Creating a new domain/server requires either xml or passing template_options,not both')            
+            raise Fog::Errors::Error.new('Creating a new domain/server requires either xml or passing template_options,not both')
           end
 
-          # We have a template, let's generate some xml for it                        
+          # We have a template, let's generate some xml for it
           if !template_options.nil?
 
             template_defaults={
-              :cpus => 1, 
-              :memory_size => 256, 
-              :arch => "x86_64", 
+              :cpus => 1,
+              :memory_size => 256,
+              :arch => "x86_64",
               :os => "hvm",
               :domain_type => "kvm",
               :name => "fog-#{SecureRandom.random_number*10E14.to_i.round}",
@@ -89,7 +89,7 @@ module Fog
 
 
             template_options2=template_defaults.merge(template_options)
-            template_options={ 
+            template_options={
                       :disk_name => "#{template_options2[:name]}.#{template_options2[:disk_extension]}"
             }.merge(template_options2)
 
@@ -97,16 +97,16 @@ module Fog
 
 
             if !template_options[:disk_template_name].nil?
-              # Clone the volume              
+              # Clone the volume
               volume=connection.volumes.all(:name => template_options[:disk_template_name]).first.clone("#{template_options[:disk_name]}")
 
               # This gets passed to the domain to know the path of the disk
               template_options[:disk_path]=volume.path
             else
               # If no template volume was given, let's create our own volume
-              volume=connection.volumes.create(:template_options => { 
-                :name => "#{template_options[:disk_name]}", 
-                :extension => "#{template_options[:disk_extension]}", 
+              volume=connection.volumes.create(:template_options => {
+                :name => "#{template_options[:disk_name]}",
+                :extension => "#{template_options[:disk_extension]}",
                 :type => "#{template_options[:disk_type]}",
                 :size => "#{template_options[:disk_size]}",
                 :size_unit => "#{template_options[:disk_size_unit]}",
@@ -129,14 +129,14 @@ module Fog
                 domain=connection.define_domain_xml(xml)
               else
                 domain=connection.create_domain_xml(xml)
-              end          
+              end
               self.raw=domain
-            end            
+            end
           end
 
           def validate_template_options(template_options)
             #if template_options[:disk_template_name].nil?
-            #  raise Fog::Errors::Error.new('In order to make the disk boot, we require a template volume we can clone')            
+            #  raise Fog::Errors::Error.new('In order to make the disk boot, we require a template volume we can clone')
             #end
             unless template_options[:interface_type].nil?
               raise Fog::Errors::Error.new("#{template_options[:interface_type]} is not a supported interface type") unless ["nat", "bridge"].include?(template_options[:interface_type])
@@ -144,7 +144,7 @@ module Fog
 
           end
 
-          def xml_from_template(template_options)                     
+          def xml_from_template(template_options)
 
             # We only want specific variables for ERB
             vars = ErbBinding.new(template_options)
@@ -167,11 +167,11 @@ module Fog
               begin
                 @raw.create
                 true
-              rescue 
+              rescue
                 false
               end
             end
-          end        
+          end
 
           def destroy(options={ :destroy_volumes => false})
 
@@ -179,7 +179,7 @@ module Fog
             requires :raw
             if @raw.active?
               @raw.destroy
-            end          
+            end
             @raw.undefine
           end
 
@@ -261,10 +261,10 @@ module Fog
               command="grep #{mac} /var/log/arpwatch.log |cut -d ':' -f 4-| cut -d ' ' -f 4"
 #              command="grep #{mac} /var/lib/arpwatch/arp.dat|cut -f 2|tail -1"
 
-              # TODO: we need to take the time into account, when IP's are re-allocated, we might be executing 
+              # TODO: we need to take the time into account, when IP's are re-allocated, we might be executing
               # On the wrong host
 
-              # We can get the host, the 
+              # We can get the host, the
               user=connection.uri.user #could be nil
               host=connection.uri.host
               keyfile=connection.uri.keyfile
@@ -284,9 +284,9 @@ module Fog
                 # We couldn't retrieve any IP information
                 return { :public => nil , :private => nil}
               end
-            else            
+            else
               # TODO for locat execute
-              #No ssh just do it locally 
+              #No ssh just do it locally
               #cat /var/log/daemon.log|grep "52:54:00:52:f6:22"|
               # or local execute arp -an to get the ip (as a last resort)
 
@@ -301,7 +301,7 @@ module Fog
           def public_ip_address
             ip_address(:public)
           end
-          
+
           def ip_address(key)
             ips=addresses[key]
             unless ips.nil?
@@ -328,7 +328,7 @@ module Fog
           def public_key
             @public_key ||= public_key_path && File.read(public_key_path)
           end
-          
+
           def ssh(commands)
             requires :public_ip_address, :username
 
@@ -338,7 +338,7 @@ module Fog
             ssh_options[:key_data] = [private_key] if private_key
             ssh_options[:proxy]= ssh_proxy unless ssh_proxy.nil?
 
-            Fog::SSH.new(public_ip_address, @username, ssh_options).run(commands)           
+            Fog::SSH.new(public_ip_address, @username, ssh_options).run(commands)
 
           end
 
@@ -356,8 +356,8 @@ module Fog
               # This is a direct connection, so we don't need a proxy to be set
             end
           end
-          
-          # Transfers a file 
+
+          # Transfers a file
           def scp(local_path, remote_path, upload_options = {})
             requires :public_ip_address, :username
 
@@ -378,7 +378,7 @@ module Fog
             credentials[:proxy]= ssh_proxy unless ssh_proxy.nil?
             credentials[:password] = password unless self.password.nil?
             credentails[:key_data] = [private_key] if self.private_key
-            
+
             commands = [
               %{mkdir .ssh},
 #              %{passwd -l #{username}}, #Not sure if we need this here
@@ -415,8 +415,8 @@ module Fog
             port = document("domain/devices/graphics[@type='vnc']", "port")
             return port
           end
-          
-          
+
+
           private
 
           def raw
@@ -426,13 +426,13 @@ module Fog
           def raw=(new_raw)
             @raw = new_raw
 
-            raw_attributes = { 
-              :uuid => new_raw.uuid, 
+            raw_attributes = {
+              :uuid => new_raw.uuid,
               :name => new_raw.name,
               :memory_size => new_raw.info.max_mem,
               :cpus => new_raw.info.nr_virt_cpu,
               :os_type => new_raw.os_type
-            }          
+            }
 
             merge_attributes(raw_attributes)
           end
