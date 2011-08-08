@@ -291,6 +291,9 @@ module Fog
             # or local execute arp -an to get the ip (as a last resort)
 
           end
+          # We check if the result is an actual ip-address
+          # otherwise we return nil
+          ipaddress=nil unless ipaddress=~/^(\d{1,3}\.){3}\d{1,3}$/
           return { :public => [ipaddress], :private => [ipaddress]}
         end
 
