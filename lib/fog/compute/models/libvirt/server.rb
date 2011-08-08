@@ -250,50 +250,92 @@ module Fog
         ##Note this requires arpwatch to be running
         ##and chmod o+x /var/lib/arpwatch
 
-        def addresses
+        # This retrieves the ip address of the mac address
+        # It returns an array of public and private ip addresses
+        # Currently only one ip address is returned, but in the future this could be multiple
+        # if the server has multiple network interface
+        #
+        def addresses(options={})
           mac=self.mac
+
+          # Check if another ip_command string was provided
+          ip_command=options[:ip_command].nil? ? "grep #{mac} /var/log/arpwatch.log |cut -d ':' -f 4-| cut -d ' ' -f 4" : options[:ip_command]
+
           ipaddress=nil
+
           if @connection.uri.ssh_enabled?
-            #command="arp -an|grep #{mac}|cut -d ' ' -f 2| cut -d '(' -f 2| cut -d ')' -f 1"
-            #command="grep #{mac} /var/log/daemon.log |sed -e 's/^.*address //'|cut -d ' ' -f 1"
-            # TODO: check if this files exists
-            # Check if it is readable
-            command="grep #{mac} /var/log/arpwatch.log |cut -d ':' -f 4-| cut -d ' ' -f 4"
-            #              command="grep #{mac} /var/lib/arpwatch/arp.dat|cut -f 2|tail -1"
 
-            # TODO: we need to take the time into account, when IP's are re-allocated, we might be executing
-            # On the wrong host
-
-            # We can get the host, the
+            # Retrieve the parts we need from the connection to setup our ssh options
             user=connection.uri.user #could be nil
             host=connection.uri.host
             keyfile=connection.uri.keyfile
             port=connection.uri.port
 
-            options={}
-            options[:keys]=[ keyfile ] unless keyfile.nil?
-            options[:port]=port unless keyfile.nil?
-            options[:paranoid]=true if connection.uri.no_verify?
+            # Setup the options
+            ssh_options={}
+            ssh_options[:keys]=[ keyfile ] unless keyfile.nil?
+            ssh_options[:port]=port unless keyfile.nil?
+            ssh_options[:paranoid]=true if connection.uri.no_verify?
 
-            result=Fog::SSH.new(host, user, options).run(command)
+            # TODO: we need to take the time into account, when IP's are re-allocated, we might be executing
+            # On the wrong host
+
+            begin
+              result=Fog::SSH.new(host, user, ssh_options).run(ip_command)
+            rescue Errno::ECONNREFUSED
+              raise Fog::Errors::Error.new("Connection was refused to host #{host} to retrieve the ipaddress for #{mac}")
+            rescue Net::SSH::AuthenticationFailed
+              raise Fog::Errors::Error.new("Error authenticating over ssh to host #{host} and user #{user}")
+            end
+
+            #TODO: We currently just retrieve the ip address through the ip_command
+            #TODO: We need to check if that Ipaddress is still valid for that mac-address
+
+            # Check for a clean exit code
             if result.first.status == 0
               ipaddress=result.first.stdout.strip
-              #TODO check for valid IP
-              #TODO check time validity
             else
-              # We couldn't retrieve any IP information
-              return { :public => nil , :private => nil}
+              # We got a failure executing the command
+              raise Fog::Errors::Error.new("The command #{ip_command} failed to execute with a clean exit code")
             end
+
           else
+            # It's not ssh enabled, so we assume it is 
+            if @connection.uri.transport=="tls"
+              raise Fog::Errors::Error.new("TlS remote transport is not currently supported, only ssh")
+            end
+
+            IO.popen("#{ip_command}") do |p|
+              p.each_line do |l|
+                  ipaddress=+l
+              end
+              status=Process.waitpid2(p.pid)[1].exitstatus
+              if status!=0
+                raise Fog::Errors::Error.new("The command #{ip_command} failed to execute with a clean exit code")
+              end
+            end
             # TODO for locat execute
             #No ssh just do it locally
             #cat /var/log/daemon.log|grep "52:54:00:52:f6:22"|
             # or local execute arp -an to get the ip (as a last resort)
 
           end
-          # We check if the result is an actual ip-address
-          # otherwise we return nil
-          ipaddress=nil unless ipaddress=~/^(\d{1,3}\.){3}\d{1,3}$/
+
+          if ipaddress==""
+            #The grep didn't find an ip address result"
+            ipaddress=nil
+          else
+            # To be sure that the command didn't return another random string
+            # We check if the result is an actual ip-address
+            # otherwise we return nil
+            unless ipaddress=~/^(\d{1,3}\.){3}\d{1,3}$/
+              raise Fog::Errors::Error.new(
+                "The command #{ip_command} failed to execute with a clean exit code\n"+
+                "Result was: #{ipaddress}\n"
+                )
+            end
+          end
+
           return { :public => [ipaddress], :private => [ipaddress]}
         end
 
@@ -407,8 +449,8 @@ module Fog
           Fog::SSH.new(public_ip_address, username, credentials).run(commands)
         end
 
+        # Retrieves the mac address from parsing the XML of the domain
         def mac
-
           mac = document("domain/devices/interface/mac", "address")
           return mac
         end
