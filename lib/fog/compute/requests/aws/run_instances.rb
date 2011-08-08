@@ -20,6 +20,8 @@ module Fog
         #   (by default the maximum for an account is 20)
         # * options<~Hash>:
         #   * 'Placement.AvailabilityZone'<~String> - Placement constraint for instances
+        #   * 'Placement.GroupName'<~String> - Name of existing placement group to launch instance into
+        #   * 'Placement.Tenancy'<~String> - Tenancy option in ['dedicated', 'default'], defaults to 'default'
         #   * 'BlockDeviceMapping'<~Array>: array of hashes
         #     * 'DeviceName'<~String> - where the volume will be exposed to instance
         #     * 'VirtualName'<~String> - volume virtual device name
@@ -27,6 +29,7 @@ module Fog
         #     * 'Ebs.VolumeSize'<~String> - size of volume in GiBs required unless snapshot is specified
         #     * 'Ebs.DeleteOnTermination'<~String> - specifies whether or not to delete the volume on instance termination
         #   * 'ClientToken'<~String> - unique case-sensitive token for ensuring idempotency
+        #   * 'DisableApiTermination'<~Boolean> - specifies whether or not to allow termination of the instance from the api
         #   * 'SecurityGroup'<~Array> or <~String> - Name of security group(s) for instances (you must omit this parameter if using Virtual Private Clouds)
         #   * 'InstanceInitiatedShutdownBehaviour'<~String> - specifies whether volumes are stopped or terminated when instance is shutdown, in [stop, terminate]
         #   * 'InstanceType'<~String> - Type of instance to boot. Valid options
@@ -36,7 +39,9 @@ module Fog
         #   * 'KeyName'<~String> - Name of a keypair to add to booting instances
         #   * 'Monitoring.Enabled'<~Boolean> - Enables monitoring, defaults to
         #     disabled
+        #   * 'PrivateIpAddress<~String> - VPC option to specify ip address within subnet
         #   * 'RamdiskId'<~String> - Id of ramdisk with which to launch
+        #   * 'SubnetId'<~String> - VPC option to specify subnet to launch instance into
         #   * 'UserData'<~String> -  Additional data to provide to booting instances
         #
         # ==== Returns
