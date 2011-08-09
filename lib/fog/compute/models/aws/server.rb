@@ -183,7 +183,7 @@ module Fog
         end
 
         def setup(credentials = {})
-          requires :identity, :public_ip_address, :username
+          requires :public_ip_address, :username
           require 'multi_json'
           require 'net/ssh'
 
