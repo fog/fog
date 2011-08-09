@@ -269,50 +269,6 @@ task :docs do
   Formatador.display_line
 end
 
-task :upload_fog_io do
-  # connect to storage provider
-  Fog.credential = :geemus
-  storage = Fog::Storage.new(:provider => 'AWS')
-  directory = storage.directories.new(:key => 'fog.io')
-
-  # build the docs locally
-  sh "jekyll docs docs/_site"
-
-  # write web page files to versioned 'folder'
-  for file_path in Dir.glob('docs/_site/**/*')
-    next if File.directory?(file_path)
-    file_name = file_path.gsub('docs/_site/', '')
-    key = '' << version << '/' << file_name
-    Formatador.redisplay(' ' * 128)
-    Formatador.redisplay("Uploading [bold]#{key}[/]")
-    if File.extname(file_name) == '.html'
-      # rewrite links with version
-      body = File.read(file_path)
-      body.gsub!(/vX.Y.Z/, 'v' << version)
-      body.gsub!(/='\//, %{='/} << version << '/')
-      body.gsub!(/="\//, %{="/} << version << '/')
-      content_type = 'text/html'
-      directory.files.create(
-        :body         => redirecter(key),
-        :content_type => 'text/html',
-        :key          => 'latest/' << file_name,
-        :public       => true
-      )
-    else
-      body = File.open(file_path)
-      content_type = nil # leave it up to mime-types
-    end
-    directory.files.create(
-      :body         => body,
-      :content_type => content_type,
-      :key          => key,
-      :public       => true
-    )
-  end
-  Formatador.redisplay(' ' * 128)
-  Formatador.redisplay("Uploaded docs/_site\n")
-end
-
 task :supported_services_docs do
   support, shared = {}, []
   for key, values in Fog.services
@@ -376,6 +332,50 @@ title:  Supported Services
 METADATA
     file.puts(table)
   end
+end
+
+task :upload_fog_io do
+  # connect to storage provider
+  Fog.credential = :geemus
+  storage = Fog::Storage.new(:provider => 'AWS')
+  directory = storage.directories.new(:key => 'fog.io')
+
+  # build the docs locally
+  sh "jekyll docs docs/_site"
+
+  # write web page files to versioned 'folder'
+  for file_path in Dir.glob('docs/_site/**/*')
+    next if File.directory?(file_path)
+    file_name = file_path.gsub('docs/_site/', '')
+    key = '' << version << '/' << file_name
+    Formatador.redisplay(' ' * 128)
+    Formatador.redisplay("Uploading [bold]#{key}[/]")
+    if File.extname(file_name) == '.html'
+      # rewrite links with version
+      body = File.read(file_path)
+      body.gsub!(/vX.Y.Z/, 'v' << version)
+      body.gsub!(/='\//, %{='/} << version << '/')
+      body.gsub!(/="\//, %{="/} << version << '/')
+      content_type = 'text/html'
+      directory.files.create(
+        :body         => redirecter(key),
+        :content_type => 'text/html',
+        :key          => 'latest/' << file_name,
+        :public       => true
+      )
+    else
+      body = File.open(file_path)
+      content_type = nil # leave it up to mime-types
+    end
+    directory.files.create(
+      :body         => body,
+      :content_type => content_type,
+      :key          => key,
+      :public       => true
+    )
+  end
+  Formatador.redisplay(' ' * 128)
+  Formatador.redisplay("Uploaded docs/_site\n")
 end
 
 task :upload_rdoc do
