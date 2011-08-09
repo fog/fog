@@ -1,9 +1,9 @@
 <volume>
-        <name><%= "#{name}" %></name>
-        <allocation unit="<%= allocate_unit %>"><%= allocate %></allocation>
-        <capacity unit="<%= size_unit %>"><%= size %></capacity>
+        <name><%= name %></name>
+        <allocation unit="<%= allocation_unit %>"><%= allocation_size %>"></allocation>
+        <capacity unit="<%= capacity_unit %>"><%= capacity_size %>"></capacity>
         <target>
-	  <format type="<%= vol_type %>"/>
+          <format type="<%= format_type %>"/>
           <permissions>
             <owner>0</owner>
             <group>0</group>

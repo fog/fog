@@ -14,104 +14,94 @@ module Fog
 
         identity :key
 
-        attribute :poolname
+        attribute :pool_name
 
         attribute :xml
-        attribute :template_options
 
-        #        attribute :key
+        attribute :key
         attribute :path
         attribute :name
         attribute :capacity
         attribute :allocation
-        attribute :type
+        attribute :format_type
 
         # Can be created by passing in :xml => "<xml to create volume>"
-        # A volume always belongs to a pool, :poolname => "<name of pool>"
+        # A volume always belongs to a pool, :pool_name => "<name of pool>"
         #
         # @returns volume created
         def initialize(attributes={} )
           self.xml  ||= nil unless attributes[:xml]
-
+          self.key  = nil
+          self.format_type ||= "raw" unless attributes[:format_type]
+          extension = self.format_type=="raw" ? "img" : self.format_type
+          self.name ||= "fog-#{SecureRandom.random_number*10E14.to_i.round}.{extension}" unless attributes[:name]
+          self.capacity ||= "10G" unless attributes[:capacity]
+          self.allocation ||= "1G" unless attributes[:allocation]
           super
 
-          # Try to guess the default/first pool of no poolname was specificed
-          default_pool_name="default"
-          default_pool=connection.pools.all(:name => "default")
+          #We need a connection to calculate the poolname
+          #This is why we do this after super
+          self.pool_name  ||= default_pool_name unless attributes[:pool_name]
+        end
+
+        # Try to guess the default/first pool of no pool_name was specificed
+        def default_pool_name
+          default_name="default"
+          default_pool=@connection.pools.all(:name => default_name)
+
           if default_pool.nil?
-            first_pool=connection.pools.first
+            first_pool=@connection.pools.first
             if first_pool.nil?
               raise Fog::Errors::Error.new('We could not find a pool called "default" and there was no other pool defined')
             else
-              default_pool_name=first_pool.name
+              default_name=first_pool.name
             end
-
           end
-
-          self.poolname  ||= default_pool_name unless attributes[:poolname]
-
+          return default_name
         end
 
-        # Takes a pool and either uses :xml  or :template_options->xml to create the volume
+        # Takes a pool and either :xml or other settings
         def save
-          #          requires :xml
-          #          requires :poolname
+          requires :pool_name
 
-          if poolname
-            # :disk_type => "raw",
-            # :disk_extension => "img",
-            # :disk_size => "10000",
-            # We have a template, let's generate some xml for it
-            if !template_options.nil?
+          xml=xml_from_template if xml.nil?
 
-              template_defaults={
-                :type => "raw",
-                :extension => "img",
-                :size => 10,
-                :allocate_unit => "G",
-                :size_unit => "G",
-                :allocate => 1,
-              }
-              template_options2=template_defaults.merge(template_options)
-              template_options={ :name => "fog-#{SecureRandom.random_number*10E14.to_i.round}.#{template_options2[:extension]}"}.merge(template_options2)
-
-              validate_template_options(template_options)
-
-              xml=xml_from_template(template_options)
-
-            end
-
-            unless xml.nil?
-              volume=nil
-              unless poolname.nil?
-                pool=connection.lookup_storage_pool_by_name(poolname)
-                volume=pool.create_volume_xml(xml)
-                self.raw=volume
-                true
-              else
-                raise Fog::Errors::Error.new('Creating a new volume requires a pool name or uuid')
-                false
-              end
-            else
-              raise Fog::Errors::Error.new('Creating a new volume requires non empty xml')
-              false
-            end
+          begin
+            volume=nil
+            pool=connection.lookup_storage_pool_by_name(pool_name)
+            volume=pool.create_volume_xml(xml)
+            self.raw=volume
+            true
+          rescue
+            raise Fog::Errors::Error.new("Error creating volume: #{$!}")
+            false
           end
 
         end
 
-        def validate_template_options(template_options)
-          # Here we can validate the template_options
+        def split_size_unit(text)
+          matcher=text.match(/(\d+)(.+)/)
+          size=matcher[1]
+          unit=matcher[2]
+          return size , unit
         end
 
-        def xml_from_template(template_options)
+        # Create a valid xml for the volume based on the template
+        def xml_from_template
+
+          allocation_size,allocation_unit=split_size_unit(self.allocation)
+          capacity_size,capacity_unit=split_size_unit(self.capacity)
+
+          template_options={
+            :name => self.name,
+            :format_type => self.format_type,
+            :allocation_size => allocation_size,
+            :allocation_unit => allocation_unit,
+            :capacity_size => capacity_size,
+            :capacity_unit => capacity_unit
+          }
 
           # We only want specific variables for ERB
-
-          # we can't use an option of name type
-          # This clashes with ruby 1.8 Erb.type which is equivalent of .class
-          new_template_options={:vol_type => template_options[:type]}.merge(template_options)
-
           vars = ErbBinding.new(template_options)
           template_path=File.join(File.dirname(__FILE__),"templates","volume.xml.erb")
           template=File.open(template_path).readlines.join
@@ -159,13 +149,16 @@ module Fog
         def raw=(new_raw)
           @raw = new_raw
 
+          xml = REXML::Document.new(new_raw.xml_desc)
+          format_type=xml.root.elements['/volume/target/format'].attributes['type']
+
           raw_attributes = {
             :key => new_raw.key,
             :path => new_raw.path,
             :name => new_raw.name,
+            :format_type => format_type,
             :allocation => new_raw.info.allocation,
             :capacity => new_raw.info.capacity,
-            :type => new_raw.info.type
           }
 
           merge_attributes(raw_attributes)
