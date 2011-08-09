@@ -3,13 +3,13 @@
   <memory><%= memory_size %></memory>
   <vcpu><%= cpus %></vcpu>
   <os>
-    <type arch='<%= arch %>'><%= os %></type>
+    <type arch='<%= arch %>'><%= os_type %></type>
     <boot dev='hd'/>
-	<% if !iso_file.nil? %>
+  <% if !iso_file.nil? %>
 
     <boot dev='cdrom'/>
-	<% end %>
- 	</os>
+  <% end %>
+  </os>
   <features>
     <acpi/>
     <apic/>
@@ -22,7 +22,7 @@
       <source file='<%= "#{disk_path}" %>'/>
       <target dev='vda' bus='virtio'/>
     </disk>
-	<% if !iso_file.nil? %>
+  <% if !iso_file.nil? %>
     <disk type='file' device='cdrom'>
       <driver name='qemu' type='raw'/>
       <source file='<%= "#{iso_dir}/#{iso_file}" %>'/>
@@ -30,17 +30,17 @@
       <readonly/>
       <address type='drive' controller='0' bus='1' unit='0'/>
     </disk>
-	<% end %>
-		<% if interface_type=="bridge" %>
-	      <interface type="bridge">
-	      <source bridge='<%= bridge_name %>'/>
-	      <model type='virtio'/>
-    	<% end %>
-		<% if interface_type=="nat" %>
-	      <interface type='network'>
-		  <source network='<%= nat_network_name %>'/>
-		  <model type='virtio'/>
-		<% end %>
+  <% end %>
+    <% if network_interface_type=="bridge" %>
+        <interface type="bridge">
+        <source bridge='<%= network_bridge_name %>'/>
+        <model type='virtio'/>
+      <% end %>
+    <% if network_interface_type=="nat" %>
+        <interface type='network'>
+      <source network='<%= interface_nat_network %>'/>
+      <model type='virtio'/>
+    <% end %>
     </interface>
     <serial type='pty'>
       <target port='0'/>

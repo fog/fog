@@ -16,16 +16,31 @@ module Fog
 
         identity :id, :aliases => 'uuid'
 
+        attribute :xml
+
         attribute :cpus
         attribute :os_type
         attribute :memory_size
         attribute :name
+        attribute :arch
+        attribute :persistent
+        attribute :domain_type
+        attribute :uuid
 
-        attribute :poolname
-        attribute :xml
-        attribute :create_persistent
-        attribute :template_options
-        attribute :template_erb
+        attribute :disk_format_type
+        attribute :disk_allocation
+        attribute :disk_capacity
+        attribute :disk_name
+        attribute :disk_pool_name
+        attribute :disk_template_name
+        attribute :disk_path
+
+        attribute :iso_dir
+        attribute :iso_file
+
+        attribute :network_interface_type
+        attribute :network_nat_network
+        attribute :network_bridge_name
 
         attr_accessor :password
         attr_writer   :private_key, :private_key_path, :public_key, :public_key_path, :username
@@ -37,116 +52,128 @@ module Fog
         #
         # @returns server/domain created
         def initialize(attributes={} )
+
           self.xml  ||= nil unless attributes[:xml]
-          self.create_persistent ||=true unless attributes[:create_persistent]
-          self.template_options ||=nil unless attributes[:template_options]
+          self.persistent ||=true unless attributes[:persistent]
+          self.cpus ||=1 unless attributes[:cpus]
+          self.memory_size ||=256 unless attributes[:memory_size]
+          self.name ||="fog-#{SecureRandom.random_number*10E14.to_i.round}" unless attributes[:name]
+
+          self.os_type ||="hvm" unless attributes[:os_type]
+          self.arch ||="x86_64" unless attributes[:arch]
+
+          self.domain_type ||="kvm" unless attributes[:domain_type]
+
+          self.iso_file ||=nil unless attributes[:iso_file]
+          self.iso_dir ||="/var/lib/libvirt/images" unless attributes[:iso_dir]
+
+          self.disk_format_type ||=nil unless attributes[:disk_format_type]
+          self.disk_capacity ||=nil unless attributes[:disk_capacity]
+          self.disk_allocation ||=nil unless attributes[:disk_allocation]
+
+
+          self.disk_name ||=nil unless attributes[:disk_name]
+          self.disk_pool_name ||=nil unless attributes[:disk_pool_name]
+          self.disk_template_name ||=nil unless attributes[:disk_template_name]
+
+          self.network_interface_type ||="nat" unless attributes[:network_interface_type]
+          self.network_nat_network ||="default" unless attributes[:network_nat_network]
+          self.network_bridge_name ||="br0" unless attributes[:network_bridge_name]
+
           super
         end
 
         def save
 
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if uuid
+          raise Fog::Errors::Error.new('Resaving an existing server may create a duplicate') if uuid
 
-          # first check if we have either xml or template_options
-          if xml.nil? && template_options.nil?
-            raise Fog::Errors::Error.new('Creating a new domain/server requires either xml or passing template_options')
-          end
+          validate_template_options
 
-          if !xml.nil? && !template_options.nil?
-            raise Fog::Errors::Error.new('Creating a new domain/server requires either xml or passing template_options,not both')
-          end
+          xml=xml_from_template if xml.nil?
 
-          # We have a template, let's generate some xml for it
-          if !template_options.nil?
+          create_or_clone_volume
 
-            template_defaults={
-              :cpus => 1,
-              :memory_size => 256,
-              :arch => "x86_64",
-              :os => "hvm",
-              :domain_type => "kvm",
-              :name => "fog-#{SecureRandom.random_number*10E14.to_i.round}",
-
-              # Network options
-              :interface_type => "nat", #or "bridge"
-                :nat_network_name => "default",
-                :bridge_name => "br0",
-
-                # Disk options
-                :disk_type => "raw",
-                :disk_size => 10,
-                :disk_size_unit => "G",
-                :disk_allocate => 1,
-                :disk_allocate_unit => "G",
-                :disk_extension => "img",
-                :disk_template_name => nil,
-                :poolname => nil,
-
-                # DVD options
-                :iso_file => nil ,
-                :iso_dir => "/var/lib/libvirt/images/"
-            }
-
-
-            template_options2=template_defaults.merge(template_options)
-            template_options={
-              :disk_name => "#{template_options2[:name]}.#{template_options2[:disk_extension]}"
-            }.merge(template_options2)
-
-            validate_template_options(template_options)
-
-
-            if !template_options[:disk_template_name].nil?
-              # Clone the volume
-              volume=connection.volumes.all(:name => template_options[:disk_template_name]).first.clone("#{template_options[:disk_name]}")
-
-              # This gets passed to the domain to know the path of the disk
-              template_options[:disk_path]=volume.path
-            else
-              # If no template volume was given, let's create our own volume
-              volume=connection.volumes.create(:template_options => {
-                :name => "#{template_options[:disk_name]}",
-                :extension => "#{template_options[:disk_extension]}",
-                :type => "#{template_options[:disk_type]}",
-                :size => "#{template_options[:disk_size]}",
-                :size_unit => "#{template_options[:disk_size_unit]}",
-                :allocate => "#{template_options[:disk_allocate]}",
-                :allocate_unit => "#{template_options[:disk_allocate_unit]}" })
-
-                # This gets passed to the domain to know the path of the disk
-                template_options[:disk_path]=volume.path
-
-            end
-
-            xml=xml_from_template(template_options)
-
-          end
+          xml=xml_from_template
 
           # We either now have xml provided by the user or generated by the template
-          if !xml.nil?
-            domain=nil
-            if create_persistent
-              domain=connection.define_domain_xml(xml)
-            else
-              domain=connection.create_domain_xml(xml)
+          begin
+            if !xml.nil?
+              domain=nil
+              if self.persistent
+                domain=connection.define_domain_xml(xml)
+              else
+                domain=connection.create_domain_xml(xml)
+              end
+              self.raw=domain
             end
-            self.raw=domain
+          rescue
+            raise Fog::Errors::Error.new("Error saving the server: #{$!}")
           end
         end
 
-        def validate_template_options(template_options)
-          #if template_options[:disk_template_name].nil?
-          #  raise Fog::Errors::Error.new('In order to make the disk boot, we require a template volume we can clone')
-          #end
-          unless template_options[:interface_type].nil?
-            raise Fog::Errors::Error.new("#{template_options[:interface_type]} is not a supported interface type") unless ["nat", "bridge"].include?(template_options[:interface_type])
-          end
+        def create_or_clone_volume
 
+            volume_options=Hash.new
+
+            unless self.disk_name.nil?
+              volume_options[:name]=self.disk_name
+            else
+              extension = self.disk_format_type.nil? ? "img" : self.disk_format_type
+              volume_name = "#{self.name}.#{extension}"
+              volume_options[:name]=volume_name
+            end
+
+          # Check if a disk template was specified
+          unless self.disk_template_name.nil?
+
+            template_volumes=connection.volumes.all(:name => self.disk_template_name)
+
+            raise Fog::Errors::Error.new("Template #{self.disk_template_name} not found") unless template_volumes.length==1
+
+            volume=template_volumes.first.clone("#{volume_options[:name]}")
+
+            # This gets passed to the domain to know the path of the disk
+            self.disk_path=volume.path
+
+          else
+            # If no template volume was given, let's create our own volume
+
+            volume_options[:format_type]=self.disk_format_type unless self.disk_format_type.nil?
+            volume_options[:capacity]=self.disk_capacity unless self.disk_capacity.nil?
+            volume_options[:allocation]=self.disk_allocation unless self.disk_allocation.nil?
+
+            begin
+              volume=connection.volumes.create(volume_options)
+              self.disk_path=volume.path
+            rescue
+              raise Fog::Errors::Error.new("Error creating the volume : #{$!}")
+            end
+
+          end
         end
 
-        def xml_from_template(template_options)
+        def validate_template_options
+          unless self.network_interface_type.nil?
+            raise Fog::Errors::Error.new("#{self.network_interface_type} is not a supported interface type") unless ["nat", "bridge"].include?(self.network_interface_type)
+          end
+        end
 
-          # We only want specific variables for ERB
+        def xml_from_template
+
+          template_options={
+            :cpus => self.cpus,
+            :memory_size => self.memory_size,
+            :domain_type => self.domain_type,
+            :name => self.name,
+            :iso_file => self.iso_file,
+            :iso_dir => self.iso_dir,
+            :os_type => self.os_type,
+            :arch => self.arch,
+            :disk_path => self.disk_path,
+            :network_interface_type => self.network_interface_type,
+            :network_nat_network => self.network_nat_network,
+            :network_bridge_name => self.network_bridge_name
+          }
           vars = ErbBinding.new(template_options)
           template_path=File.join(File.dirname(__FILE__),"templates","server.xml.erb")
           template=File.open(template_path).readlines.join
@@ -306,7 +333,7 @@ module Fog
             # Execute the ip_command locally
             IO.popen("#{ip_command}") do |p|
               p.each_line do |l|
-                  ip_address=+l
+                ip_address=+l
               end
               status=Process.waitpid2(p.pid)[1].exitstatus
               if status!=0
@@ -327,7 +354,7 @@ module Fog
               raise Fog::Errors::Error.new(
                 "The command #{ip_command} failed to execute with a clean exit code\n"+
                 "Result was: #{ip_address}\n"
-                )
+            )
             end
           end
 

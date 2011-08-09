@@ -12,7 +12,7 @@ module Fog
 
         include Fog::Compute::LibvirtUtil
 
-        identity :key
+        identity :id , :aliases => 'key'
 
         attribute :pool_name
 
@@ -34,7 +34,7 @@ module Fog
           self.key  = nil
           self.format_type ||= "raw" unless attributes[:format_type]
           extension = self.format_type=="raw" ? "img" : self.format_type
-          self.name ||= "fog-#{SecureRandom.random_number*10E14.to_i.round}.{extension}" unless attributes[:name]
+          self.name ||= "fog-#{SecureRandom.random_number*10E14.to_i.round}.#{extension}" unless attributes[:name]
           self.capacity ||= "10G" unless attributes[:capacity]
           self.allocation ||= "1G" unless attributes[:allocation]
           super
@@ -63,6 +63,8 @@ module Fog
         # Takes a pool and either :xml or other settings
         def save
           requires :pool_name
+
+          raise Fog::Errors::Error.new('Resaving an existing volume may create a duplicate') if key
 
           xml=xml_from_template if xml.nil?
 
@@ -154,6 +156,7 @@ module Fog
 
           raw_attributes = {
             :key => new_raw.key,
+            :id => new_raw.key,
             :path => new_raw.path,
             :name => new_raw.name,
             :format_type => format_type,
