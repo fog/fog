@@ -250,6 +250,7 @@ task :changelog do
 end
 
 task :docs do
+  Rake::Task[:supported_services_docs].invoke
   Rake::Task[:upload_fog_io].invoke
   Rake::Task[:upload_rdoc].invoke
 
@@ -310,6 +311,71 @@ task :upload_fog_io do
   end
   Formatador.redisplay(' ' * 128)
   Formatador.redisplay("Uploaded docs/_site\n")
+end
+
+task :supported_services_docs do
+  support, shared = {}, []
+  for key, values in Fog.services
+    unless values.length == 1
+      shared |= [key]
+      values.each do |value|
+        support[value] ||= {}
+        support[value][key] = '+'
+      end
+    else
+      value = values.first
+      support[value] ||= {}
+      support[value][:other] ||= []
+      support[value][:other] << key
+    end
+  end
+  shared.sort! {|x,y| x.to_s <=> y.to_s}
+  columns = [:provider] + shared + [:other]
+  data = []
+  for key in support.keys.sort {|x,y| x.to_s <=> y.to_s}
+    data << { :provider => key }.merge!(support[key])
+  end
+
+  table = ''
+  table << "<table border='1'>\n"
+
+  table << "  <tr>"
+  for column in columns
+    table << "<th>#{column}</th>"
+  end
+  table << "</tr>\n"
+
+  for datum in data
+    table << "  <tr>"
+    for column in columns
+      if value = datum[column]
+        case value
+        when Array
+          table << "<td>#{value.join(', ')}</td>"
+        when '+'
+          table << "<td style='text-align: center;'>#{value}</td>"
+        else
+          table << "<th>#{value}</th>"
+        end
+      else
+        table << "<td></td>"
+      end
+    end
+    table << "</tr>\n"
+  end
+
+  table << "</table>\n"
+
+  File.open('docs/about/supported_services.markdown', 'w') do |file|
+    file.puts <<-METADATA
+---
+layout: default
+title:  Supported Services
+---
+
+METADATA
+    file.puts(table)
+  end
 end
 
 task :upload_rdoc do
