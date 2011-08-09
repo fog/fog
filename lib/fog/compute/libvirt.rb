@@ -30,18 +30,22 @@ module Fog
 
         attr_reader :connection
         attr_reader :uri
-        
-        
-        # f=Fog::Compute.new(:provider => "Libvirt", :libvirt_uri => "qemu+ssh://patrick.debois@juno/system")
-        
+        attr_reader :ip_command
+
+
         def initialize(options={})
           @uri = ::Fog::Compute::LibvirtUtil::URI.new(enhance_uri(options[:libvirt_uri]))
+          @ip_command = options[:libvirt_ip_command]
 
           # libvirt is part of the gem => ruby-libvirt
           require 'libvirt'
-          
-          
-          @connection = ::Libvirt::open(@uri.uri)
+
+          begin
+            @connection = ::Libvirt::open(@uri.uri)
+          rescue ::Libvirt::ConnectionError
+            raise Fog::Errors::Error.new("Error making a connection to libvirt URI #{@uri.uri}:\n#{$!}")
+          end
+
         end
 
         def enhance_uri(uri)
@@ -58,16 +62,16 @@ module Fog
             if querystring.nil?
               append="?socket=/var/run/libvirt/libvirt-sock"
             else
-                        if !::CGI.parse(querystring).has_key?("socket")
-                          append="&socket=/var/run/libvirt/libvirt-sock"
-                        end
+              if !::CGI.parse(querystring).has_key?("socket")
+                append="&socket=/var/run/libvirt/libvirt-sock"
+              end
             end
           end
           newuri=uri+append
           return newuri
         end
-        
-        
+
+
         # hack to provide 'requests'
         def method_missing(method_sym, *arguments, &block)
           if @connection.respond_to?(method_sym)
@@ -76,7 +80,7 @@ module Fog
             super
           end
         end
-        
+
       end
     end
   end

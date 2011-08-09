@@ -247,9 +247,6 @@ module Fog
           raw.xml_desc
         end
 
-        ##Note this requires arpwatch to be running
-        ##and chmod o+x /var/lib/arpwatch
-
         # This retrieves the ip address of the mac address
         # It returns an array of public and private ip addresses
         # Currently only one ip address is returned, but in the future this could be multiple
@@ -259,7 +256,8 @@ module Fog
           mac=self.mac
 
           # Check if another ip_command string was provided
-          ip_command=options[:ip_command].nil? ? "grep #{mac} /var/log/arpwatch.log |cut -d ':' -f 4-| cut -d ' ' -f 4" : options[:ip_command]
+          ip_command_global=@connection.ip_command.nil? ? "grep #{mac} /var/log/arpwatch.log |cut -d ':' -f 4-| cut -d ' ' -f 4" : @connection.ip_command
+          ip_command=options[:ip_command].nil? ? ip_command_global : options[:ip_command]
 
           ip_address=nil
 
