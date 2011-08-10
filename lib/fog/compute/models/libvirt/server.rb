@@ -113,15 +113,15 @@ module Fog
 
         def create_or_clone_volume
 
-            volume_options=Hash.new
+          volume_options=Hash.new
 
-            unless self.disk_name.nil?
-              volume_options[:name]=self.disk_name
-            else
-              extension = self.disk_format_type.nil? ? "img" : self.disk_format_type
-              volume_name = "#{self.name}.#{extension}"
-              volume_options[:name]=volume_name
-            end
+          unless self.disk_name.nil?
+            volume_options[:name]=self.disk_name
+          else
+            extension = self.disk_format_type.nil? ? "img" : self.disk_format_type
+            volume_name = "#{self.name}.#{extension}"
+            volume_options[:name]=volume_name
+          end
 
           # Check if a disk template was specified
           unless self.disk_template_name.nil?
@@ -130,7 +130,9 @@ module Fog
 
             raise Fog::Errors::Error.new("Template #{self.disk_template_name} not found") unless template_volumes.length==1
 
-            volume=template_volumes.first.clone("#{volume_options[:name]}")
+            orig_volume=template_volumes.first
+            self.disk_format_type=orig_volume.format_type unless self.disk_format_type
+            volume=orig_volume.clone("#{volume_options[:name]}")
 
             # This gets passed to the domain to know the path of the disk
             self.disk_path=volume.path
@@ -145,6 +147,7 @@ module Fog
             begin
               volume=connection.volumes.create(volume_options)
               self.disk_path=volume.path
+              self.disk_format_type=volume.format_type unless self.disk_format_type
             rescue
               raise Fog::Errors::Error.new("Error creating the volume : #{$!}")
             end
@@ -170,6 +173,7 @@ module Fog
             :os_type => self.os_type,
             :arch => self.arch,
             :disk_path => self.disk_path,
+            :disk_format_type => self.disk_format_type,
             :network_interface_type => self.network_interface_type,
             :network_nat_network => self.network_nat_network,
             :network_bridge_name => self.network_bridge_name
