@@ -1,10 +1,10 @@
-require 'fog/core/model'
+require 'fog/compute/models/server'
 
 module Fog
   module Compute
     class Ninefold
 
-      class Server < Fog::Model
+      class Server < Fog::Compute::Server
         extend Fog::Deprecation
         deprecate :serviceofferingid, :flavor_id
         deprecate :templateid,        :image_id

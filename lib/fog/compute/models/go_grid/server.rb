@@ -1,4 +1,4 @@
-require 'fog/core/model'
+require 'fog/compute/models/server'
 
 module Fog
   module Compute
@@ -6,7 +6,7 @@ module Fog
 
       class BlockInstantiationError < StandardError; end
 
-      class Server < Fog::Model
+      class Server < Fog::Compute::Server
         extend Fog::Deprecation
         deprecate(:ip, :public_ip_address)
 
@@ -68,22 +68,6 @@ module Fog
           data = connection.grid_server_add(image, public_ip_address, name, memory, options)
           merge_attributes(data.body)
           true
-        end
-
-        def ssh(commands)
-          requires :identity, :public_ip_address, :username
-
-          options = {}
-          options[:key_data] = [private_key] if private_key
-          Fog::SSH.new(public_ip_address, username, options).run(commands)
-        end
-
-        def scp(local_path, remote_path, upload_options = {})
-          requires :public_ip_address, :username
-
-          scp_options = {}
-          scp_options[:key_data] = [private_key] if private_key
-          Fog::SCP.new(public_ip_address, username, scp_options).upload(local_path, remote_path, upload_options)
         end
 
         def setup(credentials = {})
