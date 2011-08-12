@@ -1,10 +1,10 @@
-require 'fog/core/model'
+require 'fog/compute/models/server'
 
 module Fog
   module Compute
     class Voxel
 
-      class Server < Fog::Model
+      class Server < Fog::Compute::Server
 
         identity :id
 

@@ -191,6 +191,18 @@ task :changelog do
   changelog << ('=' * changelog[0].length)
   changelog << ''
 
+  require 'multi_json'
+  github_data = MultiJson.decode(Excon.get('http://github.com/api/v2/json/repos/show/geemus/fog').body)
+  data = github_data['repository'].reject {|key, value| !['forks', 'open_issues', 'watchers'].include?(key)}
+  rubygems_data = MultiJson.decode(Excon.get('https://rubygems.org/api/v1/gems/fog.json').body)
+  data['downloads'] = rubygems_data['downloads']
+  stats = []
+  for key in data.keys.sort
+    stats << "'#{key}' => #{data[key]}"
+  end
+  changelog << "Stats! { #{stats.join(', ')} }"
+  changelog << ''
+
   last_sha = `cat changelog.txt | head -1`.split(' ').last
   shortlog = `git shortlog #{last_sha}..HEAD`
   changes = {}
@@ -250,6 +262,7 @@ task :changelog do
 end
 
 task :docs do
+  Rake::Task[:supported_services_docs].invoke
   Rake::Task[:upload_fog_io].invoke
   Rake::Task[:upload_rdoc].invoke
 
@@ -266,6 +279,71 @@ task :docs do
   )
 
   Formatador.display_line
+end
+
+task :supported_services_docs do
+  support, shared = {}, []
+  for key, values in Fog.services
+    unless values.length == 1
+      shared |= [key]
+      values.each do |value|
+        support[value] ||= {}
+        support[value][key] = '+'
+      end
+    else
+      value = values.first
+      support[value] ||= {}
+      support[value][:other] ||= []
+      support[value][:other] << key
+    end
+  end
+  shared.sort! {|x,y| x.to_s <=> y.to_s}
+  columns = [:provider] + shared + [:other]
+  data = []
+  for key in support.keys.sort {|x,y| x.to_s <=> y.to_s}
+    data << { :provider => key }.merge!(support[key])
+  end
+
+  table = ''
+  table << "<table border='1'>\n"
+
+  table << "  <tr>"
+  for column in columns
+    table << "<th>#{column}</th>"
+  end
+  table << "</tr>\n"
+
+  for datum in data
+    table << "  <tr>"
+    for column in columns
+      if value = datum[column]
+        case value
+        when Array
+          table << "<td>#{value.join(', ')}</td>"
+        when '+'
+          table << "<td style='text-align: center;'>#{value}</td>"
+        else
+          table << "<th>#{value}</th>"
+        end
+      else
+        table << "<td></td>"
+      end
+    end
+    table << "</tr>\n"
+  end
+
+  table << "</table>\n"
+
+  File.open('docs/about/supported_services.markdown', 'w') do |file|
+    file.puts <<-METADATA
+---
+layout: default
+title:  Supported Services
+---
+
+METADATA
+    file.puts(table)
+  end
 end
 
 task :upload_fog_io do

@@ -1,9 +1,9 @@
-require 'fog/core/model'
+require 'fog/compute/models/server'
 
 module Fog
   module Compute
     class Linode
-      class Server < Fog::Model
+      class Server < Fog::Compute::Server
         attr_reader :stack_script
         identity :id
         attribute :name
@@ -31,7 +31,7 @@ module Fog
 
         def boot
           connection.linode_boot id, config
-        end        
+        end
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
@@ -61,14 +61,14 @@ module Fog
         def config
           connection.linode_config_list(id).body['DATA'].first['ConfigID']
         end
-        
+
         def create_linode
           self.id = connection.linode_create(@data_center.id, @flavor.id, @payment_terms).body['DATA']['LinodeID']
           connection.linode_update id, :label => @name
           ips.create
           reload
         end
-        
+
         def create_disks
           @swap = disks.create :type => :swap, :name => @name, :size => @flavor.ram
           @disk = disks.create(:type => @type, :image => @image, :stack_script => @stack_script,

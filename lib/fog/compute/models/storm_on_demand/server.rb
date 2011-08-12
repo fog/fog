@@ -1,10 +1,10 @@
-require 'fog/core/model'
+require 'fog/compute/models/server'
 
 module Fog
   module Compute
     class StormOnDemand
 
-      class Server < Fog::Model
+      class Server < Fog::Compute::Server
         identity :uniq_id
 
         attribute :accnt
@@ -25,7 +25,7 @@ module Fog
         attribute :template_description
         attribute :zone
         attribute :active
-        
+
         attr_writer :password, :username
 
         def initialize(attributes={})

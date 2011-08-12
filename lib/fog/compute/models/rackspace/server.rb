@@ -1,10 +1,10 @@
-require 'fog/core/model'
+require 'fog/compute/models/server'
 
 module Fog
   module Compute
     class Rackspace
 
-      class Server < Fog::Model
+      class Server < Fog::Compute::Server
 
         identity :id
 
@@ -110,22 +110,6 @@ module Fog
         rescue Errno::ECONNREFUSED
           sleep(1)
           retry
-        end
-
-        def ssh(commands)
-          requires :public_ip_address, :identity, :username
-
-          options = {}
-          options[:key_data] = [private_key] if private_key
-          Fog::SSH.new(public_ip_address, username, options).run(commands)
-        end
-
-        def scp(local_path, remote_path, upload_options = {})
-          requires :public_ip_address, :username
-
-          scp_options = {}
-          scp_options[:key_data] = [private_key] if private_key
-          Fog::SCP.new(public_ip_address, username, scp_options).upload(local_path, remote_path, upload_options)
         end
 
         def username

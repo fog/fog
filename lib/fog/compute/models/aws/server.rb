@@ -1,10 +1,10 @@
-require 'fog/core/model'
+require 'fog/compute/models/server'
 
 module Fog
   module Compute
     class AWS
 
-      class Server < Fog::Model
+      class Server < Fog::Compute::Server
         extend Fog::Deprecation
         deprecate :ip_address, :public_ip_address
 
@@ -169,25 +169,28 @@ module Fog
           data = connection.run_instances(image_id, 1, 1, options)
           merge_attributes(data.body['instancesSet'].first)
 
-          for key, value in self.tags
-            connection.tags.create(
-              :key          => key,
-              :resource_id  => self.identity,
-              :value        => value
-            )
+          if self.tags
+            for key, value in self.tags
+              connection.tags.create(
+                :key          => key,
+                :resource_id  => self.identity,
+                :value        => value
+              )
+            end
           end
 
           true
         end
 
         def setup(credentials = {})
-          requires :identity, :public_ip_address, :username
+          requires :public_ip_address, :username
           require 'multi_json'
+          require 'net/ssh'
 
           commands = [
             %{mkdir .ssh},
             %{passwd -l #{username}},
-            %{echo "#{MultiJson.encode(attributes)}" >> ~/attributes.json}
+            %{echo "#{MultiJson.encode(Fog::JSON.sanitize(attributes))}" >> ~/attributes.json}
           ]
           if public_key
             commands << %{echo "#{public_key}" >> ~/.ssh/authorized_keys}
@@ -207,22 +210,6 @@ module Fog
             end
           end
           Fog::SSH.new(public_ip_address, username, credentials).run(commands)
-        end
-
-        def ssh(commands)
-          requires :identity, :public_ip_address, :username
-
-          options = {}
-          options[:key_data] = [private_key] if private_key
-          Fog::SSH.new(public_ip_address, username, options).run(commands)
-        end
-
-        def scp(local_path, remote_path, upload_options = {})
-          requires :public_ip_address, :username
-
-          scp_options = {}
-          scp_options[:key_data] = [private_key] if private_key
-          Fog::SCP.new(public_ip_address, username, scp_options).upload(local_path, remote_path, upload_options)
         end
 
         def start
