@@ -72,6 +72,7 @@ module Fog
             'instance-id' => 'instanceId',
             'status'      => 'status'
           }
+
           for filter_key, filter_value in filters
             if attachment_key = filter_key.split('attachment.')[1]
               aliased_key = attachment_aliases[filter_key]
