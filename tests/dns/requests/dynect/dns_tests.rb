@@ -1,5 +1,7 @@
 Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
 
+  pending if Fog.mocking?
+
   shared_format = {
     'job_id' => Integer,
     'msgs' => [{
