@@ -69,7 +69,7 @@ module Fog
             image = {
               'imageId' => Fog::AWS::Mock.image_id,
               'imageLocation' => '',
-              'imageState' => 'available',
+              'imageState' => 'pending',
               'imageOwnerId' => self.data[:owner_id],
               'isPublic' => false,
               'productCodes' => [],
@@ -87,7 +87,8 @@ module Fog
               'blockDeviceMapping' => [],
               'virtualizationType' => 'paravirtual',
               'tagSet' => {},
-              'hypervisor' => 'xen'
+              'hypervisor' => 'xen',
+              'registered' => Time.now
             }
 
             if location[/^\/dev\/sd[a-p]\d{0,2}$/]
