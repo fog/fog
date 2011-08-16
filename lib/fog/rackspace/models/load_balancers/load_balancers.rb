@@ -5,7 +5,7 @@ module Fog
   module Rackspace
     class LoadBalancers
 
-      class LoadBalancerss < Fog::Collection
+      class LoadBalancers < Fog::Collection
 
         model Fog::Rackspace::LoadBalancers::LoadBalancer
 

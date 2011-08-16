@@ -88,7 +88,36 @@ module Fog
       request :get_usage
       request :get_load_balancer_usage
 
+      module Shared
+
+        def algorithms
+          list_algorithms.body['algorithms'].collect { |i| i['name'] }
+        end
+
+        def protocols
+          list_protocols.body['protocols']
+        end
+
+        def usage(options = {})
+          get_usage(options).body
+        end
+
+      end
+
+      class Mock
+        include Shared
+
+        def initialize(options={})
+          @rackspace_api_key = options[:rackspace_api_key]
+          @rackspace_username = options[:rackspace_username]
+          @rackspace_auth_url = options[:rackspace_auth_url]
+        end
+
+      end
+
       class Real
+        include Shared
+
         def initialize(options={})
           require 'multi_json'
           @rackspace_api_key = options[:rackspace_api_key]
@@ -104,14 +133,6 @@ module Fog
           authenticate
 
           @connection = Fog::Connection.new(uri.to_s, options[:persistent])
-        end
-
-        def protocols
-          list_protocols.body['protocols']
-        end
-
-        def algorithms
-          list_algorithms.body['algorithms'].collect { |i| i['name'] }
         end
 
         def request(params)
@@ -152,9 +173,6 @@ module Fog
           @path = "#{@path}/#{account_id}"
         end
 
-        def usage(options = {})
-          get_usage(options).body
-        end
       end
     end
   end

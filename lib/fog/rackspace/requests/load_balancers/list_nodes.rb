@@ -10,11 +10,6 @@ module Fog
           )
         end
       end
-      class Mock
-        def list_nodes(load_balancer_id)
-          Fog::Mock.not_implemented
-        end
-      end
     end
   end
 end
