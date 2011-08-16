@@ -32,6 +32,9 @@ module Fog
       when :zerigo
         require 'fog/dns/zerigo'
         Fog::DNS::Zerigo.new(attributes)
+      when :rackspace
+        require 'fog/dns/rackspace'
+        Fog::DNS::Rackspace.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized dns provider")
       end
