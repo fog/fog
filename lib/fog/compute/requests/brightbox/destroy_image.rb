@@ -3,15 +3,9 @@ module Fog
     class Brightbox
       class Real
 
-        def destroy_image(identifier, options = {})
+        def destroy_image(identifier)
           return nil if identifier.nil? || identifier == ""
-          request(
-            :expects  => [202],
-            :method   => 'DELETE',
-            :path     => "/1.0/images/#{identifier}",
-            :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.encode(options)
-          )
+          request("delete", "/1.0/images/#{identifier}", [202])
         end
 
       end

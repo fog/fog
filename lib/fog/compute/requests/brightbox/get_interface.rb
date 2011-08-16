@@ -3,15 +3,9 @@ module Fog
     class Brightbox
       class Real
 
-        def get_interface(identifier, options = {})
+        def get_interface(identifier)
           return nil if identifier.nil? || identifier == ""
-          request(
-            :expects  => [200],
-            :method   => 'GET',
-            :path     => "/1.0/interfaces/#{identifier}",
-            :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.encode(options)
-          )
+          request("get", "/1.0/interfaces/#{identifier}", [200])
         end
 
       end

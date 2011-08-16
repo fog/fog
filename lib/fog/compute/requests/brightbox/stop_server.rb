@@ -3,15 +3,9 @@ module Fog
     class Brightbox
       class Real
 
-        def stop_server(identifier, options = {})
+        def stop_server(identifier)
           return nil if identifier.nil? || identifier == ""
-          request(
-            :expects  => [202],
-            :method   => 'POST',
-            :path     => "/1.0/servers/#{identifier}/stop",
-            :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.encode(options)
-          )
+          request("post", "/1.0/servers/#{identifier}/stop", [202])
         end
 
       end

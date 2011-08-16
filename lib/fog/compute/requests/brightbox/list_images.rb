@@ -3,14 +3,8 @@ module Fog
     class Brightbox
       class Real
 
-        def list_images(options = {})
-          request(
-            :expects  => [200],
-            :method   => 'GET',
-            :path     => "/1.0/images",
-            :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.encode(options)
-          )
+        def list_images
+          request("get", "/1.0/images", [200])
         end
 
       end

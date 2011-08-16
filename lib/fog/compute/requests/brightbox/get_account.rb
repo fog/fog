@@ -3,14 +3,8 @@ module Fog
     class Brightbox
       class Real
 
-        def get_account(options = {})
-          request(
-            :expects  => [200],
-            :method   => 'GET',
-            :path     => "/1.0/account",
-            :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.encode(options)
-          )
+        def get_account
+          request("get", "/1.0/account", [200])
         end
 
       end

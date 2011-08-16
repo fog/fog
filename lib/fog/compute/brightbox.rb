@@ -97,17 +97,14 @@ module Fog
           @connection = Fog::Connection.new(@api_url)
         end
 
-        def request(params)
-          begin
-            get_oauth_token if @oauth_token.nil?
-            response = authenticated_request(params)
-          rescue Excon::Errors::Unauthorized => e
-            get_oauth_token
-            response = authenticated_request(params)
-          end
-          unless response.body.empty?
-            response = MultiJson.decode(response.body)
-          end
+        def request(method, url, expected_responses, options = nil)
+          request_options = {
+            :method   => method.to_s.upcase,
+            :path     => url,
+            :expects  => expected_responses
+          }
+          request_options[:body] = MultiJson.encode(options) unless options.nil?
+          make_request(request_options)
         end
 
         def account
@@ -135,9 +132,22 @@ module Fog
           return @oauth_token
         end
 
+        def make_request(params)
+          begin
+            get_oauth_token if @oauth_token.nil?
+            response = authenticated_request(params)
+          rescue Excon::Errors::Unauthorized => e
+            get_oauth_token
+            response = authenticated_request(params)
+          end
+          unless response.body.empty?
+            response = MultiJson.decode(response.body)
+          end
+        end
+
         def authenticated_request(options)
           headers = options[:headers] || {}
-          headers.merge!("Authorization" => "OAuth #{@oauth_token}")
+          headers.merge!("Authorization" => "OAuth #{@oauth_token}", "Content-Type" => "application/json")
           options[:headers] = headers
           @connection.request(options)
         end

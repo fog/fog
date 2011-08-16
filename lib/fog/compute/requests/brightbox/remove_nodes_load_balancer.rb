@@ -3,15 +3,9 @@ module Fog
     class Brightbox
       class Real
 
-        def remove_nodes_load_balancer(identifier, options = {})
+        def remove_nodes_load_balancer(identifier, options)
           return nil if identifier.nil? || identifier == ""
-          request(
-            :expects  => [202],
-            :method   => 'POST',
-            :path     => "/1.0/load_balancers/#{identifier}/remove_nodes",
-            :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.encode(options)
-          )
+          request("post", "/1.0/load_balancers/#{identifier}/remove_nodes", [202], options)
         end
 
       end

@@ -3,14 +3,8 @@ module Fog
     class Brightbox
       class Real
 
-        def list_servers(options = {})
-          request(
-            :expects  => [200],
-            :method   => 'GET',
-            :path     => "/1.0/servers",
-            :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.encode(options)
-          )
+        def list_servers
+          request("get", "/1.0/servers", [200])
         end
 
       end

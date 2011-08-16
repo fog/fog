@@ -3,14 +3,8 @@ module Fog
     class Brightbox
       class Real
 
-        def create_image(options = {})
-          request(
-            :expects  => [201],
-            :method   => 'POST',
-            :path     => "/1.0/images",
-            :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.encode(options)
-          )
+        def create_image(options)
+          request("post", "/1.0/images", [201], options)
         end
 
       end

@@ -3,15 +3,9 @@ module Fog
     class Brightbox
       class Real
 
-        def destroy_api_client(identifier, options = {})
+        def destroy_api_client(identifier)
           return nil if identifier.nil? || identifier == ""
-          request(
-            :expects  => [200],
-            :method   => 'DELETE',
-            :path     => "/1.0/api_clients/#{identifier}",
-            :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.encode(options)
-          )
+          request("delete", "/1.0/api_clients/#{identifier}", [200])
         end
 
       end
