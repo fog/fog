@@ -41,13 +41,13 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | access_lists_tests', ['rackspace']
       end
 
       tests('failure') do
-        tests('create_access_rule(invalid ip)').raises(Fog::Rackspace::LoadBalancer::BadRequest) do
+        tests('create_access_rule(invalid ip)').raises(Fog::Rackspace::LoadBalancers::BadRequest) do
           @service.create_access_rule(@lb.id, '', 'ALLOW')
         end
-        tests('create_access_rule(invalid type)').raises(Fog::Rackspace::LoadBalancer::BadRequest) do
+        tests('create_access_rule(invalid type)').raises(Fog::Rackspace::LoadBalancers::BadRequest) do
           @service.create_access_rule(@lb.id, '10.10.10.10', 'ENABLED')
         end
-        tests("delete_access_rule(#{@lb.id}, 0)").raises(Fog::Rackspace::LoadBalancer::NotFound) do
+        tests("delete_access_rule(#{@lb.id}, 0)").raises(Fog::Rackspace::LoadBalancers::NotFound) do
           @service.delete_access_rule(@lb.id, 0)
         end
       end

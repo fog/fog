@@ -16,7 +16,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | connection_logging', ['rackspace']
       end
 
       tests('failure') do
-        tests("#set_connection_logging(#{@lb.id}, 'aaa')").raises(Fog::Rackspace::LoadBalancer::InternalServerError) do
+        tests("#set_connection_logging(#{@lb.id}, 'aaa')").raises(Fog::Rackspace::LoadBalancers::InternalServerError) do
           @service.set_connection_logging(@lb.id, 'aaa')
         end
       end
