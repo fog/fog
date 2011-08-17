@@ -9,7 +9,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | algorithm_tests', ['rackspace']) d
       }
   ]}
 
-  @service = Fog::Rackspace::LoadBalancer.new
+  @service = Fog::Rackspace::LoadBalancers.new
 
   tests('success') do
     tests('#list_algorithms').formats(ALGORITHMS_FORMAT) do
