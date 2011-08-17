@@ -10,11 +10,6 @@ module Fog
           )
         end
       end
-      class Mock
-        def delete_virtual_ip(load_balancer_id, virtual_ip_id)
-          Fog::Mock.not_implemented
-        end
-      end
     end
   end
 end

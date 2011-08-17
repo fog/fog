@@ -51,7 +51,10 @@ Shindo.tests("Fog::Compute[:aws] | monitor", ['aws']) do
       @instance.reload.tags
     end
 
-    Fog::Compute[:aws].tags.all('resource-id' => @instance.identity).each {|tag| tag.destroy}
+    unless Fog.mocking?
+      Fog::Compute[:aws].tags.all('resource-id' => @instance.identity).each {|tag| tag.destroy}
+    end
+
     @instance.destroy
   end
 

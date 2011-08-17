@@ -21,11 +21,6 @@ module Fog
           )
         end
       end
-      class Mock
-        def update_node(options = {})
-          Fog::Mock.not_implemented
-        end
-      end
     end
   end
 end

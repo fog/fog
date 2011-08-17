@@ -39,8 +39,8 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
 
     if !Fog.mocking? || mocks_implemented
       @identity = @identity.to_s
-      @identity.gsub!(/[a-zA-Z]/) { Fog::Mock.random_letters(1) }
-      @identity.gsub!(/\d/)       { Fog::Mock.random_numbers(1) }
+      @identity = @identity.gsub(/[a-zA-Z]/) { Fog::Mock.random_letters(1) }
+      @identity = @identity.gsub(/\d/)       { Fog::Mock.random_numbers(1) }
       @identity
     end
 

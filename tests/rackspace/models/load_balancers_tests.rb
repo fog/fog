@@ -1,5 +1,7 @@
 Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancers', ['rackspace']) do
 
+  pending if Fog.mocking?
+
   given_a_load_balancer_service do
     @lb_name = 'fog' + Time.now.to_i.to_s
     collection_tests(@service.load_balancers,

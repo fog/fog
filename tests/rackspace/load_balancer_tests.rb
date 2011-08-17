@@ -1,5 +1,7 @@
 Shindo.tests('Fog::Rackspace::LoadBalancers', ['rackspace']) do
 
+  pending if Fog.mocking?
+
   @service = Fog::Rackspace::LoadBalancers.new
 
   tests('#algorithms').succeeds do
