@@ -145,6 +145,10 @@ Rackspace has <a href="http://www.rackspacecloud.com/cloud_hosting_products/file
       :rackspace_api_key  => RACKSPACE_API_KEY
     })
 
+If you work with the European cloud from Rackspace you have to add the following:
+
+    :rackspace_auth_url => "lon.auth.api.rackspacecloud.com"
+
 Then create, save, destroy as per fog-for-AWS. The `:public => true` option when creating directories (see above) is important for Rackspace; your folder and files won't be shared to Rackspace's CDN and hence your users without it.  Similarly the `:public =&gt; true` on files is important for AWS and Google or they will be private.
 
 ## Local Storage
