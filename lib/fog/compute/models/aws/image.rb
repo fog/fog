@@ -37,6 +37,10 @@ module Fog
           end
         end
 
+        def ready?
+          state == 'available'
+        end
+
       end
 
     end
