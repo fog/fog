@@ -28,16 +28,19 @@ module Fog
       request :activate_console_server
       request :add_listeners_load_balancer
       request :add_nodes_load_balancer
+      request :add_servers_server_group
       request :create_api_client
       request :create_cloud_ip
       request :create_image
       request :create_load_balancer
       request :create_server
+      request :create_server_group
       request :destroy_api_client
       request :destroy_cloud_ip
       request :destroy_image
       request :destroy_load_balancer
       request :destroy_server
+      request :destroy_server_group
       request :get_account
       request :get_api_client
       request :get_cloud_ip
@@ -45,6 +48,7 @@ module Fog
       request :get_interface
       request :get_load_balancer
       request :get_server
+      request :get_server_group
       request :get_server_type
       request :get_user
       request :get_zone
@@ -52,13 +56,16 @@ module Fog
       request :list_cloud_ips
       request :list_images
       request :list_load_balancers
+      request :list_server_groups
       request :list_server_types
       request :list_servers
       request :list_users
       request :list_zones
       request :map_cloud_ip
+      request :move_servers_server_group
       request :remove_listeners_load_balancer
       request :remove_nodes_load_balancer
+      request :remove_servers_server_group
       request :reset_ftp_password_account
       request :resize_server
       request :shutdown_server
@@ -71,6 +78,7 @@ module Fog
       request :update_image
       request :update_load_balancer
       request :update_server
+      request :update_server_group
       request :update_user
 
       class Mock
