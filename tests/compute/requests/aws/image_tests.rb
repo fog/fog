@@ -44,9 +44,14 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
       end
 
       @image_id = @image['imageId']
+      sleep 1
 
       tests("#describe_images('Owner' => 'self')").formats(@describe_images_format) do
         Fog::Compute[:aws].describe_images('Owner' => 'self').body
+      end
+
+      tests("#describe_images('state' => 'available')").formats(@describe_images_format) do
+        Fog::Compute[:aws].describe_images('state' => 'available').body
       end
     end
 

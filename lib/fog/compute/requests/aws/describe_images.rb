@@ -109,6 +109,16 @@ module Fog
             end
           end
 
+          image_set = image_set.map do |image|
+            case image['imageState']
+            when 'pending'
+              if Time.now - image['registered'] >= Fog::Mock.delay
+                image['imageState'] = 'available'
+              end
+            end
+            image.reject { |key, value| ['registered'].include?(key) }
+          end
+
           response.status = 200
           response.body = {
             'requestId' => Fog::AWS::Mock.request_id,
