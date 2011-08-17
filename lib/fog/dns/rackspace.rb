@@ -45,7 +45,8 @@ module Fog
             response = @connection.request(params.merge!({
               :path     => "#{@path}/#{params[:path]}"
             }))
-          #TODO - Going to add rescues for the different expected errors
+          rescue Excon::Errors::BadRequest => error
+            raise Fog::Rackspace::Errors::BadRequest.slurp error
           end
           unless response.body.empty?
             response.body = MultiJson.decode(response.body)
