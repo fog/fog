@@ -17,6 +17,9 @@ def compute_providers
       },
       :mocked => false
     },
+    :glesys   => {
+      :mocked => false
+    },
     :ninefold   => {
       :mocked => false
     },
