@@ -73,7 +73,6 @@ module Fog
           options[:headers] ||= {}
           options[:headers]['Content-Type'] = content_type if content_type
           options[:body] = body
-          p options
           if objectid
             # pre-existing file, do a PUT
             data = connection.put_namespace(ns, options)
