@@ -28,7 +28,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | connection_throttling', ['rackspac
       end
 
       tests('failure') do
-        tests("#set_connection_throttling(#{@lb.id}, -1, -1, -1, -1)").raises(Fog::Rackspace::LoadBalancer::BadRequest) do
+        tests("#set_connection_throttling(#{@lb.id}, -1, -1, -1, -1)").raises(Fog::Rackspace::LoadBalancers::BadRequest) do
           @service.set_connection_throttling(@lb.id, -1, -1, -1, -1)
         end
       end
