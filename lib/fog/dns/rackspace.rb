@@ -17,6 +17,10 @@ module Fog
       #collection  :zones
 
       request_path 'fog/dns/requests/rackspace'
+      request :list_domains
+
+      class Mock
+      end
 
       class Real
         def initialize(options={})
