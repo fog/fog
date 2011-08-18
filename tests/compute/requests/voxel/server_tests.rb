@@ -13,7 +13,7 @@ Shindo.tests('Fog::Compute[:voxel] | server requests', ['voxel']) do
       'access_methods'    => [],
       'description'       => String,
       'drives'            => [{
-        'position'  => Fog::Nullable::Integer,
+        'position'  => Fog::Nullable::String,
         'size'      => Integer
       }],
       'id'                => String,
@@ -34,7 +34,7 @@ Shindo.tests('Fog::Compute[:voxel] | server requests', ['voxel']) do
           'id'    => String,
           'value' => String
         },
-        'position'  => Fog::Nullable::Integer,
+        'position'  => Fog::Nullable::String,
         'rack'      => {
           'id'    => String,
           'value' => String
