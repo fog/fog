@@ -21,16 +21,21 @@ module Fog
         attribute :vat_registration_number
         attribute :telephone_number
         attribute :telephone_verified
+        attribute :verified_telephone
+        attribute :verified_at, :type => :time
+        attribute :verified_ip
+        attribute :valid_credit_card, :type => :boolean
         attribute :ram_limit
         attribute :ram_used
         attribute :cloud_ips_limit
+        attribute :cloud_ips_used
+        attribute :load_balancers_limit
+        attribute :load_balancers_used
         attribute :library_ftp_host
         attribute :library_ftp_user
         # This is always returned as null/nil unless performing a reset_ftp_password request
         attribute :library_ftp_password
         attribute :created_at, :type => :time
-
-
 
         attribute :owner_id, :aliases => "owner", :squash => "id"
         attribute :clients
