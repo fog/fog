@@ -41,7 +41,19 @@ module Fog
           require 'libvirt'
 
           begin
-            @connection = ::Libvirt::open(@uri.uri)
+            if options[:libvirt_user] and options[:libvirt_password]
+              @connection = ::Libvirt::open_auth(@uri.uri, [::Libvirt::CRED_AUTHNAME, ::Libvirt::CRED_PASSPHRASE]) do |cred|
+                if cred['type'] == ::Libvirt::CRED_AUTHNAME
+                  res = options[:libvirt_user]
+                elsif cred["type"] == ::Libvirt::CRED_PASSPHRASE
+                  res = options[:libvirt_password]
+                else
+                end
+              end
+            else
+              @connection = ::Libvirt::open(@uri.uri)
+            end
+
           rescue ::Libvirt::ConnectionError
             raise Fog::Errors::Error.new("Error making a connection to libvirt URI #{@uri.uri}:\n#{$!}")
           end
