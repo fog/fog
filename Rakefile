@@ -228,6 +228,7 @@ task :changelog do
   for committer, commits in committers.to_a.sort {|x,y| y[1] <=> x[1]}
     if [
         'Aaron Suggs',
+        'Brian Hartsock',
         'Christopher Oliver',
         'Dylan Egan',
         'geemus',
