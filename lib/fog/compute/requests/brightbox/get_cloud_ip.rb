@@ -3,15 +3,9 @@ module Fog
     class Brightbox
       class Real
 
-        def get_cloud_ip(identifier, options = {})
+        def get_cloud_ip(identifier)
           return nil if identifier.nil? || identifier == ""
-          request(
-            :expects  => [200],
-            :method   => 'GET',
-            :path     => "/1.0/cloud_ips/#{identifier}",
-            :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.encode(options)
-          )
+          request("get", "/1.0/cloud_ips/#{identifier}", [200])
         end
 
       end

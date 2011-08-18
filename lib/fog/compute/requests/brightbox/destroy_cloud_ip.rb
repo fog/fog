@@ -3,15 +3,9 @@ module Fog
     class Brightbox
       class Real
 
-        def destroy_cloud_ip(identifier, options = {})
+        def destroy_cloud_ip(identifier)
           return nil if identifier.nil? || identifier == ""
-          request(
-            :expects  => [200],
-            :method   => 'DELETE',
-            :path     => "/1.0/cloud_ips/#{identifier}",
-            :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.encode(options)
-          )
+          request("delete", "/1.0/cloud_ips/#{identifier}", [200])
         end
 
       end

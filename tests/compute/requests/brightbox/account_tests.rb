@@ -30,7 +30,7 @@ Shindo.tests('Fog::Compute[:brightbox] | account requests', ['brightbox']) do
 
   tests('failure') do
 
-    tests("#update_account").returns(nil) do
+    tests("#update_account").raises(ArgumentError) do
       pending if Fog.mocking?
       Fog::Compute[:brightbox].update_account
     end

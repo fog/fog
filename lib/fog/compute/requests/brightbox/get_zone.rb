@@ -3,15 +3,9 @@ module Fog
     class Brightbox
       class Real
 
-        def get_zone(identifier, options = {})
+        def get_zone(identifier)
           return nil if identifier.nil? || identifier == ""
-          request(
-            :expects  => [200],
-            :method   => 'GET',
-            :path     => "/1.0/zones/#{identifier}",
-            :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.encode(options)
-          )
+          request("get", "/1.0/zones/#{identifier}", [200])
         end
 
       end

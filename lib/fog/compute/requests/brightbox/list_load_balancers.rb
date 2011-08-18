@@ -3,14 +3,8 @@ module Fog
     class Brightbox
       class Real
 
-        def list_load_balancers(options = {})
-          request(
-            :expects  => [200],
-            :method   => 'GET',
-            :path     => "/1.0/load_balancers",
-            :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.encode(options)
-          )
+        def list_load_balancers
+          request("get", "/1.0/load_balancers", [200])
         end
 
       end

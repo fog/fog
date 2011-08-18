@@ -3,15 +3,9 @@ module Fog
     class Brightbox
       class Real
 
-        def shutdown_server(identifier, options = {})
+        def shutdown_server(identifier)
           return nil if identifier.nil? || identifier == ""
-          request(
-            :expects  => [202],
-            :method   => 'POST',
-            :path     => "/1.0/servers/#{identifier}/shutdown",
-            :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.encode(options)
-          )
+          request("post", "/1.0/servers/#{identifier}/shutdown", [202])
         end
 
       end

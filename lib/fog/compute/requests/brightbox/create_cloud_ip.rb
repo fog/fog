@@ -3,14 +3,8 @@ module Fog
     class Brightbox
       class Real
 
-        def create_cloud_ip(options = {})
-          request(
-            :expects  => [201],
-            :method   => 'POST',
-            :path     => "/1.0/cloud_ips",
-            :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.encode(options)
-          )
+        def create_cloud_ip
+          request("post", "/1.0/cloud_ips", [201])
         end
 
       end

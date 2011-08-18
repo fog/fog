@@ -3,14 +3,8 @@ module Fog
     class Brightbox
       class Real
 
-        def reset_ftp_password_account(options = {})
-          request(
-            :expects  => [200],
-            :method   => 'POST',
-            :path     => "/1.0/account/reset_ftp_password",
-            :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.encode(options)
-          )
+        def reset_ftp_password_account
+          request("post", "/1.0/account/reset_ftp_password", [200])
         end
 
       end

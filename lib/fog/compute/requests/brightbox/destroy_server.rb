@@ -3,15 +3,9 @@ module Fog
     class Brightbox
       class Real
 
-        def destroy_server(identifier, options = {})
+        def destroy_server(identifier)
           return nil if identifier.nil? || identifier == ""
-          request(
-            :expects  => [202],
-            :method   => 'DELETE',
-            :path     => "/1.0/servers/#{identifier}",
-            :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.encode(options)
-          )
+          request("delete", "/1.0/servers/#{identifier}", [202])
         end
 
       end

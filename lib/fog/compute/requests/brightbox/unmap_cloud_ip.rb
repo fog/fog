@@ -3,15 +3,9 @@ module Fog
     class Brightbox
       class Real
 
-        def unmap_cloud_ip(identifier, options = {})
+        def unmap_cloud_ip(identifier)
           return nil if identifier.nil? || identifier == ""
-          request(
-            :expects  => [202],
-            :method   => 'POST',
-            :path     => "/1.0/cloud_ips/#{identifier}/unmap",
-            :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.encode(options)
-          )
+          request("post", "/1.0/cloud_ips/#{identifier}/unmap", [202])
         end
 
       end

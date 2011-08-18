@@ -23,7 +23,7 @@ module Fog
         attribute :telephone_verified
         attribute :ram_limit
         attribute :ram_used
-        attribute :limits_cloudips
+        attribute :cloud_ips_limit
         attribute :library_ftp_host
         attribute :library_ftp_user
         # This is always returned as null/nil unless performing a reset_ftp_password request
