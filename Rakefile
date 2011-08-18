@@ -146,7 +146,6 @@ task :release => :build do
   sh "git tag v#{version}"
   sh "git push origin master"
   sh "git push origin v#{version}"
-  Rake::Task[:build].invoke # rebuild with updated changelog
   sh "gem push pkg/#{name}-#{version}.gem"
   Rake::Task[:docs].invoke
 end
