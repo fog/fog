@@ -14,6 +14,8 @@ module Fog
       model       :account # Singular resource, no collection
       collection  :servers
       model       :server
+      collection  :server_groups
+      model       :server_group
       collection  :flavors
       model       :flavor
       collection  :images
