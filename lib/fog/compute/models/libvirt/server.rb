@@ -252,18 +252,18 @@ module Fog
 
         def state
           state=case @raw.info.state
-                when 0 then :nostate
-                when 1 then :running
-                when 2 then :paused
-                when 3 then :shuttingdown
-                when 4 then :shutoff
-                when 5 then :crashed
+                when 0 then "nostate"
+                when 1 then "running"
+                when 2 then "paused"
+                when 3 then "shuttingdown"
+                when 4 then "shutoff"
+                when 5 then "crashed"
                 end
           return state
         end
 
         def ready?
-          state == :running
+          state == "running"
         end
 
 
