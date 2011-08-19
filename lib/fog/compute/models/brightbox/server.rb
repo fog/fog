@@ -29,7 +29,6 @@ module Fog
         attribute :interfaces
 
         def initialize(attributes={})
-          self.flavor_id  ||= 'typ-4nssg' # Nano
           self.image_id   ||= 'img-2ab98' # Ubuntu Lucid 10.04 server (i686)
           super
         end
@@ -99,11 +98,13 @@ module Fog
           requires :image_id
           options = {
             :image => image_id,
-            :server_type => flavor_id,
             :name => name,
             :zone => zone_id,
             :user_data => user_data
           }.delete_if {|k,v| v.nil? || v == "" }
+          unless flavor_id.nil? || flavor_id == ""
+            options.merge!(:server_type => flavor_id)
+          end
           data = connection.create_server(options)
           merge_attributes(data)
           true

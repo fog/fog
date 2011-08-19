@@ -31,7 +31,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer_tests', ['rackspace'
       end
 
 
-      tests("#update_load_balancer(#{lb_id}, { :port => 80 })").succeeds do
+      tests("#update_load_balancer(#{@lb_id}, { :port => 80 })").succeeds do
         @service.update_load_balancer(@lb_id, { :port => 80 }).body
       end
 

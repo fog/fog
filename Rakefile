@@ -146,7 +146,6 @@ task :release => :build do
   sh "git tag v#{version}"
   sh "git push origin master"
   sh "git push origin v#{version}"
-  Rake::Task[:build].invoke # rebuild with updated changelog
   sh "gem push pkg/#{name}-#{version}.gem"
   Rake::Task[:docs].invoke
 end
@@ -229,6 +228,7 @@ task :changelog do
   for committer, commits in committers.to_a.sort {|x,y| y[1] <=> x[1]}
     if [
         'Aaron Suggs',
+        'Brian Hartsock',
         'Christopher Oliver',
         'Dylan Egan',
         'geemus',
