@@ -20,7 +20,7 @@ module Fog
           request({
             :body     => nil,
             :expects  => 200,
-            :headers  => { 'x-amz-acl' : acl },
+            :headers  => { 'x-amz-acl' => acl },
             :host     => "#{bucket_name}.#{@host}",
             :method   => 'PUT',
             :path     => CGI.escape(object_name),
