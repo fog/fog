@@ -14,7 +14,7 @@ module Fog
 
         def put_object_canned_acl(bucket_name, object_name, acl)
           query = { 'acl' => nil }
-          if !['private', 'public-read', 'public-read-write', 'authenticated-read'].include?(amz_acl)
+          if !['private', 'public-read', 'public-read-write', 'authenticated-read'].include?(acl)
             raise Excon::Errors::BadRequest.new('invalid x-amz-acl')
           end
           request({
