@@ -18,7 +18,7 @@ module Fog
             raise Excon::Errors::BadRequest.new('invalid x-amz-acl')
           end
           request({
-            :body     => nil,
+            :body     => "",
             :expects  => 200,
             :headers  => { 'x-amz-acl' => acl },
             :host     => "#{bucket_name}.#{@host}",
