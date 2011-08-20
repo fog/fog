@@ -20,7 +20,12 @@ module Fog
           request({
             :body     => "",
             :expects  => 200,
-            :headers  => { 'x-amz-acl' => acl },
+            :headers  => { 
+              'x-amz-acl' => acl,
+              'Content-MD5' => Base64.encode64(Digest::MD5.digest('')).strip,
+              'Content-Type' => 'application/json',
+              'Date' => Fog::Time.now.to_date_header
+            },
             :host     => "#{bucket_name}.#{@host}",
             :method   => 'PUT',
             :path     => CGI.escape(object_name),
