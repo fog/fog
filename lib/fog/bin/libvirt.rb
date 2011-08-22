@@ -24,7 +24,14 @@ module Libvirt # deviates from other bin stuff to accomodate gem
     end
 
     def available?
-      availability = !Gem.source_index.find_name('ruby-libvirt').empty?
+      begin
+        availability=true unless Gem::Specification::find_by_name("ruby-libvirt").nil?
+      rescue Gem::LoadError
+        availability=false
+      rescue
+        availability_gem=Gem.available?("ruby-libvirt")
+      end 
+      
       if availability
         for service in services
           for collection in self.class_for(service).collections

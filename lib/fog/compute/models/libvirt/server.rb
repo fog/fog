@@ -255,7 +255,7 @@ module Fog
                 when 0 then "nostate"
                 when 1 then "running"
                 when 2 then "paused"
-                when 3 then "shuttingdown"
+                when 3 then "shutting-down"
                 when 4 then "shutoff"
                 when 5 then "crashed"
                 end

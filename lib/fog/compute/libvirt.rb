@@ -17,6 +17,8 @@ module Fog
       collection  :volumes
       model       :pool
       collection  :pools
+      model       :node
+      collection  :nodes
 
       class Mock
 
