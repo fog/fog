@@ -48,6 +48,7 @@ module Fog
       request :put_bucket_website
       request :put_object
       request :put_object_acl
+      request :put_object_canned_acl
       request :put_object_url
       request :put_request_payment
       request :sync_clock
