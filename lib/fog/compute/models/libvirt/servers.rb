@@ -11,13 +11,20 @@ module Fog
 
         def all(filter=nil)
           data=[]
-          if filter.nil?
-            connection.list_defined_domains.map do |domain|
-              data << { :raw => connection.lookup_domain_by_name(domain) }
-            end
 
-            connection.list_domains.each do |domain|
-              data << { :raw => connection.lookup_domain_by_id(domain) }
+          include_defined=filter.has_key?(:defined) ? filter[:defined] : true  
+          include_active=filter.has_key?(:active) ? filter[:active] : true  
+
+          unless filter.has_key?(:name) || filter.has_key?(:uuid)
+            if include_defined
+              connection.list_defined_domains.map do |domain|
+                data << { :raw => connection.lookup_domain_by_name(domain) }
+              end
+            end
+            if include_active
+              connection.list_domains.each do |domain|
+                data << { :raw => connection.lookup_domain_by_id(domain) }
+              end
             end
           else
             domain=nil
@@ -28,7 +35,9 @@ module Fog
             rescue ::Libvirt::RetrieveError
               return nil
             end
-            data << { :raw => domain }
+            unless domain.nil?
+              data << { :raw => domain }
+            end
           end
 
           load(data)

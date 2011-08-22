@@ -15,17 +15,21 @@ module Fog
         include Fog::Compute::LibvirtUtil
 
         identity :id, :aliases => 'uuid'
-
+        attribute :uuid
         attribute :xml
 
         attribute :cpus
+        attribute :cputime
         attribute :os_type
         attribute :memory_size
+        attribute :max_memory_size
+
         attribute :name
         attribute :arch
         attribute :persistent
         attribute :domain_type
         attribute :uuid
+        attribute :autostart
 
         attribute :disk_format_type
         attribute :disk_allocation
@@ -501,8 +505,11 @@ module Fog
             :id => new_raw.uuid,
             :uuid => new_raw.uuid,
             :name => new_raw.name,
-            :memory_size => new_raw.info.max_mem,
-            :cpus => new_raw.info.nr_virt_cpu,
+            :max_memory_size => new_raw.info.max_mem,
+            :cputime => new_raw.info.cpu_time,
+            :memory_size => new_raw.info.memory,
+            :vcpus => new_raw.info.nr_virt_cpu,
+            :autostart => new_raw.autostart?,
             :os_type => new_raw.os_type
           }
 
