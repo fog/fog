@@ -11,7 +11,7 @@ module Fog
 
         def all(filter=nil)
           data=[]
-
+          filter={} if filter.nil?
           include_defined=filter.has_key?(:defined) ? filter[:defined] : true  
           include_active=filter.has_key?(:active) ? filter[:active] : true  
 

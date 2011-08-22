@@ -15,7 +15,6 @@ module Fog
         include Fog::Compute::LibvirtUtil
 
         identity :id, :aliases => 'uuid'
-        attribute :uuid
         attribute :xml
 
         attribute :cpus
