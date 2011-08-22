@@ -7,17 +7,25 @@ module Fog
       class LoadBalancer < Fog::Model
 
         identity :id
-
         attribute :url
-        attribute :name
-        attribute :status
         attribute :resource_type
 
-        attribute :nodes
+        attribute :name
+        attribute :status
+
         attribute :policy
+        attribute :nodes
         attribute :healthcheck
         attribute :listeners
+
+        # Times
+        attribute :created_at
+        attribute :deleted_at
+
+        # Links - to be replaced
         attribute :account
+        attribute :server
+        attribute :cloud_ip
 
         def ready?
           status == 'active'

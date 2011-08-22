@@ -7,23 +7,28 @@ module Fog
       class Server < Fog::Compute::Server
 
         identity  :id
-
+        attribute :resource_type
         attribute :url
+
         attribute :name
         attribute :state,       :aliases => 'status'
+
         attribute :hostname
-        attribute :created_at,  :type => :time
-        attribute :deleted_at,  :type => :time
-        attribute :started_at,  :type => :time
         attribute :user_data
+        attribute :console_url
+        attribute :console_token
 
-        attribute :resource_type
+        # Times
+        attribute :created_at
+        attribute :started_at
+        attribute :console_token_expires
+        attribute :deleted_at
 
+        # Links - to be replaced
         attribute :account_id,  :aliases => "account",      :squash => "id"
         attribute :image_id,    :aliases => "image",        :squash => "id"
         attribute :flavor_id,   :aliases => "server_type",  :squash => "id"
         attribute :zone_id,     :aliases => "zone",         :squash => "id"
-
         attribute :snapshots
         attribute :cloud_ips
         attribute :interfaces

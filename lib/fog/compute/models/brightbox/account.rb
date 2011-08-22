@@ -7,10 +7,12 @@ module Fog
       class Account < Fog::Model
 
         identity :id
-        attribute :resource_type
         attribute :url
+        attribute :resource_type
+
         attribute :name
         attribute :status
+
         attribute :address_1
         attribute :address_2
         attribute :city
@@ -20,11 +22,8 @@ module Fog
         attribute :country_name
         attribute :vat_registration_number
         attribute :telephone_number
-        attribute :telephone_verified
         attribute :verified_telephone
-        attribute :verified_at, :type => :time
         attribute :verified_ip
-        attribute :valid_credit_card, :type => :boolean
         attribute :ram_limit
         attribute :ram_used
         attribute :cloud_ips_limit
@@ -35,8 +34,16 @@ module Fog
         attribute :library_ftp_user
         # This is always returned as null/nil unless performing a reset_ftp_password request
         attribute :library_ftp_password
-        attribute :created_at, :type => :time
 
+        # Boolean flags
+        attribute :valid_credit_card
+        attribute :telephone_verified
+
+        # Times
+        attribute :created_at
+        attribute :verified_at
+
+        # Links - to be replaced
         attribute :owner_id, :aliases => "owner", :squash => "id"
         attribute :clients
         attribute :images
