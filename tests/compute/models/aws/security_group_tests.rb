@@ -23,7 +23,7 @@ Shindo.tests("Fog::Compute[:aws] | security_group", ['aws']) do
     test("revoke access from another security group") do
       @group.revoke_group_and_owner(@other_group.name, @other_group.owner_id)
       @group.reload
-      @group.ip_permissions.size == 0
+      @group.ip_permissions.empty?
     end
 
     @other_group.destroy
