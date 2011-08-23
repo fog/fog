@@ -199,7 +199,10 @@ class Brightbox
           "name"            => String,
           "status"          => String,
           "created_at"      => String,
-          "deleted_at"      => Fog::Nullable::String
+          "deleted_at"      => Fog::Nullable::String,
+          "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
+          "nodes"           => [Brightbox::Compute::Formats::Nested::SERVER],
+          "cloud_ips"       => [Brightbox::Compute::Formats::Nested::CLOUD_IP]
         }
 
         SERVER = {
