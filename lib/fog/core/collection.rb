@@ -51,6 +51,11 @@ module Fog
       object
     end
 
+    def destroy(identity)
+      object = new(:identity => identity)
+      object.destroy
+    end
+
     def initialize(attributes = {})
       @loaded = false
       merge_attributes(attributes)
