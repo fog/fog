@@ -79,7 +79,7 @@ DATA
             headers['x-amz-acl'] = acl
           end
 
-          headers['Content-MD5'] = Base64.encode64(Digest::MD5.digest('')).strip
+          headers['Content-MD5'] = Base64.encode64(Digest::MD5.digest(data)).strip
           headers['Content-Type'] = 'application/json'
           headers['Date'] = Fog::Time.now.to_date_header
           
