@@ -37,6 +37,7 @@ module Fog
         end
 
         def save
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :source, :arch
           options = {
             :source => source,
