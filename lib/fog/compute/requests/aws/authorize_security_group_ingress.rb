@@ -62,10 +62,10 @@ module Fog
 
           if group
             group['ipPermissions'] ||= []
-            if group_name && options['SourceSecurityGroupName'] && options['SourceSecurityGroupOwnerId']
+            if group_name && source_group_name = options['SourceSecurityGroupName']
               ['tcp', 'udp'].each do |protocol|
                 group['ipPermissions'] << {
-                  'groups'      => [{'groupName' => group_name, 'userId' => self.data[:owner_id]}],
+                  'groups'      => [{'groupName' => source_group_name, 'userId' => (options['SourceSecurityGroupOwnerId'] || self.data[:owner_id]) }],
                   'fromPort'    => 1,
                   'ipRanges'    => [],
                   'ipProtocol'  => protocol,
@@ -73,7 +73,7 @@ module Fog
                 }
               end
               group['ipPermissions'] << {
-                'groups'      => [{'groupName' => group_name, 'userId' => self.data[:owner_id]}],
+                'groups'      => [{'groupName' => source_group_name, 'userId' => (options['SourceSecurityGroupOwnerId'] || self.data[:owner_id]) }],
                 'fromPort'    => -1,
                 'ipRanges'    => [],
                 'ipProtocol'  => 'icmp',
