@@ -58,10 +58,14 @@ module Fog
           response = Excon::Response.new
           group = self.data[:security_groups][group_name]
           if group
-            if options['SourceSecurityGroupName'] && options['SourceSecurityGroupOwnerId']
-              group['ipPermissions'].delete_if {|permission|
-                permission['groups'].first['groupName'] == group_name
-              }
+            if source_group_name = options['SourceSecurityGroupName']
+              group['ipPermissions'].delete_if do |permission|
+                if source_owner_id = options['SourceSecurityGroupOwnerId']
+                  permission['groups'].first['groupName'] == source_group_name && permission['groups'].first['userId'] == source_owner_id
+                else
+                  permission['groups'].first['groupName'] == source_group_name
+                end
+              end
             else
               ingress = group['ipPermissions'].select {|permission|
                 permission['fromPort']    == options['FromPort'] &&
