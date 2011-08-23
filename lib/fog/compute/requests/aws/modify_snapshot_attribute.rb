@@ -25,6 +25,7 @@ module Fog
           params.merge!(Fog::AWS.indexed_param('CreateVolumePermission.Remove.%d.UserId', attributes['Remove.UserId'] || []))
           request({
             'Action'        => 'ModifySnapshotAttribute',
+            'SnapshotId'    => snapshot_id,
             :idempotent     => true,
             :parser         => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(params))

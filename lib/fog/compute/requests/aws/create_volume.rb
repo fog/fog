@@ -45,8 +45,8 @@ module Fog
               raise Fog::Compute::AWS::NotFound.new("The snapshot '#{snapshot_id}' does not exist.")
             end
 
-            if snapshot && size && size != snapshot['volumeSize']
-              raise Fog::Compute::AWS::NotFound.new("The snapshot '#{snapshot_id}' with the specified size of '#{size}' does not exist.")
+            if snapshot && size && size < snapshot['volumeSize']
+              raise Fog::Compute::AWS::NotFound.new("The snapshot '#{snapshot_id}' has size #{snapshot['volumeSize']} which is greater than #{size}.")
             elsif snapshot && !size
               size = snapshot['volumeSize']
             end

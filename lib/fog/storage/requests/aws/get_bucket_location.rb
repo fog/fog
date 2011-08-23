@@ -37,8 +37,17 @@ module Fog
         def get_bucket_location(bucket_name)
           response = Excon::Response.new
           if bucket = self.data[:buckets][bucket_name]
+            location_constraint = case bucket['LocationConstraint']
+            when 'us-east-1'
+              nil
+            when 'eu-east-1'
+              'EU'
+            else
+              bucket['LocationConstraint']
+            end
+
             response.status = 200
-            response.body = {'LocationConstraint' => bucket['LocationConstraint'] }
+            response.body = {'LocationConstraint' => location_constraint }
           else
             response.status = 404
             raise(Excon::Errors.status_error({:expects => 200}, response))
