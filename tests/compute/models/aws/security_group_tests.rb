@@ -15,13 +15,13 @@ Shindo.tests("Fog::Compute[:aws] | security_group", ['aws']) do
     @other_group = Fog::Compute[:aws].security_groups.create(:name => 'other group', :description => 'another group')
 
     test("authorize access by another security group") do
-      @group.authorize_group_and_owner(@other_group.name, @other_group.owner_id)
+      @group.authorize_group_and_owner(@other_group.name)
       @group.reload
       @group.ip_permissions.size == 3
     end
 
     test("revoke access from another security group") do
-      @group.revoke_group_and_owner(@other_group.name, @other_group.owner_id)
+      @group.revoke_group_and_owner(@other_group.name)
       @group.reload
       @group.ip_permissions.empty?
     end
