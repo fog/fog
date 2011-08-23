@@ -3,6 +3,10 @@ require 'storage/aws/aws_spec_helper'
 
 describe Fog::Storage::AWS do
 
+  before(:each) do
+    pending("no support for Fog.mocking") if Fog.mocking?    
+  end  
+
   describe "canned ACL" do
     it "should raise an error with an invalid canned ACL" do
       lambda { 
