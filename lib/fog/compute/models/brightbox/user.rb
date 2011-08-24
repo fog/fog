@@ -7,14 +7,18 @@ module Fog
       class User < Fog::Model
 
         identity :id
-
-        attribute :url
         attribute :resource_type
+        attribute :url
+
         attribute :name
         attribute :email_address
-        attribute :email_verified
         attribute :ssh_key
 
+        # Boolean flags
+        attribute :email_verified
+        attribute :messaging_pref
+
+        # Links - to be replaced
         attribute :account_id, :aliases => "default_account", :squash => "id"
         attribute :accounts
 

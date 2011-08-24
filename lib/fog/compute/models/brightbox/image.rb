@@ -7,31 +7,37 @@ module Fog
       class Image < Fog::Model
 
         identity :id
-
         attribute :url
+        attribute :resource_type
+
         attribute :name
         attribute :status
+        attribute :description
+
         attribute :source
         attribute :source_type
-
-        attribute :ancestor_id, :aliases => "ancestor", :squash => "id"
-        attribute :owner_id, :aliases => "owner", :squash => "id"
         attribute :arch
+        attribute :virtual_size
+        attribute :disk_size
 
-        attribute :resource_type
-        attribute :description
+        # Boolean flags
         attribute :public
         attribute :official
         attribute :compatibility_mode
-        attribute :virtual_size
-        attribute :disk_size
+
+        # Times
         attribute :created_at
+
+        # Links - to be replaced
+        attribute :ancestor_id, :aliases => "ancestor", :squash => "id"
+        attribute :owner_id, :aliases => "owner", :squash => "id"
 
         def ready?
           status == "available"
         end
 
         def save
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :source, :arch
           options = {
             :source => source,

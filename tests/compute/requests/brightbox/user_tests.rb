@@ -16,7 +16,7 @@ Shindo.tests('Fog::Compute[:brightbox] | user requests', ['brightbox']) do
       data
     end
 
-    update_options = { :name => "New name from Fog" }
+    update_options = { :name => "Fog@#{Time.now.iso8601}" }
 
     tests("#update_user('#{@user_id}', #{update_options.inspect})").formats(Brightbox::Compute::Formats::Full::USER) do
       pending if Fog.mocking?

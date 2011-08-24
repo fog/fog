@@ -119,6 +119,15 @@ class Brightbox
           "deleted_at"      => Fog::Nullable::String
         }
 
+        SERVER_GROUP = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "default"         => Fog::Boolean,
+          "description"     => Fog::Nullable::String
+        }
+
         SERVER_TYPE = {
           "name"            => String,
           "handle"          => Fog::Nullable::String,
@@ -199,7 +208,10 @@ class Brightbox
           "name"            => String,
           "status"          => String,
           "created_at"      => String,
-          "deleted_at"      => Fog::Nullable::String
+          "deleted_at"      => Fog::Nullable::String,
+          "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
+          "nodes"           => [Brightbox::Compute::Formats::Nested::SERVER],
+          "cloud_ips"       => [Brightbox::Compute::Formats::Nested::CLOUD_IP]
         }
 
         SERVER = {
@@ -216,9 +228,21 @@ class Brightbox
           "server_type"     => Brightbox::Compute::Formats::Nested::SERVER_TYPE,
           "cloud_ips"       => [Brightbox::Compute::Formats::Nested::CLOUD_IP],
           "image"           => Brightbox::Compute::Formats::Nested::IMAGE,
+          "server_groups"   => [Brightbox::Compute::Formats::Nested::SERVER_GROUP],
           "snapshots"       => [Brightbox::Compute::Formats::Nested::IMAGE],
           "interfaces"      => [Brightbox::Compute::Formats::Nested::INTERFACE],
           "zone"            => Fog::Brightbox::Nullable::Zone
+        }
+
+        SERVER_GROUP = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "description"     => Fog::Nullable::String,
+          "default"         => Fog::Boolean,
+          "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
+          "servers"         => [Brightbox::Compute::Formats::Nested::SERVER]
         }
 
         SERVER_TYPE = {
@@ -380,8 +404,20 @@ class Brightbox
           "cloud_ips"       => [Brightbox::Compute::Formats::Nested::CLOUD_IP],
           "image"           => Brightbox::Compute::Formats::Nested::IMAGE,
           "snapshots"       => [Brightbox::Compute::Formats::Nested::IMAGE],
+          "server_groups"   => [Brightbox::Compute::Formats::Nested::SERVER_GROUP],
           "interfaces"      => [Brightbox::Compute::Formats::Nested::INTERFACE],
           "zone"            => Brightbox::Compute::Formats::Nested::ZONE
+        }
+
+        SERVER_GROUP = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "description"     => Fog::Nullable::String,
+          "default"         => Fog::Boolean,
+          "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
+          "servers"         => [Brightbox::Compute::Formats::Nested::SERVER]
         }
 
         SERVER_TYPE = {
@@ -424,6 +460,7 @@ class Brightbox
         IMAGES = [Brightbox::Compute::Formats::Collected::IMAGE]
         LOAD_BALANCERS = [Brightbox::Compute::Formats::Collected::LOAD_BALANCER]
         SERVERS = [Brightbox::Compute::Formats::Collected::SERVER]
+        SERVER_GROUPS = [Brightbox::Compute::Formats::Collected::SERVER_GROUP]
         SERVER_TYPES = [Brightbox::Compute::Formats::Collected::SERVER_TYPE]
         USERS = [Brightbox::Compute::Formats::Collected::USER]
         ZONES = [Brightbox::Compute::Formats::Collected::ZONE]

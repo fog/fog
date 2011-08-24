@@ -28,7 +28,7 @@ Shindo.tests('Fog::Compute[:brightbox] | server requests', ['brightbox']) do
 
     tests("#update_server('#{server_id}')").formats(Brightbox::Compute::Formats::Full::SERVER) do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].update_server(server_id, :name => "New name from Fog test")
+      Fog::Compute[:brightbox].update_server(server_id, :name => "Fog@#{Time.now.iso8601}")
     end
 
     tests("#activate_console_server('#{server_id}')").formats(Brightbox::Compute::Formats::Full::SERVER) do
