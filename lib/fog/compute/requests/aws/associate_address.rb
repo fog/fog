@@ -38,11 +38,13 @@ module Fog
           instance = self.data[:instances][instance_id]
           address = self.data[:addresses][public_ip]
           if instance && address
+            if current_instance = self.data[:instances][address['instanceId']]
+              current_instance['ipAddress'] = current_instance['originalIpAddress']
+            end
             address['instanceId'] = instance_id
-            instance['originalIpAddress'] = instance['ipAddress']
             # detach other address (if any)
-            if self.data[:addresses][instance['originalIpAddress']]
-              self.data[:addresses][instance['originalIpAddress']]['instanceId'] = nil
+            if self.data[:addresses][instance['ipAddress']]
+              self.data[:addresses][instance['ipAddress']]['instanceId'] = nil
             end
             instance['ipAddress'] = public_ip
             instance['dnsName'] = Fog::AWS::Mock.dns_name_for(public_ip)

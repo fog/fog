@@ -8,7 +8,7 @@ module Fog
         # Modify instance attributes
         #
         # ==== Parameters
-        # * image_id<~String> - Id of machine image to modify
+        # * instance_id<~String> - Id of instance to modify
         # * attributes<~Hash>:
         #   'InstanceType.Value'<~String> - New instance type
         #   'Kernel.Value'<~String> - New kernel value
@@ -21,11 +21,12 @@ module Fog
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-ModifyInstanceAttribute.html]
         #
-        def modify_instance_attributes(image_id, attributes)
+        def modify_instance_attributes(instance_id, attributes)
           params = {}
           params.merge!(Fog::AWS.indexed_param('GroupId', attributes['GroupId'] || []))
           request({
             'Action'        => 'ModifyInstanceAttribute',
+            'InstanceId'    => instance_id,
             :idempotent     => true,
             :parser         => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(params))

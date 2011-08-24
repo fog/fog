@@ -9,10 +9,10 @@ module Fog
       attributes = attributes.dup # prevent delete from having side effects
       case provider = attributes.delete(:provider).to_s.downcase.to_sym
       when :aws
-        require 'fog/cdn/aws'
+        require 'fog/aws/cdn'
         Fog::CDN::AWS.new(attributes)
       when :rackspace
-        require 'fog/cdn/rackspace'
+        require 'fog/rackspace/cdn'
         Fog::CDN::Rackspace.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized cdn provider")

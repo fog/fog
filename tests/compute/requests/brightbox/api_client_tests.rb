@@ -2,7 +2,10 @@ Shindo.tests('Fog::Compute[:brightbox] | api client requests', ['brightbox']) do
 
   tests('success') do
 
-    create_options = {:name => "Name from Fog test (#{Time.now.to_i})", :description => "Description from Fog test"}
+    create_options = {
+      :name => "Fog@#{Time.now.iso8601}",
+      :description => "Description from Fog test"
+    }
 
     tests("#create_api_client(#{create_options.inspect})").formats(Brightbox::Compute::Formats::Full::API_CLIENT) do
       pending if Fog.mocking?
@@ -21,9 +24,10 @@ Shindo.tests('Fog::Compute[:brightbox] | api client requests', ['brightbox']) do
       Fog::Compute[:brightbox].get_api_client(@api_client_id)
     end
 
+    update_options = {:name => "Fog@#{Time.now.iso8601}"}
     tests("#update_api_client('#{@api_client_id}')").formats(Brightbox::Compute::Formats::Full::API_CLIENT) do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].update_api_client(@api_client_id, :name => "New name from Fog test")
+      Fog::Compute[:brightbox].update_api_client(@api_client_id, update_options)
     end
 
     tests("#destroy_api_client('#{@api_client_id}')").formats(Brightbox::Compute::Formats::Full::API_CLIENT) do

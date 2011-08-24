@@ -85,7 +85,7 @@ module Fog
 
           instance_set = self.data[:instances].values
           instance_set = apply_tag_filters(instance_set, filters)
-          
+
           aliases = {
             'architecture'      => 'architecture',
             'availability-zone' => 'availabilityZone',
@@ -158,6 +158,7 @@ module Fog
             when 'pending'
               if Time.now - instance['launchTime'] >= Fog::Mock.delay
                 instance['ipAddress']         = Fog::AWS::Mock.ip_address
+                instance['originalIpAddress'] = instance['ipAddress']
                 instance['dnsName']           = Fog::AWS::Mock.dns_name_for(instance['ipAddress'])
                 instance['privateIpAddress']  = Fog::AWS::Mock.ip_address
                 instance['privateDnsName']    = Fog::AWS::Mock.private_dns_name_for(instance['privateIpAddress'])

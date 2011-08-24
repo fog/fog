@@ -38,7 +38,7 @@ module Fog
         #            "Server"=>"AmazonEC2"}
         #
 
-        def authorize_group_and_owner(group, owner)
+        def authorize_group_and_owner(group, owner = nil)
           requires :name
 
           connection.authorize_security_group_ingress(
@@ -130,7 +130,7 @@ module Fog
         #            "Server"=>"AmazonEC2"}
         #
 
-        def revoke_group_and_owner(group, owner)
+        def revoke_group_and_owner(group, owner = nil)
           requires :name
 
           connection.revoke_security_group_ingress(

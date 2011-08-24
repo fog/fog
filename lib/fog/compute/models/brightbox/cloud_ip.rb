@@ -7,19 +7,21 @@ module Fog
       class CloudIp < Fog::Model
 
         identity :id
-
         attribute :url
+        attribute :resource_type
+
         attribute :name
         attribute :status
-        attribute :resource_type
         attribute :description
 
         attribute :reverse_dns
         attribute :public_ip
 
+        # Links - to be replaced
         attribute :account_id, :aliases => "account", :squash => "id"
         attribute :interface_id, :aliases => "interface", :squash => "id"
         attribute :server_id, :aliases => "server", :squash => "id"
+        attribute :load_balancer, :alias => "load_balancer", :squash => "id"
 
         def map(interface_to_map)
           requires :identity

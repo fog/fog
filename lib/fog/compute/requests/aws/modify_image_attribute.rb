@@ -28,6 +28,7 @@ module Fog
           params.merge!(Fog::AWS.indexed_param('ProductCode', attributes['ProductCode'] || []))
           request({
             'Action'        => 'ModifyImageAttribute',
+            'ImageId'       => image_id,
             :idempotent     => true,
             :parser         => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(params))
