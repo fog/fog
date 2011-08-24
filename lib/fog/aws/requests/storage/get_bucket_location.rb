@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/storage/parsers/aws/get_bucket_location'
+        require 'fog/aws/parsers/storage/get_bucket_location'
 
         # Get location constraint for an S3 bucket
         #

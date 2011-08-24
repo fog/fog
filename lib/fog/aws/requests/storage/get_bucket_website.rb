@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/storage/parsers/aws/get_bucket_website'
+        require 'fog/aws/parsers/storage/get_bucket_website'
 
         # Get website configuration for an S3 bucket
         #

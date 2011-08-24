@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/storage/parsers/aws/get_request_payment'
+        require 'fog/aws/parsers/storage/get_request_payment'
 
         # Get configured payer for an S3 bucket
         #

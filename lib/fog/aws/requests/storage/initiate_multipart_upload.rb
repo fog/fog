@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/storage/parsers/aws/initiate_multipart_upload'
+        require 'fog/aws/parsers/storage/initiate_multipart_upload'
 
         # Initiate a multipart upload to an S3 bucket
         #

@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/storage/parsers/aws/complete_multipart_upload'
+        require 'fog/aws/parsers/storage/complete_multipart_upload'
 
         # Complete a multipart upload
         #

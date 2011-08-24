@@ -18,7 +18,7 @@ module Fog
     service(:simpledb,        'aws/simpledb')
     service(:sns,             'aws/sns')
     service(:sqs,             'aws/sqs')
-    service(:storage,         'storage/aws')
+    service(:storage,         'aws/storage')
 
     def self.indexed_param(key, values)
       params = {}

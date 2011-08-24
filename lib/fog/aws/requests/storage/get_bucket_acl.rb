@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/storage/parsers/aws/access_control_list'
+        require 'fog/aws/parsers/storage/access_control_list'
 
         # Get access control list for an S3 bucket
         #

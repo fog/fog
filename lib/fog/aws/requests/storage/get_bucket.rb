@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/storage/parsers/aws/get_bucket'
+        require 'fog/aws/parsers/storage/get_bucket'
 
         # List information about objects in an S3 bucket
         #
