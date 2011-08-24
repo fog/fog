@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/storage/models/ninefold/directory'
+require 'fog/ninefold/models/storage/directory'
 
 module Fog
   module Storage

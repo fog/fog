@@ -4,7 +4,7 @@ module Fog
 
       requires :local_root
 
-      model_path 'fog/storage/models/local'
+      model_path 'fog/local/models/storage'
       collection  :directories
       model       :directory
       model       :file

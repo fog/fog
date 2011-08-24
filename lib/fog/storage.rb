@@ -18,7 +18,7 @@ module Fog
         require 'fog/local/storage'
         Fog::Storage::Local.new(attributes)
       when :ninefold
-        require 'fog/storage/ninefold'
+        require 'fog/ninefold/storage'
         Fog::Storage::Ninefold.new(attributes)
       when :rackspace
         require 'fog/storage/rackspace'

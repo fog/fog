@@ -11,7 +11,7 @@ module Fog
 
       requires :ninefold_storage_token, :ninefold_storage_secret
 
-      model_path 'fog/storage/models/ninefold'
+      model_path 'fog/ninefold/models/storage'
       model       :directory
       collection  :directories
       model       :file
