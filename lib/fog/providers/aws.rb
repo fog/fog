@@ -1,5 +1,4 @@
 require 'fog/core'
-require 'base64' # For console output
 
 module Fog
   module AWS
