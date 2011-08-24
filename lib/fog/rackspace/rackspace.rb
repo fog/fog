@@ -5,10 +5,10 @@ module Fog
 
     extend Fog::Provider
 
-    service(:cdn,     'cdn/rackspace')
-    service(:compute, 'compute/rackspace')
-    service(:storage, 'storage/rackspace')
-    service(:load_balancers, 'rackspace/load_balancers')
+    service(:cdn,             'cdn/rackspace')
+    service(:compute,         'compute/rackspace')
+    service(:storage,         'rackspace/storage')
+    service(:load_balancers,  'rackspace/load_balancers')
 
     def self.authenticate(options)
       rackspace_auth_url = options[:rackspace_auth_url] || "auth.api.rackspacecloud.com"

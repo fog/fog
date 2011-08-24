@@ -21,7 +21,7 @@ module Fog
         require 'fog/ninefold/storage'
         Fog::Storage::Ninefold.new(attributes)
       when :rackspace
-        require 'fog/storage/rackspace'
+        require 'fog/rackspace/storage'
         Fog::Storage::Rackspace.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized storage provider")
