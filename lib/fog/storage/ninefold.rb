@@ -17,7 +17,7 @@ module Fog
       model       :file
       collection  :files
 
-      request_path 'fog/storage/requests/ninefold'
+      request_path 'fog/ninefold/requests/storage'
       # request :delete_container
       request :get_namespace
       request :post_namespace

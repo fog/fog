@@ -15,7 +15,7 @@ module Fog
         require 'fog/google/storage'
         Fog::Storage::Google.new(attributes)
       when :local
-        require 'fog/storage/local'
+        require 'fog/local/storage'
         Fog::Storage::Local.new(attributes)
       when :ninefold
         require 'fog/storage/ninefold'
