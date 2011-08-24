@@ -5,7 +5,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:storage, 'storage/google')
+    service(:storage, 'google/storage')
 
     class Mock
 

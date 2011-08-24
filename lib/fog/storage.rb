@@ -12,7 +12,7 @@ module Fog
         require 'fog/aws/storage'
         Fog::Storage::AWS.new(attributes)
       when :google
-        require 'fog/storage/google'
+        require 'fog/google/storage'
         Fog::Storage::Google.new(attributes)
       when :local
         require 'fog/storage/local'

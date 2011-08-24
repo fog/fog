@@ -4,7 +4,7 @@ module Fog
     class Google
       class Real
 
-        require 'fog/storage/parsers/google/get_bucket'
+        require 'fog/google/parsers/storage/get_bucket'
 
         # List information about objects in an Google Storage bucket
         #

@@ -3,7 +3,7 @@ module Fog
     class Google
       class Real
 
-        require 'fog/storage/parsers/google/get_service'
+        require 'fog/google/parsers/storage/get_service'
 
         # List information about Google Storage buckets for authorized user
         #

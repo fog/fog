@@ -3,7 +3,7 @@ module Fog
     class Google
       class Real
 
-        require 'fog/storage/parsers/google/copy_object'
+        require 'fog/google/parsers/storage/copy_object'
 
         # Copy an object from one Google Storage bucket to another
         #
