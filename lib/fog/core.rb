@@ -12,6 +12,7 @@ require 'uri'
 require 'excon'
 require 'fileutils'
 require 'formatador'
+require 'openssl'
 require 'time'
 require 'timeout'
 

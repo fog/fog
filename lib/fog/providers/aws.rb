@@ -1,5 +1,4 @@
 require 'fog/core'
-require 'openssl' # For RSA key pairs
 require 'base64' # For console output
 
 module Fog
