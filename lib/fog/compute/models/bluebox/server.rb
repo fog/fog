@@ -102,6 +102,7 @@ module Fog
           end
 
           options['username'] = username
+          options['hostname'] = hostname if @hostname
           data = connection.create_block(flavor_id, image_id, options)
           merge_attributes(data.body)
           true
