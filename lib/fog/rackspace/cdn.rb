@@ -5,9 +5,9 @@ module Fog
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url, :persistent
 
-      model_path 'fog/cdn/models/rackspace'
+      model_path 'fog/rackspace/models/cdn'
 
-      request_path 'fog/cdn/requests/rackspace'
+      request_path 'fog/rackspace/requests/cdn'
       request :get_containers
       request :head_container
       request :post_container

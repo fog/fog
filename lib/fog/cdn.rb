@@ -12,7 +12,7 @@ module Fog
         require 'fog/aws/cdn'
         Fog::CDN::AWS.new(attributes)
       when :rackspace
-        require 'fog/cdn/rackspace'
+        require 'fog/rackspace/cdn'
         Fog::CDN::Rackspace.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized cdn provider")
