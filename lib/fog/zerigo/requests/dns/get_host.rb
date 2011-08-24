@@ -3,7 +3,7 @@ module Fog
     class Zerigo
       class Real
 
-        require 'fog/dns/parsers/zerigo/get_host'
+        require 'fog/zerigo/parsers/dns/get_host'
 
         # get details about a given host record
         #

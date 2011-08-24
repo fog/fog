@@ -3,7 +3,7 @@ module Fog
     class Zerigo
       class Real
 
-        require 'fog/dns/parsers/zerigo/count_hosts'
+        require 'fog/zerigo/parsers/dns/count_hosts'
 
         # total number of hosts available for the specified zone. It is the same value as provided 
         # in the X-Query-Count header in the list_hosts API method

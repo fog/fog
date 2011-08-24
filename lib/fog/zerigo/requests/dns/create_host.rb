@@ -3,7 +3,7 @@ module Fog
     class Zerigo
       class Real
 
-        require 'fog/dns/parsers/zerigo/create_host'
+        require 'fog/zerigo/parsers/dns/create_host'
 
         # Create a new host in the specified zone
         #

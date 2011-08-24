@@ -3,7 +3,7 @@ module Fog
     class Zerigo
       class Real
 
-        require 'fog/dns/parsers/zerigo/get_zone'
+        require 'fog/zerigo/parsers/dns/get_zone'
 
         # Get details of a DNS zone. The response is similar to list_zones, with the 
         # addition of hosts-count and possibly hosts.

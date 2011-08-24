@@ -3,7 +3,7 @@ module Fog
     class Zerigo
       class Real
 
-        require 'fog/dns/parsers/zerigo/get_zone_stats'
+        require 'fog/zerigo/parsers/dns/get_zone_stats'
 
         # returns current traffic statistics about this zone. Queries is measured from the 
         # beginning of the current period through the time of the API call.

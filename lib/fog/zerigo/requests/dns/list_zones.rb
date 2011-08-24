@@ -3,7 +3,7 @@ module Fog
     class Zerigo
       class Real
 
-        require 'fog/dns/parsers/zerigo/list_zones'
+        require 'fog/zerigo/parsers/dns/list_zones'
 
         # Get list of all DNS zones hosted on Slicehost (for this account)
         #

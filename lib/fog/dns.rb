@@ -30,7 +30,7 @@ module Fog
         require 'fog/dns/slicehost'
         Fog::DNS::Slicehost.new(attributes)
       when :zerigo
-        require 'fog/dns/zerigo'
+        require 'fog/zerigo/dns'
         Fog::DNS::Zerigo.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized dns provider")

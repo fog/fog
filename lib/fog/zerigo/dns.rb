@@ -5,13 +5,13 @@ module Fog
       requires :zerigo_email, :zerigo_token
       recognizes :host, :persistent, :port, :scheme, :timeout
 
-      model_path 'fog/dns/models/zerigo'
+      model_path 'fog/zerigo/models/dns'
       model       :record
       collection  :records
       model       :zone
       collection  :zones
 
-      request_path 'fog/dns/requests/zerigo'
+      request_path 'fog/zerigo/requests/dns'
       request :count_hosts
       request :count_zones
       request :create_host
