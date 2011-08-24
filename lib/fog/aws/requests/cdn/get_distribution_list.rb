@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/cdn/parsers/aws/get_streaming_distribution_list'
+        require 'fog/aws/parsers/cdn/get_distribution_list'
 
         # List information about distributions in CloudFront
         #
@@ -20,7 +20,7 @@ module Fog
         #     * 'Marker'<~String> - Marker specified for query
         #     * 'MaxItems'<~Integer> - Maximum number of keys specified for query
         #     * 'NextMarker'<~String> - Marker to specify for next page (id of last result of current page)
-        #     * 'StreamingDistributionSummary'<~Array>:
+        #     * 'DistributionSummary'<~Array>:
         #       * 'S3Origin'<~Hash>:
         #         * 'DNSName'<~String> - origin to associate with distribution, ie 'mybucket.s3.amazonaws.com'
         #         * 'OriginAccessIdentity'<~String> - Optional: Used when serving private content
@@ -40,15 +40,15 @@ module Fog
         #       * 'TrustedSigners'<~Array> - trusted signers
         #
         # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/ListStreamingDistributions.html
+        # http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/ListDistributions.html
 
-        def get_streaming_distribution_list(options = {})
+        def get_distribution_list(options = {})
           request({
             :expects    => 200,
             :idempotent => true,
             :method   => 'GET',
-            :parser   => Fog::Parsers::CDN::AWS::GetStreamingDistributionList.new,
-            :path       => "/streaming-distribution",
+            :parser   => Fog::Parsers::CDN::AWS::GetDistributionList.new,
+            :path       => "/distribution",
             :query      => options
           })
         end

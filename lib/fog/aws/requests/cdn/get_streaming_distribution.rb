@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/cdn/parsers/aws/streaming_distribution'
+        require 'fog/aws/parsers/cdn/streaming_distribution'
 
         # Get information about a streaming distribution from CloudFront
         #

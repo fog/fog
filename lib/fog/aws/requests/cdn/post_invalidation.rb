@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/cdn/parsers/aws/post_invalidation'
+        require 'fog/aws/parsers/cdn/post_invalidation'
 
         # List information about distributions in CloudFront
         #

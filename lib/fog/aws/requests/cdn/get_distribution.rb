@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/cdn/parsers/aws/distribution'
+        require 'fog/aws/parsers/cdn/distribution'
 
         # Get information about a distribution from CloudFront
         #

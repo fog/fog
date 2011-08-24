@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/cdn/parsers/aws/get_invalidation_list'
+        require 'fog/aws/parsers/cdn/get_invalidation_list'
 
         # ==== Parameters
         # * options<~Hash> - config arguments for list.  Defaults to {}.
