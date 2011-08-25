@@ -5,13 +5,13 @@ module Fog
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :host, :path, :port, :scheme, :version, :persistent
 
-      model_path 'fog/dns/models/aws'
+      model_path 'fog/aws/models/dns'
       model       :record
       collection  :records
       model       :zone
       collection  :zones
 
-      request_path 'fog/dns/requests/aws'
+      request_path 'fog/aws/requests/dns'
       request :create_hosted_zone
       request :get_hosted_zone
       request :delete_hosted_zone

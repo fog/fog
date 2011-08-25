@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/dns/parsers/aws/get_hosted_zone'
+        require 'fog/aws/parsers/dns/get_hosted_zone'
 
         # retrieve information about a hosted zone
         #

@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/dns/parsers/aws/list_resource_record_sets'
+        require 'fog/aws/parsers/dns/list_resource_record_sets'
 
         # list your resource record sets
         #

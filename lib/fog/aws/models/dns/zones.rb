@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/dns/models/aws/zone'
+require 'fog/aws/models/dns/zone'
 
 module Fog
   module DNS

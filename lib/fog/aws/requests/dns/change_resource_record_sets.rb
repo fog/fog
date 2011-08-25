@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/dns/parsers/aws/change_resource_record_sets'
+        require 'fog/aws/parsers/dns/change_resource_record_sets'
 
         # Use this action to create or change your authoritative DNS information for a zone
         #

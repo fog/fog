@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/dns/parsers/aws/delete_hosted_zone'
+        require 'fog/aws/parsers/dns/delete_hosted_zone'
 
         # Delete a hosted zone
         #

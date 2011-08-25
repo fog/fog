@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/dns/parsers/aws/create_hosted_zone'
+        require 'fog/aws/parsers/dns/create_hosted_zone'
 
         # Creates a new hosted zone
         #

@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/dns/parsers/aws/get_change'
+        require 'fog/aws/parsers/dns/get_change'
 
         # returns the current state of a change request
         #

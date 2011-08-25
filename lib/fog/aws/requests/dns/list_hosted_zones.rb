@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/dns/parsers/aws/list_hosted_zones'
+        require 'fog/aws/parsers/dns/list_hosted_zones'
 
         # Describe all or specified instances
         #

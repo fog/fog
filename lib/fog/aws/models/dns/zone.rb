@@ -1,5 +1,5 @@
 require 'fog/core/model'
-# require 'fog/dns/models/aws/records'
+# require 'fog/aws/models/dns/records'
 
 module Fog
   module DNS
