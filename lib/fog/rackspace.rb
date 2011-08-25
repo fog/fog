@@ -6,7 +6,7 @@ module Fog
     extend Fog::Provider
 
     service(:cdn,             'rackspace/cdn')
-    service(:compute,         'compute/rackspace')
+    service(:compute,         'rackspace/compute')
     service(:storage,         'rackspace/storage')
     service(:load_balancers,  'rackspace/load_balancers')
 

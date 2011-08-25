@@ -6,7 +6,7 @@ module Fog
       recognizes :rackspace_auth_url, :rackspace_servicenet, :persistent
       recognizes :rackspace_auth_token, :rackspace_management_url
 
-      model_path 'fog/compute/models/rackspace'
+      model_path 'fog/rackspace/models/compute'
       model       :flavor
       collection  :flavors
       model       :image
@@ -14,7 +14,7 @@ module Fog
       model       :server
       collection  :servers
 
-      request_path 'fog/compute/requests/rackspace'
+      request_path 'fog/rackspace/requests/compute'
       request :confirm_resized_server
       request :create_image
       request :create_server

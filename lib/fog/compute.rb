@@ -33,7 +33,7 @@ module Fog
         require 'fog/compute/ninefold'
         Fog::Compute::Ninefold.new(attributes)
       when :rackspace
-        require 'fog/compute/rackspace'
+        require 'fog/rackspace/compute'
         Fog::Compute::Rackspace.new(attributes)
       when :slicehost
         require 'fog/compute/slicehost'
