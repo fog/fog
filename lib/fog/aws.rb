@@ -7,7 +7,7 @@ module Fog
 
     service(:auto_scaling,    'aws/auto_scaling')
     service(:cdn,             'aws/cdn')
-    service(:compute,         'compute/aws')
+    service(:compute,         'aws/compute')
     service(:cloud_formation, 'aws/cloud_formation')
     service(:cloud_watch,     'aws/cloud_watch')
     service(:dns,             'aws/dns')

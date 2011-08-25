@@ -9,7 +9,7 @@ module Fog
       attributes = attributes.dup # prevent delete from having side effects
       case provider = attributes.delete(:provider).to_s.downcase.to_sym
       when :aws
-        require 'fog/compute/aws'
+        require 'fog/aws/compute'
         Fog::Compute::AWS.new(attributes)
       when :bluebox
         require 'fog/bluebox/compute'
