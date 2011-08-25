@@ -5,13 +5,13 @@ module Fog
       requires :slicehost_password
       recognizes :host, :port, :scheme, :persistent
 
-      model_path 'fog/dns/models/slicehost'
+      model_path 'fog/slicehost/models/dns'
       model       :record
       collection  :records
       model       :zone
       collection  :zones
 
-      request_path 'fog/dns/requests/slicehost'
+      request_path 'fog/slicehost/requests/dns'
       request :create_record
       request :create_zone
       request :delete_record

@@ -3,7 +3,7 @@ module Fog
     class Slicehost
       class Real
 
-        require 'fog/dns/parsers/slicehost/create_zone'
+        require 'fog/slicehost/parsers/dns/create_zone'
 
         # Create a new zone for Slicehost's DNS servers to serve/host
         # ==== Parameters

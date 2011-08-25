@@ -3,7 +3,7 @@ module Fog
     class Slicehost
       class Real
 
-        require 'fog/dns/parsers/slicehost/get_zone'
+        require 'fog/slicehost/parsers/dns/get_zone'
 
         # Get details of a DNS zone
         #

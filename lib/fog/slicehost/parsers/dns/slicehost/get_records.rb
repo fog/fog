@@ -3,7 +3,7 @@ module Fog
     class Slicehost
       class Real
 
-        require 'fog/dns/parsers/slicehost/get_records'
+        require 'fog/slicehost/parsers/dns/get_records'
 
         # Get all the DNS records across all the DNS zones for this account 
         #
