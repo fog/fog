@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/bluebox/image'
+require 'fog/bluebox/models/compute/image'
 
 module Fog
   module Compute

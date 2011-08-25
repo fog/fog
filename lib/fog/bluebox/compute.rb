@@ -5,7 +5,7 @@ module Fog
       requires :bluebox_api_key, :bluebox_customer_id
       recognizes :bluebox_host, :bluebox_port, :bluebox_scheme, :persistent
 
-      model_path 'fog/compute/models/bluebox'
+      model_path 'fog/bluebox/models/compute'
       model       :flavor
       collection  :flavors
       model       :image
@@ -13,7 +13,7 @@ module Fog
       model       :server
       collection  :servers
 
-      request_path 'fog/compute/requests/bluebox'
+      request_path 'fog/bluebox/requests/compute'
       request :create_block
       request :destroy_block
       request :get_block

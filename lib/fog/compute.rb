@@ -12,7 +12,7 @@ module Fog
         require 'fog/compute/aws'
         Fog::Compute::AWS.new(attributes)
       when :bluebox
-        require 'fog/compute/bluebox'
+        require 'fog/bluebox/compute'
         Fog::Compute::Bluebox.new(attributes)
       when :brightbox
         require 'fog/brightbox/brightbox'

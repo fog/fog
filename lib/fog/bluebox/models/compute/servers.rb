@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/bluebox/server'
+require 'fog/bluebox/models/compute/server'
 
 module Fog
   module Compute
