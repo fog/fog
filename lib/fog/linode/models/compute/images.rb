@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/linode/image'
+require 'fog/linode/models/compute/image'
 
 module Fog
   module Compute

@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/linode/data_center'
+require 'fog/linode/models/compute/data_center'
 
 module Fog
   module Compute

@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/linode/flavor'
+require 'fog/linode/models/compute/flavor'
 
 module Fog
   module Compute

@@ -5,7 +5,7 @@ module Fog
       requires :linode_api_key
       recognizes :port, :scheme, :persistent
 
-      model_path 'fog/compute/models/linode'
+      model_path 'fog/linode/models/compute'
       model :flavor
       collection :flavors
       model :image
@@ -23,7 +23,7 @@ module Fog
       model :disk
       collection :disks
 
-      request_path 'fog/compute/requests/linode'
+      request_path 'fog/linode/requests/compute'
       request :avail_datacenters
       request :avail_distributions
       request :avail_kernels

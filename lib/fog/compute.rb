@@ -24,7 +24,7 @@ module Fog
         require 'fog/compute/go_grid'
         Fog::Compute::GoGrid.new(attributes)
       when :linode
-        require 'fog/compute/linode'
+        require 'fog/linode/compute'
         Fog::Compute::Linode.new(attributes)
       when :newservers
         require 'fog/new_servers/compute'

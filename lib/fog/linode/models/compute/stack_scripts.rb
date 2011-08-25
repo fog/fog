@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/linode/stack_script'
+require 'fog/linode/models/compute/stack_script'
 
 module Fog
   module Compute
