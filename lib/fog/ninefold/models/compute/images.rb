@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/ninefold/image'
+require 'fog/ninefold/models/compute/image'
 
 module Fog
   module Compute

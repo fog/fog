@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/ninefold/server'
+require 'fog/ninefold/models/compute/server'
 
 module Fog
   module Compute

@@ -6,7 +6,7 @@ module Fog
 
       requires :ninefold_compute_key, :ninefold_compute_secret
 
-      model_path 'fog/compute/models/ninefold'
+      model_path 'fog/ninefold/models/compute'
       model       :server
       collection  :servers
       model       :flavor

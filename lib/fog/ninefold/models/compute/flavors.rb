@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/ninefold/flavor'
+require 'fog/ninefold/models/compute/flavor'
 
 module Fog
   module Compute

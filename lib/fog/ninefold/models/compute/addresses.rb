@@ -1,22 +1,22 @@
 require 'fog/core/collection'
-require 'fog/compute/models/ninefold/ip_forwarding_rule'
+require 'fog/ninefold/models/compute/address'
 
 module Fog
   module Compute
     class Ninefold
 
-      class IpForwardingRules < Fog::Collection
+      class Addresses < Fog::Collection
 
-        model Fog::Compute::Ninefold::IpForwardingRule
+        model Fog::Compute::Ninefold::Address
 
         def all
-          data = connection.list_ip_forwarding_rules
+          data = connection.list_public_ip_addresses
           load(data)
         end
 
         def get(identifier)
           return nil if identifier.nil? || identifier == ""
-          data = connection.list_ip_forwarding_rules(:id => identifier)
+          data = connection.list_public_ip_addresses(:id => identifier)
           if data.empty?
             nil
           else
