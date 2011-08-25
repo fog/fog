@@ -1,4 +1,4 @@
-require 'fog/compute/models/ecloud/network'
+require 'fog/ecloud/models/compute/network'
 
 module Fog
   module Compute

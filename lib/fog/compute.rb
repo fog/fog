@@ -18,7 +18,7 @@ module Fog
         require 'fog/compute/brightbox'
         Fog::Compute::Brightbox.new(attributes)
       when :ecloud
-        require 'fog/compute/ecloud'
+        require 'fog/ecloud/compute'
         Fog::Compute::Ecloud.new(attributes)
       when :gogrid
         require 'fog/go_grid/compute'

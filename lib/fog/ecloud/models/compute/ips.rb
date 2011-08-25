@@ -1,4 +1,4 @@
-require 'fog/compute/models/ecloud/ip'
+require 'fog/ecloud/models/compute/ip'
 
 module Fog
   module Compute

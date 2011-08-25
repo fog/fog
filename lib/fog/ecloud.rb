@@ -5,7 +5,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'compute/ecloud')
+    service(:compute, 'ecloud/compute')
 
   end
 end

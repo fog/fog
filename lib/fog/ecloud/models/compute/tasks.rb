@@ -1,4 +1,4 @@
-require 'fog/compute/models/ecloud/task'
+require 'fog/ecloud/models/compute/task'
 
 module Fog
   module Compute

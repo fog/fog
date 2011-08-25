@@ -1,4 +1,4 @@
-require 'fog/compute/models/ecloud/vdc'
+require 'fog/ecloud/models/compute/vdc'
 
 module Fog
   module Compute

@@ -1,4 +1,4 @@
-require 'fog/compute/models/ecloud/public_ip'
+require 'fog/ecloud/models/compute/public_ip'
 
 module Fog
   module Compute

@@ -831,7 +831,7 @@ module Fog
       requires   :ecloud_username, :ecloud_password, :ecloud_versions_uri
       recognizes :ecloud_version
 
-      model_path 'fog/compute/models/ecloud'
+      model_path 'fog/ecloud/models/compute'
       model :catalog_item
       model :catalog
       model :firewall_acl
@@ -855,7 +855,7 @@ module Fog
       model :vdc
       collection :vdcs
 
-      request_path 'fog/compute/requests/ecloud'
+      request_path 'fog/ecloud/requests/compute'
       request :add_internet_service
       request :add_backup_internet_service
       request :add_node

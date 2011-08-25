@@ -1,4 +1,4 @@
-require 'fog/compute/models/ecloud/firewall_acl'
+require 'fog/ecloud/models/compute/firewall_acl'
 
 module Fog
   module Compute
