@@ -1,5 +1,5 @@
 require 'fog/core/model'
-require 'fog/compute/models/virtual_box/medium_format'
+require 'fog/virtual_box/models/compute/medium_format'
 
 module Fog
   module Compute

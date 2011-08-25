@@ -45,7 +45,7 @@ module Fog
         require 'fog/compute/vcloud'
         Fog::Vcloud::Compute.new(attributes)
       when :virtualbox
-        require 'fog/compute/virtual_box'
+        require 'fog/virtual_box/compute'
         Fog::Compute::VirtualBox.new(attributes)
       when :voxel
         require 'fog/voxel/compute'

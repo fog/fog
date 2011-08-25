@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/virtual_box/nat_redirect'
+require 'fog/virtual_box/models/compute/nat_redirect'
 
 module Fog
   module Compute

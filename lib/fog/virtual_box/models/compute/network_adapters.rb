@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/virtual_box/network_adapter'
+require 'fog/virtual_box/models/compute/network_adapter'
 
 module Fog
   module Compute

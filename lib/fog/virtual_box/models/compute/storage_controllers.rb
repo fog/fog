@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/virtual_box/storage_controller'
+require 'fog/virtual_box/models/compute/storage_controller'
 
 module Fog
   module Compute

@@ -1,5 +1,5 @@
 require 'fog/core/model'
-require 'fog/compute/models/virtual_box/nat_engine'
+require 'fog/virtual_box/models/compute/nat_engine'
 
 module Fog
   module Compute

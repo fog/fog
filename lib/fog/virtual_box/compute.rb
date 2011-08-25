@@ -2,7 +2,7 @@ module Fog
   module Compute
     class VirtualBox < Fog::Service
 
-      model_path 'fog/compute/models/virtual_box'
+      model_path 'fog/virtual_box/models/compute'
       model       :medium
       collection  :mediums
       model       :medium_format
