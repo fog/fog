@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/dns/models/dynect/record'
+require 'fog/dynect/models/dns/record'
 
 module Fog
   module DNS

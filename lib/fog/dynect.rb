@@ -8,7 +8,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:dns, 'dns/dynect')
+    service(:dns, 'dynect/dns')
 
   end
 end
