@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/dns/models/dnsmadeeasy/zone'
+require 'fog/dnsmadeeasy/models/dns/zone'
 
 module Fog
   module DNS
