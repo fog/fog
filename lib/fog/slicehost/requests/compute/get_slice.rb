@@ -3,7 +3,7 @@ module Fog
     class Slicehost
       class Real
 
-        require 'fog/compute/parsers/slicehost/get_slice'
+        require 'fog/slicehost/parsers/compute/get_slice'
 
         # Get details of a slice
         #

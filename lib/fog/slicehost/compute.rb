@@ -5,7 +5,7 @@ module Fog
       requires :slicehost_password
       recognizes :host, :port, :scheme, :persistent
 
-      model_path 'fog/compute/models/slicehost'
+      model_path 'fog/slicehost/models/compute'
       model       :flavor
       collection  :flavors
       model       :image
@@ -13,7 +13,7 @@ module Fog
       model       :server
       collection  :servers
 
-      request_path 'fog/compute/requests/slicehost'
+      request_path 'fog/slicehost/requests/compute'
       request :create_slice
       request :delete_slice
       request :get_backups

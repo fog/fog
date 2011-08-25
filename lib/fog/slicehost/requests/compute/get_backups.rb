@@ -3,7 +3,7 @@ module Fog
     class Slicehost
       class Real
 
-        require 'fog/compute/parsers/slicehost/get_backups'
+        require 'fog/slicehost/parsers/compute/get_backups'
 
         # Get list of backups
         #

@@ -3,7 +3,7 @@ module Fog
     class Slicehost
       class Real
 
-        require 'fog/compute/parsers/slicehost/get_flavor'
+        require 'fog/slicehost/parsers/compute/get_flavor'
 
         # Get details of a flavor
         #

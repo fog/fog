@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/slicehost/flavor'
+require 'fog/slicehost/models/compute/flavor'
 
 module Fog
   module Compute

@@ -3,7 +3,7 @@ module Fog
     class Slicehost
       class Real
 
-        require 'fog/compute/parsers/slicehost/get_images'
+        require 'fog/slicehost/parsers/compute/get_images'
 
         # Get list of images
         #

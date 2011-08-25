@@ -3,7 +3,7 @@ module Fog
     class Slicehost
       class Real
 
-        require 'fog/compute/parsers/slicehost/create_slice'
+        require 'fog/slicehost/parsers/compute/create_slice'
 
         # Create a new slice
         # ==== Parameters
