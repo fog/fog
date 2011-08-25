@@ -128,6 +128,39 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
       Fog::Storage[:aws].delete_bucket('fogbuckettests')
     end
 
+    tests("#put_bucket_acl('fogbuckettests', 'private')").succeeds do
+      Fog::Storage[:aws].put_bucket_acl('fogbuckettests', 'private')
+    end
+
+    tests("#put_bucket_acl('fogbuckettests', hash)").returns(true) do
+      Fog::Storage[:aws].put_bucket_acl('fogbuckettests', {
+        'Owner' => { 'ID' => "8a6925ce4adf5f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" },
+        'AccessControlList' => [
+          { 
+            'Grantee' => { 'ID' => "8a6925ce4adf588a4532142d3f74dd8c71fa124b1ddee97f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" }, 
+            'Permission' => "FULL_CONTROL" 
+          }
+        ]
+      })
+      Fog::Storage[:aws].get_bucket_acl('fogbuckettests').body == <<-BODY
+<AccessControlPolicy>
+  <Owner>
+    <ID>8a6925ce4adf5f21c32aa379004fef</ID>
+    <DisplayName>mtd@amazon.com</DisplayName>
+  </Owner>
+  <AccessControlList>
+    <Grant>
+      <Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser">
+        <ID>8a6925ce4adf588a4532142d3f74dd8c71fa124b1ddee97f21c32aa379004fef</ID>
+        <DisplayName>mtd@amazon.com</DisplayName>
+      </Grantee>
+      <Permission>FULL_CONTROL</Permission>
+    </Grant>
+  </AccessControlList>
+</AccessControlPolicy>
+BODY
+    end
+
   end
 
   tests('failure') do
@@ -160,6 +193,10 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
 
     tests("#put_request_payment('fognonbucket', 'Requester')").raises(Excon::Errors::NotFound) do
       Fog::Storage[:aws].put_request_payment('fognonbucket', 'Requester')
+    end
+
+    tests("#put_bucket_acl('fognonbucket', 'invalid')").raises(Excon::Errors::BadRequest) do
+      Fog::Storage[:aws].put_bucket_acl('fognonbucket', 'invalid')
     end
 
   end

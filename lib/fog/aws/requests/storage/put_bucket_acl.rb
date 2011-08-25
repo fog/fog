@@ -3,6 +3,8 @@ module Fog
     class AWS
       class Real
 
+        require 'fog/aws/requests/storage/hash_to_acl'
+      
         # Change access control list for an S3 bucket
         #
         # ==== Parameters
@@ -30,40 +32,7 @@ module Fog
           headers = {}
           
           if acl.is_a?(Hash)
-            data =
-<<-DATA
-<AccessControlPolicy>
-  <Owner>
-    <ID>#{acl['Owner']['ID']}</ID>
-    <DisplayName>#{acl['Owner']['DisplayName']}</DisplayName>
-  </Owner>
-  <AccessControlList>
-DATA
-
-            acl['AccessControlList'].each do |grant|
-              data << "    <Grant>\n"
-              type = case grant['Grantee'].keys.sort
-              when ['DisplayName', 'ID']
-                'CanonicalUser'
-              when ['EmailAddress']
-                'AmazonCustomerByEmail'
-              when ['URI']
-                'Group'
-              end
-              data << "      <Grantee xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"#{type}\">\n"
-              for key, value in grant['Grantee']
-                data << "        <#{key}>#{value}</#{key}>\n"
-              end
-              data << "      </Grantee>\n"
-              data << "      <Permission>#{grant['Permission']}</Permission>\n"
-              data << "    </Grant>\n"
-            end
-
-            data <<
-<<-DATA
-  </AccessControlList>
-</AccessControlPolicy>
-DATA
+            data = Fog::Storage::AWS.hash_to_acl(acl)
           else
             if !['private', 'public-read', 'public-read-write', 'authenticated-read'].include?(acl)
               raise Excon::Errors::BadRequest.new('invalid x-amz-acl')
@@ -84,8 +53,21 @@ DATA
             :query    => {'acl' => nil}
           })
         end
-
       end
+        
+      class Mock
+        def put_bucket_acl(bucket_name, acl)
+          if acl.is_a?(Hash)
+            self.data[:acls][:bucket][bucket_name] = Fog::Storage::AWS.hash_to_acl(acl)
+          else
+            if !['private', 'public-read', 'public-read-write', 'authenticated-read'].include?(acl)
+              raise Excon::Errors::BadRequest.new('invalid x-amz-acl')
+            end
+            self.data[:acls][:bucket][bucket_name] = acl
+          end        
+        end
+      end
+
     end
   end
 end
