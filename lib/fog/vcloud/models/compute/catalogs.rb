@@ -1,3 +1,5 @@
+require 'fog/vcloud/models/compute/catalog'
+
 module Fog
   module Vcloud
     class Compute

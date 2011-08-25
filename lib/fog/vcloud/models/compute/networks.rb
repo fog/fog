@@ -1,4 +1,4 @@
-require 'fog/compute/models/vcloud/network'
+require 'fog/vcloud/models/compute/network'
 
 module Fog
   module Vcloud

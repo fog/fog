@@ -1,4 +1,4 @@
-require 'fog/compute/models/vcloud/task'
+require 'fog/vcloud/models/compute/task'
 
 module Fog
   module Vcloud

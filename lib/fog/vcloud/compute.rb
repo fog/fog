@@ -67,9 +67,8 @@ module Fog
       recognizes :vcloud_port, :vcloud_scheme, :vcloud_path, :vcloud_default_vdc
       recognizes :provider # remove post deprecation
 
-      model_path 'fog/compute/models/vcloud'
+      model_path 'fog/vcloud/models/compute'
       model :catalog
-      require 'fog/compute/models/vcloud/catalog' # why do I need to do this?
       collection :catalogs
       model :catalog_item
       model :catalog_items
@@ -84,7 +83,7 @@ module Fog
       model :vdc
       collection :vdcs
 
-      request_path 'fog/compute/requests/vcloud'
+      request_path 'fog/vcloud/requests/compute'
       request :clone_vapp
       request :configure_network
       request :configure_network_ip

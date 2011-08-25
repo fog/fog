@@ -1,4 +1,4 @@
-require 'fog/compute/models/vcloud/vdc'
+require 'fog/vcloud/models/compute/vdc'
 
 module Fog
   module Vcloud

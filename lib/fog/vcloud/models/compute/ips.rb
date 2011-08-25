@@ -1,4 +1,4 @@
-require 'fog/compute/models/vcloud/ip'
+require 'fog/vcloud/models/compute/ip'
 
 module Fog
   module Vcloud

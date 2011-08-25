@@ -42,7 +42,7 @@ module Fog
         require 'fog/compute/storm_on_demand'
         Fog::Compute::StormOnDemand.new(attributes)
       when :vcloud
-        require 'fog/compute/vcloud'
+        require 'fog/vcloud/compute'
         Fog::Vcloud::Compute.new(attributes)
       when :virtualbox
         require 'fog/virtual_box/compute'
