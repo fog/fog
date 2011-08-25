@@ -4,7 +4,7 @@ module Fog
   module Linode
     extend Fog::Provider
     service(:compute, 'compute/linode')
-    service(:dns,     'dns/linode')
+    service(:dns,     'linode/dns')
   end
 end
 

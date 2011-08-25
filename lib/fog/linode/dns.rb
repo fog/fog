@@ -5,13 +5,13 @@ module Fog
       requires :linode_api_key
       recognizes :port, :scheme, :persistent
 
-      model_path 'fog/dns/models/linode'
+      model_path 'fog/linode/models/dns'
       model       :record
       collection  :records
       model       :zone
       collection  :zones
 
-      request_path 'fog/dns/requests/linode'
+      request_path 'fog/linode/requests/dns'
       request :domain_create
       request :domain_delete
       request :domain_list

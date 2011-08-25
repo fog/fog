@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/dns/models/linode/zone'
+require 'fog/linode/models/dns/zone'
 
 module Fog
   module DNS
