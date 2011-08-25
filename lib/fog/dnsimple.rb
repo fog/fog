@@ -5,7 +5,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:dns, 'dns/dnsimple')
+    service(:dns, 'dnsimple/dns')
 
   end
 end

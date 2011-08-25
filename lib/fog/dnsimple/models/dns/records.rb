@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/dns/models/dnsimple/record'
+require 'fog/dnsimple/models/dns/record'
 
 module Fog
   module DNS

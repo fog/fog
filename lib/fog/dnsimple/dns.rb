@@ -5,13 +5,13 @@ module Fog
       requires :dnsimple_email, :dnsimple_password
       recognizes :dnsimple_url, :host, :path, :port, :scheme, :persistent
 
-      model_path 'fog/dns/models/dnsimple'
+      model_path 'fog/dnsimple/models/dns'
       model       :record
       collection  :records
       model       :zone
       collection  :zones
 
-      request_path 'fog/dns/requests/dnsimple'
+      request_path 'fog/dnsimple/requests/dns'
       request :list_domains
       request :create_domain
       request :get_domain
