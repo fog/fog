@@ -27,7 +27,7 @@ module Fog
         require 'fog/compute/linode'
         Fog::Compute::Linode.new(attributes)
       when :newservers
-        require 'fog/compute/new_servers'
+        require 'fog/new_servers/compute'
         Fog::Compute::NewServers.new(attributes)
       when :ninefold
         require 'fog/ninefold/compute'

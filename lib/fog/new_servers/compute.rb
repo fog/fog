@@ -5,9 +5,9 @@ module Fog
       requires :new_servers_password, :new_servers_username
       recognizes :host, :port, :scheme, :persistent
 
-      model_path 'fog/compute/models/new_servers'
+      model_path 'fog/new_servers/models/compute'
 
-      request_path 'fog/compute/requests/new_servers'
+      request_path 'fog/new_servers/requests/compute'
       request :add_server
       request :cancel_server
       request :get_server
