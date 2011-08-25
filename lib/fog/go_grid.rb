@@ -5,7 +5,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'compute/go_grid')
+    service(:compute, 'go_grid/compute')
 
   end
 end

@@ -5,7 +5,7 @@ module Fog
       requires :go_grid_api_key, :go_grid_shared_secret
       recognizes :host, :path, :port, :scheme, :persistent
 
-      model_path 'fog/compute/models/go_grid'
+      model_path 'fog/go_grid/models/compute'
       model         :image
       collection    :images
       model         :server
@@ -13,7 +13,7 @@ module Fog
       model         :password
       collection    :passwords
 
-      request_path 'fog/compute/requests/go_grid'
+      request_path 'fog/go_grid/requests/compute'
       request :common_lookup_list
       request :grid_image_get
       request :grid_image_list
