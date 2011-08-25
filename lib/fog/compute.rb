@@ -48,7 +48,7 @@ module Fog
         require 'fog/compute/virtual_box'
         Fog::Compute::VirtualBox.new(attributes)
       when :voxel
-        require 'fog/compute/voxel'
+        require 'fog/voxel/compute'
         Fog::Compute::Voxel.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized compute provider")

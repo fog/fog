@@ -3,7 +3,7 @@ module Fog
     class Voxel
       class Real
 
-        require 'fog/compute/parsers/voxel/devices_list'
+        require 'fog/voxel/parsers/compute/devices_list'
 
         def devices_list(device_id = nil)
           options = {

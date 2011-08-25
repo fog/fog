@@ -3,7 +3,7 @@ module Fog
     class Voxel
       class Real
 
-        require 'fog/compute/parsers/voxel/voxcloud_create'
+        require 'fog/voxel/parsers/compute/voxcloud_create'
 
         def voxcloud_create(options)
           options[:parser] = Fog::Parsers::Compute::Voxel::VoxcloudCreate.new

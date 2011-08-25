@@ -5,13 +5,13 @@ module Fog
       requires :voxel_api_key, :voxel_api_secret
       recognizes :host, :port, :scheme, :persistent
 
-      model_path 'fog/compute/models/voxel'
+      model_path 'fog/voxel/models/compute'
       model       :image
       collection  :images
       model       :server
       collection  :servers
 
-      request_path 'fog/compute/requests/voxel'
+      request_path 'fog/voxel/requests/compute'
       request :images_list
       request :devices_list
       request :devices_power

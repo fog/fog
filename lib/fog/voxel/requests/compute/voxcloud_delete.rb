@@ -3,7 +3,7 @@ module Fog
     class Voxel
       class Real
 
-        require 'fog/compute/parsers/voxel/voxcloud_delete'
+        require 'fog/voxel/parsers/compute/voxcloud_delete'
 
         def voxcloud_delete(device_id)
           options = {

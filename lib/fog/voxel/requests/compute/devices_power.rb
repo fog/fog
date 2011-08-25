@@ -3,7 +3,7 @@ module Fog
     class Voxel
       class Real
 
-        require 'fog/compute/parsers/voxel/basic'
+        require 'fog/voxel/parsers/compute/basic'
 
         def devices_power(device_id, power_action)
           options = {

@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/voxel/image'
+require 'fog/voxel/models/compute/image'
 
 module Fog
   module Compute

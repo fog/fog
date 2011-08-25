@@ -3,7 +3,7 @@ module Fog
     class Voxel
       class Real
 
-        require 'fog/compute/parsers/voxel/images_list'
+        require 'fog/voxel/parsers/compute/images_list'
 
         def images_list(image_id = nil)
           options = {
