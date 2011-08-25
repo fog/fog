@@ -4,6 +4,7 @@ module Fog
   module Brightbox
     extend Fog::Provider
 
-    service(:compute, 'compute/brightbox')
+    service(:compute, 'brightbox/compute')
+
   end
 end

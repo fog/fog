@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/brightbox/cloud_ip'
+require 'fog/brightbox/models/compute/cloud_ip'
 
 module Fog
   module Compute

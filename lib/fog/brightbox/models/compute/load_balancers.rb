@@ -1,21 +1,21 @@
 require 'fog/core/collection'
-require 'fog/compute/models/brightbox/flavor'
+require 'fog/brightbox/models/compute/load_balancer'
 
 module Fog
   module Compute
     class Brightbox
 
-      class Flavors < Fog::Collection
+      class LoadBalancers < Fog::Collection
 
-        model Fog::Compute::Brightbox::Flavor
+        model Fog::Compute::Brightbox::LoadBalancer
 
         def all
-          data = connection.list_server_types
+          data = connection.list_load_balancers
           load(data)
         end
 
         def get(identifier)
-          data = connection.get_server_type(identifier)
+          data = connection.get_load_balancer(identifier)
           new(data)
         rescue Excon::Errors::NotFound
           nil

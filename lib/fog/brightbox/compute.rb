@@ -7,7 +7,7 @@ module Fog
       requires :brightbox_client_id, :brightbox_secret
       recognizes :brightbox_auth_url, :brightbox_api_url
 
-      model_path 'fog/compute/models/brightbox'
+      model_path 'fog/brightbox/models/compute'
       model       :account # Singular resource, no collection
       collection  :servers
       model       :server
@@ -24,7 +24,7 @@ module Fog
       collection  :users
       model       :user
 
-      request_path 'fog/compute/requests/brightbox'
+      request_path 'fog/brightbox/requests/compute'
       request :activate_console_server
       request :add_listeners_load_balancer
       request :add_nodes_load_balancer

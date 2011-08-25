@@ -1,22 +1,22 @@
 require 'fog/core/collection'
-require 'fog/compute/models/brightbox/zone'
+require 'fog/brightbox/models/compute/user'
 
 module Fog
   module Compute
     class Brightbox
 
-      class Zones < Fog::Collection
+      class Users < Fog::Collection
 
-        model Fog::Compute::Brightbox::Zone
+        model Fog::Compute::Brightbox::User
 
         def all
-          data = connection.list_zones
+          data = connection.list_users
           load(data)
         end
 
         def get(identifier)
           return nil if identifier.nil? || identifier == ""
-          data = connection.get_zone(identifier)
+          data = connection.get_user(identifier)
           new(data)
         rescue Excon::Errors::NotFound
           nil
