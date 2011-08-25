@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/storm_on_demand/stat'
+require 'fog/storm_on_demand/models/compute/stat'
 
 module Fog
   module Compute

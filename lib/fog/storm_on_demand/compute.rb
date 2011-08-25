@@ -7,7 +7,7 @@ module Fog
       requires :storm_on_demand_username, :storm_on_demand_password
       recognizes :storm_on_demand_auth_url
 
-      model_path 'fog/compute/models/storm_on_demand'
+      model_path 'fog/storm_on_demand/models/compute'
       model       :config
       collection  :configs
       model       :image
@@ -23,7 +23,7 @@ module Fog
       model       :template
       collection  :templates
 
-      request_path 'fog/compute/requests/storm_on_demand'
+      request_path 'fog/storm_on_demand/requests/compute'
       request :clone_server
       request :delete_server
       request :reboot_server
