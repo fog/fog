@@ -3,7 +3,7 @@ module Fog
     class Bluebox
       class Real
 
-        require 'fog/dns/parsers/bluebox/get_record'
+        require 'fog/bluebox/parsers/dns/get_record'
 
         # Get an individual DNS record from the specified zone
         #

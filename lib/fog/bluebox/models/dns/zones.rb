@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/dns/models/bluebox/zone'
+require 'fog/bluebox/models/dns/zone'
 
 module Fog
   module DNS

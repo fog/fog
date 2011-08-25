@@ -5,13 +5,13 @@ module Fog
       requires :bluebox_api_key, :bluebox_customer_id
       recognizes :bluebox_host, :bluebox_port, :bluebox_scheme, :persistent
 
-      model_path 'fog/dns/models/bluebox'
+      model_path 'fog/bluebox/models/dns'
       model       :record
       collection  :records
       model       :zone
       collection  :zones
 
-      request_path 'fog/dns/requests/bluebox'
+      request_path 'fog/bluebox/requests/dns'
       request :create_record
       request :update_record
       request :delete_record

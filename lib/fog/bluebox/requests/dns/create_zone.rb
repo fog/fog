@@ -3,7 +3,7 @@ module Fog
     class Bluebox
       class Real
 
-        require 'fog/dns/parsers/bluebox/create_zone'
+        require 'fog/bluebox/parsers/dns/create_zone'
 
         # Create a new DNS zone
         # ==== Parameters

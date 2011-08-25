@@ -3,7 +3,7 @@ module Fog
     class Bluebox
       class Real
 
-        require 'fog/dns/parsers/bluebox/get_zones'
+        require 'fog/bluebox/parsers/dns/get_zones'
 
         # Get list of all DNS zones hosted on Bluebox (for this account)
         #
