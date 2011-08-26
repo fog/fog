@@ -59,7 +59,7 @@ module Fog
           self.xml  ||= nil unless attributes[:xml]
           self.persistent ||=true unless attributes[:persistent]
           self.cpus ||=1 unless attributes[:cpus]
-          self.memory_size ||=256 unless attributes[:memory_size]
+          self.memory_size ||=256 *1024 unless attributes[:memory_size]
           self.name ||="fog-#{SecureRandom.random_number*10E14.to_i.round}" unless attributes[:name]
 
           self.os_type ||="hvm" unless attributes[:os_type]
@@ -289,8 +289,10 @@ module Fog
         def addresses(options={})
           mac=self.mac
 
+          # Aug 24 17:34:41 juno arpwatch: new station 10.247.4.137 52:54:00:88:5a:0a eth0.4
+          # Aug 24 17:37:19 juno arpwatch: changed ethernet address 10.247.4.137 52:54:00:27:33:00 (52:54:00:88:5a:0a) eth0.4
           # Check if another ip_command string was provided
-          ip_command_global=@connection.ip_command.nil? ? "grep #{mac} /var/log/arpwatch.log |cut -d ':' -f 4-| cut -d ' ' -f 4" : @connection.ip_command
+          ip_command_global=@connection.ip_command.nil? ? "grep #{mac} /var/log/arpwatch.log|sed -e 's/new station//'|sed -e 's/changed ethernet address//g' |tail -1 |cut -d ':' -f 4-| cut -d ' ' -f 3" : @connection.ip_command
           ip_command=options[:ip_command].nil? ? ip_command_global : options[:ip_command]
 
           ip_address=nil
