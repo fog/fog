@@ -26,7 +26,7 @@ module Fog
         attribute :compatibility_mode
 
         # Times
-        attribute :created_at
+        attribute :created_at, :type => :time
 
         # Links - to be replaced
         attribute :ancestor_id, :aliases => "ancestor", :squash => "id"
