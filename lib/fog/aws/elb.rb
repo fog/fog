@@ -4,6 +4,7 @@ module Fog
 
       class IdentifierTaken < Fog::Errors::Error; end
       class InvalidInstance < Fog::Errors::Error; end
+      class Throttled       < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :region, :host, :path, :port, :scheme, :persistent
@@ -165,6 +166,8 @@ module Fog
               raise Fog::AWS::ELB::IdentifierTaken.slurp(error, match[2])
             when 'InvalidInstance'
               raise Fog::AWS::ELB::InvalidInstance.slurp(error, match[2])
+            when 'Throttling'
+              raise Fog::AWS::ELB::Throttled.slurp(error, match[2])
             else
               raise
             end
