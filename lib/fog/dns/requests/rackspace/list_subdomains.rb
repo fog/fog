@@ -2,9 +2,9 @@ module Fog
   module DNS
     class Rackspace
       class Real
-        def list_domains(options={})
+        def list_subdomains(domain_id, options={})
 
-          path = 'domains'
+          path = "domains/#{domain_id}/subdomains"
           if !options.empty?
             path = path + '?' + array_to_query_string(options)
           end

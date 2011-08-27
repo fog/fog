@@ -17,7 +17,15 @@ module Fog
       #collection  :zones
 
       request_path 'fog/dns/requests/rackspace'
+      #TODO - Import/Export, modify multiple domains
+      request :callback
       request :list_domains
+      request :list_domain_details
+      request :modify_domain
+      request :create_domains
+      request :delete_domain
+      request :delete_domains
+      request :list_subdomains
 
       class Mock
       end
@@ -47,6 +55,10 @@ module Fog
             }))
           rescue Excon::Errors::BadRequest => error
             raise Fog::Rackspace::Errors::BadRequest.slurp error
+          rescue Excon::Errors::Conflict => error
+            raise Fog::Rackspace::Errors::Conflict.slurp error
+          rescue Excon::Errors::NotFound => error
+            raise Fog::Rackspace::Errors::NotFound.slurp error
           end
           unless response.body.empty?
             response.body = MultiJson.decode(response.body)
@@ -64,6 +76,10 @@ module Fog
           auth_token = credentials['X-Auth-Token']
           account_id = credentials['X-Server-Management-Url'].match(/.*\/([\d]+)$/)[1]
           [auth_token, account_id]
+        end
+
+        def array_to_query_string(arr)
+          arr.collect {|k,v| "#{k}=#{v}" }.join('&')
         end
       end
     end
