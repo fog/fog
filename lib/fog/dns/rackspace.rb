@@ -10,8 +10,8 @@ module Fog
       recognizes :rackspace_auth_token
 
       model_path 'fog/dns/models/rackspace'
-      #model       :record
-      #collection  :records
+      model       :record
+      collection  :records
       model       :zone
       collection  :zones
 

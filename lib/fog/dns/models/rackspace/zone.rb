@@ -1,11 +1,12 @@
 require 'fog/core/model'
-#require 'fog/dns/models/rackspace/records'
+require 'fog/dns/models/rackspace/records'
 
 module Fog
   module DNS
     class Rackspace
 
       class Zone < Fog::Model
+        include Fog::DNS::Rackspace::Callback
 
         identity :id
 
@@ -24,6 +25,15 @@ module Fog
           true
         end
 
+        def records
+          @records ||= begin
+            Fog::DNS::Rackspace::Records.new(
+              :zone       => self,
+              :connection => connection
+            )
+          end
+        end
+
         def save
           if identity
             update
@@ -34,23 +44,6 @@ module Fog
         end
 
         private
-
-        def wait_for_job(job_id, timeout=Fog.timeout, interval=1)
-          retries = 5
-          response = nil
-          Fog.wait_for(timeout, interval) do
-            response = connection.callback job_id
-            if response.status != 202
-              true
-            elsif retries == 0
-              raise Fog::Errors::Error.new("Wait on job #{job_id} took too long")
-            else
-              retries -= 1
-              false
-            end
-          end
-          response
-        end
 
         def create
           requires :domain, :email
