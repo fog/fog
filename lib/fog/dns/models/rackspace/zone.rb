@@ -19,7 +19,7 @@ module Fog
         attribute :comment
 
         def destroy
-          response = connection.delete_domain(identity)
+          response = connection.remove_domain(identity)
           wait_for_job response.body['jobId'], Fog.timeout
           true
         end
@@ -53,7 +53,7 @@ module Fog
         end
 
         def create
-          requires :domain
+          requires :domain, :email
 
           data = { :name => domain, :email => email }
           response = connection.create_domains([data])

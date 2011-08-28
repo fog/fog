@@ -2,139 +2,8 @@ Shindo.tests('Fog::DNS[:rackspace] | DNS requests', ['rackspace', 'dns']) do
 
   @service = Fog::DNS[:rackspace]
 
-  SUBDOMAIN_FORMAT = {
-    'name' => String,
-    'id' => Integer,
-    'created' => String,
-    'updated' => String
-  }
-
-  LIST_SUBDOMAINS_FORMAT = {
-    'domains' => [SUBDOMAIN_FORMAT],
-    'totalEntries' => Integer
-  }
-
-  LIST_DOMAIN_FORMAT = {
-    'domains' => [
-      {
-        'name' => String,
-        'id' => Integer,
-        'accountId' => Integer,
-        'updated' => String,
-        'created' => String
-      }
-    ],
-    'totalEntries' => Integer,
-    'links' => [
-      {
-        'rel' => String,
-        'href' => String
-      }
-    ]
-  }
-
-  RECORD_LIST_FORMAT = {
-    'records' => [
-      {
-        'name' => String,
-        'id' => String,
-        'type' => String,
-        'data' => String,
-        'updated' => String,
-        'created' => String,
-        'ttl' => Integer,
-        'priority' => Fog::Nullable::Integer
-      }
-    ],
-    #In some cases this is returned (domain details) and in some cases it isn't (create domain).  Marking as nullable.
-    'totalEntries' => Fog::Nullable::Integer
-  }
-
-  NAME_SERVERS_FORMAT = [{
-    'name' => String
-  }]
-
-  BASIC_DOMAIN_DETAIL_FORMAT = {
-    'name' => String,
-    'id' => Integer,
-    'accountId' => Integer,
-    'updated' => String,
-    'created' =>String,
-    'ttl' => Integer,
-    'emailAddress' => String,
-    'nameservers' => NAME_SERVERS_FORMAT
-  }
-
-  LIST_DOMAIN_DETAILS_WITH_RECORDS = BASIC_DOMAIN_DETAIL_FORMAT.merge({
-    'recordsList' => RECORD_LIST_FORMAT
-  })
-
-  LIST_DOMAIN_DETAILS_WITH_RECORDS_AND_SUBDOMAINS_FORMAT = BASIC_DOMAIN_DETAIL_FORMAT.merge({
-    'recordsList' => RECORD_LIST_FORMAT,
-    'subdomains' => [SUBDOMAIN_FORMAT]
-  })
-
-  LIST_DOMAIN_DETAILS_WITHOUT_RECORDS_AND_SUBDOMAINS_FORMAT = BASIC_DOMAIN_DETAIL_FORMAT
-
-  CREATE_DOMAINS_FORMAT = {
-    'domains' => [
-      BASIC_DOMAIN_DETAIL_FORMAT.merge({
-        'recordsList' => RECORD_LIST_FORMAT
-      })
-    ]
-  }
-
-  def wait_for(response)
-    job_id = response.body['jobId']
-    while true
-      response = @service.callback(job_id)
-      return response if response.status != 202
-      sleep 5
-    end
-  end
-
-  def domain_tests(domain_attributes)
-    tests("create_domains([#{domain_attributes}])").formats(CREATE_DOMAINS_FORMAT) do
-      response = wait_for @service.create_domains([domain_attributes])
-      @domain_details = response.body['domains']
-      @domain_id = @domain_details[0]['id']
-      response.body
-    end
-
-    begin
-      if block_given?
-        yield
-      end
-    ensure
-      tests("delete_domain('#{@domain_id}')").succeeds do
-        wait_for @service.delete_domain @domain_id
-      end
-    end
-  end
-
-  def domains_tests(domains_attributes, custom_delete = false)
-    tests("create_domains(#{domains_attributes})").formats(CREATE_DOMAINS_FORMAT) do
-      response = wait_for @service.create_domains(domains_attributes)
-      @domain_details = response.body['domains']
-      @domain_ids = @domain_details.collect { |domain| domain['id'] }
-      response.body
-    end
-
-    begin
-      if block_given?
-        yield
-      end
-    ensure
-      if !custom_delete
-        tests("deletes_domains(#{@domain_ids})").succeeds do
-          wait_for @service.delete_domains @domain_ids
-        end
-      end
-    end
-  end
-
   tests('success on simple domain') do
-    domain_tests({:name => 'basictestdomain.com', :email => 'hostmaster@basictestdomain.com', :records => [{:ttl => 300, :name => 'basictestdomain.com', :type => 'A', :data => '192.168.1.1'}]}) do
+    domain_tests(@service, {:name => 'basictestdomain.com', :email => 'hostmaster@basictestdomain.com', :records => [{:ttl => 300, :name => 'basictestdomain.com', :type => 'A', :data => '192.168.1.1'}]}) do
 
       tests('list_domains').formats(LIST_DOMAIN_FORMAT) do
         @service.list_domains.body
@@ -150,13 +19,13 @@ Shindo.tests('Fog::DNS[:rackspace] | DNS requests', ['rackspace', 'dns']) do
 
       tests("modify_domain('#{@domain_id}', :ttl => 500, :comment => 'woot', :email => 'randomemail@randomhost.com')").succeeds do
         response = @service.modify_domain @domain_id, :ttl => 500, :comment => 'woot', :email => 'randomemail@randomhost.com'
-        wait_for response
+        wait_for @service, response
       end
     end
   end
 
   tests('success for domain with multiple records') do
-    domain_tests(
+    domain_tests(@service,
       {
         :name => 'testdomainwithmultiplerecords.com',
         :email => 'hostmaster@testdomainwithmultiplerecords.com',
@@ -180,7 +49,7 @@ Shindo.tests('Fog::DNS[:rackspace] | DNS requests', ['rackspace', 'dns']) do
   end
 
   tests('success for multiple domains') do
-    domains_tests(
+    domains_tests(@service,
       [
         {:name => 'basictestdomain1.com', :email => 'hostmaster@basictestdomain1.com', :records => [{:ttl => 300, :name =>'basictestdomain1.com', :type => 'A', :data => '192.168.1.1'}]},
         {:name => 'basictestdomain2.com', :email => 'hostmaster@basictestdomain2.com', :records => [{:ttl => 300, :name =>'basictestdomain2.com', :type => 'A', :data => '192.168.1.1'}]}
@@ -188,7 +57,7 @@ Shindo.tests('Fog::DNS[:rackspace] | DNS requests', ['rackspace', 'dns']) do
   end
 
   tests('success for domain with subdomain') do
-    domains_tests(
+    domains_tests(@service,
       [
         {:name => 'basictestdomain.com', :email => 'hostmaster@basictestdomain.com', :records => [{:ttl => 300, :name =>'basictestdomain.com', :type => 'A', :data => '192.168.1.1'}]},
         {:name => 'subdomain.basictestdomain.com', :email => 'hostmaster@subdomain.basictestdomain.com', :records => [{:ttl => 300, :name =>'subdomain.basictestdomain.com', :type => 'A', :data => '192.168.1.1'}]}
@@ -216,8 +85,8 @@ Shindo.tests('Fog::DNS[:rackspace] | DNS requests', ['rackspace', 'dns']) do
         @service.list_subdomains(@root_domain_id).body
       end
 
-      tests("delete_domain('#{@root_domain_id}', :delete_subdomains => true)") do
-        wait_for @service.delete_domain(@root_domain_id, :delete_subdomains => true)
+      tests("remove_domain('#{@root_domain_id}', :delete_subdomains => true)") do
+        wait_for @service, @service.remove_domain(@root_domain_id, :delete_subdomains => true)
 
         test('domain and subdomains were really deleted') do
           (@service.list_domains.body['domains'].collect { |domain| domain['name'] } & ['basictestdomain.com', 'subdomain.basictestdomain.com']).empty?
@@ -229,7 +98,7 @@ Shindo.tests('Fog::DNS[:rackspace] | DNS requests', ['rackspace', 'dns']) do
   tests( 'failure') do
 
     tests('create_domain(invalid)').raises(Fog::Rackspace::Errors::BadRequest) do
-      wait_for @service.create_domains [{:name => 'badtestdomain.com', :email => '', :records => [{:ttl => 300, :name => 'badtestdomain.com', :type => 'A', :data => '192.168.1.1'}]}]
+      wait_for @service, @service.create_domains([{:name => 'badtestdomain.com', :email => '', :records => [{:ttl => 300, :name => 'badtestdomain.com', :type => 'A', :data => '192.168.1.1'}]}])
     end
 
     tests('list_domains :limit => 5, :offset => 8').raises(Fog::Rackspace::Errors::BadRequest) do
@@ -243,8 +112,8 @@ Shindo.tests('Fog::DNS[:rackspace] | DNS requests', ['rackspace', 'dns']) do
     #tests('create_domains(#{domains})').raises(Fog::Rackspace::Errors::Conflict) do
     #  wait_for @service.create_domains(domains)
     #end
-    #tests('delete_domain(34343435)').raises(Fog::DNS::Rackspace::DeleteFault) do
-    #  @service.delete_domain 34343435
+    #tests('remove_domain(34343435)').raises(Fog::DNS::Rackspace::DeleteFault) do
+    #  @service.remove_domain 34343435
     #end
   end
 end

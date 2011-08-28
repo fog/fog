@@ -2,14 +2,12 @@ module Fog
   module DNS
     class Rackspace
       class Real
-        def list_subdomains(domain_id, options={})
+        def list_record_details(domain_id, record_id)
 
           validate_path_fragment :domain_id, domain_id
+          validate_path_fragment :record_id, record_id
 
-          path = "domains/#{domain_id}/subdomains"
-          if !options.empty?
-            path = path + '?' + array_to_query_string(options)
-          end
+          path = "domains/#{domain_id}/records/#{record_id}"
 
           request(
             :expects  => 200,

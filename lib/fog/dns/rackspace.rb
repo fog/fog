@@ -16,15 +16,21 @@ module Fog
       collection  :zones
 
       request_path 'fog/dns/requests/rackspace'
-      #TODO - Import/Export, modify multiple domains
+      #TODO - Import/Export, modify multiple domains, modify multiple records
       request :callback
       request :list_domains
       request :list_domain_details
       request :modify_domain
       request :create_domains
-      request :delete_domain
-      request :delete_domains
+      request :remove_domain
+      request :remove_domains
       request :list_subdomains
+      request :list_records
+      request :list_record_details
+      request :modify_record
+      request :remove_record
+      request :remove_records
+      request :add_records
 
       class Mock
       end
@@ -81,6 +87,12 @@ module Fog
 
         def array_to_query_string(arr)
           arr.collect {|k,v| "#{k}=#{v}" }.join('&')
+        end
+
+        def validate_path_fragment(name, fragment)
+          if fragment.nil? or fragment.to_s.empty?
+            raise ArgumentError.new ("#{name} cannot be null or empty")
+          end
         end
       end
     end

@@ -3,6 +3,9 @@ module Fog
     class Rackspace
       class Real
         def callback(job_id)
+
+          validate_path_fragment :job_id, job_id
+
           request(
             :expects  => [200, 202, 204],
             :method   => 'GET',

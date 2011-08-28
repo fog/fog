@@ -4,6 +4,8 @@ module Fog
       class Real
         def list_domain_details(domain_id, options={})
 
+          validate_path_fragment :domain_id, domain_id
+
           path = "domains/#{domain_id}"
           query_data = {}
 
