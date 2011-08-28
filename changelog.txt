@@ -1,3 +1,159 @@
+0.11.0 08/18/2011 73bcee507a4732e071c58d85793b7f307eb377dc
+==========================================================
+
+Stats! { 'downloads' => 202791, 'forks' => 237, 'open_issues' => 20, 'watchers' => 1427 }
+
+MVP! Brian Hartsock
+
+[aws|cdn]
+  Added commands for streaming distribution lists. thanks Christopher Oliver
+
+[aws|compute]
+  describe security groups parser was not taking into account ipPermissionsEgress and therefore returning unexpected results when the account had VPC groups. thanks Christopher Oliver
+  Added missing 'platform' attribute to server model and describe instances request. thanks Christopher Oliver
+
+[aws|iam]
+  fix 'Path' handling for get_group response. thanks Nick Osborn
+  add missing update_server_certificate request. thanks Nick Osborn
+
+[aws|rds]
+  Allow string or symbol hash keys. thanks Aaron Suggs
+
+[aws|s3]
+  Added basic tests for get_bucket, fixed a bug in get_bucket with delimiter option, tests succeed for both mocked and real situation. thanks Erik Terpstra
+  policy should be base64 encoded and not contain new lines. thanks Fujimura Daisuke
+  Require 'multi_json' was lucked. thanks Fujimura Daisuke
+
+[compute]
+  add server base class to contain shared stuff (scp/ssh). thanks geemus
+
+[compute|aws]
+  Whitespace removal. thanks Dylan Egan
+  Allow image mocks to support state (except failed). thanks Dylan Egan
+  fix pluralization of modify_image_attribute. thanks geemus
+  update modify image/snapshot attribute to match latest API. thanks geemus
+  add modify_image_attribute. thanks geemus
+  add support for saving assigned tags at server creation time. thanks geemus
+  add docs for new options on run_instances. thanks geemus
+  guard tag creation against empty tag set. thanks geemus
+  fixes for bootstrap and placing attributes json. thanks geemus
+  identity not needed for setup. thanks geemus
+  fix for running nice with mocked test run. thanks geemus
+
+[compute|brightbox]
+  Updated test for new expected response from server. thanks Paul Thornthwaite
+  Updated Account format test to allow valid_credit_card flag. thanks Paul Thornthwaite
+  Added IPv6 address to format now it is exposed to API. thanks Paul Thornthwaite
+  DRY up request method. thanks Paul Thornthwaite
+  Corrected attribute name. thanks Paul Thornthwaite
+
+[compute|voxel]
+  position in format is string, not integer. thanks geemus
+
+[dns]
+  dry generate_unique_domain to tests helper. thanks geemus
+
+[dns|dynect]
+  cleanup of initial implementation. thanks geemus
+  fixes to play nice with mocked test runs. thanks geemus
+
+[dns|zerigo]
+  add host/port/scheme to recognizes. thanks geemus
+
+[docs]
+  add task to build/publish supported services matrix. thanks geemus
+  alphasort doc tasks. thanks geemus
+
+[misc]
+  if creating an s3 directory (bucket), one needs to pass in :location as well as have the aws connection set to the correct region... thanks Adam Greene
+  - Write files as binary (otherwise UTF8 - ASCII errors can occur)      - Check if File exists before trying to delete it (paperclip sometimes deletes files twice)      - Check if Directory exists before trying to "cd" into it. thanks Andre Meij
+  Fix issue 464, add howto for European Rackspace cloud. thanks Andre Meij
+  Initial support for adding/deleting a load balancer (requests only). thanks Brian Hartsock
+  Complete lifecycle for a load balancer. thanks Brian Hartsock
+  Improved error handling. thanks Brian Hartsock
+  Model and collection for load balancers. thanks Brian Hartsock
+  Fixed issues with loading all LB params. thanks Brian Hartsock
+  Requests for nodes. thanks Brian Hartsock
+  Rackspace Load Balancers: model classes for nodes. thanks Brian Hartsock
+  Rackspace Load Balancers: requests for virtual ips. thanks Brian Hartsock
+  Added virtual IP models. thanks Brian Hartsock
+  Rackspace LB: Made some updates from the pull request. thanks Brian Hartsock
+  Rackspace LB: protocols, algorithms, and connection logging. thanks Brian Hartsock
+  Added access list requests. thanks Brian Hartsock
+  Rackspace LB: Added session persistence requests. thanks Brian Hartsock
+  Rackspace LB: Connection throttling requests. thanks Brian Hartsock
+  Rackspace LB: Fixed issues with connection logging model. thanks Brian Hartsock
+  Rackspace LB: Health Monitor requests. thanks Brian Hartsock
+  Rackspace LB: account usage request. thanks Brian Hartsock
+  Rackspace LB: Load Balancer Usage requests. thanks Brian Hartsock
+  Rackspace LB: Added model capabilities for a lot of additional actions. thanks Brian Hartsock
+  Rackspace LB: models for access lists. thanks Brian Hartsock
+  Rackspace LB: account usage call. thanks Brian Hartsock
+  Rackspace LB: Refactoring and cleanup. thanks Brian Hartsock
+  register_image mocking support. thanks Dylan Egan
+  Remove GENTOO_AMI. thanks Dylan Egan
+  Store it under the ID, not the name. thanks Dylan Egan
+  Allow tag filtering for images. thanks Dylan Egan
+  Set imageOwnerAlias to self. Not 100% on this, but it will allow you to search for images with 'owner-alias' => 'self'. thanks Dylan Egan
+  Back to using Owner. A couple of tests for it too. thanks Dylan Egan
+  Added support for delimiter option in Fog::Storage::AWS::Mock object. thanks Erik Terpstra
+  Link to EBS snapshots blog post. thanks Gavin Sandie
+  Add force stop functionality to AWS Instance. thanks John Ferlito
+  * Changed LoadError to Fog::Error::LoadError when missing configuration     * When running from command line, rescue the exception, and print the help message. thanks Mark A. Miller
+  * Fix VirtualBox in compute case statement. thanks Mark A. Miller
+  Update to the latest VirtualBox gem while we're at it for good measure. thanks Mark A. Miller
+  add dynect DNS provider with session request implemented. thanks Michael Hale
+  add dynect provider and cleanup extra requires. thanks Michael Hale
+  enable mocking for dynect. thanks Michael Hale
+  parse session request and fix mock for tests. thanks Michael Hale
+  whoops forgot to add these files. thanks Michael Hale
+  temporary rake task for convenient testing. thanks Michael Hale
+  include /REST in all requests. thanks Michael Hale
+  change API-Token to Auth-Token. thanks Michael Hale
+  add zone request. thanks Michael Hale
+  fix API-Token in mock session request. thanks Michael Hale
+  always run both mock and non-mock tests. thanks Michael Hale
+  parse the list of zones returned. thanks Michael Hale
+  require builder in dynect. thanks Michael Hale
+  WIP:  add stub model classes. thanks Michael Hale
+  tests passing. thanks Michael Hale
+  rename zone request to zones. thanks Michael Hale
+  add zone request to show information for a single zone. thanks Michael Hale
+  hook up zones model. thanks Michael Hale
+  hook up zones.get. thanks Michael Hale
+  dynect: add a bunch of stuff: node_list, list_any_records, handle 307 job     redirect,. thanks Michael Hale
+  dynect: nicer filter api for records. thanks Michael Hale
+  Escape source object name when copying. thanks Pratik Naik
+  provide #providers for shared services. thanks geemus
+
+[rackspace|load balancers]
+  fixed broken tests. thanks Brian Hartsock
+
+[rackspace|load_balancers]
+  fixes to play nice with mock test runs. thanks geemus
+  fix typo in tests. thanks geemus
+
+[rackspace|loadbalancers]
+  cleanup. thanks geemus
+
+[release]
+  add newest MVP to changelog task MVP omit list. thanks geemus
+  add stats to changelog. thanks geemus
+  remove un-needed rebuild of gem. thanks geemus
+
+[storage]
+  fix deprecated get_url usage. thanks geemus
+
+[storage|aws]
+  simplify region accessor. thanks geemus
+
+[storage|ninefold]
+  remove debug output. thanks geemus
+
+[tests]
+  non-destructively generate id for get('fake') == nil tests. thanks geemus
+
+
 0.10.0 07/25/2011 9ca8cffc000c417a792235438c12855a277fe1ce
 ==========================================================
 

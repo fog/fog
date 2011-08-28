@@ -30,6 +30,38 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       Fog::Storage[:aws].head_object(@directory.identity, 'fog_object')
     end
 
+    tests("#put_object_acl('#{@directory.identity}', 'fog_object', 'private')").succeeds do
+      Fog::Storage[:aws].put_object_acl(@directory.identity, 'fog_object', 'private')
+    end
+
+    tests("#put_object_acl('#{@directory.identity}', 'fog_object', hash)").returns(true) do
+      Fog::Storage[:aws].put_object_acl(@directory.identity, 'fog_object', {
+        'Owner' => { 'ID' => "8a6925ce4adf5f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" },
+        'AccessControlList' => [
+          { 
+            'Grantee' => { 'ID' => "8a6925ce4adf588a4532142d3f74dd8c71fa124b1ddee97f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" }, 
+            'Permission' => "FULL_CONTROL" 
+          }
+        ]})
+      Fog::Storage[:aws].get_object_acl(@directory.identity, 'fog_object').body == <<-BODY
+<AccessControlPolicy>
+  <Owner>
+    <ID>8a6925ce4adf5f21c32aa379004fef</ID>
+    <DisplayName>mtd@amazon.com</DisplayName>
+  </Owner>
+  <AccessControlList>
+    <Grant>
+      <Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser">
+        <ID>8a6925ce4adf588a4532142d3f74dd8c71fa124b1ddee97f21c32aa379004fef</ID>
+        <DisplayName>mtd@amazon.com</DisplayName>
+      </Grantee>
+      <Permission>FULL_CONTROL</Permission>
+    </Grant>
+  </AccessControlList>
+</AccessControlPolicy>
+BODY
+    end
+
     tests("#delete_object('#{@directory.identity}', 'fog_object')").succeeds do
       Fog::Storage[:aws].delete_object(@directory.identity, 'fog_object')
     end
@@ -72,6 +104,10 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
 
     tests("#delete_object('fognonbucket', 'fog_non_object')").raises(Excon::Errors::NotFound) do
       Fog::Storage[:aws].delete_object('fognonbucket', 'fog_non_object')
+    end
+
+    tests("#put_object_acl('#{@directory.identity}', 'fog_object', 'invalid')").raises(Excon::Errors::BadRequest) do
+      Fog::Storage[:aws].put_object_acl('#{@directory.identity}', 'fog_object', 'invalid')
     end
 
   end

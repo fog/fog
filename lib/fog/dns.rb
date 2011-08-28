@@ -9,28 +9,28 @@ module Fog
       attributes = attributes.dup # prevent delete from having side effects
       case provider = attributes.delete(:provider).to_s.downcase.to_sym
       when :aws
-        require 'fog/dns/aws'
+        require 'fog/aws/dns'
         Fog::DNS::AWS.new(attributes)
       when :bluebox
-        require 'fog/dns/bluebox'
+        require 'fog/bluebox/dns'
         Fog::DNS::Bluebox.new(attributes)
       when :dnsimple
-        require 'fog/dns/dnsimple'
+        require 'fog/dnsimple/dns'
         Fog::DNS::DNSimple.new(attributes)
       when :dnsmadeeasy
-        require 'fog/dns/dnsmadeeasy'
+        require 'fog/dnsmadeeasy/dns'
         Fog::DNS::DNSMadeEasy.new(attributes)
       when :dynect
-        require 'fog/dns/dynect'
+        require 'fog/dynect/dns'
         Fog::DNS::Dynect.new(attributes)
       when :linode
-        require 'fog/dns/linode'
+        require 'fog/linode/dns'
         Fog::DNS::Linode.new(attributes)
       when :slicehost
-        require 'fog/dns/slicehost'
+        require 'fog/slicehost/dns'
         Fog::DNS::Slicehost.new(attributes)
       when :zerigo
-        require 'fog/dns/zerigo'
+        require 'fog/zerigo/dns'
         Fog::DNS::Zerigo.new(attributes)
       when :rackspace
         require 'fog/dns/rackspace'

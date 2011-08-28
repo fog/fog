@@ -23,7 +23,7 @@ module Fog
 
           def end_element(name)
             case name
-            when 'Arn'
+            when 'Arn', 'Path'
               if @in_group
                 @response['Group'][name] = value
               elsif @in_users
@@ -35,7 +35,7 @@ module Fog
               @response['Group'][name] = value
             when 'Users'
               @in_users = false
-            when 'UserId', 'UserName', 'Path'
+            when 'UserId', 'UserName'
               @user[name] = value
             when 'member'
               @response['Users'] << @user              

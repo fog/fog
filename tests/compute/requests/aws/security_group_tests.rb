@@ -12,6 +12,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
         'ipRanges'    => [],
         'toPort'      => Integer,
       }],
+      'ipPermissionsEgress' => [],
       'ownerId'           => String
     }]
   }
