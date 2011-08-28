@@ -15,14 +15,11 @@ module Fog
             path = path + '?' + array_to_query_string(query_data)
           end
 
-          puts path
-          resp = request(
+          request(
             :expects  => [202, 204],
             :method   => 'DELETE',
             :path     => path
           )
-          puts resp.inspect
-          resp
         end
       end
     end

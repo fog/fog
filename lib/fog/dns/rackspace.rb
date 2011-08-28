@@ -10,11 +10,10 @@ module Fog
       recognizes :rackspace_auth_token
 
       model_path 'fog/dns/models/rackspace'
-      #TODO - Need to add
       #model       :record
       #collection  :records
-      #model       :zone
-      #collection  :zones
+      model       :zone
+      collection  :zones
 
       request_path 'fog/dns/requests/rackspace'
       #TODO - Import/Export, modify multiple domains
@@ -59,6 +58,8 @@ module Fog
             raise Fog::Rackspace::Errors::Conflict.slurp error
           rescue Excon::Errors::NotFound => error
             raise Fog::Rackspace::Errors::NotFound.slurp error
+          rescue Excon::Errors::ServiceUnavailable => error
+            raise Fog::Rackspace::Errors::ServiceUnavailable.slurp error
           end
           unless response.body.empty?
             response.body = MultiJson.decode(response.body)

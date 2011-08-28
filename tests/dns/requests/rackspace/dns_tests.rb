@@ -134,7 +134,7 @@ Shindo.tests('Fog::DNS[:rackspace] | DNS requests', ['rackspace', 'dns']) do
   end
 
   tests('success on simple domain') do
-    domain_tests({:name => 'basictestdomain.com', :email_address => 'hostmaster@basictestdomain.com', :records => [{:ttl => 300, :name => 'basictestdomain.com', :type => 'A', :data => '192.168.1.1'}]}) do
+    domain_tests({:name => 'basictestdomain.com', :email => 'hostmaster@basictestdomain.com', :records => [{:ttl => 300, :name => 'basictestdomain.com', :type => 'A', :data => '192.168.1.1'}]}) do
 
       tests('list_domains').formats(LIST_DOMAIN_FORMAT) do
         @service.list_domains.body
@@ -148,8 +148,8 @@ Shindo.tests('Fog::DNS[:rackspace] | DNS requests', ['rackspace', 'dns']) do
         @service.list_domain_details(@domain_id).body
       end
 
-      tests("modify_domain('#{@domain_id}', :ttl => 500, :comment => 'woot', :email_address => 'randomemail@randomhost.com')").succeeds do
-        response = @service.modify_domain @domain_id, :ttl => 500, :comment => 'woot', :email_address => 'randomemail@randomhost.com'
+      tests("modify_domain('#{@domain_id}', :ttl => 500, :comment => 'woot', :email => 'randomemail@randomhost.com')").succeeds do
+        response = @service.modify_domain @domain_id, :ttl => 500, :comment => 'woot', :email => 'randomemail@randomhost.com'
         wait_for response
       end
     end
@@ -159,7 +159,7 @@ Shindo.tests('Fog::DNS[:rackspace] | DNS requests', ['rackspace', 'dns']) do
     domain_tests(
       {
         :name => 'testdomainwithmultiplerecords.com',
-        :email_address => 'hostmaster@testdomainwithmultiplerecords.com',
+        :email => 'hostmaster@testdomainwithmultiplerecords.com',
         :records =>
           [
             {
@@ -182,16 +182,16 @@ Shindo.tests('Fog::DNS[:rackspace] | DNS requests', ['rackspace', 'dns']) do
   tests('success for multiple domains') do
     domains_tests(
       [
-        {:name => 'basictestdomain1.com', :email_address => 'hostmaster@basictestdomain1.com', :records => [{:ttl => 300, :name =>'basictestdomain1.com', :type => 'A', :data => '192.168.1.1'}]},
-        {:name => 'basictestdomain2.com', :email_address => 'hostmaster@basictestdomain2.com', :records => [{:ttl => 300, :name =>'basictestdomain2.com', :type => 'A', :data => '192.168.1.1'}]}
+        {:name => 'basictestdomain1.com', :email => 'hostmaster@basictestdomain1.com', :records => [{:ttl => 300, :name =>'basictestdomain1.com', :type => 'A', :data => '192.168.1.1'}]},
+        {:name => 'basictestdomain2.com', :email => 'hostmaster@basictestdomain2.com', :records => [{:ttl => 300, :name =>'basictestdomain2.com', :type => 'A', :data => '192.168.1.1'}]}
       ])
   end
 
   tests('success for domain with subdomain') do
     domains_tests(
       [
-        {:name => 'basictestdomain.com', :email_address => 'hostmaster@basictestdomain.com', :records => [{:ttl => 300, :name =>'basictestdomain.com', :type => 'A', :data => '192.168.1.1'}]},
-        {:name => 'subdomain.basictestdomain.com', :email_address => 'hostmaster@subdomain.basictestdomain.com', :records => [{:ttl => 300, :name =>'subdomain.basictestdomain.com', :type => 'A', :data => '192.168.1.1'}]}
+        {:name => 'basictestdomain.com', :email => 'hostmaster@basictestdomain.com', :records => [{:ttl => 300, :name =>'basictestdomain.com', :type => 'A', :data => '192.168.1.1'}]},
+        {:name => 'subdomain.basictestdomain.com', :email => 'hostmaster@subdomain.basictestdomain.com', :records => [{:ttl => 300, :name =>'subdomain.basictestdomain.com', :type => 'A', :data => '192.168.1.1'}]}
       ], true) do
 
       @root_domain_id = @domain_details.find { |domain| domain['name'] == 'basictestdomain.com' }['id']
@@ -229,7 +229,7 @@ Shindo.tests('Fog::DNS[:rackspace] | DNS requests', ['rackspace', 'dns']) do
   tests( 'failure') do
 
     tests('create_domain(invalid)').raises(Fog::Rackspace::Errors::BadRequest) do
-      wait_for @service.create_domains [{:name => 'badtestdomain.com', :email_address => '', :records => [{:ttl => 300, :name => 'badtestdomain.com', :type => 'A', :data => '192.168.1.1'}]}]
+      wait_for @service.create_domains [{:name => 'badtestdomain.com', :email => '', :records => [{:ttl => 300, :name => 'badtestdomain.com', :type => 'A', :data => '192.168.1.1'}]}]
     end
 
     tests('list_domains :limit => 5, :offset => 8').raises(Fog::Rackspace::Errors::BadRequest) do

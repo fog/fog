@@ -26,6 +26,7 @@ module Fog
       class InternalServerError < ServiceError; end
       class Conflict < ServiceError; end
       class NotFound < ServiceError; end
+      class ServiceUnavailable < ServiceError; end
 
       class BadRequest < ServiceError
         #TODO - Need to find a bette way to print out these validation errors when they are thrown

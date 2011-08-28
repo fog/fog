@@ -8,10 +8,14 @@ module Fog
           }
 
           domains.each do |domain|
-            data['domains'] << {
-              'name' => domain[:name],
-              'emailAddress' => domain[:email_address],
-              'recordsList' => {
+            domain_data =
+              {
+                'name' => domain[:name],
+                'emailAddress' => domain[:email]
+              }
+
+            if domain.has_key? :records
+              domain_data['recordsList'] = {
                 'records' => domain[:records].collect do |record|
                   record_data = {
                     'ttl' => record[:ttl],
@@ -27,7 +31,8 @@ module Fog
                   end
                 end
               }
-            }
+            end
+            data['domains'] << domain_data
           end
 
           request(

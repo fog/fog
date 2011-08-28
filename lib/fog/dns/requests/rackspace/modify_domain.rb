@@ -13,8 +13,8 @@ module Fog
           if options.has_key? :comment
             data['comment'] = options[:comment]
           end
-          if options.has_key? :email_address
-            data['emailAddress'] = options[:email_address]
+          if options.has_key? :email
+            data['emailAddress'] = options[:email]
           end
 
           if data.empty?
