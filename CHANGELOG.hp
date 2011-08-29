@@ -1,0 +1,18 @@
+0.0.8 08/29/2011
+================
+ - add README_HP.rdoc
+ - add CHANGELOG.hp
+ - remove resize_server, confirm_resized_server and revert_resized_server from HP Cloud Compute
+
+0.0.7 08/10/2011
+================
+ - minor fixes
+ - added acl support to directory
+ - added public? method to directory model
+ - added mock support for HP Cloud Object Storage
+
+0.0.6 07/26/2011
+================
+ - initial release with name change to 'hpfog'
+ - HP provider for HP Cloud Object Storage
+ - HP provider for HP Cloud Compute
