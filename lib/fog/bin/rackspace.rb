@@ -11,7 +11,9 @@ class Rackspace < Fog::Bin
         Fog::Storage::Rackspace
       when :load_balancers
         Fog::Rackspace::LoadBalancers
-      else 
+      when :dns
+        Fog::DNS::Rackspace
+      else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
     end
