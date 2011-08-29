@@ -23,6 +23,9 @@ module Fog
       when :gogrid
         require 'fog/go_grid/compute'
         Fog::Compute::GoGrid.new(attributes)
+      when :libvirt
+        require 'fog/libvirt/compute'
+        Fog::Compute::Libvirt.new(attributes)
       when :linode
         require 'fog/linode/compute'
         Fog::Compute::Linode.new(attributes)
@@ -47,9 +50,6 @@ module Fog
       when :virtualbox
         require 'fog/virtual_box/compute'
         Fog::Compute::VirtualBox.new(attributes)
-      when :libvirt
-        require 'fog/compute/libvirt'
-        Fog::Compute::Libvirt.new(attributes)
       when :voxel
         require 'fog/voxel/compute'
         Fog::Compute::Voxel.new(attributes)

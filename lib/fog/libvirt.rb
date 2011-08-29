@@ -5,7 +5,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'compute/libvirt')
+    service(:compute, 'libvirt/compute')
 
   end
 end

@@ -1,4 +1,4 @@
-require 'fog/compute/models/libvirt/uri'
+require 'fog/libvirt/models/compute/uri'
 
 module Fog
   module Compute
@@ -6,7 +6,7 @@ module Fog
 
       requires :libvirt_uri
 
-      model_path 'fog/compute/models/libvirt'
+      model_path 'fog/libvirt/models/compute'
       model       :server
       collection  :servers
       model       :network

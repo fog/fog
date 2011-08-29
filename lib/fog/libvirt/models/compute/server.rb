@@ -1,5 +1,5 @@
 require 'fog/core/model'
-require 'fog/compute/models/libvirt/util'
+require 'fog/libvirt/models/compute/util'
 require 'net/ssh/proxy/command'
 require 'rexml/document'
 require 'erb'

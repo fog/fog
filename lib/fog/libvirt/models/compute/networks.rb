@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/libvirt/network'
+require 'fog/libvirt/models/compute/network'
 
 module Fog
   module Compute
