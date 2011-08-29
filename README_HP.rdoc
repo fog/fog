@@ -1,0 +1,52 @@
+= HP Cloud Extensions to Ruby Fog Library
+
+The HP provides a native Ruby wrapper through an HP Cloud developed Ruby Fog provider. By using
+the HP Cloud Ruby library, developers can write applications using Ruby that interact with the
+HP Cloud Services without having to deal with the underlying REST API or XML document formats.
+
+== Background
+
+This library is an extension of Fog[https://github.com/geemus/fog], a Ruby open-source cloud
+computing library.
+
+Because the details of the HP Cloud Services are not formally announced, we are maintaining a
+running branch of the Fog library that contains all HP-specific support. When our formal
+product announcement comes and the services become publicly available, we intend to return our
+contributions to the primary open-source library.
+
+The HP Cloud Ruby library currently supports HP Cloud Object Storage and HP Cloud Compute, and
+support for other services will be added as available.
+
+== Installation
+
+1) Start by installing the software the HP Cloud Services Ruby Fog library depends on:
+
+* {Ruby 1.9.2 or Ruby 1.8.7}[http://www.ruby-lang.org/en/]
+* {RubyGems 1.3.7 or later}[http://docs.rubygems.org/read/chapter/3]
+
+2) {Download the HP Cloud Services Ruby Fog gem}[/downloads/hpfog.tar] and unpack it to a local directory.
+
+3) cd into the directory you downloaded the gem into during Step 2) and type:
+
+  gem install hpfog-<version>.gem
+
+where &lt;version&gt; is the version number of the downloaded and unpacked file, for example 0.0.7
+
+That's it! Try out the usage examples explained below to confirm your installation.
+
+If you should ever need to remove the library:
+
+    gem uninstall hpfog
+
+
+== Usage
+
+The Ruby Fog library is well documented on the community web site, but for specific examples
+using HP's extensions, see:
+
+* {HP Cloud Fog library - Object Storage Examples}[http://manage.hpcloud.com/pages/build/bindings/fog/object-storage-examples]
+* {HP Cloud Fog library - Compute Examples}[http://manage.hpcloud.com/pages/build/bindings/fog/compute-examples]
+
+
+
+
