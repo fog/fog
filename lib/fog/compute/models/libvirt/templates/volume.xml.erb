@@ -1,0 +1,14 @@
+<volume>
+        <name><%= name %></name>
+        <allocation unit="<%= allocation_unit %>"><%= allocation_size %>"></allocation>
+        <capacity unit="<%= capacity_unit %>"><%= capacity_size %>"></capacity>
+        <target>
+          <format type="<%= format_type %>"/>
+          <permissions>
+            <owner>0</owner>
+            <group>0</group>
+            <mode>0744</mode>
+            <label>virt_image_t</label>
+          </permissions>
+        </target>
+</volume>

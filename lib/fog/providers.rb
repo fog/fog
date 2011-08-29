@@ -26,3 +26,5 @@ require 'fog/vcloud'
 require 'fog/virtual_box'
 require 'fog/voxel'
 require 'fog/zerigo'
+
+require 'fog/providers/libvirt'
