@@ -18,19 +18,26 @@ module Fog
       end
 
       class Mock
-
         def post_session
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            'API-Version' => '2.3.1',
-            'Auth-Token' => 'thetoken=='
+            "status" => "success",
+            "data" => {
+              "token" => auth_token,
+              "version" => Fog::Dynect::Mock.version
+            },
+            "job_id" => Fog::Dynect::Mock.job_id,
+            "msgs"=>[{
+              "INFO"=>"login: Login successful",
+              "SOURCE"=>"BLL",
+              "ERR_CD"=>nil,
+              "LVL"=>"INFO"
+            }]
           }
           response
         end
-
       end
-
     end
   end
 end

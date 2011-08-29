@@ -20,6 +20,43 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def get_record(type, zone, fqdn, options = {})
+          raise ArgumentError unless [
+            'AAAA', 'ANY', 'A', 'CNAME',
+            'DHCID', 'DNAME', 'DNSKEY',
+            'DS', 'KEY', 'LOC', 'MX',
+            'NSA', 'NS', 'PTR', 'PX',
+            'RP', 'SOA', 'SPF', 'SRV',
+            'SSHFP', 'TXT'
+          ].include? type
+          raise Fog::Dynect::DNS::NotFound unless zone = self.data[:zones][zone]
+
+          response = Excon::Response.new
+          response.status = 200
+
+          if record_id = options[:record_id]
+            raise Fog::Dynect::DNS::NotFound unless record = zone[:records][type].first { |record| record[:record_id] == record_id }
+            response.body = {}
+          else
+            records = zone[:records][type].select { |record| record[:fqdn] == fqdn }
+            response.body = {
+              "status" => "success",
+              "data" => records.collect { |record| "/REST/ARecord/#{record[:zone]}/#{record[:fqdn]}/#{record[:record_id]}" },
+              "job_id" => Fog::Dynect::Mock.job_id,
+              "msgs" => [{
+                "INFO" => "detail: Found #{records.size} record",
+                "SOURCE" => "BLL",
+                "ERR_CD" => nil,
+                "LVL" => "INFO"
+              }]
+            }
+          end
+
+          response
+        end
+      end
     end
   end
 end

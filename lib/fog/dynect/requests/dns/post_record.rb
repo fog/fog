@@ -22,6 +22,54 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def post_record(type, zone, fqdn, rdata, options = {})
+          raise Fog::Dynect::DNS::NotFound unless zone = self.data[:zones][zone]
+
+          records = zone[:records] ||= Hash.new do |hash, type|
+            hash[type] = []
+          end
+
+          record_id = zone[:next_record_id]
+          zone[:next_record_id] += 1
+
+          record = {
+            :type => type,
+            :zone => zone,
+            :fqdn => fqdn,
+            :rdata => rdata,
+            :ttl => options[:ttl] || zone[:ttl],
+            :record_id => record_id
+          }
+
+          records[type] << record
+
+          response = Excon::Response.new
+          response.status = 200
+
+          response.body = {
+            "status" => "success",
+            "data" => {
+              "zone" => record[:zone][:zone],
+              "ttl" => record[:ttl],
+              "fqdn" => record[:fqdn],
+              "record_type" => record[:type],
+              "rdata" => record[:rdata],
+              "record_id" => record[:record_id]
+           },
+           "job_id" => Fog::Dynect::Mock.job_id,
+           "msgs" => [{
+             "INFO"=>"add: Record added",
+             "SOURCE"=>"BLL",
+             "ERR_CD"=>nil,
+             "LVL"=>"INFO"
+           }]
+          }
+
+          response
+        end
+      end
     end
   end
 end
