@@ -1,39 +1,12 @@
+
 module Fog
   module Rackspace
     class LoadBalancers < Fog::Service
 
-      class ServiceError < Fog::Errors::Error
-        attr_reader :response_data
-
-        def self.slurp(error)
-          if error.response.body.empty?
-            data = nil
-            message = nil
-          else
-            data = MultiJson.decode(error.response.body)
-            message = data['message']
-          end
-
-          new_error = super(error, message)
-          new_error.instance_variable_set(:@response_data, data)
-          new_error
-        end
-      end
-
-      class InternalServerError < ServiceError; end
-
-      class BadRequest < ServiceError
-        #TODO - Need to find a bette way to print out these validation errors when they are thrown
-        attr_reader :validation_errors
-
-        def self.slurp(error)
-          new_error = super(error)
-          unless new_error.response_data.nil?
-            new_error.instance_variable_set(:@validation_errors, new_error.response_data['validationErrors'])
-          end
-          new_error
-        end
-      end
+      #These references exist for backwards compatibility
+      class ServiceError < Fog::Rackspace::Errors::ServiceError; end
+      class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
+      class BadRequest < Fog::Rackspace::Errors::BadRequest; end
 
       DFW_ENDPOINT = 'https://dfw.loadbalancers.api.rackspacecloud.com/v1.0/'
       ORD_ENDPOINT = 'https://ord.loadbalancers.api.rackspacecloud.com/v1.0/'
