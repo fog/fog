@@ -1,5 +1,5 @@
 require 'fog/core/model'
-require 'fog/dns/models/rackspace/callback'
+require 'fog/rackspace/models/dns/callback'
 
 module Fog
   module DNS

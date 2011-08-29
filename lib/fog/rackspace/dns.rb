@@ -9,13 +9,13 @@ module Fog
       recognizes :rackspace_auth_url
       recognizes :rackspace_auth_token
 
-      model_path 'fog/dns/models/rackspace'
+      model_path 'fog/rackspace/models/dns'
       model       :record
       collection  :records
       model       :zone
       collection  :zones
 
-      request_path 'fog/dns/requests/rackspace'
+      request_path 'fog/rackspace/requests/dns'
       #TODO - Import/Export, modify multiple domains, modify multiple records
       request :callback
       request :list_domains
