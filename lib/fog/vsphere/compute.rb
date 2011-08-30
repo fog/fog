@@ -19,7 +19,14 @@ module Fog
       class Mock
 
         def initialize(options={})
-          Fog::Mock.not_implemented
+          require 'mocha'
+          @vsphere_username = options[:vsphere_username]
+          @vsphere_password = options[:vsphere_password]
+          @vsphere_server   = options[:vsphere_server]
+          @vsphere_expected_pubkey_hash = options[:vsphere_expected_pubkey_hash]
+          @connection = Mocha::Mock.new
+          # This may, or may not, be a terrible idea:
+          @connection.stub_everything
         end
 
       end
