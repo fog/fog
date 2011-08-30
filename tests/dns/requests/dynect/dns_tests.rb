@@ -110,6 +110,23 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       data
     end
 
+    get_record_format = shared_format.merge({
+      'data' => {
+        'zone' => String,
+        'ttl' => Integer,
+        'fqdn' => String,
+        'record_type' => String,
+        'rdata' => {
+          'address' => String
+        },
+        'record_id' => Integer
+      }
+    })
+
+    tests("get_record('A', '#{@domain}', '#{@fqdn}', 'record_id' => '#{@record_id}')").formats(get_record_format) do
+      @dns.get_record('A', @domain, @fqdn, 'record_id' => @record_id).body
+    end
+
     delete_record_format = shared_format.merge({
       'data' => {}
     })
