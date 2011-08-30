@@ -7,6 +7,7 @@ module Fog
 
     module Errors
       class ServiceError < Fog::Errors::Error; end
+      class SecurityError < ServiceError; end
     end
 
     service(:compute, 'vsphere/compute')
