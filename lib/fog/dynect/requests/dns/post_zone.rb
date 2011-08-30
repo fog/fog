@@ -30,8 +30,11 @@ module Fog
 
       class Mock
         def post_zone(rname, ttl, zone, options = {})
-          new_zone = {
+          new_zone = self.data[:zones][zone] = {
             :next_record_id => 0,
+            :records => Hash.new do |records_hash, type|
+              records_hash[type] = []
+            end,
             :records_to_delete => [],
             :rname => rname,
             :serial_style => options[:serial_style] || "increment",
@@ -40,8 +43,6 @@ module Fog
             :zone => zone,
             :zone_type => "Primary"
           }
-
-          self.data[:zones][zone] = new_zone
 
           response = Excon::Response.new
           response.status = 200

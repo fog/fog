@@ -27,10 +27,7 @@ module Fog
         def post_record(type, zone, fqdn, rdata, options = {})
           raise Fog::Dynect::DNS::NotFound unless zone = self.data[:zones][zone]
 
-          records = zone[:records] ||= Hash.new do |hash, type|
-            hash[type] = []
-          end
-
+          records = zone[:records]
           record_id = zone[:next_record_id]
           zone[:next_record_id] += 1
 
