@@ -56,6 +56,9 @@ module Fog
       when :voxel
         require 'fog/voxel/compute'
         Fog::Compute::Voxel.new(attributes)
+      when :vsphere
+        require 'fog/vsphere/compute'
+        Fog::Compute::Vsphere.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized compute provider")
       end
