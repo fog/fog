@@ -79,7 +79,7 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       @dns.post_record('A', @domain, @fqdn, {'address' => '1.2.3.4'}, {}).body
     end
 
-    put_zone_format = shared_format.merge({
+    publish_zone_format = shared_format.merge({
       'data' => {
         'serial'        => Integer,
         'serial_style'  => String,
@@ -88,8 +88,24 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       }
     })
 
-    tests("put_zone('#{@domain}', :publish => true)").formats(put_zone_format) do
-      @dns.put_zone(@domain, :publish => true).body
+    tests("put_zone('#{@domain}', 'publish' => true)").formats(publish_zone_format) do
+      @dns.put_zone(@domain, 'publish' => true).body
+    end
+
+    freeze_zone_format = shared_format.merge({
+      'data' => {}
+    })
+
+    tests("put_zone('#{@domain}', 'freeze' => true)").formats(freeze_zone_format) do
+      @dns.put_zone(@domain, 'freeze' => true).body
+    end
+
+    thaw_zone_format = shared_format.merge({
+      'data' => {}
+    })
+
+    tests("put_zone('#{@domain}', 'thaw' => true)").formats(thaw_zone_format) do
+      @dns.put_zone(@domain, 'thaw' => true).body
     end
 
     get_node_list_format = shared_format.merge({
