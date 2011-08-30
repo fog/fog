@@ -68,12 +68,12 @@ module Fog
           if filters.delete('owner-alias')
             Formatador.display_line("[yellow][WARN] describe_snapshots with owner-alias is not mocked[/] [light_black](#{caller.first})[/]")
           end
-          if filters.delete('RestorableBy')
-            Formatador.display_line("[yellow][WARN] describe_snapshots with RestorableBy is not mocked[/] [light_black](#{caller.first})[/]")
+          if (restorable_by = filters.delete('RestorableBy')) && restorable_by != 'self'
+            Formatador.display_line("[yellow][WARN] describe_snapshots with RestorableBy other than 'self' (wanted #{restorable_by.inspect}) is not mocked[/] [light_black](#{caller.first})[/]")
           end
 
           snapshot_set = apply_tag_filters(snapshot_set, filters)
-          
+
           aliases = {
             'description' => 'description',
             'owner-id'    => 'ownerId',
@@ -84,12 +84,12 @@ module Fog
             'volume-id'   => 'volumeId',
             'volume-size' => 'volumeSize'
           }
-          
+
           for filter_key, filter_value in filters
             aliased_key = aliases[filter_key]
             snapshot_set = snapshot_set.reject{|snapshot| ![*filter_value].include?(snapshot[aliased_key])}
           end
-          
+
           snapshot_set.each do |snapshot|
             case snapshot['status']
             when 'in progress', 'pending'
