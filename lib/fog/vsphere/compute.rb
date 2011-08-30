@@ -8,6 +8,9 @@ module Fog
       recognizes :vsphere_port, :vsphere_path, :vsphere_ns
       recognizes :vsphere_rev, :vsphere_ssl, :vsphere_expected_pubkey_hash
 
+      request_path 'fog/vsphere/requests/compute'
+      request :current_time
+
       class Mock
 
         def initialize(options={})
