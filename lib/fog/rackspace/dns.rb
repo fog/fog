@@ -91,7 +91,7 @@ module Fog
 
         def validate_path_fragment(name, fragment)
           if fragment.nil? or fragment.to_s.empty?
-            raise ArgumentError.new ("#{name} cannot be null or empty")
+            raise ArgumentError.new("#{name} cannot be null or empty")
           end
         end
       end
