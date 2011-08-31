@@ -51,6 +51,8 @@ module Fog
           @ninefold_storage_secret = options[:ninefold_storage_secret]
           @ninefold_storage_secret_decoded = Base64.decode64( @ninefold_storage_secret )
 
+          @hmac = Fog::HMAC.new('sha1', @ninefold_storage_secret_decoded)
+
           Excon.ssl_verify_peer = false if options[:rackspace_servicenet] == true
           @connection = Fog::Connection.new("#{Fog::Storage::Ninefold::STORAGE_SCHEME}://#{Fog::Storage::Ninefold::STORAGE_HOST}:#{Fog::Storage::Ninefold::STORAGE_PORT}", true) # persistent
         end
@@ -60,7 +62,7 @@ module Fog
         end
 
         def sign(string)
-          value = ::HMAC::SHA1.digest( @ninefold_storage_secret_decoded, string )
+          value = @hmac.sign(string)
           Base64.encode64( value ).chomp()
         end
 
@@ -117,7 +119,7 @@ module Fog
             signstring += key + ":" + value.strip.chomp.squeeze( " " ) + "\n"
           }
 
-          digest = ::HMAC::SHA1.digest( @ninefold_storage_secret_decoded, signstring.chomp() )
+          digest = @hmac.sign(signstring.chomp())
           signature = Base64.encode64( digest ).chomp()
           params[:headers]["x-emc-signature"] = signature
 
