@@ -20,16 +20,22 @@ module Fog
         #   'GroupId'<~Array> - One or more groups to add instance to (VPC only)
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-ModifyInstanceAttribute.html]
-        #
-        def modify_instance_attributes(instance_id, attributes)
+        #        
+        def modify_instance_attribute(instance_id, attributes)
           params = {}
-          params.merge!(Fog::AWS.indexed_param('GroupId', attributes['GroupId'] || []))
+          params.merge!(Fog::AWS.indexed_param('GroupId', attributes.delete('GroupId') || []))
+          params.merge!(attributes)
           request({
             'Action'        => 'ModifyInstanceAttribute',
             'InstanceId'    => instance_id,
             :idempotent     => true,
             :parser         => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(params))
+        end
+        
+        def modify_instance_attributes(instance_id, attributes)
+          Formatador.display_line("[yellow][WARN] modify_instance_attributes method is deprecated, use 'modify_instance_attribute' instead[/]")
+          modify_instance_attribute(instance_id, attributes)
         end
 
       end
