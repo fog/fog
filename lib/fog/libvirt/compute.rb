@@ -1,3 +1,6 @@
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'libvirt'))
+require 'fog/compute'
+
 require 'fog/libvirt/models/compute/uri'
 
 module Fog

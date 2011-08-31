@@ -1,5 +1,5 @@
-require 'base64'
-require 'hmac-sha1'
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'ninefold'))
+require 'fog/storage'
 
 module Fog
   module Storage

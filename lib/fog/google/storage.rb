@@ -1,3 +1,6 @@
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'google'))
+require 'fog/storage'
+
 module Fog
   module Storage
     class Google < Fog::Service

@@ -1,3 +1,6 @@
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'virtual_box'))
+require 'fog/compute'
+
 module Fog
   module Compute
     class VirtualBox < Fog::Service

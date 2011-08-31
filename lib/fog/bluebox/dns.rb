@@ -1,3 +1,6 @@
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'bluebox'))
+require 'fog/dns'
+
 module Fog
   module DNS
     class Bluebox < Fog::Service

@@ -1,3 +1,6 @@
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'rackspace'))
+require 'fog/cdn'
+
 module Fog
   module CDN
     class Rackspace < Fog::Service

@@ -1,11 +1,3 @@
-module Fog
-
-  def self.providers
-    @providers ||= []
-  end
-
-end
-
 require 'fog/aws'
 require 'fog/bluebox'
 require 'fog/brightbox'

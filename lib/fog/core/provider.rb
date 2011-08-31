@@ -1,4 +1,9 @@
 module Fog
+
+  def self.providers
+    @providers ||= []
+  end
+
   module Provider
 
     def self.extended(base)

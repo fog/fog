@@ -1,3 +1,6 @@
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'storage'))
+require 'fog/storage'
+
 module Fog
   module Storage
     class Local < Fog::Service
