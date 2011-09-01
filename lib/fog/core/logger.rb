@@ -5,6 +5,14 @@ module Fog
       :warning => ::STDOUT
     }
 
+    def self.[](channel)
+      @channels[channel]
+    end
+
+    def self.[]=(channel, value)
+      @channels[channel] = value
+    end
+
     def self.debug(message)
       self.write(:debug, "[light_black][DEBUG] #{message}[/]")
     end
