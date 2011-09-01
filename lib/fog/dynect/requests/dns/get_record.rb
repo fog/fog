@@ -60,7 +60,7 @@ module Fog
             records = zone[:records][type].select { |record| record[:fqdn] == fqdn }
             response.body = {
               "status" => "success",
-              "data" => records.collect { |record| "/REST/ARecord/#{record[:zone]}/#{record[:fqdn]}/#{record[:record_id]}" },
+              "data" => records.collect { |record| "/REST/ARecord/#{record[:zone][:zone]}/#{record[:fqdn]}/#{record[:record_id]}" },
               "job_id" => Fog::Dynect::Mock.job_id,
               "msgs" => [{
                 "INFO" => "detail: Found #{records.size} record",
