@@ -34,7 +34,7 @@ module Fog
 
         def publish
           requires :identity
-          data = connection.put_zone(identity, :publish => true)
+          data = connection.put_zone(identity, 'publish' => true)
           true
         end
 
