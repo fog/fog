@@ -73,7 +73,7 @@ module Fog
         end
 
         def ready?
-          self.state == 'running'
+          check_state() == "running"
         end
 
         def reboot(type = 'SOFT')
@@ -124,6 +124,11 @@ module Fog
           @username ||= 'deploy'
         end
 
+        private
+        def check_state()
+          requires :id
+          state = connection.get_block(id).body["status"]
+        end
       end
 
     end
