@@ -126,6 +126,12 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       data
     end
 
+    @dns.post_record('CNAME', @domain, @fqdn, {'address' => '1.2.3.4'}, {})
+
+    tests("get_record('ANY', '#{@domain}', '#{@fqdn}')").formats(get_records_format) do
+      @dns.get_record('ANY', @domain, @fqdn)
+    end
+
     get_record_format = shared_format.merge({
       'data' => {
         'zone' => String,

@@ -57,7 +57,11 @@ module Fog
               }]
             }
           else
-            records = zone[:records][type].select { |record| record[:fqdn] == fqdn }
+            records = if type == "ANY"
+                        zone[:records].values.flatten.select { |record| record[:fqdn] == fqdn }
+                      else
+                        zone[:records][type].select { |record| record[:fqdn] == fqdn }
+                      end
             response.body = {
               "status" => "success",
               "data" => records.collect { |record| "/REST/#{record[:type]}Record/#{record[:zone][:zone]}/#{record[:fqdn]}/#{record[:record_id]}" },
