@@ -27,6 +27,45 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def post_zone(rname, ttl, zone, options = {})
+          new_zone = self.data[:zones][zone] = {
+            :next_record_id => 0,
+            :records => Hash.new do |records_hash, type|
+              records_hash[type] = []
+            end,
+            :records_to_delete => [],
+            :rname => rname,
+            :serial_style => options[:serial_style] || "increment",
+            :serial => 0,
+            :ttl => ttl,
+            :zone => zone,
+            :zone_type => "Primary"
+          }
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "status" => "success",
+            "data" => {
+              "zone_type" => new_zone[:zone_type],
+              "serial_style" => new_zone[:serial_style],
+              "serial" => new_zone[:serial],
+              "zone" => zone
+            },
+            "job_id" => Fog::Dynect::Mock.job_id,
+            "msgs" => [{
+              "INFO" => "create: New zone #{zone} created.  Publish it to put it on our server.",
+              "SOURCE" => "BLL",
+              "ERR_CD" => nil,
+              "LVL" => "INFO"
+            }]
+          }
+
+          response
+        end
+      end
     end
   end
 end
