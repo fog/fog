@@ -31,13 +31,13 @@ module Fog
             'RP', 'SOA', 'SPF', 'SRV',
             'SSHFP', 'TXT'
           ].include? type
-          raise Fog::Dynect::DNS::NotFound unless zone = self.data[:zones][zone]
+          raise Fog::DNS::Dynect::NotFound unless zone = self.data[:zones][zone]
 
           response = Excon::Response.new
           response.status = 200
 
           if record_id = options['record_id']
-            raise Fog::Dynect::DNS::NotFound unless record = zone[:records][type].first { |record| record[:record_id] == record_id }
+            raise Fog::DNS::Dynect::NotFound unless record = zone[:records][type].first { |record| record[:record_id] == record_id }
             response.body = {
               "status" => "success",
               "data" => {

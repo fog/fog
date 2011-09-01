@@ -24,7 +24,7 @@ module Fog
 
       class Mock
         def put_zone(zone, options = {})
-          raise Fog::Dynect::DNS::NotFound unless zone = self.data[:zones][zone]
+          raise Fog::DNS::Dynect::NotFound unless zone = self.data[:zones][zone]
 
           raise ArgumentError unless options.size == 1
 

@@ -21,7 +21,7 @@ module Fog
 
       class Mock
         def get_node_list(zone, options = {})
-          raise Fog::Dynect::DNS::NotFound unless zone = self.data[:zones][zone]
+          raise Fog::DNS::Dynect::NotFound unless zone = self.data[:zones][zone]
 
           response = Excon::Response.new
           response.status = 200
