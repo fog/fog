@@ -20,7 +20,8 @@ module Fog
 
       class Mock
         def get_zone(options = {})
-          if options['zone'] && zone = self.data[:zones][options['zone']]
+          if options['zone']
+            raise Fog::DNS::Dynect::NotFound unless zone = self.data[:zones][options['zone']]
             data = {
               "zone_type" => zone[:zone_type],
               "serial_style" => zone[:serial_style],
