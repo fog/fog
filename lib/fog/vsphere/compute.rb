@@ -8,8 +8,13 @@ module Fog
       recognizes :vsphere_port, :vsphere_path, :vsphere_ns
       recognizes :vsphere_rev, :vsphere_ssl, :vsphere_expected_pubkey_hash
 
+      model_path 'fog/vsphere/models/compute'
+      model :server
+      collection :servers
+
       request_path 'fog/vsphere/requests/compute'
       request :current_time
+      request :list_virtual_machines
 
       class Mock
 
