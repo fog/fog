@@ -1,7 +1,5 @@
 Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
 
-  pending if Fog.mocking?
-
   shared_format = {
     'job_id' => Integer,
     'msgs' => [{
@@ -81,7 +79,7 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       @dns.post_record('A', @domain, @fqdn, {'address' => '1.2.3.4'}, {}).body
     end
 
-    put_zone_format = shared_format.merge({
+    publish_zone_format = shared_format.merge({
       'data' => {
         'serial'        => Integer,
         'serial_style'  => String,
@@ -90,8 +88,24 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       }
     })
 
-    tests("put_zone('#{@domain}', :publish => true)").formats(put_zone_format) do
-      @dns.put_zone(@domain, :publish => true).body
+    tests("put_zone('#{@domain}', 'publish' => true)").formats(publish_zone_format) do
+      @dns.put_zone(@domain, 'publish' => true).body
+    end
+
+    freeze_zone_format = shared_format.merge({
+      'data' => {}
+    })
+
+    tests("put_zone('#{@domain}', 'freeze' => true)").formats(freeze_zone_format) do
+      @dns.put_zone(@domain, 'freeze' => true).body
+    end
+
+    thaw_zone_format = shared_format.merge({
+      'data' => {}
+    })
+
+    tests("put_zone('#{@domain}', 'thaw' => true)").formats(thaw_zone_format) do
+      @dns.put_zone(@domain, 'thaw' => true).body
     end
 
     get_node_list_format = shared_format.merge({
@@ -112,6 +126,23 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       data
     end
 
+    get_record_format = shared_format.merge({
+      'data' => {
+        'zone' => String,
+        'ttl' => Integer,
+        'fqdn' => String,
+        'record_type' => String,
+        'rdata' => {
+          'address' => String
+        },
+        'record_id' => Integer
+      }
+    })
+
+    tests("get_record('A', '#{@domain}', '#{@fqdn}', 'record_id' => '#{@record_id}')").formats(get_record_format) do
+      @dns.get_record('A', @domain, @fqdn, 'record_id' => @record_id).body
+    end
+
     delete_record_format = shared_format.merge({
       'data' => {}
     })
@@ -124,9 +155,10 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       'data' => {}
     })
 
+    sleep 3 unless Fog.mocking?
+
     tests("delete_zone('#{@domain}')").formats(delete_zone_format) do
       @dns.delete_zone(@domain).body
     end
-
   end
 end

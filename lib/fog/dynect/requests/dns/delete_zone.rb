@@ -16,6 +16,27 @@ module Fog
           )
         end
       end
+
+      class Mock
+        def delete_zone(zone)
+          self.data[:zones].delete(zone)
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "status" => "success",
+            "data" => {},
+            "job_id" => Fog::Dynect::Mock.job_id,
+            "msgs" => [{
+              "ERR_CD" => '',
+              "INFO" => '',
+              "LVL" => '',
+              "SOURCE" => ''
+            }]
+          }
+          response
+        end
+      end
     end
   end
 end

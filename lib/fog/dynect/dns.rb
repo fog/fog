@@ -27,13 +27,33 @@ module Fog
       request :put_zone
 
       class Mock
-
         def initialize(options={})
           @dynect_customer = options[:dynect_customer]
           @dynect_username = options[:dynect_username]
           @dynect_password = options[:dynect_password]
         end
 
+        def self.data
+          @data ||= {
+            :zones => {}
+          }
+        end
+
+        def self.reset
+          @data = nil
+        end
+
+        def auth_token
+          @auth_token ||= Fog::Dynect::Mock.token
+        end
+
+        def data
+          self.class.data
+        end
+
+        def reset_data
+          self.class.reset
+        end
       end
 
       class Real
