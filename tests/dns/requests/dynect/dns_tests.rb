@@ -155,6 +155,8 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       'data' => {}
     })
 
+    sleep 3 unless Fog.mocking?
+
     tests("delete_zone('#{@domain}')").formats(delete_zone_format) do
       @dns.delete_zone(@domain).body
     end
