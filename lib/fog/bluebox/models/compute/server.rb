@@ -17,7 +17,7 @@ module Fog
         attribute :image_id
         attribute :ips
         attribute :memory
-        attribute :state,       :aliases => :status
+        attribute :state,       :aliases => "status"
         attribute :storage
         attribute :template
 
