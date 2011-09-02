@@ -2,7 +2,7 @@ require 'fog/core/model'
 
 module Fog
   module AWS
-    class ACS
+    class Elasticache
 
       class SecurityGroup < Fog::Model
 
@@ -30,15 +30,19 @@ module Fog
         def authorize_ec2_group(group_name, group_owner_id=owner_id)
           requires :id
           requires :owner_id if group_owner_id.nil?
-          data = connection.authorize_cache_security_group_ingress(id, group_name, group_owner_id).body['CacheSecurityGroup']
-          merge_attributes(data)
+          data = connection.authorize_cache_security_group_ingress(
+            id, group_name, group_owner_id
+          )
+          merge_attributes(data.body['CacheSecurityGroup'])
         end
 
         def revoke_ec2_group(group_name, group_owner_id=owner_id)
           requires :id
           requires :owner_id if group_owner_id.nil?
-          data = connection.revoke_cache_security_group_ingress(id, group_name, group_owner_id).body['CacheSecurityGroup']
-          merge_attributes(data)
+          data = connection.revoke_cache_security_group_ingress(
+            id, group_name, group_owner_id
+          )
+          merge_attributes(data.body['CacheSecurityGroup'])
         end
 
       end

@@ -9,13 +9,17 @@ module Fog
         model Fog::AWS::Elasticache::SecurityGroup
 
         def all
-          data = connection.describe_cache_security_groups.body['CacheSecurityGroups']
-          load(data)
+          load(
+            connection.describe_cache_security_groups.body['CacheSecurityGroups']
+          )
         end
 
         def get(identity)
-          data = connection.describe_cache_security_groups('CacheSecurityGroupName' => identity).body['CacheSecurityGroups'].first
-          new(data)
+          new(
+            connection.describe_cache_security_groups(
+              'CacheSecurityGroupName' => identity
+            ).body['CacheSecurityGroups'].first
+          )
         rescue Fog::AWS::Elasticache::NotFound
           nil
         end
