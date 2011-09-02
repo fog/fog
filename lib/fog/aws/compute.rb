@@ -93,7 +93,7 @@ module Fog
       class Real
 
         def modify_image_attributes(*params)
-          Formatador.display_line("[yellow][WARN] modify_image_attributes is deprecated, use modify_image_attribute instead[/] [light_black](#{caller.first})[/]")
+          Fog::Logger.warning("modify_image_attributes is deprecated, use modify_image_attribute instead [light_black](#{caller.first})[/]")
           modify_image_attribute(*params)
         end
 

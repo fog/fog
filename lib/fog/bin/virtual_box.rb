@@ -14,7 +14,7 @@ module VirtualBox # deviates from other bin stuff to accomodate gem
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
-          Formatador.display_line("[yellow][WARN] VirtualBox[:compute] is deprecated, use Compute[:virtualbox] instead[/]")
+          Fog::Logger.warning("VirtualBox[:compute] is deprecated, use Compute[:virtualbox] instead")
           Fog::Compute.new(:provider => 'VirtualBox')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

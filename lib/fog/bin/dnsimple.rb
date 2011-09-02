@@ -14,7 +14,7 @@ class DNSimple < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :dns
-          Formatador.display_line("[yellow][WARN] DNSimple[:dns] is deprecated, use Storage[:dnsimple] instead[/]")
+          Fog::Logger.warning("DNSimple[:dns] is deprecated, use Storage[:dnsimple] instead")
           Fog::DNS.new(:provider => 'DNSimple')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

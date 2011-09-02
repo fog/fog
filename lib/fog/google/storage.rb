@@ -45,7 +45,7 @@ module Fog
         end
 
         def url(params, expires)
-          Formatador.display_line("[yellow][WARN] Fog::Storage::Google => #url is deprecated, use #https_url instead[/] [light_black](#{caller.first})[/]")
+          Fog::Logger.warning("Fog::Storage::Google => #url is deprecated, use #https_url instead [light_black](#{caller.first})[/]")
           https_url(params, expires)
         end
 
@@ -227,7 +227,7 @@ DATA
 
           subdomain = params[:host].split(".#{@host}").first
           unless subdomain =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
-            Formatador.display_line("[yellow][WARN] fog: the specified google storage bucket name(#{subdomain}) is not a valid dns name.  See: http://code.google.com/apis/storage/docs/developer-guide.html#naming[/]")
+            Fog::Logger.warning("fog: the specified google storage bucket name(#{subdomain}) is not a valid dns name.  See: http://code.google.com/apis/storage/docs/developer-guide.html#naming")
             params[:host] = params[:host].split("#{subdomain}.")[-1]
             if params[:path]
               params[:path] = "#{subdomain}/#{params[:path]}"

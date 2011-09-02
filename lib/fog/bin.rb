@@ -19,8 +19,7 @@ module Fog
             service = self.class_for(service)
             availability &&= service.requirements.all? { |requirement| Fog.credentials.include?(requirement) }
           rescue ArgumentError => e
-            warning = "[yellow][WARN] #{e.message}[/]"
-            Formatador.display_line(warning)
+            Fog::Logger.warning(e.message)
             availability = false
           rescue => e
             availability = false
