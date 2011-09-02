@@ -15,6 +15,8 @@ module Fog
       request_path 'fog/vsphere/requests/compute'
       request :current_time
       request :list_virtual_machines
+      request :find_all_by_uuid
+      request :find_all_by_instance_uuid
 
       class Mock
 
