@@ -58,9 +58,12 @@ module Fog
             filters = {'instance-id' => [*filters]}
           end
           params = {}
-          # when seeking single instance id, old param style provides more accurate data sooner
-          if filters['instance-id'] && !filters['instance-id'].is_a?(Array)
-            params.merge!('InstanceId' => filters.delete('instance-id'))
+          if filters['instance-id']
+            instance_ids = filters.delete('instance-id')
+            instance_ids = [instance_ids] unless instance_ids.is_a?(Array)
+            instance_ids.each_with_index do |id, index|
+              params.merge!("InstanceId.#{index}" => id)
+            end
           end
           params.merge!(Fog::AWS.indexed_filters(filters))
 
