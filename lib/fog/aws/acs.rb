@@ -55,7 +55,7 @@ module Fog
           options[:region] ||= 'us-east-1'
           @host = options[:host] || case options[:region]
           when 'us-east-1'
-            'acsvc.us-east-1.amazonaws.com'
+            'elasticache.us-east-1.amazonaws.com'
             #TODO: Support other regions
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
@@ -105,7 +105,7 @@ module Fog
               when 'CacheSecurityGroupAlreadyExists'
                 raise Fog::AWS::ACS::IdentifierTaken
               when 'InvalidParameterValue'
-                raise Fog::AWS::ACE::InvalidInstance
+                raise Fog::AWS::ACS::InvalidInstance
               else
                 raise
               end

@@ -9,7 +9,7 @@ class AWS
       SECURITY_GROUP = {
         'EC2SecurityGroups' => Array,
         'CacheSecurityGroupName' => String,
-        'CacheSecurityGroupDescription' => String,
+        'Description' => String,
         'OwnerId' => String
       }
 

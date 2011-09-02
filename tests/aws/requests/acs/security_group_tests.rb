@@ -10,7 +10,7 @@ Shindo.tests('AWS::ACS | security group requests', ['aws', 'acs']) do
       body = AWS[:acs].create_cache_security_group(name, description).body
       group = body['CacheSecurityGroup']
       returns(name)        { group['CacheSecurityGroupName'] }
-      returns(description) { group['CacheSecurityGroupDescription'] }
+      returns(description) { group['Description'] }
       returns([], "no authorized security group") { group['EC2SecurityGroups'] }
       body
     end

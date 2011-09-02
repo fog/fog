@@ -7,7 +7,7 @@ module Fog
       class SecurityGroup < Fog::Model
 
         identity :id, :aliases => 'CacheSecurityGroupName'
-        attribute :description, :aliases => 'CacheSecurityGroupDescription'
+        attribute :description, :aliases => 'Description'
         attribute :ec2_groups, :aliases => 'EC2SecurityGroups', :type => :array
         attribute :owner_id, :aliases => 'OwnerId'
 
