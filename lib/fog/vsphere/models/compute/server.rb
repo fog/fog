@@ -53,6 +53,23 @@ module Fog
             }
         end
 
+        def start
+          requires :instance_uuid
+          connection.vm_power_on(:instance_uuid => instance_uuid)
+        end
+
+        def stop(params = {})
+          params = { :force => false }.merge(params)
+          requires :instance_uuid
+          connection.vm_power_off(:instance_uuid => instance_uuid, :force => params[:force])
+        end
+
+        def reboot(params = {})
+          params = { :force => false }.merge(params)
+          requires :instance_uuid
+          connection.vm_reboot(:instance_uuid => instance_uuid, :force => params[:force])
+        end
+
       end
 
     end

@@ -15,6 +15,9 @@ module Fog
       request_path 'fog/vsphere/requests/compute'
       request :current_time
       request :list_virtual_machines
+      request :vm_power_off
+      request :vm_power_on
+      request :vm_reboot
       request :find_all_by_uuid
       request :find_all_by_instance_uuid
 
