@@ -1,6 +1,6 @@
 module Fog
   module AWS
-    class ACS < Fog::Service
+    class Elasticache < Fog::Service
 
       class IdentifierTaken < Fog::Errors::Error; end
 
@@ -63,7 +63,9 @@ module Fog
           @path       = options[:path]      || '/'
           @port       = options[:port]      || 443
           @scheme     = options[:scheme]    || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
+          @connection = Fog::Connection.new(
+            "#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent]
+          )
         end
 
         def reload
@@ -101,11 +103,11 @@ module Fog
             if match = error.message.match(/<Code>(.*)<\/Code>/m)
               case match[1]
               when 'CacheSecurityGroupNotFound'
-                raise Fog::AWS::ACS::NotFound
+                raise Fog::AWS::Elasticache::NotFound
               when 'CacheSecurityGroupAlreadyExists'
-                raise Fog::AWS::ACS::IdentifierTaken
+                raise Fog::AWS::Elasticache::IdentifierTaken
               when 'InvalidParameterValue'
-                raise Fog::AWS::ACS::InvalidInstance
+                raise Fog::AWS::Elasticache::InvalidInstance
               else
                 raise
               end
