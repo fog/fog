@@ -23,7 +23,7 @@ module Fog
         #     * 'NextToken'<~String> - offset to start with if there are are more domains to list
         def select(select_expression, options = {})
           if options.is_a?(String)
-            Formatador.display_line("[yellow][WARN] get_attributes with string next_token param is deprecated, use 'AttributeName' => attributes) instead[/] [light_black](#{caller.first})[/]")
+            Fog::Logger.warning("get_attributes with string next_token param is deprecated, use 'AttributeName' => attributes) instead [light_black](#{caller.first})[/]")
             options = {'NextToken' => options}
           end
           options['NextToken'] ||= nil

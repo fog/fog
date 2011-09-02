@@ -14,7 +14,7 @@ class Google < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :storage
-          Formatador.display_line("[yellow][WARN] Google[:storage] is deprecated, use Storage[:google] instead[/]")
+          Fog::Logger.warning("Google[:storage] is deprecated, use Storage[:google] instead")
           Fog::Storage.new(:provider => 'Google')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

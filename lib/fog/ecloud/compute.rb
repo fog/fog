@@ -1065,7 +1065,7 @@ module Fog
         end
 
         def self.data_reset
-          Formatador.display_line("[yellow][WARN] #{self} => #data_reset is deprecated, use #reset instead[/] [light_black](#{caller.first})[/]")
+          Fog::Logger.warning("#{self} => #data_reset is deprecated, use #reset instead [light_black](#{caller.first})[/]")
           self.reset
         end
 

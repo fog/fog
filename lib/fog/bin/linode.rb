@@ -16,10 +16,10 @@ class Linode < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
-          Formatador.display_line("[yellow][WARN] Linode[:compute] is deprecated, use Compute[:linode] instead[/]")
+          Fog::Logger.warning("Linode[:compute] is deprecated, use Compute[:linode] instead")
           Fog::Compute.new(:provider => 'Linode')
         when :dns
-          Formatador.display_line("[yellow][WARN] Linode[:storage] is deprecated, use Storage[:linode] instead[/]")
+          Fog::Logger.warning("Linode[:storage] is deprecated, use Storage[:linode] instead")
           Fog::DNS.new(:provider => 'Linode')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

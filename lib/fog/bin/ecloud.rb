@@ -14,7 +14,7 @@ class Ecloud < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
-          Formatador.display_line("[yellow][WARN] Ecloud[:compute] is deprecated, use Compute[:ecloud] instead[/]")
+          Fog::Logger.warning("Ecloud[:compute] is deprecated, use Compute[:ecloud] instead")
           Fog::Compute.new(:provider => 'Ecloud')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

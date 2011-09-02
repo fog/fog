@@ -14,7 +14,7 @@ class DNSMadeEasy < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :dns
-          Formatador.display_line("[yellow][WARN] DNSMadeEasy[:dns] is deprecated, use Storage[:dnsmadeeasy] instead[/]")
+          Fog::Logger.warning("DNSMadeEasy[:dns] is deprecated, use Storage[:dnsmadeeasy] instead")
           Fog::DNS.new(:provider => 'DNSMadeEasy')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

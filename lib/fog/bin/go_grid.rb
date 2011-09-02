@@ -14,7 +14,7 @@ class GoGrid < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
-          Formatador.display_line("[yellow][WARN] GoGrid[:compute] is deprecated, use Compute[:gogrid] instead[/]")
+          Fog::Logger.warning("GoGrid[:compute] is deprecated, use Compute[:gogrid] instead")
           Fog::Compute.new(:provider => 'GoGrid')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

@@ -76,7 +76,7 @@ module Fog
         end
 
         def url(params, expires)
-          Formatador.display_line("[yellow][WARN] #{Fog::Storage::AWS} => #url is deprecated, use #https_url instead[/] [light_black](#{caller.first})[/]")
+          Fog::Logger.warning("Fog::Storage::AWS => #url is deprecated, use #https_url instead [light_black](#{caller.first})[/]")
           https_url(params, expires)
         end
 
@@ -305,7 +305,7 @@ DATA
 
           subdomain = params[:host].split(".#{@host}").first
           unless subdomain =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
-            Formatador.display_line("[yellow][WARN] fog: the specified s3 bucket name(#{subdomain}) is not a valid dns name, which will negatively impact performance.  For details see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html[/]")
+            Fog::Logger.warning("fog: the specified s3 bucket name(#{subdomain}) is not a valid dns name, which will negatively impact performance.  For details see: http://docs.amazonwebservices.com/AmazonS3/latest/dev/BucketRestrictions.html")
             params[:host] = params[:host].split("#{subdomain}.")[-1]
             if params[:path]
               params[:path] = "#{subdomain}/#{params[:path]}"
@@ -367,7 +367,7 @@ DATA
             response = @connection.request(params, &block)
           rescue Excon::Errors::TemporaryRedirect => error
             uri = URI.parse(error.response.headers['Location'])
-            Formatador.display_line("[yellow][WARN] fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant[/]")
+            Fog::Logger.warning("fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant")
             response = Fog::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false).request(original_params, &block)
           end
 

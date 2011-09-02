@@ -28,10 +28,7 @@ module Fog
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-AuthorizeSecurityGroupIngress.html]
         def authorize_security_group_ingress(group_name, options = {})
           if group_name.is_a?(Hash)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::AWS::Compute#authorize_security_group_ingress now requires the 'group_name' parameter. Only specifying an options hash is now deprecated"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
+            Fog::Logger.warning("Fog::AWS::Compute#authorize_security_group_ingress now requires the 'group_name' parameter. Only specifying an options hash is now deprecated [light_black](#{caller.first})[/]")
             options = group_name
             group_name = options['GroupName']
           end
@@ -49,10 +46,7 @@ module Fog
 
         def authorize_security_group_ingress(group_name, options = {})
           if group_name.is_a?(Hash)
-            location = caller.first
-            warning = "[yellow][WARN] Fog::AWS::Compute#authorize_security_group_ingress now requires the 'group_name' parameter. Only specifying an options hash is now deprecated"
-            warning << " [light_black](" << location << ")[/] "
-            Formatador.display_line(warning)
+            Fog::Logger.warning("Fog::AWS::Compute#authorize_security_group_ingress now requires the 'group_name' parameter. Only specifying an options hash is now deprecated [light_black](#{caller.first})[/]")
             options = group_name
             group_name = options['GroupName']
           end

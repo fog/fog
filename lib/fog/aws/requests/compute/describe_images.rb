@@ -60,12 +60,12 @@ module Fog
 
         def describe_images(filters = {})
           unless filters.is_a?(Hash)
-            Formatador.display_line("[yellow][WARN] describe_images with #{filters.class} param is deprecated, use describe_images('image-id' => []) instead[/] [light_black](#{caller.first})[/]")
+            Fog::Logger.warning("describe_images with #{filters.class} param is deprecated, use describe_images('image-id' => []) instead [light_black](#{caller.first})[/]")
             filters = {'image-id' => [*filters]}
           end
 
           if filters.keys.any? {|key| key =~ /^block-device/}
-            Formatador.display_line("[yellow][WARN] describe_images block-device-mapping filters are not yet mocked[/] [light_black](#{caller.first})[/]")
+            Fog::Logger.warning("describe_images block-device-mapping filters are not yet mocked [light_black](#{caller.first})[/]")
             Fog::Mock.not_implemented
           end
 

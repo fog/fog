@@ -106,7 +106,7 @@ module Fog
         def save(options = {})
           requires :body, :directory, :key
           if options != {}
-            Formatador.display_line("[yellow][WARN] options param is deprecated, use acl= instead[/] [light_black](#{caller.first})[/]")
+            Fog::Logger.warning("options param is deprecated, use acl= instead [light_black](#{caller.first})[/]")
           end
           options['x-goog-acl'] ||= @acl if @acl
           options['Cache-Control'] = cache_control if cache_control

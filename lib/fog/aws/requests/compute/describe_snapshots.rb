@@ -27,11 +27,11 @@ module Fog
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSnapshots.html]
         def describe_snapshots(filters = {}, options = {})
           unless filters.is_a?(Hash)
-            Formatador.display_line("[yellow][WARN] describe_snapshots with #{filters.class} param is deprecated, use describe_snapshots('snapshot-id' => []) instead[/] [light_black](#{caller.first})[/]")
+            Fog::Logger.warning("describe_snapshots with #{filters.class} param is deprecated, use describe_snapshots('snapshot-id' => []) instead [light_black](#{caller.first})[/]")
             filters = {'snapshot-id' => [*filters]}
           end
           unless options.empty?
-            Formatador.display_line("[yellow][WARN] describe_snapshots with a second param is deprecated, use describe_snapshots(options) instead[/] [light_black](#{caller.first})[/]")
+            Fog::Logger.warning("describe_snapshots with a second param is deprecated, use describe_snapshots(options) instead [light_black](#{caller.first})[/]")
           end
 
           for key in ['ExecutableBy', 'ImageId', 'Owner', 'RestorableBy']
@@ -54,11 +54,11 @@ module Fog
 
         def describe_snapshots(filters = {}, options = {})
           unless filters.is_a?(Hash)
-            Formatador.display_line("[yellow][WARN] describe_snapshots with #{filters.class} param is deprecated, use describe_snapshots('snapshot-id' => []) instead[/] [light_black](#{caller.first})[/]")
+            Fog::Logger.warning("describe_snapshots with #{filters.class} param is deprecated, use describe_snapshots('snapshot-id' => []) instead [light_black](#{caller.first})[/]")
             filters = {'snapshot-id' => [*filters]}
           end
           unless options.empty?
-            Formatador.display_line("[yellow][WARN] describe_snapshots with a second param is deprecated, use describe_snapshots(options) instead[/] [light_black](#{caller.first})[/]")
+            Fog::Logger.warning("describe_snapshots with a second param is deprecated, use describe_snapshots(options) instead [light_black](#{caller.first})[/]")
           end
 
           response = Excon::Response.new
@@ -66,10 +66,10 @@ module Fog
           snapshot_set = self.data[:snapshots].values
 
           if filters.delete('owner-alias')
-            Formatador.display_line("[yellow][WARN] describe_snapshots with owner-alias is not mocked[/] [light_black](#{caller.first})[/]")
+            Fog::Logger.warning("describe_snapshots with owner-alias is not mocked [light_black](#{caller.first})[/]")
           end
           if (restorable_by = filters.delete('RestorableBy')) && restorable_by != 'self'
-            Formatador.display_line("[yellow][WARN] describe_snapshots with RestorableBy other than 'self' (wanted #{restorable_by.inspect}) is not mocked[/] [light_black](#{caller.first})[/]")
+            Fog::Logger.warning("describe_snapshots with RestorableBy other than 'self' (wanted #{restorable_by.inspect}) is not mocked [light_black](#{caller.first})[/]")
           end
 
           snapshot_set = apply_tag_filters(snapshot_set, filters)

@@ -32,9 +32,9 @@ module Fog
             :parser         => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(params))
         end
-        
+
         def modify_instance_attributes(instance_id, attributes)
-          Formatador.display_line("[yellow][WARN] modify_instance_attributes method is deprecated, use 'modify_instance_attribute' instead[/]")
+          Fog::Logger.warning("modify_instance_attributes method is deprecated, use 'modify_instance_attribute' instead")
           modify_instance_attribute(instance_id, attributes)
         end
 

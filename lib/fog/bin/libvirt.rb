@@ -14,7 +14,7 @@ module Libvirt # deviates from other bin stuff to accomodate gem
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
-          Formatador.display_line("[yellow][WARN] Libvirt[:compute] is deprecated, use Compute[:libvirt] instead[/]")
+          Fog::Logger.warning("Libvirt[:compute] is deprecated, use Compute[:libvirt] instead")
           Fog::Compute.new(:provider => 'Libvirt')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
