@@ -36,7 +36,7 @@ Shindo.tests('AWS::Elasticache | security groups', ['aws', 'elasticache']) do
         group = @instance.ec2_groups.detect do |g|
           g['EC2SecurityGroupName'] == ec2_group.name
         end
-        group.['Status']
+        group['Status']
       end
       returns(false, 'not ready') { @instance.ready? }
     end
