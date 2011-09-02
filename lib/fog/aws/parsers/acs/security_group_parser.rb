@@ -24,7 +24,7 @@ module Fog
 
           def end_element(name)
             case name
-            when 'CacheSecurityGroupDescription', 'CacheSecurityGroupName', 'OwnerId'
+            when 'Description', 'CacheSecurityGroupName', 'OwnerId'
               @security_group[name] = value
             when 'EC2SecurityGroup'
               @security_group["#{name}s"] << @ec2_group unless @ec2_group.empty?

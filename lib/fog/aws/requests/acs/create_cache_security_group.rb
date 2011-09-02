@@ -17,7 +17,7 @@ module Fog
           request({
             'Action' => 'CreateCacheSecurityGroup',
             'CacheSecurityGroupName' => name,
-            'CacheSecurityGroupDescription' => description,
+            'Description' => description,
             :parser => Fog::Parsers::AWS::ACS::SingleSecurityGroup.new
           })
         end
