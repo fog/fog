@@ -76,7 +76,7 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
     })
 
     tests("post_record('A', '#{@domain}', '#{@fqdn}', 'address' => '1.2.3.4')").formats(post_record_format) do
-      @dns.post_record('A', @domain, @fqdn, {'address' => '1.2.3.4'}, {}).body
+      @dns.post_record('A', @domain, @fqdn, {'address' => '1.2.3.4'}).body
     end
 
     publish_zone_format = shared_format.merge({
@@ -126,10 +126,12 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       data
     end
 
-    @dns.post_record('CNAME', @domain, @fqdn, {'address' => '1.2.3.4'}, {})
+    sleep 3 unless Fog.mocking?
 
-    tests("get_record('ANY', '#{@domain}', '#{@fqdn}')").formats(get_records_format) do
-      @dns.get_record('ANY', @domain, @fqdn)
+    @dns.post_record('CNAME', @domain, "cname.#{@fqdn}", {'cname' => "#{@fqdn}."})
+
+    tests("get_record('ANY', '#{@domain}', 'cname.#{@fqdn}')").formats(get_records_format) do
+      @dns.get_record('ANY', @domain, "cname.#{@fqdn}").body
     end
 
     get_record_format = shared_format.merge({

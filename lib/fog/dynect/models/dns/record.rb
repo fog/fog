@@ -13,7 +13,6 @@ module Fog
         attribute :serial_style
         attribute :ttl
         attribute :type,        :aliases => 'record_type'
-        attribute :value
 
         def destroy
           requires :identity, :name, :type, :zone
@@ -22,14 +21,14 @@ module Fog
         end
 
         def save
-          requires :name, :type, :value, :zone
+          requires :name, :type, :rdata, :zone
 
           options = {
             :ttl => ttl
           }
           options.delete_if {|key, value| value.nil?}
 
-          data = connection.post_record(type, zone.identity, name, {'address' => value}, options).body['data']
+          data = connection.post_record(type, zone.identity, name, rdata, options).body['data']
           # avoid overwriting zone object with zone string
           data = data.reject {|key, value| key == 'zone'}
           merge_attributes(data)
