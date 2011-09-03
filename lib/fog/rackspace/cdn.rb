@@ -82,7 +82,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Rackspace::Storage::NotFound.slurp(error)
+              Fog::Storage::Rackspace::NotFound.slurp(error)
             else
               error
             end
