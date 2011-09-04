@@ -37,7 +37,7 @@ module Fog
           response.status = 200
 
           if record_id = options['record_id']
-            raise Fog::DNS::Dynect::NotFound unless record = zone[:records][type].first { |record| record[:record_id] == record_id }
+            raise Fog::DNS::Dynect::NotFound unless record = zone[:records][type].find { |record| record[:record_id] == record_id }
             response.body = {
               "status" => "success",
               "data" => {
