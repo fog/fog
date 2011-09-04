@@ -46,9 +46,9 @@ module Fog
           @directory
         end
 
-        def copy(target_directory_key, target_file_key)
+        def copy(target_directory_key, target_file_key, options = {})
           requires :directory, :key
-          connection.copy_object(directory.key, key, target_directory_key, target_file_key)
+          connection.copy_object(directory.key, key, target_directory_key, target_file_key, options)
           target_directory = connection.directories.new(:key => target_directory_key)
           target_directory.files.get(target_file_key)
         end
