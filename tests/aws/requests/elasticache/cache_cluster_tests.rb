@@ -28,7 +28,7 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
       end
       body
     end
-    
+
     tests(
     '#describe_cache_clusters with cluster ID'
     ).formats(AWS::Elasticache::Formats::DESCRIBE_CACHE_CLUSTERS) do
@@ -41,19 +41,27 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
       end
       body
     end
-    
+
     #cluster = AWS[:elasticache].clusters.get(cluster_id)
     #cluster.wait_for {ready?}
-    #
-    #tests(
-    #'#delete_cache_security_group'
-    #).formats(AWS::Elasticache::Formats::SINGLE_CACHE_CLUSTER) do
-    #  body = AWS[:elasticache].delete_cache_security_group(cluster_id).body
-    #cluster = body['CacheCluster']
-    #returns(cluster_id) { cluster['CacheClusterId'] }
-    #returns('deleting')  { cluster['CacheClusterStatus'] }
-    #body
-    #end
+
+    tests(
+    '#delete_cache_security_group'
+    ).formats(AWS::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
+      body = AWS[:elasticache].delete_cache_cluster(cluster_id).body
+      # make sure this particular cluster is in the returned list
+      returns(true, "has #{cluster_id}") do
+        body['CacheClusters'].any? do |cluster|
+          cluster['CacheClusterId'] == cluster_id
+        end
+      end
+      # now check that it reports itself as 'deleting'
+      cluster = body['CacheClusters'].find do |cluster|
+        cluster['CacheClusterId'] == cluster_id
+      end
+      returns('deleting')  { cluster['CacheClusterStatus'] }
+      cluster
+    end
   end
 
   tests('failure') do

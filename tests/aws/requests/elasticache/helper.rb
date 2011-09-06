@@ -31,12 +31,11 @@ class AWS
       }
       CACHE_CLUSTER_RUNNING   = CACHE_CLUSTER.merge(
         'CacheClusterCreateTime'      => DateTime,
-        'PreferredAvailabilityZone'   => String,
-        'CacheNodes'                  => Array
+        'PreferredAvailabilityZone'   => String
       )
       CACHE_CLUSTER_MODIFIED  = CACHE_CLUSTER_RUNNING.merge(
         'NotificationConfiguration'   => Hash,
-        'PendingModifiedValues'       => Hash  
+        'PendingModifiedValues'       => Hash
       )
       SINGLE_CACHE_CLUSTER    = BASIC.merge('CacheCluster' => CACHE_CLUSTER)
       DESCRIBE_CACHE_CLUSTERS = BASIC.merge('CacheClusters' => [CACHE_CLUSTER])
