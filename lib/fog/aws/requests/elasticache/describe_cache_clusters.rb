@@ -5,7 +5,7 @@ module Fog
 
         require 'fog/aws/parsers/elasticache/describe_cache_clusters'
 
-        # Returns a list of CacheCluster descriptions
+        # Returns a list of Cache Cluster descriptions
         #
         # === Parameters
         # * options <~Hash> (optional):
