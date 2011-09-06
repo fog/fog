@@ -21,6 +21,7 @@ module Fog
       request :vm_destroy
       request :find_all_by_uuid
       request :find_all_by_instance_uuid
+      request :find_template_by_instance_uuid
 
       class Mock
 
