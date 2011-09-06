@@ -9,9 +9,9 @@ module Fog
 
       request_path 'fog/aws/requests/elasticache'
 
-      #request :create_cache_cluster
+      request :create_cache_cluster
       #request :delete_cache_cluster
-      #request :describe_cache_clusters
+      request :describe_cache_clusters
       #request :modify_cache_cluster
       #request :reboot_cache_cluster
 
