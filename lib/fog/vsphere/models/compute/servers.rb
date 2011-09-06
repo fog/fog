@@ -19,11 +19,11 @@ module Fog
           load(vm_attributes)
         end
 
-        def get(server_id)
-          raise NotImplementedError
-          # FIXME: (TODO) Make a raw API call
-          # Massage the data into an attribute hash
-          # Pass the attribute hash to new() to create a new instance of the model.
+        def get(instance_uuid)
+          vm_mob = connection.find_all_by_instance_uuid(instance_uuid).first
+          if server_attributes = model.attribute_hash_from_mob(vm_mob)
+            new(server_attributes)
+          end
         rescue Fog::Compute::Vsphere::NotFound
           nil
         end
