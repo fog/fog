@@ -43,6 +43,7 @@ module Fog
         #             * 'state'<~Boolean - state of monitoring
         #           * 'placement'<~Hash>:
         #             * 'availabilityZone'<~String> - Availability zone of the instance
+        #           * 'platform'<~String> - Platform of the instance (e.g., Windows).
         #           * 'productCodes'<~Array> - Product codes for the instance
         #           * 'privateDnsName'<~String> - private dns name, blank until instance is running
         #           * 'privateIpAddress'<~String> - private ip address assigned to instance
@@ -191,7 +192,7 @@ module Fog
                 'ownerId'       => instance['ownerId'],
                 'reservationId' => instance['reservationId']
               }
-              reservation_set[instance['reservationId']]['instancesSet'] << instance.reject{|key,value| !['amiLaunchIndex', 'architecture', 'blockDeviceMapping', 'clientToken', 'dnsName', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'ipAddress', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'privateDnsName', 'privateIpAddress', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType', 'stateReason', 'tagSet'].include?(key)}
+              reservation_set[instance['reservationId']]['instancesSet'] << instance.reject{|key,value| !['amiLaunchIndex', 'architecture', 'blockDeviceMapping', 'clientToken', 'dnsName', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'ipAddress', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'platform', 'privateDnsName', 'privateIpAddress', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType', 'stateReason', 'tagSet'].include?(key)}
             end
           end
 
