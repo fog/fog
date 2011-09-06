@@ -32,25 +32,33 @@ module Fog
         attribute :hypervisor,    :aliases => 'host'
         attribute :is_a_template
 
-        # Create an instance of the server model from a
+        # Return an attribute hash suitable for the initializer given a
         # vSphere Managed Object (mob) instance.
         def self.attribute_hash_from_mob(vm)
-            {
-              :id               => vm.config.instanceUuid || vm._ref,
-              :name             => vm.name,
-              :uuid             => vm.config.uuid,
-              :instance_uuid    => vm.config.instanceUuid,
-              :hostname         => vm.summary.guest.hostName,
-              :operatingsystem  => vm.summary.guest.guestFullName,
-              :ipaddress        => vm.summary.guest.ipAddress,
-              :power_state      => vm.runtime.powerState,
-              :connection_state => vm.runtime.connectionState,
-              :hypervisor       => vm.runtime.host.name,
-              :tools_state      => vm.summary.guest.toolsStatus,
-              :tools_version    => vm.summary.guest.toolsVersionStatus,
-              :mac_addresses    => vm.macs,
-              :is_a_template    => vm.config.template
-            }
+          return {} unless vm
+          # A cloning VM doesn't have a configuration yet.  Unfortuantely we just get
+          # a RunTime exception.
+          begin
+            is_ready = vm.config ? true : false
+          rescue RuntimeError
+            is_ready = nil
+          end
+          {
+            :id               => is_ready ? vm.config.instanceUuid : vm._ref,
+            :name             => vm.name,
+            :uuid             => is_ready ? vm.config.uuid : 'unavailable',
+            :instance_uuid    => is_ready ? vm.config.instanceUuid : 'unavailable',
+            :hostname         => vm.summary.guest.hostName,
+            :operatingsystem  => vm.summary.guest.guestFullName,
+            :ipaddress        => vm.summary.guest.ipAddress,
+            :power_state      => vm.runtime.powerState,
+            :connection_state => vm.runtime.connectionState,
+            :hypervisor       => vm.runtime.host ? vm.runtime.host.name : 'unknown',
+            :tools_state      => vm.summary.guest.toolsStatus,
+            :tools_version    => vm.summary.guest.toolsVersionStatus,
+            :mac_addresses    => is_ready ? vm.macs : nil,
+            :is_a_template    => is_ready ? vm.config.template : nil
+          }
         end
 
         def start
