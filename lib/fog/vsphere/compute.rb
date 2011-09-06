@@ -18,6 +18,7 @@ module Fog
       request :vm_power_off
       request :vm_power_on
       request :vm_reboot
+      request :vm_destroy
       request :find_all_by_uuid
       request :find_all_by_instance_uuid
 

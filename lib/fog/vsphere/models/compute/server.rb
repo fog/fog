@@ -70,6 +70,11 @@ module Fog
           connection.vm_reboot(:instance_uuid => instance_uuid, :force => params[:force])
         end
 
+        def destroy(params = {})
+          requires :instance_uuid
+          connection.vm_destroy(:instance_uuid => instance_uuid)
+        end
+
       end
 
     end
