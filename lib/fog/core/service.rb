@@ -118,7 +118,9 @@ module Fog
       def coerce_options(options)
         options.each do |key, value|
           value_string = value.to_s.downcase
-          if value == value_string.to_i.to_s
+          if value.nil?
+            options.delete(key)
+          elsif value == value_string.to_i.to_s
             options[key] = value.to_i
           else
             options[key] = case value_string
