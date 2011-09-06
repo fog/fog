@@ -56,6 +56,7 @@ module Fog
         end
 
         validate_options(options)
+        coerce_options(options)
         setup_requirements
 
         if Fog.mocking?
@@ -112,6 +113,24 @@ module Fog
 
       def collections
         @collections ||= []
+      end
+
+      def coerce_options(options)
+        options.each do |key, value|
+          value_string = value.to_s.downcase
+          if value == value_string.to_i.to_s
+            options[key] = value.to_i
+          else
+            options[key] = case value_string
+            when 'false'
+              false
+            when 'true'
+              true
+            else
+              value
+            end
+          end
+        end
       end
 
       def mocked_requests
