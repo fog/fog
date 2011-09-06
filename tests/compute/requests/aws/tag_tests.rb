@@ -1,5 +1,4 @@
 Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
-
   @tags_format = {
     'tagSet'    => [{
       'key'          => String,
@@ -14,30 +13,20 @@ Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
   @volume.wait_for { ready? }
 
   tests('success') do
-
     tests("#create_tags('#{@volume.identity}', 'foo' => 'bar')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].create_tags(@volume.identity, 'foo' => 'bar').body
     end
 
     tests('#describe_tags').formats(@tags_format) do
-      pending if Fog.mocking?
       Fog::Compute[:aws].describe_tags.body
     end
 
     tests("#delete_tags('#{@volume.identity}', 'foo' => 'bar')").formats(AWS::Compute::Formats::BASIC) do
-      pending if Fog.mocking?
       Fog::Compute[:aws].delete_tags(@volume.identity, 'foo' => 'bar').body
     end
-
-    tests("#delete_tags('vol-00000000', 'baz' => 'qux')").succeeds do
-      pending if Fog.mocking?
-      Fog::Compute[:aws].delete_tags('vol-00000000', 'baz' => 'qux')
-    end
-
   end
 
   tests('failure') do
-
     tests("#create_tags('vol-00000000', 'baz' => 'qux')").raises(Fog::Service::NotFound) do
       Fog::Compute[:aws].create_tags('vol-00000000', 'baz' => 'qux')
     end
@@ -45,5 +34,4 @@ Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
   end
 
   @volume.destroy
-
 end

@@ -39,10 +39,10 @@ module Fog
         end
 
       end
-      
+
       class Mock
         def delete_tags(resources, tags)
-          tagged = resources.map do |resource_id|
+          tagged = Array(resources).map do |resource_id|
             type = case resource_id
             when /^ami\-[a-z0-9]{8}$/i
               'image'
@@ -59,11 +59,11 @@ module Fog
               raise(Fog::Service::NotFound.new("The #{type} ID '#{resource_id}' does not exist"))
             end
           end
-          
+
           tags.each do |key, value|
             self.data[:tags][key][value] = self.data[:tags][key][value] - tagged
           end
-          
+
           tagged.each do |resource|
             object = self.data[:"#{resource['resourceType']}s"][resource['resourceId']]
             tags.each do |key, value|
@@ -71,7 +71,7 @@ module Fog
               tagset.delete(key) if tagset.has_key?(key) && (value.nil? || tagset[key] == value)
             end
           end
-          
+
           response = Excon::Response.new
           response.status = true
           response.body = {
@@ -81,7 +81,7 @@ module Fog
           response
         end
       end
-      
+
     end
   end
 end
