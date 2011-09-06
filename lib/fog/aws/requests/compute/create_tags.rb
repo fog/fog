@@ -63,7 +63,7 @@ module Fog
           tags.each do |key, value|
             self.data[:tags][key] ||= {}
             self.data[:tags][key][value] ||= []
-            self.data[:tags][key][value] = self.data[:tags][key][value] & tagged
+            self.data[:tags][key][value] |= tagged
             
             tagged.each {|resource| self.data[:"#{resource['resourceType']}s"][resource['resourceId']]['tagSet'][key] = value}
           end
