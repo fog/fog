@@ -1,4 +1,5 @@
 require 'fog/core/model'
+require 'fog/core/current_machine'
 
 module Fog
   module AWS
@@ -41,6 +42,16 @@ module Fog
 
         def authorize_cidrip(cidrip)
           authorize_ingress({'CIDRIP' => cidrip})
+        end
+
+        # Add the current machine to the RDS security group.
+        def authorize_me
+          authorize_ip_address(Fog::CurrentMachine.ip_address)
+        end
+
+        # Add the ip address to the RDS security group.
+        def authorize_ip_address(ip)
+          authorize_cidrip("#{ip}/32")
         end
 
         def authorize_ingress(opts)

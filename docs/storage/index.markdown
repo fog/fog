@@ -85,29 +85,29 @@ Now you've got a bunch of files in S3: your resume, some code samples,
 and maybe some pictures of your cat doing funny stuff. Since this is
 all of vital importance, you need to back it up.
 
-   # copy each file to local disk
-   directory.files.each do |s3_file|
-     File.open(s3_file.key, 'w') do |local_file|
-       local_file.write(s3_file.body)
-     end
-   end
+    # copy each file to local disk
+    directory.files.each do |s3_file|
+      File.open(s3_file.key, 'w') do |local_file|
+        local_file.write(s3_file.body)
+      end
+    end
 
 One caveat: it's way more efficient to do this:
 
-  # do two things per file
-  directory.files.each do |file|
-    do_one_thing(file)
-    do_another_thing(file)
-  end
+    # do two things per file
+    directory.files.each do |file|
+      do_one_thing(file)
+      do_another_thing(file)
+    end
 
 than it is to do this:
 
-  # do two things per file
-  directory.files.each do |file|
-    do_one_thing(file)
-  end.each do |file|
-    do_another_thing(file)
-  end
+    # do two things per file
+    directory.files.each do |file|
+      do_one_thing(file)
+    end.each do |file|
+      do_another_thing(file)
+    end
 
 The reason is that the list of files might be large. Really
 large. Eat-all-your-RAM-and-ask-for-more large. Therefore, every time
@@ -144,6 +144,10 @@ Rackspace has <a href="http://www.rackspacecloud.com/cloud_hosting_products/file
       :rackspace_username => RACKSPACE_USERNAME,
       :rackspace_api_key  => RACKSPACE_API_KEY
     })
+
+If you work with the European cloud from Rackspace you have to add the following:
+
+    :rackspace_auth_url => "lon.auth.api.rackspacecloud.com"
 
 Then create, save, destroy as per fog-for-AWS. The `:public => true` option when creating directories (see above) is important for Rackspace; your folder and files won't be shared to Rackspace's CDN and hence your users without it.  Similarly the `:public =&gt; true` on files is important for AWS and Google or they will be private.
 

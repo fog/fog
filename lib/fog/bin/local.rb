@@ -14,7 +14,7 @@ class Local < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :storage
-          Formatador.display_line("[yellow][WARN] Local[:storage] is deprecated, use Storage[:local] instead[/]")
+          Fog::Logger.warning("Local[:storage] is deprecated, use Storage[:local] instead")
           Fog::Storage.new(:provider => 'Local')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

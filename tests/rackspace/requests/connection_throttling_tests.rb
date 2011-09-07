@@ -1,4 +1,6 @@
-Shindo.tests('Fog::Rackspace::LoadBalancer | connection_throttling', ['rackspace']) do
+Shindo.tests('Fog::Rackspace::LoadBalancers | connection_throttling', ['rackspace']) do
+
+  pending if Fog.mocking?
 
   given_a_load_balancer_service do
     given_a_load_balancer do
@@ -26,7 +28,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancer | connection_throttling', ['rackspace
       end
 
       tests('failure') do
-        tests("#set_connection_throttling(#{@lb.id}, -1, -1, -1, -1)").raises(Fog::Rackspace::LoadBalancer::BadRequest) do
+        tests("#set_connection_throttling(#{@lb.id}, -1, -1, -1, -1)").raises(Fog::Rackspace::LoadBalancers::BadRequest) do
           @service.set_connection_throttling(@lb.id, -1, -1, -1, -1)
         end
       end

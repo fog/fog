@@ -20,6 +20,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
       'groupName' => Fog::Nullable::String,
       'tenancy' => String
     },
+    'platform'            => Fog::Nullable::String,
     'privateDnsName'      => NilClass,
     # 'privateIpAddress'    => String,
     'productCodes'        => [],

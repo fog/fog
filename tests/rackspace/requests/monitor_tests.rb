@@ -1,4 +1,6 @@
-Shindo.tests('Fog::Rackspace::LoadBalancer | monitor', ['rackspace']) do
+Shindo.tests('Fog::Rackspace::LoadBalancers | monitor', ['rackspace']) do
+
+  pending if Fog.mocking?
 
   given_a_load_balancer_service do
     given_a_load_balancer do
@@ -31,11 +33,11 @@ Shindo.tests('Fog::Rackspace::LoadBalancer | monitor', ['rackspace']) do
       end
 
       tests('failure') do
-        tests("#set_monitor(#{@lb.id}, 'HTP', 5, 5, 5, 5)").raises(Fog::Rackspace::LoadBalancer::BadRequest) do
+        tests("#set_monitor(#{@lb.id}, 'HTP', 5, 5, 5, 5)").raises(Fog::Rackspace::LoadBalancers::BadRequest) do
           @service.set_monitor(@lb.id, 5, 5, 5, 5)
         end
 
-        tests("#remove_monitor(#{@lb.id}) => No Monitor").raises(Fog::Rackspace::LoadBalancer::ServiceError) do
+        tests("#remove_monitor(#{@lb.id}) => No Monitor").raises(Fog::Rackspace::LoadBalancers::ServiceError) do
           @service.remove_monitor(@lb.id)
         end
       end

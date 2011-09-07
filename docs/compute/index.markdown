@@ -81,6 +81,10 @@ Rackspace has <a href="http://www.rackspacecloud.com/cloud_hosting_products/serv
       :rackspace_api_key  => RACKSPACE_API_KEY
     })
 
+If you work with the European cloud from Rackspace you have to add the following:
+
+    :rackspace_auth_url => "lon.auth.api.rackspacecloud.com"
+
 We will skip over learning how to do this the 'Rackspace Way' and instead jump right to using bootstrap to get their smallest Ubuntu 10.04 LTS server.
 
     server = connection.servers.bootstrap

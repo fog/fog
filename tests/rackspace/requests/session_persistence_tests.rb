@@ -1,4 +1,6 @@
-Shindo.tests('Fog::Rackspace::LoadBalancer | session_persistence', ['rackspace']) do
+Shindo.tests('Fog::Rackspace::LoadBalancers | session_persistence', ['rackspace']) do
+
+  pending if Fog.mocking?
 
   given_a_load_balancer_service do
     given_a_load_balancer do
@@ -22,7 +24,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancer | session_persistence', ['rackspace']
       end
 
       tests('failure') do
-        tests("#set_session_persistence(#{@lb.id}, 'aaa')").raises(Fog::Rackspace::LoadBalancer::BadRequest) do
+        tests("#set_session_persistence(#{@lb.id}, 'aaa')").raises(Fog::Rackspace::LoadBalancers::BadRequest) do
           @service.set_session_persistence(@lb.id, 'aaa')
         end
       end

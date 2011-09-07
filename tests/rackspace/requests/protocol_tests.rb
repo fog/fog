@@ -1,4 +1,6 @@
-Shindo.tests('Fog::Rackspace::LoadBalancer | protocol_tests', ['rackspace']) do
+Shindo.tests('Fog::Rackspace::LoadBalancers | protocol_tests', ['rackspace']) do
+
+  pending if Fog.mocking?
 
   PROTOCOLS_FORMAT = {
     'protocols' => [
@@ -8,7 +10,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancer | protocol_tests', ['rackspace']) do
       }
   ]}
 
-  @service = Fog::Rackspace::LoadBalancer.new
+  @service = Fog::Rackspace::LoadBalancers.new
 
   tests('success') do
 

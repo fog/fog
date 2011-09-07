@@ -14,7 +14,7 @@ class Brightbox < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
-          Formatador.display_line("[yellow][WARN] Brightbox[:compute] is deprecated, use Compute[:brightbox] instead[/]")
+          Fog::Logger.warning("Brightbox[:compute] is deprecated, use Compute[:brightbox] instead")
           Fog::Compute.new(:provider => 'Brightbox')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

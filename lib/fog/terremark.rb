@@ -1,4 +1,4 @@
-require 'fog/core'
+require(File.expand_path(File.join(File.dirname(__FILE__), 'core')))
 
 require 'fog/terremark/shared'
 require 'fog/terremark/parser'

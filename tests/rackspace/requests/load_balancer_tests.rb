@@ -1,4 +1,6 @@
-Shindo.tests('Fog::Rackspace::LoadBalancer | load_balancer_tests', ['rackspace']) do
+Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer_tests', ['rackspace']) do
+
+  pending if Fog.mocking?
 
   given_a_load_balancer_service do
     tests('success') do
@@ -12,7 +14,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancer | load_balancer_tests', ['rackspace']
         data
       end
 
-      tests("#update_load_balancer(#{@lb_id}) while immutable").raises(Fog::Rackspace::LoadBalancer::ServiceError) do
+      tests("#update_load_balancer(#{@lb_id}) while immutable").raises(Fog::Rackspace::LoadBalancers::ServiceError) do
         @service.update_load_balancer(@lb_id, { :port => 80 }).body
       end
 
@@ -29,7 +31,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancer | load_balancer_tests', ['rackspace']
       end
 
 
-      tests("#update_load_balancer(#{lb_id}, { :port => 80 })").succeeds do
+      tests("#update_load_balancer(#{@lb_id}, { :port => 80 })").succeeds do
         @service.update_load_balancer(@lb_id, { :port => 80 }).body
       end
 
@@ -43,17 +45,17 @@ Shindo.tests('Fog::Rackspace::LoadBalancer | load_balancer_tests', ['rackspace']
     end
 
     tests('failure') do
-      tests('#create_load_balancer(invalid name)').raises(Fog::Rackspace::LoadBalancer::BadRequest) do
+      tests('#create_load_balancer(invalid name)').raises(Fog::Rackspace::LoadBalancers::BadRequest) do
         @service.create_load_balancer('', 'HTTP', 80, [{ :type => 'PUBLIC'}], [{ :address => '10.0.0.1', :port => 80, :condition => 'ENABLED'}])
       end
 
-      tests('#get_load_balancer(0)').raises(Fog::Rackspace::LoadBalancer::NotFound) do
+      tests('#get_load_balancer(0)').raises(Fog::Rackspace::LoadBalancers::NotFound) do
         @service.get_load_balancer(0)
       end
-      tests('#delete_load_balancer(0)').raises(Fog::Rackspace::LoadBalancer::NotFound) do
+      tests('#delete_load_balancer(0)').raises(Fog::Rackspace::LoadBalancers::NotFound) do
         @service.delete_load_balancer(0)
       end
-      tests('#update_load_balancer(0)').raises(Fog::Rackspace::LoadBalancer::NotFound) do
+      tests('#update_load_balancer(0)').raises(Fog::Rackspace::LoadBalancers::NotFound) do
         @service.update_load_balancer(0, { :name => 'newname' })
       end
     end

@@ -3,7 +3,7 @@ for provider, config in dns_providers
   # FIXME: delay/timing breaks things :(
   next if [:dnsmadeeasy].include?(provider)
 
-  Shindo.tests("Fog::DNS[:#{provider}] | records", [provider]) do
+  Shindo.tests("Fog::DNS[:#{provider}] | records", [provider.to_s]) do
 
     record_attributes = {
       :name   => 'www.fogrecordstests.com',

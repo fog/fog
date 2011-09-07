@@ -1,4 +1,6 @@
-Shindo.tests('Fog::Rackspace::LoadBalancer | virtual_ip_tests', ['rackspace']) do
+Shindo.tests('Fog::Rackspace::LoadBalancers | virtual_ip_tests', ['rackspace']) do
+
+  pending if Fog.mocking?
 
   given_a_load_balancer_service do
     given_a_load_balancer do
@@ -19,10 +21,10 @@ Shindo.tests('Fog::Rackspace::LoadBalancer | virtual_ip_tests', ['rackspace']) d
 
       tests('failure') do
         #TODO - I feel like this should really be a BadRequest, need to dig in
-        tests('create_virtual_ip(invalid type)').raises(Fog::Rackspace::LoadBalancer::ServiceError) do
+        tests('create_virtual_ip(invalid type)').raises(Fog::Rackspace::LoadBalancers::InteralServerError) do
           @service.create_virtual_ip(@lb.id, 'badtype')
         end
-        tests('delete_virtual_ip(0)').raises(Fog::Rackspace::LoadBalancer::NotFound) do
+        tests('delete_virtual_ip(0)').raises(Fog::Rackspace::LoadBalancers::NotFound) do
           @service.delete_virtual_ip(@lb.id, 0)
         end
       end

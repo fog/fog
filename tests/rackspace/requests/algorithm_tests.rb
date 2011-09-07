@@ -1,4 +1,6 @@
-Shindo.tests('Fog::Rackspace::LoadBalancer | algorithm_tests', ['rackspace']) do
+Shindo.tests('Fog::Rackspace::LoadBalancers | algorithm_tests', ['rackspace']) do
+
+  pending if Fog.mocking?
 
   ALGORITHMS_FORMAT = {
     'algorithms' => [
@@ -7,7 +9,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancer | algorithm_tests', ['rackspace']) do
       }
   ]}
 
-  @service = Fog::Rackspace::LoadBalancer.new
+  @service = Fog::Rackspace::LoadBalancers.new
 
   tests('success') do
     tests('#list_algorithms').formats(ALGORITHMS_FORMAT) do

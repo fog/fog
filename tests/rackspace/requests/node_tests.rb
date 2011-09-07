@@ -1,4 +1,6 @@
-Shindo.tests('Fog::Rackspace::LoadBalancer | load_balancer_tests', ['rackspace']) do
+Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer_tests', ['rackspace']) do
+
+  pending if Fog.mocking?
 
   given_a_load_balancer_service do
     given_a_load_balancer do
@@ -50,19 +52,19 @@ Shindo.tests('Fog::Rackspace::LoadBalancer | load_balancer_tests', ['rackspace']
       end
 
       tests('failure') do
-        tests('create_node(invalid ip)').raises(Fog::Rackspace::LoadBalancer::BadRequest) do
+        tests('create_node(invalid ip)').raises(Fog::Rackspace::LoadBalancers::BadRequest) do
           @service.create_node(@lb.id, '', 80, 'ENABLED')
         end
-        tests('create_node(invalid condition)').raises(Fog::Rackspace::LoadBalancer::BadRequest) do
+        tests('create_node(invalid condition)').raises(Fog::Rackspace::LoadBalancers::BadRequest) do
           @service.create_node(@lb.id, '10.10.10.10', 80, 'EABLED')
         end
-        tests('get_node(0)').raises(Fog::Rackspace::LoadBalancer::NotFound) do
+        tests('get_node(0)').raises(Fog::Rackspace::LoadBalancers::NotFound) do
           @service.get_node(@lb.id, 0)
         end
-        tests('delete_nodes(0)').raises(Fog::Rackspace::LoadBalancer::ServiceError) do
+        tests('delete_nodes(0)').raises(Fog::Rackspace::LoadBalancers::ServiceError) do
           @service.delete_nodes(@lb.id, 0)
         end
-        tests('update_node(0)').raises(Fog::Rackspace::LoadBalancer::NotFound) do
+        tests('update_node(0)').raises(Fog::Rackspace::LoadBalancers::NotFound) do
           @service.update_node(@lb.id, 0, { :weight => 20 })
         end
       end

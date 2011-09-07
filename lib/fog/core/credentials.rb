@@ -44,7 +44,7 @@ module Fog
       end
     end
   end
-  
+
   def self.symbolize_credentials(args)
     if args.is_a? Hash
       Hash[ *args.collect do |key, value|

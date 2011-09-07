@@ -1,3 +1,5 @@
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+
 module Fog
   module AWS
     class IAM < Fog::Service
@@ -16,8 +18,8 @@ module Fog
       request :create_access_key
       request :create_account_alias
       request :create_group
-      request :create_user
       request :create_login_profile
+      request :create_user
       request :delete_access_key
       request :delete_account_alias
       request :delete_group
@@ -27,17 +29,17 @@ module Fog
       request :delete_signing_certificate
       request :delete_user
       request :delete_user_policy
-      request :get_login_profile
-      request :get_user
-      request :get_user_policy
       request :get_group
       request :get_group_policy
+      request :get_login_profile
       request :get_server_certificate
+      request :get_user
+      request :get_user_policy
       request :list_access_keys
       request :list_account_aliases
+      request :list_group_policies
       request :list_groups
       request :list_groups_for_user
-      request :list_group_policies
       request :list_server_certificates
       request :list_signing_certificates
       request :list_user_policies
@@ -48,8 +50,9 @@ module Fog
       request :update_access_key
       request :update_group
       request :update_login_profile
-      request :update_user
+      request :update_server_certificate
       request :update_signing_certificate
+      request :update_user
       request :upload_server_certificate
       request :upload_signing_certificate
 

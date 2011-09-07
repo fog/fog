@@ -1,4 +1,6 @@
-Shindo.tests('Fog::Rackspace::LoadBalancer | virtual_ips', ['rackspace']) do
+Shindo.tests('Fog::Rackspace::LoadBalancers | virtual_ips', ['rackspace']) do
+
+  pending if Fog.mocking?
 
   given_a_load_balancer_service do
     given_a_load_balancer do

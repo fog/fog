@@ -4,7 +4,7 @@ module Fog
   class << self
 
     def available_providers
-      @providers.select {|provider| Kernel.const_get(provider).available?}
+      @available_providers ||= @providers.select {|provider| Kernel.const_get(provider).available?}.sort
     end
 
   end
@@ -19,8 +19,7 @@ module Fog
             service = self.class_for(service)
             availability &&= service.requirements.all? { |requirement| Fog.credentials.include?(requirement) }
           rescue ArgumentError => e
-            warning = "[yellow][WARN] #{e.message}[/]"
-            Formatador.display_line(warning)
+            Fog::Logger.warning(e.message)
             availability = false
           rescue => e
             availability = false
@@ -59,9 +58,11 @@ require 'fog/bin/brightbox'
 require 'fog/bin/cloudstack'
 require 'fog/bin/dnsimple'
 require 'fog/bin/dnsmadeeasy'
+require 'fog/bin/dynect'
 require 'fog/bin/ecloud'
 require 'fog/bin/go_grid'
 require 'fog/bin/google'
+require 'fog/bin/libvirt'
 require 'fog/bin/linode'
 require 'fog/bin/local'
 require 'fog/bin/new_servers'

@@ -7,7 +7,7 @@ Shindo.tests('Fog::Compute[:brightbox] | load balancer requests', ['brightbox'])
       node_id = @node.id
     end
 
-    creation_args = {
+    create_options = {
       :nodes => [{
         :node => node_id
       }],
@@ -22,9 +22,9 @@ Shindo.tests('Fog::Compute[:brightbox] | load balancer requests', ['brightbox'])
       }
     }
 
-    tests("#create_load_balancer(#{creation_args.inspect})").formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER) do
+    tests("#create_load_balancer(#{create_options.inspect})").formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER) do
       pending if Fog.mocking?
-      data = Fog::Compute[:brightbox].create_load_balancer(creation_args)
+      data = Fog::Compute[:brightbox].create_load_balancer(create_options)
       @load_balancer_id = data["id"]
       data
     end
@@ -33,9 +33,9 @@ Shindo.tests('Fog::Compute[:brightbox] | load balancer requests', ['brightbox'])
       Fog::Compute[:brightbox].load_balancers.get(@load_balancer_id).wait_for { ready? }
     end
 
-    # tests("#list_load_balancers()").formats(Brightbox::Compute::Formats::Collection::LOAD_BALANCERS) do
-    #   Fog::Compute[:brightbox].list_load_balancers
-    # end
+    tests("#list_load_balancers()").formats(Brightbox::Compute::Formats::Collection::LOAD_BALANCERS) do
+      Fog::Compute[:brightbox].list_load_balancers
+    end
 
     tests("#get_load_balancer('#{@load_balancer_id}')").formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER) do
       pending if Fog.mocking?
@@ -55,7 +55,7 @@ Shindo.tests('Fog::Compute[:brightbox] | load balancer requests', ['brightbox'])
 
   tests('failure') do
 
-    tests("#create_load_balancer").raises(Excon::Errors::UnprocessableEntity) do
+    tests("#create_load_balancer").raises(ArgumentError) do
       pending if Fog.mocking?
       Fog::Compute[:brightbox].create_load_balancer
     end

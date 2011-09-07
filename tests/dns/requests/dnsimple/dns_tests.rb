@@ -3,18 +3,6 @@ Shindo.tests('Fog::DNS[:dnsimple] | DNS requests', ['dnsimple', 'dns']) do
   @domain = ''
   @domain_count = 0
 
-  def generate_unique_domain( with_trailing_dot = false)
-    #get time (with 1/100th of sec accuracy)
-    #want unique domain name and if provider is fast, this can be called more than once per second
-    time= (Time.now.to_f * 100).to_i
-    domain = 'test-' + time.to_s + '.com'
-    if with_trailing_dot
-      domain+= '.'
-    end
-
-    domain
-  end
-
   tests("success") do
 
     test("get current domain count") do

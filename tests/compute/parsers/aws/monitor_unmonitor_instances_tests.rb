@@ -1,4 +1,4 @@
-require 'fog/compute/parsers/aws/monitor_unmonitor_instances'
+require 'fog/aws/parsers/compute/monitor_unmonitor_instances'
 
 Shindo.tests('Compute::AWS::MonitorUnmonitorInstances | monitor/unmonitor parser') do
 
