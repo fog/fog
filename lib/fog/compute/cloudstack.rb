@@ -4,24 +4,48 @@ module Fog
   module Compute
     class Cloudstack < Fog::Service
 
+      class BadRequest < Fog::Errors::Error; end
+
       requires :cloudstack_api_key, :cloudstack_secret_access_key, :host
       recognizes :host, :port, :path, :scheme, :persistent
-
+      
       request_path 'fog/compute/requests/cloudstack'
       
+      request :authorize_security_group_ingress
+      
+      request :create_account
       request :create_domain
+      request :create_security_group
+      request :create_snapshot
       request :create_user
 
+      request :delete_account
       request :delete_domain
+      request :delete_security_group
+      request :delete_snapshot
       request :delete_user
       
+      request :deploy_virtual_machine
+      
+      request :destroy_virtual_machine
+      
       request :disable_user
+
       request :enable_user
+
+      request :generate_usage_records
+      
+      request :get_vm_password
       
       request :list_accounts
       request :list_alerts
       request :list_async_jobs
+      request :list_capacity
+      request :list_capabilities
+      request :list_clusters
+      request :list_configurations
       request :list_disk_offerings
+      request :list_capacity
       request :list_domains
       request :list_domain_children
       request :list_events
@@ -49,8 +73,21 @@ module Fog
       request :list_volumes
       request :list_zones
       
-      request :update_user
+      request :query_async_job_result
+      
+      request :reboot_virtual_machine
+      request :register_user_keys
 
+      request :revoke_security_group_ingress
+      
+      request :start_virtual_machine      
+      request :stop_virtual_machine
+      
+      request :update_account
+      request :update_domain
+      request :update_user
+      request :update_virtual_machine
+      
       class Mock
 
         def self.data
@@ -103,11 +140,25 @@ module Fog
           
           params.merge!({'signature' => signature})
           
-          response = @connection.request({
-            :query => params,
-            :method => 'GET',
-            :expects => 200  
-          })
+          begin
+            response = @connection.request({
+              :query => params,
+              :method => 'GET',
+              :expects => 200  
+            })
+          rescue Excon::Errors::HTTPStatusError => error
+            error_response = JSON.parse(error.response.body)
+            
+            error_code = error_response.values.first['errorcode']
+            error_text = error_response.values.first['errortext']
+            
+            case error_code
+            when 431
+              raise Fog::Compute::Cloudstack::BadRequest.new(error_text)
+            else
+              raise Fog::Compute::Cloudstack::Error.new(error_text)
+            end
+          end
           
           unless response.body.empty?
             response = JSON.parse(response.body)
