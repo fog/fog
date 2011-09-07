@@ -23,6 +23,7 @@ module Fog
       request :find_all_by_uuid
       request :find_all_by_instance_uuid
       request :find_template_by_instance_uuid
+      request :find_vm_by_ref
 
       class Mock
 

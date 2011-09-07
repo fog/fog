@@ -19,8 +19,15 @@ module Fog
           load(vm_attributes)
         end
 
-        def get(instance_uuid)
-          vm_mob = connection.find_all_by_instance_uuid(instance_uuid).first
+        def get(id)
+          # Is the id a managed_object_reference?  This may be the case if we're reloading
+          # a model of a VM in the process of being cloned, since it
+          # will not have a instance_uuid yet.
+          if id =~ /^vm-/
+            vm_mob = connection.find_vm_by_ref(:vm_ref => id)
+          else
+            vm_mob = connection.find_all_by_instance_uuid(id).first
+          end
           if server_attributes = model.attribute_hash_from_mob(vm_mob)
             new(server_attributes)
           end
