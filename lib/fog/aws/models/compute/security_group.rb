@@ -9,6 +9,7 @@ module Fog
         identity  :name,            :aliases => 'groupName'
 
         attribute :description,     :aliases => 'groupDescription'
+        attribute :group_id,        :aliases => 'groupId'
         attribute :ip_permissions,  :aliases => 'ipPermissions'
         attribute :owner_id,        :aliases => 'ownerId'
 
