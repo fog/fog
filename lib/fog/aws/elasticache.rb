@@ -32,8 +32,8 @@ module Fog
       #request :describe_events
 
       model_path 'fog/aws/models/elasticache'
-      # model :server
-      # collection :servers
+      model :cluster
+      collection :clusters
       model :security_group
       collection :security_groups
       # model :parameter_group

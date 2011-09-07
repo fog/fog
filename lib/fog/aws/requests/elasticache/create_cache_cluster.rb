@@ -18,7 +18,6 @@ module Fog
         #   * :engine <~String> - The Cluster's caching software (memcached)
         #   * :engine_version <~String> - The Cluster's caching software version
         #   * :notification_topic_arn <~String> - Amazon SNS Resource Name
-        #   * :cluster_id <~String> - The name of the Cache Cluster
         #   * :port <~Integer> - The memcached port number
         #   * :preferred_availablility_zone <~String>
         #   * :preferred_maintenance_window <~String>
