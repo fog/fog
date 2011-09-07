@@ -25,6 +25,8 @@ module Fog
       request :get_products
       request :get_template
       request :get_templates
+      request :create_template
+      request :destroy_template
       request :reboot_block
 
       class Mock
