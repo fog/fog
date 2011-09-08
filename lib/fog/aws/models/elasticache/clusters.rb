@@ -21,7 +21,6 @@ module Fog
             ).body['CacheClusters'].first
           )
         rescue Fog::AWS::Elasticache::NotFound
-          nil
         end
       end
 
