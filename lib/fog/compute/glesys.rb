@@ -35,7 +35,10 @@ module Fog
 
 
       class Mock
-        include Collections
+
+        def initialize(options)
+          Fog::Mock.not_implemented
+        end
 
         def request(method_name, options = {})
           Fog::Mock.not_implemented
@@ -44,7 +47,6 @@ module Fog
       end
 
       class Real
-        include Collections
 
         def initialize(options)
           require 'multi_json'

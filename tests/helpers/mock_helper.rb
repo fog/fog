@@ -22,6 +22,8 @@ if Fog.mock?
     :ecloud_username                  => 'ecloud_username',
     :ecloud_password                  => 'ecloud_password',
     :ecloud_versions_uri              => 'http://ecloud.versions.uri',
+    :glesys_username                  => 'glesys_username',
+    :glesys_api_key                   => 'glesys_api_key',
     :go_grid_api_key                  => 'go_grid_api_key',
     :go_grid_shared_secret            => 'go_grid_shared_secret',
     :google_storage_access_key_id     => 'google_storage_access_key_id',
