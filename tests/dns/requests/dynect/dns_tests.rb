@@ -1,3 +1,6 @@
+require 'spec'
+require 'spec/mocks'
+
 Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
 
   shared_format = {
@@ -126,7 +129,7 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       data
     end
 
-    sleep 3 unless Fog.mocking?
+    sleep 5 unless Fog.mocking?
 
     @dns.post_record('CNAME', @domain, "cname.#{@fqdn}", {'cname' => "#{@fqdn}."})
 
@@ -163,10 +166,20 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
       'data' => {}
     })
 
-    sleep 3 unless Fog.mocking?
+    sleep 5 unless Fog.mocking?
 
     tests("delete_zone('#{@domain}')").formats(delete_zone_format) do
       @dns.delete_zone(@domain).body
+    end
+  end
+
+  tests('failure') do
+    tests("#auth_token with bad credentials").raises(Excon::Errors::BadRequest) do
+      pending if Fog.mocking?
+      @dns = Fog::DNS[:dynect]
+      @dns.instance_variable_get(:@connection).stub(:request) { raise Excon::Errors::BadRequest.new('Expected(200) <=> Actual(400 Bad Request) request => {:headers=>{"Content-Type"=>"application/json", "API-Version"=>"2.3.1", "Auth-Token"=>"auth-token", "Host"=>"api2.dynect.net:443", "Content-Length"=>0}, :host=>"api2.dynect.net", :mock=>nil, :path=>"/REST/CNAMERecord/domain.com/www.domain.com", :port=>"443", :query=>nil, :scheme=>"https", :expects=>200, :method=>:get} response => #<Excon::Response:0x00000008478b98 @body="{"status": "failure", "data": {}, "job_id": 21326025, "msgs": [{"INFO": "login: Bad or expired credentials", "SOURCE": "BLL", "ERR_CD": "INVALID_DATA", "LVL": "ERROR"}, {"INFO": "login: There was a problem with your credentials", "SOURCE": "BLL", "ERR_CD": null, "LVL": "INFO"}]}", @headers={"Server"=>"nginx/0.7.67", "Date"=>"Thu, 08 Sep 2011 20:04:21 GMT", "Content-Type"=>"application/json", "Transfer-Encoding"=>"chunked", "Connection"=>"keep-alive"}, @status=400>') }
+      @dns.instance_variable_get(:@connection).should_receive(:request).exactly(2).times
+      @dns.auth_token
     end
   end
 end
