@@ -107,16 +107,26 @@ class Glesys
           }
        }
         
-        START_STOP = {
+        START = {
           'arguments' => {
             'serverid' => String
           },
-          'status' => { 
+          'status' => {
             'code' => String,
             'text' => String
           }
         }
 
+        STOP = {
+          'arguments' => {
+            'serverid'  => String,
+            'type'      => String
+          },
+          'status' => {
+            'code' => String,
+            'text' => String
+          }
+        }
 
       end
       module Ips

@@ -46,7 +46,7 @@ Shindo.tests('Fog::Compute[:glesys] | server requests', ['glesys']) do
       Fog::Compute[:glesys].server_status(@serverid).body['response']
     end
 
-    tests("#stop(:serverid => #{@serverid})").formats(Glesys::Compute::Formats::Servers::START_STOP) do
+    tests("#stop(:serverid => #{@serverid})").formats(Glesys::Compute::Formats::Servers::STOP) do
       pending if Fog.mocking?
       Fog::Compute[:glesys].stop(:serverid => @serverid).body['response']
     end
@@ -58,7 +58,7 @@ Shindo.tests('Fog::Compute[:glesys] | server requests', ['glesys']) do
       s.wait_for { s.state == 'stopped' }  
     end
 
-    tests("#start(:serverid => #{@serverid})").formats(Glesys::Compute::Formats::Servers::START_STOP) do
+    tests("#start(:serverid => #{@serverid})").formats(Glesys::Compute::Formats::Servers::START) do
       pending if Fog.mocking?
       Fog::Compute[:glesys].start(:serverid => @serverid).body['response']
     end
