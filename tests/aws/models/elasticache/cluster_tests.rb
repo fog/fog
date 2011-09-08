@@ -1,6 +1,6 @@
 Shindo.tests('AWS::Elasticache | cache clusters', ['aws', 'elasticache']) do
   cluster_params = {
-    :id               => 'fog-test-cluster',
+    :id               => "fog-test-cluster-#{rand(999).to_s}",
     :node_type        => 'cache.m1.large',
     :security_groups  => ['default'],
     :engine           => 'memcached',
