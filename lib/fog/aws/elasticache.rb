@@ -104,6 +104,8 @@ module Fog
               case match[1]
               when 'CacheSecurityGroupNotFound'
                 raise Fog::AWS::Elasticache::NotFound
+              when 'CacheClusterNotFound'
+                raise Fog::AWS::Elasticache::NotFound
               when 'CacheSecurityGroupAlreadyExists'
                 raise Fog::AWS::Elasticache::IdentifierTaken
               when 'InvalidParameterValue'
