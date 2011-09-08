@@ -10,29 +10,17 @@ Shindo.tests('AWS::Elasticache | cache clusters', ['aws', 'elasticache']) do
   pending if Fog.mocking?
 
   model_tests(AWS[:elasticache].clusters, cluster_params, false) do
-    # Reload to get the cluster info
-    @instance.reload
-    puts "Waiting for cluster #{@instance.id} to become available..."
-    #@instance.wait_for {ready?}    # This doesn't work (entity disappears)
-    while (@instance.status != "available") do
-      puts "Waiting for cluster #{@instance.id} (#{@instance.status})"
-      sleep 20
-      #@instance.reload             # This doesn't work either! (no changes)
-      @instance = AWS[:elasticache].clusters.find {|c| c.id == @instance.id}
-    end
+    @instance.reload  # Reload to get the cluster info from AWS
+    puts "Waiting for #{@instance.id} to become available (#{@instance.status})..."
+    @instance.wait_for {ready?}
   end
 
+  # Single model is still deleting, so re-randomize the cluster ID
+  cluster_params[:id] = "fog-test-cluster-#{rand(999).to_s}"
   collection_tests(AWS[:elasticache].clusters, cluster_params, false) do
-    # Reload to get the cluster info
-    @instance.reload
-    puts "Waiting for cluster #{@instance.id} to become available..."
-    #@instance.wait_for {ready?}    # This doesn't work (entity disappears)
-    while (@instance.status != "available") do
-      puts "Waiting for cluster #{@instance.id} (#{@instance.status})"
-      sleep 20
-      #@instance.reload             # This doesn't work either! (no changes)
-      @instance = AWS[:elasticache].clusters.find {|c| c.id == @instance.id}
-    end
+    @instance.reload  # Reload to get the cluster info from AWS
+    puts "Waiting for #{@instance.id} to become available (#{@instance.status})..."
+    @instance.wait_for {ready?}
   end
 
 end
