@@ -21,10 +21,6 @@ module Fog
             'Action' => 'DescribeCacheClusters',
             :parser => Fog::Parsers::AWS::Elasticache::DescribeCacheClusters.new
           }.merge(options))
-        rescue Excon::Errors::NotFound => e
-          if e.response.body =~ %r{<Code>CacheClusterNotFound</Code>}
-            raise Fog::AWS::Elasticache::NotFound
-          end
         end
 
       end
