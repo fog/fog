@@ -48,12 +48,11 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
       body
     end
 
-    puts "Waiting for cluster #{cluster_id} to become available..."
-    cluster = AWS[:elasticache].clusters.find {|c| c.id == cluster_id}
-    cluster.wait_for {ready?}    # This doesn't work (entity disappears)
+    Formatador.display_line "Waiting for cluster #{cluster_id}..."
+    AWS[:elasticache].clusters.get(cluster_id).wait_for {ready?}
 
     tests(
-    '#delete_cache_security_group'
+    '#delete_cache_clusters'
     ).formats(AWS::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
       body = AWS[:elasticache].delete_cache_cluster(cluster_id).body
       # make sure this particular cluster is in the returned list
