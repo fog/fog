@@ -21,7 +21,7 @@ module Fog
         require 'fog/ecloud/compute'
         Fog::Compute::Ecloud.new(attributes)
       when :glesys
-        require 'fog/compute/glesys'
+        require 'fog/glesys/compute'
         Fog::Compute::Glesys.new(attributes)
       when :gogrid
         require 'fog/go_grid/compute'

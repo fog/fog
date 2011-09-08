@@ -6,7 +6,7 @@ module Fog
 
       API_URL = "https://api.glesys.com"
 
-      model_path 'fog/compute/models/glesys'
+      model_path 'fog/glesys/models/compute'
       collection  :servers
       model       :server
       collection  :templates
@@ -14,7 +14,7 @@ module Fog
       collection  :ips
       model       :ip
 
-      request_path 'fog/compute/requests/glesys'
+      request_path 'fog/glesys/requests/compute'
       request :create
       request :destroy
       request :list_servers
@@ -22,7 +22,7 @@ module Fog
       request :server_status
       request :start
       request :stop
-      # Templates 
+      # Templates
       request :template_list
       # IP operations
       request :ip_list_free

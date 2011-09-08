@@ -1,5 +1,5 @@
 require 'fog/core/collection'
-require 'fog/compute/models/glesys/server'
+require 'fog/glesys/models/compute/server'
 
 module Fog
   module Compute
