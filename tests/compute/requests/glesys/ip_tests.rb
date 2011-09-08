@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:Glesys] | ip requests', ['glesys']) do
+Shindo.tests('Fog::Compute[:glesys] | ip requests', ['glesys']) do
 
   @free_ip = nil
   @ips = nil
@@ -7,13 +7,13 @@ Shindo.tests('Fog::Compute[:Glesys] | ip requests', ['glesys']) do
 
     tests("#ip_list_own()").formats(Glesys::Compute::Formats::Ips::IPLIST) do
       pending if Fog.mocking?
-      Fog::Compute[:Glesys].ip_list_own.body['response']
+      Fog::Compute[:glesys].ip_list_own.body['response']
     end
     
     tests("#ip_list_free(:datcenter => 'Falkenberg, :platform => 'Xen', :ipversion => 4)"
     ).formats(Glesys::Compute::Formats::Ips::IPLIST_ALL) do
       pending if Fog.mocking?
-      ips = Fog::Compute[:Glesys].ip_list_free(
+      ips = Fog::Compute[:glesys].ip_list_free(
         :datacenter => "Falkenberg",
         :platform   => "Xen",
         :ipversion  => 4
@@ -25,7 +25,7 @@ Shindo.tests('Fog::Compute[:Glesys] | ip requests', ['glesys']) do
     tests("#ip_take(:datacenter => 'Falkenberg', :platform => 'Xen', :ipversion => 4, :ipaddress => #{@free_ip})"
     ).formats(Glesys::Compute::Formats::Ips::IPLIST_CATCH_RELEASE) do
       pending if Fog.mocking?
-      Fog::Compute[:Glesys].ip_take(
+      Fog::Compute[:glesys].ip_take(
         :datacenter => "Falkenberg",
         :platform   => "Xen",
         :ipversion  => 4,
@@ -36,7 +36,7 @@ Shindo.tests('Fog::Compute[:Glesys] | ip requests', ['glesys']) do
     tests("#ip_release(:ipaddress => '#{@free_ip}', :ipversion => 4)"
     ).formats(Glesys::Compute::Formats::Ips::IPLIST_CATCH_RELEASE) do
       pending if Fog.mocking?
-      Fog::Compute[:Glesys].ip_release(
+      Fog::Compute[:glesys].ip_release(
         :ipaddress => @free_ip,
         :ipversion => 4
       ).body['response']
@@ -52,7 +52,7 @@ Shindo.tests('Fog::Compute[:Glesys] | ip requests', ['glesys']) do
 
     tests("#ip_take_argument_error()").raises(Excon::Errors::HTTPStatusError) do
       pending if Fog.mocking?
-      ip = Fog::Compute[:Glesys].ips.new(
+      ip = Fog::Compute[:glesys].ips.new(
         :datacenter => "Falkenberg",
         :platform   => "Xen",
         :version    => 4,

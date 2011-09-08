@@ -5,8 +5,6 @@ class Glesys < Fog::Bin
       case key
       when :compute
         Fog::Compute::Glesys
-      when :storage
-        Fog::Storage::Glesys
       else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
@@ -16,11 +14,8 @@ class Glesys < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
-          Formatador.display_line("[yellow][WARN] Glesys[:compute] is deprecated, use Compute[:Glesys] instead[/]")
+          Formatador.display_line("[yellow][WARN] Glesys[:compute] is deprecated, use Compute[:glesys] instead[/]")
           Fog::Compute.new(:provider => 'Glesys')
-        when :storage
-          Formatador.display_line("[yellow][WARN] Glesys[:storage] is deprecated, use Storage[:Glesys] instead[/]")
-          Fog::Storage.new(:provider => 'Glesys')
         else
           raise ArgumentError, "Unrecognized service: #{service}"
         end
