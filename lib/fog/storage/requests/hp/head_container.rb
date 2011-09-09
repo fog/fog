@@ -17,7 +17,7 @@ module Fog
           response = request(
             :expects  => 204,
             :method   => 'HEAD',
-            :path     => URI.escape(container),
+            :path     => escape_name(container),
             :query    => {'format' => 'json'}
           )
           response
