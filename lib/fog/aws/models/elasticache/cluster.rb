@@ -24,7 +24,7 @@ module Fog
         attribute :create_time,
           :aliases => 'CacheClusterCreateTime', :type => :date_time
         attribute :security_groups,
-          :aliases => 'CacheSecurityGroupNames', :type => :array
+          :aliases => 'CacheSecurityGroups', :type => :array
         attribute :notification_config,
           :aliases => 'NotificationConfiguration', :type => :hash
 
