@@ -22,8 +22,8 @@ Shindo.tests('AWS::Elasticache | cache clusters', ['aws', 'elasticache']) do
   Formatador.display_line "Creating cluster #{cluster_params[:id]}..."
   collection_tests(AWS[:elasticache].clusters, cluster_params, false) do
     @instance.reload  # Reload to get the cluster info from AWS
-  Formatador.display_line "Waiting for #{@instance.id} "+
-    "to become available (#{@instance.status})..."
+    Formatador.display_line "Waiting for #{@instance.id} "+
+      "to become available (#{@instance.status})..."
     @instance.wait_for {ready?}
   end
 

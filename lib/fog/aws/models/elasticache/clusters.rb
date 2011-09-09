@@ -14,10 +14,10 @@ module Fog
           )
         end
 
-        def get(identity)
+        def get(identity, show_node_info = false)
           new(
             connection.describe_cache_clusters(
-              'CacheClusterId' => identity
+              identity, :show_node_info => show_node_info
             ).body['CacheClusters'].first
           )
         rescue Fog::AWS::Elasticache::NotFound

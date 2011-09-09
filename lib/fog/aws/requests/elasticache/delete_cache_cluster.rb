@@ -8,7 +8,7 @@ module Fog
         # Deletes a Cache Cluster
         #
         # === Parameter (required):
-        # *  CacheClusterId <~String> - The ID of the cache cluster to delete
+        # *  id <~String> - The ID of the cache cluster to delete
         # === Returns
         # * response <~Excon::Response>:
         #   * body <~Hash>
@@ -23,7 +23,7 @@ module Fog
       end
 
       class Mock
-        def describe_cache_clusters
+        def delete_cache_cluster(cluster_id)
           Fog::Mock.not_implemented
         end
       end

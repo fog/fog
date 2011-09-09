@@ -46,23 +46,24 @@ module Fog
           requires :engine
           requires :num_nodes
 
-          parameter_group ||= Hash.new
+          parameter_group     ||= Hash.new
           notification_config ||= Hash.new
-          security_groups ||= Array.new
+          security_groups     ||= Array.new
 
           connection.create_cache_cluster(
-            :cluster_id => id,
-            :node_type => node_type,
-            :security_group_names => security_groups,
-            :num_nodes => num_nodes,
-            :auto_minor_version_upgrade => auto_upgrade,
-            :parameter_group_name => parameter_group['CacheParameterGroupName'],
-            :engine => engine,
-            :engine_version => engine_version,
-            :notification_topic_arn => notification_config['TopicArn'],
-            :port => port,
-            :preferred_availablility_zone => zone,
-            :preferred_maintenance_window => maintenance_window
+            id, {
+              :node_type                    => node_type,
+              :security_group_names         => security_groups,
+              :num_nodes                    => num_nodes,
+              :auto_minor_version_upgrade   => auto_upgrade,
+              :engine                       => engine,
+              :engine_version               => engine_version,
+              :notification_topic_arn       => notification_config['TopicArn'],
+              :port                         => port,
+              :preferred_availablility_zone => zone,
+              :preferred_maintenance_window => maintenance_window,
+              :parameter_group_name => parameter_group['CacheParameterGroupName'],
+            }
           )
         end
 
