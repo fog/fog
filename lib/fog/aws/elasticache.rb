@@ -12,7 +12,7 @@ module Fog
       request :create_cache_cluster
       request :delete_cache_cluster
       request :describe_cache_clusters
-      #request :modify_cache_cluster
+      request :modify_cache_cluster
       #request :reboot_cache_cluster
 
       #request :create_cache_parameter_group
