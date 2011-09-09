@@ -9,12 +9,10 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
     tests(
     '#create_cache_cluster'
     ).formats(AWS::Elasticache::Formats::SINGLE_CACHE_CLUSTER) do
-      body = AWS[:elasticache].create_cache_cluster(
-        :cluster_id => cluster_id
-      ).body
+      body = AWS[:elasticache].create_cache_cluster(cluster_id).body
       cluster = body['CacheCluster']
       returns(cluster_id) { cluster['CacheClusterId'] }
-      returns('creating')  { cluster['CacheClusterStatus'] }
+      returns('creating') { cluster['CacheClusterStatus'] }
       body
     end
     
@@ -38,9 +36,7 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
     tests(
     '#describe_cache_clusters with cluster ID'
     ).formats(AWS::Elasticache::Formats::DESCRIBE_CACHE_CLUSTERS) do
-      body = AWS[:elasticache].describe_cache_clusters(
-        'CacheClusterId' => cluster_id
-      ).body
+      body = AWS[:elasticache].describe_cache_clusters(cluster_id).body
       returns(1, "size of 1") { body['CacheClusters'].size }
       returns(cluster_id, "has #{cluster_id}") do
         body['CacheClusters'].first['CacheClusterId']

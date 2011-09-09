@@ -7,12 +7,12 @@ module Fog
         # creates a cache cluster
         #
         # === Required Parameters
+        # * id <~String> - A unique cluster ID - 20 characters max.
+        # === Optional Parameters (passed into the options hash)
         # * options <~Hash> - The all parameters should be set in this Hash:
-        #   * :cluster_id <~String> - The name of the Cache Cluster
         #   * :node_type <~String> - The size (flavor) of the cache Nodes
         #   * :security_group_names <~Array> - Array of Elasticache::SecurityGroup names
         #   * :num_nodes <~Integer> - The number of nodes in the Cluster
-        # === Optional Parameters (also set in the options hash)
         #   * :auto_minor_version_upgrade <~TrueFalseClass>
         #   * :parameter_group_name <~String> - Name of the Cluster's ParameterGroup
         #   * :engine <~String> - The Cluster's caching software (memcached)
@@ -24,7 +24,7 @@ module Fog
         # === Returns
         # * response <~Excon::Response>:
         #   * body <~Hash>
-        def create_cache_cluster(options)
+        def create_cache_cluster(id, options = {})
           # Construct Cache Security Group parameters in the format:
           #   CacheSecurityGroupNames.member.N => "security_group_name"
           group_names = options[:security_group_names] || ['default']
@@ -36,17 +36,24 @@ module Fog
           # Merge the Cache Security Group parameters with the normal options
           request(sec_group_params.merge(
             'Action'          => 'CreateCacheCluster',
-            'CacheClusterId'  => options[:cluster_id],
+            'CacheClusterId'  => id,
             'CacheNodeType'   => options[:node_type]  || 'cache.m1.large',
             'Engine'          => options[:engine]     || 'memcached',
             'NumCacheNodes'   => options[:num_nodes]  || 1 ,
+            'AutoMinorVersionUpgrade'     => options[:auto_minor_version_upgrade],
+            'CacheParameterGroupName'     => options[:parameter_group_name],
+            'EngineVersion'               => options[:engine_version],
+            'NotificationTopicArn'        => options[:notification_topic_arn],
+            'Port'                        => options[:port],
+            'PreferredAvailabilityZone'   => options[:preferred_availablility_zone],
+            'PreferredMaintenanceWindow'  => options[:preferred_maintenance_window],
             :parser => Fog::Parsers::AWS::Elasticache::SingleCacheCluster.new
           ))
         end
       end
 
       class Mock
-        def create_cache_cluster(options)
+        def create_cache_cluster(id, options = {})
           Fog::Mock.not_implemented
         end
       end
