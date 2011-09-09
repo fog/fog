@@ -8,8 +8,8 @@ module Fog
         #
         # === Required Parameters
         # * id <~String> - A unique cluster ID - 20 characters max.
-        # === Optional Parameters (passed into the options hash)
-        # * options <~Hash> - The all parameters should be set in this Hash:
+        # === Optional Parameters
+        # * options <~Hash> - All optional parameters should be set in this Hash:
         #   * :node_type <~String> - The size (flavor) of the cache Nodes
         #   * :security_group_names <~Array> - Array of Elasticache::SecurityGroup names
         #   * :num_nodes <~Integer> - The number of nodes in the Cluster
@@ -39,7 +39,7 @@ module Fog
             'CacheClusterId'  => id,
             'CacheNodeType'   => options[:node_type]  || 'cache.m1.large',
             'Engine'          => options[:engine]     || 'memcached',
-            'NumCacheNodes'   => options[:num_nodes]  || 1 ,
+            'NumCacheNodes'   => options[:num_nodes]  || 1,
             'AutoMinorVersionUpgrade'     => options[:auto_minor_version_upgrade],
             'CacheParameterGroupName'     => options[:parameter_group_name],
             'EngineVersion'               => options[:engine_version],

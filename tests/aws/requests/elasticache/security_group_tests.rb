@@ -32,9 +32,7 @@ Shindo.tests('AWS::Elasticache | security group requests', ['aws', 'elasticache'
     tests(
     '#describe_cache_security_groups with name'
     ).formats(AWS::Elasticache::Formats::DESCRIBE_SECURITY_GROUPS) do
-      body = AWS[:elasticache].describe_cache_security_groups(
-        'CacheSecurityGroupName' => name
-      ).body
+      body = AWS[:elasticache].describe_cache_security_groups(name).body
       returns(1, "size of 1") { body['CacheSecurityGroups'].size }
       returns(name, "has #{name}") do
         body['CacheSecurityGroups'].first['CacheSecurityGroupName']
@@ -68,9 +66,8 @@ Shindo.tests('AWS::Elasticache | security group requests', ['aws', 'elasticache'
 
       # Wait for the state to be active
       Fog.wait_for do
-        group = AWS[:elasticache].describe_cache_security_groups(
-          'CacheSecurityGroupName' => name
-        ).body['CacheSecurityGroups'].first
+        response = AWS[:elasticache].describe_cache_security_groups(name)
+        group = response.body['CacheSecurityGroups'].first
         group['EC2SecurityGroups'].all? {|ec2| ec2['Status'] == 'authorized'}
       end
 
@@ -90,7 +87,6 @@ Shindo.tests('AWS::Elasticache | security group requests', ['aws', 'elasticache'
         end
         body
       end
-
 
       ec2_group.destroy
     end
