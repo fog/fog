@@ -7,17 +7,17 @@ module Fog
 
         # Returns a list of CacheSecurityGroup descriptions
         #
-        # === Parameters
+        # === Parameters (optional)
+        # * name <~String> - The name of an existing cache security group
         # * options <~Hash> (optional):
-        # *  CacheSecurityGroupName<~String> - The name of the cache security group
-        # *  Marker <~String> - marker provided in the previous request
-        # *  MaxRecords <~String> - the maximum number of records to include
-        # === Returns
-        # * response <~Excon::Response>:
-        #   * body <~Hash>
-        def describe_cache_security_groups(options = {})
+        # *  :marker <~String> - marker provided in the previous request
+        # *  :max_records <~Integer> - the maximum number of records to include
+        def describe_cache_security_groups(name = nil, options = {})
           request({
-            'Action' => 'DescribeCacheSecurityGroups',
+            'Action'                  => 'DescribeCacheSecurityGroups',
+            'CacheSecurityGroupName'  => name,
+            'Marker'                  => options[:marker],
+            'MaxRecords'              => options[:max_records],
             :parser => Fog::Parsers::AWS::Elasticache::DescribeSecurityGroups.new
           }.merge(options))
         end
@@ -25,7 +25,7 @@ module Fog
       end
 
       class Mock
-        def describe_cache_security_groups
+        def describe_cache_security_groups(name = nil, options = {})
           Fog::Mock.not_implemented
         end
       end

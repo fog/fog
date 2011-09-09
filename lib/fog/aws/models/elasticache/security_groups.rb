@@ -17,7 +17,7 @@ module Fog
         def get(identity)
           new(
             connection.describe_cache_security_groups(
-              'CacheSecurityGroupName' => identity
+              identity
             ).body['CacheSecurityGroups'].first
           )
         rescue Fog::AWS::Elasticache::NotFound
