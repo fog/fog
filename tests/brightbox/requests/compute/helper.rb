@@ -58,13 +58,7 @@ class Brightbox
           "resource_type"   => String,
           "url"             => String,
           "id"              => String,
-          "status"          => String,
-          "ram_limit"       => Integer,
-          "ram_used"        => Integer,
-          "cloud_ips_limit" => Integer,
-          "cloud_ips_used"  => Integer,
-          "load_balancers_limit" => Integer,
-          "load_balancers_used" => Integer
+          "status"          => String
         }
 
         API_CLIENT = {
