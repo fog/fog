@@ -12,7 +12,6 @@ module Fog
         attribute :node_type, :aliases => 'CacheNodeType'
         attribute :engine, :aliases => 'Engine'
         attribute :engine_version, :aliases => 'EngineVersion'
-        attribute :port, :aliases => 'Port'
         attribute :num_nodes, :aliases => 'NumCacheNodes'
         attribute :zone, :aliases => 'PreferredAvailabilityZone'
         attribute :maintenance_window, :aliases => 'PreferredMaintenanceWindow'
