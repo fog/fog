@@ -139,7 +139,7 @@ module Fog
               when 'ValidationError'
                 raise Fog::AWS::AutoScaling::ValidationError.slurp(error, match[2])
               else
-                raise Fog::AWS::Compute::Error.slurp(error, "#{match[1]} => #{match[2]}")
+                raise Fog::Compute::AWS::Error.slurp(error, "#{match[1]} => #{match[2]}")
               end
             else
              raise
