@@ -91,7 +91,7 @@ module Fog
             response
 
           rescue Excon::Errors::HTTPStatusError => error
-            if @auth_token && error.message =~ /login: Bad or expired credentials/
+            if @auth_token && error.message =~ /login: (Bad or expired credentials|inactivity logout)/
               @auth_token = nil
               retry
             else
