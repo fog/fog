@@ -14,36 +14,73 @@ module Fog
 
       request_path 'fog/vsphere/requests/compute'
       request :current_time
+      request :find_vm_by_ref
       request :list_virtual_machines
       request :vm_power_off
       request :vm_power_on
       request :vm_reboot
       request :vm_clone
       request :vm_destroy
-      request :find_all_by_uuid
-      request :find_all_by_instance_uuid
-      request :find_template_by_instance_uuid
-      request :find_vm_by_ref
+
+      module Shared
+
+        attr_reader :vsphere_is_vcenter
+        attr_reader :vsphere_rev
+
+        # Utility method to convert a VMware managed object into an attribute hash.
+        # This should only really be necessary for the real class.
+        # This method is expected to be called by the request methods
+        # in order to massage VMware Managed Object References into Attribute Hashes.
+        def convert_vm_mob_ref_to_attr_hash(vm_mob_ref)
+          return nil unless vm_mob_ref
+          # A cloning VM doesn't have a configuration yet.  Unfortuantely we just get
+          # a RunTime exception.
+          begin
+            is_ready = vm_mob_ref.config ? true : false
+          rescue RuntimeError
+            is_ready = nil
+          end
+          {
+            'id'               => is_ready ? vm_mob_ref.config.instanceUuid : vm_mob_ref._ref,
+            'mo_ref'           => vm_mob_ref._ref,
+            'name'             => vm_mob_ref.name,
+            'uuid'             => is_ready ? vm_mob_ref.config.uuid : nil,
+            'instance_uuid'    => is_ready ? vm_mob_ref.config.instanceUuid : nil,
+            'hostname'         => vm_mob_ref.summary.guest.hostName,
+            'operatingsystem'  => vm_mob_ref.summary.guest.guestFullName,
+            'ipaddress'        => vm_mob_ref.summary.guest.ipAddress,
+            'power_state'      => vm_mob_ref.runtime.powerState,
+            'connection_state' => vm_mob_ref.runtime.connectionState,
+            'hypervisor'       => vm_mob_ref.runtime.host ? vm_mob_ref.runtime.host.name : nil,
+            'tools_state'      => vm_mob_ref.summary.guest.toolsStatus,
+            'tools_version'    => vm_mob_ref.summary.guest.toolsVersionStatus,
+            'mac_addresses'    => is_ready ? vm_mob_ref.macs : nil,
+            'is_a_template'    => is_ready ? vm_mob_ref.config.template : nil
+          }
+        end
+
+      end
 
       class Mock
+
+        include Shared
 
         def initialize(options={})
           require 'mocha'
           @vsphere_username = options[:vsphere_username]
-          @vsphere_password = options[:vsphere_password]
+          @vsphere_password = 'REDACTED'
           @vsphere_server   = options[:vsphere_server]
           @vsphere_expected_pubkey_hash = options[:vsphere_expected_pubkey_hash]
+          @vsphere_is_vcenter = true
+          @vsphere_rev = '4.0'
           @connection = Mocha::Mock.new
-          # This may, or may not, be a terrible idea:
-          @connection.stub_everything
         end
 
       end
 
       class Real
 
-        attr_reader :vsphere_is_vcenter
-        attr_reader :vsphere_rev
+        include Shared
 
         def initialize(options={})
           require 'rbvmomi'
@@ -90,14 +127,6 @@ module Fog
           @vsphere_is_vcenter = @connection.serviceContent.about.apiType == "VirtualCenter"
 
           authenticate
-        end
-
-        def reload
-          raise NotImplementedError
-        end
-
-        def request
-          raise NotImplementedError
         end
 
         private

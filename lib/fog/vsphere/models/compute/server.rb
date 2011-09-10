@@ -31,56 +31,29 @@ module Fog
         attribute :mac_addresses, :aliases => 'macs'
         attribute :hypervisor,    :aliases => 'host'
         attribute :is_a_template
+        attribute :connection_state
+        attribute :mo_ref
 
-        # Return an attribute hash suitable for the initializer given a
-        # vSphere Managed Object (mob) instance.
-        def self.attribute_hash_from_mob(vm)
-          return {} unless vm
-          # A cloning VM doesn't have a configuration yet.  Unfortuantely we just get
-          # a RunTime exception.
-          begin
-            is_ready = vm.config ? true : false
-          rescue RuntimeError
-            is_ready = nil
-          end
-          {
-            :id               => is_ready ? vm.config.instanceUuid : vm._ref,
-            :name             => vm.name,
-            :uuid             => is_ready ? vm.config.uuid : nil,
-            :instance_uuid    => is_ready ? vm.config.instanceUuid : nil,
-            :hostname         => vm.summary.guest.hostName,
-            :operatingsystem  => vm.summary.guest.guestFullName,
-            :ipaddress        => vm.summary.guest.ipAddress,
-            :power_state      => vm.runtime.powerState,
-            :connection_state => vm.runtime.connectionState,
-            :hypervisor       => vm.runtime.host ? vm.runtime.host.name : nil,
-            :tools_state      => vm.summary.guest.toolsStatus,
-            :tools_version    => vm.summary.guest.toolsVersionStatus,
-            :mac_addresses    => is_ready ? vm.macs : nil,
-            :is_a_template    => is_ready ? vm.config.template : nil
-          }
+        def start(options = {})
+          requires :instance_uuid
+          connection.vm_power_on('instance_uuid' => instance_uuid)
         end
 
-        def start
+        def stop(options = {})
+          options = { :force => false }.merge(options)
           requires :instance_uuid
-          connection.vm_power_on(:instance_uuid => instance_uuid)
+          connection.vm_power_off('instance_uuid' => instance_uuid, 'force' => options[:force])
         end
 
-        def stop(params = {})
-          params = { :force => false }.merge(params)
+        def reboot(options = {})
+          options = { :force => false }.merge(options)
           requires :instance_uuid
-          connection.vm_power_off(:instance_uuid => instance_uuid, :force => params[:force])
+          connection.vm_reboot('instance_uuid' => instance_uuid, 'force' => options[:force])
         end
 
-        def reboot(params = {})
-          params = { :force => false }.merge(params)
+        def destroy(options = {})
           requires :instance_uuid
-          connection.vm_reboot(:instance_uuid => instance_uuid, :force => params[:force])
-        end
-
-        def destroy(params = {})
-          requires :instance_uuid
-          connection.vm_destroy(:instance_uuid => instance_uuid)
+          connection.vm_destroy('instance_uuid' => instance_uuid)
         end
 
       end
