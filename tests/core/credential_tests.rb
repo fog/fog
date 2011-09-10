@@ -2,12 +2,29 @@ Shindo.tests do
   before do
     @old_home = ENV['HOME']
     @old_rc   = ENV['FOG_RC']
+    @old_credential = ENV['FOG_CREDENTIAL']
     Fog.instance_variable_set('@credential_path', nil) # kill memoization
+    Fog.instance_variable_set('@credential', nil) # kill memoization
   end
 
   after do
     ENV['HOME'] = @old_home
-    ENV['FOG_RC'] = @ld_rc
+    ENV['FOG_RC'] = @old_rc
+    ENV['FOG_CREDENTIAL'] = @old_credential
+  end
+
+  tests('credential') do
+    returns(:default, "is :default") { Fog.credential }
+
+    returns("foo", "can be set directly") do
+      Fog.credential = "foo"
+      Fog.credential
+    end
+
+    returns("bar", "can be set with environment variable") do
+      ENV["FOG_CREDENTIAL"] = "bar"
+      Fog.credential
+    end
   end
 
   tests('credentials_path') do

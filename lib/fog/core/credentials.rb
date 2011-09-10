@@ -13,7 +13,7 @@ module Fog
 
   # @return [String, Symbol] The credential to use in Fog
   def self.credential
-    @credential ||= :default
+    @credential ||= ENV["FOG_CREDENTIAL"] || :default
   end
 
   # @return [String] The path for configuration_file
