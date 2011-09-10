@@ -8,7 +8,7 @@ module Fog
         # List availabe metrics
         #
         # ==== Options
-        # * Dimensions<~Array>: a list of dimensions to filter against, 
+        # * Dimensions<~Array>: a list of dimensions to filter against,
         #     Name : The name of the dimension
         #     Value : The value to filter against
         # * MetricName<~String>: The name of the metric to filter against

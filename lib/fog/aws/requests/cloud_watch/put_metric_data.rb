@@ -10,7 +10,7 @@ module Fog
         # * Namespace<~String>: the namespace of the metric data
         # * MetricData<~Array>: the datapoints to publish of the metric
         #     * MetricName<~String>: the name of the metric
-        #     * Timestamp<~String>: the timestamp for the data point. If omitted defaults to the time at which the data is received by CloudWatch 
+        #     * Timestamp<~String>: the timestamp for the data point. If omitted defaults to the time at which the data is received by CloudWatch
         #     * Unit<~String>: the unit
         #     * Value<~Double> the value for the metric
         #     * StatisticValues<~Hash>:
@@ -27,10 +27,10 @@ module Fog
         # ==== See Also
         # http://docs.amazonwebservices.com/AmazonCloudWatch/latest/APIReference/API_PutMetricData.html
         #
-        
+
         def put_metric_data(namespace, metric_data)
           options = {'Namespace' => namespace}
-          
+
           #first index the dimensions for any of the datums that have dimensions
           metric_data.collect! do |metric_datum|
             if dimensions = metric_datum.delete('Dimensions')
@@ -45,14 +45,14 @@ module Fog
           options.merge!(AWS.indexed_param('MetricData.member.%d', [*metric_data]))
           #then finally flatten out an hashes in the overall options array
           options = flatten_hash(options)
-          
+
           request({
               'Action'    => 'PutMetricData',
               :parser     => Fog::Parsers::AWS::CloudWatch::PutMetricData.new
             }.merge(options))
         end
         private
-        
+
         def flatten_hash(starting)
           finishing = {}
           starting.each do |top_level_key, top_level_value|

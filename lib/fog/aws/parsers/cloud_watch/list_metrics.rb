@@ -13,14 +13,14 @@ module Fog
           def reset_metric
             @metric = {'Dimensions' => []}
           end
-          
+
           def reset_dimension
             @dimension = {}
           end
-          
+
           def start_element(name, attrs = [])
             super
-            case name  
+            case name
             when 'Dimensions'
               @in_dimensions = true
             when 'member'
@@ -29,9 +29,9 @@ module Fog
               end
             end
           end
-          
+
           def end_element(name)
-            case name  
+            case name
             when 'Name', 'Value'
               @dimension[name] = value
             when 'Namespace', 'MetricName'

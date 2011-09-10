@@ -12,9 +12,9 @@ module Fog
           def start_element(name, attrs = [])
             super
           end
-          
+
           def end_element(name)
-            case name  
+            case name
             when 'RequestId'
               @response['ResponseMetadata'][name] = @value
             end
