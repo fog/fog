@@ -52,6 +52,10 @@ if Fog.mock?
     :zerigo_token                     => 'zerigo_token',
     :dynect_customer                  => 'dynect_customer',
     :dynect_username                  => 'dynect_username',
-    :dynect_password                  => 'dynect_password'
+    :dynect_password                  => 'dynect_password',
+    :vsphere_server                   => 'virtualcenter.lan',
+    :vsphere_username                 => 'apiuser',
+    :vsphere_password                 => 'apipassword',
+    :vsphere_expected_pubkey_hash     => 'abcdef1234567890'
   })
 end
