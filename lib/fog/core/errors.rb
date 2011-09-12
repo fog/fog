@@ -71,6 +71,7 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :libvirt_username:
   :libvirt_password:
   :libvirt_uri:
+  :libvirt_ip_command:
 #
 # End of Fog Credentials File
 #######################################################
