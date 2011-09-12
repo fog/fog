@@ -13,13 +13,13 @@ module Fog
           def reset_datapoint
             @datapoint = {}
           end
-          
+
           def start_element(name, attrs = [])
             super
           end
-          
+
           def end_element(name)
-            case name  
+            case name
             when 'Average', 'Maximum', 'Minimum', 'SampleCount', 'Sum'
               @datapoint[name] = value.to_f
             when 'Unit'
