@@ -14,6 +14,7 @@ module Fog
         attribute :engine_version, :aliases => 'EngineVersion'
         attribute :num_nodes, :aliases => 'NumCacheNodes'
         attribute :zone, :aliases => 'PreferredAvailabilityZone'
+        attribute :port, :aliases => 'Port'
         attribute :maintenance_window, :aliases => 'PreferredMaintenanceWindow'
         # complex attributes
         attribute :nodes, :aliases => 'CacheNodes', :type => :array
