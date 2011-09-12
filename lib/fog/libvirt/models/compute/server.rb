@@ -30,20 +30,12 @@ module Fog
         attribute :uuid
         attribute :autostart
 
-        attribute :disk_format_type
-        attribute :disk_allocation
-        attribute :disk_capacity
-        attribute :disk_name
-        attribute :disk_pool_name
-        attribute :disk_template_name
-        attribute :disk_path
+        attribute :state
 
-        attribute :iso_dir
-        attribute :iso_file
-
-        attribute :network_interface_type
-        attribute :network_nat_network
-        attribute :network_bridge_name
+        # The following attributes are only needed when creating a new vm
+        attr_accessor :iso_dir, :iso_file
+        attr_accessor :network_interface_type ,:network_nat_network, :network_bridge_name
+        attr_accessor :disk_format_type, :disk_allocation,:disk_capacity, :disk_name, :disk_pool_name, :disk_template_name, :disk_path
 
         attr_accessor :password
         attr_writer   :private_key, :private_key_path, :public_key, :public_key_path, :username
@@ -73,7 +65,6 @@ module Fog
           self.disk_format_type ||=nil unless attributes[:disk_format_type]
           self.disk_capacity ||=nil unless attributes[:disk_capacity]
           self.disk_allocation ||=nil unless attributes[:disk_allocation]
-
 
           self.disk_name ||=nil unless attributes[:disk_name]
           self.disk_pool_name ||=nil unless attributes[:disk_pool_name]
@@ -253,8 +244,8 @@ module Fog
           @raw.suspend
         end
 
-        def state
-          state=case @raw.info.state
+        def to_fog_state(raw_state)
+          state=case raw_state
                 when 0 then "nostate"
                 when 1 then "running"
                 when 2 then "paused"
@@ -269,17 +260,16 @@ module Fog
           state == "running"
         end
 
-
         def stop
           requires :raw
 
           @raw.shutdown
         end
 
-        def xml_desc
-          requires :raw
-          raw.xml_desc
-        end
+        #def xml_desc
+          #requires :raw
+          #raw.xml_desc
+        #end
 
         # This retrieves the ip address of the mac address
         # It returns an array of public and private ip addresses
@@ -294,7 +284,7 @@ module Fog
           # Check if another ip_command string was provided
           ip_command_global=@connection.ip_command.nil? ? 'grep $mac /var/log/arpwatch.log|sed -e "s/new station//"|sed -e "s/changed ethernet address//g" |tail -1 |cut -d ":" -f 4-| cut -d " " -f 3' : @connection.ip_command
           ip_command_local=options[:ip_command].nil? ? ip_command_global : options[:ip_command]
-    
+
           ip_command="mac=#{mac}; "+ip_command_local
 
           ip_address=nil
@@ -336,7 +326,7 @@ module Fog
             end
 
           else
-            # It's not ssh enabled, so we assume it is 
+            # It's not ssh enabled, so we assume it is
             if @connection.uri.transport=="tls"
               raise Fog::Errors::Error.new("TlS remote transport is not currently supported, only ssh")
             end
@@ -344,7 +334,7 @@ module Fog
             # Execute the ip_command locally
             # Initialize empty ip_address string
             ip_address=""
-            
+
             IO.popen("#{ip_command}") do |p|
               p.each_line do |l|
                 ip_address+=l
@@ -361,7 +351,7 @@ module Fog
 
 
           # The Ip-address command has been run either local or remote now
-          
+
           if ip_address==""
             #The grep didn't find an ip address result"
             ip_address=nil
@@ -521,7 +511,9 @@ module Fog
             :memory_size => new_raw.info.memory,
             :vcpus => new_raw.info.nr_virt_cpu,
             :autostart => new_raw.autostart?,
-            :os_type => new_raw.os_type
+            :os_type => new_raw.os_type,
+            :xml => new_raw.xml_desc,
+            :state => self.to_fog_state(new_raw.info.state)
           }
 
           merge_attributes(raw_attributes)
@@ -530,7 +522,7 @@ module Fog
 
         # finds a value from xml
         def document path, attribute=nil
-          xml = REXML::Document.new(xml_desc)
+          xml = REXML::Document.new(self.xml)
           attribute.nil? ? xml.elements[path].text : xml.elements[path].attributes[attribute]
         end
 

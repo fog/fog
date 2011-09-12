@@ -130,7 +130,7 @@ module Fog
         # Clones this volume to the name provided
         def clone(name)
           pool=@raw.pool
-          xml = REXML::Document.new(xml_desc)
+          xml = REXML::Document.new(self.xml)
           xml.root.elements['/volume/name'].text=name
           xml.root.elements['/volume/key'].text=name
           xml.delete_element('/volume/target/path')
@@ -138,10 +138,10 @@ module Fog
           return connection.volumes.all(:name => name).first
         end
 
-        def xml_desc
-          requires :raw
-          raw.xml_desc
-        end
+        #def xml_desc
+          #requires :raw
+          #raw.xml_desc
+        #end
 
         private
         def raw
@@ -162,6 +162,7 @@ module Fog
             :format_type => format_type,
             :allocation => new_raw.info.allocation,
             :capacity => new_raw.info.capacity,
+            :xml => new_raw.xml_desc
           }
 
           merge_attributes(raw_attributes)
