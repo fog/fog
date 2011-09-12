@@ -68,6 +68,9 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :vsphere_server:
   :vsphere_username:
   :vsphere_password:
+  :libvirt_username:
+  :libvirt_password:
+  :libvirt_uri:
 #
 # End of Fog Credentials File
 #######################################################
