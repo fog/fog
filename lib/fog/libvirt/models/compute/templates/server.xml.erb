@@ -38,7 +38,7 @@
       <% end %>
     <% if network_interface_type=="nat" %>
         <interface type='network'>
-      <source network='<%= interface_nat_network %>'/>
+      <source network='<%= network_nat_network %>'/>
       <model type='virtio'/>
     <% end %>
     </interface>
