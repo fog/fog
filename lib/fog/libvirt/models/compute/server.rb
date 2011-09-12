@@ -198,9 +198,9 @@ module Fog
           end
         end
 
+        # In libvirt a destroy means a hard power-off of the domain
+        # In fog a destroy means the remove of a machine
         def destroy(options={ :destroy_volumes => false})
-
-          #connection.volumes(name).destroy
           requires :raw
           if @raw.active?
             @raw.destroy
@@ -211,16 +211,16 @@ module Fog
 
         def reboot
           requires :raw
-
           @raw.reboot
         end
 
+        # Alias for poweroff
         def halt
-          requires :raw
-
-          @raw.halt
+           poweroff
         end
 
+        # In libvirt a destroy means a hard power-off of the domain
+        # In fog a destroy means the remove of a machine
         def poweroff
           requires :raw
           @raw.destroy
@@ -228,19 +228,16 @@ module Fog
 
         def shutdown
           requires :raw
-
           @raw.shutdown
         end
 
         def resume
           requires :raw
-
           @raw.resume
         end
 
         def suspend
           requires :raw
-
           @raw.suspend
         end
 
@@ -248,10 +245,11 @@ module Fog
           state=case raw_state
                 when 0 then "nostate"
                 when 1 then "running"
-                when 2 then "paused"
-                when 3 then "shutting-down"
-                when 4 then "shutoff"
-                when 5 then "crashed"
+                when 2 then "blocked"
+                when 3 then "paused"
+                when 4 then "shutting-down"
+                when 5 then "shutoff"
+                when 6 then "crashed"
                 end
           return state
         end
