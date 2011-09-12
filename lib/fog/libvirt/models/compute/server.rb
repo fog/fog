@@ -342,6 +342,9 @@ module Fog
             end
 
             # Execute the ip_command locally
+            # Initialize empty ip_address string
+            ip_address=""
+            
             IO.popen("#{ip_command}") do |p|
               p.each_line do |l|
                 ip_address+=l
