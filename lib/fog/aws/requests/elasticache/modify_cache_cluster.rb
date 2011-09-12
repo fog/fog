@@ -21,7 +21,6 @@ module Fog
         #   * :engine_version <~String> - The Cluster's caching software version
         #   * :notification_topic_arn <~String> - Amazon SNS Resource Name
         #   * :notification_topic_status <~String> - Amazon SNS Topic status
-        #   * :port <~Integer> - The memcached port number
         #   * :preferred_maintenance_window <~String>
         # === Returns
         # * response <~Excon::Response>:
@@ -54,7 +53,6 @@ module Fog
             'EngineVersion'               => options[:engine_version],
             'NotificationTopicArn'        => options[:notification_topic_arn],
             'NotificationTopicStatus'     => options[:notification_topic_status],
-            'Port'                        => options[:port],
             'PreferredMaintenanceWindow'  => options[:preferred_maintenance_window],
             :parser => Fog::Parsers::AWS::Elasticache::SingleCacheCluster.new
           )))

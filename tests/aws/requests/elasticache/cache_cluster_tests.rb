@@ -59,17 +59,6 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
     end
 
     tests(
-    '#modify_cache_cluster - change a pending cluster attribute'
-    ).formats(AWS::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
-      body = AWS[:elasticache].modify_cache_cluster(cluster_id,
-        :auto_minor_version_upgrade => false
-      ).body
-      # now check that parameter change is in place
-      returns('false')  { body['CacheCluster']['AutoMinorVersionUpgrade'] }
-      body['CacheCluster']
-    end
-
-    tests(
     '#delete_cache_clusters'
     ).formats(AWS::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
       body = AWS[:elasticache].delete_cache_cluster(cluster_id).body
