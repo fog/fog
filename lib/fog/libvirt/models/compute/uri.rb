@@ -38,7 +38,11 @@ module Fog
         end
 
         def ssh_enabled?
-          transport.include?("ssh")
+          if remote?
+            return transport.include?("ssh")
+          else
+            return false
+          end
         end
 
         def remote?
