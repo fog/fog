@@ -46,10 +46,10 @@ module Fog
           require 'libvirt'
 
           begin
-            if options[:libvirt_user] and options[:libvirt_password]
+            if options[:libvirt_username] and options[:libvirt_password]
               @connection = ::Libvirt::open_auth(@uri.uri, [::Libvirt::CRED_AUTHNAME, ::Libvirt::CRED_PASSPHRASE]) do |cred|
                 if cred['type'] == ::Libvirt::CRED_AUTHNAME
-                  res = options[:libvirt_user]
+                  res = options[:libvirt_username]
                 elsif cred["type"] == ::Libvirt::CRED_PASSPHRASE
                   res = options[:libvirt_password]
                 else
