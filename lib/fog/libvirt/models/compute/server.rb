@@ -366,7 +366,7 @@ module Fog
             # otherwise we return nil
             unless ip_address=~/^(\d{1,3}\.){3}\d{1,3}$/
               raise Fog::Errors::Error.new(
-                "The command #{ip_command} failed to execute with a clean exit code\n"+
+                "The result of #{ip_command} does not a valid ip-address format\n"+
                 "Result was: #{ip_address}\n"
             )
             end
