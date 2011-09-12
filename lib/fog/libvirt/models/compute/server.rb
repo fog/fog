@@ -355,8 +355,13 @@ module Fog
               end
             end
 
+            #Strip any new lines from the string
+            ip_address=ip_address.chomp
           end
 
+
+          # The Ip-address command has been run either local or remote now
+          
           if ip_address==""
             #The grep didn't find an ip address result"
             ip_address=nil
@@ -366,7 +371,7 @@ module Fog
             # otherwise we return nil
             unless ip_address=~/^(\d{1,3}\.){3}\d{1,3}$/
               raise Fog::Errors::Error.new(
-                "The result of #{ip_command} does not a valid ip-address format\n"+
+                "The result of #{ip_command} does not have valid ip-address format\n"+
                 "Result was: #{ip_address}\n"
             )
             end
