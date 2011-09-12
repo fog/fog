@@ -64,12 +64,14 @@ module Fog
           @dynect_username = options[:dynect_username]
           @dynect_password = options[:dynect_password]
 
-          @host    = "api2.dynect.net"
-          @port    = options[:port]    || 443
-          @path    = options[:path]    || '/REST'
-          @scheme  = options[:scheme]  || 'https'
-          @version = options[:version] || '2.3.1'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent] || true)
+          @connection_options = options[:connection_options] || {}
+          @host       = "api2.dynect.net"
+          @port       = options[:port]        || 443
+          @path       = options[:path]        || '/REST'
+          @persistent = options[:persistent]  || true
+          @scheme     = options[:scheme]      || 'https'
+          @version    = options[:version]     || '2.3.1'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def auth_token

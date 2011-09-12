@@ -98,15 +98,17 @@ module Fog
           @rackspace_username = options[:rackspace_username]
           @rackspace_auth_url = options[:rackspace_auth_url]
           @rackspace_must_reauthenticate = false
+          @connection_options     = options[:connection_options] || {}
           uri = URI.parse(options[:rackspace_lb_endpoint] || DFW_ENDPOINT)
-          @host = uri.host
-          @path = uri.path
-          @port = uri.port
-          @scheme = uri.scheme
+          @host       = uri.host
+          @persistent = options[:persistent] || false
+          @path       = uri.path
+          @port       = uri.port
+          @scheme     = uri.scheme
 
           authenticate
 
-          @connection = Fog::Connection.new(uri.to_s, options[:persistent])
+          @connection = Fog::Connection.new(uri.to_s, @persistent, @connection_options)
         end
 
         def request(params)
@@ -141,7 +143,7 @@ module Fog
             :rackspace_username => @rackspace_username,
             :rackspace_auth_url => @rackspace_auth_url
           }
-          credentials = Fog::Rackspace.authenticate(options)
+          credentials = Fog::Rackspace.authenticate(options, @connection_options)
           @auth_token = credentials['X-Auth-Token']
           account_id = credentials['X-Server-Management-Url'].match(/.*\/([\d]+)$/)[1]
           @path = "#{@path}/#{account_id}"

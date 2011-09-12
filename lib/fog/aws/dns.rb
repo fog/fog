@@ -80,18 +80,18 @@ module Fog
         def initialize(options={})
           require 'fog/core/parser'
 
-          @aws_access_key_id = options[:aws_access_key_id]
-          @aws_secret_access_key = options[:aws_secret_access_key]
-          @hmac     = Fog::HMAC.new('sha1', @aws_secret_access_key)
-          @host     = options[:host]      || 'route53.amazonaws.com'
-          @path     = options[:path]      || '/'
-          @port     = options[:port]      || 443
-          @scheme   = options[:scheme]    || 'https'
-          @version  = options[:version]  || '2010-10-01'
-          unless options.has_key?(:persistent)
-            options[:persistent] = true
-          end
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
+          @aws_access_key_id      = options[:aws_access_key_id]
+          @aws_secret_access_key  = options[:aws_secret_access_key]
+          @connection_options     = options[:connection_options] || {}
+          @hmac       = Fog::HMAC.new('sha1', @aws_secret_access_key)
+          @host       = options[:host]        || 'route53.amazonaws.com'
+          @path       = options[:path]        || '/'
+          @persistent = options[:persistent]  || true
+          @port       = options[:port]        || 443
+          @scheme     = options[:scheme]      || 'https'
+          @version    = options[:version]     || '2010-10-01'
+
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload

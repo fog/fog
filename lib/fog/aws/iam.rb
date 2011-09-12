@@ -112,12 +112,14 @@ module Fog
 
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
+          @connection_options     = options[:connection_options] || {}
           @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)
-          @host       = options[:host]      || 'iam.amazonaws.com'
-          @path       = options[:path]      || '/'
-          @port       = options[:port]      || 443
-          @scheme     = options[:scheme]    || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
+          @host       = options[:host]        || 'iam.amazonaws.com'
+          @path       = options[:path]        || '/'
+          @persistent = options[:persistent]  || false
+          @port       = options[:port]        || 443
+          @scheme     = options[:scheme]      || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload

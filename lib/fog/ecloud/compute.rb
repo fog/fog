@@ -1144,11 +1144,12 @@ module Fog
           require 'fog/core/parser'
 
           @connections = {}
+          @connection_options = options[:connection_options] || {}
           @versions_uri = URI.parse(options[:ecloud_versions_uri])
-          @version = options[:ecloud_version]
-          @username = options[:ecloud_username]
-          @password = options[:ecloud_password]
-          @persistent = options[:persistent]
+          @version    = options[:ecloud_version]
+          @username   = options[:ecloud_username]
+          @password   = options[:ecloud_password]
+          @persistent = options[:persistent] || false
         end
 
         def default_organization_uri
@@ -1268,7 +1269,7 @@ module Fog
 
           # Hash connections on the host_url ... There's nothing to say we won't get URI's that go to
           # different hosts.
-          @connections[host_url] ||= Fog::Connection.new(host_url, @persistent)
+          @connections[host_url] ||= Fog::Connection.new(host_url, @persistent, @connection_options)
 
           # Set headers to an empty hash if none are set.
           headers = params[:headers] || {}

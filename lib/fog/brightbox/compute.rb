@@ -101,11 +101,13 @@ module Fog
         def initialize(options)
           require 'multi_json'
           # Currently authentication and api endpoints are the same but may change
-          @auth_url = options[:brightbox_auth_url] || Fog.credentials[:brightbox_auth_url] || API_URL
-          @api_url = options[:brightbox_api_url] || Fog.credentials[:brightbox_api_url] || API_URL
-          @brightbox_client_id = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
-          @brightbox_secret = options[:brightbox_secret] || Fog.credentials[:brightbox_secret]
-          @connection = Fog::Connection.new(@api_url)
+          @auth_url             = options[:brightbox_auth_url] || Fog.credentials[:brightbox_auth_url] || API_URL
+          @api_url              = options[:brightbox_api_url] || Fog.credentials[:brightbox_api_url] || API_URL
+          @connection_options   = options[:connection_options] || {}
+          @brightbox_client_id  = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
+          @brightbox_secret     = options[:brightbox_secret] || Fog.credentials[:brightbox_secret]
+          @persistent           = options[:peristent] || false
+          @connection = Fog::Connection.new(@api_url, @persistent, @connection_options)
         end
 
         def request(method, url, expected_responses, options = nil)

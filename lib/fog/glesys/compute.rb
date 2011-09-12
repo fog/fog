@@ -52,10 +52,12 @@ module Fog
           require 'multi_json'
           require 'base64'
 
-          @api_url = options[:glesys_api_url] || Fog.credentials[:glesys_api_url] || API_URL
-          @glesys_username = options[:glesys_username] || Fog.credentials[:glesys_api_key]
-          @glesys_api_key = options[:glesys_api_key] || Fog.credentials[:glesys_api_key]
-          @connection = Fog::Connection.new(@api_url)
+          @api_url            = options[:glesys_api_url] || Fog.credentials[:glesys_api_url] || API_URL
+          @glesys_username    = options[:glesys_username] || Fog.credentials[:glesys_api_key]
+          @glesys_api_key     = options[:glesys_api_key] || Fog.credentials[:glesys_api_key]
+          @connection_options = options[:connection_options] || {}
+          @persistent         = options[:persistent] || false
+          @connection = Fog::Connection.new(@api_url, @persistent, @connection_options)
         end
 
         def request(method_name, options = {}) 

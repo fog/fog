@@ -245,6 +245,7 @@ module Fog
 
           @aws_access_key_id = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
+          @connection_options     = options[:connection_options] || {}
           @hmac = Fog::HMAC.new('sha1', @aws_secret_access_key)
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
@@ -268,14 +269,12 @@ module Fog
             else
               raise ArgumentError, "Unknown region: #{options[:region].inspect}"
             end
-            @path   = options[:path]      || '/'
-            @port   = options[:port]      || 443
-            @scheme = options[:scheme]    || 'https'
-            unless options.has_key?(:persistent)
-              options[:persistent] = true
-            end
+            @path       = options[:path]        || '/'
+            @persistent = options[:persistent]  || true
+            @port       = options[:port]        || 443
+            @scheme     = options[:scheme]      || 'https'
           end
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload
@@ -368,7 +367,7 @@ DATA
           rescue Excon::Errors::TemporaryRedirect => error
             uri = URI.parse(error.response.headers['Location'])
             Fog::Logger.warning("fog: followed redirect to #{uri.host}, connecting to the matching region will be more performant")
-            response = Fog::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false).request(original_params, &block)
+            response = Fog::Connection.new("#{@scheme}://#{uri.host}:#{@port}", false, @connection_options).request(original_params, &block)
           end
 
           response

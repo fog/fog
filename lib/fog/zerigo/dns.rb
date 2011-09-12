@@ -64,10 +64,12 @@ module Fog
 
           @zerigo_email  = options[:zerigo_email]
           @zerigo_token  = options[:zerigo_token]
-          @host   = options[:host]    || "ns.zerigo.com"
-          @port   = options[:port]    || 80
-          @scheme = options[:scheme]  || 'http'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @connection_options = options[:connection_options] || {}
+          @host       = options[:host]        || "ns.zerigo.com"
+          @persistent = options[:persistent]  || false
+          @port       = options[:port]        || 80
+          @scheme     = options[:scheme]      || 'http'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

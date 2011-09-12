@@ -189,14 +189,13 @@ module Fog
 
           @google_storage_access_key_id = options[:google_storage_access_key_id]
           @google_storage_secret_access_key = options[:google_storage_secret_access_key]
+          @connection_options = options[:connection_options] || {}
           @hmac = Fog::HMAC.new('sha1', @google_storage_secret_access_key)
           @host = options[:host] || 'commondatastorage.googleapis.com'
-          @port   = options[:port]      || 443
-          @scheme = options[:scheme]    || 'https'
-          unless options.has_key?(:persistent)
-            options[:persistent] = true
-          end
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @persistent = options[:persistent]  || true
+          @port       = options[:port]        || 443
+          @scheme     = options[:scheme]      || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

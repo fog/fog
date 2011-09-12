@@ -51,10 +51,11 @@ module Fog
           @ninefold_storage_secret = options[:ninefold_storage_secret]
           @ninefold_storage_secret_decoded = Base64.decode64( @ninefold_storage_secret )
 
-          @hmac = Fog::HMAC.new('sha1', @ninefold_storage_secret_decoded)
+          @connection_options = options[:connection_options] || {}
+          @hmac               = Fog::HMAC.new('sha1', @ninefold_storage_secret_decoded)
+          @persistent         = options[:persistent] || true
 
-          Excon.ssl_verify_peer = false if options[:rackspace_servicenet] == true
-          @connection = Fog::Connection.new("#{Fog::Storage::Ninefold::STORAGE_SCHEME}://#{Fog::Storage::Ninefold::STORAGE_HOST}:#{Fog::Storage::Ninefold::STORAGE_PORT}", true) # persistent
+          @connection = Fog::Connection.new("#{Fog::Storage::Ninefold::STORAGE_SCHEME}://#{Fog::Storage::Ninefold::STORAGE_HOST}:#{Fog::Storage::Ninefold::STORAGE_PORT}", @persistent, @connection_options)
         end
 
         def uid

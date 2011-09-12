@@ -68,7 +68,6 @@ module Fog
           @api_url = options[:ninefold_api_url] || Fog.credentials[:ninefold_api_url] || API_URL
           @ninefold_compute_key = options[:ninefold_compute_key] || Fog.credentials[:ninefold_compute_key]
           @ninefold_compute_secret = options[:ninefold_compute_secret] || Fog.credentials[:ninefold_compute_secret]
-          @connection = Fog::Connection.new(@api_url)
         end
 
         def request(options)
@@ -81,10 +80,12 @@ module Fog
         def initialize(options)
           require 'multi_json'
 
-          @api_url = options[:ninefold_api_url] || Fog.credentials[:ninefold_api_url] || API_URL
-          @ninefold_compute_key = options[:ninefold_compute_key] || Fog.credentials[:ninefold_compute_key]
-          @ninefold_compute_secret = options[:ninefold_compute_secret] || Fog.credentials[:ninefold_compute_secret]
-          @connection = Fog::Connection.new(@api_url)
+          @api_url                  = options[:ninefold_api_url] || Fog.credentials[:ninefold_api_url] || API_URL
+          @ninefold_compute_key     = options[:ninefold_compute_key] || Fog.credentials[:ninefold_compute_key]
+          @ninefold_compute_secret  = options[:ninefold_compute_secret] || Fog.credentials[:ninefold_compute_secret]
+          @connection_options       = options[:connection_options] || {}
+          @persistent               = options[:persistent] || false
+          @connection = Fog::Connection.new(@api_url, @persistent, @connection_options)
         end
 
         def request(command, params, options)

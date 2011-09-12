@@ -44,13 +44,17 @@ module Fog
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
           @rackspace_auth_url = options[:rackspace_auth_url]
+          @connection_options = options[:connection_options] || {}
           uri = URI.parse(options[:rackspace_dns_endpoint] || US_ENDPOINT)
 
           @auth_token, @account_id = *authenticate
-          @path = "#{uri.path}/#{@account_id}"
-          headers = { 'Content-Type' => 'application/json', 'X-Auth-Token' => @auth_token }
+          @persistent = options[:persistent] || false
+          @path       = "#{uri.path}/#{@account_id}"
 
-          @connection = Fog::Connection.new(uri.to_s, options[:persistent], { :headers => headers})
+          @connection_options[:headers] ||= {}
+          @connection_options[:headers].merge!({ 'Content-Type' => 'application/json', 'X-Auth-Token' => @auth_token })
+
+          @connection = Fog::Connection.new(uri.to_s, @persistent, @connection_options)
         end
 
         private
@@ -82,7 +86,7 @@ module Fog
             :rackspace_username => @rackspace_username,
             :rackspace_auth_url => @rackspace_auth_url
           }
-          credentials = Fog::Rackspace.authenticate(options)
+          credentials = Fog::Rackspace.authenticate(options, @connection_options)
           auth_token = credentials['X-Auth-Token']
           account_id = credentials['X-Server-Management-Url'].match(/.*\/([\d]+)$/)[1]
           [auth_token, account_id]

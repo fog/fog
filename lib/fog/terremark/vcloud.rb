@@ -39,11 +39,13 @@ module Fog
         def initialize(options={})
           @terremark_password = options[:terremark_vcloud_password]
           @terremark_username = options[:terremark_vcloud_username]
-          @host   = options[:host]   || Fog::Terremark::Vcloud::Defaults::HOST
-          @path   = options[:path]   || Fog::Terremark::Vcloud::Defaults::PATH
-          @port   = options[:port]   || Fog::Terremark::Vcloud::Defaults::PORT
-          @scheme = options[:scheme] || Fog::Terremark::Vcloud::Defaults::SCHEME
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @connection_options = options[:connection_options] || {}
+          @host       = options[:host]        || Fog::Terremark::Vcloud::Defaults::HOST
+          @path       = options[:path]        || Fog::Terremark::Vcloud::Defaults::PATH
+          @persistent = options[:persistent]  || false
+          @port       = options[:port]        || Fog::Terremark::Vcloud::Defaults::PORT
+          @scheme     = options[:scheme]      || Fog::Terremark::Vcloud::Defaults::SCHEME
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def default_vdc_id
