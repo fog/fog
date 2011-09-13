@@ -28,15 +28,16 @@ class AWS
         'CacheParameterGroup'         => Hash,
         'NumCacheNodes'               => Integer,
         'PreferredMaintenanceWindow'  => String,
+        'CacheNodes'                  => Array,
       }
-      CACHE_CLUSTER_RUNNING   = CACHE_CLUSTER.merge(
+      CACHE_CLUSTER_RUNNING   = CACHE_CLUSTER.merge({
         'CacheClusterCreateTime'      => DateTime,
-        'PreferredAvailabilityZone'   => String
-      )
-      CACHE_CLUSTER_MODIFIED  = CACHE_CLUSTER_RUNNING.merge(
+        'PreferredAvailabilityZone'   => String,
+      })
+      CACHE_CLUSTER_MODIFIED  = CACHE_CLUSTER_RUNNING.merge({
         'NotificationConfiguration'   => Hash,
-        'PendingModifiedValues'       => Hash
-      )
+        'PendingModifiedValues'       => Hash,
+      })
       SINGLE_CACHE_CLUSTER    = BASIC.merge('CacheCluster' => CACHE_CLUSTER)
       DESCRIBE_CACHE_CLUSTERS = BASIC.merge('CacheClusters' => [CACHE_CLUSTER])
     end
