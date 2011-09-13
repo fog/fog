@@ -17,13 +17,13 @@ module Fog
 
           unless filter.has_key?(:name) || filter.has_key?(:uuid)
             if include_defined
-              connection.list_defined_domains.map do |domain|
-                data << { :raw => connection.lookup_domain_by_name(domain) }
+              connection.raw.list_defined_domains.map do |domain|
+                data << { :raw => connection.raw.lookup_domain_by_name(domain) }
               end
             end
             if include_active
-              connection.list_domains.each do |domain|
-                data << { :raw => connection.lookup_domain_by_id(domain) }
+              connection.raw.list_domains.each do |domain|
+                data << { :raw => connection.raw.lookup_domain_by_id(domain) }
               end
             end
           else
@@ -60,14 +60,14 @@ module Fog
 
         # Retrieve the server by uuid
         def get_by_uuid(uuid)
-          server=connection.lookup_domain_by_uuid(uuid)
+          server=connection.raw.lookup_domain_by_uuid(uuid)
           return server
           #          new(:raw => machine)
         end
 
         # Retrieve the server by name
         def get_by_name(name)
-          server=connection.lookup_domain_by_name(name)
+          server=connection.raw.lookup_domain_by_name(name)
           return server
           #          new(:raw => machine)
         end

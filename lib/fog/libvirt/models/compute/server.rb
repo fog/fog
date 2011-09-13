@@ -94,9 +94,9 @@ module Fog
             if !xml.nil?
               domain=nil
               if self.persistent
-                domain=connection.define_domain_xml(xml)
+                domain=connection.raw.define_domain_xml(xml)
               else
-                domain=connection.create_domain_xml(xml)
+                domain=connection.raw.create_domain_xml(xml)
               end
               self.raw=domain
             end

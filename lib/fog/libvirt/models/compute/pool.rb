@@ -26,9 +26,9 @@ module Fog
           unless xml.nil?
             pool=nil
             if self.create_persistent
-              pool=connection.connection.define_storage_pool_xml(xml)
+              pool=connection.raw.define_storage_pool_xml(xml)
             else
-              pool=connection.connection.create_storage_pool_xml(xml)
+              pool=connection.raw.create_storage_pool_xml(xml)
             end
             self.raw=pool
             true

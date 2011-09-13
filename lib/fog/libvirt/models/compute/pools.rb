@@ -12,13 +12,13 @@ module Fog
         def all(filter=nil)
           data=[]
           if filter.nil?
-            connection.list_storage_pools.each do |poolname|
-              pool=connection.lookup_storage_pool_by_name(poolname)
+            connection.raw.list_storage_pools.each do |poolname|
+              pool=connection.raw.lookup_storage_pool_by_name(poolname)
               data << { :raw => pool }
             end
-            connection.list_defined_storage_pools.each do |poolname|
+            connection.raw.list_defined_storage_pools.each do |poolname|
               data << {
-                :raw => connection.lookup_storage_pool_by_name(poolname)
+                :raw => connection.raw.lookup_storage_pool_by_name(poolname)
               }
             end
           else
@@ -42,13 +42,13 @@ module Fog
         #private # Making these private, screws up realod
         # Retrieve the pool by uuid
         def get_by_uuid(uuid)
-          pool=connection.lookup_storage_pool_by_uuid(uuid)
+          pool=connection.raw.lookup_storage_pool_by_uuid(uuid)
           return pool
         end
 
         # Retrieve the pool by name
         def get_by_name(name)
-          pool=connection.lookup_storage_pool_by_name(name)
+          pool=connection.raw.lookup_storage_pool_by_name(name)
           return pool
           #          new(:raw => pool)
         end
