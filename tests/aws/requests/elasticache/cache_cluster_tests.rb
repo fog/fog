@@ -5,11 +5,14 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
 
     # Randomize the cluster ID so tests can be fequently re-run
     cluster_id = "fog-test-cluster-#{rand(999).to_s}" # 20 chars max!
+    num_nodes = 2
 
     tests(
     '#create_cache_cluster'
     ).formats(AWS::Elasticache::Formats::SINGLE_CACHE_CLUSTER) do
-      body = AWS[:elasticache].create_cache_cluster(cluster_id).body
+      body = AWS[:elasticache].create_cache_cluster(cluster_id,
+        :num_nodes => num_nodes
+      ).body
       cluster = body['CacheCluster']
       returns(cluster_id) { cluster['CacheClusterId'] }
       returns('creating') { cluster['CacheClusterStatus'] }
@@ -46,6 +49,18 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
 
     Formatador.display_line "Waiting for cluster #{cluster_id}..."
     AWS[:elasticache].clusters.get(cluster_id).wait_for {ready?}
+
+    tests(
+    '#describe_cache_clusters with node info'
+    ).formats(AWS::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
+      cluster = AWS[:elasticache].describe_cache_clusters(cluster_id,
+        :show_node_info => true
+      ).body['CacheClusters'].first
+      returns(num_nodes, "has #{num_nodes} nodes") do
+        cluster['CacheNodes'].count
+      end
+      cluster
+    end
 
     tests(
     '#modify_cache_cluster - change a non-pending cluster attribute'

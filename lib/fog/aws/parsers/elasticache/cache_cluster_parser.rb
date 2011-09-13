@@ -14,6 +14,7 @@ module Fog
           def reset_cache_cluster
             @cache_cluster = {
               'CacheSecurityGroups' => [],
+              'CacheNodes' => [],
               'CacheParameterGroup' => {}
             }
           end
@@ -22,6 +23,7 @@ module Fog
             super
             case name
             when 'CacheSecurityGroup'; then @security_group = {}
+            when 'CacheNode'; then @cache_node = {}
             end
 
           end
@@ -40,6 +42,11 @@ module Fog
               @cache_cluster["#{name}s"] << @security_group unless @security_group.empty?
             when 'CacheSecurityGroupName', 'Status'
               @security_group[name] = value
+            when 'CacheNode'
+              @cache_cluster["#{name}s"] << @cache_node unless @cache_node.empty?
+            when 'CacheNodeCreateTime', 'CacheNodeId', 'CacheNodeStatus',
+              'Endpoint', 'ParameterGroupStatus'
+              @cache_node[name] = value.strip
             when 'CacheNodeIdsToReboots', 'CacheParameterGroupName', 'ParameterApplyStatus'
               @cache_cluster['CacheParameterGroup'][name] = value
             else
