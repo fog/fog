@@ -18,7 +18,7 @@
   <clock offset='utc'/>
   <devices>
     <disk type='file' device='disk'>
-      <driver name='qemu' type='<%= disk_format_type %>'/>
+      <driver name='qemu' type='<%= volume_format_type %>'/>
       <source file='<%= "#{disk_path}" %>'/>
       <target dev='vda' bus='virtio'/>
     </disk>
