@@ -65,4 +65,12 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
       end
     end
   end
+
+  tests('failure') do
+    pending if Fog.mocking?
+
+    tests("#modify_image_attribute(nil, { 'Add.Group' => ['all'] })").raises(ArgumentError) do
+      Fog::Compute[:aws].modify_image_attribute(nil, { 'Add.Group' => ['all'] }).body
+    end
+  end
 end
