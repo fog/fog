@@ -26,6 +26,8 @@ module Fog
 
         attr_reader :vsphere_is_vcenter
         attr_reader :vsphere_rev
+        attr_reader :vsphere_server
+        attr_reader :vsphere_username
 
         # Utility method to convert a VMware managed object into an attribute hash.
         # This should only really be necessary for the real class.
@@ -125,6 +127,7 @@ module Fog
           end
 
           @vsphere_is_vcenter = @connection.serviceContent.about.apiType == "VirtualCenter"
+          @vsphere_rev = @connection.rev
 
           authenticate
         end

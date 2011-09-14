@@ -34,7 +34,7 @@ Shindo.tests('Fog::Compute[:vsphere]', ['vsphere']) do
   end
 
   tests("Compute attributes") do
-    %w{ vsphere_is_vcenter vsphere_rev }.each do |attr|
+    %w{ vsphere_is_vcenter vsphere_rev vsphere_username vsphere_server }.each do |attr|
       test("it should respond to #{attr}") { compute.respond_to? attr }
     end
   end
