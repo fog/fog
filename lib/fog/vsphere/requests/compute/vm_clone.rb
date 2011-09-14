@@ -25,9 +25,11 @@ module Fog
           # Option handling
           options = vm_clone_check_options(options)
 
+          notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Cloud not find VM template" }
+
           # REVISIT: This will have horrible performance for large sites.
           # Find the Managed Object reference of the template VM (Wish I could do this with the API)
-          vm_mob_ref = list_all_virtual_machine_mobs.find do |vm|
+          vm_mob_ref = list_all_virtual_machine_mobs.find(notfound) do |vm|
             convert_vm_mob_ref_to_attr_hash(vm)['instance_uuid'] == options['instance_uuid']
           end
 
@@ -79,6 +81,10 @@ module Fog
         def vm_clone(options = {})
           # Option handling
           options = vm_clone_check_options(options)
+          notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Cloud not find VM template" }
+          vm_mob_ref = list_virtual_machines['virtual_machines'].find(notfound) do |vm|
+            vm['instance_uuid'] == options['instance_uuid']
+          end
           {
             'vm_ref'   => 'vm-123',
             'task_ref' => 'task-1234'
