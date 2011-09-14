@@ -7,7 +7,7 @@ Mentions and blog posts from elsewhere in reverse chronological order by day (an
 
 **September 13th, 2011**
 
-* [Libvirt support for fog](https://github.com/geemus/fog/blob/master/docs/about/press.markdown)
+* [Libvirt support for fog](http://jedi.be/blog/2011/09/13/libvirt-fog-provider/)
 
 **August 1st, 2011**
 
