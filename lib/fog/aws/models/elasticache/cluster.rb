@@ -41,14 +41,9 @@ module Fog
 
         def save
           requires :id
-          requires :node_type
-          requires :security_groups
-          requires :engine
-          requires :num_nodes
 
           parameter_group     ||= Hash.new
           notification_config ||= Hash.new
-          security_groups     ||= Array.new
 
           connection.create_cache_cluster(
             id, {
