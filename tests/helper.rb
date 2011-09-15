@@ -1,5 +1,5 @@
 require 'fog'
-require 'fog/bin'
+require 'fog/bin' # for available_providers
 
 require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'mock_helper'))
 

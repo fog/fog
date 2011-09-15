@@ -1,7 +1,7 @@
 Shindo.tests('AWS::IAM | user requests', ['aws']) do
 
   unless Fog.mocking?
-    AWS[:iam].create_user('fog_user')    
+    Fog::AWS[:iam].create_user('fog_user')
   end
 
 
@@ -17,12 +17,12 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
     
     tests("#create_login_profile('fog_user')").formats(@login_profile_format) do
       pending if Fog.mocking?
-      AWS[:iam].create_login_profile('fog_user', 'somepassword').body
+      Fog::AWS[:iam].create_login_profile('fog_user', 'somepassword').body
     end
 
     tests("#get_login_profile('fog_user')").formats(@login_profile_format) do
       pending if Fog.mocking?
-      result = AWS[:iam].get_login_profile('fog_user').body
+      result = Fog::AWS[:iam].get_login_profile('fog_user').body
       returns('fog_user') {result['LoginProfile']['UserName']}
       result
     end
@@ -30,7 +30,7 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
     tests("#update_login_profile('fog_user')").formats(AWS::IAM::Formats::BASIC) do
       pending if Fog.mocking?
       begin
-        AWS[:iam].update_login_profile('fog_user', 'otherpassword').body
+        Fog::AWS[:iam].update_login_profile('fog_user', 'otherpassword').body
       rescue Excon::Errors::Conflict #profile cannot be updated or deleted until it has finished creating; api provides no way of telling whether creation process complete
         sleep 5
         retry
@@ -39,12 +39,12 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
 
     tests("#delete_login_profile('fog_user')").formats(AWS::IAM::Formats::BASIC) do
       pending if Fog.mocking?
-      AWS[:iam].delete_login_profile('fog_user').body
+      Fog::AWS[:iam].delete_login_profile('fog_user').body
     end
 
     tests("#get_login_profile('fog_user')") do
       pending if Fog.mocking?
-      raises(Excon::Errors::NotFound) {AWS[:iam].get_login_profile('fog_user')}
+      raises(Excon::Errors::NotFound) {Fog::AWS[:iam].get_login_profile('fog_user')}
     end
 
   end
@@ -52,13 +52,13 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
   tests('failure') do
     tests('get login profile for non existing user') do
       pending if Fog.mocking?
-      raises(Fog::AWS::IAM::NotFound) { AWS[:iam].get_login_profile('idontexist')}
-      raises(Fog::AWS::IAM::NotFound) { AWS[:iam].delete_login_profile('fog_user')}
+      raises(Fog::AWS::IAM::NotFound) { Fog::AWS[:iam].get_login_profile('idontexist')}
+      raises(Fog::AWS::IAM::NotFound) { Fog::AWS[:iam].delete_login_profile('fog_user')}
     end
   end
 
 
   unless Fog.mocking?
-    AWS[:iam].delete_user('fog_user')
+    Fog::AWS[:iam].delete_user('fog_user')
   end
 end

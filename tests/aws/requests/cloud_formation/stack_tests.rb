@@ -91,12 +91,12 @@ Shindo.tests('AWS::CloudFormation | stack requests', ['aws', 'cloudformation']) 
 
     tests("validate_template('TemplateURL' => '#{@template_url}')").formats(@validate_template_format) do
       pending if Fog.mocking?
-      AWS[:cloud_formation].validate_template('TemplateURL' => @template_url).body
+      Fog::AWS[:cloud_formation].validate_template('TemplateURL' => @template_url).body
     end
 
     tests("create_stack('#{@stack_name}', 'TemplateURL' => '#{@template_url}', Parameters => {'KeyName' => 'cloudformation'})").formats(@create_stack_format) do
       pending if Fog.mocking?
-      AWS[:cloud_formation].create_stack(
+      Fog::AWS[:cloud_formation].create_stack(
         @stack_name,
         'TemplateURL' => @template_url,
         'Parameters'  => {'KeyName' => 'cloudformation'}
@@ -105,29 +105,29 @@ Shindo.tests('AWS::CloudFormation | stack requests', ['aws', 'cloudformation']) 
 
     tests("get_template('#{@stack_name})").formats(@get_template_format) do
       pending if Fog.mocking?
-      AWS[:cloud_formation].get_template(@stack_name).body
+      Fog::AWS[:cloud_formation].get_template(@stack_name).body
     end
 
     tests("describe_stacks").formats(@describe_stacks_format) do
       pending if Fog.mocking?
-      AWS[:cloud_formation].describe_stacks.body
+      Fog::AWS[:cloud_formation].describe_stacks.body
     end
 
     sleep(1) # avoid throttling
 
     tests("describe_stack_events('#{@stack_name}')").formats(@describe_stack_events_format) do
       pending if Fog.mocking?
-      AWS[:cloud_formation].describe_stack_events(@stack_name).body
+      Fog::AWS[:cloud_formation].describe_stack_events(@stack_name).body
     end
 
     tests("describe_stack_resources('StackName' => '#{@stack_name}')").formats(@describe_stack_resources_format) do
       pending if Fog.mocking?
-      AWS[:cloud_formation].describe_stack_resources('StackName' => @stack_name).body
+      Fog::AWS[:cloud_formation].describe_stack_resources('StackName' => @stack_name).body
     end
 
     tests("delete_stack('#{@stack_name}')").succeeds do
       pending if Fog.mocking?
-      AWS[:cloud_formation].delete_stack(@stack_name)
+      Fog::AWS[:cloud_formation].delete_stack(@stack_name)
     end
 
     unless Fog.mocking?

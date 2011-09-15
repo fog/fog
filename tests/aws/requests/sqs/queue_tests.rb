@@ -8,7 +8,7 @@ Shindo.tests('AWS::SQS | queue requests', ['aws']) do
 
     tests("#create_queue('fog_queue_tests')").formats(create_queue_format) do
       pending if Fog.mocking?
-      data = AWS[:sqs].create_queue('fog_queue_tests').body
+      data = Fog::AWS[:sqs].create_queue('fog_queue_tests').body
       @queue_url = data['QueueUrl']
       data
     end
@@ -19,12 +19,12 @@ Shindo.tests('AWS::SQS | queue requests', ['aws']) do
 
     tests("#list_queues").formats(list_queues_format) do
       pending if Fog.mocking?
-      AWS[:sqs].list_queues.body
+      Fog::AWS[:sqs].list_queues.body
     end
 
     tests("#set_queue_attributes('#{@queue_url}', 'VisibilityTimeout', 60)").formats(AWS::SQS::Formats::BASIC) do
       pending if Fog.mocking?
-      AWS[:sqs].set_queue_attributes(@queue_url, 'VisibilityTimeout', 60).body
+      Fog::AWS[:sqs].set_queue_attributes(@queue_url, 'VisibilityTimeout', 60).body
     end
 
     get_queue_attributes_format = AWS::SQS::Formats::BASIC.merge({
@@ -42,12 +42,12 @@ Shindo.tests('AWS::SQS | queue requests', ['aws']) do
 
     tests("#get_queue_attributes('#{@queue_url}', 'All')").formats(get_queue_attributes_format) do
       pending if Fog.mocking?
-      AWS[:sqs].get_queue_attributes(@queue_url, 'All').body
+      Fog::AWS[:sqs].get_queue_attributes(@queue_url, 'All').body
     end
 
     tests("#delete_queue('#{@queue_url}')").formats(AWS::SQS::Formats::BASIC) do
       pending if Fog.mocking?
-      AWS[:sqs].delete_queue(@queue_url).body
+      Fog::AWS[:sqs].delete_queue(@queue_url).body
     end
 
   end

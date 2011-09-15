@@ -5,13 +5,13 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
   tests('success') do
     tests('load_balancers') do
       tests('getting a missing elb') do
-        returns(nil) { AWS[:elb].load_balancers.get('no-such-elb') }
+        returns(nil) { Fog::AWS[:elb].load_balancers.get('no-such-elb') }
       end
     end
 
     tests('listeners') do
       tests("default attributes") do
-        listener = AWS[:elb].listeners.new
+        listener = Fog::AWS[:elb].listeners.new
         tests('instance_port is 80').returns(80) { listener.instance_port }
         tests('lb_port is 80').returns(80) { listener.lb_port }
         tests('protocol is HTTP').returns('HTTP') { listener.protocol }
@@ -20,7 +20,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
 
       tests("specifying attributes") do
         attributes = {:instance_port => 2000, :lb_port => 2001, :protocol => 'SSL', :policy_names => ['fake'] }
-        listener = AWS[:elb].listeners.new(attributes)
+        listener = Fog::AWS[:elb].listeners.new(attributes)
         tests('instance_port is 2000').returns(2000) { listener.instance_port }
         tests('lb_port is 2001').returns(2001) { listener.lb_port }
         tests('protocol is SSL').returns('SSL') { listener.protocol }
@@ -33,27 +33,27 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
 
     tests('create') do
       tests('without availability zones') do
-        elb = AWS[:elb].load_balancers.create(:id => elb_id)
+        elb = Fog::AWS[:elb].load_balancers.create(:id => elb_id)
         tests("availability zones are correct").returns(@availability_zones.sort) { elb.availability_zones.sort }
         tests("dns names is set").returns(true) { elb.dns_name.is_a?(String) }
         tests("created_at is set").returns(true) { Time === elb.created_at }
         tests("policies is empty").returns([]) { elb.policies }
         tests("default listener") do
           tests("1 listener").returns(1) { elb.listeners.size }
-          tests("params").returns(AWS[:elb].listeners.new.to_params) { elb.listeners.first.to_params }
+          tests("params").returns(Fog::AWS[:elb].listeners.new.to_params) { elb.listeners.first.to_params }
         end
       end
 
       tests('with availability zones') do
         azs = @availability_zones[1..-1]
-        elb2 = AWS[:elb].load_balancers.create(:id => "#{elb_id}-2", :availability_zones => azs)
+        elb2 = Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-2", :availability_zones => azs)
         tests("availability zones are correct").returns(azs.sort) { elb2.availability_zones.sort }
         elb2.destroy
       end
 
       # Need to sleep here for IAM changes to propgate
       tests('with ListenerDescriptions') do
-        @certificate = AWS[:iam].upload_server_certificate(AWS::IAM::SERVER_CERT_PUBLIC_KEY, AWS::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
+        @certificate = Fog::AWS[:iam].upload_server_certificate(AWS::IAM::SERVER_CERT_PUBLIC_KEY, AWS::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
         sleep(8) unless Fog.mocking?
         listeners = [{
             'Listener' => {
@@ -67,7 +67,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
             },
             'PolicyNames' => []
           }]
-        elb3 = AWS[:elb].load_balancers.create(:id => "#{elb_id}-3", 'ListenerDescriptions' => listeners)
+        elb3 = Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-3", 'ListenerDescriptions' => listeners)
         tests('there are 2 listeners').returns(2) { elb3.listeners.count }
         tests('instance_port is 2030').returns(2030) { elb3.listeners.first.instance_port }
         tests('lb_port is 2030').returns(2030) { elb3.listeners.first.lb_port }
@@ -81,23 +81,23 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
           'Listener' => {
           'LoadBalancerPort' => 443, 'InstancePort' => 80, 'Protocol' => 'HTTPS', "SSLCertificateId" => "fakecert"}
         }]
-        AWS[:elb].load_balancers.create(:id => "#{elb_id}-4", "ListenerDescriptions" => listeners)
+        Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-4", "ListenerDescriptions" => listeners)
       end
     end
 
     tests('all') do
-      elb_ids = AWS[:elb].load_balancers.all.map{|e| e.id}
+      elb_ids = Fog::AWS[:elb].load_balancers.all.map{|e| e.id}
       tests("contains elb").returns(true) { elb_ids.include? elb_id }
     end
 
     tests('get') do
-      elb_get = AWS[:elb].load_balancers.get(elb_id)
+      elb_get = Fog::AWS[:elb].load_balancers.get(elb_id)
       tests('ids match').returns(elb_id) { elb_get.id }
     end
 
     tests('creating a duplicate elb') do
       raises(Fog::AWS::ELB::IdentifierTaken) do
-        AWS[:elb].load_balancers.create(:id => elb_id, :availability_zones => ['us-east-1d'])
+        Fog::AWS[:elb].load_balancers.create(:id => elb_id, :availability_zones => ['us-east-1d'])
       end
     end
 
@@ -246,6 +246,6 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       elb.destroy
     end
 
-    AWS[:iam].delete_server_certificate(@key_name)
+    Fog::AWS[:iam].delete_server_certificate(@key_name)
   end
 end
