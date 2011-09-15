@@ -3,6 +3,7 @@ module Fog
     class Elasticache < Fog::Service
 
       class IdentifierTaken < Fog::Errors::Error; end
+      class InvalidInstance < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :region, :host, :path, :port, :scheme, :persistent
