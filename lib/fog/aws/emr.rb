@@ -12,12 +12,12 @@ module Fog
       request_path 'fog/aws/requests/emr'
 
       request :add_instance_groups
-#      request :add_job_flow_steps
-#      request :describe_job_flows
-#      request :modify_instance_groups
+      request :add_job_flow_steps
+      request :describe_job_flows
+      request :modify_instance_groups
       request :run_job_flow
-#      request :set_termination_protection
-#      request :terminate_job_flows
+      request :set_termination_protection
+      request :terminate_job_flows
 
       # model_path 'fog/aws/models/rds'
       # model       :server

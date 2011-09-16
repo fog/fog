@@ -3,11 +3,9 @@ module Fog
     module AWS
       module EMR
 
-        class RunJobFlow < Fog::Parsers::Base
+        class AddJobFlowSteps < Fog::Parsers::Base
           def end_element(name)
             case name
-            when 'JobFlowId'
-              @response[name] = value
             when 'RequestId'
               @response[name] = value
             end
