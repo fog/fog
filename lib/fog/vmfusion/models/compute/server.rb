@@ -21,6 +21,13 @@ module Fog
           raise Fog::Errors::Error.new('Creating a new vm is not yet supported')
         end
 
+        def clone(name)
+          requires :raw
+
+          ::Fission::VM.clone(@raw.name,name)
+          return connection.servers.get(name)
+        end
+
         def destroy(options={ :force => false})
           requires :raw
 
@@ -30,7 +37,7 @@ module Fog
             end
           end
 
-          ::Fission::VM.delete target_vm
+          ::Fission::VM.delete @raw.name
         end
 
         def start
