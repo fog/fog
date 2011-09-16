@@ -78,6 +78,9 @@ module Fog
           end
         end
 
+        def info
+          {:url => url, :auth_token => @auth_token}
+        end
       end
 
       class Mock
