@@ -1,10 +1,10 @@
-module Libvirt # deviates from other bin stuff to accomodate gem
+module Vmfusion # deviates from other bin stuff to accomodate gem
   class << self
 
     def class_for(key)
       case key
       when :compute
-        Fog::Compute::Libvirt
+        Fog::Compute::Vmfusion
       else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
@@ -14,8 +14,8 @@ module Libvirt # deviates from other bin stuff to accomodate gem
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
-          Fog::Logger.warning("Libvirt[:compute] is deprecated, use Compute[:libvirt] instead")
-          Fog::Compute.new(:provider => 'Libvirt')
+          Fog::Logger.warning("Vmfusion[:compute] is deprecated, use Compute[:Vmfusion] instead")
+          Fog::Compute.new(:provider => 'Vmfusion')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
@@ -25,11 +25,11 @@ module Libvirt # deviates from other bin stuff to accomodate gem
 
     def available?
       begin
-        availability=true unless Gem::Specification::find_by_name("ruby-libvirt").nil?
+        availability=true unless Gem::Specification::find_by_name("fission").nil?
       rescue Gem::LoadError
         availability=false
       rescue
-        availability_gem=Gem.available?("ruby-libvirt")
+        availability_gem=Gem.available?("fission")
       end
 
       if availability
@@ -53,7 +53,7 @@ module Libvirt # deviates from other bin stuff to accomodate gem
     end
 
     def services
-      Fog::Libvirt.services
+      Fog::Vmfusion.services
     end
 
   end

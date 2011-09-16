@@ -208,7 +208,6 @@ module Fog
           @raw.undefine
         end
 
-
         def reboot
           requires :raw
           @raw.reboot
