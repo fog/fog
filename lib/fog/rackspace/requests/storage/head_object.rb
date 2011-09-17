@@ -13,7 +13,7 @@ module Fog
           request({
             :expects  => 200,
             :method   => 'HEAD',
-            :path     => "#{URI.escape(container)}/#{URI.escape(object)}"
+            :path     => "#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object)}"
           }, false)
         end
 
