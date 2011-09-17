@@ -70,5 +70,12 @@ module Fog
         !['X-Server-Management-Url', 'X-Storage-Url', 'X-CDN-Management-Url', 'X-Auth-Token'].include?(key)
       end
     end
+
+    # CGI.escape, but without special treatment on spaces
+    def self.escape(str,extra_exclude_chars = '')
+      str.gsub(/([^a-zA-Z0-9_.-#{extra_exclude_chars}]+)/) do
+        '%' + $1.unpack('H2' * $1.bytesize).join('%').upcase
+      end
+    end
   end
 end

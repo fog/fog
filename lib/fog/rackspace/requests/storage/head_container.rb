@@ -17,7 +17,7 @@ module Fog
           request(
             :expects  => 204,
             :method   => 'HEAD',
-            :path     => URI.escape(container),
+            :path     => Fog::Rackspace.escape(container),
             :query    => {'format' => 'json'}
           )
         end
