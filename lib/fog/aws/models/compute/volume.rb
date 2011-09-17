@@ -68,6 +68,11 @@ module Fog
           connection.snapshots(:volume => self)
         end
 
+        def snapshot(description)
+          requires :id
+          connection.create_snapshot(id, description)
+        end
+
         def force_detach
           detach(true)
         end
