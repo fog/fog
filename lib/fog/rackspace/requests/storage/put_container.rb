@@ -12,7 +12,7 @@ module Fog
           request(
             :expects  => [201, 202],
             :method   => 'PUT',
-            :path     => URI.escape(name)
+            :path     => Fog::Rackspace.escape(name)
           )
         end
 

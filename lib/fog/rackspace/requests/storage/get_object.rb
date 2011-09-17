@@ -14,7 +14,7 @@ module Fog
             :block    => block,
             :expects  => 200,
             :method   => 'GET',
-            :path     => "#{URI.escape(container)}/#{URI.escape(object)}"
+            :path     => "#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object)}"
           }, false, &block)
         end
 
