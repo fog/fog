@@ -106,7 +106,7 @@ module Fog
           @connection_options   = options[:connection_options] || {}
           @brightbox_client_id  = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
           @brightbox_secret     = options[:brightbox_secret] || Fog.credentials[:brightbox_secret]
-          @persistent           = options[:peristent] || false
+          @persistent           = options[:persistent] || false
           @connection = Fog::Connection.new(@api_url, @persistent, @connection_options)
         end
 
