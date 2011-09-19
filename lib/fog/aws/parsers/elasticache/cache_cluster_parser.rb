@@ -45,8 +45,8 @@ module Fog
             when 'CacheNode'
               @cache_cluster["#{name}s"] << @cache_node unless @cache_node.empty?
             when 'CacheNodeCreateTime', 'CacheNodeId', 'CacheNodeStatus',
-              'Endpoint', 'ParameterGroupStatus'
-              @cache_node[name] = value.strip
+              'Address', 'ParameterGroupStatus', 'Port'
+              @cache_node[name] = value ? value.strip : name
             when 'CacheNodeIdsToReboots', 'CacheParameterGroupName', 'ParameterApplyStatus'
               @cache_cluster['CacheParameterGroup'][name] = value
             else
