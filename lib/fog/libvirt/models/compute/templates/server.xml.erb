@@ -19,7 +19,7 @@
   <devices>
     <disk type='file' device='disk'>
       <driver name='qemu' type='<%= volume_format_type %>'/>
-      <source file='<%= "#{disk_path}" %>'/>
+      <source file='<%= "#{volume_path}" %>'/>
       <target dev='vda' bus='virtio'/>
     </disk>
   <% if !iso_file.nil? %>
