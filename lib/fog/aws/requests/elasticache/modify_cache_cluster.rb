@@ -37,9 +37,9 @@ module Fog
           # Construct CacheNodeIdsToRemove parameters in the format:
           #   CacheNodeIdsToRemove.member.N => "node_id"
           node_ids = options[:nodes_to_remove] || []
-          node_id_params = node_ids.inject({}) do |node_hash, id|
-            index = node_ids.index(name) + 1
-            node_hash["CacheNodeIdsToRemove.member.#{index}"] = id
+          node_id_params = node_ids.inject({}) do |node_hash, node_id|
+            index = node_ids.index(node_id) + 1
+            node_hash["CacheNodeIdsToRemove.member.#{index}"] = node_id
             node_hash
           end
           # Merge the Cache Security Group parameters with the normal options
