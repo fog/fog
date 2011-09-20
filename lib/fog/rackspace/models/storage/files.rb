@@ -67,7 +67,7 @@ module Fog
         def get_url(key)
           requires :directory
           if self.directory.public_url
-            "#{self.directory.public_url}/#{key}"
+            "#{self.directory.public_url}/#{Fog::Rackspace.escape(key, '/')}"
           end
         end
 
