@@ -8,7 +8,7 @@ for provider, config in storage_providers
         :key => 'fogdirectorytests'
       }.merge!(config[:directory_attributes] || {})
 
-      model_tests(Fog::Storage[provider].directory, directory_attributes, config[:mocked]) do
+      model_tests(Fog::Storage[provider].directories, directory_attributes, config[:mocked]) do
 
         tests("#public=(true)").succeeds do
           pending if Fog.mocking? && !config[:mocked]
@@ -17,7 +17,7 @@ for provider, config in storage_providers
 
         tests('responds_to(:public_url)') do
           pending if Fog.mocking? && !config[:mocked]
-          @instance.responds_to(:public_url)
+          responds_to(:public_url)
         end
 
       end
