@@ -56,7 +56,7 @@ module Fog
             :template   => template || "Debian-6 x64",
             :disksize   => disksize || "10",
             :memorysize => memorysize || "512",
-            :cpucores   => cpucores || "1",
+            :cpucores   => cpucores || "1",
             :rootpw     => rootpw,
             :transfer   => transfer || "500",
           } 
