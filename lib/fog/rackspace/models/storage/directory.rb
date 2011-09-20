@@ -68,7 +68,7 @@ module Fog
           end
           true
         end
-        
+
       end
 
     end
