@@ -50,7 +50,7 @@ module Fog
 
         def public_url
           requires :key
-          self.collection.get_url(self.key)
+          self.collection.get_url(Fog::Rackspace.escape(self.key, '/'))
         end
 
         def save(options = {})
