@@ -16,7 +16,7 @@ module Fog
 
         def get(identifier)
           return nil if identifier.nil? || identifier == ""
-          data = connection.get_zone(identifier)
+          data = connection.get_server_group(identifier)
           new(data)
         rescue Excon::Errors::NotFound
           nil
