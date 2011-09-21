@@ -50,15 +50,15 @@ module Fog
           requires :hostname, :rootpw
 
           options = {
-            :datacenter => "Falkenberg" || datacenter,
-            :platform   => "Xen" || platform,
+            :datacenter => datacenter || "Falkenberg",
+            :platform   => platform || "Xen",
             :hostname   => hostname,
-            :template   => "Debian-6 x64" || template,
-            :disksize   => "10" || disksize,
-            :memorysize => "512" || memorysize,
-            :cpucores   => "1" || cpucores,
+            :template   => template || "Debian-6 x64",
+            :disksize   => disksize || "10",
+            :memorysize => memorysize || "512",
+            :cpucores   => cpucores || "1",
             :rootpw     => rootpw,
-            :transfer   => "500" || transfer,
+            :transfer   => transfer || "500",
           } 
           data = connection.create(options)
           merge_attributes(data.body['response']['server'])

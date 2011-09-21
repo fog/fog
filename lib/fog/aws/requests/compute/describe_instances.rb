@@ -160,7 +160,11 @@ module Fog
           instance_set.each do |instance|
             case instance['instanceState']['name']
             when 'pending'
-              if Time.now - instance['launchTime'] >= Fog::Mock.delay
+              if Time.now - instance['launchTime'] < Fog::Mock.delay * 2
+                raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance['instanceId']}' does not exist")
+              end
+
+              if Time.now - instance['launchTime'] >= Fog::Mock.delay * 2
                 instance['ipAddress']         = Fog::AWS::Mock.ip_address
                 instance['originalIpAddress'] = instance['ipAddress']
                 instance['dnsName']           = Fog::AWS::Mock.dns_name_for(instance['ipAddress'])

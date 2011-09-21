@@ -8,12 +8,14 @@ module Fog
       API_URL = "https://api.gb1.brightbox.com/"
 
       requires :brightbox_client_id, :brightbox_secret
-      recognizes :brightbox_auth_url, :brightbox_api_url
+      recognizes :brightbox_auth_url, :brightbox_api_url, :persistent
 
       model_path 'fog/brightbox/models/compute'
       model       :account # Singular resource, no collection
       collection  :servers
       model       :server
+      collection  :server_groups
+      model       :server_group
       collection  :flavors
       model       :flavor
       collection  :images
@@ -32,14 +34,19 @@ module Fog
       request :add_listeners_load_balancer
       request :add_nodes_load_balancer
       request :add_servers_server_group
+      request :apply_to_firewall_policy
       request :create_api_client
       request :create_cloud_ip
+      request :create_firewall_policy
+      request :create_firewall_rule
       request :create_image
       request :create_load_balancer
       request :create_server
       request :create_server_group
       request :destroy_api_client
       request :destroy_cloud_ip
+      request :destroy_firewall_policy
+      request :destroy_firewall_rule
       request :destroy_image
       request :destroy_load_balancer
       request :destroy_server
@@ -47,6 +54,8 @@ module Fog
       request :get_account
       request :get_api_client
       request :get_cloud_ip
+      request :get_firewall_policy
+      request :get_firewall_rule
       request :get_image
       request :get_interface
       request :get_load_balancer
@@ -57,6 +66,7 @@ module Fog
       request :get_zone
       request :list_api_clients
       request :list_cloud_ips
+      request :list_firewall_policies
       request :list_images
       request :list_load_balancers
       request :list_server_groups
@@ -106,7 +116,7 @@ module Fog
           @connection_options   = options[:connection_options] || {}
           @brightbox_client_id  = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
           @brightbox_secret     = options[:brightbox_secret] || Fog.credentials[:brightbox_secret]
-          @persistent           = options[:peristent] || false
+          @persistent           = options[:persistent] || false
           @connection = Fog::Connection.new(@api_url, @persistent, @connection_options)
         end
 
