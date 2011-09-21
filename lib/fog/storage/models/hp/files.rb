@@ -67,7 +67,8 @@ module Fog
         def get_url(key)
           requires :directory
           if self.directory.public_url
-            "#{self.directory.public_url}/#{key}"
+            # escape the key to cover for special char. in object names
+            "#{self.directory.public_url}/#{connection.escape_name(key)}"
           end
         end
 

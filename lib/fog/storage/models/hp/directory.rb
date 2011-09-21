@@ -78,7 +78,8 @@ module Fog
               end
             else
               begin response = connection.head_container(key)
-                url = "#{connection.url}/#{key}"
+                # escape the key to cover for special char. in container names
+                url = "#{connection.url}/#{connection.escape_name(key)}"
               rescue Fog::Service::NotFound
                 nil
               end
