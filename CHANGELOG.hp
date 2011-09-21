@@ -1,7 +1,8 @@
-0.0.9 09/20/2011
+0.0.9 09/21/2011
 ================
  - minor bug fixes
  - add support for special char. including '?' in container and object names
+ - fix public_url for special char. in container and object names
 
 0.0.8 08/29/2011
 ================
