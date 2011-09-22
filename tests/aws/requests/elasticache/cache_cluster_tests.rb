@@ -74,6 +74,22 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
     end
 
     tests(
+    '#reboot_cache_cluster - reboot a node'
+    ).formats(AWS::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
+      c = AWS[:elasticache].clusters.get(CLUSTER_ID)
+      node_id = c.nodes.last['CacheNodeId']
+      Formatador.display_line "Rebooting node #{node_id}..."
+      body = AWS[:elasticache].reboot_cache_cluster(c.id, [ node_id ]).body
+      returns('rebooting cache cluster nodes') do
+        body['CacheCluster']['CacheClusterStatus']
+      end
+      body['CacheCluster']
+    end
+
+    Formatador.display_line "Waiting for cluster #{CLUSTER_ID}..."
+    AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for {ready?}
+
+    tests(
     '#modify_cache_cluster - remove a node'
     ).formats(AWS::Elasticache::Formats::CACHE_CLUSTER_RUNNING) do
       c = AWS[:elasticache].clusters.get(CLUSTER_ID)

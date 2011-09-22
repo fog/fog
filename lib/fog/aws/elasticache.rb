@@ -14,7 +14,7 @@ module Fog
       request :delete_cache_cluster
       request :describe_cache_clusters
       request :modify_cache_cluster
-      #request :reboot_cache_cluster
+      request :reboot_cache_cluster
 
       #request :create_cache_parameter_group
       #request :delete_cache_parameter_group
