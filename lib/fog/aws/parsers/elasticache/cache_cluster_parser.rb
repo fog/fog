@@ -24,6 +24,7 @@ module Fog
             case name
             when 'CacheSecurityGroup'; then @security_group = {}
             when 'CacheNode'; then @cache_node = {}
+            when 'PendingModifiedValues'; then @pending_values = {}
             end
 
           end
@@ -31,11 +32,21 @@ module Fog
           def end_element(name)
             case name
             when 'AutoMinorVersionUpgrade', 'CacheClusterId',
-              'CacheClusterStatus', 'CacheNodeType', 'Engine', 'EngineVersion',
+              'CacheClusterStatus', 'CacheNodeType', 'Engine',
               'PreferredAvailabilityZone', 'PreferredMaintenanceWindow'
               @cache_cluster[name] = value
+            when 'EngineVersion', 'CacheNodeIdsToRemoves'
+              if @pending_values
+                @pending_values[name] = value ? value.strip : name
+              else
+                @cache_cluster[name] = value
+              end
             when 'NumCacheNodes'
-              @cache_cluster[name] = value.to_i
+              if @pending_values
+                @pending_values[name] = value.to_i
+              else
+                @cache_cluster[name] = value.to_i
+              end
             when 'CacheClusterCreateTime'
               @cache_cluster[name] = DateTime.parse(value)
             when 'CacheSecurityGroup'
@@ -45,10 +56,15 @@ module Fog
             when 'CacheNode'
               @cache_cluster["#{name}s"] << @cache_node unless @cache_node.empty?
               @cache_node = nil
+            when'PendingModifiedValues'
+              @cache_cluster[name] = @pending_values
+              @pending_values = nil
             when 'CacheNodeCreateTime', 'CacheNodeStatus', 'Address',
               'ParameterGroupStatus', 'Port', 'CacheNodeId'
               if @cache_node
                 @cache_node[name] = value ? value.strip : name
+              elsif @pending_values
+                @pending_values[name] = value ? value.strip : name
               end
             when 'CacheNodeIdsToReboots', 'CacheParameterGroupName', 'ParameterApplyStatus'
               @cache_cluster['CacheParameterGroup'][name] = value

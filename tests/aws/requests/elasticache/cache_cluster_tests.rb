@@ -85,11 +85,8 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
         :nodes_to_remove    => node_id,
         :apply_immediately  => true,
       }).body
-      Formatador.display_line "Waiting for cluster #{CLUSTER_ID}..."
-      AWS[:elasticache].clusters.get(CLUSTER_ID).wait_for {ready?}
       c.reload
-      node = c.nodes.find {|n| n['CacheNodeId'] == node_id}
-      #returns('deleting') { node['CacheNodeStatus'] }
+      returns(NUM_NODES - 1) { c.pending_values['NumCacheNodes'] }
       body['CacheCluster']
     end
 
