@@ -29,6 +29,7 @@ class AWS
         'NumCacheNodes'               => Integer,
         'PreferredMaintenanceWindow'  => String,
         'CacheNodes'                  => Array,
+        'PendingModifiedValues'       => Hash,
       }
       CACHE_CLUSTER_RUNNING   = CACHE_CLUSTER.merge({
         'CacheClusterCreateTime'      => DateTime,
