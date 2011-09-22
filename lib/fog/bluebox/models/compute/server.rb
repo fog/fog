@@ -21,7 +21,7 @@ module Fog
         attribute :storage
         attribute :template
 
-        attr_accessor :password, :lb_applications, :lb_services, :lb_backends
+        attr_accessor :hostname, :password, :lb_applications, :lb_services, :lb_backends
         attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username
 
         def initialize(attributes={})
