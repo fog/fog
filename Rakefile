@@ -191,8 +191,10 @@ task :changelog do
   changelog << ''
 
   require 'multi_json'
-  github_data = MultiJson.decode(Excon.get('http://github.com/api/v2/json/repos/show/geemus/fog').body)
-  data = github_data['repository'].reject {|key, value| !['forks', 'open_issues', 'watchers'].include?(key)}
+  github_repo_data = MultiJson.decode(Excon.get('http://github.com/api/v2/json/repos/show/geemus/fog').body)
+  data = github_repo_data['repository'].reject {|key, value| !['forks', 'open_issues', 'watchers'].include?(key)}
+  github_collaborator_data = MultiJson.decode(Excon.get('http://github.com/api/v2/json/repos/show/geemus/fog/collaborators').body)
+  data['collaborators'] = github_collaborator_data['collaborators'].length
   rubygems_data = MultiJson.decode(Excon.get('https://rubygems.org/api/v1/gems/fog.json').body)
   data['downloads'] = rubygems_data['downloads']
   stats = []
