@@ -41,6 +41,14 @@ class AWS
       })
       SINGLE_CACHE_CLUSTER    = BASIC.merge('CacheCluster' => CACHE_CLUSTER)
       DESCRIBE_CACHE_CLUSTERS = BASIC.merge('CacheClusters' => [CACHE_CLUSTER])
+
+      EVENT = {
+        'Date'                        => DateTime,
+        'Message'                     => String,
+        'SourceIdentifier'            => String,
+        'SourceType'                  => String,
+      }
+      EVENT_LIST = [EVENT]
     end
   end
 end
