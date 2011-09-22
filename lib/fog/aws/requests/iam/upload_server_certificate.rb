@@ -70,9 +70,9 @@ module Fog
             raise Fog::AWS::IAM::EntityAlreadyExists.new
           else
             response.status = 200
-            path = "server-certificates/#{name}"
+            path = options['path'] || "/"
             data = {
-              'Arn' => Fog::AWS::Mock.arn('iam', self.data[:owner_id], path),
+              'Arn' => Fog::AWS::Mock.arn('iam', self.data[:owner_id], "server-certificate/#{name}"),
               'Path' => path,
               'ServerCertificateId' => Fog::AWS::IAM::Mock.server_certificate_id,
               'ServerCertificateName' => name,
