@@ -21,6 +21,7 @@ module Fog
       #request :describe_cache_parameter_groups
       #request :modify_cache_parameter_group
       #request :reset_cache_parameter_group
+      #request :describe_engine_default_parameters
 
       request :create_cache_security_group
       request :delete_cache_security_group
@@ -28,9 +29,7 @@ module Fog
       request :authorize_cache_security_group_ingress
       request :revoke_cache_security_group_ingress
 
-      #request :describe_engine_default_parameters
-
-      #request :describe_events
+      request :describe_events
 
       model_path 'fog/aws/models/elasticache'
       model :cluster
