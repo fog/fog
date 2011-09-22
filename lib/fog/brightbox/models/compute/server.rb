@@ -32,6 +32,7 @@ module Fog
         attribute :snapshots
         attribute :cloud_ips
         attribute :interfaces
+        attribute :server_groups
 
         def initialize(attributes={})
           self.image_id   ||= 'img-2ab98' # Ubuntu Lucid 10.04 server (i686)
@@ -106,7 +107,8 @@ module Fog
             :image => image_id,
             :name => name,
             :zone => zone_id,
-            :user_data => user_data
+            :user_data => user_data,
+            :server_groups => server_groups
           }.delete_if {|k,v| v.nil? || v == "" }
           unless flavor_id.nil? || flavor_id == ""
             options.merge!(:server_type => flavor_id)
