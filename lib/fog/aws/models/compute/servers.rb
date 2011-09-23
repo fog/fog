@@ -49,7 +49,7 @@ module Fog
         #    user_data=nil
         #  >
         #
-        
+
         def initialize(attributes)
           self.filters ||= {}
           super

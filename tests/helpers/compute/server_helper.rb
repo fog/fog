@@ -4,6 +4,7 @@ def server_tests(connection, params = {}, mocks_implemented = true)
 
     tests('#reload').returns(true) do
       pending if Fog.mocking? && !mocks_implemented
+      @instance.wait_for { ready? }
       identity = @instance.identity
       !identity.nil? && identity == @instance.reload.identity
     end
