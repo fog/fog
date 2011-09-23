@@ -110,6 +110,8 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
     end
 
     server = Fog::Compute[:aws].servers.create
+    server.wait_for { ready? }
+
     tests('register instance') do
       begin
         elb.register_instances(server.id)
