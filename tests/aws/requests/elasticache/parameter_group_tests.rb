@@ -7,6 +7,15 @@ Shindo.tests('AWS::Elasticache | parameter group requests', ['aws', 'elasticache
     description = 'Fog Test Parameter Group'
 
     tests(
+    '#describe_engine_default_parameters'
+    ).formats(AWS::Elasticache::Formats::ENGINE_DEFAULTS) do
+      response = AWS[:elasticache].describe_engine_default_parameters
+      engine_defaults = response.body['EngineDefaults']
+      returns('memcached1.4') { engine_defaults['CacheParameterGroupFamily'] }
+      engine_defaults
+    end
+
+    tests(
     '#create_cache_parameter_group'
     ).formats(AWS::Elasticache::Formats::SINGLE_PARAMETER_GROUP) do
       body = AWS[:elasticache].create_cache_parameter_group(name, description).body
@@ -28,7 +37,7 @@ Shindo.tests('AWS::Elasticache | parameter group requests', ['aws', 'elasticache
       end
       body
     end
-    
+
     tests(
     '#describe_cache_parameter_groups with name'
     ).formats(AWS::Elasticache::Formats::DESCRIBE_PARAMETER_GROUPS) do
@@ -39,7 +48,7 @@ Shindo.tests('AWS::Elasticache | parameter group requests', ['aws', 'elasticache
       end
       body
     end
-    
+
     tests(
     '#delete_cache_parameter_group'
     ).formats(AWS::Elasticache::Formats::BASIC) do

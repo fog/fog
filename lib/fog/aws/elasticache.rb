@@ -21,7 +21,7 @@ module Fog
       request :describe_cache_parameter_groups
       #request :modify_cache_parameter_group
       #request :reset_cache_parameter_group
-      #request :describe_engine_default_parameters
+      request :describe_engine_default_parameters
       #request :describe_cache_parameters
 
       request :create_cache_security_group
