@@ -37,8 +37,8 @@ module Fog
       collection :clusters
       model :security_group
       collection :security_groups
-      # model :parameter_group
-      # collection :parameter_groups
+      model :parameter_group
+      collection :parameter_groups
 
       class Mock
         def initalize(options={})
@@ -103,9 +103,8 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             if match = error.message.match(/<Code>(.*)<\/Code>/m)
               case match[1]
-              when 'CacheSecurityGroupNotFound'
-                raise Fog::AWS::Elasticache::NotFound
-              when 'CacheClusterNotFound'
+              when 'CacheSecurityGroupNotFound', 'CacheParameterGroupNotFound',
+                'CacheClusterNotFound'
                 raise Fog::AWS::Elasticache::NotFound
               when 'CacheSecurityGroupAlreadyExists'
                 raise Fog::AWS::Elasticache::IdentifierTaken

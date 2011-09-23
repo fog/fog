@@ -15,8 +15,7 @@ module Fog
         # === Returns
         # * response <~Excon::Response>:
         #   * body <~Hash>
-        def create_cache_parameter_group(name, description = name, 
-          family = 'memcached1.4')
+        def create_cache_parameter_group(name, description = name, family = 'memcached1.4')
           request({
             'Action' => 'CreateCacheParameterGroup',
             'CacheParameterGroupName' => name,
@@ -28,7 +27,8 @@ module Fog
       end
 
       class Mock
-        def create_cache_parameter_group(name, desciption=name)
+        def create_cache_parameter_group(name, description = name, 
+          family = 'memcached1.4')
           Fog::Mock.not_implemented
         end
       end

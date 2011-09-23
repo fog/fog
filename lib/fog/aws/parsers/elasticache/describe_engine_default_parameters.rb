@@ -10,7 +10,7 @@ module Fog
             case name
             when 'EngineDefaults'
               @response[name] = @engine_defaults
-              reset_engine_defaults  
+              reset_engine_defaults
             else
               super
             end

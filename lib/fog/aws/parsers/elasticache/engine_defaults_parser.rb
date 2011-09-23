@@ -10,14 +10,14 @@ module Fog
             super
             reset_engine_defaults
           end
-          
+
           def reset_engine_defaults
             @engine_defaults = {
               'CacheNodeTypeSpecificParameters' => [],
               'Parameters'                      => [],
             }
           end
-          
+
           def start_element(name, attrs = [])
             case name
             when 'CacheNodeTypeSpecificParameter', 'Parameter'
@@ -30,7 +30,7 @@ module Fog
               super
             end
           end
-          
+
           def end_element(name)
             case name
             when 'CacheParameterGroupFamily'
