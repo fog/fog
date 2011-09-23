@@ -16,6 +16,10 @@ module Fog
       model       :server
       collection  :server_groups
       model       :server_group
+      collection  :firewall_policies
+      model       :firewall_policy
+      collection  :firewall_rules
+      model       :firewall_rule
       collection  :flavors
       model       :flavor
       collection  :images
