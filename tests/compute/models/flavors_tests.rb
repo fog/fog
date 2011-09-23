@@ -4,6 +4,8 @@ for provider, config in compute_providers
 
   Shindo.tests("Fog::Compute[:#{provider}] | flavors", [provider]) do
 
+    p config[:mocked]
+
     flavors_tests(Fog::Compute[provider], (config[:flavors_attributes] || {}), config[:mocked])
 
   end

@@ -34,6 +34,7 @@ Shindo.tests('Fog::Compute[:brightbox] | load balancer requests', ['brightbox'])
     end
 
     tests("#list_load_balancers()").formats(Brightbox::Compute::Formats::Collection::LOAD_BALANCERS) do
+      pending if Fog.mocking?
       Fog::Compute[:brightbox].list_load_balancers
     end
 
