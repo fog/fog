@@ -16,6 +16,15 @@ class AWS
       SINGLE_SECURITY_GROUP = BASIC.merge('CacheSecurityGroup' => SECURITY_GROUP)
       DESCRIBE_SECURITY_GROUPS = BASIC.merge('CacheSecurityGroups' => [SECURITY_GROUP])
 
+      # Cache Parameter Groups
+      PARAMETER_GROUP = {
+        'CacheParameterGroupFamily' => String,
+        'CacheParameterGroupName'   => String,
+        'Description'               => String,
+      }
+      SINGLE_PARAMETER_GROUP = BASIC.merge('CacheParameterGroup' => PARAMETER_GROUP)
+      DESCRIBE_PARAMETER_GROUPS = BASIC.merge('CacheParameterGroups' => [PARAMETER_GROUP])
+
       # Cache Clusters - more parameters get added as the lifecycle progresses
       CACHE_CLUSTER = {
         'AutoMinorVersionUpgrade'     => String,  # actually TrueClass or FalseClass
