@@ -15,13 +15,13 @@ module Fog
 
           filter={} if filter.nil?
           unless filter.has_key?(:name)
-            vm_names=::Fission::VM.all
-            vm_names.each do |vm_name|
-              data << { :raw => ::Fission::VM.new(vm_name)}
+            vms=::Fission::VM.all
+            vms.each do |vm|
+              data << { :raw => vm}
             end
           else
-              data << { :raw => ::Fission::VM.new(filter[:name])}
-           end
+            data << { :raw => ::Fission::VM.new(filter[:name])}
+          end
 
           load(data)
 
@@ -34,4 +34,4 @@ module Fog
       end
     end
   end
- end
+end
