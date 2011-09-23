@@ -1,12 +1,16 @@
 Shindo.tests do
   before do
-    @old_credentials = Fog.credentials
+    @old_home = ENV['HOME']
+    @old_rc   = ENV['FOG_RC']
+    @old_credential = ENV['FOG_CREDENTIAL']
     Fog.instance_variable_set('@credential_path', nil) # kill memoization
     Fog.instance_variable_set('@credential', nil) # kill memoization
   end
 
   after do
-    Fog.credentials = @old_credentials
+    ENV['HOME'] = @old_home
+    ENV['FOG_RC'] = @old_rc
+    ENV['FOG_CREDENTIAL'] = @old_credential
   end
 
   tests('credential') do
