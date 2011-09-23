@@ -38,7 +38,32 @@ module Fog
       class Mock
 
         def initialize(options={})
-          Fog::Mock.not_implemented
+          @rackspace_api_key = options[:rackspace_api_key]
+          @rackspace_username = options[:rackspace_username]
+          @rackspace_auth_url = options[:rackspace_auth_url]
+          @connection_options = options[:connection_options] || {}
+        end
+
+        def self.data
+          @data ||= {
+            :zones => {}
+          }
+        end
+
+        def self.reset
+          @data = nil
+        end
+
+        def auth_token
+          @auth_token ||= Fog::Dynect::Mock.token
+        end
+
+        def data
+          self.class.data
+        end
+
+        def reset_data
+          self.class.reset
         end
 
       end
