@@ -36,6 +36,11 @@ module Fog
       request :add_records
 
       class Mock
+
+        def initialize(options={})
+          Fog::Mock.not_implemented
+        end
+
       end
 
       class Real
