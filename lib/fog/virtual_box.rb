@@ -5,7 +5,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'virtual_box/compute')
+    service(:compute, 'virtual_box/compute', 'Compute')
 
   end
 end

@@ -5,7 +5,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'vmfusion/compute')
+    service(:compute, 'vmfusion/compute', 'Compute')
 
   end
 end

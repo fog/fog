@@ -10,19 +10,20 @@ module Fog
       Fog.providers << base.to_s.split('::').last
     end
 
-    def service(new_service, path)
+    def [](service_key)
+      eval(@services_registry[service_key]).new
+    end
+
+    def service(new_service, path, constant_string)
       Fog.services[new_service] ||= []
       Fog.services[new_service] |= [self.to_s.split('::').last.downcase.to_sym]
-      self.services |= [new_service]
+      @services_registry ||= {}
+      @services_registry[new_service] = [self.to_s, constant_string].join('::')
       require File.join('fog', path)
     end
 
     def services
-      @services ||= []
-    end
-
-    def services=(new_services)
-      @services = new_services
+      @services_registry.keys
     end
 
   end

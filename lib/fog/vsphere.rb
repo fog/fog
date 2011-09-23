@@ -11,7 +11,7 @@ module Fog
       class NotFound < ServiceError; end
     end
 
-    service(:compute, 'vsphere/compute')
+    service(:compute, 'vsphere/compute', 'Compute')
 
   end
 end

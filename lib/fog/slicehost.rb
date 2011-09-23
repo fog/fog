@@ -5,8 +5,8 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'slicehost/compute')
-    service(:dns,     'slicehost/dns')
+    service(:compute, 'slicehost/compute',  'Compute')
+    service(:dns,     'slicehost/dns',      'DNS')
 
   end
 end
