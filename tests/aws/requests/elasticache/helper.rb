@@ -24,7 +24,7 @@ class AWS
       }
       SINGLE_PARAMETER_GROUP = BASIC.merge('CacheParameterGroup' => PARAMETER_GROUP)
       DESCRIBE_PARAMETER_GROUPS = BASIC.merge('CacheParameterGroups' => [PARAMETER_GROUP])
-
+      MODIFY_PARAMETER_GROUP = {'CacheParameterGroupName' => String }
       ENGINE_DEFAULTS = {
         'CacheParameterGroupFamily'       => String,
         'Parameters'                      => Array,
