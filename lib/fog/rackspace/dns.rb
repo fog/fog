@@ -46,16 +46,11 @@ module Fog
 
         def self.data
           @data ||= {
-            :zones => {}
           }
         end
 
         def self.reset
           @data = nil
-        end
-
-        def auth_token
-          @auth_token ||= Fog::Dynect::Mock.token
         end
 
         def data
