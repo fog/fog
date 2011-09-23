@@ -24,9 +24,8 @@ DATA
               'Group'
             end
             data << "      <Grantee xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"#{type}\">\n"
-            for key, value in grant['Grantee']
-              data << "        <#{key}>#{value}</#{key}>\n"
-            end
+            data << "        <ID>#{grant['Grantee']['ID']}</ID>\n"
+            data << "        <DisplayName>#{grant['Grantee']['DisplayName']}</DisplayName>\n"
             data << "      </Grantee>\n"
             data << "      <Permission>#{grant['Permission']}</Permission>\n"
             data << "    </Grant>\n"
