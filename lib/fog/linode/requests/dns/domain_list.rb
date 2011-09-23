@@ -28,7 +28,7 @@ module Fog
           if domain_id
             options.merge!(:domainId => domain_id)
           end
-          
+
           request(
             :expects  => 200,
             :method   => 'GET',

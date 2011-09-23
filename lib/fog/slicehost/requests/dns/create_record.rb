@@ -9,7 +9,7 @@ module Fog
         # ==== Parameters
         # * record_type<~String> - type of DNS record to create (A, CNAME, etc)
         # * zone_id<~Integer> - ID of the zone to update
-        # * name<~String> - host name this DNS record is for 
+        # * name<~String> - host name this DNS record is for
         # * data<~String> - data for the DNS record (ie for an A record, the IP address)
         # * options<~Hash> - extra parameters that are not mandatory
         #   * ttl<~Integer> - time to live in seconds
@@ -36,7 +36,7 @@ module Fog
               optional_tags+= "<aux>#{value}</aux>"
             end
           }
-          
+
           request(
             :body     => %Q{<?xml version="1.0" encoding="UTF-8"?><record><record_type>#{record_type}</record_type><zone_id type="integer">#{zone_id}</zone_id><name>#{name}</name><data>#{data}</data>#{optional_tags}</record>},
             :expects  => 201,

@@ -5,7 +5,7 @@ module Fog
 
         require 'fog/slicehost/parsers/dns/get_records'
 
-        # Get all the DNS records across all the DNS zones for this account 
+        # Get all the DNS records across all the DNS zones for this account
         #
         # ==== Returns
         # * response<~Excon::Response>:

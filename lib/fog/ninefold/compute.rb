@@ -21,7 +21,7 @@ module Fog
       model       :ip_forwarding_rule
       collection  :ip_forwarding_rules
 
-      request_path 'fog/compute/requests/ninefold'
+      request_path 'fog/ninefold/requests/compute'
       # General list-only stuff
       request :list_accounts
       request :list_events
