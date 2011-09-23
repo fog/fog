@@ -68,14 +68,12 @@ module Fog
         include Shared
 
         def initialize(options={})
-          require 'mocha'
           @vsphere_username = options[:vsphere_username]
           @vsphere_password = 'REDACTED'
           @vsphere_server   = options[:vsphere_server]
           @vsphere_expected_pubkey_hash = options[:vsphere_expected_pubkey_hash]
           @vsphere_is_vcenter = true
           @vsphere_rev = '4.0'
-          @connection = Mocha::Mock.new
         end
 
       end
