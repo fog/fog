@@ -44,7 +44,7 @@ module Shindo
         format.delete(key)
         case value
         when Array
-          valid &&= datum.is_a?(Array) || p("not Array: #{datum.inspect}")
+          valid &&= datum.is_a?(Array) || p("#{key.inspect} not Array: #{datum.inspect}")
           if datum.is_a?(Array) && !value.empty?
             for element in datum
               type = value.first
@@ -56,7 +56,7 @@ module Shindo
             end
           end
         when Hash
-          valid &&= datum.is_a?(Hash) || p("not Hash: #{datum.inspect}")
+          valid &&= datum.is_a?(Hash) || p("#{key.inspect} not Hash: #{datum.inspect}")
           valid &&= formats_kernel(datum, value, false)
         else
           p "#{key.inspect} not #{value.inspect}: #{datum.inspect}" unless datum.is_a?(value)
