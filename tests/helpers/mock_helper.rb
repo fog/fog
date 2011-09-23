@@ -8,7 +8,7 @@ end
 
 # if in mocked mode, fill in some fake credentials for us
 if Fog.mock?
-  Fog.instance_variable_set(:@credentials, {
+  Fog.credentials = {
     :aws_access_key_id                => 'aws_access_key_id',
     :aws_secret_access_key            => 'aws_secret_access_key',
     :bluebox_api_key                  => 'bluebox_api_key',
@@ -57,5 +57,5 @@ if Fog.mock?
     :vsphere_username                 => 'apiuser',
     :vsphere_password                 => 'apipassword',
     :vsphere_expected_pubkey_hash     => 'abcdef1234567890'
-  })
+  }
 end
