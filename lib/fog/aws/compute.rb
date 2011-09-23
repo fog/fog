@@ -116,9 +116,10 @@ module Fog
                 :owner_id   => owner_id,
                 :security_groups => {
                   'default' => {
-                    'groupDescription'  => 'default group',
-                    'groupName'         => 'default',
-                    'ipPermissions'     => [
+                    'groupDescription'    => 'default group',
+                    'groupName'           => 'default',
+                    'ipPermissionsEgress' => [],
+                    'ipPermissions'       => [
                       {
                         'groups'      => [{'groupName' => 'default', 'userId' => owner_id}],
                         'fromPort'    => -1,
@@ -141,7 +142,7 @@ module Fog
                         'ipRanges'    => []
                       }
                     ],
-                    'ownerId'           => owner_id
+                    'ownerId'             => owner_id
                   }
                 },
                 :snapshots => {},
