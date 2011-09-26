@@ -39,14 +39,13 @@ Shindo.tests('AWS::Elasticache | parameter group requests', ['aws', 'elasticache
     end
 
     tests(
-    '#describe_cache_parameter_groups with name'
-    ).formats(AWS::Elasticache::Formats::DESCRIBE_PARAMETER_GROUPS) do
-      body = AWS[:elasticache].describe_cache_parameter_groups(name).body
-      returns(1, "size of 1") { body['CacheParameterGroups'].size }
-      returns(name, "has #{name}") do
-        body['CacheParameterGroups'].first['CacheParameterGroupName']
-      end
-      body
+    '#reset_cache_parameter_group completely'
+    ).formats('CacheParameterGroupName' => String) do
+      result = AWS[:elasticache].reset_cache_parameter_group(
+        name
+      ).body['ResetCacheParameterGroupResult']
+      returns(name) {result['CacheParameterGroupName']}
+      result
     end
 
     tests(
@@ -57,6 +56,29 @@ Shindo.tests('AWS::Elasticache | parameter group requests', ['aws', 'elasticache
       ).body['ModifyCacheParameterGroupResult']
       returns(name) {result['CacheParameterGroupName']}
       result
+    end
+
+    # BUG: returns "MalformedInput - Unexpected complex element termination"
+    tests(
+    '#reset_cache_parameter_group with one parameter'
+    ).formats('CacheParameterGroupName' => String) do
+      pending
+      result = AWS[:elasticache].reset_cache_parameter_group(
+        name, ["chunk_size"]
+      ).body['ResetCacheParameterGroupResult']
+      returns(name) {result['CacheParameterGroupName']}
+      result
+    end
+
+    tests(
+    '#describe_cache_parameter_groups with name'
+    ).formats(AWS::Elasticache::Formats::DESCRIBE_PARAMETER_GROUPS) do
+      body = AWS[:elasticache].describe_cache_parameter_groups(name).body
+      returns(1, "size of 1") { body['CacheParameterGroups'].size }
+      returns(name, "has #{name}") do
+        body['CacheParameterGroups'].first['CacheParameterGroupName']
+      end
+      body
     end
 
     tests(
