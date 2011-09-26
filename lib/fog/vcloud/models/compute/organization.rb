@@ -18,12 +18,6 @@ module Fog
                  :href => href )
         end
 
-        def servers
-          @servers ||= Fog::Vcloud::Compute::Servers.
-            new( :connection => connection,
-                 :href => href )
-        end
-
         def tasks
           load_unless_loaded!
           @tasks ||= Fog::Vcloud::Compute::Tasks.
