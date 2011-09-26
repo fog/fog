@@ -14,9 +14,14 @@ module Fog
 
         def all
           self.href = connection.default_vdc_href unless self.href
-          check_href!("Vdc")
-          if data = connection.get_vdc(href).body[:AvailableNetworks][:Network]
-            load(data)
+          if self.href =~ /\/vdc\//
+            check_href!("Vdc")
+            if data = connection.get_vdc(self.href).body[:AvailableNetworks][:Network]
+              load(data)
+            end
+          else
+            check_href!("Org")
+            load(connection.get_organization(self.href).body[:Link].select{|l| l[:type] == 'application/vnd.vmware.vcloud.network+xml' })
           end
         end
 
