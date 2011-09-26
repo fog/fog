@@ -25,12 +25,11 @@ class AWS
       SINGLE_PARAMETER_GROUP = BASIC.merge('CacheParameterGroup' => PARAMETER_GROUP)
       DESCRIBE_PARAMETER_GROUPS = BASIC.merge('CacheParameterGroups' => [PARAMETER_GROUP])
       MODIFY_PARAMETER_GROUP = {'CacheParameterGroupName' => String }
-      ENGINE_DEFAULTS = {
-        'CacheParameterGroupFamily'       => String,
+      PARAMETER_SET = {
         'Parameters'                      => Array,
         'CacheNodeTypeSpecificParameters' => Array,
       }
-
+      ENGINE_DEFAULTS = PARAMETER_SET.merge('CacheParameterGroupFamily' => String)
       # Cache Clusters - more parameters get added as the lifecycle progresses
       CACHE_CLUSTER = {
         'AutoMinorVersionUpgrade'     => String,  # actually TrueClass or FalseClass
