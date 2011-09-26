@@ -52,7 +52,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer_tests', ['rackspace'
       tests('#get_load_balancer(0)').raises(Fog::Rackspace::LoadBalancers::NotFound) do
         @service.get_load_balancer(0)
       end
-      tests('#delete_load_balancer(0)').raises(Fog::Rackspace::LoadBalancers::NotFound) do
+      tests('#delete_load_balancer(0)').raises(Fog::Rackspace::LoadBalancers::BadRequest) do
         @service.delete_load_balancer(0)
       end
       tests('#update_load_balancer(0)').raises(Fog::Rackspace::LoadBalancers::NotFound) do

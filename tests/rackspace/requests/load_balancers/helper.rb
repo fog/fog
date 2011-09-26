@@ -14,7 +14,8 @@ LOAD_BALANCER_USAGE_FORMAT = {
       'numVips' => Fog::Nullable::Integer,
       'numPolls' => Fog::Nullable::Integer,
       'startTime' => Fog::Nullable::String,
-      'endTime' => Fog::Nullable::String
+      'endTime' => Fog::Nullable::String,
+      'vipType' => Fog::Nullable::String,
     }
   ]
 }
@@ -86,6 +87,11 @@ LOAD_BALANCERS_FORMAT = {
       'port' => Integer,
       'protocol' => String,
       'algorithm' => String,
+      'sourceAddresses' => {
+        'ipv4Servicenet'  => String,
+        'ipv4Public'      => String,
+        'ipv6Public'      => String,
+      },
       'status' => String,
       'virtualIps' => [VIRTUAL_IP_FORMAT],
       'nodes' => [SINGLE_NODE_FORMAT],
@@ -100,6 +106,11 @@ LOAD_BALANCER_FORMAT = {
     'port' => Integer,
     'protocol' => String,
     'algorithm' => String,
+    'sourceAddresses' => {
+      'ipv4Servicenet'  => String,
+      'ipv4Public'      => String,
+      'ipv6Public'      => String,
+    },
     'status' => String,
     'cluster' => { 'name' => String },
     'virtualIps' => [VIRTUAL_IP_FORMAT],
