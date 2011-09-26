@@ -31,6 +31,12 @@ module Fog
                  :href => href )
         end
 
+        def catalogs
+          @catalogs ||= Fog::Vcloud::Compute::Catalogs.
+            new( :connection => connection,
+                 :href => href )
+        end
+
         private
 
         def collection_based_on_type(type, klass = nil)
