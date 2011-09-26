@@ -13,8 +13,14 @@ module Fog
         attribute :href, :aliases => :Href
 
         def all
-          check_href!(:parent => "Vdc")
-          load(_vapps)
+          if self.href =~ /\/vdc\//
+            check_href!("Vdc")
+            load(_vapps)
+          else
+            check_href!("Vapp")
+            attributes[:vapp].load_unless_loaded!
+            load(attributes[:vapp].children)
+          end
         end
 
         def get(uri)

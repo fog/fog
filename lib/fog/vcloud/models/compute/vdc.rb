@@ -30,6 +30,13 @@ module Fog
                  :href => href )
         end
 
+        def vapps
+          @vapps ||= Fog::Vcloud::Compute::Vapps.
+            new( :connection => connection,
+                 :href => href
+            )
+        end
+
         private
 
         def collection_based_on_type(type, klass = nil)
@@ -39,6 +46,8 @@ module Fog
             case type
             when "application/vnd.vmware.vcloud.catalog+xml"
               Fog::Vcloud::Compute::Catalog
+            when "application/vnd.vmware.vcloud.vApp+xml"
+              Fog::Vcloud::Compute::Vapp
             end.new( :connection => connection, :href => link[:href] )
           else
             [ ]

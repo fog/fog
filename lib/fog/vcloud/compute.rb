@@ -83,6 +83,8 @@ module Fog
       collection :servers
       model :task
       collection :tasks
+      model :vapp
+      collection :vapps
       model :vdc
       collection :vdcs
       model :organization
@@ -300,7 +302,6 @@ module Fog
               parser = Nokogiri::XML::SAX::PushParser.new(document)
               parser << response.body
               parser.finish
-
               response.body = document.body
             end
           end
