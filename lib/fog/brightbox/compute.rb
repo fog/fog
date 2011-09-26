@@ -88,6 +88,7 @@ module Fog
       request :unmap_cloud_ip
       request :update_account
       request :update_api_client
+      request :update_cloud_ip
       request :update_image
       request :update_load_balancer
       request :update_server
