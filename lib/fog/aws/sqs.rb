@@ -19,8 +19,38 @@ module Fog
       request :set_queue_attributes
 
       class Mock
+        def self.data
+          @data ||= Hash.new do |hash, region|
+            owner_id = Fog::AWS::Mock.owner_id
+            hash[region] = Hash.new do |region_hash, key|
+              region_hash[key] = {
+                :owner_id => Fog::AWS::Mock.owner_id,
+                :queues   => {}
+              }
+            end
+          end
+        end
+        
+        def self.reset
+          @data = nil
+        end
 
         def initialize(options={})
+          @aws_access_key_id = options[:aws_access_key_id]
+
+          @region = options[:region] || 'us-east-1'
+
+          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1'].include?(@region)
+            raise ArgumentError, "Unknown region: #{@region.inspect}"
+          end
+        end
+
+        def data
+          self.class.data[@region][@aws_access_key_id]
+        end
+
+        def reset_data
+          self.class.data[@region].delete(@aws_access_key_id)
         end
 
       end

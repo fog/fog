@@ -27,6 +27,36 @@ module Fog
         end
 
       end
+      
+      class Mock
+        
+        def change_message_visibility(queue_url, receipt_handle, visibility_timeout)
+          Excon::Response.new.tap do |response|
+            if (queue = data[:queues][queue_url])
+              message_id, _ = queue[:receipt_handles].find { |message_id, receipts|
+                receipts.keys.include?(receipt_handle)
+              }
+              
+              if message_id
+                queue[:messages][message_id]['Attributes']['VisibilityTimeout'] = visibility_timeout
+                response.body = {
+                  'ResponseMetadata' => {
+                    'RequestId' => Fog::AWS::Mock.request_id
+                  }
+                }
+                response.status = 200
+              else
+                response.status = 404
+                raise(Excon::Errors.status_error({:expects => 200}, response))
+              end
+            else
+              response.status = 404
+              raise(Excon::Errors.status_error({:expects => 200}, response))
+            end
+          end
+        end
+        
+      end
 
     end
   end
