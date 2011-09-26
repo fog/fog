@@ -27,6 +27,14 @@ Shindo.tests('AWS::Elasticache | parameter group requests', ['aws', 'elasticache
     end
 
     tests(
+    '#describe_cache_parameters'
+    ).formats(AWS::Elasticache::Formats::PARAMETER_SET) do
+      response = AWS[:elasticache].describe_cache_parameters(name)
+      parameter_set = response.body['DescribeCacheParametersResult']
+      parameter_set
+    end
+
+    tests(
     '#describe_cache_parameter_groups without options'
     ).formats(AWS::Elasticache::Formats::DESCRIBE_PARAMETER_GROUPS) do
       body = AWS[:elasticache].describe_cache_parameter_groups.body
