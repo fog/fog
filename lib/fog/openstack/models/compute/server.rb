@@ -138,6 +138,12 @@ module Fog
           true
         end
 
+        def create_image(name, metadata={})
+          requires :id
+          connection.create_image(id, name, metadata)
+          true
+        end
+
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :flavor_ref, :image_ref, :name
