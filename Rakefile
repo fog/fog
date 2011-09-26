@@ -98,6 +98,7 @@ end
 
 task :nuke do
   Fog.providers.each do |provider|
+    next if ['Vmfusion'].include?(provider)
     begin
       compute = Fog::Compute.new(:provider => provider)
       for server in compute.servers
