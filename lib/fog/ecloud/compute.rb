@@ -19,8 +19,7 @@ module Fog
       def check_href!(opts = {})
         unless href
           if opts.is_a?(String)
-            t = Hash.new
-            t[:parent] = opts
+            t = { :parent => opts }
             opts = t
           end
           msg = ":href missing, call with a :href pointing to #{if opts[:message]
