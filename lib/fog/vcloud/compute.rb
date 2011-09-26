@@ -64,6 +64,8 @@ module Fog
       PORT   = 443
       SCHEME = 'https'
 
+      attr_writer :default_organization_uri
+
       requires   :vcloud_username, :vcloud_password, :vcloud_host
       recognizes :vcloud_port, :vcloud_scheme, :vcloud_path, :vcloud_default_vdc
       recognizes :provider # remove post deprecation
@@ -83,6 +85,8 @@ module Fog
       collection :tasks
       model :vdc
       collection :vdcs
+      model :organization
+      collection :organizations
 
       request_path 'fog/vcloud/requests/compute'
       request :clone_vapp
