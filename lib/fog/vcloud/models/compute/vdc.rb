@@ -30,12 +30,6 @@ module Fog
                  :href => href )
         end
 
-        def tasks
-          @tasks ||= Fog::Vcloud::Compute::Tasks.
-            new( :connection => connection,
-                 :href => href + "/tasksList" )
-        end
-
         private
 
         def collection_based_on_type(type, klass = nil)
