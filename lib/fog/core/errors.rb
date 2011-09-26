@@ -48,6 +48,10 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :new_servers_username:
   :public_key_path:
   :private_key_path:
+  :openstack_api_key:
+  :openstack_username:
+  :openstack_auth_url:
+  :openstack_tenant:
   :rackspace_api_key:
   :rackspace_username:
   :rackspace_servicenet:
