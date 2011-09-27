@@ -11,6 +11,7 @@ module Fog
     service(:cloud_formation, 'aws/cloud_formation',  'CloudFormation')
     service(:cloud_watch,     'aws/cloud_watch',      'CloudWatch')
     service(:dns,             'aws/dns',              'DNS')
+    service(:elasticache,     'aws/elasticache',      'Elasticache')
     service(:elb,             'aws/elb',              'ELB')
     service(:iam,             'aws/iam',              'IAM')
     service(:rds,             'aws/rds',              'RDS')

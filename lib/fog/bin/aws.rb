@@ -15,6 +15,8 @@ class AWS < Fog::Bin
         Fog::Compute::AWS
       when :dns
         Fog::DNS::AWS
+      when :elasticache
+        Fog::AWS::Elasticache
       when :elb
         Fog::AWS::ELB
       when :iam
@@ -57,6 +59,8 @@ class AWS < Fog::Bin
         when :dns
           Fog::Logger.warning("AWS[:dns] is deprecated, use DNS[:aws] instead")
           Fog::DNS.new(:provider => 'AWS')
+        when :elasticache
+          Fog::AWS::Elasticache.new
         when :elb
           Fog::AWS::ELB.new
         when :iam
