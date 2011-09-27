@@ -2,10 +2,9 @@ module Fog
   module Parsers
     module AWS
       module ACS
-
         require 'fog/aws/parsers/acs/security_group_parser'
 
-        class CreateCacheSecurityGroup < Fog::Parsers::AWS::ACS::SecurityGroupParser
+        class SingleSecurityGroup < SecurityGroupParser
 
           def reset
             super
@@ -18,8 +17,8 @@ module Fog
 
           def end_element(name)
             case name
-            when 'CacheSecurityGroup' then
-              @response['CacheSecurityGroup'] = @security_group
+            when 'CacheSecurityGroup'
+              @response[name] = @security_group
               reset_security_group
 
             when 'RequestId'
@@ -27,11 +26,8 @@ module Fog
             else
               super
             end
-
           end
-
         end
-
       end
     end
   end
