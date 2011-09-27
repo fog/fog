@@ -69,7 +69,8 @@ module Fog
 
         def initialize(attributes={})
           merge_attributes({
-            :flavor_id => 105 # '1CPU, 384MB, 80GB HDD'
+            :flavor_id => 105, # '1CPU, 384MB, 80GB HDD'
+            :image_id  => 421  # 'XEN Basic Ubuntu 10.04 Server x64 PV r2.0'
           })
           super
         end
