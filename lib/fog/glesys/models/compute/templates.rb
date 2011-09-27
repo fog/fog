@@ -9,12 +9,6 @@ module Fog
 
         model Fog::Glesys::Compute::Template
 
-        #attribute :platform
-        #attribute :name
-        #attribute :os
-        #attribute :min_mem_size
-        #attribute :min_disk_size
-
         def all
           openvz = connection.template_list.body['response']['templates']['OpenVZ']
           xen    = connection.template_list.body['response']['templates']['Xen']
