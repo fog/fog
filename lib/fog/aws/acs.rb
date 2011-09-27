@@ -7,9 +7,6 @@ module Fog
 
       request_path 'fog/aws/requests/acs'
 
-      #request :authorize_cache_security_group_ingress
-      #request :revoke_cache_security_group_ingress
-
       #request :create_cache_cluster
       #request :delete_cache_cluster
       #request :describe_cache_clusters
@@ -23,8 +20,10 @@ module Fog
       #request :reset_cache_parameter_group
 
       request :create_cache_security_group
-      #request :delete_cache_security_group
-      #request :describe_cache_security_groups
+      request :delete_cache_security_group
+      request :describe_cache_security_groups
+      request :authorize_cache_security_group_ingress
+      request :revoke_cache_security_group_ingress
 
       #request :describe_engine_default_parameters
 
@@ -53,57 +52,58 @@ module Fog
 
           options[:region] ||= 'us-east-1'
           @host = options[:host] || case options[:region]
-        when 'us-east-1'
-          'acsvc.us-east-1.amazonaws.com'
-        else
-          raise ArgumentError, "Unknown region: #{options[:region].inspect}"
-        end
-        @path       = options[:path]      || '/'
-        @port       = options[:port]      || 443
-        @scheme     = options[:scheme]    || 'https'
-        @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
-      end
-
-      def reload
-        @connection.reset
-      end
-
-      private
-      def request(params)
-        idempotent  = params.delete(:idempotent)
-        parser      = params.delete(:parser)
-
-        body = Fog::AWS.signed_params(
-          params,
-          {
-          :aws_access_key_id  => @aws_access_key_id,
-          :hmac               => @hmac,
-          :host               => @host,
-          :path               => @path,
-          :port               => @port,
-          :version            => '2011-07-15'
-        }
-        )
-
-        begin
-          response = @connection.request({
-            :body       => body,
-            :expects    => 200,
-            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-            :idempotent => idempotent,
-            :host       => @host,
-            :method     => 'POST',
-            :parser     => parser
-          })
-        rescue Excon::Errors::HTTPStatusError => error
-          # TODO: handle not found errors
-          raise
+          when 'us-east-1'
+            'acsvc.us-east-1.amazonaws.com'
+            #TODO: Support other regions
+          else
+            raise ArgumentError, "Unknown region: #{options[:region].inspect}"
+          end
+          @path       = options[:path]      || '/'
+          @port       = options[:port]      || 443
+          @scheme     = options[:scheme]    || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
         end
 
-        response
-      end
+        def reload
+          @connection.reset
+        end
 
+        private
+        def request(params)
+          idempotent  = params.delete(:idempotent)
+          parser      = params.delete(:parser)
+
+          body = Fog::AWS.signed_params(
+            params,
+            {
+            :aws_access_key_id  => @aws_access_key_id,
+            :hmac               => @hmac,
+            :host               => @host,
+            :path               => @path,
+            :port               => @port,
+            :version            => '2011-07-15'
+          }
+          )
+
+          begin
+            response = @connection.request({
+              :body       => body,
+              :expects    => 200,
+              :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+              :idempotent => idempotent,
+              :host       => @host,
+              :method     => 'POST',
+              :parser     => parser
+            })
+          rescue Excon::Errors::HTTPStatusError => error
+            # TODO: handle not found errors
+            raise
+          end
+
+          response
+        end
+
+      end
     end
   end
-end
 end

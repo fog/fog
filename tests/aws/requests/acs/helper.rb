@@ -13,7 +13,9 @@ class AWS
         'OwnerId' => String
       }
 
-      CREATE_SECURITY_GROUP = BASIC.merge('CacheSecurityGroup' => SECURITY_GROUP)
+      SINGLE_SECURITY_GROUP = BASIC.merge('CacheSecurityGroup' => SECURITY_GROUP)
+      DESCRIBE_SECURITY_GROUPS = BASIC.merge('CacheSecurityGroups' => [SECURITY_GROUP])
+
 
     end
   end

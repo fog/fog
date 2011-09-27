@@ -3,7 +3,7 @@ module Fog
     class ACS
       class Real
 
-        require 'fog/aws/parsers/acs/create_cache_security_group'
+        require 'fog/aws/parsers/acs/single_security_group'
 
         # creates a cache security group
         #
@@ -18,7 +18,7 @@ module Fog
             'Action' => 'CreateCacheSecurityGroup',
             'CacheSecurityGroupName' => name,
             'CacheSecurityGroupDescription' => description,
-            :parser => Fog::Parsers::AWS::ACS::CreateCacheSecurityGroup.new
+            :parser => Fog::Parsers::AWS::ACS::SingleSecurityGroup.new
           })
         end
       end
