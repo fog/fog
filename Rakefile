@@ -107,6 +107,17 @@ task :nuke do
       end
     rescue
     end
+    begin
+      dns = Fog::DNS.new(:provider => provider)
+      for zone in dns.zones
+        for record in zone.records
+          record.destroy rescue nil
+        end
+        Formatador.display_line("[#{provider}] destroying zone #{zone.identity}")
+        zone.destroy rescue nil
+      end
+    rescue
+    end
   end
 end
 
