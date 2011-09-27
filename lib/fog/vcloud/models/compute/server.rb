@@ -11,18 +11,28 @@ module Fog
         attribute :name
         attribute :status
         attribute :network_connections, :aliases => :NetworkConnectionSection, :squash => :NetworkConnection
-        attribute :os, :aliases => :OperatingSystemSection
-        attribute :virtual_hardware, :aliases => :VirtualHardwareSection
+        attribute :virtual_hardware, :aliases => :'ovf:VirtualHardwareSection', :squash => :'ovf:Item'
+
+        attribute :guest_customization, :aliases => :GuestCustomizationSection
+        attribute :operating_system, :aliases => :'ovf:OperatingSystemSection'
+
         attribute :description, :aliases => :Description
-        attribute :storage_size, :aliases => :size
         attribute :links, :aliases => :Link, :type => :array
         attribute :tasks, :aliases => :Tasks, :type => :array
 
-        attribute :vm_data, :aliases => :Children, :squash => :Vm
-
-        def ip_address
+        def computer_name
           load_unless_loaded!
-          vm[0][:NetworkConnectionSection][:NetworkConnection][:IpAddress]
+          self.guest_customization[:ComputerName]
+        end
+
+        def os_desc
+          load_unless_loaded!
+          self.operating_system[:'ovf:Description']
+        end
+
+        def ip_addresses
+          load_unless_loaded!
+          self.network_connections.collect{|n| n[:IpAddress] }
         end
 
         def friendly_status
@@ -81,11 +91,6 @@ module Fog
           shutdown
           wait_for { off? }
           power_on
-        end
-
-        def vm
-          load_unless_loaded!
-          self.vm_data
         end
 
         def name=(new_name)
@@ -187,12 +192,12 @@ module Fog
                 vh[:'rasd:ResourceType'] == '17' &&
                   vh[:'rasd:AddressOnParent'].to_s == @remove_disk.to_s
               end
-              connection.configure_vm_disks(vm_href, data)
+              connection.configure_vm_disks(self.href, data)
             end
             if @disk_change == :added
               data = disk_mess
               data << @add_disk
-              connection.configure_vm_disks(vm_href, data)
+              connection.configure_vm_disks(self.href, data)
             end
             if @name_changed || @description_changed
               edit_uri = links.select {|i| i[:rel] == 'edit'}
@@ -216,14 +221,6 @@ module Fog
         end
         alias :delete :destroy
 
-        def vm_href
-          load_unless_loaded!
-          #require 'pp'
-          #pp vm_data
-          #vm_data[0][:Link].select {|v| v[:rel] == 'edit'}[0][:href]
-          vm_data.kind_of?(Array)? vm_data[0][:href] : vm_data[:href]
-        end
-
         private
 
         def reset_tracking
@@ -240,11 +237,6 @@ module Fog
             :memory => memory[:amount],
             :disks  => disks
           }
-        end
-
-        def virtual_hardware_section
-          load_unless_loaded!
-          vm[0][:"ovf:VirtualHardwareSection"][:"ovf:Item"]
         end
 
         def memory_mess
@@ -284,7 +276,6 @@ module Fog
         def reload_status
           self.status = connection.get_vapp(href).body[:status]
         end
-
       end
     end
   end
