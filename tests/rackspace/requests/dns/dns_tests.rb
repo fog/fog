@@ -5,7 +5,7 @@ Shindo.tests('Fog::DNS[:rackspace] | DNS requests', ['rackspace', 'dns']) do
   tests('success on simple domain') do
     domain_tests(Fog::DNS[:rackspace], {:name => 'basictestdomain.com', :email => 'hostmaster@basictestdomain.com', :records => [{:ttl => 300, :name => 'basictestdomain.com', :type => 'A', :data => '192.168.1.1'}]}) do
 
-      tests('list_domains').formats(LIST_DOMAIN_FORMAT) do
+      tests('list_domains').formats(LIST_DOMAIN_FORMAT.reject {|key,value| key == 'links'}) do
         Fog::DNS[:rackspace].list_domains.body
       end
 
