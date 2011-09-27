@@ -258,8 +258,13 @@ class Ninefold
                     "domain"=>String,
                     "isdefault"=>Fog::Boolean,
                     "service"=>Array,
-                    "networkdomain"=>String,
-                    "securitygroupenabled"=>Fog::Boolean
+                    "networkdomain"=>Fog::Nullable::String,
+                    "securitygroupenabled"=>Fog::Boolean,
+                    "netmask"=>Fog::Nullable::String,
+                    "startip"=>Fog::Nullable::String,
+                    "endip"=>Fog::Nullable::String,
+                    "gateway"=>Fog::Nullable::String,
+                    "vlan"=>Fog::Nullable::String
                     }]
       end
       module Addresses
