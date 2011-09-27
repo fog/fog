@@ -1,13 +1,13 @@
-Shindo.tests('AWS::ACS | security groups', ['aws', 'acs']) do
+Shindo.tests('AWS::Elasticache | security groups', ['aws', 'elasticache']) do
   group_name = 'fog-test'
   description = 'Fog Test'
 
   pending if Fog.mocking?
 
-  model_tests(AWS[:acs].security_groups, {:id => group_name, :description => description}, false) do
+  model_tests(AWS[:elasticache].security_groups, {:id => group_name, :description => description}, false) do
 
     # An EC2 group to authorize
-    ec2_group = Fog::Compute.new(:provider => 'AWS').security_groups.create(:name => 'fog-test-acs', :description => 'fog test')
+    ec2_group = Fog::Compute.new(:provider => 'AWS').security_groups.create(:name => 'fog-test-elasticache', :description => 'fog test')
 
     # Reload to get the instance owner_id
     @instance.reload
@@ -29,5 +29,5 @@ Shindo.tests('AWS::ACS | security groups', ['aws', 'acs']) do
     ec2_group.destroy
   end
 
-  collection_tests(AWS[:acs].security_groups, {:id => group_name, :description => description}, false)
+  collection_tests(AWS[:elasticache].security_groups, {:id => group_name, :description => description}, false)
 end

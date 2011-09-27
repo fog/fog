@@ -1,11 +1,11 @@
 module Fog
   module Parsers
     module AWS
-      module ACS
+      module Elasticache
 
-        require 'fog/aws/parsers/acs/security_group_parser'
+        require 'fog/aws/parsers/elasticache/security_group_parser'
 
-        class AuthorizeCacheSecurityGroupIngress < Fog::Parsers::AWS::ACS::SecurityGroupParser
+        class AuthorizeCacheSecurityGroupIngress < Fog::Parsers::AWS::Elasticache::SecurityGroupParser
 
           def end_element(name)
             case name
