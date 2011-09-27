@@ -1,5 +1,5 @@
 class AWS
-  module ACS
+  module Elasticache
     module Formats
 
       BASIC = {

@@ -1,9 +1,9 @@
 module Fog
   module AWS
-    class ACS
+    class Elasticache
       class Real
 
-        require 'fog/aws/parsers/acs/describe_security_groups'
+        require 'fog/aws/parsers/elasticache/describe_security_groups'
 
         # Returns a list of CacheSecurityGroup descriptions
         #
@@ -18,7 +18,7 @@ module Fog
         def describe_cache_security_groups(options = {})
           request({
             'Action' => 'DescribeCacheSecurityGroups',
-            :parser => Fog::Parsers::AWS::ACS::DescribeSecurityGroups.new
+            :parser => Fog::Parsers::AWS::Elasticache::DescribeSecurityGroups.new
           }.merge(options))
         end
 

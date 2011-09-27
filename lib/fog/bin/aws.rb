@@ -3,8 +3,8 @@ class AWS < Fog::Bin
 
     def class_for(key)
       case key
-      when :acs
-        Fog::AWS::ACS
+      when :elasticache
+        Fog::AWS::Elasticache
       when :auto_scaling
         Fog::AWS::AutoScaling
       when :cdn
@@ -44,8 +44,8 @@ class AWS < Fog::Bin
     def [](service)
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
-        when :acs
-          Fog::AWS::ACS.new
+        when :elasticache
+          Fog::AWS::Elasticache.new
         when :auto_scaling
           Fog::AWS::AutoScaling.new
         when :cdn

@@ -7,7 +7,7 @@ module Fog
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :region, :host, :path, :port, :scheme, :persistent
 
-      request_path 'fog/aws/requests/acs'
+      request_path 'fog/aws/requests/elasticache'
 
       #request :create_cache_cluster
       #request :delete_cache_cluster
@@ -31,7 +31,7 @@ module Fog
 
       #request :describe_events
 
-      model_path 'fog/aws/models/acs'
+      model_path 'fog/aws/models/elasticache'
       # model :server
       # collection :servers
       model :security_group

@@ -1,33 +1,34 @@
+
 module Fog
   module AWS
-    class ACS
+    class Elasticache
       class Real
 
-        require 'fog/aws/parsers/acs/single_security_group'
+        require 'fog/aws/parsers/elasticache/single_security_group'
 
-        # Authorize ingress to a CacheSecurityGroup using EC2 Security Groups
+        # Revoke ingress to a CacheSecurityGroup using EC2 Security Groups
         #
         # === Parameters
         # * name <~String> - The name of the cache security group
-        # * ec2_name <~String> - The name of the EC2 security group to authorize
+        # * ec2_name <~String> - The name of the EC2 security group to revoke
         # * ec2_owner_id <~String> - The AWS Account Number of the EC2 security group
         # === Returns
         # * response <~Excon::Response>:
         #   * body <~Hash>
-        def authorize_cache_security_group_ingress(name, ec2_name, ec2_owner_id)
+        def revoke_cache_security_group_ingress(name, ec2_name, ec2_owner_id)
           request({
-            'Action' => 'AuthorizeCacheSecurityGroupIngress',
+            'Action' => 'RevokeCacheSecurityGroupIngress',
             'CacheSecurityGroupName' => name,
             'EC2SecurityGroupName' => ec2_name,
             'EC2SecurityGroupOwnerId' => ec2_owner_id,
-            :parser => Fog::Parsers::AWS::ACS::SingleSecurityGroup.new
+            :parser => Fog::Parsers::AWS::Elasticache::SingleSecurityGroup.new
           })
         end
 
       end
 
       class Mock
-        def authorize_cache_security_group_ingress
+        def revoke_cache_security_group_ingress
           Fog::Mock.not_implemented
         end
       end

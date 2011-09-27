@@ -1,9 +1,9 @@
 module Fog
   module AWS
-    class ACS
+    class Elasticache
       class Real
 
-        require 'fog/aws/parsers/acs/single_security_group'
+        require 'fog/aws/parsers/elasticache/single_security_group'
 
         # creates a cache security group
         #
@@ -18,7 +18,7 @@ module Fog
             'Action' => 'CreateCacheSecurityGroup',
             'CacheSecurityGroupName' => name,
             'Description' => description,
-            :parser => Fog::Parsers::AWS::ACS::SingleSecurityGroup.new
+            :parser => Fog::Parsers::AWS::Elasticache::SingleSecurityGroup.new
           })
         end
       end
