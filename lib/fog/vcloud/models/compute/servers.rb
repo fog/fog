@@ -19,7 +19,7 @@ module Fog
           else
             check_href!("Vapp")
             attributes[:vapp].load_unless_loaded!
-            load(attributes[:vapp].children)
+            load(attributes[:vapp].children||[])
           end
         end
 
