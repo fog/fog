@@ -14,6 +14,7 @@ module Fog
         # * AlarmNames<~Array>: An array of alarm names to retrieve information for. 
         # * MaxRecords<~Integer>: The maximum number of alarm descriptions to retrieve
         # * NextToken<~String>: The token returned by a previous call to indicate that there is more data available
+        # * NextToken<~String> The token returned by a previous call to indicate that there is more data available
         # * StateValue<~String>: The state value to be used in matching alarms
         #
         # ==== Returns
