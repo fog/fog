@@ -2,29 +2,24 @@ Shindo.tests('Fog::Compute[:brightbox] | user requests', ['brightbox']) do
 
   tests('success') do
 
-    tests("#list_users").formats(Brightbox::Compute::Formats::Collection::USERS) do
+    tests("#list_users") do
       pending if Fog.mocking?
-      data = Fog::Compute[:brightbox].list_users
-      @user_id = data.first["id"]
-      data
+      result = Fog::Compute[:brightbox].list_users
+      @user_id = result.first["id"]
+      formats(Brightbox::Compute::Formats::Collection::USERS) { result }
     end
 
-    tests("#get_user('#{@user_id}')").formats(Brightbox::Compute::Formats::Full::USER) do
+    tests("#get_user('#{@user_id}')") do
       pending if Fog.mocking?
-      data = Fog::Compute[:brightbox].get_user(@user_id)
-      @original_name = data["name"]
-      data
+      result = Fog::Compute[:brightbox].get_user(@user_id)
+      formats(Brightbox::Compute::Formats::Full::USER) { result }
     end
 
-    update_options = { :name => "Fog@#{Time.now.iso8601}" }
-
-    tests("#update_user('#{@user_id}', #{update_options.inspect})").formats(Brightbox::Compute::Formats::Full::USER) do
+    update_options = { :name => "Example User" }
+    tests("#update_user('#{@user_id}', #{update_options.inspect})") do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].update_user(@user_id, update_options)
-    end
-
-    unless Fog.mocking?
-      Fog::Compute[:brightbox].update_user(@user_id, :name => @original_name)
+      result = Fog::Compute[:brightbox].update_user(@user_id, update_options)
+      formats(Brightbox::Compute::Formats::Full::USER) { result }
     end
 
   end

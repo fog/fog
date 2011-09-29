@@ -14,51 +14,58 @@ Shindo.tests('Fog::Compute[:brightbox] | server group requests', ['brightbox']) 
       }]
     }
 
-    tests("#create_server_group(#{create_options.inspect})").formats(Brightbox::Compute::Formats::Full::SERVER_GROUP) do
+    tests("#create_server_group(#{create_options.inspect})") do
       pending if Fog.mocking?
-      data = Fog::Compute[:brightbox].create_server_group(create_options)
-      @server_group_id = data["id"]
-      data
+      result = Fog::Compute[:brightbox].create_server_group(create_options)
+      @server_group_id = result["id"]
+      formats(Brightbox::Compute::Formats::Full::SERVER_GROUP) { result }
     end
 
-    tests("#list_server_groups").formats(Brightbox::Compute::Formats::Collection::SERVER_GROUPS) do
+    tests("#list_server_groups") do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].list_server_groups
+      result = Fog::Compute[:brightbox].list_server_groups
+      formats(Brightbox::Compute::Formats::Collection::SERVER_GROUPS) { result }
     end
 
-    tests("#get_server_group('#{@server_group_id}')").formats(Brightbox::Compute::Formats::Full::SERVER_GROUP) do
+    tests("#get_server_group('#{@server_group_id}')") do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].get_server_group(@server_group_id)
+      result = Fog::Compute[:brightbox].get_server_group(@server_group_id)
+      formats(Brightbox::Compute::Formats::Full::SERVER_GROUP) { result }
     end
 
     update_options = {:name => "Fog@#{Time.now.iso8601}"}
-    tests("#update_server_group(#{update_options.inspect})").formats(Brightbox::Compute::Formats::Full::SERVER_GROUP) do
+    tests("#update_server_group('#{@server_group_id}', #{update_options.inspect})") do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].update_server_group(@server_group_id, update_options)
+      result = Fog::Compute[:brightbox].update_server_group(@server_group_id, update_options)
+      formats(Brightbox::Compute::Formats::Full::SERVER_GROUP) { result }
     end
 
     remove_options = {:servers => [{:server => server_id}]}
-    tests("#remove_servers_server_group(#{remove_options.inspect})").formats(Brightbox::Compute::Formats::Full::SERVER_GROUP) do
+    tests("#remove_servers_server_group('#{@server_group_id}', #{remove_options.inspect})") do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].remove_servers_server_group(@server_group_id, remove_options)
+      result = Fog::Compute[:brightbox].remove_servers_server_group(@server_group_id, remove_options)
+      formats(Brightbox::Compute::Formats::Full::SERVER_GROUP) { result }
     end
 
     add_options = {:servers => [{:server => server_id}]}
-    tests("#add_servers_server_group(#{remove_options.inspect})").formats(Brightbox::Compute::Formats::Full::SERVER_GROUP) do
+    tests("#add_servers_server_group('#{@server_group_id}', #{remove_options.inspect})") do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].add_servers_server_group(@server_group_id, add_options)
+      result = Fog::Compute[:brightbox].add_servers_server_group(@server_group_id, add_options)
+      formats(Brightbox::Compute::Formats::Full::SERVER_GROUP) { result }
     end
 
     # Server Group must be empty to delete so we need to remove it again
     remove_options = {:servers => [{:server => server_id}]}
-    tests("#remove_servers_server_group(#{remove_options.inspect})").formats(Brightbox::Compute::Formats::Full::SERVER_GROUP) do
+    tests("#remove_servers_server_group('#{@server_group_id}', #{remove_options.inspect})") do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].remove_servers_server_group(@server_group_id, remove_options)
+      result = Fog::Compute[:brightbox].remove_servers_server_group(@server_group_id, remove_options)
+      formats(Brightbox::Compute::Formats::Full::SERVER_GROUP) { result }
     end
 
-    tests("#destroy_server_group('#{@server_group_id}')").formats(Brightbox::Compute::Formats::Full::SERVER_GROUP) do
+    tests("#destroy_server_group('#{@server_group_id}')") do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].destroy_server_group(@server_group_id)
+      result = Fog::Compute[:brightbox].destroy_server_group(@server_group_id)
+      formats(Brightbox::Compute::Formats::Full::SERVER_GROUP) { result }
     end
 
     unless Fog.mocking?
