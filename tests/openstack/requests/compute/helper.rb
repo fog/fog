@@ -6,7 +6,8 @@ class OpenStack
 
       SUMMARY = {
         'id'    => String,
-        'name'  => String
+        'name'  => String,
+        'links'  => Array
       }
 
     end

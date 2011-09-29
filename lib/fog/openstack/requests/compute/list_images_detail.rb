@@ -29,7 +29,7 @@ module Fog
           end
 
           response.status = [200, 203][rand(1)]
-          response.body = { 'images' => images.map {|image| image.reject {|key, value| !['id', 'name', 'status', 'updated'].include?(key)}} }
+          response.body = { 'images' => images.map {|image| image.reject {|key, value| !['id', 'name', 'links', 'minRam', 'minDisk', 'metadata', 'status', 'updated'].include?(key)}} }
           response
         end
 
