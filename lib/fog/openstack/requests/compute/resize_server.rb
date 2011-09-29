@@ -4,7 +4,7 @@ module Fog
       class Real
 
         def resize_server(server_id, flavor_ref)
-          body = { 'resize' => { 'flavor' => { 'id' => flavor_ref }}}
+          body = { 'resize' => { 'flavorRef' => flavor_ref }}
           server_action(server_id, body)
         end
 

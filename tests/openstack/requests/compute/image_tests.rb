@@ -1,3 +1,5 @@
+require 'fog/openstack'
+
 Shindo.tests('Fog::Compute[:openstack] | image requests', ['openstack']) do
 
   @image_format = {
@@ -7,21 +9,20 @@ Shindo.tests('Fog::Compute[:openstack] | image requests', ['openstack']) do
     'progress'  => Fog::Nullable::Integer,
     'status'    => String,
     'updated'   => String,
-    'minRam'    => String,
-    'minDisk'   => String,
-    #'server'  => Hash,
+    'minRam'    => Integer,
+    'minDisk'   => Integer,
+    'server'    => Fog::Nullable::Hash,
     'metadata'  => Hash,
     'links'  => Array
   }
 
   tests('success') do
 
-    @image_id = 1
+    @image_id = Fog::Compute[:openstack].images[0].id
 
     unless Fog.mocking?
       Fog::Compute[:openstack].images.get(@image_id).wait_for { ready? }
     end
-
     tests("#get_image_details(#{@image_id})").formats(@image_format) do
       pending if Fog.mocking?
       Fog::Compute[:openstack].get_image_details(@image_id).body['image']
@@ -39,18 +40,12 @@ Shindo.tests('Fog::Compute[:openstack] | image requests', ['openstack']) do
       Fog::Compute[:openstack].images.get(@image_id).wait_for { ready? }
     end
 
-    if Fog.mocking?
-      tests("#delete_image(#{@image_id})").succeeds do
-        pending if Fog.mocking? # because it will fail without the wait just above here, which won't work
-        Fog::Compute[:openstack].delete_image(@image_id)
-      end
-    end
-
   end
 
   tests('failure') do
 
-    tests('#delete_image(0)').raises(Excon::Errors::BadRequest) do
+    tests('#delete_image(0)').raises(Fog::Compute::OpenStack::NotFound) do
+      pending if Fog.mocking?
       Fog::Compute[:openstack].delete_image(0)
     end
 
