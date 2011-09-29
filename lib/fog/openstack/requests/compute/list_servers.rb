@@ -20,7 +20,7 @@ module Fog
           data = list_servers_detail.body['servers']
           servers = []
           for server in data
-            servers << server.reject { |key, value| !['id', 'name'].include?(key) }
+            servers << server.reject { |key, value| !['id', 'name', 'links'].include?(key) }
           end
           response.status = [200, 203][rand(1)]
           response.body = { 'servers' => servers }

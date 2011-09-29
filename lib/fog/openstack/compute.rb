@@ -1,12 +1,13 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'openstack'))
 require 'fog/compute'
+require 'fog/openstack'
 
 module Fog
   module Compute
     class OpenStack < Fog::Service
 
-      requires :openstack_api_key, :openstack_username, :openstack_auth_url
-      recognizes :openstack_auth_token, :openstack_management_url, :persistent, :openstack_tenant, :openstack_compute_service_name
+      requires :openstack_api_key, :openstack_username, :openstack_auth_url, :openstack_tenant
+      recognizes :openstack_auth_token, :openstack_management_url, :persistent, :openstack_compute_service_name
 
       model_path 'fog/openstack/models/compute'
       model       :flavor
@@ -63,7 +64,19 @@ module Fog
                 :images  => {},
                 :servers => {}
               },
-              :images  => {},
+              :images  => {
+                "1" => {
+                  'id'        => "1",
+                  'name'      => "img1",
+                  'progress'  => 100,
+                  'status'    => "ACTIVE",
+                  'updated'   => "",
+                  'minRam'    => 0,
+                  'minDisk'   => 0,
+                  'metadata'  => {},
+                  'links'     => []
+                }
+              },
               :servers => {}
             }
           end

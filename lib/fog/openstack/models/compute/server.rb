@@ -108,9 +108,9 @@ module Fog
           true
         end
 
-        def rebuild
+        def rebuild(image_ref, name, admin_pass=nil, metadata=nil, personality=nil)
           requires :id
-          connection.rebuild_server(id, name, metadata, personality)
+          connection.rebuild_server(id, image_ref, name, admin_pass, metadata, personality)
           true
         end
 
@@ -141,7 +141,6 @@ module Fog
         def create_image(name, metadata={})
           requires :id
           connection.create_image(id, name, metadata)
-          true
         end
 
         def save
