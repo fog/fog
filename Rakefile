@@ -250,6 +250,7 @@ task :changelog do
         'Lincoln Stoll',
         'Luqman Amjad',
         'nightshade427',
+        'Patrick Debois',
         'Wesley Beary'
       ].include?(committer)
       next
