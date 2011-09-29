@@ -33,6 +33,13 @@ Shindo.tests('Fog::Compute[:brightbox] | api client requests', ['brightbox']) do
       formats(Brightbox::Compute::Formats::Full::API_CLIENT) { result }
     end
 
+    tests("#reset_secret_api_client('#{@api_client_id}')") do
+      pending if Fog.mocking?
+      result = Fog::Compute[:brightbox].reset_secret_api_client(@api_client_id)
+      formats(Brightbox::Compute::Formats::Full::API_CLIENT) { result }
+      test("new secret is visible") { ! result["secret"].nil?  }
+    end
+
     tests("#destroy_api_client('#{@api_client_id}')") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].destroy_api_client(@api_client_id)
