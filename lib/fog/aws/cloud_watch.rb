@@ -1,5 +1,3 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
-
 module Fog
   module AWS
     class CloudWatch < Fog::Service
@@ -13,6 +11,9 @@ module Fog
       request :list_metrics
       request :get_metric_statistics
       request :put_metric_data
+      request :describe_alarms
+      request :put_metric_alarm
+      request :delete_alarms
 
       model_path 'fog/aws/models/cloud_watch'
       model       :metric
@@ -52,7 +53,6 @@ module Fog
           @aws_secret_access_key  = options[:aws_secret_access_key]
           @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
 
-          @connection_options = options[:connection_options] || {}
           options[:region] ||= 'us-east-1'
           @host = options[:host] || case options[:region]
           when 'ap-northeast-1'
@@ -68,11 +68,10 @@ module Fog
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end
-          @path       = options[:path]        || '/'
-          @persistent = options[:persistent]  || false
-          @port       = options[:port]        || 443
-          @scheme     = options[:scheme]      || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @path       = options[:path]      || '/'
+          @port       = options[:port]      || 443
+          @scheme     = options[:scheme]    || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
         end
 
         def reload
