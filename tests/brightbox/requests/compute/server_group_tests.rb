@@ -3,7 +3,7 @@ Shindo.tests('Fog::Compute[:brightbox] | server group requests', ['brightbox']) 
   tests('success') do
 
     unless Fog.mocking?
-      @server = Fog::Compute[:brightbox].servers.create(:image_id => Brightbox::Compute::TestSupport.image_id)
+      @server = Brightbox::Compute::TestSupport.get_test_server
       server_id = @server.id
     end
 
@@ -62,7 +62,6 @@ Shindo.tests('Fog::Compute[:brightbox] | server group requests', ['brightbox']) 
     end
 
     unless Fog.mocking?
-      @server.wait_for { ready? }
       @server.destroy
     end
 

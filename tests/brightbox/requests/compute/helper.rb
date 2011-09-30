@@ -43,6 +43,17 @@ class Brightbox
         @image_id = image["id"]
       end
 
+      # Prepare a test server, wait for it to be usable but raise if it fails
+      def self.get_test_server
+        test_server_options = {:image_id => image_id}
+        server = Fog::Compute[:brightbox].servers.create(test_server_options)
+        server.wait_for {
+          raise "Test server failed to build" if state == "failed"
+          ready?
+        }
+        server
+      end
+
     end
     module Formats
       module Struct
