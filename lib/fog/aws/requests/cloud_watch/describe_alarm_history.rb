@@ -2,9 +2,9 @@ module Fog
   module AWS
     class CloudWatch
       class Real
-      
+
         require 'fog/aws/parsers/cloud_watch/describe_alarm_history'
-        
+
         # Retrieves history for the specified alarm
         # ==== Options
         # * AlarmName<~String>: The name of the alarm
@@ -20,7 +20,7 @@ module Fog
         # ==== See Also
         # http://docs.amazonwebservices.com/AmazonCloudWatch/latest/APIReference/index.html?API_DescribeAlarmHistory.html
         #
-        
+
         def describe_alarm_history(options={})
           request({
               'Action'    => 'DescribeAlarmHistory',
@@ -31,6 +31,3 @@ module Fog
     end
   end
 end
-
-
-

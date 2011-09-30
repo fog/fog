@@ -2,9 +2,9 @@ module Fog
   module Parsers
     module AWS
       module CloudWatch
-      
+
         class DescribeAlarmsForMetric < Fog::Parsers::Base
-        
+
           def reset
             @response = { 'DescribeAlarmsForMetricResult' => {'AlarmsForMetric' => []}, 'ResponseMetadata' => {} }
             reset_alarms_for_metric
@@ -13,11 +13,11 @@ module Fog
           def reset_alarms_for_metric
             @alarms_for_metric = {'Dimensions' => []}
           end
-          
+
           def reset_dimension
             @dimension = {}
           end
-          
+
           def start_element(name, attrs = [])
             super
             case name  

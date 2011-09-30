@@ -2,7 +2,9 @@ module Fog
   module Parsers
     module AWS
       module CloudWatch
+
         class PutMetricAlarm < Fog::Parsers::Base
+
           def reset
             @response = { 'ResponseMetadata' => {} }
           end

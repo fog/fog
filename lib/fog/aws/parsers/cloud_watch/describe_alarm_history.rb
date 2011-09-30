@@ -2,9 +2,9 @@ module Fog
   module Parsers
     module AWS
       module CloudWatch
-      
+
         class DescribeAlarmHistory < Fog::Parsers::Base
-        
+
           def reset
             @response = { 'DescribeAlarmHistoryResult' => {'AlarmHistory' => []}, 'ResponseMetadata' => {} }
             reset_alarm_history
@@ -13,13 +13,12 @@ module Fog
           def reset_alarm_history
             @alarm_history = {}
           end
-          
+
           def start_element(name, attrs = [])
             super
           end
 
           def end_element(name)
-            #@alarm_history[name] = value
             case name
             when 'AlarmName', 'HistoryItemType', 'HistorySummary'
               @alarm_history[name] = value

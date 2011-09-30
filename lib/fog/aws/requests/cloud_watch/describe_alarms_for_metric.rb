@@ -2,9 +2,9 @@ module Fog
   module AWS
     class CloudWatch
       class Real     
-      
+
       	require 'fog/aws/parsers/cloud_watch/describe_alarms_for_metric'
-      
+
     	# Retrieves all alarms for a single metric
         # ==== Options
         # * Dimensions<~Array>: a list of dimensions to filter against
@@ -22,8 +22,7 @@ module Fog
         # ==== See Also
         # http://docs.amazonwebservices.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarms.html
         #
-      
-      
+
         def describe_alarms_for_metric(options)
           if dimensions = options.delete('Dimensions')
             options.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.collect {|dimension| dimension['Name']}))
@@ -38,5 +37,3 @@ module Fog
     end
   end
 end
-
-
