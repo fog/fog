@@ -2,7 +2,7 @@ Shindo.tests('Fog::Compute[:brightbox] | server requests', ['brightbox']) do
 
   tests('success') do
 
-    image_id = Brightbox::Compute::TestSupport::IMAGE_IDENTIFER
+    image_id = Brightbox::Compute::TestSupport.image_id
     server_id = nil
 
     tests("#create_server(:image => '#{image_id}')").formats(Brightbox::Compute::Formats::Full::SERVER) do

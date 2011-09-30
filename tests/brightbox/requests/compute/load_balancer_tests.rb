@@ -3,7 +3,7 @@ Shindo.tests('Fog::Compute[:brightbox] | load balancer requests', ['brightbox'])
   tests('success') do
 
     unless Fog.mocking?
-      @node = Fog::Compute[:brightbox].servers.create(:image_id => Brightbox::Compute::TestSupport::IMAGE_IDENTIFER)
+      @node = Fog::Compute[:brightbox].servers.create(:image_id => Brightbox::Compute::TestSupport.image_id)
       node_id = @node.id
     end
 

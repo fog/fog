@@ -3,7 +3,7 @@ Shindo.tests('Fog::Compute[:brightbox] | server group requests', ['brightbox']) 
   tests('success') do
 
     unless Fog.mocking?
-      @server = Fog::Compute[:brightbox].servers.create(:image_id => Brightbox::Compute::TestSupport::IMAGE_IDENTIFER)
+      @server = Fog::Compute[:brightbox].servers.create(:image_id => Brightbox::Compute::TestSupport.image_id)
       server_id = @server.id
     end
 

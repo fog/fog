@@ -32,7 +32,17 @@ NilClass.send :include, Fog::Brightbox::Nullable::Zone
 class Brightbox
   module Compute
     module TestSupport
-      IMAGE_IDENTIFER = "img-2ab98" # Ubuntu Lucid 10.04 server (i686)
+      # Find a suitable image for testing with
+      # For speed of server building we're using an empty image
+      def self.image_id
+        return @image_id unless @image_id.nil?
+        images = Fog::Compute[:brightbox].list_images
+        raise "No available images!" if images.empty?
+        image = images.select {|img| img.size == 0 }.first
+        image = images.first if image.nil?
+        @image_id = image["id"]
+      end
+
     end
     module Formats
       module Struct
