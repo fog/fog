@@ -108,11 +108,19 @@ module Fog
         end
 
         def private_ip_address
-          interfaces.first
+          unless interfaces.empty?
+            interfaces.first["ipv4_address"]
+          else
+            nil
+          end
         end
 
         def public_ip_address
-          cloud_ips.first
+          unless cloud_ips.empty?
+            cloud_ips.first["public_ip"]
+          else
+            nil
+          end
         end
 
         def ready?
