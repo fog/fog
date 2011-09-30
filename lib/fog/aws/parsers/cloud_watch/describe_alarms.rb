@@ -42,13 +42,17 @@ module Fog
               @metric_alarms[name] = value.to_f
             when 'AlarmActions', 'OKActions', 'InsufficientDataActions'
               @metric_alarms[name] = value.to_s.strip
-            when 'AlarmName', 'Namespace', 'MetricName', 'AlarmDescription', 'AlarmArn',
+            when 'AlarmName', 'Namespace', 'MetricName', 'AlarmDescription', 'AlarmArn', 'Unit'
             	'StateValue', 'Statistic', 'ComparisonOperator', 'StateReason', 'ActionsEnabled'
               @metric_alarms[name] = value
+            when 'StateUpdatedTimestamp', 'AlarmConfigurationUpdatedTimestamp'
+        	  @metric_alarms[name] = Time.parse value
             when 'Dimensions'
-              @in_dimensions = false  
+              @in_dimensions = false
 	    	when 'RequestId'
-              @response['ResponseMetadata'][name] = value              
+              @response['ResponseMetadata'][name] = value
+            when 'NextToken'
+              @response['ResponseMetadata'][name] = value
             when 'member'
               if !@in_dimensions
                 unless @metric_alarms == {}

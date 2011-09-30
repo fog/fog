@@ -6,12 +6,12 @@ module Fog
         class DescribeAlarmsForMetric < Fog::Parsers::Base
 
           def reset
-            @response = { 'DescribeAlarmsForMetricResult' => {'AlarmsForMetric' => []}, 'ResponseMetadata' => {} }
-            reset_alarms_for_metric
+            @response = { 'DescribeAlarmsForMetricResult' => {'MetricAlarms' => []}, 'ResponseMetadata' => {} }
+            reset_metric_alarms
           end
 
-          def reset_alarms_for_metric
-            @alarms_for_metric = {'Dimensions' => []}
+          def reset_metric_alarms
+            @metric_alarms = {'Dimensions' => []}
           end
 
           def reset_dimension
@@ -35,24 +35,26 @@ module Fog
         	when 'Name', 'Value'
               @dimension[name] = value
             when 'Period', 'EvaluationPeriods'
-              @alarms_for_metric[name] = value.to_i
+              @metric_alarms[name] = value.to_i
             when 'Threshold'
-              @alarms_for_metric[name] = value.to_f
+              @metric_alarms[name] = value.to_f
             when 'AlarmActions', 'OKActions', 'InsufficientDataActions'
-              @alarms_for_metric[name] = value.to_s.strip
-            when 'AlarmName', 'Namespace', 'MetricName', 'AlarmDescription', 'AlarmArn',
+              @metric_alarms[name] = value.to_s.strip
+            when 'AlarmName', 'Namespace', 'MetricName', 'AlarmDescription', 'AlarmArn', 'Unit'
                 'StateValue', 'Statistic', 'ComparisonOperator', 'StateReason', 'ActionsEnabled'
-        	  @alarms_for_metric[name] = value
+        	  @metric_alarms[name] = value
+        	when 'StateUpdatedTimestamp', 'AlarmConfigurationUpdatedTimestamp'
+        	  @metric_alarms[name] = Time.parse value
             when 'Dimensions'
               @in_dimensions = false  
 	    	when 'RequestId'
               @response['ResponseMetadata'][name] = value              
             when 'member'
               if !@in_dimensions
-                @response['DescribeAlarmsForMetricResult']['AlarmsForMetric']  << @alarms_for_metric
-                reset_alarms_for_metric
+                @response['DescribeAlarmsForMetricResult']['MetricAlarms']  << @metric_alarms
+                reset_metric_alarms
               else
-                @alarms_for_metric['Dimensions'] << @dimension
+                @metric_alarms['Dimensions'] << @dimension
               end 
             end
           end
