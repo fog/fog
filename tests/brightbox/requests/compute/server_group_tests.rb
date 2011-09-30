@@ -25,6 +25,7 @@ Shindo.tests('Fog::Compute[:brightbox] | server group requests', ['brightbox']) 
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].list_server_groups
       formats(Brightbox::Compute::Formats::Collection::SERVER_GROUPS) { result }
+      @default_group_id = result.select {|grp| grp["default"] == true }.first["id"]
     end
 
     tests("#get_server_group('#{@server_group_id}')") do
@@ -54,12 +55,12 @@ Shindo.tests('Fog::Compute[:brightbox] | server group requests', ['brightbox']) 
       formats(Brightbox::Compute::Formats::Full::SERVER_GROUP) { result }
     end
 
-    # Server Group must be empty to delete so we need to remove it again
-    remove_options = {:servers => [{:server => server_id}]}
-    tests("#remove_servers_server_group('#{@server_group_id}', #{remove_options.inspect})") do
+    move_options = {:destination => @default_group_id, :servers => [{:server => server_id}]}
+    tests("#move_servers_server_group('#{@server_group_id}', #{move_options.inspect})") do
       pending if Fog.mocking?
-      result = Fog::Compute[:brightbox].remove_servers_server_group(@server_group_id, remove_options)
+      result = Fog::Compute[:brightbox].move_servers_server_group(@server_group_id, move_options)
       formats(Brightbox::Compute::Formats::Full::SERVER_GROUP) { result }
+      test("group is emptied") { result["servers"].empty? }
     end
 
     tests("#destroy_server_group('#{@server_group_id}')") do
