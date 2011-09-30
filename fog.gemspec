@@ -6,14 +6,14 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.11.0'
-  s.date              = '2011-08-18'
+  s.version           = '1.0.0'
+  s.date              = '2011-09-29'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
   ## as you like.
   s.summary     = "brings clouds to you"
-  s.description = "The Ruby cloud services library."
+  s.description = "The Ruby cloud services library. Supports all major cloud providers including AWS, Rackspace, Linode, Blue Box, StormOnDemand, and many others. Full support for most AWS services including EC2, S3, CloudWatch, SimpleDB, ELB, and RDS."
 
   ## List the primary authors. If there are a bunch of authors, it's probably
   ## better to set the email to an email list or something. If you don't have
