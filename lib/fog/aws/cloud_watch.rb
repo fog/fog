@@ -14,9 +14,10 @@ module Fog
       request :describe_alarms
       request :put_metric_alarm
       request :delete_alarms
-	  request :describe_alarm_history
-	  request :enable_alarm_actions
-	  request :disable_alarm_actions
+      request :describe_alarm_history
+      request :enable_alarm_actions
+      request :disable_alarm_actions
+      request :describe_alarms_for_metric
 
       model_path 'fog/aws/models/cloud_watch'
       model       :metric

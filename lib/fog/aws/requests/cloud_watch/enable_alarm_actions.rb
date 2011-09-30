@@ -6,7 +6,6 @@ module Fog
       	require 'fog/aws/parsers/cloud_watch/enable_alarm_actions'
       
     	# Enables actions for the specified alarms
-        # StartTime is capped to 2 weeks ago
         # ==== Options
         # * AlarmNames<~Array>: The names of the alarms to enable actions for
         #
