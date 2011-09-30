@@ -25,7 +25,7 @@ Shindo.tests('Fog::Compute[:brightbox] | cloud ip requests', ['brightbox']) do
 
     unless Fog.mocking?
       @server.wait_for { ready? }
-      map_options = {:interface => @server.interfaces.first["id"]}
+      map_options = {:destination => @server.interfaces.first["id"]}
     end
 
     tests("#map_cloud_ip('#{@cloud_ip_id}', #{map_options.inspect})").formats(Brightbox::Compute::Formats::Full::CLOUD_IP) do
