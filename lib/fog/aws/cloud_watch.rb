@@ -17,6 +17,7 @@ module Fog
       request :enable_alarm_actions
       request :disable_alarm_actions
       request :describe_alarms_for_metric
+      request :set_alarm_state
 
       model_path 'fog/aws/models/cloud_watch'
       model       :metric
