@@ -54,7 +54,7 @@ Wonder how you can get a lovely fog shirt? Look no further!
 
 * Blue shirts go to people who have contributed indirectly, great examples are writing blog posts or giving lightning talks.
 * Grey shirts and a follow from @fog go to people who have made it on to the [contributors list](https://github.com/geemus/fog/contributors) by submitting code.
-* Black shirts go to people who have made it on to the [collaborators list](https://github.com/api/v2/json/repos/show/geemus/fog/collaborators) by coercing geemus into adding them (geemus is currently the only member of this list).
+* Black shirts go to people who have made it on to the [collaborators list](https://github.com/api/v2/json/repos/show/geemus/fog/collaborators) by coercing geemus into adding them.
 
 ## Resources
 
