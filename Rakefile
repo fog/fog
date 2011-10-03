@@ -2,7 +2,6 @@ require 'rubygems'
 require 'bundler/setup'
 require 'date'
 require File.dirname(__FILE__) + '/lib/fog'
-require 'rake'
 
 #############################################################################
 #
