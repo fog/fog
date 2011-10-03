@@ -1,7 +1,6 @@
 Shindo.tests("AWS::CloudWatch | alarm_histories", ['aws', 'cloudwatch']) do
 
   tests('success') do
-    pending 
     tests("#all").succeeds do
       Fog::AWS[:cloud_watch].alarm_histories.all
     end
