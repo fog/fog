@@ -83,6 +83,7 @@ module Fog
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end
           @path       = options[:path]        || '/'
+          @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
