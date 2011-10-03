@@ -5,7 +5,7 @@ module Fog
 
         require 'fog/aws/parsers/cloud_watch/put_metric_alarm'
 
-      # Creates or updates an alarm and associates it with the specified Amazon CloudWatch metric
+        # Creates or updates an alarm and associates it with the specified Amazon CloudWatch metric
         # ==== Options
         # * ActionsEnabled<~Boolean>: Indicates whether or not actions should be executed during any changes to the alarm's state
         # * AlarmActions<~Array>: A list of actions to execute 
