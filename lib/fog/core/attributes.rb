@@ -25,9 +25,9 @@ module Fog
           class_eval <<-EOS, __FILE__, __LINE__
             def #{name}=(new_#{name})
               attributes[:#{name}] = case new_#{name}
-              when 'true'
+              when true,'true'
                 true
-              when 'false'
+              when false,'false'
                 false
               end
             end
