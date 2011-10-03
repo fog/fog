@@ -10,7 +10,7 @@ module Fog
 		
 		#alarm_names is an array of alarm names
         def delete(alarm_names)
-          connection.list_metrics(alarm_names)
+          connection.delete_alarms(alarm_names)
           true
         end
 

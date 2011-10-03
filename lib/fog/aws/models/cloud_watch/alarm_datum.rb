@@ -37,7 +37,7 @@ module Fog
           requires :threshold
 
           alarm_definition = {
-          		'AlarnName' => alarm_name,
+          		'AlarmName' => alarm_name,
           		'ComparisonOperator' => comparison_operator,
           		'EvaluationPeriods' => evaluation_periods,
           		'MetricName' => metric_name, 
