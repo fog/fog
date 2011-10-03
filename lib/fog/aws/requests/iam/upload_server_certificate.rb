@@ -52,6 +52,7 @@ module Fog
           # Validate cert and key
           begin
             cert = OpenSSL::X509::Certificate.new(certificate)
+            chain = OpenSSL::X509::Certificate.new(options['CertificateChain']) if options['CertificateChain']
             key = OpenSSL::PKey::RSA.new(private_key)
           rescue OpenSSL::X509::CertificateError, OpenSSL::PKey::RSAError => e
             message = if e.is_a?(OpenSSL::X509::CertificateError)

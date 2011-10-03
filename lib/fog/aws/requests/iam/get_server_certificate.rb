@@ -18,10 +18,10 @@ module Fog
         # ==== See Also
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_GetServerCertificate.html
         #
-        def get_server_certificate(server_certificate_name)
+        def get_server_certificate(name)
           request({
             'Action'                => 'GetServerCertificate',
-            'ServerCertificateName' => server_certificate_name,
+            'ServerCertificateName' => name,
             :parser                 => Fog::Parsers::AWS::IAM::UploadServerCertificate.new
           })
         end
@@ -29,17 +29,15 @@ module Fog
       end
 
       class Mock
-        def get_server_certificate(server_certificate_name)
-          raise Fog::AWS::IAM::NotFound unless self.data[:server_certificates].key?(server_certificate_name)
+        def get_server_certificate(name)
+          raise Fog::AWS::IAM::NotFound unless certificate = self.data[:server_certificates][name]
 
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            'Certificate' => self.data[:server_certificates][server_certificate_name],
+            'Certificate' => certificate,
             'RequestId' => Fog::AWS::Mock.request_id
           }
-
-          self.data[:server_certificates]
 
           response
         end
