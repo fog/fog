@@ -13,6 +13,7 @@ module Fog
       request :list_metrics
       request :get_metric_statistics
       request :put_metric_data
+<<<<<<< HEAD
       request :describe_alarms
       request :put_metric_alarm
       request :delete_alarms
@@ -21,6 +22,9 @@ module Fog
       request :disable_alarm_actions
       request :describe_alarms_for_metric
       request :set_alarm_state
+=======
+      request :put_metric_alarm
+>>>>>>> [aws|cloudwatch] Add support for put-metric-alarm call.
 
       model_path 'fog/aws/models/cloud_watch'
       model       :metric

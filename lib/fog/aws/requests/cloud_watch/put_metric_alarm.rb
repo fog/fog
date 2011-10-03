@@ -1,8 +1,7 @@
 module Fog
   module AWS
     class CloudWatch
-      class Real     
-
+      class Real
         require 'fog/aws/parsers/cloud_watch/put_metric_alarm'
 
         # Creates or updates an alarm and associates it with the specified Amazon CloudWatch metric
@@ -31,7 +30,6 @@ module Fog
         # ==== See Also
         # http://docs.amazonwebservices.com/AmazonCloudWatch/latest/APIReference/API_PutMetricAlarm.html
         #
-
         def put_metric_alarm(options)
           if dimensions = options.delete('Dimensions')
             options.merge!(AWS.indexed_param('Dimensions.member.%d.Name', dimensions.collect {|dimension| dimension['Name']}))
@@ -46,12 +44,13 @@ module Fog
           if ok_actions = options.delete('OKActions')
             options.merge!(AWS.indexed_param('OKActions.member.%d', [*ok_actions]))
           end
+
           request({
               'Action'    => 'PutMetricAlarm',
               :parser     => Fog::Parsers::AWS::CloudWatch::PutMetricAlarm.new
             }.merge(options))
         end
-      end       
+      end
     end
   end
 end

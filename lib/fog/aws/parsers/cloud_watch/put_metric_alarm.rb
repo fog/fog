@@ -15,11 +15,19 @@ module Fog
 
           def end_element(name)
             case name
+<<<<<<< HEAD
             when 'RequestId'
               @response['ResponseMetadata'][name] = value
             end
           end
         end       
+=======
+            when /RequestId|PutMetricAlarmResponse/
+              @response['ResponseMetadata'][name] = @value.strip
+            end
+          end
+        end
+>>>>>>> [aws|cloudwatch] Add support for put-metric-alarm call.
       end
     end
   end
