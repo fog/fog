@@ -10,7 +10,7 @@ module Fog
             reset_alarm_history_item
           end
 
-          def reset_alarm_history
+          def reset_alarm_history_item
             @alarm_history_item = {}
           end
 

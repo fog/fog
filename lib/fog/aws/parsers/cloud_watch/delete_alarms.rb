@@ -19,7 +19,7 @@ module Fog
               @response['ResponseMetadata'][name] = @value
             end
           end
-        end       
+        end
       end
     end
   end

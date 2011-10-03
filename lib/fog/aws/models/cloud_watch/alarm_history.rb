@@ -10,7 +10,6 @@ module Fog
         attribute :history_item_type, :aliases => 'HistoryItemType'
         attribute :max_records, :aliases => 'MaxRecords'
         attribute :start_date, :aliases => 'StartDate'
-
       end
     end
   end

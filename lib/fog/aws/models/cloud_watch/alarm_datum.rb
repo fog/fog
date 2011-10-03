@@ -15,7 +15,7 @@ module Fog
         attribute :statistic, :aliases => 'Statistic'
         attribute :comparison_operator, :aliases => 'ComparisonOperator'
         attribute :state_reason, :aliases => 'StateReason'
-        attribute :action_enabled. :aliases => 'ActionsEnabled'
+        attribute :action_enabled, :aliases => 'ActionsEnabled'
         attribute :period, :aliases => 'Period' 
         attribute :evaluation_periods, :aliases => 'EvaluationPeriods'
         attribute :threshold, :aliases => 'Threshold'
@@ -51,7 +51,7 @@ module Fog
           alarm_definition.merge!('AlarmActions' => alarm_actions) if alarm_actions
           alarm_definition.merge!('AlarmDescription' => alarm_description) if alarm_description
 
-          #dimension is an array of Name/Value pairs, ex. ['host'=>'fog-host', 'version'=>'0.11.0']
+          #dimension is an array of Name/Value pairs, ex. [{'Name'=>'host', 'Value'=>'localhost'},{'Name'=>'version', 'Value'=>'0.11.0'}]
           alarm_definition.merge!('Dimensions' => dimensions) if dimensions
           alarm_definition.merge!('InsufficientDataActions' => insufficient_actions) if insufficient_actions
           alarm_definition.merge!('OKActions' => ok_actions) if ok_actions
