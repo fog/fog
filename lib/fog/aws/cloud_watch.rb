@@ -27,7 +27,7 @@ module Fog
       collection  :metrics
       model       :metric_statistic
       collection  :metric_statistics
-      model		  :alarm_datum
+      model		    :alarm_datum
       collection  :alarm_data
       model       :alarm_history
       collection  :alarm_histories
