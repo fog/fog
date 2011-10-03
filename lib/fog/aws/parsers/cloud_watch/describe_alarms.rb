@@ -43,21 +43,21 @@ module Fog
             when 'AlarmActions', 'OKActions', 'InsufficientDataActions'
               @metric_alarms[name] = value.to_s.strip
             when 'AlarmName', 'Namespace', 'MetricName', 'AlarmDescription', 'AlarmArn', 'Unit',
-            	'StateValue', 'Statistic', 'ComparisonOperator', 'StateReason', 'ActionsEnabled'
+              'StateValue', 'Statistic', 'ComparisonOperator', 'StateReason', 'ActionsEnabled'
               @metric_alarms[name] = value
             when 'StateUpdatedTimestamp', 'AlarmConfigurationUpdatedTimestamp'
-        	  @metric_alarms[name] = Time.parse value
+              @metric_alarms[name] = Time.parse value
             when 'Dimensions'
               @in_dimensions = false
-	    	when 'RequestId'
+            when 'RequestId'
               @response['ResponseMetadata'][name] = value
             when 'NextToken'
               @response['ResponseMetadata'][name] = value
             when 'member'
               if !@in_dimensions
                 if @metric_alarms.has_key?('AlarmName')
-            	  @response['DescribeAlarmsResult']['MetricAlarms']  << @metric_alarms
-            	  reset_metric_alarms
+                  @response['DescribeAlarmsResult']['MetricAlarms']  << @metric_alarms
+                  reset_metric_alarms
                 elsif @response['DescribeAlarmsResult']['MetricAlarms'].last != nil
                   @response['DescribeAlarmsResult']['MetricAlarms'].last.merge!( @metric_alarms)
                 end

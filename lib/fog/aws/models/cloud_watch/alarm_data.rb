@@ -21,10 +21,10 @@ module Fog
             list_opts.merge!('Dimensions' => dimensions_array) 
           end
           if period
-          	list_opts.merge!('Period' => period) 
+            list_opts.merge!('Period' => period) 
           end
           if statistic
-	        list_opts.merge!('Statistic' => statistic) 
+          list_opts.merge!('Statistic' => statistic) 
           end
           if unit
             list_opts.merge!('Unit' => unit) 

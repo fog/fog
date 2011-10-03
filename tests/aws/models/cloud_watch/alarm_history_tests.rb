@@ -5,7 +5,7 @@ Shindo.tests("AWS::CloudWatch | alarm_histories", ['aws', 'cloudwatch']) do
       Fog::AWS[:cloud_watch].alarm_histories.all
     end
     
-	new_attributes = {
+  new_attributes = {
       :alarm_name => 'tmp-alarm',
       :end_date => '',
       :history_item_type => 'StateUpdate',

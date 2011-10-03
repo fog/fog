@@ -3,9 +3,9 @@ module Fog
     class CloudWatch
       class Real     
 
-      	require 'fog/aws/parsers/cloud_watch/set_alarm_state'
+        require 'fog/aws/parsers/cloud_watch/set_alarm_state'
 
-    	# Temporarily sets the state of an alarm
+        # Temporarily sets the state of an alarm
         # ==== Options
         # * AlarmName<~String>: The names of the alarm
         # * StateReason<~String>: The reason that this alarm is set to this specific state (in human-readable text format)

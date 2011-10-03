@@ -17,7 +17,7 @@ module Fog
         #
 
         def delete_alarms(alarm_names)
-       	  options = {}
+          options = {}
           options.merge!(AWS.indexed_param('AlarmNames.member.%d', [*alarm_names]))
           request({
               'Action'    => 'DeleteAlarms',

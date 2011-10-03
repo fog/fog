@@ -7,8 +7,8 @@ module Fog
 
       class Alarms < Fog::Collection
         model Fog::AWS::CloudWatch::Alarm
-		
-		#alarm_names is an array of alarm names
+    
+        #alarm_names is an array of alarm names
         def delete(alarm_names)
           connection.delete_alarms(alarm_names)
           true

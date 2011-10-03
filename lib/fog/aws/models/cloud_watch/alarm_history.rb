@@ -5,7 +5,7 @@ module Fog
     class CloudWatch
 
       class AlarmHistory < Fog::Model
-      	attribute :alarm_name, :aliases => 'AlarmName'
+        attribute :alarm_name, :aliases => 'AlarmName'
         attribute :end_date, :aliases => 'EndDate'
         attribute :history_item_type, :aliases => 'HistoryItemType'
         attribute :max_records, :aliases => 'MaxRecords'

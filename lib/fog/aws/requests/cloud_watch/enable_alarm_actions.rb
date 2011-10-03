@@ -3,9 +3,9 @@ module Fog
     class CloudWatch
       class Real     
 
-      	require 'fog/aws/parsers/cloud_watch/enable_alarm_actions'
+        require 'fog/aws/parsers/cloud_watch/enable_alarm_actions'
 
-    	# Enables actions for the specified alarms
+        # Enables actions for the specified alarms
         # ==== Options
         # * AlarmNames<~Array>: The names of the alarms to enable actions for
         #
@@ -17,7 +17,7 @@ module Fog
         #
 
         def enable_alarm_actions(alarm_names)
-       	  options = {}
+          options = {}
           options.merge!(AWS.indexed_param('AlarmNames.member.%d', [*alarm_names]))
           request({
               'Action'    => 'EnableAlarmActions',

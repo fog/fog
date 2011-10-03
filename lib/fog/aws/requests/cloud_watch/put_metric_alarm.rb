@@ -3,16 +3,16 @@ module Fog
     class CloudWatch
       class Real     
 
-      	require 'fog/aws/parsers/cloud_watch/put_metric_alarm'
+        require 'fog/aws/parsers/cloud_watch/put_metric_alarm'
 
-		# Creates or updates an alarm and associates it with the specified Amazon CloudWatch metric
+      # Creates or updates an alarm and associates it with the specified Amazon CloudWatch metric
         # ==== Options
         # * ActionsEnabled<~Boolean>: Indicates whether or not actions should be executed during any changes to the alarm's state
         # * AlarmActions<~Array>: A list of actions to execute 
         # * AlarmDescription<~String>: The description for the alarm
         # * AlarmName<~String> The unique name for the alarm
-       	# * ComparisonOperator<~String>: The arithmetic operation to use for comparison
-       	# * Dimensions<~Array>: a list of dimensions to filter against,
+        # * ComparisonOperator<~String>: The arithmetic operation to use for comparison
+        # * Dimensions<~Array>: a list of dimensions to filter against,
         #     Name : The name of the dimension
         #     Value : The value to filter against
         # * EvaluationPeriods<~Integer>: The number of periods over which data is compared to the specified threshold

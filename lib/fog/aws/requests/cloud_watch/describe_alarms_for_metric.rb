@@ -3,9 +3,9 @@ module Fog
     class CloudWatch
       class Real     
 
-      	require 'fog/aws/parsers/cloud_watch/describe_alarms_for_metric'
+        require 'fog/aws/parsers/cloud_watch/describe_alarms_for_metric'
 
-    	# Retrieves all alarms for a single metric
+        # Retrieves all alarms for a single metric
         # ==== Options
         # * Dimensions<~Array>: a list of dimensions to filter against
         #     Name : The name of the dimension

@@ -32,7 +32,7 @@ module Fog
 
           def end_element(name)
             case name
-        	when 'Name', 'Value'
+            when 'Name', 'Value'
               @dimension[name] = value
             when 'Period', 'EvaluationPeriods'
               @metric_alarms[name] = value.to_i
@@ -42,20 +42,20 @@ module Fog
               @metric_alarms[name] = value.to_s.strip
             when 'AlarmName', 'Namespace', 'MetricName', 'AlarmDescription', 'AlarmArn', 'Unit',
                 'StateValue', 'Statistic', 'ComparisonOperator', 'StateReason', 'ActionsEnabled'
-        	  @metric_alarms[name] = value
-        	when 'StateUpdatedTimestamp', 'AlarmConfigurationUpdatedTimestamp'
-        	  @metric_alarms[name] = Time.parse value
+              @metric_alarms[name] = value
+            when 'StateUpdatedTimestamp', 'AlarmConfigurationUpdatedTimestamp'
+              @metric_alarms[name] = Time.parse value
             when 'Dimensions'
               @in_dimensions = false  
             when 'NextToken'
               @response['ResponseMetadata'][name] = value
-	    	when 'RequestId'
+            when 'RequestId'
               @response['ResponseMetadata'][name] = value
             when 'member'
               if !@in_dimensions
                 if @metric_alarms.has_key?('AlarmName')
-            	  @response['DescribeAlarmsForMetricResult']['MetricAlarms']  << @metric_alarms
-            	  reset_metric_alarms
+                  @response['DescribeAlarmsForMetricResult']['MetricAlarms']  << @metric_alarms
+                  reset_metric_alarms
                 elsif @response['DescribeAlarmsForMetricResult']['MetricAlarms'].last != nil
                   @response['DescribeAlarmsForMetricResult']['MetricAlarms'].last.merge!( @metric_alarms)
                 end

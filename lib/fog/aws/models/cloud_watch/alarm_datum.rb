@@ -5,7 +5,7 @@ module Fog
     class CloudWatch
 
       class AlarmDatum < Fog::Model
-      	attribute :alarm_name, :aliases => 'AlarmName'
+        attribute :alarm_name, :aliases => 'AlarmName'
         attribute :metric_name, :aliases => 'MetricName'
         attribute :namespace, :aliases => 'Namespace'
         attribute :dimensions, :aliases => 'Dimensions'
@@ -37,15 +37,15 @@ module Fog
           requires :threshold
 
           alarm_definition = {
-          		'AlarmName' => alarm_name,
-          		'ComparisonOperator' => comparison_operator,
-          		'EvaluationPeriods' => evaluation_periods,
-          		'MetricName' => metric_name, 
-          		'Namespace' => namespace,
-          		'Period' => period,
-          		'Statistic' => statistic,
-          		'Threshold' => threshold
-          		}
+              'AlarmName' => alarm_name,
+              'ComparisonOperator' => comparison_operator,
+              'EvaluationPeriods' => evaluation_periods,
+              'MetricName' => metric_name, 
+              'Namespace' => namespace,
+              'Period' => period,
+              'Statistic' => statistic,
+              'Threshold' => threshold
+              }
 
           alarm_definition.merge!('ActionsEnabled' => action_enabled) if action_enabled
           alarm_definition.merge!('AlarmActions' => alarm_actions) if alarm_actions
