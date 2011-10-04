@@ -15,10 +15,10 @@ module Fog
         #     Name : The name of the dimension
         #     Value : The value to filter against
         # * EvaluationPeriods<~Integer>: The number of periods over which data is compared to the specified threshold
-        # * InsufficientDataActions<~Array>: A list of actions to execute 
+        # * InsufficientDataActions<~Array>: A list of actions to execute
         # * MetricName<~String>: The name for the alarm's associated metric
         # * Namespace<~String>: The namespace for the alarm's associated metric
-        # * OKActions<~Array>: A list of actions to execute 
+        # * OKActions<~Array>: A list of actions to execute
         # * Period<~Integer>: The period in seconds over which the specified statistic is applied
         # * Statistic<~String>: The statistic to apply to the alarm's associated metric
         # * Threshold<~Double>: The value against which the specified statistic is compared
