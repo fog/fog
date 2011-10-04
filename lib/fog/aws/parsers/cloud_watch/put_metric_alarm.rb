@@ -19,7 +19,7 @@ module Fog
               @response['ResponseMetadata'][name] = value.strip
             end
           end
-        end       
+        end
       end
     end
   end
