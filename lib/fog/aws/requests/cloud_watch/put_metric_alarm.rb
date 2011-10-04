@@ -57,20 +57,16 @@ module Fog
 
         # See: Fog::AWS::CloudWatch::Real.put_metric_alarm()
         #
-        def put_metric_alarm(alarm_name, actions, metric)
-          if alarm_name.nil? or alarm_name.empty?
-            raise Fog::Compute::AWS::Error.new("The request must contain the parameter 'alarm_name'")
-          end
-
-          supported_actions = [ "InsufficientData", "OK", "Alarm" ]
-          found_actions = actions.keys.select {|key| supported_actions.include? key }
+        def put_metric_alarm(options)
+          supported_actions = [ "InsufficientDataActions", "OKActions", "AlarmActions" ]
+          found_actions = options.keys.select {|key| supported_actions.include? key }
           if found_actions.empty?
-            raise Fog::Compute::AWS::Error.new("The request must contain a supported action")
+            raise Fog::Compute::AWS::Error.new("The request must contain at least one of #{supported_actions.join(", ")}'")
           end
 
-          metric_requirements = [ "ComparisonOperator", "EvaluationPeriods", "Namespace", "Period", "Statistic", "Threshold" ]
-          metric_requirements.each do |req|
-            unless metric.has_key?(req)
+          requirements = [ "AlarmName", "ComparisonOperator", "EvaluationPeriods", "Namespace", "Period", "Statistic", "Threshold" ]
+          requirements.each do |req|
+            unless options.has_key?(req)
               raise Fog::Compute::AWS::Error.new("The request must contain a the parameter '%s'" % req)
             end
           end
