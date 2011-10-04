@@ -3,9 +3,9 @@ Shindo.tests('AWS::CloudWatch | metric requests', ['aws', 'cloudwatch']) do
   tests('success') do
     @metrics_list_format = {
       'ListMetricsResult' => {
-        'Metrics' => 
+        'Metrics' =>
           [{
-            'Dimensions' => 
+            'Dimensions' =>
             [{
               'Name' => String,
               'Value' => String
@@ -20,9 +20,9 @@ Shindo.tests('AWS::CloudWatch | metric requests', ['aws', 'cloudwatch']) do
     @instanceId = 'i-2f3eab59'
     @dimension_filtered_metrics_list_format = {
       'ListMetricsResult' => {
-        'Metrics' => 
+        'Metrics' =>
           [{
-            'Dimensions' => 
+            'Dimensions' =>
             [{
               'Name' => 'InstanceId',
               'Value' => @instanceId
