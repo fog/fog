@@ -16,10 +16,10 @@ module Fog
           def end_element(name)
             case name
             when 'RequestId'
-              @response['ResponseMetadata'][name] = value
+              @response['ResponseMetadata'][name] = value.strip
             end
           end
-        end       
+        end
       end
     end
   end
