@@ -1,17 +1,13 @@
 module Fog
   module AWS
     class CloudWatch
-<<<<<<< HEAD
-=======
-
->>>>>>> Minor whitespace change.
       class Real
         require 'fog/aws/parsers/cloud_watch/put_metric_alarm'
 
         # Creates or updates an alarm and associates it with the specified Amazon CloudWatch metric
         # ==== Options
         # * ActionsEnabled<~Boolean>: Indicates whether or not actions should be executed during any changes to the alarm's state
-        # * AlarmActions<~Array>: A list of actions to execute 
+        # * AlarmActions<~Array>: A list of actions to execute
         # * AlarmDescription<~String>: The description for the alarm
         # * AlarmName<~String> The unique name for the alarm
         # * ComparisonOperator<~String>: The arithmetic operation to use for comparison
