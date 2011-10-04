@@ -1,6 +1,10 @@
 module Fog
   module AWS
     class CloudWatch
+<<<<<<< HEAD
+=======
+
+>>>>>>> Minor whitespace change.
       class Real
         require 'fog/aws/parsers/cloud_watch/put_metric_alarm'
 
@@ -51,6 +55,7 @@ module Fog
             }.merge(options))
         end
       end
+
     end
   end
 end
