@@ -11,6 +11,7 @@ module Fog
         attribute :addresses
         attribute :name
         attribute :image_id,    :aliases => 'imageId'
+	attribute :type
         attribute :state,       :aliases => 'status'
         attribute :vps_memory
         attribute :vps_memory_max
