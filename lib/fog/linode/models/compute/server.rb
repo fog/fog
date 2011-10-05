@@ -14,7 +14,7 @@ module Fog
         end
 
         def public_ip_address
-          ips.last.ip
+          ips.select{|ip| ip.ip !~ /^192/}.first.ip
         end
 
         def username
