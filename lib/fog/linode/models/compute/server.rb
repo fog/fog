@@ -13,6 +13,17 @@ module Fog
           Fog::Compute::Linode::Ips.new :server => self, :connection => connection
         end
 
+        def public_ip_address
+          ips.last.ip
+        end
+
+        def username
+          'root'
+        end
+
+        def private_key
+        end
+
         def disks
           Fog::Compute::Linode::Disks.new :server => self, :connection => connection
         end
