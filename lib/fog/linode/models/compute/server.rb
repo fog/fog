@@ -20,7 +20,7 @@ module Fog
         end
 
         def public_ip_address
-          ips.select{|ip| ip.ip !~ /^192/}.first.ip
+          ips.find{|ip| ip.ip !~ /^192/}.ip
         end
 
         def disks
