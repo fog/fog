@@ -9,7 +9,7 @@ module Fog
         model Fog::Vcloud::Compute::Vapp
 
         undef_method :create
-        
+
         attribute :href
 
         def all

@@ -107,6 +107,7 @@ module Fog
       request :get_network_ips
       request :get_network_extensions
       request :get_organization
+      request :get_server
       request :get_task
       request :get_task_list
       request :get_vapp

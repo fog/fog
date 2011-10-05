@@ -13,14 +13,9 @@ module Fog
         attribute :href, :aliases => :Href
 
         def all
-          if self.href =~ /\/vdc\//
-            check_href!("Vdc")
-            load(_vapps)
-          else
-            check_href!("Vapp")
-            attributes[:vapp].load_unless_loaded!
-            load(attributes[:vapp].children||[])
-          end
+          check_href!("Vapp")
+          vapp.load_unless_loaded!
+          load(vapp.children||[])
         end
 
         def get(uri)
@@ -43,19 +38,16 @@ module Fog
 
         private
 
-        def _resource_entities
-          if Hash === resource_entities = connection.get_vdc(href).body[:ResourceEntities]
-            resource_entities[:ResourceEntity]
-          end
+        def vapp
+          @vapp ||= (attributes[:vapp] || init_vapp)
         end
 
-        def _vapps
-          resource_entities = _resource_entities
-          if resource_entities.nil?
-            []
-          else
-            resource_entities.select {|re| re[:type] == 'application/vnd.vmware.vcloud.vApp+xml' }
-          end
+        def init_vapp
+          Fog::Vcloud::Compute::Vapp.new(
+            :connection => connection,
+            :href => self.href,
+            :collection => Fog::Vcloud::Compute::Vapps.new(:connection => connection)
+          )
         end
 
       end

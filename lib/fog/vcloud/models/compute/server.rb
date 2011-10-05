@@ -1,7 +1,10 @@
+require 'fog/vcloud/models/compute/helpers/status'
 module Fog
   module Vcloud
     class Compute
       class Server < Fog::Vcloud::Model
+
+        include Fog::Vcloud::Compute::Helpers::Status
 
         identity :href, :aliases => :Href
 
@@ -10,13 +13,17 @@ module Fog
         attribute :type
         attribute :name
         attribute :status
+        attribute :deployed, :type => :boolean
+        attribute :description, :aliases => :Description
+
+        attribute :vapp_scoped_local_id, :aliases => :VAppScopedLocalId
+
         attribute :network_connections, :aliases => :NetworkConnectionSection, :squash => :NetworkConnection
         attribute :virtual_hardware, :aliases => :'ovf:VirtualHardwareSection', :squash => :'ovf:Item'
 
         attribute :guest_customization, :aliases => :GuestCustomizationSection
         attribute :operating_system, :aliases => :'ovf:OperatingSystemSection'
 
-        attribute :description, :aliases => :Description
         attribute :links, :aliases => :Link, :type => :array
         attribute :tasks, :aliases => :Tasks, :type => :array
 
@@ -30,39 +37,20 @@ module Fog
           self.operating_system[:'ovf:Description']
         end
 
+        def os_type
+          load_unless_loaded!
+          self.operating_system[:vmw_osType]
+        end
+
         def ip_addresses
           load_unless_loaded!
           self.network_connections.collect{|n| n[:IpAddress] }
-        end
-
-        def friendly_status
-          load_unless_loaded!
-          case status
-          when '0'
-            'creating'
-          when '8'
-            'off'
-          when '4'
-            'on'
-          else
-            'unkown'
-          end
         end
 
         def ready?
           reload_status # always ensure we have the correct status
           running_tasks = tasks && tasks.flatten.any? {|ti| ti.kind_of?(Hash) && ti[:status] == 'running' }
           status != '0' && !running_tasks # 0 is provisioning, and no running tasks
-        end
-
-        def on?
-          reload_status # always ensure we have the correct status
-          status == '4'
-        end
-
-        def off?
-          reload_status # always ensure we have the correct status
-          status == '8'
         end
 
         def power_on
@@ -125,7 +113,7 @@ module Fog
 
         def disks
           disk_mess.map do |dm|
-            { :number => dm[:"rasd:AddressOnParent"], :size => dm[:"rasd:VirtualQuantity"].to_i, :resource => dm[:"rasd:HostResource"] }
+            { :number => dm[:"rasd:AddressOnParent"].to_i, :size => dm[:"rasd:HostResource"][:vcloud_capacity].to_i, :resource => dm[:"rasd:HostResource"] }
           end
         end
 
@@ -241,22 +229,22 @@ module Fog
 
         def memory_mess
           load_unless_loaded!
-          if virtual_hardware_section
-            virtual_hardware_section.detect { |item| item[:"rasd:ResourceType"] == "4" }
+          if virtual_hardware
+            virtual_hardware.detect { |item| item[:"rasd:ResourceType"] == "4" }
           end
         end
 
         def cpu_mess
           load_unless_loaded!
-          if virtual_hardware_section
-            virtual_hardware_section.detect { |item| item[:"rasd:ResourceType"] == "3" }
+          if virtual_hardware
+            virtual_hardware.detect { |item| item[:"rasd:ResourceType"] == "3" }
           end
         end
 
         def disk_mess
           load_unless_loaded!
-          if virtual_hardware_section
-            virtual_hardware_section.select { |item| item[:"rasd:ResourceType"] == "17" }
+          if virtual_hardware
+            virtual_hardware.select { |item| item[:"rasd:ResourceType"] == "17" }
           else
             []
           end

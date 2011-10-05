@@ -8,6 +8,7 @@ module Fog
         ignore_attributes :xmlns, :xmlns_xsi, :xmlns_xsd
 
         attribute :name
+        attribute :description, :aliases => :Description
         attribute :type
         attribute :full_name, :aliases => :FullName
         attribute :other_links, :aliases => :Link
@@ -37,26 +38,6 @@ module Fog
                  :href => href )
         end
 
-        private
-
-        def collection_based_on_type(type, klass = nil)
-          load_unless_loaded!
-          test_links = other_links.kind_of?(Array) ? other_links : [other_links]
-          if link = test_links.detect { |link| link[:type] == type }
-            case type
-            when "application/vnd.vmware.vcloud.catalog+xml"
-              Fog::Vcloud::Compute::Catalog
-            when "application/vnd.vmware.vcloud.vdc+xml"
-              Fog::Vcloud::Compute::Vdc
-            when "application/vnd.vmware.vcloud.network+xml"
-              Fog::Vcloud::Compute::Network
-            when "application/vnd.vmware.vcloud.network+xml"
-              Fog::Vcloud::Compute::Network
-            end.new( :connection => connection, :href => link[:href] )
-          else
-            [ ]
-          end
-        end
       end
     end
   end

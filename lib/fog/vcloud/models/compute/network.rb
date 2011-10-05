@@ -3,14 +3,13 @@ module Fog
     class Compute
       class Network < Fog::Vcloud::Model
 
-        identity :href
+        identity :href, :aliases => :Href
 
         ignore_attributes :xmlns, :xmlns_xsi, :xmlns_xsd, :xmlns_i, :Id
 
         attribute :name, :aliases => :Name
-        #attribute :id, :aliases => :Id
 
-        attribute :description
+        attribute :description, :aliases => :Description
         attribute :configuration, :aliases => :Configuration
 
         attribute :links, :aliases => :Link, :type => :array

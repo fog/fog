@@ -1,7 +1,10 @@
+require 'fog/vcloud/models/compute/helpers/status'
 module Fog
   module Vcloud
     class Compute
       class Vapp < Fog::Vcloud::Model
+
+        include Fog::Vcloud::Compute::Helpers::Status
 
         identity :href
 
@@ -10,10 +13,12 @@ module Fog
         attribute :name
         attribute :type
         attribute :status
-        attribute :description
+        attribute :description, :aliases => :Description
         attribute :deployed, :type => :boolean
+
         attribute :children, :aliases => :Children, :squash => :Vm
         attribute :lease_settings, :aliases => :LeaseSettingsSection
+
         attribute :other_links, :aliases => :Link
 
         def servers
@@ -21,6 +26,13 @@ module Fog
             new( :connection => connection,
                  :href => href,
                  :vapp => self
+            )
+        end
+
+        def networks
+          @networks ||= Fog::Vcloud::Compute::Networks.
+            new( :connection => connection,
+                 :href => href
             )
         end
       end

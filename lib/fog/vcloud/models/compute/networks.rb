@@ -14,15 +14,18 @@ module Fog
 
         def all
           self.href = connection.default_vdc_href unless self.href
+          data = nil
           if self.href =~ /\/vdc\//
             check_href!("Vdc")
-            if data = connection.get_vdc(self.href).body[:AvailableNetworks][:Network]
-              load(data)
-            end
-          else
+            data = [connection.get_vdc(self.href).body[:AvailableNetworks][:Network]].flatten.compact
+          elsif self.href =~ /\/org\//
             check_href!("Org")
-            load(connection.get_organization(self.href).body[:Link].select{|l| l[:type] == 'application/vnd.vmware.vcloud.network+xml' })
+            data = connection.get_organization(self.href).body[:Link].select{|l| l[:type] == 'application/vnd.vmware.vcloud.network+xml' }
+          elsif self.href =~ /\/vApp\//
+            check_href!("Vapp")
+            data = [(connection.get_vapp(self.href).body[:NetworkConfigSection]||{})[:NetworkConfig]].flatten.compact.collect{|n| n[:Configuration][:ParentNetwork] unless n[:Configuration].nil? }.compact
           end
+          load([*data]) unless data.nil?
         end
 
         def get(uri)
