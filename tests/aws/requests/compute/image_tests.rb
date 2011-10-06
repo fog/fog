@@ -31,6 +31,11 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
     'requestId'             => String
   }
 
+  @modify_image_attribute_format = {
+    'return'                => Fog::Boolean,
+    'requestId'             => String
+  }
+
   tests('success') do
     # the result for this is HUGE and relatively uninteresting...
     # tests("#describe_images").formats(@images_format) do
@@ -39,6 +44,8 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
     @image_id = 'ami-1aad5273'
 
     if Fog.mocking?
+      @other_account = Fog::Compute::AWS.new(:aws_access_key_id => 'other', :aws_secret_access_key => 'account')
+
       tests("#register_image").formats(@register_image_format) do
         @image = Fog::Compute[:aws].register_image('image', 'image', '/dev/sda1').body
       end
@@ -52,6 +59,26 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
 
       tests("#describe_images('state' => 'available')").formats(@describe_images_format) do
         Fog::Compute[:aws].describe_images('state' => 'available').body
+      end
+
+      tests("other_account#describe_images('image-id' => '#{@image_id}')").returns([]) do
+        @other_account.describe_images('image-id' => @image_id).body['imagesSet']
+      end
+
+      tests("#modify_image_attribute('#{@image_id}', 'Add.UserId' => ['#{@other_account.data[:owner_id]}'])").formats(@modify_image_attribute_format) do
+        Fog::Compute[:aws].modify_image_attribute(@image_id, { 'Add.UserId' => [@other_account.data[:owner_id]] }).body
+      end
+
+      tests("other_account#describe_images('image-id' => '#{@image_id}')").returns([@image_id]) do
+        @other_account.describe_images('image-id' => @image_id).body['imagesSet'].map {|i| i['imageId'] }
+      end
+
+      tests("#modify_image_attribute('#{@image_id}', 'Remove.UserId' => ['#{@other_account.data[:owner_id]}'])").formats(@modify_image_attribute_format) do
+        Fog::Compute[:aws].modify_image_attribute(@image_id, { 'Remove.UserId' => [@other_account.data[:owner_id]] }).body
+      end
+
+      tests("other_account#describe_images('image-id' => '#{@image_id}')").returns([]) do
+        @other_account.describe_images('image-id' => @image_id).body['imagesSet']
       end
     end
 
@@ -67,10 +94,14 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
   end
 
   tests('failure') do
-    pending if Fog.mocking?
-
     tests("#modify_image_attribute(nil, { 'Add.Group' => ['all'] })").raises(ArgumentError) do
       Fog::Compute[:aws].modify_image_attribute(nil, { 'Add.Group' => ['all'] }).body
+    end
+
+    tests("#modify_image_attribute('ami-00000000', { 'Add.UserId' => ['123456789012'] })").raises(Fog::Compute::AWS::NotFound) do
+      pending unless Fog.mocking?
+
+      Fog::Compute[:aws].modify_image_attribute('ami-00000000', { 'Add.UserId' => ['123456789012'] }).body
     end
   end
 end
