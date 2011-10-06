@@ -13,6 +13,7 @@ module Fog
         attribute :image_id,    :aliases => 'imageId'
 	attribute :type
         attribute :state,       :aliases => 'status'
+	attribute :type
         attribute :vps_memory
         attribute :vps_memory_max
         attribute :vps_os_title
