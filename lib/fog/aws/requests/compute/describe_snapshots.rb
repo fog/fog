@@ -72,7 +72,7 @@ module Fog
             Fog::Logger.warning("describe_snapshots with RestorableBy other than 'self' (wanted #{restorable_by.inspect}) is not mocked [light_black](#{caller.first})[/]")
           end
 
-          snapshot_set = apply_tag_filters(snapshot_set, filters)
+          snapshot_set = apply_tag_filters(snapshot_set, filters, 'snapshotId')
 
           aliases = {
             'description' => 'description',
@@ -105,6 +105,8 @@ module Fog
               end
             end
           end
+
+          snapshot_set = snapshot_set.map {|snapshot| snapshot.merge('tagSet' => self.data[:tag_sets][snapshot['snapshotId']]) }
 
           response.status = 200
           response.body = {

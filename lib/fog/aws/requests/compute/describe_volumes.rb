@@ -55,8 +55,8 @@ module Fog
           response = Excon::Response.new
 
           volume_set = self.data[:volumes].values
-          volume_set = apply_tag_filters(volume_set, filters)
-          
+          volume_set = apply_tag_filters(volume_set, filters, 'volumeId')
+
           aliases = {
             'availability-zone' => 'availabilityZone',
             'create-time' => 'createTime',
@@ -102,6 +102,7 @@ module Fog
             end
           end
           volume_set = volume_set.reject {|volume| !self.data[:volumes][volume['volumeId']]}
+          volume_set = volume_set.map {|volume| volume.merge('tagSet' => self.data[:tag_sets][volume['volumeId']]) }
 
           response.status = 200
           response.body = {

@@ -60,7 +60,6 @@ module Fog
               'size'              => size,
               'snapshotId'        => snapshot_id,
               'status'            => 'creating',
-              'tagSet'            => {},
               'volumeId'          => volume_id
             }
             self.data[:volumes][volume_id] = data

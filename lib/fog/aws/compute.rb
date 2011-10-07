@@ -152,7 +152,10 @@ module Fog
                 },
                 :snapshots => {},
                 :volumes => {},
-                :tags => {}
+                :tags => {},
+                :tag_sets => Hash.new do |tag_set_hash, resource_id|
+                  tag_set_hash[resource_id] = {}
+                end
               }
             end
           end
@@ -172,34 +175,56 @@ module Fog
           end
         end
 
+        def region_data
+          self.class.data[@region]
+        end
+
         def data
-          self.class.data[@region][@aws_access_key_id]
+          self.region_data[@aws_access_key_id]
         end
 
         def reset_data
-          self.class.data[@region].delete(@aws_access_key_id)
+          self.region_data.delete(@aws_access_key_id)
         end
 
-        def apply_tag_filters(resources, filters)
+        def visible_images
+          images = self.data[:images].values.inject({}) do |h, image|
+            h.update(image['imageId'] => image)
+          end
+
+          self.region_data.each do |aws_access_key_id, data|
+            data[:image_launch_permissions].each do |image_id, list|
+              if list[:users].include?(self.data[:owner_id])
+                images.update(image_id => data[:images][image_id])
+              end
+            end
+          end
+
+          images
+        end
+
+        def apply_tag_filters(resources, filters, resource_id_key)
+          tag_set_fetcher = lambda {|resource| self.data[:tag_sets][resource[resource_id_key]] }
+
           # tag-key: match resources tagged with this key (any value)
           if filters.has_key?('tag-key')
             value = filters.delete('tag-key')
-            resources = resources.select{|r| r['tagSet'].has_key?(value)}
+            resources = resources.select{|r| tag_set_fetcher[r].has_key?(value)}
           end
 
           # tag-value: match resources tagged with this value (any key)
           if filters.has_key?('tag-value')
             value = filters.delete('tag-value')
-            resources = resources.select{|r| r['tagSet'].values.include?(value)}
+            resources = resources.select{|r| tag_set_fetcher[r].values.include?(value)}
           end
 
-          # tag:key: match resources taged with a key-value pair.  Value may be an array, which is OR'd.
+          # tag:key: match resources tagged with a key-value pair.  Value may be an array, which is OR'd.
           tag_filters = {}
           filters.keys.each do |key|
             tag_filters[key.gsub('tag:', '')] = filters.delete(key) if /^tag:/ =~ key
           end
           for tag_key, tag_value in tag_filters
-            resources = resources.select{|r| tag_value.include?(r['tagSet'][tag_key])}
+            resources = resources.select{|r| tag_value.include?(tag_set_fetcher[r][tag_key])}
           end
 
           resources
