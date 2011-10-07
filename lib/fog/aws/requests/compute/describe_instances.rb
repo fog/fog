@@ -88,7 +88,7 @@ module Fog
           response = Excon::Response.new
 
           instance_set = self.data[:instances].values
-          instance_set = apply_tag_filters(instance_set, filters)
+          instance_set = apply_tag_filters(instance_set, filters, 'instanceId')
 
           aliases = {
             'architecture'      => 'architecture',
@@ -196,7 +196,7 @@ module Fog
                 'ownerId'       => instance['ownerId'],
                 'reservationId' => instance['reservationId']
               }
-              reservation_set[instance['reservationId']]['instancesSet'] << instance.reject{|key,value| !['amiLaunchIndex', 'architecture', 'blockDeviceMapping', 'clientToken', 'dnsName', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'ipAddress', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'platform', 'privateDnsName', 'privateIpAddress', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType', 'stateReason', 'tagSet'].include?(key)}
+              reservation_set[instance['reservationId']]['instancesSet'] << instance.reject{|key,value| !['amiLaunchIndex', 'architecture', 'blockDeviceMapping', 'clientToken', 'dnsName', 'imageId', 'instanceId', 'instanceState', 'instanceType', 'ipAddress', 'kernelId', 'keyName', 'launchTime', 'monitoring', 'placement', 'platform', 'privateDnsName', 'privateIpAddress', 'productCodes', 'ramdiskId', 'reason', 'rootDeviceType', 'stateReason'].include?(key)}.merge('tagSet' => self.data[:tag_sets][instance['instanceId']])
             end
           end
 
