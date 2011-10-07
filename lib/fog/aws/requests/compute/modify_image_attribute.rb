@@ -37,6 +37,38 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def modify_image_attribute(image_id, attributes)
+          raise ArgumentError.new("image_id is required") unless image_id
+
+          unless self.data[:images][image_id]
+            raise Fog::Compute::AWS::NotFound.new("The AMI ID '#{image_id}' does not exist")
+          end
+
+          (attributes['Add.UserId'] || []).each do |user_id|
+            if image_launch_permissions = self.data[:image_launch_permissions][image_id]
+              image_launch_permissions[:users].push(user_id)
+            end
+          end
+
+          (attributes['Remove.UserId'] || []).each do |user_id|
+            if image_launch_permissions = self.data[:image_launch_permissions][image_id]
+              image_launch_permissions[:users].delete(user_id)
+            end
+          end
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            'return'        => true,
+            'requestId'     => Fog::AWS::Mock.request_id
+          }
+          response
+        end
+
+      end
     end
   end
 end

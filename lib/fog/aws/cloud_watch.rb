@@ -13,12 +13,26 @@ module Fog
       request :list_metrics
       request :get_metric_statistics
       request :put_metric_data
+      request :describe_alarms
+      request :put_metric_alarm
+      request :delete_alarms
+      request :describe_alarm_history
+      request :enable_alarm_actions
+      request :disable_alarm_actions
+      request :describe_alarms_for_metric
+      request :set_alarm_state
 
       model_path 'fog/aws/models/cloud_watch'
       model       :metric
       collection  :metrics
       model       :metric_statistic
       collection  :metric_statistics
+      model       :alarm_datum
+      collection  :alarm_data
+      model       :alarm_history
+      collection  :alarm_histories
+      model       :alarm
+      collection  :alarms
 
       class Mock
 

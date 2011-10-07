@@ -1,16 +1,24 @@
 Shindo.tests('AWS::IAM | server certificate requests', ['aws']) do
   @key_name = 'fog-test'
+  @key_name_chained = 'fog-test-chained'
 
   @certificate_format = {
-  'Arn' => String,
-  'Path' => String,
-  'ServerCertificateId' => String,
-  'ServerCertificateName' => String,
-  'UploadDate' => Time
+    'Arn' => String,
+    'Path' => String,
+    'ServerCertificateId' => String,
+    'ServerCertificateName' => String,
+    'UploadDate' => Time
   }
   @upload_format = {
     'Certificate' => @certificate_format,
     'RequestId' => String
+  }
+  @get_server_certificate_format = {
+    'Certificate' => @certificate_format,
+    'RequestId' => String
+  }
+  @list_format = {
+    'Certificates' => [@certificate_format]
   }
 
   tests('#upload_server_certificate') do
@@ -42,19 +50,22 @@ Shindo.tests('AWS::IAM | server certificate requests', ['aws']) do
       Fog::AWS::IAM.new.upload_server_certificate(public_key, private_key, @key_name).body
     end
 
+    tests('format with chain').formats(@upload_format) do
+      Fog::AWS::IAM.new.upload_server_certificate(public_key, private_key, @key_name_chained, { 'CertificateChain' => public_key }).body
+    end
+
     tests('duplicate name').raises(Fog::AWS::IAM::EntityAlreadyExists) do
       Fog::AWS::IAM.new.upload_server_certificate(public_key, private_key, @key_name)
     end
   end
 
-  tests('#get_server_certificate').formats(@upload_format) do
+  tests('#get_server_certificate').formats(@get_server_certificate_format) do
     tests('raises NotFound').raises(Fog::AWS::IAM::NotFound) do
       Fog::AWS::IAM.new.get_server_certificate("#{@key_name}fake")
     end
     Fog::AWS::IAM.new.get_server_certificate(@key_name).body
   end
 
-  @list_format = { 'Certificates' => [@certificate_format] }
   tests('#list_server_certificates').formats(@list_format) do
     result = Fog::AWS::IAM.new.list_server_certificates.body
     tests('includes key name') do
@@ -74,4 +85,6 @@ Shindo.tests('AWS::IAM | server certificate requests', ['aws']) do
   tests('#delete_server_certificate').formats(AWS::IAM::Formats::BASIC) do
     Fog::AWS::IAM.new.delete_server_certificate(@key_name).body
   end
+
+  Fog::AWS::IAM.new.delete_server_certificate(@key_name_chained)
 end

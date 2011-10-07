@@ -103,12 +103,17 @@ module Fog
 
         def self.data
           @data ||= Hash.new do |hash, region|
-            owner_id = Fog::AWS::Mock.owner_id
             hash[region] = Hash.new do |region_hash, key|
+              owner_id = Fog::AWS::Mock.owner_id
               region_hash[key] = {
                 :deleted_at => {},
                 :addresses  => {},
                 :images     => {},
+                :image_launch_permissions => Hash.new do |permissions_hash, image_key|
+                  permissions_hash[image_key] = {
+                    :users => []
+                  }
+                end,
                 :instances  => {},
                 :reserved_instances => {},
                 :key_pairs  => {},
@@ -181,22 +186,22 @@ module Fog
             value = filters.delete('tag-key')
             resources = resources.select{|r| r['tagSet'].has_key?(value)}
           end
-          
+
           # tag-value: match resources tagged with this value (any key)
           if filters.has_key?('tag-value')
             value = filters.delete('tag-value')
             resources = resources.select{|r| r['tagSet'].values.include?(value)}
           end
-          
+
           # tag:key: match resources taged with a key-value pair.  Value may be an array, which is OR'd.
           tag_filters = {}
-          filters.keys.each do |key| 
+          filters.keys.each do |key|
             tag_filters[key.gsub('tag:', '')] = filters.delete(key) if /^tag:/ =~ key
           end
           for tag_key, tag_value in tag_filters
             resources = resources.select{|r| tag_value.include?(r['tagSet'][tag_key])}
           end
-          
+
           resources
         end
       end
@@ -206,7 +211,7 @@ module Fog
         # Initialize connection to EC2
         #
         # ==== Notes
-        # options parameter must include values for :aws_access_key_id and 
+        # options parameter must include values for :aws_access_key_id and
         # :aws_secret_access_key in order to create a connection
         #
         # ==== Examples
@@ -265,7 +270,7 @@ module Fog
         end
 
         private
-        
+
         def request(params)
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)

@@ -56,7 +56,7 @@ module Fog
 
           raise Fog::AWS::ELB::IdentifierTaken if self.data[:load_balancers].has_key? lb_name
 
-          certificate_ids = Fog::AWS::IAM.new.list_server_certificates.body['Certificates'].collect { |c| c['Arn'] }
+          certificate_ids = Fog::AWS::IAM::Mock.data[@aws_access_key_id][:server_certificates].map {|n, c| c['Arn'] }
 
           listeners = [*listeners].map do |listener|
             if listener['SSLCertificateId'] and !certificate_ids.include? listener['SSLCertificateId']
