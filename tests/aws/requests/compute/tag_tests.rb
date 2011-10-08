@@ -61,6 +61,8 @@ Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
       end
     end
 
+    @volume.destroy
+
     tests("#delete_tags('#{@volume.identity}', 'foo' => 'bar')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_tags(@volume.identity, 'foo' => 'bar').body
     end
@@ -72,6 +74,4 @@ Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
     end
 
   end
-
-  @volume.destroy
 end

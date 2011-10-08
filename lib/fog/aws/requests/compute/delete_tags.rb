@@ -28,7 +28,7 @@ module Fog
             index += 1 # should start at 1 instead of 0
             params.merge!("Tag.#{index}.Key" => key)
             unless tags[key].nil?
-              params.merge("Tag.#{index}.Value" => tags[key])
+              params.merge!("Tag.#{index}.Value" => tags[key])
             end
           end
 
