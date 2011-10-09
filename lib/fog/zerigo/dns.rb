@@ -64,7 +64,7 @@ module Fog
         end
 
         def find_host(host_id)
-          self.data[:zones].collect { |z| z['hosts'].find { |h| h['id'] == host_id } }.compact
+          self.data[:zones].collect { |z| z['hosts'].find { |h| h['id'] == host_id } }.compact.first
         end
       end
 
