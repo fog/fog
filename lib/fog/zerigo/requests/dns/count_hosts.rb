@@ -13,7 +13,7 @@ module Fog
         #   * body<~Hash>
         #     * 'count'<~Integer> 
         #   * 'status'<~Integer> - 200 indicates success
-        def count_hosts( zone_id)
+        def count_hosts(zone_id)
           request(
             :expects  => 200,
             :method   => 'GET',
@@ -22,6 +22,25 @@ module Fog
           )
         end
 
+      end
+
+      class Mock # :nodoc:all
+        def count_hosts(zone_id)
+          zone = find_by_zone_id(zone_id)
+
+          response = Excon::Response.new
+
+          if zone
+            response.status = 200
+            response.body = {
+              'count' => zone['hosts'].size
+            }
+          else
+            response.status = 404
+          end
+
+          response
+        end
       end
     end
   end

@@ -19,6 +19,25 @@ module Fog
         end
 
       end
+
+      class Mock # :nodoc:all
+        def delete_host(host_id)
+          host = find_host(host_id)
+
+          response = Excon::Response.new
+
+          if host
+            zone = find_by_zone_id(host['zone-id'])
+            zone['hosts'].delete(host)
+
+            response.status = 200
+          else
+            response.status = 404
+          end
+
+          response
+        end
+      end
     end
   end
 end
