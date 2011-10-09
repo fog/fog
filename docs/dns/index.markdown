@@ -41,7 +41,7 @@ Now that you have a zone you will need to update your registrar to let them know
 With your new zone in hand you can add records as needed.  First and foremost you will probably want the 'www' version of your site to point to whatever your ip might be:
 
     record = @zone.records.create(
-      :ip   => '1.2.3.4',
+      :value   => '1.2.3.4',
       :name => 'example.com',
       :type => 'A'
     )
@@ -49,7 +49,7 @@ With your new zone in hand you can add records as needed.  First and foremost yo
 Adding other records is similarly easy, for instance if we want 'www.example.com' to go to the same place, we can use a cname record:
 
     record = @zone.records.create(
-      :ip   => 'example.com',
+      :value   => 'example.com',
       :name => 'www',
       :type => 'CNAME'
     )
@@ -57,7 +57,7 @@ Adding other records is similarly easy, for instance if we want 'www.example.com
 Or, similarly you might want to have your blog elsewhere:
 
     record = @zone.records.create(
-      :ip   => '4.3.2.1',
+      :value   => '4.3.2.1',
       :name => 'blog.example.com',
       :type => 'A'
     )
