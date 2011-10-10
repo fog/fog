@@ -34,6 +34,11 @@ module Fog
           super({ :zone => zone }.merge!(attributes))
         end
 
+        def find(fqdn)
+          hosts = connection.find_hosts(fqdn, zone.id).body['hosts']
+          hosts.collect { |host| new(host) }
+        end
+
       end
 
     end

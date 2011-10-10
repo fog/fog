@@ -40,6 +40,21 @@ module Fog
         end
 
       end
+
+      class Mock # :nodoc:all
+
+        def list_zones
+          response = Excon::Response.new
+
+          response.status = 200
+          response.body = {
+            'zones' => self.data[:zones]
+          }
+
+          response
+        end
+
+      end
     end
   end
 end
