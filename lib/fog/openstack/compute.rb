@@ -6,8 +6,8 @@ module Fog
   module Compute
     class OpenStack < Fog::Service
 
-      requires :openstack_api_key, :openstack_username, :openstack_auth_url, :openstack_tenant
-      recognizes :openstack_auth_token, :openstack_management_url, :persistent, :openstack_compute_service_name
+      requires :openstack_api_key, :openstack_username, :openstack_auth_url
+      recognizes :openstack_auth_token, :openstack_management_url, :persistent, :openstack_compute_service_name, :openstack_tenant
 
       model_path 'fog/openstack/models/compute'
       model       :flavor
@@ -167,7 +167,7 @@ module Fog
               :openstack_tenant => @openstack_tenant,
               :openstack_compute_service_name => @openstack_compute_service_name
             }
-            if @openstack_auth_url =~ /.*v2.0\/?$/
+            if @openstack_auth_url =~ /\/v2.0\//
               credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
             else
               credentials = Fog::OpenStack.authenticate_v1(options, @connection_options)
@@ -181,8 +181,11 @@ module Fog
           end
           @host   = uri.host
           @path   = uri.path
-          # Force URL into v1.1 namespace (what this binding supports)
-          @path.sub!(/\/.*\/?/, '/v1.1/')
+          @path.sub!(/\/$/, '')
+          unless @path.match(/1\.1/)
+            raise Fog::Compute::OpenStack::ServiceUnavailable.new(
+                    "OpenStack binding only supports version 1.1")
+          end
           # Add tenant
           @path += @openstack_tenant if @openstack_tenant
           @port   = uri.port
