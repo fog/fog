@@ -30,6 +30,9 @@ module Fog
               }
             end
           end
+          if options['availability_zone']
+            data['server']['availability_zone'] = options['availability_zone']
+          end
           request(
             :body     => MultiJson.encode(data),
             :expects  => [200, 202],
