@@ -27,6 +27,7 @@ module Fog
 
         def initialize(attributes={})
           @connection = attributes[:connection]
+          attributes[:metadata] = {}
           super
         end
 
