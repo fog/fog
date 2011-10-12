@@ -39,28 +39,28 @@
       </dl>
     </header>
 
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about/structure.html">Structure</a></li>
+        <li><a href="/about/getting_started.html">Getting Started</a></li>
+        <li>&nbsp;</li>
+        <li><a href="/storage">Storage</a></li>
+        <li><a href="/compute">Compute</a></li>
+        <li><a href="/dns">DNS</a></li>
+        <li><a href="/cdn">CDN</a></li>
+      </ul>
+    </nav>
+
     <div id="main">
 
       {{ content }}
-
-      <h2>Services</h2>
-      <ul>
-        <li><a href="/cdn">CDN</a></li>
-        <li><a href="/compute">Compute</a></li>
-        <li><a href="/dns">DNS</a></li>
-        <li><a href="/storage">Storage</a></li>
-        {% for post in site.posts %}
-        <li><a href="{{ post.url }}">{{ post.title }}</a></li>
-        {% endfor %}
-      </ul>
 
       <h2>About</h2>
       <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/about/contributing.html">Contributing</a></li>
-        <li><a href="/about/getting_started.html">Getting Started</a></li>
         <li><a href="/about/press.html">Press</a></li>
-        <li><a href="/about/structure.html">Structure</a></li>
         <li><a href="/about/supported_services.html">Supported Services</a></li>
         <li><a href="/about/users.html">Users</a></li>
       </ul>

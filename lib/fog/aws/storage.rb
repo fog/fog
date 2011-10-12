@@ -229,7 +229,8 @@ module Fog
         # :aws_secret_access_key in order to create a connection
         #
         # ==== Examples
-        #   s3 = S3.new(
+        #   s3 = Fog::Storage.new(
+        #     :provider => "AWS",
         #     :aws_access_key_id => your_aws_access_key_id,
         #     :aws_secret_access_key => your_aws_secret_access_key
         #   )
