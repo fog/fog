@@ -20,6 +20,7 @@ module Fog
         attribute :progress
         attribute :accessIPv4
         attribute :accessIPv6
+        attribute :availability_zone
         attribute :state,       :aliases => 'status'
 
         attr_reader :password
@@ -27,6 +28,7 @@ module Fog
 
         def initialize(attributes={})
           @connection = attributes[:connection]
+          attributes[:metadata] = {}
           super
         end
 
@@ -152,7 +154,8 @@ module Fog
             'metadata'    => meta_hash,
             'personality' => personality,
             'accessIPv4' => accessIPv4,
-            'accessIPv6' => accessIPv6
+            'accessIPv6' => accessIPv6,
+            'availability_zone' => availability_zone
           }
           options = options.reject {|key, value| value.nil?}
           data = connection.create_server(name, image_ref, flavor_ref, options)

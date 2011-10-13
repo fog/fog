@@ -48,7 +48,7 @@ module Fog
             connection.create_host(@zone.id, type, value, options)
           else
             options[:host_type] = type
-            options[:data]      = data
+            options[:data]      = value
             connection.update_host(identity, options)
           end
           merge_attributes(data.body)

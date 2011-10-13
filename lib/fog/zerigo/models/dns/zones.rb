@@ -14,8 +14,8 @@ module Fog
           load(data)
         end
 
-        def get(zone_id)
-          data = connection.get_zone(zone_id).body
+        def get(zone_id_or_domain)
+          data = connection.get_zone(zone_id_or_domain).body
           zone = new(data)
           zone.records.load(data['hosts'])
           zone

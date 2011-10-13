@@ -6,7 +6,7 @@ module Fog
         class SpotInstanceRequests < Fog::Parsers::Base
 
           def reset
-            @block_device_mapping = []
+            @block_device_mapping = {}
             @context = []
             @contexts = ['blockDeviceMapping', 'groupSet']
             @spot_instance_request = { 'launchSpecification' => { 'blockDeviceMapping' => [], 'groupSet' => [] } }
@@ -42,7 +42,7 @@ module Fog
             when 'item'
               case @context.last
               when 'blockDeviceMapping'
-                @instance['blockDeviceMapping'] << @block_device_mapping
+                @spot_instance_request['launchSpecification']['blockDeviceMapping'] << @block_device_mapping
                 @block_device_mapping = {}
               when nil
                 @response['spotInstanceRequestSet'] << @spot_instance_request
