@@ -15,10 +15,10 @@ module Fog
         attribute :os_bits
         attribute :os_hvm
 
-				def initialize(new_attributes)
-					super(new_attributes)
-					merge_attributes(new_attributes['_attr']) if new_attributes['_attr']
-				end
+        def initialize(new_attributes)
+          super(new_attributes)
+          merge_attributes(new_attributes['_attr']) if new_attributes['_attr']
+        end
 
         def ready?
           status == 'ACTIVE'

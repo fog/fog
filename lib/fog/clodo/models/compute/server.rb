@@ -44,7 +44,7 @@ module Fog
 
         def initialize(attributes={})
           self.image_id   ||= attributes[:vps_os] ? attributes[:vps_os] : 666
-          super
+          super attributes
         end
 
         def destroy
@@ -98,11 +98,7 @@ module Fog
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :image_id
-          options = {
-            'name'        => name
-          }
-          options = options.reject {|key, value| value.nil?}
-          data = connection.create_server(image_id, options)
+          data = connection.create_server(image_id, attributes)
           merge_attributes(data.body['server'])
           true
         end
@@ -114,7 +110,6 @@ module Fog
             %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
             %{passwd -l #{username}},
             %{echo "#{MultiJson.encode(attributes)}" >> ~/attributes.json},
-            %{echo "#{MultiJson.encode(metadata)}" >> ~/metadata.json}
           ])
         rescue Errno::ECONNREFUSED
           sleep(1)
@@ -146,10 +141,6 @@ module Fog
         end
 
         private
-
-###        def adminPass=(new_admin_pass)
-###          @vps_root_pass= new_admin_pass
-###        end
 
       end
 

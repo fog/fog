@@ -21,7 +21,6 @@ module Fog
           data = {
             'server' => {
               :vps_os   => image_id,
-              :vps_type => options[:vps_type]?options[:vps_type]:'ScaleServer',
               :vps_hdd => options[:vps_hdd]?options[:vps_hdd]:5,
               :vps_memory => options[:vps_memory]?options[:vps_memory]:256,
               :vps_memory_max => options[:vps_memory_max]?options[:vps_memory_max]:1024,
