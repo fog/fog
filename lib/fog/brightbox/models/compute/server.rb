@@ -32,6 +32,8 @@ module Fog
         attribute :cloud_ips
         attribute :interfaces
         attribute :server_groups
+        attribute :zone
+        attribute :server_type
 
         def initialize(attributes={})
           self.image_id   ||= 'img-2ab98' # Ubuntu Lucid 10.04 server (i686)
