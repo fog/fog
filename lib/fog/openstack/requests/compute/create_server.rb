@@ -12,15 +12,12 @@ module Fog
             }
           }
 
-          if options['metadata']
-            data['server']['metadata'] = options['metadata']
+          vanilla_options = ['metadata', 'accessIPv4', 'accessIPv6',
+                             'availability_zone', 'user_data']
+          vanilla_options.select{|o| options[o]}.each do |key|
+            data['server'][key] = options[key]
           end
-          if options['accessIPv4']
-            data['server']['accessIPv4'] = options['accessIPv4']
-          end
-          if options['accessIPv6']
-            data['server']['accessIPv6'] = options['accessIPv6']
-          end
+
           if options['personality']
             data['server']['personality'] = []
             for file in options['personality']
@@ -30,9 +27,7 @@ module Fog
               }
             end
           end
-          if options['availability_zone']
-            data['server']['availability_zone'] = options['availability_zone']
-          end
+
           request(
             :body     => MultiJson.encode(data),
             :expects  => [200, 202],
