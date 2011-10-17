@@ -17,6 +17,8 @@ module Fog
         #   * NotificationARNs<~Array>: List of SNS topics to publish events to
         #   * Parameters<~Hash>: Hash of providers to supply to template
         #   * TimeoutInMinutes<~Integer>: Minutes to wait before status is set to CREATE_FAILED
+        #   * Capabilities<~Array>: List of capabilties the stack is granted. Currently CAPABILITY_IAM
+        #     for allowing the creation of IAM resources
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -57,6 +59,10 @@ module Fog
 
           if options['TimeoutInMinutes']
             params['TimeoutInMinutes'] = options['TimeoutInMinutes']
+          end
+          
+          if options['Capabilities']
+            params.merge!(Fog::AWS.indexed_param("Capabilities.member", [*options['Capabilities']]))
           end
 
           request({
