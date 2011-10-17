@@ -4,7 +4,7 @@ class Brightbox < Fog::Bin
     def class_for(key)
       case key
       when :compute
-        Fog::Brightbox::Compute
+        Fog::Compute::Brightbox
       else 
         raise ArgumentError, "Unrecognized service: #{key}"
       end
@@ -14,6 +14,7 @@ class Brightbox < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
+          Fog::Logger.warning("Brightbox[:compute] is deprecated, use Compute[:brightbox] instead")
           Fog::Compute.new(:provider => 'Brightbox')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

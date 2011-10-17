@@ -15,10 +15,7 @@ module Fog
      extend Fog::Terremark::Shared
 
      def self.new(options={})
-       location = caller.first
-       warning = "[yellow][WARN] Fog::Terremark::Vcloud is deprecated, to be replaced with Vcloud 1.0 someday/maybe[/]"
-       warning << " [light_black](" << location << ")[/] "
-       Formatador.display_line(warning)
+       Fog::Logger.warning("Fog::Terremark::Vcloud is deprecated, to be replaced with Vcloud 1.0 someday/maybe [light_black](#{caller.first})[/]")
 
        unless @required
          shared_requires
@@ -42,11 +39,13 @@ module Fog
         def initialize(options={})
           @terremark_password = options[:terremark_vcloud_password]
           @terremark_username = options[:terremark_vcloud_username]
-          @host   = options[:host]   || Fog::Terremark::Vcloud::Defaults::HOST
-          @path   = options[:path]   || Fog::Terremark::Vcloud::Defaults::PATH
-          @port   = options[:port]   || Fog::Terremark::Vcloud::Defaults::PORT
-          @scheme = options[:scheme] || Fog::Terremark::Vcloud::Defaults::SCHEME
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @connection_options = options[:connection_options] || {}
+          @host       = options[:host]        || Fog::Terremark::Vcloud::Defaults::HOST
+          @path       = options[:path]        || Fog::Terremark::Vcloud::Defaults::PATH
+          @persistent = options[:persistent]  || false
+          @port       = options[:port]        || Fog::Terremark::Vcloud::Defaults::PORT
+          @scheme     = options[:scheme]      || Fog::Terremark::Vcloud::Defaults::SCHEME
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def default_vdc_id

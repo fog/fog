@@ -4,13 +4,16 @@ class HP < Fog::Bin
     def class_for(key)
       case key
       when :cdn
-        Fog::HP::CDN
+        Fog::CDN::HP
       when :compute
-        Fog::HP::Compute
+        Fog::Compute::HP
       when :storage
-        Fog::HP::Storage
+        Fog::Storage::HP
       else
-        raise ArgumentError, "Unrecognized service: #{key}"
+        # @todo Replace most instances of ArgumentError with NotImplementedError
+        # @todo For a list of widely supported Exceptions, see:
+        # => http://www.zenspider.com/Languages/Ruby/QuickRef.html#35
+        raise ArgumentError, "Unrecognized #{self} service: #{key}"
       end
     end
 
@@ -18,12 +21,15 @@ class HP < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :cdn
+          Fog::Logger.warning("HP[:cdn] is deprecated, use CDN[:hp] instead")
           Fog::CDN.new(:provider => 'HP')
         when :compute
+          Fog::Logger.warning("HP[:compute] is deprecated, use Compute[:hp] instead")
           Fog::Compute.new(:provider => 'HP')
         when :dns
           Fog::DNS.new(:provider => 'HP')
         when :storage
+          Fog::Logger.warning("HP[:storage] is deprecated, use Storage[:hp] instead")
           Fog::Storage.new(:provider => 'HP')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

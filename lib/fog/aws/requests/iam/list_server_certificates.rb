@@ -37,6 +37,20 @@ module Fog
         end
 
       end
+
+      class Mock
+        def list_server_certificates(options = {})
+          certificates = self.data[:server_certificates].values
+          certificates = certificates.select { |certificate| certificate['Path'] =~ Regexp.new("^#{options['PathPrefix']}") } if options['PathPrefix']
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            'Certificates' => certificates
+          }
+
+          response
+        end
+      end
     end
   end
 end

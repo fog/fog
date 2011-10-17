@@ -29,9 +29,9 @@ module Fog
             parameter_apply_methods.push(parameter['ApplyMethod'])
           end
           params = {}
-          params.merge!(AWS.indexed_param('Parameters.member.%d.ParameterName', parameter_names))
-          params.merge!(AWS.indexed_param('Parameters.member.%d.ParameterValue', parameter_values))
-          params.merge!(AWS.indexed_param('Parameters.member.%d.ApplyMethod', parameter_apply_methods))
+          params.merge!(Fog::AWS.indexed_param('Parameters.member.%d.ParameterName', parameter_names))
+          params.merge!(Fog::AWS.indexed_param('Parameters.member.%d.ParameterValue', parameter_values))
+          params.merge!(Fog::AWS.indexed_param('Parameters.member.%d.ApplyMethod', parameter_apply_methods))
           
           request({
             'Action'  => 'ModifyDBParameterGroup',

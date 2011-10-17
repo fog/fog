@@ -20,7 +20,7 @@ module Fog
         #       * 'Instances'<~Array> - array of hashes describing instances currently enabled
         #         * 'InstanceId'<~String>
         def register_instances_with_load_balancer(instance_ids, lb_name)
-          params = AWS.indexed_param('Instances.member.%d.InstanceId', [*instance_ids])
+          params = Fog::AWS.indexed_param('Instances.member.%d.InstanceId', [*instance_ids])
           request({
             'Action'           => 'RegisterInstancesWithLoadBalancer',
             'LoadBalancerName' => lb_name,
@@ -33,15 +33,32 @@ module Fog
       end
 
       class Mock
-
         def register_instances_with_load_balancer(instance_ids, lb_name)
-          Fog::Mock.not_implemented
+          raise Fog::AWS::ELB::NotFound unless load_balancer = self.data[:load_balancers][lb_name]
+          instance_ids = [*instance_ids]
+          instances = instance_ids.map do |instance|
+            raise Fog::AWS::ELB::InvalidInstance unless Compute[:aws].servers.get(instance)
+            {'InstanceId' => instance}
+          end
+
+          response = Excon::Response.new
+          response.status = 200
+
+          load_balancer['Instances'] = instances.dup
+
+          response.body = {
+            'ResponseMetadata' => {
+              'RequestId' => Fog::AWS::Mock.request_id
+            },
+            'RegisterInstancesWithLoadBalancerResult' => {
+              'Instances' => instances
+            }
+          }
+
+          response
         end
-
         alias :register_instances :register_instances_with_load_balancer
-
       end
-
     end
   end
 end

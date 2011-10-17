@@ -71,8 +71,10 @@ module Fog
             class_eval <<-EOS, __FILE__, __LINE__
               def #{name}=(new_data)
                 if new_data.is_a?(Hash)
-                  if new_data[:#{squash}] || new_data["#{squash}"]
-                    attributes[:#{name}] = new_data[:#{squash}] || new_data["#{squash}"]
+                  if new_data.has_key?(:#{squash})
+                    attributes[:#{name}] = new_data[:#{squash}]
+                  elsif new_data.has_key?("#{squash}")
+                    attributes[:#{name}] = new_data["#{squash}"]
                   else
                     attributes[:#{name}] = [ new_data ]
                   end
@@ -156,22 +158,32 @@ module Fog
 
       # check that the attributes specified in args exist and is not nil
       def requires(*args)
+        missing = missing_attributes(args)
+        if missing.length == 1
+          raise(ArgumentError, "#{missing.first} is required for this operation")
+        elsif missing.any?
+          raise(ArgumentError, "#{missing[0...-1].join(", ")} and #{missing[-1]} are required for this operation")
+        end
+      end
+
+      def requires_one(*args)
+        missing = missing_attributes(args)
+        if missing.length == args.length
+          raise(ArgumentError, "#{missing[0...-1].join(", ")} or #{missing[-1]} are required for this operation")
+        end
+      end
+
+      protected
+
+      def missing_attributes(args)
         missing = []
         for arg in [:connection] | args
           unless send("#{arg}") || attributes.has_key?(arg)
             missing << arg
           end
         end
-        unless missing.empty?
-          if missing.length == 1
-            raise(ArgumentError, "#{missing.first} is required for this operation")
-          else
-            raise(ArgumentError, "#{missing[0...-1].join(", ")} and #{missing[-1]} are required for this operation")
-          end
-        end
+        missing
       end
-
-      protected
 
       def dup_attributes!
         @attributes = @attributes.dup

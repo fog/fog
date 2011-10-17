@@ -14,7 +14,7 @@ Shindo.tests('AWS::IAM | group requests', ['aws']) do
 
     tests("#create_group('fog_group')").formats(@group_format) do
       pending if Fog.mocking?
-      AWS[:iam].create_group('fog_group').body
+      Fog::AWS[:iam].create_group('fog_group').body
     end
 
     @groups_format = {
@@ -30,12 +30,12 @@ Shindo.tests('AWS::IAM | group requests', ['aws']) do
 
     tests("#list_groups").formats(@groups_format) do
       pending if Fog.mocking?
-      AWS[:iam].list_groups.body
+      Fog::AWS[:iam].list_groups.body
     end
 
     tests("#delete_group('fog_group')").formats(AWS::IAM::Formats::BASIC) do
       pending if Fog.mocking?
-      AWS[:iam].delete_group('fog_group').body
+      Fog::AWS[:iam].delete_group('fog_group').body
     end
 
   end

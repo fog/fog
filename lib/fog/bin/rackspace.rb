@@ -4,12 +4,16 @@ class Rackspace < Fog::Bin
     def class_for(key)
       case key
       when :cdn
-        Fog::Rackspace::CDN
+        Fog::CDN::Rackspace
       when :compute
-        Fog::Rackspace::Compute
+        Fog::Compute::Rackspace
       when :storage
-        Fog::Rackspace::Storage
-      else 
+        Fog::Storage::Rackspace
+      when :load_balancers
+        Fog::Rackspace::LoadBalancers
+      when :dns
+        Fog::DNS::Rackspace
+      else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
     end
@@ -18,12 +22,17 @@ class Rackspace < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :cdn
+          Fog::Logger.warning("Rackspace[:cdn] is deprecated, use CDN[:rackspace] instead")
           Fog::CDN.new(:provider => 'Rackspace')
         when :compute
+          Fog::Logger.warning("Rackspace[:compute] is deprecated, use Compute[:rackspace] instead")
           Fog::Compute.new(:provider => 'Rackspace')
         when :dns
           Fog::DNS.new(:provider => 'Rackspace')
+        when :load_balancers
+          Fog::Rackspace::LoadBalancers.new
         when :storage
+          Fog::Logger.warning("Rackspace[:storage] is deprecated, use Storage[:rackspace] instead")
           Fog::Storage.new(:provider => 'Rackspace')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

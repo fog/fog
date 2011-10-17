@@ -5,7 +5,11 @@ require 'yaml'
 Fog.credential = ARGV.first ? ARGV.first.to_sym : nil
 Fog.mock! if ENV['FOG_MOCK']
 if Fog.credentials.empty?
-  Fog::Errors.missing_credentials
+  begin
+    Fog::Errors.missing_credentials
+  rescue Fog::Errors::LoadError => error
+    abort error.message
+  end
 end
 
 require 'fog/bin'
@@ -19,7 +23,10 @@ end
 
 if ARGV.length > 1
 
-  puts(instance_eval(ARGV[1..-1].join(' ')).to_json)
+  require 'multi_json'
+
+  result = instance_eval(ARGV[1..-1].join(' '))
+  puts(MultiJson.encode(result))
 
 else
 
@@ -35,6 +42,12 @@ else
   Formatador.display_line('Welcome to fog interactive!')
   Formatador.display_line(":#{Fog.credential} provides #{providers}")
   providers = Fog.providers
+
+  # FIXME: hacks until we can `include Fog` in bin
+  CDN     = Fog::CDN
+  Compute = Fog::Compute
+  DNS     = Fog::DNS
+  Storage = Fog::Storage
 
   catch(:IRB_EXIT) { @irb.eval_input }
 

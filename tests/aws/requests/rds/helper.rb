@@ -90,6 +90,7 @@ class AWS
         'EngineVersion' => String,
         'InstanceCreateTime' => Fog::Nullable::Time,
         'LatestRestorableTime' => Fog::Nullable::Time,
+        'LicenseModel' => String,
         'MasterUsername' => String,
         'MultiAZ' => Fog::Boolean,
         'PendingModifiedValues' => {

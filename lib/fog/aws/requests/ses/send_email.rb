@@ -40,7 +40,7 @@ module Fog
           }
 
           for key, values in destination
-            params.merge!(AWS.indexed_param("Destination.#{key}.member", [*values]))
+            params.merge!(Fog::AWS.indexed_param("Destination.#{key}.member", [*values]))
           end
 
           for key, value in message['Subject']
@@ -54,7 +54,7 @@ module Fog
           end
 
           if options.has_key?('ReplyToAddresses')
-            params.merge!(AWS.indexed_param("ReplyToAddresses.member", [*options['ReplyToAddresses']]))
+            params.merge!(Fog::AWS.indexed_param("ReplyToAddresses.member", [*options['ReplyToAddresses']]))
           end
 
           if options.has_key?('ReturnPath')

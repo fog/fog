@@ -4,7 +4,7 @@ class DNSimple < Fog::Bin
     def class_for(key)
       case key
       when :dns
-        Fog::DNSimple::DNS
+        Fog::DNS::DNSimple
       else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
@@ -13,11 +13,12 @@ class DNSimple < Fog::Bin
     def [](service)
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
-                    when :dns
-                      Fog::DNS.new(:provider => 'DNSimple')
-                    else
-                      raise ArgumentError, "Unrecognized service: #{key.inspect}"
-                    end
+        when :dns
+          Fog::Logger.warning("DNSimple[:dns] is deprecated, use Storage[:dnsimple] instead")
+          Fog::DNS.new(:provider => 'DNSimple')
+        else
+          raise ArgumentError, "Unrecognized service: #{key.inspect}"
+        end
       end
       @@connections[service]
     end

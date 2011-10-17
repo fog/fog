@@ -12,6 +12,11 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
       @instance = collection.create(params)
     end
 
+    # FIXME: work around for timing issue on AWS describe_instances mocks
+    if Fog.mocking? && @instance.respond_to?(:ready?)
+      @instance.wait_for { ready? }
+    end
+
     tests("#all").succeeds do
       pending if Fog.mocking? && !mocks_implemented
       collection.all
@@ -38,7 +43,10 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
   tests('failure') do
 
     if !Fog.mocking? || mocks_implemented
-      @identity = @identity.to_s.gsub(/\w/, 'a')
+      @identity = @identity.to_s
+      @identity = @identity.gsub(/[a-zA-Z]/) { Fog::Mock.random_letters(1) }
+      @identity = @identity.gsub(/\d/)       { Fog::Mock.random_numbers(1) }
+      @identity
     end
 
     tests("#get('#{@identity}')").returns(nil) do

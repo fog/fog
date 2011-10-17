@@ -5,6 +5,18 @@ title:  Press
 
 Mentions and blog posts from elsewhere in reverse chronological order by day (and alphasorted for same days).
 
+**September 13th, 2011**
+
+* [Libvirt support for fog](http://jedi.be/blog/2011/09/13/libvirt-fog-provider/)
+
+**August 1st, 2011**
+
+* [Using EBS Snapshots with Fog](http://www.mediamolecule.com/lab/article/using_ebs_snapshots_with_fog/)
+
+**June 21st, 2011**
+
+* [Mocking fog When Using It With Carrierwave](http://www.engineyard.com/blog/2011/mocking-fog-when-using-it-with-carrierwave/)
+
 **June 14th, 2011**
 
 * [Backing Up Your Data With Fog](http://larrywright.me/blog/articles/221-backing-up-your-data-with-fog)

@@ -13,7 +13,7 @@ describe 'Ecloud' do
     describe "with a service that exists" do
       it "should return something when indexed with a configured service" do
         pending unless Ecloud.available?
-        Ecloud[:compute].should_not be_nil
+        Fog::Compute[:ecloud].should_not be_nil
       end
     end
 

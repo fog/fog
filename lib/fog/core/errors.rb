@@ -16,6 +16,8 @@ module Fog
 
     class NotFound < Fog::Errors::Error; end
 
+    class LoadError < LoadError; end
+
     # @return [String] The error message that will be raised, if credentials cannot be found
     def self.missing_credentials
       missing_credentials_message = <<-YML
@@ -46,6 +48,10 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :new_servers_username:
   :public_key_path:
   :private_key_path:
+  :openstack_api_key:
+  :openstack_username:
+  :openstack_auth_url:
+  :openstack_tenant:
   :rackspace_api_key:
   :rackspace_username:
   :rackspace_servicenet:
@@ -63,12 +69,19 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :dnsimple_password:
   :dnsmadeeasy_api_key:
   :dnsmadeeasy_secret_key:
+  :vsphere_server:
+  :vsphere_username:
+  :vsphere_password:
+  :libvirt_username:
+  :libvirt_password:
+  :libvirt_uri:
+  :libvirt_ip_command:
 #
 # End of Fog Credentials File
 #######################################################
 
     YML
-    raise(LoadError.new(missing_credentials_message))
+    raise(Fog::Errors::LoadError.new(missing_credentials_message))
   end
 
   end

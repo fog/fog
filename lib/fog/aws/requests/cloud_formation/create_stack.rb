@@ -36,7 +36,7 @@ module Fog
           end
 
           if options['NotificationARNs']
-            params.merge!(AWS.indexed_param("NotificationARNs.member", [*options['NotificationARNs']]))
+            params.merge!(Fog::AWS.indexed_param("NotificationARNs.member", [*options['NotificationARNs']]))
           end
 
           if options['Parameters']

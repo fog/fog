@@ -4,7 +4,7 @@ class GoGrid < Fog::Bin
     def class_for(key)
       case key
       when :compute
-        Fog::GoGrid::Compute
+        Fog::Compute::GoGrid
       else 
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
@@ -14,6 +14,7 @@ class GoGrid < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
+          Fog::Logger.warning("GoGrid[:compute] is deprecated, use Compute[:gogrid] instead")
           Fog::Compute.new(:provider => 'GoGrid')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

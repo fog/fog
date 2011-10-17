@@ -4,9 +4,9 @@ class Slicehost < Fog::Bin
     def class_for(key)
       case key
       when :compute
-        Fog::Slicehost::Compute
+        Fog::Compute::Slicehost
       when :dns
-        Fog::Slicehost::DNS
+        Fog::DNS::Slicehost
       else 
         raise ArgumentError, "Unrecognized service: #{key}"
       end
@@ -16,8 +16,10 @@ class Slicehost < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
+          Fog::Logger.warning("Slicehost[:compute] is deprecated, use Compute[:slicehost] instead")
           Fog::Compute.new(:provider => 'Slicehost')
         when :dns
+          Fog::Logger.warning("Slicehost[:dns] is deprecated, use Storage[:slicehost] instead")
           Fog::DNS.new(:provider => 'Slicehost')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

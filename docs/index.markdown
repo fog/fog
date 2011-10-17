@@ -17,10 +17,10 @@ With a rapidly expanding community and codebase the advantages of fog just keep 
 
 Now type 'fog' to try stuff, confident that fog will let you know what to do. Here is an example of wading through server creation for Amazon Elastic Compute Cloud:
 
-    >> server = AWS.servers.create
+    >> server = Compute[:aws].servers.create
     ArgumentError: image_id is required for this operation
 
-    >> server = AWS.servers.create(:image_id => 'ami-5ee70037')
+    >> server = Compute[:aws].servers.create(:image_id => 'ami-5ee70037')
     <Fog::AWS::EC2::Server [...]>
 
     >> server.destroy # cleanup after yourself or regret it, trust me

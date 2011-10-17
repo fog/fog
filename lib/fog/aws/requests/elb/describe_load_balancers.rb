@@ -43,13 +43,42 @@ module Fog
         #           * 'GroupName'<~String> - Name of the source security group to use with inbound security group rules
         #           * 'OwnerAlias'<~String> - Owner of the source security group
         def describe_load_balancers(lb_name = [])
-          params = AWS.indexed_param('LoadBalancerNames.member', [*lb_name])
+          params = Fog::AWS.indexed_param('LoadBalancerNames.member', [*lb_name])
           request({
             'Action'  => 'DescribeLoadBalancers',
             :parser   => Fog::Parsers::AWS::ELB::DescribeLoadBalancers.new
           }.merge!(params))
         end
 
+      end
+
+      class Mock
+        def describe_load_balancers(lb_names = [])
+          lb_names = [*lb_names]
+          load_balancers = if lb_names.any?
+            lb_names.map do |lb_name|
+              lb = self.data[:load_balancers].find { |name, data| name == lb_name }
+              raise Fog::AWS::ELB::NotFound unless lb
+              lb[1]
+            end.compact
+          else
+            self.data[:load_balancers].values
+          end
+
+          response = Excon::Response.new
+          response.status = 200
+
+          response.body = {
+            'ResponseMetadata' => {
+              'RequestId' => Fog::AWS::Mock.request_id
+            },
+            'DescribeLoadBalancersResult' => {
+              'LoadBalancerDescriptions' => load_balancers
+            }
+          }
+
+          response
+        end
       end
     end
   end

@@ -1,11 +1,11 @@
 require 'ecloud/spec_helper'
 
 if Fog.mocking?
-  describe "Fog::Ecloud::Compute::Network", :type => :mock_tmrk_ecloud_model do
+  describe "Fog::Compute::Ecloud::Network", :type => :mock_tmrk_ecloud_model do
     subject { @vcloud }
 
     describe :class do
-      subject { Fog::Ecloud::Compute::Network }
+      subject { Fog::Compute::Ecloud::Network }
 
       it { should have_identity(:href) }
       it { should have_only_these_attributes([:href, :name, :features, :links, :type, :gateway, :broadcast, :address, :rnat, :extension_href, :network_type, :vlan, :friendly_name]) }
@@ -13,7 +13,7 @@ if Fog.mocking?
 
     context "with no uri" do
 
-      subject { Fog::Ecloud::Compute::Network.new() }
+      subject { Fog::Compute::Ecloud::Network.new() }
 
       it { should have_all_attributes_be_nil }
     end
@@ -21,7 +21,7 @@ if Fog.mocking?
     context "as a collection member" do
       subject { @vcloud.vdcs[0].networks[0].reload }
 
-      it { should be_an_instance_of(Fog::Ecloud::Compute::Network) }
+      it { should be_an_instance_of(Fog::Compute::Ecloud::Network) }
 
       its(:href)                  { should == @mock_network.href }
       its(:identity)              { should == @mock_network.href }
