@@ -11,6 +11,7 @@ module Fog
 
         attribute :description, :aliases => :Description
         attribute :configuration, :aliases => :Configuration
+        attribute :provider_info, :aliases => :ProviderInfo
 
         attribute :links, :aliases => :Link, :type => :array
 

@@ -127,6 +127,13 @@
             <MACAddress>00:50:56:01:02:03</MACAddress>
             <IpAddressAllocationMode>POOL</IpAddressAllocationMode>
         </NetworkConnection>
+        <NetworkConnection network="Network2">
+            <NetworkConnectionIndex>1</NetworkConnectionIndex>
+            <IpAddress>192.168.3.102</IpAddress>
+            <IsConnected>true</IsConnected>
+            <MACAddress>00:50:56:01:02:04</MACAddress>
+            <IpAddressAllocationMode>POOL</IpAddressAllocationMode>
+        </NetworkConnection>
         <Link rel="edit" type="application/vnd.vmware.vcloud.networkConnectionSection+xml" href="https://vcloud.example.com/api/v1.0/vApp/vm-2/networkConnectionSection/"/>
     </NetworkConnectionSection>
     <GuestCustomizationSection type="application/vnd.vmware.vcloud.guestCustomizationSection+xml" href="https://vcloud.example.com/api/v1.0/vApp/vm-2/guestCustomizationSection/" ovf:required="false">

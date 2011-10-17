@@ -38,6 +38,9 @@ Shindo.tests("Vcloud::Compute | server", ['vcloud']) do
   tests("#on?").returns(false) { instance.on? }
   tests("#off?").returns(true) { instance.off? }
 
+  tests("#network_connections") do
+    tests("#size").returns(2) { instance.network_connections.size }
+  end
 
   #old tests
   tests("#server.new('#{Vcloud::Compute::TestSupport::template}')").returns(true) do
