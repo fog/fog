@@ -172,7 +172,7 @@ module Fog
       end
 
       def recognized
-        @recognized ||= []
+        @recognized ||= [:connection_options]
       end
 
       def validate_options(options)
