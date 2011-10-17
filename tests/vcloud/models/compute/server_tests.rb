@@ -26,8 +26,10 @@ Shindo.tests("Vcloud::Compute | server", ['vcloud']) do
 
   tests("#disks") do
     tests("#size").returns(2){ instance.disks.size }
-    tests("#size").returns(0){ instance.disks.first[:number] }
+    tests("#number").returns(0){ instance.disks.first[:number] }
     tests("#size").returns(1600){ instance.disks.first[:size] }
+    tests("#ElementName").returns("Hard disk 1"){ instance.disks.first[:disk_data][:'rasd:ElementName'] }
+    tests("#InstanceID").returns("2000"){ instance.disks.first[:disk_data][:'rasd:InstanceID'] }
   end
 
   tests("#vapp_scoped_local_id").returns("vmware_RHEL5-U5-64-small_v02") { instance.vapp_scoped_local_id }
