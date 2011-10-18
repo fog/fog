@@ -10,7 +10,7 @@ module Fog
         #
         def delete_server(server_id)
           request(
-            :expects => 202,
+            :expects => 204,
             :method => 'DELETE',
             :path   => "servers/#{server_id}"
           )
@@ -29,7 +29,7 @@ module Fog
             else
               self.data[:last_modified][:servers].delete(server_id)
               self.data[:servers].delete(server_id)
-              response.status = 202
+              response.status = 204
             end
             response
           else
