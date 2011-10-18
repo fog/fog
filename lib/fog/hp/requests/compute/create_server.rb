@@ -36,8 +36,8 @@ module Fog
         def create_server(flavor_id, image_id, options = {})
           data = {
             'server' => {
-              'flavorId'  => flavor_id,
-              'imageId'   => image_id
+              'flavorRef'  => flavor_id,
+              'imageRef'   => image_id
             }
           }
           if options['metadata']
@@ -57,7 +57,7 @@ module Fog
           end
           request(
             :body     => MultiJson.encode(data),
-            :expects  => 200,
+            :expects  => 202,
             :method   => 'POST',
             :path     => 'servers.json'
           )
@@ -69,7 +69,7 @@ module Fog
 
         def create_server(flavor_id, image_id, options = {})
           response = Excon::Response.new
-          response.status = 200
+          response.status = 202
 
           data = {
             'addresses' => { 'private' => ['0.0.0.0'], 'public' => ['0.0.0.0'] },
