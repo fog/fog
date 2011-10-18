@@ -4,7 +4,7 @@ module VirtualBox # deviates from other bin stuff to accomodate gem
     def class_for(key)
       case key
       when :compute
-        Fog::VirtualBox::Compute
+        Fog::Compute::VirtualBox
       else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
@@ -14,6 +14,7 @@ module VirtualBox # deviates from other bin stuff to accomodate gem
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
+          Fog::Logger.warning("VirtualBox[:compute] is deprecated, use Compute[:virtualbox] instead")
           Fog::Compute.new(:provider => 'VirtualBox')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
@@ -23,7 +24,11 @@ module VirtualBox # deviates from other bin stuff to accomodate gem
     end
 
     def available?
-      availability = !Gem.source_index.find_name('virtualbox').empty?
+      availability = if Gem::Specification.respond_to?(:find_all_by_name)
+        !Gem::Specification.find_all_by_name('virtualbox').empty? # newest rubygems
+      else
+        !Gem.source_index.find_name('virtualbox').empty? # legacy
+      end
       if availability
         for service in services
           for collection in self.class_for(service).collections

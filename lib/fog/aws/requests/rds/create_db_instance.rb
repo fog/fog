@@ -32,7 +32,7 @@ module Fog
         def create_db_instance(db_name, options={})
           
           if security_groups = options.delete('DBSecurityGroups')
-            options.merge!(AWS.indexed_param('DBSecurityGroups.member.%d', [*security_groups]))
+            options.merge!(Fog::AWS.indexed_param('DBSecurityGroups.member.%d', [*security_groups]))
           end
     
           request({

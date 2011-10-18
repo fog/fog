@@ -33,10 +33,10 @@ module Fog
             listener_ssl_certificate_id.push(listener['SSLCertificateId'])
           end
 
-          params.merge!(AWS.indexed_param('Listeners.member.%d.Protocol', listener_protocol))
-          params.merge!(AWS.indexed_param('Listeners.member.%d.LoadBalancerPort', listener_lb_port))
-          params.merge!(AWS.indexed_param('Listeners.member.%d.InstancePort', listener_instance_port))
-          params.merge!(AWS.indexed_param('Listeners.member.%d.SSLCertificateId', listener_ssl_certificate_id))
+          params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.Protocol', listener_protocol))
+          params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.LoadBalancerPort', listener_lb_port))
+          params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.InstancePort', listener_instance_port))
+          params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.SSLCertificateId', listener_ssl_certificate_id))
 
           request({
             'Action'           => 'CreateLoadBalancerListeners',
@@ -45,6 +45,34 @@ module Fog
           }.merge!(params))
         end
 
+      end
+
+      class Mock
+        def create_load_balancer_listeners(lb_name, listeners)
+          if load_balancer = self.data[:load_balancers][lb_name]
+            response = Excon::Response.new
+
+            certificate_ids = Fog::AWS::IAM.new.list_server_certificates.body['Certificates'].collect { |c| c['Arn'] }
+
+            listeners.each do |listener|
+              if listener['SSLCertificateId'] and !certificate_ids.include? listener['SSLCertificateId']
+                raise Fog::AWS::IAM::NotFound.new('CertificateNotFound')
+              end
+              load_balancer['ListenerDescriptions'] << {'Listener' => listener, 'PolicyNames' => []}
+            end
+
+            response.status = 200
+            response.body = {
+              'ResponseMetadata' => {
+                'RequestId' => Fog::AWS::Mock.request_id
+              }
+            }
+
+            response
+          else
+            raise Fog::AWS::ELB::NotFound
+          end
+        end
       end
     end
   end

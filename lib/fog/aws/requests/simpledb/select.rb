@@ -9,7 +9,9 @@ module Fog
         #
         # ==== Parameters
         # * select_expression<~String> - Expression to query domain with.
-        # * next_token<~String> - Offset token to start list, defaults to nil.
+        # * options<~Hash>:
+        #   * ConsistentRead<~Boolean> - When set to true, ensures most recent data is returned. Defaults to false.
+        #   * NextToken<~String> - Offset token to start list, defaults to nil.
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -19,10 +21,16 @@ module Fog
         #     * 'Items'<~Hash> - list of attribute name/values for the items formatted as 
         #       { 'item_name' => { 'attribute_name' => ['attribute_value'] }}
         #     * 'NextToken'<~String> - offset to start with if there are are more domains to list
-        def select(select_expression, next_token = nil)
+        def select(select_expression, options = {})
+          if options.is_a?(String)
+            Fog::Logger.warning("get_attributes with string next_token param is deprecated, use 'AttributeName' => attributes) instead [light_black](#{caller.first})[/]")
+            options = {'NextToken' => options}
+          end
+          options['NextToken'] ||= nil
           request(
             'Action'            => 'Select',
-            'NextToken'         => next_token,
+            'ConsistentRead'    => !!options['ConsistentRead'],
+            'NextToken'         => options['NextToken'],
             'SelectExpression'  => select_expression,
             :idempotent         => true,
             :parser             => Fog::Parsers::AWS::SimpleDB::Select.new(@nil_string)

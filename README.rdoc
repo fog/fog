@@ -12,10 +12,10 @@ fog is the Ruby cloud computing library, top to bottom:
 
 Now type 'fog' to try stuff, confident that fog will let you know what to do. Here is an example of wading through server creation for Amazon Elastic Compute Cloud:
 
-  >> server = AWS.servers.create
+  >> server = Compute[:aws].servers.create
   ArgumentError: image_id is required for this operation
 
-  >> server = AWS.servers.create(:image_id => 'ami-5ee70037')
+  >> server = Compute[:aws].servers.create(:image_id => 'ami-5ee70037')
   <Fog::AWS::EC2::Server [...]>
 
   >> server.destroy # cleanup after yourself or regret it, trust me
@@ -26,7 +26,7 @@ Now type 'fog' to try stuff, confident that fog will let you know what to do. He
 A high level interface to each cloud is provided through collections, such as `images` and `servers`.
 You can see a list of available collections by calling `collections` on the connection object. You can try it out using the `fog` command:
 
-  >> AWS.collections
+  >> Compute[:aws].collections
   [:addresses, :directories, ..., :volumes, :zones]
 
 Some collections are available across multiple providers:
@@ -84,7 +84,7 @@ You can see a list of available requests by calling #requests on the connection 
 For instance, ec2 provides methods related to reserved instances that don't have any models (yet). Here is how you can lookup your reserved instances:
 
   $ fog
-  >> AWS[:ec2].describe_reserved_instances
+  >> Compute[:aws].describe_reserved_instances
   #<Excon::Response [...]>
 
 It will return an {excon}[http://github.com/geemus/excon] response, which has `body`, `headers` and `status`. Both return nice hashes.
@@ -117,7 +117,7 @@ Wonder how you can get a lovely fog shirt? Look no further!
 
 * Blue shirts go to people who have contributed indirectly, great examples are writing blog posts or giving lightning talks.
 * Grey shirts and a follow from @fog go to people who have made it on to the {contributors list}[https://github.com/geemus/fog/contributors] by submitting code.
-* Black shirts go to people who have made it on to the {collaborators list}[https://github.com/api/v2/json/repos/show/geemus/fog/collaborators] by coercing geemus into adding them (geemus is currently the only member of this list).
+* Black shirts go to people who have made it on to the {collaborators list}[https://github.com/api/v2/json/repos/show/geemus/fog/collaborators] by coercing geemus into adding them.
 
 == Additional Resources
 

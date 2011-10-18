@@ -20,7 +20,7 @@ module Fog
         #       * 'Instances'<~Array> - array of hashes describing instances currently enabled
         #         * 'InstanceId'<~String>
         def deregister_instances_from_load_balancer(instance_ids, lb_name)
-          params = AWS.indexed_param('Instances.member.%d.InstanceId', [*instance_ids])
+          params = Fog::AWS.indexed_param('Instances.member.%d.InstanceId', [*instance_ids])
           request({
             'Action'           => 'DeregisterInstancesFromLoadBalancer',
             'LoadBalancerName' => lb_name,
@@ -33,15 +33,31 @@ module Fog
       end
 
       class Mock
-
         def deregister_instances_from_load_balancer(instance_ids, lb_name)
-          Fog::Mock.not_implemented
+          raise Fog::AWS::ELB::NotFound unless load_balancer = self.data[:load_balancers][lb_name]
+          instance_ids = [*instance_ids]
+          instance_ids.each do |instance|
+            raise Fog::AWS::ELB::InvalidInstance unless Compute[:aws].servers.get(instance)
+          end
+
+          response = Excon::Response.new
+          response.status = 200
+
+          load_balancer['Instances'].delete_if { |i| instance_ids.include? i['InstanceId'] }
+
+          response.body = {
+            'ResponseMetadata' => {
+              'RequestId' => Fog::AWS::Mock.request_id
+            },
+            'DeregisterInstancesFromLoadBalancerResult' => {
+              'Instances' => load_balancer['Instances'].dup
+            }
+          }
+
+          response
         end
-
         alias :deregister_instances :deregister_instances_from_load_balancer
-
       end
-
     end
   end
 end

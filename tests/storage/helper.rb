@@ -1,15 +1,18 @@
 def storage_providers
   {
-    AWS       => {
+    :aws        => {
       :mocked => true
     },
-    Google    => {
+    :google     => {
       :mocked => true
     },
-    Local     => {
+    :local      => {
       :mocked => false
     },
-    Rackspace => {
+    :ninefold   => {
+      :mocked => false
+    },
+    :rackspace  => {
       :mocked => false
     }
   }

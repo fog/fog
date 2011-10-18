@@ -6,14 +6,14 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'hpfog'
-  s.version           = '0.0.9'  # fog base 0.8.2
-  s.date              = '2011-09-21'
+  s.version           = '0.0.10'  # fog base 1.0.0
+  s.date              = '2011-10-17'
   #s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
   ## as you like.
   s.summary     = "brings clouds to you"
-  s.description = "The Ruby cloud services library."
+  s.description = "The Ruby cloud services library. Supports all major cloud providers including AWS, Rackspace, Linode, Blue Box, StormOnDemand, and many others. Full support for most AWS services including EC2, S3, CloudWatch, SimpleDB, ELB, and RDS."
 
   ## List the primary authors. If there are a bunch of authors, it's probably
   ## better to set the email to an email list or something. If you don't have
@@ -42,12 +42,13 @@ Gem::Specification.new do |s|
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
   s.add_dependency('builder')
-  s.add_dependency('excon', '~>0.6.1')
-  s.add_dependency('formatador', '>=0.1.3')
-  s.add_dependency('json')
+  s.add_dependency('excon', '~>0.7.3')
+  s.add_dependency('formatador', '~>0.2.0')
+  s.add_dependency('multi_json', '~>1.0.3')
   s.add_dependency('mime-types')
-  s.add_dependency('net-ssh', '>=2.1.3')
-  s.add_dependency('nokogiri', '>=1.4.4')
+  s.add_dependency('net-scp', '~>1.0.4')
+  s.add_dependency('net-ssh', '~>2.1.4')
+  s.add_dependency('nokogiri', '~>1.5.0')
   s.add_dependency('ruby-hmac')
 
   ## List your development dependencies here. Development dependencies are
@@ -55,9 +56,10 @@ Gem::Specification.new do |s|
   s.add_development_dependency('jekyll')
   s.add_development_dependency('rake')
   s.add_development_dependency('rdoc')
-  s.add_development_dependency('rspec', '1.3.1')
-  s.add_development_dependency('shindo', '0.3.4')
-  s.add_development_dependency('virtualbox', '0.8.3')
+  s.add_development_dependency('rspec', '~>1.3.1')
+  s.add_development_dependency('shindo', '~>0.3.4')
+  s.add_development_dependency('virtualbox', '~>0.9.1')
+#  s.add_development_dependency('ruby-libvirt','~>0.4.0')
 
   s.files = `git ls-files`.split("\n")
   s.test_files = `git ls-files -- {spec,tests}/*`.split("\n")

@@ -1,0 +1,57 @@
+<domain type='<%= domain_type %>'>
+  <name><%= name %></name>
+  <memory><%= memory_size %></memory>
+  <vcpu><%= cpus %></vcpu>
+  <os>
+    <type arch='<%= arch %>'><%= os_type %></type>
+    <boot dev='hd'/>
+  <% if !iso_file.nil? %>
+
+    <boot dev='cdrom'/>
+  <% end %>
+  </os>
+  <features>
+    <acpi/>
+    <apic/>
+    <pae/>
+  </features>
+  <clock offset='utc'/>
+  <devices>
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='<%= volume_format_type %>'/>
+      <source file='<%= "#{volume_path}" %>'/>
+      <target dev='vda' bus='virtio'/>
+    </disk>
+  <% if !iso_file.nil? %>
+    <disk type='file' device='cdrom'>
+      <driver name='qemu' type='raw'/>
+      <source file='<%= "#{iso_dir}/#{iso_file}" %>'/>
+      <target dev='hdc' bus='ide'/>
+      <readonly/>
+      <address type='drive' controller='0' bus='1' unit='0'/>
+    </disk>
+  <% end %>
+    <% if network_interface_type=="bridge" %>
+        <interface type="bridge">
+        <source bridge='<%= network_bridge_name %>'/>
+        <model type='virtio'/>
+      <% end %>
+    <% if network_interface_type=="nat" %>
+        <interface type='network'>
+      <source network='<%= network_nat_network %>'/>
+      <model type='virtio'/>
+    <% end %>
+    </interface>
+    <serial type='pty'>
+      <target port='0'/>
+    </serial>
+    <console type='pty'>
+      <target port='0'/>
+    </console>
+    <input type='mouse' bus='ps2'/>
+    <graphics type='vnc' port='-1' autoport='yes' keymap='en-us'/>
+    <video>
+      <model type='cirrus' vram='9216' heads='1'/>
+    </video>
+  </devices>
+</domain>

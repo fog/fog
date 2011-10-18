@@ -227,8 +227,8 @@ def setup_generic_mock_data
 end
 
 def setup_ecloud_mock_data
-  @base_url = Fog::Ecloud::Compute::Mock.base_url
-  @mock_data = Fog::Ecloud::Compute::Mock.data
+  @base_url = Fog::Compute::Ecloud::Mock.base_url
+  @mock_data = Fog::Compute::Ecloud::Mock.data
   setup_generic_mock_data
   @mock_vdc_service_collection = @mock_vdc.internet_service_collection
   @mock_public_ip_collection = @mock_vdc.public_ip_collection
@@ -246,29 +246,29 @@ def setup_ecloud_mock_data
 end
 
 def setup_vcloud_mock_data
-  @base_url = Fog::Ecloud::Compute::Mock.base_url
-  @mock_data = Fog::Ecloud::Compute::Mock.data
+  @base_url = Fog::Compute::Ecloud::Mock.base_url
+  @mock_data = Fog::Compute::Ecloud::Mock.data
   setup_generic_mock_data
 end
 
 Spec::Runner.configure do |config|
   config.after(:all) do
-    Fog::Ecloud::Compute::Mock.reset
+    Fog::Compute::Ecloud::Mock.reset
   end
 
   config.before(:each, :type => :vcloud_request) do
-    @vcloud = Fog::Ecloud::Compute.new(Fog.credentials[:vcloud][:ecloud])
+    @vcloud = Fog::Compute::Ecloud.new(Fog.credentials[:vcloud][:ecloud])
   end
 
   config.before(:each, :type => :mock_tmrk_ecloud_request) do
-    Fog::Ecloud::Compute::Mock.reset
+    Fog::Compute::Ecloud::Mock.reset
     setup_ecloud_mock_data
-    @vcloud = Fog::Ecloud::Compute.new(:ecloud_username => "foo", :ecloud_password => "bar", :ecloud_versions_uri => "http://fakey.com/api/versions")
+    @vcloud = Fog::Compute::Ecloud.new(:ecloud_username => "foo", :ecloud_password => "bar", :ecloud_versions_uri => "http://fakey.com/api/versions")
   end
   config.before(:each, :type => :mock_tmrk_ecloud_model) do
-    Fog::Ecloud::Compute::Mock.reset
+    Fog::Compute::Ecloud::Mock.reset
     setup_ecloud_mock_data
-    @vcloud = Fog::Ecloud::Compute.new(:ecloud_username => "foo", :ecloud_password => "bar", :ecloud_versions_uri => "http://fakey.com/api/versions")
+    @vcloud = Fog::Compute::Ecloud.new(:ecloud_username => "foo", :ecloud_password => "bar", :ecloud_versions_uri => "http://fakey.com/api/versions")
   end
 end
 

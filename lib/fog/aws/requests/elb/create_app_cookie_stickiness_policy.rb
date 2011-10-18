@@ -28,6 +28,27 @@ module Fog
         end
 
       end
+
+      class Mock
+        def create_app_cookie_stickiness_policy(lb_name, policy_name, cookie_name)
+          if load_balancer = self.data[:load_balancers][lb_name]
+            response = Excon::Response.new
+            response.status = 200
+
+            load_balancer['Policies']['AppCookieStickinessPolicies'] << { 'CookieName' => cookie_name, 'PolicyName' => policy_name }
+
+            response.body = {
+              'ResponseMetadata' => {
+                'RequestId' => Fog::AWS::Mock.request_id
+              }
+            }
+
+            response
+          else
+            raise Fog::AWS::ELB::NotFound
+          end
+        end
+      end
     end
   end
 end

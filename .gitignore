@@ -4,9 +4,10 @@
 *.sw?
 .bundle
 .DS_Store
-docs/_site/*
 coverage
 doc/*
+docs/_site/*
+docs/about/supported_services.markdown
 Gemfile.lock
 rdoc
 pkg

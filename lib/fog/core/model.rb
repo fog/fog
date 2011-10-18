@@ -37,12 +37,12 @@ module Fog
       self
     end
 
-    def to_json
-      require 'json'
-      attributes.to_json
+    def to_json(options = {})
+      require 'multi_json'
+      MultiJson.encode(attributes)
     end
 
-    def wait_for(timeout=600, interval=1, &block)
+    def wait_for(timeout=Fog.timeout, interval=1, &block)
       reload
       retries = 3
       Fog.wait_for(timeout, interval) do

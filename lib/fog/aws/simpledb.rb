@@ -1,3 +1,5 @@
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+
 module Fog
   module AWS
     class SimpleDB < Fog::Service
@@ -68,6 +70,7 @@ module Fog
 
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
+          @connection_options     = options[:connection_options] || {}
           @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)
           @nil_string = options[:nil_string]|| 'nil'
 
@@ -86,10 +89,11 @@ module Fog
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end
-          @path       = options[:path]      || '/'
-          @port       = options[:port]      || 443
-          @scheme     = options[:scheme]    || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
+          @path       = options[:path]        || '/'
+          @persistent = options[:persistent]  || false
+          @port       = options[:port]        || 443
+          @scheme     = options[:scheme]      || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         private
@@ -121,7 +125,7 @@ module Fog
         end
 
         def encode_attribute_names(attributes)
-          AWS.indexed_param('AttributeName', attributes.map {|attribute| attributes.to_s})
+          Fog::AWS.indexed_param('AttributeName', attributes.map {|attribute| attributes.to_s})
         end
 
         def encode_batch_attributes(items, replace_attributes = Hash.new([]))
@@ -155,7 +159,7 @@ module Fog
           idempotent = params.delete(:idempotent)
           parser = params.delete(:parser)
 
-          body = AWS.signed_params(
+          body = Fog::AWS.signed_params(
             params,
             {
               :aws_access_key_id  => @aws_access_key_id,

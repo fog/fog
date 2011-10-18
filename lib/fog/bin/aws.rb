@@ -3,14 +3,20 @@ class AWS < Fog::Bin
 
     def class_for(key)
       case key
+      when :auto_scaling
+        Fog::AWS::AutoScaling
       when :cdn
-        Fog::AWS::CDN
+        Fog::CDN::AWS
       when :cloud_formation
         Fog::AWS::CloudFormation
+      when :cloud_watch
+        Fog::AWS::CloudWatch
       when :compute
-        Fog::AWS::Compute
+        Fog::Compute::AWS
       when :dns
-        Fog::AWS::DNS
+        Fog::DNS::AWS
+      when :elasticache
+        Fog::AWS::Elasticache
       when :elb
         Fog::AWS::ELB
       when :iam
@@ -19,10 +25,14 @@ class AWS < Fog::Bin
         Fog::AWS::SimpleDB
       when :ses
         Fog::AWS::SES
+      when :sqs
+        Fog::AWS::SQS
       when :eu_storage, :storage
-        Fog::AWS::Storage
+        Fog::Storage::AWS
       when :rds
         Fog::AWS::RDS
+      when :sns
+        Fog::AWS::SNS
       else
         # @todo Replace most instances of ArgumentError with NotImplementedError
         # @todo For a list of widely supported Exceptions, see:
@@ -34,14 +44,23 @@ class AWS < Fog::Bin
     def [](service)
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
+        when :auto_scaling
+          Fog::AWS::AutoScaling.new
         when :cdn
+          Fog::Logger.warning("AWS[:cdn] is deprecated, use CDN[:aws] instead")
           Fog::CDN.new(:provider => 'AWS')
         when :cloud_formation
           Fog::AWS::CloudFormation.new
+        when :cloud_watch
+          Fog::AWS::CloudWatch.new
         when :compute
+          Fog::Logger.warning("AWS[:compute] is deprecated, use Compute[:aws] instead")
           Fog::Compute.new(:provider => 'AWS')
         when :dns
+          Fog::Logger.warning("AWS[:dns] is deprecated, use DNS[:aws] instead")
           Fog::DNS.new(:provider => 'AWS')
+        when :elasticache
+          Fog::AWS::Elasticache.new
         when :elb
           Fog::AWS::ELB.new
         when :iam
@@ -54,8 +73,13 @@ class AWS < Fog::Bin
           Fog::AWS::SimpleDB.new
         when :ses
           Fog::AWS::SES.new
+        when :sqs
+          Fog::AWS::SQS.new
         when :storage
+          Fog::Logger.warning("AWS[:storage] is deprecated, use Storage[:aws] instead")
           Fog::Storage.new(:provider => 'AWS')
+        when :sns
+          Fog::AWS::SNS.new
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end

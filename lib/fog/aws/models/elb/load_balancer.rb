@@ -14,11 +14,14 @@ module Fog
         attribute :source_group,          :aliases => 'SourceSecurityGroup'
 
         def initialize(attributes={})
-          attributes[:availability_zones] ||= %w(us-east-1a us-east-1b us-east-1c us-east-1d)
-          attributes['ListenerDescriptions'] ||= [{
-            'Listener' => {'LoadBalancerPort' => 80, 'InstancePort' => 80, 'Protocol' => 'http'},
-            'PolicyNames' => []
-          }]
+          attributes[:availability_zones] ||= attributes['AvailabilityZones'] || %w(us-east-1a us-east-1b us-east-1c us-east-1d)
+          unless attributes['ListenerDescriptions']
+            new_listener = Fog::AWS::ELB::Listener.new
+            attributes['ListenerDescriptions'] = [{
+              'Listener' => new_listener.to_params,
+              'PolicyNames' => new_listener.policy_names
+            }]
+          end
           attributes['Policies'] ||= {'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => []}
           super
         end

@@ -1,3 +1,5 @@
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+
 module Fog
   module AWS
     class RDS < Fog::Service
@@ -15,6 +17,8 @@ module Fog
       request :delete_db_instance
       request :reboot_db_instance
       request :create_db_instance_read_replica
+      request :describe_db_engine_versions
+      request :describe_db_reserved_instances
 
       request :describe_db_snapshots
       request :create_db_snapshot
@@ -82,6 +86,7 @@ module Fog
         def initialize(options={})
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
+          @connection_options     = options[:connection_options] || {}
           @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
 
           options[:region] ||= 'us-east-1'
@@ -99,10 +104,11 @@ module Fog
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end
-          @path       = options[:path]      || '/'
-          @port       = options[:port]      || 443
-          @scheme     = options[:scheme]    || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
+          @path       = options[:path]        || '/'
+          @persistent = options[:persistent]  || false
+          @port       = options[:port]        || 443
+          @scheme     = options[:scheme]      || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload
@@ -115,7 +121,7 @@ module Fog
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
-          body = AWS.signed_params(
+          body = Fog::AWS.signed_params(
             params,
             {
               :aws_access_key_id  => @aws_access_key_id,
@@ -123,7 +129,7 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2010-07-28'
+              :version            => '2011-04-01' #'2010-07-28'
             }
           )
 
