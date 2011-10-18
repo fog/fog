@@ -13,7 +13,7 @@ module Fog
         def update_server(server_id, options = {})
           request(
             :body     => MultiJson.encode({ 'server' => options }),
-            :expects  => 204,
+            :expects  => 200,
             :method   => 'PUT',
             :path     => "servers/#{server_id}.json"
           )
@@ -32,7 +32,7 @@ module Fog
             if options['name']
               server['name'] = options['name']
             end
-            response.status = 204
+            response.status = 200
             response
           else
             raise Fog::Compute::HP::NotFound
