@@ -170,6 +170,8 @@ module Fog
           merge_attributes(data.body['instancesSet'].first)
 
           if self.tags
+            # expect eventual consistency
+            Fog.wait_for { self.reload rescue nil }
             for key, value in self.tags
               connection.tags.create(
                 :key          => key,
