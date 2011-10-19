@@ -53,6 +53,15 @@ module Fog
         def initialize(attributes)
           self.filters ||= {}
           super
+          self.each do |server|
+            server.tags.each do |key, value|
+              tag = key.downcase.gsub(/\W/, '').chomp('s')
+              server.instance_variable_set("@#{tag}", value)
+              Server.instance_eval do
+                attr_reader tag.to_sym
+              end
+            end
+          end
         end
 
         def all(filters = self.filters)
