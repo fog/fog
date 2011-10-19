@@ -4,10 +4,14 @@ module Fog
     @providers ||= []
   end
 
+  def self.providers=(new_providers)
+    @providers = new_providers
+  end
+
   module Provider
 
     def self.extended(base)
-      Fog.providers << base.to_s.split('::').last
+      Fog.providers |= [base.to_s.split('::').last]
     end
 
     def [](service_key)
