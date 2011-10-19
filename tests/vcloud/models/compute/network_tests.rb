@@ -37,7 +37,9 @@ Shindo.tests("Vcloud::Compute | network", ['vcloud']) do
       end
     end
     
-    tests("features")
+    tests("#parent_network") do
+      tests("returned network name").returns("ParentNetwork1"){ p = instance.parent_network; p.reload; p.name }
+    end
   end
 
   tests("an external network") do
@@ -56,5 +58,7 @@ Shindo.tests("Vcloud::Compute | network", ['vcloud']) do
       tests("dns").returns("172.0.0.2") { instance.configuration[:IpScope][:Dns1]}
       tests("allocated addresses").returns("172.0.0.144") { instance.configuration[:IpScope][:AllocatedIpAddresses][:IpAddress].first }
     end
+
+    tests("#parent_network").returns(nil){ instance.parent_network }
   end
 end

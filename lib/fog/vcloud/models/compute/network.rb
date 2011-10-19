@@ -15,6 +15,14 @@ module Fog
 
         attribute :links, :aliases => :Link, :type => :array
 
+        def parent_network
+          return nil if configuration[:ParentNetwork].nil?
+          @parent_network ||= Fog::Vcloud::Compute::Network.new(
+            :connection => connection,
+            :collection => Fog::Vcloud::Compute::Networks.new(:connection => connection),
+            :href => configuration[:ParentNetwork][:href]
+          )
+        end
       end
     end
   end
