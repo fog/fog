@@ -34,7 +34,7 @@ module Fog
         end
 
         def modify_instance_attributes(instance_id, attributes)
-          Fog::Logger.warning("modify_instance_attributes method is deprecated, use 'modify_instance_attribute' instead")
+          Fog::Logger.deprecation("modify_instance_attributes method is deprecated, use 'modify_instance_attribute' instead")
           modify_instance_attribute(instance_id, attributes)
         end
 

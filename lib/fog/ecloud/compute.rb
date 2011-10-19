@@ -1061,7 +1061,7 @@ module Fog
         end
 
         def self.data_reset
-          Fog::Logger.warning("#{self} => #data_reset is deprecated, use #reset instead [light_black](#{caller.first})[/]")
+          Fog::Logger.deprecation("#{self} => #data_reset is deprecated, use #reset instead [light_black](#{caller.first})[/]")
           self.reset
         end
 

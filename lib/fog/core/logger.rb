@@ -2,7 +2,8 @@ module Fog
   class Logger
 
     @channels = {
-      :warning => ::STDOUT
+      :deprecation  => ::STDOUT,
+      :warning      => ::STDOUT
     }
 
     def self.[](channel)
@@ -15,6 +16,10 @@ module Fog
 
     def self.debug(message)
       self.write(:debug, "[light_black][DEBUG] #{message}[/]")
+    end
+
+    def self.deprecation(message)
+      self.write(:deprecation, "[yellow][DEPRECATION] #{message}[/]")
     end
 
     def self.warning(message)

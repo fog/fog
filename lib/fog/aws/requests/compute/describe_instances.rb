@@ -55,7 +55,7 @@ module Fog
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeInstances.html]
         def describe_instances(filters = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_instances with #{filters.class} param is deprecated, use describe_instances('instance-id' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_instances with #{filters.class} param is deprecated, use describe_instances('instance-id' => []) instead [light_black](#{caller.first})[/]")
             filters = {'instance-id' => [*filters]}
           end
           params = {}
@@ -81,7 +81,7 @@ module Fog
 
         def describe_instances(filters = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_instances with #{filters.class} param is deprecated, use describe_instances('instance-id' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_instances with #{filters.class} param is deprecated, use describe_instances('instance-id' => []) instead [light_black](#{caller.first})[/]")
             filters = {'instance-id' => [*filters]}
           end
 
