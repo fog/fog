@@ -41,6 +41,16 @@ module Fog
           true
         end
 
+        def remove(server_group_id)
+          requires :identity
+          options = {
+            :server_group => server_group_id
+          }
+          data = connection.remove_firewall_policy(identity, options)
+          merge_attributes(data)
+          true
+        end
+
         def destroy
           requires :identity
           data = connection.destroy_firewall_policy(identity)
