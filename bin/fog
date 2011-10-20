@@ -116,11 +116,12 @@ else # CLI
     connection = provider[service_symbol]
   end
 
-  collection = connection.send(collection_symbol)
   result = if method_symbol
+    collection = connection.send(collection_symbol)
     collection.send(method_symbol, *arguments)
   else
-    collection
+    # must be a request, instead of a collection, or implied #all
+    connection.send(collection_symbol, *arguments)
   end
 
   p result
