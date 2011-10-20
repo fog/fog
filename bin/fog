@@ -1,9 +1,61 @@
 #!/usr/bin/env ruby
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib', 'fog'))
-require 'irb'
-require 'yaml'
-Fog.credential = ARGV.first ? ARGV.first.to_sym : nil
+
 Fog.mock! if ENV['FOG_MOCK']
+
+# fogcli provider:service:collection:command arguments flags
+
+args = ARGV
+
+if args.first.include?(':')
+  # assume first arg with colons is a command
+  command = args.shift
+elsif args.empty? || args.all? {|arg| arg =~ /^--/}
+  # only flags implies interactive
+  unless args.include?('--interactive')
+    args << '--interactive'
+  end
+end
+
+# parse arguments and flags
+# arguments are positional
+# arguments containing = are split and added to a last argument hash
+# flags begin with '--'
+arguments, flags = [], []
+args.each do |arg|
+  case arg
+  when /^--/
+    flags << arg
+  when /=/
+    unless arguments.last.is_a?(Hash)
+      arguments << {}
+    end
+    key, value = arg.split('=')
+    arguments.last[key] = value
+  else
+    arguments << arg
+  end
+end
+
+# parse flags
+flags.each do |flag|
+  case flag
+  when '--mock'
+    Fog.mock!
+  when /=/
+    key, value = flag.split('=')
+    case key
+    when '--credential'
+      Fog.credential = value.to_sym
+    else
+      Formatador.display_line("[red]Error! Unknown flag #{key} with value #{value}.[/]")
+      return
+    end
+  end
+end
+
+
+# check for credentials and bomb out if they are missing
 if Fog.credentials.empty?
   begin
     Fog::Errors.missing_credentials
@@ -12,23 +64,11 @@ if Fog.credentials.empty?
   end
 end
 
-require 'fog/bin'
+# drop into interactive, raise error, or run command
+if flags.include?('--interactive')
 
-providers = Fog.available_providers
-providers = if providers.length > 1
-  providers[0...-1].join(', ') << ' and ' << providers[-1]
-else
-  providers.first
-end
-
-if ARGV.length > 1
-
-  require 'multi_json'
-
-  result = instance_eval(ARGV[1..-1].join(' '))
-  puts(MultiJson.encode(result))
-
-else
+  require 'fog/bin'
+  require 'irb'
 
   ARGV.clear # Avoid passing args to IRB
   IRB.setup(nil)
@@ -40,8 +80,13 @@ else
   @irb.context.workspace = IRB::WorkSpace.new(binding)
 
   Formatador.display_line('Welcome to fog interactive!')
-  Formatador.display_line(":#{Fog.credential} provides #{providers}")
-  providers = Fog.providers
+  providers = Fog.available_providers
+  providers_listing = if providers.length > 1
+    providers[0...-1].join(', ') << ' and ' << providers[-1]
+  else
+    providers.first
+  end
+  Formatador.display_line(":#{Fog.credential} provides #{providers_listing}")
 
   # FIXME: hacks until we can `include Fog` in bin
   CDN     = Fog::CDN
@@ -50,5 +95,34 @@ else
   Storage = Fog::Storage
 
   catch(:IRB_EXIT) { @irb.eval_input }
+
+elsif command.nil?
+
+  Formatador.display_line('[red]Error! Expected either a `provider:service:collection:command` or `--interactive`.[/]')
+
+else # CLI
+
+  provider_symbol, service_symbol, collection_symbol, method_symbol = command.split(':').map {|string| string.to_sym}
+
+  require "fog/#{provider_symbol}"
+
+  if [:cdn, :compute, :dns, :storage].include?(service_symbol)
+    service_string = service_symbol.to_s
+    service = Fog.const_get(service_string[0..0].upcase + service_string[1..-1])
+    connection = service[provider_symbol]
+  else
+    provider = Fog.const_get(Fog.providers[provider_symbol])
+    require "fog/#{provider_symbol}/#{service_symbol}"
+    connection = provider[service_symbol]
+  end
+
+  collection = connection.send(collection_symbol)
+  result = if method_symbol
+    collection.send(method_symbol, *arguments)
+  else
+    collection
+  end
+
+  p result
 
 end
