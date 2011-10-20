@@ -33,6 +33,7 @@ module Fog
         attribute :is_a_template
         attribute :connection_state
         attribute :mo_ref
+        attribute :path
 
         def start(options = {})
           requires :instance_uuid

@@ -42,7 +42,7 @@ module Fog
           :host => 'runtime.host',
           :tools_state => 'guest.toolsStatus',
           :tools_version => 'guest.toolsVersionStatus',
-          :is_a_template => 'config.template',
+          :is_a_template => 'config.template'
         }
 
         # Utility method to convert a VMware managed object into an attribute hash.
@@ -58,6 +58,7 @@ module Fog
             attrs['mo_ref'] = vm_mob_ref._ref
             attrs['hypervisor'] = attrs['host'].name
             attrs['mac_addresses'] = vm_mob_ref.macs
+            attrs['path'] = get_folder_path(vm_mob_ref.parent)
           end
         end
 
