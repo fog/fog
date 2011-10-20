@@ -42,7 +42,7 @@ module Fog
           :host => 'runtime.host',
           :tools_state => 'guest.toolsStatus',
           :tools_version => 'guest.toolsVersionStatus',
-          :is_a_template => 'config.template',
+          :is_a_template => 'config.template'
         }
 
         # Utility method to convert a VMware managed object into an attribute hash.
@@ -56,8 +56,22 @@ module Fog
           Hash[ATTR_TO_PROP.map { |k,v| [k.to_s, props[v]] }].tap do |attrs|
             attrs['id'] ||= vm_mob_ref._ref
             attrs['mo_ref'] = vm_mob_ref._ref
-            attrs['hypervisor'] = attrs['host'].name
-            attrs['mac_addresses'] = vm_mob_ref.macs
+
+            #I can't find how to not have this fail other than begin/rescue
+            begin
+              attrs['hypervisor'] = attrs['host'].name
+            rescue
+              attrs['hypervisor'] = nil
+            end
+
+            #I can't find how to not have this fail other than begin/rescue
+            begin
+              attrs['mac_addresses'] = vm_mob_ref.macs
+            rescue
+              attrs['mac_addresses'] = nil
+            end
+
+            attrs['path'] = get_folder_path(vm_mob_ref.parent)
           end
         end
 
