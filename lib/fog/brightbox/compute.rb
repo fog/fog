@@ -39,6 +39,7 @@ module Fog
       request :add_nodes_load_balancer
       request :add_servers_server_group
       request :apply_to_firewall_policy
+      request :remove_firewall_policy
       request :create_api_client
       request :create_cloud_ip
       request :create_firewall_policy
