@@ -7,7 +7,6 @@ module Fog
 
       requires    :hp_secret_key, :hp_account_id
       recognizes  :hp_auth_uri, :hp_servicenet, :hp_cdn_ssl, :persistent, :connection_options
-      recognizes  :provider # remove post deprecation
 
       model_path 'fog/hp/models/storage'
       model       :directory

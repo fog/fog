@@ -7,7 +7,6 @@ module Fog
 
       requires    :hp_secret_key, :hp_account_id
       recognizes  :hp_auth_uri, :hp_servicenet, :persistent, :connection_options
-      recognizes  :provider # remove post deprecation
 
       model_path 'fog/hp/models/compute'
       model       :flavor
