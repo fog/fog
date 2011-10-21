@@ -17,7 +17,19 @@ module Fog
       request :put_container
       request :delete_container
 
+      module Utils
+        # Take care of container names with '?' in them
+        def escape_name(name)
+          if name.include?('?')
+            URI.escape(name).gsub('?', '%3F')
+          else
+            URI.escape(name)
+          end
+        end
+      end
+
       class Mock
+        include Utils
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -44,6 +56,7 @@ module Fog
       end
 
       class Real
+        include Utils
 
         def initialize(options={})
           require 'multi_json'

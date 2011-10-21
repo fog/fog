@@ -19,7 +19,7 @@ module Fog
             :expects  => [201, 202],
             :headers  => options,
             :method   => 'PUT',
-            :path     => CGI.escape(name)
+            :path     => escape_name(name)
           )
           response
         end
