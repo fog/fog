@@ -12,9 +12,9 @@ module Fog
 
       request_path 'fog/hp/requests/cdn'
       request :get_containers
-      #request :head_container
-      #request :post_container
-      #request :put_container
+      request :head_container
+      request :post_container
+      request :put_container
 
       class Mock
 
@@ -52,11 +52,12 @@ module Fog
           @enabled = false
           @persistent = options[:persistent] || false
 
-          if credentials['X-CDN-Management-Url']
-            uri = URI.parse(credentials['X-CDN-Management-Url'])
-            @host   = uri.host
+          #TODO: Fix hardcoded urls when CDN-64 and CDN-65 are fixed
+          if credentials['X-Storage-Url']   #credentials['X-CDN-Management-Url']
+            uri = URI.parse(credentials['X-Storage-Url'])     #URI.parse(credentials['X-CDN-Management-Url'])
+            @host   = URI.parse(options[:hp_auth_uri]).host   #uri.host
             @path   = uri.path
-            @port   = uri.port
+            @port   = URI.parse(options[:hp_auth_uri]).port   #uri.port
             @scheme = uri.scheme
             @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
             @enabled = true
