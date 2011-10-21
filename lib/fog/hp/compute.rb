@@ -6,7 +6,7 @@ module Fog
     class HP < Fog::Service
 
       requires    :hp_secret_key, :hp_account_id
-      recognizes  :hp_auth_uri, :hp_servicenet, :persistent
+      recognizes  :hp_auth_uri, :hp_servicenet, :persistent, :connection_options
       recognizes  :provider # remove post deprecation
 
       model_path 'fog/hp/models/compute'
@@ -82,9 +82,11 @@ module Fog
           @hp_account_id = options[:hp_account_id]
           @hp_auth_uri   = options[:hp_auth_uri]
           @hp_servicenet = options[:hp_servicenet]
+          @connection_options = options[:connection_options] || {}
           authenticate
           Excon.ssl_verify_peer = false if options[:hp_servicenet] == true
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @persistent = options[:persistent] || false
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload
@@ -135,7 +137,7 @@ module Fog
             :hp_account_id  => @hp_account_id,
             :hp_auth_uri    => @hp_auth_uri,
           }
-          credentials = Fog::HP.authenticate(options)
+          credentials = Fog::HP.authenticate(options, @connection_options)
           @auth_token = credentials['X-Auth-Token']
           uri = URI.parse(credentials['X-Server-Management-Url'])
           @host   = @hp_servicenet == true ? "snet-#{uri.host}" : uri.host

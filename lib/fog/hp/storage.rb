@@ -6,7 +6,7 @@ module Fog
     class HP < Fog::Service
 
       requires    :hp_secret_key, :hp_account_id
-      recognizes  :hp_auth_uri, :hp_servicenet, :hp_cdn_ssl, :persistent
+      recognizes  :hp_auth_uri, :hp_servicenet, :hp_cdn_ssl, :persistent, :connection_options
       recognizes  :provider # remove post deprecation
 
       model_path 'fog/hp/models/storage'
@@ -134,16 +134,18 @@ module Fog
           @hp_secret_key = options[:hp_secret_key]
           @hp_account_id = options[:hp_account_id]
           @hp_cdn_ssl = options[:hp_cdn_ssl]
-          credentials = Fog::HP.authenticate(options)
+          @connection_options = options[:connection_options] || {}
+          credentials = Fog::HP.authenticate(options, @connection_options)
           @auth_token = credentials['X-Auth-Token']
 
           uri = URI.parse(credentials['X-Storage-Url'])
           @host   = options[:hp_servicenet] == true ? "snet-#{uri.host}" : uri.host
           @path   = uri.path
+          @persistent = options[:persistent] || false
           @port   = uri.port
           @scheme = uri.scheme
           Excon.ssl_verify_peer = false if options[:hp_servicenet] == true
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload
