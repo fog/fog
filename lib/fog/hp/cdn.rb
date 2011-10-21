@@ -15,6 +15,7 @@ module Fog
       request :head_container
       request :post_container
       request :put_container
+      request :delete_container
 
       class Mock
 
