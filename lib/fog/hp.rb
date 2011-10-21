@@ -4,7 +4,7 @@ module Fog
   module HP
     extend Fog::Provider
 
-    #service(:cdn,     'hp/cdn', 'CDN')
+    service(:cdn,     'hp/cdn',     'CDN')
     service(:compute, 'hp/compute', 'Compute')
     service(:storage, 'hp/storage', 'Storage')
 

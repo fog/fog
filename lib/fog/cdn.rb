@@ -11,6 +11,9 @@ module Fog
       when :aws
         require 'fog/aws/cdn'
         Fog::CDN::AWS.new(attributes)
+      when :hp
+        require 'fog/hp/cdn'
+        Fog::CDN::HP.new(attributes)
       when :rackspace
         require 'fog/rackspace/cdn'
         Fog::CDN::Rackspace.new(attributes)
