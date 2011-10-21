@@ -73,6 +73,8 @@ module Fog
                     response.headers['X-CDN-URI']
                   end
                 end
+                # escape the key to cover for special char. in container names
+                url = "#{connection.url}/#{connection.escape_name(key)}"
               rescue Fog::Service::NotFound
                 nil
               end
