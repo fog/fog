@@ -17,7 +17,7 @@ module Fog
 
         def list_all_virtual_machines_by_instance_uuid(options = {})
           uuid = options['instance_uuid']
-          search_filter = { :uuid => uuid, 'vmSearch' => true, 'instanceUuid' => true }
+          search_filter = { 'uuid' => uuid, 'vmSearch' => true, 'instanceUuid' => true }
           vm_mob_ref = @connection.searchIndex.FindAllByUuid(search_filter).first
           if vm_attribute_hash = convert_vm_mob_ref_to_attr_hash(vm_mob_ref) then
             virtual_machines = [ vm_attribute_hash ]
@@ -34,7 +34,14 @@ module Fog
           { 'virtual_machines' => virtual_machines }
         end
 
-        
+        def get_folder_path(folder, root = nil)
+          if ( not folder.methods.include?('parent') ) or ( folder == root )
+            return
+          end
+
+          "#{get_folder_path(folder.parent)}/#{folder.name}"
+        end
+                    
         # NOTE: This is a private instance method required by the vm_clone
         # request.  It's very hard to get the Managed Object Reference
         # of a Template because we can't search for it by instance_uuid
@@ -59,10 +66,17 @@ module Fog
           traversal = Array.new
 
           inventory.each do |k,v|
+<<<<<<< HEAD
 
             #Do recursion
             traversal << find_all_in_inventory(v) if k.is_a? RbVmomi::VIM::Folder
 
+=======
+
+            #Do recursion
+            traversal << find_all_in_inventory(v) if k.is_a? RbVmomi::VIM::Folder
+
+>>>>>>> master
             if v[0].is_a? properties[:type]
               if properties[:property].nil?
                 traversal << v[0]
