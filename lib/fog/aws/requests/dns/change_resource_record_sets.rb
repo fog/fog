@@ -72,7 +72,6 @@ module Fog
             }          
 
             changes+= '</Changes></ChangeBatch>'
-            puts "@@@ SENDING @@@\n#{changes}\n\n"
           end
 
           body =   %Q{<?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/2011-05-05/">#{changes}</ChangeResourceRecordSetsRequest>}
