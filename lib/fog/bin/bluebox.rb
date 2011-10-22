@@ -16,10 +16,10 @@ class Bluebox < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
-          Fog::Logger.warning("Bluebox[:compute] is deprecated, use Compute[:bluebox] instead")
+          Fog::Logger.warning("Bluebox[:compute] is not recommended, use Compute[:bluebox] for portability")
           Fog::Compute.new(:provider => 'Bluebox')
         when :dns
-          Fog::Logger.warning("Bluebox[:storage] is deprecated, use Storage[:bluebox] instead")
+          Fog::Logger.warning("Bluebox[:dns] is not recommended, use DNS[:bluebox] for portability")
           Fog::DNS.new(:provider => 'Bluebox')
         else
           raise ArgumentError, "Unrecognized service: #{service}"

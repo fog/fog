@@ -88,12 +88,13 @@ module Fog
 
       response = connection.request({
         :expects  => [200, 204],
-        :body  => req_body,
+        :headers => {'Content-Type' => 'application/json'},
+        :body  => MultiJson.encode(req_body),
         :host     => uri.host,
-        :method   => 'GET',
+        :method   => 'POST',
         :path     =>  (uri.path and not uri.path.empty?) ? uri.path : 'v2.0'
       })
-      body=response.body
+      body=MultiJson.decode(response.body)
      
       if body['auth']['serviceCatalog'] and body['auth']['serviceCatalog'][@compute_service_name] and body['auth']['serviceCatalog'][@compute_service_name][0] then
         mgmt_url = body['auth']['serviceCatalog'][@compute_service_name][0]['publicURL']

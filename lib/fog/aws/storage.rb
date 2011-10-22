@@ -76,7 +76,7 @@ module Fog
         end
 
         def url(params, expires)
-          Fog::Logger.warning("Fog::Storage::AWS => #url is deprecated, use #https_url instead [light_black](#{caller.first})[/]")
+          Fog::Logger.deprecation("Fog::Storage::AWS => #url is deprecated, use #https_url instead [light_black](#{caller.first})[/]")
           https_url(params, expires)
         end
 
@@ -229,7 +229,8 @@ module Fog
         # :aws_secret_access_key in order to create a connection
         #
         # ==== Examples
-        #   s3 = S3.new(
+        #   s3 = Fog::Storage.new(
+        #     :provider => "AWS",
         #     :aws_access_key_id => your_aws_access_key_id,
         #     :aws_secret_access_key => your_aws_secret_access_key
         #   )

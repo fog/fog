@@ -45,7 +45,7 @@ module Fog
         end
 
         def url(params, expires)
-          Fog::Logger.warning("Fog::Storage::Google => #url is deprecated, use #https_url instead [light_black](#{caller.first})[/]")
+          Fog::Logger.deprecation("Fog::Storage::Google => #url is deprecated, use #https_url instead [light_black](#{caller.first})[/]")
           https_url(params, expires)
         end
 

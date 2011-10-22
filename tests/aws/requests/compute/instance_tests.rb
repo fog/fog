@@ -138,6 +138,21 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
       data
     end
 
+    if Fog.mocking?
+      # Ensure the new instance doesn't show up in mock describe_instances right away
+      tests("#describe_instances").formats(@describe_instances_format) do
+        body = Fog::Compute[:aws].describe_instances.body
+        instance_ids = body['reservationSet'].map {|reservation| reservation['instancesSet'].map {|instance| instance['instanceId'] } }.flatten
+        test("doesn't include the new instance") { !instance_ids.include?(@instance_id) }
+        body
+      end
+
+      # But querying for the new instance directly should raise an error
+      tests("#describe_instances('instance-id' => '#{@instance_id}')").raises(Fog::Compute::AWS::NotFound) do
+        Fog::Compute[:aws].describe_instances('instance-id' => @instance_id)
+      end
+    end
+
     server = Fog::Compute[:aws].servers.get(@instance_id)
     while server.nil? do
       # It may take a moment to get the server after launching it

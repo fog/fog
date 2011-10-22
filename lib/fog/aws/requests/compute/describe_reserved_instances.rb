@@ -29,7 +29,7 @@ module Fog
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeReservedInstances.html]
         def describe_reserved_instances(filters = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_reserved_instances with #{filters.class} param is deprecated, use describe_reserved_instances('reserved-instances-id' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_reserved_instances with #{filters.class} param is deprecated, use describe_reserved_instances('reserved-instances-id' => []) instead [light_black](#{caller.first})[/]")
             filters = {'reserved-instances-id' => [*filters]}
           end
           params = Fog::AWS.indexed_filters(filters)

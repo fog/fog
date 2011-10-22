@@ -27,7 +27,7 @@ module Fog
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-RevokeSecurityGroupIngress.html]
         def revoke_security_group_ingress(group_name, options = {})
           if group_name.is_a?(Hash)
-            Fog::Logger.warning("Fog::AWS::Compute#revoke_security_group_ingress now requires the 'group_name' parameter. Only specifying an options hash is now deprecated [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("Fog::AWS::Compute#revoke_security_group_ingress now requires the 'group_name' parameter. Only specifying an options hash is now deprecated [light_black](#{caller.first})[/]")
             options = group_name
             group_name = options['GroupName']
           end
@@ -45,7 +45,7 @@ module Fog
 
         def revoke_security_group_ingress(group_name, options = {})
           if group_name.is_a?(Hash)
-            Fog::Logger.warning("Fog::AWS::Compute#revoke_security_group_ingress now requires the 'group_name' parameter. Only specifying an options hash is now deprecated [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("Fog::AWS::Compute#revoke_security_group_ingress now requires the 'group_name' parameter. Only specifying an options hash is now deprecated [light_black](#{caller.first})[/]")
             options = group_name
             group_name = options['GroupName']
           end

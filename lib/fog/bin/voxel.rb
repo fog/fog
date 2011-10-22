@@ -14,7 +14,7 @@ class Voxel < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
-          Fog::Logger.warning("Voxel[:compute] is deprecated, use Compute[:voxel] instead")
+          Fog::Logger.warning("Voxel[:comupte] is not recommended, use Compute[:voxel]] for portability")
           Fog::Compute.new(:provider => 'Voxel')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
