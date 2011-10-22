@@ -44,7 +44,7 @@ module Fog
           end
 
           request({
-            :body       => %Q{<?xml version="1.0" encoding="UTF-8"?><CreateHostedZoneRequest xmlns="https://route53.amazonaws.com/doc/2010-10-01/"><Name>#{name}</Name>#{optional_tags}</CreateHostedZoneRequest>},
+            :body       => %Q{<?xml version="1.0" encoding="UTF-8"?><CreateHostedZoneRequest xmlns="https://route53.amazonaws.com/doc/2011-05-05/"><Name>#{name}</Name>#{optional_tags}</CreateHostedZoneRequest>},
             :parser     => Fog::Parsers::DNS::AWS::CreateHostedZone.new,
             :expects    => 201,
             :method     => 'POST',
