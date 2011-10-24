@@ -29,15 +29,16 @@ module Fog
       module Utils
 
         def cdn
-          @cdn ||= Fog::CDN.new(
-            :provider     => 'HP',
-            :hp_account_id  => @hp_account_id,
-            :hp_secret_key  => @hp_secret_key,
-            :hp_auth_uri    => @hp_auth_uri
-          )
-          if @cdn.enabled?
-            @cdn
-          end
+          #@cdn ||= Fog::CDN.new(
+          #  :provider     => 'HP',
+          #  :hp_account_id  => @hp_account_id,
+          #  :hp_secret_key  => @hp_secret_key,
+          #  :hp_auth_uri    => @hp_auth_uri
+          #)
+          #if @cdn.enabled?
+          #  @cdn
+          #end
+          nil
         end
 
         def url
