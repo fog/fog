@@ -28,7 +28,7 @@ module Fog
           connection.delete_container(key)
           # Added an extra check to see if CDN is nil i.e. when CDN provider is not implemented yet.
           if !connection.cdn.nil?
-            connection.cdn.post_container(key, 'X-CDN-Enabled' => 'False')
+            connection.cdn.delete_container(key)
           end
           true
         rescue Excon::Errors::NotFound, Fog::Storage::HP::NotFound
