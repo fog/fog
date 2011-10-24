@@ -121,6 +121,7 @@ module Fog
 
           options = {}
           options[:key_data] = [private_key] if private_key
+          options[:password] = password if password
           Fog::SSH.new(public_ip_address, username, options).run(commands)
         end
 
