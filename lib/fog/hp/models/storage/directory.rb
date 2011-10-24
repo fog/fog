@@ -64,25 +64,24 @@ module Fog
         def public_url
           requires :key
           @public_url ||= begin
-            if !connection.cdn.nil?
+            if (!connection.cdn.nil? && connection.cdn.enabled?)
+              # return the public url from the appropriate uri from the header
               begin response = connection.cdn.head_container(key)
-                if response.headers['X-CDN-Enabled'] == 'True'
+                if response.headers['X-Cdn-Enabled'] == 'True'
                   if connection.hp_cdn_ssl == true
-                    response.headers['X-CDN-SSL-URI']
+                    response.headers['X-Cdn-Ssl-Uri']
                   else
-                    response.headers['X-CDN-URI']
+                    response.headers['X-Cdn-Uri']
                   end
                 end
-                # escape the key to cover for special char. in container names
-                url = "#{connection.url}/#{connection.escape_name(key)}"
-              rescue Fog::Service::NotFound
+              rescue Fog::Storage::HP::NotFound => err
                 nil
               end
             else
               begin response = connection.head_container(key)
                 # escape the key to cover for special char. in container names
                 url = "#{connection.url}/#{connection.escape_name(key)}"
-              rescue Fog::Service::NotFound
+              rescue Fog::Storage::HP::NotFound => err
                 nil
               end
             end
@@ -98,11 +97,11 @@ module Fog
           connection.put_container(key, options)
           # Added an extra check to see if CDN is nil i.e. when CDN provider is not implemented yet.
           if !connection.cdn.nil?
+            # If CDN available, set the container to be CDN-enabled or not based on if it is marked as public.
             if @public
-              @public_url = connection.cdn.put_container(key, 'X-CDN-Enabled' => 'True').headers['X-CDN-URI']
+              connection.cdn.put_container(key)
             else
-              connection.cdn.put_container(key, 'X-CDN-Enabled' => 'False')
-              @public_url = nil
+              connection.cdn.delete_container(key)
             end
           end
           true
