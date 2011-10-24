@@ -31,7 +31,7 @@ module Fog
             connection.cdn.post_container(key, 'X-CDN-Enabled' => 'False')
           end
           true
-        rescue Excon::Errors::NotFound
+        rescue Excon::Errors::NotFound, Fog::Storage::HP::NotFound
           false
         end
 
