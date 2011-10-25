@@ -18,7 +18,6 @@ module Fog
         attribute :default
 
         def save
-          requires :name
           options = {
             :name => name,
             :description => description
