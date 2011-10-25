@@ -44,7 +44,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
 
-          load_balancer['Instances'] = instances.dup
+          load_balancer['Instances'] = load_balancer['Instances'] | instances.dup
 
           response.body = {
             'ResponseMetadata' => {
