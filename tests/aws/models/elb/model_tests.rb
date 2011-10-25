@@ -33,7 +33,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
 
     tests('create') do
       tests('without availability zones') do
-        elb = Fog::AWS[:elb].load_balancers.create(:id => elb_id)
+        elb = Fog::AWS[:elb].load_balancers.create(:id => elb_id, :availability_zones => @availability_zones)
         tests("availability zones are correct").returns(@availability_zones.sort) { elb.availability_zones.sort }
         tests("dns names is set").returns(true) { elb.dns_name.is_a?(String) }
         tests("created_at is set").returns(true) { Time === elb.created_at }
@@ -67,7 +67,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
             },
             'PolicyNames' => []
           }]
-        elb3 = Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-3", 'ListenerDescriptions' => listeners)
+        elb3 = Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-3", 'ListenerDescriptions' => listeners, :availability_zones => @availability_zones)
         tests('there are 2 listeners').returns(2) { elb3.listeners.count }
         tests('instance_port is 2030').returns(2030) { elb3.listeners.first.instance_port }
         tests('lb_port is 2030').returns(2030) { elb3.listeners.first.lb_port }
@@ -81,7 +81,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
           'Listener' => {
           'LoadBalancerPort' => 443, 'InstancePort' => 80, 'Protocol' => 'HTTPS', "SSLCertificateId" => "fakecert"}
         }]
-        Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-4", "ListenerDescriptions" => listeners)
+        Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-4", "ListenerDescriptions" => listeners, :availability_zones => @availability_zones)
       end
     end
 

@@ -59,10 +59,10 @@ module Fog
             lb_names.map do |lb_name|
               lb = self.data[:load_balancers].find { |name, data| name == lb_name }
               raise Fog::AWS::ELB::NotFound unless lb
-              lb[1]
+              lb[1].dup
             end.compact
           else
-            self.data[:load_balancers].values
+            self.data[:load_balancers].map { |lb, values| values.dup }
           end
 
           response = Excon::Response.new
@@ -73,7 +73,7 @@ module Fog
               'RequestId' => Fog::AWS::Mock.request_id
             },
             'DescribeLoadBalancersResult' => {
-              'LoadBalancerDescriptions' => load_balancers
+              'LoadBalancerDescriptions' => load_balancers.map { |lb| lb['Instances'] = lb['Instances'].map { |i| i['InstanceId'] }; lb }
             }
           }
 
