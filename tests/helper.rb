@@ -7,6 +7,10 @@ def lorem_file
   File.open(File.dirname(__FILE__) + '/lorem.txt', 'r')
 end
 
+def array_differences(array_a, array_b)
+  (array_a - array_b) | (array_b - array_a)
+end
+
 # check to see which credentials are available and add others to the skipped tags list
 all_providers = ['aws', 'bluebox', 'brightbox', 'dnsimple', 'dnsmadeeasy', 'dynect', 'ecloud', 'glesys', 'gogrid', 'google', 'linode', 'local', 'ninefold', 'newservers', 'openstack', 'rackspace', 'slicehost', 'stormondemand', 'voxel', 'zerigo']
 available_providers = Fog.available_providers.map {|provider| provider.downcase}
