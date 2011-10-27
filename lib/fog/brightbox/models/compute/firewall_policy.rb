@@ -16,6 +16,7 @@ module Fog
         attribute :default
 
         attribute :server_group_id, :aliases => "server_group", :squash => "id"
+        attribute :created_at, :type => :time
         attribute :rules
 
         # Sticking with existing Fog behaviour, save does not update but creates a new resource

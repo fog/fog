@@ -16,6 +16,7 @@ module Fog
         attribute :name
         attribute :description
         attribute :default
+        attribute :created_at, :type => :time
 
         def save
           options = {
