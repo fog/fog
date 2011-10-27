@@ -50,7 +50,7 @@ module Fog
           requires :directory, :key
           connection.copy_object(directory.key, key, target_directory_key, target_file_key, options)
           target_directory = connection.directories.new(:key => target_directory_key)
-          target_directory.files.get(target_file_key)
+          target_directory.files.head(target_file_key)
         end
 
         def destroy
