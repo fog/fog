@@ -34,16 +34,7 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       Fog::Storage[:aws].put_object_acl(@directory.identity, 'fog_object', 'private')
     end
 
-    tests("#put_object_acl('#{@directory.identity}', 'fog_object', hash)").returns(true) do
-      Fog::Storage[:aws].put_object_acl(@directory.identity, 'fog_object', {
-        'Owner' => { 'ID' => "8a6925ce4adf5f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" },
-        'AccessControlList' => [
-          { 
-            'Grantee' => { 'ID' => "8a6925ce4adf588a4532142d3f74dd8c71fa124b1ddee97f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" }, 
-            'Permission' => "FULL_CONTROL" 
-          }
-        ]})
-      Fog::Storage[:aws].get_object_acl(@directory.identity, 'fog_object').body == <<-BODY
+    tests("#put_object_acl('#{@directory.identity}', 'fog_object', hash with id)").returns(<<BODY) do
 <AccessControlPolicy>
   <Owner>
     <ID>8a6925ce4adf5f21c32aa379004fef</ID>
@@ -60,6 +51,69 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
   </AccessControlList>
 </AccessControlPolicy>
 BODY
+      Fog::Storage[:aws].put_object_acl(@directory.identity, 'fog_object', {
+        'Owner' => { 'ID' => "8a6925ce4adf5f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" },
+        'AccessControlList' => [
+          { 
+            'Grantee' => { 'ID' => "8a6925ce4adf588a4532142d3f74dd8c71fa124b1ddee97f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" }, 
+            'Permission' => "FULL_CONTROL" 
+          }
+        ]})
+      Fog::Storage[:aws].get_object_acl(@directory.identity, 'fog_object').body
+    end
+
+    tests("#put_object_acl('#{@directory.identity}', 'fog_object', hash with email)").returns(<<BODY) do
+<AccessControlPolicy>
+  <Owner>
+    <ID>8a6925ce4adf5f21c32aa379004fef</ID>
+    <DisplayName>mtd@amazon.com</DisplayName>
+  </Owner>
+  <AccessControlList>
+    <Grant>
+      <Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail">
+        <EmailAddress>mtd@amazon.com</EmailAddress>
+      </Grantee>
+      <Permission>FULL_CONTROL</Permission>
+    </Grant>
+  </AccessControlList>
+</AccessControlPolicy>
+BODY
+      Fog::Storage[:aws].put_object_acl(@directory.identity, 'fog_object', {
+        'Owner' => { 'ID' => "8a6925ce4adf5f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" },
+        'AccessControlList' => [
+          {
+            'Grantee' => { 'EmailAddress' => 'mtd@amazon.com' },
+            'Permission' => "FULL_CONTROL"
+          }
+        ]})
+      Fog::Storage[:aws].get_object_acl(@directory.identity, 'fog_object').body
+    end
+
+    tests("#put_object_acl('#{@directory.identity}', 'fog_object', hash with uri)").returns(<<BODY) do
+<AccessControlPolicy>
+  <Owner>
+    <ID>8a6925ce4adf5f21c32aa379004fef</ID>
+    <DisplayName>mtd@amazon.com</DisplayName>
+  </Owner>
+  <AccessControlList>
+    <Grant>
+      <Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group">
+        <URI>http://acs.amazonaws.com/groups/global/AllUsers</URI>
+      </Grantee>
+      <Permission>FULL_CONTROL</Permission>
+    </Grant>
+  </AccessControlList>
+</AccessControlPolicy>
+BODY
+      Fog::Storage[:aws].put_object_acl(@directory.identity, 'fog_object', {
+        'Owner' => { 'ID' => "8a6925ce4adf5f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" },
+        'AccessControlList' => [
+          {
+            'Grantee' => { 'URI' => 'http://acs.amazonaws.com/groups/global/AllUsers' },
+            'Permission' => "FULL_CONTROL"
+          }
+        ]})
+      Fog::Storage[:aws].get_object_acl(@directory.identity, 'fog_object').body
     end
 
     tests("#delete_object('#{@directory.identity}', 'fog_object')").succeeds do
