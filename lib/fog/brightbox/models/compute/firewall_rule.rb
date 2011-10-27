@@ -25,7 +25,7 @@ module Fog
         # Sticking with existing Fog behaviour, save does not update but creates a new resource
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          requires :firewall_policy_id, :protocol
+          requires :firewall_policy_id
           options = {
             :firewall_policy => firewall_policy_id,
             :protocol => protocol,
