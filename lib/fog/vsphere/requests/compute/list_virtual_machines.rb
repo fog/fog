@@ -34,6 +34,7 @@ module Fog
           { 'virtual_machines' => virtual_machines }
         end
 
+
         # NOTE: This is a private instance method required by the vm_clone
         # request.  It's very hard to get the Managed Object Reference
         # of a Template because we can't search for it by instance_uuid
@@ -45,15 +46,35 @@ module Fog
           datacenters = @connection.rootFolder.children.find_all do |child|
             child.kind_of? RbVmomi::VIM::Datacenter
           end
-          # Next, look in the "vmFolder" of each data center:
+          # Next, search the "vmFolder" inventory of each data center:
           datacenters.each do |dc|
-            dc.vmFolder.children.each do |vm|
-              virtual_machines << vm
-            end
+            inventory = dc.vmFolder.inventory( 'VirtualMachine' => :all )
+            virtual_machines << find_all_in_inventory(inventory, :type => RbVmomi::VIM::VirtualMachine, :property => 'name' )
           end
-          virtual_machines
+
+          virtual_machines.flatten
         end
 
+        def find_all_in_inventory(inventory, properties = { :type => RbVmomi::VIM::VirtualMachine, :property => nil } )
+          results = Array.new
+
+          inventory.each do |k,v|
+
+            # If we have a VMware folder we need to traverse the directory
+            # to ensure we pick VMs inside folders. So we do a bit of recursion
+            # here.
+            results << find_all_in_inventory(v) if k.is_a? RbVmomi::VIM::Folder
+
+            if v[0].is_a? properties[:type]
+              if properties[:property].nil?
+                results << v[0]
+              else
+                results << v[1][properties[:property]]
+              end
+            end
+          end
+          results.flatten
+        end
       end
 
       class Mock
