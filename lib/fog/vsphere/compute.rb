@@ -58,6 +58,7 @@ module Fog
             attrs['mo_ref'] = vm_mob_ref._ref
             attrs['hypervisor'] = attrs['host'].name
             attrs['mac_addresses'] = vm_mob_ref.macs
+            attrs['path'] = get_folder_path(vm_mob_ref.parent)
           end
         end
 

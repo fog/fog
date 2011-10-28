@@ -75,6 +75,13 @@ module Fog
           end
           results.flatten
         end
+
+        def get_folder_path(folder, root = nil)
+          if ( not folder.methods.include?('parent') ) or ( folder == root )
+            return
+          end
+          "#{get_folder_path(folder.parent)}/#{folder.name}"
+        end
       end
 
       class Mock
