@@ -91,6 +91,8 @@ module Fog
             group_name = options.delete('GroupName')
           end
 
+          verify_permission_options(options)
+
           response = Excon::Response.new
           group = self.data[:security_groups][group_name]
 
@@ -130,6 +132,24 @@ module Fog
         end
 
         private
+
+        def verify_permission_options(options)
+          if options.empty?
+            raise Fog::Compute::AWS::Error.new("InvalidRequest => The request received was invalid.")
+          end
+          if options['IpProtocol'] && !['tcp', 'udp', 'icmp'].include?(options['IpProtocol'])
+            raise Fog::Compute::AWS::Error.new("InvalidPermission.Malformed => Unsupported IP protocol \"#{options['IpProtocol']}\"  - supported: [tcp, udp, icmp]")
+          end
+          if options['IpProtocol'] && (!options['FromPort'] || !options['ToPort'])
+            raise Fog::Compute::AWS::Error.new("InvalidPermission.Malformed => TCP/UDP port (-1) out of range")
+          end
+          if options.has_key?('IpPermissions')
+            if !options['IpPermissions'].is_a?(Array) || options['IpPermissions'].empty?
+              raise Fog::Compute::AWS::Error.new("InvalidRequest => The request received was invalid.")
+            end
+            options['IpPermissions'].each {|p| verify_permission_options(p) }
+          end
+        end
 
         def normalize_permissions(options)
           normalized_permissions = []

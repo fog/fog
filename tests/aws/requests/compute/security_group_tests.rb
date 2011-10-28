@@ -301,6 +301,30 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
       Fog::Compute[:aws].delete_security_group(@other_security_group.name)
     end
 
+    broken_params = [
+      {},
+      { "IpProtocol" => "what" },
+      { "IpProtocol" => "tcp" },
+      { "IpProtocol" => "what", "FromPort" => 1, "ToPort" => 1 },
+    ]
+    broken_params += broken_params.map do |broken_params_item|
+      { "IpPermissions" => [broken_params_item] }
+    end
+    broken_params += [
+      { "IpPermissions" => [] },
+      { "IpPermissions" => nil }
+    ]
+
+    broken_params.each do |broken_params_item|
+      tests("#authorize_security_group_ingress('fog_security_group', #{broken_params_item.inspect})").raises(Fog::Compute::AWS::Error) do
+        Fog::Compute[:aws].authorize_security_group_ingress('fog_security_group', broken_params_item)
+      end
+
+      tests("#revoke_security_group_ingress('fog_security_group', #{broken_params_item.inspect})").raises(Fog::Compute::AWS::Error) do
+        Fog::Compute[:aws].revoke_security_group_ingress('fog_security_group', broken_params_item)
+      end
+    end
+
     tests("#revoke_security_group_ingress('not_a_group_name', {'FromPort' => 80, 'IpProtocol' => 'tcp', 'toPort' => 80})").raises(Fog::Compute::AWS::NotFound) do
       Fog::Compute[:aws].revoke_security_group_ingress(
         'not_a_group_name',

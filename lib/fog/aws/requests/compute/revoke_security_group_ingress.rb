@@ -68,6 +68,8 @@ module Fog
             group_name = options.delete('GroupName')
           end
 
+          verify_permission_options(options)
+
           response = Excon::Response.new
           group = self.data[:security_groups][group_name]
 
