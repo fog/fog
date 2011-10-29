@@ -20,6 +20,7 @@ module Fog
       request :assign_to_load_balancer_rule
       request :attach_volume
       request :authorize_security_group_ingress
+      request :change_service_for_virtual_machine
       request :create_account
       request :create_domain
       request :create_port_forwarding_rule
@@ -82,8 +83,10 @@ module Fog
       request :list_virtual_machines
       request :list_volumes
       request :list_zones
+      request :migrate_virtual_machine
       request :query_async_job_result
       request :reboot_virtual_machine
+      request :recover_virtual_machine
       request :register_user_keys
       request :remove_from_load_balancer_rule
       request :reset_password_for_virtual_machine
