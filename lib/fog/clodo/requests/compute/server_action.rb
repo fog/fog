@@ -10,6 +10,13 @@ module Fog
                   :path    => "servers/#{id}/action")
         end
       end
+      class Mock
+        def server_action(id, action)
+          response = Excon::Response.new
+          response.status = 204
+          response
+        end
+      end
     end
   end
 end

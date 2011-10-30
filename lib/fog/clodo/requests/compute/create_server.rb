@@ -2,20 +2,19 @@ module Fog
   module Compute
     class Clodo
       class Real
-        # Вход:
-        # name - название VPS
-        # vps_title - название VPS (может использоваться либо этот параметр, либо "name")
-        # vps_type - тип VPS (VirtualServer,ScaleServer)
-        # vps_memory - память (для ScaleServer - нижняя граница) (в MB)
-        # vps_memory_max - верхняя граница памяти для ScaleServer (в MB)
-        # vps_hdd - размер диска (в GB)
-        # vps_admin - тип поддержки (1 - обычная, 2 - расширенная, 3 - VIP)
-        # vps_os - id ОС
-        # Выход:
-        # id - номер VPS
-        # name - название VPS
-        # imageId - id ОС
-        # adminPass - пароль root
+        # Input:
+        # vps_title - VDS title to display in VDS list
+        # vps_type - VDS type (VirtualServer,ScaleServer)
+        # vps_memory - memory size in megabytes (for ScaleServer - low limit)
+        # vps_memory_max - maximum number of ScaleServer memory megabytes to scale up.
+        # vps_hdd - Virtual HDD size im gigabytes.
+        # vps_admin - support level (1 - usual&free, 2 - extended, 3 - VIP)
+        # vps_os - OS ID to install
+        # Output:
+        # id - VDS ID
+        # name - VDS title
+        # imageId - OS ID 
+        # adminPass - root password
 
         def create_server(image_id, options = {})
           data = {
@@ -38,6 +37,7 @@ module Fog
                   )
 
         end
+
         class Mock
           def create_server(image_id, options = {})
             response = Excon::response.new
@@ -46,13 +46,13 @@ module Fog
             data = {
               'id'        => Fog::Mock.random_numbers(6).to_i,
               'imageId'   => image_id,
-              'name'      => options['name'] || "server_#{rand(999)}",
+              'name'      => options['name'] || "VPS #{rand(999)}",
               'adminPass'    => '23ryh8udbcbyt'
             }
 
             self.data[:last_modified][:servers][data['id']] = Time.now
             self.data[:servers][data['id']] = data
-            response.body = { 'server' => data.merge({'adminPass' => 'password'}) }
+            response.body = { 'server' => data }
             response
           end
         end

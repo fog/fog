@@ -35,9 +35,9 @@ module Fog
           servers = self.data[:servers].values
           for server in servers
             case server['status']
-            when 'BUILD'
+            when 'is_install'
               if Time.now - self.data[:last_modified][:servers][server['id']] > Fog::Mock.delay * 2
-                server['status'] = 'ACTIVE'
+                server['status'] = 'is_running'
               end
             end
           end

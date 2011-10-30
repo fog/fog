@@ -23,7 +23,7 @@ module Fog
         def delete_server(server_id)
           response = Excon::Response.new
           if server = list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
-            if server['status'] == 'BUILD'
+            if server['status'] == 'is_install'
               response.status = 405
               raise(Excon::Errors.status_error({:expects => 204}, response))
             else

@@ -19,10 +19,10 @@ module Fog
 
         def list_images_detail
           request(
-            :expects  => [200, 203],
-            :method   => 'GET',
-            :path     => 'images/detail'
-          )
+                  :expects  => [200, 203],
+                  :method   => 'GET',
+                  :path     => 'images/detail'
+                  )
         end
 
       end
@@ -33,10 +33,18 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            'images' => [
-                          { 'name' => 'Debian 5.0.6 64 bits',    'id' => 1, 'vps_type' => 'VirtualServer',    'status' => 'ACTIVE', 'os_type' => 'debian', 'os_bits' => 64, 'os_hvm' => 0  },
-                          { 'name' => 'CentOS 5.5 32 bits',    'id' => 1, 'vps_type' => 'VirtualServer',    'status' => 'ACTIVE', 'os_type' => 'centos', 'os_bits' => 32, 'os_hvm' => 0  }
-            ]
+            'images' => [{ 'os_type' => 'debian', 'os_bits' => 64, 'os_hvm' => 0, '_attr' => {
+                             'id' => 1,
+                             'name' => 'Debian 5.0.6 64 bits',
+                             'status' => 'ACTIVE',
+                             'vps_type' => 'VirtualServer'
+                           }},
+                         { 'os_type' => 'centos', 'os_bits' => 32, 'os_hvm' => 0, '_attr' => {
+                             'name' => 'CentOS 5.5 32 bits',
+                             'id' => 1,
+                             'vps_type' => 'VirtualServer',
+                             'status' => 'ACTIVE',
+                           }}]
           }
           response
         end
