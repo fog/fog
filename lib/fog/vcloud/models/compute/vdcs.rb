@@ -13,7 +13,8 @@ module Fog
         attribute :href
 
         def all
-          data = connection.get_organization(org_uri).body[:Link].select { |link| link[:type] == "application/vnd.vmware.vcloud.vdc+xml" }
+          links = (l=connection.get_organization(org_uri).body[:Link]).is_a?(Array) ? l : [l].compact
+          data = links.select { |link| link[:type] == "application/vnd.vmware.vcloud.vdc+xml" }
           data.each { |link| link.delete_if { |key, value| [:rel].include?(key) } }
           load(data)
         end

@@ -13,7 +13,8 @@ module Fog
         attribute :href
 
         def all
-          data = connection.get_vdc(self.href).body[:ResourceEntities][:ResourceEntity].select { |re| re[:type] == "application/vnd.vmware.vcloud.vApp+xml" }
+          resource_entities = (re=connection.get_vdc(self.href).body[:ResourceEntities][:ResourceEntity]).is_a?(Array) ? re : [re].compact
+          data = resource_entities.select { |re| re[:type] == "application/vnd.vmware.vcloud.vApp+xml" }
           load(data)
         end
 
