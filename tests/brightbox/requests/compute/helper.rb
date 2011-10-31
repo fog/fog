@@ -141,7 +141,8 @@ class Brightbox
           "url"             => String,
           "name"            => String,
           "default"         => Fog::Boolean,
-          "description"     => Fog::Nullable::String
+          "description"     => Fog::Nullable::String,
+          "created_at"      => String
         }
 
         SERVER_TYPE = {
@@ -283,6 +284,7 @@ class Brightbox
           "name"            => String,
           "description"     => Fog::Nullable::String,
           "default"         => Fog::Boolean,
+          "created_at"      => String,
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
           "servers"         => [Brightbox::Compute::Formats::Nested::SERVER]
         }
@@ -483,6 +485,7 @@ class Brightbox
           "name"            => String,
           "description"     => Fog::Nullable::String,
           "default"         => Fog::Boolean,
+          "created_at"      => String,
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
           "servers"         => [Brightbox::Compute::Formats::Nested::SERVER]
         }
