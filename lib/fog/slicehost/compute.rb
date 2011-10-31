@@ -57,8 +57,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'fog/core/parser'
-
           @slicehost_password = options[:slicehost_password]
           @connection_options = options[:connection_options] || {}
           @host       = options[:host]        || "api.slicehost.com"

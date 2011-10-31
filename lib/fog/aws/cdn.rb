@@ -41,7 +41,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'mime/types'
           @aws_access_key_id  = options[:aws_access_key_id]
           @region             = options[:region]
         end
@@ -80,8 +79,6 @@ module Fog
         # ==== Returns
         # * cdn object with connection to aws.
         def initialize(options={})
-          require 'fog/core/parser'
-
           @aws_access_key_id = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
           @connection_options = options[:connection_options] || {}

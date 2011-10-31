@@ -71,8 +71,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'fog/core/parser'
-
           @zerigo_email  = options[:zerigo_email]
           @zerigo_token  = options[:zerigo_token]
           @connection_options = options[:connection_options] || {}

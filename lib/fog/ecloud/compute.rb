@@ -1066,9 +1066,6 @@ module Fog
         end
 
         def initialize(options = {})
-          require 'builder'
-          require 'fog/core/parser'
-
           @versions_uri = URI.parse('https://vcloud.fakey.com/api/versions')
         end
 
@@ -1136,9 +1133,6 @@ module Fog
         end
 
         def initialize(options = {})
-          require 'builder'
-          require 'fog/core/parser'
-
           @connections = {}
           @connection_options = options[:connection_options] || {}
           @versions_uri = URI.parse(options[:ecloud_versions_uri])

@@ -144,7 +144,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'mime/types'
           @google_storage_access_key_id = options[:google_storage_access_key_id]
         end
 
@@ -184,9 +183,6 @@ module Fog
         # ==== Returns
         # * Storage object with connection to google.
         def initialize(options={})
-          require 'fog/core/parser'
-          require 'mime/types'
-
           @google_storage_access_key_id = options[:google_storage_access_key_id]
           @google_storage_secret_access_key = options[:google_storage_secret_access_key]
           @connection_options = options[:connection_options] || {}
