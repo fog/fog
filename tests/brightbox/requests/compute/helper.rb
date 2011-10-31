@@ -110,7 +110,8 @@ class Brightbox
           "description"     => String,
           "source"          => String,
           "status"          => String,
-          "owner"           => String
+          "owner"           => String,
+          "username"        => Fog::Nullable::String
         }
 
         INTERFACE = {
@@ -232,6 +233,7 @@ class Brightbox
           "source_type"     => String,
           "status"          => String,
           "owner"           => String,
+          "username"        => Fog::Nullable::String,
           "public"          => Fog::Boolean,
           "official"        => Fog::Boolean,
           "compatibility_mode" => Fog::Boolean,
@@ -415,6 +417,7 @@ class Brightbox
           "source_type"     => String,
           "status"          => String,
           "owner"           => String, # Account ID not object
+          "username"        => Fog::Nullable::String,
           "public"          => Fog::Boolean,
           "official"        => Fog::Boolean,
           "compatibility_mode"   => Fog::Boolean,
