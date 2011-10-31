@@ -1,6 +1,5 @@
 Shindo.tests('AWS::Storage | object requests', ['aws']) do
-
-  @directory = Fog::Storage[:aws].directories.create(:key => 'fogobjecttests')
+  @directory = Fog::Storage[:aws].directories.create(:key => 'fogobjecttests-' + Time.now.to_i.to_s(32))
 
   tests('success') do
 

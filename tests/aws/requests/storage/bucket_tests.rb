@@ -1,4 +1,5 @@
 Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
+  @aws_bucket_name = 'fogbuckettests-' + Time.now.to_i.to_s(32)
 
   tests('success') do
 
@@ -33,30 +34,30 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
       }
     }
 
-    tests("#put_bucket('fogbuckettests')").succeeds do
-      Fog::Storage[:aws].put_bucket('fogbuckettests')
+    tests("#put_bucket('#{@aws_bucket_name}')").succeeds do
+      Fog::Storage[:aws].put_bucket(@aws_bucket_name)
     end
 
     tests("#get_service").formats(@service_format) do
       Fog::Storage[:aws].get_service.body
     end
 
-    file = Fog::Storage[:aws].directories.get('fogbuckettests').files.create(:body => 'y', :key => 'x')
+    file = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'y', :key => 'x')
 
-    tests("#get_bucket('fogbuckettests)").formats(@bucket_format) do
-      Fog::Storage[:aws].get_bucket('fogbuckettests').body
+    tests("#get_bucket('#{@aws_bucket_name}')").formats(@bucket_format) do
+      Fog::Storage[:aws].get_bucket(@aws_bucket_name).body
     end
 
     file.destroy
 
-    file1 = Fog::Storage[:aws].directories.get('fogbuckettests').files.create(:body => 'a',    :key => 'a/a1/file1')
-    file2 = Fog::Storage[:aws].directories.get('fogbuckettests').files.create(:body => 'ab',   :key => 'a/file2')
-    file3 = Fog::Storage[:aws].directories.get('fogbuckettests').files.create(:body => 'abc',  :key => 'b/file3')
-    file4 = Fog::Storage[:aws].directories.get('fogbuckettests').files.create(:body => 'abcd', :key => 'file4')
+    file1 = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'a',    :key => 'a/a1/file1')
+    file2 = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'ab',   :key => 'a/file2')
+    file3 = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'abc',  :key => 'b/file3')
+    file4 = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'abcd', :key => 'file4')
 
-    tests("#get_bucket('fogbuckettests')") do
+    tests("#get_bucket('#{@aws_bucket_name}')") do
       before do
-        @bucket = Fog::Storage[:aws].get_bucket('fogbuckettests')
+        @bucket = Fog::Storage[:aws].get_bucket(@aws_bucket_name)
       end
 
       tests(".body['Contents'].map{|n| n['Key']}").returns(["a/a1/file1", "a/file2", "b/file3", "file4"]) do
@@ -72,9 +73,9 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
       end
     end
 
-    tests("#get_bucket('fogbuckettests', 'delimiter' => '/')") do
+    tests("#get_bucket('#{@aws_bucket_name}', 'delimiter' => '/')") do
       before do
-        @bucket = Fog::Storage[:aws].get_bucket('fogbuckettests', 'delimiter' => '/')
+        @bucket = Fog::Storage[:aws].get_bucket(@aws_bucket_name, 'delimiter' => '/')
       end
 
       tests(".body['Contents'].map{|n| n['Key']}").returns(['file4']) do
@@ -86,9 +87,9 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
       end
     end
 
-    tests("#get_bucket('fogbuckettests', 'delimiter' => '/', 'prefix' => 'a/')") do
+    tests("#get_bucket('#{@aws_bucket_name}', 'delimiter' => '/', 'prefix' => 'a/')") do
       before do
-        @bucket = Fog::Storage[:aws].get_bucket('fogbuckettests', 'delimiter' => '/', 'prefix' => 'a/')
+        @bucket = Fog::Storage[:aws].get_bucket(@aws_bucket_name, 'delimiter' => '/', 'prefix' => 'a/')
       end
 
       tests(".body['Contents'].map{|n| n['Key']}").returns(['a/file2']) do
@@ -102,28 +103,28 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
 
     file1.destroy; file2.destroy; file3.destroy; file4.destroy
 
-    tests("#get_bucket_location('fogbuckettests)").formats('LocationConstraint' => NilClass) do
-      Fog::Storage[:aws].get_bucket_location('fogbuckettests').body
+    tests("#get_bucket_location('#{@aws_bucket_name}')").formats('LocationConstraint' => NilClass) do
+      Fog::Storage[:aws].get_bucket_location(@aws_bucket_name).body
     end
 
-    tests("#get_request_payment('fogbuckettests')").formats('Payer' => String) do
-      Fog::Storage[:aws].get_request_payment('fogbuckettests').body
+    tests("#get_request_payment('#{@aws_bucket_name}')").formats('Payer' => String) do
+      Fog::Storage[:aws].get_request_payment(@aws_bucket_name).body
     end
 
-    tests("#put_request_payment('fogbuckettests', 'Requester')").succeeds do
-      Fog::Storage[:aws].put_request_payment('fogbuckettests', 'Requester')
+    tests("#put_request_payment('#{@aws_bucket_name}', 'Requester')").succeeds do
+      Fog::Storage[:aws].put_request_payment(@aws_bucket_name, 'Requester')
     end
 
-    tests("#put_bucket_website('fogbuckettests', 'index.html')").succeeds do
+    tests("#put_bucket_website('#{@aws_bucket_name}', 'index.html')").succeeds do
       pending if Fog.mocking?
-      Fog::Storage[:aws].put_bucket_website('fogbuckettests', 'index.html')
+      Fog::Storage[:aws].put_bucket_website(@aws_bucket_name, 'index.html')
     end
 
-    tests("#put_bucket_acl('fogbuckettests', 'private')").succeeds do
-      Fog::Storage[:aws].put_bucket_acl('fogbuckettests', 'private')
+    tests("#put_bucket_acl('#{@aws_bucket_name}', 'private')").succeeds do
+      Fog::Storage[:aws].put_bucket_acl(@aws_bucket_name, 'private')
     end
 
-    tests("#put_bucket_acl('fogbuckettests', hash with id)").returns(<<-BODY) do
+    tests("#put_bucket_acl('#{@aws_bucket_name}', hash with id)").returns(<<-BODY) do
 <AccessControlPolicy>
   <Owner>
     <ID>8a6925ce4adf5f21c32aa379004fef</ID>
@@ -140,7 +141,7 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
   </AccessControlList>
 </AccessControlPolicy>
 BODY
-      Fog::Storage[:aws].put_bucket_acl('fogbuckettests', {
+      Fog::Storage[:aws].put_bucket_acl(@aws_bucket_name, {
         'Owner' => { 'ID' => "8a6925ce4adf5f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" },
         'AccessControlList' => [
           {
@@ -149,10 +150,10 @@ BODY
           }
         ]
       })
-      Fog::Storage[:aws].get_bucket_acl('fogbuckettests').body
+      Fog::Storage[:aws].get_bucket_acl(@aws_bucket_name).body
     end
 
-    tests("#put_bucket_acl('fogbuckettests', hash with email)").returns(<<-BODY) do
+    tests("#put_bucket_acl('#{@aws_bucket_name}', hash with email)").returns(<<-BODY) do
 <AccessControlPolicy>
   <Owner>
     <ID>8a6925ce4adf5f21c32aa379004fef</ID>
@@ -168,7 +169,7 @@ BODY
   </AccessControlList>
 </AccessControlPolicy>
 BODY
-      Fog::Storage[:aws].put_bucket_acl('fogbuckettests', {
+      Fog::Storage[:aws].put_bucket_acl(@aws_bucket_name, {
         'Owner' => { 'ID' => "8a6925ce4adf5f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" },
         'AccessControlList' => [
           {
@@ -177,10 +178,10 @@ BODY
           }
         ]
       })
-      Fog::Storage[:aws].get_bucket_acl('fogbuckettests').body
+      Fog::Storage[:aws].get_bucket_acl(@aws_bucket_name).body
     end
 
-    tests("#put_bucket_acl('fogbuckettests', hash with uri)").returns(<<-BODY) do
+    tests("#put_bucket_acl('#{@aws_bucket_name}', hash with uri)").returns(<<-BODY) do
 <AccessControlPolicy>
   <Owner>
     <ID>8a6925ce4adf5f21c32aa379004fef</ID>
@@ -196,7 +197,7 @@ BODY
   </AccessControlList>
 </AccessControlPolicy>
 BODY
-      Fog::Storage[:aws].put_bucket_acl('fogbuckettests', {
+      Fog::Storage[:aws].put_bucket_acl(@aws_bucket_name, {
         'Owner' => { 'ID' => "8a6925ce4adf5f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" },
         'AccessControlList' => [
           {
@@ -205,16 +206,16 @@ BODY
           }
         ]
       })
-      Fog::Storage[:aws].get_bucket_acl('fogbuckettests').body
+      Fog::Storage[:aws].get_bucket_acl(@aws_bucket_name).body
     end
 
-    tests("#delete_bucket_website('fogbuckettests')").succeeds do
+    tests("#delete_bucket_website('#{@aws_bucket_name}')").succeeds do
       pending if Fog.mocking?
-      Fog::Storage[:aws].delete_bucket_website('fogbuckettests')
+      Fog::Storage[:aws].delete_bucket_website(@aws_bucket_name)
     end
 
-    tests("#delete_bucket('fogbuckettests')").succeeds do
-      Fog::Storage[:aws].delete_bucket('fogbuckettests')
+    tests("#delete_bucket('#{@aws_bucket_name}')").succeeds do
+      Fog::Storage[:aws].delete_bucket(@aws_bucket_name)
     end
 
   end
