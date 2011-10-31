@@ -36,6 +36,7 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
 
     tests("#put_bucket('#{@aws_bucket_name}')").succeeds do
       Fog::Storage[:aws].put_bucket(@aws_bucket_name)
+      @aws_owner = Fog::Storage[:aws].get_bucket_acl(Fog::Storage[:aws].directories.first.key).body['Owner']
     end
 
     tests("#get_service").formats(@service_format) do
@@ -124,53 +125,34 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
       Fog::Storage[:aws].put_bucket_acl(@aws_bucket_name, 'private')
     end
 
-    tests("#put_bucket_acl('#{@aws_bucket_name}', hash with id)").returns(<<-BODY) do
-<AccessControlPolicy>
-  <Owner>
-    <ID>8a6925ce4adf5f21c32aa379004fef</ID>
-    <DisplayName>mtd@amazon.com</DisplayName>
-  </Owner>
-  <AccessControlList>
-    <Grant>
-      <Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser">
-        <ID>8a6925ce4adf588a4532142d3f74dd8c71fa124b1ddee97f21c32aa379004fef</ID>
-        <DisplayName>mtd@amazon.com</DisplayName>
-      </Grantee>
-      <Permission>FULL_CONTROL</Permission>
-    </Grant>
-  </AccessControlList>
-</AccessControlPolicy>
-BODY
-      Fog::Storage[:aws].put_bucket_acl(@aws_bucket_name, {
-        'Owner' => { 'ID' => "8a6925ce4adf5f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" },
-        'AccessControlList' => [
-          {
-            'Grantee' => { 'ID' => "8a6925ce4adf588a4532142d3f74dd8c71fa124b1ddee97f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" },
-            'Permission' => "FULL_CONTROL"
-          }
-        ]
-      })
+    acl = {
+      'Owner' => @aws_owner,
+      'AccessControlList' => [
+        {
+          'Grantee' => @aws_owner,
+          'Permission' => "FULL_CONTROL"
+        }
+      ]
+    }
+    tests("#put_bucket_acl('#{@aws_bucket_name}', hash with id)").returns(acl) do
+      pending if Fog.mocking?
+
+      Fog::Storage[:aws].put_bucket_acl(@aws_bucket_name, acl)
       Fog::Storage[:aws].get_bucket_acl(@aws_bucket_name).body
     end
 
-    tests("#put_bucket_acl('#{@aws_bucket_name}', hash with email)").returns(<<-BODY) do
-<AccessControlPolicy>
-  <Owner>
-    <ID>8a6925ce4adf5f21c32aa379004fef</ID>
-    <DisplayName>mtd@amazon.com</DisplayName>
-  </Owner>
-  <AccessControlList>
-    <Grant>
-      <Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="AmazonCustomerByEmail\">
-        <EmailAddress>mtd@amazon.com</EmailAddress>
-      </Grantee>
-      <Permission>FULL_CONTROL</Permission>
-    </Grant>
-  </AccessControlList>
-</AccessControlPolicy>
-BODY
+    tests("#put_bucket_acl('#{@aws_bucket_name}', hash with email)").returns({
+        'Owner' => @aws_owner,
+        'AccessControlList' => [
+          {
+            'Grantee' => { 'ID' => 'f62f0218873cfa5d56ae9429ae75a592fec4fd22a5f24a20b1038a7db9a8f150', 'DisplayName' => 'mtd' },
+            'Permission' => "FULL_CONTROL"
+          }
+        ]
+    }) do
+      pending if Fog.mocking?
       Fog::Storage[:aws].put_bucket_acl(@aws_bucket_name, {
-        'Owner' => { 'ID' => "8a6925ce4adf5f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" },
+        'Owner' => @aws_owner,
         'AccessControlList' => [
           {
             'Grantee' => { 'EmailAddress' => 'mtd@amazon.com' },
@@ -181,31 +163,18 @@ BODY
       Fog::Storage[:aws].get_bucket_acl(@aws_bucket_name).body
     end
 
-    tests("#put_bucket_acl('#{@aws_bucket_name}', hash with uri)").returns(<<-BODY) do
-<AccessControlPolicy>
-  <Owner>
-    <ID>8a6925ce4adf5f21c32aa379004fef</ID>
-    <DisplayName>mtd@amazon.com</DisplayName>
-  </Owner>
-  <AccessControlList>
-    <Grant>
-      <Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="Group">
-        <URI>http://www.w3.org/2001/XMLSchema-instance</URI>
-      </Grantee>
-      <Permission>FULL_CONTROL</Permission>
-    </Grant>
-  </AccessControlList>
-</AccessControlPolicy>
-BODY
-      Fog::Storage[:aws].put_bucket_acl(@aws_bucket_name, {
-        'Owner' => { 'ID' => "8a6925ce4adf5f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" },
-        'AccessControlList' => [
-          {
-            'Grantee' => { 'URI' => 'http://www.w3.org/2001/XMLSchema-instance' },
-            'Permission' => "FULL_CONTROL"
-          }
-        ]
-      })
+    acl = {
+      'Owner' => @aws_owner,
+      'AccessControlList' => [
+        {
+          'Grantee' => { 'URI' => 'http://acs.amazonaws.com/groups/global/AllUsers' },
+          'Permission' => "FULL_CONTROL"
+        }
+      ]
+    }
+    tests("#put_bucket_acl('#{@aws_bucket_name}', hash with uri)").returns(acl) do
+      pending if Fog.mocking?
+      Fog::Storage[:aws].put_bucket_acl(@aws_bucket_name, acl)
       Fog::Storage[:aws].get_bucket_acl(@aws_bucket_name).body
     end
 
@@ -258,4 +227,6 @@ BODY
 
   end
 
+  # don't keep the bucket around
+  Fog::Storage[:aws].delete_bucket(@aws_bucket_name) rescue nil
 end
