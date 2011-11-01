@@ -28,7 +28,6 @@ require 'fog/core/json'
 require 'fog/core/logger'
 require 'fog/core/model'
 require 'fog/core/mock'
-require 'fog/core/parser' # FIXME: would be better to only load when nokogiri is required
 require 'fog/core/provider'
 require 'fog/core/service'
 require 'fog/core/ssh'
@@ -36,3 +35,15 @@ require 'fog/core/scp'
 require 'fog/core/time'
 require 'fog/core/timeout'
 require 'fog/core/wait_for'
+
+module Fog
+  module Parsers
+    autoload 'Base',         'fog/core/parser'
+  end
+  autoload 'ToHashDocument', 'fog/core/parser'
+end
+
+autoload 'Nokogiri',  'nokogiri'
+autoload 'MIME',      'mime/types'
+autoload 'Builder',   'builder'
+autoload 'MultiJson', 'multi_json'

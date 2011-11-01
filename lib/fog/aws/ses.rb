@@ -45,8 +45,6 @@ module Fog
         # ==== Returns
         # * SES object with connection to AWS.
         def initialize(options={})
-          require 'fog/core/parser'
-
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
           @connection_options     = options[:connection_options] || {}

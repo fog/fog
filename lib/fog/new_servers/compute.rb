@@ -48,8 +48,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'fog/core/parser'
-
           @new_servers_password = options[:new_servers_password]
           @new_servers_username = options[:new_servers_username]
           @connection_options = options[:connection_options] || {}
