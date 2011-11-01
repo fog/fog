@@ -34,6 +34,40 @@ module Fog
           )
         end
 
+        def bootstrap(new_attributes = {})
+          spot_request = connection.spot_requests.new(new_attributes)
+
+          unless new_attributes[:key_name]
+            # first or create fog_#{credential} keypair
+            name = Fog.respond_to?(:credential) && Fog.credential || :default
+            unless spot_request.key_pair = connection.key_pairs.get("fog_#{name}")
+              spot_request.key_pair = connection.key_pairs.create(
+                :name => "fog_#{name}",
+                :public_key => server.public_key
+              )
+            end
+          end
+
+          # make sure port 22 is open in the first security group
+          security_group = connection.security_groups.get(spot_request.groups.first)
+          authorized = security_group.ip_permissions.detect do |ip_permission|
+            ip_permission['ipRanges'].first && ip_permission['ipRanges'].first['cidrIp'] == '0.0.0.0/0' &&
+            ip_permission['fromPort'] == 22 &&
+            ip_permission['ipProtocol'] == 'tcp' &&
+            ip_permission['toPort'] == 22
+          end
+          unless authorized
+            security_group.authorize_port_range(22..22)
+          end
+
+          spot_request.save
+          spot_request.wait_for { ready? }
+          server = connection.servers.get(spot_request.instance_id)
+          server.wait_for { ready? }
+          server.setup(:key_data => [server.private_key])
+          spot_request
+        end
+
         def get(spot_request_id)
           if spot_request_id
             self.class.new(:connection => connection).all('spot-instance-request-id' => spot_request_id).first
