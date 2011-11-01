@@ -13,7 +13,7 @@ module Fog
         attribute :objectid,        :aliases => :ObjectID
 
         def body
-          attributes[:body] ||= if last_modified
+          attributes[:body] ||= if objectid
             collection.get(identity).body
           else
             ''
