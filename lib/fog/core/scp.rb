@@ -24,7 +24,7 @@ module Fog
       end
 
       def upload(local_path, remote_path, upload_options = {})
-        Fog::Mock.not_implemented
+        [local_path, remote_path, upload_options]
       end
 
     end
