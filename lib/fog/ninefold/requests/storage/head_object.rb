@@ -2,15 +2,15 @@ module Fog
   module Storage
     class Ninefold
       class Real
-        def head_object(namespace = '', options = {})
-          options = options.reject {|key, value| value.nil?}
+        def head_object(namespace = '', options = { })
+          options = options.reject { |key, value| value.nil? }
           request({
                     :expects  => 200,
                     :method   => 'HEAD',
                     :path     => "namespace/" + namespace,
                     :query    => {},
                     :parse => true
-                  }.merge(options))
+          }.merge(options))
         end
       end
     end
