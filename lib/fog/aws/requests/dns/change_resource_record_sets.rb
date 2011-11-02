@@ -40,32 +40,41 @@ module Fog
               optional_tags+= "<Comment>#{value}</Comment>"
             end
           }
-          
+
           #build XML
           if change_batch.count > 0
-            
+
             changes= "<ChangeBatch>#{optional_tags}<Changes>"
-            
+
             change_batch.each { |change_item|
               action_tag = %Q{<Action>#{change_item[:action]}</Action>}
               name_tag = %Q{<Name>#{change_item[:name]}</Name>}
               type_tag = %Q{<Type>#{change_item[:type]}</Type>}
               ttl_tag = %Q{<TTL>#{change_item[:ttl]}</TTL>}
+
+              raise "Weighted records require a 'setidentifier' and 'weight' tag to be specified, but you only specified the #{change_item[:setidentifier].nil?? 'weight' : 'setidentifier'}" if (change_item[:weight].nil? and !change_item[:setidentifier].nil?) or (!change_item[:weight].nil? and change_item[:setidentifier].nil?)
+              identifier_tag = %Q{<SetIdentifier>#{change_item[:setidentifier]}</SetIdentifier>} unless change_item[:setidentifier].nil?
+              weight_tag = %Q{<Weight>#{change_item[:weight]}</Weight>} unless change_item[:weight].nil?
+
               resource_records= change_item[:resource_records]
               resource_record_tags = ''
               resource_records.each { |record|
                 resource_record_tags+= %Q{<ResourceRecord><Value>#{record}</Value></ResourceRecord>}
               }
               resource_tag=  %Q{<ResourceRecords>#{resource_record_tags}</ResourceRecords>}
-              
-              change_tags = %Q{<Change>#{action_tag}<ResourceRecordSet>#{name_tag}#{type_tag}#{ttl_tag}#{resource_tag}</ResourceRecordSet></Change>}
+
+              if (change_item[:weight].nil? and change_item[:setidentifier].nil?)
+                change_tags = %Q{<Change>#{action_tag}<ResourceRecordSet>#{name_tag}#{type_tag}#{ttl_tag}#{resource_tag}</ResourceRecordSet></Change>}
+              else
+                change_tags = %Q{<Change>#{action_tag}<ResourceRecordSet>#{name_tag}#{type_tag}#{identifier_tag}#{weight_tag}#{ttl_tag}#{resource_tag}</ResourceRecordSet></Change>}
+              end
               changes+= change_tags
             }          
-            
+
             changes+= '</Changes></ChangeBatch>'
           end
 
-          body =   %Q{<?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/2010-10-01/">#{changes}</ChangeResourceRecordSetsRequest>}
+          body =   %Q{<?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/2011-05-05/">#{changes}</ChangeResourceRecordSetsRequest>}
           request({
             :body       => body,
             :parser     => Fog::Parsers::DNS::AWS::ChangeResourceRecordSets.new,
