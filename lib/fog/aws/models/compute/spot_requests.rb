@@ -64,6 +64,15 @@ module Fog
           spot_request.wait_for { ready? }
           Fog.wait_for { server = connection.servers.get(spot_request.instance_id) }
           server = connection.servers.get(spot_request.instance_id)
+          if spot_request.tags
+            for key, value in spot_request.tags
+              connection.tags.create(
+                :key          => key,
+                :resource_id  => spot_request.instance_id,
+                :value        => value
+              )
+            end
+          end
           server.wait_for { ready? }
           server.setup(:key_data => [server.private_key])
           server
