@@ -3,56 +3,37 @@ module Fog
     class HP
       class Real
 
-        # Create an image from a running server
+        # Create an image from an existing server
         #
         # ==== Parameters
         # * server_id<~Integer> - Id of server to create image from
-        # * options<~Hash> - Name
+        # * name<~String> - Name of the image
+        # * options<~Hash> - A hash of options
+        #   * 'ImageType'<~String> - type of the image i.e. Gold
+        #   * 'ImageVersion'<~String> - version of the image i.e. 2.0
         #
         # ==== Returns
-        # * response<~Excon::Response>:
-        #   * 'image'<~Hash>:
-        #     * 'id'<~Integer> - Id of image
-        #     * 'name'<~String> - Name of image
-        #     * 'serverRef'<~Integer> - Id of server
-        def create_image(server_id, options = {})
-          data = {
-            'image' => {
-              'serverId' => server_id
-            }
-          }
-          if options['name']
-            data['image']['name'] = options['name']
-          end
-          request(
-            :body     => MultiJson.encode(data),
-            :expects  => 200,
-            :method   => 'POST',
-            :path     => "images"
-          )
+        # Does not return a response body.
+
+        def create_image(server_id, name, options = {})
+          body = { 'createImage' =>
+                       { 'name' => name,
+                         'metadata' =>
+                             { 'ImageType' => options[:image_type],
+                               'ImageVersion' => options[:image_version]
+                             }
+                       }
+                 }
+          server_action(server_id, body)
         end
 
       end
 
       class Mock
 
-        def create_image(server_id, options = {})
+        def create_image(server_id, name, options = {})
           response = Excon::Response.new
-          response.status = 200
-
-          now = Time.now
-          data = {
-            'created'   => now,
-            'id'        => Fog::Mock.random_numbers(6).to_i,
-            'name'      => options['name'] || '',
-            'serverId'  => server_id,
-            'status'    => 'SAVING',
-            'updated'   => now.to_s,
-          }
-
-          self.data[:last_modified][:images][data['id']] = now
-          self.data[:images][data['id']] = data
-          response.body = { 'image' => data.reject {|key, value| !['id', 'name', 'serverId', 'status', 'updated'].include?(key)} }
+          response.status = 202
           response
         end
 
@@ -60,3 +41,4 @@ module Fog
     end
   end
 end
+

@@ -13,13 +13,11 @@ module Fog
         attribute :updated_at,  :aliases => 'updated'
         attribute :progress
         attribute :status
-        attribute :server_id,   :aliases => 'serverId'
-
-        def server=(new_server)
-          requires :id
-
-          self.server_id = new_server.id
-        end
+        attribute :minDisk,     :aliases => 'min_disk'
+        attribute :minRam,      :aliases => 'min_ram'
+        attribute :server,   :aliases => 'server'
+        #attribute :metadata       #TODO: Need to add it back when Metadata API is done
+        attribute :links
 
         def destroy
           requires :id
@@ -30,15 +28,6 @@ module Fog
 
         def ready?
           status == 'ACTIVE'
-        end
-
-        def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          requires :server_id
-
-          data = connection.create_image(server_id, 'name' => name)
-          merge_attributes(data.body['image'])
-          true
         end
 
       end
