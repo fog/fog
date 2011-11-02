@@ -76,4 +76,4 @@ If you already have an account with another service you can just as easily use t
 
 ## Go Forth and Resolve
 
-You can see an example of reusing code like this in the <a href="https://github.com/geemus/fog/blob/master/examples/dns_tests.rb">examples folder</a>. Using this makes it easier to give yourself shortcuts to your cloud servers and manage how clients and users access them as well. It is great to have this flexibility so that you can modify your cloud infrastructure as needed while keeping everything ship shape. It also provides a nice way to create custom subdomains for users and just generally round out your cloud solution.
+You can see an example of reusing code like this in the <a href="https://github.com/fog/fog/blob/master/examples/dns_tests.rb">examples folder</a>. Using this makes it easier to give yourself shortcuts to your cloud servers and manage how clients and users access them as well. It is great to have this flexibility so that you can modify your cloud infrastructure as needed while keeping everything ship shape. It also provides a nice way to create custom subdomains for users and just generally round out your cloud solution.

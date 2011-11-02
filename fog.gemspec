@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   ## a custom homepage, consider using your GitHub URL or the like.
   s.authors  = ["geemus (Wesley Beary)"]
   s.email    = 'geemus@gmail.com'
-  s.homepage = 'http://github.com/geemus/fog'
+  s.homepage = 'http://github.com/fog/fog'
 
   ## This sections is only necessary if you have C extensions.
   # s.require_paths << 'ext'
