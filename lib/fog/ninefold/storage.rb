@@ -20,6 +20,7 @@ module Fog
       request_path 'fog/ninefold/requests/storage'
       # request :delete_container
       request :get_namespace
+      request :head_object
       request :post_namespace
       request :put_namespace
       request :delete_namespace

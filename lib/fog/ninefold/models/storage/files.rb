@@ -15,14 +15,14 @@ module Fog
 
         model Fog::Storage::Ninefold::File
 
-        def all(options = {})
+        def all(options = { })
           requires :directory
           directory ? ns = directory.key : ns = ''
           ns = ns + '/' unless ns =~ /\/$/
           data = connection.get_namespace(ns).body[:DirectoryList]
-          data = {:DirectoryEntry => []} if data.kind_of? String
+          data = { :DirectoryEntry => [] } if data.kind_of? String
           data[:DirectoryEntry] = [data[:DirectoryEntry]] if data[:DirectoryEntry].kind_of? Hash
-          files = data[:DirectoryEntry].select {|de| de[:FileType] == 'regular'}
+          files = data[:DirectoryEntry].select { |de| de[:FileType] == 'regular' }
           files.each do |s|
             s[:directory] = directory
           end
@@ -32,10 +32,10 @@ module Fog
 
         def get(key, &block)
           requires :directory
-          data = connection.get_namespace(directory.key + key, :parse => false)#, &block)
+          data = connection.get_namespace(directory.key + key, :parse => false) #, &block)
           file_data = data.headers.merge({
-            :body => data.body,
-            :key  => key
+              :body => data.body,
+              :key => key
           })
           new(file_data)
         rescue Fog::Storage::Ninefold::NotFound
@@ -49,18 +49,19 @@ module Fog
           end
         end
 
-        def head(key, options = {})
+        def head(key, options = { })
           requires :directory
-          data = connection.head_object(directory.key, key)
+          data = connection.head_object(directory.key + key, :parse => false)
           file_data = data.headers.merge({
-            :key => key
+              :body => data.body,
+              :key => key
           })
           new(file_data)
-        rescue Fog::Storage::Rackspace::NotFound
+        rescue Fog::Storage::Ninefold::NotFound
           nil
         end
 
-        def new(attributes = {})
+        def new(attributes = { })
           requires :directory
           super({ :directory => directory }.merge!(attributes))
         end
