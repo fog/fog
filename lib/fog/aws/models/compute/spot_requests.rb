@@ -62,10 +62,11 @@ module Fog
 
           spot_request.save
           spot_request.wait_for { ready? }
+          Fog.wait_for { server = connection.servers.get(spot_request.instance_id) }
           server = connection.servers.get(spot_request.instance_id)
           server.wait_for { ready? }
           server.setup(:key_data => [server.private_key])
-          spot_request
+          server
         end
 
         def get(spot_request_id)
