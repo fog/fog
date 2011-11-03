@@ -9,38 +9,24 @@ module Fog
         identity :id
 
         attribute :addresses
-        attribute :flavor_id,   :aliases => 'flavorId'
+        attribute :flavor
         attribute :host_id,     :aliases => 'hostId'
-        attribute :image_id,    :aliases => 'imageId'
+        attribute :image
         attribute :metadata
         attribute :name
         attribute :personality
         attribute :progress
+        attribute :accessIPv4
+        attribute :accessIPv6
         attribute :state,       :aliases => 'status'
 
         attr_reader :password
-        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username
-
-        def initialize(attributes={})
-          self.flavor_id  ||= 1  # 256 server
-          self.image_id   ||= 49 # Ubuntu 10.04 LTS 64bit
-          super
-        end
+        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :image_id, :flavor_id
 
         def destroy
           requires :id
           connection.delete_server(id)
           true
-        end
-
-        def flavor
-          requires :flavor_id
-          connection.flavors.get(flavor_id)
-        end
-
-        def image
-          requires :image_id
-          connection.images.get(image_id)
         end
 
         def images
@@ -49,7 +35,7 @@ module Fog
         end
 
         def private_ip_address
-          addresses['private'].first
+          addresses.nil? ? nil : addresses['private'].first
         end
 
         def private_key_path
@@ -62,7 +48,7 @@ module Fog
         end
 
         def public_ip_address
-          addresses['public'].first
+          addresses.nil? ? nil : addresses['public'].first
         end
 
         def public_key_path
@@ -72,6 +58,22 @@ module Fog
 
         def public_key
           @public_key ||= public_key_path && File.read(public_key_path)
+        end
+
+        def image_id
+          @image_id
+        end
+
+        def image_id=(new_image_id)
+          @image_id = new_image_id
+        end
+
+        def flavor_id
+          @flavor_id
+        end
+
+        def flavor_id=(new_flavor_id)
+          @flavor_id = new_flavor_id
         end
 
         def ready?
@@ -84,16 +86,46 @@ module Fog
           true
         end
 
+        def rebuild(image_id, name, admin_pass=nil, metadata=nil, personality=nil)
+          requires :id
+          connection.rebuild_server(id, image_id, name, admin_pass, metadata, personality)
+          true
+        end
+
+        def resize(flavor_id)
+          requires :id
+          connection.resize_server(id, flavor_id)
+          true
+        end
+
+        def revert_resize
+          requires :id
+          connection.revert_resized_server(id)
+          true
+        end
+
+        def confirm_resize
+          requires :id
+          connection.confirm_resized_server(id)
+          true
+        end
+
+        def create_image(name, metadata={})
+          requires :id
+          connection.create_image(id, name, metadata)
+        end
+
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          requires :flavor_id, :image_id
+          requires :flavor_id, :image_id, :name
           options = {
             'metadata'    => metadata,
-            'name'        => name,
-            'personality' => personality
+            'personality' => personality,
+            'accessIPv4'  => accessIPv4,
+            'accessIPv6'  => accessIPv6
           }
           options = options.reject {|key, value| value.nil?}
-          data = connection.create_server(flavor_id, image_id, options)
+          data = connection.create_server(name, flavor_id, image_id, options)
           merge_attributes(data.body['server'])
           true
         end
