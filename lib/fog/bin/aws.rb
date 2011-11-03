@@ -17,6 +17,8 @@ class AWS < Fog::Bin
         Fog::DNS::AWS
       when :elb
         Fog::AWS::ELB
+      when :emr
+        Fog::AWS::EMR
       when :iam
         Fog::AWS::IAM
       when :sdb, :simpledb
@@ -59,6 +61,8 @@ class AWS < Fog::Bin
           Fog::DNS.new(:provider => 'AWS')
         when :elb
           Fog::AWS::ELB.new
+        when :emr
+          Fog::AWS::EMR.new
         when :iam
           Fog::AWS::IAM.new
         when :rds

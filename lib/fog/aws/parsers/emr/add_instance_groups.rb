@@ -9,8 +9,7 @@ module Fog
             super
             case name
             when 'InstanceGroupIds'
-              @in_instance_group_ids = true
-              @instance_groups_ids = []
+              @response['InstanceGroupIds'] = []
             end
           end
 
@@ -18,11 +17,8 @@ module Fog
             case name
             when 'JobFlowId'
               @response[name] = value
-            when 'InstanceGroupIds'
-              @in_instance_group_ids = false
-              @response['InstanceGroupIds'] = @instance_group_ids
-            when 'InstanceGroupId'
-              @instance_group_ids << value
+            when 'member'
+              @response['InstanceGroupIds'] << value
             end
           end
         end

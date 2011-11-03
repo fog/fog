@@ -12,6 +12,7 @@ module Fog
     service(:cloud_watch,     'aws/cloud_watch')
     service(:dns,             'aws/dns')
     service(:elb,             'aws/elb')
+    service(:emr,             'aws/emr')
     service(:iam,             'aws/iam')
     service(:rds,             'aws/rds')
     service(:ses,             'aws/ses')
@@ -19,7 +20,6 @@ module Fog
     service(:sns,             'aws/sns')
     service(:sqs,             'aws/sqs')
     service(:storage,         'aws/storage')
-    service(:emr,             'aws/emr')
 
     def self.indexed_param(key, values)
       params = {}

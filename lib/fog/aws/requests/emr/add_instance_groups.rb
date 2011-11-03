@@ -27,8 +27,8 @@ module Fog
           end
     
           request({
-            'Action'  => 'CreateDBInstance',
-            'JobFlowId' => db_name,
+            'Action'  => 'AddInstanceGroups',
+            'JobFlowId' => job_flow_id,
             :parser   => Fog::Parsers::AWS::EMR::AddInstanceGroups.new,
           }.merge(options))
         end
@@ -36,8 +36,7 @@ module Fog
       end
 
       class Mock
-
-        def add_instance_groups(db_name, options={})
+        def add_instance_groups(job_flow_id, options={})
           Fog::Mock.not_implemented
         end
 

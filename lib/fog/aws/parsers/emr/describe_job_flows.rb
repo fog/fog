@@ -69,16 +69,22 @@ module Fog
                     'MasterInstanceId', 'MasterInstanceType', 'MasterPublicDnsName', 'NormalizedInstanceHours',
                     'SlaveInstanceType', 'TerminationProtected'
                 @instance[name] = value
-              when 'BidPrice', 'CreationDateTime', 'EndDateTime', 'InstanceGroupId',
-                  'InstanceRequestCount', 'InstanceRole', 'InstanceRunningCount', 'InstanceType',
-                  'LastStateChangeReason', 'Market', 'Name', 'ReadyDateTime', 'StartDateTime', 'State'
-                @instance_group_detail[name] = value
               when 'member'
                 @instance['InstanceGroups'] << @instance_group_detail
                 @instance_group_detail = {}      
               when 'Instances'
                 @flow['Instances'] = @instance
                 @instance = { 'InstanceGroups' => [], 'Placement' => {}}
+              end
+            end
+            
+            if @context.last == 'InstanceGroups'
+              case name
+              when 'member'
+                @instance['InstanceGroups'] << @instance_group_detail
+                @instance_group_detail = {}
+              else
+                @instance_group_detail[name] = value
               end
             end
             
@@ -117,7 +123,7 @@ module Fog
               when 'AmiVersion', 'JobFlowId', 'LogUri', 'Name'
                 @flow[name] = value
               when 'member'
-                @response['JobFlows'] = @flow
+                @response['JobFlows'] << @flow
                 @flow = {'Instances' => [], 'ExecutionStatusDetail' => {}, 'BootstrapActions' => [], 'Steps' => []}
               end
             end
