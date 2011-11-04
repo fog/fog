@@ -251,7 +251,11 @@ module Fog
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
             @host = endpoint.host
-            @path = endpoint.path
+            @path = if endpoint.path.empty?
+              '/'
+            else
+              endpoint.path
+            end
             @port = endpoint.port
             @scheme = endpoint.scheme
           else
