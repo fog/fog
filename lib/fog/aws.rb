@@ -13,6 +13,7 @@ module Fog
     service(:dns,             'aws/dns',              'DNS')
     service(:elasticache,     'aws/elasticache',      'Elasticache')
     service(:elb,             'aws/elb',              'ELB')
+    service(:emr,             'aws/emr',              'EMR')
     service(:iam,             'aws/iam',              'IAM')
     service(:rds,             'aws/rds',              'RDS')
     service(:ses,             'aws/ses',              'SES')
@@ -27,9 +28,33 @@ module Fog
         key << '.%d'
       end
       [*values].each_with_index do |value, index|
-        params[format(key, index + 1)] = value
+        if value.respond_to?('keys')
+          k = format(key, index + 1)
+          value.each do | vkey, vvalue |
+            params["#{k}.#{vkey}"] = vvalue
+          end
+        else
+          params[format(key, index + 1)] = value
+        end
       end
       params
+    end
+    
+    def self.serialize_keys(key, value, options = {})
+      case value
+      when Hash
+        value.each do | k, v |
+          options.merge!(serialize_keys("#{key}.#{k}", v))
+        end
+        return options
+      when Array
+        value.each_with_index do | it, idx |
+          options.merge!(serialize_keys("#{key}.member.#{(idx + 1)}", it))
+        end
+        return options
+      else
+        return {key => value}
+      end
     end
 
     def self.indexed_filters(filters)
