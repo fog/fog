@@ -36,6 +36,31 @@ module Fog
       request :add_records
 
       class Mock
+
+        def initialize(options={})
+          @rackspace_api_key = options[:rackspace_api_key]
+          @rackspace_username = options[:rackspace_username]
+          @rackspace_auth_url = options[:rackspace_auth_url]
+          @connection_options = options[:connection_options] || {}
+        end
+
+        def self.data
+          @data ||= {
+          }
+        end
+
+        def self.reset
+          @data = nil
+        end
+
+        def data
+          self.class.data
+        end
+
+        def reset_data
+          self.class.reset
+        end
+
       end
 
       class Real

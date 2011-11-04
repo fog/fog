@@ -107,9 +107,10 @@ module Fog
 
           customheaders = {}
           params[:headers].each { |key,value|
-            if key == "x-emc-date"
+            case key
+            when 'x-emc-date', 'x-emc-signature'
               #skip
-            elsif key =~ /^x-emc-/
+            when /^x-emc-/
               customheaders[ key.downcase ] = value
             end
           }

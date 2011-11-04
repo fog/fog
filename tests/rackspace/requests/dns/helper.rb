@@ -66,8 +66,16 @@ LIST_DOMAIN_DETAILS_WITH_RECORDS = BASIC_DOMAIN_DETAIL_FORMAT.merge({
 })
 
 LIST_DOMAIN_DETAILS_WITH_RECORDS_AND_SUBDOMAINS_FORMAT = BASIC_DOMAIN_DETAIL_FORMAT.merge({
-  'recordsList' => RECORD_LIST_FORMAT,
-  'subdomains' => [SUBDOMAIN_FORMAT]
+  'recordsList'     => RECORD_LIST_FORMAT,
+  'subdomains'      => {
+    'domains'   => [{
+      'created' => String,
+      'name'    => String,
+      'id'      => Integer,
+      'updated' => String
+    }],
+    'totalEntries'  => Integer
+  }
 })
 
 LIST_DOMAIN_DETAILS_WITHOUT_RECORDS_AND_SUBDOMAINS_FORMAT = BASIC_DOMAIN_DETAIL_FORMAT
@@ -82,19 +90,19 @@ CREATE_DOMAINS_FORMAT = {
 
 def wait_for(service, response)
   job_id = response.body['jobId']
-  while true
+  Fog.wait_for do
     response = service.callback(job_id)
-    return response if response.status != 202
-    sleep 5
+    response.body['status'] != 'RUNNING'
   end
+  response
 end
 
 def domain_tests(service, domain_attributes)
   tests("create_domains([#{domain_attributes}])").formats(CREATE_DOMAINS_FORMAT) do
     response = wait_for service, service.create_domains([domain_attributes])
-    @domain_details = response.body['domains']
+    @domain_details = response.body['response']['domains']
     @domain_id = @domain_details[0]['id']
-    response.body
+    response.body['response']
   end
 
   begin
@@ -111,9 +119,9 @@ end
 def domains_tests(service, domains_attributes, custom_delete = false)
   tests("create_domains(#{domains_attributes})").formats(CREATE_DOMAINS_FORMAT) do
     response = wait_for service, service.create_domains(domains_attributes)
-    @domain_details = response.body['domains']
+    @domain_details = response.body['response']['domains']
     @domain_ids = @domain_details.collect { |domain| domain['id'] }
-    response.body
+    response.body['response']
   end
 
   begin

@@ -18,7 +18,7 @@ module Fog
         # * response<~Excon::Response>: 
         #   * 'status'<~Integer> - 200 for success
         #
-        def update_host( host_id, options = {})
+        def update_host(host_id, options = {})
 
           optional_tags= ''
           options.each { |option, value|
@@ -46,6 +46,25 @@ module Fog
           )
         end
 
+      end
+
+      class Mock # :nodoc:all
+        def update_host(host_id, options = {})
+          host = find_host(host_id)
+
+          response = Excon::Response.new
+
+          if host
+            options.each { |k, v| host[k.to_s] = v } # Deal with symbols in requests but strings in responses.
+            host['updated-at'] = Time.now
+
+            response.status = 200
+          else
+            response.status = 404
+          end
+
+          response
+        end
       end
     end
   end

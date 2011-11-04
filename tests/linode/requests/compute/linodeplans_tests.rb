@@ -7,7 +7,8 @@ Shindo.tests('Fog::Compute[:linode] | linodeplans requests', ['linode']) do
          '3' => Integer,
          '4' => Integer,
          '6' => Integer,
-         '7' => Integer
+         '7' => Integer,
+         '8' => Integer
       },
       'DISK'    => Integer,
       'PLANID'  => Integer,

@@ -38,6 +38,9 @@ module Fog
       when :ninefold
         require 'fog/ninefold/compute'
         Fog::Compute::Ninefold.new(attributes)
+      when :openstack
+        require 'fog/openstack/compute'
+        Fog::Compute::OpenStack.new(attributes)
       when :rackspace
         require 'fog/rackspace/compute'
         Fog::Compute::Rackspace.new(attributes)
@@ -53,6 +56,9 @@ module Fog
       when :virtualbox
         require 'fog/virtual_box/compute'
         Fog::Compute::VirtualBox.new(attributes)
+      when :vmfusion
+        require 'fog/vmfusion/compute'
+        Fog::Compute::Vmfusion.new(attributes)
       when :voxel
         require 'fog/voxel/compute'
         Fog::Compute::Voxel.new(attributes)

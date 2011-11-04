@@ -14,7 +14,7 @@ module Fog
         # TODO
         def create_template(block_id, options={})
           request(
-            :expects  => 200,
+            :expects  => 202,
             :method   => 'POST',
             :path     => "api/block_templates.json",
             :query    => {'id' => block_id}.merge!(options)

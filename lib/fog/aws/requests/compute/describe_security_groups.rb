@@ -31,7 +31,7 @@ module Fog
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSecurityGroups.html]
         def describe_security_groups(filters = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_security_groups with #{filters.class} param is deprecated, use describe_security_groups('group-name' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_security_groups with #{filters.class} param is deprecated, use describe_security_groups('group-name' => []) instead [light_black](#{caller.first})[/]")
             filters = {'group-name' => [*filters]}
           end
           params = Fog::AWS.indexed_filters(filters)
@@ -48,7 +48,7 @@ module Fog
 
         def describe_security_groups(filters = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_security_groups with #{filters.class} param is deprecated, use describe_security_groups('group-name' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_security_groups with #{filters.class} param is deprecated, use describe_security_groups('group-name' => []) instead [light_black](#{caller.first})[/]")
             filters = {'group-name' => [*filters]}
           end
 

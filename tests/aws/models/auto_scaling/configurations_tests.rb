@@ -6,6 +6,6 @@ Shindo.tests('AWS::AutoScaling | configurations', ['aws', 'auto_scaling_m']) do
     :instance_type => 't1.micro'
   }
 
-  collection_tests(AWS[:auto_scaling].configurations, params, false)
+  collection_tests(Fog::AWS[:auto_scaling].configurations, params, false)
 
 end

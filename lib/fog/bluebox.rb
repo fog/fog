@@ -5,8 +5,8 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'bluebox/compute')
-    service(:dns,     'bluebox/dns')
+    service(:compute, 'bluebox/compute',  'Compute')
+    service(:dns,     'bluebox/dns',      'DNS')
 
   end
 end

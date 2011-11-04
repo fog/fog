@@ -5,7 +5,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'glesys/compute')
+    service(:compute, 'glesys/compute', 'Compute')
 
   end
 end

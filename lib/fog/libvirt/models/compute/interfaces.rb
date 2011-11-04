@@ -12,12 +12,12 @@ module Fog
         def all(filter=nil)
           data=[]
           if filter.nil?
-            connection.list_interfaces.each do |ifname|
-              interface=connection.lookup_interface_by_name(ifname)
+            connection.raw.list_interfaces.each do |ifname|
+              interface=connection.raw.lookup_interface_by_name(ifname)
               data << { :raw => interface }
             end
-            connection.list_defined_interfaces.each do |ifname|
-              interface=connection.lookup_interface_by_name(ifname)
+            connection.raw.list_defined_interfaces.each do |ifname|
+              interface=connection.raw.lookup_interface_by_name(ifname)
               data << { :raw => interface }
             end
 
@@ -42,14 +42,14 @@ module Fog
         #private # Making these private, screws up realod
         # Retrieve the interface by name
         def get_by_name(name)
-          interface=connection.lookup_interface_by_name(name)
+          interface=connection.raw.lookup_interface_by_name(name)
           return interface
           #          new(:raw => interface)
         end
 
         # Retrieve the interface by name
         def get_by_mac(mac)
-          interface=connection.lookup_interface_by_mac(mac)
+          interface=connection.raw.lookup_interface_by_mac(mac)
           return interface
           #          new(:raw => interface)
         end

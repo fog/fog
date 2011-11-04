@@ -27,11 +27,11 @@ module Fog
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSnapshots.html]
         def describe_snapshots(filters = {}, options = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_snapshots with #{filters.class} param is deprecated, use describe_snapshots('snapshot-id' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_snapshots with #{filters.class} param is deprecated, use describe_snapshots('snapshot-id' => []) instead [light_black](#{caller.first})[/]")
             filters = {'snapshot-id' => [*filters]}
           end
           unless options.empty?
-            Fog::Logger.warning("describe_snapshots with a second param is deprecated, use describe_snapshots(options) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_snapshots with a second param is deprecated, use describe_snapshots(options) instead [light_black](#{caller.first})[/]")
           end
 
           for key in ['ExecutableBy', 'ImageId', 'Owner', 'RestorableBy']
@@ -54,11 +54,11 @@ module Fog
 
         def describe_snapshots(filters = {}, options = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_snapshots with #{filters.class} param is deprecated, use describe_snapshots('snapshot-id' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_snapshots with #{filters.class} param is deprecated, use describe_snapshots('snapshot-id' => []) instead [light_black](#{caller.first})[/]")
             filters = {'snapshot-id' => [*filters]}
           end
           unless options.empty?
-            Fog::Logger.warning("describe_snapshots with a second param is deprecated, use describe_snapshots(options) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_snapshots with a second param is deprecated, use describe_snapshots(options) instead [light_black](#{caller.first})[/]")
           end
 
           response = Excon::Response.new
@@ -72,7 +72,7 @@ module Fog
             Fog::Logger.warning("describe_snapshots with RestorableBy other than 'self' (wanted #{restorable_by.inspect}) is not mocked [light_black](#{caller.first})[/]")
           end
 
-          snapshot_set = apply_tag_filters(snapshot_set, filters)
+          snapshot_set = apply_tag_filters(snapshot_set, filters, 'snapshotId')
 
           aliases = {
             'description' => 'description',
@@ -105,6 +105,8 @@ module Fog
               end
             end
           end
+
+          snapshot_set = snapshot_set.map {|snapshot| snapshot.merge('tagSet' => self.data[:tag_sets][snapshot['snapshotId']]) }
 
           response.status = 200
           response.body = {

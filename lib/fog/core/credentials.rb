@@ -45,6 +45,11 @@ module Fog
     end
   end
 
+  # @return [Hash] The newly assigned credentials
+  def self.credentials=(new_credentials)
+    @credentials = new_credentials
+  end
+
   def self.symbolize_credentials(args)
     if args.is_a? Hash
       Hash[ *args.collect do |key, value|

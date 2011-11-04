@@ -5,12 +5,22 @@ module Fog
     class Linode
       class Server < Fog::Compute::Server
         attr_reader :stack_script
+        attr_accessor :private_key, :username
         identity :id
         attribute :name
         attribute :status
 
+        def initialize(attributes={})
+          super
+          self.username = 'root'
+        end
+
         def ips
           Fog::Compute::Linode::Ips.new :server => self, :connection => connection
+        end
+
+        def public_ip_address
+          ips.find{|ip| ip.ip !~ /^192/}.ip
         end
 
         def disks

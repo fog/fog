@@ -53,7 +53,7 @@ module Fog
             when /^vol\-[a-z0-9]{8}$/i
               'volume'
             end
-            if type && self.data[:"#{type}s"][resource_id]
+            if type && ((type == 'image' && visible_images[resource_id]) || self.data[:"#{type}s"][resource_id])
               { 'resourceId' => resource_id, 'resourceType' => type }
             else
               raise(Fog::Service::NotFound.new("The #{type} ID '#{resource_id}' does not exist"))
@@ -64,8 +64,10 @@ module Fog
             self.data[:tags][key] ||= {}
             self.data[:tags][key][value] ||= []
             self.data[:tags][key][value] |= tagged
-            
-            tagged.each {|resource| self.data[:"#{resource['resourceType']}s"][resource['resourceId']]['tagSet'][key] = value}
+
+            tagged.each do |resource|
+              self.data[:tag_sets][resource['resourceId']][key] = value
+            end
           end
 
           response = Excon::Response.new

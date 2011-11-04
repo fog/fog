@@ -35,7 +35,7 @@ module Fog
         # The following attributes are only needed when creating a new vm
         attr_accessor :iso_dir, :iso_file
         attr_accessor :network_interface_type ,:network_nat_network, :network_bridge_name
-        attr_accessor :disk_format_type, :disk_allocation,:disk_capacity, :disk_name, :disk_pool_name, :disk_template_name, :disk_path
+        attr_accessor :volume_format_type, :volume_allocation,:volume_capacity, :volume_name, :volume_pool_name, :volume_template_name, :volume_path
 
         attr_accessor :password
         attr_writer   :private_key, :private_key_path, :public_key, :public_key_path, :username
@@ -62,13 +62,13 @@ module Fog
           self.iso_file ||=nil unless attributes[:iso_file]
           self.iso_dir ||="/var/lib/libvirt/images" unless attributes[:iso_dir]
 
-          self.disk_format_type ||=nil unless attributes[:disk_format_type]
-          self.disk_capacity ||=nil unless attributes[:disk_capacity]
-          self.disk_allocation ||=nil unless attributes[:disk_allocation]
+          self.volume_format_type ||=nil unless attributes[:volume_format_type]
+          self.volume_capacity ||=nil unless attributes[:volume_capacity]
+          self.volume_allocation ||=nil unless attributes[:volume_allocation]
 
-          self.disk_name ||=nil unless attributes[:disk_name]
-          self.disk_pool_name ||=nil unless attributes[:disk_pool_name]
-          self.disk_template_name ||=nil unless attributes[:disk_template_name]
+          self.volume_name ||=nil unless attributes[:volume_name]
+          self.volume_pool_name ||=nil unless attributes[:volume_pool_name]
+          self.volume_template_name ||=nil unless attributes[:volume_template_name]
 
           self.network_interface_type ||="nat" unless attributes[:network_interface_type]
           self.network_nat_network ||="default" unless attributes[:network_nat_network]
@@ -94,9 +94,9 @@ module Fog
             if !xml.nil?
               domain=nil
               if self.persistent
-                domain=connection.define_domain_xml(xml)
+                domain=connection.raw.define_domain_xml(xml)
               else
-                domain=connection.create_domain_xml(xml)
+                domain=connection.raw.create_domain_xml(xml)
               end
               self.raw=domain
             end
@@ -109,39 +109,39 @@ module Fog
 
           volume_options=Hash.new
 
-          unless self.disk_name.nil?
-            volume_options[:name]=self.disk_name
+          unless self.volume_name.nil?
+            volume_options[:name]=self.volume_name
           else
-            extension = self.disk_format_type.nil? ? "img" : self.disk_format_type
+            extension = self.volume_format_type.nil? ? "img" : self.volume_format_type
             volume_name = "#{self.name}.#{extension}"
             volume_options[:name]=volume_name
           end
 
           # Check if a disk template was specified
-          unless self.disk_template_name.nil?
+          unless self.volume_template_name.nil?
 
-            template_volumes=connection.volumes.all(:name => self.disk_template_name)
+            template_volumes=connection.volumes.all(:name => self.volume_template_name)
 
-            raise Fog::Errors::Error.new("Template #{self.disk_template_name} not found") unless template_volumes.length==1
+            raise Fog::Errors::Error.new("Template #{self.volume_template_name} not found") unless template_volumes.length==1
 
             orig_volume=template_volumes.first
-            self.disk_format_type=orig_volume.format_type unless self.disk_format_type
+            self.volume_format_type=orig_volume.format_type unless self.volume_format_type
             volume=orig_volume.clone("#{volume_options[:name]}")
 
             # This gets passed to the domain to know the path of the disk
-            self.disk_path=volume.path
+            self.volume_path=volume.path
 
           else
             # If no template volume was given, let's create our own volume
 
-            volume_options[:format_type]=self.disk_format_type unless self.disk_format_type.nil?
-            volume_options[:capacity]=self.disk_capacity unless self.disk_capacity.nil?
-            volume_options[:allocation]=self.disk_allocation unless self.disk_allocation.nil?
+            volume_options[:format_type]=self.volume_format_type unless self.volume_format_type.nil?
+            volume_options[:capacity]=self.volume_capacity unless self.volume_capacity.nil?
+            volume_options[:allocation]=self.volume_allocation unless self.volume_allocation.nil?
 
             begin
               volume=connection.volumes.create(volume_options)
-              self.disk_path=volume.path
-              self.disk_format_type=volume.format_type unless self.disk_format_type
+              self.volume_path=volume.path
+              self.volume_format_type=volume.format_type unless self.volume_format_type
             rescue
               raise Fog::Errors::Error.new("Error creating the volume : #{$!}")
             end
@@ -166,8 +166,8 @@ module Fog
             :iso_dir => self.iso_dir,
             :os_type => self.os_type,
             :arch => self.arch,
-            :disk_path => self.disk_path,
-            :disk_format_type => self.disk_format_type,
+            :volume_path => self.volume_path,
+            :volume_format_type => self.volume_format_type,
             :network_interface_type => self.network_interface_type,
             :network_nat_network => self.network_nat_network,
             :network_bridge_name => self.network_bridge_name
@@ -207,7 +207,6 @@ module Fog
           end
           @raw.undefine
         end
-
 
         def reboot
           requires :raw
@@ -280,7 +279,7 @@ module Fog
           # Aug 24 17:34:41 juno arpwatch: new station 10.247.4.137 52:54:00:88:5a:0a eth0.4
           # Aug 24 17:37:19 juno arpwatch: changed ethernet address 10.247.4.137 52:54:00:27:33:00 (52:54:00:88:5a:0a) eth0.4
           # Check if another ip_command string was provided
-          ip_command_global=@connection.ip_command.nil? ? 'grep $mac /var/log/arpwatch.log|sed -e "s/new station//"|sed -e "s/changed ethernet address//g" |tail -1 |cut -d ":" -f 4-| cut -d " " -f 3' : @connection.ip_command
+          ip_command_global=@connection.ip_command.nil? ? 'grep $mac /var/log/arpwatch.log|sed -e "s/new station//"|sed -e "s/changed ethernet address//g" |sed -e "s/reused old ethernet //" |tail -1 |cut -d ":" -f 4-| cut -d " " -f 3' : @connection.ip_command
           ip_command_local=options[:ip_command].nil? ? ip_command_global : options[:ip_command]
 
           ip_command="mac=#{mac}; "+ip_command_local

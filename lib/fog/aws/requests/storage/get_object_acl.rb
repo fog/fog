@@ -59,7 +59,7 @@ module Fog
 
       class Mock # :nodoc:all
 
-        def get_object_acl(bucket_name, object_name)
+        def get_object_acl(bucket_name, object_name, options = {})
           response = Excon::Response.new
           if acl = self.data[:acls][:object][bucket_name] && self.data[:acls][:object][bucket_name][object_name]
             response.status = 200

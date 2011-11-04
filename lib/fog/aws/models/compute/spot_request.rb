@@ -55,6 +55,27 @@ module Fog
           super
         end
 
+        def destroy
+          requires :id
+
+          connection.cancel_spot_instance_requests(id)
+          true
+        end
+
+        def key_pair
+          requires :key_name
+
+          connection.key_pairs.all(key_name).first
+        end
+
+        def key_pair=(new_keypair)
+          self.key_name = new_keypair && new_keypair.name
+        end
+
+        def ready?
+          state == 'active'
+        end
+
         def save
           requires :image_id, :flavor_id, :price
 
@@ -81,10 +102,6 @@ module Fog
           spot_instance_request.merge(:groups => spot_instance_request['LaunchSpecification.GroupSet'])
           spot_instance_request.merge(options)
           merge_attributes( spot_instance_request )
-        end
-
-        def ready?
-          state == 'active'
         end
 
       end

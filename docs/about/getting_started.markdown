@@ -24,7 +24,7 @@ Now in order to play with our data we need to setup a storage connection.
 
     storage = Fog::Storage.new({
       :local_root => '~/fog',
-      :provider   => 'Local',
+      :provider   => 'Local'
     })
 
 `storage` will now contain our storage object, configured to use the Local provider from our specified directory.
@@ -33,7 +33,7 @@ Now in order to play with our data we need to setup a storage connection.
 
 Now that you have cleared the preliminaries you are ready to start storing data. Storage providers in fog segregate files into `directories` to make it easier to organize things. So lets create a directory so we can see that in action.
 
-    directory = Fog::Storage.directories.create(
+    directory = storage.directories.create(
       :key => 'data'
     )
 

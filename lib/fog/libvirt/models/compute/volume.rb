@@ -70,7 +70,7 @@ module Fog
 
           begin
             volume=nil
-            pool=connection.lookup_storage_pool_by_name(pool_name)
+            pool=connection.raw.lookup_storage_pool_by_name(pool_name)
             volume=pool.create_volume_xml(xml)
             self.raw=volume
             true

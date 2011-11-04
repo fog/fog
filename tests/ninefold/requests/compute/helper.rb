@@ -37,9 +37,13 @@ class Ninefold
           "storagetype" => String,
           "offerha" => Fog::Boolean,
           "domainid" => Integer,
-          "domain" => String
+          "domain" => String,
+          "issystem" => Fog::Boolean,
+          "limitcpuuse" => Fog::Boolean,
+          "defaultuse" => Fog::Boolean
+
         }
-        #SERVICE_OFFERINGS = [Ninefold::Compute::Formats::Lists::SERVICE_OFFERING]
+        SERVICE_OFFERINGS = [Ninefold::Compute::Formats::Lists::SERVICE_OFFERING]
         ACCOUNTS = [{
                       "id"=>Integer,
                       "name"=>String,
@@ -95,19 +99,6 @@ class Ninefold
                     "state"=>String,
                     "parentid"=>Integer
                   }]
-        SERVICE_OFFERINGS = [{
-                               "id"=>Integer,
-                               "name"=>String,
-                               "displaytext"=>String,
-                               "cpunumber"=>Integer,
-                               "cpuspeed"=>Integer,
-                               "memory"=>Integer,
-                               "created"=>String,
-                               "storagetype"=>String,
-                               "offerha"=>Fog::Boolean,
-                               "domainid"=>Integer,
-                               "domain"=>String
-                             }]
         DISK_OFFERINGS = [{
                             "id"=>Integer,
                             "domainid"=>Integer,
@@ -129,6 +120,7 @@ class Ninefold
                        }]
         ZONES = [{
                    "allocationstate"=>String,
+                   "dhcpprovider"=>String,
                    "id"=>Integer,
                    "name"=>String,
                    "networktype"=>String,
@@ -266,8 +258,13 @@ class Ninefold
                     "domain"=>String,
                     "isdefault"=>Fog::Boolean,
                     "service"=>Array,
-                    "networkdomain"=>String,
-                    "securitygroupenabled"=>Fog::Boolean
+                    "networkdomain"=>Fog::Nullable::String,
+                    "securitygroupenabled"=>Fog::Boolean,
+                    "netmask"=>Fog::Nullable::String,
+                    "startip"=>Fog::Nullable::String,
+                    "endip"=>Fog::Nullable::String,
+                    "gateway"=>Fog::Nullable::String,
+                    "vlan"=>Fog::Nullable::String
                     }]
       end
       module Addresses

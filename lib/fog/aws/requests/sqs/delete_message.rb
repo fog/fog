@@ -25,7 +25,36 @@ module Fog
         end
 
       end
+      
+      class Mock
 
+        def delete_message(queue_url, receipt_handle)
+          Excon::Response.new.tap do |response|
+            if (queue = data[:queues][queue_url])
+              message_id, _ = queue[:receipt_handles].find { |msg_id, receipts|
+                receipts.keys.include?(receipt_handle)
+              }
+
+              if message_id
+                queue[:receipt_handles].delete(message_id)
+                queue[:messages].delete(message_id)
+                queue['Attributes']['LastModifiedTimestamp'] = Time.now
+              end
+
+              response.body = {
+                'ResponseMetadata' => {
+                  'RequestId' => Fog::AWS::Mock.request_id
+                }
+              }
+              response.status = 200
+            else
+              response.status = 404
+              raise(Excon::Errors.status_error({:expects => 200}, response))
+            end
+          end
+        end
+
+      end
     end
   end
 end

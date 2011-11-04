@@ -26,6 +26,24 @@ module Fog
 
         attr_reader :vsphere_is_vcenter
         attr_reader :vsphere_rev
+        attr_reader :vsphere_server
+        attr_reader :vsphere_username
+
+        ATTR_TO_PROP = {
+          :id => 'config.instanceUuid',
+          :name => 'name',
+          :uuid => 'config.uuid',
+          :instance_uuid => 'config.instanceUuid',
+          :hostname => 'summary.guest.hostName',
+          :operatingsystem => 'summary.guest.guestFullName',
+          :ipaddress => 'guest.ipAddress',
+          :power_state => 'runtime.powerState',
+          :connection_state => 'runtime.connectionState',
+          :host => 'runtime.host',
+          :tools_state => 'guest.toolsStatus',
+          :tools_version => 'guest.toolsVersionStatus',
+          :is_a_template => 'config.template',
+        }
 
         # Utility method to convert a VMware managed object into an attribute hash.
         # This should only really be necessary for the real class.
@@ -33,30 +51,14 @@ module Fog
         # in order to massage VMware Managed Object References into Attribute Hashes.
         def convert_vm_mob_ref_to_attr_hash(vm_mob_ref)
           return nil unless vm_mob_ref
-          # A cloning VM doesn't have a configuration yet.  Unfortuantely we just get
-          # a RunTime exception.
-          begin
-            is_ready = vm_mob_ref.config ? true : false
-          rescue RuntimeError
-            is_ready = nil
+
+          props = vm_mob_ref.collect! *ATTR_TO_PROP.values.uniq
+          Hash[ATTR_TO_PROP.map { |k,v| [k.to_s, props[v]] }].tap do |attrs|
+            attrs['id'] ||= vm_mob_ref._ref
+            attrs['mo_ref'] = vm_mob_ref._ref
+            attrs['hypervisor'] = attrs['host'].name
+            attrs['mac_addresses'] = vm_mob_ref.macs
           end
-          {
-            'id'               => is_ready ? vm_mob_ref.config.instanceUuid : vm_mob_ref._ref,
-            'mo_ref'           => vm_mob_ref._ref,
-            'name'             => vm_mob_ref.name,
-            'uuid'             => is_ready ? vm_mob_ref.config.uuid : nil,
-            'instance_uuid'    => is_ready ? vm_mob_ref.config.instanceUuid : nil,
-            'hostname'         => vm_mob_ref.summary.guest.hostName,
-            'operatingsystem'  => vm_mob_ref.summary.guest.guestFullName,
-            'ipaddress'        => vm_mob_ref.summary.guest.ipAddress,
-            'power_state'      => vm_mob_ref.runtime.powerState,
-            'connection_state' => vm_mob_ref.runtime.connectionState,
-            'hypervisor'       => vm_mob_ref.runtime.host ? vm_mob_ref.runtime.host.name : nil,
-            'tools_state'      => vm_mob_ref.summary.guest.toolsStatus,
-            'tools_version'    => vm_mob_ref.summary.guest.toolsVersionStatus,
-            'mac_addresses'    => is_ready ? vm_mob_ref.macs : nil,
-            'is_a_template'    => is_ready ? vm_mob_ref.config.template : nil
-          }
         end
 
       end
@@ -66,14 +68,12 @@ module Fog
         include Shared
 
         def initialize(options={})
-          require 'mocha'
           @vsphere_username = options[:vsphere_username]
           @vsphere_password = 'REDACTED'
           @vsphere_server   = options[:vsphere_server]
           @vsphere_expected_pubkey_hash = options[:vsphere_expected_pubkey_hash]
           @vsphere_is_vcenter = true
           @vsphere_rev = '4.0'
-          @connection = Mocha::Mock.new
         end
 
       end
@@ -125,6 +125,7 @@ module Fog
           end
 
           @vsphere_is_vcenter = @connection.serviceContent.about.apiType == "VirtualCenter"
+          @vsphere_rev = @connection.rev
 
           authenticate
         end

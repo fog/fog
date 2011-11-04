@@ -19,7 +19,7 @@ module Fog
             :expects  => 201,
             :headers  => headers,
             :method   => 'PUT',
-            :path     => "#{URI.escape(container)}/#{URI.escape(object)}"
+            :path     => "#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object)}"
           )
         end
 

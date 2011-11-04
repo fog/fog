@@ -58,13 +58,7 @@ class Brightbox
           "resource_type"   => String,
           "url"             => String,
           "id"              => String,
-          "status"          => String,
-          "ram_limit"       => Integer,
-          "ram_used"        => Integer,
-          "cloud_ips_limit" => Integer,
-          "cloud_ips_used"  => Integer,
-          "load_balancers_limit" => Integer,
-          "load_balancers_used" => Integer
+          "status"          => String
         }
 
         API_CLIENT = {
@@ -83,6 +77,27 @@ class Brightbox
           "public_ip"       => String,
           "status"          => String,
           "reverse_dns"     => String
+        }
+
+        FIREWALL_POLICY = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "default"         => Fog::Boolean
+        }
+
+        FIREWALL_RULE = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "source"          => Fog::Nullable::String,
+          "source_port"     => Fog::Nullable::String,
+          "destination"     => Fog::Nullable::String,
+          "destination_port" => Fog::Nullable::String,
+          "protocol"        => String,
+          "icmp_type_name"  => Fog::Nullable::String,
+          "description"     => Fog::Nullable::String
         }
 
         IMAGE = {
@@ -178,6 +193,31 @@ class Brightbox
           "interface"       => Fog::Brightbox::Nullable::Interface,
           "load_balancer"   => Fog::Brightbox::Nullable::LoadBalancer,
           "server"          => Fog::Brightbox::Nullable::Server
+        }
+
+        FIREWALL_POLICY = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "description"     => Fog::Nullable::String,
+          "default"         => Fog::Boolean,
+          "server_group"    => Brightbox::Compute::Formats::Nested::SERVER_GROUP,
+          "rules"  => [Brightbox::Compute::Formats::Nested::FIREWALL_RULE]
+        }
+
+        FIREWALL_RULE = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "source"          => String,
+          "source_port"     => String,
+          "destination"     => String,
+          "destination_port" => String,
+          "protocol"        => String,
+          "icmp_type_name"  => String,
+          "description"     => Fog::Nullable::String,
+          "firewall_policy" => Brightbox::Compute::Formats::Nested::FIREWALL_POLICY
         }
 
         IMAGE = {
@@ -339,6 +379,30 @@ class Brightbox
           "server"          => Fog::Brightbox::Nullable::Server
         }
 
+        FIREWALL_POLICY = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "description"     => Fog::Nullable::String,
+          "default"         => Fog::Boolean,
+          "server_group"    => Brightbox::Compute::Formats::Nested::SERVER_GROUP,
+          "rules"  => [Brightbox::Compute::Formats::Nested::FIREWALL_RULE]
+        }
+
+        FIREWALL_RULE = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "source"          => String,
+          "source_port"     => String,
+          "destination"     => String,
+          "destination_port" => String,
+          "protocol"        => String,
+          "icmp_type_name"  => String,
+          "description"     => Fog::Nullable::String
+        }
+
         IMAGE = {
           "name"            => String,
           "created_at"      => String,
@@ -458,6 +522,8 @@ class Brightbox
         API_CLIENTS = [Brightbox::Compute::Formats::Collected::API_CLIENT]
         CLOUD_IPS = [Brightbox::Compute::Formats::Collected::CLOUD_IP]
         IMAGES = [Brightbox::Compute::Formats::Collected::IMAGE]
+        FIREWALL_POLICIES = [Brightbox::Compute::Formats::Collected::FIREWALL_POLICY]
+        FIREWALL_RULES = [Brightbox::Compute::Formats::Collected::FIREWALL_RULE]
         LOAD_BALANCERS = [Brightbox::Compute::Formats::Collected::LOAD_BALANCER]
         SERVERS = [Brightbox::Compute::Formats::Collected::SERVER]
         SERVER_GROUPS = [Brightbox::Compute::Formats::Collected::SERVER_GROUP]

@@ -12,7 +12,7 @@ Shindo.tests("AWS::CloudWatch | metric_statistics", ['aws', 'cloudwatch']) do
     statisticTypes = ['Minimum','Maximum','Sum','SampleCount','Average']
     
     tests("#all").succeeds do
-      @statistics = AWS[:cloud_watch].metric_statistics.all({'Statistics' => statisticTypes, 'StartTime' => startTime, 'EndTime' => endTime, 'Period' => period, 'MetricName' => metricName, 'Namespace' => namespace, 'Dimensions' => [{'Name' => 'InstanceId', 'Value' => instanceId}]})
+      @statistics = Fog::AWS[:cloud_watch].metric_statistics.all({'Statistics' => statisticTypes, 'StartTime' => startTime, 'EndTime' => endTime, 'Period' => period, 'MetricName' => metricName, 'Namespace' => namespace, 'Dimensions' => [{'Name' => 'InstanceId', 'Value' => instanceId}]})
     end
     
     tests("#all_not_empty").returns(true) do
@@ -26,11 +26,11 @@ Shindo.tests("AWS::CloudWatch | metric_statistics", ['aws', 'cloudwatch']) do
       :unit => 'None'
     }
     tests('#new').returns(new_attributes) do
-      AWS[:cloud_watch].metric_statistics.new(new_attributes).attributes
+      Fog::AWS[:cloud_watch].metric_statistics.new(new_attributes).attributes
     end
     
     tests('#create').returns(new_attributes) do
-      AWS[:cloud_watch].metric_statistics.create(new_attributes).attributes
+      Fog::AWS[:cloud_watch].metric_statistics.create(new_attributes).attributes
     end
     
     stats_set_attributes = {
@@ -44,7 +44,7 @@ Shindo.tests("AWS::CloudWatch | metric_statistics", ['aws', 'cloudwatch']) do
       :unit => 'None'
     }
     tests('#create_stats_set').returns(stats_set_attributes) do
-      AWS[:cloud_watch].metric_statistics.create(stats_set_attributes).attributes
+      Fog::AWS[:cloud_watch].metric_statistics.create(stats_set_attributes).attributes
     end
   end
 

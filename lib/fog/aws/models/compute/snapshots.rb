@@ -19,7 +19,7 @@ module Fog
 
         def all(filters = filters, options = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("all with #{filters.class} param is deprecated, use all('snapshot-id' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("all with #{filters.class} param is deprecated, use all('snapshot-id' => []) instead [light_black](#{caller.first})[/]")
             filters = {'snapshot-id' => [*filters]}
           end
           self.filters = filters

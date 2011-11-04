@@ -36,12 +36,28 @@ module Fog
 
       class Mock
 
-        def initialize(options)
-          Fog::Mock.not_implemented
+        def initialize(options={})
+          @api_url            = options[:glesys_api_url] || Fog.credentials[:glesys_api_url] || API_URL
+          @glesys_username    = options[:glesys_username] || Fog.credentials[:glesys_api_key]
+          @glesys_api_key     = options[:glesys_api_key] || Fog.credentials[:glesys_api_key]
+          @connection_options = options[:connection_options] || {}
         end
 
-        def request(method_name, options = {})
-          Fog::Mock.not_implemented
+        def self.data
+          @data ||= {
+          }
+        end
+
+        def self.reset
+          @data = nil
+        end
+
+        def data
+          self.class.data
+        end
+
+        def reset_data
+          self.class.reset
         end
 
       end

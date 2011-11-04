@@ -31,7 +31,7 @@ module Fog
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeVolumes.html]
         def describe_volumes(filters = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_volumes with #{filters.class} param is deprecated, use describe_volumes('volume-id' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_volumes with #{filters.class} param is deprecated, use describe_volumes('volume-id' => []) instead [light_black](#{caller.first})[/]")
             filters = {'volume-id' => [*filters]}
           end
           params = Fog::AWS.indexed_filters(filters)
@@ -48,15 +48,15 @@ module Fog
 
         def describe_volumes(filters = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_volumes with #{filters.class} param is deprecated, use describe_volumes('volume-id' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_volumes with #{filters.class} param is deprecated, use describe_volumes('volume-id' => []) instead [light_black](#{caller.first})[/]")
             filters = {'volume-id' => [*filters]}
           end
 
           response = Excon::Response.new
 
           volume_set = self.data[:volumes].values
-          volume_set = apply_tag_filters(volume_set, filters)
-          
+          volume_set = apply_tag_filters(volume_set, filters, 'volumeId')
+
           aliases = {
             'availability-zone' => 'availabilityZone',
             'create-time' => 'createTime',
@@ -102,6 +102,7 @@ module Fog
             end
           end
           volume_set = volume_set.reject {|volume| !self.data[:volumes][volume['volumeId']]}
+          volume_set = volume_set.map {|volume| volume.merge('tagSet' => self.data[:tag_sets][volume['volumeId']]) }
 
           response.status = 200
           response.body = {

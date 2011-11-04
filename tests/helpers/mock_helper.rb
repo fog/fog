@@ -8,7 +8,7 @@ end
 
 # if in mocked mode, fill in some fake credentials for us
 if Fog.mock?
-  Fog.instance_variable_set(:@credentials, {
+  Fog.credentials = {
     :aws_access_key_id                => 'aws_access_key_id',
     :aws_secret_access_key            => 'aws_secret_access_key',
     :bluebox_api_key                  => 'bluebox_api_key',
@@ -38,6 +38,10 @@ if Fog.mock?
     :ninefold_storage_token           => 'ninefold_storage_token',
 #    :public_key_path                  => '~/.ssh/id_rsa.pub',
 #    :private_key_path                 => '~/.ssh/id_rsa',
+    :openstack_api_key                => 'openstack_api_key',
+    :openstack_username               => 'openstack_username',
+    :openstack_tenant                 => 'openstack_tenant',
+    :openstack_auth_url               => 'openstack_auth_url',
     :rackspace_api_key                => 'rackspace_api_key',
     :rackspace_username               => 'rackspace_username',
     :slicehost_password               => 'slicehost_password',
@@ -57,5 +61,5 @@ if Fog.mock?
     :vsphere_username                 => 'apiuser',
     :vsphere_password                 => 'apipassword',
     :vsphere_expected_pubkey_hash     => 'abcdef1234567890'
-  })
+  }
 end

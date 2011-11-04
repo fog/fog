@@ -86,7 +86,6 @@ module Fog
               'rootDeviceName' => '',
               'blockDeviceMapping' => [],
               'virtualizationType' => 'paravirtual',
-              'tagSet' => {},
               'hypervisor' => 'xen',
               'registered' => Time.now
             }

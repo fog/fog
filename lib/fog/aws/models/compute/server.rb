@@ -169,8 +169,10 @@ module Fog
           data = connection.run_instances(image_id, 1, 1, options)
           merge_attributes(data.body['instancesSet'].first)
 
-          if self.tags
-            for key, value in self.tags
+          if tags = self.tags
+            # expect eventual consistency
+            Fog.wait_for { self.reload rescue nil }
+            for key, value in (self.tags = tags)
               connection.tags.create(
                 :key          => key,
                 :resource_id  => self.identity,
