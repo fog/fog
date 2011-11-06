@@ -49,7 +49,7 @@ module Fog
           end
         end
 
-        def head(key, options = { })
+        def head(key, options = {})
           requires :directory
           data = connection.head_namespace(directory.key + key, :parse => false)
           file_data = data.headers.merge({
