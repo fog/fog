@@ -51,7 +51,7 @@ module Fog
 
         def head(key, options = { })
           requires :directory
-          data = connection.head_object(directory.key + key, :parse => false)
+          data = connection.head_namespace(directory.key + key, :parse => false)
           file_data = data.headers.merge({
             :body => data.body,
             :key => key
