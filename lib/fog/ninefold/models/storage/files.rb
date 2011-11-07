@@ -51,12 +51,13 @@ module Fog
 
         def head(key, options = {})
           requires :directory
-          data = connection.head_object(directory.key, key)
+          data = connection.head_namespace(directory.key + key, :parse => false)
           file_data = data.headers.merge({
+            :body => data.body,
             :key => key
           })
           new(file_data)
-        rescue Fog::Storage::Rackspace::NotFound
+        rescue Fog::Storage::Ninefold::NotFound
           nil
         end
 
