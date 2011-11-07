@@ -13,28 +13,36 @@ module Fog
             data << "  </Owner>\n"
           end
 
-          data << "  <AccessControlList>\n" if acl['AccessControlList'].any?
-          acl['AccessControlList'].each do |grant|
+          grants = [acl['AccessControlList']].flatten.compact
+
+          data << "  <AccessControlList>\n" if grants.any?
+          grants.each do |grant|
             data << "    <Grant>\n"
-            type = case grant['Grantee'].keys.sort
-            when ['ID']
+            grantee = grant['Grantee']
+            type = case
+            when grantee.has_key?('ID')
               'CanonicalUser'
-            when ['EmailAddress']
+            when grantee.has_key?('EmailAddress')
               'AmazonCustomerByEmail'
-            when ['URI']
+            when grantee.has_key?('URI')
               'Group'
             end
 
             data << "      <Grantee xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"#{type}\">\n"
-            data << "        <ID>#{grant['Grantee']['ID']}</ID>\n" if grant['Grantee']['ID']
-            data << "        <DisplayName>#{grant['Grantee']['DisplayName']}</DisplayName>\n" if grant['Grantee']['DisplayName']
-            data << "        <EmailAddress>#{grant['Grantee']['EmailAddress']}</EmailAddress>\n" if grant['Grantee']['EmailAddress']
-            data << "        <URI>#{grant['Grantee']['URI']}</URI>\n" if grant['Grantee']['URI']
+            case type
+            when 'CanonicalUser'
+              data << "        <ID>#{grantee['ID']}</ID>\n" if grantee['ID']
+              data << "        <DisplayName>#{grantee['DisplayName']}</DisplayName>\n" if grantee['DisplayName']
+            when 'AmazonCustomerByEmail'
+              data << "        <EmailAddress>#{grantee['EmailAddress']}</EmailAddress>\n" if grantee['EmailAddress']
+            when 'Group'
+              data << "        <URI>#{grantee['URI']}</URI>\n" if grantee['URI']
+            end
             data << "      </Grantee>\n"
             data << "      <Permission>#{grant['Permission']}</Permission>\n"
             data << "    </Grant>\n"
           end
-          data << "  </AccessControlList>\n" if acl['AccessControlList'].any?
+          data << "  </AccessControlList>\n" if grants.any?
 
           data << "</AccessControlPolicy>"
 
