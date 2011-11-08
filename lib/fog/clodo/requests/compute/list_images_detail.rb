@@ -33,15 +33,21 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            'images' => [{ 'os_type' => 'debian', 'os_bits' => 64, 'os_hvm' => 0, '_attr' => {
-                             'id' => 1,
-                             'name' => 'Debian 5.0.6 64 bits',
+            'images' => [{ 'os_type' => 'debian',
+                           'os_bits' => "64",
+                           'os_hvm' => "0",
+                           '_attr' => {
+                             'id' => "541",
+                             'name' => 'Debian 6 64 bits',
                              'status' => 'ACTIVE',
-                             'vps_type' => 'VirtualServer'
+                             'vps_type' => 'ScaleServer'
                            }},
-                         { 'os_type' => 'centos', 'os_bits' => 32, 'os_hvm' => 0, '_attr' => {
+                         { 'os_type' => 'centos',
+                           'os_bits' => "32",
+                           'os_hvm' => "0",
+                           '_attr' => {
                              'name' => 'CentOS 5.5 32 bits',
-                             'id' => 1,
+                             'id' => "31",
                              'vps_type' => 'VirtualServer',
                              'status' => 'ACTIVE',
                            }}]
