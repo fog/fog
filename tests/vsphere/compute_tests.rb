@@ -3,21 +3,28 @@ Shindo.tests('Fog::Compute[:vsphere]', ['vsphere']) do
   compute = Fog::Compute[:vsphere]
 
   tests("| convert_vm_mob_ref_to_attr_hash") do
-    require 'ostruct'
+    # Mock the RbVmomi::VIM::ManagedObject class
+    class MockManagedObject
 
-    fake_vm = OpenStruct.new({
-      :_ref    => 'vm-123',
-      :name    => 'fakevm',
-      :summary => OpenStruct.new(:guest => OpenStruct.new),
-      :runtime => OpenStruct.new,
-    })
+      attr_reader :parent, :_ref
+
+      def initialize
+        @parent = @_ref = 'vm-123'
+      end
+
+      def collect! *pathSet
+        { '_ref' => 'vm-123', 'name' => 'fakevm' }
+      end
+    end
+
+    fake_vm_mob_ref = MockManagedObject.new
 
     tests("When converting an incomplete vm object") do
       test("it should return a Hash") do
-        compute.convert_vm_mob_ref_to_attr_hash(fake_vm).kind_of? Hash
+        compute.convert_vm_mob_ref_to_attr_hash(fake_vm_mob_ref).kind_of? Hash
       end
       tests("The converted Hash should") do
-        attr_hash = compute.convert_vm_mob_ref_to_attr_hash(fake_vm)
+        attr_hash = compute.convert_vm_mob_ref_to_attr_hash(fake_vm_mob_ref)
         test("have a name") { attr_hash['name'] == 'fakevm' }
         test("have a mo_ref") {attr_hash['mo_ref'] == 'vm-123' }
         test("have an id") { attr_hash['id'] == 'vm-123' }
@@ -38,10 +45,11 @@ Shindo.tests('Fog::Compute[:vsphere]', ['vsphere']) do
       test("it should respond to #{attr}") { compute.respond_to? attr }
     end
   end
+
   tests("Compute collections") do
     %w{ servers }.each do |collection|
       test("it should respond to #{collection}") { compute.respond_to? collection }
     end
   end
-
 end
+
