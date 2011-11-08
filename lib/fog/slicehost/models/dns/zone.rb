@@ -39,7 +39,7 @@ module Fog
             Fog::DNS::Slicehost::Records.new(
               :zone       => self,
               :connection => connection
-            )
+            ).all
           end
         end
 
