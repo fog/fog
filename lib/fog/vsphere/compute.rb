@@ -84,6 +84,7 @@ module Fog
         include Shared
 
         def initialize(options={})
+          require 'rbvmomi'
           @vsphere_username = options[:vsphere_username]
           @vsphere_password = 'REDACTED'
           @vsphere_server   = options[:vsphere_server]

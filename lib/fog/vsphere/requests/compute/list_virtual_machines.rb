@@ -86,6 +86,10 @@ module Fog
 
       class Mock
 
+        def get_folder_path(folder, root = nil)
+          nil
+        end
+
         def list_virtual_machines(options = {})
           case options['instance_uuid']
           when nil
