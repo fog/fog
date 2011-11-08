@@ -15,8 +15,6 @@ module Fog
         #     * 'status'<~String> - Current server status
         #     * 'addresses'<~Hash>:
         #       * 'public'<~Array> - public address strings
-        #       * 'private'<~Array> - private address strings
-        #     * 'metadata'<~Hash> - metadata
         def list_servers_detail
           request(
             :expects  => [200, 203],

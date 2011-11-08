@@ -12,6 +12,9 @@ module Fog
       end
       class Mock
         def server_action(id, action)
+
+          raise Excon::Errors::BadRequest.new("Invalid server id #{id}.") unless id > 0
+
           response = Excon::Response.new
           response.status = 204
           response

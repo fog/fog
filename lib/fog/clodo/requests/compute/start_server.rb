@@ -7,6 +7,13 @@ module Fog
           server_action(id, body)
         end
       end
+
+      class Mock
+        def start_server(id)
+          body = {'start' => {}}
+          server_action(id, body)
+        end
+      end
     end
   end
 end
