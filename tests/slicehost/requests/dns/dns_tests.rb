@@ -183,7 +183,7 @@ Shindo.tests('Fog::DNS[:slicehost] | DNS requests', ['slicehost', 'dns']) do
       response = Fog::DNS[:slicehost].get_record(@record_id)
       if response.status == 200
         mail_domain = 'mail.' + @domain
-        record = response.body['records'][0]
+        record = response.body
         if (record['record_type'] == 'MX') and (record['name'] == @domain) and
           (record['value'] == mail_domain) and (record['ttl'] == 3600) and (record['active'] == 'N') and
           (record['aux'] == "10")
@@ -247,8 +247,7 @@ Shindo.tests('Fog::DNS[:slicehost] | DNS requests', ['slicehost', 'dns']) do
 
         mail_domain = 'mail.' + @domain
 
-        records = Fog::DNS[:slicehost].get_record(specific_record['id']).body["records"]
-        record = records[0]
+        record = Fog::DNS[:slicehost].get_record(specific_record['id']).body
 
         if (record['record_type'] == 'MX') and (record['name'] == @domain) and
               (record['value'] == mail_domain) and (record['ttl'] == 7200) and (record['active'] == 'N') and
