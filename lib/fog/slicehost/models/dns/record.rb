@@ -12,7 +12,7 @@ module Fog
         identity :id
 
         attribute :active
-        attribute :value,       :aliases => 'ip'
+        attribute :value,       :aliases => ['ip', 'data']
         attribute :name
         attribute :description, :aliases => 'aux'
         attribute :ttl

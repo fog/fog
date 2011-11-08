@@ -184,10 +184,10 @@ Shindo.tests('Fog::DNS[:slicehost] | DNS requests', ['slicehost', 'dns']) do
       if response.status == 200
         mail_domain = 'mail.' + @domain
         record = response.body['records'][0]
-        if (record['record-type'] == 'MX') and (record['name'] == @domain) and
-          (record['data'] == mail_domain) and (record['ttl'] == 3600) and (record['active'] == 'N') and
+        if (record['record_type'] == 'MX') and (record['name'] == @domain) and
+          (record['value'] == mail_domain) and (record['ttl'] == 3600) and (record['active'] == 'N') and
           (record['aux'] == "10")
-          result= true
+          result = true
         end
       end
               
@@ -197,7 +197,7 @@ Shindo.tests('Fog::DNS[:slicehost] | DNS requests', ['slicehost', 'dns']) do
     test('get records - verify all parameters for one record') do
       pending if Fog.mocking?
 
-      result= false
+      result = false
       
       response = Fog::DNS[:slicehost].get_records()
       if response.status == 200
@@ -205,16 +205,15 @@ Shindo.tests('Fog::DNS[:slicehost] | DNS requests', ['slicehost', 'dns']) do
         
         #find mx record
         records.each {|record|
-          if record['record-type'] == 'MX'
+          if (record['record_type'] == 'MX') and (record['name'] == @domain)
 
             mail_domain = 'mail.' + @domain
-            if (record['record-type'] == 'MX') and (record['name'] == @domain) and
-              (record['data'] == mail_domain) and (record['ttl'] == 3600) and (record['active'] == 'N') and
+            if (record['record_type'] == 'MX') and (record['name'] == @domain) and
+              (record['value'] == mail_domain) and (record['ttl'] == 3600) and (record['active'] == 'N') and
               (record['aux'] == "10")
-              result= true
-              break
+              result = true
             end
-
+            break
           end
         }
       end
