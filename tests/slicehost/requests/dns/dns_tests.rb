@@ -220,6 +220,15 @@ Shindo.tests('Fog::DNS[:slicehost] | DNS requests', ['slicehost', 'dns']) do
               
       result
     end
+
+    test("newly created zone returns only records which we added to it, not other records already in account") do
+      pending if Fog.mocking?
+
+      @new_zone = Fog::DNS[:slicehost].zones.get(@zone_id)
+      
+      records = @new_zone.records
+      records.length == @new_records.length
+    end
     
     test("delete #{@new_records.count} records created") do
       pending if Fog.mocking?
