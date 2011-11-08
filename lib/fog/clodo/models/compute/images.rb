@@ -15,6 +15,9 @@ module Fog
         end
 
         def get(image_id)
+          image = connection.get_image_details(image_id).body['image']
+          new(image) if image
+        rescue Fog::Compute::Clodo::NotFound
           nil
         end
 
