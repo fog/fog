@@ -15,7 +15,7 @@ module Fog
       request_path 'fog/clodo/requests/compute'
       request :create_server
       request :delete_server
-#      request :get_image_details # Not supported by API
+      request :get_image_details # Not supported by API
       request :list_images
       request :list_images_detail
       request :list_servers
