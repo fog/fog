@@ -221,6 +221,46 @@ Shindo.tests('Fog::DNS[:slicehost] | DNS requests', ['slicehost', 'dns']) do
       result
     end
 
+    test('update record - verify all parameters for one record') do
+      pending if Fog.mocking?
+
+      result = false
+
+      specific_record = nil
+
+      response = Fog::DNS[:slicehost].get_records()
+      if response.status == 200
+        records = response.body['records']
+
+        #find mx record
+        records.each {|record|
+          if (record['record_type'] == 'MX') and (record['name'] == @domain)
+            specific_record = record
+            break
+          end
+        }
+      end
+
+      if (specific_record)  #Try to change the TTL for this MX record if we've successfully created it.
+        response = Fog::DNS[:slicehost].update_record(specific_record['id'], specific_record['record_type'], specific_record['zone_id'],
+                                          specific_record['name'], specific_record['value'], {:ttl => 7200, :active => "N", :aux => "10"})
+
+        mail_domain = 'mail.' + @domain
+
+        records = Fog::DNS[:slicehost].get_record(specific_record['id']).body["records"]
+        record = records[0]
+
+        if (record['record_type'] == 'MX') and (record['name'] == @domain) and
+              (record['value'] == mail_domain) and (record['ttl'] == 7200) and (record['active'] == 'N') and
+              (record['aux'] == "10")
+              result = true
+        end
+
+      end
+
+      result
+    end
+
     test("newly created zone returns only records which we added to it, not other records already in account") do
       pending if Fog.mocking?
 

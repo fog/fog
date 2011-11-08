@@ -23,6 +23,7 @@ module Fog
       request :get_records
       request :get_zone
       request :get_zones
+      request :update_record
 
       class Mock
 

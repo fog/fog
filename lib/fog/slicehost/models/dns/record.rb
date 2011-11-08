@@ -45,13 +45,17 @@ module Fog
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          
           requires :name, :type, :value, :zone
           options = {}
           options[:active]  = active ? 'Y' : 'N'
           options[:aux]     = description if description
           options[:ttl]     = ttl if ttl
-          data = connection.create_record(type, zone.id, name, value, options)
+          if identity
+            data = connection.update_record(identity, type, zone.id, name, value, options)
+          else
+            data = connection.create_record(type, zone.id, name, value, options)
+          end
           merge_attributes(data.body)
           true
         end
