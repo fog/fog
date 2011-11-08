@@ -176,7 +176,13 @@ module Fog
       end
 
       def validate_options(options)
-        missing = requirements - options.keys
+        keys = []
+        for key, value in options
+          unless value.nil?
+            keys << key
+          end
+        end
+        missing = requirements - keys
         unless missing.empty?
           raise ArgumentError, "Missing required arguments: #{missing.join(', ')}"
         end
