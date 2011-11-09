@@ -65,7 +65,7 @@ After that you should be able to check your directory list in fog or your filesy
 
 ## Next Steps
 
-Using the same interface you can also practice working against a real provider (such as Amazon S3).  Rather than worrying about signing up for an account right away though, we can use mocks to simulate S3 while we practice.
+Using the same interface you can also practice working against a real provider (such as Amazon S3). Rather than worrying about signing up for an account right away though, we can use mocks to simulate S3 while we practice.
 
 This time we will turn on mocking and then, just like before, we will need to make a connection.
 
@@ -76,8 +76,33 @@ This time we will turn on mocking and then, just like before, we will need to ma
       :provider               => 'AWS'
     })
 
-You may notice that we used bogus credentials, this is fine since we are just simulating things.  To use real S3 you can simply omit `Fog.mock!` and swap in your real credentials.
+You may notice that we used bogus credentials, this is fine since we are just simulating things. To use real S3 you can simply omit Fog.mock! and swap in your real credentials.
 
-Once you have your connection you can go through all the steps you did before, only now you will be working against a real cloud service (or at least a simulated one).
+If you'd like to turn off mocking after turning it on, you can do it at any time and every subsequent connection will be a real connection.
+
+    # Turn on mocking
+    Fog.mock!
+
+    # Create a mock connection to S3
+    storage = Fog::Storage.new({
+      :aws_access_key_id => "asdf",
+      :aws_secret_access_key => "asdf",
+      :provider => "AWS"
+    })
+
+    # Turn off mocking
+    Fog.unmock!
+
+    # Create a real connection to S3
+    storage = Fog::Storage.new({
+      :aws_access_key_id => "asdf",
+      :aws_secret_access_key => "asdf",
+      :provider => "AWS"
+    })
+
+Don't worry about your losing mock data, it stays around until you reset it or until your process exits.
+
+    # Reset all mock data
+    Fog::Mock.reset
 
 Congratulations and welcome to the cloud!  Continue your journey at [fog.io](http://fog.io)
