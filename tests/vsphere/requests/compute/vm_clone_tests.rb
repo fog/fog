@@ -1,4 +1,4 @@
-Shindo.tests("Fog::Compute[:servers] | vm_clone request") do
+Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
   #require 'guid'
   template = "50323f93-6835-1178-8b8f-9e2109890e1a"
   compute = Fog::Compute[:vsphere]
