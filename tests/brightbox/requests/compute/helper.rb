@@ -110,7 +110,8 @@ class Brightbox
           "description"     => String,
           "source"          => String,
           "status"          => String,
-          "owner"           => String
+          "owner"           => String,
+          "username"        => Fog::Nullable::String,
         }
 
         INTERFACE = {
@@ -131,7 +132,8 @@ class Brightbox
           "hostname"        => String,
           "created_at"      => String,
           "started_at"      => Fog::Nullable::String,
-          "deleted_at"      => Fog::Nullable::String
+          "deleted_at"      => Fog::Nullable::String,
+          "username"        => Fog::Nullable::String
         }
 
         SERVER_GROUP = {
@@ -139,6 +141,7 @@ class Brightbox
           "resource_type"   => String,
           "url"             => String,
           "name"            => String,
+          "created_at"      => String,
           "default"         => Fog::Boolean,
           "description"     => Fog::Nullable::String
         }
@@ -237,7 +240,8 @@ class Brightbox
           "compatibility_mode" => Fog::Boolean,
           "virtual_size"    => Integer,
           "disk_size"       => Integer,
-          "ancestor"        => Fog::Brightbox::Nullable::Image
+          "ancestor"        => Fog::Brightbox::Nullable::Image,
+          "username"        => Fog::Nullable::String
         }
 
         LOAD_BALANCER = {
@@ -271,10 +275,12 @@ class Brightbox
           "server_groups"   => [Brightbox::Compute::Formats::Nested::SERVER_GROUP],
           "snapshots"       => [Brightbox::Compute::Formats::Nested::IMAGE],
           "interfaces"      => [Brightbox::Compute::Formats::Nested::INTERFACE],
-          "zone"            => Fog::Brightbox::Nullable::Zone
+          "zone"            => Fog::Brightbox::Nullable::Zone,
+          "username"        => Fog::Nullable::String
         }
 
         SERVER_GROUP = {
+          "created_at"      => String,
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
@@ -420,7 +426,8 @@ class Brightbox
           "compatibility_mode"   => Fog::Boolean,
           "virtual_size"    => Integer,
           "disk_size"       => Integer,
-          "ancestor"        => Fog::Brightbox::Nullable::Image
+          "ancestor"        => Fog::Brightbox::Nullable::Image,
+          "username"        => Fog::Nullable::String
         }
 
         INTERFACE = {
@@ -470,10 +477,12 @@ class Brightbox
           "snapshots"       => [Brightbox::Compute::Formats::Nested::IMAGE],
           "server_groups"   => [Brightbox::Compute::Formats::Nested::SERVER_GROUP],
           "interfaces"      => [Brightbox::Compute::Formats::Nested::INTERFACE],
-          "zone"            => Brightbox::Compute::Formats::Nested::ZONE
+          "zone"            => Brightbox::Compute::Formats::Nested::ZONE,
+          "username"        => Fog::Nullable::String
         }
 
         SERVER_GROUP = {
+          "created_at"      => String,
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
