@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::StormOnDemand::Config
 
         def all
-          data = connection.list_configs.body['configs']
+          data = connection.list_configs.body['items']
           load(data)
         end
 
