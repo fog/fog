@@ -79,7 +79,7 @@ module Fog
         #
         # ==== Parameters
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
-        #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1'i, 'ap-southeast-1']
+        #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'ap-southeast-1']
         #
         # ==== Returns
         # * ELB object with connection to AWS.
@@ -101,6 +101,8 @@ module Fog
             'rds.us-east-1.amazonaws.com'
           when 'us-west-1'
             'rds.us-west-1.amazonaws.com'
+          when 'us-west-2'
+            'rds.us-west-2.amazonaws.com'
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end

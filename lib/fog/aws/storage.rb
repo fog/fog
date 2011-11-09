@@ -199,6 +199,8 @@ module Fog
             's3.amazonaws.com'
           when 'us-west-1'
             's3-us-west-1.amazonaws.com'
+          when 'us-west-2'
+            's3-us-west-2.amazonaws.com'
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end
@@ -271,6 +273,8 @@ module Fog
               's3.amazonaws.com'
             when 'us-west-1'
               's3-us-west-1.amazonaws.com'
+            when 'us-west-2'
+              's3-us-west-2.amazonaws.com'
             else
               raise ArgumentError, "Unknown region: #{options[:region].inspect}"
             end
