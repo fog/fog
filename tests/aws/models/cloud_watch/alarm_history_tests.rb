@@ -1,10 +1,12 @@
 Shindo.tests("AWS::CloudWatch | alarm_histories", ['aws', 'cloudwatch']) do
 
+  pending if Fog.mocking?
+
   tests('success') do
     tests("#all").succeeds do
       Fog::AWS[:cloud_watch].alarm_histories.all
     end
-    
+
   new_attributes = {
       :alarm_name => 'tmp-alarm',
       :end_date => '',
