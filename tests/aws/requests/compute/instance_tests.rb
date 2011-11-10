@@ -126,7 +126,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
 
     @instance_id = nil
     # Use a MS Windows AMI to test #get_password_data
-    @windows_ami = 'ami-1cbd4475' # Microsoft Windows Server 2008 R2 Base 64-bit
+    @windows_ami = 'ami-62bd440b' # Amazon Public Images - Basic Microsoft Windows Server 2008 64-bit
 
     # Create a keypair for decrypting the password
     key_name = 'fog-test-key'
