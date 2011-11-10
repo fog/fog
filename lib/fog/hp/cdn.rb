@@ -6,7 +6,7 @@ module Fog
     class HP < Fog::Service
 
       requires    :hp_secret_key, :hp_account_id
-      recognizes  :hp_auth_uri, :persistent, :connection_options
+      recognizes  :hp_auth_uri, :hp_cdn_uri, :persistent, :connection_options
 
       model_path   'fog/hp/models/cdn'
 
@@ -65,13 +65,18 @@ module Fog
           @auth_token = credentials['X-Auth-Token']
           @enabled = false
           @persistent = options[:persistent] || false
+          hp_cdn_uri = options[:hp_cdn_uri] || "https://region-a.geo-1.cdnmgmt.hpcloudsvc.com"
 
-          #TODO: Fix hardcoded urls when CDN-64 and CDN-65 are fixed
-          if credentials['X-Storage-Url']   #credentials['X-CDN-Management-Url']
-            uri = URI.parse(credentials['X-Storage-Url'])     #URI.parse(credentials['X-CDN-Management-Url'])
-            @host   = URI.parse(options[:hp_auth_uri]).host   #uri.host
+          #TODO: Fix Storage service to return 'X-CDN-Management-Url' in the header as part of the auth call.
+          # Till then use a custom config entry to get the CDN endpoint Url from user
+          # and then append the auth path that comes back in the Storage Url to build the CDN Management Url
+          # CDN Management Url looks like: https://cdnmgmt.hpcloud.net:8080/v1/AUTH_test
+          cdn_mgmt_url = "#{hp_cdn_uri}#{URI.parse(credentials['X-Storage-Url']).path}"
+          if cdn_mgmt_url
+            uri = URI.parse(cdn_mgmt_url)
+            @host   = uri.host
             @path   = uri.path
-            @port   = URI.parse(options[:hp_auth_uri]).port   #uri.port
+            @port   = uri.port
             @scheme = uri.scheme
             @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
             @enabled = true
