@@ -83,16 +83,18 @@ module Fog
           @rackspace_username = options[:rackspace_username]
           @rackspace_cdn_ssl = options[:rackspace_cdn_ssl]
           @rackspace_auth_url = options[:rackspace_auth_url]
-          credentials = Fog::Rackspace.authenticate(options)
+          @connection_options     = options[:connection_options] || {}
+          credentials = Fog::Rackspace.authenticate(options, @connection_options)
           @auth_token = credentials['X-Auth-Token']
 
           uri = URI.parse(credentials['X-Storage-Url'])
-          @host   = options[:rackspace_servicenet] == true ? "snet-#{uri.host}" : uri.host
-          @path   = uri.path
-          @port   = uri.port
-          @scheme = uri.scheme
+          @host       = options[:rackspace_servicenet] == true ? "snet-#{uri.host}" : uri.host
+          @path       = uri.path
+          @persistent = options[:persistent] || false
+          @port       = uri.port
+          @scheme     = uri.scheme
           Excon.ssl_verify_peer = false if options[:rackspace_servicenet] == true
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

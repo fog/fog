@@ -1,45 +1,54 @@
 module Fog
   module Storage
     class AWS
+
       private
         def self.hash_to_acl(acl)
-          data =
-<<-DATA
-<AccessControlPolicy>
-  <Owner>
-    <ID>#{acl['Owner']['ID']}</ID>
-    <DisplayName>#{acl['Owner']['DisplayName']}</DisplayName>
-  </Owner>
-  <AccessControlList>
-DATA
+          data =  "<AccessControlPolicy>\n"
 
-          acl['AccessControlList'].each do |grant|
+          if acl['Owner'] && (acl['Owner']['ID'] || acl['Owner']['DisplayName'])
+            data << "  <Owner>\n"
+            data << "    <ID>#{acl['Owner']['ID']}</ID>\n" if acl['Owner']['ID']
+            data << "    <DisplayName>#{acl['Owner']['DisplayName']}</DisplayName>\n" if acl['Owner']['DisplayName']
+            data << "  </Owner>\n"
+          end
+
+          grants = [acl['AccessControlList']].flatten.compact
+
+          data << "  <AccessControlList>\n" if grants.any?
+          grants.each do |grant|
             data << "    <Grant>\n"
-            type = case grant['Grantee'].keys.sort
-            when ['DisplayName', 'ID']
+            grantee = grant['Grantee']
+            type = case
+            when grantee.has_key?('ID')
               'CanonicalUser'
-            when ['EmailAddress']
+            when grantee.has_key?('EmailAddress')
               'AmazonCustomerByEmail'
-            when ['URI']
+            when grantee.has_key?('URI')
               'Group'
             end
+
             data << "      <Grantee xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"#{type}\">\n"
-            for key, value in grant['Grantee']
-              data << "        <#{key}>#{value}</#{key}>\n"
+            case type
+            when 'CanonicalUser'
+              data << "        <ID>#{grantee['ID']}</ID>\n" if grantee['ID']
+              data << "        <DisplayName>#{grantee['DisplayName']}</DisplayName>\n" if grantee['DisplayName']
+            when 'AmazonCustomerByEmail'
+              data << "        <EmailAddress>#{grantee['EmailAddress']}</EmailAddress>\n" if grantee['EmailAddress']
+            when 'Group'
+              data << "        <URI>#{grantee['URI']}</URI>\n" if grantee['URI']
             end
             data << "      </Grantee>\n"
             data << "      <Permission>#{grant['Permission']}</Permission>\n"
             data << "    </Grant>\n"
           end
-          
-          data <<
-<<-DATA
-  </AccessControlList>
-</AccessControlPolicy>
-DATA
+          data << "  </AccessControlList>\n" if grants.any?
+
+          data << "</AccessControlPolicy>"
+
           data
         end
-    end
-  end      
-end
 
+    end
+  end
+end

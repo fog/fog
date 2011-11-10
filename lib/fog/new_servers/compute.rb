@@ -52,10 +52,12 @@ module Fog
 
           @new_servers_password = options[:new_servers_password]
           @new_servers_username = options[:new_servers_username]
-          @host   = options[:host]    || "noc.newservers.com"
-          @port   = options[:port]    || 443
-          @scheme = options[:scheme]  || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @connection_options = options[:connection_options] || {}
+          @host       = options[:host]        || "noc.newservers.com"
+          @persistent = options[:persistent]  || false
+          @port       = options[:port]        || 443
+          @scheme     = options[:scheme]      || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

@@ -13,7 +13,7 @@ module Fog
 
         attribute :name
         attribute :bridge_name
-        attribute :xml_desc
+        attribute :xml
 
         ##https://www.redhat.com/archives/libvirt-users/2011-May/msg00091.html
         # Bridged VLAN
@@ -50,7 +50,7 @@ module Fog
             :uuid => new_raw.uuid,
             :name => new_raw.name,
             :bridge_name => new_raw.bridge_name,
-            :xml_desc => new_raw.xml_desc,
+            :xml => new_raw.xml_desc,
           }
 
           merge_attributes(raw_attributes)

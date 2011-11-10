@@ -14,7 +14,7 @@ class Zerigo < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :dns
-          Fog::Logger.warning("Zerigo[:dns] is deprecated, use Storage[:zerigo] instead")
+          Fog::Logger.warning("Zerigo[:dns] is not recommended, use DNS[:zerigo] for portability")
           Fog::DNS.new(:provider => 'Zerigo')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

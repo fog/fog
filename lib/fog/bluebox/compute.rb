@@ -25,6 +25,8 @@ module Fog
       request :get_products
       request :get_template
       request :get_templates
+      request :create_template
+      request :destroy_template
       request :reboot_block
 
       class Mock
@@ -59,10 +61,12 @@ module Fog
           require 'multi_json'
           @bluebox_api_key      = options[:bluebox_api_key]
           @bluebox_customer_id  = options[:bluebox_customer_id]
-          @host   = options[:bluebox_host]    || "boxpanel.bluebox.net"
-          @port   = options[:bluebox_port]    || 443
-          @scheme = options[:bluebox_scheme]  || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @connection_options   = options[:connection_options] || {}
+          @host       = options[:bluebox_host]    || "boxpanel.bluebox.net"
+          @persistent = options[:persistent]      || false
+          @port       = options[:bluebox_port]    || 443
+          @scheme     = options[:bluebox_scheme]  || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

@@ -12,7 +12,7 @@ module Fog
           request(
             :expects  => 204,
             :method   => 'DELETE',
-            :path     => URI.escape(name)
+            :path     => Fog::Rackspace.escape(name)
           )
         end
 

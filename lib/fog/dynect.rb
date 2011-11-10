@@ -7,7 +7,7 @@ module Fog
   module Dynect
     extend Fog::Provider
 
-    service(:dns, 'dynect/dns')
+    service(:dns, 'dynect/dns', 'DNS')
 
     class Mock
       def self.job_id

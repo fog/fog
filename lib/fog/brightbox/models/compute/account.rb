@@ -40,8 +40,8 @@ module Fog
         attribute :telephone_verified
 
         # Times
-        attribute :created_at
-        attribute :verified_at
+        attribute :created_at, :type => :time
+        attribute :verified_at, :type => :time
 
         # Links - to be replaced
         attribute :owner_id, :aliases => "owner", :squash => "id"
@@ -53,7 +53,7 @@ module Fog
 
         def reset_ftp_password
           requires :identity
-          connection.reset_ftp_password_account(identity)["library_ftp_password"]
+          connection.reset_ftp_password_account["library_ftp_password"]
         end
 
       end

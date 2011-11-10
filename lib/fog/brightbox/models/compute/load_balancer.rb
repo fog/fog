@@ -19,8 +19,8 @@ module Fog
         attribute :listeners
 
         # Times
-        attribute :created_at
-        attribute :deleted_at
+        attribute :created_at, :type => :time
+        attribute :deleted_at, :type => :time
 
         # Links - to be replaced
         attribute :account

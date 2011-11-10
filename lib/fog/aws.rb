@@ -5,20 +5,22 @@ module Fog
 
     extend Fog::Provider
 
-    service(:auto_scaling,    'aws/auto_scaling')
-    service(:cdn,             'aws/cdn')
-    service(:compute,         'aws/compute')
-    service(:cloud_formation, 'aws/cloud_formation')
-    service(:cloud_watch,     'aws/cloud_watch')
-    service(:dns,             'aws/dns')
-    service(:elb,             'aws/elb')
-    service(:iam,             'aws/iam')
-    service(:rds,             'aws/rds')
-    service(:ses,             'aws/ses')
-    service(:simpledb,        'aws/simpledb')
-    service(:sns,             'aws/sns')
-    service(:sqs,             'aws/sqs')
-    service(:storage,         'aws/storage')
+    service(:auto_scaling,    'aws/auto_scaling',     'AutoScaling')
+    service(:cdn,             'aws/cdn',              'CDN')
+    service(:compute,         'aws/compute',          'Compute')
+    service(:cloud_formation, 'aws/cloud_formation',  'CloudFormation')
+    service(:cloud_watch,     'aws/cloud_watch',      'CloudWatch')
+    service(:dns,             'aws/dns',              'DNS')
+    service(:elasticache,     'aws/elasticache',      'Elasticache')
+    service(:elb,             'aws/elb',              'ELB')
+    service(:emr,             'aws/emr',              'EMR')
+    service(:iam,             'aws/iam',              'IAM')
+    service(:rds,             'aws/rds',              'RDS')
+    service(:ses,             'aws/ses',              'SES')
+    service(:simpledb,        'aws/simpledb',         'SimpleDB')
+    service(:sns,             'aws/sns',              'SNS')
+    service(:sqs,             'aws/sqs',              'SQS')
+    service(:storage,         'aws/storage',          'Storage')
 
     def self.indexed_param(key, values)
       params = {}
@@ -26,9 +28,33 @@ module Fog
         key << '.%d'
       end
       [*values].each_with_index do |value, index|
-        params[format(key, index + 1)] = value
+        if value.respond_to?('keys')
+          k = format(key, index + 1)
+          value.each do | vkey, vvalue |
+            params["#{k}.#{vkey}"] = vvalue
+          end
+        else
+          params[format(key, index + 1)] = value
+        end
       end
       params
+    end
+    
+    def self.serialize_keys(key, value, options = {})
+      case value
+      when Hash
+        value.each do | k, v |
+          options.merge!(serialize_keys("#{key}.#{k}", v))
+        end
+        return options
+      when Array
+        value.each_with_index do | it, idx |
+          options.merge!(serialize_keys("#{key}.member.#{(idx + 1)}", it))
+        end
+        return options
+      else
+        return {key => value}
+      end
     end
 
     def self.indexed_filters(filters)
@@ -177,6 +203,8 @@ module Fog
       class << self
         alias :reserved_instances_id :request_id
         alias :reserved_instances_offering_id :request_id
+        alias :sqs_message_id :request_id
+        alias :sqs_sender_id :request_id
       end
 
       def self.reservation_id

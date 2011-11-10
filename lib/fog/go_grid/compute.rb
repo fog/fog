@@ -64,11 +64,13 @@ module Fog
           require 'multi_json'
           @go_grid_api_key = options[:go_grid_api_key]
           @go_grid_shared_secret = options[:go_grid_shared_secret]
-          @host   = options[:host]    || "api.gogrid.com"
-          @path   = options[:path]    || "/api"
-          @port   = options[:port]    || 443
-          @scheme = options[:scheme]  || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @connection_options = options[:connection_options] || {}
+          @host       = options[:host]        || "api.gogrid.com"
+          @path       = options[:path]        || "/api"
+          @persistent = options[:persistent]  || false
+          @port       = options[:port]        || 443
+          @scheme     = options[:scheme]      || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

@@ -34,7 +34,7 @@ module Fog
 
         def self.data
           @data ||= Hash.new do |hash, key|
-            hash[key] = {}
+            hash[key] = key == :zones ? [] : {}
           end
         end
 
@@ -48,13 +48,24 @@ module Fog
         end
 
         def data
-          self.class.data[@zerigo_email]
+          self.class.data
         end
 
         def reset_data
-          self.class.data.delete(@zerigo_email)
+          self.class.reset
         end
 
+        def find_by_zone_id(zone_id)
+          self.data[:zones].find { |z| z['id'] == zone_id }
+        end
+
+        def find_by_domain(domain)
+          self.data[:zones].find { |z| z['domain'] == domain }
+        end
+
+        def find_host(host_id)
+          self.data[:zones].collect { |z| z['hosts'].find { |h| h['id'] == host_id } }.compact.first
+        end
       end
 
       class Real
@@ -64,10 +75,12 @@ module Fog
 
           @zerigo_email  = options[:zerigo_email]
           @zerigo_token  = options[:zerigo_token]
-          @host   = options[:host]    || "ns.zerigo.com"
-          @port   = options[:port]    || 80
-          @scheme = options[:scheme]  || 'http'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @connection_options = options[:connection_options] || {}
+          @host       = options[:host]        || "ns.zerigo.com"
+          @persistent = options[:persistent]  || false
+          @port       = options[:port]        || 80
+          @scheme     = options[:scheme]      || 'http'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

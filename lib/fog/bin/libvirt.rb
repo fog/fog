@@ -14,7 +14,7 @@ module Libvirt # deviates from other bin stuff to accomodate gem
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
-          Fog::Logger.warning("Libvirt[:compute] is deprecated, use Compute[:libvirt] instead")
+          Fog::Logger.warning("Libvirt[:compute] is not recommended, use Compute[:libvirt] for portability")
           Fog::Compute.new(:provider => 'Libvirt')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
@@ -30,8 +30,8 @@ module Libvirt # deviates from other bin stuff to accomodate gem
         availability=false
       rescue
         availability_gem=Gem.available?("ruby-libvirt")
-      end 
-      
+      end
+
       if availability
         for service in services
           for collection in self.class_for(service).collections

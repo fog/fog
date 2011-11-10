@@ -60,10 +60,12 @@ module Fog
           require 'fog/core/parser'
 
           @slicehost_password = options[:slicehost_password]
-          @host   = options[:host]    || "api.slicehost.com"
-          @port   = options[:port]    || 443
-          @scheme = options[:scheme]  || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @connection_options = options[:connection_options] || {}
+          @host       = options[:host]        || "api.slicehost.com"
+          @persistent = options[:persistent]  || false
+          @port       = options[:port]        || 443
+          @scheme     = options[:scheme]      || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

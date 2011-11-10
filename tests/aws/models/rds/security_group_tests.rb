@@ -3,7 +3,7 @@ Shindo.tests("AWS::RDS | security_group", ['aws', 'rds']) do
   params = {:id => group_name, :description => 'fog test'}
 
   pending if Fog.mocking?
-  model_tests(AWS[:rds].security_groups, params, false) do
+  model_tests(Fog::AWS[:rds].security_groups, params, false) do
 
     tests("#description").returns('fog test') { @instance.description }
 

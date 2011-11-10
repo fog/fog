@@ -33,7 +33,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'GET',
-            :path     => URI.escape(container),
+            :path     => Fog::Rackspace.escape(container),
             :query    => {'format' => 'json'}.merge!(options)
           )
         end

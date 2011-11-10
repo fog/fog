@@ -87,13 +87,15 @@ module Fog
         def initialize(options={})
           require 'multi_json'
           uri = URI.parse(options[:storm_on_demand_auth_url] ||= API_URL)
-          @host   = uri.host
-          @path   = uri.path
-          @port   = uri.port
-          @scheme = uri.scheme
+          @connection_options = options[:connection_options] || {}
+          @host       = uri.host
+          @path       = uri.path
+          @persistent = options[:persistent] || false
+          @port       = uri.port
+          @scheme     = uri.scheme
           @storm_on_demand_username = options[:storm_on_demand_username]
           @storm_on_demand_password = options[:storm_on_demand_password]
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}")
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

@@ -5,7 +5,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'new_servers/compute')
+    service(:compute, 'new_servers/compute', 'Compute')
 
   end
 end

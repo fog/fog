@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::StormOnDemand::Server
 
         def all
-          data = connection.list_servers.body['servers']
+          data = connection.list_servers.body['items']
           load(data)
         end
 

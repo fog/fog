@@ -153,7 +153,7 @@ module Fog
           })
 
           # Parse response cookies to retrive JSESSIONID token
-          cookies   = CGI::Cookie.parse(response.get_header('Set-Cookie'))
+          cookies   = CGI::Cookie.parse(response.headers['Set-Cookie'])
           sessionid = cookies['JSESSIONID'].first
 
           # Decode the login response

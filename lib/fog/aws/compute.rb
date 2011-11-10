@@ -93,7 +93,7 @@ module Fog
       class Real
 
         def modify_image_attributes(*params)
-          Fog::Logger.warning("modify_image_attributes is deprecated, use modify_image_attribute instead [light_black](#{caller.first})[/]")
+          Fog::Logger.deprecation("modify_image_attributes is deprecated, use modify_image_attribute instead [light_black](#{caller.first})[/]")
           modify_image_attribute(*params)
         end
 
@@ -103,12 +103,17 @@ module Fog
 
         def self.data
           @data ||= Hash.new do |hash, region|
-            owner_id = Fog::AWS::Mock.owner_id
             hash[region] = Hash.new do |region_hash, key|
+              owner_id = Fog::AWS::Mock.owner_id
               region_hash[key] = {
                 :deleted_at => {},
                 :addresses  => {},
                 :images     => {},
+                :image_launch_permissions => Hash.new do |permissions_hash, image_key|
+                  permissions_hash[image_key] = {
+                    :users => []
+                  }
+                end,
                 :instances  => {},
                 :reserved_instances => {},
                 :key_pairs  => {},
@@ -116,9 +121,10 @@ module Fog
                 :owner_id   => owner_id,
                 :security_groups => {
                   'default' => {
-                    'groupDescription'  => 'default group',
-                    'groupName'         => 'default',
-                    'ipPermissions'     => [
+                    'groupDescription'    => 'default group',
+                    'groupName'           => 'default',
+                    'ipPermissionsEgress' => [],
+                    'ipPermissions'       => [
                       {
                         'groups'      => [{'groupName' => 'default', 'userId' => owner_id}],
                         'fromPort'    => -1,
@@ -141,12 +147,15 @@ module Fog
                         'ipRanges'    => []
                       }
                     ],
-                    'ownerId'           => owner_id
+                    'ownerId'             => owner_id
                   }
                 },
                 :snapshots => {},
                 :volumes => {},
-                :tags => {}
+                :tags => {},
+                :tag_sets => Hash.new do |tag_set_hash, resource_id|
+                  tag_set_hash[resource_id] = {}
+                end
               }
             end
           end
@@ -161,41 +170,63 @@ module Fog
 
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1'].include?(@region)
+          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
         end
 
+        def region_data
+          self.class.data[@region]
+        end
+
         def data
-          self.class.data[@region][@aws_access_key_id]
+          self.region_data[@aws_access_key_id]
         end
 
         def reset_data
-          self.class.data[@region].delete(@aws_access_key_id)
+          self.region_data.delete(@aws_access_key_id)
         end
 
-        def apply_tag_filters(resources, filters)
+        def visible_images
+          images = self.data[:images].values.inject({}) do |h, image|
+            h.update(image['imageId'] => image)
+          end
+
+          self.region_data.each do |aws_access_key_id, data|
+            data[:image_launch_permissions].each do |image_id, list|
+              if list[:users].include?(self.data[:owner_id])
+                images.update(image_id => data[:images][image_id])
+              end
+            end
+          end
+
+          images
+        end
+
+        def apply_tag_filters(resources, filters, resource_id_key)
+          tag_set_fetcher = lambda {|resource| self.data[:tag_sets][resource[resource_id_key]] }
+
           # tag-key: match resources tagged with this key (any value)
           if filters.has_key?('tag-key')
             value = filters.delete('tag-key')
-            resources = resources.select{|r| r['tagSet'].has_key?(value)}
+            resources = resources.select{|r| tag_set_fetcher[r].has_key?(value)}
           end
-          
+
           # tag-value: match resources tagged with this value (any key)
           if filters.has_key?('tag-value')
             value = filters.delete('tag-value')
-            resources = resources.select{|r| r['tagSet'].values.include?(value)}
+            resources = resources.select{|r| tag_set_fetcher[r].values.include?(value)}
           end
-          
-          # tag:key: match resources taged with a key-value pair.  Value may be an array, which is OR'd.
+
+          # tag:key: match resources tagged with a key-value pair.  Value may be an array, which is OR'd.
           tag_filters = {}
-          filters.keys.each do |key| 
+          filters.keys.each do |key|
             tag_filters[key.gsub('tag:', '')] = filters.delete(key) if /^tag:/ =~ key
           end
           for tag_key, tag_value in tag_filters
-            resources = resources.select{|r| tag_value.include?(r['tagSet'][tag_key])}
+            resources = resources.select{|r| tag_value.include?(tag_set_fetcher[r][tag_key])}
           end
-          
+
           resources
         end
       end
@@ -205,7 +236,7 @@ module Fog
         # Initialize connection to EC2
         #
         # ==== Notes
-        # options parameter must include values for :aws_access_key_id and 
+        # options parameter must include values for :aws_access_key_id and
         # :aws_secret_access_key in order to create a connection
         #
         # ==== Examples
@@ -217,7 +248,7 @@ module Fog
         # ==== Parameters
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
         #   * region<~String> - optional region to use, in
-        #     ['eu-west-1', 'us-east-1', 'us-west-1', 'ap-northeast-1', 'ap-southeast-1']
+        #     ['eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'ap-northeast-1', 'ap-southeast-1']
         #
         # ==== Returns
         # * EC2 object with connection to aws.
@@ -226,8 +257,9 @@ module Fog
 
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
-          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
-          @region = options[:region] ||= 'us-east-1'
+          @connection_options     = options[:connection_options] || {}
+          @hmac                   = Fog::HMAC.new('sha256', @aws_secret_access_key)
+          @region                 = options[:region] ||= 'us-east-1'
 
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
@@ -247,14 +279,17 @@ module Fog
               'ec2.us-east-1.amazonaws.com'
             when 'us-west-1'
               'ec2.us-west-1.amazonaws.com'
+            when 'us-west-2'
+              'ec2.us-west-2.amazonaws.com'
             else
               raise ArgumentError, "Unknown region: #{options[:region].inspect}"
             end
-            @path   = options[:path]      || '/'
-            @port   = options[:port]      || 443
-            @scheme = options[:scheme]    || 'https'
+            @path       = options[:path]        || '/'
+            @persistent = options[:persistent]  || false
+            @port       = options[:port]        || 443
+            @scheme     = options[:scheme]      || 'https'
           end
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload
@@ -262,7 +297,7 @@ module Fog
         end
 
         private
-        
+
         def request(params)
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)

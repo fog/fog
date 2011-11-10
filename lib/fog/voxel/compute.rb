@@ -79,14 +79,15 @@ module Fog
           @voxel_api_key = options[:voxel_api_key]
           @voxel_api_secret = options[:voxel_api_secret]
 
-          @host   = options[:host]    || "api.voxel.net"
-          @port   = options[:port]    || 443
-          @scheme = options[:scheme]  || 'https'
-          @persistent = options[:persistent] || false
+          @connection_options = options[:connection_options] || {}
+          @host               = options[:host]    || "api.voxel.net"
+          @port               = options[:port]    || 443
+          @scheme             = options[:scheme]  || 'https'
+          @persistent         = options[:persistent] || false
 
           Excon.ssl_verify_peer = false
 
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent)
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def request(method_name, options = {})

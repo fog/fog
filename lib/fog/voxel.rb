@@ -6,7 +6,7 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'voxel/compute')
+    service(:compute, 'voxel/compute', 'Compute')
 
     def self.create_signature(secret, options)
       to_sign = options.keys.map { |k| k.to_s }.sort.map { |k| "#{k}#{options[k.to_sym]}" }.join("")

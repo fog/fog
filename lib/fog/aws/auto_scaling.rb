@@ -75,6 +75,7 @@ module Fog
           @aws_secret_access_key  = options[:aws_secret_access_key]
           @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)
 
+          @connection_options = options[:connection_options] || {}
           options[:region] ||= 'us-east-1'
           @host = options[:host] || case options[:region]
           when 'ap-northeast-1'
@@ -87,13 +88,16 @@ module Fog
             'autoscaling.us-east-1.amazonaws.com'
           when 'us-west-1'
             'autoscaling.us-west-1.amazonaws.com'
+          when 'us-west-2'
+            'autoscaling.us-west-2.amazonaws.com'
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end
-          @path       = options[:path]      || '/'
-          @port       = options[:port]      || 443
-          @scheme     = options[:scheme]    || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
+          @path       = options[:path]        || '/'
+          @port       = options[:port]        || 443
+          @persistent = options[:persistent]  || false
+          @scheme     = options[:scheme]      || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload
@@ -139,7 +143,7 @@ module Fog
               when 'ValidationError'
                 raise Fog::AWS::AutoScaling::ValidationError.slurp(error, match[2])
               else
-                raise Fog::AWS::Compute::Error.slurp(error, "#{match[1]} => #{match[2]}")
+                raise Fog::Compute::AWS::Error.slurp(error, "#{match[1]} => #{match[2]}")
               end
             else
              raise
@@ -202,7 +206,7 @@ module Fog
 
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1'].include?(@region)
+          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
 

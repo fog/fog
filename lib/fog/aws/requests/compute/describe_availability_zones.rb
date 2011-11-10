@@ -22,7 +22,7 @@ module Fog
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeAvailabilityZones.html]
         def describe_availability_zones(filters = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_availability_zones with #{filters.class} param is deprecated, use describe_availability_zones('zone-name' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_availability_zones with #{filters.class} param is deprecated, use describe_availability_zones('zone-name' => []) instead [light_black](#{caller.first})[/]")
             filters = {'public-ip' => [*filters]}
           end
           params = Fog::AWS.indexed_filters(filters)
@@ -39,7 +39,7 @@ module Fog
 
         def describe_availability_zones(filters = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_availability_zones with #{filters.class} param is deprecated, use describe_availability_zones('zone-name' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_availability_zones with #{filters.class} param is deprecated, use describe_availability_zones('zone-name' => []) instead [light_black](#{caller.first})[/]")
             filters = {'public-ip' => [*filters]}
           end
 
@@ -54,6 +54,9 @@ module Fog
             {"messageSet" => [], "regionName" => "us-west-1", "zoneName" => "us-west-1a", "zoneState" => "available"},
             {"messageSet" => [], "regionName" => "us-west-1", "zoneName" => "us-west-1b", "zoneState" => "available"},
             {"messageSet" => [], "regionName" => "us-west-1", "zoneName" => "us-west-1c", "zoneState" => "available"},
+
+            {"messageSet" => [], "regionName" => "us-west-2", "zoneName" => "us-west-2a", "zoneState" => "available"},
+            {"messageSet" => [], "regionName" => "us-west-2", "zoneName" => "us-west-2b", "zoneState" => "available"},
 
             {"messageSet" => [], "regionName" => "eu-west-1", "zoneName" => "eu-west-1a", "zoneState" => "available"},
             {"messageSet" => [], "regionName" => "eu-west-1", "zoneName" => "eu-west-1b", "zoneState" => "available"},

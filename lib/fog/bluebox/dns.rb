@@ -55,11 +55,12 @@ module Fog
         def initialize(options ={})
           @bluebox_customer_id = options[:bluebox_customer_id]
           @bluebox_api_key = options[:bluebox_api_key]
-
-          @host   = options[:bluebox_host]    || "boxpanel.bluebox.net"
-          @port   = options[:bluebox_port]    || 443
-          @scheme = options[:bluebox_scheme]  || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @connection_options     = options[:connection_options] || {}
+          @host       = options[:bluebox_host]    || "boxpanel.bluebox.net"
+          @persistent = options[:persistent]      || false
+          @port       = options[:bluebox_port]    || 443
+          @scheme     = options[:bluebox_scheme]  || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

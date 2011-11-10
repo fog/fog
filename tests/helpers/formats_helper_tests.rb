@@ -20,6 +20,10 @@ Shindo.tests('test_helper', 'meta') do
         formats_kernel([{:a => :b}], [{:a => Symbol}])
       end
 
+      test('non strict extra data') do
+        formats_kernel({:a => :b, :b => :c}, {:a => Symbol}, true, false)
+      end
+
     end
 
     tests('returns false') do
@@ -34,6 +38,10 @@ Shindo.tests('test_helper', 'meta') do
 
       test('when some keys do not appear') do
         !formats_kernel({}, {:a => String})
+      end
+
+      test('non strict extra data') do
+        !formats_kernel({:a => :b, :b => :c}, {:z => Symbol}, true, false)
       end
 
     end

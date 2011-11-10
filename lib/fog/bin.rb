@@ -4,7 +4,7 @@ module Fog
   class << self
 
     def available_providers
-      @available_providers ||= @providers.select {|provider| Kernel.const_get(provider).available?}.sort
+      @available_providers ||= Fog.providers.values.select {|provider| Kernel.const_get(provider).available?}.sort
     end
 
   end
@@ -60,6 +60,7 @@ require 'fog/bin/dnsimple'
 require 'fog/bin/dnsmadeeasy'
 require 'fog/bin/dynect'
 require 'fog/bin/ecloud'
+require 'fog/bin/glesys'
 require 'fog/bin/go_grid'
 require 'fog/bin/google'
 require 'fog/bin/libvirt'
@@ -68,10 +69,13 @@ require 'fog/bin/local'
 require 'fog/bin/new_servers'
 require 'fog/bin/ninefold'
 require 'fog/bin/rackspace'
+require 'fog/bin/openstack'
 require 'fog/bin/slicehost'
 require 'fog/bin/stormondemand'
 require 'fog/bin/terremark'
 require 'fog/bin/vcloud'
 require 'fog/bin/virtual_box'
+require 'fog/bin/vmfusion'
+require 'fog/bin/vsphere'
 require 'fog/bin/voxel'
 require 'fog/bin/zerigo'

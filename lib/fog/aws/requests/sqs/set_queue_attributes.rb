@@ -27,7 +27,25 @@ module Fog
         end
 
       end
-
+      
+      class Mock
+        def set_queue_attributes(queue_url, attribute_name, attribute_value)
+          Excon::Response.new.tap do |response|
+            if (queue = data[:queues][queue_url])
+              response.status = 200
+              queue['Attributes'][attribute_name] = attribute_value
+              response.body = {
+                'ResponseMetadata' => {
+                  'RequestId' => Fog::AWS::Mock.request_id
+                }
+              }
+            else
+              response.status = 404
+              raise(Excon::Errors.status_error({:expects => 200}, response))
+            end
+          end
+        end
+      end
     end
   end
 end

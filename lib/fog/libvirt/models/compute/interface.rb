@@ -9,7 +9,7 @@ module Fog
         identity :name
 
         attribute :mac
-        attribute :xml_desc
+        attribute :xml
 
         def save
           raise Fog::Errors::Error.new('Creating a new interface is not yet implemented. Contributions welcome!')
@@ -33,7 +33,7 @@ module Fog
           raw_attributes = {
             :name => new_raw.name,
             :mac => new_raw.mac,
-            :xml_desc => new_raw.xml_desc,
+            :xml => new_raw.xml_desc,
           }
 
           merge_attributes(raw_attributes)

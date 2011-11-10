@@ -25,9 +25,9 @@ module Fog
           class_eval <<-EOS, __FILE__, __LINE__
             def #{name}=(new_#{name})
               attributes[:#{name}] = case new_#{name}
-              when 'true'
+              when true,'true'
                 true
-              when 'false'
+              when false,'false'
                 false
               end
             end
@@ -71,8 +71,8 @@ module Fog
             class_eval <<-EOS, __FILE__, __LINE__
               def #{name}=(new_data)
                 if new_data.is_a?(Hash)
-                  if new_data.has_key?(:#{squash})
-                    attributes[:#{name}] = new_data[:#{squash}]
+                  if new_data.has_key?(:'#{squash}')
+                    attributes[:#{name}] = new_data[:'#{squash}']
                   elsif new_data.has_key?("#{squash}")
                     attributes[:#{name}] = new_data["#{squash}"]
                   else
@@ -142,7 +142,7 @@ module Fog
           unless self.class.ignored_attributes.include?(key)
             if aliased_key = self.class.aliases[key]
               send("#{aliased_key}=", value)
-            elsif (public_methods | private_methods).detect {|method| ["#{key}=", :"#{key}="].include?(method)}
+            elsif self.respond_to?("#{key}=",true)
               send("#{key}=", value)
             else
               attributes[key] = value

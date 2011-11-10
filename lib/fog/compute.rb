@@ -23,6 +23,9 @@ module Fog
       when :ecloud
         require 'fog/ecloud/compute'
         Fog::Compute::Ecloud.new(attributes)
+      when :glesys
+        require 'fog/glesys/compute'
+        Fog::Compute::Glesys.new(attributes)
       when :gogrid
         require 'fog/go_grid/compute'
         Fog::Compute::GoGrid.new(attributes)
@@ -38,6 +41,9 @@ module Fog
       when :ninefold
         require 'fog/ninefold/compute'
         Fog::Compute::Ninefold.new(attributes)
+      when :openstack
+        require 'fog/openstack/compute'
+        Fog::Compute::OpenStack.new(attributes)
       when :rackspace
         require 'fog/rackspace/compute'
         Fog::Compute::Rackspace.new(attributes)
@@ -53,9 +59,15 @@ module Fog
       when :virtualbox
         require 'fog/virtual_box/compute'
         Fog::Compute::VirtualBox.new(attributes)
+      when :vmfusion
+        require 'fog/vmfusion/compute'
+        Fog::Compute::Vmfusion.new(attributes)
       when :voxel
         require 'fog/voxel/compute'
         Fog::Compute::Voxel.new(attributes)
+      when :vsphere
+        require 'fog/vsphere/compute'
+        Fog::Compute::Vsphere.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized compute provider")
       end

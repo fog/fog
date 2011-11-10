@@ -10,7 +10,7 @@ module Fog
         # * object<~String> - Name for object
         #
         def put_object_manifest(container, object)
-          path = "#{URI.escape(container)}/#{URI.escape(object)}"
+          path = "#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object)}"
           request(
             :expects  => 201,
             :headers  => {'X-Object-Manifest' => path},

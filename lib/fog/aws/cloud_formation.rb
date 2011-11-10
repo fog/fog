@@ -9,6 +9,7 @@ module Fog
 
       request_path 'fog/aws/requests/cloud_formation'
       request :create_stack
+      request :update_stack
       request :delete_stack
       request :describe_stack_events
       request :describe_stack_resources
@@ -51,6 +52,7 @@ module Fog
           @aws_secret_access_key  = options[:aws_secret_access_key]
           @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)
 
+          @connection_options = options[:connection_options] || {}
           options[:region] ||= 'us-east-1'
           @host = options[:host] || case options[:region]
           when 'ap-northeast-1'
@@ -63,13 +65,16 @@ module Fog
             'cloudformation.us-east-1.amazonaws.com'
           when 'us-west-1'
             'cloudformation.us-west-1.amazonaws.com'
+          when 'us-west-2'
+            'cloudformation.us-west-2.amazonaws.com'
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end
-          @path       = options[:path]      || '/'
-          @port       = options[:port]      || 443
-          @scheme     = options[:scheme]    || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
+          @path       = options[:path]        || '/'
+          @persistent = options[:persistent]  || false
+          @port       = options[:port]        || 443
+          @scheme     = options[:scheme]      || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload

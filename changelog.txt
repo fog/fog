@@ -1,3 +1,437 @@
+1.0.0 09/29/2011 a81be08ef2473af91f16f4926e5b3dfa962a34ae
+=========================================================
+
+Stats! { 'collaborators' => 16, 'downloads' => 245745, 'forks' => 260, 'open_issues' => 13, 'watchers' => 1521 }
+
+MVP! Patrick Debois
+
+[Libvirt]
+  if transport is empty, ssh can't be enabled. thanks Patrick Debois
+  Enable to pass an libvirt_ip_command for looking up the mac -> ip_address . Using eval to allow for passing of mac address in ip_command. thanks Patrick Debois
+  corrected typo for appending string output to IO.popen. thanks Patrick Debois
+  initialize the ip_address as an empty string. thanks Patrick Debois
+  more specific error if the ip_command results in string that has no ip-address format. thanks Patrick Debois
+  Remove the newlines after running the local ip_command. thanks Patrick Debois
+  rename xml_desc to xml as an attribute and hide all non_dynamic attributes from fog console. thanks Patrick Debois
+  added blocked state and corrected crashed to shutoff state. thanks Patrick Debois
+  renamed 'raw' connection to raw in the Fog Connection. thanks Patrick Debois
+
+[Libvirt|Compute]
+  renamed all disk_ params for server creation to volume_ to make it consistent with the object type volume. thanks Patrick Debois
+
+[aws]
+  remove base64 require (duplicates require in fog/core). thanks geemus
+
+[aws/sqs]
+  Adding SQS mocking support. thanks Istvan Hoka
+
+[aws|acs]
+  Create ACS security_group model and collection. thanks Aaron Suggs
+  Improve security group tests. thanks Aaron Suggs
+  Adds ACS#delete_cache_security_group. thanks Benton Roberts
+  Added security group methods. thanks Benton Roberts
+  Update CacheSecurityGroup API to public beta 2011-07-15. thanks Benton Roberts
+
+[aws|cloudwatch]
+  Fix whitespace. thanks Jens Braeuer
+
+[aws|compute]
+  add snapshot method to volume model. thanks Andrei Serdeliuc
+  Correct path. thanks Dylan Egan
+  raise an ArgumentError if image_id is nil, otherwise an ugly InternalError is returned from AWS. thanks Dylan Egan
+  wait for ready before testing tags. thanks geemus
+  fixes for mocks tests. thanks geemus
+  fix formatting for mock security groups. thanks geemus
+
+[aws|dns]
+  fix parser path. thanks geemus
+
+[aws|elasticache]
+  refactor acs->elasticache. thanks Benton Roberts
+  refactor for whitespace / readability. thanks Benton Roberts
+  fix typo in Elasticache Security Group tests. thanks Benton Roberts
+  rename test file for shindo. thanks Benton Roberts
+  create and describe cache clusters. thanks Benton Roberts
+  delete cache clusters. thanks Benton Roberts
+  add Cache Cluster model and collection. thanks Benton Roberts
+  Fix bug in AWS::Elasticache::Cluster.get. thanks Benton Roberts
+  randomize cache cluster IDs in testing. thanks Benton Roberts
+  return nil on CacheClusterNotFound. thanks Benton Roberts
+  use Formatador for testing output. thanks Benton Roberts
+  move ClusterNotFound rescue code into Elasticache service definition. thanks Benton Roberts
+  change method profile for create_cache_cluster, delete_cache_cluster, and describe_cache_clusters. thanks Benton Roberts
+  change parameters for describe_cache_security_groups to ruby-friendly values. thanks Benton Roberts
+  remove port attribute from cluster model. thanks Benton Roberts
+  fix Elasticahce::Cluster.security_groups attribute. thanks Benton Roberts
+  implement modify_cache_cluster request. thanks Benton Roberts
+  cluster port number cannot be modified. thanks Benton Roberts
+  add cache node info to describe_cache_clusters. thanks Benton Roberts
+  add InvalidInstace error class. thanks Benton Roberts
+  remove optional parameters from Elasticache::Cluster. thanks Benton Roberts
+  show cluster node details by default in model. thanks Benton Roberts
+  add test for removing a cache node. thanks Benton Roberts
+  add pending_values to modified nodes. thanks Benton Roberts
+  implement RebootCacheCluster. thanks Benton Roberts
+  implement DescribeEvents. thanks Benton Roberts
+  implement basic parameter group requests. thanks Benton Roberts
+  implement describe_engine_default_parameters request. thanks Benton Roberts
+  implement Elasticache::ParameterGroup model and collection. thanks Benton Roberts
+  implement modify_cache_parameter_group request. thanks Benton Roberts
+  implement reset_cache_parameter_group request. thanks Benton Roberts
+  implement describe_cache_groups request. thanks Benton Roberts
+  test fix: change DESCRIBE_SECURITY_GROUPS helper format. thanks Benton Roberts
+  delete outdated test file. thanks Benton Roberts
+
+[aws|elb]
+  Raise a custom exception for Throttling. thanks Dylan Egan
+  wait_for server to be ready? before register. thanks geemus
+
+[aws|iam]
+  implement correct path behaviour in mocking. thanks Dylan Egan
+
+[aws|simpledb]
+  fix tests to use proper accessor. thanks geemus
+
+[aws|storage]
+  fix acl mocking. thanks geemus
+
+[bluebox|compute]
+  Fixed instance state. thanks Lee Huffman
+  Create and destroy images. thanks Lee Huffman
+  Fix for setting hostname on server save. thanks Lee Huffman
+  Expect correct status code for template create. thanks Lee Huffman
+
+[cdn|aws]
+  move aws cdn to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[cdn|rackspace]
+  move rackspace cdn to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[compute]
+  fix service calls I missed in recent rearrange. thanks geemus
+
+[compute|aws]
+  - Change modify_instance_attribute name to match EC2 API method, and actually make it do something. thanks Caleb Tennis
+  Include ids of things we're modifying in requests. thanks Dan Peterson
+  Fix create_volume mock when creating from a snapshot. thanks Dan Peterson
+  Make get_bucket_location mock return LocationConstraint as API doc describes. thanks Dan Peterson
+  Fix associate_address mock to detach/revert previous addresses properly. thanks Dan Peterson
+  Don't warn in mock describe_snapshots if RestorableBy is 'self'. thanks Dan Peterson
+  When mocking, instances don't show up right away. thanks Dan Peterson
+  Suffix with _tests.rb. thanks Dylan Egan
+  IpPermissionsEgress is returned from AWS. thanks Dylan Egan
+  Simple test to verify revoke_group_and_owner behaviour. thanks Dylan Egan
+  Apparently passing a nil value works against live AWS. Only use SourceSecurityGroupOwnerId in mocks if supplied. thanks Dylan Egan
+  Since this is really proving the use of nil, let's just not pretend there's a value for owner_id. thanks Dylan Egan
+  sometimes the platform string is returned. thanks Dylan Egan
+  enable tests for mocked tags. thanks Dylan Egan
+  Fix NameError. thanks Jens Braeuer
+  Fix bug in tag mocking preventing servers from being updated with new tags. thanks Matt Griffin
+  Add mocking for describe_tags. thanks Matt Griffin
+  move aws compute to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[compute|bluebox]
+  move bluebox compute to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[compute|brightbox]
+  Allow persistent option to be passed to Brightbox::Compute. thanks Caius Durling
+  Updated test for new behaviour. thanks Paul Thornthwaite
+  Picking up more attributes from Account. thanks Paul Thornthwaite
+  No need to hardcode a server type. thanks Paul Thornthwaite
+  Updated and reordered model attributes. thanks Paul Thornthwaite
+  Updates to tests. thanks Paul Thornthwaite
+  Added resave warning to a few Brightbox models. thanks Paul Thornthwaite
+  Requests for server group management. thanks Paul Thornthwaite
+  Merge in test updates and server groups. thanks Paul Thornthwaite
+  Corrected require missed in update. thanks Paul Thornthwaite
+  Reset times to the correct type so not string attributes. thanks Paul Thornthwaite
+  Updated Format test to remove gone fields. thanks Paul Thornthwaite
+  Fixed typo in connection options. thanks Paul Thornthwaite
+  Added missing requests. thanks Paul Thornthwaite
+  Added requests for firewall management. thanks Paul Thornthwaite
+  Added ServerGroup model and collections. thanks Paul Thornthwaite
+  Passing options to server group update. thanks Paul Thornthwaite
+  Fixed server_groups.get. thanks Paul Thornthwaite
+  move brightbox compute to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[compute|ecloud]
+  move ecloud compute to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[compute|glesys]
+  added glesys as provider. thanks Anton Lindstrom
+  added tests. thanks Anton Lindström
+  fixed logical error for default values. thanks Anton Lindström
+  fixed an invalid character. thanks Anton Lindström
+  consistency/cleanup. thanks geemus
+  fix format for start vs stop. thanks geemus
+  rearrange to match current naming conventions. thanks geemus
+
+[compute|go_grid]
+  move go_grid compute to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[compute|libvirt]
+  merge jedi4ever/libvirt. thanks geemus
+  move libvirt compute to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[compute|linode]
+  move linode compute to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[compute|new_servers]
+  move new_servers compute to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[compute|ninefold]
+  move ninefold compute to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[compute|rackspace]
+  move rackspace compute to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[compute|slicehost]
+  move slicehost compute to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[compute|storm_on_demand]
+  move storm_on_demand compute to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[compute|vcloud]
+  move vcloud compute to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[compute|virtual_box]
+  move virtual_box compute to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[compute|voxel]
+  move voxel compute to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[core]
+  Allow FOG_CREDENTIAL env variable for config. thanks Aaron Suggs
+  add collection#destroy(identity). thanks geemus
+  move openssl to more central location. thanks geemus
+  first steps toward seperately requirable bits. thanks geemus
+  move providers to lib/fog/. thanks geemus
+  work toward separate requires. thanks geemus
+  prototype logger. thanks geemus
+  add get/set methods for logger channels. thanks geemus
+  use logger throughout for warnings. thanks geemus
+  coerce service credentials. thanks geemus
+  delete nil valued keys from config. thanks geemus
+  pass connection_options through service init. thanks geemus
+  don't rely on bin stuff for service init in tests. thanks geemus
+  dedup services listings. thanks geemus
+  more convenient accessors. thanks geemus
+  fixing more paths after rearrange. thanks geemus
+  add credentials setter. thanks geemus
+  make sure credentials tests properly reset after completion. thanks geemus
+  bump excon dep. thanks geemus
+  properly fix credentials tests. thanks geemus
+  skip vmfusion in rake nuke. thanks geemus
+  bump excon. thanks geemus
+  kill dns stuff in nuke as well. thanks geemus
+
+[dns]
+  update dns constructor to match recent file moves. thanks geemus
+
+[dns|aws]
+  move aws dns to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[dns|bluebox]
+  move bluebox dns to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[dns|dnsimple]
+  move dnsimple dns to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[dns|dnsmadeeasy]
+  move dnsmadeeasy dns to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[dns|dynect]
+  move dynect dns to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[dns|linode]
+  move linode dns to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[dns|rackspace]
+  initial commit. thanks Brian Hartsock
+  list_domains request. thanks Brian Hartsock
+  added attributes to list_domains; refactored rackspace errors to be shared with load balancers. thanks Brian Hartsock
+  move rackspace dns to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[dns|slicehost]
+  move slicehost dns to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[dns|zerigo]
+  move zerigo dns to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[doc]
+  Added blogpost about libvirt into fog to the press page. thanks Patrick Debois
+  corrected the link to the actual blogpost instead of the github markdown page :). thanks Patrick Debois
+
+[docs]
+  add note about ec2 default username. thanks geemus
+
+[dynect|dns]
+  use a string for now. #362 is open for accepting symbols in mocks. thanks Dylan Egan
+  return the zone name. thanks Dylan Egan
+  accidentally hardcoded the record type in the mocked data. thanks Dylan Egan
+  support ANY record results. thanks Dylan Egan
+  Don't use address as different records have different arguments, just send rdata. Remove value. Add CNAME test. thanks Dylan Egan
+  find, not first. thanks Dylan Egan
+  always ensure it's an integer. thanks Dylan Egan
+  retry if auth_token was previously set and error message includes possible login expiration. thanks Dylan Egan
+  support reauth for inactivity logout too. thanks Dylan Egan
+
+[glesys|compute]
+  fixes to play nice with mock tests. thanks geemus
+  skip flavor tests. thanks geemus
+
+[gleysys]
+  fixes for mocked test setup. thanks geemus
+
+[libvirt]
+  Added option libvirt_ip_command to the credentials error page. thanks Patrick Debois
+  Corrected template variable from interface_nat_network to network_nat_network. thanks Patrick Debois
+
+[linode|compute]
+  update format for plans. thanks geemus
+
+[load balancer|rackspace]
+  fixed some minor bugs i noticed in the tests. thanks Brian Hartsock
+
+[misc]
+  Fixed a couple of errors in the examples. thanks Bobby Wilson
+  Implement fog support for the Openstack Compute API v1.1. Includes     support for legacy v1.0 style auth and v2.0 keystone auth. thanks Dan Prince
+  Add create_image to server model. thanks Dan Prince
+  Add support for non-strict validations, and nullable arrays/hashes. thanks Dan Prince
+  Additions and updates to the OpenStack API tests. thanks Dan Prince
+  Beginning of Dynect::DNS mocking support. thanks Dylan Egan
+  get_record, single. thanks Dylan Egan
+  Tidy up a bit. thanks Dylan Egan
+  Support freeze and thaw. thanks Dylan Egan
+  sleep for 3 seconds when running against Dynect because otherwise there is an operation still in progress. thanks Dylan Egan
+  raise a NotFound if not found. thanks Dylan Egan
+  Fog::DNS::Dynect, not Fog::Dynect::DNS. thanks Dylan Egan
+  InstanceId should have index according to AWS Docs. thanks E.J. Finneran
+  fix indenting to get markdown to recognise the code block properly. thanks Glenn Tweedie
+  Better URL escaping for Rackspace Cloud Files. thanks H. Wade Minter
+  Tweak to escape the Cloud Files filename before passing to public_url. thanks H. Wade Minter
+  Put escaping logic into the collection get_url call. thanks H. Wade Minter
+  (#9241) Add skeleton VMware vSphere platform support. thanks Jeff McCune
+  (#9241) Add SSL verification. thanks Jeff McCune
+  (#9241) Add current_time request. thanks Jeff McCune
+  (#9241) Add model for Fog::Compute[:vsphere].servers. thanks Jeff McCune
+  (#9241) Add test skeleton framework. thanks Jeff McCune
+  (#9241) Add ability to find VMs by UUID. thanks Jeff McCune
+  (#9421) Add start, stop, reboot server model methods. thanks Jeff McCune
+  (#9241) Add destroy API request and model action. thanks Jeff McCune
+  (#9241) Add find_template_by_instance_uuid request. thanks Jeff McCune
+  (#9241) Add vm_clone API request. thanks Jeff McCune
+  (#9241) Don't fail when trying to model a cloning VM. thanks Jeff McCune
+  (#9241) Make the reload action of the server models work. thanks Jeff McCune
+  (#9124) Add ability to reload the model of a cloning VM. thanks Jeff McCune
+  Refactor requests to return simple hashes and add unit tests. thanks Jeff McCune
+  Add vsphere_server connection attribute. thanks Jeff McCune
+  Fix vm clone problem when a Guid instance is passed as the instance_uuid. thanks Jeff McCune
+  Fix documentation. The resulting hash has no entry "PutScalingPolicyResponse", but a "...Result". thanks Jens Braeuer
+  Pass hostname to create_block request if provided. thanks Lee Huffman
+  Added Fog::CurrentMachine#ip_address. thanks Pan Thomakos
+  First cut at libvirt integration. Lots of features missing, but it proves the point. thanks Patrick Debois
+  - Added URI helper to parse libvirt URL's     - exposed Libvirt original connection in Compute object     - exposed URI in Compute object     - added libvirt-ruby gem to the developer Gemspec. thanks Patrick Debois
+  - Get all pools now by name or by uuid     - Create pool by providing xml     - Destroy pool. thanks Patrick Debois
+  Added ability to create/destroy volumes     You can search for volumes by path,key,name     And list all volumes from a pool. thanks Patrick Debois
+  Allow creation of persistent or non persistent volumes. thanks Patrick Debois
+  Again major breakthrough. thanks Patrick Debois
+  Coming along nicely. thanks Patrick Debois
+  - ERB has a problem with a variable called type, it expands it on ruby 1.8 to .class     - If the key or the volume is not found, maybe because the pool has not yet been started, the volumes should return nil. thanks Patrick Debois
+  Changed the monitoring command for IP addresses     arpwatch.dat is not the correct place, it should be via syslog, or seperate file. thanks Patrick Debois
+  fixing whitespace. thanks Patrick Debois
+  removed trailing spaces. thanks Patrick Debois
+  indenting the files. thanks Patrick Debois
+  check ip-address that returned from the search in the logfile. thanks Patrick Debois
+  Added a way to locally retrieve the ipaddress through the ip_command     More checks on correctness of ipaddress     And checks on ssh failures. thanks Patrick Debois
+  renamed ipaddress to ip_address     made the .id available and an alias to uuid for server. thanks Patrick Debois
+  Added description on the libvirt environment can be initialized and the     requirements for ssh and ipaddress to work. thanks Patrick Debois
+  Added a global libvirt provider option ip_command to specify the ip_command     Also more robust handling of connection error when the libvirt connection fails. thanks Patrick Debois
+  Remove the idea of template_options, now you specify the param directly     in the create command.     Unit and Size are now calculated. thanks Patrick Debois
+  Removed the template_options param. thanks Patrick Debois
+  Fixed disk_format_type vs disk_type_format difference     and changed disk_format_type in the template as well. thanks Patrick Debois
+  added openauth support thanks to @rubiojr. thanks Patrick Debois
+  changed return code of state to string instead of symbols to be consistent with aws provider. thanks Patrick Debois
+  - Added concept of nodes (host of domains = node)     - Renamed the shuttingdown to shutting-down mode     - fixed the Gem warning on using Gem.find_by_name instead of       Gem::Specification. thanks Patrick Debois
+  Added a way to filter the active and the defined servers(domains) using     - servers.all(:active => false, :defined=> true). thanks Patrick Debois
+  Fixed empty filter issue, nil filter. thanks Patrick Debois
+  * Fixed an error with memory_size 256       that should be 256*1024 as the default is K nor M     * Changed the ip_command to check the ipaddress to include changes not     * only new IPaddresses. thanks Patrick Debois
+  Added libvirt options to credentials error. thanks Patrick Debois
+  Made libvirt username param consistent with other providers libvirt_user -> libvirt_username. thanks Patrick Debois
+  [Libvirt] Provided better solution for ip_command : use shell variable instead of ruby string for mac-address. thanks Patrick Debois
+  vmfusion provider , requires the fission gem (pull request pending). thanks Patrick Debois
+  fixed missing disk-> volume conversion. thanks Patrick Debois
+  another log entry style resused old ethernet. thanks Patrick Debois
+  Fix warning about whitespace before parentheses in dns.rb. thanks Rick Bradley
+  Added support fo canned ACLs in put_object_acl. thanks dblock
+  Updated put_bucket_acl to support canned ACLs. thanks dblock
+  Marking as pending. thanks dblock
+  Refactored specs, mocks, etc. thanks dblock
+  Revert "[core] make sure credentials tests properly reset after completion". thanks geemus
+  Update gemspec description to mention popular services that are supported. thanks watsonian
+
+[ninefold|compute]
+  fixes for list formats. thanks geemus
+  fix for network formats. thanks geemus
+  add default (ubuntu) image for servers. thanks geemus
+
+[rackspace|dns]
+  all important domains requests. thanks Brian Hartsock
+  zone models. thanks Brian Hartsock
+  records requests. thanks Brian Hartsock
+  record models. thanks Brian Hartsock
+  minor docs update. thanks Brian Hartsock
+  add mock initializer. thanks geemus
+  consistency fixes and tests and mark pending in mocked. thanks geemus
+  fix mock init to play nice with tests. thanks geemus
+  fixes for updates to beta. thanks geemus
+
+[rackspace|load_balancers]
+  fix path for tests. thanks geemus
+  fixes for tests. thanks geemus
+
+[rackspace|storage]
+  fix broken model paths. thanks geemus
+
+[release]
+  update MVP skip list. thanks geemus
+  add collaborator count to changelog stats. thanks geemus
+
+[storage]
+  Fixed what appeared to be broken test (I only verified with Rackspace provider). thanks Brian Hartsock
+
+[storage|aws]
+  Add options to File#copy method. thanks Aaron Suggs
+  move aws storage back with other aws stuff (namespacing should probably be recorrected as well). thanks geemus
+
+[storage|google]
+  move google storage to shared google stuff (namespacing should probably be corrected). thanks geemus
+
+[storage|local]
+  move local storage to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[storage|ninefold]
+  move ninefold storage to its own shared area (namespacing should probably be corrected). thanks geemus
+  use Fog::HMAC. thanks geemus
+
+[storage|rackspace]
+  Fixed NotFound namespace. thanks Grégory Karékinian
+  move rackspace storage to its own shared area (namespacing should probably be corrected). thanks geemus
+
+[tests]
+  rearrange to match new lib structure. thanks geemus
+  mark not implemented mocks as pending. thanks geemus
+  more helpful formats helper errors. thanks geemus
+
+[vmfusion|compute]
+  fixed destroy function. thanks Patrick Debois
+  reworked structure as will be released in 0.4.0a. thanks Patrick Debois
+
+[vsphere|compute]
+  mark test requiring guid pending, as require can not be found. thanks geemus
+  remove unnecessary mocha require. thanks geemus
+
+
 0.11.0 08/18/2011 73bcee507a4732e071c58d85793b7f307eb377dc
 ==========================================================
 

@@ -60,7 +60,7 @@ module Fog
 
         def describe_images(filters = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_images with #{filters.class} param is deprecated, use describe_images('image-id' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_images with #{filters.class} param is deprecated, use describe_images('image-id' => []) instead [light_black](#{caller.first})[/]")
             filters = {'image-id' => [*filters]}
           end
 
@@ -98,15 +98,12 @@ module Fog
             'virtualization-type' => 'virtualizationType'
           }
 
-          image_set = self.data[:images].values
+          image_set = visible_images.values
+          image_set = apply_tag_filters(image_set, filters, 'imageId')
 
           for filter_key, filter_value in filters
-            if tag_key = filter_key.split('tag:')[1]
-              image_set = image_set.reject{|image| ![*filter_value].include?(image['tagSet'][tag_key])}
-            else
-              aliased_key = aliases[filter_key]
-              image_set = image_set.reject{|image| ![*filter_value].include?(image[aliased_key])}
-            end
+            aliased_key = aliases[filter_key]
+            image_set = image_set.reject{|image| ![*filter_value].include?(image[aliased_key])}
           end
 
           image_set = image_set.map do |image|
@@ -116,7 +113,7 @@ module Fog
                 image['imageState'] = 'available'
               end
             end
-            image.reject { |key, value| ['registered'].include?(key) }
+            image.reject { |key, value| ['registered'].include?(key) }.merge('tagSet' => self.data[:tag_sets][image['imageId']])
           end
 
           response.status = 200

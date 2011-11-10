@@ -42,18 +42,18 @@ module Fog
       end
     end
 
-    service(:cdn,             'rackspace/cdn')
-    service(:compute,         'rackspace/compute')
-    service(:dns,             'rackspace/dns')
-    service(:storage,         'rackspace/storage')
-    service(:load_balancers,  'rackspace/load_balancers')
+    service(:cdn,             'rackspace/cdn',            'CDN')
+    service(:compute,         'rackspace/compute',        'Compute')
+    service(:dns,             'rackspace/dns',            'DNS')
+    service(:storage,         'rackspace/storage',        'Storage')
+    service(:load_balancers,  'rackspace/load_balancers', 'LoadBalancers')
 
-    def self.authenticate(options)
+    def self.authenticate(options, connection_options = {})
       rackspace_auth_url = options[:rackspace_auth_url] || "auth.api.rackspacecloud.com"
       url = rackspace_auth_url.match(/^https?:/) ? \
                 rackspace_auth_url : 'https://' + rackspace_auth_url
       uri = URI.parse(url)
-      connection = Fog::Connection.new(url)
+      connection = Fog::Connection.new(url, false, connection_options)
       @rackspace_api_key  = options[:rackspace_api_key]
       @rackspace_username = options[:rackspace_username]
       response = connection.request({
@@ -68,6 +68,13 @@ module Fog
       })
       response.headers.reject do |key, value|
         !['X-Server-Management-Url', 'X-Storage-Url', 'X-CDN-Management-Url', 'X-Auth-Token'].include?(key)
+      end
+    end
+
+    # CGI.escape, but without special treatment on spaces
+    def self.escape(str,extra_exclude_chars = '')
+      str.gsub(/([^a-zA-Z0-9_.-#{extra_exclude_chars}]+)/) do
+        '%' + $1.unpack('H2' * $1.bytesize).join('%').upcase
       end
     end
   end

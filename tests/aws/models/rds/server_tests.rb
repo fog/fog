@@ -2,9 +2,9 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
 
   pending if Fog.mocking?
 
-  model_tests(AWS[:rds].servers, rds_default_server_params, false) do
+  model_tests(Fog::AWS[:rds].servers, rds_default_server_params, false) do
     # We'll need this later; create it early to avoid waiting
-    @instance_with_final_snapshot = AWS[:rds].servers.create(rds_default_server_params.merge(:id => uniq_id("fog-snapshot-test"), :backup_retention_period => 1))
+    @instance_with_final_snapshot = Fog::AWS[:rds].servers.create(rds_default_server_params.merge(:id => uniq_id("fog-snapshot-test"), :backup_retention_period => 1))
 
     @instance.wait_for(20*60) { ready? }
 
@@ -26,10 +26,10 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
 
     tests("#modify").succeeds do
       orig_parameter_group = @instance.db_parameter_groups.first['DBParameterGroupName']
-      parameter_group = AWS[:rds].parameter_groups.create(:id => uniq_id, :family => 'mysql5.1', :description => 'fog-test')
+      parameter_group = Fog::AWS[:rds].parameter_groups.create(:id => uniq_id, :family => 'mysql5.1', :description => 'fog-test')
 
       orig_security_groups = @instance.db_security_groups.map{|h| h['DBSecurityGroupName']}
-      security_group = AWS[:rds].security_groups.create(:id => uniq_id, :description => 'fog-test')
+      security_group = Fog::AWS[:rds].security_groups.create(:id => uniq_id, :description => 'fog-test')
 
       modify_options = {
         'DBParameterGroupName' => parameter_group.id,
@@ -92,7 +92,7 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
       @instance_with_final_snapshot.wait_for { ready? }
       @instance_with_final_snapshot.destroy(final_snapshot_id)
       returns(true, "Final snapshot created") do
-        @final_snapshot = AWS[:rds].snapshots.get(final_snapshot_id)
+        @final_snapshot = Fog::AWS[:rds].snapshots.get(final_snapshot_id)
         !@final_snapshot.nil?
       end
 

@@ -5,8 +5,8 @@ module Fog
 
     extend Fog::Provider
 
-    service(:compute, 'ninefold/compute')
-    service(:storage, 'ninefold/storage')
+    service(:compute, 'ninefold/compute', 'Compute')
+    service(:storage, 'ninefold/storage', 'Storage')
 
   end
 end

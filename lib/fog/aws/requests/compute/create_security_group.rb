@@ -35,10 +35,11 @@ module Fog
           response = Excon::Response.new
           unless self.data[:security_groups][name]
             data = {
-              'groupDescription'  => description,
-              'groupName'         => name,
-              'ipPermissions'     => [],
-              'ownerId'           => self.data[:owner_id]
+              'groupDescription'    => description,
+              'groupName'           => name,
+              'ipPermissionsEgress' => [],
+              'ipPermissions'       => [],
+              'ownerId'             => self.data[:owner_id]
             }
             self.data[:security_groups][name] = data
             response.body = {

@@ -6,21 +6,21 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '0.11.0'
-  s.date              = '2011-08-18'
+  s.version           = '1.0.0'
+  s.date              = '2011-09-29'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
   ## as you like.
   s.summary     = "brings clouds to you"
-  s.description = "The Ruby cloud services library."
+  s.description = "The Ruby cloud services library. Supports all major cloud providers including AWS, Rackspace, Linode, Blue Box, StormOnDemand, and many others. Full support for most AWS services including EC2, S3, CloudWatch, SimpleDB, ELB, and RDS."
 
   ## List the primary authors. If there are a bunch of authors, it's probably
   ## better to set the email to an email list or something. If you don't have
   ## a custom homepage, consider using your GitHub URL or the like.
   s.authors  = ["geemus (Wesley Beary)"]
   s.email    = 'geemus@gmail.com'
-  s.homepage = 'http://github.com/geemus/fog'
+  s.homepage = 'http://github.com/fog/fog'
 
   ## This sections is only necessary if you have C extensions.
   # s.require_paths << 'ext'
@@ -37,12 +37,12 @@ Gem::Specification.new do |s|
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
   s.add_dependency('builder')
-  s.add_dependency('excon', '~>0.6.5')
+  s.add_dependency('excon', '~>0.7.4')
   s.add_dependency('formatador', '~>0.2.0')
   s.add_dependency('multi_json', '~>1.0.3')
   s.add_dependency('mime-types')
   s.add_dependency('net-scp', '~>1.0.4')
-  s.add_dependency('net-ssh', '~>2.1.4')
+  s.add_dependency('net-ssh', '>=2.2.1')
   s.add_dependency('nokogiri', '~>1.5.0')
   s.add_dependency('ruby-hmac')
 
@@ -50,6 +50,7 @@ Gem::Specification.new do |s|
   ## those that are only needed during development
   s.add_development_dependency('jekyll')
   s.add_development_dependency('rake')
+  s.add_development_dependency('rbvmomi')
   s.add_development_dependency('rdoc')
   s.add_development_dependency('rspec', '~>1.3.1')
   s.add_development_dependency('shindo', '~>0.3.4')

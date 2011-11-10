@@ -56,7 +56,7 @@ header dl dt {
   font-weight: bold;
 }
 
-#main {
+nav, #main {
   background-color: #FFF;
   -moz-border-radius: 0.5em;
   border-radius: 0.5em;
@@ -64,6 +64,19 @@ header dl dt {
   border: 1px solid #70A1D2;
   padding: 0 1em;
   margin-bottom: 2em;
+}
+
+nav {
+  padding: 1em;
+}
+
+nav li {
+  display: inline;
+  padding-left: 2em;
+}
+
+nav li a {
+  font-size: 1.5em;
 }
 
 footer {

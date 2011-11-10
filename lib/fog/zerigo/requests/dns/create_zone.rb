@@ -46,7 +46,7 @@ module Fog
         #     * 'restrict-axfr'<~String>    
         #   * 'status'<~Integer> - 201 if successful        
         
-        def create_zone( domain, default_ttl, ns_type, options = {})
+        def create_zone(domain, default_ttl, ns_type, options = {})
 
           optional_tags= ''
           options.each { |option, value|
@@ -84,6 +84,49 @@ module Fog
         end
 
       end
+
+      class Mock # :nodoc:all
+        def create_zone(domain, default_ttl, ns_type, options = {})
+          now = Time.now
+          zone = {
+            'id'                    => rand(10000000),
+            'domain'                => domain,
+            'created-at'            => now,
+            'updated-at'            => now,
+            'ns1'                   => options[:ns1],
+            'nx-ttl'                => options[:nx_ttl].to_i,
+            'default-ttl'           => default_ttl.to_i,
+            'ns-type'               => ns_type,
+            'hosts'                 => options[:hosts] || [],
+            'hosts-count'           => (options[:hosts] || []).size,
+            'notes'                 => options[:notes],
+            'slave-nameservers'     => options[:slave_nameservers],
+            'tag-list'              => options[:tag_list]
+          }
+
+          response = Excon::Response.new
+
+          if self.data[:zones].any? {|z| z['domain'] == zone['domain'] }
+            response.status = 422
+            response.body = {
+              'errors' => [
+                'error' => 'Domain is already associated to another account',
+                'error' => 'Domain already exists. If it was just deleted, wait a minute and try again'
+              ]
+            }
+
+          else
+            self.data[:zones] << zone
+
+            response.status = 201
+            response.headers = { 'Location' => "http://ns.zerigo.com/api/1.1/zones/#{zone['id']}" }
+            response.body = zone['hosts'].empty? ? zone.merge(:hosts => nil) : zone # Zerigo returns nil, not an empty list only on the create command.
+          end
+
+          response
+        end
+      end
+
     end
   end
 end

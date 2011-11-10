@@ -59,16 +59,18 @@ module Fog
 
           @dnsimple_email = options[:dnsimple_email]
           @dnsimple_password  = options[:dnsimple_password]
+          @connection_options = options[:connection_options] || {}
           if options[:dnsimple_url]
             uri = URI.parse(options[:dnsimple_url])
             options[:host]    = uri.host
             options[:port]    = uri.port
             options[:scheme]  = uri.scheme
           end
-          @host   = options[:host]    || "dnsimple.com"
-          @port   = options[:port]    || 443
-          @scheme = options[:scheme]  || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @host       = options[:host]        || "dnsimple.com"
+          @persistent = options[:persistent]  || false
+          @port       = options[:port]        || 443
+          @scheme     = options[:scheme]      || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

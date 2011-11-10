@@ -22,7 +22,21 @@ module Fog
           }.merge!(options))
         end
       end
-
+      
+      class Mock
+        def list_queues(options = {})
+          Excon::Response.new.tap do |response|
+            response.status = 200
+            
+            response.body = {
+              'ResponseMetadata' => {
+                'RequestId' => Fog::AWS::Mock.request_id
+              },
+              'QueueUrls' => data[:queues].keys
+            }
+          end
+        end
+      end
     end
   end
 end

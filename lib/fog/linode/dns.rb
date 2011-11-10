@@ -54,11 +54,13 @@ module Fog
 
         def initialize(options={})
           require 'multi_json'
+          @connection_options = options[:connection_options] || {}
+          @host           = options[:host]        || "api.linode.com"
           @linode_api_key = options[:linode_api_key]
-          @host   = options[:host]    || "api.linode.com"
-          @port   = options[:port]    || 443
-          @scheme = options[:scheme]  || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @persistent     = options[:persistent]  || false
+          @port           = options[:port]        || 443
+          @scheme         = options[:scheme]      || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

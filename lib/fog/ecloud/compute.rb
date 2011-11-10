@@ -18,11 +18,7 @@ module Fog
 
       def check_href!(opts = {})
         unless href
-          if opts.is_a?(String)
-            t = Hash.new
-            t[:parent] = opts
-            opts = t
-          end
+          opts = { :parent => opts } if opts.is_a?(String)
           msg = ":href missing, call with a :href pointing to #{if opts[:message]
                   opts[:message]
                 elsif opts[:parent]
@@ -1065,7 +1061,7 @@ module Fog
         end
 
         def self.data_reset
-          Fog::Logger.warning("#{self} => #data_reset is deprecated, use #reset instead [light_black](#{caller.first})[/]")
+          Fog::Logger.deprecation("#{self} => #data_reset is deprecated, use #reset instead [light_black](#{caller.first})[/]")
           self.reset
         end
 
@@ -1144,11 +1140,12 @@ module Fog
           require 'fog/core/parser'
 
           @connections = {}
+          @connection_options = options[:connection_options] || {}
           @versions_uri = URI.parse(options[:ecloud_versions_uri])
-          @version = options[:ecloud_version]
-          @username = options[:ecloud_username]
-          @password = options[:ecloud_password]
-          @persistent = options[:persistent]
+          @version    = options[:ecloud_version]
+          @username   = options[:ecloud_username]
+          @password   = options[:ecloud_password]
+          @persistent = options[:persistent] || false
         end
 
         def default_organization_uri
@@ -1268,7 +1265,7 @@ module Fog
 
           # Hash connections on the host_url ... There's nothing to say we won't get URI's that go to
           # different hosts.
-          @connections[host_url] ||= Fog::Connection.new(host_url, @persistent)
+          @connections[host_url] ||= Fog::Connection.new(host_url, @persistent, @connection_options)
 
           # Set headers to an empty hash if none are set.
           headers = params[:headers] || {}

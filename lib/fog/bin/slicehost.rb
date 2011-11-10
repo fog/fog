@@ -16,7 +16,7 @@ class Slicehost < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
-          Fog::Logger.warning("Slicehost[:compute] is deprecated, use Compute[:slicehost] instead")
+          Fog::Logger.warning("Slicehost[:compute] is not recommended, use Compute[:slicehost] for portability")
           Fog::Compute.new(:provider => 'Slicehost')
         when :dns
           Fog::Logger.warning("Slicehost[:dns] is deprecated, use Storage[:slicehost] instead")

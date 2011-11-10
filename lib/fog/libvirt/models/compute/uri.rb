@@ -38,7 +38,11 @@ module Fog
         end
 
         def ssh_enabled?
-          transport.include?("ssh")
+          if remote?
+            return transport.include?("ssh")
+          else
+            return false
+          end
         end
 
         def remote?
@@ -122,9 +126,13 @@ module Fog
         # http://libvirt.org/remote.html
         private
         def value(name)
-          params=CGI.parse(@parsed_uri.query)
-          if params.has_key?(name)
-            return params[name].first
+          unless @parsed_uri.query.nil?
+            params=CGI.parse(@parsed_uri.query)
+            if params.has_key?(name)
+              return params[name].first
+            else
+              return nil
+            end
           else
             return nil
           end

@@ -33,7 +33,7 @@ module Fog
 
       class Real
 
-        attr_reader :connection
+        attr_reader :raw
         attr_reader :uri
         attr_reader :ip_command
 
@@ -46,17 +46,17 @@ module Fog
           require 'libvirt'
 
           begin
-            if options[:libvirt_user] and options[:libvirt_password]
-              @connection = ::Libvirt::open_auth(@uri.uri, [::Libvirt::CRED_AUTHNAME, ::Libvirt::CRED_PASSPHRASE]) do |cred|
+            if options[:libvirt_username] and options[:libvirt_password]
+              @raw = ::Libvirt::open_auth(@uri.uri, [::Libvirt::CRED_AUTHNAME, ::Libvirt::CRED_PASSPHRASE]) do |cred|
                 if cred['type'] == ::Libvirt::CRED_AUTHNAME
-                  res = options[:libvirt_user]
+                  res = options[:libvirt_username]
                 elsif cred["type"] == ::Libvirt::CRED_PASSPHRASE
                   res = options[:libvirt_password]
                 else
                 end
               end
             else
-              @connection = ::Libvirt::open(@uri.uri)
+              @raw = ::Libvirt::open(@uri.uri)
             end
 
           rescue ::Libvirt::ConnectionError
@@ -91,8 +91,8 @@ module Fog
 
         # hack to provide 'requests'
         def method_missing(method_sym, *arguments, &block)
-          if @connection.respond_to?(method_sym)
-            @connection.send(method_sym, *arguments)
+          if @raw.respond_to?(method_sym)
+            @raw.send(method_sym, *arguments)
           else
             super
           end

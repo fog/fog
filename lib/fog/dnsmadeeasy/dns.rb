@@ -84,13 +84,12 @@ module Fog
 
           @dnsmadeeasy_api_key = options[:dnsmadeeasy_api_key]
           @dnsmadeeasy_secret_key = options[:dnsmadeeasy_secret_key]
-          @host     = options[:host]      || 'api.dnsmadeeasy.com'
-          @port     = options[:port]      || 80 #443 Not yet
-          @scheme   = options[:scheme]    || 'http' #'https Not yet
-          unless options.has_key?(:persistent)
-            options[:persistent] = true
-          end
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", options[:persistent])
+          @connection_options = options[:connection_options] || {}
+          @host       = options[:host]        || 'api.dnsmadeeasy.com'
+          @persistent = options[:persistent]  || true
+          @port       = options[:port]        || 80 #443 Not yet
+          @scheme     = options[:scheme]      || 'http' #'https Not yet
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
         def reload

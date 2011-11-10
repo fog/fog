@@ -18,8 +18,8 @@
   <clock offset='utc'/>
   <devices>
     <disk type='file' device='disk'>
-      <driver name='qemu' type='<%= disk_format_type %>'/>
-      <source file='<%= "#{disk_path}" %>'/>
+      <driver name='qemu' type='<%= volume_format_type %>'/>
+      <source file='<%= "#{volume_path}" %>'/>
       <target dev='vda' bus='virtio'/>
     </disk>
   <% if !iso_file.nil? %>
@@ -38,7 +38,7 @@
       <% end %>
     <% if network_interface_type=="nat" %>
         <interface type='network'>
-      <source network='<%= interface_nat_network %>'/>
+      <source network='<%= network_nat_network %>'/>
       <model type='virtio'/>
     <% end %>
     </interface>
