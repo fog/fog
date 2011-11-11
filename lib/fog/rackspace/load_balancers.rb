@@ -16,6 +16,7 @@ module Fog
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url
       recognizes :rackspace_auth_token
+      recognizes :rackspace_lb_endpoint
 
       model_path 'fog/rackspace/models/load_balancers'
       collection :load_balancers
