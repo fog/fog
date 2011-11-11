@@ -2,7 +2,9 @@ Shindo.tests('Fog::DNS[:rackspace] | dns records requests', ['rackspace', 'dns']
 
   pending if Fog.mocking?
 
-  domain_tests(Fog::DNS[:rackspace], {:name => 'basictestdomain.com', :email => 'hostmaster@basictestdomain.com', :records => [{:ttl => 300, :name => 'basictestdomain.com', :type => 'A', :data => '192.168.1.1'}]}) do
+  domain_name = uniq_id + '.com'
+
+  domain_tests(Fog::DNS[:rackspace], {:name => domain_name, :email => 'hostmaster@' + domain_name, :records => [{:ttl => 300, :name => domain_name, :type => 'A', :data => '192.168.1.1'}]}) do
 
     tests('success on single record') do
 
@@ -10,18 +12,18 @@ Shindo.tests('Fog::DNS[:rackspace] | dns records requests', ['rackspace', 'dns']
         Fog::DNS[:rackspace].list_records(@domain_id).body
       end
 
-      tests("add_records(#{@domain_id}, [{ :name => 'test1.basictestdomain.com', :type => 'A', :data => '192.168.2.1'}])").formats(RECORD_LIST_FORMAT) do
-        response = wait_for Fog::DNS[:rackspace], Fog::DNS[:rackspace].add_records(@domain_id, [{ :name => 'test1.basictestdomain.com', :type => 'A', :data => '192.168.2.1'}])
-        @record_id = response.body['records'].first['id']
-        response.body
+      tests("add_records(#{@domain_id}, [{ :name => 'test1.#{domain_name}', :type => 'A', :data => '192.168.2.1'}])").formats(RECORD_LIST_FORMAT) do
+        response = wait_for Fog::DNS[:rackspace], Fog::DNS[:rackspace].add_records(@domain_id, [{ :name => 'test1.' + domain_name, :type => 'A', :data => '192.168.2.1'}])
+        @record_id = response.body['response']['records'].first['id']
+        response.body['response']
       end
 
       tests("list_record_details(#{@domain_id}, #{@record_id})").formats(RECORD_FORMAT) do
         Fog::DNS[:rackspace].list_record_details(@domain_id, @record_id).body
       end
 
-      tests("modify_record(#{@domain_id}, #{@record_id}, { :ttl => 500, :name => 'test2.basictestdomain.com', :data => '192.168.3.1' })").succeeds do
-        wait_for Fog::DNS[:rackspace], Fog::DNS[:rackspace].modify_record(@domain_id, @record_id, { :ttl => 500, :name => 'test2.basictestdomain.com', :data => '192.168.3.1' })
+      tests("modify_record(#{@domain_id}, #{@record_id}, { :ttl => 500, :name => 'test2.#{domain_name}', :data => '192.168.3.1' })").succeeds do
+        wait_for Fog::DNS[:rackspace], Fog::DNS[:rackspace].modify_record(@domain_id, @record_id, { :ttl => 500, :name => 'test2.' + domain_name, :data => '192.168.3.1' })
       end
 
       tests("remove_record(#{@domain_id}, #{@record_id})").succeeds do
@@ -33,14 +35,14 @@ Shindo.tests('Fog::DNS[:rackspace] | dns records requests', ['rackspace', 'dns']
 
       records_attributes =
         [
-          { :name => 'test1.basictestdomain.com', :type => 'A', :data => '192.168.2.1'},
-          { :name => 'basictestdomain.com', :type => 'MX', :priority => 10, :data => 'mx.basictestdomain.com'}
+          { :name => 'test1.' + domain_name, :type => 'A', :data => '192.168.2.1'},
+          { :name => domain_name, :type => 'MX', :priority => 10, :data => 'mx.' + domain_name}
         ]
 
       tests("add_records(#{@domain_id}, #{records_attributes})").formats(RECORD_LIST_FORMAT) do
         response = wait_for Fog::DNS[:rackspace], Fog::DNS[:rackspace].add_records(@domain_id, records_attributes)
-        @record_ids = response.body['records'].collect { |record| record['id'] }
-        response.body
+        @record_ids = response.body['response']['records'].collect { |record| record['id'] }
+        response.body['response']
       end
 
       tests("remove_records(#{@domain_id}, #{@record_ids})").succeeds do
