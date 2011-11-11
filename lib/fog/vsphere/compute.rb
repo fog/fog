@@ -21,6 +21,7 @@ module Fog
       request :vm_reboot
       request :vm_clone
       request :vm_destroy
+      request :datacenters
 
       module Shared
 
