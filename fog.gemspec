@@ -42,7 +42,7 @@ Gem::Specification.new do |s|
   s.add_dependency('multi_json', '~>1.0.3')
   s.add_dependency('mime-types')
   s.add_dependency('net-scp', '~>1.0.4')
-  s.add_dependency('net-ssh', '>=2.2.1')
+  s.add_dependency('net-ssh', '>=2.1.3')
   s.add_dependency('nokogiri', '~>1.5.0')
   s.add_dependency('ruby-hmac')
 
