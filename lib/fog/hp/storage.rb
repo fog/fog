@@ -6,7 +6,7 @@ module Fog
     class HP < Fog::Service
 
       requires    :hp_secret_key, :hp_account_id
-      recognizes  :hp_auth_uri, :hp_servicenet, :hp_cdn_ssl, :persistent, :connection_options
+      recognizes  :hp_auth_uri, :hp_servicenet, :hp_cdn_ssl, :hp_cdn_uri, :persistent, :connection_options
 
       model_path 'fog/hp/models/storage'
       model       :directory
@@ -29,16 +29,20 @@ module Fog
       module Utils
 
         def cdn
-          #@cdn ||= Fog::CDN.new(
-          #  :provider     => 'HP',
-          #  :hp_account_id  => @hp_account_id,
-          #  :hp_secret_key  => @hp_secret_key,
-          #  :hp_auth_uri    => @hp_auth_uri
-          #)
-          #if @cdn.enabled?
-          #  @cdn
-          #end
-          nil
+          unless @hp_cdn_uri.nil?
+            @cdn ||= Fog::CDN.new(
+              :provider       => 'HP',
+              :hp_account_id  => @hp_account_id,
+              :hp_secret_key  => @hp_secret_key,
+              :hp_auth_uri    => @hp_auth_uri,
+              :hp_cdn_uri     => @hp_cdn_uri
+            )
+            if @cdn.enabled?
+              @cdn
+            end
+          else
+            nil
+          end
         end
 
         def url
@@ -138,6 +142,7 @@ module Fog
           @hp_account_id = options[:hp_account_id]
           @hp_auth_uri   = options[:hp_auth_uri]
           @hp_cdn_ssl    = options[:hp_cdn_ssl]
+          @hp_cdn_uri    = options[:hp_cdn_uri]
           @connection_options = options[:connection_options] || {}
           credentials = Fog::HP.authenticate(options, @connection_options)
           @auth_token = credentials['X-Auth-Token']
