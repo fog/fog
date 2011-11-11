@@ -26,9 +26,13 @@ module Fog
         def destroy
           requires :key
           connection.delete_container(key)
-          # Added an extra check to see if CDN is nil i.e. when CDN provider is not implemented yet.
-          if !connection.cdn.nil?
-            connection.cdn.delete_container(key)
+          # If CDN service is available, try to delete the container if it was CDN-enabled
+          if (!connection.cdn.nil? && connection.cdn.enabled?)
+            begin response = connection.cdn.head_container(key)
+              connection.cdn.delete_container(key)
+            rescue Fog::Storage::HP::NotFound => err
+              # just continue, as container was not CDN-enabled.
+            end
           end
           true
         rescue Excon::Errors::NotFound, Fog::Storage::HP::NotFound
@@ -96,12 +100,17 @@ module Fog
           end
           connection.put_container(key, options)
           # Added an extra check to see if CDN is nil i.e. when CDN provider is not implemented yet.
-          if !connection.cdn.nil?
+          if (!connection.cdn.nil? && connection.cdn.enabled?)
             # If CDN available, set the container to be CDN-enabled or not based on if it is marked as public.
             if @public
               connection.cdn.put_container(key)
             else
-              connection.cdn.delete_container(key)
+              # check to make sure that the container is already cdn-enabled. If yes, cdn disable it.
+              begin response = connection.cdn.head_container(key)
+                connection.cdn.delete_container(key)
+              rescue Fog::Storage::HP::NotFound => err
+                # just continue, as container is not cdn-enabled.
+              end
             end
           end
           true
