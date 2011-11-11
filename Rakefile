@@ -249,6 +249,7 @@ task :changelog do
         'Henry Addison',
         'Lincoln Stoll',
         'Luqman Amjad',
+        'Michael Zeng',
         'nightshade427',
         'Patrick Debois',
         'Wesley Beary'
