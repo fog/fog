@@ -1,3 +1,15 @@
+1.1.1 11/11/2011 a468aa9a3445aae4f496b1a51e26572b8379c3da
+=========================================================
+
+Stats! { 'collaborators' => 19, 'downloads' => 300403, 'forks' => 300, 'open_issues' => 14, 'watchers' => 1667 }
+
+[core]
+  loosen net-ssh dependency to avoid chef conflict. thanks geemus
+
+[misc]
+  1.1.0 changelog. thanks geemus
+
+
 1.1.0 11/11/2011 b706c7ed66c2e760fdd6222e38c68768575483b2
 =========================================================
 
