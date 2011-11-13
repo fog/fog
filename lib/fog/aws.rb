@@ -86,6 +86,10 @@ module Fog
         'Version'           => options[:version]
       })
 
+      params.merge!({
+        'SecurityToken'     => options[:aws_session_token]
+      }) if options[:aws_session_token]
+
       body = ''
       for key in params.keys.sort
         unless (value = params[key]).nil?
