@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/aws/requests/storage/hash_to_acl'
+        require 'fog/aws/requests/storage/acl_utils'
 
         # Change access control list for an S3 object
         #
