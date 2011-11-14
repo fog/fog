@@ -37,13 +37,12 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
     acl = {
       'Owner' => @aws_owner,
       'AccessControlList' => [
-        { 
+        {
           'Grantee' => @aws_owner,
-          'Permission' => "FULL_CONTROL" 
+          'Permission' => "FULL_CONTROL"
         }
       ]}
     tests("#put_object_acl('#{@directory.identity}', 'fog_object', hash with id)").returns(acl) do
-      pending if Fog.mocking?
       Fog::Storage[:aws].put_object_acl(@directory.identity, 'fog_object', acl)
       Fog::Storage[:aws].get_object_acl(@directory.identity, 'fog_object').body
     end
@@ -77,7 +76,6 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
         }
       ]}
     tests("#put_object_acl('#{@directory.identity}', 'fog_object', hash with uri)").returns(acl) do
-      pending if Fog.mocking?
       Fog::Storage[:aws].put_object_acl(@directory.identity, 'fog_object', acl)
       Fog::Storage[:aws].get_object_acl(@directory.identity, 'fog_object').body
     end
