@@ -1,6 +1,6 @@
-require 'fog/aws/requests/storage/hash_to_acl'
+require 'fog/aws/requests/storage/acl_utils'
 
-Shindo.tests('Fog::Storage::AWS | converting a hash to an ACL', [:aws]) do
+Shindo.tests('Fog::Storage::AWS | ACL utils', [:aws]) do
   tests(".hash_to_acl") do
     tests(".hash_to_acl({}) at xpath //AccessControlPolicy").returns("", "has an empty AccessControlPolicy") do
       xml = Fog::Storage::AWS.hash_to_acl({})
@@ -168,6 +168,42 @@ Shindo.tests('Fog::Storage::AWS | converting a hash to an ACL', [:aws]) do
     tests(".hash_to_acl(#{acl.inspect}) at xpath //AccessControlPolicy/AccessControlList/Grant/Grantee/URI").returns("http://acs.amazonaws.com/groups/global/AllUsers", "returns the third Grant's Grantee URI") do
       xml = Fog::Storage::AWS.hash_to_acl(acl)
       Nokogiri::XML(xml).xpath("//AccessControlPolicy/AccessControlList/Grant/Grantee/URI").first.content
+    end
+  end
+
+  tests(".acl_to_hash") do
+    acl_xml = <<-XML
+<AccessControlPolicy>
+  <Owner>
+    <ID>2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0</ID>
+    <DisplayName>me</DisplayName>
+  </Owner>
+  <AccessControlList>
+    <Grant>
+      <Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser">
+        <ID>2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0</ID>
+        <DisplayName>me</DisplayName>
+      </Grantee>
+      <Permission>FULL_CONTROL</Permission>
+    </Grant>
+  </AccessControlList>
+</AccessControlPolicy>
+XML
+
+    tests(".acl_to_hash(#{acl_xml.inspect})").returns({
+      "Owner" => {
+        "DisplayName" => "me",
+        "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0"
+      },
+      "AccessControlList" => [{
+        "Grantee" => {
+          "DisplayName" => "me",
+          "ID" => "2744ccd10c7533bd736ad890f9dd5cab2adb27b07d500b9493f29cdc420cb2e0"
+        },
+        "Permission" => "FULL_CONTROL"
+      }]
+    }, 'returns hash of ACL XML') do
+      Fog::Storage::AWS.acl_to_hash(acl_xml)
     end
   end
 end

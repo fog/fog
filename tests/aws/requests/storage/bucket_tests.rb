@@ -135,8 +135,6 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
       ]
     }
     tests("#put_bucket_acl('#{@aws_bucket_name}', hash with id)").returns(acl) do
-      pending if Fog.mocking?
-
       Fog::Storage[:aws].put_bucket_acl(@aws_bucket_name, acl)
       Fog::Storage[:aws].get_bucket_acl(@aws_bucket_name).body
     end
@@ -173,7 +171,6 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
       ]
     }
     tests("#put_bucket_acl('#{@aws_bucket_name}', hash with uri)").returns(acl) do
-      pending if Fog.mocking?
       Fog::Storage[:aws].put_bucket_acl(@aws_bucket_name, acl)
       Fog::Storage[:aws].get_bucket_acl(@aws_bucket_name).body
     end

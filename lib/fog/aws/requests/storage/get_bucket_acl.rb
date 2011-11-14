@@ -48,11 +48,17 @@ module Fog
 
       class Mock # :nodoc:all
 
+        require 'fog/aws/requests/storage/acl_utils'
+
         def get_bucket_acl(bucket_name)
           response = Excon::Response.new
           if acl = self.data[:acls][:bucket][bucket_name]
             response.status = 200
-            response.body = acl
+            if acl.is_a?(String)
+              response.body = Fog::Storage::AWS.acl_to_hash(acl)
+            else
+              response.body = acl
+            end
           else
             response.status = 404
             raise(Excon::Errors.status_error({:expects => 200}, response))
