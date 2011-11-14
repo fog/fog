@@ -7,7 +7,9 @@ class Glesys
           'arguments' => [],
           'servers' => [{
             'serverid' => String,
-            'hostname' => String
+            'hostname' => String,
+            'datacenter' => String,
+            'platform' => String,
           }],
           'status' => {
             'code' => String,
@@ -144,6 +146,7 @@ class Glesys
             'platform' => String,
             'ip'       => String,
             'version'  => String,
+            'PTR'      => String,
           }],
           'status' => {
             'code' => String,
@@ -172,7 +175,6 @@ class Glesys
         IPLIST_CATCH_RELEASE = {
           'arguments' => {
             'ipaddress' => String, 
-            'ipversion'=> String,
           }, 
           'status' => {
             'code' => String, 

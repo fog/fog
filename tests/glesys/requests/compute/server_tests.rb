@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:glesys] | server requests', ['glesys']) do
     
     @serverid = nil
-    @hostname = "fog.#{Time.now.to_i}"
+    @hostname = "fog-#{Time.now.to_i}"
 
     @create = ":hostname => #@hostname, :rootpw => 'pw#{Time.now.to_i}', "+
     ":datacenter => 'Falkenberg', :platform => 'Xen', :template => 'Debian-6 x64', "+
