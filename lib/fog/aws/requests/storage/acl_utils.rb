@@ -2,6 +2,8 @@ module Fog
   module Storage
     class AWS
 
+      require 'fog/aws/parsers/storage/access_control_list'
+
       private
         def self.hash_to_acl(acl)
           data =  "<AccessControlPolicy>\n"
@@ -47,6 +49,12 @@ module Fog
           data << "</AccessControlPolicy>"
 
           data
+        end
+
+        def self.acl_to_hash(acl_xml)
+          parser = Fog::Parsers::Storage::AWS::AccessControlList.new
+          Nokogiri::XML::SAX::Parser.new(parser).parse(acl_xml)
+          parser.response
         end
 
     end
