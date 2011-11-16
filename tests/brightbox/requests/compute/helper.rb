@@ -2,6 +2,7 @@ module Fog
   module Brightbox
     module Nullable
       module Account; end
+      module FirewallPolicy; end
       module Image; end
       module Interface; end
       module LoadBalancer; end
@@ -13,6 +14,9 @@ end
 
 Hash.send :include, Fog::Brightbox::Nullable::Account
 NilClass.send :include, Fog::Brightbox::Nullable::Account
+
+Hash.send :include, Fog::Brightbox::Nullable::FirewallPolicy
+NilClass.send :include, Fog::Brightbox::Nullable::FirewallPolicy
 
 Hash.send :include, Fog::Brightbox::Nullable::Image
 NilClass.send :include, Fog::Brightbox::Nullable::Image
@@ -84,7 +88,9 @@ class Brightbox
           "resource_type"   => String,
           "url"             => String,
           "name"            => String,
-          "default"         => Fog::Boolean
+          "default"         => Fog::Boolean,
+          "created_at"      => String,
+          "description"     => String
         }
 
         FIREWALL_RULE = {
@@ -121,6 +127,16 @@ class Brightbox
           "ipv4_address"    => String,
           "ipv6_address"    => Fog::Nullable::String,
           "mac_address"     => String
+        }
+
+        LOAD_BALANCER = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "status"          => String,
+          "created_at"      => String,
+          "deleted_at"      => Fog::Nullable::String
         }
 
         SERVER = {
@@ -244,7 +260,6 @@ class Brightbox
         }
 
         LOAD_BALANCER = {
-          "cloud_ips"       => Array,
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
@@ -252,9 +267,9 @@ class Brightbox
           "status"          => String,
           "created_at"      => String,
           "deleted_at"      => Fog::Nullable::String,
+          "cloud_ips"       => [Brightbox::Compute::Formats::Nested::CLOUD_IP],
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
-          "nodes"           => [Brightbox::Compute::Formats::Nested::SERVER],
-          "cloud_ips"       => [Brightbox::Compute::Formats::Nested::CLOUD_IP]
+          "nodes"           => [Brightbox::Compute::Formats::Nested::SERVER]
         }
 
         SERVER = {
@@ -286,7 +301,8 @@ class Brightbox
           "default"         => Fog::Boolean,
           "created_at"      => String,
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
-          "servers"         => [Brightbox::Compute::Formats::Nested::SERVER]
+          "servers"         => [Brightbox::Compute::Formats::Nested::SERVER],
+          "firewall_policy" => Fog::Brightbox::Nullable::FirewallPolicy
         }
 
         SERVER_TYPE = {
@@ -355,6 +371,10 @@ class Brightbox
           "users"           => [Brightbox::Compute::Formats::Nested::USER],
           "clients"         => [Brightbox::Compute::Formats::Nested::API_CLIENT],
           "servers"         => [Brightbox::Compute::Formats::Nested::SERVER],
+          "load_balancers"  => [Brightbox::Compute::Formats::Nested::LOAD_BALANCER],
+          "cloud_ip_addresses" => [Brightbox::Compute::Formats::Nested::CLOUD_IP],
+          "server_groups"   => [Brightbox::Compute::Formats::Nested::SERVER_GROUP],
+          "firewall_policies" => [Brightbox::Compute::Formats::Nested::FIREWALL_POLICY],
           "images"          => [Brightbox::Compute::Formats::Nested::IMAGE],
           "zones"           => [Brightbox::Compute::Formats::Nested::ZONE]
         }
@@ -487,7 +507,8 @@ class Brightbox
           "default"         => Fog::Boolean,
           "created_at"      => String,
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
-          "servers"         => [Brightbox::Compute::Formats::Nested::SERVER]
+          "servers"         => [Brightbox::Compute::Formats::Nested::SERVER],
+          "firewall_policy" => Fog::Brightbox::Nullable::FirewallPolicy
         }
 
         SERVER_TYPE = {
