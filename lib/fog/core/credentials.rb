@@ -8,12 +8,12 @@ module Fog
   #   @ return [String, Symbol] name of the new credential
   def self.credential=(new_credential)
     @credentials = nil
-    @credential = new_credential
+    @credential = new_credential.to_sym
   end
 
   # @return [String, Symbol] The credential to use in Fog
   def self.credential
-    @credential ||= ENV["FOG_CREDENTIAL"] || :default
+    @credential ||= ENV["FOG_CREDENTIAL"].to_sym || :default
   end
 
   # @return [String] The path for configuration_file
