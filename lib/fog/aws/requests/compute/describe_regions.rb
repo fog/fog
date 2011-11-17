@@ -21,7 +21,7 @@ module Fog
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeRegions.html]
         def describe_regions(filters = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_regions with #{filters.class} param is deprecated, use describe_regions('region-name' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_regions with #{filters.class} param is deprecated, use describe_regions('region-name' => []) instead [light_black](#{caller.first})[/]")
             filters = {'region-name' => [*filters]}
           end
           params = Fog::AWS.indexed_filters(filters)
@@ -38,7 +38,7 @@ module Fog
 
         def describe_regions(filters = {})
           unless filters.is_a?(Hash)
-            Fog::Logger.warning("describe_regions with #{filters.class} param is deprecated, use describe_regions('region-name' => []) instead [light_black](#{caller.first})[/]")
+            Fog::Logger.deprecation("describe_regions with #{filters.class} param is deprecated, use describe_regions('region-name' => []) instead [light_black](#{caller.first})[/]")
             filters = {'region-name' => [*filters]}
           end
 

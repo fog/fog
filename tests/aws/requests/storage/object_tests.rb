@@ -1,6 +1,6 @@
 Shindo.tests('AWS::Storage | object requests', ['aws']) do
-
-  @directory = Fog::Storage[:aws].directories.create(:key => 'fogobjecttests')
+  @directory = Fog::Storage[:aws].directories.create(:key => 'fogobjecttests-' + Time.now.to_i.to_s(32))
+  @aws_owner = Fog::Storage[:aws].get_bucket_acl(@directory.key).body['Owner']
 
   tests('success') do
 
@@ -34,32 +34,50 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       Fog::Storage[:aws].put_object_acl(@directory.identity, 'fog_object', 'private')
     end
 
-    tests("#put_object_acl('#{@directory.identity}', 'fog_object', hash)").returns(true) do
-      Fog::Storage[:aws].put_object_acl(@directory.identity, 'fog_object', {
-        'Owner' => { 'ID' => "8a6925ce4adf5f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" },
+    acl = {
+      'Owner' => @aws_owner,
+      'AccessControlList' => [
+        {
+          'Grantee' => @aws_owner,
+          'Permission' => "FULL_CONTROL"
+        }
+      ]}
+    tests("#put_object_acl('#{@directory.identity}', 'fog_object', hash with id)").returns(acl) do
+      Fog::Storage[:aws].put_object_acl(@directory.identity, 'fog_object', acl)
+      Fog::Storage[:aws].get_object_acl(@directory.identity, 'fog_object').body
+    end
+
+    tests("#put_object_acl('#{@directory.identity}', 'fog_object', hash with email)").returns({
+        'Owner' => @aws_owner,
         'AccessControlList' => [
-          { 
-            'Grantee' => { 'ID' => "8a6925ce4adf588a4532142d3f74dd8c71fa124b1ddee97f21c32aa379004fef", 'DisplayName' => "mtd@amazon.com" }, 
-            'Permission' => "FULL_CONTROL" 
+          {
+            'Grantee' => { 'ID' => 'f62f0218873cfa5d56ae9429ae75a592fec4fd22a5f24a20b1038a7db9a8f150', 'DisplayName' => 'mtd' },
+            'Permission' => "FULL_CONTROL"
+          }
+        ]}) do
+      pending if Fog.mocking?
+      Fog::Storage[:aws].put_object_acl(@directory.identity, 'fog_object', {
+        'Owner' => @aws_owner,
+        'AccessControlList' => [
+          {
+            'Grantee' => { 'EmailAddress' => 'mtd@amazon.com' },
+            'Permission' => "FULL_CONTROL"
           }
         ]})
-      Fog::Storage[:aws].get_object_acl(@directory.identity, 'fog_object').body == <<-BODY
-<AccessControlPolicy>
-  <Owner>
-    <ID>8a6925ce4adf5f21c32aa379004fef</ID>
-    <DisplayName>mtd@amazon.com</DisplayName>
-  </Owner>
-  <AccessControlList>
-    <Grant>
-      <Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser">
-        <ID>8a6925ce4adf588a4532142d3f74dd8c71fa124b1ddee97f21c32aa379004fef</ID>
-        <DisplayName>mtd@amazon.com</DisplayName>
-      </Grantee>
-      <Permission>FULL_CONTROL</Permission>
-    </Grant>
-  </AccessControlList>
-</AccessControlPolicy>
-BODY
+      Fog::Storage[:aws].get_object_acl(@directory.identity, 'fog_object').body
+    end
+
+    acl = {
+      'Owner' => @aws_owner,
+      'AccessControlList' => [
+        {
+          'Grantee' => { 'URI' => 'http://acs.amazonaws.com/groups/global/AllUsers' },
+          'Permission' => "FULL_CONTROL"
+        }
+      ]}
+    tests("#put_object_acl('#{@directory.identity}', 'fog_object', hash with uri)").returns(acl) do
+      Fog::Storage[:aws].put_object_acl(@directory.identity, 'fog_object', acl)
+      Fog::Storage[:aws].get_object_acl(@directory.identity, 'fog_object').body
     end
 
     tests("#delete_object('#{@directory.identity}', 'fog_object')").succeeds do

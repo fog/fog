@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '1.0.0'
-  s.date              = '2011-09-29'
+  s.version           = '1.1.1'
+  s.date              = '2011-11-11'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   ## a custom homepage, consider using your GitHub URL or the like.
   s.authors  = ["geemus (Wesley Beary)"]
   s.email    = 'geemus@gmail.com'
-  s.homepage = 'http://github.com/geemus/fog'
+  s.homepage = 'http://github.com/fog/fog'
 
   ## This sections is only necessary if you have C extensions.
   # s.require_paths << 'ext'
@@ -37,12 +37,12 @@ Gem::Specification.new do |s|
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
   s.add_dependency('builder')
-  s.add_dependency('excon', '~>0.7.3')
+  s.add_dependency('excon', '~>0.7.4')
   s.add_dependency('formatador', '~>0.2.0')
   s.add_dependency('multi_json', '~>1.0.3')
   s.add_dependency('mime-types')
   s.add_dependency('net-scp', '~>1.0.4')
-  s.add_dependency('net-ssh', '~>2.1.4')
+  s.add_dependency('net-ssh', '>=2.1.3')
   s.add_dependency('nokogiri', '~>1.5.0')
   s.add_dependency('ruby-hmac')
 
@@ -50,6 +50,7 @@ Gem::Specification.new do |s|
   ## those that are only needed during development
   s.add_development_dependency('jekyll')
   s.add_development_dependency('rake')
+  s.add_development_dependency('rbvmomi')
   s.add_development_dependency('rdoc')
   s.add_development_dependency('rspec', '~>1.3.1')
   s.add_development_dependency('shindo', '~>0.3.4')

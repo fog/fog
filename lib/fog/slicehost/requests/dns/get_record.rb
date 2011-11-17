@@ -21,7 +21,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'GET',
-            :parser   => Fog::Parsers::DNS::Slicehost::GetRecords.new,
+            :parser   => Fog::Parsers::DNS::Slicehost::GetRecord.new,
             :path     => "records/#{record_id}.xml"
           )
         end

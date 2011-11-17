@@ -7,32 +7,43 @@ Shindo.tests('Fog::Compute[:brightbox] | api client requests', ['brightbox']) do
       :description => "Description from Fog test"
     }
 
-    tests("#create_api_client(#{create_options.inspect})").formats(Brightbox::Compute::Formats::Full::API_CLIENT) do
+    tests("#create_api_client(#{create_options.inspect})") do
       pending if Fog.mocking?
-      data = Fog::Compute[:brightbox].create_api_client(create_options)
-      @api_client_id = data["id"]
-      data
+      result = Fog::Compute[:brightbox].create_api_client(create_options)
+      @api_client_id = result["id"]
+      formats(Brightbox::Compute::Formats::Full::API_CLIENT) { result }
     end
 
-    tests("#list_api_clients").formats(Brightbox::Compute::Formats::Collection::API_CLIENTS) do
+    tests("#list_api_clients") do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].list_api_clients
+      result = Fog::Compute[:brightbox].list_api_clients
+      formats(Brightbox::Compute::Formats::Collection::API_CLIENTS) { result }
     end
 
-    tests("#get_api_client('#{@api_client_id}')").formats(Brightbox::Compute::Formats::Full::API_CLIENT) do
+    tests("#get_api_client('#{@api_client_id}')") do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].get_api_client(@api_client_id)
+      result = Fog::Compute[:brightbox].get_api_client(@api_client_id)
+      formats(Brightbox::Compute::Formats::Full::API_CLIENT) { result }
     end
 
     update_options = {:name => "Fog@#{Time.now.iso8601}"}
-    tests("#update_api_client('#{@api_client_id}')").formats(Brightbox::Compute::Formats::Full::API_CLIENT) do
+    tests("#update_api_client('#{@api_client_id}', #{update_options.inspect})") do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].update_api_client(@api_client_id, update_options)
+      result = Fog::Compute[:brightbox].update_api_client(@api_client_id, update_options)
+      formats(Brightbox::Compute::Formats::Full::API_CLIENT) { result }
     end
 
-    tests("#destroy_api_client('#{@api_client_id}')").formats(Brightbox::Compute::Formats::Full::API_CLIENT) do
+    tests("#reset_secret_api_client('#{@api_client_id}')") do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].destroy_api_client(@api_client_id)
+      result = Fog::Compute[:brightbox].reset_secret_api_client(@api_client_id)
+      formats(Brightbox::Compute::Formats::Full::API_CLIENT) { result }
+      test("new secret is visible") { ! result["secret"].nil?  }
+    end
+
+    tests("#destroy_api_client('#{@api_client_id}')") do
+      pending if Fog.mocking?
+      result = Fog::Compute[:brightbox].destroy_api_client(@api_client_id)
+      formats(Brightbox::Compute::Formats::Full::API_CLIENT) { result }
     end
 
   end

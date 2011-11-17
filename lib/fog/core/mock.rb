@@ -6,6 +6,10 @@ module Fog
     @mocking = true
   end
 
+  def self.unmock!
+    @mocking = false
+  end
+
   def self.mock?
     @mocking
   end

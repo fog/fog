@@ -183,11 +183,11 @@ Shindo.tests('Fog::DNS[:slicehost] | DNS requests', ['slicehost', 'dns']) do
       response = Fog::DNS[:slicehost].get_record(@record_id)
       if response.status == 200
         mail_domain = 'mail.' + @domain
-        record = response.body['records'][0]
-        if (record['record-type'] == 'MX') and (record['name'] == @domain) and
-          (record['data'] == mail_domain) and (record['ttl'] == 3600) and (record['active'] == 'N') and
+        record = response.body
+        if (record['record_type'] == 'MX') and (record['name'] == @domain) and
+          (record['value'] == mail_domain) and (record['ttl'] == 3600) and (record['active'] == 'N') and
           (record['aux'] == "10")
-          result= true
+          result = true
         end
       end
               
@@ -197,7 +197,7 @@ Shindo.tests('Fog::DNS[:slicehost] | DNS requests', ['slicehost', 'dns']) do
     test('get records - verify all parameters for one record') do
       pending if Fog.mocking?
 
-      result= false
+      result = false
       
       response = Fog::DNS[:slicehost].get_records()
       if response.status == 200
@@ -205,21 +205,68 @@ Shindo.tests('Fog::DNS[:slicehost] | DNS requests', ['slicehost', 'dns']) do
         
         #find mx record
         records.each {|record|
-          if record['record-type'] == 'MX'
+          if (record['record_type'] == 'MX') and (record['name'] == @domain)
 
             mail_domain = 'mail.' + @domain
-            if (record['record-type'] == 'MX') and (record['name'] == @domain) and
-              (record['data'] == mail_domain) and (record['ttl'] == 3600) and (record['active'] == 'N') and
+            if (record['record_type'] == 'MX') and (record['name'] == @domain) and
+              (record['value'] == mail_domain) and (record['ttl'] == 3600) and (record['active'] == 'N') and
               (record['aux'] == "10")
-              result= true
-              break
+              result = true
             end
-
+            break
           end
         }
       end
               
       result
+    end
+
+    test('update record - verify all parameters for one record') do
+      pending if Fog.mocking?
+
+      result = false
+
+      specific_record = nil
+
+      response = Fog::DNS[:slicehost].get_records()
+      if response.status == 200
+        records = response.body['records']
+
+        #find mx record
+        records.each {|record|
+          if (record['record_type'] == 'MX') and (record['name'] == @domain)
+            specific_record = record
+            break
+          end
+        }
+      end
+
+      if (specific_record)  #Try to change the TTL for this MX record if we've successfully created it.
+        response = Fog::DNS[:slicehost].update_record(specific_record['id'], specific_record['record_type'], specific_record['zone_id'],
+                                          specific_record['name'], specific_record['value'], {:ttl => 7200, :active => "N", :aux => "10"})
+
+        mail_domain = 'mail.' + @domain
+
+        record = Fog::DNS[:slicehost].get_record(specific_record['id']).body
+
+        if (record['record_type'] == 'MX') and (record['name'] == @domain) and
+              (record['value'] == mail_domain) and (record['ttl'] == 7200) and (record['active'] == 'N') and
+              (record['aux'] == "10")
+              result = true
+        end
+
+      end
+
+      result
+    end
+
+    test("newly created zone returns only records which we added to it, not other records already in account") do
+      pending if Fog.mocking?
+
+      @new_zone = Fog::DNS[:slicehost].zones.get(@zone_id)
+      
+      records = @new_zone.records
+      records.length == @new_records.length
     end
     
     test("delete #{@new_records.count} records created") do

@@ -203,9 +203,9 @@ task :changelog do
   changelog << ''
 
   require 'multi_json'
-  github_repo_data = MultiJson.decode(Excon.get('http://github.com/api/v2/json/repos/show/geemus/fog').body)
+  github_repo_data = MultiJson.decode(Excon.get('http://github.com/api/v2/json/repos/show/fog/fog').body)
   data = github_repo_data['repository'].reject {|key, value| !['forks', 'open_issues', 'watchers'].include?(key)}
-  github_collaborator_data = MultiJson.decode(Excon.get('http://github.com/api/v2/json/repos/show/geemus/fog/collaborators').body)
+  github_collaborator_data = MultiJson.decode(Excon.get('http://github.com/api/v2/json/repos/show/fog/fog/collaborators').body)
   data['collaborators'] = github_collaborator_data['collaborators'].length
   rubygems_data = MultiJson.decode(Excon.get('https://rubygems.org/api/v1/gems/fog.json').body)
   data['downloads'] = rubygems_data['downloads']
@@ -249,6 +249,7 @@ task :changelog do
         'Henry Addison',
         'Lincoln Stoll',
         'Luqman Amjad',
+        'Michael Zeng',
         'nightshade427',
         'Patrick Debois',
         'Wesley Beary'

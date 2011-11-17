@@ -33,7 +33,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
 
     tests('create') do
       tests('without availability zones') do
-        elb = Fog::AWS[:elb].load_balancers.create(:id => elb_id)
+        elb = Fog::AWS[:elb].load_balancers.create(:id => elb_id, :availability_zones => @availability_zones)
         tests("availability zones are correct").returns(@availability_zones.sort) { elb.availability_zones.sort }
         tests("dns names is set").returns(true) { elb.dns_name.is_a?(String) }
         tests("created_at is set").returns(true) { Time === elb.created_at }
@@ -54,7 +54,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       # Need to sleep here for IAM changes to propgate
       tests('with ListenerDescriptions') do
         @certificate = Fog::AWS[:iam].upload_server_certificate(AWS::IAM::SERVER_CERT_PUBLIC_KEY, AWS::IAM::SERVER_CERT_PRIVATE_KEY, @key_name).body['Certificate']
-        sleep(8) unless Fog.mocking?
+        sleep(10) unless Fog.mocking?
         listeners = [{
             'Listener' => {
               'LoadBalancerPort' => 2030, 'InstancePort' => 2030, 'Protocol' => 'HTTP'
@@ -67,7 +67,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
             },
             'PolicyNames' => []
           }]
-        elb3 = Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-3", 'ListenerDescriptions' => listeners)
+        elb3 = Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-3", 'ListenerDescriptions' => listeners, :availability_zones => @availability_zones)
         tests('there are 2 listeners').returns(2) { elb3.listeners.count }
         tests('instance_port is 2030').returns(2030) { elb3.listeners.first.instance_port }
         tests('lb_port is 2030').returns(2030) { elb3.listeners.first.lb_port }
@@ -81,7 +81,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
           'Listener' => {
           'LoadBalancerPort' => 443, 'InstancePort' => 80, 'Protocol' => 'HTTPS', "SSLCertificateId" => "fakecert"}
         }]
-        Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-4", "ListenerDescriptions" => listeners)
+        Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-4", "ListenerDescriptions" => listeners, :availability_zones => @availability_zones)
       end
     end
 

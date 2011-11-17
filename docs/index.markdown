@@ -42,19 +42,11 @@ geemus says: "That should give you everything you need to get started, but let m
 
 ## Contributing
 
-* Find something you would like to work on. For suggestions look for the `easy`, `medium` and `hard` tags in the [issues](http://github.com/geemus/fog/issues)
+* Find something you would like to work on. For suggestions look for the `easy`, `medium` and `hard` tags in the [issues](http://github.com/fog/fog/issues)
 * Fork the project and do your work in a topic branch.
 * Add shindo tests to prove your code works and run all the tests using `bundle exec rake`.
 * Rebase your branch against geemus/fog to make sure everything is up to date.
 * Commit your changes and send a pull request.
-
-## T-Shirts
-
-Wonder how you can get a lovely fog shirt? Look no further!
-
-* Blue shirts go to people who have contributed indirectly, great examples are writing blog posts or giving lightning talks.
-* Grey shirts and a follow from @fog go to people who have made it on to the [contributors list](https://github.com/geemus/fog/contributors) by submitting code.
-* Black shirts go to people who have made it on to the [collaborators list](https://github.com/api/v2/json/repos/show/geemus/fog/collaborators) by coercing geemus into adding them.
 
 ## Resources
 
@@ -65,7 +57,7 @@ Enjoy, and let me know what I can do to continue improving fog!
 * Stay up to date by following [@fog](http://twitter.com/fog) and/or [@geemus](http://twitter.com/geemus) on Twitter.
 * Get and give help on the [#ruby-fog](irc://irc.freenode.net/ruby-fog) irc channel on Freenode
 * Follow release notes and discussions on the [mailing list](http://groups.google.com/group/ruby-fog)
-* Report bugs or find tasks to help with in the [issues](http://github.com/geemus/fog/issues)
+* Report bugs or find tasks to help with in the [issues](http://github.com/fog/fog/issues)
 * Learn about [contributing](/about/contributing.html)
 * See where fog is used and let the world know how you use it [in the wild](/about/users.html)
 * Check out blog posts and other mentions in the [press](/about/press.html)

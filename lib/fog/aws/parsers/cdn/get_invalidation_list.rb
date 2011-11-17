@@ -15,7 +15,6 @@ module Fog
           end
 
           def end_element(name)
-            puts name
             case name
             when 'InvalidationSummary'
               @response['InvalidationSummary'] << @invalidation_summary

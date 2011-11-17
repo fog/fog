@@ -20,6 +20,7 @@ module Fog
       request_path 'fog/ninefold/requests/storage'
       # request :delete_container
       request :get_namespace
+      request :head_namespace
       request :post_namespace
       request :put_namespace
       request :delete_namespace
@@ -107,9 +108,10 @@ module Fog
 
           customheaders = {}
           params[:headers].each { |key,value|
-            if key == "x-emc-date"
+            case key
+            when 'x-emc-date', 'x-emc-signature'
               #skip
-            elsif key =~ /^x-emc-/
+            when /^x-emc-/
               customheaders[ key.downcase ] = value
             end
           }

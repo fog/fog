@@ -14,7 +14,7 @@ module Vmfusion # deviates from other bin stuff to accomodate gem
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
-          Fog::Logger.warning("Vmfusion[:compute] is deprecated, use Compute[:Vmfusion] instead")
+          Fog::Logger.warning("Vmfusion[:compute] is not recommended, use Compute[:vmfusion] for portability")
           Fog::Compute.new(:provider => 'Vmfusion')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

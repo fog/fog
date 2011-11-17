@@ -86,6 +86,8 @@ module Fog
             'sdb.amazonaws.com'
           when 'us-west-1'
             'sdb.us-west-1.amazonaws.com'
+          when 'us-west-2'
+            'sdb.us-west-2.amazonaws.com'
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end

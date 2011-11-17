@@ -1,19 +1,63 @@
 module Fog
   module Compute
     class Vsphere
-
       class Real
-
         def list_virtual_machines(options = {})
-          # First, determine if there's a search filter
+          # Listing all VM's can be quite slow and expensive.  Try and optimize
+          # based on the available options we have.  These conditions are in
+          # ascending order of  time to complete for large deployments.
           if options['instance_uuid'] then
             list_all_virtual_machines_by_instance_uuid(options)
+          elsif options['folder'] then
+            list_all_virtual_machines_in_folder(options)
           else
             list_all_virtual_machines
           end
         end
 
         private
+
+        def list_all_virtual_machines_in_folder(options = {})
+          # Tap gets rid of the leading empty string and "Datacenters" element
+          # and returns the array.
+          path_elements = options['folder'].split('/').tap { |ary| ary.shift 2 }
+          # The DC name itself.
+          dc_name = path_elements.shift
+          # If the first path element contains "vm" this denotes the vmFolder
+          # and needs to be shifted out since each DC contains only one
+          # vmFolder
+          path_elements.shift if path_elements[0] = 'vm'
+          # Make sure @datacenters is populated (the keys are DataCenter instances)
+          self.datacenters.include? dc_name or raise ArgumentError, "Could not find a Datacenter named #{dc_name}"
+          # Get the datacenter managed object
+          dc = @datacenters[dc_name]
+
+          # Get the VM Folder (Group) efficiently
+          vm_folder = dc.vmFolder
+
+          # Walk the tree resetting the folder pointer as we go
+          folder = path_elements.inject(vm_folder) do |current_folder, sub_folder_name|
+            # JJM VIM::Folder#find appears to be quite efficient as it uses the
+            # searchIndex It certainly appears to be faster than
+            # VIM::Folder#inventory since that returns _all_ managed objects of
+            # a certain type _and_ their properties.
+            sub_folder = current_folder.find(sub_folder_name, RbVmomi::VIM::Folder)
+            raise ArgumentError, "Could not descend into #{sub_folder_name}.  Please check your path." unless sub_folder
+            sub_folder
+          end
+
+          # This should be efficient since we're not obtaining properties
+          virtual_machines = folder.children.inject([]) do |ary, child|
+            if child.is_a? RbVmomi::VIM::VirtualMachine then
+              ary << convert_vm_mob_ref_to_attr_hash(child)
+            end
+            ary
+          end
+
+          # Return the managed objects themselves as an array.  These may be converted
+          # to an attribute has using convert_vm_mob_ref_to_attr_hash
+          { 'virtual_machines' => virtual_machines }
+        end
 
         def list_all_virtual_machines_by_instance_uuid(options = {})
           uuid = options['instance_uuid']
@@ -34,6 +78,7 @@ module Fog
           { 'virtual_machines' => virtual_machines }
         end
 
+
         # NOTE: This is a private instance method required by the vm_clone
         # request.  It's very hard to get the Managed Object Reference
         # of a Template because we can't search for it by instance_uuid
@@ -45,18 +90,49 @@ module Fog
           datacenters = @connection.rootFolder.children.find_all do |child|
             child.kind_of? RbVmomi::VIM::Datacenter
           end
-          # Next, look in the "vmFolder" of each data center:
+          # Next, search the "vmFolder" inventory of each data center:
           datacenters.each do |dc|
-            dc.vmFolder.children.each do |vm|
-              virtual_machines << vm
-            end
+            inventory = dc.vmFolder.inventory( 'VirtualMachine' => :all )
+            virtual_machines << find_all_in_inventory(inventory, :type => RbVmomi::VIM::VirtualMachine, :property => 'name' )
           end
-          virtual_machines
+
+          virtual_machines.flatten
         end
 
+        def find_all_in_inventory(inventory, properties = { :type => RbVmomi::VIM::VirtualMachine, :property => nil } )
+          results = Array.new
+
+          inventory.each do |k,v|
+
+            # If we have a VMware folder we need to traverse the directory
+            # to ensure we pick VMs inside folders. So we do a bit of recursion
+            # here.
+            results << find_all_in_inventory(v) if k.is_a? RbVmomi::VIM::Folder
+
+            if v[0].is_a? properties[:type]
+              if properties[:property].nil?
+                results << v[0]
+              else
+                results << v[1][properties[:property]]
+              end
+            end
+          end
+          results.flatten
+        end
+
+        def get_folder_path(folder, root = nil)
+          if ( not folder.methods.include?('parent') ) or ( folder == root )
+            return
+          end
+          "#{get_folder_path(folder.parent)}/#{folder.name}"
+        end
       end
 
       class Mock
+
+        def get_folder_path(folder, root = nil)
+          nil
+        end
 
         def list_virtual_machines(options = {})
           case options['instance_uuid']
@@ -154,10 +230,7 @@ module Fog
             { 'virtual_machines' => [] }
           end
         end
-
       end
-
     end
   end
 end
-

@@ -15,7 +15,7 @@ module Fog
      extend Fog::Terremark::Shared
 
      def self.new(options={})
-       Fog::Logger.warning("Fog::Terremark::Vcloud is deprecated, to be replaced with Vcloud 1.0 someday/maybe [light_black](#{caller.first})[/]")
+       Fog::Logger.deprecation("Fog::Terremark::Vcloud is deprecated, to be replaced with Vcloud 1.0 someday/maybe [light_black](#{caller.first})[/]")
 
        unless @required
          shared_requires

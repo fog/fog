@@ -21,6 +21,7 @@ module Fog
       request :vm_reboot
       request :vm_clone
       request :vm_destroy
+      request :datacenters
 
       module Shared
 
@@ -29,36 +30,52 @@ module Fog
         attr_reader :vsphere_server
         attr_reader :vsphere_username
 
+        ATTR_TO_PROP = {
+          :id => 'config.instanceUuid',
+          :name => 'name',
+          :uuid => 'config.uuid',
+          :instance_uuid => 'config.instanceUuid',
+          :hostname => 'summary.guest.hostName',
+          :operatingsystem => 'summary.guest.guestFullName',
+          :ipaddress => 'guest.ipAddress',
+          :power_state => 'runtime.powerState',
+          :connection_state => 'runtime.connectionState',
+          :hypervisor => 'runtime.host',
+          :tools_state => 'guest.toolsStatus',
+          :tools_version => 'guest.toolsVersionStatus',
+          :is_a_template => 'config.template',
+        }
+
         # Utility method to convert a VMware managed object into an attribute hash.
         # This should only really be necessary for the real class.
         # This method is expected to be called by the request methods
         # in order to massage VMware Managed Object References into Attribute Hashes.
         def convert_vm_mob_ref_to_attr_hash(vm_mob_ref)
           return nil unless vm_mob_ref
-          # A cloning VM doesn't have a configuration yet.  Unfortuantely we just get
-          # a RunTime exception.
-          begin
-            is_ready = vm_mob_ref.config ? true : false
-          rescue RuntimeError
-            is_ready = nil
+
+          props = vm_mob_ref.collect! *ATTR_TO_PROP.values.uniq
+          # NOTE: Object.tap is in 1.8.7 and later.
+          # Here we create the hash object that this method returns, but first we need
+          # to add a few more attributes that require additional calls to the vSphere
+          # API. The hypervisor name and mac_addresses attributes may not be available
+          # so we need catch any exceptions thrown during lookup and set them to nil.
+          #
+          # The use of the "tap" method here is a convience, it allows us to update the
+          # hash object without expliclty returning the hash at the end of the method.
+          Hash[ATTR_TO_PROP.map { |k,v| [k.to_s, props[v]] }].tap do |attrs|
+            attrs['id'] ||= vm_mob_ref._ref
+            attrs['mo_ref'] = vm_mob_ref._ref
+            # The name method "magically" appears after a VM is ready and
+            # finished cloning.
+            if attrs['hypervisor'].kind_of?(RbVmomi::VIM::HostSystem) then
+              # If it's not ready, set the hypervisor to nil
+              attrs['hypervisor'] = attrs['hypervisor'].name rescue nil
+            end
+            # This inline rescue catches any standard error.  While a VM is
+            # cloning, a call to the macs method will throw and NoMethodError
+            attrs['mac_addresses'] = vm_mob_ref.macs rescue nil
+            attrs['path'] = get_folder_path(vm_mob_ref.parent)
           end
-          {
-            'id'               => is_ready ? vm_mob_ref.config.instanceUuid : vm_mob_ref._ref,
-            'mo_ref'           => vm_mob_ref._ref,
-            'name'             => vm_mob_ref.name,
-            'uuid'             => is_ready ? vm_mob_ref.config.uuid : nil,
-            'instance_uuid'    => is_ready ? vm_mob_ref.config.instanceUuid : nil,
-            'hostname'         => vm_mob_ref.summary.guest.hostName,
-            'operatingsystem'  => vm_mob_ref.summary.guest.guestFullName,
-            'ipaddress'        => vm_mob_ref.summary.guest.ipAddress,
-            'power_state'      => vm_mob_ref.runtime.powerState,
-            'connection_state' => vm_mob_ref.runtime.connectionState,
-            'hypervisor'       => vm_mob_ref.runtime.host ? vm_mob_ref.runtime.host.name : nil,
-            'tools_state'      => vm_mob_ref.summary.guest.toolsStatus,
-            'tools_version'    => vm_mob_ref.summary.guest.toolsVersionStatus,
-            'mac_addresses'    => is_ready ? vm_mob_ref.macs : nil,
-            'is_a_template'    => is_ready ? vm_mob_ref.config.template : nil
-          }
         end
 
       end
@@ -68,6 +85,7 @@ module Fog
         include Shared
 
         def initialize(options={})
+          require 'rbvmomi'
           @vsphere_username = options[:vsphere_username]
           @vsphere_password = 'REDACTED'
           @vsphere_server   = options[:vsphere_server]

@@ -88,6 +88,8 @@ module Fog
             'autoscaling.us-east-1.amazonaws.com'
           when 'us-west-1'
             'autoscaling.us-west-1.amazonaws.com'
+          when 'us-west-2'
+            'autoscaling.us-west-2.amazonaws.com'
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end
@@ -204,7 +206,7 @@ module Fog
 
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1'].include?(@region)
+          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
 

@@ -64,7 +64,7 @@ module Fog
 
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1'].include?(@region)
+          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
         end
@@ -94,7 +94,7 @@ module Fog
         #
         # ==== Parameters
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
-        #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1', 'ap-northeast-1', 'ap-southeast-1']
+        #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'ap-northeast-1', 'ap-southeast-1']
         #
         # ==== Returns
         # * ELB object with connection to AWS.
@@ -118,6 +118,8 @@ module Fog
             'elasticloadbalancing.us-east-1.amazonaws.com'
           when 'us-west-1'
             'elasticloadbalancing.us-west-1.amazonaws.com'
+          when 'us-west-2'
+            'elasticloadbalancing.us-west-2.amazonaws.com'
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end

@@ -18,6 +18,11 @@ Shindo.tests('AWS::CloudFormation | stack requests', ['aws', 'cloudformation']) 
     'StackId'   => String
   }
 
+  @update_stack_format = {
+    'RequestId' => String,
+    'StackId'   => String
+  }
+
   @get_template_format = {
     'RequestId'     => String,
     'TemplateBody'  => String
@@ -97,6 +102,15 @@ Shindo.tests('AWS::CloudFormation | stack requests', ['aws', 'cloudformation']) 
     tests("create_stack('#{@stack_name}', 'TemplateURL' => '#{@template_url}', Parameters => {'KeyName' => 'cloudformation'})").formats(@create_stack_format) do
       pending if Fog.mocking?
       Fog::AWS[:cloud_formation].create_stack(
+        @stack_name,
+        'TemplateURL' => @template_url,
+        'Parameters'  => {'KeyName' => 'cloudformation'}
+      ).body
+    end
+
+    tests("update_stack('#{@stack_name}', 'TemplateURL' => '#{@template_url}', Parameters => {'KeyName' => 'cloudformation'})").formats(@update_stack_format) do
+      pending if Fog.mocking?
+      Fog::AWS[:cloud_formation].update_stack(
         @stack_name,
         'TemplateURL' => @template_url,
         'Parameters'  => {'KeyName' => 'cloudformation'}

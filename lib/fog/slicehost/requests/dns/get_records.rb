@@ -10,14 +10,13 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Array>:
-        #     * 'addresses'<~Array> - Ip addresses for the slice
-        #     * 'backup-id'<~Integer> - Id of backup slice was booted from
-        #     * 'flavor_id'<~Integer> - Id of flavor slice was booted from
-        #     * 'id'<~Integer> - Id of the slice
-        #     * 'image-id'<~Integer> - Id of image slice was booted from
-        #     * 'name'<~String> - Name of the slice
-        #     * 'progress'<~Integer> - Progress of current action, in percentage
-        #     * 'status'<~String> - Current status of the slice
+        #     * 'name'<~String> - Record NAME field (e.g. "example.org." or "www")
+        #     * 'data'<~String> - Data contained by the record (e.g. an IP address, for A records)
+        #     * 'record_type'<~String> - Type of record (A, CNAME, TXT, etc)
+        #     * 'aux'<~String> - Aux data for the record, for those types which have it (e.g. TXT)
+        #     * 'zone_id'<~Integer> - zone ID to which this record belongs
+        #     * 'active'<~String> - whether this record is active in the Slicehost DNS (Y for yes, N for no)
+        #     * 'ttl'<~Integer> - TTL in seconds
         def get_records
           request(
             :expects  => 200,

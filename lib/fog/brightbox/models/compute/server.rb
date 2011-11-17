@@ -36,7 +36,7 @@ module Fog
         attribute :server_type
 
         def initialize(attributes={})
-          self.image_id   ||= 'img-2ab98' # Ubuntu Lucid 10.04 server (i686)
+          self.image_id   ||= 'img-4gqhs' # Ubuntu Lucid 10.04 server (i686)
           super
         end
 
@@ -108,11 +108,19 @@ module Fog
         end
 
         def private_ip_address
-          interfaces.first
+          unless interfaces.empty?
+            interfaces.first["ipv4_address"]
+          else
+            nil
+          end
         end
 
         def public_ip_address
-          cloud_ips.first
+          unless cloud_ips.empty?
+            cloud_ips.first["public_ip"]
+          else
+            nil
+          end
         end
 
         def ready?

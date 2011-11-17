@@ -1,3 +1,216 @@
+1.1.1 11/11/2011 a468aa9a3445aae4f496b1a51e26572b8379c3da
+=========================================================
+
+Stats! { 'collaborators' => 19, 'downloads' => 300403, 'forks' => 300, 'open_issues' => 14, 'watchers' => 1667 }
+
+[core]
+  loosen net-ssh dependency to avoid chef conflict. thanks geemus
+
+[misc]
+  1.1.0 changelog. thanks geemus
+
+
+1.1.0 11/11/2011 b706c7ed66c2e760fdd6222e38c68768575483b2
+=========================================================
+
+Stats! { 'collaborators' => 19, 'downloads' => 300383, 'forks' => 300, 'open_issues' => 16, 'watchers' => 1667 }
+
+MVP! Michael Zeng
+
+[Compute|Libvirt]
+  Take into account a query string can be empty, different on some rubies it gives nil, on some empty string. thanks Patrick Debois
+
+[OpenStack|compute]
+  fix v2.0 auth endpoints. thanks Todd Willey
+  default metadata to empy hash. thanks Todd Willey
+  add zone awareness. thanks Todd Willey
+
+[aws]
+  add us-west-2 region. thanks geemus
+
+[aws|cloud_watch]
+  mark tests pending when mocked. thanks geemus
+
+[aws|cloudwatch]
+  Add support for put-metric-alarm call. thanks Jens Braeuer
+  Remove duplicate RequestId from response. thanks Jens Braeuer
+  Add mocked implementation of put_metric_alarm. thanks Jens Braeuer
+  Fix whitespace. thanks Jens Braeuer
+  Fix merge error. thanks Jens Braeuer
+  Add mocked version of put_metric_alarm. thanks Jens Braeuer
+
+[aws|compute]
+  Mock modify_image_attribute add/remove users. thanks Dan Peterson
+  Allow mock tagging to work across accounts. thanks Dan Peterson
+  Fix new instance eventual consistency for the non-filtered case. thanks Dan Peterson
+  Update security group operations. thanks Dan Peterson
+  Test for more invalid security group request input when mocking. thanks Dan Peterson
+  Fix a bug in delete_tags, but come up against a bug in AWS where tags aren't deleted if the resource still exists. thanks Dylan Egan
+  tags are reset when reloading. #570. thanks Dylan Egan
+  fixed sopt_instance_request reply parsing when the original     request contained a device mapping. thanks MaF
+  wait_for reload then add server tags. thanks geemus
+  spot request fixes. thanks geemus
+  tweaks for spot request bootstrap. thanks geemus
+  save tags for spot_requests#bootstrap. thanks geemus
+  update ami for windows. thanks geemus
+
+[aws|elb]
+  Missed a change as part of #545. thanks Dan Peterson
+  use a set union to register new instances. thanks Dylan Egan
+  return only the instance IDs on describe. Use only available availability zones. :v:. thanks Dylan Egan
+  attribute aliases for CanonicalHostedZoneName(ID). :v:. thanks Dylan Egan
+  eventually consistent, like me getting a haircut. :v:. thanks Dylan Egan
+
+[aws|emr]
+  mark tests pending when mocked. thanks geemus
+
+[aws|iam]
+  slight cleanup and test with a certificate chain. :cake:. thanks Dylan Egan
+
+[aws|mock]
+  Dig into mock data instead of instantiating new service objects. thanks Dan Peterson
+
+[aws|storage]
+  ensure path isn't empty when specifying endpoint. thanks geemus
+
+[brightbox]
+  Fixed incorrect call to reset_ftp_password. thanks Paul Thornthwaite
+
+[brightbox|compute]
+  format fixes for tests. thanks geemus
+
+[core]
+  treat boolean values as a boolean. thanks Peter Meier
+  fix attribute squashing with : in key. thanks Peter Meier
+  all services should recognize :connection_options. thanks geemus
+  separate loggers for deprecations/warnings. thanks geemus
+  avoid duplicates in Fog.providers. thanks geemus
+  more useful structure for Fog.providers. thanks geemus
+  add newlines to logger messages. thanks geemus
+  update stats raketask to point to org. thanks geemus
+  toss out nil-value keys when checking required credentials. thanks geemus
+
+[dns]
+  Made model tests use uniq domain names. thanks Brian Hartsock
+
+[dnsmadeeasy|dns]
+  Fix Fog::DNS::DNSMadeEasy::Record#save to handle updating a record correctly. thanks Peter Weldon
+
+[docs]
+  update links to point to http://github.com/fog/fog. thanks geemus
+
+[dynect|dns]
+  Automatically poll jobs if we get them. Closes #575. thanks Dan Peterson
+
+[misc]
+  Change response parameter. thanks Alan Ivey
+  Missing HEAD method. thanks Andrew Newman
+  Missing HEAD method. thanks Andrew Newman
+  Putting version back. thanks Andrew Newman
+  Reformatting and making consistent with other classes. thanks Andrew Newman
+  Missed renam to head_namespace. thanks Andrew Newman
+  Reverting version and date in gemspec. thanks Andrew Newman
+  Formatting. thanks Andrew Newman
+  Removed puts of element name. thanks Arvid Andersson
+  Changes to allow EMR control through fog. thanks Bob Briski
+  Added EMR functions for AWS. thanks Bob Briski
+  Adding tests. thanks Bob Briski
+  merge EMR changes with upstream repo. thanks Bob Briski
+  (#10055) Search vmFolder inventory vs children. thanks Carl Caum
+  Adding a path attribute to the vm_mob_ref hash. thanks Carl Caum
+  Cleanup Attributes#merge_attributes. thanks Hemant Kumar
+  Update S3 doc example to show current API. thanks Jason Roelofs
+  Restructure main website's navigation. thanks Jason Roelofs
+  Add CloudFormation UpdateStack call. thanks Jason Roelofs
+  Minor whitespace change. thanks Jens Braeuer
+  Trailing whitespace cleanup. thanks Jens Braeuer
+  Whitespace cleanup. thanks Jens Braeuer
+  Fix merge error. thanks Jens Braeuer
+  Removed statement about @geemus being only member of collaborators list since it's not true anymore. thanks John Wang
+  Fixes Fog::AWS::Storage#put_(bucket|object)_acl. thanks Jonas Pfenniger
+  Randomize bucket names in tests. thanks Jonas Pfenniger
+  Fix AWS S3 bucket and object tests. thanks Jonas Pfenniger
+  (#10570) Use nil in-place of missing attributes. thanks Kelsey Hightower
+  (#10570) Update `Fog::Compute::Vsphere` tests. thanks Kelsey Hightower
+  We use 'Key' for all S3 objects now. thanks Kevin Menard
+  Implemented mocks for Zerigo. thanks Kevin Menard
+  Updated docs to use newer arg, rather than the old deprecated one. thanks Kevin Menard
+  Added the ability to search Zerigo records for a particular zone. thanks Kevin Menard
+  Return the only element of the array, not the array itself. thanks Kevin Menard
+  Fixed an issue whereby saving an existing record in Zerigo would nil out its value. thanks Kevin Menard
+  added DeleteAlarms, DescribeAlarms and PutMetricAlarms. thanks Michael Zeng
+  re-adding files. thanks Michael Zeng
+  adding describe_alarm_history. thanks Michael Zeng
+  adding diable/enable alarm actions. thanks Michael Zeng
+  added DescribeAlarmHistory request and parser. thanks Michael Zeng
+  fixing describe_alarms and describe_alarms_for_metric requests. thanks Michael Zeng
+  cleaned up requesters and parsers. thanks Michael Zeng
+  added SetAlarmState. thanks Michael Zeng
+  included more response elements, request parameters should now be complete. Included model and collection classes. thanks Michael Zeng
+  bug fixes. thanks Michael Zeng
+  fixed models and added tests. thanks Michael Zeng
+  no need to add rake dep. thanks Michael Zeng
+  revert gempspec date change. thanks Michael Zeng
+  reverting cloud_watch.rb. thanks Michael Zeng
+  reverting cloud_watch.rb. thanks Michael Zeng
+  reverting cloud_watch.rb. thanks Michael Zeng
+  reverting cloud_watch.rb. thanks Michael Zeng
+  reverting cloud_watch.rb. thanks Michael Zeng
+  added newline to the end of file. thanks Michael Zeng
+  removed all tabs. thanks Michael Zeng
+  added alarm_data_tests. thanks Michael Zeng
+  spacing change. thanks Michael Zeng
+  AWS#hash_to_acl - add support for EmailAddress and URI grantee types. thanks Nathan Sutton
+  Test and improve Fog::Storage::AWS.hash_to_acl. thanks Nathan Sutton
+  Adding a method to unmock Fog. Addresses issue #594. thanks Nathan Sutton
+  Adding documentation for Fog.unmock! and Fog::Mock.reset. thanks Nathan Sutton
+  added linode ssh support. thanks Nicholas Ricketts
+  added linode ssh support with proper public ip address. thanks Nicholas Ricketts
+  cleaned up code to use att_XX methods. thanks Nicholas Ricketts
+  clean up public_ip_address code for linode. thanks Nicholas Ricketts
+  Seems like rackspace might have changed this. thanks Nik Wakelin
+  Sends power parameter in GoGrid's grid_server_power request. thanks Pablo Baños López
+  Slicehost uses record-type and zone-id for their API, which messes with Fog internals, so changing these to record_type and zone_id in the parser. thanks Patrick McKenzie
+  Did this do anything?. thanks Patrick McKenzie
+  Revert "Slicehost uses record-type and zone-id for their API, which messes with Fog internals, so changing these to record_type and zone_id in the parser.". thanks Patrick McKenzie
+  Not having the best of days with git.  Revert the reversion of the commit that I really do want to make. thanks Patrick McKenzie
+  Slicehost uses record-type and zone-id for their API, which messes with Fog internals, so changing these to record_type and zone_id in the parser. thanks Patrick McKenzie
+  Do not touch .gitignore. thanks Patrick McKenzie
+  Fixing Slicehost DNS so that a) tests pass b) token names map to what Fog expects -- record_type not record-type, value not data, etc c) creation of new DNS records possible. thanks Patrick McKenzie
+  1)  Fix so that getting a single record actually works.  2)  zone.records currently returns all records in account, not just records for that zone.  Add failing test (temporarily, assumes test account has existing zones for this to actually fail) + fix.  3)  Add in data alias for record.value, just in case someone needs it, as Slicehost calls this data. thanks Patrick McKenzie
+  Allow updates of DNS records.  Updates on zones not supported yet. thanks Patrick McKenzie
+  Fixing parsing of zone.records.get(id) so that it parses a single record properly rather than attempting to parse a list of records improperly.  Fixing tests to match this (expected) behavior rather than work-around the broken way. thanks Patrick McKenzie
+  Getting it so zone.records works as expected (loads all records, for that zone only). thanks Patrick McKenzie
+  simplification. thanks Peter Meier
+  Optimize vSphere convert_vm_mob_ref_to_attr_hash. thanks Rich Lane
+  Compact the way options are mapped to request. thanks Todd Willey
+  Allow setting userdata as plain ascii or b64. thanks Todd Willey
+  bump excon dep. thanks geemus
+  [rackspace][dns] fixes for job request format. thanks geemus
+  bump net-ssh dependency. thanks geemus
+  tshirt offer should be implicit, rather than explicit. thanks geemus
+  add region option to aws sns service recognizes method. thanks lostboy
+  add capabilities support to cloudformation createstack request. thanks lostboy
+
+[ninefold|storage]
+  omit signature in stringtosign. thanks geemus
+  check objectid for existence. thanks geemus
+  allow overwriting files for consistency. thanks geemus
+
+[rackspace|dns]
+  Fixed request tests that need unique domain name. thanks Brian Hartsock
+  Adapted to changes in callback mechanism. thanks Brian Hartsock
+
+[rackspace|load_balancers]
+  made lb endpoint configurable. thanks Brian Hartsock
+
+[release]
+  omit Patrick Debois from future MVP status. thanks geemus
+
+[vsphere|compute]
+  test fixes. thanks geemus
+
+
 1.0.0 09/29/2011 a81be08ef2473af91f16f4926e5b3dfa962a34ae
 =========================================================
 

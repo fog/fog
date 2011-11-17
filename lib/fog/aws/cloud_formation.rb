@@ -9,6 +9,7 @@ module Fog
 
       request_path 'fog/aws/requests/cloud_formation'
       request :create_stack
+      request :update_stack
       request :delete_stack
       request :describe_stack_events
       request :describe_stack_resources
@@ -64,6 +65,8 @@ module Fog
             'cloudformation.us-east-1.amazonaws.com'
           when 'us-west-1'
             'cloudformation.us-west-1.amazonaws.com'
+          when 'us-west-2'
+            'cloudformation.us-west-2.amazonaws.com'
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end

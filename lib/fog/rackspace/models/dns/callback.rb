@@ -11,7 +11,7 @@ module Fog
           response = nil
           Fog.wait_for(timeout, interval) do
             response = connection.callback job_id
-            if response.status != 202
+            if response.body['status'] != 'RUNNING'
               true
             elsif retries == 0
               raise Fog::Errors::Error.new("Wait on job #{job_id} took too long")

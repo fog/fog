@@ -40,7 +40,7 @@ module Fog
         #
         # ==== Parameters
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
-        #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1'i, 'ap-southeast-1']
+        #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'ap-southeast-1']
         #
         # ==== Returns
         # * SES object with connection to AWS.
