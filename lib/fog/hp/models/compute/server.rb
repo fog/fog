@@ -19,6 +19,11 @@ module Fog
         attribute :accessIPv4
         attribute :accessIPv6
         attribute :state,       :aliases => 'status'
+        attribute :created_at,  :aliases => 'created'
+        attribute :updated_at,  :aliases => 'updated'
+        attribute :tenant_id
+        attribute :user_id
+        attribute :key_name
 
         attr_reader :password
         attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :image_id, :flavor_id
@@ -61,7 +66,7 @@ module Fog
         end
 
         def image_id
-          @image_id
+          @image_id ||= (image.nil? ? nil : image["id"])
         end
 
         def image_id=(new_image_id)
@@ -69,7 +74,7 @@ module Fog
         end
 
         def flavor_id
-          @flavor_id
+          @flavor_id ||= (flavor.nil? ? nil : flavor["id"])
         end
 
         def flavor_id=(new_flavor_id)
