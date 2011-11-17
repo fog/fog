@@ -18,6 +18,8 @@ module Fog
         attribute :default
         attribute :created_at, :type => :time
 
+        attribute :server_ids, :aliases => "servers"
+
         def save
           options = {
             :name => name,
@@ -26,6 +28,13 @@ module Fog
           data = connection.create_server_group(options)
           merge_attributes(data)
           true
+        end
+
+        def servers
+          srv_ids = server_ids.collect {|srv| srv["id"]}
+          srv_ids.collect do |srv_id|
+            connection.servers.get(srv_id)
+          end
         end
 
         # Adds specified servers to this server group

@@ -13,7 +13,7 @@ def compute_providers
     },
     :brightbox  => {
       :server_attributes => {
-        :image_id => 'img-2ab98' # Ubuntu Lucid 10.04 server (i686)
+        :image_id => 'img-4gqhs' # Ubuntu Lucid 10.04 server (i686)
       },
       :mocked => false
     },
