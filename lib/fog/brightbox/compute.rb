@@ -16,6 +16,10 @@ module Fog
       model       :server
       collection  :server_groups
       model       :server_group
+      collection  :firewall_policies
+      model       :firewall_policy
+      collection  :firewall_rules
+      model       :firewall_rule
       collection  :flavors
       model       :flavor
       collection  :images
@@ -35,6 +39,7 @@ module Fog
       request :add_nodes_load_balancer
       request :add_servers_server_group
       request :apply_to_firewall_policy
+      request :remove_firewall_policy
       request :create_api_client
       request :create_cloud_ip
       request :create_firewall_policy
@@ -88,6 +93,7 @@ module Fog
       request :unmap_cloud_ip
       request :update_account
       request :update_api_client
+      request :update_cloud_ip
       request :update_image
       request :update_load_balancer
       request :update_server

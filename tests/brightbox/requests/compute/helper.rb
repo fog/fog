@@ -111,7 +111,7 @@ class Brightbox
           "source"          => String,
           "status"          => String,
           "owner"           => String,
-          "username"        => Fog::Nullable::String,
+          "username"        => Fog::Nullable::String
         }
 
         INTERFACE = {
@@ -143,7 +143,8 @@ class Brightbox
           "name"            => String,
           "created_at"      => String,
           "default"         => Fog::Boolean,
-          "description"     => Fog::Nullable::String
+          "description"     => Fog::Nullable::String,
+          "created_at"      => String
         }
 
         SERVER_TYPE = {
@@ -235,6 +236,7 @@ class Brightbox
           "source_type"     => String,
           "status"          => String,
           "owner"           => String,
+          "username"        => Fog::Nullable::String,
           "public"          => Fog::Boolean,
           "official"        => Fog::Boolean,
           "compatibility_mode" => Fog::Boolean,
@@ -287,6 +289,7 @@ class Brightbox
           "name"            => String,
           "description"     => Fog::Nullable::String,
           "default"         => Fog::Boolean,
+          "created_at"      => String,
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
           "servers"         => [Brightbox::Compute::Formats::Nested::SERVER]
         }
@@ -421,6 +424,7 @@ class Brightbox
           "source_type"     => String,
           "status"          => String,
           "owner"           => String, # Account ID not object
+          "username"        => Fog::Nullable::String,
           "public"          => Fog::Boolean,
           "official"        => Fog::Boolean,
           "compatibility_mode"   => Fog::Boolean,
@@ -489,6 +493,7 @@ class Brightbox
           "name"            => String,
           "description"     => Fog::Nullable::String,
           "default"         => Fog::Boolean,
+          "created_at"      => String,
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
           "servers"         => [Brightbox::Compute::Formats::Nested::SERVER]
         }
