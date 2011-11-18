@@ -17,6 +17,7 @@ module Fog
       collection  :servers
 
       request_path 'fog/hp/requests/compute'
+      request :change_password_server
       #request :confirm_resized_server
       request :create_image
       request :create_server

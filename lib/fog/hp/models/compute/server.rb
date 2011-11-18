@@ -85,6 +85,12 @@ module Fog
           self.state == 'ACTIVE'
         end
 
+        def change_password(admin_password)
+          requires :id
+          connection.change_password_server(id, admin_password)
+          true
+        end
+
         def reboot(type = 'SOFT')
           requires :id
           connection.reboot_server(id, type)
