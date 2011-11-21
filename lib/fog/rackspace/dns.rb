@@ -9,8 +9,7 @@ module Fog
       UK_ENDPOINT = 'https://lon.dns.api.rackspacecloud.com/v1.0'
 
       requires :rackspace_api_key, :rackspace_username
-      recognizes :rackspace_auth_url
-      recognizes :rackspace_auth_token
+      recognizes :rackspace_auth_url, :rackspace_auth_token, :rackspace_dns_endpoint
 
       model_path 'fog/rackspace/models/dns'
       model       :record
