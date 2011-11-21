@@ -398,7 +398,7 @@ class Brightbox
           "clients"         => [Brightbox::Compute::Formats::Nested::API_CLIENT],
           "servers"         => [Brightbox::Compute::Formats::Nested::SERVER],
           "load_balancers"  => [Brightbox::Compute::Formats::Nested::LOAD_BALANCER],
-          "cloud_ip_addresses" => [Brightbox::Compute::Formats::Nested::CLOUD_IP],
+          "cloud_ips"       => [Brightbox::Compute::Formats::Nested::CLOUD_IP],
           "server_groups"   => [Brightbox::Compute::Formats::Nested::SERVER_GROUP],
           "firewall_policies" => [Brightbox::Compute::Formats::Nested::FIREWALL_POLICY],
           "images"          => [Brightbox::Compute::Formats::Nested::IMAGE],
