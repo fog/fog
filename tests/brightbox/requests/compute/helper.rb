@@ -522,7 +522,7 @@ class Brightbox
           "snapshots"       => [Brightbox::Compute::Formats::Nested::IMAGE],
           "server_groups"   => [Brightbox::Compute::Formats::Nested::SERVER_GROUP],
           "interfaces"      => [Brightbox::Compute::Formats::Nested::INTERFACE],
-          "zone"            => Brightbox::Compute::Formats::Nested::ZONE,
+          "zone"            => Fog::Brightbox::Nullable::Zone,
           "username"        => Fog::Nullable::String
         }
 
