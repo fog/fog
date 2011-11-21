@@ -26,7 +26,7 @@ module Fog
               node_info[param]=nil
             end
           end
-          node_info[:uri]=connection.connection.uri
+          node_info[:uri]=connection.uri
           data << { :raw => node_info }
           require 'pp'
           pp node_info

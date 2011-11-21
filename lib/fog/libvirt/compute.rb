@@ -8,6 +8,7 @@ module Fog
     class Libvirt < Fog::Service
 
       requires :libvirt_uri
+      recognizes :libvirt_username, :libvirt_password
 
       model_path 'fog/libvirt/models/compute'
       model       :server
