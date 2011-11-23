@@ -44,6 +44,23 @@ module Fog
         Fog::Mock.random_hex(32)
       end
 
+      def self.key_fingerprint
+        fingerprint = []
+        20.times do
+          fingerprint << Fog::Mock.random_hex(2)
+        end
+        fingerprint.join(':')
+      end
+
+      def self.key_material
+        private_key = OpenSSL::PKey::RSA.generate(1024)
+        public_key = private_key.public_key
+        return private_key.to_s, public_key.to_s
+      end
+
+      def self.user_id
+        "dev_" + Fog::Mock.random_numbers(14)
+      end
     end
 
   end
