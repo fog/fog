@@ -21,6 +21,7 @@ module Fog
       #request :confirm_resized_server
       request :create_image
       request :create_server
+      request :create_key_pair
       request :delete_image
       request :delete_server
       request :get_flavor_details
@@ -50,10 +51,12 @@ module Fog
             hash[key] = {
               :last_modified => {
                 :images  => {},
-                :servers => {}
+                :servers => {},
+                :key_pairs => {}
               },
               :images  => {},
-              :servers => {}
+              :servers => {},
+              :key_pairs => {}
             }
           end
         end
