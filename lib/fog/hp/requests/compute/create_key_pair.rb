@@ -6,7 +6,7 @@ module Fog
         # Create a new keypair
         #
         # ==== Parameters
-        # * name<~String> - Name of the keypair
+        # * key_name<~String> - Name of the keypair
         # * public_key<~String> - The public key for the keypair
         #
         # ==== Returns
@@ -20,17 +20,17 @@ module Fog
         #       * 'name'<~String> - Name of key
         #
         # {Openstack API Reference}[http://docs.openstack.org]
-        def create_key_pair(name, public_key = nil)
+        def create_key_pair(key_name, public_key = nil)
           if public_key.nil?
             data = {
               'keypair' => {
-                'name' => name
+                'name' => key_name
               }
             }
           else
             data = {
               'keypair' => {
-                'name'       => name,
+                'name'       => key_name,
                 'public_key' => public_key
               }
             }
@@ -59,7 +59,7 @@ module Fog
                 'private_key'  => private_key,
                 'fingerprint'  => Fog::HP::Mock.key_fingerprint,
                 'user_id'      => Fog::HP::Mock.user_id,
-                'name'      => key_name
+                'name'         => key_name
               }
             }
             self.data[:last_modified][:servers][key_name] = Time.now
