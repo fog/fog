@@ -101,8 +101,10 @@ Shindo.tests('Fog::DNS[:rackspace] | DNS requests', ['rackspace', 'dns']) do
 
   tests( 'failure') do
 
-    tests('create_domain(invalid)').raises(Fog::Rackspace::Errors::BadRequest) do
-      wait_for Fog::DNS[:rackspace], Fog::DNS[:rackspace].create_domains([{:name => 'badtestdomain.com', :email => '', :records => [{:ttl => 300, :name => 'badtestdomain.com', :type => 'A', :data => '192.168.1.1'}]}])
+    tests('create_domain(invalid)').returns('ERROR') do
+      response = wait_for Fog::DNS[:rackspace], Fog::DNS[:rackspace].create_domains([{:name => 'badtestdomain.com', :email => '', :records => [{:ttl => 300, :name => 'badtestdomain.com', :type => 'A', :data => '192.168.1.1'}]}])
+
+      response.body['status']
     end
 
     tests('list_domains :limit => 5, :offset => 8').raises(Fog::Rackspace::Errors::BadRequest) do

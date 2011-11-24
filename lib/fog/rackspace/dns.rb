@@ -5,6 +5,15 @@ module Fog
   module DNS
     class Rackspace < Fog::Service
 
+      class CallbackError < Fog::Errors::Error
+        attr_reader :response, :message, :details
+        def initialize(response)
+          @response = response
+          @message = response.body['error']['message']
+          @details = response.body['error']['details']
+        end
+      end
+
       US_ENDPOINT = 'https://dns.api.rackspacecloud.com/v1.0'
       UK_ENDPOINT = 'https://lon.dns.api.rackspacecloud.com/v1.0'
 
