@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer_tests', ['rackspace']) do
+Shindo.tests('Fog::Rackspace::LoadBalancers | node_tests', ['rackspace']) do
 
   pending if Fog.mocking?
 
@@ -61,7 +61,11 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer_tests', ['rackspace'
         tests('get_node(0)').raises(Fog::Rackspace::LoadBalancers::NotFound) do
           @service.get_node(@lb.id, 0)
         end
+        tests('delete_node(0)').raises(Fog::Rackspace::LoadBalancers::NotFound) do
+          @service.delete_node(@lb.id, 0)
+        end
         tests('delete_nodes(0)').raises(Fog::Rackspace::LoadBalancers::ServiceError) do
+          pending #Bug report filed with Rackspace.  This currently returns 202 from their system but should return 400
           @service.delete_nodes(@lb.id, 0)
         end
         tests('update_node(0)').raises(Fog::Rackspace::LoadBalancers::NotFound) do
