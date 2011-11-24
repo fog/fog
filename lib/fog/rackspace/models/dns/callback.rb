@@ -11,8 +11,10 @@ module Fog
           response = nil
           Fog.wait_for(timeout, interval) do
             response = connection.callback job_id
-            if response.body['status'] != 'RUNNING'
+            if response.body['status'] == 'COMPLETED'
               true
+            elsif response.body['status'] == 'ERROR'
+              raise Fog::DNS::Rackspace::CallbackError.new(response)
             elsif retries == 0
               raise Fog::Errors::Error.new("Wait on job #{job_id} took too long")
             else
