@@ -1,7 +1,6 @@
 Shindo.tests('Fog::Compute[:clodo] | server requests', ['clodo']) do
 
   @ip_format = {
-    'ddosprotect' => Fog::Boolean,
     'primary_ip'  => Fog::Boolean,
     'isp'         => Fog::Boolean,
     'ip'          => String
