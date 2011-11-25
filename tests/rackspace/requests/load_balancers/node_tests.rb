@@ -64,8 +64,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | node_tests', ['rackspace']) do
         tests('delete_node(0)').raises(Fog::Rackspace::LoadBalancers::NotFound) do
           @service.delete_node(@lb.id, 0)
         end
-        tests('delete_nodes(0)').raises(Fog::Rackspace::LoadBalancers::ServiceError) do
-          pending #Bug report filed with Rackspace.  This currently returns 202 from their system but should return 400
+        tests('delete_nodes(0)').raises(Fog::Rackspace::LoadBalancers::BadRequest) do
           @service.delete_nodes(@lb.id, 0)
         end
         tests('update_node(0)').raises(Fog::Rackspace::LoadBalancers::NotFound) do
@@ -76,7 +75,6 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | node_tests', ['rackspace']) do
       tests('success') do
         @lb.wait_for { ready? }
         tests("#delete_nodes(multiple node)").succeeds do
-          pending
           @service.delete_nodes(@lb.id, *@nodes_created)
         end
         @lb.wait_for { ready? }
