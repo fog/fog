@@ -65,13 +65,11 @@ module Fog
             'vps_root_pass' => data['adminPass'],
             'status' => "is_running",
             'addresses' => {'public' =>[{
-                                          'ddosprotect' => false,
                                           'primary_ip' => true,
                                           'isp' => false,
                                           'ip' => '66.6.6.66'
                                         },
                                         {
-                                          'ddosprotect' => false,
                                           'primary_ip' => false,
                                           'isp' => false,
                                           'ip' => '13.13.13.13'
