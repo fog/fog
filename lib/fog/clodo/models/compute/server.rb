@@ -76,6 +76,18 @@ module Fog
           pubaddrs && !pubaddrs.empty? ? pubaddrs.first['ip'] : nil
         end
 
+        def add_ip_address
+          connection.add_ip_address(id)
+        end
+
+        def move_ip_address(ip_address)
+          connection.move_ip_address(id, ip_address)
+        end
+
+        def delete_ip_address(ip_address)
+          connection.delete_ip_address(id, ip_address)
+        end
+
         def public_key_path
           @public_key_path ||= Fog.credentials[:public_key_path]
           @public_key_path &&= File.expand_path(@public_key_path)
