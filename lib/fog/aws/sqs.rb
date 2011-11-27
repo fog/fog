@@ -5,7 +5,7 @@ module Fog
     class SQS < Fog::Service
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :aws_session_token
 
       request_path 'fog/aws/requests/sqs'
       request :change_message_visibility
@@ -78,6 +78,7 @@ module Fog
         def initialize(options={})
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
+          @aws_session_token      = options[:aws_session_token]
           @connection_options     = options[:connection_options] || {}
           @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
           options[:region] ||= 'us-east-1'
@@ -121,6 +122,7 @@ module Fog
             params,
             {
               :aws_access_key_id  => @aws_access_key_id,
+              :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
               :host               => @host,
               :path               => path || @path,

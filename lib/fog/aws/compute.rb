@@ -6,7 +6,7 @@ module Fog
     class AWS < Fog::Service
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent
+      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :aws_session_token
 
       model_path 'fog/aws/models/compute'
       model       :address
@@ -249,6 +249,7 @@ module Fog
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
         #   * region<~String> - optional region to use, in
         #     ['eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'ap-northeast-1', 'ap-southeast-1']
+        #   * aws_session_token<~String> - when using Session Tokens or Federated Users, a session_token must be presented
         #
         # ==== Returns
         # * EC2 object with connection to aws.
@@ -257,6 +258,7 @@ module Fog
 
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
+          @aws_session_token      = options[:aws_session_token]
           @connection_options     = options[:connection_options] || {}
           @hmac                   = Fog::HMAC.new('sha256', @aws_secret_access_key)
           @region                 = options[:region] ||= 'us-east-1'
@@ -306,6 +308,7 @@ module Fog
             params,
             {
               :aws_access_key_id  => @aws_access_key_id,
+              :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
               :host               => @host,
               :path               => @path,
