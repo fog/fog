@@ -76,9 +76,15 @@ Shindo.tests('Fog::Compute[:clodo] | server requests', ['clodo']) do
 
     clodo.servers.get(@server_id).wait_for { ready? || state == 'is_error' } unless Fog.mocking?
 
-    tests("- get_server_details(#{@server_id})").formats(@server_details_format) do
-      clodo.get_server_details(@server_id).body['server']
+    tests("- add_ip_address(#{@server_id})").succeeds do
+      clodo.add_ip_address(@server_id)
     end
+
+    # tests("- get_server_details(#{@server_id})").formats(@server_details_format) do
+    #   data = clodo.get_server_details(@server_id).body['server']
+    #   @additional_ip = data['addresses']['public'].select {|a| !a['primary_ip'] }.first
+    #   data
+    # end
 
     tests("- reboot_server(#{@server_id})").succeeds do
       clodo.reboot_server(@server_id, :hard)
@@ -86,12 +92,16 @@ Shindo.tests('Fog::Compute[:clodo] | server requests', ['clodo']) do
 
     clodo.servers.get(@server_id).wait_for { ready? || state == 'is_error' } unless Fog.mocking?
 
+    # tests("- delete_ip_address(#{@server_id}, #{@additional_ip['ip']})").success do
+    #   clodo.delete_ip_address(@server_id, @additional_ip['ip'])
+    # end
+    
     tests("- stop_server(#{@server_id})").succeeds do
       clodo.stop_server(@server_id)
     end
 
     unless Fog.mocking?
-      clodo.servers.get(@server_id).wait_for { state == 'is_disabled' || state == 'is_disabled' }
+      clodo.servers.get(@server_id).wait_for { state == 'is_disabled' || state == 'is_error' }
     end
 
     tests("- start_server(#{@server_id})").succeeds do
@@ -124,10 +134,19 @@ Shindo.tests('Fog::Compute[:clodo] | server requests', ['clodo']) do
       clodo.start_server(0)
     end
 
-    ## delete_server(0) in actial API, works not as it must,
+    ## delete_server(0) in actual API, works not as it must,
     ## so I do not include this test in tests sequence.
     # tests("- delete_server(0)").raises(Fog::Compute::Clodo::NotFound) do
     #   clodo.delete_server(0)
     # end
+    #
+    # tests("- delete_ip_address(0, 6.6.6.6)").raises(Fog::Compute::Clodo::NotFound) do
+    #   clodo.delete_ip_address(0, "6.6.6.6")
+    # end
+
+    tests("- delete_ip_address(#{@server_id}, 6.6.6.6)").raises(Excon::Errors::BadRequest) do
+      clodo.delete_ip_address(@server_id, "6.6.6.6")
+    end
+
   end
 end
