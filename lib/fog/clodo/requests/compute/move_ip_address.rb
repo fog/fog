@@ -12,7 +12,7 @@ module Fog
         # * response<~Excon::Response>
         #
 
-        def move_ip(server_id, ip)
+        def move_ip_address(server_id, ip)
           request(
                   :expects  => [200, 203],
                   :method   => 'GET',
@@ -22,9 +22,9 @@ module Fog
       end
 
       class Mock
-        def move_ip(server_id, ip)
+        def move_ip_address(server_id, ip)
           response = Excon::Response.new
-          response.status = [200, 203][rand(1)]
+          response.status = [204]
           response
         end
       end
