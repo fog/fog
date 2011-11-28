@@ -13,6 +13,8 @@ module Fog
       collection  :flavors
       model       :image
       collection  :images
+      model       :key_pair
+      collection  :key_pairs
       model       :server
       collection  :servers
 
