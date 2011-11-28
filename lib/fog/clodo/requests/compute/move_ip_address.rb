@@ -14,9 +14,10 @@ module Fog
 
         def move_ip_address(server_id, ip)
           request(
-                  :expects  => [200, 203],
+                  :expects  => [204],
                   :method   => 'GET',
-                  :path     => "servers/#{server_id}/ips/moveip/#{ip}"
+                  :path     => "servers/#{server_id}/ips/moveip",
+                  :body     => MultiJson.encode({'ip'=>"#{ip}"})
                   )
         end
       end
