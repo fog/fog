@@ -5,7 +5,7 @@ module Fog
     class SimpleDB < Fog::Service
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :nil_string, :path, :port, :scheme, :persistent, :region
+      recognizes :host, :nil_string, :path, :port, :scheme, :persistent, :region, :aws_session_token
 
       request_path 'fog/aws/requests/simpledb'
       request :batch_put_attributes
@@ -70,6 +70,7 @@ module Fog
 
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
+          @aws_session_token      = options[:aws_session_token]
           @connection_options     = options[:connection_options] || {}
           @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)
           @nil_string = options[:nil_string]|| 'nil'
@@ -165,6 +166,7 @@ module Fog
             params,
             {
               :aws_access_key_id  => @aws_access_key_id,
+              :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
               :host               => @host,
               :path               => @path,
