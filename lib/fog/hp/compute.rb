@@ -38,6 +38,7 @@ module Fog
       request :list_images
       request :list_images_detail
       request :list_key_pairs
+      request :list_security_groups
       request :list_servers
       request :list_servers_detail
       request :reboot_server
@@ -54,12 +55,14 @@ module Fog
             hash[key] = {
               :last_modified => {
                 :images  => {},
-                :servers => {},
-                :key_pairs => {}
+                :key_pairs => {},
+                :security_groups => {},
+                :servers => {}
               },
               :images  => {},
-              :servers => {},
-              :key_pairs => {}
+              :key_pairs => {},
+              :security_groups => {},
+              :servers => {}
             }
           end
         end
