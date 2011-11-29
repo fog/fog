@@ -55,6 +55,7 @@ end
 require 'fog/bin/aws'
 require 'fog/bin/bluebox'
 require 'fog/bin/brightbox'
+require 'fog/bin/clodo'
 require 'fog/bin/dnsimple'
 require 'fog/bin/dnsmadeeasy'
 require 'fog/bin/dynect'
