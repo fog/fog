@@ -9,10 +9,9 @@ module Fog
         deprecate :ip, :value
         deprecate :ip=, :value=
 
-        identity :id,           :aliases => ['Id']
+        identity :name,         :aliases => ['Name']
 
         attribute :value,       :aliases => ['ResourceRecords']
-        attribute :name,        :aliases => ['Name']
         attribute :ttl,         :aliases => ['TTL']
         attribute :type,        :aliases => ['Type']
         attribute :status,      :aliases => ['Status']
