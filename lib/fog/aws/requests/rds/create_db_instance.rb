@@ -47,7 +47,56 @@ module Fog
       class Mock
 
         def create_db_instance(db_name, options={})
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          # These are the required parameters according to the API
+          required_params = %w{AllocatedStorage DBInstanceClass Engine MasterUserPassword MasterUsername }
+          required_params.each do |key|
+            unless options.has_key?(key) and options[key] and !options[key].to_s.empty?
+              response.status = 400
+              #response.body['Message'] = "The request must contain the parameter #{key}"
+              response.body = {
+                'Code' => 'MissingParameter'
+              }
+              response.body['Message'] = "The request must contain the parameter #{key}"
+              return response
+            end
+          end
+          
+          data =
+            {"CreateDBInstanceResult"=>
+              {"DBInstance"=>
+                {#"created_at" => Time.now,
+                 "AutoMinorVersionUpgrade"=>true,
+                 "Endpoint"=>{},
+                 "ReadReplicaDBInstanceIdentifiers"=>[],
+                 "PreferredMaintenanceWindow"=>"mon:04:30-mon:05:00",
+                 "Engine"=> options["Engine"],
+                 "EngineVersion"=> options["EngineVersion"] || "5.1.57",
+                 "PendingModifiedValues"=>{"MasterUserPassword"=>"****"},
+                 "MultiAZ"=>false,
+                 "MasterUsername"=> options["MasterUsername"],
+                 "DBInstanceClass"=> options["DBInstanceClass"],
+                 "DBInstanceStatus"=>"creating",
+                 "BackupRetentionPeriod"=> options["BackupRetentionPeriod"] || 1,
+                 "DBInstanceIdentifier"=> db_name,
+                 "AllocatedStorage"=> options["AllocatedStorage"],
+                 "DBParameterGroups"=> # I think groups shoul be in the self.data method
+                          [{"DBParameterGroupName"=>"default.mysql5.1",
+                            "ParameterApplyStatus"=>"in-sync"}],
+                 "DBSecurityGroups"=>
+                          [{"Status"=>"active", 
+                            "DBSecurityGroupName"=>"default"}],
+                 "LicenseModel"=>"general-public-license",
+                 "PreferredBackupWindow"=>"08:00-08:30"}}
+             }
+           
+          
+          self.data[:servers][db_name] = data
+          response.body = {
+            "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id }
+          }.merge!(data)
+          response.status = 200
+          response
         end
 
       end

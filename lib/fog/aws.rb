@@ -218,6 +218,10 @@ module Fog
       def self.volume_id
         "vol-#{Fog::Mock.random_hex(8)}"
       end
+      
+      def self.rds_address(db_name,region)
+        "#{db_name}.#{Fog::Mock.random_letters(rand(12) + 4)}.#{region}.rds.amazonaws.com"
+      end
     end
   end
 end
