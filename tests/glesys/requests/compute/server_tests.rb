@@ -1,5 +1,5 @@
 Shindo.tests('Fog::Compute[:glesys] | server requests', ['glesys']) do
-    
+
     @serverid = nil
     @hostname = "fog-#{Time.now.to_i}"
 
@@ -27,7 +27,7 @@ Shindo.tests('Fog::Compute[:glesys] | server requests', ['glesys']) do
               :cpucores   => "1",
               :transfer   => "500"
             )
-      
+
       @serverid = vm.body['response']['server']['serverid']
       vm.body['response']
     end
@@ -35,7 +35,7 @@ Shindo.tests('Fog::Compute[:glesys] | server requests', ['glesys']) do
     unless Fog.mocking?
       Fog::Compute[:glesys].servers.get(@serverid).wait_for { ready? }
     end
-  
+
     tests("#server_details(#{@serverid})").formats(Glesys::Compute::Formats::Servers::DETAILS) do
       pending if Fog.mocking?
       Fog::Compute[:glesys].server_details(@serverid).body['response']
@@ -55,7 +55,7 @@ Shindo.tests('Fog::Compute[:glesys] | server requests', ['glesys']) do
     unless Fog.mocking?
       pending if Fog.mocking?
       s = Fog::Compute[:glesys].servers.get(@serverid)
-      s.wait_for { s.state == 'stopped' }  
+      s.wait_for { s.state == 'stopped' }
     end
 
     tests("#start(:serverid => #{@serverid})").formats(Glesys::Compute::Formats::Servers::START) do
