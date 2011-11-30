@@ -34,27 +34,38 @@ module Fog
 
         def describe_db_instances(identifier=nil, opts={})
           response = Excon::Response.new
-          if identifier
-            if server_set = self.data[:servers][identifier]
-              response.status = 200
-              response.body = {
-                "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
-                "DescribeDBInstancesResult" => { "DBInstances" => [server_set] }
-              }
+          server_set = []
+          if identifier   
+            if server = self.data[:servers][identifier]
+              server_set << server
             else
               raise Fog::AWS::RDS::NotFound.new("DBInstance #{identifier} not found")
-            end
-            
-          else
-            servers_set = self.data[:servers].values
-            response.status = 200
-            response.body = {
-              "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
-              "DescribeDBInstancesResult" => { "DBInstances" => servers_set }
-            }
+            end 
           end
+          server_set = self.data[:servers].values
+          
+          server_set.each do |server|
+             case server["DBInstanceStatus"]
+             when "creating"
+                 if Time.now - server['created_at'] >= Fog::Mock.delay * 2
+                   region = "us-east-1"
+                   server["DBInstanceStatus"] = "available"
+                   server["availability_zone"] = region + 'a'
+                   server["Endpoint"] = {"Port"=>3306, 
+                                         "Address"=> Fog::AWS::Mock.rds_address(server["DBInstanceIdentifier"],region) }
+                   server["PendingModifiedValues"] = {"MasterUserPassword"=>"****"}
+                 end
+             end 
+          end
+          
+          response.status = 200
+          response.body = {
+            "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
+            "DescribeDBInstancesResult" => { "DBInstances" => server_set }
+          }
           response
         end
+        
 
       end
     end

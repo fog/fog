@@ -64,20 +64,21 @@ module Fog
           
           data =
               {
-                 #"created_at" => Time.now,
+                 "DBInstanceIdentifier"=> db_name,
+                 "DBName" => options["DBName"],
+                 "created_at" => nil,
                  "AutoMinorVersionUpgrade"=>true,
                  "Endpoint"=>{},
                  "ReadReplicaDBInstanceIdentifiers"=>[],
                  "PreferredMaintenanceWindow"=>"mon:04:30-mon:05:00",
                  "Engine"=> options["Engine"],
                  "EngineVersion"=> options["EngineVersion"] || "5.1.57",
-                 "PendingModifiedValues"=>{"MasterUserPassword"=>"****"},
+                 "PendingModifiedValues"=>{},
                  "MultiAZ"=>false,
                  "MasterUsername"=> options["MasterUsername"],
                  "DBInstanceClass"=> options["DBInstanceClass"],
                  "DBInstanceStatus"=>"creating",
                  "BackupRetentionPeriod"=> options["BackupRetentionPeriod"] || 1,
-                 "DBInstanceIdentifier"=> db_name,
                  "AllocatedStorage"=> options["AllocatedStorage"],
                  "DBParameterGroups"=> # I think groups shoul be in the self.data method
                           [{"DBParameterGroupName"=>"default.mysql5.1",
@@ -96,6 +97,8 @@ module Fog
             "CreateDBInstanceResult"=> {"DBInstance"=> data}
           }
           response.status = 200
+          # This values aren't showed at creating time but at available time
+          self.data[:servers][db_name]["created_at"] = Time.now
           response
         end
 
