@@ -206,6 +206,13 @@ module Fog
             @raw.destroy
           end
           @raw.undefine
+          if options[:destroy_volumes]
+            disk_path = document("domain/devices/disk/source", "file")
+            # volumes.all filters do not handle nil keys well
+            (connection.volumes.all(:path => disk_path) rescue []).each do |vol|
+              vol.destroy
+            end
+          end
         end
 
         def reboot
