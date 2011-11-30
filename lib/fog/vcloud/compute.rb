@@ -64,6 +64,8 @@ module Fog
       PORT   = 443
       SCHEME = 'https'
 
+      attr_writer :default_organization_uri
+
       requires   :vcloud_username, :vcloud_password, :vcloud_host
       recognizes :vcloud_port, :vcloud_scheme, :vcloud_path, :vcloud_default_vdc
       recognizes :provider # remove post deprecation
@@ -81,8 +83,12 @@ module Fog
       collection :servers
       model :task
       collection :tasks
+      model :vapp
+      collection :vapps
       model :vdc
       collection :vdcs
+      model :organization
+      collection :organizations
 
       request_path 'fog/vcloud/requests/compute'
       request :clone_vapp
@@ -101,6 +107,7 @@ module Fog
       request :get_network_ips
       request :get_network_extensions
       request :get_organization
+      request :get_server
       request :get_task
       request :get_task_list
       request :get_vapp
@@ -296,7 +303,6 @@ module Fog
               parser = Nokogiri::XML::SAX::PushParser.new(document)
               parser << response.body
               parser.finish
-
               response.body = document.body
             end
           end
