@@ -27,6 +27,7 @@ module Fog
       request :create_server
       request :delete_image
       request :delete_key_pair
+      request :delete_security_group
       request :delete_server
       request :get_flavor_details
       request :get_image_details
@@ -62,16 +63,7 @@ module Fog
               },
               :images  => {},
               :key_pairs => {},
-              :security_groups => {
-                'default' => {
-                  'id'           => Fog::Mock.random_numbers(3),
-                  'name'         => "default",
-                  'description'  => "default security group",
-                  'tenant_id'    => Fog::HP::Mock.user_id,
-                  'rules'        => [ {"from_port"=>22, "group"=>{}, "ip_protocol"=>"tcp", "to_port"=>22, "parent_group_id"=>"#{Fog::Mock.random_numbers(3)}", "ip_range"=>{ "cidr"=>"0.0.0.0/0" }, "id"=>"#{Fog::Mock.random_numbers(3)}"},
-                                      {"from_port"=>-1, "group"=>{}, "ip_protocol"=>"icmp", "to_port"=>-1, "parent_group_id"=>"#{Fog::Mock.random_numbers(3)}", "ip_range"=>{ "cidr"=>"0.0.0.0/0" }, "id"=>"#{Fog::Mock.random_numbers(3)}"} ]
-                }
-              },
+              :security_groups => {},
               :servers => {}
             }
           end
