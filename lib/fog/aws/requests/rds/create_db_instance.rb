@@ -63,9 +63,8 @@ module Fog
           end
           
           data =
-            {"CreateDBInstanceResult"=>
-              {"DBInstance"=>
-                {#"created_at" => Time.now,
+              {
+                 #"created_at" => Time.now,
                  "AutoMinorVersionUpgrade"=>true,
                  "Endpoint"=>{},
                  "ReadReplicaDBInstanceIdentifiers"=>[],
@@ -87,14 +86,15 @@ module Fog
                           [{"Status"=>"active", 
                             "DBSecurityGroupName"=>"default"}],
                  "LicenseModel"=>"general-public-license",
-                 "PreferredBackupWindow"=>"08:00-08:30"}}
+                 "PreferredBackupWindow"=>"08:00-08:30"
              }
            
           
           self.data[:servers][db_name] = data
           response.body = {
-            "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id }
-          }.merge!(data)
+            "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
+            "CreateDBInstanceResult"=> {"DBInstance"=> data}
+          }
           response.status = 200
           response
         end
