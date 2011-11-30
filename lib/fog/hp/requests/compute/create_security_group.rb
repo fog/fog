@@ -24,7 +24,7 @@ module Fog
           data = {
             'security_group' => {
               'name'       => name,
-              'description' => description || "#{name} security group"
+              'description' => description
             }
           }
 
@@ -42,23 +42,20 @@ module Fog
 
         def create_security_group(name, description)
           response = Excon::Response.new
-          unless self.data[:security_groups][name]
-            response.status = 200
-            data = {
-              'id'           => Fog::Mock.random_numbers(3),
-              'name'         => name,
-              'description'  => description || "#{name} security group",
-              'tenant_id'    => Fog::HP::Mock.user_id,
-              'rules'        => []
-            }
-            self.data[:last_modified][:security_groups][name] = Time.now
-            self.data[:security_groups][name] = data
+          response.status = 200
 
-            response.body = { 'security_group' => data }
-            response
-          else
-            raise Fog::Compute::HP::Error.new("InvalidSecurityGroup.Duplicate => The security group '#{name}' already exists")
-          end
+          data = {
+            'id'           => Fog::Mock.random_numbers(3),
+            'name'         => name,
+            'description'  => description,
+            'tenant_id'    => Fog::HP::Mock.user_id,
+            'rules'        => []
+          }
+          self.data[:last_modified][:security_groups][data['id']] = Time.now
+          self.data[:security_groups][data['id']] = data
+
+          response.body = { 'security_group' => data }
+          response
         end
 
       end
