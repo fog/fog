@@ -35,21 +35,13 @@ module Fog
         def describe_db_instances(identifier=nil, opts={})
           response = Excon::Response.new
           if identifier
-            if self.data[:servers].has_key?(identifier)
-              servers_set = self.data[:servers][identifier]
+            if server_set = self.data[:servers][identifier]
               response.status = 200
               response.body = {
                 "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
-                "DescribeDBInstancesResult" => { "DBInstances" => [servers_set] }
+                "DescribeDBInstancesResult" => { "DBInstances" => [server_set] }
               }
-              
-              
             else
-              response.status = 404
-              response.body =  {
-                "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
-                "DescribeDBInstancesResult" => { "DBInstances" => 'DBInstanceNotFound' }
-              }
               raise Fog::AWS::RDS::NotFound.new("DBInstance #{identifier} not found")
             end
             
