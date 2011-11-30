@@ -9,6 +9,7 @@ module Fog
 
       requires :libvirt_uri
       recognizes :libvirt_username, :libvirt_password
+      recognizes :libvirt_ip_command
 
       model_path 'fog/libvirt/models/compute'
       model       :server
