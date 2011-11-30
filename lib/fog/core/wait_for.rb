@@ -4,7 +4,7 @@ module Fog
     duration = 0
     start = Time.now
     until yield || duration > timeout
-      sleep(interval)
+      sleep(interval.to_f)
       duration = Time.now - start
     end
     if duration > timeout
