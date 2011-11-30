@@ -22,6 +22,7 @@ module Fog
 
         def delete_key_pair(key_name)
           response = Excon::Response.new
+          self.data[:last_modified][:key_pairs].delete(key_name)
           self.data[:key_pairs].delete(key_name)
           response.status = 202
           response.body = "202 Accepted\n\nThe request is accepted for processing.\n\n   "
