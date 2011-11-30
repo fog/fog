@@ -10,8 +10,11 @@ module Fog
 
         undef_method :create
 
+        attribute :href
+
         def all
-          data = connection.get_organization(organization_uri).body[:Link].select { |link| link[:type] == "application/vnd.vmware.vcloud.vdc+xml" }
+          links = (l=connection.get_organization(org_uri).body[:Link]).is_a?(Array) ? l : [l].compact
+          data = links.select { |link| link[:type] == "application/vnd.vmware.vcloud.vdc+xml" }
           data.each { |link| link.delete_if { |key, value| [:rel].include?(key) } }
           load(data)
         end
@@ -24,16 +27,11 @@ module Fog
           nil
         end
 
-        def organization_uri
-          @organization_uri ||= connection.default_organization_uri
-        end
-
         private
 
-        def organization_uri=(new_organization_uri)
-          @organization_uri = new_organization_uri
+        def org_uri
+          self.href ||= connection.default_organization_uri
         end
-
       end
     end
   end
