@@ -62,7 +62,7 @@ module Fog
                 'name'         => key_name
               }
             }
-            self.data[:last_modified][:servers][key_name] = Time.now
+            self.data[:last_modified][:key_pairs][key_name] = Time.now
             self.data[:key_pairs][key_name] = data
 
             response.body = data
