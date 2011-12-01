@@ -53,8 +53,15 @@ module Fog
                    server["availability_zone"] = region + 'a'
                    server["Endpoint"] = {"Port"=>3306, 
                                          "Address"=> Fog::AWS::Mock.rds_address(server["DBInstanceIdentifier"],region) }
-                   server["PendingModifiedValues"] = {"MasterUserPassword"=>"****"}
+                   server["PendingModifiedValues"] = {}
                  end
+              when "rebooting"
+                # it applies pending modified values
+                if server["PendingModifiedValues"]
+                  server.merge!(server["PendingModifiedValues"])
+                  server["PendingModifiedValues"] = {}
+                  server["DBInstanceStatus"] = 'available'
+                end
              end 
           end
           

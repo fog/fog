@@ -73,7 +73,7 @@ module Fog
                  "PreferredMaintenanceWindow"=>"mon:04:30-mon:05:00",
                  "Engine"=> options["Engine"],
                  "EngineVersion"=> options["EngineVersion"] || "5.1.57",
-                 "PendingModifiedValues"=>{},
+                 "PendingModifiedValues"=>{"MasterUserPassword"=>"****"}, # This clears when is available
                  "MultiAZ"=>false,
                  "MasterUsername"=> options["MasterUsername"],
                  "DBInstanceClass"=> options["DBInstanceClass"],
