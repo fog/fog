@@ -72,11 +72,11 @@ def tests(mocked)
   start = Time.now.to_i
   threads = []
   Thread.main[:results] = []
-  Fog.providers.each do |provider|
+  Fog.providers.each do |key, value|
     threads << Thread.new do
       Thread.main[:results] << {
-        :provider => provider,
-        :success  => sh("export FOG_MOCK=#{mocked} && bundle exec shindont +#{provider.downcase}")
+        :provider => value,
+        :success  => sh("export FOG_MOCK=#{mocked} && bundle exec shindont +#{key}")
       }
     end
   end
