@@ -3,11 +3,10 @@ module Fog
     class HP
       class Real
 
-        # Create a new security group
+        # Get details about a security group
         #
         # ==== Parameters
-        # * 'name'<~String> - name of the security group
-        # * 'description'<~String> - description of the security group
+        # * 'security_group_id'<~Integer> - Id of security group to get details for
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -29,19 +28,11 @@ module Fog
         #     * 'tenant_id'<~String> - tenant id of the user
         #
         # {Openstack API Reference}[http://docs.openstack.org]
-        def create_security_group(name, description)
-          data = {
-            'security_group' => {
-              'name'       => name,
-              'description' => description
-            }
-          }
-
+        def get_security_group(security_group_id)
           request(
-            :body     => MultiJson.encode(data),
-            :expects  => 200,
-            :method   => 'POST',
-            :path     => 'os-security-groups.json'
+            :expects  => [200],
+            :method   => 'GET',
+            :path     => "os-security-groups/#{security_group_id}"
           )
         end
 
@@ -49,26 +40,19 @@ module Fog
 
       class Mock
 
-        def create_security_group(name, description)
+        def get_security_group(security_group_id)
           response = Excon::Response.new
-          response.status = 200
-
-          data = {
-            'id'           => Fog::Mock.random_numbers(3),
-            'name'         => name,
-            'description'  => description,
-            'tenant_id'    => Fog::HP::Mock.user_id,
-            'rules'        => []
-          }
-          self.data[:last_modified][:security_groups][data['id']] = Time.now
-          self.data[:security_groups][data['id']] = data
-
-          response.body = { 'security_group' => data }
-          response
+          if self.data[:security_groups].include? (security_group_id)
+            sec_group = self.data[:security_groups]['#{security_group_id}']
+            response.status = 200
+            response.body = { 'security_group' => sec_group }
+            response
+          else
+            raise Fog::Compute::HP::NotFound
+          end
         end
 
       end
-
     end
   end
 end

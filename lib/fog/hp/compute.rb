@@ -31,6 +31,7 @@ module Fog
       request :delete_server
       request :get_flavor_details
       request :get_image_details
+      request :get_security_group
       request :get_server_details
       request :list_addresses
       request :list_private_addresses
