@@ -57,6 +57,7 @@ module Fog
       request :describe_images
       request :describe_instances
       request :describe_reserved_instances
+      request :describe_instance_status
       request :describe_key_pairs
       request :describe_placement_groups
       request :describe_regions
@@ -313,7 +314,7 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2011-05-15'
+              :version            => '2011-11-01'
             }
           )
 
