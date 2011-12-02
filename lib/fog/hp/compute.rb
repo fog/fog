@@ -15,6 +15,8 @@ module Fog
       collection  :images
       model       :key_pair
       collection  :key_pairs
+      model       :security_group
+      collection  :security_groups
       model       :server
       collection  :servers
 
