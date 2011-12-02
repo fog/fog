@@ -61,7 +61,7 @@ Cycling servers is great, but in order to actually ssh in we need to setup ssh k
 
     server = connection.servers.bootstrap(:private_key_path => '~/.ssh/id_rsa', :public_key_path => '~/.ssh/id_rsa.pub', :username => 'ubuntu')
 
-Bootstrap will create the server, but it will also make sure that port 22 is open for traffic and has ssh keys setup. The ssh key pair you specified will be registered under the name "fog_default" unless you've set `Fog.credential` to a custom string value. In order to hook everything up it will need the server to be running, so by the time it finishes it will be ready. You can then make commands to it directly:
+Bootstrap will create the server, but it will also make sure that port 22 is open for traffic and has ssh keys setup. The ssh key pair you specified will be registered under the name "fog_default" unless you've set `Fog.credential` to a custom string value. In order to hook everything up `bootstrap` will need the server to be running, so by the time it finishes it will be ready. You can then make commands to it directly:
 
     server.ssh('pwd')
     server.ssh(['pwd', 'whoami'])
