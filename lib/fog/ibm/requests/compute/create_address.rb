@@ -23,6 +23,19 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def create_address(location_id, offering_id="20001223", vlan_id=nil)
+          address         = Fog::IBM::Mock.create_address(location_id, offering_id, vlan_id)
+          self.data[:addresses][address['id']] = address
+          response        = Excon::Response.new
+          response.status = 200
+          response.body   = address
+          response
+        end
+
+      end
     end
   end
 end

@@ -22,6 +22,23 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def create_image(instance_id, name, description)
+          response = Excon::Response.new
+          if instance_exists? instance_id
+            image = Fog::IBM::Mock.private_image(name, description)
+            self.data[:images][image["id"]] = image
+            response.status = 200
+            response.body = image
+          else
+            response.status = 404
+          end
+          response
+        end
+
+      end
     end
   end
 end

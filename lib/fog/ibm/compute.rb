@@ -81,8 +81,144 @@ module Fog
 
       class Mock
 
-        def request(options)
-          Fog::Mock.not_implemented
+        def self.data
+          @data ||= Hash.new do |hash, key|
+            hash[key] = {
+              :instances    => {},
+              :images       => populate_images,
+              :keys         => {},
+              :locations    => populate_locations,
+              :private_keys => {},
+              :volumes      => {},
+              :addresses    => {}
+            }
+          end
+        end
+
+        def self.reset
+          @data = nil
+        end
+
+        def data
+          self.class.data[@ibm_user_id]
+        end
+
+        def reset_data
+          self.class.data.delete(@ibm_user_id)
+          @data = self.class.data[@ibm_user_id]
+        end
+
+        def initialize(options={})
+          @ibm_user_id  = options[:ibm_user_id]
+          @ibm_password = options[:ibm_password]
+          @data = self.class.data[@ibm_user_id]
+        end
+
+        def self.populate_images
+          images = {}
+          images["20015393"] = {
+            "name"=>"SUSE Linux Enterprise Server 11 SP1 for x86 (TOR)",
+            "manifest"=>"https://www-147.ibm.com/cloud/enterprise/ram.ws/RAMSecure/artifact/{53575245-38D1-A40F-D8E0-8106DC68047D}/1.0/parameters.xml",
+            "state"=>1,
+            "visibility"=>"PUBLIC",
+            "owner"=>"SYSTEM",
+            "architecture"=>"i386",
+            "platform"=>"SUSE Linux Enterprise Server/11 SP1",
+            "createdTime"=>1296361572466,
+            "location"=>"101",
+            # HOLY METADATA BATMAN!
+            "supportedInstanceTypes"=>[
+              {"detail"=>"Silver - 32 bit (vCPU: 2, RAM: 4 GiB, Disk: 410 GiB)", "label"=>"Silver 32 bit",
+               "price"=>{"rate"=>0.2, "unitOfMeasure"=>"UHR", "countryCode"=>"897", "effectiveDate"=>1313107200000, "currencyCode"=>"USD", "pricePerQuantity"=>1}, "id"=>"SLV32.2/4096/60*350"},
+              {"detail"=>"Bronze - 32 bit (vCPU: 1, RAM: 2 GiB, Disk: 235 GiB)", "label"=>"Bronze 32 bit",
+                "price"=>{"rate"=>0.115, "unitOfMeasure"=>"UHR", "countryCode"=>"897", "effectiveDate"=>1313107200000, "currencyCode"=>"USD", "pricePerQuantity"=>1}, "id"=>"BRZ32.1/2048/60*175"},
+              {"detail"=>"Gold - 32 bit (vCPU: 4, RAM: 4 GiB, Disk: 410 GiB)", "label"=>"Gold 32 bit",
+                "price"=>{"rate"=>0.33, "unitOfMeasure"=>"UHR", "countryCode"=>"897", "effectiveDate"=>1313107200000, "currencyCode"=>"USD", "pricePerQuantity"=>1}, "id"=>"GLD32.4/4096/60*350"},
+              {"detail"=>"Copper - 32 bit (vCPU: 1, RAM: 2 GiB, Disk: 60 GiB)", "label"=>"Copper 32 bit",
+                "price"=>{"rate"=>0.095, "unitOfMeasure"=>"UHR", "countryCode"=>"897", "effectiveDate"=>1313107200000, "currencyCode"=>"USD", "pricePerQuantity"=>1}, "id"=>"COP32.1/2048/60"}],
+            "productCodes"=>["caondc1Sr7dKs9ARDmuPy6WPgV"],
+            "documentation"=>"https://www-147.ibm.com/cloud/enterprise/ram.ws/RAMSecure/artifact/{53575245-38D1-A40F-D8E0-8106DC68047D}/1.0/GettingStarted.html",
+            "id"=>"20015393",
+            "description"=>"Suse Linux 32 bit - for TOR datacenter"
+          }
+          images
+        end
+
+        def self.populate_locations
+          locations = {}
+          locations["41"] = {
+            "state"=>1,
+            "location"=>"RTP",
+            "capabilities"=>[
+              {"entries"=>{"EXT3"=>["ext3"], "RAW"=>["raw"]}, "id"=>"oss.storage.format"},
+              {"entries"=>{}, "id"=>"oss.instance.spec.i386"},
+              {"entries"=>{}, "id"=>"oss.instance.spec.x86_64"},
+              {"entries"=>{}, "id"=>"oss.storage.availabilityarea"}],
+            "name"=>"Raleigh, U.S.A",
+            "id"=>"41",
+            "description"=>"This data center is located in Raleigh, North Carolina, U.S.A. The services provided are: Guest Instances, Image Capture, Persistent Storage, Reserved IP, Private VLAN/VPN."
+          }
+          locations["61"] = {
+            "state"=>1,
+            "location"=>"EHN",
+            "capabilities"=>[
+              {"entries"=>{"EXT3"=>["ext3"], "RAW"=>["raw"]}, "id"=>"oss.storage.format"},
+              {"entries"=>{}, "id"=>"oss.instance.spec.i386"},
+              {"entries"=>{}, "id"=>"oss.instance.spec.x86_64"},
+              {"entries"=>{}, "id"=>"oss.storage.availabilityarea"}],
+            "name"=>"Ehningen, Germany",
+            "id"=>"61",
+            "description"=>"This data center is located in Ehningen(near Baden-Wurttemberg), Germany. The services provided are: Guest Instances, Image Capture, Persistent Storage, Reserved IP, Private VLAN/VPN."
+          }
+          locations["82"] = {
+            "state"=>1,
+            "location"=>"us-co-dc1",
+            "capabilities"=>[
+              {"entries"=>{"EXT3"=>["ext3"], "RAW"=>["raw"]}, "id"=>"oss.storage.format"},
+              {"entries"=>{}, "id"=>"oss.instance.spec.i386"},
+              {"entries"=>{}, "id"=>"oss.instance.spec.x86_64"},
+              {"entries"=>{}, "id"=>"oss.storage.availabilityarea"}],
+            "name"=>"Boulder1, U.S.A",
+            "id"=>"82",
+            "description"=>"This data center is located in Boulder(near Denver), Colorado, U.S.A. The services provided are: Guest Instances, Image Capture, Persistent Storage, Reserved IP, Private VLAN/VPN."
+          }
+          locations["101"] = {
+            "state"=>1,
+            "location"=>"ca-on-dc1",
+            "capabilities"=>[
+              {"entries"=>{"EXT3"=>["ext3"], "RAW"=>["raw"]}, "id"=>"oss.storage.format"},
+              {"entries"=>{}, "id"=>"oss.instance.spec.i386"},
+              {"entries"=>{}, "id"=>"oss.instance.spec.x86_64"},
+              {"entries"=>{}, "id"=>"oss.storage.availabilityarea"}],
+            "name"=>"Markham, Canada",
+            "id"=>"101",
+            "description"=>"This data center is located in Markham(near Toronto), Ontario, Canada. The services provided are: Guest Instances, Image Capture, Persistent Storage, Reserved IP, Private VLAN/VPN."
+          }
+          locations["121"] = {
+            "state"=>1,
+            "location"=>"ap-jp-dc1",
+            "capabilities"=>[
+              {"entries"=>{"EXT3"=>["ext3"], "RAW"=>["raw"]}, "id"=>"oss.storage.format"},
+              {"entries"=>{}, "id"=>"oss.instance.spec.i386"},
+              {"entries"=>{}, "id"=>"oss.instance.spec.x86_64"},
+              {"entries"=>{}, "id"=>"oss.storage.availabilityarea"}],
+            "name"=>"Makuhari, Japan",
+            "id"=>"121",
+            "description"=>"This data center is located in Makuhari(near Tokoyo), Japan. The services provided are: Guest Instances, Image Capture, Persistent Storage, Reserved IP, Private VLAN/VPN."
+          }
+          locations["141"] = {
+            "state"=>1,
+            "location"=>"ap-sg-dc1",
+            "capabilities"=>[
+              {"entries"=>{"EXT3"=>["ext3"], "RAW"=>["raw"]}, "id"=>"oss.storage.format"},
+              {"entries"=>{}, "id"=>"oss.instance.spec.i386"},
+              {"entries"=>{}, "id"=>"oss.instance.spec.x86_64"},
+              {"entries"=>{}, "id"=>"oss.storage.availabilityarea"}],
+            "name"=>"Singapore, Singapore",
+            "id"=>"141",
+            "description"=>"This data center is located in Singapore. The services provided are: Guest Instances, Image Capture, Persistent Storage, Reserved IP, Private VLAN/VPN."
+          }
+          locations
         end
 
       end

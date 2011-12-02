@@ -32,6 +32,26 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def create_instance(name="fog instance", image_id="20018425", instance_type="COP32.1/2048/60", location="101", public_key="fog", options={})
+          response = Excon::Response.new
+          # Since we want to test error conditions, we have a little regex that traps specially formed
+          # instance type strings.
+          case name
+          when /FAIL:\ (\d{3})/
+            response.status = $1
+          else
+            instance = Fog::IBM::Mock.create_instance(name, image_id, instance_type, location, public_key, options)
+            self.data[:instances][instance['id']] = instance
+            response.status = 200
+            response.body = {"instances" => [ instance ]}
+          end
+          response
+        end
+
+      end
     end
   end
 end

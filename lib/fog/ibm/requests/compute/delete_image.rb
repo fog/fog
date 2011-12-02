@@ -18,6 +18,23 @@ module Fog
         end
 
       end
+      class Mock
+
+        def delete_image(image_id)
+          response = Excon::Response.new
+          # TODO: We should probably check that an image is deleteable.
+          # i.e. that the user has appropriate permissions
+          if image_exists? image_id
+            self.data[:images].delete image_id
+            response.status = 200
+            response.body = {"success"=>true}
+          else
+            response.status = 404
+          end
+          response
+        end
+
+      end
     end
   end
 end

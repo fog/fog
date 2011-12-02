@@ -18,6 +18,17 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def list_locations
+          response = Excon::Response.new
+          response.status = 200
+          response.body = { "locations" => self.data[:locations].values }
+          response
+        end
+
+      end
     end
   end
 end

@@ -23,6 +23,18 @@ module Fog
             }
           )
         end
+      end
+
+      class Mock
+
+        def create_volume(name, offering_id, format, location_id, size)
+          volume          = Fog::IBM::Mock.create_volume(name, format, location_id, size, offering_id)
+          self.data[:volumes][volume['id']] = volume
+          response        = Excon::Response.new
+          response.status = 200
+          response.body   = format_get_volume_response_for(volume['id'])
+          response
+        end
 
       end
     end

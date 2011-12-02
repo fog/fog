@@ -18,6 +18,25 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def get_key(key_name)
+          response = Excon::Response.new
+          if key_exists? key_name
+            response.status = 200
+            response.body = self.data[:keys][key_name]
+          else
+            response.status = 404
+          end
+          response
+        end
+
+        def key_exists?(name)
+          self.data[:keys].key? name
+        end
+
+      end
     end
   end
 end

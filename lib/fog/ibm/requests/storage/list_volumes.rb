@@ -19,6 +19,17 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def list_volumes
+          response = Excon::Response.new
+          response.status = 200
+          response.body = { 'volumes' => format_list_volumes_response }
+          response
+        end
+
+      end
     end
   end
 end

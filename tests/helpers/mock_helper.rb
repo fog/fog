@@ -30,6 +30,8 @@ if Fog.mock?
     :go_grid_shared_secret            => 'go_grid_shared_secret',
     :google_storage_access_key_id     => 'google_storage_access_key_id',
     :google_storage_secret_access_key => 'google_storage_secret_access_key',
+    :ibm_user_id                      => 'ibm_user_id',
+    :ibm_password                     => 'ibm_password',
     :joyent_username                  => "joyentuser",
     :joyent_password                  => "joyentpass",
     :linode_api_key                   => 'linode_api_key',
