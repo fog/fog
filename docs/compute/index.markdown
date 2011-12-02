@@ -71,7 +71,7 @@ These return an array of results, where each has stdout, stderr and status value
     server.destroy
 
 
-### Managing multiple ssh key pairs
+### Managing multiple ssh key pairs on EC2
 
 The key pair you've specified, will be registered as "fog\_default" after running `bootstrap` for the first time. If you want to use multiple key pairs with the same AWS credentials, you need to set `Fog.credential` to register your other key pairs under different names. Your additional key pair will then be registered as "fog\_#{Fog.credential}":
 
