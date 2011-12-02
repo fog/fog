@@ -48,17 +48,28 @@ module Fog
 
         def create_db_instance(db_name, options={})
           response = Excon::Response.new
+          if self.data[:servers] and self.data[:servers][db_name]
+            # I don't know how to raise an exception that contains the excon data
+            #response.status = 400
+            #response.body = {
+            #  'Code' => 'DBInstanceAlreadyExists',
+            #  'Message' => "DB Instance already exists"
+            #}
+            #return response
+            raise Fog::AWS::RDS::IdentifierTaken.new("DBInstanceAlreadyExists #{response.body.to_s}")
+          end
+          
           # These are the required parameters according to the API
           required_params = %w{AllocatedStorage DBInstanceClass Engine MasterUserPassword MasterUsername }
           required_params.each do |key|
             unless options.has_key?(key) and options[key] and !options[key].to_s.empty?
-              response.status = 400
-              #response.body['Message'] = "The request must contain the parameter #{key}"
-              response.body = {
-                'Code' => 'MissingParameter'
-              }
-              response.body['Message'] = "The request must contain the parameter #{key}"
-              return response
+              #response.status = 400
+              #response.body = {
+              #  'Code' => 'MissingParameter',
+              #  'Message' => "The request must contain the parameter #{key}"
+              #}
+              #return response
+              raise Fog::AWS::RDS::NotFound.new("The request must contain the parameter #{key}")
             end
           end
           
