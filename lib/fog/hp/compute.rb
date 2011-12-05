@@ -26,6 +26,7 @@ module Fog
       request :create_image
       request :create_key_pair
       request :create_security_group
+      request :create_security_group_rule
       request :create_server
       request :delete_image
       request :delete_key_pair
