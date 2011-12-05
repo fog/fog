@@ -54,10 +54,10 @@ module Fog
           response.status = 200
 
           data = {
-            'id'           => Fog::Mock.random_numbers(3),
+            'id'           => Fog::Mock.random_numbers(3).to_s,
             'name'         => name,
             'description'  => description,
-            'tenant_id'    => Fog::HP::Mock.user_id,
+            'tenant_id'    => Fog::HP::Mock.user_id.to_s,
             'rules'        => []
           }
           self.data[:last_modified][:security_groups][data['id']] = Time.now

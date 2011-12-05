@@ -24,7 +24,7 @@ module Fog
 
         def delete_security_group(security_group_id)
           response = Excon::Response.new
-          if self.data[:security_groups].include? (security_group_id)
+          if self.data[:security_groups][security_group_id]
             self.data[:last_modified][:security_groups].delete(security_group_id)
             self.data[:security_groups].delete(security_group_id)
             response.status = 202

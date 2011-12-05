@@ -42,8 +42,7 @@ module Fog
 
         def get_security_group(security_group_id)
           response = Excon::Response.new
-          if self.data[:security_groups].include? (security_group_id)
-            sec_group = self.data[:security_groups]['#{security_group_id}']
+          if sec_group = self.data[:security_groups][security_group_id]
             response.status = 200
             response.body = { 'security_group' => sec_group }
             response
