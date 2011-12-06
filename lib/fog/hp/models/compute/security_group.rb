@@ -31,7 +31,6 @@ module Fog
         def create_rule(range, ip_protocol = "tcp", cidr = "0.0.0.0/0", group_id=nil)
           requires :id
           connection.create_security_group_rule(id, ip_protocol, range.min, range.max, cidr, group_id)
-          true
         end
 
         def delete_rule(rule_id)
