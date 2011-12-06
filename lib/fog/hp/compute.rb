@@ -21,6 +21,7 @@ module Fog
       collection  :servers
 
       request_path 'fog/hp/requests/compute'
+      request :allocate_address
       request :change_password_server
       #request :confirm_resized_server
       request :create_image
@@ -64,12 +65,14 @@ module Fog
                 :images  => {},
                 :key_pairs => {},
                 :security_groups => {},
-                :servers => {}
+                :servers => {},
+                :addresses => {}
               },
               :images  => {},
               :key_pairs => {},
               :security_groups => {},
-              :servers => {}
+              :servers => {},
+              :addresses => {}
             }
           end
         end
