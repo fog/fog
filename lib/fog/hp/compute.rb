@@ -31,6 +31,7 @@ module Fog
       request :delete_image
       request :delete_key_pair
       request :delete_security_group
+      request :delete_security_group_rule
       request :delete_server
       request :get_flavor_details
       request :get_image_details

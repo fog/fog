@@ -44,21 +44,22 @@ module Fog
 
         def create_security_group_rule(parent_group_id, ip_protocol, from_port, to_port, cidr, group_id=nil)
           response = Excon::Response.new
-
-          if self.data[:security_groups].has_key?("#{parent_group_id}")
+          group = self.data[:security_groups]["#{parent_group_id}"]
+          if group
+            group['rules'] ||= {}
             response.status = 200
             data = {
               'from_port'       => from_port,
               'group'           => {},
               'ip_protocol'     => ip_protocol,
               'to_port'         => to_port,
-              'parent_group_id' => parent_group_id,
+              'parent_group_id' => parent_group_id.to_s,
               'ip_range'        => {
                 'cidr' => cidr
               },
-              'id'              => Fog::Mock.random_numbers(3),
+              'id'              => Fog::Mock.random_numbers(3).to_s,
             }
-            self.data[:security_groups]["#{parent_group_id}"]['rules'] = data
+            group['rules'][data['id']] = data
 
             response.body = { 'security_group_rule' => data }
             response
