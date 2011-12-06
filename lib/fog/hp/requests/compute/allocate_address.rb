@@ -8,10 +8,11 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'id'<~Integer> - Id of the address
-        #     * 'ip'<~String> - Floating IP of the address
-        #     * 'instance_id'<~String> - Id of the associated server instance
-        #     * 'fixed_ip'<~String> - Fixed IP of the address
+        #     * 'floating_ip'<~Hash> -
+        #       * 'id'<~Integer> - Id of the address
+        #       * 'ip'<~String> - Floating IP of the address
+        #       * 'instance_id'<~String> - Id of the associated server instance
+        #       * 'fixed_ip'<~String> - Fixed IP of the address
         def allocate_address
 
           request(
