@@ -51,6 +51,7 @@ module Fog
       request :list_servers_detail
       request :reboot_server
       request :rebuild_server
+      request :release_address
       #request :resize_server
       #request :revert_resized_server
       request :server_action
