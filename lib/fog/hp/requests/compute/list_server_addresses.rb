@@ -3,7 +3,7 @@ module Fog
     class HP
       class Real
 
-        # List public server addresses
+        # List all server addresses
         #
         # ==== Parameters
         # * server_id<~Integer> - Id of server to list addresses for
@@ -11,12 +11,14 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
+        #   * 'addresses'<~Array>:
         #     * 'public'<~Array> - Public ip addresses
-        def list_public_addresses(server_id)
+        #     * 'private'<~Array> - Private ip addresses
+        def list_server_addresses(server_id)
           request(
             :expects  => [200, 203],
             :method   => 'GET',
-            :path     => "servers/#{server_id}/ips/public.json"
+            :path     => "servers/#{server_id}/ips.json"
           )
         end
 
@@ -24,11 +26,11 @@ module Fog
 
       class Mock
 
-        def list_public_addresses(server_id)
+        def list_server_addresses(server_id)
           response = Excon::Response.new
           if server = list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
             response.status = [200, 203][rand(1)]
-            response.body = { 'public' => server['addresses']['public'] }
+            response.body = { 'addresses' => server['addresses'] }
             response
           else
             raise Fog::Compute::HP::NotFound

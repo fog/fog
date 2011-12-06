@@ -39,15 +39,15 @@ module Fog
       request :get_image_details
       request :get_security_group
       request :get_server_details
-      request :list_addresses
-      request :list_private_addresses
-      request :list_public_addresses
       request :list_flavors
       request :list_flavors_detail
       request :list_images
       request :list_images_detail
       request :list_key_pairs
       request :list_security_groups
+      request :list_server_addresses
+      request :list_server_private_addresses
+      request :list_server_public_addresses
       request :list_servers
       request :list_servers_detail
       request :reboot_server
