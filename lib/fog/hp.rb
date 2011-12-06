@@ -61,6 +61,19 @@ module Fog
       def self.user_id
         "dev_" + Fog::Mock.random_numbers(14)
       end
+
+      def self.instance_id
+        Fog::Mock.random_numbers(6)
+      end
+
+      def self.ip_address
+        ip = []
+        4.times do
+          ip << Fog::Mock.random_numbers(rand(3) + 1).to_i.to_s # remove leading 0
+        end
+        ip.join('.')
+      end
+
     end
 
   end
