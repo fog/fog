@@ -39,6 +39,7 @@ module Fog
       request :get_image_details
       request :get_security_group
       request :get_server_details
+      request :list_addresses
       request :list_flavors
       request :list_flavors_detail
       request :list_images
