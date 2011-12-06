@@ -61,6 +61,16 @@ module Fog
               }
             end
           end
+          if options['key_name']
+            data['server']['key_name'] = options['key_name']
+          end
+          if options['security_group']
+            data['server']['security_group'] = options['security_group']
+          end
+          if options['availability_zone']
+            data['server']['availability_zone'] = options['availability_zone']
+          end
+
           request(
             :body     => MultiJson.encode(data),
             :expects  => 202,
