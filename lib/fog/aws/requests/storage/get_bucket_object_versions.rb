@@ -93,7 +93,7 @@ module Fog
                   'LastModified' => Time.parse(object['Last-Modified']),
                   'Owner'        => bucket['Owner'],
                   'Size'         => object['Content-Length'].to_i,
-                  'IsLatest'     => true
+                  'IsLatest'     => object == bucket[:objects][object['Key']].last
                 })
               data
             end
