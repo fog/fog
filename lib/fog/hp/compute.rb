@@ -9,6 +9,8 @@ module Fog
       recognizes  :hp_auth_uri, :hp_servicenet, :persistent, :connection_options
 
       model_path 'fog/hp/models/compute'
+      model       :address
+      collection  :addresses
       model       :flavor
       collection  :flavors
       model       :image
