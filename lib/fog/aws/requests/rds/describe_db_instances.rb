@@ -40,9 +40,10 @@ module Fog
               server_set << server
             else
               raise Fog::AWS::RDS::NotFound.new("DBInstance #{identifier} not found")
-            end 
+            end
+          else
+            server_set = self.data[:servers].values
           end
-          server_set = self.data[:servers].values
           
           server_set.each do |server|
              case server["DBInstanceStatus"]
