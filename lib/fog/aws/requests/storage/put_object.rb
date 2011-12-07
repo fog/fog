@@ -70,7 +70,8 @@ module Fog
               'Key'             => object_name,
               'Last-Modified'   => Fog::Time.now.to_date_header,
               'Content-Length'  => options['Content-Length'] || data[:headers]['Content-Length'],
-              'StorageClass'    => options['x-amz-storage-class'] || 'STANDARD'
+              'StorageClass'    => options['x-amz-storage-class'] || 'STANDARD',
+              'VersionId'       => bucket[:versioning] == 'Enabled' ? Fog::Mock.random_base64(32) : 'null'
             }
 
             for key, value in options
@@ -80,7 +81,8 @@ module Fog
               end
             end
 
-            bucket[:objects][object_name] = object
+            bucket[:objects][object_name] ||= []
+            bucket[:objects][object_name] << object
             response.headers = {
               'Content-Length'  => object['Content-Length'],
               'Content-Type'    => object['Content-Type'],

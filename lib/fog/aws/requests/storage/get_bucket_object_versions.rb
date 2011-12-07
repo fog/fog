@@ -65,10 +65,70 @@ module Fog
             :idempotent => true,
             :method   => 'GET',
             :parser   => Fog::Parsers::Storage::AWS::GetBucketObjectVersions.new,
-            :query    => {'versions' => nil}.merge!(options)
-          })
+            :query    => {'versions' => nil}.merge!(options)          })
         end
 
+      end
+
+      class Mock
+        def get_bucket_object_versions(bucket_name, options = {})
+          delimiter, key_marker, max_keys, prefix, version_id_marker = \
+            options['delimiter'], options['key_marker'], options['max_keys'],options['prefix'],options['version_id_marker']
+
+          unless bucket_name
+            raise ArgumentError.new('bucket_name is required')
+          end
+
+          response = Excon::Response.new
+          if bucket = self.data[:buckets][bucket_name]
+            contents = bucket[:objects].values.flatten.sort {|x,y| x['Key'] <=> y['Key']}.reject do |object|
+                (prefix      && object['Key'][0...prefix.length] != prefix) ||
+                (key_marker  && object['Key'] <= key_marker) ||
+                (delimiter   && object['Key'][(prefix ? prefix.length : 0)..-1].include?(delimiter) \
+                             && common_prefixes << object['Key'].sub(/^(#{prefix}[^#{delimiter}]+.).*/, '\1'))
+              end.map do |object|
+                data = { 'Version' => {} }
+                data['Version'] = object.reject {|key, value| !['ETag', 'Key', 'StorageClass', 'VersionId'].include?(key)}
+                data['Version'].merge!({
+                  'LastModified' => Time.parse(object['Last-Modified']),
+                  'Owner'        => bucket['Owner'],
+                  'Size'         => object['Content-Length'].to_i,
+                  'IsLatest'     => true
+                })
+              data
+            end
+
+            max_keys = max_keys || 1000
+            size = [max_keys, 1000].min
+            truncated_contents = contents[0...size]
+
+            response.status = 200
+            response.body = {
+              'Versions'        => truncated_contents,
+              'IsTruncated'     => truncated_contents.size != contents.size,
+              'KeyMarker'       => key_marker,
+              'VersionIdMarker' => version_id_marker,
+              'MaxKeys'         => max_keys,
+              'Name'            => bucket['Name'],
+              'Prefix'          => prefix
+            }
+            if max_keys && max_keys < response.body['Versions'].length
+                response.body['IsTruncated'] = true
+                response.body['Versions'] = response.body['Versions'][0...max_keys]
+            end
+          else
+            response.status = 403
+            response.body = {
+              'Error' => {
+                'Code' => 'AccessDenied',
+                'Message' => 'AccessDenied',
+                'RequestId' => Fog::Mock.random_hex(16),
+                'HostId' => Fog::Mock.random_base64(65)
+              }
+            }
+          end
+          response
+        end
       end
     end
   end
