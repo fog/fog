@@ -3,7 +3,7 @@ module Fog
     class HP
       class Real
 
-        # Reboot an existing server
+        # Server actions for an existing server
         #
         # ==== Parameters
         # * server_id<~Integer> - Id of server to reboot
