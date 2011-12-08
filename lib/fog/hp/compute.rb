@@ -24,6 +24,7 @@ module Fog
 
       request_path 'fog/hp/requests/compute'
       request :allocate_address
+      request :associate_address
       request :change_password_server
       #request :confirm_resized_server
       request :create_image
@@ -36,6 +37,7 @@ module Fog
       request :delete_security_group
       request :delete_security_group_rule
       request :delete_server
+      request :disassociate_address
       request :get_address
       request :get_flavor_details
       request :get_image_details
