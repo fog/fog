@@ -55,6 +55,11 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
       end
 
       @instance.wait_for { ready? }
+      tests("#enable_health_monitor('HTTP', 10, 5, 2, {:status_regex => '^[234][0-9][0-9]$', :path=>'/', :body_regex=>' '})").succeeds do
+        @instance.enable_health_monitor('HTTP', 10, 5, 2, {:status_regex => '^[234][0-9][0-9]$', :path=>'/', :body_regex=>' '})
+      end
+
+      @instance.wait_for { ready? }
       tests("#disable_health_monitor").succeeds do
         @instance.disable_health_monitor
       end

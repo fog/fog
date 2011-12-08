@@ -94,7 +94,7 @@ module Fog
 
         def enable_health_monitor(type, delay, timeout, attempsBeforeDeactivation, options = {})
           requires :identity
-          connection.set_monitor(identity, type, delay, timeout, attempsBeforeDeactivation, options = {})
+          connection.set_monitor(identity, type, delay, timeout, attempsBeforeDeactivation, options)
           true
         end
 
