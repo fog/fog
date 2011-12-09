@@ -13,6 +13,17 @@ module Fog
         Fog::SCP.new(public_ip_address, username, scp_options).upload(local_path, remote_path, upload_options)
       end
 
+      alias_method :scp_upload, :scp
+
+      def scp_download(remote_path, local_path, download_options = {})
+        require 'net/scp'
+        requires :public_ip_address, :username
+
+        scp_options = {}
+        scp_options[:key_data] = [private_key] if private_key
+        Fog::SCP.new(public_ip_address, username, scp_options).download(remote_path, local_path, download_options)
+      end
+
       def ssh(commands, options={})
         require 'net/ssh'
         requires :public_ip_address, :username
