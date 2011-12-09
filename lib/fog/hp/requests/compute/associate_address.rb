@@ -20,8 +20,15 @@ module Fog
 
         def associate_address(server_id, ip_address)
           response = Excon::Response.new
-          response.status = 202
-          response
+          if server = self.data[:servers][server_id]
+            data = {"version"=>4, "addr"=>"#{ip_address}"}
+            server['addresses']['novanet_7'] << data
+
+            response.status = 202
+            response
+          else
+            raise Fog::Compute::HP::Error.new("InvalidServer.NotFound => The server '#{server_id}' does not exist.")
+          end
         end
 
       end
