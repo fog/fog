@@ -11,12 +11,11 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #   * 'addresses'<~Array>:
-        #     * 'public'<~Array> - Public ip addresses
-        #     * 'private'<~Array> - Private ip addresses
+        #   * 'addresses'<~Hash>:
+        #     *  'novanet_7':<~Array>  - The network name can change based on setup
         def list_server_addresses(server_id)
           request(
-            :expects  => [200, 203],
+            :expects  => 200,
             :method   => 'GET',
             :path     => "servers/#{server_id}/ips.json"
           )
@@ -29,7 +28,7 @@ module Fog
         def list_server_addresses(server_id)
           response = Excon::Response.new
           if server = list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
-            response.status = [200, 203][rand(1)]
+            response.status = 200
             response.body = { 'addresses' => server['addresses'] }
             response
           else
