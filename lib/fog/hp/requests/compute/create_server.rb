@@ -88,7 +88,7 @@ module Fog
           response.status = 202
 
           data = {
-            'addresses' => { 'private' => ['0.0.0.0'], 'public' => ['0.0.0.0'] },
+            'addresses' => { "novanet_7"=>[{"version"=>4, "addr"=>Fog::HP::Mock.ip_address}] },
             'flavor'    => {"id"=>"1", "links"=>[{"href"=>"http://nova1:8774/admin/flavors/1", "rel"=>"bookmark"}]},
             'id'        => Fog::Mock.random_numbers(6).to_s,
             'image'     => {"id"=>"3", "links"=>[{"href"=>"http://nova1:8774/admin/images/3", "rel"=>"bookmark"}]},
@@ -99,7 +99,10 @@ module Fog
             'accessIPv4'  => options['accessIPv4'] || "",
             'accessIPv6'  => options['accessIPv6'] || "",
             'progress'  => 0,
-            'status'    => 'BUILD'
+            'status'    => 'BUILD',
+            'user_id'   => Fog::HP::Mock.user_id.to_s,
+            'tenant_id' => Fog::HP::Mock.user_id.to_s,
+            'key_name'  => options['key_name'] || "",
           }
           self.data[:last_modified][:servers][data['id']] = Time.now
           self.data[:servers][data['id']] = data
