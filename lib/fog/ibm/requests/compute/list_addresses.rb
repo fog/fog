@@ -29,12 +29,21 @@ module Fog
         end
 
       end
+
       class Mock
 
         def list_addresses
-          response = Excon::Response.new
+          # Loop through addresses and update states and values if they aren't set
+          self.data[:addresses].values.each do |address|
+            address['state']    = 2 if address['state'] == 0
+            address['ip']       = Fog::IBM::Mock.ip_address if address['ip'].empty?
+            address['mode']     = 0 unless address.key? 'mode'
+            address['hostname'] = Fog::IBM::Mock.hostname unless address.key? 'hostname'
+            address['type']     = 1 unless address.key? 'type'
+          end
+          response        = Excon::Response.new
           response.status = 200
-          response.body = {'addresses' => self.data[:addresses].values}
+          response.body   = { 'addresses' => self.data[:addresses].values }
           response
         end
 
