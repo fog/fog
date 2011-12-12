@@ -1,4 +1,5 @@
 Shindo.tests('Fog::Rackspace::DNS | zone', ['rackspace']) do
+  pending if Fog.mocking?
 
   provider = Fog::DNS[:rackspace]
   domain_name = uniq_id + '.com'
