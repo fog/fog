@@ -2,6 +2,7 @@
 *.gem
 *.rbc
 *.sw?
+.rvmrc
 .bundle
 .DS_Store
 coverage
