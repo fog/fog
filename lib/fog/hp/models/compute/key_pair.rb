@@ -30,7 +30,7 @@ module Fog
           else
             connection.create_key_pair(name).body['keypair']
           end
-          new_attributes = data.reject {|key,value| !['user_id', 'fingerprint', 'public_key', 'private_key', 'name'].include?(key)}
+          new_attributes = data.reject {|key,value| !['fingerprint', 'public_key', 'name'].include?(key)}
           merge_attributes(new_attributes)
           true
         end
