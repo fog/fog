@@ -11,7 +11,9 @@ module Fog
         # * image_id<~Integer> - Id of image for server
         # * options<~Hash>:
         #   * 'metadata'<~Hash> - Up to 5 key value pairs containing 255 bytes of info
-        #   * 'name'<~String> - Name of server, defaults to "slice#{id}"
+        #   * 'key_name'<~String> - Name of keypair to be used
+        #   * 'security_groups'<~Array> - one or more security groups to be used
+        #   * 'availability_zone'<~String> - the availability zone to be used
         #   * 'personality'<~Array>: Up to 5 files to customize server
         #     * file<~Hash>:
         #       * 'contents'<~String> - Contents of file (10kb total of contents)
@@ -61,11 +63,21 @@ module Fog
               }
             end
           end
+          min_count = options['min_count'] || 1
+          max_count = options['max_count'] || min_count
+          data['server']['min_count'] = min_count
+          data['server']['max_count'] = max_count
+
           if options['key_name']
             data['server']['key_name'] = options['key_name']
           end
-          if options['security_group']
-            data['server']['security_group'] = options['security_group']
+          if options['security_groups']
+            data['server']['security_groups'] = []
+            for sg in options['security_groups']
+              data['server']['security_groups'] << {
+                'name' => sg
+              }
+            end
           end
           if options['availability_zone']
             data['server']['availability_zone'] = options['availability_zone']
