@@ -25,6 +25,11 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
         returns(true) { @instance.connection_logging }
       end
 
+      tests('#enable_connection_logging after reload').succeeds do
+        @instance.reload
+        returns(true) { @instance.connection_logging }
+      end
+
       @instance.wait_for { ready? }
       tests('#disable_connection_logging').succeeds do
         @instance.disable_connection_logging

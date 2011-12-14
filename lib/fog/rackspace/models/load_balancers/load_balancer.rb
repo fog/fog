@@ -70,10 +70,6 @@ module Fog
           virtual_ips.load(new_virtual_ips)
         end
 
-        def connection_logging
-          attributes[:connection_logging]
-        end
-
         def enable_connection_logging
           requires :identity
           connection.set_connection_logging identity, true
@@ -200,16 +196,15 @@ module Fog
         def connection_logging=(new_value)
           if !new_value.nil? and new_value.is_a?(Hash)
             attributes[:connection_logging] = case new_value['enabled']
-                                              when 'true'
+                                              when true,'true'
                                                 true
-                                              when 'false'
+                                              when false,'false'
                                                 false
                                               end
           else
             attributes[:connection_logging] = new_value
           end
         end
-
       end
     end
   end
