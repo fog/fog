@@ -16,9 +16,9 @@ Shindo.tests('Fog::Compute[:slicehost] | slice requests', ['slicehost']) do
 
     @slice_id = nil
 
-    tests("#create_slice(1, 19, 'fogcreateslice')").formats(@slice_format.merge('root-password' => String)) do
+    tests("#create_slice(1, 305, 'fogcreateslice')").formats(@slice_format.merge('root-password' => String)) do
       pending if Fog.mocking?
-      data = Fog::Compute[:slicehost].create_slice(1, 19, 'fogcreateslice').body
+      data = Fog::Compute[:slicehost].create_slice(1, 305, 'fogcreateslice').body
       @slice_id = data['id']
       data
     end
