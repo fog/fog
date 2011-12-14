@@ -28,6 +28,14 @@ module Fog
         attr_reader :password
         attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :image_id, :flavor_id
 
+        def initialize(attributes = {})
+          # assign these attributes first to prevent race condition with new_record?
+          self.security_groups = attributes.delete(:security_groups)
+          self.min_count = attributes.delete(:min_count)
+          self.max_count = attributes.delete(:max_count)
+          super
+        end
+
         def destroy
           requires :id
           connection.delete_server(id)
@@ -79,6 +87,18 @@ module Fog
 
         def flavor_id=(new_flavor_id)
           @flavor_id = new_flavor_id
+        end
+
+        def min_count=(new_min_count)
+          @min_count = new_min_count
+        end
+
+        def max_count=(new_max_count)
+          @max_count = new_max_count
+        end
+
+        def security_groups=(new_security_groups)
+          @security_groups = new_security_groups
         end
 
         def ready?
@@ -133,7 +153,11 @@ module Fog
             'metadata'    => metadata,
             'personality' => personality,
             'accessIPv4'  => accessIPv4,
-            'accessIPv6'  => accessIPv6
+            'accessIPv6'  => accessIPv6,
+            'min_count'   => @min_count,
+            'max_count'   => @max_count,
+            'key_name'    => key_name,
+            'security_groups' => @security_groups
           }
           options = options.reject {|key, value| value.nil?}
           data = connection.create_server(name, flavor_id, image_id, options)
