@@ -1,12 +1,12 @@
 = HP Cloud Extensions to Ruby Fog Library
 
-The HP provides a native Ruby wrapper through an HP Cloud developed Ruby Fog provider. By using
-the HP Cloud Ruby library, developers can write applications using Ruby that interact with the
+HP provides a native Ruby library through an HP Cloud developed extension to the Ruby Fog provider. By using
+the HP Cloud Ruby library, developers can write applications using Ruby that interacts with the
 HP Cloud Services without having to deal with the underlying REST API or XML document formats.
 
 == Background
 
-This library is an extension of Fog[https://github.com/geemus/fog], a Ruby open-source cloud
+This library is an extension of Fog[https://github.com/fog/fog], a Ruby open-source cloud
 computing library.
 
 Because the details of the HP Cloud Services are not formally announced, we are maintaining a
@@ -44,8 +44,8 @@ If you should ever need to remove the library:
 The Ruby Fog library is well documented on the community web site, but for specific examples
 using HP's extensions, see:
 
-* {HP Cloud Fog library - Object Storage Examples}[http://manage.hpcloud.com/pages/build/bindings/fog/object-storage-examples]
-* {HP Cloud Fog library - Compute Examples}[http://manage.hpcloud.com/pages/build/bindings/fog/compute-examples]
+* {HP Cloud Fog library - Object Storage Examples}[http://build.hpcloud.com/bindings/fog/object-storage]
+* {HP Cloud Fog library - Compute Examples}[http://build.hpcloud.com/bindings/fog/compute]
 
 
 
