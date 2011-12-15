@@ -87,14 +87,23 @@ module Fog
                 (delimiter   && object['Key'][(prefix ? prefix.length : 0)..-1].include?(delimiter) \
                              && common_prefixes << object['Key'].sub(/^(#{prefix}[^#{delimiter}]+.).*/, '\1'))
               end.map do |object|
-                data = { 'Version' => {} }
-                data['Version'] = object.reject {|key, value| !['ETag', 'Key', 'StorageClass', 'VersionId'].include?(key)}
-                data['Version'].merge!({
+                if object.has_key?(:delete_marker)
+                  tag_name = 'DeleteMarker'
+                  extracted_attrs = ['Key', 'VersionId']
+                else
+                  tag_name = 'Version'
+                  extracted_attrs = ['ETag', 'Key', 'StorageClass', 'VersionId']
+                end
+
+                data = {}
+                data[tag_name] = object.reject { |key, value| !extracted_attrs.include?(key) }
+                data[tag_name].merge!({
                   'LastModified' => Time.parse(object['Last-Modified']),
                   'Owner'        => bucket['Owner'],
-                  'Size'         => object['Content-Length'].to_i,
                   'IsLatest'     => object == bucket[:objects][object['Key']].last
                 })
+
+                data[tag_name]['Size'] = object['Content-Length'].to_i if tag_name == 'Version'
               data
             end
 

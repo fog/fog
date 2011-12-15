@@ -81,8 +81,13 @@ module Fog
               end
             end
 
-            bucket[:objects][object_name] ||= []
-            bucket[:objects][object_name] << object
+            if bucket[:versioning]
+              bucket[:objects][object_name] ||= []
+              bucket[:objects][object_name] << object
+            else
+              bucket[:objects][object_name] = [object]
+            end
+
             response.headers = {
               'Content-Length'  => object['Content-Length'],
               'Content-Type'    => object['Content-Type'],
