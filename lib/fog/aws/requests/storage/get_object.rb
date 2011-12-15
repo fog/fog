@@ -70,7 +70,8 @@ module Fog
           end
           response = Excon::Response.new
           if (bucket = self.data[:buckets][bucket_name])
-            if (object = bucket[:objects][object_name].last)
+            object = bucket[:objects][object_name].last if bucket[:objects].has_key?(object_name)
+            if (object && !object[:delete_marker])
               if options['If-Match'] && options['If-Match'] != object['ETag']
                 response.status = 412
               elsif options['If-Modified-Since'] && options['If-Modified-Since'] > Time.parse(object['Last-Modified'])

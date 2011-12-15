@@ -36,7 +36,20 @@ module Fog
           response = Excon::Response.new
           if bucket = self.data[:buckets][bucket_name]
             response.status = 204
-            bucket[:objects].delete(object_name)
+
+            if bucket[:versioning]
+              delete_marker = {
+                :delete_marker    => true,
+                'Key'             => object_name,
+                'VersionId'       => Fog::Mock.random_base64(32),
+                'Last-Modified'   => Fog::Time.now.to_date_header
+              }
+
+              bucket[:objects][object_name] ||= []
+              bucket[:objects][object_name] << delete_marker
+            else
+              bucket[:objects].delete(object_name)
+            end
           else
             response.status = 404
             raise(Excon::Errors.status_error({:expects => 204}, response))
