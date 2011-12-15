@@ -136,6 +136,8 @@ module Fog
             'rds.us-west-1.amazonaws.com'
           when 'us-west-2'
             'rds.us-west-2.amazonaws.com'
+          when 'sa-east-1'
+            'rds.sa-east-1.amazonaws.com'
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end
