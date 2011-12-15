@@ -16,6 +16,7 @@ module Fog
         #     * 'requestId'<~String> - Id of request
         #     * 'securityGroupInfo'<~Array>:
         #       * 'groupDescription'<~String> - Description of security group
+        #       * 'groupId'<~String> - ID of the security group.
         #       * 'groupName'<~String> - Name of security group
         #       * 'ipPermissions'<~Array>:
         #         * 'fromPort'<~Integer> - Start of port range (or -1 for ICMP wildcard)
@@ -59,6 +60,7 @@ module Fog
           aliases = {
             'description' => 'groupDescription',
             'group-name'  => 'groupName',
+            'group-id'    => 'groupId',
             'owner-id'    => 'ownerId'
           }
           permission_aliases = {
