@@ -80,7 +80,23 @@ module Fog
           end
 
           response = Excon::Response.new
-          if bucket = self.data[:buckets][bucket_name]
+
+          # Invalid arguments.
+          if version_id_marker && !key_marker
+            response.status = 400
+            response.body = {
+              'Error' => {
+                'Code' => 'InvalidArgument',
+                'Message' => 'A version-id marker cannot be specified without a key marker.',
+                'ArgumentValue' => version_id_marker,
+                'RequestId' => Fog::Mock.random_hex(16),
+                'HostId' => Fog::Mock.random_base64(65)
+              }
+            }
+
+          # Valid case.
+          # TODO: (nirvdrum 12/15/11) It's not clear to me how to actually use version-id-marker, so I didn't implement it below.
+          elsif bucket = self.data[:buckets][bucket_name]
             contents = bucket[:objects].values.flatten.sort {|x,y| x['Key'] <=> y['Key']}.reject do |object|
                 (prefix      && object['Key'][0...prefix.length] != prefix) ||
                 (key_marker  && object['Key'] <= key_marker) ||
@@ -125,6 +141,8 @@ module Fog
                 response.body['IsTruncated'] = true
                 response.body['Versions'] = response.body['Versions'][0...max_keys]
             end
+
+          # Missing bucket case.
           else
             response.status = 403
             response.body = {
