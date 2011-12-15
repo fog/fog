@@ -57,7 +57,14 @@ module Fog
           @host = options[:host] || case options[:region]
           when 'us-east-1'
             'elasticache.us-east-1.amazonaws.com'
-            #TODO: Support other regions
+          when 'us-west-1'
+            'elasticache.us-west-1.amazonaws.com'
+          when 'eu-west-1'
+            'elasticache.eu-west-1.amazonaws.com'
+          when 'ap-southeast-1'
+            'elasticache.ap-southeast-1.amazonaws.com'
+          when 'ap-northeast-1'
+            'elasticache.ap-northeast-1.amazonaws.com'
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end
