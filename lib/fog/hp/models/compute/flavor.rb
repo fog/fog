@@ -11,6 +11,7 @@ module Fog
         attribute :disk
         attribute :name
         attribute :ram
+        attribute :vcpus
 
         def bits
           64
