@@ -30,12 +30,12 @@ module Fog
           else
             connection.create_key_pair(name).body['keypair']
           end
-          new_attributes = data.reject {|key,value| !['fingerprint', 'public_key', 'name'].include?(key)}
+          new_attributes = data.reject {|key,value| !['fingerprint', 'public_key', 'name', 'private_key', 'user_id'].include?(key)}
           merge_attributes(new_attributes)
           true
         end
 
-        def write(path="#{ENV['HOME']}/.ssh/fog_#{Fog.credential.to_s}_#{name}.pem")
+        def write(path="#{ENV['HOME']}/.ssh/hp_#{Fog.credential.to_s}_#{name}.pem")
 
           if writable?
             split_private_key = private_key.split(/\n/)
