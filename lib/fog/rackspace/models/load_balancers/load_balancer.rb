@@ -160,6 +160,21 @@ module Fog
           connection.get_load_balancer_usage(identity, options).body
         end
 
+        def error_page
+          requires :identity
+          connection.get_error_page(identity).body['errorpage']['content']
+        end
+
+        def error_page=(content)
+          requires :identity
+          connection.set_error_page identity, content
+        end
+
+        def reset_error_page
+          requires :identity
+          connection.remove_error_page identity
+        end
+
         private
         def create
           requires :name, :protocol, :port, :virtual_ips, :nodes

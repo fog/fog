@@ -110,6 +110,21 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
       end
 
       @instance.wait_for { ready? }
+      tests("#error_page").succeeds do
+        @instance.error_page
+      end
+
+      @instance.wait_for { ready? }
+      tests("#error_page = 'asdf'").succeeds do
+        @instance.error_page = 'asdf'
+      end
+
+      @instance.wait_for { ready? }
+      tests("#reset_error_page").succeeds do
+        @instance.reset_error_page
+      end
+
+      @instance.wait_for { ready? }
     end
 
     tests('failure') do
