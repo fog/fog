@@ -12,8 +12,6 @@ module Fog
         attribute :fixed_ip
         attribute :instance_id
 
-        attr_accessor :instance_id
-
         def initialize(attributes = {})
           # assign server first to prevent race condition with new_record?
           self.server = attributes.delete(:server)
