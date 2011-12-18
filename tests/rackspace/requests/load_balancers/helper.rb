@@ -3,6 +3,11 @@ NODE_FORMAT = {'node' => SINGLE_NODE_FORMAT}
 NODES_FORMAT = {'nodes' => [SINGLE_NODE_FORMAT]}
 VIRTUAL_IP_FORMAT = {'type' => String, 'id' => Integer, 'type' => String, 'ipVersion' => String, 'address' => String}
 VIRTUAL_IPS_FORMAT = { 'virtualIps' => [VIRTUAL_IP_FORMAT] }
+SOURCE_ADDRESSES = {
+  'ipv4Servicenet'  => String,
+  'ipv4Public'      => String,
+  'ipv6Public'      => String,
+}
 LOAD_BALANCER_USAGE_FORMAT = {
   'loadBalancerUsageRecords' => [
     {
@@ -87,11 +92,22 @@ LOAD_BALANCERS_FORMAT = {
       'port' => Integer,
       'protocol' => String,
       'algorithm' => String,
-      'sourceAddresses' => {
-        'ipv4Servicenet'  => String,
-        'ipv4Public'      => String,
-        'ipv6Public'      => String,
-      },
+      'status' => String,
+      'virtualIps' => [VIRTUAL_IP_FORMAT],
+      'created' => { 'time' => String },
+      'updated' => { 'time' => String }
+    }]
+}
+
+LOAD_BALANCERS_DETAIL_FORMAT = {
+  'loadBalancers' => [
+    {
+      'name' => String,
+      'id' => Integer,
+      'port' => Integer,
+      'protocol' => String,
+      'algorithm' => String,
+      'sourceAddresses' => SOURCE_ADDRESSES,
       'status' => String,
       'virtualIps' => [VIRTUAL_IP_FORMAT],
       'nodes' => [SINGLE_NODE_FORMAT],
@@ -106,11 +122,7 @@ LOAD_BALANCER_FORMAT = {
     'port' => Integer,
     'protocol' => String,
     'algorithm' => String,
-    'sourceAddresses' => {
-      'ipv4Servicenet'  => String,
-      'ipv4Public'      => String,
-      'ipv6Public'      => String,
-    },
+    'sourceAddresses' => SOURCE_ADDRESSES,
     'status' => String,
     'cluster' => { 'name' => String },
     'virtualIps' => [VIRTUAL_IP_FORMAT],
@@ -120,4 +132,8 @@ LOAD_BALANCER_FORMAT = {
   }.merge(CONNECTION_LOGGING_FORMAT)
 }
 
-
+ERROR_PAGE_FORMAT = {
+  'errorpage' => {
+    'content' => String
+  }
+}

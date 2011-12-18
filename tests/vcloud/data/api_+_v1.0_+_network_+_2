@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OrgNetwork xmlns="http://www.vmware.com/vcloud/v1" name="Network2" type="application/vnd.vmware.vcloud.network+xml" href="https://vcloud.example.com/api/v1.0/network/2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vmware.com/vcloud/v1 http://vcloud.example.com/api/v1.0/schema/master.xsd">
+    <Link rel="up" type="application/vnd.vmware.vcloud.org+xml" href="https://vcloud.example.com/api/v1.0/org/1"/>
+    <Description>Description</Description>
+    <Configuration>
+        <IpScope>
+            <IsInherited>false</IsInherited>
+            <Gateway>192.168.251.254</Gateway>
+            <Netmask>255.255.255.0</Netmask>
+            <Dns1>192.168.251.254</Dns1>
+            <IpRanges>
+                <IpRange>
+                    <StartAddress>192.168.251.101</StartAddress>
+                    <EndAddress>192.168.251.200</EndAddress>
+                </IpRange>
+            </IpRanges>
+        </IpScope>
+        <FenceMode>isolated</FenceMode>
+        <Features>
+            <DhcpService>
+                <IsEnabled>false</IsEnabled>
+                <DefaultLeaseTime>3600</DefaultLeaseTime>
+                <MaxLeaseTime>7200</MaxLeaseTime>
+                <IpRange>
+                    <StartAddress>192.168.251.1</StartAddress>
+                    <EndAddress>192.168.251.100</EndAddress>
+                </IpRange>
+            </DhcpService>
+        </Features>
+    </Configuration>
+</OrgNetwork>

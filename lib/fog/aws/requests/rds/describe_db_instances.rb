@@ -33,8 +33,47 @@ module Fog
       class Mock
 
         def describe_db_instances(identifier=nil, opts={})
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          server_set = []
+          if identifier   
+            if server = self.data[:servers][identifier]
+              server_set << server
+            else
+              raise Fog::AWS::RDS::NotFound.new("DBInstance #{identifier} not found")
+            end
+          else
+            server_set = self.data[:servers].values
+          end
+          
+          server_set.each do |server|
+             case server["DBInstanceStatus"]
+             when "creating"
+                 if Time.now - server['created_at'] >= Fog::Mock.delay * 2
+                   region = "us-east-1"
+                   server["DBInstanceStatus"] = "available"
+                   server["availability_zone"] = region + 'a'
+                   server["Endpoint"] = {"Port"=>3306, 
+                                         "Address"=> Fog::AWS::Mock.rds_address(server["DBInstanceIdentifier"],region) }
+                   server["PendingModifiedValues"] = {}
+                 end
+              when "rebooting"
+                # it applies pending modified values
+                if server["PendingModifiedValues"]
+                  server.merge!(server["PendingModifiedValues"])
+                  server["PendingModifiedValues"] = {}
+                  server["DBInstanceStatus"] = 'available'
+                end
+             end 
+          end
+          
+          response.status = 200
+          response.body = {
+            "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
+            "DescribeDBInstancesResult" => { "DBInstances" => server_set }
+          }
+          response
         end
+        
 
       end
     end

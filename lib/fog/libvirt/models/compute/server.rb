@@ -206,6 +206,13 @@ module Fog
             @raw.destroy
           end
           @raw.undefine
+          if options[:destroy_volumes]
+            disk_path = document("domain/devices/disk/source", "file")
+            # volumes.all filters do not handle nil keys well
+            (connection.volumes.all(:path => disk_path) rescue []).each do |vol|
+              vol.destroy
+            end
+          end
         end
 
         def reboot
@@ -282,7 +289,7 @@ module Fog
           ip_command_global=@connection.ip_command.nil? ? 'grep $mac /var/log/arpwatch.log|sed -e "s/new station//"|sed -e "s/changed ethernet address//g" |sed -e "s/reused old ethernet //" |tail -1 |cut -d ":" -f 4-| cut -d " " -f 3' : @connection.ip_command
           ip_command_local=options[:ip_command].nil? ? ip_command_global : options[:ip_command]
 
-          ip_command="mac=#{mac}; "+ip_command_local
+          ip_command="mac=#{mac}; server_name=#{name}; "+ip_command_local
 
           ip_address=nil
 

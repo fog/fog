@@ -35,6 +35,8 @@ class AWS < Fog::Bin
         Fog::AWS::RDS
       when :sns
         Fog::AWS::SNS
+      when :sts
+        Fog::AWS::STS
       else
         # @todo Replace most instances of ArgumentError with NotImplementedError
         # @todo For a list of widely supported Exceptions, see:

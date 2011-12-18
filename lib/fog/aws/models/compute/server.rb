@@ -34,6 +34,7 @@ module Fog
         attribute :reason
         attribute :root_device_name,      :aliases => 'rootDeviceName'
         attribute :root_device_type,      :aliases => 'rootDeviceType'
+        attribute :security_group_ids,    :aliases => 'securityGroupIds'
         attribute :state,                 :aliases => 'instanceState', :squash => 'name'
         attribute :state_reason,          :aliases => 'stateReason'
         attribute :subnet_id,             :aliases => 'subnetId'
@@ -45,7 +46,7 @@ module Fog
         attr_writer   :private_key, :private_key_path, :public_key, :public_key_path, :username
 
         def initialize(attributes={})
-          self.groups     ||= ["default"] unless attributes[:subnet_id]
+          self.groups     ||= ["default"] unless (attributes[:subnet_id] || attributes[:security_group_ids])
           self.flavor_id  ||= 't1.micro'
           self.image_id   ||= begin
             self.username = 'ubuntu'
@@ -152,6 +153,7 @@ module Fog
             'Placement.Tenancy'           => tenancy,
             'RamdiskId'                   => ramdisk_id,
             'SecurityGroup'               => groups,
+            'SecurityGroupId'             => security_group_ids,
             'SubnetId'                    => subnet_id,
             'UserData'                    => user_data
           }

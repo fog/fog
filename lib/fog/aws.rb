@@ -20,6 +20,7 @@ module Fog
     service(:simpledb,        'aws/simpledb',         'SimpleDB')
     service(:sns,             'aws/sns',              'SNS')
     service(:sqs,             'aws/sqs',              'SQS')
+    service(:sts,             'aws/sts',              'STS')
     service(:storage,         'aws/storage',          'Storage')
 
     def self.indexed_param(key, values)
@@ -84,6 +85,10 @@ module Fog
         'Timestamp'         => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
         'Version'           => options[:version]
       })
+
+      params.merge!({
+        'SecurityToken'     => options[:aws_session_token]
+      }) if options[:aws_session_token]
 
       body = ''
       for key in params.keys.sort
@@ -217,6 +222,10 @@ module Fog
 
       def self.volume_id
         "vol-#{Fog::Mock.random_hex(8)}"
+      end
+      
+      def self.rds_address(db_name,region)
+        "#{db_name}.#{Fog::Mock.random_letters(rand(12) + 4)}.#{region}.rds.amazonaws.com"
       end
     end
   end

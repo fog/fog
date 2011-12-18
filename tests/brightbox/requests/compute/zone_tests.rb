@@ -2,16 +2,17 @@ Shindo.tests('Fog::Compute[:brightbox] | zone requests', ['brightbox']) do
 
   tests('success') do
 
-    tests("#list_zones").formats(Brightbox::Compute::Formats::Collection::ZONES) do
+    tests("#list_zones") do
       pending if Fog.mocking?
-      data = Fog::Compute[:brightbox].list_zones
-      @zone_id = data.first["id"]
-      data
+      result = Fog::Compute[:brightbox].list_zones
+      @zone_id = result.first["id"]
+      formats(Brightbox::Compute::Formats::Collection::ZONES) { result }
     end
 
-    tests("#get_zone('#{@zone_id}')").formats(Brightbox::Compute::Formats::Full::ZONE) do
+    tests("#get_zone('#{@zone_id}')") do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].get_zone(@zone_id)
+      result = Fog::Compute[:brightbox].get_zone(@zone_id)
+      formats(Brightbox::Compute::Formats::Full::ZONE) { result }
     end
 
   end

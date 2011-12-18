@@ -11,6 +11,7 @@ module Fog
         attribute :resource_type
 
         attribute :name
+        attribute :username
         attribute :status
         attribute :description
 
@@ -43,6 +44,7 @@ module Fog
             :source => source,
             :arch => arch,
             :name => name,
+            :username => username,
             :description => description
           }.delete_if {|k,v| v.nil? || v == "" }
           data = connection.create_image(options)
