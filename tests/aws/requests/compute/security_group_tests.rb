@@ -4,7 +4,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     'requestId'           => String,
     'securityGroupInfo' => [{
       'groupDescription'  => String,
-      'groupId'           => String,
+      'groupId'           => Fog::Nullable::String,
       'groupName'         => String,
       'ipPermissions'     => [{
         'fromPort'    => Integer,
