@@ -7,6 +7,7 @@ module Fog
       class DuplicatePolicyName < Fog::Errors::Error; end
       class IdentifierTaken     < Fog::Errors::Error; end
       class InvalidInstance     < Fog::Errors::Error; end
+      class PolicyNotFound      < Fog::Errors::Error; end
       class PolicyTypeNotFound  < Fog::Errors::Error; end
       class Throttled           < Fog::Errors::Error; end
       class TooManyPolicies     < Fog::Errors::Error; end
