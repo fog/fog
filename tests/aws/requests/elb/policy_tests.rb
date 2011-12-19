@@ -21,6 +21,10 @@ Shindo.tests('AWS::ELB | policy_tests', ['aws', 'elb']) do
       Fog::AWS[:elb].create_lb_cookie_stickiness_policy(@load_balancer_id, policy).body
     end
 
+    tests("#describe_load_balancer_policy_types").formats(AWS::ELB::Formats::DESCRIBE_LOAD_BALANCER_POLICY_TYPES) do
+      Fog::AWS[:elb].describe_load_balancer_policy_types.body
+    end
+
     tests("#delete_load_balancer_policy").formats(AWS::ELB::Formats::BASIC) do
       policy = 'fog-lb-no-expiry'
       Fog::AWS[:elb].delete_load_balancer_policy(@load_balancer_id, policy).body
