@@ -7,7 +7,7 @@ require File.join(File.dirname(__FILE__), '..', 'tests', 'helper')
 Shindo.tests('compute examples', 'compute') do
 
   # iterate over all the providers
-  Fog.providers.each do |provider|
+  Fog.providers.values.each do |provider|
 
     # FIXME: implement expected shared compute stuff for these providers as well
     next if ['Bluebox', 'Brightbox', 'Ecloud', 'GoGrid', 'Linode', 'NewServers', 'Ninefold', 'Slicehost', 'StormOnDemand', 'VirtualBox', 'Voxel'].include?(provider)
