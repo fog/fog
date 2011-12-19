@@ -20,12 +20,14 @@ module Fog
       request :create_lb_cookie_stickiness_policy
       request :create_load_balancer
       request :create_load_balancer_listeners
+      request :create_load_balancer_policy
       request :delete_load_balancer
       request :delete_load_balancer_listeners
       request :delete_load_balancer_policy
       request :deregister_instances_from_load_balancer
       request :describe_instance_health
       request :describe_load_balancers
+      request :describe_load_balancer_policies
       request :describe_load_balancer_policy_types
       request :disable_availability_zones_for_load_balancer
       request :enable_availability_zones_for_load_balancer
@@ -43,6 +45,8 @@ module Fog
 
       class Mock
 
+        require 'fog/aws/elb/policy_types'
+
         def self.data
           @data ||= Hash.new do |hash, region|
             owner_id = Fog::AWS::Mock.owner_id
@@ -50,7 +54,7 @@ module Fog
               region_hash[key] = {
                 :owner_id => owner_id,
                 :load_balancers => {},
-                :policy_types => {}
+                :policy_types => Fog::AWS::ELB::Mock::POLICY_TYPES
               }
             end
           end

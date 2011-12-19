@@ -40,12 +40,12 @@ module Fog
           type_names = [*type_names]
           policy_types = if type_names.any?
             type_names.map do |type_name|
-              policy_type = self.data[:policy_types].find { |name, data| name == type_name }
+              policy_type = self.data[:policy_types].find { |pt| pt['PolicyTypeName'] == type_name }
               raise Fog::AWS::ELB::PolicyTypeNotFound unless policy_type
               policy_type[1].dup
             end.compact
           else
-            self.data[:policy_types].map { |policy_type, values| values.dup }
+            self.data[:policy_types].map { |policy_type| policy_type.dup }
           end
 
           response = Excon::Response.new

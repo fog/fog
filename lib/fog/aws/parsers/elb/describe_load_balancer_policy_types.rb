@@ -17,7 +17,7 @@ module Fog
           end
 
           def reset_policy_attribute_type_description
-            @policy_attribute_type_description = { 'AttributeName' => '', 'AttributeValue' => '', 'Cardinality' => '', 'DefaultValue' => '', 'Description' => '' }
+            @policy_attribute_type_description = { 'AttributeName' => '', 'AttributeType' => '', 'Cardinality' => '', 'DefaultValue' => '', 'Description' => '' }
           end
 
           def start_element(name, attrs = [])
@@ -36,6 +36,7 @@ module Fog
                 reset_policy_attribute_type_description
               elsif !@in_policy_attribute_types
                 @results['PolicyTypeDescriptions'] << @policy_type
+                reset_policy_type
               end
 
             when 'Description'
@@ -50,7 +51,7 @@ module Fog
             when 'PolicyAttributeTypeDescriptions'
               @in_policy_attribute_types = false
 
-            when 'AttributeName', 'AttributeValue', 'Cardinality', 'DefaultValue'
+            when 'AttributeName', 'AttributeType', 'Cardinality', 'DefaultValue'
               @policy_attribute_type_description[name] = value
 
             when 'RequestId'

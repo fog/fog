@@ -28,9 +28,24 @@ class AWS
         'DescribeLoadBalancersResult' => {'LoadBalancerDescriptions' => [LOAD_BALANCER]}
       })
 
+      POLICY_ATTRIBUTE_DESCRIPTION = {
+        "AttributeName" => String,
+        "AttributeValue" => String
+      }
+
+      POLICY = {
+        "PolicyAttributeDescriptions" => [POLICY_ATTRIBUTE_DESCRIPTION],
+        "PolicyName" => String,
+        "PolicyTypeName" => String
+      }
+
+      DESCRIBE_LOAD_BALANCER_POLICIES = BASIC.merge({
+        'DescribeLoadBalancerPoliciesResult' => { 'PolicyDescriptions' => [POLICY] }
+      })
+
       POLICY_ATTRIBUTE_TYPE_DESCRIPTION = {
         "AttributeName" => String,
-        "AttributeValue" => String,
+        "AttributeType" => String,
         "Cardinality" => String,
         "DefaultValue" => String,
         "Description" => String
