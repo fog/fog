@@ -65,11 +65,18 @@ module Fog
                 delete_marker = {
                   :delete_marker    => true,
                   'Key'             => object_name,
-                  'VersionId'       => Fog::Mock.random_base64(32),
+                  'VersionId'       => bucket[:versioning] == 'Enabled' ? Fog::Mock.random_base64(32) : 'null',
                   'Last-Modified'   => Fog::Time.now.to_date_header
                 }
 
+                # When versioning is suspended, a delete marker is placed if the last object ID is not the value 'null',
+                # otherwise the last object is replaced.
+                if bucket[:versioning] == 'Suspended' && bucket[:objects][object_name].last['VersionId'] == 'null'
+                  bucket[:objects][object_name].pop
+                end
+
                 bucket[:objects][object_name] << delete_marker
+
                 response.headers['x-amz-delete-marker'] = 'true'
                 response.headers['x-amz-version-id'] = delete_marker['VersionId']
               end

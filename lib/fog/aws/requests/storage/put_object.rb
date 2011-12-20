@@ -32,9 +32,9 @@ module Fog
         def put_object(bucket_name, object_name, data, options = {})
           data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)
-          request({
-            :body       => data[:body],
-            :expects    => 200,
+          request({            :body       => data[:body],
+                      :expects    => 200,
+
             :headers    => headers,
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,
@@ -83,6 +83,13 @@ module Fog
 
             if bucket[:versioning]
               bucket[:objects][object_name] ||= []
+
+              # When versioning is suspended, putting an object will create a new 'null' version if the latest version
+              # is a value other than 'null', otherwise it will replace the latest version.
+              if bucket[:versioning] == 'Suspended' && bucket[:objects][object_name].last['VersionId'] == 'null'
+                bucket[:objects][object_name].pop
+              end
+
               bucket[:objects][object_name] << object
             else
               bucket[:objects][object_name] = [object]
