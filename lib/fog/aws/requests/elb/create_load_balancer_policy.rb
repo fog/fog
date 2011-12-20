@@ -46,16 +46,16 @@ module Fog
       class Mock
         def create_load_balancer_policy(lb_name, name, type_name, attributes = {})
           if load_balancer = self.data[:load_balancers][lb_name]
-            raise Fog::AWS::IAM::DuplicatePolicyName if policy = load_balancer['Policies'].find { |p| p['PolicyName'] == name }
+            raise Fog::AWS::IAM::DuplicatePolicyName if policy = load_balancer['Policies']['Proper'].find { |p| p['PolicyName'] == name }
             raise Fog::AWS::IAM::PolicyTypeNotFound unless policy_type = self.data[:policy_types].find { |pt| pt['PolicyTypeName'] == type_name }
 
             response = Excon::Response.new
 
-            attributes = attributes.map do |name, value|
-              {"AttributeName" => name, "AttributeValue" => value}
+            attributes = attributes.map do |key, value|
+              {"AttributeName" => key, "AttributeValue" => value.to_s}
             end
 
-            load_balancer['Policies'] << {
+            load_balancer['Policies']['Proper'] << {
               'PolicyAttributeDescriptions' => attributes,
               'PolicyName' => name,
               'PolicyTypeName' => type_name

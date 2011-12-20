@@ -33,7 +33,24 @@ module Fog
 
       class Mock
         def create_lb_cookie_stickiness_policy(lb_name, policy_name, cookie_expiration_period=nil)
-          create_load_balancer_policy(lb_name, policy_name, 'LBCookieStickinessPolicyType', {'CookieExpirationPeriod' => cookie_expiration_period})
+          if load_balancer = self.data[:load_balancers][lb_name]
+            response = Excon::Response.new
+            response.status = 200
+
+            load_balancer['Policies']['LBCookieStickinessPolicies'] << { 'CookieExpirationPeriod' => cookie_expiration_period, 'PolicyName' => policy_name }
+
+            create_load_balancer_policy(lb_name, policy_name, 'LBCookieStickinessPolicyType', {'CookieExpirationPeriod' => cookie_expiration_period})
+
+            response.body = {
+              'ResponseMetadata' => {
+                'RequestId' => Fog::AWS::Mock.request_id
+              }
+            }
+
+            response
+          else
+            raise Fog::AWS::ELB::NotFound
+          end
         end
       end
     end

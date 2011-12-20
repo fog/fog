@@ -41,11 +41,11 @@ module Fog
             names = [*names]
             policies = if names.any?
               names.map do |name|
-                raise Fog::AWS::ELB::PolicyNotFound unless policy = load_balancer['Policies'].find { |p| p['PolicyName'] == name }
+                raise Fog::AWS::ELB::PolicyNotFound unless policy = load_balancer['Policies']['Proper'].find { |p| p['PolicyName'] == name }
                 policy.dup
               end.compact
             else
-              load_balancer['Policies']
+              load_balancer['Policies']['Proper']
             end
           else
             policies = []

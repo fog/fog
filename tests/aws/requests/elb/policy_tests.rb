@@ -33,7 +33,7 @@ Shindo.tests('AWS::ELB | policy_tests', ['aws', 'elb']) do
     end
 
     tests("#describe_load_balancer_policies").formats(AWS::ELB::Formats::DESCRIBE_LOAD_BALANCER_POLICIES) do
-      Fog::AWS[:elb].describe_load_balancer_policies(@load_balancer_id, 'fog-policy').body
+      Fog::AWS[:elb].describe_load_balancer_policies(@load_balancer_id).body
     end
 
     tests("#delete_load_balancer_policy").formats(AWS::ELB::Formats::BASIC) do
