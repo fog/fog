@@ -186,6 +186,8 @@ module Fog
               raise Fog::AWS::ELB::InvalidInstance.slurp(error, match[2])
             when 'LoadBalancerNotFound'
               raise Fog::AWS::ELB::NotFound.slurp(error, match[2])
+            when 'PolicyNotFound'
+              raise Fog::AWS::ELB::PolicyNotFound.slurp(error, match[2])
             when 'PolicyTypeNotFound'
               raise Fog::AWS::ELB::PolicyTypeNotFound.slurp(error, match[2])
             when 'Throttling'
