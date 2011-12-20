@@ -83,8 +83,9 @@ module Fog
             'ListenerDescriptions' => listeners,
             'LoadBalancerName' => lb_name,
             'Policies' => {
+              'AppCookieStickinessPolicies' => [],
               'LBCookieStickinessPolicies' => [],
-              'AppCookieStickinessPolicies' => []
+              'Proper' => []
             },
             'SourceSecurityGroup' => {
               'GroupName' => '',

@@ -57,7 +57,7 @@ module Fog
             raise Excon::Errors.status_error({:expects => 200}, response)
           end
 
-          unless load_balancer['Policies'].find { |name, policies| policies.find { |policy| policy['PolicyName'] == policy_names.first } }
+          unless load_balancer['Policies']['Proper'].find { |policy| policy['PolicyName'] == policy_names.first }
             response.status = 400
             response.body = "<?xml version=\"1.0\"?><Response><Errors><Error><Code>PolicyNotFound</Code><Message>One or more specified policies were not found.</Message></Error></Errors><RequestID>#{Fog::AWS::Mock.request_id}</RequestId></Response>"
             raise Excon::Errors.status_error({:expects => 200}, response)

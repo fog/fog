@@ -34,7 +34,7 @@ module Fog
             response.status = 200
 
             load_balancer['Policies'].each do |name, policies|
-              policies.delete_if { |p| p['PolicyName'] == policy_name }
+              policies.delete_if { |policy| policy['PolicyName'] == policy_name }
             end
 
             response.body = {
