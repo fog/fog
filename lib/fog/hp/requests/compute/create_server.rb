@@ -11,6 +11,8 @@ module Fog
         # * image_id<~Integer> - Id of image for server
         # * options<~Hash>:
         #   * 'metadata'<~Hash> - Up to 5 key value pairs containing 255 bytes of info
+        #   * 'min_count'<~Integer> - Number of servers to create. Defaults to 1.
+        #   * 'max_count'<~Integer> - Max. number of servers to create. Defaults to being equal to min_count.
         #   * 'key_name'<~String> - Name of keypair to be used
         #   * 'security_groups'<~Array> - one or more security groups to be used
         #   * 'availability_zone'<~String> - the availability zone to be used
