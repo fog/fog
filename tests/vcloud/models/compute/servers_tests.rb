@@ -1,8 +1,9 @@
-require "#{File.dirname(__FILE__)}/conn_helper.rb"
-
 require 'fog/vcloud/models/compute/servers'
 
 Shindo.tests("Vcloud::Compute | servers", ['vcloud']) do
+
+  pending if Fog.mocking?
+
   instance = Fog::Vcloud::Compute::Servers.new(
     :connection => Fog::Vcloud::Compute.new(:vcloud_host => 'vcloud.example.com', :vcloud_username => 'username', :vcloud_password => 'password'),
     :href       =>  "https://vcloud.example.com/api/v1.0/vApp/vapp-1"

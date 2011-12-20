@@ -78,14 +78,14 @@ module Fog
           end
         end
 
-        def get_http_url(key, expires)
+        def get_http_url(key, expires, options = {})
           requires :directory
-          connection.get_object_http_url(directory.key, key, expires)
+          connection.get_object_http_url(directory.key, key, expires, options)
         end
 
-        def get_https_url(key, expires)
+        def get_https_url(key, expires, options = {})
           requires :directory
-          connection.get_object_https_url(directory.key, key, expires)
+          connection.get_object_https_url(directory.key, key, expires, options)
         end
 
         def head(key, options = {})

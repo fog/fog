@@ -20,9 +20,9 @@ module Fog
 
         def all(options = {})
           requires :zone
-          options['MaxItems'] ||= max_items
-          options['Name']     ||= name
-          options['Type']     ||= type
+          options['maxitems'] ||= max_items
+          options['name']     ||= name
+          options['type']     ||= type
           data = connection.list_resource_record_sets(zone.id, options).body
           merge_attributes(data.reject {|key, value| !['IsTruncated', 'MaxItems', 'NextRecordName', 'NextRecordType'].include?(key)})
           # leave out the default, read only records

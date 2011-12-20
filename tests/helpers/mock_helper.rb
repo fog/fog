@@ -15,6 +15,8 @@ if Fog.mock?
     :bluebox_customer_id              => 'bluebox_customer_id',
     :brightbox_client_id              => 'brightbox_client_id',
     :brightbox_secret                 => 'brightbox_secret',
+    :clodo_api_key                    => 'clodo_api_key',
+    :clodo_username                   => 'clodo_username',
     :dnsimple_email                   => 'dnsimple_email',
     :dnsimple_password                => 'dnsimple_password',
     :dnsmadeeasy_api_key              => 'dnsmadeeasy_api_key',

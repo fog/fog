@@ -244,6 +244,11 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       end
     end
 
+    tests('setting a new ssl certificate id') do
+      elb.listeners.create(:instance_port => 443, :lb_port => 443, :protocol => 'HTTPS', :ssl_id => @certificate['Arn'])
+      elb.set_listener_ssl_certificate(443, @certificate['Arn'])
+    end
+
     tests('destroy') do
       elb.destroy
     end

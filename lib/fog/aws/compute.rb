@@ -171,7 +171,7 @@ module Fog
 
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
+          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
         end
@@ -284,6 +284,8 @@ module Fog
               'ec2.us-west-1.amazonaws.com'
             when 'us-west-2'
               'ec2.us-west-2.amazonaws.com'
+            when 'sa-east-1'
+              'ec2.sa-east-1.amazonaws.com'
             else
               raise ArgumentError, "Unknown region: #{options[:region].inspect}"
             end

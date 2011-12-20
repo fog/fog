@@ -2,8 +2,10 @@ Shindo.tests('Fog::Compute[:brightbox] | server requests', ['brightbox']) do
 
   tests('success') do
 
-    image_id = Brightbox::Compute::TestSupport.image_id
-    server_id = nil
+    unless Fog.mocking?
+      image_id = Brightbox::Compute::TestSupport.image_id
+      server_id = nil
+    end
 
     tests("#create_server(:image => '#{image_id}')") do
       pending if Fog.mocking?

@@ -62,6 +62,9 @@ module Fog
       request :remove_monitor
       request :get_usage
       request :get_load_balancer_usage
+      request :get_error_page
+      request :set_error_page
+      request :remove_error_page
 
       module Shared
 
