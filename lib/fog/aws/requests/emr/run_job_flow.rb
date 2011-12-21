@@ -77,13 +77,15 @@ module Fog
               'Args' => ['s3://us-east-1.elasticmapreduce/libs/hive/hive-script', '--base-path', 's3://us-east-1.elasticmapreduce/libs/hive/', '--install-hive']},
             'ActionOnFailure' => 'TERMINATE_JOB_FLOW'
           }
-          steps << {
-            'Name' => 'Install Hive Site Configuration',
-            'HadoopJarStep' => {
-              'Jar' => 's3://us-east-1.elasticmapreduce/libs/script-runner/script-runner.jar',
-              'Args' => ['s3://us-east-1.elasticmapreduce/libs/hive/hive-script', '--base-path',  's3://us-east-1.elasticmapreduce/libs/hive/', '--install-hive-site', '--hive-site=s3://raybeam.okl/prod/hive/hive-site.xml']},
-            'ActionOnFailure' => 'TERMINATE_JOB_FLOW'
-          }
+          
+          # To add a configuration step to the Hive flow, see the step below
+          # steps << {
+          #   'Name' => 'Install Hive Site Configuration',
+          #   'HadoopJarStep' => {
+          #     'Jar' => 's3://us-east-1.elasticmapreduce/libs/script-runner/script-runner.jar',
+          #     'Args' => ['s3://us-east-1.elasticmapreduce/libs/hive/hive-script', '--base-path',  's3://us-east-1.elasticmapreduce/libs/hive/', '--install-hive-site', '--hive-site=s3://my.bucket/hive/hive-site.xml']},
+          #   'ActionOnFailure' => 'TERMINATE_JOB_FLOW'
+          # }
           options['Steps'] = steps
           
           if not options['Instances'].nil?
