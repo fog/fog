@@ -77,10 +77,10 @@ module Fog
               {
                  "DBInstanceIdentifier"=> db_name,
                  "DBName" => options["DBName"],
-                 "created_at" => nil,
+                 "InstanceCreateTime" => nil,
                  "AutoMinorVersionUpgrade"=>true,
                  "Endpoint"=>{},
-                 "ReadReplicaDBInstanceIdentifiers"=>[],
+                 "ReadReplicaDBInstanceIdentifiers"=>['bla'],
                  "PreferredMaintenanceWindow"=>"mon:04:30-mon:05:00",
                  "Engine"=> options["Engine"],
                  "EngineVersion"=> options["EngineVersion"] || "5.1.57",
@@ -98,7 +98,10 @@ module Fog
                           [{"Status"=>"active", 
                             "DBSecurityGroupName"=>"default"}],
                  "LicenseModel"=>"general-public-license",
-                 "PreferredBackupWindow"=>"08:00-08:30"
+                 "PreferredBackupWindow"=>"08:00-08:30",
+#                 "ReadReplicaSourceDBInstanceIdentifier" => nil,
+#                 "LatestRestorableTime" => nil,
+                 "AvailabilityZone" => options["AvailabilityZone"]
              }
            
           
@@ -109,7 +112,7 @@ module Fog
           }
           response.status = 200
           # This values aren't showed at creating time but at available time
-          self.data[:servers][db_name]["created_at"] = Time.now
+          self.data[:servers][db_name]["InstanceCreateTime"] = Time.now
           response
         end
 

@@ -104,7 +104,8 @@ class AWS
         },
         'PreferredBackupWindow'=> String,
         'PreferredMaintenanceWindow'=> String,
-        'ReadReplicaDBInstanceIdentifiers'=> [String],
+#        'ReadReplicaDBInstanceIdentifiers'=> [String],
+        'ReadReplicaDBInstanceIdentifiers'=> [Fog::Nullable::String],
         'ReadReplicaSourceDBInstanceIdentifier'=> Fog::Nullable::String
       }
       
