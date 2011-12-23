@@ -11,6 +11,7 @@ module Fog
         attribute :group_id,        :aliases => 'groupId'
         attribute :ip_permissions,  :aliases => 'ipPermissions'
         attribute :owner_id,        :aliases => 'ownerId'
+        attribute :vpc_id,          :aliases => 'vpcId'
 
         # Authorize access by another security group
         #
@@ -193,8 +194,11 @@ module Fog
 
         def save
           requires :description, :name
-
-          data = connection.create_security_group(name, description).body
+          if (vpc_id.length)
+             data = connection.create_security_group(name, description, vpc_id).body
+          else
+             data = connection.create_security_group(name, description).body
+          end
           true
         end
 
