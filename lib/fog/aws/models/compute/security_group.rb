@@ -194,11 +194,7 @@ module Fog
 
         def save
           requires :description, :name
-          if (vpc_id.length)
-             data = connection.create_security_group(name, description, vpc_id).body
-          else
-             data = connection.create_security_group(name, description).body
-          end
+          data = connection.create_security_group(name, description, vpc_id).body
           true
         end
 

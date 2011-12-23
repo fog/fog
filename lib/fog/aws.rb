@@ -22,7 +22,6 @@ module Fog
     service(:sqs,             'aws/sqs',              'SQS')
     service(:sts,             'aws/sts',              'STS')
     service(:storage,         'aws/storage',          'Storage')
-    service(:vpc,             'aws/vpc',              'VPC')
 
     def self.indexed_param(key, values)
       params = {}
