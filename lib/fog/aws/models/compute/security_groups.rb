@@ -25,6 +25,7 @@ module Fog
         #    description=nil,
         #    ip_permissions=nil,
         #    owner_id=nil
+        #    vpc_id=nil
         #  >
         #
         
@@ -50,6 +51,7 @@ module Fog
         #        description="default group",
         #        ip_permissions=[{"groups"=>[{"groupName"=>"default", "userId"=>"312571045469"}], "fromPort"=>-1, "toPort"=>-1, "ipRanges"=>[], "ipProtocol"=>"icmp"}, {"groups"=>[{"groupName"=>"default", "userId"=>"312571045469"}], "fromPort"=>0, "toPort"=>65535, "ipRanges"=>[], "ipProtocol"=>"tcp"}, {"groups"=>[{"groupName"=>"default", "userId"=>"312571045469"}], "fromPort"=>0, "toPort"=>65535, "ipRanges"=>[], "ipProtocol"=>"udp"}],
         #        owner_id="312571045469"
+        #        vpc_id=nill
         #      >
         #    ]
         #  >
@@ -79,6 +81,7 @@ module Fog
         #    description="default group",
         #    ip_permissions=[{"groups"=>[{"groupName"=>"default", "userId"=>"312571045469"}], "fromPort"=>-1, "toPort"=>-1, "ipRanges"=>[], "ipProtocol"=>"icmp"}, {"groups"=>[{"groupName"=>"default", "userId"=>"312571045469"}], "fromPort"=>0, "toPort"=>65535, "ipRanges"=>[], "ipProtocol"=>"tcp"}, {"groups"=>[{"groupName"=>"default", "userId"=>"312571045469"}], "fromPort"=>0, "toPort"=>65535, "ipRanges"=>[], "ipProtocol"=>"udp"}],
         #    owner_id="312571045469"
+        #    vpc_id=nil
         #  > 
         #
         
