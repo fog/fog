@@ -18,7 +18,7 @@ module Fog
         #     * 'return'<~Boolean> - success?
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CreateSecurityGroup.html]
-        def create_security_group(name, description, vpc_id='')
+        def create_security_group(name, description, vpc_id=nil)
           request(
             'Action'            => 'CreateSecurityGroup',
             'GroupName'         => name,
@@ -32,7 +32,7 @@ module Fog
 
       class Mock
 
-        def create_security_group(name, description, vpc_id='')
+        def create_security_group(name, description, vpc_id=nil)
           response = Excon::Response.new
           unless self.data[:security_groups][name]
             data = {
