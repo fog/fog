@@ -19,7 +19,39 @@ class AWS
           'DBParameterGroup' => DB_PARAMETER_GROUP
         }
       }
-
+      
+      DB_SECURITY_GROUP = {
+        'DBSecurityGroupDescription' => String,
+        'DBSecurityGroupName' => String,
+        'EC2SecurityGroups' => [Fog::Nullable::Hash],
+        'IPRanges' => [Fog::Nullable::Hash],
+        'OwnerId' => Fog::Nullable::String
+      }
+      
+      CREATE_DB_SECURITY_GROUP = BASIC.merge({
+        'CreateDBSecurityGroupResult' => {          
+          'DBSecurityGroup' => DB_SECURITY_GROUP
+        }
+      })
+      
+      AUTHORIZE_DB_SECURITY_GROUP = BASIC.merge({
+        'AuthorizeDBSecurityGroupIngressResult' => {          
+          'DBSecurityGroup' => DB_SECURITY_GROUP
+        }
+      })
+      
+      REVOKE_DB_SECURITY_GROUP = BASIC.merge({
+        'RevokeDBSecurityGroupIngressResult' => {          
+          'DBSecurityGroup' => DB_SECURITY_GROUP
+        }
+      })
+      
+      DESCRIBE_DB_SECURITY_GROUP = BASIC.merge({
+        'DescribeDBSecurityGroupsResult' => {          
+          'DBSecurityGroups' => [DB_SECURITY_GROUP]
+        }
+      })
+      
       DESCRIBE_DB_PARAMETER_GROUP = {
         'ResponseMetadata' => {'RequestId' => String},
         'DescribeDBParameterGroupsResult' =>{
@@ -33,6 +65,8 @@ class AWS
         }
       })
       
+
+      
       DB_PARAMETER = {
         'ParameterValue' => Fog::Nullable::String,
         'DataType' => String,
@@ -41,8 +75,9 @@ class AWS
         'IsModifiable' => Fog::Boolean,
         'Description' => String,
         'ParameterName' => String,
-        'ApplyType' => String,
+        'ApplyType' => String
       }
+      
       DESCRIBE_DB_PARAMETERS = BASIC.merge({
         'DescribeDBParametersResult' => {
           'Marker' => Fog::Nullable::String,
@@ -50,7 +85,6 @@ class AWS
         }
       
       })
-      
       
       SNAPSHOT={
         'AllocatedStorage' => Integer,
@@ -105,6 +139,7 @@ class AWS
         'PreferredBackupWindow'=> String,
         'PreferredMaintenanceWindow'=> String,
         'ReadReplicaDBInstanceIdentifiers'=> [String],
+        'ReadReplicaDBInstanceIdentifiers'=> [Fog::Nullable::String],
         'ReadReplicaSourceDBInstanceIdentifier'=> Fog::Nullable::String
       }
       
