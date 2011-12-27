@@ -91,7 +91,7 @@ module Fog
                  "DBInstanceStatus"=>"creating",
                  "BackupRetentionPeriod"=> options["BackupRetentionPeriod"] || 1,
                  "AllocatedStorage"=> options["AllocatedStorage"],
-                 "DBParameterGroups"=> # I think groups shoul be in the self.data method
+                 "DBParameterGroups"=> # I think groups should be in the self.data method
                           [{"DBParameterGroupName"=>"default.mysql5.1",
                             "ParameterApplyStatus"=>"in-sync"}],
                  "DBSecurityGroups"=>

@@ -33,7 +33,33 @@ module Fog
       class Mock
 
         def revoke_db_security_group_ingress(name, opts = {})
-          Fog::Mock.not_implemented
+          unless opts.key?('CIDRIP') || (opts.key?('EC2SecurityGroupName') && opts.key?('EC2SecurityGroupOwnerId'))
+            raise ArgumentError, 'Must specify CIDRIP, or both EC2SecurityGroupName and EC2SecurityGroupOwnerId'
+          end
+          
+          response = Excon::Response.new
+          
+          if sec_group = self.data[:security_groups][name]
+            if opts.key?('CIDRIP')
+              sec_group['IPRanges'].each do |iprange|
+                iprange['Status']= 'revoking' if iprange['CIDRIP'] == opts['CIDRIP']
+              end
+            else
+              sec_group['EC2SecurityGroups'].each do |ec2_secg|
+                ec2_secg['Status']= 'revoking' if ec2_secg['EC2SecurityGroupName'] == opts['EC2SecurityGroupName']
+              end
+            end
+            response.status = 200
+            response.body = {
+              "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
+              'RevokeDBSecurityGroupIngressResult' => {          
+                'DBSecurityGroup' => sec_group
+              }
+            }
+            response
+          else
+            raise Fog::AWS::RDS::NotFound.new("DBSecurityGroupNotFound => #{name} not found")
+          end
         end
 
       end
