@@ -1,4 +1,5 @@
 require 'fog/core/model'
+require 'fog/aws/models/storage/versions'
 
 module Fog
   module Storage
@@ -130,6 +131,15 @@ module Fog
         def url(expires, options = {})
           requires :key
           collection.get_https_url(key, expires, options)
+        end
+
+        def versions
+          @versions ||= begin
+            Fog::Storage::AWS::Versions.new(
+              :file         => self,
+              :connection   => connection
+            )
+          end
         end
 
         private
