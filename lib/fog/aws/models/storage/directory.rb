@@ -58,6 +58,17 @@ module Fog
           @payer = new_payer
         end
 
+        def versioning?
+          requires :key
+          data = connection.get_bucket_versioning(key)
+          data.body['VersioningConfiguration']['Status'] == 'Enabled'
+        end
+
+        def versioning=(new_versioning)
+          requires :key
+          connection.put_bucket_versioning(key, new_versioning ? 'Enabled' : 'Suspended')
+        end
+
         def public=(new_public)
           if new_public
             @acl = 'public-read'
