@@ -96,6 +96,9 @@ module Fog
                     response.headers[key] = value
                   end
                 end
+
+                response.headers['x-amz-version-id'] = object['VersionId'] if bucket[:versioning]
+
                 unless block_given?
                   response.body = object[:body]
                 else

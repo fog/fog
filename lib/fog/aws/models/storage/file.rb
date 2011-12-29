@@ -22,6 +22,7 @@ module Fog
         attribute :owner,               :aliases => 'Owner'
         attribute :storage_class,       :aliases => ['x-amz-storage-class', 'StorageClass']
         attribute :encryption,          :aliases => 'x-amz-server-side-encryption'
+        attribute :version,             :aliases => 'x-amz-version-id'
 
         def acl=(new_acl)
           valid_acls = ['private', 'public-read', 'public-read-write', 'authenticated-read']
