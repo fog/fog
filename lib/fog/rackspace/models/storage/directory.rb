@@ -58,7 +58,11 @@ module Fog
 
           if @connection.cdn && @public
             # if public and CDN connection then update cdn to public
-            @public_url = connection.cdn.put_container(key, 'X-CDN-Enabled' => 'True').headers['X-CDN-URI']
+            uri_header = 'X-CDN-URI'
+            if connection.rackspace_cdn_ssl == true
+              uri_header = 'X-CDN-SSL-URI'
+            end
+            @public_url = connection.cdn.put_container(key, 'X-CDN-Enabled' => 'True').headers[uri_header]
           elsif @connection.cdn && !@public
             connection.cdn.put_container(key, 'X-CDN-Enabled' => 'False')
             @public_url = nil
