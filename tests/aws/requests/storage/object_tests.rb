@@ -84,6 +84,16 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       Fog::Storage[:aws].delete_object(@directory.identity, 'fog_object')
     end
 
+    tests("delete_multiple_objects('#{@directory.identity}', ['fog_object'])").returns({
+      'DeleteResult' => [
+        { 'Deleted' => { 'Key' => 'fog_object' } }
+      ]
+    }) do
+      pending if Fog.mocking?
+      Fog::Storage[:aws].delete_multiple_objects(@directory.identity, ['fog_object'])
+      Fog::Storage[:aws].delete_multiple_objects(@directory.identity, ['fog_object']).body
+    end
+
   end
 
   tests('failure') do
@@ -122,6 +132,11 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
 
     tests("#delete_object('fognonbucket', 'fog_non_object')").raises(Excon::Errors::NotFound) do
       Fog::Storage[:aws].delete_object('fognonbucket', 'fog_non_object')
+    end
+
+    tests("#delete_multiple_objects('fognonbucket', ['fog_non_object'])").raises(Excon::Errors::NotFound) do
+      pending if Fog.mocking?
+      Fog::Storage[:aws].delete_multiple_objects('fognonbucket', ['fog_non_object'])
     end
 
     tests("#put_object_acl('#{@directory.identity}', 'fog_object', 'invalid')").raises(Excon::Errors::BadRequest) do
