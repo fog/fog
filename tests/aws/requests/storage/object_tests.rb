@@ -91,14 +91,20 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
     tests("#delete_object('#{@directory.identity}', 'fog_object')").succeeds do
       Fog::Storage[:aws].delete_object(@directory.identity, 'fog_object')
     end
-    
+
     tests("#get_object_http_url('#{@directory.identity}', 'fog_object', expiration timestamp)").returns(true) do
       object_url = Fog::Storage[:aws].get_object_http_url(@directory.identity, 'fog_object', (Time.now + 60))
       (object_url =~ /http:\/\/#{Regexp.quote(@directory.identity)}\.s3\.amazonaws\.com\/fog_object/) != nil
     end
 
-    tests("delete_multiple_objects('#{@directory.identity}', ['fog_object', 'fog_other_object'])").formats(@multiple_delete_format) do
-      Fog::Storage[:aws].delete_multiple_objects(@directory.identity, ['fog_object', 'fog_other_object']).body
+    tests("delete_multiple_objects('#{@directory.identity}', ['fog_object'])").returns({
+      'DeleteResult' => [
+        { 'Deleted' => { 'Key' => 'fog_object' } }
+      ]
+    }) do
+      pending if Fog.mocking?
+      Fog::Storage[:aws].delete_multiple_objects(@directory.identity, ['fog_object'])
+      Fog::Storage[:aws].delete_multiple_objects(@directory.identity, ['fog_object']).body
     end
 
   end
@@ -142,6 +148,10 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
     end
 
     tests("#delete_multiple_objects('fognonbucket', ['fog_non_object'])").raises(Excon::Errors::NotFound) do
+<<<<<<< HEAD
+=======
+      pending if Fog.mocking?
+>>>>>>> [aws|storage] Add Fog::Storage::AWS#delete_multiple_objects
       Fog::Storage[:aws].delete_multiple_objects('fognonbucket', ['fog_non_object'])
     end
 
