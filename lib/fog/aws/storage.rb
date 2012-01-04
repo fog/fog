@@ -26,6 +26,7 @@ module Fog
       request :delete_bucket_policy
       request :delete_bucket_website
       request :delete_object
+      request :delete_multiple_objects
       request :get_bucket
       request :get_bucket_acl
       request :get_bucket_lifecycle
@@ -263,7 +264,7 @@ module Fog
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
-          
+
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
             @host = endpoint.host
@@ -337,6 +338,7 @@ DATA
           for key in (params[:query] || {}).keys.sort
             if %w{
               acl
+              delete
               lifecycle
               location
               logging
