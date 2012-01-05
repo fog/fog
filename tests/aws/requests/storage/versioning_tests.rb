@@ -200,8 +200,12 @@ Shindo.tests('Fog::Storage[:aws] | versioning', [:aws]) do
 
     file = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'y', :key => 'x')
 
-    tests("#get_object('#{@aws_bucket_name}', 'x', 'versionId' => 'bad_version'").raises(Excon::Errors::BadRequest) do
-      Fog::Storage[:aws].get_object(@aws_bucket_name, 'x', 'versionId' => '-1')
+    tests("#get_object('#{@aws_bucket_name}', '#{file.key}', 'versionId' => 'bad_version'").raises(Excon::Errors::BadRequest) do
+      Fog::Storage[:aws].get_object(@aws_bucket_name, file.key, 'versionId' => '-1')
+    end
+
+    tests("#delete_object('#{@aws_bucket_name}', '#{file.key}', 'versionId' => 'bad_version'").raises(Excon::Errors::BadRequest) do
+      Fog::Storage[:aws].delete_object(@aws_bucket_name, file.key, 'versionId' => '-1')
     end
   end
 
