@@ -108,13 +108,10 @@ Shindo.tests('Fog::Storage[:aws] | versioning', [:aws]) do
         @versions = Fog::Storage[:aws].get_bucket_object_versions(@aws_bucket_name)
       end
 
-
-      create_versioned_bucket
-
       v1 = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'a',    :key => 'file')
-      v2 = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'ab',   :key => 'file')
-      v3 = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'abc',  :key => 'file')
-      v4 = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'abcd', :key => 'file')
+      v2 = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'ab',   :key => v1.key)
+      v3 = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'abc',  :key => v1.key)
+      v4 = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'abcd', :key => v1.key)
 
       tests("versions").returns([v4.version, v3.version, v2.version, v1.version]) do
         @versions.body['Versions'].collect {|v| v['Version']['VersionId']}
@@ -128,14 +125,36 @@ Shindo.tests('Fog::Storage[:aws] | versioning', [:aws]) do
         latest = @versions.body['Versions'].find {|v| v['Version']['IsLatest']}
         latest['Version']['VersionId']
       end
-
-      delete_bucket
     end
+
+    tests("get_object('#{@aws_bucket_name}', 'file')") do
+      clear_bucket
+
+      v1 = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'a',  :key => 'file')
+      v2 = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'ab', :key => v1.key)
+
+      tests("get_object('#{@aws_bucket_name}', '#{v2.key}') returns the latest version").returns(v2.version) do
+        res = Fog::Storage[:aws].get_object(@aws_bucket_name, v2.key)
+        res.headers['x-amz-version-id']
+      end
+
+      tests("get_object('#{@aws_bucket_name}', '#{v1.key}', 'versionId' => '#{v1.version}') returns the specified version").returns(v1.version) do
+        res = Fog::Storage[:aws].get_object(@aws_bucket_name, v1.key, 'versionId' => v1.version)
+        res.headers['x-amz-version-id']
+      end
+
+      v2.destroy
+
+      tests("get_object('#{@aws_bucket_name}', '#{v2.key}') raises exception if delete marker is latest version").raises(Excon::Errors::NotFound) do
+        Fog::Storage[:aws].get_object(@aws_bucket_name, v2.key)
+      end
+    end
+
+    delete_bucket
   end
 
   tests('failure') do
-    @aws_bucket_name = 'fogbuckettests-' + Fog::Mock.random_hex(16)
-    Fog::Storage[:aws].put_bucket(@aws_bucket_name)
+    create_versioned_bucket
 
     tests("#put_bucket_versioning('#{@aws_bucket_name}', 'bad_value')").raises(Excon::Errors::BadRequest) do
       Fog::Storage[:aws].put_bucket_versioning(@aws_bucket_name, 'bad_value')
@@ -150,10 +169,16 @@ Shindo.tests('Fog::Storage[:aws] | versioning', [:aws]) do
     end
 
     tests("#get_bucket_object_versions('fognonbucket')").raises(Excon::Errors::NotFound) do
-        Fog::Storage[:aws].get_bucket_object_versions('fognonbucket')
-      end
+      Fog::Storage[:aws].get_bucket_object_versions('fognonbucket')
+    end
+
+    file = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'y', :key => 'x')
+
+    tests("#get_object('#{@aws_bucket_name}', 'x', 'versionId' => 'bad_version'").raises(Excon::Errors::BadRequest) do
+      Fog::Storage[:aws].get_object(@aws_bucket_name, 'x', 'versionId' => '-1')
+    end
   end
 
   # don't keep the bucket around
-  Fog::Storage[:aws].delete_bucket(@aws_bucket_name) rescue nil
+  delete_bucket
 end
