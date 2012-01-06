@@ -4,6 +4,14 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
 
   tests('success') do
 
+    @multiple_delete_format = {
+      'DeleteResult' => [{
+        'Deleted' => {
+          'Key' => String
+        }
+      }]
+    }
+
     tests("#put_object('#{@directory.identity}', 'fog_object', lorem_file)").succeeds do
       Fog::Storage[:aws].put_object(@directory.identity, 'fog_object', lorem_file)
     end
@@ -84,13 +92,8 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       Fog::Storage[:aws].delete_object(@directory.identity, 'fog_object')
     end
 
-    tests("delete_multiple_objects('#{@directory.identity}', ['fog_object'])").returns({
-      'DeleteResult' => [
-        { 'Deleted' => { 'Key' => 'fog_object' } }
-      ]
-    }) do
-      Fog::Storage[:aws].delete_multiple_objects(@directory.identity, ['fog_object'])
-      Fog::Storage[:aws].delete_multiple_objects(@directory.identity, ['fog_object']).body
+    tests("delete_multiple_objects('#{@directory.identity}', ['fog_object', 'fog_other_object'])").formats(@multiple_delete_format) do
+      Fog::Storage[:aws].delete_multiple_objects(@directory.identity, ['fog_object', 'fog_other_object']).body
     end
 
   end
