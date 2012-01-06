@@ -97,13 +97,8 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       (object_url =~ /http:\/\/#{Regexp.quote(@directory.identity)}\.s3\.amazonaws\.com\/fog_object/) != nil
     end
 
-    tests("delete_multiple_objects('#{@directory.identity}', ['fog_object'])").returns({
-      'DeleteResult' => [
-        { 'Deleted' => { 'Key' => 'fog_object' } }
-      ]
-    }) do
-      Fog::Storage[:aws].delete_multiple_objects(@directory.identity, ['fog_object'])
-      Fog::Storage[:aws].delete_multiple_objects(@directory.identity, ['fog_object']).body
+    tests("delete_multiple_objects('#{@directory.identity}', ['fog_object', 'fog_other_object'])").formats(@multiple_delete_format) do
+      Fog::Storage[:aws].delete_multiple_objects(@directory.identity, ['fog_object', 'fog_other_object']).body
     end
 
   end
