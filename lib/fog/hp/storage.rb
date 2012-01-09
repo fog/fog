@@ -6,7 +6,7 @@ module Fog
     class HP < Fog::Service
 
       requires    :hp_secret_key, :hp_account_id
-      recognizes  :hp_auth_uri, :hp_servicenet, :hp_cdn_ssl, :hp_cdn_uri, :persistent, :connection_options
+      recognizes  :hp_auth_uri, :hp_servicenet, :hp_cdn_ssl, :hp_cdn_uri, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_tenant_id, :hp_service_type
 
       model_path 'fog/hp/models/storage'
       model       :directory
@@ -144,10 +144,14 @@ module Fog
           @hp_cdn_ssl    = options[:hp_cdn_ssl]
           @hp_cdn_uri    = options[:hp_cdn_uri]
           @connection_options = options[:connection_options] || {}
-          credentials = Fog::HP.authenticate(options, @connection_options)
-          @auth_token = credentials['X-Auth-Token']
+          ### Pass the service type for object storage via the options hash
+          options[:hp_service_type] ||= "object-store"
 
-          uri = URI.parse(credentials['X-Storage-Url'])
+          ### Call the control services authentication
+          credentials = Fog::HP.authenticate_v2(options, @connection_options)
+          @auth_token = credentials[:auth_token]
+
+          uri = URI.parse(credentials[:endpoint_url])
           @host   = options[:hp_servicenet] == true ? "snet-#{uri.host}" : uri.host
           @path   = uri.path
           @persistent = options[:persistent] || false
