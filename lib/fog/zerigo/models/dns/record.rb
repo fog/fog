@@ -44,19 +44,21 @@ module Fog
           options[:notes]     = description if description
           options[:priority]  = priority if priority
           options[:ttl]       = ttl if ttl
-          data = unless identity
-            connection.create_host(@zone.id, type, value, options)
-          else
+
+          if identity
             options[:host_type] = type
             options[:data]      = value
             connection.update_host(identity, options)
+          else
+            data = connection.create_host(@zone.id, type, value, options)
+            merge_attributes(data.body)
           end
-          merge_attributes(data.body)
+
           true
         end
 
         private
-        
+
         def zone=(new_zone)
           @zone = new_zone
         end
