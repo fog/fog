@@ -1,3 +1,22 @@
+0.0.11 01/09/2012
+=================
+ - add ability to customize various connection timeouts options
+ - add CDN service capabilities
+ - integrate the CDN service with the Storage service
+ - add a new CDN Uri option to Storage service
+ - incorporate Diablo 4 API changes
+    - update image, server and flavor models
+    - update create_image and create_server calls
+    - add rebuild_server and change_password_server calls
+ - new extensions APIs
+    - add keypair model and request layer with mocking support
+    - add security group model and request layer with mocking support
+    - add security group rule model and request layer with mocking support
+    - add address model and request layer with mocking support
+    - update server model with address management methods
+    - update server creation to use keypairs, security groups and other options
+ - update inline documentation
+
 0.0.10 10/18/2011
 =================
  - merge with upstream fog v1.0.0
