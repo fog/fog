@@ -15,7 +15,7 @@ Shindo.tests('Fog::Compute[:cloudstack] | virtual machine requests', ['cloudstac
         'haenable' => Fog::Boolean,
         'zoneid' => Integer,
         'zonename' => String,
-        'hostid' => Integer,
+        'hostid' => Fog::Nullable::String,
         'hostname' => Fog::Nullable::String,
         'templateid' => Integer,
         'templatename' => String,

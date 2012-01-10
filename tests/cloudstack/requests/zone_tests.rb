@@ -6,16 +6,17 @@ Shindo.tests('Fog::Compute[:cloudstack] | zone requests', ['cloudstack']) do
       'zone' => [
         'id' => Integer,
         'name' => String,
-        'dns1' => String,
-        'dns2' => String,
-        'internaldns1' => String,
-        'internaldns2' => String,
-        'vlan' => String,
-        'guestcidraddress' => String,
+        'dns1' => Fog::Nullable::String,
+        'dns2' => Fog::Nullable::String,
+        'internaldns1' => Fog::Nullable::String,
+        'internaldns2' => Fog::Nullable::String,
+        'vlan' => Fog::Nullable::String,
+        'guestcidraddress' => Fog::Nullable::String,
         'networktype' => String,
-        'securitygroupsenabled' => [TrueClass,FalseClass],
+        'securitygroupsenabled' => Fog::Nullable::Boolean,
         'allocationstate' => String,
-        'dhcpprovider' => String
+        'dhcpprovider' => String,
+        'zonetoken' => Fog::Nullable::String
       ]
     }
   }
