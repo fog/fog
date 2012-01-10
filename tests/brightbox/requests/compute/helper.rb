@@ -111,7 +111,7 @@ class Brightbox
           "name"            => String,
           "default"         => Fog::Boolean,
           "created_at"      => String,
-          "description"     => String
+          "description"     => Fog::Nullable::String
         }
 
         FIREWALL_RULE = {
