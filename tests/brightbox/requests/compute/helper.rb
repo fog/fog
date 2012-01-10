@@ -294,6 +294,7 @@ class Brightbox
           "deleted_at"      => Fog::Nullable::String,
           "cloud_ips"       => [Brightbox::Compute::Formats::Nested::CLOUD_IP],
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
+          "listeners"       => [Brightbox::Compute::Formats::Struct::LB_LISTENER],
           "nodes"           => [Brightbox::Compute::Formats::Nested::SERVER]
         }
 
