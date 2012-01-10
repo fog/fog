@@ -37,37 +37,36 @@ module Fog
               max_number_of_messages = options['MaxNumberOfMessages'] || 1
               now = Time.now
               
-              keys = queue[:messages].keys[0, max_number_of_messages]
-              
-              messages = queue[:messages].values_at(*keys).map do |m|
+              messages = []
+
+              queue[:messages].values.each do |m|
                 message_id = m['MessageId']
-                
+
                 invisible = if (received_handles = queue[:receipt_handles][message_id])
                   visibility_timeout = m['Attributes']['VisibilityTimeout'] || queue['Attributes']['VisibilityTimeout']
                   received_handles.any? { |handle, time| now < time + visibility_timeout }
                 else
                   false
                 end
-                
-                if invisible
-                  nil
-                else
+
+                unless invisible
                   receipt_handle = Fog::Mock.random_base64(300)
-                  
+
                   queue[:receipt_handles][message_id] ||= {}
                   queue[:receipt_handles][message_id][receipt_handle] = now
-                  
+
                   m['Attributes'].tap do |attrs|
                     attrs['ApproximateFirstReceiveTimestamp'] ||= now
                     attrs['ApproximateReceiveCount'] = (attrs['ApproximateReceiveCount'] || 0) + 1
                   end
-                  
-                  m.merge({
+
+                  messages << m.merge({
                     'ReceiptHandle' => receipt_handle
                   })
+                  break if messages.size >= max_number_of_messages
                 end
-              end.compact
-              
+              end
+
               response.body = {
                 'ResponseMetadata' => {
                   'RequestId' => Fog::AWS::Mock.request_id
