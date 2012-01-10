@@ -279,6 +279,7 @@ class Brightbox
           "compatibility_mode" => Fog::Boolean,
           "virtual_size"    => Integer,
           "disk_size"       => Integer,
+          "min_ram"         => Fog::Nullable::Integer,
           "ancestor"        => Fog::Brightbox::Nullable::Image,
           "username"        => Fog::Nullable::String
         }
@@ -471,6 +472,7 @@ class Brightbox
           "compatibility_mode"   => Fog::Boolean,
           "virtual_size"    => Integer,
           "disk_size"       => Integer,
+          "min_ram"         => Fog::Nullable::Integer,
           "ancestor"        => Fog::Brightbox::Nullable::Image,
           "username"        => Fog::Nullable::String
         }
