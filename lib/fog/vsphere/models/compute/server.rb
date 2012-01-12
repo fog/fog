@@ -56,7 +56,13 @@ module Fog
           requires :instance_uuid
           connection.vm_destroy('instance_uuid' => instance_uuid)
         end
-
+        def create(options ={})
+          requires :name, :path
+          new_vm = self.class.new(create_results['vm_attributes'])
+          new_vm.collection = self.collection
+          new_vm.connection = self.connection
+          new_vm
+        end
         def clone(options = {})
           requires :name, :path
           # Convert symbols to strings
