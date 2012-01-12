@@ -90,6 +90,9 @@ module Fog
           return newuri
         end
 
+        def respond_to?(method, *)
+          super or @connection.respond_to? method
+        end
 
         # hack to provide 'requests'
         def method_missing(method_sym, *arguments, &block)
