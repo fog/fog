@@ -58,7 +58,7 @@ class AWS < Fog::Bin
         when :cloud_watch
           Fog::AWS::CloudWatch.new
         when :compute
-          Fog::Logger.warning("AWS[:compute] is not recommended, use Comptue[:aws] for portability")
+          Fog::Logger.warning("AWS[:compute] is not recommended, use Compute[:aws] for portability")
           Fog::Compute.new(:provider => 'AWS')
         when :dns
           Fog::Logger.warning("AWS[:dns] is not recommended, use DNS[:aws] for portability")
