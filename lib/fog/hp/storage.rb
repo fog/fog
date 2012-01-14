@@ -6,7 +6,7 @@ module Fog
     class HP < Fog::Service
 
       requires    :hp_secret_key, :hp_account_id
-      recognizes  :hp_auth_uri, :hp_servicenet, :hp_cdn_ssl, :hp_cdn_uri, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_tenant_id, :hp_service_type
+      recognizes  :hp_auth_uri, :hp_servicenet, :hp_cdn_ssl, :hp_cdn_uri, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_tenant_id, :hp_service_type, :hp_auth_version
 
       model_path 'fog/hp/models/storage'
       model       :directory
@@ -144,13 +144,21 @@ module Fog
           @hp_cdn_ssl    = options[:hp_cdn_ssl]
           @hp_cdn_uri    = options[:hp_cdn_uri]
           @connection_options = options[:connection_options] || {}
-          ### Pass the service type for object storage via the options hash
+          ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
+          auth_version = options[:hp_auth_version] || :v2
+          ### Pass the service type for object storage to the authentication call
           options[:hp_service_type] ||= "object-store"
 
-          ### Call the control services authentication
-          credentials = Fog::HP.authenticate_v2(options, @connection_options)
-          @auth_token = credentials[:auth_token]
+          ### Make the authentication call
+          if (auth_version == :v2)
+            # Call the control services authentication
+            credentials = Fog::HP.authenticate_v2(options, @connection_options)
+          else
+            # Call the legacy v1.0/v1.1 authentication
+            credentials = Fog::HP.authenticate_v1(options, @connection_options)
+          end
 
+          @auth_token = credentials[:auth_token]
           uri = URI.parse(credentials[:endpoint_url])
           @host   = options[:hp_servicenet] == true ? "snet-#{uri.host}" : uri.host
           @path   = uri.path
