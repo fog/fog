@@ -74,8 +74,8 @@ module Fog
         end
   	    
         def save()
-		      clone(self.attributes)
-		    end
+          clone(self.attributes)
+        end
       end
 
     end
