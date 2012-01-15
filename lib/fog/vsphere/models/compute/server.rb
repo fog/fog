@@ -61,8 +61,6 @@ module Fog
           requires :name, :path
           # Convert symbols to strings
           req_options = options.inject({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
-          # Give our path to the request
-          req_options['path'] ="#{path}/#{name}"
           # Perform the actual clone
           clone_results = connection.vm_clone(req_options)
           # Create the new VM model.
@@ -74,7 +72,10 @@ module Fog
           # Return the new VM model.
           new_vm
         end
-
+  	    
+        def save()
+		      clone(self.attributes)
+		    end
       end
 
     end
