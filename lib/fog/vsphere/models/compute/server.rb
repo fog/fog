@@ -20,6 +20,18 @@ module Fog
         attribute :name
         # UUID may be the same from VM to VM if the user does not select (I copied it)
         attribute :uuid
+        
+        # provisioning
+        attribute :availability_zone,     :aliases => 'availabilityZone'
+        attribute :flavor_id,             :aliases => 'instanceType'
+        attribute :image_id,              :aliases => 'imageId'
+        attribute :tags,                  :aliases => 'tagSet'
+        attribute :key_name,              :aliases => 'keyName'
+        attribute :created_at,            :aliases => 'launchTime'
+        attribute :state,                 :aliases => 'instanceState', :squash => 'name'
+        attribute :private_ip_address,    :aliases => 'privateIpAddress'
+        attribute :public_ip_address,     :aliases => 'ipAddress'
+        
         # Instance UUID should be unique across a vCenter deployment.
         attribute :instance_uuid
         attribute :hostname
@@ -34,6 +46,7 @@ module Fog
         attribute :connection_state
         attribute :mo_ref
         attribute :path
+        attribute :template_path
 
         def vm_reconfig_memory(options = {})
           requires :instance_uuid, :memory
@@ -83,7 +96,10 @@ module Fog
           new_vm
         end
         def clone(options = {})
-          requires :name, :path
+          requires :template_path, :name
+          # expand template_name to full path of the template file
+          options[:template_path] = connection.vsphere_templates_folder + options[:template_path]
+          
           # Convert symbols to strings
           req_options = options.inject({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
           # Perform the actual clone
@@ -97,7 +113,7 @@ module Fog
           # Return the new VM model.
           new_vm
         end
-  	    
+
         def save()
           clone(self.attributes)
         end
