@@ -6,23 +6,25 @@ module Fog
         private
         def vm_clone_check_options(options)
           default_options = {
-            'force'        => false,
+            'wait' => true,
+            'force' => false,
             'linked_clone' => false,
           }
           options = default_options.merge(options)
-          required_options = %w{ path name }
+          required_options = %w{ template_path name }
           required_options.each do |param|
             raise ArgumentError, "#{required_options.join(', ')} are required" unless options.has_key? param
           end
+
           # The tap removes the leading empty string
-          path_elements = options['path'].split('/').tap { |o| o.shift }
+          path_elements = options['template_path'].split('/').tap { |o| o.shift }
           first_folder = path_elements.shift
           if first_folder != 'Datacenters' then
-            raise ArgumentError, "vm_clone path option must start with /Datacenters.  Got: #{options['path']}"
+            raise ArgumentError, "vm_clone path option must start with /Datacenters.  Got: #{options['template_path']}"
           end
           dc_name = path_elements.shift
           if not self.datacenters.include? dc_name then
-            raise ArgumentError, "Datacenter #{dc_name} does not exist, only datacenters #{self.dacenters.join(",")} are accessible."
+            raise ArgumentError, "Datacenter #{dc_name} does not exist, only datacenters #{self.datacenters.join(",")} are accessible."
           end
           options
         end
@@ -40,12 +42,12 @@ module Fog
           # searching ALL VM's looking for the template.
           # Tap gets rid of the leading empty string and "Datacenters" element
           # and returns the array.
-          path_elements = options['path'].split('/').tap { |ary| ary.shift 2 }
+          path_elements = options['template_path'].split('/').tap { |ary| ary.shift 2 }
           # The DC name itself.
           template_dc = path_elements.shift
           # If the first path element contains "vm" this denotes the vmFolder
           # and needs to be shifted out
-          path_elements.shift if path_elements[0] == 'vm'
+          path_elements.shift if path_elements[0] = 'vm'
           # The template name.  The remaining elements are the folders in the
           # datacenter.
           template_name = path_elements.pop
