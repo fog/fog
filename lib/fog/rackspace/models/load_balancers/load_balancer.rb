@@ -70,10 +70,6 @@ module Fog
           virtual_ips.load(new_virtual_ips)
         end
 
-        def connection_logging
-          attributes[:connection_logging]
-        end
-
         def enable_connection_logging
           requires :identity
           connection.set_connection_logging identity, true
@@ -94,7 +90,7 @@ module Fog
 
         def enable_health_monitor(type, delay, timeout, attempsBeforeDeactivation, options = {})
           requires :identity
-          connection.set_monitor(identity, type, delay, timeout, attempsBeforeDeactivation, options = {})
+          connection.set_monitor(identity, type, delay, timeout, attempsBeforeDeactivation, options)
           true
         end
 
@@ -164,6 +160,21 @@ module Fog
           connection.get_load_balancer_usage(identity, options).body
         end
 
+        def error_page
+          requires :identity
+          connection.get_error_page(identity).body['errorpage']['content']
+        end
+
+        def error_page=(content)
+          requires :identity
+          connection.set_error_page identity, content
+        end
+
+        def reset_error_page
+          requires :identity
+          connection.remove_error_page identity
+        end
+
         private
         def create
           requires :name, :protocol, :port, :virtual_ips, :nodes
@@ -200,16 +211,15 @@ module Fog
         def connection_logging=(new_value)
           if !new_value.nil? and new_value.is_a?(Hash)
             attributes[:connection_logging] = case new_value['enabled']
-                                              when 'true'
+                                              when true,'true'
                                                 true
-                                              when 'false'
+                                              when false,'false'
                                                 false
                                               end
           else
             attributes[:connection_logging] = new_value
           end
         end
-
       end
     end
   end

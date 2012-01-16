@@ -24,7 +24,7 @@ module Fog
             when 'Value'
               case @current_attribute_name
               when 'ApproximateFirstReceiveTimestamp', 'SentTimestamp'
-                @message['Attributes'][@current_attribute_name] = Time.at(@value.to_i)
+                @message['Attributes'][@current_attribute_name] = Time.at(@value.to_i / 1000.0)
               when 'ApproximateReceiveCount'
                 @message['Attributes'][@current_attribute_name] = @value.to_i
               else

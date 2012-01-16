@@ -25,6 +25,11 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
         returns(true) { @instance.connection_logging }
       end
 
+      tests('#enable_connection_logging after reload').succeeds do
+        @instance.reload
+        returns(true) { @instance.connection_logging }
+      end
+
       @instance.wait_for { ready? }
       tests('#disable_connection_logging').succeeds do
         @instance.disable_connection_logging
@@ -52,6 +57,11 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
       tests("#health_monitor").succeeds do
         monitor = @instance.health_monitor
         returns('CONNECT') { monitor['type'] }
+      end
+
+      @instance.wait_for { ready? }
+      tests("#enable_health_monitor('HTTP', 10, 5, 2, {:status_regex => '^[234][0-9][0-9]$', :path=>'/', :body_regex=>' '})").succeeds do
+        @instance.enable_health_monitor('HTTP', 10, 5, 2, {:status_regex => '^[234][0-9][0-9]$', :path=>'/', :body_regex=>' '})
       end
 
       @instance.wait_for { ready? }
@@ -97,6 +107,21 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
       @instance.wait_for { ready? }
       tests("#disable_session_persistence").succeeds do
         @instance.disable_session_persistence
+      end
+
+      @instance.wait_for { ready? }
+      tests("#error_page").succeeds do
+        @instance.error_page
+      end
+
+      @instance.wait_for { ready? }
+      tests("#error_page = 'asdf'").succeeds do
+        @instance.error_page = 'asdf'
+      end
+
+      @instance.wait_for { ready? }
+      tests("#reset_error_page").succeeds do
+        @instance.reset_error_page
       end
 
       @instance.wait_for { ready? }

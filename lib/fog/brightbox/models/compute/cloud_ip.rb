@@ -23,9 +23,17 @@ module Fog
         attribute :server_id, :aliases => "server", :squash => "id"
         attribute :load_balancer, :alias => "load_balancer", :squash => "id"
 
-        def map(interface_to_map)
+        def map(destination)
           requires :identity
-          connection.map_cloud_ip(identity, :interface => interface_to_map)
+          case destination
+          when Fog::Compute::Brightbox::Server
+            final_destination = destination.interfaces.first["id"]
+          when Fog::Compute::Brightbox::LoadBalancer
+            final_destination = destination.id
+          else
+            final_destination = destination
+          end
+          connection.map_cloud_ip(identity, :destination => final_destination)
         end
 
         def mapped?

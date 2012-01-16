@@ -35,8 +35,8 @@ First, create a connection with your new account:
     # create a connection
     connection = Fog::Storage.new({
       :provider                 => 'AWS',
-      :aws_secret_access_key    => YOUR_SECRET_ACCESS_KEY,
-      :aws_access_key_id        => YOUR_SECRET_ACCESS_KEY_ID
+      :aws_access_key_id        => YOUR_SECRET_ACCESS_KEY_ID,
+      :aws_secret_access_key    => YOUR_SECRET_ACCESS_KEY
     })
 
     # First, a place to contain the glorious details
@@ -131,8 +131,8 @@ Sign up <a href="http://gs-signup-redirect.appspot.com/">here</a> and get your c
 
     connection = Fog::Storage.new({
       :provider                         => 'Google',
-      :google_storage_secret_access_key => YOUR_SECRET_ACCESS_KEY,
-      :google_storage_access_key_id     => YOUR_SECRET_ACCESS_KEY_ID
+      :google_storage_access_key_id     => YOUR_SECRET_ACCESS_KEY_ID,
+      :google_storage_secret_access_key => YOUR_SECRET_ACCESS_KEY
     })
 
 ## Rackspace CloudFiles

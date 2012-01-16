@@ -50,8 +50,12 @@ module Fog
             :data => value
           }
 
+          if priority
+            options[:priority] = priority
+          end
+
           response = wait_for_job connection.add_records(@zone.identity, [options]).body['jobId']
-          merge_attributes(response.body['request']['records'].select {|record| record['name'] == self.name && record['type'] == self.type && record['value'] == self.value})
+          merge_attributes(response.body['response']['records'].select {|record| record['name'] == self.name && record['type'] == self.type && record['data'] == self.value}.first)
           true
         end
 

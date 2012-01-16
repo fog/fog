@@ -4,7 +4,7 @@ module Fog
 
       module GetObjectHttpsUrl
 
-        def get_object_https_url(bucket_name, object_name, expires)
+        def get_object_https_url(bucket_name, object_name, expires, options = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
@@ -15,7 +15,8 @@ module Fog
             :headers  => {},
             :host     => @host,
             :method   => 'GET',
-            :path     => "#{bucket_name}/#{object_name}"
+            :path     => "#{bucket_name}/#{object_name}",
+            :query    => options[:query]
           }, expires)
         end
 

@@ -51,6 +51,14 @@ module Fog
           source_object = source_bucket && source_bucket[:objects][source_object_name]
           target_bucket = self.data[:buckets][target_bucket_name]
 
+          acl = options['x-amz-acl'] || 'private'
+          if !['private', 'public-read', 'public-read-write', 'authenticated-read'].include?(acl)
+            raise Excon::Errors::BadRequest.new('invalid x-amz-acl')
+          else
+            self.data[:acls][:object][target_bucket_name] ||= {}
+            self.data[:acls][:object][target_bucket_name][target_object_name] = self.class.acls(acl)
+          end
+
           if source_object && target_bucket
             response.status = 200
             target_object = source_object.dup

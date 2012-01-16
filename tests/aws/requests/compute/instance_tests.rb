@@ -122,11 +122,30 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     'requestId'     => String
   }
 
+  @describe_instance_status_format = {
+    'requestId' => String,
+    'instanceStatusSet' => [{
+                              'instanceId' => String,
+                              'availabilityZone' => String,
+                              'instanceState' => {
+                                'code' => Integer,
+                                'name' => String
+                              },
+                              'eventsSet' => [{
+                                                'code' => String,
+                                                'description' => String,
+                                                'notBefore' => Time,
+                                                'notAfter' => Time
+                                              }]
+                            }]
+
+  }
+
   tests('success') do
 
     @instance_id = nil
     # Use a MS Windows AMI to test #get_password_data
-    @windows_ami = 'ami-1cbd4475' # Microsoft Windows Server 2008 R2 Base 64-bit
+    @windows_ami = 'ami-62bd440b' # Amazon Public Images - Basic Microsoft Windows Server 2008 64-bit
 
     # Create a keypair for decrypting the password
     key_name = 'fog-test-key'
@@ -212,6 +231,10 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     tests("#describe_reserved_instances_offerings").formats(@describe_reserved_instances_offerings_format) do
       @reserved_instances = Fog::Compute[:aws].describe_reserved_instances_offerings.body
       @reserved_instances
+    end
+
+    tests('#describe_instance_status').formats(@describe_instance_status_format) do
+      Fog::Compute[:aws].describe_instance_status.body
     end
 
     if Fog.mocking?

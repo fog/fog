@@ -8,7 +8,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer_tests', ['rackspace'
       @lb_id = nil
       @lb_name = 'fog' + Time.now.to_i.to_s
 
-      tests('#create_load_balancer(fog, )').formats(LOAD_BALANCER_FORMAT) do
+      tests("#create_load_balancer(#{@lb_name}, 'HTTP', 80,...)").formats(LOAD_BALANCER_FORMAT) do
         data = @service.create_load_balancer(@lb_name, 'HTTP', 80, [{ :type => 'PUBLIC'}], [{ :address => '10.0.0.1', :port => 80, :condition => 'ENABLED'}]).body
         @lb_id = data['loadBalancer']['id']
         data
@@ -30,6 +30,9 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer_tests', ['rackspace'
         sleep 10
       end
 
+      tests("#list_load_balancers({:node_address => '10.0.0.1'})").formats(LOAD_BALANCERS_FORMAT) do
+        @service.list_load_balancers({:node_address => '10.0.0.1'}).body
+      end
 
       tests("#update_load_balancer(#{@lb_id}, { :port => 80 })").succeeds do
         @service.update_load_balancer(@lb_id, { :port => 80 }).body

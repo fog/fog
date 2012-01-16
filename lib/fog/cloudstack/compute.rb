@@ -216,7 +216,6 @@ module Fog
         
         def issue_request(params={},headers={},method='GET',expects=200)
           begin
-            #puts params.inspect
             response = @connection.request({
               :query => params,
               :headers => headers,
@@ -229,11 +228,6 @@ module Fog
             
             error_code = error_response.values.first['errorcode']
             error_text = error_response.values.first['errortext']
-            
-            #puts error_response.inspect
-            
-            #puts error_code
-            #puts error_text
             
             case error_code
             when 401

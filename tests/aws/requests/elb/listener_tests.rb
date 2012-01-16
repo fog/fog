@@ -44,6 +44,10 @@ Shindo.tests('AWS::ELB | listener_tests', ['aws', 'elb']) do
       Fog::AWS[:elb].create_load_balancer_listeners(@load_balancer_id, listeners).body
     end
 
+    tests("#set_load_balancer_listener_ssl_certificate").formats(AWS::ELB::Formats::BASIC) do
+      Fog::AWS[:elb].set_load_balancer_listener_ssl_certificate(@load_balancer_id, 443, @certificate['Arn']).body
+    end
+
     Fog::AWS[:iam].delete_server_certificate(@key_name)
     Fog::AWS[:elb].delete_load_balancer(@load_balancer_id)
   end

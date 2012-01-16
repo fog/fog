@@ -7,35 +7,38 @@ Shindo.tests('Fog::Compute[:brightbox] | image requests', ['brightbox']) do
     #   "arch" => "i686",
     #   "source" => "fnord"
     # }
-    # tests("#create_image(#{creation_options.inspect})").formats(Brightbox::Compute::Formats::Full::IMAGE) do
-    #   data = Fog::Compute[:brightbox].create_image(creation_options)
-    #   @image_id = data["id"]
-    #   data
+    # tests("#create_image(#{creation_options.inspect})")
+    #   result = Fog::Compute[:brightbox].create_image(creation_options)
+    #   @image_id = result["id"]
+    #   formats(Brightbox::Compute::Formats::Full::IMAGE) { result }
     # end
 
     # Fog::Compute[:brightbox].images.get(@image_id).wait_for { ready? }
 
-    tests("#list_images").formats(Brightbox::Compute::Formats::Collection::IMAGES) do
+    tests("#list_images") do
       pending if Fog.mocking?
-      data = Fog::Compute[:brightbox].list_images
-      @image_id = data.first["id"]
-      data
+      result = Fog::Compute[:brightbox].list_images
+      @image_id = result.first["id"]
+      formats(Brightbox::Compute::Formats::Collection::IMAGES) { result }
     end
 
-    tests("#get_image('#{@image_id}')").formats(Brightbox::Compute::Formats::Full::IMAGE) do
+    tests("#get_image('#{@image_id}')") do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].get_image(@image_id)
+      result = Fog::Compute[:brightbox].get_image(@image_id)
+      formats(Brightbox::Compute::Formats::Full::IMAGE) { result }
     end
 
     ## Until Image creation can be automated, we shouldn't be updating Images randomly
     # update_options = {}
-    # tests("#update_image('#{@image_id}', #{update_options.inspect})").formats(Brightbox::Compute::Formats::Full::IMAGE) do
-    #   Fog::Compute[:brightbox].update_image(@image_id, :name => "New name from Fog test")
+    # tests("#update_image('#{@image_id}', #{update_options.inspect})") do
+    #   result = Fog::Compute[:brightbox].update_image(@image_id, :name => "New name from Fog test")
+    #   formats(Brightbox::Compute::Formats::Full::IMAGE) { result }
     # end
 
     ## Same as other tests - can't be deleting them unless part of the test run
-    # tests("#destroy_server('#{@image_id}')").formats(Brightbox::Compute::Formats::Full::IMAGE) do
-    #   Fog::Compute[:brightbox].destroy_image(@image_id)
+    # tests("#destroy_server('#{@image_id}')") do
+    #   result = Fog::Compute[:brightbox].destroy_image(@image_id)
+    #   formats(Brightbox::Compute::Formats::Full::IMAGE) { result }
     # end
 
   end

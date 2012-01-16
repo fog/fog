@@ -117,7 +117,6 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
     end
 
     tests("#put_bucket_website('#{@aws_bucket_name}', 'index.html')").succeeds do
-      pending if Fog.mocking?
       Fog::Storage[:aws].put_bucket_website(@aws_bucket_name, 'index.html')
     end
 
@@ -135,8 +134,6 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
       ]
     }
     tests("#put_bucket_acl('#{@aws_bucket_name}', hash with id)").returns(acl) do
-      pending if Fog.mocking?
-
       Fog::Storage[:aws].put_bucket_acl(@aws_bucket_name, acl)
       Fog::Storage[:aws].get_bucket_acl(@aws_bucket_name).body
     end
@@ -173,7 +170,6 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
       ]
     }
     tests("#put_bucket_acl('#{@aws_bucket_name}', hash with uri)").returns(acl) do
-      pending if Fog.mocking?
       Fog::Storage[:aws].put_bucket_acl(@aws_bucket_name, acl)
       Fog::Storage[:aws].get_bucket_acl(@aws_bucket_name).body
     end
@@ -223,6 +219,10 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
 
     tests("#put_bucket_acl('fognonbucket', 'invalid')").raises(Excon::Errors::BadRequest) do
       Fog::Storage[:aws].put_bucket_acl('fognonbucket', 'invalid')
+    end
+
+    tests("#put_bucket_website('fognonbucket', 'index.html')").raises(Excon::Errors::Forbidden) do
+      Fog::Storage[:aws].put_bucket_website('fognonbucket', 'index.html')
     end
 
   end

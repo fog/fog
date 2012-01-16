@@ -27,6 +27,10 @@ module Fog
         Fog::Mock.not_implemented
       end
 
+      def download(remote_path, local_path, download_options = {})
+        Fog::Mock.not_implemented
+      end
+
     end
 
     class Real
@@ -45,10 +49,22 @@ module Fog
         @options  = { :paranoid => false }.merge(options)
       end
 
-      def upload(local_path, remote_path, upload_options = {} )
+      def upload(local_path, remote_path, upload_options = {})
         begin
           Net::SCP.start(@address, @username, @options) do |scp|
-            scp.upload!(local_path, remote_path, upload_options ) do |ch, name, sent, total|
+            scp.upload!(local_path, remote_path, upload_options) do |ch, name, sent, total|
+              # TODO: handle progress display?
+            end
+          end
+        rescue Exception => error
+          raise error
+        end
+      end
+
+      def download(remote_path, local_path, download_options = {})
+        begin
+          Net::SCP.start(@address, @username, @options) do |scp|
+            scp.download!(remote_path, local_path, download_options) do |ch, name, sent, total|
               # TODO: handle progress display?
             end
           end

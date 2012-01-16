@@ -6,7 +6,7 @@ module Fog
     class AWS < Fog::Service
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent
+      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :aws_session_token
 
       model_path 'fog/aws/models/compute'
       model       :address
@@ -57,6 +57,7 @@ module Fog
       request :describe_images
       request :describe_instances
       request :describe_reserved_instances
+      request :describe_instance_status
       request :describe_key_pairs
       request :describe_placement_groups
       request :describe_regions
@@ -170,7 +171,7 @@ module Fog
 
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
+          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
         end
@@ -249,6 +250,7 @@ module Fog
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
         #   * region<~String> - optional region to use, in
         #     ['eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'ap-northeast-1', 'ap-southeast-1']
+        #   * aws_session_token<~String> - when using Session Tokens or Federated Users, a session_token must be presented
         #
         # ==== Returns
         # * EC2 object with connection to aws.
@@ -257,6 +259,7 @@ module Fog
 
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
+          @aws_session_token      = options[:aws_session_token]
           @connection_options     = options[:connection_options] || {}
           @hmac                   = Fog::HMAC.new('sha256', @aws_secret_access_key)
           @region                 = options[:region] ||= 'us-east-1'
@@ -281,6 +284,8 @@ module Fog
               'ec2.us-west-1.amazonaws.com'
             when 'us-west-2'
               'ec2.us-west-2.amazonaws.com'
+            when 'sa-east-1'
+              'ec2.sa-east-1.amazonaws.com'
             else
               raise ArgumentError, "Unknown region: #{options[:region].inspect}"
             end
@@ -306,11 +311,12 @@ module Fog
             params,
             {
               :aws_access_key_id  => @aws_access_key_id,
+              :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2011-05-15'
+              :version            => '2011-11-01'
             }
           )
 

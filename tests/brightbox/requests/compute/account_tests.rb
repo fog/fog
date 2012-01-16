@@ -2,20 +2,25 @@ Shindo.tests('Fog::Compute[:brightbox] | account requests', ['brightbox']) do
 
   tests('success') do
 
-    tests("#get_account").formats(Brightbox::Compute::Formats::Full::ACCOUNT) do
+    tests("#get_account") do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].get_account
+      result = Fog::Compute[:brightbox].get_account
+      formats(Brightbox::Compute::Formats::Full::ACCOUNT) { result }
+      test("ftp password is blanked") { result["library_ftp_password"].nil?  }
     end
 
     update_options = {:name => "Fog@#{Time.now.iso8601}"}
-    tests("#update_account(#{update_options.inspect})").formats(Brightbox::Compute::Formats::Full::ACCOUNT) do
+    tests("#update_account(#{update_options.inspect})") do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].update_account(update_options)
+      result = Fog::Compute[:brightbox].update_account(update_options)
+      formats(Brightbox::Compute::Formats::Full::ACCOUNT) { result }
     end
 
-    tests("#reset_ftp_password_account").formats(Brightbox::Compute::Formats::Full::ACCOUNT) do
+    tests("#reset_ftp_password_account") do
       pending if Fog.mocking?
-      Fog::Compute[:brightbox].reset_ftp_password_account
+      result = Fog::Compute[:brightbox].reset_ftp_password_account
+      formats(Brightbox::Compute::Formats::Full::ACCOUNT) { result }
+      test("new ftp password is visible") { ! result["library_ftp_password"].nil?  }
     end
 
   end

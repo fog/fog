@@ -7,7 +7,7 @@ require File.join(File.dirname(__FILE__), '..', 'tests', 'helper')
 Shindo.tests('storage examples', 'storage') do
 
   # iterate over all the providers
-  Fog.providers.each do |provider|
+  Fog.providers.values.each do |provider|
 
     provider = eval(provider) # convert from string to object
 

@@ -57,6 +57,24 @@ module Fog
           connection.vm_destroy('instance_uuid' => instance_uuid)
         end
 
+        def clone(options = {})
+          requires :name, :path
+          # Convert symbols to strings
+          req_options = options.inject({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
+          # Give our path to the request
+          req_options['path'] ="#{path}/#{name}"
+          # Perform the actual clone
+          clone_results = connection.vm_clone(req_options)
+          # Create the new VM model.
+          new_vm = self.class.new(clone_results['vm_attributes'])
+          # We need to assign the collection and the connection otherwise we
+          # cannot reload the model.
+          new_vm.collection = self.collection
+          new_vm.connection = self.connection
+          # Return the new VM model.
+          new_vm
+        end
+
       end
 
     end

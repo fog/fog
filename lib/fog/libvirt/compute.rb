@@ -8,6 +8,8 @@ module Fog
     class Libvirt < Fog::Service
 
       requires :libvirt_uri
+      recognizes :libvirt_username, :libvirt_password
+      recognizes :libvirt_ip_command
 
       model_path 'fog/libvirt/models/compute'
       model       :server
@@ -88,6 +90,9 @@ module Fog
           return newuri
         end
 
+        def respond_to?(method, *)
+          super or @connection.respond_to? method
+        end
 
         # hack to provide 'requests'
         def method_missing(method_sym, *arguments, &block)
