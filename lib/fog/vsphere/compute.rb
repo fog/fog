@@ -5,7 +5,7 @@ module Fog
     class Vsphere < Fog::Service
 
       requires :vsphere_username, :vsphere_password, :vsphere_server
-      recognizes :vsphere_port, :vsphere_path, :vsphere_ns
+      recognizes :vsphere_port, :vsphere_path, :vsphere_ns, :vsphere_templates_folder
       recognizes :vsphere_rev, :vsphere_ssl, :vsphere_expected_pubkey_hash
 
       model_path 'fog/vsphere/models/compute'
@@ -34,6 +34,7 @@ module Fog
         attr_reader :vsphere_rev
         attr_reader :vsphere_server
         attr_reader :vsphere_username
+        attr_reader :vsphere_templates_folder
 
         ATTR_TO_PROP = {
           :id => 'config.instanceUuid',
@@ -117,6 +118,7 @@ module Fog
           @vsphere_ssl      = options[:vsphere_ssl] || true
           @vsphere_expected_pubkey_hash = options[:vsphere_expected_pubkey_hash]
           @vsphere_must_reauthenticate = false
+          @vsphere_templates_folder = options[:vsphere_templates_folder] || '/Datacenters/datacenter/vm/'
 
           @connection = nil
           # This is a state variable to allow digest validation of the SSL cert
