@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::IBM::Server
 
         def all
-          load(connection.get_instances.body['instances'])
+          load(connection.list_instances.body['instances'])
         end
 
         def get(server_id)

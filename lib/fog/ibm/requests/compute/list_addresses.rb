@@ -3,18 +3,18 @@ module Fog
     class IBM
       class Real
 
-        # Get available images
+        # Get addresses
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * images<~Array>
+        #     * instances<~Array>:
         # TODO: docs
-        def get_images
+        def list_addresses
           request(
             :method   => 'GET',
             :expects  => 200,
-            :path     => '/offerings/image'
+            :path     => '/addresses'
           )
         end
 

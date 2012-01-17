@@ -17,11 +17,11 @@ module Fog
 
       request_path 'fog/ibm/requests/storage'
 
-      request :get_offerings
+      request :list_offerings
 
+      request :list_volumes
       request :create_volume
       request :delete_volume
-      request :get_volumes
       request :get_volume
 
       class Real

@@ -3,20 +3,18 @@ module Fog
     class IBM
       class Real
 
-        # Returns address offerings
-        #
-        # ==== Parameters
-        # No parameters
+        # Get vlans
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        # TODO: doc
-        def get_address_offerings
+        #     * images<~Array>
+        # TODO: docs
+        def list_vlans
           request(
-            :expects  => 200,
             :method   => 'GET',
-            :path     => '/offerings/address'
+            :expects  => 200,
+            :path     => '/offerings/vlan'
           )
         end
 

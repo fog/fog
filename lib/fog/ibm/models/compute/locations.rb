@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::IBM::Location
 
         def all
-          load(connection.get_locations.body['locations'])
+          load(connection.list_locations.body['locations'])
         end
 
         def get(location_id)

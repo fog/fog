@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::IBM::Key
 
         def all
-          load(connection.get_keys.body['keys'])
+          load(connection.list_keys.body['keys'])
         end
 
         def get(key_id)

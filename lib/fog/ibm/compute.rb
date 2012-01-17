@@ -23,40 +23,40 @@ module Fog
 
       request_path 'fog/ibm/requests/compute'
 
+      request :list_images
       request :create_image
       request :clone_image
       request :delete_image
-      request :get_images
       request :get_image
       request :get_image_agreement
       request :get_image_manifest
       # request :get_image_swbundles
       # request :get_image_swbundle
 
+      request :list_instances
       request :create_instance
       request :delete_instance
       request :modify_instance
-      request :get_instances
       request :get_instance
       request :get_instance_logs
       # request :get_instance_swbundle
 
       request :get_request
 
+      request :list_addresses
+      request :list_address_offerings
+      request :list_vlans
       request :create_address
       request :delete_address
-      request :get_addresses
-      request :get_address_offerings
-      request :get_vlans
 
+      request :list_keys
       request :create_key
       request :delete_key
       request :modify_key
-      request :get_keys
       request :get_key
 
+      request :list_locations
       request :get_location
-      request :get_locations
 
       class Real
         def initialize(options={})

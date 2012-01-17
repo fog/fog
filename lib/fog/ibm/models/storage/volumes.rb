@@ -10,7 +10,7 @@ module Fog
         model Fog::Storage::IBM::Volume
 
         def all
-          load(connection.get_volumes.body['volumes'])
+          load(connection.list_volumes.body['volumes'])
         end
 
         def get(volume_id)

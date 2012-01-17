@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::IBM::Image
 
         def all
-          load(connection.get_images.body['images'])
+          load(connection.list_images.body['images'])
         end
 
         def get(image_id)

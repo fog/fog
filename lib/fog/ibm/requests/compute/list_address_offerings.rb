@@ -3,18 +3,20 @@ module Fog
     class IBM
       class Real
 
-        # Get keys
+        # Returns address offerings
+        #
+        # ==== Parameters
+        # No parameters
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * images<~Array>
-        # TODO: docs
-        def get_keys
+        # TODO: doc
+        def list_address_offerings
           request(
-            :method   => 'GET',
             :expects  => 200,
-            :path     => '/keys'
+            :method   => 'GET',
+            :path     => '/offerings/address'
           )
         end
 

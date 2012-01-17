@@ -1,20 +1,20 @@
 module Fog
-  module Compute
+  module Storage
     class IBM
       class Real
 
-        # Get addresses
+        # Get available storage offerings
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * instances<~Array>:
+        #     * volumes<~Array>
         # TODO: docs
-        def get_addresses
+        def list_offerings
           request(
             :method   => 'GET',
             :expects  => 200,
-            :path     => '/addresses'
+            :path     => '/offerings/storage'
           )
         end
 

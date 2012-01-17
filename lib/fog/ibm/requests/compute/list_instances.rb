@@ -10,7 +10,7 @@ module Fog
         #   * body<~Hash>:
         #     * instances<~Array>:
         # TODO: docs
-        def get_instances
+        def list_instances
           request(
             :method   => 'GET',
             :expects  => 200,
@@ -22,7 +22,7 @@ module Fog
 
       class Mock
 
-        def get_instances
+        def list_instances
           response = Excon::Response.new
           response.status = 200
           response.body = { 'instances' => [] }
