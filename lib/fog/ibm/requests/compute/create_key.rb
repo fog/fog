@@ -9,18 +9,16 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>
         # TODO: docs
-        def create_key(name, public_key, extra_params={})
-          options = {
+        def create_key(name, public_key=nil)
+          request(
             :method   => 'POST',
             :expects  => 200,
             :path     => '/keys',
-          }
-          params = {
-            'name' => name,
-            'publicKey' => public_key
-          }
-          options.merge!(Fog::IBM.form_body(params.merge(extra_params)))
-          request(options)
+            :body => {
+              'name' => name,
+              'publicKey' => public_key
+            }
+          )
         end
 
       end

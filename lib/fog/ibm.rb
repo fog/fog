@@ -27,8 +27,11 @@ module Fog
         options[:headers]['Authorization'] = auth_header
         options[:headers]['Accept'] = 'application/json'
         options[:headers]['Accept-Encoding'] = 'gzip'
+        unless options[:body].nil?
+          options[:headers]['Content-Type'] = 'application/x-www-form-urlencoded'
+          options[:body] = form_encode(options[:body])
+        end
         response = super(options)
-
         unless response.body.empty?
           response.body = MultiJson.decode(response.body)
         end
@@ -39,20 +42,9 @@ module Fog
         @auth_header ||= 'Basic ' + Base64.encode64("#{@user}:#{@password}").gsub("\n",'')
       end
 
-    end
-
-    def self.form_body(params)
-      {
-        :headers  => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-        :body     => params.map {|pair| pair.map {|x| URI.escape(x) }.join('=') }.join('&')
-      }
-    end
-
-    def self.json_body(params)
-      {
-        :headers  => { 'Content-Type' => 'application/json' },
-        :body     => MultiJson.encode(params)
-      }
+      def form_encode(params)
+        params.reject {|k, v| v.nil? }.map {|pair| pair.map {|x| URI.escape(x) }.join('=') }.join('&')
+      end
     end
 
   end

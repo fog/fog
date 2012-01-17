@@ -10,13 +10,12 @@ module Fog
         #   * body<~Hash>
         # TODO: docs
         def modify_key(key_name, params={})
-          options = {
+          request(
             :method   => 'PUT',
             :expects  => 200,
             :path     => "/keys/#{key_name}",
-          }
-          options.merge!(Fog::IBM.form_body(params))
-          request(options)
+            :body     => params
+          )
         end
 
       end

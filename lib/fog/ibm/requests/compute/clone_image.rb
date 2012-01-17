@@ -9,18 +9,16 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>
         # TODO: docs
-        def clone_image(image_id, name, description, extra_params={})
-          options = {
+        def clone_image(image_id, name, description)
+          request(
             :method   => 'POST',
             :expects  => 200,
-            :path     => "/offerings/image/#{image_id}"
-          }
-          params = {
-            'name' => name,
-            'description' => description
-          }
-          options.merge!(Fog::IBM.form_body(params.merge(extra_params)))
-          request(options)
+            :path     => "/offerings/image/#{image_id}",
+            :body     => {
+              'name' => name,
+              'description' => description
+            }
+          )
         end
 
       end

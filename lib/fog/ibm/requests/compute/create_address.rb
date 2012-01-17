@@ -9,19 +9,17 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>
         # TODO: docs
-        def create_address(offering_id, location, vlan_id)
-          options = {
+        def create_address(location, offering_id, vlan_id=nil)
+          request(
             :method   => 'POST',
             :expects  => 200,
             :path     => '/addresses',
-          }
-          params = {
-            'offeringID' => offering_id,
-            'location' => location,
-            'vlanID' => vlan_id
-          }
-          options.merge!(Fog::IBM.form_body(params.merge(extra_params)))
-          request(options)
+            :body     => {
+              'offeringID' => offering_id,
+              'location'   => location,
+              'vlanID'     => vlan_id
+            }
+          )
         end
 
       end

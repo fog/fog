@@ -9,21 +9,19 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>
         # TODO: docs
-        def create_volume(name, offering_id, format, location, size, extra_params={})
-          options = {
+        def create_volume(name, offering_id, format, location_id, size)
+          request(
             :method   => 'POST',
             :expects  => 200,
             :path     => '/storage',
-          }
-          params = {
-            'name' => name,
-            'offeringID' => offering_id,
-            'format' => format,
-            'location' => location,
-            'size' => size
-          }
-          options.merge!(form_body(params.merge(extra_params)))
-          request(options)
+            :body     => {
+              'name'       => name,
+              'offeringID' => offering_id,
+              'format'     => format,
+              'location'   => location_id,
+              'size'       => size
+            }
+          )
         end
 
       end
