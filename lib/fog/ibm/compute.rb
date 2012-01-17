@@ -18,6 +18,8 @@ module Fog
       collection :addresses
       model :key
       collection :keys
+      model :location
+      collection :locations
 
       request_path 'fog/ibm/requests/compute'
 
@@ -52,6 +54,9 @@ module Fog
       request :modify_key
       request :get_keys
       request :get_key
+
+      request :get_location
+      request :get_locations
 
       class Real
         def initialize(options={})
