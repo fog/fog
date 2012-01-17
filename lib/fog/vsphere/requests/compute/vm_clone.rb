@@ -81,17 +81,17 @@ module Fog
               disk_spec = { 
                 :deviceChange => [ 
                   {
-                     :operation => :remove, 
-                     :device => disk 
+                    :operation => :remove, 
+                    :device => disk 
                   },
                   {
-                     :operation => :add,
-                     :fileOperation => :create,
-                     :device => disk.dup.tap{|disk_backing|
-                       disk_backing.backing = disk_backing.backing.dup;
-                       disk_backing.backing.fileName = "[#{disk.backing.datastore.name}]";
-                       disk_backing.backing.parent = disk.backing
-                     }
+                    :operation => :add,
+                    :fileOperation => :create,
+                    :device => disk.dup.tap{|disk_backing|
+                      disk_backing.backing = disk_backing.backing.dup;
+                      disk_backing.backing.fileName = "[#{disk.backing.datastore.name}]";
+                      disk_backing.backing.parent = disk.backing
+                    }
                   },
                 ] 
               }
