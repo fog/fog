@@ -72,9 +72,7 @@ module Fog
             credentials = Fog::HP.authenticate_v2(options, @connection_options)
             ### When using the v2 CS authentication, the CDN Mgmt comes from the service catalog
             @hp_cdn_uri = credentials[:endpoint_url]
-            ### TODO: The tenant id is missing in the endpoint that is returned by the CS service catalog
-            ### When bug CDN-109 is fixed, just use the endpoint.
-            cdn_mgmt_url = "#{@hp_cdn_uri}#{options[:hp_tenant_id]}"
+            cdn_mgmt_url = "#{@hp_cdn_uri}"
           else
             # Call the legacy v1.0/v1.1 authentication
             credentials = Fog::HP.authenticate_v1(options, @connection_options)
@@ -88,15 +86,15 @@ module Fog
           @enabled = false
           @persistent = options[:persistent] || false
 
-        end
-        if cdn_mgmt_url
-          uri = URI.parse(cdn_mgmt_url)
-          @host   = uri.host
-          @path   = uri.path.chomp("/")
-          @port   = uri.port
-          @scheme = uri.scheme
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
-          @enabled = true
+          if cdn_mgmt_url
+            uri = URI.parse(cdn_mgmt_url)
+            @host   = uri.host
+            @path   = uri.path.chomp("/")
+            @port   = uri.port
+            @scheme = uri.scheme
+            @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+            @enabled = true
+          end
         end
 
         def enabled?
