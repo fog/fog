@@ -221,7 +221,7 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
       Fog::Storage[:aws].put_bucket_acl('fognonbucket', 'invalid')
     end
 
-    tests("#put_bucket_website('fognonbucket', 'index.html')").raises(Excon::Errors::Forbidden) do
+    tests("#put_bucket_website('fognonbucket', 'index.html')").raises(Excon::Errors::NotFound) do
       Fog::Storage[:aws].put_bucket_website('fognonbucket', 'index.html')
     end
 
