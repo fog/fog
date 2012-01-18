@@ -35,7 +35,8 @@ module Fog
               :hp_account_id  => @hp_account_id,
               :hp_secret_key  => @hp_secret_key,
               :hp_auth_uri    => @hp_auth_uri,
-              :hp_cdn_uri     => @hp_cdn_uri
+              :hp_cdn_uri     => @hp_cdn_uri,
+              :hp_tenant_id   => @hp_tenant_id
             )
             if @cdn.enabled?
               @cdn
@@ -140,32 +141,39 @@ module Fog
           require 'multi_json'
           @hp_secret_key = options[:hp_secret_key]
           @hp_account_id = options[:hp_account_id]
-          @hp_auth_uri   = options[:hp_auth_uri]
           @hp_cdn_ssl    = options[:hp_cdn_ssl]
-          @hp_cdn_uri    = options[:hp_cdn_uri]
           @connection_options = options[:connection_options] || {}
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
           auth_version = options[:hp_auth_version] || :v2
           ### Pass the service type for object storage to the authentication call
           options[:hp_service_type] ||= "object-store"
+          @hp_tenant_id = options[:hp_tenant_id]
 
           ### Make the authentication call
           if (auth_version == :v2)
             # Call the control services authentication
             credentials = Fog::HP.authenticate_v2(options, @connection_options)
+            # the CS service catalog returns the cdn endpoint
+            @hp_auth_uri = credentials[:endpoint_url]
+            @hp_cdn_uri  = credentials[:cdn_endpoint_url]
           else
             # Call the legacy v1.0/v1.1 authentication
             credentials = Fog::HP.authenticate_v1(options, @connection_options)
+            # the user sends in the cdn endpoint
+            @hp_auth_uri = options[:hp_auth_uri]
+            @hp_cdn_uri  = options[:hp_cdn_uri]
           end
 
           @auth_token = credentials[:auth_token]
-          uri = URI.parse(credentials[:endpoint_url])
+
+          uri = URI.parse(@hp_auth_uri)
           @host   = options[:hp_servicenet] == true ? "snet-#{uri.host}" : uri.host
           @path   = uri.path
           @persistent = options[:persistent] || false
           @port   = uri.port
           @scheme = uri.scheme
           Excon.ssl_verify_peer = false if options[:hp_servicenet] == true
+
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
