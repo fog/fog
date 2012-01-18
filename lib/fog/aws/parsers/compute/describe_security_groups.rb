@@ -40,9 +40,9 @@ module Fog
               end
             when 'groups'
               @in_groups = false
-            when 'groupDescription', 'ownerId', 'groupId', 'vpcId'
+            when 'groupDescription', 'ownerId', 'vpcId'
               @security_group[name] = value
-            when 'groupName'
+            when 'groupId','groupName'
               if @in_groups
                 @group[name] = value
               else
