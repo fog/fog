@@ -6,7 +6,7 @@ module Fog
     class HP < Fog::Service
 
       requires    :hp_secret_key, :hp_account_id
-      recognizes  :hp_auth_uri, :hp_cdn_uri, :persistent, :connection_options
+      recognizes  :hp_auth_uri, :hp_cdn_uri, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_tenant_id, :hp_service_type, :hp_auth_version
 
       model_path   'fog/hp/models/cdn'
 
@@ -61,26 +61,42 @@ module Fog
         def initialize(options={})
           require 'multi_json'
           @connection_options = options[:connection_options] || {}
-          credentials = Fog::HP.authenticate(options, @connection_options)
-          @auth_token = credentials['X-Auth-Token']
+          ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
+          auth_version = options[:hp_auth_version] || :v2
+          ### Pass the service type for object storage to the authentication call
+          options[:hp_service_type] ||= "hpext:cdn"
+
+          ### Make the authentication call
+          if (auth_version == :v2)
+            # Call the control services authentication
+            credentials = Fog::HP.authenticate_v2(options, @connection_options)
+            ### When using the v2 CS authentication, the CDN Mgmt comes from the service catalog
+            @hp_cdn_uri = credentials[:endpoint_url]
+            ### TODO: The tenant id is missing in the endpoint that is returned by the CS service catalog
+            ### When bug CDN-109 is fixed, just use the endpoint.
+            cdn_mgmt_url = "#{@hp_cdn_uri}#{options[:hp_tenant_id]}"
+          else
+            # Call the legacy v1.0/v1.1 authentication
+            credentials = Fog::HP.authenticate_v1(options, @connection_options)
+            # In case of legacy authentication systems, the user can pass the CDN Mgmt Uri
+            @hp_cdn_uri = options[:hp_cdn_uri] || "https://region-a.geo-1.cdnmgmt.hpcloudsvc.com/v1.0"
+            # In case of legacy authentication systems, the :cdn_endpoint_url will carry the cdn storage url
+            cdn_mgmt_url = "#{@hp_cdn_uri}#{URI.parse(credentials[:cdn_endpoint_url]).path}"
+          end
+
+          @auth_token = credentials[:auth_token]
           @enabled = false
           @persistent = options[:persistent] || false
-          hp_cdn_uri = options[:hp_cdn_uri] || "https://region-a.geo-1.cdnmgmt.hpcloudsvc.com"
 
-          #TODO: Fix Storage service to return 'X-CDN-Management-Url' in the header as part of the auth call.
-          # Till then use a custom config entry to get the CDN endpoint Url from user
-          # and then append the auth path that comes back in the Storage Url to build the CDN Management Url
-          # CDN Management Url looks like: https://cdnmgmt.hpcloud.net:8080/v1/AUTH_test
-          cdn_mgmt_url = "#{hp_cdn_uri}#{URI.parse(credentials['X-Storage-Url']).path}"
-          if cdn_mgmt_url
-            uri = URI.parse(cdn_mgmt_url)
-            @host   = uri.host
-            @path   = uri.path
-            @port   = uri.port
-            @scheme = uri.scheme
-            @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
-            @enabled = true
-          end
+        end
+        if cdn_mgmt_url
+          uri = URI.parse(cdn_mgmt_url)
+          @host   = uri.host
+          @path   = uri.path.chomp("/")
+          @port   = uri.port
+          @scheme = uri.scheme
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @enabled = true
         end
 
         def enabled?
