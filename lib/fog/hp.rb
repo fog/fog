@@ -41,8 +41,8 @@ module Fog
 
       return {
         :auth_token => response.headers['X-Auth-Token'],
-        :endpoint_url => response.headers['X-Server-Management-Url'],
-        :cdn_storage_url => response.headers['X-Storage-Url']
+        :endpoint_url => nil,
+        :cdn_endpoint_url => response.headers['X-Storage-Url']
       }
     end
 
@@ -110,23 +110,35 @@ module Fog
       )
 
       body = MultiJson.decode(response.body)
+
       ### fish out auth_token and endpoint for the service
-      if body['access']['serviceCatalog']
-        service_item = body['access']['serviceCatalog'].select {|s| s["type"] == @hp_service_type}.first
+      auth_token = body['access']['token']['id']
+      endpoint_url = get_endpoint_from_catalog(body['access']['serviceCatalog'], @hp_service_type)
+      # If service is Storage, then get the CDN endpoint as well
+      if @hp_service_type == "object-store"
+        cdn_endpoint_url = get_endpoint_from_catalog(body['access']['serviceCatalog'], "hpext:cdn")
+      end
+
+      return {
+        :auth_token => auth_token,
+        :endpoint_url => endpoint_url,
+        :cdn_endpoint_url => cdn_endpoint_url
+      }
+
+    end
+
+    private
+
+    def self.get_endpoint_from_catalog(service_catalog, service_type)
+      if service_catalog
+        service_item = service_catalog.select {|s| s["type"] == service_type}.first
         if service_item and service_item['endpoints'] and service_item['endpoints'][0]
           endpoint_url = service_item['endpoints'][0]['publicURL']
-          auth_token = body['access']['token']['id']
-          return {
-            :auth_token => auth_token,
-            :endpoint_url => endpoint_url
-          }
-        else
-          raise "No endpoints found for the service type: #{@hp_service_type}"
+          return endpoint_url
         end
       else
         raise "Unable to parse service catalog."
       end
-
     end
 
     class Mock
