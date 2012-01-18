@@ -5,13 +5,13 @@ title:  Storage
 
 Having Ruby experience makes you hirable; but how can you stand out? You need to demonstrate your abilities. What better way than using Ruby and "the cloud" to store and serve your resume!
 
-In this blog post you will learn to use <a href="http://github.com/geemus/fog">fog</a> - the cloud computing library - to upload your resume to Amazon's <a href="http://aws.amazon.com/s3/">Simple Storage Service</a> (S3), Rackspace's <a href="http://www.rackspacecloud.com/cloud_hosting_products/files">CloudFiles</a> or Google's <a href="http://code.google.com/apis/storage/">Storage for Developers</a>.
+In this blog post you will learn to use <a href="http://github.com/fog/fog">fog</a> - the cloud computing library - to upload your resume to Amazon's <a href="http://aws.amazon.com/s3/">Simple Storage Service</a> (S3), Rackspace's <a href="http://www.rackspacecloud.com/cloud_hosting_products/files">CloudFiles</a> or Google's <a href="http://code.google.com/apis/storage/">Storage for Developers</a>.
 
 Here's my out of date resume stored on <a href="http://geemus.s3.amazonaws.com/resume.html">S3</a>, <a href="http://c0023559.cdn2.cloudfiles.rackspacecloud.com/resume.html">CloudFiles</a> and <a href="https://geemus.commondatastorage.googleapis.com/resume.html">Google Storage</a>; programmatically stored in the cloud using this tutorial. NOTE: my boss would like me to add that I'm not currently looking for a new gig ;)
 
 Check out those cloud-specific URLs! You could put all three in your job application, add the Ruby source for how you did it, and have your choice of Ruby jobs for being so awesome!
 
-How? The all-clouds-in-one library of choice is <a href="https://github.com/geemus/fog">fog</a>.
+How? The all-clouds-in-one library of choice is <a href="https://github.com/fog/fog">fog</a>.
 
 ## Installing fog
 
@@ -35,8 +35,8 @@ First, create a connection with your new account:
     # create a connection
     connection = Fog::Storage.new({
       :provider                 => 'AWS',
-      :aws_secret_access_key    => YOUR_SECRET_ACCESS_KEY,
-      :aws_access_key_id        => YOUR_SECRET_ACCESS_KEY_ID
+      :aws_access_key_id        => YOUR_SECRET_ACCESS_KEY_ID,
+      :aws_secret_access_key    => YOUR_SECRET_ACCESS_KEY
     })
 
     # First, a place to contain the glorious details
@@ -85,29 +85,29 @@ Now you've got a bunch of files in S3: your resume, some code samples,
 and maybe some pictures of your cat doing funny stuff. Since this is
 all of vital importance, you need to back it up.
 
-   # copy each file to local disk
-   directory.files.each do |s3_file|
-     File.open(s3_file.key, 'w') do |local_file|
-       local_file.write(s3_file.body)
-     end
-   end
+    # copy each file to local disk
+    directory.files.each do |s3_file|
+      File.open(s3_file.key, 'w') do |local_file|
+        local_file.write(s3_file.body)
+      end
+    end
 
 One caveat: it's way more efficient to do this:
 
-  # do two things per file
-  directory.files.each do |file|
-    do_one_thing(file)
-    do_another_thing(file)
-  end
+    # do two things per file
+    directory.files.each do |file|
+      do_one_thing(file)
+      do_another_thing(file)
+    end
 
 than it is to do this:
 
-  # do two things per file
-  directory.files.each do |file|
-    do_one_thing(file)
-  end.each do |file|
-    do_another_thing(file)
-  end
+    # do two things per file
+    directory.files.each do |file|
+      do_one_thing(file)
+    end.each do |file|
+      do_another_thing(file)
+    end
 
 The reason is that the list of files might be large. Really
 large. Eat-all-your-RAM-and-ask-for-more large. Therefore, every time
@@ -131,8 +131,8 @@ Sign up <a href="http://gs-signup-redirect.appspot.com/">here</a> and get your c
 
     connection = Fog::Storage.new({
       :provider                         => 'Google',
-      :google_storage_secret_access_key => YOUR_SECRET_ACCESS_KEY,
-      :google_storage_access_key_id     => YOUR_SECRET_ACCESS_KEY_ID
+      :google_storage_access_key_id     => YOUR_SECRET_ACCESS_KEY_ID,
+      :google_storage_secret_access_key => YOUR_SECRET_ACCESS_KEY
     })
 
 ## Rackspace CloudFiles
@@ -144,6 +144,10 @@ Rackspace has <a href="http://www.rackspacecloud.com/cloud_hosting_products/file
       :rackspace_username => RACKSPACE_USERNAME,
       :rackspace_api_key  => RACKSPACE_API_KEY
     })
+
+If you work with the European cloud from Rackspace you have to add the following:
+
+    :rackspace_auth_url => "lon.auth.api.rackspacecloud.com"
 
 Then create, save, destroy as per fog-for-AWS. The `:public => true` option when creating directories (see above) is important for Rackspace; your folder and files won't be shared to Rackspace's CDN and hence your users without it.  Similarly the `:public =&gt; true` on files is important for AWS and Google or they will be private.
 

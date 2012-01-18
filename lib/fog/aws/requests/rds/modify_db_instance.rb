@@ -45,7 +45,32 @@ module Fog
       class Mock
 
         def modify_db_instance(db_name, apply_immediately, options={})
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          if self.data[:servers][db_name]
+            if self.data[:servers][db_name]["DBInstanceStatus"] != "available"
+              raise Fog::AWS::RDS::NotFound.new("DBInstance #{db_name} not available for modification")
+            else
+              # TODO verify the params options
+              # if apply_immediately is false, all the options go to pending_modified_values and then apply and clear after either 
+              # a reboot or the maintainance window
+              #if apply_immediately
+              #  modified_server = server.merge(options)
+              #else
+              #  modified_server = server["PendingModifiedValues"].merge!(options) # it appends
+              #end
+              self.data[:servers][db_name]["PendingModifiedValues"].merge!(options) # it appends
+              #self.data[:servers][db_name]["DBInstanceStatus"] = "modifying"
+              response.status = 200
+              response.body = {
+                "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
+                "ModifyDBInstanceResult" => { "DBInstance" => self.data[:servers][db_name] }
+              }
+              response
+              
+            end
+          else
+            raise Fog::AWS::RDS::NotFound.new("DBInstance #{db_name} not found")
+          end
         end
 
       end

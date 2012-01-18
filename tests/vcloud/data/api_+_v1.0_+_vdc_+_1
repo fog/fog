@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Vdc xmlns="http://www.vmware.com/vcloud/v1" xmlns:vmext="http://www.vmware.com/vcloud/extension/v1" status="1" name="vDC1" type="application/vnd.vmware.vcloud.vdc+xml" href="https://vcloud.example.com/api/v1.0/vdc/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vmware.com/vcloud/extension/v1 http://vcloud.example.com/api/v1.0/schema/vmwextensions.xsd http://www.vmware.com/vcloud/v1 http://vcloud.example.com/api/v1.0/schema/master.xsd">
+    <VCloudExtension required="false">
+        <vmext:VimObjectRef>
+            <vmext:VimServerRef type="application/vnd.vmware.admin.vmwvirtualcenter+xml" name="host.example.com" href="https://vcloud.example.com/api/v1.0/admin/extension/vimServer/1"/>
+            <vmext:MoRef>resgroup-1</vmext:MoRef>
+            <vmext:VimObjectType>RESOURCE_POOL</vmext:VimObjectType>
+        </vmext:VimObjectRef>
+    </VCloudExtension>
+    <Link rel="up" type="application/vnd.vmware.vcloud.org+xml" href="https://vcloud.example.com/api/v1.0/org/1"/>
+    <Link rel="add" type="application/vnd.vmware.vcloud.uploadVAppTemplateParams+xml" href="https://vcloud.example.com/api/v1.0/vdc/1/action/uploadVAppTemplate"/>
+    <Link rel="add" type="application/vnd.vmware.vcloud.media+xml" href="https://vcloud.example.com/api/v1.0/vdc/1/media"/>
+    <Link rel="add" type="application/vnd.vmware.vcloud.instantiateVAppTemplateParams+xml" href="https://vcloud.example.com/api/v1.0/vdc/1/action/instantiateVAppTemplate"/>
+    <Link rel="add" type="application/vnd.vmware.vcloud.cloneVAppParams+xml" href="https://vcloud.example.com/api/v1.0/vdc/1/action/cloneVApp"/>
+    <Link rel="add" type="application/vnd.vmware.vcloud.cloneVAppTemplateParams+xml" href="https://vcloud.example.com/api/v1.0/vdc/1/action/cloneVAppTemplate"/>
+    <Link rel="add" type="application/vnd.vmware.vcloud.cloneMediaParams+xml" href="https://vcloud.example.com/api/v1.0/vdc/1/action/cloneMedia"/>
+    <Link rel="add" type="application/vnd.vmware.vcloud.captureVAppParams+xml" href="https://vcloud.example.com/api/v1.0/vdc/1/action/captureVApp"/>
+    <Link rel="add" type="application/vnd.vmware.vcloud.composeVAppParams+xml" href="https://vcloud.example.com/api/v1.0/vdc/1/action/composeVApp"/>
+    <Link rel="move" type="application/vnd.vmware.vcloud.moveMediaParams+xml" href="https://vcloud.example.com/api/v1.0/vdc/1/action/moveMedia"/>
+    <Link rel="move" type="application/vnd.vmware.vcloud.moveVAppParams+xml" href="https://vcloud.example.com/api/v1.0/vdc/1/action/moveVApp"/>
+    <Link rel="move" type="application/vnd.vmware.vcloud.moveVAppTemplateParams+xml" href="https://vcloud.example.com/api/v1.0/vdc/1/action/moveVAppTemplate"/>
+    <Description>Some Description</Description>
+    <AllocationModel>AllocationVApp</AllocationModel>
+    <StorageCapacity>
+        <Units>MB</Units>
+        <Allocated>10240</Allocated>
+        <Limit>102400</Limit>
+        <Used>101650</Used>
+        <Overhead>0</Overhead>
+    </StorageCapacity>
+    <ComputeCapacity>
+        <Cpu>
+            <Units>MHz</Units>
+            <Allocated>20000</Allocated>
+            <Limit>40000</Limit>
+            <Used>2000</Used>
+            <Overhead>0</Overhead>
+        </Cpu>
+        <Memory>
+            <Units>MB</Units>
+            <Allocated>1024</Allocated>
+            <Limit>10240</Limit>
+            <Used>8385</Used>
+            <Overhead>0</Overhead>
+        </Memory>
+    </ComputeCapacity>
+    <ResourceEntities>
+        <ResourceEntity type="application/vnd.vmware.vcloud.vApp+xml" name="vApp_1" href="https://vcloud.example.com/api/v1.0/vApp/vapp-1"/>
+        <ResourceEntity type="application/vnd.vmware.vcloud.vApp+xml" name="vApp_2" href="https://vcloud.example.com/api/v1.0/vApp/vapp-2"/>
+        <ResourceEntity type="application/vnd.vmware.vcloud.media+xml" name="media1" href="https://vcloud.example.com/api/v1.0/media/1"/>
+        <ResourceEntity type="application/vnd.vmware.vcloud.media+xml" name="media2" href="https://vcloud.example.com/api/v1.0/media/2"/>
+    </ResourceEntities>
+    <AvailableNetworks>
+        <Network type="application/vnd.vmware.vcloud.network+xml" name="network1" href="https://vcloud.example.com/api/v1.0/network/1"/>
+        <Network type="application/vnd.vmware.vcloud.network+xml" name="network2" href="https://vcloud.example.com/api/v1.0/network/2"/>
+    </AvailableNetworks>
+    <NicQuota>10</NicQuota>
+    <NetworkQuota>10</NetworkQuota>
+    <VmQuota>10</VmQuota>
+    <IsEnabled>true</IsEnabled>
+</Vdc>

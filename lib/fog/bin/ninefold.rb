@@ -16,10 +16,10 @@ class Ninefold < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
-          Formatador.display_line("[yellow][WARN] Ninefold[:compute] is deprecated, use Compute[:ninefold] instead[/]")
+          Fog::Logger.warning("Ninefold[:compute] is not recommended, use Compute[:ninefold] for portability")
           Fog::Compute.new(:provider => 'Ninefold')
         when :storage
-          Formatador.display_line("[yellow][WARN] Ninefold[:storage] is deprecated, use Storage[:ninefold] instead[/]")
+          Fog::Logger.warning("Ninefold[:storage] is not recommended, use Storage[:ninefold] for portability")
           Fog::Storage.new(:provider => 'Ninefold')
         else
           raise ArgumentError, "Unrecognized service: #{service}"

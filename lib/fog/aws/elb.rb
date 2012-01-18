@@ -1,9 +1,16 @@
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+
 module Fog
   module AWS
     class ELB < Fog::Service
 
-      class IdentifierTaken < Fog::Errors::Error; end
-      class InvalidInstance < Fog::Errors::Error; end
+      class DuplicatePolicyName < Fog::Errors::Error; end
+      class IdentifierTaken     < Fog::Errors::Error; end
+      class InvalidInstance     < Fog::Errors::Error; end
+      class PolicyNotFound      < Fog::Errors::Error; end
+      class PolicyTypeNotFound  < Fog::Errors::Error; end
+      class Throttled           < Fog::Errors::Error; end
+      class TooManyPolicies     < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :region, :host, :path, :port, :scheme, :persistent
@@ -14,12 +21,15 @@ module Fog
       request :create_lb_cookie_stickiness_policy
       request :create_load_balancer
       request :create_load_balancer_listeners
+      request :create_load_balancer_policy
       request :delete_load_balancer
       request :delete_load_balancer_listeners
       request :delete_load_balancer_policy
       request :deregister_instances_from_load_balancer
       request :describe_instance_health
       request :describe_load_balancers
+      request :describe_load_balancer_policies
+      request :describe_load_balancer_policy_types
       request :disable_availability_zones_for_load_balancer
       request :enable_availability_zones_for_load_balancer
       request :register_instances_with_load_balancer
@@ -36,13 +46,16 @@ module Fog
 
       class Mock
 
+        require 'fog/aws/elb/policy_types'
+
         def self.data
           @data ||= Hash.new do |hash, region|
             owner_id = Fog::AWS::Mock.owner_id
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
                 :owner_id => owner_id,
-                :load_balancers => {}
+                :load_balancers => {},
+                :policy_types => Fog::AWS::ELB::Mock::POLICY_TYPES
               }
             end
           end
@@ -61,7 +74,7 @@ module Fog
 
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1'].include?(@region)
+          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
         end
@@ -91,7 +104,7 @@ module Fog
         #
         # ==== Parameters
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
-        #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1', 'ap-northeast-1', 'ap-southeast-1']
+        #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'ap-northeast-1', 'ap-southeast-1']
         #
         # ==== Returns
         # * ELB object with connection to AWS.
@@ -100,6 +113,7 @@ module Fog
 
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
+          @connection_options     = options[:connection_options] || {}
           @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
 
           options[:region] ||= 'us-east-1'
@@ -114,13 +128,18 @@ module Fog
             'elasticloadbalancing.us-east-1.amazonaws.com'
           when 'us-west-1'
             'elasticloadbalancing.us-west-1.amazonaws.com'
+          when 'us-west-2'
+            'elasticloadbalancing.us-west-2.amazonaws.com'
+          when 'sa-east-1'
+            'elasticloadbalancing.sa-east-1.amazonaws.com'
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end
-          @path       = options[:path]      || '/'
-          @port       = options[:port]      || 443
-          @scheme     = options[:scheme]    || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
+          @path       = options[:path]        || '/'
+          @persistent = options[:persistent]  || false
+          @port       = options[:port]        || 443
+          @scheme     = options[:scheme]      || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload
@@ -141,7 +160,7 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2011-04-05'
+              :version            => '2011-11-15'
           }
           )
 
@@ -159,12 +178,22 @@ module Fog
             case match[1]
             when 'CertificateNotFound'
               raise Fog::AWS::IAM::NotFound.slurp(error, match[2])
-            when 'LoadBalancerNotFound'
-              raise Fog::AWS::ELB::NotFound.slurp(error, match[2])
             when 'DuplicateLoadBalancerName'
               raise Fog::AWS::ELB::IdentifierTaken.slurp(error, match[2])
+            when 'DuplicatePolicyName'
+              raise Fog::AWS::ELB::DuplicatePolicyName.slurp(error, match[2])
             when 'InvalidInstance'
               raise Fog::AWS::ELB::InvalidInstance.slurp(error, match[2])
+            when 'LoadBalancerNotFound'
+              raise Fog::AWS::ELB::NotFound.slurp(error, match[2])
+            when 'PolicyNotFound'
+              raise Fog::AWS::ELB::PolicyNotFound.slurp(error, match[2])
+            when 'PolicyTypeNotFound'
+              raise Fog::AWS::ELB::PolicyTypeNotFound.slurp(error, match[2])
+            when 'Throttling'
+              raise Fog::AWS::ELB::Throttled.slurp(error, match[2])
+            when 'TooManyPolicies'
+              raise Fog::AWS::ELB::TooManyPolicies.slurp(error, match[2])
             else
               raise
             end

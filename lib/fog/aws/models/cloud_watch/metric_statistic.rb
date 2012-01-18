@@ -25,7 +25,6 @@ module Fog
 
           put_opts = {'MetricName' => metric_name, 'Unit' => unit}
           put_opts.merge!('Dimensions' => dimensions) if dimensions
-          put_opts.merge!('Timestamp' => dimensions) if timestamp
           if value
             put_opts.merge!('Value' => value)
           else

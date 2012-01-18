@@ -1,8 +1,12 @@
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+
 module Fog
   module AWS
     class RDS < Fog::Service
 
       class IdentifierTaken < Fog::Errors::Error; end
+      
+      class AuthorizationAlreadyExists < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :region, :host, :path, :port, :scheme, :persistent
@@ -55,9 +59,43 @@ module Fog
 
       class Mock
 
-        def initialize(options={})
-          Fog::Mock.not_implemented
+        def self.data
+          @data ||= Hash.new do |hash, region|
+            owner_id = Fog::AWS::Mock.owner_id
+            hash[region] = Hash.new do |region_hash, key|
+              region_hash[key] = {
+                :servers => {},
+                :security_groups => {}
+              }
+            end
+          end
         end
+        
+        def self.reset
+          @data = nil
+        end
+        
+        def initialize(options={})
+        
+          @aws_access_key_id = options[:aws_access_key_id]
+        
+          @region = options[:region] || 'us-east-1'
+        
+          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
+            raise ArgumentError, "Unknown region: #{@region.inspect}"
+          end
+        
+        end
+        
+        def data
+          self.class.data[@region][@aws_access_key_id]
+        end
+        
+        def reset_data
+          self.class.data[@region].delete(@aws_access_key_id)
+        end
+        
+        
 
       end
 
@@ -77,13 +115,14 @@ module Fog
         #
         # ==== Parameters
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
-        #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1'i, 'ap-southeast-1']
+        #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'ap-southeast-1']
         #
         # ==== Returns
         # * ELB object with connection to AWS.
         def initialize(options={})
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
+          @connection_options     = options[:connection_options] || {}
           @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
 
           options[:region] ||= 'us-east-1'
@@ -98,13 +137,18 @@ module Fog
             'rds.us-east-1.amazonaws.com'
           when 'us-west-1'
             'rds.us-west-1.amazonaws.com'
+          when 'us-west-2'
+            'rds.us-west-2.amazonaws.com'
+          when 'sa-east-1'
+            'rds.sa-east-1.amazonaws.com'
           else
             raise ArgumentError, "Unknown region: #{options[:region].inspect}"
           end
-          @path       = options[:path]      || '/'
-          @port       = options[:port]      || 443
-          @scheme     = options[:scheme]    || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:persistent])
+          @path       = options[:path]        || '/'
+          @persistent = options[:persistent]  || false
+          @port       = options[:port]        || 443
+          @scheme     = options[:scheme]      || 'https'
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end
 
         def reload
@@ -146,6 +190,8 @@ module Fog
                 raise Fog::AWS::RDS::NotFound.slurp(error, match[2])
               when 'DBParameterGroupAlreadyExists'
                 raise Fog::AWS::RDS::IdentifierTaken.slurp(error, match[2])
+              when 'AuthorizationAlreadyExists'
+                raise Fog::AWS::RDS::AuthorizationAlreadyExists.slurp(error, match[2])
               else
                 raise
               end

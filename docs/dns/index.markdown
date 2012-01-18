@@ -41,7 +41,7 @@ Now that you have a zone you will need to update your registrar to let them know
 With your new zone in hand you can add records as needed.  First and foremost you will probably want the 'www' version of your site to point to whatever your ip might be:
 
     record = @zone.records.create(
-      :ip   => '1.2.3.4',
+      :value   => '1.2.3.4',
       :name => 'example.com',
       :type => 'A'
     )
@@ -49,7 +49,7 @@ With your new zone in hand you can add records as needed.  First and foremost yo
 Adding other records is similarly easy, for instance if we want 'www.example.com' to go to the same place, we can use a cname record:
 
     record = @zone.records.create(
-      :ip   => 'example.com',
+      :value   => 'example.com',
       :name => 'www',
       :type => 'CNAME'
     )
@@ -57,7 +57,7 @@ Adding other records is similarly easy, for instance if we want 'www.example.com
 Or, similarly you might want to have your blog elsewhere:
 
     record = @zone.records.create(
-      :ip   => '4.3.2.1',
+      :value   => '4.3.2.1',
       :name => 'blog.example.com',
       :type => 'A'
     )
@@ -66,7 +66,7 @@ You can add more specifics if you need to, but reasonable defaults make it just 
 
 ## No Zerigo? No Problem
 
-If you already have an account with another service you can just as easily use this same code with different credentials. fog currently supports <a href="http://aws.amazon.com/route53/">AWS Route 53</a>, <a href="http://bluebox.net">Blue Box</a>, <a href="http://dnsimple.com">DNSimple</a>, <a href="http://www.linode.com">Linode</a>, <a href="http://www.slicehost.com">Slicehost</a> and <a href="http://www.zerigo.com/managed-dns">Zerigo</a>; so you can have your pick.  As an example you can connect to AWS instead of Zerigo:
+If you already have an account with another service you can just as easily use this same code with different credentials. fog currently supports <a href="http://aws.amazon.com/route53/">AWS Route 53</a>, <a href="http://bluebox.net">Blue Box</a>, <a href="http://dnsimple.com">DNSimple</a>, <a href="http://www.linode.com">Linode</a>, <a href="http://www.rackspace.com">Rackspace</a>, <a href="http://www.slicehost.com">Slicehost</a> and <a href="http://www.zerigo.com/managed-dns">Zerigo</a>; so you can have your pick.  As an example you can connect to AWS instead of Zerigo:
 
     dns = Fog::DNS.new({
       :provider               => 'AWS',
@@ -76,4 +76,4 @@ If you already have an account with another service you can just as easily use t
 
 ## Go Forth and Resolve
 
-You can see an example of reusing code like this in the <a href="https://github.com/geemus/fog/blob/master/examples/dns_tests.rb">examples folder</a>. Using this makes it easier to give yourself shortcuts to your cloud servers and manage how clients and users access them as well. It is great to have this flexibility so that you can modify your cloud infrastructure as needed while keeping everything ship shape. It also provides a nice way to create custom subdomains for users and just generally round out your cloud solution.
+You can see an example of reusing code like this in the <a href="https://github.com/fog/fog/blob/master/examples/dns_tests.rb">examples folder</a>. Using this makes it easier to give yourself shortcuts to your cloud servers and manage how clients and users access them as well. It is great to have this flexibility so that you can modify your cloud infrastructure as needed while keeping everything ship shape. It also provides a nice way to create custom subdomains for users and just generally round out your cloud solution.

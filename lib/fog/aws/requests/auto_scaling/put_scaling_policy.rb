@@ -34,7 +34,7 @@ module Fog
         #   * body<~Hash>:
         #     * 'ResponseMetadata'<~Hash>:
         #       * 'RequestId'<~String> - Id of request
-        #     * 'PutScalingPolicyResponse'<~Hash>:
+        #     * 'PutScalingPolicyResult'<~Hash>:
         #       * 'PolicyARN'<~String> - A policy's Amazon Resource Name (ARN).
         #
         # ==== See Also

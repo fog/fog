@@ -46,6 +46,15 @@ end
 
 task :default => :test
 
+namespace :test do
+  task :dynect do
+    [false].each do |mock|
+      sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/dns/requests/dynect")
+      #sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/dns/models/")
+    end
+  end
+end
+
 task :examples do
   sh("export FOG_MOCK=false && bundle exec shindont examples")
   # some don't provide mocks so we'll leave this out for now
@@ -63,11 +72,11 @@ def tests(mocked)
   start = Time.now.to_i
   threads = []
   Thread.main[:results] = []
-  Fog.providers.each do |provider|
+  Fog.providers.each do |key, value|
     threads << Thread.new do
       Thread.main[:results] << {
-        :provider => provider,
-        :success  => sh("export FOG_MOCK=#{mocked} && bundle exec shindont +#{provider.downcase}")
+        :provider => value,
+        :success  => sh("export FOG_MOCK=#{mocked} && bundle exec shindont +#{key}")
       }
     end
   end
@@ -89,11 +98,23 @@ end
 
 task :nuke do
   Fog.providers.each do |provider|
+    next if ['Vmfusion'].include?(provider)
     begin
       compute = Fog::Compute.new(:provider => provider)
       for server in compute.servers
         Formatador.display_line("[#{provider}] destroying server #{server.identity}")
         server.destroy rescue nil
+      end
+    rescue
+    end
+    begin
+      dns = Fog::DNS.new(:provider => provider)
+      for zone in dns.zones
+        for record in zone.records
+          record.destroy rescue nil
+        end
+        Formatador.display_line("[#{provider}] destroying zone #{zone.identity}")
+        zone.destroy rescue nil
       end
     rescue
     end
@@ -137,7 +158,6 @@ task :release => :build do
   sh "git tag v#{version}"
   sh "git push origin master"
   sh "git push origin v#{version}"
-  Rake::Task[:build].invoke # rebuild with updated changelog
   sh "gem push pkg/#{name}-#{version}.gem"
   Rake::Task[:docs].invoke
 end
@@ -182,6 +202,20 @@ task :changelog do
   changelog << ('=' * changelog[0].length)
   changelog << ''
 
+  require 'multi_json'
+  github_repo_data = MultiJson.decode(Excon.get('http://github.com/api/v2/json/repos/show/fog/fog').body)
+  data = github_repo_data['repository'].reject {|key, value| !['forks', 'open_issues', 'watchers'].include?(key)}
+  github_collaborator_data = MultiJson.decode(Excon.get('http://github.com/api/v2/json/repos/show/fog/fog/collaborators').body)
+  data['collaborators'] = github_collaborator_data['collaborators'].length
+  rubygems_data = MultiJson.decode(Excon.get('https://rubygems.org/api/v1/gems/fog.json').body)
+  data['downloads'] = rubygems_data['downloads']
+  stats = []
+  for key in data.keys.sort
+    stats << "'#{key}' => #{data[key]}"
+  end
+  changelog << "Stats! { #{stats.join(', ')} }"
+  changelog << ''
+
   last_sha = `cat changelog.txt | head -1`.split(' ').last
   shortlog = `git shortlog #{last_sha}..HEAD`
   changes = {}
@@ -208,10 +242,16 @@ task :changelog do
   for committer, commits in committers.to_a.sort {|x,y| y[1] <=> x[1]}
     if [
         'Aaron Suggs',
+        'Brian Hartsock',
+        'Christopher Oliver',
+        'Dylan Egan',
         'geemus',
+        'Henry Addison',
         'Lincoln Stoll',
         'Luqman Amjad',
+        'Michael Zeng',
         'nightshade427',
+        'Patrick Debois',
         'Wesley Beary'
       ].include?(committer)
       next
@@ -238,6 +278,7 @@ task :changelog do
 end
 
 task :docs do
+  Rake::Task[:supported_services_docs].invoke
   Rake::Task[:upload_fog_io].invoke
   Rake::Task[:upload_rdoc].invoke
 
@@ -254,6 +295,71 @@ task :docs do
   )
 
   Formatador.display_line
+end
+
+task :supported_services_docs do
+  support, shared = {}, []
+  for key, values in Fog.services
+    unless values.length == 1
+      shared |= [key]
+      values.each do |value|
+        support[value] ||= {}
+        support[value][key] = '+'
+      end
+    else
+      value = values.first
+      support[value] ||= {}
+      support[value][:other] ||= []
+      support[value][:other] << key
+    end
+  end
+  shared.sort! {|x,y| x.to_s <=> y.to_s}
+  columns = [:provider] + shared + [:other]
+  data = []
+  for key in support.keys.sort {|x,y| x.to_s <=> y.to_s}
+    data << { :provider => key }.merge!(support[key])
+  end
+
+  table = ''
+  table << "<table border='1'>\n"
+
+  table << "  <tr>"
+  for column in columns
+    table << "<th>#{column}</th>"
+  end
+  table << "</tr>\n"
+
+  for datum in data
+    table << "  <tr>"
+    for column in columns
+      if value = datum[column]
+        case value
+        when Array
+          table << "<td>#{value.join(', ')}</td>"
+        when '+'
+          table << "<td style='text-align: center;'>#{value}</td>"
+        else
+          table << "<th>#{value}</th>"
+        end
+      else
+        table << "<td></td>"
+      end
+    end
+    table << "</tr>\n"
+  end
+
+  table << "</table>\n"
+
+  File.open('docs/about/supported_services.markdown', 'w') do |file|
+    file.puts <<-METADATA
+---
+layout: default
+title:  Supported Services
+---
+
+METADATA
+    file.puts(table)
+  end
 end
 
 task :upload_fog_io do

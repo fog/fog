@@ -3,9 +3,9 @@ Shindo.tests('AWS::CloudWatch | metric requests', ['aws', 'cloudwatch']) do
   tests('success') do
     @metrics_list_format = {
       'ListMetricsResult' => {
-        'Metrics' => 
+        'Metrics' =>
           [{
-            'Dimensions' => 
+            'Dimensions' =>
             [{
               'Name' => String,
               'Value' => String
@@ -20,9 +20,9 @@ Shindo.tests('AWS::CloudWatch | metric requests', ['aws', 'cloudwatch']) do
     @instanceId = 'i-2f3eab59'
     @dimension_filtered_metrics_list_format = {
       'ListMetricsResult' => {
-        'Metrics' => 
+        'Metrics' =>
           [{
-            'Dimensions' => 
+            'Dimensions' =>
             [{
               'Name' => 'InstanceId',
               'Value' => @instanceId
@@ -37,18 +37,18 @@ Shindo.tests('AWS::CloudWatch | metric requests', ['aws', 'cloudwatch']) do
 
     tests("#list_metrics").formats(@metrics_list_format) do
       pending if Fog.mocking?
-      AWS[:cloud_watch].list_metrics.body
+      Fog::AWS[:cloud_watch].list_metrics.body
     end
 
     tests("#dimension_filtered_list_metrics").formats(@dimension_filtered_metrics_list_format) do
       pending if Fog.mocking?
-      AWS[:cloud_watch].list_metrics('Dimensions' => [{'Name' => 'InstanceId', 'Value' => @instanceId}]).body
+      Fog::AWS[:cloud_watch].list_metrics('Dimensions' => [{'Name' => 'InstanceId', 'Value' => @instanceId}]).body
     end
 
     tests("#metric_name_filtered_list_metrics").returns(true) do
       pending if Fog.mocking?
       metricName = "CPUUtilization"
-      AWS[:cloud_watch].list_metrics('MetricName' => metricName).body['ListMetricsResult']['Metrics'].all? do |metric|
+      Fog::AWS[:cloud_watch].list_metrics('MetricName' => metricName).body['ListMetricsResult']['Metrics'].all? do |metric|
         metric['MetricName'] == metricName
       end
     end
@@ -56,7 +56,7 @@ Shindo.tests('AWS::CloudWatch | metric requests', ['aws', 'cloudwatch']) do
     tests("#namespace_filtered_list_metrics").returns(true) do
       pending if Fog.mocking?
       namespace = "AWS/EC2"
-      AWS[:cloud_watch].list_metrics('Namespace' => namespace).body['ListMetricsResult']['Metrics'].all? do |metric|
+      Fog::AWS[:cloud_watch].list_metrics('Namespace' => namespace).body['ListMetricsResult']['Metrics'].all? do |metric|
         metric['Namespace'] == namespace
       end
     end

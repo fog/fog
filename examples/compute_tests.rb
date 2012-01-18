@@ -7,7 +7,7 @@ require File.join(File.dirname(__FILE__), '..', 'tests', 'helper')
 Shindo.tests('compute examples', 'compute') do
 
   # iterate over all the providers
-  Fog.providers.each do |provider|
+  Fog.providers.values.each do |provider|
 
     # FIXME: implement expected shared compute stuff for these providers as well
     next if ['Bluebox', 'Brightbox', 'Ecloud', 'GoGrid', 'Linode', 'NewServers', 'Ninefold', 'Slicehost', 'StormOnDemand', 'VirtualBox', 'Voxel'].include?(provider)
@@ -44,17 +44,29 @@ Shindo.tests('compute examples', 'compute') do
 
       # scp a file to a server
       lorem_path = File.join([File.dirname(__FILE__), '..', 'tests', 'lorem.txt'])
-      tests("@server.scp('#{lorem_path}', 'lorem.txt')").succeeds do
-        @server.scp(lorem_path, 'lorem.txt')
+      tests("@server.scp_upload('#{lorem_path}', 'lorem.txt')").succeeds do
+        @server.scp_upload(lorem_path, 'lorem.txt')
       end
+
+      # scp a file from a server
+      tests("@server.scp_download('lorem.txt', '/tmp/lorem.txt)").succeeds do
+        @server.scp_download('lorem.txt', '/tmp/lorem.txt')
+      end
+      File.delete('/tmp/lorem.txt')
 
       # scp a directory to a server
       Dir.mkdir('/tmp/lorem')
       file = ::File.new('/tmp/lorem/lorem.txt', 'w')
       file.write(File.read(lorem_path))
-      lorem_dir = File.join([File.dirname(__FILE__), '..', 'tests'])
-      tests("@server.scp('#{lorem_dir}', '/tmp/lorem', :recursive => true)").succeeds do
-        @server.scp(lorem_dir, '/tmp/lorem', :recursive => true)
+      tests("@server.scp_upload('/tmp/lorem', '/tmp', :recursive => true)").succeeds do
+        @server.scp_upload('/tmp/lorem', '/tmp', :recursive => true)
+      end
+      File.delete('/tmp/lorem/lorem.txt')
+      Dir.rmdir('/tmp/lorem')
+
+      # scp a directory from a server
+      tests("@server.scp_download('/tmp/lorem', '/tmp', :recursive => true)").succeeds do
+        @server.scp_download('/tmp/lorem', '/tmp', :recursive => true)
       end
       File.delete('/tmp/lorem/lorem.txt')
       Dir.rmdir('/tmp/lorem')

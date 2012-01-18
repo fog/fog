@@ -1,4 +1,9 @@
 module Fog
+
+  def self.services
+    @services ||= {}
+  end
+
   class Service
 
     class Error < Fog::Errors::Error; end
@@ -51,6 +56,7 @@ module Fog
         end
 
         validate_options(options)
+        coerce_options(options)
         setup_requirements
 
         if Fog.mocking?
@@ -109,6 +115,26 @@ module Fog
         @collections ||= []
       end
 
+      def coerce_options(options)
+        options.each do |key, value|
+          value_string = value.to_s.downcase
+          if value.nil?
+            options.delete(key)
+          elsif value == value_string.to_i.to_s
+            options[key] = value.to_i
+          else
+            options[key] = case value_string
+            when 'false'
+              false
+            when 'true'
+              true
+            else
+              value
+            end
+          end
+        end
+      end
+
       def mocked_requests
         @mocked_requests ||= []
       end
@@ -146,11 +172,17 @@ module Fog
       end
 
       def recognized
-        @recognized ||= []
+        @recognized ||= [:connection_options]
       end
 
       def validate_options(options)
-        missing = requirements - options.keys
+        keys = []
+        for key, value in options
+          unless value.nil?
+            keys << key
+          end
+        end
+        missing = requirements - keys
         unless missing.empty?
           raise ArgumentError, "Missing required arguments: #{missing.join(', ')}"
         end

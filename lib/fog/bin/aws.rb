@@ -15,8 +15,12 @@ class AWS < Fog::Bin
         Fog::Compute::AWS
       when :dns
         Fog::DNS::AWS
+      when :elasticache
+        Fog::AWS::Elasticache
       when :elb
         Fog::AWS::ELB
+      when :emr
+        Fog::AWS::EMR
       when :iam
         Fog::AWS::IAM
       when :sdb, :simpledb
@@ -31,6 +35,8 @@ class AWS < Fog::Bin
         Fog::AWS::RDS
       when :sns
         Fog::AWS::SNS
+      when :sts
+        Fog::AWS::STS
       else
         # @todo Replace most instances of ArgumentError with NotImplementedError
         # @todo For a list of widely supported Exceptions, see:
@@ -45,20 +51,24 @@ class AWS < Fog::Bin
         when :auto_scaling
           Fog::AWS::AutoScaling.new
         when :cdn
-          Formatador.display_line("[yellow][WARN] AWS[:cdn] is deprecated, use CDN[:aws] instead[/]")
+          Fog::Logger.warning("AWS[:cdn] is not recommended, use CDN[:aws] for portability")
           Fog::CDN.new(:provider => 'AWS')
         when :cloud_formation
           Fog::AWS::CloudFormation.new
         when :cloud_watch
           Fog::AWS::CloudWatch.new
         when :compute
-          Formatador.display_line("[yellow][WARN] AWS[:compute] is deprecated, use Compute[:aws] instead[/]")
+          Fog::Logger.warning("AWS[:compute] is not recommended, use Compute[:aws] for portability")
           Fog::Compute.new(:provider => 'AWS')
         when :dns
-          Formatador.display_line("[yellow][WARN] AWS[:dns] is deprecated, use DNS[:aws] instead[/]")
+          Fog::Logger.warning("AWS[:dns] is not recommended, use DNS[:aws] for portability")
           Fog::DNS.new(:provider => 'AWS')
+        when :elasticache
+          Fog::AWS::Elasticache.new
         when :elb
           Fog::AWS::ELB.new
+        when :emr
+          Fog::AWS::EMR.new
         when :iam
           Fog::AWS::IAM.new
         when :rds
@@ -72,7 +82,7 @@ class AWS < Fog::Bin
         when :sqs
           Fog::AWS::SQS.new
         when :storage
-          Formatador.display_line("[yellow][WARN] AWS[:storage] is deprecated, use Storage[:aws] instead[/]")
+          Fog::Logger.warning("AWS[:storage] is not recommended, use Storage[:aws] for portability")
           Fog::Storage.new(:provider => 'AWS')
         when :sns
           Fog::AWS::SNS.new

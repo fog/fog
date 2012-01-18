@@ -12,6 +12,8 @@ module Fog
         attribute :health_check,          :aliases => 'HealthCheck'
         attribute :instances,             :aliases => 'Instances'
         attribute :source_group,          :aliases => 'SourceSecurityGroup'
+        attribute :hosted_zone_name,      :aliases => 'CanonicalHostedZoneName'
+        attribute :hosted_zone_name_id,   :aliases => 'CanonicalHostedZoneNameID'
 
         def initialize(attributes={})
           attributes[:availability_zones] ||= attributes['AvailabilityZones'] || %w(us-east-1a us-east-1b us-east-1c us-east-1d)
@@ -91,6 +93,12 @@ module Fog
           requires :id
           policy_name = [policy_name].flatten
           connection.set_load_balancer_policies_of_listener(id, port, policy_name)
+          reload
+        end
+
+        def set_listener_ssl_certificate(port, ssl_certificate_id)
+          requires :id
+          connection.set_load_balancer_listener_ssl_certificate(id, port, ssl_certificate_id)
           reload
         end
 

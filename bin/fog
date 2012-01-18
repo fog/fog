@@ -5,7 +5,11 @@ require 'yaml'
 Fog.credential = ARGV.first ? ARGV.first.to_sym : nil
 Fog.mock! if ENV['FOG_MOCK']
 if Fog.credentials.empty?
-  Fog::Errors.missing_credentials
+  begin
+    Fog::Errors.missing_credentials
+  rescue Fog::Errors::LoadError => error
+    abort error.message
+  end
 end
 
 require 'fog/bin'

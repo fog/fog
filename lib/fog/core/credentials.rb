@@ -5,15 +5,15 @@ module Fog
 
   # Assign a new credential to use from configuration file
   #   @param [String, Symbol] new_credential name of new credential to use
-  #   @ return [String, Symbol] name of the new credential
+  #   @ return [Symbol] name of the new credential
   def self.credential=(new_credential)
     @credentials = nil
-    @credential = new_credential
+    @credential = new_credential && new_credential.to_sym
   end
 
   # @return [String, Symbol] The credential to use in Fog
   def self.credential
-    @credential ||= :default
+    @credential ||= ( ENV["FOG_CREDENTIAL"] && ENV["FOG_CREDENTIAL"].to_sym ) || :default
   end
 
   # @return [String] The path for configuration_file
@@ -44,7 +44,12 @@ module Fog
       end
     end
   end
-  
+
+  # @return [Hash] The newly assigned credentials
+  def self.credentials=(new_credentials)
+    @credentials = new_credentials
+  end
+
   def self.symbolize_credentials(args)
     if args.is_a? Hash
       Hash[ *args.collect do |key, value|
