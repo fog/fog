@@ -80,13 +80,15 @@ module Fog
             # this chunk of code reconfigures the disk of the clone source to be read only,
             # and then creates a delta disk on top of that, this is required by the API in order to create
             # linked clondes
-            disks=vm_mob_ref.config.hardware.device.select{|vm_device| vm_device.class == RbVmomi::VIM::VirtualDisk}   
+            disks = vm_mob_ref.config.hardware.device.select do |vm_device|
+              vm_device.class == RbVmomi::VIM::VirtualDisk
+            end
             disks.select{|vm_device| vm_device.backing.parent == nil}.each do |disk|
-              disk_spec = { 
-                :deviceChange => [ 
+              disk_spec = {
+                :deviceChange => [
                   {
-                    :operation => :remove, 
-                    :device => disk 
+                    :operation => :remove,
+                    :device => disk
                   },
                   {
                     :operation => :add,
@@ -97,14 +99,14 @@ module Fog
                       disk_backing.backing.parent = disk.backing
                     }
                   },
-                ] 
+                ]
               }
               vm_mob_ref.ReconfigVM_Task(:spec => disk_spec).wait_for_completion
             end
             # Next, create a Relocation Spec instance
             relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => resource_pool,
-                                                                      :diskMoveType => :moveChildMostDiskBacking) 
-          else 
+                                                                      :diskMoveType => :moveChildMostDiskBacking)
+          else
             relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => resource_pool,
                                                                       :transform => options['transform'] || 'sparse')
           end
@@ -159,7 +161,7 @@ module Fog
           end
           {
             'vm_ref'   => 'vm-123',
-            'task_ref' => 'task-1234'
+            'task_ref' => 'task-1234',
           }
         end
 
