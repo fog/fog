@@ -1,4 +1,5 @@
 require 'fog/core/model'
+require 'fog/ibm/models/compute/instance-types'
 
 module Fog
   module Compute
@@ -20,6 +21,11 @@ module Fog
         attribute :visibility
 
         attribute :volume_id
+
+        def initialize(new_attributes = {})
+          super(new_attributes)
+          attributes[:supported_instance_types] = Fog::Compute::IBM::InstanceTypes.new.load(attributes[:supported_instance_types]) if attributes[:supported_instance_types]
+        end
 
         def save
           requires :id, :volume_id
