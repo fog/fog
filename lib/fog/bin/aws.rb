@@ -86,6 +86,8 @@ class AWS < Fog::Bin
           Fog::Storage.new(:provider => 'AWS')
         when :sns
           Fog::AWS::SNS.new
+        when :sts
+          Fog::AWS::STS.new
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
