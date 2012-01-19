@@ -96,11 +96,13 @@ module Fog
             end
 
             response.headers = {
-              'Content-Length'  => object['Content-Length'],
-              'Content-Type'    => object['Content-Type'],
-              'ETag'            => object['ETag'],
-              'Last-Modified'   => object['Last-Modified']
+              'Content-Length'   => object['Content-Length'],
+              'Content-Type'     => object['Content-Type'],
+              'ETag'             => object['ETag'],
+              'Last-Modified'    => object['Last-Modified'],
             }
+
+            response.headers['x-amz-version-id'] = object['VersionId'] if object['VersionId'] != 'null'
           else
             response.status = 404
             raise(Excon::Errors.status_error({:expects => 200}, response))

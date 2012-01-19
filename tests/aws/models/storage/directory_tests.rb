@@ -1,12 +1,12 @@
 Fog.mock!
 
-Shindo.tests("Storage[aws] | directory", [:aws]) do
+Shindo.tests("Storage[:aws] | directory", [:aws]) do
 
   directory_attributes = {
     :key => 'fogdirectorytests'
   }
 
-  model_tests(Fog::Storage[:aws].directories, directory_attributes, true) do
+  model_tests(Fog::Storage[:aws].directories, directory_attributes, Fog.mocking?) do
 
     tests("#versioning=") do
       tests("#versioning=(true)").succeeds do
