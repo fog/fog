@@ -5,7 +5,11 @@ module Fog
       module Shared
         private
         def vm_clone_check_options(options)
-          options = { 'force' => false }.merge(options)
+          default_options = {
+            'force'        => false,
+            'linked_clone' => false,
+          }
+          options = default_options.merge(options)
           required_options = %w{ path name }
           required_options.each do |param|
             raise ArgumentError, "#{required_options.join(', ')} are required" unless options.has_key? param
