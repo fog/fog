@@ -36,7 +36,8 @@ module Fog
               :hp_secret_key  => @hp_secret_key,
               :hp_auth_uri    => @hp_auth_uri,
               :hp_cdn_uri     => @hp_cdn_uri,
-              :hp_tenant_id   => @hp_tenant_id
+              :hp_tenant_id   => @hp_tenant_id,
+              :hp_service_type => "hpext:cdn"
             )
             if @cdn.enabled?
               @cdn
@@ -141,6 +142,7 @@ module Fog
           require 'multi_json'
           @hp_secret_key = options[:hp_secret_key]
           @hp_account_id = options[:hp_account_id]
+          @hp_auth_uri   = options[:hp_auth_uri]
           @hp_cdn_ssl    = options[:hp_cdn_ssl]
           @connection_options = options[:connection_options] || {}
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
@@ -154,19 +156,19 @@ module Fog
             # Call the control services authentication
             credentials = Fog::HP.authenticate_v2(options, @connection_options)
             # the CS service catalog returns the cdn endpoint
-            @hp_auth_uri = credentials[:endpoint_url]
+            @hp_storage_uri = credentials[:endpoint_url]
             @hp_cdn_uri  = credentials[:cdn_endpoint_url]
           else
             # Call the legacy v1.0/v1.1 authentication
             credentials = Fog::HP.authenticate_v1(options, @connection_options)
             # the user sends in the cdn endpoint
-            @hp_auth_uri = options[:hp_auth_uri]
+            @hp_storage_uri = options[:hp_auth_uri]
             @hp_cdn_uri  = options[:hp_cdn_uri]
           end
 
           @auth_token = credentials[:auth_token]
 
-          uri = URI.parse(@hp_auth_uri)
+          uri = URI.parse(@hp_storage_uri)
           @host   = options[:hp_servicenet] == true ? "snet-#{uri.host}" : uri.host
           @path   = uri.path
           @persistent = options[:persistent] || false
