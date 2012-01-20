@@ -52,6 +52,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rake')
   s.add_development_dependency('rbvmomi')
   s.add_development_dependency('rdoc')
+  s.add_development_dependency('thor')
   s.add_development_dependency('rspec', '~>1.3.1')
   s.add_development_dependency('shindo', '~>0.3.4')
   s.add_development_dependency('virtualbox', '~>0.9.1')
