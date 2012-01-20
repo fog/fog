@@ -6,7 +6,7 @@ module Fog
     class HP < Fog::Service
 
       requires    :hp_secret_key, :hp_account_id
-      recognizes  :hp_auth_uri, :hp_servicenet, :persistent, :connection_options
+      recognizes  :hp_auth_uri, :hp_servicenet, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_tenant_id, :hp_service_type
 
       model_path 'fog/hp/models/compute'
       model       :address
@@ -111,9 +111,35 @@ module Fog
           @hp_auth_uri   = options[:hp_auth_uri]
           @hp_servicenet = options[:hp_servicenet]
           @connection_options = options[:connection_options] || {}
-          authenticate
-          Excon.ssl_verify_peer = false if options[:hp_servicenet] == true
+          ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
+          auth_version = options[:hp_auth_version] || :v2
+          ### Pass the service type for compute via the options hash
+          options[:hp_service_type] ||= "compute"
+          @hp_tenant_id = options[:hp_tenant_id]
+
+          ### Make the authentication call
+          if (auth_version == :v2)
+            # Call the control services authentication
+            credentials = Fog::HP.authenticate_v2(options, @connection_options)
+            # the CS service catalog returns the cdn endpoint
+            @hp_compute_uri = credentials[:endpoint_url]
+          else
+            # Call the legacy v1.0/v1.1 authentication
+            credentials = Fog::HP.authenticate_v1(options, @connection_options)
+            # the user sends in the cdn endpoint
+            @hp_compute_uri = options[:hp_auth_uri]
+          end
+
+          @auth_token = credentials[:auth_token]
+
+          uri = URI.parse(@hp_compute_uri)
+          @host   = @hp_servicenet == true ? "snet-#{uri.host}" : uri.host
+          @path   = uri.path
           @persistent = options[:persistent] || false
+          @port   = uri.port
+          @scheme = uri.scheme
+          Excon.ssl_verify_peer = false if options[:hp_servicenet] == true
+
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
@@ -121,7 +147,7 @@ module Fog
           @connection.reset
         end
 
-        def request(params)
+        def request(params, parse_json = true, &block)
           begin
             response = @connection.request(params.merge!({
               :headers  => {
@@ -131,14 +157,7 @@ module Fog
               :host     => @host,
               :path     => "#{@path}/#{params[:path]}",
               :query    => ('ignore_awful_caching' << Time.now.to_i.to_s)
-            }))
-          rescue Excon::Errors::Unauthorized => error
-            if MultiJson.decode(response.body)['unauthorized']['message'] == 'Invalid authentication token.  Please renew.'
-              authenticate
-              retry
-            else
-              raise error
-            end
+            }), &block)
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
@@ -155,23 +174,6 @@ module Fog
             end
           end
           response
-        end
-
-        private
-
-        def authenticate
-          options = {
-            :hp_secret_key  => @hp_secret_key,
-            :hp_account_id  => @hp_account_id,
-            :hp_auth_uri    => @hp_auth_uri,
-          }
-          credentials = Fog::HP.authenticate(options, @connection_options)
-          @auth_token = credentials['X-Auth-Token']
-          uri = URI.parse(credentials['X-Server-Management-Url'])
-          @host   = @hp_servicenet == true ? "snet-#{uri.host}" : uri.host
-          @path   = uri.path
-          @port   = uri.port
-          @scheme = uri.scheme
         end
 
       end
