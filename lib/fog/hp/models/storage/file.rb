@@ -51,13 +51,18 @@ module Fog
           end
         end
 
-        def public=(new_public)
-          new_public
-        end
+        #def public=(new_public)
+        #  new_public
+        #end
 
         def public_url
           requires :key
           self.collection.get_url(self.key)
+        end
+
+        def cdn_public_url
+          requires :key
+          self.collection.get_cdn_url(self.key)
         end
 
         def save(options = {})

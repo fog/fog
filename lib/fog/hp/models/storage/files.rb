@@ -72,6 +72,14 @@ module Fog
           end
         end
 
+        def get_cdn_url(key)
+          requires :directory
+          if self.directory.cdn_public_url
+            # escape the key to cover for special char. in object names
+            "#{self.directory.cdn_public_url}/#{connection.escape_name(key)}"
+          end
+        end
+
         def head(key, options = {})
           requires :directory
           data = connection.head_object(directory.key, key)
