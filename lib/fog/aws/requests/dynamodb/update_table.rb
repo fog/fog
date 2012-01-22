@@ -14,15 +14,14 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'TableDescription'<~Hash>
-        #       * 'CreationDateTime'<~Float> - Unix epoch time of table creation
+        #     * 'Table'<~Hash>
         #       * 'KeySchema'<~Hash> - schema for table
         #         * 'HashKeyElement'<~Hash>: info for primary key
         #           * 'AttributeName'<~String> - name of attribute
-        #           * 'AttributeType'<~String> - type of attribute, in %w{N S} for number or string
+        #           * 'AttributeType'<~String> - type of attribute, in %w{N NS S SS} for number, number set, string, string set
         #         * 'RangeKeyElement'<~Hash>: optional, info for range key
         #           * 'AttributeName'<~String> - name of attribute
-        #           * 'AttributeType'<~String> - type of attribute, in %w{N S} for number or string
+        #           * 'AttributeType'<~String> - type of attribute, in %w{N NS S SS} for number, number set, string, string set
         #       * 'ProvisionedThroughput'<~Hash>:
         #         * 'ReadCapacityUnits'<~Integer> - read capacity for table, in 5..10000
         #         * 'WriteCapacityUnits'<~Integer> - write capacity for table, in 5..10000
@@ -36,7 +35,7 @@ module Fog
 
           request(
             :body       => MultiJson.encode(body),
-            :headers    => {'x-amz-target' => 'DynamoDB_20111205.DescribeTable'},
+            :headers    => {'x-amz-target' => 'DynamoDB_20111205.UpdateTable'},
             :idempotent => true
           )
         end
