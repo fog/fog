@@ -8,17 +8,17 @@ module Fog
       recognizes :aws_session_token, :host, :path, :port, :scheme, :persistent, :region
 
       request_path 'fog/aws/requests/dynamodb'
-      #request :batch_get_item
+      request :batch_get_item
       request :create_table
-      #request :delete_item
+      request :delete_item
       request :delete_table
       request :describe_table
-      #request :get_item
+      request :get_item
       request :list_tables
-      #request :put_item
+      request :put_item
       #request :query
       #request :scan
-      #request :update_item
+      request :update_item
       request :update_table
 
       class Mock
