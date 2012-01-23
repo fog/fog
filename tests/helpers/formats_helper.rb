@@ -14,7 +14,7 @@ module Fog
   end
 end
 [FalseClass, TrueClass].each {|klass| klass.send(:include, Fog::Boolean)}
-[NilClass, Fog::Boolean].each {|klass| klass.send(:include, Fog::Nullable::Boolean)}
+[FalseClass, TrueClass, NilClass, Fog::Boolean].each {|klass| klass.send(:include, Fog::Nullable::Boolean)}
 [NilClass, String].each {|klass| klass.send(:include, Fog::Nullable::String)}
 [NilClass, Time].each {|klass| klass.send(:include, Fog::Nullable::Time)}
 [Integer, NilClass].each {|klass| klass.send(:include, Fog::Nullable::Integer)}

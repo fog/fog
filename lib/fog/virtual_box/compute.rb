@@ -34,6 +34,10 @@ module Fog
           @connection = ::VirtualBox::Global.global.lib.virtualbox
         end
 
+        def respond_to?(method, *)
+          super or @connection.respond_to? method
+        end
+
         # hack to provide 'requests'
         def method_missing(method_sym, *arguments, &block)
           if @connection.respond_to?(method_sym)

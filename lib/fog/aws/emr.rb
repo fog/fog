@@ -26,10 +26,10 @@ module Fog
       # collection  :snapshots
       # model       :parameter_group
       # collection  :parameter_groups
-      # 
+      #
       # model       :parameter
       # collection  :parameters
-      # 
+      #
       # model       :security_group
       # collection  :security_groups
 
@@ -68,12 +68,30 @@ module Fog
           @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
 
           options[:region] ||= 'us-east-1'
-          @host = options[:host] || 'elasticmapreduce.amazonaws.com'
+          @host = options[:host] || case options[:region]
+           when 'ap-northeast-1'
+            'elasticmapreduce.ap-northeast-1.amazonaws.com'
+          when 'ap-southeast-1'
+            'elasticmapreduce.ap-southeast-1.amazonaws.com'
+          when 'eu-west-1'
+            'elasticmapreduce.eu-west-1.amazonaws.com'
+          when 'us-east-1'
+            'elasticmapreduce.us-east-1.amazonaws.com'
+          when 'us-west-1'
+            'elasticmapreduce.us-west-1.amazonaws.com'
+          when 'us-west-2'
+            'elasticmapreduce.us-west-2.amazonaws.com'
+          when 'sa-east-1'
+            'elasticmapreduce.sa-east-1.amazonaws.com'
+          else
+            raise ArgumentError, "Unknown region: #{options[:region].inspect}"
+          end
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @region = options[:region]
         end
 
         def reload

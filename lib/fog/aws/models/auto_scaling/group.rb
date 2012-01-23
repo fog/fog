@@ -65,9 +65,9 @@ module Fog
           reload
         end
 
-        def enable_metrics_collection(metrics = {})
+        def enable_metrics_collection(granularity = '1Minute', metrics = {})
           requires :id
-          connection.enable_metrics_collection(id, 'Metrics' => metrics)
+          connection.enable_metrics_collection(id, granularity, 'Metrics' => metrics)
           reload
         end
 

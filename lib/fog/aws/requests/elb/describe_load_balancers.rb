@@ -73,7 +73,11 @@ module Fog
               'RequestId' => Fog::AWS::Mock.request_id
             },
             'DescribeLoadBalancersResult' => {
-              'LoadBalancerDescriptions' => load_balancers.map { |lb| lb['Instances'] = lb['Instances'].map { |i| i['InstanceId'] }; lb }
+              'LoadBalancerDescriptions' => load_balancers.map do |lb|
+                lb['Instances'] = lb['Instances'].map { |i| i['InstanceId'] }
+                lb['Policies'] = lb['Policies'].reject { |name, policies| name == 'Proper' }
+                lb
+              end
             }
           }
 

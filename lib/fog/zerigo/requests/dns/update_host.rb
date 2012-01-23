@@ -24,9 +24,9 @@ module Fog
           options.each { |option, value|
             case option
             when :host_type
-              optional_tags+= "<host-type>#{host_type}</host-type>"
+              optional_tags+= "<host-type>#{value}</host-type>"
             when :data
-              optional_tags+= "<data>#{data}</data>"
+              optional_tags+= "<data>#{value}</data>"
             when :hostname
               optional_tags+= "<hostname>#{value}</hostname>"
             when :notes
