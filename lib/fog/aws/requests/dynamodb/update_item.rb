@@ -37,7 +37,7 @@ module Fog
             'TableName'         => table_name
           }.merge(options)
 
-          idempotent = attribute_updates.any? {|key, value| value.has_key?('Action')}
+          idempotent = attribute_updates.has_key?('Action')
 
           request(
             :body       => MultiJson.encode(body),
