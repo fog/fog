@@ -14,7 +14,7 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       tests("default attributes") do
         listener = Fog::AWS[:elb].listeners.new
         tests('instance_port is 80').returns(80) { listener.instance_port }
-        tests('instance_protocol is HTTP').returns(80) { listener.instance_protocol }
+        tests('instance_protocol is HTTP').returns('HTTP') { listener.instance_protocol }
         tests('lb_port is 80').returns(80) { listener.lb_port }
         tests('protocol is HTTP').returns('HTTP') { listener.protocol }
         tests('policy_names is empty').returns([]) { listener.policy_names }
