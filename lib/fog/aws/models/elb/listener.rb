@@ -4,20 +4,21 @@ module Fog
     class ELB
       class Listener < Fog::Model
 
-        attribute :policy_names,  :aliases => 'PolicyNames'
-        attribute :instance_port, :aliases => 'InstancePort'
-        attribute :lb_port,       :aliases => 'LoadBalancerPort'
-        attribute :protocol,      :aliases => 'Protocol'
-        attribute :ssl_id,        :aliases => 'SSLCertificateId'
+        attribute :policy_names,      :aliases => 'PolicyNames'
+        attribute :instance_port,     :aliases => 'InstancePort'
+        attribute :instance_protocol, :aliases => 'InstanceProtocol'
+        attribute :lb_port,           :aliases => 'LoadBalancerPort'
+        attribute :protocol,          :aliases => 'Protocol'
+        attribute :ssl_id,            :aliases => 'SSLCertificateId'
 
         def initialize(attributes={})
           # set defaults, which may be overridden in super
-          merge_attributes(:policy_names => [], :instance_port => 80, :lb_port => 80, :protocol => 'HTTP')
+          merge_attributes(:policy_names => [], :instance_port => 80, :instance_protocol => 'HTTP', :lb_port => 80, :protocol => 'HTTP')
           super
         end
 
         def save
-          requires :load_balancer, :instance_port, :lb_port, :protocol
+          requires :load_balancer, :instance_port, :lb_port, :protocol, :instance_protocol
           connection.create_load_balancer_listeners(load_balancer.id, [to_params])
           reload
         end
@@ -44,6 +45,7 @@ module Fog
         def to_params
           {
             'InstancePort'     => instance_port,
+            'InstanceProtocol' => instance_protocol,
             'LoadBalancerPort' => lb_port,
             'Protocol'         => protocol,
             'SSLCertificateId' => ssl_id
