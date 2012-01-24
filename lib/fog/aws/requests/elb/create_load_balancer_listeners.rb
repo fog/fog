@@ -25,17 +25,20 @@ module Fog
           listener_protocol = []
           listener_lb_port = []
           listener_instance_port = []
+          listener_instance_protocol = []
           listener_ssl_certificate_id = []
           listeners.each do |listener|
             listener_protocol.push(listener['Protocol'])
             listener_lb_port.push(listener['LoadBalancerPort'])
             listener_instance_port.push(listener['InstancePort'])
+            listener_instance_protocol.push(listener['InstanceProtocol'])
             listener_ssl_certificate_id.push(listener['SSLCertificateId'])
           end
 
           params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.Protocol', listener_protocol))
           params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.LoadBalancerPort', listener_lb_port))
           params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.InstancePort', listener_instance_port))
+          params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.InstanceProtocol', listener_instance_protocol))
           params.merge!(Fog::AWS.indexed_param('Listeners.member.%d.SSLCertificateId', listener_ssl_certificate_id))
 
           request({
@@ -58,6 +61,11 @@ module Fog
               if listener['SSLCertificateId'] and !certificate_ids.include? listener['SSLCertificateId']
                 raise Fog::AWS::IAM::NotFound.new('CertificateNotFound')
               end
+
+              if (%w( HTTP HTTPS).include?(listener['Protocol']) && !%w( HTTP HTTPS ).include?(listener['InstanceProtocol'])) ||
+                  (%w( TCP SSL).include?(listener['Protocol']) && !%w( TCP SSL ).include?(listener['InstanceProtocol']))
+                raise Fog::AWS::ELB::ValidationError
+              end if listener['Protocol'] && listener['InstanceProtocol']
               load_balancer['ListenerDescriptions'] << {'Listener' => listener, 'PolicyNames' => []}
             end
 

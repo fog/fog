@@ -4,13 +4,15 @@ module Fog
   module AWS
     class ELB < Fog::Service
 
-      class DuplicatePolicyName < Fog::Errors::Error; end
-      class IdentifierTaken     < Fog::Errors::Error; end
-      class InvalidInstance     < Fog::Errors::Error; end
-      class PolicyNotFound      < Fog::Errors::Error; end
-      class PolicyTypeNotFound  < Fog::Errors::Error; end
-      class Throttled           < Fog::Errors::Error; end
-      class TooManyPolicies     < Fog::Errors::Error; end
+      class DuplicatePolicyName         < Fog::Errors::Error; end
+      class IdentifierTaken             < Fog::Errors::Error; end
+      class InvalidInstance             < Fog::Errors::Error; end
+      class InvalidConfigurationRequest < Fog::Errors::Error; end
+      class PolicyNotFound              < Fog::Errors::Error; end
+      class PolicyTypeNotFound          < Fog::Errors::Error; end
+      class Throttled                   < Fog::Errors::Error; end
+      class TooManyPolicies             < Fog::Errors::Error; end
+      class ValidationError             < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :region, :host, :path, :port, :scheme, :persistent
@@ -184,6 +186,9 @@ module Fog
               raise Fog::AWS::ELB::DuplicatePolicyName.slurp(error, match[2])
             when 'InvalidInstance'
               raise Fog::AWS::ELB::InvalidInstance.slurp(error, match[2])
+            when 'InvalidConfigurationRequest'
+              # when do they fucking use this shit?
+              raise Fog::AWS::ELB::InvalidConfigurationRequest.slurp(error, match[2])
             when 'LoadBalancerNotFound'
               raise Fog::AWS::ELB::NotFound.slurp(error, match[2])
             when 'PolicyNotFound'
@@ -194,6 +199,8 @@ module Fog
               raise Fog::AWS::ELB::Throttled.slurp(error, match[2])
             when 'TooManyPolicies'
               raise Fog::AWS::ELB::TooManyPolicies.slurp(error, match[2])
+            when 'ValidationError'
+              raise Fog::AWS::ELB::ValidationError.slurp(error, match[2])
             else
               raise
             end
