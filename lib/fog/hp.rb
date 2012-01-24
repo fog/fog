@@ -67,7 +67,7 @@ module Fog
       @hp_account_id = options[:hp_account_id]
       @hp_secret_key = options[:hp_secret_key]
       @hp_tenant_id  = options[:hp_tenant_id]
-      @hp_service_type  = options[:hp_service_type] || "object-store"
+      @hp_service_type  = options[:hp_service_type]
 
       ### Decide which auth style to use
       unless (@hp_use_upass_auth_style)
