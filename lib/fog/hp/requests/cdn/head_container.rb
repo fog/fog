@@ -6,7 +6,7 @@ module Fog
         # List cdn properties for a container
         #
         # ==== Parameters
-        # * container<~String> - Name of container to retrieve info for
+        # * name<~String> - Name of container to retrieve info for
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -15,11 +15,11 @@ module Fog
         #     * 'X-Cdn-Uri'<~String> - cdn url for this container
         #     * 'X-Ttl'<~String> - integer seconds before data expires, defaults to 86400 (1 day)
         #     * 'X-Log-Retention'<~Boolean> - ?
-        def head_container(container)
+        def head_container(name)
           response = request(
             :expects  => 204,
             :method   => 'HEAD',
-            :path     => container,
+            :path     => escape_name(name),
             :query    => {'format' => 'json'}
           )
           response
