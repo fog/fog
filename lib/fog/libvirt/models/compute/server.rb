@@ -230,7 +230,7 @@ module Fog
         end
 
         def stopped?
-          state == "shutdown"
+          state == "shutoff"
         end
 
         def ready?
