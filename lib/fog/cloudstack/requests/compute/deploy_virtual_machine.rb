@@ -19,6 +19,11 @@ module Fog
             options.merge!('securitygroupnames' => securitygroupnames.join(','))
           end
           
+          if ( networkids = options.delete('networkids') ).is_a?(Array)
+            options.merge!('networkids' => networkids.join(','))
+          end
+          
+          
           request(options)
         end
 
