@@ -10,9 +10,10 @@ module Fog
         # ==== Parameters
         # * lb_name<~String> - Name for the new ELB -- must be unique
         # * listeners<~Array> - Array of Hashes describing ELB listeners to add to the ELB
-        #   * 'Protocol'<~String> - Protocol to use. Either HTTP or TCP.
+        #   * 'Protocol'<~String> - Protocol to use. Either HTTP, HTTPS, TCP or SSL.
         #   * 'LoadBalancerPort'<~Integer> - The port that the ELB will listen to for outside traffic
         #   * 'InstancePort'<~Integer> - The port on the instance that the ELB will forward traffic to
+        #   * 'InstanceProtocol'<~String> - Protocol for sending traffic to an instance. Either HTTP, HTTPS, TCP or SSL.
         #   * 'SSLCertificateId'<~String> - ARN of the server certificate
         # ==== Returns
         # * response<~Excon::Response>:
