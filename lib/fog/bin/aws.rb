@@ -13,6 +13,8 @@ class AWS < Fog::Bin
         Fog::AWS::CloudWatch
       when :compute
         Fog::Compute::AWS
+      when :ddb, :dynamodb
+        Fog::AWS::DynamoDB
       when :dns
         Fog::DNS::AWS
       when :elasticache
@@ -58,8 +60,10 @@ class AWS < Fog::Bin
         when :cloud_watch
           Fog::AWS::CloudWatch.new
         when :compute
-          Fog::Logger.warning("AWS[:compute] is not recommended, use Comptue[:aws] for portability")
+          Fog::Logger.warning("AWS[:compute] is not recommended, use Compute[:aws] for portability")
           Fog::Compute.new(:provider => 'AWS')
+        when :ddb, :dynamodb
+          Fog::AWS::DynamoDB.new
         when :dns
           Fog::Logger.warning("AWS[:dns] is not recommended, use DNS[:aws] for portability")
           Fog::DNS.new(:provider => 'AWS')
@@ -86,6 +90,8 @@ class AWS < Fog::Bin
           Fog::Storage.new(:provider => 'AWS')
         when :sns
           Fog::AWS::SNS.new
+        when :sts
+          Fog::AWS::STS.new
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end

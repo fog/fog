@@ -252,6 +252,7 @@ task :changelog do
         'Michael Zeng',
         'nightshade427',
         'Patrick Debois',
+        'Stepan G. Fedorov',
         'Wesley Beary'
       ].include?(committer)
       next

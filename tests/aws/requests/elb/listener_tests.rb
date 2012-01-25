@@ -48,6 +48,20 @@ Shindo.tests('AWS::ELB | listener_tests', ['aws', 'elb']) do
       Fog::AWS[:elb].set_load_balancer_listener_ssl_certificate(@load_balancer_id, 443, @certificate['Arn']).body
     end
 
+    tests("#create_load_balancer_listeners with invalid Protocol and InstanceProtocol configuration").raises(Fog::AWS::ELB::ValidationError) do
+      listeners = [
+        {'Protocol' => 'HTTP', 'InstanceProtocol' => 'TCP', 'LoadBalancerPort' => 80, 'InstancePort' => 80},
+      ]
+      Fog::AWS[:elb].create_load_balancer_listeners(@load_balancer_id, listeners).body
+    end
+
+    tests("#create_load_balancer_listeners with valid Protocol and InstanceProtocol configuration").formats(AWS::ELB::Formats::BASIC) do
+      listeners = [
+        {'Protocol' => 'HTTP', 'InstanceProtocol' => 'HTTPS', 'LoadBalancerPort' => 80, 'InstancePort' => 80},
+      ]
+      Fog::AWS[:elb].create_load_balancer_listeners(@load_balancer_id, listeners).body
+    end
+
     Fog::AWS[:iam].delete_server_certificate(@key_name)
     Fog::AWS[:elb].delete_load_balancer(@load_balancer_id)
   end

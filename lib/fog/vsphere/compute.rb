@@ -20,6 +20,7 @@ module Fog
       request :vm_power_on
       request :vm_reboot
       request :vm_clone
+      request :vm_create
       request :vm_destroy
       request :datacenters
 

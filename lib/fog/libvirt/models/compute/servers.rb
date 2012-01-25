@@ -44,7 +44,8 @@ module Fog
         end
 
         def get(uuid)
-          self.all(:uuid => uuid).first
+          vm = all(:uuid => uuid)
+          vm.first if vm
         end
 
         def bootstrap(new_attributes = {})

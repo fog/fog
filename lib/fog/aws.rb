@@ -10,6 +10,7 @@ module Fog
     service(:compute,         'aws/compute',          'Compute')
     service(:cloud_formation, 'aws/cloud_formation',  'CloudFormation')
     service(:cloud_watch,     'aws/cloud_watch',      'CloudWatch')
+    service(:dynamodb,        'aws/dynamodb',         'DynamoDB')
     service(:dns,             'aws/dns',              'DNS')
     service(:elasticache,     'aws/elasticache',      'Elasticache')
     service(:elb,             'aws/elb',              'ELB')
@@ -40,7 +41,7 @@ module Fog
       end
       params
     end
-    
+
     def self.serialize_keys(key, value, options = {})
       case value
       when Hash
