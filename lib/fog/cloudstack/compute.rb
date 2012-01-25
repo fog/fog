@@ -23,10 +23,13 @@ module Fog
       request :change_service_for_virtual_machine
       request :create_account
       request :create_domain
-      request :create_port_forwarding_rule
       request :create_load_balancer_rule
+      request :create_network
+      request :create_port_forwarding_rule
       request :create_security_group
+      request :create_ssh_key_pair
       request :create_snapshot
+      request :create_snapshot_policy
       request :create_user
       request :create_volume
       request :delete_account
@@ -34,7 +37,9 @@ module Fog
       request :delete_load_balancer_rule
       request :delete_port_forwarding_rule
       request :delete_security_group
+      request :delete_ssh_key_pair
       request :delete_snapshot
+      request :delete_snapshot_policies
       request :delete_user
       request :delete_volume
       request :detach_volume
@@ -75,6 +80,7 @@ module Fog
       request :list_security_groups
       request :list_service_offerings
       request :list_snapshots
+      request :list_snapshot_policies
       request :list_ssh_key_pairs
       request :list_storage_pools
       request :list_templates
@@ -87,6 +93,7 @@ module Fog
       request :query_async_job_result
       request :reboot_virtual_machine
       request :recover_virtual_machine
+      request :register_ssh_key_pair
       request :register_user_keys
       request :remove_from_load_balancer_rule
       request :reset_password_for_virtual_machine
@@ -97,7 +104,7 @@ module Fog
       request :update_domain
       request :update_user
       request :update_virtual_machine
-      
+
       class Mock
 
         def self.data
