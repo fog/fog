@@ -45,7 +45,7 @@ module Fog
 
         def get(uuid)
           vm = all(:uuid => uuid)
-          vm.empty? ? nil : vm.first
+          vm.first if vm
         end
 
         def bootstrap(new_attributes = {})
