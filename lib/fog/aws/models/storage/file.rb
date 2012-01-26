@@ -1,4 +1,5 @@
 require 'fog/core/model'
+require 'fog/aws/models/storage/versions'
 
 module Fog
   module Storage
@@ -22,6 +23,7 @@ module Fog
         attribute :owner,               :aliases => 'Owner'
         attribute :storage_class,       :aliases => ['x-amz-storage-class', 'StorageClass']
         attribute :encryption,          :aliases => 'x-amz-server-side-encryption'
+        attribute :version,             :aliases => 'x-amz-version-id'
 
         def acl=(new_acl)
           valid_acls = ['private', 'public-read', 'public-read-write', 'authenticated-read']
@@ -54,9 +56,10 @@ module Fog
           target_directory.files.head(target_file_key)
         end
 
-        def destroy
+        def destroy(options = {})
           requires :directory, :key
-          connection.delete_object(directory.key, key)
+          attributes[:body] = nil if options['versionId'] == version
+          connection.delete_object(directory.key, key, options)
           true
         end
 
@@ -128,6 +131,15 @@ module Fog
         def url(expires, options = {})
           requires :key
           collection.get_https_url(key, expires, options)
+        end
+
+        def versions
+          @versions ||= begin
+            Fog::Storage::AWS::Versions.new(
+              :file         => self,
+              :connection   => connection
+            )
+          end
         end
 
         private
