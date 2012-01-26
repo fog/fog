@@ -1,5 +1,6 @@
 require 'fog/core/model'
 require 'fog/aws/models/storage/files'
+require 'fog/aws/models/storage/versions'
 
 module Fog
   module Storage
@@ -56,6 +57,26 @@ module Fog
           requires :key
           connection.put_request_payment(key, new_payer)
           @payer = new_payer
+        end
+
+        def versioning?
+          requires :key
+          data = connection.get_bucket_versioning(key)
+          data.body['VersioningConfiguration']['Status'] == 'Enabled'
+        end
+
+        def versioning=(new_versioning)
+          requires :key
+          connection.put_bucket_versioning(key, new_versioning ? 'Enabled' : 'Suspended')
+        end
+
+        def versions
+          @versions ||= begin
+            Fog::Storage::AWS::Versions.new(
+                :directory    => self,
+                :connection   => connection
+            )
+          end
         end
 
         def public=(new_public)
