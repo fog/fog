@@ -14,7 +14,7 @@ module Fog
 
         def all
           data = if file
-            connection.get_bucket_object_versions(file.directory.key, :prefix => file.key).body['Versions']
+            connection.get_bucket_object_versions(file.directory.key, 'prefix' => file.key).body['Versions']
           else
             connection.get_bucket_object_versions(directory.key).body['Versions']
           end
