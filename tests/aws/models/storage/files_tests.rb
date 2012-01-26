@@ -36,6 +36,20 @@ Shindo.tests("Storage[:aws] | files", [:aws]) do
       end
     end
 
+    tests("#head") do
+      tests("#head without version fetches the latest version").returns(v4) do
+        @directory.files.head(@instance.key).version
+      end
+
+      tests("#head with version fetches that exact version").returns(v2) do
+        @directory.files.head(@instance.key, 'versionId' => v2).version
+      end
+
+      tests("#head with a deleted version returns nil").returns(nil) do
+        @directory.files.head(@instance.key, 'versionId' => v3)
+      end
+    end
+
   end
 
   @directory.versions.each(&:destroy)
