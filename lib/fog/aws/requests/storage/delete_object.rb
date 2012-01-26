@@ -52,8 +52,9 @@ module Fog
                 version = bucket[:objects][object_name].find { |object| object['VersionId'] == version_id}
 
                 # S3 special cases the 'null' value to not error out if no such version exists.
-                if version || version_id == 'null'
+                if version || (version_id == 'null')
                   bucket[:objects][object_name].delete(version)
+                  bucket[:objects].delete(object_name) if bucket[:objects][object_name].empty?
 
                   response.headers['x-amz-delete-marker'] = 'true' if version[:delete_marker]
                   response.headers['x-amz-version-id'] = version_id

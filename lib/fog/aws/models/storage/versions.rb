@@ -8,20 +8,24 @@ module Fog
       class Versions < Fog::Collection
 
         attribute :file
+        attribute :directory
 
         model Fog::Storage::AWS::Version
 
         def all
-          data = connection.get_bucket_object_versions(file.directory.key, :prefix => file.key).body['Versions']
+          data = if file
+            connection.get_bucket_object_versions(file.directory.key, :prefix => file.key).body['Versions']
+          else
+            connection.get_bucket_object_versions(directory.key).body['Versions']
+          end
+
           load(data)
         end
 
         def new(attributes = {})
-          requires :file
-
           version_type = attributes.keys.first
 
-          model = super({ :file => file }.merge!(attributes[version_type]))
+          model = super(attributes[version_type])
           model.delete_marker = version_type == 'DeleteMarker'
 
           model

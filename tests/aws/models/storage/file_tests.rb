@@ -34,8 +34,30 @@ Shindo.tests("Storage[:aws] | file", [:aws]) do
       end
     end
 
+
+    @directory.files.create(:key => @instance.key)
+    @instance.destroy
+
+    tests("#versions") do
+      tests('#versions.size includes versions (including DeleteMarkers) for all keys').returns(3) do
+        @instance.versions.size
+      end
+
+      tests('#versions are all for the correct key').returns(true) do
+        @instance.versions.all? { |v| v.key == @instance.key }
+      end
+    end
+
+    tests("#destroy") do
+      tests("#destroy a specific version should delete the version, not create a DeleteMarker").returns(2) do
+        @instance.destroy('versionId' => @instance.version)
+        @instance.versions.all.size
+      end
+    end
+
   end
 
+  @directory.versions.each(&:destroy)
   @directory.destroy
 
 end
