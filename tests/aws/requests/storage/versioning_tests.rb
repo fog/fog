@@ -59,50 +59,8 @@ Shindo.tests('Fog::Storage[:aws] | versioning', [:aws]) do
     end
 
     tests("#get_bucket_object_versions('#{@aws_bucket_name}')") do
-      @versions_format = {
-        'IsTruncated'     => Fog::Boolean,
-        'MaxKeys'         => Integer,
-        'Name'            => String,
-        'Prefix'          => NilClass,
-        'KeyMarker'       => NilClass,
-        'VersionIdMarker' => NilClass,
-        'Versions'    => [{
-          'DeleteMarker' => {
-            'Key'           => String,
-            'LastModified'  => Time,
-            'Owner' => {
-              'DisplayName' => String,
-              'ID'          => String
-            },
-            'IsLatest'     => Fog::Boolean,
-            'VersionId'    => String
-          },
-          'Version' => {
-            'ETag'          => String,
-            'Key'           => String,
-            'LastModified'  => Time,
-            'Owner' => {
-              'DisplayName' => String,
-              'ID'          => String
-            },
-            'Size' => Integer,
-            'StorageClass' => String,
-            'IsLatest'     => Fog::Boolean,
-            'VersionId'    => String
-          }
-        }]
-      }
 
       create_versioned_bucket
-
-      file = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'y', :key => 'x')
-      file.destroy
-
-#      tests("#get_bucket_object_versions('#{@aws_bucket_name}')").formats(@versions_format) do
-#        Fog::Storage[:aws].get_bucket_object_versions(@aws_bucket_name).body
-#      end
-
-      clear_bucket
 
       before do
         @versions = Fog::Storage[:aws].get_bucket_object_versions(@aws_bucket_name)
