@@ -26,7 +26,7 @@ module Fog
           # If the first path element contains "vm" this denotes the vmFolder
           # and needs to be shifted out since each DC contains only one
           # vmFolder
-          path_elements.shift if path_elements[0] = 'vm'
+          path_elements.shift if path_elements[0] == 'vm'
           # Make sure @datacenters is populated (the keys are DataCenter instances)
           self.datacenters.include? dc_name or raise ArgumentError, "Could not find a Datacenter named #{dc_name}"
           # Get the datacenter managed object
