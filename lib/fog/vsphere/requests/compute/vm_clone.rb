@@ -127,6 +127,21 @@ module Fog
             # request to notify the application how far along in the process we
             # are.  I'm thinking of updating a progress bar, etc...
             new_vm = task.wait_for_completion
+            # wait for ip to be ready, otherwise can't SSH to this VM
+            server = convert_vm_mob_ref_to_attr_hash(new_vm)
+            tries = 0
+            until server['ipaddress']
+              tries += 1
+              if tries <= 60 then
+                sleep 5
+                puts "Waiting until the VM's ip address is ready. #{tries * 5} seconds passed."
+              else
+                raise "The ipaddress of the new VM is not ready! Please check the VM's network status in vSphere Client."
+              end
+              # Try and find the new VM (folder.find is quite efficient)
+              new_vm = folder.find(options['name'], RbVmomi::VIM::VirtualMachine)
+              server = convert_vm_mob_ref_to_attr_hash(new_vm)
+            end
           else
             tries = 0
             new_vm = begin
@@ -141,7 +156,7 @@ module Fog
               nil
             end
           end
-
+          
           # Return hash
           {
             'vm_ref'        => new_vm ? new_vm._ref : nil,

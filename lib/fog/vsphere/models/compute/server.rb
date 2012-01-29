@@ -16,10 +16,6 @@ module Fog
         # In particular:
         #   GuestInfo: information about the guest operating system
         #   VirtualMachineConfigInfo: Access to the VMX file and configuration
-
-        attribute :name
-        # UUID may be the same from VM to VM if the user does not select (I copied it)
-        attribute :uuid
         
         # provisioning
         attribute :availability_zone,     :aliases => 'availabilityZone'
@@ -28,16 +24,15 @@ module Fog
         attribute :tags,                  :aliases => 'tagSet'
         attribute :key_name,              :aliases => 'keyName'
         attribute :created_at,            :aliases => 'launchTime'
-        attribute :state,                 :aliases => 'instanceState', :squash => 'name'
         attribute :private_ip_address,    :aliases => 'privateIpAddress'
-        attribute :public_ip_address,     :aliases => 'ipAddress'
-        
-        # Instance UUID should be unique across a vCenter deployment.
-        attribute :instance_uuid
+        #attribute :public_ip_address,     :aliases => 'ipAddress'
+
+        attribute :uuid  # Instance UUID should be unique across a vCenter deployment.
+        attribute :name
         attribute :hostname
         attribute :operatingsystem
         attribute :ipaddress
-        attribute :power_state,   :aliases => 'power'
+        attribute :power_state,   :aliases => 'state'
         attribute :tools_state,   :aliases => 'tools'
         attribute :tools_version
         attribute :mac_addresses, :aliases => 'macs'
@@ -47,6 +42,12 @@ module Fog
         attribute :mo_ref
         attribute :path
         attribute :template_path
+        
+        # attribute alias
+        def state; power_state end
+        def dns_name; ipaddress end
+        def public_ip_address; ipaddress end
+        def instance_uuid; id end
 
         def vm_reconfig_memory(options = {})
           requires :instance_uuid, :memory
@@ -95,17 +96,26 @@ module Fog
           new_vm.connection = self.connection
           new_vm
         end
+
+        #
+        # :template_path the absolute or relative path of the VM template to be cloned
+        # :name the name of VM to be created
+        # 
         def clone(options = {})
           requires :template_path, :name
           # expand template_name to full path of the template file
-          options[:template_path] = connection.vsphere_templates_folder + options[:template_path]
+          unless options[:template_path].start_with?('/')
+            options[:template_path] = connection.vsphere_templates_folder + options[:template_path]
+          end
           
           # Convert symbols to strings
           req_options = options.inject({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
           # Perform the actual clone
           clone_results = connection.vm_clone(req_options)
+
           # Create the new VM model.
           new_vm = self.class.new(clone_results['vm_attributes'])
+
           # We need to assign the collection and the connection otherwise we
           # cannot reload the model.
           new_vm.collection = self.collection
@@ -113,9 +123,20 @@ module Fog
           # Return the new VM model.
           new_vm
         end
+        
+        # ready to be connected
+        def ready?
+          !! ipaddress
+        end
 
         def save()
-          clone(self.attributes)
+          if id
+            raise 'Saving an existing VM in vSphere has not been implemented yet!' # TODO: save updated attributes
+          else
+            new_vm = clone(self.attributes)
+            merge_attributes(new_vm.attributes)
+            return self
+          end
         end
       end
 
