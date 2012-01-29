@@ -113,7 +113,7 @@ module Fog
           @vsphere_ssl      = options[:vsphere_ssl] || true
           @vsphere_expected_pubkey_hash = options[:vsphere_expected_pubkey_hash]
           @vsphere_must_reauthenticate = false
-          @vsphere_templates_folder = options[:vsphere_templates_folder] || '/Datacenters/datacenter/vm/'
+          @vsphere_templates_folder = options[:vsphere_templates_folder] || ''
 
           @connection = nil
           # This is a state variable to allow digest validation of the SSL cert
