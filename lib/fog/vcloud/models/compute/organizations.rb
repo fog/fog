@@ -17,9 +17,7 @@ module Fog
         end
 
         def get(uri)
-          if data = connection.get_organization(uri)
-            new(data.body)
-          end
+          connection.get_organization(uri)
         rescue Fog::Errors::NotFound
           nil
         end

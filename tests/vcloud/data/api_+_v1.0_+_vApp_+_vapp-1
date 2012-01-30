@@ -6,7 +6,7 @@
     <Link rel="undeploy" type="application/vnd.vmware.vcloud.undeployVAppParams+xml" href="https://vcloud.example.com/api/v1.0/vApp/vapp-1/action/undeploy"/>
     <Link rel="down" type="application/vnd.vmware.vcloud.controlAccess+xml" href="https://vcloud.example.com/api/v1.0/vApp/vapp-1/controlAccess/"/>
     <Link rel="controlAccess" type="application/vnd.vmware.vcloud.controlAccess+xml" href="https://vcloud.example.com/api/v1.0/vApp/vapp-1/action/controlAccess"/>
-    <Link rel="up" type="application/vnd.vmware.vcloud.vdc+xml" href="https://vcloud.example.com/api/v1.0/vdc/652994200"/>
+    <Link rel="up" type="application/vnd.vmware.vcloud.vdc+xml" href="https://vcloud.example.com/api/v1.0/vdc/1"/>
     <Link rel="edit" type="application/vnd.vmware.vcloud.vApp+xml" href="https://vcloud.example.com/api/v1.0/vApp/vapp-1"/>
     <Description>Some Description of a vApp</Description>
     <LeaseSettingsSection type="application/vnd.vmware.vcloud.leaseSettingsSection+xml" href="https://vcloud.example.com/api/v1.0/vApp/vapp-1/leaseSettingsSection/" ovf:required="false">

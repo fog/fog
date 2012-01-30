@@ -52,6 +52,20 @@ module Fog
         end
       end
 
+      def link_up
+        load_unless_loaded!
+        self.links.find{|l| l[:rel] == 'up' }
+      end
+
+      def self.has_up(item)
+        class_eval <<-EOS, __FILE__,__LINE__
+          def #{item}
+            load_unless_loaded!
+            connection.get_#{item}(link_up[:href])
+          end
+        EOS
+      end
+
     end
   end
 end
@@ -99,22 +113,15 @@ module Fog
       request :configure_vm_name_description
       request :configure_vm_disks
       request :delete_vapp
-      request :get_catalog
       request :get_catalog_item
       request :get_customization_options
-      request :get_network
       request :get_network_ip
       request :get_network_ips
       request :get_network_extensions
-      request :get_organization
-      request :get_server
-      request :get_task
       request :get_task_list
-      request :get_vapp
       request :get_vapp_template
       request :get_vm_disks
       request :get_vm_memory
-      request :get_vdc
       request :instantiate_vapp_template
       request :login
       request :power_off
@@ -138,13 +145,16 @@ module Fog
           def basic_request(*args)
             self.class_eval <<-EOS, __FILE__,__LINE__
               def #{args[0]}(uri)
-                request({
-                  :expects => #{args[1] || 200},
-                  :method  => '#{args[2] || 'GET'}',
-                  :headers => #{args[3] ? args[3].inspect : '{}'},
-                  :body => '#{args[4] ? args[4] : ''}',
-                  :parse => true,
-                  :uri     => uri })
+                request(
+                  {
+                    :expects => #{args[1] || 200},
+                    :method  => '#{args[2] || 'GET'}',
+                    :headers => #{args[3] ? args[3].inspect : '{}'},
+                    :body => '#{args[4] ? args[4] : ''}',
+                    :parse => true,
+                    :uri     => uri
+                  }
+                )
               end
             EOS
           end
@@ -161,7 +171,6 @@ module Fog
               end
             EOS
           end
-
         end
 
         def initialize(options = {})
@@ -244,6 +253,17 @@ module Fog
 
         private
 
+        def basic_request_params(uri,*args)
+          {
+            :expects => args[0] || 200,
+            :method  => args[1] || 'GET',
+            :headers => args[2] ? args[2].inspect : {},
+            :body => args[3] ? args[3] : '',
+            :parse => true,
+            :uri     => uri
+          }
+        end
+
         def ensure_parsed(uri)
           if uri.is_a?(String)
             URI.parse(uri)
@@ -311,7 +331,25 @@ module Fog
         end
 
       end
+      def self.item_requests(*types)
+        types.each{|t| item_request(t) }
+      end
+      def self.item_request(type)
+        Fog::Vcloud::Compute::Real.class_eval <<-EOS, __FILE__,__LINE__
+          def get_#{type}(uri)
+            Fog::Vcloud::Compute::#{type.to_s.capitalize}.new(
+              self.request(basic_request_params(uri)).body.merge(
+                :connection => self,
+                :collection => Fog::Vcloud::Compute::#{type.to_s.capitalize}s.new(
+                  :connection => self
+                )
+              )
+            )
+          end
+        EOS
+      end
 
+      item_requests :organization, :vdc, :network, :vapp, :server, :catalog, :task
     end
   end
 end

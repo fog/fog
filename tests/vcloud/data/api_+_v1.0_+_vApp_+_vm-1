@@ -10,7 +10,7 @@
     <Link rel="power:powerOn" href="https://vcloud.example.com/api/v1.0/vApp/vm-1/power/action/powerOn"/>
     <Link rel="power:powerOff" href="https://vcloud.example.com/api/v1.0/vApp/vm-1/power/action/powerOff"/>
     <Link rel="undeploy" type="application/vnd.vmware.vcloud.undeployVAppParams+xml" href="https://vcloud.example.com/api/v1.0/vApp/vm-1/action/undeploy"/>
-    <Link rel="up" type="application/vnd.vmware.vcloud.vApp+xml" href="https://vcloud.example.com/api/v1.0/vApp/vapp-1006933678"/>
+    <Link rel="up" type="application/vnd.vmware.vcloud.vApp+xml" href="https://vcloud.example.com/api/v1.0/vApp/vapp-1"/>
     <Link rel="edit" type="application/vnd.vmware.vcloud.vm+xml" href="https://vcloud.example.com/api/v1.0/vApp/vm-1"/>
     <Link rel="screen:thumbnail" href="https://vcloud.example.com/api/v1.0/vApp/vm-1/screen"/>
     <Link rel="media:insertMedia" type="application/vnd.vmware.vcloud.mediaInsertOrEjectParams+xml" href="https://vcloud.example.com/api/v1.0/vApp/vm-1/media/action/insertMedia"/>

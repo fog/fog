@@ -6,10 +6,7 @@ Shindo.tests("Vcloud::Compute | network", ['vcloud']) do
 
   connection = Fog::Vcloud::Compute.new(:vcloud_host => 'vcloud.example.com', :vcloud_username => 'username', :vcloud_password => 'password')
   tests("an org network") do
-    instance = Fog::Vcloud::Compute::Networks.new(
-      :connection => connection,
-      :href       =>  "https://vcloud.example.com/api/v1.0/vApp/vapp-1"
-    ).first
+    instance = connection.get_network('https://vcloud.example.com/api/v1.0/network/1')
     instance.reload
 
     tests("#href").returns("https://vcloud.example.com/api/v1.0/network/1") { instance.href }
@@ -39,16 +36,12 @@ Shindo.tests("Vcloud::Compute | network", ['vcloud']) do
     end
     
     tests("#parent_network") do
-      tests("returned network name").returns("ParentNetwork1"){ p = instance.parent_network; p.reload; p.name }
+      tests("returned network name").returns("ParentNetwork1"){ p = instance.parent_network; p.name }
     end
   end
 
   tests("an external network") do
-    instance = Fog::Vcloud::Compute::Network.new(
-      :connection => connection,
-      :collection => Fog::Vcloud::Compute::Networks.new(:connection => connection),
-      :href => "https://vcloud.example.com/api/v1.0/admin/network/2"
-    )
+    instance = connection.get_network('https://vcloud.example.com/api/v1.0/admin/network/2')
     instance.reload
     tests("#href").returns("https://vcloud.example.com/api/v1.0/admin/network/2") { instance.href }
     tests("#name").returns("ParentNetwork1") { instance.name }

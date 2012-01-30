@@ -4,14 +4,17 @@ Shindo.tests("Vcloud::Compute | server", ['vcloud']) do
 
   pending if Fog.mocking?
 
-  instance = Fog::Vcloud::Compute::Servers.new(
-    :connection => Fog::Vcloud::Compute.new(:vcloud_host => 'vcloud.example.com', :vcloud_username => 'username', :vcloud_password => 'password'),
-    :href       =>  "https://vcloud.example.com/api/v1.0/vApp/vapp-1"
-  ).first
+  instance = Fog::Vcloud::Compute.new(
+    :vcloud_host => 'vcloud.example.com',
+    :vcloud_username => 'username',
+    :vcloud_password => 'password'
+  ).get_server('https://vcloud.example.com/api/v1.0/vApp/vm-2')
+
   instance.reload
 
   tests("#href").returns("https://vcloud.example.com/api/v1.0/vApp/vm-2") { instance.href }
   tests("#name").returns("vm2") { instance.name }
+  tests("#vapp").returns("vApp1") { instance.vapp.name }
   tests("#description").returns("Some VM Description") { instance.description }
   tests("#status").returns('8') { instance.status }
   tests("#deployed").returns(true) { instance.deployed }

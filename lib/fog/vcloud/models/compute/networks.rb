@@ -17,23 +17,20 @@ module Fog
           data = nil
           if self.href =~ /\/vdc\//
             check_href!("Vdc")
-            data = [connection.get_vdc(self.href).body[:AvailableNetworks][:Network]].flatten.compact
+            data = [connection.get_vdc(self.href).available_networks].flatten.compact.reject{|n| n == '' }
           elsif self.href =~ /\/org\//
             check_href!("Org")
-            links = (l=connection.get_organization(self.href).body[:Link]).is_a?(Array) ? l : [l].compact
-            data = links.select{|l| l[:type] == 'application/vnd.vmware.vcloud.network+xml' }
+            data = connection.get_organization(self.href).links.select{|l| l[:type] == 'application/vnd.vmware.vcloud.network+xml' }
           elsif self.href =~ /\/vApp\//
             check_href!("Vapp")
-            data = [(connection.get_vapp(self.href).body[:NetworkConfigSection]||{})[:NetworkConfig]].flatten.compact.collect{|n| n[:Configuration][:ParentNetwork] unless n[:Configuration].nil? }.compact
+            data = [(connection.get_vapp(self.href).network_configs||{})[:NetworkConfig]].flatten.compact.collect{|n| n[:Configuration][:ParentNetwork] unless n[:Configuration].nil? }.compact
           end
           load([*data]) unless data.nil?
         end
 
         def get(uri)
-          if data = connection.get_network(uri)
-            new(data.body)
-          end
-          rescue Fog::Errors::NotFound
+          connection.get_network(uri)
+        rescue Fog::Errors::NotFound
           nil
         end
 

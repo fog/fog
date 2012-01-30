@@ -7,7 +7,7 @@ module Fog
         include Fog::Vcloud::Compute::Helpers::Status
 
         identity :href, :aliases => :Href
-
+        attribute :links, :aliases => :Link, :type => :array
         ignore_attributes :xmlns, :xmlns_i, :xmlns_xsi, :xmlns_xsd
 
         attribute :type
@@ -24,8 +24,9 @@ module Fog
         attribute :guest_customization, :aliases => :GuestCustomizationSection
         attribute :operating_system, :aliases => :'ovf:OperatingSystemSection'
 
-        attribute :links, :aliases => :Link, :type => :array
         attribute :tasks, :aliases => :Tasks, :type => :array
+
+        has_up :vapp
 
         def computer_name
           load_unless_loaded!
@@ -44,7 +45,7 @@ module Fog
 
         def ip_addresses
           load_unless_loaded!
-          self.network_connections.collect{|n| n[:IpAddress] }
+          [self.network_connections].flatten.collect{|n| n[:IpAddress] }
         end
 
         def ready?
@@ -262,7 +263,7 @@ module Fog
         end
 
         def reload_status
-          self.status = connection.get_vapp(href).body[:status]
+          self.status = connection.get_vapp(href).status
         end
       end
     end

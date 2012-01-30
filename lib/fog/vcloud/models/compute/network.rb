@@ -4,8 +4,8 @@ module Fog
       class Network < Fog::Vcloud::Model
 
         identity :href, :aliases => :Href
-
-        ignore_attributes :xmlns, :xmlns_xsi, :xmlns_xsd, :xmlns_i, :Id
+        attribute :links, :aliases => :Link, :type => :array
+        ignore_attributes :xmlns, :xmlns_i, :xmlns_xsi, :xmlns_xsd
 
         attribute :name, :aliases => :Name
 
@@ -13,15 +13,9 @@ module Fog
         attribute :configuration, :aliases => :Configuration
         attribute :provider_info, :aliases => :ProviderInfo
 
-        attribute :links, :aliases => :Link, :type => :array
-
         def parent_network
           return nil if configuration[:ParentNetwork].nil?
-          @parent_network ||= Fog::Vcloud::Compute::Network.new(
-            :connection => connection,
-            :collection => Fog::Vcloud::Compute::Networks.new(:connection => connection),
-            :href => configuration[:ParentNetwork][:href]
-          )
+          @parent_network ||= connection.get_network(configuration[:ParentNetwork][:href])
         end
       end
     end
