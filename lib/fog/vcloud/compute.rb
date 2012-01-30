@@ -74,14 +74,16 @@ module Fog
   module Vcloud
     class Compute < Fog::Service
 
-      PATH   = '/api/v1.0'
+      BASE_PATH   = '/api'
+      DEFAULT_VERSION = '1.5'
+      SUPPORTED_VERSIONS = [ '1.5', '1.0' ]
       PORT   = 443
       SCHEME = 'https'
 
       attr_writer :default_organization_uri
 
       requires   :vcloud_username, :vcloud_password, :vcloud_host
-      recognizes :vcloud_port, :vcloud_scheme, :vcloud_path, :vcloud_default_vdc
+      recognizes :vcloud_port, :vcloud_scheme, :vcloud_path, :vcloud_default_vdc, :vcloud_version, :vcloud_base_path
       recognizes :provider # remove post deprecation
 
       model_path 'fog/vcloud/models/compute'
@@ -173,6 +175,8 @@ module Fog
           end
         end
 
+        attr_reader :version
+
         def initialize(options = {})
           require 'builder'
           require 'fog/core/parser'
@@ -181,13 +185,15 @@ module Fog
           @connection_options = options[:connection_options] || {}
           @persistent = options[:persistent]
 
-          @username = options[:vcloud_username]
-          @password = options[:vcloud_password]
-          @host     = options[:vcloud_host]
-          @vdc_href     = options[:vcloud_default_vdc]
-          @path     = options[:vcloud_path]   || Fog::Vcloud::Compute::PATH
-          @port     = options[:vcloud_port]   || Fog::Vcloud::Compute::PORT
-          @scheme   = options[:vcloud_scheme] || Fog::Vcloud::Compute::SCHEME
+          @username  = options[:vcloud_username]
+          @password  = options[:vcloud_password]
+          @host      = options[:vcloud_host]
+          @vdc_href  = options[:vcloud_default_vdc]
+          @base_path = options[:vcloud_base_path]   || Fog::Vcloud::Compute::BASE_PATH
+          @version   = options[:vcloud_version]     || Fog::Vcloud::Compute::DEFAULT_VERSION
+          @path      = options[:vcloud_path]        || "#{@base_path}/v#{@version}"
+          @port      = options[:vcloud_port]        || Fog::Vcloud::Compute::PORT
+          @scheme    = options[:vcloud_scheme]      || Fog::Vcloud::Compute::SCHEME
         end
 
         def reload
@@ -230,10 +236,17 @@ module Fog
         end
 
         def xmlns
-          { "xmlns" => "http://www.vmware.com/vcloud/v1",
-            "xmlns:ovf" => "http://schemas.dmtf.org/ovf/envelope/1",
-            "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
-            "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema" }
+          if version == '1.0'
+            { "xmlns" => "http://www.vmware.com/vcloud/v1",
+              "xmlns:ovf" => "http://schemas.dmtf.org/ovf/envelope/1",
+              "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
+              "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema" }
+          else
+            { 'xmlns' => "http://www.vmware.com/vcloud/v1.5",
+              "xmlns:ovf" => "http://schemas.dmtf.org/ovf/envelope/1",
+              "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
+              "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema" }
+          end
         end
 
         # If the cookie isn't set, do a get_organizations call to set it
@@ -251,7 +264,6 @@ module Fog
           end
         end
 
-        private
 
         def basic_request_params(uri,*args)
           {
@@ -264,6 +276,11 @@ module Fog
           }
         end
 
+        def base_path_url
+          "#{@scheme}://#{@host}:#{@port}#{@base_path}"
+        end
+
+        private
         def ensure_parsed(uri)
           if uri.is_a?(String)
             URI.parse(uri)
@@ -300,6 +317,7 @@ module Fog
 
           # Set headers to an empty hash if none are set.
           headers = params[:headers] || {}
+          headers['Accept'] = 'application/*+xml;version=1.5' if version == '1.5'
 
           # Add our auth cookie to the headers
           if @cookie
@@ -316,7 +334,6 @@ module Fog
           })
 
           # Parse the response body into a hash
-          #puts response.body
           unless response.body.empty?
             if params[:parse]
               document = Fog::ToHashDocument.new
