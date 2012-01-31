@@ -46,7 +46,7 @@ module Fog
             when 'groupId', 'groupName'
               case @context.last
               when 'groupSet'
-                @reservation['groupSet'] << value
+                @reservation['groupSet'] << value if @context.first != "instancesSet"
               when 'placement'
                 @instance['placement'][name] = value
               end
