@@ -24,6 +24,11 @@ module Fog
         attribute :tenant_id
         attribute :user_id
         attribute :key_name
+        # these are implemented as methods
+        attribute :image_id
+        attribute :flavor_id
+        attribute :private_ip_address
+        attribute :public_ip_address
 
         attr_reader :password
         attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :image_id, :flavor_id
@@ -48,7 +53,8 @@ module Fog
         end
 
         def private_ip_address
-          addresses.nil? ? nil : addresses['private'].first
+          addr = addresses.nil? ? nil : addresses.fetch('private', []).first
+          addr["addr"] if addr
         end
 
         def private_key_path
@@ -61,7 +67,8 @@ module Fog
         end
 
         def public_ip_address
-          addresses.nil? ? nil : addresses['public'].first
+          addr = addresses.nil? ? nil : addresses.fetch('public', []).first
+          addr["addr"] if addr
         end
 
         def public_key_path
