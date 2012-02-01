@@ -5,6 +5,8 @@ class IBM < Fog::Bin
       case key
       when :compute
         Fog::Compute::IBM
+      when :storage
+        Fog::Storage::IBM
       else
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
@@ -15,6 +17,8 @@ class IBM < Fog::Bin
         hash[key] = case key
         when :compute
           Fog::Compute.new(:provider => 'IBM')
+        when :storage
+          Fog::Storage.new(:provider => 'Storage')
         else
           raise ArgumentError, "Unrecognized service: #{service}"
         end
