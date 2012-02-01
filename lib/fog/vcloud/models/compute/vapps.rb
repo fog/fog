@@ -13,15 +13,11 @@ module Fog
         attribute :href
 
         def all
-          resource_entities = (re=connection.get_vdc(self.href).body[:ResourceEntities][:ResourceEntity]).is_a?(Array) ? re : [re].compact
-          data = resource_entities.select { |re| re[:type] == "application/vnd.vmware.vcloud.vApp+xml" }
-          load(data)
+          load([connection.get_vdc(self.href).resource_entities].flatten.select { |re| re[:type] == "application/vnd.vmware.vcloud.vApp+xml" })
         end
 
         def get(uri)
-          if data = connection.get_vapp(uri)
-            new(data.body)
-          end
+          connection.get_vapp(uri)
         rescue Fog::Errors::NotFound
           nil
         end

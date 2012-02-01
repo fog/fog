@@ -11,14 +11,12 @@ module Fog
 
         def all
           org_uri = self.organization_uri || connection.default_organization_uri
-          data = connection.get_organization(org_uri).body[:Link].select { |link| link[:type] == "application/vnd.vmware.vcloud.catalog+xml" }
+          data = connection.get_organization(org_uri).links.select { |link| link[:type] == "application/vnd.vmware.vcloud.catalog+xml" }
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_catalog(uri)
-            new(data.body)
-          end
+          connection.get_catalog(uri)
         rescue Fog::Errors::NotFound
           nil
         end
