@@ -22,11 +22,13 @@ module Fog
       request :storage_domains
 
       class Mock
-
+        attr_reader :client
         def initialize(options={})
           username = options[:ovirt_username]
-          password = options[:password]
+          password = options[:ovirt_password]
           url      = options[:ovirt_url]
+
+          #@client = OVIRT::Client.new(username, password, url)
         end
 
       end
@@ -41,7 +43,7 @@ module Fog
           server     = options[:ovirt_server]
           port       = options[:ovirt_port]       || 8080
           api_path   = options[:ovirt_api_path]   || '/api'
-          url        = options[:ovirt_url]        || "#{@scheme}://#{@ovirt_server}:#{@ovirt_port}#{@ovirt_api_path}"
+          url        = options[:ovirt_url]        || "#{@scheme}://#{server}:#{port}#{api_path}"
           datacenter = options[:ovirt_datacenter]
 
           @client = OVIRT::Client.new(username, password, url, datacenter)
