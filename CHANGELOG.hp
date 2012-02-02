@@ -1,3 +1,13 @@
+0.0.12 02/02/2012
+=================
+ - integrate CS authentication
+ - refactor HP provider to work with legacy v1 authentication as well
+ - integrate CDN to work with Storage provider
+ - add additional attributes for CDN provider
+ - remove bits and add cores as alias to vcpus in flavor model
+ - update inline documentation
+ - update README wih copyright message
+
 0.0.11 01/09/2012
 =================
  - add ability to customize various connection timeouts options
