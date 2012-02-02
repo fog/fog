@@ -106,7 +106,7 @@ module Fog
         #
         # ==== Parameters
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
-        #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'ap-northeast-1', 'ap-southeast-1']
+        #   * region<~String> - optional region to use. For instance, 'eu-west-1', 'us-east-1', etc.
         #
         # ==== Returns
         # * ELB object with connection to AWS.
@@ -119,24 +119,7 @@ module Fog
           @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
 
           options[:region] ||= 'us-east-1'
-          @host = options[:host] || case options[:region]
-          when 'ap-northeast-1'
-            'elasticloadbalancing.ap-northeast-1.amazonaws.com'
-          when 'ap-southeast-1'
-            'elasticloadbalancing.ap-southeast-1.amazonaws.com'
-          when 'eu-west-1'
-            'elasticloadbalancing.eu-west-1.amazonaws.com'
-          when 'us-east-1'
-            'elasticloadbalancing.us-east-1.amazonaws.com'
-          when 'us-west-1'
-            'elasticloadbalancing.us-west-1.amazonaws.com'
-          when 'us-west-2'
-            'elasticloadbalancing.us-west-2.amazonaws.com'
-          when 'sa-east-1'
-            'elasticloadbalancing.sa-east-1.amazonaws.com'
-          else
-            raise ArgumentError, "Unknown region: #{options[:region].inspect}"
-          end
+          @host = options[:host] || "elasticloadbalancing.#{options[:region]}.amazonaws.com"
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
