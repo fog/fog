@@ -54,20 +54,7 @@ module Fog
           @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
 
           options[:region] ||= 'us-east-1'
-          @host = options[:host] || case options[:region]
-          when 'us-east-1'
-            'elasticache.us-east-1.amazonaws.com'
-          when 'us-west-1'
-            'elasticache.us-west-1.amazonaws.com'
-          when 'eu-west-1'
-            'elasticache.eu-west-1.amazonaws.com'
-          when 'ap-southeast-1'
-            'elasticache.ap-southeast-1.amazonaws.com'
-          when 'ap-northeast-1'
-            'elasticache.ap-northeast-1.amazonaws.com'
-          else
-            raise ArgumentError, "Unknown region: #{options[:region].inspect}"
-          end
+          @host = options[:host] || "elasticache.#{options[:region]}.amazonaws.com"
           @path       = options[:path]      || '/'
           @port       = options[:port]      || 443
           @scheme     = options[:scheme]    || 'https'
