@@ -46,7 +46,9 @@ using HP's extensions, see:
 * {HP Cloud Fog library - Object Storage Examples}[http://build.hpcloud.com/bindings/fog/object-storage]
 * {HP Cloud Fog library - Compute Examples}[http://build.hpcloud.com/bindings/fog/compute]
 
-= Copyright
+= Notice
+
+The following notice applies to files included in the /lib/fog/hp directory and its sub-directories.
 
 Copyright (c) 2011 Hewlett-Packard Development Company, L.P.
 
