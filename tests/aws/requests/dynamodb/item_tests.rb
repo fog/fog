@@ -61,7 +61,7 @@ Shindo.tests('Fog::AWS[:dynamodb] | item requests', ['aws']) do
     end
 
     @query_format = {
-      'ConsumedCapacityUnits' => Integer,
+      'ConsumedCapacityUnits' => Float,
       'Count'                 => Integer,
       'Items'                 => [{
         'key'   => { 'S' => String },
