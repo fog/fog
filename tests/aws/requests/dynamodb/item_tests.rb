@@ -37,6 +37,7 @@ Shindo.tests('Fog::AWS[:dynamodb] | item requests', ['aws']) do
     }
 
     tests("#batch_get_item({'#{@table_name}' => {'Keys' => [{'HashKeyElement' => {'S' => 'key'}}]}})").formats(@batch_get_item_format) do
+      pending if Fog.mocking?
       Fog::AWS[:dynamodb].batch_get_item(
         {@table_name => {'Keys' => [{'HashKeyElement' => {'S' => 'key'}}]}}
       ).body
