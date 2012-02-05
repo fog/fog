@@ -4,6 +4,7 @@ Shindo.tests("Vcloud::Compute | network", ['vcloud']) do
 
   Fog::Vcloud::Compute::SUPPORTED_VERSIONS.each do |version|
     tests("api version #{version}") do
+      pending if Fog.mocking?
 
       connection = Fog::Vcloud::Compute.new(
         :vcloud_host => 'vcloud.example.com',
