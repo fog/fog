@@ -37,12 +37,9 @@ module Fog
             'TableName'         => table_name
           }.merge(options)
 
-          idempotent = attribute_updates.has_key?('Action')
-
           request(
-            :body       => MultiJson.encode(body),
-            :headers    => {'x-amz-target' => 'DynamoDB_20111205.UpdateItem'},
-            :idempotent => idempotent
+            :body     => MultiJson.encode(body),
+            :headers  => {'x-amz-target' => 'DynamoDB_20111205.UpdateItem'}
           )
         end
 

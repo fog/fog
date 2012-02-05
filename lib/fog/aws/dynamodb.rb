@@ -16,8 +16,8 @@ module Fog
       request :get_item
       request :list_tables
       request :put_item
-      #request :query
-      #request :scan
+      request :query
+      request :scan
       request :update_item
       request :update_table
 

@@ -60,6 +60,29 @@ Shindo.tests('Fog::AWS[:dynamodb] | item requests', ['aws']) do
       Fog::AWS[:dynamodb].get_item(@table_name, {'HashKeyElement' => {'S' => 'notakey'}}).body
     end
 
+    @query_format = {
+      'ConsumedCapacityUnits' => Integer,
+      'Count'                 => Integer,
+      'Items'                 => [{
+        'key'   => { 'S' => String },
+        'value' => { 'S' => String }
+      }],
+      'LastEvaluatedKey'      => NilClass
+    }
+
+    tests("#query('#{@table_name}', {'S' => 'key'}").formats(@query_format) do
+      pending if Fog.mocking?
+      pending # requires a table with range key
+      Fog::AWS[:dynamodb].query(@table_name, {'S' => 'key'}).body
+    end
+
+    @scan_format = @query_format.merge('ScannedCount' => Integer)
+
+    tests("scan('#{@table_name}')").formats(@scan_format) do
+      pending if Fog.mocking?
+      Fog::AWS[:dynamodb].scan(@table_name).body
+    end
+
     tests("#delete_item('#{@table_name}', {'HashKeyElement' => {'S' => 'key'}})").formats('ConsumedCapacityUnits' => Float) do
       pending if Fog.mocking?
       Fog::AWS[:dynamodb].delete_item(@table_name, {'HashKeyElement' => {'S' => 'key'}}).body
