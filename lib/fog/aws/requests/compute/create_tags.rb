@@ -31,6 +31,7 @@ module Fog
           params.merge!(Fog::AWS.indexed_param('Tag.%d.Value', tags.values))
           request({
             'Action'            => 'CreateTags',
+            :idempotent   => true,
             :parser             => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(params))
         end
