@@ -31,6 +31,23 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        #FIXME: You can't actually use the credentials for anything elsewhere in Fog
+        #FIXME: Doesn't do any validation on the policy
+        def put_user_policy(user_name, policy_name, policy_document)
+          if data[:users].keys.include? user_name
+            response = Excon::Response.new
+            response.body = { 'RequestId' => Fog::AWS::Mock.request_id }
+            response.status = 200
+            data[:users][user_name][:policies][policy_name] = policy_document
+            response
+          else
+            raise Fog::AWS::IAM::NotFound.new("The user with name #{user_name} cannot be found.")
+          end
+        end
+      end
     end
   end
 end
