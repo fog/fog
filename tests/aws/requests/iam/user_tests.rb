@@ -17,7 +17,6 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
     }
 
     tests("#create_user('fog_user')").formats(@user_format) do
-      pending if Fog.mocking?
       Fog::AWS[:iam].create_user('fog_user').body
     end
 

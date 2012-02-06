@@ -1,8 +1,6 @@
 Shindo.tests('AWS::IAM | access key requests', ['aws']) do
 
-  unless Fog.mocking?
-    Fog::AWS[:iam].create_user('fog_access_key_tests')
-  end
+  Fog::AWS[:iam].create_user('fog_access_key_tests')
 
   tests('success') do
 
@@ -17,7 +15,6 @@ Shindo.tests('AWS::IAM | access key requests', ['aws']) do
     }
 
     tests("#create_access_key('UserName' => 'fog_access_key_tests')").formats(@access_key_format) do
-      pending if Fog.mocking?
       data = Fog::AWS[:iam].create_access_key('UserName' => 'fog_access_key_tests').body
       @access_key_id = data['AccessKey']['AccessKeyId']
       data
