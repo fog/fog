@@ -32,7 +32,6 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
     }
 
     tests("#list_users").formats(@users_format) do
-      pending if Fog.mocking?
       Fog::AWS[:iam].list_users.body
     end
 
