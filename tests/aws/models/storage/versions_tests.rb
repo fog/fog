@@ -1,4 +1,4 @@
-Fog.mock!
+Fog.mock! if ENV['FOG_MOCK']
 
 Shindo.tests("Storage[:aws] | versions", [:aws]) do
 
