@@ -1,5 +1,3 @@
-Fog.mock! if ENV['FOG_MOCK']
-
 Shindo.tests("Storage[:aws] | version", [:aws]) do
 
   file_attributes = {
