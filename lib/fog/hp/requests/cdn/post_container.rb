@@ -10,10 +10,8 @@ module Fog
         # # options<~Hash>:
         #   * 'X-CDN-Enabled'<~Boolean> - cdn status for container
         #   * 'X-CDN-URI'<~String> - cdn url for this container
-        #   * 'X-TTL'<~String> - integer seconds before data expires, defaults to 86400 (1 day), in 3600..259200
+        #   * 'X-TTL'<~String> - integer seconds before data expires, defaults to 86400 (1 day), in 900 (15 min.) to 1577836800 (50 years)
         #   * 'X-Log-Retention'<~Boolean> - ?
-        #   * 'X-User-Agent-ACL'<~String> - ?
-        #   * 'X-Referrer-ACL'<~String> - ?
         def post_container(name, options = {})
           response = request(
             :expects  => [201, 202],
