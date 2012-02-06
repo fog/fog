@@ -31,10 +31,10 @@ Shindo.tests("Storage[:aws] | version", [:aws]) do
         @version_instance.delete_marker
       end
 
-      tests("#delete_marker should be true if the version isn't a DeleteMarker'").returns(true) do
+      tests("#delete_marker should be true if the version is a DeleteMarker'").returns(true) do
         @instance.destroy
 
-        @instance.versions.all.last.delete_marker
+        @instance.versions.all.first.delete_marker
       end
     end
 

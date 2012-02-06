@@ -86,11 +86,11 @@ module Fog
 
               # When versioning is suspended, putting an object will create a new 'null' version if the latest version
               # is a value other than 'null', otherwise it will replace the latest version.
-              if bucket[:versioning] == 'Suspended' && bucket[:objects][object_name].last['VersionId'] == 'null'
-                bucket[:objects][object_name].pop
+              if bucket[:versioning] == 'Suspended' && bucket[:objects][object_name].first['VersionId'] == 'null'
+                bucket[:objects][object_name].shift
               end
 
-              bucket[:objects][object_name] << object
+              bucket[:objects][object_name].unshift(object)
             else
               bucket[:objects][object_name] = [object]
             end
