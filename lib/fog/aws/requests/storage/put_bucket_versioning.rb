@@ -51,17 +51,22 @@ DATA
                   'HostId' => Fog::Mock.random_base64(65)
                 }
               }
+
+              raise(Excon::Errors.status_error({:expects => 200}, response))
             end
           else
-            response.status = 403
+            response.status = 404
             response.body = {
               'Error' => {
-                'Code' => 'AccessDenied',
-                'Message' => 'AccessDenied',
+                'Code' => 'NoSuchBucket',
+                'Message' => 'The specified bucket does not exist',
+                'BucketName' => bucket_name,
                 'RequestId' => Fog::Mock.random_hex(16),
                 'HostId' => Fog::Mock.random_base64(65)
               }
             }
+
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
 
           response

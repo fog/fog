@@ -52,7 +52,7 @@ DATA
           if self.data[:buckets][bucket_name]
             response.status = 200
           else
-            response.status = 403
+            response.status = 404
             raise(Excon::Errors.status_error({:expects => 200}, response))
           end
 

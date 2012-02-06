@@ -76,7 +76,7 @@ module Fog
           if (bucket = self.data[:buckets][bucket_name])
             object = nil
             if bucket[:objects].has_key?(object_name)
-              object = version_id ? bucket[:objects][object_name].find { |object| object['VersionId'] == version_id} : bucket[:objects][object_name].last
+              object = version_id ? bucket[:objects][object_name].find { |object| object['VersionId'] == version_id} : bucket[:objects][object_name].first
             end
 
             if (object && !object[:delete_marker])
@@ -123,6 +123,8 @@ module Fog
                   'HostId' => Fog::Mock.random_base64(65)
                 }
               }
+
+              raise(Excon::Errors.status_error({:expects => 200}, response))
             else
               response.status = 404
               response.body = "...<Code>NoSuchKey<\/Code>..."

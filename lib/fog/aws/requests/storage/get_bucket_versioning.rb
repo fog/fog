@@ -60,6 +60,8 @@ module Fog
                 'HostId' => Fog::Mock.random_base64(65)
               }
             }
+
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
 
           response

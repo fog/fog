@@ -61,6 +61,7 @@ module Fog
                 else
                   response.status = 400
                   response.body = invalid_version_id_payload(version_id)
+                  raise(Excon::Errors.status_error({:expects => 200}, response))
                 end
               else
                 delete_marker = {
@@ -72,11 +73,11 @@ module Fog
 
                 # When versioning is suspended, a delete marker is placed if the last object ID is not the value 'null',
                 # otherwise the last object is replaced.
-                if bucket[:versioning] == 'Suspended' && bucket[:objects][object_name].last['VersionId'] == 'null'
-                  bucket[:objects][object_name].pop
+                if bucket[:versioning] == 'Suspended' && bucket[:objects][object_name].first['VersionId'] == 'null'
+                  bucket[:objects][object_name].shift
                 end
 
-                bucket[:objects][object_name] << delete_marker
+                bucket[:objects][object_name].unshift(delete_marker)
 
                 response.headers['x-amz-delete-marker'] = 'true'
                 response.headers['x-amz-version-id'] = delete_marker['VersionId']
@@ -85,6 +86,7 @@ module Fog
               if version_id && version_id != 'null'
                 response.status = 400
                 response.body = invalid_version_id_payload(version_id)
+                raise(Excon::Errors.status_error({:expects => 200}, response))
               else
                 bucket[:objects].delete(object_name)
 
