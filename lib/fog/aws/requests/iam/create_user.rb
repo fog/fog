@@ -37,23 +37,22 @@ module Fog
 
       class Mock
         def create_user(user_name, path='/')
-          data[:users] ||= {}
           if data[:users].keys.include? user_name
             raise Fog::AWS::IAM::EntityAlreadyExists.new "User with name #{user_name} already exists."
           else
             response = Excon::Response.new
-            user_resp = { "User"      => {
-                                           "UserId"   => Fog::Mock.random_selection('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 21),
-                                           "Path"     => path,
-                                           "UserName" => user_name,
-                                           "Arn"      => "arn:aws:iam::#{Fog::AWS::Mock.owner_id}:user/#{user_name}"
-                                          },
-                          "RequestId" => Fog::AWS::Mock.request_id
-                        }
+            data[:users][user_name][:path] = path
+            user = {
+                     "UserId"   => data[:users][user_name][:user_id],
+                     "Path"     => data[:users][user_name][:path],
+                     "UserName" => user_name,
+                     "Arn"      => data[:users][user_name][:arn]
+                   }
 
-            data[:users][user_name] = user_resp
             response.status = 200
-            response.body = user_resp
+            response.body = { 'User' => user,
+                              'RequestId' => Fog::AWS::Mock.request_id
+                             }
             response
           end
         end

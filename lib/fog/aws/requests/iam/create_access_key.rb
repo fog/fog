@@ -36,20 +36,18 @@ module Fog
         def create_access_key(options)
           #FIXME: Not 100% correct as AWS will use the signing credentials when there is no 'UserName' in the options hash
           #       Also doesn't raise an error when there are too many keys
-          data[:users] ||= {}
           user_name = options['UserName']
           if data[:users].keys.include? user_name
             response = Excon::Response.new
-            user_resp = { 'AccessKey' => { 'SecretAccessKey' => '',
-                                           'Status' => 'Active',
-                                           'AccessKeyId' => '',
-                                           'UserName' => user_name
-                                          },
-                          'RequestId' => Fog::AWS::Mock.request_id }
-            data[:users][user_name][:access_keys] ||= []
-            data[:users][user_name][:access_keys] << user_resp
+            key = { 'SecretAccessKey' => '123',
+                    'Status' => 'Active',
+                    'AccessKeyId' => '456',
+                    'UserName' => user_name
+                  }
+            data[:users][user_name][:access_keys] << key
             response.status = 200
-            response.body = user_resp
+            response.body = { 'AccessKey' => key,
+                              'RequestId' => Fog::AWS::Mock.request_id } 
             response
           else
             raise Fog::AWS::IAM::NotFound.new('The user with name booboboboob cannot be found.')
