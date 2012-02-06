@@ -33,7 +33,7 @@ module Fog
 
       end
       class Mock
-        def create_acccess_key(options)
+        def create_access_key(options)
           #FIXME: Not 100% correct as AWS will use the signing credentials when there is no 'UserName' in the options hash
           #       Also doesn't raise an error when there are too many keys
           data[:users] ||= {}
