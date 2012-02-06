@@ -97,7 +97,10 @@ module Fog
           # Valid case.
           # TODO: (nirvdrum 12/15/11) It's not clear to me how to actually use version-id-marker, so I didn't implement it below.
           elsif bucket = self.data[:buckets][bucket_name]
-            contents = bucket[:objects].values.flatten.sort {|x,y| x['Key'] <=> y['Key']}.reject do |object|
+            # We need to order results by S3 key, but since our data store is key => [versions], we want to ensure the integrity
+            # of the versions as well.  So, sort the keys, then fetch the versions, and then combine them all as a sorted list by
+            # flattening the results.
+            contents = bucket[:objects].keys.sort.collect { |key| bucket[:objects][key] }.flatten.reject do |object|
                 (prefix      && object['Key'][0...prefix.length] != prefix) ||
                 (key_marker  && object['Key'] <= key_marker) ||
                 (delimiter   && object['Key'][(prefix ? prefix.length : 0)..-1].include?(delimiter) \
@@ -116,7 +119,7 @@ module Fog
                 data[tag_name].merge!({
                   'LastModified' => Time.parse(object['Last-Modified']),
                   'Owner'        => bucket['Owner'],
-                  'IsLatest'     => object == bucket[:objects][object['Key']].last
+                  'IsLatest'     => object == bucket[:objects][object['Key']].first
                 })
 
                 data[tag_name]['Size'] = object['Content-Length'].to_i if tag_name == 'Version'
@@ -144,15 +147,18 @@ module Fog
 
           # Missing bucket case.
           else
-            response.status = 403
+            response.status = 404
             response.body = {
               'Error' => {
-                'Code' => 'AccessDenied',
-                'Message' => 'AccessDenied',
+                'Code' => 'NoSuchBucket',
+                'Message' => 'The specified bucket does not exist',
+                'BucketName' => bucket_name,
                 'RequestId' => Fog::Mock.random_hex(16),
                 'HostId' => Fog::Mock.random_base64(65)
               }
             }
+
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
           response
         end
