@@ -15,7 +15,7 @@ module Fog
                             [:type, :url_send_string, :http_headers, :receive_string, :is_enabled]
                           end
 
-          unless required_opts.all? { |opt| monitor.keys.include?(opt) && monitor[opt] }
+          unless required_opts.all? { |opt| monitor.has_key?(opt) && monitor[opt] }
             raise ArgumentError.new("Required Monitor data missing: #{(required_opts - monitor.keys).map(&:inspect).join(", ")}")
           end
 
@@ -36,7 +36,7 @@ module Fog
           if configure
             required_opts + [ :id, :href, :timeout ]
           end
-          unless required_opts.all? { |opt| service_data.keys.include?(opt) }
+          unless required_opts.all? { |opt| service_data.has_key?(opt) }
             raise ArgumentError.new("Required Internet Service data missing: #{(required_opts - service_data.keys).map(&:inspect).join(", ")}")
           end
         end

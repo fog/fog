@@ -6,7 +6,7 @@ module Fog
 
         def validate_instantiate_vapp_template_options(catalog_item_uri, options)
           valid_opts = [:name, :vdc_uri, :network_uri, :cpus, :memory, :row, :group]
-          unless valid_opts.all? { |opt| options.keys.include?(opt) }
+          unless valid_opts.all? { |opt| options.has_key?(opt) }
             raise ArgumentError.new("Required data missing: #{(valid_opts - options.keys).map(&:inspect).join(", ")}")
           end
 
