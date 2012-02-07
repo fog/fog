@@ -69,6 +69,13 @@ module Fog
                   :access_keys => [],
                   :policies    => {}
                 }
+              end,
+              :groups => Hash.new do |ghash, gkey|
+                ghash[gkey] = {
+                  :group_id   => Fog::AWS::Mock.key_id,
+                  :arn        => "arn:aws:iam::#{Fog::AWS::Mock.owner_id}:group/#{gkey}",
+                  :members    => []
+                }
               end
             }
           end
