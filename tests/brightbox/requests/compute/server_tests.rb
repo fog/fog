@@ -64,8 +64,10 @@ Shindo.tests('Fog::Compute[:brightbox] | server requests', ['brightbox']) do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].snapshot_server(server_id)
       formats(Brightbox::Compute::Formats::Full::SERVER, false) { result }
-      snapshot_id = result["id"]
+      # Server should be exclusively for our test so assume we can delete the snapshot
+      snapshot_id = result["snapshots"].first["id"]
       @snapshot = Fog::Compute[:brightbox].images.get(snapshot_id)
+      @snapshot.wait_for { ready? }
       @snapshot.destroy
     end
 
