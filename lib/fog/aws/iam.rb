@@ -64,8 +64,7 @@ module Fog
               :server_certificates => {},
               :users => Hash.new do |uhash, ukey|
                 uhash[ukey] = {
-                  :user_id     => Fog::Mock.random_selection('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', 21),
-                  :path        => '/',
+                  :user_id     => Fog::AWS::Mock.key_id,
                   :arn         => "arn:aws:iam::#{Fog::AWS::Mock.owner_id}:user/#{ukey}",
                   :access_keys => [],
                   :policies    => {}
