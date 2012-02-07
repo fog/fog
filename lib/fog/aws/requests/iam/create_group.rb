@@ -34,6 +34,27 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def create_group(group_name, path = '/')
+          if data[:groups].has_key? group_name
+            raise Fog::AWS::IAM::EntityAlreadyExists.new("Group with name #{group_name} already exists.")
+          else
+            data[:groups][group_name][:path] = path
+            Excon::Response.new.tap do |response|
+              response.body = { 'Group' => {
+                                             'GroupId'   => data[:groups][group_name][:group_id],
+                                             'GroupName' => group_name,
+                                             'Path'      => path,
+                                             'Arn'       => data[:groups][group_name][:arn] },
+                                'RequestId' => Fog::AWS::Mock.request_id }
+              response.status = 200
+            end
+          end
+
+        end
+      end
     end
   end
 end

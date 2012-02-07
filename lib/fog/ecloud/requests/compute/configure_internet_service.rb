@@ -6,7 +6,7 @@ module Fog
 
         def validate_public_ip_address_data(ip_address_data)
           valid_opts = [:name, :href, :id]
-          unless valid_opts.all? { |opt| ip_address_data.keys.include?(opt) }
+          unless valid_opts.all? { |opt| ip_address_data.has_key?(opt) }
             raise ArgumentError.new("Required Internet Service data missing: #{(valid_opts - ip_address_data.keys).map(&:inspect).join(", ")}")
           end
         end
