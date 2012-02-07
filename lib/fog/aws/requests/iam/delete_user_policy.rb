@@ -33,12 +33,12 @@ module Fog
       class Mock
 
         def delete_user_policy(user_name, policy_name)
-          if data[:users].keys.include?(user_name) && data[:users][user_name][:policies].keys.include?(policy_name)
+          if data[:users].has_key?(user_name) && data[:users][user_name][:policies].has_key?(policy_name)
             data[:users][user_name][:policies].delete policy_name
-            response = Excon::Response.new
-            response.body = { 'RequestId' => Fog::AWS::Mock.request_id }
-            response.status = 200
-            response
+            Excon::Response.new.tap do |response|
+              response.body = { 'RequestId' => Fog::AWS::Mock.request_id }
+              response.status = 200
+            end
           else
             raise Fog::AWS::IAM::NotFound.new("The user policy with name #{policy_name} cannot be found.")
           end

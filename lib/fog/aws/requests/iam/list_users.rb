@@ -41,17 +41,17 @@ module Fog
       class Mock
         def list_users(options = {})
           #FIXME: none of the options are currently supported
-          response = Excon::Response.new
-          response.body = {'Users' => data[:users].map do |user, data|
-                                        { 'UserId'   => data[:user_id],
-                                          'Path'     => data[:path],
-                                          'UserName' => user,
-                                          'Arn'      => data[:arn] }
-                                      end,
-                           'IsTruncated' => false,
-                           'RequestId'   => Fog::AWS::Mock.request_id }
-          response.status = 200
-          response
+          Excon::Response.new.tap do |response|
+            response.body = {'Users' => data[:users].map do |user, data|
+                                          { 'UserId'   => data[:user_id],
+                                            'Path'     => data[:path],
+                                            'UserName' => user,
+                                            'Arn'      => data[:arn] }
+                                        end,
+                             'IsTruncated' => false,
+                             'RequestId'   => Fog::AWS::Mock.request_id }
+            response.status = 200
+          end
         end
       end
     end
