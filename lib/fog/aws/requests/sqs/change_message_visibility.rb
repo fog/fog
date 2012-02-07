@@ -34,7 +34,7 @@ module Fog
           Excon::Response.new.tap do |response|
             if (queue = data[:queues][queue_url])
               message_id, _ = queue[:receipt_handles].find { |message_id, receipts|
-                receipts.keys.include?(receipt_handle)
+                receipts.has_key?(receipt_handle)
               }
               
               if message_id
