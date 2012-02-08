@@ -39,29 +39,36 @@ module Fog
         end
 
         def start(options = {})
-          connection.client.vm_action(id, :start)
+          connection.vm_action(:id =>id, :action => :start)
           reload
         end
 
         def stop(options = {})
-          connection.client.vm_action(id, :stop)
+          connection.vm_action(:id =>id, :action => :stop)
           reload
         end
 
         def reboot(options = {})
-          connection.client.vm_action(id, :reboot)
+          stop unless stopped?
+          wait_for { stopped? }
+          connection.vm_action(:id =>id, :action => :start)
+          reload
+        end
+
+        def suspend(options = {})
+          connection.vm_action(:id =>id, :action => :suspend)
           reload
         end
 
         def destroy(options = {})
-          stop unless stopped?
+          (stop unless stopped?) rescue nil #ignore failure, destroy the machine anyway.
           wait_for { stopped? }
-          connection.client.destroy_vm(id)
+          connection.destroy_vm(:id => id)
         end
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          self.id = connection.client.create_vm(attributes).id
+          self.id = connection.create_vm(attributes).id
           reload
         end
 

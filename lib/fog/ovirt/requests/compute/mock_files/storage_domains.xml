@@ -1,0 +1,36 @@
+<storage_domains>
+<storage_domain href="/api/storagedomains/382ec55a-f886-4fa1-b880-0a9fa778aa5b" id="382ec55a-f886-4fa1-b880-0a9fa778aa5b">
+<name>covirt</name>
+<link href="/api/storagedomains/382ec55a-f886-4fa1-b880-0a9fa778aa5b/permissions" rel="permissions"/>
+<link href="/api/storagedomains/382ec55a-f886-4fa1-b880-0a9fa778aa5b/files" rel="files"/>
+<type>iso</type>
+<status>
+<state>unattached</state>
+</status>
+<master>false</master>
+<storage>
+<type>nfs</type>
+<address>ovirt.server.com</address>
+<path>/mnt/nfs</path>
+</storage>
+<available>0</available>
+<used>0</used>
+<committed>0</committed>
+<storage_format>v1</storage_format>
+</storage_domain>
+<storage_domain href="/api/storagedomains/312f6445-79da-4ce4-907d-9a871125e3ca" id="312f6445-79da-4ce4-907d-9a871125e3ca">
+<name>nfs</name>
+<link href="/api/storagedomains/312f6445-79da-4ce4-907d-9a871125e3ca/permissions" rel="permissions"/>
+<type>data</type>
+<master>true</master>
+<storage>
+<type>nfs</type>
+<address>storage.server.com</address>
+<path>/volumes/path/for/ovirt</path>
+</storage>
+<available>40802189312</available>
+<used>66571993088</used>
+<committed>75161927680</committed>
+<storage_format>v1</storage_format>
+</storage_domain>
+</storage_domains>
