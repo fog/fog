@@ -69,7 +69,7 @@ module Fog
           end
           response = Excon::Response.new
           if bucket = self.data[:buckets][bucket_name]
-            contents = bucket[:objects].values.collect(&:last).sort {|x,y| x['Key'] <=> y['Key']}.reject do |object|
+            contents = bucket[:objects].values.collect(&:first).sort {|x,y| x['Key'] <=> y['Key']}.reject do |object|
                 (prefix    && object['Key'][0...prefix.length] != prefix) ||
                 (marker    && object['Key'] <= marker) ||
                 (delimiter && object['Key'][(prefix ? prefix.length : 0)..-1].include?(delimiter) \
