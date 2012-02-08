@@ -134,6 +134,22 @@ Shindo.tests('Fog::Storage[:aws] | versioning', [:aws]) do
       end
     end
 
+    tests("get_bucket('#{@aws_bucket_name}'") do
+      clear_bucket
+
+      file = Fog::Storage[:aws].directories.get(@aws_bucket_name).files.create(:body => 'a',  :key => 'file')
+
+      tests("includes a non-DeleteMarker object").returns(1) do
+        Fog::Storage[:aws].get_bucket(@aws_bucket_name).body['Contents'].size
+      end
+
+      file.destroy
+
+      tests("does not include a DeleteMarker object").returns(0) do
+        Fog::Storage[:aws].get_bucket(@aws_bucket_name).body['Contents'].size
+      end
+    end
+
     delete_bucket
   end
 
