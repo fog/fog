@@ -1,0 +1,54 @@
+<vms>
+<vm href="/api/vms/52b9406e-cf66-4867-8655-719a094e324c" id="52b9406e-cf66-4867-8655-719a094e324c">
+<name>vm01</name>
+<link href="/api/vms/52b9406e-cf66-4867-8655-719a094e324c/disks" rel="disks"/>
+<link href="/api/vms/52b9406e-cf66-4867-8655-719a094e324c/nics" rel="nics"/>
+<link href="/api/vms/52b9406e-cf66-4867-8655-719a094e324c/cdroms" rel="cdroms"/>
+<link href="/api/vms/52b9406e-cf66-4867-8655-719a094e324c/snapshots" rel="snapshots"/>
+<link href="/api/vms/52b9406e-cf66-4867-8655-719a094e324c/tags" rel="tags"/>
+<link href="/api/vms/52b9406e-cf66-4867-8655-719a094e324c/permissions" rel="permissions"/>
+<link href="/api/vms/52b9406e-cf66-4867-8655-719a094e324c/statistics" rel="statistics"/>
+<type>server</type>
+<status>
+<state>down</state>
+</status>
+<memory>805306368</memory>
+<cpu>
+<topology sockets="1" cores="1"/>
+</cpu>
+<os type="unassigned">
+<boot dev="network"/>
+<boot dev="hd"/>
+<kernel/>
+<initrd/>
+<cmdline/>
+</os>
+<high_availability>
+<enabled>false</enabled>
+<priority>1</priority>
+</high_availability>
+<display>
+<type>spice</type>
+<address>host</address>
+<port>5900</port>
+<secure_port>5901</secure_port>
+<monitors>1</monitors>
+</display>
+<host href="/api/hosts/3690fafa-4b4c-11e1-8b7b-5254009970cc" id="3690fafa-4b4c-11e1-8b7b-5254009970cc"/>
+<cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
+<template href="/api/templates/00000000-0000-0000-0000-000000000000" id="00000000-0000-0000-0000-000000000000"/>
+<start_time>2012-02-05T11:00:33.222Z</start_time>
+<creation_time>2012-01-31T07:21:10.667Z</creation_time>
+<origin>rhev</origin>
+<stateless>false</stateless>
+<placement_policy>
+<affinity>migratable</affinity>
+</placement_policy>
+<memory_policy>
+<guaranteed>536870912</guaranteed>
+</memory_policy>
+<usb>
+<enabled>true</enabled>
+</usb>
+</vm>
+</vms>

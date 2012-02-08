@@ -1,6 +1,5 @@
 require 'fog/core/collection'
 require 'fog/ovirt/models/compute/server'
-require 'fog/ovirt/models/compute/helpers/collection_helper'
 
 module Fog
   module Compute
@@ -8,16 +7,14 @@ module Fog
 
       class Servers < Fog::Collection
 
-        include Fog::Compute::Ovirt::Helpers::CollectionHelper
         model Fog::Compute::Ovirt::Server
 
         def all(filters = {})
-          attrs = connection.client.vms(filters).map { |server| ovirt_attrs(server) }
-          load attrs
+          load connection.list_virtual_machines(filters)
         end
 
         def get(id)
-          new ovirt_attrs(connection.client.vm(id))
+          new connection.get_virtual_machine(id)
         end
 
         def bootstrap(new_attributes = {})

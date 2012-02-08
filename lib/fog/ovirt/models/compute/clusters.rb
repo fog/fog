@@ -1,6 +1,5 @@
 require 'fog/core/collection'
 require 'fog/ovirt/models/compute/cluster'
-require 'fog/ovirt/models/compute/helpers/collection_helper'
 
 module Fog
   module Compute
@@ -8,16 +7,14 @@ module Fog
 
       class Clusters < Fog::Collection
 
-        include Fog::Compute::Ovirt::Helpers::CollectionHelper
         model Fog::Compute::Ovirt::Cluster
 
         def all(filters = {})
-          attrs = connection.client.clusters(filters).map { |cluster| ovirt_attrs(cluster) }
-          load attrs
+          load connection.list_clusters(filters)
         end
 
         def get(id)
-          new ovirt_attrs(connection.client.cluster(id))
+          new connection.get_cluster(id)
         end
 
       end

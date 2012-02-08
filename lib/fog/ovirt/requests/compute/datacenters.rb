@@ -4,14 +4,17 @@ module Fog
       class Real
 
         def datacenters filter={}
-          client.datacenters(filter)
+          client.datacenters(filter).map {|ovirt_obj| ovirt_attrs ovirt_obj}
         end
 
       end
 
-      class Mock
-        def datacenters filter={}
-          [ "Solutions", "Solutions2", "Solutions3" ]
+        class Mock
+        def datacenters(filters = {})
+          xml = read_xml 'data_centers.xml'
+          Nokogiri::XML(xml).xpath('/data_centers/data_center').collect do |dc|
+            ovirt_attrs OVIRT::DataCenter::new(self, dc)
+          end
         end
       end
     end

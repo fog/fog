@@ -6,8 +6,18 @@ Shindo.tests('Fog::Compute[:ovirt] | server model', ['ovirt']) do
   tests('The server model should') do
     tests('have the action') do
       test('reload') { server.respond_to? 'reload' }
-      %w{ stop start destroy reboot }.each do |action|
+      %w{ start stop destroy reboot suspend }.each do |action|
         test(action) { server.respond_to? action }
+      end
+      %w{ start reboot suspend stop }.each do |action|
+        test("#{action} returns successfully") {
+          begin
+            server.send(action.to_sym) ? true : false
+          rescue OVIRT::OvirtException
+            #ovirt exceptions are acceptable for the above actions.
+            true
+          end
+        }
       end
     end
     tests('have attributes') do
@@ -17,14 +27,11 @@ Shindo.tests('Fog::Compute[:ovirt] | server model', ['ovirt']) do
         :description,
         :profile,
         :display,
-        :storage,
         :creation_time,
         :os,
-        :ip,
         :status,
         :cores,
         :memory,
-        :host,
         :cluster,
         :template]
       tests("The server model should respond to") do
@@ -41,5 +48,4 @@ Shindo.tests('Fog::Compute[:ovirt] | server model', ['ovirt']) do
     test('be a kind of Fog::Compute::Ovirt::Server') { server.kind_of? Fog::Compute::Ovirt::Server }
   end
 
-  # currently not mock is not working..
-end if false
+end
