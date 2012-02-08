@@ -5,6 +5,7 @@
 .rvmrc
 .bundle
 .DS_Store
+.idea
 coverage
 doc/*
 docs/_site/*

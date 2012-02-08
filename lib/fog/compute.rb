@@ -47,6 +47,9 @@ module Fog
       when :openstack
         require 'fog/openstack/compute'
         Fog::Compute::OpenStack.new(attributes)
+      when :ovirt
+        require 'fog/ovirt/compute'
+        Fog::Compute::Ovirt.new(attributes)
       when :rackspace
         require 'fog/rackspace/compute'
         Fog::Compute::Rackspace.new(attributes)
