@@ -27,6 +27,23 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def delete_user(user_name)
+          if data[:users].has_key? user_name
+            data[:users].delete user_name
+            Excon::Response.new.tap do |response|
+              response.body = { 'RequestId' => Fog::AWS::Mock.request_id }
+              response.status = 200
+            end
+          else
+            raise Fog::AWS::IAM::NotFound.new("The user with name #{user_name} cannot be found.")
+          end
+
+        end
+
+      end
     end
   end
 end

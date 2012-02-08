@@ -34,6 +34,24 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def list_user_policies(user_name, options = {})
+          #FIXME: doesn't use options atm
+          if data[:users].has_key? user_name
+            Excon::Response.new.tap do |response|
+              response.body = { 'PolicyNames' => data[:users][user_name][:policies].keys,
+                                'IsTruncated' => false,
+                                'RequestId'   => Fog::AWS::Mock.request_id }
+              response.status = 200
+            end
+          else
+            raise Fog::AWS::IAM::NotFound.new("The user with name #{user_name} cannot be found.")
+          end
+        end
+
+      end
     end
   end
 end

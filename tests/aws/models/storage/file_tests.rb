@@ -1,5 +1,3 @@
-Fog.mock!
-
 Shindo.tests("Storage[:aws] | file", [:aws]) do
 
   file_attributes = {

@@ -224,7 +224,12 @@ module Fog
       def self.volume_id
         "vol-#{Fog::Mock.random_hex(8)}"
       end
-      
+
+      def self.key_id(length=21)
+        #Probably close enough
+        Fog::Mock.random_selection('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',length)
+      end
+
       def self.rds_address(db_name,region)
         "#{db_name}.#{Fog::Mock.random_letters(rand(12) + 4)}.#{region}.rds.amazonaws.com"
       end

@@ -35,6 +35,27 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def list_access_keys(options = {})
+          #FIXME: Doesn't do anything with options, aside from UserName
+          user = options['UserName']
+
+          if data[:users].has_key? user
+            Excon::Response.new.tap do |response|
+              response.body = { 'AccessKeys' => data[:users][user][:access_keys].map do |akey|
+                                                  {'Status' => akey['Status'], 'AccessKeyId' => akey['AccessKeyId']}
+                                                end,
+                                 'IsTruncated' => false,
+                                 'RequestId' => Fog::AWS::Mock.request_id }
+              response.status = 200
+            end
+          else
+            Fog::AWS::IAM::NotFound.new("The user with name #{user} cannot be found.")
+          end
+        end
+      end
     end
   end
 end

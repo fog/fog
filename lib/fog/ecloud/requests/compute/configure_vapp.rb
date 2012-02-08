@@ -6,7 +6,7 @@ module Fog
 
         def validate_vapp_data(vapp_data)
           valid_opts = [:name, :cpus, :memory, :disks]
-          unless valid_opts.all? { |opt| vapp_data.keys.include?(opt) }
+          unless valid_opts.all? { |opt| vapp_data.has_key?(opt) }
             raise ArgumentError.new("Required Vapp data missing: #{(valid_opts - vapp_data.keys).map(&:inspect).join(", ")}")
           end
         end

@@ -1,5 +1,3 @@
-Fog.mock!
-
 Shindo.tests("Storage[:aws] | directory", [:aws]) do
 
   directory_attributes = {
