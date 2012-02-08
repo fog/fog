@@ -26,7 +26,7 @@ Shindo.tests('Fog::Compute[:brightbox] | load balancer requests', ['brightbox'])
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].create_load_balancer(create_options)
       @load_balancer_id = result["id"]
-      formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER) { result }
+      formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER, false) { result }
     end
 
     unless Fog.mocking?
@@ -36,34 +36,34 @@ Shindo.tests('Fog::Compute[:brightbox] | load balancer requests', ['brightbox'])
     tests("#list_load_balancers()") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].list_load_balancers
-      formats(Brightbox::Compute::Formats::Collection::LOAD_BALANCERS) { result }
+      formats(Brightbox::Compute::Formats::Collection::LOAD_BALANCERS, false) { result }
     end
 
     tests("#get_load_balancer('#{@load_balancer_id}')") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].get_load_balancer(@load_balancer_id)
-      formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER) { result }
+      formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER, false) { result }
     end
 
     update_options = {:name => "New name"}
     tests("#update_load_balancer('#{@load_balancer_id}', #{update_options.inspect})") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].update_load_balancer(@load_balancer_id, update_options)
-      formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER) { result }
+      formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER, false) { result }
     end
 
     add_listeners_options = {:listeners=>[{:out=>28080, :in=>8080, :protocol=>"http"}]}
     tests("#add_listeners_load_balancer('#{@load_balancer_id}', #{add_listeners_options.inspect})") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].add_listeners_load_balancer(@load_balancer_id, add_listeners_options)
-      formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER) { result }
+      formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER, false) { result }
     end
 
     remove_listeners_options = {:listeners=>[{:out=>28080, :in=>8080, :protocol=>"http"}]}
     tests("#remove_listeners_load_balancer('#{@load_balancer_id}', #{remove_listeners_options.inspect})") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].remove_listeners_load_balancer(@load_balancer_id, remove_listeners_options)
-      formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER) { result }
+      formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER, false) { result }
     end
 
     unless Fog.mocking?
@@ -76,7 +76,7 @@ Shindo.tests('Fog::Compute[:brightbox] | load balancer requests', ['brightbox'])
     tests("#add_nodes_load_balancer('#{@load_balancer_id}', #{add_nodes_options.inspect})") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].add_nodes_load_balancer(@load_balancer_id, add_nodes_options)
-      formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER) { result }
+      formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER, false) { result }
     end
 
     # ...before we can attempt to remove either
@@ -84,13 +84,13 @@ Shindo.tests('Fog::Compute[:brightbox] | load balancer requests', ['brightbox'])
     tests("#remove_nodes_load_balancer('#{@load_balancer_id}', #{remove_nodes_options.inspect})") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].remove_nodes_load_balancer(@load_balancer_id, remove_nodes_options)
-      formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER) { result }
+      formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER, false) { result }
     end
 
     tests("#destroy_load_balancer('#{@load_balancer_id}')") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].destroy_load_balancer(@load_balancer_id)
-      formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER) { result }
+      formats(Brightbox::Compute::Formats::Full::LOAD_BALANCER, false) { result }
     end
 
     unless Fog.mocking?
