@@ -62,13 +62,11 @@ module Fog
           if source_object && target_bucket
             response.status = 200
             target_object = source_object.dup
-            target_object.each do |version|
-              version.merge!({'Key' => target_object_name})
-            end
-            target_bucket[:objects][target_object_name] = target_object
+            target_object.merge!({'Key' => target_object_name})
+            target_bucket[:objects][target_object_name] = [target_object]
             response.body = {
-              'ETag'          => target_object.last['ETag'],
-              'LastModified'  => Time.parse(target_object.last['Last-Modified'])
+              'ETag'          => target_object['ETag'],
+              'LastModified'  => Time.parse(target_object['Last-Modified'])
             }
           else
             response.status = 404
