@@ -80,7 +80,7 @@ module Fog
         def request(params)
           params[:headers] ||= {}
           key = "#{@dnsimple_email}:#{@dnsimple_password}"
-          params[:headers].merge!({ "Authorization" => "Basic " + Base64.encode64(key).chomp,
+          params[:headers].merge!({ "Authorization" => "Basic " + Base64.encode64(key).gsub("\n",''),
                                     "Accept" => "application/json",
                                     "Content-Type" => "application/json" })
 
