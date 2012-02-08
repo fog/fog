@@ -64,7 +64,8 @@ class Brightbox
         LB_LISTENER = {
           "in"              => Integer,
           "out"             => Integer,
-          "protocol"        => String
+          "protocol"        => String,
+          "timeout"         => Integer
         }
         LB_HEALTHCHECK = {
           "type"            => String,
