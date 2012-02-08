@@ -33,7 +33,7 @@ module Fog
         def ovirt_attrs obj
           opts = {:raw => obj}
           obj.instance_variables.each do |v|
-            key = v.gsub("@","").to_sym
+            key = v.to_s.gsub("@","").to_sym
             value = obj.instance_variable_get(v)
             #ignore nil values
             next if value.nil?
