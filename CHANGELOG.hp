@@ -1,3 +1,10 @@
+0.0.13 02/09/2012
+=================
+ - provide access to availability zones for compute
+ - minor fix for CS authentication uri
+ - update inline documentation
+ - update README_HP with copyright message
+
 0.0.12 02/02/2012
 =================
  - integrate CS authentication
@@ -6,7 +13,7 @@
  - add additional attributes for CDN provider
  - remove bits and add cores as alias to vcpus in flavor model
  - update inline documentation
- - update README wih copyright message
+ - update README_HP with copyright message
 
 0.0.11 01/09/2012
 =================
