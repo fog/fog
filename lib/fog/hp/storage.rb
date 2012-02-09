@@ -141,7 +141,6 @@ module Fog
           require 'multi_json'
           @hp_secret_key = options[:hp_secret_key]
           @hp_account_id = options[:hp_account_id]
-          @hp_auth_uri   = options[:hp_auth_uri]
           @hp_cdn_ssl    = options[:hp_cdn_ssl]
           @connection_options = options[:connection_options] || {}
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)

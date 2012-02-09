@@ -72,7 +72,7 @@ module Fog
             credentials = Fog::HP.authenticate_v2(options, @connection_options)
             ### When using the v2 CS authentication, the CDN Mgmt comes from the service catalog
             @hp_cdn_uri = credentials[:endpoint_url]
-            cdn_mgmt_url = "#{@hp_cdn_uri}"
+            cdn_mgmt_url = @hp_cdn_uri
           else
             # Call the legacy v1.0/v1.1 authentication
             credentials = Fog::HP.authenticate_v1(options, @connection_options)

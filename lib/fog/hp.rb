@@ -48,15 +48,17 @@ module Fog
 
     # keystone based control services style authentication
     def self.authenticate_v2(options, connection_options = {})
-      hp_auth_uri = options[:hp_auth_uri] || "https://region-a.geo-1.identity.hpcloudsvc.com/v2.0/"
-      endpoint = URI.parse(hp_auth_uri)
+      hp_auth_uri = options[:hp_auth_uri] || "https://region-a.geo-1.identity.hpcloudsvc.com:35357v2.0/tokens"
+      # append /tokens if missing from auth uri
+      @hp_auth_uri = hp_auth_uri.include?('tokens')? hp_auth_uri : hp_auth_uri + "tokens"
+      endpoint = URI.parse(@hp_auth_uri)
       @scheme = endpoint.scheme || "http"
       @host = endpoint.host || "region-a.geo-1.identity.hpcloudsvc.com"
-      @port = endpoint.port.to_s || "80"
+      @port = endpoint.port.to_s || "35357"
       if (endpoint.path)
         @auth_path = endpoint.path.slice(1, endpoint.path.length)  # remove the leading slash
       else
-        @auth_path = "v2.0/"
+        @auth_path = "v2.0/tokens"
       end
       service_url = "#{@scheme}://#{@host}:#{@port}"
       connection = Fog::Connection.new(service_url, false, connection_options)
