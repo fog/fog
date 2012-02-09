@@ -70,6 +70,7 @@ module Fog
       @hp_secret_key = options[:hp_secret_key]
       @hp_tenant_id  = options[:hp_tenant_id]
       @hp_service_type  = options[:hp_service_type]
+      @hp_avl_zone   = options[:hp_avl_zone] || :az1
 
       ### Decide which auth style to use
       unless (@hp_use_upass_auth_style)
@@ -115,10 +116,10 @@ module Fog
 
       ### fish out auth_token and endpoint for the service
       auth_token = body['access']['token']['id']
-      endpoint_url = get_endpoint_from_catalog(body['access']['serviceCatalog'], @hp_service_type)
+      endpoint_url = get_endpoint_from_catalog(body['access']['serviceCatalog'], @hp_service_type, @hp_avl_zone)
       # If service is Storage, then get the CDN endpoint as well
       if @hp_service_type == "object-store"
-        cdn_endpoint_url = get_endpoint_from_catalog(body['access']['serviceCatalog'], "hpext:cdn")
+        cdn_endpoint_url = get_endpoint_from_catalog(body['access']['serviceCatalog'], "hpext:cdn", @hp_avl_zone)
       end
 
       return {
@@ -131,11 +132,16 @@ module Fog
 
     private
 
-    def self.get_endpoint_from_catalog(service_catalog, service_type)
+    def self.get_endpoint_from_catalog(service_catalog, service_type, avl_zone)
       if service_catalog
         service_item = service_catalog.select {|s| s["type"] == service_type}.first
-        if service_item and service_item['endpoints'] and service_item['endpoints'][0]
-          endpoint_url = service_item['endpoints'][0]['publicURL']
+        if service_item and service_item['endpoints'] and
+          if avl_zone == :az1
+            endpoint_url = service_item['endpoints'][0]['publicURL'] if service_item['endpoints'][0]
+          elsif avl_zone == :az2
+            endpoint_url = service_item['endpoints'][1]['publicURL'] if service_item['endpoints'][1]
+          end
+          raise "Unable to retrieve endpoint service url from service catalog." if endpoint_url.nil?
           return endpoint_url
         end
       else
