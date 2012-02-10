@@ -8,7 +8,7 @@ module Fog
 
         STATES = [
           "New",            # => 0
-          "Provsioning",    # => 1
+          "Provisioning",   # => 1
           "Failed",         # => 2
           "Removed",        # => 3
           "Rejected",       # => 4

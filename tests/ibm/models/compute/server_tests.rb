@@ -42,7 +42,7 @@ Shindo.tests('Fog::Compute[:ibm] | server', ['ibm']) do
     end
 
     tests('Fog::Compute::IBM::Server#status') do
-      returns("Active") { @server.status }
+      returns("Active") { @server.state }
     end
 
     tests('Fog::Compute::IBM::Server#reboot') do
