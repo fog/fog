@@ -45,6 +45,7 @@ Gem::Specification.new do |s|
   s.add_dependency('net-ssh', '>=2.1.3')
   s.add_dependency('nokogiri', '~>1.5.0')
   s.add_dependency('ruby-hmac')
+  s.add_dependency('fission')
 
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development
