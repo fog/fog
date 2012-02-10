@@ -20,6 +20,9 @@ def compute_providers
     :glesys   => {
       :mocked => false
     },
+    :joyent => {
+      :mocked => false
+    },
     :ninefold   => {
       :mocked => false
     },
