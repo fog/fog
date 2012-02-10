@@ -186,8 +186,8 @@ module Fog
             raise Fog::Compute::OpenStack::ServiceUnavailable.new(
                     "OpenStack binding only supports version 1.1")
           end
-          # Add tenant
-          @path += @openstack_tenant if @openstack_tenant
+          # Add tenant (done by keystone now for 1.1 auth api)
+          # @path += @openstack_tenant if @openstack_tenant
           @port   = uri.port
           @scheme = uri.scheme
         end
