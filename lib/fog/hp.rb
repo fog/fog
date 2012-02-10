@@ -48,7 +48,7 @@ module Fog
 
     # keystone based control services style authentication
     def self.authenticate_v2(options, connection_options = {})
-      hp_auth_uri = options[:hp_auth_uri] || "https://region-a.geo-1.identity.hpcloudsvc.com:35357v2.0/tokens"
+      hp_auth_uri = options[:hp_auth_uri] || "https://region-a.geo-1.identity.hpcloudsvc.com:35357/v2.0/tokens"
       # append /tokens if missing from auth uri
       @hp_auth_uri = hp_auth_uri.include?('tokens')? hp_auth_uri : hp_auth_uri + "tokens"
       endpoint = URI.parse(@hp_auth_uri)
