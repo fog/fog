@@ -52,6 +52,16 @@ module Fog
           connection.images(:server => self)
         end
 
+        def key_pair
+          requires :key_name
+
+          connection.key_pairs.get(key_name)
+        end
+
+        def key_pair=(new_keypair)
+          self.key_name = new_keypair && new_keypair.name
+        end
+
         def private_ip_address
           addr = addresses.nil? ? nil : addresses.fetch('private', []).first
           addr["addr"] if addr
