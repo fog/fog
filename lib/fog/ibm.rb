@@ -43,7 +43,7 @@ module Fog
       end
 
       def form_encode(params)
-        params.reject {|k, v| v.nil? }.map {|pair| pair.map {|x| URI.escape(x) }.join('=') }.join('&')
+        params.reject {|k, v| v.nil? }.map {|pair| pair.map {|x| URI.escape(x.to_s) }.join('=') }.join('&')
       end
     end
 
