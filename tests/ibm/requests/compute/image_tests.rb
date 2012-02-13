@@ -76,8 +76,7 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
         @image_id,
         @instance_type,
         @location,
-        @public_key,
-        @options
+        :key_name => @public_key
       ).body
       @instance_id  = response['instances'][0]['id']
       data          = Fog::Compute[:ibm].create_image(@instance_id, @image_name, "").body

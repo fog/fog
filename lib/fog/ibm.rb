@@ -102,11 +102,11 @@ module Fog
           }
         end
 
-        def create_instance(name, image_id, instance_type, location, public_key, options)
+        def create_instance(name, image_id, instance_type, location, options)
           {
             "name"          => name,
             "location"      => location,
-            "keyName"       => public_key,
+            "keyName"       => options[:key_name],
             "primaryIP"     => Fog::IBM::Mock.primary_ip,
             "productCodes"  => [],
             "requestId"     => Fog::IBM::Mock.request_id,

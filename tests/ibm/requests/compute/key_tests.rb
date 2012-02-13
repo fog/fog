@@ -28,6 +28,10 @@ Shindo.tests('Fog::Compute[:ibm] | key requests', ['ibm']) do
       Fog::Compute[:ibm].create_key(@key_name).body
     end
 
+    tests("#create_key('#{@key_name}', '#{@public_key}')").formats(@key_format) do
+      Fog::Compute[:ibm].create_key(@key_name, @public_key).body
+    end
+
     tests("#list_keys").formats(@keys_format) do
       Fog::Compute[:ibm].list_keys.body
     end
@@ -36,16 +40,8 @@ Shindo.tests('Fog::Compute[:ibm] | key requests', ['ibm']) do
       Fog::Compute[:ibm].get_key(@key_name).body
     end
 
-    tests("#set_default_key('#{@key_name}')") do 
-      returns(@key_name) { Fog::Compute[:ibm].set_default_key(@key_name).body }
-    end
-
-    tests("#update_key('#{@key_name}', '#{@public_key}')") do 
-      returns(true) { Fog::Compute[:ibm].update_key(@key_name, @public_key).body['success'] }
-    end
-
     tests("#set_default_key('#{@key_name}')") do
-      returns(true) { Fog::Compute[:ibm].modify_key(@key_name, 'default' => true).body['success'] }
+      returns(@key_name) { Fog::Compute[:ibm].modify_key(@key_name, 'default' => true).body }
     end
 
     tests("#update_key('#{@key_name}', 'publicKey' => '#{@public_key}')") do
@@ -54,10 +50,6 @@ Shindo.tests('Fog::Compute[:ibm] | key requests', ['ibm']) do
 
     tests("#delete_key('#{@key_name}')") do
       returns(true) { Fog::Compute[:ibm].delete_key(@key_name).body['success'] }
-    end
-
-    tests("#upload_key('#{@key_name}', '#{@public_key}')") do
-      returns(true) { Fog::Compute[:ibm].upload_key(@key_name, @public_key).body['success'] }
     end
 
   end

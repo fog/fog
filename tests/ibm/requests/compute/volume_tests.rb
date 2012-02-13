@@ -43,8 +43,8 @@ Shindo.tests('Fog::Compute[:ibm] | volume requests', ['ibm']) do
     @location       = "101"
     @public_key     = "test"
 
-    tests("#create_volume('#{@name}', '#{@format}', '#{@location_id}', '#{@size}', '#{@offering_id}')").formats(@volume_format) do
-      data = Fog::Compute[:ibm].create_volume(@name, @format, @location_id, @size, @offering_id).body
+    tests("#create_volume('#{@name}', '#{@offering_id}', '#{@format}', '#{@location_id}', '#{@size}')").formats(@volume_format) do
+      data = Fog::Storage[:ibm].create_volume(@name, @offering_id, @format, @location_id, @size).body
       @volume_id = data['id']
       data
     end
@@ -63,16 +63,15 @@ Shindo.tests('Fog::Compute[:ibm] | volume requests', ['ibm']) do
         @image_id,
         @instance_type,
         @location,
-        @public_key,
-        @options
+        :key_name => @public_key
       ).body['instances'][0]['id']
       # TODO: Add assertions for this whenever it is properly supported
-      Fog::Compute[:ibm].attach_volume(@instance_id, @volume_id)
+      Fog::Compute[:ibm].modify_instance(@instance_id, 'type' => 'attach', 'volume_id' => @volume_id)
     end
 
     tests("#detach_volume('#{@instance_id}','#{@volume_id}')") do
       # TODO: Add assertions for this whenever it is properly supported
-      Fog::Compute[:ibm].detach_volume(@instance_id, @volume_id)
+      Fog::Compute[:ibm].modify_instance(@instance_id, 'type' => 'attach', 'volume_id' => @volume_id)
       Fog::Compute[:ibm].delete_instance(@instance_id)
     end
 

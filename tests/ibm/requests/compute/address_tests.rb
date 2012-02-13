@@ -23,7 +23,7 @@ Shindo.tests('Fog::Compute[:ibm] | address requests', ['ibm']) do
   tests('success') do
 
     tests("#create_address('#{@location_id}')").formats(@create_address_format) do
-      data        = Fog::Compute[:ibm].create_address(@location_id).body
+      data        = Fog::Compute[:ibm].create_address(@location_id, @offering_id).body
       @address_id = data['id']
       data
     end

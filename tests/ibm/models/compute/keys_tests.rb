@@ -5,8 +5,8 @@ Shindo.tests('Fog::Compute[:ibm] | keys', ['ibm']) do
     @key_name = "fog test key"
     @key      = nil
 
-    tests("Fog::Compute[:ibm].keys.create('#{@key_name}')") do
-      @key = Fog::Compute[:ibm].keys.create(@key_name)
+    tests("Fog::Compute[:ibm].keys.create(:name => '#{@key_name}')") do
+      @key = Fog::Compute[:ibm].keys.create(:name => @key_name)
       returns(@key_name) { @key.name }
     end
 

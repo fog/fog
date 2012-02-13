@@ -10,8 +10,8 @@ module Fog
         # * image_id<~String> - The id of the image to create this instance from
         # * instance_type<~String> - The instance type to use for this instance
         # * location<~String> - The id of the Location where this instance will be created
-        # * public_key<~String> - The public key to use for accessing the created instance
         # * options<~Hash>:
+        #   * :key_name<~String> - The public key to use for accessing the created instance
         #   * :ip<~String> - The ID of a static IP address to associate with this instance
         #   * :volume_id<~String> - The ID of a storage volume to associate with this instance
         #   * :vlan_id<~String> - The ID of a Vlan offering to associate with this instance.
@@ -57,7 +57,7 @@ module Fog
 
       class Mock
 
-        def create_instance(name="fog instance", image_id="20018425", instance_type="COP32.1/2048/60", location="101", public_key="fog", options={})
+        def create_instance(name, image_id, instance_type, location, options={})
           response = Excon::Response.new
           # Since we want to test error conditions, we have a little regex that traps specially formed
           # instance type strings.
@@ -65,7 +65,7 @@ module Fog
           when /FAIL:\ (\d{3})/
             response.status = $1
           else
-            instance = Fog::IBM::Mock.create_instance(name, image_id, instance_type, location, public_key, options)
+            instance = Fog::IBM::Mock.create_instance(name, image_id, instance_type, location, options)
             self.data[:instances][instance['id']] = instance
             response.status = 200
             response.body = {"instances" => [ instance ]}
