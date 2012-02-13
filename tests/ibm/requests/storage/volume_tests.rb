@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:ibm] | volume requests', ['ibm']) do
+Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
 
   @combined_volume_format = {
     "id"            => String,
@@ -50,11 +50,11 @@ Shindo.tests('Fog::Compute[:ibm] | volume requests', ['ibm']) do
     end
 
     tests("#list_volumes").formats(@volumes_format) do
-      Fog::Compute[:ibm].list_volumes.body
+      Fog::Storage[:ibm].list_volumes.body
     end
 
     tests("#get_volume('#{@volume_id}')").formats(@volume_format) do
-      Fog::Compute[:ibm].get_volume(@volume_id).body
+      Fog::Storage[:ibm].get_volume(@volume_id).body
     end
 
     tests("#attach_volume('#{@instance_id}','#{@volume_id}')") do

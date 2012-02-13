@@ -48,7 +48,7 @@ module Fog
               response.status = 404
             end
           elsif params['type'] == 'attach' || params['type'] == 'detach'
-            if (instance_exists?(instance_id) && volume_exists?(volume_id))
+            if (instance_exists?(instance_id) && Fog::Storage[:ibm].volume_exists?(volume_id))
               # TODO: Update the instance in the data hash, assuming IBM ever gets this feature working properly.
               response.status = 415
             else

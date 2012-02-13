@@ -48,8 +48,31 @@ module Fog
 
       class Mock
 
-        def request(options)
-          Fog::Mock.not_implemented
+        def self.data
+          @data ||= Hash.new do |hash, key|
+            hash[key] = {
+              :volumes      => {},
+            }
+          end
+        end
+
+        def self.reset
+          @data = nil
+        end
+
+        def data
+          self.class.data[@ibm_user_id]
+        end
+
+        def reset_data
+          self.class.data.delete(@ibm_user_id)
+          @data = self.class.data[@ibm_user_id]
+        end
+
+        def initialize(options={})
+          @ibm_user_id  = options[:ibm_user_id]
+          @ibm_password = options[:ibm_password]
+          @data = self.class.data[@ibm_user_id]
         end
 
       end

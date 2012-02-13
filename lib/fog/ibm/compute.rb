@@ -89,7 +89,6 @@ module Fog
               :keys         => {},
               :locations    => populate_locations,
               :private_keys => {},
-              :volumes      => {},
               :addresses    => {}
             }
           end
