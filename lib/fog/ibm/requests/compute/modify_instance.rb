@@ -36,34 +36,31 @@ module Fog
 
       class Mock
 
-        def modify_instance(instance_id, options={})
+        def modify_instance(instance_id, params={})
           response = Excon::Response.new
-          if params['state'] == 'restart'
-            if instance_exists? instance_id
+          if instance_exists? instance_id
+            if params['state'] == 'restart'
               self.data[:instances][instance_id]["status"] = "8"
-              self.data[:instances][instance_id]["keyName"] = key_name
               response.status = 200
               response.body   = { "success" => true }
-            else
-              response.status = 404
-            end
-          elsif params['type'] == 'attach' || params['type'] == 'detach'
-            if (instance_exists?(instance_id) && Fog::Storage[:ibm].volume_exists?(volume_id))
-              # TODO: Update the instance in the data hash, assuming IBM ever gets this feature working properly.
-              response.status = 415
-            else
-              response.status = 404
-            end
-          elsif params['name']
-            if instance_exists?(instance_id)
-              self.data[:instances][instance_id]["name"] = name
+            elsif params['type'] == 'attach' || params['type'] == 'detach'
+              if Fog::Storage[:ibm].volume_exists?(params['volume_id'])
+                # TODO: Update the instance in the data hash, assuming IBM ever gets this feature working properly.
+                response.status = 415
+              else
+                response.status = 404
+              end
+            elsif params['name']
+              self.data[:instances][instance_id]["name"] = params['name']
               response.status = 200
               response.body = { "success" => true }
-            else
-              response.status = 404
+            elsif params['expirationTime']
+              self.data[:instances][instance_id]["expirationTime"] = params['expirationTime']
+              response.status = 200
+              response.body = { "success" => true }
             end
           else
-            Fog::Mock.not_implemented
+            response.status = 404
           end
           response
         end
