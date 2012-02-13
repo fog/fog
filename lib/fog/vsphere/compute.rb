@@ -23,6 +23,9 @@ module Fog
       request :vm_create
       request :vm_destroy
       request :datacenters
+      request :vm_reconfig_hardware
+      request :vm_reconfig_memory
+      request :vm_reconfig_cpus
 
       module Shared
 

@@ -35,6 +35,18 @@ module Fog
         attribute :mo_ref
         attribute :path
 
+        def vm_reconfig_memory(options = {})
+          requires :instance_uuid, :memory
+          connection.vm_reconfig_memory('instance_uuid' => instance_uuid, 'memory' => memory)
+        end
+        def vm_reconfig_cpus(options = {})
+          requires :instance_uuid, :cpus
+          connection.vm_reconfig_cpus('instance_uuid' => instance_uuid, 'cpus' => cpus)
+        end
+        def vm_reconfig_hardware(options = {})
+          requires :instance_uuid, :hardware_spec
+          connection.vm_reconfig_hardware('instance_uuid' => instance_uuid, 'hardware_spec' => hardware_spec)
+        end
         def start(options = {})
           requires :instance_uuid
           connection.vm_power_on('instance_uuid' => instance_uuid)
