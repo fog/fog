@@ -50,7 +50,7 @@ module Fog
             response.status = 200
             response.body   = self.data[:instances][instance_id]
           else
-            response.status = 404
+            raise Fog::Compute::IBM::NotFound
           end
           response
         end
