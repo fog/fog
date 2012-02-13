@@ -14,17 +14,17 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
     'description'   => String,
     'supportedInstanceTypes'  => Array,
     'manifest'      => String,
-    'documentation' => String   
+    'documentation' => String
   }
-  
+
   # TODO: Actually check this format
   @product_code_format = {
     'detail'        => String,
     'label'         => String,
     'price'         => @price_format,
-    'id'            => String  
+    'id'            => String
   }
-  
+
   # TODO: Actually check this format
   @price_format = {
     'rate'          => Float,
@@ -33,7 +33,7 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
     'currencyCode'  => String,
     'pricePerQuantity'  => Integer
   }
-  
+
   @images_format = {
     'images'     => [ @image_format ]
   }
@@ -61,41 +61,41 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
 
 
   tests('success') do
-  
+
     tests("#list_images").formats(@images_format) do
       Fog::Compute[:ibm].list_images.body
     end
-    
+
     tests('#get_image').formats(@image_format) do
       Fog::Compute[:ibm].get_image("20015393").body
     end
-    
+
     tests('#create_image').formats(@create_image_format) do
       response = Fog::Compute[:ibm].create_instance(
-        @name, 
-        @image_id, 
-        @instance_type, 
-        @location, 
-        @public_key, 
+        @name,
+        @image_id,
+        @instance_type,
+        @location,
+        @public_key,
         @options
       ).body
       @instance_id  = response['instances'][0]['id']
       data          = Fog::Compute[:ibm].create_image(@instance_id, @image_name, "").body
       @id           = data['id']
-      data 
+      data
     end
-    
+
     tests('#clone_image') do
       data = Fog::Compute[:ibm].clone_image(@image_id, "fog test clone image", "").body
       @cloned_id = data['ImageID']
       returns(String) { data['ImageID'].class }
     end
-  
-    tests('#delete_image') do 
-      returns(true) { Fog::Compute[:ibm].delete_image(@id).body['success'] } 
-      returns(true) { Fog::Compute[:ibm].delete_image(@cloned_id).body['success'] } 
+
+    tests('#delete_image') do
+      returns(true) { Fog::Compute[:ibm].delete_image(@id).body['success'] }
+      returns(true) { Fog::Compute[:ibm].delete_image(@cloned_id).body['success'] }
     end
-  
+
   end
 
 end

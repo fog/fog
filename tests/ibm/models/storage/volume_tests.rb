@@ -1,15 +1,15 @@
 Shindo.tests('Fog::Compute[:ibm] | volume', ['ibm']) do
 
   tests('success') do
-    
+
     @volume       = nil
     @volume_id    = nil
-    @name         = "fog test volume" 
+    @name         = "fog test volume"
     @format       = "raw"
     @location_id  = "101"
     @size         = "256"
     @offering_id  = "20001208"
-        
+
     tests('Fog::Compute::IBM::Volume.new') do
       @volume = Fog::Compute[:ibm].volumes.new(
         :name           => @name,
@@ -20,13 +20,13 @@ Shindo.tests('Fog::Compute[:ibm] | volume', ['ibm']) do
       )
       returns(@name) { @volume.name }
     end
-    
+
     tests('Fog::Compute::IBM::Volume#save') do
       returns(true)   { @volume.save }
       returns(String) { @volume.id.class }
       @volume_id = @volume.id
     end
-    
+
     tests("Fog::Compute::IBM::Volume#instance") do
       returns(nil) { @volume.instance }
     end
@@ -34,7 +34,7 @@ Shindo.tests('Fog::Compute[:ibm] | volume', ['ibm']) do
     tests("Fog::Compute::IBM::Volume#location") do
       returns(Fog::Compute::IBM::Location) { @volume.location.class }
     end
-    
+
     tests('Fog::Compute::IBM::Volume#id') do
       returns(@volume_id) { @volume.id }
     end
@@ -53,7 +53,7 @@ Shindo.tests('Fog::Compute[:ibm] | volume', ['ibm']) do
     tests('Fog::Compute::IBM::Volume#destroy') do
       returns(true) { @volume.destroy }
     end
-    
+
   end
-  
+
 end

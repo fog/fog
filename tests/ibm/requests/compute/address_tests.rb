@@ -1,10 +1,10 @@
 Shindo.tests('Fog::Compute[:ibm] | address requests', ['ibm']) do
 
   @address_format = {
-    "state"     => Integer, 
-    "offeringId"=> String, 
-    "location"  => String, 
-    "ip"        => String, 
+    "state"     => Integer,
+    "offeringId"=> String,
+    "location"  => String,
+    "ip"        => String,
     "id"        => String,
     "mode"      => Integer,
     "hostname"  => String,
@@ -19,19 +19,19 @@ Shindo.tests('Fog::Compute[:ibm] | address requests', ['ibm']) do
   @address_id  = nil
   @location_id = "101"
   @offering_id = "20001223"
-  
+
   tests('success') do
-  
+
     tests("#create_address('#{@location_id}')").formats(@create_address_format) do
       data        = Fog::Compute[:ibm].create_address(@location_id).body
       @address_id = data['id']
       data
     end
-    
+
     tests("#list_addresses").formats(@list_address_format) do
       Fog::Compute[:ibm].list_addresses.body
     end
-    
+
     tests("#delete_address('#{@address_id}')") do
       returns(true) { Fog::Compute[:ibm].delete_address(@address_id).body['success'] }
     end

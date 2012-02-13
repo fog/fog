@@ -1,16 +1,16 @@
 Shindo.tests('Fog::Compute[:ibm] | server', ['ibm']) do
-  
+
   tests('success') do
     # TODO: Fix this for non-mock tests
     @server         = nil
     @instance_id    = nil
-    
+
     @name           = "Fog Test Instance"
     @image_id       = "20015393"
     @instance_type  = "BRZ32.1/2048/60*175"
     @location_id    = "101"
     @key_name       = "test"
-    
+
     tests('Fog::Compute::IBM::Server.new') do
       @server = Fog::Compute[:ibm].servers.new(
         :name           => @name,
@@ -21,7 +21,7 @@ Shindo.tests('Fog::Compute[:ibm] | server', ['ibm']) do
       )
       returns(@name) { @server.name }
     end
-    
+
     tests('Fog::Compute::IBM::Server#save') do
       returns(true)   { @server.save }
       returns(String) { @server.id.class }
@@ -32,7 +32,7 @@ Shindo.tests('Fog::Compute[:ibm] | server', ['ibm']) do
       Fog::Compute[:ibm].servers.get(@instance_id).wait_for { ready? }
       @server = Fog::Compute[:ibm].servers.last
     end
-    
+
     tests('Fog::Compute::IBM::Server#id') do
       returns(@instance_id) { @server.id }
     end
@@ -44,7 +44,7 @@ Shindo.tests('Fog::Compute[:ibm] | server', ['ibm']) do
     tests('Fog::Compute::IBM::Server#status') do
       returns("Active") { @server.status }
     end
-    
+
     tests('Fog::Compute::IBM::Server#reboot') do
       returns(true) { @server.reboot }
     end
@@ -54,11 +54,11 @@ Shindo.tests('Fog::Compute[:ibm] | server', ['ibm']) do
       returns(true) { @server.rename(name) }
       returns(name) { @server.name }
     end
-    
+
     tests('Fog::Compute::IBM::Server#image') do
       returns(@image_id) { @server.image.id }
     end
-    
+
     tests('Fog::Compute::IBM::Server#to_image') do
       data = @server.to_image(:name => @server.name)
       returns(@server.name) { data['name'] }
@@ -68,11 +68,11 @@ Shindo.tests('Fog::Compute[:ibm] | server', ['ibm']) do
     tests('Fog::Compute::IBM::Server#expire!') do
       returns(true) { @server.expire! }
     end
-    
+
     tests('Fog::Compute::IBM::Server#destroy') do
       returns(true) { @server.destroy }
     end
-    
+
   end
-  
+
 end
