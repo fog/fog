@@ -41,6 +41,17 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def list_keys
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {'keys' => self.data[:keys].values}
+          response
+        end
+
+      end
     end
   end
 end

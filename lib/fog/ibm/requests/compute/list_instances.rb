@@ -47,7 +47,7 @@ module Fog
         def list_instances
           response = Excon::Response.new
           response.status = 200
-          response.body = { 'instances' => [] }
+          response.body = { 'instances' => self.data[:instances].values }
           response
         end
 
