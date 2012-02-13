@@ -41,7 +41,7 @@ Shindo.tests('Fog::Compute[:ibm] | key requests', ['ibm']) do
     end
 
     tests("#set_default_key('#{@key_name}')") do
-      returns(@key_name) { Fog::Compute[:ibm].modify_key(@key_name, 'default' => true).body }
+      returns(true) { Fog::Compute[:ibm].modify_key(@key_name, 'default' => true).body['success'] }
     end
 
     tests("#update_key('#{@key_name}', 'publicKey' => '#{@public_key}')") do
