@@ -44,14 +44,14 @@ module Fog
             "instanceIds"       => [],
           }
           if public_key.nil?
-            private_key = Fog::IBM::Mock.key_material
-            public_key  = private_key.public_key
-            public_key  = { "keyMaterial" => public_key.to_s  }.merge(attributes.dup)
-            self.data[:keys][name] = public_key
-            private_key = { "keyMaterial" => private_key.to_s }.merge(attributes.dup)
-            self.data[:private_keys][name] = private_key
-            response.body = private_key
+            private_key   = Fog::IBM::Mock.key_material
+            public_key    = private_key.public_key
           end
+          public_key    = { "keyMaterial" => public_key.to_s  }.merge(attributes.dup)
+          private_key   = { "keyMaterial" => private_key.to_s }.merge(attributes.dup)
+          response.body = private_key
+          self.data[:keys][name] = public_key
+          self.data[:private_keys][name] = private_key
           response
         end
 

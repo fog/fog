@@ -7,13 +7,14 @@ module Fog
         identity :name, :aliases => 'keyName'
         attribute :default
         attribute :public_key, :aliases => 'keyMaterial'
-        attribute :last_modified, :aliases => 'lastModifiedTime'
+        attribute :instance_ids, :aliases => 'instanceIds'
+        attribute :modified_at, :aliases => 'lastModifiedTime'
 
         def save
-          requires :name, :public_key
+          requires :name
           data = connection.create_key(name, public_key)
           merge_attributes(data.body)
-          data.body['success']
+          data.body['keyName'] == name
         end
 
         def destroy
@@ -21,6 +22,13 @@ module Fog
           data.body['success']
         end
 
+        def default?
+          default
+        end
+
+        def instances
+          instance_ids.map { Fog::Compute[:ibm].servers.get(instance_id) }
+        end
       end
     end
   end

@@ -21,6 +21,14 @@ module Fog
           end
         end
 
+        def default
+          find {|key| key.default? }
+        end
+
+        def default=(key_name)
+          connection.modify_key(key_name, 'default' => true)
+        end
+
       end
     end
   end
