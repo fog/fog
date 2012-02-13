@@ -29,6 +29,7 @@ module Fog
           if deleteable? instance_id
             # remove from memoreeeez.
             self.data[:instances].delete instance_id
+            response.body = { 'success' => true }
             response.status = 200
           else
             # TODO: we should really return a 412 if the instance is in an invalid state, and a 404 if it doesn't exist.
