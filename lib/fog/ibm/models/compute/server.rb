@@ -78,18 +78,17 @@ module Fog
 
         def reboot
           requires :id
-          connection.modify_instance(id, 'state' => 'restart')
+          connection.modify_instance(id, 'state' => 'restart').body['success']
         end
 
         def destroy
           requires :id
-          data = connection.delete_instance(id)
-          data.body['success']
+          connection.delete_instance(id).body['success']
         end
 
         def rename(name)
           requires :id
-          if connection.modify_instance(id, {'name' => name}).body["success"]
+          if connection.modify_instance(id, 'name' => name).body["success"]
             attributes[:name] = name
           else
             return false
@@ -136,11 +135,13 @@ module Fog
         # Sets expiration time - Pass an instance of Time.
         def expire_at(time)
           expiry_time = (time.tv_sec * 1000).to_i
-          success = connection.set_instance_expiration(id, expiry_time).body["expirationTime"] == expiry_time
-          if success
+          data = connection.modify_instance(id, 'expirationTime' => expiry_time)
+          if data.body['expirationTime'] == expiry_time
             attributes[:expires_at] = expiry_time
+            true
+          else
+            false
           end
-          success
         end
 
         # Expires the instance immediately

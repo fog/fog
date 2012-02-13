@@ -57,7 +57,7 @@ module Fog
             elsif params['expirationTime']
               self.data[:instances][instance_id]["expirationTime"] = params['expirationTime']
               response.status = 200
-              response.body = { "success" => true }
+              response.body = { 'expirationTime' => params['expirationTime'] }
             end
           else
             response.status = 404
