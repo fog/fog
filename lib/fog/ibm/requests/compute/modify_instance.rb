@@ -38,7 +38,7 @@ module Fog
 
         def modify_instance(instance_id, options={})
           response = Excon::Response.new
-          if params['state'] = 'restart'
+          if params['state'] == 'restart'
             if instance_exists? instance_id
               self.data[:instances][instance_id]["status"] = "8"
               self.data[:instances][instance_id]["keyName"] = key_name
