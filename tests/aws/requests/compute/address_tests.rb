@@ -2,8 +2,10 @@ Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
 
   @addresses_format = {
     'addressesSet' => [{
-      'instanceId'  => NilClass,
-      'publicIp'    => String
+      'allocationId' => Fog::Nullable::String,
+      'domain'       => String,
+      'instanceId'   => Fog::Nullable::String,
+      'publicIp'     => String
     }],
     'requestId' => String
   }
@@ -16,7 +18,7 @@ Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
 
     @public_ip = nil
 
-    tests('#allocate_address').formats({'publicIp' => String, 'requestId' => String}) do
+    tests('#allocate_address').formats({'domain' => String, 'publicIp' => String, 'requestId' => String}) do
       data = Fog::Compute[:aws].allocate_address.body
       @public_ip = data['publicIp']
       data
