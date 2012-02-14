@@ -96,7 +96,12 @@ module Fog
       attr_accessor :command, :stderr, :stdout, :status
 
       def display_stdout
-        Formatador.display_line(stdout.split("\r\n"))
+        data = stdout.split("\r\n")
+        if data.is_a?(String)
+          Formatador.display_line(data)
+        elsif data.is_a?(Array)
+          Formatador.display_lines(data)
+        end
       end
 
       def display_stderr
