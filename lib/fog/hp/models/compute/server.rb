@@ -77,7 +77,10 @@ module Fog
         end
 
         def public_ip_address
-          addr = addresses.nil? ? nil : addresses.fetch('public', []).first
+          # FIX: Both the private and public ips are bundled under "private" network name
+          # So hack to get to the public ip address
+          #addr = addresses.nil? ? nil : addresses.fetch('public', []).first
+          addr = addresses.nil? ? nil : addresses.fetch('private', []).last
           addr["addr"] if addr
         end
 
