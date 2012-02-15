@@ -118,7 +118,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Storage::HP::NotFound.slurp(error)
+              Fog::CDN::HP::NotFound.slurp(error)
             else
               error
             end

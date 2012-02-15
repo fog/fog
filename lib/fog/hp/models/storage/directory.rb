@@ -28,7 +28,11 @@ module Fog
           connection.delete_container(key)
           # If CDN service is available, try to delete the container if it was CDN-enabled
           if cdn_enabled?
-            connection.cdn.delete_container(key)
+            begin
+              connection.cdn.delete_container(key)
+            rescue Fog::CDN::HP::NotFound
+              # ignore if cdn container not found
+            end
           end
           true
         rescue Excon::Errors::NotFound, Fog::Storage::HP::NotFound
@@ -92,7 +96,7 @@ module Fog
               else
                 @cdn_enable = false
               end
-            rescue Fog::Storage::HP::NotFound => err
+            rescue Fog::CDN::HP::NotFound => err
               @cdn_enable = false
             end
           else
@@ -112,7 +116,7 @@ module Fog
                   response.headers.fetch('X-Cdn-Uri', nil)
                 end
               end
-            rescue Fog::Storage::HP::NotFound => err
+            rescue Fog::CDN::HP::NotFound => err
               nil
             end
           end
@@ -133,7 +137,7 @@ module Fog
               begin response = connection.cdn.head_container(key)
                 ### Deleting a container from CDN is much more expensive than flipping the bit to disable it
                 connection.cdn.post_container(key, {'X-CDN-Enabled' => 'True'})
-              rescue Fog::Storage::HP::NotFound => err
+              rescue Fog::CDN::HP::NotFound => err
                 connection.cdn.put_container(key)
               end
             else
@@ -141,7 +145,7 @@ module Fog
               begin response = connection.cdn.head_container(key)
                 ### Deleting a container from CDN is much more expensive than flipping the bit to disable it
                 connection.cdn.post_container(key, {'X-CDN-Enabled' => 'False'})
-              rescue Fog::Storage::HP::NotFound => err
+              rescue Fog::CDN::HP::NotFound => err
                 # just continue, as container is not cdn-enabled.
               end
             end
