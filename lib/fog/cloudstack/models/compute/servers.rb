@@ -18,12 +18,20 @@ module Fog
         end
 
         def all(filters = self.filters)
-          data = connection.list_virtual_machines.body
+          data = connection.list_virtual_machines(filters).body
           load(
             data['virtualMachines'].map do |instance|
                 instance
             end.flatten
           )
+        end
+
+        def get(server_id)
+          if server_id
+            self.class.new(:connection => connection).all('id' => server_id).first
+          end
+        rescue Fog::Errors::NotFound
+          nil
         end
       end
     end
