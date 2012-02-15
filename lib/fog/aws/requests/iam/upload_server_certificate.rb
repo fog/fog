@@ -51,6 +51,9 @@ module Fog
 
           # Validate cert and key
           begin
+            # must be an RSA private key
+            raise OpenSSL::PKey::RSAError unless private_key =~ /BEGIN RSA PRIVATE KEY/
+
             cert = OpenSSL::X509::Certificate.new(certificate)
             chain = OpenSSL::X509::Certificate.new(options['CertificateChain']) if options['CertificateChain']
             key = OpenSSL::PKey::RSA.new(private_key)
