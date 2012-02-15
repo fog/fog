@@ -9,6 +9,7 @@ module Fog
         identity  :public_ip, :aliases => 'publicIp'
 
         attribute :server_id, :aliases => 'instanceId'
+        attribute :domain
 
         def initialize(attributes = {})
           # assign server first to prevent race condition with new_record?
@@ -33,7 +34,7 @@ module Fog
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          data = connection.allocate_address.body
+          data = connection.allocate_address(domain).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           if @server
