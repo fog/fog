@@ -9,11 +9,12 @@ module Fog
             @resource_record = []
             @resource_record_set = {}
             @resource_record_set['ResourceRecords'] = []
+            @alias_target = {}
             @response = {}
             @response['ResourceRecordSets'] = []
             @section = :resource_record_set
           end
-          
+
           def end_element(name)
             if @section == :resource_record_set
               case name
@@ -21,6 +22,11 @@ module Fog
                 @resource_record_set[name] = value
               when 'Value'
                 @resource_record_set['ResourceRecords'] << value
+              when 'AliasTarget'
+                @resource_record_set[name] = @alias_target
+                @alias_target = {}
+              when 'HostedZoneId', 'DNSName'
+                @alias_target[name] = value
               when 'ResourceRecordSet'
                 @response['ResourceRecordSets'] << @resource_record_set
                 @resource_record_set = {}
@@ -29,12 +35,12 @@ module Fog
                 @section = :main
               end
             elsif @section == :main
-                case name
-                when 'MaxItems'
-                  @response[name]= value.to_i
-                when 'IsTruncated', 'NextRecordName', 'NextRecordType'
-                  @response[name]= value
-                end
+              case name
+              when 'MaxItems'
+                @response[name] = value.to_i
+              when 'IsTruncated', 'NextRecordName', 'NextRecordType'
+                @response[name] = value
+              end
             end
           end
 
