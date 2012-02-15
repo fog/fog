@@ -10,7 +10,7 @@ module Fog
       class Unauthorized < Fog::Compute::Cloudstack::Error; end
 
       requires :cloudstack_host
-      
+
       recognizes :cloudstack_api_key, :cloudstack_secret_access_key, :cloudstack_session_key, :cloudstack_session_id,
                  :cloudstack_port, :cloudstack_path, :cloudstack_scheme, :cloudstack_persistent
 
