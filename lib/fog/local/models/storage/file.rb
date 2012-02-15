@@ -50,7 +50,7 @@ module Fog
               break
             end
             pwd = Dir.pwd
-            if ::Dir.exists?(dir_path)
+            if ::File.exists?(dir_path) && ::File.directory?(dir_path)
               Dir.chdir(dir_path)
               if Dir.glob('*').empty?
                 Dir.rmdir(dir_path)
