@@ -13,9 +13,12 @@ module Fog
       
       recognizes :cloudstack_api_key, :cloudstack_secret_access_key, :cloudstack_session_key, :cloudstack_session_id,
                  :cloudstack_port, :cloudstack_path, :cloudstack_scheme, :cloudstack_persistent
-      
+
+      model_path 'fog/cloudstack/models/compute'
+      model       :server
+      collection  :servers
+
       request_path 'fog/cloudstack/requests/compute'
-      
       request :acquire_ip_address
       request :assign_to_load_balancer_rule
       request :attach_volume
@@ -135,7 +138,7 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'multi_json'          
+          require 'multi_json'
           @cloudstack_api_key         = options[:cloudstack_api_key]
           @cloudstack_secret_access_key = options[:cloudstack_secret_access_key]
           @cloudstack_session_id      = options[:cloudstack_session_id]
@@ -166,29 +169,45 @@ module Fog
 
           # Decode the login response
           response   = MultiJson.decode(response.body)
-          
+
           user = response['loginresponse']
           user.merge!('sessionid' => sessionid)
-          
+
           @cloudstack_session_id  = user['sessionid']
           @cloudstack_session_key = user['sessionkey']
-  
+
           user
         end
-        
+
         def request(params)
+          parser = params.delete(:parser)
+
           params.reject!{|k,v| v.nil?}
-          
-          params.merge!('response' => 'json')
-          
+
+          # params.merge!('response' => 'json')
+
           if has_session?
             params, headers = authorize_session(params)
           elsif has_keys?
             params, headers = authorize_api_keys(params)
           end
 
-          response = issue_request(params,headers)
-          response = MultiJson.decode(response.body) unless response.body.empty?
+          # response = issue_request(params, headers, parser)
+          # response = MultiJson.decode(response.body) unless response.body.empty?
+          # response
+
+          begin
+            response = @connection.request({
+              :query => params,
+              :headers => headers,
+              :method => 'GET',
+              :expects => 200,
+              :parser => parser
+            })
+          rescue Excon::Errors::HTTPStatusError => error
+            raise error
+          end
+
           response
         end
 
@@ -196,20 +215,20 @@ module Fog
         def has_session?
           @cloudstack_session_id && @cloudstack_session_key
         end
-        
+
         def has_keys?
           @cloudstack_api_key && @cloudstack_secret_access_key
         end
-        
+
         def authorize_session(params)
           # set the session id cookie for the request
           headers = {'Cookie' => "JSESSIONID=#{@cloudstack_session_id};"}
           # set the sesion key for the request, params are not signed using session auth
           params.merge!('sessionkey' => @cloudstack_session_key)
-          
+
           return params, headers
         end
-        
+
         def authorize_api_keys(params)
           headers = {}
           # merge the api key into the params
@@ -218,25 +237,26 @@ module Fog
           signature = Fog::Cloudstack.signed_params(@cloudstack_secret_access_key,params)
           # merge signature into request param
           params.merge!({'signature' => signature})
-          
+
           return params, headers
         end
-        
-        def issue_request(params={},headers={},method='GET',expects=200)
+
+        def issue_request(params={},headers={},parser=nil,method='GET',expects=200)
           begin
             response = @connection.request({
               :query => params,
               :headers => headers,
               :method => method,
-              :expects => expects  
+              :expects => expects,
+              :parser => parser
             })
-            
+
           rescue Excon::Errors::HTTPStatusError => error
             error_response = MultiJson.decode(error.response.body)
-            
+
             error_code = error_response.values.first['errorcode']
             error_text = error_response.values.first['errortext']
-            
+
             case error_code
             when 401
               raise Fog::Compute::Cloudstack::Unauthorized, error_text
@@ -246,7 +266,7 @@ module Fog
               raise Fog::Compute::Cloudstack::Error, error_text
             end
           end
-          
+
         end
       end
     end
