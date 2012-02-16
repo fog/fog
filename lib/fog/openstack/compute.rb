@@ -20,6 +20,9 @@ module Fog
       collection  :servers
       model       :meta
       collection  :metadata
+      model       :key_pair
+      collection  :key_pairs
+
 
       request_path 'fog/openstack/requests/compute'
       request :create_server
