@@ -23,6 +23,14 @@ module Fog
           super
         end
 
+        def destroy
+          requires :id
+
+          connection.destroy_virtual_machine({'id' => id})
+
+          true
+        end
+
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :image_id
