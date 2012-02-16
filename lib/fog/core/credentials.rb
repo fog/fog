@@ -1,3 +1,4 @@
+require 'pathname'
 require 'yaml'
 
 module Fog
@@ -16,14 +17,30 @@ module Fog
     @credential ||= ( ENV["FOG_CREDENTIAL"] && ENV["FOG_CREDENTIAL"].to_sym ) || :default
   end
 
+  # Finds the .fog configuration file.
+  #
   # @return [String] The path for configuration_file
+  def self.find_credentials
+    return File.expand_path(ENV['FOG_RC']) if ENV['FOG_RC']
+
+    Pathname.pwd.ascend do |dir|
+      path = dir.join('.fog')
+
+      return path if path.file?
+    end
+
+    if (ENV['HOME'] && File.directory?(ENV['HOME']))
+      return File.expand_path('~/.fog')
+    end
+  end
+
+  # @return [String] The current path for configuration_file
   def self.credentials_path
     @credential_path ||= begin
-      path = ENV["FOG_RC"] || (ENV['HOME'] && File.directory?(ENV['HOME']) && '~/.fog')
-      File.expand_path(path) if path
-    rescue
-      nil
-    end
+                           find_credentials
+                         rescue
+                           nil
+                         end
   end
 
   # @return [String] The new path for credentials file
