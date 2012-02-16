@@ -92,6 +92,10 @@ Shindo.tests('storage examples', 'storage') do
             @copy = @directory.files.get('fogstorageobject2')
           end
 
+          tests('@copy.body == @file.body').succeeds do
+            @copy.body == @file.body
+          end
+
           tests('@copy.destroy').succeeds do
             @copy.destroy
           end
