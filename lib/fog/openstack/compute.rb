@@ -64,6 +64,12 @@ module Fog
       request :get_address
       request :list_addresses
       request :release_address
+      
+      request :create_key_pair
+      request :delete_key_pair
+      request :list_key_pairs
+      
+
       class Mock
 
         def self.data
@@ -72,6 +78,7 @@ module Fog
               :last_modified => {
                 :images  => {},
                 :servers => {},
+                :key_pairs => {},
                 :addresses => {}
               },
               :images  => {
@@ -88,6 +95,7 @@ module Fog
                 }
               },
               :servers => {},
+              :key_pairs => {},
               :addresses => {}
             }
           end
