@@ -65,6 +65,13 @@ module Fog
       request :list_addresses
       request :release_address
       
+      request :create_security_group
+      request :create_security_group_rule
+      request :delete_security_group
+      request :delete_security_group_rule
+      request :list_security_groups
+      request :get_security_group
+      
       request :create_key_pair
       request :delete_key_pair
       request :list_key_pairs
@@ -79,6 +86,7 @@ module Fog
                 :images  => {},
                 :servers => {},
                 :key_pairs => {},
+                :security_groups => {},
                 :addresses => {}
               },
               :images  => {
@@ -96,6 +104,7 @@ module Fog
               },
               :servers => {},
               :key_pairs => {},
+              :security_groups => {},
               :addresses => {}
             }
           end
