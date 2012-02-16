@@ -15,6 +15,8 @@ module Fog
                  :cloudstack_port, :cloudstack_path, :cloudstack_scheme, :cloudstack_persistent
 
       model_path 'fog/cloudstack/models/compute'
+      model       :key_pair
+      collection  :key_pairs
       model       :server
       collection  :servers
 
