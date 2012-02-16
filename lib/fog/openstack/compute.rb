@@ -10,6 +10,8 @@ module Fog
       recognizes :openstack_auth_token, :openstack_management_url, :persistent, :openstack_compute_service_name, :openstack_tenant
 
       model_path 'fog/openstack/models/compute'
+      model       :address
+      collection  :addresses
       model       :flavor
       collection  :flavors
       model       :image
