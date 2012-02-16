@@ -22,6 +22,8 @@ module Fog
       collection  :metadata
       model       :key_pair
       collection  :key_pairs
+      model       :security_group
+      collection  :security_groups
 
 
       request_path 'fog/openstack/requests/compute'
