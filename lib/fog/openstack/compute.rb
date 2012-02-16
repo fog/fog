@@ -26,15 +26,14 @@ module Fog
       request :get_flavor_details
       request :get_image_details
       request :get_server_details
-      request :list_addresses
-      request :list_private_addresses
-      request :list_public_addresses
+      
       request :list_flavors
       request :list_flavors_detail
       request :list_images
       request :list_images_detail
       request :list_servers
       request :list_servers_detail
+      
 
       request :server_action
       request :change_password_server
@@ -55,6 +54,16 @@ module Fog
       request :update_meta
       request :delete_meta
 
+
+      request :list_all_addresses
+      request :list_private_addresses
+      request :list_public_addresses      
+      request :allocate_address
+      request :associate_address
+      request :disassociate_address
+      request :get_address
+      request :list_addresses
+      request :release_address
       class Mock
 
         def self.data
@@ -62,7 +71,8 @@ module Fog
             hash[key] = {
               :last_modified => {
                 :images  => {},
-                :servers => {}
+                :servers => {},
+                :addresses => {}
               },
               :images  => {
                 "1" => {
@@ -77,7 +87,8 @@ module Fog
                   'links'     => []
                 }
               },
-              :servers => {}
+              :servers => {},
+              :addresses => {}
             }
           end
         end
