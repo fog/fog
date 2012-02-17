@@ -98,16 +98,10 @@ module Fog
       })
       body=Fog::JSON.decode(response.body)
      
-      if svc = body['access']['serviceCatalog'].detect{|x| x['name'] == @compute_service_name}
-        mgmt_url = svc['endpoints'].detect{|x| x['publicURL']}['publicURL']
-        token = body['access']['token']['id']
-        return {
-          :token => token,
-          :server_management_url => mgmt_url
-        } 
-      else
-        raise "Unable to parse service catalog."
-      end
+      return {
+        :token => body['access']['token']['id'],
+        :access => body['access']
+      } 
  
     end
 

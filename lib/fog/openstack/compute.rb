@@ -206,8 +206,15 @@ module Fog
               credentials = Fog::OpenStack.authenticate_v1(options, @connection_options)
             end
             @auth_token = credentials[:token]
-            url = credentials[:server_management_url]
-            uri = URI.parse(url)
+            
+            if svc = credentials[:access]['serviceCatalog'].detect{|x| x['name'] == @openstack_compute_service_name}
+              mgmt_url = svc['endpoints'].detect{|x| x['publicURL']}['publicURL']
+
+              url = mgmt_url
+              uri = URI.parse(url)
+            else
+              raise "Unable to find Compute service in Catalog."
+            end
           else
             @auth_token = @openstack_auth_token
             uri = URI.parse(@openstack_management_url)
