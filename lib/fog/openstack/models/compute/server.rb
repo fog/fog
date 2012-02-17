@@ -23,13 +23,24 @@ module Fog
         attribute :availability_zone
         attribute :user_data_encoded
         attribute :state,       :aliases => 'status'
+        
+        attribute :tenant_id
+        attribute :user_id
+        attribute :key_name
+        
 
         attr_reader :password
         attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :image_ref, :flavor_ref
-
+        
+        
         def initialize(attributes={})
           @connection = attributes[:connection]
           attributes[:metadata] = {}
+          
+          self.security_groups = attributes.delete(:security_groups)
+          self.min_count = attributes.delete(:min_count)
+          self.max_count = attributes.delete(:max_count)
+          
           super
         end
 
@@ -66,7 +77,7 @@ module Fog
         def private_ip_address
           nil
         end
-
+        
         def private_key_path
           @private_key_path ||= Fog.credentials[:private_key_path]
           @private_key_path &&= File.expand_path(@private_key_path)
@@ -79,7 +90,7 @@ module Fog
         def public_ip_address
           addresses['public'].first
         end
-
+        
         def public_key_path
           @public_key_path ||= Fog.credentials[:public_key_path]
           @public_key_path &&= File.expand_path(@public_key_path)
@@ -138,7 +149,11 @@ module Fog
           connection.confirm_resize_server(id)
           true
         end
-
+        
+        def security_groups=(new_security_groups)
+          @security_groups = new_security_groups
+        end
+        
         def reboot(type = 'SOFT')
           requires :id
           connection.reboot_server(id, type)
@@ -150,6 +165,15 @@ module Fog
           connection.create_image(id, name, metadata)
         end
 
+        def min_count=(new_min_count)
+          @min_count = new_min_count
+        end
+
+        def max_count=(new_max_count)
+          @max_count = new_max_count
+        end
+
+        # TODO: Implement /os-volumes-boot support with 'block_device_mapping'
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :flavor_ref, :image_ref, :name
@@ -161,7 +185,11 @@ module Fog
             'accessIPv4' => accessIPv4,
             'accessIPv6' => accessIPv6,
             'availability_zone' => availability_zone,
-            'user_data' => user_data_encoded
+            'userdata' => user_data_encoded,
+            'key_name'    => key_name,
+            'security_groups' => @security_groups,
+            'min_count'   => @min_count,
+            'max_count'   => @max_count,
           }
           options = options.reject {|key, value| value.nil?}
           data = connection.create_server(name, image_ref, flavor_ref, options)
