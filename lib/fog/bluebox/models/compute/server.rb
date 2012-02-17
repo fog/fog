@@ -28,7 +28,7 @@ module Fog
         def initialize(attributes={})
           self.flavor_id    ||= '94fd37a7-2606-47f7-84d5-9000deda52ae' # Block 1GB Virtual Server
           self.image_id     ||= 'a8f05200-7638-47d1-8282-2474ef57c4c3' # Scientific Linux 6
-          self.location_id  ||= '02b87c73-02de-445d-9cae-98e914c70d84' # Seattle, WA
+          self.location_id  ||= '37c2bd9a-3e81-46c9-b6e2-db44a25cc675' # Seattle, WA
           super
         end
 
