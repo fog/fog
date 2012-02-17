@@ -8,23 +8,24 @@ Shindo.tests('Fog::Compute[:bluebox] | block requests', ['bluebox']) do
     'ips'             => [{'address' => String}],
     'lb_applications' => [],
     'memory'          => Integer,
-    'product'         => Bluebox::Compute::Formats::PRODUCT,
+    'product'         => {'cost' => String, 'description' => String, 'id' => String},
     'status'          => String,
     'storage'         => Integer,
-    'template'        => String
+    'location_id'     => String
   }
 
   tests('success') do
 
-    @product_id   = '94fd37a7-2606-47f7-84d5-9000deda52ae' # 1 GB
-    @template_id  = compute_providers[:bluebox][:server_attributes][:image_id]
-    @password     = 'chunkybacon'
+    @flavor_id    = compute_providers[:bluebox][:server_attributes][:flavor_id]
+    @image_id     = compute_providers[:bluebox][:server_attributes][:image_id]
+    @location_id  = compute_providers[:bluebox][:server_attributes][:location_id]
+    @password     = compute_providers[:bluebox][:server_attributes][:password]
 
     @block_id = nil
 
-    tests("create_block('#{@product_id}', '#{@template_id}', {'password' => '#{@password}'})").formats(@block_format.merge('add_to_lb_application_results' => {'text' => String})) do
+    tests("create_block('#{@flavor_id}', '#{@image_id}', '#{@location_id}', {'password' => '#{@password}'})").formats(@block_format.merge('add_to_lb_application_results' => {'text' => String})) do
       pending if Fog.mocking?
-      data = Fog::Compute[:bluebox].create_block(@product_id, @template_id, {'password' => @password}).body
+      data = Fog::Compute[:bluebox].create_block(@flavor_id, @image_id, @location_id, {'password' => @password}).body
       @block_id = data['id']
       data
     end
@@ -43,7 +44,7 @@ Shindo.tests('Fog::Compute[:bluebox] | block requests', ['bluebox']) do
       Fog::Compute[:bluebox].get_blocks.body
     end
 
-    tests("reboot_block('#{@block_id}')").formats({'status' => String, 'text' => String}) do
+    tests("reboot_block('#{@block_id}')").formats([{'status' => String}, {'text' => String}]) do
       pending if Fog.mocking?
       Fog::Compute[:bluebox].reboot_block(@block_id).body
     end

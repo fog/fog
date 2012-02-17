@@ -15,6 +15,7 @@ module Fog
         attribute :flavor_id,   :aliases => :product, :squash => 'id'
         attribute :hostname
         attribute :image_id
+        attribute :location_id
         attribute :ips
         attribute :memory
         attribute :state,       :aliases => "status"
@@ -25,8 +26,9 @@ module Fog
         attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username
 
         def initialize(attributes={})
-          self.flavor_id  ||= '94fd37a7-2606-47f7-84d5-9000deda52ae' # Block 1GB Virtual Server
-          self.image_id   ||= '03807e08-a13d-44e4-b011-ebec7ef2c928' # Ubuntu LTS 10.04 64bit
+          self.flavor_id    ||= '94fd37a7-2606-47f7-84d5-9000deda52ae' # Block 1GB Virtual Server
+          self.image_id     ||= 'a8f05200-7638-47d1-8282-2474ef57c4c3' # Scientific Linux 6
+          self.location_id  ||= '37c2bd9a-3e81-46c9-b6e2-db44a25cc675' # Seattle, WA
           super
         end
 
@@ -44,6 +46,11 @@ module Fog
         def image
           requires :image_id
           connection.images.get(image_id)
+        end
+        
+        def location
+          requires :location_id
+          connection.locations.get(location_id)
         end
 
         def private_ip_address
@@ -84,7 +91,7 @@ module Fog
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          requires :flavor_id, :image_id
+          requires :flavor_id, :image_id, :location_id
           options = {}
 
           if identity.nil?  # new record
@@ -100,10 +107,10 @@ module Fog
           elsif @lb_applications
             options['lb_applications'] = lb_applications
           end
-
+          
           options['username'] = username
           options['hostname'] = hostname if @hostname
-          data = connection.create_block(flavor_id, image_id, options)
+          data = connection.create_block(flavor_id, image_id, location_id, options)
           merge_attributes(data.body)
           true
         end
