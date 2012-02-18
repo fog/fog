@@ -52,7 +52,7 @@ module Fog
               response.status = 200
             end
           else
-            Fog::AWS::IAM::NotFound.new("The user with name #{user} cannot be found.")
+            raise Fog::AWS::IAM::NotFound.new("The user with name #{user} cannot be found.")
           end
         end
       end
