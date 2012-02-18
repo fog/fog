@@ -5,12 +5,12 @@ require 'multi_json'
 module Fog
   module Compute
     class Joyent < Fog::Service
-      requires :cloudapi_username
+      requires :joyent_username
 
-      recognizes :cloudapi_password
-      recognizes :cloudapi_url
-      recognizes :cloudapi_keyname
-      recognizes :cloudapi_keyfile
+      recognizes :joyent_password
+      recognizes :joyent_url
+      recognizes :joyent_keyname
+      recognizes :joyent_keyfile
 
       model_path 'fog/joyent/models/compute'
       request_path 'fog/joyent/requests/compute'
@@ -83,8 +83,8 @@ module Fog
         end
 
         def initialize(options = {})
-          @cloudapi_username = options[:cloudapi_username] || Fog.credentials[:cloudapi_username]
-          @cloudapi_password = options[:cloudapi_password] || Fog.credentials[:cloudapi_password]
+          @joyent_username = options[:joyent_username] || Fog.credentials[:joyent_username]
+          @joyent_password = options[:joyent_password] || Fog.credentials[:joyent_password]
         end
 
         def request(opts)
@@ -97,36 +97,36 @@ module Fog
           @connection_options = options[:connection_options] || {}
           @persistent = options[:persistent] || false
 
-          @cloudapi_url = options[:cloudapi_url] || 'https://us-sw-1.api.joyentcloud.com'
-          @cloudapi_version = options[:cloudapi_version] || '~6.5'
+          @joyent_url = options[:joyent_url] || 'https://us-sw-1.api.joyentcloud.com'
+          @joyent_version = options[:joyent_version] || '~6.5'
 
-          @cloudapi_username = options[:cloudapi_username]
+          @joyent_username = options[:joyent_username]
 
-          unless @cloudapi_username
-            raise ArgumentError, "options[:cloudapi_username] required"
+          unless @joyent_username
+            raise ArgumentError, "options[:joyent_username] required"
           end
 
-          if options[:cloudapi_keyname] && options[:cloudapi_keyfile]
-            if File.exists?(options[:cloudapi_keyfile])
-              @cloudapi_keyname = options[:cloudapi_keyname]
-              @cloudapi_key = File.read(options[:cloudapi_keyfile])
+          if options[:joyent_keyname] && options[:joyent_keyfile]
+            if File.exists?(options[:joyent_keyfile])
+              @joyent_keyname = options[:joyent_keyname]
+              @joyent_key = File.read(options[:joyent_keyfile])
 
-              @rsa = OpenSSL::PKey::RSA.new(@cloudapi_key)
+              @rsa = OpenSSL::PKey::RSA.new(@joyent_key)
 
               @header_method = method(:header_for_signature)
             else
-              raise ArgumentError, "options[:cloudapi_keyfile] provided does not exist."
+              raise ArgumentError, "options[:joyent_keyfile] provided does not exist."
             end
-          elsif options[:cloudapi_password]
-            @cloudapi_password = options[:cloudapi_password]
+          elsif options[:joyent_password]
+            @joyent_password = options[:joyent_password]
 
             @header_method = method(:header_for_basic)
           else
-            raise ArgumentError, "Must provide either a cloudapi_password or cloudapi_keyname and cloudapi_keyfile pair"
+            raise ArgumentError, "Must provide either a joyent_password or joyent_keyname and joyent_keyfile pair"
           end
 
           @connection = Fog::Connection.new(
-            @cloudapi_url,
+            @joyent_url,
             @persistent,
             @connection_options
           )
@@ -134,7 +134,7 @@ module Fog
 
         def request(request_options = {})
           (request_options[:headers] ||= {}).merge!({
-            "X-Api-Version" => @cloudapi_version,
+            "X-Api-Version" => @joyent_version,
             "Content-Type" => "application/json",
             "Accept" => "application/json"
           }).merge!(@header_method.call)
@@ -156,14 +156,14 @@ module Fog
 
         def header_for_basic
           {
-            "Authorization" => "Basic #{Base64.encode64("#{@cloudapi_username}:#{@cloudapi_password}").delete("\r\n")}"
+            "Authorization" => "Basic #{Base64.encode64("#{@joyent_username}:#{@joyent_password}").delete("\r\n")}"
           }
         end
 
         def header_for_signature
           date = Time.now.utc.httpdate
           signature = Base64.encode64(@rsa.sign("sha256", date)).delete("\r\n")
-          key_id = "/#{@cloudapi_username}/keys/#{@cloudapi_keyname}"
+          key_id = "/#{@joyent_username}/keys/#{@joyent_keyname}"
 
           {
             "Date" => date,
