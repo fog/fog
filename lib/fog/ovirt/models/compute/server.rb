@@ -39,6 +39,7 @@ module Fog
         end
 
         def start(options = {})
+          wait_for { stopped? } if options[:blocking]
           connection.vm_action(:id =>id, :action => :start)
           reload
         end
@@ -50,9 +51,7 @@ module Fog
 
         def reboot(options = {})
           stop unless stopped?
-          wait_for { stopped? }
-          connection.vm_action(:id =>id, :action => :start)
-          reload
+          start options.merge(:blocking => true)
         end
 
         def suspend(options = {})
