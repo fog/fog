@@ -38,7 +38,7 @@ module Fog
             #ignore nil values
             next if value.nil?
 
-            opts[key] = case value.class
+            opts[key] = case value
                         when OVIRT::Link
                           value.id
                         when Hash
