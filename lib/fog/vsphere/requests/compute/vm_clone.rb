@@ -38,7 +38,7 @@ module Fog
           template_dc = path_elements.shift
           # If the first path element contains "vm" this denotes the vmFolder
           # and needs to be shifted out
-          path_elements.shift if path_elements[0] = 'vm'
+          path_elements.shift if path_elements[0] == 'vm'
           # The template name.  The remaining elements are the folders in the
           # datacenter.
           template_name = path_elements.pop
