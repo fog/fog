@@ -1,5 +1,7 @@
 Shindo.tests("Fog::Compute[:joyent] | dataset requests", ["joyent"]) do
   @dataset_format = {
+    "description" => String,
+    "requirements" => {},
     "name" => String,
     "version" => String,
     "os" => String,
@@ -38,10 +40,6 @@ Shindo.tests("Fog::Compute[:joyent] | dataset requests", ["joyent"]) do
   tests("#list_datasets") do
     formats(@dataset_format) do
       Fog::Compute[:joyent].list_datasets.body.first
-    end
-
-    returns(Fog::Compute[:joyent].data[:datasets].length) do
-      Fog::Compute[:joyent].list_datasets.body.length
     end
   end
 end
