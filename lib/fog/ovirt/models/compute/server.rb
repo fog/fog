@@ -66,8 +66,11 @@ module Fog
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          self.id = connection.create_vm(attributes).id
+          if identity
+            connection.update_vm(attributes)
+          else
+            self.id = connection.create_vm(attributes).id
+          end
           reload
         end
 
