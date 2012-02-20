@@ -150,6 +150,16 @@ module Fog
           connection.create_image(id, name, metadata)
         end
 
+        def associate_ip(floating_ip)
+          requires :id
+          connection.associate_ip id, floating_ip
+        end
+
+        def deassociate_ip(floating_ip)
+          requires :id
+          connection.deassociate_ip id, floating_ip
+        end
+
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :flavor_ref, :image_ref, :name
