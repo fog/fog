@@ -9,7 +9,7 @@ Shindo.tests('Fog::Compute[:glesys] | ip requests', ['glesys']) do
       pending if Fog.mocking?
       Fog::Compute[:glesys].ip_list_own.body['response']
     end
-    
+
     tests("#ip_list_free(:datacenter => 'Falkenberg, :platform => 'Xen', :ipversion => 4)"
     ).formats(Glesys::Compute::Formats::Ips::IPLIST_ALL) do
       pending if Fog.mocking?
@@ -18,10 +18,10 @@ Shindo.tests('Fog::Compute[:glesys] | ip requests', ['glesys']) do
         :platform   => "Xen",
         :ipversion  => 4
       )
-      @free_ip = ips.body['response']['iplist'].first
+      @free_ip = ips.body['response']['iplist']['ipaddresses'].first
       ips.body['response']
     end
-    
+
     tests("#ip_take(:datacenter => 'Falkenberg', :platform => 'Xen', :ipversion => 4, :ipaddress => #{@free_ip})"
     ).formats(Glesys::Compute::Formats::Ips::IPLIST_CATCH_RELEASE) do
       pending if Fog.mocking?
