@@ -7,7 +7,7 @@ Shindo.tests("Fog::Compute[:joyent] | dataset requests", ["joyent"]) do
     "urn" => String,
     "default" => Fog::Boolean,
     "type" => String,
-    "created" => Time
+    "created" => String
   }
 
   if Fog.mock?
