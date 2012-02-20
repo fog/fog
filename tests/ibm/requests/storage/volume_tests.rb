@@ -31,7 +31,7 @@ Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
   tests('success') do
 
     @volume_id    = nil
-    @name         = "fog test volume"
+    @name         = "fog-test-volume" + Time.now.to_i.to_s(32)
     @format       = "raw"
     @location_id  = "101"
     @size         = "256"
@@ -59,7 +59,7 @@ Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
 
     tests("#attach_volume('#{@instance_id}','#{@volume_id}')") do
       @instance_id = Fog::Compute[:ibm].create_instance(
-        "fog test volume instance",
+        'fog-test-volume-instance-' + Time.now.to_i.to_s(32),
         @image_id,
         @instance_type,
         @location,

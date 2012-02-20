@@ -14,7 +14,7 @@ Shindo.tests('Fog::Compute[:ibm] | key requests', ['ibm']) do
 
   tests('success') do
 
-    @key_name  = "fog test key"
+    @key_name  = 'fog-test-key' + Time.now.to_i.to_s(32)
     @public_key = <<-EOF
     -----BEGIN RSA PUBLIC KEY-----
     MIGJAoGBAL2nePLzDy1Z2Y64/Dz5QMmJN4S9xc6D8TbiKVe5YHeuNt3fCSYDJl9x

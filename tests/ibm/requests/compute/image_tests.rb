@@ -49,7 +49,7 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
   }
 
   @instance_id    = nil
-  @name           = "fog test image instance"
+  @name           = "fog-test-image-instance-" + Time.now.to_i.to_s(32)
   @image_id       = "20015393"
   @instance_type  = "BRZ32.1/2048/60*175"
   @location       = "101"
@@ -85,7 +85,8 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
     end
 
     tests('#clone_image') do
-      data = Fog::Compute[:ibm].clone_image(@image_id, "fog test clone image", "").body
+      clone_name = 'fog-test-clone-image-' + Time.now.to_i.to_s(32)
+      data = Fog::Compute[:ibm].clone_image(@image_id, clone_name, "").body
       @cloned_id = data['ImageID']
       returns(String) { data['ImageID'].class }
     end

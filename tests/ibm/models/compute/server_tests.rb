@@ -5,7 +5,7 @@ Shindo.tests('Fog::Compute[:ibm] | server', ['ibm']) do
     @server         = nil
     @instance_id    = nil
 
-    @name           = "Fog Test Instance"
+    @name           = "fog-test-instance-" + Time.now.to_i.to_s(32)
     @image_id       = "20015393"
     @instance_type  = "BRZ32.1/2048/60*175"
     @location_id    = "101"

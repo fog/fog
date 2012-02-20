@@ -2,7 +2,7 @@ Shindo.tests('Fog::Compute[:ibm] | key', ['ibm']) do
 
   tests('success') do
 
-    @key_name = "fog test key"
+    @key_name = 'fog-test-key-' + Time.now.to_i.to_s(32)
     @key      = nil
 
     tests("Fog::Compute::IBM::Key.new('#{@key_name}')") do

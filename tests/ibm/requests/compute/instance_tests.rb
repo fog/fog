@@ -33,7 +33,7 @@ Shindo.tests('Fog::Compute[:ibm] | instance requests', ['ibm']) do
   tests('success') do
 
     @instance_id    = nil
-    @name           = "fog test instance"
+    @name           = "fog-test-instance-" + Time.now.to_i.to_s(32)
     @image_id       = "20018425"
     @instance_type  = "COP32.1/2048/60"
     @location       = "101"
