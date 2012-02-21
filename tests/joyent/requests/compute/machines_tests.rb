@@ -14,26 +14,30 @@ Shindo.tests("Fog::Compute[:joyent] | machine requests", ["joyent"]) do
     "updated" => Time
   }
 
-  @machines = Fog::Compute[:joyent].data[:machines] = {
-    "15080eca-3786-4bb8-a4d0-f43e1981cd72" => {
-      "id" => "15080eca-3786-4bb8-a4d0-f43e1981cd72",
-      "name" => "getting-started",
-      "type" => "smartmachine",
-      "state" => "running",
-      "dataset" => "sdc:sdc:smartos:1.3.15",
-      "memory" => 256,
-      "disk" => 5120,
-      "ips" => ["10.88.88.50"],
-      "metadata" => {},
-      "created" => Time.parse("2011-06-03T00:02:31+00:00"),
-      "updated" => Time.parse("2011-06-03T00:02:31+00:00")
+  if Fog.mock?
+    @machines = Fog::Compute[:joyent].data[:machines] = {
+      "15080eca-3786-4bb8-a4d0-f43e1981cd72" => {
+        "id" => "15080eca-3786-4bb8-a4d0-f43e1981cd72",
+        "name" => "getting-started",
+        "type" => "smartmachine",
+        "state" => "running",
+        "dataset" => "sdc:sdc:smartos:1.3.15",
+        "memory" => 256,
+        "disk" => 5120,
+        "ips" => ["10.88.88.50"],
+        "metadata" => {},
+        "created" => Time.parse("2011-06-03T00:02:31+00:00"),
+        "updated" => Time.parse("2011-06-03T00:02:31+00:00")
+      }
     }
-  }
+  end
 
   @provider = Fog::Compute[:joyent]
 
 
+  #
   # https://us-west-1.api.joyentcloud.com/docs#ListMachines
+  #
   tests("#list_machines") do
     if Fog.mock?
       returns(@machines.length, "correct number of machines") do
@@ -54,7 +58,7 @@ Shindo.tests("Fog::Compute[:joyent] | machine requests", ["joyent"]) do
   tests("#get_machine") do
     formats(@machine_format) do
       id = @provider.list_machines.body.first["id"]
-      @provider.get_machine(id)
+      @provider.get_machine(id).body
     end
   end
 end

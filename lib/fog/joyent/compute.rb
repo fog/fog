@@ -147,6 +147,7 @@ module Fog
 
           if response.headers["Content-Type"] == "application/json"
             response.body = MultiJson.decode(response.body)
+            response.body = decode_time_props(response.body)
           end
 
           response
@@ -171,6 +172,22 @@ module Fog
           }
         end
 
+        def decode_time_props(obj)
+          if obj.kind_of?(Hash)
+            if obj["created"]
+              obj["created"] = Time.parse(obj["created"])
+            end
+
+            if obj["updated"]
+              obj["updated"] = Time.parse(obj["updated"])
+            end
+          elsif obj.kind_of?(Array)
+            obj.map do |o|
+              decode_time_props(o)
+            end
+          end
+          obj
+        end
       end # Real
     end
   end

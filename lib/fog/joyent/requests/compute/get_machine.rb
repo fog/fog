@@ -8,6 +8,7 @@ module Fog
             res = Excon::Response.new
             res.status = 200
             res.body = machine
+            res
           else
             raise Excon::Errors::NotFound, "Not Found"
           end
@@ -18,7 +19,8 @@ module Fog
         def get_machine(uuid)
           request(
             :method => "GET",
-            :path => "/my/machines/#{uuid}"
+            :path => "/my/machines/#{uuid}",
+            :expects => 200
           )
         end
       end

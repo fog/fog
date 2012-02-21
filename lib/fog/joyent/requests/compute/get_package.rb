@@ -1,3 +1,5 @@
+require 'uri'
+
 module Fog
   module Compute
     class Joyent
@@ -17,9 +19,11 @@ module Fog
 
       class Real
         def get_package(name)
+          name = URI.escape(name)
           request(
             :method => "GET",
-            :path => "/my/packages/#{name}"
+            :path => "/my/packages/#{name}",
+            :expects => 200
           )
         end
 

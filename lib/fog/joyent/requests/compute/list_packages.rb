@@ -24,7 +24,8 @@ module Fog
         def list_packages
           request(
             :path => "/my/packages",
-            :method => "GET"
+            :method => "GET",
+            :expects => 200
           )
         end
       end # Real
