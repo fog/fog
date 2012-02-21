@@ -8,10 +8,12 @@ module Fog
         def create_key(params)
           name = params[:name]
           key = params[:key]
+
           record = {
             "name" => name,
             "key" => key,
-            "created" => Time.now.utc
+            "created" => Time.now.utc,
+            "updated" => Time.now.utc
           }
 
           self.data[:keys][name] = record
@@ -43,7 +45,7 @@ module Fog
           request(
             :method => "POST",
             :path => "/my/keys",
-            :body => { "name" => params[:name], "body" => params[:body] },
+            :body => { "name" => params[:name], "key" => params[:key] },
             :expects => 201
           )
         end

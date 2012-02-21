@@ -1,6 +1,4 @@
 Shindo.tests("Fog::Compute[:joyent] | package requests", ["joyent"]) do
-  @data = Fog::Compute[:joyent].data
-
   @package_format = {
     'name' => String,
     'vcpus' => Integer,
@@ -11,6 +9,8 @@ Shindo.tests("Fog::Compute[:joyent] | package requests", ["joyent"]) do
   }
 
   if Fog.mock?
+    @data = Fog::Compute[:joyent].data
+
     @data[:packages] = {
       "regular_128" => {
         "name" => "regular_128",
@@ -43,15 +43,23 @@ Shindo.tests("Fog::Compute[:joyent] | package requests", ["joyent"]) do
     formats([@package_format]) do
       Fog::Compute[:joyent].list_packages.body
     end
+  end
 
-    actual = @data[:packages].values.length
-    returns(actual, "has correct number of packages") do
-      Fog::Compute[:joyent].list_packages.body.length
+  if Fog.mock?
+    tests("#list_packages") do
+      actual = @data[:packages].values.length
+      returns(actual, "has correct number of packages") do
+        Fog::Compute[:joyent].list_packages.body.length
+      end
     end
   end
 
   tests("#get_package") do
-    pkgid = @data[:packages].keys.first
+    pkgid = if Fog.mock?
+      @data[:packages].keys.first
+    else
+      Fog::Compute[:joyent].list_packages.body.first["name"]
+    end
 
     formats(@package_format) do
       Fog::Compute[:joyent].get_package(pkgid).body
