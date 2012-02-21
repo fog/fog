@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Openstack
+    class OpenStack
       class Real
 
         def list_key_pairs

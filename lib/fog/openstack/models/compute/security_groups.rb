@@ -3,11 +3,11 @@ require 'fog/openstack/models/compute/security_group'
 
 module Fog
   module Compute
-    class Openstack
+    class OpenStack
 
       class SecurityGroups < Fog::Collection
 
-        model Fog::Compute::Openstack::SecurityGroup
+        model Fog::Compute::OpenStack::SecurityGroup
 
         def all
           load(connection.list_security_groups.body['security_groups'])
@@ -17,7 +17,7 @@ module Fog
           if security_group_id
             new(connection.get_security_group(security_group_id).body['security_group'])
           end
-        rescue Fog::Compute::Openstack::NotFound
+        rescue Fog::Compute::OpenStack::NotFound
           nil
         end
 

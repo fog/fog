@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Openstack
+    class OpenStack
       class Real
 
         def get_security_group(security_group_id)

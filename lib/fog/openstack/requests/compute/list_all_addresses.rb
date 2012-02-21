@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Openstack
+    class OpenStack
       class Real
 
         def list_all_addresses(server_id)
@@ -9,7 +9,7 @@ module Fog
             :method   => 'GET',
             :path     => "os-floating-ips.json"
           )
-          
+
         end
 
       end

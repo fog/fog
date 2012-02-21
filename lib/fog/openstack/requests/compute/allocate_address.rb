@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Openstack
+    class OpenStack
       class Real
 
         def allocate_address

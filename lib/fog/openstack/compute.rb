@@ -24,6 +24,8 @@ module Fog
       collection  :key_pairs
       model       :security_group
       collection  :security_groups
+      model       :tenant
+      collection  :tenants
 
 
       request_path 'fog/openstack/requests/compute'
@@ -33,14 +35,14 @@ module Fog
       request :get_flavor_details
       request :get_image_details
       request :get_server_details
-      
+
       request :list_flavors
       request :list_flavors_detail
       request :list_images
       request :list_images_detail
       request :list_servers
       request :list_servers_detail
-      
+
 
       request :server_action
       request :change_password_server
@@ -61,28 +63,29 @@ module Fog
       request :update_meta
       request :delete_meta
 
-
       request :list_all_addresses
       request :list_private_addresses
-      request :list_public_addresses      
+      request :list_public_addresses
       request :allocate_address
       request :associate_address
       request :disassociate_address
       request :get_address
       request :list_addresses
       request :release_address
-      
+
       request :create_security_group
       request :create_security_group_rule
       request :delete_security_group
       request :delete_security_group_rule
       request :list_security_groups
       request :get_security_group
-      
+
       request :create_key_pair
       request :delete_key_pair
       request :list_key_pairs
-      
+
+      request :list_tenants
+      request :set_tenant
 
       class Mock
 
@@ -138,18 +141,24 @@ module Fog
       class Real
 
         def initialize(options={})
-          @openstack_api_key = options[:openstack_api_key]
+          @openstack_api_key  = options[:openstack_api_key]
           @openstack_username = options[:openstack_username]
-          @openstack_tenant = options[:openstack_tenant]
-          @openstack_compute_service_name = options[:openstack_compute_service_name] || 'nova'
-          @openstack_auth_url = options[:openstack_auth_url]
+          @openstack_tenant   = options[:openstack_tenant]
+          @openstack_auth_uri   = URI.parse(options[:openstack_auth_url])
           @openstack_auth_token = options[:openstack_auth_token]
-          @openstack_management_url = options[:openstack_management_url]
-          @openstack_must_reauthenticate = false
+          @openstack_management_url       = options[:openstack_management_url]
+          @openstack_must_reauthenticate  = false
+          @openstack_compute_service_name = options[:openstack_compute_service_name] || 'nova'
+
           @connection_options = options[:connection_options] || {}
+
           authenticate
+
           @persistent = options[:persistent] || false
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
+          @identity_connection = Fog::Connection.new(
+            "#{@openstack_auth_uri.scheme}://#{@openstack_auth_uri.host}:#{@openstack_auth_uri.port}",
+            false, @connection_options)
         end
 
         def reload
@@ -164,7 +173,7 @@ module Fog
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
               :host     => @host,
-              :path     => "#{@path}/#{params[:path]}",
+              :path     => "#{@path}/#{@tenant_id}/#{params[:path]}",
               :query    => ('ignore_awful_caching' << Time.now.to_i.to_s)
             }))
           rescue Excon::Errors::Unauthorized => error
@@ -172,20 +181,22 @@ module Fog
               @openstack_must_reauthenticate = true
               authenticate
               retry
-            else # bad credentials
+            else # Bad Credentials
               raise error
             end
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
-            when Excon::Errors::NotFound
-              Fog::Compute::OpenStack::NotFound.slurp(error)
-            else
-              error
-            end
+              when Excon::Errors::NotFound
+                Fog::Compute::OpenStack::NotFound.slurp(error)
+              else
+                error
+              end
           end
+
           unless response.body.empty?
             response.body = Fog::JSON.decode(response.body)
           end
+
           response
         end
 
@@ -196,38 +207,31 @@ module Fog
             options = {
               :openstack_api_key  => @openstack_api_key,
               :openstack_username => @openstack_username,
-              :openstack_auth_url => @openstack_auth_url,
-              :openstack_tenant => @openstack_tenant,
+              :openstack_auth_uri => @openstack_auth_uri,
+              :openstack_tenant   => @openstack_tenant,
               :openstack_compute_service_name => @openstack_compute_service_name
             }
-            if @openstack_auth_url =~ /\/v2.0\//
+
+            if @openstack_auth_uri.path =~ /\/v2.0\//
               credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
             else
               credentials = Fog::OpenStack.authenticate_v1(options, @connection_options)
             end
-            @auth_token = credentials[:token]
-            
-            if svc = credentials[:access]['serviceCatalog'].detect{|x| x['name'] == @openstack_compute_service_name}
-              mgmt_url = svc['endpoints'].detect{|x| x['publicURL']}['publicURL']
 
-              url = mgmt_url
-              uri = URI.parse(url)
-            else
-              raise "Unable to find Compute service in Catalog."
-            end
+            @openstack_must_reauthenticate = false
+            @auth_token = credentials[:token]
+            @openstack_management_url = credentials[:server_management_url]
+            uri = URI.parse(@openstack_management_url)
           else
             @auth_token = @openstack_auth_token
             uri = URI.parse(@openstack_management_url)
           end
+
           @host   = uri.host
-          @path   = uri.path
-          @path.sub!(/\/$/, '')
-          unless @path.match(/1\.1/)
-            raise Fog::Compute::OpenStack::ServiceUnavailable.new(
-                    "OpenStack binding only supports version 1.1")
-          end
+          @path, @tenant_id = uri.path.scan(/(\/.*)\/(.*)/).flatten
           @port   = uri.port
           @scheme = uri.scheme
+          true
         end
 
       end

@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Openstack
+    class OpenStack
       class Real
 
         def create_key_pair(key_name, public_key = nil)

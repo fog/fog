@@ -45,9 +45,8 @@ module Fog
 
     # legacy v1.0 style auth
     def self.authenticate_v1(options, connection_options = {})
-      openstack_auth_url = options[:openstack_auth_url]
-      uri = URI.parse(openstack_auth_url)
-      connection = Fog::Connection.new(openstack_auth_url, false, connection_options)
+      uri = options[:openstack_auth_uri]
+      connection = Fog::Connection.new(uri.to_s, false, connection_options)
       @openstack_api_key  = options[:openstack_api_key]
       @openstack_username = options[:openstack_username]
       response = connection.request({
@@ -63,19 +62,18 @@ module Fog
 
       return {
         :token => response.headers['X-Auth-Token'],
-        :server_management_url => response.headers['X-Server-Management-Url'] 
-      } 
+        :server_management_url => response.headers['X-Server-Management-Url']
+      }
 
     end
 
-   # keystone style auth
-   def self.authenticate_v2(options, connection_options = {})
-      openstack_auth_url = options[:openstack_auth_url]
-      uri = URI.parse(openstack_auth_url)
-      connection = Fog::Connection.new(openstack_auth_url, false, connection_options)
+    # Keystone Style Auth
+    def self.authenticate_v2(options, connection_options = {})
+      uri = options[:openstack_auth_uri]
+      connection = Fog::Connection.new(uri.to_s, false, connection_options)
       @openstack_api_key  = options[:openstack_api_key]
       @openstack_username = options[:openstack_username]
-      @openstack_tenant = options[:openstack_tenant]
+      @openstack_tenant   = options[:openstack_tenant]
       @compute_service_name = options[:openstack_compute_service_name]
 
       req_body= {
@@ -88,21 +86,47 @@ module Fog
       }
       req_body['auth']['tenantName'] = @openstack_tenant if @openstack_tenant
 
+      body = retrieve_tokens_v2(connection, req_body, uri)
+      svc = body['access']['serviceCatalog'].detect{|x| x['name'] == @compute_service_name}
+
+      unless svc
+        unless @openstack_tenant
+          response = connection.request({
+            :expects => [200, 204],
+            :headers => {'Content-Type' => 'application/json',
+                         'X-Auth-Token' => body['access']['token']['id']},
+            :host    => uri.host,
+            :method  => 'GET',
+            :path    => '/v2.0/tenants'
+          })
+
+          body = MultiJson.decode(response.body)
+          req_body['auth']['tenantName'] = body['tenants'].first['name']
+        end
+
+        body = retrieve_tokens_v2(connection, req_body, uri)
+        svc = body['access']['serviceCatalog'].
+          detect {|x| x['endpoints'].detect{|y| y['publicURL'].match(/(1\.1|2\.0)/) } }
+      end
+
+      mgmt_url = svc['endpoints'].detect{|x| x['publicURL']}['publicURL']
+      token = body['access']['token']['id']
+
+      { :token => token,
+        :server_management_url => mgmt_url }
+    end
+
+    def self.retrieve_tokens_v2(connection, request_body, uri)
       response = connection.request({
         :expects  => [200, 204],
-        :headers => {'Content-Type' => 'application/json'},
+        :headers  => {'Content-Type' => 'application/json'},
         :body  => Fog::JSON.encode(req_body),
         :host     => uri.host,
         :method   => 'POST',
         :path     =>  (uri.path and not uri.path.empty?) ? uri.path : 'v2.0'
       })
-      body=Fog::JSON.decode(response.body)
-     
-      return {
-        :token => body['access']['token']['id'],
-        :access => body['access']
-      } 
- 
+
+      Fog::JSON.decode(response.body)
     end
 
   end

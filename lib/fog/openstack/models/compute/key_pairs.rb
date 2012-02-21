@@ -3,16 +3,16 @@ require 'fog/openstack/models/compute/key_pair'
 
 module Fog
   module Compute
-    class HP
+    class OpenStack
 
       class KeyPairs < Fog::Collection
 
-        model Fog::Compute::Openstack::KeyPair
+        model Fog::Compute::OpenStack::KeyPair
 
         def all
-          items = []
+          items = Array.new
           connection.list_key_pairs.body['keypairs'].each do |kp|
-            items = items + kp.map { |key, value| value }
+            items = items + kp.values
           end
           load(items)
         end
@@ -21,7 +21,7 @@ module Fog
           if key_pair_name
             self.all.select {|kp| kp.name == key_pair_name}.first
           end
-        rescue Fog::Compute::Openstack::NotFound
+        rescue Fog::Compute::OpenStack::NotFound
           nil
         end
 

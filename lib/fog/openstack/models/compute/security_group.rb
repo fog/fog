@@ -2,7 +2,7 @@ require 'fog/core/model'
 
 module Fog
   module Compute
-    class Openstack
+    class OpenStack
 
       class SecurityGroup < Fog::Model
 

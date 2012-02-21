@@ -14,7 +14,6 @@ module Fog
         end
 
         def get(address_id)
-          
           if address = connection.get_address(address_id).body['floating_ip']
             new(address)
           end

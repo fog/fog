@@ -1,10 +1,10 @@
 module Fog
   module Compute
-    class Openstack
+    class OpenStack
       class Real
 
         def get_address(address_id)
-          
+
           request(
             :expects  => [200],
             :method   => 'GET',
