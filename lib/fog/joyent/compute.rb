@@ -5,9 +5,12 @@ require 'multi_json'
 module Fog
   module Compute
     class Joyent < Fog::Service
-      requires   :joyent_password, :joyent_username
+      requires :joyent_username
 
-      recognizes :joyent_keyfile, :joyent_keyname, :joyent_url
+      recognizes :joyent_password
+      recognizes :joyent_url
+      recognizes :joyent_keyname
+      recognizes :joyent_keyfile
 
       model_path 'fog/joyent/models/compute'
       request_path 'fog/joyent/requests/compute'
