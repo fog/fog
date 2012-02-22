@@ -76,6 +76,7 @@ module Fog
       @openstack_username = options[:openstack_username]
       @openstack_tenant   = options[:openstack_tenant]
       @compute_service_name = options[:openstack_compute_service_name]
+      @endpoint_type      = options[:openstack_endpoint_type] || 'publicURL'
 
       req_body= {
         'auth' => {
@@ -111,7 +112,7 @@ module Fog
           detect{|x| @compute_service_name.include?(x['type']) }
       end
 
-      mgmt_url = svc['endpoints'].detect{|x| x['publicURL']}['publicURL']
+      mgmt_url = svc['endpoints'].detect{|x| x[@endpoint_type]}[@endpoint_type]
       token = body['access']['token']['id']
 
       { :token => token,

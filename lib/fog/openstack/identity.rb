@@ -10,20 +10,24 @@ module Fog
                  :openstack_compute_service_name, :openstack_tenant
 
       model_path 'fog/openstack/models/identity'
-      # model       :tenant
-      # collection  :tenants
-      # model       :user
-      # collection  :users
+      model       :tenant
+      collection  :tenants
+      model       :user
+      collection  :users
+      model       :role
+      collection  :roles
 
       request_path 'fog/openstack/requests/identity'
 
       request :check_token
       request :validate_token
 
-      request :get_tenants
+      request :list_tenants
+      request :get_tenant
       request :get_tenants_by_id
       request :get_tenants_by_name
 
+      request :list_users
       request :get_user_by_id
       request :get_user_by_name
 
@@ -32,9 +36,31 @@ module Fog
       request :list_user_global_roles
 
       class Mock
+        def self.data
+          @data ||= Hash.new do |hash, key|
+            hash[key] = {
+              :users => {},
+              :tenants => {}
+            }
+          end
+        end
 
+        def self.reset
+          @data = nil
+        end
 
+        def initialize(options={})
+          require 'multi_json'
+          @openstack_username = options[:openstack_username]
+        end
 
+        def data
+          self.class.data[@openstack_username]
+        end
+
+        def reset_data
+          self.class.data.delete(@openstack_username)
+        end
       end
 
       class Real
@@ -71,8 +97,9 @@ module Fog
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
               :host     => @host,
-              :path     => "#{@path}/#{params[:path]}",
-              :query    => ('ignore_awful_caching' << Time.now.to_i.to_s)
+              :path     => "#{@path}/#{params[:path]}"#,
+              # Causes errors for some requests like tenants?limit=1
+              # :query    => ('ignore_awful_caching' << Time.now.to_i.to_s)
             }))
           rescue Excon::Errors::Unauthorized => error
             if error.response.body != 'Bad username or password' # token expiration
@@ -105,7 +132,8 @@ module Fog
               :openstack_username => @openstack_username,
               :openstack_auth_uri => @openstack_auth_uri,
               :openstack_tenant   => @openstack_tenant,
-              :openstack_compute_service_name => @openstack_compute_service_name
+              :openstack_compute_service_name => @openstack_compute_service_name,
+              :openstack_endpoint_type => 'adminURL'
             }
 
             credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
