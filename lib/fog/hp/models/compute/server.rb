@@ -79,9 +79,17 @@ module Fog
         def public_ip_address
           # FIX: Both the private and public ips are bundled under "private" network name
           # So hack to get to the public ip address
-          #addr = addresses.nil? ? nil : addresses.fetch('public', []).first
-          addr = addresses.nil? ? nil : addresses.fetch('private', []).last
-          addr["addr"] if addr
+          if !addresses.nil?
+            addr = addresses.fetch('private', [])
+            # if we have more than 1 address, then the return the second address which is public
+            if addr.count > 1
+              addr[1]["addr"]
+            else
+              nil
+            end
+          else
+            nil
+          end
         end
 
         def public_key_path
