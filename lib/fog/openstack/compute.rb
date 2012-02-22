@@ -7,7 +7,8 @@ module Fog
     class OpenStack < Fog::Service
 
       requires :openstack_api_key, :openstack_username, :openstack_auth_url
-      recognizes :openstack_auth_token, :openstack_management_url, :persistent, :openstack_compute_service_name, :openstack_tenant
+      recognizes :openstack_auth_token, :openstack_management_url,
+                 :persistent, :openstack_compute_service_name, :openstack_tenant
 
       model_path 'fog/openstack/models/compute'
       model       :address
@@ -148,7 +149,7 @@ module Fog
           @openstack_auth_token = options[:openstack_auth_token]
           @openstack_management_url       = options[:openstack_management_url]
           @openstack_must_reauthenticate  = false
-          @openstack_compute_service_name = options[:openstack_compute_service_name] || 'nova'
+          @openstack_compute_service_name = options[:openstack_compute_service_name] || ['nova', 'compute']
 
           @connection_options = options[:connection_options] || {}
 

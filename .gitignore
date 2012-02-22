@@ -9,6 +9,7 @@
 bin/*
 !bin/fog
 !bin/rdoc
+.fog
 coverage
 doc/*
 docs/_site/*

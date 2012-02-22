@@ -1,10 +1,9 @@
 module Fog
   module Identity
-    class Openstack
+    class OpenStack
       class Real
 
         def get_tenants_by_id(tenant_id)
-          
           request(
             :expects  => [200],
             :method   => 'GET',

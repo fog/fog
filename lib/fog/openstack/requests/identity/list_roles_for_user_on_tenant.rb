@@ -1,10 +1,9 @@
 module Fog
   module Identity
-    class Openstack
+    class OpenStack
       class Real
 
         def list_roles_for_user_on_tenant(tenant_id, user_id)
-          
           request(
             :expects  => [200],
             :method   => 'GET',

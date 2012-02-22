@@ -41,7 +41,8 @@ module Fog
       end
     end
 
-    service(:compute,         'openstack/compute',        'Compute')
+    service(:compute , 'openstack/compute' , 'Compute' )
+    service(:identity, 'openstack/identity', 'Identity')
 
     # legacy v1.0 style auth
     def self.authenticate_v1(options, connection_options = {})
@@ -87,7 +88,8 @@ module Fog
       req_body['auth']['tenantName'] = @openstack_tenant if @openstack_tenant
 
       body = retrieve_tokens_v2(connection, req_body, uri)
-      svc = body['access']['serviceCatalog'].detect{|x| x['name'] == @compute_service_name}
+      svc = body['access']['serviceCatalog'].
+        detect{|x| @compute_service_name.include?(x['type']) }
 
       unless svc
         unless @openstack_tenant
@@ -106,7 +108,7 @@ module Fog
 
         body = retrieve_tokens_v2(connection, req_body, uri)
         svc = body['access']['serviceCatalog'].
-          detect {|x| x['endpoints'].detect{|y| y['publicURL'].match(/(1\.1|2\.0)/) } }
+          detect{|x| @compute_service_name.include?(x['type']) }
       end
 
       mgmt_url = svc['endpoints'].detect{|x| x['publicURL']}['publicURL']
