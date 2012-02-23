@@ -1,4 +1,4 @@
-Shindo.tests("Fog::Compute::Joyent | key requests", ['joyent']) do
+Shindo.tests("Fog::Compute[:joyent] | key requests", ['joyent']) do
 
   @key_format = {
     "name" => String,
