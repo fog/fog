@@ -56,9 +56,12 @@ Shindo.tests("Fog::Compute[:joyent] | machine requests", ["joyent"]) do
 
   # https://us-west-1.api.joyentcloud.com/docs#GetMachine
   tests("#get_machine") do
-    formats(@machine_format) do
-      id = @provider.list_machines.body.first["id"]
-      @provider.get_machine(id).body
+    machines = @provider.list_machines.body
+    unless machines.empty?
+      formats(@machine_format) do
+        id = machines.first["id"]
+        @provider.get_machine(id).body
+      end
     end
   end
 end
