@@ -46,6 +46,7 @@ module Fog
         attribute :software
         attribute :state, :aliases => 'status'
         attribute :volume_ids, :aliases => 'volumes'
+        attribute :vlan_id, :aliases => 'vlanID'
 
         def initialize(new_attributes={})
           super(new_attributes)
@@ -58,7 +59,10 @@ module Fog
 
         def save
           requires :name, :image_id, :instance_type, :location_id
-          data = connection.create_instance(name, image_id, instance_type, location_id, :key_name => key_name)
+          data = connection.create_instance(name, image_id, instance_type, location_id,
+                                            :key_name => key_name,
+                                            :vlan_id => vlan_id,
+                                            :secondary_ip => secondary_ip)
           data.body['instances'].each do |iattrs|
             if iattrs['name'] == name
               merge_attributes(iattrs)
