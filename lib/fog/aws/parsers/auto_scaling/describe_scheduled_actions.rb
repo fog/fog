@@ -16,14 +16,13 @@ module Fog
           end
 
           def end_element(name)
-            @activity = {}
             case name
             when 'member'
               @results['ScheduledUpdateGroupActions'] << @scheduled_update_group_action
               reset_scheduled_update_group_action
 
             when 'AutoScalingGroupName', 'ScheduledActionARN', 'ScheduledActionName', 'Recurrence'
-              @activity[name] = value
+              @scheduled_update_group_action[name] = value
             when 'DesiredCapacity', 'MaxSize', 'MinSize'
               @scheduled_update_group_action[name] = value.to_i
             when 'Time', 'StartTime', 'EndTime'
