@@ -14,6 +14,7 @@ require 'fog/terremark'
 
 require 'fog/compute'
 require 'fog/identity'
+require 'fog/image'
 require 'fog/cdn'
 require 'fog/dns'
 require 'fog/storage'
