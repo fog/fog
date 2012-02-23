@@ -1,3 +1,9 @@
+0.0.14 02/23/2012
+=================
+ - minor fix for public ip address
+ - minor fix for exceptions raised by CDN service
+ - add keypair get/set methods to server model
+
 0.0.13 02/09/2012
 =================
  - provide access to availability zones for compute
