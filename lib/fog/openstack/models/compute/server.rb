@@ -165,6 +165,21 @@ module Fog
           connection.create_image(id, name, metadata)
         end
 
+        def console(log_length = nil)
+          requires :id
+          connection.get_console_output(id, log_length)
+        end
+
+        def migrate
+          requires :id
+          connection.migrate_server(id)
+        end
+
+        def live_migrate(host, block_migration, disk_over_commit)
+          requires :id
+          connection.live_migrate_server(id, host, block_migration, disk_over_commit)
+        end   
+
         def min_count=(new_min_count)
           @min_count = new_min_count
         end
