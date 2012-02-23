@@ -9,7 +9,7 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>
         # TODO: docs
-        def create_address(location, offering_id, vlan_id=nil)
+        def create_address(location, offering_id, options={})
           request(
             :method   => 'POST',
             :expects  => 200,
@@ -17,7 +17,7 @@ module Fog
             :body     => {
               'offeringID' => offering_id,
               'location'   => location,
-              'vlanID'     => vlan_id
+              'vlanID'     => options[:vlan_id]
             }
           )
         end

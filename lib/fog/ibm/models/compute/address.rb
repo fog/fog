@@ -26,7 +26,9 @@ module Fog
 
         def save
           requires :offering_id, :location
-          data = connection.create_address(location, offering_id)
+          data = connection.create_address(location, offering_id,
+                                           :vlan_id => vlan_id,
+                                           :ip => ip)
           merge_attributes(data.body)
           true
         end

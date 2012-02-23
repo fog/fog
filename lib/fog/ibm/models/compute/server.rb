@@ -39,7 +39,7 @@ module Fog
 
         def save
           requires :name, :image_id, :instance_type, :location_id
-          data = connection.create_instance(name, image_id, instance_type, location_id, key_name)
+          data = connection.create_instance(name, image_id, instance_type, location_id, :key_name => key_name)
           data.body['instances'].each do |iattrs|
             if iattrs['name'] == name
               merge_attributes(iattrs)
