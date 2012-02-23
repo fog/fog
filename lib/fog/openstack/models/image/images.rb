@@ -25,6 +25,7 @@ module Fog
           image = self.find_by_id(id)
           image.destroy
         end
+
       end
     end
   end

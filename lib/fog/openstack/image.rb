@@ -27,6 +27,7 @@ module Fog
       request :add_member_to_image
       request :remove_member_from_image
       request :delete_image
+      request :get_image_by_id
 
 
       class Mock
