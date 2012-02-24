@@ -27,6 +27,8 @@ module Fog
       collection  :security_groups
       model       :tenant
       collection  :tenants
+      model       :volume
+      collection  :volumes
 
 
       request_path 'fog/openstack/requests/compute'
@@ -87,6 +89,11 @@ module Fog
 
       request :list_tenants
       request :set_tenant
+
+      request :list_volumes
+      request :get_volume_details
+      request :create_volume
+      request :delete_volume
 
       class Mock
 
