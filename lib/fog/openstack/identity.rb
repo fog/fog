@@ -38,6 +38,15 @@ module Fog
       request :list_roles_for_user_on_tenant
       request :list_user_global_roles
 
+      request :create_role
+      request :delete_role
+      request :delete_user_role
+      request :create_user_role
+      request :get_role
+      request :list_roles
+
+
+
       class Mock
         def self.data
           @data ||= Hash.new do |hash, key|
