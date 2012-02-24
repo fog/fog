@@ -3,12 +3,13 @@ module Fog
     class OpenStack
       class Real
 
-        def release_address(address_id)
+        def list_address_pools
           request(
-            :expects => [200, 202],
-            :method => 'DELETE',
-            :path   => "os-floating-ips/#{address_id}"
+            :expects  => [200, 203],
+            :method   => 'GET',
+            :path     => "os-floating-ip-pools"
           )
+
         end
 
       end

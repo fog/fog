@@ -4,15 +4,8 @@ module Fog
       class Real
 
         def associate_address(server_id, ip_address)
-          body = { 'addFloatingIp' => { 'server' => server_id, 'address' => ip_address }}
-
-          request(
-            :body     => MultiJson.encode(body),
-            :expects  => 202,
-            :method   => 'POST',
-            :path     => "servers/#{server_id}/action.json"
-          )
-
+          body = { "addFloatingIp" => {"address" => ip_address}}
+          server_action(server_id, body)
         end
 
       end

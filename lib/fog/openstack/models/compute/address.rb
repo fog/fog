@@ -9,6 +9,7 @@ module Fog
         identity  :id
 
         attribute :ip
+        attribute :pool
         attribute :fixed_ip
         attribute :instance_id
 
@@ -20,7 +21,6 @@ module Fog
 
         def destroy
           requires :id
-
           connection.release_address(id)
           true
         end

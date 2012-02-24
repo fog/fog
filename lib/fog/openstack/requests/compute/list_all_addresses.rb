@@ -5,7 +5,7 @@ module Fog
 
         def list_all_addresses(server_id)
           request(
-            :expects  => 200,
+            :expects  => [200, 203],
             :method   => 'GET',
             :path     => "os-floating-ips.json"
           )

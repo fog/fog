@@ -180,6 +180,16 @@ module Fog
           connection.live_migrate_server(id, host, block_migration, disk_over_commit)
         end   
 
+        def associate_address(floating_ip)
+          requires :id
+          connection.associate_address id, floating_ip
+        end
+
+        def disassociate_address(floating_ip)
+          requires :id
+          connection.disassociate_address id, floating_ip
+        end
+
         def min_count=(new_min_count)
           @min_count = new_min_count
         end

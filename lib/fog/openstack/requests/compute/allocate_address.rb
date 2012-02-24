@@ -3,11 +3,11 @@ module Fog
     class OpenStack
       class Real
 
-        def allocate_address
+        def allocate_address(pool = nil)
 
           request(
-            :body     => nil,
-            :expects  => 200,
+            :body     => MultiJson.encode({'pool' => pool}),
+            :expects  => [200, 202],
             :method   => 'POST',
             :path     => 'os-floating-ips.json'
           )
