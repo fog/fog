@@ -26,6 +26,9 @@ module Fog
       request :stop_server
       request :reboot_server
       request :rebuild_server
+      request :add_ip_address
+      request :delete_ip_address
+      request :move_ip_address
       # request :list_addresses
       # request :list_private_addresses
       # request :list_public_addresses

@@ -9,6 +9,7 @@ module Fog
 
       requires :libvirt_uri
       recognizes :libvirt_username, :libvirt_password
+      recognizes :libvirt_ip_command
 
       model_path 'fog/libvirt/models/compute'
       model       :server
@@ -61,7 +62,7 @@ module Fog
             end
 
           rescue ::Libvirt::ConnectionError
-            raise Fog::Errors::Error.new("Error making a connection to libvirt URI #{@uri.uri}:\n#{$!}")
+            raise Fog::Errors::Error.new("Error making a connection to libvirt URI #{uri.uri}:\n#{$!}")
           end
 
         end
@@ -85,10 +86,12 @@ module Fog
               end
             end
           end
-          newuri=uri+append
-          return newuri
+          uri+append
         end
 
+        def respond_to?(method, *)
+          super or @connection.respond_to? method
+        end
 
         # hack to provide 'requests'
         def method_missing(method_sym, *arguments, &block)

@@ -72,11 +72,11 @@ def tests(mocked)
   start = Time.now.to_i
   threads = []
   Thread.main[:results] = []
-  Fog.providers.each do |provider|
+  Fog.providers.each do |key, value|
     threads << Thread.new do
       Thread.main[:results] << {
-        :provider => provider,
-        :success  => sh("export FOG_MOCK=#{mocked} && bundle exec shindont +#{provider.downcase}")
+        :provider => value,
+        :success  => sh("export FOG_MOCK=#{mocked} && bundle exec shindont +#{key}")
       }
     end
   end
@@ -119,14 +119,6 @@ task :nuke do
     rescue
     end
   end
-end
-
-desc "Generate RCov test coverage and open in your browser"
-task :coverage do
-  require 'rcov'
-  sh "rm -fr coverage"
-  sh "rcov test/test_*.rb"
-  sh "open coverage/index.html"
 end
 
 require 'rdoc/task'
@@ -252,6 +244,7 @@ task :changelog do
         'Michael Zeng',
         'nightshade427',
         'Patrick Debois',
+        'Stepan G. Fedorov',
         'Wesley Beary'
       ].include?(committer)
       next

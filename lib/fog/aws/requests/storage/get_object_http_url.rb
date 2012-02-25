@@ -4,18 +4,24 @@ module Fog
 
       module GetObjectHttpUrl
 
-        def get_object_http_url(bucket_name, object_name, expires)
+        def get_object_http_url(bucket_name, object_name, expires, options = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
           unless object_name
             raise ArgumentError.new('object_name is required')
           end
+          host, path = if bucket_name =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
+            ["#{bucket_name}.s3.amazonaws.com", object_name]
+          else
+            ['s3.amazonaws.com', "#{bucket_name}/#{object_name}"]
+          end
           http_url({
             :headers  => {},
-            :host     => @host,
+            :host     => host,
             :method   => 'GET',
-            :path     => "#{bucket_name}/#{object_name}"
+            :path     => path,
+            :query    => options[:query]
           }, expires)
         end
 

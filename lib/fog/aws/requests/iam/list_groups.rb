@@ -37,6 +37,24 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def list_groups(options = {} )
+          #FIXME: Doesn't observe options
+          Excon::Response.new.tap do |response|
+            response.status = 200
+            response.body = { 'Groups' => data[:groups].map do |name, group|
+                                            { 'GroupId'   => group[:group_id],
+                                              'GroupName' => name,
+                                              'Path'      => group[:path],
+                                              'Arn'       => group[:arn] }
+                                          end,
+                              'IsTruncated' => false,
+                              'RequestId' => Fog::AWS::Mock.request_id }
+          end
+        end
+      end
     end
   end
 end

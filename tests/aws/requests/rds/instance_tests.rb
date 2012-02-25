@@ -10,7 +10,7 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
   @db_final_snapshot_id = "fog-final-snapshot"
 
   tests('success') do
-    pending if Fog.mocking?
+#    
 
     tests("#create_db_instance").formats(AWS::RDS::Formats::CREATE_DB_INSTANCE) do
       result = Fog::AWS[:rds].create_db_instance(@db_instance_id, 'AllocatedStorage' => 5,
@@ -58,6 +58,8 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
 
     server.reload.wait_for { state == 'rebooting' }
     server.reload.wait_for { state == 'available'}
+
+    pending if Fog.mocking?
 
     tests("#create_db_snapshot").formats(AWS::RDS::Formats::CREATE_DB_SNAPSHOT) do
       body = Fog::AWS[:rds].create_db_snapshot(@db_instance_id, @db_snapshot_id).body

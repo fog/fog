@@ -32,9 +32,9 @@ module Fog
         def put_object(bucket_name, object_name, data, options = {})
           data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)
-          request({
-            :body       => data[:body],
-            :expects    => 200,
+          request({            :body       => data[:body],
+                      :expects    => 200,
+
             :headers    => headers,
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,
@@ -70,7 +70,8 @@ module Fog
               'Key'             => object_name,
               'Last-Modified'   => Fog::Time.now.to_date_header,
               'Content-Length'  => options['Content-Length'] || data[:headers]['Content-Length'],
-              'StorageClass'    => options['x-amz-storage-class'] || 'STANDARD'
+              'StorageClass'    => options['x-amz-storage-class'] || 'STANDARD',
+              'VersionId'       => bucket[:versioning] == 'Enabled' ? Fog::Mock.random_base64(32) : 'null'
             }
 
             for key, value in options
@@ -80,13 +81,28 @@ module Fog
               end
             end
 
-            bucket[:objects][object_name] = object
+            if bucket[:versioning]
+              bucket[:objects][object_name] ||= []
+
+              # When versioning is suspended, putting an object will create a new 'null' version if the latest version
+              # is a value other than 'null', otherwise it will replace the latest version.
+              if bucket[:versioning] == 'Suspended' && bucket[:objects][object_name].first['VersionId'] == 'null'
+                bucket[:objects][object_name].shift
+              end
+
+              bucket[:objects][object_name].unshift(object)
+            else
+              bucket[:objects][object_name] = [object]
+            end
+
             response.headers = {
-              'Content-Length'  => object['Content-Length'],
-              'Content-Type'    => object['Content-Type'],
-              'ETag'            => object['ETag'],
-              'Last-Modified'   => object['Last-Modified']
+              'Content-Length'   => object['Content-Length'],
+              'Content-Type'     => object['Content-Type'],
+              'ETag'             => object['ETag'],
+              'Last-Modified'    => object['Last-Modified'],
             }
+
+            response.headers['x-amz-version-id'] = object['VersionId'] if object['VersionId'] != 'null'
           else
             response.status = 404
             raise(Excon::Errors.status_error({:expects => 200}, response))

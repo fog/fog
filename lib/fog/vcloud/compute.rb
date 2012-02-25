@@ -52,6 +52,20 @@ module Fog
         end
       end
 
+      def link_up
+        load_unless_loaded!
+        self.links.find{|l| l[:rel] == 'up' }
+      end
+
+      def self.has_up(item)
+        class_eval <<-EOS, __FILE__,__LINE__
+          def #{item}
+            load_unless_loaded!
+            connection.get_#{item}(link_up[:href])
+          end
+        EOS
+      end
+
     end
   end
 end
@@ -60,12 +74,16 @@ module Fog
   module Vcloud
     class Compute < Fog::Service
 
-      PATH   = '/api/v1.0'
+      BASE_PATH   = '/api'
+      DEFAULT_VERSION = '1.5'
+      SUPPORTED_VERSIONS = [ '1.5', '1.0' ]
       PORT   = 443
       SCHEME = 'https'
 
+      attr_writer :default_organization_uri
+
       requires   :vcloud_username, :vcloud_password, :vcloud_host
-      recognizes :vcloud_port, :vcloud_scheme, :vcloud_path, :vcloud_default_vdc
+      recognizes :vcloud_port, :vcloud_scheme, :vcloud_path, :vcloud_default_vdc, :vcloud_version, :vcloud_base_path
       recognizes :provider # remove post deprecation
 
       model_path 'fog/vcloud/models/compute'
@@ -81,8 +99,12 @@ module Fog
       collection :servers
       model :task
       collection :tasks
+      model :vapp
+      collection :vapps
       model :vdc
       collection :vdcs
+      model :organization
+      collection :organizations
 
       request_path 'fog/vcloud/requests/compute'
       request :clone_vapp
@@ -93,21 +115,15 @@ module Fog
       request :configure_vm_name_description
       request :configure_vm_disks
       request :delete_vapp
-      request :get_catalog
       request :get_catalog_item
       request :get_customization_options
-      request :get_network
       request :get_network_ip
       request :get_network_ips
       request :get_network_extensions
-      request :get_organization
-      request :get_task
       request :get_task_list
-      request :get_vapp
       request :get_vapp_template
       request :get_vm_disks
       request :get_vm_memory
-      request :get_vdc
       request :instantiate_vapp_template
       request :login
       request :power_off
@@ -131,13 +147,16 @@ module Fog
           def basic_request(*args)
             self.class_eval <<-EOS, __FILE__,__LINE__
               def #{args[0]}(uri)
-                request({
-                  :expects => #{args[1] || 200},
-                  :method  => '#{args[2] || 'GET'}',
-                  :headers => #{args[3] ? args[3].inspect : '{}'},
-                  :body => '#{args[4] ? args[4] : ''}',
-                  :parse => true,
-                  :uri     => uri })
+                request(
+                  {
+                    :expects => #{args[1] || 200},
+                    :method  => '#{args[2] || 'GET'}',
+                    :headers => #{args[3] ? args[3].inspect : '{}'},
+                    :body => '#{args[4] ? args[4] : ''}',
+                    :parse => true,
+                    :uri     => uri
+                  }
+                )
               end
             EOS
           end
@@ -154,8 +173,9 @@ module Fog
               end
             EOS
           end
-
         end
+
+        attr_reader :version
 
         def initialize(options = {})
           require 'builder'
@@ -165,13 +185,15 @@ module Fog
           @connection_options = options[:connection_options] || {}
           @persistent = options[:persistent]
 
-          @username = options[:vcloud_username]
-          @password = options[:vcloud_password]
-          @host     = options[:vcloud_host]
-          @vdc_href     = options[:vcloud_default_vdc]
-          @path     = options[:vcloud_path]   || Fog::Vcloud::Compute::PATH
-          @port     = options[:vcloud_port]   || Fog::Vcloud::Compute::PORT
-          @scheme   = options[:vcloud_scheme] || Fog::Vcloud::Compute::SCHEME
+          @username  = options[:vcloud_username]
+          @password  = options[:vcloud_password]
+          @host      = options[:vcloud_host]
+          @vdc_href  = options[:vcloud_default_vdc]
+          @base_path = options[:vcloud_base_path]   || Fog::Vcloud::Compute::BASE_PATH
+          @version   = options[:vcloud_version]     || Fog::Vcloud::Compute::DEFAULT_VERSION
+          @path      = options[:vcloud_path]        || "#{@base_path}/v#{@version}"
+          @port      = options[:vcloud_port]        || Fog::Vcloud::Compute::PORT
+          @scheme    = options[:vcloud_scheme]      || Fog::Vcloud::Compute::SCHEME
         end
 
         def reload
@@ -214,10 +236,17 @@ module Fog
         end
 
         def xmlns
-          { "xmlns" => "http://www.vmware.com/vcloud/v1",
-            "xmlns:ovf" => "http://schemas.dmtf.org/ovf/envelope/1",
-            "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
-            "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema" }
+          if version == '1.0'
+            { "xmlns" => "http://www.vmware.com/vcloud/v1",
+              "xmlns:ovf" => "http://schemas.dmtf.org/ovf/envelope/1",
+              "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
+              "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema" }
+          else
+            { 'xmlns' => "http://www.vmware.com/vcloud/v1.5",
+              "xmlns:ovf" => "http://schemas.dmtf.org/ovf/envelope/1",
+              "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
+              "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema" }
+          end
         end
 
         # If the cookie isn't set, do a get_organizations call to set it
@@ -235,8 +264,23 @@ module Fog
           end
         end
 
-        private
 
+        def basic_request_params(uri,*args)
+          {
+            :expects => args[0] || 200,
+            :method  => args[1] || 'GET',
+            :headers => args[2] ? args[2].inspect : {},
+            :body => args[3] ? args[3] : '',
+            :parse => true,
+            :uri     => uri
+          }
+        end
+
+        def base_path_url
+          "#{@scheme}://#{@host}:#{@port}#{@base_path}"
+        end
+
+        private
         def ensure_parsed(uri)
           if uri.is_a?(String)
             URI.parse(uri)
@@ -273,6 +317,7 @@ module Fog
 
           # Set headers to an empty hash if none are set.
           headers = params[:headers] || {}
+          headers['Accept'] = 'application/*+xml;version=1.5' if version == '1.5'
 
           # Add our auth cookie to the headers
           if @cookie
@@ -289,14 +334,12 @@ module Fog
           })
 
           # Parse the response body into a hash
-          #puts response.body
           unless response.body.empty?
             if params[:parse]
               document = Fog::ToHashDocument.new
               parser = Nokogiri::XML::SAX::PushParser.new(document)
               parser << response.body
               parser.finish
-
               response.body = document.body
             end
           end
@@ -305,7 +348,25 @@ module Fog
         end
 
       end
+      def self.item_requests(*types)
+        types.each{|t| item_request(t) }
+      end
+      def self.item_request(type)
+        Fog::Vcloud::Compute::Real.class_eval <<-EOS, __FILE__,__LINE__
+          def get_#{type}(uri)
+            Fog::Vcloud::Compute::#{type.to_s.capitalize}.new(
+              self.request(basic_request_params(uri)).body.merge(
+                :connection => self,
+                :collection => Fog::Vcloud::Compute::#{type.to_s.capitalize}s.new(
+                  :connection => self
+                )
+              )
+            )
+          end
+        EOS
+      end
 
+      item_requests :organization, :vdc, :network, :vapp, :server, :catalog, :task
     end
   end
 end

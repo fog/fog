@@ -13,13 +13,13 @@ class AWS
       ACTIVITY = {
         'ActivityId' => String,
         'AutoScalingGroupName' => String,
-        'Cause' => String,
+        'Cause' => Fog::Nullable::String,
         'Description' => String,
         'EndTime' => Time,
         'Progress' => Integer,
         'StartTime' => Time,
         'StatusCode' => String,
-        'StatusMessage' => String
+        'StatusMessage' => Fog::Nullable::String
       }
 
       ALARM = {

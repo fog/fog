@@ -34,6 +34,27 @@ module Fog
         end
 
       end
+
+      class Mock
+        def create_user(user_name, path='/')
+          if data[:users].has_key? user_name
+            raise Fog::AWS::IAM::EntityAlreadyExists.new "User with name #{user_name} already exists."
+          else
+            data[:users][user_name][:path] = path
+            Excon::Response.new.tap do |response|
+              response.status = 200
+              response.body = { 'User' => {
+                                           "UserId"   => data[:users][user_name][:user_id],
+                                           "Path"     => path,
+                                           "UserName" => user_name,
+                                           "Arn"      => data[:users][user_name][:arn]
+                                           },
+                                'RequestId' => Fog::AWS::Mock.request_id
+                               }
+            end
+          end
+        end
+      end
     end
   end
 end

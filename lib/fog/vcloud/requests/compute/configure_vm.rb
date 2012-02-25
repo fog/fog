@@ -138,7 +138,7 @@ module Fog
 
         def validate_vm_data(vm_data)
           valid_opts = [:name, :cpus, :memory, :disks]
-          unless valid_opts.all? { |opt| vm_data.keys.include?(opt) }
+          unless valid_opts.all? { |opt| vm_data.has_key?(opt) }
             raise ArgumentError.new("Required vm data missing: #{(valid_opts - vm_data.keys).map(&:inspect).join(", ")}")
           end
         end

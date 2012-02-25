@@ -18,12 +18,12 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         # TODO
-        def create_block(product_id, template_id, options = {})
+        def create_block(product_id, template_id, location_id, options = {})
           request(
             :expects  => 200,
             :method   => 'POST',
             :path     => '/api/blocks.json',
-            :query    => {'product' => product_id, 'template' => template_id}.merge!(options)
+            :query    => {'product' => product_id, 'template' => template_id, 'location' => location_id}.merge!(options)
           )
         end
 

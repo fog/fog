@@ -57,6 +57,7 @@ module Fog
       request :describe_images
       request :describe_instances
       request :describe_reserved_instances
+      request :describe_instance_status
       request :describe_key_pairs
       request :describe_placement_groups
       request :describe_regions
@@ -170,7 +171,7 @@ module Fog
 
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
+          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
         end
@@ -247,8 +248,8 @@ module Fog
         #
         # ==== Parameters
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
-        #   * region<~String> - optional region to use, in
-        #     ['eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'ap-northeast-1', 'ap-southeast-1']
+        #   * region<~String> - optional region to use. For instance,
+        #     'eu-west-1', 'us-east-1', and etc.
         #   * aws_session_token<~String> - when using Session Tokens or Federated Users, a session_token must be presented
         #
         # ==== Returns
@@ -270,22 +271,7 @@ module Fog
             @port = endpoint.port
             @scheme = endpoint.scheme
           else
-            @host = options[:host] || case options[:region]
-            when 'ap-northeast-1'
-              'ec2.ap-northeast-1.amazonaws.com'
-            when 'ap-southeast-1'
-              'ec2.ap-southeast-1.amazonaws.com'
-            when 'eu-west-1'
-              'ec2.eu-west-1.amazonaws.com'
-            when 'us-east-1'
-              'ec2.us-east-1.amazonaws.com'
-            when 'us-west-1'
-              'ec2.us-west-1.amazonaws.com'
-            when 'us-west-2'
-              'ec2.us-west-2.amazonaws.com'
-            else
-              raise ArgumentError, "Unknown region: #{options[:region].inspect}"
-            end
+            @host = options[:host] || "ec2.#{options[:region]}.amazonaws.com"
             @path       = options[:path]        || '/'
             @persistent = options[:persistent]  || false
             @port       = options[:port]        || 443
@@ -313,7 +299,7 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2011-05-15'
+              :version            => '2011-12-15'
             }
           )
 

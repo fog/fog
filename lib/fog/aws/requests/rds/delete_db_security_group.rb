@@ -25,7 +25,17 @@ module Fog
       class Mock
 
         def delete_db_security_group(name, description = name)
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          
+          if self.data[:security_groups].delete(name)
+            response.status = 200
+            response.body = {
+              "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
+            }
+            response
+          else
+            raise Fog::AWS::RDS::NotFound.new("DBSecurityGroupNotFound => #{name} not found")
+          end
         end
 
       end

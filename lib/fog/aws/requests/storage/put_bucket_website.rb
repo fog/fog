@@ -44,6 +44,23 @@ DATA
         end
 
       end
+
+      class Mock # :nodoc:all
+
+        def put_bucket_website(bucket_name, suffix, options = {})
+          response = Excon::Response.new
+          if self.data[:buckets][bucket_name]
+            response.status = 200
+          else
+            response.status = 404
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
+
+          response
+        end
+
+      end
+
     end
   end
 end

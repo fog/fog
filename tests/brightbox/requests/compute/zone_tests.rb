@@ -6,13 +6,13 @@ Shindo.tests('Fog::Compute[:brightbox] | zone requests', ['brightbox']) do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].list_zones
       @zone_id = result.first["id"]
-      formats(Brightbox::Compute::Formats::Collection::ZONES) { result }
+      formats(Brightbox::Compute::Formats::Collection::ZONES, false) { result }
     end
 
     tests("#get_zone('#{@zone_id}')") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].get_zone(@zone_id)
-      formats(Brightbox::Compute::Formats::Full::ZONE) { result }
+      formats(Brightbox::Compute::Formats::Full::ZONE, false) { result }
     end
 
   end

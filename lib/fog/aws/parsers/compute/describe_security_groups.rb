@@ -34,15 +34,15 @@ module Fog
               @ip_range[name] = value
             when 'fromPort', 'toPort'
               if @in_ip_permissions_egress
-                @ip_permission_egress[name] = value.to_i              
+                @ip_permission_egress[name] = value.to_i
               else
                 @ip_permission[name] = value.to_i
               end
             when 'groups'
               @in_groups = false
-            when 'groupDescription', 'ownerId'
+            when 'groupDescription', 'ownerId', 'vpcId'
               @security_group[name] = value
-            when 'groupName'
+            when 'groupId','groupName'
               if @in_groups
                 @group[name] = value
               else
@@ -63,7 +63,7 @@ module Fog
             when 'item'
               if @in_groups
                 if @in_ip_permissions_egress
-                  @ip_permission_egress['group'] << @group
+                  @ip_permission_egress['groups'] << @group
                 else
                   @ip_permission['groups'] << @group
                 end

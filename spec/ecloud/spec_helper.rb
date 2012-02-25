@@ -327,7 +327,7 @@ end
 Spec::Matchers.define :have_keys_with_values do |expected|
   match do |actual|
     actual.each_pair.all? do |key, value|
-      expected.keys.include?(key) && expected[key] == value
+      expected.has_key?(key) && expected[key] == value
     end
   end
 end

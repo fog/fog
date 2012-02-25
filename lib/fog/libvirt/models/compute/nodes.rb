@@ -28,8 +28,6 @@ module Fog
           end
           node_info[:uri]=connection.uri
           data << { :raw => node_info }
-          require 'pp'
-          pp node_info
           load(data)
         end
 

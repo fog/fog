@@ -68,7 +68,7 @@ module Fog
         # :dnsmadeeasy_secret_key in order to create a connection
         #
         # ==== Examples
-        #   dns = Fog::DNSMadeEasy::DNS.new(
+        #   dns = Fog::DNS::DNSMadeEasy.new(
         #     :dnsmadeeasy_api_key => your_dnsmadeeasy_api_key,
         #     :dnsmadeeasy_secret_key => your_dnsmadeeasy_secret_key
         #   )

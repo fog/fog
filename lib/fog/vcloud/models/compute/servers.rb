@@ -13,16 +13,13 @@ module Fog
         attribute :href, :aliases => :Href
 
         def all
-          check_href!(:parent => "Vdc")
-          load(_vapps)
+          check_href!("Vapp")
+          vapp.load_unless_loaded!
+          load(vapp.children||[])
         end
 
         def get(uri)
-          if data = connection.get_vapp(uri)
-            # If no tasks returned, set a mock entry to flush on reload
-            data.body[:Tasks] = {} unless data.body[:Tasks]
-            new(data.body)
-          end
+          connection.get_vapp(uri)
         rescue Fog::Errors::NotFound
           nil
         end
@@ -37,19 +34,16 @@ module Fog
 
         private
 
-        def _resource_entities
-          if Hash === resource_entities = connection.get_vdc(href).body[:ResourceEntities]
-            resource_entities[:ResourceEntity]
-          end
+        def vapp
+          @vapp ||= (attributes[:vapp] || init_vapp)
         end
 
-        def _vapps
-          resource_entities = _resource_entities
-          if resource_entities.nil?
-            []
-          else
-            resource_entities.select {|re| re[:type] == 'application/vnd.vmware.vcloud.vApp+xml' }
-          end
+        def init_vapp
+          Fog::Vcloud::Compute::Vapp.new(
+            :connection => connection,
+            :href => self.href,
+            :collection => Fog::Vcloud::Compute::Vapps.new(:connection => connection)
+          )
         end
 
       end

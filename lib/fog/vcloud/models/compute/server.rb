@@ -1,58 +1,57 @@
+require 'fog/vcloud/models/compute/helpers/status'
 module Fog
   module Vcloud
     class Compute
       class Server < Fog::Vcloud::Model
 
-        identity :href, :aliases => :Href
+        include Fog::Vcloud::Compute::Helpers::Status
 
+        identity :href, :aliases => :Href
+        attribute :links, :aliases => :Link, :type => :array
         ignore_attributes :xmlns, :xmlns_i, :xmlns_xsi, :xmlns_xsd
 
         attribute :type
         attribute :name
         attribute :status
-        attribute :network_connections, :aliases => :NetworkConnectionSection, :squash => :NetworkConnection
-        attribute :os, :aliases => :OperatingSystemSection
-        attribute :virtual_hardware, :aliases => :VirtualHardwareSection
+        attribute :deployed, :type => :boolean
         attribute :description, :aliases => :Description
-        attribute :storage_size, :aliases => :size
-        attribute :links, :aliases => :Link, :type => :array
+
+        attribute :vapp_scoped_local_id, :aliases => :VAppScopedLocalId
+
+        attribute :network_connections, :aliases => :NetworkConnectionSection, :squash => :NetworkConnection
+        attribute :virtual_hardware, :aliases => :'ovf:VirtualHardwareSection', :squash => :'ovf:Item'
+
+        attribute :guest_customization, :aliases => :GuestCustomizationSection
+        attribute :operating_system, :aliases => :'ovf:OperatingSystemSection'
+
         attribute :tasks, :aliases => :Tasks, :type => :array
 
-        attribute :vm_data, :aliases => :Children, :squash => :Vm
+        has_up :vapp
 
-        def ip_address
+        def computer_name
           load_unless_loaded!
-          vm[0][:NetworkConnectionSection][:NetworkConnection][:IpAddress]
+          self.guest_customization[:ComputerName]
         end
 
-        def friendly_status
+        def os_desc
           load_unless_loaded!
-          case status
-          when '0'
-            'creating'
-          when '8'
-            'off'
-          when '4'
-            'on'
-          else
-            'unkown'
-          end
+          self.operating_system[:'ovf:Description']
+        end
+
+        def os_type
+          load_unless_loaded!
+          self.operating_system[:vmw_osType]
+        end
+
+        def ip_addresses
+          load_unless_loaded!
+          [self.network_connections].flatten.collect{|n| n[:IpAddress] }
         end
 
         def ready?
           reload_status # always ensure we have the correct status
           running_tasks = tasks && tasks.flatten.any? {|ti| ti.kind_of?(Hash) && ti[:status] == 'running' }
           status != '0' && !running_tasks # 0 is provisioning, and no running tasks
-        end
-
-        def on?
-          reload_status # always ensure we have the correct status
-          status == '4'
-        end
-
-        def off?
-          reload_status # always ensure we have the correct status
-          status == '8'
         end
 
         def power_on
@@ -81,11 +80,6 @@ module Fog
           shutdown
           wait_for { off? }
           power_on
-        end
-
-        def vm
-          load_unless_loaded!
-          self.vm_data
         end
 
         def name=(new_name)
@@ -120,7 +114,7 @@ module Fog
 
         def disks
           disk_mess.map do |dm|
-            { :number => dm[:"rasd:AddressOnParent"], :size => dm[:"rasd:VirtualQuantity"].to_i, :resource => dm[:"rasd:HostResource"] }
+            { :number => dm[:"rasd:AddressOnParent"].to_i, :size => dm[:"rasd:HostResource"][:vcloud_capacity].to_i, :resource => dm[:"rasd:HostResource"], :disk_data => dm }
           end
         end
 
@@ -187,12 +181,12 @@ module Fog
                 vh[:'rasd:ResourceType'] == '17' &&
                   vh[:'rasd:AddressOnParent'].to_s == @remove_disk.to_s
               end
-              connection.configure_vm_disks(vm_href, data)
+              connection.configure_vm_disks(self.href, data)
             end
             if @disk_change == :added
               data = disk_mess
               data << @add_disk
-              connection.configure_vm_disks(vm_href, data)
+              connection.configure_vm_disks(self.href, data)
             end
             if @name_changed || @description_changed
               edit_uri = links.select {|i| i[:rel] == 'edit'}
@@ -216,14 +210,6 @@ module Fog
         end
         alias :delete :destroy
 
-        def vm_href
-          load_unless_loaded!
-          #require 'pp'
-          #pp vm_data
-          #vm_data[0][:Link].select {|v| v[:rel] == 'edit'}[0][:href]
-          vm_data.kind_of?(Array)? vm_data[0][:href] : vm_data[:href]
-        end
-
         private
 
         def reset_tracking
@@ -242,29 +228,24 @@ module Fog
           }
         end
 
-        def virtual_hardware_section
-          load_unless_loaded!
-          vm[0][:"ovf:VirtualHardwareSection"][:"ovf:Item"]
-        end
-
         def memory_mess
           load_unless_loaded!
-          if virtual_hardware_section
-            virtual_hardware_section.detect { |item| item[:"rasd:ResourceType"] == "4" }
+          if virtual_hardware
+            virtual_hardware.detect { |item| item[:"rasd:ResourceType"] == "4" }
           end
         end
 
         def cpu_mess
           load_unless_loaded!
-          if virtual_hardware_section
-            virtual_hardware_section.detect { |item| item[:"rasd:ResourceType"] == "3" }
+          if virtual_hardware
+            virtual_hardware.detect { |item| item[:"rasd:ResourceType"] == "3" }
           end
         end
 
         def disk_mess
           load_unless_loaded!
-          if virtual_hardware_section
-            virtual_hardware_section.select { |item| item[:"rasd:ResourceType"] == "17" }
+          if virtual_hardware
+            virtual_hardware.select { |item| item[:"rasd:ResourceType"] == "17" }
           else
             []
           end
@@ -282,9 +263,8 @@ module Fog
         end
 
         def reload_status
-          self.status = connection.get_vapp(href).body[:status]
+          self.status = connection.get_vapp(href).status
         end
-
       end
     end
   end
