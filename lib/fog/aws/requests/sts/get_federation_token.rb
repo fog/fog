@@ -11,6 +11,7 @@ module Fog
             'Name'            => name,
             'Policy'          => MultiJson.encode(policy),
             'DurationSeconds' => duration,
+            :idempotent       => true,
             :parser           => Fog::Parsers::AWS::STS::GetSessionToken.new
           })
         end

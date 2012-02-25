@@ -21,11 +21,11 @@ module Fog
               @results['ScheduledUpdateGroupActions'] << @scheduled_update_group_action
               reset_scheduled_update_group_action
 
-            when 'AutoScalingGroupName', 'ScheduledActionARN', 'ScheduledActionName'
-              @activity[name] = value
+            when 'AutoScalingGroupName', 'ScheduledActionARN', 'ScheduledActionName', 'Recurrence'
+              @scheduled_update_group_action[name] = value
             when 'DesiredCapacity', 'MaxSize', 'MinSize'
               @scheduled_update_group_action[name] = value.to_i
-            when 'Time'
+            when 'Time', 'StartTime', 'EndTime'
               @scheduled_update_group_action[name] = Time.parse(value)
 
             when 'NextToken'

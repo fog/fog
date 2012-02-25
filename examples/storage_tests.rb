@@ -84,6 +84,22 @@ Shindo.tests('storage examples', 'storage') do
             end
           end
 
+          tests('@file.copy').succeeds do
+            @file.copy(@directory.key, 'fogstorageobject2')
+          end
+
+          tests('@copy = @directory.files.get(fogstorageobject2)').succeeds do
+            @copy = @directory.files.get('fogstorageobject2')
+          end
+
+          tests('@copy.body == @file.body').succeeds do
+            @copy.body == @file.body
+          end
+
+          tests('@copy.destroy').succeeds do
+            @copy.destroy
+          end
+
           # destroy the file
           tests('@file.destroy').succeeds do
             @file.destroy
@@ -94,6 +110,71 @@ Shindo.tests('storage examples', 'storage') do
             @directory.destroy
           end
 
+        end
+
+      end
+
+      tests(':key => \"fog/storageobject\"') do
+
+        # create a directory
+        #   key should be a unique string
+        #   public should be a boolean
+        tests('@directory = @storage.directories.create').succeeds do
+          @directory = @storage.directories.create(
+            :key    => "fogstoragedirectory#{Time.now.to_i}",
+            :public => true
+          )
+        end
+
+        # list directories
+        tests('@directories = @storage.directories').succeeds do
+          @directories = @storage.directories
+        end
+
+        # get a directory
+        tests('@storage.directories.get(@directory.identity)').succeeds do
+          @storage.directories.get(@directory.identity)
+        end
+
+        # create a file in the directory
+        #   key can be any string
+        #   body can be a string or a file as File.open(path)
+        #   public should be a boolean and match the directory
+        tests('@file = @directory.files.create').succeeds do
+          @file = @directory.files.create(
+            :body   => 'fog_storage_object_body',
+            :key    => 'fog/storageobject',
+            :public => true
+          )
+        end
+
+        # list files
+        tests('@files = @directory.files').succeeds do
+          @files = @directory.files
+        end
+
+        # get a file
+        tests('@directory.files.get(@file.identity)').succeeds do
+          @directory.files.get(@file.identity)
+        end
+
+        # test the publicity of files
+        # Local is unable to inherently serve files, so we can skip it
+        unless provider == Local
+          tests('Excon.get(@file.public_url).body').returns('fog_storage_object_body') do
+            pending if Fog.mocking?
+            Excon.get(@file.public_url).body
+          end
+        end
+
+        # destroy the file
+        tests('@file.destroy').succeeds do
+          @file.destroy
+        end
+
+        # destroy the directory
+        tests('@directory.destroy').succeeds do
+          @directory.destroy
         end
 
       end

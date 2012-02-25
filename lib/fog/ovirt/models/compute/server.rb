@@ -39,6 +39,7 @@ module Fog
         end
 
         def start(options = {})
+          wait_for { stopped? } if options[:blocking]
           connection.vm_action(:id =>id, :action => :start)
           reload
         end
@@ -50,9 +51,7 @@ module Fog
 
         def reboot(options = {})
           stop unless stopped?
-          wait_for { stopped? }
-          connection.vm_action(:id =>id, :action => :start)
-          reload
+          start options.merge(:blocking => true)
         end
 
         def suspend(options = {})
@@ -67,8 +66,11 @@ module Fog
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          self.id = connection.create_vm(attributes).id
+          if identity
+            connection.update_vm(attributes)
+          else
+            self.id = connection.create_vm(attributes).id
+          end
           reload
         end
 

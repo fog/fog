@@ -121,14 +121,6 @@ task :nuke do
   end
 end
 
-desc "Generate RCov test coverage and open in your browser"
-task :coverage do
-  require 'rcov'
-  sh "rm -fr coverage"
-  sh "rcov test/test_*.rb"
-  sh "open coverage/index.html"
-end
-
 require 'rdoc/task'
 RDoc::Task.new do |rdoc|
   rdoc.rdoc_dir = 'rdoc'

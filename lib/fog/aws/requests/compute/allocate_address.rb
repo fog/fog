@@ -30,17 +30,19 @@ module Fog
       class Mock
 
         def allocate_address(domain = 'standard')
+          domain = domain == 'vpc' ? 'vpc' : 'standard'
           response = Excon::Response.new
           if describe_addresses.body['addressesSet'].size < self.data[:limits][:addresses]
             response.status = 200
             public_ip = Fog::AWS::Mock.ip_address
-            data ={
+            data = {
               'instanceId' => nil,
-              'publicIp'   => public_ip
+              'publicIp'   => public_ip,
+              'domain'     => domain
             }
             self.data[:addresses][public_ip] = data
             response.body = {
-              'domain'    => standard,
+              'domain'    => domain,
               'publicIp'  => public_ip,
               'requestId' => Fog::AWS::Mock.request_id
             }
