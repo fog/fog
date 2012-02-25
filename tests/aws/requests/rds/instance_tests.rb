@@ -10,7 +10,6 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
   @db_final_snapshot_id = "fog-final-snapshot"
 
   tests('success') do
-#    
 
     tests("#create_db_instance").formats(AWS::RDS::Formats::CREATE_DB_INSTANCE) do
       result = Fog::AWS[:rds].create_db_instance(@db_instance_id, 'AllocatedStorage' => 5,
