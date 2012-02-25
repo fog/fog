@@ -68,6 +68,13 @@ module Fog
           requires :instance_uuid
           connection.vm_destroy('instance_uuid' => instance_uuid)
         end
+
+        def migrate(options = {})
+          options = { :priority => 'defaultPriority' }.merge(options)
+          requires :instance_uuid
+          connection.vm_migrate('instance_uuid' => instance_uuid, 'priority' => options[:priority])
+        end
+
         def create(options ={})
           requires :name, :path
           new_vm = self.class.new(create_results['vm_attributes'])

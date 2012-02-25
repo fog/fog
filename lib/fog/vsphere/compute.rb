@@ -22,6 +22,7 @@ module Fog
       request :vm_clone
       request :vm_create
       request :vm_destroy
+      request :vm_migrate
       request :datacenters
       request :vm_reconfig_hardware
       request :vm_reconfig_memory
