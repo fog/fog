@@ -7,7 +7,7 @@ class AWS
       BASIC = {
         'ResponseMetadata' => {'RequestId' => String}
       }
-      
+
       DB_PARAMETER_GROUP = {
           'DBParameterGroupFamily' => String,
           'DBParameterGroupName'=> String,
@@ -15,11 +15,11 @@ class AWS
       }
       CREATE_DB_PARAMETER_GROUP = {
         'ResponseMetadata' => {'RequestId' => String},
-        'CreateDBParameterGroupResult' => {          
+        'CreateDBParameterGroupResult' => {
           'DBParameterGroup' => DB_PARAMETER_GROUP
         }
       }
-      
+
       DB_SECURITY_GROUP = {
         'DBSecurityGroupDescription' => String,
         'DBSecurityGroupName' => String,
@@ -27,46 +27,45 @@ class AWS
         'IPRanges' => [Fog::Nullable::Hash],
         'OwnerId' => Fog::Nullable::String
       }
-      
+
       CREATE_DB_SECURITY_GROUP = BASIC.merge({
-        'CreateDBSecurityGroupResult' => {          
-          'DBSecurityGroup' => DB_SECURITY_GROUP
+        'CreateDBSecurityGroupResult' => {
+        'DBSecurityGroup' => DB_SECURITY_GROUP
         }
       })
-      
+
       AUTHORIZE_DB_SECURITY_GROUP = BASIC.merge({
-        'AuthorizeDBSecurityGroupIngressResult' => {          
+        'AuthorizeDBSecurityGroupIngressResult' => {
           'DBSecurityGroup' => DB_SECURITY_GROUP
         }
       })
-      
+
       REVOKE_DB_SECURITY_GROUP = BASIC.merge({
-        'RevokeDBSecurityGroupIngressResult' => {          
+        'RevokeDBSecurityGroupIngressResult' => {
           'DBSecurityGroup' => DB_SECURITY_GROUP
         }
       })
-      
+
       DESCRIBE_DB_SECURITY_GROUP = BASIC.merge({
-        'DescribeDBSecurityGroupsResult' => {          
+        'DescribeDBSecurityGroupsResult' => {
           'DBSecurityGroups' => [DB_SECURITY_GROUP]
         }
       })
-      
+
       DESCRIBE_DB_PARAMETER_GROUP = {
         'ResponseMetadata' => {'RequestId' => String},
         'DescribeDBParameterGroupsResult' =>{
           'DBParameterGroups' => [DB_PARAMETER_GROUP]
         }
       }
-      
+
       MODIFY_PARAMETER_GROUP = BASIC.merge({
         'ModifyDBParameterGroupResult' => {
           'DBParameterGroupName' => String
         }
       })
-      
 
-      
+
       DB_PARAMETER = {
         'ParameterValue' => Fog::Nullable::String,
         'DataType' => String,
@@ -77,15 +76,15 @@ class AWS
         'ParameterName' => String,
         'ApplyType' => String
       }
-      
+
       DESCRIBE_DB_PARAMETERS = BASIC.merge({
         'DescribeDBParametersResult' => {
           'Marker' => Fog::Nullable::String,
           'Parameters' => [DB_PARAMETER]
         }
-      
+
       })
-      
+
       SNAPSHOT={
         'AllocatedStorage' => Integer,
         'AvailabilityZone' => String,
@@ -142,7 +141,7 @@ class AWS
         'ReadReplicaDBInstanceIdentifiers'=> [Fog::Nullable::String],
         'ReadReplicaSourceDBInstanceIdentifier'=> Fog::Nullable::String
       }
-      
+
       CREATE_DB_INSTANCE = BASIC.merge({
         'CreateDBInstanceResult' => {
           'DBInstance' => INSTANCE
@@ -167,13 +166,13 @@ class AWS
           'DBInstance' => INSTANCE
         }
       })
-      
+
       REBOOT_DB_INSTANCE = BASIC.merge({
         'RebootDBInstanceResult' => {
           'DBInstance' => INSTANCE
         }
       })
-      
+
       CREATE_READ_REPLICA = BASIC.merge({
         'CreateDBInstanceReadReplicaResult' => {
           'DBInstance' => INSTANCE
