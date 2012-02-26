@@ -1,3 +1,216 @@
+1.1.2 12/18/2011 c1873e37e76af83e9de3f3308f3baa0664dd8dc2
+=========================================================
+
+Stats! { 'collaborators' => 20, 'downloads' => 351821, 'forks' => 332, 'open_issues' => 21, 'watchers' => 1731 }
+
+MVP! Stepan G. Fedorov
+
+[Brightbox]
+  Fix zone_id/flavour_id getter/setter for Server. thanks Hemant Kumar
+  Add zone/server_type attribute for Server. thanks Hemant Kumar
+  Add username to Image. thanks Hemant Kumar
+  Add request for remove_firewall_policy. thanks Hemant Kumar
+  Add model method for remove. thanks Hemant Kumar
+  Change logic of fetching zone and flavour_id. thanks Hemant Kumar
+  Remove name as mandatory parameter for creating server group. thanks Hemant Kumar
+  Add created_at attribute for server_group,policy and firewall rule. thanks Hemant Kumar
+  Updated Image format tests for username. thanks Paul Thornthwaite
+  Updated ServerGroup format for created_at time. thanks Paul Thornthwaite
+
+[aws|autoscaling]
+  allow sa-east-1 region in mocks. thanks Nick Osborn
+
+[aws|compute]
+  fix security_group format for mock tests. thanks geemus
+
+[aws|dns]
+  fix capitilization for records#all options. thanks geemus
+
+[aws|elb]
+  update SSL certificates on listeners. :christmas_tree:. thanks Dylan Egan
+
+[aws|storage]
+  Support ACL on copy_object. :v:. thanks Dylan Egan
+
+[brightbox]
+  Adding *_server actions to ServerGroup model. thanks Caius Durling
+  Pass along server_groups when creating a server. thanks Caius Durling
+  Make update_cloud_ip request work. thanks Caius Durling
+  Firewall models. thanks Paul Thornthwaite
+  Added missing requirement and request arg. thanks Paul Thornthwaite
+  Corrected deprecated argument. thanks Paul Thornthwaite
+  Dynamically select testing image. thanks Paul Thornthwaite
+  Helper to get a test server ready. thanks Paul Thornthwaite
+  Revised tests structure. thanks Paul Thornthwaite
+  Test and fix for API client secret reset. thanks Paul Thornthwaite
+  Test update of reverse DNS for CIP. thanks Paul Thornthwaite
+  Updated default Ubuntu image. thanks Paul Thornthwaite
+  Make Cloud IP model's map nicer to use. thanks Paul Thornthwaite
+  Correctly get Server's IP addresses as strings. thanks Paul Thornthwaite
+  ServerGroup association to Servers. thanks Paul Thornthwaite
+  Replace duplicate remove with move test. thanks Paul Thornthwaite
+  Load balancer request tests expanded. thanks Paul Thornthwaite
+  Request test for snapshotting a server. thanks Paul Thornthwaite
+  fix mock tests. thanks geemus
+
+[clodo]
+  : Added missing field. thanks NomadRain
+  Some cleanup before pool request. thanks NomadRain
+  add fake credentials for mock tests. thanks geemus
+
+[clodo|compute]
+  Bug fixes. thanks NomadRain
+  I don't know what is ignore_awful_caching, so i removed it. thanks Stepan G Fedorov
+  server.ssh with password. Not only with key. thanks Stepan G Fedorov
+  Fix Mocks. thanks Stepan G Fedorov
+  Enable get_image_details. thanks Stepan G Fedorov
+  Actualize Mocks. thanks Stepan G. Fedorov
+  Enable :get_image_details. thanks Stepan G. Fedorov
+  Add tests. thanks Stepan G. Fedorov
+  Remove ddosprotect field from Mock. thanks Stepan G. Fedorov
+  Add ip-address management. thanks Stepan G. Fedorov
+  Rename moveip to move_ip_address. thanks Stepan G. Fedorov
+  Enable ip-management. thanks Stepan G. Fedorov
+  Fix delete_server mock. thanks Stepan G. Fedorov
+  Fix move_ip_address behaviour. thanks Stepan G. Fedorov
+  Add ip-address management. thanks Stepan G. Fedorov
+  Rename moveip to move_ip_address. thanks Stepan G. Fedorov
+  Enable ip-management. thanks Stepan G. Fedorov
+  Fix delete_server mock. thanks Stepan G. Fedorov
+  Fix move_ip_address behaviour. thanks Stepan G. Fedorov
+  Added missing field (server.type). thanks Обоев Рулон ибн Хаттаб
+
+[core]
+  Cast Fog.wait_for interval to float. thanks Aaron Suggs
+  fix exceptions from nil credential value. thanks Blake Gentry
+  `@credential` should always be a symbol. thanks Hunter Haugen
+
+[docs]
+  note in title that multiple keys is an EC2 thing. thanks geemus
+
+[glesys|compute]
+  fixed tests due to changes in the api. thanks Anton Lindström
+  fix test formats and whitespaces. thanks Anton Lindström
+
+[misc]
+  parse SQS timestamps as milliseconds. thanks Andrew Bruce
+  Allow use of sa-east-1 in the ec2 mock as well. thanks Andy Delcambre
+  Enabled tests for setting S3 ACL by id and uri on buckets and objects when mocking. thanks Arvid Andersson
+  Added acl_to_hash helper method to Fog::Storage::AWS. thanks Arvid Andersson
+  Ensuring that get_object_acl and get_bucket_acl mock methods returns a hash representation of the ACL. thanks Arvid Andersson
+  Created Rackspace LB models folder. thanks Brian Hartsock
+  This patch adds the ability to specify security groups by security group id, rather than group name.  This is a required feature to use security groups within a VPC. thanks Eric Stonfer
+  indentation change. thanks Eric Stonfer
+  Add the ability to return the security group ID when requesting a SecurityGroupData object. thanks Eric Stonfer
+  fix tests to accomodate the new SecurityGroupId. thanks Eric Stonfer
+  Revert "fix tests to accomodate the new SecurityGroupId". thanks Eric Stonfer
+  fix tests to accomodate the addition of security_group_id. thanks Eric Stonfer
+  indentation fix. thanks Eric Stonfer
+  indentation fix. thanks Eric Stonfer
+  [Brightbox]Add remove_firewall_policy to computer.rb. thanks Hemant Kumar
+  [Brightbox]Protocol is no longer required parameter for firewall. thanks Hemant Kumar
+  Add implementation of DescribeInstanceStatus. thanks JD Huntington & Jason Hansen
+  fixed type-o in rdoc on Fog::DNS:DNSMadeEasy. thanks John Dyer
+  add query options to Fog::Storage::AWS#get_object_https_url. thanks Mateusz Juraszek
+  add options hash to Fog::Storage::AWS::File#url and Fog::Storage::AWS::Files#get_https_url which use get_object_https_url method. thanks Mateusz Juraszek
+  add query param to get_object_http_url for consistency. thanks Mateusz Juraszek
+  Fix regression in Rakefile introduced in 70e7ea13. thanks Michael Brodhead
+  add são paulo/brasil region. thanks Raphael Costa
+  mock create_db_instance. thanks Rodrigo Estebanez
+  mocking describe_db_instance. Fix hash structure in create_db_instance. thanks Rodrigo Estebanez
+  mocking delete_db_instance. thanks Rodrigo Estebanez
+  mocking wait_for through describe_db_instances. thanks Rodrigo Estebanez
+  mocking modify_db_instance and reboot_db_instance. thanks Rodrigo Estebanez
+  raise exception instead of excon response. thanks Rodrigo Estebanez
+  Fixing bug: It always showed the first instance when using get. thanks Rodrigo Estebanez
+  Fixes for issues 616 and 617. thanks Sergio Rubio
+  * remove unnecessary debugging. thanks Sergio Rubio
+  * Add missing recognized :libvirt_ip_command. thanks Sergio Rubio
+  * Add server_name environment variable to ip_command. thanks Sergio Rubio
+  * implement :destroy_volumes in Server.destroy (libvirt provider). thanks Sergio Rubio
+  Add documentation for using multiple ssh keys on AWS. thanks Sven Pfleiderer
+  Update bootstrap description. thanks Sven Pfleiderer
+  Escape underscore charakters. thanks Sven Pfleiderer
+  implement STS support. thanks Thom May
+  Allow use of session tokens in AWS Compute. thanks Thom May
+  handle session tokens for SQS and SimpleDB. thanks Thom May
+  Split [AWS|STS] tests into separate files per #609. thanks Thom May
+  Bug fix, metric_statistic#save would always fail. thanks bmiller
+  bump excon dep. thanks geemus
+  bump excon dep. thanks geemus
+  Fixing Rackspace's lack of integer-as-string support as per https://github.com/fog/fog/pull/657#issuecomment-3145337. thanks jimworm
+  add current set of elasticache endpoints. thanks lostboy
+  added sa-east-1 region. thanks thattommyhall
+  Add clodo support. thanks Обоев Рулон ибн Хаттаб
+  Enable clodo support. thanks Обоев Рулон ибн Хаттаб
+
+[rackspace|dns]
+  error state callbacks now return an error. thanks Brian Hartsock
+  fixed broken test. thanks Brian Hartsock
+  should recognize rackspace_dns_endpoint argument. thanks geemus
+  record should pass priority. thanks geemus
+  mark tests for models pending in mocked mode. thanks geemus
+
+[rackspace|lb]
+  Fixed bug #644 with HTTP health monitors. thanks Brian Hartsock
+  fix for #650 - Connection logging now loads appropriately. thanks Brian Hartsock
+  added error page requests. thanks Brian Hartsock
+  Added error pages to the model. thanks Brian Hartsock
+  Added list parameter for nodeddress. thanks Brian Hartsock
+  fixed broken test; cleaned up some tests. thanks Brian Hartsock
+
+[rackspace|load balancers]
+  fixed broken tests. thanks Brian Hartsock
+
+[rackspace|loadbalancers]
+  Fixed bug in deleting multiple nodes. thanks Brian Hartsock
+
+[slicehost|compute]
+  update image id in tests. thanks geemus
+
+[storm_on_demand]
+  fixes for formats in tests. thanks geemus
+
+[tests | clodo]
+  Added ip-management tests. thanks Stepan G. Fedorov
+  Added ip-management tests. thanks Stepan G. Fedorov
+
+[tests | clodo ]
+  ddosprotect field must not exist. thanks Stepan G. Fedorov
+
+[tests | clodo | compute]
+  Add most tests. thanks Stepan G Fedorov
+  Add image tests. thanks Stepan G Fedorov
+
+[tests | clodo | compute ]
+  create_server - First try. thanks Stepan G Fedorov
+
+[vcloud]
+  mark tests pending in mocked mode. thanks geemus
+
+[vcloud|compute]
+  introduce organizations. thanks Peter Meier
+  make networks working also in organizations. thanks Peter Meier
+  remove server from organizations as they are within vApps of vDC. thanks Peter Meier
+  add catalogs to an organization. thanks Peter Meier
+  a vdc does not have a tasklist. thanks Peter Meier
+  introduce vapps. thanks Peter Meier
+  More work on getting server in a useable shape. thanks Peter Meier
+  fix network to the minimum. thanks Peter Meier
+  a vapp might not have any childrens attached. thanks Peter Meier
+  improve models add tests. thanks Peter Meier
+  improve disk info access. thanks Peter Meier
+  improve network. thanks Peter Meier
+  introduce link on a network to parent network. thanks Peter Meier
+  fix an issue if this is not parsed as an array. thanks Peter Meier
+  stopgap fix for test data files. thanks geemus
+  properly namespace vcloud test to prevent breaking others. thanks geemus
+
+[vsphere]
+  (#10644) Add servers filter to improve clone performance. thanks Jeff McCune
+  fix whitespace issue in yaml for mocks. thanks geemus
+
+
 1.1.1 11/11/2011 a468aa9a3445aae4f496b1a51e26572b8379c3da
 =========================================================
 

@@ -6,20 +6,20 @@ Shindo.tests('Fog::Compute[:brightbox] | user requests', ['brightbox']) do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].list_users
       @user_id = result.first["id"]
-      formats(Brightbox::Compute::Formats::Collection::USERS) { result }
+      formats(Brightbox::Compute::Formats::Collection::USERS, false) { result }
     end
 
     tests("#get_user('#{@user_id}')") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].get_user(@user_id)
-      formats(Brightbox::Compute::Formats::Full::USER) { result }
+      formats(Brightbox::Compute::Formats::Full::USER, false) { result }
     end
 
     update_options = { :name => "Example User" }
     tests("#update_user('#{@user_id}', #{update_options.inspect})") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].update_user(@user_id, update_options)
-      formats(Brightbox::Compute::Formats::Full::USER) { result }
+      formats(Brightbox::Compute::Formats::Full::USER, false) { result }
     end
 
   end

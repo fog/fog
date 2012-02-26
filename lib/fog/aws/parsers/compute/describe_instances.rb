@@ -31,7 +31,7 @@ module Fog
             when 'architecture', 'clientToken', 'dnsName', 'imageId',
                   'instanceId', 'instanceType', 'ipAddress', 'kernelId',
                   'keyName', 'platform', 'privateDnsName', 'privateIpAddress', 'ramdiskId',
-                  'reason', 'rootDeviceType'
+                  'reason', 'rootDeviceType',  'subnetId', 'vpcId'
               @instance[name] = value
             when 'attachTime'
               @block_device_mapping[name] = Time.parse(value)
@@ -46,7 +46,7 @@ module Fog
             when 'groupId', 'groupName'
               case @context.last
               when 'groupSet'
-                @reservation['groupSet'] << value
+                @reservation['groupSet'] << value if @context.first != "instancesSet"
               when 'placement'
                 @instance['placement'][name] = value
               end

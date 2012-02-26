@@ -15,6 +15,7 @@ module Fog
       collection  :files
 
       request_path 'fog/rackspace/requests/storage'
+      request :copy_object
       request :delete_container
       request :delete_object
       request :get_container

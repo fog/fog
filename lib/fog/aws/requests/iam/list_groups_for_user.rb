@@ -38,6 +38,30 @@ module Fog
         end
 
       end
+
+      class Mock
+        def list_groups_for_user(user_name, options = {})
+          #FIXME: Does not consider options
+          if data[:users].has_key? user_name
+            Excon::Response.new.tap do |response|
+              response.status = 200
+              response.body = { 'GroupsForUser' => data[:groups].select do |name, group|
+                                                     group[:members].include? user_name
+                                                   end.map do |name, group|
+                                                     { 'GroupId'   => group[:group_id],
+                                                       'GroupName' => name,
+                                                       'Path'      => group[:path],
+                                                       'Arn'       => group[:arn] }
+                                                   end,
+                                'IsTruncated' => false,
+                                'RequestId' => Fog::AWS::Mock.request_id
+                              }
+            end
+          else
+            raise Fog::AWS::IAM::NotFound.new("The user with name #{user_name} cannot be found.")
+          end
+        end
+      end
     end
   end
 end

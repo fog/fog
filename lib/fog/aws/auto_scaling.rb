@@ -77,22 +77,7 @@ module Fog
 
           @connection_options = options[:connection_options] || {}
           options[:region] ||= 'us-east-1'
-          @host = options[:host] || case options[:region]
-          when 'ap-northeast-1'
-            'autoscaling.ap-northeast-1.amazonaws.com'
-          when 'ap-southeast-1'
-            'autoscaling.ap-southeast-1.amazonaws.com'
-          when 'eu-west-1'
-            'autoscaling.eu-west-1.amazonaws.com'
-          when 'us-east-1'
-            'autoscaling.us-east-1.amazonaws.com'
-          when 'us-west-1'
-            'autoscaling.us-west-1.amazonaws.com'
-          when 'us-west-2'
-            'autoscaling.us-west-2.amazonaws.com'
-          else
-            raise ArgumentError, "Unknown region: #{options[:region].inspect}"
-          end
+          @host = options[:host] || "autoscaling.#{options[:region]}.amazonaws.com"
           @path       = options[:path]        || '/'
           @port       = options[:port]        || 443
           @persistent = options[:persistent]  || false
@@ -206,7 +191,7 @@ module Fog
 
           @region = options[:region] || 'us-east-1'
 
-          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
+          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'sa-east-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
 

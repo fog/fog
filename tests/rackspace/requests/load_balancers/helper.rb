@@ -131,3 +131,9 @@ LOAD_BALANCER_FORMAT = {
     'updated' => { 'time' => String },
   }.merge(CONNECTION_LOGGING_FORMAT)
 }
+
+ERROR_PAGE_FORMAT = {
+  'errorpage' => {
+    'content' => String
+  }
+}

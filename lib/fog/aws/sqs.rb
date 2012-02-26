@@ -71,7 +71,7 @@ module Fog
         #
         # ==== Parameters
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
-        #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'ap-southeast-1']
+        #   * region<~String> - optional region to use. For instance, 'eu-west-1', 'us-east-1' and etc.
         #
         # ==== Returns
         # * SQS object with connection to AWS.
@@ -83,18 +83,10 @@ module Fog
           @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
           options[:region] ||= 'us-east-1'
           @host = options[:host] || case options[:region]
-          when 'ap-southeast-1'
-            'ap-southeast-1.queue.amazonaws.com'
-          when 'eu-west-1'
-            'eu-west-1.queue.amazonaws.com'
           when 'us-east-1'
             'queue.amazonaws.com'
-          when 'us-west-1'
-            'us-west-1.queue.amazonaws.com'
-          when 'us-west-2'
-            'us-west-2.queue.amazonaws.com'
           else
-            raise ArgumentError, "Unknown region: #{options[:region].inspect}"
+            "#{options[:region]}.queue.amazonaws.com"
           end
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false

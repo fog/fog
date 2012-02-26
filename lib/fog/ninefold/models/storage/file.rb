@@ -28,6 +28,14 @@ module Fog
           @directory
         end
 
+        def copy(target_directory_key, target_file_key, options={})
+          target_directory = connection.directories.new(:key => target_directory_key)
+          target_directory.files.create(
+            :key => target_file_key,
+            :body => body
+          )
+        end
+
         def destroy
           requires :directory, :key
           connection.delete_namespace([directory.key, key].join('/'))

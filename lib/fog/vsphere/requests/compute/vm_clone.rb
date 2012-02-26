@@ -5,7 +5,11 @@ module Fog
       module Shared
         private
         def vm_clone_check_options(options)
-          options = { 'force' => false }.merge(options)
+          default_options = {
+            'force'        => false,
+            'linked_clone' => false,
+          }
+          options = default_options.merge(options)
           required_options = %w{ path name }
           required_options.each do |param|
             raise ArgumentError, "#{required_options.join(', ')} are required" unless options.has_key? param
@@ -41,7 +45,7 @@ module Fog
           template_dc = path_elements.shift
           # If the first path element contains "vm" this denotes the vmFolder
           # and needs to be shifted out
-          path_elements.shift if path_elements[0] = 'vm'
+          path_elements.shift if path_elements[0] == 'vm'
           # The template name.  The remaining elements are the folders in the
           # datacenter.
           template_name = path_elements.pop
@@ -70,16 +74,47 @@ module Fog
           esx_host = vm_mob_ref.collect!('runtime.host')['runtime.host']
           # The parent of the ESX host itself is a ComputeResource which has a resourcePool
           resource_pool = esx_host.parent.resourcePool
-
-          # Next, create a Relocation Spec instance
-          relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => resource_pool,
-                                                                    :transform => options['transform'] || 'sparse')
+          relocation_spec=nil
+          if ( options['linked_clone'] )
+            # cribbed heavily from the rbvmomi clone_vm.rb
+            # this chunk of code reconfigures the disk of the clone source to be read only,
+            # and then creates a delta disk on top of that, this is required by the API in order to create
+            # linked clondes
+            disks = vm_mob_ref.config.hardware.device.select do |vm_device|
+              vm_device.class == RbVmomi::VIM::VirtualDisk
+            end
+            disks.select{|vm_device| vm_device.backing.parent == nil}.each do |disk|
+              disk_spec = {
+                :deviceChange => [
+                  {
+                    :operation => :remove,
+                    :device => disk
+                  },
+                  {
+                    :operation => :add,
+                    :fileOperation => :create,
+                    :device => disk.dup.tap{|disk_backing|
+                      disk_backing.backing = disk_backing.backing.dup;
+                      disk_backing.backing.fileName = "[#{disk.backing.datastore.name}]";
+                      disk_backing.backing.parent = disk.backing
+                    }
+                  },
+                ]
+              }
+              vm_mob_ref.ReconfigVM_Task(:spec => disk_spec).wait_for_completion
+            end
+            # Next, create a Relocation Spec instance
+            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => resource_pool,
+                                                                      :diskMoveType => :moveChildMostDiskBacking)
+          else
+            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => resource_pool,
+                                                                      :transform => options['transform'] || 'sparse')
+          end
           # And the clone specification
           clone_spec = RbVmomi::VIM.VirtualMachineCloneSpec(:location => relocation_spec,
                                                             :powerOn  => options['power_on'] || true,
                                                             :template => false)
           task = vm_mob_ref.CloneVM_Task(:folder => vm_mob_ref.parent, :name => options['name'], :spec => clone_spec)
-
           # Waiting for the VM to complete allows us to get the VirtulMachine
           # object of the new machine when it's done.  It is HIGHLY recommended
           # to set 'wait' => true if your app wants to wait.  Otherwise, you're
@@ -126,7 +161,7 @@ module Fog
           end
           {
             'vm_ref'   => 'vm-123',
-            'task_ref' => 'task-1234'
+            'task_ref' => 'task-1234',
           }
         end
 

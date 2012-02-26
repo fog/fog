@@ -12,7 +12,7 @@ module Fog
 
           def end_element(name)
             case name
-            when 'instanceId', 'publicIp'
+            when 'instanceId', 'publicIp', 'domain', 'allocationId'
               @address[name] = value
             when 'item'
               @response['addressesSet'] << @address

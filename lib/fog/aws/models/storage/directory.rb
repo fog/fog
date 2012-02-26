@@ -1,5 +1,6 @@
 require 'fog/core/model'
 require 'fog/aws/models/storage/files'
+require 'fog/aws/models/storage/versions'
 
 module Fog
   module Storage
@@ -58,6 +59,26 @@ module Fog
           @payer = new_payer
         end
 
+        def versioning?
+          requires :key
+          data = connection.get_bucket_versioning(key)
+          data.body['VersioningConfiguration']['Status'] == 'Enabled'
+        end
+
+        def versioning=(new_versioning)
+          requires :key
+          connection.put_bucket_versioning(key, new_versioning ? 'Enabled' : 'Suspended')
+        end
+
+        def versions
+          @versions ||= begin
+            Fog::Storage::AWS::Versions.new(
+                :directory    => self,
+                :connection   => connection
+            )
+          end
+        end
+
         def public=(new_public)
           if new_public
             @acl = 'public-read'
@@ -70,7 +91,7 @@ module Fog
         def public_url
           requires :key
           if connection.get_bucket_acl(key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
-            if key.to_s =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
+            if key.to_s =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\-(?![\.])){1,61}[a-z0-9]$/
               "https://#{key}.s3.amazonaws.com"
             else
               "https://s3.amazonaws.com/#{key}"

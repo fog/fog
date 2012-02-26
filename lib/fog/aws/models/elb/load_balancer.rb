@@ -96,6 +96,12 @@ module Fog
           reload
         end
 
+        def set_listener_ssl_certificate(port, ssl_certificate_id)
+          requires :id
+          connection.set_load_balancer_listener_ssl_certificate(id, port, ssl_certificate_id)
+          reload
+        end
+
         def unset_listener_policy(port)
           set_listener_policy(port, [])
         end

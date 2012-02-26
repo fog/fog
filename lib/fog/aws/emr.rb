@@ -26,10 +26,10 @@ module Fog
       # collection  :snapshots
       # model       :parameter_group
       # collection  :parameter_groups
-      # 
+      #
       # model       :parameter
       # collection  :parameters
-      # 
+      #
       # model       :security_group
       # collection  :security_groups
 
@@ -57,7 +57,7 @@ module Fog
         #
         # ==== Parameters
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
-        #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'ap-southeast-1']
+        #   * region<~String> - optional region to use. For instance, in 'eu-west-1', 'us-east-1' and etc.
         #
         # ==== Returns
         # * EMR object with connection to AWS.
@@ -68,12 +68,13 @@ module Fog
           @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
 
           options[:region] ||= 'us-east-1'
-          @host = options[:host] || 'elasticmapreduce.amazonaws.com'
+          @host = options[:host] || "elasticmapreduce.#{options[:region]}.amazonaws.com"
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+          @region = options[:region]
         end
 
         def reload

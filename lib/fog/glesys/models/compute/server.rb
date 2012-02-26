@@ -15,11 +15,11 @@ module Fog
         attribute :memorysize
         attribute :disksize
         attribute :transfer
-        attribute :template
+        attribute :templatename
         attribute :managedhosting
         attribute :platform
         attribute :cost
-        attribute :rootpw
+        attribute :rootpassword
         attribute :keepip
         attribute :state
         attribute :iplist
@@ -32,7 +32,7 @@ module Fog
 
         def start
           requires :identity
-          connection.start(:serverid => identity) 
+          connection.start(:serverid => identity)
         end
 
         def stop
@@ -47,24 +47,24 @@ module Fog
 
         def save
           raise "Operation not supported" if self.identity
-          requires :hostname, :rootpw
+          requires :hostname, :rootpassword
 
           options = {
-            :datacenter => datacenter || "Falkenberg",
-            :platform   => platform || "Xen",
-            :hostname   => hostname,
-            :template   => template || "Debian-6 x64",
-            :disksize   => disksize || "10",
-            :memorysize => memorysize || "512",
-            :cpucores   => cpucores || "1",
-            :rootpw     => rootpw,
-            :transfer   => transfer || "500",
+            :datacenter     => datacenter   || "Falkenberg",
+            :platform       => platform     || "Xen",
+            :hostname       => hostname,
+            :templatename   => templatename || "Debian-6 x64",
+            :disksize       => disksize     || "10",
+            :memorysize     => memorysize   || "512",
+            :cpucores       => cpucores     || "1",
+            :rootpassword   => rootpassword,
+            :transfer       => transfer     || "500",
           } 
           data = connection.create(options)
           merge_attributes(data.body['response']['server'])
           data.status == 200 ? true : false
         end
-        
+
       end
     end
   end

@@ -62,15 +62,24 @@ module Fog
       class Mock # :nodoc:all
 
         def get_object(bucket_name, object_name, options = {}, &block)
+          version_id = options.delete('versionId')
+
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
+
           unless object_name
             raise ArgumentError.new('object_name is required')
           end
+
           response = Excon::Response.new
           if (bucket = self.data[:buckets][bucket_name])
-            if (object = bucket[:objects][object_name])
+            object = nil
+            if bucket[:objects].has_key?(object_name)
+              object = version_id ? bucket[:objects][object_name].find { |object| object['VersionId'] == version_id} : bucket[:objects][object_name].first
+            end
+
+            if (object && !object[:delete_marker])
               if options['If-Match'] && options['If-Match'] != object['ETag']
                 response.status = 412
               elsif options['If-Modified-Since'] && options['If-Modified-Since'] > Time.parse(object['Last-Modified'])
@@ -87,6 +96,9 @@ module Fog
                     response.headers[key] = value
                   end
                 end
+
+                response.headers['x-amz-version-id'] = object['VersionId'] if bucket[:versioning]
+
                 unless block_given?
                   response.body = object[:body]
                 else
@@ -99,6 +111,20 @@ module Fog
                   end
                 end
               end
+            elsif version_id && !object
+              response.status = 400
+              response.body = {
+                'Error' => {
+                  'Code' => 'InvalidArgument',
+                  'Message' => 'Invalid version id specified',
+                  'ArgumentValue' => version_id,
+                  'ArgumentName' => 'versionId',
+                  'RequestId' => Fog::Mock.random_hex(16),
+                  'HostId' => Fog::Mock.random_base64(65)
+                }
+              }
+
+              raise(Excon::Errors.status_error({:expects => 200}, response))
             else
               response.status = 404
               response.body = "...<Code>NoSuchKey<\/Code>..."

@@ -51,6 +51,9 @@ module Fog
 
           # Validate cert and key
           begin
+            # must be an RSA private key
+            raise OpenSSL::PKey::RSAError unless private_key =~ /BEGIN RSA PRIVATE KEY/
+
             cert = OpenSSL::X509::Certificate.new(certificate)
             chain = OpenSSL::X509::Certificate.new(options['CertificateChain']) if options['CertificateChain']
             key = OpenSSL::PKey::RSA.new(private_key)
@@ -71,7 +74,7 @@ module Fog
             raise Fog::AWS::IAM::EntityAlreadyExists.new
           else
             response.status = 200
-            path = options['path'] || "/"
+            path = options['Path'] || "/"
             data = {
               'Arn' => Fog::AWS::Mock.arn('iam', self.data[:owner_id], "server-certificate/#{name}"),
               'Path' => path,

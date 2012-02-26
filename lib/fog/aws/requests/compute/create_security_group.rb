@@ -18,12 +18,13 @@ module Fog
         #     * 'return'<~Boolean> - success?
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CreateSecurityGroup.html]
-        def create_security_group(name, description)
+        def create_security_group(name, description, vpc_id=nil)
           request(
             'Action'            => 'CreateSecurityGroup',
             'GroupName'         => name,
             'GroupDescription'  => description,
-            :parser             => Fog::Parsers::Compute::AWS::Basic.new
+            :parser             => Fog::Parsers::Compute::AWS::Basic.new,
+            'VpcId'             => vpc_id
           )
         end
 
@@ -31,7 +32,7 @@ module Fog
 
       class Mock
 
-        def create_security_group(name, description)
+        def create_security_group(name, description, vpc_id=nil)
           response = Excon::Response.new
           unless self.data[:security_groups][name]
             data = {
@@ -39,7 +40,8 @@ module Fog
               'groupName'           => name,
               'ipPermissionsEgress' => [],
               'ipPermissions'       => [],
-              'ownerId'             => self.data[:owner_id]
+              'ownerId'             => self.data[:owner_id],
+              'vpcId'               => vpc_id
             }
             self.data[:security_groups][name] = data
             response.body = {

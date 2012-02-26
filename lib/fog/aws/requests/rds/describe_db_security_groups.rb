@@ -28,8 +28,50 @@ module Fog
 
       class Mock
 
-        def describe_db_security_group(opts={})
-          Fog::Mock.not_implemented
+        def describe_db_security_groups(opts={})          
+          response = Excon::Response.new
+          sec_group_set = []
+          if opts.is_a?(String)
+            sec_group_name = opts   
+            if sec_group = self.data[:security_groups][sec_group_name]
+              sec_group_set << sec_group
+            else
+              raise Fog::AWS::RDS::NotFound.new("Security Group #{sec_group_name} not found")
+            end
+          else
+            sec_group_set = self.data[:security_groups].values
+          end
+          
+          sec_group_set.each do |sec_group|
+            sec_group["IPRanges"].each do |iprange|
+              if iprange["Status"] == "authorizing" || iprange["Status"] == "revoking"
+                iprange[:tmp] ||= Time.now + Fog::Mock.delay * 2
+                if iprange[:tmp] <= Time.now
+                  iprange["Status"] = "authorized" if iprange["Status"] == "authorizing"
+                  iprange.delete(:tmp)
+                  sec_group["IPRanges"].delete(iprange) if iprange["Status"] == "revoking"
+                end
+              end
+            end
+            
+            sec_group["EC2SecurityGroups"].each do |ec2_secg|
+              if ec2_secg["Status"] == "authorizing" || iprange["Status"] == "revoking"
+                ec2_secg[:tmp] ||= Time.now + Fog::Mock.delay * 2
+                if ec2_secg[:tmp] <= Time.now
+                  ec2_secg["Status"] = "authorized" if ec2_secg["Status"] == "authorizing"
+                  ec2_secg.delete(:tmp)
+                  sec_group["EC2SecurityGroups"].delete(ec2_secg) if ec2_secg["Status"] == "revoking"
+                end
+              end
+            end
+          end
+          
+          response.status = 200
+          response.body = {
+            "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
+            "DescribeDBSecurityGroupsResult" => { "DBSecurityGroups" => sec_group_set }
+          }
+          response
         end
 
       end

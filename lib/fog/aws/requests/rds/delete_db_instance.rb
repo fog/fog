@@ -15,7 +15,7 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        def delete_db_instance(identifier, snapshot_identifier, skip_snapshot = false)          
+        def delete_db_instance(identifier, snapshot_identifier, skip_snapshot = false) 
           params = {}
           params['FinalDBSnapshotIdentifier'] = snapshot_identifier if snapshot_identifier
           request({
@@ -30,8 +30,24 @@ module Fog
 
       class Mock
 
-        def delete_db_snapshot(identifier, snapshot_identifier, skip_snapshot = false)
-          Fog::Mock.not_implemented
+        def delete_db_instance(identifier, snapshot_identifier, skip_snapshot = false)
+          response = Excon::Response.new
+          
+          unless skip_snapshot
+            # I don't know how to mock snapshot_identifier
+            Fog::Logger.warning("snapshot_identifier is not mocked [light_black](#{caller.first})[/]")
+          end
+          
+          if server_set = self.data[:servers].delete(identifier)
+            response.status = 200
+            response.body = {
+              "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
+              "DeleteDBInstanceResult" => { "DBInstance" => server_set }
+            }
+            response
+          else
+            raise Fog::AWS::RDS::NotFound.new("DBInstance #{identifier} not found")
+          end
         end
 
       end

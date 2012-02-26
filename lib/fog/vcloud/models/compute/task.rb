@@ -4,7 +4,7 @@ module Fog
       class Task < Fog::Vcloud::Model
 
         identity :href, :aliases => :Href
-
+        attribute :links, :aliases => :Link, :type => :array
         ignore_attributes :xmlns, :xmlns_i, :xmlns_xsi, :xmlns_xsd
 
         attribute :status

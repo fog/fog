@@ -20,8 +20,12 @@ module Fog
       request :vm_power_on
       request :vm_reboot
       request :vm_clone
+      request :vm_create
       request :vm_destroy
       request :datacenters
+      request :vm_reconfig_hardware
+      request :vm_reconfig_memory
+      request :vm_reconfig_cpus
 
       module Shared
 

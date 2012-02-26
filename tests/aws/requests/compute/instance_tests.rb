@@ -122,6 +122,39 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     'requestId'     => String
   }
 
+  @describe_instance_status_format = {
+    'requestId' => String,
+    'instanceStatusSet' => [{
+                              'instanceId' => String,
+                              'availabilityZone' => String,
+                              'instanceState' => {
+                                'code' => Integer,
+                                'name' => String
+                              },
+                              'systemStatus' => {
+                                'status' => String,
+                                'details' => [{
+                                  'name' => String,
+                                  'status' => String
+                                }]
+                              },
+                              'instanceStatus' => {
+                                'status' => String,
+                                'details' => [{
+                                  'name' => String,
+                                  'status' => String
+                                }]
+                              },
+                              'event' => {
+                                                'code' => String,
+                                                'description' => String,
+                                                'notBefore' => Time,
+                                                'notAfter' => Time
+                                              }
+                            }]
+
+  }
+
   tests('success') do
 
     @instance_id = nil
@@ -212,6 +245,10 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     tests("#describe_reserved_instances_offerings").formats(@describe_reserved_instances_offerings_format) do
       @reserved_instances = Fog::Compute[:aws].describe_reserved_instances_offerings.body
       @reserved_instances
+    end
+
+    tests('#describe_instance_status').formats(@describe_instance_status_format) do
+      Fog::Compute[:aws].describe_instance_status.body
     end
 
     if Fog.mocking?

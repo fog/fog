@@ -10,6 +10,7 @@ module Fog
     service(:compute,         'aws/compute',          'Compute')
     service(:cloud_formation, 'aws/cloud_formation',  'CloudFormation')
     service(:cloud_watch,     'aws/cloud_watch',      'CloudWatch')
+    service(:dynamodb,        'aws/dynamodb',         'DynamoDB')
     service(:dns,             'aws/dns',              'DNS')
     service(:elasticache,     'aws/elasticache',      'Elasticache')
     service(:elb,             'aws/elb',              'ELB')
@@ -40,7 +41,7 @@ module Fog
       end
       params
     end
-    
+
     def self.serialize_keys(key, value, options = {})
       case value
       when Hash
@@ -222,6 +223,15 @@ module Fog
 
       def self.volume_id
         "vol-#{Fog::Mock.random_hex(8)}"
+      end
+
+      def self.key_id(length=21)
+        #Probably close enough
+        Fog::Mock.random_selection('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',length)
+      end
+
+      def self.rds_address(db_name,region)
+        "#{db_name}.#{Fog::Mock.random_letters(rand(12) + 4)}.#{region}.rds.amazonaws.com"
       end
     end
   end

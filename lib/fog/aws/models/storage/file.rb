@@ -1,4 +1,5 @@
 require 'fog/core/model'
+require 'fog/aws/models/storage/versions'
 
 module Fog
   module Storage
@@ -21,6 +22,8 @@ module Fog
         attribute :metadata
         attribute :owner,               :aliases => 'Owner'
         attribute :storage_class,       :aliases => ['x-amz-storage-class', 'StorageClass']
+        attribute :encryption,          :aliases => 'x-amz-server-side-encryption'
+        attribute :version,             :aliases => 'x-amz-version-id'
 
         def acl=(new_acl)
           valid_acls = ['private', 'public-read', 'public-read-write', 'authenticated-read']
@@ -50,12 +53,13 @@ module Fog
           requires :directory, :key
           connection.copy_object(directory.key, key, target_directory_key, target_file_key, options)
           target_directory = connection.directories.new(:key => target_directory_key)
-          target_directory.files.get(target_file_key)
+          target_directory.files.head(target_file_key)
         end
 
-        def destroy
+        def destroy(options = {})
           requires :directory, :key
-          connection.delete_object(directory.key, key)
+          attributes[:body] = nil if options['versionId'] == version
+          connection.delete_object(directory.key, key, options)
           true
         end
 
@@ -91,7 +95,7 @@ module Fog
         def public_url
           requires :directory, :key
           if connection.get_object_acl(directory.key, key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
-            if directory.key.to_s =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
+            if directory.key.to_s =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\-(?![\.])){1,61}[a-z0-9]$/
               "https://#{directory.key}.s3.amazonaws.com/#{Fog::AWS.escape(key)}"
             else
               "https://s3.amazonaws.com/#{directory.key}/#{Fog::AWS.escape(key)}"
@@ -115,6 +119,7 @@ module Fog
           options['Expires'] = expires if expires
           options.merge!(metadata)
           options['x-amz-storage-class'] = storage_class if storage_class
+          options['x-amz-server-side-encryption'] = encryption if encryption
 
           data = connection.put_object(directory.key, key, body, options)
           data.headers['ETag'].gsub!('"','')
@@ -123,9 +128,18 @@ module Fog
           true
         end
 
-        def url(expires)
+        def url(expires, options = {})
           requires :key
-          collection.get_https_url(key, expires)
+          collection.get_https_url(key, expires, options)
+        end
+
+        def versions
+          @versions ||= begin
+            Fog::Storage::AWS::Versions.new(
+              :file         => self,
+              :connection   => connection
+            )
+          end
         end
 
         private

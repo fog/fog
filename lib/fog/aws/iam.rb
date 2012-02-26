@@ -61,7 +61,22 @@ module Fog
           @data ||= Hash.new do |hash, key|
             hash[key] = {
               :owner_id => Fog::AWS::Mock.owner_id,
-              :server_certificates => {}
+              :server_certificates => {},
+              :users => Hash.new do |uhash, ukey|
+                uhash[ukey] = {
+                  :user_id     => Fog::AWS::Mock.key_id,
+                  :arn         => "arn:aws:iam::#{Fog::AWS::Mock.owner_id}:user/#{ukey}",
+                  :access_keys => [],
+                  :policies    => {}
+                }
+              end,
+              :groups => Hash.new do |ghash, gkey|
+                ghash[gkey] = {
+                  :group_id   => Fog::AWS::Mock.key_id,
+                  :arn        => "arn:aws:iam::#{Fog::AWS::Mock.owner_id}:group/#{gkey}",
+                  :members    => []
+                }
+              end
             }
           end
         end

@@ -3,9 +3,9 @@ module Fog
     class Compute
       class Vdc < Fog::Vcloud::Model
 
-        identity :href
-
-        ignore_attributes :xmlns, :xmlns_xsi, :xmlns_xsd
+        identity :href, :aliases => :Href
+        attribute :links, :aliases => :Link, :type => :array
+        ignore_attributes :xmlns, :xmlns_i, :xmlns_xsi, :xmlns_xsd
 
         attribute :name
         attribute :type
@@ -18,9 +18,9 @@ module Fog
         attribute :storage_capacity, :aliases => :StorageCapacity
         attribute :available_networks, :aliases => :AvailableNetworks, :squash => :Network
 
-        attribute :other_links, :aliases => :Link
-
         attribute :resource_entities, :aliases => :ResourceEntities, :squash => :ResourceEntity
+
+        has_up :organization
 
         def networks
           @networks ||= Fog::Vcloud::Compute::Networks.

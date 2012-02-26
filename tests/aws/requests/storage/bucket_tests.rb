@@ -117,7 +117,6 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
     end
 
     tests("#put_bucket_website('#{@aws_bucket_name}', 'index.html')").succeeds do
-      pending if Fog.mocking?
       Fog::Storage[:aws].put_bucket_website(@aws_bucket_name, 'index.html')
     end
 
@@ -180,6 +179,68 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
       Fog::Storage[:aws].delete_bucket_website(@aws_bucket_name)
     end
 
+    tests('bucket lifecycle') do
+      pending if Fog.mocking?
+
+      lifecycle = {'Rules' => [{'ID' => 'test rule', 'Prefix' => '/prefix', 'Enabled' => true, 'Days' => 42}]}
+      tests('non-existant bucket') do
+        tests('#put_bucket_lifecycle').returns([404, 'NoSuchBucket']) do
+          begin
+            Fog::Storage[:aws].put_bucket_lifecycle('fognonbucket', lifecycle)
+          rescue Excon::Errors::NotFound => e
+            [e.response.status, e.response.body.match(%r{<Code>(.*)</Code>})[1]]
+          end
+        end
+        tests('#get_bucket_lifecycle').returns([404, 'NoSuchBucket']) do
+          begin
+            Fog::Storage[:aws].get_bucket_lifecycle('fognonbucket')
+          rescue Excon::Errors::NotFound => e
+            [e.response.status, e.response.body.match(%r{<Code>(.*)</Code>})[1]]
+          end
+        end
+        tests('#delete_bucket_lifecycle').returns([404, 'NoSuchBucket']) do
+          begin
+            Fog::Storage[:aws].delete_bucket_lifecycle('fognonbucket')
+          rescue Excon::Errors::NotFound => e
+            [e.response.status, e.response.body.match(%r{<Code>(.*)</Code>})[1]]
+          end
+        end
+      end
+      tests('no lifecycle') do
+        tests('#get_bucket_lifecycle').returns([404, 'NoSuchLifecycleConfiguration']) do
+          begin
+            Fog::Storage[:aws].get_bucket_lifecycle(@aws_bucket_name)
+          rescue Excon::Errors::NotFound => e
+            [e.response.status, e.response.body.match(%r{<Code>(.*)</Code>})[1]]
+          end
+        end
+        tests('#delete_bucket_lifecycle').succeeds do
+          Fog::Storage[:aws].delete_bucket_lifecycle(@aws_bucket_name)
+        end
+      end
+      tests('create').succeeds do
+        Fog::Storage[:aws].put_bucket_lifecycle(@aws_bucket_name, lifecycle)
+      end
+      tests('read').returns(lifecycle) do
+        Fog::Storage[:aws].get_bucket_lifecycle(@aws_bucket_name).body
+      end
+      lifecycle = { 'Rules' => 5.upto(6).map { |i| {'ID' => "rule\##{i}", 'Prefix' => i.to_s, 'Enabled' => true, 'Days' => i} } }
+      tests('update').returns(lifecycle) do
+        Fog::Storage[:aws].put_bucket_lifecycle(@aws_bucket_name, lifecycle)
+        Fog::Storage[:aws].get_bucket_lifecycle(@aws_bucket_name).body
+      end
+      tests('delete').succeeds do
+          Fog::Storage[:aws].delete_bucket_lifecycle(@aws_bucket_name)
+      end
+      tests('read').returns([404, 'NoSuchLifecycleConfiguration']) do
+        begin
+          Fog::Storage[:aws].get_bucket_lifecycle(@aws_bucket_name)
+        rescue Excon::Errors::NotFound => e
+          [e.response.status, e.response.body.match(%r{<Code>(.*)</Code>})[1]]
+        end
+      end
+    end
+
     tests("#delete_bucket('#{@aws_bucket_name}')").succeeds do
       Fog::Storage[:aws].delete_bucket(@aws_bucket_name)
     end
@@ -220,6 +281,10 @@ Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
 
     tests("#put_bucket_acl('fognonbucket', 'invalid')").raises(Excon::Errors::BadRequest) do
       Fog::Storage[:aws].put_bucket_acl('fognonbucket', 'invalid')
+    end
+
+    tests("#put_bucket_website('fognonbucket', 'index.html')").raises(Excon::Errors::NotFound) do
+      Fog::Storage[:aws].put_bucket_website('fognonbucket', 'index.html')
     end
 
   end

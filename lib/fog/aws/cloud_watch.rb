@@ -57,7 +57,7 @@ module Fog
         #
         # ==== Parameters
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
-        #   * region<~String> - optional region to use, in ['eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'ap-southeast-1', 'ap-northeast-1']
+        #   * region<~String> - optional region to use. For instance, 'eu-west-1', 'us-east-1', etc.
         #
         # ==== Returns
         # * CloudWatch object with connection to AWS.
@@ -68,22 +68,7 @@ module Fog
 
           @connection_options = options[:connection_options] || {}
           options[:region] ||= 'us-east-1'
-          @host = options[:host] || case options[:region]
-          when 'ap-northeast-1'
-            'monitoring.ap-northeast-1.amazonaws.com'
-          when 'ap-southeast-1'
-            'monitoring.ap-southeast-1.amazonaws.com'
-          when 'eu-west-1'
-            'monitoring.eu-west-1.amazonaws.com'
-          when 'us-east-1'
-            'monitoring.us-east-1.amazonaws.com'
-          when 'us-west-1'
-            'monitoring.us-west-1.amazonaws.com'
-          when 'us-west-2'
-            'monitoring.us-west-2.amazonaws.com'
-          else
-            raise ArgumentError, "Unknown region: #{options[:region].inspect}"
-          end
+          @host = options[:host] || "monitoring.#{options[:region]}.amazonaws.com"
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443

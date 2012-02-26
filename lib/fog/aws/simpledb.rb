@@ -76,22 +76,7 @@ module Fog
           @nil_string = options[:nil_string]|| 'nil'
 
           options[:region] ||= 'us-east-1'
-          @host = options[:host] || case options[:region]
-          when 'ap-northeast-1'
-            'sdb.ap-northeast-1.amazonaws.com'
-          when 'ap-southeast-1'
-            'sdb.ap-southeast-1.amazonaws.com'
-          when 'eu-west-1'
-            'sdb.eu-west-1.amazonaws.com'
-          when 'us-east-1'
-            'sdb.amazonaws.com'
-          when 'us-west-1'
-            'sdb.us-west-1.amazonaws.com'
-          when 'us-west-2'
-            'sdb.us-west-2.amazonaws.com'
-          else
-            raise ArgumentError, "Unknown region: #{options[:region].inspect}"
-          end
+          @host = options[:host] || "sdb.#{options[:region]}.amazonaws.com"
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
