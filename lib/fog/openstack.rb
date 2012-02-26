@@ -74,7 +74,7 @@ module Fog
       connection = Fog::Connection.new(uri.to_s, false, connection_options)
       @openstack_api_key  = options[:openstack_api_key]
       @openstack_username = options[:openstack_username]
-      @openstack_tenant   = options[:openstack_tenant]
+      @openstack_tenant   = options[:openstack_tenant] || 'admin'
       @compute_service_name = options[:openstack_compute_service_name]
       @endpoint_type      = options[:openstack_endpoint_type] || 'publicURL'
 

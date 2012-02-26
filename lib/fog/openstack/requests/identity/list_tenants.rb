@@ -2,23 +2,16 @@ module Fog
   module Identity
     class OpenStack
       class Real
-        def list_tenants(options = {})
-          path = 'tenants'
-
-          params = options.map do |key, value|
-            next unless [
-              'limit', 'marker', 'name', 'id'
-            ].include?(key.to_s)
-
-            "#{key}=#{value}"
-          end.compact.join('&')
-
-          path.concat("?#{params}") unless params.empty?
+        def list_tenants(limit = nil, marker = nil)
+          params = Hash.new
+          params['limit']  = limit  if limit
+          params['marker'] = marker if marker
 
           request(
             :expects => [200, 204],
             :method  => 'GET',
-            :path    => path
+            :path    => "tenants",
+            :query   => params
           )
         end
       end # class Real

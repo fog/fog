@@ -3,8 +3,7 @@ module Shindo
 
     def succeeds
       test('succeeds') do
-        instance_eval(&Proc.new)
-        true
+        !!instance_eval(&Proc.new)
       end
     end
 

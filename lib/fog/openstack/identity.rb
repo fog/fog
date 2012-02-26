@@ -23,9 +23,12 @@ module Fog
       request :validate_token
 
       request :list_tenants
+      request :create_tenant
       request :get_tenant
       request :get_tenants_by_id
       request :get_tenants_by_name
+      request :update_tenant
+      request :delete_tenant
 
       request :list_users
       request :get_user_by_id
@@ -112,7 +115,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Compute::OpenStack::NotFound.slurp(error)
+              Fog::Identity::OpenStack::NotFound.slurp(error)
             else
               error
             end

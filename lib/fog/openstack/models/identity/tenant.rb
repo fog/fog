@@ -19,6 +19,30 @@ module Fog
             :tenant => self,
             :user   => user)
         end
+
+        def destroy
+          requires :id
+          connection.delete_tenant(self.id)
+          true
+        end
+
+        def update(attr = nil)
+          requires :id
+          merge_attributes(
+            connection.update_tenant(self.id, attr || attributes).body['tenant'])
+          self
+        end
+
+        def save
+          requires :name
+          identity ? update : create
+        end
+
+        def create
+          merge_attributes(
+            connection.create_tenant(attributes).body['tenant'])
+          self
+        end
       end # class Tenant
     end # class OpenStack
   end # module Identity
