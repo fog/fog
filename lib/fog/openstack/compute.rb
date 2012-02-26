@@ -46,7 +46,6 @@ module Fog
       request :list_servers
       request :list_servers_detail
 
-
       request :server_action
       request :change_password_server
       request :reboot_server
@@ -94,6 +93,11 @@ module Fog
       request :get_volume_details
       request :create_volume
       request :delete_volume
+
+      request :list_usages
+      request :get_console_output
+      request :live_migrate_server
+      request :migrate_server
 
       class Mock
 
@@ -182,7 +186,7 @@ module Fog
               }.merge!(params[:headers] || {}),
               :host     => @host,
               :path     => "#{@path}/#{@tenant_id}/#{params[:path]}",
-              :query    => ('ignore_awful_caching' << Time.now.to_i.to_s)
+              :query    => params[:query] || ('ignore_awful_caching' << Time.now.to_i.to_s)
             }))
           rescue Excon::Errors::Unauthorized => error
             if error.response.body != 'Bad username or password' # token expiration
