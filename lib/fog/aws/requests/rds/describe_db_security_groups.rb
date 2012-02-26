@@ -5,7 +5,7 @@ module Fog
 
         require 'fog/aws/parsers/rds/describe_db_security_groups'
 
-        # Describe all or specified db snapshots
+        # Describe all or specified db security groups
         # http://docs.amazonwebservices.com/AmazonRDS/latest/APIReference/index.html?API_DescribeDBSecurityGroups.html
         # ==== Parameters
         # * DBSecurityGroupName <~String> - The name of the DB Security Group to return details for.
