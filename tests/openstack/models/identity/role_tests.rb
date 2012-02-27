@@ -1,7 +1,7 @@
 Shindo.tests("Fog::Identity[:openstack] | role", ['openstack']) do
   @instance = Fog::Identity[:openstack].roles.new({:name => 'Role Name', :user_id => 1, :role_id => 1})
-  @user     = Fog::Identity[:openstack].users.all.first
-  @tenant   = Fog::Identity[:openstack].tenants.all.first
+  @tenant   = Fog::Identity[:openstack].tenants.create(:name => 'test_user')
+  @user     = Fog::Identity[:openstack].users.create(:name => 'test_user', :tenant_id => @tenant.id, :password => 'spoof')
 
   tests('success') do
     tests('#save').returns(true) do
@@ -20,5 +20,8 @@ Shindo.tests("Fog::Identity[:openstack] | role", ['openstack']) do
       @instance.destroy
     end
   end
+
+  @user.destroy
+  @tenant.destroy
 end
 

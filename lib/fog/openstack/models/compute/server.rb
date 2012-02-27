@@ -178,7 +178,7 @@ module Fog
         def live_migrate(host, block_migration, disk_over_commit)
           requires :id
           connection.live_migrate_server(id, host, block_migration, disk_over_commit)
-        end   
+        end
 
         def associate_address(floating_ip)
           requires :id
@@ -196,6 +196,10 @@ module Fog
 
         def max_count=(new_max_count)
           @max_count = new_max_count
+        end
+
+        def networks
+          connection.networks(:server => self)
         end
 
         # TODO: Implement /os-volumes-boot support with 'block_device_mapping'

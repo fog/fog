@@ -16,10 +16,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            'roles' => [
-              {'id' => '1',
-               'name' => 'admin'}
-            ]
+            'roles' => self.data[:roles]
           }
           response
         end # def list_roles_for_user_on_tenant

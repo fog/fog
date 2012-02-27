@@ -4,7 +4,7 @@ require 'fog/openstack/models/meta_parent'
 module Fog
   module Compute
     class OpenStack
-      class Meta < Fog::Model
+      class Metadatum < Fog::Model
 
         include Fog::Compute::OpenStack::MetaParent
 

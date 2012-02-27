@@ -3,10 +3,10 @@ module Fog
     class OpenStack
       class Real
 
-        def delete_meta(collection_name, parent_id, key)
+        def get_metadata(collection_name, parent_id, key)
           request(
-            :expects  => 204,
-            :method   => 'DELETE',
+            :expects  => [200, 203],
+            :method   => 'GET',
             :path     => "#{collection_name}/#{parent_id}/metadata/#{key}"
           )
         end
@@ -15,9 +15,10 @@ module Fog
 
       class Mock
 
-        def delete_meta(collection_name, parent_id, key)
+        def get_metadata(collection_name, parent_id, key)
           response = Excon::Response.new
-          response.status = 204
+          response.status = 200
+          response.body = { 'meta' => {} }
           response
         end
 

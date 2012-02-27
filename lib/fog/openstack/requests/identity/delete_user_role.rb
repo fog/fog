@@ -14,7 +14,11 @@ module Fog
       end
 
       class Mock
-
+        def delete_user_role(tenant_id, user_id, role_id)
+          response = Excon::Response.new
+          response.status = 200
+          response
+        end
       end
     end
   end

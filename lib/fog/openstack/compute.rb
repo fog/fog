@@ -10,94 +10,119 @@ module Fog
       recognizes :openstack_auth_token, :openstack_management_url,
                  :persistent, :openstack_compute_service_name, :openstack_tenant
 
+      ## MODELS
+      #
       model_path 'fog/openstack/models/compute'
-      model       :address
-      collection  :addresses
-      model       :flavor
-      collection  :flavors
-      model       :image
-      collection  :images
       model       :server
       collection  :servers
-      model       :meta
+      model       :image
+      collection  :images
+      model       :flavor
+      collection  :flavors
+      model       :metadatum
       collection  :metadata
-      model       :key_pair
-      collection  :key_pairs
+      model       :address
+      collection  :addresses
       model       :security_group
       collection  :security_groups
+      model       :key_pair
+      collection  :key_pairs
       model       :tenant
       collection  :tenants
       model       :volume
       collection  :volumes
+      model       :network
+      collection  :networks
 
-
+      ## REQUESTS
+      #
       request_path 'fog/openstack/requests/compute'
-      request :create_server
-      request :delete_image
-      request :delete_server
-      request :get_flavor_details
-      request :get_image_details
-      request :get_server_details
 
-      request :list_flavors
-      request :list_flavors_detail
-      request :list_images
-      request :list_images_detail
+      # Server CRUD
       request :list_servers
       request :list_servers_detail
+      request :create_server
+      request :get_server_details
+      request :update_server
+      request :delete_server
 
+      # Server Actions
+      request :server_actions
       request :server_action
-      request :change_password_server
       request :reboot_server
       request :rebuild_server
       request :resize_server
-      request :confirm_resized_server
-      request :revert_resized_server
+      request :confirm_resize_server
+      request :revert_resize_server
+      request :pause_server
+      request :unpause_server
+      request :rescue_server
+      request :change_server_password
+      request :add_fixed_ip
+      request :remove_fixed_ip
+      request :server_diagnostics
+
+      # Server Extenstions
+      request :get_console_output
+      request :get_vnc_console
+      request :live_migrate_server
+      request :migrate_server
+
+      # Image CRUD
+      request :list_images
+      request :list_images_detail
       request :create_image
+      request :get_image_details
+      request :delete_image
 
-      request :update_server
+      # Flavor
+      request :list_flavors
+      request :list_flavors_detail
+      request :get_flavor_details
 
+      # Metadata
+      request :list_metadata
+      request :get_metadata
       request :set_metadata
       request :update_metadata
-      request :list_metadata
+      request :delete_metadata
 
-      request :get_meta
-      request :update_meta
-      request :delete_meta
-
+      # Address
+      request :list_addresses
       request :list_all_addresses
       request :list_private_addresses
       request :list_public_addresses
+      request :get_address
       request :allocate_address
       request :associate_address
-      request :disassociate_address
-      request :get_address
-      request :list_addresses
       request :release_address
+      request :disassociate_address
 
+      # Security Group
+      request :list_security_groups
+      request :get_security_group
       request :create_security_group
       request :create_security_group_rule
       request :delete_security_group
       request :delete_security_group_rule
-      request :list_security_groups
-      request :get_security_group
 
+      # Key Pair
+      request :list_key_pairs
       request :create_key_pair
       request :delete_key_pair
-      request :list_key_pairs
 
+      # Tenant
       request :list_tenants
       request :set_tenant
 
+      # Volume
       request :list_volumes
-      request :get_volume_details
       request :create_volume
+      request :get_volume_details
       request :delete_volume
 
+      # Usage
       request :list_usages
-      request :get_console_output
-      request :live_migrate_server
-      request :migrate_server
 
       class Mock
 
