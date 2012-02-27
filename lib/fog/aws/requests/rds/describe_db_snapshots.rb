@@ -36,11 +36,11 @@ module Fog
           response = Excon::Response.new
           snapshots = self.data[:snapshots].values
           if opts[:identifier]
-            snapshots.select!{|snapshot| snapshot['DBInstanceIdentifier'] == opts[:identifier]}
+            snapshots = snapshots.select{|snapshot| snapshot['DBInstanceIdentifier'] == opts[:identifier]}
           end
 
           if opts[:snapshot_id]
-            snapshots.select!{|snapshot| snapshot['DBSnapshotIdentifier'] == opts[:snapshot_id]}
+            snapshots = snapshots.select{|snapshot| snapshot['DBSnapshotIdentifier'] == opts[:snapshot_id]}
           end
 
           snapshots.each do |snapshot|
