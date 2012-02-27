@@ -42,6 +42,8 @@ module Fog
             sec_group_set = self.data[:security_groups].values
           end
 
+          # TODO: refactor to not delete items that we're iterating over. Causes
+          # model tests to fail (currently pending)
           sec_group_set.each do |sec_group|
             sec_group["IPRanges"].each do |iprange|
               if iprange["Status"] == "authorizing" || iprange["Status"] == "revoking"
@@ -54,6 +56,8 @@ module Fog
               end
             end
 
+            # TODO: refactor to not delete items that we're iterating over. Causes
+            # model tests to fail (currently pending)
             sec_group["EC2SecurityGroups"].each do |ec2_secg|
               if ec2_secg["Status"] == "authorizing" || iprange["Status"] == "revoking"
                 ec2_secg[:tmp] ||= Time.now + Fog::Mock.delay * 2
