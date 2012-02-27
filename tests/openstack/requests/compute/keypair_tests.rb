@@ -20,11 +20,11 @@ Shindo.tests('Fog::Compute[:openstack] | keypair requests', ['openstack']) do
     end
 
     tests('#list_key_pairs').formats({"keypairs" => [{"keypair" => @keypair_list_format}]}) do
-      Fog::Compute[:openstack].list_key_pairs
+      Fog::Compute[:openstack].list_key_pairs.body
     end
 
     tests('#delete_key_pair(key_name)').succeeds do
-      Fog::Compute[:openstack].delete_key_pair(1)
+      Fog::Compute[:openstack].delete_key_pair('from_shindo_test')
     end
   end
 end

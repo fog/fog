@@ -11,9 +11,16 @@ module Fog
       end
 
       class Mock
-
-
-
+        def associate_address(server_id, ip_address)
+          response = Excon::Response.new
+          response.status = 202
+          response.headers = {
+            "Content-Type" => "text/html, charset=UTF-8",
+            "Content-Length" => "0",
+            "Date"=> Date.new
+          }
+          response
+        end
       end
     end
   end
