@@ -27,9 +27,45 @@ module Fog
       class Mock
 
         def create_db_snapshot(identifier, name)
-          Fog::Mock.not_implemented
-        end
+          response = Excon::Response.new
+          if data[:snapshots][name]
+            raise Fog::AWS::RDS::IndentifierTaken.new
+          end
 
+          server_data = data[:servers][identifier]
+          unless server_data
+            raise Fog::AWS::RDS::NotFound.new("DBInstance #{identifier} not found")
+          end
+
+          # TODO: raise an error if the server isn't in 'available' state
+
+          snapshot_data = {
+            'Status'               => 'creating',
+            #'SnapshotType'         => 'manual', # In a newer RDS version
+            'DBInstanceIdentifier' => identifier,
+            'DBSnapshotIdentifier' => name,
+            'InstanceCreateTime'   => Time.now
+          }
+          # Copy attributes from server
+          %w(Engine EngineVersion AvailabilityZone AllocatedStorage MasterUsername InstanceCreateTime).each do |key|
+            snapshot_data[key] = server_data[key]
+          end
+          snapshot_data['Port'] = server_data['Endpoint']['Port']
+
+          self.data[:snapshots][name] = snapshot_data
+
+          # TODO: put the server in 'modifying' state
+
+          response.body = {
+            "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
+            "CreateDBSnapshotResult"=> {"DBSnapshot"=> snapshot_data.dup}
+          }
+          response.status = 200
+          # SnapshotCreateTime is not part of the response.
+          self.data[:snapshots][name]['SnapshotCreateTime'] = Time.now
+          response
+
+        end
       end
     end
   end

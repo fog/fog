@@ -65,7 +65,8 @@ module Fog
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
                 :servers => {},
-                :security_groups => {}
+                :security_groups => {},
+                :snapshots => {}
               }
             end
           end
