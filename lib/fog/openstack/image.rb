@@ -19,7 +19,14 @@ module Fog
 
       request :list_public_images
       request :list_public_images_detailed
-      request :get_image_by_id
+      request :get_image
+      request :create_image
+      request :update_image
+      request :get_image_members
+      request :get_shared_images
+      request :add_member_to_image
+      request :remove_member_from_image
+      request :delete_image
 
 
       class Mock
