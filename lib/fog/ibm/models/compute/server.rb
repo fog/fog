@@ -164,11 +164,11 @@ module Fog
         end
 
         def public_hostname
-          attributes[:primary_ip]["hostname"]
+          primary_ip ? primary_ip['hostname'] : nil
         end
 
         def public_ip_address
-          attributes[:primary_ip]["ip"]
+          primary_ip ? primary_ip['ip'] : nil
         end
 
         # Creates an image from the current instance
