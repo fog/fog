@@ -32,6 +32,9 @@ module Fog
       when :gogrid
         require 'fog/go_grid/compute'
         Fog::Compute::GoGrid.new(attributes)
+      when :joyent
+        require 'fog/joyent/compute'
+        Fog::Compute::Joyent.new(attributes)
       when :libvirt
         require 'fog/libvirt/compute'
         Fog::Compute::Libvirt.new(attributes)
