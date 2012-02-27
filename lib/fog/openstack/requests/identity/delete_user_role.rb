@@ -7,7 +7,7 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'DELETE',
-            :path     => '/tenants/%s/users/%s/roles/OS-KSADM/%s' % [tenant_id, user_id, role_id]
+            :path     => "/tenants/#{tenant_id}/users/#{user_id}/roles/OS-KSADM/#{role_id}"
           )
         end
 

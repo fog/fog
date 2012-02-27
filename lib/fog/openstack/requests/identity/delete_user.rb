@@ -3,11 +3,11 @@ module Fog
     class OpenStack
       class Real
 
-        def delete_role(role_id)
+        def delete_user(user_id)
           request(
-            :expects => [200, 204],
+            :expects => 200,
             :method => 'DELETE',
-            :path   => "/OS-KSADM/roles/#{role_id}"
+            :path   => "users/#{user_id}"
           )
         end
 
@@ -15,10 +15,10 @@ module Fog
 
       class Mock
 
-        def delete_role(role_id)
+        def delete_user(user_id)
           response = Excon::Response.new
-          if role = list_roles.body['roles'][role_id]
-            self.data[:roles].delete(role_id)
+          if user = list_users.body['users'][user_id]
+            self.data[:users].delete(user_id)
             response.status = 204
             response
           else

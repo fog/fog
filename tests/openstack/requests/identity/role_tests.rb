@@ -8,7 +8,7 @@ Shindo.tests('Fog::Identity[:openstack] | role requests', ['openstack']) do
   @tenant = Fog::Identity[:openstack].list_tenants.body['tenants'].first
   tests('success') do
 
-    tests('#create_role("Role Name", "Descriptio")').formats(@role_format, false) do
+    tests('#create_role("Role Name")').formats(@role_format, false) do
       @role = Fog::Identity[:openstack].create_role("Role Name").body['role']
     end
 

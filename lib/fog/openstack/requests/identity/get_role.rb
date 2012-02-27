@@ -6,7 +6,7 @@ module Fog
           request(
             :expects => [200, 204],
             :method  => 'GET',
-            :path    => "/OS-KSADM/roles/%s" % id
+            :path    => "/OS-KSADM/roles/#{id}"
           )
         end
       end
@@ -14,15 +14,13 @@ module Fog
       class Mock
         def get_role(id)
           response = Excon::Response.new
-          response.status = [200, 204][rand(1)]
-          response.body = {
-            'role' => {
-              'id' => '1',
-              'name' => 'System Admin',
-              'description' => 'Role description',
-            }
-          }
-          response
+          if data = self.data[:roles][id]
+            response.status = 200
+            response.body = { 'role' => data }
+            response
+          else
+            raise Fog::Identity::OpenStack::NotFound
+          end
         end
       end # class Mock
     end # class OpenStack

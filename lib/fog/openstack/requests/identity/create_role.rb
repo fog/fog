@@ -22,13 +22,11 @@ module Fog
         def create_role(name)
           response = Excon::Response.new
           response.status = 202
-
           data = {
             'id'          => Fog::Mock.random_numbers(6).to_s,
             'name'        => name
           }
           self.data[:roles][data['id']] = data
-          self.data[:roles][data['id']][:last_modified] = Time.now
           response.body = { 'role' => data }
           response
         end

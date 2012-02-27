@@ -10,7 +10,7 @@ module Fog
         def all
           load(connection.list_users.body['users'])
         end
-      end # class Tenants
+      end # class Users
     end # class OpenStack
-  end # module Compute
+  end # module Identity
 end # module Fog

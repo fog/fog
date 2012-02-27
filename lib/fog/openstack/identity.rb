@@ -31,6 +31,9 @@ module Fog
       request :delete_tenant
 
       request :list_users
+      request :create_user
+      request :update_user
+      request :delete_user
       request :get_user_by_id
       request :get_user_by_name
 
@@ -52,6 +55,7 @@ module Fog
           @data ||= Hash.new do |hash, key|
             hash[key] = {
               :users => {},
+              :roles => {},
               :tenants => {}
             }
           end

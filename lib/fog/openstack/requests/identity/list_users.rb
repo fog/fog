@@ -14,18 +14,10 @@ module Fog
       class Mock
         def list_users
           response = Excon::Response.new
-          response.status = [200, 204][rand(1)]
-          response.body = {
-            'users' => [
-              {'id' => '1',
-               'enabled' => true,
-               'name' => 'admin',
-               'email' => 'admin@example.com',
-               'tenantId' => nil}
-            ]
-          }
+          response.status = 200
+          response.body = { 'users' => self.data[:users] }
           response
-        end # def list_tenants
+        end
       end # class Mock
     end # class OpenStack
   end # module Identity
