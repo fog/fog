@@ -45,13 +45,13 @@ module Fog
           # Merge the Cache Security Group parameters with the normal options
           request(node_id_params.merge(sec_group_params.merge(
             'Action'                      => 'ModifyCacheCluster',
-            'CacheClusterId'              => id,
+            'CacheClusterId'              => id.strip,
             'ApplyImmediately'            => options[:apply_immediately],
             'NumCacheNodes'               => options[:num_nodes],
             'AutoMinorVersionUpgrade'     => options[:auto_minor_version_upgrade],
             'CacheParameterGroupName'     => options[:parameter_group_name],
             'EngineVersion'               => options[:engine_version],
-            'NotificationTopicArn'        => options[:notification_topic_arn],
+            'NotificationTopicArn'        => (options[:notification_topic_arn]).strip,
             'NotificationTopicStatus'     => options[:notification_topic_status],
             'PreferredMaintenanceWindow'  => options[:preferred_maintenance_window],
             :parser => Fog::Parsers::AWS::Elasticache::SingleCacheCluster.new

@@ -44,10 +44,10 @@ module Fog
             data[:groups][group_name][:path] = path
             Excon::Response.new.tap do |response|
               response.body = { 'Group' => {
-                                             'GroupId'   => data[:groups][group_name][:group_id],
+                                             'GroupId'   => (data[:groups][group_name][:group_id]).strip,
                                              'GroupName' => group_name,
                                              'Path'      => path,
-                                             'Arn'       => data[:groups][group_name][:arn] },
+                                             'Arn'       => (data[:groups][group_name][:arn]).strip },
                                 'RequestId' => Fog::AWS::Mock.request_id }
               response.status = 200
             end

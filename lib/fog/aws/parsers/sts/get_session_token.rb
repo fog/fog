@@ -15,7 +15,7 @@ module Fog
             when 'SessionToken', 'SecretAccessKey', 'Expiration', 'AccessKeyId'
               @response[name] = @value.strip
             when 'Arn', 'FederatedUserId'
-              @response[name] = @value
+              @response[name] = @value.strip
             when 'PackedPolicySize'
               @response[name] = @value
             when 'RequestId'

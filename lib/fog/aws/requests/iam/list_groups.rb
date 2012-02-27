@@ -48,7 +48,7 @@ module Fog
                                             { 'GroupId'   => group[:group_id],
                                               'GroupName' => name,
                                               'Path'      => group[:path],
-                                              'Arn'       => group[:arn] }
+                                              'Arn'       => (group[:arn]).strip }
                                           end,
                               'IsTruncated' => false,
                               'RequestId' => Fog::AWS::Mock.request_id }

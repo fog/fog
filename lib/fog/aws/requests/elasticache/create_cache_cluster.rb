@@ -36,14 +36,14 @@ module Fog
           # Merge the Cache Security Group parameters with the normal options
           request(sec_group_params.merge(
             'Action'          => 'CreateCacheCluster',
-            'CacheClusterId'  => id,
+            'CacheClusterId'  => id.strip,
             'CacheNodeType'   => options[:node_type]  || 'cache.m1.large',
             'Engine'          => options[:engine]     || 'memcached',
             'NumCacheNodes'   => options[:num_nodes]  || 1,
             'AutoMinorVersionUpgrade'     => options[:auto_minor_version_upgrade],
             'CacheParameterGroupName'     => options[:parameter_group_name],
             'EngineVersion'               => options[:engine_version],
-            'NotificationTopicArn'        => options[:notification_topic_arn],
+            'NotificationTopicArn'        => (options[:notification_topic_arn]).strip,
             'Port'                        => options[:port],
             'PreferredAvailabilityZone'   => options[:preferred_availablility_zone],
             'PreferredMaintenanceWindow'  => options[:preferred_maintenance_window],
