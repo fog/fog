@@ -5,7 +5,7 @@ module Fog
   module Compute
     class IBM < Fog::Service
 
-      requires :ibm_user_id, :ibm_password
+      requires :ibm_username, :ibm_password
       recognizes :location
 
       model_path 'fog/ibm/models/compute'
@@ -60,7 +60,7 @@ module Fog
 
       class Real
         def initialize(options={})
-          @connection = Fog::IBM::Connection.new(options[:ibm_user_id], options[:ibm_password])
+          @connection = Fog::IBM::Connection.new(options[:ibm_username], options[:ibm_password])
         end
 
         private
@@ -99,18 +99,18 @@ module Fog
         end
 
         def data
-          self.class.data[@ibm_user_id]
+          self.class.data[@ibm_username]
         end
 
         def reset_data
-          self.class.data.delete(@ibm_user_id)
-          @data = self.class.data[@ibm_user_id]
+          self.class.data.delete(@ibm_username)
+          @data = self.class.data[@ibm_username]
         end
 
         def initialize(options={})
-          @ibm_user_id  = options[:ibm_user_id]
+          @ibm_username = options[:ibm_username]
           @ibm_password = options[:ibm_password]
-          @data = self.class.data[@ibm_user_id]
+          @data = self.class.data[@ibm_username]
         end
 
         def self.populate_images
