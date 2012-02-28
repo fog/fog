@@ -131,10 +131,6 @@ module Fog
         "ip-#{ip_address.gsub('.','-')}.ec2.internal"
       end
 
-      def self.etag
-        Fog::Mock.random_hex(32)
-      end
-
       def self.image
         path = []
         (rand(3) + 2).times do
