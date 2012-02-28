@@ -1,4 +1,5 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'brightbox'))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'joyent'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'errors'))
 require 'fog/compute'
 require 'multi_json'
 
@@ -71,6 +72,8 @@ module Fog
       request :delete_machine_tag
       request :delete_all_machine_tags
 
+
+
       class Mock
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -113,14 +116,15 @@ module Fog
 
               @rsa = OpenSSL::PKey::RSA.new(@joyent_key)
 
-              @header_method = method(:header_for_signature)
+              @header_method = method(:header_for_signature_auth)
             else
               raise ArgumentError, "options[:joyent_keyfile] provided does not exist."
             end
+
           elsif options[:joyent_password]
             @joyent_password = options[:joyent_password]
 
-            @header_method = method(:header_for_basic)
+            @header_method = method(:header_for_basic_auth)
           else
             raise ArgumentError, "Must provide either a joyent_password or joyent_keyname and joyent_keyfile pair"
           end
@@ -132,36 +136,42 @@ module Fog
           )
         end
 
-        def request(request_options = {})
-          (request_options[:headers] ||= {}).merge!({
+        def request(request = {})
+          request[:headers] = {
             "X-Api-Version" => @joyent_version,
             "Content-Type" => "application/json",
             "Accept" => "application/json"
-          }).merge!(@header_method.call)
+          }.merge(request[:headers] || {}).merge(@header_method.call) 
 
-          if request_options[:body]
-            request_options[:body] = MultiJson.encode(request_options[:body])
+          if request[:body]
+            request[:body] = MultiJson.encode(request[:body])
           end
 
-          response = @connection.request(request_options)
+          response = @connection.request(request)
 
           if response.headers["Content-Type"] == "application/json"
-            response.body = MultiJson.decode(response.body)
-            response.body = decode_time_props(response.body)
+            response.body = json_decode(response.body)
           end
+
+          raise_if_error!(request, response)
 
           response
         end
 
         private
 
-        def header_for_basic
+        def json_decode(body)
+          parsed = MultiJson.decode(body)
+          decode_time_attrs(parsed)
+        end
+
+        def header_for_basic_auth
           {
             "Authorization" => "Basic #{Base64.encode64("#{@joyent_username}:#{@joyent_password}").delete("\r\n")}"
           }
         end
 
-        def header_for_signature
+        def header_for_signature_auth
           date = Time.now.utc.httpdate
           signature = Base64.encode64(@rsa.sign("sha256", date)).delete("\r\n")
           key_id = "/#{@joyent_username}/keys/#{@joyent_keyname}"
@@ -172,22 +182,46 @@ module Fog
           }
         end
 
-        def decode_time_props(obj)
+        def decode_time_attrs(obj)
           if obj.kind_of?(Hash)
-            if obj["created"]
-              obj["created"] = Time.parse(obj["created"])
-            end
-
-            if obj["updated"]
-              obj["updated"] = Time.parse(obj["updated"])
-            end
+            obj["created"] = Time.parse(obj["created"]) if obj["created"]
+            obj["updated"] = Time.parse(obj["updated"]) if obj["updated"]
           elsif obj.kind_of?(Array)
             obj.map do |o|
-              decode_time_props(o)
+              decode_time_attrs(o)
             end
           end
+
           obj
         end
+
+        def raise_if_error!(request, response)
+          case response.status
+          when 401 then
+            raise Errors::Unauthorized.new('Invalid credentials were used', request, response)
+          when 403 then
+            raise Errors::Forbidden.new('No permissions to the specified resource', request, response)
+          when 404 then
+            raise Errors::NotFound.new('Requested resource was not found', request, response)
+          when 405 then
+            raise Errors::MethodNotAllowed.new('Method not supported for the given resource', request, response)
+          when 406 then
+            raise Errors::NotAcceptable.new('Try sending a different Accept header', request, response)
+          when 409 then
+            raise Errors::Conflict.new('Most likely invalid or missing parameters', request, response)
+          when 414 then
+            raise Errors::RequestEntityTooLarge.new('You sent too much data', request, response)
+          when 415 then
+            raise Errors::UnsupportedMediaType.new('You encoded your request in a format we don\'t understand', request, response)
+          when 420 then
+            raise Errors::PolicyNotForfilled.new('You are sending too many requests', request, response)
+          when 449 then
+            raise Errors::RetryWith.new('Invalid API Version requested; try with a different API Version', request, response)
+          when 503 then
+            raise Errors::ServiceUnavailable.new('Either there\'s no capacity in this datacenter, or we\'re in a maintenance window', request, response)
+          end
+        end
+
       end # Real
     end
   end
