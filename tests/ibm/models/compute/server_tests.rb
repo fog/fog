@@ -31,8 +31,8 @@ Shindo.tests('Fog::Compute[:ibm] | server', ['ibm']) do
     end
 
     tests('Fog::Compute::IBM::Server#wait_for { ready? }') do
-      Fog::Compute[:ibm].servers.get(@instance_id).wait_for { ready? }
-      @server = Fog::Compute[:ibm].servers.last
+      @server = Fog::Compute[:ibm].servers.get(@instance_id)
+      @server.wait_for { ready? }
     end
 
     tests('Fog::Compute::IBM::Server#id') do
