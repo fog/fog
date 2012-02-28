@@ -5,7 +5,6 @@ $LOAD_PATH.unshift __LIB_DIR__ unless
   $LOAD_PATH.include?(File.expand_path(__LIB_DIR__))
 
 # external core dependencies
-require 'rubygems'
 require 'base64'
 require 'cgi'
 require 'uri'
