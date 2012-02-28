@@ -2,14 +2,14 @@ Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
 
   @addresses_format = {
     'addressesSet' => [{
-      'allocationId' => Fog::Nullable::String,
-      'domain'       => String,
-      'instanceId'   => Fog::Nullable::String,
-      'publicIp'     => String
+      'allocationId'  => Fog::Nullable::String,
+      'associationId' => Fog::Nullable::String,
+      'domain'        => String,
+      'instanceId'    => Fog::Nullable::String,
+      'publicIp'      => String
     }],
     'requestId' => String
   }
-
   @server = Fog::Compute[:aws].servers.create
   @server.wait_for { ready? }
   @ip_address = @server.public_ip_address
@@ -35,7 +35,7 @@ Shindo.tests('Fog::Compute[:aws] | address requests', ['aws']) do
     tests("#associate_addresses('#{@server.identity}', '#{@public_ip}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].associate_address(@server.identity, @public_ip).body
     end
-
+    
     tests("#dissassociate_address('#{@public_ip}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].disassociate_address(@public_ip).body
     end

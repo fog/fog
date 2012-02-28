@@ -6,9 +6,11 @@ module Fog
 
       class Address < Fog::Model
 
-        identity  :public_ip, :aliases => 'publicIp'
+        identity  :public_ip,            :aliases => 'publicIp'
 
-        attribute :server_id, :aliases => 'instanceId'
+        attribute :allocation_id,        :aliases => 'allocationId'
+        attribute :server_id,            :aliases => 'instanceId'
+        attribute :network_interface_id, :aliases => 'networkInterfaceId'
         attribute :domain
 
         def initialize(attributes = {})
@@ -51,7 +53,7 @@ module Fog
           else
             @server = nil
             self.server_id = new_server.id
-            connection.associate_address(server_id, public_ip)
+            connection.associate_address(server_id, public_ip, network_interface_id, allocation_id)
           end
         end
 
