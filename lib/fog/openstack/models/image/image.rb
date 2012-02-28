@@ -73,6 +73,11 @@ module Fog
           connection.get_image_members(self.id).body['members']
         end
 
+        def metadata
+          requires :id
+          connection.get_image(self.id).headers
+        end
+
       end
     end
   end

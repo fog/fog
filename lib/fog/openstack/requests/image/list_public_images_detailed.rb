@@ -2,11 +2,18 @@ module Fog
   module Image
     class OpenStack
       class Real
-        def list_public_images_detailed
+        def list_public_images_detailed(attribute=nil, query=nil)
+
+          if attribute
+            path = "images/detail?#{attribute}=#{query}"
+          else
+            path = 'images/detail'
+          end
+
           request(
             :expects => [200, 204],
             :method  => 'GET',
-            :path    => 'images/detail'
+            :path    => path
           )
         end
       end # class Real

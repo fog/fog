@@ -12,6 +12,10 @@ Shindo.tests("Fog::Image[:openstack] | image", ['openstack']) do
       @instance.name == 'edit test image'
     end
 
+    tests('#get image metadata').succeeds do
+      @instance.metadata
+    end
+
     tests('#add member').succeeds do
       @instance.add_member(@instance.owner)
     end
