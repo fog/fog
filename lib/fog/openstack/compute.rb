@@ -75,10 +75,12 @@ module Fog
       request :get_image_details
       request :delete_image
 
-      # Flavor
+      # Flavor CRUD
       request :list_flavors
       request :list_flavors_detail
       request :get_flavor_details
+      request :create_flavor
+      request :delete_flavor
 
       # Metadata
       request :list_metadata
