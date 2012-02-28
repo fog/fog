@@ -8,6 +8,9 @@ module Fog
 
 end
 
+# Skip verification of SSL peer
+Excon.ssl_verify_peer = false
+
 # FIXME: these should go away (force usage of Fog::[Compute, CDN, DNS, Storage]  etc)
 require 'fog/providers'
 require 'fog/terremark'
