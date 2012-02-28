@@ -53,12 +53,13 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
   @image_id       = "20015393"
   @instance_type  = "BRZ32.1/2048/60*175"
   @location       = "101"
-  @public_key     = "test"
 
   @id             = nil
   @cloned_id      = nil
   @image_name     = "fog test create image"
 
+  @key_name       = "fog-test-key-" + Time.now.to_i.to_s(32)
+  @key            = Fog::Compute[:ibm].keys.create(:name => @key_name)
 
   tests('success') do
 
@@ -76,7 +77,7 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
         @image_id,
         @instance_type,
         @location,
-        :key_name => @public_key
+        :key_name => @key_name
       ).body
       @instance_id  = response['instances'][0]['id']
       data          = Fog::Compute[:ibm].create_image(@instance_id, @image_name, "").body
@@ -95,6 +96,9 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
       returns(true) { Fog::Compute[:ibm].delete_image(@id).body['success'] }
       returns(true) { Fog::Compute[:ibm].delete_image(@cloned_id).body['success'] }
     end
+
+    @key.wait_for { instance_ids.empty? }
+    @key.destroy
 
   end
 

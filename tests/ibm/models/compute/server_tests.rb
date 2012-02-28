@@ -9,7 +9,9 @@ Shindo.tests('Fog::Compute[:ibm] | server', ['ibm']) do
     @image_id       = "20015393"
     @instance_type  = "BRZ32.1/2048/60*175"
     @location_id    = "101"
-    @key_name       = "test"
+
+    @key_name       = "fog-test-key-" + Time.now.to_i.to_s(32)
+    @key            = Fog::Compute[:ibm].keys.create(:name => @key_name)
 
     tests('Fog::Compute::IBM::Server.new') do
       @server = Fog::Compute[:ibm].servers.new(
@@ -72,6 +74,9 @@ Shindo.tests('Fog::Compute[:ibm] | server', ['ibm']) do
     tests('Fog::Compute::IBM::Server#destroy') do
       returns(true) { @server.destroy }
     end
+
+    @key.wait_for { instance_ids.empty? }
+    @key.destroy
 
   end
 

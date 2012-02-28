@@ -38,10 +38,11 @@ Shindo.tests('Fog::Compute[:ibm] | instance requests', ['ibm']) do
     @instance_type  = "COP32.1/2048/60"
     @location       = "101"
     @expiration_time= (Time.now.tv_usec + 10000).to_f * 1000
-    @options        = {:key_name => "test"}
+    @key_name       = "fog-test-key-" + Time.now.to_i.to_s(32)
+    @key            = Fog::Compute[:ibm].keys.create(:name => @key_name)
 
-    tests("#create_instance('#{@name}', '#{@image_id}', '#{@instance_type}', '#{@location}', #{@options})").formats(@instances_format) do
-      response = Fog::Compute[:ibm].create_instance(@name, @image_id, @instance_type, @location, @options).body
+    tests("#create_instance('#{@name}', '#{@image_id}', '#{@instance_type}', '#{@location}', :key_name => '#{@key_name}')").formats(@instances_format) do
+      response = Fog::Compute[:ibm].create_instance(@name, @image_id, @instance_type, @location, :key_name => @key_name).body
       @instance_id = response['instances'][0]['id']
       response
     end
@@ -71,6 +72,9 @@ Shindo.tests('Fog::Compute[:ibm] | instance requests', ['ibm']) do
     tests("#delete_instance('#{@instance_id}')") do
       data = Fog::Compute[:ibm].delete_instance(@instance_id)
     end
+
+    @key.wait_for { instance_ids.empty? }
+    @key.destroy
 
   end
 

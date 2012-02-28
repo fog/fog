@@ -41,7 +41,9 @@ Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
     @image_id       = "20015393"
     @instance_type  = "BRZ32.1/2048/60*175"
     @location       = "101"
-    @public_key     = "test"
+
+    @key_name       = "fog-test-key-" + Time.now.to_i.to_s(32)
+    @key            = Fog::Compute[:ibm].keys.create(:name => @key_name)
 
     tests("#create_volume('#{@name}', '#{@offering_id}', '#{@format}', '#{@location_id}', '#{@size}')").formats(@volume_format) do
       data = Fog::Storage[:ibm].create_volume(@name, @offering_id, @format, @location_id, @size).body
@@ -63,7 +65,7 @@ Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
         @image_id,
         @instance_type,
         @location,
-        :key_name => @public_key
+        :key_name => @key_name
       ).body['instances'][0]['id']
       # TODO: Add assertions for this whenever it is properly supported
       Fog::Compute[:ibm].modify_instance(@instance_id, 'type' => 'attach', 'volume_id' => @volume_id)
@@ -78,6 +80,9 @@ Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
     tests("#delete_volume('#{@volume_id}')") do
       returns(true) { Fog::Storage[:ibm].delete_volume(@volume_id).body['success'] }
     end
+
+    @key.wait_for { instance_ids.empty? }
+    @key.destroy
 
   end
 
