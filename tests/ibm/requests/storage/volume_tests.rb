@@ -32,7 +32,7 @@ Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
 
     @volume_id    = nil
     @name         = "fog-test-volume" + Time.now.to_i.to_s(32)
-    @format       = "raw"
+    @format       = "RAW"
     @location_id  = "101"
     @size         = "256"
     @offering_id  = "20001208"

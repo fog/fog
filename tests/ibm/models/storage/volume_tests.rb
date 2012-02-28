@@ -5,7 +5,7 @@ Shindo.tests('Fog::Storage[:ibm] | volume', ['ibm']) do
     @volume       = nil
     @volume_id    = nil
     @name         = "fog test volume"
-    @format       = "raw"
+    @format       = "RAW"
     @location_id  = "101"
     @size         = "256"
     @offering_id  = "20001208"
@@ -13,7 +13,7 @@ Shindo.tests('Fog::Storage[:ibm] | volume', ['ibm']) do
     tests('Fog::Storage::IBM::Volume.new') do
       @volume = Fog::Storage[:ibm].volumes.new(
         :name           => @name,
-        :format         => @image_id,
+        :format         => @format,
         :location_id    => @location_id,
         :size           => @size,
         :offering_id    => @offering_id
