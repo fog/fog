@@ -14,16 +14,18 @@ Shindo.tests('Fog::Compute[:ibm] | instance requests', ['ibm']) do
     'imageId'       => String,
     'launchTime'    => Integer,
     'id'            => String,
+    'ip'            => Fog::Nullable::String,
     'volumes'       => Array,
-    'root-only'     => String,
+    'root-only'     => Fog::Nullable::String,
     'instanceType'  => String,
-    'diskSize'      => String,
+    'diskSize'      => Fog::Nullable::String,
     'requestName'   => String,
     'secondaryIP'   => Array,
     'status'        => Integer,
     'software'      => Array,
     'expirationTime'=> Integer,
-    'owner'         => String
+    'owner'         => String,
+    'vlan'         => Fog::Nullable::String,
   }
 
   @instances_format = {

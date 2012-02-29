@@ -8,7 +8,9 @@ Shindo.tests('Fog::Compute[:ibm] | address requests', ['ibm']) do
     "id"        => String,
     "mode"      => Integer,
     "hostname"  => String,
-    "type"      => Integer
+    "type"      => Integer,
+    "instanceId" => Fog::Nullable::String,
+    "vlan"      => Fog::Nullable::String,
   }
 
   # create_address doesn't return mode, hostname or type attributes

@@ -5,7 +5,7 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
     'visibility'    => String,
     'platform'      => String,
     'owner'         => String,
-    'architecture'  => String,
+    'architecture'  => Fog::Nullable::String,
     'createdTime'   => Integer,
     'location'      => String,
     'productCodes'  => Array,
@@ -13,8 +13,8 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
     'id'            => String,
     'description'   => String,
     'supportedInstanceTypes'  => Array,
-    'manifest'      => String,
-    'documentation' => String
+    'manifest'      => Fog::Nullable::String,
+    'documentation' => Fog::Nullable::String,
   }
 
   # TODO: Actually check this format
