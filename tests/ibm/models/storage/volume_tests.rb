@@ -31,8 +31,8 @@ Shindo.tests('Fog::Storage[:ibm] | volume', ['ibm']) do
       returns(nil) { @volume.instance }
     end
 
-    tests("Fog::Storage::IBM::Volume#location") do
-      returns(Fog::Compute::IBM::Location) { @volume.location.class }
+    tests("Fog::Storage::IBM::Volume#location_id") do
+      returns(String) { @volume.location_id.class }
     end
 
     tests('Fog::Storage::IBM::Volume#id') do
