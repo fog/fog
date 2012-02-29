@@ -150,7 +150,7 @@ module Fog
 
         # Expires the instance immediately
         def expire!
-          expire_at(Time.now)
+          expire_at(Time.now + 5)
         end
 
         def image
