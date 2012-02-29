@@ -65,7 +65,9 @@ Shindo.tests('Fog::Compute[:ibm] | server', ['ibm']) do
     tests('Fog::Compute::IBM::Server#to_image') do
       body = @server.to_image(:name => @server.name)
       returns(@server.name) { body['name'] }
-      returns(true) { Fog::Compute[:ibm].delete_image(body['id']).body['success'] }
+      image = Fog::Compute[:ibm].images.get(body['id'])
+      image.wait_for { ready? || state == 'New' }
+      returns(true) { Fog::Compute[:ibm].delete_image(image.id).body['success'] }
     end
 
     tests('Fog::Compute::IBM::Server#expire_at') do

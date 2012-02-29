@@ -5,7 +5,20 @@ module Fog
   module Compute
     class IBM
       class Image < Fog::Model
+
+        STATES = {
+          0 => 'New',
+          1 => 'Available',
+          2 => 'Unavailable',
+          3 => 'Deleted',
+          4 => 'Capturing',
+          5 => 'Importing',
+          6 => 'Copying',
+          7 => 'Failed',
+        }
+
         identity :id
+
         attribute :architecture
         attribute :created_at, :aliases => 'createdTime'
         attribute :description
@@ -32,6 +45,14 @@ module Fog
           data = connection.create_image(id, volume_id)
           merge_attributes(data.body)
           data.body['success']
+        end
+
+        def state
+          STATES[attributes[:state]]
+        end
+
+        def ready?
+          state == 'Available'
         end
 
       end
