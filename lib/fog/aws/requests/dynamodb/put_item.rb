@@ -31,8 +31,7 @@ module Fog
 
           request(
             :body       => MultiJson.encode(body),
-            :headers    => {'x-amz-target' => 'DynamoDB_20111205.PutItem'},
-            :idempotent => true
+            :headers    => {'x-amz-target' => 'DynamoDB_20111205.PutItem'}
           )
         end
 
