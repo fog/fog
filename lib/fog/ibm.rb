@@ -8,6 +8,10 @@ module Fog
     service(:compute, 'ibm/compute', 'Compute')
     service(:storage, 'ibm/storage', 'Storage')
 
+    # Provisioning is very slow. We'll pass this arg explicitly until there's a way
+    # to set the default timeout on a per-provider basis.
+    TIMEOUT = 1800
+
     class Connection < Fog::Connection
 
       ENDPOINT = 'https://www-147.ibm.com/computecloud/enterprise/api/rest/20100331'

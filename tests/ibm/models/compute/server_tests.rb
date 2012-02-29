@@ -32,7 +32,7 @@ Shindo.tests('Fog::Compute[:ibm] | server', ['ibm']) do
 
     tests('Fog::Compute::IBM::Server#wait_for { ready? }') do
       @server = Fog::Compute[:ibm].servers.get(@instance_id)
-      @server.wait_for { ready? }
+      @server.wait_for(Fog::IBM::TIMEOUT) { ready? }
     end
 
     tests('Fog::Compute::IBM::Server#id') do
@@ -66,8 +66,10 @@ Shindo.tests('Fog::Compute[:ibm] | server', ['ibm']) do
       body = @server.to_image(:name => @server.name)
       returns(@server.name) { body['name'] }
       image = Fog::Compute[:ibm].images.get(body['id'])
-      image.wait_for { ready? || state == 'New' }
-      returns(true) { Fog::Compute[:ibm].delete_image(image.id).body['success'] }
+      image.wait_for(Fog::IBM::TIMEOUT) { ready? || state == 'New' }
+      unless image.state == 'Capturing'
+        returns(true) { Fog::Compute[:ibm].delete_image(image.id).body['success'] }
+      end
     end
 
     tests('Fog::Compute::IBM::Server#expire_at') do
@@ -78,7 +80,7 @@ Shindo.tests('Fog::Compute[:ibm] | server', ['ibm']) do
       returns(true) { @server.destroy }
     end
 
-    @key.wait_for { instance_ids.empty? }
+    @key.wait_for(Fog::IBM::TIMEOUT) { instance_ids.empty? }
     @key.destroy
 
   end

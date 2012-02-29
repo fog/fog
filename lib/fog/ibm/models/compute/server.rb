@@ -104,7 +104,7 @@ module Fog
           requires :location_id
           new_ip = connection.addresses.new(:location => location_id)
           new_ip.save
-          new_ip.wait_for { ready? } if wait_for_ready
+          new_ip.wait_for(Fog::IBM::TIMEOUT) { ready? } if wait_for_ready
           secondary_ip << new_ip
           new_ip
         end

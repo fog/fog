@@ -21,9 +21,9 @@ Shindo.tests('Fog::Compute[:ibm] | servers', ['ibm']) do
       returns(@instance_id) { @server.id }
     end
 
-    @server.wait_for { ready? }
+    @server.wait_for(Fog::IBM::TIMEOUT) { ready? }
     @server.destroy
-    @key.wait_for { instance_ids.empty? }
+    @key.wait_for(Fog::IBM::TIMEOUT) { instance_ids.empty? }
     @key.destroy
 
   end

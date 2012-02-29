@@ -80,7 +80,7 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
         :key_name => @key_name
       ).body
       @instance_id  = response['instances'][0]['id']
-      Fog::Compute[:ibm].servers.get(@instance_id).wait_for(1200) { ready? }
+      Fog::Compute[:ibm].servers.get(@instance_id).wait_for(Fog::IBM::TIMEOUT) { ready? }
       data          = Fog::Compute[:ibm].create_image(@instance_id, @image_name, "").body
       @id           = data['id']
       data
@@ -98,7 +98,7 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
       returns(true) { Fog::Compute[:ibm].delete_image(@cloned_id).body['success'] }
     end
 
-    @key.wait_for { instance_ids.empty? }
+    @key.wait_for(Fog::IBM::TIMEOUT) { instance_ids.empty? }
     @key.destroy
 
   end
