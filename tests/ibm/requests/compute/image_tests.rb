@@ -80,6 +80,7 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
         :key_name => @key_name
       ).body
       @instance_id  = response['instances'][0]['id']
+      Fog::Compute[:ibm].servers.get(@instance_id).wait_for(1200) { ready? }
       data          = Fog::Compute[:ibm].create_image(@instance_id, @image_name, "").body
       @id           = data['id']
       data

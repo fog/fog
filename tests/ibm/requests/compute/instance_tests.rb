@@ -73,6 +73,7 @@ Shindo.tests('Fog::Compute[:ibm] | instance requests', ['ibm']) do
     end
 
     tests("#delete_instance('#{@instance_id}')") do
+      Fog::Compute[:ibm].servers.get(@instance_id).wait_for { ready? }
       data = Fog::Compute[:ibm].delete_instance(@instance_id)
     end
 
