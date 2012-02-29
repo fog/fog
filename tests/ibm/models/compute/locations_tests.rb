@@ -2,7 +2,7 @@ Shindo.tests('Fog::Compute[:ibm] | locations', ['ibm']) do
 
   tests('success') do
 
-    @location_id = "101"
+    @location_id = '41'
 
     tests('Fog::Compute[:ibm].locations') do
       returns(true) { Fog::Compute[:ibm].locations.length > 0 }

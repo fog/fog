@@ -34,9 +34,9 @@ Shindo.tests('Fog::Compute[:ibm] | instance requests', ['ibm']) do
 
     @instance_id    = nil
     @name           = "fog-test-instance-" + Time.now.to_i.to_s(32)
-    @image_id       = "20018425"
+    @image_id       = "20010001"
     @instance_type  = "COP32.1/2048/60"
-    @location       = "101"
+    @location       = "41"
     @expiration_time= (Time.now.tv_usec + 10000).to_f * 1000
     @key_name       = "fog-test-key-" + Time.now.to_i.to_s(32)
     @key            = Fog::Compute[:ibm].keys.create(:name => @key_name)

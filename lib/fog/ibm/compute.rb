@@ -115,30 +115,36 @@ module Fog
 
         def self.populate_images
           images = {}
-          images["20015393"] = {
-            "name"=>"SUSE Linux Enterprise Server 11 SP1 for x86 (TOR)",
-            "manifest"=>"https://www-147.ibm.com/cloud/enterprise/ram.ws/RAMSecure/artifact/{53575245-38D1-A40F-D8E0-8106DC68047D}/1.0/parameters.xml",
+          images["20010001"] = {
+            "name"=>"SUSE Linux Enterprise Server 11 SP1 for x86",
+            "manifest"=>"https://www-147.ibm.com/cloud/enterprise/ram.ws/RAMSecure/artifact/{6CD09CE4-E99B-D72F-6C29-233C9B2A1676}/1.0/parameters.xml",
             "state"=>1,
             "visibility"=>"PUBLIC",
             "owner"=>"SYSTEM",
-            "architecture"=>"i386",
             "platform"=>"SUSE Linux Enterprise Server/11 SP1",
-            "createdTime"=>1296361572466,
-            "location"=>"101",
-            # HOLY METADATA BATMAN!
-            "supportedInstanceTypes"=>[
-              {"detail"=>"Silver - 32 bit (vCPU: 2, RAM: 4 GiB, Disk: 410 GiB)", "label"=>"Silver 32 bit",
-               "price"=>{"rate"=>0.2, "unitOfMeasure"=>"UHR", "countryCode"=>"897", "effectiveDate"=>1313107200000, "currencyCode"=>"USD", "pricePerQuantity"=>1}, "id"=>"SLV32.2/4096/60*350"},
-              {"detail"=>"Bronze - 32 bit (vCPU: 1, RAM: 2 GiB, Disk: 235 GiB)", "label"=>"Bronze 32 bit",
-                "price"=>{"rate"=>0.115, "unitOfMeasure"=>"UHR", "countryCode"=>"897", "effectiveDate"=>1313107200000, "currencyCode"=>"USD", "pricePerQuantity"=>1}, "id"=>"BRZ32.1/2048/60*175"},
-              {"detail"=>"Gold - 32 bit (vCPU: 4, RAM: 4 GiB, Disk: 410 GiB)", "label"=>"Gold 32 bit",
-                "price"=>{"rate"=>0.33, "unitOfMeasure"=>"UHR", "countryCode"=>"897", "effectiveDate"=>1313107200000, "currencyCode"=>"USD", "pricePerQuantity"=>1}, "id"=>"GLD32.4/4096/60*350"},
-              {"detail"=>"Copper - 32 bit (vCPU: 1, RAM: 2 GiB, Disk: 60 GiB)", "label"=>"Copper 32 bit",
-                "price"=>{"rate"=>0.095, "unitOfMeasure"=>"UHR", "countryCode"=>"897", "effectiveDate"=>1313107200000, "currencyCode"=>"USD", "pricePerQuantity"=>1}, "id"=>"COP32.1/2048/60"}],
-            "productCodes"=>["caondc1Sr7dKs9ARDmuPy6WPgV"],
-            "documentation"=>"https://www-147.ibm.com/cloud/enterprise/ram.ws/RAMSecure/artifact/{53575245-38D1-A40F-D8E0-8106DC68047D}/1.0/GettingStarted.html",
-            "id"=>"20015393",
-            "description"=>"Suse Linux 32 bit - for TOR datacenter"
+            "location"=>"41",
+            "createdTime"=>1282466781000,
+            "supportedInstanceTypes"=>
+            [{"detail"=>"Copper - 32 bit (vCPU: 1, RAM: 2 GiB, Disk: 60 GiB)",
+               "label"=>"Copper 32 bit",
+               "price"=>{"rate"=>0.095, "unitOfMeasure"=>"UHR  ", "countryCode"=>"897", "effectiveDate"=>-1, "currencyCode"=>"USD", "pricePerQuantity"=>1},
+               "id"=>"COP32.1/2048/60"},
+             {"detail"=>"Bronze - 32 bit (vCPU: 1, RAM: 2 GiB, Disk: 235 GiB)",
+               "label"=>"Bronze 32 bit",
+               "price"=>{"rate"=>0.115, "unitOfMeasure"=>"UHR  ", "countryCode"=>"897", "effectiveDate"=>-1, "currencyCode"=>"USD", "pricePerQuantity"=>1},
+               "id"=>"BRZ32.1/2048/60*175"},
+             {"detail"=>"Silver - 32 bit (vCPU: 2, RAM: 4 GiB, Disk: 410 GiB)",
+               "label"=>"Silver 32 bit",
+               "price"=>{"rate"=>0.2, "unitOfMeasure"=>"UHR  ", "countryCode"=>"897", "effectiveDate"=>-1, "currencyCode"=>"USD", "pricePerQuantity"=>1},
+               "id"=>"SLV32.2/4096/60*350"},
+             {"detail"=>"Gold - 32 bit (vCPU: 4, RAM: 4 GiB, Disk: 410 GiB)",
+               "label"=>"Gold 32 bit",
+               "price"=>{"rate"=>0.33, "unitOfMeasure"=>"UHR  ", "countryCode"=>"897", "effectiveDate"=>-1, "currencyCode"=>"USD", "pricePerQuantity"=>1},
+               "id"=>"GLD32.4/4096/60*350"}],
+            "productCodes"=>["rtpSr7dKs9ARDmuPy6WPgV"],
+            "documentation"=>"https://www-147.ibm.com/cloud/enterprise/ram.ws/RAMSecure/artifact/{6CD09CE4-E99B-D72F-6C29-233C9B2A1676}/1.0/GettingStarted.html",
+            "id"=>"20010001",
+            "description"=>"Suse Linux 32 bit"
           }
           images
         end

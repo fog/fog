@@ -6,7 +6,7 @@ Shindo.tests('Fog::Storage[:ibm] | volume', ['ibm']) do
     @volume_id    = nil
     @name         = "fog test volume"
     @format       = "RAW"
-    @location_id  = "101"
+    @location_id  = "41"
     @size         = "256"
     @offering_id  = "20001208"
 

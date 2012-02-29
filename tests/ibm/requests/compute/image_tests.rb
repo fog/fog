@@ -4,8 +4,8 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
     'state'         => Integer,
     'visibility'    => String,
     'platform'      => String,
-    'architecture'  => String,
     'owner'         => String,
+    'architecture'  => String,
     'createdTime'   => Integer,
     'location'      => String,
     'productCodes'  => Array,
@@ -50,9 +50,9 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
 
   @instance_id    = nil
   @name           = "fog-test-image-instance-" + Time.now.to_i.to_s(32)
-  @image_id       = "20015393"
+  @image_id       = "20010001"
   @instance_type  = "BRZ32.1/2048/60*175"
-  @location       = "101"
+  @location       = "41"
 
   @id             = nil
   @cloned_id      = nil
@@ -68,7 +68,7 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
     end
 
     tests('#get_image').formats(@image_format) do
-      Fog::Compute[:ibm].get_image("20015393").body
+      Fog::Compute[:ibm].get_image("20010001").body
     end
 
     tests('#create_image').formats(@create_image_format) do

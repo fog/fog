@@ -33,14 +33,13 @@ Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
     @volume_id    = nil
     @name         = "fog-test-volume" + Time.now.to_i.to_s(32)
     @format       = "RAW"
-    @location_id  = "101"
+    @location_id  = "41"
     @size         = "256"
     @offering_id  = "20001208"
 
     @instance_id  = nil
-    @image_id       = "20015393"
+    @image_id       = "20010001"
     @instance_type  = "BRZ32.1/2048/60*175"
-    @location       = "101"
 
     @key_name       = "fog-test-key-" + Time.now.to_i.to_s(32)
     @key            = Fog::Compute[:ibm].keys.create(:name => @key_name)
@@ -64,7 +63,7 @@ Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
         'fog-test-volume-instance-' + Time.now.to_i.to_s(32),
         @image_id,
         @instance_type,
-        @location,
+        @location_id,
         :key_name => @key_name
       ).body['instances'][0]['id']
       # TODO: Add assertions for this whenever it is properly supported

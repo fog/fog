@@ -51,8 +51,8 @@ module Fog
         def initialize(new_attributes={})
           super(new_attributes)
           self.name ||= 'fog-instance'
-          self.image_id ||= '20015393'
-          self.location_id ||= '101'
+          self.image_id ||= '20010001'
+          self.location_id ||= '41'
           self.instance_type ||= 'COP32.1/2048/60'
           self.key_name ||= 'fog'
         end

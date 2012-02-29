@@ -20,7 +20,7 @@ Shindo.tests('Fog::Compute[:ibm] | location requests', ['ibm']) do
     end
 
     tests('#get_locations').formats(@location_format) do
-      Fog::Compute[:ibm].get_location("101").body
+      Fog::Compute[:ibm].get_location('41').body
     end
 
   end

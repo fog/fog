@@ -17,7 +17,7 @@ Shindo.tests('Fog::Compute[:ibm] | address requests', ['ibm']) do
   @list_address_format   = { 'addresses' => [ @address_format ] }
 
   @address_id  = nil
-  @location_id = "101"
+  @location_id = "41"
   @offering_id = "20001223"
 
   tests('success') do
