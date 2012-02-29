@@ -41,7 +41,7 @@ module Fog
         attribute :product_codes, :aliases => 'productCodes'
         attribute :request_id, :aliases => 'requestId'
         attribute :request_name, :aliases => 'requestName'
-        attribute :root_only, :aliases => 'root-only'
+        attribute :is_mini_ephemeral, :aliases => 'isMiniEphemeral'
         attribute :secondary_ip, :aliases => 'secondaryIP'
         attribute :software
         attribute :state, :aliases => 'status'

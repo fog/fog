@@ -22,7 +22,7 @@ module Fog
         #       * 'launchTime'<~Integer>: UNIX time integer representing when the instance was launched
         #       * 'id'<~String>: instance id
         #       * 'volumes'<~Array>:
-        #       * 'root-only'<~Boolean>: instance id
+        #       * 'isMiniEphemeral'<~Boolean>: minimal local storage
         #       * 'instanceType'<~String>: instance type
         #       * 'diskSize'<~String>: instance disk size
         #       * 'requestName'<~String>: instance request name

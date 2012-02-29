@@ -18,6 +18,7 @@ Shindo.tests('Fog::Compute[:ibm] | instance requests', ['ibm']) do
     'ip'            => Fog::Nullable::String,
     'volumes'       => Array,
     'root-only'     => Fog::Nullable::String,
+    'isMiniEphemeral' => Fog::Nullable::String,
     'instanceType'  => String,
     'diskSize'      => Fog::Nullable::String,
     'requestName'   => String,

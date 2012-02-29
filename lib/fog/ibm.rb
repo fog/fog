@@ -114,7 +114,7 @@ module Fog
             "launchTime"    => Fog::IBM::Mock.launch_time,
             "id"            => Fog::IBM::Mock.instance_id,
             "volumes"       => [],
-            "root-only"     => "false",
+            "isMiniEphemeral" => "false",
             "instanceType"  => instance_type,
             "diskSize"      => "60",
             "requestName"   => "",
