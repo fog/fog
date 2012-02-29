@@ -62,7 +62,7 @@ module Fog
         end
 
         def instance
-          return nil if instance_id == "0" || instance_id == ""
+          return nil if instance_id.nil? || instance_id == "0" || instance_id == ""
           Fog::Compute[:ibm].servers.get(instance_id)
         end
 
