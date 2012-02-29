@@ -27,11 +27,11 @@ module Fog
         attribute :min_ram
         attribute :owner
         attribute :properties
+        attribute :location
 
 
         def initialize(attributes)
           @connection = attributes[:connection]
-          attributes[:size] ||= 0
           super
         end
 

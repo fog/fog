@@ -7,6 +7,7 @@ module Fog
 
 
           data = {
+              "Content-Type"=>"application/octet-stream",
               "x-image-meta-name" => attributes[:name],
               "x-image-meta-disk-format" => attributes[:disk_format],
               "x-image-meta-container-format" => attributes[:container_format],
@@ -14,6 +15,12 @@ module Fog
               "x-image-meta-is-public" => attributes[:is_public],
               "x-image-meta-owner" => attributes[:owner]
           }
+
+          body = String.new
+          if attributes[:location]
+            file = File.open(attributes[:location], "rb")
+            body = file.read
+          end
 
           unless attributes[:properties].nil?
             attributes[:properties].each do |key,value|
@@ -25,6 +32,7 @@ module Fog
 
           request(
             :headers     => data,
+            :body     => body,
             :expects  => 201,
             :method   => 'POST',
             :path     => "images"

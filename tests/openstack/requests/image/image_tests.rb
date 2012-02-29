@@ -3,7 +3,7 @@ Shindo.tests('Fog::Image[:openstack] | image requests', ['openstack']) do
   @image_format = {
     'id' => String,
     'name' => String,
-    'size' => Integer,
+    'size' => Fog::Nullable::Integer,
     'disk_format' => Fog::Nullable::String,
     'container_format' => Fog::Nullable::String,
     'checksum' => Fog::Nullable::String,
