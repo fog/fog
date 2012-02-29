@@ -15,14 +15,7 @@ Shindo.tests('Fog::Compute[:ibm] | key requests', ['ibm']) do
   tests('success') do
 
     @key_name  = 'fog-test-key' + Time.now.to_i.to_s(32)
-    @public_key = <<-EOF
-    -----BEGIN RSA PUBLIC KEY-----
-    MIGJAoGBAL2nePLzDy1Z2Y64/Dz5QMmJN4S9xc6D8TbiKVe5YHeuNt3fCSYDJl9x
-    d/V5r2mUo4nGrEhum1ooX0rdk5CPugVxd3Tgovj87y3NRw9zAdeCB8omfrRwG4yu
-    x1z+ejqX1BSKYy+KvOT2RKiuLdIiodLsps5epovQFZmlymTIg/ODAgMBAAE=
-    -----END RSA PUBLIC KEY-----
-    EOF
-    @public_key.gsub!(/^\s{4}/, '')
+    @public_key = 'AAAAB3NzaC1yc2EAAAADAQABAAABAQCvVCQA6JWWCAwjUjXDFUH8wOm15slX+WJOYCPNNrW+xipvHq5zDOCnus0xfl/zjWLVDkIz+1ku0Qapd4Q2a+NyyyH09iRxmclQaZdNoj+l4RRL0TRzeJT+l9FU0e4eUYKylrEgQCkZPFVsgn8Vly9Nh/NRcBMA1BgLMiCMebPu3N3bZIVjUrVp8MB66hqAivA36zVQ4ogykTXO8XKG9Mth7yblLjcVyDq7tecSrvM/RAUkZp0Z6SHihQwdnJwqLTcBMXeV3N2VRF3TZWayOWFgTlr1M3ZL7HD3adjRFzY8lmzbOdL/L6BamwDL9nP6bnHeH5oDnUuOIsJng04BC9Ht'
 
     tests("#create_key('#{@key_name}')").formats(@key_format) do
       Fog::Compute[:ibm].create_key(@key_name).body
