@@ -87,7 +87,7 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
 
     tests('#clone_image') do
       clone_name = 'fog-test-clone-image-' + Time.now.to_i.to_s(32)
-      data = Fog::Compute[:ibm].clone_image(@image_id, clone_name, "").body
+      data = Fog::Compute[:ibm].clone_image(@image_id, clone_name, clone_name).body
       @cloned_id = data['ImageID']
       returns(String) { data['ImageID'].class }
     end
