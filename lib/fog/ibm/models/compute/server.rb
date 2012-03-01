@@ -132,6 +132,10 @@ module Fog
           data.body
         end
 
+        def launched_at
+          Time.at(attributes[:launched_at].to_f / 1000)
+        end
+
         def expires_at
           Time.at(attributes[:expires_at].to_f / 1000)
         end
