@@ -5,6 +5,7 @@ Shindo.tests('Fog::Compute[:ibm] | instance requests', ['ibm']) do
     'location'      => String,
     'keyName'       => String,
     'primaryIP'     => {
+      'vlan'        => Fog::Nullable::String,
       'type'        => Integer,
       'ip'          => String,
       'hostname'    => String,
@@ -25,7 +26,6 @@ Shindo.tests('Fog::Compute[:ibm] | instance requests', ['ibm']) do
     'software'      => Array,
     'expirationTime'=> Integer,
     'owner'         => String,
-    'vlan'         => Fog::Nullable::String,
   }
 
   @instances_format = {
