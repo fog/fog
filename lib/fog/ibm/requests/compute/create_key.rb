@@ -46,12 +46,12 @@ module Fog
           if public_key.nil?
             private_key   = Fog::IBM::Mock.key_material
             public_key    = private_key.public_key
+            response.body = attributes.merge("keyMaterial" => private_key.to_s)
+          else
+            response.body = { 'success' => true }
           end
-          public_key    = { "keyMaterial" => public_key.to_s  }.merge(attributes.dup)
-          private_key   = { "keyMaterial" => private_key.to_s }.merge(attributes.dup)
-          response.body = private_key
-          self.data[:keys][name] = public_key
-          self.data[:private_keys][name] = private_key
+          self.data[:keys][name] = attributes.merge("keyMaterial" => public_key.to_s)
+          self.data[:private_keys][name] = attributes.merge("keyMaterial" => private_key.to_s)
           response
         end
 
