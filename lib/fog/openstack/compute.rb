@@ -124,6 +124,8 @@ module Fog
       request :create_volume
       request :get_volume_details
       request :delete_volume
+      request :attach_volume
+      request :detach_volume
 
       request :create_volume_snapshot
       request :list_snapshots

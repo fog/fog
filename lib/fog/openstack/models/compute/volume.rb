@@ -37,6 +37,19 @@ module Fog
           connection.delete_volume(id)
           true
         end
+
+        def attach(server_id, name)
+          requires :id
+          data = connection.attach_volume(id, server_id, name)
+          merge_attributes(:attachments => attachments << data.body['volumeAttachment'])
+          true
+        end
+
+        def detach(server_id, attachment_id)
+          requires :id
+          connection.detach_volume(server_id, attachment_id)
+          true
+        end
       end
 
     end
