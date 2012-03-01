@@ -5,6 +5,17 @@ module Fog
     class IBM
       class Address < Fog::Model
 
+        STATES = {
+          0 => 'New',
+          1 => 'Allocating',
+          2 => 'Free',
+          3 => 'Attached',
+          4 => 'Releasing',
+          5 => 'Released',
+          6 => 'Failed',
+          7 => 'Release pending',
+        }
+
         identity :id
 
         attribute :type
@@ -31,6 +42,14 @@ module Fog
                                            :ip => ip)
           merge_attributes(data.body)
           true
+        end
+
+        def state
+          STATES[attributes[:state]]
+        end
+
+        def ready?
+          state == 'Free' || state == 'Released'
         end
 
         def destroy

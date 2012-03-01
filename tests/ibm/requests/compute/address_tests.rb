@@ -35,6 +35,7 @@ Shindo.tests('Fog::Compute[:ibm] | address requests', ['ibm']) do
     end
 
     tests("#delete_address('#{@address_id}')") do
+      Fog::Compute[:ibm].addresses.get(@address_id).wait_for { ready? }
       returns(true) { Fog::Compute[:ibm].delete_address(@address_id).body['success'] }
     end
 
