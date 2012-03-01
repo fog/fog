@@ -3,18 +3,18 @@ module Fog
     class OpenStack
       class Real
 
-        def delete_volume(volume_id)
+        def delete_snapshot(snapshot_id)
           request(
             :expects  => 202,
             :method   => 'DELETE',
-            :path     => "os-volumes/#{volume_id}"
+            :path     => "os-snapshots/#{snapshot_id}"
           )
         end
 
       end
 
       class Mock
-        def delete_volume(volume_id)
+        def delete_snapshot(snapshot_id)
           response = Excon::Response.new
           response.status = 204
           response
