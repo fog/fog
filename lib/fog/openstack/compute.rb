@@ -187,6 +187,7 @@ module Fog
       end
 
       class Real
+        attr_reader :auth_token
 
         def initialize(options={})
           @openstack_api_key  = options[:openstack_api_key]
