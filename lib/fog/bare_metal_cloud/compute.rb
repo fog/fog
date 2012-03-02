@@ -1,16 +1,16 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'new_servers'))
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'bare_metal_cloud'))
 require 'fog/compute'
 
 module Fog
   module Compute
-    class NewServers < Fog::Service
+    class BareMetalCloud < Fog::Service
 
-      requires :new_servers_password, :new_servers_username
+      requires :bare_metal_cloud_password, :bare_metal_cloud_username
       recognizes :host, :port, :scheme, :persistent
 
-      model_path 'fog/new_servers/models/compute'
+      model_path 'fog/bare_metal_cloud/models/compute'
 
-      request_path 'fog/new_servers/requests/compute'
+      request_path 'fog/bare_metal_cloud/requests/compute'
       request :add_server
       request :cancel_server
       request :get_server
@@ -32,15 +32,15 @@ module Fog
         end
 
         def initialize(options={})
-          @new_server_username = options[:new_servers_username]
+          @bare_metal_cloud_username = options[:bare_metal_cloud_username]
         end
 
         def data
-          self.class.data[@new_server_username]
+          self.class.data[@bare_metal_cloud_username]
         end
 
         def reset_data
-          self.class.data.delete(@new_server_username)
+          self.class.data.delete(@bare_metal_cloud_username)
         end
 
       end
@@ -50,10 +50,10 @@ module Fog
         def initialize(options={})
           require 'fog/core/parser'
 
-          @new_servers_password = options[:new_servers_password]
-          @new_servers_username = options[:new_servers_username]
+          @bare_metal_cloud_password = options[:bare_metal_cloud_password]
+          @bare_metal_cloud_username = options[:bare_metal_cloud_username]
           @connection_options = options[:connection_options] || {}
-          @host       = options[:host]        || "noc.newservers.com"
+          @host       = options[:host]        || "noc.baremetalcloud.com"
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
@@ -67,8 +67,8 @@ module Fog
         def request(params)
           params[:query] ||= {}
           params[:query].merge!({
-            :password => @new_servers_password,
-            :username => @new_servers_username
+            :password => @bare_metal_cloud_password,
+            :username => @bare_metal_cloud_username
           })
           params[:headers] ||= {}
           case params[:method]
@@ -83,7 +83,7 @@ module Fog
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
-              Fog::Compute::NewServers::NotFound.slurp(error)
+              Fog::Compute::BareMetalCloud::NotFound.slurp(error)
             else
               error
             end

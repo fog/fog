@@ -46,8 +46,8 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :google_storage_secret_access_key:
   :linode_api_key:
   :local_root:
-  :new_servers_password:
-  :new_servers_username:
+  :bare_metal_cloud_password:
+  :bare_metal_cloud_username:
   :public_key_path:
   :private_key_path:
   :openstack_api_key:

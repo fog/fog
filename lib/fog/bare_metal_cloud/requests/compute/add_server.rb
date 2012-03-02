@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class NewServers
+    class BareMetalCloud
       class Real
 
         # Boot a new server
