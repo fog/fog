@@ -65,7 +65,6 @@ module Fog
         :token => response.headers['X-Auth-Token'],
         :server_management_url => response.headers['X-Server-Management-Url']
       }
-
     end
 
     # Keystone Style Auth
@@ -74,8 +73,9 @@ module Fog
       connection = Fog::Connection.new(uri.to_s, false, connection_options)
       @openstack_api_key  = options[:openstack_api_key]
       @openstack_username = options[:openstack_username]
-      @openstack_tenant   = options[:openstack_tenant] || 'admin'
-      @compute_service_name = options[:openstack_compute_service_name]
+      @openstack_tenant   = options[:openstack_tenant]
+      @service_name       = options[:openstack_service_name]
+      @identity_service_name = options[:openstack_identity_service_name]
       @endpoint_type      = options[:openstack_endpoint_type] || 'publicURL'
 
       req_body= {
@@ -90,7 +90,9 @@ module Fog
 
       body = retrieve_tokens_v2(connection, req_body, uri)
       svc = body['access']['serviceCatalog'].
-        detect{|x| @compute_service_name.include?(x['type']) }
+        detect{|x| @service_name.include?(x['type']) }
+      identity_svc = body['access']['serviceCatalog'].
+        detect{|x| @identity_service_name.include?(x['type']) } if @identity_service_name
 
       unless svc
         unless @openstack_tenant
@@ -100,7 +102,8 @@ module Fog
                          'X-Auth-Token' => body['access']['token']['id']},
             :host    => uri.host,
             :method  => 'GET',
-            :path    => '/v2.0/tenants'
+            :path    => '/v2.0/tenants',
+            :port    => '5000'
           })
 
           body = MultiJson.decode(response.body)
@@ -113,10 +116,12 @@ module Fog
       end
 
       mgmt_url = svc['endpoints'].detect{|x| x[@endpoint_type]}[@endpoint_type]
+      identity_url = identity_svc['endpoints'].detect{|x| x['publicURL']}['publicURL']
       token = body['access']['token']['id']
 
-      { :token => token,
-        :server_management_url => mgmt_url }
+      { :token                 => token,
+        :server_management_url => mgmt_url,
+        :identity_public_endpoint => identity_url }
     end
 
     def self.retrieve_tokens_v2(connection, request_body, uri)

@@ -8,7 +8,7 @@ module Fog
 
       requires :openstack_api_key, :openstack_username, :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url,
-                 :persistent, :openstack_compute_service_name, :openstack_tenant
+                 :persistent, :openstack_service_name, :openstack_tenant
 
       ## MODELS
       #
@@ -197,7 +197,8 @@ module Fog
           @openstack_auth_token = options[:openstack_auth_token]
           @openstack_management_url       = options[:openstack_management_url]
           @openstack_must_reauthenticate  = false
-          @openstack_compute_service_name = options[:openstack_compute_service_name] || ['nova', 'compute']
+          @openstack_service_name = options[:openstack_service_name] || ['nova', 'compute']
+          @openstack_identity_service_name = options[:openstack_identity_service_name] || 'identity'
 
           @connection_options = options[:connection_options] || {}
 
@@ -205,9 +206,6 @@ module Fog
 
           @persistent = options[:persistent] || false
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
-          @identity_connection = Fog::Connection.new(
-            "#{@openstack_auth_uri.scheme}://#{@openstack_auth_uri.host}:#{@openstack_auth_uri.port}",
-            false, @connection_options)
         end
 
         def reload
@@ -258,7 +256,8 @@ module Fog
               :openstack_username => @openstack_username,
               :openstack_auth_uri => @openstack_auth_uri,
               :openstack_tenant   => @openstack_tenant,
-              :openstack_compute_service_name => @openstack_compute_service_name
+              :openstack_service_name => @openstack_service_name,
+              :openstack_identity_service_name => @openstack_identity_service_name
             }
 
             if @openstack_auth_uri.path =~ /\/v2.0\//
@@ -268,8 +267,9 @@ module Fog
             end
 
             @openstack_must_reauthenticate = false
-            @auth_token = credentials[:token]
+            @auth_token               = credentials[:token]
             @openstack_management_url = credentials[:server_management_url]
+            @openstack_identity_public_endpoint  = credentials[:identity_public_endpoint]
             uri = URI.parse(@openstack_management_url)
           else
             @auth_token = @openstack_auth_token
@@ -280,6 +280,9 @@ module Fog
           @path, @tenant_id = uri.path.scan(/(\/.*)\/(.*)/).flatten
           @port   = uri.port
           @scheme = uri.scheme
+          @identity_connection = Fog::Connection.new(
+            @openstack_identity_public_endpoint,
+            false, @connection_options)
           true
         end
 
