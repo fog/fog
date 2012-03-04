@@ -37,6 +37,7 @@ module Fog
       request :delete_user
       request :get_user_by_id
       request :get_user_by_name
+      request :add_user_to_tenant
 
       request :list_endpoints_for_token
       request :list_roles_for_user_on_tenant
