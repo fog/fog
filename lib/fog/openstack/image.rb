@@ -91,8 +91,8 @@ module Fog
         def credentials
           { :provider                 => 'openstack',
             :openstack_auth_url       => @openstack_auth_uri.to_s,
-            :openstack_auth_token     => @openstack_auth_token,
-            :openstack_management_url => @management_url}
+            :openstack_auth_token     => @auth_token,
+            :openstack_management_url => @openstack_management_url }
         end
 
         def reload
