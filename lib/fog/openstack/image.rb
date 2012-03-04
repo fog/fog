@@ -88,6 +88,13 @@ module Fog
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
 
+        def credentials
+          { :provider           => 'openstack',
+            :openstack_auth_url => @openstack_auth_uri.to_s,
+            :openstack_auth_token => @openstack_auth_token,
+            :openstack_management_url => @management_url}
+        end
+
         def reload
           @connection.reset
         end
