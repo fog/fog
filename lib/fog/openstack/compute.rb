@@ -6,9 +6,10 @@ module Fog
   module Compute
     class OpenStack < Fog::Service
 
-      requires :openstack_api_key, :openstack_username, :openstack_auth_url
+      requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url,
-                 :persistent, :openstack_service_name, :openstack_tenant
+                 :persistent, :openstack_service_name, :openstack_tenant,
+                 :openstack_api_key, :openstack_username
 
       ## MODELS
       #
@@ -190,11 +191,20 @@ module Fog
         attr_reader :auth_token
 
         def initialize(options={})
-          @openstack_api_key  = options[:openstack_api_key]
-          @openstack_username = options[:openstack_username]
+          @openstack_auth_token = options[:openstack_auth_token]
+
+          unless @openstack_auth_token
+            missing_credentials = Array.new
+            @openstack_api_key  = options[:openstack_api_key]
+            @openstack_username = options[:openstack_username]
+
+            missing_credentials << :openstack_api_key  unless @openstack_api_key
+            missing_credentials << :openstack_username unless @openstack_username
+            raise ArgumentError, "Missing required arguments: #{missing_credentials.join(', ')}" unless missing_credentials.empty?
+          end
+
           @openstack_tenant   = options[:openstack_tenant]
           @openstack_auth_uri   = URI.parse(options[:openstack_auth_url])
-          @openstack_auth_token = options[:openstack_auth_token]
           @openstack_management_url       = options[:openstack_management_url]
           @openstack_must_reauthenticate  = false
           @openstack_service_name = options[:openstack_service_name] || ['nova', 'compute']
