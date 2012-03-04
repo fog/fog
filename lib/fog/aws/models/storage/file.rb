@@ -1,6 +1,5 @@
 require 'fog/core/model'
 require 'fog/aws/models/storage/versions'
-require 'digest/md5'
 
 module Fog
   module Storage
