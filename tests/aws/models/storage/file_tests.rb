@@ -1,5 +1,7 @@
 Shindo.tests("Storage[:aws] | file", [:aws]) do
 
+  require 'tempfile'
+
   file_attributes = {
     :key => 'fog_file_tests',
     :body => lorem_file,
@@ -52,6 +54,20 @@ Shindo.tests("Storage[:aws] | file", [:aws]) do
         @instance.destroy('versionId' => @instance.version)
         @instance.versions.all.size
       end
+    end
+
+    tests("multipart upload") do
+      # A 6MB file
+      @large_file = Tempfile.new("fog-test-aws-s3-multipart")
+      6.times { @large_file.write("x" * (1024**2)) }
+      @large_file.rewind
+
+      tests("#save(:multipart_chunk_size => 5242880)").succeeds do
+        @directory.files.create(:key => 'multipart-upload', :body => @large_file, :multipart_chunk_size => 5242880)
+      end
+
+      @large_file.close
+
     end
 
   end
