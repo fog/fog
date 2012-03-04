@@ -116,7 +116,7 @@ module Fog
       end
 
       mgmt_url = svc['endpoints'].detect{|x| x[@endpoint_type]}[@endpoint_type]
-      identity_url = identity_svc['endpoints'].detect{|x| x['publicURL']}['publicURL']
+      identity_url = identity_svc['endpoints'].detect{|x| x['publicURL']}['publicURL'] if identity_svc
       token = body['access']['token']['id']
 
       { :token                 => token,
