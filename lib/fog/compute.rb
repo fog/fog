@@ -41,6 +41,10 @@ module Fog
       when :linode
         require 'fog/linode/compute'
         Fog::Compute::Linode.new(attributes)
+      when :new_servers
+        require 'fog/bare_metal_cloud/compute'
+        warn "[DEPRECATION] `new_servers` is deprecated. Please use `bare_metal_cloud` instead."
+        Fog::Compute::BareMetalCloud.new(attributes)
       when :baremetalcloud
         require 'fog/bare_metal_cloud/compute'
         Fog::Compute::BareMetalCloud.new(attributes)
