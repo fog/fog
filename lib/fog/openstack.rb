@@ -119,9 +119,12 @@ module Fog
       identity_url = identity_svc['endpoints'].detect{|x| x['publicURL']}['publicURL'] if identity_svc
       token = body['access']['token']['id']
 
-      { :token                 => token,
-        :server_management_url => mgmt_url,
-        :identity_public_endpoint => identity_url }
+      {
+        :token                    => token,
+        :server_management_url    => mgmt_url,
+        :identity_public_endpoint => identity_url,
+        :current_user_id          => body['access']['user']['id']
+      }
     end
 
     def self.retrieve_tokens_v2(connection, request_body, uri)

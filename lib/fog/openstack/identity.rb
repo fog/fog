@@ -83,6 +83,7 @@ module Fog
 
         def initialize(options={})
           require 'multi_json'
+          attr_reader :openstack_current_user_id
 
           @openstack_auth_token = options[:openstack_auth_token]
 
@@ -173,6 +174,7 @@ module Fog
             @openstack_must_reauthenticate = false
             @auth_token = credentials[:token]
             @openstack_management_url = credentials[:server_management_url]
+            @openstack_current_user_id = credentials[:current_user_id]
             uri = URI.parse(@openstack_management_url)
           else
             @auth_token = @openstack_auth_token
