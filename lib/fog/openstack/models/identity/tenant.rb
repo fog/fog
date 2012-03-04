@@ -46,7 +46,7 @@ module Fog
 
         def add_user(user_id, role_id)
           connection.add_user_to_tenant(self.id, user_id, role_id)
-        end  
+        end
       end # class Tenant
     end # class OpenStack
   end # module Identity

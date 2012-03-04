@@ -26,4 +26,4 @@ module Fog
       end # class Mock
     end # class OpenStack
   end # module Identity
-end 
+end
