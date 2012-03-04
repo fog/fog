@@ -9,7 +9,7 @@ module Fog
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url,
                  :persistent, :openstack_service_name, :openstack_tenant,
-                 :openstack_api_key, :openstack_username
+                 :openstack_api_key, :openstack_username, :openstack_identity_endpoint
 
       ## MODELS
       #
