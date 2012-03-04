@@ -141,6 +141,7 @@ module Fog
               :openstack_api_key  => @openstack_api_key,
               :openstack_username => @openstack_username,
               :openstack_auth_uri => @openstack_auth_uri,
+              :openstack_auth_token => @openstack_auth_token,
               :openstack_service_name => @openstack_service_name,
               :openstack_endpoint_type => 'adminURL'
             }

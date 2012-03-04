@@ -74,18 +74,29 @@ module Fog
       @openstack_api_key  = options[:openstack_api_key]
       @openstack_username = options[:openstack_username]
       @openstack_tenant   = options[:openstack_tenant]
-      @service_name       = options[:openstack_service_name]
+      @openstack_auth_token = options[:openstack_auth_token]
+      @service_name         = options[:openstack_service_name]
       @identity_service_name = options[:openstack_identity_service_name]
-      @endpoint_type      = options[:openstack_endpoint_type] || 'publicURL'
+      @endpoint_type         = options[:openstack_endpoint_type] || 'publicURL'
 
-      req_body= {
-        'auth' => {
-          'passwordCredentials'  => {
-            'username' => @openstack_username,
-            'password' => @openstack_api_key
+      if @openstack_auth_token
+        req_body = {
+          'auth' => {
+            'token' => {
+              'id' => @openstack_auth_token
+            }
           }
         }
-      }
+      else
+        req_body = {
+          'auth' => {
+            'passwordCredentials'  => {
+              'username' => @openstack_username,
+              'password' => @openstack_api_key
+            }
+          }
+        }
+      end
       req_body['auth']['tenantName'] = @openstack_tenant if @openstack_tenant
 
       body = retrieve_tokens_v2(connection, req_body, uri)

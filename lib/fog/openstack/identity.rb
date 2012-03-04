@@ -166,6 +166,7 @@ module Fog
             options = {
               :openstack_api_key  => @openstack_api_key,
               :openstack_username => @openstack_username,
+              :openstack_auth_token => @openstack_auth_token,
               :openstack_auth_uri => @openstack_auth_uri,
               :openstack_tenant   => @openstack_tenant,
               :openstack_service_name => @openstack_service_name,
