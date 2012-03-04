@@ -1,11 +1,11 @@
 require(File.expand_path(File.join(File.dirname(__FILE__), 'core')))
 
 module Fog
-  module NewServers
+  module BareMetalCloud
 
     extend Fog::Provider
 
-    service(:compute, 'new_servers/compute', 'Compute')
+    service(:compute, 'bare_metal_cloud/compute', 'Compute')
 
   end
 end
