@@ -10,7 +10,7 @@ module Fog
         # * success <~Boolean>
         def resume_server(server_id)
           body = { 'resume' => nil }
-          server_action(server_id, body) == 202
+          server_action(server_id, body).status == 202
         end # def resume_server
       end # class Real
 

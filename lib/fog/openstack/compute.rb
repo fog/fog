@@ -59,6 +59,8 @@ module Fog
       request :revert_resize_server
       request :pause_server
       request :unpause_server
+      request :suspend_server
+      request :resume_server
       request :rescue_server
       request :change_server_password
       request :add_fixed_ip
