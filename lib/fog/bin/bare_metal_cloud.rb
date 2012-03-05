@@ -1,10 +1,10 @@
-class NewServers < Fog::Bin
+class BareMetalCloud < Fog::Bin
   class << self
 
     def class_for(key)
       case key
       when :compute
-        Fog::Compute::NewServers
+        Fog::Compute::BareMetalCloud
       else 
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
@@ -14,8 +14,8 @@ class NewServers < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
-          Fog::Logger.warning("NewServers[:compute] is not recommended, use Compute[:newservers] for portability")
-          Fog::Compute.new(:provider => 'NewServers')
+          Fog::Logger.warning("BareMetalCloud[:compute] is not recommended, use Compute[:baremetalcloud] for portability")
+          Fog::Compute.new(:provider => 'BareMetalCloud')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
@@ -24,7 +24,7 @@ class NewServers < Fog::Bin
     end
 
     def services
-      Fog::NewServers.services
+      Fog::BareMetalCloud.services
     end
 
   end
