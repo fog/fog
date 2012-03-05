@@ -176,6 +176,11 @@ module Fog
             part_tags << part_upload.headers["ETag"]
           end
 
+        rescue
+          # Abort the upload & reraise
+          connection.abort_multipart_upload(directory.key, key, upload_id) if upload_id
+          raise
+        else
           # Complete the upload
           connection.complete_multipart_upload(directory.key, key, upload_id, part_tags)
         end
