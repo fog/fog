@@ -32,7 +32,25 @@ module Fog
       class Mock
 
         def create_db_parameter_group(group_name, group_family, description)
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          if self.data[:parameter_groups] and self.data[:parameter_groups][group_name]
+            raise Fog::AWS::RDS::IdentifierTaken.new("Parameter group #{group_name} already exists")
+          end
+          
+          data = {
+            'DBParameterGroupName' => group_name,
+            'DBParameterGroupFamily' => group_family.downcase,
+            'Description' => description
+          }
+          self.data[:parameter_groups][group_name] = data
+          
+          response.body = {
+            "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
+            "CreateDBParameterGroupResult"=> {"DBParameterGroup"=> data}
+          }
+          response.status = 200
+          response
+          
         end
 
       end

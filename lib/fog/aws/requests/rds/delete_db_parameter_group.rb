@@ -27,7 +27,17 @@ module Fog
       class Mock
 
         def delete_db_parameter_group(group_name)
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          
+          if self.data[:parameter_groups].delete(group_name)
+            response.status = 200
+            response.body = {
+              "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
+            }
+            response
+          else
+            raise Fog::AWS::RDS::NotFound.new("DBParameterGroup not found: #{group_name}")
+          end
         end
 
       end
