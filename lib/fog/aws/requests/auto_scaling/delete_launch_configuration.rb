@@ -38,7 +38,16 @@ module Fog
       class Mock
 
         def delete_launch_configuration(launch_configuration_name)
-          Fog::Mock.not_implemented
+          unless self.data[:launch_configurations].delete(launch_configuration_name)
+            raise Fog::AWS::AutoScaling::ValidationError, "Launch configuration name not found - Launch configuration #{launch_configuration_name} not found"
+          end
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            'ResponseMetadata' => { 'RequestId' => Fog::AWS::Mock.request_id }
+          }
+          response
         end
 
       end
