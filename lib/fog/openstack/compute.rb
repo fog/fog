@@ -137,6 +137,7 @@ module Fog
 
       # Usage
       request :list_usages
+      request :get_usage
 
       class Mock
 

@@ -20,9 +20,23 @@ module Fog
       end
 
       class Mock
-
-        # TODO: Mocks to go here
-
+        def list_usages(date_start = nil, date_end = nil, detailed=false)
+          params = Hash.new
+          response        = Excon::Response.new
+          response.status = 200
+          response.body   = {"tenant_usages"=>[{
+                               "total_memory_mb_usage" => 0.00036124444444444445,
+                               "total_vcpus_usage"     => 7.055555555555556e-07,
+                               "start"                 => "2012-03-06 05:05:56.349001", 
+                               "tenant_id"             => "b97c8abba0c44a0987c63b858a4823e5",
+                               "stop"                  => "2012-03-06 05:05:56.349255", 
+                               "total_hours"           => 7.055555555555556e-07,
+                               "total_local_gb_usage"  => 0.0
+                                }
+                              ]
+                            }
+          response
+        end
       end
     end
   end
