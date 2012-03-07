@@ -15,11 +15,12 @@ module Fog
           data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)
           request(
-            :body     => data[:body],
-            :expects  => 201,
-            :headers  => headers,
-            :method   => 'PUT',
-            :path     => "#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object)}"
+            :body       => data[:body],
+            :expects    => 201,
+            :idempotent => true,
+            :headers    => headers,
+            :method     => 'PUT',
+            :path       => "#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object)}"
           )
         end
 

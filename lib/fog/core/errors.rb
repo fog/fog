@@ -46,14 +46,17 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :google_storage_secret_access_key:
   :linode_api_key:
   :local_root:
-  :new_servers_password:
-  :new_servers_username:
+  :bare_metal_cloud_password:
+  :bare_metal_cloud_username:
   :public_key_path:
   :private_key_path:
   :openstack_api_key:
   :openstack_username:
   :openstack_auth_url:
   :openstack_tenant:
+  :ovirt_username:
+  :ovirt_password:
+  :ovirt_url:
   :rackspace_api_key:
   :rackspace_username:
   :rackspace_servicenet:

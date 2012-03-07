@@ -55,14 +55,8 @@ namespace :test do
   end
 end
 
-task :examples do
-  sh("export FOG_MOCK=false && bundle exec shindont examples")
-  # some don't provide mocks so we'll leave this out for now
-  # sh("export FOG_MOCK=true  && bundle exec shindont examples")
-end
-
-task :test do # => :examples do
-  Rake::Task[:mock_tests].invoke && Rake::Task[:examples].invoke && Rake::Task[:real_tests].invoke
+task :test do
+  Rake::Task[:mock_tests].invoke && Rake::Task[:real_tests].invoke
 end
 
 def tests(mocked)
@@ -119,14 +113,6 @@ task :nuke do
     rescue
     end
   end
-end
-
-desc "Generate RCov test coverage and open in your browser"
-task :coverage do
-  require 'rcov'
-  sh "rm -fr coverage"
-  sh "rcov test/test_*.rb"
-  sh "open coverage/index.html"
 end
 
 require 'rdoc/task'

@@ -602,8 +602,8 @@ MVP! Patrick Debois
 [compute|linode]
   move linode compute to its own shared area (namespacing should probably be corrected). thanks geemus
 
-[compute|new_servers]
-  move new_servers compute to its own shared area (namespacing should probably be corrected). thanks geemus
+[compute|bare_metal_cloud]
+  move bare_metal_cloud compute to its own shared area (namespacing should probably be corrected). thanks geemus
 
 [compute|ninefold]
   move ninefold compute to its own shared area (namespacing should probably be corrected). thanks geemus

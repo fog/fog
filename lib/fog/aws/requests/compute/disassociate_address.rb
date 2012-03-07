@@ -9,6 +9,7 @@ module Fog
         #
         # ==== Parameters
         # * public_ip<~String> - Public ip to assign to instance
+        # * association_id<~String> - Id associating eip to an network interface
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -17,12 +18,13 @@ module Fog
         #     * 'return'<~Boolean> - success?
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DisassociateAddress.html]
-        def disassociate_address(public_ip)
+        def disassociate_address(public_ip=nil, association_id=nil)
           request(
-            'Action'    => 'DisassociateAddress',
-            'PublicIp'  => public_ip,
-            :idempotent => true,
-            :parser     => Fog::Parsers::Compute::AWS::Basic.new
+            'Action'        => 'DisassociateAddress',
+            'PublicIp'      => public_ip,
+            'AssociationId' => association_id,
+            :idempotent     => true,
+            :parser         => Fog::Parsers::Compute::AWS::Basic.new
           )
         end
 

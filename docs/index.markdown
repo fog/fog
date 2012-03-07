@@ -66,7 +66,7 @@ Enjoy, and let me know what I can do to continue improving fog!
 
 (The MIT License)
 
-Copyright (c) 2010 [geemus (Wesley Beary)](http://github.com/geemus)
+Copyright (c) 2012 [geemus (Wesley Beary)](http://github.com/geemus)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

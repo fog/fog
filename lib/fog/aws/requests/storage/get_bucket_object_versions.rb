@@ -73,7 +73,7 @@ module Fog
       class Mock
         def get_bucket_object_versions(bucket_name, options = {})
           delimiter, key_marker, max_keys, prefix, version_id_marker = \
-            options['delimiter'], options['key_marker'], options['max_keys'],options['prefix'],options['version_id_marker']
+            options['delimiter'], options['key-marker'], options['max-keys'],options['prefix'],options['version-id-marker']
 
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')

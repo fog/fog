@@ -6,8 +6,10 @@ def compute_providers
     },
     :bluebox    => {
       :server_attributes => {
-        :image_id => '03807e08-a13d-44e4-b011-ebec7ef2c928', # Ubuntu 10.04 64bit
-        :password => 'chunkybacon'
+        :flavor_id    => '94fd37a7-2606-47f7-84d5-9000deda52ae', # Block 1GB Virtual Server
+        :image_id     => 'a8f05200-7638-47d1-8282-2474ef57c4c3', # Scientific Linux 6
+        :location_id  => '37c2bd9a-3e81-46c9-b6e2-db44a25cc675', # Seattle, WA
+        :password     => 'chunkybacon'
       },
       :mocked => false
     },
@@ -18,6 +20,9 @@ def compute_providers
       :mocked => false
     },
     :glesys   => {
+      :mocked => false
+    },
+    :joyent => {
       :mocked => false
     },
     :ninefold   => {

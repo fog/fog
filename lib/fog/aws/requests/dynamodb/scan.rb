@@ -34,7 +34,8 @@ module Fog
 
           request(
             :body     => MultiJson.encode(body),
-            :headers  => {'x-amz-target' => 'DynamoDB_20111205.Scan'}
+            :headers  => {'x-amz-target' => 'DynamoDB_20111205.Scan'},
+            :idempotent => true
           )
         end
 

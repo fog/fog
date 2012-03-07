@@ -12,11 +12,11 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        def delete_db_snapshot(group_name)
+        def delete_db_snapshot(name)
           
           request({
             'Action'  => 'DeleteDBSnapshot',
-            'DBSnapshotIdentifier' => group_name,
+            'DBSnapshotIdentifier' => name,
             
             :parser   => Fog::Parsers::AWS::RDS::DeleteDBSnapshot.new
           })
@@ -26,8 +26,19 @@ module Fog
 
       class Mock
 
-        def delete_db_snapshot(group_name)
-          Fog::Mock.not_implemented
+        def delete_db_snapshot(name)
+          # TODO: raise error if snapshot isn't 'available'
+          response = Excon::Response.new
+          snapshot_data = self.data[:snapshots].delete(name)
+
+          raise Fog::AWS::RDS::NotFound.new("DBSnapshtoNotFound => #{name} not found") unless snapshot_data
+
+          response.status = 200
+          response.body = {
+            "ResponseMetadata"=> { "RequestId"=> Fog::AWS::Mock.request_id },
+            "DeleteDBSnapshotResult"=> {"DBSnapshot"=> snapshot_data}
+          }
+          response
         end
 
       end

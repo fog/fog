@@ -25,8 +25,10 @@ module Fog
             if (@in_hosts)
               #in hosts part of response
               case name
-              when 'id', 'priority', 'ttl', 'zone-id'
+              when 'id', 'zone-id'
                 @host[name] = value.to_i
+              when 'priority', 'ttl'
+                @host[name] = value.to_i if value
               when 'data', 'fqdn', 'host-type', 'hostname', 'notes', 'zone-id', 'created-at', 'updated-at'
                 @host[name] = value
               when 'host'

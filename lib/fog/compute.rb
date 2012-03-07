@@ -32,21 +32,31 @@ module Fog
       when :gogrid
         require 'fog/go_grid/compute'
         Fog::Compute::GoGrid.new(attributes)
+      when :joyent
+        require 'fog/joyent/compute'
+        Fog::Compute::Joyent.new(attributes)
       when :libvirt
         require 'fog/libvirt/compute'
         Fog::Compute::Libvirt.new(attributes)
       when :linode
         require 'fog/linode/compute'
         Fog::Compute::Linode.new(attributes)
-      when :newservers
-        require 'fog/new_servers/compute'
-        Fog::Compute::NewServers.new(attributes)
+      when :new_servers
+        require 'fog/bare_metal_cloud/compute'
+        warn "[DEPRECATION] `new_servers` is deprecated. Please use `bare_metal_cloud` instead."
+        Fog::Compute::BareMetalCloud.new(attributes)
+      when :baremetalcloud
+        require 'fog/bare_metal_cloud/compute'
+        Fog::Compute::BareMetalCloud.new(attributes)
       when :ninefold
         require 'fog/ninefold/compute'
         Fog::Compute::Ninefold.new(attributes)
       when :openstack
         require 'fog/openstack/compute'
         Fog::Compute::OpenStack.new(attributes)
+      when :ovirt
+        require 'fog/ovirt/compute'
+        Fog::Compute::Ovirt.new(attributes)
       when :rackspace
         require 'fog/rackspace/compute'
         Fog::Compute::Rackspace.new(attributes)
