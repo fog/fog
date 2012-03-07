@@ -530,6 +530,7 @@ class Brightbox
           "server_groups"   => [Brightbox::Compute::Formats::Nested::SERVER_GROUP],
           "interfaces"      => [Brightbox::Compute::Formats::Nested::INTERFACE],
           "zone"            => Fog::Brightbox::Nullable::Zone,
+          "licence_name"    => String,
           "username"        => Fog::Nullable::String
         }
 
