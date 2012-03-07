@@ -25,6 +25,11 @@ module Fog
         attribute :encryption,          :aliases => 'x-amz-server-side-encryption'
         attribute :version,             :aliases => 'x-amz-version-id'
 
+        # Chunk size to use for multipart uploads
+        # Use small chunk sizes to minimize memory
+        # E.g. 5242880 = 5mb
+        attr_accessor :multipart_chunk_size
+
         def acl=(new_acl)
           valid_acls = ['private', 'public-read', 'public-read-write', 'authenticated-read']
           unless valid_acls.include?(new_acl)
@@ -121,9 +126,14 @@ module Fog
           options['x-amz-storage-class'] = storage_class if storage_class
           options['x-amz-server-side-encryption'] = encryption if encryption
 
-          data = connection.put_object(directory.key, key, body, options)
-          data.headers['ETag'].gsub!('"','')
-          merge_attributes(data.headers)
+          if multipart_chunk_size && body.respond_to?(:read)
+            data = multipart_save(options)
+            merge_attributes(data.body)
+          else
+            data = connection.put_object(directory.key, key, body, options)
+            merge_attributes(data.headers)
+          end
+          self.etag.gsub!('"','')
           self.content_length = Fog::Storage.get_body_size(body)
           true
         end
@@ -146,6 +156,33 @@ module Fog
 
         def directory=(new_directory)
           @directory = new_directory
+        end
+
+        def multipart_save(options)
+          # Initiate the upload
+          res = connection.initiate_multipart_upload(directory.key, key, options)
+          upload_id = res.body["UploadId"]
+
+          # Store ETags of upload parts
+          part_tags = []
+
+          # Upload each part
+          # TODO: optionally upload chunks in parallel using threads
+          # (may cause network performance problems with many small chunks)
+          # TODO: Support large chunk sizes without reading the chunk into memory
+          body.rewind if body.respond_to?(:rewind)
+          while (chunk = body.read(multipart_chunk_size)) do
+            part_upload = connection.upload_part(directory.key, key, upload_id, part_tags.size + 1, chunk )
+            part_tags << part_upload.headers["ETag"]
+          end
+
+        rescue
+          # Abort the upload & reraise
+          connection.abort_multipart_upload(directory.key, key, upload_id) if upload_id
+          raise
+        else
+          # Complete the upload
+          connection.complete_multipart_upload(directory.key, key, upload_id, part_tags)
         end
 
       end
