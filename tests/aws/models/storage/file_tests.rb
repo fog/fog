@@ -57,6 +57,8 @@ Shindo.tests("Storage[:aws] | file", [:aws]) do
     end
 
     tests("multipart upload") do
+      pending if Fog.mocking?
+
       # A 6MB file
       @large_file = Tempfile.new("fog-test-aws-s3-multipart")
       6.times { @large_file.write("x" * (1024**2)) }
