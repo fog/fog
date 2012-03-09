@@ -64,7 +64,8 @@ module Fog
           servers = []
           spot_requests.each do |spot_request|
             spot_request.wait_for { ready? }
-            Fog.wait_for { server = connection.servers.get(spot_request.instance_id) }
+            spot_request.reload
+            Fog.wait_for { connection.servers.get(spot_request.instance_id) }
             server = connection.servers.get(spot_request.instance_id)
             if spot_request.tags
               for key, value in spot_request.tags
