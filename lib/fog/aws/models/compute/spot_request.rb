@@ -3,7 +3,7 @@ require 'fog/core/model'
 module Fog
   module Compute
     class AWS
-      
+
       class SpotRequest < Fog::Model
 
         identity :id,                          :aliases => 'spotInstanceRequestId'
@@ -95,16 +95,32 @@ module Fog
           options.delete_if {|key, value| value.nil?}
 
           data = connection.request_spot_instances(image_id, flavor_id, price, options).body
-          spot_instance_request = data['spotInstanceRequestSet'].first
-          spot_instance_request['launchSpecification'].each do |name,value|
-            spot_instance_request['LaunchSpecification.' + name[0,1].upcase + name[1..-1]] = value
+
+          spot_instance_requests = data['spotInstanceRequestSet'].map do |spot_instance_request|
+            spot_instance_request['launchSpecification'].each do |name,value|
+              spot_instance_request['LaunchSpecification.' + name[0,1].upcase + name[1..-1]] = value
+            end
+            spot_instance_request.merge(:groups => spot_instance_request['LaunchSpecification.GroupSet'])
+            spot_instance_request.merge(options)
           end
-          spot_instance_request.merge(:groups => spot_instance_request['LaunchSpecification.GroupSet'])
-          spot_instance_request.merge(options)
-          merge_attributes( spot_instance_request )
+
+          spot_instance_requests.each_with_index do |spot_instance_request, index|
+            if index == 0
+              merge_attributes( spot_instance_request )
+            else
+              SpotRequest.new(
+                attributes.merge(
+                  :collection => self.collection,
+                  :connection => self.connection
+                )
+              )
+            end
+          end
+
+          spot_instance_requests.lenth == 1 ? spot_instance_requests.first : spot_instance_requests
         end
 
       end
     end
   end
-end     
+end
