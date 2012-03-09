@@ -224,17 +224,11 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       response.status == 200
     }
 
-    test("list resource records")  {
+    tests("list resource records").formats(AWS::DNS::Formats::LIST_RESOURCE_RECORD_SETS)  {
       pending if Fog.mocking?
 
       # get resource records for zone
-      response = @r53_connection.list_resource_record_sets( @zone_id)
-      if response.status == 200
-        record_sets= response.body['ResourceRecordSets']
-        num_records= record_sets.count
-      end
-
-      response.status == 200
+      @r53_connection.list_resource_record_sets(@zone_id).body
     }
 
     test("delete #{@new_records.count} resource records") {

@@ -29,6 +29,8 @@ module Fog
       collection  :volumes
       model       :spot_request
       collection  :spot_requests
+      model       :vpc
+      collection  :vpcs
 
       request_path 'fog/aws/requests/compute'
       request :allocate_address
@@ -44,6 +46,7 @@ module Fog
       request :create_spot_datafeed_subscription
       request :create_tags
       request :create_volume
+      request :create_vpc
       request :delete_key_pair
       request :delete_security_group
       request :delete_placement_group
@@ -51,6 +54,7 @@ module Fog
       request :delete_spot_datafeed_subscription
       request :delete_tags
       request :delete_volume
+      request :delete_vpc
       request :deregister_image
       request :describe_addresses
       request :describe_availability_zones
@@ -69,6 +73,7 @@ module Fog
       request :describe_spot_price_history
       request :describe_tags
       request :describe_volumes
+      request :describe_vpcs
       request :detach_volume
       request :disassociate_address
       request :get_console_output

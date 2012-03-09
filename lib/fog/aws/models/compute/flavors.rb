@@ -135,7 +135,7 @@ module Fog
           self
         end
 
-        # Used to retreive a flavor
+        # Used to retrieve a flavor
         # flavor_id is required to get the associated flavor information.
         # flavors available currently:
         # 't1.micro', 'm1.small', 'm1.large', 'm1.xlarge', 'c1.medium', 'c1.xlarge', 'm2.xlarge', 'm2.2xlarge', 'm2.4xlarge', 'cc1.4xlarge', 'cg1.4xlarge'

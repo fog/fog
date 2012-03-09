@@ -86,16 +86,25 @@ module Fog
       class Mock
 
         def describe_launch_configurations(options = {})
-          results = { 'LaunchConfigurations' => [] }
-          data[:launch_configurations].each do |lc_name, lc_data|
-            results['LaunchConfigurations'] << {
-              'LaunchConfigurationName' => lc_name
-            }.merge!(lc_data)
-          end
+          launch_configuration_names = options.delete('LaunchConfigurationNames')
+          # even a nil object will turn into an empty array
+          lc = [*launch_configuration_names]
+
+          launch_configurations = 
+             if lc.any?
+               lc.map do |lc_name|
+                 l_conf = self.data[:launch_configurations].find { |name, data| name == lc_name }
+                 #raise Fog::AWS::AutoScaling::NotFound unless l_conf
+                 l_conf[1].dup if l_conf
+               end.compact
+             else
+               self.data[:launch_configurations].map { |lc, values| values.dup }
+             end
+
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            'DescribeLaunchConfigurationsResult' => results,
+            'DescribeLaunchConfigurationsResult' => { 'LaunchConfigurations' => launch_configurations },
             'ResponseMetadata' => { 'RequestId' => Fog::AWS::Mock.request_id }
           }
           response
