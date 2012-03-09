@@ -9,7 +9,7 @@ module Fog
         attribute :email
         attribute :enabled
         attribute :name
-        attribute :tenantId, :aliases => 'tenant_id'
+        attribute :tenant_id, :aliases => 'tenantId'
         attribute :password
 
         attr_accessor :email, :name, :tenant_id, :enabled, :password
