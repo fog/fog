@@ -16,13 +16,13 @@ module Fog
 
         def initialize(attributes)
           @connection = attributes[:connection]
-          attributes[:enabled] ||= true
           super
         end
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :name, :tenant_id, :password
+          enabled = true if enabled.nil?
           data = connection.create_user(name, password, email, tenant_id, enabled)
           merge_attributes(data.body['user'])
           true
