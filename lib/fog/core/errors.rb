@@ -80,6 +80,7 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :dnsimple_password:
   :dnsmadeeasy_api_key:
   :dnsmadeeasy_secret_key:
+  :dreamhost_api_key:
   :cloudstack_host:
   :cloudstack_api_key:
   :cloudstack_secret_access_key:
