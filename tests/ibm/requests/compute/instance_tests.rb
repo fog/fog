@@ -40,7 +40,6 @@ Shindo.tests('Fog::Compute[:ibm] | instance requests', ['ibm']) do
     @image_id       = "20010001"
     @instance_type  = "COP32.1/2048/60"
     @location       = "41"
-    @expiration_time= (Time.now.to_i + 10) * 1000
     @key_name       = "fog-test-key-" + Time.now.to_i.to_s(32)
     @key            = Fog::Compute[:ibm].keys.create(:name => @key_name)
 
@@ -67,6 +66,8 @@ Shindo.tests('Fog::Compute[:ibm] | instance requests', ['ibm']) do
     tests("#modify_instance('#{@instance_id}', 'name' => '#{@name} 2')") do
       returns(true) { Fog::Compute[:ibm].modify_instance(@instance_id, 'name' => @name + " 2").body["success"] }
     end
+
+    @expiration_time = (Time.now.to_i + 10) * 1000
 
     tests("#modify_instance('#{@instance_id}', 'expirationTime' => '#{@expiration_time}')") do
       returns(@expiration_time) { Fog::Compute[:ibm].modify_instance(@instance_id, 'expirationTime' => @expiration_time).body["expirationTime"] }
