@@ -152,6 +152,7 @@ module Fog
             'Placement.AvailabilityZone'  => availability_zone,
             'Placement.GroupName'         => placement_group,
             'Placement.Tenancy'           => tenancy,
+            'PrivateIpAddress'            => private_ip_address,
             'RamdiskId'                   => ramdisk_id,
             'SecurityGroup'               => groups,
             'SecurityGroupId'             => security_group_ids,
