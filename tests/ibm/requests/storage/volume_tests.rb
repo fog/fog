@@ -1,8 +1,8 @@
 Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
 
-  @combined_volume_format = {
+  @volume_format = {
     "id"            => String,
-    "instanceId"    => String,
+    "instanceId"    => Fog::Nullable::String,
     "name"          => String,
     "format"        => String,
     "state"         => Integer,
@@ -12,6 +12,9 @@ Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
     "createdTime"   => Integer,
     "location"      => String,
     "productCodes"  => Array,
+  }
+
+  @full_volume_format = @volume_format.merge({
     "ioPrice"       => {
       "rate"          => Float,
       "unitOfMeasure" => String,
@@ -20,13 +23,11 @@ Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
       "currencyCode"  => String,
       "pricePerQuantity"  => Integer,
     }
-  }
+  })
 
   @volumes_format = {
-    'volumes'     => [ @combined_volume_format.reject { |k,v| k == "ioPrice" } ]
+    'volumes' => [ @volume_format ]
   }
-
-  @volume_format = @combined_volume_format.reject { |k,v| k == "instanceId" }
 
   tests('success') do
 
@@ -54,7 +55,7 @@ Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
       Fog::Storage[:ibm].list_volumes.body
     end
 
-    tests("#get_volume('#{@volume_id}')").formats(@volume_format) do
+    tests("#get_volume('#{@volume_id}')").formats(@full_volume_format) do
       Fog::Storage[:ibm].get_volume(@volume_id).body
     end
 

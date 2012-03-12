@@ -45,12 +45,19 @@ module Fog
       class Mock
 
         def create_volume(name, offering_id, format, location_id, size)
-          volume          = Fog::IBM::Mock.create_volume(name, format, location_id, size, offering_id)
+          volume          = Fog::IBM::Mock.create_volume(name, offering_id, format, location_id, size)
           self.data[:volumes][volume['id']] = volume
           response        = Excon::Response.new
           response.status = 200
-          response.body   = format_get_volume_response_for(volume['id'])
+          response.body   = format_create_volume_response_for(volume['id'])
           response
+        end
+
+        # The create_volume response doesn't contain ioPrice either
+        def format_create_volume_response_for(volume_id)
+          # If we aren't attached/ready, make us ready
+          ready_volume(volume_id) unless volume_attached? volume_id
+          self.data[:volumes][volume_id].reject { |k,v| k == 'ioPrice' }
         end
 
       end
