@@ -2,16 +2,14 @@ module Fog
   module Compute
     class Ovirt
 
-      class Cluster < Fog::Model
-
+      class Interface < Fog::Model
+        attr_accessor :raw
         identity :id
 
         attribute :name
-        attribute :raw
-
-        def networks
-          connection.list_networks(id)
-        end
+        attribute :network
+        attribute :interface
+        attribute :mac
 
         def to_s
           name

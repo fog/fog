@@ -54,7 +54,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rdoc')
   s.add_development_dependency('thor')
   s.add_development_dependency('rspec', '~>1.3.1')
-  s.add_development_dependency('rbovirt', '>=0.0.7')
+  s.add_development_dependency('rbovirt', '>=0.0.8')
   s.add_development_dependency('shindo', '~>0.3.4')
   s.add_development_dependency('virtualbox', '~>0.9.1')
   s.add_development_dependency('fission')
