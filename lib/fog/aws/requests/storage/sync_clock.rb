@@ -9,7 +9,7 @@ module Fog
           response = begin
             get_service
           rescue => error
-            error.response
+            error.respond_to(:response) ? error.response : error.message
           end
           Fog::Time.now = Time.parse(response.headers['Date'])
         end
