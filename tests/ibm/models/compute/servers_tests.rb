@@ -11,7 +11,6 @@ Shindo.tests('Fog::Compute[:ibm] | servers', ['ibm']) do
 
     @n_servers   = Fog::Compute[:ibm].servers.length
     @instance_id = Fog::Compute[:ibm].create_instance(@name, @image_id, @instance_type, @location_id, :key_name => @key_name).body["instances"][0]["id"]
-    @server      = nil
 
     tests('Fog::Compute[:ibm].servers') do
       returns(@n_servers + 1) { Fog::Compute[:ibm].servers.length }
