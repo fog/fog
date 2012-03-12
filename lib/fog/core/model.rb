@@ -42,6 +42,14 @@ module Fog
       MultiJson.encode(attributes)
     end
 
+    def symbolize_keys(hash)
+      return nil if hash.nil?
+      hash.inject({}) do |options, (key, value)|
+        options[(key.to_sym rescue key) || key] = value
+        options
+      end
+    end
+
     def wait_for(timeout=Fog.timeout, interval=1, &block)
       reload
       retries = 3
