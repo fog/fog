@@ -85,9 +85,10 @@ Shindo.tests('Fog::Compute[:ibm] | instance requests', ['ibm']) do
 
   tests('failures') do
 
-    tests('#create_instance => 401') do
-      response = Fog::Compute[:ibm].create_instance("FAIL: 401", "123456", "12345", "101", :key_name => "invalid")
-      returns("401") { response.status }
+    tests('#create_instance => 412') do
+      raises(Excon::Errors::PreconditionFailed) do
+        Fog::Compute[:ibm].create_instance("FAIL: 412", @image_id, @instance_type, @location, :key_name => "invalid")
+      end
     end
 
   end
