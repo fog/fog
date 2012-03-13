@@ -3,7 +3,7 @@ module Fog
     class ElasticBeanstalk
       class Real
 
-        require 'fog/aws/parsers/beanstalk/udpate_configuration_template'
+        require 'fog/aws/parsers/beanstalk/update_configuration_template'
 
         # Updates the specified configuration template to have the specified properties or configuration option values.
         #
