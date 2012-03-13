@@ -13,14 +13,31 @@ module Fog
       request :check_dns_availability
       request :create_application
       request :create_application_version
+      request :create_configuration_template
       request :create_environment
+      request :create_storage_location
       request :delete_application
       request :delete_application_version
+      request :delete_configuration_template
+      request :delete_environment_configuration
       request :describe_applications
       request :describe_application_versions
       request :describe_configuration_options
+      request :describe_configuration_settings
+      request :describe_environment_resources
       request :describe_environments
+      request :describe_events
+      request :list_available_solution_stacks
+      request :rebuild_environment
+      request :request_environment_info
+      request :restart_app_server
+      request :retrieve_environment_info
+      request :swap_environment_cnames
       request :terminate_environment
+      request :update_application
+      request :update_configuration_template
+      request :update_environment
+      request :validate_configuration_settings
 
       model_path 'fog/aws/models/beanstalk'
       model       :application
