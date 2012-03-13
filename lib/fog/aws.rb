@@ -6,6 +6,7 @@ module Fog
     extend Fog::Provider
 
     service(:auto_scaling,    'aws/auto_scaling',     'AutoScaling')
+    service(:beanstalk,       'aws/beanstalk',        'ElasticBeanstalk')
     service(:cdn,             'aws/cdn',              'CDN')
     service(:compute,         'aws/compute',          'Compute')
     service(:cloud_formation, 'aws/cloud_formation',  'CloudFormation')
