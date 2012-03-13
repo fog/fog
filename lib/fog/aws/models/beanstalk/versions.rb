@@ -9,10 +9,7 @@ module Fog
         model Fog::AWS::ElasticBeanstalk::Version
 
         def all(options={})
-          data = connection.describe_application_versions(options)
-          pp data
-
-          data = data.body['DescribeApplicationVersionsResult']['ApplicationVersions']
+          data = connection.describe_application_versions(options).body['DescribeApplicationVersionsResult']['ApplicationVersions']
           load(data) # data is an array of attribute hashes
         end
 
