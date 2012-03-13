@@ -22,7 +22,7 @@ module Fog
             tag 'Pattern', :string
             tag 'UserDefined', :boolean
             tag 'ValueOptions', :string, :list
-            tag 'ValueType', :object
+            tag 'ValueType', :string
           end
 
         end

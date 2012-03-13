@@ -6,83 +6,89 @@ module Fog
         class BaseParser < Fog::Parsers::Base
 
           def initialize(result_name)
+            @result_name = result_name # Set before super, since super calls reset
             super()
-            @result_name = result_name
             @tags = {}
+            @list_tags = {}
+          end
+
+          def reset
+            @response = { @result_name => {}, 'ResponseMetadata' => {} }
+            # Push root object to top of stack
+            @parse_stack = [ { :type => :object, :value => @response[@result_name]} ]
           end
 
 
           def tag name, *traits
-            if traits.length == 1
-              @tags[name] = traits.last
+            if traits.delete(:list)
+              @list_tags[name] = true
             end
 
+            if traits.length == 1
+              @tags[name] = traits.last
+            else
+              raise "Too many traits specified, only specify :list or a type"
+            end
 
           end
 
           def start_element(name, attrs = [])
             super
-            puts "Processing tag #{name}"
             if name == 'member'
               if @parse_stack.last[:type] == :object
-                @parse_stack.last[:value] << {}
+                @parse_stack.last[:value] << {} # Push any empty object
               end
-            else
-              case @tags[name]
-
-                when :object_list #, :string_list
-                  pp @parse_stack.last[:value]
-                  value = @parse_stack.last[:value]
-                  pp value
-                  # Use
-                  if value.kind_of?(Array)
-                    value.last[name] = []
-                    value = value.last[name]
-                  else
-                    value[name] = []
-                    value = value[name]
-                  end
-
-                  pp value
-                  #value = []
-
-                  @parse_stack.push({ :type => :object, :value => value })
-                #pp @parse_stack.last[:value]
-                #@parse_stack.last[:value].last[name] = []
-                #@parse_stack.push({ :type => :value, :value => @parse_stack.last[:value].last[name] })
-                when :string_list
-                  @parse_stack.last[:value].last[name] = []
-
-                  @parse_stack.push({ :type => :value, :value => @parse_stack.last[:value].last[name] })
-
-              end
+            elsif @list_tags.has_key?(name)
+              set_value(name, [], :array) # Set an empty array
+              @parse_stack.push({ :type => @tags[name], :value => get_parent[name] })
+            elsif @tags[name] == :object
+              set_value(name, {}, :object)
+              @parse_stack.push({ :type => @tags[name], :value => get_parent[name] })
             end
           end
-
 
           def end_element(name)
             case name
               when 'member'
-                if @parse_stack.last[:type] == :value
+                if @parse_stack.last[:type] != :object
                   @parse_stack.last[:value] << value
                 end
               when 'RequestId'
                 @response['ResponseMetadata'][name] = value
               else
-                case @tags[name]
-                  when :object_list, :string_list
-                    @parse_stack.pop()
-                  when :string
-                    @parse_stack.last[:value].last[name] = value
-                  when :datetime
-                    @parse_stack.last[:value].last[name] = Time.parse value
+                if @list_tags.has_key?(name) || @tags[name] == :object
+                  @parse_stack.pop()
+                elsif @tags.has_key?(name)
+                  set_value(name, value, @tags[name])
                 end
             end
+
           end
+
+          def get_parent
+            parent = @parse_stack.last[:value]
+            parent.is_a?(Array) ? parent.last : parent
+          end
+
+          def set_value(name, value, type)
+            case type
+              when :datetime
+                get_parent[name] = Time.parse value
+              when :boolean
+                get_parent[name] = value == "true" # True only if value is true
+              when :integer
+                get_parent[name] = value.to_i
+              else
+                get_parent[name] = value
+            end
+          end
+
 
         end
       end
     end
   end
 end
+
+
 
