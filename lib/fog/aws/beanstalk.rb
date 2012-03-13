@@ -12,9 +12,12 @@ module Fog
 
       request :check_dns_availability
       request :create_application
+      request :create_application_version
       request :create_environment
       request :delete_application
+      request :delete_application_version
       request :describe_applications
+      request :describe_application_versions
       request :describe_configuration_options
       request :describe_environments
       request :terminate_environment
@@ -24,6 +27,8 @@ module Fog
       collection  :applications
       model       :environment
       collection  :environments
+      model       :version
+      collection  :versions
 
       class Mock
 
