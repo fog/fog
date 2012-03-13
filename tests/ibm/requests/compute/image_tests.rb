@@ -94,10 +94,14 @@ Shindo.tests('Fog::Compute[:ibm] | image requests', ['ibm']) do
     end
 
     tests('#delete_image') do
+      pending
       returns(true) { Fog::Compute[:ibm].delete_image(@id).body['success'] }
       returns(true) { Fog::Compute[:ibm].delete_image(@cloned_id).body['success'] }
     end
 
+    @server = Fog::Compute[:ibm].servers.get(@instance_id)
+    @server.wait_for(Fog::IBM::TIMEOUT) { ready? }
+    @server.destroy
     @key.wait_for(Fog::IBM::TIMEOUT) { instance_ids.empty? }
     @key.destroy
 

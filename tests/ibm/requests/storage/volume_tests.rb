@@ -42,8 +42,9 @@ Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
     @image_id       = "20010001"
     @instance_type  = "BRZ32.1/2048/60*175"
 
-    @key_name       = "fog-test-key-" + Time.now.to_i.to_s(32)
-    @key            = Fog::Compute[:ibm].keys.create(:name => @key_name)
+    # Instance-using tests are pending, so don't create the key now
+    # @key_name       = "fog-test-key-" + Time.now.to_i.to_s(32)
+    # @key            = Fog::Compute[:ibm].keys.create(:name => @key_name)
 
     tests("#create_volume('#{@name}', '#{@offering_id}', '#{@format}', '#{@location_id}', '#{@size}')").formats(@volume_format) do
       data = Fog::Storage[:ibm].create_volume(@name, @offering_id, @format, @location_id, @size).body
@@ -59,19 +60,23 @@ Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
       Fog::Storage[:ibm].get_volume(@volume_id).body
     end
 
+    # Tests which use this instance are pending
+    # @instance_id = Fog::Compute[:ibm].create_instance(
+    #   'fog-test-volume-instance-' + Time.now.to_i.to_s(32),
+    #   @image_id,
+    #   @instance_type,
+    #   @location_id,
+    #   :key_name => @key_name
+    # ).body['instances'][0]['id']
+
     tests("#attach_volume('#{@instance_id}','#{@volume_id}')") do
-      @instance_id = Fog::Compute[:ibm].create_instance(
-        'fog-test-volume-instance-' + Time.now.to_i.to_s(32),
-        @image_id,
-        @instance_type,
-        @location_id,
-        :key_name => @key_name
-      ).body['instances'][0]['id']
+      pending
       # TODO: Add assertions for this whenever it is properly supported
       Fog::Compute[:ibm].modify_instance(@instance_id, 'type' => 'attach', 'volume_id' => @volume_id)
     end
 
     tests("#detach_volume('#{@instance_id}','#{@volume_id}')") do
+      pending
       # TODO: Add assertions for this whenever it is properly supported
       Fog::Compute[:ibm].modify_instance(@instance_id, 'type' => 'attach', 'volume_id' => @volume_id)
       Fog::Compute[:ibm].delete_instance(@instance_id)
@@ -83,8 +88,12 @@ Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
       returns(true) { Fog::Storage[:ibm].delete_volume(@volume_id).body['success'] }
     end
 
-    @key.wait_for(Fog::IBM::TIMEOUT) { instance_ids.empty? }
-    @key.destroy
+    # See above
+    # @server = Fog::Compute[:ibm].servers.get(@instance_id)
+    # @server.wait_for(Fog::IBM::TIMEOUT) { ready? }
+    # @server.destroy
+    # @key.wait_for(Fog::IBM::TIMEOUT) { instance_ids.empty? }
+    # @key.destroy
 
   end
 
