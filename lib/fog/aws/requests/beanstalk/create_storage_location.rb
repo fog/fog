@@ -5,21 +5,21 @@ module Fog
 
         require 'fog/aws/parsers/beanstalk/create_storage_location'
 
-        # Checks if the specified CNAME is available.
+        # Creates the Amazon S3 storage location for the account.
         #
         # ==== Options
-        # * CNAMEPrefix<~String>: The prefix used when this CNAME is reserved
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #
         # ==== See Also
-        # http://docs.amazonwebservices.com/elasticbeanstalk/latest/api/API_CheckDNSAvailability.html
+        # http://docs.amazonwebservices.com/elasticbeanstalk/latest/api/API_CreateStorageLocation.html
         #
-        def check_dns_availability()
+        def create_storage_location()
           request({
-                      'Operation'    => 'CheckDNSAvailability',
-                      :parser     => Fog::Parsers::AWS::ElasticBeanstalk::CheckDNSAvailability.new
-                  }.merge(options))
+                      'Operation'    => 'CreateStorageLocation',
+                      :parser     => Fog::Parsers::AWS::ElasticBeanstalk::CreateStorageLocation.new
+                  })
         end
       end
     end
