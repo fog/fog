@@ -30,7 +30,8 @@ module Fog
         #     * 'Ebs.DeleteOnTermination'<~String> - specifies whether or not to delete the volume on instance termination
         #   * 'ClientToken'<~String> - unique case-sensitive token for ensuring idempotency
         #   * 'DisableApiTermination'<~Boolean> - specifies whether or not to allow termination of the instance from the api
-        #   * 'SecurityGroup'<~Array> or <~String> - Name of security group(s) for instances (you must omit this parameter if using Virtual Private Clouds)
+        #   * 'SecurityGroup'<~Array> or <~String> - Name of security group(s) for instances (not supported for VPC)
+        #   * 'SecurityGroupId'<~Array> or <~String> - id's of security group(s) for instances, use this or SecurityGroup
         #   * 'InstanceInitiatedShutdownBehaviour'<~String> - specifies whether volumes are stopped or terminated when instance is shutdown, in [stop, terminate]
         #   * 'InstanceType'<~String> - Type of instance to boot. Valid options
         #     in ['t1.micro', 'm1.small', 'm1.large', 'm1.xlarge', 'c1.medium', 'c1.xlarge', 'm2.xlarge', m2.2xlarge', 'm2.4xlarge', 'cc1.4xlarge', 'cg1.4xlarge']
@@ -96,6 +97,9 @@ module Fog
           end
           if security_groups = options.delete('SecurityGroup')
             options.merge!(Fog::AWS.indexed_param('SecurityGroup', [*security_groups]))
+          end
+          if security_group_ids = options.delete('SecurityGroupId')
+            options.merge!(Fog::AWS.indexed_param('SecurityGroupId', [*security_group_ids]))
           end
           if options['UserData']
             options['UserData'] = Base64.encode64(options['UserData'])

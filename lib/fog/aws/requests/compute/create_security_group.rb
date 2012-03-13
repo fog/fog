@@ -10,6 +10,7 @@ module Fog
         # ==== Parameters
         # * group_name<~String> - Name of the security group.
         # * group_description<~String> - Description of group.
+        # * vpc_id<~String> - ID of the VPC
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -38,6 +39,7 @@ module Fog
             data = {
               'groupDescription'    => description,
               'groupName'           => name,
+              'groupId'             => Fog::AWS::Mock.security_group_id,
               'ipPermissionsEgress' => [],
               'ipPermissions'       => [],
               'ownerId'             => self.data[:owner_id],

@@ -221,6 +221,10 @@ module Fog
         "vol-#{Fog::Mock.random_hex(8)}"
       end
 
+      def self.security_group_id
+        "sg-#{Fog::Mock.random_hex(8)}"
+      end
+
       def self.key_id(length=21)
         #Probably close enough
         Fog::Mock.random_selection('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',length)
@@ -229,6 +233,25 @@ module Fog
       def self.rds_address(db_name,region)
         "#{db_name}.#{Fog::Mock.random_letters(rand(12) + 4)}.#{region}.rds.amazonaws.com"
       end
+    end
+
+    def self.parse_security_group_options(group_name, options)
+      if group_name.is_a?(Hash)
+        options = group_name
+      elsif group_name
+        if options.key?('GroupName')
+          raise Fog::Compute::AWS::Error, 'Arguments specified both group_name and GroupName in options'
+        end
+        options = options.clone
+        options['GroupName'] = group_name
+      end
+      if !options.key?('GroupName') && !options.key?('GroupId')
+        raise Fog::Compute::AWS::Error, 'Neither GroupName nor GroupId specified'
+      end
+      if options.key?('GroupName') && options.key?('GroupId')
+        raise Fog::Compute::AWS::Error, 'Both GroupName and GroupId specified'
+      end
+      options
     end
   end
 end
