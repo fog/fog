@@ -25,22 +25,24 @@ Shindo.tests('Fog::Compute[:openstack] | address requests', ['openstack']) do
       Fog::Compute[:openstack].allocate_address.body
     end
 
-    tests('#list_all_addresses(server_id)').formats({"floating_ips" => [@address_format]}) do
-      Fog::Compute[:openstack].list_all_addresses(@server.body['server']['id']).body
+    tests('#list_all_addresses').formats({"floating_ips" => [@address_format]}) do
+      Fog::Compute[:openstack].list_all_addresses.body
     end
 
     tests('#get_address(address_id)').formats({"floating_ip" => @address_format}) do
-      address_id = Fog::Compute[:openstack].addresses.all(Fog::Compute[:openstack].servers.last.id).first.id
+      address_id = Fog::Compute[:openstack].addresses.all.first.id
       Fog::Compute[:openstack].get_address(address_id).body
     end
 
+    Fog::Compute[:openstack].servers.get(@server.body['server']['id']).wait_for { ready? }
+
     tests('#associate_address(server_id, ip_address)').succeeds do
-      address_ip = Fog::Compute[:openstack].addresses.all(Fog::Compute[:openstack].servers.last.id).first.ip
+      address_ip = Fog::Compute[:openstack].addresses.all.first.ip
       Fog::Compute[:openstack].associate_address(@server.body['server']['id'], address_ip).body
     end
 
     tests('#disassociate_address(server_id, ip_address)').succeeds do
-      address_ip = Fog::Compute[:openstack].addresses.all(Fog::Compute[:openstack].servers.last.id).first.ip
+      address_ip = Fog::Compute[:openstack].addresses.all.first.ip
       Fog::Compute[:openstack].disassociate_address(@server.body['server']['id'], address_ip).body
     end
   end

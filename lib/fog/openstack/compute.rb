@@ -96,6 +96,7 @@ module Fog
 
       # Address
       request :list_addresses
+      request :list_address_pools
       request :list_all_addresses
       request :list_private_addresses
       request :list_public_addresses

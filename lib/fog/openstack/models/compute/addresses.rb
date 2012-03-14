@@ -9,8 +9,8 @@ module Fog
 
         model Fog::Compute::OpenStack::Address
 
-        def all(server_id)
-          load(connection.list_all_addresses(server_id).body['floating_ips'])
+        def all
+          load(connection.list_all_addresses.body['floating_ips'])
         end
 
         def get(address_id)
@@ -19,6 +19,10 @@ module Fog
           end
         rescue Fog::Compute::OpenStack::NotFound
           nil
+        end
+
+        def get_address_pools
+          connection.list_address_pools.body['floating_ip_pools']
         end
 
       end

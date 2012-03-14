@@ -3,7 +3,7 @@ module Fog
     class OpenStack
       class Real
 
-        def list_all_addresses(server_id)
+        def list_all_addresses
           request(
             :expects  => [200, 203],
             :method   => 'GET',
@@ -15,7 +15,7 @@ module Fog
       end
 
       class Mock
-        def list_all_addresses(server_id)
+        def list_all_addresses
           response = Excon::Response.new
           response.status = 200
           response.headers = {
