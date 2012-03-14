@@ -77,6 +77,8 @@ Shindo.tests('Fog::Storage[:ibm] | volume requests', ['ibm']) do
       Fog::Compute[:ibm].delete_instance(@instance_id)
     end
 
+    Fog::Storage[:ibm].volumes.get(@volume_id).wait_for(Fog::IBM::TIMEOUT) { ready? }
+
     tests("#delete_volume('#{@volume_id}')") do
       returns(true) { Fog::Storage[:ibm].delete_volume(@volume_id).body['success'] }
     end
