@@ -8,7 +8,8 @@ module Fog
         # Creates an application that has one configuration template named default and no application versions.
         #
         # ==== Options
-        # * application_name<~String>: The name of the application.
+        # * ApplicationName<~String>: The name of the application.
+        # * Description<~String>: Describes the application.
         #
         # ==== Returns
         # * response<~Excon::Response>:
