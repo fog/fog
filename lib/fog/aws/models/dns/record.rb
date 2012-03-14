@@ -9,13 +9,14 @@ module Fog
         deprecate :ip, :value
         deprecate :ip=, :value=
 
-        identity :name,         :aliases => ['Name']
+        identity :name,           :aliases => ['Name']
 
-        attribute :value,       :aliases => ['ResourceRecords']
-        attribute :ttl,         :aliases => ['TTL']
-        attribute :type,        :aliases => ['Type']
-        attribute :status,      :aliases => ['Status']
-        attribute :created_at,  :aliases => ['SubmittedAt']
+        attribute :value,         :aliases => ['ResourceRecords']
+        attribute :ttl,           :aliases => ['TTL']
+        attribute :type,          :aliases => ['Type']
+        attribute :status,        :aliases => ['Status']
+        attribute :created_at,    :aliases => ['SubmittedAt']
+        attribute :alias_target,  :aliases => ['AliasTarget']
 
         def initialize(attributes={})
           self.ttl ||= 3600
@@ -61,11 +62,13 @@ module Fog
         end
 
         def attributes_to_options(action)
-          requires :name, :ttl, :type, :value, :zone
+          requires :name, :ttl, :type, :zone
+          requires_one :value, :alias_target
           {
             :action           => action,
             :name             => name,
             :resource_records => [*value],
+            :alias_target     => symbolize_keys(alias_target),
             :ttl              => ttl,
             :type             => type
           }

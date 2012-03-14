@@ -29,6 +29,8 @@ module Fog
       collection  :volumes
       model       :spot_request
       collection  :spot_requests
+      model       :subnet
+      collection  :subnets
       model       :vpc
       collection  :vpcs
 
@@ -44,6 +46,7 @@ module Fog
       request :create_security_group
       request :create_snapshot
       request :create_spot_datafeed_subscription
+      request :create_subnet
       request :create_tags
       request :create_volume
       request :create_vpc
@@ -52,6 +55,7 @@ module Fog
       request :delete_placement_group
       request :delete_snapshot
       request :delete_spot_datafeed_subscription
+      request :delete_subnet
       request :delete_tags
       request :delete_volume
       request :delete_vpc
@@ -71,6 +75,7 @@ module Fog
       request :describe_spot_datafeed_subscription
       request :describe_spot_instance_requests
       request :describe_spot_price_history
+      request :describe_subnets
       request :describe_tags
       request :describe_volumes
       request :describe_vpcs
