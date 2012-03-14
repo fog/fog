@@ -261,9 +261,11 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
       Fog::Compute[:aws].delete_security_group('fog_security_group_two').body
     end
 
+    vpc_id = Fog::Compute[:aws].create_vpc('10.255.254.64/28').body['vpcSet'].first['vpcId']
+
     # Create security group in VPC
     tests("#create_security_group('vpc_security_group', 'tests group')").formats(AWS::Compute::Formats::BASIC) do
-      Fog::Compute[:aws].create_security_group('vpc_security_group', 'tests group', 'vpc-11223344').body
+      Fog::Compute[:aws].create_security_group('vpc_security_group', 'tests group', vpc_id).body
     end
 
     group_id = Fog::Compute[:aws].describe_security_groups('group-name' => 'vpc_security_group').body['securityGroupInfo'].first['groupId']
@@ -306,6 +308,8 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     tests("#revoke_security_group_ingress(#{options.inspect})").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].revoke_security_group_ingress(options).body
     end
+
+    Fog::Compute[:aws].delete_vpc(vpc_id)
 
   end
   tests('failure') do
