@@ -24,10 +24,15 @@ module Fog
         attribute :host
         attribute :cluster
         attribute :template
+        attribute :interfaces
         attribute :raw
 
         def ready?
           !(status =~ /down/i)
+        end
+
+        def locked?
+          !!(status =~ /locked/i)
         end
 
         def stopped?
@@ -35,7 +40,29 @@ module Fog
         end
 
         def mac
-          raw.interfaces.first.mac if raw.interfaces
+          interfaces.first.mac unless interfaces.empty?
+        end
+
+        def interfaces
+          attributes[:interfaces] ||= id.nil? ? [] : Fog::Compute::Ovirt::Interfaces.new(
+              :connection => connection,
+              :vm => self
+          )
+        end
+
+        def add_interface attrs
+          wait_for { stopped? } if attrs[:blocking]
+          connection.add_interface(id, attrs)
+        end
+
+        def update_interface attrs
+          wait_for { stopped? } if attrs[:blocking]
+          connection.update_interface(id, attrs)
+        end
+
+        def destroy_interface attrs
+          wait_for { stopped? } if attrs[:blocking]
+          connection.destroy_interface(id, attrs)
         end
 
         def start(options = {})

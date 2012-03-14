@@ -6,6 +6,8 @@ module Fog
 
         identity :id
 
+        attr_accessor :raw
+
         attribute :name
         attribute :description
         attribute :profile
@@ -17,6 +19,15 @@ module Fog
         attribute :cores,         :aliases => 'cpus'
         attribute :memory
         attribute :cluster
+        attribute :interfaces
+
+
+        def interfaces
+          attributes[:interfaces] ||= id.nil? ? [] : Fog::Compute::Ovirt::Interfaces.new(
+              :connection => connection,
+              :vm => self
+          )
+        end
 
         def ready?
           !(status =~ /down/i)
