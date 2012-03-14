@@ -20,7 +20,13 @@ module Fog
 
         def save
           requires :name
-          data = connection.create_application(name, description).body['CreateApplicationResult']['Application']
+
+          options = {
+              'ApplicationName' => name
+          }
+          options['Description'] = description unless description.nil?
+
+          data = connection.create_application(options).body['CreateApplicationResult']['Application']
           merge_attributes(data)
           true
         end
