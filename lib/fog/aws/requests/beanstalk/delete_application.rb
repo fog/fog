@@ -8,7 +8,7 @@ module Fog
         # Deletes the specified application along with all associated versions and configurations.
         #
         # ==== Options
-        # * application_name<~String>: The name of the application.
+        # * application_name<~String>: The name of the application to delete.
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -18,7 +18,6 @@ module Fog
         #
         def delete_application(application_name)
           options = { 'ApplicationName' => application_name }
-
           request({
                       'Operation'    => 'DeleteApplication',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::Empty.new

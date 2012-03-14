@@ -5,10 +5,12 @@ module Fog
 
         require 'fog/aws/parsers/beanstalk/update_application'
 
-        # Deletes the specified application along with all associated versions and configurations.
+        # Updates the specified application to have the specified properties.
         #
         # ==== Options
-        # * application_name<~String>: The name of the application.
+        # * ApplicationName<~String>: The name of the application to update. If no such application is found,
+        #   UpdateApplication returns an InvalidParameterValue error.
+        # * Description<~String>: A new description for the application.
         #
         # ==== Returns
         # * response<~Excon::Response>:

@@ -10,7 +10,6 @@ module Fog
         # ==== Options
         # * application_names<~Array>: If specified, AWS Elastic Beanstalk restricts the returned descriptions
         #                               to only include those with the specified names.
-        #
         # ==== Returns
         # * response<~Excon::Response>:
         #
