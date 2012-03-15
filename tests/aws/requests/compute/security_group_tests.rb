@@ -31,6 +31,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
       Fog::Compute[:aws].create_security_group('fog_security_group_two', 'tests group').body
     end
 
+    group_id = Fog::Compute[:aws].describe_security_groups('group-name' => 'fog_security_group').body['securityGroupInfo'].first['groupId']
     to_be_revoked = []
     expected_permissions = []
 
@@ -61,6 +62,10 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
 
     tests("#describe_security_groups('group-name' => 'fog_security_group')").returns([]) do
       array_differences(expected_permissions, Fog::Compute[:aws].describe_security_groups('group-name' => 'fog_security_group').body['securityGroupInfo'].first['ipPermissions'])
+    end
+
+    tests("#describe_security_groups('group-id' => '#{group_id}')").returns([]) do
+      array_differences(expected_permissions, Fog::Compute[:aws].describe_security_groups('group-id' => group_id).body['securityGroupInfo'].first['ipPermissions'])
     end
 
     permission = { 'SourceSecurityGroupName' => 'fog_security_group_two', 'SourceSecurityGroupOwnerId' => @owner_id }
@@ -256,6 +261,56 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
       Fog::Compute[:aws].delete_security_group('fog_security_group_two').body
     end
 
+    vpc_id = Fog::Compute[:aws].create_vpc('10.255.254.64/28').body['vpcSet'].first['vpcId']
+
+    # Create security group in VPC
+    tests("#create_security_group('vpc_security_group', 'tests group')").formats(AWS::Compute::Formats::BASIC) do
+      Fog::Compute[:aws].create_security_group('vpc_security_group', 'tests group', vpc_id).body
+    end
+
+    group_id = Fog::Compute[:aws].describe_security_groups('group-name' => 'vpc_security_group').body['securityGroupInfo'].first['groupId']
+    
+    # Access group with name in options array
+    permission = { 'IpProtocol' => '42', 'FromPort' => '22', 'ToPort' => '22', 'CidrIp' => '10.0.0.0/8' }
+    expected_permissions = [
+      {"groups"=>[],
+        "ipRanges"=>[{"cidrIp"=>"10.0.0.0/8"}],
+        "ipProtocol"=>"42",
+        "fromPort"=>22,
+        "toPort"=>22}
+    ]
+
+    options = permission.clone
+    options['GroupName'] = 'vpc_security_group'
+    tests("#authorize_security_group_ingress(#{options.inspect})").formats(AWS::Compute::Formats::BASIC) do
+      Fog::Compute[:aws].authorize_security_group_ingress(options).body
+    end
+
+    tests("#describe_security_groups('group-name' => 'vpc_security_group')").returns([]) do
+      array_differences(expected_permissions, Fog::Compute[:aws].describe_security_groups('group-name' => 'vpc_security_group').body['securityGroupInfo'].first['ipPermissions'])
+    end
+
+    tests("#revoke_security_group_ingress(#{options.inspect})").formats(AWS::Compute::Formats::BASIC) do
+      Fog::Compute[:aws].revoke_security_group_ingress(options).body
+    end
+
+    # Access group with id in options array
+    options = permission.clone
+    options['GroupId'] = group_id
+    tests("#authorize_security_group_ingress(#{options.inspect})").formats(AWS::Compute::Formats::BASIC) do
+      Fog::Compute[:aws].authorize_security_group_ingress(options).body
+    end
+
+    tests("#describe_security_groups('group-name' => 'vpc_security_group')").returns([]) do
+      array_differences(expected_permissions, Fog::Compute[:aws].describe_security_groups('group-name' => 'vpc_security_group').body['securityGroupInfo'].first['ipPermissions'])
+    end
+
+    tests("#revoke_security_group_ingress(#{options.inspect})").formats(AWS::Compute::Formats::BASIC) do
+      Fog::Compute[:aws].revoke_security_group_ingress(options).body
+    end
+
+    Fog::Compute[:aws].delete_vpc(vpc_id)
+
   end
   tests('failure') do
 
@@ -358,6 +413,23 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     tests("#delete_security_group('default')").raises(Fog::Compute::AWS::Error) do
       Fog::Compute[:aws].delete_security_group('default')
     end
+
+    broken_params = [
+                     [ 'fog_security_group', { 'GroupName' => 'fog_security_group'}],
+                     [ 'fog_security_group', { 'GroupId' => 'sg-11223344'}],
+                     [ { 'GroupName' => 'fog_security_group', 'GroupId' => 'sg-11223344'}, nil]
+                    ]
+
+    broken_params.each do |list_elem|
+      tests("#authorize_security_group_ingress(#{list_elem[0].inspect}, #{list_elem[1].inspect})").raises(Fog::Compute::AWS::Error) do
+        Fog::Compute[:aws].authorize_security_group_ingress(list_elem[0], list_elem[1])
+      end
+
+      tests("#revoke_security_group_ingress(#{list_elem[0].inspect}, #{list_elem[1].inspect})").raises(Fog::Compute::AWS::Error) do
+        Fog::Compute[:aws].revoke_security_group_ingress(list_elem[0], list_elem[1])
+      end
+    end
+
   end
 
 end
