@@ -41,10 +41,13 @@ module Fog
       request :validate_configuration_settings
 
       model_path 'fog/aws/models/beanstalk'
+
       model       :application
       collection  :applications
       model       :environment
       collection  :environments
+      model       :event
+      collection  :events
       model       :version
       collection  :versions
 

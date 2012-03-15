@@ -14,8 +14,14 @@ module Fog
         end
 
         def get(application_name, version_label)
-          if data = connection.describe_application_versions([application_name]).body['DescribeApplicationVersionsResult']['ApplicationVersions'].first
-            new(data)
+          if data = connection.describe_application_versions({
+                                                                 'ApplicationName' => application_name,
+                                                                 'VersionLabels' => [version_label]
+                                                             }).body['DescribeApplicationVersionsResult']['ApplicationVersions']
+            if data.length == 1
+              new(data.first)
+            end
+
           end
         end
 
