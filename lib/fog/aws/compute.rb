@@ -78,6 +78,7 @@ module Fog
       request :describe_subnets
       request :describe_tags
       request :describe_volumes
+      request :describe_volume_status
       request :describe_vpcs
       request :detach_volume
       request :disassociate_address
@@ -309,7 +310,7 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2011-12-15'
+              :version            => '2012-03-01'
             }
           )
 
