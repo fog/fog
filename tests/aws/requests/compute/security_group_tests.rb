@@ -271,11 +271,11 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     group_id = Fog::Compute[:aws].describe_security_groups('group-name' => 'vpc_security_group').body['securityGroupInfo'].first['groupId']
     
     # Access group with name in options array
-    permission = { 'IpProtocol' => 'tcp', 'FromPort' => '22', 'ToPort' => '22', 'CidrIp' => '10.0.0.0/8' }
+    permission = { 'IpProtocol' => '42', 'FromPort' => '22', 'ToPort' => '22', 'CidrIp' => '10.0.0.0/8' }
     expected_permissions = [
       {"groups"=>[],
         "ipRanges"=>[{"cidrIp"=>"10.0.0.0/8"}],
-        "ipProtocol"=>"tcp",
+        "ipProtocol"=>"42",
         "fromPort"=>22,
         "toPort"=>22}
     ]

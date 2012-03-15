@@ -66,12 +66,12 @@ module Fog
             group_name = self.data[:security_groups].reject { |k,v| v['groupId'] != options['GroupId'] } .keys.first
           end
 
-          verify_permission_options(options)
-
           response = Excon::Response.new
           group = self.data[:security_groups][group_name]
 
           if group
+            verify_permission_options(options, group['vpcId'] != nil)
+
             normalized_permissions = normalize_permissions(options)
 
             normalized_permissions.each do |permission|
