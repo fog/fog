@@ -12,6 +12,19 @@ module Fog
         attribute :description, :aliases => 'Description'
         attribute :version_names, :aliases => 'Versions'
 
+        def initialize(attributes={})
+          super
+        end
+
+        def environments
+          requires :name
+          connection.environments(:server => self)
+        end
+
+        def templates
+
+        end
+
         def destroy
           requires :name
           connection.delete_application(name)
