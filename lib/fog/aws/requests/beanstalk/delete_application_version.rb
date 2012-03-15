@@ -5,7 +5,7 @@ module Fog
 
         require 'fog/aws/parsers/beanstalk/empty'
 
-        # Deletes the specified application along with all associated versions and configurations.
+        # Deletes the specified version from the specified application.
         #
         # ==== Options
         # * application_name<~String>: The name of the application to delete releases from.

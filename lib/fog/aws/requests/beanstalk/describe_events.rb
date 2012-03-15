@@ -5,11 +5,12 @@ module Fog
 
         require 'fog/aws/parsers/beanstalk/describe_events'
 
-        # Returns descriptions for existing environments.
+        # Returns list of event descriptions matching criteria up to the last 6 weeks.
         #
         # ==== Options
         # * ApplicationName<~String>: If specified, AWS Elastic Beanstalk restricts the returned descriptions
         #   to include only those that are associated with this application.
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #
