@@ -8,7 +8,8 @@ module Fog
         # Delete a security group that you own
         #
         # ==== Parameters
-        # * group_name<~String> - Name of the security group.
+        # * group_name<~String> - Name of the security group, must be nil if id is specified
+        # * group_id<~String> - Id of the security group, must be nil if name is specified
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -17,10 +18,20 @@ module Fog
         #     * 'return'<~Boolean> - success?
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-DeleteSecurityGroup.html]
-        def delete_security_group(name)
+        def delete_security_group(name, id = nil)
+          if name && id
+            raise Fog::Compute::AWS::Error.new("May not specify both group_name and group_id")
+          end
+          if name
+            type_id    = 'GroupName'
+            identifier = name
+          else
+            type_id    = 'GroupId'
+            identifier = id
+          end
           request(
             'Action'    => 'DeleteSecurityGroup',
-            'GroupName' => name,
+            type_id     => identifier,
             :idempotent => true,
             :parser     => Fog::Parsers::Compute::AWS::Basic.new
           )
@@ -29,9 +40,16 @@ module Fog
       end
 
       class Mock
-        def delete_security_group(name)
+        def delete_security_group(name, id = nil)
           if name == 'default'
             raise Fog::Compute::AWS::Error.new("InvalidGroup.Reserved => The security group 'default' is reserved")
+          end
+
+          if name && id
+            raise Fog::Compute::AWS::Error.new("May not specify both group_name and group_id")
+          end
+          if id
+            name = self.data[:security_groups].reject { |k,v| v['groupId'] != id } .keys.first
           end
 
           response = Excon::Response.new

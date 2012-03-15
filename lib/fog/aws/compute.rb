@@ -135,6 +135,7 @@ module Fog
                   'default' => {
                     'groupDescription'    => 'default group',
                     'groupName'           => 'default',
+                    'groupId'             => 'sg-11223344',
                     'ipPermissionsEgress' => [],
                     'ipPermissions'       => [
                       {
