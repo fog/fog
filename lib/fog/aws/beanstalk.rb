@@ -35,6 +35,7 @@ module Fog
       request :swap_environment_cnames
       request :terminate_environment
       request :update_application
+      request :update_application_version
       request :update_configuration_template
       request :update_environment
       request :validate_configuration_settings
