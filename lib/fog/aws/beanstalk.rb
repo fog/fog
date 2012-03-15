@@ -48,6 +48,8 @@ module Fog
       collection  :environments
       model       :event
       collection  :events
+      model       :template
+      collection  :templates
       model       :version
       collection  :versions
 
@@ -81,6 +83,11 @@ module Fog
 
         def reload
           @connection.reset
+        end
+
+        # Returns an array of available solutions stack details
+        def solution_stacks
+          list_available_solution_stacks.body['ListAvailableSolutionStacksResult']['SolutionStackDetails']
         end
 
         private
