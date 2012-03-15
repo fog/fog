@@ -5,18 +5,19 @@ module Fog
 
         require 'fog/aws/parsers/beanstalk/describe_application_versions'
 
-        # Deletes the specified application along with all associated versions and configurations.
+        # Returns descriptions for existing application versions.
         #
         # ==== Options
-        # * application_name<~String>: The name of the application to delete releases from.
-        # * version_label<~String>: The label of the version to delete.
-        # * delete_source_bundle<~Boolean>: Indicates whether to delete the associated source bundle from Amazon S3.
+        # * ApplicationName<~String>: If specified, AWS Elastic Beanstalk restricts the returned descriptions to
+        #     only include ones that are associated with the specified application.
+        # * VersionLabels<~Array>: If specified, restricts the returned descriptions to only include ones that have
+        #     the specified version labels.
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #
         # ==== See Also
-        # http://docs.amazonwebservices.com/elasticbeanstalk/latest/api/API_DeleteApplication.html
+        # http://docs.amazonwebservices.com/elasticbeanstalk/latest/api/API_DescribeApplicationVersions.html
         #
         def describe_application_versions(options={})
           if version_labels = options.delete('VersionLabels')
