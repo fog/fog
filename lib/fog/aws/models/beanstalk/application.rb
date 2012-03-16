@@ -18,11 +18,22 @@ module Fog
 
         def environments
           requires :name
-          connection.environments(:server => self)
+          connection.environments.all({'ApplicationName' => name})
+        end
+
+        def events
+          requires :name
+          connection.events.all({'ApplicationName' => name})
         end
 
         def templates
+          requires :name
+          connection.templates.all({'ApplicationName' => name})
+        end
 
+        def versions
+          requires :name
+          connection.versions.all({'ApplicationName' => name})
         end
 
         def destroy
