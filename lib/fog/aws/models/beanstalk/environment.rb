@@ -5,7 +5,8 @@ module Fog
     class ElasticBeanstalk
 
       class Environment < Fog::Model
-        identity :id, :aliases => 'EnvironmentId'
+        identity :name, :aliases => 'EnvironmentName'
+        attribute :id, :aliases => 'EnvironmentId'
 
         attribute :application_name, :aliases => 'ApplicationName'
         attribute :cname, :aliases => 'CNAME'
@@ -15,7 +16,6 @@ module Fog
         attribute :updated_at, :aliases => 'DateUpdated'
         attribute :description, :aliases => 'Description'
         attribute :endpoint_url, :aliases => 'EndpointURL'
-        attribute :name, :aliases => 'EnvironmentName'
         attribute :health, :aliases => 'Health'
         attribute :resources, :aliases => 'Resources'
         attribute :solution_stack_name, :aliases => 'SolutionStackName'

@@ -13,14 +13,10 @@ module Fog
           load(data) # data is an array of attribute hashes
         end
 
-        # Gets an environment given an id or name.
+        # Gets an environment given a name.
         #
-        def get(environment_id)
-          if match = environment_id.match(/e\-[a-zA-Z0-9]{10}/)
-            options = { 'EnvironmentIds' => [environment_id] }
-          else
-            options = { 'EnvironmentNames' => [environment_id] }
-          end
+        def get(environment_name)
+          options = { 'EnvironmentNames' => [environment_name] }
 
           if data = connection.describe_environments(options).body['DescribeEnvironmentsResult']['Environments'].first
             new(data)
