@@ -5,6 +5,8 @@ class AWS < Fog::Bin
       case key
       when :auto_scaling
         Fog::AWS::AutoScaling
+      when :beanstalk
+        Fog::AWS::ElasticBeanstalk
       when :cdn
         Fog::CDN::AWS
       when :cloud_formation
