@@ -1,5 +1,7 @@
 Shindo.tests("Fog::AWS[:beanstalk] | versions", ['aws', 'beanstalk']) do
 
+  pending if Fog.mocking?
+
   @beanstalk = Fog::AWS[:beanstalk]
 
   @application_name = uniq_id('fog-test-app')

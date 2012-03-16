@@ -1,5 +1,7 @@
 Shindo.tests("Fog::AWS[:beanstalk] | environment", ['aws', 'beanstalk']) do
 
+  pending if Fog.mocking?
+
   @beanstalk = Fog::AWS[:beanstalk]
 
   @application_name = uniq_id('fog-test-app')
@@ -53,7 +55,6 @@ Shindo.tests("Fog::AWS[:beanstalk] | environment", ['aws', 'beanstalk']) do
 
       count = 0
       if @instance.version.label == @version_names[1]
-        puts "new version names match"
         @instance.events.each { |event|
           if event.message == "Environment update is starting."
             count = count + 1
