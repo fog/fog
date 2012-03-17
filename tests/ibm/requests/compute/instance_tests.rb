@@ -73,14 +73,19 @@ Shindo.tests('Fog::Compute[:ibm] | instance requests', ['ibm']) do
       returns(@expiration_time) { Fog::Compute[:ibm].modify_instance(@instance_id, 'expirationTime' => @expiration_time).body["expirationTime"] }
     end
 
-    Fog::Compute[:ibm].servers.get(@instance_id).wait_for(Fog::IBM::TIMEOUT) { ready? }
-
     tests("#delete_instance('#{@instance_id}')") do
-      data = Fog::Compute[:ibm].delete_instance(@instance_id)
+      if Fog::Compute[:ibm].servers.get(@instance_id).wait_for(Fog::IBM::TIMEOUT) { ready? }
+        data = Fog::Compute[:ibm].delete_instance(@instance_id)
+      else
+        pending
+      end
     end
 
-    @key.wait_for(Fog::IBM::TIMEOUT) { instance_ids.empty? }
-    @key.destroy
+    if @key.wait_for(Fog::IBM::TIMEOUT) { instance_ids.empty? }
+      @key.destroy
+    else
+      pending
+    end
 
   end
 
