@@ -69,6 +69,18 @@ module Fog
         def initialize(options={})
           require 'multi_json'
           @openstack_username = options[:openstack_username]
+
+          @data ||= { :users => {}}
+          unless @data[:users].find {|u| u['name'] == options[:openstack_username]}
+            id = Fog::Mock.random_numbers(6).to_s
+            @data[:users][id] = {
+              'id'       => id,
+              'name'     => options[:openstack_username],
+              'email'    => "#{options[:openstack_username]}@mock.com",
+              'tenantId' => Fog::Mock.random_numbers(6).to_s,
+              'enabled'  => true
+            }
+          end
         end
 
         def data
@@ -77,6 +89,14 @@ module Fog
 
         def reset_data
           self.class.data.delete(@openstack_username)
+        end
+
+        def credentials
+          { :provider                 => 'openstack',
+            :openstack_auth_url       => @openstack_auth_uri.to_s,
+            :openstack_auth_token     => @auth_token,
+            :openstack_management_url => @openstack_management_url,
+            :openstack_current_user_id => @openstack_current_user_id}
         end
       end
 
