@@ -15,7 +15,7 @@ module Fog
         def list_users
           response = Excon::Response.new
           response.status = 200
-          response.body = { 'users' => self.data[:users] }
+          response.body = { 'users' => self.data[:users].values }
           response
         end
       end # class Mock
