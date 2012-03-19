@@ -7,7 +7,10 @@ Shindo.tests('AWS::ElasticBeanstalk | application_tests', ['aws', 'beanstalk']) 
     prefix + time
   end
 
-  @beanstalk = Fog::AWS[:beanstalk]
+  unless Fog.mocking?
+    @beanstalk = Fog::AWS[:beanstalk]
+  end
+
   @test_description = "A unique description."
 
   @test_app_name = unique_name("fog-test-app-")
