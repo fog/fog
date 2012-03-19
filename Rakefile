@@ -233,6 +233,7 @@ task :changelog do
         'Dylan Egan',
         'geemus',
         'Henry Addison',
+        'Kevin Menard',
         'Lincoln Stoll',
         'Luqman Amjad',
         'Michael Zeng',
