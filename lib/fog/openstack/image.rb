@@ -94,10 +94,11 @@ module Fog
             raise ArgumentError, "Missing required arguments: #{missing_credentials.join(', ')}" unless missing_credentials.empty?
           end
 
-          @openstack_auth_uri   = URI.parse(options[:openstack_auth_url])
+          @openstack_tenant               = options[:openstack_tenant]
+          @openstack_auth_uri             = URI.parse(options[:openstack_auth_url])
           @openstack_management_url       = options[:openstack_management_url]
           @openstack_must_reauthenticate  = false
-          @openstack_service_name = options[:openstack_service_name] || ['image']
+          @openstack_service_name         = options[:openstack_service_name] || ['image']
 
           @connection_options = options[:connection_options] || {}
 
@@ -157,6 +158,7 @@ module Fog
         def authenticate
           if @openstack_must_reauthenticate || @openstack_auth_token.nil?
             options = {
+              :openstack_tenant   => @openstack_tenant,
               :openstack_api_key  => @openstack_api_key,
               :openstack_username => @openstack_username,
               :openstack_auth_uri => @openstack_auth_uri,

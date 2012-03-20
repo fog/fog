@@ -100,6 +100,7 @@ module Fog
       req_body['auth']['tenantName'] = @openstack_tenant if @openstack_tenant
 
       body = retrieve_tokens_v2(connection, req_body, uri)
+
       svc = body['access']['serviceCatalog'].
         detect{|x| @service_name.include?(x['type']) }
       identity_svc = body['access']['serviceCatalog'].
