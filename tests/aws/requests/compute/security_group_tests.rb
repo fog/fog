@@ -1,4 +1,9 @@
 Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
+  @create_security_group_format = {
+    'requestId' => String,
+    'groupId'   => String,
+    'return'    => Fog::Boolean
+  }
 
   @security_groups_format = {
     'requestId'           => String,
@@ -23,11 +28,11 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
 
   tests('success') do
 
-    tests("#create_security_group('fog_security_group', 'tests group')").formats(AWS::Compute::Formats::BASIC) do
+    tests("#create_security_group('fog_security_group', 'tests group')").formats(@create_security_group_format) do
       Fog::Compute[:aws].create_security_group('fog_security_group', 'tests group').body
     end
 
-    tests("#create_security_group('fog_security_group_two', 'tests group')").formats(AWS::Compute::Formats::BASIC) do
+    tests("#create_security_group('fog_security_group_two', 'tests group')").formats(@create_security_group_format) do
       Fog::Compute[:aws].create_security_group('fog_security_group_two', 'tests group').body
     end
 
@@ -264,7 +269,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     vpc_id = Fog::Compute[:aws].create_vpc('10.255.254.64/28').body['vpcSet'].first['vpcId']
 
     # Create security group in VPC
-    tests("#create_security_group('vpc_security_group', 'tests group')").formats(AWS::Compute::Formats::BASIC) do
+    tests("#create_security_group('vpc_security_group', 'tests group')").formats(@create_security_group_format) do
       Fog::Compute[:aws].create_security_group('vpc_security_group', 'tests group', vpc_id).body
     end
 
