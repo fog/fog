@@ -1,8 +1,5 @@
 require 'fog/core/model'
 
-# XXX
-require 'pp'
-
 module Fog
   module Compute
     class AWS
