@@ -1,5 +1,8 @@
 require 'fog/core/model'
 
+# XXX
+require 'pp'
+
 module Fog
   module Compute
     class AWS
@@ -101,7 +104,11 @@ module Fog
         def destroy
           requires :name
 
-          connection.delete_security_group(name)
+          if group_id.nil?
+            connection.delete_security_group(name)
+          else
+            connection.delete_security_group(nil, group_id)
+          end
           true
         end
 
@@ -195,6 +202,8 @@ module Fog
         def save
           requires :description, :name
           data = connection.create_security_group(name, description, vpc_id).body
+          new_attributes = data.reject {|key,value| key == 'requestId'}
+          merge_attributes(new_attributes)
           true
         end
 
