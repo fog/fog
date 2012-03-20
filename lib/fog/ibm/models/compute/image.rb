@@ -55,6 +55,15 @@ module Fog
           state == 'Available'
         end
 
+        def clone(name, description)
+          connection.clone_image(id, name, description).body['ImageID']
+        end
+
+        def destroy
+          requires :id
+          connection.delete_image(id).body['success']
+        end
+
       end
     end
   end
