@@ -3,7 +3,7 @@ module Fog
     class AWS
       class Real
 
-        require 'fog/aws/parsers/compute/basic'
+        require 'fog/aws/parsers/compute/create_security_group'
 
         # Create a new security group
         #
@@ -17,6 +17,7 @@ module Fog
         #   * body<~Hash>:
         #     * 'requestId'<~String> - Id of request
         #     * 'return'<~Boolean> - success?
+        #     * 'groupId'<~String> - Id of created group
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CreateSecurityGroup.html]
         def create_security_group(name, description, vpc_id=nil)
@@ -24,8 +25,8 @@ module Fog
             'Action'            => 'CreateSecurityGroup',
             'GroupName'         => name,
             'GroupDescription'  => description,
-            :parser             => Fog::Parsers::Compute::AWS::Basic.new,
-            'VpcId'             => vpc_id
+            'VpcId'             => vpc_id,
+            :parser             => Fog::Parsers::Compute::AWS::CreateSecurityGroup.new
           )
         end
 
@@ -48,6 +49,7 @@ module Fog
             self.data[:security_groups][name] = data
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,
+              'groupId'   => data['groupId'],
               'return'    => true
             }
             response
