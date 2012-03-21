@@ -70,7 +70,7 @@ module Fog
           @public_url ||= begin
             begin response = connection.head_container(key)
               # escape the key to cover for special char. in container names
-              url = "#{connection.url}/#{connection.escape_name(key)}"
+              url = "#{connection.url}/#{Fog::HP.escape(key)}"
             rescue Fog::Storage::HP::NotFound => err
               nil
             end

@@ -68,7 +68,7 @@ module Fog
           requires :directory
           if self.directory.public_url
             # escape the key to cover for special char. in object names
-            "#{self.directory.public_url}/#{connection.escape_name(key)}"
+            "#{self.directory.public_url}/#{Fog::HP.escape(key)}"
           end
         end
 
@@ -76,7 +76,7 @@ module Fog
           requires :directory
           if self.directory.cdn_public_url
             # escape the key to cover for special char. in object names
-            "#{self.directory.cdn_public_url}/#{connection.escape_name(key)}"
+            "#{self.directory.cdn_public_url}/#{Fog::HP.escape(key)}"
           end
         end
 

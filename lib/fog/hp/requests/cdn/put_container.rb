@@ -17,7 +17,7 @@ module Fog
             :expects  => [201, 202],
             :headers  => options,
             :method   => 'PUT',
-            :path     => escape_name(name)
+            :path     => Fog::HP.escape(name)
           )
           response
         end

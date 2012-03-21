@@ -14,7 +14,7 @@ module Fog
             :block    => block,
             :expects  => 200,
             :method   => 'GET',
-            :path     => "#{escape_name(container)}/#{escape_name(object)}"
+            :path     => "#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
           }, false, &block)
           response
         end

@@ -13,7 +13,7 @@ module Fog
           response = request(
             :expects  => 204,
             :method   => 'DELETE',
-            :path     => "#{escape_name(container)}/#{escape_name(object)}"
+            :path     => "#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
           )
           response
         end

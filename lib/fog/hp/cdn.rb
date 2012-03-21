@@ -18,14 +18,7 @@ module Fog
       request :delete_container
 
       module Utils
-        # Take care of container names with '?' in them
-        def escape_name(name)
-          if name.include?('?')
-            URI.escape(name).gsub('?', '%3F')
-          else
-            URI.escape(name)
-          end
-        end
+
       end
 
       class Mock

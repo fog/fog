@@ -33,7 +33,7 @@ module Fog
           response = request(
             :expects  => 200,
             :method   => 'GET',
-            :path     => escape_name(container),
+            :path     => Fog::HP.escape(container),
             :query    => {'format' => 'json'}.merge!(options)
           )
           response
