@@ -138,7 +138,7 @@ module Fog
           if !is_vpc && options['IpProtocol'] && !['tcp', 'udp', 'icmp'].include?(options['IpProtocol'])
             raise Fog::Compute::AWS::Error.new("InvalidPermission.Malformed => Unsupported IP protocol \"#{options['IpProtocol']}\"  - supported: [tcp, udp, icmp]")
           end
-          if options['IpProtocol'] && (!options['FromPort'] || !options['ToPort'])
+          if !is_vpc && (options['IpProtocol'] && (!options['FromPort'] || !options['ToPort']))
             raise Fog::Compute::AWS::Error.new("InvalidPermission.Malformed => TCP/UDP port (-1) out of range")
           end
           if options.has_key?('IpPermissions')
@@ -151,14 +151,14 @@ module Fog
 
         def normalize_permissions(options)
           normalized_permissions = []
-
           if options['SourceSecurityGroupName']
+            source_group_id=self.data[:security_groups][options['SourceSecurityGroupName']]['groupId']
             ['tcp', 'udp'].each do |protocol|
               normalized_permissions << {
                 'ipProtocol' => protocol,
                 'fromPort' => 1,
                 'toPort' => 65535,
-                'groups' => [{'groupName' => options['SourceSecurityGroupName'], 'userId' => options['SourceSecurityGroupOwnerId'] || self.data[:owner_id]}],
+                'groups' => [{'groupName' => options['SourceSecurityGroupName'], 'userId' => options['SourceSecurityGroupOwnerId'] || self.data[:owner_id], 'groupId' => source_group_id }],
                 'ipRanges' => []
               }
             end
@@ -166,7 +166,7 @@ module Fog
               'ipProtocol' => 'icmp',
               'fromPort' => -1,
               'toPort' => -1,
-              'groups' => [{'groupName' => options['SourceSecurityGroupName'], 'userId' => options['SourceSecurityGroupOwnerId'] || self.data[:owner_id]}],
+              'groups' => [{'groupName' => options['SourceSecurityGroupName'], 'userId' => options['SourceSecurityGroupOwnerId'] || self.data[:owner_id], 'groupId' => source_group_id }],
               'ipRanges' => []
             }
           elsif options['CidrIp']
@@ -179,13 +179,21 @@ module Fog
             }
           elsif options['IpPermissions']
             options['IpPermissions'].each do |permission|
-              normalized_permissions << {
-                'ipProtocol' => permission['IpProtocol'],
-                'fromPort' => Integer(permission['FromPort']),
-                'toPort' => Integer(permission['ToPort']),
-                'groups' => (permission['Groups'] || []).map {|g| {'groupName' => g['GroupName'], 'userId' => g['UserId'] || self.data[:owner_id]} },
-                'ipRanges' => (permission['IpRanges'] || []).map {|r| { 'cidrIp' => r['CidrIp'] } }
-              }
+              if ['tcp', 'udp', 'icmp'].include?(permission['IpProtocol'])
+                normalized_permissions << {
+                  'ipProtocol' => permission['IpProtocol'],
+                  'fromPort' => Integer(permission['FromPort']),
+                  'toPort' => Integer(permission['ToPort']),
+                  'groups' => (permission['Groups'] || []).map {|g| {'groupName' => g['GroupName'], 'userId' => g['UserId'] || self.data[:owner_id], 'groupId' => self.data[:security_groups][g['GroupName']]['groupId']} },
+                  'ipRanges' => (permission['IpRanges'] || []).map {|r| { 'cidrIp' => r['CidrIp'] } }
+                }
+              else
+                normalized_permissions << {
+                  'ipProtocol' => permission['IpProtocol'],
+                  'groups' => (permission['Groups'] || []).map {|g| {'groupName' => g['GroupName'], 'userId' => g['UserId'] || self.data[:owner_id], 'groupId' => self.data[:security_groups][g['GroupName']]['groupId']} },
+                  'ipRanges' => (permission['IpRanges'] || []).map {|r| { 'cidrIp' => r['CidrIp'] } }
+                }
+              end
             end
           end
 
