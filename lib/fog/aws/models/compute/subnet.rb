@@ -44,7 +44,6 @@ module Fog
         def save
           requires :vpc_id, :cidr_block
           data = connection.create_subnet(vpc_id, cidr_block).body['subnetSet'].first
-		puts data
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           true

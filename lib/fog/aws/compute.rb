@@ -117,6 +117,7 @@ module Fog
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
               owner_id = Fog::AWS::Mock.owner_id
+              security_group_id = Fog::AWS::Mock.security_group_id
               region_hash[key] = {
                 :deleted_at => {},
                 :addresses  => {},
@@ -135,25 +136,25 @@ module Fog
                   'default' => {
                     'groupDescription'    => 'default group',
                     'groupName'           => 'default',
-                    'groupId'             => 'sg-11223344',
+                    'groupId'             => security_group_id,
                     'ipPermissionsEgress' => [],
                     'ipPermissions'       => [
                       {
-                        'groups'      => [{'groupName' => 'default', 'userId' => owner_id}],
+                        'groups'      => [{'groupName' => 'default', 'userId' => owner_id, 'groupId' => security_group_id }],
                         'fromPort'    => -1,
                         'toPort'      => -1,
                         'ipProtocol'  => 'icmp',
                         'ipRanges'    => []
                       },
                       {
-                        'groups'      => [{'groupName' => 'default', 'userId' => owner_id}],
+                        'groups'      => [{'groupName' => 'default', 'userId' => owner_id, 'groupId' => security_group_id}],
                         'fromPort'    => 0,
                         'toPort'      => 65535,
                         'ipProtocol'  => 'tcp',
                         'ipRanges'    => []
                       },
                       {
-                        'groups'      => [{'groupName' => 'default', 'userId' => owner_id}],
+                        'groups'      => [{'groupName' => 'default', 'userId' => owner_id, 'groupId' => security_group_id}],
                         'fromPort'    => 0,
                         'toPort'      => 65535,
                         'ipProtocol'  => 'udp',
