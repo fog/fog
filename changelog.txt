@@ -1,3 +1,94 @@
+1.3.0 03/21/2012 f78afe98242a60ae4dbbfcd8c5ab67ba71c6d773
+=========================================================
+
+Stats! { 'collaborators' => 32, 'downloads' => 513974, 'forks' => 387, 'open_issues' => 24, 'watchers' => 1893 }
+
+MVP! Decklin Foster
+
+[aws|cloud_watch]
+  GitHub Edit! s/prodide/provide/ :v:. thanks Dylan Egan
+
+[aws|simpledb]
+  fix region/host for us-east-1. thanks geemus
+
+[ibm]
+  Added Mocking and Tests. thanks Carl Hicks
+  Moar convenience methods for servers. thanks Carl Hicks
+  Update model for Volume. thanks Carl Hicks
+  Added request tests for addresses. thanks Carl Hicks
+  Initial IBM SmartCloud support. thanks Decklin Foster
+  Add Location model and requests. thanks Decklin Foster
+  Rename collection requests get->list so we have get_foo and list_foos. thanks Decklin Foster
+  Don't need json_body, so we can simplify requests; remove unused params. thanks Decklin Foster
+  Pass optional params to requests with hashes. thanks Decklin Foster
+  Add a InstanceType model, returned as part of Images. thanks Decklin Foster
+  Rename model test files into compute, storage dirs. thanks Decklin Foster
+  Remove trailing whitespace. thanks Decklin Foster
+  Update tests to match model arguments (attribs hash) and lower-level request methods. thanks Decklin Foster
+  Update mocks to reflect moving volume models from from compute to storage. thanks Decklin Foster
+  Add some missing mocks, fix list_instances. thanks Decklin Foster
+  Raise NotFound in mock instead of returning a 404. thanks Decklin Foster
+  Fix form_encode to stringify args (e.g. booleans) to URI.escape. thanks Decklin Foster
+  Typos in state names and status vs. state. thanks Decklin Foster
+  Fix key model for passing public_key, add setting/testing whether key is default. thanks Decklin Foster
+  Setting default key returns success, not key name. thanks Decklin Foster
+  Typo, assignment instead of equality, made some tests incorrectly pass. thanks Decklin Foster
+  Flesh out modify_instance and modify_key for different modes. thanks Decklin Foster
+  Restarting should return success, changing expiration should only return time. thanks Decklin Foster
+  Delete instance mock should return success. thanks Decklin Foster
+  Remove IBM from flavors tests. thanks Decklin Foster
+  Make names used in tests unique using current time. thanks Decklin Foster
+  Add vlan_id attrib so that it can be used in creating an instance. thanks Decklin Foster
+  Return nil for public_hostname if primary_ip unset (e.g. state is Failed). thanks Decklin Foster
+  Change default location and image ID. thanks Decklin Foster
+  Rename ibm_user_id -> ibm_username. thanks Decklin Foster
+  Create temporary keys in tests that need to create instances. thanks Decklin Foster
+  servers are not sorted, don't assume we can just take the last. thanks Decklin Foster
+  create_image should do a PUT, not a POST, and needs 'state' param. thanks Decklin Foster
+  Correct spelling of test volume format ('RAW') and fix parameter typo. thanks Decklin Foster
+  Rename data -> body. thanks Decklin Foster
+  Don't reboot or immediately expire, interferes with other tests. thanks Decklin Foster
+  Use Raleigh location for tests. thanks Decklin Foster
+  Nullable formats for attributes that may not be returned. thanks Decklin Foster
+  Set expire a few seconds in the future since it takes a while to process. thanks Decklin Foster
+  Return nil if instance_id is nil. thanks Decklin Foster
+  Can't access Fog::Compute::IBM::Location class from here, just check if ID returned. thanks Decklin Foster
+  servers.length will include already existing servers. thanks Decklin Foster
+  Add state and ready? method to Image. thanks Decklin Foster
+  Change public key format. thanks Decklin Foster
+  vlan is part of primaryIP. thanks Decklin Foster
+  Rename root_only -> is_mini_ephemeral. thanks Decklin Foster
+  Description is mandatory. thanks Decklin Foster
+  Wait for instance to be ready before deleting it or creating image. thanks Decklin Foster
+  Add state/ready? methods for Address. thanks Decklin Foster
+  Expiration time should be epoch in ms. thanks Decklin Foster
+  launched_at convenience method. thanks Decklin Foster
+  Don't set server to nil. thanks Decklin Foster
+  Set a longer timeout on all wait_for calls. thanks Decklin Foster
+  Generated key needs different name, supplied key only returns success. thanks Decklin Foster
+  Invalid instance creation will return a 412 and thus raise PreconditionFailed. thanks Decklin Foster
+  Don't calculate expiration time until ready to make the request. thanks Decklin Foster
+  Fix volume formats and mocks. thanks Decklin Foster
+  Wait for volume to be ready before deleting. thanks Decklin Foster
+  Mark volume attach/detach pending, won't create instance. thanks Decklin Foster
+  Return pending if provisioning times out in the real tests. thanks Decklin Foster
+  adding documentation. thanks Wyatt Walter
+  add bin helpers for storage. thanks geemus
+
+[misc]
+  ovirt added support for 'set vm ticket'.     This api call is needed for openning a console to the server. thanks Amos Benari
+  wrangled security tests into working. thanks Eric Stonfer
+  Changes to the security group handling:     * CreateSecurityGroup now includes the group id in the reply, this       patch makes the code store this     * The patch also changes the delete call to use the group id if       present (since you must use the id when deleting VPC groups). thanks MaF
+  Changes to the security group handling:     * CreateSecurityGroup now includes the group id in the reply, this       patch makes the code store this     * The patch also changes the delete call to use the group id if       present (since you must use the id when deleting VPC groups)     * Fix teh security group mock and test code to handle this new behavior. thanks MaF
+  Removed merge commit. thanks MaF
+
+[release]
+  add Kevin Menard to future MVP exclusion list. thanks geemus
+
+[storage|aws]
+  fix hardcoded host in get_object_http(s)_url methods. thanks geemus
+
+
 1.2.0 03/19/2012 70e0f48fa446dbf233ae31c4f055eb26ea2dadd1
 =========================================================
 
