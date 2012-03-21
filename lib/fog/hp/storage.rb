@@ -79,10 +79,6 @@ module Fog
             acl = "public-read-write"
           end
         end
-
-        def info
-          {:url => url, :auth_token => @auth_token}
-        end
       end
 
       class Mock
