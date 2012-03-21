@@ -36,6 +36,7 @@ module Fog
       request :list_vm_interfaces
       request :list_template_interfaces
       request :list_networks
+      request :vm_ticket
 
       module Shared
         # converts an OVIRT object into an hash for fog to consume.

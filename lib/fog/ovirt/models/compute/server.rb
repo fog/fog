@@ -92,6 +92,11 @@ module Fog
           connection.destroy_vm(:id => id)
         end
 
+        def ticket(options = {})
+          raise "Can not set console ticket, Server is not ready. Server status: #{status}" unless ready?
+          connection.vm_ticket(id, options)
+        end
+
         def save
           if identity
             connection.update_vm(attributes)
