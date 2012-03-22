@@ -14,7 +14,7 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~String> - url for object
         #
-        def put_object_url(bucket_name, object_name, expires)
+        def put_object_url(bucket_name, object_name, expires, headers = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
@@ -22,7 +22,7 @@ module Fog
             raise ArgumentError.new('object_name is required')
           end
           url({
-            :headers  => {},
+            :headers  => headers,
             :host     => @host,
             :method   => 'PUT',
             :path     => "#{bucket_name}/#{object_name}"
@@ -33,7 +33,7 @@ module Fog
 
       class Mock
 
-        def put_object_url(bucket_name, object_name, expires)
+        def put_object_url(bucket_name, object_name, expires, headers = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
@@ -41,7 +41,7 @@ module Fog
             raise ArgumentError.new('object_name is required')
           end
           url({
-            :headers  => {},
+            :headers  => headers,
             :host     => @host,
             :method   => 'PUT',
             :path     => "#{bucket_name}/#{object_name}"

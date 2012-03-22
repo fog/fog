@@ -17,7 +17,7 @@ module Fog
         # ==== See Also
         # http://docs.amazonwebservices.com/AmazonS3/latest/dev/S3_QSAuth.html
 
-        def put_object_url(bucket_name, object_name, expires)
+        def put_object_url(bucket_name, object_name, expires, headers = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
@@ -25,7 +25,7 @@ module Fog
             raise ArgumentError.new('object_name is required')
           end
           url({
-            :headers  => {},
+            :headers  => headers,
             :host     => @host,
             :method   => 'PUT',
             :path     => "#{bucket_name}/#{object_name}"
@@ -36,7 +36,7 @@ module Fog
 
       class Mock # :nodoc:all
 
-        def put_object_url(bucket_name, object_name, expires)
+        def put_object_url(bucket_name, object_name, expires, headers = {})
           unless bucket_name
             raise ArgumentError.new('bucket_name is required')
           end
@@ -44,7 +44,7 @@ module Fog
             raise ArgumentError.new('object_name is required')
           end
           url({
-            :headers  => {},
+            :headers  => headers,
             :host     => @host,
             :method   => 'PUT',
             :path     => "#{bucket_name}/#{object_name}"
