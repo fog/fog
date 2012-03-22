@@ -24,7 +24,7 @@ Shindo.tests('Fog::Storage[:ibm] | volume', ['ibm']) do
     tests('Fog::Storage::IBM::Volume#save') do
       returns(true)   { @volume.save }
       returns(String) { @volume.id.class }
-      @volume.wait_for(Fog::IBM::TIMEOUT) { ready? }
+      @volume.wait_for(Fog::IBM.timeout) { ready? }
       @volume_id = @volume.id
     end
 

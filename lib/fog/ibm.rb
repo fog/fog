@@ -10,17 +10,18 @@ module Fog
 
     # Provisioning is very slow. We'll pass this arg explicitly until there's a way
     # to set the default timeout on a per-provider basis.
-    TIMEOUT = 1800
+
+    def self.timeout
+      1800
+    end
 
     class Connection < Fog::Connection
-
-      ENDPOINT = 'https://www-147.ibm.com/computecloud/enterprise/api/rest/20100331'
 
       def initialize(user, password)
         require 'multi_json'
         @user = user
         @password = password
-        @endpoint = URI.parse(ENDPOINT)
+        @endpoint = URI.parse('https://www-147.ibm.com/computecloud/enterprise/api/rest/20100331')
         @base_path = @endpoint.path
         super("#{@endpoint.scheme}://#{@endpoint.host}:#{@endpoint.port}")
       end
