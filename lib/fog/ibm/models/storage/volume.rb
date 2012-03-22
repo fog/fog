@@ -5,23 +5,23 @@ module Fog
     class IBM
       class Volume < Fog::Model
 
-        STATUS = [
-          "New",              # => 0
-          "Creating",         # => 1
-          "Deleting",         # => 2
-          "Deleted",          # => 3
-          "Detached",         # => 4
-          "Attached",         # => 5
-          "Failed",           # => 6
-          "Deletion pending", # => 7
-          "Being cloned",     # => 8
-          "Cloning",          # => 9
-          "Attaching",        # => 10
-          "Detaching",        # => 11
-          "Copying",          # => 12
-          "Importing",        # => 13
-          "Transfer retrying" # => 14
-        ]
+        STATES = {
+          0  => 'New',
+          1  => 'Creating',
+          2  => 'Deleting',
+          3  => 'Deleted',
+          4  => 'Detached',
+          5  => 'Attached',
+          6  => 'Failed',
+          7  => 'Deletion pending',
+          8  => 'Being cloned',
+          9  => 'Cloning',
+          10 => 'Attaching',
+          11 => 'Detaching',
+          12 => 'Copying',
+          13 => 'Importing',
+          14 => 'Transfer retrying',
+        }
 
         identity :id
 
@@ -41,7 +41,7 @@ module Fog
         attribute :clone_status,     :aliases => 'cloneStatus'
 
         def attached?
-          status == "Attached"
+          state == "Attached"
         end
 
         def attach(instance_id)
@@ -76,8 +76,8 @@ module Fog
 
         # Are we ready to be attached to an instance?
         def ready?
-          # TODO: Not sure if this is the only status we should be matching.
-          status == "Detached"
+          # TODO: Not sure if this is the only state we should be matching.
+          state == "Detached"
         end
 
         def save
@@ -88,8 +88,8 @@ module Fog
           true
         end
 
-        def status
-          STATUS[attributes[:state].to_i]
+        def state
+          STATES[attributes[:state]]
         end
 
       end
