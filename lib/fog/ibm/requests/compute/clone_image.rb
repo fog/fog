@@ -33,7 +33,7 @@ module Fog
           response = Excon::Response.new
           if image_exists? image_id
             id = Fog::IBM::Mock.instance_id
-            self.data[:images][id] = self.data[:images][image_id].dup
+            self.data[:images][id] = self.data[:images][image_id].merge('id' => id, 'name' => name, 'description' => description)
             response.status = 200
             response.body   = { "ImageID" => id }
           else

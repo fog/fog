@@ -47,8 +47,8 @@ Shindo.tests('Fog::Storage[:ibm] | volume', ['ibm']) do
       returns(true) { @volume.ready? }
     end
 
-    tests('Fog::Storage::IBM::Volume#status') do
-      returns("Detached") { @volume.status }
+    tests('Fog::Storage::IBM::Volume#state') do
+      returns("Detached") { @volume.state }
     end
 
     tests('Fog::Storage::IBM::Volume#destroy') do

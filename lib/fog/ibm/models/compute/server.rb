@@ -6,24 +6,24 @@ module Fog
 
       class Server < Fog::Compute::Server
 
-        STATES = [
-          "New",            # => 0
-          "Provisioning",   # => 1
-          "Failed",         # => 2
-          "Removed",        # => 3
-          "Rejected",       # => 4
-          "Active",         # => 5
-          "Unknown",        # => 6
-          "Deprovisioning", # => 7
-          "Restarting",     # => 8
-          "Starting",       # => 9
-          "Stopping",       # => 10
-          "Stopped",        # => 11
-          "Deprovisioning pending", # => 12
-          "Restart pending",# => 13
-          "Attaching",      # => 14
-          "Detaching"       # => 15
-        ]
+        STATES = {
+          0  => 'New',
+          1  => 'Provisioning',
+          2  => 'Failed',
+          3  => 'Removed',
+          4  => 'Rejected',
+          5  => 'Active',
+          6  => 'Unknown',
+          7  => 'Deprovisioning',
+          8  => 'Restarting',
+          9  => 'Starting',
+          10 => 'Stopping',
+          11 => 'Stopped',
+          12 => 'Deprovisioning pending',
+          13 => 'Restart pending',
+          14 => 'Attaching',
+          15 => 'Detaching'
+        }
 
         identity :id
 
@@ -73,7 +73,7 @@ module Fog
         end
 
         def state
-          STATES[attributes[:state].to_i]
+          STATES[attributes[:state]]
         end
 
         def ready?
