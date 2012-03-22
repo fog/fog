@@ -226,6 +226,10 @@ module Fog
         "sg-#{Fog::Mock.random_hex(8)}"
       end
 
+      def self.network_interface_id
+        "eni-#{Fog::Mock.random_hex(8)}"
+      end
+
       def self.key_id(length=21)
         #Probably close enough
         Fog::Mock.random_selection('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',length)
