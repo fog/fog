@@ -1,5 +1,3 @@
-require 'fog/compute/models/server'
-
 module Fog
   module Compute
     class Ovirt
@@ -12,7 +10,7 @@ module Fog
         attribute :raw
 
         def networks
-          connection.client.networks(:cluster_id => id)
+          connection.list_networks(id)
         end
 
         def to_s

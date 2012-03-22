@@ -66,7 +66,7 @@ module Fog
             object = {
               :body             => data[:body],
               'Content-Type'    => options['Content-Type'] || data[:headers]['Content-Type'],
-              'ETag'            => Fog::AWS::Mock.etag,
+              'ETag'            => Digest::MD5.hexdigest(data[:body]),
               'Key'             => object_name,
               'Last-Modified'   => Fog::Time.now.to_date_header,
               'Content-Length'  => options['Content-Length'] || data[:headers]['Content-Length'],

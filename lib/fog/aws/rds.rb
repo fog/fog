@@ -65,8 +65,18 @@ module Fog
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
                 :servers => {},
-                :security_groups => {}
-              }
+                :security_groups => {},
+                :snapshots => {},
+                :parameter_groups => {"default.mysql5.1" => { "DBParameterGroupFamily"=>"mysql5.1",
+                                                              "Description"=>"Default parameter group for mysql5.1",
+                                                              "DBParameterGroupName"=>"default.mysql5.1"
+                                                            },
+                                      "default.mysql5.5" => {"DBParameterGroupFamily"=>"mysql5.5",
+                                                            "Description"=>"Default parameter group for mysql5.5",
+                                                            "DBParameterGroupName"=>"default.mysql5.5"
+                                                            }
+                                      }
+                                 }
             end
           end
         end

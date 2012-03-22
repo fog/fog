@@ -47,7 +47,7 @@ module Fog
                                            "UserId"   => data[:users][user_name][:user_id],
                                            "Path"     => path,
                                            "UserName" => user_name,
-                                           "Arn"      => data[:users][user_name][:arn]
+                                           "Arn"      => (data[:users][user_name][:arn]).strip
                                            },
                                 'RequestId' => Fog::AWS::Mock.request_id
                                }

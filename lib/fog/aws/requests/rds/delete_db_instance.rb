@@ -34,8 +34,7 @@ module Fog
           response = Excon::Response.new
           
           unless skip_snapshot
-            # I don't know how to mock snapshot_identifier
-            Fog::Logger.warning("snapshot_identifier is not mocked [light_black](#{caller.first})[/]")
+            create_db_snapshot(identifier, snapshot_identifier)
           end
           
           if server_set = self.data[:servers].delete(identifier)

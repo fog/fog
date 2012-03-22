@@ -35,26 +35,30 @@ module Fog
           unless object_name
             raise ArgumentError.new('object_name is required')
           end
+
+          params = { :headers => {} }
           if version_id = options.delete('versionId')
-            query = {'versionId' => version_id}
+            params[:query] = {'versionId' => version_id}
           end
-          headers = {}
-          headers.merge!(options)
-          if headers['If-Modified-Since']
-            headers['If-Modified-Since'] = Fog::Time.at(headers['If-Modified-Since'].to_i).to_date_header
+          params[:headers].merge!(options)
+          if options['If-Modified-Since']
+            params[:headers]['If-Modified-Since'] = Fog::Time.at(options['If-Modified-Since'].to_i).to_date_header
           end
-          if headers['If-Unmodified-Since']
-            headers['If-Unmodified-Since'] = Fog::Time.at(headers['If-Unmodified-Since'].to_i).to_date_header
+          if options['If-Unmodified-Since']
+            params[:headers]['If-Unmodified-Since'] = Fog::Time.at(options['If-Unmodified-Since'].to_i).to_date_header
           end
-          request({
+
+          if block_given?
+            params[:response_block] = Proc.new
+          end
+
+          request(params.merge!({
             :expects  => [ 200, 206 ],
-            :headers  => headers,
             :host     => "#{bucket_name}.#{@host}",
             :idempotent => true,
             :method   => 'GET',
             :path     => CGI.escape(object_name),
-            :query    => query
-          }, &block)
+          }))
         end
 
       end

@@ -14,6 +14,9 @@ module Fog
       when :google
         require 'fog/google/storage'
         Fog::Storage::Google.new(attributes)
+      when :ibm
+        require 'fog/ibm/storage'
+        Fog::Storage::IBM.new(attributes)
       when :local
         require 'fog/local/storage'
         Fog::Storage::Local.new(attributes)

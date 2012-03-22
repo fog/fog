@@ -33,7 +33,34 @@ module Fog
       class Mock
 
         def describe_db_snapshots(opts={})
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          snapshots = self.data[:snapshots].values
+          if opts[:identifier]
+            snapshots = snapshots.select{|snapshot| snapshot['DBInstanceIdentifier'] == opts[:identifier]}
+          end
+
+          if opts[:snapshot_id]
+            snapshots = snapshots.select{|snapshot| snapshot['DBSnapshotIdentifier'] == opts[:snapshot_id]}
+            raise Fog::AWS::RDS::NotFound.new("DBSnapshot #{opts[:snapshot_id]} not found") if snapshots.empty?
+          end
+
+          snapshots.each do |snapshot|
+            case snapshot['Status']
+            when 'creating'
+              if Time.now - snapshot['SnapshotCreateTime'] > Fog::Mock.delay
+                snapshot['Status'] = 'available'
+              end
+            end
+          end
+
+          # Build response
+          response.status = 200
+          response.body = {
+            "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
+            "DescribeDBSnapshotsResult" => { "DBSnapshots" => snapshots }
+          }
+          response
+
         end
 
       end

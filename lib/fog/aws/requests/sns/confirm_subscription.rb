@@ -21,7 +21,7 @@ module Fog
           request({
             'Action'    => 'ConfirmSubscription',
             'Token'     => token,
-            'TopicArn'  => arn,
+            'TopicArn'  => arn.strip,
             :parser     => Fog::Parsers::AWS::SNS::ConfirmSubscription.new
           }.merge!(options))
         end

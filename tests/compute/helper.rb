@@ -22,6 +22,13 @@ def compute_providers
     :glesys   => {
       :mocked => false
     },
+    :ibm => {
+      :server_attributes => {},
+      :mocked => true
+    },
+    :joyent => {
+      :mocked => false
+    },
     :ninefold   => {
       :mocked => false
     },

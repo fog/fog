@@ -22,7 +22,7 @@ module Fog
           request({
             'Action'    => 'Publish',
             'Message'   => message,
-            'TopicArn'  => arn,
+            'TopicArn'  => arn.strip,
             :parser     => Fog::Parsers::AWS::SNS::Publish.new
           }.merge!(options))
         end
