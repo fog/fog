@@ -32,14 +32,6 @@ module Fog
         attribute :path
         attribute :template_path
         
-        # for provisioning
-        attribute :created_at
-        attribute :availability_zone
-        attribute :tags
-        attribute :key_name
-        attribute :flavor_id
-        attribute :image_id
-
         # attribute alias
         def state; power_state end
         def dns_name; hostname end
