@@ -24,7 +24,7 @@ module Fog
           unless object_name
             raise ArgumentError.new('object_name is required')
           end
-          url({
+          https_url({
             :headers  => headers,
             :host     => @host,
             :method   => 'PUT',
@@ -43,7 +43,7 @@ module Fog
           unless object_name
             raise ArgumentError.new('object_name is required')
           end
-          url({
+          https_url({
             :headers  => headers,
             :host     => @host,
             :method   => 'PUT',
