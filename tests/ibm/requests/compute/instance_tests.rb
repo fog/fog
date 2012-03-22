@@ -53,7 +53,7 @@ Shindo.tests('Fog::Compute[:ibm] | instance requests', ['ibm']) do
       response = Fog::Compute[:ibm].get_instance(@instance_id).body
     end
 
-    Fog::Compute[:ibm].servers.get(@instance_id).wait_for(Fog::IBM::TIMEOUT) { ready? }
+    Fog::Compute[:ibm].servers.get(@instance_id).wait_for(Fog::IBM.timeout) { ready? }
 
     tests("#list_instances").formats(@instances_format) do
       instances = Fog::Compute[:ibm].list_instances.body
@@ -74,14 +74,14 @@ Shindo.tests('Fog::Compute[:ibm] | instance requests', ['ibm']) do
     end
 
     tests("#delete_instance('#{@instance_id}')") do
-      if Fog::Compute[:ibm].servers.get(@instance_id).wait_for(Fog::IBM::TIMEOUT) { ready? }
+      if Fog::Compute[:ibm].servers.get(@instance_id).wait_for(Fog::IBM.timeout) { ready? }
         data = Fog::Compute[:ibm].delete_instance(@instance_id)
       else
         pending
       end
     end
 
-    if @key.wait_for(Fog::IBM::TIMEOUT) { instance_ids.empty? }
+    if @key.wait_for(Fog::IBM.timeout) { instance_ids.empty? }
       @key.destroy
     else
       pending
