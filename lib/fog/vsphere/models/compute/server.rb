@@ -16,17 +16,6 @@ module Fog
         # In particular:
         #   GuestInfo: information about the guest operating system
         #   VirtualMachineConfigInfo: Access to the VMX file and configuration
-        
-        # provisioning
-        attribute :availability_zone,     :aliases => 'availabilityZone'
-        attribute :flavor_id,             :aliases => 'instanceType'
-        attribute :image_id,              :aliases => 'imageId'
-        attribute :tags,                  :aliases => 'tagSet'
-        attribute :key_name,              :aliases => 'keyName'
-        attribute :created_at,            :aliases => 'launchTime'
-        attribute :private_ip_address,    :aliases => 'privateIpAddress'
-        #attribute :public_ip_address,     :aliases => 'ipAddress'
-
         attribute :uuid  # Instance UUID should be unique across a vCenter deployment.
         attribute :name
         attribute :hostname
@@ -43,10 +32,19 @@ module Fog
         attribute :path
         attribute :template_path
         
+        # for provisioning
+        attribute :created_at
+        attribute :availability_zone
+        attribute :tags
+        attribute :key_name
+        attribute :flavor_id
+        attribute :image_id
+
         # attribute alias
         def state; power_state end
-        def dns_name; ipaddress end
+        def dns_name; hostname end
         def public_ip_address; ipaddress end
+        def private_ip_address; ipaddress end
         def instance_uuid; id end
 
         def start(options = {})
