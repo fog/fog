@@ -36,6 +36,9 @@ module Fog
         attribute :location_id,   :aliases => "location"
         attribute :product_codes, :aliases => "productCodes"
         attribute :format
+        attribute :storage_area,     :aliases => 'storageArea'
+        attribute :platform_version, :aliases => 'platformVersion'
+        attribute :clone_status,     :aliases => 'cloneStatus'
 
         def attached?
           status == "Attached"
