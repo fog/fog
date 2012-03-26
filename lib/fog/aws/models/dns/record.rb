@@ -17,6 +17,7 @@ module Fog
         attribute :status,        :aliases => ['Status']
         attribute :created_at,    :aliases => ['SubmittedAt']
         attribute :alias_target,  :aliases => ['AliasTarget']
+        attribute :change_id,     :aliases => ['Id']
 
         def initialize(attributes={})
           self.ttl ||= 3600
@@ -53,6 +54,24 @@ module Fog
           data = connection.change_resource_record_sets(zone.id, options).body
           merge_attributes(data)
           true
+        end
+
+        # Returns true if record is insync.  May only be called for newly created or modified records that
+        # have a change_id and status set.
+        def ready?
+          requires :change_id, :status
+          status == 'INSYNC'
+        end
+
+        def reload
+          # If we have a change_id (newly created or modified), then reload performs a get_change to update status.
+          if change_id
+            data = connection.get_change(change_id).body
+            merge_attributes(data)
+            self
+          else
+            super
+          end
         end
 
         private
