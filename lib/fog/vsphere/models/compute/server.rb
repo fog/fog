@@ -53,7 +53,7 @@ module Fog
         end
 
         def stop(options = {})
-          options = { :force => false }.merge(options)
+          options = { :force => !tools_installed? }.merge(options)
           requires :instance_uuid
           connection.vm_power_off('instance_uuid' => instance_uuid, 'force' => options[:force])
         end
@@ -98,6 +98,14 @@ module Fog
           new_vm.connection = self.connection
           # Return the new VM model.
           new_vm
+        end
+
+        def ready?
+          power_state == "poweredOn"
+        end
+
+        def tools_installed?
+          tools_state != "toolsNotInstalled"
         end
 
       end
