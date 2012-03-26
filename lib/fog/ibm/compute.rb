@@ -20,6 +20,8 @@ module Fog
       collection :keys
       model :location
       collection :locations
+      model :vlan
+      collection :vlans
 
       request_path 'fog/ibm/requests/compute'
 
