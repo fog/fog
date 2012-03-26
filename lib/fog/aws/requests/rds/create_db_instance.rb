@@ -9,15 +9,15 @@ module Fog
         # http://docs.amazonwebservices.com/AmazonRDS/latest/APIReference/API_CreateDBInstance.html
         # ==== Parameters
         # * DBInstanceIdentifier <~String> - name of the db instance to modify
-        #                                     
+        #
         # * AllocatedStorage  <~Integer> Storage space, in GB
-        # * AutoMinorVersionUpgrade <~Boolean> Indicates that minor version upgrades will be applied automatically to the DB Instance during the maintenance window 
+        # * AutoMinorVersionUpgrade <~Boolean> Indicates that minor version upgrades will be applied automatically to the DB Instance during the maintenance window
         # * AvailabilityZone <~String> The availability zone to create the instance in
         # * BackupRetentionPeriod  <~Integer> 0-8 The number of days to retain automated backups.
         # * DBInstanceClass <~String> The new compute and memory capacity of the DB Instance
         # * DBName <~String> The name of the database to create when the DB Instance is created
-        # * DBParameterGroupName <~String> The name of the DB Parameter Group to apply to this DB Instance  
-        # * DBSecurityGroups <~Array> A list of DB Security Groups to authorize on this DB Instance 
+        # * DBParameterGroupName <~String> The name of the DB Parameter Group to apply to this DB Instance
+        # * DBSecurityGroups <~Array> A list of DB Security Groups to authorize on this DB Instance
         # * Engine <~String> The name of the database engine to be used for this instance.
         # * EngineVersion <~String> The version number of the database engine to use.
         # * MasterUsername <~String> The db master user
@@ -30,11 +30,11 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def create_db_instance(db_name, options={})
-          
+
           if security_groups = options.delete('DBSecurityGroups')
             options.merge!(Fog::AWS.indexed_param('DBSecurityGroups.member.%d', [*security_groups]))
           end
-    
+
           request({
             'Action'  => 'CreateDBInstance',
             'DBInstanceIdentifier' => db_name,
@@ -58,7 +58,7 @@ module Fog
             #return response
             raise Fog::AWS::RDS::IdentifierTaken.new("DBInstanceAlreadyExists #{response.body.to_s}")
           end
-          
+
           # These are the required parameters according to the API
           required_params = %w{AllocatedStorage DBInstanceClass Engine MasterUserPassword MasterUsername }
           required_params.each do |key|
@@ -72,7 +72,7 @@ module Fog
               raise Fog::AWS::RDS::NotFound.new("The request must contain the parameter #{key}")
             end
           end
-          
+
           data =
               {
                  "DBInstanceIdentifier"=> db_name,
@@ -103,8 +103,8 @@ module Fog
 #                 "LatestRestorableTime" => nil,
                  "AvailabilityZone" => options["AvailabilityZone"]
              }
-           
-          
+
+
           self.data[:servers][db_name] = data
           response.body = {
             "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },

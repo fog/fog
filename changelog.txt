@@ -1,3 +1,493 @@
+1.3.0 03/21/2012 f78afe98242a60ae4dbbfcd8c5ab67ba71c6d773
+=========================================================
+
+Stats! { 'collaborators' => 32, 'downloads' => 513974, 'forks' => 387, 'open_issues' => 24, 'watchers' => 1893 }
+
+MVP! Decklin Foster
+
+[aws|cloud_watch]
+  GitHub Edit! s/prodide/provide/ :v:. thanks Dylan Egan
+
+[aws|simpledb]
+  fix region/host for us-east-1. thanks geemus
+
+[ibm]
+  Added Mocking and Tests. thanks Carl Hicks
+  Moar convenience methods for servers. thanks Carl Hicks
+  Update model for Volume. thanks Carl Hicks
+  Added request tests for addresses. thanks Carl Hicks
+  Initial IBM SmartCloud support. thanks Decklin Foster
+  Add Location model and requests. thanks Decklin Foster
+  Rename collection requests get->list so we have get_foo and list_foos. thanks Decklin Foster
+  Don't need json_body, so we can simplify requests; remove unused params. thanks Decklin Foster
+  Pass optional params to requests with hashes. thanks Decklin Foster
+  Add a InstanceType model, returned as part of Images. thanks Decklin Foster
+  Rename model test files into compute, storage dirs. thanks Decklin Foster
+  Remove trailing whitespace. thanks Decklin Foster
+  Update tests to match model arguments (attribs hash) and lower-level request methods. thanks Decklin Foster
+  Update mocks to reflect moving volume models from from compute to storage. thanks Decklin Foster
+  Add some missing mocks, fix list_instances. thanks Decklin Foster
+  Raise NotFound in mock instead of returning a 404. thanks Decklin Foster
+  Fix form_encode to stringify args (e.g. booleans) to URI.escape. thanks Decklin Foster
+  Typos in state names and status vs. state. thanks Decklin Foster
+  Fix key model for passing public_key, add setting/testing whether key is default. thanks Decklin Foster
+  Setting default key returns success, not key name. thanks Decklin Foster
+  Typo, assignment instead of equality, made some tests incorrectly pass. thanks Decklin Foster
+  Flesh out modify_instance and modify_key for different modes. thanks Decklin Foster
+  Restarting should return success, changing expiration should only return time. thanks Decklin Foster
+  Delete instance mock should return success. thanks Decklin Foster
+  Remove IBM from flavors tests. thanks Decklin Foster
+  Make names used in tests unique using current time. thanks Decklin Foster
+  Add vlan_id attrib so that it can be used in creating an instance. thanks Decklin Foster
+  Return nil for public_hostname if primary_ip unset (e.g. state is Failed). thanks Decklin Foster
+  Change default location and image ID. thanks Decklin Foster
+  Rename ibm_user_id -> ibm_username. thanks Decklin Foster
+  Create temporary keys in tests that need to create instances. thanks Decklin Foster
+  servers are not sorted, don't assume we can just take the last. thanks Decklin Foster
+  create_image should do a PUT, not a POST, and needs 'state' param. thanks Decklin Foster
+  Correct spelling of test volume format ('RAW') and fix parameter typo. thanks Decklin Foster
+  Rename data -> body. thanks Decklin Foster
+  Don't reboot or immediately expire, interferes with other tests. thanks Decklin Foster
+  Use Raleigh location for tests. thanks Decklin Foster
+  Nullable formats for attributes that may not be returned. thanks Decklin Foster
+  Set expire a few seconds in the future since it takes a while to process. thanks Decklin Foster
+  Return nil if instance_id is nil. thanks Decklin Foster
+  Can't access Fog::Compute::IBM::Location class from here, just check if ID returned. thanks Decklin Foster
+  servers.length will include already existing servers. thanks Decklin Foster
+  Add state and ready? method to Image. thanks Decklin Foster
+  Change public key format. thanks Decklin Foster
+  vlan is part of primaryIP. thanks Decklin Foster
+  Rename root_only -> is_mini_ephemeral. thanks Decklin Foster
+  Description is mandatory. thanks Decklin Foster
+  Wait for instance to be ready before deleting it or creating image. thanks Decklin Foster
+  Add state/ready? methods for Address. thanks Decklin Foster
+  Expiration time should be epoch in ms. thanks Decklin Foster
+  launched_at convenience method. thanks Decklin Foster
+  Don't set server to nil. thanks Decklin Foster
+  Set a longer timeout on all wait_for calls. thanks Decklin Foster
+  Generated key needs different name, supplied key only returns success. thanks Decklin Foster
+  Invalid instance creation will return a 412 and thus raise PreconditionFailed. thanks Decklin Foster
+  Don't calculate expiration time until ready to make the request. thanks Decklin Foster
+  Fix volume formats and mocks. thanks Decklin Foster
+  Wait for volume to be ready before deleting. thanks Decklin Foster
+  Mark volume attach/detach pending, won't create instance. thanks Decklin Foster
+  Return pending if provisioning times out in the real tests. thanks Decklin Foster
+  adding documentation. thanks Wyatt Walter
+  add bin helpers for storage. thanks geemus
+
+[misc]
+  ovirt added support for 'set vm ticket'.     This api call is needed for openning a console to the server. thanks Amos Benari
+  wrangled security tests into working. thanks Eric Stonfer
+  Changes to the security group handling:     * CreateSecurityGroup now includes the group id in the reply, this       patch makes the code store this     * The patch also changes the delete call to use the group id if       present (since you must use the id when deleting VPC groups). thanks MaF
+  Changes to the security group handling:     * CreateSecurityGroup now includes the group id in the reply, this       patch makes the code store this     * The patch also changes the delete call to use the group id if       present (since you must use the id when deleting VPC groups)     * Fix teh security group mock and test code to handle this new behavior. thanks MaF
+  Removed merge commit. thanks MaF
+
+[release]
+  add Kevin Menard to future MVP exclusion list. thanks geemus
+
+[storage|aws]
+  fix hardcoded host in get_object_http(s)_url methods. thanks geemus
+
+
+1.2.0 03/19/2012 70e0f48fa446dbf233ae31c4f055eb26ea2dadd1
+=========================================================
+
+Stats! { 'collaborators' => 30, 'downloads' => 508132, 'forks' => 384, 'open_issues' => 23, 'watchers' => 1874 }
+
+MVP! Kevin Menard
+
+[AWS]
+  Compute: The security group parser was not parsing groupid properly. thanks Christopher Oliver
+
+[AWS|DynamoDB]
+  table requests. thanks geemus
+  cleanup/fixes for tables. thanks geemus
+  item requests. thanks geemus
+  update item should not be idempotent when an action is specified. thanks geemus
+  fix for UpdateItem idempotency. thanks geemus
+  first pass at query/scan requests. thanks geemus
+  ConsumedCapacityUnits should be a Float. thanks geemus
+  add missing pending for mocked tests. thanks geemus
+
+[AWS|ELB]
+  Added support for InstanceProtocol to listeners. thanks James Stremick
+  Updating listener and LB tests to include InstancePort checks. thanks James Stremick
+
+[AWS|Storage]
+  versioning related fixes copy_object mocks. thanks geemus
+  fix for put_bucket_website mock. thanks geemus
+  remove redundant mock setup in tests #731. thanks geemus
+
+[AWS|storage]
+  fix for versioned copy_object. thanks geemus
+
+[Brightbox]
+  Updates to format tests. thanks Paul Thornthwaite
+  Updated Server output format. thanks Paul Thornthwaite
+  Updated format test to use correct link name. thanks Paul Thornthwaite
+  Updated Image format for min_ram attribute. thanks Paul Thornthwaite
+  Updated LoadBalancer format to include listeners in listing. thanks Paul Thornthwaite
+  Updated format for nested firewall policies. thanks Paul Thornthwaite
+  Merge in various spec corrections. thanks Paul Thornthwaite
+  Update format test to not fail on new attributes in JSON. thanks Paul Thornthwaite
+  Load balancer listener timeouts are now reported. thanks Paul Thornthwaite
+  Correct server snapshot test. thanks Paul Thornthwaite
+
+[Compute|OpenStack]
+  match auth response to stable/diablo branch of keystone. thanks Todd Willey
+
+[Rackspace|Storage]
+  set put_object to idempotent. thanks geemus
+
+[aws]
+  add sts helper. thanks geemus
+
+[aws|compute]
+  Fixed failing instance tests. thanks Christopher Oliver
+  Update API version and support new DescribeInstanceStatus format. thanks Dan Peterson
+  Fix allocate_address mocking. thanks Dan Peterson
+  Mock detach_volume should raise proper error if volume is not attached. thanks Dan Peterson
+  added group id to security group parser and model. thanks bdorry
+  added security group get by id method. thanks bdorry
+
+[aws|dns]
+  Record identity is 'Name'. thanks Aaron Suggs
+  Add Record#modify method. thanks Aaron Suggs
+  Add model tests. thanks Aaron Suggs
+  add test for Record#modify. thanks Aaron Suggs
+  Parse IsTruncated as boolean in list_resource_record_set. thanks Aaron Suggs
+  Add support for aliasing records to Elastic Load Balancers (API 2011-05-05). thanks James Miller
+
+[aws|elb]
+  start working on policies. :v:. thanks Dylan Egan
+  create policies, describe policies, fix old mocking and yup. :v:. thanks Dylan Egan
+  PolicyNotFound. :v:. thanks Dylan Egan
+  remove test debugging. :v:. thanks Dylan Egan
+  actually raise a PolicyNotFound. :v:. thanks Dylan Egan
+  InstanceProtocol support. :v:. thanks Dylan Egan
+
+[aws|fog]
+  crapiness and hacks. :v:. thanks Dylan Egan
+
+[aws|iam]
+  Mock upload_server_certificate errors if private key is not RSA. thanks Dan Peterson
+  P. :v:. thanks Dylan Egan
+
+[aws|rds]
+  Mock DB snapshot requests. thanks Aaron Suggs
+  Enabled model tests that pass when mocking. thanks Aaron Suggs
+
+[aws|storage]
+  Simple multipart uploads; supports files > 5GB. thanks Aaron Suggs
+  Automatically abort multipart uploads on exceptions. thanks Aaron Suggs
+  Add mock for Fog::Storage::AWS#put_bucket_website. thanks Garret Alfert
+  Handle S3 object deletions in the face of versioning. thanks Kevin Menard
+  Return the object version in the request header and set an attribute value in the model. thanks Kevin Menard
+  Allow options to be passed to the destroy method, facilitating passing of versionId. thanks Kevin Menard
+  Added ability to control bucket versioning from Directory model. thanks Kevin Menard
+  Added the ability to fetch a list of versions from a file. thanks Kevin Menard
+  Allow passing of options to fetching versions. thanks Kevin Menard
+  Added the pagination offset params to the get_object_bucket_versions parser. thanks Kevin Menard
+  Added the MfaDelete value to the get_bucket_versioning parser. thanks Kevin Menard
+  Fix put bucket website test, request returns not found when the bucket does not exist. thanks Peter Weldon
+  Add bucket lifecycle / object expiration requests. thanks Peter Weldon
+  make head_object idempotent. thanks geemus
+  direct https urls to subdomains even with dots     this may result in ssl warnings, but that seems better than the alternative (redirects)     see #611. thanks geemus
+
+[aws|storage|test]
+  use a random directory key; prevent collision. thanks Aaron Suggs
+  Mark multipart upload test as pending. thanks Aaron Suggs
+  Added mock support for setting and retrieving versioning on a bucket. thanks Kevin Menard
+  Added in versioning support for S3 objects, sans deletion markers. thanks Kevin Menard
+  Track if the version is the latest or not. thanks Kevin Menard
+  Basic handling of version-id-marker. thanks Kevin Menard
+  Added the ability to get_object by versionId. thanks Kevin Menard
+  Added S3 versioning support for delete_object. thanks Kevin Menard
+  Deal with suspended buckets properly. thanks Kevin Menard
+  Added request tests for put_bucket_versioning and get_bucket_versioning. thanks Kevin Menard
+  Added tests for get_bucket_object_versions. thanks Kevin Menard
+  Added request test for get_object with versioning. thanks Kevin Menard
+  Added request tests for delete_object with versioning. thanks Kevin Menard
+  Added failing request test for delete_object with versioning. thanks Kevin Menard
+  Added in some file and directory model tests. thanks Kevin Menard
+  Added model tests for versioning Directory and File models. thanks Kevin Menard
+  Added tests for the Version model. thanks Kevin Menard
+  Added versioning test for Files collection. thanks Kevin Menard
+  Added versioning tests for Versions collection. thanks Kevin Menard
+  Added versioning test for Files#head. thanks Kevin Menard
+  Removed a commented-out test. thanks Kevin Menard
+  Make sure tests pass with both mocking enabled and disabled. thanks Kevin Menard
+  Fixed a regression with mocked get_bucket requests, due to a change in the mock data ordering. thanks Kevin Menard
+  Fixed handling of options in mocked get_bucket_object_versions. thanks Kevin Menard
+  Replaced random ETag implementation with MD5, per S3 docs. thanks Kevin Menard
+
+[aws|sts]
+  make get_*_token requests idempotent. thanks geemus
+
+[beanstalk]
+  avoid one remaining error with mocked tests. thanks geemus
+
+[cloudstack]
+  Fix warning in ruby 1.8.7. thanks Aaron Suggs
+  added additional networking support and volume management commands. thanks Brian Dorry
+  added unit tests. thanks Brian Dorry
+  skip ssl verification. thanks geemus
+
+[cloudstack|compute]
+  merged in upstream. thanks bdorry
+  added ssh key support, snapshot policy support. thanks bdorry
+  added update resource count action. thanks bdorry
+
+[compute|aws]
+  fix for describe_images parser that accidently split records. thanks geemus
+  fix error in describe_security_groups parser     closes #678. thanks geemus
+
+[compute|cloudstack]
+  added basic cloudstack list support. thanks bdorry
+  added user management support. thanks bdorry
+  added domain management support. thanks bdorry
+  added domain management support, added documentation links to existing cloudstack requests. thanks bdorry
+
+[core]
+  no need to expand the already exanded __LIB_DIR__. thanks geemus
+  update connection to use new excon response_block format. thanks geemus
+
+[docs]
+  Update GitHub repository references from geemus/fog to fog/fog. thanks Benjamin Manns
+
+[dynect|dns]
+  Pass zone.records.all options through to get_node_list. thanks Dan Peterson
+
+[glesys|compute]
+  fix for changes in api. thanks Anton Lindström
+
+[joyent|compute]
+  rename _test files to _tests for shindo. thanks geemus
+  make password required. thanks geemus
+  fix format of joyent to match real output and remove mock-only test. thanks geemus
+
+[local|storage]
+  Fix Local::File deletion for Ruby 1.8. thanks Benjamin Manns
+  Add copy_object method to Local::Storage. thanks Benjamin Manns
+  Add copy method to Local::File. thanks Benjamin Manns
+
+[misc]
+  whitespace. thanks Aaron Suggs
+  fix typo in comment. thanks Aaron Suggs
+  whitespace cleanup. thanks Aaron Suggs
+  Refactor to support ruby 1.8.7. thanks Aaron Suggs
+  Whoops, don't need to require digest/md5. thanks Aaron Suggs
+  whitespace. thanks Aaron Suggs
+  Adds Supprt for oVirt (http://ovirt.org). thanks Amos Benari
+  oVirt: Added tests to work on both real and mock. thanks Amos Benari
+  Removing duplicates from reservation's groupSet. thanks Artem
+  Remove coverage Rake task. thanks Benjamin Manns
+  Remove a step that referenced a private config file. thanks Bob Briski
+  updated cloudstack tests for user level permissions, added ssh key, disk offering, service offering, os type, security group tests. thanks Brian Dorry
+  Adding update_firewall_rule request. thanks Caius Durling
+  Correct an error with long keys where Base64.encode64 would add "\n" at 60 chars. thanks Chris Hasenpflug
+  Use gsub for Ruby 1.8.7 compatibility. thanks Chris Hasenpflug
+  Correct copy & paste error. thanks Chris Hasenpflug
+  implement #scp_download method to allow downloads in addition to uploads via scp. alias #scp method as #scp_upload. thanks Christoph Schiessl
+  tests for scp_download. thanks Christoph Schiessl
+  Removed various 'puts' statements... thanks Christopher Oliver
+  fix for free choice of region. thanks Daniel Schweighoefer
+  save the region in a instance variable. thanks Daniel Schweighoefer
+  rounding out API coverage in 'Virtual Machine section. thanks David Nalley
+  mock #create_user and #create_access_keys". thanks Edward Muller
+  fix typo. thanks Edward Muller
+  Enable Shindo tests for the mocked methods. thanks Edward Muller
+  Refactor mock data structure. thanks Edward Muller
+  mock #put_user_policy. thanks Edward Muller
+  Mock out #list_users. thanks Edward Muller
+  Mock #delete_user_policy. thanks Edward Muller
+  Move this is Mock.key_id and don't default the path. thanks Edward Muller
+  Add group mock data. thanks Edward Muller
+  Use #has_key? instead of #keys.include?. thanks Edward Muller
+  rework these to use #tap instead. Cleaner IMNSHO. thanks Edward Muller
+  Additional mocks. thanks Edward Muller
+  missing raise. thanks Edward Muller
+  DescribeVolumeStatus. thanks Edward Muller
+  Add code to support the creation and modification of security groups existing in a VPC. thanks Eric Stonfer
+  modified security group tests to accomodate the new security group data model.  Also allowed permissions to be nil in the security tests for groups with no ACLs. thanks Eric Stonfer
+  Change default for vpc_id from '' to nil. thanks Eric Stonfer
+  fixed a conditional that was assigining = rather than evaluating == in vsphere clone routine.  This resulted in cloning from folders always failing. thanks Eric Stonfer
+  Add the ability to create linked clones in vsphere. thanks Eric Stonfer
+  whitespace fix. thanks Eric Stonfer
+  whitespace fix. thanks Eric Stonfer
+  add a linked clone test scenario, set the vm_clone test to wait, and clean up old servers after the VM clone test. thanks Eric Stonfer
+  linked clone tests. thanks Eric Stonfer
+  This patch allows the ability to create 'blank' vms in vsphere. thanks Eric Stonfer
+  fix list_virtual_machines when using :folder. thanks Eric Stonfer
+  add vm reconfiguration functions for memory cpu / generic spec. thanks Eric Stonfer
+  add subnet and vpc info to instance gets. thanks Eric Stonfer
+  fixed a typo in vm_power_on_tests.rb. thanks Eric Stonfer
+  make eips useable in a VPC. thanks Eric Stonfer
+  associate EIPs in a vpc. thanks Eric Stonfer
+  update autoscaling groups to allow the use of recurrence, start and end times. thanks Eric Stonfer
+  realized that @activity was actually not used. thanks Eric Stonfer
+  fixed some whitespace issues in auto_scaling tests.  Fixed auto_scaling tests formats. thanks Eric Stonfer
+  add host based vmotion. thanks Eric Stonfer
+  basic VPC creation. thanks Eric Stonfer
+  [aws]Add in subnets. thanks Eric Stonfer
+  enable_metrics_collection requires a granularity argument (1Minute is the only legal value). thanks Frederick Cheung
+  New file additions for AWS Elastic Beanstalk support. thanks George Scott
+  Added beanstalk service to AWS Provider. thanks George Scott
+  Unit tests for beanstalk. thanks George Scott
+  Now sets pending when mocking for all beanstalk model tests. thanks George Scott
+  environment now uses name as identity. thanks George Scott
+  Added additional convenience methods to application. thanks George Scott
+  remove rubygems require from core.rb. thanks Hemant Kumar
+  Reset the alias_target hash for good measure. thanks James Miller
+  Add a test for ALIAS records. thanks James Miller
+  Cleanups and crazy long sleep to ensure ALIAS zone is found. thanks James Miller
+  Fix linked clone mocked test unhandled exception. thanks Jeff McCune
+  (maint) Whitespace and format only clean up. thanks Jeff McCune
+  added support for server-side encryption on s3. thanks John Parker
+  Switch from NewServers to BareMetalCloud for #773. thanks John Wang
+  Add deprecation warning. thanks John Wang
+  Fixed bug in SQS :receive_message mock. thanks Joshua Krall
+  Fixed a typo in the warning. thanks Kashif Rasul
+  One more typo fix. thanks Kashif Rasul
+  GH-690 Joyent Cloud Provider. thanks Kevin Chan
+  Credentials: cloudapi_* -> joyent_* for consistency. thanks Kevin Chan
+  Revert "[joyent|compute] make password required"     This reverts commit 6e93321e29e69cc863aa9d78cdcf1c83203a2fa7. thanks Kevin Chan
+  Fixes dataset tests. thanks Kevin Chan
+  - Fixes tests to run in both mock and non-mock mode      - Clean ups and fixes. thanks Kevin Chan
+  Cleanups + Fixes #get_machine test breaking when there are no machines. thanks Kevin Chan
+  cleanups + refactorings + better error reporting per joyent cloudapi spec. thanks Kevin Chan
+  Fixed #673: Zerigo DNS - update_host fails with some options. thanks Kevin Menard
+  Fixed a filename. thanks Kevin Menard
+  implement respond_to? corresponding to method_missing for VirtualBox and libvirt. thanks Konstantin Haase
+  Swap aws_access_key_id and aws_secret_access_key positions in hash to match typical usage convention. thanks Kyle Drake
+  When Exists boolean is not specified, this request is not idempotent. thanks Lance Carlson
+  Scan sort of acts like a GET request, which are idempotent. thanks Lance Carlson
+  Only do a 'head' on the file that we've copied - no need to go download it now, that would defeat the purpose. thanks Lars Pind
+  Improved support for SecurityGroup IDs. thanks MaF
+  We must create the VPC before we can create a security group in it. thanks MaF
+  Changed verify_permission_options in mocked version of authorize_security_group_ingress     to accept any ipProtocol for vpc groups.     Also changed the security group test to use protocol 42 when testing vpc security_groups. thanks MaF
+  Check if exception has a #response method before calling it, otherwise call #message. thanks Manuel Meurer
+  Fix sync_clock method, only rescue Excon::Errors::HTTPStatusError that are known to have a #response method, let all other exceptions bubble up. thanks Manuel Meurer
+  Updated excon to version ~>0.10.0. Closes #781. thanks Marc Seeger
+  include fission gem. thanks Michael Brodhead & Shai Rosenfeld
+  Move fission from reg dependency to dev dependency per comments on pull request #736. thanks Michael Brodhead & Shai Rosenfeld
+  adding required gem to run the tests. thanks Ohad Levy
+  first cut of cleaning up libvirt server class. thanks Ohad Levy
+  minor cleanups. thanks Ohad Levy
+  fixes libvirt wrong state check. thanks Ohad Levy
+  libvirt - avoids exception if a uuid is not found. thanks Ohad Levy
+  libvirt: servers return nil, not an empty array... thanks Ohad Levy
+  Added basic tests to Ovirt compute provider. thanks Ohad Levy
+  Added check if Fog.mock! should be used in AWS tests. thanks Paul Thornthwaite
+  Nix hardcoded regions: DynamoDB. thanks Pavel Repin
+  Nix hardcoded regions: Autoscaling. thanks Pavel Repin
+  Nix hardcoded regions: CloudFormation. thanks Pavel Repin
+  Nix hardcoded regions: CloudWatch. thanks Pavel Repin
+  Nix hardcoded regions: EC2. thanks Pavel Repin
+  Nix hardcoded regions: ElastiCache. thanks Pavel Repin
+  Nix hardcoded regions: ELB. thanks Pavel Repin
+  Nix hardcoded regions: EMR. thanks Pavel Repin
+  Nix hardcoded regions: RDS. thanks Pavel Repin
+  Nix hardcoded regions: SES. thanks Pavel Repin
+  Nix hardcoded regions: SimpleDB. thanks Pavel Repin
+  Nix hardcoded regions: SNS. thanks Pavel Repin
+  Nix hardcoded regions: SQS (us-east-1 is special). thanks Pavel Repin
+  Nix hardcoded regions: S3 (us-east-1 is special). thanks Pavel Repin
+  Fixing typo "retreive" -> "retrieve". thanks Pedro Nascimento
+  Add the ":idempotent => true" property to create_tags to     fix an issue when launching many instance from cluster_chef. thanks Peter C. Norton
+  Ran M-x align-regexp on the hashrockets. thanks Peter C. Norton
+  Passing half of rds/instance_tests.rb shindo tests. thanks Rodrigo Estebanez
+  making shindo tests for security groups in rds. thanks Rodrigo Estebanez
+  Better rds/security_group_test. Mocking rds security_groups. thanks Rodrigo Estebanez
+  Support for rds parameter groups mocking. thanks Rodrigo Estebanez
+  [aws][auto_scaling] Bug fixed: configurations.get(launch-configuration) always shows the first element. thanks Rodrigo Estebanez
+  it doesn't throw an error when the launch configuration doesnt exist. thanks Rodrigo Estebanez
+  [aws][auto_scaling]. Support delete_launch_configuration mocking. thanks Rodrigo Estebanez
+  Added PrivateIpAddress to the list of valid parameters for instance creation. thanks Rusty Geldmacher
+  Add Ecloud version 2.8 as supported. thanks Shai Rosenfeld
+  support alias records in the route53 models. thanks Thom May
+  Remove unused comment / commented code. thanks Todd Willey
+  Fix intial public_url when saving using rackspace_cdn_ssl = true. thanks Zachary Danger Campbell
+  added virtual machine support and security group support. thanks bdorry
+  merged in 0.11.0 release. thanks bdorry
+  merged 1.0.0. thanks bdorry
+  remove latest MVP from future possibilities. thanks geemus
+  examples should use providers.values. thanks geemus
+  fix Fog::Nullable::Boolean to include true/false. thanks geemus
+  update fog.io copyright year. thanks geemus
+  use path style access for https public_urls that include . to avoid certificate issues     closes #743. thanks geemus
+  fix AWS get_object_http(s)_url methods to properly use subdomain vs path urls as appropriate     closes #611. thanks geemus
+  loosen multi-json dependency     closes #757. thanks geemus
+  remove examples as they are not that helpful or well supported. thanks geemus
+  bump excon dep     closes #799. thanks geemus
+  bump excon dep. thanks geemus
+  strip ARNs - AWS is sensitive to leading and trailing whitespace/cr/lf. thanks hedgehog
+  allow for bundler+rbenv best practice. thanks hedgehog
+  Rackspace create_image request - pass all options. thanks kbockmanrs
+  Add Blue Box location support. thanks leehuffman
+  Update location UUID. thanks leehuffman
+  Add passing tests. thanks leehuffman
+  Fix location_id typo. thanks leehuffman
+  Add Blue Box location support. thanks leehuffman
+  Update location UUID. thanks leehuffman
+  Add passing tests. thanks leehuffman
+  Fix location_id typo. thanks leehuffman
+
+[ninefold|storage]
+  Add copy method to Ninefold::File. thanks Benjamin Manns
+
+[oVirt]
+  Fixed syntax error in ovirt parser. thanks Amos Benari
+  added option to block on start.     Start action will block instead of fail. It can be useful in case of     start after stop or create. thanks Amos Benari
+  added support for update vm on ovirt. thanks Amos Benari
+  Added VM and Template network-interfaces crud. thanks Amos Benari
+
+[ovirt|compute]
+  #instance_variables returns Symbols in 1.9.2+. thanks Dan Peterson
+
+[rackspace/compute]
+  Add 30GB (30720) compute size. thanks Phil Kates
+
+[rackspace|storage]
+  Add copy_object request. thanks Benjamin Manns
+  Add copy method to Rackspace::File. thanks Benjamin Manns
+
+[slicehost]
+  add deprecation warnings. thanks geemus
+
+[storage]
+  fixes for deprecated implicit block usage to excon requests. thanks geemus
+  update get_object requests to use excon response_blocks. thanks geemus
+
+[storage|test]
+  Run storage tests on a file in a subdirectory. thanks Benjamin Manns
+
+[storage|tests]
+  Add copy method to storage tests. thanks Benjamin Manns
+  Check that the copied file body matches the original file. thanks Benjamin Manns
+
+[vcloud]
+  mark mock tests pending. thanks geemus
+
+[vcloud|compute]
+  rather mock Fog::Vcloud::Connection as this is the right place to mock things. thanks Peter Meier
+  improve models + additional tests. thanks Peter Meier
+  add API version 1.5 compability. thanks Peter Meier
+
+[vmfusion|compute]
+  Sync fission v0.4.0 plus more. thanks Cody Herriges
+
+[voxel]
+  update ssl_verify_peer = false setting. thanks geemus
+
+[vsphere]
+  add to test skip list when lacking credentials. thanks geemus
+
+[zerigo|dns]
+  Fixed an issue with updating a record since the response body is an empty string, not nil. thanks Kevin Menard
+  Fixed the parser.  TTL and priority values can be nil and should not be coerced into integers in that case. thanks Kevin Menard
+
+
 1.1.2 12/18/2011 c1873e37e76af83e9de3f3308f3baa0664dd8dc2
 =========================================================
 
@@ -602,8 +1092,8 @@ MVP! Patrick Debois
 [compute|linode]
   move linode compute to its own shared area (namespacing should probably be corrected). thanks geemus
 
-[compute|new_servers]
-  move new_servers compute to its own shared area (namespacing should probably be corrected). thanks geemus
+[compute|bare_metal_cloud]
+  move bare_metal_cloud compute to its own shared area (namespacing should probably be corrected). thanks geemus
 
 [compute|ninefold]
   move ninefold compute to its own shared area (namespacing should probably be corrected). thanks geemus

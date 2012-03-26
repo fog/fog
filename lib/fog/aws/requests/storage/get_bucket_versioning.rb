@@ -33,7 +33,39 @@ module Fog
             :query      => {'versioning' => nil}
           })
         end
+      end
 
+      class Mock
+        def get_bucket_versioning(bucket_name)
+          response = Excon::Response.new
+          bucket = self.data[:buckets][bucket_name]
+
+          if bucket
+            response.status = 200
+
+            if bucket[:versioning]
+              response.body = { 'VersioningConfiguration' => { 'Status' => bucket[:versioning] } }
+            else
+              response.body = { 'VersioningConfiguration' => {} }
+            end
+
+          else
+            response.status = 404
+            response.body = {
+              'Error' => {
+                'Code' => 'NoSuchBucket',
+                'Message' => 'The specified bucket does not exist',
+                'BucketName' => bucket_name,
+                'RequestId' => Fog::Mock.random_hex(16),
+                'HostId' => Fog::Mock.random_base64(65)
+              }
+            }
+
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
+
+          response
+        end
       end
     end
   end

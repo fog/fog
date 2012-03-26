@@ -41,6 +41,7 @@ module Fog
         attribute :tenancy
         attribute :tags,                  :aliases => 'tagSet'
         attribute :user_data
+        attribute :vpc_id,                :aliases => 'vpcId'
 
         attr_accessor :password
         attr_writer   :private_key, :private_key_path, :public_key, :public_key_path, :username
@@ -151,6 +152,7 @@ module Fog
             'Placement.AvailabilityZone'  => availability_zone,
             'Placement.GroupName'         => placement_group,
             'Placement.Tenancy'           => tenancy,
+            'PrivateIpAddress'            => private_ip_address,
             'RamdiskId'                   => ramdisk_id,
             'SecurityGroup'               => groups,
             'SecurityGroupId'             => security_group_ids,

@@ -2,46 +2,52 @@ require 'fog/vcloud/models/compute/servers'
 
 Shindo.tests("Vcloud::Compute | server", ['vcloud']) do
 
-  pending if Fog.mocking?
-
-  instance = Fog::Vcloud::Compute::Servers.new(
-    :connection => Fog::Vcloud::Compute.new(:vcloud_host => 'vcloud.example.com', :vcloud_username => 'username', :vcloud_password => 'password'),
-    :href       =>  "https://vcloud.example.com/api/v1.0/vApp/vapp-1"
-  ).first
-  instance.reload
-
-  tests("#href").returns("https://vcloud.example.com/api/v1.0/vApp/vm-2") { instance.href }
-  tests("#name").returns("vm2") { instance.name }
-  tests("#description").returns("Some VM Description") { instance.description }
-  tests("#status").returns('8') { instance.status }
-  tests("#deployed").returns(true) { instance.deployed }
-
-  tests("#os_desc").returns("Red Hat Enterprise Linux 5 (64-bit)") { instance.os_desc }
-  tests("#os_type").returns("rhel5_64Guest") { instance.os_type }
-  tests("#computer_name").returns("vm2") { instance.computer_name }
-
-  tests("cpu count").returns(1) { instance.cpus[:count] }
-
-  tests("amount of memory").returns(512){ instance.memory[:amount] }
-
-  tests("#disks") do
-    tests("#size").returns(2){ instance.disks.size }
-    tests("#number").returns(0){ instance.disks.first[:number] }
-    tests("#size").returns(1600){ instance.disks.first[:size] }
-    tests("#ElementName").returns("Hard disk 1"){ instance.disks.first[:disk_data][:'rasd:ElementName'] }
-    tests("#InstanceID").returns("2000"){ instance.disks.first[:disk_data][:'rasd:InstanceID'] }
+  Fog::Vcloud::Compute::SUPPORTED_VERSIONS.each do |version|
+    tests("api version #{version}") do
+      pending if Fog.mocking?
+      instance = Fog::Vcloud::Compute.new(
+        :vcloud_host => 'vcloud.example.com',
+        :vcloud_username => 'username',
+        :vcloud_password => 'password',
+        :vcloud_version => version
+      ).get_server("https://vcloud.example.com/api#{(version == '1.0') ? '/v1.0' : ''}/vApp/vm-2")
+    
+      instance.reload
+    
+      tests("#href").returns("https://vcloud.example.com/api#{(version == '1.0') ? '/v1.0' : ''}/vApp/vm-2") { instance.href }
+      tests("#name").returns("vm2") { instance.name }
+      tests("#vapp").returns("vApp1") { instance.vapp.name }
+      tests("#description").returns("Some VM Description") { instance.description }
+      tests("#status").returns('8') { instance.status }
+      tests("#deployed").returns(true) { instance.deployed }
+    
+      tests("#os_desc").returns("Red Hat Enterprise Linux 5 (64-bit)") { instance.os_desc }
+      tests("#os_type").returns("rhel5_64Guest") { instance.os_type }
+      tests("#computer_name").returns("vm2") { instance.computer_name }
+    
+      tests("cpu count").returns(1) { instance.cpus[:count] }
+    
+      tests("amount of memory").returns(512){ instance.memory[:amount] }
+    
+      tests("#disks") do
+        tests("#size").returns(2){ instance.disks.size }
+        tests("#number").returns(0){ instance.disks.first[:number] }
+        tests("#size").returns(1600){ instance.disks.first[:size] }
+        tests("#ElementName").returns("Hard disk 1"){ instance.disks.first[:disk_data][:'rasd:ElementName'] }
+        tests("#InstanceID").returns("2000"){ instance.disks.first[:disk_data][:'rasd:InstanceID'] }
+      end
+    
+      tests("#vapp_scoped_local_id").returns("vmware_RHEL5-U5-64-small_v02") { instance.vapp_scoped_local_id }
+    
+      tests("#friendly_status").returns('off') { instance.friendly_status }
+      tests("#on?").returns(false) { instance.on? }
+      tests("#off?").returns(true) { instance.off? }
+    
+      tests("#network_connections") do
+        tests("#size").returns(2) { instance.network_connections.size }
+      end
+    end
   end
-
-  tests("#vapp_scoped_local_id").returns("vmware_RHEL5-U5-64-small_v02") { instance.vapp_scoped_local_id }
-
-  tests("#friendly_status").returns('off') { instance.friendly_status }
-  tests("#on?").returns(false) { instance.on? }
-  tests("#off?").returns(true) { instance.off? }
-
-  tests("#network_connections") do
-    tests("#size").returns(2) { instance.network_connections.size }
-  end
-
   #old tests
   tests("#server.new('#{Vcloud::Compute::TestSupport::template}')").returns(true) do
     pending if Fog.mocking?

@@ -131,12 +131,26 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
                                 'code' => Integer,
                                 'name' => String
                               },
-                              'eventsSet' => [{
+                              'systemStatus' => {
+                                'status' => String,
+                                'details' => [{
+                                  'name' => String,
+                                  'status' => String
+                                }]
+                              },
+                              'instanceStatus' => {
+                                'status' => String,
+                                'details' => [{
+                                  'name' => String,
+                                  'status' => String
+                                }]
+                              },
+                              'event' => {
                                                 'code' => String,
                                                 'description' => String,
                                                 'notBefore' => Time,
                                                 'notAfter' => Time
-                                              }]
+                                              }
                             }]
 
   }

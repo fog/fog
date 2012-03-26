@@ -79,7 +79,7 @@ module Fog
         def request(method_name, options = {}) 
 
           options.merge!( {:format => 'json'})
-          
+
           begin
             parser = options.delete(:parser)
             data = @connection.request(
@@ -96,7 +96,9 @@ module Fog
 
             data.body = MultiJson.decode(data.body)
 
-            unless data.body['response']['status']['code'] == '200'
+            response_code =  data.body['response']['status']['code']
+
+            unless response_code.to_i == 200
               raise Fog::Compute::Glesys::Error, "#{data.body['response']['status']['text']}"
             end
             data

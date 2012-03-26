@@ -5,7 +5,7 @@ module Fog
 
         require 'fog/aws/parsers/rds/describe_db_security_groups'
 
-        # Describe all or specified db snapshots
+        # Describe all or specified db security groups
         # http://docs.amazonwebservices.com/AmazonRDS/latest/APIReference/index.html?API_DescribeDBSecurityGroups.html
         # ==== Parameters
         # * DBSecurityGroupName <~String> - The name of the DB Security Group to return details for.
@@ -28,11 +28,11 @@ module Fog
 
       class Mock
 
-        def describe_db_security_groups(opts={})          
+        def describe_db_security_groups(opts={})
           response = Excon::Response.new
           sec_group_set = []
           if opts.is_a?(String)
-            sec_group_name = opts   
+            sec_group_name = opts
             if sec_group = self.data[:security_groups][sec_group_name]
               sec_group_set << sec_group
             else
@@ -41,7 +41,9 @@ module Fog
           else
             sec_group_set = self.data[:security_groups].values
           end
-          
+
+          # TODO: refactor to not delete items that we're iterating over. Causes
+          # model tests to fail (currently pending)
           sec_group_set.each do |sec_group|
             sec_group["IPRanges"].each do |iprange|
               if iprange["Status"] == "authorizing" || iprange["Status"] == "revoking"
@@ -53,7 +55,9 @@ module Fog
                 end
               end
             end
-            
+
+            # TODO: refactor to not delete items that we're iterating over. Causes
+            # model tests to fail (currently pending)
             sec_group["EC2SecurityGroups"].each do |ec2_secg|
               if ec2_secg["Status"] == "authorizing" || iprange["Status"] == "revoking"
                 ec2_secg[:tmp] ||= Time.now + Fog::Mock.delay * 2
@@ -65,7 +69,7 @@ module Fog
               end
             end
           end
-          
+
           response.status = 200
           response.body = {
             "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },

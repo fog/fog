@@ -11,39 +11,39 @@ Shindo.tests('Fog::Compute[:brightbox] | api client requests', ['brightbox']) do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].create_api_client(create_options)
       @api_client_id = result["id"]
-      formats(Brightbox::Compute::Formats::Full::API_CLIENT) { result }
+      formats(Brightbox::Compute::Formats::Full::API_CLIENT, false) { result }
     end
 
     tests("#list_api_clients") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].list_api_clients
-      formats(Brightbox::Compute::Formats::Collection::API_CLIENTS) { result }
+      formats(Brightbox::Compute::Formats::Collection::API_CLIENTS, false) { result }
     end
 
     tests("#get_api_client('#{@api_client_id}')") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].get_api_client(@api_client_id)
-      formats(Brightbox::Compute::Formats::Full::API_CLIENT) { result }
+      formats(Brightbox::Compute::Formats::Full::API_CLIENT, false) { result }
     end
 
     update_options = {:name => "Fog@#{Time.now.iso8601}"}
     tests("#update_api_client('#{@api_client_id}', #{update_options.inspect})") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].update_api_client(@api_client_id, update_options)
-      formats(Brightbox::Compute::Formats::Full::API_CLIENT) { result }
+      formats(Brightbox::Compute::Formats::Full::API_CLIENT, false) { result }
     end
 
     tests("#reset_secret_api_client('#{@api_client_id}')") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].reset_secret_api_client(@api_client_id)
-      formats(Brightbox::Compute::Formats::Full::API_CLIENT) { result }
+      formats(Brightbox::Compute::Formats::Full::API_CLIENT, false) { result }
       test("new secret is visible") { ! result["secret"].nil?  }
     end
 
     tests("#destroy_api_client('#{@api_client_id}')") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].destroy_api_client(@api_client_id)
-      formats(Brightbox::Compute::Formats::Full::API_CLIENT) { result }
+      formats(Brightbox::Compute::Formats::Full::API_CLIENT, false) { result }
     end
 
   end

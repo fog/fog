@@ -7,7 +7,7 @@ module Fog
           if configure
             required_opts + [ :id, :href, :timeout ]
           end
-          unless required_opts.all? { |opt| service_data.keys.include?(opt) }
+          unless required_opts.all? { |opt| service_data.has_key?(opt) }
             raise ArgumentError.new("Required Backup Internet Service data missing: #{(required_opts - service_data.keys).map(&:inspect).join(", ")}")
           end
         end

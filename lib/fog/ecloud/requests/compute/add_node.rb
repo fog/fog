@@ -20,7 +20,7 @@ module Fog
           if configure
             valid_opts.delete_if { |opt| ![:name, :enabled, :description].include?(opt) }
           end
-          unless valid_opts.all? { |opt| node_data.keys.include?(opt) }
+          unless valid_opts.all? { |opt| node_data.has_key?(opt) }
             raise ArgumentError.new("Required data missing: #{(valid_opts - node_data.keys).map(&:inspect).join(", ")}")
           end
         end

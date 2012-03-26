@@ -1,4 +1,5 @@
 require 'fog/core/model'
+require 'fog/aws/models/storage/versions'
 
 module Fog
   module Storage
@@ -21,6 +22,13 @@ module Fog
         attribute :metadata
         attribute :owner,               :aliases => 'Owner'
         attribute :storage_class,       :aliases => ['x-amz-storage-class', 'StorageClass']
+        attribute :encryption,          :aliases => 'x-amz-server-side-encryption'
+        attribute :version,             :aliases => 'x-amz-version-id'
+
+        # Chunk size to use for multipart uploads
+        # Use small chunk sizes to minimize memory
+        # E.g. 5242880 = 5mb
+        attr_accessor :multipart_chunk_size
 
         def acl=(new_acl)
           valid_acls = ['private', 'public-read', 'public-read-write', 'authenticated-read']
@@ -53,9 +61,10 @@ module Fog
           target_directory.files.head(target_file_key)
         end
 
-        def destroy
+        def destroy(options = {})
           requires :directory, :key
-          connection.delete_object(directory.key, key)
+          attributes[:body] = nil if options['versionId'] == version
+          connection.delete_object(directory.key, key, options)
           true
         end
 
@@ -91,7 +100,7 @@ module Fog
         def public_url
           requires :directory, :key
           if connection.get_object_acl(directory.key, key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
-            if directory.key.to_s =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
+            if directory.key.to_s =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\-(?![\.])){1,61}[a-z0-9]$/
               "https://#{directory.key}.s3.amazonaws.com/#{Fog::AWS.escape(key)}"
             else
               "https://s3.amazonaws.com/#{directory.key}/#{Fog::AWS.escape(key)}"
@@ -115,10 +124,16 @@ module Fog
           options['Expires'] = expires if expires
           options.merge!(metadata)
           options['x-amz-storage-class'] = storage_class if storage_class
+          options['x-amz-server-side-encryption'] = encryption if encryption
 
-          data = connection.put_object(directory.key, key, body, options)
-          data.headers['ETag'].gsub!('"','')
-          merge_attributes(data.headers)
+          if multipart_chunk_size && body.respond_to?(:read)
+            data = multipart_save(options)
+            merge_attributes(data.body)
+          else
+            data = connection.put_object(directory.key, key, body, options)
+            merge_attributes(data.headers)
+          end
+          self.etag.gsub!('"','')
           self.content_length = Fog::Storage.get_body_size(body)
           true
         end
@@ -128,10 +143,46 @@ module Fog
           collection.get_https_url(key, expires, options)
         end
 
+        def versions
+          @versions ||= begin
+            Fog::Storage::AWS::Versions.new(
+              :file         => self,
+              :connection   => connection
+            )
+          end
+        end
+
         private
 
         def directory=(new_directory)
           @directory = new_directory
+        end
+
+        def multipart_save(options)
+          # Initiate the upload
+          res = connection.initiate_multipart_upload(directory.key, key, options)
+          upload_id = res.body["UploadId"]
+
+          # Store ETags of upload parts
+          part_tags = []
+
+          # Upload each part
+          # TODO: optionally upload chunks in parallel using threads
+          # (may cause network performance problems with many small chunks)
+          # TODO: Support large chunk sizes without reading the chunk into memory
+          body.rewind if body.respond_to?(:rewind)
+          while (chunk = body.read(multipart_chunk_size)) do
+            part_upload = connection.upload_part(directory.key, key, upload_id, part_tags.size + 1, chunk )
+            part_tags << part_upload.headers["ETag"]
+          end
+
+        rescue
+          # Abort the upload & reraise
+          connection.abort_multipart_upload(directory.key, key, upload_id) if upload_id
+          raise
+        else
+          # Complete the upload
+          connection.complete_multipart_upload(directory.key, key, upload_id, part_tags)
         end
 
       end

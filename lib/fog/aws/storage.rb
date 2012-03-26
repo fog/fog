@@ -19,11 +19,13 @@ module Fog
       request :complete_multipart_upload
       request :copy_object
       request :delete_bucket
+      request :delete_bucket_lifecycle
       request :delete_bucket_policy
       request :delete_bucket_website
       request :delete_object
       request :get_bucket
       request :get_bucket_acl
+      request :get_bucket_lifecycle
       request :get_bucket_location
       request :get_bucket_logging
       request :get_bucket_object_versions
@@ -45,6 +47,7 @@ module Fog
       request :post_object_hidden_fields
       request :put_bucket
       request :put_bucket_acl
+      request :put_bucket_lifecycle
       request :put_bucket_logging
       request :put_bucket_policy
       request :put_bucket_versioning
@@ -95,7 +98,7 @@ module Fog
           query << "AWSAccessKeyId=#{@aws_access_key_id}"
           query << "Signature=#{Fog::AWS.escape(signature(params))}"
           query << "Expires=#{params[:headers]['Date']}"
-          "#{@host}/#{params[:path]}?#{query.join('&')}"
+          "#{params[:host]}/#{params[:path]}?#{query.join('&')}"
         end
 
       end
@@ -189,24 +192,10 @@ module Fog
           @aws_secret_access_key = options[:aws_secret_access_key]
           options[:region] ||= 'us-east-1'
           @host = options[:host] || case options[:region]
-          when 'ap-northeast-1'
-            's3-ap-northeast-1.amazonaws.com'
-          when 'ap-southeast-1'
-            's3-ap-southeast-1.amazonaws.com'
-          when 'eu-west-1'
-            's3-eu-west-1.amazonaws.com'
           when 'us-east-1'
             's3.amazonaws.com'
-          when 'sa-east-1'
-            's3-sa-east-1.amazonaws.com'
-          when 'us-west-1'
-            's3-us-west-1.amazonaws.com'
-          when 'us-west-2'
-            's3-us-west-2.amazonaws.com'
-          when 'sa-east-1'
-            's3-sa-east-1.amazonaws.com'
           else
-            raise ArgumentError, "Unknown region: #{options[:region].inspect}"
+            "s3-#{options[:region]}.amazonaws.com"
           end
           @region = options[:region]
         end
@@ -267,22 +256,10 @@ module Fog
           else
             options[:region] ||= 'us-east-1'
             @host = options[:host] || case options[:region]
-            when 'ap-northeast-1'
-              's3-ap-northeast-1.amazonaws.com'
-            when 'ap-southeast-1'
-              's3-ap-southeast-1.amazonaws.com'
-            when 'eu-west-1'
-              's3-eu-west-1.amazonaws.com'
             when 'us-east-1'
               's3.amazonaws.com'
-            when 'sa-east-1'
-              's3-sa-east-1.amazonaws.com'
-            when 'us-west-1'
-              's3-us-west-1.amazonaws.com'
-            when 'us-west-2'
-              's3-us-west-2.amazonaws.com'
             else
-              raise ArgumentError, "Unknown region: #{options[:region].inspect}"
+              "s3-#{options[:region]}.amazonaws.com"
             end
             @path       = options[:path]        || '/'
             @persistent = options[:persistent]  || true
@@ -338,6 +315,7 @@ DATA
           for key in (params[:query] || {}).keys.sort
             if %w{
               acl
+              lifecycle
               location
               logging
               notification

@@ -11,7 +11,7 @@ module Fog
 
           def end_element(name)
             case name
-            when 'Status'
+            when 'Status', 'MfaDelete'
               @response['VersioningConfiguration'][name] = value
             end
           end

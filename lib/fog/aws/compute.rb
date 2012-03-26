@@ -29,6 +29,10 @@ module Fog
       collection  :volumes
       model       :spot_request
       collection  :spot_requests
+      model       :subnet
+      collection  :subnets
+      model       :vpc
+      collection  :vpcs
 
       request_path 'fog/aws/requests/compute'
       request :allocate_address
@@ -42,15 +46,19 @@ module Fog
       request :create_security_group
       request :create_snapshot
       request :create_spot_datafeed_subscription
+      request :create_subnet
       request :create_tags
       request :create_volume
+      request :create_vpc
       request :delete_key_pair
       request :delete_security_group
       request :delete_placement_group
       request :delete_snapshot
       request :delete_spot_datafeed_subscription
+      request :delete_subnet
       request :delete_tags
       request :delete_volume
+      request :delete_vpc
       request :deregister_image
       request :describe_addresses
       request :describe_availability_zones
@@ -67,8 +75,11 @@ module Fog
       request :describe_spot_datafeed_subscription
       request :describe_spot_instance_requests
       request :describe_spot_price_history
+      request :describe_subnets
       request :describe_tags
       request :describe_volumes
+      request :describe_volume_status
+      request :describe_vpcs
       request :detach_volume
       request :disassociate_address
       request :get_console_output
@@ -106,6 +117,7 @@ module Fog
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
               owner_id = Fog::AWS::Mock.owner_id
+              security_group_id = Fog::AWS::Mock.security_group_id
               region_hash[key] = {
                 :deleted_at => {},
                 :addresses  => {},
@@ -124,24 +136,25 @@ module Fog
                   'default' => {
                     'groupDescription'    => 'default group',
                     'groupName'           => 'default',
+                    'groupId'             => security_group_id,
                     'ipPermissionsEgress' => [],
                     'ipPermissions'       => [
                       {
-                        'groups'      => [{'groupName' => 'default', 'userId' => owner_id}],
+                        'groups'      => [{'groupName' => 'default', 'userId' => owner_id, 'groupId' => security_group_id }],
                         'fromPort'    => -1,
                         'toPort'      => -1,
                         'ipProtocol'  => 'icmp',
                         'ipRanges'    => []
                       },
                       {
-                        'groups'      => [{'groupName' => 'default', 'userId' => owner_id}],
+                        'groups'      => [{'groupName' => 'default', 'userId' => owner_id, 'groupId' => security_group_id}],
                         'fromPort'    => 0,
                         'toPort'      => 65535,
                         'ipProtocol'  => 'tcp',
                         'ipRanges'    => []
                       },
                       {
-                        'groups'      => [{'groupName' => 'default', 'userId' => owner_id}],
+                        'groups'      => [{'groupName' => 'default', 'userId' => owner_id, 'groupId' => security_group_id}],
                         'fromPort'    => 0,
                         'toPort'      => 65535,
                         'ipProtocol'  => 'udp',
@@ -248,8 +261,8 @@ module Fog
         #
         # ==== Parameters
         # * options<~Hash> - config arguments for connection.  Defaults to {}.
-        #   * region<~String> - optional region to use, in
-        #     ['eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2', 'ap-northeast-1', 'ap-southeast-1']
+        #   * region<~String> - optional region to use. For instance,
+        #     'eu-west-1', 'us-east-1', and etc.
         #   * aws_session_token<~String> - when using Session Tokens or Federated Users, a session_token must be presented
         #
         # ==== Returns
@@ -271,24 +284,7 @@ module Fog
             @port = endpoint.port
             @scheme = endpoint.scheme
           else
-            @host = options[:host] || case options[:region]
-            when 'ap-northeast-1'
-              'ec2.ap-northeast-1.amazonaws.com'
-            when 'ap-southeast-1'
-              'ec2.ap-southeast-1.amazonaws.com'
-            when 'eu-west-1'
-              'ec2.eu-west-1.amazonaws.com'
-            when 'us-east-1'
-              'ec2.us-east-1.amazonaws.com'
-            when 'us-west-1'
-              'ec2.us-west-1.amazonaws.com'
-            when 'us-west-2'
-              'ec2.us-west-2.amazonaws.com'
-            when 'sa-east-1'
-              'ec2.sa-east-1.amazonaws.com'
-            else
-              raise ArgumentError, "Unknown region: #{options[:region].inspect}"
-            end
+            @host = options[:host] || "ec2.#{options[:region]}.amazonaws.com"
             @path       = options[:path]        || '/'
             @persistent = options[:persistent]  || false
             @port       = options[:port]        || 443
@@ -316,7 +312,7 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2011-11-01'
+              :version            => '2012-03-01'
             }
           )
 

@@ -62,7 +62,7 @@ module Fog
             end
 
           rescue ::Libvirt::ConnectionError
-            raise Fog::Errors::Error.new("Error making a connection to libvirt URI #{@uri.uri}:\n#{$!}")
+            raise Fog::Errors::Error.new("Error making a connection to libvirt URI #{uri.uri}:\n#{$!}")
           end
 
         end
@@ -86,8 +86,7 @@ module Fog
               end
             end
           end
-          newuri=uri+append
-          return newuri
+          uri+append
         end
 
         def respond_to?(method, *)

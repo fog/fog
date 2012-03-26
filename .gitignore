@@ -5,6 +5,10 @@
 .rvmrc
 .bundle
 .DS_Store
+.idea
+bin/*
+!bin/fog
+!bin/rdoc
 coverage
 doc/*
 docs/_site/*
@@ -13,3 +17,4 @@ Gemfile.lock
 rdoc
 pkg
 spec/credentials.yml
+vendor/*

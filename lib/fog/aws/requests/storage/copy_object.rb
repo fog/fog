@@ -48,7 +48,7 @@ module Fog
         def copy_object(source_bucket_name, source_object_name, target_bucket_name, target_object_name, options = {})
           response = Excon::Response.new
           source_bucket = self.data[:buckets][source_bucket_name]
-          source_object = source_bucket && source_bucket[:objects][source_object_name]
+          source_object = source_bucket && source_bucket[:objects][source_object_name] && source_bucket[:objects][source_object_name].first
           target_bucket = self.data[:buckets][target_bucket_name]
 
           acl = options['x-amz-acl'] || 'private'
@@ -62,10 +62,8 @@ module Fog
           if source_object && target_bucket
             response.status = 200
             target_object = source_object.dup
-            target_object.merge!({
-              'Key' => target_object_name
-            })
-            target_bucket[:objects][target_object_name] = target_object
+            target_object.merge!({'Key' => target_object_name})
+            target_bucket[:objects][target_object_name] = [target_object]
             response.body = {
               'ETag'          => target_object['ETag'],
               'LastModified'  => Time.parse(target_object['Last-Modified'])

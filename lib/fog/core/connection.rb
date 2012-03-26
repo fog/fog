@@ -13,12 +13,12 @@ module Fog
       unless block_given?
         if (parser = params.delete(:parser))
           body = Nokogiri::XML::SAX::PushParser.new(parser)
-          block = lambda { |chunk, remaining, total| body << chunk }
+          params[:response_block] = lambda { |chunk, remaining, total| body << chunk }
         end
       end
 
       response = @excon.request(params, &block)
-      
+
       if parser
         body.finish
         response.body = parser.response

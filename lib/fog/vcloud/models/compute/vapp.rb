@@ -6,9 +6,9 @@ module Fog
 
         include Fog::Vcloud::Compute::Helpers::Status
 
-        identity :href
-
-        ignore_attributes :xmlns, :xmlns_xsi, :xmlns_xsd
+        identity :href, :aliases => :Href
+        attribute :links, :aliases => :Link, :type => :array
+        ignore_attributes :xmlns, :xmlns_i, :xmlns_xsi, :xmlns_xsd
 
         attribute :name
         attribute :type
@@ -19,7 +19,9 @@ module Fog
         attribute :children, :aliases => :Children, :squash => :Vm
         attribute :lease_settings, :aliases => :LeaseSettingsSection
 
-        attribute :other_links, :aliases => :Link
+        attribute :network_configs, :aliases => :NetworkConfigSection
+
+        has_up :vdc
 
         def servers
           @servers ||= Fog::Vcloud::Compute::Servers.

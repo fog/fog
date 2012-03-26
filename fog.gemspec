@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '1.1.2'
-  s.date              = '2011-12-18'
+  s.version           = '1.3.0'
+  s.date              = '2012-03-21'
   s.rubyforge_project = 'fog'
 
   ## Make sure your summary is short. The description may be as long
@@ -37,9 +37,9 @@ Gem::Specification.new do |s|
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
   s.add_dependency('builder')
-  s.add_dependency('excon', '~>0.9.0')
+  s.add_dependency('excon', '~>0.13.0')
   s.add_dependency('formatador', '~>0.2.0')
-  s.add_dependency('multi_json', '~>1.0.3')
+  s.add_dependency('multi_json', '~>1.0')
   s.add_dependency('mime-types')
   s.add_dependency('net-scp', '~>1.0.4')
   s.add_dependency('net-ssh', '>=2.1.3')
@@ -52,9 +52,12 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rake')
   s.add_development_dependency('rbvmomi')
   s.add_development_dependency('rdoc')
+  s.add_development_dependency('thor')
   s.add_development_dependency('rspec', '~>1.3.1')
+  s.add_development_dependency('rbovirt', '>=0.0.9')
   s.add_development_dependency('shindo', '~>0.3.4')
   s.add_development_dependency('virtualbox', '~>0.9.1')
+  s.add_development_dependency('fission')
 #  s.add_development_dependency('ruby-libvirt','~>0.4.0')
 
   s.files = `git ls-files`.split("\n")

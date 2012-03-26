@@ -6,9 +6,12 @@ module Fog
 
       class Address < Fog::Model
 
-        identity  :public_ip, :aliases => 'publicIp'
+        identity  :public_ip,            :aliases => 'publicIp'
 
-        attribute :server_id, :aliases => 'instanceId'
+        attribute :allocation_id,        :aliases => 'allocationId'
+        attribute :server_id,            :aliases => 'instanceId'
+        attribute :network_interface_id, :aliases => 'networkInterfaceId'
+        attribute :domain
 
         def initialize(attributes = {})
           # assign server first to prevent race condition with new_record?
@@ -33,7 +36,7 @@ module Fog
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          data = connection.allocate_address.body
+          data = connection.allocate_address(domain).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           if @server
@@ -50,7 +53,7 @@ module Fog
           else
             @server = nil
             self.server_id = new_server.id
-            connection.associate_address(server_id, public_ip)
+            connection.associate_address(server_id, public_ip, network_interface_id, allocation_id)
           end
         end
 

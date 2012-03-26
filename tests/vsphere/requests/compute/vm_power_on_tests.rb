@@ -5,7 +5,7 @@ Shindo.tests('Fog::Compute[:vsphere] | vm_power_on request', ['vsphere']) do
   powered_off_vm = nil
 
   tests('The response should') do
-    response = compute.vm_power_off('instance_uuid' => powered_off_vm)
+    response = compute.vm_power_on('instance_uuid' => powered_off_vm)
     test('be a kind of Hash') { response.kind_of? Hash }
     test('should have a task_state key') { response.has_key? 'task_state' }
   end

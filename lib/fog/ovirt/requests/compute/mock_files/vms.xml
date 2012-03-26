@@ -1,0 +1,152 @@
+<vms>
+<vm href="/api/vms/5ee86332-7b19-465b-8801-2a12ed0d6c1b" id="5ee86332-7b19-465b-8801-2a12ed0d6c1b">
+<name>test-vm1</name>
+<link href="/api/vms/5ee86332-7b19-465b-8801-2a12ed0d6c1b/disks" rel="disks"/>
+<link href="/api/vms/5ee86332-7b19-465b-8801-2a12ed0d6c1b/nics" rel="nics"/>
+<link href="/api/vms/5ee86332-7b19-465b-8801-2a12ed0d6c1b/cdroms" rel="cdroms"/>
+<link href="/api/vms/5ee86332-7b19-465b-8801-2a12ed0d6c1b/snapshots" rel="snapshots"/>
+<link href="/api/vms/5ee86332-7b19-465b-8801-2a12ed0d6c1b/tags" rel="tags"/>
+<link href="/api/vms/5ee86332-7b19-465b-8801-2a12ed0d6c1b/permissions" rel="permissions"/>
+<link href="/api/vms/5ee86332-7b19-465b-8801-2a12ed0d6c1b/statistics" rel="statistics"/>
+<type>server</type>
+<status>
+<state>down</state>
+</status>
+<memory>1073741824</memory>
+<cpu>
+<topology sockets="1" cores="4"/>
+</cpu>
+<os type="unassigned">
+<boot dev="network"/>
+<kernel/>
+<initrd/>
+<cmdline/>
+</os>
+<high_availability>
+<enabled>false</enabled>
+<priority>1</priority>
+</high_availability>
+<display>
+<type>spice</type>
+<monitors>1</monitors>
+</display>
+<cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
+<template href="/api/templates/00000000-0000-0000-0000-000000000000" id="00000000-0000-0000-0000-000000000000"/>
+<start_time>2012-02-06T10:47:32.214Z</start_time>
+<creation_time>2012-01-31T07:45:13.068Z</creation_time>
+<origin>rhev</origin>
+<stateless>false</stateless>
+<placement_policy>
+<affinity>migratable</affinity>
+</placement_policy>
+<memory_policy>
+<guaranteed>536870912</guaranteed>
+</memory_policy>
+<usb>
+<enabled>true</enabled>
+</usb>
+</vm>
+<vm href="/api/vms/349764bb-eba3-4466-abef-f18f4c40c9f1" id="349764bb-eba3-4466-abef-f18f4c40c9f1">
+<name>fosdem</name>
+<link href="/api/vms/349764bb-eba3-4466-abef-f18f4c40c9f1/disks" rel="disks"/>
+<link href="/api/vms/349764bb-eba3-4466-abef-f18f4c40c9f1/nics" rel="nics"/>
+<link href="/api/vms/349764bb-eba3-4466-abef-f18f4c40c9f1/cdroms" rel="cdroms"/>
+<link href="/api/vms/349764bb-eba3-4466-abef-f18f4c40c9f1/snapshots" rel="snapshots"/>
+<link href="/api/vms/349764bb-eba3-4466-abef-f18f4c40c9f1/tags" rel="tags"/>
+<link href="/api/vms/349764bb-eba3-4466-abef-f18f4c40c9f1/permissions" rel="permissions"/>
+<link href="/api/vms/349764bb-eba3-4466-abef-f18f4c40c9f1/statistics" rel="statistics"/>
+<type>server</type>
+<status>
+<state>down</state>
+</status>
+<memory>536870912</memory>
+<cpu>
+<topology sockets="1" cores="1"/>
+</cpu>
+<os type="unassigned">
+<boot dev="hd"/>
+<kernel/>
+<initrd/>
+<cmdline/>
+</os>
+<high_availability>
+<enabled>false</enabled>
+<priority>1</priority>
+</high_availability>
+<display>
+<type>spice</type>
+<address>host</address>
+<port>5902</port>
+<secure_port>5903</secure_port>
+<monitors>1</monitors>
+</display>
+<host href="/api/hosts/3690fafa-4b4c-11e1-8b7b-5254009970cc" id="3690fafa-4b4c-11e1-8b7b-5254009970cc"/>
+<cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
+<template href="/api/templates/00000000-0000-0000-0000-000000000000" id="00000000-0000-0000-0000-000000000000"/>
+<start_time>2012-02-05T11:04:39.217Z</start_time>
+<creation_time>2012-02-05T10:53:30.484Z</creation_time>
+<origin>rhev</origin>
+<stateless>false</stateless>
+<placement_policy>
+<affinity>migratable</affinity>
+</placement_policy>
+<memory_policy>
+<guaranteed>536870912</guaranteed>
+</memory_policy>
+<usb>
+<enabled>true</enabled>
+</usb>
+</vm>
+<vm href="/api/vms/52b9406e-cf66-4867-8655-719a094e324c" id="52b9406e-cf66-4867-8655-719a094e324c">
+<name>vm01</name>
+<link href="/api/vms/52b9406e-cf66-4867-8655-719a094e324c/disks" rel="disks"/>
+<link href="/api/vms/52b9406e-cf66-4867-8655-719a094e324c/nics" rel="nics"/>
+<link href="/api/vms/52b9406e-cf66-4867-8655-719a094e324c/cdroms" rel="cdroms"/>
+<link href="/api/vms/52b9406e-cf66-4867-8655-719a094e324c/snapshots" rel="snapshots"/>
+<link href="/api/vms/52b9406e-cf66-4867-8655-719a094e324c/tags" rel="tags"/>
+<link href="/api/vms/52b9406e-cf66-4867-8655-719a094e324c/permissions" rel="permissions"/>
+<link href="/api/vms/52b9406e-cf66-4867-8655-719a094e324c/statistics" rel="statistics"/>
+<type>server</type>
+<status>
+<state>down</state>
+</status>
+<memory>805306368</memory>
+<cpu>
+<topology sockets="1" cores="1"/>
+</cpu>
+<os type="unassigned">
+<boot dev="network"/>
+<boot dev="hd"/>
+<kernel/>
+<initrd/>
+<cmdline/>
+</os>
+<high_availability>
+<enabled>false</enabled>
+<priority>1</priority>
+</high_availability>
+<display>
+<type>spice</type>
+<address>host</address>
+<port>5900</port>
+<secure_port>5901</secure_port>
+<monitors>1</monitors>
+</display>
+<host href="/api/hosts/3690fafa-4b4c-11e1-8b7b-5254009970cc" id="3690fafa-4b4c-11e1-8b7b-5254009970cc"/>
+<cluster href="/api/clusters/99408929-82cf-4dc7-a532-9d998063fa95" id="99408929-82cf-4dc7-a532-9d998063fa95"/>
+<template href="/api/templates/00000000-0000-0000-0000-000000000000" id="00000000-0000-0000-0000-000000000000"/>
+<start_time>2012-02-05T11:00:33.222Z</start_time>
+<creation_time>2012-01-31T07:21:10.667Z</creation_time>
+<origin>rhev</origin>
+<stateless>false</stateless>
+<placement_policy>
+<affinity>migratable</affinity>
+</placement_policy>
+<memory_policy>
+<guaranteed>536870912</guaranteed>
+</memory_policy>
+<usb>
+<enabled>true</enabled>
+</usb>
+</vm>
+</vms>

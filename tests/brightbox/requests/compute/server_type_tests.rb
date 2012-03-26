@@ -6,13 +6,13 @@ Shindo.tests('Fog::Compute[:brightbox] | server type requests', ['brightbox']) d
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].list_server_types
       @server_type_id = result.first["id"]
-      formats(Brightbox::Compute::Formats::Collection::SERVER_TYPES) { result }
+      formats(Brightbox::Compute::Formats::Collection::SERVER_TYPES, false) { result }
     end
 
     tests("#get_server_type('#{@server_type_id}')") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].get_server_type(@server_type_id)
-      formats(Brightbox::Compute::Formats::Full::SERVER_TYPE) { result }
+      formats(Brightbox::Compute::Formats::Full::SERVER_TYPE, false) { result }
     end
 
   end
