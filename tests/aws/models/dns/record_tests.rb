@@ -15,8 +15,8 @@ Shindo.tests("Fog::Dns[:aws] | record", ['aws', 'dns']) do
     end
 
     # Waits for changes to sync to all Route 53 DNS servers.  Usually takes ~30 seconds to complete.
-    tests("#insync? - may take a minute to complete...").succeeds do
-      @instance.wait_for { insync? }
+    tests("#ready? - may take a minute to complete...").succeeds do
+      @instance.wait_for { ready? }
     end
 
     tests("#modify") do

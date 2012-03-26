@@ -58,7 +58,7 @@ module Fog
 
         # Returns true if record is insync.  May only be called for newly created or modified records that
         # have a change_id and status set.
-        def insync?
+        def ready?
           requires :change_id, :status
           status == 'INSYNC'
         end
