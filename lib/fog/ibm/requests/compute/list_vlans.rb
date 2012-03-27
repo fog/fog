@@ -34,15 +34,10 @@ module Fog
         def list_vlans
           response = Excon::Response.new
           response.status = 200
-          response.body = {"addresses"=>
+          response.body = {"vlan"=>
               [{"location"=>"101",
-                "mode"=>0,
-                "offeringId"=>"20001223",
                 "id"=>"75321",
-                "type"=>1,
-                "ip"=>"170.224.192.210 ",
-                "hostname"=>"170.224.192.210 ",
-                "state"=>2}]},
+                "name"=>"FOG-VLAN1"}]}
           response
         end
 
