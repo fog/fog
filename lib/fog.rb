@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), 'fog', 'core')
 module Fog
 
   unless const_defined?(:VERSION)
-    VERSION = '1.3.0'
+    VERSION = '1.3.1'
   end
 
 end

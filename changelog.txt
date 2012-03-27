@@ -1,3 +1,35 @@
+1.3.1 03/27/2012 f0f692456956fe2e414ef8205d0268259901644a
+=========================================================
+
+Stats! { 'collaborators' => 32, 'downloads' => 527366, 'forks' => 392, 'open_issues' => 27, 'watchers' => 1901 }
+
+MVP! George Scott
+
+[aws|dns]
+  Preserves change_id.  Support for checking sync status via reload. thanks George Scott
+  Changed #insync? to #ready?. thanks George Scott
+
+[ibm]
+  avoid using constants (Rails loads files multiple times, issue #807). thanks Decklin Foster
+  Make usage of #state rather than #status consistent. thanks Decklin Foster
+
+[ibm|compute]
+  Add clone/destroy methods and tests to Image. thanks Decklin Foster
+  Add request test for list_vlans and fix mock. thanks Decklin Foster
+
+[ibm|storage]
+  Restore storage_area, platform_version, clone_status Volume attributes. thanks Decklin Foster
+
+[misc]
+  Allow custom headers in Storage#put_object_url. thanks Jacob Mattingley
+  Use https_url instead of deprecated url for put_object_url. thanks Jacob Mattingley
+  Adding Vlan class to IBM SmartCloud. thanks Joe Kinsella
+  bump excon dep to get jruby openssl fixes. thanks geemus
+
+[storage]
+  properly update content-type at save time for file models. thanks geemus
+
+
 1.3.0 03/21/2012 f78afe98242a60ae4dbbfcd8c5ab67ba71c6d773
 =========================================================
 

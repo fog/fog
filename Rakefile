@@ -230,6 +230,7 @@ task :changelog do
         'Aaron Suggs',
         'Brian Hartsock',
         'Christopher Oliver',
+        'Decklin Foster',
         'Dylan Egan',
         'geemus',
         'Henry Addison',
