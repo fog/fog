@@ -34,26 +34,31 @@ module Fog
         attribute :connection_state
         attribute :mo_ref
         attribute :path
+        attribute :memory_mb
+        attribute :cpus
 
         def vm_reconfig_memory(options = {})
           requires :instance_uuid, :memory
           connection.vm_reconfig_memory('instance_uuid' => instance_uuid, 'memory' => memory)
         end
+
         def vm_reconfig_cpus(options = {})
           requires :instance_uuid, :cpus
           connection.vm_reconfig_cpus('instance_uuid' => instance_uuid, 'cpus' => cpus)
         end
+
         def vm_reconfig_hardware(options = {})
           requires :instance_uuid, :hardware_spec
           connection.vm_reconfig_hardware('instance_uuid' => instance_uuid, 'hardware_spec' => hardware_spec)
         end
+
         def start(options = {})
           requires :instance_uuid
           connection.vm_power_on('instance_uuid' => instance_uuid)
         end
 
         def stop(options = {})
-          options = { :force => false }.merge(options)
+          options = { :force => !tools_installed? }.merge(options)
           requires :instance_uuid
           connection.vm_power_off('instance_uuid' => instance_uuid, 'force' => options[:force])
         end
@@ -82,6 +87,7 @@ module Fog
           new_vm.connection = self.connection
           new_vm
         end
+
         def clone(options = {})
           requires :name, :path
           # Convert symbols to strings
@@ -98,6 +104,30 @@ module Fog
           new_vm.connection = self.connection
           # Return the new VM model.
           new_vm
+        end
+
+        def ready?
+          power_state == "poweredOn"
+        end
+
+        def tools_installed?
+          tools_state != "toolsNotInstalled"
+        end
+
+        # defines VNC attributes on the hypervisor
+        def config_vnc(options = {})
+          requires :instance_uuid
+          connection.vm_config_vnc(options.merge('instance_uuid' => instance_uuid))
+        end
+
+        # returns a hash of VNC attributes required for connection
+        def vnc
+          requires :instance_uuid
+          connection.vm_get_vnc(instance_uuid)
+        end
+
+        def memory
+          memory_mb * 1024 * 1024
         end
 
       end
