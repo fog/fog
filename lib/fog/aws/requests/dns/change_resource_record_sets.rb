@@ -70,7 +70,10 @@ module Fog
 
               alias_target_tag = ''
               if change_item[:alias_target]
-                alias_target_tag += %Q{<AliasTarget><HostedZoneId>#{change_item[:alias_target][:hosted_zone_id]}</HostedZoneId><DNSName>#{change_item[:alias_target][:dns_name]}</DNSName></AliasTarget>}
+                # Accept either underscore or camel case for hash keys.
+                hosted_zone_id = change_item[:alias_target][:hosted_zone_id] || change_item[:alias_target][:HostedZoneId]
+                dns_name = change_item[:alias_target][:dns_name] || change_item[:alias_target][:DNSName]
+                alias_target_tag += %Q{<AliasTarget><HostedZoneId>#{hosted_zone_id}</HostedZoneId><DNSName>#{dns_name}</DNSName></AliasTarget>}
               end
 
               change_tags = %Q{<Change>#{action_tag}<ResourceRecordSet>#{name_tag}#{type_tag}#{ttl_tag}#{resource_tag}#{alias_target_tag}</ResourceRecordSet></Change>}
