@@ -18,7 +18,7 @@ module Fog
           def end_element(name)
             if @section == :resource_record_set
               case name
-              when 'Name', 'Type', 'TTL'
+              when 'Name', 'Type', 'TTL', 'SetIdentifier', 'Weight', 'Region'
                 @resource_record_set[name] = value
               when 'Value'
                 @resource_record_set['ResourceRecords'] << value

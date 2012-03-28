@@ -18,6 +18,9 @@ module Fog
         attribute :created_at,    :aliases => ['SubmittedAt']
         attribute :alias_target,  :aliases => ['AliasTarget']
         attribute :change_id,     :aliases => ['Id']
+        attribute :region,        :aliases => ['Region']
+        attribute :weight,        :aliases => ['Weight']
+        attribute :set_identifier,:aliases => ['SetIdentifier']
 
         def initialize(attributes={})
           self.ttl ||= 3600
@@ -84,12 +87,15 @@ module Fog
           requires :name, :ttl, :type, :zone
           requires_one :value, :alias_target
           {
-            :action           => action,
-            :name             => name,
-            :resource_records => [*value],
-            :alias_target     => symbolize_keys(alias_target),
-            :ttl              => ttl,
-            :type             => type
+              :action           => action,
+              :name             => name,
+              :resource_records => [*value],
+              :alias_target     => symbolize_keys(alias_target),
+              :ttl              => ttl,
+              :type             => type,
+              :weight           => weight,
+              :set_identifier   => set_identifier,
+              :region           => region
           }
         end
 

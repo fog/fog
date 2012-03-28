@@ -58,6 +58,17 @@ module Fog
               ttl_tag = ''
               ttl_tag += %Q{<TTL>#{change_item[:ttl]}</TTL>} unless change_item[:alias_target]
 
+              weight_tag = ''
+              set_identifier_tag = ''
+              region_tag = ''
+              if change_item[:set_identifier]
+                set_identifier_tag += %Q{<SetIdentifier>#{change_item[:set_identifier]}</SetIdentifier>}
+                if change_item[:weight] # Weighted Record
+                  weight_tag += %Q{<Weight>#{change_item[:weight]}</Weight>}
+                elsif change_item[:region] # Latency record
+                  region_tag += %Q{<Region>#{change_item[:region]}</Region>}
+                end
+              end
               resource_records = change_item[:resource_records] || []
               resource_record_tags = ''
               resource_records.each do |record|
@@ -76,14 +87,15 @@ module Fog
                 alias_target_tag += %Q{<AliasTarget><HostedZoneId>#{hosted_zone_id}</HostedZoneId><DNSName>#{dns_name}</DNSName></AliasTarget>}
               end
 
-              change_tags = %Q{<Change>#{action_tag}<ResourceRecordSet>#{name_tag}#{type_tag}#{ttl_tag}#{resource_tag}#{alias_target_tag}</ResourceRecordSet></Change>}
+              change_tags = %Q{<Change>#{action_tag}<ResourceRecordSet>#{name_tag}#{type_tag}#{set_identifier_tag}#{weight_tag}#{region_tag}#{ttl_tag}#{resource_tag}#{alias_target_tag}</ResourceRecordSet></Change>}
               changes += change_tags
             end
 
             changes += '</Changes></ChangeBatch>'
           end
 
-          body = %Q{<?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/2011-05-05/">#{changes}</ChangeResourceRecordSetsRequest>}
+
+          body = %Q{<?xml version="1.0" encoding="UTF-8"?><ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/#{@version}/">#{changes}</ChangeResourceRecordSetsRequest>}
           request({
             :body       => body,
             :parser     => Fog::Parsers::DNS::AWS::ChangeResourceRecordSets.new,
