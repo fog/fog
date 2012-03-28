@@ -11,15 +11,15 @@ module Fog
             'linked_clone' => false,
           }
           options = default_options.merge(options)
-          required_options = %w{ path name }
+          required_options = %w{ template_path name }
           required_options.each do |param|
             raise ArgumentError, "#{required_options.join(', ')} are required" unless options.has_key? param
           end
           # The tap removes the leading empty string
-          path_elements = options['path'].split('/').tap { |o| o.shift }
+          path_elements = options['template_path'].split('/').tap { |o| o.shift }
           first_folder = path_elements.shift
           if first_folder != 'Datacenters' then
-            raise ArgumentError, "vm_clone path option must start with /Datacenters.  Got: #{options['path']}"
+            raise ArgumentError, "vm_clone path option must start with /Datacenters.  Got: #{options['template_path']}"
           end
           dc_name = path_elements.shift
           if not self.datacenters.include? dc_name then
@@ -41,7 +41,7 @@ module Fog
           # searching ALL VM's looking for the template.
           # Tap gets rid of the leading empty string and "Datacenters" element
           # and returns the array.
-          path_elements = options['path'].split('/').tap { |ary| ary.shift 2 }
+          path_elements = options['template_path'].split('/').tap { |ary| ary.shift 2 }
           # The DC name itself.
           template_dc = path_elements.shift
           # If the first path element contains "vm" this denotes the vmFolder
@@ -173,7 +173,7 @@ module Fog
           options = vm_clone_check_options(options)
           notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Cloud not find VM template" }
           vm_mob_ref = list_virtual_machines['virtual_machines'].find(notfound) do |vm|
-            vm['name'] == options['path'].split("/")[-1]
+            vm['name'] == options['template_path'].split("/")[-1]
           end
           {
             'vm_ref'   => 'vm-123',

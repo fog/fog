@@ -32,6 +32,7 @@ module Fog
         attribute :connection_state
         attribute :mo_ref
         attribute :path
+        attribute :template_path
         
         # attribute alias
         def instance_uuid; id end  # Instance UUID should be unique across a vCenter deployment.
@@ -91,14 +92,14 @@ module Fog
         end
 
         #
-        # path - the absolute or relative path of the VM template to be cloned
+        # template_path - the absolute or relative path of the VM template to be cloned
         # name - the name of VM to be created
         #
         def clone(options = {})
-          requires :name, :path
-          # Expand :path to full path of the template file
-          unless options[:path].start_with?('/')
-            options[:path] = connection.vsphere_templates_folder + options[:path]
+          requires :name, :template_path
+          # Expand :template_path to full path of the template file
+          unless options[:template_path].start_with?('/')
+            options[:template_path] = connection.vsphere_templates_folder + options[:template_path]
           end
           # Convert symbols to strings
           req_options = options.inject({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
