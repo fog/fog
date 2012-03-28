@@ -89,7 +89,10 @@ module Fog
         #
         def clone(options = {})
           requires :name, :path
-
+          # Expand :path to full path of the template file
+          unless options[:path].start_with?('/')
+            options[:path] = connection.vsphere_templates_folder + options[:path]
+          end
           # Convert symbols to strings
           req_options = options.inject({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
           # Perform the actual clone
