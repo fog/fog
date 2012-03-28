@@ -107,6 +107,10 @@ module Fog
           new_vm
         end
 
+        # ready to be connected?
+        def ready?
+          !! ipaddress
+        end
       end
 
     end
