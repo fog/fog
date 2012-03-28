@@ -6,23 +6,24 @@ module Fog
         private
         def vm_clone_check_options(options)
           default_options = {
+            'wait'         => true,
             'force'        => false,
             'linked_clone' => false,
           }
           options = default_options.merge(options)
-          required_options = %w{ path name }
+          required_options = %w{ template_path name }
           required_options.each do |param|
             raise ArgumentError, "#{required_options.join(', ')} are required" unless options.has_key? param
           end
           # The tap removes the leading empty string
-          path_elements = options['path'].split('/').tap { |o| o.shift }
+          path_elements = options['template_path'].split('/').tap { |o| o.shift }
           first_folder = path_elements.shift
           if first_folder != 'Datacenters' then
-            raise ArgumentError, "vm_clone path option must start with /Datacenters.  Got: #{options['path']}"
+            raise ArgumentError, "vm_clone path option must start with /Datacenters.  Got: #{options['template_path']}"
           end
           dc_name = path_elements.shift
           if not self.datacenters.include? dc_name then
-            raise ArgumentError, "Datacenter #{dc_name} does not exist, only datacenters #{self.dacenters.join(",")} are accessible."
+            raise ArgumentError, "Datacenter #{dc_name} does not exist, only datacenters #{self.datacenters.join(",")} are accessible."
           end
           options
         end
@@ -40,7 +41,7 @@ module Fog
           # searching ALL VM's looking for the template.
           # Tap gets rid of the leading empty string and "Datacenters" element
           # and returns the array.
-          path_elements = options['path'].split('/').tap { |ary| ary.shift 2 }
+          path_elements = options['template_path'].split('/').tap { |ary| ary.shift 2 }
           # The DC name itself.
           template_dc = path_elements.shift
           # If the first path element contains "vm" this denotes the vmFolder
@@ -125,6 +126,21 @@ module Fog
             # request to notify the application how far along in the process we
             # are.  I'm thinking of updating a progress bar, etc...
             new_vm = task.wait_for_completion
+            # wait for ip to be ready, otherwise can't SSH to this VM
+            server = convert_vm_mob_ref_to_attr_hash(new_vm)
+            tries = 0
+            until server['ipaddress']
+              tries += 1
+              if tries <= 60 then
+                sleep 5
+                puts "Waiting until the VM's ip address is ready. #{tries * 5} seconds passed."
+              else
+                raise "The ipaddress of the new VM is not ready! Please check the VM's network status in vSphere Client."
+              end
+              # Try and find the new VM (folder.find is quite efficient)
+              new_vm = folder.find(options['name'], RbVmomi::VIM::VirtualMachine)
+              server = convert_vm_mob_ref_to_attr_hash(new_vm)
+            end
           else
             tries = 0
             new_vm = begin
@@ -157,7 +173,7 @@ module Fog
           options = vm_clone_check_options(options)
           notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Cloud not find VM template" }
           vm_mob_ref = list_virtual_machines['virtual_machines'].find(notfound) do |vm|
-            vm['name'] == options['path'].split("/")[-1]
+            vm['name'] == options['template_path'].split("/")[-1]
           end
           {
             'vm_ref'   => 'vm-123',

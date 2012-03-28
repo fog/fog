@@ -19,9 +19,7 @@ module Fog
 
         attribute :name
         # UUID may be the same from VM to VM if the user does not select (I copied it)
-        attribute :uuid
-        # Instance UUID should be unique across a vCenter deployment.
-        attribute :instance_uuid
+        attribute :uuid  
         attribute :hostname
         attribute :operatingsystem
         attribute :ipaddress
@@ -34,6 +32,14 @@ module Fog
         attribute :connection_state
         attribute :mo_ref
         attribute :path
+        attribute :template_path
+        
+        # attribute alias
+        def instance_uuid; id end  # Instance UUID should be unique across a vCenter deployment.
+        def state; power_state end
+        def dns_name; hostname end
+        def public_ip_address; ipaddress end
+        def private_ip_address; ipaddress end
 
         def vm_reconfig_memory(options = {})
           requires :instance_uuid, :memory
@@ -77,17 +83,26 @@ module Fog
 
         def create(options ={})
           requires :name, :path
+          req_options = options.inject({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
+          create_results = connection.vm_create(req_options)
           new_vm = self.class.new(create_results['vm_attributes'])
           new_vm.collection = self.collection
           new_vm.connection = self.connection
           new_vm
         end
+
+        #
+        # template_path - the absolute or relative path of the VM template to be cloned
+        # name - the name of VM to be created
+        #
         def clone(options = {})
-          requires :name, :path
+          requires :name, :template_path
+          # Expand :template_path to full path of the template file
+          unless options[:template_path].start_with?('/')
+            options[:template_path] = connection.vsphere_templates_folder + options[:template_path]
+          end
           # Convert symbols to strings
           req_options = options.inject({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
-          # Give our path to the request
-          req_options['path'] ="#{path}/#{name}"
           # Perform the actual clone
           clone_results = connection.vm_clone(req_options)
           # Create the new VM model.
@@ -100,6 +115,21 @@ module Fog
           new_vm
         end
 
+        # save an existing VM or a new VM
+        def save()
+          if id
+            raise 'Saving an existing VM in vSphere has not been implemented yet!' # TODO: save updated attributes
+          else
+            new_vm = clone(self.attributes)
+            merge_attributes(new_vm.attributes)
+            return self
+          end
+        end
+
+        # ready to be connected?
+        def ready?
+          !! ipaddress
+        end
       end
 
     end
