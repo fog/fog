@@ -114,6 +114,18 @@ module Fog
           tools_state != "toolsNotInstalled"
         end
 
+        # defines VNC attributes on the hypervisor
+        def config_vnc(options = {})
+          requires :instance_uuid
+          connection.vm_config_vnc(options.merge('instance_uuid' => instance_uuid))
+        end
+
+        # returns a hash of VNC attributes required for connection
+        def vnc
+          requires :instance_uuid
+          connection.vm_get_vnc(instance_uuid)
+        end
+
         def memory
           memory_mb * 1024 * 1024
         end
