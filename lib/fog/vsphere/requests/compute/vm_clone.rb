@@ -22,7 +22,7 @@ module Fog
           end
           dc_name = path_elements.shift
           if not self.datacenters.include? dc_name then
-            raise ArgumentError, "Datacenter #{dc_name} does not exist, only datacenters #{self.dacenters.join(",")} are accessible."
+            raise ArgumentError, "Datacenter #{dc_name} does not exist, only datacenters #{self.datacenters.join(",")} are accessible."
           end
           options
         end
