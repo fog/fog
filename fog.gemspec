@@ -44,6 +44,7 @@ Gem::Specification.new do |s|
   s.add_dependency('excon', '~>0.14')
   s.add_dependency('formatador', '~>0.2.0')
   s.add_dependency('multi_json', '~>1.0')
+  s.add_dependency('multi_xml', '~>0.4.2')
   s.add_dependency('mime-types')
   s.add_dependency('net-scp', '~>1.0.4')
   s.add_dependency('net-ssh', '>=2.1.3')
