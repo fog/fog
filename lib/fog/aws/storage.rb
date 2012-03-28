@@ -255,6 +255,7 @@ module Fog
             @scheme = endpoint.scheme
           else
             options[:region] ||= 'us-east-1'
+            @region = options[:region]
             @host = options[:host] || case options[:region]
             when 'us-east-1'
               's3.amazonaws.com'
