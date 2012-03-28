@@ -121,7 +121,10 @@ module Fog
         end
 
         def get_folder_path(folder, root = nil)
-          if ( not folder.methods.include?('parent') ) or ( folder == root )
+          if (folder && folder.name == 'Datacenters')
+            return '/Datacenters'
+          end
+          if ( folder == root ) or ( not folder.methods.include?('parent') ) 
             return
           end
           "#{get_folder_path(folder.parent)}/#{folder.name}"
