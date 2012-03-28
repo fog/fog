@@ -82,6 +82,8 @@ module Fog
 
         def create(options ={})
           requires :name, :path
+          req_options = options.inject({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
+          create_results = connection.vm_create(req_options)
           new_vm = self.class.new(create_results['vm_attributes'])
           new_vm.collection = self.collection
           new_vm.connection = self.connection
