@@ -82,12 +82,16 @@ module Fog
           new_vm.connection = self.connection
           new_vm
         end
+
+        #
+        # path - the absolute or relative path of the VM template to be cloned
+        # name - the name of VM to be created
+        #
         def clone(options = {})
           requires :name, :path
+
           # Convert symbols to strings
           req_options = options.inject({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
-          # Give our path to the request
-          req_options['path'] ="#{path}/#{name}"
           # Perform the actual clone
           clone_results = connection.vm_clone(req_options)
           # Create the new VM model.
