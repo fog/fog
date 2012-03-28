@@ -80,16 +80,12 @@ module Fog
         end
 
         def create(options ={})
-          requires :name, :path
-          new_vm = self.class.new(create_results['vm_attributes'])
-          new_vm.collection = self.collection
-          new_vm.connection = self.connection
-          new_vm
+          clone(options)
         end
 
         #
-        # :template_path the absolute or relative path of the VM template to be cloned
-        # :name the name of VM to be created
+        # template_path - the absolute or relative path of the VM template to be cloned
+        # name - the name of VM to be created
         # 
         def clone(options = {})
           requires :template_path, :name
