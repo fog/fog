@@ -130,6 +130,7 @@ module Fog
       request :delete_volume
       request :attach_volume
       request :detach_volume
+      request :get_server_volumes
 
       request :create_volume_snapshot
       request :list_snapshots
