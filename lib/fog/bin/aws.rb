@@ -54,6 +54,8 @@ class AWS < Fog::Bin
         hash[key] = case key
         when :auto_scaling
           Fog::AWS::AutoScaling.new
+        when :beanstalk
+          Fog::AWS::ElasticBeanstalk.new
         when :cdn
           Fog::Logger.warning("AWS[:cdn] is not recommended, use CDN[:aws] for portability")
           Fog::CDN.new(:provider => 'AWS')
