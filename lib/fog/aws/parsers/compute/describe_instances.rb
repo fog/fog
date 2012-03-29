@@ -31,7 +31,7 @@ module Fog
             when 'architecture', 'clientToken', 'dnsName', 'imageId',
                   'instanceId', 'instanceType', 'ipAddress', 'kernelId',
                   'keyName', 'platform', 'privateDnsName', 'privateIpAddress', 'ramdiskId',
-                  'reason', 'rootDeviceType',  'subnetId', 'vpcId'
+                  'reason', 'rootDeviceType', 'subnetId', 'vpcId'
               @instance[name] = value
             when 'attachTime'
               @block_device_mapping[name] = Time.parse(value)
