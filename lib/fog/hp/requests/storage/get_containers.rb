@@ -48,7 +48,7 @@ module Fog
             end
             data = {
               'name'  => key,
-              'count' => container['Object-Count'],
+              'count' => container['Object-Count'].to_i,
               'bytes' => container['Content-Length'].to_i
             }
             data
