@@ -25,7 +25,7 @@ module Fog
           response = Excon::Response.new
           if self.data[:containers][container_name].nil?
             response.status = 404
-            raise(Excon::Errors.status_error({:expects => 204}, response))
+            raise Fog::Storage::HP::NotFound
           elsif self.data[:containers][container_name] && !self.data[:containers][container_name][:objects].empty?
             response.status = 409
             raise(Excon::Errors.status_error({:expects => 204}, response))

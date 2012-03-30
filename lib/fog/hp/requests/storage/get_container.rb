@@ -79,11 +79,10 @@ module Fog
               'Content-Type'             => container['Content-Type'],
               'Content-Length'           => container['Content-Length']
             }
+            response
           else
-            response.status = 404
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+            raise Fog::Storage::HP::NotFound
           end
-          response
         end
 
       end
