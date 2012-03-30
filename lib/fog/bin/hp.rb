@@ -26,8 +26,6 @@ class HP < Fog::Bin
         when :compute
           Fog::Logger.warning("HP[:compute] is deprecated, use Compute[:hp] instead")
           Fog::Compute.new(:provider => 'HP')
-        when :dns
-          Fog::DNS.new(:provider => 'HP')
         when :storage
           Fog::Logger.warning("HP[:storage] is deprecated, use Storage[:hp] instead")
           Fog::Storage.new(:provider => 'HP')
