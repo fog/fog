@@ -86,7 +86,7 @@ module Fog
               @in_event = false
             when 'instanceId', 'availabilityZone'
               @instance[name] = value
-            when 'requestId'
+            when 'nextToken', 'requestId'
               @response[name] = value
             end
           end

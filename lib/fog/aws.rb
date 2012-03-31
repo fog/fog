@@ -60,6 +60,14 @@ module Fog
       end
     end
 
+    def self.indexed_request_param(name, values)
+      idx = -1
+      Array(values).inject({}) do |params, value|
+        params["#{name}.#{idx += 1}"] = value
+        params
+      end
+    end
+
     def self.indexed_filters(filters)
       params = {}
       filters.keys.each_with_index do |key, key_index|
