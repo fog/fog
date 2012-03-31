@@ -127,6 +127,18 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
       @instance.wait_for { ready? }
     end
 
+    tests('create(...with algorithm...)') do
+      attributes = LOAD_BALANCER_ATTRIBUTES.clone
+      attributes[:algorithm] = 'LEAST_CONNECTIONS'
+      @lb = @service.load_balancers.create attributes
+      returns('LEAST_CONNECTIONS') { @lb.algorithm }
+
+      @lb.wait_for { ready? }
+
+      @lb.destroy
+    end
+
+
     tests('failure') do
       @lb = @service.load_balancers.new LOAD_BALANCER_ATTRIBUTES
       tests('#usage => Requires ID').raises(ArgumentError) do
