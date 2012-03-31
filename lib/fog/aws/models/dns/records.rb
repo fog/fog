@@ -7,12 +7,14 @@ module Fog
 
       class Records < Fog::Collection
 
-        attribute :is_truncated,      :aliases => ['IsTruncated']
-        attribute :max_items,         :aliases => ['MaxItems']
+        attribute :is_truncated,            :aliases => ['IsTruncated']
+        attribute :max_items,               :aliases => ['MaxItems']
         attribute :name
-        attribute :next_record_name,  :aliases => ['NextRecordName']
-        attribute :next_record_type,  :aliases => ['NextRecordType']
+        attribute :next_record_name,        :aliases => ['NextRecordName']
+        attribute :next_record_type,        :aliases => ['NextRecordType']
+        attribute :next_record_identifier,  :aliases => ['NextRecordIdentifier']
         attribute :type
+        attribute :identifier
 
         attribute :zone
 
@@ -20,11 +22,16 @@ module Fog
 
         def all(options = {})
           requires :zone
-          options['maxitems'] ||= max_items
-          options['name']     ||= name
-          options['type']     ||= type
+          options[:max_items]  ||= max_items
+          options[:name]       ||= name
+          options[:type]       ||= type
+          options[:identifier] ||= identifier
+
           data = connection.list_resource_record_sets(zone.id, options).body
-          merge_attributes(data.reject {|key, value| !['IsTruncated', 'MaxItems', 'NextRecordName', 'NextRecordType'].include?(key)})
+          # NextRecordIdentifier is completely absent instead of nil, so set to nil, or iteration breaks.
+          data['NextRecordIdentifier'] = nil unless data.has_key?('NextRecordIdentifier')
+
+          merge_attributes(data.reject {|key, value| !['IsTruncated', 'MaxItems', 'NextRecordName', 'NextRecordType', 'NextRecordIdentifier'].include?(key)})
           # leave out the default, read only records
           data = data['ResourceRecordSets'].reject {|record| ['NS', 'SOA'].include?(record['Type'])}
           load(data)

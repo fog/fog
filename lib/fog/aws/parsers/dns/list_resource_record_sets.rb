@@ -38,7 +38,7 @@ module Fog
               case name
               when 'MaxItems'
                 @response[name] = value.to_i
-              when 'NextRecordName', 'NextRecordType'
+              when 'NextRecordName', 'NextRecordType', 'NextRecordIdentifier'
                 @response[name] = value
               when 'IsTruncated'
                 @response[name] = value == 'true'
