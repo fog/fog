@@ -26,11 +26,12 @@ module Fog
             "keypairs" => [{
               "keypair" => {
                 "public_key" => "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDCdAZLjln1tJbLVVkNHjWFSoKen2nZbk39ZfqhZJOMdeFdz02GWBS4rcuHboeGg/gozKRwsLu4N6NLPlYtbK/NapJIvgO/djBp+FG1QZNtLPsx7j4hVJac3yISGms+Xtu4cEv6j5sFDzAgTQbWz0Z1+9qOq9ngdaoW+YClfQ== vagrant@nova\n",
-                "name" => "test_key", 
+                "name" => "test_key",
                 "fingerprint" => "97:86:f4:15:68:0c:7b:a7:e5:8f:f0:bd:1f:27:65:ad"
               }
             }]
           }
+          response
         end
       end # mock
     end # openstack
