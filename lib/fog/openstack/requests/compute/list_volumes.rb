@@ -21,19 +21,30 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            'volumes' => [
-              { 'id'                 => '1',
-                'displayName'        => Fog::Mock.random_letters(rand(8) + 5),
-                'displayDescription' => Fog::Mock.random_letters(rand(12) + 10),
-                'size'               => 3,
-                'status'             => 'online',
-                'snapshotId'         => '4',
-                'volumeType'         => nil,
-                'availabilityZone'   => 'nova',
-                'createdAt'          => Time.now,
-                'attchments'         => []}
-            ]
-          }
+            "volumes" => [
+            { "status" => "available",
+              "displayDescription" => "",
+              "availabilityZone" => "nova",
+              "displayName" => "WD",
+              "attachments" => [{}],
+              "volumeType" => nil,
+              "snapshotId" => nil,
+              "size" => 1,
+              "id" => 6,
+              "createdAt" => "2012-03-30 05:31:00.655058",
+              "metadata" => {} },
+            { "status" => "available",
+              "displayDescription" => "",
+              "availabilityZone" => "nova",
+              "displayName" => "test",
+              "attachments" => [{}],
+              "volumeType" => nil,
+              "snapshotId" => nil,
+              "size" => 1,
+              "id" => 8,
+              "createdAt" => "2012-03-30 16:14:55.582717",
+              "metadata" => {} }
+            ] }
           response
         end
       end
