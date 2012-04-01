@@ -273,7 +273,7 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     end
 
     group_id = Fog::Compute[:aws].describe_security_groups('group-name' => 'vpc_security_group').body['securityGroupInfo'].first['groupId']
-    
+
     permissions = {
       'IpPermissions' => [
         {
@@ -413,9 +413,10 @@ Shindo.tests('Fog::Compute[:aws] | security group requests', ['aws']) do
     end
 
     broken_params = [
-                     [ 'fog_security_group', { 'GroupName' => 'fog_security_group'}],
-                     [ 'fog_security_group', { 'GroupId' => 'sg-11223344'}],
-                     [ { 'GroupName' => 'fog_security_group', 'GroupId' => 'sg-11223344'}, nil]
+                     ['fog_security_group', { 'GroupName' => 'fog_security_group' }],
+                     [nil, nil],
+                     [nil, { 'GroupId' => nil }],
+                     [nil, { 'GroupName' => nil, 'GroupId' => nil }]
                     ]
 
     broken_params.each do |list_elem|

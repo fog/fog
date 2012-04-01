@@ -245,6 +245,7 @@ module Fog
     end
 
     def self.parse_security_group_options(group_name, options)
+      options ||= Hash.new
       if group_name.is_a?(Hash)
         options = group_name
       elsif group_name
@@ -254,11 +255,13 @@ module Fog
         options = options.clone
         options['GroupName'] = group_name
       end
-      if !options.key?('GroupName') && !options.key?('GroupId')
+      name_specified = options.key?('GroupName') && !options['GroupName'].nil?
+      group_id_specified = options.key?('GroupId') && !options['GroupId'].nil?
+      unless name_specified || group_id_specified
         raise Fog::Compute::AWS::Error, 'Neither GroupName nor GroupId specified'
       end
-      if options.key?('GroupName') && options.key?('GroupId')
-        raise Fog::Compute::AWS::Error, 'Both GroupName and GroupId specified'
+      if name_specified && group_id_specified
+        options.delete('GroupName')
       end
       options
     end

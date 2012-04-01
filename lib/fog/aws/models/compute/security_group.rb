@@ -40,12 +40,13 @@ module Fog
         #
 
         def authorize_group_and_owner(group, owner = nil)
-          requires :name
+          requires_one :name, :group_id
 
           connection.authorize_security_group_ingress(
             name,
-            'SourceSecurityGroupName'     => group,
-            'SourceSecurityGroupOwnerId'  => owner
+            'GroupId'                    => group_id,
+            'SourceSecurityGroupName'    => group,
+            'SourceSecurityGroupOwnerId' => owner
           )
         end
 
@@ -78,14 +79,23 @@ module Fog
         #
 
         def authorize_port_range(range, options = {})
-          requires :name
+          requires_one :name, :group_id
 
           connection.authorize_security_group_ingress(
             name,
-            'CidrIp'      => options[:cidr_ip] || '0.0.0.0/0',
-            'FromPort'    => range.min,
-            'ToPort'      => range.max,
-            'IpProtocol'  => options[:ip_protocol] || 'tcp'
+            'GroupId'       => group_id,
+            'IpPermissions' => [
+              {
+                'FromPort'   => range.min,
+                'ToPort'     => range.max,
+                'IpProtocol' => options[:ip_protocol] || 'tcp',
+                'IpRanges'   => [
+                  {
+                    'CidrIp' => options[:cidr_ip] || '0.0.0.0/0'
+                  }
+                ]
+              }
+            ]
           )
         end
 
@@ -99,7 +109,7 @@ module Fog
         #
 
         def destroy
-          requires :name
+          requires_one :name, :group_id
 
           if group_id.nil?
             connection.delete_security_group(name)
@@ -136,12 +146,13 @@ module Fog
         #
 
         def revoke_group_and_owner(group, owner = nil)
-          requires :name
+          requires_one :name, :group_id
 
           connection.revoke_security_group_ingress(
             name,
-            'SourceSecurityGroupName'     => group,
-            'SourceSecurityGroupOwnerId'  => owner
+            'GroupId'                    => group_id,
+            'SourceSecurityGroupName'    => group,
+            'SourceSecurityGroupOwnerId' => owner
           )
         end
 
@@ -174,14 +185,23 @@ module Fog
         #
 
         def revoke_port_range(range, options = {})
-          requires :name
+          requires_one :name, :group_id
 
           connection.revoke_security_group_ingress(
             name,
-            'CidrIp'      => options[:cidr_ip] || '0.0.0.0/0',
-            'FromPort'    => range.min,
-            'ToPort'      => range.max,
-            'IpProtocol'  => options[:ip_protocol] || 'tcp'
+            'GroupId'       => group_id,
+            'IpPermissions' => [
+              {
+                'FromPort'   => range.min,
+                'ToPort'     => range.max,
+                'IpProtocol' => options[:ip_protocol] || 'tcp',
+                'IpRanges'   => [
+                  {
+                    'CidrIp' => options[:cidr_ip] || '0.0.0.0/0'
+                  }
+                ]
+              }
+            ]
           )
         end
 
