@@ -17,6 +17,8 @@ module Fog
       collection  :images
       model       :key_pair
       collection  :key_pairs
+      model       :network_interface
+      collection  :network_interfaces
       model       :security_group
       collection  :security_groups
       model       :server
@@ -37,11 +39,13 @@ module Fog
       request_path 'fog/aws/requests/compute'
       request :allocate_address
       request :associate_address
+      request :attach_network_interface
       request :attach_volume
       request :authorize_security_group_ingress
       request :cancel_spot_instance_requests
       request :create_image
       request :create_key_pair
+      request :create_network_interface
       request :create_placement_group
       request :create_security_group
       request :create_snapshot
@@ -51,6 +55,7 @@ module Fog
       request :create_volume
       request :create_vpc
       request :delete_key_pair
+      request :delete_network_interface
       request :delete_security_group
       request :delete_placement_group
       request :delete_snapshot
@@ -67,6 +72,8 @@ module Fog
       request :describe_reserved_instances
       request :describe_instance_status
       request :describe_key_pairs
+      request :describe_network_interface_attribute
+      request :describe_network_interfaces
       request :describe_placement_groups
       request :describe_regions
       request :describe_reserved_instances_offerings
@@ -80,6 +87,7 @@ module Fog
       request :describe_volumes
       request :describe_volume_status
       request :describe_vpcs
+      request :detach_network_interface
       request :detach_volume
       request :disassociate_address
       request :get_console_output
@@ -87,12 +95,14 @@ module Fog
       request :import_key_pair
       request :modify_image_attribute
       request :modify_instance_attribute
+      request :modify_network_interface_attribute
       request :modify_snapshot_attribute
       request :purchase_reserved_instances_offering
       request :reboot_instances
       request :release_address
       request :register_image
       request :request_spot_instances
+      request :reset_network_interface_attribute
       request :revoke_security_group_ingress
       request :run_instances
       request :terminate_instances
@@ -164,6 +174,7 @@ module Fog
                     'ownerId'             => owner_id
                   }
                 },
+                :network_interfaces => {},
                 :snapshots => {},
                 :volumes => {},
                 :tags => {},
