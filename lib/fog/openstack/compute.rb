@@ -180,26 +180,15 @@ module Fog
 
         def initialize(options={})
           @openstack_username = options[:openstack_username]
-
-          @data ||= { :users => {}}
-          unless @data[:users].find {|u| u['name'] == options[:openstack_username]}
-            id = Fog::Mock.random_numbers(6).to_s
-            @data[:users][id] = {
-              'id'       => id,
-              'name'     => options[:openstack_username],
-              'email'    => "#{options[:openstack_username]}@mock.com",
-              'tenantId' => Fog::Mock.random_numbers(6).to_s,
-              'enabled'  => true
-            }
-          end
+          @openstack_tenant   = options[:openstack_tenant]
         end
 
         def data
-          self.class.data[@openstack_username]
+          self.class.data["#{@openstack_username}-#{@openstack_tenant}"]
         end
 
         def reset_data
-          self.class.data.delete(@openstack_username)
+          self.class.data.delete("#{@openstack_username}-#{@openstack_tenant}")
         end
 
         def credentials

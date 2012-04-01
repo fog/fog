@@ -20,12 +20,11 @@ module Fog
         def list_volumes(detailed=true)
           response = Excon::Response.new
           response.status = 200
-          response.body = {
-            "volumes" => [
+          self.data[:volumes] ||= [
             { "status" => "available",
               "displayDescription" => "",
               "availabilityZone" => "nova",
-              "displayName" => "WD",
+              "displayName" => "test 1",
               "attachments" => [{}],
               "volumeType" => nil,
               "snapshotId" => nil,
@@ -36,7 +35,7 @@ module Fog
             { "status" => "available",
               "displayDescription" => "",
               "availabilityZone" => "nova",
-              "displayName" => "test",
+              "displayName" => "test 2",
               "attachments" => [{}],
               "volumeType" => nil,
               "snapshotId" => nil,
@@ -44,7 +43,8 @@ module Fog
               "id" => 8,
               "createdAt" => "2012-03-30 16:14:55.582717",
               "metadata" => {} }
-            ] }
+            ]
+          response.body = { 'volumes' => self.data[:volumes] }
           response
         end
       end
