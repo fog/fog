@@ -21,9 +21,9 @@ module Fog
         def get( pool_ref )
           if pool_ref && pool = connection.get_pool_by_ref( pool_ref )
             new(pool)
+          else
+            nil
           end
-        rescue Fog::XenServer::NotFound
-          nil
         end
 
       end

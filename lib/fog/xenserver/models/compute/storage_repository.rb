@@ -10,25 +10,29 @@ module Fog
         
         identity :reference
         
-        attribute :name_label
+        attribute :name,                 :aliases => :name_label
+        attribute :description,          :aliases => :name_description
         attribute :uuid
         attribute :allowed_operations
+        attribute :current_operations
         attribute :content_type
-        attribute :name_description
         attribute :other_config
-        attribute :PBDs
+        attribute :__pbds,               :aliases => :PBDs
         attribute :shared
         attribute :type
-        attribute :VDIs
+        attribute :tags
+        attribute :__vdis,               :aliases => :VDIs
+        attribute :physical_size
+        attribute :physical_utilisation
         
-        ignore_attributes :blobs, :current_operations, :physical_size, :physical_utilisation, :sm_config, :tags,
-                          :virtual_allocation
-        
-        def initialize(attributes={})
-          @uuid ||= 0
-          super
+        def vdis
+          __vdis.collect { |vdi| connection.vdis.get vdi }
         end
         
+        def pbds
+          __pbds.collect { |pbd| connection.pbds.get pbd }
+        end
+
       end
       
     end
