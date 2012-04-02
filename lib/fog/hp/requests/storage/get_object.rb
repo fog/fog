@@ -62,14 +62,10 @@ module Fog
                 end
               end
             else
-              response.status = 404
-              response.body = "The resource could not be found."
-              raise(Excon::Errors.status_error({:expects => 200}, response))
+              raise Fog::Storage::HP::NotFound
             end
           else
-            response.status = 404
-            response.body = "The resource could not be found."
-            raise(Excon::Errors.status_error({:expects => 200}, response))
+            raise Fog::Storage::HP::NotFound
           end
           response
         end

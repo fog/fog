@@ -25,11 +25,14 @@ module Fog
         def delete_object(container_name, object_name, options = {})
           response = Excon::Response.new
           if container = self.data[:containers][container_name]
-            response.status = 204
-            container[:objects].delete(object_name)
+            if (object = container[:objects][object_name])
+              response.status = 204
+              container[:objects].delete(object_name)
+            else
+              raise Fog::Storage::HP::NotFound
+            end
           else
-            response.status = 404
-            raise(Excon::Errors.status_error({:expects => 204}, response))
+            raise Fog::Storage::HP::NotFound
           end
           response
         end
