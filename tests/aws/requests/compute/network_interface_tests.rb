@@ -130,7 +130,9 @@ Shindo.tests('Fog::Compute[:aws] | network interface requests', ['aws']) do
     tests('#detach_network_interface').returns(true) do
       Fog::Compute[:aws].detach_network_interface(@attachment_id,true).body["return"]
     end
-    Fog::Compute[:aws].network_interfaces.get(@nic_id).wait_for { status == 'available'}
+    if !Fog.mocking?
+      Fog::Compute[:aws].network_interfaces.get(@nic_id).wait_for { status == 'available'}
+    end
     # Create network interface with arguments
     options = {
       "PrivateIpAddress" => "10.0.10.24",
@@ -161,9 +163,11 @@ Shindo.tests('Fog::Compute[:aws] | network interface requests', ['aws']) do
 
     # Clean up resources
     @server.destroy
-    @server.wait_for { state == 'terminated' }
-    # despite the fact that the state goes to 'terminated' we need a little delay for aws to do its thing
-	sleep 5
+    if !Fog.mocking?
+      @server.wait_for { state == 'terminated' }
+      # despite the fact that the state goes to 'terminated' we need a little delay for aws to do its thing
+	  sleep 5
+    end
     @security_group.destroy
     @subnet.destroy
     @vpc.destroy
