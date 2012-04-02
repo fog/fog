@@ -29,45 +29,54 @@ module Fog
       class Mock # :nodoc:all
 
         def put_object(container_name, object_name, data, options = {})
+          response = Excon::Response.new
           ### Take care of case of copy operation
-          if source = options['X-Copy-From'] && data.nil?
+          source = options['X-Copy-From']
+          if (source && data.nil?)
             # split source container and object
+            _, source_container_name, source_object_name = source.split('/')
             # dup object into target object
+            source_container = self.data[:containers][source_container_name]
+            container = self.data[:containers][container_name]
+            if (source_container && container)
+              response.status = 201
+              container[:objects][object_name] = source_container[:objects][source_object_name]
+            else
+              raise Fog::Storage::HP::NotFound
+            end
           else
             data = Fog::Storage.parse_data(data)
             unless data[:body].is_a?(String)
               data[:body] = data[:body].read
             end
-          end
-          response = Excon::Response.new
-          if (container = self.data[:containers][container_name])
-            response.status = 201
-            object = {
-              :body             => data[:body],
-              'Content-Type'    => options['Content-Type'] || data[:headers]['Content-Type'],
-              'ETag'            => Fog::HP::Mock.etag,
-              'Key'             => object_name,
-              'Date'            => Fog::Time.now.to_date_header,
-              'Content-Length'  => options['Content-Length'] || data[:headers]['Content-Length'],
-            }
+            if (container = self.data[:containers][container_name])
+              response.status = 201
+              object = {
+                :body             => data[:body],
+                'Content-Type'    => options['Content-Type'] || data[:headers]['Content-Type'],
+                'ETag'            => Fog::HP::Mock.etag,
+                'Key'             => object_name,
+                'Date'            => Fog::Time.now.to_date_header,
+                'Content-Length'  => options['Content-Length'] || data[:headers]['Content-Length'],
+              }
 
-            for key, value in options
-              case key
-              when 'Cache-Control', 'Content-Disposition', 'Content-Encoding', 'Content-MD5', 'Expires', /^X-Object-Meta-/
-                object[key] = value
+              for key, value in options
+                case key
+                when 'Cache-Control', 'Content-Disposition', 'Content-Encoding', 'Content-MD5', 'Expires', /^X-Object-Meta-/
+                  object[key] = value
+                end
               end
-            end
 
-            container[:objects][object_name] = object
-            response.headers = {
-              'Content-Length'  => object['Content-Length'],
-              'Content-Type'    => object['Content-Type'],
-              'ETag'            => object['ETag'],
-              'Date'            => object['Date']
-            }
-          else
-            response.status = 404
-            raise(Excon::Errors.status_error({:expects => 201}, response))
+              container[:objects][object_name] = object
+              response.headers = {
+                'Content-Length'  => object['Content-Length'],
+                'Content-Type'    => object['Content-Type'],
+                'ETag'            => object['ETag'],
+                'Date'            => object['Date']
+              }
+            else
+              raise Fog::Storage::HP::NotFound
+            end
           end
           response
         end
