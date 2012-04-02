@@ -1,5 +1,8 @@
 module Fog
   module XenServer 
+
+    class InvalidLogin < Fog::Errors::Error; end
+
     extend Fog::Provider
     
     service(:compute, 'xenserver/compute', 'Compute')  
@@ -13,10 +16,8 @@ module Fog
       end
     
       def authenticate( username, password )
-        begin
-          response = @factory.call('session.login_with_password', username, password )
-          raise Fog::XenServer::InvalidLogin unless response["Status"] =~ /Success/
-        end
+        response = @factory.call('session.login_with_password', username, password )
+        raise Fog::XenServer::InvalidLogin.new unless response["Status"] =~ /Success/
         @credentials = response["Value"]
       end
     
