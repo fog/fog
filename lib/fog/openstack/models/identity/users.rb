@@ -7,8 +7,11 @@ module Fog
       class Users < Fog::Collection
         model Fog::Identity::OpenStack::User
 
+        attribute :tenant
+
         def all
-          load(connection.list_users.body['users'])
+          tenant_id = tenant.id || nil
+          load(connection.list_users(tenant_id).body['users'])
         end
 
         def find_by_id(id)

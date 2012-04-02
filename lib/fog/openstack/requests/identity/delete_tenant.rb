@@ -4,7 +4,7 @@ module Fog
       class Real
         def delete_tenant(id)
           request(
-            :expects => [200],
+            :expects => [200, 204],
             :method  => 'DELETE',
             :path    => "tenants/#{id}"
           )

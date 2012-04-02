@@ -20,6 +20,11 @@ module Fog
             :user   => user)
         end
 
+        def users
+          requires :id
+          connection.users(:tenant => self)
+        end
+
         def destroy
           requires :id
           connection.delete_tenant(self.id)

@@ -9,7 +9,7 @@ module Fog
         attribute :description
         attribute :enabled
         attribute :name
-        
+
         def to_s
           self.name
         end
