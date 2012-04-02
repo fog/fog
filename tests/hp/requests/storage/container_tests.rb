@@ -34,6 +34,16 @@ Shindo.tests('Fog::Storage[:hp] | container requests', [:hp]) do
       Fog::Storage[:hp].delete_container('fogcontainertests')
     end
 
+    tests("#put_container('fogacltests', {'X-Container-Read' => 'private'})").succeeds do
+      Fog::Storage[:hp].put_container('fogacltests', {'X-Container-Read' => 'private'})
+    end
+    Fog::Storage[:hp].delete_container('fogacltests')
+
+    tests("#put_container('fogacltests', {'X-Container-Read' => 'public-read'})").succeeds do
+      Fog::Storage[:hp].put_container('fogacltests', {'X-Container-Read' => 'public-read'})
+    end
+    Fog::Storage[:hp].delete_container('fogacltests')
+
   end
 
   tests('failure') do
@@ -48,6 +58,18 @@ Shindo.tests('Fog::Storage[:hp] | container requests', [:hp]) do
 
     tests("#delete_container('fognoncontainer')").raises(Fog::Storage::HP::NotFound) do
       Fog::Storage[:hp].delete_container('fognoncontainer')
+    end
+
+    @container = Fog::Storage[:hp].directories.create(:key => 'fognonempty')
+    @file = @container.files.create(:key => 'foo', :body => 'bar')
+    tests("#delete_container('fognonempty')").raises(Excon::Errors::Conflict) do
+      Fog::Storage[:hp].delete_container('fognonempty')
+    end
+    @file.destroy
+    @container.destroy
+
+    tests("#put_container('fognonbucket', {'X-Container-Read' => 'invalid'})").raises(Excon::Errors::BadRequest) do
+      Fog::Storage[:hp].put_container('fognonbucket', {'X-Container-Read' => 'invalid'})
     end
 
   end
