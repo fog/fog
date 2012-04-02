@@ -25,10 +25,19 @@ Shindo.tests('Fog::Storage[:hp] | object requests', [:hp]) do
       Fog::Storage[:hp].head_object(@dir_name, 'fog_object')
     end
 
+    # copy a file within the same container
     tests("#put_object('#{@dir_name}', 'fog_other_object', nil, {'X-Copy-From' => '/#{@dir_name}/fog_object'})" ).succeeds do
       Fog::Storage[:hp].put_object(@dir_name, 'fog_other_object', nil, {'X-Copy-From' => "/#{@dir_name}/fog_object"})
     end
     @directory.files.get('fog_other_object').destroy
+
+    # copy a file from one container to another
+    @another_dir = Fog::Storage[:hp].directories.create(:key => 'fogobjecttests2')
+    tests("#put_object('#{@another_dir.identity}', 'fog_another_object', nil, {'X-Copy-From' => '/#{@dir_name}/fog_object'})" ).succeeds do
+      Fog::Storage[:hp].put_object(@another_dir.identity, 'fog_another_object', nil, {'X-Copy-From' => "/#{@dir_name}/fog_object"})
+    end
+    @another_dir.files.get('fog_another_object').destroy
+    @another_dir.destroy
 
     tests("#delete_object('#{@dir_name}', 'fog_object')").succeeds do
       Fog::Storage[:hp].delete_object(@dir_name, 'fog_object')
