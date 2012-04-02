@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:network] | network model', ['network']) do
+Shindo.tests('Fog::Compute[:xenserver] | PIF model', ['PIF']) do
 
   pifs = Fog::Compute[:xenserver].pifs
   pif = pifs.first
