@@ -40,7 +40,13 @@ module Fog
             container = self.data[:containers][container_name]
             if (source_container && container)
               response.status = 201
-              container[:objects][object_name] = source_container[:objects][source_object_name]
+              source_object = source_container[:objects][source_object_name]
+              target_object = source_object.dup
+              target_object.merge!({
+                'Key'    => object_name,
+                'Date'   => Fog::Time.now.to_date_header
+              })
+              container[:objects][object_name] = target_object
             else
               raise Fog::Storage::HP::NotFound
             end
