@@ -13,23 +13,19 @@ module Fog
         attribute :uuid
         attribute :currently_attached
         attribute :reserved
-        attribute :__vdi, :aliases => :VDI
-        attribute :vm, :aliases => :VM
+        attribute :__vdi,               :aliases => :VDI
+        attribute :__vm,                :aliases => :VM
         attribute :device
         attribute :status_detail
         attribute :type
         attribute :userdevice
         
-        #ignore_attributes :current_operations, :qos_supported_algorithms, :qos_algorithm_params, :qos_algorithm_type, :other_config,
-        #                  :runtime_properties
-        
-        def initialize(attributes={})
-          super
-        end
-
         def vdi
-          #Fog::Compute::XenServer::VDI.new(connection.get_record( __vdi, 'VDI' ))
           connection.vdis.get __vdi
+        end
+        
+        def server
+          connection.servers.get __vm
         end
 
       end
