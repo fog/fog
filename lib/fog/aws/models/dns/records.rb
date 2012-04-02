@@ -37,9 +37,46 @@ module Fog
           load(data)
         end
 
-        def get(record_id)
-          data = connection.get_change(record_id).body
-          new(data)
+        #
+        # AWS Route 53 records are uniquely identified by a compound key of name, type, and identifier.
+        # #get allows one to retrieve a record using one or more of those key components.
+        #
+        # ==== Parameters
+        # * record_name - The name of the record to retrieve.
+        # * record_type - The type of record to retrieve, if nil, then the first matching record is returned.
+        # * record_identifier - The record set identifier to retrieve, if nil, then the first matching record is returned.
+        #
+        def get(record_name, record_type = nil, record_identifier = nil)
+          requires :zone
+          # Append a trailing period to the record_name if absent.
+          record_name = record_name + "." unless record_name.end_with?(".")
+          record_type = record_type.upcase unless record_type.nil?
+
+          options = {
+              :max_items => 1,
+              :name => record_name,
+              :type => record_type,
+              :identifier => record_identifier
+          }
+
+          data = connection.list_resource_record_sets(zone.id, options).body
+          # Get first record
+          data = data['ResourceRecordSets'].shift
+
+          if data
+            record = new(data)
+            # make sure everything matches
+            if record.name == record_name
+              if (!record_type.nil? && record.type != record_type) ||
+                  (!record_identifier.nil? && record.set_identifier != record_identifier)
+                nil
+              else
+                record
+              end
+            end
+          else
+            nil
+          end
         rescue Excon::Errors::NotFound
           nil
         end
