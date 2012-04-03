@@ -27,13 +27,13 @@ module Fog
         def get_flavor_details(flavor_id)
           response = Excon::Response.new
           flavor = {
-            1 => { 'name' => '256 server',    'ram' => 256,    'disk' => 10   },
-            2 => { 'name' => '512 server',    'ram' => 512,    'disk' => 20   },
-            3 => { 'name' => '1GB server',    'ram' => 1024,   'disk' => 40   },
-            4 => { 'name' => '2GB server',    'ram' => 2048,   'disk' => 80   },
-            5 => { 'name' => '4GB server',    'ram' => 4096,   'disk' => 160  },
-            6 => { 'name' => '8GB server',    'ram' => 8192,   'disk' => 320  },
-            7 => { 'name' => '15.5GB server', 'ram' => 15872,  'disk' => 620  }
+            1 => { 'name' => '256 server',    'ram' => 256,    'disk' => 10,  'id' => 1 },
+            2 => { 'name' => '512 server',    'ram' => 512,    'disk' => 20,  'id' => 2 },
+            3 => { 'name' => '1GB server',    'ram' => 1024,   'disk' => 40,  'id' => 3 },
+            4 => { 'name' => '2GB server',    'ram' => 2048,   'disk' => 80,  'id' => 4 },
+            5 => { 'name' => '4GB server',    'ram' => 4096,   'disk' => 160, 'id' => 5 },
+            6 => { 'name' => '8GB server',    'ram' => 8192,   'disk' => 320, 'id' => 6 },
+            7 => { 'name' => '15.5GB server', 'ram' => 15872,  'disk' => 620, 'id' => 7 }
           }[flavor_id]
           if flavor
             response.status = 200
