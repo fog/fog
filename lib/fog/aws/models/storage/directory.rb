@@ -107,7 +107,10 @@ module Fog
           if @acl
             options['x-amz-acl'] = @acl
           end
-          options['LocationConstraint'] = @location || self.connection.region
+          lc = @location || self.connection.region
+          if lc != 'us-east-1'     # us-east-1 is not valid: See http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUT.html
+            options['LocationConstraint'] = lc
+          end
           connection.put_bucket(key, options)
           true
         end
