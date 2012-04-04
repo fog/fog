@@ -1,7 +1,7 @@
 <volume>
         <name><%= name %></name>
-        <allocation unit="<%= allocation_unit %>"><%= allocation_size %>"></allocation>
-        <capacity unit="<%= capacity_unit %>"><%= capacity_size %>"></capacity>
+        <allocation unit="<%= split_size_unit(allocation)[1] %>"><%= split_size_unit(allocation)[0] %></allocation>
+        <capacity unit="<%= split_size_unit(capacity)[1] %>"><%= split_size_unit(capacity)[0] %></capacity>
         <target>
           <format type="<%= format_type %>"/>
           <permissions>

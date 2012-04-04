@@ -1,13 +1,13 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'libvirt'))
 require 'fog/compute'
-
-require 'fog/libvirt/models/compute/uri'
+require 'fog/libvirt/models/compute/util/util'
+require 'fog/libvirt/models/compute/util/uri'
 
 module Fog
   module Compute
     class Libvirt < Fog::Service
 
-      requires :libvirt_uri
+      requires   :libvirt_uri
       recognizes :libvirt_username, :libvirt_password
       recognizes :libvirt_ip_command
 
@@ -24,18 +24,33 @@ module Fog
       collection  :pools
       model       :node
       collection  :nodes
+      model       :nic
+      collection  :nics
+
+      request_path 'fog/libvirt/requests/compute'
+      request :list_domains
+      request :create_domain
+      request :define_domain
+      request :vm_action
+      request :list_pools
+      request :list_pool_volumes
+      request :define_pool
+      request :pool_action
+      request :list_volumes
+      request :volume_action
+      request :create_volume
+      request :list_networks
+      request :destroy_network
+      request :list_interfaces
+      request :destroy_interface
+      request :get_node_info
 
       class Mock
-
-        def initialize(options={})
-          Fog::Mock.not_implemented
-        end
-
       end
 
       class Real
-
-        attr_reader :raw
+        include Fog::Compute::LibvirtUtil
+        attr_reader :client
         attr_reader :uri
         attr_reader :ip_command
 
@@ -49,22 +64,26 @@ module Fog
 
           begin
             if options[:libvirt_username] and options[:libvirt_password]
-              @raw = ::Libvirt::open_auth(@uri.uri, [::Libvirt::CRED_AUTHNAME, ::Libvirt::CRED_PASSPHRASE]) do |cred|
-                if cred['type'] == ::Libvirt::CRED_AUTHNAME
-                  res = options[:libvirt_username]
-                elsif cred["type"] == ::Libvirt::CRED_PASSPHRASE
-                  res = options[:libvirt_password]
-                else
+              @client = ::Libvirt::open_auth(uri.uri, [::Libvirt::CRED_AUTHNAME, ::Libvirt::CRED_PASSPHRASE]) do |cred|
+                case cred['type']
+                  when ::Libvirt::CRED_AUTHNAME
+                    options[:libvirt_username]
+                  when ::Libvirt::CRED_PASSPHRASE
+                    options[:libvirt_password]
                 end
               end
             else
-              @raw = ::Libvirt::open(@uri.uri)
+              @client = ::Libvirt::open(uri.uri)
             end
 
           rescue ::Libvirt::ConnectionError
             raise Fog::Errors::Error.new("Error making a connection to libvirt URI #{uri.uri}:\n#{$!}")
           end
 
+        end
+
+        def terminate
+          @client.close if @client and !@client.closed?
         end
 
         def enhance_uri(uri)
@@ -87,19 +106,6 @@ module Fog
             end
           end
           uri+append
-        end
-
-        def respond_to?(method, *)
-          super or @connection.respond_to? method
-        end
-
-        # hack to provide 'requests'
-        def method_missing(method_sym, *arguments, &block)
-          if @raw.respond_to?(method_sym)
-            @raw.send(method_sym, *arguments)
-          else
-            super
-          end
         end
 
       end
