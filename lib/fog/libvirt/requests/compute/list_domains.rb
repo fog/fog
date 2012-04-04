@@ -29,6 +29,10 @@ module Fog
           xml_elements(xml, "domain/devices/disk/source", "file")
         end
 
+        def boot_order xml
+          xml_elements(xml, "domain/os/boot", "dev")
+        end
+
         def domain_interfaces xml
           ifs = xml_elements(xml, "domain/devices/interface")
           ifs.map { |i|
@@ -56,6 +60,7 @@ module Fog
             :os_type         => dom.os_type,
             :active          => dom.active?,
             :vnc_port        => vnc_port(dom.xml_desc),
+            :boot_order      => boot_order(dom.xml_desc),
             :nics            => domain_interfaces(dom.xml_desc),
             :volumes_path    => domain_volumes(dom.xml_desc),
             :state           => states[dom.info.state]

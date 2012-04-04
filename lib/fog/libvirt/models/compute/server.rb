@@ -28,6 +28,7 @@ module Fog
         attribute :nics
         attribute :volumes
         attribute :active
+        attribute :boot_order
 
         attribute :state
 
@@ -46,6 +47,7 @@ module Fog
 
         def initialize(attributes={} )
           @xml = attributes.delete(:xml)
+          verify_boot_order(attributes[:boot_order])
           super defaults.merge(attributes)
           initialize_nics
           initialize_volumes
@@ -380,8 +382,21 @@ module Fog
             :iso_dir                => default_iso_dir,
             :network_interface_type => "network",
             :network_nat_network    => "default",
-            :network_bridge_name    => "br0"
+            :network_bridge_name    => "br0",
+            :boot_order             => default_boot_order
           }
+        end
+
+        def default_boot_order
+          %w[hd cdrom network]
+        end
+
+        def verify_boot_order order = []
+          if order
+            order.each do |b|
+              raise "invalid boot order, possible values are: hd, network and/or cdrom" unless default_boot_order.include?(b)
+            end
+          end
         end
 
       end

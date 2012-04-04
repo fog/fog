@@ -4,9 +4,8 @@
   <vcpu><%= cpus %></vcpu>
   <os>
     <type arch='<%= arch %>'><%= os_type %></type>
-    <boot dev='hd'/>
-<% if iso_file -%>
-    <boot dev='cdrom'/>
+<% boot_order.each do |dev| -%>
+    <boot dev='<%= dev %>'/>
 <% end -%>
   </os>
   <features>
