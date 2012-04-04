@@ -13,7 +13,7 @@ module Fog
           load(connection.list_interfaces(filter))
         end
 
-        def get(key)
+        def get(name)
           self.all(:name => name).first
         end
 

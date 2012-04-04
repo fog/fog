@@ -72,9 +72,10 @@ module Fog
         end
 
         def start
-          return if active?
+          return true if active?
           connection.vm_action(uuid, :create)
           reload
+          true
         end
 
         def mac
@@ -92,7 +93,7 @@ module Fog
         end
 
         def reboot
-          connection.vm_action :reboot
+          connection.vm_action(uuid, :reboot)
         end
 
         def poweroff
