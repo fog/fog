@@ -10,7 +10,7 @@ module Fog
         attribute :tenant
 
         def all
-          tenant_id = tenant.id || nil
+          tenant_id = tenant.nil? ? nil : tenant.id
           load(connection.list_users(tenant_id).body['users'])
         end
 

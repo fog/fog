@@ -3,6 +3,7 @@
 *.rbc
 *.sw?
 .rvmrc
+.irbrc
 .bundle
 .DS_Store
 .idea
