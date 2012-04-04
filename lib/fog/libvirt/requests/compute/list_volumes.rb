@@ -34,9 +34,13 @@ module Fog
             :path        => vol.path,
             :name        => vol.name,
             :format_type => format_type,
-            :allocation  => vol.info.allocation,
-            :capacity    => vol.info.capacity,
+            :allocation  => bytes_to_gb(vol.info.allocation),
+            :capacity    => bytes_to_gb(vol.info.capacity),
           }
+        end
+
+        def bytes_to_gb bytes
+          bytes / 1024**3
         end
 
         def raw_volumes
