@@ -44,6 +44,19 @@ module Fog
           data = connection.create_volume(availability_zone, size, snapshot_id).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
+
+          if tags = self.tags
+            # expect eventual consistency
+            Fog.wait_for { self.reload rescue nil }
+            for key, value in (self.tags = tags)
+              connection.tags.create(
+                :key          => key,
+                :resource_id  => self.identity,
+                :value        => value
+              )
+            end
+          end
+
           if @server
             self.server = @server
           end
