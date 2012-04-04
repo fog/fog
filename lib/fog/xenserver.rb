@@ -37,7 +37,7 @@ module Fog
               response = eval("@factory.call('#{method}', '#{@credentials}', #{params.map {|p|  p.is_a?(String) ? "'#{p}'" : p}.join(',')})")
             end
           end
-          raise RequestFailed.new(response["ErrorDescription"].to_s) unless response["Status"].eql? "Success"
+          raise RequestFailed.new("#{method}: " + response["ErrorDescription"].to_s) unless response["Status"].eql? "Success"
           if parser
             parser.parse( response["Value"] )
             response = parser.response

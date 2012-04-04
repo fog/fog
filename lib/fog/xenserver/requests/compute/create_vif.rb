@@ -5,7 +5,8 @@ module Fog
       class Real
         
         def create_vif( vm_ref, network_ref )
-          @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VIF.create'}, default_vif_config(vm_ref, network_ref) )
+          vif_config = default_vif_config(vm_ref, network_ref)
+          @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VIF.create'}, vif_config )
         end
         
         def default_vif_config( vm_ref, network_ref, device_number = '0' )

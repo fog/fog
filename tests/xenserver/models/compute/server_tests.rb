@@ -1,7 +1,8 @@
 
 Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
 
-  servers = Fog::Compute[:xenserver].servers
+  connection = Fog::Compute[:xenserver]
+  servers = connection.servers
   # pre-flight cleanup
   (servers.all :name_matches => test_ephemeral_vm_name).each do |s|
     s.destroy
@@ -66,6 +67,29 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
 
   end
 
+  tests("Creating a server") do
+    tests("it should create a server") do
+      s = nil
+      test("named FOOBARSTUFF") do
+        s = servers.create(:name => "FOOBARSTUFF", 
+                           :template_name => test_template_name)
+        servers.get(s.reference).name == "FOOBARSTUFF"
+      end
+      test("and destroy it afterwards") { s.destroy }
+    end
+    tests("it should create a server") do
+      s = nil
+      test("with 3 NICs") do
+        s = servers.create(:name => "FOOBARSTUFF", 
+                           :template_name => test_template_name,
+                           :networks => [connection.default_network, connection.default_network, connection.default_network])
+        s.reload
+        s.networks.size == 3
+      end
+      test("and destroy it afterwards") { s.destroy }
+    end
+  end
+
   tests("A real server should") do
     tests("return valid vbds") do
       test("as an array") { server.vbds.kind_of? Array }
@@ -73,6 +97,19 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
           test("and each VBD should be a Fog::Compute::XenServer::VBD") { i.kind_of? Fog::Compute::XenServer::VBD }
       } 
     end
+
+    test("have 0 or more networks") { server.networks.kind_of? Array }
+
+    tests("have networks if networks > 0") do
+      if server.networks.size > 0
+        server.networks.each do |n|
+          test("and network is of type Fog::Compute::XenServer::Network") do
+            n.kind_of? Fog::Compute::XenServer::Network
+          end
+        end
+      end
+    end
+
     test("reside on a Fog::Compute::XenServer::Host") { server.resident_on.kind_of? Fog::Compute::XenServer::Host }
     #test("have Fog::Compute::XenServer::GuestMetrics") { server.guest_metrics.kind_of? Fog::Compute::XenServer::GuestMetrics }
     test("be able to refresh itself") { server.refresh }

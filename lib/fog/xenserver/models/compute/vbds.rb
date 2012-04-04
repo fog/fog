@@ -15,7 +15,6 @@ module Fog
 
         def all(options = {})
           data = connection.get_records 'VBD'
-          #data.delete_if { |vm| vm[:is_a_template] and !options[:include_templates] }
           load(data)
         end
 

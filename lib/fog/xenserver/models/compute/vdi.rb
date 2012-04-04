@@ -20,6 +20,8 @@ module Fog
         attribute :__sr, :aliases => :SR
         attribute :sharable
         attribute :readonly
+        attribute :current_operations
+        attribute :allowed_operations
         
         def initialize(attributes={})
           @uuid ||= 0

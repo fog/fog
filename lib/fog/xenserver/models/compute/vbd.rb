@@ -12,14 +12,22 @@ module Fog
         
         attribute :uuid
         attribute :currently_attached
+        attribute :allowed_operations
+        attribute :current_operations
         attribute :reserved
         attribute :__vdi,               :aliases => :VDI
         attribute :__vm,                :aliases => :VM
         attribute :device
         attribute :status_detail
+        attribute :status_code
         attribute :type
         attribute :userdevice
-        
+        attribute :empty
+        attribute :type
+        attribute :mode        
+        attribute :runtime_properties
+        attribute :unpluggable
+
         #
         # May return nil
         #

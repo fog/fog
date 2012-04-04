@@ -5,7 +5,7 @@ module Fog
       class Real
 
         def destroy_vbd( vbd_ref, extra_args = {})
-          @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VBD.destroy'}, vbd_ref)
+          @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VBD.unplug'}, vbd_ref)
         end
 
       end

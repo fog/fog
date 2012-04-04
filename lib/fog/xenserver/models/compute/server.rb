@@ -50,9 +50,15 @@ module Fog
         end
 
         def destroy
-          stop('hard') if running?
+          # Make sure it's halted
+          stop('hard')
           vbds.each do |vbd|
-            connection.destroy_vdi( vbd.vdi.reference ) if vbd.type == "Disk"
+            if vbd.type == "Disk"
+              connection.destroy_vbd( vbd.reference ) \
+                if vbd.allowed_operations.include?("unplug")
+              connection.destroy_vdi( vbd.vdi.reference ) \
+                if vbd.vdi.allowed_operations.include?("destroy")
+            end
           end
           connection.destroy_server( reference )
           true
@@ -65,12 +71,12 @@ module Fog
         end
 
         def vifs
-          networks
+          __vifs.collect { |vif| connection.vifs.get vif }
         end
 
         # associations
         def networks
-          __vifs.collect { |vif| vifs.get vif }
+          vifs.collect { |v| v.network }
         end
 
         def resident_on
@@ -102,11 +108,13 @@ module Fog
         end
         
         def running?
-          power_state =~ /Running/
+          reload
+          power_state == "Running"
         end
         
         def halted?
-          power_state =~ /Halted/
+          reload
+          power_state == "Halted"
         end
         
         # operations
@@ -118,8 +126,9 @@ module Fog
 
         def save(params = {})
           requires :name
-          new_vm = connection.create_server( name, template_name, nil) 
-          merge_attributes(new_vm.attributes)
+          networks = params[:networks] || []
+          attributes = connection.get_record(connection.create_server( name, template_name, networks ), 'VM')
+          merge_attributes attributes
           true
         end
 
@@ -139,7 +148,7 @@ module Fog
         def stop(stype = 'clean')
           return false if !running?
           connection.shutdown_server( reference, stype )
-          wait_for { !running? }
+          wait_for { power_state == 'Halted' }
           true
         end
 

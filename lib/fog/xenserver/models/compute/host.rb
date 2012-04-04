@@ -23,16 +23,6 @@ module Fog
         attribute :__pifs,            :aliases => :PIFs
         attribute :__resident_vms,      :aliases => :resident_VMs
         
-        def templates
-          connection.servers.all(:include_templates => true).delete_if { |s| !s.is_a_template }
-        end
-
-        def custom_templates
-          connection.servers.all(:include_custom_templates => true).delete_if do |s| 
-            !s.is_a_template
-          end
-        end
-
         def pifs
           __pifs.collect { |pif| connection.pifs.get pif }
         end

@@ -64,26 +64,5 @@ Shindo.tests('Fog::Compute[:xenserver] | host model', ['xenserver']) do
 
   end
 
-  tests("The host template list should") do
-    test("include a #{test_template_name} template in custom_templates") do
-      found = false
-      host.custom_templates.each do |s|
-        found = (s.name == test_template_name)
-      end
-      found
-    end 
-    test("include only one custom template") { host.custom_templates.size == 1 }
-    tests("not include built-in templates in custom_templates") do
-      host.custom_templates.each do |s|
-        test("#{s.name} is NOT a built-in template") {s.allowed_operations.include?('destroy') }
-      end
-    end
-    test("include more than one built-in templates") { host.templates.size >= 1 }
-    tests("not include real servers") do
-      host.templates.each do |s|
-        test("#{s.name} is not a real server") { s.is_a_template }
-      end
-    end
-  end
 
 end

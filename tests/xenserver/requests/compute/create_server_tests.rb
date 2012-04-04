@@ -11,9 +11,14 @@ Shindo.tests('Fog::Compute[:xenserver] | create_server request', ['xenserver']) 
     raises(StandardError, 'raise exception when template nil') do
       compute.create_server 'fooserver', nil
     end
-    test('create a VM') do
-      compute.create_server test_ephemeral_vm_name, test_template_name
-      !compute.get_vm_by_name(test_ephemeral_vm_name).nil?
+
+    ref = compute.create_server test_ephemeral_vm_name, test_template_name
+    test('return a valid reference') do
+      if (ref != "OpaqueRef:NULL") and (ref.split("1") != "NULL")
+        true
+      else
+        false
+      end
     end
   end
   

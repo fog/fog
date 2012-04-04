@@ -30,6 +30,10 @@ Shindo.tests('Fog::Compute[:xenserver]', ['xenserver']) do
     # (not sure if that's gonna be a real scenario though)
     tests("Networks collection") do
       test("should have at least one Network") { compute.networks.size >= 1 }
+      tests("each network should be a Fog::Compute::XenServer::Network") do
+        ok = true
+        compute.networks.each { |n| ok = false if n.kind_of? Fog::Compute::XenServer::Network } 
+      end
     end
   end
 
@@ -38,7 +42,7 @@ Shindo.tests('Fog::Compute[:xenserver]', ['xenserver']) do
     # This template exists in our XenServer
     compute.default_template = 'squeeze-test'
     test("it should have a default template if template exists") { compute.default_template.name == 'squeeze-test' }
-    test("default template must be a Fog::Compute::XenServer::Server") { compute.default_template.is_a? Fog::Compute::XenServer::Server }
+    test("it should be a Fog::Compute::XenServer::Server") { compute.default_template.is_a? Fog::Compute::XenServer::Server }
     test("it should return nil when not found") do
       compute.default_template = 'asdfasdfasfdwe'
       compute.default_template.nil?

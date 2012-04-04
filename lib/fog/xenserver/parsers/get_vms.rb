@@ -1,6 +1,7 @@
 module Fog
   module Parsers
     module XenServer
+
       class GetVms < Fog::Parsers::XenServer::Base
         
         def reset

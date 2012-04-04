@@ -9,25 +9,30 @@ module Fog
 
         model Fog::Compute::XenServer::Server
 
+        def templates
+          custom_templates + builtin_templates
+        end
+
+        def custom_templates
+          data = connection.get_records 'VM'
+          data.delete_if do |vm|
+            !vm[:is_a_template] or !vm[:other_config]['default_template'].nil? 
+          end
+          load(data)
+        end
+        
+        def builtin_templates
+          data = connection.get_records 'VM'
+          data.delete_if do |vm|
+            !vm[:is_a_template] or vm[:other_config]['default_template'].nil?
+          end
+          load(data)
+        end
+
         def all(options = {})
           data = connection.get_records 'VM'
           # Exclude templates
-          data.delete_if { |vm| 
-            vm[:is_a_template] and (!options[:include_templates] and !options[:include_custom_templates])
-          }
-          data.delete_if { |vm| 
-            # VM is a custom template
-            if vm[:is_a_template] and vm[:allowed_operations].include?("destroy")
-              !options[:include_custom_templates]
-            end
-          }
-          data.delete_if { |vm| 
-            # VM is a built-in template
-            if vm[:is_a_template] and !vm[:allowed_operations].include?("destroy")
-              !options[:include_templates]
-            end
-          }
-          data.delete_if { |vm| vm[:is_control_domain] }
+          data.delete_if { |vm| vm[:is_control_domain] or vm[:is_a_template] }
           data.delete_if { |vm| vm[:is_a_snapshot] and !options[:include_snapshots] }
           data.delete_if { |vm| options[:name_matches] and (vm[:name_label] !~ /#{Regexp.escape(options[:name_matches])}/i ) }
           data.delete_if { |vm| options[:name_equals] and (vm[:name_label] != options[:name_equals] ) }
@@ -35,7 +40,8 @@ module Fog
         end
 
         def get_by_name( name )
-          all(:name_equals => name).first
+          ref = connection.get_vm_by_name( name )
+          get ref
         end
 
         def get( vm_ref )
