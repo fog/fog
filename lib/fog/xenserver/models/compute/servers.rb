@@ -10,7 +10,11 @@ module Fog
         model Fog::Compute::XenServer::Server
 
         def templates
-          custom_templates + builtin_templates
+          data = connection.get_records 'VM'
+          data.delete_if do |vm|
+            !vm[:is_a_template]
+          end
+          load(data)
         end
 
         def custom_templates
