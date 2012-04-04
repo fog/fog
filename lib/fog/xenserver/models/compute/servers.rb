@@ -9,12 +9,8 @@ module Fog
 
         model Fog::Compute::XenServer::Server
 
-        def initialize(attributes)
-          super
-        end
-
         def all(options = {})
-          data = connection.get_vms
+          data = connection.get_records 'VM'
           # Exclude templates
           data.delete_if { |vm| 
             vm[:is_a_template] and (!options[:include_templates] and !options[:include_custom_templates])
@@ -43,7 +39,7 @@ module Fog
         end
 
         def get( vm_ref )
-          if vm_ref && vm = connection.get_vm_by_ref( vm_ref )
+          if vm_ref && vm = connection.get_record( vm_ref, 'VM' )
             new(vm)
           end
         rescue Fog::XenServer::NotFound

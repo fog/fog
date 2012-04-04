@@ -20,10 +20,16 @@ module Fog
         attribute :type
         attribute :userdevice
         
+        #
+        # May return nil
+        #
         def vdi
           connection.vdis.get __vdi
         end
         
+        #
+        # TODO: May it return nil?
+        #
         def server
           connection.servers.get __vm
         end

@@ -9,8 +9,8 @@ module Fog
         
         model Fog::Compute::XenServer::Host
         
-        def all
-          data = connection.get_hosts
+        def all(options={})
+          data = connection.get_records 'host'
           load(data)
         end
         

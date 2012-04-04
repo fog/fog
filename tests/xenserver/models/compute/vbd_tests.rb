@@ -37,8 +37,25 @@ Shindo.tests('Fog::Compute[:xenserver] | VBD model', ['VBD']) do
   end
 
   tests("A real VBD should") do
-    tests("return a valid VDI") do
-      test("should be a Fog::Compute::XenServer::VDI") { vbd.vdi.kind_of? Fog::Compute::XenServer::VDI }
+    vbds.each do |vbd|
+      test("return a Fog::Compute::XenServer::VDI when type Disk") do
+        if vbd.type == 'Disk'
+          vbd.vdi.kind_of? Fog::Compute::XenServer::VDI
+        else
+          true
+        end
+      end
+      test("return a nil VDI when type CD") do
+        if vbd.type == 'CD'
+          vbd.vdi.nil? 
+        else
+          true
+        end
+      end
+    end
+    tests("return a nil when type is CD") do
+      vbds.each do |vbd|
+      end
     end
     tests("return valid Server") do
       test("should be a Fog::Compute::XenServer::Server") { vbd.server.kind_of? Fog::Compute::XenServer::Server }

@@ -16,6 +16,11 @@ module Fog
         def parse( data )
           if data.is_a? Hash
             @response = data.symbolize_keys!
+            @response.each do |k,v|
+              if @response[k] == "OpaqueRef:NULL"
+                @response[k] = nil
+              end
+            end
           elsif data.is_a? Array
             @response = data.first
           end

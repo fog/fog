@@ -9,6 +9,7 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
   
   server = Fog::Compute[:xenserver].servers.create(:name => test_ephemeral_vm_name, 
                                                    :template_name => test_template_name)
+  server.reload
 
   tests('The server model should') do
     tests('have the action') do
@@ -29,7 +30,7 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
         :consoles,
         :domarch,
         :domid,
-        :guest_metrics,
+        :__guest_metrics,
         :is_a_snapshot,
         :is_a_template,
         :is_control_domain,
@@ -43,7 +44,7 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
         :other_config,
         :power_state,
         :pv_args,            
-        :resident_on,
+        :__resident_on,
         :__vbds,            
         :vcpus_at_startup,   
         :vcpus_max,         
@@ -72,7 +73,8 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
           test("and each VBD should be a Fog::Compute::XenServer::VBD") { i.kind_of? Fog::Compute::XenServer::VBD }
       } 
     end
-
+    test("reside on a Fog::Compute::XenServer::Host") { server.resident_on.kind_of? Fog::Compute::XenServer::Host }
+    #test("have Fog::Compute::XenServer::GuestMetrics") { server.guest_metrics.kind_of? Fog::Compute::XenServer::GuestMetrics }
     test("be able to refresh itself") { server.refresh }
 
     test("always stop when I say stop('hard')") do

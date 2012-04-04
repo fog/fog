@@ -34,27 +34,17 @@ module Fog
       model  :pif
       collection :pbds
       model  :pbd
+      model  :guest_metrics
 
       request_path 'fog/xenserver/requests/compute'
       request :create_server
       request :create_vif
-      request :create_vm
       request :destroy_server
       request :destroy_vbd
       request :destroy_vdi
       request :shutdown_server
-      request :get_hosts
-      request :get_network
-      request :get_networks
-      request :get_storage_repository
-      request :get_storage_repositories
-      request :get_vifs
-      request :get_vms
-      request :get_vm
       request :start_vm
       request :start_server
-      request :get_pool
-      request :get_pools
       request :get_record
       request :get_records
       request :set_affinity
@@ -83,9 +73,8 @@ module Fog
 
         def default_template
           return nil if @defaults[:template].nil?
-          data = get_vm( @defaults[:template] )
-          return nil if data[:reference].nil?
-          servers.get data[:reference]
+          servers.all(:name_matches => @defaults[:template], :include_templates => true,
+                      :include_custom_templates => true ).first
         end
         
         def default_network

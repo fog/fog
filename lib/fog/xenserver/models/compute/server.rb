@@ -11,13 +11,13 @@ module Fog
         identity :reference
         
         attribute :uuid
-        attribute :name,               :aliases => :name_label
+        attribute :name,                 :aliases => :name_label
         attribute :affinity
         attribute :allowed_operations
         attribute :consoles
         attribute :domarch
         attribute :domid
-        attribute :guest_metrics
+        attribute :__guest_metrics,      :aliases => :guest_metrics
         attribute :is_a_snapshot
         attribute :is_a_template
         attribute :is_control_domain
@@ -30,25 +30,16 @@ module Fog
         attribute :name_description
         attribute :other_config
         attribute :power_state
-        attribute :pv_args,            :aliases => :PV_args
-        attribute :resident_on
+        attribute :pv_args,              :aliases => :PV_args
+        attribute :__resident_on,        :aliases => :resident_on
         # Virtual Block Devices
         attribute :__vbds,               :aliases => :VBDs
         # Virtual CPUs
-        attribute :vcpus_at_startup,   :aliases => :VCPUs_at_startup
-        attribute :vcpus_max,          :aliases => :VCPUs_max
+        attribute :vcpus_at_startup,     :aliases => :VCPUs_at_startup
+        attribute :vcpus_max,            :aliases => :VCPUs_max
         # Virtual Interfaces (NIC)
         attribute :__vifs,               :aliases => :VIFs
         attribute :template_name
-
-        #ignore_attributes :HVM_boot_params, :HVM_boot_policy, :HVM_shadow_multiplier, :PCI_bus, :PV_bootloader,
-        #                  :PV_bootloader_args, :PV_kernel, :PV_legacy_args, :PV_ramdisk, :VCPUs_params, :VTPMs,
-        #                  :actions_after_crash, :actions_after_reboot, :actions_after_shutdown, :blobs,
-        #                  :blocked_operations, :crash_dumps, :current_operations, :ha_always_run, :ha_restart_priority,
-        #                  :last_boot_CPU_flags, :last_booted_record, :platform, :recommendations, :snapshot_time,
-        #                  :snapshots, :snapshot_of, :suspend_VDI, :tags, :transportable_snapshot_id, :user_version,
-        #                  :xenstore_data, :memory_overhead, :children, :bios_strings, :parent, :snapshot_metadata,
-        #                  :snapshot_info
 
         def initialize(attributes={})
           super
@@ -79,11 +70,27 @@ module Fog
 
         # associations
         def networks
-          __vifs.collect {|vif| Fog::Compute::XenServer::VIF.new(connection.get_record( vif, 'VIF' ))}
+          __vifs.collect { |vif| vifs.get vif }
+        end
+
+        def resident_on
+          connection.hosts.get __resident_on
         end
         
-        def running_on
-          Fog::Compute::XenServer::Host.new(connection.get_record( resident_on, 'host' ))
+        #
+        # This is not always present in XenServer VMs
+        # Guest needs XenTools installed to report this AFAIK
+        def guest_metrics
+          begin
+            rec = connection.get_record( __guest_metrics, 'VM_guest_metrics' )
+            Fog::Compute::XenServer::GuestMetrics.new(rec)
+          rescue Fog::XenServer::RequestFailed
+            nil
+          end
+        end
+
+        def tools_installed?
+          !guest_metrics.nil?
         end
         
         def home_hypervisor

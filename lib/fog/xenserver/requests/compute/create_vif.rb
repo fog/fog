@@ -25,7 +25,7 @@ module Fog
       
       class Mock
         
-        def create_vm()
+        def create_vif( vm_ref, network_ref )
           Fog::Mock.not_implemented
         end
         

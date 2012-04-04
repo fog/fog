@@ -14,12 +14,12 @@ module Fog
         end
 
         def all(options = {})
-          data = connection.get_pools
+          data = connection.get_records 'pool'
           load(data)
         end
 
         def get( pool_ref )
-          if pool_ref && pool = connection.get_pool_by_ref( pool_ref )
+          if pool_ref && pool = connection.get_record( pool_ref, 'pool' )
             new(pool)
           else
             nil

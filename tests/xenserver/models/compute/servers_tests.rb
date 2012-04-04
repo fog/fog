@@ -18,6 +18,14 @@ Shindo.tests('Fog::Compute[:xenserver] | servers collection', ['xenserver']) do
 
     test('should be a kind of Fog::Compute::XenServer::Servers') { servers.kind_of? Fog::Compute::XenServer::Servers }
 
+    test('should be a kind of Fog::Compute::XenServer::Servers') { servers.kind_of? Fog::Compute::XenServer::Servers }
+
+    tests('should have Fog::Compute::XenServer::Servers inside') do
+      conn.servers.each do |s|
+        test { s.kind_of? Fog::Compute::XenServer::Server }
+      end
+    end
+
     tests('should be able to reload itself').succeeds { servers.reload }
 
     tests('should be able to get a model') do

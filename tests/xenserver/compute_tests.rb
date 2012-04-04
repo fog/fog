@@ -39,6 +39,10 @@ Shindo.tests('Fog::Compute[:xenserver]', ['xenserver']) do
     compute.default_template = 'squeeze-test'
     test("it should have a default template if template exists") { compute.default_template.name == 'squeeze-test' }
     test("default template must be a Fog::Compute::XenServer::Server") { compute.default_template.is_a? Fog::Compute::XenServer::Server }
+    test("it should return nil when not found") do
+      compute.default_template = 'asdfasdfasfdwe'
+      compute.default_template.nil?
+    end
   end
 end
 

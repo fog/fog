@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::XenServer::StorageRepository
 
         def all
-          data = connection.get_storage_repositories
+          data = connection.get_records 'SR'
           #data.delete_if {|sr| sr[:shared].eql?(false)}
           #data.delete_if {|sr| sr[:content_type].eql?('iso')}
           load(data)
