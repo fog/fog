@@ -33,6 +33,9 @@ module Fog
           if option_settings = options.delete('OptionSettings')
             options.merge!(AWS.indexed_param('OptionSettings.member.%d', [*option_settings]))
           end
+          if option_settings = options.delete('SourceConfiguration')
+            options.merge!(AWS.serialize_keys('SourceConfiguration', option_settings))
+          end
           request({
                       'Operation'    => 'CreateConfigurationTemplate',
                       :parser     => Fog::Parsers::AWS::ElasticBeanstalk::CreateConfigurationTemplate.new
