@@ -31,10 +31,10 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           data = {
-            'instance_id' => Fog::HP::Mock.instance_id.to_s,
+            'instance_id' => Fog::HP::Mock.instance_id.to_i,
             'ip'          => Fog::HP::Mock.ip_address,
             'fixed_ip'    => Fog::HP::Mock.ip_address,
-            'id'          => Fog::Mock.random_numbers(3).to_s
+            'id'          => Fog::Mock.random_numbers(3).to_i
           }
           self.data[:last_modified][:addresses][data['id']] = Time.now
           self.data[:addresses][data['id']] = data
