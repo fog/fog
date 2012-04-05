@@ -38,6 +38,30 @@ module Fog
         end
 
         #
+        # Load all zone records into the collection.
+        #
+        def all!
+          data = []
+
+          begin
+            options = {
+                :name => next_record_name,
+                :type => next_record_type,
+                :identifier => next_record_identifier
+            }
+            batch = connection.list_resource_record_sets(zone.id, options).body
+            # NextRecordIdentifier is completely absent instead of nil, so set to nil, or iteration breaks.
+            batch['NextRecordIdentifier'] = nil unless batch.has_key?('NextRecordIdentifier')
+
+            merge_attributes(batch.reject {|key, value| !['IsTruncated', 'MaxItems', 'NextRecordName', 'NextRecordType', 'NextRecordIdentifier'].include?(key)})
+
+            data.concat(batch['ResourceRecordSets'])
+          end while is_truncated
+
+          load(data)
+        end
+
+        #
         # AWS Route 53 records are uniquely identified by a compound key of name, type, and identifier.
         # #get allows one to retrieve a record using one or more of those key components.
         #
