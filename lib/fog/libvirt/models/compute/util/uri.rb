@@ -1,7 +1,6 @@
 require 'uri'
 require 'cgi'
 
-
 module Fog
   module Compute
     module LibvirtUtil
