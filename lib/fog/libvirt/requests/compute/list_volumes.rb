@@ -1,6 +1,3 @@
-require 'erb'
-require "rexml/document"
-
 module Fog
   module Compute
     class Libvirt
@@ -23,8 +20,7 @@ module Fog
 
         def volume_to_attributes(vol)
 
-          xml         = REXML::Document.new(vol.xml_desc)
-          format_type = xml.root.elements['/volume/target/format'].attributes['type']
+          format_type = xml_element(vol.xml_desc, "/volume/target/format", "type")
           return nil if format_type == "dir"
 
           {
