@@ -48,14 +48,15 @@ module Fog
 
       class Mock
 
-        def create_key_pair(key_name)
+        def create_key_pair(key_name, public_key = nil)
           response = Excon::Response.new
           unless self.data[:key_pairs][key_name]
             response.status = 200
-            private_key, public_key = Fog::HP::Mock.key_material
+            private_key, new_public_key = Fog::HP::Mock.key_material
+            new_public_key = public_key if public_key  # if public key was passed in
             data = {
               'keypair' => {
-                'public_key'   => public_key,
+                'public_key'   => new_public_key,
                 'private_key'  => private_key,
                 'fingerprint'  => Fog::HP::Mock.key_fingerprint,
                 'user_id'      => Fog::HP::Mock.user_id,
@@ -68,7 +69,7 @@ module Fog
             response.body = data
             response
           else
-            raise Fog::Compute::HP::Error.new("InvalidKeyPair.Duplicate => The keypair '#{key_name}' already exists.")
+            raise Fog::Compute::HP::NotFound
           end
         end
 
