@@ -20,8 +20,12 @@ module Fog
 
         def reboot_server(server_id, type = 'SOFT')
           response = Excon::Response.new
-          response.status = 202
-          response
+          if list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
+            response.status = 202
+            response
+          else
+            raise Fog::Compute::HP::NotFound
+          end
         end
 
       end

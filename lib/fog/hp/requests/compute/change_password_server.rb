@@ -14,8 +14,15 @@ module Fog
 
         def change_password_server(server_id, admin_password)
           response = Excon::Response.new
-          response.status = 202
-          response
+          if list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
+            if admin_password
+              response.body = { 'changePassword' => { 'adminPass' => admin_password }}
+            end
+            response.status = 202
+            response
+          else
+            raise Fog::Compute::HP::NotFound
+          end
         end
 
       end

@@ -22,6 +22,7 @@ module Fog
         def rebuild_server(server_id, image_ref, name, admin_pass=nil, metadata=nil, personality=nil)
           response = get_server_details(server_id)
           response.body['server']['status'] = "REBUILD"
+          response.status = 202
           response
         end
 
