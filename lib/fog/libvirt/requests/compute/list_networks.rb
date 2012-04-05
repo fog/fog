@@ -40,7 +40,17 @@ module Fog
 
       class Mock
         def list_networks(filters={ })
-          []
+          net1 = mock_network 'net1'
+          net2 = mock_network 'net2'
+          [net1, net2]
+        end
+
+        def mock_network name
+          {
+              :uuid        => 'net.uuid',
+              :name        => name,
+              :bridge_name => 'net.bridge_name'
+          }
         end
       end
     end

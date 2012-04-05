@@ -45,11 +45,29 @@ module Fog
       request :destroy_interface
       request :get_node_info
 
+      module Shared
+        include Fog::Compute::LibvirtUtil
+      end
+
       class Mock
+        include Shared
+        def initialize(options={})
+          # libvirt is part of the gem => ruby-libvirt
+          require 'libvirt'
+        end
+
+        private
+        attr_reader :client
+
+        #read mocks xml
+        def read_xml(file_name)
+          file_path = File.join(File.dirname(__FILE__),"requests","compute","mock_files",file_name)
+          File.read(file_path)
+        end
       end
 
       class Real
-        include Fog::Compute::LibvirtUtil
+        include Shared
         attr_reader :client
         attr_reader :uri
         attr_reader :ip_command

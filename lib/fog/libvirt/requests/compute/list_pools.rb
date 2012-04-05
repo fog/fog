@@ -48,7 +48,23 @@ module Fog
 
       class Mock
         def list_pools(filter = { })
+          pool1 = mock_pool 'pool1'
+          pool2 = mock_pool 'pool1'
+          [pool1, pool2]
+        end
 
+        def mock_pool name
+          {
+              :uuid           => 'pool.uuid',
+              :persistent     => true,
+              :autostart      => true,
+              :active         => true,
+              :name           => name,
+              :allocation     => 123456789,
+              :capacity       => 123456789,
+              :num_of_volumes => 3,
+              :state          => :running
+          }
         end
       end
     end
