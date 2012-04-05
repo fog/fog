@@ -55,6 +55,22 @@ module Fog
           merge_attributes(data)
           true
         end
+
+        def modify(new_attributes)
+          requires :name, :application_name
+
+          options = {
+              'ApplicationName' => application_name,
+              'Description' => new_attributes[:description],
+              'OptionSettings' => new_attributes[:option_settings],
+              'TemplateName' => name
+          }
+          options.delete_if {|key, value| value.nil?}
+
+          data = connection.update_configuration_template(options).body['UpdateConfigurationTemplateResult']
+          merge_attributes(data)
+          true
+        end
       end
 
     end
