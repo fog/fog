@@ -51,6 +51,7 @@ if Fog.mock?
     :ovirt_url                        => 'http://ovirt:8080/api',
     :ovirt_username                   => 'admin@internal',
     :ovirt_password                   => '123123',
+    :libvirt_uri                      => 'qemu://libvirt/system',
     :rackspace_api_key                => 'rackspace_api_key',
     :rackspace_username               => 'rackspace_username',
     :slicehost_password               => 'slicehost_password',

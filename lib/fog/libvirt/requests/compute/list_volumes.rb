@@ -70,7 +70,22 @@ module Fog
 
       class Mock
         def list_volumes(filters={ })
+          vol1 = mock_volume 'vol1'
+          vol2 = mock_volume 'vol2'
+          [vol1, vol2]
+        end
 
+        def mock_volume name
+          {
+              :pool_name   => 'vol.pool.name',
+              :key         => 'vol.key',
+              :id          => 'vol.key',
+              :path        => 'vol.path',
+              :name        => name,
+              :format_type => 'raw',
+              :allocation  => 123,
+              :capacity    => 123,
+          }
         end
       end
     end
