@@ -51,18 +51,24 @@ module Fog
 
         def create_security_group(name, description)
           response = Excon::Response.new
-          response.status = 200
+          if self.data[:security_groups].detect {|_,v| v['name'] == name}
+            response.status = 400
+            response.body = { "badRequest" => {"message" => "Security group #{name} already exists", "code" => 400}}
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          else
+            response.status = 200
+            data = {
+              'rules'        => [],
+              'id'           => Fog::Mock.random_numbers(3).to_i,
+              'tenant_id'    => Fog::HP::Mock.user_id.to_s,
+              'name'         => name,
+              'description'  => description
+            }
+            self.data[:last_modified][:security_groups][data['id']] = Time.now
+            self.data[:security_groups][data['id']] = data
 
-          data = {
-            'id'           => Fog::Mock.random_numbers(3).to_s,
-            'name'         => name,
-            'description'  => description,
-            'tenant_id'    => Fog::HP::Mock.user_id.to_s
-          }
-          self.data[:last_modified][:security_groups][data['id']] = Time.now
-          self.data[:security_groups][data['id']] = data
-
-          response.body = { 'security_group' => data }
+            response.body = { 'security_group' => data }
+          end
           response
         end
 
