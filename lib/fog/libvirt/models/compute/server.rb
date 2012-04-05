@@ -90,6 +90,7 @@ module Fog
           poweroff unless stopped?
           connection.vm_action(uuid, :undefine)
           volumes.each { |vol| vol.destroy } if options[:destroy_volumes]
+          true
         end
 
         def reboot

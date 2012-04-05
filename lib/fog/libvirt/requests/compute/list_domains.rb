@@ -15,7 +15,9 @@ module Fog
           end
           data.compact.map { |d| domain_to_attributes d }
         end
+      end
 
+      module Shared
         private
 
         def vnc_port xml
@@ -70,8 +72,32 @@ module Fog
       end
 
       class Mock
-        def list_vms(filter = { })
+        def list_domains(filter = { })
+          dom1 = mock_domain 'fog-dom1'
+          dom2 = mock_domain 'fog-dom2'
+          dom3 = mock_domain 'a-fog-dom3'
+          [dom1, dom2, dom3]
+        end
 
+        def mock_domain name
+          xml = read_xml 'domain.xml'
+          {
+              :id              => "dom.uuid",
+              :uuid            => "dom.uuid",
+              :name            => name,
+              :max_memory_size => 8,
+              :cputime         => 7,
+              :memory_size     => 6,
+              :vcpus           => 5,
+              :autostart       => false,
+              :os_type         => "RHEL6",
+              :active          => false,
+              :vnc_port        => 5910,
+              :boot_order      => boot_order(xml),
+              :nics            => domain_interfaces(xml),
+              :volumes_path    => domain_volumes(xml),
+              :state           => 'shutoff'
+          }
         end
       end
     end

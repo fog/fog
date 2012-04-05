@@ -9,7 +9,7 @@ module Fog
 
       class Mock
         def define_domain(xml)
-
+          ::Libvirt::Domain.new()
         end
       end
     end

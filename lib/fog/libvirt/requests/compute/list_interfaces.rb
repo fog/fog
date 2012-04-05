@@ -39,7 +39,17 @@ module Fog
 
       class Mock
         def list_interfaces(filters={ })
-          []
+          if1 = mock_interface 'if1'
+          if2 = mock_interface 'if2'
+          [if1, if2]
+        end
+
+        def mock_interface name
+          {
+              :mac    => 'aa:bb:cc:dd:ee:ff',
+              :name   => name,
+              :active => true
+          }
         end
       end
     end
