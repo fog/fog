@@ -6,8 +6,10 @@ module Fog
         private
         def vm_clone_check_options(options)
           default_options = {
-            'force'        => false,
-            'linked_clone' => false,
+              'force'        => false,
+              'linked_clone' => false,
+              'power_on'     => true,
+              'wait' => 1
           }
           options = default_options.merge(options)
           required_options = %w{ path name }
@@ -35,7 +37,6 @@ module Fog
           options = vm_clone_check_options(options)
 
           notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Could not find VM template" }
-
           # Find the template in the folder.  This is more efficient than
           # searching ALL VM's looking for the template.
           # Tap gets rid of the leading empty string and "Datacenters" element
@@ -68,12 +69,34 @@ module Fog
 
           # Now find the template itself using the efficient find method
           vm_mob_ref = folder.find(template_name, RbVmomi::VIM::VirtualMachine)
-
           # Now find _a_ resource pool of the template's host (REVISIT: We need
           # to support cloning into a specific RP)
-          esx_host = vm_mob_ref.collect!('runtime.host')['runtime.host']
+          host_mob_ref = vm_mob_ref.collect!('runtime.host')['runtime.host']
           # The parent of the ESX host itself is a ComputeResource which has a resourcePool
-          resource_pool = esx_host.parent.resourcePool
+          resource_pool = host_mob_ref.parent.resourcePool
+
+          if options['datastore_moid']
+            ds_mob_ref = RbVmomi::VIM::Datastore.new(@connection,options['datastore_moid'])
+          else
+            ds_mob_ref = vm_mob_ref.datastore[0] # will extend with datastore parameter
+          end
+          if options['host_moid']
+            host_mob_ref = RbVmomi::VIM::HostSystem.new(@connection,options['host_moid'])
+          end
+          if options['rp_moid']
+            resource_pool = RbVmomi::VIM::ResourcePool.new(@connection,options['rp_moid'])
+          end
+
+          if options['target_cluster']
+            target_cr_mob_ref = dc.find_compute_resource(options['target_cluster'])
+            if options['target_host']
+              host_mob_ref = target_cr_mob_ref.host.find { |r| r.name == options['target_host']}
+            end
+            if options['target_rp']
+              resource_pool = target_cr_mob_ref.resourcePool.resourcePool.find {|e| e.name == options['target_rp']}
+            end
+          end
+
           relocation_spec=nil
           if ( options['linked_clone'] )
             # cribbed heavily from the rbvmomi clone_vm.rb
@@ -85,29 +108,33 @@ module Fog
             end
             disks.select{|vm_device| vm_device.backing.parent == nil}.each do |disk|
               disk_spec = {
-                :deviceChange => [
-                  {
-                    :operation => :remove,
-                    :device => disk
-                  },
-                  {
-                    :operation => :add,
-                    :fileOperation => :create,
-                    :device => disk.dup.tap{|disk_backing|
-                      disk_backing.backing = disk_backing.backing.dup;
-                      disk_backing.backing.fileName = "[#{disk.backing.datastore.name}]";
-                      disk_backing.backing.parent = disk.backing
-                    }
-                  },
-                ]
+                  :deviceChange => [
+                      {
+                          :operation => :remove,
+                          :device => disk
+                      },
+                      {
+                          :operation => :add,
+                          :fileOperation => :create,
+                          :device => disk.dup.tap{|disk_backing|
+                            disk_backing.backing = disk_backing.backing.dup;
+                            disk_backing.backing.fileName = "[#{disk.backing.datastore.name}]";
+                            disk_backing.backing.parent = disk.backing
+                          }
+                      },
+                  ]
               }
               vm_mob_ref.ReconfigVM_Task(:spec => disk_spec).wait_for_completion
             end
             # Next, create a Relocation Spec instance
-            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => resource_pool,
+            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:datastore => ds_mob_ref,
+                                                                      :pool => resource_pool,
+                                                                      :host => host_mob_ref,
                                                                       :diskMoveType => :moveChildMostDiskBacking)
           else
-            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => resource_pool,
+            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:datastore => ds_mob_ref,
+                                                                      :pool => resource_pool,
+                                                                      :host => host_mob_ref,
                                                                       :transform => options['transform'] || 'sparse')
           end
           # And the clone specification
@@ -128,7 +155,7 @@ module Fog
           else
             tries = 0
             new_vm = begin
-              # Try and find the new VM (folder.find is quite efficient)
+                       # Try and find the new VM (folder.find is quite efficient)
               folder.find(options['name'], RbVmomi::VIM::VirtualMachine) or raise Fog::Vsphere::Errors::NotFound
             rescue Fog::Vsphere::Errors::NotFound
               tries += 1
@@ -142,9 +169,9 @@ module Fog
 
           # Return hash
           {
-            'vm_ref'        => new_vm ? new_vm._ref : nil,
-            'vm_attributes' => new_vm ? convert_vm_mob_ref_to_attr_hash(new_vm) : {},
-            'task_ref'      => task._ref
+              'vm_ref'        => new_vm ? new_vm._ref : nil,
+              'vm_attributes' => new_vm ? convert_vm_mob_ref_to_attr_hash(new_vm) : {},
+              'task_ref'      => task._ref
           }
         end
 
@@ -160,8 +187,8 @@ module Fog
             vm['name'] == options['path'].split("/")[-1]
           end
           {
-            'vm_ref'   => 'vm-123',
-            'task_ref' => 'task-1234',
+              'vm_ref'   => 'vm-123',
+              'task_ref' => 'task-1234',
           }
         end
 
