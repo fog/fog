@@ -44,27 +44,27 @@ module Fog
 
         def create_security_group_rule(parent_group_id, ip_protocol, from_port, to_port, cidr, group_id=nil)
           response = Excon::Response.new
-          group = self.data[:security_groups]["#{parent_group_id}"]
+          group = self.data[:security_groups][parent_group_id]
           if group
-            group['rules'] ||= {}
+            group['rules'] ||= []
             response.status = 200
             data = {
-              'from_port'       => from_port,
+              'from_port'       => from_port.to_i,
               'group'           => {},
               'ip_protocol'     => ip_protocol,
-              'to_port'         => to_port,
-              'parent_group_id' => parent_group_id.to_s,
+              'to_port'         => to_port.to_i,
+              'parent_group_id' => parent_group_id,
               'ip_range'        => {
                 'cidr' => cidr
               },
-              'id'              => Fog::Mock.random_numbers(3).to_s,
+              'id'              => Fog::Mock.random_numbers(3).to_i
             }
             group['rules'][data['id']] = data
 
             response.body = { 'security_group_rule' => data }
             response
           else
-            raise Fog::Compute::HP::Error.new("InvalidSecurityGroup.NotFound => The parent security group '#{parent_group_id}' does not exists.")
+            raise Fog::Compute::HP::NotFound
           end
         end
 
