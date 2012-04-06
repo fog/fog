@@ -55,18 +55,13 @@ module Fog
             private_key, new_public_key = Fog::HP::Mock.key_material
             new_public_key = public_key if public_key  # if public key was passed in
             data = {
-              'keypair' => {
-                'public_key'   => new_public_key,
-                'private_key'  => private_key,
-                'fingerprint'  => Fog::HP::Mock.key_fingerprint,
-                'user_id'      => Fog::HP::Mock.user_id,
-                'name'         => key_name
-              }
+              'public_key'   => new_public_key,
+              'fingerprint'  => Fog::HP::Mock.key_fingerprint,
+              'name'         => key_name
             }
             self.data[:last_modified][:key_pairs][key_name] = Time.now
-            self.data[:key_pairs][key_name] = data
-
-            response.body = data
+            self.data[:key_pairs][key_name] = { 'keypair' => data }
+            response.body = { 'keypair' => data.merge({'private_key'  => private_key, 'user_id' => Fog::HP::Mock.user_id,}) }
             response
           else
             raise Fog::Compute::HP::NotFound
