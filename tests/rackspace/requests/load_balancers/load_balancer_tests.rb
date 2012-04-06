@@ -14,6 +14,15 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer_tests', ['rackspace'
         data
       end
 
+      tests("#create_load_balancer(#{@lb_name}, 'HTTP', 80,...with algorithm)").formats(LOAD_BALANCER_FORMAT) do
+        data = @service.create_load_balancer(@lb_name, 'HTTP', 80, [{ :type => 'PUBLIC'}], 
+                                             [{ :address => '10.0.0.1', :port => 80, :condition => 'ENABLED'}],
+                                             { :algorithm => 'LEAST_CONNECTIONS' }).body
+        @lb_id = data['loadBalancer']['id']
+        returns('LEAST_CONNECTIONS') { data['loadBalancer']['algorithm'] }
+        data
+      end
+
       tests("#update_load_balancer(#{@lb_id}) while immutable").raises(Fog::Rackspace::LoadBalancers::ServiceError) do
         @service.update_load_balancer(@lb_id, { :port => 80 }).body
       end

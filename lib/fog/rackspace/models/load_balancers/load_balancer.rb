@@ -178,7 +178,14 @@ module Fog
         private
         def create
           requires :name, :protocol, :port, :virtual_ips, :nodes
-          data = connection.create_load_balancer(name, protocol, port, virtual_ips_hash, nodes_hash)
+
+          if algorithm
+            options = { :algorithm => algorithm }
+          else
+            options = {}
+          end
+
+          data = connection.create_load_balancer(name, protocol, port, virtual_ips_hash, nodes_hash, options)
           merge_attributes(data.body['loadBalancer'])
         end
 
