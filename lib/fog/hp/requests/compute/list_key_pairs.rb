@@ -34,7 +34,7 @@ module Fog
           key_pairs = self.data[:key_pairs].values unless self.data[:key_pairs].nil?
 
           response.status = [200, 203][rand(1)]
-          response.body = { 'keypairs' => key_pairs.map {|keypair| keypair['keypair'].reject {|key,value| !['public_key', 'name', 'fingerprint'].include?(key)}} }
+          response.body = { 'keypairs' => key_pairs }
           response
         end
 
