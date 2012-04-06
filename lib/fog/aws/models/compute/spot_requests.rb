@@ -43,7 +43,7 @@ module Fog
             unless spot_request.key_pair = connection.key_pairs.get("fog_#{name}")
               spot_request.key_pair = connection.key_pairs.create(
                 :name => "fog_#{name}",
-                :public_key => server.public_key
+                :public_key => spot_request.public_key
               )
             end
           end
@@ -62,7 +62,7 @@ module Fog
 
           spot_request.save
           spot_request.wait_for { ready? }
-          Fog.wait_for { server = connection.servers.get(spot_request.instance_id) }
+          Fog.wait_for { server = connection.servers.get(spot_request.reload.instance_id) }
           server = connection.servers.get(spot_request.instance_id)
           if spot_request.tags
             for key, value in spot_request.tags
@@ -74,7 +74,7 @@ module Fog
             end
           end
           server.wait_for { ready? }
-          server.setup(:key_data => [server.private_key])
+          server.setup(:key_data => [spot_request.private_key])
           server
         end
 

@@ -31,6 +31,8 @@ module Fog
         attribute :tags,                       :aliases => 'tagSet'
         attribute :fault,                      :squash  => 'message'
         attribute :user_data
+        
+        attr_writer   :private_key, :private_key_path, :public_key, :public_key_path
 
         attr_writer :username
 
@@ -70,6 +72,24 @@ module Fog
 
         def key_pair=(new_keypair)
           self.key_name = new_keypair && new_keypair.name
+        end
+        
+        def private_key_path
+          @private_key_path ||= Fog.credentials[:private_key_path]
+          @private_key_path &&= File.expand_path(@private_key_path)
+        end
+
+        def private_key
+          @private_key ||= private_key_path && File.read(private_key_path)
+        end
+
+        def public_key_path
+          @public_key_path ||= Fog.credentials[:public_key_path]
+          @public_key_path &&= File.expand_path(@public_key_path)
+        end
+
+        def public_key
+          @public_key ||= public_key_path && File.read(public_key_path)
         end
 
         def ready?
