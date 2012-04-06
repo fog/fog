@@ -43,7 +43,7 @@ module Fog
             unless spot_request.key_pair = connection.key_pairs.get("fog_#{name}")
               spot_request.key_pair = connection.key_pairs.create(
                 :name => "fog_#{name}",
-                :public_key => server.public_key
+                :public_key => spot_request.public_key
               )
             end
           end
