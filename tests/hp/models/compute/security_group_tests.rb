@@ -1,0 +1,36 @@
+Shindo.tests("Fog::Compute[:hp] | security_group", ['hp']) do
+
+  model_tests(Fog::Compute[:hp].security_groups, {:name => 'foggroupname', :description => 'foggroupdescription'}, true)
+
+  tests("a group with trailing whitespace") do
+    @group = Fog::Compute[:hp].security_groups.create(:name => "foggroup with spaces   ", :description => "   fog group desc   ")
+
+    test("name is correct") do
+      @group.name ==  "foggroup with spaces   "
+    end
+
+    test("description is correct") do
+      @group.description == "   fog group desc   "
+    end
+
+    @other_group = Fog::Compute[:hp].security_groups.create(:name => 'other group', :description => 'another group')
+
+    test("authorize access by another security group") do
+      sgrule = @group.create_rule(80..80, "tcp", nil, @other_group.id)
+      @sg_rule_id = sgrule.body['security_group_rule']['id']
+      @group.reload
+      s = @group.rules.select {|r| r['id'] == @sg_rule_id unless r.nil?}
+      s[0]['id'] == @sg_rule_id
+    end
+
+    test("revoke access from another security group") do
+      @group.delete_rule(@sg_rule_id)
+      @group.reload
+      s = @group.rules.select {|r| r['id'] == @sg_rule_id unless r.nil?}
+      s.empty?
+    end
+
+    @other_group.destroy
+    @group.destroy
+  end
+end
