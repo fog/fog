@@ -10,9 +10,11 @@ Shindo.tests('Fog::Compute[:hp] | key pair requests', ['hp']) do
 
     @keypairs_format = {
       'keypairs' => [{
-        'name' => String,
-        'fingerprint' => String,
-        'public_key' => String
+        'keypair' => {
+          'public_key'   => String,
+          'fingerprint'  => String,
+          'name'         => String
+        }
       }]
     }
 
