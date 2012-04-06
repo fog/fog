@@ -5,9 +5,9 @@ module Fog
   module Compute
     class AWS
       class SpotRequests < Fog::Collection
-      
+
         attribute :filters
-        
+
         model Fog::Compute::AWS::SpotRequest
 
         def initialize(attributes)
@@ -29,7 +29,7 @@ module Fog
                 spot_instance_request['LaunchSpecification.' + name[0,1].upcase + name[1..-1]] = value
               end
               spot_instance_request.merge(:groups => spot_instance_request['LaunchSpecification.GroupSet'])
-              spot_instance_request 
+              spot_instance_request
             end.flatten
           )
         end
@@ -60,22 +60,28 @@ module Fog
             security_group.authorize_port_range(22..22)
           end
 
-          spot_request.save
-          spot_request.wait_for { ready? }
-          Fog.wait_for { server = connection.servers.get(spot_request.instance_id) }
-          server = connection.servers.get(spot_request.instance_id)
-          if spot_request.tags
-            for key, value in spot_request.tags
-              connection.tags.create(
-                :key          => key,
-                :resource_id  => spot_request.instance_id,
-                :value        => value
-              )
+          spot_requests = Array(spot_request.save)
+          servers = []
+          spot_requests.each do |spot_request|
+            spot_request.wait_for { ready? }
+            spot_request.reload
+            Fog.wait_for { connection.servers.get(spot_request.instance_id) }
+            server = connection.servers.get(spot_request.instance_id)
+            if spot_request.tags
+              for key, value in spot_request.tags
+                connection.tags.create(
+                  :key          => key,
+                  :resource_id  => spot_request.instance_id,
+                  :value        => value
+                )
+              end
             end
+            server.wait_for { ready? }
+            server.setup(:key_data => [server.private_key])
+            servers << server
           end
-          server.wait_for { ready? }
-          server.setup(:key_data => [server.private_key])
-          server
+
+          servers.length == 1 ? servers.first : servers
         end
 
         def get(spot_request_id)
