@@ -11,7 +11,7 @@ module Fog
         def list_virtual_machines(options={})
           options.merge!(
             'command' => 'listVirtualMachines',
-            :parser => Fog::Parsers::Compute::Cloudstack::ListVirtualMachines.new
+            'response' => 'json'
           )
 
           request(options)

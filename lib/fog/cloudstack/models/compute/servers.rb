@@ -18,9 +18,9 @@ module Fog
         end
 
         def all(filters = self.filters)
-          data = connection.list_virtual_machines(filters).body
+          data = connection.list_virtual_machines(filters)
           load(
-            data['virtualMachines'].map do |instance|
+            data['listvirtualmachinesresponse']['virtualmachine'].map do |instance|
                 instance
             end.flatten
           )

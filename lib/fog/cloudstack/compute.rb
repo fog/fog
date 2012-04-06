@@ -182,11 +182,9 @@ module Fog
         end
 
         def request(params)
-          parser = params.delete(:parser)
-
           params.reject!{|k,v| v.nil?}
 
-          # params.merge!('response' => 'json')
+          params.merge!('response' => 'json')
 
           if has_session?
             params, headers = authorize_session(params)
@@ -194,22 +192,8 @@ module Fog
             params, headers = authorize_api_keys(params)
           end
 
-          # response = issue_request(params, headers, parser)
-          # response = MultiJson.decode(response.body) unless response.body.empty?
-          # response
-
-          begin
-            response = @connection.request({
-              :query => params,
-              :headers => headers,
-              :method => 'GET',
-              :expects => 200,
-              :parser => parser
-            })
-          rescue Excon::Errors::HTTPStatusError => error
-            raise error
-          end
-
+          response = issue_request(params, headers)
+          response = MultiJson.decode(response.body) unless response.body.empty?
           response
         end
 
@@ -243,14 +227,13 @@ module Fog
           return params, headers
         end
 
-        def issue_request(params={},headers={},parser=nil,method='GET',expects=200)
+        def issue_request(params={},headers={},method='GET',expects=200)
           begin
             response = @connection.request({
               :query => params,
               :headers => headers,
               :method => method,
-              :expects => expects,
-              :parser => parser
+              :expects => expects
             })
 
           rescue Excon::Errors::HTTPStatusError => error
