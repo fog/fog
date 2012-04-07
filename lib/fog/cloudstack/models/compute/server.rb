@@ -46,6 +46,7 @@ module Fog
         attribute :iso_display_text,      :aliases => 'isodisplaytext'
         attribute :project_id,            :aliases => 'projectid'
         attribute :project_name,          :aliases => 'project'
+        attribute :key_name
 
         def initialize(attributes={})
           super
@@ -68,12 +69,12 @@ module Fog
             'templateId' => image_id,
             'zoneId' => zone_id,
             'name' => name,
-            'keypair' => key_name,
+            # 'keypair' => key_name,
             'group' => group_name
           }
           options.delete_if {|key, value| value.nil?}
 
-          data = connection.deploy_virtual_machine(options).body
+          data = connection.deploy_virtual_machine(options)
           self.id = data['id']
 
           true
