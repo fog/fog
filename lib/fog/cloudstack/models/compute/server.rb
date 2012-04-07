@@ -7,8 +7,9 @@ module Fog
       class Server < Fog::Compute::Server
         extend Fog::Deprecation
 
-        identity :id, :aliases => 'instanceId'
+        identity :id
 
+        attribute :id
         attribute :name,                  :aliases => 'name'
         attribute :display_name,          :aliases => 'displayname'
         attribute :account
@@ -75,7 +76,7 @@ module Fog
           options.delete_if {|key, value| value.nil?}
 
           data = connection.deploy_virtual_machine(options)
-          self.id = data['id']
+          self.id = data['deployvirtualmachineresponse']['id']
 
           true
         end
