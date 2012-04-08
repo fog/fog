@@ -17,6 +17,7 @@ module Fog
             node_hash[attr] = node_attr(attr, xml)
           end
 
+          node_hash[:hostname] = client.hostname
           [node_hash]
         end
 
