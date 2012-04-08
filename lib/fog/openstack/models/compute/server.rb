@@ -8,6 +8,7 @@ module Fog
       class Server < Fog::Compute::Server
 
         identity :id
+        attribute :instance_name, :aliases => 'OS-EXT-SRV-ATTR:instance_name'
 
         attribute :addresses
         attribute :flavor
