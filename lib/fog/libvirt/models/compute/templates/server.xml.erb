@@ -44,7 +44,7 @@
       <target port='0'/>
     </console>
     <input type='mouse' bus='ps2'/>
-    <graphics type='vnc' port='-1' autoport='yes'/>
+     <graphics type='<%= display[:type] %>' port='<%= display[:port] %>' autoport='yes' listen='<%= display[:listen] %>' passwd='<%=display[:password] %>'/>
     <video>
       <model type='cirrus' vram='9216' heads='1'/>
     </video>

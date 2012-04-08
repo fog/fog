@@ -24,11 +24,11 @@ module Fog
         attribute :domain_type
         attribute :uuid
         attribute :autostart
-        attribute :vnc_port
         attribute :nics
         attribute :volumes
         attribute :active
         attribute :boot_order
+        attribute :display
 
         attribute :state
 
@@ -223,6 +223,11 @@ module Fog
           Fog::SSH.new(public_ip_address, username, credentials).run(commands)
         end
 
+        def update_display attrs = {}
+          connection.update_display attrs.merge(:uuid => uuid)
+          reload
+        end
+
         private
         attr_accessor :volumes_path
 
@@ -385,7 +390,8 @@ module Fog
             :network_interface_type => "network",
             :network_nat_network    => "default",
             :network_bridge_name    => "br0",
-            :boot_order             => default_boot_order
+            :boot_order             => default_boot_order,
+            :display                => default_display
           }
         end
 
@@ -399,6 +405,10 @@ module Fog
               raise "invalid boot order, possible values are: hd, network and/or cdrom" unless default_boot_order.include?(b)
             end
           end
+        end
+
+        def default_display
+          {:port => '-1', :listen => '127.0.0.1', :type => 'vnc', :password => '' }
         end
 
       end
