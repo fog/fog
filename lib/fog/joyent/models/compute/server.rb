@@ -12,7 +12,6 @@ module Fog
         attribute :dataset
         attribute :ips
         attribute :memory
-        attribute :ips
         attribute :disk
         attribute :metadata
 
