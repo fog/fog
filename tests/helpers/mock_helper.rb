@@ -30,6 +30,7 @@ if Fog.mock?
     :google_storage_secret_access_key => 'google_storage_secret_access_key',
     :hp_account_id                    => 'hp_account_id',
     :hp_secret_key                    => 'hp_secret_key',
+    :hp_tenant_id                     => 'hp_tenant_id',
     :linode_api_key                   => 'linode_api_key',
     :local_root                       => '~/.fog',
     :new_servers_password             => 'new_servers_password',
