@@ -228,6 +228,12 @@ module Fog
           reload
         end
 
+        # can't use deprecate method, as the value is part of the display hash
+        def vnc_port
+          Fog::Logger.deprecation("#{self.class} => #vnc_port is deprecated, use #display[:port] instead [light_black](#{caller.first})[/]")
+          display[:port]
+        end
+
         private
         attr_accessor :volumes_path
 
