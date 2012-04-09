@@ -24,6 +24,7 @@ module Fog
         attribute :manufacturer
         attribute :product
         attribute :serial
+        attribute :hostname
 
       end
 

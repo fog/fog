@@ -19,7 +19,8 @@
     <disk type='file' device='disk'>
       <driver name='qemu' type='<%= vol.format_type %>'/>
       <source file='<%= vol.path %>'/>
-      <target dev='vda' bus='virtio'/>
+      <%# we need to ensure a unique target dev -%>
+      <target dev='vd<%= ('a'..'z').to_a[volumes.index(vol)] %>' bus='virtio'/>
     </disk>
 <% end -%>
 <% if iso_file -%>
@@ -44,7 +45,7 @@
       <target port='0'/>
     </console>
     <input type='mouse' bus='ps2'/>
-    <graphics type='vnc' port='-1' autoport='yes'/>
+     <graphics type='<%= display[:type] %>' port='<%= display[:port] %>' autoport='yes' listen='<%= display[:listen] %>' passwd='<%=display[:password] %>'/>
     <video>
       <model type='cirrus' vram='9216' heads='1'/>
     </video>
