@@ -5,7 +5,10 @@ module Fog
       module Shared
         private
         def create_disk_config_spec(datastore, file_name, controller_key, space, options = {})
-          raise ArgumentError, "Must pass parameter: datastore, file_name, controller_key, and space" unless datastore && file_name && controller_key && space
+          raise ArgumentError, "Must pass parameter: datastore" unless datastore
+          raise ArgumentError, "Must pass parameter: file_name" unless file_name
+          raise ArgumentError, "Must pass parameter: controller_key" unless controller_key
+          raise ArgumentError, "Must pass parameter: space" unless space
 
           backing_info = RbVmomi::VIM::VirtualDiskFlatVer2BackingInfo.new
           backing_info.datastore = datastore
@@ -15,18 +18,14 @@ module Fog
             backing_info.diskMode = RbVmomi::VIM::VirtualDiskMode("persistent")
           end
           backing_info.fileName = file_name
-          #puts backing_info.to_s
-          #puts "end1"
 
           virtual_disk = RbVmomi::VIM::VirtualDisk.new #VirtualDisk
           virtual_disk.key = -1
           virtual_disk.controllerKey = controller_key
           virtual_disk.backing = backing_info
           virtual_disk.capacityInKB = space * 1024
-          #puts virtual_disk.to_s
-          #puts "end2"
 
-          device_config_spec = RbVmomi::VIM::VirtualDeviceConfigSpec.new   #VirtualDeviceConfigSpec
+          device_config_spec = RbVmomi::VIM::VirtualDeviceConfigSpec.new
           device_config_spec.device = virtual_disk
           device_config_spec.operation = RbVmomi::VIM::VirtualDeviceConfigSpecOperation("add")
           if options[:create]
@@ -69,10 +68,12 @@ module Fog
         end
 
         def vm_create_disk (options = {})
-          raise ArgumentError, "Must pass options: vm_moid or instance_uuid, vmdk_path, and disk_size" unless (options['vm_moid'] || options['instance_uuid']) && options['vmdk_path'] && options['disk_size']
+          raise ArgumentError, "Must pass parameter: vm_moid or instance_uuid" unless (options['vm_moid'] || options['instance_uuid'])
+          raise ArgumentError, "Must pass parameter: vmdk_path" unless options['vmdk_path']
+          raise ArgumentError, "Must pass parameter: disk_size" unless options['disk_size']
 
           if options['vm_moid']
-            vm_mob_ref = get_vm_mob_by_id(options['vm_moid'])
+            vm_mob_ref = get_vm_mob_ref_by_moid(options['vm_moid'])
           end
 
           if options['instance_uuid']
@@ -80,16 +81,17 @@ module Fog
             vm_mob_ref = @connection.searchIndex.FindAllByUuid(search_filter).first
           end
 
-          dc_mob_ref = vm_mob_ref.parent.parent
+          if vm_mob_ref
+            dc_mob_ref = vm_mob_ref.parent.parent
+          else
+            raise Fog::Compute::Vsphere::NotFound, "VirtualMachine with Managed Object Reference #{options['vm_moid']} could not be found."
+          end
 
           ds_name = get_ds_name_by_path(options['vmdk_path'])
-          datastore_mob_ref = dc_mob_ref.find_datastore(ds_name)
-          #puts datastore_mob_ref #Datastore("datastore-460")
+          datastore_mob_ref = dc_mob_ref.find_datastore(ds_name) #Datastore("datastore-460")
 
           devices = vm_mob_ref.config.hardware.device
-          system_disk = devices.select do |vm_device|
-            vm_device.class == RbVmomi::VIM::VirtualDisk
-          end #1000
+          system_disk = devices.select { |vm_device| vm_device.class == RbVmomi::VIM::VirtualDisk } #1000
 
           disk_config = create_disk_config_spec(datastore_mob_ref, options['vmdk_path'],
                                                 system_disk[0].controllerKey, options['disk_size'].to_i,

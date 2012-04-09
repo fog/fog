@@ -76,25 +76,18 @@ module Fog
           resource_pool = host_mob_ref.parent.resourcePool
 
           if options['datastore_moid']
-            ds_mob_ref = RbVmomi::VIM::Datastore.new(@connection,options['datastore_moid'])
+            ds_mob_ref = RbVmomi::VIM::Datastore.new(@connection, options['datastore_moid'])
           else
             ds_mob_ref = vm_mob_ref.datastore[0] # will extend with datastore parameter
           end
-          if options['host_moid']
-            host_mob_ref = RbVmomi::VIM::HostSystem.new(@connection,options['host_moid'])
-          end
-          if options['rp_moid']
-            resource_pool = RbVmomi::VIM::ResourcePool.new(@connection,options['rp_moid'])
-          end
+
+          host_mob_ref = RbVmomi::VIM::HostSystem.new(@connection, options['host_moid']) if options['host_moid']
+          resource_pool = RbVmomi::VIM::ResourcePool.new(@connection, options['rp_moid']) if options['rp_moid']
 
           if options['target_cluster']
             target_cr_mob_ref = dc.find_compute_resource(options['target_cluster'])
-            if options['target_host']
-              host_mob_ref = target_cr_mob_ref.host.find { |r| r.name == options['target_host']}
-            end
-            if options['target_rp']
-              resource_pool = target_cr_mob_ref.resourcePool.resourcePool.find {|e| e.name == options['target_rp']}
-            end
+            host_mob_ref = target_cr_mob_ref.host.find { |r| r.name == options['target_host']}  if options['target_host']
+            resource_pool = target_cr_mob_ref.resourcePool.resourcePool.find {|e| e.name == options['target_rp']} if options['target_rp']
           end
 
           relocation_spec=nil
