@@ -127,7 +127,15 @@ module Fog
         def save(params = {})
           requires :name
           nets = attributes[:networks] || []
-          attributes = connection.get_record(connection.create_server( name, template_name, nets ), 'VM')
+          if params[:auto_start].nil?
+            auto_start = true
+          else
+            auto_start = params[:auto_start] 
+          end
+          attributes = connection.get_record(
+            connection.create_server( name, template_name, nets, :auto_start => auto_start),
+            'VM'
+          )
           merge_attributes attributes
           true
         end

@@ -24,6 +24,10 @@ module Fog
         attribute :__vm,               :aliases => :VM
         
 
+        def destroy
+          connection.destroy_vif reference
+        end
+
         def network
           connection.networks.get __network
         end
