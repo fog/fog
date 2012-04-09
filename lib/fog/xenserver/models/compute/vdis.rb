@@ -9,10 +9,6 @@ module Fog
 
         model Fog::Compute::XenServer::VDI
         
-        def initialize(attributes)
-          super
-        end
-
         def all(options = {})
           data = connection.get_records 'VDI'
           load(data)
