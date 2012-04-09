@@ -20,11 +20,12 @@ module Fog
       module Shared
         private
 
-        def vnc_port xml
-          xml_element(xml, "domain/devices/graphics[@type='vnc']", "port")
-        rescue => e
-          # we might be using SPICE display, or no VNC display at all
-          nil
+        def domain_display xml
+          attrs = {}
+          [:type, :port, :password, :listen].each do |element|
+            attrs[element] = xml_element(xml, "domain/devices/graphics",element.to_s) rescue nil
+          end
+          attrs.reject{|k,v| v.nil? or v == ""}
         end
 
         def domain_volumes xml
@@ -61,7 +62,7 @@ module Fog
             :autostart       => dom.autostart?,
             :os_type         => dom.os_type,
             :active          => dom.active?,
-            :vnc_port        => vnc_port(dom.xml_desc),
+            :display         => domain_display(dom.xml_desc),
             :boot_order      => boot_order(dom.xml_desc),
             :nics            => domain_interfaces(dom.xml_desc),
             :volumes_path    => domain_volumes(dom.xml_desc),

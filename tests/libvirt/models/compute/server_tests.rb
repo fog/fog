@@ -34,7 +34,7 @@ Shindo.tests('Fog::Compute[:libvirt] | server model', ['libvirt']) do
         :domain_type,
         :uuid,
         :autostart,
-        :vnc_port,
+        :display,
         :nics,
         :volumes,
         :active,
