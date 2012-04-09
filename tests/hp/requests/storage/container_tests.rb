@@ -44,6 +44,11 @@ Shindo.tests('Fog::Storage[:hp] | container requests', [:hp]) do
     end
     Fog::Storage[:hp].delete_container('fogacltests')
 
+    tests("#put_container('fogacltests', {'X-Container-Read' => 'invalid'})").succeeds do
+      Fog::Storage[:hp].put_container('fogacltests', {'X-Container-Read' => 'invalid'})
+    end
+    Fog::Storage[:hp].delete_container('fogacltests')
+
   end
 
   tests('failure') do
@@ -67,10 +72,6 @@ Shindo.tests('Fog::Storage[:hp] | container requests', [:hp]) do
     end
     @file.destroy
     @container.destroy
-
-    tests("#put_container('fognonbucket', {'X-Container-Read' => 'invalid'})").raises(Excon::Errors::BadRequest) do
-      Fog::Storage[:hp].put_container('fognonbucket', {'X-Container-Read' => 'invalid'})
-    end
 
   end
 
