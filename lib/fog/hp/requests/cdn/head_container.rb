@@ -26,6 +26,25 @@ module Fog
         end
 
       end
+
+      class Mock # :nodoc:all
+        def head_container(name)
+          response = Excon::Response.new
+          headers = {}
+          if data = self.data[:cdn_containers][name]
+            data.each do |k,_|
+              headers[k] = data[k] if data[k]
+            end
+            response.headers = headers
+            response.status = 204
+            response.body = ""
+            response
+          else
+            raise Fog::CDN::HP::NotFound
+          end
+        end
+      end
+
     end
   end
 end

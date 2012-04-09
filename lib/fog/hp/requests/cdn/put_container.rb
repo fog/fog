@@ -23,6 +23,31 @@ module Fog
         end
 
       end
+
+      class Mock # :nodoc:all
+        def put_container(name, options = {})
+          response = Excon::Response.new
+          container_id = Fog::Mock.random_hex(33)
+          data = {
+            'x-cdn-ssl-uri' => "https://a111.cdn.net/cdn-test.net/#{container_id}/abc",
+            'cdn_enabled'   => true,
+            'name'          => name,
+            'x-cdn-uri'     => "http://#{container_id}.cdn-test.net",
+            'ttl'           => 86400,
+            'log_retention' => false
+          }
+          response.headers = {
+            "X-Cdn-Ssl-Uri" => "https://a111.cdn.net/cdn-test.net/#{container_id}/abc",
+            "X-Cdn-Uri"     => "http://#{container_id}.cdn-test.net",
+            "X-Trans-Id"    => Fog::Mock.random_hex(34)
+          }
+          response.status = 201
+          response.body = "201 Created\n\n\n\n   "
+          self.data[:cdn_containers][name] = data
+          response
+        end
+      end
+
     end
   end
 end
