@@ -39,6 +39,7 @@ module Fog
       request_path 'fog/xenserver/requests/compute'
       request :create_server
       request :create_vif
+      request :clone_server
       request :destroy_server
       request :destroy_vbd
       request :destroy_vdi

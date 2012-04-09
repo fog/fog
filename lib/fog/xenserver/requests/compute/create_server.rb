@@ -3,8 +3,6 @@ module Fog
     class XenServer
       class Real
         
-        require 'fog/xenserver/parsers/get_vms'
-
         def get_vm_by_name(label)
           @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VM.get_by_name_label' }, label)
         end
