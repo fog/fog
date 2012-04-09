@@ -5,7 +5,9 @@ module Fog
         def list_interfaces(filter = { })
           data=[]
           if filter.keys.empty?
-            (client.list_interfaces + client.list_defined_interfaces).each do |ifname|
+            active_networks = client.list_interfaces rescue []
+            defined_networks = client.list_defined_interfaces rescue []
+            (active_networks + defined_networks).each do |ifname|
               data << interface_to_attributes(client.lookup_interface_by_name(ifname))
             end
           else
