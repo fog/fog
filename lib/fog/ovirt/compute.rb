@@ -15,6 +15,8 @@ module Fog
       collection :clusters
       model      :interface
       collection :interfaces
+      model      :volume
+      collection :volumes
 
       request_path 'fog/ovirt/requests/compute'
 
@@ -37,6 +39,10 @@ module Fog
       request :list_template_interfaces
       request :list_networks
       request :vm_ticket
+      request :list_vm_volumes
+      request :list_template_volumes
+      request :add_volume
+      request :destroy_volume
 
       module Shared
         # converts an OVIRT object into an hash for fog to consume.
