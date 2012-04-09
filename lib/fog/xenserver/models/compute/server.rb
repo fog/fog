@@ -126,8 +126,8 @@ module Fog
 
         def save(params = {})
           requires :name
-          networks = params[:networks] || []
-          attributes = connection.get_record(connection.create_server( name, template_name, networks ), 'VM')
+          nets = attributes[:networks] || []
+          attributes = connection.get_record(connection.create_server( name, template_name, nets ), 'VM')
           merge_attributes attributes
           true
         end

@@ -70,21 +70,22 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
   tests("Creating a server") do
     tests("it should create a server") do
       s = nil
-      test("named FOOBARSTUFF") do
-        s = servers.create(:name => "FOOBARSTUFF", 
+      test("named #{test_ephemeral_vm_name}") do
+        s = servers.create(:name => test_ephemeral_vm_name, 
                            :template_name => test_template_name)
-        servers.get(s.reference).name == "FOOBARSTUFF"
+        servers.get(s.reference).name == test_ephemeral_vm_name
       end
       test("and destroy it afterwards") { s.destroy }
     end
     tests("it should create a server") do
       s = nil
-      test("with 3 NICs") do
-        s = servers.create(:name => "FOOBARSTUFF", 
+      # The template has 2 VIFs already, we add 2 more
+      test("with 4 NICs") do
+        s = servers.create(:name => test_ephemeral_vm_name, 
                            :template_name => test_template_name,
-                           :networks => [connection.default_network, connection.default_network, connection.default_network])
+                           :networks => [connection.default_network, connection.default_network])
         s.reload
-        s.networks.size == 3
+        s.networks.size == 4
       end
       test("and destroy it afterwards") { s.destroy }
     end
