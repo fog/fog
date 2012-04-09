@@ -19,7 +19,8 @@
     <disk type='file' device='disk'>
       <driver name='qemu' type='<%= vol.format_type %>'/>
       <source file='<%= vol.path %>'/>
-      <target dev='vda' bus='virtio'/>
+      <%# we need to ensure a unique target dev -%>
+      <target dev='vd<%= ('a'..'z').to_a[volumes.index(vol)] %>' bus='virtio'/>
     </disk>
 <% end -%>
 <% if iso_file -%>
