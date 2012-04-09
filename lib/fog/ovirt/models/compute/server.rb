@@ -25,6 +25,7 @@ module Fog
         attribute :cluster
         attribute :template
         attribute :interfaces
+        attribute :volumes
         attribute :raw
 
         def ready?
@@ -63,6 +64,23 @@ module Fog
         def destroy_interface attrs
           wait_for { stopped? } if attrs[:blocking]
           connection.destroy_interface(id, attrs)
+        end
+
+        def volumes
+          attributes[:volumes] ||= id.nil? ? [] : Fog::Compute::Ovirt::Volumes.new(
+              :connection => connection,
+              :vm => self
+          )
+        end
+
+        def add_volume attrs
+          wait_for { stopped? } if attrs[:blocking]
+          connection.add_volume(id, attrs)
+        end
+
+        def destroy_volume attrs
+          wait_for { stopped? } if attrs[:blocking]
+          connection.destroy_volume(id, attrs)
         end
 
         def start(options = {})
