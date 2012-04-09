@@ -42,6 +42,9 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :go_grid_shared_secret:
   :google_storage_access_key_id:
   :google_storage_secret_access_key:
+  :hp_account_id:
+  :hp_secret_key:
+  :hp_tenant_id:
   :linode_api_key:
   :local_root:
   :new_servers_password:
