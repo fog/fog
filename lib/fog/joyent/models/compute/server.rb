@@ -49,7 +49,7 @@ module Fog
 
         def resize(flavor)
           requires :id
-          self.connection.resize(id, flavor)
+          self.connection.resize_machine(id, flavor)
           true
         end
 
