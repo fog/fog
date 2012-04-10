@@ -88,10 +88,10 @@ module Fog
           end
 
           ds_name = get_ds_name_by_path(options['vmdk_path'])
-          datastore_mob_ref = dc_mob_ref.find_datastore(ds_name) #Datastore("datastore-460")
+          datastore_mob_ref = dc_mob_ref.find_datastore(ds_name)
 
           devices = vm_mob_ref.config.hardware.device
-          system_disk = devices.select { |vm_device| vm_device.class == RbVmomi::VIM::VirtualDisk } #1000
+          system_disk = devices.select { |vm_device| vm_device.class == RbVmomi::VIM::VirtualDisk }
 
           disk_config = create_disk_config_spec(datastore_mob_ref, options['vmdk_path'],
                                                 system_disk[0].controllerKey, options['disk_size'].to_i,

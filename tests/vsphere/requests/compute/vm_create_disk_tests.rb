@@ -15,10 +15,10 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_create_disk request", 'vsphere') do
   class ConstClass
     TEMPLATE = "/Datacenters/DatacenterCF/vm/knife" #path of a vm which need create disks
     MOB_TYPE = 'VirtualMachine' # type refereed to an effective VirtualMachine management object
-    VMDK_PATH1 = '[DS91733] knife/knife_2.vmdk' #path of a vmdk to re-config which belong to above mentioned datastore
-    VMDK_PATH2 = '[DS91733] knife/knife_3.vmdk' #path of a vmdk to re-config which belong to above mentioned datastore
-    VMDK_PATH3 = '[DS91733] knife/knife_4.vmdk' #path of a vmdk to re-config which belong to above mentioned datastore
-    DS_NAME =  'DS91733'# name referring to a datastore which include above vmdks need to re-config
+    DS_NAME =  'DS91733'# name referring to a datastore which include vmdks need to re-config
+    VMDK_PATH1 = "[#{DS_NAME}] knife/knife_2.vmdk" #path of a vmdk to re-config which belong to above mentioned datastore
+    VMDK_PATH2 = "[#{DS_NAME}] knife/knife_3.vmdk" #path of a vmdk to re-config which belong to above mentioned datastore
+    VMDK_PATH3 = "[#{DS_NAME}] knife/knife_4.vmdk" #path of a vmdk to re-config which belong to above mentioned datastore
     DISK_SIZE = 200
   end
 
@@ -43,7 +43,11 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_create_disk request", 'vsphere') do
   tests("Standard disk create by vm management object id | The return value should") do
     response = compute.get_vm_mob_ref_by_path('path' => ConstClass::TEMPLATE)
     vm_moid = response._ref.to_s
-    response = compute.vm_create_disk('vm_moid' => vm_moid, 'vmdk_path' => ConstClass::VMDK_PATH1 , 'disk_size'=> ConstClass::DISK_SIZE.to_i)
+    response = compute.vm_create_disk(
+        'vm_moid' => vm_moid,
+        'vmdk_path' => ConstClass::VMDK_PATH1 ,
+        'disk_size'=> ConstClass::DISK_SIZE.to_i
+    )
     test("be a kind of Hash") { response.kind_of? Hash }
     %w{ vm_ref vm_attributes vm_dev_number_increase task_state}.each do |key|
       test("have a #{key} key") { response.has_key? key }
@@ -55,7 +59,11 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_create_disk request", 'vsphere') do
   tests("Standard disk create by uuid | The return value should") do
     response = compute.get_vm_mob_ref_by_path('path' => ConstClass::TEMPLATE)
     vm_uuid = response.config.instanceUuid
-    response = compute.vm_create_disk('instance_uuid' => vm_uuid, 'vmdk_path' => ConstClass::VMDK_PATH2, 'disk_size'=> ConstClass::DISK_SIZE.to_i)
+    response = compute.vm_create_disk(
+        'instance_uuid' => vm_uuid,
+        'vmdk_path' => ConstClass::VMDK_PATH2,
+        'disk_size'=> ConstClass::DISK_SIZE.to_i
+    )
     test("be a kind of Hash") { response.kind_of? Hash }
     %w{ vm_ref vm_attributes vm_dev_number_increase task_state}.each do |key|
       test("have a #{key} key") { response.has_key? key }

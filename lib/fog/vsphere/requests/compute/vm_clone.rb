@@ -71,7 +71,13 @@ module Fog
           vm_mob_ref = folder.find(template_name, RbVmomi::VIM::VirtualMachine)
           # Now find _a_ resource pool of the template's host (REVISIT: We need
           # to support cloning into a specific RP)
-          host_mob_ref = vm_mob_ref.collect!('runtime.host')['runtime.host']
+
+          if vm_mob_ref
+            host_mob_ref = vm_mob_ref.collect!('runtime.host')['runtime.host']
+          else
+            raise Fog::Compute::Vsphere::NotFound, "VirtualMachine with Managed Object Reference #{options['path']} could not be found."
+          end
+
           # The parent of the ESX host itself is a ComputeResource which has a resourcePool
           resource_pool = host_mob_ref.parent.resourcePool
 
@@ -83,12 +89,6 @@ module Fog
 
           host_mob_ref = RbVmomi::VIM::HostSystem.new(@connection, options['host_moid']) if options['host_moid']
           resource_pool = RbVmomi::VIM::ResourcePool.new(@connection, options['rp_moid']) if options['rp_moid']
-
-          if options['target_cluster']
-            target_cr_mob_ref = dc.find_compute_resource(options['target_cluster'])
-            host_mob_ref = target_cr_mob_ref.host.find { |r| r.name == options['target_host']}  if options['target_host']
-            resource_pool = target_cr_mob_ref.resourcePool.resourcePool.find {|e| e.name == options['target_rp']} if options['target_rp']
-          end
 
           relocation_spec=nil
           if ( options['linked_clone'] )
