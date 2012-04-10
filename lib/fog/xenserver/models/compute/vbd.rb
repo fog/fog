@@ -14,7 +14,6 @@ module Fog
         attribute :currently_attached
         attribute :allowed_operations
         attribute :current_operations
-        attribute :reserved
         attribute :__vdi,               :aliases => :VDI
         attribute :__vm,                :aliases => :VM
         attribute :device
@@ -25,8 +24,12 @@ module Fog
         attribute :empty
         attribute :type
         attribute :mode        
+        attribute :storage_lock
         attribute :runtime_properties
         attribute :unpluggable
+        attribute :bootable
+        attribute :empty
+        attribute :__metrics,           :aliases => :metrics
 
         #
         # May return nil
@@ -40,6 +43,27 @@ module Fog
         #
         def server
           connection.servers.get __vm
+        end
+
+        def unplug
+          connection.unplug_vbd reference
+        end
+
+        def unplug_force
+          connection.unplug_force_vbd reference
+        end
+        
+        def eject
+          connection.eject_vbd reference
+        end
+        
+        def insert(vdi)
+          connection.insert_vbd reference, vdi.reference
+        end
+
+        def metrics
+          rec = connection.get_record( __metrics, 'VBD_metrics' )
+          Fog::Compute::XenServer::VbdMetrics.new(rec)
         end
 
       end

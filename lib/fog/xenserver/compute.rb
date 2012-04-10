@@ -35,6 +35,7 @@ module Fog
       collection :pbds
       model  :pbd
       model  :guest_metrics
+      model  :vbd_metrics
 
       request_path 'fog/xenserver/requests/compute'
       request :create_server
@@ -43,7 +44,9 @@ module Fog
       request :destroy_vif
       request :clone_server
       request :destroy_server
-      request :destroy_vbd
+      request :unplug_vbd
+      request :eject_vbd
+      request :insert_vbd
       request :destroy_vdi
       request :shutdown_server
       request :start_vm

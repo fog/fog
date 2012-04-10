@@ -54,9 +54,9 @@ module Fog
           stop('hard')
           vbds.each do |vbd|
             if vbd.type == "Disk"
-              connection.destroy_vbd( vbd.reference ) \
+              vbd.unplug \
                 if vbd.allowed_operations.include?("unplug")
-              connection.destroy_vdi( vbd.vdi.reference ) \
+              vbd.vdi.destroy \
                 if vbd.vdi.allowed_operations.include?("destroy")
             end
           end
