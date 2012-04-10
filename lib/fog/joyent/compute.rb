@@ -16,7 +16,7 @@ module Fog
       model_path 'fog/joyent/models/compute'
       request_path 'fog/joyent/requests/compute'
 
-      # request :list_datacenters
+      request :list_datacenters
       # request :get_datacenter
 
       # Keys
