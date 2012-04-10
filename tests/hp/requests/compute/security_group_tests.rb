@@ -2,17 +2,7 @@ Shindo.tests('Fog::Compute[:hp] | security group requests', ['hp']) do
 
   @security_groups_format = {
     'security_groups' => [{
-      'rules'  => [{
-        'id'          => Integer,
-        'fromPort'    => Integer,
-        'toPort'      => Integer,
-        'parent_group_id' => Integer,
-        'ip_protocol' => String,
-        'group'       => Fog::Nullable::Array,
-        'ip_range'    => {
-          'cidr' => String
-        },
-      }],
+      'rules'       => [Fog::Nullable::Hash],
       'tenant_id'   => String,
       'id'          => Integer,
       'name'        => String,
