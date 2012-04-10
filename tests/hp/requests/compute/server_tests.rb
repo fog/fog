@@ -1,11 +1,9 @@
 Shindo.tests('Fog::Compute[:hp] | server requests', ['hp']) do
 
   @server_format = {
-    'addresses'   => {
-      'private'   => [Hash]
-    },
+    'addresses'   => Fog::Nullable::Hash,
     'flavor'      => Hash,
-    'id'          => String,
+    'id'          => Integer,
     'image'       => Hash,
     'links'       => [Hash],
     'hostId'      => String,
@@ -15,14 +13,21 @@ Shindo.tests('Fog::Compute[:hp] | server requests', ['hp']) do
     'accessIPv6'  => Fog::Nullable::String,
     'progress'    => Fog::Nullable::Integer,
     'status'      => String,
+    'created'     => String,
+    'updated'     => String,
     'user_id'     => String,
     'tenant_id'   => String,
+    'uuid'        => String,
+    'config_drive' => Fog::Nullable::String,
+    #'security_groups' => [Hash],
     'key_name'    => Fog::Nullable::String
   }
 
   @list_servers_format = {
+    'uuid'  => Fog::Nullable::String,
+    'links' => [Hash],
     'name'  => String,
-    'id'    => String
+    'id'    => Integer
   }
 
   @get_console_output_format = {
@@ -111,7 +116,7 @@ Shindo.tests('Fog::Compute[:hp] | server requests', ['hp']) do
       Fog::Compute[:hp].reboot_server(0)
     end
 
-    tests("#change_password_server(0}, 'new_password')").raises(Fog::Compute::HP::NotFound) do
+    tests("#change_password_server(0}, 'new_password')").raises(Excon::Errors::InternalServerError) do
       Fog::Compute[:hp].change_password_server(0, 'new_password')
     end
 
