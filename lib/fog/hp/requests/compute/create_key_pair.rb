@@ -61,11 +61,17 @@ module Fog
             }
             self.data[:last_modified][:key_pairs][key_name] = Time.now
             self.data[:key_pairs][key_name] = { 'keypair' => data }
-            response.body = { 'keypair' => data.merge({'private_key'  => private_key, 'user_id' => Fog::HP::Mock.user_id,}) }
-            response
+            if public_key
+              response.body = { 'keypair' => data.merge({'user_id' => Fog::HP::Mock.user_id,}) }
+            else
+              response.body = { 'keypair' => data.merge({'private_key'  => private_key, 'user_id' => Fog::HP::Mock.user_id,}) }
+            end
           else
-            raise Fog::Compute::HP::NotFound
+            #raise Fog::Compute::HP::NotFound
+            response.status = 400
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
+          response
         end
 
       end
