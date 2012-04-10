@@ -13,7 +13,7 @@ Shindo.tests('Fog::Compute[:hp] | key pair requests', ['hp']) do
         'keypair' => {
           'public_key'   => String,
           'fingerprint'  => String,
-          'name'         => String
+          'name'         => Fog::Nullable::String
         }
       }]
     }
@@ -37,28 +37,24 @@ Shindo.tests('Fog::Compute[:hp] | key pair requests', ['hp']) do
       Fog::Compute[:hp].delete_key_pair(@key_pair_name)
     end
 
-    tests("#create_key_pair('fog_import_key_pair', '#{@public_key_material}')").formats({'keypair' => @keypair_format.merge({'private_key' => String, 'user_id' => String})}) do
-      body = Fog::Compute[:hp].create_key_pair('fog_import_key_pair', @public_key_material).body
-      tests("private_key").returns(OpenSSL::PKey::RSA, "is a valid private RSA key") do
-        OpenSSL::PKey::RSA.new(body['keypair']['private_key']).class
-      end
-      body
+    tests("#create_key_pair('fog_import_key_pair', '#{@public_key_material}')").formats({'keypair' => @keypair_format.merge({'user_id' => String})}) do
+      Fog::Compute[:hp].create_key_pair('fog_import_key_pair', @public_key_material).body
     end
 
     tests("#delete_key_pair('fog_import_key_pair)").succeeds do
       Fog::Compute[:hp].delete_key_pair('fog_import_key_pair')
     end
 
-    tests("#delete_key_pair('not_a_key_name')").succeeds do
-      Fog::Compute[:hp].delete_key_pair('not_a_key_name')
-    end
-
   end
   tests('failure') do
 
+    tests("#delete_key_pair('not_a_key_name')").raises(Fog::Compute::HP::NotFound) do
+      Fog::Compute[:hp].delete_key_pair('not_a_key_name')
+    end
+
     @key_pair = Fog::Compute[:hp].key_pairs.create(:name => 'fog_key_pair')
 
-    tests("duplicate #create_key_pair('#{@key_pair.name}')").raises(Fog::Compute::HP::NotFound) do
+    tests("duplicate #create_key_pair('#{@key_pair.name}')").raises(Excon::Errors::BadRequest) do
       Fog::Compute[:hp].create_key_pair(@key_pair.name)
     end
 
