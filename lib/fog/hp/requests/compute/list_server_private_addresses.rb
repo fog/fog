@@ -38,7 +38,8 @@ module Fog
           response = Excon::Response.new
           if server = list_servers_detail.body['servers'].detect {|_| _['id'] == server_id}
             private_address = []
-            data = server['addresses']["#{network_name}"][0]
+            data = nil
+            data = server['addresses']["#{network_name}"][0] if server['addresses']["#{network_name}"]
             if data
               private_address << data
             end

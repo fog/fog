@@ -36,8 +36,8 @@ Shindo.tests('Fog::Compute[:hp] | flavor requests', ['hp']) do
 
   tests('failure') do
 
-    tests('#get_flavor_details(0)').raises(Fog::Compute::HP::NotFound) do
-      Fog::Compute[:hp].get_flavor_details(0)
+    tests('#get_flavor_details(9999)').raises(Fog::Compute::HP::NotFound) do
+      Fog::Compute[:hp].get_flavor_details(9999)
     end
 
   end

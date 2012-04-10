@@ -27,10 +27,10 @@ module Fog
             self.data[:addresses].delete(address_id)
             response.status = 202
             response.body = "202 Accepted\n\nThe request is accepted for processing.\n\n   "
-            response
           else
             raise Fog::Compute::HP::NotFound
           end
+          response
         end
 
       end

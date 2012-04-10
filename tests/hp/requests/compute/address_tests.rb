@@ -7,6 +7,8 @@ Shindo.tests('Fog::Compute[:hp] | address requests', ['hp']) do
     'id'          => Integer
   }
 
+  @base_image_id = ENV["BASE_IMAGE_ID"] ||= 1242
+
   tests('success') do
 
     tests("#list_addresses").formats({'floating_ips' => [@floating_ips_format]}) do
@@ -24,14 +26,14 @@ Shindo.tests('Fog::Compute[:hp] | address requests', ['hp']) do
       Fog::Compute[:hp].get_address(@address_id).body['floating_ip']
     end
 
-    @server = Fog::Compute[:hp].servers.create(:name => 'fogaddresstests', :flavor_id => 100, :image_id => 1242)
+    @server = Fog::Compute[:hp].servers.create(:name => 'fogaddresstests', :flavor_id => 100, :image_id => @base_image_id)
     @server.wait_for { ready? }
 
     tests("#associate_address('#{@server.id}', '#{@ip_address}')").succeeds do
       Fog::Compute[:hp].associate_address(@server.id, @ip_address)
       tests("#get_address").returns(@server.id, "associated to valid instance id") do
         pending if Fog.mocking?
-        Fog::Compute[:hp].get_address(@address_id).body['floating_ip']['instance_id'].to_s
+        Fog::Compute[:hp].get_address(@address_id).body['floating_ip']['instance_id']
       end
     end
 
@@ -53,11 +55,11 @@ Shindo.tests('Fog::Compute[:hp] | address requests', ['hp']) do
       Fog::Compute[:hp].get_address('invalidaddress')
     end
 
-    tests("#associate_address('invalidserver', 'invalidip')").raises(Fog::Compute::HP::NotFound) do
+    tests("#associate_address('invalidserver', 'invalidip')").raises(Excon::Errors::InternalServerError) do
       Fog::Compute[:hp].associate_address('invalidserver', 'invalidip')
     end
 
-    tests("#disassociate_address('invalidserver', 'invalidip')").raises(Fog::Compute::HP::NotFound) do
+    tests("#disassociate_address('invalidserver', 'invalidip')").raises(Excon::Errors::InternalServerError) do
       Fog::Compute[:hp].disassociate_address('invalidserver', 'invalidip')
     end
 

@@ -25,10 +25,12 @@ module Fog
             self.data[:servers][server_id]['addresses']['private'] = data
 
             response.status = 202
-            response
           else
-            raise Fog::Compute::HP::NotFound
+            #raise Fog::Compute::HP::NotFound
+            response.status = 500
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
+          response
         end
 
       end

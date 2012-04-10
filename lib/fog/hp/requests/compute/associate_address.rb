@@ -22,13 +22,18 @@ module Fog
           response = Excon::Response.new
           if server = self.data[:servers][server_id]
             data = {"version"=>4, "addr"=>"#{ip_address}"}
-            server['addresses']['private'] << data
-
+            if server['addresses']['private']
+              server['addresses']['private'] << data
+            else
+              server['addresses']['private'] = data
+            end
             response.status = 202
-            response
           else
-            raise Fog::Compute::HP::NotFound
+            #raise Fog::Compute::HP::NotFound
+            response.status = 500
+            raise(Excon::Errors.status_error({:expects => 200}, response))
           end
+          response
         end
 
       end

@@ -34,13 +34,15 @@ Shindo.tests('Fog::Compute[:hp] | server requests', ['hp']) do
 
   }
 
+  @base_image_id = ENV["BASE_IMAGE_ID"] ||= 1242
+
   tests('success') do
 
     @server_id = nil
     @server_name = "fogservertests"
 
-    tests("#create_server(#{@server_name}, 100, 1242)").formats(@server_format.merge('adminPass' => String)) do
-      data = Fog::Compute[:hp].create_server(@server_name, 100, 1242).body['server']
+    tests("#create_server(#{@server_name}, 100, #{@base_image_id})").formats(@server_format.merge('adminPass' => String)) do
+      data = Fog::Compute[:hp].create_server(@server_name, 100, @base_image_id).body['server']
       @server_id = data['id']
       data
     end
@@ -67,14 +69,14 @@ Shindo.tests('Fog::Compute[:hp] | server requests', ['hp']) do
 
     Fog::Compute[:hp].servers.get(@server_id).wait_for { ready? }
 
-    tests("#reboot_server(#{@server_id}, 'HARD')").succeeds do
-      Fog::Compute[:hp].reboot_server(@server_id, 'HARD')
+    tests("#reboot_server(#{@server_id}, 'SOFT')").succeeds do
+      Fog::Compute[:hp].reboot_server(@server_id, 'SOFT')
     end
 
     Fog::Compute[:hp].servers.get(@server_id).wait_for { ready? }
 
-    tests("#reboot_server(#{@server_id}, 'SOFT')").succeeds do
-      Fog::Compute[:hp].reboot_server(@server_id, 'SOFT')
+    tests("#reboot_server(#{@server_id}, 'HARD')").succeeds do
+      Fog::Compute[:hp].reboot_server(@server_id, 'HARD')
     end
 
     Fog::Compute[:hp].servers.get(@server_id).wait_for { ready? }
