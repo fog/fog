@@ -1,13 +1,11 @@
 module Fog
-  module Compute
+  module Volume
     class OpenStack
       class Real
 
         def list_volumes(detailed=true)
-          require 'pry'
-          binding.pry
 
-          path = detailed ? 'os-volumes/detail' : 'os-volumes'
+          path = detailed ? 'volumes/detail' : 'volumes'
           request(
             :expects  => 200,
             :method   => 'GET',
@@ -54,3 +52,4 @@ module Fog
     end
   end
 end
+
