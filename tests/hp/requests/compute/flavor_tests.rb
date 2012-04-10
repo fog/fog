@@ -1,15 +1,21 @@
 Shindo.tests('Fog::Compute[:hp] | flavor requests', ['hp']) do
 
   @flavor_format = {
-    'disk'  => Integer,
-    'ram'   => Integer,
-    'id'    => Integer,
-    'name'  => String
+    'rxtx_quota' => Integer,
+    'rxtx_cap'   => Integer,
+    'vcpus'      => Integer,
+    'swap'       => Integer,
+    'disk'       => Integer,
+    'ram'        => Integer,
+    'id'         => Integer,
+    'links'      => [Hash],
+    'name'       => String
   }
 
   @list_flavors_format = {
     'id'    => Integer,
-    'name'  => String
+    'name'  => String,
+    'links' => [Hash]
   }
 
   tests('success') do

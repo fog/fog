@@ -27,13 +27,12 @@ module Fog
           response.status = 200
           response.body = {
             'flavors' => [
-              { 'name' => '256 server',    'id' => 1 },
-              { 'name' => '512 server',    'id' => 2 },
-              { 'name' => '1GB server',    'id' => 3 },
-              { 'name' => '2GB server',    'id' => 4 },
-              { 'name' => '4GB server',    'id' => 5 },
-              { 'name' => '8GB server',    'id' => 6 },
-              { 'name' => '15.5GB server', 'id' => 7 }
+              { 'name' => 'standard.xsmall',   'id' => 1, 'links' => [{"href"=>"http://nova1:8774/v1.1/admin/flavors/1", "rel"=>"self"}, {"href"=>"http://nova1:8774admin/flavors/1", "rel"=>"bookmark"}] },
+              { 'name' => 'standard.small',    'id' => 2, 'links' => [{"href"=>"http://nova1:8774/v1.1/admin/flavors/2", "rel"=>"self"}, {"href"=>"http://nova1:8774admin/flavors/2", "rel"=>"bookmark"}] },
+              { 'name' => 'standard.medium',   'id' => 3, 'links' => [{"href"=>"http://nova1:8774/v1.1/admin/flavors/3", "rel"=>"self"}, {"href"=>"http://nova1:8774admin/flavors/3", "rel"=>"bookmark"}] },
+              { 'name' => 'standard.large',    'id' => 4, 'links' => [{"href"=>"http://nova1:8774/v1.1/admin/flavors/4", "rel"=>"self"}, {"href"=>"http://nova1:8774admin/flavors/4", "rel"=>"bookmark"}] },
+              { 'name' => 'standard.xlarge',   'id' => 5, 'links' => [{"href"=>"http://nova1:8774/v1.1/admin/flavors/5", "rel"=>"self"}, {"href"=>"http://nova1:8774admin/flavors/5", "rel"=>"bookmark"}] },
+              { 'name' => 'standard.2xlarge',  'id' => 6, 'links' => [{"href"=>"http://nova1:8774/v1.1/admin/flavors/6", "rel"=>"self"}, {"href"=>"http://nova1:8774admin/flavors/6", "rel"=>"bookmark"}] }
             ]
           }
           response
