@@ -1,5 +1,5 @@
 module Fog
-  module Compute
+  module Volume 
     class OpenStack
       class Real
 

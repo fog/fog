@@ -4,9 +4,6 @@ module Fog
       class Real
 
         def list_volumes(detailed=true)
-          require 'pry'
-          binding.pry
-
           path = detailed ? 'os-volumes/detail' : 'os-volumes'
           request(
             :expects  => 200,
