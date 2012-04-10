@@ -3,14 +3,14 @@ Shindo.tests("Fog::Compute[:hp] | security_group", ['hp']) do
   model_tests(Fog::Compute[:hp].security_groups, {:name => 'foggroupname', :description => 'foggroupdescription'}, true)
 
   tests("a group with trailing whitespace") do
-    @group = Fog::Compute[:hp].security_groups.create(:name => "foggroup with spaces   ", :description => "   fog group desc   ")
+    @group = Fog::Compute[:hp].security_groups.create(:name => "   foggroup with spaces   ", :description => "   fog group desc   ")
 
-    test("name is correct") do
-      @group.name ==  "foggroup with spaces   "
+    test("all spaces are removed from name") do
+      @group.name == "   foggroup with spaces   ".strip!
     end
 
-    test("description is correct") do
-      @group.description == "   fog group desc   "
+    test("all spaces are removed from description") do
+      @group.description == "   fog group desc   ".strip!
     end
 
     @other_group = Fog::Compute[:hp].security_groups.create(:name => 'other group', :description => 'another group')

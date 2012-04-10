@@ -50,6 +50,10 @@ module Fog
       class Mock
 
         def create_security_group(name, description)
+          # all spaces are removed
+          name = name.strip!
+          description = description.strip!
+
           response = Excon::Response.new
           if self.data[:security_groups].detect {|_,v| v['name'] == name}
             response.status = 400
