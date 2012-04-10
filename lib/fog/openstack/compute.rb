@@ -141,6 +141,11 @@ module Fog
       request :list_usages
       request :get_usage
 
+      # Quota
+      request :get_quota
+      request :get_quota_defaults
+      request :update_quota
+
       class Mock
 
         def self.data
