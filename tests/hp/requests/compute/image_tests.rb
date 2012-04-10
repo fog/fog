@@ -2,8 +2,9 @@ Shindo.tests('Fog::Compute[:hp] | image requests', ['hp']) do
 
   @image_format = {
     'id'        => String,
-    'links'     => Array,
+    'links'     => [Hash],
     'metadata'  => Fog::Nullable::Hash,
+    'server'    => Fog::Nullable::Hash,
     'name'      => String,
     'progress'  => Fog::Nullable::Integer,
     'status'    => String,
@@ -13,13 +14,16 @@ Shindo.tests('Fog::Compute[:hp] | image requests', ['hp']) do
 
   @list_images_format = {
     'id'        => String,
+    'links'     => Fog::Nullable::Array,
     'name'      => String
   }
+
+  @base_image_id = 128 #1242
 
   tests('success') do
     @server_name = "fogservertest"
     @image_name  = "fogimagetest"
-    @server = Fog::Compute[:hp].servers.create(:name => @server_name, :flavor_id => 100, :image_id => 1242)
+    @server = Fog::Compute[:hp].servers.create(:name => @server_name, :flavor_id => 100, :image_id => @base_image_id)
     @server.wait_for { ready? }
     @image_id = nil
 
@@ -62,7 +66,7 @@ Shindo.tests('Fog::Compute[:hp] | image requests', ['hp']) do
 
   tests('failure') do
 
-    tests('#delete_image(0)').raises(Excon::Errors::BadRequest) do
+    tests('#delete_image(0)').raises(Excon::Errors::InternalServerError) do
       Fog::Compute[:hp].delete_image(0)
     end
 

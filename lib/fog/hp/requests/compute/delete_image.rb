@@ -33,7 +33,7 @@ module Fog
             end
             response
           else
-            response.status = 400
+            response.status = 500
             raise(Excon::Errors.status_error({:expects => 202}, response))
           end
 
