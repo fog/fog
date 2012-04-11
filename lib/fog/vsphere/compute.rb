@@ -197,6 +197,7 @@ module Fog
           @vsphere_ns       = options[:vsphere_ns] || 'urn:vim25'
           @vsphere_rev      = options[:vsphere_rev] || '4.0'
           @vsphere_ssl      = options[:vsphere_ssl] || true
+          @vsphere_verify_cert = options[:vsphere_verify_cert] || false
           @vsphere_expected_pubkey_hash = options[:vsphere_expected_pubkey_hash]
           @vsphere_must_reauthenticate = false
 
@@ -211,7 +212,7 @@ module Fog
                                              :ns   => @vsphere_ns,
                                              :rev  => @vsphere_rev,
                                              :ssl  => @vsphere_ssl,
-                                             :insecure => bad_cert
+                                             :insecure => !@vsphere_verify_cert
               break
             rescue OpenSSL::SSL::SSLError
               raise if bad_cert
