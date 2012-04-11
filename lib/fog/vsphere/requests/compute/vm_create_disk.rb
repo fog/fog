@@ -13,7 +13,7 @@ module Fog
           backing_info = RbVmomi::VIM::VirtualDiskFlatVer2BackingInfo.new
           backing_info.datastore = datastore
           if options[:independent]
-            backing_info.diskMode = RbVmomi::VIM::VirtualDiskMode("independent_nonpersistent")
+            backing_info.diskMode = RbVmomi::VIM::VirtualDiskMode("independent_persistent")
           else
             backing_info.diskMode = RbVmomi::VIM::VirtualDiskMode("persistent")
           end
@@ -67,6 +67,14 @@ module Fog
           datastore_name
         end
 
+        def get_parent_dc_by_vm_mob(vm_mob_ref, options = {})
+          mob_ref = vm_mob_ref.parent
+          while !(mob_ref.kind_of? RbVmomi::VIM::Datacenter)
+            mob_ref = mob_ref.parent
+          end
+          mob_ref
+        end
+
         def vm_create_disk (options = {})
           raise ArgumentError, "Must pass parameter: vm_moid or instance_uuid" unless (options['vm_moid'] || options['instance_uuid'])
           raise ArgumentError, "Must pass parameter: vmdk_path" unless options['vmdk_path']
@@ -82,7 +90,7 @@ module Fog
           end
 
           if vm_mob_ref
-            dc_mob_ref = vm_mob_ref.parent.parent
+            dc_mob_ref = get_parent_dc_by_vm_mob(vm_mob_ref)
           else
             raise Fog::Compute::Vsphere::NotFound, "VirtualMachine with Managed Object Reference #{options['vm_moid']} could not be found."
           end

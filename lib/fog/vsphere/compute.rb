@@ -21,13 +21,15 @@ module Fog
       request :vm_reboot
       request :vm_clone
       request :vm_create
+      request :vm_create_disk
       request :vm_destroy
       request :vm_migrate
       request :datacenters
       request :vm_reconfig_hardware
       request :vm_reconfig_memory
       request :vm_reconfig_cpus
-      request :vm_config_vnc
+      request :query_resources
+
 
       module Shared
 
@@ -37,22 +39,96 @@ module Fog
         attr_reader :vsphere_username
 
         ATTR_TO_PROP = {
-          :id => 'config.instanceUuid',
-          :name => 'name',
-          :uuid => 'config.uuid',
-          :instance_uuid => 'config.instanceUuid',
-          :hostname => 'summary.guest.hostName',
-          :operatingsystem => 'summary.guest.guestFullName',
-          :ipaddress => 'guest.ipAddress',
-          :power_state => 'runtime.powerState',
-          :connection_state => 'runtime.connectionState',
-          :hypervisor => 'runtime.host',
-          :tools_state => 'guest.toolsStatus',
-          :tools_version => 'guest.toolsVersionStatus',
-          :is_a_template => 'config.template',
-          :memory_mb => 'config.hardware.memoryMB',
-          :cpus   => 'config.hardware.numCPU',
+            :id => 'config.instanceUuid',
+            :name => 'name',
+            :uuid => 'config.uuid',
+            :instance_uuid => 'config.instanceUuid',
+            :hostname => 'summary.guest.hostName',
+            :operatingsystem => 'summary.guest.guestFullName',
+            :ipaddress => 'guest.ipAddress',
+            :power_state => 'runtime.powerState',
+            :connection_state => 'runtime.connectionState',
+            :hypervisor => 'runtime.host',
+            :tools_state => 'guest.toolsStatus',
+            :tools_version => 'guest.toolsVersionStatus',
+            :is_a_template => 'config.template',
         }
+
+        VM_ATTR_TO_PROP = {
+            :id => 'config.instanceUuid',
+            :name => 'name',
+            :uuid => 'config.uuid',
+            :instance_uuid => 'config.instanceUuid',
+            :hostname => 'summary.guest.hostName',
+            :operatingsystem => 'summary.guest.guestFullName',
+            :ipaddress => 'guest.ipAddress',
+            :power_state => 'runtime.powerState',
+            :connection_state => 'runtime.connectionState',
+            :hypervisor => 'runtime.host',
+            :tools_state => 'guest.toolsStatus',
+            :tools_version => 'guest.toolsVersionStatus',
+            :is_a_template => 'config.template',
+        }
+
+        DC_ATTR_TO_PROP = {
+            :name => 'name'
+        }
+
+        CS_ATTR_TO_PROP = {
+            :name => 'name',
+            :eff_mem => 'summary.effectiveMemory',
+            :max_mem =>'summary.totalMemory'
+        }
+
+        DS_ATTR_TO_PROP = {
+            :name => 'name',
+            :freeSpace => 'info.freeSpace',
+            :maxSpace => 'info.maxFileSize'
+        }
+
+        RP_ATTR_TO_PROP = {
+            :name => 'name',
+            :limit_cpu => 'config.cpuAllocation.limit',
+            :limit_mem => 'config.memoryAllocation.limit',
+            :shares => 'config.memoryAllocation.shares.shares',
+            :used_cpu => 'summary.quickStats.overallCpuUsage',
+            :host_used_mem => 'summary.quickStats.hostMemoryUsage',
+            :guest_used_mem => 'summary.quickStats.guestMemoryUsage'
+        }
+
+        HS_ATTR_TO_PROP = {
+            :name => 'name',
+            :total_memory => 'summary.hardware.memorySize',
+            :cpu_num => 'summary.hardware.numCpuCores',
+            :cpu_mhz =>'summary.hardware.cpuMhz',
+            :used_cpu => 'summary.quickStats.overallCpuUsage',
+            :used_mem => 'summary.quickStats.overallMemoryUsage'
+        }
+
+        def ct_mob_ref_to_attr_hash(mob_ref, attr_s)
+          return nil unless mob_ref && attr_s
+
+          attr = case attr_s
+                   when "DC"
+                     DC_ATTR_TO_PROP
+                   when "DS"
+                     DS_ATTR_TO_PROP
+                   when "HS"
+                     HS_ATTR_TO_PROP
+                   when "RP"
+                     RP_ATTR_TO_PROP
+                   when "CS"
+                     CS_ATTR_TO_PROP
+                   else
+                     VM_ATTR_TO_PROP
+                 end
+
+          props = mob_ref.collect! *attr.values.uniq
+          Hash[attr.map { |k,v| [k.to_s, props[v]] }].tap do |attrs|
+            attrs['id'] ||= mob_ref._ref
+            attrs['mo_ref'] = mob_ref._ref
+          end
+        end
 
         # Utility method to convert a VMware managed object into an attribute hash.
         # This should only really be necessary for the real class.
@@ -68,8 +144,8 @@ module Fog
           # API. The hypervisor name and mac_addresses attributes may not be available
           # so we need catch any exceptions thrown during lookup and set them to nil.
           #
-          # The use of the "tap" method here is a convenience, it allows us to update the
-          # hash object without explicitly returning the hash at the end of the method.
+          # The use of the "tap" method here is a convience, it allows us to update the
+          # hash object without expliclty returning the hash at the end of the method.
           Hash[ATTR_TO_PROP.map { |k,v| [k.to_s, props[v]] }].tap do |attrs|
             attrs['id'] ||= vm_mob_ref._ref
             attrs['mo_ref'] = vm_mob_ref._ref
