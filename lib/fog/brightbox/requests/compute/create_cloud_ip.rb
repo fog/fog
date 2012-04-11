@@ -4,7 +4,7 @@ module Fog
       class Real
 
         def create_cloud_ip
-          request("post", "/1.0/cloud_ips", [201])
+          request("post", "/1.0/cloud_ips", [201],options)
         end
 
       end
