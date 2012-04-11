@@ -89,7 +89,7 @@ module Fog
       # append /tokens if missing from auth uri
       @hp_auth_uri = hp_auth_uri.include?('tokens')? hp_auth_uri : hp_auth_uri + "tokens"
       endpoint = URI.parse(@hp_auth_uri)
-      @scheme = endpoint.scheme || "http"
+      @scheme = endpoint.scheme || "https"
       @host = endpoint.host || "region-a.geo-1.identity.hpcloudsvc.com"
       @port = endpoint.port.to_s || "35357"
       if (endpoint.path)
