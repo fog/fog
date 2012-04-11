@@ -101,13 +101,13 @@ module Fog
           response = Excon::Response.new
           response.status = 202
 
-          if options['security_groups']
-            sec_group_name = options['security_groups'][0]
-          else
-            sec_group_name = "default"
-          end
+          #if options['security_groups']
+          #  sec_group_name = options['security_groups'][0]
+          #else
+          #  sec_group_name = "default"
+          #end
           data = {
-            'addresses' => {},
+            'addresses' => { "private"=>[{"version"=>4, "addr"=>Fog::HP::Mock.ip_address}] },
             'flavor'    => {"id"=>"#{flavor_id}", "links"=>[{"href"=>"http://nova1:8774/admin/flavors/#{flavor_id}", "rel"=>"bookmark"}]},
             'id'        => Fog::Mock.random_numbers(6).to_i,
             'image'     => {"id"=>"#{image_id}", "links"=>[{"href"=>"http://nova1:8774/admin/images/#{image_id}", "rel"=>"bookmark"}]},

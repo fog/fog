@@ -4,21 +4,24 @@ Shindo.tests('Fog::Compute[:hp] | address requests', ['hp']) do
 
   tests('success') do
     @server = Fog::Compute[:hp].servers.create(:name => 'fogaddresstests', :flavor_id => 100, :image_id => @base_image_id)
+    @server.wait_for { ready? }
+    @address = Fog::Compute[:hp].addresses.create
+    @address.server = @server
 
     # the network name is currently named 'private'
-    tests("#list_server_addresses(#{@server.id})").formats({'addresses' => {"private" => [Hash]}}) do
+    tests("#list_server_addresses(#{@server.id})").formats({'addresses' => {"private" => [{'version' => Integer, 'addr' => String}]}}) do
       Fog::Compute[:hp].list_server_addresses(@server.id).body
     end
 
-    tests("#list_server_private_addresses(#{@server.id}, 'private')").formats({'private' => [Hash]}) do
+    tests("#list_server_private_addresses(#{@server.id}, 'private')").formats({'private' => [{'version' => Integer, 'addr' => String}]}) do
       Fog::Compute[:hp].list_server_private_addresses(@server.id, 'private').body
     end
 
-    tests("#list_server_public_addresses(#{@server.id}, 'private')").formats({'public' => [Hash]}) do
+    tests("#list_server_public_addresses(#{@server.id}, 'private')").formats({'public' => [{'version' => Integer, 'addr' => String}]}) do
       Fog::Compute[:hp].list_server_public_addresses(@server.id, 'private').body
     end
 
-    @server.wait_for { ready? }
+    @address.destroy
     @server.destroy
 
   end

@@ -63,8 +63,8 @@ Shindo.tests('Fog::Compute[:hp] | server requests', ['hp']) do
 
     Fog::Compute[:hp].servers.get(@server_id).wait_for { ready? }
 
-    tests("#update_server(#{@server_id}, :name => 'fogupdatedserver')").succeeds do
-      Fog::Compute[:hp].update_server(@server_id, :name => 'fogupdatedserver')
+    tests("#update_server(#{@server_id}, :name => 'fogupdateserver')").succeeds do
+      Fog::Compute[:hp].update_server(@server_id, :name => 'fogupdateserver')
     end
 
     Fog::Compute[:hp].servers.get(@server_id).wait_for { ready? }
@@ -110,8 +110,8 @@ Shindo.tests('Fog::Compute[:hp] | server requests', ['hp']) do
       Fog::Compute[:hp].get_server_details(0)
     end
 
-    tests("#update_server(0, :name => 'fogupdatedserver')").raises(Fog::Compute::HP::NotFound) do
-      Fog::Compute[:hp].update_server(0, :name => 'fogupdatedserver')
+    tests("#update_server(0, :name => 'fognonserver')").raises(Fog::Compute::HP::NotFound) do
+      Fog::Compute[:hp].update_server(0, :name => 'fognonserver')
     end
 
     tests('#reboot_server(0)').raises(Fog::Compute::HP::NotFound) do
