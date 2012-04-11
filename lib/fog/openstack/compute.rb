@@ -66,6 +66,7 @@ module Fog
       request :add_fixed_ip
       request :remove_fixed_ip
       request :server_diagnostics
+      request :boot_from_snapshot
 
       # Server Extenstions
       request :get_console_output
