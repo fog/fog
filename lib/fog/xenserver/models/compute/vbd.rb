@@ -28,6 +28,9 @@ module Fog
         attribute :runtime_properties
         attribute :unpluggable
         attribute :bootable
+        attribute :qos_supported_algorithms
+        attribute :qos_algorithm_params
+        attribute :qos_algorithm_type
         attribute :empty
         attribute :__metrics,           :aliases => :metrics
 
@@ -37,12 +40,18 @@ module Fog
         def vdi
           connection.vdis.get __vdi
         end
-        
+
         #
         # TODO: May it return nil?
         #
         def server
           connection.servers.get __vm
+        end
+
+        def save
+          requires :vdi, :server
+          ref = connection.create_vbd attributes[:server], attributes[:vdi], attributes
+          merge_attributes connection.vbds.get(ref).attributes
         end
 
         def unplug

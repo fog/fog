@@ -35,8 +35,10 @@ module Fog
           networks.each do |n|
             create_vif ref, n.reference
           end
-          @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VM.provision'}, ref)
-          start_vm( ref ) unless extra_args[:auto_start] == false
+          if !extra_args[:auto_start] == false
+            @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VM.provision'}, ref)
+            start_vm( ref ) 
+          end
           
           ref
         end

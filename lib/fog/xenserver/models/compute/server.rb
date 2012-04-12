@@ -177,6 +177,10 @@ module Fog
           stop 'clean'
         end
 
+        def provision
+          connection.provision_server reference
+        end
+
         # def snapshot
         #   requires :reference, :name_label
         #   data = connection.snapshot_server(@reference, @name_label)
