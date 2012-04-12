@@ -183,6 +183,7 @@ module Fog
           @connection.request(options)
         end
       end
+
     end
   end
 end

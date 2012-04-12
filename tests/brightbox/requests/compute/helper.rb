@@ -76,6 +76,11 @@ class Brightbox
           "threshold_up"    => Integer,
           "threshold_down"  => Integer
         }
+        PORT_TRANSLATOR = {
+          "incoming"        => Integer,
+          "outgoing"        => Integer,
+          "protocol"        => String
+        }
       end
 
       module Nested
@@ -102,6 +107,7 @@ class Brightbox
           "url"             => String,
           "public_ip"       => String,
           "status"          => String,
+          "name"            => Fog::Nullable::String,
           "reverse_dns"     => String
         }
 
@@ -232,9 +238,11 @@ class Brightbox
           "public_ip"       => String,
           "status"          => String,
           "reverse_dns"     => String,
+          "name"            => Fog::Nullable::String,
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
           "interface"       => Fog::Brightbox::Nullable::Interface,
           "load_balancer"   => Fog::Brightbox::Nullable::LoadBalancer,
+          "port_translators" => [Brightbox::Compute::Formats::Struct::PORT_TRANSLATOR],
           "server"          => Fog::Brightbox::Nullable::Server
         }
 
@@ -428,9 +436,11 @@ class Brightbox
           "public_ip"       => String,
           "status"          => String,
           "reverse_dns"     => String,
+          "name"            => Fog::Nullable::String,
           "account"         => Fog::Brightbox::Nullable::Account,
           "interface"       => Fog::Brightbox::Nullable::Interface,
           "load_balancer"   => Fog::Brightbox::Nullable::LoadBalancer,
+          "port_translators" => [Brightbox::Compute::Formats::Struct::PORT_TRANSLATOR],
           "server"          => Fog::Brightbox::Nullable::Server
         }
 
