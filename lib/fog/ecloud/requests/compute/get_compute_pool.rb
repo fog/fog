@@ -18,7 +18,7 @@ module Fog
           if compute_pool = mock_data.compute_pool_from_href(compute_pool_uri)
             xml = Builder::XmlMarkup.new
             mock_it 200,
-              xml.ComputePool(:xmlns => "urn:tmrk:eCloudExtensions-2.0", :"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance") {
+              xml.ComputePool(:xmlns => "urn:tmrk:eCloudExtensions-2.8", :"xmlns:i" => "http://www.w3.org/2001/XMLSchema-instance") {
                 xml.Id compute_pool.object_id
                 xml.Href compute_pool.href
                 xml.Name compute_pool.name
