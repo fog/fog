@@ -130,10 +130,15 @@ module Fog
                                                                       :host => host_mob_ref,
                                                                       :transform => options['transform'] || 'sparse')
           end
+
+          config = RbVmomi::VIM.VirtualMachineConfigSpec('numCPUs' => options['cpu'],
+                                                         'memoryMB' => options['memory'])
+
           # And the clone specification
           clone_spec = RbVmomi::VIM.VirtualMachineCloneSpec(:location => relocation_spec,
                                                             :powerOn  => options['power_on'] || true,
-                                                            :template => false)
+                                                            :template => false,
+                                                            :config => config)
           task = vm_mob_ref.CloneVM_Task(:folder => vm_mob_ref.parent, :name => options['name'], :spec => clone_spec)
           # Waiting for the VM to complete allows us to get the VirtulMachine
           # object of the new machine when it's done.  It is HIGHLY recommended
@@ -164,7 +169,9 @@ module Fog
           {
               'vm_ref'        => new_vm ? new_vm._ref : nil,
               'vm_attributes' => new_vm ? convert_vm_mob_ref_to_attr_hash(new_vm) : {},
-              'task_ref'      => task._ref
+              'task_ref'      => task._ref ,
+              'cpu' =>  new_vm.summary.config.numCpu,
+              'memory' => new_vm.summary.config.memorySizeMB
           }
         end
 

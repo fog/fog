@@ -10,12 +10,14 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
 
   class ConstClass
     DC_NAME = 'DatacenterCF'# name of test datacenter
-    VM_NAME = 'knife' # name of vm/template to clone from
     CS_NAME = 'Cluster1' # name of clone detination cluster
     RP_NAME = 'RP1' # name of clone destination resource pool
     HOST_NAME = '10.117.8.187' # name of clone destination host
+    VM_NAME = 'knife' # name of vm/template to clone from
     DATASTORE_NAME = 'LDISK01' #  name of datacenter to clone from
     TEMPLATE = "/Datacenters/#{DC_NAME}/vm/#{VM_NAME}" #path of a vm template to clone
+    CPUNUM = 2  # cpu core number
+    MEMSIZE = 200 # memory size in Mb
   end
 
   tests("Standard Clone | The return value should") do
@@ -27,7 +29,33 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
   end
 
   tests("Linked Clone | The return value should") do
-    response = compute.vm_clone('path' => ConstClass::TEMPLATE, 'name' => 'cloning_vm_linked', 'wait' => 1, 'linked_clone' => true)
+    response = compute.vm_clone('path' => ConstClass::TEMPLATE, 'name' => 'cloning_vm_linked', 'wait' => 1, 'linked_clone' => true, 'cpu' => ConstClass::CPUNUM,'memory'=> ConstClass::MEMSIZE)
+    test("be a kind of Hash") { response.kind_of? Hash }
+    %w{ vm_ref task_ref}.each do |key|
+      test("have a #{key} key") { response.has_key? key }
+    end
+    test("the return have the right number of cores")do
+      response.fetch('cpu') == ConstClass::CPUNUM
+    end
+    test("the return have the right size of memory")do
+      response.fetch('memory') == ConstClass::MEMSIZE
+    end
+  end
+
+  tests("Standard Clone | The return value should") do
+    dc_ref = compute.get_dc_mob_ref_by_path(ConstClass::DC_NAME)
+    target_cr_mob_ref = dc_ref.find_compute_resource(ConstClass::CS_NAME)
+    host_mob_ref = target_cr_mob_ref.host.find { |h| h.name == ConstClass::HOST_NAME}
+    datastore_mob_ref =  host_mob_ref.datastore.find  { |d| d.name == ConstClass::DATASTORE_NAME}
+    rp_mob_ref = target_cr_mob_ref.resourcePool.resourcePool.find {|r| r.name == ConstClass::RP_NAME }
+    response = compute.vm_clone(
+        'path' => ConstClass::TEMPLATE,
+        'name' => 'cloning_vm1',
+        'wait' => 1,
+        'datastore_moid' => datastore_mob_ref._ref.to_s,
+        'rp_moid' => rp_mob_ref._ref.to_s,
+        'host_moid'  => host_mob_ref._ref.to_s
+    )
     test("be a kind of Hash") { response.kind_of? Hash }
     %w{ vm_ref task_ref }.each do |key|
       test("have a #{key} key") { response.has_key? key }
