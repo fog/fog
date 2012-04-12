@@ -87,14 +87,16 @@ module Fog
           if options['instance_uuid']
             search_filter = { :uuid => options['instance_uuid'], 'vmSearch' => true, 'instanceUuid' => true }
             vm_mob_ref = @connection.searchIndex.FindAllByUuid(search_filter).first
+            if vm_mob_ref
+              if options['vm_moid'] && ( vm_mob_ref._ref.to_s != options['vm_moid'])
+                raise ArgumentError, "Passed vm_moid and instance_uuid should refer to the same vm management object"
+              end
+            else
+              raise Fog::Compute::Vsphere::NotFound, "VirtualMachine with Managed Object Reference #{options['instance_uuid']} could not be found."
+            end
           end
 
-          if vm_mob_ref
-            dc_mob_ref = get_parent_dc_by_vm_mob(vm_mob_ref)
-          else
-            raise Fog::Compute::Vsphere::NotFound, "VirtualMachine with Managed Object Reference #{options['vm_moid']} could not be found."
-          end
-
+          dc_mob_ref = get_parent_dc_by_vm_mob(vm_mob_ref)
           ds_name = get_ds_name_by_path(options['vmdk_path'])
           datastore_mob_ref = dc_mob_ref.find_datastore(ds_name)
 
@@ -126,16 +128,33 @@ module Fog
 
       class Mock
         include Shared
-        def vm_clone(options = {})
-          # Option handling
-          options = vm_fine_clone_check_options(options)
-          notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Cloud not find VM template" }
-          vm_mob_ref = list_virtual_machines['virtual_machines'].find(notfound) do |vm|
-            vm['name'] == options['path'].split("/")[-1]
-          end
+        def vm_create_disk(options = {})
           {
-              'vm_ref'   => 'vm-123',
-              'task_ref' => 'task-1234',
+              "vm_ref"=>VirtualMachine("vm-471"),
+              "vm_attributes"=>{
+                  "id"=>"5001a218-732b-2f5c-e8a7-e0599f2900bb",
+                  "name"=>"knife",
+                  "uuid"=>"4201b032-7a6d-03da-488d-e09f16da0db5",
+                  "instance_uuid"=>"5001a218-732b-2f5c-e8a7-e0599f2900bb",
+                  "hostname"=>nil,
+                  "operatingsystem"=>nil,
+                  "ipaddress"=>nil,
+                  "power_state"=>"poweredOn",
+                  "connection_state"=>"connected",
+                  "hypervisor"=>"10.117.8.187",
+                  "tools_state"=>"toolsNotInstalled",
+                  "tools_version"=>"guestToolsNotInstalled",
+                  "is_a_template"=>false,
+                  "memory_mb"=>512,
+                  "cpus"=>1,
+                  "mo_ref"=>"vm-471",
+                  "mac_addresses"=>{
+                      "Network adapter1"=>"00:50:56:81:01:8e"
+                  },
+                  "path"=>nil
+              },
+              "vm_dev_number_increase"=>1,
+              "task_state"=>"success"
           }
         end
 

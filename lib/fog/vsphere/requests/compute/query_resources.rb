@@ -161,11 +161,11 @@ module Fog
           vm
         end
 
-        def get_disks_by_vm_mob(vm_mob_ref,options={})
+        def get_disks_by_vm_mob(vm_mob_ref, options ={})
           devices = vm_mob_ref.config.hardware.device
-          system_disks = devices.select { |vm_device| vm_device.class == RbVmomi::VIM::VirtualDisk }
+          disks = devices.select { |vm_device| vm_device.class == RbVmomi::VIM::VirtualDisk }
           results = []
-          system_disks.each do |virtual_disk|
+          disks.each do |virtual_disk|
             results << {
                 'path'=> virtual_disk.backing.fileName,
                 'size' => virtual_disk.capacityInKB,
@@ -198,32 +198,34 @@ module Fog
         end
 
         def get_clusters_by_dc_mob(dc_mob_ref, options={})
-          raise ArgumentError, "Must pass a datacenter managemenet object" unless dc_mob_ref
+          raise ArgumentError, "Must pass a datacenter management object" unless dc_mob_ref
           cr_mob_refs = dc_mob_ref.hostFolder.childEntity
-          cr_mob_refs
+          results = []
+          cr_mob_refs.each {|c| result << c if c.kind_of? RbVmomi::VIM::ComputeResource }
+          results
         end
 
-        def get_hosts_by_cs_mob(cs_mob_ref, options={})
+        def get_hosts_by_cs_mob(cs_mob_ref, options ={})
           host_mob_refs = cs_mob_ref.host
           host_mob_refs
         end
 
-        def get_rps_by_cs_mob(cs_mob_ref, options={})
+        def get_rps_by_cs_mob(cs_mob_ref, options ={})
           rp_mob_refs = cs_mob_ref.resourcePool.resourcePool
           rp_mob_refs
         end
 
-        def get_datastores_by_cs_mob(cs_mob_ref, options={})
+        def get_datastores_by_cs_mob(cs_mob_ref, options ={})
           datastore_mob_refs = cs_mob_ref.datastore
           datastore_mob_refs
         end
 
-        def get_datastores_by_host_mob(host_mob_ref,options={})
+        def get_datastores_by_host_mob(host_mob_ref, options ={})
           datastore_mob_refs = host_mob_ref.datastore
           datastore_mob_refs
         end
 
-        def get_vms_by_host_mob(host_mob_ref,options={})
+        def get_vms_by_host_mob(host_mob_ref, options ={})
           vm_mob_refs = host_mob_ref.vm
           vm_mob_refs
         end
@@ -236,7 +238,7 @@ module Fog
           {"ipadress"=>nil, "power_state"=>"poweredOn"}
         end
 
-        def get_disks_by_vm_mob(vm_mob_ref,options={})
+        def get_disks_by_vm_mob(vm_mob_ref, options={})
           [{"path"=>"[DS91733] knife/knife_1.vmdk", "size"=>20971520, "scsi_num"=>0}]
         end
       end
