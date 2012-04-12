@@ -54,6 +54,7 @@ module Fog
       request :get_record
       request :get_records
       request :set_affinity
+      request :set_attribute
       request :reboot_server
     
       class Real

@@ -31,6 +31,7 @@ module Fog
         attribute :other_config
         attribute :power_state
         attribute :pv_args,              :aliases => :PV_args
+        attribute :pv_bootloader,        :aliases => :PV_bootloader
         attribute :__resident_on,        :aliases => :resident_on
         # Virtual Block Devices
         attribute :__vbds,               :aliases => :VBDs
@@ -62,6 +63,14 @@ module Fog
           end
           connection.destroy_server( reference )
           true
+        end
+
+        def set_attribute(name, val)
+          data = connection.set_attribute( reference, name, val )
+          # Do not reload automatically for performance reasons
+          # We can set multiple attributes at the same time and
+          # then reload manually
+          #reload
         end
         
         def refresh

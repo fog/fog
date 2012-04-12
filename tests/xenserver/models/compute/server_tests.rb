@@ -15,7 +15,7 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
   tests('The server model should') do
     tests('have the action') do
       test('reload') { server.respond_to? 'reload' }
-      %w{ refresh stop clean_shutdown hard_shutdown start destroy reboot hard_reboot clean_reboot }.each do |action|
+      %w{ set_attribute refresh stop clean_shutdown hard_shutdown start destroy reboot hard_reboot clean_reboot }.each do |action|
         test(action) { server.respond_to? action }
         #test("#{action} returns successfully") { server.send(action.to_sym) ? true : false }
       end
@@ -137,6 +137,12 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
     test("be running if I started the server") do
       server.wait_for { server.running? }
       true
+    end
+    
+    test("set attribute PV_bootloader to supergrub") do
+      server.set_attribute 'PV_bootloader', 'supergrub'
+      server.reload
+      server.pv_bootloader == 'supergrub'
     end
     
     test("be able to be destroyed!") do
