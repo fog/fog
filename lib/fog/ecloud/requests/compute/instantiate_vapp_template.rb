@@ -5,7 +5,7 @@ module Fog
         private
 
         def validate_instantiate_vapp_template_options(catalog_item_uri, options)
-          valid_opts = [:name, :vdc_uri, :network_uri, :cpus, :memory, :row, :group]
+          valid_opts = [:name, :vdc_uri, :network_uri, :cpus, :memory, :row, :group, :computePool]
           unless valid_opts.all? { |opt| options.has_key?(opt) }
             raise ArgumentError.new("Required data missing: #{(valid_opts - options.keys).map(&:inspect).join(", ")}")
           end
@@ -50,6 +50,7 @@ module Fog
                 end
                 xml.Property( :xmlns => "http://schemas.dmtf.org/ovf/envelope/1", :"ovf:key" => "row", :"ovf:value" => options[:row] )
                 xml.Property( :xmlns => "http://schemas.dmtf.org/ovf/envelope/1", :"ovf:key" => "group", :"ovf:value" => options[:group] )
+                xml.Property( :xmlns => "http://schemas.dmtf.org/ovf/envelope/1", :"ovf:key" => "computePool", :"ovf:value" => options[:computePool] )
               }
               xml.VirtualHardwareSection( :"xmlns:q1" => "http://www.vmware.com/vcloud/v0.8" ) {
                 # # of CPUS

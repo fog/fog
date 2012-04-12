@@ -56,6 +56,12 @@ module Fog
           @firewall_acls ||= collection_based_on_type("application/vnd.tmrk.ecloud.firewallAclsList+xml")
         end
 
+        def compute_pools
+          @compute_pools ||= Fog::Compute::Ecloud::ComputePools.
+            new( :connection => connection,
+                 :href => href + "/computePools" )
+        end
+
         private
 
         def collection_based_on_type(type, klass = nil)

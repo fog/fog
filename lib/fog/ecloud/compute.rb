@@ -850,6 +850,8 @@ module Fog
       collection :tasks
       model :vdc
       collection :vdcs
+      model :compute_pool
+      collection :compute_pools
 
       request_path 'fog/ecloud/requests/compute'
       request :add_internet_service
@@ -891,6 +893,8 @@ module Fog
       request :power_on
       request :power_reset
       request :power_shutdown
+      request :get_compute_pool
+      request :get_compute_pools
 
       module Shared
 
