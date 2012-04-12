@@ -46,7 +46,7 @@ Shindo.tests("Fog::Compute[:vsphere] | query resources request", ['vsphere']) do
       test("it should return a Array") { response.kind_of? Array }
       tests("The response should") do
         test("contain at least one cluster") { response.length >= 1 }
-        test("contain that is a mob refer to cluster") do
+        test("contain that is a mob refer to HostSystem") do
           response[0].kind_of? RbVmomi::VIM::HostSystem
         end
       end
@@ -57,7 +57,7 @@ Shindo.tests("Fog::Compute[:vsphere] | query resources request", ['vsphere']) do
         test("it should return a Array") { response.kind_of? Array }
         tests("The response should") do
           test("contain at least one cluster") { response.length >= 1 }
-          test("contain that is a mob refer to cluster") do
+          test("contain that is a mob refer to Datastore") do
             response[0].kind_of? RbVmomi::VIM::Datastore
           end
         end
@@ -67,7 +67,7 @@ Shindo.tests("Fog::Compute[:vsphere] | query resources request", ['vsphere']) do
         test("it should return a Array") { response.kind_of? Array }
         tests("The response should") do
           test("contain at least one cluster") { response.length >= 1 }
-          test("contain that is a mob refer to cluster") do
+          test("contain that is a mob refer to VirtualMachine") do
             response[0].kind_of? RbVmomi::VIM::VirtualMachine
           end
         end
@@ -104,8 +104,18 @@ Shindo.tests("Fog::Compute[:vsphere] | query resources request", ['vsphere']) do
       test("it should return a Array") { response.kind_of? Array }
       tests("The response should") do
         test("contain at least one cluster") { response.length >= 1 }
-        test("contain that is a mob refer to cluster") do
+        test("contain that is a mob refer to ResourcePool") do
           response[0].kind_of? RbVmomi::VIM::ResourcePool
+        end
+      end
+      tests("When getting nested resource pools belong to a specific cluster") do
+        response_2 = compute.get_nested_rps_by_cs_mob(cs_mob_ref)
+        test("it should return a Array") { response_2.kind_of? Array }
+        tests("The response should") do
+          test("return more results than flat search") { response_2.length >= response.length }
+          test("contain that is a mob refer to ResourePool") do
+            response_2[1].kind_of? RbVmomi::VIM::ResourcePool
+          end
         end
       end
     end
@@ -115,17 +125,13 @@ Shindo.tests("Fog::Compute[:vsphere] | query resources request", ['vsphere']) do
       test("it should return a Array") { response.kind_of? Array }
       tests("The response should") do
         test("contain at least one cluster") { response.length >= 1 }
-        test("contain that is a mob refer to cluster") do
+        test("contain that is a mob refer to Datastore") do
           response[0].kind_of? RbVmomi::VIM::Datastore
         end
       end
     end
 
   end
-
-
-
-
 
 
 end

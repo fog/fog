@@ -3,7 +3,7 @@ module Fog
     class Vsphere
 
       module Shared
-        private
+
         def get_filterSpec_by_type(type)
           raise ArgumentError, "Must pass a type" unless type
 
@@ -201,7 +201,9 @@ module Fog
           raise ArgumentError, "Must pass a datacenter management object" unless dc_mob_ref
           cr_mob_refs = dc_mob_ref.hostFolder.childEntity
           results = []
-          cr_mob_refs.each {|c| result << c if c.kind_of? RbVmomi::VIM::ComputeResource }
+          cr_mob_refs.each do |c|
+            results << c if c.kind_of? RbVmomi::VIM::ComputeResource
+          end
           results
         end
 
@@ -213,6 +215,57 @@ module Fog
         def get_rps_by_cs_mob(cs_mob_ref, options ={})
           rp_mob_refs = cs_mob_ref.resourcePool.resourcePool
           rp_mob_refs
+        end
+
+        def get_nested_rps_by_cs_mob(cs_mob_ref, options ={})
+          raise ArgumentError, "Must pass a cluster management object" unless cs_mob_ref
+
+          property_specs = [ :type => 'ResourcePool', :all => false, :pathSet =>  ['name']]
+
+          resource_pool_traversal_spec = RbVmomi::VIM.TraversalSpec(
+              :name => "resourcePoolTraversalSpec",
+              :type => 'ResourcePool',
+              :path => 'resourcePool',
+              :skip => false,
+              :selectSet => [
+                  RbVmomi::VIM.SelectionSpec(:name => "resourcePoolTraversalSpec"),
+                  RbVmomi::VIM.SelectionSpec(:name => "resourcePoolVmTraversalSpec")
+              ]
+          )
+
+          resource_pool_vm_traversal_spec = RbVmomi::VIM.TraversalSpec(
+              :name => "resourcePoolVmTraversalSpec",
+              :type => 'ResourcePool',
+              :path => 'vm',
+              :skip => false
+          )
+
+          compute_resource_rp_traversal_spec = RbVmomi::VIM.TraversalSpec(
+              :name => "computeResourceRpTraversalSpec",
+              :type => 'ComputeResource',
+              :path => 'resourcePool',
+              :skip => false,
+              :selectSet => [
+                  RbVmomi::VIM.SelectionSpec(:name => "resourcePoolTraversalSpec"),
+                  RbVmomi::VIM.SelectionSpec(:name => "resourcePoolVmTraversalSpec")
+              ]
+          )
+
+          obj_spec = RbVmomi::VIM.ObjectSpec(
+              :obj => cs_mob_ref,
+              :skip => false,
+              :selectSet => [
+                  compute_resource_rp_traversal_spec,
+                  resource_pool_traversal_spec,
+                  resource_pool_vm_traversal_spec
+              ]
+          )
+
+          filter_spec =  RbVmomi::VIM.PropertyFilterSpec(:propSet => property_specs, :objectSet => [obj_spec])
+          result = @connection.propertyCollector.RetrieveProperties(:specSet => [filter_spec])
+          results = []
+          result.each { |r| results << r.obj }
+          results
         end
 
         def get_datastores_by_cs_mob(cs_mob_ref, options ={})
@@ -238,9 +291,10 @@ module Fog
           {"ipadress"=>nil, "power_state"=>"poweredOn"}
         end
 
-        def get_disks_by_vm_mob(vm_mob_ref, options={})
+        def get_disks_by_vm_mob(vm_mob_ref, options ={})
           [{"path"=>"[DS91733] knife/knife_1.vmdk", "size"=>20971520, "scsi_num"=>0}]
         end
+
       end
     end
   end
