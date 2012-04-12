@@ -12,6 +12,7 @@ module Fog
         attribute :public_key
         attribute :private_key
         attribute :user_id
+        attribute :id
 
         attr_accessor :public_key
 
