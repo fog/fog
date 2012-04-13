@@ -136,7 +136,7 @@ module Fog
 
           # And the clone specification
           clone_spec = RbVmomi::VIM.VirtualMachineCloneSpec(:location => relocation_spec,
-                                                            :powerOn  => options['power_on'] || true,
+                                                            :powerOn  => options['power_on'] && true,
                                                             :template => false,
                                                             :config => config)
           task = vm_mob_ref.CloneVM_Task(:folder => vm_mob_ref.parent, :name => options['name'], :spec => clone_spec)

@@ -129,7 +129,7 @@ module Fog
           props = mob_ref.collect! *attr.values.uniq
           Hash[attr.map { |k,v| [k.to_s, props[v]] }].tap do |attrs|
             attrs['id'] ||= mob_ref._ref
-            attrs['moid'] = mob_ref._ref
+            attrs['mo_ref'] = mob_ref._ref
           end
         end
 
