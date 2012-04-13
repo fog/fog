@@ -160,9 +160,9 @@ module Fog
                 :addresses => {}
               },
               :images  => {
-                "1" => {
-                  'id'        => "1",
-                  'name'      => "img1",
+                "0e09fbd6-43c5-448a-83e9-0d3d05f9747e" => {
+                  "id"=>"0e09fbd6-43c5-448a-83e9-0d3d05f9747e",
+                  "name"=>"cirros-0.3.0-x86_64-blank",
                   'progress'  => 100,
                   'status'    => "ACTIVE",
                   'updated'   => "",
