@@ -1,9 +1,6 @@
 Shindo.tests('Fog::Compute[:xenserver] | create_vdi request', ['xenserver']) do
 
   compute = Fog::Compute[:xenserver]
-  #(servers.templates.find_all { |t| t.name == test_ephemeral_vm_name}).each do |s|
-  #  s.destroy
-  #end
   sr = compute.storage_repositories.find { |sr| sr.name == 'Local storage' }
   
   tests('create_vdi should') do

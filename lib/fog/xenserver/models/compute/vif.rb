@@ -36,6 +36,14 @@ module Fog
           connection.servers.get __vm
         end
 
+        def save
+          requires :server
+          raise ArgumentError.new('network is required for this operation') \
+            unless attributes[:__network]
+          ref = connection.create_vif attributes[:server], attributes[:__network]
+          merge_attributes connection.vifs.get(ref).attributes
+        end
+
       end
       
     end

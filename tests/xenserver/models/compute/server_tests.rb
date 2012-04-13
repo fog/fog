@@ -7,6 +7,9 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
   (servers.all :name_matches => test_ephemeral_vm_name).each do |s|
     s.destroy
   end
+  (servers.templates.find_all { |t| t.name == test_ephemeral_vm_name}).each do |s|
+    s.destroy
+  end
   
   server = Fog::Compute[:xenserver].servers.create(:name => test_ephemeral_vm_name, 
                                                    :template_name => test_template_name)
@@ -15,7 +18,7 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
   tests('The server model should') do
     tests('have the action') do
       test('reload') { server.respond_to? 'reload' }
-      %w{ set_attribute refresh stop clean_shutdown hard_shutdown start destroy reboot hard_reboot clean_reboot }.each do |action|
+      %w{ affinity set_attribute refresh stop clean_shutdown hard_shutdown start destroy reboot hard_reboot clean_reboot }.each do |action|
         test(action) { server.respond_to? action }
         #test("#{action} returns successfully") { server.send(action.to_sym) ? true : false }
       end
@@ -26,7 +29,7 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
         :reference,
         :uuid,
         :is_a_template,
-        :affinity,
+        :__affinity,
         :allowed_operations,
         :consoles,
         :domarch,
@@ -47,9 +50,17 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
         :pv_args,            
         :__resident_on,
         :__vbds,            
-        :vcpus_at_startup,   
-        :vcpus_max,         
-        :__vifs
+        :__vifs,
+        :vcpus_params,
+        :vcpus_at_startup,
+        :vcpus_max,
+        :hvm_boot_policy,
+        :hvm_boot_params,
+        :pci_bus,
+        :pv_kernel,
+        :pv_ramdisk,
+        :pv_legacy_args,
+        :pv_bootloader_args
       ]
       tests("The server model should respond to") do
         attributes.each do |attribute|
@@ -64,6 +75,7 @@ Shindo.tests('Fog::Compute[:xenserver] | server model', ['xenserver']) do
     end
 
     test('be a kind of Fog::Compute::XenServer::Server') { server.kind_of? Fog::Compute::XenServer::Server }
+    #test('return a Fog::Compute::XenServer::Host affinity') { server.affinity.kind_of? Fog::Compute::XenServer::Host }
 
   end
 

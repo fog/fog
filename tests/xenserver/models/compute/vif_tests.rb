@@ -5,7 +5,7 @@ Shindo.tests('Fog::Compute[:xenserver] | VIF model', ['VIF']) do
 
   tests('The VIF model should') do
     tests('have the action') do
-      test('reload') { vif.respond_to? 'reload' }
+      test('reload save destroy network server') { vif.respond_to? 'reload' }
     end
     tests('have attributes') do
       model_attribute_hash = vif.attributes

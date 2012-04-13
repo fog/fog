@@ -7,6 +7,8 @@ module Fog
         def create_vif( vm_ref, network_ref, device = -1)
           raise ArgumentError.new('Invalid vm_ref') if vm_ref.nil?
           raise ArgumentError.new('Invalid network_ref') if network_ref.nil?
+          vm_ref = vm_ref.reference if vm_ref.kind_of? Fog::Model
+          network_ref = network_ref.reference if network_ref.kind_of? Fog::Model
           vif_config = default_vif_config(vm_ref, network_ref, device.to_s)
           @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VIF.create'}, vif_config )
         end
