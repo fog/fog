@@ -95,7 +95,7 @@ Shindo.tests('Fog::Compute[:xenserver] | create_server request', ['xenserver']) 
             {
               :name_label => test_ephemeral_vm_name,
               :affinity => compute.hosts.first,
-              a.to_sym.downcase => {:foo => :bar},
+              a.downcase.to_sym => {:foo => :bar},
             }
           )
           eval "(compute.servers.get ref).#{a.to_s.downcase}['foo'] == 'bar'"
@@ -114,7 +114,7 @@ Shindo.tests('Fog::Compute[:xenserver] | create_server request', ['xenserver']) 
             {
               :name_label => test_ephemeral_vm_name,
               :affinity => compute.hosts.first,
-              a.to_sym.downcase => '1',
+              a.downcase.to_sym => '1',
             }
           )
           eval "(compute.servers.get ref).#{a.to_s.downcase} == '1'"

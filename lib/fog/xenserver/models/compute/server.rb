@@ -108,12 +108,9 @@ module Fog
         # This is not always present in XenServer VMs
         # Guest needs XenTools installed to report this AFAIK
         def guest_metrics
-          begin
-            rec = connection.get_record( __guest_metrics, 'VM_guest_metrics' )
-            Fog::Compute::XenServer::GuestMetrics.new(rec)
-          rescue Fog::XenServer::RequestFailed
-            nil
-          end
+          return nil unless __guest_metrics
+          rec = connection.get_record( __guest_metrics, 'VM_guest_metrics' )
+          Fog::Compute::XenServer::GuestMetrics.new(rec)
         end
 
         def tools_installed?

@@ -30,9 +30,9 @@ module Fog
               HVM_boot_params
               HVM_boot_params
           }.each do |k|
-            if config[k.to_sym.downcase]
-              config[k.to_sym] = config[k.to_sym.downcase]
-              config.delete k.to_sym.downcase
+            if config[k.downcase.to_sym]
+              config[k.to_sym] = config[k.downcase.to_sym]
+              config.delete k.downcase.to_sym
             end
           end
           vm_record = {
@@ -42,10 +42,10 @@ module Fog
             :affinity =>                '',
             :is_a_template =>           true,
             :auto_power_on =>           false,
-            :memory_static_max =>       '512',
-            :memory_static_min =>       '512',
-            :memory_dynamic_max =>      '512',
-            :memory_dynamic_min =>      '512',
+            :memory_static_max =>       '536870912',
+            :memory_static_min =>       '536870912',
+            :memory_dynamic_max =>      '536870912',
+            :memory_dynamic_min =>      '536870912',
             :VCPUs_params =>            {},
             :VCPUs_max =>               '1',
             :VCPUs_at_startup =>        '1',
@@ -59,7 +59,7 @@ module Fog
             :PV_bootloader =>           'pygrub', #pvgrub, eliloader
             :PV_kernel =>                '',
             :PV_ramdisk =>              '',
-            :PV_args =>                 '',
+            :PV_args =>                 '-- quiet console=hvc0',
             :PV_bootloader_args =>      '',
             :PV_legacy_args =>          '',
             :HVM_boot_policy =>         '', 
@@ -67,7 +67,8 @@ module Fog
             :PCI_bus =>                 '',
             :recommendations =>         '',
           }.merge config
-          @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VM.create' }, vm_record)
+          ref = @connection.request({:parser => Fog::Parsers::XenServer::Base.new, :method => 'VM.create' }, vm_record)
+          ref
         end
 
         def create_server( name_label, template = nil, networks = [], extra_args = {})
