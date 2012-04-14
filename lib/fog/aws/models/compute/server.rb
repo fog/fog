@@ -62,6 +62,8 @@ module Fog
               'ami-3202f25b'
             when 'us-west-1'
               'ami-f5bfefb0'
+            when 'us-west-2'
+              'ami-e0ec60d0'
             end
           end
           super
