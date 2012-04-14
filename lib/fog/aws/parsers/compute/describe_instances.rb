@@ -78,7 +78,7 @@ module Fog
             when 'productCode'
               @instance['productCodes'] << value
             when 'state'
-              @instance['monitoring'][name] = (value == 'true')
+              @instance['monitoring'][name] = (value == 'enabled')
             end
           end
 
