@@ -5,7 +5,7 @@ module Fog
 
         def add_volume(id, options = {})
           raise ArgumentError, "instance id is a required parameter" unless id
-
+          options[:size]=options[:size_gb].to_i*1073741824 if options[:size_gb]
           client.add_volume(id, options)
         end
 
