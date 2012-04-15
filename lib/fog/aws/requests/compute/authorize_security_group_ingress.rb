@@ -94,7 +94,7 @@ module Fog
 
           if group
             verify_permission_options(options, group['vpcId'] != nil)
-            
+
             normalized_permissions = normalize_permissions(options)
 
             normalized_permissions.each do |permission|
