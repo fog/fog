@@ -12,8 +12,14 @@ module Fog
 
           unless vm_mob_ref.kind_of? RbVmomi::VIM::VirtualMachine
             raise Fog::Vsphere::Errors::NotFound,
-              "Could not find VirtualMachine with instance uuid #{options['instance_uuid']}"
+                  "Could not find VirtualMachine with instance uuid #{options['instance_uuid']}"
           end
+
+          power_state = convert_vm_mob_ref_to_attr_hash(vm_mob_ref).fetch('power_state')
+          if  power_state!= "poweredOff"
+            vm_power_off( 'instance_uuid' => options['instance_uuid'], 'force'=> true )
+          end
+
           task = vm_mob_ref.Destroy_Task
           task.wait_for_completion
           { 'task_state' => task.info.state }
