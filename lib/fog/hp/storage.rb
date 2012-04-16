@@ -36,7 +36,8 @@ module Fog
               :hp_secret_key  => @hp_secret_key,
               :hp_auth_uri    => @hp_auth_uri,
               :hp_cdn_uri     => @hp_cdn_uri,
-              :hp_tenant_id   => @hp_tenant_id
+              :hp_tenant_id   => @hp_tenant_id,
+              :connection_options => @connection_options
             )
             if @cdn.enabled?
               @cdn
