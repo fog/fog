@@ -10,17 +10,17 @@ Shindo.tests('Fog::Compute[:xenserver] | set_attribute request', ['xenserver']) 
                                                    :template_name => test_template_name)
   tests('Setting an attribute with set_attribute should') do
     test('set the PV_bootloader attr to foobar') do
-      response = connection.set_attribute(server.reference, 'PV_bootloader', 'foobar')
+      response = connection.set_attribute('VM', server.reference, 'PV_bootloader', 'foobar')
       server.reload
       server.pv_bootloader == 'foobar'
     end
     test('set the PV-bootloader attr to stuff') do
-      response = connection.set_attribute(server.reference, 'PV-bootloader', 'stuff')
+      response = connection.set_attribute('VM', server.reference, 'PV-bootloader', 'stuff')
       server.reload
       server.pv_bootloader == 'stuff'
     end
     test('set the other_config attr { "foo" => "bar", :stuff => "crap" }') do
-      response = connection.set_attribute(server.reference, 'other_config', { "foo" => "bar", :stuff => 'crap' })
+      response = connection.set_attribute('VM', server.reference, 'other_config', { "foo" => "bar", :stuff => 'crap' })
       server.reload
       (server.other_config['foo'] == 'bar') and \
         (server.other_config['stuff'] == 'crap')

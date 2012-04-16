@@ -52,6 +52,10 @@ module Fog
           self.other_config ||= {} unless attributes[:other_config]
           super 
         end
+        
+        def set_attribute(name, val)
+          data = connection.set_attribute( 'VDI', reference, name, val )
+        end
 
         def snapshot_of
           connection.vdis.get __sr

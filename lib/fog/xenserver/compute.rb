@@ -58,6 +58,7 @@ module Fog
       request :set_attribute
       request :reboot_server
       request :provision_server
+      request :scan_sr
     
       class Real
         
