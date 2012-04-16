@@ -12,7 +12,7 @@ module Fog
             raise ArgumentError.new('object_name is required')
           end
           host, path = if bucket_name =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
-            ["#{bucket_name}.#{host}", object_name]
+            ["#{bucket_name}.#{@host}", object_name]
           else
             [@host, "#{bucket_name}/#{object_name}"]
           end
