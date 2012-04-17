@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.date              = '2012-03-27'
   s.rubyforge_project = 'fog'
 
+
   ## Make sure your summary is short. The description may be as long
   ## as you like.
   s.summary     = "brings clouds to you"
@@ -25,6 +26,10 @@ Gem::Specification.new do |s|
   ## This sections is only necessary if you have C extensions.
   # s.require_paths << 'ext'
   # s.extensions = %w[ext/extconf.rb]
+
+  ## This gets added to the $LOAD_PATH so that 'lib/NAME.rb' can be required as
+  ## require 'NAME.rb' or'/lib/NAME/file.rb' can be as require 'NAME/file.rb'
+  s.require_paths = %w[lib]
 
   ## If your gem includes any executables, list them here.
   s.executables = ["fog"]
