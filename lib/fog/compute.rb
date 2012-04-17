@@ -85,6 +85,9 @@ module Fog
       when :vsphere
         require 'fog/vsphere/compute'
         Fog::Compute::Vsphere.new(attributes)
+      when :xenserver
+        require 'fog/xenserver/compute'
+        Fog::Compute::XenServer.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized compute provider")
       end
