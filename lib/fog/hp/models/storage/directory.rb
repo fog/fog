@@ -110,11 +110,21 @@ module Fog
             # return the CDN public url from the appropriate uri from the header
             begin response = connection.cdn.head_container(key)
               if response.headers['X-Cdn-Enabled'] == 'True'
-                if connection.hp_cdn_ssl == true
-                  response.headers.fetch('X-Cdn-Ssl-Uri', nil)
-                else
-                  response.headers.fetch('X-Cdn-Uri', nil)
-                end
+                response.headers.fetch('X-Cdn-Uri', nil)
+              end
+            rescue Fog::CDN::HP::NotFound => err
+              nil
+            end
+          end
+        end
+
+        def cdn_public_ssl_url
+          requires :key
+          @cdn_public_ssl_url ||= begin
+            # return the CDN public ssl url from the appropriate uri from the header
+            begin response = connection.cdn.head_container(key)
+              if response.headers['X-Cdn-Enabled'] == 'True'
+                response.headers.fetch('X-Cdn-Ssl-Uri', nil)
               end
             rescue Fog::CDN::HP::NotFound => err
               nil
