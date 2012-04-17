@@ -38,6 +38,9 @@ module Fog
           data.body.each do |file|
             directory.files << directory.files.new(file)
           end
+          # set the cdn state for the directory
+          directory.cdn_enabled?
+
           directory
         rescue Fog::Storage::HP::NotFound
           nil
