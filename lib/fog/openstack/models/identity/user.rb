@@ -54,14 +54,8 @@ module Fog
           true
         end
 
-        def roles
-          return Array.new unless tenant_id
-          tenant = Fog::Identity::OpenStack::Tenant.
-            new(connection.get_tenant(tenant_id).body['tenant'])
-
-          connection.roles(
-            :tenant => tenant,
-            :user   => self)
+        def roles(tenant_id = self.tenant_id)
+          connection.list_roles_for_user_on_tenant(tenant_id, self.id).body['roles']
         end
       end # class User
     end # class OpenStack

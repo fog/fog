@@ -7,13 +7,8 @@ module Fog
       class Roles < Fog::Collection
         model Fog::Identity::OpenStack::Role
 
-        attribute :user
-        attribute :tenant
-
         def all
-          requires :user, :tenant
-          load(connection.
-            list_roles_for_user_on_tenant(tenant.id, user.id).body['roles'])
+          load(connection.list_roles.body['roles'])
         end
 
         def get(id)
