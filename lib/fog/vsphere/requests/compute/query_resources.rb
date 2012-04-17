@@ -168,7 +168,7 @@ module Fog
           disks.each do |virtual_disk|
             results << {
                 'path'=> virtual_disk.backing.fileName,
-                'size' => virtual_disk.capacityInKB,
+                'size' => (virtual_disk.capacityInKB)/1024,
                 'scsi_num' =>virtual_disk.unitNumber
             }
           end
