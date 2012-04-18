@@ -33,6 +33,10 @@ module Fog
             disassociate
           end
         end
+        
+        def server
+          connection.servers.get(server_id)
+        end
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
