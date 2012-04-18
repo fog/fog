@@ -39,6 +39,7 @@ module Fog
       request :delete_server
       request :disassociate_address
       request :get_address
+      request :get_console_output
       request :get_flavor_details
       request :get_image_details
       request :get_security_group

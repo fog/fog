@@ -41,6 +41,11 @@ module Fog
           super
         end
 
+        def console_output(num_lines)
+          requires :id
+          connection.get_console_output(id, num_lines)
+        end
+
         def destroy
           requires :id
           connection.delete_server(id)
