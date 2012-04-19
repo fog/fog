@@ -108,14 +108,13 @@ module Fog
 
       unless svc
         unless @openstack_tenant
-          response = connection.request({
+          response = Fog::Connection.new(
+            "#{uri.scheme}://#{uri.host}:5000/v2.0/tenants", false).request({
             :expects => [200, 204],
             :headers => {'Content-Type' => 'application/json',
                          'X-Auth-Token' => body['access']['token']['id']},
             :host    => uri.host,
-            :method  => 'GET',
-            :path    => '/v2.0/tenants',
-            :port    => '5000'
+            :method  => 'GET'
           })
 
           body = MultiJson.decode(response.body)
@@ -124,7 +123,9 @@ module Fog
 
         body = retrieve_tokens_v2(connection, req_body, uri)
         svc = body['access']['serviceCatalog'].
-          detect{|x| @compute_service_name.include?(x['type']) }
+          detect{|x| @service_name.include?(x['type']) }
+        identity_svc = body['access']['serviceCatalog'].
+          detect{|x| @identity_service_name.include?(x['type']) } if @identity_service_name
       end
 
       mgmt_url = svc['endpoints'].detect{|x| x[@endpoint_type]}[@endpoint_type]
