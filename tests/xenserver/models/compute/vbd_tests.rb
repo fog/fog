@@ -2,6 +2,8 @@ Shindo.tests('Fog::Compute[:xenserver] | VBD model', ['VBD']) do
 
   vbds = Fog::Compute[:xenserver].vbds
   vbd = vbds.first
+  servers = Fog::Compute[:xenserver].servers
+  server = create_ephemeral_vm
 
   tests('The VBD model should') do
     tests('have the action') do
@@ -83,15 +85,17 @@ Shindo.tests('Fog::Compute[:xenserver] | VBD model', ['VBD']) do
           true
         end
       end
-    end
-    tests("return a nil when type is CD") do
-      vbds.each do |vbd|
+      test("return a VbdMetrics object when attached") do
+        if vbd.currently_attached
+          vbd.metrics.kind_of? Fog::Compute::XenServer::VbdMetrics 
+        else
+          vbd.metrics.nil?
+        end
       end
     end
     tests("return valid Server") do
       test("should be a Fog::Compute::XenServer::Server") { vbd.server.kind_of? Fog::Compute::XenServer::Server }
     end
-    test("return a VbdMetrics object") { vbd.metrics.kind_of? Fog::Compute::XenServer::VbdMetrics }
     test("be able to be unplugged when type is CD") do
        if vbd.type == "CD"
          vbd.unpluggable == true
@@ -103,7 +107,9 @@ Shindo.tests('Fog::Compute[:xenserver] | VBD model', ['VBD']) do
   end
 
   tests("VBD Metrics should") do
-    test("have a last_updated Time property") { vbd.metrics.last_updated.kind_of? Time }
+    test("have a last_updated Time property") { server.vbds.first.metrics.last_updated.kind_of? Time }
   end
 
+  destroy_ephemeral_servers
+  
 end
