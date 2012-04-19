@@ -925,7 +925,7 @@ module Fog
 
         def ecloud_xmlns
           {
-            "xmlns"     => "urn:tmrk:eCloudExtensions-2.6",
+            "xmlns"     => "urn:tmrk:eCloudExtensions-2.8",
             "xmlns:i"   => "http://www.w3.org/2001/XMLSchema-instance"
           }
         end
