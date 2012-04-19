@@ -15,9 +15,11 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
     HOST_NAME = 'w1-vhadp-05.eng.vmware.com' # name of clone destination host
     RE_VM_NAME = 'centos-5.7-template' # name of a remote vm/template to clone from
     LC_VM_NAME = 'centos57-x64'# name of a local vm/template to clone from
+    DE_VM_NAME = 'vm_2_ds'# name of a local vm/template to clone from but with two connected datastore
     DATASTORE_NAME = 'datastore1 (3)' #  name of datacenter to clone from
     RE_TEMPLATE = "/Datacenters/#{DC_NAME}/vm/#{RE_VM_NAME}" #path of a remote vm template to clone
     LC_TEMPLATE = "/Datacenters/#{DC_NAME}/vm/#{LC_VM_NAME}" #path of a local vm template to clone
+    DE_TEMPLATE = "/Datacenters/#{DC_NAME}/vm/#{DE_VM_NAME}" #path of a local vm template to clone
     CPUNUM = 2  # cpu core number
     MEMSIZE = 200 # memory size in Mb
   end
@@ -40,7 +42,7 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
     tests("Standard Clone with destination arguments | The return value should") do
       response = compute.vm_clone(
           'path' => ConstClass::RE_TEMPLATE,
-          'name' => 'cloning_vm1',
+          'name' => 'cloning_vm-1',
           'wait' => 1,
           'datastore_moid' => datastore_mob_ref._ref.to_s,
           'rp_moid' => rp_mob_ref._ref.to_s,
@@ -84,7 +86,7 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
     tests("Linked Clone with destination arguments | The return value should") do
       response = compute.vm_clone(
           'path' => ConstClass::RE_TEMPLATE,
-          'name' => 'cloning_vm_linked1',
+          'name' => 'cloning_vm_linked-1',
           'wait' => 1,
           'linked_clone' => true,
           'datastore_moid' => datastore_mob_ref._ref.to_s,
@@ -100,7 +102,7 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
     tests("Linked Clone without destination datastore | The return value should") do
       response = compute.vm_clone(
           'path' => ConstClass::LC_TEMPLATE,
-          'name' => 'cloning_vm_linked2',
+          'name' => 'cloning_vm_linked-2',
           'wait' => 1,
           'linked_clone' => true,
           'cluster_moid' => target_cr_mob_ref._ref.to_s,
@@ -111,6 +113,53 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
       %w{ vm_ref task_ref }.each do |key|
         test("have a #{key} key") { response.has_key? key }
       end
+    end
+
+    tests("Linked Clone from a vm with double datastores | The return value should") do
+      response = compute.vm_clone(
+          'path' => ConstClass::DE_TEMPLATE,
+          'name' => 'cloning_vm_linked-3',
+          'wait' => 1,
+          'linked_clone' => true,
+          'cluster_moid' => target_cr_mob_ref._ref.to_s,
+          'rp_moid' => rp_mob_ref._ref.to_s,
+          'host_moid'  => host_mob_ref._ref.to_s
+      )
+      test("be a kind of Hash") { response.kind_of? Hash }
+      %w{ vm_ref task_ref }.each do |key|
+        test("have a #{key} key") { response.has_key? key }
+      end
+      test("include equal number of datastore") do
+        des_vm_moid = response.fetch('vm_ref')
+        des_vm_ref = compute.get_vm_mob_ref_by_moid(des_vm_moid)
+        src_vm_ref = compute.get_vm_mob_ref_by_path('path'=>ConstClass::DE_TEMPLATE)
+        des_vm_ref.datastore.size == src_vm_ref.datastore.size
+      end
+
+    end
+
+    tests("full clone a vm with double datastores and given dest | The return value should") do
+      response = compute.vm_clone(
+          'path' => ConstClass::DE_TEMPLATE,
+          'name' => 'cloning_vm_linked-5',
+          'wait' => 1,
+          'linked_clone' => true,
+          'datastore_moid' => datastore_mob_ref._ref.to_s,
+          'cluster_moid' => target_cr_mob_ref._ref.to_s,
+          'rp_moid' => rp_mob_ref._ref.to_s,
+          'host_moid'  => host_mob_ref._ref.to_s
+      )
+      test("be a kind of Hash") { response.kind_of? Hash }
+      %w{ vm_ref task_ref }.each do |key|
+        test("have a #{key} key") { response.has_key? key }
+      end
+      test("include equal number of datastore") do
+        des_vm_moid = response.fetch('vm_ref')
+        des_vm_ref = compute.get_vm_mob_ref_by_moid(des_vm_moid)
+        src_vm_ref = compute.get_vm_mob_ref_by_path('path'=>ConstClass::DE_TEMPLATE)
+        des_vm_ref.datastore.size == src_vm_ref.datastore.size
+      end
+
     end
 
   end

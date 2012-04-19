@@ -83,12 +83,8 @@ module Fog
           dest_datastores = host_mob_ref.datastore
           src_datastores = vm_mob_ref.datastore
 
-          if options['datastore_moid']
-            ds_mob_ref = RbVmomi::VIM::Datastore.new(@connection, options['datastore_moid'])
-          else
-            ds_mob_ref = src_datastores[0] # will extend with datastore parameter
-          end
-
+          ds_mob_ref= nil
+          ds_mob_ref = RbVmomi::VIM::Datastore.new(@connection, options['datastore_moid']) if options['datastore_moid']
           host_mob_ref = RbVmomi::VIM::HostSystem.new(@connection, options['host_moid']) if options['host_moid']
           resource_pool = RbVmomi::VIM::ResourcePool.new(@connection, options['rp_moid']) if options['rp_moid']
           cs_mob_ref = RbVmomi::VIM::ComputeResource.new(@connection, options['cluster_moid']) if options['cluster_moid']
@@ -100,7 +96,15 @@ module Fog
             end
           end
 
-          linked_clone = (dest_datastores & src_datastores).include? ds_mob_ref
+          if ds_mob_ref && (src_datastores.size>1)
+            linked_clone = false
+          else
+            set = dest_datastores & src_datastores
+            linked_clone =(set == src_datastores )
+            if ds_mob_ref
+             linked_clone = linked_clone && (set.include? ds_mob_ref)
+            end
+          end
 
           relocation_spec=nil
           if ( linked_clone && options['linked_clone'] )
