@@ -9,57 +9,49 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
   response_linked = nil
 
   class ConstClass
-    DC_NAME = 'DatacenterCF'# name of test datacenter
-    CS_NAME = 'Cluster1' # name of clone detination cluster
-    RP_NAME = 'RP1' # name of clone destination resource pool
-    HOST_NAME = '10.117.8.187' # name of clone destination host
-    VM_NAME = 'knife' # name of vm/template to clone from
-    DATASTORE_NAME = 'LDISK01' #  name of datacenter to clone from
-    TEMPLATE = "/Datacenters/#{DC_NAME}/vm/#{VM_NAME}" #path of a vm template to clone
+    DC_NAME = 'Datacenter2012'# name of test datacenter
+    CS_NAME = 'cluster-fog' # name of clone detination cluster
+    RP_NAME = 'rp1' # name of clone destination resource pool
+    HOST_NAME = 'w1-vhadp-05.eng.vmware.com' # name of clone destination host
+    RE_VM_NAME = 'centos-5.7-template' # name of a remote vm/template to clone from
+    LC_VM_NAME = 'centos57-x64'# name of a local vm/template to clone from
+    DATASTORE_NAME = 'datastore1 (3)' #  name of datacenter to clone from
+    RE_TEMPLATE = "/Datacenters/#{DC_NAME}/vm/#{RE_VM_NAME}" #path of a remote vm template to clone
+    LC_TEMPLATE = "/Datacenters/#{DC_NAME}/vm/#{LC_VM_NAME}" #path of a local vm template to clone
     CPUNUM = 2  # cpu core number
     MEMSIZE = 200 # memory size in Mb
   end
 
   tests("Standard Clone | The return value should") do
-    response = compute.vm_clone('path' => ConstClass::TEMPLATE, 'name' => 'cloning_vm', 'wait' => 1)
-    test("be a kind of Hash") { response.kind_of? Hash }
-    %w{ vm_ref task_ref }.each do |key|
-      test("have a #{key} key") { response.has_key? key }
-    end
-  end
-
-  tests("Linked Clone | The return value should") do
-    response = compute.vm_clone('path' => ConstClass::TEMPLATE, 'name' => 'cloning_vm_linked', 'wait' => 1, 'linked_clone' => true, 'cpu' => ConstClass::CPUNUM,'memory'=> ConstClass::MEMSIZE)
-    test("be a kind of Hash") { response.kind_of? Hash }
-    %w{ vm_ref task_ref}.each do |key|
-      test("have a #{key} key") { response.has_key? key }
-    end
-    test("the return have the right number of cores")do
-      response.fetch('cpu') == ConstClass::CPUNUM
-    end
-    test("the return have the right size of memory")do
-      response.fetch('memory') == ConstClass::MEMSIZE
-    end
-  end
-
-  tests("Standard Clone | The return value should") do
     dc_ref = compute.get_dc_mob_ref_by_path(ConstClass::DC_NAME)
     target_cr_mob_ref = dc_ref.find_compute_resource(ConstClass::CS_NAME)
     host_mob_ref = target_cr_mob_ref.host.find { |h| h.name == ConstClass::HOST_NAME}
     datastore_mob_ref =  host_mob_ref.datastore.find  { |d| d.name == ConstClass::DATASTORE_NAME}
     rp_mob_ref = target_cr_mob_ref.resourcePool.resourcePool.find {|r| r.name == ConstClass::RP_NAME }
-    response = compute.vm_clone(
-        'path' => ConstClass::TEMPLATE,
-        'name' => 'cloning_vm1',
-        'wait' => 1,
-        'datastore_moid' => datastore_mob_ref._ref.to_s,
-        'rp_moid' => rp_mob_ref._ref.to_s,
-        'host_moid'  => host_mob_ref._ref.to_s
-    )
-    test("be a kind of Hash") { response.kind_of? Hash }
-    %w{ vm_ref task_ref }.each do |key|
-      test("have a #{key} key") { response.has_key? key }
+
+    tests("Standard Clone without destination arguments | The return value should") do
+      response = compute.vm_clone('path' => ConstClass::RE_TEMPLATE, 'name' => 'cloning_vm', 'wait' => 1)
+      test("be a kind of Hash") { response.kind_of? Hash }
+      %w{ vm_ref task_ref }.each do |key|
+        test("have a #{key} key") { response.has_key? key }
+      end
     end
+
+    tests("Standard Clone with destination arguments | The return value should") do
+      response = compute.vm_clone(
+          'path' => ConstClass::RE_TEMPLATE,
+          'name' => 'cloning_vm1',
+          'wait' => 1,
+          'datastore_moid' => datastore_mob_ref._ref.to_s,
+          'rp_moid' => rp_mob_ref._ref.to_s,
+          'host_moid'  => host_mob_ref._ref.to_s
+      )
+      test("be a kind of Hash") { response.kind_of? Hash }
+      %w{ vm_ref task_ref }.each do |key|
+        test("have a #{key} key") { response.has_key? key }
+      end
+    end
+
   end
 
   tests("Linked Clone | The return value should") do
@@ -68,51 +60,61 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
     host_mob_ref = target_cr_mob_ref.host.find { |h| h.name == ConstClass::HOST_NAME}
     datastore_mob_ref =  host_mob_ref.datastore.find  { |d| d.name == ConstClass::DATASTORE_NAME}
     rp_mob_ref = target_cr_mob_ref.resourcePool.resourcePool.find {|r| r.name == ConstClass::RP_NAME }
-    response = compute.vm_clone(
-        'path' => ConstClass::TEMPLATE,
-        'name' => 'cloning_vm_linked1',
-        'wait' => 1,
-        'linked_clone' => true,
-        'datastore_moid' => datastore_mob_ref._ref.to_s,
-        'rp_moid' => rp_mob_ref._ref.to_s,
-        'host_moid'  => host_mob_ref._ref.to_s
-    )
-    test("be a kind of Hash") { response.kind_of? Hash }
-    %w{ vm_ref task_ref }.each do |key|
-      test("have a #{key} key") { response.has_key? key }
+
+    tests("Linked Clone with arguments of cpu and memory | The return value should") do
+      response = compute.vm_clone(
+          'path' => ConstClass::LC_TEMPLATE,
+          'name' => 'cloning_vm_linked',
+          'wait' => 1,
+          'linked_clone' => true,
+          'cpu' => ConstClass::CPUNUM,
+          'memory'=> ConstClass::MEMSIZE)
+      test("be a kind of Hash") { response.kind_of? Hash }
+      %w{ vm_ref task_ref}.each do |key|
+        test("have a #{key} key") { response.has_key? key }
+      end
+      test("the return have the right number of cores")do
+        response.fetch('cpu') == ConstClass::CPUNUM
+      end
+      test("the return have the right size of memory")do
+        response.fetch('memory') == ConstClass::MEMSIZE
+      end
     end
+
+    tests("Linked Clone with destination arguments | The return value should") do
+      response = compute.vm_clone(
+          'path' => ConstClass::RE_TEMPLATE,
+          'name' => 'cloning_vm_linked1',
+          'wait' => 1,
+          'linked_clone' => true,
+          'datastore_moid' => datastore_mob_ref._ref.to_s,
+          'rp_moid' => rp_mob_ref._ref.to_s,
+          'host_moid'  => host_mob_ref._ref.to_s
+      )
+      test("be a kind of Hash") { response.kind_of? Hash }
+      %w{ vm_ref task_ref }.each do |key|
+        test("have a #{key} key") { response.has_key? key }
+      end
+    end
+
+    tests("Linked Clone without destination datastore | The return value should") do
+      response = compute.vm_clone(
+          'path' => ConstClass::LC_TEMPLATE,
+          'name' => 'cloning_vm_linked2',
+          'wait' => 1,
+          'linked_clone' => true,
+          'cluster_moid' => target_cr_mob_ref._ref.to_s,
+          'rp_moid' => rp_mob_ref._ref.to_s,
+          'host_moid'  => host_mob_ref._ref.to_s
+      )
+      test("be a kind of Hash") { response.kind_of? Hash }
+      %w{ vm_ref task_ref }.each do |key|
+        test("have a #{key} key") { response.has_key? key }
+      end
+    end
+
   end
 
-  tests("Standard Clone | The return value should") do
-    response = compute.vm_clone(
-        'path' => ConstClass::TEMPLATE,
-        'name' => 'cloning_vm2',
-        'wait' => 1,
-        'target_cluster' => ConstClass::CS_NAME,
-        'target_rp' => ConstClass::RP_NAME,
-        'target_host'  => ConstClass::HOST_NAME
-    )
-    test("be a kind of Hash") { response.kind_of? Hash }
-    %w{ vm_ref task_ref }.each do |key|
-      test("have a #{key} key") { response.has_key? key }
-    end
-  end
-
-  tests("Linked Clone | The return value should") do
-    response = compute.vm_clone(
-        'path' => ConstClass::TEMPLATE,
-        'name' => 'cloning_vm_linked2',
-        'wait' => 1,
-        'linked_clone' => true,
-        'target_cluster' => ConstClass::CS_NAME,
-        'target_rp' => ConstClass::RP_NAME,
-        'target_host'  => ConstClass::HOST_NAME
-    )
-    test("be a kind of Hash") { response.kind_of? Hash }
-    %w{ vm_ref task_ref }.each do |key|
-      test("have a #{key} key") { response.has_key? key }
-    end
-  end
 
   tests("When invalid input is presented") do
     raises(ArgumentError, 'it should raise ArgumentError') { compute.vm_clone(:foo => 1) }

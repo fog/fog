@@ -80,18 +80,30 @@ module Fog
 
           # The parent of the ESX host itself is a ComputeResource which has a resourcePool
           resource_pool = host_mob_ref.parent.resourcePool
+          dest_datastores = host_mob_ref.datastore
+          src_datastores = vm_mob_ref.datastore
 
           if options['datastore_moid']
             ds_mob_ref = RbVmomi::VIM::Datastore.new(@connection, options['datastore_moid'])
           else
-            ds_mob_ref = vm_mob_ref.datastore[0] # will extend with datastore parameter
+            ds_mob_ref = src_datastores[0] # will extend with datastore parameter
           end
 
           host_mob_ref = RbVmomi::VIM::HostSystem.new(@connection, options['host_moid']) if options['host_moid']
           resource_pool = RbVmomi::VIM::ResourcePool.new(@connection, options['rp_moid']) if options['rp_moid']
+          cs_mob_ref = RbVmomi::VIM::ComputeResource.new(@connection, options['cluster_moid']) if options['cluster_moid']
+
+          # argument of host and resource pool are prioritized over cluster since more concrete
+          if cs_mob_ref
+            if !(cs_mob_ref.host.include? host_mob_ref)|| !(get_nested_rps_by_cs_mob(cs_mob_ref).include? resource_pool)
+              raise Fog::Compute::Vsphere::NotFound, "Not matched arguments: host_moid, rp_moid, and cluster_moid"
+            end
+          end
+
+          linked_clone = (dest_datastores & src_datastores).include? ds_mob_ref
 
           relocation_spec=nil
-          if ( options['linked_clone'] )
+          if ( linked_clone && options['linked_clone'] )
             # cribbed heavily from the rbvmomi clone_vm.rb
             # this chunk of code reconfigures the disk of the clone source to be read only,
             # and then creates a delta disk on top of that, this is required by the API in order to create
