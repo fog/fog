@@ -30,6 +30,11 @@ module Fog
           nil
         end
 
+        def activate
+          if data = connection.activate_public_ip(href).body
+            new(data)
+          end
+        end
       end
     end
   end

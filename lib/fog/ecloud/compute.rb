@@ -854,6 +854,7 @@ module Fog
       collection :compute_pools
 
       request_path 'fog/ecloud/requests/compute'
+      request :activate_public_ip
       request :add_internet_service
       request :add_backup_internet_service
       request :add_node
