@@ -1,3 +1,5 @@
+require 'delegate'
+
 module Fog
   module SSH
 
@@ -42,7 +44,7 @@ module Fog
 
         @address  = address
         @username = username
-        @debug = options.delete :debug
+        @debug    = options.delete :debug
         @options  = { :paranoid => false }.merge(options)
       end
 
@@ -92,13 +94,17 @@ module Fog
 
     end
 
-    require 'delegate'
-
     class DebugString < SimpleDelegator
+
+      def initialize(string='')
+        super
+      end
+
       def <<(add_me)
         puts add_me
         super
       end
+
     end
 
     class Result
@@ -120,8 +126,8 @@ module Fog
 
       def initialize(command, debug=false)
         @command = command
-        @stderr = debug ? DebugString.new('') : ''
-        @stdout = debug ? DebugString.new('') : ''
+        @stderr = debug ? DebugString.new : ''
+        @stdout = debug ? DebugString.new : ''
       end
 
     end
