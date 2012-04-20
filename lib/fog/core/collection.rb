@@ -122,7 +122,7 @@ module Fog
 
     def to_json(options = {})
       require 'multi_json'
-      MultiJson.encode(self.map {|member| member.attributes})
+      MultiJson.dump(self.map {|member| member.attributes})
     end
 
     private

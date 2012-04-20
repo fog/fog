@@ -9,7 +9,7 @@ module Fog
             }
           }
           request(
-            :body     => MultiJson.encode(data),
+            :body     => MultiJson.dump(data),
             :expects  => [200, 202],
             :path     => "loadbalancers/#{load_balancer_id}/errorpage",
             :method   => 'PUT'

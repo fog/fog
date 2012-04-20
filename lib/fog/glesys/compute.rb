@@ -94,7 +94,7 @@ module Fog
               }
             )
 
-            data.body = MultiJson.decode(data.body)
+            data.body = MultiJson.load(data.body)
 
             response_code =  data.body['response']['status']['code']
 

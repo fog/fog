@@ -15,7 +15,7 @@ module Fog
         def post_record(type, zone, fqdn, rdata, options = {})
           options.merge!('rdata' => rdata)
           request(
-            :body     => MultiJson.encode(options),
+            :body     => MultiJson.dump(options),
             :expects  => 200,
             :method   => :post,
             :path     => ["#{type.to_s.upcase}Record", zone, fqdn].join('/')
