@@ -14,16 +14,15 @@ module Fog
           if ( securitygroupids = options.delete('securitygroupids') ).is_a?(Array)
             options.merge!('securitygroupids' => securitygroupids.join(','))
           end
-          
+
           if ( securitygroupnames = options.delete('securitygroupnames') ).is_a?(Array)
             options.merge!('securitygroupnames' => securitygroupnames.join(','))
           end
-          
+
           if ( networkids = options.delete('networkids') ).is_a?(Array)
             options.merge!('networkids' => networkids.join(','))
           end
-          
-          
+
           request(options)
         end
 

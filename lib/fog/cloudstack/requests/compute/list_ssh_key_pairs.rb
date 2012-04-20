@@ -3,12 +3,15 @@ module Fog
     class Cloudstack
       class Real
 
+        require 'fog/cloudstack/parsers/compute/list_ssh_key_pairs'
+
         # List registered keypairs.
         #
         # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/listSSHKeyPairs.html]
         def list_ssh_key_pairs(options={})
           options.merge!(
-            'command' => 'listSSHKeyPairs'
+            'command' => 'listSSHKeyPairs',
+            :parser => Fog::Parsers::Compute::Cloudstack::ListSshKeyPairs.new
           )
           
           request(options)
