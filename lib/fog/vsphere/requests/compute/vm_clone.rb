@@ -102,7 +102,7 @@ module Fog
             set = dest_datastores & src_datastores
             linked_clone =(set == src_datastores )
             if ds_mob_ref
-             linked_clone = linked_clone && (set.include? ds_mob_ref)
+              linked_clone = linked_clone && (set.include? ds_mob_ref)
             end
           end
 

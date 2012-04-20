@@ -71,6 +71,8 @@ module Fog
             :tools_state => 'guest.toolsStatus',
             :tools_version => 'guest.toolsVersionStatus',
             :is_a_template => 'config.template',
+            :max_cpu => 'summary.runtime.maxCpuUsage',
+            :max_mem => 'summary.runtime.maxMemoryUsage'
         }
 
         DC_ATTR_TO_PROP = {
@@ -85,8 +87,8 @@ module Fog
 
         DS_ATTR_TO_PROP = {
             :name => 'name',
-            :freeSpace => 'info.freeSpace',
-            :maxSpace => 'info.maxFileSize'
+            :freeSpace => 'summary.freeSpace',
+            :capacity => 'summary.capacity'
         }
 
         RP_ATTR_TO_PROP = {
@@ -94,6 +96,8 @@ module Fog
             :limit_cpu => 'config.cpuAllocation.limit',
             :limit_mem => 'config.memoryAllocation.limit',
             :shares => 'config.memoryAllocation.shares.shares',
+            :config_mem => 'summary.configuredMemoryMB',
+            :rev_used_mem => 'summary.runtime.memory.reservationUsed',
             :used_cpu => 'summary.quickStats.overallCpuUsage',
             :host_used_mem => 'summary.quickStats.hostMemoryUsage',
             :guest_used_mem => 'summary.quickStats.guestMemoryUsage'
@@ -105,7 +109,8 @@ module Fog
             :cpu_num => 'summary.hardware.numCpuCores',
             :cpu_mhz =>'summary.hardware.cpuMhz',
             :used_cpu => 'summary.quickStats.overallCpuUsage',
-            :used_mem => 'summary.quickStats.overallMemoryUsage'
+            :used_mem => 'summary.quickStats.overallMemoryUsage',
+            :connection_state =>  'summary.runtime.connectionState'
         }
 
         def ct_mob_ref_to_attr_hash(mob_ref, attr_s)
@@ -129,7 +134,7 @@ module Fog
           props = mob_ref.collect! *attr.values.uniq
           Hash[attr.map { |k,v| [k.to_s, props[v]] }].tap do |attrs|
             attrs['id'] ||= mob_ref._ref
-            attrs['mo_ref'] = mob_ref._ref
+            attrs['mo_ref'] ||= mob_ref._ref
           end
         end
 

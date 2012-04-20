@@ -153,11 +153,10 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
       %w{ vm_ref task_ref }.each do |key|
         test("have a #{key} key") { response.has_key? key }
       end
-      test("include equal number of datastore") do
+      test("include only given datastore") do
         des_vm_moid = response.fetch('vm_ref')
         des_vm_ref = compute.get_vm_mob_ref_by_moid(des_vm_moid)
-        src_vm_ref = compute.get_vm_mob_ref_by_path('path'=>ConstClass::DE_TEMPLATE)
-        des_vm_ref.datastore.size == src_vm_ref.datastore.size
+        des_vm_ref.datastore.size == 1
       end
 
     end

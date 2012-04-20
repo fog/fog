@@ -90,7 +90,7 @@ Shindo.tests('Fog::Compute[:vsphere]', ['vsphere']) do
           end
           tests("The converted Hash should") do
             attr_hash = compute.ct_mob_ref_to_attr_hash(rp_mob_ref, ConstClass::ATR_RP_NAME)
-            %w{ name limit_cpu limit_mem shares used_cpu host_used_mem guest_used_mem }.each do |key|
+            %w{ name limit_cpu limit_mem shares config_mem rev_used_mem used_cpu host_used_mem guest_used_mem  }.each do |key|
               test("have a #{key} key") { attr_hash.has_key? key }
             end
           end
@@ -104,7 +104,7 @@ Shindo.tests('Fog::Compute[:vsphere]', ['vsphere']) do
           end
           tests("The converted Hash should") do
             attr_hash = compute.ct_mob_ref_to_attr_hash(host_mob_ref, ConstClass::ATR_HOST_NAME)
-            %w{ name total_memory cpu_num cpu_mhz used_cpu used_mem }.each do |key|
+            %w{ name total_memory cpu_num cpu_mhz used_cpu used_mem connection_state }.each do |key|
               test("have a #{key} key") { attr_hash.has_key? key }
             end
           end
@@ -118,7 +118,7 @@ Shindo.tests('Fog::Compute[:vsphere]', ['vsphere']) do
           end
           tests("The converted Hash should") do
             attr_hash = compute.ct_mob_ref_to_attr_hash(host_mob_ref, ConstClass::ATR_DS_NAME)
-            %w{ name freeSpace maxSpace }.each do |key|
+            %w{ name freeSpace capacity }.each do |key|
               test("have a #{key} key") { attr_hash.has_key? key }
             end
           end
