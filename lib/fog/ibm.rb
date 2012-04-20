@@ -38,7 +38,7 @@ module Fog
         end
         response = super(options)
         unless response.body.empty?
-          response.body = MultiJson.decode(response.body)
+          response.body = MultiJson.load(response.body)
         end
         response
       end

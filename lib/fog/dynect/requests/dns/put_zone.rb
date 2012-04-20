@@ -14,7 +14,7 @@ module Fog
 
         def put_zone(zone, options = {})
           request(
-            :body     => MultiJson.encode(options),
+            :body     => MultiJson.dump(options),
             :expects  => 200,
             :method   => :put,
             :path     => 'Zone/' << zone

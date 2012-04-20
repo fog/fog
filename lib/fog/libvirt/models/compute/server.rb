@@ -201,7 +201,7 @@ module Fog
           commands = [
             %{mkdir .ssh},
             #              %{passwd -l #{username}}, #Not sure if we need this here
-            #              %{echo "#{MultiJson.encode(attributes)}" >> ~/attributes.json}
+            #              %{echo "#{MultiJson.dump(attributes)}" >> ~/attributes.json}
           ]
           if public_key
             commands << %{echo "#{public_key}" >> ~/.ssh/authorized_keys}

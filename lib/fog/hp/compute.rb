@@ -167,7 +167,7 @@ module Fog
           end
           unless response.body.empty?
             begin
-              response.body = MultiJson.decode(response.body)
+              response.body = MultiJson.load(response.body)
             rescue MultiJson::DecodeError => error
               response.body    #### the body is not in JSON format so just return it as it is
             end

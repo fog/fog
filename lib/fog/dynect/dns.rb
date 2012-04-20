@@ -95,7 +95,7 @@ module Fog
             if response.status == 307
               response = poll_job(response)
             elsif !response.body.empty?
-              response.body = MultiJson.decode(response.body)
+              response.body = MultiJson.load(response.body)
             end
 
             response

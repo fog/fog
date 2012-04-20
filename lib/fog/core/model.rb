@@ -39,7 +39,7 @@ module Fog
 
     def to_json(options = {})
       require 'multi_json'
-      MultiJson.encode(attributes)
+      MultiJson.dump(attributes)
     end
 
     def symbolize_keys(hash)

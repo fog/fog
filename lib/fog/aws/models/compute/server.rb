@@ -198,7 +198,7 @@ module Fog
           commands = [
             %{mkdir .ssh},
             %{passwd -l #{username}},
-            %{echo "#{MultiJson.encode(Fog::JSON.sanitize(attributes))}" >> ~/attributes.json}
+            %{echo "#{MultiJson.dump(Fog::JSON.sanitize(attributes))}" >> ~/attributes.json}
           ]
           if public_key
             commands << %{echo "#{public_key}" >> ~/.ssh/authorized_keys}

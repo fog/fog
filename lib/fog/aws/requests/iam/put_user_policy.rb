@@ -24,7 +24,7 @@ module Fog
           request(
             'Action'          => 'PutUserPolicy',
             'PolicyName'      => policy_name,
-            'PolicyDocument'  => MultiJson.encode(policy_document),
+            'PolicyDocument'  => MultiJson.dump(policy_document),
             'UserName'        => user_name,
             :parser           => Fog::Parsers::AWS::IAM::Basic.new
           )

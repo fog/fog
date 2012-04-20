@@ -6,7 +6,7 @@ module Fog
         def get_stats(options = {})
           request(
             :path     => "/monitoring/load/stats",
-            :body     => MultiJson.encode({:params => options})
+            :body     => MultiJson.dump({:params => options})
           )
         end
 

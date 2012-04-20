@@ -23,7 +23,7 @@ module Fog
           }
           data['image'].merge!(options)
           request(
-            :body     => MultiJson.encode(data),
+            :body     => MultiJson.dump(data),
             :expects  => 202,
             :method   => 'POST',
             :path     => "images"

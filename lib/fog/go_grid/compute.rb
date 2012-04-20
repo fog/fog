@@ -105,7 +105,7 @@ module Fog
           end
 
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = MultiJson.load(response.body)
           end
 
           response
