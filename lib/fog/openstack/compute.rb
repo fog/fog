@@ -9,7 +9,8 @@ module Fog
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url,
                  :persistent, :openstack_service_name, :openstack_tenant,
-                 :openstack_api_key, :openstack_username, :openstack_identity_endpoint
+                 :openstack_api_key, :openstack_username, :openstack_identity_endpoint,
+                 :current_user, :current_tenant
 
       ## MODELS
       #
@@ -208,6 +209,8 @@ module Fog
 
       class Real
         attr_reader :auth_token
+        attr_reader :current_user
+        attr_reader :current_tenant
 
         def initialize(options={})
           @openstack_auth_token = options[:openstack_auth_token]
@@ -232,6 +235,9 @@ module Fog
 
           @connection_options = options[:connection_options] || {}
 
+          @current_user = options[:current_user]
+          @current_tenant = options[:current_tenant]
+
           authenticate
 
           @persistent = options[:persistent] || false
@@ -243,7 +249,9 @@ module Fog
             :openstack_auth_url       => @openstack_auth_uri.to_s,
             :openstack_auth_token     => @auth_token,
             :openstack_management_url => @openstack_management_url,
-            :openstack_identity_endpoint => @openstack_identity_public_endpoint }
+            :openstack_identity_endpoint => @openstack_identity_public_endpoint,
+            :current_user             => @current_user,
+            :current_tenant           => @current_tenant }
         end
 
         def reload
@@ -304,6 +312,9 @@ module Fog
             else
               credentials = Fog::OpenStack.authenticate_v1(options, @connection_options)
             end
+
+            @current_user = credentials[:user]
+            @current_tenant = credentials[:tenant]
 
             @openstack_must_reauthenticate = false
             @auth_token               = credentials[:token]

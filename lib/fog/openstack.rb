@@ -103,8 +103,6 @@ module Fog
 
       svc = body['access']['serviceCatalog'].
         detect{|x| @service_name.include?(x['type']) }
-      identity_svc = body['access']['serviceCatalog'].
-        detect{|x| @identity_service_name.include?(x['type']) } if @identity_service_name
 
       unless svc
         unless @openstack_tenant
@@ -124,15 +122,20 @@ module Fog
         body = retrieve_tokens_v2(connection, req_body, uri)
         svc = body['access']['serviceCatalog'].
           detect{|x| @service_name.include?(x['type']) }
-        identity_svc = body['access']['serviceCatalog'].
-          detect{|x| @identity_service_name.include?(x['type']) } if @identity_service_name
       end
+
+      identity_svc = body['access']['serviceCatalog'].
+        detect{|x| @identity_service_name.include?(x['type']) } if @identity_service_name
+      tenant = body['access']['token']['tenant']
+      user = body['access']['user']
 
       mgmt_url = svc['endpoints'].detect{|x| x[@endpoint_type]}[@endpoint_type]
       identity_url = identity_svc['endpoints'].detect{|x| x['publicURL']}['publicURL'] if identity_svc
       token = body['access']['token']['id']
 
       {
+        :user                     => user,
+        :tenant                   => tenant,
         :token                    => token,
         :server_management_url    => mgmt_url,
         :identity_public_endpoint => identity_url,

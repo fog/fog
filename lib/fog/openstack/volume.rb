@@ -2,13 +2,14 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'openstack'))
 require 'fog/openstack'
 
 module Fog
-  module Volume 
+  module Volume
     class OpenStack < Fog::Service
 
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url, :persistent,
                  :openstack_service_name, :openstack_tenant,
-                 :openstack_api_key, :openstack_username
+                 :openstack_api_key, :openstack_username,
+                 :current_user, :current_tenant
 
       #model_path 'fog/openstack/models/volume'
 
@@ -79,6 +80,8 @@ module Fog
       end
 
       class Real
+        attr_reader :current_user
+        attr_reader :current_tenant
 
         def initialize(options={})
           require 'multi_json'
@@ -103,6 +106,9 @@ module Fog
 
           @connection_options = options[:connection_options] || {}
 
+          @current_user = options[:current_user]
+          @current_tenant = options[:current_tenant]
+
           authenticate
 
           @persistent = options[:persistent] || false
@@ -113,7 +119,9 @@ module Fog
           { :provider                 => 'openstack',
             :openstack_auth_url       => @openstack_auth_uri.to_s,
             :openstack_auth_token     => @auth_token,
-            :openstack_management_url => @openstack_management_url }
+            :openstack_management_url => @openstack_management_url,
+            :current_user             => @current_user,
+            :current_tenant           => @current_tenant }
         end
 
         def reload
@@ -169,6 +177,9 @@ module Fog
             }
 
             credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
+
+            @current_user = credentials[:user]
+            @current_tenant = credentials[:tenant]
 
             @openstack_must_reauthenticate = false
             @auth_token = credentials[:token]
