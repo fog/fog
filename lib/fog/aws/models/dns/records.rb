@@ -23,9 +23,10 @@ module Fog
         def all(options = {})
           requires :zone
           options[:max_items]  ||= max_items
-          options[:name]       ||= name
+          options[:name]       ||= zone.domain
           options[:type]       ||= type
           options[:identifier] ||= identifier
+          options.delete_if {|key, value| value.nil?}
 
           data = connection.list_resource_record_sets(zone.id, options).body
           # NextRecordIdentifier is completely absent instead of nil, so set to nil, or iteration breaks.
@@ -49,6 +50,8 @@ module Fog
                 :type => next_record_type,
                 :identifier => next_record_identifier
             }
+            options.delete_if {|key, value| value.nil?}
+
             batch = connection.list_resource_record_sets(zone.id, options).body
             # NextRecordIdentifier is completely absent instead of nil, so set to nil, or iteration breaks.
             batch['NextRecordIdentifier'] = nil unless batch.has_key?('NextRecordIdentifier')
@@ -82,6 +85,7 @@ module Fog
               :type => record_type,
               :identifier => record_identifier
           }
+          options.delete_if {|key, value| value.nil?}
 
           data = connection.list_resource_record_sets(zone.id, options).body
           # Get first record
