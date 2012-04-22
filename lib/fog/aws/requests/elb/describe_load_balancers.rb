@@ -63,7 +63,7 @@ module Fog
             end.compact
           else
             self.data[:load_balancers].map { |lb, values| values.dup }
-          end
+          end[0...400]
 
           response = Excon::Response.new
           response.status = 200
