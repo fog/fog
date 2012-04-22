@@ -25,7 +25,7 @@ module Fog
             :expects  => 202,
             :method   => 'POST',
             :path     => "domains/#{domain_id}/records",
-            :body     => MultiJson.encode(data)
+            :body     => MultiJson.dump(data)
           )
         end
       end

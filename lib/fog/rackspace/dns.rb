@@ -108,7 +108,7 @@ module Fog
             raise Fog::Rackspace::Errors::ServiceUnavailable.slurp error
           end
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = MultiJson.load(response.body)
           end
           response
         end

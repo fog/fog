@@ -144,7 +144,7 @@ module Fog
           }.merge(request[:headers] || {}).merge(@header_method.call) 
 
           if request[:body]
-            request[:body] = MultiJson.encode(request[:body])
+            request[:body] = MultiJson.dump(request[:body])
           end
 
           response = @connection.request(request)
@@ -161,7 +161,7 @@ module Fog
         private
 
         def json_decode(body)
-          parsed = MultiJson.decode(body)
+          parsed = MultiJson.load(body)
           decode_time_attrs(parsed)
         end
 

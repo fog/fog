@@ -8,7 +8,7 @@ module Fog
             :expects  => 200,
             :method   => :post,
             :path     => "Session",
-            :body     => MultiJson.encode({
+            :body     => MultiJson.dump({
               :customer_name  => @dynect_customer,
               :user_name      => @dynect_username,
               :password       => @dynect_password
