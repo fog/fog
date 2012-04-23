@@ -328,6 +328,13 @@ module Fog
 
           @host   = uri.host
           @path, @tenant_id = uri.path.scan(/(\/.*)\/(.*)/).flatten
+
+          @path.sub!(/\/$/, '')
+          unless @path.match(/1\.1|v2/)
+            raise Fog::Compute::OpenStack::ServiceUnavailable.new(
+                    "OpenStack binding only supports version 2 (a.k.a. 1.1)")
+          end
+
           @port   = uri.port
           @scheme = uri.scheme
           @identity_connection = Fog::Connection.new(
