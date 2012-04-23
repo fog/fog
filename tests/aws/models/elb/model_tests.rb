@@ -94,6 +94,13 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
       tests("contains elb").returns(true) { elb_ids.include? elb_id }
     end
 
+    if Fog.mocking?
+      tests('all marker support') do
+        extra_elb_ids = (1..1000).map {|n| Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-extra-#{n}").id }
+        tests('returns all elbs').returns(true) { (extra_elb_ids - Fog::AWS[:elb].load_balancers.all.map {|e| e.id }).empty? }
+      end
+    end
+
     tests('get') do
       elb_get = Fog::AWS[:elb].load_balancers.get(elb_id)
       tests('ids match').returns(elb_id) { elb_get.id }
