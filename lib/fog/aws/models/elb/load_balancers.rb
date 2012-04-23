@@ -11,8 +11,16 @@ module Fog
         end
 
         def all
-          data = connection.describe_load_balancers.body['DescribeLoadBalancersResult']['LoadBalancerDescriptions']
-          load(data)
+          result = []
+          marker = nil
+          finished = false
+          while !finished
+            data = connection.describe_load_balancers('Marker' => marker).body
+            result.concat(data['DescribeLoadBalancersResult']['LoadBalancerDescriptions'])
+            marker = data['DescribeLoadBalancersResult']['NextMarker']
+            finished = marker.nil?
+          end
+          load(result) # data is an array of attribute hashes
         end
 
         def get(identity)
