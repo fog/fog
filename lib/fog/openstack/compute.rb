@@ -182,9 +182,9 @@ module Fog
           @host   = uri.host
           @path   = uri.path
           @path.sub!(/\/$/, '')
-          unless @path.match(/1\.1/)
+          unless @path.match(/v2/)
             raise Fog::Compute::OpenStack::ServiceUnavailable.new(
-                    "OpenStack binding only supports version 1.1")
+                    "OpenStack binding only supports version 2")
           end
           @port   = uri.port
           @scheme = uri.scheme

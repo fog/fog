@@ -97,7 +97,7 @@ module Fog
         :path     =>  (uri.path and not uri.path.empty?) ? uri.path : 'v2.0'
       })
       body=MultiJson.load(response.body)
-     
+
       if svc = body['access']['serviceCatalog'].detect{|x| x['name'] == @compute_service_name}
         mgmt_url = svc['endpoints'].detect{|x| x['publicURL']}['publicURL']
         token = body['access']['token']['id']
