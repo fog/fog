@@ -191,7 +191,7 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       # create a load balancer
       @elb_connection.create_load_balancer(["us-east-1a"], "fog", [{"Protocol" => "HTTP", "LoadBalancerPort" => "80", "InstancePort" => "80"}])
 
-      elb_response   = @elb_connection.describe_load_balancers("fog")
+      elb_response   = @elb_connection.describe_load_balancers("LoadBalancerNames" => "fog")
       elb            = elb_response.body["DescribeLoadBalancersResult"]["LoadBalancerDescriptions"].first
       hosted_zone_id = elb["CanonicalHostedZoneNameID"]
       dns_name       = elb["DNSName"]
