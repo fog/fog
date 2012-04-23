@@ -42,18 +42,33 @@ module Fog
         #         * 'SourceSecurityGroup'<~Hash>:
         #           * 'GroupName'<~String> - Name of the source security group to use with inbound security group rules
         #           * 'OwnerAlias'<~String> - Owner of the source security group
-        def describe_load_balancers(lb_name = [])
-          params = Fog::AWS.indexed_param('LoadBalancerNames.member', [*lb_name])
+        def describe_load_balancers(options = {})
+          unless options.is_a?(Hash)
+            Fog::Logger.deprecation("describe_load_balancers with #{options.class} is deprecated, use all('LoadBalancerNames' => []) instead [light_black](#{caller.first})[/]")
+            options = { 'LoadBalancerNames' => [options].flatten }
+          end
+
+          if names = options.delete('LoadBalancerNames')
+            options.update(Fog::AWS.indexed_param('LoadBalancerNames.member', [*names]))
+          end
+
           request({
             'Action'  => 'DescribeLoadBalancers',
             :parser   => Fog::Parsers::AWS::ELB::DescribeLoadBalancers.new
-          }.merge!(params))
+          }.merge!(options))
         end
 
       end
 
       class Mock
-        def describe_load_balancers(lb_names = [])
+        def describe_load_balancers(options = {})
+          unless options.is_a?(Hash)
+            Fog::Logger.deprecation("describe_load_balancers with #{options.class} is deprecated, use all('LoadBalancerNames' => []) instead [light_black](#{caller.first})[/]")
+            options = { 'LoadBalancerNames' => [options].flatten }
+          end
+
+          lb_names = options['LoadBalancerNames'] || []
+
           lb_names = [*lb_names]
           load_balancers = if lb_names.any?
             lb_names.map do |lb_name|

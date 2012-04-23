@@ -16,7 +16,7 @@ module Fog
         end
 
         def get(identity)
-          data = connection.describe_load_balancers(identity).body['DescribeLoadBalancersResult']['LoadBalancerDescriptions'].first
+          data = connection.describe_load_balancers('LoadBalancerNames' => identity).body['DescribeLoadBalancersResult']['LoadBalancerDescriptions'].first
           new(data)
         rescue Fog::AWS::ELB::NotFound
           nil
