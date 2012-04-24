@@ -7,6 +7,7 @@ module Fog
       class InvalidParameterError < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
+      recognizes :region, :host, :path, :port, :scheme, :persistent
 
       request_path 'fog/aws/requests/beanstalk'
 
