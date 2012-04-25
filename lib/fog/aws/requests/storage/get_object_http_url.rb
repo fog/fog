@@ -19,6 +19,7 @@ module Fog
           http_url({
             :headers  => {},
             :host     => host,
+            :port     => @port,
             :method   => 'GET',
             :path     => path,
             :query    => options[:query]

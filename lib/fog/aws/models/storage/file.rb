@@ -141,7 +141,7 @@ module Fog
 
         def url(expires, options = {})
           requires :key
-          collection.get_https_url(key, expires, options)
+          collection.get_url(key, expires, options)
         end
 
         def versions
