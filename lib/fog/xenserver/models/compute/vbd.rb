@@ -70,7 +70,15 @@ module Fog
           connection.insert_vbd reference, vdi.reference
         end
 
+        #
+        # return nil if the VBD is not attached
+        #
+        # TODO: Confirm that the VBD_metrics handle is invalid
+        # when the VBD is NOT attached. I get a HANDLE_INVALID
+        # exception in that case.
+        #
         def metrics
+          return nil unless currently_attached
           rec = connection.get_record( __metrics, 'VBD_metrics' )
           Fog::Compute::XenServer::VbdMetrics.new(rec)
         end
