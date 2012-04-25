@@ -3,11 +3,11 @@ module Fog
     class OpenStack
       class Real
 
-        def list_security_groups
+        def list_security_groups(server_id = nil)
           request(
             :expects  => [200],
             :method   => 'GET',
-            :path     => 'os-security-groups.json'
+            :path     => "#{%Q|servers/#{server_id}/| if server_id }os-security-groups.json"
           )
         end
 
