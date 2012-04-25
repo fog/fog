@@ -27,6 +27,7 @@ module Fog
       request :vm_reconfig_hardware
       request :vm_reconfig_memory
       request :vm_reconfig_cpus
+      request :vm_config_vnc
 
       module Shared
 
@@ -49,6 +50,8 @@ module Fog
           :tools_state => 'guest.toolsStatus',
           :tools_version => 'guest.toolsVersionStatus',
           :is_a_template => 'config.template',
+          :memory_mb => 'config.hardware.memoryMB',
+          :cpus   => 'config.hardware.numCPU',
         }
 
         # Utility method to convert a VMware managed object into an attribute hash.
@@ -65,8 +68,8 @@ module Fog
           # API. The hypervisor name and mac_addresses attributes may not be available
           # so we need catch any exceptions thrown during lookup and set them to nil.
           #
-          # The use of the "tap" method here is a convience, it allows us to update the
-          # hash object without expliclty returning the hash at the end of the method.
+          # The use of the "tap" method here is a convenience, it allows us to update the
+          # hash object without explicitly returning the hash at the end of the method.
           Hash[ATTR_TO_PROP.map { |k,v| [k.to_s, props[v]] }].tap do |attrs|
             attrs['id'] ||= vm_mob_ref._ref
             attrs['mo_ref'] = vm_mob_ref._ref

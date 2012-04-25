@@ -89,7 +89,7 @@ module Fog
           @persistent = options[:persistent]  || true
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
-          @version    = options[:version]     || '2011-05-05'
+          @version    = options[:version]     || '2012-02-29'
 
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
         end

@@ -109,6 +109,10 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
       Fog::Compute[:aws].detach_volume('vol-00000000')
     end
 
+    tests("#detach_volume('#{@volume.identity}')").raises(Fog::Compute::AWS::Error) do
+      Fog::Compute[:aws].detach_volume(@volume.identity)
+    end
+
     tests("#delete_volume('vol-00000000')").raises(Fog::Compute::AWS::NotFound) do
       Fog::Compute[:aws].delete_volume('vol-00000000')
     end

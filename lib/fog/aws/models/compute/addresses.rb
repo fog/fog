@@ -22,7 +22,7 @@ module Fog
         #    server_id=nil
         #  >
         #
-        # The IP address can be retreived by running AWS.addresses.get("test").  See get method below.
+        # The IP address can be retrieved by running AWS.addresses.get("test").  See get method below.
         #
 
         def initialize(attributes)
@@ -72,7 +72,7 @@ module Fog
           self
         end
 
-        # Used to retreive an IP address
+        # Used to retrieve an IP address
         #
         # public_ip is required to get the associated IP information.
         #

@@ -6,6 +6,7 @@ module Fog
     extend Fog::Provider
 
     service(:auto_scaling,    'aws/auto_scaling',     'AutoScaling')
+    service(:beanstalk,       'aws/beanstalk',        'ElasticBeanstalk')
     service(:cdn,             'aws/cdn',              'CDN')
     service(:compute,         'aws/compute',          'Compute')
     service(:cloud_formation, 'aws/cloud_formation',  'CloudFormation')
@@ -56,6 +57,14 @@ module Fog
         return options
       else
         return {key => value}
+      end
+    end
+
+    def self.indexed_request_param(name, values)
+      idx = -1
+      Array(values).inject({}) do |params, value|
+        params["#{name}.#{idx += 1}"] = value
+        params
       end
     end
 
@@ -221,6 +230,14 @@ module Fog
         "vol-#{Fog::Mock.random_hex(8)}"
       end
 
+      def self.security_group_id
+        "sg-#{Fog::Mock.random_hex(8)}"
+      end
+
+      def self.network_interface_id
+        "eni-#{Fog::Mock.random_hex(8)}"
+      end
+
       def self.key_id(length=21)
         #Probably close enough
         Fog::Mock.random_selection('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',length)
@@ -229,6 +246,28 @@ module Fog
       def self.rds_address(db_name,region)
         "#{db_name}.#{Fog::Mock.random_letters(rand(12) + 4)}.#{region}.rds.amazonaws.com"
       end
+    end
+
+    def self.parse_security_group_options(group_name, options)
+      options ||= Hash.new
+      if group_name.is_a?(Hash)
+        options = group_name
+      elsif group_name
+        if options.key?('GroupName')
+          raise Fog::Compute::AWS::Error, 'Arguments specified both group_name and GroupName in options'
+        end
+        options = options.clone
+        options['GroupName'] = group_name
+      end
+      name_specified = options.key?('GroupName') && !options['GroupName'].nil?
+      group_id_specified = options.key?('GroupId') && !options['GroupId'].nil?
+      unless name_specified || group_id_specified
+        raise Fog::Compute::AWS::Error, 'Neither GroupName nor GroupId specified'
+      end
+      if name_specified && group_id_specified
+        options.delete('GroupName')
+      end
+      options
     end
   end
 end

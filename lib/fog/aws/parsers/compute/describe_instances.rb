@@ -8,7 +8,7 @@ module Fog
           def reset
             @block_device_mapping = {}
             @context = []
-            @contexts = ['blockDeviceMapping', 'groupSet', 'instancesSet', 'instanceState', 'placement', 'productCodes', 'stateReason', 'tagSet']
+            @contexts = ['blockDeviceMapping', 'groupSet', 'instancesSet', 'instanceState', 'networkInterfaceSet', 'placement', 'productCodes', 'stateReason', 'tagSet']
             @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
             @reservation = { 'groupSet' => [], 'instancesSet' => [] }
             @response = { 'reservationSet' => [] }
@@ -31,7 +31,7 @@ module Fog
             when 'architecture', 'clientToken', 'dnsName', 'imageId',
                   'instanceId', 'instanceType', 'ipAddress', 'kernelId',
                   'keyName', 'platform', 'privateDnsName', 'privateIpAddress', 'ramdiskId',
-                  'reason', 'rootDeviceType',  'subnetId', 'vpcId'
+                  'reason', 'rootDeviceType', 'subnetId', 'vpcId'
               @instance[name] = value
             when 'attachTime'
               @block_device_mapping[name] = Time.parse(value)
@@ -78,7 +78,7 @@ module Fog
             when 'productCode'
               @instance['productCodes'] << value
             when 'state'
-              @instance['monitoring'][name] = (value == 'true')
+              @instance['monitoring'][name] = (value == 'enabled')
             end
           end
 

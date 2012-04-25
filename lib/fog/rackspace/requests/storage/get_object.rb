@@ -10,12 +10,18 @@ module Fog
         # * object<~String> - Name of object to look for
         #
         def get_object(container, object, &block)
-          request({
+          params = {}
+
+          if block_given?
+            params[:response_block] = Proc.new
+          end
+
+          request(params.merge!({
             :block    => block,
             :expects  => 200,
             :method   => 'GET',
             :path     => "#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object)}"
-          }, false, &block)
+          }), false)
         end
 
       end

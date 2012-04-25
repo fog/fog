@@ -22,8 +22,8 @@ module Fog
         end
 
         def create(params = {})
-          raise ArgumentError, "Key name required" unless params.key?(:name)
-          raise ArgumentError, "Key body required" unless params.key?(:body)
+          raise ArgumentError, "option [name] required" unless params.key?(:name)
+          raise ArgumentError, "option [key] required" unless params.key?(:key)
 
           self.connection.create_key(params)
         end

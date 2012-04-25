@@ -12,13 +12,14 @@ module Fog
             raise ArgumentError.new('object_name is required')
           end
           host, path = if bucket_name =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
-            ["#{bucket_name}.s3.amazonaws.com", object_name]
+            ["#{bucket_name}.#{@host}", object_name]
           else
-            ['s3.amazonaws.com', "#{bucket_name}/#{object_name}"]
+            [@host, "#{bucket_name}/#{object_name}"]
           end
           http_url({
             :headers  => {},
             :host     => host,
+            :port     => @port,
             :method   => 'GET',
             :path     => path,
             :query    => options[:query]

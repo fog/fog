@@ -111,6 +111,8 @@ module Fog
             when 'RequestId'
               @response['ResponseMetadata'][name] = value
 
+            when 'NextMarker'
+              @results['NextMarker'] = value
             when 'DescribeLoadBalancersResponse'
               @response['DescribeLoadBalancersResult'] = @results
             end

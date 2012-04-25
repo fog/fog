@@ -32,9 +32,9 @@ module Fog
         def put_object(bucket_name, object_name, data, options = {})
           data = Fog::Storage.parse_data(data)
           headers = data[:headers].merge!(options)
-          request({            :body       => data[:body],
-                      :expects    => 200,
-
+          request({
+            :body       => data[:body],
+            :expects    => 200,
             :headers    => headers,
             :host       => "#{bucket_name}.#{@host}",
             :idempotent => true,

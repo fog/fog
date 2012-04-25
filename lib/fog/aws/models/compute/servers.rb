@@ -103,7 +103,7 @@ module Fog
           server
         end
 
-        # Used to retreive a server
+        # Used to retrieve a server
         #
         # server_id is required to get the associated server information.
         #
@@ -142,7 +142,7 @@ module Fog
         #    user_data=nil
         #  >
         #
-        
+
         def get(server_id)
           if server_id
             self.class.new(:connection => connection).all('instance-id' => server_id).first

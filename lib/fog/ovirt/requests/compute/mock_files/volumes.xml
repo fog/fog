@@ -1,0 +1,40 @@
+<disks>
+  <disk href="/api/vms/192cdd3f-3281-4e20-b81d-93bdc57ac387/disks/9f68ecfd-218b-4f80-8e7a-e70b2ab054cd" id="9f68ecfd-218b-4f80-8e7a-e70b2ab054cd">
+    <name>Disk 2</name>
+    <link href="/api/vms/192cdd3f-3281-4e20-b81d-93bdc57ac387/disks/9f68ecfd-218b-4f80-8e7a-e70b2ab054cd/statistics" rel="statistics"/>
+    <vm href="/api/vms/192cdd3f-3281-4e20-b81d-93bdc57ac387" id="192cdd3f-3281-4e20-b81d-93bdc57ac387"/>
+    <storage_domains>
+      <storage_domain id="cba62b33-887a-410c-b367-e3d9229a72f7"/>
+    </storage_domains>
+    <size>5368709120</size>
+    <type>data</type>
+    <status>
+      <state>ok</state>
+    </status>
+    <interface>virtio</interface>
+    <format>raw</format>
+    <sparse>true</sparse>
+    <bootable>false</bootable>
+    <wipe_after_delete>false</wipe_after_delete>
+    <propagate_errors>false</propagate_errors>
+  </disk>
+  <disk href="/api/vms/192cdd3f-3281-4e20-b81d-93bdc57ac387/disks/e373b1a5-6c89-43f1-9a2d-cdf674412349" id="e373b1a5-6c89-43f1-9a2d-cdf674412349">
+    <name>Disk 1</name>
+    <link href="/api/vms/192cdd3f-3281-4e20-b81d-93bdc57ac387/disks/e373b1a5-6c89-43f1-9a2d-cdf674412349/statistics" rel="statistics"/>
+    <vm href="/api/vms/192cdd3f-3281-4e20-b81d-93bdc57ac387" id="192cdd3f-3281-4e20-b81d-93bdc57ac387"/>
+    <storage_domains>
+      <storage_domain id="cba62b33-887a-410c-b367-e3d9229a72f7"/>
+    </storage_domains>
+    <size>8589934592</size>
+    <type>system</type>
+    <status>
+      <state>ok</state>
+    </status>
+    <interface>virtio</interface>
+    <format>cow</format>
+    <sparse>true</sparse>
+    <bootable>true</bootable>
+    <wipe_after_delete>false</wipe_after_delete>
+    <propagate_errors>false</propagate_errors>
+  </disk>
+</disks>

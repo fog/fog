@@ -31,7 +31,7 @@ module Fog
         #  tags=nil
         #>
         #
-        # The volume can be retreived by running AWS.volumes.get("vol-1e2028b9").  See get method below.
+        # The volume can be retrieved by running AWS.volumes.get("vol-1e2028b9").  See get method below.
         #
 
         def initialize(attributes)
@@ -59,7 +59,7 @@ module Fog
         #  tags=nil
         #>
         #
-        # The volume can be retreived by running AWS.volumes.get("vol-1e2028b9").  See get method below.
+        # The volume can be retrieved by running AWS.volumes.get("vol-1e2028b9").  See get method below.
         #
 
         def all(filters = filters)
@@ -76,7 +76,7 @@ module Fog
           self
         end
 
-        # Used to retreive a volume
+        # Used to retrieve a volume
         # volume_id is required to get the associated volume information.
         #
         # You can run the following command to get the details:

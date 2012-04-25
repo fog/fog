@@ -64,8 +64,9 @@ module Fog
           requires :body, :directory, :key
           options['Content-Type'] = content_type if content_type
           data = connection.put_object(directory.key, key, body, options)
-          merge_attributes(data.headers)
+          merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})
           self.content_length = Fog::Storage.get_body_size(body)
+          self.content_type ||= Fog::Storage.get_content_type(body)
           true
         end
 

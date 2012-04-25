@@ -62,6 +62,8 @@ module Fog
               'ami-3202f25b'
             when 'us-west-1'
               'ami-f5bfefb0'
+            when 'us-west-2'
+              'ami-e0ec60d0'
             end
           end
           super
@@ -152,6 +154,7 @@ module Fog
             'Placement.AvailabilityZone'  => availability_zone,
             'Placement.GroupName'         => placement_group,
             'Placement.Tenancy'           => tenancy,
+            'PrivateIpAddress'            => private_ip_address,
             'RamdiskId'                   => ramdisk_id,
             'SecurityGroup'               => groups,
             'SecurityGroupId'             => security_group_ids,
@@ -195,7 +198,7 @@ module Fog
           commands = [
             %{mkdir .ssh},
             %{passwd -l #{username}},
-            %{echo "#{MultiJson.encode(Fog::JSON.sanitize(attributes))}" >> ~/attributes.json}
+            %{echo "#{MultiJson.dump(Fog::JSON.sanitize(attributes))}" >> ~/attributes.json}
           ]
           if public_key
             commands << %{echo "#{public_key}" >> ~/.ssh/authorized_keys}

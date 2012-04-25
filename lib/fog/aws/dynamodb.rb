@@ -9,6 +9,7 @@ module Fog
 
       request_path 'fog/aws/requests/dynamodb'
       request :batch_get_item
+      request :batch_put_item
       request :create_table
       request :delete_item
       request :delete_table
@@ -125,7 +126,7 @@ module Fog
           })
 
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = MultiJson.load(response.body)
           end
 
           response

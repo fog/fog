@@ -8,7 +8,9 @@ module Fog
         # Describe all or specified load balancers
         #
         # ==== Parameters
-        # * lb_name<~Array> - List of load balancer names to describe, defaults to all
+        # * options<~Hash>
+        #   * 'LoadBalancerNames'<~Array> - List of load balancer names to describe, defaults to all
+        #   * 'Marker'<String> - Indicates where to begin in your list of load balancers
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -42,18 +44,34 @@ module Fog
         #         * 'SourceSecurityGroup'<~Hash>:
         #           * 'GroupName'<~String> - Name of the source security group to use with inbound security group rules
         #           * 'OwnerAlias'<~String> - Owner of the source security group
-        def describe_load_balancers(lb_name = [])
-          params = Fog::AWS.indexed_param('LoadBalancerNames.member', [*lb_name])
+        #         * 'NextMarker'<~String> - Marker to specify for next page
+        def describe_load_balancers(options = {})
+          unless options.is_a?(Hash)
+            Fog::Logger.deprecation("describe_load_balancers with #{options.class} is deprecated, use all('LoadBalancerNames' => []) instead [light_black](#{caller.first})[/]")
+            options = { 'LoadBalancerNames' => [options].flatten }
+          end
+
+          if names = options.delete('LoadBalancerNames')
+            options.update(Fog::AWS.indexed_param('LoadBalancerNames.member', [*names]))
+          end
+
           request({
             'Action'  => 'DescribeLoadBalancers',
             :parser   => Fog::Parsers::AWS::ELB::DescribeLoadBalancers.new
-          }.merge!(params))
+          }.merge!(options))
         end
 
       end
 
       class Mock
-        def describe_load_balancers(lb_names = [])
+        def describe_load_balancers(options = {})
+          unless options.is_a?(Hash)
+            Fog::Logger.deprecation("describe_load_balancers with #{options.class} is deprecated, use all('LoadBalancerNames' => []) instead [light_black](#{caller.first})[/]")
+            options = { 'LoadBalancerNames' => [options].flatten }
+          end
+
+          lb_names = options['LoadBalancerNames'] || []
+
           lb_names = [*lb_names]
           load_balancers = if lb_names.any?
             lb_names.map do |lb_name|
@@ -63,6 +81,14 @@ module Fog
             end.compact
           else
             self.data[:load_balancers].map { |lb, values| values.dup }
+          end
+
+          marker = options.fetch('Marker', 0).to_i
+          if load_balancers.count - marker > 400
+            next_marker = marker + 400
+            load_balancers = load_balancers[marker...next_marker]
+          else
+            next_marker = nil
           end
 
           response = Excon::Response.new
@@ -80,6 +106,10 @@ module Fog
               end
             }
           }
+
+          if next_marker
+            response.body['DescribeLoadBalancersResult']['NextMarker'] = next_marker
+          end
 
           response
         end

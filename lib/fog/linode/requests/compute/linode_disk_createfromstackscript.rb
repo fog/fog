@@ -15,7 +15,7 @@ module Fog
               :label => name,
               :size => size,
               :rootPass => password,
-              :stackScriptUDFResponses => MultiJson.encode(options)
+              :stackScriptUDFResponses => MultiJson.dump(options)
             }
           )
         end

@@ -30,6 +30,11 @@ if Fog.mock?
     :go_grid_shared_secret            => 'go_grid_shared_secret',
     :google_storage_access_key_id     => 'google_storage_access_key_id',
     :google_storage_secret_access_key => 'google_storage_secret_access_key',
+    :hp_account_id                    => 'hp_account_id',
+    :hp_secret_key                    => 'hp_secret_key',
+    :hp_tenant_id                     => 'hp_tenant_id',
+    :ibm_username                     => 'ibm_username',
+    :ibm_password                     => 'ibm_password',
     :joyent_username                  => "joyentuser",
     :joyent_password                  => "joyentpass",
     :linode_api_key                   => 'linode_api_key',
@@ -49,6 +54,7 @@ if Fog.mock?
     :ovirt_url                        => 'http://ovirt:8080/api',
     :ovirt_username                   => 'admin@internal',
     :ovirt_password                   => '123123',
+    :libvirt_uri                      => 'qemu://libvirt/system',
     :rackspace_api_key                => 'rackspace_api_key',
     :rackspace_username               => 'rackspace_username',
     :slicehost_password               => 'slicehost_password',
@@ -67,6 +73,9 @@ if Fog.mock?
     :vsphere_server                   => 'virtualcenter.lan',
     :vsphere_username                 => 'apiuser',
     :vsphere_password                 => 'apipassword',
-    :vsphere_expected_pubkey_hash     => 'abcdef1234567890'
+    :vsphere_expected_pubkey_hash     => 'abcdef1234567890',
+    :libvirt_uri                      => 'qemu:///system',
+    :libvirt_username                 => 'root',
+    :libvirt_password                 => 'password'
   }
 end

@@ -85,7 +85,7 @@ module Fog
           @scheme             = options[:scheme]  || 'https'
           @persistent         = options[:persistent] || false
 
-          Excon.ssl_verify_peer = false
+          @connection_options[:ssl_verify_peer] = false
 
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end

@@ -76,7 +76,12 @@ module Fog
           @nil_string = options[:nil_string]|| 'nil'
 
           options[:region] ||= 'us-east-1'
-          @host = options[:host] || "sdb.#{options[:region]}.amazonaws.com"
+          @host = options[:host] || case options[:region]
+          when 'us-east-1'
+            'sdb.amazonaws.com'
+          else
+            "sdb.#{options[:region]}.amazonaws.com"
+          end
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443

@@ -6,7 +6,7 @@ module Fog
 
       class Node < Fog::Model
 
-        identity :uri
+        identity :uuid
 
         attribute :model
         attribute :memory
@@ -16,26 +16,15 @@ module Fog
         attribute :sockets
         attribute :cores
         attribute :threads
-        
         attribute :type
         attribute :version
         attribute :uri
         attribute :node_free_memory
         attribute :max_vcpus
-
-        private
-
-        def raw
-          @raw
-        end
-
-        def raw=(new_raw)
-          @raw = new_raw
-
-          raw_attributes = new_raw
-
-          merge_attributes(raw_attributes)
-        end
+        attribute :manufacturer
+        attribute :product
+        attribute :serial
+        attribute :hostname
 
       end
 

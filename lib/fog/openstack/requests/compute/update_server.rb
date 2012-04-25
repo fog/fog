@@ -5,7 +5,7 @@ module Fog
 
         def update_server(server_id, options = {})
           request(
-            :body     => MultiJson.encode({ 'server' => options }),
+            :body     => MultiJson.dump({ 'server' => options }),
             :expects  => 200,
             :method   => 'PUT',
             :path     => "servers/#{server_id}.json"

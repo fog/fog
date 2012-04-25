@@ -144,7 +144,7 @@ module Fog
           @path                       = options[:cloudstack_path]    || '/client/api'
           @port                       = options[:cloudstack_port]    || 443
           @scheme                     = options[:cloudstack_scheme]  || 'https'
-          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:cloudstack_persistent])
+          @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", options[:cloudstack_persistent], {:ssl_verify_peer => false})
         end
 
         def reload
@@ -165,7 +165,7 @@ module Fog
           sessionid = cookies['JSESSIONID'].first
 
           # Decode the login response
-          response   = MultiJson.decode(response.body)
+          response   = MultiJson.load(response.body)
           
           user = response['loginresponse']
           user.merge!('sessionid' => sessionid)
@@ -188,7 +188,7 @@ module Fog
           end
 
           response = issue_request(params,headers)
-          response = MultiJson.decode(response.body) unless response.body.empty?
+          response = MultiJson.load(response.body) unless response.body.empty?
           response
         end
 
@@ -232,7 +232,7 @@ module Fog
             })
             
           rescue Excon::Errors::HTTPStatusError => error
-            error_response = MultiJson.decode(error.response.body)
+            error_response = MultiJson.load(error.response.body)
             
             error_code = error_response.values.first['errorcode']
             error_text = error_response.values.first['errortext']

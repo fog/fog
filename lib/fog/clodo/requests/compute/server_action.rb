@@ -4,7 +4,7 @@ module Fog
       class Real
         def server_action(id, action)
           request(
-                  :body    => MultiJson.encode(action),
+                  :body    => MultiJson.dump(action),
                   :expects => [204],
                   :method  => 'POST',
                   :path    => "servers/#{id}/action")

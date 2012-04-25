@@ -9,13 +9,18 @@ module Fog
         deprecate :ip, :value
         deprecate :ip=, :value=
 
-        identity :name,         :aliases => ['Name']
+        identity :name,           :aliases => ['Name']
 
-        attribute :value,       :aliases => ['ResourceRecords']
-        attribute :ttl,         :aliases => ['TTL']
-        attribute :type,        :aliases => ['Type']
-        attribute :status,      :aliases => ['Status']
-        attribute :created_at,  :aliases => ['SubmittedAt']
+        attribute :value,         :aliases => ['ResourceRecords']
+        attribute :ttl,           :aliases => ['TTL']
+        attribute :type,          :aliases => ['Type']
+        attribute :status,        :aliases => ['Status']
+        attribute :created_at,    :aliases => ['SubmittedAt']
+        attribute :alias_target,  :aliases => ['AliasTarget']
+        attribute :change_id,     :aliases => ['Id']
+        attribute :region,        :aliases => ['Region']
+        attribute :weight,        :aliases => ['Weight']
+        attribute :set_identifier,:aliases => ['SetIdentifier']
 
         def initialize(attributes={})
           self.ttl ||= 3600
@@ -54,6 +59,24 @@ module Fog
           true
         end
 
+        # Returns true if record is insync.  May only be called for newly created or modified records that
+        # have a change_id and status set.
+        def ready?
+          requires :change_id, :status
+          status == 'INSYNC'
+        end
+
+        def reload
+          # If we have a change_id (newly created or modified), then reload performs a get_change to update status.
+          if change_id
+            data = connection.get_change(change_id).body
+            merge_attributes(data)
+            self
+          else
+            super
+          end
+        end
+
         private
 
         def zone=(new_zone)
@@ -61,13 +84,18 @@ module Fog
         end
 
         def attributes_to_options(action)
-          requires :name, :ttl, :type, :value, :zone
+          requires :name, :ttl, :type, :zone
+          requires_one :value, :alias_target
           {
-            :action           => action,
-            :name             => name,
-            :resource_records => [*value],
-            :ttl              => ttl,
-            :type             => type
+              :action           => action,
+              :name             => name,
+              :resource_records => [*value],
+              :alias_target     => symbolize_keys(alias_target),
+              :ttl              => ttl,
+              :type             => type,
+              :weight           => weight,
+              :set_identifier   => set_identifier,
+              :region           => region
           }
         end
 

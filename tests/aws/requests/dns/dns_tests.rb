@@ -191,7 +191,7 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       # create a load balancer
       @elb_connection.create_load_balancer(["us-east-1a"], "fog", [{"Protocol" => "HTTP", "LoadBalancerPort" => "80", "InstancePort" => "80"}])
 
-      elb_response   = @elb_connection.describe_load_balancers("fog")
+      elb_response   = @elb_connection.describe_load_balancers("LoadBalancerNames" => "fog")
       elb            = elb_response.body["DescribeLoadBalancersResult"]["LoadBalancerDescriptions"].first
       hosted_zone_id = elb["CanonicalHostedZoneNameID"]
       dns_name       = elb["DNSName"]
@@ -224,17 +224,11 @@ Shindo.tests('Fog::DNS[:aws] | DNS requests', ['aws', 'dns']) do
       response.status == 200
     }
 
-    test("list resource records")  {
+    tests("list resource records").formats(AWS::DNS::Formats::LIST_RESOURCE_RECORD_SETS)  {
       pending if Fog.mocking?
 
       # get resource records for zone
-      response = @r53_connection.list_resource_record_sets( @zone_id)
-      if response.status == 200
-        record_sets= response.body['ResourceRecordSets']
-        num_records= record_sets.count
-      end
-
-      response.status == 200
+      @r53_connection.list_resource_record_sets(@zone_id).body
     }
 
     test("delete #{@new_records.count} resource records") {

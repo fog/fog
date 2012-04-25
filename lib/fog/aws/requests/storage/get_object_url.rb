@@ -1,6 +1,33 @@
 module Fog
   module Storage
     class AWS
+
+      module GetObjectUrl
+
+        def get_object_url(bucket_name, object_name, expires, options = {})
+          unless bucket_name
+            raise ArgumentError.new('bucket_name is required')
+          end
+          unless object_name
+            raise ArgumentError.new('object_name is required')
+          end
+          host, path = if bucket_name =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
+            ["#{bucket_name}.#{@host}", object_name]
+          else
+            [@host, "#{bucket_name}/#{object_name}"]
+          end
+          scheme_host_path_query({
+            :scheme   => options[:scheme],
+            :headers  => {},
+            :host     => host,
+            :port     => @port,
+            :method   => 'GET',
+            :path     => path,
+            :query    => options[:query]
+          }, expires)
+        end
+      end
+
       class Real
 
         # Get an expiring object url from S3
@@ -17,19 +44,13 @@ module Fog
         # ==== See Also
         # http://docs.amazonwebservices.com/AmazonS3/latest/dev/S3_QSAuth.html
 
-        def get_object_url(bucket_name, object_name, expires)
-          Fog::Logger.deprecation("Fog::Storage::AWS => #get_object_url is deprecated, use #get_object_https_url instead [light_black](#{caller.first})[/]")
-          get_object_https_url(bucket_name, object_name, expires)
-        end
+        include GetObjectUrl
 
       end
 
       class Mock # :nodoc:all
 
-        def get_object_url(bucket_name, object_name, expires)
-          Fog::Logger.deprecation("Fog::Storage::AWS => #get_object_url is deprecated, use #get_object_https_url instead [light_black](#{caller.first})[/]")
-          get_object_https_url(bucket_name, object_name, expires)
-        end
+        include GetObjectUrl
 
       end
     end

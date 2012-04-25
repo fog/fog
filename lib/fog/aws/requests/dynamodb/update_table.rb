@@ -34,7 +34,7 @@ module Fog
           }
 
           request(
-            :body       => MultiJson.encode(body),
+            :body       => MultiJson.dump(body),
             :headers    => {'x-amz-target' => 'DynamoDB_20111205.UpdateTable'},
             :idempotent => true
           )

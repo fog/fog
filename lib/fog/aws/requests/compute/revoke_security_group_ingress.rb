@@ -8,8 +8,10 @@ module Fog
         # Remove permissions from a security group
         #
         # ==== Parameters
-        # * group_name<~String> - Name of group
+        # * group_name<~String> - Name of group, optional (can also be specifed as GroupName in options)
         # * options<~Hash>:
+        #   * 'GroupName'<~String> - Name of security group to modify
+        #   * 'GroupId'<~String> - Id of security group to modify
         #   * 'SourceSecurityGroupName'<~String> - Name of security group to authorize
         #   * 'SourceSecurityGroupOwnerId'<~String> - Name of owner to authorize
         #   or
@@ -39,11 +41,7 @@ module Fog
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-RevokeSecurityGroupIngress.html]
         def revoke_security_group_ingress(group_name, options = {})
-          if group_name.is_a?(Hash)
-            Fog::Logger.deprecation("Fog::AWS::Compute#revoke_security_group_ingress now requires the 'group_name' parameter. Only specifying an options hash is now deprecated [light_black](#{caller.first})[/]")
-            options = group_name
-            group_name = options.delete('GroupName')
-          end
+          options = Fog::AWS.parse_security_group_options(group_name, options)
 
           if ip_permissions = options.delete('IpPermissions')
             options.merge!(indexed_ip_permissions_params(ip_permissions))
@@ -51,7 +49,6 @@ module Fog
 
           request({
             'Action'    => 'RevokeSecurityGroupIngress',
-            'GroupName' => group_name,
             :idempotent => true,
             :parser     => Fog::Parsers::Compute::AWS::Basic.new
           }.merge!(options))
@@ -62,18 +59,19 @@ module Fog
       class Mock
 
         def revoke_security_group_ingress(group_name, options = {})
-          if group_name.is_a?(Hash)
-            Fog::Logger.deprecation("Fog::AWS::Compute#revoke_security_group_ingress now requires the 'group_name' parameter. Only specifying an options hash is now deprecated [light_black](#{caller.first})[/]")
-            options = group_name
-            group_name = options.delete('GroupName')
+          options = Fog::AWS.parse_security_group_options(group_name, options)
+          if options.key?('GroupName')
+            group_name = options['GroupName']
+          else
+            group_name = self.data[:security_groups].reject { |k,v| v['groupId'] != options['GroupId'] } .keys.first
           end
-
-          verify_permission_options(options)
 
           response = Excon::Response.new
           group = self.data[:security_groups][group_name]
 
           if group
+            verify_permission_options(options, group['vpcId'] != nil)
+
             normalized_permissions = normalize_permissions(options)
 
             normalized_permissions.each do |permission|

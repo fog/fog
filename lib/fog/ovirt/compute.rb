@@ -13,6 +13,10 @@ module Fog
       collection :templates
       model      :cluster
       collection :clusters
+      model      :interface
+      collection :interfaces
+      model      :volume
+      collection :volumes
 
       request_path 'fog/ovirt/requests/compute'
 
@@ -28,6 +32,17 @@ module Fog
       request :get_template
       request :list_clusters
       request :get_cluster
+      request :add_interface
+      request :destroy_interface
+      request :update_interface
+      request :list_vm_interfaces
+      request :list_template_interfaces
+      request :list_networks
+      request :vm_ticket
+      request :list_vm_volumes
+      request :list_template_volumes
+      request :add_volume
+      request :destroy_volume
 
       module Shared
         # converts an OVIRT object into an hash for fog to consume.
@@ -42,6 +57,8 @@ module Fog
             opts[key] = case value
                         when OVIRT::Link
                           value.id
+                        when Array
+                          value
                         when Hash
                           value
                         else
@@ -54,7 +71,6 @@ module Fog
 
       class Mock
         include Shared
-        attr_reader :client
 
         def initialize(options={})
           require 'rbovirt'
@@ -64,6 +80,7 @@ module Fog
         end
 
         private
+        attr_reader :client
         #read mocks xml
         def read_xml(file_name)
           file_path = File.join(File.dirname(__FILE__),"requests","compute","mock_files",file_name)
@@ -73,7 +90,7 @@ module Fog
 
       class Real
         include Shared
-        attr_reader :client
+
 
         def initialize(options={})
           require 'rbovirt'
@@ -87,6 +104,9 @@ module Fog
 
           @client = OVIRT::Client.new(username, password, url, datacenter)
         end
+
+        private
+        attr_reader :client
       end
     end
   end

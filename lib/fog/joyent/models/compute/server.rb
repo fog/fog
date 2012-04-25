@@ -12,7 +12,6 @@ module Fog
         attribute :dataset
         attribute :ips
         attribute :memory
-        attribute :ips
         attribute :disk
         attribute :metadata
 
@@ -50,7 +49,7 @@ module Fog
 
         def resize(flavor)
           requires :id
-          self.connection.resize(id, flavor)
+          self.connection.resize_machine(id, flavor)
           true
         end
 
