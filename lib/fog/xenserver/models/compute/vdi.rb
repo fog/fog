@@ -53,8 +53,8 @@ module Fog
           super 
         end
         
-        def set_attribute(name, val)
-          data = connection.set_attribute( 'VDI', reference, name, val )
+        def set_attribute(name, *val)
+          data = connection.set_attribute( 'VDI', reference, name, *val )
         end
 
         def snapshot_of

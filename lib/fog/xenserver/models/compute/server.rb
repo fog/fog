@@ -77,8 +77,8 @@ module Fog
           true
         end
 
-        def set_attribute(name, val)
-          data = connection.set_attribute( 'VM', reference, name, val )
+        def set_attribute(name, *val)
+          data = connection.set_attribute( 'VM', reference, name, *val )
           # Do not reload automatically for performance reasons
           # We can set multiple attributes at the same time and
           # then reload manually
