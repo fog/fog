@@ -13,7 +13,7 @@ module Fog
             data = nil
             message = nil
           else
-            data = MultiJson.load(error.response.body)
+            data = Fog::JSON.decode(error.response.body)
             message = data['message']
           end
 

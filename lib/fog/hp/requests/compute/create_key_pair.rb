@@ -37,7 +37,7 @@ module Fog
           end
 
           request(
-            :body     => MultiJson.dump(data),
+            :body     => Fog::JSON.encode(data),
             :expects  => 200,
             :method   => 'POST',
             :path     => 'os-keypairs.json'
