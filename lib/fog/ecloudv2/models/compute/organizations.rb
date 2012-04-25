@@ -5,6 +5,8 @@ module Fog
         undef_method :create
 
         def all
+          puts connection.methods.inspect
+          puts organization_uri.inspect
           data = connection.get_organizations(organization_uri).body
           load(data)
         end

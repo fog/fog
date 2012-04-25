@@ -2,7 +2,7 @@ module Fog
   module Compute
     class Ecloudv2 < Fog::Service
 
-      API_URL = "services.enterprisecloud.terremark.com"
+      API_URL = "https://services.enterprisecloud.terremark.com"
       attr_reader :authentication_method, :version
 
       #### Credentials
@@ -215,14 +215,13 @@ module Fog
           else
             @hmac                  = Fog::HMAC.new("sha256", @private_key)
           end
-          @connection              = Fog::Connection.new("https://#{@host}:#{443}", @persistent, @connection_options)
         end
 
         def default_organization_uri
           @api_url + "/organizations/"
         end
 
-        def request
+        def request(params)
           begin
             do_request(params)
           rescue Excon::Errors::Unauthorized => e
@@ -240,6 +239,7 @@ module Fog
           # Hash connections on the host_url ... There's nothing to say we won't get URI's that go to
           # different hosts.
           @connections[host_url] ||= Fog::Connection.new(host_url, @persistent, @connection_options)
+          puts @connections.inspect
 
           # Set headers to an empty hash if none are set.
           headers = set_extra_headers_for(params[:headers]) || set_extra_headers_for({})
@@ -252,6 +252,7 @@ module Fog
             :method   => params[:method] || 'GET',
             :path     => params[:uri].path
           })
+          puts response.inspect
 
           # Parse the response body into a hash
           #puts response.body
