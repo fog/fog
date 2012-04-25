@@ -48,6 +48,7 @@ module Fog
 
       def new(options={})
         # attempt to load credentials from config file
+        options = Fog.symbolize_credentials(options)
         begin
           default_credentials = Fog.credentials.reject {|key, value| !(recognized | requirements).include?(key)}
           options = default_credentials.merge(options)
