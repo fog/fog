@@ -26,7 +26,7 @@ module Fog
             :expects  => 201,
             :method   => 'PUT',
             :path     => "/V1.2/secondary/#{secondary_name}",
-            :body     => MultiJson.dump(body)
+            :body     => Fog::JSON.encode(body)
           )
         end
 

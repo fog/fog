@@ -9,7 +9,7 @@ module Fog
             :method   => 'POST',
             :path     => "/1.0/servers/#{identifier}/resize",
             :headers  => {"Content-Type" => "application/json"},
-            :body     => MultiJson.dump(options)
+            :body     => Fog::JSON.encode(options)
           )
         end
 

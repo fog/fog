@@ -9,7 +9,7 @@ module Fog
             }
           }
           request(
-            :body     => MultiJson.dump(data),
+            :body     => Fog::JSON.encode(data),
             :expects  => [200, 202],
             :path     => "loadbalancers/#{load_balancer_id}/connectionlogging",
             :method   => 'PUT'

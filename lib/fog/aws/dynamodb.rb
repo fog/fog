@@ -70,8 +70,6 @@ module Fog
         # ==== Returns
         # * DynamoDB object with connection to aws
         def initialize(options={})
-          require 'multi_json'
-
           if options[:aws_session_token]
             @aws_access_key_id      = options[:aws_access_key_id]
             @aws_secret_access_key  = options[:aws_secret_access_key]
@@ -126,7 +124,7 @@ module Fog
           })
 
           unless response.body.empty?
-            response.body = MultiJson.load(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
 
           response
