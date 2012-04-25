@@ -115,7 +115,7 @@ module Fog
             :method  => 'GET'
           })
 
-          body = MultiJson.decode(response.body)
+          body = Fog::JSON.decode(response.body)
           req_body['auth']['tenantName'] = body['tenants'].first['name']
         end
 
@@ -147,7 +147,7 @@ module Fog
       response = connection.request({
         :expects  => [200, 204],
         :headers  => {'Content-Type' => 'application/json'},
-        :body  => Fog::JSON.encode(req_body),
+        :body     => Fog::JSON.encode(request_body),
         :host     => uri.host,
         :method   => 'POST',
         :path     =>  (uri.path and not uri.path.empty?) ? uri.path : 'v2.0'

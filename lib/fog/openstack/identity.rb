@@ -69,7 +69,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'multi_json'
           @openstack_username = options[:openstack_username]
 
           @data ||= { :users => {}}
@@ -107,8 +106,6 @@ module Fog
         attr_reader :current_tenant
 
         def initialize(options={})
-          require 'multi_json'
-
           @openstack_auth_token = options[:openstack_auth_token]
 
           unless @openstack_auth_token
