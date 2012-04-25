@@ -20,7 +20,8 @@ module Fog
       recognizes :persistent
 
       model_path 'fog/brightbox/models/compute'
-      model       :account # Singular resource, no collection
+      collection  :accounts
+      model       :account
       collection  :servers
       model       :server
       collection  :server_groups
@@ -78,6 +79,7 @@ module Fog
       request :get_server_type
       request :get_user
       request :get_zone
+      request :list_accounts
       request :list_api_clients
       request :list_cloud_ips
       request :list_firewall_policies
