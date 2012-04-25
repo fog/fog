@@ -43,7 +43,7 @@ module Fog
           }
 
           request(
-            :body       => MultiJson.dump(body),
+            :body       => Fog::JSON.encode(body),
             :headers    => {'x-amz-target' => 'DynamoDB_20111205.CreateTable'},
             :idempotent => true
           )

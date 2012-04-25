@@ -60,8 +60,6 @@ module Fog
 
       class Real
         def initialize(options={})
-          require 'multi_json'
-
           @dynect_customer = options[:dynect_customer]
           @dynect_username = options[:dynect_username]
           @dynect_password = options[:dynect_password]
@@ -95,7 +93,7 @@ module Fog
             if response.status == 307
               response = poll_job(response)
             elsif !response.body.empty?
-              response.body = MultiJson.load(response.body)
+              response.body = Fog::JSON.decode(response.body)
             end
 
             response

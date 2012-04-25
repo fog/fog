@@ -195,7 +195,6 @@ module Fog
 
         def initialize(options={})
           require 'mime/types'
-          require 'multi_json'
           @aws_access_key_id = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
           options[:region] ||= 'us-east-1'
