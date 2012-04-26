@@ -45,6 +45,7 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :hp_account_id:
   :hp_secret_key:
   :hp_tenant_id:
+  :hp_avl_zone:
   :linode_api_key:
   :local_root:
   :new_servers_password:

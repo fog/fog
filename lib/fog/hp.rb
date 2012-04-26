@@ -177,19 +177,19 @@ module Fog
     private
 
     def self.get_endpoint_from_catalog(service_catalog, service_type, avl_zone)
-      if service_catalog
-        service_item = service_catalog.select {|s| s["type"] == service_type}.first
-        if service_item and service_item['endpoints'] and
-          if avl_zone == :az1
-            endpoint_url = service_item['endpoints'][0]['publicURL'] if service_item['endpoints'][0]
-          elsif avl_zone == :az2
-            endpoint_url = service_item['endpoints'][1]['publicURL'] if service_item['endpoints'][1]
-          end
-          raise "Unable to retrieve endpoint service url from service catalog." if endpoint_url.nil?
-          return endpoint_url
+      raise "Unable to parse service catalog." unless service_catalog
+      service_item = service_catalog.detect do |s|
+        s["type"] == service_type
+      end
+      if service_item and service_item['endpoints']
+        endpoint = service_item['endpoints'].detect do |ep|
+          ep['region'] == avl_zone
         end
+        endpoint_url = endpoint['publicURL'] if endpoint
+        raise "Unable to retrieve endpoint service url for availability zone '#{avl_zone}' from service catalog. " if endpoint_url.nil?
+        return endpoint_url
       else
-        raise "Unable to parse service catalog."
+        raise "Unable to retrieve service item for '#{service_type}' from service catalog."
       end
     end
 
