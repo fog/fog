@@ -33,7 +33,7 @@ module Fog
 
     if MultiJson.respond_to?(:load)
       def self.decode(obj)
-        Fog::JSON.decode(obj)
+        MultiJson.decode(obj)
       end
     else
       def self.decode(obj)
