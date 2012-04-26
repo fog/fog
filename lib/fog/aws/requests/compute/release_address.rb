@@ -14,10 +14,18 @@ module Fog
         #     * 'return'<~Boolean> - success?
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-ReleaseAddress.html]
-        def release_address(public_ip)
+        # 
+        # non-VPC: requires public_ip only
+        #     VPC: requires allocation_id only
+        def release_address(ip_or_allocation)
+          field = if ip_or_allocation.to_s =~ /^(\d|\.)+$/
+                    "PublicIp"
+                  else
+                    "AllocationId"
+                  end
           request(
             'Action'    => 'ReleaseAddress',
-            'PublicIp'  => public_ip,
+            field       => ip_or_allocation,
             :idempotent => true,
             :parser     => Fog::Parsers::Compute::AWS::Basic.new
           )
