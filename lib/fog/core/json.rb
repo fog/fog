@@ -23,7 +23,7 @@ module Fog
 
     if MultiJson.respond_to?(:dump)
       def self.encode(obj)
-        MultiJson.encode(obj)
+        MultiJson.dump(obj)
       end
     else
       def self.encode(obj)
@@ -33,7 +33,7 @@ module Fog
 
     if MultiJson.respond_to?(:load)
       def self.decode(obj)
-        MultiJson.decode(obj)
+        MultiJson.load(obj)
       end
     else
       def self.decode(obj)
