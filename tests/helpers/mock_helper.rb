@@ -31,6 +31,7 @@ if Fog.mock?
     :hp_account_id                    => 'hp_account_id',
     :hp_secret_key                    => 'hp_secret_key',
     :hp_tenant_id                     => 'hp_tenant_id',
+    :hp_avl_zone                      => 'hp_avl_zone',
     :linode_api_key                   => 'linode_api_key',
     :local_root                       => '~/.fog',
     :new_servers_password             => 'new_servers_password',
