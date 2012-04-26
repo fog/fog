@@ -6,22 +6,22 @@ module Fog
         require 'fog/aws/parsers/dns/change_resource_record_sets'
 
         # Use this action to create or change your authoritative DNS information for a zone
+        # http://docs.amazonwebservices.com/Route53/latest/DeveloperGuide/RRSchanges.html#RRSchanges_API
         #
         # ==== Parameters
         # * zone_id<~String> - ID of the zone these changes apply to
         # * options<~Hash>
         #   * comment<~String> - Any comments you want to include about the change.
-        #   * change_batch<~Array> - The information for a change request
-        #     * changes<~Hash> -
-        #       * action<~String> - 'CREATE' or 'DELETE'
-        #       * name<~String> - This must be a fully-specified name, ending with a final period
-        #       * type<~String> - A | AAAA | CNAME | MX | NS | PTR | SOA | SPF | SRV | TXT
-        #       * ttl<~Integer> - Time-to-live value - omit if using an alias record
-        #       * resource_record<~String> - Omit if using an alias record
-        #       * alias_target<~Hash> - Information about the domain to which you are redirecting traffic (Alias record sets only)
-        #         * dns_name<~String> - The Elastic Load Balancing domain to which you want to reroute traffic
-        #         * hosted_zone_id<~String> - The ID of the hosted zone that contains the Elastic Load Balancing domain to which you want to reroute traffic
-        #
+        # * change_batch<~Array> - The information for a change request
+        #   * changes<~Hash> -
+        #     * action<~String> - 'CREATE' or 'DELETE'
+        #     * name<~String>   - This must be a fully-specified name, ending with a final period
+        #     * type<~String>   - A | AAAA | CNAME | MX | NS | PTR | SOA | SPF | SRV | TXT
+        #     * ttl<~Integer>   - Time-to-live value - omit if using an alias record
+        #     * resource_records<~Array> - Omit if using an alias record
+        #     * alias_target<~Hash> - Information about the domain to which you are redirecting traffic (Alias record sets only)
+        #       * dns_name<~String> - The Elastic Load Balancing domain to which you want to reroute traffic
+        #       * hosted_zone_id<~String> - The ID of the hosted zone that contains the Elastic Load Balancing domain to which you want to reroute traffic
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
@@ -30,6 +30,30 @@ module Fog
         #       * 'Status'<~String> - status of the request - PENDING | INSYNC
         #       * 'SubmittedAt'<~String> - The date and time the change was made
         #   * status<~Integer> - 201 when successful
+        #
+        # ==== Examples
+        #
+        # Example changing a CNAME record:
+        #
+        #     change_batch_options = [
+        #       {
+        #         :action => "DELETE",
+        #         :name => "foo.example.com.",
+        #         :type => "CNAME",
+        #         :ttl => 3600,
+        #         :resource_records => [ "baz.example.com." ]
+        #       },
+        #       {
+        #         :action => "CREATE",
+        #         :name => "foo.example.com.",
+        #         :type => "CNAME",
+        #         :ttl => 3600,
+        #         :resource_records => [ "bar.example.com." ]
+        #       }
+        #     ]
+        #
+        #     change_resource_record_sets("ABCDEFGHIJKLMN", change_batch_options)
+        #
         def change_resource_record_sets(zone_id, change_batch, options = {})
 
           # AWS methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use
