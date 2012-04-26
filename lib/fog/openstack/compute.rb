@@ -37,6 +37,8 @@ module Fog
       collection  :networks
       model       :snapshot
       collection  :snapshots
+      model       :host
+      collection  :hosts
 
       ## REQUESTS
       #
@@ -147,6 +149,11 @@ module Fog
       request :get_quota
       request :get_quota_defaults
       request :update_quota
+
+      # Hosts
+      request :list_hosts
+      request :get_host_details
+      
 
       class Mock
 
