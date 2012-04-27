@@ -24,6 +24,7 @@ module Fog
         attribute :tenant_id
         attribute :user_id
         attribute :key_name
+        attribute :security_groups
         # these are implemented as methods
         attribute :image_id
         attribute :flavor_id
@@ -35,7 +36,6 @@ module Fog
 
         def initialize(attributes = {})
           # assign these attributes first to prevent race condition with new_record?
-          self.security_groups = attributes.delete(:security_groups)
           self.min_count = attributes.delete(:min_count)
           self.max_count = attributes.delete(:max_count)
           super
@@ -130,10 +130,6 @@ module Fog
           @max_count = new_max_count
         end
 
-        def security_groups=(new_security_groups)
-          @security_groups = new_security_groups
-        end
-
         def ready?
           self.state == 'ACTIVE'
         end
@@ -190,7 +186,7 @@ module Fog
             'min_count'   => @min_count,
             'max_count'   => @max_count,
             'key_name'    => key_name,
-            'security_groups' => @security_groups
+            'security_groups' => security_groups
           }
           options = options.reject {|key, value| value.nil?}
           data = connection.create_server(name, flavor_id, image_id, options)
