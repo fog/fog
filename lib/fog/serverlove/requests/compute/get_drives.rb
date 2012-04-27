@@ -4,7 +4,7 @@ module Fog
       class Real
 
         def get_drives
-          request("get", "/drives/list", [200])
+          request(:method => "get", :path => "/drives/list", :expects => 200)
         end
 
       end
