@@ -4,7 +4,7 @@ module Fog
   module Compute
     class Serverlove
 
-      class Disk < Fog::Model
+      class Drive < Fog::Model
 
         identity :drive
 
@@ -13,7 +13,7 @@ module Fog
         attribute :size
         attribute :claimed
         attribute :status
-        attribute :encryption:cipher
+        attribute :encryption_cipher
         
         def save
            # TODO
@@ -21,7 +21,7 @@ module Fog
 
         def destroy
           requires :identity
-          connection.destroy_disk(identity)
+          connection.destroy_drive(identity)
           true
         end 
       end

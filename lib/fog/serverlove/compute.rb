@@ -11,6 +11,10 @@ module Fog
       request_path 'fog/serverlove/requests/compute'
       request :get_drives
       
+      model_path 'fog/serverlove/models/compute'
+      model       :drive
+      collection  :drives
+      
       class Mock
         
         def initialize(options)
