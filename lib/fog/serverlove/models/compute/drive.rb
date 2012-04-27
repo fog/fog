@@ -13,7 +13,7 @@ module Fog
         attribute :size
         attribute :claimed
         attribute :status
-        attribute :encryption_cipher
+        attribute :encryption_cipher, :aliases => 'encryption:cipher'
         
         def save
            # TODO
