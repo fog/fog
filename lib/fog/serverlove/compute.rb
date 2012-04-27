@@ -10,6 +10,7 @@ module Fog
       
       request_path 'fog/serverlove/requests/compute'
       request :get_drives
+      request :destroy_drive
       
       model_path 'fog/serverlove/models/compute'
       model       :drive
@@ -48,7 +49,7 @@ module Fog
           
           raise_if_error!(response)
           
-          response.body = Fog::JSON.decode(response.body)
+          response.body = Fog::JSON.decode(response.body) if response.body && response.body.length > 0
           
           response
         end
