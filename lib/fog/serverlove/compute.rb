@@ -47,7 +47,7 @@ module Fog
         
         def header_for_basic_auth
           {
-            "Authorization" => "Basic #{Base64.encode64("#{@uuid}:#{@api_key}").delete("\r\n")}"
+            "Authorization" => "Basic #{Base64.encode64("#{@api_uuid}:#{@api_key}").delete("\r\n")}",
           }
         end
         
