@@ -11,6 +11,8 @@ module Fog
       request_path 'fog/serverlove/requests/compute'
       request :get_drives
       request :destroy_drive
+      request :create_drive
+      request :update_drive
       
       model_path 'fog/serverlove/models/compute'
       model       :drive

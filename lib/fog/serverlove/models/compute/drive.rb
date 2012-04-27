@@ -16,7 +16,15 @@ module Fog
         attribute :encryption_cipher, :aliases => 'encryption:cipher'
         
         def save
-           # TODO
+          requires :identity
+          connection.update_drive(identity, attributes)
+          true
+        end
+
+        def create(attributes)
+          requires :name
+          connection.create_drive(attributes)
+          true
         end
 
         def destroy
