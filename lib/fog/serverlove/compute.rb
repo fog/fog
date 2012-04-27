@@ -2,7 +2,7 @@ module Fog
   module Compute
     class Serverlove < Fog::Service
       
-      APR_URL = "https://api.z1-man.serverlove.com/"
+      API_URL = "https://api.z1-man.serverlove.com/"
       
       requires :serverlove_uuid, :serverlove_api_key
       
@@ -29,13 +29,13 @@ module Fog
         def initialize(options)
           @api_uuid = options[:serverlove_uuid] || Fog.credentials[:serverlove_uuid]
           @api_key = options[:serverlove_api_key] || Fog.credentials[:serverlove_api_key]
-          @api_url = options[:serverlove_api_url] || Fog.credentials[:serverlove_api_url]
+          @api_url = options[:serverlove_api_url] || Fog.credentials[:serverlove_api_url] || API_URL
           
           @connection = Fog::Connection.new(@api_url)
         end
         
         def request(params)
-          params = params.merge!(header_for_basic_auth)
+          params = params.merge!({:host => @api_url}).merge!(header_for_basic_auth)
           response = @connection.request(params)
           
           raise_if_error!(response)
