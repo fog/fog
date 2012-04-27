@@ -5,7 +5,7 @@ module Fog
   module Storage
     class HP < Fog::Service
 
-      requires    :hp_secret_key, :hp_account_id, :hp_tenant_id
+      requires    :hp_secret_key, :hp_account_id, :hp_tenant_id, :hp_avl_zone
       recognizes  :hp_auth_uri, :hp_servicenet, :hp_cdn_ssl, :hp_cdn_uri, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_auth_version
 
       model_path 'fog/hp/models/storage'
@@ -37,6 +37,7 @@ module Fog
               :hp_auth_uri    => @hp_auth_uri,
               :hp_cdn_uri     => @hp_cdn_uri,
               :hp_tenant_id   => @hp_tenant_id,
+              :hp_avl_zone    => @hp_avl_zone,
               :connection_options => @connection_options
             )
             if @cdn.enabled?
@@ -137,6 +138,7 @@ module Fog
           ### Pass the service type for object storage to the authentication call
           options[:hp_service_type] = "object-store"
           @hp_tenant_id = options[:hp_tenant_id]
+          @hp_avl_zone  = options[:hp_avl_zone]
 
           ### Make the authentication call
           if (auth_version == :v2)
