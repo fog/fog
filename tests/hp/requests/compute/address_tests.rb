@@ -7,11 +7,7 @@ Shindo.tests('Fog::Compute[:hp] | address requests', ['hp']) do
     'id'          => Integer
   }
 
-<<<<<<< HEAD
-  @base_image_id = ENV["BASE_IMAGE_ID"] ||= "1242"
-=======
   @base_image_id = ENV["BASE_IMAGE_ID"] || 1242
->>>>>>> cs_auth
 
   tests('success') do
 
