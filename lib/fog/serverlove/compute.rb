@@ -35,7 +35,12 @@ module Fog
         end
         
         def request(params)
-          params = params.merge!({:host => @api_url}).merge!(header_for_basic_auth)
+          params = params.merge!(
+            :headers => {
+              "Authorization" => "Basic #{Base64.encode64("#{@api_uuid}:#{@api_key}").chomp!}",
+            },
+            :host => @api_url
+          )
           response = @connection.request(params)
           
           raise_if_error!(response)
@@ -45,11 +50,6 @@ module Fog
           response
         end
         
-        def header_for_basic_auth
-          {
-            "Authorization" => "Basic #{Base64.encode64("#{@api_uuid}:#{@api_key}").delete("\r\n")}",
-          }
-        end
         
         def raise_if_error!(response)
           case response.status
