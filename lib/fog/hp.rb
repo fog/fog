@@ -107,7 +107,7 @@ module Fog
       @hp_secret_key = options[:hp_secret_key]
       @hp_tenant_id  = options[:hp_tenant_id]
       @hp_service_type  = options[:hp_service_type]
-      @hp_avl_zone   = options[:hp_avl_zone] || :az1
+      @hp_avl_zone   = options[:hp_avl_zone]
 
       ### Decide which auth style to use
       unless (@hp_use_upass_auth_style)

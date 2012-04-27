@@ -1,6 +1,10 @@
 Shindo.tests('Fog::Compute[:hp] | address requests', ['hp']) do
 
+<<<<<<< HEAD
   @base_image_id = ENV["BASE_IMAGE_ID"] ||= "1242"
+=======
+  @base_image_id = ENV["BASE_IMAGE_ID"] || 1242
+>>>>>>> cs_auth
 
   tests('success') do
     @server = Fog::Compute[:hp].servers.create(:name => 'fogaddresstests', :flavor_id => 100, :image_id => @base_image_id)
