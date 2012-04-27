@@ -6,18 +6,14 @@ module Fog
 
       class Disk < Fog::Model
 
-        identity :id
+        identity :drive
 
         attribute :name   
         attribute :user
-        attribute :status
-        attribute :tags
         attribute :size
-        attribute :claimed?
-        attribute :claim_type
-        attribute :imaging?
-        attribute :readers
-        attribute :encryption_cipher
+        attribute :claimed
+        attribute :status
+        attribute :encryption:cipher
         
         def save
            # TODO
