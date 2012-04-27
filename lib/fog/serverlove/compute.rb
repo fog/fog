@@ -1,7 +1,9 @@
 module Fog
   module Compute
     class Serverlove < Fog::Service
-            
+      
+      API_HOST = "api.z1-man.serverlove.com"
+      
       requires :serverlove_uuid, :serverlove_api_key
       
       recognizes :serverlove_api_url
@@ -27,14 +29,15 @@ module Fog
         def initialize(options)
           @api_uuid = options[:serverlove_uuid] || Fog.credentials[:serverlove_uuid]
           @api_key = options[:serverlove_api_key] || Fog.credentials[:serverlove_api_key]
+          @api_host = options[:serverlove_api_url] || Fog.credentials[:serverlove_api_url] || API_HOST
           
-          @connection = Fog::Connection.new("https://#{@api_uuid}:#{@api_key}@api.z1-man.serverlove.com/")
+          @connection = Fog::Connection.new("https://#{@api_uuid}:#{@api_key}@#{@api_host}")
         end
         
         def request(params)
           params = params.merge!(
             :headers => {
-              "Content-Type" => "application/json"
+              "Accept" => "application/json"
             }
           )
           response = @connection.request(params)
