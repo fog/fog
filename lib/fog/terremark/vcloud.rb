@@ -7,7 +7,8 @@ module Fog
 
      module Defaults
        HOST   = 'services.vcloudexpress.terremark.com'
-       PATH   = '/api/v0.8'
+       PATH   = '/api/v0.8a-ext1.6'
+       #PATH   = '/api/'
        PORT   = 443
        SCHEME = 'https'
      end

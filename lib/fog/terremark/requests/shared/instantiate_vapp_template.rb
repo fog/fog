@@ -23,6 +23,9 @@ module Fog
           unless name.length < 15
             raise ArgumentError.new('Name must be fewer than 15 characters')
           end
+          unless options['ssh_key_fingerprint']
+            raise ArgumentError.new("SSH Key Fingerprint is a compulsary parameter")
+          end
           options['cpus'] ||= 1
           options['memory'] ||= 512
           options['network_id'] ||= default_network_id
@@ -34,6 +37,7 @@ module Fog
   <VAppTemplate href="#{@scheme}://#{@host}/#{@path}/vAppTemplate/#{vapp_template}" />
   <InstantiationParams xmlns:vmw="http://www.vmware.com/schema/ovf">
     <ProductSection xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1" xmlns:q1="http://www.vmware.com/vcloud/v0.8"/>
+    <Property xmlns="http://schemas.dmtf.org/ovf/envelope/1" ovf:key="sshKeyFingerprint" ovf:value="#{options['ssh_key_fingerprint']}" />
     <VirtualHardwareSection xmlns:q1="http://www.vmware.com/vcloud/v0.8">
       <Item xmlns="http://schemas.dmtf.org/ovf/envelope/1">
         <InstanceID xmlns="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">1</InstanceID>
