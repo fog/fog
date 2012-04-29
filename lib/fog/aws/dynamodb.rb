@@ -9,7 +9,7 @@ module Fog
 
       request_path 'fog/aws/requests/dynamodb'
       request :batch_get_item
-      request :batch_put_item
+      request :batch_write_item
       request :create_table
       request :delete_item
       request :delete_table

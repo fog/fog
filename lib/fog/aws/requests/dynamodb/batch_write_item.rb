@@ -3,6 +3,11 @@ module Fog
     class DynamoDB
       class Real
 
+        def batch_put_item(request_items)
+          Fog::Logger.deprecation("batch_put_item is deprecated, use batch_write_item instead")
+          batch_write_item(request_items)
+        end
+
         #request_items has form:
         #{"table_name"=>
         #  [{"PutRequest"=>
@@ -13,7 +18,7 @@ module Fog
         #       }}}, ... ]}
         # For more information:
         # http://docs.amazonwebservices.com/amazondynamodb/latest/developerguide/API_BatchWriteItems.html
-        def batch_put_item(request_items)
+        def batch_write_item(request_items)
           body = {
             'RequestItems' => request_items
           }
