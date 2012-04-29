@@ -27,13 +27,13 @@ module Fog
           end
           
           merge_attributes(attributes)
-          true
+          self
         end
 
         def destroy
           requires :identity
           connection.destroy_drive(identity)
-          true
+          self
         end
         
         def allowed_attributes
