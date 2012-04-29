@@ -16,22 +16,28 @@ module Fog
         attribute :encryption_cipher, :aliases => 'encryption:cipher'
         
         def save
-          requires :identity
-          connection.update_drive(identity, attributes)
+          connection.update_drive(identity, allowed_attributes)
           true
         end
 
         def create(attributes)
           requires :name
-          connection.create_drive(attributes)
-          true
+          requires :size
+          attributes = Fog::Compute::Serverlove::Drive.new(attributes).allowed_attributes
+          Fog::Compute::Serverlove::Drive.new(connection.create_drive(attributes).body)
         end
 
         def destroy
           requires :identity
           connection.destroy_drive(identity)
           true
-        end 
+        end
+        
+        def allowed_attributes
+          allowed = [:name, :size]
+          attributes.select {|k,v| allowed.include? k}
+        end
+
       end
     end
   end
