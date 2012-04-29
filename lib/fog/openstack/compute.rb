@@ -18,6 +18,8 @@ module Fog
       collection  :servers
       model       :meta
       collection  :metadata
+      model       :ip
+      collection  :ips
 
       request_path 'fog/openstack/requests/compute'
       request :create_server
@@ -35,6 +37,13 @@ module Fog
       request :list_images_detail
       request :list_servers
       request :list_servers_detail
+
+      request :list_ips
+      request :allocate_ip
+      request :deallocate_ip
+
+      request :associate_ip
+      request :deassociate_ip
 
       request :server_action
       request :change_password_server
