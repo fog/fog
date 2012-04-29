@@ -1,29 +1,34 @@
 Shindo.tests('Fog::Compute[:serverlove] | drive requests', ['serverlove']) do
 
   @image_format = {
-    'id'                => String,
+    'drive'                => String,
     'name'              => String,
     'user'              => String,
     'size'              => Integer,
-    'claimed'           => Fog::Nullable::String
+    'claimed'           => Fog::Nullable::String,
     'status'            => String,
-    'encryption_cipher' => String
+    'encryption:cipher' => String,
+    'read:bytes'        => String,
+    'write:bytes'       => String,
+    'read:requests'     => String,
+    'write:requests'    => String
   }
-
+  
   tests('success') do
 
     attributes = { name: 'Test', size: 12345 }
 
     tests("#create_image").formats(@image_format) do
-      @image = Fog::Compute[:serverlove].create(attributes)
-      @image
+      @image = Fog::Compute[:serverlove].create_image(attributes).body
     end
     
-    tests('#list_images_detail').formats({'images' => [@image_format]}) do
+    tests("#list_images").succeeds do
       Fog::Compute[:serverlove].images
     end
-
-    @image.destroy
+    
+    tests("#destroy_image").succeeds do
+      Fog::Compute[:serverlove].destroy_image(@image['drive'])
+    end
 
   end
 
