@@ -4,9 +4,9 @@ module Fog
   module Compute
     class Serverlove
 
-      class Drive < Fog::Model
+      class Image < Fog::Model
 
-        identity :drive
+        identity :id, :aliases => 'drive'
 
         attribute :name   
         attribute :user
@@ -19,20 +19,24 @@ module Fog
           attributes = {}
           
           if(identity)
-            attributes = connection.update_drive(identity, allowed_attributes).body
+            attributes = connection.update_image(identity, allowed_attributes).body
           else
             requires :name
             requires :size
-            attributes = connection.create_drive(allowed_attributes).body
+            attributes = connection.create_image(allowed_attributes).body
           end
           
           merge_attributes(attributes)
           self
         end
+        
+        def ready?
+          status.upcase == 'ACTIVE'
+        end
 
         def destroy
           requires :identity
-          connection.destroy_drive(identity)
+          connection.destroy_image(identity)
           self
         end
         

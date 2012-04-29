@@ -9,14 +9,14 @@ module Fog
       recognizes :serverlove_api_url
       
       request_path 'fog/serverlove/requests/compute'
-      request :get_drives
-      request :destroy_drive
-      request :create_drive
-      request :update_drive
+      request :get_images
+      request :destroy_image
+      request :create_image
+      request :update_image
       
       model_path 'fog/serverlove/models/compute'
-      model       :drive
-      collection  :drives
+      model       :image
+      collection  :images
       
       class Mock
         

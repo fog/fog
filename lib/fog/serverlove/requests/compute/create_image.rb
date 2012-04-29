@@ -3,7 +3,7 @@ module Fog
     class Serverlove
       class Real
 
-        def create_drive(options)
+        def create_image(options)
           return nil if options.empty? || options.nil?
           request(:method => "post", :path => "/drives/create", :expects => 200, :options => options)
         end
