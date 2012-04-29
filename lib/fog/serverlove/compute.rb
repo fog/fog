@@ -9,6 +9,7 @@ module Fog
       recognizes :serverlove_api_url
       
       request_path 'fog/serverlove/requests/compute'
+      request :get_image
       request :get_images
       request :destroy_image
       request :create_image

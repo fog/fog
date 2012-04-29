@@ -15,7 +15,8 @@ module Fog
         end
 
         def get(image_id)
-          connection.get_image(image_id)
+          data = connection.get_image(image_id).body
+          new(data)
         end
 
       end
