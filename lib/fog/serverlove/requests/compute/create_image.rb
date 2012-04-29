@@ -9,6 +9,24 @@ module Fog
         end
 
       end
+      
+      class Mock
+
+        def create_image(options = {})
+          response = Excon::Response.new
+          response.status = 200
+
+          data = {
+            'drive'        => Fog::Mock.random_numbers(1000000).to_s,
+            'name'      => options['name'] || 'Test',
+            'size'      => options['size'] || 12345
+          }
+
+          response.body = data
+          response
+        end
+
+      end
     end
   end
 end
