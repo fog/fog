@@ -22,7 +22,7 @@ module Fog
             response.body = { 'private' => server['addresses']['private'] }
             response
           else
-            raise Fog::Compute::Rackspace::NotFound
+            raise Fog::Compute::OpenStack::NotFound
           end
         end
 

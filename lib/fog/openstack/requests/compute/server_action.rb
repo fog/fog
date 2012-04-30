@@ -3,7 +3,7 @@ module Fog
     class OpenStack
       class Real
 
-        def server_action(server_id, body, expects=202)
+        def server_action(server_id, body, expects=[200,202])
           request(
             :body     => Fog::JSON.encode(body),
             :expects  => expects,
