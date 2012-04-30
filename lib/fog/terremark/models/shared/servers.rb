@@ -22,15 +22,30 @@ module Fog
         model Fog::Terremark::Shared::Server
 
         def all
-          data = connection.get_vdc(vdc_id).body['ResourceEntities'].select do |entity|
-            entity['type'] == 'application/vnd.vmware.vcloud.vApp+xml'
+          data = []
+          connection.get_vdc(vdc_id).body['ResourceEntities'].select do |entity|
+              data << connection.servers.get(entity["href"].split('/').last)
           end
-          load(data)
+          data
         end
 
         def get(server_id)
           if server_id && server = connection.get_vapp(server_id).body
-            new(server)
+            server = new(server)
+
+            #Find the Public IP Address
+            #Identify Public IP address by matching Internet Service name with Server Name
+            services = connection.get_internet_services(connection.default_vdc_id)
+            internet_info = services.body["InternetServices"].find {|item| item["Name"] == server.name}
+
+            if internet_info
+                nodes = connection.get_node_services(internet_info["Id"])
+                if nodes.body["NodeServices"].find{|item| item["IpAddress"] == server.IpAddress }
+                    server.PublicIpAddress = internet_info["PublicIpAddress"]["Name"] 
+                end
+            end
+
+            server
           elsif !server_id
             nil
           end

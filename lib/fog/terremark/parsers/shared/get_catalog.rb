@@ -22,9 +22,6 @@ module Fog
                 end
                 catalog_item["id"] = catalog_item["href"].split('/').last
               end            
-#              until attributes.empty?
-#                catalog_item[attributes.shift] = attributes.shift
-#              end            
               @response['CatalogItems'] << catalog_item
             when 'Catalog'
               catalog = {}

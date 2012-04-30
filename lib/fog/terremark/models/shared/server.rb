@@ -9,30 +9,62 @@ module Fog
         identity :id
 
         attribute :name
+        attribute :image
+        attribute :sshkeyFingerPrint
         attribute :status
         attribute :OperatingSystem
         attribute :VirtualHardware
+        attribute :IpAddress
+        attribute :PublicIpAddress
 
         def destroy
-          requires :id
-          data = connection.power_off(id).body
-          task = connection.tasks.new(data)
-          task.wait_for { ready? }
-          connection.delete_vapp(id)
+          case self.status
+            when "0"
+              return false
+            when "4"
+              data = connection.power_off(self.id).body
+              wait_for { off? }
+            end
+          connection.delete_vapp(self.id)
           true
+        end
+
+        def delete_internet_services
+
+            #Find the internet service
+            services = connection.get_internet_services(connection.default_vdc_id)
+            internet_info = services.body["InternetServices"].find {|item| item["Name"] == self.name}
+
+            #Delete all the associated nodes
+            if internet_info
+              nodes = connection.get_node_services(internet_info["Id"]).body["NodeServices"]
+              nodes.select { |item| connection.delete_node_service(item["Id"]) }
+
+              #Clear out the services
+              connection.delete_internet_service(internet_info["Id"])
+
+              #Release IP Address
+              connection.delete_public_ip(internet_info["PublicIpAddress"]["Id"])
+            end
+            true
         end
 
         # { '0' => 'Being created', '2' => 'Powered Off', '4' => 'Powered On'}
         def ready?
-          status == '2'
+          state = connection.get_vapp(id).body["status"]  
+          puts " id : #{id}, state : #{state}"
+          state == '2'
         end
 
         def on?
-          status == '4'
+          state = connection.get_vapp(id).body["status"]
+          puts " id : #{id}, state : #{state}"
+          state == '4'
         end
 
         def off?
-          status == '2'
+          state = connection.get_vapp(id).body["status"]
+          state == '2'
         end
 
         def power_on(options = {})
@@ -81,14 +113,34 @@ module Fog
           power_on
         end
 
+        def create_internet_service(protocol="TCP", port="22")
+          data = connection.create_internet_service(
+              vdc = connection.default_vdc_id,
+              name = self.name,
+              protocol = protocol,
+              port = port,
+              options = {'Enabled' => 'true',
+                         "Description" => :name
+                        }
+          )
+          merge_attributes(data.body)
+          ssh_service = data.body["Id"]
+          data = connection.add_node_service(
+              service_id = ssh_service,
+              ip = self.IpAddress,
+              name = self.name,
+              port = port,
+              options = {'Enabled' => 'true',
+                         "Description" => :name
+                        }
+          ) 
+          true 
+        end
+
         def save
           requires :name
-          data = connection.instantiate_vapp(name)
+          data = connection.instantiate_vapp_template(server_name=name, vapp_template=image, options={'ssh_key_fingerprint'=>sshkeyFingerPrint})
           merge_attributes(data.body)
-          task = connection.deploy_vapp(id)
-          task.wait_for { ready? }
-          task = connection.power_on(id)
-          task.wait_for { ready? }
           true
         end
 
@@ -100,7 +152,6 @@ module Fog
 
         def type=(new_type); @type = new_type; end
         def size=(new_size); @size = new_size; end
-        def IpAddress=(new_ipaddress); @IpAddress = new_ipaddress; end
         def Links=(new_links); @Links = new_links; end
 
       end

@@ -9,7 +9,9 @@ module Fog
         identity :id
 
         attribute :name
-
+        attribute :ResourceEntities
+        attribute :AvailableNetworks
+        attribute :links
         def networks
           connection.networks(:vdc_id => id)
         end

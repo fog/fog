@@ -19,16 +19,13 @@ module Fog
         #       * 'rel'<~String> - action to perform
         #       * 'type'<~String> - type of link
         def get_keys_list(organization_id)
-          org_path = @path
-          @path="/api/extensions/v1.6/"
           response = request(
             :expects  => 200,
             :method   => 'GET',
             :parser   => Fog::Parsers::Terremark::Shared::GetKeysList.new,
-            :path     => "org/#{organization_id}/keys"
+            :path     => "api/extensions/v1.6/org/#{organization_id}/keys",
+            :override_path => true
           )
-          #Restore original path
-          @path = org_path
           response
         end
       

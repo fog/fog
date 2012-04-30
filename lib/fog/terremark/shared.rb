@@ -72,6 +72,17 @@ module Fog
           if @cookie
             headers.merge!('Cookie' => @cookie)
           end
+          if params[:path]
+              if params[:override_path] == true
+                  path = params[:path]
+              else
+                  path = "#{@path}/#{params[:path]}"
+              end
+          else
+              path = "#{@path}"
+          end
+          puts  "PATH in do_request: #{path}"
+          puts  "HOST in do_request: #{@host}"
           @connection.request({
             :body     => params[:body],
             :expects  => params[:expects],
@@ -79,7 +90,7 @@ module Fog
             :host     => @host,
             :method   => params[:method],
             :parser   => params[:parser],
-            :path     => "#{@path}/#{params[:path]}"
+            :path     => path
           })
         end
 
