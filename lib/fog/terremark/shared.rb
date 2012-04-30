@@ -81,8 +81,6 @@ module Fog
           else
               path = "#{@path}"
           end
-          puts  "PATH in do_request: #{path}"
-          puts  "HOST in do_request: #{@host}"
           @connection.request({
             :body     => params[:body],
             :expects  => params[:expects],

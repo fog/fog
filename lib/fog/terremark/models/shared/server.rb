@@ -54,13 +54,11 @@ module Fog
         # { '0' => 'Being created', '2' => 'Powered Off', '4' => 'Powered On'}
         def ready?
           state = connection.get_vapp(id).body["status"]  
-          puts " id : #{id}, state : #{state}"
           state == '2'
         end
 
         def on?
           state = connection.get_vapp(id).body["status"]
-          puts " id : #{id}, state : #{state}"
           state == '4'
         end
 

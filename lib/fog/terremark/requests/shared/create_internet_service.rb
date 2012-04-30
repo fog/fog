@@ -31,12 +31,8 @@ module Fog
           unless options.has_key?('Enabled')
             options['Enabled'] = true
           end
-          org_path = @path
           #Sample: "https://services.vcloudexpress.terremark.com/api/extensions/v1.6/vdc/3142/internetServices"
           path = vdcs.get(vdc_id).links.find { |item| item['name'] == 'Internet Services'}['href'].split(@host)[1]
-          @path = path
-          puts "PATH =#{path}"
-          puts "PATHA = #{@path}"
           data = <<-DATA
           <CreateInternetServiceRequest xml:lang="en" xmlns="urn:tmrk:vCloudExpressExtensions-1.6" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
             <Name>#{name}</Name>
@@ -51,9 +47,10 @@ module Fog
             :expects  => 200,
             :headers  => {'Content-Type' => 'application/vnd.tmrk.vCloud.internetService+xml'},
             :method   => 'POST',
-            :parser   => Fog::Parsers::Terremark::Shared::InternetService.new
+            :parser   => Fog::Parsers::Terremark::Shared::InternetService.new,
+	    :path     => path,
+            :override_path => true
           )
-          @path = org_path
           response
         end
 
