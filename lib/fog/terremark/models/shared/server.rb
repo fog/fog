@@ -10,6 +10,8 @@ module Fog
 
         attribute :name
         attribute :image
+        attribute :vcpus
+        attribute :memory
         attribute :sshkeyFingerPrint
         attribute :status
         attribute :OperatingSystem
@@ -139,7 +141,14 @@ module Fog
 
         def save
           requires :name
-          data = connection.instantiate_vapp_template(server_name=name, vapp_template=image, options={'ssh_key_fingerprint'=>sshkeyFingerPrint})
+          data = connection.instantiate_vapp_template(
+              server_name=name, 
+              vapp_template=image, 
+              options={
+                  'ssh_key_fingerprint' => sshkeyFingerPrint,
+                  'cpus' => vcpus,
+                  'memory' => memory
+              })
           merge_attributes(data.body)
           true
         end
