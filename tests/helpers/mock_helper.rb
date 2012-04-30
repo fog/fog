@@ -50,7 +50,7 @@ if Fog.mock?
     :openstack_api_key                => 'openstack_api_key',
     :openstack_username               => 'openstack_username',
     :openstack_tenant                 => 'openstack_tenant',
-    :openstack_auth_url               => 'openstack_auth_url',
+    :openstack_auth_url               => 'http://openstack:35357/v2.0/tokens',
     :ovirt_url                        => 'http://ovirt:8080/api',
     :ovirt_username                   => 'admin@internal',
     :ovirt_password                   => '123123',

@@ -8,6 +8,7 @@ module Fog
       class Server < Fog::Compute::Server
 
         identity :id
+        attribute :instance_name, :aliases => 'OS-EXT-SRV-ATTR:instance_name'
 
         attribute :addresses
         attribute :flavor
@@ -24,12 +25,23 @@ module Fog
         attribute :user_data_encoded
         attribute :state,       :aliases => 'status'
 
+        attribute :tenant_id
+        attribute :user_id
+        attribute :key_name
+
+
         attr_reader :password
         attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :image_ref, :flavor_ref
+
 
         def initialize(attributes={})
           @connection = attributes[:connection]
           attributes[:metadata] = {}
+
+          self.security_groups = attributes.delete(:security_groups)
+          self.min_count = attributes.delete(:min_count)
+          self.max_count = attributes.delete(:max_count)
+
           super
         end
 
@@ -139,6 +151,10 @@ module Fog
           true
         end
 
+        def security_groups=(new_security_groups)
+          @security_groups = new_security_groups
+        end
+
         def reboot(type = 'SOFT')
           requires :id
           connection.reboot_server(id, type)
@@ -150,6 +166,44 @@ module Fog
           connection.create_image(id, name, metadata)
         end
 
+        def console(log_length = nil)
+          requires :id
+          connection.get_console_output(id, log_length)
+        end
+
+        def migrate
+          requires :id
+          connection.migrate_server(id)
+        end
+
+        def live_migrate(host, block_migration, disk_over_commit)
+          requires :id
+          connection.live_migrate_server(id, host, block_migration, disk_over_commit)
+        end
+
+        def associate_address(floating_ip)
+          requires :id
+          connection.associate_address id, floating_ip
+        end
+
+        def disassociate_address(floating_ip)
+          requires :id
+          connection.disassociate_address id, floating_ip
+        end
+
+        def min_count=(new_min_count)
+          @min_count = new_min_count
+        end
+
+        def max_count=(new_max_count)
+          @max_count = new_max_count
+        end
+
+        def networks
+          connection.networks(:server => self)
+        end
+
+        # TODO: Implement /os-volumes-boot support with 'block_device_mapping'
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :flavor_ref, :image_ref, :name
@@ -161,7 +215,11 @@ module Fog
             'accessIPv4' => accessIPv4,
             'accessIPv6' => accessIPv6,
             'availability_zone' => availability_zone,
-            'user_data' => user_data_encoded
+            'userdata' => user_data_encoded,
+            'key_name'    => key_name,
+            'security_groups' => @security_groups,
+            'min_count'   => @min_count,
+            'max_count'   => @max_count,
           }
           options = options.reject {|key, value| value.nil?}
           data = connection.create_server(name, image_ref, flavor_ref, options)

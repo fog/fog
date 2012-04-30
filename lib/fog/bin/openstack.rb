@@ -5,6 +5,8 @@ class OpenStack < Fog::Bin
       case key
       when :compute
         Fog::Compute::OpenStack
+      when :identity
+        Fog::Identity::OpenStack
       else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
@@ -14,7 +16,10 @@ class OpenStack < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
-          Fog::Logger.warning("OpenStack[:compute] is not recommended, use Compute[:rackspace] for portability")
+          Fog::Logger.warning("OpenStack[:compute] is not recommended, use Compute[:openstack] for portability")
+          Fog::Compute.new(:provider => 'OpenStack')
+        when :identity
+          Fog::Logger.warning("OpenStack[:identity] is not recommended, use Compute[:openstack] for portability")
           Fog::Compute.new(:provider => 'OpenStack')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
