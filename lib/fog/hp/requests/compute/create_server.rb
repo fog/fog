@@ -101,11 +101,11 @@ module Fog
           response = Excon::Response.new
           response.status = 202
 
-          #if options['security_groups']
-          #  sec_group_name = options['security_groups'][0]
-          #else
-          #  sec_group_name = "default"
-          #end
+          if options['security_groups']
+            sec_group_name = options['security_groups'][0]
+          else
+            sec_group_name = "default"
+          end
           data = {
             'addresses' => { "private"=>[{"version"=>4, "addr"=>Fog::HP::Mock.ip_address}] },
             'flavor'    => {"id"=>"#{flavor_id}", "links"=>[{"href"=>"http://nova1:8774/admin/flavors/#{flavor_id}", "rel"=>"bookmark"}]},
@@ -125,7 +125,7 @@ module Fog
             'tenant_id' => Fog::HP::Mock.user_id.to_s,
             'uuid'      => "95253a45-9ead-43c6-90b3-65da2ef048b3",
             'config_drive' => "",
-            #'security_groups' => [{"name"=>"#{sec_group_name}", "links"=>[{"href"=>"http://nova1:8774/v1.1/admin//os-security-groups/111", "rel"=>"bookmark"}], "id"=>111}],
+            'security_groups' => [{"name"=>"#{sec_group_name}", "links"=>[{"href"=>"http://nova1:8774/v1.1/admin//os-security-groups/111", "rel"=>"bookmark"}], "id"=>111}],
             'key_name'  => options['key_name'] || ""
           }
           self.data[:last_modified][:servers][data['id']] = Time.now

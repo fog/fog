@@ -19,7 +19,7 @@ Shindo.tests('Fog::Compute[:hp] | server requests', ['hp']) do
     'tenant_id'   => String,
     'uuid'        => String,
     'config_drive' => Fog::Nullable::String,
-    #'security_groups' => [Hash],
+    'security_groups' => [Hash],
     'key_name'    => Fog::Nullable::String
   }
 
