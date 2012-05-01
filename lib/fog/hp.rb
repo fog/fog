@@ -154,9 +154,9 @@ module Fog
       ### fish out auth_token and endpoint for the service
       auth_token = body['access']['token']['id']
       endpoint_url = get_endpoint_from_catalog(body['access']['serviceCatalog'], @hp_service_type, @hp_avl_zone)
-      # If service is Storage, then get the CDN endpoint as well
-      if @hp_service_type == "object-store"
-        cdn_endpoint_url = get_endpoint_from_catalog(body['access']['serviceCatalog'], "hpext:cdn", @hp_avl_zone)
+      # If service is Storage, then get the CDN endpoint as well. 'Name' is unique instead of 'Type'
+      if @hp_service_type == "Object Storage"
+        cdn_endpoint_url = get_endpoint_from_catalog(body['access']['serviceCatalog'], "CDN", @hp_avl_zone)
       end
 
       return {
@@ -179,7 +179,8 @@ module Fog
     def self.get_endpoint_from_catalog(service_catalog, service_type, avl_zone)
       raise "Unable to parse service catalog." unless service_catalog
       service_item = service_catalog.detect do |s|
-        s["type"] == service_type
+        # 'Name' is unique instead of 'Type'
+        s["name"] == service_type
       end
       if service_item and service_item['endpoints']
         endpoint = service_item['endpoints'].detect do |ep|

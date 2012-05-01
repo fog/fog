@@ -58,8 +58,8 @@ module Fog
           @connection_options = options[:connection_options] || {}
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
           auth_version = options[:hp_auth_version] || :v2
-          ### Pass the service type for object storage to the authentication call
-          options[:hp_service_type] = "hpext:cdn"
+          ### Pass the service name for object storage to the authentication call
+          options[:hp_service_type] = "CDN"
 
           ### Make the authentication call
           if (auth_version == :v2)
