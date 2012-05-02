@@ -46,7 +46,6 @@ DATA
 </VApp>
 DATA
 
-          puts "Data : #{data}"
           request(
             :body => data,
             :expects => 202,
