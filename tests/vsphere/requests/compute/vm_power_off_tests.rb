@@ -1,21 +1,32 @@
 Shindo.tests('Fog::Compute[:vsphere] | vm_power_off request', ['vsphere']) do
 
+  require 'rubygems'
+  require 'rbvmomi'
+  require 'Fog'
   compute = Fog::Compute[:vsphere]
 
-  powered_on_vm = '5032c8a5-9c5e-ba7a-3804-832a03e16381'
+  class ConstClass
+     SOFT = "/Datacenters/Datacenter2012/vm/cc"
+     FORCE = "/Datacenters/Datacenter2012/vm/cc-copy"
+  end
 
   tests('The response should') do
-    response = compute.vm_power_off('instance_uuid' => powered_on_vm)
+    vm_mob_ref = compute.get_vm_mob_ref_by_path('path' => ConstClass::SOFT)
+    powered_on_vm_soft = compute.convert_vm_mob_ref_to_attr_hash(vm_mob_ref).fetch('instance_uuid')
+    response = compute.vm_power_off('instance_uuid' => powered_on_vm_soft, 'wait'=> true)
     test('be a kind of Hash') { response.kind_of? Hash }
     test('should have a task_state key') { response.has_key? 'task_state' }
     test('should have a power_off_type key') { response.has_key? 'power_off_type' }
+    test('should return power_off_type of #{expected}') { response['power_off_type'] == 'shutdown_guest'}
   end
 
   # When forcing the shutdown, we expect the result to be
-  { true => 'cut_power', false => 'shutdown_guest'}.each do |force, expected|
+  { true => 'cut_power'}.each do |force, expected|
+    vm_mob_ref = compute.get_vm_mob_ref_by_path('path' => ConstClass::FORCE)
+    powered_on_vm_force = compute.convert_vm_mob_ref_to_attr_hash(vm_mob_ref).fetch('instance_uuid')
     tests("When 'force' => #{force}") do
-      response = compute.vm_power_off('instance_uuid' => powered_on_vm, 'force' => force)
-      test('should retur power_off_type of #{expected}') { response['power_off_type'] == expected }
+      response = compute.vm_power_off('instance_uuid' => powered_on_vm_force, 'force' => force)
+      test('should return power_off_type of #{expected}') { response['power_off_type'] == expected }
     end
   end
 
