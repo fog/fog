@@ -295,6 +295,7 @@ module Fog
         require 'fog/terremark/requests/shared/get_vapp_template'
         require 'fog/terremark/requests/shared/get_vdc'
         require 'fog/terremark/requests/shared/instantiate_vapp_template'
+        require 'fog/terremark/requests/shared/configure_vapp'
         require 'fog/terremark/requests/shared/power_off'
         require 'fog/terremark/requests/shared/power_on'
         require 'fog/terremark/requests/shared/power_reset'
