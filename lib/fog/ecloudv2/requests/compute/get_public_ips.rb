@@ -3,11 +3,11 @@ module Fog
     class Ecloudv2
 
       class Real
-        basic_request :get_organization
+        basic_request :get_public_ips
       end
 
       class Mock
-        def get_organization(organization_uri)
+        def get_public_ips(uri)
         end
       end
     end

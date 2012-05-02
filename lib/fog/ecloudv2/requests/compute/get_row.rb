@@ -3,11 +3,11 @@ module Fog
     class Ecloudv2
 
       class Real
-        basic_request :get_organization
+        basic_request :get_row
       end
 
       class Mock
-        def get_organization(organization_uri)
+        def get_row(uri)
         end
       end
     end

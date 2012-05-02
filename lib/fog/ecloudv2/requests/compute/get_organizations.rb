@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class Ecloud
+    class Ecloudv2
 
       class Real
         basic_request :get_organizations

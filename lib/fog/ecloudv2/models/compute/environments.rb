@@ -2,41 +2,39 @@ require 'fog/ecloudv2/models/compute/environment'
 
 module Fog
   module Compute
-    class Ecloud
+    class Ecloudv2
 
-      class Environments < Collection
+      class Environments < Fog::Ecloudv2::Collection
 
-        model Fog::Compute::Ecloud::Environment
+        model Fog::Compute::Ecloudv2::Environment
 
         undef_method :create
 
+        identity :href
+
         def all
-          data = connection.get_organization(organization_uri).body[:Link].select { |link| link[:type] == "application/vnd.tmrk.cloud.environment; type=collection" }
-          data.each { |link| link.delete_if { |key, value| [:rel].include?(key) } }
+          data = []
+          connection.get_organization(href).body[:Locations][:Location].each do |d| 
+            if d[:Environments][:Environment].is_a?(Array)
+              d[:Environments][:Environment].each { |e| data << e }
+            else
+              data << d[:Environments][:Environment]
+            end
+          end
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_vdc(uri)
+          if data = connection.get_environment(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound
           nil
         end
 
-        def organization_uri
-          @organization_uri ||= connection.default_organization_uri
-        end
-
-        private
-
-        def organization_uri=(new_organization_uri)
-          @organization_uri = new_organization_uri
-        end
+        Vdcs = Environments
 
       end
-
-      Vdcs = Environments
     end
   end
 end

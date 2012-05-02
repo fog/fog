@@ -1,14 +1,19 @@
+require 'fog/ecloudv2/models/compute/organization'
+
 module Fog
   module Compute
     class Ecloudv2
-      class Organizations < Collection
+      class Organizations < Fog::Ecloudv2::Collection
+
+        model Fog::Compute::Ecloudv2::Organization
+
         undef_method :create
 
+        identity :href
+
         def all
-          puts connection.methods.inspect
-          puts organization_uri.inspect
           data = connection.get_organizations(organization_uri).body
-          load(data)
+          load(data[:Organization])
         end
 
         def get(uri)
