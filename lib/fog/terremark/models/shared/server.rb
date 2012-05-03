@@ -46,7 +46,7 @@ module Fog
             services = connection.get_internet_services(connection.default_vdc_id)
             internet_services = services.body["InternetServices"].select {|item| item["Name"] == self.name}
 
-            for service in internet_services:
+            for service in internet_services
               nodes = connection.get_node_services(service["Id"]).body["NodeServices"]
               #Delete all the associated nodes
               nodes.select { |item| connection.delete_node_service(item["Id"]) }
