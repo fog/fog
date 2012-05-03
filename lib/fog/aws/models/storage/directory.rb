@@ -19,7 +19,7 @@ module Fog
         attribute :creation_date, :aliases => 'CreationDate'
 
         def acl=(new_acl)
-          if VALID_ACLS.include?(new_acl)
+          unless VALID_ACLS.include?(new_acl)
             raise ArgumentError.new("acl must be one of [#{VALID_ACLS.join(', ')}]")
           else
             @acl = new_acl
