@@ -189,8 +189,6 @@ module Fog
         endpoint_url = endpoint['publicURL'] if endpoint
         raise "Unable to retrieve endpoint service url for availability zone '#{avl_zone}' from service catalog. " if endpoint_url.nil?
         return endpoint_url
-      else
-        raise "Unable to retrieve service item for '#{service_type}' from service catalog."
       end
     end
 
