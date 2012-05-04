@@ -21,6 +21,7 @@ module Fog
       request :attach_volume
       request :authorize_security_group_ingress
       request :change_service_for_virtual_machine
+      request :copy_template
       request :create_account
       request :create_domain
       request :create_load_balancer_rule
@@ -30,6 +31,7 @@ module Fog
       request :create_ssh_key_pair
       request :create_snapshot
       request :create_snapshot_policy
+      request :create_template
       request :create_user
       request :create_volume
       request :delete_account
@@ -40,6 +42,7 @@ module Fog
       request :delete_ssh_key_pair
       request :delete_snapshot
       request :delete_snapshot_policies
+      request :delete_template
       request :delete_user
       request :delete_volume
       request :detach_volume
@@ -47,6 +50,7 @@ module Fog
       request :destroy_virtual_machine
       request :disable_user
       request :enable_user
+      request :extract_template
       request :generate_usage_records
       request :get_vm_password
       request :list_accounts
@@ -83,6 +87,7 @@ module Fog
       request :list_snapshot_policies
       request :list_ssh_key_pairs
       request :list_storage_pools
+      request :list_template_permissions
       request :list_templates
       request :list_usage_records
       request :list_users
@@ -94,6 +99,7 @@ module Fog
       request :reboot_virtual_machine
       request :recover_virtual_machine
       request :register_ssh_key_pair
+      request :register_template
       request :register_user_keys
       request :remove_from_load_balancer_rule
       request :reset_password_for_virtual_machine
@@ -102,6 +108,8 @@ module Fog
       request :stop_virtual_machine
       request :update_account
       request :update_domain
+      request :update_template
+      request :update_template_permissions
       request :update_user
       request :update_resource_count
       request :update_virtual_machine
