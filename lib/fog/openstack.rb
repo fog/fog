@@ -107,7 +107,7 @@ module Fog
       unless svc
         unless @openstack_tenant
           response = Fog::Connection.new(
-            "#{uri.scheme}://#{uri.host}:5000/v2.0/tenants", false).request({
+            "#{uri.scheme}://#{uri.host}:#{uri.port}/v2.0/tenants", false, connection_options).request({
             :expects => [200, 204],
             :headers => {'Content-Type' => 'application/json',
                          'X-Auth-Token' => body['access']['token']['id']},
