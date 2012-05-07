@@ -52,9 +52,11 @@ module Fog
 
   def self.symbolize_credentials(args)
     if args.is_a? Hash
-      Hash[ *args.collect do |key, value|
-        [key.to_sym, self.symbolize_credentials(value)]
-      end.flatten ]
+      copy = Array.new
+      args.each do |key, value|
+        copy.push(key.to_sym, self.symbolize_credentials(value))
+      end
+      Hash[*copy]
     else
       args
     end
