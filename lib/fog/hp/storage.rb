@@ -158,12 +158,11 @@ module Fog
           @auth_token = credentials[:auth_token]
 
           uri = URI.parse(@hp_storage_uri)
-          @host   = options[:hp_servicenet] == true ? "snet-#{uri.host}" : uri.host
+          @host   = uri.host
           @path   = uri.path
           @persistent = options[:persistent] || false
           @port   = uri.port
           @scheme = uri.scheme
-          Excon.ssl_verify_peer = false if options[:hp_servicenet] == true
 
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
