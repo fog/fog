@@ -86,9 +86,9 @@ module Fog
 
         def request(command, params, options)
           params['response'] = "json"
-          req = "apiKey=#{@ninefold_compute_key}&command=#{command}&"
           # convert params to strings for sort
-          req += URI.escape(params.sort_by{|k,v| k.to_s }.collect{|e| "#{e[0].to_s}=#{e[1].to_s}"}.join('&'))
+          req_params = params.merge('apiKey' => @ninefold_compute_key, 'command' => command)
+          req = URI.escape(req_params.sort_by{|k,v| k.to_s }.collect{|e| "#{e[0].to_s}=#{e[1].to_s}"}.join('&'))
           encoded_signature = url_escape(encode_signature(req))
 
           options = {
