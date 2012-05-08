@@ -1,6 +1,6 @@
 for provider, config in compute_providers
 
-  Shindo.tests("Fog::Compute[:#{provider}] | server", [provider]) do
+  Shindo.tests("Fog::Compute[:#{provider}] | server", [provider.to_s]) do
 
     server_tests(Fog::Compute[provider], (config[:server_attributes] || {}), config[:mocked]) do
 
