@@ -17,6 +17,8 @@ module Fog
       collection  :images
       model       :key_pair
       collection  :key_pairs
+      #model       :meta
+      #collection  :metadata
       model       :security_group
       collection  :security_groups
       model       :server
@@ -34,6 +36,7 @@ module Fog
       request :create_server
       request :delete_image
       request :delete_key_pair
+      request :delete_meta
       request :delete_security_group
       request :delete_security_group_rule
       request :delete_server
@@ -42,6 +45,7 @@ module Fog
       request :get_console_output
       request :get_flavor_details
       request :get_image_details
+      request :get_meta
       request :get_security_group
       request :get_server_details
       request :list_addresses
@@ -50,6 +54,7 @@ module Fog
       request :list_images
       request :list_images_detail
       request :list_key_pairs
+      request :list_metadata
       request :list_security_groups
       request :list_server_addresses
       request :list_server_private_addresses
@@ -62,6 +67,9 @@ module Fog
       #request :resize_server
       #request :revert_resized_server
       request :server_action
+      request :set_metadata
+      request :update_meta
+      request :update_metadata
       request :update_server
 
       class Mock
