@@ -11,10 +11,14 @@ module Fog
           vm_mob_ref = @connection.searchIndex.FindAllByUuid(search_filter).first
 
           if options['force'] then
-            stats = vm_mob_ref.guest.guestState
             task = vm_mob_ref.PowerOffVM_Task
-            task.wait_for_completion
-            { 'task_state' => task.info.result, 'power_off_type' => 'cut_power' }
+            state = task.info.state
+            while (state != 'error') and (state != 'success')
+              sleep(2)
+              state = task.info.state
+            end
+            #task.wait_for_completion
+            { 'task_state' => state, 'power_off_type' => 'cut_power' }
           else
             vm_mob_ref.ShutdownGuest
             if options['wait'] then
