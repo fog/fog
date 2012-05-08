@@ -9,7 +9,7 @@ module Fog
       recognizes :openstack_auth_token, :openstack_management_url,
                  :persistent, :openstack_service_name, :openstack_tenant,
                  :openstack_api_key, :openstack_username, :openstack_identity_endpoint,
-                 :current_user, :current_tenant
+                 :current_user, :current_tenant, :openstack_public_identity_url
 
       ## MODELS
       #
@@ -152,7 +152,7 @@ module Fog
       # Hosts
       request :list_hosts
       request :get_host_details
-      
+
 
       class Mock
 
@@ -234,6 +234,8 @@ module Fog
 
           @openstack_tenant     = options[:openstack_tenant]
           @openstack_auth_uri   = URI.parse(options[:openstack_auth_url])
+          @openstack_public_identity_uri  = URI.parse(options[:openstack_public_identity_url]) if options[:openstack_public_identity_url]
+
           @openstack_management_url       = options[:openstack_management_url]
           @openstack_must_reauthenticate  = false
           @openstack_service_name = options[:openstack_service_name] || ['nova', 'compute']
@@ -310,7 +312,8 @@ module Fog
               :openstack_auth_uri => @openstack_auth_uri,
               :openstack_tenant   => @openstack_tenant,
               :openstack_service_name => @openstack_service_name,
-              :openstack_identity_service_name => @openstack_identity_service_name
+              :openstack_identity_service_name => @openstack_identity_service_name,
+              :openstack_public_identity_uri   => @openstack_public_identity_uri
             }
 
             if @openstack_auth_uri.path =~ /\/v2.0\//

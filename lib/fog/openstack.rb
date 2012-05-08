@@ -71,11 +71,14 @@ module Fog
     def self.authenticate_v2(options, connection_options = {})
       uri = options[:openstack_auth_uri]
       connection = Fog::Connection.new(uri.to_s, false, connection_options)
-      @openstack_api_key  = options[:openstack_api_key]
-      @openstack_username = options[:openstack_username]
-      @openstack_tenant   = options[:openstack_tenant]
-      @openstack_auth_token = options[:openstack_auth_token]
-      @service_name         = options[:openstack_service_name]
+
+      @openstack_api_key     = options[:openstack_api_key]
+      @openstack_username    = options[:openstack_username]
+      @openstack_tenant      = options[:openstack_tenant]
+      @openstack_auth_token  = options[:openstack_auth_token]
+      @openstack_public_identity_url = options[:openstack]
+
+      @service_name          = options[:openstack_service_name]
       @identity_service_name = options[:openstack_identity_service_name]
       @endpoint_type         = options[:openstack_endpoint_type] || 'publicURL'
 
@@ -106,8 +109,14 @@ module Fog
 
       unless svc
         unless @openstack_tenant
+          tenant_detection_uri = options[:openstack_public_identity_uri] || uri
+
           response = Fog::Connection.new(
-            "#{uri.scheme}://#{uri.host}:#{uri.port}/v2.0/tenants", false, connection_options).request({
+            "#{     tenant_detection_uri.scheme
+             }://#{ tenant_detection_uri.host
+             }:#{   tenant_detection_uri.port
+             }/v2.0/tenants",
+            false, connection_options).request({
             :expects => [200, 204],
             :headers => {'Content-Type' => 'application/json',
                          'X-Auth-Token' => body['access']['token']['id']},
