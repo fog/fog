@@ -15,7 +15,7 @@ module Fog
             data['nodes'][0]['weight'] = options[:weight]
           end
           request(
-            :body     => MultiJson.encode(data),
+            :body     => Fog::JSON.encode(data),
             :expects  => [200, 202],
             :method   => 'POST',
             :path     => "loadbalancers/#{load_balancer_id}/nodes.json"

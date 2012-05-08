@@ -192,7 +192,6 @@ module Fog
         # Sets up a new key
         def setup(credentials = {})
           requires :public_key, :public_ip_address, :username
-          require 'multi_json'
 
           credentials[:proxy]= ssh_proxy unless ssh_proxy.nil?
           credentials[:password] = password unless self.password.nil?
@@ -201,7 +200,7 @@ module Fog
           commands = [
             %{mkdir .ssh},
             #              %{passwd -l #{username}}, #Not sure if we need this here
-            #              %{echo "#{MultiJson.encode(attributes)}" >> ~/attributes.json}
+            #              %{echo "#{Fog::JSON.encode(attributes)}" >> ~/attributes.json}
           ]
           if public_key
             commands << %{echo "#{public_key}" >> ~/.ssh/authorized_keys}

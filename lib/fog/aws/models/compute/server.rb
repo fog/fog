@@ -192,13 +192,12 @@ module Fog
 
         def setup(credentials = {})
           requires :public_ip_address, :username
-          require 'multi_json'
           require 'net/ssh'
 
           commands = [
             %{mkdir .ssh},
             %{passwd -l #{username}},
-            %{echo "#{MultiJson.encode(Fog::JSON.sanitize(attributes))}" >> ~/attributes.json}
+            %{echo "#{Fog::JSON.encode(Fog::JSON.sanitize(attributes))}" >> ~/attributes.json}
           ]
           if public_key
             commands << %{echo "#{public_key}" >> ~/.ssh/authorized_keys}

@@ -55,8 +55,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'multi_json'
-
           @dnsimple_email = options[:dnsimple_email]
           @dnsimple_password  = options[:dnsimple_password]
           @connection_options = options[:connection_options] || {}
@@ -87,7 +85,7 @@ module Fog
           response = @connection.request(params.merge!({:host => @host}))
 
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end

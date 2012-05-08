@@ -121,8 +121,7 @@ module Fog
     end
 
     def to_json(options = {})
-      require 'multi_json'
-      MultiJson.encode(self.map {|member| member.attributes})
+      Fog::JSON.encode(self.map {|member| member.attributes})
     end
 
     private

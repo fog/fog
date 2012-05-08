@@ -79,7 +79,6 @@ module Fog
 
         def initialize(options={})
           require 'mime/types'
-          require 'multi_json'
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
           @rackspace_cdn_ssl = options[:rackspace_cdn_ssl]
@@ -121,7 +120,7 @@ module Fog
             end
           end
           if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end

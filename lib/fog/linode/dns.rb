@@ -53,7 +53,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'multi_json'
           @connection_options = options[:connection_options] || {}
           @host           = options[:host]        || "api.linode.com"
           @linode_api_key = options[:linode_api_key]
@@ -74,7 +73,7 @@ module Fog
           response = @connection.request(params.merge!({:host => @host}))
 
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
             if data = response.body['ERRORARRAY'].first
               error = case data['ERRORCODE']
               when 5

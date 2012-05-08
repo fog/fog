@@ -28,7 +28,7 @@ module Fog
             :expects  => [202, 204],
             :method   => 'PUT',
             :path     => path,
-            :body     => MultiJson.encode(data)
+            :body     => Fog::JSON.encode(data)
           )
         end
       end

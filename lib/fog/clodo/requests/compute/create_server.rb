@@ -30,7 +30,7 @@ module Fog
           data['server'].merge! options if options
 
           request(
-                  :body     => MultiJson.encode(data),
+                  :body     => Fog::JSON.encode(data),
                   :expects  => [200, 202],
                   :method   => 'POST',
                   :path     => 'servers'

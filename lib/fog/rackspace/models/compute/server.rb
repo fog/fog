@@ -104,8 +104,8 @@ module Fog
             %{mkdir .ssh},
             %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
             %{passwd -l #{username}},
-            %{echo "#{MultiJson.encode(attributes)}" >> ~/attributes.json},
-            %{echo "#{MultiJson.encode(metadata)}" >> ~/metadata.json}
+            %{echo "#{Fog::JSON.encode(attributes)}" >> ~/attributes.json},
+            %{echo "#{Fog::JSON.encode(metadata)}" >> ~/metadata.json}
           ])
         rescue Errno::ECONNREFUSED
           sleep(1)

@@ -52,7 +52,7 @@ module Fog
             :expects  => 201,
             :method   => "POST",
             :path     => "/V1.2/domains/#{domain}/records",
-            :body     => MultiJson.encode(body)
+            :body     => Fog::JSON.encode(body)
           )
         end
 

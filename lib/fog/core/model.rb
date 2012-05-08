@@ -38,8 +38,7 @@ module Fog
     end
 
     def to_json(options = {})
-      require 'multi_json'
-      MultiJson.encode(attributes)
+      Fog::JSON.encode(attributes)
     end
 
     def symbolize_keys(hash)

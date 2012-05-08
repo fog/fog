@@ -6,7 +6,7 @@ module Fog
 
         def update_meta(collection_name, parent_id, key, value)
           request(
-            :body     => MultiJson.encode({ 'meta' => { key => value }}),
+            :body     => Fog::JSON.encode({ 'meta' => { key => value }}),
             :expects  => 200,
             :method   => 'PUT',
             :path     => "#{collection_name}/#{parent_id}/metadata/#{key}"

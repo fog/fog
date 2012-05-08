@@ -1,7 +1,6 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '..', 'joyent'))
 require File.expand_path(File.join(File.dirname(__FILE__), 'errors'))
 require 'fog/compute'
-require 'multi_json'
 
 module Fog
   module Compute
@@ -144,7 +143,7 @@ module Fog
           }.merge(request[:headers] || {}).merge(@header_method.call) 
 
           if request[:body]
-            request[:body] = MultiJson.encode(request[:body])
+            request[:body] = Fog::JSON.encode(request[:body])
           end
 
           response = @connection.request(request)
@@ -161,7 +160,7 @@ module Fog
         private
 
         def json_decode(body)
-          parsed = MultiJson.decode(body)
+          parsed = Fog::JSON.decode(body)
           decode_time_attrs(parsed)
         end
 

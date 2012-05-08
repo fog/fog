@@ -17,7 +17,7 @@ module Fog
                   :expects  => [204],
                   :method   => 'GET',
                   :path     => "servers/#{server_id}/ips/moveip",
-                  :body     => MultiJson.encode({'ip'=>"#{ip}"})
+                  :body     => Fog::JSON.encode({'ip'=>"#{ip}"})
                   )
         end
       end

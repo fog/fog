@@ -135,7 +135,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'multi_json'          
           @cloudstack_api_key         = options[:cloudstack_api_key]
           @cloudstack_secret_access_key = options[:cloudstack_secret_access_key]
           @cloudstack_session_id      = options[:cloudstack_session_id]
@@ -165,7 +164,7 @@ module Fog
           sessionid = cookies['JSESSIONID'].first
 
           # Decode the login response
-          response   = MultiJson.decode(response.body)
+          response   = Fog::JSON.decode(response.body)
           
           user = response['loginresponse']
           user.merge!('sessionid' => sessionid)
@@ -188,7 +187,7 @@ module Fog
           end
 
           response = issue_request(params,headers)
-          response = MultiJson.decode(response.body) unless response.body.empty?
+          response = Fog::JSON.decode(response.body) unless response.body.empty?
           response
         end
 
@@ -232,7 +231,7 @@ module Fog
             })
             
           rescue Excon::Errors::HTTPStatusError => error
-            error_response = MultiJson.decode(error.response.body)
+            error_response = Fog::JSON.decode(error.response.body)
             
             error_code = error_response.values.first['errorcode']
             error_text = error_response.values.first['errortext']

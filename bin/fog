@@ -23,10 +23,8 @@ end
 
 if ARGV.length > 1
 
-  require 'multi_json'
-
   result = instance_eval(ARGV[1..-1].join(' '))
-  puts(MultiJson.encode(result))
+  puts(Fog::JSON.encode(result))
 
 else
 

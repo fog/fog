@@ -57,7 +57,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'multi_json'
           @clodo_username = options[:clodo_username]
         end
 
@@ -74,7 +73,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'multi_json'
           @clodo_api_key = options[:clodo_api_key]
           @clodo_username = options[:clodo_username]
           @clodo_auth_url = options[:clodo_auth_url]
@@ -119,7 +117,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end

@@ -126,7 +126,6 @@ module Fog
 
         def initialize(options={})
           require 'mime/types'
-          require 'multi_json'
           @hp_secret_key = options[:hp_secret_key]
           @hp_account_id = options[:hp_account_id]
           @hp_auth_uri   = options[:hp_auth_uri]
@@ -189,7 +188,7 @@ module Fog
             end
           end
           if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end

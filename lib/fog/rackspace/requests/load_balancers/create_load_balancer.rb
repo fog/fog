@@ -17,7 +17,7 @@ module Fog
           data['loadBalancer']['algorithm'] = options[:algorithm] if options.has_key? :algorithm
 
           request(
-            :body     => MultiJson.encode(data),
+            :body     => Fog::JSON.encode(data),
             :expects  => 202,
             :method   => 'POST',
             :path     => 'loadbalancers.json'

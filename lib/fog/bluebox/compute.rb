@@ -62,7 +62,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'multi_json'
           @bluebox_api_key      = options[:bluebox_api_key]
           @bluebox_customer_id  = options[:bluebox_customer_id]
           @connection_options   = options[:connection_options] || {}
@@ -94,7 +93,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end

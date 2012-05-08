@@ -9,7 +9,7 @@ module Fog
           request({
             'Action'          => 'GetFederationToken',
             'Name'            => name,
-            'Policy'          => MultiJson.encode(policy),
+            'Policy'          => Fog::JSON.encode(policy),
             'DurationSeconds' => duration,
             :idempotent       => true,
             :parser           => Fog::Parsers::AWS::STS::GetSessionToken.new

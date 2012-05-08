@@ -27,7 +27,7 @@ module Fog
             :method     => 'GET',
             :query      => {'policy' => nil}
           })
-          response.body = MultiJson.decode(response.body) unless response.body.nil?
+          response.body = Fog::JSON.decode(response.body) unless response.body.nil?
         end
 
       end

@@ -71,11 +71,11 @@ module Fog
         end
 
         def http_url(params, expires)
-          "http://" << host_path_query(params, expires)
+          scheme_host_path_query(params.merge(:scheme => 'http', :port => 80), expires)
         end
 
         def https_url(params, expires)
-          "https://" << host_path_query(params, expires)
+          scheme_host_path_query(params.merge(:scheme => 'https', :port => 443), expires)
         end
 
         def url(params, expires)
@@ -85,7 +85,14 @@ module Fog
 
         private
 
-        def host_path_query(params, expires)
+        def scheme_host_path_query(params, expires)
+          params[:scheme] ||= @scheme
+          if params[:port] == 80 && params[:scheme] == 'http'
+            params.delete(:port)
+          end
+          if params[:port] == 443 && params[:scheme] == 'https'
+            params.delete(:port)
+          end
           params[:headers] ||= {}
           params[:headers]['Date'] = expires.to_i
           params[:path] = Fog::AWS.escape(params[:path]).gsub('%2F', '/')
@@ -98,7 +105,8 @@ module Fog
           query << "AWSAccessKeyId=#{@aws_access_key_id}"
           query << "Signature=#{Fog::AWS.escape(signature(params))}"
           query << "Expires=#{params[:headers]['Date']}"
-          "#{params[:host]}/#{params[:path]}?#{query.join('&')}"
+          port_part = params[:port] && ":#{params[:port]}"
+          "#{params[:scheme]}://#{params[:host]}#{port_part}/#{params[:path]}?#{query.join('&')}"
         end
 
       end
@@ -187,7 +195,6 @@ module Fog
 
         def initialize(options={})
           require 'mime/types'
-          require 'multi_json'
           @aws_access_key_id = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
           options[:region] ||= 'us-east-1'
@@ -197,6 +204,7 @@ module Fog
           else
             "s3-#{options[:region]}.amazonaws.com"
           end
+          @scheme = options[:scheme] || 'https'
           @region = options[:region]
         end
 

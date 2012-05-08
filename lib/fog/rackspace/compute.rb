@@ -61,7 +61,6 @@ module Fog
         end
 
         def initialize(options={})
-          require 'multi_json'
           @rackspace_username = options[:rackspace_username]
         end
 
@@ -78,7 +77,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'multi_json'
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
           @rackspace_auth_url = options[:rackspace_auth_url]
@@ -125,7 +123,7 @@ module Fog
             end
           end
           unless response.body.empty?
-            response.body = MultiJson.decode(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end

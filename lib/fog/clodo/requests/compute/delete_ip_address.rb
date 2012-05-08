@@ -19,7 +19,7 @@ module Fog
                   :expects  => [204],
                   :method   => 'DELETE',
                   :path     => "servers/#{server_id}/ips",
-                  :body     => MultiJson.encode(data)
+                  :body     => Fog::JSON.encode(data)
                   )
         end
       end

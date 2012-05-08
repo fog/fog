@@ -12,7 +12,7 @@ module Fog
             }
           }
           request(
-            :body     => MultiJson.encode(data),
+            :body     => Fog::JSON.encode(data),
             :expects  => 202,
             :method   => 'PUT',
             :path     => "loadbalancers/#{load_balancer_id}.json"

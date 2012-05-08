@@ -105,7 +105,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'multi_json'
           @hp_secret_key = options[:hp_secret_key]
           @hp_account_id = options[:hp_account_id]
           @hp_servicenet = options[:hp_servicenet]
@@ -167,7 +166,7 @@ module Fog
           end
           unless response.body.empty?
             begin
-              response.body = MultiJson.decode(response.body)
+              response.body = Fog::JSON.decode(response.body)
             rescue MultiJson::DecodeError => error
               response.body    #### the body is not in JSON format so just return it as it is
             end

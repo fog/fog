@@ -13,7 +13,7 @@ module Fog
             data = nil
             message = nil
           else
-            data = MultiJson.decode(error.response.body)
+            data = Fog::JSON.decode(error.response.body)
             message = data['message']
           end
 
@@ -91,12 +91,12 @@ module Fog
       response = connection.request({
         :expects  => [200, 204],
         :headers => {'Content-Type' => 'application/json'},
-        :body  => MultiJson.encode(req_body),
+        :body  => Fog::JSON.encode(req_body),
         :host     => uri.host,
         :method   => 'POST',
         :path     =>  (uri.path and not uri.path.empty?) ? uri.path : 'v2.0'
       })
-      body=MultiJson.decode(response.body)
+      body=Fog::JSON.decode(response.body)
      
       if svc = body['access']['serviceCatalog'].detect{|x| x['name'] == @compute_service_name}
         mgmt_url = svc['endpoints'].detect{|x| x['publicURL']}['publicURL']

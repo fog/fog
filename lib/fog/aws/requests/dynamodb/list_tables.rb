@@ -17,7 +17,7 @@ module Fog
         #     * 'TableNames'<~Array> - table names
         def list_tables(options = {})
           request(
-            :body       => MultiJson.encode(options),
+            :body       => Fog::JSON.encode(options),
             :headers    => {'x-amz-target' => 'DynamoDB_20111205.ListTables'},
             :idempotent => true
           )

@@ -14,7 +14,7 @@ module Fog
 
         def put_bucket_policy(bucket_name, policy)
           request({
-            :body     => MultiJson.encode(policy),
+            :body     => Fog::JSON.encode(policy),
             :expects  => 204,
             :headers  => {},
             :host     => "#{bucket_name}.#{@host}",
