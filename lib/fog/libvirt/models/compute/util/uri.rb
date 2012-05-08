@@ -77,7 +77,7 @@ module Fog
         end
 
         def keyfile
-          value("command")
+          value("keyfile")
         end
 
         def netcat
