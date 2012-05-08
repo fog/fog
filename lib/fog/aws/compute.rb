@@ -278,6 +278,9 @@ module Fog
         #
         # ==== Returns
         # * EC2 object with connection to aws.
+
+        attr_accessor :region
+
         def initialize(options={})
           require 'fog/core/parser'
 
