@@ -86,7 +86,6 @@ module Fog
       request :remove_servers_server_group
       request :reset_ftp_password_account
       request :reset_secret_api_client
-      request :resize_server
       request :shutdown_server
       request :snapshot_server
       request :start_server

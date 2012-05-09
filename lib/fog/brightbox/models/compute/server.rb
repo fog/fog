@@ -14,6 +14,7 @@ module Fog
         attribute :state,       :aliases => 'status'
 
         attribute :hostname
+        attribute :fqdn
         attribute :user_data
         attribute :console_url
         attribute :console_token
