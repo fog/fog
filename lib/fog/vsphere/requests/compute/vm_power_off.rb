@@ -4,7 +4,7 @@ module Fog
       class Real
 
         def vm_power_off(options = {})
-          options = { 'force' => false }.merge(options)
+          options = { 'force' => false, 'wait' => true }.merge(options)
           raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
 
           search_filter = { :uuid => options['instance_uuid'], 'vmSearch' => true, 'instanceUuid' => true }
