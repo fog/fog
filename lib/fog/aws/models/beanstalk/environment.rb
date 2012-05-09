@@ -71,6 +71,16 @@ module Fog
           reload
         end
 
+        def swap_cnames(source)
+          requires :name
+          connection.swap_environment_cnames({
+              'SourceEnvironmentName' => source.name,
+              'DestinationEnvironmentName' => name
+                                             })
+          source.reload
+          reload
+        end
+
         # Return the version object for this environment
         def version
           requires :application_name, :version_label
