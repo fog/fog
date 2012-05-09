@@ -494,7 +494,8 @@ class Brightbox
           "disk_size"       => Integer,
           "min_ram"         => Fog::Nullable::Integer,
           "ancestor"        => Fog::Brightbox::Nullable::Image,
-          "username"        => Fog::Nullable::String
+          "username"        => Fog::Nullable::String,
+          "licence_name"    => Fog::Nullable::String
         }
 
         INTERFACE = {
