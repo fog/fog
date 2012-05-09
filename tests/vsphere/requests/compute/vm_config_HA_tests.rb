@@ -17,9 +17,9 @@ Shindo.tests('Fog::Compute[:vsphere] | vm_config_HA request', ['vsphere']) do
 
   tests('For a HA cluster, the response should') do
     vm_mob_ref = compute.get_vm_mob_ref_by_path('path' => ConstClass::VM_PATH_1)
-    response = compute.vm_cap_HA('vm_moid'=>vm_mob_ref._ref.to_s)
+    response = compute.is_vm_in_ha_cluster('vm_moid'=>vm_mob_ref._ref.to_s)
     test('should return expect true') { response == true }
-    response = compute.vm_disable_HA('vm_moid'=>vm_mob_ref._ref.to_s)
+    response = compute.vm_disable_ha('vm_moid'=>vm_mob_ref._ref.to_s)
     test('be a kind of Hash') { response.kind_of? Hash }
     test('should have a task_state key') { response.has_key? 'task_state' }
     test('should return success state') { response['task_state'] == 'success'}
@@ -27,17 +27,17 @@ Shindo.tests('Fog::Compute[:vsphere] | vm_config_HA request', ['vsphere']) do
 
   tests('For a non-HA cluster, the response should') do
     vm_mob_ref = compute.get_vm_mob_ref_by_path('path'=>ConstClass::VM_PATH_2)
-    response = compute.vm_cap_HA('vm_moid'=>vm_mob_ref._ref.to_s)
+    response = compute.is_vm_in_ha_cluster('vm_moid'=>vm_mob_ref._ref.to_s)
     test('should return expect false') { response != true }
-    response = compute.vm_disable_HA('vm_moid' => vm_mob_ref._ref.to_s)
+    response = compute.vm_disable_ha('vm_moid' => vm_mob_ref._ref.to_s)
     test('be a kind of Hash') { response.kind_of? Hash }
     test('should have a task_state key') { response.has_key? 'task_state' }
     test('should return error state') { response['task_state'] == 'error'}
   end
 
   tests('The expected options') do
-    raises(ArgumentError, 'raises ArgumentError when instance_uuid option is missing') { compute.vm_cap_HA }
-    raises(ArgumentError, 'raises ArgumentError when instance_uuid option is missing') { compute.vm_disable_HA }
+    raises(ArgumentError, 'raises ArgumentError when instance_uuid option is missing') { compute.is_vm_in_ha_cluster }
+    raises(ArgumentError, 'raises ArgumentError when instance_uuid option is missing') { compute.vm_disable_ha }
   end
 
 end
