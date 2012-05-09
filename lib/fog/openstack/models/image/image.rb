@@ -28,6 +28,7 @@ module Fog
         attribute :owner
         attribute :properties
         attribute :location
+        attribute :copy_from
 
 
         def initialize(attributes)
