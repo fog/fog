@@ -15,8 +15,12 @@ module Fog
 
       def self.data
         @data ||= Hash.new do |hash, key|
-          hash[key] = {}
+          hash[key] = []
         end
+      end
+
+      def self.reset
+        @data= nil
       end
 
       def initialize(address, username, options)
@@ -26,7 +30,7 @@ module Fog
       end
 
       def run(commands)
-        Fog::Mock.not_implemented
+        self.class.data[@address] << {:commands => commands, :username => @username, :options => @options}
       end
 
     end
