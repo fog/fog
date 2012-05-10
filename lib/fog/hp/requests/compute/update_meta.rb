@@ -32,19 +32,19 @@ module Fog
         def update_meta(collection_name, parent_id, key, value)
 
           if collection_name == "images" then
-            if parent = get_image_details(parent_id)
-              self.data[:images][parent_id]['image']['metadata'][key] = value
+            if get_image_details(parent_id)
+              self.data[:images][parent_id]['metadata'][key] = value
             else
               raise Fog::Compute::HP::NotFound
-            end 
+            end
           end
 
           if collection_name == "servers" then
-            if parent = get_server_details(parent_id)
-              self.data[:servers][parent_id]['server']['metadata'][key] = value
+            if get_server_details(parent_id)
+              self.data[:servers][parent_id]['metadata'][key] = value
             else
               raise Fog::Compute::HP::NotFound
-            end 
+            end
           end
 
           response = Excon::Response.new

@@ -3,6 +3,18 @@ module Fog
     class HP
       class Real
 
+        # Update metadata for specific collections
+        #
+        # ==== Parameters
+        # * 'collection_name'<~String> - name of the collection i.e. images, servers for which the metadata is intented.
+        # * 'parent_id'<~Integer> - id of the collection i.e. image_id or the server_id
+        # * 'metadata'<~Hash> - A hash of key/value pairs containing the metadata
+
+        # ==== Returns
+        # * response<~Excon::Response>:
+        #   * body<~Hash>:
+        #     * metadata<~Hash> - all key/value pairs of metadata items merged with existing metadata
+        #
         def update_metadata(collection_name, parent_id, metadata = {})
           request(
             :body     => MultiJson.encode({ 'metadata' => metadata }),
@@ -19,20 +31,23 @@ module Fog
         def update_metadata(collection_name, parent_id, metadata = {})
 
           if collection_name == "images" then
-            if not list_images_detail.body['images'].detect {|_| _['id'] == parent_id}
+            if get_image_details(parent_id)
+              newmetadata = self.data[:images][parent_id]['metadata'].merge!(metadata)
+            else
               raise Fog::Compute::HP::NotFound
-            end 
+            end
           end
 
           if collection_name == "servers" then
-            if not list_servers_detail.body['servers'].detect {|_| _['id'] == parent_id}
+            if get_server_details(parent_id)
+              newmetadata = self.data[:servers][parent_id]['metadata'].merge!(metadata)
+            else
               raise Fog::Compute::HP::NotFound
-            end 
+            end
           end
 
-          #FIXME join w/ existing metadata here
           response = Excon::Response.new
-          response.body = { "metadata" => metadata }
+          response.body = { "metadata" => newmetadata }
           response.status = 200
           response
 
