@@ -41,16 +41,33 @@ module Fog
           end
 
           das_vm_priority = nil
+          vm_ha_specs = []
           vm_das_configs = cs_mob_ref.configuration.dasVmConfig
+          vm_das_config = nil
           if vm_das_configs
-            vm_das_config = vm_das_configs.find{|d| d[:key]._ref.to_s == options['vm_moid']}
+            vm_das_configs.each{|d|
+              if d[:key]._ref.to_s == options['vm_moid']
+                vm_das_config = d
+                if vm_das_config && vm_das_config.dasSettings
+                  das_vm_priority = vm_das_config.dasSettings.restartPriority
+                end
+                if das_vm_priority == "disabled"
+                  return  { 'task_state' => 'success' }
+                end
+              else
+                vm_ha_spec_info = RbVmomi::VIM::ClusterDasVmConfigInfo(
+                    :key=>d[:key],
+                    :restartPriority => d[:restartPriority]
+                )
+                vm_ha_spec = RbVmomi::VIM::ClusterDasVmConfigSpec(
+                    :operation=>RbVmomi::VIM::ArrayUpdateOperation("add"),
+                    :info=>vm_ha_spec_info
+                )
+                vm_ha_specs << vm_ha_spec
+              end
+            }
           end
-          if vm_das_config && vm_das_config.dasSettings
-            das_vm_priority = vm_das_config.dasSettings.restartPriority
-          end
-          if das_vm_priority == "disabled"
-            return  { 'task_state' => 'success' }
-          end
+
           vm_ha_spec_info = RbVmomi::VIM::ClusterDasVmConfigInfo(
               :key=>vm_mob_ref,
               :restartPriority => RbVmomi::VIM::DasVmPriority("disabled")
@@ -59,7 +76,13 @@ module Fog
               :operation=>RbVmomi::VIM::ArrayUpdateOperation("add"),
               :info=>vm_ha_spec_info
           )
-          cluster_config_spec = RbVmomi::VIM::ClusterConfigSpec(:dasConfig=>cs_mob_ref.configuration.dasConfig, :dasVmConfigSpec=>[vm_ha_spec])
+
+          vm_ha_specs <<  vm_ha_spec
+          cluster_config_spec = RbVmomi::VIM::ClusterConfigSpec(
+              :dasConfig=>cs_mob_ref.configuration.dasConfig,
+              :drsConfig => cs_mob_ref.configuration.drsConfig,
+              :dasVmConfigSpec=> vm_ha_specs
+          )
           task =cs_mob_ref.ReconfigureCluster_Task(:spec => cluster_config_spec,:modify=>false )
           task.wait_for_completion
           { 'task_state' => task.info.state }
