@@ -41,49 +41,56 @@ module Fog
           end
 
           das_vm_priority = nil
-          vm_ha_specs = []
-          vm_das_configs = cs_mob_ref.configuration.dasVmConfig
           vm_das_config = nil
-          if vm_das_configs
-            vm_das_configs.each{|d|
-              if d[:key]._ref.to_s == options['vm_moid']
-                vm_das_config = d
-                if vm_das_config && vm_das_config.dasSettings
-                  das_vm_priority = vm_das_config.dasSettings.restartPriority
-                end
-                if das_vm_priority == "disabled"
-                  return  { 'task_state' => 'success' }
-                end
+          vm_ha_spec = nil
+
+          vm_das_configs = cs_mob_ref.configuration.dasVmConfig
+
+
+          vm_das_configs.each{|d|
+            if d[:key]._ref.to_s == options['vm_moid']
+              vm_das_config = d
+
+              if vm_das_config #&& vm_das_config.dasSettings
+                das_vm_priority = vm_das_config.restartPriority
+              end
+
+              if das_vm_priority && das_vm_priority == "disabled"
+                return  { 'task_state' => 'success' }
               else
                 vm_ha_spec_info = RbVmomi::VIM::ClusterDasVmConfigInfo(
-                    :key=>d[:key],
-                    :restartPriority => d[:restartPriority]
+                    :key=>vm_mob_ref,
+                    :restartPriority => RbVmomi::VIM::DasVmPriority("disabled")
                 )
                 vm_ha_spec = RbVmomi::VIM::ClusterDasVmConfigSpec(
-                    :operation=>RbVmomi::VIM::ArrayUpdateOperation("add"),
+                    :operation=>RbVmomi::VIM::ArrayUpdateOperation("edit"),
                     :info=>vm_ha_spec_info
                 )
-                vm_ha_specs << vm_ha_spec
               end
-            }
+
+              break
+
+            end
+
+          }
+
+          if vm_ha_spec.nil?
+            vm_ha_spec_info = RbVmomi::VIM::ClusterDasVmConfigInfo(
+                :key=>vm_mob_ref,
+                :restartPriority => RbVmomi::VIM::DasVmPriority("disabled")
+            )
+            vm_ha_spec = RbVmomi::VIM::ClusterDasVmConfigSpec(
+                :operation=>RbVmomi::VIM::ArrayUpdateOperation("add"),
+                :info=>vm_ha_spec_info
+            )
           end
 
-          vm_ha_spec_info = RbVmomi::VIM::ClusterDasVmConfigInfo(
-              :key=>vm_mob_ref,
-              :restartPriority => RbVmomi::VIM::DasVmPriority("disabled")
-          )
-          vm_ha_spec = RbVmomi::VIM::ClusterDasVmConfigSpec(
-              :operation=>RbVmomi::VIM::ArrayUpdateOperation("add"),
-              :info=>vm_ha_spec_info
-          )
-
-          vm_ha_specs <<  vm_ha_spec
           cluster_config_spec = RbVmomi::VIM::ClusterConfigSpec(
               :dasConfig=>cs_mob_ref.configuration.dasConfig,
               :drsConfig => cs_mob_ref.configuration.drsConfig,
-              :dasVmConfigSpec=> vm_ha_specs
+              :dasVmConfigSpec=> [vm_ha_spec]
           )
-          task =cs_mob_ref.ReconfigureCluster_Task(:spec => cluster_config_spec,:modify=>false )
+          task =cs_mob_ref.ReconfigureCluster_Task(:spec => cluster_config_spec,:modify=>true )
           task.wait_for_completion
           { 'task_state' => task.info.state }
         end
