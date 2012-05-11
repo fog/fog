@@ -5,7 +5,7 @@ module Fog
   module Compute
     class HP < Fog::Service
 
-      requires    :hp_secret_key, :hp_account_id, :hp_tenant_id
+      requires    :hp_secret_key, :hp_access_key, :hp_tenant_id
       recognizes  :hp_auth_uri, :hp_servicenet, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_auth_version, :hp_avl_zone
 
       model_path 'fog/hp/models/compute'
@@ -89,15 +89,15 @@ module Fog
         end
 
         def initialize(options={})
-          @hp_account_id = options[:hp_account_id]
+          @hp_access_key = options[:hp_access_key]
         end
 
         def data
-          self.class.data[@hp_account_id]
+          self.class.data[@hp_access_key]
         end
 
         def reset_data
-          self.class.data.delete(@hp_account_id)
+          self.class.data.delete(@hp_access_key)
         end
 
       end
@@ -106,7 +106,7 @@ module Fog
 
         def initialize(options={})
           @hp_secret_key = options[:hp_secret_key]
-          @hp_account_id = options[:hp_account_id]
+          @hp_access_key = options[:hp_access_key]
           @hp_servicenet = options[:hp_servicenet]
           @connection_options = options[:connection_options] || {}
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)

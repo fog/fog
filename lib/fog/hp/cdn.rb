@@ -5,7 +5,7 @@ module Fog
   module CDN
     class HP < Fog::Service
 
-      requires    :hp_secret_key, :hp_account_id, :hp_tenant_id
+      requires    :hp_secret_key, :hp_access_key, :hp_tenant_id
       recognizes  :hp_auth_uri, :hp_cdn_uri, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_auth_version
 
       model_path   'fog/hp/models/cdn'
@@ -37,15 +37,15 @@ module Fog
         end
 
         def initialize(options={})
-          @hp_account_id = options[:hp_account_id]
+          @hp_access_key = options[:hp_access_key]
         end
 
         def data
-          self.class.data[@hp_account_id]
+          self.class.data[@hp_access_key]
         end
 
         def reset_data
-          self.class.data.delete(@hp_account_id)
+          self.class.data.delete(@hp_access_key)
         end
 
       end
