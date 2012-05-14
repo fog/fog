@@ -165,7 +165,7 @@ module Fog
           begin
             get_oauth_token if @oauth_token.nil?
             response = authenticated_request(params)
-          rescue Excon::Errors::Unauthorized => e
+          rescue Excon::Errors::Unauthorized
             get_oauth_token
             response = authenticated_request(params)
           end
