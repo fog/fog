@@ -62,8 +62,6 @@ module Fog
     
       class Real
         
-        attr_accessor :default_template
-
         def initialize(options={})
           @host        = options[:xenserver_url]
           @username    = options[:xenserver_username]
