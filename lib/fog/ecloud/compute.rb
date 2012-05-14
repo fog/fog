@@ -1181,7 +1181,7 @@ module Fog
           end
           begin
             do_request(params)
-          rescue Excon::Errors::Unauthorized => e
+          rescue Excon::Errors::Unauthorized
             do_login
             do_request(params)
           end
