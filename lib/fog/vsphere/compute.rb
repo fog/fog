@@ -61,7 +61,7 @@ module Fog
         def convert_vm_mob_ref_to_attr_hash(vm_mob_ref)
           return nil unless vm_mob_ref
 
-          props = vm_mob_ref.collect! *ATTR_TO_PROP.values.uniq
+          props = vm_mob_ref.collect!(*ATTR_TO_PROP.values.uniq)
           # NOTE: Object.tap is in 1.8.7 and later.
           # Here we create the hash object that this method returns, but first we need
           # to add a few more attributes that require additional calls to the vSphere
