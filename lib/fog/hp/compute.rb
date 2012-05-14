@@ -17,8 +17,8 @@ module Fog
       collection  :images
       model       :key_pair
       collection  :key_pairs
-      #model       :meta
-      #collection  :metadata
+      model       :meta
+      collection  :metadata
       model       :security_group
       collection  :security_groups
       model       :server

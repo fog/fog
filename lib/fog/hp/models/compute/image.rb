@@ -1,4 +1,5 @@
 require 'fog/core/model'
+require 'fog/openstack/models/compute/metadata'
 
 module Fog
   module Compute
@@ -15,9 +16,29 @@ module Fog
         attribute :status
         attribute :minDisk,     :aliases => 'min_disk'
         attribute :minRam,      :aliases => 'min_ram'
-        attribute :server,   :aliases => 'server'
-        #attribute :metadata       #TODO: Need to add it back when Metadata API is done
+        attribute :server
+        attribute :metadata
         attribute :links
+
+        def initialize(attributes)
+          @connection = attributes[:connection]
+          super
+        end
+
+        def metadata
+          @metadata ||= begin
+            Fog::Compute::HP::Metadata.new({
+              :connection => connection,
+              :parent => self
+            })
+          end
+        end
+
+        def metadata=(new_metadata={})
+          metas = []
+          new_metadata.each_pair {|k,v| metas << {"key" => k, "value" => v} }
+          metadata.load(metas)
+        end
 
         def destroy
           requires :id

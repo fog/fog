@@ -1,4 +1,5 @@
 require 'fog/compute/models/server'
+require 'fog/hp/models/compute/metadata'
 
 module Fog
   module Compute
@@ -38,12 +39,28 @@ module Fog
           # assign these attributes first to prevent race condition with new_record?
           self.min_count = attributes.delete(:min_count)
           self.max_count = attributes.delete(:max_count)
+          @connection = attributes[:connection]
           super
         end
 
         def console_output(num_lines)
           requires :id
           connection.get_console_output(id, num_lines)
+        end
+
+        def metadata
+          @metadata ||= begin
+            Fog::Compute::HP::Metadata.new({
+              :connection => connection,
+              :parent => self
+            })
+          end
+        end
+
+        def metadata=(new_metadata={})
+          metas = []
+          new_metadata.each_pair {|k,v| metas << {"key" => k, "value" => v} }
+          metadata.load(metas)
         end
 
         def destroy
@@ -178,8 +195,10 @@ module Fog
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :flavor_id, :image_id, :name
+          meta_hash = {}
+          metadata.each { |meta| meta_hash.store(meta.key, meta.value) }
           options = {
-            'metadata'    => metadata,
+            'metadata'    => meta_hash,
             'personality' => personality,
             'accessIPv4'  => accessIPv4,
             'accessIPv6'  => accessIPv6,
