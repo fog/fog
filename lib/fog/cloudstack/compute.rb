@@ -240,7 +240,7 @@ module Fog
 
         def issue_request(params={},headers={},method='GET',expects=200)
           begin
-            response = @connection.request({
+            @connection.request({
               :query => params,
               :headers => headers,
               :method => method,
