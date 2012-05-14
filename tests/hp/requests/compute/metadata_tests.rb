@@ -15,27 +15,54 @@ Shindo.tests('Fog::Compute[:hp] | metadata requests', ['hp']) do
     @server.wait_for { ready? }
 
     tests("#list_metadata('servers', #{@server.id})").formats(@metadata_format) do
-      Fog::Compute[:hp].list_metadata('servers', @server.id).body
+      metadata = Fog::Compute[:hp].list_metadata('servers', @server.id).body
+      test ("metadata exists") do
+        metadata['metadata']['Meta1'] == "MetaValue1"
+      end
+      metadata
     end
 
     tests("#set_metadata('servers', #{@server.id}, {'MetaNew3' => 'MetaNewValue3'})").formats(@metadata_format) do
-      Fog::Compute[:hp].set_metadata('servers', @server.id, {'MetaNew3' => 'MetaNewValue3'}).body
+      data = Fog::Compute[:hp].set_metadata('servers', @server.id, {'MetaNew3' => 'MetaNewValue3'}).body
+      test ("metadata set correctly") do
+        metadata = Fog::Compute[:hp].list_metadata('servers', @server.id).body
+        metadata['metadata']['MetaNew3'] == "MetaNewValue3"
+      end
+      data
     end
 
     tests("#update_metadata('servers', #{@server.id}, {'MetaUpd4' => 'MetaUpdValue4'})").formats(@metadata_format) do
-      Fog::Compute[:hp].update_metadata('servers', @server.id, {'MetaUpd4' => 'MetaUpdValue4'}).body
+      data = Fog::Compute[:hp].update_metadata('servers', @server.id, {'MetaUpd4' => 'MetaUpdValue4'}).body
+      test ("metadata updated correctly") do
+        metadata = Fog::Compute[:hp].list_metadata('servers', @server.id).body
+        metadata['metadata']['MetaUpd4'] == "MetaUpdValue4"
+      end
+      data
     end
 
     tests("#get_meta('servers', #{@server.id}, 'MetaNew3')").formats(@metaitem_format) do
-      Fog::Compute[:hp].get_meta('servers', @server.id, 'MetaNew3').body
+      mitem = Fog::Compute[:hp].get_meta('servers', @server.id, 'MetaNew3').body
+      test ("metadata item exists") do
+        mitem['meta']['MetaNew3'] == "MetaNewValue3"
+      end
+      mitem
     end
 
     tests("#update_meta('servers', #{@server.id}, 'MetaNew3', 'MetaUpdValue3')").formats(@metaitem_format) do
-      Fog::Compute[:hp].update_meta('servers', @server.id, 'MetaNew3', 'MetaUpdValue3').body
+      mitem = Fog::Compute[:hp].update_meta('servers', @server.id, 'MetaNew3', 'MetaUpdValue3').body
+      test ("metadata item updated correctly") do
+        mitem['meta']['MetaNew3'] == "MetaUpdValue3"
+      end
+      mitem
     end
 
     tests("#delete_meta('servers', #{@server.id}, 'MetaNew3')").succeeds do
-      Fog::Compute[:hp].delete_meta('servers', @server.id, 'MetaNew3').body
+      data = Fog::Compute[:hp].delete_meta('servers', @server.id, 'MetaNew3').body
+      test ("metadata item deleted correctly") do
+        metadata = Fog::Compute[:hp].list_metadata('servers', @server.id).body
+        metadata['metadata'].fetch('MetaNew3', nil) == nil
+      end
+      data
     end
 
     @server.destroy
