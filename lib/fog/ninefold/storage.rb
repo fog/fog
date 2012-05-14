@@ -116,7 +116,7 @@ module Fog
             end
           }
           header_arr = customheaders.sort()
-          first = true
+
           header_arr.each { |key,value|
             # Values are lowercase and whitespace-normalized
             signstring += key + ":" + value.strip.chomp.squeeze( " " ) + "\n"
