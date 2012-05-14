@@ -109,15 +109,15 @@ module Fog
           )
 
           begin
-            response = @connection.request({
-                                               :body       => body,
-                                               :expects    => 200,
-                                               :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-                                               :idempotent => idempotent,
-                                               :host       => @host,
-                                               :method     => 'POST',
-                                               :parser     => parser
-                                           })
+            @connection.request({
+                :body       => body,
+                :expects    => 200,
+                :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+                :idempotent => idempotent,
+                :host       => @host,
+                :method     => 'POST',
+                :parser     => parser
+            })
           rescue Excon::Errors::HTTPStatusError => error
             if match = error.response.body.match(/<Code>(.*)<\/Code>[ \t\n]*<Message>(.*)<\/Message>/)
               raise case match[1].split('.').last
