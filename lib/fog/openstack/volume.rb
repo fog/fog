@@ -11,10 +11,10 @@ module Fog
                  :openstack_api_key, :openstack_username,
                  :current_user, :current_tenant
 
-      #model_path 'fog/openstack/models/volume'
+      model_path 'fog/openstack/models/volume'
 
-      #model       :volume
-      #collection  :volumes
+      model       :volume
+      collection  :volumes
 
 
       request_path 'fog/openstack/requests/volume'
