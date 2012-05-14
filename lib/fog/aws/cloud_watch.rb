@@ -98,7 +98,7 @@ module Fog
             }
           )
 
-          response = @connection.request({
+          @connection.request({
             :body       => body,
             :expects    => 200,
             :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
