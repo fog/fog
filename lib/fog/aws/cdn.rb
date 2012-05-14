@@ -112,7 +112,7 @@ module Fog
         def signature(params)
           string_to_sign = params[:headers]['Date']
           signed_string = @hmac.sign(string_to_sign)
-          signature = Base64.encode64(signed_string).chomp!
+          Base64.encode64(signed_string).chomp!
         end
       end
     end
