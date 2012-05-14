@@ -74,9 +74,6 @@ module Fog
 
         def initialize(options={})
           require 'rbovirt'
-          username = options[:ovirt_username]
-          password = options[:ovirt_password]
-          url      = options[:ovirt_url]
         end
 
         private
