@@ -58,7 +58,10 @@ module Fog
         end
 
         private
-        attr_reader :client
+
+        def client
+          return @client if defined?(@client)
+        end
 
         #read mocks xml
         def read_xml(file_name)
