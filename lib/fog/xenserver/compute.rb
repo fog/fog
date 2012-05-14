@@ -89,7 +89,7 @@ module Fog
         end
         
         def default_network
-          net = networks.find { |n| n.name == (@defaults[:network] || "Pool-wide network associated with eth0") }
+          networks.find { |n| n.name == (@defaults[:network] || "Pool-wide network associated with eth0") }
         end
         
       end
