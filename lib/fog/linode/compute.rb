@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'linode'))
+require 'fog/linode'
 require 'fog/compute'
 
 module Fog

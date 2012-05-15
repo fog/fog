@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'libvirt'))
+require 'fog/libvirt'
 require 'fog/compute'
 require 'fog/libvirt/models/compute/util/util'
 require 'fog/libvirt/models/compute/util/uri'

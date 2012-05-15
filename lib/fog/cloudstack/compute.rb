@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'cloudstack'))
+require 'fog/cloudstack'
 require 'fog/compute'
 require 'digest/md5'
 

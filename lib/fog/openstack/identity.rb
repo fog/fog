@@ -1,4 +1,3 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'openstack'))
 require 'fog/openstack'
 
 module Fog

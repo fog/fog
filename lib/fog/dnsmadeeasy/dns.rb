@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'dnsmadeeasy'))
+require 'fog/dnsmadeeasy'
 require 'fog/dns'
 
 module Fog

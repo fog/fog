@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'dynect'))
+require 'fog/dynect'
 require 'fog/dns'
 
 module Fog

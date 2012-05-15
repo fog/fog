@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'brightbox'))
+require 'fog/brightbox'
 require 'fog/compute'
 
 module Fog
