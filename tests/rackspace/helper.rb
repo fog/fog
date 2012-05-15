@@ -10,7 +10,7 @@ module Shindo
             :protocol => 'HTTP',
             :port => 80,
             :virtual_ips => [{ :type => 'PUBLIC'}],
-            :nodes => [{ :address => '10.0.0.1', :port => 80, :condition => 'ENABLED'}]
+            :nodes => [{ :address => '1.1.1.1', :port => 80, :condition => 'ENABLED'}]
           })
         @lb.wait_for { ready? }
       begin

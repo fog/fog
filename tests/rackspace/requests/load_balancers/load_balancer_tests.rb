@@ -9,14 +9,14 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer_tests', ['rackspace'
       @lb_name = 'fog' + Time.now.to_i.to_s
 
       tests("#create_load_balancer(#{@lb_name}, 'HTTP', 80,...)").formats(LOAD_BALANCER_FORMAT) do
-        data = @service.create_load_balancer(@lb_name, 'HTTP', 80, [{ :type => 'PUBLIC'}], [{ :address => '10.0.0.1', :port => 80, :condition => 'ENABLED'}]).body
+        data = @service.create_load_balancer(@lb_name, 'HTTP', 80, [{ :type => 'PUBLIC'}], [{ :address => '1.1.1.1', :port => 80, :condition => 'ENABLED'}]).body
         @lb_id = data['loadBalancer']['id']
         data
       end
 
       tests("#create_load_balancer(#{@lb_name}, 'HTTP', 80,...with algorithm)").formats(LOAD_BALANCER_FORMAT) do
         data = @service.create_load_balancer(@lb_name, 'HTTP', 80, [{ :type => 'PUBLIC'}], 
-                                             [{ :address => '10.0.0.1', :port => 80, :condition => 'ENABLED'}],
+                                             [{ :address => '1.1.1.1', :port => 80, :condition => 'ENABLED'}],
                                              { :algorithm => 'LEAST_CONNECTIONS' }).body
         @lb_id = data['loadBalancer']['id']
         returns('LEAST_CONNECTIONS') { data['loadBalancer']['algorithm'] }
@@ -39,8 +39,8 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer_tests', ['rackspace'
         sleep 10
       end
 
-      tests("#list_load_balancers({:node_address => '10.0.0.1'})").formats(LOAD_BALANCERS_FORMAT) do
-        @service.list_load_balancers({:node_address => '10.0.0.1'}).body
+      tests("#list_load_balancers({:node_address => '1.1.1.1'})").formats(LOAD_BALANCERS_FORMAT) do
+        @service.list_load_balancers({:node_address => '1.1.1.1'}).body
       end
 
       tests("#update_load_balancer(#{@lb_id}, { :port => 80 })").succeeds do
@@ -58,7 +58,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer_tests', ['rackspace'
 
     tests('failure') do
       tests('#create_load_balancer(invalid name)').raises(Fog::Rackspace::LoadBalancers::BadRequest) do
-        @service.create_load_balancer('', 'HTTP', 80, [{ :type => 'PUBLIC'}], [{ :address => '10.0.0.1', :port => 80, :condition => 'ENABLED'}])
+        @service.create_load_balancer('', 'HTTP', 80, [{ :type => 'PUBLIC'}], [{ :address => '1.1.1.1', :port => 80, :condition => 'ENABLED'}])
       end
 
       tests('#get_load_balancer(0)').raises(Fog::Rackspace::LoadBalancers::NotFound) do
