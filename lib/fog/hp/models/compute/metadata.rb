@@ -16,10 +16,19 @@ module Fog
 
         def all
           requires :parent
-          metadata = connection.list_metadata(collection_name, @parent.id).body['metadata']
-          metas = []
-          metadata.each_pair {|k,v| metas << {"key" => k, "value" => v} }
-          load(metas)
+          if @parent.id
+            metadata = connection.list_metadata(collection_name, @parent.id).body['metadata']
+            metas = []
+            metadata.each_pair {|k,v| metas << {"key" => k, "value" => v} }
+            load(metas)
+          end
+        end
+
+        def destroy(key)
+          requires :parent
+          connection.delete_meta(collection_name, @parent.id, key)
+        rescue Fog::Compute::HP::NotFound
+          nil
         end
 
         def get(key)
@@ -32,9 +41,9 @@ module Fog
           nil
         end
 
-        def update(data=nil)
+        def new(attributes = {})
           requires :parent
-          connection.update_metadata(collection_name, @parent.id, meta_hash(data))
+          super({ :parent => @parent }.merge!(attributes))
         end
 
         def set(data=nil)
@@ -42,10 +51,11 @@ module Fog
           connection.set_metadata(collection_name, @parent.id, meta_hash(data))
         end
 
-        def new(attributes = {})
+        def update(data=nil)
           requires :parent
-          super({ :parent => @parent }.merge!(attributes))
+          connection.update_metadata(collection_name, @parent.id, meta_hash(data))
         end
+
 
         private
         def meta_hash(data=nil)
