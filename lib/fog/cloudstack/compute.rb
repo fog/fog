@@ -10,17 +10,24 @@ module Fog
       class Unauthorized < Fog::Compute::Cloudstack::Error; end
 
       requires :cloudstack_host
-      
+
       recognizes :cloudstack_api_key, :cloudstack_secret_access_key, :cloudstack_session_key, :cloudstack_session_id,
                  :cloudstack_port, :cloudstack_path, :cloudstack_scheme, :cloudstack_persistent
-      
+
       request_path 'fog/cloudstack/requests/compute'
 
 
       model_path 'fog/cloudstack/models/compute'
+      model :address
       model :server
       collection :servers
-      
+      model :image
+      collection :images
+      model :flavor
+      collection :flavors
+      model :zone
+      collection :zones
+
       request :acquire_ip_address
       request :assign_to_load_balancer_rule
       request :attach_volume
@@ -45,6 +52,7 @@ module Fog
       request :delete_ssh_key_pair
       request :delete_snapshot
       request :delete_snapshot_policies
+      request :delete_template
       request :delete_user
       request :delete_volume
       request :detach_volume
@@ -259,8 +267,8 @@ module Fog
           @data ||= begin
             rc_options = Fog.credentials[:cloudstack] || {}
             zone_id = rc_options[:zone_id] ||"c554c592-e09c-9df5-7688-4a32754a4305"
-            template_id = rc_options[:template_id] || "8a31cf9c-f248-0588-256e-9dbf58785216"
-            service_offering_id =  rc_options[:service_offering_id] || "4437ac6c-9fe3-477a-57ec-60a5a45896a4"
+            image_id = rc_options[:image_id] || "8a31cf9c-f248-0588-256e-9dbf58785216"
+            flavor_id =  rc_options[:flavor_id] || "4437ac6c-9fe3-477a-57ec-60a5a45896a4"
             account_id = "8bec6f15-e2b8-44fc-a8f3-a022b2873440"
             user_id = Fog::Cloudstack.uuid
             domain_id = Fog::Cloudstack.uuid
@@ -325,8 +333,8 @@ module Fog
                 "allocationstate" => "Enabled",
                 "zonetoken" => Fog::Cloudstack.uuid,
                 "dhcpprovider" => "VirtualRouter"}},
-              :templates => { template_id => {
-                "id" => template_id,
+              :images => { image_id => {
+                "id" => image_id,
                 "name" => "CentOS 5.6(64-bit) no GUI (XenServer)",
                 "displaytext" => "CentOS 5.6(64-bit) no GUI (XenServer)",
                 "ispublic" => true,
@@ -348,8 +356,8 @@ module Fog
                 "domainid" => "6023b6fe-5bef-4358-bc76-9f4e75afa52f",
                 "isextractable" => true,
                 "checksum" => "905cec879afd9c9d22ecc8036131a180"}},
-              :service_offerings => { service_offering_id => {
-                "id" => service_offering_id,
+              :flavors => { flavor_id => {
+                "id" => flavor_id,
                 "name" => "Medium Instance",
                 "displaytext" => "Medium Instance",
                 "cpunumber" => 1,

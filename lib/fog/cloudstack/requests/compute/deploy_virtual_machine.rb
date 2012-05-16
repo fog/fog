@@ -11,24 +11,17 @@ module Fog
             'command' => 'deployVirtualMachine'
           )
 
-          security_group_ids = options.delete(:security_group_ids)
-          if security_group_ids
+          if security_group_ids = options.delete('securitygroupids')
             options.merge!('securitygroupids' => Array(security_group_ids).join(','))
           end
 
-          security_group_names = options.delete(:security_group_names)
-          if security_group_names
+          if security_group_names = options.delete('securitygroupnames')
             options.merge!('securitygroupnames' => Array(security_group_names).join(','))
           end
 
-          network_ids = options.delete(:network_ids)
-          if network_ids
+          if network_ids = options.delete('networkids')
             options.merge!('networkids' => Array(network_ids).join(','))
           end
-
-          options["zoneid"]=            options.delete(:zone_id)             if options.key?(:zone_id)
-          options["templateid"]=        options.delete(:template_id)         if options.key?(:template_id)
-          options["serviceofferingid"]= options.delete(:service_offering_id) if options.key?(:service_offering_id)
 
           request(options)
         end
@@ -37,24 +30,24 @@ module Fog
       class Mock
 
         def deploy_virtual_machine(options={})
-          zone_id = options[:zone_id]
+          zone_id = options['zoneid']
           unless zone_id
             raise Fog::Compute::Cloudstack::BadRequest.new('Unable to execute API command deployvirtualmachine due to missing parameter zoneid')
           end
           unless zone = self.data[:zones][zone_id]
-            raise Fog::Compute::Cloudstack::BadRequest.new("Unable to execute API command deployvirtualmachine due to invalid value. Object networks(uuid: #{zone_id}) does not exist.")
+            raise Fog::Compute::Cloudstack::BadRequest.new("Unable to execute API command deployvirtualmachine due to invalid value. Object zone(uuid: #{zone_id}) does not exist.")
           end
           zone_name = zone[:name]
 
-          template_id = options[:template_id]
-          unless template = self.data[:templates][options[:template_id]]
+          template_id = options['templateid']
+          unless template = self.data[:images][template_id]
             raise Fog::Compute::Cloudstack::BadRequest.new('Unable to execute API command deployvirtualmachine due to missing parameter templateid')
           end
           template_name = template[:name]
           template_display_text = template[:display_text]
 
-          service_offering_id = options[:service_offering_id]
-          unless service_offering = self.data[:service_offerings][options[:service_offering_id]]
+          service_offering_id = options['serviceofferingid']
+          unless service_offering = self.data[:flavors][service_offering_id]
             raise Fog::Compute::Cloudstack::BadRequest.new('Unable to execute API command deployvirtualmachine due to missing parameter serviceofferingid')
           end
 
@@ -64,11 +57,11 @@ module Fog
           service_offering_memory = service_offering[:cpumemory]
 
           identity = Fog::Cloudstack.uuid
-          name = options[:name] || Fog::Cloudstack.uuid
-          display_name = options[:display_name] || name
-          account_name = options[:account] || self.data[:accounts].first[1]["name"]
+          name = options['name'] || Fog::Cloudstack.uuid
+          display_name = options['displayname'] || name
+          account_name = options['account'] || self.data[:accounts].first[1]["name"]
 
-          domain = options[:domain_id] ? self.data[:domains][options[:domain_id]] : self.data[:domains].first[1]
+          domain = options['domainid'] ? self.data[:domains][options['domainid']] : self.data[:domains].first[1]
           domain_id = domain[:id]
           domain_name = domain[:name]
 
@@ -78,9 +71,9 @@ module Fog
 
           guest_os_id = Fog::Cloudstack.uuid
 
-          security_group_ids = options[:security_group_ids] || [] # TODO: for now
+          security_group_ids = options['securitygroupids'] || [] # TODO: for now
 
-          network_ids = Array(options[:network_ids]) || [self.data[:networks].first[1]["id"]]
+          network_ids = Array(options['networkids']) || [self.data[:networks].first[1]["id"]]
           networks = network_ids.map{|nid| self.data[:networks][nid]}
           nic = networks.map do |network|
             {
@@ -126,6 +119,7 @@ module Fog
             "securitygroup" => security_group_ids, # TODO: mayhaps?
             "nic" => nic
           }
+
           self.data[:servers][identity]= virtual_machine
           {'deployvirtualmachineresponse' => virtual_machine}
         end
