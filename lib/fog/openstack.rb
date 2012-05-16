@@ -92,7 +92,7 @@ module Fog
           'auth' => {
             'passwordCredentials'  => {
               'username' => @openstack_username,
-              'password' => @openstack_api_key
+              'password' => @openstack_api_key.to_s
             }
           }
         }
