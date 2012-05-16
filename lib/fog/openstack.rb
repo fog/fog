@@ -116,7 +116,11 @@ module Fog
           })
 
           body = Fog::JSON.decode(response.body)
-          req_body['auth']['tenantName'] = body['tenants'].first['name']
+          if body['tenants'].empty?
+            raise Errors::NotFound.new('No Tenant Found')
+          else
+            req_body['auth']['tenantName'] = body['tenants'].first['name']
+          end
         end
 
         body = retrieve_tokens_v2(connection, req_body, uri)
