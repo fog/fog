@@ -17,6 +17,11 @@ module Fog
           else
             backing_info.diskMode = RbVmomi::VIM::VirtualDiskMode("persistent")
           end
+
+          if options[:thin]
+            backing_info.thinProvisioned = true
+          end
+
           backing_info.fileName = file_name
 
           virtual_disk = RbVmomi::VIM::VirtualDisk.new #VirtualDisk
@@ -105,7 +110,7 @@ module Fog
 
           disk_config = create_disk_config_spec(datastore_mob_ref, options['vmdk_path'],
                                                 system_disk[0].controllerKey, options['disk_size'].to_i,
-                                                :create => true, :independent => true)
+                                                :create => true, :independent => true, :thin => options['thin_provision'])
 
           config = RbVmomi::VIM::VirtualMachineConfigSpec.new
           config.deviceChange = []

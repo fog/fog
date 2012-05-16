@@ -48,7 +48,7 @@ Shindo.tests('Fog::Compute[:vsphere]', ['vsphere']) do
       DC_NAME = 'DatacenterCF'# name reffing to datacenter in test bed
       ATR_DC_NAME = 'DC' # refer to datacenter attribute bean type
       CS_NAME = 'Cluster1' # name reffing to a cluster sits in above datacenter
-      ATR_CS_NAME = 'CS' # refer to cluster attribute bean type
+       ATR_CS_NAME = 'CS' # refer to cluster attribute bean type
       RP_NAME = 'RP1' # name reffing to a resource pool belong to above cluster
       ATR_RP_NAME = 'RP' # refer to resource pool attribute bean type
       HOST_NAME = '10.117.8.187' # name reffing to host belong to above resource pool
