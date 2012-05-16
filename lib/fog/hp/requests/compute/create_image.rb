@@ -18,10 +18,7 @@ module Fog
         def create_image(server_id, name, metadata = {})
           body = { 'createImage' =>
                        { 'name' => name,
-                         'metadata' =>
-                             { 'ImageType' => metadata[:image_type],
-                               'ImageVersion' => metadata[:image_version]
-                             }
+                         'metadata' => metadata
                        }
                  }
           server_action(server_id, body)
