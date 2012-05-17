@@ -2,7 +2,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'ecloud'))
 require 'ipaddr'
 
 class IPAddr
-  def mask
+  def mask_string
     _to_string(@mask_addr)
   end
 end
@@ -367,7 +367,7 @@ module Fog
         end
 
         def netmask
-          self[:netmask] || subnet_ipaddr.mask
+          self[:netmask] || subnet_ipaddr.mask_string
         end
 
         def dns
