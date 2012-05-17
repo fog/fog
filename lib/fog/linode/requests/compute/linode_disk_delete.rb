@@ -27,6 +27,7 @@ module Fog
             "DATA"       => { "JobID" => rand(1000..9999),
                               "DiskID" => disk_id }
           }
+          response
         end
       end
     end
