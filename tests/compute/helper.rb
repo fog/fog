@@ -19,6 +19,14 @@ def compute_providers
       },
       :mocked => false
     },
+    :openstack => { :mocked => true},
+    :cloudstack => {
+      :provider_attributes => {
+        :cloudstack_host => 'http://host.foo'
+      },
+      :server_attributes => Fog.credentials[:cloudstack],
+      :mocked => true
+    },
     :glesys   => {
       :mocked => false
     },
