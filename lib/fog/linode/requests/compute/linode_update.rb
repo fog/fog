@@ -12,6 +12,19 @@ module Fog
         end
 
       end
+
+      class Mock
+        def linode_update(linode_id, options={})
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "ERRORARRAY" => [],
+            "ACTION"     => "linode.update",
+            "DATA"       => { "LinodeID" => rand(1000..9999) }
+          }
+          response
+        end
+      end
     end
   end
 end
