@@ -1,3 +1,4 @@
+
 for provider, config in compute_providers
 
   Shindo.tests("Fog::Compute[:#{provider}] | servers", [provider.to_s]) do

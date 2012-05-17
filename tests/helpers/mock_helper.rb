@@ -15,6 +15,7 @@ if Fog.mock?
     :bluebox_customer_id              => 'bluebox_customer_id',
     :brightbox_client_id              => 'brightbox_client_id',
     :brightbox_secret                 => 'brightbox_secret',
+    :cloudstack_host                  => 'http://cloudstack.example.org',
     :clodo_api_key                    => 'clodo_api_key',
     :clodo_username                   => 'clodo_username',
     :dnsimple_email                   => 'dnsimple_email',
@@ -77,5 +78,5 @@ if Fog.mock?
     :libvirt_uri                      => 'qemu:///system',
     :libvirt_username                 => 'root',
     :libvirt_password                 => 'password'
-  }
+  }.merge(Fog.credentials)
 end
