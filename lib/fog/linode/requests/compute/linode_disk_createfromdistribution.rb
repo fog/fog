@@ -19,6 +19,20 @@ module Fog
         end
 
       end
+
+      class Mock
+        def linode_disk_createfromdistribution(linode_id, distro_id, name, size, password)
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "ERRORARRAY" => [],
+            "ACTION"     => "linode.disk.createFromDistribution",
+            "DATA"       => { "JobID" => rand(1000..9999),
+                              "DiskID" => rand(10000..99999) }
+          }
+          response
+        end
+      end
     end
   end
 end
