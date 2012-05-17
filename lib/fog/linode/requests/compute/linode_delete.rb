@@ -23,6 +23,19 @@ module Fog
         end
 
       end
+
+      class Mock
+        def linode_delete(linode_id, options={})
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "ERRORARRAY" => [],
+            "ACTION"     => "linode.delete",
+            "DATA"       => { "LinodeID" => linode_id }
+          }
+          response
+        end
+      end
     end
   end
 end

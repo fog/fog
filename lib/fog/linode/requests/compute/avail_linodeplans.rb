@@ -11,7 +11,7 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Array>:
-        # TODO: docs        
+        # TODO: docs
         def avail_linodeplans(linodeplan_id = nil)
           options = {}
           if linodeplan_id
@@ -22,12 +22,47 @@ module Fog
             :method   => 'GET',
             :query    => { :api_action => 'avail.linodeplans' }.merge!(options)
           )
-          
+
           #hack for plans not filtering by id like they should above, remove when they fix it.
           result.body["DATA"] = result.body["DATA"].select { |item| item['PLANID'] == linodeplan_id } if linodeplan_id
           result
         end
 
+      end
+
+      class Mock
+        def avail_linodeplans(linodeplan_id = nil)
+          response = Excon::Response.new
+          response.status = 200
+          body = {
+            "ERRORARRAY" => [],
+            "ACTION" => "avail.linodeplans"
+          }
+          if linodeplan_id
+            mock_plan = create_mock_linodeplan(linodeplan_id)
+            response.body = body.merge("DATA" => [mock_plan])
+          else
+            mock_plans = []
+            10.times do
+              plan_id = rand(1..99)
+              mock_plans << create_mock_linodeplan(plan_id)
+            end
+            response.body = body.merge("DATA" => mock_plans)
+          end
+          response
+        end
+
+        private
+
+        def create_mock_linodeplan(linodeplan_id)
+          { "PRICE" => 19.95, "RAM" => 512, "XFER" => 200,
+            "PLANID" => linodeplan_id, "LABEL" => "Linode #{linodeplan_id}",
+            "DISK" => 20,
+            "AVAIL" => {
+              "3"=>48, "2"=>207, "7"=>161, "6"=>143, "4"=>108, "8"=>60
+            }
+          }
+        end
       end
     end
   end

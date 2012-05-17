@@ -12,6 +12,19 @@ module Fog
         end
 
       end
+
+      class Mock
+        def linode_boot(linode_id, config_id)
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "ERRORARRAY" => [],
+            "ACTION"     => "linode.boot",
+            "DATA"       => { "JobID" => rand(1000..9999) }
+          }
+          response
+        end
+      end
     end
   end
 end
