@@ -33,7 +33,7 @@ module Fog
         attribute :public_ip_address
 
         attr_reader :password
-        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :image_id, :flavor_id
+        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :image_id, :flavor_id, :network_name
 
         def initialize(attributes = {})
           # assign these attributes first to prevent race condition with new_record?
@@ -84,8 +84,12 @@ module Fog
           self.key_name = new_keypair && new_keypair.name
         end
 
+        def network_name
+          @network_name ||= "private"
+        end
+
         def private_ip_address
-          addr = addresses.nil? ? nil : addresses.fetch('private', []).first
+          addr = addresses.nil? ? nil : addresses.fetch(network_name, []).first
           addr["addr"] if addr
         end
 
@@ -102,7 +106,7 @@ module Fog
           # FIX: Both the private and public ips are bundled under "private" network name
           # So hack to get to the public ip address
           if !addresses.nil?
-            addr = addresses.fetch('private', [])
+            addr = addresses.fetch(network_name, [])
             # if we have more than 1 address, then the return the second address which is public
             if addr.count > 1
               addr[1]["addr"]
