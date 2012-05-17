@@ -36,6 +36,7 @@ module Fog
             end
             response.body = body.merge("DATA" => mock_disks)
           end
+          response
         end
 
         private
