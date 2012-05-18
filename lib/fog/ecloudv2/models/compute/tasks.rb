@@ -12,7 +12,8 @@ module Fog
         attribute :total_count, :aliases => :TotalCount
 
         def all
-          data = connection.get_tasks(href).body[:Task]
+          data = connection.get_tasks(href).body
+          data = data[:Task] ? data[:Task] : data
           load(data)
         end
 

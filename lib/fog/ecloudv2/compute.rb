@@ -1,30 +1,4 @@
-module Fog
-  module Ecloudv2
-    class Collection < Fog::Collection
-
-      def load(objects)
-        objects = [ objects ] if objects.is_a?(Hash)
-        super
-      end
-
-      def check_href!(opts = {})
-        unless href
-          opts = { :parent => opts } if opts.is_a?(String)
-          msg = ":href missing, call with a :href pointing to #{if opts[:message]
-                  opts[:message]
-                elsif opts[:parent]
-                  "the #{opts[:parent]} whos #{self.class.to_s.split('::').last.downcase} you want to enumerate"
-                else
-                  "the resource"
-                end}"
-          raise Fog::Errors::Error.new(msg)
-        end
-      end
-
-    end
-  end
-end
-
+require 'fog/ecloudv2/collection'
 module Fog
   module Compute
 
@@ -42,44 +16,88 @@ module Fog
       model_path 'fog/ecloudv2/models/compute'
       model :organization
       collection :organizations
-      model :location
-      collection :locations
-      model :environment
-      collection :environments
-        model :task
-        collection :tasks
-        model :compute_pool
-        collection :compute_pools
-          model :server
-          collection :servers
-          model :layout
-          collection :layouts
-            model :row
-            collection :rows
-              model :group
-              collection :groups
-        model :network
-        collection :networks
-        model :physical_device
-        collection :physical_devices
-        model :public_ip
-        collection :public_ips
-
-      #compute_pool objects
-#      model :catalog_item
-#      model :catalog
-#      model :firewall_acl
-#      collection :firewall_acls
-#      model :internet_service
-#      collection :internet_services
-#      model :backup_internet_service
-#      collection :backup_internet_services
-#      model :ip
-#      collection :ips
-#      model :node
-#      collection :nodes
-#      model :public_ip
-#      collection :public_ips
+        model :location
+        collection :locations
+          model :catalog_item
+          collection :catalog
+            model :catalog_configuration
+            collection :catalog_configurations
+        model :environment
+        collection :environments
+          model :task
+          collection :tasks
+          model :compute_pool
+          collection :compute_pools
+            model :server
+            collection :servers
+              model :hardware_configuration
+              collection :hardware_configurations
+              model :server_configuration_option
+              collection :server_configuration_options
+              model :guest_process
+              collection :guest_processes
+            model :layout
+            collection :layouts
+              model :row
+              collection :rows
+                model :group
+                collection :groups
+            model :internet_service
+            collection :internet_services
+              model :node
+              collection :nodes
+              model :monitor
+              collection :monitors
+            model :cpu_usage_detail
+            collection :cpu_usage_detail_summary
+            model :memory_usage_detail
+            collection :memory_usage_detail_summary
+            model :storage_usage_detail
+            collection :storage_usage_detail_summary
+            model :operating_system_family
+            collection :operating_system_families
+              model :operating_system
+              collection :operating_systems
+            model :template
+            collection :templates
+          model :firewall_acl
+          collection :firewall_acls
+          model :network
+          collection :networks
+            model :ip_address
+            collection :ip_addresses
+          model :physical_device
+          collection :physical_devices
+          model :public_ip
+          collection :public_ips
+          model :trusted_network_group
+          collection :trusted_network_groups
+          model :backup_internet_service
+          collection :backup_internet_services
+          model :rnat
+          collection :rnats
+            model :association
+            collection :associations
+        model :tag
+        collection :tags
+        model :admin_organization
+        collection :admin_organizations
+          model :ssh_key
+          collection :ssh_keys
+          model :password_complexity_rule
+          collection :password_complexity_rules
+          model :authentication_level
+          collection :authentication_levels
+          model :login_banner
+          collection :login_banners
+        model :user
+        collection :users
+          model :role
+          collection :roles
+          model :ssh_key
+          collection :ssh_keys
+        model :support_ticket
+        collection :support_tickets
 
       #### Requests
       request_path 'fog/ecloudv2/requests/compute'
@@ -106,39 +124,115 @@ module Fog
       request :get_groups
       request :get_public_ip
       request :get_public_ips
-#      request :add_internet_service
-#      request :add_backup_internet_service
-#      request :add_node
-#      request :clone_vapp
-#      request :configure_internet_service
-#      request :configure_network
-#      request :configure_network_ip
-#      request :configure_node
-#      request :configure_vapp
-#      request :delete_internet_service
-#      request :delete_node
-#      request :delete_vapp
-#      request :get_catalog
-#      request :get_catalog_item
-#      request :get_customization_options
-#      request :get_firewall_acls
-#      request :get_firewall_acl
-#      request :get_internet_services
-#      request :get_network_ip
-#      request :get_network_extensions
-#      request :get_node
-#      request :get_nodes
-#      request :get_public_ip
-#      request :get_public_ips
-#      request :get_vapp
-#      request :get_vapp_template
-#      request :get_versions
-#      request :instantiate_vapp_template
-#      request :get_organization
-#      request :power_off
-#      request :power_on
-#      request :power_reset
-#      request :power_shutdown
+      request :get_network_summary
+      request :get_internet_service
+      request :get_internet_services
+      request :get_node
+      request :get_nodes
+      request :get_firewall_acl
+      request :get_firewall_acls
+      request :get_trusted_network_group
+      request :get_trusted_network_groups
+      request :get_catalog
+      request :get_catalog_item
+      request :get_tag
+      request :get_tags
+      request :get_hardware_configuration
+      request :get_hardware_configurations
+      request :get_server_configuration_option
+      request :get_server_configuration_options
+      request :get_guest_process
+      request :get_guest_processes
+      request :get_cpu_usage_detail
+      request :get_cpu_usage_detail_summary
+      request :get_memory_usage_detail
+      request :get_memory_usage_detail_summary
+      request :get_storage_usage_detail
+      request :get_storage_usage_detail_summary
+      request :get_operating_system_family
+      request :get_operating_system_families
+      request :get_operating_system
+      request :get_template
+      request :get_templates
+      request :get_monitor
+      request :get_monitors
+      request :get_backup_internet_service
+      request :get_backup_internet_services
+      request :get_rnat
+      request :get_rnats
+      request :get_association
+      request :get_associations
+      request :get_admin_organization
+      request :get_admin_organizations
+      request :get_ssh_key
+      request :get_ssh_keys
+      request :get_password_complexity_rule
+      request :get_password_complexity_rules
+      request :get_authentication_level
+      request :get_authentication_levels
+      request :get_login_banner
+      request :get_login_banners
+      request :get_user
+      request :get_users
+      request :get_role
+      request :get_roles
+      request :get_api_key
+      request :get_api_keys
+      request :get_support_ticket
+      request :get_support_tickets
+      request :get_ip_address
+      request :get_ip_addresses
+      request :get_catalog_configuration
+      request :get_catalog_configurations
+      request :compute_pool_edit
+      request :virtual_machine_create_from_template
+      request :virtual_machine_import
+      request :virtual_machine_copy
+      request :virtual_machine_copy_identical
+      request :virtual_machine_edit
+      request :virtual_machine_delete
+      request :internet_service_create
+      request :internet_service_edit
+      request :internet_service_delete
+      request :backup_internet_service_create
+      request :backup_internet_service_edit
+      request :backup_internet_service_delete
+      request :node_service_create
+      request :node_service_delete
+      request :node_service_edit
+      request :monitors_create_default
+      request :monitors_create_ping
+      request :monitors_create_http
+      request :monitors_create_ecv
+      request :monitors_create_loopback
+      request :monitors_edit_ping
+      request :monitors_edit_http
+      request :monitors_edit_ecv
+      request :monitors_enable
+      request :monitors_disable
+      request :rnat_associations_edit_network
+      request :rnat_associations_create_device
+      request :rnat_associations_delete
+      request :rows_create
+      request :rows_edit
+      request :rows_moveup
+      request :rows_movedown
+      request :rows_delete
+      request :groups_create
+      request :groups_edit
+      request :groups_moveup
+      request :groups_movedown
+      request :groups_delete
+      request :trusted_network_groups_create
+      request :trusted_network_groups_edit
+      request :trusted_network_groups_delete
+      request :firewall_acls_create
+      request :firewall_acls_delete
+      request :public_ip_activate
+      request :power_on
+      request :power_off
+      request :power_reset
+      request :power_shutdown
 
       module Shared
 
@@ -189,6 +283,12 @@ module Fog
           { "xmlns" => "http://www.vmware.com/vcloud/v0.8",
             "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
             "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema" }
+        end
+
+        def validate_data(required_opts = [], options)
+          unless required_opts.all? { |opt| options.has_key?(opt) }
+            raise ArgumentError.new("Required data missing: #{(required_opts - options.keys).map(&:inspect).join(", ")}")
+          end
         end
 
       end
@@ -301,10 +401,11 @@ module Fog
           headers = set_extra_headers_for(params) || set_extra_headers_for({})
 
           # Make the request
-          options = {:expects => params[:expects] || 200, :method => params[:method] || 'GET', :path => params[:uri].path, :headers => headers}
+          options = {:expects => params[:expects] || 200, :method => params[:method] || 'GET', :path => params[:uri].path + "#{"?#{params[:uri].query}" if params[:uri].query}", :headers => headers}
           unless params[:body].empty?
             options.merge!({:body => params[:body]})
           end
+          #puts options[:body].inspect
           response = @connections[host_url].request(options)
 
           # Parse the response body into a hash
@@ -335,7 +436,7 @@ module Fog
            params[:headers].merge!({"Accept" => 'application/xml'})
          end
          unless params[:body].empty?
-            params[:headers].merge!({"x-tmrk-contenthash" => "Sha256 #{Base64.encode64(Digest::SHA2.digest(params[:body].to_s))}"})
+            params[:headers].merge!({"x-tmrk-contenthash" => "Sha256 #{Base64.encode64(Digest::SHA2.digest(params[:body].to_s)).chomp}"})
          end
          if @authentication_method == :basic_auth
            params[:headers].merge!({'Authorization' => "Basic #{Base64.encode64(@username+":"+@password).delete("\r\n")}"})

@@ -29,7 +29,7 @@ end
 
 if options[:attributes]
   attributes = options[:attributes].map do |a|
-    a = "attribute :#{a[0]}, :aliases => :#{a[1]}"
+    a = "attribute :#{a[0]}, :aliases => :#{a[1] || a[0].camelize}"
   end.join("\n        ")
 end
 

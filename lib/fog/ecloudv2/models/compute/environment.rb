@@ -16,9 +16,15 @@ module Fog
         end
 
         def internet_services
+          @internet_services ||= Fog::Compute::Ecloudv2::InternetServices.new(:connection => connection, :href => "/cloudapi/ecloud/networkSummary/environments/#{id}")
+        end
+
+        def node_services
+          @node_services ||= Fog::Compute::Ecloudv2::Nodes.new(:connection => connection, :href => "/cloudapi/ecloud/networkSummary/environments/#{id}")
         end
 
         def backup_internet_services
+          @backup_internet_services ||= Fog::Compute::Ecloudv2::BackupInternetServices.new(:connection, :href => "/cloudapi/ecloud/backupInternetServices/environments/#{id}")
         end
 
         def networks
@@ -26,10 +32,16 @@ module Fog
         end
 
         def servers
-          @servers = []
-          compute_pools.each do |c|
-            c.servers.each { |s| @servers << s }
+          @servers = nil
+          pools = compute_pools
+          pools.each do |c|
+            if pools.index(c) == 0
+              @servers = c.servers
+            else
+              c.servers.each { |s| @servers << s }
+            end
           end
+          @servers.href = href
           @servers
         end
 
@@ -37,47 +49,55 @@ module Fog
           @layout ||= Fog::Compute::Ecloudv2::Layouts.new(:connection => connection, :href => "/cloudapi/ecloud/layout/environments/#{id}").first
         end
 
+        def rows
+          layout.rows
+        end
+
         def tasks
-          collection_based_on_type('application/vnd.tmrk.cloud.task; type=collection') 
+          @tasks ||= Fog::Compute::Ecloudv2::Tasks.new(:connection => connection, :href => "/cloudapi/ecloud/tasks/environments/#{id}")
         end
 
         def firewall_acls
+          @firewall_acls ||= Fog::Compute::Ecloudv2::FirewallAcls.new(:connection => connection, :href => "/cloudapi/ecloud/firewallAcls/environments/#{id}")
         end
 
         def compute_pools
-          collection_based_on_type('application/vnd.tmrk.cloud.computePool; type=collection')
+          @compute_pools ||= Fog::Compute::Ecloudv2::ComputePools.new(:connection => connection, :href => "/cloudapi/ecloud/computePools/environments/#{id}")
         end
 
         def physical_devices
           @physical_devices ||= Fog::Compute::Ecloudv2::PhysicalDevices.new(:connection => connection, :href => "/cloudapi/ecloud/physicalDevices/environments/#{id}")
         end
 
-        private
+        def trusted_network_groups
+          @trusted_network_groups ||= Fog::Compute::Ecloudv2::TrustedNetworkGroups.new(:connection => connection, :href => "/cloudapi/ecloud/trustedNetworkGroups/environments/#{id}")
+        end
+
+        def catalog
+          org_href = other_links[:Link].detect { |l| l[:type] == "application/vnd.tmrk.cloud.organization" }[:href]
+          @catalog ||= Fog::Compute::Ecloudv2::Catalog.new(:connection => connection, :href => "/cloudapi/ecloud/admin/catalog/organizations/#{org_href.scan(/\d+/)[0]}")
+        end
+
+        def rnats
+          @rnats ||= Fog::Compute::Ecloudv2::Rnats.new(:connection => connection, :href => "/cloudapi/ecloud/rnats/environments/#{id}")
+        end
+
+        def create_trusted_network_group(options = {})
+          options[:uri] = "/cloudapi/ecloud/trustedNetworkGroups/environments/#{id}/action/createTrustedNetworkGroup"
+          data = connection.trusted_network_groups_create(options).body
+          tng = Fog::Compute::Ecloudv2::TrustedNetworkGroups.new(:connection => connection, :href => data[:href])[0]
+        end
+
+        def create_firewall_acl(options = {})
+          options[:uri] = "/cloudapi/ecloud/firewallAcls/environments/#{id}/action/createFirewallAcl"
+          options[:permission] ||= "deny"
+          options[:protocol] ||= "any"
+          data = connection.firewall_acls_create(options).body
+          acl = Fog::Compute::Ecloudv2::FirewallAcls.new(:connection => connection, :href => data[:href])[0]
+        end
 
         def id
           href.scan(/\d+/)[0]
-        end
-
-        def collection_based_on_type(type, klass = nil)
-          load_unless_loaded!
-          if link = other_links[:Link].detect { |link| link[:type] == type }
-            case type
-            when "application/vnd.tmrk.cloud.deviceLayout"
-    
-            when "application/vnd.tmrk.cloud.physicalDevice; type=collection"
-    
-            when "application/vnd.tmrk.cloud.task; type=collection"
-              Fog::Compute::Ecloudv2::Tasks
-            when "application/vnd.tmrk.cloud.network; type=collection"
-    
-            when "application/vnd.tmrk.cloud.computePoolResourceSummary; type=collection"
-              
-            when "application/vnd.tmrk.cloud.computePool; type=collection"
-              Fog::Compute::Ecloudv2::ComputePools
-            end.new( :connection => connection, :href => link[:href] )
-          else
-            [ ]
-          end
         end
       end
       Vdc = Environment

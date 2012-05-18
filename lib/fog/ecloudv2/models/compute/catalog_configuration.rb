@@ -1,0 +1,23 @@
+module Fog
+  module Compute
+    class Ecloudv2
+      class CatalogConfiguration < Fog::Model
+        identity :href
+
+        attribute :type, :aliases => :Type
+        attribute :other_links, :aliases => :Links
+        attribute :processor_count, :aliases => :ProcessorCount
+        attribute :memory, :aliases => :Memory
+        attribute :operating_system, :aliases => :OperatingSystem
+        attribute :disks, :aliases => :Disks
+        attribute :network_adapters, :aliases => :NetworkAdapters
+        attribute :network_mappings, :aliases => :NetworkMappings
+
+        
+        def id
+          href.scan(/\d+/)[0]
+        end
+      end
+    end
+  end
+end

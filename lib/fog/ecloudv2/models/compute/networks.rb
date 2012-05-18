@@ -10,7 +10,8 @@ module Fog
         model Fog::Compute::Ecloudv2::Network
 
         def all
-          data = connection.get_networks(href).body[:Network]
+          data = connection.get_networks(href).body
+          data = data[:Networks] ? data[:Networks][:Network] : data[:Network]
           load(data)
         end
 

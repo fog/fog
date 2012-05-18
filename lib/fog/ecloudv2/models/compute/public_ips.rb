@@ -10,7 +10,8 @@ module Fog
         model Fog::Compute::Ecloudv2::PublicIp
 
         def all
-          data = connection.get_public_ips(href).body[:PublicIp]
+          data = connection.get_public_ips(href).body
+          data = data[:PublicIp] ? data[:PublicIp] : data
           load(data)
         end
 
@@ -20,6 +21,11 @@ module Fog
           end
         rescue Fog::Errors::NotFound
           nil
+        end
+
+        def activate
+          data = connection.public_ip_activate(href + "/action/activatePublicIp").body
+          ip = Fog::Compute::Ecloudv2::PublicIps.new(:connection => connection, :href => data[:href])[0]
         end
       end
     end
