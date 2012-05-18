@@ -4,7 +4,7 @@ module Fog
       class HardwareConfiguration < Fog::Model
         identity :href
 
-        attribute :processor_count, :aliases => :ProcessorCount
+        attribute :processor_count, :aliases => :ProcessorCount, :type => :integer
         attribute :mem, :aliases => :Memory
         attribute :storage, :aliases => :Disks
         attribute :network_cards, :aliases => :Nics

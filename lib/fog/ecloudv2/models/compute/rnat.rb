@@ -7,7 +7,7 @@ module Fog
         attribute :name, :aliases => :Name
         attribute :type, :aliases => :Type
         attribute :other_links, :aliases => :Links
-        attribute :default, :aliases => :Default
+        attribute :default, :aliases => :Default, :type => :boolean
         attribute :public_ip, :aliases => :PublicIp
 
         def networks

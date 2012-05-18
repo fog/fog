@@ -12,7 +12,7 @@ module Fog
         attribute :completed_time, :aliases => :CompletedTime
         attribute :notes, :aliases => :Notes
         attribute :error_message, :aliases => :ErrorMessage
-        attribute :InitiatedBy, :aliases => :InitiatedBy
+        attribute :initiated_by, :aliases => :InitiatedBy
 
       end
     end

@@ -8,7 +8,7 @@ module Fog
         attribute :type, :aliases => :Type
         attribute :other_links, :aliases => :Links
         attribute :protocol, :aliases => :Protocol
-        attribute :enabled, :aliases => :Enabled
+        attribute :enabled, :aliases => :Enabled, :type => :boolean 
         attribute :description, :aliases => :Description
         attribute :persistence, :aliases => :Persistence
         attribute :redirect_url, :aliases => :RedirectUrl

@@ -13,7 +13,7 @@ module Fog
         attribute :operating_system, :aliases => :OperatingSystem
         attribute :powered_on, :aliases => :PoweredOn, :type => :boolean
         attribute :tools_status, :aliases => :ToolsStatus
-        attribute :cpus, :aliases => :ProcessorCount
+        attribute :cpus, :aliases => :ProcessorCount, :type => :integer
         attribute :memory, :aliases => :Memory
         attribute :description, :aliases => :Description
         attribute :tags, :aliases => :Tags
