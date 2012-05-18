@@ -55,7 +55,7 @@ module Fog
           {
             "ISPVOPS"  => 1,
             "ISXEN"    => 1,
-            "KERNELID" => stackscript_id,
+            "KERNELID" => kernel_id,
             "LABEL"    => "Latest 3.0 (3.0.18-linode43)"
           }
         end
