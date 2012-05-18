@@ -65,7 +65,7 @@ module Fog
           load(
             data['reservationSet'].map do |reservation|
               reservation['instancesSet'].map do |instance|
-                instance.merge(:groups => reservation['groupSet'])
+                instance.merge(:groups => reservation['groupSet'], :security_group_ids => reservation['groupIds'])
               end
             end.flatten
           )
