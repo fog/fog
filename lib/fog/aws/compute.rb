@@ -15,6 +15,8 @@ module Fog
       collection  :flavors
       model       :image
       collection  :images
+      model       :internet_gateway
+      collection  :internet_gateways
       model       :key_pair
       collection  :key_pairs
       model       :security_group
@@ -37,9 +39,11 @@ module Fog
       request_path 'fog/aws/requests/compute'
       request :allocate_address
       request :associate_address
+      request :attach_internet_gateway
       request :attach_volume
       request :authorize_security_group_ingress
       request :cancel_spot_instance_requests
+      request :create_internet_gateway
       request :create_image
       request :create_key_pair
       request :create_placement_group
@@ -50,6 +54,7 @@ module Fog
       request :create_tags
       request :create_volume
       request :create_vpc
+      request :delete_internet_gateway
       request :delete_key_pair
       request :delete_security_group
       request :delete_placement_group
@@ -64,6 +69,7 @@ module Fog
       request :describe_availability_zones
       request :describe_images
       request :describe_instances
+      request :describe_internet_gateways
       request :describe_reserved_instances
       request :describe_instance_status
       request :describe_key_pairs
@@ -80,6 +86,7 @@ module Fog
       request :describe_volumes
       request :describe_volume_status
       request :describe_vpcs
+      request :detach_internet_gateway
       request :detach_volume
       request :disassociate_address
       request :get_console_output
@@ -166,6 +173,7 @@ module Fog
                 },
                 :snapshots => {},
                 :volumes => {},
+                :internet_gateways => {},
                 :tags => {},
                 :tag_sets => Hash.new do |tag_set_hash, resource_id|
                   tag_set_hash[resource_id] = {}

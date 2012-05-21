@@ -16,9 +16,14 @@ module Fog
         attribute :hosted_zone_name_id,   :aliases => 'CanonicalHostedZoneNameID'
         attribute :subnet_ids,            :aliases => 'Subnets'
         attribute :security_groups,       :aliases => 'SecurityGroups'
+        attribute :vpc_id,                :aliases => 'VPCId'
 
         def initialize(attributes={})
-          attributes[:availability_zones] ||= attributes['AvailabilityZones'] || %w(us-east-1a us-east-1b us-east-1c us-east-1d)
+          if attributes[:subnet_ids] ||= attributes['Subnets']
+            attributes[:availability_zones] ||= attributes['AvailabilityZones'] 
+          else
+            attributes[:availability_zones] ||= attributes['AvailabilityZones']  || %w(us-east-1a us-east-1b us-east-1c us-east-1d)
+          end
           unless attributes['ListenerDescriptions']
             new_listener = Fog::AWS::ELB::Listener.new
             attributes['ListenerDescriptions'] = [{
@@ -139,7 +144,7 @@ module Fog
           #requires :availability_zones
           if (availability_zones || subnet_ids)
             connection.create_load_balancer(availability_zones, id, listeners.map{|l| l.to_params}) if availability_zones
-            connection.create_load_balancer(subnet_ids, id, listeners.map{|l| l.to_params}) if subnet_ids && !availability_zones
+            connection.create_load_balancer(nil, id, listeners.map{|l| l.to_params}, {:subnet_ids => subnet_ids, :security_groups => security_groups}) if subnet_ids && !availability_zones
           else
             throw Fog::Errors::Error.new("No availability zones or subnet ids specified")
           end
