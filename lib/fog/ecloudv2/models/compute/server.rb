@@ -6,7 +6,7 @@ module Fog
 
         attribute :name, :aliases => :Name
         attribute :type , :aliases => :Type
-        attribute :other_links, :aliases => :Links
+        attribute :other_links, :aliases => :Link
         attribute :status, :aliases => :Status
         attribute :storage, :aliases => :Storage
         attribute :ip_addresses, :aliases => :IpAddresses
@@ -34,6 +34,7 @@ module Fog
         def configuration
           @configuration ||= Fog::Compute::Ecloudv2::ServerConfigurationOptions.new(:connection => connection, :href => "/cloudapi/ecloud/virtualMachines/#{id}/configurationOptions")[0]
         end
+
 
         def ips
           network_hash = ip_addresses[:AssignedIpAddresses][:Networks]
@@ -149,6 +150,38 @@ module Fog
           rnat = Fog::Compute::Ecloudv2::Associations.new(:connection => connection, :href => data[:href])[0]
         end
         
+        def disks
+          c = hardware_configuration.storage[:Disk]
+          c = c.is_a?(Hash) ? [c] : c
+          @disks = c
+        end
+
+        def add_disk(size)
+          index = disks.map { |d| d[:Index].to_i }.sort[-1] + 1
+          vm_disks = disks << {:Index => index, :Size=>{:Unit => "GB", :Value => size}}
+          puts _configuration_data(:disks => vm_disks).inspect 
+          data = connection.virtual_machine_edit_hardware_configuration(href + "/hardwareConfiguration", _configuration_data(:disks => vm_disks)).body
+          task = Fog::Compute::Ecloudv2::Tasks.new(:connection => connection, :href => data[:href])[0]
+        end
+
+        def nics
+          c = hardware_configuration.network_cards[:Nic]
+          c = c.is_a?(Hash) ? [c] : c
+          @nics = c
+        end
+
+        def add_nic(network)
+          unit_number = nics.map { |n| n[:UnitNumber].to_i }.sort[-1] + 1
+          vm_nics = nics << {:UnitNumber => unit_number, :Network => {:href => network.href, :name => network.name, :type => "application/vnd.tmrk.cloud.network"}}
+          data = connection.virtual_machine_edit_hardware_configuration(href + "/hardwareConfiguration", _configuration_data(:nics => vm_nics)).body
+          task = Fog::Compute::Ecloudv2::Tasks.new(:connection => connection, :href => data[:href])[0]
+        end
+
+        def storage_size
+          vm_disks = disks
+          disks.map! { |d| d[:Size][:Value].to_i }.inject(0){|sum,item| sum + item} * 1024 * 1024        
+        end
+
         def compute_pool_id
           other_links[:Link].detect { |l| l[:type] == "application/vnd.tmrk.cloud.computePool" }[:href].scan(/\d+/)[0]
         end
@@ -162,6 +195,10 @@ module Fog
         end
 
         private
+
+        def _configuration_data(options = {})
+          {:cpus => (options[:cpus] || hardware_configuration.processor_count), :memory => (options[:memory] || hardware_configuration.mem), :disks => (options[:disks] || disks), :nics => (options[:nics] || nics)}
+        end
 
         def power_operation(op)
           requires :href
