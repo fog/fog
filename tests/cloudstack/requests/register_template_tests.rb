@@ -34,15 +34,21 @@ Shindo.tests('Fog::Compute[:cloudstack] | register template reqeusts', ['cloudst
   tests('success') do
 
     tests('#register_template').formats(@register_template_format) do
-      Fog::Compute[:cloudstack].register_template('FogRegisterTest',
-       'VHD',
-       'XenServer',
-       'FogRegisterTest',
-       112,
-       'http://domain.com/someimage.vhd.bz2',
+      register_response = Fog::Compute[:cloudstack].register_template("FogRegisterTest-#{Time.now.to_i}",
+       'QCOW2',
+       'KVM',
+       "FogRegisterTest-#{Time.now.to_i}",
+       Cloudstack::Compute::Constants::SYSTEM_VM_OS_TYPE_ID,
+       'http://download.cloud.com/releases/2.2.0/systemvm.qcow2.bz2',
        -1,
-       {'checksum' => 'f90a36a7455a921f69ccda2d9df5c818'}
+       {'checksum' => 'ec463e677054f280f152fcc264255d2f'}
       )
+
+      unless Fog.mocking?
+        Fog::Compute[:cloudstack].delete_template('id' => register_response['registertemplateresponse']['template']['id'])
+      end
+
+      register_response
     end
 
   end

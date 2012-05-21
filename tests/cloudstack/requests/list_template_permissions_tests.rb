@@ -14,7 +14,7 @@ Shindo.tests('Fog::Compute[:cloudstack] | list template permissions requests', [
   tests('success') do
 
     tests('#list_template_permissions').formats(@list_template_permissions_format) do
-      Fog::Compute[:cloudstack].list_template_permissions(206)
+      Fog::Compute[:cloudstack].list_template_permissions(Cloudstack::Compute::Constants::TEMPLATE_ID)
     end
 
   end

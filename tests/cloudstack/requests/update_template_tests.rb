@@ -24,7 +24,7 @@ Shindo.tests('Fog::Compute[:cloudstack] | update template requests', ['cloudstac
 
   tests('success') do
     tests('#update_template').formats(@update_template_format) do
-      Fog::Compute[:cloudstack].update_template(213, {'bootable' => true})
+      Fog::Compute[:cloudstack].update_template(Cloudstack::Compute::Constants::TEMPLATE_ID_TO_MAKE_PUBLIC_AND_BOOTABLE, {'bootable' => true})
     end
   end
 end

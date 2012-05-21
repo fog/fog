@@ -2,7 +2,7 @@ Shindo.tests('Fog::Compute[:cloudstack] | update template permissions requests',
 
   @update_template_permissions_format = {
     "updatetemplatepermissionsresponse" => {
-      "success"     => Fog::Boolean,
+      "success"     => Fog::Nullable::String,
       "displaytext" => Fog::Nullable::String
     }
   }
@@ -10,7 +10,7 @@ Shindo.tests('Fog::Compute[:cloudstack] | update template permissions requests',
   tests('success') do
 
     tests('#update_template_permissions').formats(@update_template_permissions_format) do
-      Fog::Compute[:cloudstack].update_template_permissions(206, 'ispublic' => true)
+      Fog::Compute[:cloudstack].update_template_permissions(Cloudstack::Compute::Constants::TEMPLATE_ID_TO_MAKE_PUBLIC_AND_BOOTABLE, 'ispublic' => true)
     end
   end
 

@@ -24,7 +24,7 @@ module Fog
         def update_template_permissions(id, options={})
           {
             "updatetemplatepermissionsresponse" => {
-              "success"     => true,
+              "success"     => "true",
               "displaytext" => "success"
             }
           }

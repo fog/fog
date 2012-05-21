@@ -5,7 +5,10 @@ Shindo.tests('Fog::Compute[:cloudstack] | extract template requests', ['cloudsta
   tests('success') do
 
     tests('#exract_template').formats(@extract_template_format) do
-      Fog::Compute[:cloudstack].extract_template(206, 'HTTP_DOWNLOAD', 1)
+      Fog::Compute[:cloudstack].extract_template(
+        Cloudstack::Compute::Constants::TEMPLATE_ID,
+        'HTTP_DOWNLOAD',
+        Cloudstack::Compute::Constants::FROM_ZONE_ID)
     end
 
   end
