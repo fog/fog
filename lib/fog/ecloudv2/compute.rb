@@ -190,6 +190,7 @@ module Fog
       request :virtual_machine_copy
       request :virtual_machine_copy_identical
       request :virtual_machine_edit
+      request :virtual_machine_edit_hardware_configuration
       request :virtual_machine_delete
       request :internet_service_create
       request :internet_service_edit
