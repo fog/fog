@@ -19,10 +19,17 @@ module Fog
       class Mock
 
         def list_service_offerings(options={})
-          flavors = self.data[:flavors].values
+          flavors = []
+          if service_offering_id = options['id']
+            flavor = self.data[:flavors][service_offering_id]
+            raise Fog::Compute::Cloudstack::BadRequest unless flavor
+            flavors = [flavor]
+          else
+            flavors = self.data[:flavors].values
+          end
 
           {
-            "listserviceofferingsresponse" => 
+            "listserviceofferingsresponse" =>
             {
               "count" => flavors.size,
               "serviceoffering"=> flavors
