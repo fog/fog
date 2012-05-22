@@ -19,14 +19,16 @@ module Fog
 
       model_path 'fog/cloudstack/models/compute'
       model :address
+      model :flavor
+      collection :flavors
       model :job
       collection :jobs
       model :server
       collection :servers
       model :image
       collection :images
-      model :flavor
-      collection :flavors
+      model :volume
+      collection :volumes
       model :zone
       collection :zones
 
@@ -180,21 +182,21 @@ module Fog
 
           # Decode the login response
           response   = Fog::JSON.decode(response.body)
-          
+
           user = response['loginresponse']
           user.merge!('sessionid' => sessionid)
-          
+
           @cloudstack_session_id  = user['sessionid']
           @cloudstack_session_key = user['sessionkey']
-  
+
           user
         end
-        
+
         def request(params)
           params.reject!{|k,v| v.nil?}
-          
+
           params.merge!('response' => 'json')
-          
+
           if has_session?
             params, headers = authorize_session(params)
           elsif has_keys?
@@ -210,20 +212,20 @@ module Fog
         def has_session?
           @cloudstack_session_id && @cloudstack_session_key
         end
-        
+
         def has_keys?
           @cloudstack_api_key && @cloudstack_secret_access_key
         end
-        
+
         def authorize_session(params)
           # set the session id cookie for the request
           headers = {'Cookie' => "JSESSIONID=#{@cloudstack_session_id};"}
           # set the sesion key for the request, params are not signed using session auth
           params.merge!('sessionkey' => @cloudstack_session_key)
-          
+
           return params, headers
         end
-        
+
         def authorize_api_keys(params)
           headers = {}
           # merge the api key into the params
@@ -232,10 +234,10 @@ module Fog
           signature = Fog::Cloudstack.signed_params(@cloudstack_secret_access_key,params)
           # merge signature into request param
           params.merge!({'signature' => signature})
-          
+
           return params, headers
         end
-        
+
         def issue_request(params={},headers={},method='GET',expects=200)
           begin
             response = @connection.request({
@@ -244,13 +246,13 @@ module Fog
               :method => method,
               :expects => expects  
             })
-            
+
           rescue Excon::Errors::HTTPStatusError => error
             error_response = Fog::JSON.decode(error.response.body)
-            
+
             error_code = error_response.values.first['errorcode']
             error_text = error_response.values.first['errortext']
-            
+
             case error_code
             when 401
               raise Fog::Compute::Cloudstack::Unauthorized, error_text
@@ -285,140 +287,151 @@ module Fog
               "haschild" => false,
               "path" => "ROOT/accountname"
             }
+            user = {
+              "id"          => user_id,
+              "username"    => "username",
+              "firstname"   => "Bob",
+              "lastname"    => "Lastname",
+              "email"       => "email@example.com",
+              "created"     => "2012-05-14T16:25:17-0500",
+              "state"       => "enabled",
+              "account"     => "accountname",
+              "accounttype" => 2,
+              "domainid"    => domain_id,
+              "domain"      => domain_name,
+              "apikey"      => Fog::Cloudstack.uuid,
+              "secretkey"   => Fog::Cloudstack.uuid
+            }
             {
+              :users    => { user_id    => user },
               :networks => { network_id => {
-                "id" => network_id,
-                "name" => "10.56.23.0/26",
-                "displaytext" => "10.56.23.0/26",
-                "broadcastdomaintype" => "Vlan",
-                "traffictype" => "Guest",
-                "gateway" => "10.56.23.1",
-                "netmask" => "255.255.255.192",
-                "cidr" => "10.56.23.0/26",
-                "zoneid" => zone_id,
-                "zonename" => "zone-00",
-                "networkofferingid" => "af0c9bd5-a1b2-4ad0-bf4b-d6fa9b1b9d5b",
-                "networkofferingname" => "DefaultSharedNetworkOffering",
-                "networkofferingdisplaytext" => "Offering for Shared networks",
+                "id"                          => network_id,
+                "name"                        => "10.56.23.0/26",
+                "displaytext"                 => "10.56.23.0/26",
+                "broadcastdomaintype"         => "Vlan",
+                "traffictype"                 => "Guest",
+                "gateway"                     => "10.56.23.1",
+                "netmask"                     => "255.255.255.192",
+                "cidr"                        => "10.56.23.0/26",
+                "zoneid"                      => zone_id,
+                "zonename"                    => "zone-00",
+                "networkofferingid"           => "af0c9bd5-a1b2-4ad0-bf4b-d6fa9b1b9d5b",
+                "networkofferingname"         => "DefaultSharedNetworkOffering",
+                "networkofferingdisplaytext"  => "Offering for Shared networks",
                 "networkofferingavailability" => "Optional",
-                "issystem" => false,
-                "state" => "Setup",
-                "related" => "86bbc9fc-d92e-49db-9fdc-296189090017",
-                "broadcasturi" => "vlan://800",
-                "dns1" => "10.0.80.11",
-                "type" => "Shared",
-                "vlan" => "800",
-                "acltype" => "Domain",
-                "subdomainaccess" => true,
-                "domainid" => domain_id,
-                "domain" => "ROOT",
+                "issystem"                    => false,
+                "state"                       => "Setup",
+                "related"                     => "86bbc9fc-d92e-49db-9fdc-296189090017",
+                "broadcasturi"                => "vlan://800",
+                "dns1"                        => "10.0.80.11",
+                "type"                        => "Shared",
+                "vlan"                        => "800",
+                "acltype"                     => "Domain",
+                "subdomainaccess"             => true,
+                "domainid"                    => domain_id,
+                "domain"                      => "ROOT",
                 "service" => [
                   {"name" => "UserData"},
                   {"name" => "Dhcp"},
-                  {"name" => "Dns", "capability" => [
-                    {"name" => "AllowDnsSuffixModification",
-                      "value" => "true",
-                      "canchooseservicecapability" => false}]
+                  {
+                    "name"       => "Dns",
+                    "capability" => [
+                      {
+                        "name"                       => "AllowDnsSuffixModification",
+                        "value"                      => "true",
+                        "canchooseservicecapability" => false
+                      }
+                    ]
                 }],
-                "networkdomain" => "cs1cloud.internal",
+                "networkdomain"     => "cs1cloud.internal",
                 "physicalnetworkid" => "8f4627c5-1fdd-4504-8a92-f61b4e9cb3e3",
-                "restartrequired" => false,
-                "specifyipranges" => true}
+                "restartrequired"   => false,
+                "specifyipranges"   => true}
               },
               :zones => { zone_id => {
-                "id" => zone_id,
-                "name"=> "zone-00",
-                "domainid" => 1,
-                "domainname" => "ROOT",
-                "networktype" => "Advanced",
+                "id"                    => zone_id,
+                "name"                  => "zone-00",
+                "domainid"              => 1,
+                "domainname"            => "ROOT",
+                "networktype"           => "Advanced",
                 "securitygroupsenabled" => false,
-                "allocationstate" => "Enabled",
-                "zonetoken" => Fog::Cloudstack.uuid,
-                "dhcpprovider" => "VirtualRouter"}},
+                "allocationstate"       => "Enabled",
+                "zonetoken"             => Fog::Cloudstack.uuid,
+                "dhcpprovider"          => "VirtualRouter"}},
               :images => { image_id => {
-                "id" => image_id,
-                "name" => "CentOS 5.6(64-bit) no GUI (XenServer)",
-                "displaytext" => "CentOS 5.6(64-bit) no GUI (XenServer)",
-                "ispublic" => true,
-                "created" => "2012-05-09T15:29:33-0500",
-                "isready" => true,
+                "id"              => image_id,
+                "name"            => "CentOS 5.6(64-bit) no GUI (XenServer)",
+                "displaytext"     => "CentOS 5.6(64-bit) no GUI (XenServer)",
+                "ispublic"        => true,
+                "created"         => "2012-05-09T15:29:33-0500",
+                "isready"         => true,
                 "passwordenabled" => false,
-                "format" => "VHD",
-                "isfeatured" => true,
-                "crossZones" => true,
-                "ostypeid" => "a6a6694a-18f5-4765-8418-2b7a5f37cd0f",
-                "ostypename" => "CentOS 5.3 (64-bit)",
-                "account" => "system",
-                "zoneid" => zone_id,
-                "zonename" => "zone-00",
-                "status" => "Download Complete",
-                "size" => 21474836480,
-                "templatetype" => "BUILTIN",
-                "domain" => "ROOT",
-                "domainid" => "6023b6fe-5bef-4358-bc76-9f4e75afa52f",
-                "isextractable" => true,
-                "checksum" => "905cec879afd9c9d22ecc8036131a180"}},
+                "format"          => "VHD",
+                "isfeatured"      => true,
+                "crossZones"      => true,
+                "ostypeid"        => "a6a6694a-18f5-4765-8418-2b7a5f37cd0f",
+                "ostypename"      => "CentOS 5.3 (64-bit)",
+                "account"         => "system",
+                "zoneid"          => zone_id,
+                "zonename"        => "zone-00",
+                "status"          => "Download Complete",
+                "size"            => 21474836480,
+                "templatetype"    => "BUILTIN",
+                "domain"          => "ROOT",
+                "domainid"        => "6023b6fe-5bef-4358-bc76-9f4e75afa52f",
+                "isextractable"   => true,
+                "checksum"        => "905cec879afd9c9d22ecc8036131a180"}},
               :flavors => { flavor_id => {
-                "id" => flavor_id,
-                "name" => "Medium Instance",
+                "id"          => flavor_id,
+                "name"        => "Medium Instance",
                 "displaytext" => "Medium Instance",
-                "cpunumber" => 1,
-                "cpuspeed" => 1000,
-                "memory" => 1024,
-                "created" => "2012-05-09T14:48:36-0500",
+                "cpunumber"   => 1,
+                "cpuspeed"    => 1000,
+                "memory"      => 1024,
+                "created"     => "2012-05-09T14:48:36-0500",
                 "storagetype" => "shared",
-                "offerha" => false,
+                "offerha"     => false,
                 "limitcpuuse" => false,
-                "issystem" => false,
-                "defaultuse" => false}},
+                "issystem"    => false,
+                "defaultuse"  => false}},
               :accounts => { account_id => {
-                "id" =>  account_id,
-                "name" => "accountname",
-                "accounttype" => 2,
-                "domainid" => domain_id,
-                "domain" => domain_name,
-                "receivedbytes" => 0,
-                "sentbytes" => 0,
-                "vmlimit" => "Unlimited",
-                "vmtotal" => 0,
-                "vmavailable" => "Unlimited",
-                "iplimit" => "Unlimited",
-                "iptotal" => 0,
-                "ipavailable" => "Unlimited",
-                "volumelimit" => "Unlimited",
-                "volumetotal" => 0,
-                "volumeavailable" => "Unlimited",
-                "snapshotlimit" => "Unlimited",
-                "snapshottotal" => 0,
+                "id"                => account_id,
+                "name"              => "accountname",
+                "accounttype"       => 2,
+                "domainid"          => domain_id,
+                "domain"            => domain_name,
+                "receivedbytes"     => 0,
+                "sentbytes"         => 0,
+                "vmlimit"           => "Unlimited",
+                "vmtotal"           => 0,
+                "vmavailable"       => "Unlimited",
+                "iplimit"           => "Unlimited",
+                "iptotal"           => 0,
+                "ipavailable"       => "Unlimited",
+                "volumelimit"       => "Unlimited",
+                "volumetotal"       => 0,
+                "volumeavailable"   => "Unlimited",
+                "snapshotlimit"     => "Unlimited",
+                "snapshottotal"     => 0,
                 "snapshotavailable" => "Unlimited",
-                "templatelimit" => "Unlimited",
-                "templatetotal" => 0,
+                "templatelimit"     => "Unlimited",
+                "templatetotal"     => 0,
                 "templateavailable" => "Unlimited",
-                "vmstopped" => 0,
-                "vmrunning" => 0,
-                "projectlimit" => "Unlimited",
-                "projecttotal" => 1,
-                "projectavailable" => "Unlimited",
-                "networklimit" => "Unlimited",
-                "networktotal" => 0,
-                "networkavailable" => "Unlimited",
-                "state" => "enabled",
-                "user" =>
-                 [{"id" => user_id,
-                   "username" => "username",
-                   "firstname" => "Bob",
-                   "lastname" => "Lastname",
-                   "email" => "email@example.com",
-                   "created" => "2012-05-14T16:25:17-0500",
-                   "state" => "enabled",
-                   "account" => "accountname",
-                   "accounttype" => 2,
-                   "domainid" => domain_id,
-                   "domain" => domain_name,
-                   "apikey" =>  Fog::Cloudstack.uuid,
-                   "secretkey" =>  Fog::Cloudstack.uuid}]}},
+                "vmstopped"         => 0,
+                "vmrunning"         => 0,
+                "projectlimit"      => "Unlimited",
+                "projecttotal"      => 1,
+                "projectavailable"  => "Unlimited",
+                "networklimit"      => "Unlimited",
+                "networktotal"      => 0,
+                "networkavailable"  => "Unlimited",
+                "state"             => "enabled",
+                "user"              => [user]}
+              },
               :domains => { domain_id => domain },
-              :servers => {}
+              :servers => {},
+              :jobs    => {},
+              :volumes => {}
             }
           end
         end
