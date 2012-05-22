@@ -19,6 +19,8 @@ module Fog
 
       model_path 'fog/cloudstack/models/compute'
       model :address
+      model :job
+      collection :jobs
       model :server
       collection :servers
       model :image
