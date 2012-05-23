@@ -29,7 +29,7 @@ module Fog
         @options  = options
       end
 
-      def run(commands)
+      def run(commands, &blk)
         self.class.data[@address] << {:commands => commands, :username => @username, :options => @options}
       end
 
@@ -52,7 +52,7 @@ module Fog
         @options  = { :paranoid => false }.merge(options)
       end
 
-      def run(commands)
+      def run(commands, &blk)
         commands = [*commands]
         results  = []
         begin
@@ -68,11 +68,13 @@ module Fog
 
                   channel.on_data do |ch, data|
                     result.stdout << data
+                    yield [data, nil] if blk
                   end
 
                   channel.on_extended_data do |ch, type, data|
                     next unless type == 1
                     result.stderr << data
+                    yield [nil, data] if blk
                   end
 
                   channel.on_request('exit-status') do |ch, data|
