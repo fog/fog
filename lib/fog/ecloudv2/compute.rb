@@ -1,4 +1,5 @@
 require 'fog/ecloudv2/collection'
+require 'fog/ecloudv2/model'
 module Fog
   module Compute
 
