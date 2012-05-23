@@ -68,13 +68,13 @@ module Fog
 
                   channel.on_data do |ch, data|
                     result.stdout << data
-                    yield [data, nil] if blk
+                    yield [data, ''] if blk
                   end
 
                   channel.on_extended_data do |ch, type, data|
                     next unless type == 1
                     result.stderr << data
-                    yield [nil, data] if blk
+                    yield ['', data] if blk
                   end
 
                   channel.on_request('exit-status') do |ch, data|
