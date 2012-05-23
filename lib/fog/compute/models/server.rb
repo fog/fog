@@ -32,6 +32,15 @@ module Fog
         Fog::SSH.new(public_ip_address, username, options).run(commands)
       end
 
+      def sshable?
+        begin
+          Timeout::timeout(8) { ssh 'pwd' }
+        rescue Errno::ECONNREFUSED, Net::SSH::AuthenticationFailed, Timeout::Error
+          return false
+        end
+        return true
+      end
+
     end
   end
 end
