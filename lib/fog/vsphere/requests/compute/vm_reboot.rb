@@ -4,7 +4,7 @@ module Fog
       class Real
 
         def vm_reboot(options = {})
-          options = { 'force' => false }.merge(options)
+          options = { 'force' => false, 'wait' => true }.merge(options)
           raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
 
           search_filter = { :uuid => options['instance_uuid'], 'vmSearch' => true, 'instanceUuid' => true }
@@ -15,8 +15,23 @@ module Fog
             task.wait_for_completion
             { 'task_state' => task.info.result, 'reboot_type' => 'reset_power' }
           else
-            vm_mob_ref.ShutdownGuest
-            { 'task_state' => "running", 'reboot_type' => 'reboot_guest' }
+            vm_mob_ref.RebootGuest
+            if options['wait'] then
+              stats = nil
+              while( stats == nil || stats!="running")
+                sleep(6)
+                if vm_mob_ref.guest
+                  stats = vm_mob_ref.guest.guestState
+                end
+                { 'task_state' => "running", 'reboot_type' => 'reboot_guest' }
+              end
+              { 'task_state' => "success", 'reboot_type' => 'reboot_guest' }
+            else
+              {
+                  'task_state'     => "running",
+                  'reboot_type' => 'reboot_guest',
+              }
+            end
           end
         end
 
