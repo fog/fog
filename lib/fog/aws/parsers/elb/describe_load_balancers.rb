@@ -14,7 +14,7 @@ module Fog
           end
 
           def reset_load_balancer
-            @load_balancer = { 'ListenerDescriptions' => [], 'Instances' => [], 'AvailabilityZones' => [], 'Policies' => {'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [] }, 'HealthCheck' => {}, 'SourceSecurityGroup' => {} }
+            @load_balancer = { 'Subnets' => [], 'SecurityGroups' => [], 'ListenerDescriptions' => [], 'Instances' => [], 'AvailabilityZones' => [], 'Policies' => {'AppCookieStickinessPolicies' => [], 'LBCookieStickinessPolicies' => [] }, 'HealthCheck' => {}, 'SourceSecurityGroup' => {} }
           end
 
           def reset_listener_description
@@ -34,6 +34,10 @@ module Fog
               @in_instances = true
             when 'AvailabilityZones'
               @in_availability_zones = true
+            when 'SecurityGroups'
+              @in_security_groups = true
+            when 'Subnets'
+              @in_subnets = true
             when 'PolicyNames'
               @in_policy_names = true
             when 'Policies'
@@ -52,6 +56,10 @@ module Fog
                 @listener_description['PolicyNames'] << value
               elsif @in_availability_zones
                 @load_balancer['AvailabilityZones'] << value
+              elsif @in_security_groups
+                @load_balancer['SecurityGroups'] << value
+              elsif @in_subnets
+                @load_balancer['Subnets'] << value
               elsif @in_listeners
                 @load_balancer['ListenerDescriptions'] << @listener_description
                 reset_listener_description
@@ -84,9 +92,15 @@ module Fog
               @in_instances = false
             when 'InstanceId'
               @load_balancer['Instances'] << value
+            when 'VPCId'
+              @load_balancer[name] = value
 
             when 'AvailabilityZones'
               @in_availability_zones = false
+            when 'SecurityGroups'
+              @in_security_groups = false
+            when 'Subnets'
+              @in_subnets = false
 
             when 'Policies'
               @in_policies = false
