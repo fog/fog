@@ -41,7 +41,6 @@ module Fog
               c.servers.each { |s| @servers << s }
             end
           end
-          @servers.href = href
           @servers
         end
 

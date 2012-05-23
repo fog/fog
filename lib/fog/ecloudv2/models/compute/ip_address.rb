@@ -9,9 +9,12 @@ module Fog
         attribute :other_links, :aliases => :Links
         attribute :host, :aliases => :Host
         attribute :detected_on, :aliases => :DetectedOn
-        attribute :rnat_address, :aliases => :RnatAddress
+        attribute :rnat, :aliases => :RnatAddress
         attribute :reserved, :aliases => :Reserved, :type => :boolean
 
+        def status
+          (detected_on || host) ? "Assigned" : "Available"
+        end
         
         def id
           href.scan(/\d+/)[0]
