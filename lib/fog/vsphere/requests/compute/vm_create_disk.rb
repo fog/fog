@@ -22,6 +22,11 @@ module Fog
             backing_info.thinProvisioned = true
           end
 
+          if options[:thick_eager_zeroed]
+            backing_info.thinProvisioned = false
+            backing_info.eagerlyScrub = true
+          end
+
           backing_info.fileName = file_name
 
           virtual_disk = RbVmomi::VIM::VirtualDisk.new #VirtualDisk

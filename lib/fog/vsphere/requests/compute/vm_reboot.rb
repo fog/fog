@@ -18,7 +18,7 @@ module Fog
             vm_mob_ref.RebootGuest
             if options['wait'] then
               stats = nil
-              while( stats == nil || stats !="running")
+              while( stats == nil || stats != "running")
                 sleep(6)
                 if vm_mob_ref.guest
                   stats = vm_mob_ref.guest.guestState
