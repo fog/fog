@@ -4,6 +4,10 @@ module Fog
   module Compute
     class Server < Fog::Model
 
+      def private_key=(key_data)
+        @private_key = key_data
+      end
+
       def scp(local_path, remote_path, upload_options = {})
         require 'net/scp'
         requires :public_ip_address, :username
