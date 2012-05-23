@@ -33,12 +33,9 @@ module Fog
       end
 
       def sshable?
-        begin
-          Timeout::timeout(8) { ssh 'pwd' }
-        rescue Errno::ECONNREFUSED, Net::SSH::AuthenticationFailed, Timeout::Error
-          return false
-        end
-        return true
+        ready? && !public_ip_address.nil? && !!Timeout::timeout(8) { ssh 'pwd' }
+      rescue SystemCallError, Net::SSH::AuthenticationFailed, Timeout::Error
+        false
       end
 
     end
