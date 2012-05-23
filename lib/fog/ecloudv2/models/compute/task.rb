@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class Task < Fog::Model
+      class Task < Fog::Ecloudv2::Model
         identity :href
 
         attribute :type , :aliases => :Type

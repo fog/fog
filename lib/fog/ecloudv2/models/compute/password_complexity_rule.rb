@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class PasswordComplexityRule < Fog::Model
+      class PasswordComplexityRule < Fog::Ecloudv2::Model
         identity :href
 
         attribute :rule_type, :aliases => :RuleType

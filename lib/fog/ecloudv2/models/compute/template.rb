@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class Template < Fog::Model
+      class Template < Fog::Ecloudv2::Model
         identity :href
 
         attribute :name, :aliases => :Name

@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class AuthenticationLevel < Fog::Model
+      class AuthenticationLevel < Fog::Ecloudv2::Model
         identity :href
 
         attribute :basic_enabled, :aliases => :BasicEnabled, :type => :boolean

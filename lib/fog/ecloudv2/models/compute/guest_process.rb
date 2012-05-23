@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class GuestProcess < Fog::Model
+      class GuestProcess < Fog::Ecloudv2::Model
         identity :name
 
         attribute :process_id, :aliases => :ProcessId

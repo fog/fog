@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class Layout < Fog::Model
+      class Layout < Fog::Ecloudv2::Model
         identity :href
 
         attribute :type, :aliases => :Type

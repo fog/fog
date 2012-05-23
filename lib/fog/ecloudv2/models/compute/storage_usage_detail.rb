@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class StorageUsageDetail < Fog::Model
+      class StorageUsageDetail < Fog::Ecloudv2::Model
         identity :href
 
         attribute :disk_count, :aliases => :DiskCount

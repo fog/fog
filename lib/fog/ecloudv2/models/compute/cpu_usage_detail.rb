@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class CpuUsageDetail < Fog::Model
+      class CpuUsageDetail < Fog::Ecloudv2::Model
         identity :href
 
         attribute :time, :aliases => :Time

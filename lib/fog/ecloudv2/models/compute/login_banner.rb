@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class LoginBanner < Fog::Model
+      class LoginBanner < Fog::Ecloudv2::Model
         identity :href
 
         attribute :display, :aliases => :Display, :type => :boolean

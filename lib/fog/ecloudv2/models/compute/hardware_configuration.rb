@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class HardwareConfiguration < Fog::Model
+      class HardwareConfiguration < Fog::Ecloudv2::Model
         identity :href
 
         attribute :processor_count, :aliases => :ProcessorCount, :type => :integer

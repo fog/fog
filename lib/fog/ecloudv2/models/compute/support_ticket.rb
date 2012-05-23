@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class SupportTicket < Fog::Model
+      class SupportTicket < Fog::Ecloudv2::Model
         identity :href
 
         attribute :type, :aliases => :Type

@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class ApiKey < Fog::Model
+      class ApiKey < Fog::Ecloudv2::Model
         identity :href
 
         attribute :name, :aliases => :Name

@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class Environment < Fog::Ecloud::Model
+      class Environment < Fog::Ecloudv2::Model
 
         identity :href
 

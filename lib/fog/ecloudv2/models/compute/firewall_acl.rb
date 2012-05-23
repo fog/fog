@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class FirewallAcl < Fog::Model
+      class FirewallAcl < Fog::Ecloudv2::Model
         identity :href
 
         attribute :type, :aliases => :Type

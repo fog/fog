@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class ServerConfigurationOption < Fog::Model
+      class ServerConfigurationOption < Fog::Ecloudv2::Model
         identity :href
 
         attribute :disk, :aliases => :Disk

@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class User < Fog::Model
+      class User < Fog::Ecloudv2::Model
         identity :href
 
         attribute :name, :aliases => :Name

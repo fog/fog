@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class OperatingSystem < Fog::Model
+      class OperatingSystem < Fog::Ecloudv2::Model
         identity :href
 
         attribute :name, :aliases => :Name

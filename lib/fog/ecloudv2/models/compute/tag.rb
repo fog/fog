@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class Tag < Fog::Model
+      class Tag < Fog::Ecloudv2::Model
         identity :name
 
         def id

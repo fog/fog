@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class CatalogConfiguration < Fog::Model
+      class CatalogConfiguration < Fog::Ecloudv2::Model
         identity :href
 
         attribute :type, :aliases => :Type

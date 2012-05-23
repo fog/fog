@@ -1,7 +1,7 @@
 module Fog
   module Compute
     class Ecloudv2
-      class Rnat < Fog::Model
+      class Rnat < Fog::Ecloudv2::Model
         identity :href
 
         attribute :name, :aliases => :Name
