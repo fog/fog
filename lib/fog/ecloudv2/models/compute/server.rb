@@ -204,7 +204,7 @@ module Fog
           requires :href
           begin
             connection.send(op.keys.first, href + "/action/#{op.values.first}" )
-          rescue Excon::Errors::InternalServerError => e
+          rescue Excon::Errors::Conflict => e
             #Frankly we shouldn't get here ...
             raise e unless e.to_s =~ /because it is already powered o(n|ff)/
           end
