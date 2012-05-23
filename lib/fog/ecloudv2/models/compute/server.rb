@@ -182,6 +182,23 @@ module Fog
           disks.map! { |d| d[:Size][:Value].to_i }.inject(0){|sum,item| sum + item} * 1024 * 1024        
         end
 
+        def ready?
+          load_unless_loaded!
+          unless status =~ /NotDeployed|Orphaned|TaskInProgress|CopyInProgress/
+            true
+          else
+            false
+          end
+        end
+
+        def on?
+          powered_on == true
+        end
+
+        def off?
+          powered_on == false
+        end
+
         def compute_pool_id
           other_links[:Link].detect { |l| l[:type] == "application/vnd.tmrk.cloud.computePool" }[:href].scan(/\d+/)[0]
         end
