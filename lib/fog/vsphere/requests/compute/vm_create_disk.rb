@@ -79,21 +79,6 @@ module Fog
 
       class Real
         include Shared
-        def get_ds_name_by_path(vmdk_path)
-          path_elements = vmdk_path.split('[').tap { |ary| ary.shift }
-          template_ds = path_elements.shift
-          template_ds = template_ds.split(']')
-          datastore_name = template_ds[0]
-          datastore_name
-        end
-
-        def get_parent_dc_by_vm_mob(vm_mob_ref, options = {})
-          mob_ref = vm_mob_ref.parent
-          while !(mob_ref.kind_of? RbVmomi::VIM::Datacenter)
-            mob_ref = mob_ref.parent
-          end
-          mob_ref
-        end
 
         def vm_create_disk (options = {})
           raise ArgumentError, "Must pass parameter: vm_moid or instance_uuid" unless (options['vm_moid'] || options['instance_uuid'])

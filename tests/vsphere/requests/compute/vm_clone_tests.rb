@@ -14,7 +14,7 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
     RP_NAME = 'rp1' # name of clone destination resource pool
     HOST_NAME = 'w1-vhadp-05.eng.vmware.com' # name of clone destination host
     RE_VM_NAME = 'centos-5.7-template' # name of a remote vm/template to clone from
-    LC_VM_NAME = 'centos57-x64'# name of a local vm/template to clone from
+    LC_VM_NAME = 'centos58-x64'# name of a local vm/template to clone from
     DE_VM_NAME = 'vm_2_ds'# name of a local vm/template to clone from but with two connected datastore
     DATASTORE_NAME = 'datastore1 (3)' #  name of datacenter to clone from
     RE_TEMPLATE = "/Datacenters/#{DC_NAME}/vm/#{RE_VM_NAME}" #path of a remote vm template to clone
@@ -64,8 +64,9 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
     rp_mob_ref = target_cr_mob_ref.resourcePool.resourcePool.find {|r| r.name == ConstClass::RP_NAME }
 
     tests("Linked Clone with arguments of cpu and memory | The return value should") do
+      vm_ref = compute.get_vm_mob_ref_by_path('path' => ConstClass::LC_TEMPLATE)
       response = compute.vm_clone(
-          'path' => ConstClass::LC_TEMPLATE,
+          'vm_moid' => vm_ref._ref,
           'name' => 'cloning_vm_linked',
           'wait' => 1,
           'linked_clone' => true,

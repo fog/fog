@@ -17,6 +17,14 @@ module Fog
           end
         end
 
+        def get_ds_name_by_path(vmdk_path)
+          path_elements = vmdk_path.split('[').tap { |ary| ary.shift }
+          template_ds = path_elements.shift
+          template_ds = template_ds.split(']')
+          datastore_name = template_ds[0]
+          datastore_name
+        end
+
       end
 
       class Real
