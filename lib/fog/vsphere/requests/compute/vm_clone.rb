@@ -5,13 +5,6 @@ module Fog
       module Shared
         private
         def vm_clone_check_options(options)
-          default_options = {
-              'force'        => false,
-              'linked_clone' => false,
-              'power_on'     => true,
-              'wait' => 1
-          }
-          options = default_options.merge(options)
           required_options = %w{ path name }
           required_options.each do |param|
             raise ArgumentError, "#{required_options.join(', ')} are required" unless options.has_key? param
@@ -34,11 +27,17 @@ module Fog
         include Shared
         def vm_clone(options = {})
           # Option handling
-          options = vm_clone_check_options(options)
-
-          notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Could not find VM template" }
+          default_options = {
+              'force'        => false,
+              'linked_clone' => false,
+              'power_on'     => true,
+              'wait' => 1
+          }
+          options = default_options.merge(options)
 
           if options['path']
+            options = vm_clone_check_options(options)
+            notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Could not find VM template" }
             # Find the template in the folder.  This is more efficient than
             # searching ALL VM's looking for the template.
             # Tap gets rid of the leading empty string and "Datacenters" element
@@ -170,7 +169,7 @@ module Fog
             # REVISIT: It would be awesome to call a block passed to this
             # request to notify the application how far along in the process we
             # are.  I'm thinking of updating a progress bar, etc...
-            new_vm = task.wait_for_completion
+            new_vm = wait_for_task(task)
           else
             tries = 0
             new_vm = begin
@@ -202,6 +201,13 @@ module Fog
         include Shared
         def vm_clone(options = {})
           # Option handling
+          default_options = {
+              'force'        => false,
+              'linked_clone' => false,
+              'power_on'     => true,
+              'wait' => 1
+          }
+          options = default_options.merge(options)
           options = vm_clone_check_options(options)
           notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Cloud not find VM template" }
           vm_mob_ref = list_virtual_machines['virtual_machines'].find(notfound) do |vm|

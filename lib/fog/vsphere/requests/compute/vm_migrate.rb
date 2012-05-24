@@ -17,7 +17,7 @@ module Fog
               "Could not find VirtualMachine with instance uuid #{options['instance_uuid']}"
           end
           task = vm_mob_ref.MigrateVM_Task(:pool => options['pool'], :host => options['host'], :priority => "#{priority}", :state => options['state'] )
-          task.wait_for_completion
+          wait_for_task(task)
           { 'task_state' => task.info.state }
         end
 

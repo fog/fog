@@ -32,6 +32,7 @@ module Fog
       request :vm_config_ha
       request :vm_update_network
       request :query_resources
+      request :utility
 
 
       module Shared

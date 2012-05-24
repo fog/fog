@@ -60,7 +60,7 @@ module Fog
           resource_pool = build_cluster.resourcePool
           task=folder.CreateVM_Task(:config => vm_cfg, :pool => resource_pool)
           if options['wait'] then
-            new_vm = task.wait_for_completion
+            new_vm =  wait_for_task(task)
           else
             tries = 0
             new_vm = begin

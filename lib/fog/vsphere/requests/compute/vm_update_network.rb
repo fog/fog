@@ -52,7 +52,7 @@ module Fog
           config.deviceChange << network_config_spec
 
           task = vm_mob_ref.ReconfigVM_Task(:spec => config)
-          task.wait_for_completion
+          wait_for_task(task)
 
           {
               'vm_ref'        => vm_mob_ref,

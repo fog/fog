@@ -18,7 +18,7 @@ module Fog
           ovs = RbVmomi::VIM.OptionValue(:key=>"machine.id", :value=> options['config_json'])
           ip_config_spec = RbVmomi::VIM.VirtualMachineConfigSpec(:extraConfig => [ovs])
           task = vm_mob_ref.ReconfigVM_Task(:spec => ip_config_spec )
-          task.wait_for_completion
+          wait_for_task(task)
           { 'task_state' => task.info.state }
         end
 

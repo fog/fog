@@ -133,7 +133,7 @@ module Fog
           fix_device_unit_numbers(devices, config.deviceChange)
 
           task = vm_mob_ref.ReconfigVM_Task(:spec => config)
-          task.wait_for_completion
+          wait_for_task(task)
 
           {
               'vm_ref'        => vm_mob_ref,
@@ -169,12 +169,12 @@ module Fog
           disk = devices.select { |device| device.kind_of?(RbVmomi::VIM::VirtualDisk) &&
               device.deviceInfo.label == options['device_name'] }.first
 
-          config = RbVmomi::VIM::VirtualMachineConfigSpec.new
+          config = RbVmomi::VIM::VirtualMachineConftaskigSpec.new
           config.deviceChange = []
           config.deviceChange << create_delete_device_spec(disk)
 
           task = vm_mob_ref.ReconfigVM_Task(:spec => config)
-          task.wait_for_completion
+          wait_for_task(task)
 
           {
               'vm_ref'        => vm_mob_ref,

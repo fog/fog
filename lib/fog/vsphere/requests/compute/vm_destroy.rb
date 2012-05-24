@@ -21,7 +21,7 @@ module Fog
           end
 
           task = vm_mob_ref.Destroy_Task
-          task.wait_for_completion
+          wait_for_task(task)
           { 'task_state' => task.info.state }
         end
 

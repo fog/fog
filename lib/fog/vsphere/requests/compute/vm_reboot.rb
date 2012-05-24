@@ -12,7 +12,7 @@ module Fog
 
           if options['force'] then
             task = vm_mob_ref.ResetVM_Task
-            task.wait_for_completion
+            wait_for_task(task)
             { 'task_state' => task.info.result, 'reboot_type' => 'reset_power' }
           else
             vm_mob_ref.RebootGuest

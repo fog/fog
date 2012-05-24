@@ -91,7 +91,7 @@ module Fog
               :dasVmConfigSpec=> [vm_ha_spec]
           )
           task =cs_mob_ref.ReconfigureCluster_Task(:spec => cluster_config_spec,:modify=>true )
-          task.wait_for_completion
+          wait_for_task(task)
           { 'task_state' => task.info.state }
         end
 

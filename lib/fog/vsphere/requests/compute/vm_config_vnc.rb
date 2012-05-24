@@ -14,7 +14,7 @@ module Fog
               { :key => 'RemoteDisplay.vnc.port',     :value => options[:port].to_s || '5910' }
             ]
           })
-          task.wait_for_completion
+          wait_for_task(task)
           { 'task_state' => task.info.state }
         end
 

@@ -12,13 +12,9 @@ module Fog
 
           if options['force'] then
             task = vm_mob_ref.PowerOffVM_Task
-            state = task.info.state
-            while (state != 'error') and (state != 'success')
-              sleep(2)
-              state = task.info.state
-            end
+            wait_for_task(task)
             #task.wait_for_completion
-            { 'task_state' => state, 'power_off_type' => 'cut_power' }
+            { 'task_state' => task.info.state, 'power_off_type' => 'cut_power' }
           else
             vm_mob_ref.ShutdownGuest
             if options['wait'] then
