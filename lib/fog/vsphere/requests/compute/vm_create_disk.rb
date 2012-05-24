@@ -44,6 +44,16 @@ module Fog
           device_config_spec
         end
 
+        def create_delete_device_spec(device, options = {})
+          device_config_spec = RbVmomi::VIM::VirtualDeviceConfigSpec.new
+          device_config_spec.device = device
+          device_config_spec.operation = RbVmomi::VIM::VirtualDeviceConfigSpecOperation("remove")
+          if options[:destroy]
+            device_config_spec.file_operation = RbVmomi::VIM::VirtualDeviceConfigSpecFileOperation("destroy")
+          end
+          device_config_spec
+        end
+
         def fix_device_unit_numbers(devices, device_changes)
           max_unit_numbers = {}
           devices.each do |device|
@@ -132,6 +142,46 @@ module Fog
               'task_state' => task.info.state
           }
 
+        end
+
+
+        def vm_delete_disk (options = {})
+          raise ArgumentError, "Must pass parameter: vm_moid or instance_uuid" unless (options['vm_moid'] || options['instance_uuid'])
+          raise ArgumentError, "Must pass parameter: disk_size" unless options['device_name']
+
+          if options['vm_moid']
+            vm_mob_ref = get_vm_mob_ref_by_moid(options['vm_moid'])
+          end
+
+          if options['instance_uuid']
+            search_filter = { :uuid => options['instance_uuid'], 'vmSearch' => true, 'instanceUuid' => true }
+            vm_mob_ref = @connection.searchIndex.FindAllByUuid(search_filter).first
+            if vm_mob_ref
+              if options['vm_moid'] && ( vm_mob_ref._ref.to_s != options['vm_moid'])
+                raise ArgumentError, "Passed vm_moid and instance_uuid should refer to the same vm management object"
+              end
+            else
+              raise Fog::Compute::Vsphere::NotFound, "VirtualMachine with Managed Object Reference #{options['instance_uuid']} could not be found."
+            end
+          end
+
+          devices = vm_mob_ref.config.hardware.device
+          disk = devices.select { |device| device.kind_of?(RbVmomi::VIM::VirtualDisk) &&
+              device.deviceInfo.label == options['device_name'] }.first
+
+          config = RbVmomi::VIM::VirtualMachineConfigSpec.new
+          config.deviceChange = []
+          config.deviceChange << create_delete_device_spec(disk)
+
+          task = vm_mob_ref.ReconfigVM_Task(:spec => config)
+          task.wait_for_completion
+
+          {
+              'vm_ref'        => vm_mob_ref,
+              'vm_attributes' => convert_vm_mob_ref_to_attr_hash(vm_mob_ref),
+              'vm_dev_number_increase' =>  (vm_mob_ref.config.hardware.device.size - devices.size),
+              'task_state' => task.info.state
+          }
         end
 
       end

@@ -37,45 +37,50 @@ module Fog
           options = vm_clone_check_options(options)
 
           notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Could not find VM template" }
-          # Find the template in the folder.  This is more efficient than
-          # searching ALL VM's looking for the template.
-          # Tap gets rid of the leading empty string and "Datacenters" element
-          # and returns the array.
-          path_elements = options['path'].split('/').tap { |ary| ary.shift 2 }
-          # The DC name itself.
-          template_dc = path_elements.shift
-          # If the first path element contains "vm" this denotes the vmFolder
-          # and needs to be shifted out
-          path_elements.shift if path_elements[0] == 'vm'
-          # The template name.  The remaining elements are the folders in the
-          # datacenter.
-          template_name = path_elements.pop
-          # Make sure @datacenters is populated.  We need the instances from the Hash keys.
-          self.datacenters
-          # Get the datacenter managed object from the hash
-          dc = @datacenters[template_dc]
-          # Get the VM Folder (Group) efficiently
-          vm_folder = dc.vmFolder
-          # Walk the tree resetting the folder pointer as we go
-          folder = path_elements.inject(vm_folder) do |current_folder, sub_folder_name|
-            # JJM VIM::Folder#find appears to be quite efficient as it uses the
-            # searchIndex It certainly appears to be faster than
-            # VIM::Folder#inventory since that returns _all_ managed objects of
-            # a certain type _and_ their properties.
-            sub_folder = current_folder.find(sub_folder_name, RbVmomi::VIM::Folder)
-            raise ArgumentError, "Could not descend into #{sub_folder_name}.  Please check your path." unless sub_folder
-            sub_folder
-          end
 
-          # Now find the template itself using the efficient find method
-          vm_mob_ref = folder.find(template_name, RbVmomi::VIM::VirtualMachine)
-          # Now find _a_ resource pool of the template's host (REVISIT: We need
-          # to support cloning into a specific RP)
+          if options['path']
+            # Find the template in the folder.  This is more efficient than
+            # searching ALL VM's looking for the template.
+            # Tap gets rid of the leading empty string and "Datacenters" element
+            # and returns the array.
+            path_elements = options['path'].split('/').tap { |ary| ary.shift 2 }
+            # The DC name itself.
+            template_dc = path_elements.shift
+            # If the first path element contains "vm" this denotes the vmFolder
+            # and needs to be shifted out
+            path_elements.shift if path_elements[0] == 'vm'
+            # The template name.  The remaining elements are the folders in the
+            # datacenter.
+            template_name = path_elements.pop
+            # Make sure @datacenters is populated.  We need the instances from the Hash keys.
+            self.datacenters
+            # Get the datacenter managed object from the hash
+            dc = @datacenters[template_dc]
+            # Get the VM Folder (Group) efficiently
+            vm_folder = dc.vmFolder
+            # Walk the tree resetting the folder pointer as we go
+            folder = path_elements.inject(vm_folder) do |current_folder, sub_folder_name|
+              # JJM VIM::Folder#find appears to be quite efficient as it uses the
+              # searchIndex It certainly appears to be faster than
+              # VIM::Folder#inventory since that returns _all_ managed objects of
+              # a certain type _and_ their properties.
+              sub_folder = current_folder.find(sub_folder_name, RbVmomi::VIM::Folder)
+              raise ArgumentError, "Could not descend into #{sub_folder_name}.  Please check your path." unless sub_folder
+              sub_folder
+            end
+
+            # Now find the template itself using the efficient find method
+            vm_mob_ref = folder.find(template_name, RbVmomi::VIM::VirtualMachine)
+            # Now find _a_ resource pool of the template's host (REVISIT: We need
+            # to support cloning into a specific RP)
+          elsif options['vm_moid']
+            vm_mob_ref = get_vm_mob_ref_by_moid(options['vm_moid'])
+          end
 
           if vm_mob_ref
             host_mob_ref = vm_mob_ref.collect!('runtime.host')['runtime.host']
           else
-            raise Fog::Compute::Vsphere::NotFound, "VirtualMachine with Managed Object Reference #{options['path']} could not be found."
+            raise Fog::Compute::Vsphere::NotFound, "VirtualMachine with Managed Object Reference could not be found."
           end
 
           # The parent of the ESX host itself is a ComputeResource which has a resourcePool
