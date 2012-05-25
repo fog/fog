@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:vsphere]', ['vsphere']) do
-  require 'rubygems'
+
   require 'rbvmomi'
-  require 'Fog'
+  require 'fog'
   compute = Fog::Compute[:vsphere]
 
   tests("| convert_vm_mob_ref_to_attr_hash") do

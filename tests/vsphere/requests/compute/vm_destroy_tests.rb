@@ -1,5 +1,5 @@
 Shindo.tests('Fog::Compute[:vsphere] | vm_destroy request', ['vsphere']) do
-  require 'rubygems'
+
   require 'fog'
   compute = Fog::Compute[:vsphere]
 

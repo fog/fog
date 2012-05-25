@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:vsphere] | servers collection', ['vsphere']) do
-  require 'rubygems'
+
   require 'rbvmomi'
-  require 'Fog'
+  require 'fog'
   require '../../../helpers/succeeds_helper'
   servers = Fog::Compute[:vsphere].servers
   compute = Fog::Compute[:vsphere]

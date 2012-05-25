@@ -140,7 +140,8 @@ module Fog
                       },
                   ]
               }
-              vm_mob_ref.ReconfigVM_Task(:spec => disk_spec).wait_for_completion
+              task = vm_mob_ref.ReconfigVM_Task(:spec => disk_spec)
+              wait_for_task(task)
             end
             # Next, create a Relocation Spec instance
             relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:datastore => ds_mob_ref,

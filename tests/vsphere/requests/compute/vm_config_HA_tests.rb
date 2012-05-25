@@ -1,8 +1,8 @@
 Shindo.tests('Fog::Compute[:vsphere] | vm_config_HA request', ['vsphere']) do
 
-  require 'rubygems'
+
   require 'rbvmomi'
-  require 'Fog'
+  require 'fog'
   compute = Fog::Compute[:vsphere]
 
   class ConstClass

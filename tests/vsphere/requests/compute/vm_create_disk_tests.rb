@@ -1,8 +1,8 @@
 Shindo.tests("Fog::Compute[:vsphere] | vm_create_disk request", 'vsphere') do
 
-  require 'rubygems'
+
   require 'rbvmomi'
-  require 'Fog'
+  require 'fog'
   require 'guid'
 
   compute = Fog::Compute[:vsphere]

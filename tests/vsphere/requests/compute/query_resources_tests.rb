@@ -1,7 +1,7 @@
 Shindo.tests("Fog::Compute[:vsphere] | query resources request", ['vsphere']) do
-  require 'rubygems'
+
   require 'rbvmomi'
-  require 'Fog'
+  require 'fog'
   compute = Fog::Compute[:vsphere]
 
   # need set down below consts according to real VSphere data center

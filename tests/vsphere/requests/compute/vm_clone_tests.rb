@@ -1,8 +1,8 @@
 Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
   #require 'guid'
-  require 'rubygems'
+
   require 'rbvmomi'
-  require 'Fog'
+  require 'fog'
   compute = Fog::Compute[:vsphere]
 
   response = nil

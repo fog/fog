@@ -1,8 +1,7 @@
 Shindo.tests("Fog::Compute[:vsphere] | vm_update_network request", 'vsphere') do
 
-  require 'rubygems'
   require 'rbvmomi'
-  require 'Fog'
+  require 'fog'
   require 'guid'
 
   compute = Fog::Compute[:vsphere]

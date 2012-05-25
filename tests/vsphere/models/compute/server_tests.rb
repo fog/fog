@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:vsphere] | server model', ['vsphere']) do
-  require 'rubygems'
+
   require 'rbvmomi'
-  require 'Fog'
+  require 'fog'
 
 
   class ConstClass
