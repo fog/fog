@@ -2,8 +2,7 @@ Shindo.tests('Fog::Compute[:vsphere] | server model', ['vsphere']) do
   require 'rubygems'
   require 'rbvmomi'
   require 'Fog'
-  servers = Fog::Compute[:vsphere].servers
-  compute = Fog::Compute[:vsphere]
+
 
   class ConstClass
     DC_NAME = 'Datacenter2012'# name of test datacenter
@@ -11,10 +10,12 @@ Shindo.tests('Fog::Compute[:vsphere] | server model', ['vsphere']) do
     RE_TEMPLATE = "/Datacenters/#{DC_NAME}/vm/#{RE_VM_NAME}" #path of a remote vm template to test
   end
 
+  servers = Fog::Compute[:vsphere].servers
+  compute = Fog::Compute[:vsphere]
   vm_mob_ref = compute.get_vm_mob_ref_by_path('path' => ConstClass::RE_TEMPLATE)
   attrs =  compute.convert_vm_mob_ref_to_attr_hash(vm_mob_ref)
   server = servers.get(attrs['id'])
-  puts server.uuid
+  puts server.mo_ref
 
   tests('The server model should') do
     tests('have the action') do
