@@ -4,6 +4,7 @@ module Fog
 
       module Shared
         private
+
         def vm_clone_check_options(options)
           required_options = %w{ path name }
           required_options.each do |param|
@@ -82,6 +83,8 @@ module Fog
             raise Fog::Compute::Vsphere::NotFound, "VirtualMachine with Managed Object Reference could not be found."
           end
 
+          dc_mob_ref = get_parent_dc_by_vm_mob(vm_mob_ref)
+
           # The parent of the ESX host itself is a ComputeResource which has a resourcePool
           resource_pool = host_mob_ref.parent.resourcePool
           dest_datastores = host_mob_ref.datastore
@@ -159,7 +162,7 @@ module Fog
                                                             :powerOn  => options['power_on'] && true,
                                                             :template => false,
                                                             :config => config)
-          task = vm_mob_ref.CloneVM_Task(:folder => vm_mob_ref.parent, :name => options['name'], :spec => clone_spec)
+          task = vm_mob_ref.CloneVM_Task(:folder => dc_mob_ref.vmFolder, :name => options['name'], :spec => clone_spec)
           # Waiting for the VM to complete allows us to get the VirtulMachine
           # object of the new machine when it's done.  It is HIGHLY recommended
           # to set 'wait' => true if your app wants to wait.  Otherwise, you're

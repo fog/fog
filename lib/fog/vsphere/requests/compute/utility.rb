@@ -25,6 +25,16 @@ module Fog
           datastore_name
         end
 
+        def get_parent_dc_by_vm_mob(vm_mob_ref, options = {})
+
+          mob_ref = vm_mob_ref.parent || vm_mob_ref.parentVApp
+
+          while !(mob_ref.kind_of? RbVmomi::VIM::Datacenter)
+            mob_ref = mob_ref.parent
+          end
+          mob_ref
+        end
+
       end
 
       class Real
