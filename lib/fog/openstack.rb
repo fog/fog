@@ -124,6 +124,9 @@ module Fog
         end
 
         body = retrieve_tokens_v2(connection, req_body, uri)
+        if body['access']['token']['tenant'].nil?
+          raise Errors::NotFound.new("Invalid Tenant '#{@openstack_tenant}'")
+        end
         svc = body['access']['serviceCatalog'].
           detect{|x| @service_name.include?(x['type']) }
       end
