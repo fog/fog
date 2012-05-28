@@ -18,3 +18,11 @@ for provider in (all_providers - available_providers)
   Formatador.display_line("[yellow]Skipping tests for [bold]#{provider}[/] [yellow]due to lacking credentials (add some to '~/.fog' to run them)[/]")
   Thread.current[:tags] << ('-' << provider)
 end
+
+# mark libvirt tests pending if not setup
+begin
+  require('ruby-libvirt')
+rescue LoadError
+  Formatador.display_line("[yellow]Skipping tests for [bold]#{provider}[/] [yellow]due to missing `ruby-libvirt` gem.[/]")
+  Thread.current[:tags] << '-libvirt'
+end
