@@ -64,13 +64,6 @@ def compute_providers
       },
       :mocked => true
     },
-    :slicehost  => {
-      :server_attributes => {
-        :image_id => 49, # image 49 = Ubuntu 10.04 LTS (lucid)
-        :name     => "fog_#{Time.now.to_i}"
-      },
-      :mocked => false
-    },
     :voxel      => {
       :server_attributes => {
         :name => "fog.#{Time.now.to_i}",
