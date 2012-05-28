@@ -6,6 +6,7 @@ module Fog
         def post_session
           request(
             :expects  => 200,
+            :idempotent => true,
             :method   => :post,
             :path     => "Session",
             :body     => Fog::JSON.encode({

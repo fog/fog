@@ -14,6 +14,7 @@ module Fog
           requested_fqdn = options['fqdn'] || options[:fqdn]
           request(
             :expects  => 200,
+            :idempotent => true,
             :method   => :get,
             :path     => ['NodeList', zone, requested_fqdn].compact.join('/')
           )
