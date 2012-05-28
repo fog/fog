@@ -20,15 +20,15 @@ module Fog
 
       class Mock
         def create_role(name)
-          response = Excon::Response.new
-          response.status = 202
           data = {
             'id'   => Fog::Mock.random_numbers(6).to_s,
             'name' => name
           }
           self.data[:roles][data['id']] = data
-          response.body = { 'role' => data }
-          response
+          Excon::Response.new(
+            :body   => { 'role' => data },
+            :status => 202
+          )
         end
 
       end

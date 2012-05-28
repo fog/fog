@@ -14,10 +14,10 @@ module Fog
 
       class Mock
         def list_users(tenant_id = nil)
-          response = Excon::Response.new
-          response.status = 200
-          response.body = { 'users' => self.data[:users].values }
-          response
+          Excon::Response.new(
+            :body   => { 'users' => self.data[:users].values },
+            :status => 200
+          )
         end
       end # class Mock
     end # class OpenStack

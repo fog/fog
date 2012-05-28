@@ -13,12 +13,10 @@ module Fog
 
       class Mock
         def list_roles_for_user_on_tenant(tenant_id, user_id)
-          response = Excon::Response.new
-          response.status = 200
-          response.body = {
-            'roles' => self.data[:roles]
-          }
-          response
+          Excon::Response.new(
+            :body   => { 'roles' => self.data[:roles] },
+            :status => 200
+          )
         end # def list_roles_for_user_on_tenant
       end # class Mock
     end # class OpenStack
