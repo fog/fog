@@ -26,12 +26,12 @@ def compute_providers
       },
       :server_attributes => {}.tap do |hash|
         [:zone_id, :network_ids, :image_id, :flavor_id].each do |k|
-          hash[k]= Fog.credentials[:cloudstack][k]
+          hash[k]= Fog.credentials[:cloudstack] && Fog.credentials[:cloudstack][k]
         end
       end,
       :volume_attributes => {:name => "somevolume"}.tap do |hash|
         [:zone_id, :disk_offering_id].each do |k|
-          hash[k]= Fog.credentials[:cloudstack][k]
+          hash[k]= Fog.credentials[:cloudstack] && Fog.credentials[:cloudstack][k]
         end
       end,
       :mocked => true
