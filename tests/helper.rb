@@ -23,6 +23,6 @@ end
 begin
   require('ruby-libvirt')
 rescue LoadError
-  Formatador.display_line("[yellow]Skipping tests for [bold]#{provider}[/] [yellow]due to missing `ruby-libvirt` gem.[/]")
+  Formatador.display_line("[yellow]Skipping tests for [bold]libvirt[/] [yellow]due to missing `ruby-libvirt` gem.[/]")
   Thread.current[:tags] << '-libvirt'
 end
