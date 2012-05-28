@@ -19,7 +19,14 @@ def compute_providers
       },
       :mocked => false
     },
-    :openstack => { :mocked => true},
+    :openstack => {
+      :mocked => true,
+      :server_attributes => {
+        :flavor_ref => 2,
+        :image_ref  => Fog::Compute[:openstack].images.first.id,
+        :name       => "fog_#{Time.now.to_i}"
+      }
+    },
     :cloudstack => {
       :provider_attributes => {
         :cloudstack_host => 'http://host.foo'
