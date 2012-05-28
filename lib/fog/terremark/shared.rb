@@ -61,7 +61,7 @@ module Fog
           end
           begin
             do_request(params)
-          rescue Excon::Errors::Unauthorized => e
+          rescue Excon::Errors::Unauthorized
             @cookie = auth_token
             do_request(params)
           end

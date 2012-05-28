@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'zerigo'))
+require 'fog/zerigo'
 require 'fog/dns'
 
 module Fog

@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+require 'fog/aws'
 
 module Fog
   module AWS
@@ -61,7 +61,6 @@ module Fog
 
         def self.data
           @data ||= Hash.new do |hash, region|
-            owner_id = Fog::AWS::Mock.owner_id
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
                 :servers => {},

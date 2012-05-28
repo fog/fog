@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'go_grid'))
+require 'fog/go_grid'
 require 'fog/compute'
 
 module Fog

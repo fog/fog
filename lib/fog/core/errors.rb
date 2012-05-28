@@ -95,8 +95,8 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
 #######################################################
 
     YML
-    raise(Fog::Errors::LoadError.new(missing_credentials_message))
-  end
+      raise(Fog::Errors::LoadError.new(missing_credentials_message))
+    end
 
   end
 end

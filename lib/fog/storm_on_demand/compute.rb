@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'storm_on_demand'))
+require 'fog/storm_on_demand'
 require 'fog/compute'
 
 module Fog

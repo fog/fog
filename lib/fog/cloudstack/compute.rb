@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'cloudstack'))
+require 'fog/cloudstack'
 require 'fog/compute'
 require 'digest/md5'
 
@@ -123,32 +123,6 @@ module Fog
       request :update_resource_count
       request :update_virtual_machine
 
-      class Mock
-
-        def self.data
-          @data ||= Hash.new do |hash, key|
-            hash[key] = {}
-          end
-        end
-
-        def self.reset
-          @data = nil
-        end
-
-        def initialize(options={})
-          @cloudstack_api_key = options[:cloudstack_api_key]
-        end
-
-        def data
-          self.class.data[@cloudstack_api_key]
-        end
-
-        def reset_data
-          self.class.data.delete(@cloudstack_api_key)
-        end
-
-      end
-
       class Real
 
         def initialize(options={})
@@ -240,7 +214,7 @@ module Fog
 
         def issue_request(params={},headers={},method='GET',expects=200)
           begin
-            response = @connection.request({
+            @connection.request({
               :query => params,
               :headers => headers,
               :method => method,
@@ -267,6 +241,10 @@ module Fog
       end # Real
 
       class Mock
+        def initialize(options={})
+          @cloudstack_api_key = options[:cloudstack_api_key]
+        end
+
         def self.data
           @data ||= begin
             rc_options = Fog.credentials[:cloudstack] || {}
@@ -437,11 +415,15 @@ module Fog
         end
 
         def self.reset
-          @data= nil
+          @data = nil
         end
 
         def data
           self.class.data
+        end
+
+        def reset_data
+          self.class.data.delete(@cloudstack_api_key)
         end
       end
     end # Cloudstack

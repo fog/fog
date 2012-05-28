@@ -24,7 +24,7 @@ module Fog
             lazy_load
           end
           data = super
-          result = self.clone.clear.concat(data)
+          self.clone.clear.concat(data)
         end
       EOS
     end

@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'hp'))
+require 'fog/hp'
 require 'fog/cdn'
 
 module Fog

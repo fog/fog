@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+require 'fog/aws'
 require 'fog/cdn'
 
 module Fog
@@ -112,7 +112,7 @@ module Fog
         def signature(params)
           string_to_sign = params[:headers]['Date']
           signed_string = @hmac.sign(string_to_sign)
-          signature = Base64.encode64(signed_string).chomp!
+          Base64.encode64(signed_string).chomp!
         end
       end
     end
