@@ -15,6 +15,7 @@ module Fog
         def get_record(type, zone, fqdn, options = {})
           request(
             :expects  => 200,
+            :idempotent => true,
             :method   => :get,
             :path     => ["#{type.to_s.upcase}Record", zone, fqdn, options['record_id']].compact.join('/')
           )
