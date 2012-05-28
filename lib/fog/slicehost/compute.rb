@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'slicehost'))
+require 'fog/slicehost'
 require 'fog/compute'
 
 module Fog

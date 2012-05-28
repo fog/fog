@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+require 'fog/aws'
 
 module Fog
   module AWS
@@ -106,12 +106,12 @@ module Fog
         def request(params)
           idempotent = params.delete(:idempotent)
 
-          now = Fog::Time.now
           headers = {
             'Content-Type'          => 'application/x-amz-json-1.0',
             'x-amz-date'            => Fog::Time.now.to_date_header,
             'x-amz-security-token'  => @aws_session_token
           }.merge(params[:headers])
+
           headers['x-amzn-authorization']  = signed_authorization_header(params, headers)
 
           response = @connection.request({
