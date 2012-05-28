@@ -36,14 +36,14 @@ module Fog
 
         def location
           requires :key
-          @location || bucket_location || self.connection.region
+          attributes[:location] || bucket_location || self.connection.region
         end
 
         def location=(new_location)
           if INVALID_LOCATIONS.include?(new_location)
             raise ArgumentError, "location must not include any of #{INVALID_LOCATIONS.join(', ')}. See http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUT.html"
           else
-            @location = new_location
+            merge_attributes(:location => new_location)
           end
         end
 
@@ -103,7 +103,9 @@ module Fog
 
           options['x-amz-acl'] = acl if acl
 
-          options['LocationConstraint'] = location
+          if location = attributes[:location] || (self.connection.region != 'us-east-1' && self.connection.region)
+            options['LocationConstraint'] = location
+          end
 
           connection.put_bucket(key, options)
 
