@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:xenserver] | VIFs collection', ['vifs']) do
+Shindo.tests('Fog::Compute[:xenserver] | VIFs collection', ['xenserver']) do
 
   conn = Fog::Compute[:xenserver]
   

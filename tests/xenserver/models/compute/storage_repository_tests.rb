@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:xenserver] | StorageRepository model', ['StorageRepository']) do
+Shindo.tests('Fog::Compute[:xenserver] | StorageRepository model', ['xenserver']) do
 
   storage_repositories = Fog::Compute[:xenserver].storage_repositories
   storage_repository = storage_repositories.first

@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:xenserver] | VIF model', ['VIF']) do
+Shindo.tests('Fog::Compute[:xenserver] | VIF model', ['xenserver']) do
 
   vifs = Fog::Compute[:xenserver].vifs
   vif = vifs.first
