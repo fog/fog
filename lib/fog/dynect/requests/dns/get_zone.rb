@@ -12,6 +12,7 @@ module Fog
         def get_zone(options = {})
           request(
             :expects  => 200,
+            :idempotent => true,
             :method   => :get,
             :path     => ['Zone', options['zone']].compact.join('/')
           )
