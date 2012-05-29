@@ -12,11 +12,11 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_update_network request", 'vsphere') do
   vm_uuid = nil
 
   class ConstClass
-    DATACENTER = 'DatacenterCF'
-    TEMPLATE = "/Datacenters/#{DATACENTER}/vm/testvm" #path of a vm which need update network
+    DATACENTER = 'Datacenter2012'
+    TEMPLATE = "/Datacenters/#{DATACENTER}/vm/node_server_test_net" #path of a vm which need update network
     MOB_TYPE = 'VirtualMachine' # type refereed to an effective VirtualMachine management object
     ADAPTER_NAME = 'Network adapter 1' #vNic name
-    PORTGROUP_NAME = 'dvPortGroup' #portgroup name either dvportgroup or vss portgroup
+    PORTGROUP_NAME = 'wdc-vhadp-pub2' #portgroup name either dvportgroup or vss portgroup
   end
 
   tests("Get vm management object id by path | The return value should") do
@@ -36,9 +36,9 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_update_network request", 'vsphere') do
     response = compute.get_vm_mob_ref_by_path('path' => ConstClass::TEMPLATE)
     vm_uuid = response.config.instanceUuid
     response = compute.vm_update_network(
-      'instance_uuid' => vm_uuid,
-      'adapter_name' => ConstClass::ADAPTER_NAME,
-      'portgroup_name' => ConstClass::PORTGROUP_NAME
+        'instance_uuid' => vm_uuid,
+        'adapter_name' => ConstClass::ADAPTER_NAME,
+        'portgroup_name' => ConstClass::PORTGROUP_NAME
     )
     test("be a kind of Hash") { response.kind_of? Hash }
     %w{ vm_ref task_state}.each do |key|

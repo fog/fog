@@ -1,7 +1,22 @@
 module Fog
   module Compute
     class Vsphere
+
+      module Shared
+
+        def get_portgroups_by_dc_mob(dc_mob_ref)
+          pg_name = {}
+          portgroups = dc_mob_ref.network
+          portgroups.each do |pg|
+            pg_name[pg.name] = pg
+          end
+          pg_name
+        end
+
+      end
+
       class Real
+        include Shared
 
         def vm_update_network(options = {})
           raise ArgumentError, "Must pass parameter: vm_moid or instance_uuid" unless (options['vm_moid'] || options['instance_uuid'])
@@ -22,11 +37,11 @@ module Fog
 
           devices = vm_mob_ref.config.hardware.device
           nic = devices.select { |device| device.kind_of?(RbVmomi::VIM::VirtualEthernetCard) &&
-             device.deviceInfo.label == options['adapter_name'] }.first
+              device.deviceInfo.label == options['adapter_name'] }.first
           raise Fog::Compute::Vsphere::NotFound, "network adapter:#{options['adapter_name']} not found." unless nic
 
           dc_mob_ref = get_parent_dc_by_vm_mob(vm_mob_ref)
-          network_mob_ref = dc_mob_ref.network.select { |network| network.name == options['portgroup_name'] }.first
+          network_mob_ref = get_portgroups_by_dc_mob(dc_mob_ref).fetch(options['portgroup_name'])
           raise Fog::Compute::Vsphere::NotFound, "portgroup:#{options['portgroup']} not found." unless network_mob_ref
 
           if network_mob_ref.class == RbVmomi::VIM::DistributedVirtualPortgroup
@@ -45,7 +60,11 @@ module Fog
           nic.backing = backing_info
           network_config_spec = RbVmomi::VIM::VirtualDeviceConfigSpec.new
           network_config_spec.device = nic
-          network_config_spec.operation = RbVmomi::VIM::VirtualDeviceConfigSpecOperation("edit")
+          if options['remove']
+            network_config_spec.operation = RbVmomi::VIM::VirtualDeviceConfigSpecOperation("remove")
+          else
+            network_config_spec.operation = RbVmomi::VIM::VirtualDeviceConfigSpecOperation("edit")
+          end
 
           config = RbVmomi::VIM::VirtualMachineConfigSpec.new
           config.deviceChange = []
