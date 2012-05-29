@@ -72,7 +72,6 @@ module Fog
 
         def save
           data = connection.create_internet_gateway.body['internetGatewaySet'].first
-	puts data.inspect
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           true
