@@ -215,7 +215,7 @@ module Fog
             'accessIPv4' => accessIPv4,
             'accessIPv6' => accessIPv6,
             'availability_zone' => availability_zone,
-            'userdata' => user_data_encoded,
+            'user_data' => user_data_encoded,
             'key_name'    => key_name,
             'security_groups' => @security_groups,
             'min_count'   => @min_count,
