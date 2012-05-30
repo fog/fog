@@ -123,6 +123,15 @@ RDoc::Task.new do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
+require 'rdoc/task'
+VsphereRDoc::Task.new do |rdoc|
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title = "fog-serengeti 1.3.2"
+  rdoc.rdoc_files.include('README*')
+  rdoc.rdoc_files.include('lib/fog/vsphere/**/*.rb')
+  rdoc.rdoc_files.include('tests/vsphere/**/*.rb')
+end
+
 desc "Open an irb session preloaded with this library"
 task :console do
   sh "irb -rubygems -r ./lib/#{name}.rb"
@@ -150,8 +159,9 @@ end
 
 task :build => :gemspec do
   sh "mkdir -p pkg"
-  sh "gem build #{gemspec_file}"
-  sh "mv #{gem_file} pkg"
+  #sh "gem build #{gemspec_file}"
+  sh "gem build fog.gemspec"
+  sh "mv fog-serengeti.gem pkg"
 end
 
 task :gemspec => :validate do
@@ -159,8 +169,8 @@ task :gemspec => :validate do
   spec = File.read(gemspec_file)
 
   # replace name version and date
-  replace_header(spec, :name)
-  replace_header(spec, :version)
+  #replace_header(spec, :name)
+  #replace_header(spec, :version)
   replace_header(spec, :date)
   #comment this out if your rubyforge_project has a different name
   replace_header(spec, :rubyforge_project)
