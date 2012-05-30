@@ -6,6 +6,15 @@ fog is the Ruby cloud computing library, top to bottom:
 * Requests allow power users to get the most out of the features of each individual cloud.
 * Mocks make testing and integrating a breeze.
 
+== Verrsion description
+
+  version = 1.3.1.serengeti.1
+
+This version mainly ship latest changes on fog Vsphere cloud provider and do not conclude complete support or required dependency to all providers, which means you should download fog from github for cloud services of other cloud providers, like AMAZON, Rackspace, and so.
+This version extend original vsphere cloud with fine-grained control functions to help elegant lifecycle management of virtual machines, flexible resources fetch, and configs of disk/network.
+This work is still undergoing, besides the powerful extensition on requests API, we are working on structure and enhance vsphere cloud services on efficent provisioning, resource placement, and storage/networking management.
+Please feel free to touch us: (lxinhui@vmware.com, jxiao@vmware.com, whe@vmware.com)
+
 == Getting Started
 
   sudo gem install fog

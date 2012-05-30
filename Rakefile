@@ -69,8 +69,8 @@ def tests(mocked)
   Fog.providers.each do |key, value|
     threads << Thread.new do
       Thread.main[:results] << {
-        :provider => value,
-        :success  => sh("export FOG_MOCK=#{mocked} && bundle exec shindont +#{key}")
+          :provider => value,
+          :success  => sh("export FOG_MOCK=#{mocked} && bundle exec shindont +#{key}")
       }
     end
   end
@@ -116,20 +116,11 @@ task :nuke do
 end
 
 require 'rdoc/task'
-RDoc::Task.new do |rdoc|
+RDoc::Task.new("all")  do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title = "#{name} #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
-end
-
-require 'rdoc/task'
-VsphereRDoc::Task.new do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "fog-serengeti 1.3.2"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/fog/vsphere/**/*.rb')
-  rdoc.rdoc_files.include('tests/vsphere/**/*.rb')
 end
 
 desc "Open an irb session preloaded with this library"
@@ -159,9 +150,8 @@ end
 
 task :build => :gemspec do
   sh "mkdir -p pkg"
-  #sh "gem build #{gemspec_file}"
-  sh "gem build fog.gemspec"
-  sh "mv fog-serengeti.gem pkg"
+  sh "gem build #{gemspec_file}"
+  sh "mv #{gem_file} pkg"
 end
 
 task :gemspec => :validate do
@@ -169,8 +159,8 @@ task :gemspec => :validate do
   spec = File.read(gemspec_file)
 
   # replace name version and date
-  #replace_header(spec, :name)
-  #replace_header(spec, :version)
+  replace_header(spec, :name)
+  replace_header(spec, :version)
   replace_header(spec, :date)
   #comment this out if your rubyforge_project has a different name
   replace_header(spec, :rubyforge_project)
@@ -252,7 +242,7 @@ task :changelog do
         'Patrick Debois',
         'Stepan G. Fedorov',
         'Wesley Beary'
-      ].include?(committer)
+    ].include?(committer)
       next
     end
     changelog << "MVP! #{committer}"
@@ -287,10 +277,10 @@ task :docs do
   directory = storage.directories.new(:key => 'fog.io')
   # write base index with redirect to new version
   directory.files.create(
-    :body         => redirecter('latest'),
-    :content_type => 'text/html',
-    :key          => 'index.html',
-    :public       => true
+      :body         => redirecter('latest'),
+      :content_type => 'text/html',
+      :key          => 'index.html',
+      :public       => true
   )
 
   Formatador.display_line
@@ -333,12 +323,12 @@ task :supported_services_docs do
     for column in columns
       if value = datum[column]
         case value
-        when Array
-          table << "<td>#{value.join(', ')}</td>"
-        when '+'
-          table << "<td style='text-align: center;'>#{value}</td>"
-        else
-          table << "<th>#{value}</th>"
+          when Array
+            table << "<td>#{value.join(', ')}</td>"
+          when '+'
+            table << "<td style='text-align: center;'>#{value}</td>"
+          else
+            table << "<th>#{value}</th>"
         end
       else
         table << "<td></td>"
@@ -356,7 +346,7 @@ layout: default
 title:  Supported Services
 ---
 
-METADATA
+    METADATA
     file.puts(table)
   end
 end
@@ -385,20 +375,20 @@ task :upload_fog_io do
       body.gsub!(/="\//, %{="/} << version << '/')
       content_type = 'text/html'
       directory.files.create(
-        :body         => redirecter(key),
-        :content_type => 'text/html',
-        :key          => 'latest/' << file_name,
-        :public       => true
+          :body         => redirecter(key),
+          :content_type => 'text/html',
+          :key          => 'latest/' << file_name,
+          :public       => true
       )
     else
       body = File.open(file_path)
       content_type = nil # leave it up to mime-types
     end
     directory.files.create(
-      :body         => body,
-      :content_type => content_type,
-      :key          => key,
-      :public       => true
+        :body         => body,
+        :content_type => content_type,
+        :key          => key,
+        :public       => true
     )
   end
   Formatador.redisplay(' ' * 128)
@@ -420,17 +410,17 @@ task :upload_rdoc do
     Formatador.redisplay(' ' * 128)
     Formatador.redisplay("Uploading [bold]#{key}[/]")
     directory.files.create(
-      :body         => File.open(file_path),
-      :key          => key,
-      :public       => true
+        :body         => File.open(file_path),
+        :key          => key,
+        :public       => true
     )
   end
   Formatador.redisplay(' ' * 128)
   directory.files.create(
-    :body         => redirecter("#{version}/rdoc/index.html"),
-    :content_type => 'text/html',
-    :key          => 'latest/rdoc/index.html',
-    :public       => true
+      :body         => redirecter("#{version}/rdoc/index.html"),
+      :content_type => 'text/html',
+      :key          => 'latest/rdoc/index.html',
+      :public       => true
   )
   Formatador.redisplay("Uploaded rdoc\n")
 end
@@ -446,5 +436,5 @@ def redirecter(path)
   <a href="http://fog.io/#{path}">redirecting to lastest (#{path})</a>
 </body>
 </html>
-HTML
+  HTML
 end
