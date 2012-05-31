@@ -78,7 +78,8 @@ module Fog
         end
 
         def create(options ={})
-          requires :name, :path
+          requires :name
+          create_results = connection.vm_create(options)
           new_vm = self.class.new(create_results['vm_attributes'])
           new_vm.collection = self.collection
           new_vm.connection = self.connection
@@ -86,19 +87,8 @@ module Fog
         end
 
         def clone(options = {})
-          requires :name
           # Convert symbols to strings
           req_options = options.inject({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
-          # Give our path to the request
-
-          if :path
-            req_options['path'] ="#{path}/#{name}"
-          end
-
-          if :mo_ref
-            req_options['vm_moid'] = "#{mo_ref}"
-          end
-
           # Perform the actual clone
           clone_results = connection.vm_clone(req_options)
           # Create the new VM model.
