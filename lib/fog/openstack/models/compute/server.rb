@@ -79,7 +79,7 @@ module Fog
           if addresses['private']
             #assume only a single private
             return addresses['private'].first
-          else
+          elsif addresses['internet']
             #assume no private IP means private cloud
             return addresses['internet'].first
           end
@@ -98,7 +98,7 @@ module Fog
           if addresses['public']
             #assume last is either original or assigned from floating IPs
             return addresses['public'].last
-          else
+          elsif addresses['internet']
             #assume no public IP means private cloud
             return addresses['internet'].first
           end
