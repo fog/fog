@@ -27,9 +27,14 @@ module Fog
             backing_info.eagerlyScrub = true
           end
 
+          if options[:thick_lazy_zeroed]
+            backing_info.thinProvisioned = false
+            backing_info.eagerlyScrub = false
+          end
+
           backing_info.fileName = file_name
 
-          virtual_disk = RbVmomi::VIM::VirtualDisk.new #VirtualDisk
+          virtual_disk = RbVmomi::VIM::VirtualDisk.new
           virtual_disk.key = -1
           virtual_disk.controllerKey = controller_key
           virtual_disk.backing = backing_info
@@ -54,7 +59,7 @@ module Fog
           device_config_spec
         end
 
-        def fix_device_unit_numbers(devices, device_changes)
+        def fix_device_unit_numbers(devices, device_changes, system_disk_key )
           max_unit_numbers = {}
           devices.each do |device|
             if device.controllerKey
@@ -64,7 +69,6 @@ module Fog
               end
             end
           end
-
           device_changes.each do |device_change|
             device = device_change.device
             if device.controllerKey && device.unitNumber.nil?
@@ -73,6 +77,7 @@ module Fog
               max_unit_numbers[device.controllerKey] = device.unitNumber
             end
           end
+          max_unit_numbers[system_disk_key]
         end
 
       end
@@ -84,6 +89,13 @@ module Fog
           raise ArgumentError, "Must pass parameter: vm_moid or instance_uuid" unless (options['vm_moid'] || options['instance_uuid'])
           raise ArgumentError, "Must pass parameter: vmdk_path" unless options['vmdk_path']
           raise ArgumentError, "Must pass parameter: disk_size" unless options['disk_size']
+
+          default_options = {
+              'thick_lazy_zeroed'   => true,
+              'thick_eager_zeroed' => false,
+              'thin'     => false
+          }
+          options = default_options.merge(options)
 
           if options['vm_moid']
             vm_mob_ref = get_vm_mob_ref_by_moid(options['vm_moid'])
@@ -108,25 +120,33 @@ module Fog
           devices = vm_mob_ref.config.hardware.device
           system_disk = devices.select { |vm_device| vm_device.class == RbVmomi::VIM::VirtualDisk }
 
-          disk_config = create_disk_config_spec(datastore_mob_ref, options['vmdk_path'],
-                                                system_disk[0].controllerKey, options['disk_size'].to_i,
-                                                :create => true, :independent => true, :thin => options['thin_provision'])
+          disk_config = create_disk_config_spec(datastore_mob_ref,
+                                                options['vmdk_path'],
+                                                system_disk[0].controllerKey,
+                                                options['disk_size'].to_i,
+                                                :create => true,
+                                                :physicalMode => true,
+                                                :independent => true,
+                                                :thick_lazy_zeroed => options['thick_lazy_zeroed'],
+                                                :thick_eager_zeroed => options['thick_eager_zeroed'],
+                                                :thin => options['thin']
+          )
 
           config = RbVmomi::VIM::VirtualMachineConfigSpec.new
           config.deviceChange = []
           config.deviceChange << disk_config
-          fix_device_unit_numbers(devices, config.deviceChange)
+          scsi_num = fix_device_unit_numbers(devices, config.deviceChange, system_disk[0].controllerKey)
 
           task = vm_mob_ref.ReconfigVM_Task(:spec => config)
           wait_for_task(task)
 
           {
               'vm_ref'        => vm_mob_ref,
+              'scsi_num'     => scsi_num,
               'vm_attributes' => convert_vm_mob_ref_to_attr_hash(vm_mob_ref),
               'vm_dev_number_increase' =>  (vm_mob_ref.config.hardware.device.size - devices.size),
               'task_state' => task.info.state
           }
-
         end
 
 
