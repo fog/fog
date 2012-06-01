@@ -9,8 +9,11 @@ module Fog
 
         model Fog::Compute::Vsphere::Server
 
-        # 'path' => '/Datacenters/vm/Jeff/Templates' will be MUCH faster.
-        # than simply listing everything.
+        # Public: list all vms in the given folder
+        # folder - 'folder_path' will work as a filter.
+        # if empty arguments then simply listing everything.
+        #
+        # Returns the vm array
         def all(filters = {})
           # REVISIT: I'm not sure if this is the best way to implement search
           # filters on a collection but it does work.  I need to study the AWS
@@ -20,6 +23,10 @@ module Fog
           load(response['virtual_machines'])
         end
 
+        # Public: get vm with given id
+        # id - can be vm management object id or instance_uuid
+        #
+        # Returns the server object with given id
         def get(id)
           # Is the id a managed_object_reference?  This may be the case if we're reloading
           # a model of a VM in the process of being cloned, since it

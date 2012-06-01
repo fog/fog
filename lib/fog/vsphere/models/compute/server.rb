@@ -86,6 +86,13 @@ module Fog
           new_vm
         end
 
+        # Public: clone vm from template to given destination
+        # name - vm name to cloned as
+        # datastore - datastore management object id used by destination vm
+        # host - host mangement object id where destination vm will be provisioned from
+        # cluster - cluster id belong to the destination vm
+        #
+        # Returns is server cloned with the given destination resources
         def clone(options = {})
           # Convert symbols to strings
           req_options = options.inject({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }

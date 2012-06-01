@@ -3,14 +3,18 @@ Shindo.tests('Fog::Compute[:vsphere] | servers collection', ['vsphere']) do
   require 'rbvmomi'
   require 'fog'
   require '../../../helpers/succeeds_helper'
-  servers = Fog::Compute[:vsphere].servers
-  compute = Fog::Compute[:vsphere]
 
+  # Internal const-class: contains settings needed to run unit tests
   class ConstClass
     DC_NAME = 'Datacenter2012'# name of test datacenter
-    RE_VM_NAME = 'node_static_ip'# name of a local vm/template to clone from but with two connected datastore
-    RE_TEMPLATE = "/Datacenters/#{DC_NAME}/vm/#{RE_VM_NAME}" #path of a remote vm template to test
+    RE_VM_NAME = 'node_clone_test_local'# name of a local vm/template to clone from but with two connected datastore
+    RE_TEMPLATE = "/Datacenters/#{DC_NAME}/vm/#{RE_VM_NAME}" #path of a complete vm template to test
   end
+
+  # provisioning needed object handle to finish below tests
+  servers = Fog::Compute[:vsphere].servers
+  # used to get management object id of template set in const-class
+  compute = Fog::Compute[:vsphere]
 
   tests('The servers collection') do
     test('should not be empty') { not servers.empty? }

@@ -1,18 +1,14 @@
 Shindo.tests('Fog::Compute[:vsphere] | vm_config_HA request', ['vsphere']) do
-
-
   require 'rbvmomi'
   require 'fog'
   compute = Fog::Compute[:vsphere]
 
   class ConstClass
     DC_NAME = 'Datacenter2012'# name of test datacenter
-    CS_NAME = 'cluster-fog' # name referring to a cluster with HA enabled
-    VM_NAME_1 = 'cc-copy' # name referring to a vm which sit in HA cluster to disable HA settings
-    VM_NAME_2  = 'cc-copy2' # name referring to a vm which sit in a non-HA cluster to disable HA settings
+    VM_NAME_1 ='node_ha_test_1' # name referring to a vm which sit in HA cluster to disable HA settings
+    VM_NAME_2  = 'node_ha_test_2' # name referring to a vm which sit in a non-HA cluster to disable HA settings
     VM_PATH_1 = "/Datacenters/#{DC_NAME}/host/#{VM_NAME_1}" #path of above cluster
     VM_PATH_2 = "/Datacenters/#{DC_NAME}/host/#{VM_NAME_2}"#get_vm_mob_ref_by_path
-
   end
 
   tests('For a HA cluster, the response should') do

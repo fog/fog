@@ -1,13 +1,12 @@
 Shindo.tests('Fog::Compute[:vsphere] | vm_power_off request', ['vsphere']) do
 
-
   require 'rbvmomi'
   require 'fog'
   compute = Fog::Compute[:vsphere]
 
   class ConstClass
-     SOFT = "/Datacenters/Datacenter2012/vm/cc"
-     FORCE = "/Datacenters/Datacenter2012/vm/cc-copy"
+    SOFT = "/Datacenters/Datacenter2012/vm/node_clone_test_local"
+    FORCE = "/Datacenters/Datacenter2012/vm/node_clone_test_remote"
   end
 
   tests('The response should') do

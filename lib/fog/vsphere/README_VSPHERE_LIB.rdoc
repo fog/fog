@@ -58,7 +58,51 @@ You can see a list of available collections by calling `collections` on the conn
 
   >> Compute[:vsphere].collections
   [:servers, :volumes, :virtualNetwork]
-  servers have been provided with public functions of get and all. volumes and virtualNetwork are still underworking.
+
+servers have been provided with public functions of all and get. volumes and virtualNetwork are still underworking.
+
+   >> Compute[:vsphere].servers.all('folder' => 'folder_path')
+    <Fog::Compute::Vsphere::Server
+      id="503831ff-cb8f-92ec-18d4-20bfa42416bc",
+      name="cluster6-client-1",
+      uuid="4238d42c-83db-9ae7-db29-7ac4717b11df",
+      instance_uuid="503831ff-cb8f-92ec-18d4-20bfa42416bc",
+      hostname=nil,
+      operatingsystem=nil,
+      ipaddress=nil,
+      power_state="poweredOff",
+      tools_state="toolsNotRunning",
+      tools_version="guestToolsCurrent",
+      mac_addresses={"Network adapter 1"=>"00:50:56:b8:73:c0"},
+      hypervisor="w1-vhadp-02.eng.vmware.com",
+      is_a_template=false,
+      connection_state="connected",
+      mo_ref="vm-4186",
+      path=nil,
+      max_cpu=nil,
+      max_mem=nil
+    >,
+    <Fog::Compute::Vsphere::Server
+      id="50385957-9fcc-2d31-c5f0-1ac10c14a6d0",
+      name="cluster6-worker-1",
+      uuid="4238ad2b-c54e-cd12-1fd9-44b86f296c9b",
+      instance_uuid="50385957-9fcc-2d31-c5f0-1ac10c14a6d0",
+      hostname=nil,
+      operatingsystem=nil,
+      ipaddress=nil,
+      power_state="poweredOff",
+      tools_state="toolsNotRunning",
+      tools_version="guestToolsCurrent",
+      mac_addresses={"Network adapter 1"=>"00:50:56:b8:73:bc"},
+      hypervisor="w1-vhadp-02.eng.vmware.com",
+      is_a_template=false,
+      connection_state="connected",
+      mo_ref="vm-4182",
+      path=nil,
+      max_cpu=nil,
+      max_mem=nil
+    > , ...
+
 
 Some collections are available across multiple providers:
 

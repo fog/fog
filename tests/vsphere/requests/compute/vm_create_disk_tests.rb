@@ -13,12 +13,12 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_create_disk request", 'vsphere') do
   vm_uuid = nil
 
   class ConstClass
-    TEMPLATE = "/Datacenters/DatacenterCF/vm/knife" #path of a vm which need create disks
+    TEMPLATE = "/Datacenters/Datacenter2012/vm/node_network_test" #path of a vm which need create disks
     MOB_TYPE = 'VirtualMachine' # type refereed to an effective VirtualMachine management object
-    DS_NAME =  'DS91733'# name referring to a datastore which include vmdks need to re-config
-    VMDK_PATH1 = "[#{DS_NAME}] knife/knife_2.vmdk" #path of a vmdk to re-config which belong to above mentioned datastore
-    VMDK_PATH2 = "[#{DS_NAME}] knife/knife_3.vmdk" #path of a vmdk to re-config which belong to above mentioned datastore
-    VMDK_PATH3 = "[#{DS_NAME}] knife/knife_4.vmdk" #path of a vmdk to re-config which belong to above mentioned datastore
+    DS_NAME =  'ds02'# name referring to a datastore which include vmdks need to re-config
+    VMDK_PATH1 = "[#{DS_NAME}] node_server_test/node_network_test_2.vmdk" #path of a vmdk to re-config which belong to above mentioned datastore
+    VMDK_PATH2 = "[#{DS_NAME}] node_server_test/node_network_test_3.vmdk" #path of a vmdk to re-config which belong to above mentioned datastore
+    VMDK_PATH3 = "[#{DS_NAME}] node_server_test/node_network_test_4.vmdk" #path of a vmdk to re-config which belong to above mentioned datastore
     DISK_SIZE = 200
   end
 
@@ -62,8 +62,7 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_create_disk request", 'vsphere') do
     response = compute.vm_create_disk(
         'instance_uuid' => vm_uuid,
         'vmdk_path' => ConstClass::VMDK_PATH2,
-        'disk_size'=> ConstClass::DISK_SIZE.to_i,
-        'thin_provision' => true
+        'disk_size'=> ConstClass::DISK_SIZE.to_i
     )
     test("be a kind of Hash") { response.kind_of? Hash }
     %w{ vm_ref vm_attributes vm_dev_number_increase task_state}.each do |key|

@@ -1,5 +1,6 @@
 Shindo.tests("Fog::Compute[:vsphere] | vm_update_network request", 'vsphere') do
 
+
   require 'rbvmomi'
   require 'fog'
   require 'guid'
@@ -13,7 +14,7 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_update_network request", 'vsphere') do
 
   class ConstClass
     DATACENTER = 'Datacenter2012'
-    TEMPLATE = "/Datacenters/#{DATACENTER}/vm/node_server_test_net" #path of a vm which need update network
+    TEMPLATE = "/Datacenters/#{DATACENTER}/vm/node_network_test" #path of a vm which need update network
     MOB_TYPE = 'VirtualMachine' # type refereed to an effective VirtualMachine management object
     ADAPTER_NAME = 'Network adapter 1' #vNic name
     PORTGROUP_NAME = 'wdc-vhadp-pub2' #portgroup name either dvportgroup or vss portgroup
