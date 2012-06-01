@@ -157,34 +157,34 @@ It will return an {excon}[http://github.com/geemus/excon] response, which has `b
 Extentions made to vsphere cloud provider are divided into four categories, primarily on Requests and server/servers accordingly. Below are more details:
 
 * First category focus on fine-grianed vm lifecycle control, including extention to vm_clone, vm_power_on, vm_power_off, vm_reboot.
-    * It is permitted with extended interfaces for user to clone vm from given template to a fine-defined destination whihc is described by cluster, host, datastore;
-    * It is permitted to set detailed cpu and memory desired for a given vm at the moment of clone or at runtime;
-    * It is supported to softly stop and reboot a live vm which means stop service running in guest os instead of enforced exit of system;
-    * It is permitted to wait for the final status to return no matter for soft or forced start/stop of vm.
+ It is permitted with extended interfaces for user to clone vm from given template to a fine-defined destination whihc is described by cluster, host, datastore;
+ It is permitted to set detailed cpu and memory desired for a given vm at the moment of clone or at runtime;
+ It is supported to softly stop and reboot a live vm which means stop service running in guest os instead of enforced exit of system;
+ It is permitted to wait for the final status to return no matter for soft or forced start/stop of vm.
 
 * Second category focus on detailed configurations of disk(vm_create_disks/vm_delete_disks), networking(vm_config_ip/vm_update_network), and operations on high level features like High Availability(HA)(vm_config_ha).
-    * It is supported to create/delete disks from given datastore for a given vm;
-    * It is supported to add a vm with given portgroup;
-    * It is supported to config a vm with dhcp or static ip, dns, settings;
-    * It is supported to check a vm in a HA cluster or not, and disable HA feature of a protected VM.
+ It is supported to create/delete disks from given datastore for a given vm;
+ It is supported to add a vm with given portgroup;
+ It is supported to config a vm with dhcp or static ip, dns, settings;
+ It is supported to check a vm in a HA cluster or not, and disable HA feature of a protected VM.
 
 * Third category support to query different kinds/levels of resources from vcenter(query_resources.rb), which can be used for resource scheduling optimization and placement of virtul machines.
-    * It is supported to fetch all clusters with extensible defined properties belong to a given datacenter;
-    * It is supported to fetch all datastores assessible with extensible defined properties from a cluster;
-    * It is supported to fetch all resource pools with extensible defined properties belong to a given cluster;
-    * It is supported to fetch all hosts with extensible defined properties belong to a given cluster;
-    * It is supported to fetch all vms provisioned with extensible defined properties from a given host;
-    * It is supported to fetch all datastores assessible with extensible defined properties from a host;
-    * It is supported to fetch all progroups(network settings) created for a given datacenter;
-    * It is supported to fetch all disks with extensible defined properties for a given vm;
-    * It is also supported to fecth all clusters/resourcepools/datastores/hosts/vms/folders in a datacenter at once query to improve efficency.
+ It is supported to fetch all clusters with extensible defined properties belong to a given datacenter;
+ It is supported to fetch all datastores assessible with extensible defined properties from a cluster;
+ It is supported to fetch all resource pools with extensible defined properties belong to a given cluster;
+ It is supported to fetch all hosts with extensible defined properties belong to a given cluster;
+ It is supported to fetch all vms provisioned with extensible defined properties from a given host;
+ It is supported to fetch all datastores assessible with extensible defined properties from a host;
+ It is supported to fetch all progroups(network settings) created for a given datacenter;
+ It is supported to fetch all disks with extensible defined properties for a given vm;
+ It is also supported to fecth all clusters/resourcepools/datastores/hosts/vms/folders in a datacenter at once query to improve efficency.
 
 * Fourth category contains some functions to facilitate above functions, such as transform of arguments from literal variants to proper handles for underlying execution.
-    * It is facilitated to transform a management object id into management object which is very useful to talk with vc and execute operatios mentioned above;
-    * It is facilitated to get datacenter management object which contains a given vm;
-    * It is facilitated to get datacenter/datasore/vm from a given path;
-    * It is facilitated to transform object array into property hash for convenience of query and dependent operations at higher level like placement without trivial access to vc database;
-    * It is facilitated to wait for a task to finish under parallel invocation without problems caused similar like rbvmomi.
+ It is facilitated to transform a management object id into management object which is very useful to talk with vc and execute operatios mentioned above;
+ It is facilitated to get datacenter management object which contains a given vm;
+ It is facilitated to get datacenter/datasore/vm from a given path;
+ It is facilitated to transform object array into property hash for convenience of query and dependent operations at higher level like placement without trivial access to vc database;
+ It is facilitated to wait for a task to finish under parallel invocation without problems caused similar like rbvmomi.
 
 All these functions have been attached with corresponding tests and please refer to more details in test part.
 

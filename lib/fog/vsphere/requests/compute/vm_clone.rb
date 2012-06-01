@@ -33,7 +33,8 @@ module Fog
               'force'        => false,
               'linked_clone' => false,
               'power_on'     => true,
-              'wait' => 1
+              'wait' => 1,
+              'thin' => true
           }
           options = default_options.merge(options)
 
@@ -141,7 +142,8 @@ module Fog
                       },
                   ]
               }
-              vm_mob_ref.ReconfigVM_Task(:spec => disk_spec).wait_for_completion
+              task = vm_mob_ref.ReconfigVM_Task(:spec => disk_spec).
+                  wait_for_task(task)
             end
             # Next, create a Relocation Spec instance
             relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:datastore => ds_mob_ref,
@@ -149,9 +151,26 @@ module Fog
                                                                       :host => host_mob_ref,
                                                                       :diskMoveType => :moveChildMostDiskBacking)
           else
+            disk = []
+            disks = vm_mob_ref.config.hardware.device.select do |vm_device|
+              vm_device.class == RbVmomi::VIM::VirtualDisk
+            end
+            disks.each do |disk_device|
+              disk_locator = RbVmomi::VIM::VirtualMachineRelocateSpecDiskLocator.new
+              disk_locator.datastore = ds_mob_ref
+              backing_info = disk_device.backing.dup
+              backing_info.datastore = ds_mob_ref
+              if options['thin']
+                backing_info.thinProvisioned = true
+              end
+              disk_locator.diskBackingInfo = backing_info
+              disk_locator.diskId = disk_device.key
+              disk << disk_locator
+            end
             relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:datastore => ds_mob_ref,
                                                                       :pool => resource_pool,
                                                                       :host => host_mob_ref,
+                                                                      :disk => disk,
                                                                       :transform => options['transform'] || 'sparse')
           end
 
