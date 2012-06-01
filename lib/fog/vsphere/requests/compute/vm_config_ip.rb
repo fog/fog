@@ -2,12 +2,6 @@ module Fog
   module Compute
     class Vsphere
 
-      module Shared
-        private
-
-
-      end
-
       class Real
         include Shared
 

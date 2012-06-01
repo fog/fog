@@ -109,7 +109,7 @@ Shindo.tests("Fog::Compute[:vsphere] | query resources request", ['vsphere']) do
         end
       end
       tests("When getting nested resource pools belong to a specific cluster") do
-        response_2 = compute.get_nested_rps_by_cs_mob(cs_mob_ref)
+        response_2 = compute.get_rps_by_cs_mob(cs_mob_ref)
         test("it should return a Array") { response_2.kind_of? Array }
         tests("The response should") do
           test("return more results than flat search") { response_2.length >= response.length }

@@ -33,6 +33,15 @@ module Fog
           mob_ref
         end
 
+        def get_portgroups_by_dc_mob(dc_mob_ref)
+          pg_name = {}
+          portgroups = dc_mob_ref.network
+          portgroups.each do |pg|
+            pg_name[pg.name] = pg
+          end
+          pg_name
+        end
+
       end
 
       class Real

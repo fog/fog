@@ -4,10 +4,8 @@ Shindo.tests('Fog::Compute[:vsphere] | vm_destroy request', ['vsphere']) do
   compute = Fog::Compute[:vsphere]
 
   class ConstClass
-    TEMPLATE = "/Datacenters/Datacenter2012/vm/xh1" #path of a vm which need destroy
+    TEMPLATE = "/Datacenters/Datacenter2012/vm/l_cloned_vm" #path of a vm which need destroy
   end
-
-  #booted_vm = '5032c8a5-9c5e-ba7a-3804-832a03e16381'
 
   tests('The response should') do
     vm_mob_ref = compute.get_vm_mob_ref_by_path('path' => ConstClass::TEMPLATE)

@@ -99,7 +99,7 @@ module Fog
 
           # argument of host and resource pool are prioritized over cluster since more concrete
           if cs_mob_ref
-            if !(cs_mob_ref.host.include? host_mob_ref)|| !(get_nested_rps_by_cs_mob(cs_mob_ref).include? resource_pool)
+            if !(cs_mob_ref.host.include? host_mob_ref)|| !(get_rps_by_cs_mob(cs_mob_ref).include? resource_pool)
               raise Fog::Compute::Vsphere::NotFound, "Not matched arguments: host_moid, rp_moid, and cluster_moid"
             end
           end
