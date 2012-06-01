@@ -117,7 +117,7 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
     tests("Linked Clone from a vm with double datastores | The return value should") do
       response = compute.vm_clone(
           'path' => ConstClass::DE_TEMPLATE,
-          'name' => 'l_cloned_vm_2disk',
+          'name' => 'l_cloned_vm_2ds',
           'wait' => 1,
           'linked_clone' => true,
           'cluster_moid' => target_cr_mob_ref._ref.to_s,
@@ -140,7 +140,7 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
     tests("full clone a vm with double datastores and given dest | The return value should") do
       response = compute.vm_clone(
           'path' => ConstClass::DE_TEMPLATE,
-          'name' => 'l_st_cloned_vm_2disk',
+          'name' => 'l_st_cloned_vm_2ds',
           'wait' => 1,
           'linked_clone' => true,
           'datastore_moid' => datastore_mob_ref._ref.to_s,

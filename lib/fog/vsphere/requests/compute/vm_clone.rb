@@ -27,6 +27,7 @@ module Fog
       class Real
         include Shared
         def vm_clone(options = {})
+          raise ArgumentError, "config_json is a required parameter" unless options['path'] or options['vm_moid']
           # Option handling
           default_options = {
               'force'        => false,
@@ -140,8 +141,7 @@ module Fog
                       },
                   ]
               }
-              task = vm_mob_ref.ReconfigVM_Task(:spec => disk_spec)
-              wait_for_task(task)
+              vm_mob_ref.ReconfigVM_Task(:spec => disk_spec).wait_for_completion
             end
             # Next, create a Relocation Spec instance
             relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:datastore => ds_mob_ref,

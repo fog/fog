@@ -6,11 +6,11 @@ Shindo.tests("Fog::Compute[:vsphere] | query resources request", ['vsphere']) do
 
   # need set down below consts according to real VSphere data center
   class ConstClass
-    DC_NAME = 'DatacenterCF'# name of test datacenter
-    CS_NAME = 'Cluster1' # name referring to a cluster sits in above datacenter
+    DC_NAME = 'Datacenter2012'# name of test datacenter
+    CS_NAME = 'cluster-fog' # name referring to a cluster sits in above datacenter
     CLUSTER_PATH = "/Datacenters/#{DC_NAME}/host/#{CS_NAME}" #path of above cluster
-    HOST_NAME = '10.117.8.187' # name referring to a host sits in above cluster
-    VM_NAME = 'knife' # name referring to a vm sits in above host
+    HOST_NAME = 'w1-vhadp-05.eng.vmware.com' # name referring to a host sits in above cluster
+    VM_NAME = 'node_network_test' # name referring to a vm sits in above host
   end
 
   tests("When getting management object for a specific data center") do
@@ -132,7 +132,5 @@ Shindo.tests("Fog::Compute[:vsphere] | query resources request", ['vsphere']) do
     end
 
   end
-
-
 end
 

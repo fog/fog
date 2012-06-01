@@ -213,11 +213,6 @@ module Fog
         end
 
         def get_rps_by_cs_mob(cs_mob_ref, options ={})
-          rp_mob_refs = cs_mob_ref.resourcePool.resourcePool
-          rp_mob_refs
-        end
-
-        def get_nested_rps_by_cs_mob(cs_mob_ref, options ={})
           raise ArgumentError, "Must pass a cluster management object" unless cs_mob_ref
 
           property_specs = [ :type => 'ResourcePool', :all => false, :pathSet =>  ['name']]
@@ -265,6 +260,7 @@ module Fog
           result = @connection.propertyCollector.RetrieveProperties(:specSet => [filter_spec])
           results = []
           result.each { |r| results << r.obj }
+          results
           results
         end
 
