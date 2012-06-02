@@ -55,6 +55,13 @@ module Fog
       request :update_user
       request :upload_server_certificate
       request :upload_signing_certificate
+      
+      model_path 'fog/aws/models/iam'
+      model       :user
+      collection  :users
+      model       :policy
+      collection  :policies
+      
 
       class Mock
         def self.data
