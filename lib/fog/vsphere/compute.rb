@@ -244,6 +244,13 @@ module Fog
           authenticate
         end
 
+        def close
+          @connection.close
+          @connection = nil
+        rescue RbVmomi::fault => e
+          raise Fog::Vsphere::Errors::ServiceError, e.message
+        end
+
         private
 
         def authenticate

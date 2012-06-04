@@ -1,48 +1,103 @@
 http://geemus.s3.amazonaws.com/fog.png
 
-fog is the Ruby cloud computing library, top to bottom:
+fog vSphere is the Ruby vSphere cloud computing library, top to bottom:
 
-* Collections provide a simplified interface, making clouds easier to work with and switch between.
-* Requests allow power users to get the most out of the features of each individual cloud.
-* Mocks make testing and integrating a breeze.
+* Extend original requests to en-power fine-grained life-cycle management of virtual machines, flexible resource fetch, and configurations on disk/networking
+* Extend collections to enable simplified compute service interface for vSphere Cloud
 
-== Verrsion description
+== Version Description
 
   version = 1.3.1.serengeti.1
 
-This version mainly ship latest changes on fog Vsphere cloud provider and do not conclude complete support or required dependency to all providers, which means you should download fog from github for cloud services of other cloud providers, like AMAZON, Rackspace, and so.
-This version extend original vsphere cloud with fine-grained control functions to help elegant lifecycle management of virtual machines, flexible resources fetch, and configs of disk/network.
-This work is still undergoing, besides the powerful extensition on requests API, we are working on structure and enhance vsphere cloud services on efficent provisioning, resource placement, and storage/networking management.
-Please feel free to touch us: (lxinhui@vmware.com, jxiao@vmware.com, whe@vmware.com)
+This version mainly ships latest changes on fog vSphere Cloud Provider and does not include complete support or required dependency to other providers, such as AMAZON, Rackspace, and so on.
+This version extends original vSphere Cloud with fine-grained control functions to conduct life-cycle management of virtual machines, to fetch resources, and config disks and networks.
+This work is still undergoing. Besides the powerful extension on requests API, we are working on structure and enhance vSphere Cloud services on efficient provisioning, resource placement, and storage/networking management.
+Please feel free to contact us by: (lxinhui@vmware.com, jxiao@vmware.com, whe@vmware.com)
 
 == Getting Started
 
   sudo gem install fog
 
-Now type 'fog' to try stuff, confident that fog will let you know what to do. Here is an example of wading through server creation for Amazon Elastic Compute Cloud:
+Now type 'fog' to try stuff, confident that fog will let you know what to do. Here is an example of wading through server clone for vSphere Compute Cloud:
 
-  >> server = Compute[:aws].servers.create
-  ArgumentError: image_id is required for this operation
+  >> servers = Compute[:vsphere].servers.new
+  >> Compute[:vsphere].servers.new
+    <Fog::Compute::Vsphere::Server
+      id=nil,
+      name=nil,
+      uuid=nil,
+      instance_uuid=nil,
+      hostname=nil,
+      operatingsystem=nil,
+      ipaddress=nil,
+      power_state=nil,
+      tools_state=nil,
+      tools_version=nil,
+      mac_addresses=nil,
+      hypervisor=nil,
+      is_a_template=nil,
+      connection_state=nil,
+      mo_ref=nil,
+      path=nil,
+      max_cpu=nil,
+      max_mem=nil
+    >
+   Return an object with nil attributes for no arguments provided to the call of new. It is not recommend to directly call new but suggested to use servers.all or servers.get to fetch all vms or specific vm by given id.
 
-  >> server = Compute[:aws].servers.create(:image_id => 'ami-5ee70037')
-  <Fog::AWS::EC2::Server [...]>
+  >> server = servers.clone('name' => "clone_vm_name", 'path' => 'template_path', 'wait' => 1,  'linked_clone' => true)
+<Fog::Compute::Vsphere::Server
+  id="5038c7cf-03d3-22fa-ced5-55ad3aaa3d91",
+  name="l_cloned_vm",
+  uuid="4238bf69-a17e-2e97-7ebb-428b711551c2",
+  instance_uuid="5038c7cf-03d3-22fa-ced5-55ad3aaa3d91",
+  hostname=nil,
+  operatingsystem=nil,
+  ipaddress=nil,
+  power_state="poweredOn",
+  tools_state="toolsNotRunning",
+  tools_version="guestToolsCurrent",
+  mac_addresses={"Network adapter 1"=>"00:50:56:b8:77:4a"},
+  hypervisor="w1-vhadp-05.eng.vmware.com",
+  is_a_template=false,
+  connection_state="connected",
+  mo_ref="vm-5257",
+  path=nil,
+  max_cpu=nil,
+  max_mem=nil
+>
+  It is suggested to use +clone+ as much as possible instead of +create+ when provisioning new vms for benefits from its design of performance and resource management in vSphere.
+  server represents the vm provisioned from the clone operation and can be operated as below:
 
-  >> server.destroy # cleanup after yourself or regret it, trust me
+  >>server.start('instance_uuid' => 'id_number' ) # power on a provisioned vm, meaning of instance_uuid can be found in [1]
   true
+  >>server.stop('instance_uuid' => 'id_number' ) # power off a given vm
+  true
+  >>server.destroy # cleanup after yourself or regret it, trust me
+  true
+
+Above examples provide a way to run fog in ruby irb. Below is another example of initializing and persisting a vSphere Cloud server in ruby program:
+
+  require 'fog'
+
+  compute = Fog::Compute.new(
+      :provider => 'vsphere',
+      :vsphere_server => 'ip_of_vc_server',
+      :vsphere_username => 'vc_admin_name',
+      :vsphere_password => 'vc_password',
+      :vsphere_expected_pubkey_hash => 'vc_hash_key'
+  })
+  server = compute.servers.new.clone(name' => "clone_vm_name", 'path' => 'template_path', 'wait' => 1,  'linked_clone' => true)
+
 
 == Collections
 
-A high level interface to each cloud is provided through collections, such as `images` and `servers`.
+A high level interface to each cloud is provided through collections.
 You can see a list of available collections by calling `collections` on the connection object. You can try it out using the `fog` command:
 
-  >> Compute[:aws].collections
-  [:addresses, :directories, ..., :volumes, :zones]
+  >> Compute[:vsphere].collections
+  [:servers]
 
-Some collections are available across multiple providers:
-
-* compute providers have +flavors+, +images+ and +servers+
-* dns providers have +zones+ and +records+
-* storage providers have +directories+ and +files+
+Some collections are available across multiple providers: e.g. compute providers have +servers+
 
 Collections share basic CRUD type operations, such as:
 * +all+ - fetch every object of that type from the provider.
@@ -50,91 +105,297 @@ Collections share basic CRUD type operations, such as:
 * +get+ - fetch a single object by it's identity from the provider.
 * +new+ - initialize a new record locally, but do not create a remote resource with the provider.
 
-As an example, we'll try initializing and persisting a Rackspace Cloud server:
+Besides inheriting +create+ and + new+ from parent class, we override +all+ and +get+ for vSphere Cloud Provider.
++all+ is often used to list all of server objects under given path.
 
-  require 'fog'
+   >> Compute[:vsphere].servers.all('folder' => 'folder_path')
+    <Fog::Compute::Vsphere::Server
+      id="503831ff-cb8f-92ec-18d4-20bfa42416bc", [1]
+      name="cluster6-client-1",
+      uuid="4238d42c-83db-9ae7-db29-7ac4717b11df", [2]
+      instance_uuid="503831ff-cb8f-92ec-18d4-20bfa42416bc",
+      hostname=nil,
+      operatingsystem=nil,
+      ipaddress=nil,
+      power_state="poweredOff",
+      tools_state="toolsNotRunning",
+      tools_version="guestToolsCurrent",
+      mac_addresses={"Network adapter 1"=>"00:50:56:b8:73:c0"},
+      hypervisor="w1-vhadp-02.eng.vmware.com",
+      is_a_template=false,
+      connection_state="connected",
+      mo_ref="vm-4186",
+      path=nil,
+      max_cpu=nil,
+      max_mem=nil
+    >,
+    <Fog::Compute::Vsphere::Server
+      id="50385957-9fcc-2d31-c5f0-1ac10c14a6d0",
+      name="cluster6-worker-1",
+      uuid="4238ad2b-c54e-cd12-1fd9-44b86f296c9b",
+      instance_uuid="50385957-9fcc-2d31-c5f0-1ac10c14a6d0",
+      hostname=nil,
+      operatingsystem=nil,
+      ipaddress=nil,
+      power_state="poweredOff",
+      tools_state="toolsNotRunning",
+      tools_version="guestToolsCurrent",
+      mac_addresses={"Network adapter 1"=>"00:50:56:b8:73:bc"},
+      hypervisor="w1-vhadp-02.eng.vmware.com",
+      is_a_template=false,
+      connection_state="connected",
+      mo_ref="vm-4182",
+      path=nil,
+      max_cpu=nil,
+      max_mem=nil
+    > , ...
 
-  compute = Fog::Compute.new(
-    :provider           => 'Rackspace',
-    :rackspace_api_key  => key,
-    :rackspace_username => username
-  )
++get+ is very useful to search and get specific object by id as below.
 
-  # boot a gentoo server (flavor 1 = 256, image 3 = gentoo 2008.0)
-  server = compute.servers.create(:flavor_id => 1, :image_id => 3, :name => 'my_server')
-  server.wait_for { ready? } # give server time to boot
-
-  # DO STUFF
-
-  server.destroy # cleanup after yourself or regret it, trust me
-
-== Models
-
-Many of the collection methods return individual objects, which also provide common methods:
-* +destroy+ - will destroy the persisted object from the provider
-* +save+ - persist the object to the provider
-* +wait_for+ - takes a block and waits for either the block to return true for the object or for a timeout (defaults to 10 minutes)
-
-== Mocks
-
-As you might imagine, testing code using Fog can be slow and expensive, constantly turning on and and shutting down instances.
-Mocking allows skipping this overhead by providing an in memory representation resources as you make requests.
-Enabling mocking easy to use, before you run other commands, simply run:
-
-  Fog.mock!
-
-Then proceed as usual, if you run into unimplemented mocks fog will raise an error and as always contributions are welcome!
+     >> Compute[:vsphere].servers.get('id')
+     <Fog::Compute::Vsphere::Server
+       id="5038c7cf-03d3-22fa-ced5-55ad3aaa3d91",
+       name="l_cloned_vm",
+       uuid="4238bf69-a17e-2e97-7ebb-428b711551c2",
+       instance_uuid="5038c7cf-03d3-22fa-ced5-55ad3aaa3d91",
+       hostname="wdc-vhadp-pub2-dhcp-73-029.eng.vmware.com",
+       operatingsystem="CentOS 4/5/6 (64-bit)",
+       ipaddress="10.141.73.29",
+       power_state="poweredOn",
+       tools_state="toolsOk",
+       tools_version="guestToolsCurrent",
+       mac_addresses={"Network adapter 1"=>"00:50:56:b8:77:4a"},
+       hypervisor="w1-vhadp-05.eng.vmware.com",
+       is_a_template=false,
+       connection_state="connected",
+       mo_ref="vm-5257",
+       path=nil,
+       max_cpu=nil,
+       max_mem=nil
+     >
 
 == Requests
 
-Requests allow you to dive deeper when the models just can't cut it.
+Commonly, requests allow you to dive deeper when the models just can't cut it.
+Primary extension to vSphere Cloud Provider have been made to Requests part.
 You can see a list of available requests by calling #requests on the connection object.
 
-For instance, ec2 provides methods related to reserved instances that don't have any models (yet). Here is how you can lookup your reserved instances:
+For instance, vSphere provides methods to config disks for a provisioned vm.
+Below is an example of intreface call to create new disks for a given vm:
 
   $ fog
-  >> Compute[:aws].describe_reserved_instances
+  >> Compute[:vsphere].vm_create_disk('vm_moid' => 'vm_mob_id', 'path' => '[datastore_name] vm_name/vm_name_sn.vmdk', 'size' => 'disk_size')
   #<Excon::Response [...]>
+  Argument of vm_mob_id represents the id of vm management object.
+  Please refer to reference [1] for meaning of manage management object and management object id.
+
+or
+
+  require 'fog'
+
+  connection = Fog::Compute.new({
+                               :provider => 'vsphere',
+                               :vsphere_server => 'ip_of_vc_server',
+                               :vsphere_username => 'vc_admin_name',
+                               :vsphere_password => 'vc_password',
+                               :vsphere_expected_pubkey_hash => 'vc_hash_key'
+                       })
+  connection.vm_create_disk('vm_moid' => 'vm_mob_id', 'path' => '[datastore_name] vm_name/vm_name_sn.vmdk', 'size' => 'disk_size')
 
 It will return an {excon}[http://github.com/geemus/excon] response, which has `body`, `headers` and `status`. Both return nice hashes.
 
-== Go forth and conquer
+== Extensions
 
-Play around and use the console to explore or check out {fog.io}[http://fog.io] for more details and examples. Once you are ready to start scripting fog, here is a quick hint on how to make connections without the command line thing to help you.
+Extensions made to vSphere cloud provider are divided into four categories, primarily on requests and server/servers accordingly. More details come below:
 
-  # create a compute connection
-  compute = Fog::Compute.new(:provider => 'AWS', :aws_access_key_id => ACCESS_KEY_ID, :aws_secret_access_key => SECRET_ACCESS_KEY)
-  # compute operations go here
+* First category focus on fine-grained vm life-cycle control
 
-  # create a storage connection
-  storage = Fog::Storage.new(:provider => 'AWS', :aws_access_key_id => ACCESS_KEY_ID, :aws_secret_access_key => SECRET_ACCESS_KEY)
-  # storage operations go here
+ # clone vm from given template to a fine-defined destination which is described by cluster, host, resource_pool and datastore
+ # please refer to reference [1] for meaning of vSphere management object and object id
+ connection.vm_clone(
+                 'path' => 'template_path',
+                 'name' => 'clone_vm_name',
+                 'cluster_moid' => 'cluster_management_object_id',
+                 'resource_pool_moid'  => 'resource_pool_management_object_id',
+                 'host_moid' => 'host_management_object_id',
+                 'datastore_moid' = > 'datastore_management_object_id'
+     )
 
-geemus says: "That should give you everything you need to get started, but let me know if there is anything I can do to help!"
+ # set detailed cpu and memory desired for a given vm at the moment of clone;
+ connection.vm_clone(
+                 'path' => 'template_path',
+                 'name' => 'clone_vm_name',
+                 'cluster_moid' => 'cluster_management_object_id',
+                 'resource_pool_moid'  => 'resource_pool_management_object_id',
+                 'cpu' => 'cpu_core_number',
+                 'memory' = > 'memory_size_in_kb'
+     )
 
-== Contributing
+ # softly stop and reboot a live vm which means stop service running in guest os instead of enforced exit of system
+ # support wait for the final status to return no matter for soft or forced start/stop of vm
+ connection.vm_power_off( 'instance_uuid' => 'vm_instance_id' )
+ connection.vm_power_on( 'instance_uuid' => 'vm_instance_id' )
+ connection.vm_reboot( 'instance_uuid' => 'vm_instance_id' )
 
-* Find something you would like to work on. For suggestions look for the `easy`, `medium` and `hard` tags in the {issues}[http://github.com/fog/fog/issues]
-* Fork the project and do your work in a topic branch.
-* Add shindo tests to prove your code works and run all the tests using `bundle exec rake`.
-* Rebase your branch against fog/fog to make sure everything is up to date.
-* Commit your changes and send a pull request.
 
-== Additional Resources
+* Second category focus on detailed configurations of disk, networking, and operations on high level features like High Availability(HA)
 
-{fog.io}[http://fog.io]
+ # create/delete disks from given datastore for a given vm;
+ # Please refer to reference [2] for choice among Thin provisioning and thick_lazy_zeroed provisioning
+ connection.vm_create_disk(
+           'instance_uuid' => 'vm_instance_id',
+           'vmdk_path' => 'datastore_vm_disk_file_path',
+           'disk_size' => 'size',
+           'thin' => ' true_or_false',
+           'thick_lazy_zeroed' => 'true_or_false'
+    )
 
-== Sponsorship
+ # add a vm with given portgroup
+ # Please refer to reference [2] for meaning of vSphere network adapter and network portgroup
+ connection.vm_update_network(
+           'instance_uuid' => 'vm_instance_id',
+           'adapter_name' => 'network_adaptor_name',
+           'portgroup_name'  => 'network_portgroup_name',
+    )
 
-http://www.engineyard.com/images/logo.png
+ # config a vm with dhcp or static ip, dns, settings
+ # Argument of config_json include pairs of ip, hostname, and dns key with corresponding value, .
+ connection.vm_config_ip(
+           'vm_moid' => 'vm_management_object_id',
+           'config_json' => 'json_string_pairs_of_ip_hostname_dns',
+    )
 
-All new work on fog is sponsored by {Engine Yard}[http://engineyard.com]
+ # check whether a vm in a HA cluster
+ connection.is_vm_in_ha_cluster('vm_moid' => 'vm_management_object_id')
+
+ # disable HA feature of a protected VM
+ connection.vm_disable_ha('vm_moid' => 'vm_management_object_id')
+
+
+* Third category support to query different kinds/levels of resources from vSphere (query_resources.rb), which can be used for resource scheduling optimization and placement of virtual machines
+
+ # fetch all clusters with extensible defined properties belong to a given datacenter
+ # please refer to reference [1] for meaning of management object, will save the same comments for below items
+ clusters = connection.get_clusters_by_dc_mob(datacenter_management_object, options = {})
+
+ # fetch all datastores accessible with extensible defined properties from a given cluster
+ connection.get_datastores_by_cs_mob(cluster_management_object, options = {})
+
+ # fetch all resource pools with extensible defined properties belong to a given cluster
+ connection.get_rps_by_cs_mob(cluster_management_object, options = {})
+
+ # fetch all hosts with extensible defined properties belong to a given cluster
+ connection.get_hosts_by_cs_mob(cluster_management_object, options = {})
+
+ # fetch all vms provisioned with extensible defined properties from a given host
+ connection.get_vms_by_host_mob(host_management_object, options = {})
+
+ # fetch all datastores accessible with extensible defined properties from a host
+ connection.get_datastores_by_cs_mob(host_management_object, options = {})
+
+ # fetch all progroups(network settings) created for a given datacenter
+ connection.get_portgroups_by_dc_mob(datacenter_management_object, options = {})
+
+ # fetch all disks with extensible defined properties for a given vm
+ connection.get_disks_by_vm_mob(vm_mob_ref, options = {})
+
+ # fetch all clusters/resourcepools/datastores/hosts/vms/folders in a datacenter at once query to improve efficiency
+ # Please refer to definition in Rbvmomi for standard type definition
+ connection.get_filterSpec_by_type(type)
+
+* Fourth category contains some functions to facilitate above functions, such as transform of arguments from literal variants to proper handles for underlying execution.
+
+ # transform a management object id into management object which is very useful to talk with vSphere and execute operations mentioned above;
+ connection.get_mob_ref_by_moid(management_object_id, options = {})
+ connection.get_mob_ref_by_name(management_object_name, options = {})
+ # provide super transformer help for vm management object since it is the most often used
+ connection.get_vm_mob_ref_by_moid(vm_management_object_id, options = {})
+
+ # get datacenter management object which contains a given vm
+ connection.get_parent_dc_by_vm_mob(vm_mob_ref, options = {})
+
+ # get datacenter/cluster/vm/datastore from a given path
+ # please refer to reference [2] for standard definition of datacenter_path, cluster_path, and datastore_vm_disk_file_path
+ connection.get_dc_mob_ref_by_path(datacenter_path)
+ connection.get_cs_mob_ref_by_path(cluster_path)
+ connection.get_vm_mob_ref_by_path(vm_path)
+ connection.get_ds_name_by_path(datastore_vm_disk_file_path)
+
+ # transform object array into property hash for convenience of query and dependent operations at higher level like placement without trivial access to vCenter database
+ # argument of mob_ref represents a given management object need to transform and attr_s defines attribute list related to the object
+  connection.ct_mob_ref_to_attr_hash(mob_ref, attr_s)
+
+ # wait for a task to finish under parallel invocation without problems caused similar like rbvmomi
+ # task argument comes from vSphere tasks, such as PoweroffVM_Task
+ wait_for_task(task)
+
+
+All these functions have been attached with corresponding tests.
+Please refer to the tests for more details on usage and style of arguments.
+
+== Testbed Set-up
+
+All the extensions provided are tested through against a preset testbed. Below are some clues to help set up this testbed.
+
+The test bed is set up by vSphere 5.0, which consist of at least one host and related storage/networking facilities. Then, cluster. resource pool, datastore are setup.
+Take our test bed as an example, more details can be exposed about the requirements to set up a proper test bed..
+  Datacenter: name - 'datacenter2012'
+  Cluster: name - 'cluster-fog', which is enabled with HA
+  ResourcePool: name - 'test', which is contained by cluster of 'cluster-fog'
+  Host: name - 'w1-vhadp-05.eng.vmware.com', which is contained by cluster of 'cluster-fog'
+  Datastore: number - 2, name - 'ds01'& 'ds02', which are accessible by host of 'w1-vhadp-05.eng.vmware.com'
+  Virtual Machines: number - 5, name - 'node_clone_test_local', 'node_clone_test_remote', 'node_clone_test_2ds', 'node_network_test', 'node_ip_test', which are all runing on above host
+  Distributed Switch: name - 'dvSwitch', which should be set up before-hand by networking admin or vi admin
+  Portgroup: name - 'wdc-hadp-pub1' and 'wdc-hadp-pub1',  which should be set up before-hand by networking admin or vi admin
+
+All these vms are provisioned on host of 'w1-vhadp-05.eng.vmware.com'. There are some settings bound with each vm:
+  'node_clone_test_local' - for clone test, adopt the same datastore with destination datastore. also used for tests of server/servers, power-on/off/reboot,query-resources and compute;
+  'node_clone_test_remote' - for clone test, adopt a different datastore from destination datastore;
+  'node_clone_test_2ds' - for clone test, adopt two datastore;
+  'node_network_test' - for network update test, adopt the portgroup of 'wdc-hadp-pub1';
+  'node_ip_test' - for ip setting test, which is innocent without any pre-setting of dns/ip. To run the tests needs help from network admin on avalaible static ip zone and dhcp/ds address.
+
+For HA test, it will need enable both 'vSphere HA' and 'vSphere DRS'. By observing vm running under HA protection and without protection, effects caused by accident kill action will be compared.
+
+It is also worth paying attention that vm of 'node_ip_test' contains special scripts to accept outside parameters and finish ip setting work in guest os. So do not use it for other unit tests.
+
+
+== Constants Settings
+
+Based on the testbed set-up by above guidance, ConstClass is put into each test file to contain settings needed to run tests. Below is an example for vm_clone_tests.
+
+  class ConstClass
+      DC_NAME = 'Datacenter2012'# name of datacenter for test
+      CS_NAME = 'cluster-fog' # cluster name of clone destination
+      RP_NAME = 'test' # resource pool name of clone destination
+      HOST_NAME = 'w1-vhadp-05.eng.vmware.com' # name of clone destination host
+      DATASTORE_NAME = 'ds01' #  datastore name of clone destination
+      RE_VM_NAME = 'node_clone_test_remote' # vm name to clone, which can not access destination datastore
+      LC_VM_NAME = 'node_clone_test_local'# vm name to clone, which use the same datastore with destination
+      DE_VM_NAME = 'node_clone_test_2ds'# name of a local vm/template to clone from and with two connected datastore
+      RE_TEMPLATE = "/Datacenters/#{DC_NAME}/vm/#{RE_VM_NAME}" #path of a remote vm template to clone
+      LC_TEMPLATE = "/Datacenters/#{DC_NAME}/vm/#{LC_VM_NAME}" #path of a local vm template to clone
+      DE_TEMPLATE = "/Datacenters/#{DC_NAME}/vm/#{DE_VM_NAME}" #path of a 2-datastore, local vm template to clone
+      CPUNUM = 2  # cpu core number
+      MEMSIZE = 200 # memory size in Mb
+    end
+
+At the rest of code of each test, these constants are read out and used to fetch underlying variants which is not literally understandable to common writers.
+For example, VM_NAME in constclass will be transformed into concrete arguments of  vm management object and given to executable function call.
+
+== References
+
+[1] VMware Infrastructure SDK Programming Guide, http://www.vmware.com/pdf/ProgrammingGuide201.pdf
+[2] VMware API, http://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.wssdk.apiref.doc_50%2Fright-pane.html
+
 
 == Copyright
 
 (The MIT License)
 
 Copyright (c) 2010 {geemus (Wesley Beary)}[http://github.com/geemus]
+
+Portions copyright © 2012 VMware, Inc. All rights Reserved
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
