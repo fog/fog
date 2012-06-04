@@ -210,7 +210,7 @@ module Fog
               Timeout::timeout(8) do
                 Fog::SSH.new(public_ip_address, username, credentials.merge(:timeout => 4)).run('pwd')
               end
-            rescue Errno::ECONNREFUSED
+            rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH
               sleep(2)
               retry
             rescue Net::SSH::AuthenticationFailed, Timeout::Error
