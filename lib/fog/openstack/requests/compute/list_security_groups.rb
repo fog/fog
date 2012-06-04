@@ -4,10 +4,14 @@ module Fog
       class Real
 
         def list_security_groups(server_id = nil)
+          path = "os-security-groups.json"
+          if server_id
+            path = "servers/#{server_id}/#{path}"
+          end
           request(
             :expects  => [200],
             :method   => 'GET',
-            :path     => "#{%Q|servers/#{server_id}/| if server_id }os-security-groups.json"
+            :path     => path
           )
         end
 
@@ -15,13 +19,6 @@ module Fog
 
       class Mock
         def list_security_groups
-          response = Excon::Response.new
-          response.status = 200
-          response.headers = {
-            "X-Compute-Request-Id" => "req-#{Fog::Mock.random_base64(36)}",
-            "Content-Type" => "application/json",
-            "Date" => Date.new
-          }
           self.data[:security_groups] ||= [
             { "rules" => [
               { "from_port" => 44,
@@ -61,8 +58,15 @@ module Fog
             "description" => "this is a test"
             }
           ]
-          response.body = { 'security_groups' => self.data[:security_groups] }
-          response
+          Excon::Response.new(
+            :body     => { 'security_groups' => self.data[:security_groups] },
+            :headers  => {
+              "X-Compute-Request-Id" => "req-#{Fog::Mock.random_base64(36)}",
+              "Content-Type" => "application/json",
+              "Date" => Date.new
+            },
+            :status   => 200
+          )
         end
       end # mock
     end # openstack

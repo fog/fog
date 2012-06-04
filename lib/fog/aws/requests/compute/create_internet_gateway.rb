@@ -30,20 +30,20 @@ module Fog
           })
         end
       end
-      
+
       class Mock
         def create_internet_gateway()
-          Excon::Response.new.tap do |response|
-            response.status = 200
-            response.body = {
-              'requestId'    => Fog::AWS::Mock.request_id,
-              'internetGatewaySet'      => [
-                'internetGatewayId'  => Fog::AWS::Mock.request_id,
-                'attachmentSet'      => {},
-                'tagSet'             => {}
+          Excon::Response.new(
+            :status => 200,
+            :body   => {
+              'requestId' => Fog::AWS::Mock.request_id,
+              'internetGatewaySet' => [
+                'internetGatewayId' => Fog::AWS::Mock.request_id,
+                'attachmentSet'     => {},
+                'tagSet'            => {}
               ]
             }
-          end
+          )
         end
       end
     end

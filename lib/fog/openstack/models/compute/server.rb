@@ -76,7 +76,13 @@ module Fog
         end
 
         def private_ip_address
-          nil
+          if addresses['private']
+            #assume only a single private
+            return addresses['private'].first
+          elsif addresses['internet']
+            #assume no private IP means private cloud
+            return addresses['internet'].first
+          end
         end
 
         def private_key_path
@@ -89,7 +95,13 @@ module Fog
         end
 
         def public_ip_address
-          addresses['public'].first
+          if addresses['public']
+            #assume last is either original or assigned from floating IPs
+            return addresses['public'].last
+          elsif addresses['internet']
+            #assume no public IP means private cloud
+            return addresses['internet'].first
+          end
         end
 
         def public_key_path
@@ -215,7 +227,7 @@ module Fog
             'accessIPv4' => accessIPv4,
             'accessIPv6' => accessIPv6,
             'availability_zone' => availability_zone,
-            'userdata' => user_data_encoded,
+            'user_data' => user_data_encoded,
             'key_name'    => key_name,
             'security_groups' => @security_groups,
             'min_count'   => @min_count,

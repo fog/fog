@@ -14,6 +14,7 @@ module Fog
         def delete_record(type, zone, fqdn, record_id)
           request(
             :expects  => 200,
+            :idempotent => true,
             :method   => :delete,
             :path     => ["#{type.to_s.upcase}Record", zone, fqdn, record_id].join('/')
           )

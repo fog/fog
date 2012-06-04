@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'libvirt'))
+require 'fog/libvirt'
 require 'fog/compute'
 require 'fog/libvirt/models/compute/util/util'
 require 'fog/libvirt/models/compute/util/uri'
@@ -58,7 +58,10 @@ module Fog
         end
 
         private
-        attr_reader :client
+
+        def client
+          return @client if defined?(@client)
+        end
 
         #read mocks xml
         def read_xml(file_name)

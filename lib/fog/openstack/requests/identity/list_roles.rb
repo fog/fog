@@ -16,10 +16,10 @@ module Fog
       class Mock
 
         def list_roles
-          response = Excon::Response.new
-          response.status = 200
-          response.body = { 'roles' => self.data[:roles] }
-          response
+          Excon::Response.new(
+            :body   => { 'roles' => self.data[:roles] },
+            :status => 200
+          )
         end
 
       end

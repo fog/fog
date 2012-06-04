@@ -19,19 +19,26 @@ def compute_providers
       },
       :mocked => false
     },
-    :openstack => { :mocked => true},
+    :openstack => {
+      :mocked => true,
+      :server_attributes => {
+        :flavor_ref => 2,
+        :image_ref  => Fog::Compute[:openstack].images.first.id,
+        :name       => "fog_#{Time.now.to_i}"
+      }
+    },
     :cloudstack => {
       :provider_attributes => {
         :cloudstack_host => 'http://host.foo'
       },
       :server_attributes => {}.tap do |hash|
         [:zone_id, :network_ids, :image_id, :flavor_id].each do |k|
-          hash[k]= Fog.credentials[:cloudstack][k]
+          hash[k]= Fog.credentials[:cloudstack] && Fog.credentials[:cloudstack][k]
         end
       end,
       :volume_attributes => {:name => "somevolume"}.tap do |hash|
         [:zone_id, :disk_offering_id].each do |k|
-          hash[k]= Fog.credentials[:cloudstack][k]
+          hash[k]= Fog.credentials[:cloudstack] && Fog.credentials[:cloudstack][k]
         end
       end,
       :mocked => true
@@ -63,13 +70,6 @@ def compute_providers
         :name     => "fog_#{Time.now.to_i}"
       },
       :mocked => true
-    },
-    :slicehost  => {
-      :server_attributes => {
-        :image_id => 49, # image 49 = Ubuntu 10.04 LTS (lucid)
-        :name     => "fog_#{Time.now.to_i}"
-      },
-      :mocked => false
     },
     :voxel      => {
       :server_attributes => {

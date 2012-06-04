@@ -1,5 +1,5 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'joyent'))
-require File.expand_path(File.join(File.dirname(__FILE__), 'errors'))
+require 'fog/joyent'
+require 'fog/joyent/errors'
 require 'fog/compute'
 
 module Fog

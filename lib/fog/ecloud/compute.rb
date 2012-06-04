@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'ecloud'))
+require 'fog/ecloud'
 require 'ipaddr'
 
 class IPAddr
@@ -1181,7 +1181,7 @@ module Fog
           end
           begin
             do_request(params)
-          rescue Excon::Errors::Unauthorized => e
+          rescue Excon::Errors::Unauthorized
             do_login
             do_request(params)
           end

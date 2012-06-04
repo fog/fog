@@ -26,10 +26,6 @@ module Fog
       when :linode
         require 'fog/linode/dns'
         Fog::DNS::Linode.new(attributes)
-      when :slicehost
-        warn "[DEPRECATION] `slicehost` is deprecated. Please use `racksace` instead."
-        require 'fog/slicehost/dns'
-        Fog::DNS::Slicehost.new(attributes)
       when :zerigo
         require 'fog/zerigo/dns'
         Fog::DNS::Zerigo.new(attributes)

@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'bare_metal_cloud'))
+require 'fog/bare_metal_cloud'
 require 'fog/compute'
 
 module Fog

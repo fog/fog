@@ -66,10 +66,6 @@ module Fog
       when :rackspace
         require 'fog/rackspace/compute'
         Fog::Compute::Rackspace.new(attributes)
-      when :slicehost
-        warn "[DEPRECATION] `slicehost` is deprecated. Please use `rackspace` instead."
-        require 'fog/slicehost/compute'
-        Fog::Compute::Slicehost.new(attributes)
       when :stormondemand
         require 'fog/storm_on_demand/compute'
         Fog::Compute::StormOnDemand.new(attributes)

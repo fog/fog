@@ -19,11 +19,10 @@ module Fog
 
         def update_user(user_id, options)
           response = Excon::Response.new
-          if user = list_users.body['users'][user_id]
+          if user = self.data[:users][user_id]
             if options['name']
               user['name'] = options['name']
             end
-            self.data[:users][data['id']] = user
             response.status = 200
             response
           else

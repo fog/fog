@@ -1,9 +1,4 @@
-begin
-  require(File.expand_path(File.join(File.dirname(__FILE__), 'core')))
-rescue LoadError => e
-  retry if require('rubygems')
-  raise e.message
-end
+require 'fog/core'
 
 module Fog
   module Libvirt

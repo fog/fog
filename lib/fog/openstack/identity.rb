@@ -1,4 +1,3 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'openstack'))
 require 'fog/openstack'
 
 module Fog
@@ -71,10 +70,9 @@ module Fog
         def initialize(options={})
           @openstack_username = options[:openstack_username]
 
-          @data ||= { :users => {}}
-          unless @data[:users].find {|u| u['name'] == options[:openstack_username]}
+          unless self.data[:users].values.detect {|user| user['name'] == @openstack_username}
             id = Fog::Mock.random_numbers(6).to_s
-            @data[:users][id] = {
+            self.data[:users][id] = {
               'id'       => id,
               'name'     => options[:openstack_username],
               'email'    => "#{options[:openstack_username]}@mock.com",
