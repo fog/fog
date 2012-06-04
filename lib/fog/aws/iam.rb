@@ -60,7 +60,9 @@ module Fog
       model       :user
       collection  :users
       model       :policy
-      collection  :policies
+      collection  :policies      
+      model       :access_key
+      collection  :access_keys
       
 
       class Mock
