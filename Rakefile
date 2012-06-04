@@ -129,6 +129,7 @@ RDoc::Task.new("VsphereRDoc") do |rdoc|
   rdoc.title = "#{name} #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/fog/vsphere/README*')
+  rdoc.rdoc_files.include('tests/vsphere/README*')
   rdoc.rdoc_files.include('lib/fog/vsphere/**/*.rb')
   rdoc.rdoc_files.include('tests/vsphere/**/*.rb')
 end
