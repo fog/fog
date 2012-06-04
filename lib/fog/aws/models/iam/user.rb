@@ -30,6 +30,10 @@ module Fog
           connection.policies(:user => self)
         end
         
+        def access_keys
+          requires :id
+          connection.access_keys(:user => self)
+        end
 #        # Converts attributes to a parameter hash suitable for requests
 #        def attributes_to_params
 #          options = {

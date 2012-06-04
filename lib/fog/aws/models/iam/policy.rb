@@ -20,21 +20,29 @@ module Fog
           true
         end
         
+        def destroy
+          requires :id
+          requires :username
+
+          connection.delete_user_policy(username, id)
+          true
+        end
+        
         def user
           requires :username
           connection.users.get(username)
         end
         
         # Converts attributes to a parameter hash suitable for requests
-        def attributes_to_params
-          options = {
-            'PolicyName'      => id,
-            'UserName'        => username,
-            'PolicyDocument'  => document
-          }
-
-          options.delete_if {|key, value| value.nil?}
-        end
+#        def attributes_to_params
+#          options = {
+#            'PolicyName'      => id,
+#            'UserName'        => username,
+#            'PolicyDocument'  => document
+#          }
+#
+#          options.delete_if {|key, value| value.nil?}
+#        end
         
       end
     end
