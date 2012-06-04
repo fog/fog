@@ -237,6 +237,18 @@ module Fog
       def self.network_interface_id
         "eni-#{Fog::Mock.random_hex(8)}"
       end
+      def self.internet_gateway_id
+        "igw-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.dhcp_options_id
+        "dopt-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.vpc_id
+        "vpc-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.subnet_id
+        "subnet-#{Fog::Mock.random_hex(8)}"
+      end
 
       def self.key_id(length=21)
         #Probably close enough

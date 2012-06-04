@@ -11,6 +11,8 @@ module Fog
       model_path 'fog/aws/models/compute'
       model       :address
       collection  :addresses
+      model       :dhcp_options
+      collection  :dhcp_options
       model       :flavor
       collection  :flavors
       model       :image
@@ -41,11 +43,13 @@ module Fog
       request_path 'fog/aws/requests/compute'
       request :allocate_address
       request :associate_address
+      request :associate_dhcp_options
       request :attach_network_interface
       request :attach_internet_gateway
       request :attach_volume
       request :authorize_security_group_ingress
       request :cancel_spot_instance_requests
+      request :create_dhcp_options
       request :create_internet_gateway
       request :create_image
       request :create_key_pair
@@ -58,6 +62,7 @@ module Fog
       request :create_tags
       request :create_volume
       request :create_vpc
+      request :delete_dhcp_options
       request :delete_internet_gateway
       request :delete_key_pair
       request :delete_network_interface
@@ -72,6 +77,7 @@ module Fog
       request :deregister_image
       request :describe_addresses
       request :describe_availability_zones
+      request :describe_dhcp_options
       request :describe_images
       request :describe_instances
       request :describe_internet_gateways
