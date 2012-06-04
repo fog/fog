@@ -17,7 +17,7 @@ module Fog
         #
         # ==== Returns
         #
-        # Returns the details of the new Subnet
+        # Returns the details of the new InternetGateway
         #
         #>> AWS.internet_gateways.new
         #=>   <Fog::Compute::AWS::InternetGateway
@@ -56,7 +56,7 @@ module Fog
         def all(filters = filters)
           unless filters.is_a?(Hash)
             Fog::Logger.warning("all with #{filters.class} param is deprecated, use all('internet-gateway-id' => []) instead [light_black](#{caller.first})[/]")
-            filters = {'subnet-id' => [*filters]}
+            filters = {'internet-gateway-id' => [*filters]}
           end
           self.filters = filters
           data = connection.describe_internet_gateways(filters).body
