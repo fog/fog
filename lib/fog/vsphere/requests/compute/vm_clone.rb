@@ -69,11 +69,22 @@ module Fog
           # Now find the template itself using the efficient find method
           vm_mob_ref = folder.find(template_name, RbVmomi::VIM::VirtualMachine)
 
-          # Now find _a_ resource pool of the template's host (REVISIT: We need
-          # to support cloning into a specific RP)
-          esx_host = vm_mob_ref.collect!('runtime.host')['runtime.host']
-          # The parent of the ESX host itself is a ComputeResource which has a resourcePool
-          resource_pool = esx_host.parent.resourcePool
+          # Now find _a_ resource pool to use for the clone
+          # (REVISIT: We need to support cloning into a specific RP)
+
+          if ( vm_mob_ref.resourcePool == nil )
+            # If the template is really a template then there is no associated resource pool,
+            # so we need to find one using the template's parent host or cluster
+            esx_host = vm_mob_ref.collect!('runtime.host')['runtime.host']
+            # The parent of the ESX host itself is a ComputeResource which has a resourcePool
+            resource_pool = esx_host.parent.resourcePool
+          else
+            # If the vm given did return a valid resource pool, default to using it for the clone.
+            # Even if specific pools aren't implemented in this environment, we will still get back
+            # at least the cluster or host we can pass on to the clone task
+            resource_pool = vm_mob_ref.resourcePool
+          end
+          
           relocation_spec=nil
           if ( options['linked_clone'] )
             # cribbed heavily from the rbvmomi clone_vm.rb
