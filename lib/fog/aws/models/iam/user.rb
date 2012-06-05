@@ -13,7 +13,6 @@ module Fog
         
         def save
           requires :id
-
           data = connection.create_user(id).body['User']
           merge_attributes(data)
           true
@@ -27,24 +26,13 @@ module Fog
         
         def policies
           requires :id
-          connection.policies(:user => self)
+          connection.policies(:username => id)
         end
         
         def access_keys
           requires :id
-          connection.access_keys(:user => self)
+          connection.access_keys(:username => id)
         end
-#        # Converts attributes to a parameter hash suitable for requests
-#        def attributes_to_params
-#          options = {
-#            'UserName' => id,
-#            'Path'     => path,
-#            'Arn'      => arn,
-#            'UserId'   => user_id
-#          }
-#
-#          options.delete_if {|key, value| value.nil?}
-#        end
         
       end
     end

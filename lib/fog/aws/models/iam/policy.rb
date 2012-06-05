@@ -33,17 +33,6 @@ module Fog
           connection.users.get(username)
         end
         
-        # Converts attributes to a parameter hash suitable for requests
-#        def attributes_to_params
-#          options = {
-#            'PolicyName'      => id,
-#            'UserName'        => username,
-#            'PolicyDocument'  => document
-#          }
-#
-#          options.delete_if {|key, value| value.nil?}
-#        end
-        
       end
     end
   end
