@@ -12,8 +12,14 @@ module Fog
 
           def end_element(name)
             case name
-            when 'UserName', 'PolicyName', 'PolicyDocument'
+            when 'UserName', 'PolicyName'
               @response[name] = value
+            when 'PolicyDocument'
+              @response[name] = if decoded_string = URI.decode(value)
+                                  Fog::JSON.decode(decoded_string) rescue value
+                                else
+                                  value
+                                end
             when 'RequestId'
               @response[name] = value
             end
