@@ -28,7 +28,14 @@ module Fog
         attribute :tenant_id
         attribute :user_id
         attribute :key_name
-
+        attribute :fault
+        attribute :os_dcf_disk_config, :aliases => 'OS-DCF:diskConfig'
+        attribute :os_ext_srv_attr_host, :aliases => 'OS-EXT-SRV-ATTR:host'
+        attribute :os_ext_srv_attr_hypervisor_hostname, :aliases => 'OS-EXT-SRV-ATTR:hypervisor_hostname'
+        attribute :os_ext_srv_attr_instance_name, :aliases => 'OS-EXT-SRV-ATTR:instance_name'
+        attribute :os_ext_sts_power_state, :aliases => 'OS-EXT-STS:power_state'
+        attribute :os_ext_sts_task_state, :aliases => 'OS-EXT-STS:task_state'
+        attribute :os_ext_sts_vm_state, :aliases => 'OS-EXT-STS:vm_state'
 
         attr_reader :password
         attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :image_ref, :flavor_ref
