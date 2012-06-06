@@ -854,6 +854,7 @@ module Fog
       collection :compute_pools
 
       request_path 'fog/ecloud/requests/compute'
+      request :activate_public_ip
       request :add_internet_service
       request :add_backup_internet_service
       request :add_node
@@ -925,7 +926,7 @@ module Fog
 
         def ecloud_xmlns
           {
-            "xmlns"     => "urn:tmrk:eCloudExtensions-2.6",
+            "xmlns"     => "urn:tmrk:eCloudExtensions-2.8",
             "xmlns:i"   => "http://www.w3.org/2001/XMLSchema-instance"
           }
         end
