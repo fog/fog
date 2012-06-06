@@ -3,11 +3,11 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
   require 'fog'
 
   class ConstClass
-    DC_NAME = 'Datacenter2012'# name of datacenter for test
-    CS_NAME = 'cluster-fog' # cluster name of clone destination
+    DC_NAME = 'datacenter'# name of datacenter for test
+    CS_NAME = 'cluster01' # cluster name of clone destination
     RP_NAME = 'test' # resource pool name of clone destination
     HOST_NAME = 'w1-vhadp-05.eng.vmware.com' # name of clone destination host
-    DATASTORE_NAME = 'ds01' #  datastore name of clone destination
+    DATASTORE_NAME = 'datastore01' #  datastore name of clone destination
     RE_VM_NAME = 'node_clone_test_remote' # vm name to clone, which can not access destination datastore
     LC_VM_NAME = 'node_clone_test_local'# vm name to clone, which use the same datastore with destination
     DE_VM_NAME = 'node_clone_test_2ds'# name of a local vm/template to clone from and with two connected datastore

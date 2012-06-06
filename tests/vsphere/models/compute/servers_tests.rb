@@ -1,3 +1,28 @@
+# Copyright (c) 2012 VMware, Inc. All Rights Reserved.
+#
+#      Licensed under the Apache License, Version 2.0 (the "License");
+#
+#   you may not use this file except in compliance with the License.
+#
+#   You may obtain a copy of the License at
+#
+#
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#
+#
+#
+#   Unless required by applicable law or agreed to in writing, software
+#
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#
+#   See the License for the specific language governing permissions and
+#
+#   limitations under the License.
+
 Shindo.tests('Fog::Compute[:vsphere] | servers collection', ['vsphere']) do
 
   require 'rbvmomi'
@@ -6,7 +31,7 @@ Shindo.tests('Fog::Compute[:vsphere] | servers collection', ['vsphere']) do
 
   # Internal const-class: contains settings needed to run unit tests
   class ConstClass
-    DC_NAME = 'Datacenter2012'# name of test datacenter
+    DC_NAME = 'datacenter'# name of test datacenter
     RE_VM_NAME = 'node_clone_test_local'# name of a local vm/template to clone from but with two connected datastore
     RE_TEMPLATE = "/Datacenters/#{DC_NAME}/vm/#{RE_VM_NAME}" #path of a complete vm template to test
   end

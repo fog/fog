@@ -1,3 +1,28 @@
+# Copyright (c) 2012 VMware, Inc. All Rights Reserved.
+#
+#      Licensed under the Apache License, Version 2.0 (the "License");
+#
+#   you may not use this file except in compliance with the License.
+#
+#   You may obtain a copy of the License at
+#
+#
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#
+#
+#
+#   Unless required by applicable law or agreed to in writing, software
+#
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#
+#   See the License for the specific language governing permissions and
+#
+#   limitations under the License.
+
 Shindo.tests("Fog::Compute[:vsphere] | query resources request", ['vsphere']) do
 
   require 'rbvmomi'
@@ -6,8 +31,8 @@ Shindo.tests("Fog::Compute[:vsphere] | query resources request", ['vsphere']) do
 
   # need set down below consts according to real VSphere data center
   class ConstClass
-    DC_NAME = 'Datacenter2012'# name of test datacenter
-    CS_NAME = 'cluster-fog' # name referring to a cluster sits in above datacenter
+    DC_NAME = 'datacenter'# name of test datacenter
+    CS_NAME = 'cluster01' # name referring to a cluster sits in above datacenter
     CLUSTER_PATH = "/Datacenters/#{DC_NAME}/host/#{CS_NAME}" #path of above cluster
     HOST_NAME = 'w1-vhadp-05.eng.vmware.com' # name referring to a host sits in above cluster
     VM_NAME = 'node_network_test' # name referring to a vm sits in above host

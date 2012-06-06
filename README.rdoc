@@ -241,12 +241,12 @@ Extensions made to vSphere cloud provider are divided into four categories, prim
 * Second category focus on detailed configurations of disk, networking, and operations on high level features like High Availability(HA)
 
  # create/delete disks from given datastore for a given vm;
- # Please refer to reference [2] for choice among Thin provisioning and thick_lazy_zeroed provisioning
+ # Please refer to reference [2] for choice among Thin provisioning and Thick_lazy_zeroed provisioning
  connection.vm_create_disk(
            'instance_uuid' => 'vm_instance_id',
            'vmdk_path' => 'datastore_vm_disk_file_path',
            'disk_size' => 'size',
-           'thin' => ' true_or_false',
+           'thin' => 'true_or_false',
            'thick_lazy_zeroed' => 'true_or_false'
     )
 
@@ -259,7 +259,7 @@ Extensions made to vSphere cloud provider are divided into four categories, prim
     )
 
  # config a vm with dhcp or static ip, dns, settings
- # Argument of config_json include pairs of ip, hostname, and dns key with corresponding value, .
+ # Argument of config_json include pairs of ip, hostname, and dns with corresponding values
  connection.vm_config_ip(
            'vm_moid' => 'vm_management_object_id',
            'config_json' => 'json_string_pairs_of_ip_hostname_dns',
@@ -323,7 +323,7 @@ Extensions made to vSphere cloud provider are divided into four categories, prim
 
  # transform object array into property hash for convenience of query and dependent operations at higher level like placement without trivial access to vCenter database
  # argument of mob_ref represents a given management object need to transform and attr_s defines attribute list related to the object
-  connection.ct_mob_ref_to_attr_hash(mob_ref, attr_s)
+ connection.ct_mob_ref_to_attr_hash(mob_ref, attr_s)
 
  # wait for a task to finish under parallel invocation without problems caused similar like rbvmomi
  # task argument comes from vSphere tasks, such as PoweroffVM_Task
@@ -337,22 +337,22 @@ Please refer to the tests for more details on usage and style of arguments.
 
 All the extensions provided are tested through against a preset testbed. Below are some clues to help set up this testbed.
 
-The test bed is set up by vSphere 5.0, which consist of at least one host and related storage/networking facilities. Then, cluster. resource pool, datastore are setup.
-Take our test bed as an example, more details can be exposed about the requirements to set up a proper test bed..
-  Datacenter: name - 'datacenter2012'
-  Cluster: name - 'cluster-fog', which is enabled with HA
-  ResourcePool: name - 'test', which is contained by cluster of 'cluster-fog'
-  Host: name - 'w1-vhadp-05.eng.vmware.com', which is contained by cluster of 'cluster-fog'
-  Datastore: number - 2, name - 'ds01'& 'ds02', which are accessible by host of 'w1-vhadp-05.eng.vmware.com'
+The testbed is set up by vSphere 5.0, which consist of at least one host and related storage/networking facilities. Then, cluster. resource pool, datastore are setup.
+Take our testbed as an example, more details can be exposed about the requirements to set up a proper testbed.
+  Datacenter: name - 'datacenter'
+  Cluster: name - 'cluster01', which is enabled with HA
+  ResourcePool: name - 'resourcepool01', which is contained by cluster of 'cluster01'
+  Host: name - 'host01', which is contained by cluster of 'cluster01'
+  Datastore: number - 2, name - 'datastore01'& 'datastore02', which are accessible by host of 'host01'
   Virtual Machines: number - 5, name - 'node_clone_test_local', 'node_clone_test_remote', 'node_clone_test_2ds', 'node_network_test', 'node_ip_test', which are all runing on above host
   Distributed Switch: name - 'dvSwitch', which should be set up before-hand by networking admin or vi admin
-  Portgroup: name - 'wdc-hadp-pub1' and 'wdc-hadp-pub1',  which should be set up before-hand by networking admin or vi admin
+  Portgroup: name - 'pg-pub1' and 'pg-pub1',  which should be set up before-hand by networking admin or vi admin
 
-All these vms are provisioned on host of 'w1-vhadp-05.eng.vmware.com'. There are some settings bound with each vm:
+All these vms are provisioned on host of 'host01'. There are some settings bound with each vm:
   'node_clone_test_local' - for clone test, adopt the same datastore with destination datastore. also used for tests of server/servers, power-on/off/reboot,query-resources and compute;
   'node_clone_test_remote' - for clone test, adopt a different datastore from destination datastore;
   'node_clone_test_2ds' - for clone test, adopt two datastore;
-  'node_network_test' - for network update test, adopt the portgroup of 'wdc-hadp-pub1';
+  'node_network_test' - for network update test, adopt the portgroup of 'pg-pub1';
   'node_ip_test' - for ip setting test, which is innocent without any pre-setting of dns/ip. To run the tests needs help from network admin on avalaible static ip zone and dhcp/ds address.
 
 For HA test, it will need enable both 'vSphere HA' and 'vSphere DRS'. By observing vm running under HA protection and without protection, effects caused by accident kill action will be compared.
@@ -365,11 +365,11 @@ It is also worth paying attention that vm of 'node_ip_test' contains special scr
 Based on the testbed set-up by above guidance, ConstClass is put into each test file to contain settings needed to run tests. Below is an example for vm_clone_tests.
 
   class ConstClass
-      DC_NAME = 'Datacenter2012'# name of datacenter for test
-      CS_NAME = 'cluster-fog' # cluster name of clone destination
-      RP_NAME = 'test' # resource pool name of clone destination
-      HOST_NAME = 'w1-vhadp-05.eng.vmware.com' # name of clone destination host
-      DATASTORE_NAME = 'ds01' #  datastore name of clone destination
+      DC_NAME = 'datacenter'# name of datacenter for test
+      CS_NAME = 'cluster01' # cluster name of clone destination
+      RP_NAME = 'resourcepool01' # resource pool name of clone destination
+      HOST_NAME = 'host01' # name of clone destination host
+      DATASTORE_NAME = 'datastore01' #  datastore name of clone destination
       RE_VM_NAME = 'node_clone_test_remote' # vm name to clone, which can not access destination datastore
       LC_VM_NAME = 'node_clone_test_local'# vm name to clone, which use the same datastore with destination
       DE_VM_NAME = 'node_clone_test_2ds'# name of a local vm/template to clone from and with two connected datastore
@@ -381,7 +381,7 @@ Based on the testbed set-up by above guidance, ConstClass is put into each test 
     end
 
 At the rest of code of each test, these constants are read out and used to fetch underlying variants which is not literally understandable to common writers.
-For example, VM_NAME in constclass will be transformed into concrete arguments of  vm management object and given to executable function call.
+For example, VM_NAME in constclass will be transformed into concrete arguments of vm management object and given to executable function call.
 
 == References
 
@@ -395,7 +395,7 @@ For example, VM_NAME in constclass will be transformed into concrete arguments o
 
 Copyright (c) 2010 {geemus (Wesley Beary)}[http://github.com/geemus]
 
-Portions copyright © 2012 VMware, Inc. All rights Reserved
+Portions copyright ? 2012 VMware, Inc. All rights Reserved
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

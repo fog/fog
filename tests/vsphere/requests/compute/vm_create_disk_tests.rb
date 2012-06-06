@@ -1,3 +1,28 @@
+# Copyright (c) 2012 VMware, Inc. All Rights Reserved.
+#
+#      Licensed under the Apache License, Version 2.0 (the "License");
+#
+#   you may not use this file except in compliance with the License.
+#
+#   You may obtain a copy of the License at
+#
+#
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#
+#
+#
+#   Unless required by applicable law or agreed to in writing, software
+#
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#
+#   See the License for the specific language governing permissions and
+#
+#   limitations under the License.
+
 Shindo.tests("Fog::Compute[:vsphere] | vm_create_disk request", 'vsphere') do
 
 
@@ -13,9 +38,9 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_create_disk request", 'vsphere') do
   vm_uuid = nil
 
   class ConstClass
-    TEMPLATE = "/Datacenters/Datacenter2012/vm/node_network_test" #path of a vm which need create disks
+    TEMPLATE = "/Datacenters/datacenter/vm/node_network_test" #path of a vm which need create disks
     MOB_TYPE = 'VirtualMachine' # type refereed to an effective VirtualMachine management object
-    DS_NAME =  'ds02'# name referring to a datastore which include vmdks need to re-config
+    DS_NAME =  'datastore02'# name referring to a datastore which include vmdks need to re-config
     VMDK_PATH1 = "[#{DS_NAME}] node_server_test/node_network_test_2.vmdk" #path of a vmdk to re-config which belong to above mentioned datastore
     VMDK_PATH2 = "[#{DS_NAME}] node_server_test/node_network_test_3.vmdk" #path of a vmdk to re-config which belong to above mentioned datastore
     VMDK_PATH3 = "[#{DS_NAME}] node_server_test/node_network_test_4.vmdk" #path of a vmdk to re-config which belong to above mentioned datastore

@@ -1,3 +1,29 @@
+# Copyright (c) 2012 VMware, Inc. All Rights Reserved.
+#
+#      Licensed under the Apache License, Version 2.0 (the "License");
+#
+#   you may not use this file except in compliance with the License.
+#
+#   You may obtain a copy of the License at
+#
+#
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#
+#
+#
+#   Unless required by applicable law or agreed to in writing, software
+#
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#
+#   See the License for the specific language governing permissions and
+#
+#   limitations under the License.
+
+
 Shindo.tests("Fog::Compute[:vsphere] | vm_config_ip request", 'vsphere') do
 
 
@@ -13,7 +39,7 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_config_ip request", 'vsphere') do
   vm_uuid = nil
 
   class ConstClass
-    DATACENTER = 'Datacenter2012'
+    DATACENTER = 'datacenter'
     TEMPLATE = "/Datacenters/#{DATACENTER}/vm/node_ip_test" #path of a vm which need update network
     IP_FOR_SET = '10.141.72.76'
     CONFIG = '{"device":"eth0","bootproto":"static","ipaddr":"10.141.72.76","netmask":"255.255.254.0","gateway":"10.141.73.253","dnsserver0":"10.132.71.1", "dnsserver1":"10.132.71.2" }'

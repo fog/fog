@@ -4,8 +4,8 @@ Shindo.tests('Fog::Compute[:vsphere] | vm_reboot request', ['vsphere']) do
   require 'fog'
 
   class ConstClass
-    SOFT = "/Datacenters/Datacenter2012/vm/node_clone_test_local" # path to a vm used for softly reboot
-    FORCE = "/Datacenters/Datacenter2012/vm/node_clone_test_remote" # path to a vm used for enforced reboot
+    SOFT = "/Datacenters/datacenter/vm/node_clone_test_local" # path to a vm used for softly reboot
+    FORCE = "/Datacenters/datacenter/vm/node_clone_test_remote" # path to a vm used for enforced reboot
   end
 
   compute = Fog::Compute[:vsphere]

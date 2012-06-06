@@ -5,7 +5,7 @@ Shindo.tests('Fog::Compute[:vsphere] | server model', ['vsphere']) do
 
   # Internal const-class: contains settings needed to run unit tests
   class ConstClass
-    DC_NAME = 'Datacenter2012'# name of test datacenter
+    DC_NAME = 'datacenter'# name of test datacenter
     RE_VM_NAME = 'node_clone_test_local'# name of a local vm/template to clone from but with two connected datastore
     RE_TEMPLATE = "/Datacenters/#{DC_NAME}/vm/#{RE_VM_NAME}" #path of a complete vm template to test
   end
