@@ -37,6 +37,28 @@ module Fog
         end
 
       end
+
+      class Mock
+        def get_hosted_zone(zone_id)
+          response = Excon::Response.new
+          if (zone = self.data[:zones][zone_id])
+            response.body = {
+              'HostedZone' => {
+                'Id' => "/hostedzone/#{zone[:zone_id]}",
+                'Name' => zone[:name],
+                'CallerReference' => zone[:reference],
+                'Comment' => zone[:comment]
+              },
+              'NameServers' => Fog::AWS::Mock.nameservers
+            }
+            response
+          else
+            response.status = 404
+            response.body = "<?xml version=\"1.0\"?><Response><Errors><Error><Code>NoSuchHostedZone</Code><Message>A hosted zone with the specified hosted zone ID does not exist.</Message></Error></Errors><RequestID>#{Fog::AWS::Mock.request_id}</RequestID></Response>"
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
+        end
+      end
     end
   end
 end
