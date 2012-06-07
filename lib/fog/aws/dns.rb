@@ -31,7 +31,7 @@ module Fog
               region_hash[key] = {
                 :buckets => {},
                 :limits => {
-                  :duplicate_domains => rand(5)
+                  :duplicate_domains => 5
                 },
                 :zones => {}
               }
