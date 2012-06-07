@@ -44,16 +44,12 @@ module Fog
             backing_info.diskMode = RbVmomi::VIM::VirtualDiskMode("persistent")
           end
 
-          if options[:thin]
+          if options[:provison_type] == 'thin'
             backing_info.thinProvisioned = true
-          end
-
-          if options[:thick_eager_zeroed]
+          elsif options[:privison_type] == 'thick_eager_zeroed'
             backing_info.thinProvisioned = false
             backing_info.eagerlyScrub = true
-          end
-
-          if options[:thick_lazy_zeroed]
+          else
             backing_info.thinProvisioned = false
             backing_info.eagerlyScrub = false
           end
@@ -116,13 +112,6 @@ module Fog
           raise ArgumentError, "Must pass parameter: vmdk_path" unless options['vmdk_path']
           raise ArgumentError, "Must pass parameter: disk_size" unless options['disk_size']
 
-          default_options = {
-              'thick_lazy_zeroed'   => true,
-              'thick_eager_zeroed' => false,
-              'thin'     => false
-          }
-          options = default_options.merge(options)
-
           if options['vm_moid']
             vm_mob_ref = get_vm_mob_ref_by_moid(options['vm_moid'])
           end
@@ -153,9 +142,7 @@ module Fog
                                                 :create => true,
                                                 :physicalMode => true,
                                                 :independent => true,
-                                                :thick_lazy_zeroed => options['thick_lazy_zeroed'],
-                                                :thick_eager_zeroed => options['thick_eager_zeroed'],
-                                                :thin => options['thin']
+                                                :provison_type => options['provison_type'],
           )
 
           config = RbVmomi::VIM::VirtualMachineConfigSpec.new
