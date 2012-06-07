@@ -53,6 +53,7 @@ module Fog
       class Mock
 
         def list_hosted_zones(options = {})
+
           if options[:max_items].nil?
             maxitems = 100
           else
@@ -70,6 +71,7 @@ module Fog
           truncated = !next_zone.nil?
 
           response = Excon::Response.new
+          response.status = 200
           response.body = {
             'HostedZones' => zones.map do |z|
               {

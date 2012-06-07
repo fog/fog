@@ -62,7 +62,7 @@ module Fog
         def create_hosted_zone(name, options = {})
           response = Excon::Response.new
           if list_hosted_zones.body['HostedZones'].find_all {|z| z['Name'] == name}.size < self.data[:limits][:duplicate_domains]
-            response.status = 200
+            response.status = 201
             if options[:caller_ref]
               caller_ref = options[:caller_ref]
             else
@@ -70,13 +70,12 @@ module Fog
               caller_ref = "ref-#{rand(1000000).to_s}"
             end
             zone_id = Fog::AWS::Mock.zone_id
-            change_id = Fog::AWS::Mock.change_id
             self.data[:zones][zone_id] = {
               :id => zone_id,
               :name => name,
               :reference => caller_ref,
               :comment => options[:comment],
-              :records => []
+              :records => {}
             }
             response.body = {
               'HostedZone' => {
@@ -86,7 +85,7 @@ module Fog
                 'Comment' => options[:comment]
               },
               'ChangeInfo' => {
-                'Id' => "/change/#{change_id}",
+                'Id' => "/change/#{Fog::AWS::Mock.change_id}",
                 'Status' => 'INSYNC',
                 'SubmittedAt' => Time.now.utc.iso8601
               },

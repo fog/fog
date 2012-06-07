@@ -20,7 +20,7 @@ module Fog
         #       * 'Comment'<~String> -
         #     * 'NameServers'<~Array>
         #       * 'NameServer'<~String>
-        #   * status<~Integer> - 201 when successful
+        #   * status<~Integer> - 200 when successful
         def get_hosted_zone(zone_id)
 
           # AWS methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use
@@ -42,6 +42,7 @@ module Fog
         def get_hosted_zone(zone_id)
           response = Excon::Response.new
           if (zone = self.data[:zones][zone_id])
+            response.status = 200
             response.body = {
               'HostedZone' => {
                 'Id' => "/hostedzone/#{zone[:zone_id]}",
