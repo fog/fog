@@ -45,7 +45,7 @@ module Fog
             response.status = 200
             response.body = {
               'HostedZone' => {
-                'Id' => "/hostedzone/#{zone[:zone_id]}",
+                'Id' => zone[:id],
                 'Name' => zone[:name],
                 'CallerReference' => zone[:reference],
                 'Comment' => zone[:comment]

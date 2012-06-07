@@ -69,8 +69,8 @@ module Fog
               #make sure we have a unique call reference
               caller_ref = "ref-#{rand(1000000).to_s}"
             end
-            zone_id = Fog::AWS::Mock.zone_id
-            self.data[:zones]["/hostedzone/#{zone_id}"] = {
+            zone_id = "/hostedzone/#{Fog::AWS::Mock.zone_id}"
+            self.data[:zones][zone_id] = {
               :id => zone_id,
               :name => name,
               :reference => caller_ref,
