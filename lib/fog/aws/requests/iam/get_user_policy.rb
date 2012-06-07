@@ -36,10 +36,11 @@ module Fog
           raise Fog::AWS::IAM::NotFound.new("The user with name #{user} cannot be found.") unless self.data[:users].key?(user_name)
           raise Fog::AWS::IAM::NotFound.new("The policy with name #{policy_name} cannot be found.") unless self.data[:users][user_name][:policies].key?(policy_name)
           Excon::Response.new.tap do |response|
-            response.body = { 
-                              'PolicyName' => policy_name,
-                              'UserName' => user_name,
-                              'PolicyDocument' => data[:users][user_name][:policies][policy_name],
+            response.body = { 'Policy' =>  { 
+                                'PolicyName' => policy_name,
+                                'UserName' => user_name,
+                                'PolicyDocument' => data[:users][user_name][:policies][policy_name]
+                              },
                               'IsTruncated' => false,
                               'RequestId'   => Fog::AWS::Mock.request_id 
                             }

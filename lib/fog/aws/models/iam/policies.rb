@@ -22,13 +22,13 @@ module Fog
           policy_names = connection.list_user_policies(@username).body['PolicyNames'] # it returns an array
           policies = []
           policy_names.each do |policy_name|
-            policies << connection.get_user_policy(policy_name,@username).body
+            policies << connection.get_user_policy(policy_name,@username).body['Policy']
           end
           load(policies) # data is an array of attribute hashes
         end
 
         def get(identity)
-          data = connection.get_user_policy(identity,@username).body
+          data = connection.get_user_policy(identity,@username).body['Policy']
           new(data) # data is an attribute hash
         rescue Fog::AWS::IAM::NotFound
           nil
