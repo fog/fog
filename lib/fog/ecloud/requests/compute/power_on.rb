@@ -7,7 +7,7 @@ module Fog
       end
 
       class Mock
-        def power_on(vapp_uri)
+        def power_off(vapp_uri)
           if vapp = mock_data.virtual_machine_from_href(vapp_uri)
             vapp.power_on!
 
