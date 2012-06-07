@@ -5,28 +5,41 @@ module Fog
     class Ecloud
       class InternetServices < Fog::Ecloud::Collection
 
+        identity :href
+
         model Fog::Compute::Ecloud::InternetService
 
-        attribute :href, :aliases => :Href
-
         def all
-          check_href! :message => "the Internet Services for the Vdc you want to enumerate"
-          if internet_service_data = connection.get_internet_services(href).body[:InternetService]
-            load(Array[internet_service_data].flatten.find_all {|i| i[:IsBackupService] == "false" })
+          data = connection.get_internet_services(href).body[:InternetServices]
+          if data.is_a?(Hash)
+            load(data[:InternetService])
+          elsif data.is_a?(String) && data.empty?
+            load([])
           end
         end
 
-        # Optimize later, no need to get_internet_services again?
         def get(uri)
-          internet_services = connection.get_internet_services(href).body[:InternetService]
-          internet_services = [ internet_services ] if internet_services.is_a?(Hash)
-          if data = internet_services.detect { |service| service[:Href] == uri }
-            new(data)
+          if data = connection.get_internet_service(uri)
+            new(data.body)
           end
         rescue Fog::Errors::NotFound
           nil
         end
 
+        def create(options)
+          options[:uri] = "/cloudapi/ecloud/internetServices/publicIps/#{public_ip_id}/action/createInternetService"
+          options[:protocol] ||= "TCP"
+          options[:enabled] ||= true
+          options[:description] ||= ""
+          options[:persistence] ||= {}
+          options[:persistence][:type] ||= "None"
+          data = connection.internet_service_create(options).body
+          object = new(data)
+        end
+
+        def public_ip_id
+          href.scan(/\d+/)[0]
+        end
       end
     end
   end

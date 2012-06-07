@@ -11,15 +11,10 @@ module Fog
 
         model Fog::Compute::Ecloud::ComputePool
 
-        #get_request :get_compute_pool
-        #vcloud_type "application/vnd.tmrk.ecloud.publicIp+xml"
-        #all_request lambda { |compute_pools| public_ips.connection.get_public_ips(public_ips.href) }
-
         def all
-          check_href!(:message => "the Compute Pool href of the Vdc you want to enumerate")
-          if data = connection.get_compute_pools(href).body[:ComputePool]
-            load(data)
-          end
+          check_href!(:message => "the Compute Pool href of the Environment you want to enumerate")
+          data = connection.get_compute_pools(href).body[:ComputePool]
+          load(data)
         end
 
         def get(uri)
@@ -30,6 +25,9 @@ module Fog
           nil
         end
 
+        def from_data(data)
+          new(data)
+        end
       end
     end
   end

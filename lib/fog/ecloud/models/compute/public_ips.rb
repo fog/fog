@@ -5,21 +5,14 @@ module Fog
     class Ecloud
       class PublicIps < Fog::Ecloud::Collection
 
-        undef_method :create
-
-        attribute :href, :aliases => :Href
+        identity :href
 
         model Fog::Compute::Ecloud::PublicIp
 
-        #get_request :get_public_ip
-        #vcloud_type "application/vnd.tmrk.ecloud.publicIp+xml"
-        #all_request lambda { |public_ips| public_ips.connection.get_public_ips(public_ips.href) }
-
         def all
-          check_href!(:message => "the Public Ips href of the Vdc you want to enumerate")
-          if data = connection.get_public_ips(href).body[:PublicIPAddress]
-            load(data)
-          end
+          data = connection.get_public_ips(href).body
+          data = data[:PublicIp] ? data[:PublicIp] : data
+          load(data)
         end
 
         def get(uri)
@@ -30,6 +23,10 @@ module Fog
           nil
         end
 
+        def activate
+          data = connection.public_ip_activate(href + "/action/activatePublicIp").body
+          ip = Fog::Compute::Ecloud::PublicIps.new(:connection => connection, :href => data[:href])[0]
+        end
       end
     end
   end
