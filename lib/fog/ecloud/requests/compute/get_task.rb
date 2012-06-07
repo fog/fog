@@ -3,7 +3,7 @@ module Fog
     class Ecloud
 
       class Real
-        basic_request :get_server
+        basic_request :get_task
       end
 
     end
