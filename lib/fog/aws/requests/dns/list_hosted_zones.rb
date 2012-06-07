@@ -75,7 +75,7 @@ module Fog
           response.body = {
             'HostedZones' => zones.map do |z|
               {
-                'Id' => z[:zone_id],
+                'Id' => "/hostedzone/#{z[:zone_id]}",
                 'Name' => z[:name],
                 'CallerReference' => z[:reference],
                 'Comment' => z[:comment],

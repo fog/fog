@@ -70,7 +70,7 @@ module Fog
               caller_ref = "ref-#{rand(1000000).to_s}"
             end
             zone_id = Fog::AWS::Mock.zone_id
-            self.data[:zones][zone_id] = {
+            self.data[:zones]["/hostedzone/#{zone_id}"] = {
               :id => zone_id,
               :name => name,
               :reference => caller_ref,
