@@ -44,8 +44,18 @@ Shindo.tests('Fog::Compute[:xenserver] | set_attribute request', ['xenserver']) 
 
       server.start
     end
+    test('set an array valued attribute') do
+      server = create_ephemeral_server
+      response = connection.set_attribute('VM',
+                                          server.reference,
+                                          'tags',
+                                          ['foo','bar']
+                                         )
+      server.reload
+      server.tags.include?('foo') and server.tags.include?('bar')
+    end
   end
-  
+
   tests('The expected options') do
     raises(ArgumentError, 'raises ArgumentError when ref,attr,value missing') { connection.get_record }
   end

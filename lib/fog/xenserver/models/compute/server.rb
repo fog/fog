@@ -17,6 +17,7 @@ module Fog
         attribute :consoles
         attribute :domarch
         attribute :domid
+        attribute :tags
         attribute :__guest_metrics,      :aliases => :guest_metrics
         attribute :is_a_snapshot
         attribute :is_a_template
