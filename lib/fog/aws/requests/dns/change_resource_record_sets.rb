@@ -161,7 +161,7 @@ module Fog
               when "DELETE"
                 if zone[:records][change[:type]].nil? || zone[:records][change[:type]].delete(change[:name]).nil?
                   errors << "Tried to delete resource record set #{change[:name]}. type #{change[:type]}, but it was not found"
-                else
+                end
               end
             end
 
@@ -177,6 +177,7 @@ module Fog
             else
               response.status = 400
               response.body = "<?xml version=\"1.0\"?><InvalidChangeBatch xmlns=\"https://route53.amazonaws.com/doc/2012-02-29/\"><Messages>#{errors.map {|e| "<Message>#{e}</Message>"}.join()}</Messages></InvalidChangeBatch>"
+              raise(Excon::Errors.status_error({:expects => 200}, response))
             end
           else
             response.status = 404
