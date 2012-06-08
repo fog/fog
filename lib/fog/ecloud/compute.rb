@@ -308,7 +308,7 @@ module Fog
             "xmlns:xsd" => "http://www.w3.org/2001/XMLSchema" }
         end
 
-        def validate_data(required_opts = [], options)
+        def validate_data(required_opts = [], options = {})
           unless required_opts.all? { |opt| options.has_key?(opt) }
             raise ArgumentError.new("Required data missing: #{(required_opts - options.keys).map(&:inspect).join(", ")}")
           end
