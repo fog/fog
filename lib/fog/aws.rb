@@ -249,6 +249,20 @@ module Fog
       def self.subnet_id
         "subnet-#{Fog::Mock.random_hex(8)}"
       end
+      def self.zone_id
+        "zone-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.change_id
+        "change-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.nameservers
+        [
+          'ns-2048.awsdns-64.com',
+          'ns-2049.awsdns-65.net',
+          'ns-2050.awsdns-66.org',
+          'ns-2051.awsdns-67.co.uk'
+        ]
+      end
 
       def self.key_id(length=21)
         #Probably close enough
