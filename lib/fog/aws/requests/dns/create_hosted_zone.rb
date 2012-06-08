@@ -79,7 +79,7 @@ module Fog
             }
             response.body = {
               'HostedZone' => {
-                'Id' => "/hostedzone/#{zone_id}",
+                'Id' => zone_id,
                 'Name' => name,
                 'CallerReference' => caller_ref,
                 'Comment' => options[:comment]
