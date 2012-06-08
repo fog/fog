@@ -8,6 +8,8 @@ module Fog
       requires    :hp_secret_key, :hp_account_id, :hp_tenant_id
       recognizes  :hp_auth_uri, :hp_servicenet, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_auth_version, :hp_avl_zone
 
+      secrets     :hp_secret_key
+
       model_path 'fog/hp/models/compute'
       model       :address
       collection  :addresses
