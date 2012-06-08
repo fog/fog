@@ -131,6 +131,25 @@ module Fog
         end
 
       end
+
+      class Mock
+        def change_resource_record_sets(zone_id, change_batch, options = {})
+          response = Excon::Response.new
+
+          status = 201
+
+          response.status = status
+
+          response.body = {
+            'ChangeInfo' => {
+              'Id'          => '00000000000000',
+              'Status'      => 'PENDING',
+              'SubmittedAt' => Time.now.to_s },
+            'status' => status }
+
+          response
+        end
+      end
     end
   end
 end

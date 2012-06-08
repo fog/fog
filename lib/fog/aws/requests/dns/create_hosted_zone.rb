@@ -50,9 +50,35 @@ module Fog
             :method  => 'POST',
             :path    => "hostedzone"
           })
-
         end
+      end
 
+      class Mock
+        def create_hosted_zone(name, options = {})
+
+          caller_ref = "ref-#{rand(1000000).to_s}"
+
+          response = Excon::Response.new
+
+          status = 201
+
+          response.status = status
+
+          response.body = {
+            'HostedZone'  => { 'Id'              => '00000000000000',
+                               'Name'            => name,
+                               'CallerReference' => caller_ref },
+            'ChangeInfo'  => { 'Id'              => '00000000000001',
+                               'Status'          => status,
+                               'SubmittedAt'     => Time.now.to_s },
+            'NameServers' => [ '1.name.server.com', '2.name.server.com' ] }
+
+          unless options[:comment].nil?
+            response.body['HostedZone']['Comment'] = options[:comment]
+          end
+
+          response
+        end
       end
     end
   end
