@@ -46,8 +46,8 @@ Shindo.tests('Fog::Compute[:xenserver] | StorageRepository model', ['xenserver']
   tests("A real StorageRepository should") do
     tests("return a valid list of VDIs") do
       storage_repository.vdis.each do |vdi| 
-        test("where #{vid.uuid} is a Fog::Compute::XenServer::VDI") {
-          p.is_a? Fog::Compute::XenServer::VDI
+        test("where #{vdi.uuid} is a Fog::Compute::XenServer::VDI") {
+          vdi.is_a? Fog::Compute::XenServer::VDI
         }
       end
     end
