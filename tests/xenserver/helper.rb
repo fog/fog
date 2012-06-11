@@ -1,5 +1,5 @@
 def test_template_name
-  'squeeze-test'
+  ENV['FOG_XENSERVER_TEMPLATE'] || 'squeeze-test'
 end
 
 def test_ephemeral_vm_name
