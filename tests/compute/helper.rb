@@ -23,7 +23,7 @@ def compute_providers
       :mocked => true,
       :server_attributes => {
         :flavor_ref => 2,
-        :image_ref  => Fog::Compute[:openstack].images.first.id,
+        :image_ref  => "0e09fbd6-43c5-448a-83e9-0d3d05f9747e",
         :name       => "fog_#{Time.now.to_i}"
       }
     },
