@@ -24,7 +24,7 @@ module Fog
 
           method         = 'GET'
           expires        = expires.to_i
-          object_path    = "#{@path}/#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object)}"
+          object_path    = "#{@path}/#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object,"/")}"
           string_to_sign = "#{method}\n#{expires}\n#{object_path}"
 
           hmac = Fog::HMAC.new('sha1', @rackspace_temp_url_key)
