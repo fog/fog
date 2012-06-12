@@ -29,6 +29,7 @@ module Fog
       request :put_container
       request :put_object
       request :put_object_manifest
+      request :post_set_meta_temp_url_key
 
       module Utils
 
