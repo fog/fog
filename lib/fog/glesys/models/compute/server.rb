@@ -40,6 +40,11 @@ module Fog
           connection.stop(:serverid => identity)
         end
 
+        def reboot
+          requires :identity
+          connection.reboot(:serverid => identity)
+        end
+
         def destroy
           requires :identity
           connection.destroy(:serverid => identity, :keepip => keepip)

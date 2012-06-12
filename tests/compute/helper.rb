@@ -44,6 +44,10 @@ def compute_providers
       :mocked => true
     },
     :glesys   => {
+      :server_attributes => {
+        :rootpassword  => "secret_password_#{Time.now.to_i}",
+        :hostname      => "fog.example#{Time.now.to_i}.com"
+      },
       :mocked => false
     },
     :hp       => {

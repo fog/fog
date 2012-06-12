@@ -21,6 +21,7 @@ module Fog
       request :server_details
       request :server_status
       request :start
+      request :reboot
       request :stop
       # Templates
       request :template_list
