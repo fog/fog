@@ -26,6 +26,7 @@ module Fog
         def create_load_balancer(availability_zones, lb_name, listeners, options = {})
           params = Fog::AWS.indexed_param('AvailabilityZones.member', [*availability_zones])
           params.merge!(Fog::AWS.indexed_param('Subnets.member.%d', options[:subnet_ids]))
+          params.merge!(Fog::AWS.serialize_keys('Scheme', options[:scheme]))
           params.merge!(Fog::AWS.indexed_param('SecurityGroups.member.%d', options[:security_groups])) 
 
           listener_protocol = []
@@ -75,6 +76,7 @@ module Fog
           self.data[:load_balancers][lb_name] = {
             'AvailabilityZones' => availability_zones,
             'Subnets' => options[:subnet_ids],
+            'Scheme' => options[:scheme],
             'SecurityGroups' => options[:security_groups],
             'CanonicalHostedZoneName' => '',
             'CanonicalHostedZoneNameID' => '',
