@@ -70,8 +70,8 @@ If you already have an account with another service you can just as easily use t
 
     dns = Fog::DNS.new({
       :provider               => 'AWS',
-      :aws_access_key_id      => AWS_ACCESS_KEY_ID,
-      :aws_secret_access_key  => AWS_SECRET_ACCESS_KEY
+      :aws_access_key_id      => YOUR_AWS_ACCESS_KEY_ID,
+      :aws_secret_access_key  => YOUR_AWS_SECRET_ACCESS_KEY
     })
 
 ## Go Forth and Resolve
