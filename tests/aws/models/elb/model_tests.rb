@@ -6,9 +6,11 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
   @vpc_id = @vpc.id
   @subnet = Fog::Compute[:aws].subnets.create({:vpc_id => @vpc_id, :cidr_block => '10.0.10.0/24'})
   @subnet_id = @subnet.subnet_id
+  @scheme = 'internal'
   @igw=Fog::Compute[:aws].internet_gateways.create
   @igw_id = @igw.id
   @igw.attach(@vpc_id)
+
 
 
   tests('success') do
