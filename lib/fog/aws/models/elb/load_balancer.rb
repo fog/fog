@@ -145,7 +145,7 @@ module Fog
           #requires :availability_zones
           if (availability_zones || subnet_ids)
             connection.create_load_balancer(availability_zones, id, listeners.map{|l| l.to_params}) if availability_zones
-            connection.create_load_balancer(nil, id, listeners.map{|l| l.to_params}, scheme, {:subnet_ids => subnet_ids, :security_groups => security_groups}) if subnet_ids && !availability_zones
+            connection.create_load_balancer(nil, id, listeners.map{|l| l.to_params}, {:subnet_ids => subnet_ids, :security_groups => security_groups, :scheme => scheme}) if subnet_ids && !availability_zones
           else
             throw Fog::Errors::Error.new("No availability zones or subnet ids specified")
           end
