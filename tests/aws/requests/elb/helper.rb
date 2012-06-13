@@ -18,6 +18,7 @@ class AWS
         "LoadBalancerName" => String,
         "Policies" => {"LBCookieStickinessPolicies" => Array, "AppCookieStickinessPolicies" => Array},
         "SourceSecurityGroup" => {"GroupName" => String, "OwnerAlias" => String},
+        "Scheme" => String
       }
 
       CREATE_LOAD_BALANCER = BASIC.merge({
