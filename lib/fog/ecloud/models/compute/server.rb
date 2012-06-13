@@ -165,12 +165,13 @@ module Fog
         end
         
         def disks
-          c = hardware_configuration.storage[:Disk]
+          c = hardware_configuration.reload.storage[:Disk]
           c = c.is_a?(Hash) ? [c] : c
           @disks = c
         end
 
         def add_disk(size)
+          puts disks.inspect
           index = disks.map { |d| d[:Index].to_i }.sort[-1] + 1
           vm_disks = disks << {:Index => index, :Size=>{:Unit => "GB", :Value => size}}
           data = connection.virtual_machine_edit_hardware_configuration(href + "/hardwareConfiguration", _configuration_data(:disks => vm_disks)).body
