@@ -35,8 +35,8 @@ First, create a connection with your new account:
     # create a connection
     connection = Fog::Storage.new({
       :provider                 => 'AWS',
-      :aws_access_key_id        => YOUR_SECRET_ACCESS_KEY_ID,
-      :aws_secret_access_key    => YOUR_SECRET_ACCESS_KEY
+      :aws_access_key_id        => YOUR_AWS_ACCESS_KEY_ID,
+      :aws_secret_access_key    => YOUR_AWS_SECRET_ACCESS_KEY
     })
 
     # First, a place to contain the glorious details
