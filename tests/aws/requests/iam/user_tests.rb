@@ -34,7 +34,7 @@ Shindo.tests('AWS::IAM | user requests', ['aws']) do
     end
 
     tests("#get_user").formats(@user_format) do
-      Fog::AWS[:iam].get_user('UserName' => 'fog_user').body
+      Fog::AWS[:iam].get_user('fog_user').body
     end
 
     tests("#add_user_to_group('fog_user_tests', 'fog_user')").formats(AWS::IAM::Formats::BASIC) do

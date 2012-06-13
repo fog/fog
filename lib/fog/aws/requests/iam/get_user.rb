@@ -8,6 +8,7 @@ module Fog
         # Get User
         # 
         # ==== Parameters
+        # * username<String>
         # * options<~Hash>:
         #   * 'UserName'<~String>: Name of the User. Defaults to current user
         #
@@ -23,19 +24,21 @@ module Fog
         # ==== See Also
         # http://docs.amazonwebservices.com/IAM/latest/APIReference/API_Getuser.html
         #
-        def get_user(options = {})
+        def get_user(username, options = {})
           request({
-            'Action'  => 'GetUser',
-            :parser   => Fog::Parsers::AWS::IAM::GetUser.new
+            'Action'    => 'GetUser',
+            'UserName'  => username,
+            :parser     => Fog::Parsers::AWS::IAM::GetUser.new
           }.merge!(options))
         end
 
       end
       
       class Mock
-        def get_user(options = {})
-          user = options['UserName']
-          raise Fog::AWS::IAM::NotFound.new("The user with name #{user} cannot be found.") unless self.data[:users].key?(user)
+        def get_user(user, options = {})
+          raise Fog::AWS::IAM::NotFound.new(
+            "The user with name #{user} cannot be found."
+          ) unless self.data[:users].key?(user)
           Excon::Response.new.tap do |response|
             response.body = {'User' =>  { 
                                           'UserId'   => data[:users][user][:user_id],
@@ -43,7 +46,6 @@ module Fog
                                           'UserName' => user,
                                           'Arn'      => (data[:users][user][:arn]).strip 
                                         },
-                             'IsTruncated' => false,
                              'RequestId'   => Fog::AWS::Mock.request_id }
             response.status = 200
           end
