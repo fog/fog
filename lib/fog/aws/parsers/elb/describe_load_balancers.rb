@@ -74,7 +74,7 @@ module Fog
                 reset_load_balancer
               end
 
-            when 'CanonicalHostedZoneName', 'CanonicalHostedZoneNameID', 'LoadBalancerName', 'DNSName'
+            when 'CanonicalHostedZoneName', 'CanonicalHostedZoneNameID', 'LoadBalancerName', 'DNSName', 'Scheme'
               @load_balancer[name] = value
             when 'CreatedTime'
               @load_balancer[name] = Time.parse(value)
