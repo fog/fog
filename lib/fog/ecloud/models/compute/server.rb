@@ -165,7 +165,7 @@ module Fog
         end
         
         def disks
-          c = hardware_configuration.storage[:Disk]
+          c = hardware_configuration.reload.storage[:Disk]
           c = c.is_a?(Hash) ? [c] : c
           @disks = c
         end
