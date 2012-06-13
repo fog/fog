@@ -59,6 +59,11 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
         tests("subnet ids are correct").returns(@subnet_id) { elb2.subnet_ids.first }
         elb2.destroy
       end
+      tests('with vpc internal') do
+        elb2 = Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-2", :subnet_ids => [@subnet_id], :scheme => 'internal')
+        tests("scheme is internal").returns(@scheme) { elb2.scheme }
+        elb2.destroy
+      end
       if !Fog.mocking?
         @igw.detach(@vpc_id)
         @igw.destroy
