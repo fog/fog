@@ -9,15 +9,15 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | node_tests', ['rackspace']) do
       tests('success') do
 
         @lb.wait_for { ready? }
-        tests("#create_node(#{@lb.id}, '10.10.10.10', 80, 'ENABLED')").formats(NODES_FORMAT) do
-          data = @service.create_node(@lb.id, '10.10.10.10', 80, 'ENABLED').body
+        tests("#create_node(#{@lb.id}, '1.1.1.2', 80, 'ENABLED')").formats(NODES_FORMAT) do
+          data = @service.create_node(@lb.id, '1.1.1.2', 80, 'ENABLED').body
           @nodes_created << data['nodes'][0]['id']
           data
         end
 
         @lb.wait_for { ready? }
         tests('#create_node with weight').formats(NODES_FORMAT) do
-          data = @service.create_node(@lb.id, '10.10.10.11', 80, 'ENABLED', { :weight => 10 }).body
+          data = @service.create_node(@lb.id, '1.1.1.3', 80, 'ENABLED', { :weight => 10 }).body
           @nodes_created << data['nodes'][0]['id']
           data
         end
@@ -53,7 +53,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | node_tests', ['rackspace']) do
           @service.create_node(@lb.id, '', 80, 'ENABLED')
         end
         tests('#create_node(invalid condition)').raises(Fog::Rackspace::LoadBalancers::BadRequest) do
-          @service.create_node(@lb.id, '10.10.10.10', 80, 'EABLED')
+          @service.create_node(@lb.id, '1.1.1.2', 80, 'EABLED')
         end
         tests("#get_node(#{@lb.id}, 0)").raises(Fog::Rackspace::LoadBalancers::NotFound) do
           @service.get_node(@lb.id, 0)
@@ -76,7 +76,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | node_tests', ['rackspace']) do
         end
         @lb.wait_for { ready? }
         tests("#delete_node()").succeeds do
-          node_id = @service.create_node(@lb.id, '10.10.10.12', 80, 'ENABLED').body['nodes'][0]['id']
+          node_id = @service.create_node(@lb.id, '1.1.1.3', 80, 'ENABLED').body['nodes'][0]['id']
           @lb.wait_for { ready? }
           @service.delete_node(@lb.id, node_id)
         end

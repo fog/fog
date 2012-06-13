@@ -4,11 +4,11 @@ class HP < Fog::Bin
     def class_for(key)
       case key
       when :cdn
-        Fog::HP::CDN
+        Fog::CDN::HP
       when :compute
-        Fog::HP::Compute
+        Fog::Compute::HP
       when :storage
-        Fog::HP::Storage
+        Fog::Storage::HP
       else
         raise ArgumentError, "Unrecognized service: #{key}"
       end

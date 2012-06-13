@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:xenserver] | PIFs collection', ['pifs']) do
+Shindo.tests('Fog::Compute[:xenserver] | PIFs collection', ['xenserver']) do
 
   conn = Fog::Compute[:xenserver]
   

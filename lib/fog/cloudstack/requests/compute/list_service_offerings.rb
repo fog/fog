@@ -10,11 +10,33 @@ module Fog
           options.merge!(
             'command' => 'listServiceOfferings'
           )
-          
+
           request(options)
         end
 
-      end
-    end
-  end
-end
+      end # Real
+
+      class Mock
+
+        def list_service_offerings(options={})
+          flavors = []
+          if service_offering_id = options['id']
+            flavor = self.data[:flavors][service_offering_id]
+            raise Fog::Compute::Cloudstack::BadRequest unless flavor
+            flavors = [flavor]
+          else
+            flavors = self.data[:flavors].values
+          end
+
+          {
+            "listserviceofferingsresponse" =>
+            {
+              "count" => flavors.size,
+              "serviceoffering"=> flavors
+            }
+          }
+        end
+      end # Mock
+    end # Cloudstack
+  end # Compute
+end # Fog

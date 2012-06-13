@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'dynect'))
+require 'fog/dynect'
 require 'fog/dns'
 
 module Fog
@@ -68,7 +68,7 @@ module Fog
           @host       = "api2.dynect.net"
           @port       = options[:port]        || 443
           @path       = options[:path]        || '/REST'
-          @persistent = options[:persistent]  || true
+          @persistent = options[:persistent]  || false
           @scheme     = options[:scheme]      || 'https'
           @version    = options[:version]     || '2.3.1'
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)

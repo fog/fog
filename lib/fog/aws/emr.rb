@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+require 'fog/aws'
 
 module Fog
   module AWS
@@ -109,20 +109,8 @@ module Fog
               :method     => 'POST',
               :parser     => parser
             })
-          rescue Excon::Errors::HTTPStatusError => error
-            if match = error.message.match(/<Code>(.*)<\/Code>[\s\\\w]+<Message>(.*)<\/Message>/m)
-              # case match[1].split('.').last
-              # when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound'
-              #   raise Fog::AWS::RDS::NotFound.slurp(error, match[2])
-              # when 'DBParameterGroupAlreadyExists'
-              #   raise Fog::AWS::RDS::IdentifierTaken.slurp(error, match[2])
-              # else
-              #   raise
-              # end
-              raise
-            else
-              raise
-            end
+          rescue Excon::Errors::HTTPStatusError
+            raise
           end
 
           response

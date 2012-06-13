@@ -10,11 +10,17 @@ module Fog
           options.merge!(
             'command' => 'listVirtualMachines'
           )
-          
+
           request(options)
         end
+      end # Real
 
-      end
-    end
-  end
-end
+      class Mock
+        def list_virtual_machines(options={})
+          {"listvirtualmachinesresponse" =>
+            {"count" => self.data[:servers].values.size, "virtualmachine" => self.data[:servers].values}}
+        end
+      end # Mock
+    end # Cloudstack
+  end # Compute
+end # Fog

@@ -31,6 +31,24 @@ module Fog
         end
 
       end
+      
+      class Mock
+        def get_user(options = {})
+          user = options['UserName']
+          raise Fog::AWS::IAM::NotFound.new("The user with name #{user} cannot be found.") unless self.data[:users].key?(user)
+          Excon::Response.new.tap do |response|
+            response.body = {'User' =>  { 
+                                          'UserId'   => data[:users][user][:user_id],
+                                          'Path'     => data[:users][user][:path],
+                                          'UserName' => user,
+                                          'Arn'      => (data[:users][user][:arn]).strip 
+                                        },
+                             'IsTruncated' => false,
+                             'RequestId'   => Fog::AWS::Mock.request_id }
+            response.status = 200
+          end
+        end
+      end
     end
   end
 end

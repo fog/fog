@@ -29,7 +29,7 @@ module Fog
         #       * 'Id'<~String> - The ID of the request
         #       * 'Status'<~String> - status of the request - PENDING | INSYNC
         #       * 'SubmittedAt'<~String> - The date and time the change was made
-        #   * status<~Integer> - 201 when successful
+        #   * status<~Integer> - 200 when successful
         #
         # ==== Examples
         #
@@ -130,6 +130,61 @@ module Fog
 
         end
 
+      end
+
+      class Mock
+
+        def change_resource_record_sets(zone_id, change_batch, options = {})
+          response = Excon::Response.new
+          errors   = []
+
+          if (zone = self.data[:zones][zone_id])
+            response.status = 200
+
+            change_batch.each do |change|
+              case change[:action]
+              when "CREATE"
+                if zone[:records][change[:type]].nil?
+                  zone[:records][change[:type]] = {}
+                end
+
+                if zone[:records][change[:type]][change[:name]].nil?
+                  zone[:records][change[:type]][change[:name]] = {
+                    :name => change[:name],
+                    :type => change[:type],
+                    :ttl => change[:ttl],
+                    :resource_records => change[:resource_records]
+                  }
+                else
+                  errors << "Tried to create resource record set #{change[:name]}. type #{change[:type]}, but it already exists"
+                end
+              when "DELETE"
+                if zone[:records][change[:type]].nil? || zone[:records][change[:type]].delete(change[:name]).nil?
+                  errors << "Tried to delete resource record set #{change[:name]}. type #{change[:type]}, but it was not found"
+                end
+              end
+            end
+
+            if errors.empty?
+              response.body = {
+                'ChangeInfo' => {
+                  'Id' => "/change/#{Fog::AWS::Mock.change_id}",
+                  'Status' => 'INSYNC',
+                  'SubmittedAt' => Time.now.utc.iso8601
+                }
+              }
+              response
+            else
+              response.status = 400
+              response.body = "<?xml version=\"1.0\"?><InvalidChangeBatch xmlns=\"https://route53.amazonaws.com/doc/2012-02-29/\"><Messages>#{errors.map {|e| "<Message>#{e}</Message>"}.join()}</Messages></InvalidChangeBatch>"
+              raise(Excon::Errors.status_error({:expects => 200}, response))
+            end
+          else
+            response.status = 404
+            response.body = "<?xml version=\"1.0\"?><Response><Errors><Error><Code>NoSuchHostedZone</Code><Message>A hosted zone with the specified hosted zone ID does not exist.</Message></Error></Errors><RequestID>#{Fog::AWS::Mock.request_id}</RequestID></Response>"
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
+        end
       end
     end
   end

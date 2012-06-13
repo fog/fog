@@ -13,7 +13,7 @@ module Fog
               data << find_pool_by_name(name)
             end
           end
-          data
+          data.compact
         end
 
         private

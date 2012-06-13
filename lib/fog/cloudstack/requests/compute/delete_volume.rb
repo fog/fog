@@ -14,7 +14,27 @@ module Fog
           request(options)
         end
 
-      end
-    end
-  end
-end
+      end # Real
+      class Mock
+        def delete_volume(options={})
+          volume_id = options['id']
+          if self.data[:volumes][volume_id]
+            self.data[:volumes].delete(volume_id)
+            {
+              "deletevolumeresponse" => {
+                "success" => "true"
+              }
+            }
+          else # FIXME: mayhaps
+            self.data[:volumes].delete(volume_id)
+            {
+              "deletevolumeresponse" => {
+                "success" => "false"
+              }
+            }
+          end
+        end
+      end # Mock
+    end # Cloudstack
+  end # Compute
+end # Fog

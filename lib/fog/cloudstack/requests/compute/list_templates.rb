@@ -10,11 +10,26 @@ module Fog
           options.merge!(
             'command' => 'listTemplates'
           )
-          
+
           request(options)
         end
 
-      end
-    end
-  end
-end
+      end # Real
+
+      class Mock
+
+        def list_templates(options={})
+          templates = self.data[:images].values
+
+          {
+            "listtemplatesresponse" =>
+              {
+                "count" => templates.size,
+                "template"=> templates
+              }
+          }
+        end
+      end # Mock
+    end # Cloudstack
+  end # Compute
+end # Fog

@@ -14,6 +14,7 @@ module Fog
         attribute :ami_launch_index,      :aliases => 'amiLaunchIndex'
         attribute :availability_zone,     :aliases => 'availabilityZone'
         attribute :block_device_mapping,  :aliases => 'blockDeviceMapping'
+        attribute :network_interfaces,    :aliases => 'networkInterfaces'
         attribute :client_token,          :aliases => 'clientToken'
         attribute :dns_name,              :aliases => 'dnsName'
         attribute :groups
@@ -204,18 +205,8 @@ module Fog
           end
 
           # wait for aws to be ready
-          Timeout::timeout(360) do
-            begin
-              Timeout::timeout(8) do
-                Fog::SSH.new(public_ip_address, username, credentials.merge(:timeout => 4)).run('pwd')
-              end
-            rescue Errno::ECONNREFUSED
-              sleep(2)
-              retry
-            rescue Net::SSH::AuthenticationFailed, Timeout::Error
-              retry
-            end
-          end
+          wait_for { sshable? }
+
           Fog::SSH.new(public_ip_address, username, credentials).run(commands)
         end
 

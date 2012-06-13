@@ -10,11 +10,23 @@ module Fog
           options.merge!(
             'command' => 'listAsyncJobs'
           )
-          
+
           request(options)
         end
 
-      end
-    end
-  end
-end
+      end # Real
+      class Mock
+        def list_async_jobs(options={})
+          # FIXME: support paging
+          jobs = self.data[:jobs]
+          {
+            'listasyncjobsresponse' => {
+              'count' => jobs.size,
+              'asyncjobs' => jobs
+            }
+          }
+        end
+      end # Mock
+    end # Cloudstack
+  end # Compute
+end # Fog

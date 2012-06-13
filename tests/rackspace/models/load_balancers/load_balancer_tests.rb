@@ -7,7 +7,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
       :protocol => 'HTTP',
       :port => 80,
       :virtual_ips => [{ :type => 'PUBLIC'}],
-      :nodes => [{ :address => '10.0.0.1', :port => 80, :condition => 'ENABLED'}]
+      :nodes => [{ :address => '1.1.1.1', :port => 80, :condition => 'ENABLED'}]
     }
 
   given_a_load_balancer_service do

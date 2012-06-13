@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:network] | network model', ['network']) do
+Shindo.tests('Fog::Compute[:network] | network model', ['xenserver']) do
 
   require 'pp'
   networks = Fog::Compute[:xenserver].networks

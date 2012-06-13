@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'vcloud'))
+require 'fog/vcloud'
 require 'fog/compute'
 
 module Fog
@@ -258,7 +258,7 @@ module Fog
           end
           begin
             do_request(params)
-          rescue Excon::Errors::Unauthorized => e
+          rescue Excon::Errors::Unauthorized
             do_login
             do_request(params)
           end

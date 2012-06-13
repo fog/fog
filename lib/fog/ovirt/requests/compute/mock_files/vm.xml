@@ -1,4 +1,3 @@
-<vms>
 <vm href="/api/vms/52b9406e-cf66-4867-8655-719a094e324c" id="52b9406e-cf66-4867-8655-719a094e324c">
 <name>vm01</name>
 <link href="/api/vms/52b9406e-cf66-4867-8655-719a094e324c/disks" rel="disks"/>
@@ -51,4 +50,3 @@
 <enabled>true</enabled>
 </usb>
 </vm>
-</vms>

@@ -5,9 +5,9 @@ module Fog
 
         # Creates a linode and assigns you full privileges
         #
-        # ==== Parameters 	
+        # ==== Parameters
         # * datacenter_id<~Integer>: id of datacenter to place new linode in
-        # * plan_id<~Integer>: id of plan to boot new linode with        
+        # * plan_id<~Integer>: id of plan to boot new linode with
         # * payment_term<~Integer>: Subscription term in months, in [1, 12, 24]
         #
         # ==== Returns
@@ -27,6 +27,19 @@ module Fog
           )
         end
 
+      end
+
+      class Mock
+        def linode_create(datacenter_id, plan_id, payment_term)
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "ERRORARRAY" => [],
+            "ACTION"     => "linode.create",
+            "DATA"       => { "LinodeID" => rand(1000..9999) }
+          }
+          response
+        end
       end
     end
   end

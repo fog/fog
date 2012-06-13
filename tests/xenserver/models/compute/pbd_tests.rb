@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:xenserver] | PBD model', ['PBD']) do
+Shindo.tests('Fog::Compute[:xenserver] | PBD model', ['xenserver']) do
 
   pbds = Fog::Compute[:xenserver].pbds
   pbd = pbds.first

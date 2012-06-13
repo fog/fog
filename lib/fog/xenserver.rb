@@ -33,6 +33,8 @@ module Fog
           else
             if params.length.eql?(1) and params.first.is_a?(Hash)
               response = @factory.call(method, @credentials, params.first)
+            elsif params.length.eql?(2) and params.last.is_a?(Array)
+              response = @factory.call(method, @credentials, params.first, params.last)
             else
               response = eval("@factory.call('#{method}', '#{@credentials}', #{params.map {|p|  p.is_a?(String) ? "'#{p}'" : p}.join(',')})")
             end

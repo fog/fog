@@ -1,5 +1,5 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'joyent'))
-require File.expand_path(File.join(File.dirname(__FILE__), 'errors'))
+require 'fog/joyent'
+require 'fog/joyent/errors'
 require 'fog/compute'
 
 module Fog
@@ -113,7 +113,14 @@ module Fog
               @joyent_keyname = options[:joyent_keyname]
               @joyent_key = File.read(options[:joyent_keyfile])
 
-              @rsa = OpenSSL::PKey::RSA.new(@joyent_key)
+              if @joyent_key.lines.first.include?('-----BEGIN DSA PRIVATE KEY-----')
+                @key = OpenSSL::PKey::DSA.new(@joyent_key)
+              elsif @joyent_key.lines.first.include?('-----BEGIN RSA PRIVATE KEY-----')
+                @key = OpenSSL::PKey::RSA.new(@joyent_key)
+              else
+                raise ArgumentError, "options[joyent_keyfile] provided must be an RSA or DSA private key"
+              end
+
 
               @header_method = method(:header_for_signature_auth)
             else
@@ -172,7 +179,16 @@ module Fog
 
         def header_for_signature_auth
           date = Time.now.utc.httpdate
-          signature = Base64.encode64(@rsa.sign("sha256", date)).delete("\r\n")
+          begin
+            signature = Base64.encode64(@key.sign("sha256", date)).delete("\r\n")
+          rescue OpenSSL::PKey::PKeyError => e
+            if e.message == 'wrong public key type'
+              puts 'ERROR: Your version of ruby/openssl does not suport DSA key signing'
+              puts 'see: http://bugs.ruby-lang.org/issues/4734'
+              puts 'workaround: Please use an RSA key instead'
+            end
+            raise
+          end
           key_id = "/#{@joyent_username}/keys/#{@joyent_keyname}"
 
           {

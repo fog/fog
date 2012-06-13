@@ -2,47 +2,80 @@ module Fog
   module Compute
     class Ecloud
       class Server < Fog::Ecloud::Model
+        identity :href
 
-        identity :href, :aliases => :Href
+        attribute :name, :aliases => :Name
+        attribute :type , :aliases => :Type
+        attribute :other_links, :aliases => :Link
+        attribute :status, :aliases => :Status
+        attribute :storage, :aliases => :Storage
+        attribute :ip_addresses, :aliases => :IpAddresses
+        attribute :operating_system, :aliases => :OperatingSystem
+        attribute :powered_on, :aliases => :PoweredOn, :type => :boolean
+        attribute :tools_status, :aliases => :ToolsStatus
+        attribute :cpus, :aliases => :ProcessorCount, :type => :integer
+        attribute :memory, :aliases => :Memory
+        attribute :description, :aliases => :Description
+        attribute :tags, :aliases => :Tags
+        attribute :layout, :aliases => :Layout
 
-        ignore_attributes :xmlns, :xmlns_i, :xmlns_xsi, :xmlns_xsd
+        def tasks
+          @tasks ||= Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => "/cloudapi/ecloud/tasks/virtualMachines/#{id}")
+        end
 
-        attribute :type
-        attribute :name
-        attribute :status
-        attribute :network_connections, :aliases => :NetworkConnectionSection, :squash => :NetworkConnection
-        attribute :os, :aliases => :OperatingSystemSection
-        attribute :virtual_hardware, :aliases => :VirtualHardwareSection
-        attribute :storage_size, :aliases => :size
-        attribute :links, :aliases => :Link, :type => :array
+        def processes
+          @processes ||= Fog::Compute::Ecloud::GuestProcesses.new(:connection, connection, :href => "/cloudapi/ecloud/virtualMachines/#{id}/guest/processes")
+        end
 
-        def friendly_status
-          load_unless_loaded!
-          case status
-          when '0'
-            'creating'
-          when '2'
-            'off'
-          when '4'
-            'on'
-          else
-            'unkown'
+        def hardware_configuration
+          @hardware_configuration ||= Fog::Compute::Ecloud::HardwareConfigurations.new(:connection => connection, :href => "/cloudapi/ecloud/virtualMachines/#{id}/hardwareConfiguration")[0]
+        end
+
+        def configuration
+          @configuration ||= Fog::Compute::Ecloud::ServerConfigurationOptions.new(:connection => connection, :href => "/cloudapi/ecloud/virtualMachines/#{id}/configurationOptions")[0]
+        end
+
+
+        def ips
+          network_hash = ip_addresses[:AssignedIpAddresses][:Networks]
+          network_hash[:Network] = network_hash[:Network].is_a?(Hash) ? [network_hash[:Network]] : network_hash[:Network]
+          network_hash[:Network].each do |network|
+            network[:IpAddresses][:IpAddress] = network[:IpAddresses][:IpAddress].is_a?(String) ? [network[:IpAddresses][:IpAddress]] : network[:IpAddresses][:IpAddress]
           end
+          @ips = nil
+          networks = Fog::Compute::Ecloud::Networks.new(:connection => connection, :href => "/cloudapi/ecloud/virtualMachines/#{id}/assignedIps")
+          networks.each do |network|
+            if networks.index(network) == 0
+              if @ips.nil?
+                @ips = network.ips.select do |ip|
+                  network_hash[:Network].any? do |network|
+                    network[:IpAddresses][:IpAddress].include?(ip.name)
+                  end
+                end
+              else
+                network.ips.each do |ip|
+                  network_hash[:Network].any? do |network|
+                    network[:IpAddresses][:IpAddress].each do |i|
+                      @ips << ip if i == ip.name
+                    end
+                  end
+                end
+              end
+            else
+              network.ips.each do |ip|
+                network_hash[:Network].each do |network|
+                  network[:IpAddresses][:IpAddress].each do |i|
+                    @ips << ip if i == ip.name
+                  end
+                end
+              end
+            end
+          end
+          @ips
         end
 
-        def ready?
-          load_unless_loaded!
-          status == '2'
-        end
-
-        def on?
-          load_unless_loaded!
-          status == '4'
-        end
-
-        def off?
-          load_unless_loaded!
-          status == '2'
+        def networks
+          @networks ||= Fog::Compute::Ecloud::Networks.new(:connection => connection, :href => "/cloudapi/ecloud/virtualMachines/#{id}/assignedIps")
         end
 
         def power_on
@@ -58,145 +91,150 @@ module Fog
         end
 
         def power_reset
-          power_operation( :power_reset => :reset )
-        end
-
-        def graceful_restart
-          requires :href
-          shutdown
-          wait_for { off? }
-          power_on
+          power_operation( :power_reset => :reboot )
         end
 
         def delete
-          requires :href
-          connection.delete_vapp( href)
+          data = connection.virtual_machine_delete(href).body
+          task = Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => data[:href])[0]
         end
 
-        def name=(new_name)
-          attributes[:name] = new_name
-          @changed = true
+        def copy(options = {})
+          options = {:type => :copy}.merge(options)
+          options[:source] ||= href
+          if options[:type] == :copy
+            options[:cpus] ||= 1
+            options[:memory] ||= 512
+            options[:customization] ||= :linux
+            options[:tags] ||= []
+            options[:powered_on] ||= false
+            if options[:ips]
+              options[:ips] = options[:ips].is_a?(String) ? [options[:ips]] : options[:ips]
+            else
+              options[:network_uri] = options[:network_uri].is_a?(String) ? [options[:network_uri]] : options[:network_uri]
+              options[:network_uri].each do |uri|
+                index = options[:network_uri].index(uri)
+                ip = Fog::Compute::Ecloud::IpAddresses.new(:connection => connection, :href => uri).detect { |i| i.host == nil }.name
+                options[:ips] ||= []
+                options[:ips][index] = ip
+              end
+            end
+            data = connection.virtual_machine_copy("/cloudapi/ecloud/virtualMachines/computePools/#{compute_pool_id}/action/copyVirtualMachine", options).body
+          elsif options[:type] == :identical
+            data = connection.virtual_machine_copy_identical("/cloudapi/ecloud/virtualMachines/computePools/#{compute_pool_id}/action/copyIdenticalVirtualMachine", options).body
+          end
+          vm = collection.from_data(data)
+          vm
         end
 
-        def cpus
-          if cpu_mess
-            { :count => cpu_mess[:VirtualQuantity].to_i,
-              :units => cpu_mess[:AllocationUnits] }
+        def rnats
+          rnats = Fog::Compute::Ecloud::Rnats.new(:connection => connection, :href => "/cloudapi/ecloud/rnats/environments/#{environment_id}")
+          associations = nil
+          rnats.each do |rnat|
+            if rnats.index(rnat) == 0
+              associations = rnat.associations.select do |association|
+                ips.any? do |ip|
+                  association.name == ip.name
+                end
+              end
+            else
+              rnat.associations.select do |association|
+                ips.each do |ip|
+                  if ip.name == association.name
+                    associations << association
+                  end
+                end
+              end
+            end
+          end
+          associations
+        end
+
+        def edit(options = {})
+          data = connection.virtual_machine_edit(href, options).body
+          if data[:type] == "application/vnd.tmrk.cloud.task"
+            task = Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => data[:href])[0]
           end
         end
 
-        def cpus=(qty)
-          @changed = true
-          cpu_mess[:VirtualQuantity] = qty.to_s
+        def create_rnat(options)
+          options[:host_ip_href] ||= ips.first.href
+          options[:uri] = "/cloudapi/ecloud/rnats/environments/#{environment_id}/action/createAssociation"
+          data = connection.rnat_associations_create_device(options).body
+          rnat = Fog::Compute::Ecloud::Associations.new(:connection => connection, :href => data[:href])[0]
         end
-
-        def memory
-          if memory_mess
-            { :amount => memory_mess[:VirtualQuantity].to_i,
-              :units => memory_mess[:AllocationUnits] }
-          end
-        end
-
-        def memory=(amount)
-          @changed = true
-          memory_mess[:VirtualQuantity] = amount.to_s
-        end
-
+        
         def disks
-          disk_mess.map do |dm|
-            { :number => dm[:AddressOnParent], :size => dm[:VirtualQuantity].to_i, :resource => dm[:HostResource] }
-          end
+          c = hardware_configuration.reload.storage[:Disk]
+          c = c.is_a?(Hash) ? [c] : c
+          @disks = c
         end
 
         def add_disk(size)
-          if @disk_change == :deleted
-            raise RuntimeError, "Can't add a disk w/o saving changes or reloading"
-          else
-            @disk_change = :added
-            load_unless_loaded!
-            virtual_hardware[:Item] << { :ResourceType => '17',
-                                         :AddressOnParent => (disk_mess.map { |dm| dm[:AddressOnParent] }.sort.last.to_i + 1).to_s,
-                                         :VirtualQuantity => size.to_s }
-          end
-          true
+          index = disks.map { |d| d[:Index].to_i }.sort[-1] + 1
+          vm_disks = disks << {:Index => index, :Size=>{:Unit => "GB", :Value => size}}
+          data = connection.virtual_machine_edit_hardware_configuration(href + "/hardwareConfiguration", _configuration_data(:disks => vm_disks)).body
+          task = Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => data[:href])[0]
         end
 
-        def delete_disk(number)
-          if @disk_change == :added
-            raise RuntimeError, "Can't delete a disk w/o saving changes or reloading"
-          else
-            @disk_change = :deleted
-            load_unless_loaded!
-            unless number == 0
-              virtual_hardware[:Item].delete_if { |vh| vh[:ResourceType] == '17' && vh[:AddressOnParent].to_i == number }
-            end
-          end
-          true
+        def nics
+          c = hardware_configuration.network_cards[:Nic]
+          c = c.is_a?(Hash) ? [c] : c
+          @nics = c
         end
 
-        def reload
-          reset_tracking
-          super
+        def add_nic(network)
+          unit_number = nics.map { |n| n[:UnitNumber].to_i }.sort[-1] + 1
+          vm_nics = nics << {:UnitNumber => unit_number, :Network => {:href => network.href, :name => network.name, :type => "application/vnd.tmrk.cloud.network"}}
+          data = connection.virtual_machine_edit_hardware_configuration(href + "/hardwareConfiguration", _configuration_data(:nics => vm_nics)).body
+          task = Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => data[:href])[0]
         end
 
-        def save
-          if new_record?
-            #Lame ...
-            raise RuntimeError, "Should not be here"
+        def storage_size
+          vm_disks = disks
+          disks.map! { |d| d[:Size][:Value].to_i }.inject(0){|sum,item| sum + item} * 1024 * 1024        
+        end
+
+        def ready?
+          load_unless_loaded!
+          unless status =~ /NotDeployed|Orphaned|TaskInProgress|CopyInProgress/
+            true
           else
-            if on?
-              if @changed
-                raise RuntimeError, "Can't save cpu, name or memory changes while the VM is on."
-              end
-            end
-            connection.configure_vapp( href, _compose_vapp_data )
+            false
           end
-          reset_tracking
+        end
+
+        def on?
+          powered_on == true
+        end
+
+        def off?
+          powered_on == false
+        end
+
+        def compute_pool_id
+          other_links[:Link].detect { |l| l[:type] == "application/vnd.tmrk.cloud.computePool" }[:href].scan(/\d+/)[0]
+        end
+
+        def environment_id
+          other_links[:Link].detect { |l| l[:type] == "application/vnd.tmrk.cloud.environment" }[:href].scan(/\d+/)[0]
+        end
+
+        def id
+          href.scan(/\d+/)[0]
         end
 
         private
 
-        def reset_tracking
-          @disk_change = false
-          @changed = false
-        end
-
-        def _compose_vapp_data
-          { :name   => name,
-            :cpus   => cpus[:count],
-            :memory => memory[:amount],
-            :disks  => disks
-          }
-        end
-
-        def memory_mess
-          load_unless_loaded!
-          if virtual_hardware && virtual_hardware[:Item]
-            virtual_hardware[:Item].detect { |item| item[:ResourceType] == "4" }
-          end
-        end
-
-        def cpu_mess
-          load_unless_loaded!
-          if virtual_hardware && virtual_hardware[:Item]
-            virtual_hardware[:Item].detect { |item| item[:ResourceType] == "3" }
-          end
-        end
-
-        def disk_mess
-          load_unless_loaded!
-          if virtual_hardware && virtual_hardware[:Item]
-            virtual_hardware[:Item].select { |item| item[:ResourceType] == "17" }
-          else
-            []
-          end
+        def _configuration_data(options = {})
+          {:cpus => (options[:cpus] || hardware_configuration.processor_count), :memory => (options[:memory] || hardware_configuration.mem), :disks => (options[:disks] || disks), :nics => (options[:nics] || nics)}
         end
 
         def power_operation(op)
           requires :href
           begin
-            connection.send(op.keys.first, href + "/power/action/#{op.values.first}" )
-          rescue Excon::Errors::InternalServerError => e
+            connection.send(op.keys.first, href + "/action/#{op.values.first}" )
+          rescue Excon::Errors::Conflict => e
             #Frankly we shouldn't get here ...
             raise e unless e.to_s =~ /because it is already powered o(n|ff)/
           end
