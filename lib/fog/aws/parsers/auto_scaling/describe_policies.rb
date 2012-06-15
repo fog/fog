@@ -49,13 +49,15 @@ module Fog
               @response['DescribePoliciesResult'] = @results
             
             when 'Alarms'
-              if @in_alarms == true
+              @in_alarms = false
+            when 'member'
+              if @in_alarms
                 @scaling_policy['Alarms'] << @alarm
                 reset_alarm
-              end            
-            when 'member'
-              @results['ScalingPolicies'] << @scaling_policy
-              reset_scaling_policy              
+              else
+                @results['ScalingPolicies'] << @scaling_policy
+                reset_scaling_policy
+              end
             end
           end
 
