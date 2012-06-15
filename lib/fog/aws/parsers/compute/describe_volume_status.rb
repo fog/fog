@@ -5,7 +5,7 @@ module Fog
         class DescribeVolumeStatus < Fog::Parsers::Base
 
           def new_volume
-            @volume = { 'volumeStatus' => { 'details' => [] }, 'eventSet' => {}, 'actionSet' => {} }
+            @volume = { 'volumeStatus' => { 'details' => [] }, 'eventsSet' => {}, 'actionsSet' => {} }
           end
 
           def reset
@@ -23,10 +23,10 @@ module Fog
               @inside = :volume_status
             when 'details'
               @inside = :details
-            when 'eventSet'
-              @inside = :event
-            when 'actionSet'
-              @inside = :action
+            when 'eventsSet'
+              @inside = :events
+            when 'actionsSet'
+              @inside = :actions
             end
           end
 
@@ -37,9 +37,9 @@ module Fog
               @inside = nil
             when 'volumeStatus'
               @inside = nil
-            when 'eventSet'
+            when 'eventsSet'
               @inside = nil
-            when 'actionSet'
+            when 'actionsSet'
               @inside = nil
             when 'item'
               @response['volumeStatusSet'] << @volume if @inside.nil?
