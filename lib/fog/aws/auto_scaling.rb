@@ -49,6 +49,8 @@ module Fog
       collection :groups
       model      :instance
       collection :instances
+      model      :policy
+      collection :policies
 
       class Real
 
@@ -153,6 +155,7 @@ module Fog
                   'PercentChangeInCapacity'
                 ],
                 :auto_scaling_groups => {},
+                :scaling_policies => {},
                 :health_states => ['Healthy', 'Unhealthy'],
                 :launch_configurations => {},
                 :metric_collection_types => {
