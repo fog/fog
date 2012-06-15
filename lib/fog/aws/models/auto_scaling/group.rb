@@ -112,7 +112,10 @@ module Fog
           requires :max_size
           requires :min_size
 
-          connection.create_auto_scaling_group(id, availability_zones, launch_configuration_name, max_size, min_size)
+          options = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
+          options.delete_if { |key, value| value.nil? }
+
+          connection.create_auto_scaling_group(id, availability_zones, launch_configuration_name, max_size, min_size, options)
           reload
         end
 
@@ -126,10 +129,10 @@ module Fog
           connection.delete_auto_scaling_group(id)
         end
 
-      private
-
-        def update(options)
+        def update
           requires :id
+          options = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
+          options.delete_if { |key, value| value.nil? }
           connection.update_auto_scaling_group(id, options)
           reload
         end
