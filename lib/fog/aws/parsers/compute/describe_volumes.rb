@@ -2,9 +2,7 @@ module Fog
   module Parsers
     module Compute
       module AWS
-
         class DescribeVolumes < Fog::Parsers::Base
-
           def reset
             @attachment = {}
             @in_attachment_set = false
