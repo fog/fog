@@ -184,7 +184,7 @@ module Fog
                   'ipProtocol' => permission['IpProtocol'],
                   'fromPort' => Integer(permission['FromPort']),
                   'toPort' => Integer(permission['ToPort']),
-                  'groups' => (permission['Groups'] || []).map {|g| {'groupName' => g['GroupName'], 'userId' => g['UserId'] || self.data[:owner_id], 'groupId' => self.data[:security_groups][g['GroupName']]['groupId']} },
+                  'groups' => (permission['Groups'] || []).map {|g| {'groupName' => g['GroupName'], 'userId' => g['UserId'] || self.data[:owner_id], 'groupId' => self.data[:security_groups][g['GroupName']] && self.data[:security_groups][g['GroupName']]['groupId']} },
                   'ipRanges' => (permission['IpRanges'] || []).map {|r| { 'cidrIp' => r['CidrIp'] } }
                 }
               else
