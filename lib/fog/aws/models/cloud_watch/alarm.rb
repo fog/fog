@@ -18,6 +18,7 @@ module Fog
         attribute :metric_name, :aliases => 'MetricName'
         attribute :namespace, :aliases => 'Namespace'
         attribute :ok_actions, :aliases => 'OKActions'
+        attribute :period, :aliases => 'Period'
         attribute :state_reason, :aliases => 'StateReason'
         attribute :state_reason_data, :aliases => 'StateReasonData'
         attribute :state_updated_timestamp, :aliases => 'StateUpdatedTimestamp'
@@ -25,34 +26,34 @@ module Fog
         attribute :statistic, :aliases => 'Statistic'
         attribute :threshold, :aliases => 'Threshold'
         attribute :unit, :aliases => 'Unit'
-      end
 
-      def initialize(attributes)
-        attributes['EvaluationPeriods'] ||= 1
-        attributes['Namespace']         ||= 'AWS/EC2'
-        super
-      end
+        def initialize(attributes)
+          attributes['EvaluationPeriods'] ||= 1
+          attributes['Namespace']         ||= 'AWS/EC2'
+          super
+        end
 
-      def save
-        requires :id
-        requires :comparison_operator
-        requires :evaluation_periods
-        requires :metric_name
-        requires :namespace
-        requires :period
-        requires :statistic
-        requires :threshold
+        def save
+          requires :id
+          requires :comparison_operator
+          requires :evaluation_periods
+          requires :metric_name
+          requires :namespace
+          requires :period
+          requires :statistic
+          requires :threshold
 
-        options = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
-        options.delete_if { |key, value| value.nil? }
+          options = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
+          options.delete_if { |key, value| value.nil? }
 
-        connection.put_metric_alarm(options)
-        reload
-      end
+          connection.put_metric_alarm(options)
+          reload
+        end
 
-      def destroy
-        requires :id
-        connection.delete_alarms(id)
+        def destroy
+          requires :id
+          connection.delete_alarms(id)
+        end
       end
     end
   end
