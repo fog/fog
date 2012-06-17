@@ -21,7 +21,7 @@ module Fog
         end
 
         def get(identity)
-          data = connections.describe_alarms('AlarmNames' => identity).body['DescribeAlarmsResult']['MetricAlarms'].first
+          data = connection.describe_alarms('AlarmNames' => identity).body['DescribeAlarmsResult']['MetricAlarms'].first
           new(data) unless data.nil?
         end
 
