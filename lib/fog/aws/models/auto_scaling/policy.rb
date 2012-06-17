@@ -14,8 +14,8 @@ module Fog
         attribute :scaling_adjustment,      :aliases => 'ScalingAdjustment'
 
         def initialize(attributes)
-          attributes['AdjustmentType']    = 'ChangeInCapacity'
-          attributes['ScalingAdjustment'] = 1
+          attributes['AdjustmentType']    ||= 'ChangeInCapacity'
+          attributes['ScalingAdjustment'] ||= 1
           super
         end
 
