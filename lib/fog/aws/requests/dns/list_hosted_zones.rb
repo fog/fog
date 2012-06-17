@@ -63,7 +63,7 @@ module Fog
           if options[:marker].nil?
             start = 0
           else
-            start = self.data[:zones].find_index {|z| z[:zone_id] == options[:marker]}
+            start = self.data[:zones].find_index {|z| z[:id] == options[:marker]}
           end
 
           zones     = self.data[:zones].values[start, maxitems]
@@ -87,7 +87,7 @@ module Fog
           }
 
           if truncated
-            response.body['NextMarker'] = next_zone[:zone_id]
+            response.body['NextMarker'] = next_zone[:id]
           end
 
           response

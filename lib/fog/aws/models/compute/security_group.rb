@@ -40,6 +40,8 @@ module Fog
         #
 
         def authorize_group_and_owner(group, owner = nil)
+          Fog::Logger.deprecation("authorize_group_and_ownder is deprecated, use authorize_port_range with :group option instead")
+
           requires_one :name, :group_id
 
           connection.authorize_security_group_ingress(
@@ -62,6 +64,7 @@ module Fog
         # options::
         #   A hash that can contain any of the following keys:
         #    :cidr_ip (defaults to "0.0.0.0/0")
+        #    :group - ("account:group_name" or "account:group_id"), cannot be used with :cidr_ip
         #    :ip_protocol (defaults to "tcp")
         #
         # == Returns:
@@ -81,21 +84,26 @@ module Fog
         def authorize_port_range(range, options = {})
           requires_one :name, :group_id
 
+          ip_permission = {
+            'FromPort'   => range.min,
+            'ToPort'     => range.max,
+            'IpProtocol' => options[:ip_protocol] || 'tcp'
+          }
+
+          if options[:group].nil?
+            ip_permission['IpRanges'] = [
+              { 'CidrIp' => options[:cidr_ip] || '0.0.0.0/0' }
+            ]
+          else
+            ip_permission['Groups'] = [
+              group_info(options[:group])
+            ]
+          end
+
           connection.authorize_security_group_ingress(
             name,
             'GroupId'       => group_id,
-            'IpPermissions' => [
-              {
-                'FromPort'   => range.min,
-                'ToPort'     => range.max,
-                'IpProtocol' => options[:ip_protocol] || 'tcp',
-                'IpRanges'   => [
-                  {
-                    'CidrIp' => options[:cidr_ip] || '0.0.0.0/0'
-                  }
-                ]
-              }
-            ]
+            'IpPermissions' => [ ip_permission ]
           )
         end
 
@@ -146,6 +154,8 @@ module Fog
         #
 
         def revoke_group_and_owner(group, owner = nil)
+          Fog::Logger.deprecation("revoke_group_and_owner is deprecated, use revoke_port_range with :group option instead")
+
           requires_one :name, :group_id
 
           connection.revoke_security_group_ingress(
@@ -168,6 +178,7 @@ module Fog
         # options::
         #   A hash that can contain any of the following keys:
         #    :cidr_ip (defaults to "0.0.0.0/0")
+        #    :group - ("account:group_name" or "account:group_id"), cannot be used with :cidr_ip
         #    :ip_protocol (defaults to "tcp")
         #
         # == Returns:
@@ -187,21 +198,26 @@ module Fog
         def revoke_port_range(range, options = {})
           requires_one :name, :group_id
 
+          ip_permission = {
+            'FromPort'   => range.min,
+            'ToPort'     => range.max,
+            'IpProtocol' => options[:ip_protocol] || 'tcp'
+          }
+
+          if options[:group].nil?
+            ip_permission['IpRanges'] = [
+              { 'CidrIp' => options[:cidr_ip] || '0.0.0.0/0' }
+            ]
+          else
+            ip_permission['Groups'] = [
+              group_info(options[:group])
+            ]
+          end
+
           connection.revoke_security_group_ingress(
             name,
             'GroupId'       => group_id,
-            'IpPermissions' => [
-              {
-                'FromPort'   => range.min,
-                'ToPort'     => range.max,
-                'IpProtocol' => options[:ip_protocol] || 'tcp',
-                'IpRanges'   => [
-                  {
-                    'CidrIp' => options[:cidr_ip] || '0.0.0.0/0'
-                  }
-                ]
-              }
-            ]
+            'IpPermissions' => [ ip_permission ]
           )
         end
 
@@ -222,6 +238,28 @@ module Fog
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           true
+        end
+
+        private
+
+        def group_info(group_str)
+          account, group = group_str.split(":")
+
+          if account.empty? || group.nil? || group.empty?
+            raise ArgumentError, "group must be specified in form of \"<account id>:<group name or id>\", #{group_str} given"
+          end
+
+          info = { 'UserId' => account }
+
+          if group.start_with?("sg-")
+            # we're dealing with a security group id
+            info['GroupId'] = group
+          else
+            # this has to be a security group name
+            info['GroupName'] = group
+          end
+
+          info
         end
 
       end

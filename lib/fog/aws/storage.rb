@@ -331,7 +331,7 @@ DATA
               partNumber
               policy
               requestPayment
-              reponse-cache-control
+              response-cache-control
               response-content-disposition
               response-content-encoding
               response-content-language

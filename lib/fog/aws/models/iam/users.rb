@@ -15,7 +15,7 @@ module Fog
         end
 
         def get(identity)
-          data = connection.get_user('UserName' => identity).body['User']
+          data = connection.get_user(identity).body['User']
           new(data) # data is an attribute hash
         rescue Fog::AWS::IAM::NotFound
           nil

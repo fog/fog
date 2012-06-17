@@ -129,8 +129,8 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
     end
 
     tests('get') do
-      elb_get = Fog::AWS[:elb].load_balancers.get(elb_id)
-      tests('ids match').returns(elb_id) { elb_get.id }
+      tests('ids match').returns(elb_id) { Fog::AWS[:elb].load_balancers.get(elb_id).id }
+      tests('nil id').returns(nil) { Fog::AWS[:elb].load_balancers.get(nil) }
     end
 
     tests('creating a duplicate elb') do
