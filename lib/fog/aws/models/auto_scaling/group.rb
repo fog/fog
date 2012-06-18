@@ -21,6 +21,7 @@ module Fog
         attribute :placement_group,           :aliases => 'PlacementGroup'
         attribute :suspended_processes,       :aliases => 'SuspendedProcesses'
         attribute :vpc_zone_identifier,       :aliases => 'VPCZoneIdentifier'
+        attribute :tags,                      :aliases => 'Tags'
 
         def initialize(attributes={})
           attributes['DefaultCooldown'] ||= 0
@@ -33,6 +34,7 @@ module Fog
           attributes['MaxSize'] ||= 0
           attributes['MinSize'] ||= 0
           attributes['SuspendedProcesses'] ||= []
+          attributes['Tags'] ||= []
           super
         end
 

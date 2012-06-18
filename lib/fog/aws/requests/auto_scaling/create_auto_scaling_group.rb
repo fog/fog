@@ -54,7 +54,11 @@ module Fog
             options.merge!(AWS.indexed_param('LoadBalancerNames.member.%d', [*load_balancer_names]))
           end
           if tags = options.delete('Tags')
-            options.merge!(AWS.indexed_param('Tags.member.%d', [*tags]))
+            tags.each_with_index do |tag, i|
+              tag.each do |key, value|
+                options["Tags.member.#{i + 1}.#{key.to_s.capitalize}"] = value
+              end
+            end
           end
           request({
             'Action'                  => 'CreateAutoScalingGroup',
