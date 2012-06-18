@@ -9,8 +9,8 @@ module Fog
             @block_device_mapping = {}
             @network_interface = {}
             @context = []
-            @contexts = ['blockDeviceMapping', 'groupSet', 'instancesSet', 'instanceState', 'networkInterfaceSet', 'placement', 'productCodes', 'stateReason', 'tagSet']
-            @instance = { 'blockDeviceMapping' => [], 'networkInterfaces' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
+            @contexts = ['blockDeviceMapping', 'groupSet', 'iamInstanceProfile', 'instancesSet', 'instanceState', 'networkInterfaceSet', 'placement', 'productCodes', 'stateReason', 'tagSet']
+            @instance = { 'blockDeviceMapping' => [], 'networkInterfaces' => [], 'iamInstanceProfile' => {}, 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
             @reservation = { 'groupIds' => [], 'groupSet' => [], 'instancesSet' => [] }
             @response = { 'reservationSet' => [] }
             @tag = {}
@@ -27,6 +27,8 @@ module Fog
             case name
             when 'amiLaunchIndex'
               @instance[name] = value.to_i
+            when 'arn'
+              @instance[@context.last][name] = value
             when 'availabilityZone', 'tenancy'
               @instance['placement'][name] = value
             when 'architecture', 'clientToken', 'dnsName', 'imageId',
@@ -61,6 +63,8 @@ module Fog
               when 'placement'
                 @instance['placement'][name] = value
               end
+            when 'id'
+              @instance[@context.last][name] = value
             when 'item'
               case @context.last
               when 'blockDeviceMapping'
@@ -71,7 +75,7 @@ module Fog
                 @network_interface = {}
               when 'instancesSet'
                 @reservation['instancesSet'] << @instance
-                @instance = { 'blockDeviceMapping' => [], 'networkInterfaces' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
+                @instance = { 'blockDeviceMapping' => [], 'networkInterfaces' => [], 'iamInstanceProfile' => {}, 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
               when 'tagSet'
                 @instance['tagSet'][@tag['key']] = @tag['value']
                 @tag = {}

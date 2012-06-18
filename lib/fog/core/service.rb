@@ -47,15 +47,8 @@ module Fog
       end
 
       def new(options={})
-        # attempt to load credentials from config file
         options = Fog.symbolize_credentials(options)
-        begin
-          default_credentials = Fog.credentials.reject {|key, value| !(recognized | requirements).include?(key)}
-          options = default_credentials.merge(options)
-        rescue LoadError
-          # if there are no configured credentials, do nothing
-        end
-
+        options = fetch_credentials(options).merge(options)
         validate_options(options)
         coerce_options(options)
         setup_requirements
@@ -66,6 +59,16 @@ module Fog
         else
           service::Real.send(:include, service::Collections)
           service::Real.new(options)
+        end
+      end
+
+      def fetch_credentials(options)
+        # attempt to load credentials from config file
+        begin
+          default_credentials = Fog.credentials.reject {|key, value| !(recognized | requirements).include?(key)}
+        rescue LoadError
+          # if there are no configured credentials, do nothing
+          {}
         end
       end
 
