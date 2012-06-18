@@ -49,8 +49,12 @@ module Fog
         #
         def create_auto_scaling_group(auto_scaling_group_name, availability_zones, launch_configuration_name, max_size, min_size, options = {})
           options.merge!(AWS.indexed_param('AvailabilityZones.member.%d', [*availability_zones]))
+          options.delete('AvailabilityZones')
           if load_balancer_names = options.delete('LoadBalancerNames')
             options.merge!(AWS.indexed_param('LoadBalancerNames.member.%d', [*load_balancer_names]))
+          end
+          if tags = options.delete('Tags')
+            options.merge!(AWS.indexed_param('Tags.member.%d', [*tags]))
           end
           request({
             'Action'                  => 'CreateAutoScalingGroup',

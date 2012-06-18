@@ -4,7 +4,6 @@ module Fog
   module AWS
     class AutoScaling
       class Group < Fog::Model
-
         identity  :id,                        :aliases => 'AutoScalingGroupName'
         attribute :arn,                       :aliases => 'AutoScalingGroupARN'
         attribute :availability_zones,        :aliases => 'AvailabilityZones'
@@ -112,9 +111,6 @@ module Fog
           requires :max_size
           requires :min_size
 
-          options = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
-          options.delete_if { |key, value| value.nil? }
-
           connection.create_auto_scaling_group(id, availability_zones, launch_configuration_name, max_size, min_size, options)
           reload
         end
@@ -131,12 +127,15 @@ module Fog
 
         def update
           requires :id
-          options = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
-          options.delete_if { |key, value| value.nil? }
           connection.update_auto_scaling_group(id, options)
           reload
         end
 
+        def options
+          ret = Hash[self.class.aliases.map { |key, value| [key, send(value)] }]
+          ret.delete_if { |key, value| value.nil? }
+          ret
+        end
       end
     end
   end
