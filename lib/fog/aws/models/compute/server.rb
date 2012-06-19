@@ -164,9 +164,10 @@ module Fog
           }
           options.delete_if {|key, value| value.nil?}
 
-          # If subnet is defined we are working on a virtual private cloud.
-          # subnet & security group cannot co-exist. I wish VPC just ignored
-          # the security group parameter instead, it would be much easier!
+          # If subnet is defined then this is a Virtual Private Cloud.
+          # subnet & security group cannot co-exist. Attempting to specify 
+          # both subnet and groups will cause an error.  Instead please make
+          # use of Security Group Ids when working in a VPC.
           if subnet_id
             options.delete('SecurityGroup')
           else
