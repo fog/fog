@@ -122,6 +122,7 @@ module Fog
           refresh_credentials_if_expired
           params[:headers] ||= {}
           params[:headers]['Date'] = Fog::Time.now.to_date_header
+          params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
           params[:headers]['X-Amzn-Authorization'] = "AWS3-HTTPS AWSAccessKeyId=#{@aws_access_key_id},Algorithm=HmacSHA1,Signature=#{signature(params)}"
           params[:path] = "/#{@version}/#{params[:path]}"
           @connection.request(params, &block)

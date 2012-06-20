@@ -119,6 +119,7 @@ module Fog
 
           params[:headers] ||= {}
           params[:headers]['Date'] = Fog::Time.now.to_date_header
+          params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
           params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
           params[:path] = "/#{@version}/#{params[:path]}" 
           @connection.request(params, &block)

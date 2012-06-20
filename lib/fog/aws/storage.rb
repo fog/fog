@@ -99,6 +99,7 @@ module Fog
           params[:headers]['Date'] = expires.to_i
           params[:path] = Fog::AWS.escape(params[:path]).gsub('%2F', '/')
           query = []
+          params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
           if params[:query]
             for key, value in params[:query]
               query << "#{key}=#{Fog::AWS.escape(value)}"
@@ -107,6 +108,7 @@ module Fog
           query << "AWSAccessKeyId=#{@aws_access_key_id}"
           query << "Signature=#{Fog::AWS.escape(signature(params))}"
           query << "Expires=#{params[:headers]['Date']}"
+          query << "x-amz-security-token=#{Fog::AWS.escape(@aws_session_token)}" if @aws_session_token
           port_part = params[:port] && ":#{params[:port]}"
           "#{params[:scheme]}://#{params[:host]}#{port_part}/#{params[:path]}?#{query.join('&')}"
         end
@@ -379,8 +381,8 @@ DATA
           refresh_credentials_if_expired
 
           params[:headers]['Date'] = Fog::Time.now.to_date_header
+          params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
           params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
-
           # FIXME: ToHashParser should make this not needed
           original_params = params.dup
 

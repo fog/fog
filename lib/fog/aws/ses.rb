@@ -82,11 +82,12 @@ module Fog
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
+
           headers = {
             'Content-Type'  => 'application/x-www-form-urlencoded',
-            'Date'          => Fog::Time.now.to_date_header
+            'Date'          => Fog::Time.now.to_date_header,
           }
-
+          headers['x-amz-security-token'] = @aws_session_token if @aws_session_token
           #AWS3-HTTPS AWSAccessKeyId=<Your AWS Access Key ID>, Algorithm=HmacSHA256, Signature=<Signature>
           headers['X-Amzn-Authorization'] = 'AWS3-HTTPS '
           headers['X-Amzn-Authorization'] << 'AWSAccessKeyId=' << @aws_access_key_id

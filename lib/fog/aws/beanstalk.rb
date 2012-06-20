@@ -111,6 +111,7 @@ module Fog
               params,
               {
                   :aws_access_key_id  => @aws_access_key_id,
+                  :aws_session_token  => @aws_session_token,
                   :hmac               => @hmac,
                   :host               => @host,
                   :path               => @path,
