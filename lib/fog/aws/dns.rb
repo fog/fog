@@ -90,7 +90,7 @@ module Fog
           @hmac       = Fog::HMAC.new('sha1', @aws_secret_access_key)
           @host       = options[:host]        || 'route53.amazonaws.com'
           @path       = options[:path]        || '/'
-          @persistent = options[:persistent].nil?  || options[:persistent]
+          @persistent = options.fetch(:persistent, true)
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
           @version    = options[:version]     || '2012-02-29'
