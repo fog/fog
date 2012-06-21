@@ -12,7 +12,7 @@ module Fog
         require 'net/scp'
         requires :public_ip_address, :username
 
-        scp_options = {}
+        scp_options = {:port => ssh_port}
         scp_options[:key_data] = [private_key] if private_key
         Fog::SCP.new(public_ip_address, username, scp_options).upload(local_path, remote_path, upload_options)
       end
@@ -23,7 +23,7 @@ module Fog
         require 'net/scp'
         requires :public_ip_address, :username
 
-        scp_options = {}
+        scp_options = {:port => ssh_port}
         scp_options[:key_data] = [private_key] if private_key
         Fog::SCP.new(public_ip_address, username, scp_options).download(remote_path, local_path, download_options)
       end
@@ -33,7 +33,12 @@ module Fog
         requires :public_ip_address, :username
 
         options[:key_data] = [private_key] if private_key
+        options[:port] ||= ssh_port
         Fog::SSH.new(public_ip_address, username, options).run(commands, &blk)
+      end
+
+      def ssh_port
+        22
       end
 
       def sshable?
