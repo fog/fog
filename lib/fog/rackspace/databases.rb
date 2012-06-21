@@ -10,6 +10,7 @@ module Fog
       requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url
       recognizes :rackspace_auth_token
+      recognizes :rackspace_endpoint
 
       model_path 'fog/rackspace/models/databases'
       model :flavor
@@ -24,11 +25,24 @@ module Fog
       request_path 'fog/rackspace/requests/databases'
       request :list_flavors_details
       request :get_flavor
+
       request :list_instances_details
       request :get_instance
+      request :create_instance
+      request :delete_instance
       request :check_root_user
+      request :enable_root_user
+      request :restart_instance
+      request :resize_instance
+      request :resize_instance_volume
+
       request :list_databases
+      request :create_database
+      request :delete_database
+
       request :list_users
+      request :create_user
+      request :delete_user
 
       class Mock
         def request(params)
@@ -44,7 +58,7 @@ module Fog
           @rackspace_must_reauthenticate = false
           @connection_options = options[:connection_options] || {}
 
-          endpoint = options[:rackspace_databases_endpoint] || DFW_ENDPOINT
+          endpoint = options[:rackspace_endpoint] || DFW_ENDPOINT
           uri = URI.parse(endpoint)
 
           @host = uri.host
