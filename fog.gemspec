@@ -64,7 +64,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency('virtualbox', '~>0.9.1')
   s.add_development_dependency('fission')
   s.add_development_dependency('pry')
-  s.add_development_dependency('fakeweb')
 #  s.add_development_dependency('ruby-libvirt','~>0.4.0')
 
   s.files = `git ls-files`.split("\n")

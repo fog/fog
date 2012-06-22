@@ -1,20 +1,18 @@
-require 'net/http'
-require 'uri'
 require 'fog/core/json'
 module Fog
   module AWS
     module CredentialFetcher
-      INSTANCE_METADATA_URI = "http://169.254.169.254/latest/meta-data/iam/security-credentials/"
+      INSTANCE_METADATA_HOST = "http://169.254.169.254"
+      INSTANCE_METADATA_PATH = "/latest/meta-data/iam/security-credentials/"
       module ServiceMethods
         def fetch_credentials(options)
           if options[:use_iam_profile]
             begin
-              role_name = Net::HTTP.get_response(URI.parse(INSTANCE_METADATA_URI))
-              role_name.error! unless role_name.is_a?(Net::HTTPSuccess)
-              role_data = Net::HTTP.get_response(URI.parse(INSTANCE_METADATA_URI+role_name.body))
-              role_data.error! unless role_data.is_a?(Net::HTTPSuccess)
+              connection = options[:connection] || Excon.new(INSTANCE_METADATA_HOST)
+              role_name = connection.get(:path => INSTANCE_METADATA_PATH, :expects => 200).body
+              role_data = connection.get(:path => INSTANCE_METADATA_PATH+role_name, :expects => 200).body
 
-              session = Fog::JSON.decode(role_data.body)
+              session = Fog::JSON.decode(role_data)
               credentials = {}
               credentials[:aws_access_key_id] = session['AccessKeyId']  
               credentials[:aws_secret_access_key] = session['SecretAccessKey']
@@ -22,7 +20,7 @@ module Fog
               credentials[:aws_credentials_expire_at] = Time.xmlschema session['Expiration']
               #these indicate the metadata service is unavailable or has no profile setup
               credentials
-            rescue Errno::EHOSTUNREACH, Errno::ECONNREFUSED, SocketError, Timeout::Error, Net::HTTPError, Net::HTTPServerException => e
+            rescue Excon::Errors::Error => e
               Fog::Logger.warning("Unable to fetch credentuals: #{e.message}")
               super
             end
