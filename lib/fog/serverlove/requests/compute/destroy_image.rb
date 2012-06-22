@@ -3,7 +3,7 @@ module Fog
     class Serverlove
       class Real
 
-        def destroy_drive(drive_id)
+        def destroy_image(drive_id)
           request(:method => "post", :path => "/drives/#{drive_id}/destroy", :expects => 204)
         end
 

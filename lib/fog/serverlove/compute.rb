@@ -9,12 +9,15 @@ module Fog
       recognizes :serverlove_api_url
       
       request_path 'fog/serverlove/requests/compute'
-      request :get_drives
-      request :destroy_drive
+      request :get_image
+      request :get_images
+      request :destroy_image
+      request :create_image
+      request :update_image
       
       model_path 'fog/serverlove/models/compute'
-      model       :drive
-      collection  :drives
+      model       :image
+      collection  :images
       
       class Mock
         
@@ -45,6 +48,7 @@ module Fog
               "Accept" => "application/json"
             }
           )
+          params[:body] = encode_pairs(params[:options]) unless params[:options].nil?
           response = @connection.request(params)
           
           raise_if_error!(response)
@@ -54,7 +58,12 @@ module Fog
           response
         end
         
-        
+        def encode_pairs(params)
+          params.keys.collect do |key|
+            "#{key} #{params[key]}"
+          end.join("\n")
+        end
+
         def raise_if_error!(response)
           case response.status
           when 400 then 
