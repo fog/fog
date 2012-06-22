@@ -9,6 +9,8 @@ module Fog
       requires :aws_access_key_id, :aws_secret_access_key
       recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at
 
+      secrets    :aws_secret_access_key, :hmac, :aws_session_token
+
       model_path 'fog/aws/models/compute'
       model       :address
       collection  :addresses

@@ -9,6 +9,12 @@ module Fog
     class Error < Fog::Errors::Error; end
     class NotFound < Fog::Errors::NotFound; end
 
+    module NoLeakInspector
+      def inspect
+        "#<#{self.class}:#{self.object_id} #{(self.instance_variables - service.secrets).map {|iv| [iv, self.instance_variable_get(iv).inspect].join('=')}.join(' ')}>"
+      end
+    end
+
     module Collections
 
       def collections
@@ -58,6 +64,7 @@ module Fog
           service::Mock.new(options)
         else
           service::Real.send(:include, service::Collections)
+          service::Real.send(:include, service::NoLeakInspector)
           service::Real.new(options)
         end
       end
@@ -161,6 +168,16 @@ module Fog
 
       def requests
         @requests ||= []
+      end
+
+      def secrets(*args)
+        if args.empty?
+          @secrets ||= []
+        else
+          args.inject(secrets) do |secrets, secret|
+            secrets << "@#{secret}".to_sym
+          end
+        end
       end
 
       def requires(*args)
