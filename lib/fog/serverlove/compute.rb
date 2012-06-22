@@ -15,10 +15,14 @@ module Fog
       request :create_image
       request :update_image
       
-      model_path 'fog/serverlove/models/compute'
       model       :image
       collection  :images
+
+      request :get_servers
       
+      model       :server
+      collection  :servers
+
       class Mock
         
         def initialize(options)
@@ -64,6 +68,7 @@ module Fog
           end.join("\n")
         end
 
+        # TODO
         def raise_if_error!(response)
           case response.status
           when 400 then 
