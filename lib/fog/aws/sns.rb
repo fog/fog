@@ -50,7 +50,6 @@ module Fog
         # ==== Returns
         # * SNS object with connection to AWS.
         def initialize(options={})
-          require 'multi_json'
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
