@@ -16,7 +16,7 @@ Shindo.tests('Fog::Compute[:serverlove] | drive requests', ['serverlove']) do
   
   tests('success') do
 
-    attributes = { 'name' => 'Test', 'size' => '1234567890' }
+    attributes = { 'name' => 'Test', 'size' => '4234567890' }
 
     tests("#create_image").formats(@image_format) do
       @image = Fog::Compute[:serverlove].create_image(attributes).body
@@ -30,11 +30,13 @@ Shindo.tests('Fog::Compute[:serverlove] | drive requests', ['serverlove']) do
       @image['name'] = "Diff"
       Fog::Compute[:serverlove].update_image(@image['drive'], { name: @image['name'], size: @image['size']})
       Fog::Compute[:serverlove].images.get(@image['drive']).name == "Diff"
+      
     end
     
-    tests("#load_standard_image").succeeds do
+    tests("#load_standard_image").returns(true) do
       # Load centos
-      Fog::Compute[:serverlove].load_standard_image(@image['drive'], '679f5f44-0be7-4745-a658-cccd4334c1aa')
+      Fog::Compute[:serverlove].load_standard_image(@image['drive'], '88ed067f-d2b8-42ce-a25f-5297818a3b6f')
+      Fog::Compute[:serverlove].images.get(@image['drive']).imaging != "" # This will be "x%" when imaging
     end
     
     tests("#destroy_image").succeeds do
