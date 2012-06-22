@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'brightbox'))
+require 'fog/brightbox'
 require 'fog/compute'
 
 module Fog
@@ -86,7 +86,6 @@ module Fog
       request :remove_servers_server_group
       request :reset_ftp_password_account
       request :reset_secret_api_client
-      request :resize_server
       request :shutdown_server
       request :snapshot_server
       request :start_server
@@ -166,7 +165,7 @@ module Fog
           begin
             get_oauth_token if @oauth_token.nil?
             response = authenticated_request(params)
-          rescue Excon::Errors::Unauthorized => e
+          rescue Excon::Errors::Unauthorized
             get_oauth_token
             response = authenticated_request(params)
           end

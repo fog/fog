@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+require 'fog/aws'
 require 'fog/storage'
 
 module Fog
@@ -331,7 +331,7 @@ DATA
               partNumber
               policy
               requestPayment
-              reponse-cache-control
+              response-cache-control
               response-content-disposition
               response-content-encoding
               response-content-language
@@ -352,7 +352,7 @@ DATA
           string_to_sign << canonical_resource
 
           signed_string = @hmac.sign(string_to_sign)
-          signature = Base64.encode64(signed_string).chomp!
+          Base64.encode64(signed_string).chomp!
         end
 
         private

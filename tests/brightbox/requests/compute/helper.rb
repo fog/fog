@@ -7,6 +7,7 @@ module Fog
       module Interface; end
       module LoadBalancer; end
       module Server; end
+      module ServerGroup; end
       module Zone; end
     end
   end
@@ -29,6 +30,9 @@ NilClass.send :include, Fog::Brightbox::Nullable::LoadBalancer
 
 Hash.send :include, Fog::Brightbox::Nullable::Server
 NilClass.send :include, Fog::Brightbox::Nullable::Server
+
+Hash.send :include, Fog::Brightbox::Nullable::ServerGroup
+NilClass.send :include, Fog::Brightbox::Nullable::ServerGroup
 
 Hash.send :include, Fog::Brightbox::Nullable::Zone
 NilClass.send :include, Fog::Brightbox::Nullable::Zone
@@ -61,6 +65,11 @@ class Brightbox
     end
     module Formats
       module Struct
+        CIP_PORT_TRANSLATOR = {
+          "protocol" => String,
+          "incoming" => Integer,
+          "outgoing" => Integer
+        }
         LB_LISTENER = {
           "in"              => Integer,
           "out"             => Integer,
@@ -100,6 +109,7 @@ class Brightbox
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
+          "name"            => Fog::Nullable::String,
           "public_ip"       => String,
           "status"          => String,
           "reverse_dns"     => String
@@ -168,6 +178,7 @@ class Brightbox
           "name"            => String,
           "status"          => String,
           "hostname"        => String,
+          "fqdn"            => String,
           "created_at"      => String,
           "started_at"      => Fog::Nullable::String,
           "deleted_at"      => Fog::Nullable::String,
@@ -228,13 +239,16 @@ class Brightbox
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
+          "name"            => Fog::Nullable::String,
           "public_ip"       => String,
           "status"          => String,
           "reverse_dns"     => String,
+          "port_translators" => [Brightbox::Compute::Formats::Struct::CIP_PORT_TRANSLATOR],
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT,
           "interface"       => Fog::Brightbox::Nullable::Interface,
           "load_balancer"   => Fog::Brightbox::Nullable::LoadBalancer,
-          "server"          => Fog::Brightbox::Nullable::Server
+          "server"          => Fog::Brightbox::Nullable::Server,
+          "server_group"     => Fog::Brightbox::Nullable::ServerGroup
         }
 
         FIREWALL_POLICY = {
@@ -306,6 +320,7 @@ class Brightbox
           "name"            => String,
           "status"          => String,
           "hostname"        => String,
+          "fqdn"            => String,
           "created_at"      => String,
           "started_at"      => Fog::Nullable::String,
           "deleted_at"      => Fog::Nullable::String,
@@ -423,13 +438,16 @@ class Brightbox
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
+          "name"            => Fog::Nullable::String,
           "public_ip"       => String,
           "status"          => String,
           "reverse_dns"     => String,
+          "port_translators" => [Brightbox::Compute::Formats::Struct::CIP_PORT_TRANSLATOR],
           "account"         => Fog::Brightbox::Nullable::Account,
           "interface"       => Fog::Brightbox::Nullable::Interface,
           "load_balancer"   => Fog::Brightbox::Nullable::LoadBalancer,
-          "server"          => Fog::Brightbox::Nullable::Server
+          "server"          => Fog::Brightbox::Nullable::Server,
+          "server_group"    => Fog::Brightbox::Nullable::ServerGroup
         }
 
         FIREWALL_POLICY = {
@@ -476,7 +494,8 @@ class Brightbox
           "disk_size"       => Integer,
           "min_ram"         => Fog::Nullable::Integer,
           "ancestor"        => Fog::Brightbox::Nullable::Image,
-          "username"        => Fog::Nullable::String
+          "username"        => Fog::Nullable::String,
+          "licence_name"    => Fog::Nullable::String
         }
 
         INTERFACE = {
@@ -512,6 +531,7 @@ class Brightbox
           "name"            => String,
           "status"          => String,
           "hostname"        => String,
+          "fqdn"            => String,
           "created_at"      => String,
           "started_at"      => Fog::Nullable::String,
           "deleted_at"      => Fog::Nullable::String,

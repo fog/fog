@@ -1,4 +1,4 @@
-SINGLE_NODE_FORMAT = {'address' => String, 'id' => Integer, 'status' => String, 'weight' => Fog::Nullable::Integer, 'port' => Integer, 'condition' => String}
+SINGLE_NODE_FORMAT = {'address' => String, 'id' => Integer, 'status' => String, 'weight' => Fog::Nullable::Integer, 'port' => Integer, 'condition' => String, 'type' => String}
 NODE_FORMAT = {'node' => SINGLE_NODE_FORMAT}
 NODES_FORMAT = {'nodes' => [SINGLE_NODE_FORMAT]}
 VIRTUAL_IP_FORMAT = {'type' => String, 'id' => Integer, 'type' => String, 'ipVersion' => String, 'address' => String}
@@ -9,6 +9,13 @@ SOURCE_ADDRESSES = {
   'ipv6Public'      => String,
 }
 LOAD_BALANCER_USAGE_FORMAT = {
+  'links' => [
+    {
+      'otherAttributes' => [],
+      'href' => Fog::Nullable::String,
+      'rel' => Fog::Nullable::String
+    }
+  ],
   'loadBalancerUsageRecords' => [
     {
       'id' => Fog::Nullable::Integer,
@@ -95,7 +102,8 @@ LOAD_BALANCERS_FORMAT = {
       'status' => String,
       'virtualIps' => [VIRTUAL_IP_FORMAT],
       'created' => { 'time' => String },
-      'updated' => { 'time' => String }
+      'updated' => { 'time' => String },
+      'nodeCount' => Integer
     }]
 }
 

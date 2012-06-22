@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+require 'fog/aws'
 
 module Fog
   module AWS
@@ -37,6 +37,9 @@ module Fog
       request :register_instances_with_load_balancer
       request :set_load_balancer_listener_ssl_certificate
       request :set_load_balancer_policies_of_listener
+      request :attach_load_balancer_to_subnets
+      request :detach_load_balancer_from_subnets
+      request :apply_security_groups_to_load_balancer
 
       model_path 'fog/aws/models/elb'
       model      :load_balancer
@@ -145,11 +148,11 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2011-11-15'
+              :version            => '2012-06-01'
           }
           )
 
-          response = @connection.request({
+          @connection.request({
             :body       => body,
             :expects    => 200,
             :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },

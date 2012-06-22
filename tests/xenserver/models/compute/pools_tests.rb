@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:xenserver] | Pools collection', ['pools']) do
+Shindo.tests('Fog::Compute[:xenserver] | Pools collection', ['xenserver']) do
 
   conn = Fog::Compute[:xenserver]
   

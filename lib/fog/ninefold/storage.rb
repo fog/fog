@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'ninefold'))
+require 'fog/ninefold'
 require 'fog/storage'
 
 module Fog
@@ -116,7 +116,7 @@ module Fog
             end
           }
           header_arr = customheaders.sort()
-          first = true
+
           header_arr.each { |key,value|
             # Values are lowercase and whitespace-normalized
             signstring += key + ":" + value.strip.chomp.squeeze( " " ) + "\n"

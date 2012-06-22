@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+require 'fog/aws'
 
 module Fog
   module AWS
@@ -55,6 +55,15 @@ module Fog
       request :update_user
       request :upload_server_certificate
       request :upload_signing_certificate
+      
+      model_path 'fog/aws/models/iam'
+      model       :user
+      collection  :users
+      model       :policy
+      collection  :policies      
+      model       :access_key
+      collection  :access_keys
+      
 
       class Mock
         def self.data

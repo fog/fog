@@ -1,5 +1,5 @@
 def test_template_name
-  'squeeze-test'
+  ENV['FOG_XENSERVER_TEMPLATE'] || 'squeeze-test'
 end
 
 def test_ephemeral_vm_name
@@ -15,6 +15,7 @@ def create_ephemeral_vm
   Fog::Compute[:xenserver].servers.create(:name => test_ephemeral_vm_name, 
                                           :template_name => test_template_name)
 end
+
 def create_ephemeral_server
   create_ephemeral_vm
 end
@@ -29,6 +30,7 @@ def destroy_ephemeral_servers
     s.destroy
   end
 end
+
 def destroy_ephemeral_vms
   destroy_ephemeral_servers
 end

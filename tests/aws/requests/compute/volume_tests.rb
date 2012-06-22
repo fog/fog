@@ -19,6 +19,34 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
     'volumeId'    => String
   }
 
+  @volume_status_format = {
+    'volumeStatusSet' => [{
+      'availabilityZone'  => String,
+      'volumeId'          => String,
+      'volumeStatus'      => {
+        'status'            => String,
+        'details'           => [{
+          'name'              => String,
+          'status'            => String
+        }]
+      },
+      'actionsSet'        => [{
+        'code'              => String,
+        'description'       => String,
+        'eventId'           => String,
+        'eventType'         => String
+      }],
+      'eventsSet'        => [{
+        'description'       => String,
+        'eventId'           => String,
+        'eventType'         => String,
+        'notBefore'         => Time,
+        'notAfter'          => Time
+      }]
+    }],
+    'requestId' => String
+  }
+
   @volumes_format = {
     'volumeSet' => [{
       'availabilityZone'  => String,
@@ -37,7 +65,6 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
   @server.wait_for { ready? }
 
   tests('success') do
-
     @volume_id = nil
 
     tests('#create_volume').formats(@volume_format) do
@@ -82,6 +109,11 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
       Fog::Compute[:aws].describe_volumes('attachment.device' => '/dev/sdh').body
     end
 
+    tests("#describe_volume_status('volume-id' => #{@volume_id})").formats(@volume_status_format) do
+      pending if Fog.mocking?
+      Fog::Compute[:aws].describe_volume_status('volume-id' => @volume_id).body
+    end
+
     tests("#detach_volume('#{@volume_id}')").formats(@volume_attachment_format) do
       Fog::Compute[:aws].detach_volume(@volume_id).body
     end
@@ -91,10 +123,9 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
     tests("#delete_volume('#{@volume_id}')").formats(AWS::Compute::Formats::BASIC) do
       Fog::Compute[:aws].delete_volume(@volume_id).body
     end
-
   end
-  tests('failure') do
 
+  tests('failure') do
     @volume = Fog::Compute[:aws].volumes.create(:availability_zone => @server.availability_zone, :size => 1)
 
     tests("#attach_volume('i-00000000', '#{@volume.identity}', '/dev/sdh')").raises(Fog::Compute::AWS::NotFound) do
@@ -118,9 +149,7 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
     end
 
     @volume.destroy
-
   end
 
   @server.destroy
-
 end

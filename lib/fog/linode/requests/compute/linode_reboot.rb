@@ -13,7 +13,7 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Array>:
-        # TODO: docs        
+        # TODO: docs
         def linode_reboot(linode_id, options={})
           request(
             :expects  => 200,
@@ -22,6 +22,19 @@ module Fog
           )
         end
 
+      end
+
+      class Mock
+        def linode_reboot(linode_id, options={})
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "ERRORARRAY" => [],
+            "ACTION"     => "linode.reboot",
+            "DATA"       => { "JobID" => rand(1000..9999) }
+          }
+          response
+        end
       end
     end
   end

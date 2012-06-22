@@ -13,7 +13,8 @@ module Fog
           }
 
           vanilla_options = ['metadata', 'accessIPv4', 'accessIPv6',
-                             'availability_zone', 'user_data']
+                             'availability_zone', 'user_data', 'key_name',
+                             'security_groups']
           vanilla_options.select{|o| options[o]}.each do |key|
             data['server'][key] = options[key]
           end
@@ -45,19 +46,20 @@ module Fog
           response.status = 202
 
           data = {
-            'addresses' => {},
-            'flavor'  => {"id"=>"1", "links"=>[{"href"=>"http://nova1:8774/admin/flavors/1", "rel"=>"bookmark"}]},
-            'id'        => Fog::Mock.random_numbers(6).to_s,
-            'image'     => {"id"=>"3", "links"=>[{"href"=>"http://nova1:8774/admin/images/3", "rel"=>"bookmark"}]},
-            'links'     => [{"href"=>"http://nova1:8774/v1.1/admin/servers/5", "rel"=>"self"}, {"href"=>"http://nova1:8774/admin/servers/5", "rel"=>"bookmark"}],
-            'hostId'    => "123456789ABCDEF01234567890ABCDEF",
-            'metadata'  => options['metadata'] || {},
-            'name'      => options['name'] || "server_#{rand(999)}",
-            'accessIPv4'  => options['accessIPv4'] || "",
-            'accessIPv6'  => options['accessIPv6'] || "",
-            'progress'  => 0,
-            'status'    => 'BUILD'
+            'addresses'  => {},
+            'flavor'     => {"id" => flavor_ref, "links"=>[{"href"=>"http://nova1:8774/admin/flavors/1", "rel"=>"bookmark"}]},
+            'id'         => Fog::Mock.random_numbers(6).to_s,
+            'image'      => {"id" => image_ref, "links"=>[{"href"=>"http://nova1:8774/admin/images/#{image_ref}", "rel"=>"bookmark"}]},
+            'links'      => [{"href"=>"http://nova1:8774/v1.1/admin/servers/5", "rel"=>"self"}, {"href"=>"http://nova1:8774/admin/servers/5", "rel"=>"bookmark"}],
+            'hostId'     => "123456789ABCDEF01234567890ABCDEF",
+            'metadata'   => options['metadata'] || {},
+            'name'       => name || "server_#{rand(999)}",
+            'accessIPv4' => options['accessIPv4'] || "",
+            'accessIPv6' => options['accessIPv6'] || "",
+            'progress'   => 0,
+            'status'     => 'BUILD'
           }
+
           self.data[:last_modified][:servers][data['id']] = Time.now
           self.data[:servers][data['id']] = data
           response.body = { 'server' => data.merge({'adminPass' => 'password'}) }

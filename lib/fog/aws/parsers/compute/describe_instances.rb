@@ -7,10 +7,11 @@ module Fog
 
           def reset
             @block_device_mapping = {}
+            @network_interface = {}
             @context = []
             @contexts = ['blockDeviceMapping', 'groupSet', 'instancesSet', 'instanceState', 'networkInterfaceSet', 'placement', 'productCodes', 'stateReason', 'tagSet']
-            @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
-            @reservation = { 'groupSet' => [], 'instancesSet' => [] }
+            @instance = { 'blockDeviceMapping' => [], 'networkInterfaces' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
+            @reservation = { 'groupIds' => [], 'groupSet' => [], 'instancesSet' => [] }
             @response = { 'reservationSet' => [] }
             @tag = {}
           end
@@ -31,7 +32,7 @@ module Fog
             when 'architecture', 'clientToken', 'dnsName', 'imageId',
                   'instanceId', 'instanceType', 'ipAddress', 'kernelId',
                   'keyName', 'platform', 'privateDnsName', 'privateIpAddress', 'ramdiskId',
-                  'reason', 'rootDeviceType', 'subnetId', 'vpcId'
+                  'reason', 'rootDeviceType'
               @instance[name] = value
             when 'attachTime'
               @block_device_mapping[name] = Time.parse(value)
@@ -43,10 +44,20 @@ module Fog
               @block_device_mapping[name] = (value == 'true')
             when 'deviceName', 'status', 'volumeId'
               @block_device_mapping[name] = value
+            when 'subnetId', 'vpcId', 'ownerId', 'networkInterfaceId', 'attachmentId'
+              @network_interface[name] = value
+              @instance[name] = value
             when 'groupId', 'groupName'
               case @context.last
               when 'groupSet'
-                @reservation['groupSet'] << value if @context.first != "instancesSet"
+                (name == 'groupName') ? current_key = 'groupSet' : current_key = 'groupIds'
+                case @context[-2]
+                when 'instancesSet'
+                  @reservation[current_key] << value
+                when 'networkInterfaceSet'
+                  @network_interface[current_key] ||= []
+                  @network_interface[current_key] << value
+                end
               when 'placement'
                 @instance['placement'][name] = value
               end
@@ -55,15 +66,18 @@ module Fog
               when 'blockDeviceMapping'
                 @instance['blockDeviceMapping'] << @block_device_mapping
                 @block_device_mapping = {}
+              when 'networkInterfaceSet'
+                @instance['networkInterfaces'] << @network_interface
+                @network_interface = {}
               when 'instancesSet'
                 @reservation['instancesSet'] << @instance
-                @instance = { 'blockDeviceMapping' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
+                @instance = { 'blockDeviceMapping' => [], 'networkInterfaces' => [], 'instanceState' => {}, 'monitoring' => {}, 'placement' => {}, 'productCodes' => [], 'stateReason' => {}, 'tagSet' => {} }
               when 'tagSet'
                 @instance['tagSet'][@tag['key']] = @tag['value']
                 @tag = {}
               when nil
                 @response['reservationSet'] << @reservation
-                @reservation = { 'groupSet' => [], 'instancesSet' => [] }
+                @reservation = { 'groupIds' => [], 'groupSet' => [], 'instancesSet' => [] }
               end
             when 'key', 'value'
               @tag[name] = value

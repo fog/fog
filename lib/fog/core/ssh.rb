@@ -15,8 +15,12 @@ module Fog
 
       def self.data
         @data ||= Hash.new do |hash, key|
-          hash[key] = {}
+          hash[key] = []
         end
+      end
+
+      def self.reset
+        @data= nil
       end
 
       def initialize(address, username, options)
@@ -25,8 +29,8 @@ module Fog
         @options  = options
       end
 
-      def run(commands)
-        Fog::Mock.not_implemented
+      def run(commands, &blk)
+        self.class.data[@address] << {:commands => commands, :username => @username, :options => @options}
       end
 
     end
@@ -44,17 +48,16 @@ module Fog
 
         @address  = address
         @username = username
-        @debug    = options.delete :debug
         @options  = { :paranoid => false }.merge(options)
       end
 
-      def run(commands)
+      def run(commands, &blk)
         commands = [*commands]
         results  = []
         begin
           Net::SSH.start(@address, @username, @options) do |ssh|
             commands.each do |command|
-              result = Result.new(command, @debug)
+              result = Result.new(command)
               ssh.open_channel do |ssh_channel|
                 ssh_channel.request_pty
                 ssh_channel.exec(command) do |channel, success|
@@ -64,11 +67,13 @@ module Fog
 
                   channel.on_data do |ch, data|
                     result.stdout << data
+                    yield [data, ''] if blk
                   end
 
                   channel.on_extended_data do |ch, type, data|
                     next unless type == 1
                     result.stderr << data
+                    yield ['', data] if blk
                   end
 
                   channel.on_request('exit-status') do |ch, data|
@@ -94,19 +99,6 @@ module Fog
 
     end
 
-    class DebugString < SimpleDelegator
-
-      def initialize(string='')
-        super
-      end
-
-      def <<(add_me)
-        puts add_me
-        super
-      end
-
-    end
-
     class Result
 
       attr_accessor :command, :stderr, :stdout, :status
@@ -124,10 +116,10 @@ module Fog
         Formatador.display_line(stderr.split("\r\n"))
       end
 
-      def initialize(command, debug=false)
+      def initialize(command)
         @command = command
-        @stderr = debug ? DebugString.new : ''
-        @stdout = debug ? DebugString.new : ''
+        @stderr = ''
+        @stdout = ''
       end
 
     end

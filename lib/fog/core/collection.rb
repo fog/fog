@@ -24,7 +24,7 @@ module Fog
             lazy_load
           end
           data = super
-          result = self.clone.clear.concat(data)
+          self.clone.clear.concat(data)
         end
       EOS
     end
@@ -99,8 +99,8 @@ module Fog
     end
 
     def new(attributes = {})
-      unless attributes.is_a?(Hash)
-        raise(ArgumentError.new("Initialization parameters must be an attributes hash, got #{attributes.inspect}"))
+      unless attributes.is_a?(::Hash)
+        raise(ArgumentError.new("Initialization parameters must be an attributes hash, got #{attributes.class} #{attributes.inspect}"))
       end
       model.new(
         attributes.merge(

@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+require 'fog/aws'
 require 'fog/compute'
 
 module Fog
@@ -11,10 +11,14 @@ module Fog
       model_path 'fog/aws/models/compute'
       model       :address
       collection  :addresses
+      model       :dhcp_options
+      collection  :dhcp_options
       model       :flavor
       collection  :flavors
       model       :image
       collection  :images
+      model       :internet_gateway
+      collection  :internet_gateways
       model       :key_pair
       collection  :key_pairs
       model       :network_interface
@@ -39,10 +43,14 @@ module Fog
       request_path 'fog/aws/requests/compute'
       request :allocate_address
       request :associate_address
+      request :associate_dhcp_options
       request :attach_network_interface
+      request :attach_internet_gateway
       request :attach_volume
       request :authorize_security_group_ingress
       request :cancel_spot_instance_requests
+      request :create_dhcp_options
+      request :create_internet_gateway
       request :create_image
       request :create_key_pair
       request :create_network_interface
@@ -54,6 +62,8 @@ module Fog
       request :create_tags
       request :create_volume
       request :create_vpc
+      request :delete_dhcp_options
+      request :delete_internet_gateway
       request :delete_key_pair
       request :delete_network_interface
       request :delete_security_group
@@ -67,8 +77,10 @@ module Fog
       request :deregister_image
       request :describe_addresses
       request :describe_availability_zones
+      request :describe_dhcp_options
       request :describe_images
       request :describe_instances
+      request :describe_internet_gateways
       request :describe_reserved_instances
       request :describe_instance_status
       request :describe_key_pairs
@@ -88,6 +100,7 @@ module Fog
       request :describe_volume_status
       request :describe_vpcs
       request :detach_network_interface
+      request :detach_internet_gateway
       request :detach_volume
       request :disassociate_address
       request :get_console_output
@@ -177,6 +190,7 @@ module Fog
                 :network_interfaces => {},
                 :snapshots => {},
                 :volumes => {},
+                :internet_gateways => {},
                 :tags => {},
                 :tag_sets => Hash.new do |tag_set_hash, resource_id|
                   tag_set_hash[resource_id] = {}
@@ -278,6 +292,9 @@ module Fog
         #
         # ==== Returns
         # * EC2 object with connection to aws.
+
+        attr_accessor :region
+
         def initialize(options={})
           require 'fog/core/parser'
 

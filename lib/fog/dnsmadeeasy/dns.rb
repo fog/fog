@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'dnsmadeeasy'))
+require 'fog/dnsmadeeasy'
 require 'fog/dns'
 
 module Fog
@@ -127,7 +127,7 @@ module Fog
 
         def signature(params)
           string_to_sign = params[:headers]['x-dnsme-requestDate']
-          signed_string = OpenSSL::HMAC.hexdigest('sha1', @dnsmadeeasy_secret_key, string_to_sign)
+          OpenSSL::HMAC.hexdigest('sha1', @dnsmadeeasy_secret_key, string_to_sign)
         end
       end
     end

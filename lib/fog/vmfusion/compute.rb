@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'vmfusion'))
+require 'fog/vmfusion'
 require 'fog/compute'
 
 module Fog

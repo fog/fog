@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'xenserver'))
+require 'fog/xenserver'
 require 'fog/compute'
 
 module Fog
@@ -62,8 +62,6 @@ module Fog
     
       class Real
         
-        attr_accessor :default_template
-
         def initialize(options={})
           @host        = options[:xenserver_url]
           @username    = options[:xenserver_username]
@@ -89,7 +87,7 @@ module Fog
         end
         
         def default_network
-          net = networks.find { |n| n.name == (@defaults[:network] || "Pool-wide network associated with eth0") }
+          networks.find { |n| n.name == (@defaults[:network] || "Pool-wide network associated with eth0") }
         end
         
       end

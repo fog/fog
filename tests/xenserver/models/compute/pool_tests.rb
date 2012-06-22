@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:xenserver] | Pool model', ['Pool']) do
+Shindo.tests('Fog::Compute[:xenserver] | Pool model', ['xenserver']) do
 
   pools = Fog::Compute[:xenserver].pools
   pool = pools.first

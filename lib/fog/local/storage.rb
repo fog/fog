@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'storage'))
+require 'fog/local/storage'
 require 'fog/storage'
 
 module Fog

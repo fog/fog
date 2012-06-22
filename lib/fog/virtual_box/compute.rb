@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'virtual_box'))
+require 'fog/virtual_box'
 require 'fog/compute'
 
 module Fog

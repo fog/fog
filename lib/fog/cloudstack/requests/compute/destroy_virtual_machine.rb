@@ -14,7 +14,16 @@ module Fog
           request(options)
         end
 
+      end # Real
+
+      class Mock
+
+        def destroy_virtual_machine(options={})
+          identity = options[:id]
+
+          self.data[:servers].delete(identity)
+        end
       end
-    end
-  end
-end
+    end # Cloudstack
+  end # Compute
+end # Fog

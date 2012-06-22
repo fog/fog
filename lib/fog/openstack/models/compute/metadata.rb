@@ -1,6 +1,6 @@
 require 'fog/core/collection'
 require 'fog/openstack/models/meta_parent'
-require 'fog/openstack/models/compute/meta'
+require 'fog/openstack/models/compute/metadatum'
 require 'fog/openstack/models/compute/image'
 require 'fog/openstack/models/compute/server'
 
@@ -10,7 +10,7 @@ module Fog
 
       class Metadata < Fog::Collection
 
-        model Fog::Compute::OpenStack::Meta
+        model Fog::Compute::OpenStack::Metadatum
 
         include Fog::Compute::OpenStack::MetaParent
 
@@ -52,15 +52,15 @@ module Fog
           if data.nil?
             data={}
             self.each do |meta|
-              if meta.is_a?(Fog::Compute::OpenStack::Meta) then
+              if meta.is_a?(Fog::Compute::OpenStack::Metadatum) then
                 data.store(meta.key, meta.value)
               else
                 data.store(meta["key"], meta["value"])
               end
-            end 
+            end
           end
           data
-        end 
+        end
 
       end
 
