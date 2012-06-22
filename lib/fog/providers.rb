@@ -21,11 +21,7 @@ require 'fog/ninefold'
 require 'fog/rackspace'
 require 'fog/openstack'
 require 'fog/ovirt'
-<<<<<<< HEAD
 require 'fog/serverlove'
-require 'fog/slicehost'
-=======
->>>>>>> c2ed3c886d730764dd1c7168ae78ddafeba7d504
 require 'fog/storm_on_demand'
 require 'fog/vcloud'
 require 'fog/virtual_box'
