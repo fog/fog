@@ -1,5 +1,5 @@
 require 'fog/core'
-
+require 'fog/aws/credential_fetcher'
 module Fog
   module AWS
 

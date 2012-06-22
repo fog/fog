@@ -3,9 +3,10 @@ require 'fog/aws'
 module Fog
   module AWS
     class SQS < Fog::Service
-
+      extend Fog::AWS::CredentialFetcher::ServiceMethods
+      
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent, :aws_session_token
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at
 
       request_path 'fog/aws/requests/sqs'
       request :change_message_visibility
@@ -35,8 +36,8 @@ module Fog
         end
 
         def initialize(options={})
-          @aws_access_key_id = options[:aws_access_key_id]
-
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
           @region = options[:region] || 'us-east-1'
 
           unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
@@ -52,10 +53,13 @@ module Fog
           self.class.data[@region].delete(@aws_access_key_id)
         end
 
+        def setup_credentials(options)
+          @aws_access_key_id = options[:aws_access_key_id]
+        end
       end
 
       class Real
-
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
         # Initialize connection to SQS
         #
         # ==== Notes
@@ -75,11 +79,9 @@ module Fog
         # ==== Returns
         # * SQS object with connection to AWS.
         def initialize(options={})
-          @aws_access_key_id      = options[:aws_access_key_id]
-          @aws_secret_access_key  = options[:aws_secret_access_key]
-          @aws_session_token      = options[:aws_session_token]
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
-          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
           options[:region] ||= 'us-east-1'
           @host = options[:host] || case options[:region]
           when 'us-east-1'
@@ -99,6 +101,14 @@ module Fog
         end
 
         private
+
+        def setup_credentials(options)
+          @aws_access_key_id      = options[:aws_access_key_id]
+          @aws_secret_access_key  = options[:aws_secret_access_key]
+          @aws_session_token      = options[:aws_session_token]
+          @aws_credentials_expire_at = options[:aws_credentials_expire_at]
+          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
+        end
 
         def path_from_queue_url(queue_url)
           queue_url.split('.com', 2).last

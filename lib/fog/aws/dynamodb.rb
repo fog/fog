@@ -3,9 +3,10 @@ require 'fog/aws'
 module Fog
   module AWS
     class DynamoDB < Fog::Service
+      extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :aws_session_token, :host, :path, :port, :scheme, :persistent, :region
+      recognizes :aws_session_token, :host, :path, :port, :scheme, :persistent, :region, :use_iam_profile, :aws_credentials_expire_at
 
       request_path 'fog/aws/requests/dynamodb'
       request :batch_get_item
@@ -37,7 +38,8 @@ module Fog
         end
 
         def initialize(options={})
-          @aws_access_key_id = options[:aws_access_key_id]
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
         end
 
         def data
@@ -48,10 +50,13 @@ module Fog
           self.class.data.delete(@aws_access_key_id)
         end
 
+        def setup_credientials(options)
+          @aws_access_key_id = options[:aws_access_key_id]
+        end
       end
 
       class Real
-
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
         # Initialize connection to DynamoDB
         #
         # ==== Notes
@@ -70,24 +75,13 @@ module Fog
         # ==== Returns
         # * DynamoDB object with connection to aws
         def initialize(options={})
-          if options[:aws_session_token]
-            @aws_access_key_id      = options[:aws_access_key_id]
-            @aws_secret_access_key  = options[:aws_secret_access_key]
-            @aws_session_token      = options[:aws_session_token]
-          else
-            sts = Fog::AWS::STS.new(
-              :aws_access_key_id      => options[:aws_access_key_id],
-              :aws_secret_access_key  => options[:aws_secret_access_key]
-            )
-            session_data = sts.get_session_token.body
+          @use_iam_profile = options[:use_iam_profile]
+          #TODO check dynamodb stuff
 
-            @aws_access_key_id      = session_data['AccessKeyId']
-            @aws_secret_access_key  = session_data['SecretAccessKey']
-            @aws_session_token      = session_data['SessionToken']
-          end
+          setup_credentials(options)
+          
           @connection_options     = options[:connection_options] || {}
-          @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)
-
+          
           options[:region] ||= 'us-east-1'
           @host = options[:host] || "dynamodb.#{options[:region]}.amazonaws.com"
           @path       = options[:path]        || '/'
@@ -99,11 +93,32 @@ module Fog
 
         private
 
+        def setup_credentials(options)
+          if options[:aws_session_token]
+            @aws_access_key_id      = options[:aws_access_key_id]
+            @aws_secret_access_key  = options[:aws_secret_access_key]
+            @aws_session_token      = options[:aws_session_token]
+            @aws_credentials_expire_at = options[:aws_credentials_expire_at]
+          else
+            sts = Fog::AWS::STS.new(
+              :aws_access_key_id      => options[:aws_access_key_id],
+              :aws_secret_access_key  => options[:aws_secret_access_key]
+            )
+            session_data = sts.get_session_token.body
+
+            @aws_access_key_id      = session_data['AccessKeyId']
+            @aws_secret_access_key  = session_data['SecretAccessKey']
+            @aws_session_token      = session_data['SessionToken']
+          end
+          @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)
+        end
+
         def reload
           @connection.reset
         end
 
         def request(params)
+          refresh_credentials_if_expired
           idempotent = params.delete(:idempotent)
 
           headers = {
