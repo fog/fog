@@ -16,6 +16,7 @@ module Fog
       request :destroy_image
       request :create_image
       request :update_image
+      request :load_standard_image
 
       # Server
       request :get_servers

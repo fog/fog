@@ -30,6 +30,11 @@ module Fog
           self
         end
         
+        def load_standard_image(standard_image_uuid)
+          requires :identity
+          connection.load_standard_image(identity, standard_image_uuid)
+        end
+        
         def ready?
           status.upcase == 'ACTIVE'
         end
