@@ -9,16 +9,21 @@ module Fog
       recognizes :serverlove_api_url
       
       request_path 'fog/serverlove/requests/compute'
+      
+      # Image
       request :get_image
       request :get_images
       request :destroy_image
       request :create_image
       request :update_image
+
+      # Server
+      request :get_servers
+      
+      model_path 'fog/serverlove/models/compute'
       
       model       :image
       collection  :images
-
-      request :get_servers
       
       model       :server
       collection  :servers
