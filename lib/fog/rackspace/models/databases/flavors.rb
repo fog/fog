@@ -9,7 +9,7 @@ module Fog
         model Fog::Rackspace::Databases::Flavor
 
         def all
-          data = connection.list_flavors_details.body['flavors']
+          data = connection.list_flavors.body['flavors']
           load(data)
         end
 

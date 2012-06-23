@@ -2,11 +2,11 @@ module Fog
   module Rackspace
     class Databases
       class Real
-        def list_flavors_details()
+        def list_instances()
           request(
             :expects => 200,
             :method => 'GET',
-            :path => 'flavors/detail'
+            :path => 'instances'
           )
         end
       end

@@ -9,7 +9,7 @@ module Fog
         model Fog::Rackspace::Databases::Instance
 
         def all
-          data = connection.list_instances_details.body['instances']
+          data = connection.list_instances.body['instances']
           load(data)
         end
 
