@@ -10,6 +10,14 @@ module Fog
       recognizes :rackspace_auth_url
 
       model_path 'fog/rackspace/models/identity'
+      model :user
+      collection :users
+      model :role
+      collection :roles
+      model :credential
+      collection :credentials
+      model :tenant
+      collection :tenants
 
       request_path 'fog/rackspace/requests/identity'
       request :create_token
