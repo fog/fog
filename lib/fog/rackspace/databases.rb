@@ -23,10 +23,10 @@ module Fog
       collection :users
 
       request_path 'fog/rackspace/requests/databases'
-      request :list_flavors_details
+      request :list_flavors
       request :get_flavor
 
-      request :list_instances_details
+      request :list_instances
       request :get_instance
       request :create_instance
       request :delete_instance
