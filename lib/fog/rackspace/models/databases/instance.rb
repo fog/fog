@@ -4,6 +4,14 @@ module Fog
   module Rackspace
     class Databases
       class Instance < Fog::Model
+        # States
+        ACTIVE = 'ACTIVE'
+        BUILD = 'BUILD'
+        BLOCKED = 'BLOCKED'
+        REBOOT = 'REBOOT'
+        RESIZE = 'RESIZE'
+        SHUTDOWN = 'SHUTDOWN'
+
         identity :id
 
         attribute :name
@@ -53,6 +61,10 @@ module Fog
           end
         end
 
+        def ready?
+          state == ACTIVE
+        end
+
         def root_user_enabled?
           requires :identity
           connection.check_root_user(identity).body['rootEnabled']
@@ -69,18 +81,21 @@ module Fog
         def restart
           requires :identity
           connection.restart_instance(identity)
+          self.state = REBOOT
           true
         end
 
         def resize(flavor_id)
           requires :identity
           connection.resize_instance(identity, flavor_id)
+          self.state = RESIZE
           true
         end
 
         def resize_volume(volume_size)
           requires :identity
           connection.resize_instance_volume(identity, volume_size)
+          self.state = RESIZE
           true
         end
       end
