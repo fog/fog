@@ -7,7 +7,7 @@ Shindo.tests('Fog::Compute[:hp] | address requests', [:hp]) do
     'id'          => Integer
   }
 
-  @base_image_id = ENV["BASE_IMAGE_ID"] ||= 1242
+  @base_image_id = ENV["BASE_IMAGE_ID"] || 1242
 
   tests('success') do
 
