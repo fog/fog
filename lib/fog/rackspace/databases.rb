@@ -3,6 +3,11 @@ require File.expand_path(File.join(File.dirname(__FILE__), '..', 'rackspace'))
 module Fog
   module Rackspace
     class Databases < Fog::Service
+
+      class ServiceError < Fog::Rackspace::Errors::ServiceError; end
+      class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
+      class BadRequest < Fog::Rackspace::Errors::BadRequest; end
+
       DFW_ENDPOINT = 'https://dfw.databases.api.rackspacecloud.com/v1.0/'
       LON_ENDPOINT = 'https://lon.databases.api.rackspacecloud.com/v1.0/'
       ORD_ENDPOINT = 'https://ord.databases.api.rackspacecloud.com/v1.0/'
