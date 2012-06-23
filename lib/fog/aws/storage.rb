@@ -226,7 +226,7 @@ module Fog
           "foo"
         end
 
-        def setup_credentials
+        def setup_credentials(options)
           @aws_access_key_id = options[:aws_access_key_id]
           @aws_secret_access_key = options[:aws_secret_access_key]
           @aws_session_token     = options[:aws_session_token]
