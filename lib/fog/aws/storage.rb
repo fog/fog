@@ -284,7 +284,7 @@ module Fog
               "s3-#{options[:region]}.amazonaws.com"
             end
             @path       = options[:path]        || '/'
-            @persistent = options[:persistent]  || true
+            @persistent = options.fetch(:persistent, true)
             @port       = options[:port]        || 443
             @scheme     = options[:scheme]      || 'https'
           end

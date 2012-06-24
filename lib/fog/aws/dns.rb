@@ -95,7 +95,7 @@ module Fog
           @connection_options     = options[:connection_options] || {}
           @host       = options[:host]        || 'route53.amazonaws.com'
           @path       = options[:path]        || '/'
-          @persistent = options[:persistent]  || true
+          @persistent = options.fetch(:persistent, true)
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
           @version    = options[:version]     || '2012-02-29'

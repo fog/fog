@@ -92,7 +92,7 @@ module Fog
           @connection_options = options[:connection_options] || {}
           @host       = options[:host]      || 'cloudfront.amazonaws.com'
           @path       = options[:path]      || '/'
-          @persistent = options[:persistent] || true
+          @persistent = options.fetch(:persistent, true)
           @port       = options[:port]      || 443
           @scheme     = options[:scheme]    || 'https'
           @version    = options[:version]  || '2010-11-01'
