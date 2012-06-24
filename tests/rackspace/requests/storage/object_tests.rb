@@ -35,6 +35,13 @@ Shindo.tests('Fog::Storage[:rackspace] | object requests', [:rackspace]) do
       Fog::Storage[:rackspace].delete_object('fogobjecttests', 'fog_object')
     end
 
+    tests("#get_object_https_url('fogobjecttests', 'fog_object','expiration timestamp')").succeeds do
+      pending if Fog.mocking?
+      expires_at = Time.now + 60
+      object_url = Fog::Storage[:rackspace].get_object_https_url('fogobjecttests', 'fog_object', expires_at)
+      object_url =~ /https:\/\/.*clouddrive.com\/[^\/]+\/[^\/]+\/fogobjecttests\/fog_object\?temp_url_sig=[0-9a-f]{40}&temp_url_expires=#{expires_at.to_i}/
+    end
+
   end
 
   tests('failure') do
