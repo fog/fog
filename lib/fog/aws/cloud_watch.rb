@@ -3,10 +3,10 @@ require 'fog/aws'
 module Fog
   module AWS
     class CloudWatch < Fog::Service
-
+      extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
 
       request_path 'fog/aws/requests/cloud_watch'
 
@@ -70,7 +70,7 @@ module Fog
       end
 
       class Real
-
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
         # Initialize connection to Cloudwatch
         #
         # ==== Notes
@@ -90,9 +90,8 @@ module Fog
         # ==== Returns
         # * CloudWatch object with connection to AWS.
         def initialize(options={})
-          @aws_access_key_id      = options[:aws_access_key_id]
-          @aws_secret_access_key  = options[:aws_secret_access_key]
-          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
 
           @connection_options = options[:connection_options] || {}
           options[:region] ||= 'us-east-1'
@@ -110,7 +109,17 @@ module Fog
 
         private
 
+        def setup_credentials(options)
+          @aws_access_key_id      = options[:aws_access_key_id]
+          @aws_secret_access_key  = options[:aws_secret_access_key]
+          @aws_session_token      = options[:aws_session_token]
+          @aws_credentials_expire_at = options[:aws_credentials_expire_at]
+
+          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
+        end
+
         def request(params)
+          refresh_credentials_if_expired
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
@@ -118,6 +127,7 @@ module Fog
             params,
             {
               :aws_access_key_id  => @aws_access_key_id,
+              :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
               :host               => @host,
               :path               => @path,

@@ -1,4 +1,4 @@
-require 'spec'
+require 'rspec'
 require 'open-uri'
 require 'fog'
 require 'fog/bin'

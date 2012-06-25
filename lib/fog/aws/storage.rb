@@ -4,9 +4,12 @@ require 'fog/storage'
 module Fog
   module Storage
     class AWS < Fog::Service
+      extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent
+      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
+
+      secrets    :aws_secret_access_key, :hmac
 
       model_path 'fog/aws/models/storage'
       collection  :directories
@@ -66,7 +69,8 @@ module Fog
         def cdn
           @cdn ||= Fog::AWS::CDN.new(
             :aws_access_key_id => @aws_access_key_id,
-            :aws_secret_access_key => @aws_secret_access_key
+            :aws_secret_access_key => @aws_secret_access_key,
+            :use_iam_profile => @use_iam_profile
           )
         end
 
@@ -97,6 +101,7 @@ module Fog
           params[:headers]['Date'] = expires.to_i
           params[:path] = Fog::AWS.escape(params[:path]).gsub('%2F', '/')
           query = []
+          params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
           if params[:query]
             for key, value in params[:query]
               query << "#{key}=#{Fog::AWS.escape(value)}"
@@ -105,6 +110,7 @@ module Fog
           query << "AWSAccessKeyId=#{@aws_access_key_id}"
           query << "Signature=#{Fog::AWS.escape(signature(params))}"
           query << "Expires=#{params[:headers]['Date']}"
+          query << "x-amz-security-token=#{Fog::AWS.escape(@aws_session_token)}" if @aws_session_token
           port_part = params[:port] && ":#{params[:port]}"
           "#{params[:scheme]}://#{params[:host]}#{port_part}/#{params[:path]}?#{query.join('&')}"
         end
@@ -195,8 +201,8 @@ module Fog
 
         def initialize(options={})
           require 'mime/types'
-          @aws_access_key_id = options[:aws_access_key_id]
-          @aws_secret_access_key = options[:aws_secret_access_key]
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
           options[:region] ||= 'us-east-1'
           @host = options[:host] || case options[:region]
           when 'us-east-1'
@@ -220,11 +226,18 @@ module Fog
           "foo"
         end
 
+        def setup_credentials(options)
+          @aws_access_key_id = options[:aws_access_key_id]
+          @aws_secret_access_key = options[:aws_secret_access_key]
+          @aws_session_token     = options[:aws_session_token]
+          @aws_credentials_expire_at = options[:aws_credentials_expire_at]
+        end
+
       end
 
       class Real
         include Utils
-
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
         # Initialize connection to S3
         #
         # ==== Notes
@@ -247,10 +260,10 @@ module Fog
           require 'fog/core/parser'
           require 'mime/types'
 
-          @aws_access_key_id = options[:aws_access_key_id]
-          @aws_secret_access_key = options[:aws_secret_access_key]
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
-          @hmac = Fog::HMAC.new('sha1', @aws_secret_access_key)
+          
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
             @host = endpoint.host
@@ -271,7 +284,7 @@ module Fog
               "s3-#{options[:region]}.amazonaws.com"
             end
             @path       = options[:path]        || '/'
-            @persistent = options[:persistent]  || true
+            @persistent = options.fetch(:persistent, true)
             @port       = options[:port]        || 443
             @scheme     = options[:scheme]      || 'https'
           end
@@ -357,10 +370,21 @@ DATA
 
         private
 
-        def request(params, &block)
-          params[:headers]['Date'] = Fog::Time.now.to_date_header
-          params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
+        def setup_credentials(options)
+          @aws_access_key_id     = options[:aws_access_key_id]
+          @aws_secret_access_key = options[:aws_secret_access_key]
+          @aws_session_token     = options[:aws_session_token]
+          @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
+          @hmac = Fog::HMAC.new('sha1', @aws_secret_access_key)
+        end
+
+        def request(params, &block)
+          refresh_credentials_if_expired
+
+          params[:headers]['Date'] = Fog::Time.now.to_date_header
+          params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
+          params[:headers]['Authorization'] = "AWS #{@aws_access_key_id}:#{signature(params)}"
           # FIXME: ToHashParser should make this not needed
           original_params = params.dup
 

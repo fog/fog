@@ -1,5 +1,3 @@
-require 'net/http'
-require 'uri'
 
 module Fog
   class CurrentMachine
@@ -29,9 +27,7 @@ module Fog
     # @raise [Net::HTTPExceptions] if the net/http request fails.
     def self.ip_address
       @@lock.synchronize do
-        @@ip_address ||= Net::HTTP \
-          .get_response(URI.parse(AMAZON_AWS_CHECK_IP)) \
-          .body.chomp
+        @@ip_address ||= Excon.get(AMAZON_AWS_CHECK_IP).body.chomp
       end
     end
   end

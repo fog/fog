@@ -54,7 +54,7 @@ module Fog
 
           @connection_options = options[:connection_options] || {}
           @hmac               = Fog::HMAC.new('sha1', @ninefold_storage_secret_decoded)
-          @persistent         = options[:persistent] || true
+          @persistent = options.fetch(:persistent, true)
 
           @connection = Fog::Connection.new("#{Fog::Storage::Ninefold::STORAGE_SCHEME}://#{Fog::Storage::Ninefold::STORAGE_HOST}:#{Fog::Storage::Ninefold::STORAGE_PORT}", @persistent, @connection_options)
         end

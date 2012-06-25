@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '1.3.1'
-  s.date              = '2012-03-27'
+  s.version           = '1.4.0'
+  s.date              = '2012-06-24'
   s.rubyforge_project = 'fog'
 
 
@@ -42,7 +42,7 @@ Gem::Specification.new do |s|
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
   s.add_dependency('builder')
-  s.add_dependency('excon', '~>0.13.0')
+  s.add_dependency('excon', '~>0.14.0')
   s.add_dependency('formatador', '~>0.2.0')
   s.add_dependency('multi_json', '~>1.0')
   s.add_dependency('mime-types')
