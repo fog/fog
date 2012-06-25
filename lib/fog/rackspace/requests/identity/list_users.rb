@@ -3,11 +3,18 @@ module Fog
     class Identity
       class Real
         def list_users()
-          request(
+          response = request(
             :expects => [200, 203],
             :method => 'GET',
             :path => 'users'
           )
+
+          if response.body.include? 'user'
+            response.body['users'] = [response.body['user']]
+            response.body.delete('user')
+          end
+
+          response
         end
       end
     end
