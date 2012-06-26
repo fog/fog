@@ -18,12 +18,16 @@ module Fog
           new(data)
         rescue Excon::Errors::NotFound
           nil
+        rescue Excon::Errors::NotAuthorized
+          nil
         end
 
         def get_by_name(user_name)
           data = connection.get_user_by_name(user_name).body['user']
           new(data)
         rescue Excon::Errors::NotFound
+          nil
+        rescue Excon::Errors::NotAuthorized
           nil
         end
       end
