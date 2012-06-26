@@ -2,16 +2,25 @@ module Fog
   module Rackspace
     class LoadBalancers
       class Real
-        def set_ssl_termination(load_balancer_id, securePort, privatekey, certificate, enabled, secureTrafficOnly)
+        def set_ssl_termination(load_balancer_id, securePort, privatekey, certificate, options = {})
           data = {
             securePort: securePort,
             privatekey: privatekey,
-            certificate: certificate,
-            #intermediatecertificate: intermediatecertificate
+            certificate: certificate
           }
+
+          if options.has_key? :intermediate_certificate
+            data['intermediateCertificate'] = options[:intermediate_certificate]
+          end
+          if options.has_key? :enabled
+            data['enabled'] = options[:enabled]
+          end
+          if options.has_key? :secure_traffic_only
+            data['secureTrafficOnly'] - options[:secure_traffic_only]
+          end
           request(
             :body     => MultiJson.encode(data),
-            :expects => [202,404],
+            :expects => [200, 202],
             :path => "loadbalancers/#{load_balancer_id}/ssltermination",
             :method => 'PUT'
           )

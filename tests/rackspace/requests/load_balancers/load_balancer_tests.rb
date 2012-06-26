@@ -47,14 +47,6 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer_tests', ['rackspace'
         @service.update_load_balancer(@lb_id, { :port => 80 }).body
       end
 
-      tests("#ssl_termination(#{@lb_id})").succeeds do
-        @service.ssl_termination(@lb_id).body
-      end
-
-      tests("#enable_ssl_termination(#{@lb_id})").succeeds do
-        @service.enable_ssl_termination(@lb_id, "443", "private", "public", true, false).body
-      end
-
       until @service.get_load_balancer(@lb_id).body["loadBalancer"]["status"] == STATUS_ACTIVE
         sleep 10
       end
