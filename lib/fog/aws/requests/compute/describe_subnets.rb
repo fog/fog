@@ -53,7 +53,7 @@ module Fog
                 'state'                    => 'pending',
                 'vpcId'                    => Fog::AWS::Mock.request_id,
                 'cidrBlock'                => '10.255.255.0/24',
-                'availableIpAddressCount'  => 255,
+                'availableIpAddressCount'  => "255",
                 'availabilityZone'         => 'us-east-1c',
                 'tagSet'                   => {}
               ]
