@@ -1,5 +1,5 @@
 SINGLE_NODE_FORMAT = {'address' => String, 'id' => Integer, 'status' => String, 'weight' => Fog::Nullable::Integer, 'port' => Integer, 'condition' => String, 'type' => String}
-NODE_FORMAT = {'node' => SINGLE_NODE_FORMAT}
+NODE_FORMAT = {'node' => SINGLE_NODE_FORMAT.merge({ 'metadata' => []})}
 NODES_FORMAT = {'nodes' => [SINGLE_NODE_FORMAT]}
 VIRTUAL_IP_FORMAT = {'type' => String, 'id' => Integer, 'type' => String, 'ipVersion' => String, 'address' => String}
 VIRTUAL_IPS_FORMAT = { 'virtualIps' => [VIRTUAL_IP_FORMAT] }
@@ -30,6 +30,17 @@ LOAD_BALANCER_USAGE_FORMAT = {
       'vipType' => Fog::Nullable::String,
     }
   ]
+}
+
+SSL_TERMINATION_FORMAT = {
+  'sslTermination' => {
+    'certificate' => String,
+    'privateKey' => String,
+    'enabled' => Fog::Boolean,
+    'securePort' => Integer,
+    'secureTrafficOnly' => Integer,
+    'intermediateCertificate' => Fog::Nullable::String
+  }
 }
 
 USAGE_FORMAT = {
@@ -137,6 +148,7 @@ LOAD_BALANCER_FORMAT = {
     'nodes' => [SINGLE_NODE_FORMAT],
     'created' => { 'time' => String },
     'updated' => { 'time' => String },
+    'contentCaching' => { 'enabled' => Fog::Boolean }
   }.merge(CONNECTION_LOGGING_FORMAT)
 }
 
