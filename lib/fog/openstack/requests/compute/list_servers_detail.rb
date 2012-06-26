@@ -5,7 +5,7 @@ module Fog
 
         def list_servers_detail(options = {})
           params = Hash.new
-          params['all_tenants'] = 'True' if options[:all_tenants]
+          options[:all_tenants] ? params['all_tenants'] = 'True' : params = options
 
           request(
             :expects  => [200, 203],

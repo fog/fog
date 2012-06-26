@@ -29,6 +29,14 @@ module Fog
           nil
         end
 
+        def method_missing(method_sym, *arguments, &block)
+          if method_sym.to_s =~ /^find_by_(.*)$/
+            load(connection.list_servers_detail({$1 => arguments.first}).body['servers'])
+          else
+            super
+          end
+        end
+
       end
 
     end
