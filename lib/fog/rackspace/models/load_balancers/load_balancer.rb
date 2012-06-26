@@ -27,6 +27,7 @@ module Fog
         attribute :name
         attribute :state,               :aliases => 'status'
         attribute :nodes
+        attribute :ssl_termination,     :aliases => 'ssltermination'
 
         def initialize(attributes)
           #HACK - Since we are hacking how sub-collections work, we have to make sure the connection is valid first.
@@ -56,6 +57,17 @@ module Fog
 
         def nodes=(new_nodes=[])
           nodes.load(new_nodes)
+        end
+
+        def ssl_termination
+          requires :identity
+          ssl_termination = connection.get_ssl_termination(identity)
+          (ssl_termination.status == 404) ? nil : ssl_termination.body["sslTermination"]
+        end
+
+        def enable_ssl_termination(securePort, privatekey, certificate, enabled=true, secureTrafficOnly=false)
+          requires :identity
+          connection.set_ssl_termination(identity, securePort, privatekey, certificate, enabled, secureTrafficOnly)
         end
 
         def virtual_ips
