@@ -395,7 +395,7 @@ For example, VM_NAME in constclass will be transformed into concrete arguments o
 
 Copyright (c) 2010 {geemus (Wesley Beary)}[http://github.com/geemus]
 
-Portions copyright ? 2012 VMware, Inc. All rights Reserved
+Portions copyright (c) 2012 VMware, Inc. All rights Reserved
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
