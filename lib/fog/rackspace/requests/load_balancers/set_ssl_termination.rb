@@ -19,7 +19,7 @@ module Fog
             data['secureTrafficOnly'] - options[:secure_traffic_only]
           end
           request(
-            :body     => MultiJson.encode(data),
+            :body     => Fog::JSON.encode(data),
             :expects => [200, 202],
             :path => "loadbalancers/#{load_balancer_id}/ssltermination",
             :method => 'PUT'
