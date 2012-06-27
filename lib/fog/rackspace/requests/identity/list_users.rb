@@ -9,7 +9,7 @@ module Fog
             :path => 'users'
           )
 
-          if response.body.include? 'user'
+          unless response.body['users'].is_a?(Array)
             response.body['users'] = [response.body['user']]
             response.body.delete('user')
           end
