@@ -50,7 +50,7 @@ def collection_tests(collection, params = {}, mocks_implemented = true)
     end
 
     tests("#get('#{@identity}')").returns(nil) do
-      pending if Fog.mocking? && !mocks_implemented
+      pending if !Fog.mocking? || mocks_implemented
       collection.get(@identity)
     end
 
