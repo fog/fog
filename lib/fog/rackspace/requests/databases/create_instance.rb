@@ -13,9 +13,6 @@ module Fog
             }
           }
 
-          # Add databases
-          # Add users
-
           request(
             :body => Fog::JSON.encode(data),
             :expects => 200,
