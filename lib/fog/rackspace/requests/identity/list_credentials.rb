@@ -9,7 +9,7 @@ module Fog
             :path => "users/#{user_id}/OS-KSADM/credentials"
           )
 
-          if response.body.include? 'credential'
+          unless response.body['credentials'].is_a?(Array)
             response.body['credentials'] = [response.body['credential']]
             response.body.delete('credential')
           end

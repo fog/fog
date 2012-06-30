@@ -125,6 +125,26 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
       end
 
       @instance.wait_for { ready? }
+      tests("#ssl_termination is nil").returns(nil) do
+        @instance.ssl_termination
+      end
+
+      @instance.wait_for { ready? }
+      tests("#enable_ssl_termination(443, PRIVATE_KEY, CERTIFICATE").succeeds do
+        @instance.enable_ssl_termination(443, PRIVATE_KEY, CERTIFICATE)
+      end
+
+      @instance.wait_for { ready? }
+      tests("#ssl_termination").succeeds do
+        @instance.ssl_termination
+      end
+
+      @instance.wait_for { ready? }
+      tests("#disable_ssl_termination").succeeds do
+        @instance.disable_ssl_termination
+      end
+
+      @instance.wait_for { ready? }
     end
 
     tests('create(...with algorithm...)') do

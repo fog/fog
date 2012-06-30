@@ -8,7 +8,7 @@ module Fog
       end
 
       class Mock
-        def create_volume(xml)
+        def create_volume(pool_name, xml)
 
         end
       end
