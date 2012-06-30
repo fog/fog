@@ -1,6 +1,6 @@
 Shindo.tests('Fog::Compute[:hp] | address requests', [:hp]) do
 
-  @base_image_id = ENV["BASE_IMAGE_ID"] ||= 1242
+  @base_image_id = ENV["BASE_IMAGE_ID"] || 1242
 
   tests('success') do
     @server = Fog::Compute[:hp].servers.create(:name => 'fogaddresstests', :flavor_id => 100, :image_id => @base_image_id)

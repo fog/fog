@@ -1,6 +1,6 @@
 Shindo.tests("Fog::Compute[:hp] | address", [:hp]) do
 
-  @base_image_id = ENV["BASE_IMAGE_ID"] ||= 1242
+  @base_image_id = ENV["BASE_IMAGE_ID"] || 1242
 
   model_tests(Fog::Compute[:hp].addresses, {}, true) do
 

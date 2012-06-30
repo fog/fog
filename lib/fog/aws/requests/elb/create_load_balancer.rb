@@ -76,7 +76,7 @@ module Fog
           self.data[:load_balancers][lb_name] = {
             'AvailabilityZones' => availability_zones,
             'Subnets' => options[:subnet_ids],
-            'Scheme' => options[:scheme],
+            'Scheme' => options[:scheme].nil? ? 'internet-facing' : options[:scheme],
             'SecurityGroups' => options[:security_groups],
             'CanonicalHostedZoneName' => '',
             'CanonicalHostedZoneNameID' => '',

@@ -54,7 +54,7 @@ module Fog
                   'state'                    => 'pending',
                   'vpcId'                    => Fog::AWS::Mock.request_id,
                   'cidrBlock'                => cidrBlock,
-                  'availableIpAddressCount'  => 16,
+                  'availableIpAddressCount'  => "255",
                   'availabilityZone'         => av_zone,
                   'tagSet'                   => {}
                 ]

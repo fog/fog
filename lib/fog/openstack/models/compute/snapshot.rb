@@ -24,7 +24,7 @@ module Fog
 
         def save(force=false)
           requires :volume_id, :name, :description
-          data = connection.create_volume(volume_id, name, description, force)
+          data = connection.create_volume_snapshot(volume_id, name, description, force)
           merge_attributes(data.body['snapshot'])
           true
         end
