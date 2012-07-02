@@ -27,7 +27,7 @@ Shindo.tests('Fog::Compute[:openstack] | flavor requests', ['openstack']) do
     end
 
     tests('#create_flavor(attributes)').formats({'flavor' => @flavor_format}) do
-      attributes = {:flavor_id => '100', :name => 'shindo test flavor', :disk => 10, :ram => 10, :vcpus => 10, :swap => 0, :rxtx_factor => 1.0, :ephemeral => 0}
+      attributes = {:flavor_id => '100', :name => 'shindo test flavor', :disk => 10, :ram => 10, :vcpus => 10, :swap => "0", :rxtx_factor => 1.0, :ephemeral => 0}
       Fog::Compute[:openstack].create_flavor(attributes).body
     end
 
