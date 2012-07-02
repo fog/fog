@@ -198,7 +198,8 @@ module Fog
                 :tags => {},
                 :tag_sets => Hash.new do |tag_set_hash, resource_id|
                   tag_set_hash[resource_id] = {}
-                end
+                end,
+                :subnets => []
               }
             end
           end
