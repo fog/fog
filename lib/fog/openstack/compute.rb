@@ -182,7 +182,18 @@ module Fog
               :servers => {},
               :key_pairs => {},
               :security_groups => {},
-              :addresses => {}
+              :addresses => {},
+              :quota => {
+                'metadata_items' => 128,
+                'injected_file_content_bytes' => 10240,
+                'injected_files' => 5,
+                'gigabytes' => 1000,
+                'ram' => 51200,
+                'floating_ips' => 10,
+                'instances' => 10,
+                'volumes' => 10,
+                'cores' => 20,
+              }
             }
           end
         end

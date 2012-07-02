@@ -19,18 +19,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {
-            'quota_set' => {
-              'metadata_items' => 128,
-              'injected_file_content_bytes' => 10240,
-              'injected_files' => 5,
-              'gigabytes' => 1000,
-              'ram' => 51200,
-              'floating_ips' => 10,
-              'instances' => 10,
-              'volumes' => 10,
-              'cores' => 20,
-              'id' => tenant_id
-            }
+            'quota_set' => self.data[:quota].merge({'id' => tenant_id})
           }
           response
         end
