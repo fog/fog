@@ -73,7 +73,6 @@ module Fog
         def describe_auto_scaling_instances(options = {})
           results = { 'AutoScalingInstances' => [] }
           data[:auto_scaling_groups].each do |asg_name, asg_data|
-            lc_name = data[asg_data][lc_name]
             asg_data['Instances'].each do |instance|
               results['AutoScalingInstances'] << {
                 'AutoScalingGroupName' => asg_name
