@@ -39,7 +39,7 @@ module Fog
 
         def delete_launch_configuration(launch_configuration_name)
           unless self.data[:launch_configurations].delete(launch_configuration_name)
-            raise Fog::AWS::AutoScaling::ValidationError, "Launch configuration name not found - Launch configuration #{launch_configuration_name} not found"
+            raise Fog::AWS::AutoScaling::NotFound, "The launch configuration '#{launch_configuration_name}' does not exist."
           end
 
           response = Excon::Response.new

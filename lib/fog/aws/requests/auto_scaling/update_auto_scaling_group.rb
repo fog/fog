@@ -62,7 +62,7 @@ module Fog
           unless data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
             raise Fog::AWS::AutoScaling::ValidationError.new('AutoScalingGroup name not found - null')
           end
-          data[:auto_scaling_group_name][auto_scaling_group_name].merge!(options)
+          data[:auto_scaling_groups][auto_scaling_group_name].merge!(options)
 
           response = Excon::Response.new
           response.status = 200

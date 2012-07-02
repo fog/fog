@@ -24,7 +24,25 @@ module Fog
               :parser     => Fog::Parsers::AWS::CloudWatch::DeleteAlarms.new
             }.merge(options))
         end
-      end       
+      end
+
+      class Mock
+        def delete_alarms(alarm_names)
+          [*alarm_names].each do |alarm_name|
+            unless data[:metric_alarms].has_key?(alarm_name)
+              raise Fog::AWS::AutoScaling::NotFound, "The alarm '#{alarm_name}' does not exist."
+            end
+          end
+
+          [*alarm_names].each { |alarm_name| data[:metric_alarms].delete(alarm_name) }
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            'ResponseMetadata' => { 'RequestId' => Fog::AWS::Mock.request_id }
+          }
+          response
+        end
+      end
     end
   end
 end
