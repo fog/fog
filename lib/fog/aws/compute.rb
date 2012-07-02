@@ -201,7 +201,8 @@ module Fog
                 end,
                 :subnets => [],
                 :vpcs => [],
-                :dhcp_options => []
+                :dhcp_options => [],
+                :internet_gateways => []
               }
             end
           end
