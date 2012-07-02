@@ -200,7 +200,8 @@ module Fog
                   tag_set_hash[resource_id] = {}
                 end,
                 :subnets => [],
-                :vpcs => []
+                :vpcs => [],
+                :dhcp_options => []
               }
             end
           end
