@@ -36,7 +36,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           response.body = {"image"=>
-                               {"name"=>"new image",
+                               {"name"=>"edit test image",
                                 "size"=>0,
                                 "min_disk"=>0,
                                 "disk_format"=>nil,
