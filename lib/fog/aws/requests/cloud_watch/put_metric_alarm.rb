@@ -71,6 +71,15 @@ module Fog
             end
           end
 
+          data[:metric_alarms][options['AlarmName']] = {
+            'AlarmARN' => "arn:aws:cloudwatch:eu-west-1:000000000000:metricAlarm:00000000-0000-0000-0000-000000000000:alarmName/#{options['AlarmName']}",
+            'ActionsEnabled' => false,
+            'AlarmActions' => [],
+            'AlarmConfigurationUpdatedTimestamp' => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            'Dimensions' => [],
+            'OKActions' => [],
+          }.merge!(options)
+
           response = Excon::Response.new
           response.status = 200
           response.body = {

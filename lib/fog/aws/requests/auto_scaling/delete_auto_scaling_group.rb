@@ -35,9 +35,17 @@ module Fog
       class Mock
 
         def delete_auto_scaling_group(auto_scaling_group_name)
-          Fog::Mock.not_implemented
-        end
+          unless self.data[:auto_scaling_groups].delete(auto_scaling_group_name)
+            raise Fog::AWS::Autoscaling::NotFound, "The auto scaling group '#{auto_scaling_group_name}' does not exist."
+          end
 
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            'ResponseMetadata' => { 'RequestId' => Fog::AWS::Mock.request_id }
+          }
+          response
+        end
       end
 
     end
