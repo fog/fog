@@ -3,22 +3,19 @@ LINKS_FORMAT = [{
   'rel' => String
 }]
 
+FLAVOR_FORMAT = {
+  'id' => Integer,
+  'name' => String,
+  'ram' => Integer,
+  'links' => LINKS_FORMAT
+}
+
 GET_FLAVOR_FORMAT = {
-  'flavor' => {
-    'id' => Integer,
-    'name' => String,
-    'ram' => Integer,
-    'vcpus' => Integer,
-    'links' => LINKS_FORMAT
-  }
+  'flavor' => FLAVOR_FORMAT
 }
 
 LIST_FLAVORS_FORMAT = {
-  'flavors' => [
-    'id' => Integer,
-    'name' => String,
-    'links' => LINKS_FORMAT
-  ]
+  'flavors' => [FLAVOR_FORMAT]
 }
 
 INSTANCE_FORMAT = {
@@ -26,12 +23,6 @@ INSTANCE_FORMAT = {
   'name' => String,
   'status' => String,
   'links' => LINKS_FORMAT,
-}
-
-INSTANCE_DETAILS_FORMAT = INSTANCE_FORMAT.merge({
-  'created' => String,
-  'updated' => String,
-  'hostname' => String,
   'flavor' => {
     'id' => String,
     'links' => LINKS_FORMAT
@@ -39,6 +30,12 @@ INSTANCE_DETAILS_FORMAT = INSTANCE_FORMAT.merge({
   'volume' => {
     'size' => Integer
   }
+}
+
+INSTANCE_DETAILS_FORMAT = INSTANCE_FORMAT.merge({
+  'created' => String,
+  'updated' => String,
+  'hostname' => String,
 })
 
 CREATE_INSTANCE_FORMAT = {
@@ -47,7 +44,6 @@ CREATE_INSTANCE_FORMAT = {
 
 GET_INSTANCE_FORMAT = {
   'instance' => INSTANCE_DETAILS_FORMAT.merge({
-    'rootEnabled' => Fog::Boolean,
     'volume' => {
       'size' => Integer,
       'used' => Float
