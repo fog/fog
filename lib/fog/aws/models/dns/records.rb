@@ -44,6 +44,11 @@ module Fog
         def all!
           data = []
 
+          merge_attributes({'NextRecordName' => nil,
+                            'NextRecordType' => nil,
+                            'NextRecordIdentifier' => nil,
+                            'IsTruncated' => nil})
+
           begin
             options = {
                 :name => next_record_name,
