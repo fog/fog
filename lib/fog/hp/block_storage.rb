@@ -14,7 +14,7 @@ module Fog
 
       request_path 'fog/hp/requests/block_storage'
       #request :create_volume
-      #request :delete_volume
+      request :delete_volume
       request :get_volume_details
       request :list_volumes
 
