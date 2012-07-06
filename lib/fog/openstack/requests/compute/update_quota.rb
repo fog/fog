@@ -18,24 +18,11 @@ module Fog
       class Mock
 
         def update_quota(tenant_id, options = {})
-          defaults = {
-            'metadata_items' => 128,
-            'injected_file_content_bytes' => 10240,
-            'injected_files' => 5,
-            'gigabytes' => 1000,
-            'ram' => 51200,
-            'floating_ips' => 10,
-            'instances' => 10,
-            'volumes' => 10,
-            'cores' => 20,
-            'id' => tenant_id
-          }
-
-          defaults.merge options
+          self.data[:quota_updated] = self.data[:quota].merge options
 
           response = Excon::Response.new
           response.status = 200
-          response.body = { 'quota_set' => options }
+          response.body = { 'quota_set' => self.data[:quota_updated] }
           response
         end
 

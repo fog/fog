@@ -138,6 +138,7 @@ module Fog
       end
 
       class Mock
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
 
         def self.data
           @data ||= Hash.new do |hash, region|
@@ -197,7 +198,11 @@ module Fog
                 :tags => {},
                 :tag_sets => Hash.new do |tag_set_hash, resource_id|
                   tag_set_hash[resource_id] = {}
-                end
+                end,
+                :subnets => [],
+                :vpcs => [],
+                :dhcp_options => [],
+                :internet_gateways => []
               }
             end
           end
@@ -209,6 +214,7 @@ module Fog
 
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
+          @aws_credentials_expire_at = Time::now + 20
           setup_credentials(options)
           @region = options[:region] || 'us-east-1'
 

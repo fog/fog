@@ -32,8 +32,8 @@ def compute_providers
         :cloudstack_host => 'http://host.foo'
       },
       :server_attributes => {}.tap do |hash|
-        [:zone_id, :network_ids, :image_id, :flavor_id].each do |k|
-          hash[k]= Fog.credentials[:cloudstack] && Fog.credentials[:cloudstack][k]
+        [:zone_id, :network_ids, :template_id, :service_offering_id].each do |k|
+          hash[k]= Fog.credentials["cloudstack_#{k}".to_sym]
         end
       end,
       :volume_attributes => {:name => "somevolume"}.tap do |hash|

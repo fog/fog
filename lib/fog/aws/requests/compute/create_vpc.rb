@@ -43,16 +43,17 @@ module Fog
           Excon::Response.new.tap do |response|
             if cidrBlock 
               response.status = 200
+              self.data[:vpcs].push({
+                'vpcId'         => Fog::AWS::Mock.request_id,
+                'state'         => 'pending',
+                'cidrBlock'     => cidrBlock,
+                'dhcpOptionsId' => Fog::AWS::Mock.request_id,
+                'tagSet'        => {}
             
+              })
               response.body = {
                 'requestId' => Fog::AWS::Mock.request_id,
-                'vpcSet'    => [
-                  'vpcId'         => Fog::AWS::Mock.request_id,
-                  'state'         => 'pending',
-                  'cidrBlock'     => cidrBlock,
-                  'dhcpOptionsId' => Fog::AWS::Mock.request_id,
-                  'tagSet'        => {}
-                ]
+                'vpcSet'    => self.data[:vpcs]
               }
             else
               response.status = 400
