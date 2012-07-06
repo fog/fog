@@ -46,7 +46,7 @@ module Fog
               'volumeID'                => options[:volume_id],
               'vlanID'                  => options[:vlan_id],
               'SecondaryIP'             => options[:secondary_ip],
-              'isMiniEphemermal'        => options[:is_mini_ephemeral],
+              'isMiniEphemeral'        => options[:is_mini_ephemeral],
               'Configuration Data'      => options[:configuration_data],
               'antiCollocationInstance' => options[:anti_collocation_instance],
             }
