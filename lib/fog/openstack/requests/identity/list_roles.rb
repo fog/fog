@@ -17,7 +17,7 @@ module Fog
 
         def list_roles
           Excon::Response.new(
-            :body   => { 'roles' => self.data[:roles] },
+            :body   => { 'roles' => self.data[:roles].values },
             :status => 200
           )
         end

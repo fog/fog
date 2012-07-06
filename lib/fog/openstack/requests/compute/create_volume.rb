@@ -42,7 +42,7 @@ module Fog
               'volumeType'         => nil,
               'availabilityZone'   => 'nova',
               'createdAt'          => Time.now,
-              'attchments'         => []
+              'attachments'         => []
             }
           }
           response
