@@ -1,3 +1,494 @@
+1.4.0 06/24/2012 24e0be755e251159f07d5d82beb1e8ef57c962d9
+=========================================================
+
+Stats! { 'collaborators' => 35, 'downloads' => 800348, 'forks' => 477, 'open_issues' => 43, 'watchers' => 2080 }
+
+MVP! Nelvin Driz
+
+[AWS]
+  make beanstalk, cdn, cloudformation, cloudwatch, elasticache, elb, storage, rds, ses, sns, route53 temporary credential friendly. thanks Frederick Cheung
+
+[AWS|Auto Scale]
+  Add support for put_notification_configuration and     change AWS API to use 01-01-2011 Spec. thanks Zuhaib M Siddique
+
+[AWS|Autoscale]
+  Fixing Parameters notes for autoscale create launch     configuration for InstanceMonitoring.  Credit goes to boto,     https://github.com/boto/boto/blob/develop/boto/ec2/autoscale/__init__.py     , for having it correct. thanks Zuhaib M Siddique
+  Fixing Parameters notes for autoscale create launch     configuration for InstanceMonitoring.  Credit goes to boto,     https://github.com/boto/boto/blob/develop/boto/ec2/autoscale/__init__.py     , for having it correct. thanks Zuhaib M Siddique
+
+[Openstack|Compute]
+  Usage Requests. thanks Hunter Nield
+  Migration and Console output. thanks Hunter Nield
+  server methods for console and migration. thanks Hunter Nield
+  Minor address cleanup. thanks Hunter Nield
+
+[aws|address]
+  fixes release_address for VPC EIPs      * amazon requires allocation_id only for vpc eips, and public_ip otherwise. thanks Albert Choi
+
+[aws|beanstalk]
+  Added missing :beanstalk case. thanks George Scott
+  Added #load_balancer method. thanks George Scott
+  Serialize keys for SourceConfiguration. thanks George Scott
+  Added modify method for template. thanks George Scott
+  Support different AWS regions. thanks George Scott
+  Added swap_cnames method. thanks George Scott
+
+[aws|compute]
+  add networkInterfaceSet context to EC2 instance parser. thanks Benton Roberts
+
+[aws|dns]
+  Allow both Ruby and AWS style names for alias. thanks George Scott
+  Support for latency/weighted resource sets. thanks George Scott
+  Fixed #all iteration. thanks George Scott
+  Reimplemented #get. thanks George Scott
+  Added #all! method to Records. thanks George Scott
+
+[aws|dynamodb]
+  correct batch_put_item to batch_write_item for consistency with API. thanks geemus
+
+[aws|elb]
+  Failing test for load_balancers marker support. thanks Dan Peterson
+  Deprecate describe_load_balancers with just an array of names. thanks Dan Peterson
+  Marker support for describe_load_balancers. thanks Dan Peterson
+  Fix use of describe_load_balancers in tests. thanks Dan Peterson
+  load_balancers.get(nil) returns nil instead of the first of all load balancers. thanks Dan Peterson
+
+[aws|iam]
+  Add test for AWS[:iam].get_user. thanks Benton Roberts
+  add test for AWS[:iam].get_user_policy. thanks Benton Roberts
+  FIX - make arguments AWS::IAM.get_user conform to expected standard for this module. thanks Benton Roberts
+  Fix Users model to comply with updated request parameter set. thanks Benton Roberts
+  mark role tests as pending in mock mode. thanks geemus
+
+[aws|storage]
+  fix flipped logic on valid acl check     closes #889. thanks geemus
+  fix method signature for setup_credentials. thanks geemus
+
+[aws|storage|]
+  Make get_object_http_url use correct S3 host in returned URL. thanks Michiel Sikkes
+  Make get_object_http_url use correct S3 host in returned URL. thanks Michiel Sikkes
+
+[brightbox|compute]
+  Updated image reference where unfortunately hardcoded. thanks Paul Thornthwaite
+  Remove resize request since not available. thanks Paul Thornthwaite
+  Update format tests for new attributes on Cloud IPs. thanks Paul Thornthwaite
+  Update format tests for "fqdn" attribute. thanks Paul Thornthwaite
+  Update format tests for updates to Image. thanks Paul Thornthwaite
+
+[cloudstack]
+  prevent mock test failure when cloudstack credentials are not defined. thanks geemus
+  add to list of providers so it can be skipped when lacking credentials. thanks geemus
+
+[cloudstack|compute]
+  zones,flavors,images,address. thanks Jason Hansen & Josh Lane
+  support async jobs. thanks Jason Hansen & Josh Lane
+  server abstraction and mocks. thanks Josh Lane & Jason Hansen
+  volumes support. thanks Josh Lane & Jason Hansen
+
+[compute]
+  volume tests. thanks Josh Lane & Jason Hansen
+
+[compute|aws]
+  Apply tags to volume at creation. thanks Dan Carley
+  Respect extra register_image options when mocking. thanks Dan Peterson
+  extend polling interval for spot_requests bootstrap. thanks geemus
+  cleanup internet_gateway mocks and remove debug output. thanks geemus
+
+[compute|openstack]
+  update server attributes for shared compute tests. thanks geemus
+  cleanup for list security groups request/mock. thanks geemus
+
+[docs]
+  fix link to EngineYard logo (broken in /storage, /compute, etc.). thanks Len
+
+[ecloud|compute]
+  Adding multiple disks at once was not working properly. thanks Eugene Howe
+  fix optional params for validate_data     closes #969. thanks geemus
+
+[glesys|compute]
+  update server/status format to include cpu hash and warnings. thanks Anton Lindström
+  add reboot and compute test params. thanks Anton Lindström
+
+[hp|compute]
+  fix tests to properly set default base image. thanks geemus
+
+[ibm|compute]
+  Typo in parameter name, should be storageID. thanks Decklin Foster
+
+[joyent|compute]
+  Fixes issue where params are not properly passed to #keys_create     from #create_key. thanks Kevin Chan
+  Added #list_datacenters. thanks Kevin Chan
+  Support for DSA keys for auth. thanks Kevin Chan
+
+[libVirt]
+  added tests. thanks Amos Benari
+
+[libvirt]
+  refactored libvirt entire code. thanks Ohad Levy
+  expose node hostname. thanks Ohad Levy
+  added display attributes and allowed to change display of a running server. thanks Ohad Levy
+  volumes dev names must be uniq. thanks Ohad Levy
+  makes libvirt code more debian friendly. thanks Ohad Levy
+  - ensure no nil pools are returned. thanks Ohad Levy
+  Fix SSH keyfile being pulled from wrong param. thanks brookemckim
+  skip tests if ruby-libvirt is unavailable. thanks geemus
+  correct error message when skipping tests. thanks geemus
+
+[misc]
+  Add support for internal ELBs in VPC. thanks Aaron Bell
+  cleaning up model. thanks Aaron Bell
+  fix parser to show scheme, add test for internal ELB creation. thanks Aaron Bell
+  fixing test. thanks Aaron Bell
+  add scheme to elb helper. thanks Aaron Bell
+  adds batch_put_item functionality to AWS dynamodb + test. thanks Alex Gaudio
+  Fixed non-persistent connections handling to AWS. thanks Alexander Kolesen
+  Fixed handling options[:persistent] in some cases. thanks Alexander Kolesen
+  added mock implementation. thanks Amos Benari
+  removed unneeded dependency,. thanks Amos Benari
+  new rbovirt version. thanks Amos Benari
+  use constant for GB. thanks Amos Benari
+  Adding network interface information and security group ids. thanks Artem Veremey
+  Adding network interface information and security group ids to the model. thanks Artem Veremey
+  Store the region for S3. thanks Ben Butler-Cole
+  add create_hosted_zone and get_hosted_zone request mocks. thanks Bulat Shakirzyanov
+  add list_hosted_zones request mock. thanks Bulat Shakirzyanov
+  add change_resource_record_set request mock. thanks Bulat Shakirzyanov
+  fix response codes and formatting. thanks Bulat Shakirzyanov
+  fix typos. thanks Bulat Shakirzyanov
+  fix identifiers. thanks Bulat Shakirzyanov
+  use hard-coded sample value to eliminate randomness. thanks Bulat Shakirzyanov
+  fix typos. thanks Bulat Shakirzyanov
+  fix zone id in create_hosted_zone response. thanks Bulat Shakirzyanov
+  fix attribute name. thanks Bulat Shakirzyanov
+  add authorize and revoke port range for security group. thanks Bulat Shakirzyanov
+  Fix typo. thanks Christopher Meiklejohn
+  Specify image_ref rather than trying to instantiate object. thanks Christopher Meiklejohn
+  Fog::Compute::AWS::Address#server -> assigned Server. thanks Dr Nic Williams
+  fix auto-discovery for HP Cloud by fog bin. thanks Dr Nic Williams
+  whitespace. :bomb: :v:. thanks Dylan Egan
+  Default to false for persistent connections. You can't pass in false. This now behaves like other connections in fog. :v:. thanks Dylan Egan
+  Idempotent Dynect calls. :v:. thanks Dylan Egan
+  Fix up describe_volume_status to work with THE ARRAYZ. :v:. thanks Dylan Egan
+  Fog::AWS.indexed_reuqest_param. thanks Edward Muller
+  include the nextToken in the body. thanks Edward Muller
+  complete Request param support. thanks Edward Muller
+  refactor to use Fog::AWS.indexed_request_param. thanks Edward Muller
+  the old parser was not working properly. thanks Edward Muller
+  All directories.create on us-east-1. thanks Edward Muller
+  us-west-2 default ami. thanks Edward Muller
+  some small fixups. thanks Edward Muller
+  make the aws region accessible. thanks Edward Muller
+  Fog::Compute::Server#private_key=. thanks Edward Muller
+  Fog::Compute::Server#sshable?. thanks Edward Muller
+  ssh/run optionally takes a block. thanks Edward Muller
+  Cleanup after talking to @dpiddy. thanks Edward Muller
+  return '' not nil. thanks Edward Muller
+  Revert "Add debug option to Fog::Compute::Server#ssh". thanks Edward Muller
+  Mock stop_instances. thanks Edward Muller
+  Mock aws compute start_instances. thanks Edward Muller
+  Don't duplicate effort. thanks Edward Muller
+  Add ssh_port to Fog::Compute::Server. thanks Edward Muller
+  Generalize NoLeak Inspector for Fog::Service. thanks Edward Muller
+  Don't leak HP cdn & storage. thanks Edward Muller
+  Make aws compute server retry SSH on EHOSTUNREACH. thanks Eric Boehs
+  Copied auth token reauthentication from rackspace|compute. thanks Eric Hankins
+  https://github.com/fog/fog/issues/810 -  Add ENI support by maf23. thanks Eric Stonfer
+  minor fix to ENI tests. thanks Eric Stonfer
+  VPC ELBs, Tests, and the introduction of the InternetGateway object. thanks Eric Stonfer
+  clean up conflict. thanks Eric Stonfer
+  this adds the dhcp_options object and associated operations. thanks Eric Stonfer
+  merge upstream. thanks Eric Stonfer
+  forgot to commit dhcp_options tests. thanks Eric Stonfer
+  fix describe_volume_status parser. thanks Eric Stonfer
+  add some more explanation to the server creation process. thanks Eric Stonfer
+  testing. thanks Eugene Howe
+  added requests and models for compute_pools. thanks Eugene Howe
+  changed to urn:tmrk:eCloudExtensions-2.8. thanks Eugene Howe
+  require compute pool to be specified on vapp creation. thanks Eugene Howe
+  set default value for computePool on vapp creation. thanks Eugene Howe
+  Made computePool an optional parameter, specs now pass without issue. thanks Eugene Howe
+  Removed non-functioning Mock classes. thanks Eugene Howe
+  fixed method name. thanks Eugene Howe
+  start an instance with an IAM profile and access the credentials. thanks Frederick Cheung
+  add new iam requests to support iam roles. thanks Frederick Cheung
+  request tests for the new iam role requests. thanks Frederick Cheung
+  test credential fetching. thanks Frederick Cheung
+  use excon rather than net/http. thanks Frederick Cheung
+  remove stray multijson require. thanks Frederick Cheung
+  fix errant use of net/http. thanks Frederick Cheung
+  Add debug option to Fog::Compute::Server#ssh. thanks Gabriel Horner
+  Correct docs for change_resource_record_sets. thanks Gavin Sandie
+  add cc2.8xlarge AWS flavor. thanks Ian Downes
+  Fix user-data attribute name. thanks Igor Bolotin
+  Refactor AWS Directory. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Fix indentation warning. thanks James Herdman
+  Remove unnecessary full path usage with require. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove unused accessor. thanks James Herdman
+  Silence warning regarding splat operator. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Silence warnings about potentially private attribute. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Silence warning about potentially private attribute. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove duplicate require. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove absolute path when requiring. thanks James Herdman
+  Remove unused variable. thanks James Herdman
+  Remove duplicate Mock class definition. thanks James Herdman
+  implement Fog::SSH::Mock#run. thanks Jason Hansen & Josh Lane
+  add a method to IPAddr instead of breaking a useful one. thanks Jesse Newland
+  Adjusts regex to fix issues with S3 paths that include periods. thanks John Feminella
+  fix response-cache-control type for AWS signed urls. thanks John Nishinaga
+  remove FOG_PROVIDER env override. thanks Josh Lane
+  more robust resource pool discovery. thanks Justin Clayton
+  Removed duplicate property :ips on server. thanks Kevin Chan
+  Fixes invalid call to #resize, should be #resize_machine. thanks Kevin Chan
+  Fixed #875: Loosen multi_json version. thanks Kevin Menard
+  Bad string replace. thanks Kevin Menard
+  Actually call the new MultiJSON 1.3.2 API methods. thanks Kevin Menard
+  Rename dd_belatedpng.js to dd_belatedpng.min.js. thanks Laurent Bigonville
+  Add non-minified javascript files used in docs/ (#939). thanks Laurent Bigonville
+  Catch Errno::ETIMEDOUT timeout error when connecting to a freshly created EC2 machine. thanks Marc Seeger
+  fix get, all, and all!. thanks Michael Keirnan
+  Make `.irbrc` service agnostic. thanks Nelvin Driz
+  Nested Credentials with Array gets flattened; restrict flatten to 1L. thanks Nelvin Driz
+  Allow for stringified options keys. thanks Nikita Pomyashchiy
+  add supports for defining/extracting libvit boot order. thanks Ohad Levy
+  libvirt volume sizes are in GB, ensuring both requests and setters are in GB. thanks Ohad Levy
+  adds deprecation on vnc_port. thanks Ohad Levy
+  monitoring-state is enabled or disabled, if enabled returns true. thanks Ozgur Akan
+  reserved instances hourly cost was returning empty. thanks Ozgur Akan
+  Modify url regexp to handle periods in bucket names. thanks Parker Selbert
+  Tag generated model tests with string not symbol. thanks Paul Thornthwaite
+  added missing server attributes for openstack compute model. thanks Pedro Perez
+  openstack: extended list_servers and list_server_detail to allow all_tenants param. thanks Pedro Perez
+  depend on excon >= 0.13.0. thanks Prashant Nadarajan
+  use pessimistic gem version constraint for excon (~>0.14.0). thanks Prashant Nadarajan
+  aim users model and nested model policy. thanks Rodrigo Estebanez
+  IAM access_key model implemented. thanks Rodrigo Estebanez
+  get_user Mock implemented. Basic shindo user_tests added. thanks Rodrigo Estebanez
+  Refactor aim modeling for nested models (policies and access keys). thanks Rodrigo Estebanez
+  shindo tests for IAM models: users, policies and access_keys. Mock implementation for get_user_policy. thanks Rodrigo Estebanez
+  @users -> @user. Clean up the @user after the policies and access_keys test. thanks Rodrigo Estebanez
+  Fix encoding issue: https://github.com/fog/fog/pull/189. thanks Rodrigo Estebanez
+  aim users model and nested model policy. thanks Rodrigo Estebanez
+  IAM access_key model implemented. thanks Rodrigo Estebanez
+  get_user Mock implemented. Basic shindo user_tests added. thanks Rodrigo Estebanez
+  Refactor aim modeling for nested models (policies and access keys). thanks Rodrigo Estebanez
+  shindo tests for IAM models: users, policies and access_keys. Mock implementation for get_user_policy. thanks Rodrigo Estebanez
+  @users -> @user. Clean up the @user after the policies and access_keys test. thanks Rodrigo Estebanez
+  Fix encoding issue: https://github.com/fog/fog/pull/189. thanks Rodrigo Estebanez
+  For some reason, there was a missing comma in the mock class. thanks Rodrigo Estebanez
+  Fix get_user_policy. The actual AWS data has to be in a ['Policy'] hash section. thanks Rodrigo Estebanez
+  add IAM mocking for get_group method. thanks Rodrigo Estebanez
+  add IAM mocking for get_group method. thanks Rodrigo Estebanez
+  Add new HP providers for Object Storage, Compute and CDN services. thanks Rupak Ganguly
+  Be sure to reload when checking for a started spot instance, also add private/public key options into spot_requests, then set those on the server when loaded. thanks Ryan Stout
+  Use spot request's public_key when setting up keypair. thanks Ryan Stout
+  ensure apiKey and command are included in parameter sorting. thanks Sean Caffery
+  * [xenserver|compute] initial release. thanks Sergio Rubio
+  * Added VIF model and collection tests     * added network and server wrappers to VIF model. thanks Sergio Rubio
+  * Added VIF collection Shindo tests. thanks Sergio Rubio
+  * Added PIFs collection Shindo tests. thanks Sergio Rubio
+  * Added VBD Shindo tests     * added server wrapper to VBD model. thanks Sergio Rubio
+  * Added Network collection Shindo tests     * Fixed PBD and PIF tests descriptions. thanks Sergio Rubio
+  * Added Pool and StorageRepository models and collections Shindo tests     * Added missing attributes to Pool and StorageRepository models. thanks Sergio Rubio
+  * Define missing InvalidLogin exception     * Add login tests. thanks Sergio Rubio
+  * Added custom_templates and templates methods to Host model. thanks Sergio Rubio
+  * Added more tests and extended existing ones     * Added missing exceptions NotFound and RequestFailed     * connection.request now raises exception if request failed     * refactored most get_* request into get_record and get_records     * Compute.default_template more robust     * Base parser now replaces OpaqueRef:NULL with nil     * create_server request fixes. thanks Sergio Rubio
+  * Added some more tests     * Lots of fixes and some refactoring. thanks Sergio Rubio
+  * Fix Servers.templates method. thanks Sergio Rubio
+  * Added clone_server request. thanks Sergio Rubio
+  * Added create_vif tests     * Server.save  now properly creates additional VIFs when required     * Added create_vif_custome request to create VIFs with custom params. thanks Sergio Rubio
+  * Added Vif.destroy and destroy_vif request     * add :auto_start parameter to Server.save. thanks Sergio Rubio
+  * Added create_vdi request     * Added missing VDI methods and attributes. thanks Sergio Rubio
+  * Added missing VBD operations. thanks Sergio Rubio
+  * Added set_attribute request and tests     * Added missing PV_bootloaer attribute to Server     * Added Server.set_attribute method and tests. thanks Sergio Rubio
+  * Added create_vbd and provision_server requests     * Do not provision server when :auto_start is false     * Add Server.provisio method     * Add VBD.save method. thanks Sergio Rubio
+  * renamed some tests     * Added missing VDI attributes and methods     * added create/destroy request tests     * Added valid_ref? test helper     * Fixes in get_record_tests. thanks Sergio Rubio
+  * Added missing attributes to Server model     * Added create_server_raw request and tests     * Added VIF.save action     * more tests. thanks Sergio Rubio
+  * Fix: do not try to retrive guest_metrics when guest_metrics ref is nil     * ruby 1.8.7 compatibility fixes     * Sane defaults for create_server_raw request. thanks Sergio Rubio
+  * Added new scan_sr request     * Added StorageRepository.scan method     * set_attribute request is now generic and can be used by any model     * Added VDI.set_attribute method. thanks Sergio Rubio
+  * [xenserver|compute] set_attribute request now accepts var args       - added new tests. thanks Sergio Rubio
+  updating gitignore for eclipse settings. thanks Spencer Dillard
+  first pass at updates for VPC. thanks Spencer Dillard
+  updating for SSL ciphers and protocols. thanks Spencer Dillard
+  updating to master. thanks Spencer Dillard
+  regularize examples showing use of AWS access keys. thanks Stephen Bannasch
+  Use MultiJSON #dump and #load rather than #encode and #decode. thanks Steve Smith
+  Add support for ports in AWS storage URLs. thanks Tim Carey-Smith
+  Mock implementations for SCP upload and download. thanks Tom Mornini
+  add Linode Mock classes to request primitives. thanks Wes Morgan
+  make Mock#linode_disk_delete return the response object. thanks Wes Morgan
+  make Mock#linode_disk_list return the response object. thanks Wes Morgan
+  use kernel_id for mocked kernel, not stackscript_id. thanks Wes Morgan
+  Adds new method delete_notification_configuration which allows you     notifications created by put_notification_configuration. thanks Zuhaib Siddique
+  Fix for stacks that have capabilities. Without this the parser misinterprets stacks with capabilities set. thanks atlantacs
+  volume(s) are not considered to be universally available. thanks geemus
+  catch passing an invalid openstack_tenant. thanks mattray
+  addresses['internet'] (like on TryStack.org) supported and public and private_ip_address now work. thanks mattray
+  don't assume 'internet' for addresses. thanks mattray
+  Added offering type for reserved instances response. thanks questionnet
+
+[oVirt]
+  added volumes to server and template. thanks Amos Benari
+  added volume size in GB accessor. thanks Amos Benari
+  fixed create_vm and get_virtual_machine requests mock implementation. thanks Amos Benari
+
+[openstack]
+  Fix create snapshot. thanks Ferran Rodenas
+  Match both OS API 1.1 and v2 since they are the same. thanks Josh Kearney
+  Update Reinitialization Process of Existing Auth Token. thanks Nelvin Driz
+  Add Export of Credentials. thanks Nelvin Driz
+  Wrong instance variables accessed for #credentials. thanks Nelvin Driz
+  Update Authentication through X-Auth-Token. thanks Nelvin Driz
+  Update mocks for login and identity request #get_user_by_id. thanks Nelvin Driz
+  Fix authentication without specifying tenant name. thanks Nelvin Driz
+  Make current_user and current_token accessible to services. thanks Nelvin Driz
+  Fix Authentication as well as Fog::JSON call bugs. thanks Nelvin Driz
+  Raise error when no tenant is found for the user logging in. thanks Nelvin Driz
+  Ensure password sent is of type string. thanks Nelvin Driz
+  Modify authentication process. thanks Philip Mark Deazeta
+
+[openstack|compute]
+  Add requests and tests for security groups. thanks Alfonso Juan Dillera
+  Add requests, models and tests for keypairs. thanks Alfonso Juan Dillera
+  Add requests, models and tests for address     management. thanks Alfonso Juan Dillera
+  Add requests, models and tests for address     management. thanks Alfonso Juan Dillera
+  Add flavor CRUD. thanks Alfonso Juan Dillera
+  Add auth_token. thanks Alfonso Juan Dillera
+  Added request for boot_from_snapshot. thanks Alfonso Juan Dillera
+  Added id attribute to the keypair. thanks Alfonso Juan Dillera
+  Update fetching of addresses and added fetching for address pools. thanks Alvin Garcia
+  Fixed creating image of a server. thanks Alvin Garcia
+  Added requests for quota. thanks Alvin Garcia
+  Initial extension support for addresses. thanks Hunter Nield
+  Initial extension support for key pairs. thanks Hunter Nield
+  Initial extension support for security groups. thanks Hunter Nield
+  Added Address models. thanks Hunter Nield
+  Added key pair models. thanks Hunter Nield
+  added security group models. thanks Hunter Nield
+  Updates to server model. thanks Hunter Nield
+  Added list/get support for /os-hosts. thanks Hunter Nield
+  Add Tenants and Fix Authentication Implementation. thanks Nelvin Driz
+  Fix Requests on Compute. thanks Nelvin Driz
+  General Cleanup and Update. thanks Nelvin Driz
+  Fix Compute Identity Endpoint Credential Export. thanks Nelvin Driz
+  Add Identity Enpoint to Recognized Init Parameters. thanks Nelvin Driz
+  Update requests and response of server actions. thanks Nelvin Driz
+  Fix Bug on Key Pair Mock. thanks Nelvin Driz
+  Update Mocks for Volumes. thanks Nelvin Driz
+  Update Mocks for Security Groups and Volumes. thanks Nelvin Driz
+  Add Instance Name to Fog. thanks Nelvin Driz
+  Update Image Mocks. thanks Nelvin Driz
+  Update List Security Groups to list those assigned to a server. thanks Nelvin Driz
+  Assert Timezone to UTC and fix format for OS on `get_usage`. thanks Nelvin Driz
+  Added get_usage function, mocks, tests. thanks Philip Mark Deazeta
+  Added get server volumes request. thanks Philip Mark M. Deazeta
+  Added key_pair and security_groups options int create server requrest. thanks Philip Mark M. Deazeta
+  added key_name and security_groups in boot from snapshot request. thanks Philip Mark M. Deazeta
+  authenticate_v2 fixes. thanks Sergio Rubio
+
+[openstack|identity]
+  Added current user id. thanks Alfonso Juan Dillera
+  Updated current user id for identity. thanks Alfonso Juan Dillera
+  Keystone Roles. thanks Alvin Garcia
+  Keystone Roles and Users. thanks Alvin Garcia
+  Update users collections and model. thanks Alvin Garcia
+  Update users model initialization and save. thanks Alvin Garcia
+  Fixed users fetching. thanks Alvin Garcia
+  Rough implementation of the Keystone API (untested). thanks Hunter Nield
+  Correction in Roles#all method. thanks Mark Maglana
+  Express the "add user role" intent more clearly. thanks Mark Maglana
+  Fix Authentication Implementation. thanks Nelvin Driz
+  Update Tenants. thanks Nelvin Driz
+  Update Tenants (Complete CRUD). thanks Nelvin Driz
+  Fix Identity Authentication Conditions on Endpoint     Detection. thanks Nelvin Driz
+  Add User List and Delete User Mocks. thanks Nelvin Driz
+  Update Fog to Accomodate Tenant Deletion Workaround     Workflow. thanks Nelvin Driz
+  Fix status code expectation. thanks Nelvin Driz
+  Added function to add user to a tenant. thanks Philip Mark Deazeta
+  Added function to add user to a tenant. thanks Philip Mark Deazeta
+  fixes for mocks. thanks geemus
+
+[openstack|image]
+  Added set_tenant. thanks Alvin Garcia
+  Added copy_from attribute. thanks Alvin Garcia
+  Update Image Service Authentication Options. thanks Nelvin Driz
+  Added image service, model and request. thanks Philip Mark Deazeta
+  Added test for models and request. thanks Philip Mark Deazeta
+  Added image module, model and request. thanks Philip Mark Deazeta
+  Image Model Updates. thanks Philip Mark Deazeta
+  Refactor Dynamic Methods on Image Model. thanks Philip Mark Deazeta
+
+[openstack|volume]
+  Volume Endpoints Support. thanks Marjun Pagalan
+  Volume Snapshot CRUD. thanks Marjun Pagalan
+  Volume attach/detach to Server. thanks Marjun Pagalan
+  Added volume service requests. thanks Philip Mark M. Deazeta
+  fix on module name. thanks Philip Mark M. Deazeta
+  Added volume model. thanks Philip Mark M. Deazeta
+
+[ovirt]
+  fixed list storage domain test. thanks Amos Benari
+
+[rackspace|compute]
+  fix rackspace server compare. thanks Josh Lane & Jason Hansen
+  default images. thanks Josh Lane & Jason Hansen
+  Images#all returns data. thanks Josh Lane & Jason Hansen
+  fixes for mock images. thanks geemus
+
+[rackspace|lb]
+  added support for algorithm on create. thanks Brian Hartsock
+  fixed broken tests due to API contract changes. thanks Brian Hartsock
+
+[rackspace|loadbalancers]
+  fixed broken tests. thanks Brian Hartsock
+
+[rackspace|storage|file]
+  copy method now use the options hash and apply content type. thanks Matthias Gröbner
+
+[rackspace|storage|files]
+  fix iteration. thanks Matthias Gröbner
+
+[slicehost]
+  remove (now deprecated) slicehost support. thanks geemus
+
+[storage|aws]
+  fix location stuff to allow creating new buckets properly. thanks geemus
+
+[vcloud]
+  Remove some un-needed debug information. thanks Lincoln Stoll
+
+[vpc-fixes]
+  AWS security group model + VPC. thanks Sean Porter
+
+[vsphere]
+  force poweroff of instance of vmware tools are not installed. thanks Ohad Levy
+  adds memory and cpu server attributes. thanks Ohad Levy
+  adds support to get and set vnc console. thanks Ohad Levy
+
+[xenserver]
+  Added missing Server.tags attribute. thanks Sergio Rubio
+  fix tags to skip tests without credentials. thanks geemus
+
+
 1.3.1 03/27/2012 f0f692456956fe2e414ef8205d0268259901644a
 =========================================================
 

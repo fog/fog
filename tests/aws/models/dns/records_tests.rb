@@ -1,6 +1,6 @@
 Shindo.tests("Fog::DNS[:aws] | records", ['aws', 'dns']) do
-
   pending if Fog.mocking?
+
   tests("zones#create").succeeds do
     @zone = Fog::DNS[:aws].zones.create(:domain => generate_unique_domain)
   end
@@ -14,6 +14,24 @@ Shindo.tests("Fog::DNS[:aws] | records", ['aws', 'dns']) do
 
   param_groups.each do |params|
     collection_tests(@zone.records, params, false)
+  end
+
+  records = []
+
+  100.times do |i|
+    records << @zone.records.create(:name => "#{i}.#{@zone.domain}", :type => "A", :ttl => 3600, :value => ['1.2.3.4'])
+  end
+
+  tests("#all!").returns(102) do
+    @zone.records.all!.size
+  end
+
+  tests("#all!").returns(102) do
+    @zone.records.all!.size
+  end
+
+  records.each do |record|
+    record.destroy
   end
 
   tests("zones#destroy").succeeds do

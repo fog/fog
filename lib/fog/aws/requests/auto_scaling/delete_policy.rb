@@ -37,7 +37,16 @@ module Fog
       class Mock
 
         def delete_policy(auto_scaling_group_name, policy_name)
-          Fog::Mock.not_implemented
+          unless data[:scaling_policies].delete(policy_name)
+            raise Fog::AWS::AutoScaling::NotFound, "The scaling policy '#{policy_name}' does not exist."
+          end
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            'ResponseMetadata' => { 'RequestId' => Fog::AWS::Mock.request_id }
+          }
+          response
         end
 
       end

@@ -189,10 +189,10 @@ task :changelog do
   changelog << ''
 
   require 'multi_json'
-  github_repo_data = Fog::JSON.decode(Excon.get('http://github.com/api/v2/json/repos/show/fog/fog').body)
-  data = github_repo_data['repository'].reject {|key, value| !['forks', 'open_issues', 'watchers'].include?(key)}
-  github_collaborator_data = Fog::JSON.decode(Excon.get('http://github.com/api/v2/json/repos/show/fog/fog/collaborators').body)
-  data['collaborators'] = github_collaborator_data['collaborators'].length
+  github_repo_data = Fog::JSON.decode(Excon.get('https://api.github.com/repos/fog/fog').body)
+  data = github_repo_data.reject {|key, value| !['forks', 'open_issues', 'watchers'].include?(key)}
+  github_collaborator_data = Fog::JSON.decode(Excon.get('https://api.github.com/repos/fog/fog/collaborators').body)
+  data['collaborators'] = github_collaborator_data.length
   rubygems_data = Fog::JSON.decode(Excon.get('https://rubygems.org/api/v1/gems/fog.json').body)
   data['downloads'] = rubygems_data['downloads']
   stats = []
