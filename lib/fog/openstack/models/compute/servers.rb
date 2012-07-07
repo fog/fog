@@ -7,10 +7,18 @@ module Fog
 
       class Servers < Fog::Collection
 
+        attribute :filters
+
         model Fog::Compute::OpenStack::Server
 
-        def all
-          data = connection.list_servers_detail.body['servers']
+        def initialize(attributes)
+          self.filters ||= {}
+          super
+        end
+
+        def all(filters = filters)
+          self.filters = filters
+          data = connection.list_servers_detail(filters).body['servers']
           load(data)
         end
 
@@ -27,34 +35,6 @@ module Fog
           end
         rescue Fog::Compute::OpenStack::NotFound
           nil
-        end
-
-        def find_by_name(name)
-          find_by_attribute('name', name)
-        end
-
-        def find_by_status(status)
-          find_by_attribute('status', status)
-        end
-
-        def find_by_image(image)
-          find_by_attribute('image', image)
-        end
-
-        def find_by_flavor(flavor)
-          find_by_attribute('flavor', flavor)
-        end
-
-        def find_by_changes_since(isotime)
-          find_by_attribute('changes-since', isotime)
-        end
-
-        def find_by_reservation_id(reservation_id)
-          find_by_attribute('reservation_id', reservation_id)
-        end
-
-        def find_by_attribute(attribute, value)
-          load(connection.list_servers_detail({attribute => value}).body['servers'])
         end
 
       end

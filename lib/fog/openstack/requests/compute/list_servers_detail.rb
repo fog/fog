@@ -3,9 +3,9 @@ module Fog
     class OpenStack
       class Real
 
-        def list_servers_detail(options = {})
+        def list_servers_detail(filters = {})
           params = Hash.new
-          options[:all_tenants] ? params['all_tenants'] = 'True' : params = options
+          filters[:all_tenants] ? params['all_tenants'] = 'True' : params = filters
 
           request(
             :expects  => [200, 203],
