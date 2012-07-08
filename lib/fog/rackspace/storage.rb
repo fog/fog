@@ -100,7 +100,7 @@ module Fog
 
         def request(params, parse_json = true, &block)
           begin
-            response = @connection.request(params.merge!({
+            response = @connection.request(params.merge({
               :headers  => {
                 'Content-Type' => 'application/json',
                 'X-Auth-Token' => @auth_token
