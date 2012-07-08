@@ -3,6 +3,7 @@ module Fog
     class OpenStack
       class Real
 
+        # Available filters: name, status, image, flavor, changes_since, reservation_id
         def list_servers_detail(filters = {})
           params = Hash.new
           filters[:all_tenants] ? params['all_tenants'] = 'True' : params = filters
