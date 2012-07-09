@@ -1,3 +1,4 @@
-README.rdoc
 lib/**/*.rb
 bin/*
+-
+README.rdoc
