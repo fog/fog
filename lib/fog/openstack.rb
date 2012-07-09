@@ -50,6 +50,7 @@ module Fog
       connection = Fog::Connection.new(uri.to_s, false, connection_options)
       @openstack_api_key  = options[:openstack_api_key]
       @openstack_username = options[:openstack_username]
+
       response = connection.request({
         :expects  => [200, 204],
         :headers  => {
@@ -63,7 +64,8 @@ module Fog
 
       return {
         :token => response.headers['X-Auth-Token'],
-        :server_management_url => response.headers['X-Server-Management-Url']
+        :server_management_url => response.headers['X-Server-Management-Url'],
+        :identity_public_endpoint => response.headers['X-Keystone']
       }
     end
 
