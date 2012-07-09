@@ -28,6 +28,7 @@ Thanks for following these rules to keep the quality high and and the content us
 * [Engine Yard AppCloud](http://www.engineyard.com/cloud) = AWS => \[Compute, Storage\]
 * [iSwifter](http://iswifter.youwebinc.com/) = BlueBox => Compute
 * [OpenFeint](http://openfeint.com) = BlueBox => Compute
+* [PeopleAdmin](http://www.peopleadmin.com) = AWS => [Compute, Storage]
 * [PHPFog](https://phpfog.com) = AWS => Compute
 * [RowFeeder](https://rowfeeder.com) = Blue Box Group => Compute
 * [Viximo](http://viximo.com) = AWS => Compute
