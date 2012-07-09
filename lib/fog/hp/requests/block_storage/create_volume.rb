@@ -36,10 +36,11 @@ module Fog
             }
           }
 
-          l_options = ['snapshot_id']
+          l_options = ['snapshot_id', 'metadata']  # TODO: add attachments later
           l_options.select{|o| options[o]}.each do |key|
             data['volume'][key] = options[key]
           end
+
           request(
             :body     => MultiJson.encode(data),
             :expects  => 200,
