@@ -58,7 +58,7 @@ module Fog
           response.status = 200
           response.body = {
             'volume' => {
-              'id'                 => Fog::Mock.random_numbers(3),
+              'id'                 => Fog::Mock.random_numbers(3).to_i,
               'displayName'        => name,
               'displayDescription' => description,
               'size'               => size,
@@ -66,7 +66,7 @@ module Fog
               'snapshotId'         => options['snapshot_id'] || "",
               'volumeType'         => nil,
               'availabilityZone'   => 'nova',
-              'createdAt'          => Time.now,
+              'createdAt'          => Time.now.to_s,
               'metadata'           => options['metadata'] || {},
               'attachments'        => [{}]
             }
