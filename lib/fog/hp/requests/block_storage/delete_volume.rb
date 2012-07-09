@@ -23,7 +23,8 @@ module Fog
 
         def delete_volume(volume_id)
           response = Excon::Response.new
-          if volume = self.data[:volumes][volume_id]
+          if self.data[:volumes][volume_id]
+            self.data[:volumes].delete(volume_id)
             response.status = 202
           else
             raise Fog::BlockStorage::HP::NotFound
