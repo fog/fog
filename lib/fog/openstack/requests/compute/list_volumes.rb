@@ -26,22 +26,20 @@ module Fog
               "displayName" => "test 1",
               "attachments" => [{}],
               "volumeType" => nil,
-              "snapshotId" => nil,
+              "snapshotId" => Fog::Mock.random_numbers(2),
               "size" => 1,
-              "id" => 6,
-              "createdAt" => "2012-03-30 05:31:00.655058",
-              "metadata" => {} },
+              "id" => "6",
+              "createdAt" => Time.now },
             { "status" => "available",
               "displayDescription" => "",
               "availabilityZone" => "nova",
               "displayName" => "test 2",
               "attachments" => [{}],
               "volumeType" => nil,
-              "snapshotId" => nil,
+              "snapshotId" => Fog::Mock.random_numbers(2),
               "size" => 1,
-              "id" => 8,
-              "createdAt" => "2012-03-30 16:14:55.582717",
-              "metadata" => {} }
+              "id" => "8",
+              "createdAt" => Time.now}
             ]
           response.body = { 'volumes' => self.data[:volumes] }
           response

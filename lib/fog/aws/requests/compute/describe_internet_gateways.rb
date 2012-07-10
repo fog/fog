@@ -44,14 +44,7 @@ module Fog
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,
-              'internetGatewaySet'    => [
-                'internetGatewayId'      => Fog::AWS::Mock.request_id,
-                'attachmentSet'          => {
-                  'vpcId'                  => Fog::AWS::Mock.request_id,
-                  'state'                  => 'pending',
-                },
-                'tagSet'                 =>  {}
-              ]
+              'internetGatewaySet'    => self.data[:internet_gateways]
             }
           end
         end

@@ -32,6 +32,7 @@ module Fog
           Excon::Response.new.tap do |response|
             if dhcp_options_id
               response.status = 200
+              self.data[:dhcp_options].reject! { |v| v['dhcpOptionsId'] == dhcp_options_id }
             
               response.body = {
                 'requestId' => Fog::AWS::Mock.request_id,

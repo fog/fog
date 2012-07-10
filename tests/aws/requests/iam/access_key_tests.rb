@@ -48,8 +48,6 @@ Shindo.tests('AWS::IAM | access key requests', ['aws']) do
     test('failing conditions')
   end
 
-  unless Fog.mocking?
-    Fog::AWS[:iam].delete_user('fog_access_key_tests')
-  end
+  Fog::AWS[:iam].delete_user('fog_access_key_tests')
 
 end
