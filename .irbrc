@@ -50,16 +50,11 @@ def connect_openstack(username, password, tenant = nil, url = 'http://192.168.27
 
   parameters.merge!(:openstack_tenant => tenant) if tenant
 
-  identity = Fog::Identity.new(parameters)
-  compute  = Fog::Compute.new(parameters)
-  volume   = Fog::Volume.new(parameters)
-  image    = Fog::Image.new(parameters)
-
-  connections[username.to_sym] = {
-    :identity => identity,
-    :compute  => compute ,
-    :image    => image
-  }
+  key = username.to_sym
+  set_service(key, Fog::Identity, parameters)
+  set_service(key, Fog::Compute, parameters)
+  set_service(key, Fog::Volume, parameters)
+  set_service(key, Fog::Image, parameters)
 end
 
 def connect(parameters)

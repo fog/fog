@@ -13,8 +13,14 @@ Shindo.tests('AWS | url') do
   
   @file = @storage.directories.new(key: 'fognonbucket').files.new(key: 'test.txt')
 
+  if Fog.mock?
+    signature = Fog::Storage::AWS.new.signature(nil)
+  else
+    signature = 'tajHIhKHAdFYsigmzybCpaq8N0Q%3D'
+  end
+
   tests('#url w/ response-cache-control').returns(
-    'https://fognonbucket.s3.amazonaws.com/test.txt?response-cache-control=No-cache&AWSAccessKeyId=123&Signature=tajHIhKHAdFYsigmzybCpaq8N0Q%3D&Expires=1356998400'
+    "https://fognonbucket.s3.amazonaws.com/test.txt?response-cache-control=No-cache&AWSAccessKeyId=123&Signature=#{signature}&Expires=1356998400"
   ) do
     @file.url(@expires, query: { 'response-cache-control' => 'No-cache' })
   end

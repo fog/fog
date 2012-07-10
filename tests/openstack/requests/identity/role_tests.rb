@@ -32,7 +32,7 @@ Shindo.tests('Fog::Identity[:openstack] | role requests', ['openstack']) do
       Fog::Identity[:openstack].delete_user_role(@tenant['id'], @user['id'], @role['id']).body
     end
 
-    tests("#delete_role('#{@role['id']}')").formats(@role_format) do
+    tests("#delete_role('#{@role['id']}')").succeeds do
       Fog::Identity[:openstack].delete_role(@role['id']).body
     end
 

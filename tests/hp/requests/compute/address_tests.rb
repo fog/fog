@@ -30,11 +30,12 @@ Shindo.tests('Fog::Compute[:hp] | address requests', [:hp]) do
     @server.wait_for { ready? }
 
     tests("#associate_address('#{@server.id}', '#{@ip_address}')").succeeds do
-      Fog::Compute[:hp].associate_address(@server.id, @ip_address)
+      result = Fog::Compute[:hp].associate_address(@server.id, @ip_address)
       tests("#get_address").returns(@server.id, "associated to valid instance id") do
         pending if Fog.mocking?
         Fog::Compute[:hp].get_address(@address_id).body['floating_ip']['instance_id']
       end
+      result
     end
 
     tests("#disassociate_address('#{@server.id}', '#{@ip_address}')").succeeds do
