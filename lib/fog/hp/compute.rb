@@ -27,6 +27,7 @@ module Fog
       request_path 'fog/hp/requests/compute'
       request :allocate_address
       request :associate_address
+      request :attach_volume
       request :change_password_server
       #request :confirm_resized_server
       request :create_image
@@ -40,6 +41,7 @@ module Fog
       request :delete_security_group
       request :delete_security_group_rule
       request :delete_server
+      request :detach_volume
       request :disassociate_address
       request :get_address
       request :get_console_output
@@ -59,6 +61,7 @@ module Fog
       request :list_server_addresses
       request :list_server_private_addresses
       request :list_server_public_addresses
+      request :list_server_volumes
       request :list_servers
       request :list_servers_detail
       request :reboot_server
