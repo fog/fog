@@ -61,7 +61,7 @@ module Fog
             'displayName'        => name,
             'displayDescription' => description,
             'size'               => size,
-            'status'             => 'creating',
+            'status'             => 'available',
             'snapshotId'         => options['snapshot_id'] || "",
             'volumeType'         => nil,
             'availabilityZone'   => 'nova',
