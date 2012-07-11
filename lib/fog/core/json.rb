@@ -1,4 +1,22 @@
-require 'multi_json'
+begin
+  require 'multi_json'
+  $multiJsonExists = true
+rescue LoadError
+   $multiJsonExists = false
+end
+
+begin
+  require 'json'
+  $jsonExists = true
+rescue LoadError
+  $jsonExists = false
+end
+
+
+if not $multiJsonExists and not $jsonExists
+    raise RuntimeError, "either multi_json or json library must be installed"
+end
+
 
 module Fog
   module JSON
@@ -21,26 +39,34 @@ module Fog
     # Do the MultiJson introspection at this level so we can define our encode/decode methods and perform
     # the introspection only once rather than once per call.
 
-    if MultiJson.respond_to?(:dump)
-      def self.encode(obj)
-        MultiJson.dump(obj)
+    if $multiJsonExists
+      if MultiJson.respond_to?(:dump)
+        def self.encode(obj)
+          MultiJson.dump(obj)
+        end
+      else
+        def self.encode(obj)
+          MultiJson.encode(obj)
+        end
+      end
+
+      if MultiJson.respond_to?(:load)
+        def self.decode(obj)
+          MultiJson.load(obj)
+        end
+      else
+        def self.decode(obj)
+          MultiJson.decode(obj)
+        end
       end
     else
       def self.encode(obj)
-        MultiJson.encode(obj)
+        ::JSON.generate(obj)
+      end
+
+      def self.decode(obj)
+        ::JSON.parse(obj)
       end
     end
-
-    if MultiJson.respond_to?(:load)
-      def self.decode(obj)
-        MultiJson.load(obj)
-      end
-    else
-      def self.decode(obj)
-        MultiJson.decode(obj)
-      end
-    end
-
-
   end
 end
