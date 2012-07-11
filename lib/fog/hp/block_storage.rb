@@ -8,9 +8,9 @@ module Fog
       requires    :hp_secret_key, :hp_account_id, :hp_tenant_id, :hp_avl_zone
       recognizes  :hp_auth_uri, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_auth_version
 
-      #model_path   'fog/hp/models/block_storage'
-      #model       :volume
-      #collection  :volumes
+      model_path   'fog/hp/models/block_storage'
+      model       :volume
+      collection  :volumes
 
       request_path 'fog/hp/requests/block_storage'
       request :create_volume
