@@ -43,9 +43,28 @@ module Fog
           self.status == 'available'
         end
 
+        # volume can be attached to only one server at a time
+        def attach(new_server_id, device)
+          requires :id
+          unless in_use?
+            data = connection.compute.attach_volume(new_server_id, id, device)
+            merge_attributes(:attachments => attachments << data.body['volumeAttachment'])
+            true
+          else
+            false
+          end
+        end
+
+        def detach
+          requires :id
+          if has_attachments?
+            connection.compute.detach_volume(server_id, id)
+          end
+          true
+        end
+
         def destroy
           requires :id
-
           connection.delete_volume(id)
           true
         end
