@@ -2,12 +2,12 @@ Shindo.tests('Fog::BlockStorage[:hp] | volume requests', ['hp', 'block_storage']
 
   @volume_format = {
     'status'             => String,
-    'displayDescription' => String,
+    'displayDescription' => Fog::Nullable::String,
     'availabilityZone'   => String,
-    'displayName'        => String,
+    'displayName'        => Fog::Nullable::String,
     'attachments'        => [Fog::Nullable::Hash],
     'volumeType'         => Fog::Nullable::String,
-    'snapshotId'         => String,
+    'snapshotId'         => Fog::Nullable::String,
     'size'               => Integer,
     'id'                 => Integer,
     'createdAt'          => String,
