@@ -20,6 +20,18 @@ module Fog
 
       module Utils
 
+        def compute
+          @compute ||= Fog::Compute.new(
+            :provider       => 'HP',
+            :hp_account_id  => @hp_account_id,
+            :hp_secret_key  => @hp_secret_key,
+            :hp_auth_uri    => @hp_auth_uri,
+            :hp_tenant_id   => @hp_tenant_id,
+            :hp_avl_zone    => @hp_avl_zone,
+            :connection_options => @connection_options
+          )
+        end
+
       end
 
       class Mock
