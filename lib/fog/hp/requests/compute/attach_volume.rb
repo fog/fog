@@ -48,16 +48,16 @@ module Fog
               resp_data = { "volumeAttachment" =>
                             {
                               "volumeId" => volume_id,
-                              "device" => device
+                              "id"       => volume_id
                             }
                           }
               response.body = resp_data
               response.status = 200
 
               data = {
-                        "device" => device,
+                        "device"   => device,
                         "serverId" => server_id,
-                        "id" => volume_id,
+                        "id"       => volume_id,
                         "volumeId" => volume_id,
                      }
               if server['volumeAttachments']
