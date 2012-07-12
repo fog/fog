@@ -52,6 +52,14 @@ module Fog
           raise ArgumentError.new(':key_data, :keys, :password or a loaded ssh-agent is required to initialize SSH')
         end
 
+        if options[:key_data] || options[:keys]
+          options[:keys_only] = true
+          #Explicitly set these so net-ssh doesn't add the default keys
+          #as seen at https://github.com/net-ssh/net-ssh/blob/master/lib/net/ssh/authentication/session.rb#L131-146
+          options[:keys] = [] unless options[:keys]
+          options[:key_data] = [] unless options[:key_data]
+        end
+
         @address  = address
         @username = username
         @options  = { :paranoid => false }.merge(options)
