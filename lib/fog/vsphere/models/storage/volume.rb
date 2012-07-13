@@ -1,3 +1,4 @@
+# totally new
 require 'fog/core/model'
 
 module Fog

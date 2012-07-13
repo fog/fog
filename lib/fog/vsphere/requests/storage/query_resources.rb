@@ -1,3 +1,4 @@
+# add disk related query
 module Fog
   module Storage
     class Vsphere

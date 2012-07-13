@@ -1,3 +1,4 @@
+#totally new
 Shindo.tests("Fog::Storage[:vsphere] | query resources request", ['vsphere']) do
 
   require 'rbvmomi'

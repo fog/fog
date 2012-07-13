@@ -1,3 +1,4 @@
+# totally new
 require 'fog/core/collection'
 require 'fog/vsphere/models/storage/volume'
 

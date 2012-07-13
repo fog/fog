@@ -1,3 +1,4 @@
+# totally new
 Shindo.tests("Fog::Storage[:vsphere] | volumes", ['vsphere']) do
 
 

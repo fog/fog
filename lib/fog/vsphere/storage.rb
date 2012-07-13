@@ -193,6 +193,10 @@ module Fog
             @data_disks = Disk.new(options)
           end
 
+          def get_system_ds_name
+            @system_disks.volumes.values[0].datastore_name
+          end
+
           def volume_add(type, id, mode, size, fullpath, datastore_name, unit_number = 0)
             v = Volume.new
             v.vm_mo_ref = id
