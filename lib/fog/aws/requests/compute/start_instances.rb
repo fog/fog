@@ -34,6 +34,7 @@ module Fog
 
           instance_set = self.data[:instances].values
           instance_set = apply_tag_filters(instance_set, {'instance_id' => instance_ids}, 'instanceId')
+          instance_set = instance_set.find_all {|x| instance_ids.include?(x["instanceId"]) }
 
           if instance_set.empty?
             raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_ids.first}' does not exist")
