@@ -5,6 +5,8 @@ class Vsphere < Fog::Bin
       case key
       when :compute
         Fog::Compute::Vsphere
+      when :storage
+        Fog::Storage::Vsphere
       else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
@@ -15,6 +17,8 @@ class Vsphere < Fog::Bin
         hash[key] = case key
         when :compute
           Fog::Compute.new(:provider => 'Vsphere')
+        when :storage
+          Fog::Storage.new(:provider => 'Vsphere')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end

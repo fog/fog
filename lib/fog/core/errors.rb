@@ -57,7 +57,6 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :ovirt_username:
   :ovirt_password:
   :ovirt_url:
-  :libvirt_uri:
   :rackspace_api_key:
   :rackspace_username:
   :rackspace_servicenet:
@@ -85,8 +84,6 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :libvirt_password:
   :libvirt_uri:
   :libvirt_ip_command:
-  :ibm_username:
-  :ibm_password:
 #
 # End of Fog Credentials File
 #######################################################
