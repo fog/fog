@@ -186,6 +186,10 @@ module Fog
         ip.join('.')
       end
 
+      def self.private_ip_address
+        ip_address.gsub(/^\d{1,3}\./,"10.")
+      end
+
       def self.kernel_id
         "aki-#{Fog::Mock.random_hex(8)}"
       end
