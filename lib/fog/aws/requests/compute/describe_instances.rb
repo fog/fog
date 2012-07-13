@@ -179,7 +179,7 @@ module Fog
                 instance['ipAddress']         = Fog::AWS::Mock.ip_address
                 instance['originalIpAddress'] = instance['ipAddress']
                 instance['dnsName']           = Fog::AWS::Mock.dns_name_for(instance['ipAddress'])
-                instance['privateIpAddress']  = Fog::AWS::Mock.ip_address
+                instance['privateIpAddress']  = Fog::AWS::Mock.private_ip_address
                 instance['privateDnsName']    = Fog::AWS::Mock.private_dns_name_for(instance['privateIpAddress'])
                 instance['instanceState']     = { 'code' => 16, 'name' => 'running' }
               end
