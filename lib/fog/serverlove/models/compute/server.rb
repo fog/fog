@@ -10,6 +10,12 @@ module Fog
         
         attribute :name
         attribute :cpu
+        attribute :mem
+        attribute :ide_0_0, :aliases => 'ide:0:0'
+        attribute :ide_0_1, :aliases => 'ide:0:1'
+        attribute :ide_1_0, :aliases => 'ide:1:0'
+        attribute :ide_1_1, :aliases => 'ide:1:1'
+        attribute :boot
         attribute :persistent
         attribute :vnc_password, :aliases => 'vnc:password'
         attribute :status   
@@ -38,7 +44,7 @@ module Fog
         end
         
         def allowed_attributes
-          allowed = [:name, :cpu, :persistent, :vnc_password]
+          allowed = [:name, :cpu, :mem, :persistent, :vnc_password]
           attributes.select {|k,v| allowed.include? k}
         end
       end
