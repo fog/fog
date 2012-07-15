@@ -5,7 +5,7 @@ module Fog
 
         def create_server(options)
           return nil if options.empty? || options.nil?
-          request(:method => "post", :path => "/servers/create", :expects => 200, :options => options)
+          request(:method => "post", :path => "/servers/create/stopped", :expects => 200, :options => options)
         end
 
       end
