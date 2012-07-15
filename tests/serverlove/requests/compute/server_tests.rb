@@ -13,7 +13,7 @@ Shindo.tests('Fog::Compute[:serverlove] | server requests', ['serverlove']) do
   
   tests('success') do
     
-    attributes = { 'name' => 'Test', 'cpu' => '1000' }
+    attributes = { 'name' => 'Test', 'cpu' => '1000', 'persistent' => 'true' }
 
     tests("#create_server").formats(@server_format) do
       @server = Fog::Compute[:serverlove].create_server(attributes).body
@@ -28,7 +28,22 @@ Shindo.tests('Fog::Compute[:serverlove] | server requests', ['serverlove']) do
       Fog::Compute[:serverlove].update_server(@server['server'], { name: @server['name']})
       Fog::Compute[:serverlove].servers.get(@server['server']).name == "Diff"
     end
-
+    
+    tests("#start_server").succeeds do
+      Fog::Compute[:serverlove].start_server(@server['server'])
+    end
+    
+    tests("#reset_server").succeeds do
+      Fog::Compute[:serverlove].reset_server(@server['server'])
+    end
+    
+    tests("#shutdown_server").succeeds do
+      Fog::Compute[:serverlove].shutdown_server(@server['server'])
+    end
+    
+    tests("#stop_server").succeeds do
+      Fog::Compute[:serverlove].stop_server(@server['server'])
+    end
 
     tests("#destroy_server").succeeds do
       Fog::Compute[:serverlove].destroy_server(@server['server'])
