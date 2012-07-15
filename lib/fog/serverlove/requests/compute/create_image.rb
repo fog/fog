@@ -17,7 +17,7 @@ module Fog
           response.status = 200
 
           data = {
-            'drive'        => Fog::Mock.random_numbers(1000000).to_s,
+            'drive'     => Fog::Mock.random_numbers(1000000).to_s,
             'name'      => options['name'] || 'Test',
             'size'      => options['size'] || 12345
           }

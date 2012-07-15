@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:serverlove] | drive requests', ['serverlove']) do
 
   @image_format = {
-    'drive'                => String,
+    'drive'             => String,
     'name'              => String,
     'user'              => String,
     'size'              => Integer,
@@ -30,7 +30,6 @@ Shindo.tests('Fog::Compute[:serverlove] | drive requests', ['serverlove']) do
       @image['name'] = "Diff"
       Fog::Compute[:serverlove].update_image(@image['drive'], { name: @image['name'], size: @image['size']})
       Fog::Compute[:serverlove].images.get(@image['drive']).name == "Diff"
-      
     end
     
     tests("#load_standard_image").returns(true) do
