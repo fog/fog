@@ -21,6 +21,8 @@ module Fog
         attribute :status   
         attribute :user
         attribute :started
+        attribute :nic_0_model, :aliases => 'nic:0:model'
+        attribute :nic_0_dhcp,  :aliases => 'nic:0:dhcp'
         
         def save
           attributes = {}
@@ -30,7 +32,7 @@ module Fog
           else
             requires :name
             requires :cpu
-            attributes = connection.create_server(allowed_attributes).body
+            attributes = connection.create_server(self.defaults.merge(allowed_attributes)).body
           end
           
           merge_attributes(attributes)
@@ -46,6 +48,10 @@ module Fog
         def allowed_attributes
           allowed = [:name, :cpu, :mem, :persistent, :vnc_password]
           attributes.select {|k,v| allowed.include? k}
+        end
+        
+        def self.defaults
+          { 'nic:0:model' => 'e1000', 'nic:0:dhcp' => 'auto' }
         end
       end
     end
