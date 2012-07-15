@@ -1,6 +1,5 @@
 require 'fog/core/collection'
 require 'fog/serverlove/models/compute/server'
-require 'fog/serverlove/models/compute/image'
 
 module Fog
   module Compute
@@ -16,7 +15,8 @@ module Fog
         end
 
         def get(server_id)
-          load(connection.get_server(server_id).body)
+          data = connection.get_server(server_id).body
+          new(data)
         end
 
       end
