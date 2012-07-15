@@ -20,6 +20,14 @@ module Fog
 
       # Server
       request :get_servers
+      request :get_server
+      request :destroy_server
+      request :create_server
+      request :update_server
+      request :start_server
+      request :stop_server
+      request :shutdown_server
+      request :reset_server
       
       model_path 'fog/serverlove/models/compute'
       
