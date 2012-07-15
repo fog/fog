@@ -16,7 +16,7 @@ module Fog
         end
 
         def get(server_id)
-          load(connection.get_image(server_id).body)
+          load(connection.get_server(server_id).body)
         end
 
       end
