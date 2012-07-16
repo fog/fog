@@ -11,14 +11,15 @@ module Fog
         attribute :name
         attribute :cpu
         attribute :mem
+        attribute :smp
         attribute :ide_0_0, :aliases => 'ide:0:0'
         attribute :ide_0_1, :aliases => 'ide:0:1'
         attribute :ide_1_0, :aliases => 'ide:1:0'
         attribute :ide_1_1, :aliases => 'ide:1:1'
         attribute :boot
         attribute :persistent
+        attribute :vnc
         attribute :vnc_password, :aliases => 'vnc:password'
-        attribute :vnc,       :aliases => 'vnc'
         attribute :status   
         attribute :user
         attribute :started
@@ -48,7 +49,7 @@ module Fog
         
         def allowed_attributes
           allowed = [
-                      :name, :cpu, :mem, :persistent,
+                      :name, :cpu, :smp, :mem, :persistent,
                       :vnc_password, :vnc,
                       :ide_0_0, :ide_0_1, :ide_1_0, :ide_1_1,
                       :boot, :nic_0_model, :nic_0_dhcp
@@ -59,7 +60,7 @@ module Fog
         def self.defaults
           # TODO: Document default settings.
           # Note that VNC password standards are strict (need explaining)
-          { 'nic:0:model' => 'e1000', 'nic:0:dhcp' => 'auto', 'vnc' => 'auto', 'vnc:password' => 'QXBwKEKQ' }
+          { 'nic:0:model' => 'e1000', 'nic:0:dhcp' => 'auto', 'vnc' => 'auto', 'vnc:password' => 'QXBwKEKQ', 'smp' => 'auto' }
         end
       end
     end
