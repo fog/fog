@@ -22,7 +22,7 @@ module Fog
           end
           dc_name = path_elements.shift
           if not self.datacenters.include? dc_name then
-            raise ArgumentError, "Datacenter #{dc_name} does not exist, only datacenters #{self.dacenters.join(",")} are accessible."
+            raise ArgumentError, "Datacenter #{dc_name} does not exist, only datacenters #{self.datacenters.join(",")} are accessible."
           end
           options
         end
@@ -166,7 +166,7 @@ module Fog
         def vm_clone(options = {})
           # Option handling
           options = vm_clone_check_options(options)
-          notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Cloud not find VM template" }
+          notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Could not find VM template" }
           vm_mob_ref = list_virtual_machines['virtual_machines'].find(notfound) do |vm|
             vm['name'] == options['path'].split("/")[-1]
           end
