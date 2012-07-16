@@ -45,14 +45,7 @@ module Fog
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,
-              'dhcpOptionsSet'    => [
-                'dhcpOptionsId'        => Fog::AWS::Mock.dhcp_options_id,
-                'dhcpConfigurationSet' => {
-                  'key'                    => 'domain-name',
-                  'valueSet'               => ["example.com"],
-                },
-                'tagSet'                 =>  {}
-              ]
+              'dhcpOptionsSet'    => self.data[:dhcp_options]
             }
           end
         end

@@ -7,7 +7,24 @@ module Fog
 
       class Alarms < Fog::Collection
         model Fog::AWS::CloudWatch::Alarm
-    
+
+        def all
+          data = []
+          next_token = nil
+          loop do
+            result = connection.describe_alarms('NextToken' => next_token).body['DescribeAlarmsResult']
+            data += result['MetricAlarms']
+            next_token = result['NextToken']
+            break if next_token.nil?
+          end
+          load(data)
+        end
+
+        def get(identity)
+          data = connection.describe_alarms('AlarmNames' => identity).body['DescribeAlarmsResult']['MetricAlarms'].first
+          new(data) unless data.nil?
+        end
+
         #alarm_names is an array of alarm names
         def delete(alarm_names)
           connection.delete_alarms(alarm_names)

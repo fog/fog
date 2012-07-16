@@ -60,8 +60,8 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
     end
 
     #CHANGE PASSWORD
-    tests("#change_password_server(#{@server_id}, 'fogupdatedserver')").succeeds do
-      Fog::Compute[:openstack].change_password_server(@server_id, 'foggy')
+    tests("#change_server_password(#{@server_id}, 'fogupdatedserver')").succeeds do
+      Fog::Compute[:openstack].change_server_password(@server_id, 'foggy')
     end
     Fog::Compute[:openstack].servers.get(@server_id).wait_for { ready? }
 
@@ -93,7 +93,7 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
 
     #RESIZE CONFIRM
     tests("#resize_confirm(#{@server_id}, '3')").succeeds do
-      Fog::Compute[:openstack].confirm_resized_server(@server_id)
+      Fog::Compute[:openstack].confirm_resize_server(@server_id)
     end
     Fog::Compute[:openstack].servers.get(@server_id).wait_for { ready? } if not Fog.mocking?
 

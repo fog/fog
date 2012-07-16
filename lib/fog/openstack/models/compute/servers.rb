@@ -7,10 +7,18 @@ module Fog
 
       class Servers < Fog::Collection
 
+        attribute :filters
+
         model Fog::Compute::OpenStack::Server
 
-        def all
-          data = connection.list_servers_detail.body['servers']
+        def initialize(attributes)
+          self.filters ||= {}
+          super
+        end
+
+        def all(filters = filters)
+          self.filters = filters
+          data = connection.list_servers_detail(filters).body['servers']
           load(data)
         end
 

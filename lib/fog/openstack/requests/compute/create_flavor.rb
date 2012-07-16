@@ -55,7 +55,7 @@ module Fog
           response.body = {
             "flavor" => {
               "vcpus" => attributes[:vcpus],
-              "disk" => attributes[:disc],
+              "disk" => attributes[:disk],
               "name" => attributes[:name],
               "links" => [
                 {
@@ -70,7 +70,7 @@ module Fog
               "rxtx_factor" => attributes[:rxtx_factor] || 1,
               "OS-FLV-EXT-DATA:ephemeral" => attributes[:ephemeral] || 0,
               "ram" => attributes[:ram],
-              "id" => 11,
+              "id" => "11",
               "swap" => attributes[:swap] || ""
             }
           }

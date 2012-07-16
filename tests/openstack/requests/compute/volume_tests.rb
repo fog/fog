@@ -10,7 +10,7 @@ Shindo.tests('Fog::Compute[:openstack] | volume requests', ['openstack']) do
     'status'             => String,
     'snapshotId'         => String,
     'availabilityZone'   => String,
-    'attchments'         => Array,
+    'attachments'        => Array,
     'volumeType'         => NilClass,
     'createdAt'          => Time
   }

@@ -45,14 +45,7 @@ module Fog
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,
-              'vpcSet'    => [
-                'vpcId'           => Fog::AWS::Mock.request_id,
-                'state'           => 'pending',
-                'cidrBlock'       => '10.255.255.0/24',
-                'dhcpOptionsId'   => Fog::AWS::Mock.request_id,
-                'instanceTenancy' => 'default',
-                'tagSet'          =>  {}
-              ]
+              'vpcSet'    => self.data[:vpcs]
             }
           end
         end

@@ -69,7 +69,7 @@ module Fog
           require 'fileutils'
           source_path = path_to(::File.join(source_directory_name, source_object_name))
           target_path = path_to(::File.join(target_directory_name, target_object_name))
-          ::FileUtils.mkdir_p(::File.dirname(source_path))
+          ::FileUtils.mkdir_p(::File.dirname(target_path))
           ::FileUtils.copy_file(source_path, target_path)
         end
       end

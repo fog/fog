@@ -83,7 +83,7 @@ module Fog
               @in_listeners = false
             when 'PolicyNames'
               @in_policy_names = false
-            when 'Protocol', 'SSLCertificateId'
+            when 'Protocol', 'SSLCertificateId', 'InstanceProtocol'
               @listener_description['Listener'][name] = value
             when 'LoadBalancerPort', 'InstancePort'
               @listener_description['Listener'][name] = value.to_i

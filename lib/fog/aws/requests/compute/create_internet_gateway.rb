@@ -33,15 +33,16 @@ module Fog
 
       class Mock
         def create_internet_gateway()
-          Excon::Response.new(
+        self.data[:internet_gateways].push({
+          'internetGatewayId' => Fog::AWS::Mock.request_id,
+          'attachmentSet'     => {},
+          'tagSet'            => {}
+        })
+         Excon::Response.new(
             :status => 200,
             :body   => {
               'requestId' => Fog::AWS::Mock.request_id,
-              'internetGatewaySet' => [
-                'internetGatewayId' => Fog::AWS::Mock.request_id,
-                'attachmentSet'     => {},
-                'tagSet'            => {}
-              ]
+              'internetGatewaySet' => self.data[:internet_gateways]
             }
           )
         end

@@ -176,13 +176,24 @@ module Fog
                   'minRam'    => 0,
                   'minDisk'   => 0,
                   'metadata'  => {},
-                  'links'     => []
+                  'links'     => [{"href"=>"http://nova1:8774/v1.1/admin/images/1", "rel"=>"self"}, {"href"=>"http://nova1:8774/admin/images/2", "rel"=>"bookmark"}]
                 }
               },
               :servers => {},
               :key_pairs => {},
               :security_groups => {},
-              :addresses => {}
+              :addresses => {},
+              :quota => {
+                'metadata_items' => 128,
+                'injected_file_content_bytes' => 10240,
+                'injected_files' => 5,
+                'gigabytes' => 1000,
+                'ram' => 51200,
+                'floating_ips' => 10,
+                'instances' => 10,
+                'volumes' => 10,
+                'cores' => 20,
+              }
             }
           end
         end

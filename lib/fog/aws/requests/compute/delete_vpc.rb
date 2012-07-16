@@ -34,7 +34,8 @@ module Fog
           Excon::Response.new.tap do |response|
             if vpc_id
               response.status = 200
-            
+              self.data[:vpcs].reject! { |v| v['vpcId'] == vpc_id }
+
               response.body = {
                 'requestId' => Fog::AWS::Mock.request_id,
                 'return' => true
