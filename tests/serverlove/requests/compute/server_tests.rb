@@ -35,7 +35,7 @@ Shindo.tests('Fog::Compute[:serverlove] | server requests', ['serverlove']) do
     end
     
     tests("assigns drive to server").succeeds do
-      @image = Fog::Compute[:serverlove].create_image('name' => 'Test', 'size' => '84234567890').body
+      @image = Fog::Compute[:serverlove].create_image('name' => 'Test', 'size' => '24234567890').body
       # Load debian
       Fog::Compute[:serverlove].load_standard_image(@image['drive'], 'aca2fa0b-40bc-4e06-ad99-f1467690d5de')
       Fog::Compute[:serverlove].update_server(@server['server'], { 'ide:0:0' => @image['drive'], 'boot' => 'ide:0:0'})

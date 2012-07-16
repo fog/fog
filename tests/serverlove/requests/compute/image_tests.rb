@@ -16,7 +16,7 @@ Shindo.tests('Fog::Compute[:serverlove] | drive requests', ['serverlove']) do
   
   tests('success') do
 
-    attributes = { 'name' => 'Test', 'size' => '84234567890' }
+    attributes = { 'name' => 'Test', 'size' => '24234567890' }
 
     tests("#create_image").formats(@image_format) do
       @image = Fog::Compute[:serverlove].create_image(attributes).body
