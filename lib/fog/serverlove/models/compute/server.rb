@@ -18,6 +18,7 @@ module Fog
         attribute :boot
         attribute :persistent
         attribute :vnc_password, :aliases => 'vnc:password'
+        attribute :vnc,       :aliases => 'vnc'
         attribute :status   
         attribute :user
         attribute :started
