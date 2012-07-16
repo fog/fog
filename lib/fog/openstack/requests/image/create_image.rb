@@ -20,7 +20,7 @@ module Fog
           body = String.new
           if attributes[:location]
             file = File.open(attributes[:location], "rb")
-            body = file.read
+            body = file
           end
 
           unless attributes[:properties].nil?
@@ -38,6 +38,8 @@ module Fog
             :method   => 'POST',
             :path     => "images"
           )
+        ensure
+          body.close if body.respond_to?(:close)
         end
 
       end
