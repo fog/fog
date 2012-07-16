@@ -1,3 +1,4 @@
+require 'thread'
 module Fog
   class CurrentMachine
     @@lock = Mutex.new
