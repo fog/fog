@@ -47,12 +47,19 @@ module Fog
         end
         
         def allowed_attributes
-          allowed = [:name, :cpu, :mem, :persistent, :vnc_password]
+          allowed = [
+                      :name, :cpu, :mem, :persistent,
+                      :vnc_password, :vnc,
+                      :ide_0_0, :ide_0_1, :ide_1_0, :ide_1_1,
+                      :boot, :nic_0_model, :nic_0_dhcp
+                    ]
           attributes.select {|k,v| allowed.include? k}
         end
         
         def self.defaults
-          { 'nic:0:model' => 'e1000', 'nic:0:dhcp' => 'auto' }
+          # TODO: Document default settings.
+          # Note that VNC password standards are strict (need explaining)
+          { 'nic:0:model' => 'e1000', 'nic:0:dhcp' => 'auto', 'vnc' => 'auto', 'vnc:password' => 'QXBwKEKQ' }
         end
       end
     end

@@ -9,6 +9,7 @@ Shindo.tests('Fog::Compute[:serverlove] | server requests', ['serverlove']) do
     'cpu'               => Integer,
     'mem'               => Integer,
     'persistent'        => Fog::Nullable::String,
+    'vnc'               => Fog::Nullable::String,
     'vnc:password'      => Fog::Nullable::String,
     'nic:0:dhcp'        => String,
     'nic:0:model'       => String
