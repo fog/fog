@@ -38,6 +38,16 @@ Shindo.tests('Fog::Compute[:serverlove] | drive requests', ['serverlove']) do
       Fog::Compute[:serverlove].images.get(@image['drive']).imaging != "" # This will be "x%" when imaging
     end
     
+    tests("waits for imaging...").returns(true) do
+      while(percent_complete = Fog::Compute[:serverlove].images.get(@image['drive']).imaging)
+        sleep(1)
+        STDERR.print "#{percent_complete} "
+        break if percent_complete.include?("100")
+      end
+      STDERR.print "100% "
+      true
+    end
+    
     tests("#destroy_image").succeeds do
       Fog::Compute[:serverlove].destroy_image(@image['drive'])
     end

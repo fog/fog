@@ -41,6 +41,16 @@ Shindo.tests('Fog::Compute[:serverlove] | server requests', ['serverlove']) do
       Fog::Compute[:serverlove].update_server(@server['server'], { 'ide:0:0' => @image['drive'], 'boot' => 'ide:0:0'})
     end
     
+    tests("waits for imaging...").returns(true) do
+      while(percent_complete = Fog::Compute[:serverlove].images.get(@image['drive']).imaging)
+        sleep(1)
+        STDERR.print "#{percent_complete} "
+        break if percent_complete.include?("100")
+      end
+      STDERR.print "100% "
+      true
+    end
+    
     tests("#start_server").returns(true) do
       Fog::Compute[:serverlove].start_server(@server['server'])
       Fog::Compute[:serverlove].servers.get(@server['server']).status == "active"
