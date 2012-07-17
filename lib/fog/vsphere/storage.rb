@@ -342,7 +342,7 @@ module Fog
           end
         end
 
-        def query_capahuecity(vms, options = {})
+        def query_capacity(vms, options = {})
           if options.has_key?('share_datastore_pattern') || options.has_key?('local_datastore_pattern')
             fetch_host_storage_resource(
                 'hosts' => options['hosts'],
