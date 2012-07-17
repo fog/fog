@@ -134,8 +134,7 @@ Shindo.tests("Fog::Storage[:vsphere] | query resources request", ['vsphere']) do
   end
 
   vm.id = storage.get_mob_ref_by_name('VirtualMachine',ConstClass::VM_NAME1)._ref.to_s
-  ds_name = vm.get_system_ds_name
-  ds_moid = storage.get_system_ds_moid(ds_name)
+  ds_moid = storage.get_system_ds_moid(vm)
   puts "________________vm.get_system_ds_name = #{ds_moid}"
   tests("When create vmdk for given vm") do
     response = storage.create_volumes(vm)

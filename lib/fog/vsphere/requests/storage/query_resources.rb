@@ -148,7 +148,8 @@ module Fog
           mob_ref
         end
 
-        def get_system_ds_moid(ds_name)
+        def get_system_ds_moid(vm)
+          ds_name = vm.get_system_ds_name
           ds_mob = get_mob_ref_by_name('Datastore', ds_name)
           ds_mob_ref =ds_mob._ref.to_s
           ds_mob_ref
