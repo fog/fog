@@ -14,7 +14,24 @@ module Fog
           request(options)
         end
 
+      end # Real
+
+      class Mock
+        def delete_security_group(options={})
+          security_group_id = options['id']
+          if self.data[:security_groups][security_group_id]
+            self.data[:security_groups].delete(security_group_id)
+            {
+              "deletesecuritygroupresponse" => {
+                "success" => "true"
+              }
+            }
+          else
+            raise Fog::Compute::Cloudstack::BadRequest.new('No security_group found')
+          end
+        end
       end
+
     end
   end
 end
