@@ -204,7 +204,7 @@ module Fog
           @vsphere_path     = options[:vsphere_path] || '/sdk'
           @vsphere_ns       = options[:vsphere_ns] || 'urn:vim25'
           @vsphere_rev      = options[:vsphere_rev] || '4.0'
-          @vsphere_ssl      = options[:vsphere_ssl] || true
+          @vsphere_ssl      = options[:vsphere_ssl] || false
           @vsphere_verify_cert = options[:vsphere_verify_cert] || false
           @vsphere_expected_pubkey_hash = options[:vsphere_expected_pubkey_hash]
           @vsphere_must_reauthenticate = false
