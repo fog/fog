@@ -183,7 +183,7 @@ module Fog
             @system_disks = Disk.new(options)
             options['type'] = 'swap'
             options['affinity'] = true
-            options['size'] = options['swap_size']
+            options['size'] = options['swap_size'] || @req_mem
             options['mode'] = options['swap_mode']
             @swap_disks = Disk.new(options)
             options['type'] = 'data'
