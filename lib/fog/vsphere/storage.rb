@@ -381,7 +381,7 @@ module Fog
           fit_hosts
         end
 
-        def recommmdation(vms, hosts)
+        def recommdation(vms, hosts)
           solution_list = {}
           hosts = hosts.sort {|x,y| @hosts[y].local_sum <=> @hosts[x].local_sum}
           hosts.each do |host_name|
