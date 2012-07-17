@@ -9,6 +9,8 @@ class HP < Fog::Bin
         Fog::Compute::HP
       when :storage
         Fog::Storage::HP
+      when :block_storage
+        Fog::BlockStorage::HP
       else
         # @todo Replace most instances of ArgumentError with NotImplementedError
         # @todo For a list of widely supported Exceptions, see:
@@ -29,6 +31,9 @@ class HP < Fog::Bin
         when :storage
           Fog::Logger.warning("HP[:storage] is deprecated, use Storage[:hp] instead")
           Fog::Storage.new(:provider => 'HP')
+        when :block_storage
+          Fog::Logger.warning("HP[:block_storage] is deprecated, use BlockStorage[:hp] instead")
+          Fog::BlockStorage.new(:provider => 'HP')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
