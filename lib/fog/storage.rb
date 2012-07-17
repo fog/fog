@@ -26,6 +26,9 @@ module Fog
       when :rackspace
         require 'fog/rackspace/storage'
         Fog::Storage::Rackspace.new(attributes)
+     when :vsphere
+        require 'fog/vsphere/storage'
+        Fog::Storage::Vsphere.new(attributes)
       else
         raise ArgumentError.new("#{provider} is not a recognized storage provider")
       end
