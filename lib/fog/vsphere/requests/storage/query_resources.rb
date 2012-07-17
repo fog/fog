@@ -1,4 +1,3 @@
-# add disk related query
 module Fog
   module Storage
     class Vsphere
@@ -226,7 +225,7 @@ module Fog
               host_resource.local_datastores = fetch_datastores(host_datastores,
                                                                 options['local_datastore_pattern'], false)
               host_resource.place_local_datastores = fetch_datastores(host_datastores,
-                                                                options['local_datastore_pattern'], false)
+                                                                      options['local_datastore_pattern'], false)
               Fog::Logger.deprecation("warning: no matched localstores in host:#{host_resource.name}") if host_resource.local_datastores.empty?
               #Fog::Logger.deprecation( "total ds number for one host = #{@datastore_list.size}") unless @datastore_list.nil?
               @host_list[host_resource.name]  = host_resource

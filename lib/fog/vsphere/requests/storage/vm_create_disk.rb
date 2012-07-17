@@ -1,4 +1,3 @@
-# new
 # Copyright (c) 2012 VMware, Inc. All Rights Reserved.
 #
 #      Licensed under the Apache License, Version 2.0 (the "License");
@@ -91,7 +90,7 @@ module Fog
           device_config_spec.device = device
           device_config_spec.operation = RbVmomi::VIM::VirtualDeviceConfigSpecOperation("remove")
           if options[:destroy]
-            device_config_spec.file_operation = RbVmomi::VIM::VirtualDeviceConfigSpecFileOperation("destroy")
+            device_config_spec.fileOperation = RbVmomi::VIM::VirtualDeviceConfigSpecFileOperation("destroy")
           end
           device_config_spec
         end
@@ -170,7 +169,8 @@ module Fog
 
           {
               'vm_ref'        => vm_mob_ref,
-              'scsi_num'     => scsi_num,
+              'unit_number'     => scsi_num,
+              'scsi_key' => system_disk[0].controllerKey,
               'vm_attributes' => convert_vm_mob_ref_to_attr_hash(vm_mob_ref),
               'vm_dev_number_increase' =>  (vm_mob_ref.config.hardware.device.size - devices.size),
               'task_state' => task.info.state
@@ -180,7 +180,7 @@ module Fog
 
         def vm_delete_disk (options = {})
           raise ArgumentError, "Must pass parameter: vm_moid or instance_uuid" unless (options['vm_moid'] || options['instance_uuid'])
-          raise ArgumentError, "Must pass parameter: disk_size" unless options['device_name']
+          raise ArgumentError, "Must pass parameter: vmdk_path" unless options['vmdk_path']
 
           if options['vm_moid']
             vm_mob_ref = get_vm_mob_ref_by_moid(options['vm_moid'])
@@ -200,11 +200,11 @@ module Fog
 
           devices = vm_mob_ref.config.hardware.device
           disk = devices.select { |device| device.kind_of?(RbVmomi::VIM::VirtualDisk) &&
-              device.deviceInfo.label == options['device_name'] }.first
+              device.backing.fileName == options['vmdk_path'] }.first
 
           config = RbVmomi::VIM::VirtualMachineConfigSpec.new
           config.deviceChange = []
-          config.deviceChange << create_delete_device_spec(disk)
+          config.deviceChange << create_delete_device_spec(disk, :destroy => true)
 
           task = vm_mob_ref.ReconfigVM_Task(:spec => config)
           wait_for_task(task)

@@ -1,4 +1,3 @@
-# totally new
 Shindo.tests("Fog::Storage[:vsphere] | volumes", ['vsphere']) do
 
 
@@ -68,6 +67,11 @@ Shindo.tests("Fog::Storage[:vsphere] | volumes", ['vsphere']) do
         test('be a kind of Fog::Storage::Vsphere::Volume') { volume.kind_of? Fog::Storage::Vsphere::Volume }
       end
 
+    end
+
+    tests("#destroy(#{params.inspect})").succeeds do
+      pending if Fog.mocking? && !mocks_implemented
+      @instance.destroy
     end
   end
 

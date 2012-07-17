@@ -507,7 +507,6 @@ module Fog
               vm.system_disks.volumes.values.each do |v|
                 Fog::Logger.deprecation("commit system_disk of size-#{v.size} with fullpath-#{v.fullpath} on host-#{vm.host_name}[/]")
                 @host_list[vm.host_name].local_datastores[v.datastore_name].unaccounted_space += v.size
-                puts "########### local sum = #{@host_list[vm.host_name].local_sum}"
               end
             end
             if vm.swap_disks.shared
@@ -518,7 +517,6 @@ module Fog
               vm.swap_disks.volumes.values.each do |v|
                 Fog::Logger.deprecation("commit swap_disk of size-#{v.size} with fullpath-#{v.fullpath} on host-#{vm.host_name}[/]")
                 @host_list[vm.host_name].local_datastores[v.datastore_name].unaccounted_space += v.size
-                puts "########### local sum = #{@host_list[vm.host_name].local_sum}"
               end
             end
             if vm.data_disks.shared
@@ -528,19 +526,13 @@ module Fog
             else
               vm.data_disks.volumes.values.each do |v|
                 Fog::Logger.deprecation("commit data_disk of size-#{v.size} with fullpath-#{v.fullpath} on host-#{vm.host_name} [/]")
-                puts "########### v.datastore_name = #{v.datastore_name}"
-                puts "########### before free space = #{@host_list[vm.host_name].local_datastores[v.datastore_name].free_space}"
-                puts "########### before unaccounting_space = #{@host_list[vm.host_name].local_datastores[v.datastore_name].unaccounted_space}"
                 @host_list[vm.host_name].local_datastores[v.datastore_name].unaccounted_space += v.size
-                puts "########### after free space = #{@host_list[vm.host_name].local_datastores[v.datastore_name].free_space}"
-                puts "########### after unaccounted_space = #{@host_list[vm.host_name].local_datastores[v.datastore_name].unaccounted_space}"
-                puts "########### local sum = #{@host_list[vm.host_name].local_sum}"
               end
             end
           end
           Fog::Logger.deprecation("finish commission methods[/]")
           difference = original_size - @host_list[vms[0].host_name].local_sum - @host_list[vms[0].host_name].share_sum
-          Fog::Logger.deprecation("#################### commit #{difference}[/]")
+          Fog::Logger.deprecation("commit size = #{difference}[/]")
           difference
         end
 
@@ -583,7 +575,7 @@ module Fog
           end
           Fog::Logger.deprecation("finish decommission methods[/]")
           difference = @host_list[vms[0].host_name].local_sum + @host_list[vms[0].host_name].share_sum - original_size
-          Fog::Logger.deprecation("############# de-commit #{difference}[/]")
+          Fog::Logger.deprecation("de-commit size = #{difference}[/]")
           difference
         end
 
@@ -628,7 +620,7 @@ module Fog
             end
             Fog::Logger.deprecation("finish decommission methods[/]")
             difference = @host_list[vms[0].host_name].local_sum + @host_list[vms[0].host_name].share_sum - original_size
-            Fog::Logger.deprecation("############# de-commit #{difference}[/]")
+            Fog::Logger.deprecation("de-commit size = #{difference}[/]")
             difference
           end # end of solution_list traverse
         end
@@ -638,6 +630,48 @@ module Fog
           vs = []
           vs += vm.swap_disks.volumes.values
           vs += vm.data_disks.volumes.values.reverse
+          response = {}
+          recover = []
+          begin
+            vs.each do |v|
+              params = {
+                  'vm_mo_ref' => vm.id,
+                  'mode' => v.mode,
+                  'fullpath' => v.fullpath,
+                  'size'=> v.size,
+                  'datastore_name' => v.datastore_name
+              }
+              recover << params
+              collection = self.volumes
+              v = collection.new(params)
+              response = v.save
+              if !response.has_key?('task_state') || response['task_state'] != "success"
+                recover.pop
+                recover.each do |v|
+                  v = collection.new(params)
+                  response = v.destroy
+                end
+                break
+              end
+            end
+          rescue => e
+            response['task_state'] = 'error'
+            response['error_message'] = e.to_s
+            recover.pop
+            recover.each do |v|
+              v = collection.new(params)
+              response = v.destroy
+            end
+          end
+          Fog::Logger.deprecation("finish volumes_create methods with argument(#{vm.host_name})[/]")
+          response
+        end
+
+        def delete_volumes(vm)
+          Fog::Logger.deprecation("enter into volumes_delete methods with argument(vm.id = #{vm.id}, vm.host_name = #{vm.host_name})[/]")
+          vs = []
+          vs += vm.swap_disks.volumes.values
+          vs += vm.data_disks.volumes.values
           response = {}
           begin
             vs.each do |v|
@@ -650,36 +684,12 @@ module Fog
               }
               collection = self.volumes
               v = collection.new(params)
-              response = v.save
-              break if !response.has_key?('task_state') || response['task_state'] != "success"
-            end
-          rescue => e
-            response['task_state'] = 'error'
-            response['error_message'] = e.to_s
-          end
-          Fog::Logger.deprecation("finish volumes_create methods with argument(#{vm.host_name})[/]")
-          response
-        end
-
-        def delete_volumes(vm)
-          Fog::Logger.deprecation("enter into volumes_delete methods with argument(vm.id = #{vm.id}, vm.host_name = #{vm.host_name})[/]")
-          vs = []
-          vs += vm.swap_disks.volumes.values
-          vs += vm.data_disks.volumes.values
-          begin
-            vs.each do |v|
-              params = {
-                  'vm_mo_ref' => vm.id,
-                  'mode' => v.mode,
-                  'fullpath' => v.fullpath,
-                  'size'=> v.size,
-                  'datastore_name' => v.datastore_name
-              }
-              collection = self.volumes
-              v = collection.new(params)
               response = v.destroy
-              puts "############## response of destroy = #{response}"
-              break if !response.has_key?('task_state') || response['task_state'] != "success"
+              if !response.has_key?('task_state') || response['task_state'] != "success"
+                break
+              else
+                v = nil
+              end
             end
           rescue RbVmomi::Fault => e
             response['task_state'] = 'error'
