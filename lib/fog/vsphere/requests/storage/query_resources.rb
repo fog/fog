@@ -124,6 +124,36 @@ module Fog
       class Real
         include Shared
 
+        def get_mob_ref_by_moid(type, moid)
+          raise ArgumentError, "Must pass a type" unless type
+          raise ArgumentError, "Must pass a moid" unless moid
+          filter_spec = get_filterSpec_by_type(type)
+          result = @connection.propertyCollector.RetrieveProperties(:specSet => [filter_spec])
+          results = Hash[result.map do |x|
+            [x.obj._ref, x.obj]
+          end]
+          mob_ref = results.fetch(moid)
+          mob_ref
+        end
+
+        def get_mob_ref_by_name(type, name)
+          raise ArgumentError, "Must pass a type" unless type
+          raise ArgumentError, "Must pass a name" unless name
+          filter_spec = get_filterSpec_by_type(type)
+          result = @connection.propertyCollector.RetrieveProperties(:specSet => [filter_spec])
+          results = Hash[result.map do |x|
+            [x.obj.name, x.obj]
+          end]
+          mob_ref = results.fetch(name)
+          mob_ref
+        end
+
+        def get_system_ds_moid(ds_name)
+          ds_mob = get_mob_ref_by_name('Datastore', ds_name)
+          ds_mob_ref =ds_mob._ref.to_s
+          ds_mob_ref
+        end
+
         def get_dc_mob_ref_by_path(path, options = {} )
           raise ArgumentError, "Must pass a path" unless path
           dc_mob_ref = @connection.serviceInstance.find_datacenter(path)
@@ -173,30 +203,6 @@ module Fog
           dc_mob_ref = get_dc_mob_ref_by_path(template_dc)
           vm_mob_ref = dc_mob_ref.find_vm(template_name)
           vm_mob_ref
-        end
-
-        def get_mob_ref_by_moid(type, moid)
-          raise ArgumentError, "Must pass a type" unless type
-          raise ArgumentError, "Must pass a moid" unless moid
-          filter_spec = get_filterSpec_by_type(type)
-          result = @connection.propertyCollector.RetrieveProperties(:specSet => [filter_spec])
-          results = Hash[result.map do |x|
-            [x.obj._ref, x.obj]
-          end]
-          mob_ref = results.fetch(moid)
-          mob_ref
-        end
-
-        def get_mob_ref_by_name(type, name)
-          raise ArgumentError, "Must pass a type" unless type
-          raise ArgumentError, "Must pass a name" unless name
-          filter_spec = get_filterSpec_by_type(type)
-          result = @connection.propertyCollector.RetrieveProperties(:specSet => [filter_spec])
-          results = Hash[result.map do |x|
-            [x.obj.name, x.obj]
-          end]
-          mob_ref = results.fetch(name)
-          mob_ref
         end
 
         def get_cs_mob_ref_by_moid(cs_moid)

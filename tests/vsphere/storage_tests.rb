@@ -67,7 +67,7 @@ Shindo.tests("Fog::Storage[:vsphere] | query resources request", ['vsphere']) do
   hosts = []
   tests("When recommend host and disk arrangement solution for given vms") do
     hosts <<  ConstClass::HOST_NAME1
-    response = storage.recommmdation(vms, hosts)
+    response = storage.recommendation(vms, hosts)
     puts "response = #{response}"
     test("it should return hash of host and disk arrangement for a given vm") do
       response.kind_of? Hash
@@ -89,7 +89,7 @@ Shindo.tests("Fog::Storage[:vsphere] | query resources request", ['vsphere']) do
         'data_size'=> ConstClass::VM_DATA_SIZE
     )
     vms << vm_2
-    response2 = storage.recommmdation(vms, hosts)
+    response2 = storage.recommendation(vms, hosts)
     puts "response2 = #{response2}"
     test("it should return hash of host and disk arrangement for group vms") do
       response.kind_of? Hash
@@ -134,7 +134,9 @@ Shindo.tests("Fog::Storage[:vsphere] | query resources request", ['vsphere']) do
   end
 
   vm.id = storage.get_mob_ref_by_name('VirtualMachine',ConstClass::VM_NAME1)._ref.to_s
-  puts "________________vm.get_system_ds_name = #{vm.get_system_ds_name}"
+  ds_name = vm.get_system_ds_name
+  ds_moid = storage.get_system_ds_moid(ds_name)
+  puts "________________vm.get_system_ds_name = #{ds_moid}"
   tests("When create vmdk for given vm") do
     response = storage.create_volumes(vm)
     test("it should return status result after this create task") do
