@@ -268,9 +268,9 @@ module Fog
 
         def initialize(options={})
           require 'rbvmomi'
-          @vsphere_username = options[:vsphere_username] || "administrator"
-          @vsphere_password = options[:vsphere_password] || "ca$hc0w"
-          @vsphere_server   = options[:vsphere_server] || "10.138.121.121"
+          @vsphere_username = options[:vsphere_username]
+          @vsphere_password = options[:vsphere_password]
+          @vsphere_server   = options[:vsphere_server]
           @vsphere_port     = options[:vsphere_port] || 443
           @vsphere_path     = options[:vsphere_path] || '/sdk'
           @vsphere_ns       = options[:vsphere_ns] || 'urn:vim25'
