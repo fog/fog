@@ -69,6 +69,11 @@ module Fog
           connection.remove_member_from_image(self.id, member_id)
         end
 
+        def update_members(members)
+          requires :id
+          connection.update_image_members(self.id, members)
+        end
+
         def members
           requires :id
           connection.get_image_members(self.id).body['members']

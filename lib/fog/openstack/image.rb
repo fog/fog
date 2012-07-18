@@ -24,6 +24,7 @@ module Fog
       request :create_image
       request :update_image
       request :get_image_members
+      request :update_image_members
       request :get_shared_images
       request :add_member_to_image
       request :remove_member_from_image
