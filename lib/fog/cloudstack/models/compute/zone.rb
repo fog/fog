@@ -26,12 +26,11 @@ module Fog
             'domainid'              => domain_id,
             'guestcidraddress'      => guest_cidr_address,
             'internaldns2'          => internaldns2,
-            'securitygroupenabled'  => security_group_enabled,
+            'securitygroupenabled'  => security_groups_enabled,
           }
           data = connection.create_zone(options)
           merge_attributes(data['createzoneresponse'])
         end
-
       end # Zone
     end # Cloudstack
   end # Compute
