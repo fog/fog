@@ -372,6 +372,7 @@ module Fog
           fit_hosts = []
           options['hosts'].each do |host_name|
             if @host_list.has_key?(host_name)
+              Fog::Logger.deprecation("fog: host #{host_name} has been fetched with local size of #{ @host_list[host_name].local_sum}")
               next if @host_list[host_name].connection_state != 'connected'
               next if @host_list[host_name].local_sum < total_local_req_size
               next if @host_list[host_name].share_sum < total_share_req_size
