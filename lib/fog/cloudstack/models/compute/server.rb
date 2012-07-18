@@ -45,9 +45,7 @@ module Fog
         def reboot
           requires :id
           data = connection.reboot_virtual_machine('id' => self.id) # FIXME: does this ever fail?
-          job = Job.new(data["rebootvirtualmachineresponse"])
-          job.connection= self.connection
-          job
+          connection.jobs.new(data["rebootvirtualmachineresponse"])
         end
 
         def save

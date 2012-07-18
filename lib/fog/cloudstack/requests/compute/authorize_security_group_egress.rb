@@ -2,19 +2,16 @@ module Fog
   module Compute
     class Cloudstack
       class Real
-
-        def authorize_security_group_ingress(options={})
+        def authorize_security_group_egress(options={})
           options.merge!(
-            'command' => 'authorizeSecurityGroupIngress'
+            'command' => 'authorizeSecurityGroupEgress'
           )
 
           request(options)
         end
-
       end # Real
-
       class Mock
-        def authorize_security_group_ingress(options={})
+        def authorize_security_group_egress(options={})
           security_group_id      = options['securitygroupid']
           security_group_rule_id = Fog::Cloudstack.uuid
 
@@ -46,12 +43,12 @@ module Fog
             raise Fog::Compute::Cloudstack::BadRequest.new("Security group id #{security_group_id} does not exist")
           end
 
-          security_group["ingressrule"] ||= []
-          security_group["ingressrule"] << rule
+          security_group["egressrule"] ||= []
+          security_group["egressrule"] << rule
 
           job_id = Fog::Cloudstack.uuid
           job = {
-            "cmd"           => "com.cloud.api.commands.authorizeSecurityGroupIngress",
+            "cmd"           => "com.cloud.api.commands.authorizeSecurityGroupEgress",
             "created"       => Time.now.iso8601,
             "jobid"         => job_id,
             "jobstatus"     => 1,
@@ -64,11 +61,9 @@ module Fog
           self.data[:jobs][job_id]= job
           self.data[:security_groups][security_group_id] = security_group
 
-          { "authorizesecuritygroupingressresponse" => { "jobid" => job_id } }
+          { "authorizesecuritygroupegressresponse" => { "jobid" => job_id } }
         end
       end # Mock
     end
   end
 end
-
-

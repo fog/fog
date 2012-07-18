@@ -15,7 +15,7 @@ module Fog
         end
 
         def get(job_id)
-          if job = connection.query_async_job_result('jobid' => job_id)["listasyncjobsresponse"]["asyncjobs"].first
+          if job = connection.query_async_job_result('jobid' => job_id)["queryasyncjobresultresponse"]
             new(job)
           end
         rescue Fog::Compute::Cloudstack::BadRequest

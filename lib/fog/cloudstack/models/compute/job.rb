@@ -20,8 +20,21 @@ module Fog
           merge_attributes(connection.query_async_job_result('jobid' => self.id)['queryasyncjobresultresponse'])
         end
 
-        def finished?
+        def ready?
           self.job_status != 0
+        end
+
+        def successful?
+          self.job_result_code == 0
+        end
+
+        # so dirty
+        def result
+          if successful? && model = Fog::Compute::Cloudstack.constants.find{|c| c.to_s.downcase == self.job_result.keys.first.to_s}.to_s
+            collection = model.gsub(/.[A-Z]/){|w| "#{w[0]}_#{w[1].downcase}"}.downcase + "s" # cheap underscorize, assume simple pluralization
+            connection.send(collection).new(self.job_result.values.first)
+          else self.job_result
+          end
         end
       end # Job
     end # Cloudstack
