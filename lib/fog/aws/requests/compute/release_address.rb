@@ -14,7 +14,7 @@ module Fog
         #     * 'return'<~Boolean> - success?
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-ReleaseAddress.html]
-        # 
+        #
         # non-VPC: requires public_ip only
         #     VPC: requires allocation_id only
         def release_address(ip_or_allocation)
@@ -35,9 +35,17 @@ module Fog
 
       class Mock
 
-        def release_address(public_ip)
+        def release_address(public_ip_or_allocation_id)
           response = Excon::Response.new
-          if (address = self.data[:addresses].delete(public_ip))
+
+          address = self.data[:addresses][public_ip_or_allocation_id] || self.data[:addresses].values.detect {|a| a['allocationId'] == public_ip_or_allocation_id }
+
+          if address
+            if address['allocationId'] && public_ip_or_allocation_id == address['publicIp']
+              raise Fog::Compute::AWS::Error, "InvalidParameterValue => You must specify an allocation id when releasing a VPC elastic IP address"
+            end
+
+            self.data[:addresses].delete(address['publicIp'])
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,
@@ -45,7 +53,7 @@ module Fog
             }
             response
           else
-            raise Fog::Compute::AWS::Error.new("AuthFailure => The address '#{public_ip}' does not belong to you.")
+            raise Fog::Compute::AWS::Error.new("AuthFailure => The address '#{public_ip_or_allocation_id}' does not belong to you.")
           end
         end
 
