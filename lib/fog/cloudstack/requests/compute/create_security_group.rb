@@ -2,10 +2,6 @@ module Fog
   module Compute
     class Cloudstack
       class Real
-
-        # Creates an account.
-        #
-        # {CloudStack API Reference}[http://download.cloud.com/releases/2.2.0/api_2.2.4/global_admin/createSecurityGroup.html]
         def create_security_group(options={})
           options.merge!(
             'command' => 'createSecurityGroup'
@@ -13,7 +9,19 @@ module Fog
 
           request(options)
         end
+      end # Real
 
+      class Mock
+        def create_security_group(options={})
+          security_group_id = Fog::Cloudstack.uuid
+
+          security_group = {
+            "id" => security_group_id,
+          }.merge(options)
+
+          self.data[:security_groups][security_group_id]= security_group
+          {"createsecuritygroupresponse" => { "securitygroup" => security_group}}
+        end
       end
     end
   end
