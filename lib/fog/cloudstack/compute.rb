@@ -38,6 +38,7 @@ module Fog
 
       request :acquire_ip_address
       request :assign_to_load_balancer_rule
+      request :assign_virtual_machine
       request :attach_volume
       request :authorize_security_group_egress
       request :authorize_security_group_ingress
@@ -53,6 +54,7 @@ module Fog
       request :create_snapshot_policy
       request :create_user
       request :create_volume
+      request :create_zone
       request :delete_account
       request :delete_domain
       request :delete_load_balancer_rule
