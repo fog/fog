@@ -356,6 +356,7 @@ module Fog
             if vm.system_disks.shared
               total_share_req_size += vm.system_disks.size
             else
+              Fog::Logger.deprecation("fog: required system size = #{vm.system_disks.size.to_s}")
               total_local_req_size += vm.system_disks.size
             end
             if vm.data_disks.shared
@@ -373,10 +374,12 @@ module Fog
           options['hosts'].each do |host_name|
             if @host_list.has_key?(host_name)
               Fog::Logger.deprecation("fog: host #{host_name} has been fetched with local size of #{ @host_list[host_name].local_sum}")
+              Fog::Logger.deprecation("fog: required size of #{total_local_req_size.to_s}")
               next if @host_list[host_name].connection_state != 'connected'
               next if @host_list[host_name].local_sum < total_local_req_size
               next if @host_list[host_name].share_sum < total_share_req_size
               fit_hosts << host_name
+              Fog::Logger.deprecation("fog: host number #{fit_hosts.size}")
             end
           end
           fit_hosts
@@ -384,11 +387,12 @@ module Fog
 
         def recommendation(vms, hosts)
           solution_list = {}
-          hosts = hosts.sort {|x,y| @hosts[y].local_sum <=> @hosts[x].local_sum}
+          Fog::Logger.deprecation("fog: @host_list number #{@host_list.keys.size}")
+          hosts = hosts.sort {|x,y| @host_list[y].local_sum <=> @host_list[x].local_sum}
           hosts.each do |host_name|
+            @cached_ds = nil
             next unless @host_list.has_key?(host_name)
             solution_list[host_name]=[]
-
             vms.each do |vm_in_queue|
               vm = Marshal.load(Marshal.dump(vm_in_queue))
               # place system and swap
@@ -418,6 +422,7 @@ module Fog
                   @cached_ds = ds
                   break
                 elsif ds.real_free_space >= (vm.req_mem + vm.system_disks.size)
+                  Fog::Logger.deprecation("fog: system datastore name = #{ds.name}[/]")
                   alloc_volumes(host_name, 'system', vm, [ds], vm.system_disks.size)
                   system_done = true
                   break if swap_done
@@ -594,7 +599,6 @@ module Fog
                 end
               else
                 vm.system_disks.volumes.values.each do |v|
-                  Fog::Logger.deprecation("de-commit system_disk of size-#{v.size} on host-#{vm.host_name} with full path-#{v.fullpath}[/]")
                   @host_list[vm.host_name].place_local_datastores[v.datastore_name].unaccounted_space -= v.size
                 end
               end
