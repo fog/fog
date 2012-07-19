@@ -397,11 +397,16 @@ module Fog
               vm = Marshal.load(Marshal.dump(vm_in_queue))
               # place system and swap
               if vm.system_disks.shared
-                datastore_candidates = @host_list[host_name].place_share_datastores.values.clone
+                datastore_candidates = @host_list[host_name].share_datastores.values.clone
               else
-                datastore_candidates = @host_list[host_name].place_local_datastores.values.clone
+                datastore_candidates = @host_list[host_name].local_datastores.values.clone
               end
               datastore_candidates = datastore_candidates.sort {|x,y| y.real_free_space <=> x.real_free_space}
+              Fog::Logger.deprecation("fog: start for host #{host_name}")
+              datastore_candidates.each do |ds|
+                Fog::Logger.deprecation("fog: ds for host #{host_name} name: #{ds.name}, real_free_space: #{ds.real_free_space}")
+              end
+              Fog::Logger.deprecation("fog: end")
               if !(@cached_ds.nil?)
                 datastore_candidates.delete(@cached_ds)
                 datastore_candidates.unshift(@cached_ds)
@@ -422,11 +427,10 @@ module Fog
                   @cached_ds = ds
                   break
                 elsif ds.real_free_space >= (vm.req_mem + vm.system_disks.size)
-                  Fog::Logger.deprecation("fog: system datastore name = #{ds.name}[/]")
                   alloc_volumes(host_name, 'system', vm, [ds], vm.system_disks.size)
                   system_done = true
                   break if swap_done
-                elsif ds.real_free_space < (vm.req_mem + vm.system_disks.size)&& ds.real_free_space>= vm.system_disks.space
+                elsif ds.real_free_space < (vm.req_mem + vm.system_disks.size)&& ds.real_free_space>= vm.swap_disks.space
                   alloc_volumes(host_name, 'swap', vm, [ds], vm.swap_disks.size)
                   swap_done = true
                   break if system_done
@@ -440,10 +444,10 @@ module Fog
 
               # place data disks
               if vm.data_disks.shared && !vm.system_disks.shared
-                datastore_candidates += @host_list[host_name].place_share_datastores.values.clone
+                datastore_candidates += @host_list[host_name].share_datastores.values.clone
               end
               if !vm.data_disks.shared && vm.system_disks.shared
-                datastore_candidates += @host_list[host_name].place_local_datastores.values.clone
+                datastore_candidates += @host_list[host_name].local_datastores.values.clone
               end
               datastore_candidates = datastore_candidates.sort {|x,y| x.real_free_space <=> y.real_free_space}
               sum = 0
@@ -455,20 +459,19 @@ module Fog
               ds_arr =[]
               min_found = false
               min_ds_size = 0
-              buffer_size = 200
+              buffer_size = 1024
               datastore_candidates.each do |ds|
                 next if ds.real_free_space == 0
                 if !min_found
                   min_ds_size = ds.real_free_space - buffer_size
                   min_found = true
                 end
-                if ds.real_free_space >= vm.data_disks.size && ds_num == 0
+                if ds.real_free_space >= (vm.data_disks.size + buffer_size) && ds_num == 0
                   alloc_volumes(host_name, 'data', vm, [ds], vm.data_disks.size)
                   data_done = true
                   break
                 else
                   ds_num +=1
-                  puts "ds#{ds.name} 's real_free_space is #{ds.real_free_space}"
                   req_size = aum_size + ds.real_free_space - buffer_size
                   if req_size > vm.data_disks.size &&  (vm.data_disks.size.to_i/ds_num) < min_ds_size
                     ds_arr << ds
@@ -531,8 +534,9 @@ module Fog
               end
             else
               vm.data_disks.volumes.values.each do |v|
-                Fog::Logger.deprecation("commit data_disk of size-#{v.size} with fullpath-#{v.fullpath} on host-#{vm.host_name} [/]")
+                Fog::Logger.deprecation("fog: for vm.name=#{vm.name} commit data_disk of size-#{v.size} with fullpath-#{v.fullpath} on host-#{vm.host_name} [/]")
                 @host_list[vm.host_name].local_datastores[v.datastore_name].unaccounted_space += v.size
+                Fog::Logger.deprecation("fog: for vm.name=#{vm.name} after commit result - #{v.datastore_name} size = #{@host_list[vm.host_name].local_datastores[v.datastore_name].real_free_space}[/]")
               end
             end
           end
@@ -586,7 +590,7 @@ module Fog
         end
 
         def recover_host_place_ds(solution_list)
-          Fog::Logger.deprecation("enter decommission method[/]")
+          Fog::Logger.deprecation("enter recover method[/]")
           solution_list.keys.each do |host_name|
             vms = solution_list[host_name]
             original_size = @host_list[host_name].local_sum + @host_list[host_name].share_sum
@@ -595,37 +599,37 @@ module Fog
             vms.each do |vm|
               if vm.system_disks.shared
                 vm.system_disks.volumes.values.each do |v|
-                  @host_list[vm.host_name].place_share_datastores[v.datastore_name].unaccounted_space -= v.size
+                  @host_list[vm.host_name].share_datastores[v.datastore_name].unaccounted_space -= v.size
                 end
               else
                 vm.system_disks.volumes.values.each do |v|
-                  @host_list[vm.host_name].place_local_datastores[v.datastore_name].unaccounted_space -= v.size
+                  @host_list[vm.host_name].local_datastores[v.datastore_name].unaccounted_space -= v.size
                 end
               end
               if vm.swap_disks.shared
                 vm.swap_disks.volumes.values.each do |v|
-                  @host_list[vm.host_name].place_share_datastores[v.datastore_name].unaccounted_space -= v.size
+                  @host_list[vm.host_name].share_datastores[v.datastore_name].unaccounted_space -= v.size
                 end
               else
                 vm.swap_disks.volumes.values.each do |v|
-                  Fog::Logger.deprecation("de-commit swap_disk of size-#{v.size} on host-#{vm.host_name} with fullpath-#{v.fullpath}[/]")
-                  @host_list[vm.host_name].place_local_datastores[v.datastore_name].unaccounted_space -= v.size
+                  Fog::Logger.deprecation("recover swap_disk of size-#{v.size} on host-#{vm.host_name} with fullpath-#{v.fullpath}[/]")
+                  @host_list[vm.host_name].local_datastores[v.datastore_name].unaccounted_space -= v.size
                 end
               end
               if vm.data_disks.shared
                 vm.data_disks.volumes.values.each do |v|
-                  @host_list[vm.host_name].place_share_datastores[v.datastore_name].unaccounted_space -= v.size
+                  @host_list[vm.host_name].share_datastores[v.datastore_name].unaccounted_space -= v.size
                 end
               else
                 vm.data_disks.volumes.values.each do |v|
-                  Fog::Logger.deprecation("de-commit data_disk of size-#{v.size} on host-#{vm.host_name} with fullpath-#{v.fullpath}[/]")
-                  @host_list[vm.host_name].place_local_datastores[v.datastore_name].unaccounted_space -= v.size
+                  Fog::Logger.deprecation("recover data_disk of size-#{v.size} on host-#{vm.host_name} with fullpath-#{v.fullpath}[/]")
+                  @host_list[vm.host_name].local_datastores[v.datastore_name].unaccounted_space -= v.size
                 end
               end
             end
-            Fog::Logger.deprecation("finish decommission methods[/]")
+            Fog::Logger.deprecation("finish recover methods[/]")
             difference = @host_list[vms[0].host_name].local_sum + @host_list[vms[0].host_name].share_sum - original_size
-            Fog::Logger.deprecation("de-commit size = #{difference}[/]")
+            Fog::Logger.deprecation("recover size = #{difference}[/]")
             difference
           end # end of solution_list traverse
         end
