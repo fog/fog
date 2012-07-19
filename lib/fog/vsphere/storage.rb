@@ -26,6 +26,9 @@ module Fog
         attr_reader :vsphere_server
         attr_reader :vsphere_username
 
+        DEFAULT_SCSI_KEY = 1000
+        DISK_DEV_LABEL = "abcdefghijklmnopqrstuvwxyz"
+
         ATTR_TO_PROP = {
             :id => 'config.instanceUuid',
             :name => 'name',
@@ -148,7 +151,6 @@ module Fog
           attr_accessor :affinity # split or not
           attr_accessor :volumes # volumes
           attr_accessor :size # total size
-          attr_accessor :unit_number
 
           def initialize(options = {})
             @type =  options['type']
@@ -156,7 +158,6 @@ module Fog
             @affinity = options['affinity'] && true
             @size = options['size']
             @shared = options['shared'] || false
-            @unit_number =0
             @volumes = {}
           end
 
@@ -171,6 +172,7 @@ module Fog
           attr_accessor :system_disks # Disk
           attr_accessor :swap_disks # Disk
           attr_accessor :data_disks # Disk
+          attr_accessor :disk_index # mapped to unit_number
 
           def initialize(options = {})
             @name = options['name']
@@ -191,6 +193,21 @@ module Fog
             options['size'] = options['data_size']
             options['mode'] = options['data_mode']
             @data_disks = Disk.new(options)
+            @disk_index =0
+          end
+
+          def get_volumes_for_os(type)
+            case type
+              when 'system'
+                vs = system_disks.volumes.values
+              when 'swap'
+                vs = swap_disks.volumes.values
+              when 'data'
+                vs = data_disks.volumes.values
+              else
+                vs = data_disks.volumes.values
+            end
+            vs.collect { |v| "/dev/sd#{DISK_DEV_LABEL[v.unit_number]}"}.compact.sort
           end
 
           def get_system_ds_name
@@ -204,27 +221,19 @@ module Fog
             v.fullpath = fullpath
             v.size = size
             v.datastore_name = datastore_name
+            v.unit_number = unit_number
+            v.scsi_key = DEFAULT_SCSI_KEY
             case type
               when 'system'
-                system_disks.unit_number = unit_number
                 system_disks.volumes[fullpath] = v
               when 'swap'
-                swap_disks.unit_number = unit_number
                 swap_disks.volumes[fullpath] = v
               when 'data'
-                data_disks.unit_number = unit_number
                 data_disks.volumes[fullpath] = v
               else
-                data_disks.unit_number = unit_number
                 data_disks.volumes[fullpath] = v
             end
             v
-          end
-
-          def inspect_unit_number
-            Fog::Logger.deprecation("vm.system_disks.unit_number = #{@system_disks.unit_number}[/]")
-            Fog::Logger.deprecation("vm.swap_disks.unit_number = #{@swap_disks.unit_number}[/]")
-            Fog::Logger.deprecation("vm.data_disks.unit_number = #{@data_disks.unit_number}[/]")
           end
 
           def inspect_volume_size
@@ -234,15 +243,22 @@ module Fog
           end
 
           def inspect_fullpath
+            Fog::Logger.deprecation("______________________________________________")
+            Fog::Logger.deprecation("start traverse vm.system_disks.volumes:[/]")
             @system_disks.volumes.values.each do |v|
-              Fog::Logger.deprecation("vm.system_disks.volumes.fullpath = #{v.fullpath}[/]")
+              Fog::Logger.deprecation("vm #{name} system_disks - fullpath = #{v.fullpath} with unit_number = #{v.unit_number}[/]")
             end
+            Fog::Logger.deprecation("end [/]")
+            Fog::Logger.deprecation("start traverse vm.swap_disks.volumes:[/]")
             @swap_disks.volumes.values.each do |v|
-              Fog::Logger.deprecation("vm.swap_disks.volumes.fullpath = #{v.fullpath}[/]")
+              Fog::Logger.deprecation("vm #{name} swap_disks - fullpath = #{v.fullpath} with unit_number = #{v.unit_number}[/]")
             end
+            Fog::Logger.deprecation("end [/]")
+            Fog::Logger.deprecation("start traverse vm.data_disks.volumes:[/]")
             @data_disks.volumes.values.each do |v|
-              Fog::Logger.deprecation("vm.data_disks.volumes.fullpath = #{v.fullpath}[/]")
+              Fog::Logger.deprecation("vm #{name} data_disks - fullpath = #{v.fullpath} with unit_number = #{v.unit_number}[/]")
             end
+            Fog::Logger.deprecation("end [/]")
           end
 
         end # end of VM
@@ -740,28 +756,25 @@ module Fog
           ds_res.each do |ds|
             case type
               when "system"
-                unit_number = vm.system_disks.unit_number
                 mode =  vm.system_disks.mode
                 id = vm.id
               when "swap"
-                unit_number = vm.swap_disks.unit_number
                 mode =  vm.swap_disks.mode
                 id = vm.id
               when "data"
-                unit_number = vm.data_disks.unit_number
                 mode =  vm.data_disks.mode
                 id = vm.id
               else
-                unit_number = vm.data_disks.unit_number
                 mode =  vm.data_disks.mode
                 id = vm.id
             end
+            unit_number = vm.disk_index
+            vm.disk_index +=1
             if ds.shared
               fullpath = "[#{ds.name}] #{vm.name}/shared#{unit_number}.vmdk"
             else
               fullpath = "[#{ds.name}] #{vm.name}/local#{unit_number}.vmdk"
             end
-            unit_number +=1
             vm.volume_add(type, id, mode, size, fullpath, ds.name, unit_number)
             ds.unaccounted_space += size.to_i
           end
