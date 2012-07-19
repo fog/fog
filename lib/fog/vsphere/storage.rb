@@ -173,6 +173,7 @@ module Fog
           attr_accessor :swap_disks # Disk
           attr_accessor :data_disks # Disk
           attr_accessor :disk_index # mapped to unit_number
+          attr_accessor :datastore_pattern
 
           def initialize(options = {})
             @name = options['name']
@@ -191,6 +192,7 @@ module Fog
             options['type'] = 'data'
             options['affinity'] = false
             options['size'] = options['data_size']
+            options['shared'] = options['data_shared']
             options['mode'] = options['data_mode']
             @data_disks = Disk.new(options)
             @disk_index =0
@@ -435,6 +437,9 @@ module Fog
               system_done = false
               swap_done = false
               datastore_candidates.each do |ds|
+                if !(vm.datastore_pattern.nil?)
+                  next unless isMatched?(ds.name, vm.datastore_pattern)
+                end
                 if ds.real_free_space >= (vm.req_mem + vm.system_disks.size + vm.swap_disks.size)
                   alloc_volumes(host_name, 'system', vm, [ds], vm.system_disks.size)
                   system_done = true
@@ -477,6 +482,9 @@ module Fog
               min_ds_size = 0
               buffer_size = 1024
               datastore_candidates.each do |ds|
+                if !(vm.datastore_pattern.nil?)
+                  next unless isMatched?(ds.name, vm.datastore_pattern)
+                end
                 next if ds.real_free_space == 0
                 if !min_found
                   min_ds_size = ds.real_free_space - buffer_size

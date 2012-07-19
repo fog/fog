@@ -76,9 +76,7 @@ Shindo.tests("Fog::Storage[:vsphere] | query resources request", ['vsphere']) do
       test("contain only host") { response.size ==1 }
       test("vm should include host name") {response.has_key?(ConstClass::HOST_NAME1) }
       vm = response[ConstClass::HOST_NAME1][0]
-      #vm.inspect_unit_number
-      vm.inspect_volume_size
-      #vm.inspect_fullpath
+      vm.inspect_fullpath
       puts "------------------finish recommendation vm1----------------------"
     end
     vm_2 = Fog::Storage::Vsphere::Shared::VM.new(
@@ -98,9 +96,7 @@ Shindo.tests("Fog::Storage[:vsphere] | query resources request", ['vsphere']) do
       test("contain only host") { response2.size ==1 }
       test("vm should include host name") {response2.has_key?(ConstClass::HOST_NAME1)}
       vm_2 = response2[ConstClass::HOST_NAME1][1]
-      #vm_2.inspect_unit_number
-      vm_2.inspect_volume_size
-      #vm_2.inspect_fullpath
+      vm_2.inspect_fullpath
       puts "-----------------finish recommendation vm1 vm2------------------"
     end
   end
@@ -141,6 +137,9 @@ Shindo.tests("Fog::Storage[:vsphere] | query resources request", ['vsphere']) do
     test("it should return status result after this create task") do
       response.has_key? ('task_state')
     end
+    vm.inspect_fullpath
+    mount_path = vm.get_volumes_for_os('data')
+    puts mount_path.inspect
     tests("When delete vmdk for given vm") do
       response2 = storage.delete_volumes(vm)
       test("it should return status result after this delete task") do
