@@ -41,7 +41,7 @@ def compute_providers
           hash[k]= Fog.credentials["cloudstack_#{k}".to_sym]
         end
       end,
-      :security_group_attributes => {:name => "somesecuritygroup"},
+      :security_group_attributes => {:name => "cloudstack.sg.#{Time.now.to_i}"},
       :security_group_rule_attributes => {
         :cidr => '0.0.0.0/0',
         :start_port => 123,

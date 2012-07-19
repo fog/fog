@@ -13,20 +13,6 @@ module Fog
         attribute :ingress_rules, :aliases => "ingressrule", :type => :array
         attribute :egress_rules,  :aliases => "egressrule",  :type => :array
 
-        def save
-          requires :name
-
-          options = {
-            'name'        => self.name,
-            'account'     => self.account,
-            'description' => self.description,
-            'projectid'   => self.project_id,
-            'domainid'    => self.domain_id,
-          }
-          data = connection.create_security_group(options)
-          merge_attributes(data['createsecuritygroupresponse']['securitygroup'])
-        end
-
         def destroy
           requires :id
           connection.delete_security_group('id' => self.id)
@@ -39,6 +25,20 @@ module Fog
 
         def ingress_rules
           attributes[:ingress_rules] || []
+        end
+
+        def save
+          requires :name
+
+          options = {
+            'name'        => self.name,
+            'account'     => self.account,
+            'description' => self.description,
+            'projectid'   => self.project_id,
+            'domainid'    => self.domain_id,
+          }
+          data = connection.create_security_group(options)
+          merge_attributes(data['createsecuritygroupresponse']['securitygroup'])
         end
 
         def rules
