@@ -8,7 +8,7 @@ module Fog
       requires :vsphere_username, :vsphere_password, :vsphere_server
       recognizes :vsphere_port, :vsphere_path, :vsphere_ns
       recognizes :vsphere_rev, :vsphere_ssl, :vsphere_expected_pubkey_hashs
-      recognizes 'clusters'
+      recognizes 'clusters', 'share_datastore_pattern', 'local_datastore_pattern'
 
       model_path 'fog/vsphere/models/storage'
       collection  :volumes
