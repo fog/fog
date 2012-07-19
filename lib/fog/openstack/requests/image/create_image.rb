@@ -13,6 +13,9 @@ module Fog
               "x-image-meta-container-format" => attributes[:container_format],
               "x-image-meta-size" => attributes[:size],
               "x-image-meta-is-public" => attributes[:is_public],
+              "x-image-meta-min-ram"  => attributes[:min_ram],
+              "x-image-meta-min-disk" => attributes[:min_disk],
+              "x-image-meta-checksum" => attributes[:checksum],
               "x-image-meta-owner" => attributes[:owner],
               "x-glance-api-copy-from" => attributes[:copy_from]
           }
