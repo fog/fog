@@ -303,7 +303,9 @@ module Fog
           @vsphere_must_reauthenticate = false
           # used to initialize resource list
           @share_datastore_pattern = options['share_datastore_pattern']
+          Fog::Logger.deprecation("fog: input share_datastore_pattern is #{options['share_datastore_pattern']}[/]")
           @local_datastore_pattern = options['local_datastore_pattern']
+          Fog::Logger.deprecation("fog: input local_datastore_pattern is #{options['local_datastore_pattern']}[/]")
           @clusters = []
           @connection = nil
           # This is a state variable to allow digest validation of the SSL cert
