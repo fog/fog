@@ -667,6 +667,7 @@ module Fog
           vs += vm.data_disks.volumes.values.reverse
           response = {}
           recover = []
+          collection = self.volumes
           begin
             vs.each do |v|
               params = {
@@ -677,7 +678,6 @@ module Fog
                   'datastore_name' => v.datastore_name
               }
               recover << params
-              collection = self.volumes
               v = collection.new(params)
               response = v.save
               if !response.has_key?('task_state') || response['task_state'] != "success"
