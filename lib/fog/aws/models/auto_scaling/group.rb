@@ -73,10 +73,7 @@ module Fog
         end
 
         def instances
-          Fog::AWS::AutoScaling::Instances.new({
-            :data => attributes['Instances'],
-            :connection => connection
-          })
+          Fog::AWS::AutoScaling::Instances.new(:connection => connection).load(attributes[:instance])
         end
 
         def instances_in_service
