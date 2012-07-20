@@ -58,7 +58,7 @@ module Fog
                  end
               when "rebooting" # I don't know how to show rebooting just once before it changes to available
                 # it applies pending modified values
-                if server["PendingModifiedValues"]
+                unless server["PendingModifiedValues"].empty?
                   server.merge!(server["PendingModifiedValues"])
                   server["PendingModifiedValues"] = {}
                   self.data[:tmp] ||= Time.now + Fog::Mock.delay * 2
@@ -69,13 +69,13 @@ module Fog
                 end
               when "modifying"
                 # TODO there are some fields that only applied after rebooting
-                if server["PendingModifiedValues"]
+                unless server["PendingModifiedValues"].empty?
                   server.merge!(server["PendingModifiedValues"])
                   server["PendingModifiedValues"] = {}
                   server["DBInstanceStatus"] = 'available'
                 end
               when "available" # I'm not sure if amazon does this
-                if server["PendingModifiedValues"]
+                unless server["PendingModifiedValues"].empty?
                   server["DBInstanceStatus"] = 'modifying'
                 end
 
