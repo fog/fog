@@ -227,10 +227,10 @@ module Fog
               host_datastores = host_mob_ref.datastore
               Fog::Logger.deprecation ( "host_datastores size = #{host_datastores.size}")
               host_resource.share_datastores = fetch_datastores(host_datastores,
-                                                                options['share_datastore_pattern'], true)
+                                                                @share_datastore_pattern, true)
               Fog::Logger.deprecation("warning: no matched sharestores in host:#{host_resource.name}") if host_resource.share_datastores.empty?
               host_resource.local_datastores = fetch_datastores(host_datastores,
-                                                                options['local_datastore_pattern'], false)
+                                                                @local_datastore_pattern, false)
               Fog::Logger.deprecation("warning: no matched localstores in host:#{host_resource.name}") if host_resource.local_datastores.empty?
               #Fog::Logger.deprecation( "total ds number for one host = #{@datastore_list.size}") unless @datastore_list.nil?
               @host_list[host_resource.name]  = host_resource

@@ -393,6 +393,14 @@ module Fog
           fit_hosts = []
           options['hosts'].each do |host_name|
             if @host_list.has_key?(host_name)
+              Fog::Logger.deprecation("----------------------------------------------")
+              @host_list[host_name].local_datastores.values.each do |ds|
+                Fog::Logger.deprecation("fog: local ds for host #{host_name} name: #{ds.name}, real_free_space: #{ds.real_free_space}")
+              end
+              @host_list[host_name].share_datastores.values.each do |ds|
+                Fog::Logger.deprecation("fog: shared ds for host #{host_name} name: #{ds.name}, real_free_space: #{ds.real_free_space}")
+              end
+
               Fog::Logger.deprecation("fog: host #{host_name} has been fetched with local size of #{ @host_list[host_name].local_sum}")
               Fog::Logger.deprecation("fog: required size of #{total_local_req_size.to_s}")
               next if @host_list[host_name].connection_state != 'connected'
@@ -422,6 +430,7 @@ module Fog
                 datastore_candidates = @host_list[host_name].local_datastores.values.clone
               end
               datastore_candidates = datastore_candidates.sort {|x,y| y.real_free_space <=> x.real_free_space}
+
               Fog::Logger.deprecation("fog: start for host #{host_name}")
               datastore_candidates.each do |ds|
                 Fog::Logger.deprecation("fog: ds for host #{host_name} name: #{ds.name}, real_free_space: #{ds.real_free_space}")
