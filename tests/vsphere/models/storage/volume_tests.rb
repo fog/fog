@@ -1,3 +1,4 @@
+# totally new
 Shindo.tests("Fog::Storage[:vsphere] | volume", ['vsphere']) do
   require 'rbvmomi'
   require 'fog'

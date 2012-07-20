@@ -68,6 +68,11 @@ Shindo.tests("Fog::Storage[:vsphere] | volumes", ['vsphere']) do
       end
 
     end
+
+    tests("#destroy(#{params.inspect})").succeeds do
+      pending if Fog.mocking? && !mocks_implemented
+      @instance.destroy
+    end
   end
 
 

@@ -124,6 +124,37 @@ module Fog
       class Real
         include Shared
 
+        def get_mob_ref_by_moid(type, moid)
+          raise ArgumentError, "Must pass a type" unless type
+          raise ArgumentError, "Must pass a moid" unless moid
+          filter_spec = get_filterSpec_by_type(type)
+          result = @connection.propertyCollector.RetrieveProperties(:specSet => [filter_spec])
+          results = Hash[result.map do |x|
+            [x.obj._ref, x.obj]
+          end]
+          mob_ref = results.fetch(moid)
+          mob_ref
+        end
+
+        def get_mob_ref_by_name(type, name)
+          raise ArgumentError, "Must pass a type" unless type
+          raise ArgumentError, "Must pass a name" unless name
+          filter_spec = get_filterSpec_by_type(type)
+          result = @connection.propertyCollector.RetrieveProperties(:specSet => [filter_spec])
+          results = Hash[result.map do |x|
+            [x.obj.name, x.obj]
+          end]
+          mob_ref = results.fetch(name)
+          mob_ref
+        end
+
+        def get_system_ds_moid(vm)
+          ds_name = vm.get_system_ds_name
+          ds_mob = get_mob_ref_by_name('Datastore', ds_name)
+          ds_mob_ref =ds_mob._ref.to_s
+          ds_mob_ref
+        end
+
         def get_dc_mob_ref_by_path(path, options = {} )
           raise ArgumentError, "Must pass a path" unless path
           dc_mob_ref = @connection.serviceInstance.find_datacenter(path)
@@ -175,30 +206,6 @@ module Fog
           vm_mob_ref
         end
 
-        def get_mob_ref_by_moid(type, moid)
-          raise ArgumentError, "Must pass a type" unless type
-          raise ArgumentError, "Must pass a moid" unless moid
-          filter_spec = get_filterSpec_by_type(type)
-          result = @connection.propertyCollector.RetrieveProperties(:specSet => [filter_spec])
-          results = Hash[result.map do |x|
-            [x.obj._ref, x.obj]
-          end]
-          mob_ref = results.fetch(moid)
-          mob_ref
-        end
-
-        def get_mob_ref_by_name(type, name)
-          raise ArgumentError, "Must pass a type" unless type
-          raise ArgumentError, "Must pass a name" unless name
-          filter_spec = get_filterSpec_by_type(type)
-          result = @connection.propertyCollector.RetrieveProperties(:specSet => [filter_spec])
-          results = Hash[result.map do |x|
-            [x.obj.name, x.obj]
-          end]
-          mob_ref = results.fetch(name)
-          mob_ref
-        end
-
         def get_cs_mob_ref_by_moid(cs_moid)
           raise ArgumentError, "Must pass a vm management object id" unless cs_moid
           cs_mob_ref = RbVmomi::VIM::ComputeResource.new(@connection,cs_moid)
@@ -219,12 +226,10 @@ module Fog
               host_resource.connection_state = host_mob_ref.summary.runtime.connectionState
               host_datastores = host_mob_ref.datastore
               Fog::Logger.deprecation ( "host_datastores size = #{host_datastores.size}")
-              # host_resource.share_datastores = fetch_datastores(host_datastores,
-              #options['share_datastore_pattern'], true)
-              #Fog::Logger.deprecation("warning: no matched sharestores in host:#{host_resource.name}") if host_resource.share_datastores.empty?
+              host_resource.share_datastores = fetch_datastores(host_datastores,
+                                                                options['share_datastore_pattern'], true)
+              Fog::Logger.deprecation("warning: no matched sharestores in host:#{host_resource.name}") if host_resource.share_datastores.empty?
               host_resource.local_datastores = fetch_datastores(host_datastores,
-                                                                options['local_datastore_pattern'], false)
-              host_resource.place_local_datastores = fetch_datastores(host_datastores,
                                                                 options['local_datastore_pattern'], false)
               Fog::Logger.deprecation("warning: no matched localstores in host:#{host_resource.name}") if host_resource.local_datastores.empty?
               #Fog::Logger.deprecation( "total ds number for one host = #{@datastore_list.size}") unless @datastore_list.nil?
@@ -250,7 +255,6 @@ module Fog
             datastore_resource.total_space       = datastore_mob.summary.capacity.to_i/(1024*1024)
             datastore_resource.unaccounted_space = 0
             datastores[datastore_resource.name]  = datastore_resource
-            #@datastore_list[datastore_resource.name]  = datastore_resource
           end
           Fog::Logger.deprecation("datastores length = #{datastores.size}")
           datastores
@@ -270,7 +274,7 @@ module Fog
                 'fullpath'=> path,
                 'size' => (virtual_disk.capacityInKB)/1024,
                 'scsi_key' =>virtual_disk.key,
-                'scsi_num' =>virtual_disk.unitNumber ,
+                'unit_number' =>virtual_disk.unitNumber ,
                 'datastore_name' => ds_name
             }
           end
@@ -315,6 +319,11 @@ module Fog
         def get_vms_by_host_mob(host_mob_ref, options ={})
           vm_mob_refs = host_mob_ref.vm
           vm_mob_refs
+        end
+
+        def isMatched?(name, match_patterns)
+          match_patterns.each { |pattern| return true if name.match(pattern) }
+          false
         end
 
       end

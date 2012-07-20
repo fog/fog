@@ -67,7 +67,7 @@ Shindo.tests("Fog::Storage[:vsphere] | query resources request", ['vsphere']) do
   hosts = []
   tests("When recommend host and disk arrangement solution for given vms") do
     hosts <<  ConstClass::HOST_NAME1
-    response = storage.recommmdation(vms, hosts)
+    response = storage.recommendation(vms, hosts)
     puts "response = #{response}"
     test("it should return hash of host and disk arrangement for a given vm") do
       response.kind_of? Hash
@@ -76,9 +76,7 @@ Shindo.tests("Fog::Storage[:vsphere] | query resources request", ['vsphere']) do
       test("contain only host") { response.size ==1 }
       test("vm should include host name") {response.has_key?(ConstClass::HOST_NAME1) }
       vm = response[ConstClass::HOST_NAME1][0]
-      #vm.inspect_unit_number
-      vm.inspect_volume_size
-      #vm.inspect_fullpath
+      vm.inspect_fullpath
       puts "------------------finish recommendation vm1----------------------"
     end
     vm_2 = Fog::Storage::Vsphere::Shared::VM.new(
@@ -89,7 +87,7 @@ Shindo.tests("Fog::Storage[:vsphere] | query resources request", ['vsphere']) do
         'data_size'=> ConstClass::VM_DATA_SIZE
     )
     vms << vm_2
-    response2 = storage.recommmdation(vms, hosts)
+    response2 = storage.recommendation(vms, hosts)
     puts "response2 = #{response2}"
     test("it should return hash of host and disk arrangement for group vms") do
       response.kind_of? Hash
@@ -98,9 +96,7 @@ Shindo.tests("Fog::Storage[:vsphere] | query resources request", ['vsphere']) do
       test("contain only host") { response2.size ==1 }
       test("vm should include host name") {response2.has_key?(ConstClass::HOST_NAME1)}
       vm_2 = response2[ConstClass::HOST_NAME1][1]
-      #vm_2.inspect_unit_number
-      vm_2.inspect_volume_size
-      #vm_2.inspect_fullpath
+      vm_2.inspect_fullpath
       puts "-----------------finish recommendation vm1 vm2------------------"
     end
   end
@@ -134,18 +130,22 @@ Shindo.tests("Fog::Storage[:vsphere] | query resources request", ['vsphere']) do
   end
 
   vm.id = storage.get_mob_ref_by_name('VirtualMachine',ConstClass::VM_NAME1)._ref.to_s
+  ds_moid = storage.get_system_ds_moid(vm)
+  puts "________________vm.get_system_ds_name = #{ds_moid}"
   tests("When create vmdk for given vm") do
     response = storage.create_volumes(vm)
-    puts "_______________response of create_volumes is #{response}___________"
     test("it should return status result after this create task") do
       response.has_key? ('task_state')
     end
-    #tests("When delete vmdk for given vm") do
-    #  response2 = storage.delete_volumes(vm)
-    #  test("it should return status result after this delete task") do
-    #    response2.has_key? ('task_state')
-    #  end
-    #end
+    vm.inspect_fullpath
+    mount_path = vm.get_volumes_for_os('data')
+    puts mount_path.inspect
+    tests("When delete vmdk for given vm") do
+      response2 = storage.delete_volumes(vm)
+      test("it should return status result after this delete task") do
+        response2.has_key? ('task_state')
+      end
+    end
   end
 
 end # Shindo end of all tests

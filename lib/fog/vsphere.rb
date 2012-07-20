@@ -12,6 +12,7 @@ module Fog
     end
 
     service(:compute, 'vsphere/compute', 'Compute')
+    service(:storage, 'vsphere/storage', 'Storage')
 
   end
 end
