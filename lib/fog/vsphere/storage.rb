@@ -540,9 +540,9 @@ module Fog
         end
 
         def commission(vms)
-          Fog::Logger.deprecation("enter commission methods[/]")
+          #Fog::Logger.deprecation("enter commission methods[/]")
           original_size = @host_list[vms[0].host_name].local_sum + @host_list[vms[0].host_name].share_sum
-          Fog::Logger.deprecation("original size = #{original_size}[/]")
+          #Fog::Logger.deprecation("original size = #{original_size}[/]")
           difference = 0
           vms.each do |vm|
             #vs = []
@@ -587,17 +587,17 @@ module Fog
 
           end
 
-          Fog::Logger.deprecation("finish commission methods[/]")
+          #Fog::Logger.deprecation("finish commission methods[/]")
           difference = original_size - @host_list[vms[0].host_name].local_sum - @host_list[vms[0].host_name].share_sum
-          Fog::Logger.deprecation("commit size = #{difference}[/]")
+          #Fog::Logger.deprecation("commit size = #{difference}[/]")
           difference
         end
 
 
         def decommission(vms)
-          Fog::Logger.deprecation("enter decommission methods[/]")
+          #Fog::Logger.deprecation("enter decommission methods[/]")
           original_size = @host_list[vms[0].host_name].local_sum + @host_list[vms[0].host_name].share_sum
-          Fog::Logger.deprecation("original size = #{original_size}[/]")
+          #Fog::Logger.deprecation("original size = #{original_size}[/]")
           difference = 0
           vms.each do |vm|
             #vs = []
@@ -628,7 +628,7 @@ module Fog
             end
 
             vm.data_disks.volumes.values.each do |v|
-              Fog::Logger.deprecation("fog: for vm.name=#{vm.name} decommit data_disk of size-#{v.size} with fullpath-#{v.fullpath} on host-#{vm.host_name}[/]")
+              #Fog::Logger.deprecation("fog: for vm.name=#{vm.name} decommit data_disk of size-#{v.size} with fullpath-#{v.fullpath} on host-#{vm.host_name}[/]")
               if @host_list[vm.host_name].local_datastores.has_key? (v.datastore_name)
                 @host_list[vm.host_name].local_datastores[v.datastore_name].unaccounted_space -= v.size
               elsif @host_list[vm.host_name].share_datastores.has_key? (v.datastore_name)
@@ -636,13 +636,13 @@ module Fog
               else
                 return 'error'
               end
-              Fog::Logger.deprecation("fog: for vm.name=#{vm.name} after decommit result - #{v.datastore_name} left size = #{ds.real_free_space}[/]")
+              #Fog::Logger.deprecation("fog: for vm.name=#{vm.name} after decommit result - #{v.datastore_name} left size = #{ds.real_free_space}[/]")
             end
           end
 
-          Fog::Logger.deprecation("finish decommission methods[/]")
+          #Fog::Logger.deprecation("finish decommission methods[/]")
           difference =  @host_list[vms[0].host_name].local_sum + @host_list[vms[0].host_name].share_sum - original_size
-          Fog::Logger.deprecation("swcommit size = #{difference}[/]")
+          #Fog::Logger.deprecation("swcommit size = #{difference}[/]")
           difference
         end
 
