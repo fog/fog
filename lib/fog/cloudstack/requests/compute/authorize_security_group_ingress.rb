@@ -62,7 +62,6 @@ module Fog
           }
 
           self.data[:jobs][job_id]= job
-          self.data[:security_groups][security_group_id] = security_group
 
           { "authorizesecuritygroupingressresponse" => { "jobid" => job_id } }
         end
