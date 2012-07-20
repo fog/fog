@@ -504,7 +504,7 @@ module Fog
                   min_found = true
                 end
                 if ds.real_free_space >= (vm.data_disks.size + buffer_size) && ds_num == 0
-                  #Fog::Logger.deprecation("fog: for vm #{vm.name} allocated - allsize = #{vm.data_disks.size} - #ds #{ds.name} with left size  #{ds.real_free_space}")
+                  Fog::Logger.deprecation("fog: for vm #{vm.name} allocated - allsize = #{vm.data_disks.size} - #ds #{ds.name} with left size  #{ds.real_free_space}")
                   alloc_volumes(host_name, 'data', vm, [ds], vm.data_disks.size)
                   data_done = true
                   break
@@ -515,7 +515,8 @@ module Fog
                   else
                     req_size = aum_size + ds.real_free_space - buffer_size
                   end
-                  if req_size > vm.data_disks.size &&  (vm.data_disks.size.to_i/ds_num) < min_ds_size
+                #Fog::Logger.deprecation("fog: for vm #{vm.name} which need size #{vm.data_disks.size} traverse to #ds #{ds.name} with left size  #{ds.real_free_space}")
+                if req_size > vm.data_disks.size &&  (vm.data_disks.size.to_i/ds_num) < min_ds_size
                     ds_arr << ds
                     #Fog::Logger.deprecation("fog: for vm #{vm.name} allocated - avgsize =#{vm.data_disks.size/ds_num} - ds #{ds.name} with left size  #{ds.real_free_space}")
                     alloc_volumes(host_name, 'data', vm, ds_arr, vm.data_disks.size/ds_num)
@@ -648,49 +649,6 @@ module Fog
           #Fog::Logger.deprecation("finish decommission methods[/]")
           difference =  @host_list[vms[0].host_name].local_sum + @host_list[vms[0].host_name].share_sum - original_size
           #Fog::Logger.deprecation("decommit size = #{difference}[/]")
-          difference
-        end
-
-        def decommission1(vms)
-          #Fog::Logger.deprecation("enter decommission method[/]")
-          original_size = @host_list[vms[0].host_name].local_sum + @host_list[vms[0].host_name].share_sum
-          #Fog::Logger.deprecation("original size = #{original_size}[/]")
-          difference = 0
-          vms.each do |vm|
-            if vm.system_disks.shared
-              vm.system_disks.volumes.values.each do |v|
-                @host_list[vm.host_name].share_datastores[v.datastore_name].unaccounted_space -= v.size
-              end
-            else
-              vm.system_disks.volumes.values.each do |v|
-                Fog::Logger.deprecation("de-commit system_disk of size-#{v.size} on host-#{vm.host_name} with full path-#{v.fullpath}[/]")
-                @host_list[vm.host_name].local_datastores[v.datastore_name].unaccounted_space -= v.size
-              end
-            end
-            if vm.swap_disks.shared
-              vm.swap_disks.volumes.values.each do |v|
-                @host_list[vm.host_name].share_datastores[v.datastore_name].unaccounted_space -= v.size
-              end
-            else
-              vm.swap_disks.volumes.values.each do |v|
-                Fog::Logger.deprecation("de-commit swap_disk of size-#{v.size} on host-#{vm.host_name} with fullpath-#{v.fullpath}[/]")
-                @host_list[vm.host_name].local_datastores[v.datastore_name].unaccounted_space -= v.size
-              end
-            end
-            if vm.data_disks.shared
-              vm.data_disks.volumes.values.each do |v|
-                @host_list[vm.host_name].share_datastores[v.datastore_name].unaccounted_space -= v.size
-              end
-            else
-              vm.data_disks.volumes.values.each do |v|
-                Fog::Logger.deprecation("de-commit data_disk of size-#{v.size} on host-#{vm.host_name} with fullpath-#{v.fullpath}[/]")
-                @host_list[vm.host_name].local_datastores[v.datastore_name].unaccounted_space -= v.size
-              end
-            end
-          end
-          #Fog::Logger.deprecation("finish decommission methods[/]")
-          difference = @host_list[vms[0].host_name].local_sum + @host_list[vms[0].host_name].share_sum - original_size
-          #Fog::Logger.deprecation("de-commit size = #{difference}[/]")
           difference
         end
 
