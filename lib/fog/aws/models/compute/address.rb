@@ -22,7 +22,7 @@ module Fog
         def destroy
           requires :public_ip
 
-          connection.release_address(public_ip)
+          connection.release_address(allocation_id || public_ip)
           true
         end
 
@@ -33,7 +33,7 @@ module Fog
             disassociate
           end
         end
-        
+
         def server
           connection.servers.get(server_id)
         end

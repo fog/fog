@@ -38,9 +38,16 @@ def compute_providers
       end,
       :volume_attributes => {:name => "somevolume"}.tap do |hash|
         [:zone_id, :disk_offering_id].each do |k|
-          hash[k]= Fog.credentials[:cloudstack] && Fog.credentials[:cloudstack][k]
+          hash[k]= Fog.credentials["cloudstack_#{k}".to_sym]
         end
       end,
+      :security_group_attributes => {:name => "cloudstack.sg.#{Time.now.to_i}"},
+      :security_group_rule_attributes => {
+        :cidr => '0.0.0.0/0',
+        :start_port => 123,
+        :end_port => 456,
+        :protocol => 'tcp'
+      },
       :mocked => true
     },
     :glesys   => {

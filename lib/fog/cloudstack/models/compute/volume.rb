@@ -86,16 +86,14 @@ module Fog
           end
 
           options = {
-            'id' => id,
+            'id'               => id,
             'virtualmachineid' => instance_id,
           }
           options.merge!('deviceid' => mountpoint) if mountpoint
 
           data = connection.attach_volume(options)
 
-          Job.new(data["attachvolumeresponse"]).tap do |job|
-            job.connection= self.connection
-          end
+					connection.jobs.new(data["attachvolumeresponse"])
         end
 
         def detach
@@ -103,9 +101,7 @@ module Fog
 
           data = connection.detach_volume('id' => id)
 
-          Job.new(data["detachvolumeresponse"]).tap do |job|
-            job.connection= self.connection
-          end
+          connection.jobs.new(data["detachvolumeresponse"])
         end
 
         def destroy

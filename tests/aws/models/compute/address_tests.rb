@@ -15,9 +15,10 @@ Shindo.tests("Fog::Compute[:aws] | address", ['aws']) do
         @instance.server.public_ip_address == @instance.public_ip
       end
     end
-    
+
     @server.destroy
 
   end
 
+  model_tests(Fog::Compute[:aws].addresses, { :domain => "vpc" }, true)
 end

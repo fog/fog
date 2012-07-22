@@ -40,12 +40,11 @@ module Fog
               'publicIp'   => public_ip,
               'domain'     => domain
             }
+            if domain == 'vpc'
+              data['allocationId'] = "eipalloc-#{Fog::Mock.random_hex(8)}"
+            end
             self.data[:addresses][public_ip] = data
-            response.body = {
-              'domain'    => domain,
-              'publicIp'  => public_ip,
-              'requestId' => Fog::AWS::Mock.request_id
-            }
+            response.body = data.reject {|k, v| k == 'instanceId' }.merge('requestId' => Fog::AWS::Mock.request_id)
             response
           else
             response.status = 400

@@ -27,6 +27,10 @@ module Fog
       collection :servers
       model :image
       collection :images
+      model :security_group
+      collection :security_groups
+      model :security_group_rule
+      collection :security_group_rules
       model :volume
       collection :volumes
       model :zone
@@ -34,7 +38,9 @@ module Fog
 
       request :acquire_ip_address
       request :assign_to_load_balancer_rule
+      request :assign_virtual_machine
       request :attach_volume
+      request :authorize_security_group_egress
       request :authorize_security_group_ingress
       request :change_service_for_virtual_machine
       request :create_account
@@ -48,6 +54,7 @@ module Fog
       request :create_snapshot_policy
       request :create_user
       request :create_volume
+      request :create_zone
       request :delete_account
       request :delete_domain
       request :delete_load_balancer_rule
@@ -80,6 +87,7 @@ module Fog
       request :list_events
       request :list_external_firewalls
       request :list_external_load_balancers
+      request :list_firewall_rules
       request :list_hosts
       request :list_hypervisors
       request :list_instance_groups
@@ -115,6 +123,7 @@ module Fog
       request :remove_from_load_balancer_rule
       request :reset_password_for_virtual_machine
       request :revoke_security_group_ingress
+      request :revoke_security_group_egress
       request :start_virtual_machine      
       request :stop_virtual_machine
       request :update_account
@@ -247,23 +256,20 @@ module Fog
 
         def self.data
           @data ||= begin
-            rc_options = Fog.credentials[:cloudstack] || {}
-            zone_id = rc_options[:zone_id] ||"c554c592-e09c-9df5-7688-4a32754a4305"
-            image_id = rc_options[:image_id] || "8a31cf9c-f248-0588-256e-9dbf58785216"
-            flavor_id =  rc_options[:flavor_id] || "4437ac6c-9fe3-477a-57ec-60a5a45896a4"
-            account_id = "8bec6f15-e2b8-44fc-a8f3-a022b2873440"
-            user_id = Fog::Cloudstack.uuid
-            domain_id = Fog::Cloudstack.uuid
-            network_id = (Array(rc_options[:network_ids]) || [Fog::Cloudstack.uuid]).first
+            zone_id     = Fog.credentials[:cloudstack_zone_id]             || Fog::Cloudstack.uuid
+            image_id    = Fog.credentials[:cloudstack_template_id]         || Fog::Cloudstack.uuid
+            flavor_id   = Fog.credentials[:cloudstack_service_offering_id] || Fog::Cloudstack.uuid
+            network_id  = (Array(Fog.credentials[:cloudstack_network_ids]) || [Fog::Cloudstack.uuid]).first
             domain_name = "exampleorg"
+            account_id, user_id, domain_id = Fog::Cloudstack.uuid, Fog::Cloudstack.uuid, Fog::Cloudstack.uuid
             domain = {
-              "id" => domain_id,
-              "name" => domain_name,
-              "level" => 1,
-              "parentdomainid" => Fog::Cloudstack.uuid,
+              "id"               => domain_id,
+              "name"             => domain_name,
+              "level"            => 1,
+              "parentdomainid"   => Fog::Cloudstack.uuid,
               "parentdomainname" => "ROOT",
-              "haschild" => false,
-              "path" => "ROOT/accountname"
+              "haschild"         => false,
+              "path"             => "ROOT/accountname"
             }
             user = {
               "id"          => user_id,
@@ -406,10 +412,11 @@ module Fog
                 "state"             => "enabled",
                 "user"              => [user]}
               },
-              :domains => { domain_id => domain },
-              :servers => {},
-              :jobs    => {},
-              :volumes => {}
+              :domains         => {domain_id => domain},
+              :servers         => {},
+              :jobs            => {},
+              :volumes         => {},
+              :security_groups => {},
             }
           end
         end
