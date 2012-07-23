@@ -16,7 +16,7 @@ module Fog
             data['enabled'] = options[:enabled]
           end
           if options.has_key? :secure_traffic_only
-            data['secureTrafficOnly'] - options[:secure_traffic_only]
+            data['secureTrafficOnly'] = options[:secure_traffic_only]
           end
           request(
             :body     => Fog::JSON.encode(data),
