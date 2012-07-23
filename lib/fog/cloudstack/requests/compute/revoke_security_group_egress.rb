@@ -16,8 +16,8 @@ module Fog
             raise Fog::Compute::Cloudstack::BadRequest.new('Unable to execute API command missing parameter id')
           end
 
-          security_group_id, security_group = self.data[:security_groups].find do |id,group|
-            group['egressrule'] && group['egressrule'].delete_if { |r| r['id'] == security_group_rule_id }
+          security_group = self.data[:security_groups].values.find do |group|
+            (rule = (group['egressrule'] || []).find{|r| r['ruleid'] == security_group_rule_id}) && group['egressrule'].delete(rule)
           end
 
           job_id = Fog::Cloudstack.uuid
@@ -33,7 +33,6 @@ module Fog
           }
 
           self.data[:jobs][job_id]= job
-          self.data[:security_groups][security_group_id] = security_group
 
           {"revokesecuritygroupegress" => { "jobid" => job_id }}
         end
