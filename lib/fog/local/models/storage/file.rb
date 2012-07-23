@@ -12,6 +12,8 @@ module Fog
         # attribute :content_type,    :aliases => 'Content-Type'
         attribute :last_modified,   :aliases => 'Last-Modified'
 
+        require 'uri'
+
         def body
           attributes[:body] ||= if last_modified
             collection.get(identity).body
@@ -73,7 +75,16 @@ module Fog
         end
 
         def public_url
-          nil
+          requires :directory, :key
+
+          if connection.endpoint
+            escaped_directory = URI.escape(directory.key)
+            escaped_key = URI.escape(key)
+
+            ::File.join(connection.endpoint, escaped_directory, escaped_key)
+          else
+            nil
+          end
         end
 
         def save(options = {})
