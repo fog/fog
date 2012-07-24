@@ -575,6 +575,7 @@ module Fog
           Fog::Logger.deprecation("original size = #{original_size}[/]")
           difference = 0
           vms.each do |vm|
+            Fog::Logger.deprecation("fog: vm #{vm.name} system datastore name = #{vm.system_disks.volumes.values[0].datastore_name}[/]")
             vs = []
             vs = vm.system_disks.volumes.values + vm.swap_disks.volumes.values
             vs.each do |v|
