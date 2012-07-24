@@ -1,4 +1,5 @@
 require 'fog/core/model'
+require 'fog/serverlove/util/compute/password_generator'
 
 module Fog
   module Compute
@@ -60,7 +61,10 @@ module Fog
         def self.defaults
           # TODO: Document default settings.
           # Note that VNC password standards are strict (need explaining)
-          { 'nic:0:model' => 'e1000', 'nic:0:dhcp' => 'auto', 'vnc' => 'auto', 'vnc:password' => 'QXBwKEKQ', 'smp' => 'auto' }
+          { 'nic:0:model' => 'e1000', 'nic:0:dhcp' => 'auto',
+            'smp' => 'auto', 'vnc' => 'auto',
+            'vnc:password' => Fog::Compute::Serverlove::PasswordGenerator.generate
+          }
         end
       end
     end
