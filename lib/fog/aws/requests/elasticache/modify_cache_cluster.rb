@@ -51,7 +51,7 @@ module Fog
             'AutoMinorVersionUpgrade'     => options[:auto_minor_version_upgrade],
             'CacheParameterGroupName'     => options[:parameter_group_name],
             'EngineVersion'               => options[:engine_version],
-            'NotificationTopicArn'        => (options[:notification_topic_arn]).strip,
+            'NotificationTopicArn'        => options[:notification_topic_arn],
             'NotificationTopicStatus'     => options[:notification_topic_status],
             'PreferredMaintenanceWindow'  => options[:preferred_maintenance_window],
             :parser => Fog::Parsers::AWS::Elasticache::SingleCacheCluster.new
