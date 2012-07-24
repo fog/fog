@@ -213,7 +213,9 @@ module Fog
           end
 
           def get_system_ds_name
-            @system_disks.volumes.values[0].datastore_name
+            name = @system_disks.volumes.values[0].datastore_name
+            Fog::Logger.deprecation("fog: vm.system_disks.name = #{name}[/]")
+            name
           end
 
           def volume_add(type, id, mode, size, fullpath, datastore_name, unit_number = 0)
