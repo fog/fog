@@ -7,11 +7,16 @@ module Fog
 
       class Users < Fog::Collection
 
+        attribute :is_truncated,    :aliases => 'IsTruncated'
+        attribute :marker,          :aliases => 'Marker'
+
         model Fog::AWS::IAM::User
 
-        def all
-          data = connection.list_users.body['Users']
-          load(data) # data is an array of attribute hashes
+        def all(options = {})
+          merge_attributes(options)
+          data = connection.list_users(options).body
+          merge_attributes('IsTruncated' => data['IsTruncated'], 'Marker' => data['Marker'])
+          load(data['Users']) # data is an array of attribute hashes
         end
 
         def get(identity)
@@ -21,6 +26,23 @@ module Fog
           nil
         end
 
+        alias :each_user_this_page :each
+
+        def each
+          if !block_given?
+            self
+          else
+            subset = dup.all
+
+            subset.each_user_this_page {|f| yield f}
+            while subset.is_truncated
+              subset = subset.all('Marker' => subset.marker, 'MaxItems' => 1000)
+              subset.each_user_this_page {|f| yield f}
+            end
+
+            self
+          end
+        end
       end
     end
   end

@@ -186,7 +186,7 @@ module Fog
       end
 
       def dup_attributes!
-        @attributes = @attributes.dup
+        @attributes = @attributes.dup if @attributes
       end
 
       private
