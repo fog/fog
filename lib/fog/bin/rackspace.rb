@@ -13,6 +13,10 @@ class Rackspace < Fog::Bin
         Fog::Rackspace::LoadBalancers
       when :dns
         Fog::DNS::Rackspace
+      when :identity
+        Fog::Rackspace::Identity
+      when :databases
+        Fog::Rackspace::Databases
       else
         raise ArgumentError, "Unrecognized service: #{key}"
       end

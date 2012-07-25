@@ -21,6 +21,7 @@ module Fog
       request :server_details
       request :server_status
       request :start
+      request :reboot
       request :stop
       # Templates
       request :template_list
@@ -65,7 +66,6 @@ module Fog
       class Real
 
         def initialize(options)
-          require 'multi_json'
           require 'base64'
 
           @api_url            = options[:glesys_api_url] || Fog.credentials[:glesys_api_url] || API_URL
@@ -94,7 +94,7 @@ module Fog
               }
             )
 
-            data.body = MultiJson.load(data.body)
+            data.body = Fog::JSON.decode(data.body)
 
             response_code =  data.body['response']['status']['code']
 

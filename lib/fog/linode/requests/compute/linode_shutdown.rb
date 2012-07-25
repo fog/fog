@@ -12,6 +12,19 @@ module Fog
         end
 
       end
+
+      class Mock
+        def linode_shutdown(linode_id)
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            "ERRORARRAY" => [],
+            "ACTION"     => "linode.shutdown",
+            "DATA"       => { "JobID" => rand(1000..9999) }
+          }
+          response
+        end
+      end
     end
   end
 end

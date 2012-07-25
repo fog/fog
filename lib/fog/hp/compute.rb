@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'hp'))
+require 'fog/hp'
 require 'fog/compute'
 
 module Fog
@@ -7,6 +7,8 @@ module Fog
 
       requires    :hp_secret_key, :hp_account_id, :hp_tenant_id
       recognizes  :hp_auth_uri, :hp_servicenet, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_auth_version, :hp_avl_zone
+
+      secrets     :hp_secret_key
 
       model_path 'fog/hp/models/compute'
       model       :address
@@ -105,7 +107,6 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'multi_json'
           @hp_secret_key = options[:hp_secret_key]
           @hp_account_id = options[:hp_account_id]
           @hp_servicenet = options[:hp_servicenet]
@@ -167,7 +168,7 @@ module Fog
           end
           unless response.body.empty?
             begin
-              response.body = MultiJson.load(response.body)
+              response.body = Fog::JSON.decode(response.body)
             rescue MultiJson::DecodeError => error
               response.body    #### the body is not in JSON format so just return it as it is
             end

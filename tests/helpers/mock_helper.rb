@@ -15,6 +15,10 @@ if Fog.mock?
     :bluebox_customer_id              => 'bluebox_customer_id',
     :brightbox_client_id              => 'brightbox_client_id',
     :brightbox_secret                 => 'brightbox_secret',
+    :cloudstack_host                  => 'http://cloudstack.example.org',
+    :cloudstack_service_offering_id     => '4437ac6c-9fe3-477a-57ec-60a5a45896a4',
+    :cloudstack_template_id           => '8a31cf9c-f248-0588-256e-9dbf58785216',
+    :cloudstack_zone_id               => 'c554c592-e09c-9df5-7688-4a32754a4305',
     :clodo_api_key                    => 'clodo_api_key',
     :clodo_username                   => 'clodo_username',
     :dnsimple_email                   => 'dnsimple_email',
@@ -50,14 +54,13 @@ if Fog.mock?
     :openstack_api_key                => 'openstack_api_key',
     :openstack_username               => 'openstack_username',
     :openstack_tenant                 => 'openstack_tenant',
-    :openstack_auth_url               => 'openstack_auth_url',
+    :openstack_auth_url               => 'http://openstack:35357/v2.0/tokens',
     :ovirt_url                        => 'http://ovirt:8080/api',
     :ovirt_username                   => 'admin@internal',
     :ovirt_password                   => '123123',
     :libvirt_uri                      => 'qemu://libvirt/system',
     :rackspace_api_key                => 'rackspace_api_key',
     :rackspace_username               => 'rackspace_username',
-    :slicehost_password               => 'slicehost_password',
     :storm_on_demand_username         => 'storm_on_demand_username',
     :storm_on_demand_password         => 'storm_on_demand_password',
     :vcloud_host                      => 'vcloud_host',
@@ -77,5 +80,5 @@ if Fog.mock?
     :libvirt_uri                      => 'qemu:///system',
     :libvirt_username                 => 'root',
     :libvirt_password                 => 'password'
-  }
+  }.merge(Fog.credentials)
 end

@@ -39,6 +39,24 @@ module Fog
         end
 
       end
+      class Mock
+        def get_group(group_name, options = {})
+          raise Fog::AWS::IAM::NotFound.new(
+            "The user with name #{group_name} cannot be found."
+          ) unless self.data[:groups].key?(group_name)
+          Excon::Response.new.tap do |response|
+            response.body = { 'Group' =>  { 
+                                             'GroupId'   => data[:groups][group_name][:group_id],
+                                             'Path'     => data[:groups][group_name][:path],
+                                             'GroupName' => group_name,
+                                             'Arn'      => (data[:groups][group_name][:arn]).strip 
+                                          },
+                              'Users' => data[:groups][group_name][:members].map { |user| get_user(user).body['User'] },
+                              'RequestId'   => Fog::AWS::Mock.request_id }
+            response.status = 200
+          end
+        end
+      end
     end
   end
 end

@@ -1,4 +1,4 @@
-require(File.expand_path(File.join(File.dirname(__FILE__), 'core')))
+require 'fog/core'
 
 module Fog
   module HP
@@ -13,7 +13,7 @@ module Fog
             data = nil
             message = nil
           else
-            data = MultiJson.load(error.response.body)
+            data = Fog::JSON.decode(error.response.body)
             message = data['message']
           end
 
@@ -144,12 +144,12 @@ module Fog
           :host => @host,
           :port => @port,
           :method => 'POST',
-          :body => MultiJson.dump(request_body),
+          :body => Fog::JSON.encode(request_body),
           :path => @auth_path
         }
       )
 
-      body = MultiJson.load(response.body)
+      body = Fog::JSON.decode(response.body)
 
       ### fish out auth_token and endpoint for the service
       auth_token = body['access']['token']['id']

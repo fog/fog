@@ -3,8 +3,6 @@ Shindo.tests('AWS::AutoScaling | auto_scaling_tests', ['aws', 'auto_scaling']) d
   @lc_name = 'fog-test-lc'
 
   tests('success') do
-    pending if Fog.mocking?
-
     tests("#describe_adjustment_types").formats(AWS::AutoScaling::Formats::DESCRIBE_ADJUSTMENT_TYPES) do
       Fog::AWS[:auto_scaling].describe_adjustment_types.body
     end
@@ -54,15 +52,19 @@ Shindo.tests('AWS::AutoScaling | auto_scaling_tests', ['aws', 'auto_scaling']) d
     end
 
     tests("#describe_scaling_activities").formats(AWS::AutoScaling::Formats::DESCRIBE_SCALING_ACTIVITIES) do
+      pending if Fog.mocking?
       Fog::AWS[:auto_scaling].describe_scaling_activities().body
     end
     tests("#describe_scaling_activities").formats(AWS::AutoScaling::Formats::DESCRIBE_SCALING_ACTIVITIES) do
+      pending if Fog.mocking?
       Fog::AWS[:auto_scaling].describe_scaling_activities('ActivityIds' => '1').body
     end
     tests("#describe_scaling_activities").formats(AWS::AutoScaling::Formats::DESCRIBE_SCALING_ACTIVITIES) do
+      pending if Fog.mocking?
       Fog::AWS[:auto_scaling].describe_scaling_activities('ActivityIds' => ['1', '2']).body
     end
     tests("#describe_scaling_activities").formats(AWS::AutoScaling::Formats::DESCRIBE_SCALING_ACTIVITIES) do
+      pending if Fog.mocking?
       Fog::AWS[:auto_scaling].describe_scaling_activities('AutoScalingGroupName' => @asg_name).body
     end
 

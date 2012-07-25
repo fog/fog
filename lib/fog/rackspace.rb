@@ -1,4 +1,4 @@
-require(File.expand_path(File.join(File.dirname(__FILE__), 'core')))
+require 'fog/core'
 
 module Fog
   module Rackspace
@@ -13,7 +13,7 @@ module Fog
             data = nil
             message = nil
           else
-            data = MultiJson.load(error.response.body)
+            data = Fog::JSON.decode(error.response.body)
             message = data['message']
           end
 
@@ -47,6 +47,8 @@ module Fog
     service(:dns,             'rackspace/dns',            'DNS')
     service(:storage,         'rackspace/storage',        'Storage')
     service(:load_balancers,  'rackspace/load_balancers', 'LoadBalancers')
+    service(:identity,        'rackspace/identity',       'Identity')
+    service(:databases,       'rackspace/databases',      'Databases')
 
     def self.authenticate(options, connection_options = {})
       rackspace_auth_url = options[:rackspace_auth_url] || "auth.api.rackspacecloud.com"

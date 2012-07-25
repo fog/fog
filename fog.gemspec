@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   ## If your rubyforge_project name is different, then edit it and comment out
   ## the sub! line in the Rakefile
   s.name              = 'fog'
-  s.version           = '1.3.1'
-  s.date              = '2012-03-27'
+  s.version           = '1.4.0'
+  s.date              = '2012-06-24'
   s.rubyforge_project = 'fog'
 
 
@@ -37,14 +37,14 @@ Gem::Specification.new do |s|
   ## Specify any RDoc options here. You'll want to add your README and
   ## LICENSE files to the extra_rdoc_files list.
   s.rdoc_options = ["--charset=UTF-8"]
-  s.extra_rdoc_files = %w[README.rdoc]
+  s.extra_rdoc_files = %w[README.md]
 
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
   s.add_dependency('builder')
-  s.add_dependency('excon', '~>0.13.0')
+  s.add_dependency('excon', '~>0.14')
   s.add_dependency('formatador', '~>0.2.0')
-  s.add_dependency('multi_json', '~>1.3')
+  s.add_dependency('multi_json', '~>1.0')
   s.add_dependency('mime-types')
   s.add_dependency('net-scp', '~>1.0.4')
   s.add_dependency('net-ssh', '>=2.1.3')
@@ -63,6 +63,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('shindo', '~>0.3.4')
   s.add_development_dependency('virtualbox', '~>0.9.1')
   s.add_development_dependency('fission')
+  s.add_development_dependency('pry')
 #  s.add_development_dependency('ruby-libvirt','~>0.4.0')
 
   s.files = `git ls-files`.split("\n")

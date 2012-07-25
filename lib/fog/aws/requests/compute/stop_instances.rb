@@ -28,6 +28,34 @@ module Fog
         end
 
       end
+
+      class Mock
+        def stop_instances(instance_id, force = false)
+          instance_ids = Array(instance_id)
+
+          instance_set = self.data[:instances].values
+          instance_set = apply_tag_filters(instance_set, {'instance_id' => instance_ids}, 'instanceId')
+          instance_set = instance_set.find_all {|x| instance_ids.include?(x["instanceId"]) }
+
+          if instance_set.empty?
+            raise Fog::Compute::AWS::NotFound.new("The instance ID '#{instance_ids.first}' does not exist")
+          else
+            response = Excon::Response.new
+            response.status = 200
+
+            response.body = {
+              'instancesSet' => instance_set.inject([]) do |ia, instance|
+                                  ia << {'currentState' => { 'code' => 0, 'name' => 'stopping' },
+                                         'previousState' => instance['instanceState'],
+                                         'instanceId' => instance['instanceId'] }
+                                  instance['instanceState'] = {'code'=>0, 'name'=>'stopping'}
+                                  ia
+              end
+            }
+            response
+          end
+        end
+      end
     end
   end
 end

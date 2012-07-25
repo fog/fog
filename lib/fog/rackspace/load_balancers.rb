@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'rackspace'))
+require 'fog/rackspace'
 
 module Fog
   module Rackspace
@@ -29,6 +29,9 @@ module Fog
       model :access_rule
 
       request_path 'fog/rackspace/requests/load_balancers'
+      request :get_ssl_termination
+      request :set_ssl_termination
+      request :remove_ssl_termination
       request :create_load_balancer
       request :get_load_balancer
       request :list_load_balancers
@@ -97,7 +100,6 @@ module Fog
         include Shared
 
         def initialize(options={})
-          require 'multi_json'
           @rackspace_api_key = options[:rackspace_api_key]
           @rackspace_username = options[:rackspace_username]
           @rackspace_auth_url = options[:rackspace_auth_url]
@@ -136,7 +138,7 @@ module Fog
             raise ServiceError.slurp error
           end
           unless response.body.empty?
-            response.body = MultiJson.load(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end

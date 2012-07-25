@@ -1,4 +1,4 @@
-require(File.expand_path(File.join(File.dirname(__FILE__), 'core')))
+require 'fog/core'
 
 module Fog
   module OpenStack
@@ -13,7 +13,7 @@ module Fog
             data = nil
             message = nil
           else
-            data = MultiJson.load(error.response.body)
+            data = Fog::JSON.decode(error.response.body)
             message = data['message']
           end
 
@@ -41,15 +41,16 @@ module Fog
       end
     end
 
-    service(:compute,         'openstack/compute',        'Compute')
+    service(:compute , 'openstack/compute' , 'Compute' )
+    service(:identity, 'openstack/identity', 'Identity')
 
     # legacy v1.0 style auth
     def self.authenticate_v1(options, connection_options = {})
-      openstack_auth_url = options[:openstack_auth_url]
-      uri = URI.parse(openstack_auth_url)
-      connection = Fog::Connection.new(openstack_auth_url, false, connection_options)
+      uri = options[:openstack_auth_uri]
+      connection = Fog::Connection.new(uri.to_s, false, connection_options)
       @openstack_api_key  = options[:openstack_api_key]
       @openstack_username = options[:openstack_username]
+
       response = connection.request({
         :expects  => [200, 204],
         :headers  => {
@@ -63,52 +64,105 @@ module Fog
 
       return {
         :token => response.headers['X-Auth-Token'],
-        :server_management_url => response.headers['X-Server-Management-Url'] 
-      } 
-
+        :server_management_url => response.headers['X-Server-Management-Url'],
+        :identity_public_endpoint => response.headers['X-Keystone']
+      }
     end
 
-   # keystone style auth
-   def self.authenticate_v2(options, connection_options = {})
-      openstack_auth_url = options[:openstack_auth_url]
-      uri = URI.parse(openstack_auth_url)
-      connection = Fog::Connection.new(openstack_auth_url, false, connection_options)
+    # Keystone Style Auth
+    def self.authenticate_v2(options, connection_options = {})
+      uri = options[:openstack_auth_uri]
+      connection = Fog::Connection.new(uri.to_s, false, connection_options)
       @openstack_api_key  = options[:openstack_api_key]
       @openstack_username = options[:openstack_username]
-      @openstack_tenant = options[:openstack_tenant]
-      @compute_service_name = options[:openstack_compute_service_name]
+      @openstack_tenant   = options[:openstack_tenant]
+      @openstack_auth_token = options[:openstack_auth_token]
+      @service_name         = options[:openstack_service_name]
+      @identity_service_name = options[:openstack_identity_service_name]
+      @endpoint_type         = options[:openstack_endpoint_type] || 'publicURL'
 
-      req_body= {
-        'auth' => {
-          'passwordCredentials'  => {
-            'username' => @openstack_username,
-            'password' => @openstack_api_key
+      if @openstack_auth_token
+        req_body = {
+          'auth' => {
+            'token' => {
+              'id' => @openstack_auth_token
+            }
           }
         }
-      }
+      else
+        req_body = {
+          'auth' => {
+            'passwordCredentials'  => {
+              'username' => @openstack_username,
+              'password' => @openstack_api_key.to_s
+            }
+          }
+        }
+      end
       req_body['auth']['tenantName'] = @openstack_tenant if @openstack_tenant
 
+      body = retrieve_tokens_v2(connection, req_body, uri)
+
+      svc = body['access']['serviceCatalog'].
+        detect{|x| @service_name.include?(x['type']) }
+
+      unless svc
+        unless @openstack_tenant
+          response = Fog::Connection.new(
+            "#{uri.scheme}://#{uri.host}:#{uri.port}/v2.0/tenants", false, connection_options).request({
+            :expects => [200, 204],
+            :headers => {'Content-Type' => 'application/json',
+                         'X-Auth-Token' => body['access']['token']['id']},
+            :host    => uri.host,
+            :method  => 'GET'
+          })
+
+          body = Fog::JSON.decode(response.body)
+          if body['tenants'].empty?
+            raise Errors::NotFound.new('No Tenant Found')
+          else
+            req_body['auth']['tenantName'] = body['tenants'].first['name']
+          end
+        end
+
+        body = retrieve_tokens_v2(connection, req_body, uri)
+        if body['access']['token']['tenant'].nil?
+          raise Errors::NotFound.new("Invalid Tenant '#{@openstack_tenant}'")
+        end
+        svc = body['access']['serviceCatalog'].
+          detect{|x| @service_name.include?(x['type']) }
+      end
+
+      identity_svc = body['access']['serviceCatalog'].
+        detect{|x| @identity_service_name.include?(x['type']) } if @identity_service_name
+      tenant = body['access']['token']['tenant']
+      user = body['access']['user']
+
+      mgmt_url = svc['endpoints'].detect{|x| x[@endpoint_type]}[@endpoint_type]
+      identity_url = identity_svc['endpoints'].detect{|x| x['publicURL']}['publicURL'] if identity_svc
+      token = body['access']['token']['id']
+
+      {
+        :user                     => user,
+        :tenant                   => tenant,
+        :token                    => token,
+        :server_management_url    => mgmt_url,
+        :identity_public_endpoint => identity_url,
+        :current_user_id          => body['access']['user']['id']
+      }
+    end
+
+    def self.retrieve_tokens_v2(connection, request_body, uri)
       response = connection.request({
         :expects  => [200, 204],
-        :headers => {'Content-Type' => 'application/json'},
-        :body  => MultiJson.dump(req_body),
+        :headers  => {'Content-Type' => 'application/json'},
+        :body     => Fog::JSON.encode(request_body),
         :host     => uri.host,
         :method   => 'POST',
         :path     =>  (uri.path and not uri.path.empty?) ? uri.path : 'v2.0'
       })
-      body=MultiJson.load(response.body)
-     
-      if svc = body['access']['serviceCatalog'].detect{|x| x['name'] == @compute_service_name}
-        mgmt_url = svc['endpoints'].detect{|x| x['publicURL']}['publicURL']
-        token = body['access']['token']['id']
-        return {
-          :token => token,
-          :server_management_url => mgmt_url
-        } 
-      else
-        raise "Unable to parse service catalog."
-      end
- 
+
+      Fog::JSON.decode(response.body)
     end
 
   end

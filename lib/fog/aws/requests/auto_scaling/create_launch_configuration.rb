@@ -23,8 +23,8 @@ module Fog
         #     * 'Ebs.VolumeSize'<~Integer> - The volume size, in GigaBytes.
         #     * 'VirtualName'<~String> - The virtual name associated with the
         #       device.
-        #   * 'InstanceMonitoring'<~Hash>:
-        #     * 'Enabled'<~Boolean> - Enabled detailed monitoring.
+        #   * 'IamInstanceProfile'<~String> The name or the Amazon Resource Name (ARN) of the instance profile associated with the IAM role for the instance
+        #   * 'InstanceMonitoring.Enabled'<~Boolean> - Enable/Disable detailed monitoring, default is enabled
         #   * 'KernelId'<~String> - The ID of the kernel associated with the
         #     EC2 AMI.
         #   * 'KeyName'<~String> - The name of the EC2 key pair.
@@ -79,7 +79,7 @@ module Fog
             'BlockDeviceMappings'     => [],
             'CreatedTime'             => Time.now.utc,
             'ImageId'                 => image_id,
-            'InstanceMonitoring'      => { 'Enabled' => true },
+            'InstanceMonitoring'      => {'Enabled' => true},
             'InstanceType'            => instance_type,
             'KernelId'                => nil,
             'KeyName'                 => nil,

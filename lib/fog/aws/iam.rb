@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+require 'fog/aws'
 
 module Fog
   module AWS
@@ -15,24 +15,33 @@ module Fog
 
       request_path 'fog/aws/requests/iam'
       request :add_user_to_group
+      request :add_role_to_instance_profile
       request :create_access_key
       request :create_account_alias
       request :create_group
+      request :create_instance_profile
       request :create_login_profile
+      request :create_role
       request :create_user
       request :delete_access_key
       request :delete_account_alias
       request :delete_group
       request :delete_group_policy
+      request :delete_instance_profile
       request :delete_login_profile
+      request :delete_role
+      request :delete_role_policy
       request :delete_server_certificate
       request :delete_signing_certificate
       request :delete_user
       request :delete_user_policy
       request :get_group
       request :get_group_policy
+      request :get_instance_profile
+      request :get_role_policy
       request :get_login_profile
       request :get_server_certificate
+      request :get_role
       request :get_user
       request :get_user_policy
       request :list_access_keys
@@ -40,12 +49,18 @@ module Fog
       request :list_group_policies
       request :list_groups
       request :list_groups_for_user
+      request :list_instance_profiles
+      request :list_instance_profiles_for_role
+      request :list_roles
+      request :list_role_policies
       request :list_server_certificates
       request :list_signing_certificates
       request :list_user_policies
       request :list_users
       request :put_group_policy
+      request :put_role_policy
       request :put_user_policy
+      request :remove_role_from_instance_profile
       request :remove_user_from_group
       request :update_access_key
       request :update_group
@@ -55,6 +70,15 @@ module Fog
       request :update_user
       request :upload_server_certificate
       request :upload_signing_certificate
+      
+      model_path 'fog/aws/models/iam'
+      model       :user
+      collection  :users
+      model       :policy
+      collection  :policies      
+      model       :access_key
+      collection  :access_keys
+      
 
       class Mock
         def self.data
@@ -123,7 +147,6 @@ module Fog
         # * IAM object with connection to AWS.
         def initialize(options={})
           require 'fog/core/parser'
-          require 'multi_json'
 
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]

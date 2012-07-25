@@ -1,4 +1,3 @@
-
 module Fog
   module Compute
     class Ovirt < Fog::Service
@@ -74,13 +73,14 @@ module Fog
 
         def initialize(options={})
           require 'rbovirt'
-          username = options[:ovirt_username]
-          password = options[:ovirt_password]
-          url      = options[:ovirt_url]
         end
 
         private
-        attr_reader :client
+
+        def client
+          return @client if defined?(@client)
+        end
+
         #read mocks xml
         def read_xml(file_name)
           file_path = File.join(File.dirname(__FILE__),"requests","compute","mock_files",file_name)
@@ -106,7 +106,10 @@ module Fog
         end
 
         private
-        attr_reader :client
+
+        def client
+          @client
+        end
       end
     end
   end

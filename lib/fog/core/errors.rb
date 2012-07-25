@@ -65,7 +65,6 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
   :rackspace_username:
   :rackspace_servicenet:
   :rackspace_cdn_ssl:
-  :slicehost_password:
   :stormondemand_username:
   :stormondemand_password:
   :terremark_username:
@@ -95,8 +94,8 @@ An alternate file may be used by placing its path in the FOG_RC environment vari
 #######################################################
 
     YML
-    raise(Fog::Errors::LoadError.new(missing_credentials_message))
-  end
+      raise(Fog::Errors::LoadError.new(missing_credentials_message))
+    end
 
   end
 end

@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'google'))
+require 'fog/google'
 require 'fog/storage'
 
 module Fog
@@ -192,7 +192,7 @@ module Fog
           @connection_options = options[:connection_options] || {}
           @hmac = Fog::HMAC.new('sha1', @google_storage_secret_access_key)
           @host = options[:host] || 'commondatastorage.googleapis.com'
-          @persistent = options[:persistent]  || true
+          @persistent = options.fetch(:persistent, true)
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
@@ -251,7 +251,7 @@ DATA
           string_to_sign << "#{canonical_resource}"
 
           signed_string = @hmac.sign(string_to_sign)
-          signature = Base64.encode64(signed_string).chomp!
+          Base64.encode64(signed_string).chomp!
         end
 
 

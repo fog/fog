@@ -2,6 +2,16 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
   require 'fog'
   @availability_zones = Fog::Compute[:aws].describe_availability_zones('state' => 'available').body['availabilityZoneInfo'].collect{ |az| az['zoneName'] }
   @key_name = 'fog-test-model'
+  @vpc=Fog::Compute[:aws].vpcs.create('cidr_block' => '10.0.10.0/24')
+  @vpc_id = @vpc.id
+  @subnet = Fog::Compute[:aws].subnets.create({:vpc_id => @vpc_id, :cidr_block => '10.0.10.0/24'})
+  @subnet_id = @subnet.subnet_id
+  @scheme = 'internal'
+  @igw=Fog::Compute[:aws].internet_gateways.create
+  @igw_id = @igw.id
+  @igw.attach(@vpc_id)
+
+
 
   tests('success') do
     tests('load_balancers') do
@@ -46,6 +56,23 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
           tests("params").returns(Fog::AWS[:elb].listeners.new.to_params) { elb.listeners.first.to_params }
         end
       end
+      tests('with vpc') do
+        elb2 = Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-2", :subnet_ids => [@subnet_id])
+        tests("subnet ids are correct").returns(@subnet_id) { elb2.subnet_ids.first }
+        elb2.destroy
+      end
+      tests('with vpc internal') do
+        elb2 = Fog::AWS[:elb].load_balancers.create(:id => "#{elb_id}-2", :subnet_ids => [@subnet_id], :scheme => 'internal')
+        tests("scheme is internal").returns(@scheme) { elb2.scheme }
+        elb2.destroy
+      end
+      if !Fog.mocking?
+        @igw.detach(@vpc_id)
+        @igw.destroy
+        @subnet.destroy
+        sleep 5
+        @vpc.destroy
+     end
 
       tests('with availability zones') do
         azs = @availability_zones[1..-1]
@@ -102,8 +129,8 @@ Shindo.tests('AWS::ELB | models', ['aws', 'elb']) do
     end
 
     tests('get') do
-      elb_get = Fog::AWS[:elb].load_balancers.get(elb_id)
-      tests('ids match').returns(elb_id) { elb_get.id }
+      tests('ids match').returns(elb_id) { Fog::AWS[:elb].load_balancers.get(elb_id).id }
+      tests('nil id').returns(nil) { Fog::AWS[:elb].load_balancers.get(nil) }
     end
 
     tests('creating a duplicate elb') do

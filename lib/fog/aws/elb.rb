@@ -1,8 +1,9 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+require 'fog/aws'
 
 module Fog
   module AWS
     class ELB < Fog::Service
+      extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       class DuplicatePolicyName         < Fog::Errors::Error; end
       class IdentifierTaken             < Fog::Errors::Error; end
@@ -15,7 +16,7 @@ module Fog
       class ValidationError             < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
 
       request_path 'fog/aws/requests/elb'
       request :configure_health_check
@@ -37,6 +38,9 @@ module Fog
       request :register_instances_with_load_balancer
       request :set_load_balancer_listener_ssl_certificate
       request :set_load_balancer_policies_of_listener
+      request :attach_load_balancer_to_subnets
+      request :detach_load_balancer_from_subnets
+      request :apply_security_groups_to_load_balancer
 
       model_path 'fog/aws/models/elb'
       model      :load_balancer
@@ -72,13 +76,18 @@ module Fog
         end
 
         def initialize(options={})
-          @aws_access_key_id = options[:aws_access_key_id]
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
 
           @region = options[:region] || 'us-east-1'
 
           unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
+        end
+
+        def setup_credentials(options)
+          @aws_access_key_id = options[:aws_access_key_id]
         end
 
         def data
@@ -91,7 +100,7 @@ module Fog
       end
 
       class Real
-
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
         # Initialize connection to ELB
         #
         # ==== Notes
@@ -113,11 +122,10 @@ module Fog
         def initialize(options={})
           require 'fog/core/parser'
 
-          @aws_access_key_id      = options[:aws_access_key_id]
-          @aws_secret_access_key  = options[:aws_secret_access_key]
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
-          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
-
+          
           options[:region] ||= 'us-east-1'
           @host = options[:host] || "elasticloadbalancing.#{options[:region]}.amazonaws.com"
           @path       = options[:path]        || '/'
@@ -133,7 +141,18 @@ module Fog
 
         private
 
+        def setup_credentials(options={})
+          @aws_access_key_id      = options[:aws_access_key_id]
+          @aws_secret_access_key  = options[:aws_secret_access_key]
+          @aws_session_token      = options[:aws_session_token]
+          @aws_credentials_expire_at = options[:aws_credentials_expire_at]
+
+          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
+        end
+
         def request(params)
+          refresh_credentials_if_expired
+
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
@@ -141,15 +160,16 @@ module Fog
             params,
             {
               :aws_access_key_id  => @aws_access_key_id,
+              :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2011-11-15'
+              :version            => '2012-06-01'
           }
           )
 
-          response = @connection.request({
+          @connection.request({
             :body       => body,
             :expects    => 200,
             :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },

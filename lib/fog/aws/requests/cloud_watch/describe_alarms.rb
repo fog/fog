@@ -1,7 +1,7 @@
 module Fog
   module AWS
     class CloudWatch
-      class Real     
+      class Real
 
         require 'fog/aws/parsers/cloud_watch/describe_alarms'
 
@@ -32,7 +32,25 @@ module Fog
               :parser     => Fog::Parsers::AWS::CloudWatch::DescribeAlarms.new
             }.merge(options))
         end
-      end     
+      end
+
+      class Mock
+        def describe_alarms(options={})
+          results = { 'MetricAlarms' => [] }
+          data[:metric_alarms].each do |alarm_name, alarm_data|
+            results['MetricAlarms'] << {
+              'AlarmName' => alarm_name
+            }.merge!(alarm_data)
+          end
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            'DescribeAlarmsResult' => results,
+            'ResponseMetadata' => { 'RequestId' => Fog::AWS::Mock.request_id }
+          }
+          response
+        end
+      end
     end
   end
 end

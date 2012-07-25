@@ -6,22 +6,22 @@ module Fog
         require 'fog/aws/parsers/dns/change_resource_record_sets'
 
         # Use this action to create or change your authoritative DNS information for a zone
+        # http://docs.amazonwebservices.com/Route53/latest/DeveloperGuide/RRSchanges.html#RRSchanges_API
         #
         # ==== Parameters
         # * zone_id<~String> - ID of the zone these changes apply to
         # * options<~Hash>
         #   * comment<~String> - Any comments you want to include about the change.
-        #   * change_batch<~Array> - The information for a change request
-        #     * changes<~Hash> -
-        #       * action<~String> - 'CREATE' or 'DELETE'
-        #       * name<~String> - This must be a fully-specified name, ending with a final period
-        #       * type<~String> - A | AAAA | CNAME | MX | NS | PTR | SOA | SPF | SRV | TXT
-        #       * ttl<~Integer> - Time-to-live value - omit if using an alias record
-        #       * resource_record<~String> - Omit if using an alias record
-        #       * alias_target<~Hash> - Information about the domain to which you are redirecting traffic (Alias record sets only)
-        #         * dns_name<~String> - The Elastic Load Balancing domain to which you want to reroute traffic
-        #         * hosted_zone_id<~String> - The ID of the hosted zone that contains the Elastic Load Balancing domain to which you want to reroute traffic
-        #
+        # * change_batch<~Array> - The information for a change request
+        #   * changes<~Hash> -
+        #     * action<~String> - 'CREATE' or 'DELETE'
+        #     * name<~String>   - This must be a fully-specified name, ending with a final period
+        #     * type<~String>   - A | AAAA | CNAME | MX | NS | PTR | SOA | SPF | SRV | TXT
+        #     * ttl<~Integer>   - Time-to-live value - omit if using an alias record
+        #     * resource_records<~Array> - Omit if using an alias record
+        #     * alias_target<~Hash> - Information about the domain to which you are redirecting traffic (Alias record sets only)
+        #       * dns_name<~String> - The Elastic Load Balancing domain to which you want to reroute traffic
+        #       * hosted_zone_id<~String> - The ID of the hosted zone that contains the Elastic Load Balancing domain to which you want to reroute traffic
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
@@ -29,7 +29,31 @@ module Fog
         #       * 'Id'<~String> - The ID of the request
         #       * 'Status'<~String> - status of the request - PENDING | INSYNC
         #       * 'SubmittedAt'<~String> - The date and time the change was made
-        #   * status<~Integer> - 201 when successful
+        #   * status<~Integer> - 200 when successful
+        #
+        # ==== Examples
+        #
+        # Example changing a CNAME record:
+        #
+        #     change_batch_options = [
+        #       {
+        #         :action => "DELETE",
+        #         :name => "foo.example.com.",
+        #         :type => "CNAME",
+        #         :ttl => 3600,
+        #         :resource_records => [ "baz.example.com." ]
+        #       },
+        #       {
+        #         :action => "CREATE",
+        #         :name => "foo.example.com.",
+        #         :type => "CNAME",
+        #         :ttl => 3600,
+        #         :resource_records => [ "bar.example.com." ]
+        #       }
+        #     ]
+        #
+        #     change_resource_record_sets("ABCDEFGHIJKLMN", change_batch_options)
+        #
         def change_resource_record_sets(zone_id, change_batch, options = {})
 
           # AWS methods return zone_ids that looks like '/hostedzone/id'.  Let the caller either use
@@ -106,6 +130,61 @@ module Fog
 
         end
 
+      end
+
+      class Mock
+
+        def change_resource_record_sets(zone_id, change_batch, options = {})
+          response = Excon::Response.new
+          errors   = []
+
+          if (zone = self.data[:zones][zone_id])
+            response.status = 200
+
+            change_batch.each do |change|
+              case change[:action]
+              when "CREATE"
+                if zone[:records][change[:type]].nil?
+                  zone[:records][change[:type]] = {}
+                end
+
+                if zone[:records][change[:type]][change[:name]].nil?
+                  zone[:records][change[:type]][change[:name]] = {
+                    :name => change[:name],
+                    :type => change[:type],
+                    :ttl => change[:ttl],
+                    :resource_records => change[:resource_records]
+                  }
+                else
+                  errors << "Tried to create resource record set #{change[:name]}. type #{change[:type]}, but it already exists"
+                end
+              when "DELETE"
+                if zone[:records][change[:type]].nil? || zone[:records][change[:type]].delete(change[:name]).nil?
+                  errors << "Tried to delete resource record set #{change[:name]}. type #{change[:type]}, but it was not found"
+                end
+              end
+            end
+
+            if errors.empty?
+              response.body = {
+                'ChangeInfo' => {
+                  'Id' => "/change/#{Fog::AWS::Mock.change_id}",
+                  'Status' => 'INSYNC',
+                  'SubmittedAt' => Time.now.utc.iso8601
+                }
+              }
+              response
+            else
+              response.status = 400
+              response.body = "<?xml version=\"1.0\"?><InvalidChangeBatch xmlns=\"https://route53.amazonaws.com/doc/2012-02-29/\"><Messages>#{errors.map {|e| "<Message>#{e}</Message>"}.join()}</Messages></InvalidChangeBatch>"
+              raise(Excon::Errors.status_error({:expects => 200}, response))
+            end
+          else
+            response.status = 404
+            response.body = "<?xml version=\"1.0\"?><Response><Errors><Error><Code>NoSuchHostedZone</Code><Message>A hosted zone with the specified hosted zone ID does not exist.</Message></Error></Errors><RequestID>#{Fog::AWS::Mock.request_id}</RequestID></Response>"
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
+        end
       end
     end
   end

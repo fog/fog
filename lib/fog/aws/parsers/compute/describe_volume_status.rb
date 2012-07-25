@@ -3,64 +3,81 @@ module Fog
     module Compute
       module AWS
         class DescribeVolumeStatus < Fog::Parsers::Base
-
-          def new_volume
-            @volume = { 'volumeStatus' => { 'details' => [] }, 'eventSet' => {}, 'actionSet' => {} }
-          end
-
           def reset
-            @volume_status = {}
+            @action_set = {}
+            @detail = {}
+            @event_set = {}
+            @volume_status = { 'details' => [] }
+            @volume = { 'actionsSet' => [], 'eventsSet' => [] }
             @response = { 'volumeStatusSet' => [] }
-            @inside = nil
           end
 
           def start_element(name, attrs=[])
             super
             case name
-            when 'item'
-              new_volume if @inside.nil?
-            when 'volumeStatus'
-              @inside = :volume_status
+            when 'actionsSet'
+              @in_actions_set = true
             when 'details'
-              @inside = :details
-            when 'eventSet'
-              @inside = :event
-            when 'actionSet'
-              @inside = :action
+              @in_details = true
+            when 'eventsSet'
+              @in_events_set = true
+            when 'volumeStatus'
+              @in_volume_status = true
             end
           end
 
           def end_element(name)
-            case name
-            #Simple closers
-            when 'details'
-              @inside = nil
-            when 'volumeStatus'
-              @inside = nil
-            when 'eventSet'
-              @inside = nil
-            when 'actionSet'
-              @inside = nil
-            when 'item'
-              @response['volumeStatusSet'] << @volume if @inside.nil?
-            #Top level
-            when 'nextToken', 'requestId'
-              @response[name] = value
-            # Volume Stuff
-            when 'volumeId', 'availabilityZone'
-              @volume[name] = value
-            #The mess...
-            when 'name', 'status'
-              case @inside
-              when :details
-                @volume['volumeStatus']['details'] << {name => value }
-              when :volume_status
-                @volume['volumeStatus'][name] = value
+            if @in_actions_set
+              case name
+              when 'actionsSet'
+                @in_actions_set = false
+              when 'code', 'eventId', 'eventType', 'description'
+                @action_set[name] = value.strip
+              when 'item'
+                @volume['actionsSet'] << @action_set
+                @action_set = {}
               end
-            when 'code', 'eventId', 'eventType', 'description'
-              @volume["#{@inside}Set"][name] = value.strip
-            when 'notAfter', 'notBefore'
-              @volume["#{@inside}Set"][name] = Time.parse(value)
+            elsif @in_details
+              case name
+              when 'details'
+                @in_details = false
+              when 'name', 'status'
+                @detail[name] = value
+              when 'item'
+                @volume_status['details'] << @detail
+                @detail = {}
+              end
+            elsif @in_events_set
+              case name
+              when 'eventsSet'
+                @in_events_set = false
+              when 'code', 'eventId', 'eventType', 'description'
+                @event_set[name] = value.strip
+              when 'notAfter', 'notBefore'
+                @event_set[name] = Time.parse(value)
+              when 'item'
+                @volume['eventsSet'] << @event_set
+                @event_set = {}
+              end
+            elsif @in_volume_status
+              case name
+              when 'volumeStatus'
+                @volume['volumeStatus'] = @volume_status
+                @volume_status = { 'details' => [] }
+                @in_volume_status = false
+              when 'status'
+                @volume_status[name] = value
+              end
+            else
+              case name
+              when 'volumeId', 'availabilityZone'
+                @volume[name] = value
+              when 'nextToken', 'requestId'
+                @response[name] = value
+              when 'item'
+                @response['volumeStatusSet'] << @volume
+                @volume = { 'actionsSet' => [], 'eventsSet' => [] }
+              end
             end
           end
         end

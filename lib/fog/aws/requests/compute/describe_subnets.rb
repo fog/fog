@@ -48,15 +48,7 @@ module Fog
             response.status = 200
             response.body = {
               'requestId'  => Fog::AWS::Mock.request_id,
-              'subnetSet'  => [
-                'subnetId'                 => Fog::AWS::Mock.request_id,
-                'state'                    => 'pending',
-                'vpcId'                    => Fog::AWS::Mock.request_id,
-                'cidrBlock'                => '10.255.255.0/24',
-                'availableIpAddressCount'  => 255,
-                'availabilityZone'         => 'us-east-1c',
-                'tagSet'                   => {}
-              ]
+              'subnetSet'  => self.data[:subnets]
             }
           end
         end

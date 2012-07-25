@@ -14,9 +14,17 @@ module Fog
         attribute :source_group,          :aliases => 'SourceSecurityGroup'
         attribute :hosted_zone_name,      :aliases => 'CanonicalHostedZoneName'
         attribute :hosted_zone_name_id,   :aliases => 'CanonicalHostedZoneNameID'
+        attribute :subnet_ids,            :aliases => 'Subnets'
+        attribute :security_groups,       :aliases => 'SecurityGroups'
+        attribute :scheme,                :aliases => 'Scheme'
+        attribute :vpc_id,                :aliases => 'VPCId'
 
         def initialize(attributes={})
-          attributes[:availability_zones] ||= attributes['AvailabilityZones'] || %w(us-east-1a us-east-1b us-east-1c us-east-1d)
+          if attributes[:subnet_ids] ||= attributes['Subnets']
+            attributes[:availability_zones] ||= attributes['AvailabilityZones'] 
+          else
+            attributes[:availability_zones] ||= attributes['AvailabilityZones']  || %w(us-east-1a us-east-1b us-east-1c us-east-1d)
+          end
           unless attributes['ListenerDescriptions']
             new_listener = Fog::AWS::ELB::Listener.new
             attributes['ListenerDescriptions'] = [{
@@ -51,6 +59,24 @@ module Fog
         def disable_availability_zones(zones)
           requires :id
           data = connection.disable_availability_zones_for_load_balancer(zones, id).body['DisableAvailabilityZonesForLoadBalancerResult']
+          merge_attributes(data)
+        end
+        
+        def attach_subnets(subnet_ids)
+          requires :id
+          data = connection.attach_load_balancer_to_subnets(subnet_ids, id).body['AttachLoadBalancerToSubnetsResult']
+          merge_attributes(data)
+        end
+
+        def detach_subnets(subnet_ids)
+          requires :id
+          data = connection.detach_load_balancer_from_subnets(subnet_ids, id).body['DetachLoadBalancerFromSubnetsResult']
+          merge_attributes(data)
+        end
+        
+        def apply_security_groups(security_groups)
+          requires :id
+          data = connection.apply_security_groups_to_load_balancer(security_groups, id).body['ApplySecurityGroupsToLoadBalancerResult']
           merge_attributes(data)
         end
 
@@ -114,9 +140,15 @@ module Fog
         def save
           requires :id
           requires :listeners
-          requires :availability_zones
-
-          connection.create_load_balancer(availability_zones, id, listeners.map{|l| l.to_params})
+          # with the VPC release, the ELB can have either availability zones or subnets
+          # if both are specified, the availability zones have preference
+          #requires :availability_zones
+          if (availability_zones || subnet_ids)
+            connection.create_load_balancer(availability_zones, id, listeners.map{|l| l.to_params}) if availability_zones
+            connection.create_load_balancer(nil, id, listeners.map{|l| l.to_params}, {:subnet_ids => subnet_ids, :security_groups => security_groups, :scheme => scheme}) if subnet_ids && !availability_zones
+          else
+            throw Fog::Errors::Error.new("No availability zones or subnet ids specified")
+          end
 
           # reload instead of merge attributes b/c some attrs (like HealthCheck)
           # may be set, but only the DNS name is returned in the create_load_balance

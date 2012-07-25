@@ -1,11 +1,7 @@
 Shindo.tests('Fog::Compute[:xenserver] | servers collection', ['xenserver']) do
 
-  #require 'pp'
   conn = Fog::Compute[:xenserver]
-  # pre-flight cleanup
-  (conn.servers.all :name_matches => test_ephemeral_vm_name).each do |s|
-    s.destroy
-  end
+  destroy_ephemeral_servers
   servers = conn.servers
   templates = conn.servers.templates
     
@@ -85,5 +81,8 @@ Shindo.tests('Fog::Compute[:xenserver] | servers collection', ['xenserver']) do
     end
 
   end
+
+  # Teardown cleaup
+  destroy_ephemeral_servers
 
 end

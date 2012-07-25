@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), 'fog', 'core')
 module Fog
 
   unless const_defined?(:VERSION)
-    VERSION = '1.3.1'
+    VERSION = '1.4.0'
   end
 
 end
@@ -13,6 +13,9 @@ require 'fog/providers'
 require 'fog/terremark'
 
 require 'fog/compute'
+require 'fog/identity'
+require 'fog/image'
+require 'fog/volume'
 require 'fog/cdn'
 require 'fog/dns'
 require 'fog/storage'

@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'dnsmadeeasy'))
+require 'fog/dnsmadeeasy'
 require 'fog/dns'
 
 module Fog
@@ -80,13 +80,12 @@ module Fog
         # * dns object with connection to aws.
         def initialize(options={})
           require 'fog/core/parser'
-          require 'multi_json'
 
           @dnsmadeeasy_api_key = options[:dnsmadeeasy_api_key]
           @dnsmadeeasy_secret_key = options[:dnsmadeeasy_secret_key]
           @connection_options = options[:connection_options] || {}
           @host       = options[:host]        || 'api.dnsmadeeasy.com'
-          @persistent = options[:persistent]  || true
+          @persistent = options.fetch(:persistent, true)
           @port       = options[:port]        || 80 #443 Not yet
           @scheme     = options[:scheme]      || 'http' #'https Not yet
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
@@ -119,7 +118,7 @@ module Fog
           end
 
           unless response.body.empty?
-            response.body = MultiJson.load(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
 
           response
@@ -128,7 +127,7 @@ module Fog
 
         def signature(params)
           string_to_sign = params[:headers]['x-dnsme-requestDate']
-          signed_string = OpenSSL::HMAC.hexdigest('sha1', @dnsmadeeasy_secret_key, string_to_sign)
+          OpenSSL::HMAC.hexdigest('sha1', @dnsmadeeasy_secret_key, string_to_sign)
         end
       end
     end

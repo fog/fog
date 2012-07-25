@@ -1,4 +1,4 @@
-require(File.expand_path(File.join(File.dirname(__FILE__), 'core')))
+require 'fog/core'
 
 module Fog
   module IBM
@@ -18,7 +18,6 @@ module Fog
     class Connection < Fog::Connection
 
       def initialize(user, password)
-        require 'multi_json'
         @user = user
         @password = password
         @endpoint = URI.parse('https://www-147.ibm.com/computecloud/enterprise/api/rest/20100331')
@@ -38,7 +37,7 @@ module Fog
         end
         response = super(options)
         unless response.body.empty?
-          response.body = MultiJson.load(response.body)
+          response.body = Fog::JSON.decode(response.body)
         end
         response
       end

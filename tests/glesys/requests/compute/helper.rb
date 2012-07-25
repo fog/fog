@@ -113,11 +113,16 @@ class Glesys
               'max'   => Fog::Nullable::Integer,
               'unit'  => Fog::Nullable::String
             },
-            'cpu'       => [],
+            'cpu'       => {
+              'usage' => Fog::Nullable::Integer,
+              'max'   => Fog::Nullable::Integer,
+              'unit'  => Fog::Nullable::String
+            },
             'uptime'    => {
               'current' => Fog::Nullable::Integer,
               'unit'    => String
-            }
+            },
+            'warnings'  => []
           },
           'status' => {
             'timestamp' => String,

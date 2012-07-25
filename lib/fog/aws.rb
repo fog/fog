@@ -1,5 +1,5 @@
-require(File.expand_path(File.join(File.dirname(__FILE__), 'core')))
-
+require 'fog/core'
+require 'fog/aws/credential_fetcher'
 module Fog
   module AWS
 
@@ -186,6 +186,10 @@ module Fog
         ip.join('.')
       end
 
+      def self.private_ip_address
+        ip_address.gsub(/^\d{1,3}\./,"10.")
+      end
+
       def self.kernel_id
         "aki-#{Fog::Mock.random_hex(8)}"
       end
@@ -236,6 +240,32 @@ module Fog
 
       def self.network_interface_id
         "eni-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.internet_gateway_id
+        "igw-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.dhcp_options_id
+        "dopt-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.vpc_id
+        "vpc-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.subnet_id
+        "subnet-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.zone_id
+        "zone-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.change_id
+        "change-#{Fog::Mock.random_hex(8)}"
+      end
+      def self.nameservers
+        [
+          'ns-2048.awsdns-64.com',
+          'ns-2049.awsdns-65.net',
+          'ns-2050.awsdns-66.org',
+          'ns-2051.awsdns-67.co.uk'
+        ]
       end
 
       def self.key_id(length=21)

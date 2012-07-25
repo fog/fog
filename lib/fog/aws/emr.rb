@@ -1,13 +1,14 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+require 'fog/aws'
 
 module Fog
   module AWS
     class EMR < Fog::Service
+      extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       class IdentifierTaken < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
 
       request_path 'fog/aws/requests/emr'
 
@@ -42,7 +43,7 @@ module Fog
       end
 
       class Real
-
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
         # Initialize connection to EMR
         #
         # ==== Notes
@@ -62,10 +63,9 @@ module Fog
         # ==== Returns
         # * EMR object with connection to AWS.
         def initialize(options={})
-          @aws_access_key_id      = options[:aws_access_key_id]
-          @aws_secret_access_key  = options[:aws_secret_access_key]
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
-          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
 
           options[:region] ||= 'us-east-1'
           @host = options[:host] || "elasticmapreduce.#{options[:region]}.amazonaws.com"
@@ -83,7 +83,18 @@ module Fog
 
         private
 
+        def setup_credentials(options)
+          @aws_access_key_id      = options[:aws_access_key_id]
+          @aws_secret_access_key  = options[:aws_secret_access_key]
+          @aws_session_token      = options[:aws_session_token]
+          @aws_credentials_expire_at = options[:aws_credentials_expire_at]
+
+          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
+        end
+
         def request(params)
+          refresh_credentials_if_expired
+
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
@@ -91,6 +102,7 @@ module Fog
             params,
             {
               :aws_access_key_id  => @aws_access_key_id,
+              :aws_session_token  => @aws_session_token,
               :hmac               => @hmac,
               :host               => @host,
               :path               => @path,
@@ -109,20 +121,8 @@ module Fog
               :method     => 'POST',
               :parser     => parser
             })
-          rescue Excon::Errors::HTTPStatusError => error
-            if match = error.message.match(/<Code>(.*)<\/Code>[\s\\\w]+<Message>(.*)<\/Message>/m)
-              # case match[1].split('.').last
-              # when 'DBInstanceNotFound', 'DBParameterGroupNotFound', 'DBSnapshotNotFound', 'DBSecurityGroupNotFound'
-              #   raise Fog::AWS::RDS::NotFound.slurp(error, match[2])
-              # when 'DBParameterGroupAlreadyExists'
-              #   raise Fog::AWS::RDS::IdentifierTaken.slurp(error, match[2])
-              # else
-              #   raise
-              # end
-              raise
-            else
-              raise
-            end
+          rescue Excon::Errors::HTTPStatusError
+            raise
           end
 
           response

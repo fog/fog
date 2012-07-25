@@ -24,8 +24,10 @@ module Fog
         end
 
         def get(identity)
-          data = connection.describe_load_balancers('LoadBalancerNames' => identity).body['DescribeLoadBalancersResult']['LoadBalancerDescriptions'].first
-          new(data)
+          if identity
+            data = connection.describe_load_balancers('LoadBalancerNames' => identity).body['DescribeLoadBalancersResult']['LoadBalancerDescriptions'].first
+            new(data)
+          end
         rescue Fog::AWS::ELB::NotFound
           nil
         end

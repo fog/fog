@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:xenserver] | PIF model', ['PIF']) do
+Shindo.tests('Fog::Compute[:xenserver] | PIF model', ['xenserver']) do
 
   pifs = Fog::Compute[:xenserver].pifs
   pif = pifs.first

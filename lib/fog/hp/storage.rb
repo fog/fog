@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'hp'))
+require 'fog/hp'
 require 'fog/storage'
 
 module Fog
@@ -7,6 +7,8 @@ module Fog
 
       requires    :hp_secret_key, :hp_account_id, :hp_tenant_id
       recognizes  :hp_auth_uri, :hp_servicenet, :hp_cdn_ssl, :hp_cdn_uri, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_auth_version
+
+      secrets     :hp_secret_key
 
       model_path 'fog/hp/models/storage'
       model       :directory
@@ -126,7 +128,6 @@ module Fog
 
         def initialize(options={})
           require 'mime/types'
-          require 'multi_json'
           @hp_secret_key = options[:hp_secret_key]
           @hp_account_id = options[:hp_account_id]
           @hp_auth_uri   = options[:hp_auth_uri]
@@ -189,7 +190,7 @@ module Fog
             end
           end
           if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
-            response.body = MultiJson.load(response.body)
+            response.body = Fog::JSON.decode(response.body)
           end
           response
         end

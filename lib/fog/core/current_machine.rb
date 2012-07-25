@@ -1,6 +1,4 @@
-require 'net/http'
-require 'uri'
-
+require 'thread'
 module Fog
   class CurrentMachine
     @@lock = Mutex.new
@@ -26,12 +24,10 @@ module Fog
     #     puts "Service timeout"
     #   end
     #
-    # @raise [Net::HTTPExceptions] if the net/http request fails.
+    # @raise [Excon::Errors::Error] if the net/http request fails.
     def self.ip_address
       @@lock.synchronize do
-        @@ip_address ||= Net::HTTP \
-          .get_response(URI.parse(AMAZON_AWS_CHECK_IP)) \
-          .body.chomp
+        @@ip_address ||= Excon.get(AMAZON_AWS_CHECK_IP).body.chomp
       end
     end
   end

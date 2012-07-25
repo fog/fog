@@ -18,7 +18,7 @@ Shindo.tests('Fog::Compute[:hp] | image requests', [:hp]) do
     'name'      => String
   }
 
-  @base_image_id = ENV["BASE_IMAGE_ID"] ||= 1242
+  @base_image_id = ENV["BASE_IMAGE_ID"] || 1242
 
   tests('success') do
     @server_name = "fogservertest"

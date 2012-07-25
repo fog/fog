@@ -17,7 +17,7 @@ Shindo.tests("Storage[:aws] | directory", [:aws]) do
       end
 
       tests("#versioning=(false)").succeeds do
-        @instance.versioning = false
+        (@instance.versioning = false).equal? false
       end
 
       tests("#versioning=(false) sets versioning to 'Suspended'").returns('Suspended') do

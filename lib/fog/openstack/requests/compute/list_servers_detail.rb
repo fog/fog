@@ -3,11 +3,16 @@ module Fog
     class OpenStack
       class Real
 
-        def list_servers_detail
+        # Available filters: name, status, image, flavor, changes_since, reservation_id
+        def list_servers_detail(filters = {})
+          params = Hash.new
+          filters[:all_tenants] ? params['all_tenants'] = 'True' : params = filters
+
           request(
             :expects  => [200, 203],
             :method   => 'GET',
-            :path     => 'servers/detail.json'
+            :path     => 'servers/detail.json',
+            :query   => params
           )
         end
 

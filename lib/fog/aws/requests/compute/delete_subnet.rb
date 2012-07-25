@@ -30,6 +30,7 @@ module Fog
         def delete_subnet(subnet_id)
           Excon::Response.new.tap do |response|
             if subnet_id
+              self.data[:subnets].reject! { |v| v['subnetId'] == subnet_id }
               response.status = 200
             
               response.body = {

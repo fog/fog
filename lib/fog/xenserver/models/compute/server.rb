@@ -17,6 +17,7 @@ module Fog
         attribute :consoles
         attribute :domarch
         attribute :domid
+        attribute :tags
         attribute :__guest_metrics,      :aliases => :guest_metrics
         attribute :is_a_snapshot
         attribute :is_a_template
@@ -77,8 +78,8 @@ module Fog
           true
         end
 
-        def set_attribute(name, val)
-          data = connection.set_attribute( 'VM', reference, name, val )
+        def set_attribute(name, *val)
+          data = connection.set_attribute( 'VM', reference, name, *val )
           # Do not reload automatically for performance reasons
           # We can set multiple attributes at the same time and
           # then reload manually

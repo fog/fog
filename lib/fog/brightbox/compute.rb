@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'brightbox'))
+require 'fog/brightbox'
 require 'fog/compute'
 
 module Fog
@@ -86,7 +86,6 @@ module Fog
       request :remove_servers_server_group
       request :reset_ftp_password_account
       request :reset_secret_api_client
-      request :resize_server
       request :shutdown_server
       request :snapshot_server
       request :start_server
@@ -117,7 +116,6 @@ module Fog
       class Real
 
         def initialize(options)
-          require 'multi_json'
           # Currently authentication and api endpoints are the same but may change
           @auth_url             = options[:brightbox_auth_url] || Fog.credentials[:brightbox_auth_url] || API_URL
           @api_url              = options[:brightbox_api_url] || Fog.credentials[:brightbox_api_url] || API_URL
@@ -134,7 +132,7 @@ module Fog
             :path     => url,
             :expects  => expected_responses
           }
-          request_options[:body] = MultiJson.dump(options) unless options.nil?
+          request_options[:body] = Fog::JSON.encode(options) unless options.nil?
           make_request(request_options)
         end
 
@@ -147,7 +145,7 @@ module Fog
           auth_url = options[:brightbox_auth_url] || @auth_url
 
           connection = Fog::Connection.new(auth_url)
-          @authentication_body = MultiJson.dump({'client_id' => @brightbox_client_id, 'grant_type' => 'none'})
+          @authentication_body = Fog::JSON.encode({'client_id' => @brightbox_client_id, 'grant_type' => 'none'})
 
           response = connection.request({
             :path => "/token",
@@ -159,7 +157,7 @@ module Fog
             :method   => 'POST',
             :body     => @authentication_body
           })
-          @oauth_token = MultiJson.load(response.body)["access_token"]
+          @oauth_token = Fog::JSON.decode(response.body)["access_token"]
           return @oauth_token
         end
 
@@ -167,12 +165,12 @@ module Fog
           begin
             get_oauth_token if @oauth_token.nil?
             response = authenticated_request(params)
-          rescue Excon::Errors::Unauthorized => e
+          rescue Excon::Errors::Unauthorized
             get_oauth_token
             response = authenticated_request(params)
           end
           unless response.body.empty?
-            response = MultiJson.load(response.body)
+            response = Fog::JSON.decode(response.body)
           end
         end
 

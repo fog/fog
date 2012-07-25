@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'ninefold'))
+require 'fog/ninefold'
 require 'fog/compute'
 
 module Fog
@@ -8,6 +8,7 @@ module Fog
       API_URL = "http://api.ninefold.com/compute/v1.0/"
 
       requires :ninefold_compute_key, :ninefold_compute_secret
+      recognizes :ninefold_api_url  # allow us to specify non-prod environments
 
       model_path 'fog/ninefold/models/compute'
       model       :server
@@ -63,8 +64,6 @@ module Fog
       class Mock
 
         def initialize(options)
-          require 'multi_json'
-
           @api_url = options[:ninefold_api_url] || Fog.credentials[:ninefold_api_url] || API_URL
           @ninefold_compute_key = options[:ninefold_compute_key] || Fog.credentials[:ninefold_compute_key]
           @ninefold_compute_secret = options[:ninefold_compute_secret] || Fog.credentials[:ninefold_compute_secret]
@@ -78,8 +77,6 @@ module Fog
       class Real
 
         def initialize(options)
-          require 'multi_json'
-
           @api_url                  = options[:ninefold_api_url] || Fog.credentials[:ninefold_api_url] || API_URL
           @ninefold_compute_key     = options[:ninefold_compute_key] || Fog.credentials[:ninefold_compute_key]
           @ninefold_compute_secret  = options[:ninefold_compute_secret] || Fog.credentials[:ninefold_compute_secret]
@@ -90,9 +87,9 @@ module Fog
 
         def request(command, params, options)
           params['response'] = "json"
-          req = "apiKey=#{@ninefold_compute_key}&command=#{command}&"
           # convert params to strings for sort
-          req += URI.escape(params.sort_by{|k,v| k.to_s }.collect{|e| "#{e[0].to_s}=#{e[1].to_s}"}.join('&'))
+          req_params = params.merge('apiKey' => @ninefold_compute_key, 'command' => command)
+          req = URI.escape(req_params.sort_by{|k,v| k.to_s }.collect{|e| "#{e[0].to_s}=#{e[1].to_s}"}.join('&'))
           encoded_signature = url_escape(encode_signature(req))
 
           options = {
@@ -108,7 +105,7 @@ module Fog
             # Because the response is some weird xml-json thing, we need to try and mung
             # the values out with a prefix, and if there is an empty data entry return an
             # empty version of the expected type (if provided)
-            response = MultiJson.load(response.body)
+            response = Fog::JSON.decode(response.body)
             if options.has_key? :response_prefix
               keys = options[:response_prefix].split('/')
               keys.each do |k|

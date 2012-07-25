@@ -46,18 +46,19 @@ module Fog
           Excon::Response.new.tap do |response|
             if cidrBlock  && vpcId
               response.status = 200
-            
+              self.data[:subnets].push({
+                'subnetId'                 => Fog::AWS::Mock.request_id,
+                'state'                    => 'pending',
+                'vpcId'                    => Fog::AWS::Mock.request_id,
+                'cidrBlock'                => cidrBlock,
+                'availableIpAddressCount'  => "255",
+                'availabilityZone'         => av_zone,
+                'tagSet'                   => {}
+              })
+
               response.body = {
                 'requestId'    => Fog::AWS::Mock.request_id,
-                'subnetSet'    => [
-                  'subnetId'                 => Fog::AWS::Mock.request_id,
-                  'state'                    => 'pending',
-                  'vpcId'                    => Fog::AWS::Mock.request_id,
-                  'cidrBlock'                => cidrBlock,
-                  'availableIpAddressCount'  => 16,
-                  'availabilityZone'         => av_zone,
-                  'tagSet'                   => {}
-                ]
+                'subnetSet'    => self.data[:subnets]
               }
             else
               response.status = 400

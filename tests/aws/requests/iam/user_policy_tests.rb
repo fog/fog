@@ -20,6 +20,16 @@ Shindo.tests('AWS::IAM | user policy requests', ['aws']) do
       Fog::AWS[:iam].list_user_policies('fog_user_policy_tests').body
     end
 
+    @user_policy_format = {
+      'UserName' => String,
+      'PolicyName' => String,
+      'PolicyDocument' => Hash,
+    }
+
+    tests("#get_user_policy('fog_user_policy_tests', 'fog_policy'").formats(@user_policy_format) do
+      Fog::AWS[:iam].get_user_policy('fog_policy', 'fog_user_policy_tests').body['Policy']
+    end
+
     tests("#delete_user_policy('fog_user_policy_tests', 'fog_policy')").formats(AWS::IAM::Formats::BASIC) do
       Fog::AWS[:iam].delete_user_policy('fog_user_policy_tests', 'fog_policy').body
     end

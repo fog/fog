@@ -1,3 +1,5 @@
+require 'multi_json'
+
 module Fog
   module JSON
 
@@ -15,6 +17,30 @@ module Fog
         data
       end
     end
+
+    # Do the MultiJson introspection at this level so we can define our encode/decode methods and perform
+    # the introspection only once rather than once per call.
+
+    if MultiJson.respond_to?(:dump)
+      def self.encode(obj)
+        MultiJson.dump(obj)
+      end
+    else
+      def self.encode(obj)
+        MultiJson.encode(obj)
+      end
+    end
+
+    if MultiJson.respond_to?(:load)
+      def self.decode(obj)
+        MultiJson.load(obj)
+      end
+    else
+      def self.decode(obj)
+        MultiJson.decode(obj)
+      end
+    end
+
 
   end
 end

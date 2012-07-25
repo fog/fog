@@ -1,4 +1,4 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'ninefold'))
+require 'fog/ninefold'
 require 'fog/storage'
 
 module Fog
@@ -54,7 +54,7 @@ module Fog
 
           @connection_options = options[:connection_options] || {}
           @hmac               = Fog::HMAC.new('sha1', @ninefold_storage_secret_decoded)
-          @persistent         = options[:persistent] || true
+          @persistent = options.fetch(:persistent, true)
 
           @connection = Fog::Connection.new("#{Fog::Storage::Ninefold::STORAGE_SCHEME}://#{Fog::Storage::Ninefold::STORAGE_HOST}:#{Fog::Storage::Ninefold::STORAGE_PORT}", @persistent, @connection_options)
         end
@@ -116,7 +116,7 @@ module Fog
             end
           }
           header_arr = customheaders.sort()
-          first = true
+
           header_arr.each { |key,value|
             # Values are lowercase and whitespace-normalized
             signstring += key + ":" + value.strip.chomp.squeeze( " " ) + "\n"

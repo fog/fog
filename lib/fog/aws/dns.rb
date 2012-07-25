@@ -1,12 +1,13 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+require 'fog/aws'
 require 'fog/dns'
 
 module Fog
   module DNS
     class AWS < Fog::Service
+      extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :path, :port, :scheme, :version, :persistent
+      recognizes :host, :path, :port, :scheme, :version, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
 
       model_path 'fog/aws/models/dns'
       model       :record
@@ -29,7 +30,11 @@ module Fog
           @data ||= Hash.new do |hash, region|
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
-                :buckets => {}
+                :buckets => {},
+                :limits => {
+                  :duplicate_domains => 5
+                },
+                :zones => {}
               }
             end
           end
@@ -41,7 +46,8 @@ module Fog
 
         def initialize(options={})
           require 'mime/types'
-          @aws_access_key_id  = options[:aws_access_key_id]
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
           @region             = options[:region]
         end
 
@@ -56,10 +62,14 @@ module Fog
         def signature(params)
           "foo"
         end
+
+        def setup_credentials(options)
+          @aws_access_key_id  = options[:aws_access_key_id]
+        end
       end
 
       class Real
-
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
         # Initialize connection to Route 53 DNS service
         #
         # ==== Notes
@@ -80,13 +90,12 @@ module Fog
         def initialize(options={})
           require 'fog/core/parser'
 
-          @aws_access_key_id      = options[:aws_access_key_id]
-          @aws_secret_access_key  = options[:aws_secret_access_key]
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
-          @hmac       = Fog::HMAC.new('sha1', @aws_secret_access_key)
           @host       = options[:host]        || 'route53.amazonaws.com'
           @path       = options[:path]        || '/'
-          @persistent = options[:persistent]  || true
+          @persistent = options.fetch(:persistent, true)
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
           @version    = options[:version]     || '2012-02-29'
@@ -100,9 +109,20 @@ module Fog
 
         private
 
+        def setup_credentials(options)
+          @aws_access_key_id      = options[:aws_access_key_id]
+          @aws_secret_access_key  = options[:aws_secret_access_key]
+          @aws_session_token      = options[:aws_session_token]
+          @aws_credentials_expire_at = options[:aws_credentials_expire_at]
+
+          @hmac       = Fog::HMAC.new('sha1', @aws_secret_access_key)
+        end
+
         def request(params, &block)
+          refresh_credentials_if_expired
           params[:headers] ||= {}
           params[:headers]['Date'] = Fog::Time.now.to_date_header
+          params[:headers]['x-amz-security-token'] = @aws_session_token if @aws_session_token
           params[:headers]['X-Amzn-Authorization'] = "AWS3-HTTPS AWSAccessKeyId=#{@aws_access_key_id},Algorithm=HmacSHA1,Signature=#{signature(params)}"
           params[:path] = "/#{@version}/#{params[:path]}"
           @connection.request(params, &block)
@@ -111,7 +131,7 @@ module Fog
         def signature(params)
           string_to_sign = params[:headers]['Date']
           signed_string = @hmac.sign(string_to_sign)
-          signature = Base64.encode64(signed_string).chomp!
+          Base64.encode64(signed_string).chomp!
         end
       end
     end

@@ -1,11 +1,12 @@
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'aws'))
+require 'fog/aws'
 
 module Fog
   module AWS
     class SES < Fog::Service
+      extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
 
       request_path 'fog/aws/requests/ses'
       request :delete_verified_email_address
@@ -25,7 +26,7 @@ module Fog
       end
 
       class Real
-
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
         # Initialize connection to SES
         #
         # ==== Notes
@@ -47,10 +48,10 @@ module Fog
         def initialize(options={})
           require 'fog/core/parser'
 
-          @aws_access_key_id      = options[:aws_access_key_id]
-          @aws_secret_access_key  = options[:aws_secret_access_key]
+          @use_iam_profile = options[:use_iam_profile]
+          setup_credentials(options)
+
           @connection_options     = options[:connection_options] || {}
-          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
           options[:region] ||= 'us-east-1'
           @host = options[:host] || "email.#{options[:region]}.amazonaws.com"
           @path       = options[:path]        || '/'
@@ -66,15 +67,27 @@ module Fog
 
         private
 
+        def setup_credentials(options)
+          @aws_access_key_id      = options[:aws_access_key_id]
+          @aws_secret_access_key  = options[:aws_secret_access_key]
+          @aws_session_token     = options[:aws_session_token]
+          @aws_credentials_expire_at = options[:aws_credentials_expire_at]
+
+          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
+        end
+
         def request(params)
+          refresh_credentials_if_expired
+
           idempotent  = params.delete(:idempotent)
           parser      = params.delete(:parser)
 
+
           headers = {
             'Content-Type'  => 'application/x-www-form-urlencoded',
-            'Date'          => Fog::Time.now.to_date_header
+            'Date'          => Fog::Time.now.to_date_header,
           }
-
+          headers['x-amz-security-token'] = @aws_session_token if @aws_session_token
           #AWS3-HTTPS AWSAccessKeyId=<Your AWS Access Key ID>, Algorithm=HmacSHA256, Signature=<Signature>
           headers['X-Amzn-Authorization'] = 'AWS3-HTTPS '
           headers['X-Amzn-Authorization'] << 'AWSAccessKeyId=' << @aws_access_key_id

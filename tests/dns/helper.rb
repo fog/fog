@@ -27,9 +27,6 @@ def dns_providers
         :email => 'fog@example.com'
       }
     },
-    :slicehost    => {
-      :mocked => false
-    },
     :zerigo       => {
       :mocked => false
     },

@@ -148,6 +148,8 @@ module Fog
             elsif state_reason_key = filter_key.split('state-reason-')[1]
               aliased_key = state_reason_aliases[state_reason_key]
               instance_set = instance_set.reject{|instance| ![*filter_value].include?(instance['stateReason'][aliased_key])}
+            elsif filter_key == "group-name"
+              instance_set = instance_set.reject {|instance| !instance['groupSet'].include?(filter_value)}
             else
               aliased_key = aliases[filter_key]
               instance_set = instance_set.reject {|instance| ![*filter_value].include?(instance[aliased_key])}
@@ -177,12 +179,15 @@ module Fog
                 instance['ipAddress']         = Fog::AWS::Mock.ip_address
                 instance['originalIpAddress'] = instance['ipAddress']
                 instance['dnsName']           = Fog::AWS::Mock.dns_name_for(instance['ipAddress'])
-                instance['privateIpAddress']  = Fog::AWS::Mock.ip_address
+                instance['privateIpAddress']  = Fog::AWS::Mock.private_ip_address
                 instance['privateDnsName']    = Fog::AWS::Mock.private_dns_name_for(instance['privateIpAddress'])
                 instance['instanceState']     = { 'code' => 16, 'name' => 'running' }
               end
             when 'rebooting'
               instance['instanceState'] = { 'code' => 16, 'name' => 'running' }
+            when 'stopping'
+              instance['instanceState'] = { 'code' => 0, 'name' => 'stopping' }
+              instance['stateReason'] = { 'code' => 0 }
             when 'shutting-down'
               if Time.now - self.data[:deleted_at][instance['instanceId']] >= Fog::Mock.delay * 2
                 self.data[:deleted_at].delete(instance['instanceId'])

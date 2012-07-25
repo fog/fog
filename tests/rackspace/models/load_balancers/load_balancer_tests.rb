@@ -7,7 +7,7 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
       :protocol => 'HTTP',
       :port => 80,
       :virtual_ips => [{ :type => 'PUBLIC'}],
-      :nodes => [{ :address => '10.0.0.1', :port => 80, :condition => 'ENABLED'}]
+      :nodes => [{ :address => '1.1.1.1', :port => 80, :condition => 'ENABLED'}]
     }
 
   given_a_load_balancer_service do
@@ -122,6 +122,26 @@ Shindo.tests('Fog::Rackspace::LoadBalancers | load_balancer', ['rackspace']) do
       @instance.wait_for { ready? }
       tests("#reset_error_page").succeeds do
         @instance.reset_error_page
+      end
+
+      @instance.wait_for { ready? }
+      tests("#ssl_termination is nil").returns(nil) do
+        @instance.ssl_termination
+      end
+
+      @instance.wait_for { ready? }
+      tests("#enable_ssl_termination(443, PRIVATE_KEY, CERTIFICATE").succeeds do
+        @instance.enable_ssl_termination(443, PRIVATE_KEY, CERTIFICATE)
+      end
+
+      @instance.wait_for { ready? }
+      tests("#ssl_termination").succeeds do
+        @instance.ssl_termination
+      end
+
+      @instance.wait_for { ready? }
+      tests("#disable_ssl_termination").succeeds do
+        @instance.disable_ssl_termination
       end
 
       @instance.wait_for { ready? }

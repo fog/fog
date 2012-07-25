@@ -9,6 +9,12 @@ module Fog
     class Error < Fog::Errors::Error; end
     class NotFound < Fog::Errors::NotFound; end
 
+    module NoLeakInspector
+      def inspect
+        "#<#{self.class}:#{self.object_id} #{(self.instance_variables - service.secrets).map {|iv| [iv, self.instance_variable_get(iv).inspect].join('=')}.join(' ')}>"
+      end
+    end
+
     module Collections
 
       def collections
@@ -47,14 +53,8 @@ module Fog
       end
 
       def new(options={})
-        # attempt to load credentials from config file
-        begin
-          default_credentials = Fog.credentials.reject {|key, value| !(recognized | requirements).include?(key)}
-          options = default_credentials.merge(options)
-        rescue LoadError
-          # if there are no configured credentials, do nothing
-        end
-
+        options = Fog.symbolize_credentials(options)
+        options = fetch_credentials(options).merge(options)
         validate_options(options)
         coerce_options(options)
         setup_requirements
@@ -64,7 +64,18 @@ module Fog
           service::Mock.new(options)
         else
           service::Real.send(:include, service::Collections)
+          service::Real.send(:include, service::NoLeakInspector)
           service::Real.new(options)
+        end
+      end
+
+      def fetch_credentials(options)
+        # attempt to load credentials from config file
+        begin
+          default_credentials = Fog.credentials.reject {|key, value| !(recognized | requirements).include?(key)}
+        rescue LoadError
+          # if there are no configured credentials, do nothing
+          {}
         end
       end
 
@@ -157,6 +168,16 @@ module Fog
 
       def requests
         @requests ||= []
+      end
+
+      def secrets(*args)
+        if args.empty?
+          @secrets ||= []
+        else
+          args.inject(secrets) do |secrets, secret|
+            secrets << "@#{secret}".to_sym
+          end
+        end
       end
 
       def requires(*args)

@@ -15,6 +15,17 @@ module Fog
         end
 
       end
+
+      class Mock
+        def reboot_virtual_machine(options={})
+          job_id = Fog::Cloudstack.uuid
+          {
+            "rebootvirtualmachineresponse" => {
+              "jobid" => job_id
+            }
+          }
+        end
+      end
     end
   end
 end

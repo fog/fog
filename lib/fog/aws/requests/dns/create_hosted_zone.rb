@@ -54,6 +54,51 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        require 'time'
+
+        def create_hosted_zone(name, options = {})
+          response = Excon::Response.new
+          if list_hosted_zones.body['HostedZones'].find_all {|z| z['Name'] == name}.size < self.data[:limits][:duplicate_domains]
+            response.status = 201
+            if options[:caller_ref]
+              caller_ref = options[:caller_ref]
+            else
+              #make sure we have a unique call reference
+              caller_ref = "ref-#{rand(1000000).to_s}"
+            end
+            zone_id = "/hostedzone/#{Fog::AWS::Mock.zone_id}"
+            self.data[:zones][zone_id] = {
+              :id => zone_id,
+              :name => name,
+              :reference => caller_ref,
+              :comment => options[:comment],
+              :records => {}
+            }
+            response.body = {
+              'HostedZone' => {
+                'Id' => zone_id,
+                'Name' => name,
+                'CallerReference' => caller_ref,
+                'Comment' => options[:comment]
+              },
+              'ChangeInfo' => {
+                'Id' => "/change/#{Fog::AWS::Mock.change_id}",
+                'Status' => 'INSYNC',
+                'SubmittedAt' => Time.now.utc.iso8601
+              },
+              'NameServers' => Fog::AWS::Mock.nameservers
+            }
+            response
+          else
+            response.status = 400
+            response.body = "<?xml version=\"1.0\"?><Response><Errors><Error><Code>DelegationSetNotAvailable</Code><Message>Amazon Route 53 allows some duplication, but Amazon Route 53 has a maximum threshold of duplicated domains. This error is generated when you reach that threshold. In this case, the error indicates that too many hosted zones with the given domain name exist. If you want to create a hosted zone and Amazon Route 53 generates this error, contact Customer Support.</Message></Error></Errors><RequestID>#{Fog::AWS::Mock.request_id}</RequestID></Response>"
+            raise(Excon::Errors.status_error({:expects => 200}, response))
+          end
+        end
+      end
     end
   end
 end
