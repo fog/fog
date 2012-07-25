@@ -445,14 +445,14 @@ module Fog
                 datastore_candidates.delete(@cached_ds)
                 datastore_candidates.unshift(@cached_ds)
               end
+              system_done = false
+              swap_done = false
               sum = 0
               datastore_candidates.each {|x| sum += x.real_free_space }
               if sum < (vm.req_mem + vm.system_disks.size + vm.swap_disks.size)
-                return "there is no enough space for vm #{vm.name} with all given hosts"
-              end
-              system_done = false
-              swap_done = false
-              datastore_candidates.each do |ds|
+                Fog::Logger.deprecation("there is no enough space for vm #{vm.name} with all given hosts")
+              else
+                datastore_candidates.each do |ds|
                 if !(vm.datastore_pattern.nil?)
                   next unless isMatched?(ds.name, vm.datastore_pattern)
                 end
@@ -476,6 +476,7 @@ module Fog
                   break if system_done
                 end
               end # end of ds_candidate traverse
+              end
               if !system_done || !swap_done
                 Fog::Logger.deprecation("there is no enough space for vm #{vm.name} on host#{}") unless system_done && swap_done
                 recovery(solution_list[host_name]) unless !(solution_list.has_key?(host_name)) || solution_list[host_name].nil?
@@ -491,64 +492,68 @@ module Fog
               end
               datastore_candidates = datastore_candidates.sort {|x,y| x.real_free_space <=> y.real_free_space}
               sum = 0
+              data_done = false
               datastore_candidates.each do |x|
                 sum += x.real_free_space
               end
               Fog::Logger.deprecation("fog: sum = #{sum} but reburied is #{vm.data_disks.size}")
-              Fog::Logger.deprecation("there is no enough space for vm #{vm.name} on host#{host_name}") if sum < vm.data_disks.size
-              Fog::Logger.deprecation("fog: data ds chosen for host #{host_name}")
-              datastore_candidates.each do |ds|
-                Fog::Logger.deprecation("fog: ds for host #{host_name} name: #{ds.name}, real_free_space: #{ds.real_free_space}")
-              end
-              data_done = false
-              aum_size =0
-              ds_num =0
-              ds_arr =[]
-              min_found = false
-              min_ds_size = 2048
-              buffer_size = 1024
-              datastore_candidates.each do |ds|
-
-                if !(vm.datastore_pattern.nil?)
-                  next unless isMatched?(ds.name, vm.datastore_pattern)
+              if sum < vm.data_disks.size
+                 Fog::Logger.deprecation("there is no enough space for vm #{vm.name} on host#{host_name}")
+              else
+                Fog::Logger.deprecation("fog: data ds chosen for host #{host_name}")
+                datastore_candidates.each do |ds|
+                  Fog::Logger.deprecation("fog: ds for host #{host_name} name: #{ds.name}, real_free_space: #{ds.real_free_space}")
                 end
+                aum_size =0
+                ds_num =0
+                ds_arr =[]
+                min_found = false
+                min_ds_size = 2048
+                buffer_size = 1024
+                datastore_candidates.each do |ds|
 
-                next if ds.real_free_space == 0
-
-                if !min_found
-                  if min_ds_size > (ds.real_free_space - buffer_size)
-                    min_ds_size = (ds.real_free_space - buffer_size)
+                  if !(vm.datastore_pattern.nil?)
+                    next unless isMatched?(ds.name, vm.datastore_pattern)
                   end
-                  min_found = true
-                end
 
-                if ds.real_free_space >= (vm.data_disks.size + buffer_size) && ds_num == 0
-                  Fog::Logger.deprecation("fog: for vm #{vm.name} allocated - allsize = #{vm.data_disks.size} - #ds #{ds.name} with left size  #{ds.real_free_space}")
-                  alloc_volumes(host_name, 'data', vm, [ds], vm.data_disks.size)
-                  data_done = true
-                  break
-                else
-                  ds_num +=1
-                  req_size = aum_size + ds.real_free_space - buffer_size
-                  if req_size > vm.data_disks.size &&  (vm.data_disks.size.to_i/ds_num) < min_ds_size
-                    ds_arr << ds
-                    Fog::Logger.deprecation("fog: for vm #{vm.name} allocated - avgsize =#{vm.data_disks.size/ds_num} - ds #{ds.name} with left size  #{ds.real_free_space}")
-                    alloc_volumes(host_name, 'data', vm, ds_arr, vm.data_disks.size/ds_num)
-                    data_done = true
-                    break
-                  elsif req_size > vm.data_disks.size &&  (vm.data_disks.size/ds_num) >= min_ds_size
-                    Fog::Logger.deprecation("fog: for vm #{vm.name} allocated ds #{ds.name} - mini size = #{min_ds_size}- with left size  #{ds.real_free_space}")
-                    alloc_volumes(host_name, 'data', vm, ds_arr, min_ds_size)
-                    last_size = vm.data_disks.size - min_ds_size * (ds_arr.size)
-                    alloc_volumes(host_name, 'data', vm, [ds], last_size)
+                  next if ds.real_free_space == 0
+
+                  if !min_found
+                    if min_ds_size > (ds.real_free_space - buffer_size)
+                      min_ds_size = (ds.real_free_space - buffer_size)
+                    end
+                    min_found = true
+                  end
+
+                  if ds.real_free_space >= (vm.data_disks.size + buffer_size) && ds_num == 0
+                    Fog::Logger.deprecation("fog: for vm #{vm.name} allocated - allsize = #{vm.data_disks.size} - #ds #{ds.name} with left size  #{ds.real_free_space}")
+                    alloc_volumes(host_name, 'data', vm, [ds], vm.data_disks.size)
                     data_done = true
                     break
                   else
-                    aum_size += (ds.real_free_space - buffer_size) #min_ds_size
-                    ds_arr << ds
+                    ds_num +=1
+                    req_size = aum_size + ds.real_free_space - buffer_size
+                    if req_size > vm.data_disks.size &&  (vm.data_disks.size.to_i/ds_num) < min_ds_size
+                      ds_arr << ds
+                      Fog::Logger.deprecation("fog: for vm #{vm.name} allocated - avgsize =#{vm.data_disks.size/ds_num} - ds #{ds.name} with left size  #{ds.real_free_space}")
+                      alloc_volumes(host_name, 'data', vm, ds_arr, vm.data_disks.size/ds_num)
+                      data_done = true
+                      break
+                    elsif req_size > vm.data_disks.size &&  (vm.data_disks.size/ds_num) >= min_ds_size
+                      Fog::Logger.deprecation("fog: for vm #{vm.name} allocated ds #{ds.name} - mini size = #{min_ds_size}- with left size  #{ds.real_free_space}")
+                      alloc_volumes(host_name, 'data', vm, ds_arr, min_ds_size)
+                      last_size = vm.data_disks.size - min_ds_size * (ds_arr.size)
+                      alloc_volumes(host_name, 'data', vm, [ds], last_size)
+                      data_done = true
+                      break
+                    else
+                      aum_size += (ds.real_free_space - buffer_size) #min_ds_size
+                      ds_arr << ds
+                    end
                   end
-                end
-              end # end of datastore traverse
+                end # end of datastore traverse
+              end
+
               if !data_done #|| vm.system_disks.volumes.empty? || vm.swap_disks.volumes.values.empty?
                 Fog::Logger.deprecation("there is no enough space for vm #{vm.name} on host#{host_name} for data disk")
                 Fog::Logger.deprecation("vm#{vm.name}.system_disks.volumes.empty? is true") if vm.system_disks.volumes.empty?
@@ -575,7 +580,6 @@ module Fog
           Fog::Logger.deprecation("original size = #{original_size}[/]")
           difference = 0
           vms.each do |vm|
-            Fog::Logger.deprecation("fog: vm #{vm.name} system datastore name = #{vm.system_disks.volumes.values[0].datastore_name}[/]")
             vs = []
             vs = vm.system_disks.volumes.values + vm.swap_disks.volumes.values
             vs.each do |v|
@@ -840,6 +844,9 @@ module Fog
             end
             unit_number = vm.disk_index
             vm.disk_index +=1
+            if vm.disk_index == 7
+              vm.disk_index +=1
+            end
             if ds.shared
               fullpath = "[#{ds.name}] #{vm.name}/shared#{unit_number}.vmdk"
             else
