@@ -85,11 +85,6 @@ class Brightbox
           "threshold_up"    => Integer,
           "threshold_down"  => Integer
         }
-        PORT_TRANSLATOR = {
-          "incoming"        => Integer,
-          "outgoing"        => Integer,
-          "protocol"        => String
-        }
       end
 
       module Nested
