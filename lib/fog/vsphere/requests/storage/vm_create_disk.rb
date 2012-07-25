@@ -110,6 +110,9 @@ module Fog
             if device.controllerKey && device.unitNumber.nil?
               max_unit_number = max_unit_numbers[device.controllerKey] || 0
               device.unitNumber = max_unit_number + 1
+              if device.unitNumber == 7
+                device.unitNumber +=1
+              end
               max_unit_numbers[device.controllerKey] = device.unitNumber
             end
           end
