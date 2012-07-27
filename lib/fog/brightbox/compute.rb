@@ -7,8 +7,17 @@ module Fog
 
       API_URL = "https://api.gb1.brightbox.com/"
 
+      # Client credentials
       requires :brightbox_client_id, :brightbox_secret
-      recognizes :brightbox_auth_url, :brightbox_api_url, :persistent
+
+      # API endpoint settings
+      recognizes :brightbox_auth_url, :brightbox_api_url
+
+      # User credentials (still requires client details)
+      recognizes :brightbox_username, :brightbox_password, :brightbox_account
+
+      # Excon connection settings
+      recognizes :persistent
 
       model_path 'fog/brightbox/models/compute'
       model       :account # Singular resource, no collection
@@ -145,17 +154,21 @@ module Fog
           @connection_options   = options[:connection_options] || {}
           @brightbox_client_id  = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
           @brightbox_secret     = options[:brightbox_secret] || Fog.credentials[:brightbox_secret]
+          @brightbox_username   = options[:brightbox_username] || Fog.credentials[:brightbox_username]
+          @brightbox_password   = options[:brightbox_password] || Fog.credentials[:brightbox_password]
+          @brightbox_account    = options[:brightbox_account] || Fog.credentials[:brightbox_account]
           @persistent           = options[:persistent] || false
           @connection = Fog::Connection.new(@api_url, @persistent, @connection_options)
         end
 
-        def request(method, url, expected_responses, options = nil)
+        def request(method, url, expected_responses, options = {})
           request_options = {
             :method   => method.to_s.upcase,
             :path     => url,
             :expects  => expected_responses
           }
-          request_options[:body] = Fog::JSON.encode(options) unless options.nil?
+          options[:account_id] = @brightbox_account if options[:account_id].nil? && @brightbox_account
+          request_options[:body] = Fog::JSON.encode(options) unless options.empty?
           make_request(request_options)
         end
 
@@ -168,7 +181,17 @@ module Fog
           auth_url = options[:brightbox_auth_url] || @auth_url
 
           connection = Fog::Connection.new(auth_url)
-          @authentication_body = Fog::JSON.encode({'client_id' => @brightbox_client_id, 'grant_type' => 'none'})
+          authentication_body_hash = if @brightbox_username && @brightbox_password
+            {
+              'client_id' => @brightbox_client_id,
+              'grant_type' => 'password',
+              'username' => @brightbox_username,
+              'password' => @brightbox_password
+            }
+          else
+            {'client_id' => @brightbox_client_id, 'grant_type' => 'none'}
+          end
+          @authentication_body = Fog::JSON.encode(authentication_body_hash)
 
           response = connection.request({
             :path => "/token",
