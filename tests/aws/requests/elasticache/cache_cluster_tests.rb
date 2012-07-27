@@ -98,7 +98,7 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
       body = AWS[:elasticache].modify_cache_cluster(c.id,
       {
         :num_nodes          => NUM_NODES - 1,
-        :nodes_to_remove    => node_id,
+        :nodes_to_remove    => [node_id],
         :apply_immediately  => true,
       }).body
       c.reload

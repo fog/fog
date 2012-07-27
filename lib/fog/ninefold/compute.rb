@@ -8,6 +8,7 @@ module Fog
       API_URL = "http://api.ninefold.com/compute/v1.0/"
 
       requires :ninefold_compute_key, :ninefold_compute_secret
+      recognizes :ninefold_api_url  # allow us to specify non-prod environments
 
       model_path 'fog/ninefold/models/compute'
       model       :server
