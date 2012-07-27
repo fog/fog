@@ -38,6 +38,9 @@ module Fog
               'PreferredAvailabilityZone' => 'us-east-1a'
             } : {})
           end
+          if (id != nil) && (all_clusters.empty?)
+            raise Fog::AWS::Elasticache::NotFound
+          end
           response.body = {
             'CacheClusters'     => all_clusters,
             'ResponseMetadata'  => { 'RequestId' => Fog::AWS::Mock.request_id }
