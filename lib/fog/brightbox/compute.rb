@@ -22,6 +22,8 @@ module Fog
       model_path 'fog/brightbox/models/compute'
       collection  :accounts
       model       :account
+      collection  :applications
+      model       :application
       collection  :servers
       model       :server
       collection  :server_groups
@@ -51,6 +53,7 @@ module Fog
       request :apply_to_firewall_policy
       request :remove_firewall_policy
       request :create_api_client
+      request :create_application
       request :create_cloud_ip
       request :create_firewall_policy
       request :create_firewall_rule
@@ -59,6 +62,7 @@ module Fog
       request :create_server
       request :create_server_group
       request :destroy_api_client
+      request :destroy_application
       request :destroy_cloud_ip
       request :destroy_firewall_policy
       request :destroy_firewall_rule
@@ -68,6 +72,7 @@ module Fog
       request :destroy_server_group
       request :get_account
       request :get_api_client
+      request :get_application
       request :get_cloud_ip
       request :get_firewall_policy
       request :get_firewall_rule
@@ -81,6 +86,7 @@ module Fog
       request :get_zone
       request :list_accounts
       request :list_api_clients
+      request :list_applications
       request :list_cloud_ips
       request :list_firewall_policies
       request :list_images
@@ -97,6 +103,7 @@ module Fog
       request :remove_servers_server_group
       request :reset_ftp_password_account
       request :reset_secret_api_client
+      request :reset_secret_application
       request :shutdown_server
       request :snapshot_server
       request :start_server
@@ -104,6 +111,7 @@ module Fog
       request :unmap_cloud_ip
       request :update_account
       request :update_api_client
+      request :update_application
       request :update_cloud_ip
       request :update_firewall_rule
       request :update_image

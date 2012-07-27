@@ -280,6 +280,13 @@ class Brightbox
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT
         }
 
+        APPLICATION = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => Fog::Nullable::String
+        }
+
         CLOUD_IP = {
           "id"              => String,
           "resource_type"   => String,
@@ -479,6 +486,14 @@ class Brightbox
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT
         }
 
+        APPLICATION = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => Fog::Nullable::String,
+          "secret"          => Fog::Nullable::String
+        }
+
         CLOUD_IP = {
           "id"              => String,
           "resource_type"   => String,
@@ -647,6 +662,7 @@ class Brightbox
       module Collection
         ACCOUNTS = [Brightbox::Compute::Formats::Collected::ACCOUNT]
         API_CLIENTS = [Brightbox::Compute::Formats::Collected::API_CLIENT]
+        APPLICATION = [Brightbox::Compute::Formats::Collected::APPLICATION]
         CLOUD_IPS = [Brightbox::Compute::Formats::Collected::CLOUD_IP]
         IMAGES = [Brightbox::Compute::Formats::Collected::IMAGE]
         FIREWALL_POLICIES = [Brightbox::Compute::Formats::Collected::FIREWALL_POLICY]
