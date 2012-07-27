@@ -79,14 +79,19 @@ module Fog
           cache['CacheParameterGroup'] = {
             'CacheParameterGroupName' => options[:parameter_group_name]
           } if options[:parameter_group_name]
-          if options[:num_nodes] || options[:port] || options[:engine_version]
+          if options[:num_nodes] || options[:engine_version]
             cluster['CacheNodes'] =
               create_cache_nodes(cluster['CacheClusterId'], options[:num_nodes])
             cluster['NumCacheNodes'] = cluster['CacheNodes'].size
           end
+          if options[:nodes_to_remove]
+            pending_values['CacheNodeId'] = options[:nodes_to_remove].join(',')
+          end
           response.body = {
-            'CacheCluster'      => cluster,
-            'ResponseMetadata'  => { 'RequestId' => Fog::AWS::Mock.request_id }
+            'CacheCluster' => cluster.merge({
+              'PendingModifiedValues' => pending_values
+            }),
+            'ResponseMetadata' => { 'RequestId' => Fog::AWS::Mock.request_id }
           }
           response
         end

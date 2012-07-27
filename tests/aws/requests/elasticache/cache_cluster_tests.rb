@@ -101,8 +101,9 @@ Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']
         :nodes_to_remove    => [node_id],
         :apply_immediately  => true,
       }).body
-      c.reload
-      returns(NUM_NODES - 1) { c.pending_values['NumCacheNodes'] }
+      returns(node_id) {
+        body['CacheCluster']['PendingModifiedValues']['CacheNodeId']
+      }
       body['CacheCluster']
     end
 
