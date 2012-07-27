@@ -1,7 +1,6 @@
 Shindo.tests('AWS::Elasticache | cache cluster requests', ['aws', 'elasticache']) do
 
   tests('success') do
-    pending if Fog.mocking?
 
     # Randomize the cluster ID so tests can be fequently re-run
     CLUSTER_ID = "fog-test-cluster-#{rand(999).to_s}" # 20 chars max!
