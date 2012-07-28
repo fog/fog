@@ -1,7 +1,10 @@
 Shindo.tests("Fog::Compute[:joyent] | dataset requests", ["joyent"]) do
   @dataset_format = {
     "description" => String,
-    "requirements" => {},
+    "requirements" => {
+      "max_memory" => Integer,
+      "min_memory" => Integer
+    },
     "name" => String,
     "version" => String,
     "os" => String,
@@ -22,7 +25,10 @@ Shindo.tests("Fog::Compute[:joyent] | dataset requests", ["joyent"]) do
         "type" => "smartmachine",
         "description" => "Zeus Simple Load Balancer 200 Mbps SmartMachine",
         "default" => false,
-        "requirements" => {},
+        "requirements" => {
+          "max_memory" => 32768,
+          "min_memory" => 4096
+        },
         "version" => "1.1.1",
         "created" => Time.parse("2011-09-15T07:39:13+00:00")
       },
@@ -34,7 +40,10 @@ Shindo.tests("Fog::Compute[:joyent] | dataset requests", ["joyent"]) do
         "type" => "smartmachine",
         "description" => "MySQL SmartMachine",
         "default" => false,
-        "requirements" => {},
+        "requirements" => {
+          "max_memory" => 32768,
+          "min_memory" => 4096
+        },
         "version" => "1.4.1",
         "created" => Time.parse("2011-09-15T05:01:34+00:00")
       }
