@@ -1,3 +1,158 @@
+1.5.0 07/28/2012 2e57e2029abbb618411c20f8974e64d8d3fd31fe
+=========================================================
+
+Stats! { 'collaborators' => 36, 'downloads' => 870008, 'forks' => 500, 'open_issues' => 44, 'watchers' => 2074 }
+
+[AWS|Autoscaling]
+  fix group#instances returning all autoscaled instances in the account. thanks Frederick Cheung
+
+[Libvirt]
+  fixed incorrect mock method signature. thanks Ohad Levy
+  ensure Fog volumes do not raise on LVM based volumes. thanks Ohad Levy
+
+[aws|compute]
+  Address#destroy handles VPC addresses, improve address allocate/release mocking for VPC. thanks Dan Peterson
+
+[aws|elasticache]
+  Fix bug in cache cluster test. thanks Benton Roberts
+  Remove erroneous whitespace trimming. thanks Benton Roberts
+  Add Elasticache service-level mocking support. thanks Benton Roberts
+  Add mocking for cache cluster requests. thanks Benton Roberts
+  Change modify_cache_cluster test to work in mocking mode. thanks Benton Roberts
+  Enable mocking for elasticache cluster tests. thanks Benton Roberts
+  Mock raises NotFound Exception when AWS does. thanks Benton Roberts
+
+[aws|storage]
+  Default to false for persistent connections. thanks Kenny Johnston
+
+[cloudstack|security_group]
+  fix rule revoke mock. thanks Josh Lane
+
+[cloudstack|security_groups]
+  add groups and rules. thanks Josh Lane & Jason Hansen
+
+[cloudstack|server]
+  assign security group. thanks Josh Lane & Jason Hansen
+
+[dynect|dns]
+  No more recursion when polling jobs. Raise an error if the body indicates failure. thanks Dan Peterson
+
+[fix-ephemeral-naming]
+  Typo in ephemeral naming. thanks Josh Pasqualetto
+
+[joyent|compute]
+  fix dataset format in tests. thanks geemus
+
+[local|storage]
+  mark tests pending in mock mode. thanks geemus
+
+[misc]
+  fix changelog task for github API v3. thanks Aaron Suggs
+  update changelog for release 1.4.0. thanks Aaron Suggs
+  changelog: backdate to release data. thanks Aaron Suggs
+  Local storage support for #public_url. thanks Adam Tanner
+  Bugfix in Fog::DNS::AWS::Records.all!. thanks Alexander Kolesen
+  Fix for stopping all the servers instead of just specified servers. thanks Avrohom Katz
+  private ip address should start with a 10. thanks Avrohom Katz
+  Use proper signature when testing with aws mock. thanks Bohuslav Kabrda
+  The user must be destroyed even in mock mode, otherwise completely unrelated tests fail (e.g. tests/aws/models/iam/users_tests.rb). thanks Bohuslav Kabrda
+  The condition here should be the same as for destroying, so that we test iff the instance gets destroyed. thanks Bohuslav Kabrda
+  The assignment correctly returns nil, just the test has to react to it. thanks Bohuslav Kabrda
+  The assignment correctly returns false, just the test has to react to it. thanks Bohuslav Kabrda
+  Include this to make refresh_credentials_if_expired method work properly with Mock. thanks Bohuslav Kabrda
+  Fix the number where credentials expire - if too high, other tests will fail. thanks Bohuslav Kabrda
+  Fix openstack tests. thanks Bohuslav Kabrda
+  Fix more openstack mock tests failures. thanks Bohuslav Kabrda
+  Add the mock urls to fix some more openstack tests. thanks Bohuslav Kabrda
+  Fix minor typos and incorrect types in openstack volume tests. thanks Bohuslav Kabrda
+  More typos in openstack server tests. thanks Bohuslav Kabrda
+  Rework the quota mock testing to work and be more comfortable. thanks Bohuslav Kabrda
+  Must use values, so that connection.list_roles gets corrent argument. thanks Bohuslav Kabrda
+  Deleting returns nothing, so do not expect role. thanks Bohuslav Kabrda
+  Properly check whether role is present. thanks Bohuslav Kabrda
+  Return the properly updated image. thanks Bohuslav Kabrda
+  Add the 'new_image' public images, so that find_by_id can find it. thanks Bohuslav Kabrda
+  The pending block fails the outer one => make sure we return proper result. thanks Bohuslav Kabrda
+  Use proper parameters when testing deploying cloudstact VMs. thanks Bohuslav Kabrda
+  This was implemented right previously, shouldn't have changed it. thanks Bohuslav Kabrda
+  Correct solution for subnet failing tests - use a collection in self.data. thanks Bohuslav Kabrda
+  Do the same thing for vpcs as previously done for subnets. thanks Bohuslav Kabrda
+  ...and the same for dhcp_options. thanks Bohuslav Kabrda
+  And the same for internet gateways. thanks Bohuslav Kabrda
+  Fixes the failure for hp storage. thanks Bohuslav Kabrda
+  [rackspace|databases| Add service tests. thanks Brad Gignac
+  fix for RDS mocking to avoid state flipping between "modifying" and "available". thanks Brian Nelson
+  Fix typo listing datacenters. thanks Carlos Sanchez
+  Stop vSphere vms before destroying, or destroy will fail. thanks Carlos Sanchez
+  Add a failure for #1014. :v:. thanks Dylan Egan
+  Only dup @attributes if it's not nil. thanks Edward Muller
+  each based pagination for Fog::AWS::IAM#users. thanks Edward Muller
+  fixes elb test in mocking mode. thanks Eric Stonfer
+  fix running subnet tests in mocking mode. thanks Eric Stonfer
+  fix subnet tests in mocking mode. thanks Eric Stonfer
+  fog bombs out on ruby 1.8.x because it cannot find Mutex. thanks Eric Stonfer
+  fix not pulling InstanceProtocol from the xml. thanks Frederick Cheung
+  Add Sao Paulo server to Amazon RDS known regions. thanks Irio Irineu Musskopf Junior
+  Add Sao Paulo server to Amazon SQS known regions. thanks Irio Irineu Musskopf Junior
+  Fix bug in local storage #copy_object. thanks Jade Tucker
+  Add and get SSL certificates to Rackspace Soft LB. thanks Justin Barry
+  Default to being less pessimistic about excon. thanks Kevin Moore
+  Fix ssh key behavior when passing specified private keys to ssh/scp. thanks Marc Seeger
+  Should not modify passed in "params" variable since block might run several times due to authentication failure producing erroneous path. thanks Max Stepanov
+  As discussed in #991, this converts the readme from SimpleMarkup to Markdown. thanks Mike Fiedler
+  added PeopleAdmin to list of users. thanks Mike Manewitz
+  Fixing typo bug in rackspace load balancer set_ssl_termination request. thanks Paul
+  add us-east-1e to mock. thanks Shai Rosenfeld
+  Pass up all the options that have been assigned. thanks Trotter Cashion
+  Pass options on to AutoScalingGroup. thanks Trotter Cashion
+  Add better ScalingPolicy support. thanks Trotter Cashion
+  Add more AWS Alarm functionality. thanks Trotter Cashion
+  Add delete mocks. thanks Trotter Cashion
+  Properly array-ify keys for create_auto_scaling_group. thanks Trotter Cashion
+  Add tags to autoscaling groups. thanks Trotter Cashion
+  Enable tests when mocking. thanks Trotter Cashion
+  Recognize ninefold_api_url option for pre-production testing. thanks Warren Bain
+  remove specs (likely from a bad merge). thanks geemus
+  update tests/helper to have bare_metal_cloud instead of new_servers. thanks geemus
+  Mock for filter ec2 instances by group name. thanks phillc
+
+[openstack]
+  Fix Authentication for OpenStack v1.1 Authentication. thanks Nelvin Driz
+
+[openstack|compute]
+  Add filters to list servers details. thanks Ferran Rodenas
+  Added adminPass attribute in create_server. thanks Philip Mark M. Deazeta
+  fix method signature for mock list_servers_detail. thanks geemus
+
+[openstack|image]
+  Stream OpenStack image. thanks Vadim Spivak
+
+[rackspace|databases]
+  Add read-only support for Rackspace Cloud Databases. thanks Brad Gignac
+  Add write support for Rackspace Cloud Databases. thanks Brad Gignac
+  Register Rackspace Cloud Databases service with Fog. thanks Brad Gignac
+  Remove "list/details" API calls in favor of "list" calls. thanks Brad Gignac
+  Add model tests. thanks Brad Gignac
+  Finish request tests. thanks Brad Gignac
+  Remove old comments. thanks Brad Gignac
+  Handle breaking API changes. thanks Brad Gignac
+  Initial pass at request tests. thanks Brian Hartsock
+
+[rackspace|identity]
+  Add Rackspace identity service. thanks Brad Gignac
+  Add requests and request tests. thanks Brad Gignac
+  Add user model and collection with tests. thanks Brad Gignac
+  Handle non-array responses from list calls. thanks Brad Gignac
+  Better checking around hash/array responses. thanks Brad Gignac
+  Handle NotAuthorized respones from the identity API in the user model. thanks Brian Hartsock
+  use a valid username in tests. thanks geemus
+
+[rackspace|lb]
+  fixed broken tests because of API format changes. thanks Brian Hartsock
+  ssl termination fixes. thanks Brian Hartsock
+  moved to Fog::JSON.encode instead of MultiJson.encode. thanks Brian Hartsock
+
+
 1.4.0 06/24/2012 24e0be755e251159f07d5d82beb1e8ef57c962d9
 =========================================================
 
