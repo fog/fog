@@ -41,7 +41,7 @@ Shindo.tests('Fog::Rackspace::Identity | users', ['rackspace']) do
 
   service = Fog::Rackspace::Identity.new
   id = nil
-  username = 'fog_user'
+  username = 'foguser'
   email = 'fog_user@example.com'
   enabled = true
   password = 'Fog_password1'
