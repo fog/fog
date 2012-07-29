@@ -7,8 +7,8 @@ module Fog
 
         attribute :security_group_id, :type => :string
         attribute :protocol,          :type => :string
-        attribute :start_port,        :type => :integer
-        attribute :end_port,          :type => :integer
+        attribute :start_port,        :type => :integer, :aliases => 'startport'
+        attribute :end_port,          :type => :integer, :aliases => 'endport'
         attribute :cidr,              :type => :string
         attribute :direction,         :type => :string
 
@@ -17,6 +17,10 @@ module Fog
           job = connection.jobs.new(data["revokesecuritygroup#{self.direction}"])
           job.wait_for { ready? }
           job.successful?
+        end
+
+        def port_range
+          (self.start_port..self.end_port)
         end
 
         def save
@@ -36,6 +40,7 @@ module Fog
 
         def reload
           requires :id, :security_group_id, :cidr
+
           merge_attributes(security_group.rules.get(self.id))
         end
 

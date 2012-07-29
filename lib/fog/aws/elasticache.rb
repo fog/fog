@@ -41,12 +41,6 @@ module Fog
       model :parameter_group
       collection :parameter_groups
 
-      class Mock
-        def initalize(options={})
-          Fog::Mock.not_implemented
-        end
-      end
-
       class Real
         include Fog::AWS::CredentialFetcher::ConnectionMethods
         def initialize(options={})
@@ -129,6 +123,70 @@ module Fog
         end
 
       end
+
+      class Mock
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
+
+        def self.data
+          @data ||= Hash.new do |hash, region|
+            hash[region] = Hash.new do |region_hash, key|
+              owner_id = Fog::AWS::Mock.owner_id
+              security_group_id = Fog::AWS::Mock.security_group_id
+              region_hash[key] = {
+                :clusters  => {}, # cache cluster data, indexed by cluster ID
+              }
+            end
+          end
+        end
+
+        def self.reset
+          @data = nil
+        end
+
+        def initialize(options={})
+          @aws_credentials_expire_at = Time::now + 20
+          setup_credentials(options)
+          @region = options[:region] || 'us-east-1'
+          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1',
+                  'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
+            raise ArgumentError, "Unknown region: #{@region.inspect}"
+          end
+        end
+
+        def region_data
+          self.class.data[@region]
+        end
+
+        def data
+          self.region_data[@aws_access_key_id]
+        end
+
+        def reset_data
+          self.region_data.delete(@aws_access_key_id)
+        end
+
+        def setup_credentials(options)
+          @aws_access_key_id = options[:aws_access_key_id]
+        end
+
+        # returns an Array of (Mock) elasticache nodes, representated as Hashes
+        def create_cache_nodes(cluster_id, num_nodes = 1, port = '11211')
+          (1..num_nodes).map do |node_number|
+            node_id = "%04d" % node_number
+            { # each hash represents a cache cluster node
+              "CacheNodeId"           => node_id,
+              "Port"                  => port,
+              "ParameterGroupStatus"  => "in-sync",
+              "CacheNodeStatus"       => "available",
+              "CacheNodeCreateTime"   => Time.now.utc.to_s,
+              "Address" =>
+                "#{cluster_id}.#{node_id}.use1.cache.amazonaws.com"
+            }
+          end
+        end
+      end
+
+
     end
   end
 end

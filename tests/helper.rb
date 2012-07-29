@@ -13,7 +13,7 @@ end
 
 # check to see which credentials are available and add others to the skipped tags list
 
-all_providers = ['aws', 'bluebox', 'brightbox', 'cloudstack', 'dnsimple', 'dnsmadeeasy', 'dynect', 'ecloud', 'glesys', 'gogrid', 'google', 'hp', 'linode', 'local', 'ninefold', 'newservers', 'openstack', 'rackspace', 'serverlove', 'stormondemand', 'voxel', 'xenserver', 'zerigo']
+all_providers = ['aws', 'bare_metal_cloud', 'bluebox', 'brightbox', 'cloudstack', 'dnsimple', 'dnsmadeeasy', 'dynect', 'ecloud', 'glesys', 'gogrid', 'google', 'hp', 'linode', 'local', 'ninefold', 'openstack', 'rackspace', 'serverlove', 'stormondemand', 'voxel', 'xenserver', 'zerigo']
 available_providers = Fog.available_providers.map {|provider| provider.downcase}
 for provider in (all_providers - available_providers)
   Formatador.display_line("[yellow]Skipping tests for [bold]#{provider}[/] [yellow]due to lacking credentials (add some to '~/.fog' to run them)[/]")

@@ -31,9 +31,24 @@ module Fog
 
       class Mock
         def describe_cache_clusters(id = nil, options = {})
-          Fog::Mock.not_implemented
+          response        = Excon::Response.new
+          all_clusters    = self.data[:clusters].values.map do |cluster|
+            cluster.merge!(options[:show_node_info] ? {
+              'CacheClusterCreateTime'    => DateTime.now - 60,
+              'PreferredAvailabilityZone' => 'us-east-1a'
+            } : {})
+          end
+          if (id != nil) && (all_clusters.empty?)
+            raise Fog::AWS::Elasticache::NotFound
+          end
+          response.body = {
+            'CacheClusters'     => all_clusters,
+            'ResponseMetadata'  => { 'RequestId' => Fog::AWS::Mock.request_id }
+          }
+          response
         end
       end
+
     end
   end
 end

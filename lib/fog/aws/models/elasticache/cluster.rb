@@ -53,7 +53,7 @@ module Fog
               :auto_minor_version_upgrade   => auto_upgrade,
               :engine                       => engine,
               :engine_version               => engine_version,
-              :notification_topic_arn       => (notification_config['TopicArn']).strip,
+              :notification_topic_arn       => notification_config['TopicArn'],
               :port                         => port,
               :preferred_availablility_zone => zone,
               :preferred_maintenance_window => maintenance_window,
