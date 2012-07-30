@@ -18,12 +18,26 @@ module Fog
       recognizes :rackspace_auth_token
 
       model_path 'fog/rackspace/models/compute_v2'
+      model :server
+      collection :servers
       model :flavor
       collection :flavors
       model :image
       collection :images
 
       request_path 'fog/rackspace/requests/compute_v2'
+      request :list_servers
+      request :get_server
+      request :create_server
+      request :update_server
+      request :delete_server
+      request :change_server_password
+      request :reboot_server
+      request :rebuild_server
+      request :resize_server
+      request :confirm_resize_server
+      request :revert_resize_server
+
       request :list_images
       request :get_image
 
