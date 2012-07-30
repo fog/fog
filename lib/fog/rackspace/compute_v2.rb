@@ -8,9 +8,9 @@ module Fog
       class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
       class BadRequest < Fog::Rackspace::Errors::BadRequest; end
 
-      DFW_ENDPOINT = 'https://dfw.servers.api.rackspacecloud.com/v2/'
-      ORD_ENDPOINT = 'https://ord.servers.api.rackspacecloud.com/v2/'
-      LON_ENDPOINT = 'https://lon.servers.api.rackspacecloud.com/v2/'
+      DFW_ENDPOINT = 'https://dfw.servers.api.rackspacecloud.com/v2'
+      ORD_ENDPOINT = 'https://ord.servers.api.rackspacecloud.com/v2'
+      LON_ENDPOINT = 'https://lon.servers.api.rackspacecloud.com/v2'
 
       requires :rackspace_username, :rackspace_api_key
       recognizes :rackspace_endpoint
@@ -18,8 +18,17 @@ module Fog
       recognizes :rackspace_auth_token
 
       model_path 'fog/rackspace/models/compute_v2'
+      model :flavor
+      collection :flavors
+      model :image
+      collection :images
 
       request_path 'fog/rackspace/requests/compute_v2'
+      request :list_images
+      request :get_image
+
+      request :list_flavors
+      request :get_flavor
 
       class Mock
         def request(params)
