@@ -83,12 +83,8 @@ module Fog
           setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
           options[:region] ||= 'us-east-1'
-          @host = options[:host] || case options[:region]
-          when 'us-east-1'
-            'queue.amazonaws.com'
-          else
-            "#{options[:region]}.queue.amazonaws.com"
-          end
+          @host = options[:host] || "sqs.#{options[:region]}.amazonaws.com"
+
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
