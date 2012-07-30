@@ -44,6 +44,7 @@ module Fog
 
     service(:cdn,             'rackspace/cdn',            'CDN')
     service(:compute,         'rackspace/compute',        'Compute')
+    service(:compute_v2,      'rackspace/compute_v2',     'Compute v2')
     service(:dns,             'rackspace/dns',            'DNS')
     service(:storage,         'rackspace/storage',        'Storage')
     service(:load_balancers,  'rackspace/load_balancers', 'LoadBalancers')
