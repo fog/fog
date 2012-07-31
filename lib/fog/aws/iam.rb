@@ -11,7 +11,7 @@ module Fog
       class ValidationError < Fog::AWS::IAM::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :path, :port, :scheme, :persistent
+      recognizes :host, :path, :port, :scheme, :persistent, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/iam'
       request :add_user_to_group
@@ -70,15 +70,15 @@ module Fog
       request :update_user
       request :upload_server_certificate
       request :upload_signing_certificate
-      
+
       model_path 'fog/aws/models/iam'
       model       :user
       collection  :users
       model       :policy
-      collection  :policies      
+      collection  :policies
       model       :access_key
       collection  :access_keys
-      
+
 
       class Mock
         def self.data
@@ -151,6 +151,8 @@ module Fog
           @aws_access_key_id      = options[:aws_access_key_id]
           @aws_secret_access_key  = options[:aws_secret_access_key]
           @connection_options     = options[:connection_options] || {}
+          @instrumentor           = options[:instrumentor]
+          @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.iam'
           @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)
           @host       = options[:host]        || 'iam.amazonaws.com'
           @path       = options[:path]        || '/'
@@ -182,35 +184,39 @@ module Fog
             }
           )
 
-          begin
-            response = @connection.request({
-              :body       => body,
-              :expects    => 200,
-              :idempotent => idempotent,
-              :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
-              :host       => @host,
-              :method     => 'POST',
-              :parser     => parser
-            })
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(body, idempotent, parser)
+            end
+          else
+            _request(body, idempotent, parser)
+          end
+        end
 
-            response
-          rescue Excon::Errors::HTTPStatusError => error
-            if match = error.message.match(/<Code>(.*)<\/Code>(?:.*<Message>(.*)<\/Message>)?/m)
-              case match[1]
-              when 'CertificateNotFound', 'NoSuchEntity'
-                raise Fog::AWS::IAM::NotFound.slurp(error, match[2])
-              when 'EntityAlreadyExists', 'KeyPairMismatch', 'LimitExceeded', 'MalformedCertificate', 'ValidationError'
-                raise Fog::AWS::IAM.const_get(match[1]).slurp(error, match[2])
-              else
-                raise Fog::AWS::IAM::Error.slurp(error, "#{match[1]} => #{match[2]}") if match[1]
-                raise
-              end
+        def _request(body, idempotent, parser)
+          @connection.request({
+            :body       => body,
+            :expects    => 200,
+            :idempotent => idempotent,
+            :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
+            :host       => @host,
+            :method     => 'POST',
+            :parser     => parser
+          })
+        rescue Excon::Errors::HTTPStatusError => error
+          if match = error.message.match(/<Code>(.*)<\/Code>(?:.*<Message>(.*)<\/Message>)?/m)
+            case match[1]
+            when 'CertificateNotFound', 'NoSuchEntity'
+              raise Fog::AWS::IAM::NotFound.slurp(error, match[2])
+            when 'EntityAlreadyExists', 'KeyPairMismatch', 'LimitExceeded', 'MalformedCertificate', 'ValidationError'
+              raise Fog::AWS::IAM.const_get(match[1]).slurp(error, match[2])
             else
+              raise Fog::AWS::IAM::Error.slurp(error, "#{match[1]} => #{match[2]}") if match[1]
               raise
             end
+          else
+            raise
           end
-
-
         end
 
       end
