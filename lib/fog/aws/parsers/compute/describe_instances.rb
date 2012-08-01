@@ -97,6 +97,8 @@ module Fog
               @instance['productCodes'] << value
             when 'state'
               @instance['monitoring'][name] = (value == 'enabled')
+            when 'ebsOptimized'
+              @instance['ebsOptimized'] = (value == 'true')
             end
           end
 

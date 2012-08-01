@@ -71,6 +71,8 @@ module Fog
               @instance['monitoring'][name] = (value == 'true')
             when 'subnetId'
               @response[name] = value
+            when 'ebsOptimized'
+              @instance['ebsOptimized'] = (value == 'true')
             end
           end
 

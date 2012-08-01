@@ -6,6 +6,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
     'blockDeviceMapping'  => [],
     'clientToken'         => Fog::Nullable::String,
     'dnsName'             => NilClass,
+    'ebsOptimized'        => Fog::Boolean,
     'imageId'             => String,
     'instanceId'          => String,
     'instanceState'       => {'code' => Integer, 'name' => String},
