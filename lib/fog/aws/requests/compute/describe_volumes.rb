@@ -16,10 +16,12 @@ module Fog
         #     * 'volumeSet'<~Array>:
         #       * 'availabilityZone'<~String> - Availability zone for volume
         #       * 'createTime'<~Time> - Timestamp for creation
+        #       * 'iops'<~Integer> - Number of IOPS volume supports
         #       * 'size'<~Integer> - Size in GiBs for volume
         #       * 'snapshotId'<~String> - Snapshot volume was created from, if any
         #       * 'status'<~String> - State of volume
         #       * 'volumeId'<~String> - Reference to volume
+        #       * 'volumeType'<~String> - Type of volume
         #       * 'attachmentSet'<~Array>:
         #         * 'attachmentTime'<~Time> - Timestamp for attachment
         #         * 'deleteOnTermination'<~Boolean> - Whether or not to delete volume on instance termination

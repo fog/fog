@@ -3,11 +3,13 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
   @volume_format = {
     'availabilityZone'  => String,
     'createTime'        => Time,
+    'iops'              => Fog::Nullable::Integer,
     'requestId'         => String,
     'size'              => Integer,
     'snapshotId'        => Fog::Nullable::String,
     'status'            => String,
-    'volumeId'          => String
+    'volumeId'          => String,
+    'volumeType'        => String
   }
 
   @volume_attachment_format = {
@@ -52,11 +54,13 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
       'availabilityZone'  => String,
       'attachmentSet'     => Array,
       'createTime'        => Time,
+      'iops'              => Fog::Nullable::Integer,
       'size'              => Integer,
       'snapshotId'        => Fog::Nullable::String,
       'status'            => String,
       'tagSet'            => Hash,
-      'volumeId'          => String
+      'volumeId'          => String,
+      'volumeType'        => String
     }],
     'requestId' => String
   }
@@ -73,18 +77,30 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
       data
     end
 
+    Fog::Compute[:aws].delete_volume(@volume_id)
+
     tests('#create_volume from snapshot').formats(@volume_format) do
       volume = Fog::Compute[:aws].volumes.create(:availability_zone => 'us-east-1d', :size => 1)
       snapshot = Fog::Compute[:aws].create_snapshot(volume.identity).body
-      data = Fog::Compute[:aws].create_volume(@server.availability_zone, nil, snapshot['snapshotId']).body
+      data = Fog::Compute[:aws].create_volume(@server.availability_zone, nil, 'SnapshotId' => snapshot['snapshotId']).body
       @volume_id = data['volumeId']
       data
     end
 
+    Fog::Compute[:aws].delete_volume(@volume_id)
+
+    tests('#create_volume with type and iops').formats(@volume_format) do
+      data = Fog::Compute[:aws].create_volume(@server.availability_zone, 10, 'VolumeType' => 'io1', 'Iops' => 100).body
+      @volume_id = data['volumeId']
+      data
+    end
+
+    Fog::Compute[:aws].delete_volume(@volume_id)
+
     tests('#create_volume from snapshot with size').formats(@volume_format) do
       volume = Fog::Compute[:aws].volumes.create(:availability_zone => 'us-east-1d', :size => 1)
       snapshot = Fog::Compute[:aws].create_snapshot(volume.identity).body
-      data = Fog::Compute[:aws].create_volume(@server.availability_zone, 1, snapshot['snapshotId']).body
+      data = Fog::Compute[:aws].create_volume(@server.availability_zone, 1, 'SnapshotId' => snapshot['snapshotId']).body
       @volume_id = data['volumeId']
       data
     end
@@ -146,6 +162,21 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
 
     tests("#delete_volume('vol-00000000')").raises(Fog::Compute::AWS::NotFound) do
       Fog::Compute[:aws].delete_volume('vol-00000000')
+    end
+
+    # Iops required
+    tests("#create_volume('#{@server.availability_zone}', 10, 'VolumeType' => 'io1')").raises(Fog::Compute::AWS::Error) do
+      Fog::Compute[:aws].create_volume(@server.availability_zone, 10, 'VolumeType' => 'io1')
+    end
+
+    # size too small for iops
+    tests("#create_volume('#{@server.availability_zone}', 9, 'VolumeType' => 'io1', 'Iops' => 100)").raises(Fog::Compute::AWS::Error) do
+      Fog::Compute[:aws].create_volume(@server.availability_zone, 9, 'VolumeType' => 'io1', 'Iops' => 100)
+    end
+
+    # iops:size ratio too big
+    tests("#create_volume('#{@server.availability_zone}', 10, 'VolumeType' => 'io1', 'Iops' => 101)").raises(Fog::Compute::AWS::Error) do
+      Fog::Compute[:aws].create_volume(@server.availability_zone, 10, 'VolumeType' => 'io1', 'Iops' => 101)
     end
 
     @volume.destroy

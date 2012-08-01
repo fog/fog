@@ -362,7 +362,7 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2012-06-01'
+              :version            => '2012-07-20'
             }
           )
 
