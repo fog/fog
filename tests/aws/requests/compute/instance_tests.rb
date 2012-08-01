@@ -1,7 +1,7 @@
 Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
 
   @instance_format = {
-    # 'architecture'    => String,
+    'architecture'        => String,
     'amiLaunchIndex'      => Integer,
     'blockDeviceMapping'  => [],
     'clientToken'         => Fog::Nullable::String,
@@ -33,7 +33,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
   @run_instances_format = {
     'groupSet'        => [String],
     'instancesSet'    => [@instance_format],
-    'ownerId'         => String,
+    'ownerId'         => Fog::Nullable::String,
     'requestId'       => String,
     'reservationId'   => String
   }
@@ -41,16 +41,20 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
   @describe_instances_format = {
     'reservationSet'  => [{
       'groupSet'      => [String],
+      'groupIds'      => [String],
       'instancesSet'  => [@instance_format.merge(
         'architecture'      => String,
         'dnsName'           => Fog::Nullable::String,
+        'iamInstanceProfile' => {},
         'ipAddress'         => Fog::Nullable::String,
+        'networkInterfaces' => [],
+        'ownerId'           => String,
         'privateDnsName'    => Fog::Nullable::String,
         'privateIpAddress'  => Fog::Nullable::String,
         'stateReason'       => Hash,
         'tagSet'            => Hash
       )],
-      'ownerId'       => String,
+      'ownerId'       => Fog::Nullable::String,
       'reservationId' => String
     }],
     'requestId'       => String
@@ -145,12 +149,12 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
                                   'status' => String
                                 }]
                               },
-                              'event' => {
+                              'eventsSet' => [{
                                                 'code' => String,
                                                 'description' => String,
                                                 'notBefore' => Time,
                                                 'notAfter' => Time
-                                              }
+                                              }]
                             }]
 
   }
@@ -158,15 +162,19 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
   tests('success') do
 
     @instance_id = nil
-    # Use a MS Windows AMI to test #get_password_data
-    @windows_ami = 'ami-62bd440b' # Amazon Public Images - Basic Microsoft Windows Server 2008 64-bit
+    @ami = if ENV['FASTER_TEST_PLEASE']
+      'ami-6bbb1302' # ubuntu 12.04 daily build 20120728
+    else
+      # Use a MS Windows AMI to test #get_password_data
+      'ami-c941efa0' # Amazon Public Images - Windows_Server-2008-SP2-English-64Bit-Base-2012.07.11
+    end
 
     # Create a keypair for decrypting the password
     key_name = 'fog-test-key'
     key = Fog::Compute[:aws].key_pairs.create(:name => key_name)
 
     tests("#run_instances").formats(@run_instances_format) do
-      data = Fog::Compute[:aws].run_instances(@windows_ami, 1, 1, 'InstanceType' => 't1.micro', 'KeyName' => key_name).body
+      data = Fog::Compute[:aws].run_instances(@ami, 1, 1, 'InstanceType' => 't1.micro', 'KeyName' => key_name).body
       @instance_id = data['instancesSet'].first['instanceId']
       data
     end
