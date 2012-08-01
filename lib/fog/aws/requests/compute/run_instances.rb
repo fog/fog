@@ -160,6 +160,7 @@ module Fog
             }
             instances_set << instance
             self.data[:instances][instance_id] = instance.merge({
+              'groupIds'            => [],
               'groupSet'            => group_set,
               'iamInstanceProfile'  => {},
               'networkInterfaces'   => [],

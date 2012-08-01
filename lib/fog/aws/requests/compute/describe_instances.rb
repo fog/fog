@@ -207,6 +207,7 @@ module Fog
 
               reservation_set[instance['reservationId']] ||= {
                 'groupSet'      => instance['groupSet'],
+                'groupIds'      => instance['groupIds'],
                 'instancesSet'  => [],
                 'ownerId'       => instance['ownerId'],
                 'reservationId' => instance['reservationId']
