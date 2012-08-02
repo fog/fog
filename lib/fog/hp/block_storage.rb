@@ -20,6 +20,7 @@ module Fog
 
       request :create_snapshot
       request :list_snapshots
+      request :get_snapshot_details
 
       module Utils
 
