@@ -18,6 +18,8 @@ module Fog
       request :get_volume_details
       request :list_volumes
 
+      request :list_snapshots
+
       module Utils
 
         def compute
@@ -40,7 +42,8 @@ module Fog
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
-              :volumes => {}
+              :volumes => {},
+              :snapshots => {}
             }
           end
         end
