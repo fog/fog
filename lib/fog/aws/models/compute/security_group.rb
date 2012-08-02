@@ -40,7 +40,7 @@ module Fog
         #
 
         def authorize_group_and_owner(group, owner = nil)
-          Fog::Logger.deprecation("authorize_group_and_ownder is deprecated, use authorize_port_range with :group option instead")
+          Fog::Logger.deprecation("authorize_group_and_owner is deprecated, use authorize_port_range with :group option instead")
 
           requires_one :name, :group_id
 
