@@ -19,6 +19,8 @@ module Fog
         { :bits => 64, :cores =>   13, :disk => 850,  :id =>  'm2.2xlarge', :name => 'High Memory Double Extra Large',    :ram => 35020.8},
         { :bits => 64, :cores =>   26, :disk => 1690, :id =>  'm2.4xlarge', :name => 'High Memory Quadruple Extra Large', :ram => 70041.6},
 
+        { :bits => 64, :cores =>   35, :disk => 2048, :id => "hi1.4xlarge", :name => "High I/O Quadruple Extra Large Instance", :ram => 61952},
+
         { :bits => 64, :cores => 33.5, :disk => 1690, :id => 'cc1.4xlarge', :name => 'Cluster Compute Quadruple Extra Large', :ram => 23552},
         { :bits => 64, :cores =>   88, :disk => 3370, :id => 'cc2.8xlarge', :name => 'Cluster Compute Eight Extra Large',     :ram => 61952},
         { :bits => 64, :cores => 33.5, :disk => 1690, :id => 'cg1.4xlarge', :name => 'Cluster GPU Quadruple Extra Large',     :ram => 22528}
