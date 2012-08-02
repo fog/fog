@@ -242,11 +242,26 @@ module Fog
 
         private
 
-        def group_info(group_str)
-          account, group = group_str.split(":")
-
-          if account.empty? || group.nil? || group.empty?
-            raise ArgumentError, "group must be specified in form of \"<account id>:<group name or id>\", #{group_str} given"
+        #
+        # +group_arg+ may be a string or a hash with one key & value.
+        #
+        # If group_arg is a string, it is assumed to be the group name,
+        # and the UserId is assumed to be self.owner_id.
+        #
+        # The "account:group" form is deprecated.
+        #
+        # If group_arg is a hash, the key is the UserId and value is the group.
+        def group_info(group_arg)
+          if Hash === group_arg
+            account = group_arg.keys.first
+            group   = group_arg.values.first
+          elsif group_arg.match(/:/)
+            account, group = group_arg.split(':')
+            Fog::Logger.deprecation("'account:group' argument is deprecated. Use {account => group} or just group instead")
+          else
+            requires :owner_id
+            account = owner_id
+            group = group_arg
           end
 
           info = { 'UserId' => account }
