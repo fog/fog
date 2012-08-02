@@ -18,6 +18,7 @@ module Fog
       request :get_volume_details
       request :list_volumes
 
+      request :create_snapshot
       request :list_snapshots
 
       module Utils
