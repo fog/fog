@@ -17,7 +17,7 @@ module Fog
         #       * 'displayDescription'<~String>: - Description of the snapshot
         #       * 'size'<~Integer>: - Size in GB for the snapshot
         #       * 'status'<~String>: - Status of the snapshot i.e. "available"
-        #       * 'volumeId'<~String>: - Id of the volume from which the snapshot was created
+        #       * 'volumeId'<~Integer>: - Id of the volume from which the snapshot was created
         #       * 'createdAt'<~String>: - Timestamp in UTC when volume was created
         def list_snapshots
           response = request(
