@@ -26,18 +26,19 @@ module Fog
 
         def reboot_db_instance(instance_identifier)
           response = Excon::Response.new
-          if self.data[:servers][instance_identifier]
-            if self.data[:servers][instance_identifier]["DBInstanceStatus"] != "available"
+          if server = self.data[:servers][instance_identifier]
+            if server["DBInstanceStatus"] != "available"
               raise Fog::AWS::RDS::NotFound.new("DBInstance #{instance_identifier} not available for rebooting")
             else
-              self.data[:servers][instance_identifier]["DBInstanceStatus"] = 'rebooting'
+              server["DBInstanceStatus"] = 'rebooting'
+              self.data[:reboot_time] = Time.now
               response.status = 200
               response.body = {
                 "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
-                "RebootDBInstanceResult" => { "DBInstance" => self.data[:servers][instance_identifier] }
+                "RebootDBInstanceResult" => { "DBInstance" => server }
               }
               response
-              
+
             end
           else
             raise Fog::AWS::RDS::NotFound.new("DBInstance #{instance_identifier} not found")

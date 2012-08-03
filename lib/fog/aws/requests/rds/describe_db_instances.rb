@@ -56,16 +56,14 @@ module Fog
                                          "Address"=> Fog::AWS::Mock.rds_address(server["DBInstanceIdentifier"],region) }
                    server["PendingModifiedValues"] = {}
                  end
-              when "rebooting" # I don't know how to show rebooting just once before it changes to available
-                # it applies pending modified values
-                unless server["PendingModifiedValues"].empty?
+              when "rebooting"
+                if Time.now - self.data[:reboot_time] >= Fog::Mock.delay
+                  # apply pending modified values
                   server.merge!(server["PendingModifiedValues"])
                   server["PendingModifiedValues"] = {}
-                  self.data[:tmp] ||= Time.now + Fog::Mock.delay * 2
-                  if self.data[:tmp] <= Time.now
-                    server["DBInstanceStatus"] = 'available'
-                    self.data.delete(:tmp)
-                  end
+
+                  server["DBInstanceStatus"] = 'available'
+                  self.data.delete(:reboot_time)
                 end
               when "modifying"
                 # TODO there are some fields that only applied after rebooting
