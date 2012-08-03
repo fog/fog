@@ -42,7 +42,7 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
       body
     end
 
-    server.reload.wait_for { state == 'modifying' } unless Fog.mocking?
+    server.reload.wait_for { state == 'modifying' }
     server.reload.wait_for { state == 'available' }
 
     tests 'new storage' do

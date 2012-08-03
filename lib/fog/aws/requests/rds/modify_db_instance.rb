@@ -10,7 +10,7 @@ module Fog
         # ==== Parameters
         # * DBInstanceIdentifier <~String> - name of the db instance to modify
         # * ApplyImmediately <~Boolean> - whether to apply the changes immediately or wait for the next maintenance window
-        #                                     
+        #
         # * AllocatedStorage  <~Integer> Storage space, in GB
         # * AllowMajorVersionUpgrade <~Boolean> Must be set to true if EngineVersion specifies a different major version  
         # * AutoMinorVersionUpgrade <~Boolean> Indicates that minor version upgrades will be applied automatically to the DB Instance during the maintenance window 
@@ -27,11 +27,11 @@ module Fog
         # * response<~Excon::Response>:
         #   * body<~Hash>:
         def modify_db_instance(db_name, apply_immediately, options={})
-          
+
           if security_groups = options.delete('DBSecurityGroups')
             options.merge!(Fog::AWS.indexed_param('DBSecurityGroups.member.%d', [*security_groups]))
           end
-    
+
           request({
             'Action'  => 'ModifyDBInstance',
             'DBInstanceIdentifier' => db_name,
@@ -50,8 +50,9 @@ module Fog
             if self.data[:servers][db_name]["DBInstanceStatus"] != "available"
               raise Fog::AWS::RDS::NotFound.new("DBInstance #{db_name} not available for modification")
             else
+              self.data[:modify_time] = Time.now
               # TODO verify the params options
-              # if apply_immediately is false, all the options go to pending_modified_values and then apply and clear after either 
+              # if apply_immediately is false, all the options go to pending_modified_values and then apply and clear after either
               # a reboot or the maintainance window
               #if apply_immediately
               #  modified_server = server.merge(options)
@@ -59,14 +60,14 @@ module Fog
               #  modified_server = server["PendingModifiedValues"].merge!(options) # it appends
               #end
               self.data[:servers][db_name]["PendingModifiedValues"].merge!(options) # it appends
-              #self.data[:servers][db_name]["DBInstanceStatus"] = "modifying"
+              self.data[:servers][db_name]["DBInstanceStatus"] = "modifying"
               response.status = 200
               response.body = {
                 "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id },
                 "ModifyDBInstanceResult" => { "DBInstance" => self.data[:servers][db_name] }
               }
               response
-              
+
             end
           else
             raise Fog::AWS::RDS::NotFound.new("DBInstance #{db_name} not found")

@@ -67,7 +67,7 @@ module Fog
                 end
               when "modifying"
                 # TODO there are some fields that only applied after rebooting
-                unless server["PendingModifiedValues"].empty?
+                if Time.now - self.data[:modify_time] >= Fog::Mock.delay
                   server.merge!(server["PendingModifiedValues"])
                   server["PendingModifiedValues"] = {}
                   server["DBInstanceStatus"] = 'available'
