@@ -93,7 +93,7 @@ module Fog
 
             if response.body.empty?
               response.body = {}
-            else
+            elsif response.headers['Content-Type'] == 'application/json'
               response.body = Fog::JSON.decode(response.body)
             end
 
