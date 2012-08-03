@@ -10,7 +10,7 @@ module Fog
         # * description<~String> - Description of the snapshot
         # * volume_id<~Integer>  - Id of the volume to create snapshot of
         # * options<~Hash>:
-        #   * 'force'<~Boolean> - True or False
+        #   * 'force'<~Boolean>  - Not implemented yet. True or False, to allow online snapshots (i.e. when volume is attached)
         #
         # ==== Returns
         # * response<~Excon::Response>:

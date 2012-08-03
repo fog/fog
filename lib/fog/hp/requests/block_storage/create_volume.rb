@@ -10,7 +10,7 @@ module Fog
         # * description<~String> - Description of the volume
         # * size<~Integer>       - Size of the volume (in GBs)
         # * options<~Hash>:
-        #   * 'snapshot_id'<~String> - Id of the volume snapshot
+        #   * 'snapshot_id'<~String> - Id of the volume snapshot to create the volume from
         #
         # ==== Returns
         # * response<~Excon::Response>:
