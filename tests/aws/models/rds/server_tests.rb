@@ -30,7 +30,7 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
       pending if Fog.mocking?
 
       orig_parameter_group = @instance.db_parameter_groups.first['DBParameterGroupName']
-      parameter_group = Fog::AWS[:rds].parameter_groups.create(:id => uniq_id, :family => 'mysql5.1', :description => 'fog-test')
+      parameter_group = Fog::AWS[:rds].parameter_groups.create(:id => uniq_id, :family => 'mysql5.5', :description => 'fog-test')
 
       orig_security_groups = @instance.db_security_groups.map{|h| h['DBSecurityGroupName']}
       security_group = Fog::AWS[:rds].security_groups.create(:id => uniq_id, :description => 'fog-test')
