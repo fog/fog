@@ -80,7 +80,7 @@ module Fog
                  "InstanceCreateTime" => nil,
                  "AutoMinorVersionUpgrade"=>true,
                  "Endpoint"=>{},
-                 "ReadReplicaDBInstanceIdentifiers"=>['bla'],
+                 "ReadReplicaDBInstanceIdentifiers"=>[],
                  "PreferredMaintenanceWindow"=>"mon:04:30-mon:05:00",
                  "Engine"=> options["Engine"],
                  "EngineVersion"=> options["EngineVersion"] || "5.1.57",

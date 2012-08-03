@@ -6,6 +6,10 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
 
     @instance.wait_for(20*60) { ready? }
 
+    test('#read_replica_identifiers is []') do
+      returns([]) { @instance.read_replica_identifiers }
+    end
+
     tests('#snapshots') do
       snapshot = nil
 
