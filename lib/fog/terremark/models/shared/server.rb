@@ -1,4 +1,6 @@
 require 'fog/core/model'
+require 'fog/terremark/models/shared/nodeservices'
+require 'fog/terremark/models/shared/internetservices'
 
 # { '0' => 'Being created', '1' => 'Being Deployed, '2' => 'Powered Off', '4' => 'Powered On'}
 module VAppStatus
@@ -22,12 +24,15 @@ module Fog
         attribute :vcpus
         attribute :memory
         attribute :sshkeyFingerPrint
+        attribute :powerOn
         attribute :status
         attribute :OperatingSystem
         attribute :VirtualHardware
         attribute :IpAddress
-        attribute :PublicIpAddress
 
+        def reload
+         merge_attributes(connection.get_vapp(id).body)
+        end
         def destroy
           case self.status
             when VAppStatus::BEING_CREATED, VAppStatus::BEING_DEPLOYED
@@ -40,39 +45,43 @@ module Fog
           true
         end
 
-        def delete_internet_services
-
-            #Find the internet service
-            services = connection.get_internet_services(connection.default_vdc_id)
-            internet_services = services.body["InternetServices"].select {|item| item["Name"] == self.name}
-
-            for service in internet_services
-              nodes = connection.get_node_services(service["Id"]).body["NodeServices"]
-              #Delete all the associated nodes
-              nodes.select { |item| connection.delete_node_service(item["Id"]) }
-
-              #Clear out the services
-              connection.delete_internet_service(service["Id"])
+        def PublicIpAddress
+          @PublicIpAddress ||=
+            if internet_services.size > 0
+              internet_services[0].PublicIpAddress["Name"]
             end
-            #Release IP Address
-            connection.delete_public_ip(service["PublicIpAddress"]["Id"])
+          @PublicIpAddress
+        end
+
+        def internet_services
+            @internet_services ||= connection.internetservices.all.select {|item| item.Name == self.name}
+        end
+        
+        def delete_internet_services
+            #Find the internet service
+
+            while (service = internet_services.pop) do
+
+              nodes = connection.nodeservices.all(service.Id)
+              #Delete all the associated nodes
+              nodes.select { |item| item.destroy }
+              #Clear out the services
+              service.destroy(delete_public_ip = !(internet_services.size > 0))
+            end
             true
         end
 
         # { '0' => 'Being created', '2' => 'Powered Off', '4' => 'Powered On'}
         def ready?
-          state = connection.get_vapp(id).body["status"]  
-          state == VAppStatus::POWERED_OFF
+          status == VAppStatus::POWERED_OFF
         end
 
         def on?
-          state = connection.get_vapp(id).body["status"]
-          state == VAppStatus::POWERED_ON
+          status == VAppStatus::POWERED_ON
         end
 
         def off?
-          state = connection.get_vapp(id).body["status"]
-          state == VAppStatus::POWERED_OFF
+          status == VAppStatus::POWERED_OFF
         end
 
         def power_on(options = {})
@@ -123,67 +132,46 @@ module Fog
 
         def create_internet_services(internet_spec)
           public_ip_info = nil
+          internet_service_id = nil
           internet_spec.each do |proto, ports|
             for port in ports
               if not public_ip_info
                 #Create the first internet service and allocate public IP
-                data = connection.create_internet_service(
-                      vdc = connection.default_vdc_id,
-                      name = self.name,
-                      protocol = proto,
-                      port = port,
-                      options = {
-                        'Enabled' => 'true',
-                        "Description" => :name
-                      }
-
-                    )
-                internet_service_id = data.body["Id"]
-                public_ip_info = data.body["PublicIpAddress"]
+                inet_services = connection.internetservices.create({
+                      "Name" => self.name,
+                      "Protocol" => proto,
+                      "Port" => port,
+                })
+                internet_service_id = inet_services.Id
+                public_ip_info = inet_services.PublicIpAddress
 
               else
                 #create additional services to existing Public IP
-                data = connection.add_internet_service(
-                      ip_id = public_ip_info["Id"],                      
-                      name = self.name,
-                      protocol = proto,
-                      port = port,
-                      options = {
-                        'Enabled' => 'true',
-                        "Description" => :name
-                      }
+                inet_services = connection.internetservices.create({
+                      "public_ip_address_id" => public_ip_info["Id"],                      
+                      "Name" => self.name,
+                      "Protocol" => proto,
+                      "Port" => port,
+                }
                     )
-                internet_service_id = data.body["Id"]
+                internet_service_id = inet_services.Id
               end
 
               #Create the associate node service to the server
-              self.create_node_service(
-                internet_service_id,
-                proto,
-                port
-              )
- 
+              connection.nodeservices.create({"Name" => self.name, 
+                                           "IpAddress" => self.IpAddress,
+                                           "Port" => port,
+                                           "InternetServiceId" => internet_service_id
+              })
             end
-         end
+          end
           true
-        end
-
-        def create_node_service(internet_service_id, protocol="TCP", port="22")
-          ssh_service = internet_service_id
-          data = connection.add_node_service(
-              service_id = ssh_service,
-              ip = self.IpAddress,
-              name = self.name,
-              port = port,
-              options = {'Enabled' => 'true',
-                         "Description" => :name
-                        }
-          ) 
-          true 
         end
 
         def save
           requires :name
+          if powerOn
+          end
           data = connection.instantiate_vapp_template(
               server_name=name, 
               vapp_template=image, 
@@ -192,7 +180,16 @@ module Fog
                   'cpus' => vcpus,
                   'memory' => memory
               })
+
           merge_attributes(data.body)
+          wait_for { ready? }
+
+          #Optional, incase further configuration required.
+          if powerOn
+            power_on
+            wait_for { ready? }
+          end
+
           true
         end
 
@@ -207,7 +204,6 @@ module Fog
         def Links=(new_links); @Links = new_links; end
 
       end
-
     end
   end
 end
