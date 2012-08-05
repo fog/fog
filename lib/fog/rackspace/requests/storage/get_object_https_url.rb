@@ -24,13 +24,14 @@ module Fog
 
           method         = 'GET'
           expires        = expires.to_i
-          object_path    = "#{@path}/#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object,"/")}"
-          string_to_sign = "#{method}\n#{expires}\n#{object_path}"
+          object_path_escaped   = "#{@path}/#{Fog::Rackspace.escape(container)}/#{Fog::Rackspace.escape(object,"/")}"
+          object_path_unescaped = "#{@path}/#{Fog::Rackspace.escape(container)}/#{object}"
+          string_to_sign = "#{method}\n#{expires}\n#{object_path_unescaped}"
 
           hmac = Fog::HMAC.new('sha1', @rackspace_temp_url_key)
           sig  = sig_to_hex(hmac.sign(string_to_sign))
 
-          "https://#{@host}#{object_path}?temp_url_sig=#{sig}&temp_url_expires=#{expires}"
+          "https://#{@host}#{object_path_escaped}?temp_url_sig=#{sig}&temp_url_expires=#{expires}"
         end
 
         private
