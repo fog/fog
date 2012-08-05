@@ -113,6 +113,7 @@ module Fog
       request :configure_vapp
       request :configure_vm_memory
       request :configure_vm_cpus
+      request :configure_org_network
       request :configure_vm_name_description
       request :configure_vm_disks
       request :configure_vm_password
