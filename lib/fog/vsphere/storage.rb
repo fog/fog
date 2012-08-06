@@ -894,10 +894,10 @@ module Fog
         attr_reader :vsphere_server
         attr_reader :vsphere_username
 
-        DEFAULT_SCSI_KEY = 1000
-        DISK_DEV_LABEL = "abcdefghijklmnopqrstuvwxyz"
+        DEFAULT_SCSI_KEY ||= 1000
+        DISK_DEV_LABEL ||= "abcdefghijklmnopqrstuvwxyz"
 
-        ATTR_TO_PROP = {
+        ATTR_TO_PROP ||= {
             :id => 'config.instanceUuid',
             :name => 'name',
             :uuid => 'config.uuid',
