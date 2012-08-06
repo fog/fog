@@ -240,8 +240,10 @@ module Fog
         # It returns an array of public and private ip addresses
         # Currently only one ip address is returned, but in the future this could be multiple
         # if the server has multiple network interface
-        def addresses(connection, options={})
-          mac=self.mac
+        def addresses(connection=connection, options={})
+          unless mac = self.mac
+            mac = Nokogiri::XML(`virsh dumpxml #{self.name}`).xpath('//domain/devices/interface/mac').first.attribute('address').content
+          end
 
           # Aug 24 17:34:41 juno arpwatch: new station 10.247.4.137 52:54:00:88:5a:0a eth0.4
           # Aug 24 17:37:19 juno arpwatch: changed ethernet address 10.247.4.137 52:54:00:27:33:00 (52:54:00:88:5a:0a) eth0.4
