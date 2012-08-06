@@ -26,10 +26,10 @@ module Fog
         attr_reader :vsphere_server
         attr_reader :vsphere_username
 
-        DEFAULT_SCSI_KEY = 1000
-        DISK_DEV_LABEL = "abcdefghijklmnopqrstuvwxyz"
+        DEFAULT_SCSI_KEY ||= 1000
+        DISK_DEV_LABEL ||= "abcdefghijklmnopqrstuvwxyz"
 
-        ATTR_TO_PROP = {
+        ATTR_TO_PROP ||= {
             :id => 'config.instanceUuid',
             :name => 'name',
             :uuid => 'config.uuid',
@@ -1023,9 +1023,10 @@ module Fog
           def initialize(options = {})
             @type =  options['type']
             @mode = options['mode']
-            @affinity = options['affinity'] && true
+            #@affinity = options['affinity'] && true
             @size = options['size']
             @shared = options['shared'] || false
+            @affinity = @shared
             @volumes = {}
           end
 
@@ -1294,10 +1295,10 @@ module Fog
         end
 
         def recommendation(vms,hosts)
-          if vms[0].name.include?("data")
-            recommendation_untiaffinity(vms,hosts)
-          else
+          if vms[0].data_disks.affinity
             recommendation_affinity(vms,hosts)
+          else
+            recommendation_untiaffinity(vms,hosts)
           end
         end
 

@@ -142,7 +142,7 @@ module Fog
                                                 :create => true,
                                                 :physicalMode => true,
                                                 :independent => true,
-                                                :provison_type => options['provison_type'],
+                                                :provison_type => options['provison_type']
           )
 
           config = RbVmomi::VIM::VirtualMachineConfigSpec.new
