@@ -1193,7 +1193,7 @@ module Fog
                                              :path => @vsphere_path,
                                              :ns   => @vsphere_ns,
                                              :rev  => @vsphere_rev,
-                                             :ssl  => !@vsphere_ssl,
+                                             :ssl  => @vsphere_ssl,
                                              :insecure => !@vsphere_verify_cert
               break
             rescue OpenSSL::SSL::SSLError
