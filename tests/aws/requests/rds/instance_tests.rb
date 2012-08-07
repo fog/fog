@@ -70,8 +70,6 @@ Shindo.tests('AWS::RDS | instance requests', ['aws', 'rds']) do
 
     server.reload.wait_for { state == 'available' }
 
-    pending if Fog.mocking?
-
     tests( "#create read replica").formats(AWS::RDS::Formats::CREATE_READ_REPLICA) do
       Fog::AWS[:rds].create_db_instance_read_replica(@db_replica_id, @db_instance_id).body
     end

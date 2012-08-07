@@ -81,7 +81,6 @@ Shindo.tests("AWS::RDS | server", ['aws', 'rds']) do
     @instance.reload.wait_for { ready? }
 
     tests('#create_read_replica').succeeds do
-      pending if Fog.mocking?
 
       replica = @instance_with_final_snapshot.create_read_replica(uniq_id('fog-replica'))
       @instance_with_final_snapshot.reload
