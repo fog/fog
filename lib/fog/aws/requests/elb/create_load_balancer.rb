@@ -77,7 +77,7 @@ module Fog
             'AvailabilityZones' => availability_zones,
             'Subnets' => options[:subnet_ids],
             'Scheme' => options[:scheme].nil? ? 'internet-facing' : options[:scheme],
-            'SecurityGroups' => options[:security_groups],
+            'SecurityGroups' => options[:security_groups].nil? ? [] : options[:security_groups],
             'CanonicalHostedZoneName' => '',
             'CanonicalHostedZoneNameID' => '',
             'CreatedTime' => Time.now,
