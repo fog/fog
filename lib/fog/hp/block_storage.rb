@@ -12,11 +12,19 @@ module Fog
       model       :volume
       collection  :volumes
 
+      model       :snapshot
+      collection  :snapshots
+
       request_path 'fog/hp/requests/block_storage'
       request :create_volume
       request :delete_volume
       request :get_volume_details
       request :list_volumes
+
+      request :create_snapshot
+      request :delete_snapshot
+      request :list_snapshots
+      request :get_snapshot_details
 
       module Utils
 
@@ -40,7 +48,8 @@ module Fog
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
-              :volumes => {}
+              :volumes => {},
+              :snapshots => {}
             }
           end
         end

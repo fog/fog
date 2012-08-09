@@ -1,4 +1,4 @@
-Shindo.tests('Fog::BlockStorage[:hp] | volume requests', ['hp', 'block_storage']) do
+Shindo.tests('Fog::BlockStorage[:hp] | volume requests', ['hp', 'block_storage', 'volumes']) do
 
   @volume_format = {
     'status'             => String,
