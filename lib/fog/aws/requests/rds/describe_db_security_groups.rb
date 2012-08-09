@@ -59,7 +59,7 @@ module Fog
             # TODO: refactor to not delete items that we're iterating over. Causes
             # model tests to fail (currently pending)
             sec_group["EC2SecurityGroups"].each do |ec2_secg|
-              if ec2_secg["Status"] == "authorizing" || iprange["Status"] == "revoking"
+              if ec2_secg["Status"] == "authorizing" || ec2_secg["Status"] == "revoking"
                 ec2_secg[:tmp] ||= Time.now + Fog::Mock.delay * 2
                 if ec2_secg[:tmp] <= Time.now
                   ec2_secg["Status"] = "authorized" if ec2_secg["Status"] == "authorizing"
