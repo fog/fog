@@ -12,6 +12,9 @@ module Fog
       model       :volume
       collection  :volumes
 
+      model       :snapshot
+      collection  :snapshots
+
       request_path 'fog/hp/requests/block_storage'
       request :create_volume
       request :delete_volume
