@@ -212,8 +212,10 @@ module Fog
       request :virtual_machine_copy
       request :virtual_machine_copy_identical
       request :virtual_machine_edit
+      request :virtual_machine_add_ip
       request :virtual_machine_edit_hardware_configuration
       request :virtual_machine_delete
+      request :virtual_machine_upload_file
       request :internet_service_create
       request :internet_service_edit
       request :internet_service_delete
@@ -455,7 +457,7 @@ module Fog
          }
          params[:headers].merge!(maor_headers)
          if params[:method]=="POST" || params[:method]=="PUT"
-           params[:headers].merge!({"Content-Type" => 'application/xml'})
+           params[:headers].merge!({"Content-Type" => 'application/xml'}) unless params[:headers]['Content-Type']
            params[:headers].merge!({"Accept" => 'application/xml'})
          end
          unless params[:body].empty?
