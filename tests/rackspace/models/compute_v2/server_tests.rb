@@ -54,6 +54,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | server', ['rackspace']) do
     tests('#change_admin_password').succeeds do
       @instance.change_admin_password('somerandompassword')
       returns('PASSWORD') { @instance.state }
+      returns('somerandompassword') { @instance.password }
     end
 
     @instance.wait_for { ready? }
