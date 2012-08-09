@@ -12,6 +12,7 @@ module Fog
         def all
           data = connection.get_networks(href).body
           data = data[:Networks] ? data[:Networks][:Network] : data[:Network]
+          data = data.nil? ? [] : data
           load(data)
         end
 
