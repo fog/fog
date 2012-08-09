@@ -41,6 +41,8 @@ module Fog
         attribute :flavor_id, :aliases => 'flavor', :squash => 'id'
         attribute :image_id, :aliases => 'image', :squash => 'id'
 
+        attr_reader :password
+
         def save
           if identity
             update
@@ -121,7 +123,14 @@ module Fog
           requires :identity
           connection.change_server_password(identity, password)
           self.state = PASSWORD
+          @password = password
           true
+        end
+
+        private
+
+        def adminPass=(new_admin_pass)
+          @password = new_admin_pass
         end
       end
     end
