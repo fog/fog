@@ -61,8 +61,7 @@ module Fog
           end
 
           spot_request.save
-          spot_request.wait_for(Fog.timeout, interval=4) { ready? }
-          Fog.wait_for { server = connection.servers.get(spot_request.reload.instance_id) }
+          Fog.wait_for { spot_request.reload.ready? rescue nil }
           server = connection.servers.get(spot_request.instance_id)
           if spot_request.tags
             for key, value in spot_request.tags
