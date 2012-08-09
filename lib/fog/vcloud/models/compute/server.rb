@@ -50,7 +50,7 @@ module Fog
 
         def ready?
           reload_status # always ensure we have the correct status
-          running_tasks = tasks && tasks.flatten.any? {|ti| ti.kind_of?(Hash) && ti[:status] == 'running' }
+          running_tasks = self.tasks && self.tasks.flatten.any? {|ti| ti.kind_of?(Hash) && ti[:status] == 'running' }
           status != '0' && !running_tasks # 0 is provisioning, and no running tasks
         end
 
@@ -86,7 +86,15 @@ module Fog
           attributes[:name] = new_name
           @changed = true
         end
+        def password
+          guest_customization[:AdminPassword]
+        end
 
+        def password=(password)
+          return if password.nil? or password.size == 0
+          @changed = true
+          @update_password = password
+        end
         def cpus
           if cpu_mess
             { :count => cpu_mess[:"rasd:VirtualQuantity"].to_i,
@@ -95,8 +103,11 @@ module Fog
         end
 
         def cpus=(qty)
+          return if qty.nil? or qty.size == 0
+           
           @changed = true
-          cpu_mess[:"rasd:VirtualQuantity"] = qty.to_s
+          @update_cpu_value = qty
+          qty
         end
 
         def memory
@@ -107,6 +118,7 @@ module Fog
         end
 
         def memory=(amount)
+          return if amount.nil? or amount.size == 0
           @changed = true
           @update_memory_value = amount
           amount
@@ -172,26 +184,44 @@ module Fog
                 raise RuntimeError, "Can't save cpu, name or memory changes while the VM is on."
               end
             end
+
+            if @update_password
+                guest_customization[:AdminPassword] = @update_password.to_s
+                connection.configure_vm_password(guest_customization)
+                wait_for { ready? }
+            end
+
+            if @update_cpu_value
+              cpu_mess[:"rasd:VirtualQuantity"] = @update_cpu_value.to_s
+              connection.configure_vm_cpus(cpu_mess)
+              wait_for { ready? }
+            end
+                
             if @update_memory_value
               memory_mess[:"rasd:VirtualQuantity"] = @update_memory_value.to_s
               connection.configure_vm_memory(memory_mess)
+              wait_for { ready? }
             end
+
             if @disk_change == :deleted
               data = disk_mess.delete_if do |vh|
                 vh[:'rasd:ResourceType'] == '17' &&
                   vh[:'rasd:AddressOnParent'].to_s == @remove_disk.to_s
               end
               connection.configure_vm_disks(self.href, data)
+              wait_for { ready? }
             end
             if @disk_change == :added
               data = disk_mess
               data << @add_disk
               connection.configure_vm_disks(self.href, data)
+              wait_for { ready? }
             end
             if @name_changed || @description_changed
               edit_uri = links.select {|i| i[:rel] == 'edit'}
               edit_uri = edit_uri.kind_of?(Array) ? edit_uri.flatten[0][:href] : edit_uri[:href]
               connection.configure_vm_name_description(edit_uri, self.name, self.description)
+              wait_for { ready? }
             end
           end
           reset_tracking
@@ -215,6 +245,8 @@ module Fog
         def reset_tracking
           @disk_change = false
           @changed = false
+          @update_password = nil
+          @update_cpu_value = nil
           @update_memory_value = nil
           @name_changed = false
           @description_changed = nil
@@ -263,7 +295,9 @@ module Fog
         end
 
         def reload_status
-          self.status = connection.get_vapp(href).status
+          server = connection.get_server(href)
+          self.status = server.status
+          self.tasks = server.tasks
         end
       end
     end

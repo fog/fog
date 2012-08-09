@@ -16,8 +16,7 @@ module Fog
           else
             connection.request(connection.basic_request_params("#{connection.base_path_url}/org/"))
           end
-          data = raw_orgs.body[:Org].select { |org| org[:type] == "application/vnd.vmware.vcloud.org+xml" }
-          data.each { |org| org.delete_if { |key, value| [:rel].include?(key) } }
+          data = raw_orgs.body[:Org]
           load(data)
         end
 
