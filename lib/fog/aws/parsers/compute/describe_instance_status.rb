@@ -59,7 +59,7 @@ module Fog
             when 'code'
               case @inside
               when :eventsSet
-                @instance[@inside.to_s][name] = value
+                @item[name] = value
               when :instanceState
                 @instance[@inside.to_s][name] = value.to_i
               end
