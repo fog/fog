@@ -176,7 +176,7 @@ module Fog
           #raise ArgumentError, "Must pass a host_moid option" unless options['host_moid']
             vm_mob_ref = get_vm_mob_ref_by_moid(options['vm_moid'])
             #host_mob_ref = get_host_mob_ref_by_moid(options['host_moid'])
-          if vm_mob_ref.runtime.faultToleranceState != "notConfigured"
+          if !(vm_mob_ref.runtime.nil?) && !(vm_mob_ref.runtime.faultToleranceState.nil?) && (vm_mob_ref.runtime.faultToleranceState != "notConfigured")
             return { 'task_state' => 'success' }
           end
           begin
