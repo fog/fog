@@ -1,4 +1,3 @@
-
 require 'digest/sha2'
 require 'fog/storage'
 
@@ -202,21 +201,28 @@ module Fog
             options['shared'] = options['data_shared'] || false
             options['mode'] = options['data_mode']
             @data_disks = Disk.new(options)
-            @disk_index =0
+            @disk_index = { 'lsilogic'=> 0, 'paravirtual'=> 0 }
           end
 
           def get_volumes_for_os(type)
             case type
               when 'system'
                 vs = system_disks.volumes.values
+                returns  = vs.collect{ |v| "/dev/sd#{DISK_DEV_LABEL[v.unit_number]}"}.compact.sort
               when 'swap'
                 vs = swap_disks.volumes.values
+                returns  = vs.collect{ |v| "/dev/sd#{DISK_DEV_LABEL[v.unit_number]}"}.compact.sort
               when 'data'
                 vs = data_disks.volumes.values
-              else
-                vs = data_disks.volumes.values
+                if data_disks.affinity
+                  series_number = 0
+                else
+                  series_number = system_disks.volumes.size + swap_disks.volumes.size
+                end
+                #returns  = vs.collect{ |v| "/dev/sd#{DISK_DEV_LABEL[series_number + (data_disks.volumes.size - v.unit_number - 1)]}"}.compact.sort
+                returns  = vs.collect{ |v| "/dev/sd#{DISK_DEV_LABEL[series_number + v.unit_number]}"}.compact.sort
             end
-            vs.collect { |v| "/dev/sd#{DISK_DEV_LABEL[v.unit_number]}"}.compact.sort
+            returns
           end
 
           def get_system_ds_name
@@ -225,15 +231,16 @@ module Fog
             name
           end
 
-          def volume_add(type, id, mode, size, fullpath, datastore_name, unit_number = 0)
+          def volume_add(type, id, mode, size, fullpath, datastore_name, transport, unit_number)
             v = Volume.new
             v.vm_mo_ref = id
             v.mode = mode
             v.fullpath = fullpath
             v.size = size
             v.datastore_name = datastore_name
-            v.unit_number = unit_number
             v.scsi_key = DEFAULT_SCSI_KEY
+            v.transport = transport
+            v.unit_number = unit_number
             case type
               when 'system'
                 system_disks.volumes[fullpath] = v
@@ -254,7 +261,6 @@ module Fog
           end
 
           def inspect_fullpath
-            Fog::Logger.deprecation("______________________________________________")
             Fog::Logger.deprecation("start traverse vm.system_disks.volumes:[/]")
             @system_disks.volumes.values.each do |v|
               Fog::Logger.deprecation("vm #{name} system_disks - fullpath = #{v.fullpath} with unit_number = #{v.unit_number}[/]")
@@ -872,12 +878,15 @@ module Fog
           collection = self.volumes
           begin
             vs.each do |v|
+              #Fog::Logger.deprecation("fog: create_volumes fullpath#{v.fullpath} transport#{v.transport} unit_number#{v.unit_number}[/]")
               params = {
                   'vm_mo_ref' => vm.id,
                   'mode' => v.mode,
                   'fullpath' => v.fullpath,
                   'size'=> v.size,
-                  'datastore_name' => v.datastore_name
+                  'datastore_name' => v.datastore_name,
+                  'transport' => v.transport,
+                  'unit_number' => v.unit_number
               }
               next if params['size'] <= 0
               recover << params
@@ -885,14 +894,8 @@ module Fog
               response = v.save
               if !response.has_key?('task_state') || response['task_state'] != "success"
                 recover.pop
-                recover.each do |v|
-                  params = {
-                      'vm_mo_ref' => vm.id,
-                      'mode' => v.mode,
-                      'fullpath' => v.fullpath,
-                      'size'=> v.size,
-                      'datastore_name' => v.datastore_name
-                  }
+                recover.each do |params|
+                  Fog::Logger.deprecation("fog: create_volumes response fail fullpath=#{params['fullpath']} transport=#{params['transport']}[/]")
                   next if params['size'] <= 0
                   v = collection.new(params)
                   response = v.destroy
@@ -901,17 +904,12 @@ module Fog
               end
             end
           rescue => e
+            Fog::Logger.deprecation("fog: create_volumes error #{e} need recover")
             response['task_state'] = 'error'
             response['error_message'] = e.to_s
             recover.pop
-            recover.each do |v|
-              params = {
-                  'vm_mo_ref' => vm.id,
-                  'mode' => v.mode,
-                  'fullpath' => v.fullpath,
-                  'size'=> v.size,
-                  'datastore_name' => v.datastore_name
-              }
+            recover.each do |params|
+              Fog::Logger.deprecation("fog: create_volumes recover fullpath=#{params['fullpath']} transport=#{params['transport']}[/]")
               next if params['size'] <= 0
               v = collection.new(params)
               response = v.destroy
@@ -934,7 +932,8 @@ module Fog
                   'mode' => v.mode,
                   'fullpath' => v.fullpath,
                   'size'=> v.size,
-                  'datastore_name' => v.datastore_name
+                  'datastore_name' => v.datastore_name,
+                  'transport' => v.transport
               }
               collection = self.volumes
               v = collection.new(params)
@@ -982,36 +981,41 @@ module Fog
 
         def alloc_volumes(host_name, type, vm, ds_res, size)
           vm.host_name = host_name
+          transport = 'lsilogic'
           ds_res.each do |ds|
             case type
-              when "system"
+              when 'system'
                 mode =  vm.system_disks.mode
                 id = vm.id
-              when "swap"
+              when 'swap'
                 mode =  vm.swap_disks.mode
                 id = vm.id
-              when "data"
+              when 'data'
                 mode =  vm.data_disks.mode
                 id = vm.id
+                transport = 'paravirtual' unless vm.data_disks.affinity
               else
                 mode =  vm.data_disks.mode
                 id = vm.id
+                transport = 'paravirtual' unless vm.data_disks.affinity
             end
-            unit_number = vm.disk_index
-            vm.disk_index +=1
-            if vm.disk_index == 7
-              vm.disk_index +=1
+            unit_number = vm.disk_index[transport]
+            vm.disk_index[transport] = unit_number+1
+            if vm.disk_index[transport] == 7
+              vm.disk_index[transport] = unit_number+2
             end
             if ds.shared
               fullpath = "[#{ds.name}] #{vm.name}/shared#{unit_number}.vmdk"
             else
               fullpath = "[#{ds.name}] #{vm.name}/local#{unit_number}.vmdk"
             end
-            vm.volume_add(type, id, mode, size, fullpath, ds.name, unit_number)
+            Fog::Logger.deprecation("fog: alloc type=#{type} transport=#{transport} fullpath=#{fullpath} unit_number=#{unit_number}")
+            vm.volume_add(type, id, mode, size, fullpath, ds.name, transport, unit_number)
             ds.unaccounted_space += size.to_i
           end
 
         end
+
 
       end  # end of real
     end

@@ -14,6 +14,7 @@ module Fog
         attr_accessor :datastore_name
         attr_accessor :vm_mo_ref
         attr_accessor :mode
+        attr_accessor :transport
 
         def destroy
           requires :vm_mo_ref, :fullpath
@@ -29,9 +30,16 @@ module Fog
         #end
 
         def save
-          requires :vm_mo_ref, :fullpath, :size
+          requires :vm_mo_ref, :fullpath, :size, :transport, :unit_number
           Fog::Logger.deprecation("before vmdk creation with vm_moid= #{vm_mo_ref}, vmdk_path = #{fullpath}, disk_size = #{size}")
-          response = connection.vm_create_disk('vm_moid' => vm_mo_ref, 'vmdk_path' => fullpath, 'disk_size' => size, 'provison_type' => mode)
+          response = connection.vm_create_disk(
+              'vm_moid' => vm_mo_ref,
+              'vmdk_path' => fullpath,
+              'disk_size' => size,
+              'provison_type' => mode,
+              'transport'=> transport,
+              'unit_number'=> unit_number
+          )
           if response.has_key?('task_state') && response['task_state'] == "success"
             @scsi_key = response['scsi_key']
             @unit_number = response['unit_number']
