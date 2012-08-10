@@ -48,6 +48,7 @@ else
   Compute = Fog::Compute
   DNS     = Fog::DNS
   Storage = Fog::Storage
+  HA      = Fog::Highavailability
 
   catch(:IRB_EXIT) { @irb.eval_input }
 

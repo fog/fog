@@ -1,4 +1,4 @@
-require 'fog/core'
+require(File.expand_path(File.join(File.dirname(__FILE__), 'core')))
 
 module Fog
   module Vsphere
@@ -13,6 +13,9 @@ module Fog
 
     service(:compute, 'vsphere/compute', 'Compute')
     service(:storage, 'vsphere/storage', 'Storage')
+    service(:highavailablity, 'vsphere/highavailability', 'Highavailability')
+
 
   end
+
 end
