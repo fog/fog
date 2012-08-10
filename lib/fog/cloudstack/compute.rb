@@ -120,6 +120,7 @@ module Fog
       request :recover_virtual_machine
       request :register_ssh_key_pair
       request :register_user_keys
+      request :register_template
       request :remove_from_load_balancer_rule
       request :reset_password_for_virtual_machine
       request :revoke_security_group_ingress
@@ -364,7 +365,9 @@ module Fog
                 "domain"          => "ROOT",
                 "domainid"        => "6023b6fe-5bef-4358-bc76-9f4e75afa52f",
                 "isextractable"   => true,
-                "checksum"        => "905cec879afd9c9d22ecc8036131a180"}},
+                "checksum"        => "905cec879afd9c9d22ecc8036131a180",
+                "hypervisor"      => "Xen"
+              }},
               :flavors => { flavor_id => {
                 "id"          => flavor_id,
                 "name"        => "Medium Instance",
