@@ -26,6 +26,7 @@ module Fog
         # * Port <~Integer> The port number on which the database accepts connections.
         # * PreferredBackupWindow <~String> The daily time range during which automated backups are created if automated backups are enabled
         # * PreferredMaintenanceWindow <~String> The weekly time range (in UTC) during which system maintenance can occur, which may result in an outage
+        # * DBSubnetGroupName <~String> The name, if any, of the VPC subnet for this RDS instance
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
