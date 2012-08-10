@@ -65,7 +65,7 @@ module Fog
           @dynect_password = options[:dynect_password]
 
           @connection_options = options[:connection_options] || {}
-          @host       = 'api2.dynect.net'
+          @host       = 'api-v4.dynect.net'
           @port       = options[:port]        || 443
           @path       = options[:path]        || '/REST'
           @persistent = options[:persistent]  || false
