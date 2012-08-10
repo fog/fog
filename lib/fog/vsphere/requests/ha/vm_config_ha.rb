@@ -176,7 +176,10 @@ module Fog
           #raise ArgumentError, "Must pass a host_moid option" unless options['host_moid']
             vm_mob_ref = get_vm_mob_ref_by_moid(options['vm_moid'])
             #host_mob_ref = get_host_mob_ref_by_moid(options['host_moid'])
-            begin
+          if vm_mob_ref.runtime.faultToleranceState != "notConfigured"
+            return { 'task_state' => 'success' }
+          end
+          begin
               response = is_vm_ft_compatible(vm_mob_ref)
               return response if response['task_state'] == 'error'
               task = vm_mob_ref.CreateSecondaryVM_Task()
