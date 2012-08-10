@@ -142,7 +142,7 @@ module Fog
         def vm_disable_ft(options = {})
           raise ArgumentError, "Must pass a vm_moid option" unless options['vm_moid']
           vm_mob_ref = get_vm_mob_ref_by_moid(options['vm_moid'])
-          if vm_mob_ref.runtime.faultToleranceState == "notConfigured"
+          if vm_mob_ref.runtime.nil? || vm_mob_ref.runtime.faultToleranceState.nil? || vm_mob_ref.runtime.faultToleranceState == "notConfigured"
             return { 'task_state' => 'success' }
           end
           ft_info = vm_mob_ref.config.ftInfo
@@ -170,12 +170,21 @@ module Fog
           { 'task_state' => task.info.state }
         end
 
+        def is_vm_ft_primary( options = {})
+          raise ArgumentError, "Must pass a vm_moid option" unless options['vm_moid']
+          vm_mob_ref = get_vm_mob_ref_by_moid(options['vm_moid'])
+          ft_info = vm_mob_ref.config.ftInfo
+          if !(ft_info.nil?) && ft_info.kind_of?(RbVmomi::VIM::FaultToleranceSecondaryConfigInfo)
+            return false
+          end
+          return true
+        end
 
         def vm_enable_ft(options = {})
           raise ArgumentError, "Must pass a vm_moid option" unless options['vm_moid']
           #raise ArgumentError, "Must pass a host_moid option" unless options['host_moid']
-            vm_mob_ref = get_vm_mob_ref_by_moid(options['vm_moid'])
-            #host_mob_ref = get_host_mob_ref_by_moid(options['host_moid'])
+          vm_mob_ref = get_vm_mob_ref_by_moid(options['vm_moid'])
+          #host_mob_ref = get_host_mob_ref_by_moid(options['host_moid'])
           if !(vm_mob_ref.runtime.nil?) && !(vm_mob_ref.runtime.faultToleranceState.nil?) && (vm_mob_ref.runtime.faultToleranceState != "notConfigured")
             return { 'task_state' => 'success' }
           end
