@@ -1005,9 +1005,9 @@ module Fog
               vm.disk_index[transport] = unit_number+2
             end
             if ds.shared
-              fullpath = "[#{ds.name}] #{vm.name}/shared#{unit_number}.vmdk"
+              fullpath = "[#{ds.name}] #{vm.name}/shared#{transport}#{unit_number}.vmdk"
             else
-              fullpath = "[#{ds.name}] #{vm.name}/local#{unit_number}.vmdk"
+              fullpath = "[#{ds.name}] #{vm.name}/local#{transport}#{unit_number}.vmdk"
             end
             Fog::Logger.deprecation("fog: alloc type=#{type} transport=#{transport} fullpath=#{fullpath} unit_number=#{unit_number}")
             vm.volume_add(type, id, mode, size, fullpath, ds.name, transport, unit_number)
