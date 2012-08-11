@@ -60,6 +60,8 @@ module Fog
       request :create_ip_forwarding_rule
       request :delete_ip_forwarding_rule
       request :list_ip_forwarding_rules
+      # Load Balancers
+      request :create_load_balancer_rule
 
       class Mock
 
