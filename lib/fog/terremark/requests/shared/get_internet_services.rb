@@ -25,7 +25,8 @@ module Fog
             :expects  => 200,
             :method   => 'GET',
             :parser   => Fog::Parsers::Terremark::Shared::GetInternetServices.new,
-            :path     => "vdc/#{vdc_id}/internetServices"
+            :path     => "api/extensions/v1.6/vdc/#{vdc_id}/internetServices",
+            :override_path => true
           )
         end
 

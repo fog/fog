@@ -12,7 +12,8 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'DELETE',
-            :path     => "publicIps/#{public_ip_id}"
+            :path     => "api/extensions/v1.6/publicIp/#{public_ip_id}",
+            :override_path => true
           )
         end
 
