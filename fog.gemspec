@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   ## better to set the email to an email list or something. If you don't have
   ## a custom homepage, consider using your GitHub URL or the like.
   s.authors  = ["geemus (Wesley Beary)", "VMware serengeti team (Xinhui Li, Jun Xiao, Wendy He)"]
-  s.email    = 'geemus@gmail.com'
+  s.email    = 'lxinhui@vmware.com'
   s.homepage = 'http://github.com/fog/fog'
 
   ## This sections is only necessary if you have C extensions.
