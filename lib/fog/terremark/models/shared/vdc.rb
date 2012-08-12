@@ -9,7 +9,9 @@ module Fog
         identity :id
 
         attribute :name
-
+        attribute :ResourceEntities
+        attribute :AvailableNetworks
+        attribute :links
         def networks
           connection.networks(:vdc_id => id)
         end
@@ -22,6 +24,9 @@ module Fog
           connection.servers(:vdc_id => id)
         end
 
+        def images
+          connection.images(:vdc_id => id)
+        end
         private
 
         def href=(new_href)

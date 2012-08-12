@@ -14,8 +14,13 @@ module Fog
             case name
             when 'CatalogItem'
               catalog_item = {}
-              until attributes.empty?
-                catalog_item[attributes.shift] = attributes.shift
+              attributes.each do |attrib|
+                i = 0
+                while i < attrib.size
+                  catalog_item[attrib[i]] = attrib[i+1]
+                  i += 2
+                end
+                catalog_item["id"] = catalog_item["href"].split('/').last
               end            
               @response['CatalogItems'] << catalog_item
             when 'Catalog'

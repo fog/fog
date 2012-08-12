@@ -1,4 +1,6 @@
 require 'rubygems'
+require 'rake/gempackagetask'
+require 'rake/rdoctask'
 require 'bundler/setup'
 require 'date'
 require File.dirname(__FILE__) + '/lib/fog'
@@ -44,6 +46,7 @@ end
 #
 #############################################################################
 
+GEM_NAME = "#{name}"
 task :default => :test
 
 namespace :test do

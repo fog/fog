@@ -23,17 +23,27 @@ module Fog
           unless name.length < 15
             raise ArgumentError.new('Name must be fewer than 15 characters')
           end
+          unless vapp_template
+            raise ArgumentError.new("vApp Image Template is a compulsary parameter")
+          end
+          options['ssh_key_fingerprint'] ||= default_ssh_key["FingerPrint"]
           options['cpus'] ||= 1
           options['memory'] ||= 512
           options['network_id'] ||= default_network_id
           options['vdc_id'] ||= default_vdc_id
+          options['primary_dns'] ||= '208.67.222.222'
+          options['secondary_dns'] ||= '208.67.220.220'
 
           data = <<-DATA
 <?xml version="1.0" encoding="UTF-8"?>
 <InstantiateVAppTemplateParams name="#{name}" xmlns="http://www.vmware.com/vcloud/v0.8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.vmware.com/vcloud/v0.8 http://services.vcloudexpress.terremark.com/api/v0.8/ns/vcloud.xsd">
   <VAppTemplate href="#{@scheme}://#{@host}/#{@path}/vAppTemplate/#{vapp_template}" />
   <InstantiationParams xmlns:vmw="http://www.vmware.com/schema/ovf">
-    <ProductSection xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1" xmlns:q1="http://www.vmware.com/vcloud/v0.8"/>
+    <ProductSection xmlns:ovf="http://schemas.dmtf.org/ovf/envelope/1" xmlns:q1="http://www.vmware.com/vcloud/v0.8">
+    <Property xmlns="http://schemas.dmtf.org/ovf/envelope/1" ovf:key="primaryDNS" ovf:value="#{options['primary_dns']}" />
+    <Property xmlns="http://schemas.dmtf.org/ovf/envelope/1" ovf:key="secondaryDNS" ovf:value="#{options['secondary_dns']}" />
+    <Property xmlns="http://schemas.dmtf.org/ovf/envelope/1" ovf:key="sshKeyFingerprint" ovf:value="#{options['ssh_key_fingerprint']}" />
+    </ProductSection>
     <VirtualHardwareSection xmlns:q1="http://www.vmware.com/vcloud/v0.8">
       <Item xmlns="http://schemas.dmtf.org/ovf/envelope/1">
         <InstanceID xmlns="http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/CIM_ResourceAllocationSettingData">1</InstanceID>
