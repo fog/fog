@@ -1,3 +1,4 @@
+require 'fog/atmos'
 require 'fog/aws'
 require 'fog/bluebox'
 require 'fog/brightbox'

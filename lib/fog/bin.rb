@@ -4,6 +4,7 @@ module Fog
   class << self
 
     def available_providers
+	  Kernel.const_get('Ninefold')
       @available_providers ||= Fog.providers.values.select {|provider| Kernel.const_get(provider).available?}.sort
     end
 
@@ -56,6 +57,7 @@ module Fog
 
 end
 
+require 'fog/bin/atmos'
 require 'fog/bin/aws'
 require 'fog/bin/bluebox'
 require 'fog/bin/brightbox'
