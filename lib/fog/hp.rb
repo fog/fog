@@ -3,6 +3,12 @@ require 'multi_json'
 
 module Fog
   module HP
+
+    # define a specific version for the HP Provider
+    unless const_defined?(:VERSION)
+      VERSION = '0.0.15'
+    end
+
     extend Fog::Provider
 
     module Errors
@@ -60,6 +66,9 @@ module Fog
         @auth_path = "auth/v1.0"
       end
       service_url = "#{@scheme}://#{@host}:#{@port}"
+      # Set the User-Agent
+      @user_agent = options[:user_agent]
+      set_user_agent_header(connection_options, "hpfog v1/#{Fog::HP::VERSION} (#{@user_agent})")
       connection = Fog::Connection.new(service_url, false, connection_options)
       @hp_account_id = options[:hp_account_id]
       @hp_secret_key  = options[:hp_secret_key]
@@ -100,6 +109,9 @@ module Fog
         @auth_path = "v2.0/tokens"
       end
       service_url = "#{@scheme}://#{@host}:#{@port}"
+      # Set the User-Agent. If the caller sets a user_agent, use it.
+      @user_agent = options[:user_agent]
+      set_user_agent_header(connection_options, "hpfog/#{Fog::HP::VERSION}", @user_agent)
       connection = Fog::Connection.new(service_url, false, connection_options)
 
       ### Implement HP Control Services Authentication services ###
@@ -134,7 +146,7 @@ module Fog
         }
       end
       # add tenant_id if specified
-      request_body['auth']['tenantId'] = "#{@hp_tenant_id}" if @hp_tenant_id
+      request_body['auth']['tenantId'] = @hp_tenant_id if @hp_tenant_id
 
       ### Make the call to CS to get auth token and service catalog
       response = connection.request(
@@ -191,6 +203,19 @@ module Fog
         endpoint_url = endpoint['publicURL'] if endpoint
         raise "Unable to retrieve endpoint service url for availability zone '#{avl_zone}' from service catalog. " if endpoint_url.nil?
         return endpoint_url
+      end
+    end
+
+    def self.set_user_agent_header(conn_opts, base_str, client_str)
+      if client_str
+        user_agent = {'User-Agent' => base_str + " (#{client_str})"}
+      else
+        user_agent = {'User-Agent' => base_str}
+      end
+      if conn_opts[:headers]
+        conn_opts[:headers] = user_agent.merge!(conn_opts[:headers])
+      else
+        conn_opts[:headers] = user_agent
       end
     end
 
