@@ -40,12 +40,18 @@ def connection
   connections[$connection_manager_previous_key]
 end
 
-def connect_openstack(username, password, tenant = nil, url = 'http://192.168.27.100:35357/')
+def connect_openstack(
+  username, password,
+  tenant      = nil,
+  url         = 'http://192.168.27.100:35357/',
+  public_url  = 'http://192.168.27.100:5000/'  )
+
   parameters = {
     :provider => 'openstack',
     :openstack_api_key => password,
     :openstack_username => username,
-    :openstack_auth_url => "#{url}v2.0/tokens"
+    :openstack_auth_url => "#{url}v2.0/tokens",
+    :openstack_public_identity_url => public_url
   }
 
   parameters.merge!(:openstack_tenant => tenant) if tenant
