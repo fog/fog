@@ -102,7 +102,7 @@ module Fog
             end
 
             if response.status == 307 && params[:path] !~ %r{^/REST/Job/}
-              response = poll_job(response)
+              response = poll_job(response, params[:expects])
             end
 
             response
@@ -118,11 +118,11 @@ module Fog
           response
         end
 
-        def poll_job(response, time_to_wait = 10)
+        def poll_job(response, original_expects, time_to_wait = 10)
           job_location = response.headers['Location']
 
           Fog.wait_for(time_to_wait) do
-            response = request(:expects => 200, :method => :get, :path => job_location)
+            response = request(:expects => original_expects, :method => :get, :path => job_location)
             response.body['status'] != 'incomplete'
           end
 
