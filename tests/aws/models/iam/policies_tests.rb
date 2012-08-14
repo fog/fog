@@ -14,7 +14,7 @@ Shindo.tests("Fog::Compute[:iam] | policies", ['aws','iam']) do
   
   tests('#create') do 
     tests('a valid policy').succeeds do
-      policy = @user.policies.create(id: @policy_name, document: @policy_document)
+      policy = @user.policies.create(:id => @policy_name, :document => @policy_document)
       policy.id == @policy_name
       policy.username == @username
       policy.document == @policy_document
@@ -26,7 +26,7 @@ Shindo.tests("Fog::Compute[:iam] | policies", ['aws','iam']) do
     #end
   end
   
-  @user.policies.create(id: 'another-policy', document: {})
+  @user.policies.create(:id => 'another-policy', :document => {})
   
   tests('#all','there are two policies').succeeds do
     @user.policies.size == 2
