@@ -196,6 +196,13 @@ module Fog
           connection.create_image(id, name, metadata)
         end
 
+        def volume_attachments
+          requires :id
+          if vols = @connection.list_server_volumes(id).body
+            vols["volumeAttachments"]
+          end
+        end
+
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :flavor_id, :image_id, :name
