@@ -1,5 +1,5 @@
 require 'fog'
-require 'fog/bin' # for available_providers
+require 'fog/bin' # for available_providers and registered_providers
 
 require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'mock_helper'))
 
@@ -12,9 +12,16 @@ def array_differences(array_a, array_b)
 end
 
 # check to see which credentials are available and add others to the skipped tags list
-all_providers = ['aws', 'bare_metal_cloud', 'bluebox', 'brightbox', 'cloudstack', 'dnsimple', 'dnsmadeeasy', 'dynect', 'ecloud', 'glesys', 'gogrid', 'google', 'hp', 'linode', 'local', 'ninefold', 'openstack', 'rackspace', 'stormondemand', 'voxel', 'xenserver', 'zerigo']
+all_providers = Fog.registered_providers.map {|provider| provider.downcase}
+
+# Manually remove these providers since they are local applications, not lacking credentials
+all_providers = all_providers - ["libvirt", "virtualbox", "vmfusion"]
+
 available_providers = Fog.available_providers.map {|provider| provider.downcase}
-for provider in (all_providers - available_providers)
+
+unavailable_providers = all_providers - available_providers
+
+for provider in unavailable_providers
   Formatador.display_line("[yellow]Skipping tests for [bold]#{provider}[/] [yellow]due to lacking credentials (add some to '~/.fog' to run them)[/]")
   Thread.current[:tags] << ('-' << provider)
 end

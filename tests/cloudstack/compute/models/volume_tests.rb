@@ -19,7 +19,7 @@ def volume_tests(connection, params, mocks_implemented = true)
   end
 end
 
-Shindo.tests("Fog::Compute[:cloudstack] | volume", :cloudstack) do
+Shindo.tests("Fog::Compute[:cloudstack] | volume", "cloudstack") do
 
   config = compute_providers[:cloudstack]
 

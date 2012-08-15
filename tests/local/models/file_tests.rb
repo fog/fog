@@ -1,4 +1,4 @@
-Shindo.tests('Storage[:local] | file', [:local]) do
+Shindo.tests('Storage[:local] | file', ["local"]) do
 
   pending if Fog.mocking?
 

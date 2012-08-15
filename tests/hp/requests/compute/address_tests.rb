@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Compute[:hp] | address requests', [:hp]) do
+Shindo.tests('Fog::Compute[:hp] | address requests', ["hp"]) do
 
   @floating_ips_format = {
     'instance_id' => Fog::Nullable::Integer,

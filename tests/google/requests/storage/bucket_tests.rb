@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Storage[:google] | bucket requests', [:google]) do
+Shindo.tests('Fog::Storage[:google] | bucket requests', ["google"]) do
 
   tests('success') do
 

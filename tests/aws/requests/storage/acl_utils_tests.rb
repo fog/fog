@@ -1,6 +1,6 @@
 require 'fog/aws/requests/storage/acl_utils'
 
-Shindo.tests('Fog::Storage::AWS | ACL utils', [:aws]) do
+Shindo.tests('Fog::Storage::AWS | ACL utils', ["aws"]) do
   tests(".hash_to_acl") do
     tests(".hash_to_acl({}) at xpath //AccessControlPolicy").returns("", "has an empty AccessControlPolicy") do
       xml = Fog::Storage::AWS.hash_to_acl({})

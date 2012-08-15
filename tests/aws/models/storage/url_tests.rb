@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-Shindo.tests('AWS | url') do
+Shindo.tests('AWS | url', ["aws"]) do
 
   @expires = DateTime.parse('2013-01-01T00:00:00Z').to_time.utc.to_i
 
