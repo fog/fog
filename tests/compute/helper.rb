@@ -15,7 +15,7 @@ def compute_providers
     },
     :brightbox  => {
       :server_attributes => {
-        :image_id => (Brightbox::Compute::TestSupport.image_id rescue 'img-wwgbb') # Ubuntu Lucid 10.04 server (i686)
+        :image_id => Brightbox::Compute::TestSupport.image_id
       },
       :mocked => false
     },

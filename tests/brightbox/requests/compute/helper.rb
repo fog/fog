@@ -42,13 +42,20 @@ class Brightbox
     module TestSupport
       # Find a suitable image for testing with
       # For speed of server building we're using an empty image
+      #
+      # Unless the tester has credentials this will fail so we rescue
+      # any errors and return nil.
+      #
+      # This is used in the shared file +tests/compute/helper.rb+ so unfortunately
+      # makes all tests reliant on hardcoded values and each other
+      #
+      # @return [String,NilClass] the most suitable test image's identifier or nil
       def self.image_id
         return @image_id unless @image_id.nil?
-        images = Fog::Compute[:brightbox].list_images
-        raise "No available images!" if images.empty?
-        image = images.select {|img| img.size == 0 }.first
-        image = images.first if image.nil?
+        image = select_testing_image_from_api
         @image_id = image["id"]
+      rescue
+        @image_id = nil
       end
 
       # Prepare a test server, wait for it to be usable but raise if it fails
@@ -60,6 +67,13 @@ class Brightbox
           ready?
         }
         server
+      end
+
+    private
+      def self.select_testing_image_from_api
+        images = Fog::Compute[:brightbox].list_images
+        raise "No available images!" if images.empty?
+        images.select {|img| img.size == 0 }.first || images.first
       end
 
     end
