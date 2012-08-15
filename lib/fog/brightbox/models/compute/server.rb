@@ -17,6 +17,7 @@ module Fog
         attribute :fqdn
         attribute :user_data
         attribute :console_url
+        attribute :fqdn
         attribute :console_token
 
         # Times

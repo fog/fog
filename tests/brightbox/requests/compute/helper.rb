@@ -189,7 +189,7 @@ class Brightbox
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
-          "name"            => String,
+          "name"            => Fog::Nullable::String,
           "created_at"      => String,
           "default"         => Fog::Boolean,
           "description"     => Fog::Nullable::String,
@@ -340,7 +340,7 @@ class Brightbox
           "id"              => String,
           "resource_type"   => String,
           "url"             => String,
-          "name"            => String,
+          "name"            => Fog::Nullable::String,
           "description"     => Fog::Nullable::String,
           "default"         => Fog::Boolean,
           "created_at"      => String,
@@ -547,6 +547,7 @@ class Brightbox
           "server_groups"   => [Brightbox::Compute::Formats::Nested::SERVER_GROUP],
           "interfaces"      => [Brightbox::Compute::Formats::Nested::INTERFACE],
           "zone"            => Fog::Brightbox::Nullable::Zone,
+          "licence_name"    => Fog::Nullable::String,
           "username"        => Fog::Nullable::String
         }
 
