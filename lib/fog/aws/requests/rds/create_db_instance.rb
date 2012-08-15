@@ -85,7 +85,7 @@ module Fog
                  "Engine"=> options["Engine"],
                  "EngineVersion"=> options["EngineVersion"] || "5.5.12",
                  "PendingModifiedValues"=>{"MasterUserPassword"=>"****"}, # This clears when is available
-                 "MultiAZ"=>false,
+                 "MultiAZ"=> !!options['MultiAZ'],
                  "MasterUsername"=> options["MasterUsername"],
                  "DBInstanceClass"=> options["DBInstanceClass"],
                  "DBInstanceStatus"=>"creating",

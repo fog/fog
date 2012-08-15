@@ -51,7 +51,7 @@ module Fog
                  if Time.now - server['InstanceCreateTime'] >= Fog::Mock.delay * 2
                    region = "us-east-1"
                    server["DBInstanceStatus"] = "available"
-                   server["AvailabilityZone"] = region + 'a'
+                   server["AvailabilityZone"] ||= region + 'a'
                    server["Endpoint"] = {"Port"=>3306, 
                                          "Address"=> Fog::AWS::Mock.rds_address(server["DBInstanceIdentifier"],region) }
                    server["PendingModifiedValues"] = {}
