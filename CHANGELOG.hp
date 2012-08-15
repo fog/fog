@@ -1,3 +1,14 @@
+0.0.16 08/15/2012
+=================
+- add support for User-Agent string in header
+- add support for Snapshots API to BlockStorage provider
+- add support for Volumes API to BlockStorage provider
+- add BlockStorage service to HP provider
+- upgrade to excon 0.14.0 to take advantage of instrumentation
+- add a head method for  the directories collection
+- update image model
+- update put_object and get_object to accept blocks
+
 0.0.15 06/08/2012
 =================
 - add metadata attribute in server and image models to manage metadata
