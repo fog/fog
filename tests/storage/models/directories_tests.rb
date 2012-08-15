@@ -1,6 +1,6 @@
 for provider, config in storage_providers
 
-  Shindo.tests("Storage[:#{provider}] | directories", [provider]) do
+  Shindo.tests("Storage[:#{provider}] | directories", [provider.to_s]) do
 
     if !Fog.mocking? || config[:mocked]
 
