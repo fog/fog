@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Storage[:aws] | multipart upload requests', [:aws]) do
+Shindo.tests('Fog::Storage[:aws] | multipart upload requests', ["aws"]) do
 
   @directory = Fog::Storage[:aws].directories.create(:key => 'fogmultipartuploadtests')
 

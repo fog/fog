@@ -1,4 +1,4 @@
-Shindo.tests("Storage[:aws] | directory", [:aws]) do
+Shindo.tests("Storage[:aws] | directory", ["aws"]) do
 
   directory_attributes = {
     :key => 'fogdirectorytests'

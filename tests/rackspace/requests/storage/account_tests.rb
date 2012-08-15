@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Storage[:rackspace] | account requests', [:rackspace]) do
+Shindo.tests('Fog::Storage[:rackspace] | account requests', ["rackspace"]) do
 
   tests('success') do
 

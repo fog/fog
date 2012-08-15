@@ -1,4 +1,4 @@
-Shindo.tests("Storage[:aws] | file", [:aws]) do
+Shindo.tests("Storage[:aws] | file", ["aws"]) do
 
   require 'tempfile'
 

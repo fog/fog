@@ -7,6 +7,10 @@ module Fog
       @available_providers ||= Fog.providers.values.select {|provider| Kernel.const_get(provider).available?}.sort
     end
 
+    def registered_providers
+      @registered_providers ||= Fog.providers.values.sort
+    end
+
   end
 
   class Bin
