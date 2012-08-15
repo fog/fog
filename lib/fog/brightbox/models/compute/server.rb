@@ -38,7 +38,7 @@ module Fog
         attribute :server_type
 
         def initialize(attributes={})
-          self.image_id   ||= 'img-wwgbb' # Ubuntu Lucid 10.04 server (i686)
+          self.image_id ||= Fog::Compute[:brightbox].default_image
           super
         end
 
