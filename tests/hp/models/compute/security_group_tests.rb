@@ -1,4 +1,4 @@
-Shindo.tests("Fog::Compute[:hp] | security_group", [:hp]) do
+Shindo.tests("Fog::Compute[:hp] | security_group", ["hp"]) do
 
   model_tests(Fog::Compute[:hp].security_groups, {:name => 'foggroupname', :description => 'foggroupdescription'}, true)
 
