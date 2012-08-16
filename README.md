@@ -6,6 +6,8 @@ fog is the Ruby cloud computing library, top to bottom:
 * Requests allow power users to get the most out of the features of each individual cloud.
 * Mocks make testing and integrating a breeze.
 
+[![Build Status](https://secure.travis-ci.org/fog/fog.png?branch=master)](http://travis-ci.org/fog/fog)
+
 ## Getting Started
 
     sudo gem install fog
