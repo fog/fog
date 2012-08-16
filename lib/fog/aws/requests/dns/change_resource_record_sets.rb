@@ -106,8 +106,8 @@ module Fog
               alias_target_tag = ''
               if change_item[:alias_target]
                 # Accept either underscore or camel case for hash keys.
-                hosted_zone_id = change_item[:alias_target][:hosted_zone_id] || change_item[:alias_target][:HostedZoneId]
                 dns_name = change_item[:alias_target][:dns_name] || change_item[:alias_target][:DNSName]
+                hosted_zone_id = change_item[:alias_target][:hosted_zone_id] || change_item[:alias_target][:HostedZoneId] || AWS.hosted_zone_for_alias_target(dns_name)
                 alias_target_tag += %Q{<AliasTarget><HostedZoneId>#{hosted_zone_id}</HostedZoneId><DNSName>#{dns_name}</DNSName></AliasTarget>}
               end
 
@@ -185,6 +185,25 @@ module Fog
             raise(Excon::Errors.status_error({:expects => 200}, response))
           end
         end
+      end
+
+      def self.hosted_zone_for_alias_target(dns_name)
+        k = elb_hosted_zone_mapping.keys.find do |k|
+          dns_name =~ /\A.+\.#{k}\.elb\.amazonaws\.com\.?\z/
+        end
+        elb_hosted_zone_mapping[k]
+      end
+
+      def self.elb_hosted_zone_mapping
+        @elb_hosted_zone_mapping ||= {
+          "ap-northeast-1" => "Z2YN17T5R711GT",
+          "ap-southeast-1" => "Z1WI8VXHPB1R38",
+          "eu-west-1"      => "Z3NF1Z3NOM5OY2",
+          "sa-east-1"      => "Z2ES78Y61JGQKS",
+          "us-east-1"      => "Z3DZXE0Q79N41H",
+          "us-west-1"      => "Z1M58G0W56PQJA",
+          "us-west-2"      => "Z33MTJ483KN6FU",
+        }
       end
     end
   end
