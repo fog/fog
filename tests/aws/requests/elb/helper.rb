@@ -70,7 +70,7 @@ class AWS
       }
 
       DESCRIBE_LOAD_BALANCER_POLICY_TYPES = BASIC.merge({
-        'DescribeLoadBalancerPolicyTypesResult' => { 'PolicyTypeDescriptions' => [POLICY_TYPE] }
+        'DescribeLoadBalancerPolicyTypesResult' => {'PolicyTypeDescriptions' => [POLICY_TYPE] }
       })
 
       CONFIGURE_HEALTH_CHECK = BASIC.merge({
