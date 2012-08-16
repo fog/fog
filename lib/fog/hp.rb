@@ -107,7 +107,15 @@ module Fog
       @hp_secret_key = options[:hp_secret_key]
       @hp_tenant_id  = options[:hp_tenant_id]
       @hp_service_type  = options[:hp_service_type]
-      @hp_avl_zone   = options[:hp_avl_zone] || :az1
+      @hp_avl_zone   = options[:hp_avl_zone] || 'az-1'
+
+      if @hp_avl_zone.is_a?(Symbol)
+        puts 'WARNING: Using symbols :az1 and :az2 is deprecated for HP '\
+             'regions. Please use the first part of the region names, e.g. '\
+             '"for example, az-1" or "az-2"'
+        match = /^([[:alpha:]]+)(\d+)$/.match(@hp_avl_zone)
+        @hp_avl_zone = "#{match[1]}-#{match[2]}"
+      end
 
       ### Decide which auth style to use
       unless (@hp_use_upass_auth_style)
@@ -179,14 +187,13 @@ module Fog
     def self.get_endpoint_from_catalog(service_catalog, service_type, avl_zone)
       if service_catalog
         service_item = service_catalog.select {|s| s["type"] == service_type}.first
-        if service_item and service_item['endpoints'] and
-          if avl_zone == :az1
-            endpoint_url = service_item['endpoints'][0]['publicURL'] if service_item['endpoints'][0]
-          elsif avl_zone == :az2
-            endpoint_url = service_item['endpoints'][1]['publicURL'] if service_item['endpoints'][1]
-          end
-          raise "Unable to retrieve endpoint service url from service catalog." if endpoint_url.nil?
-          return endpoint_url
+        if service_item and service_item['endpoints']
+          index = service_item['endpoints'].index do |endpoint|
+                      endpoint.has_key?('region') and
+                      endpoint['region'].start_with?(avl_zone)
+                  end
+          raise "Unable to retrieve endpoint service url from service catalog." if index.nil?
+          service_item['endpoints'][index]['publicURL']
         end
       else
         raise "Unable to parse service catalog."
