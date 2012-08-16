@@ -181,6 +181,7 @@ module Fog
             Fog::Logger.deprecation("fog: options['data_shared'] = #{options['data_shared']}")
             @name = options['name']
             @req_mem = options['req_mem']
+            @datastore_pattern = options['datastore_pattern']
             options['type'] = 'system'
             options['affinity'] = true
             options['size'] = options['system_size']
