@@ -33,12 +33,18 @@ def compute_providers
       },
       :server_attributes => {}.tap do |hash|
         [:zone_id, :network_ids, :template_id, :service_offering_id].each do |k|
-          hash[k]= Fog.credentials["cloudstack_#{k}".to_sym]
+          key = "cloudstack_#{k}".to_sym
+          if Fog.credentials[key]
+            hash[k]= Fog.credentials[key]
+          end
         end
       end,
       :volume_attributes => {:name => "somevolume"}.tap do |hash|
         [:zone_id, :disk_offering_id].each do |k|
-          hash[k]= Fog.credentials["cloudstack_#{k}".to_sym]
+          key = "cloudstack_#{k}".to_sym
+          if Fog.credentials[key]
+            hash[k]= Fog.credentials[key]
+          end
         end
       end,
       :security_group_attributes => {:name => "cloudstack.sg.#{Time.now.to_i}"},
@@ -53,7 +59,7 @@ def compute_providers
     :glesys   => {
       :server_attributes => {
         :rootpassword  => "secret_password_#{Time.now.to_i}",
-        :hostname      => "fog.example#{Time.now.to_i}.com"
+       :hostname      => "fog.example#{Time.now.to_i}.com"
       },
       :mocked => false
     },
