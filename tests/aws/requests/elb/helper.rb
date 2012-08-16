@@ -37,7 +37,7 @@ class AWS
       })
 
       DESCRIBE_LOAD_BALANCERS = BASIC.merge({
-        'DescribeLoadBalancersResult' => {'LoadBalancerDescriptions' => [LOAD_BALANCER]}
+        'DescribeLoadBalancersResult' => {'LoadBalancerDescriptions' => [LOAD_BALANCER], 'NextMarker' => Fog::Nullable::String}
       })
 
       POLICY_ATTRIBUTE_DESCRIPTION = {
