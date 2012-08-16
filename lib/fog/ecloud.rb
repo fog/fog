@@ -9,3 +9,9 @@ module Fog
 
   end
 end
+
+module Fog
+  module Ecloud
+    ECLOUD_OPTIONS = [:ecloud_authentication_method]
+  end
+end
