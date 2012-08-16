@@ -6,3 +6,15 @@ rvm:
   - 1.9.3
 
 script: FOG_MOCK=true bundle exec shindont
+
+notifications:
+  email: false
+  irc: 
+    channels:
+      - "irc.freenode.org#ruby-fog"
+    template:
+      - "%{repository_url} (%{commit}) : %{message} %{foo} "
+      - "Build details: %{build_url}"
+    on_success: always
+    on_failure: always
+    use_notice: false
