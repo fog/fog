@@ -38,7 +38,7 @@ module Fog
         attribute :server_type
 
         def initialize(attributes={})
-          self.image_id   ||= 'img-wwgbb' # Ubuntu Lucid 10.04 server (i686)
+          self.image_id ||= Fog::Compute[:brightbox].default_image
           super
         end
 
@@ -71,8 +71,26 @@ module Fog
           connection.snapshot_server(identity)
         end
 
-        def reboot
-          false
+        # Directly requesting a server reboot is not supported in the API
+        # so needs to attempt a shutdown/stop, wait and start again.
+        #
+        # Default behaviour is a hard reboot because it is more reliable
+        # because the state of the server's OS is irrelevant.
+        #
+        # @param [Boolean] use_hard_reboot
+        # @return [Boolean]
+        def reboot(use_hard_reboot = true)
+          requires :identity
+          if ready?
+            unless use_hard_reboot
+              soft_reboot
+            else
+              hard_reboot
+            end
+          else
+            # Not able to reboot if not ready in the first place
+            false
+          end
         end
 
         def start
@@ -152,7 +170,31 @@ module Fog
           merge_attributes(data)
           true
         end
+
+      private
+        # Hard reboots are fast, avoiding the OS by doing a "power off"
+        def hard_reboot
+          stop
+          wait_for { ! ready? }
+          start
+        end
+
+        # Soft reboots often timeout if the OS missed the request so we do more
+        # error checking trying to detect the timeout
+        #
+        # @fixme - Using side effect of wait_for's (evaluated block) to detect timeouts
+        def soft_reboot
+          shutdown
+          if wait_for(20) { ! ready? }
+            # Server is now down, start it up again
+            start
+          else
+            # We timed out
+            false
+          end
+        end
       end
+
     end
   end
 end

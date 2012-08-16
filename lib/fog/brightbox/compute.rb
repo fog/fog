@@ -101,7 +101,24 @@ module Fog
       request :update_server_group
       request :update_user
 
+      module Shared
+        # Returns an identifier for the default image for use
+        #
+        # Currently tries to find the latest version Ubuntu LTS (i686) widening
+        # up to the latest, official version of Ubuntu available.
+        #
+        # Highly recommended that you actually select the image you want to run
+        # on your servers yourself!
+        #
+        # @return [String, nil]
+        def default_image
+          return @default_image_id unless @default_image_id.nil?
+          @default_image_id = Fog.credentials[:brightbox_default_image] || select_default_image
+        end
+      end
+
       class Mock
+        include Shared
 
         def initialize(options)
           @brightbox_client_id = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
@@ -111,9 +128,15 @@ module Fog
         def request(options)
           raise "Not implemented"
         end
+
+      private
+        def select_default_image
+          "img-mockd"
+        end
       end
 
       class Real
+        include Shared
 
         def initialize(options)
           # Currently authentication and api endpoints are the same but may change
@@ -179,6 +202,34 @@ module Fog
           headers.merge!("Authorization" => "OAuth #{@oauth_token}", "Content-Type" => "application/json")
           options[:headers] = headers
           @connection.request(options)
+        end
+
+        # Queries the API and tries to select the most suitable official Image
+        # to use if the user chooses not to select their own.
+        def select_default_image
+          return @default_image_id unless @default_image_id.nil?
+
+          all_images = Fog::Compute[:brightbox].list_images
+          official_images = all_images.select {|img| img["official"] == true}
+          ubuntu_lts_images = official_images.select {|img| img["name"] =~ /Ubuntu.*LTS/}
+          ubuntu_lts_i686_images = ubuntu_lts_images.select {|img| img["arch"] == "i686"}
+
+          if ubuntu_lts_i686_images.empty?
+            # Accept other architectures
+            if ubuntu_lts_images.empty?
+              # Accept non-LTS versions of Ubuntu
+              unsorted_images = official_images.select {|img| img["name"] =~ /Ubuntu/}
+            else
+              unsorted_images = ubuntu_lts_images
+            end
+          else
+            unsorted_images = ubuntu_lts_i686_images
+          end
+
+          # Get the latest and use it's ID for the default image
+          @default_image_id = unsorted_images.sort {|a,b| a["created_at"] <=> b["created_at"]}.first["id"]
+        rescue
+          nil
         end
       end
 
