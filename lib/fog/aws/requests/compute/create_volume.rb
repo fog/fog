@@ -66,7 +66,8 @@ module Fog
             end
 
             if options['VolumeType'] == 'io1'
-              if !options['Iops']
+              iops = options['Iops']
+              if !iops
                 raise Fog::Compute::AWS::Error.new("InvalidParameterCombination => The parameter iops must be specified for io1 volumes.")
               end
 
@@ -74,8 +75,16 @@ module Fog
                 raise Fog::Compute::AWS::Error.new("InvalidParameterValue => Volume of #{size}GiB is too small; minimum is 10GiB.")
               end
 
-              if (iops_to_size_ratio = options['Iops'].to_f / size.to_f) > 10.0
+              if (iops_to_size_ratio = iops.to_f / size.to_f) > 10.0
                 raise Fog::Compute::AWS::Error.new("InvalidParameterValue => Iops to volume size ratio of #{"%.1f" % iops_to_size_ratio} is too high; maximum is 10.0")
+              end
+
+              if iops < 100
+                raise Fog::Compute::AWS::Error.new("VolumeIOPSLimit => Volume iops of #{iops} is too low; minimum is 100.")
+              end
+
+              if iops > 1000
+                raise Fog::Compute::AWS::Error.new("VolumeIOPSLimit => Volume iops of #{iops} is too high; maximum is 1000.")
               end
             end
 
