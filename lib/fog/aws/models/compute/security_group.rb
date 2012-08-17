@@ -10,6 +10,7 @@ module Fog
         attribute :description,     :aliases => 'groupDescription'
         attribute :group_id,        :aliases => 'groupId'
         attribute :ip_permissions,  :aliases => 'ipPermissions'
+        attribute :ip_permissions_egress,  :aliases => 'ipPermissionsEgress'
         attribute :owner_id,        :aliases => 'ownerId'
         attribute :vpc_id,          :aliases => 'vpcId'
 
