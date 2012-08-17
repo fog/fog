@@ -56,7 +56,7 @@ Shindo.tests('Fog::Image[:openstack] | image requests', ['openstack']) do
     end
 
     tests('#list_public_images_detailed').formats({'images' => [@image_format]}) do
-      Fog::Image[:openstack].list_public_images.body
+      Fog::Image[:openstack].list_public_images_detailed.body
     end
 
     tests('#create_image').formats({'image' => @image_format}) do

@@ -56,7 +56,7 @@ module Fog
                                 "min_ram"=>0,
                                 "owner"=>"728ecc7c10614a1faa6fbabd1a68a4a0",
                                 "properties"=>{}
-                               }
+                               }.merge(Hash[attributes.map { |key, val| [key.to_s, val] }])
                            }
           response
 
