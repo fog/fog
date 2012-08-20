@@ -69,11 +69,6 @@ module Fog
           true
         end
 
-        def images
-          requires :id
-          connection.images(:server => self)
-        end
-
         def key_pair
           requires :key_name
 
