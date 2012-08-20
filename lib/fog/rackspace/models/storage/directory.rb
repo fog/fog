@@ -39,11 +39,11 @@ module Fog
           requires :key
           @public_url ||= begin
             begin response = connection.cdn.head_container(key)
-              if response.headers['X-CDN-Enabled'] == 'True'
+              if response.headers['X-Cdn-Enabled'] == 'True'
                 if connection.rackspace_cdn_ssl == true
-                  response.headers['X-CDN-SSL-URI']
+                  response.headers['X-Cdn-Ssl-Uri']
                 else
-                  cdn_cname || response.headers['X-CDN-URI']
+                  cdn_cname || response.headers['X-Cdn-Uri']
                 end
               end
             rescue Fog::Service::NotFound
