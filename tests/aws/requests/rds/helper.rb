@@ -115,6 +115,7 @@ class AWS
             'Status' => String,
             'DBSecurityGroupName' => String
           }],
+        'DBSubnetGroupName' => Fog::Nullable::String,
         'Endpoint' => {
           'Address' => Fog::Nullable::String,
           'Port' => Fog::Nullable::Integer
