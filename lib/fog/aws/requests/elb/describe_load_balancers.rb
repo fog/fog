@@ -108,7 +108,7 @@ module Fog
           }
 
           if next_marker
-            response.body['DescribeLoadBalancersResult']['NextMarker'] = next_marker
+            response.body['DescribeLoadBalancersResult']['NextMarker'] = next_marker.to_s
           end
 
           response

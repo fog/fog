@@ -20,9 +20,6 @@ def model_tests(collection, params = {}, mocks_implemented = true)
 
   end
 
-  tests('failure') do
-  end
-
 end
 
 # Generates a unique identifier with a random differentiator.

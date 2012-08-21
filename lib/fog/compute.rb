@@ -8,7 +8,9 @@ module Fog
     def self.new(attributes)
       attributes = attributes.dup # prevent delete from having side effects
       provider = attributes.delete(:provider).to_s.downcase.to_sym
-      version = attributes.delete(:version).to_s.downcase.to_sym
+
+      version = attributes.delete(:version)
+      version = version.to_s.downcase.to_sym unless version.nil?
 
       case provider
       when :aws

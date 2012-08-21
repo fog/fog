@@ -1,0 +1,21 @@
+language: ruby
+
+rvm:
+  - 1.8.7
+  - 1.9.2
+  - 1.9.3
+
+script: FOG_MOCK=true bundle exec shindont
+
+notifications:
+  email: false
+  irc: 
+    channels:
+      - "irc.freenode.org#ruby-fog"
+    template:
+      - "[#%{build_number}] %{message} %{build_url}"
+      - "[#%{build_number}] %{commit} on %{branch} by %{author}"
+      - "[#%{build_number}] %{compare_url}"
+    on_success: always
+    on_failure: always
+    use_notice: false

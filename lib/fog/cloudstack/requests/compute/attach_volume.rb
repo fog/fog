@@ -8,7 +8,7 @@ module Fog
         # {CloudStack API Reference}[http://http://download.cloud.com/releases/2.2.0/api_2.2.12/global_admin/attachVolume.html]
         def attach_volume(options={})
           options.merge!(
-            'command' => 'attachVolume',
+            'command' => 'attachVolume'
           )
 
           request(options)

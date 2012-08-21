@@ -37,16 +37,22 @@ module Fog
           }.merge!(params))
         end
       end
-      
+
       class Mock
         def describe_internet_gateways(filters = {})
-          Excon::Response.new.tap do |response|
-            response.status = 200
-            response.body = {
-              'requestId' => Fog::AWS::Mock.request_id,
-              'internetGatewaySet'    => self.data[:internet_gateways]
-            }
+          internet_gateways = self.data[:internet_gateways]
+
+          if filters['internet-gateway-id']
+            internet_gateways = internet_gateways.reject {|internet_gateway| internet_gateway['internetGatewayId'] != filters['internet-gateway-id']}
           end
+
+          Excon::Response.new(
+            :status => 200,
+            :body   => {
+              'requestId'           => Fog::AWS::Mock.request_id,
+              'internetGatewaySet'  => internet_gateways
+            }
+          )
         end
       end
     end

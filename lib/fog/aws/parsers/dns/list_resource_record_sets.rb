@@ -18,8 +18,10 @@ module Fog
           def end_element(name)
             if @section == :resource_record_set
               case name
-              when 'Name', 'Type', 'TTL', 'SetIdentifier', 'Weight', 'Region'
+              when 'Type', 'TTL', 'SetIdentifier', 'Weight', 'Region'
                 @resource_record_set[name] = value
+              when 'Name'
+                @resource_record_set[name] = value.gsub('\\052', '*')
               when 'Value'
                 @resource_record_set['ResourceRecords'] << value
               when 'AliasTarget'

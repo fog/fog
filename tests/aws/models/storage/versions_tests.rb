@@ -1,4 +1,4 @@
-Shindo.tests("Storage[:aws] | versions", [:aws]) do
+Shindo.tests("Storage[:aws] | versions", ["aws"]) do
 
   file_attributes = {
       :key => 'fog_file_tests',

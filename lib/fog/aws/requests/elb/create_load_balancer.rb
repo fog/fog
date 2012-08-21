@@ -75,7 +75,7 @@ module Fog
           dns_name = Fog::AWS::ELB::Mock.dns_name(lb_name, @region)
           self.data[:load_balancers][lb_name] = {
             'AvailabilityZones' => availability_zones,
-            'Subnets' => options[:subnet_ids],
+            'Subnets' => options[:subnet_ids] || [],
             'Scheme' => options[:scheme].nil? ? 'internet-facing' : options[:scheme],
             'SecurityGroups' => options[:security_groups].nil? ? [] : options[:security_groups],
             'CanonicalHostedZoneName' => '',

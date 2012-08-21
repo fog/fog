@@ -63,6 +63,8 @@ module Fog
               'ami-f092eca2'
             when 'eu-west-1'
               'ami-3d1f2b49'
+            when 'sa-east-1'
+              'ami-d0429ccd'
             when 'us-east-1'
               'ami-3202f25b'
             when 'us-west-1'

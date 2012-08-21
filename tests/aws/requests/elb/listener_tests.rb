@@ -8,8 +8,8 @@ Shindo.tests('AWS::ELB | listener_tests', ['aws', 'elb']) do
 
     tests("#create_load_balancer_listeners").formats(AWS::ELB::Formats::BASIC) do
       listeners = [
-        {'Protocol' => 'TCP','InstanceProtocol' => 'TCP', 'LoadBalancerPort' => 443, 'InstancePort' => 443, 'SSLCertificateId' => @certificate['Arn']},
-        {'Protocol' => 'HTTP', 'LoadBalancerPort' => 80, 'InstancePort' => 80}
+        {'Protocol' => 'TCP', 'InstanceProtocol' => 'TCP', 'LoadBalancerPort' => 443, 'InstancePort' => 443, 'SSLCertificateId' => @certificate['Arn']},
+        {'Protocol' => 'HTTP', 'InstanceProtocol' => 'HTTP', 'LoadBalancerPort' => 80, 'InstancePort' => 80}
       ]
       response = Fog::AWS[:elb].create_load_balancer_listeners(@load_balancer_id, listeners).body
       response

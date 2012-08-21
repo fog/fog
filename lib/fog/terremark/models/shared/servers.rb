@@ -22,20 +22,19 @@ module Fog
         model Fog::Terremark::Shared::Server
 
         def all
-          data = connection.get_vdc(vdc_id).body['ResourceEntities'].select do |entity|
-            entity['type'] == 'application/vnd.vmware.vcloud.vApp+xml'
+          data = []
+          connection.get_vdc(vdc_id).body['ResourceEntities'].select do |entity|
+              data << connection.servers.get(entity["href"].split('/').last)
           end
-          load(data)
+          data
         end
 
         def get(server_id)
-          if server_id && server = connection.get_vapp(server_id).body
-            new(server)
-          elsif !server_id
+          if server_id
+            new(connection.get_vapp(server_id).body)
+          else
             nil
           end
-        rescue Excon::Errors::Forbidden
-          nil
         end
 
         def vdc_id
