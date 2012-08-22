@@ -4,7 +4,7 @@ class Rackspace < Fog::Bin
     def class_for(key)
       case key
       when :block_storage
-          Fog::Rackspace::BlockStorage.new    
+        Fog::Rackspace::BlockStorage 
       when :cdn
         Fog::CDN::Rackspace
       when :compute
