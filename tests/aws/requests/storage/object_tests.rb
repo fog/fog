@@ -26,6 +26,14 @@ Shindo.tests('AWS::Storage | object requests', ['aws']) do
       data
     end
 
+    tests("#get_object('#{@directory.identity}', 'fog_object', {'Range' => 'bytes=0-20'})").returns(lorem_file.read[0..20]) do
+      Fog::Storage[:aws].get_object(@directory.identity, 'fog_object', {'Range' => 'bytes=0-20'}).body
+    end
+
+    tests("#get_object('#{@directory.identity}', 'fog_object', {'Range' => 'bytes=0-0'})").returns(lorem_file.read[0..0]) do
+      Fog::Storage[:aws].get_object(@directory.identity, 'fog_object', {'Range' => 'bytes=0-0'}).body
+    end
+
     tests("#head_object('#{@directory.identity}', 'fog_object')").succeeds do
       Fog::Storage[:aws].head_object(@directory.identity, 'fog_object')
     end
