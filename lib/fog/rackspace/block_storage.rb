@@ -19,17 +19,28 @@ module Fog
       model_path 'fog/rackspace/models/block_storage'
       model :volume
       collection :volumes
+
       model :volume_type
       collection :volume_types
+      model :snapshot
+      collection :snapshots
+
+      model :snapshot
+      collection :snapshots
 
       request_path 'fog/rackspace/requests/block_storage'
       request :create_volume
       request :delete_volume
       request :get_volume
       request :list_volumes
+
       request :get_volume_type
       request :list_volume_types
 
+      request :create_snapshot
+      request :delete_snapshot
+      request :get_snapshot
+      request :list_snapshots
 
       class Mock
         def request(params)
