@@ -12,11 +12,13 @@ module Fog
 
       request_path 'fog/bare_metal_cloud/requests/compute'
       request :add_server
+      request :add_server_by_configuration
       request :cancel_server
       request :get_server
       request :list_images
       request :list_plans
       request :list_servers
+      request :list_configurations
       request :reboot_server
 
       class Mock
@@ -53,7 +55,7 @@ module Fog
           @bare_metal_cloud_password = options[:bare_metal_cloud_password]
           @bare_metal_cloud_username = options[:bare_metal_cloud_username]
           @connection_options = options[:connection_options] || {}
-          @host       = options[:host]        || "noc.baremetalcloud.com"
+          @host       = options[:host]        || "noc.newservers.com"
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'

@@ -7,8 +7,8 @@ module Fog
         #
         # ==== Returns
         # * response<~Excon::Response>:
-        #   * body<~Array>:
-        #     * server<~Hash>:
+        #   * body<~Hash>:
+        #     * server<~Array>:
         #       * 'id'<~String>     - Id of the server
         #       * 'ip'<~Hash>:
         #         * 'address'<~String>  - Address of the ip
