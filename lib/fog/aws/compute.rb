@@ -7,7 +7,7 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at
+      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       secrets    :aws_secret_access_key, :hmac, :aws_session_token
 
@@ -315,6 +315,8 @@ module Fog
           setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
           @region                 = options[:region] ||= 'us-east-1'
+          @instrumentor           = options[:instrumentor]
+          @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
 
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
@@ -360,12 +362,21 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2012-06-01'
+              :version            => '2012-07-20'
             }
           )
 
-          begin
-            response = @connection.request({
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(body, idempotent, parser)
+            end
+          else
+            _request(body, idempotent, parser)
+          end
+        end
+
+        def _request(body, idempotent, parser)
+          @connection.request({
               :body       => body,
               :expects    => 200,
               :headers    => { 'Content-Type' => 'application/x-www-form-urlencoded' },
@@ -374,20 +385,17 @@ module Fog
               :method     => 'POST',
               :parser     => parser
             })
-          rescue Excon::Errors::HTTPStatusError => error
-            if match = error.message.match(/<Code>(.*)<\/Code><Message>(.*)<\/Message>/)
-              raise case match[1].split('.').last
-              when 'NotFound', 'Unknown'
-                Fog::Compute::AWS::NotFound.slurp(error, match[2])
-              else
-                Fog::Compute::AWS::Error.slurp(error, "#{match[1]} => #{match[2]}")
-              end
-            else
-              raise error
-            end
+        rescue Excon::Errors::HTTPStatusError => error
+          if match = error.message.match(/<Code>(.*)<\/Code><Message>(.*)<\/Message>/)
+            raise case match[1].split('.').last
+                  when 'NotFound', 'Unknown'
+                    Fog::Compute::AWS::NotFound.slurp(error, match[2])
+                  else
+                    Fog::Compute::AWS::Error.slurp(error, "#{match[1]} => #{match[2]}")
+                  end
+          else
+            raise error
           end
-
-          response
         end
 
       end

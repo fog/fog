@@ -56,7 +56,14 @@ module Fog
                 @response['instanceStatusSet'] << @instance
               end
               @item = nil
-            when 'code', 'description', 'notBefore', 'notAfter', 'name', 'status'
+            when 'code'
+              case @inside
+              when :eventsSet
+                @item[name] = value
+              when :instanceState
+                @instance[@inside.to_s][name] = value.to_i
+              end
+            when 'description', 'notBefore', 'notAfter', 'name', 'status'
               @item.nil? ? (@instance[@inside.to_s][name] = value) : (@item[name] = value)
             end
           end

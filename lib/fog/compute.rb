@@ -7,7 +7,12 @@ module Fog
 
     def self.new(attributes)
       attributes = attributes.dup # prevent delete from having side effects
-      case provider = attributes.delete(:provider).to_s.downcase.to_sym
+      provider = attributes.delete(:provider).to_s.downcase.to_sym
+
+      version = attributes.delete(:version)
+      version = version.to_s.downcase.to_sym unless version.nil?
+
+      case provider
       when :aws
         require 'fog/aws/compute'
         Fog::Compute::AWS.new(attributes)
@@ -64,8 +69,13 @@ module Fog
         require 'fog/ovirt/compute'
         Fog::Compute::Ovirt.new(attributes)
       when :rackspace
-        require 'fog/rackspace/compute'
-        Fog::Compute::Rackspace.new(attributes)
+        if version == :v2
+          require 'fog/rackspace/compute_v2'
+          Fog::Compute::RackspaceV2.new(attributes)
+        else
+          require 'fog/rackspace/compute'
+          Fog::Compute::Rackspace.new(attributes)
+        end
       when :serverlove
         require 'fog/serverlove/compute'
         Fog::Compute::Serverlove.new(attributes)

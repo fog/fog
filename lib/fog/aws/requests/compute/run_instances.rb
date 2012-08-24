@@ -44,6 +44,7 @@ module Fog
         #   * 'RamdiskId'<~String> - Id of ramdisk with which to launch
         #   * 'SubnetId'<~String> - VPC option to specify subnet to launch instance into
         #   * 'UserData'<~String> -  Additional data to provide to booting instances
+        #   * 'EbsOptimized'<~Boolean> - Whether the instance is optimized for EBS I/O
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -82,6 +83,7 @@ module Fog
         #         * 'reason'<~String> - reason for most recent state transition, or blank
         #         * 'rootDeviceName'<~String> - specifies how the root device is exposed to the instance
         #         * 'rootDeviceType'<~String> - root device type used by AMI in [ebs, instance-store]
+        #         * 'ebsOptimized'<~Boolean> - Whether the instance is optimized for EBS I/O
         #     * 'ownerId'<~String> - Id of owner
         #     * 'requestId'<~String> - Id of request
         #     * 'reservationId'<~String> - Id of reservation
@@ -137,6 +139,7 @@ module Fog
             instance_id = Fog::AWS::Mock.instance_id
             instance = {
               'amiLaunchIndex'      => i,
+              'architecture'        => 'i386',
               'blockDeviceMapping'  => [],
               'clientToken'         => options['clientToken'],
               'dnsName'             => nil,
@@ -152,12 +155,15 @@ module Fog
               'privateDnsName'      => nil,
               'productCodes'        => [],
               'reason'              => nil,
-              'rootDeviceType'      => 'instance-store'
+              'rootDeviceType'      => 'instance-store',
+              'ebsOptimized'        => options['EbsOptimized'] || false
             }
             instances_set << instance
             self.data[:instances][instance_id] = instance.merge({
-              'architecture'        => 'i386',
+              'groupIds'            => [],
               'groupSet'            => group_set,
+              'iamInstanceProfile'  => {},
+              'networkInterfaces'   => [],
               'ownerId'             => self.data[:owner_id],
               'privateIpAddress'    => nil,
               'reservationId'       => reservation_id,

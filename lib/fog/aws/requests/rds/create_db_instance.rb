@@ -80,19 +80,19 @@ module Fog
                  "InstanceCreateTime" => nil,
                  "AutoMinorVersionUpgrade"=>true,
                  "Endpoint"=>{},
-                 "ReadReplicaDBInstanceIdentifiers"=>['bla'],
+                 "ReadReplicaDBInstanceIdentifiers"=>[],
                  "PreferredMaintenanceWindow"=>"mon:04:30-mon:05:00",
                  "Engine"=> options["Engine"],
-                 "EngineVersion"=> options["EngineVersion"] || "5.1.57",
+                 "EngineVersion"=> options["EngineVersion"] || "5.5.12",
                  "PendingModifiedValues"=>{"MasterUserPassword"=>"****"}, # This clears when is available
-                 "MultiAZ"=>false,
+                 "MultiAZ"=> !!options['MultiAZ'],
                  "MasterUsername"=> options["MasterUsername"],
                  "DBInstanceClass"=> options["DBInstanceClass"],
                  "DBInstanceStatus"=>"creating",
                  "BackupRetentionPeriod"=> options["BackupRetentionPeriod"] || 1,
                  "AllocatedStorage"=> options["AllocatedStorage"],
                  "DBParameterGroups"=> # I think groups should be in the self.data method
-                          [{"DBParameterGroupName"=>"default.mysql5.1",
+                          [{"DBParameterGroupName"=>"default.mysql5.5",
                             "ParameterApplyStatus"=>"in-sync"}],
                  "DBSecurityGroups"=>
                           [{"Status"=>"active", 

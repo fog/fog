@@ -11,6 +11,7 @@ module Fog
 
         def all
           data = connection.get_ip_addresses(href).body[:IpAddresses][:IpAddress]
+          data = data.nil? ? [] : data
           load(data)
         end
 

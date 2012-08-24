@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Storage[:aws] | bucket requests', [:aws]) do
+Shindo.tests('Fog::Storage[:aws] | bucket requests', ["aws"]) do
   @aws_bucket_name = 'fogbuckettests-' + Time.now.to_i.to_s(32)
 
   tests('success') do

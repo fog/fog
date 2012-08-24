@@ -19,7 +19,7 @@ module Fog
             when 'fixedPrice', 'usagePrice'
               @reserved_instances_offering[name] = value.to_f
             when 'item'
-              @response['reservedInstancesOfferingsSet'] << @reserved_instances_offering
+              @response['reservedInstancesOfferingsSet'] << @reserved_instances_offering unless @reserved_instances_offering.empty?
               @reserved_instances_offering = {}
             when 'requestId'
               @response[name] = value

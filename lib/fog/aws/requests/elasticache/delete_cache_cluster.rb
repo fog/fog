@@ -24,9 +24,18 @@ module Fog
 
       class Mock
         def delete_cache_cluster(cluster_id)
-          Fog::Mock.not_implemented
+          response        = Excon::Response.new
+          cluster         = self.data[:clusters][cluster_id]
+          cluster['CacheClusterStatus'] = 'deleting'
+          response.body = {
+            'CacheClusters'     => self.data[:clusters].values,
+            'ResponseMetadata'  => { 'RequestId' => Fog::AWS::Mock.request_id }
+          }
+          self.data[:clusters].delete(cluster_id)
+          response
         end
       end
+
     end
   end
 end

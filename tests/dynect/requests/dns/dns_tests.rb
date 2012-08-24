@@ -171,6 +171,45 @@ Shindo.tests('Dynect::dns | DNS requests', ['dynect', 'dns']) do
     tests("delete_zone('#{@domain}')").formats(delete_zone_format) do
       @dns.delete_zone(@domain).body
     end
+
+    tests("job handling") do
+      pending unless Fog.mocking?
+
+      old_mock_value = Excon.defaults[:mock]
+      Excon.stubs.clear
+
+      tests("returns final response from a complete job") do
+        begin
+          Excon.defaults[:mock] = true
+
+          Excon.stub({:method => :post, :path => "/REST/Session"}, {:body=>"{\"status\": \"success\", \"data\": {\"token\": \"foobar\", \"version\": \"2.3.1\"}, \"job_id\": 150583906, \"msgs\": [{\"INFO\": \"login: Login successful\", \"SOURCE\": \"BLL\", \"ERR_CD\": null, \"LVL\": \"INFO\"}]}", :headers=>{"Content-Type"=>"application/json"}, :status=>200})
+
+          Excon.stub({:method => :get, :path => "/REST/Zone/example.com"}, {:status => 307, :body => '/REST/Job/150576635', :headers => {'Content-Type' => 'text/html', 'Location' => '/REST/Job/150576635'}})
+          Excon.stub({:method => :get, :path => "/REST/Job/150576635"}, {:status => 307, :body => '{"status":"success"}', :headers => {'Content-Type' => 'application/json'}})
+
+          Fog::DNS::Dynect::Real.new.request(:method => :get, :path => "Zone/example.com").body.should == { "status" => "success" }
+        ensure
+          Excon.stubs.clear
+          Excon.defaults[:mock] = old_mock_value
+        end
+      end
+
+      tests("passes expects through when polling a job") do
+        begin
+          Excon.defaults[:mock] = true
+
+          Excon.stub({:method => :post, :path => "/REST/Session"}, {:body=>"{\"status\": \"success\", \"data\": {\"token\": \"foobar\", \"version\": \"2.3.1\"}, \"job_id\": 150583906, \"msgs\": [{\"INFO\": \"login: Login successful\", \"SOURCE\": \"BLL\", \"ERR_CD\": null, \"LVL\": \"INFO\"}]}", :headers=>{"Content-Type"=>"application/json"}, :status=>200})
+
+          Excon.stub({:method => :get, :path => "/REST/Zone/example.com"}, {:status => 307, :body => '/REST/Job/150576635', :headers => {'Content-Type' => 'text/html', 'Location' => '/REST/Job/150576635'}})
+          Excon.stub({:method => :get, :path => "/REST/Job/150576635"}, {:status => 404, :body => '{"status":"success"}', :headers => {'Content-Type' => 'application/json'}})
+
+          Fog::DNS::Dynect::Real.new.request(:method => :get, :expects => 404, :path => "Zone/example.com").body.should == { "status" => "success" }
+        ensure
+          Excon.stubs.clear
+          Excon.defaults[:mock] = old_mock_value
+        end
+      end
+    end
   end
 
   tests('failure') do

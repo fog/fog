@@ -15,7 +15,7 @@ module Fog
             task.wait_for_completion
             { 'task_state' => task.info.result, 'reboot_type' => 'reset_power' }
           else
-            vm_mob_ref.ShutdownGuest
+            vm_mob_ref.RebootGuest
             { 'task_state' => "running", 'reboot_type' => 'reboot_guest' }
           end
         end

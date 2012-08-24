@@ -20,7 +20,8 @@ module Fog
             :expects  => 200,
             :method   => 'GET',
             :parser   => Fog::Parsers::Terremark::Shared::GetNodeServices.new,
-            :path     => "InternetServices/#{service_id}/nodes"
+            :path     => "api/extensions/v1.6/internetService/#{service_id}/nodeServices",
+            :override_path => true
           )
         end
 

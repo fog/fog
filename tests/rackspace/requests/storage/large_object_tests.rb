@@ -1,4 +1,4 @@
-Shindo.tests('Fog::Storage[:rackspace] | large object requests', [:rackspace]) do
+Shindo.tests('Fog::Storage[:rackspace] | large object requests', ["rackspace"]) do
 
   unless Fog.mocking?
     @directory = Fog::Storage[:rackspace].directories.create(:key => 'foglargeobjecttests')

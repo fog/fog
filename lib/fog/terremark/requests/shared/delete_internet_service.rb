@@ -12,7 +12,8 @@ module Fog
           request(
             :expects  => 200,
             :method   => 'DELETE',
-            :path     => "InternetServices/#{internet_service_id}"
+            :path     => "api/extensions/v1.6/internetService/#{internet_service_id}",
+            :override_path => true
           )
         end
 

@@ -22,12 +22,18 @@ Shindo.tests("Fog::DNS[:aws] | records", ['aws', 'dns']) do
     records << @zone.records.create(:name => "#{i}.#{@zone.domain}", :type => "A", :ttl => 3600, :value => ['1.2.3.4'])
   end
 
-  tests("#all!").returns(102) do
+  records << @zone.records.create(:name => "*.#{@zone.domain}", :type => "A", :ttl => 3600, :value => ['1.2.3.4'])
+
+  tests("#all!").returns(103) do
     @zone.records.all!.size
   end
 
-  tests("#all!").returns(102) do
+  tests("#all!").returns(103) do
     @zone.records.all!.size
+  end
+
+  tests("#all wildcard parsing").returns(true) do
+    @zone.records.map(&:name).include?("*.#{@zone.domain}")
   end
 
   records.each do |record|

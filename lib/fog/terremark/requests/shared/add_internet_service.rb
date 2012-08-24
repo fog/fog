@@ -31,21 +31,22 @@ module Fog
             options['Enabled'] = true
           end
           data = <<-DATA
-  <InternetService xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="urn:tmrk:vCloudExpress-1.0:request:createInternetService">
-    <Name>#{name}</Name>
-    <Protocol>#{protocol.upcase}</Protocol>
-    <Port>#{port}</Port>
-    <Enabled>#{options['Enabled']}</Enabled>
-    <Description>#{options['Description']}</Description>
-  </InternetService>
-  DATA
+          <CreateInternetServiceRequest xml:lang="en" xmlns="urn:tmrk:vCloudExpressExtensions-1.6" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <Name>#{name}</Name>
+            <Protocol>#{protocol.upcase}</Protocol>
+            <Port>#{port}</Port> 
+            <Enabled>#{options['Enabled']}</Enabled>
+            <Description>#{options['Description']}</Description>
+            </CreateInternetServiceRequest>
+            DATA
           request(
             :body     => data,
             :expects  => 200,
             :headers  => {'Content-Type' => 'application/xml'},
             :method   => 'POST',
             :parser   => Fog::Parsers::Terremark::Shared::InternetService.new,
-            :path     => "publicIps/#{ip_id}/internetServices"
+            :path     => "api/extensions/v1.6/publicIp/#{ip_id}/internetServices",
+            :override_path => true
           )
         end
 

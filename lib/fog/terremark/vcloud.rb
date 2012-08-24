@@ -7,7 +7,8 @@ module Fog
 
      module Defaults
        HOST   = 'services.vcloudexpress.terremark.com'
-       PATH   = '/api/v0.8'
+       PATH   = '/api/v0.8a-ext1.6'
+       #PATH   = '/api/'
        PORT   = 443
        SCHEME = 'https'
      end
@@ -96,6 +97,14 @@ module Fog
         end
      end
 
+     def default_ssh_key
+         if default_ssh_key
+             @default_ssh_key ||= begin
+                keys = get_keys_list(default_organization_id).body["Keys"]
+                keys.find { |item| item["IsDefault"] == "true" }
+            end
+         end
+     end
      class Mock
        include Fog::Terremark::Shared::Mock
        include Fog::Terremark::Shared::Parser

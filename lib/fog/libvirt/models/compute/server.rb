@@ -240,7 +240,7 @@ module Fog
         # It returns an array of public and private ip addresses
         # Currently only one ip address is returned, but in the future this could be multiple
         # if the server has multiple network interface
-        def addresses(connection, options={})
+        def addresses(connection=connection, options={})
           mac=self.mac
 
           # Aug 24 17:34:41 juno arpwatch: new station 10.247.4.137 52:54:00:88:5a:0a eth0.4

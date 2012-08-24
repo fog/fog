@@ -137,10 +137,14 @@ class AWS
         },
         'PreferredBackupWindow'=> String,
         'PreferredMaintenanceWindow'=> String,
-        'ReadReplicaDBInstanceIdentifiers'=> [String],
-        'ReadReplicaDBInstanceIdentifiers'=> [Fog::Nullable::String],
-        'ReadReplicaSourceDBInstanceIdentifier'=> Fog::Nullable::String
+        'ReadReplicaDBInstanceIdentifiers'=> [Fog::Nullable::String]
       }
+
+      REPLICA_INSTANCE = INSTANCE.merge({
+        'BackupRetentionPeriod' => Fog::Nullable::String,
+        'PreferredBackupWindow' => Fog::Nullable::String,
+        'ReadReplicaSourceDBInstanceIdentifier'=> String
+      })
 
       CREATE_DB_INSTANCE = BASIC.merge({
         'CreateDBInstanceResult' => {
@@ -175,7 +179,7 @@ class AWS
 
       CREATE_READ_REPLICA = BASIC.merge({
         'CreateDBInstanceReadReplicaResult' => {
-          'DBInstance' => INSTANCE
+          'DBInstance' => REPLICA_INSTANCE
         }
       })
 

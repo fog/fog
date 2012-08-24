@@ -37,7 +37,7 @@ module Fog
 
 
         def ips
-          network_hash = ip_addresses[:AssignedIpAddresses][:Networks]
+          network_hash = ip_addresses[:AssignedIpAddresses][:Networks] || []
           network_hash[:Network] = network_hash[:Network].is_a?(Hash) ? [network_hash[:Network]] : network_hash[:Network]
           network_hash[:Network].each do |network|
             network[:IpAddresses][:IpAddress] = network[:IpAddresses][:IpAddress].is_a?(String) ? [network[:IpAddresses][:IpAddress]] : network[:IpAddresses][:IpAddress]
@@ -188,6 +188,36 @@ module Fog
           vm_nics = nics << {:UnitNumber => unit_number, :Network => {:href => network.href, :name => network.name, :type => "application/vnd.tmrk.cloud.network"}}
           data = connection.virtual_machine_edit_hardware_configuration(href + "/hardwareConfiguration", _configuration_data(:nics => vm_nics)).body
           task = Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => data[:href])[0]
+        end
+
+        def add_ip(options)
+          begin
+            slice_ips = ips
+          rescue
+            slice_ips = []
+          end
+          begin
+            slice_networks = networks
+          rescue
+            slice_networks = []
+          end
+          slice_networks = slice_networks.map { |n| {:href => n.href, :name => n.name.split(' ')[0], :type => 'application/vnd.tmrk.cloud.network'} }.push({:href => options[:href], :name => options[:network_name], :type => 'application/vnd.tmrk.cloud.network'}).uniq
+          slice_ips = slice_ips.map { |i| {:name => i.name, :network_name => i.other_links[:Link][:name]} }.push({:name => options[:ip], :network_name => options[:network_name]})
+          slice_ips.each do |ip|
+            slice_networks.each do |network|
+              if network[:name] == ip[:network_name]
+                network[:ips] ||= []
+                network[:ips].push(ip[:name])
+              end
+            end
+          end
+          data = connection.virtual_machine_add_ip(href + "/assignedIps", slice_networks).body
+          task = Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => data[:href])[0]
+        end
+
+        def upload_file(options)
+          connection.virtual_machine_upload_file(href + "/guest/action/files", options)
+          true
         end
 
         def storage_size

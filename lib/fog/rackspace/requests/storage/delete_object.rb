@@ -3,7 +3,7 @@ module Fog
     class Rackspace
       class Real
 
-        # Delete an existing container
+        # Delete an existing object
         #
         # ==== Parameters
         # * container<~String> - Name of container to delete

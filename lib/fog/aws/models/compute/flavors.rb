@@ -9,6 +9,7 @@ module Fog
         { :bits => 0,  :cores =>   2,  :disk => 0,    :id =>  't1.micro',   :name => 'Micro Instance',       :ram => 613},
 
         { :bits => 32, :cores =>   1,  :disk => 160,  :id =>  'm1.small',   :name => 'Small Instance',       :ram => 1740.8},
+	{ :bits => 32, :cores =>   2,  :disk => 400,  :id =>  'm1.medium',  :name => 'Medium Instance',      :ram => 3750},
         { :bits => 64, :cores =>   4,  :disk => 850,  :id =>  'm1.large',   :name => 'Large Instance',       :ram => 7680},
         { :bits => 64, :cores =>   8,  :disk => 1690, :id =>  'm1.xlarge',  :name => 'Extra Large Instance', :ram => 15360},
 
@@ -18,6 +19,8 @@ module Fog
         { :bits => 64, :cores =>  6.5, :disk => 420,  :id =>  'm2.xlarge',  :name => 'High-Memory Extra Large',           :ram => 17510.4},
         { :bits => 64, :cores =>   13, :disk => 850,  :id =>  'm2.2xlarge', :name => 'High Memory Double Extra Large',    :ram => 35020.8},
         { :bits => 64, :cores =>   26, :disk => 1690, :id =>  'm2.4xlarge', :name => 'High Memory Quadruple Extra Large', :ram => 70041.6},
+
+        { :bits => 64, :cores =>   35, :disk => 2048, :id => "hi1.4xlarge", :name => "High I/O Quadruple Extra Large Instance", :ram => 61952},
 
         { :bits => 64, :cores => 33.5, :disk => 1690, :id => 'cc1.4xlarge', :name => 'Cluster Compute Quadruple Extra Large', :ram => 23552},
         { :bits => 64, :cores =>   88, :disk => 3370, :id => 'cc2.8xlarge', :name => 'Cluster Compute Eight Extra Large',     :ram => 61952},
@@ -54,6 +57,14 @@ module Fog
         #        disk=160,
         #        name="Small Instance",
         #        ram=1740.8
+        #      >,
+        #      <Fog::AWS::Compute::Flavor
+        #        id="m1.medium",
+        #        bits=32,
+        #        cores=2,
+        #        disk=400,
+        #        name="Medium Instance",
+        #        ram=3750
         #      >,
         #      <Fog::AWS::Compute::Flavor
         #        id="m1.large",

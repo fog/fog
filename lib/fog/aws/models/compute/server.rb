@@ -17,6 +17,7 @@ module Fog
         attribute :network_interfaces,    :aliases => 'networkInterfaces'
         attribute :client_token,          :aliases => 'clientToken'
         attribute :dns_name,              :aliases => 'dnsName'
+        attribute :ebs_optimized,         :aliases => 'ebsOptimized'
         attribute :groups
         attribute :flavor_id,             :aliases => 'instanceType'
         attribute :iam_instance_profile,  :aliases => 'iamInstanceProfile'
@@ -62,6 +63,8 @@ module Fog
               'ami-f092eca2'
             when 'eu-west-1'
               'ami-3d1f2b49'
+            when 'sa-east-1'
+              'ami-d0429ccd'
             when 'us-east-1'
               'ami-3202f25b'
             when 'us-west-1'
@@ -150,6 +153,7 @@ module Fog
           options = {
             'BlockDeviceMapping'          => block_device_mapping,
             'ClientToken'                 => client_token,
+            'EbsOptimized'                => ebs_optimized,
             'IamInstanceProfile.Arn'      => @iam_instance_profile_arn,
             'IamInstanceProfile.Name'     => @iam_instance_profile_name,
             'InstanceInitiatedShutdownBehavior' => instance_initiated_shutdown_behavior,
@@ -170,7 +174,7 @@ module Fog
           options.delete_if {|key, value| value.nil?}
 
           # If subnet is defined then this is a Virtual Private Cloud.
-          # subnet & security group cannot co-exist. Attempting to specify 
+          # subnet & security group cannot co-exist. Attempting to specify
           # both subnet and groups will cause an error.  Instead please make
           # use of Security Group Ids when working in a VPC.
           if subnet_id

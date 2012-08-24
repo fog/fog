@@ -7,6 +7,8 @@ class Rackspace < Fog::Bin
         Fog::CDN::Rackspace
       when :compute
         Fog::Compute::Rackspace
+      when :compute_v2
+        Fog::Compute::RackspaceV2
       when :storage
         Fog::Storage::Rackspace
       when :load_balancers
@@ -31,6 +33,9 @@ class Rackspace < Fog::Bin
         when :compute
           Fog::Logger.warning("Rackspace[:compute] is not recommended, use Compute[:rackspace] for portability")
           Fog::Compute.new(:provider => 'Rackspace')
+        when :compute_v2
+          Fog::Logger.warning("Rackspace[:compute] is not recommended, use Compute[:rackspace] for portability")
+          Fog::Compute.new(:provider => 'Rackspace', :version => 'v2')
         when :dns
           Fog::DNS.new(:provider => 'Rackspace')
         when :load_balancers

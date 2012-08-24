@@ -20,6 +20,7 @@ module Fog
         attribute :arch
         attribute :virtual_size
         attribute :disk_size
+        attribute :licence_name
 
         # Boolean flags
         attribute :public

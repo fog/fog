@@ -1,6 +1,10 @@
 class Ecloud < Fog::Bin
   class << self
 
+    def available?
+      Fog::Ecloud::ECLOUD_OPTIONS.all? {|requirement| Fog.credentials.include?(requirement)}
+    end
+
     def class_for(key)
       case key
       when :compute
