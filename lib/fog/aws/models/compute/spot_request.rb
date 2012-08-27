@@ -28,6 +28,7 @@ module Fog
         attribute :image_id,                   :aliases => 'LaunchSpecification.ImageId'
         attribute :monitoring,                 :aliases => 'LaunchSpecification.Monitoring'
         attribute :block_device_mapping,       :aliases => 'LaunchSpecification.BlockDeviceMapping'
+        attribute :subnet_id,                  :aliases => 'LaunchSpecification.SubnetId'
         attribute :tags,                       :aliases => 'tagSet'
         attribute :fault,                      :squash  => 'message'
         attribute :user_data
@@ -109,10 +110,21 @@ module Fog
             'LaunchSpecification.Placement.AvailabilityZone' => availability_zone,
             'LaunchSpecification.SecurityGroup'              => groups,
             'LaunchSpecification.UserData'                   => user_data,
+            'LaunchSpecification.SubnetId'                   => subnet_id,
             'Type'                                           => request_type,
             'ValidFrom'                                      => valid_from,
             'ValidUntil'                                     => valid_until }
           options.delete_if {|key, value| value.nil?}
+          
+          # If subnet is defined then this is a Virtual Private Cloud.
+          # subnet & security group cannot co-exist. Attempting to specify
+          # both subnet and groups will cause an error.  Instead please make
+          # use of Security Group Ids when working in a VPC.
+          if subnet_id
+            options.delete('LaunchSpecification.SecurityGroup')
+          else
+            options.delete('LaunchSpecification.SubnetId')
+          end
 
           data = connection.request_spot_instances(image_id, flavor_id, price, options).body
           spot_instance_request = data['spotInstanceRequestSet'].first

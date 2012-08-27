@@ -48,7 +48,7 @@ module Fog
                 @response['spotInstanceRequestSet'] << @spot_instance_request
                 @spot_instance_request = { 'launchSpecification' => { 'blockDeviceMapping' => [], 'groupSet' => [] } }
               end
-            when 'imageId', 'instanceType', 'keyname'
+            when 'imageId', 'instanceType', 'keyname', 'subnetId'
               @spot_instance_request['launchSpecification'][name] = value
             when 'enabled'
               @spot_instance_request['launchSpecification']['monitoring'] = (value == 'true')

@@ -25,6 +25,7 @@ module Fog
         #         * 'imageId'<~String> - AMI for instance
         #         * 'instanceType'<~String> - type for instance
         #         * 'monitoring'<~Boolean> - monitoring status for instance
+        #         * 'subnetId'<~String> - VPC subnet ID for instance
         #       * 'productDescription'<~String> - general description of AMI
         #       * 'spotInstanceRequestId'<~String> - id of spot instance request
         #       * 'spotPrice'<~Float> - maximum price for instances to be launched
