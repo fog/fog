@@ -24,6 +24,7 @@ module Fog
         #     * 'Ebs.DeleteOnTermination'<~String> - specifies whether or not to delete the volume on instance termination
         #   * 'LaunchSpecification.KeyName'<~String> - Name of a keypair to add to booting instances
         #   * 'LaunchSpecification.Monitoring.Enabled'<~Boolean> - Enables monitoring, defaults to disabled
+        #   * 'LaunchSpecification.SubnetId'<~String> - VPC subnet ID in which to launch the instance
         #   * 'LaunchSpecification.Placement.AvailabilityZone'<~String> - Placement constraint for instances
         #   * 'LaunchSpecification.SecurityGroup'<~Array> or <~String> - Name of security group(s) for instances, not supported in VPC
         #   * 'LaunchSpecification.SecurityGroupId'<~Array> or <~String> - Id of security group(s) for instances, use this or LaunchSpecification.SecurityGroup
@@ -47,6 +48,7 @@ module Fog
         #         * 'imageId'<~String> - AMI for instance
         #         * 'instanceType'<~String> - type for instance
         #         * 'monitoring'<~Boolean> - monitoring status for instance
+        #         * 'subnetId'<~String> - VPC subnet ID for instance
         #       * 'productDescription'<~String> - general description of AMI
         #       * 'spotInstanceRequestId'<~String> - id of spot instance request
         #       * 'spotPrice'<~Float> - maximum price for instances to be launched
