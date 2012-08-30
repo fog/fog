@@ -82,6 +82,15 @@ module Fog
           @image ||= connection.images.get(image_id)
         end
 
+        def attachments
+          @attachments ||= begin
+            Fog::Compute::RackspaceV2::Attachments.new({
+              :connection => connection,
+              :server => self
+            })
+          end
+        end
+
         def ready?
           state == ACTIVE
         end
