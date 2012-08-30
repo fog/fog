@@ -38,6 +38,7 @@ module Fog
           end
 
           def end_element(name)
+
             case name
               
             when 'LatestRestorableTime', 'InstanceCreateTime'
@@ -45,7 +46,8 @@ module Fog
             when 'Engine', 
               'DBInstanceStatus', 'DBInstanceIdentifier', 'EngineVersion', 
               'PreferredBackupWindow', 'PreferredMaintenanceWindow', 
-              'AvailabilityZone', 'MasterUsername', 'DBName', 'LicenseModel'
+              'AvailabilityZone', 'MasterUsername', 'DBName', 'LicenseModel',
+              'DBSubnetGroupName'
               @db_instance[name] = value
             when 'MultiAZ', 'AutoMinorVersionUpgrade'
               if value == 'false'
