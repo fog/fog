@@ -102,7 +102,8 @@ module Fog
                  "PreferredBackupWindow"=>"08:00-08:30",
 #                 "ReadReplicaSourceDBInstanceIdentifier" => nil,
 #                 "LatestRestorableTime" => nil,
-                 "AvailabilityZone" => options["AvailabilityZone"]
+                 "AvailabilityZone" => options["AvailabilityZone"],
+                 "DBSubnetGroupName" => options["DBSubnetGroupName"]
              }
 
 
