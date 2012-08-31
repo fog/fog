@@ -22,26 +22,26 @@ module Fog
           response.status = 200
           self.data[:volumes] ||= [
             { "status" => "available",
-              "display_description" => "",
+              "display_description" => "test 1 desc",
               "availability_zone" => "nova",
               "display_name" => "test 1",
               "attachments" => [{}],
               "volume_type" => nil,
               "snapshot_id" => nil,
               "size" => 1,
-              "id" => 6,
-              "created_at" => "2012-03-30 05:31:00.655058",
+              "id" => 1,
+              "created_at" => Time.now,
               "metadata" => {} },
             { "status" => "available",
-              "display_description" => "",
+              "display_description" => "test 2 desc",
               "availability_zone" => "nova",
               "display_name" => "test 2",
               "attachments" => [{}],
               "volume_type" => nil,
               "snapshot_id" => nil,
               "size" => 1,
-              "id" => 8,
-              "created_at" => "2012-03-30 16:14:55.582717",
+              "id" => 2,
+              "created_at" => Time.now,
               "metadata" => {} }
             ]
           response.body = { 'volumes' => self.data[:volumes] }

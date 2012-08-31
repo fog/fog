@@ -20,10 +20,10 @@ module Fog
           response.status = [200, 204][rand(1)]
           response.body = {
             'tenant' => {
-              'id' => '1',
-              'description' => 'Has access to everything',
+              'id' => "#{ Fog::Mock.random_hex(32) }",
+              'description' => attributes['description'],
               'enabled' => true,
-              'name' => 'admin'
+              'name' => attributes['name']
             }
           }
           response

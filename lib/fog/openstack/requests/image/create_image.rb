@@ -52,30 +52,29 @@ module Fog
         def create_image(attributes)
           response = Excon::Response.new
           response.status = 201
-          response.body = {"image"=>
-                               {"name"=>"new image",
-                                "size"=>0,
-                                "min_disk"=>0,
-                                "disk_format"=>nil,
-                                "created_at"=>"2012-02-24T06:45:00",
-                                "container_format"=>nil,
-                                "deleted_at"=>nil,
-                                "updated_at"=>"2012-02-24T06:45:00",
-                                "checksum"=>nil,
-                                "id"=>"e41304f3-2453-42b4-9829-2e220a737395",
-                                "deleted"=>false,
-                                "protected"=>false,
-                                "is_public"=>false,
-                                "status"=>"queued",
-                                "min_ram"=>0,
-                                "owner"=>"728ecc7c10614a1faa6fbabd1a68a4a0",
-                                "properties"=>{}
-                               }
-                           }
+          response.body = {
+                            "image"=> {
+                              "name"             => attributes[:name],
+                              "size"             => 0,
+                              "min_disk"         => 0,
+                              "disk_format"      => attributes[:disk_format],
+                              "created_at"       => Time.now,
+                              "container_format" => attributes['container_format'],
+                              "deleted_at"       => nil,
+                              "updated_at"       => Time.now,
+                              "checksum"         => nil,
+                              "id"               => "#{ Fog::Mock.random_hex(32) }",
+                              "deleted"          => false,
+                              "protected"        => false,
+                              "is_public"        => attributes[:is_public],
+                              "status"           => "queued",
+                              "min_ram"          => 0,
+                              "owner"            => attributes[:owner],
+                              "properties"       => attributes[:properties]
+                            }
+                          }
           response
-
         end
-
       end
     end
   end
