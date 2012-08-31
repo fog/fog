@@ -3,21 +3,21 @@ module Fog
     class BareMetalCloud
       class Real
 
-        # List images
+        # List Configurations
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'image'<~Array>        
-        #       * 'Size'<~String>  - Size of the image
-        #       * 'Name'<~String>  - Name of the image
+        #     * available-server<~Array>:
+        #       * 'configuration'<~String>     - Hardware Configuration string
+        #       * 'quantity'<~String>:  - quantity of servers to a certain configuration
         #
-        def list_images
+        def list_configurations
           request(
             :expects  => 200,
             :method   => 'GET',
             :parser   => Fog::ToHashDocument.new,
-            :path     => 'api/listImages'
+            :path     => 'api/listConfigurations'
           )
         end
 
