@@ -30,6 +30,10 @@ module Fog
       request :set_vault_notification_configuration
       request :upload_part
 
+      model_path 'fog/aws/models/glacier'
+      model      :vault
+      collection :vaults
+
       MEGABYTE = 1024*1024
 
       class TreeHash
