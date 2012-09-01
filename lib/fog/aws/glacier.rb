@@ -10,6 +10,14 @@ module Fog
 
       request_path 'fog/aws/requests/glacier'
 
+      request :create_vault
+      request :delete_vault
+      request :delete_vault_notification_configuration
+      request :describe_vault
+      request :get_vault_notification_configuration
+      request :list_vaults
+      request :set_vault_notification_configuration
+
       class Mock
 
         def initialize(options={})
