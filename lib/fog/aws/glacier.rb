@@ -10,6 +10,8 @@ module Fog
 
       request_path 'fog/aws/requests/glacier'
 
+      request :abort_multipart_upload
+      request :complete_multipart_upload
       request :create_archive
       request :create_vault
       request :delete_archive
@@ -17,16 +19,19 @@ module Fog
       request :delete_vault_notification_configuration
       request :describe_vault
       request :get_vault_notification_configuration
+      request :initiate_multipart_upload
+      request :list_multipart_uploads
+      request :list_parts
       request :list_vaults
       request :set_vault_notification_configuration
-
+      request :upload_part
 
       MEGABYTE = 1024*1024
 
       class TreeHash
 
         def self.digest(body)
-          new.add_part(body).digest
+          new.add_part(body)
         end
 
         def reduce_digests(digests)
@@ -47,8 +52,9 @@ module Fog
         end
 
         def add_part(bytes)
-          @digests << self.digest_for_part(bytes)
-          self
+          part = self.digest_for_part(bytes)
+          @digests << part
+          part.unpack('H*').first
         end
 
         def digest_for_part(body)
@@ -57,8 +63,12 @@ module Fog
           reduce_digests(digests_for_part)
         end
 
+        def hexdigest
+          digest.unpack('H*').first
+        end
+
         def digest
-          reduce_digests(@digests).unpack('H*').first
+          reduce_digests(@digests)
         end
       end
 

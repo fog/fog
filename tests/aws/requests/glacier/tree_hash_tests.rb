@@ -32,8 +32,10 @@ Shindo.tests('AWS::Glacier | glacier tree hash calcuation', ['aws']) do
 
   tests('multipart') do
     tree_hash = Fog::AWS::Glacier::TreeHash.new
-    tree_hash.add_part ('x' * 1024*1024) + ('y'*1024*1024)
-    tree_hash.add_part ('z'* 1024*1024) + ('t'*1024*1024)
+    part = ('x' * 1024*1024) + ('y'*1024*1024)
+    returns(Fog::AWS::Glacier::TreeHash.digest(part)) { tree_hash.add_part part }
+
+    tree_hash.add_part('z'* 1024*1024 + 't'*1024*1024)
 
     expected = Digest::SHA256.hexdigest(
                  Digest::SHA256.digest(
@@ -43,7 +45,7 @@ Shindo.tests('AWS::Glacier | glacier tree hash calcuation', ['aws']) do
                    Digest::SHA256.digest('z' * 1024*1024) + Digest::SHA256.digest('t' * 1024*1024)
                  )
                )
-    returns(expected) { tree_hash.digest}
+    returns(expected) { tree_hash.hexdigest}
 
   end
 
