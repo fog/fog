@@ -22,7 +22,7 @@ module Fog
           path = "/#{account_id}/vaults/#{Fog::AWS.escape(vault_name)}/archives"
 
           headers = {
-            'Content-Length' => body.length.to_s,
+            'Content-Length' => body.bytesize.to_s,
             'x-amz-content-sha256' => Digest::SHA256.hexdigest(body),
             'x-amz-sha256-tree-hash' => Fog::AWS::Glacier::TreeHash.digest(body)
           }
