@@ -17,9 +17,13 @@ module Fog
       request :delete_archive
       request :delete_vault
       request :delete_vault_notification_configuration
+      request :describe_job
       request :describe_vault
+      request :get_job_output
       request :get_vault_notification_configuration
+      request :initiate_job
       request :initiate_multipart_upload
+      request :list_jobs
       request :list_multipart_uploads
       request :list_parts
       request :list_vaults
