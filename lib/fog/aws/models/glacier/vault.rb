@@ -1,4 +1,6 @@
 require 'fog/core/model'
+require 'fog/aws/models/glacier/archives'
+
 module Fog
   module AWS
     class Glacier
@@ -15,6 +17,10 @@ module Fog
         def ready?
           # Glacier requests are synchronous
           true
+        end
+
+        def archives
+          @archives ||= Fog::AWS::Glacier::Archives.new(:vault => self, :connection => connection)
         end
 
         def save
