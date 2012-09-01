@@ -25,6 +25,8 @@ class AWS < Fog::Bin
         Fog::AWS::ELB
       when :emr
         Fog::AWS::EMR
+      when :glacier
+        Fog::AWS::Glacier
       when :iam
         Fog::AWS::IAM
       when :sdb, :simpledb

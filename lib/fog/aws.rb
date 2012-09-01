@@ -17,6 +17,7 @@ module Fog
     service(:elasticache,     'aws/elasticache',      'Elasticache')
     service(:elb,             'aws/elb',              'ELB')
     service(:emr,             'aws/emr',              'EMR')
+    service(:glacier,         'aws/glacier',          'Glacier')
     service(:iam,             'aws/iam',              'IAM')
     service(:rds,             'aws/rds',              'RDS')
     service(:ses,             'aws/ses',              'SES')
