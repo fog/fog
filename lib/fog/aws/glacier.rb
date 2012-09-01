@@ -10,13 +10,57 @@ module Fog
 
       request_path 'fog/aws/requests/glacier'
 
+      request :create_archive
       request :create_vault
+      request :delete_archive
       request :delete_vault
       request :delete_vault_notification_configuration
       request :describe_vault
       request :get_vault_notification_configuration
       request :list_vaults
       request :set_vault_notification_configuration
+
+
+      MEGABYTE = 1024*1024
+
+      class TreeHash
+
+        def self.digest(body)
+          new.add_part(body).digest
+        end
+
+        def reduce_digests(digests)
+          while digests.length > 1
+            digests = digests.each_slice(2).collect do |pair|
+              if pair.length == 2
+                Digest::SHA256.digest(pair[0]+pair[1])
+              else
+                pair.first
+              end
+            end
+          end
+          digests.first
+        end
+
+        def initialize
+          @digests = []
+        end
+
+        def add_part(bytes)
+          @digests << self.digest_for_part(bytes)
+          self
+        end
+
+        def digest_for_part(body)
+          chunk_count = [body.bytesize / MEGABYTE + (body.bytesize % MEGABYTE > 0 ? 1 : 0), 1].max
+          digests_for_part = chunk_count.times.collect {|chunk_index| Digest::SHA256.digest(body.byteslice(chunk_index * MEGABYTE, MEGABYTE))}
+          reduce_digests(digests_for_part)
+        end
+
+        def digest
+          reduce_digests(@digests).unpack('H*').first
+        end
+      end
 
       class Mock
 
