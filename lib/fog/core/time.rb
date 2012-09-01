@@ -22,5 +22,9 @@ module Fog
       self.utc.strftime("#{DAYS[self.utc.wday]}, %d #{MONTHS[self.utc.month - 1]} %Y %H:%M:%S +0000")
     end
 
+    def to_iso8601_basic
+      self.utc.strftime('%Y%m%dT%H%M%SZ')
+    end
+
   end
 end
