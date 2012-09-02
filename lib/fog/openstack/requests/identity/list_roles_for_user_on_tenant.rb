@@ -14,7 +14,7 @@ module Fog
       class Mock
         def list_roles_for_user_on_tenant(tenant_id, user_id)
           Excon::Response.new(
-            :body   => { 'roles' => self.data[:roles] },
+            :body   => { 'roles' => self.data[:roles].values },
             :status => 200
           )
         end # def list_roles_for_user_on_tenant
