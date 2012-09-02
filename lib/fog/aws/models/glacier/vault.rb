@@ -28,9 +28,17 @@ module Fog
           @jobs ||= Fog::AWS::Glacier::Jobs.new(:vault => self, :connection => connection)
         end
 
+        def set_notification_configuration(topic, events)
+          connection.set_vault_notification_configuration(id, topic, events)
+        end
+
+        def delete_notification_configuration
+          connection.delete_vault_notification_configuration
+        end
+        
         def save
           requires :id
-          data = connection.create_vault(id)
+          connection.create_vault(id)
           reload
         end
 
