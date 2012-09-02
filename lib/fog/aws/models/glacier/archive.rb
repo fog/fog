@@ -41,7 +41,7 @@ module Fog
 
         def multipart_save
           # Initiate the upload
-          res = connection.initiate_multipart_upload vault.id, multipart_chunk_size
+          res = connection.initiate_multipart_upload vault.id, multipart_chunk_size, 'description' => description
           upload_id = res.headers["x-amz-multipart-upload-id"]
 
           hash = Fog::AWS::Glacier::TreeHash.new
