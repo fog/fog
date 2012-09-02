@@ -2,7 +2,7 @@
 
 Shindo.tests('AWS | url', ["aws"]) do
 
-  @expires = DateTime.parse('2013-01-01T00:00:00Z').to_time.utc.to_i
+  @expires = Time.utc(2013,1,1).utc.to_i
 
   @storage = Fog::Storage.new(
     :provider => 'AWS',
