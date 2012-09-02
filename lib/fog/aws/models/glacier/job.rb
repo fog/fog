@@ -7,7 +7,7 @@ module Fog
       class Job < Fog::Model
 
         ARCHIVE = 'archive-retrieval'
-        INVENTORY = 'inventory_retrieval'
+        INVENTORY = 'inventory-retrieval'
 
         identity  :id,              :aliases => "JobId"
         attribute :action,          :aliases => "Action"
