@@ -72,7 +72,7 @@ module Fog
           else
             old_encoding = body.encoding
             body.force_encoding('BINARY')
-            digests_for_part = chunk_count.times.collect {|chunk_index| Digest::SHA256.digest(body.byteslice(chunk_index * MEGABYTE, MEGABYTE))}
+            digests_for_part = chunk_count.times.collect {|chunk_index| Digest::SHA256.digest(body.slice(chunk_index * MEGABYTE, MEGABYTE))}
             body.force_encoding(old_encoding)
           end
           reduce_digests(digests_for_part)
