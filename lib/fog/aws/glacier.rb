@@ -70,10 +70,14 @@ module Fog
           if body.respond_to? :byteslice
             digests_for_part = chunk_count.times.collect {|chunk_index| Digest::SHA256.digest(body.byteslice(chunk_index * MEGABYTE, MEGABYTE))}
           else
-            old_encoding = body.encoding
-            body.force_encoding('BINARY')
+            if body.respond_to? :encoding
+              old_encoding = body.encoding
+              body.force_encoding('BINARY')
+            end
             digests_for_part = chunk_count.times.collect {|chunk_index| Digest::SHA256.digest(body.slice(chunk_index * MEGABYTE, MEGABYTE))}
-            body.force_encoding(old_encoding)
+            if body.respond_to? :encoding
+              body.force_encoding(old_encoding)
+            end
           end
           reduce_digests(digests_for_part)
         end

@@ -5,7 +5,9 @@ Shindo.tests('AWS::Glacier | glacier tree hash calcuation', ['aws']) do
   end
 
   tests('tree_hash(multibyte characters)') do
-    body = ("\xC2\xA1".force_encoding('UTF-8') * 1024*1024)
+    body = ("\xC2\xA1" * 1024*1024)
+    body.force_encoding('UTF-8') if body.respond_to? :encoding
+
     expected = Digest::SHA256.hexdigest(
                 Digest::SHA256.digest("\xC2\xA1" * 1024*512) + Digest::SHA256.digest("\xC2\xA1" * 1024*512)
               )

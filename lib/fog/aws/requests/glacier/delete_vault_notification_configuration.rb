@@ -23,7 +23,7 @@ module Fog
             :idempotent => true,
             :headers => {},
             :method   => :delete,
-            :path     => path,
+            :path     => path
           )
         end
       end

@@ -28,7 +28,7 @@ module Fog
             :expects  => 201,
             :headers => headers,
             :method   => 'POST',
-            :path     => path,
+            :path     => path
           )
         end
       end

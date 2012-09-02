@@ -24,7 +24,7 @@ module Fog
             :idempotent => true,
             :headers => {},
             :method   => :get,
-            :path     => path,
+            :path     => path
           )
         end
       end
