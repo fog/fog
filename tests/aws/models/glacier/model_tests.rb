@@ -36,7 +36,12 @@ Shindo.tests('AWS::Glacier | models', ['aws', 'glacier']) do
         tests('sets id').returns(true) {!archive.id.nil?}
         archive.destroy
       end
-
     end
+
+    vault = Fog::AWS[:glacier].vaults.create :id => 'Fog-Test-Vault'
+    tests("jobs") do
+      tests('all').returns([]) {vault.jobs}
+    end
+    vault.destroy
   end
 end

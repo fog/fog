@@ -1,5 +1,6 @@
 require 'fog/core/model'
 require 'fog/aws/models/glacier/archives'
+require 'fog/aws/models/glacier/jobs'
 
 module Fog
   module AWS
@@ -21,6 +22,10 @@ module Fog
 
         def archives
           @archives ||= Fog::AWS::Glacier::Archives.new(:vault => self, :connection => connection)
+        end
+
+        def jobs
+          @jobs ||= Fog::AWS::Glacier::Jobs.new(:vault => self, :connection => connection)
         end
 
         def save
