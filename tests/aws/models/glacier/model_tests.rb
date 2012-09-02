@@ -1,5 +1,5 @@
 Shindo.tests('AWS::Glacier | models', ['aws', 'glacier']) do
-
+  pending if Fog.mocking?
   tests('success') do
     tests('vaults') do
       tests('getting a missing vault') do
