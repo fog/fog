@@ -4,6 +4,14 @@ Shindo.tests('AWS::Glacier | glacier tree hash calcuation', ['aws']) do
     returns(Digest::SHA256.hexdigest('')) { Fog::AWS::Glacier::TreeHash.digest('')}
   end
 
+  tests('tree_hash(multibyte characters)') do
+    body = ("\xC2\xA1".force_encoding('UTF-8') * 1024*1024)
+    expected = Digest::SHA256.hexdigest(
+                Digest::SHA256.digest("\xC2\xA1" * 1024*512) + Digest::SHA256.digest("\xC2\xA1" * 1024*512)
+              )
+    returns(expected) { Fog::AWS::Glacier::TreeHash.digest(body)}
+  end
+
   tests('tree_hash(power of 2 number of parts)') do
     body = ('x' * 1024*1024) + ('y'*1024*1024) + ('z'*1024*1024) + ('t'*1024*1024)
     expected = Digest::SHA256.hexdigest(
