@@ -74,4 +74,5 @@ Shindo.tests('Fog::Compute[:aws] | tag requests', ['aws']) do
     end
 
   end
+  Fog::Compute::AWS::Mock.reset if Fog.mocking?
 end
