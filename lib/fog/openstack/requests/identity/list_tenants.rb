@@ -20,6 +20,7 @@ module Fog
         def list_tenants
           Excon::Response.new(
             :body => {
+              'tenants_links' => [],
               'tenants' => [
                 {'id' => '1',
                  'description' => 'Has access to everything',
