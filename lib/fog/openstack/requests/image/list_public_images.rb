@@ -16,31 +16,13 @@ module Fog
           response = Excon::Response.new
           response.status = [200, 204][rand(1)]
           response.body = {
-              "images"=>[{
-                "name"=>"mock-image-name",
-                "size"=>25165824,
-                "disk_format"=>"ami",
-                "container_format"=>"ami",
-                "id"=>"0e09fbd6-43c5-448a-83e9-0d3d05f9747e",
-                "checksum"=>"2f81976cae15c16ef0010c51e3a6c163"},
-               {"name"=>"new image",
-                "size"=>0,
-                "min_disk"=>0,
-                "disk_format"=>nil,
-                "created_at"=>"2012-02-24T06:45:00",
-                "container_format"=>nil,
-                "deleted_at"=>nil,
-                "updated_at"=>"2012-02-24T06:45:00",
-                "checksum"=>nil,
-                "id"=>"e41304f3-2453-42b4-9829-2e220a737395",
-                "deleted"=>false,
-                "protected"=>false,
-                "is_public"=>false,
-                "status"=>"queued",
-                "min_ram"=>0,
-                "owner"=>"728ecc7c10614a1faa6fbabd1a68a4a0",
-                "properties"=>{}
-                }]
+            "images"=>[{
+              "name"             => Fog::Mock.random_letters(10),
+              "size"             => Fog::Mock.random_numbers(8).to_i,
+              "disk_format"      => "iso",
+              "container_format" => "bare",
+              "id"               => Fog::Mock.random_hex(36),
+              "checksum"         => Fog::Mock.random_hex(32)}]
           }
           response
         end # def list_tenants

@@ -81,22 +81,22 @@ module Fog
           @current_user = {
             'username'  => 'admin',
             'name' => 'admin',
-            'id' => 1,
+            'id' => Fog::Mock.random_hex(32),
             'roles' => [
-              { 'id' => 1, 'name' => 'admin'  },
-              { 'id' => 2, 'name' => 'Member' }
+              { 'id' => Fog::Mock.random_hex(32), 'name' => 'admin'  },
+              { 'id' => Fog::Mock.random_hex(32), 'name' => 'Member' }
             ]
           }
 
           @auth_token = Fog::Mock.random_base64(64)
           @auth_token_expiration = (Time.now.utc + 86400).iso8601
           @current_tenant = {
-            'id' => 1,
+            'id' => Fog::Mock.random_hex(32),
             'name' => 'admin'
           }
 
           unless self.data[:users].values.detect {|user| user['name'] == @openstack_username}
-            id = Fog::Mock.random_numbers(6).to_s
+            id = Fog::Mock.random_hex(32)
             self.data[:users][id] = {
               'id'       => id,
               'name'     => options[:openstack_username],

@@ -22,10 +22,10 @@ module Fog
           response.body = {
             'snapshot' => {
               'id'                 => '1',
-              'display_name'        => Fog::Mock.random_letters(rand(8) + 5),
-              'display_description' => Fog::Mock.random_letters(rand(12) + 10),
-              'size'               => 3,
-              'volume_id'           => '4',
+              'display_name'        => 'Snapshot1',
+              'display_description' => 'Volume1 snapshot',
+              'size'               => 1,
+              'volume_id'           => '1',
               'status'             => 'available',
               'created_at'          => Time.now
             }

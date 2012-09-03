@@ -38,26 +38,27 @@ module Fog
         def update_image(attributes)
           response = Excon::Response.new
           response.status = 200
-          response.body = {"image"=>
-                               {"name"=>"edit test image",
-                                "size"=>0,
-                                "min_disk"=>0,
-                                "disk_format"=>nil,
-                                "created_at"=>"2012-02-24T06:45:00",
-                                "container_format"=>nil,
-                                "deleted_at"=>nil,
-                                "updated_at"=>"2012-02-24T06:45:00",
-                                "checksum"=>nil,
-                                "id"=>"e41304f3-2453-42b4-9829-2e220a737395",
-                                "deleted"=>false,
-                                "protected"=>false,
-                                "is_public"=>false,
-                                "status"=>"queued",
-                                "min_ram"=>0,
-                                "owner"=>"728ecc7c10614a1faa6fbabd1a68a4a0",
-                                "properties"=>{}
-                               }.merge(Hash[attributes.map { |key, val| [key.to_s, val] }])
-                           }
+          response.body = {
+                            'image'=> {
+                              'name'             => attributes[:name],
+                              'size'             => Fog::Mock.random_numbers(8).to_i,
+                              'min_disk'         => 0,
+                              'disk_format'      => 'iso',
+                              'created_at'       => Time.now.to_s,
+                              'container_format' => 'bare',
+                              'deleted_at'       => nil,
+                              'updated_at'       => Time.now.to_s,
+                              'checksum'         => Fog::Mock.random_hex(32),
+                              'id'               => attributes[:id],
+                              'deleted'          => false,
+                              'protected'        => false,
+                              'is_public'        => false,
+                              'status'           => 'queued',
+                              'min_ram'          => 0,
+                              'owner'            => Fog::Mock.random_hex(32),
+                              'properties'       => {}
+                            }
+                          }
           response
 
         end

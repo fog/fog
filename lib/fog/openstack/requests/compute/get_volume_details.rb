@@ -30,7 +30,7 @@ module Fog
               'status'              => 'online',
               'availability_zone'   => 'nova',
               'created_at'          => Time.now,
-              'attchments'          => []
+              'attachments'         => []
             }
           }
           response

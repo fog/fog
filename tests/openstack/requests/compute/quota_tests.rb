@@ -11,6 +11,8 @@ Shindo.tests('Fog::Compute[:openstack] | quota requests', ['openstack']) do
     'instances' => Fixnum,
     'volumes' => Fixnum,
     'cores' => Fixnum,
+    'security_groups' => Fixnum,
+    'security_group_rules' => Fixnum,
     'id' => String
   }
 

@@ -21,16 +21,16 @@ module Fog
           response.status = 200
           response.body = {
             'volume' => {
-              'id'                 => '1',
+              'id'                  => '1',
               'display_name'        => Fog::Mock.random_letters(rand(8) + 5),
               'display_description' => Fog::Mock.random_letters(rand(12) + 10),
-              'size'               => 3,
+              'size'                => 3,
               'volume_type'         => nil,
               'snapshot_id'         => '4',
-              'status'             => 'online',
+              'status'              => 'online',
               'availability_zone'   => 'nova',
               'created_at'          => Time.now,
-              'attchments'         => []
+              'attachments'         => []
             }
           }
           response
