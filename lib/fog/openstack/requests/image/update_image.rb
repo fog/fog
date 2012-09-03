@@ -38,25 +38,26 @@ module Fog
         def update_image(attributes)
           response = Excon::Response.new
           response.status = 200
+          image = self.images.last
           response.body = {
                             'image'=> {
-                              'name'             => attributes[:name],
-                              'size'             => Fog::Mock.random_numbers(8).to_i,
-                              'min_disk'         => 0,
-                              'disk_format'      => 'iso',
-                              'created_at'       => Time.now.to_s,
-                              'container_format' => 'bare',
+                              'name'             => attributes[:name] || image.name,
+                              'size'             => image.size,
+                              'min_disk'         => (attributes[:min_disk] || image.min_disk).to_i,
+                              'disk_format'      => attributes[:disk_format] || image.disk_format,
+                              'created_at'       => image.created_at,
+                              'container_format' => attributes[:container_format] || image.container_format,
                               'deleted_at'       => nil,
                               'updated_at'       => Time.now.to_s,
-                              'checksum'         => Fog::Mock.random_hex(32),
+                              'checksum'         => image.checksum,
                               'id'               => attributes[:id],
                               'deleted'          => false,
                               'protected'        => false,
-                              'is_public'        => false,
-                              'status'           => 'queued',
-                              'min_ram'          => 0,
-                              'owner'            => Fog::Mock.random_hex(32),
-                              'properties'       => {}
+                              'is_public'        => attributes[:is_public] || image.is_public,
+                              'status'           => image.status,
+                              'min_ram'          => (attributes[:min_ram] || image.min_ram).to_i,
+                              'owner'            => attributes[:owner] || image.owner,
+                              'properties'       => attributes[:properties] || image.properties
                             }
                           }
           response
