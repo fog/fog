@@ -30,7 +30,7 @@ Shindo.tests('Fog::Compute[:serverlove] | server requests', ['serverlove']) do
     
     tests("#update_server").returns(true) do
       @server['name'] = "Diff"
-      Fog::Compute[:serverlove].update_server(@server['server'], { name: @server['name']})
+      Fog::Compute[:serverlove].update_server(@server['server'], { :name => @server['name']})
       Fog::Compute[:serverlove].servers.get(@server['server']).name == "Diff"
     end
     
