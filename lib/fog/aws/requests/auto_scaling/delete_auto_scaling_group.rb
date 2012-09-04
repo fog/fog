@@ -12,6 +12,10 @@ module Fog
         # ==== Parameters
         # * auto_scaling_group_name<~String> - The name of the Auto Scaling
         #   group.
+	# * options<-Hash>:
+	#   * 'ForceDelete'<-Boolean> - starting with API version 2011-01-01,
+	#      specifies that the auto scaling group will be deleted
+	#      along with all instances associated with the group
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -22,19 +26,19 @@ module Fog
         # ==== See Also
         # http://docs.amazonwebservices.com/AutoScaling/latest/APIReference/API_DeleteAutoScalingGroup.html
         #
-        def delete_auto_scaling_group(auto_scaling_group_name)
+        def delete_auto_scaling_group(auto_scaling_group_name, options = {})
           request({
             'Action'               => 'DeleteAutoScalingGroup',
             'AutoScalingGroupName' => auto_scaling_group_name,
             :parser                => Fog::Parsers::AWS::AutoScaling::Basic.new
-          })
+          }.merge(options))
         end
 
       end
 
       class Mock
 
-        def delete_auto_scaling_group(auto_scaling_group_name)
+        def delete_auto_scaling_group(auto_scaling_group_name, options = {})
           unless self.data[:auto_scaling_groups].delete(auto_scaling_group_name)
             raise Fog::AWS::Autoscaling::NotFound, "The auto scaling group '#{auto_scaling_group_name}' does not exist."
           end
