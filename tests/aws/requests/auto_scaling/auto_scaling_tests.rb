@@ -75,10 +75,6 @@ Shindo.tests('AWS::AutoScaling | auto_scaling_tests', ['aws', 'auto_scaling']) d
     tests("#delete_auto_scaling_group").formats(AWS::AutoScaling::Formats::BASIC) do
       Fog::AWS[:auto_scaling].delete_auto_scaling_group(@asg_name).body
     end
-    tests("#delete_auto_scaling_group").formats(AWS::AutoScaling::Formats::BASIC) do
-      options = {'ForceDelete' => true}
-      Fog::AWS[:auto_scaling].delete_auto_scaling_group(@asg_name, options).body
-    end
     tests("#delete_launch_configuration").formats(AWS::AutoScaling::Formats::BASIC) do
       Fog::AWS[:auto_scaling].delete_launch_configuration(@lc_name).body
     end
