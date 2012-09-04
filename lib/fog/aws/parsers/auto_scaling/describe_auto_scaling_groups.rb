@@ -15,7 +15,8 @@ module Fog
           end
 
           def reset_auto_scaling_group
-            @auto_scaling_group = { 'AvailabilityZones' => [], 'EnabledMetrics' => [], 'Instances' => [], 'LoadBalancerNames' => [], 'SuspendedProcesses' => [] }
+            @auto_scaling_group = { 'AvailabilityZones' => [], 'EnabledMetrics' => [], 'Instances' => [], 
+                                  'LoadBalancerNames' => [], 'SuspendedProcesses' => [], 'TerminationPolicies' => [] }
           end
 
           def reset_enabled_metric
@@ -43,6 +44,8 @@ module Fog
               @in_load_balancer_names = true
             when 'SuspendedProcesses'
               @in_suspended_processes = true
+            when 'TerminationPolicies'
+              @in_termination_policies = true
             end
           end
 
@@ -62,6 +65,8 @@ module Fog
               elsif @in_suspended_processes
                 @auto_scaling_group['SuspendedProcesses'] << @suspended_process
                 reset_suspended_process
+              elsif @in_termination_policies
+                @auto_scaling_group['TerminationPolicies'] << value
               elsif !@in_instances && !@in_policies
                 @results['AutoScalingGroups'] << @auto_scaling_group
                 reset_auto_scaling_group
@@ -81,6 +86,8 @@ module Fog
               else
                 @auto_scaling_group[name] = value
               end
+            when 'TerminationPolicies'
+              @in_termination_policies = false
 
             when 'AvailabilityZone', 'HealthStatus', 'InstanceId', 'LifecycleState'
               @instance[name] = value

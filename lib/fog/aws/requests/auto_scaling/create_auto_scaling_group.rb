@@ -98,6 +98,7 @@ module Fog
             'MinSize'                 => min_size,
             'PlacementGroup'          => nil,
             'SuspendedProcesses'      => [],
+            'TerminationPolicies'     => [],
             'VPCZoneIdentifier'       => nil
           }.merge!(options)
 
