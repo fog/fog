@@ -76,6 +76,9 @@ module Fog
           require 'fog/rackspace/compute'
           Fog::Compute::Rackspace.new(attributes)
         end
+      when :serverlove
+        require 'fog/serverlove/compute'
+        Fog::Compute::Serverlove.new(attributes)
       when :stormondemand
         require 'fog/storm_on_demand/compute'
         Fog::Compute::StormOnDemand.new(attributes)
