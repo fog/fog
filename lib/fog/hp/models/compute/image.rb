@@ -16,7 +16,7 @@ module Fog
         attribute :minDisk,     :aliases => 'min_disk'
         attribute :minRam,      :aliases => 'min_ram'
         attribute :server,   :aliases => 'server'
-        #attribute :metadata       #TODO: Need to add it back when Metadata API is done
+        attribute :metadata       
         attribute :links
 
         def destroy
