@@ -76,7 +76,7 @@ Shindo.tests('AWS::AutoScaling | auto_scaling_tests', ['aws', 'auto_scaling']) d
       Fog::AWS[:auto_scaling].delete_auto_scaling_group(@asg_name).body
     end
 
-    tests("#delete_auto_scaling_group that does not exists").raises(Fog::AWS::AutoScaling::NotFound) do
+    tests("#delete_auto_scaling_group that does not exists").raises(Fog::AWS::AutoScaling::ValidationError) do
       Fog::AWS[:auto_scaling].delete_auto_scaling_group("group that does not exist")
     end
 
