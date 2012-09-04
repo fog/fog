@@ -36,7 +36,7 @@ module Fog
 
         def delete_auto_scaling_group(auto_scaling_group_name)
           unless self.data[:auto_scaling_groups].delete(auto_scaling_group_name)
-            raise Fog::AWS::Autoscaling::NotFound, "The auto scaling group '#{auto_scaling_group_name}' does not exist."
+            raise Fog::AWS::AutoScaling::NotFound, "The auto scaling group '#{auto_scaling_group_name}' does not exist."
           end
 
           response = Excon::Response.new
