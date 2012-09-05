@@ -40,6 +40,15 @@ Shindo.tests('test_helper', 'meta') do
         !formats_kernel({}, {:a => String})
       end
 
+      test('when an array is expected but another data type is found') do
+        !formats_kernel({:a => 'not an array'}, {:a => []})
+      end
+
+      test('when a hash is expected but another data type is found') do
+        !formats_kernel({:a => 'not a hash'}, {:a => {}}, true, false)
+      end
+
+
       test('non strict extra data') do
         !formats_kernel({:a => :b, :b => :c}, {:z => Symbol}, true, false)
       end
