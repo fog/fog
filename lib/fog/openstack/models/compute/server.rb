@@ -142,7 +142,7 @@ module Fog
 
         def change_password(admin_password)
           requires :id
-          connection.change_password_server(id, admin_password)
+          connection.change_server_password(id, admin_password)
           true
         end
 
