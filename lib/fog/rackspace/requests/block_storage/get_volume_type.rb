@@ -6,7 +6,7 @@ module Fog
           request(
             :expects => [200],
             :method => 'GET',
-            :path => "/types/#{volume_type_id}"
+            :path => "types/#{volume_type_id}"
           )
         end
       end
