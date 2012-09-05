@@ -23,6 +23,10 @@ module Fog
         attribute :volume_type
         attribute :availability_zone
 
+        def ready?
+          state == AVAILABLE
+        end
+
         def save
           requires :size
           data = connection.create_volume(size, {
