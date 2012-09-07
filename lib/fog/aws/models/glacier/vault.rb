@@ -24,8 +24,8 @@ module Fog
           @archives ||= Fog::AWS::Glacier::Archives.new(:vault => self, :connection => connection)
         end
 
-        def jobs
-          @jobs ||= Fog::AWS::Glacier::Jobs.new(:vault => self, :connection => connection)
+        def jobs(filters={})
+          Fog::AWS::Glacier::Jobs.new(:vault => self, :connection => connection, :filters => filters)
         end
 
         def set_notification_configuration(topic, events)

@@ -9,9 +9,19 @@ module Fog
 
         model Fog::AWS::Glacier::Job
         attribute :vault
+        attribute :filters
+        
+        def initialize(attributes)
+          self.filters = {}
+          super
+        end
 
-        def all
-          data = connection.list_jobs(vault.id).body['JobList']
+        # acceptable filters are:
+        # statuscode InProgress/Failed/Succeeded
+        # completed (true/false)
+        def all(filters = self.filters)
+          self.filters = filters
+          data = connection.list_jobs(vault.id, self.filters).body['JobList']
           load(data)
         end
 
