@@ -30,6 +30,7 @@ module Fog
             when 'MasterUsername' then @db_snapshot['MasterUsername'] = value
             when 'Port' then @db_snapshot['Port'] = value.to_i
             when 'SnapshotCreateTime' then @db_snapshot['SnapshotCreateTime'] = Time.parse value
+            when 'SnapshotType' then @db_snapshot['SnapshotType'] = value
             when 'Status' then @db_snapshot['Status'] = value
             end
           end
