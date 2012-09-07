@@ -15,6 +15,9 @@ module Fog
           if attributes[:server]
             filters[:identifier] = attributes[:server].id
           end
+          if attributes[:type]
+            filters[:type] = attributes[:type]
+          end
           super
         end
 

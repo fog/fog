@@ -17,6 +17,7 @@ module Fog
         attribute  :port, :aliases => 'Port', :type => :integer
         attribute  :allocated_storage, :aliases => 'AllocatedStorage', :type => :integer
         attribute  :availability_zone, :aliases => 'AvailabilityZone'
+        attribute  :type, :aliases => 'SnapshotType'
 
         def ready?
           state == 'available'

@@ -96,7 +96,8 @@ class AWS
         'MasterUsername' => String,
         'Port' => Integer,
         'SnapshotCreateTime' => Fog::Nullable::Time,
-        'Status' => String
+        'Status' => String,
+        'SnapshotType' => String
       }
       INSTANCE = {
         'AllocatedStorage' => Integer,
