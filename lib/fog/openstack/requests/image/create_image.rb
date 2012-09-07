@@ -51,12 +51,12 @@ module Fog
           response.status = 201
           response.body = {
                             'image'=> {
-                              'name'             => attributes[:name],
+                              'name'             => attributes['name'],
                               'size'             => Fog::Mock.random_numbers(8).to_i,
                               'min_disk'         => 0,
-                              'disk_format'      => attributes[:disk_format],
+                              'disk_format'      => attributes['disk_format'],
                               'created_at'       => Time.now.to_s,
-                              'container_format' => attributes[:container_format],
+                              'container_format' => attributes['container_format'],
                               'deleted_at'       => nil,
                               'updated_at'       => Time.now.to_s,
                               'checksum'         => Fog::Mock.random_hex(32),
@@ -66,8 +66,8 @@ module Fog
                               'is_public'        => false,
                               'status'           => 'queued',
                               'min_ram'          => 0,
-                              'owner'            => attributes[:owner],
-                              'properties'       => attributes[:properties]
+                              'owner'            => attributes['owner'],
+                              'properties'       => attributes['properties']
                             }
                           }
           response

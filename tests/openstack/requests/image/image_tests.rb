@@ -1,15 +1,15 @@
 Shindo.tests('Fog::Image[:openstack] | image requests', ['openstack']) do
   openstack = Fog::Identity[:openstack]
   @image_attributes = {
-    :name             => 'new image',
-    :owner            => openstack.current_tenant['id'],
-    :is_public        => 'true',
-    :copy_from        => 'http://website.com/image.iso',
-    :disk_format      => 'iso',
-    :properties=>
-      {:user_id       => openstack.current_user['id'],
-       :owner_id      => openstack.current_tenant['id']},
-    :container_format => 'bare' }
+    'name'            => 'new image',
+    'owner'           => openstack.current_tenant['id'],
+    'is_public'       => 'true',
+    'copy_from'       => 'http://website.com/image.iso',
+    'disk_format'     => 'iso',
+    'properties'      =>
+      {'user_id'      => openstack.current_user['id'],
+       'owner_id'     => openstack.current_tenant['id']},
+    'container_format'=> 'bare' }
 
   @image_format = {
     'name'             => String,
