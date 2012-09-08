@@ -167,7 +167,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
       'ami-6bbb1302' # ubuntu 12.04 daily build 20120728
     else
       # Use a MS Windows AMI to test #get_password_data
-      'ami-c941efa0' # Amazon Public Images - Windows_Server-2008-SP2-English-64Bit-Base-2012.07.11
+      'ami-71b50018' # Amazon Public Images - Windows_Server-2008-SP2-English-64Bit-Base-2012.07.11
     end
 
     # Create a keypair for decrypting the password
