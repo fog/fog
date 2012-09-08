@@ -7,7 +7,7 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
+      recognizes :endpoint, :region, :host, :path, :port, :scheme, :persistent, :aws_session_token, :use_iam_profile, :aws_credentials_expire_at, :instrumentor, :instrumentor_name, :version
 
       secrets    :aws_secret_access_key, :hmac, :aws_session_token
 
@@ -317,6 +317,7 @@ module Fog
           @region                 = options[:region] ||= 'us-east-1'
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
+          @version                = options[:version]     ||  '2012-07-20'
 
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)
@@ -362,7 +363,7 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2012-07-20'
+              :version            => @version
             }
           )
 
