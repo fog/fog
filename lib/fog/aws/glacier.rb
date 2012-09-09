@@ -161,7 +161,7 @@ module Fog
           params[:headers]['Authorization'] = @signer.sign params, date
 
           response = @connection.request(params, &block)
-          if response.headers['Content-Type'] == 'application/json'
+          if response.headers['Content-Type'] == 'application/json' && response.body.size > 0 #body will be empty if the streaming form has been used
             response.body  = Fog::JSON.decode(response.body)
           end
           response
