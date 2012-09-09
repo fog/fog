@@ -29,6 +29,7 @@ module Fog
           request({
             :body       => data[:body],
             :expects    => 200,
+            :idempotent => true,
             :headers    => headers,
             :host       => "#{bucket_name}.#{@host}",
             :method     => 'PUT',
