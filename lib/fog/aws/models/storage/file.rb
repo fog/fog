@@ -173,7 +173,8 @@ module Fog
           # TODO: Support large chunk sizes without reading the chunk into memory
           body.rewind if body.respond_to?(:rewind)
           while (chunk = body.read(multipart_chunk_size)) do
-            part_upload = connection.upload_part(directory.key, key, upload_id, part_tags.size + 1, chunk )
+            md5 = Base64.encode64(Digest::MD5.digest(chunk)).strip
+            part_upload = connection.upload_part(directory.key, key, upload_id, part_tags.size + 1, chunk, 'Content-MD5' => md5 )
             part_tags << part_upload.headers["ETag"]
           end
 
