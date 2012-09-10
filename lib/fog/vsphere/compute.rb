@@ -30,6 +30,7 @@ module Fog
       request :vm_reconfig_cpus
       request :vm_config_ip
       request :vm_config_ha
+      request :vm_folder
       request :vm_update_network
       request :query_resources
       request :utility
