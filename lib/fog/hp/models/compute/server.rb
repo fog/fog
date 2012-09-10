@@ -129,6 +129,10 @@ module Fog
           @security_groups = new_security_groups
         end
 
+        def security_groups   
+          @security_groups
+        end
+        
         def ready?
           self.state == 'ACTIVE'
         end
