@@ -1,0 +1,38 @@
+ompute
+    class Vsphere
+
+      class Real
+        include Shared
+
+        def folder_parse(folder_path, folder_mob)
+          # this function will parse the give folder-path and traverse on the inventory tree of vc
+          # will create the folder if no find
+          raise ArgumentError, "folder_path is a required parameter" unless folder_path
+          path_elements = folder_path.split('/')
+          path_elements.each do |f|
+          Fog::Logger.deprecation("fog: folder name=#{f}")
+          folder = folder_mob.traverse(f, RbVmomi::VIM::Folder, true)
+          folder_mob = folder
+          end
+          folder_mob
+        end
+
+        def folder_delete(dc_mob, folder_path)
+          raise ArgumentError, "folder_path is a required parameter" unless folder_path
+          path_elements = folder_path.split('/')
+          folder_mob = dc_mob.vmFolder
+          path_elements.each do |f|
+            folder_mob = folder_mob.traverse(f, RbVmomi::VIM::Folder, false)
+            Fog::Logger.deprecation("fog: folder_mob=#{folder_mob}")
+            return unless folder_mob
+          end
+          task = folder_mob.Destroy_Task
+          wait_for_task(task)
+          end
+          {'task_state' => task.info.state}
+        end
+
+    end
+  end
+end
+
