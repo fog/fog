@@ -312,6 +312,23 @@ class Ninefold
         }
         FORWARDING_RULES = [FORWARDING_RULE]
       end
+      module LoadBalancers
+        CREATE_LOAD_BALANCER_RULE_RESPONSE = {
+          "id"=>Integer,
+          "account"=>String,
+          "algorithm"=>String,
+          "cidrlist"=>String,
+          "description"=>String,
+          "domain"=>String,
+          "domainid"=>Integer,
+          "name"=>String,
+          "privateport"=>Integer,
+          "publicip"=>Integer,
+          "publicport"=>Integer,
+          "state"=>String,
+          "zoneid"=>Integer
+        }
+      end
     end
   end
 end
