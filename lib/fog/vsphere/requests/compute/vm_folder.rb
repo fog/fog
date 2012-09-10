@@ -1,4 +1,5 @@
-ompute
+module Fog
+  module Compute
     class Vsphere
 
       class Real
@@ -10,29 +11,30 @@ ompute
           raise ArgumentError, "folder_path is a required parameter" unless folder_path
           path_elements = folder_path.split('/')
           path_elements.each do |f|
-          Fog::Logger.deprecation("fog: folder name=#{f}")
-          folder = folder_mob.traverse(f, RbVmomi::VIM::Folder, true)
-          folder_mob = folder
+            Fog::Logger.deprecation("fog: folder name=#{f}")
+            folder = folder_mob.traverse(f, RbVmomi::VIM::Folder, true)
+            folder_mob = folder
           end
           folder_mob
         end
 
         def folder_delete(dc_mob, folder_path)
           raise ArgumentError, "folder_path is a required parameter" unless folder_path
+          rets = {'task_state' => 'false'}
           path_elements = folder_path.split('/')
           folder_mob = dc_mob.vmFolder
           path_elements.each do |f|
             folder_mob = folder_mob.traverse(f, RbVmomi::VIM::Folder, false)
             Fog::Logger.deprecation("fog: folder_mob=#{folder_mob}")
-            return unless folder_mob
+            rets = {'task_state' => 'success'}
+            return rets unless folder_mob
           end
           task = folder_mob.Destroy_Task
           wait_for_task(task)
-          end
-          {'task_state' => task.info.state}
+          rets = {'task_state' => task.info.state}
         end
+      end
 
     end
   end
 end
-

@@ -1,4 +1,4 @@
-Shindo.tests("Fog::Compute[:vsphere] | vm_folder request", 'vsphere') do
+Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
   require 'rbvmomi'
   require 'fog'
 
@@ -22,17 +22,17 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_folder request", 'vsphere') do
   response = nil
   response_linked = nil
 
-  tests("folder create and delete | The return value should") do
+  tests("Linked Clone | The return value should") do
     dc_ref = compute.get_dc_mob_ref_by_path(ConstClass::DC_NAME)
     target_cr_mob_ref = dc_ref.find_compute_resource(ConstClass::CS_NAME)
     host_mob_ref = target_cr_mob_ref.host.find { |h| h.name == ConstClass::HOST_NAME}
     datastore_mob_ref =  host_mob_ref.datastore.find  { |d| d.name == ConstClass::DATASTORE_NAME}
     rp_mob_ref = target_cr_mob_ref.resourcePool.resourcePool.find {|r| r.name == ConstClass::RP_NAME }
 
-    tests("folder create under given folder path | The return value should") do
+    tests("Linked Clone with destination arguments | The return value should") do
       response = compute.vm_clone(
           'path' => ConstClass::LC_TEMPLATE,
-          'name' => 'l_st_cloned_vm',
+          'name' => 'l_st_cloned_vm-2',
           'wait' => 1,
           'linked_clone' => true,
           'datastore_moid' => datastore_mob_ref._ref.to_s,
@@ -44,6 +44,9 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_folder request", 'vsphere') do
       %w{ vm_ref task_ref }.each do |key|
         test("have a #{key} key") { response.has_key? key }
       end
+      vm_mob_ref = compute.get_vm_mob_ref_by_moid(response.fetch('vm_ref'))
+      task = vm_mob_ref.PowerOffVM_Task
+      compute.wait_for_task(task)
     end
     compute.folder_delete(dc_ref, "serengeti_cluster_111/#{ConstClass::CS_NAME}")
   end
