@@ -27,6 +27,14 @@ module Fog
           state == AVAILABLE
         end
 
+        def attached?
+          state == IN_USE
+        end
+
+        def snapshots
+          connection.snapshots.select { |s| s.volume_id == identity }
+        end
+
         def save
           requires :size
           data = connection.create_volume(size, {
