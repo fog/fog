@@ -18,11 +18,12 @@ module Fog
           folder_mob
         end
 
-        def folder_create(dc_mob, folder_path)
+        def folder_create(dc_moid, folder_path)
           # this function will parse the give folder-path and traverse on the inventory tree of vc
           # will create the folder if no find
           raise ArgumentError, "folder_path is a required parameter" unless folder_path
           path_elements = folder_path.split('/')
+          dc_mob = get_mob_ref_by_moid('Datacenter',dc_moid)
           folder_mob = dc_mob.vmFolder
           path_elements.each do |f|
             Fog::Logger.deprecation("fog: folder name=#{f}")
@@ -32,10 +33,11 @@ module Fog
           folder_mob
         end
 
-        def folder_delete(dc_mob, folder_path)
+        def folder_delete(dc_moid, folder_path)
           raise ArgumentError, "folder_path is a required parameter" unless folder_path
           rets = {'task_state' => 'false'}
           path_elements = folder_path.split('/')
+          dc_mob = get_mob_ref_by_moid('Datacenter',dc_moid)
           folder_mob = dc_mob.vmFolder
           path_elements.each do |f|
             folder_mob = folder_mob.traverse(f, RbVmomi::VIM::Folder, false)
