@@ -113,6 +113,7 @@ module Fog
             "#{uri.scheme}://#{uri.host}:#{uri.port}/v2.0/tenants", false, connection_options).request({
             :expects => [200, 204],
             :headers => {'Content-Type' => 'application/json',
+                         'Accept' => 'application/json',
                          'X-Auth-Token' => body['access']['token']['id']},
             :host    => uri.host,
             :method  => 'GET'
