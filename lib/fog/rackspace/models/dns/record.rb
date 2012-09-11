@@ -1,5 +1,6 @@
 require 'fog/core/model'
 require 'fog/rackspace/models/dns/callback'
+require 'ipaddr'
 
 module Fog
   module DNS
@@ -55,7 +56,12 @@ module Fog
           end
 
           response = wait_for_job connection.add_records(@zone.identity, [options]).body['jobId']
-          merge_attributes(response.body['response']['records'].select {|record| record['name'] == self.name && record['type'] == self.type && record['data'] == self.value}.first)
+
+          if ['A', 'AAAA'].include?(self.type.upcase)
+            merge_attributes(response.body['response']['records'].select {|record| record['name'] == self.name && record['type'] == self.type && IPAddr.new(record['data']) == IPAddr.new(self.value)}.first)
+          else
+            merge_attributes(response.body['response']['records'].select {|record| record['name'] == self.name && record['type'] == self.type && record['data'] == self.value}.first)
+          end
           true
         end
 

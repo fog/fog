@@ -54,7 +54,7 @@ module Fog
 
         def create
           requires :name, :image_id, :flavor_id
-          data = connection.create_server(name, image_id, flavor_id, 1, 1)
+          data = connection.create_server(name, image_id, flavor_id, 1, 1, attributes)
           merge_attributes(data.body['server'])
           true
         end
