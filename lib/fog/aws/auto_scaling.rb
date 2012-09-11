@@ -10,7 +10,7 @@ module Fog
       class ValidationError < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :host, :path, :port, :scheme, :persistent, :region, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
+      recognizes :host, :path, :port, :scheme, :persistent, :region, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/auto_scaling'
       request :create_auto_scaling_group
@@ -79,6 +79,10 @@ module Fog
           setup_credentials(options)
 
           @connection_options = options[:connection_options] || {}
+
+          @instrumentor           = options[:instrumentor]
+          @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.auto_scaling'
+          
           options[:region] ||= 'us-east-1'
           @host = options[:host] || "autoscaling.#{options[:region]}.amazonaws.com"
           @path       = options[:path]        || '/'
@@ -113,6 +117,16 @@ module Fog
             }
           )
 
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(body, idempotent, parser)
+            end
+          else
+            _request(body, idempotent, parser)
+          end
+        end
+
+        def _request(body, idempotent, parser)
           begin
             response = @connection.request({
               :body       => body,
