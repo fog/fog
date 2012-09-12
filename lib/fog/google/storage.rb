@@ -191,7 +191,7 @@ module Fog
           @google_storage_secret_access_key = options[:google_storage_secret_access_key]
           @connection_options = options[:connection_options] || {}
           @hmac = Fog::HMAC.new('sha1', @google_storage_secret_access_key)
-          @host = options[:host] || 'commondatastorage.googleapis.com'
+          @host = options[:host] || 'storage.googleapis.com'
           @persistent = options.fetch(:persistent, true)
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'

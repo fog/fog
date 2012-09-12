@@ -94,9 +94,9 @@ module Fog
           requires :directory, :key
           if connection.get_object_acl(directory.key, key).body['AccessControlList'].detect {|entry| entry['Scope']['type'] == 'AllUsers' && entry['Permission'] == 'READ'}
             if directory.key.to_s =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
-              "https://#{directory.key}.commondatastorage.googleapis.com/#{key}"
+              "https://#{directory.key}.storage.googleapis.com/#{key}"
             else
-              "https://commondatastorage.googleapis.com/#{directory.key}/#{key}"
+              "https://storage.googleapis.com/#{directory.key}/#{key}"
             end
           else
             nil
