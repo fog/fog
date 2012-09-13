@@ -1,14 +1,12 @@
-require 'fog/hp'
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'hp'))
 require 'fog/storage'
 
 module Fog
   module Storage
     class HP < Fog::Service
 
-      requires    :hp_secret_key, :hp_account_id, :hp_tenant_id
-      recognizes  :hp_auth_uri, :hp_servicenet, :hp_cdn_ssl, :hp_cdn_uri, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_auth_version
-
-      secrets     :hp_secret_key
+      requires    :hp_secret_key, :hp_account_id, :hp_tenant_id, :hp_avl_zone
+      recognizes  :hp_auth_uri, :hp_servicenet, :hp_cdn_ssl, :hp_cdn_uri, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_auth_version, :user_agent
 
       model_path 'fog/hp/models/storage'
       model       :directory
@@ -39,6 +37,7 @@ module Fog
               :hp_auth_uri    => @hp_auth_uri,
               :hp_cdn_uri     => @hp_cdn_uri,
               :hp_tenant_id   => @hp_tenant_id,
+              :hp_avl_zone    => @hp_avl_zone,
               :connection_options => @connection_options
             )
             if @cdn.enabled?
@@ -129,6 +128,7 @@ module Fog
 
         def initialize(options={})
           require 'mime/types'
+          require 'multi_json'
           @hp_secret_key = options[:hp_secret_key]
           @hp_account_id = options[:hp_account_id]
           @hp_auth_uri   = options[:hp_auth_uri]
@@ -136,9 +136,10 @@ module Fog
           @connection_options = options[:connection_options] || {}
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
           auth_version = options[:hp_auth_version] || :v2
-          ### Pass the service type for object storage to the authentication call
-          options[:hp_service_type] = "object-store"
+          ### Pass the service name for object storage to the authentication call
+          options[:hp_service_type] = "Object Storage"
           @hp_tenant_id = options[:hp_tenant_id]
+          @hp_avl_zone  = options[:hp_avl_zone]
 
           ### Make the authentication call
           if (auth_version == :v2)
@@ -158,12 +159,11 @@ module Fog
           @auth_token = credentials[:auth_token]
 
           uri = URI.parse(@hp_storage_uri)
-          @host   = options[:hp_servicenet] == true ? "snet-#{uri.host}" : uri.host
+          @host   = uri.host
           @path   = uri.path
           @persistent = options[:persistent] || false
           @port   = uri.port
           @scheme = uri.scheme
-          Excon.ssl_verify_peer = false if options[:hp_servicenet] == true
 
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
@@ -191,7 +191,7 @@ module Fog
             end
           end
           if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
-            response.body = Fog::JSON.decode(response.body)
+            response.body = MultiJson.decode(response.body)
           end
           response
         end

@@ -1,14 +1,12 @@
-require 'fog/hp'
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'hp'))
 require 'fog/compute'
 
 module Fog
   module Compute
     class HP < Fog::Service
 
-      requires    :hp_secret_key, :hp_account_id, :hp_tenant_id
-      recognizes  :hp_auth_uri, :hp_servicenet, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_auth_version, :hp_avl_zone
-
-      secrets     :hp_secret_key
+      requires    :hp_secret_key, :hp_account_id, :hp_tenant_id, :hp_avl_zone
+      recognizes  :hp_auth_uri, :hp_servicenet, :persistent, :connection_options, :hp_use_upass_auth_style, :hp_auth_version, :user_agent
 
       model_path 'fog/hp/models/compute'
       model       :address
@@ -19,6 +17,8 @@ module Fog
       collection  :images
       model       :key_pair
       collection  :key_pairs
+      model       :meta
+      collection  :metadata
       model       :security_group
       collection  :security_groups
       model       :server
@@ -27,6 +27,7 @@ module Fog
       request_path 'fog/hp/requests/compute'
       request :allocate_address
       request :associate_address
+      request :attach_volume
       request :change_password_server
       #request :confirm_resized_server
       request :create_image
@@ -36,13 +37,17 @@ module Fog
       request :create_server
       request :delete_image
       request :delete_key_pair
+      request :delete_meta
       request :delete_security_group
       request :delete_security_group_rule
       request :delete_server
+      request :detach_volume
       request :disassociate_address
       request :get_address
+      request :get_console_output
       request :get_flavor_details
       request :get_image_details
+      request :get_meta
       request :get_security_group
       request :get_server_details
       request :list_addresses
@@ -51,10 +56,12 @@ module Fog
       request :list_images
       request :list_images_detail
       request :list_key_pairs
+      request :list_metadata
       request :list_security_groups
       request :list_server_addresses
       request :list_server_private_addresses
       request :list_server_public_addresses
+      request :list_server_volumes
       request :list_servers
       request :list_servers_detail
       request :reboot_server
@@ -63,6 +70,9 @@ module Fog
       #request :resize_server
       #request :revert_resized_server
       request :server_action
+      request :set_metadata
+      request :update_meta
+      request :update_metadata
       request :update_server
 
       class Mock
@@ -107,14 +117,15 @@ module Fog
       class Real
 
         def initialize(options={})
+          require 'multi_json'
           @hp_secret_key = options[:hp_secret_key]
           @hp_account_id = options[:hp_account_id]
           @hp_servicenet = options[:hp_servicenet]
           @connection_options = options[:connection_options] || {}
           ### Set an option to use the style of authentication desired; :v1 or :v2 (default)
           auth_version = options[:hp_auth_version] || :v2
-          ### Pass the service type for compute via the options hash
-          options[:hp_service_type] = "compute"
+          ### Pass the service name for compute via the options hash
+          options[:hp_service_type] = "Compute"
           @hp_tenant_id = options[:hp_tenant_id]
 
           ### Make the authentication call
@@ -133,12 +144,11 @@ module Fog
           @auth_token = credentials[:auth_token]
 
           uri = URI.parse(@hp_compute_uri)
-          @host   = @hp_servicenet == true ? "snet-#{uri.host}" : uri.host
+          @host   = uri.host
           @path   = uri.path
           @persistent = options[:persistent] || false
           @port   = uri.port
           @scheme = uri.scheme
-          Excon.ssl_verify_peer = false if options[:hp_servicenet] == true
 
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}", @persistent, @connection_options)
         end
@@ -168,7 +178,7 @@ module Fog
           end
           unless response.body.empty?
             begin
-              response.body = Fog::JSON.decode(response.body)
+              response.body = MultiJson.decode(response.body)
             rescue MultiJson::DecodeError => error
               response.body    #### the body is not in JSON format so just return it as it is
             end

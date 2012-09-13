@@ -10,18 +10,21 @@ module Fog
         # * object<~String> - Name of object to look for
         #
         def get_object(container, object, &block)
-          params = {}
-
           if block_given?
-            params[:response_block] = Proc.new
+            response = request(
+              :response_block  => block,
+              :expects  => 200,
+              :method   => 'GET',
+              :path     => "#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
+            )
+          else
+            response = request({
+              :block  => block,
+              :expects  => 200,
+              :method   => 'GET',
+              :path     => "#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
+            }, false, &block)
           end
-
-          response = request(params.merge!({
-            :block    => block,
-            :expects  => 200,
-            :method   => 'GET',
-            :path     => "#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
-          }), false)
           response
         end
 
