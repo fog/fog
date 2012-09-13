@@ -12,7 +12,7 @@ module Fog
         #   * name<~String> - New name for server
         def update_server(server_id, options = {})
           request(
-            :body     => Fog::JSON.encode({ 'server' => options }),
+            :body     => MultiJson.encode({ 'server' => options }),
             :expects  => 200,
             :method   => 'PUT',
             :path     => "servers/#{server_id}.json"

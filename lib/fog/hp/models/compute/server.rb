@@ -1,4 +1,5 @@
 require 'fog/compute/models/server'
+require 'fog/hp/models/compute/metadata'
 
 module Fog
   module Compute
@@ -24,6 +25,7 @@ module Fog
         attribute :tenant_id
         attribute :user_id
         attribute :key_name
+        attribute :security_groups
         # these are implemented as methods
         attribute :image_id
         attribute :flavor_id
@@ -31,14 +33,34 @@ module Fog
         attribute :public_ip_address
 
         attr_reader :password
-        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :image_id, :flavor_id
+        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :image_id, :flavor_id, :network_name
 
         def initialize(attributes = {})
           # assign these attributes first to prevent race condition with new_record?
-          self.security_groups = attributes.delete(:security_groups)
           self.min_count = attributes.delete(:min_count)
           self.max_count = attributes.delete(:max_count)
+          @connection = attributes[:connection]
           super
+        end
+
+        def console_output(num_lines)
+          requires :id
+          connection.get_console_output(id, num_lines)
+        end
+
+        def metadata
+          @metadata ||= begin
+            Fog::Compute::HP::Metadata.new({
+              :connection => connection,
+              :parent => self
+            })
+          end
+        end
+
+        def metadata=(new_metadata={})
+          metas = []
+          new_metadata.each_pair {|k,v| metas << {"key" => k, "value" => v} }
+          metadata.load(metas)
         end
 
         def destroy
@@ -62,8 +84,12 @@ module Fog
           self.key_name = new_keypair && new_keypair.name
         end
 
+        def network_name
+          @network_name ||= "private"
+        end
+
         def private_ip_address
-          addr = addresses.nil? ? nil : addresses.fetch('private', []).first
+          addr = addresses.nil? ? nil : addresses.fetch(network_name, []).first
           addr["addr"] if addr
         end
 
@@ -80,7 +106,7 @@ module Fog
           # FIX: Both the private and public ips are bundled under "private" network name
           # So hack to get to the public ip address
           if !addresses.nil?
-            addr = addresses.fetch('private', [])
+            addr = addresses.fetch(network_name, [])
             # if we have more than 1 address, then the return the second address which is public
             if addr.count > 1
               addr[1]["addr"]
@@ -125,14 +151,6 @@ module Fog
           @max_count = new_max_count
         end
 
-        def security_groups=(new_security_groups)
-          @security_groups = new_security_groups
-        end
-
-        def security_groups   
-          @security_groups
-        end
-        
         def ready?
           self.state == 'ACTIVE'
         end
@@ -178,18 +196,27 @@ module Fog
           connection.create_image(id, name, metadata)
         end
 
+        def volume_attachments
+          requires :id
+          if vols = @connection.list_server_volumes(id).body
+            vols["volumeAttachments"]
+          end
+        end
+
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :flavor_id, :image_id, :name
+          meta_hash = {}
+          metadata.each { |meta| meta_hash.store(meta.key, meta.value) }
           options = {
-            'metadata'    => metadata,
+            'metadata'    => meta_hash,
             'personality' => personality,
             'accessIPv4'  => accessIPv4,
             'accessIPv6'  => accessIPv6,
             'min_count'   => @min_count,
             'max_count'   => @max_count,
             'key_name'    => key_name,
-            'security_groups' => @security_groups
+            'security_groups' => security_groups
           }
           options = options.reject {|key, value| value.nil?}
           data = connection.create_server(name, flavor_id, image_id, options)
@@ -203,8 +230,8 @@ module Fog
             %{mkdir .ssh},
             %{echo "#{public_key}" >> ~/.ssh/authorized_keys},
             %{passwd -l #{username}},
-            %{echo "#{Fog::JSON.encode(attributes)}" >> ~/attributes.json},
-            %{echo "#{Fog::JSON.encode(metadata)}" >> ~/metadata.json}
+            %{echo "#{MultiJson.encode(attributes)}" >> ~/attributes.json},
+            %{echo "#{MultiJson.encode(metadata)}" >> ~/metadata.json}
           ])
         rescue Errno::ECONNREFUSED
           sleep(1)

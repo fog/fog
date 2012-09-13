@@ -12,7 +12,7 @@ module Fog
         #
         def server_action(server_id, body, expects=202)
           request(
-            :body     => Fog::JSON.encode(body),
+            :body     => MultiJson.encode(body),
             :expects  => expects,
             :method   => 'POST',
             :path     => "servers/#{server_id}/action.json"

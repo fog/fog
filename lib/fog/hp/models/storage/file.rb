@@ -65,6 +65,11 @@ module Fog
           self.collection.get_cdn_url(self.key)
         end
 
+        def cdn_public_ssl_url
+          requires :key
+          self.collection.get_cdn_ssl_url(self.key)
+        end
+
         def save(options = {})
           requires :body, :directory, :key
           options['Content-Type'] = content_type if content_type
