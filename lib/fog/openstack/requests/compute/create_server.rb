@@ -13,10 +13,16 @@ module Fog
           }
 
           vanilla_options = ['metadata', 'accessIPv4', 'accessIPv6',
-                             'availability_zone', 'user_data', 'key_name',
-                             'security_groups', 'adminPass']
+                             'availability_zone', 'user_data', 'key_name', 'adminPass']
           vanilla_options.select{|o| options[o]}.each do |key|
             data['server'][key] = options[key]
+          end
+
+          if options['security_groups']
+            # security names requires a hash with a name prefix
+            data['server']['security_groups'] = [options['security_groups']].flatten.map do |sg|
+              { :name => sg.is_a?(Fog::Compute::OpenStack::SecurityGroup) ? sg.name : sg }
+            end
           end
 
           if options['personality']
