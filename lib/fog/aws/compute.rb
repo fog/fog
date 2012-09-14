@@ -363,6 +363,7 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
+              :scheme             => @scheme,
               :version            => @version
             }
           )
