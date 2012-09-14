@@ -108,7 +108,16 @@ module Fog
           body << "#{key}=#{escape(value.to_s)}&"
         end
       end
-      string_to_sign = "POST\n#{options[:host]}:#{options[:port]}\n#{options[:path]}\n" << body.chop
+
+      # The HTTP HOST header includes the port when the port is non-default
+      # http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.23
+      default_port = options[:scheme] == 'https' ? 443 : 80
+      port = ":#{options[:port]}" unless options[:port] == default_port
+      host_header = "#{options[:host]}#{port}"
+
+      # The second component of the string to sign is the HTTP HOST header, which
+      # we don't have so we fabricate it.
+      string_to_sign = "POST\n#{host_header}\n#{options[:path]}\n" << body.chop
       signed_string = options[:hmac].sign(string_to_sign)
       body << "Signature=#{escape(Base64.encode64(signed_string).chomp!)}"
 
