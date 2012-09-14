@@ -1,55 +1,46 @@
-require 'fog/compute'
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'rackspace'))
 
 module Fog
-  module Compute
-    class RackspaceV2 < Fog::Service
+  module Rackspace
+    class BlockStorage < Fog::Service
 
       class ServiceError < Fog::Rackspace::Errors::ServiceError; end
       class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
       class BadRequest < Fog::Rackspace::Errors::BadRequest; end
 
-      DFW_ENDPOINT = 'https://dfw.servers.api.rackspacecloud.com/v2'
-      ORD_ENDPOINT = 'https://ord.servers.api.rackspacecloud.com/v2'
-      LON_ENDPOINT = 'https://lon.servers.api.rackspacecloud.com/v2'
+      DFW_ENDPOINT = 'https://dfw.blockstorage.api.rackspacecloud.com/v1'
+      LON_ENDPOINT = 'https://lon.blockstorage.api.rackspacecloud.com/v1'
+      ORD_ENDPOINT = 'https://ord.blockstorage.api.rackspacecloud.com/v1'
 
-      requires :rackspace_username, :rackspace_api_key
-      recognizes :rackspace_endpoint
+      requires :rackspace_api_key, :rackspace_username
       recognizes :rackspace_auth_url
-      recognizes :rackspace_auth_token
+      recognizes :rackspace_endpoint
 
-      model_path 'fog/rackspace/models/compute_v2'
-      model :server
-      collection :servers
-      model :flavor
-      collection :flavors
-      model :image
-      collection :images
-      model :attachments
-      collection :attachments
+      model_path 'fog/rackspace/models/block_storage'
+      model :volume
+      collection :volumes
 
-      request_path 'fog/rackspace/requests/compute_v2'
-      request :list_servers
-      request :get_server
-      request :create_server
-      request :update_server
-      request :delete_server
-      request :change_server_password
-      request :reboot_server
-      request :rebuild_server
-      request :resize_server
-      request :confirm_resize_server
-      request :revert_resize_server
+      model :volume_type
+      collection :volume_types
+      model :snapshot
+      collection :snapshots
 
-      request :list_images
-      request :get_image
+      model :snapshot
+      collection :snapshots
 
-      request :list_flavors
-      request :get_flavor
+      request_path 'fog/rackspace/requests/block_storage'
+      request :create_volume
+      request :delete_volume
+      request :get_volume
+      request :list_volumes
 
-      request :attach_volume
-      request :get_attachment
-      request :list_attachments
-      request :delete_attachment
+      request :get_volume_type
+      request :list_volume_types
+
+      request :create_snapshot
+      request :delete_snapshot
+      request :get_snapshot
+      request :list_snapshots
 
       class Mock
         def request(params)
