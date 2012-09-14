@@ -43,12 +43,12 @@ Shindo.tests('Fog::Compute::RackspaceV2 | attachment_tests', ['rackspace']) do
       compute_service.list_attachments(server_id).body
     end
 
-    tests("#get_attachment(#{server_id}, #{volume_id})").formats(ATTACHMENT_FORMAT) do
-      compute_service.get_attachment(server_id, volume_id).body
-    end
-
     until block_storage_service.get_volume(volume_id).body['volume']['status'] == 'in-use'
       sleep 10
+    end
+
+    tests("#get_attachment(#{server_id}, #{volume_id})").formats(ATTACHMENT_FORMAT) do
+      compute_service.get_attachment(server_id, volume_id).body
     end
 
     tests("#delete_attachment(#{server_id}, #{volume_id})").succeeds do
