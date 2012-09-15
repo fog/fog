@@ -1,8 +1,8 @@
-require 'rubygems'
-require 'rake/gempackagetask'
-require 'rake/rdoctask'
 require 'bundler/setup'
 require 'date'
+require 'rubygems'
+require 'rdoc/task'
+require 'rubygems/package_task'
 require File.dirname(__FILE__) + '/lib/fog'
 
 #############################################################################
