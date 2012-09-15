@@ -1,3 +1,310 @@
+1.6.0 09/15/2012 4bd909557fd595a656ebd86a3d7c5849bd923fe1
+=========================================================
+
+Stats! { 'collaborators' => 40, 'downloads' => 1015900, 'forks' => 539, 'open_issues' => 55, 'watchers' => 2119 }
+
+[AWS]
+  Implement signature v4. thanks Frederick Cheung
+  Create the time directly in tests, avoids using a method not present in 1.8.7. thanks Frederick Cheung
+  avoid spurious test failure when tag test returns before images test. thanks Frederick Cheung
+  Adding missing :glacier case for AWS.collections. thanks Frederick Cheung
+
+[AWS|AutoScaling]
+  Typo in delete_autoscaling_group mock: Autoscaling->AutoScaling. thanks Frederick Cheung
+  fix group#instances. thanks Frederick Cheung
+  Fix describe_auto_scaling_groups parser added spurious nil groups. thanks Frederick Cheung
+  Fix delete_auto_scaling_group.rb mock not raising the same error as real code. thanks Frederick Cheung
+
+[AWS|Compute]
+  Add the ablity to pass :version and use newer AWS API. thanks Zuhaib M Siddique
+
+[AWS|Glacier]
+  Bare glacier service. thanks Frederick Cheung
+  single part uploads. thanks Frederick Cheung
+  multipart uploads. thanks Frederick Cheung
+  Jobs requests. thanks Frederick Cheung
+  vaults model. thanks Frederick Cheung
+  Use bytesize rather than length. thanks Frederick Cheung
+  models for archives. thanks Frederick Cheung
+  jobs model. thanks Frederick Cheung
+  Add notification configuration to model. thanks Frederick Cheung
+  mark tests as pending. thanks Frederick Cheung
+  byteslice is only available in 1.9.3 - add fallback for 1.9.2. thanks Frederick Cheung
+  fix 1.9.2 fallback. thanks Frederick Cheung
+  make 1.8.7 friendly. thanks Frederick Cheung
+  Fix job type constant. thanks Frederick Cheung
+  fix setting description on  multipart upload. thanks Frederick Cheung
+  fix name of header used for description. thanks Frederick Cheung
+  Allow filtering of jobs collection. thanks Frederick Cheung
+  Don't try to deserialize json when body is empty. thanks Frederick Cheung
+
+[AWS|RDS]
+  expose the SnapshotType attribute & allow filtering by it. thanks Frederick Cheung
+
+[AWS|Signaturev4]
+  allow symbols to be used as header/query keys. thanks Frederick Cheung
+
+[AWS|Storage]
+  mark upload_part as idempotent so it will be retried automatically. thanks Frederick Cheung
+
+[Brightbox]
+  Fix output format for brightbox cloud ip. thanks Hemant Kumar
+
+[Brightbox|CloudIp]
+  Remove duplicate constant definition for port translators. thanks Hemant Kumar
+
+[Cloudstack]
+  1.8.7 compat: on 1.8.7 '123'[0] returns the byte value of '0' and not '1'. thanks Frederick Cheung
+
+[Core]
+  fix format_helper assuming p returns nil. thanks Frederick Cheung
+
+[HP]
+  delete_if returns the array, not what was deleted. thanks Frederick Cheung
+
+[OpenStack]
+  fixes wrong method name. thanks Ohad Levy
+
+[Openstack]
+  Fix mock returning a hash instead of an array. thanks Frederick Cheung
+
+[Openstack|Compute]
+  Security Groups are not assigned correctly to servers. thanks Ohad Levy
+
+[aws|auto_scaling]
+  Add instrumentation support. thanks Michael Hale
+
+[aws|compute]
+  fix typo in deprecation warning. thanks Aaron Suggs
+  Nicer interface for security group authorizations. thanks Aaron Suggs
+  Add instrumentation support. thanks Dan Peterson
+  Support creating and describing volumes with provisioned IOPS. thanks Dan Peterson
+  Get instance requests tests working. thanks Dan Peterson
+  Support for EBS-optimized instances. thanks Dan Peterson
+  Pass empty groupIds when mocking. thanks Dan Peterson
+  DescribeInstanceStatus code within eventsSet goes on the item. thanks Dan Peterson
+  fixes for spot request waiting     see also #841. thanks geemus
+  remove brittle instance tests which rely on tests running fast     p.s. these fail on travis-ci. thanks geemus
+  fix mock filters for internet gateways/subnets/vpcs. thanks geemus
+
+[aws|elb]
+  Add instrumentation support. thanks Dan Peterson
+  fixes for mock tests. thanks geemus
+
+[aws|iam]
+  Add instrumentation support. thanks Dan Peterson
+
+[aws|rds]
+  Correct server#read_replica_identifiers when mocking. thanks Aaron Suggs
+  Mocking better supports reboot state. thanks Aaron Suggs
+  Mocking better supports modifying state. thanks Aaron Suggs
+  Fix server tests. thanks Aaron Suggs
+  Mocking support for read replicas. thanks Aaron Suggs
+  Mock support for setting AZ and MultiAZ. thanks Aaron Suggs
+
+[brightbox]
+  Use first available image for server tests. thanks Steve Smith
+
+[brightbox|ServerGroup]
+  ServerGroups can have a nil name. thanks Steve Smith
+
+[brightbox|compute]
+  Merged outstanding work from Brightbox's fork. thanks Paul Thornthwaite
+  Implemented reboot using available API commands. thanks Paul Thornthwaite
+  Updates to Test helper for select image. thanks Paul Thornthwaite
+  Helper to get default image from API. thanks Paul Thornthwaite
+
+[cloudstack|compute]
+  remove erroneous comma in merge command. thanks geemus
+
+[compute|Ecloud]
+  Ecloud should not show up as a valid provider when not providing credentials. thanks Eugene Howe
+
+[dynect|dns]
+  Only JSON decode when Content-Type says so. Fixes job handling. thanks Dan Peterson
+  Job polling should use original expected statuses. thanks Dan Peterson
+
+[google/storage]
+  Fix docs for new GCS urls. thanks Nat Welch
+
+[google|storage]
+  update expected format to remove StorageClass. thanks geemus
+  also update mocks to omit storageclass. thanks geemus
+
+[hp|storage]
+  Use response_block param, as excon has deprecated implicit blocks. thanks Ferran Rodenas
+
+[misc]
+  When using mock mode, Range header is now not ignored in get_object(). thanks Ahmed Al Hafoudh
+  Documentation error for delete_object. thanks Alex Tambellini
+  Add barebones configuration for Travis CI. thanks Alexander Wenzowski
+  add Travis CI build status image. thanks Alexander Wenzowski
+  notify #ruby-fog on freenode instead of emailing. thanks Alexander Wenzowski
+  remove repository_url from notification template     Interpolation of %{repository_url} is currently broken on Travis CI. thanks Alexander Wenzowski
+  CloudStack: added registerTemplate request. thanks Aliaksei Kliuchnikau
+  CloudStack: listTemplates, registerTemplate requests return hypervisor in the response. thanks Aliaksei Kliuchnikau
+  Enable AWS spot requests in a VPC by specifying subnet_id. thanks Ben Turley
+  Fix for RDS VPC subnet groups. thanks Ben Turley
+  parse ASCII code * in wildcard domain. Fixes #1093. thanks Blake Gentry
+  automatically figure out the elb hosted_zone_id if possible. thanks Blake Gentry
+  Add source for getting instance mac address. thanks Carl Caum
+  Only add VNC password and listen port if present. thanks Carl Caum
+  Revert 530122d. thanks Carl Caum
+  Abillity to List Images and List SSH Keys. thanks Chirag Jog
+  Add support to create, delete internet services. thanks Chirag Jog
+  Accept vCPUS and Memory as parameters while creating servers. thanks Chirag Jog
+  Minor Fixes: Remove unncessary prints. Use override_path instead of replace class variable path. thanks Chirag Jog
+  Fix support to add internet service to the existing Public Ip. thanks Chirag Jog
+  Support to configure vapp and add multiple internet services. thanks Chirag Jog
+  Remove uneccessary puts. thanks Chirag Jog
+  Add support to build/re-build/clobber gem/package/docs. thanks Chirag Jog
+  Fix minor issue. thanks Chirag Jog
+  Re-work based on Geemus's review.     Manage InternetService and NodeService as separate entities     Reload server status properly. thanks Chirag Jog
+  Revert Rakefile changes. thanks Chirag Jog
+  1.Ability to fetch/list Orgs, Vdcs, Vapps, Servers.     2.Support to customize CPUs and Password. thanks Chirag Jog
+  Add ability to configure a vApp with an Org-wide network and associated     firewall, NAT rules(limited support). thanks Chirag Jog
+  1.Fix Catalog Listing for vCD 1.5     2.Construct Valid XML to memory configuration     3.Fix Undeploy vCD 1.5. thanks Chirag Jog
+  Added m1.medium instance type for AWS flavors. thanks Curtis Stewart
+  - Updated "@host" variable to "noc.newservers.com" which is the current host for API calls     - Added two calls: add_server_by_configuration.rb and list_configurations.rb     -- These calls should be used instead of add_server and list_plans, although we still support them.     - General comments were updated. thanks Diego Desani
+  Add gsub to replace URL-encoded characters in the public_url method. thanks Eric Chernuka
+  fix reboot guest in vsphere to reboot rather than shutdown guest. thanks Eric Stonfer
+  added file upload and ip add capabilities. thanks Eugene Howe
+  added error handling for edge cases where there are no networks or ips. thanks Eugene Howe
+  [AWS|Glacier} basic vault operations. thanks Frederick Cheung
+  fix mock not returning the right data. thanks Frederick Cheung
+  set Content-MD5. thanks Frederick Cheung
+  Add fqdn to server attributes. thanks Hemant Kumar
+  Brightbox : Include licence_name in Image. thanks Hemant Kumar
+  Brightbox: Change licence_name type to Fog::Nullable::String. thanks Hemant Kumar
+  Add support for port translators. thanks Hemant Kumar
+  Rackspace Storage: new request, get_object_https_url. thanks James Healy
+  Rackspace Storage: new request, post_set_meta_temp_url_key. thanks James Healy
+  Rackspace Storage: a backslash shouldn't be escaped when signing URLS. thanks James Healy
+  add a basic spec for Rackspace::Storage#get_object_https_url. thanks James Healy
+  add basic spec for Rackspace::Storage##post_set_meta_temp_url_key. thanks James Healy
+  Rackspace Storage: fix expiring URLs that contain a hyphen. thanks James Healy
+  Add Serverlove directory. thanks James Rose
+  Basic Serverlove implementation. thanks James Rose
+  Wrong directory. thanks James Rose
+  Typo. thanks James Rose
+  Proper request arguments. thanks James Rose
+  Typo. thanks James Rose
+  Still wrong. thanks James Rose
+  Works. thanks James Rose
+  We want JSON. thanks James Rose
+  Typo. thanks James Rose
+  add high io flavor to aws flavors. thanks Josh Lane
+  Move Dynect endpoint from api2 to api-v4. thanks Marc Seeger
+  don't let the Paulistas be left out of the party. thanks Martin Englund
+  use 10.04 instead of 12.04. thanks Martin Englund
+  Google changed their URL scheme for Cloud Storage. thanks Nat Welch
+  Also change GCS url in dir and file models. thanks Nat Welch
+  Update lib/fog/hp/models/compute/image.rb. thanks Neill Turner
+  Update lib/fog/hp/models/compute/server.rb. thanks Neill Turner
+  Update lib/fog/aws/requests/compute/describe_instance_status.rb. thanks Oleg
+  Added new Server#fqdn attribute to test helper. thanks Paul Thornthwaite
+  Rewrite tests to use 1.8 compatible Hash syntax. thanks Paul Thornthwaite
+  Add missing providers to the all_providers list for testing. thanks Paul Thornthwaite
+  Use string not symbols for Storage tests to work with Shindo tagging. thanks Paul Thornthwaite
+  Retagged tests with strings to be skipped by Shindo. thanks Paul Thornthwaite
+  Tagged AWS URL test so correctly ignored by Shindo. thanks Paul Thornthwaite
+  Reduce maintenance of tests by using a dynamic list of providers. thanks Paul Thornthwaite
+  add support for multiple regions in Opentack. thanks Pedro Perez
+  Fixed the link to GitHub issues. thanks Postmodern
+  Change iprange --> ec2_secg in Mock. thanks Rob Lockstone
+  Added support for RDS VPC subnet groups. Bumped RDS API version to 2012-01-15. thanks Rusty Geldmacher
+  Added DBSubnetGroupName to test format for RDS instances. thanks Rusty Geldmacher
+  Adding server love disk model. thanks Sean Handley
+  Changed disk model based on responses from real API requests. thanks Sean Handley
+  Set up drive objects (not disks). thanks Sean Handley
+  If you use info, you get all the info. thanks Sean Handley
+  Alias the encryption cipher. thanks Sean Handley
+  Sometimes the response body is empty. thanks Sean Handley
+  Destroying drives is easy. thanks Sean Handley
+  Allowed setting of params as k/v pairs. thanks Sean Handley
+  Added create/update functionality. thanks Sean Handley
+  Made create/save conform to the Fog API. thanks Sean Handley
+  Returning self is totes better than bools. thanks Sean Handley
+  Fog calls drives "images", rename for consistency. thanks Sean Handley
+  Beginnings of shin do request tests. thanks Sean Handley
+  Need these to run the server love tests. thanks Sean Handley
+  Beginnings of tests for image operations. thanks Sean Handley
+  Adding mock for easier testing. thanks Sean Handley
+  Added get_image function. thanks Sean Handley
+  Added meaningful test for updating images. thanks Sean Handley
+  Typo!. thanks Sean Handley
+  Fix conflict. thanks Sean Handley
+  This shouldn't be here. thanks Sean Handley
+  Can't run shindo tests with old references. thanks Sean Handley
+  Added loading of standard image. thanks Sean Handley
+  Shindo tests pass. thanks Sean Handley
+  Test that we can view servers. thanks Sean Handley
+  Whitespace adjustments. thanks Sean Handley
+  CRUDs + tests for servers. thanks Sean Handley
+  Added server power cycle actions + basic tests. thanks Sean Handley
+  Add new request methods to server object. thanks Sean Handley
+  Use get_server, not get_image. thanks Sean Handley
+  Need a mock server id. thanks Sean Handley
+  This was plain wrong - works now!. thanks Sean Handley
+  Don't start servers by default. thanks Sean Handley
+  Contrary to the documentation, this actually     returns a 200 status rather than a 204. thanks Sean Handley
+  Allow setting of memory and disk drives. thanks Sean Handley
+  Allow DHCP assignment by default. thanks Sean Handley
+  Key 'vnc:ip' was invalid. thanks Sean Handley
+  Update allowed attributes and defaults. thanks Sean Handley
+  Increase test drive size to accommodate a real     image. thanks Sean Handley
+  Without setting SMP the web UI won't load :-/. thanks Sean Handley
+  Reduce from 80GB to 20GB - big enough, save space. thanks Sean Handley
+  Standard images need to be unzipped. thanks Sean Handley
+  Need to wait for imaging to complete. thanks Sean Handley
+  Add a pseudorandom password generator for VNC. thanks Sean Handley
+  Auto generate VNC password randomly. thanks Sean Handley
+  Used the amazon published endpoints for sqs as defined at http://docs.amazonwebservices.com/general/latest/gr/rande.html#sqs_region. thanks Stuart Eccles
+  Better mocks for invalid Provisioned IOPS values. thanks Thom Mahoney
+  Add generic support for EMC Atmos. thanks Timur Alperovich
+  Submit password/ssh_key/username through POST body. thanks Trevor Bramble
+  Update public_url to handle new header casings from Rackspace. thanks Zachary Danger Campbell
+  CloudStack: images.get always returns nil - fixed. thanks alex
+  add changelog for 1.5.0. thanks geemus
+  fixes for cloudstack mock tests     see #1090. thanks geemus
+  fix mocked elb tests by including InstanceProtocol     closes #1090. thanks geemus
+  expand travis config, build more rubies, use non-threaded runner. thanks geemus
+  just run mri for now on travis. thanks geemus
+  remove empty failure block from model_helper. thanks geemus
+  allow 1.8.7 to fail and not report for now (until I can work out why it fails when 1.9.x works. thanks geemus
+  return to expecting 1.8.7 to pass. thanks geemus
+  fix deprecated requires in Rakefile. thanks geemus
+  Made steps to get update/create working. Work in progress. thanks seanhandley
+  Update lib/fog/aws/models/compute/security_group.rb. thanks vkhatri
+
+[rackspace|blockstorage]
+  Add volume tests. thanks Brad Gignac
+  Add volume type tests. thanks Brad Gignac
+  Add snapshot tests. thanks Brad Gignac
+  Add relationship between volumes and snapshots. thanks Brad Gignac
+  Add block storage provider. thanks Julio Feijo
+  Add volume types to block storage. thanks Julio Feijo
+  Add snapshots to block storage. thanks Julio Feijo
+
+[rackspace|compute]
+  Add service for Cloud Servers v2.0. thanks Brad Gignac
+  Add flavors and images. thanks Brad Gignac
+  Add servers model and collection. thanks Brad Gignac
+  Set password attribute on V2 servers. thanks Brad Gignac
+  Don't intern nil strings. thanks Brad Gignac
+  Add method for listing attachments. thanks Brad Gignac
+  Add tests for volume attachments. thanks Brad Gignac
+  Improve attachment test reliability. thanks Brad Gignac
+  Add attachments model and collection. thanks Julio Feijo
+
+[rackspace|storage]
+  Override path when generating sha1 to make tests past. thanks Brian Hartsock
+
+[serverlove|compute]
+  fix serverlove tests for 1.8.7 compatibility. thanks Frederick Cheung
+  fix serverlove tests for 1.8.7 compatibility. thanks geemus
+
+
 1.5.0 07/28/2012 2e57e2029abbb618411c20f8974e64d8d3fd31fe
 =========================================================
 
