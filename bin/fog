@@ -21,6 +21,14 @@ else
   providers.first
 end
 
+if Fog.mock? && ENV['FOG_STATE_FILE'] && FileTest.exists?(ENV['FOG_STATE_FILE'])
+  begin
+    Fog::Mock.restore(YAML.load(File.read(ENV['FOG_STATE_FILE'])))
+  rescue error
+    abort "Impossible to reload Fog mock state file: #{ENV['FOG_STATE_FILE']}: #{error.message}"
+  end
+end
+
 if ARGV.length > 1
 
   result = instance_eval(ARGV[1..-1].join(' '))
@@ -48,5 +56,16 @@ else
   Storage = Fog::Storage
 
   catch(:IRB_EXIT) { @irb.eval_input }
+
+  if Fog.mock? && ENV['FOG_STATE_FILE']
+    begin
+      File.open(ENV['FOG_STATE_FILE'], "w") do |f|
+        f.print YAML.dump(Fog::Mock.dump)
+        f.flush
+      end
+    rescue error
+      abort "Impossible to dump Fog mock state file: #{ENV['FOG_STATE_FILE']}: #{error.message}"
+    end
+  end
 
 end
