@@ -59,21 +59,30 @@ module Fog
         attr_reader :current_tenant
 
         def self.data
+          @users   ||= {}
+          @roles   ||= {}
+          @tenants ||= {}
+
           @data ||= Hash.new do |hash, key|
             hash[key] = {
-              :users   => {},
-              :roles   => {},
-              :tenants => {}
+              :users   => @users,
+              :roles   => @roles,
+              :tenants => @tenants
             }
           end
         end
 
-        def self.reset
-          @data = nil
+        def self.reset!
+          @data  = nil
+          @users = nil
+          @roles = nil
+          @tenants = nil
         end
 
         def initialize(options={})
-          @openstack_username = options[:openstack_username]
+          require 'multi_json'
+          @openstack_username = options[:openstack_username] || 'admin'
+          @openstack_tenant   = options[:openstack_tenant]   || 'admin'
           @openstack_auth_uri   = URI.parse(options[:openstack_auth_url])
           @openstack_management_url = @openstack_auth_uri.to_s
 
@@ -84,16 +93,16 @@ module Fog
             u['name'] == 'admin'
           end
 
-          if options[:openstack_tenant]
+          if @openstack_tenant
             @current_tenant = self.data[:tenants].values.find do |u|
-              u['name'] == options[:openstack_tenant]
+              u['name'] == @openstack_tenant
             end
 
             unless @current_tenant
               @current_tenant_id = Fog::Mock.random_hex(32)
               @current_tenant = self.data[:tenants][@current_tenant_id] = {
                 'id'   => @current_tenant_id,
-                'name' => options[:openstack_tenant]
+                'name' => @openstack_tenant
               }
             else
               @current_tenant_id = @current_tenant['id']
@@ -110,8 +119,8 @@ module Fog
             @current_user_id = Fog::Mock.random_hex(32)
             @current_user = self.data[:users][@current_user_id] = {
               'id'       => @current_user_id,
-              'name'     => options[:openstack_username],
-              'email'    => "#{options[:openstack_username]}@mock.com",
+              'name'     => @openstack_username,
+              'email'    => "#{@openstack_username}@mock.com",
               'tenantId' => Fog::Mock.random_numbers(6).to_s,
               'enabled'  => true
             }

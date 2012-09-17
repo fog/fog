@@ -30,7 +30,7 @@ module Fog
           response = Excon::Response.new
           response.status = 200
           data = {
-            'id'       => Fog::Mock.random_numbers(6).to_s,
+            'id'       => Fog::Mock.random_hex(32),
             'name'     => name,
             'email'    => email,
             'tenantId' => tenantId,
