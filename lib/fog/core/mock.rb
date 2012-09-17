@@ -68,6 +68,26 @@ module Fog
     end
 
     def self.reset
+      for mocked_service in mocked_services
+        mocked_service.reset if mocked_service.respond_to?(:reset)
+      end
+    end
+
+    def self.dump
+      mocked_services_with_data.inject({}) do |data, mocked_service|
+        data[mocked_service.to_s] = mocked_service.data
+        data
+      end
+    end
+
+    def self.restore(data)
+      for mocked_service in mocked_services_with_data
+        next unless data.include?(mocked_service.to_s)
+        mocked_service.instance_variable_set( :"@data",  data[mocked_service.to_s])
+      end
+    end
+
+    def self.mocked_services
       mocked_services = []
       Fog.constants.map do |x|
         x_const = Fog.const_get(x)
@@ -80,11 +100,11 @@ module Fog
           end
         end
       end
+      mocked_services
+    end
 
-      for mocked_service in mocked_services
-        next unless mocked_service.respond_to?(:reset)
-        mocked_service.reset
-      end
+    def self.mocked_services_with_data
+      mocked_services.reject { |s| not s.respond_to?(:data) }
     end
 
   end

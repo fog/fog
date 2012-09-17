@@ -56,5 +56,27 @@ Shindo.tests('Fog mocking', 'core') do
     Fog::Mock.not_implemented
   end
 
-  
+  tests('Fog::Mock.dump').returns(Fog::Mock.mocked_services_with_data.map(&:to_s).sort, "hash with one entry per mocked service") do
+    Fog.mock!
+    Fog::Mock.dump.keys.sort
+  end
+
+  tests('Fog::Mock.restore reload internal mock data from dump').returns(false) do
+    Fog.mock!
+    id = Fog::Compute.new(:provider => 'aws').servers.create.identity
+    dump = Fog::Mock.dump
+    Fog::Mock.reset
+    Fog::Mock.restore(dump)
+    Fog::Compute.new(:provider => 'aws').servers.get(id).nil?
+  end
+
+  tests('Fog::Mock.dump/restore supports YAML serialization').returns(false) do
+    Fog.mock!
+    id = Fog::Compute.new(:provider => 'aws').servers.create.identity
+    d = YAML.dump(Fog::Mock.dump)
+    Fog::Mock.reset
+    Fog::Mock.restore(YAML.load(d))
+    Fog::Compute.new(:provider => 'aws').servers.get(id).nil?
+  end
+
 end
