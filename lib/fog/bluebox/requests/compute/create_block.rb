@@ -20,7 +20,7 @@ module Fog
         #   * body<~Hash>:
         def create_block(product_id, template_id, location_id, options = {})
 
-          unless options.has_key?(:password) || options.has_key?(:ssh_key)
+          unless options.has_key?('password') || options.has_key?('ssh_key')
             raise ArgumentError, 'Either password or ssh_key must be supplied'
           end
 
