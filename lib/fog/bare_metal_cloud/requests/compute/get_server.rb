@@ -3,10 +3,11 @@ module Fog
     class BareMetalCloud
       class Real
 
-        # List servers
+        # Get server's information
         #
         # ==== Parameters
-        # * serverId<~String> - Id of the server
+        # * options<~Hash>: Optional or Required arguments
+        #   * serverId<~String> - The id of the server
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -25,13 +26,13 @@ module Fog
         #       * 'notes'<~String>  - Notes about the server
         #       * 'state'<~String>  - State of the server
         #
-        def get_server(server_id)
+        def get_server(options = {})
           request(
             :expects  => 200,
             :method   => 'GET',
             :parser   => Fog::ToHashDocument.new,
             :path     => 'api/getServer',
-            :query    => {'serverId' => server_id}
+            :query    => options
           )
         end
 

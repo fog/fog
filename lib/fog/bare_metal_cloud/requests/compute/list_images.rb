@@ -5,6 +5,10 @@ module Fog
 
         # List images
         #
+        # ==== Parameters
+        # * options<~Hash>: Optional or Required arguments
+        #   * no parameters are required
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
@@ -12,12 +16,13 @@ module Fog
         #       * 'Size'<~String>  - Size of the image
         #       * 'Name'<~String>  - Name of the image
         #
-        def list_images
+        def list_images(options = {})
           request(
             :expects  => 200,
             :method   => 'GET',
             :parser   => Fog::ToHashDocument.new,
-            :path     => 'api/listImages'
+            :path     => 'api/listImages',
+            :query    => options
           )
         end
 

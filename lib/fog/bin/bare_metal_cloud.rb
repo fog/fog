@@ -5,6 +5,8 @@ class BareMetalCloud < Fog::Bin
       case key
       when :compute
         Fog::Compute::BareMetalCloud
+      when :loadbalancing
+        Fog::BareMetalCloud::LoadBalancing
       else 
         raise ArgumentError, "Unsupported #{self} service: #{key}"
       end
@@ -16,6 +18,9 @@ class BareMetalCloud < Fog::Bin
         when :compute
           Fog::Logger.warning("BareMetalCloud[:compute] is not recommended, use Compute[:baremetalcloud] for portability")
           Fog::Compute.new(:provider => 'BareMetalCloud')
+        when :loadbalancing
+          Fog::Logger.warning("BareMetalCloud[:loadbalancing] is not recommended, use LoadBalancing[:baremetalcloud] for portability")
+          Fog::BareMetalCloud::LoadBalancing.new(:provider => 'BareMetalCloud')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end

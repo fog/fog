@@ -5,6 +5,10 @@ module Fog
 
         # List Configurations
         #
+        # ==== Parameters
+        # * options<~Hash>: Optional or Required arguments
+        #   * no parameters are required
+        #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
@@ -12,12 +16,13 @@ module Fog
         #       * 'configuration'<~String>     - Hardware Configuration string
         #       * 'quantity'<~String>:  - quantity of servers to a certain configuration
         #
-        def list_configurations
+        def list_configurations(options = {})
           request(
             :expects  => 200,
             :method   => 'GET',
             :parser   => Fog::ToHashDocument.new,
-            :path     => 'api/listConfigurations'
+            :path     => 'api/listConfigurations',
+            :query    => options
           )
         end
 

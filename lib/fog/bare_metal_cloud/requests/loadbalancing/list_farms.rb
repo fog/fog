@@ -1,9 +1,9 @@
 module Fog
-  module Compute
-    class BareMetalCloud
+  module BareMetalCloud
+    class LoadBalancing
       class Real
 
-        # List available plans
+        # List existing farms
         #
         # ==== Parameters
         # * options<~Hash>: Optional or Required arguments
@@ -12,19 +12,20 @@ module Fog
         # ==== Returns
         # * response<~Excon::Response>:
         #   * body<~Hash>:
-        #     * 'plan'<~Array>
-        #       * 'id'<~String>     - Id of the plan
+        #     * 'farm'<~Array>
+        #       * 'id'<~String>   - Id of the plan
         #       * 'name'<~String>   - Name of the plan
-        #       * 'rate'<~String>   - Cost per hour of the plan
-        #       * 'os'<~String>     - Operating system of the plan
-        #       * 'config'<~String> - Configuration of the plan
+        #       * 'method'<~String>   - Load Balancing algorithm to use 
+        #       * 'address'<~String>    - Farm IP address
+        #       * 'port'<~String>   - Service port number
+        #       * 'service'<~String> - Connection type (http, https, dns, ftp, ntp, pop3, smtp)
         #
-        def list_plans(options = {})
+        def list_farms(options = {})
           request(
             :expects  => 200,
             :method   => 'GET',
             :parser   => Fog::ToHashDocument.new,
-            :path     => 'api/listPlans',
+            :path     => 'api/listFarms',
             :query    => options
           )
         end
