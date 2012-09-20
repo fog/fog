@@ -17,6 +17,7 @@ module Fog
       request 'get_distribution'
       request 'get_distribution_list'
       request 'get_invalidation_list'
+      request 'get_invalidation'
       request 'get_streaming_distribution'
       request 'get_streaming_distribution_list'
       request 'post_distribution'
