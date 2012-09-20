@@ -101,6 +101,23 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
       result
     }
 
+    test("get invalidation information") {
+      pending if Fog.mocking?
+
+      result = false
+
+      response = @cf_connection.get_invalidation(@dist_id, @invalidation_id)
+      if response.status == 200
+        paths = response.body['InvalidationBatch'].sort
+        status = response.body['Status']
+        if status.length > 0 and paths == [ '/test.html', '/path/to/file.html' ].sort
+          result = true
+        end
+      end
+
+      result
+    }
+
     test("disable distribution #{@dist_id}") {
       pending if Fog.mocking?
 
