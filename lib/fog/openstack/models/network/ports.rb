@@ -5,10 +5,19 @@ module Fog
   module Network
     class OpenStack
       class Ports < Fog::Collection
+
+        attribute :filters
+
         model Fog::Network::OpenStack::Port
 
-        def all
-          load(connection.list_ports.body['ports'])
+        def initialize(attributes)
+          self.filters ||= {}
+          super
+        end
+
+        def all(filters = filters)
+          self.filters = filters
+          load(connection.list_ports(filters).body['ports'])
         end
 
         def get(port_id)

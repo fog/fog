@@ -5,10 +5,19 @@ module Fog
   module Network
     class OpenStack
       class Networks < Fog::Collection
+
+        attribute :filters
+
         model Fog::Network::OpenStack::Network
 
-        def all
-          load(connection.list_networks.body['networks'])
+        def initialize(attributes)
+          self.filters ||= {}
+          super
+        end
+
+        def all(filters = filters)
+          self.filters = filters
+          load(connection.list_networks(filters).body['networks'])
         end
 
         def get(network_id)
