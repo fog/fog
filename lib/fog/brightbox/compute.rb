@@ -24,6 +24,8 @@ module Fog
       model       :account
       collection  :applications
       model       :application
+      collection  :api_clients
+      model       :api_client
       collection  :servers
       model       :server
       collection  :server_groups
