@@ -90,7 +90,7 @@ module Fog
             'InstanceType'            => instance_type,
             'KernelId'                => nil,
             'KeyName'                 => nil,
-            'LaunchConfigurationARN'  => "arn:aws:autoscaling:eu-west-1:000000000000:launchConfiguration:00000000-0000-0000-0000-000000000000:launchConfigurationName/#{launch_configuration_name}",
+            'LaunchConfigurationARN'  => Fog::AWS::Mock.arn('autoscaling', @owner_id, "launchConfiguration:00000000-0000-0000-0000-000000000000:launchConfigurationName/#{launch_configuration_name}", @region),
             'LaunchConfigurationName' => launch_configuration_name,
             'RamdiskId'               => nil,
             'SecurityGroups'          => [],

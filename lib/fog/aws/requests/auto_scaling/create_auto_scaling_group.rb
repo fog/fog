@@ -88,7 +88,7 @@ module Fog
             raise Fog::AWS::AutoScaling::ValidationError.new('Launch configuration name not found - null')
           end
           data[:auto_scaling_groups][auto_scaling_group_name] = {
-            'AutoScalingGroupARN'     => "arn:aws:autoscaling:eu-west-1:000000000000:autoScalingGroup:00000000-0000-0000-0000-000000000000:autoScalingGroupName/#{auto_scaling_group_name}",
+            'AutoScalingGroupARN'     => Fog::AWS::Mock.arn('autoscaling', @owner_id, "autoScalingGroup:00000000-0000-0000-0000-000000000000:autoScalingGroupName/#{auto_scaling_group_name}", @region),
             'AutoScalingGroupName'    => launch_configuration_name,
             'AvailabilityZones'       => availability_zones.to_a,
             'CreatedTime'             => Time.now.utc,
