@@ -81,8 +81,8 @@ class AWS
         'MinSize' => Integer,
         'PlacementGroup' => Fog::Nullable::String,
         'SuspendedProcesses' => [SUSPENDED_PROCESS],
-        'VPCZoneIdentifier' => Fog::Nullable::String,
-        'TerminationPolicies' => [String]
+        'TerminationPolicies' => [String],
+        'VPCZoneIdentifier' => Fog::Nullable::String
       }
 
       AUTO_SCALING_INSTANCE_DETAILS = INSTANCE.merge({

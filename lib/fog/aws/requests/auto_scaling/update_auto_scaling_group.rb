@@ -17,22 +17,31 @@ module Fog
         # * auto_scaling_group_name<~String> - The name of the Auto Scaling
         #   group.
         # * options<~Hash>:
-        #   * 'AvailabilityZones'<~Array>: Availability zones for the group
-        #   * 'DefaultCooldown'<~Integer> - Amount of time, in seconds, after a
-        #     scaling activity completes before any further trigger-related
-        #     scaling activities can start
-        #   * 'DesiredCapacity'<~Integer> - Desired capacity for the scaling group
-        #   * 'HealthCheckGracePeriod'<~Integer> - Length of time that Auto
-        #      Scaling waits before checking an instance's health status
-        #   * 'HealthCheckType'<~String> - Service of interest for the health
-        #     status check, either "EC2" or "ELB".
-        #   * 'LaunchConfigurationName'<~String> - Name of the launch configuration
-        #   * 'MaxSize'<~Integer> - Maximum size of the Auto Scaling group
-        #   * 'MinSize'<~Integer> - Minimum size of the Auto Scaling group
-        #   * 'PlacementGroup'<~String> - Name of the cluster placement group,
-        #     if applicable
-        #   * 'VPCZoneIdentifier'<~String> - Identifier for the VPC connection,
-        #     if applicable
+        #   * 'AvailabilityZones'<~Array> - Availability zones for the group.
+        #   * 'DefaultCooldown'<~Integer> - The amount of time, in seconds,
+        #     after a scaling activity completes before any further trigger-
+        #     related scaling activities can start
+        #   * 'DesiredCapacity'<~Integer> - The desired capacity for the Auto
+        #     Scaling group.
+        #   * 'HealthCheckGracePeriod'<~Integer> - The length of time that Auto
+        #      Scaling waits before checking an instance's health status.The
+        #      grace period begins when an instance comes into service.
+        #   * 'HealthCheckType'<~String> - The service of interest for the
+        #     health status check, either "EC2" for Amazon EC2 or "ELB" for
+        #     Elastic Load Balancing.
+        #   * 'LaunchConfigurationName'<~String> - The name of the launch
+        #     configuration.
+        #   * 'MaxSize'<~Integer> - The maximum size of the Auto Scaling group.
+        #   * 'MinSize'<~Integer> - The minimum size of the Auto Scaling group.
+        #   * 'PlacementGroup'<~String> - The name of the cluster placement
+        #     group, if applicable.
+        #   * 'TerminationPolicies'<~Array> - A standalone termination policy
+        #     or a list of termination policies used to select the instance to
+        #     terminate. The policies are executed in the order that they are
+        #     listed.
+        #   * 'VPCZoneIdentifier'<~String> - The subnet identifier for the
+        #     Amazon VPC connection, if applicable. You can specify several
+        #     subnets in a comma-separated list.
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -46,6 +55,9 @@ module Fog
         def update_auto_scaling_group(auto_scaling_group_name, options = {})
           if availability_zones = options.delete('AvailabilityZones')
             options.merge!(AWS.indexed_param('AvailabilityZones.member.%d', [*availability_zones]))
+          end
+          if termination_policies = options.delete('TerminationPolicies')
+            options.merge!(AWS.indexed_param('TerminationPolicies.member.%d', [*termination_policies]))
           end
           request({
             'Action'               => 'UpdateAutoScalingGroup',

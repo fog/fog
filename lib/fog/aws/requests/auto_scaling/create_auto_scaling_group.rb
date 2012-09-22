@@ -23,20 +23,23 @@ module Fog
         #   * 'DefaultCooldown'<~Integer> - The amount of time, in seconds,
         #     after a scaling activity completes before any further trigger-
         #     related scaling activities can start.
-        #   * 'DesiredCapacity'<~Integer> - The number of EC2 instances that
-        #     should be running in the group. For more information, see
-        #     set_desired_capacity.
+        #   * 'DesiredCapacity'<~Integer> - The number of Amazon EC2 instances
+        #     that should be running in the group.
         #   * 'HealthCheckGracePeriod'<~Integer> - Length of time in seconds
-        #     after a new EC2 instance comes into service that Auto Scaling
-        #     starts checking its health.
+        #     after a new Amazon EC2 instance comes into service that Auto
+        #     Scaling starts checking its health.
         #   * 'HealthCheckType'<~String> - The service you want the health
         #     status from, Amazon EC2 or Elastic Load Balancer. Valid values
         #     are "EC2" or "ELB".
         #   * 'LoadBalancerNames'<~Array> - A list of LoadBalancers to use.
         #   * 'PlacementGroup'<~String> - Physical location of your cluster
         #      placement group created in Amazon EC2.
-        #   * 'VPCZoneIdentifier'<~String> - Subnet identifier of the Virtual
-        #     Private Cloud.
+        #   * 'TerminationPolicies'<~Array> - A standalone termination policy
+        #     or a list of termination policies used to select the instance to
+        #     terminate. The policies are executed in the order that they are
+        #     listed.
+        #   * 'VPCZoneIdentifier'<~String> - A comma-separated list of subnet
+        #     identifiers of Amazon Virtual Private Clouds (Amazon VPCs).
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -59,6 +62,9 @@ module Fog
                 options["Tags.member.#{i + 1}.#{key.to_s.capitalize}"] = value
               end
             end
+          end
+          if termination_policies = options.delete('TerminationPolicies')
+            options.merge!(AWS.indexed_param('TerminationPolicies.member.%d', [*termination_policies]))
           end
           request({
             'Action'                  => 'CreateAutoScalingGroup',
@@ -98,7 +104,7 @@ module Fog
             'MinSize'                 => min_size,
             'PlacementGroup'          => nil,
             'SuspendedProcesses'      => [],
-            'TerminationPolicies'     => [],
+            'TerminationPolicies'     => ['Default'],
             'VPCZoneIdentifier'       => nil
           }.merge!(options)
 
