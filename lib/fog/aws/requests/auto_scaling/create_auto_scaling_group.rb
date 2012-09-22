@@ -92,7 +92,7 @@ module Fog
             'AutoScalingGroupName'    => launch_configuration_name,
             'AvailabilityZones'       => availability_zones.to_a,
             'CreatedTime'             => Time.now.utc,
-            'DefaultCooldown'         => 0,
+            'DefaultCooldown'         => 300,
             'DesiredCapacity'         => 0,
             'EnabledMetrics'          => [],
             'HealthCheckGracePeriod'  => 0,
