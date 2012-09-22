@@ -6,15 +6,16 @@ module Fog
 
         require 'fog/aws/parsers/auto_scaling/put_notification_configuration'
 
-        # Creates a notification configuration for an Auto Scaling group. To update an
-        # existing policy, overwrite the existing notification configuration name 
-        # and set the parameter(s) you want to change. 
+        # Creates a notification configuration for an Auto Scaling group. To
+        # update an existing policy, overwrite the existing notification
+        # configuration name  and set the parameter(s) you want to change.
         #
         # ==== Parameters
-        # * auto_scaling_group_name<~String> - The name of the Auto Scaling group.
-        # * notification_types<~Array> - The type of events that will trigger the 
-        #   notification.
-        # * topic_arn<~String> - The Amazon Resource Name (ARN) of the Amazon 
+        # * auto_scaling_group_name<~String> - The name of the Auto Scaling
+        #   group.
+        # * notification_types<~Array> - The type of events that will trigger
+        #   the notification.
+        # * topic_arn<~String> - The Amazon Resource Name (ARN) of the Amazon
         #   Simple Notification Service (SNS) topic.
         # ==== Returns
         # * response<~Excon::Response>:

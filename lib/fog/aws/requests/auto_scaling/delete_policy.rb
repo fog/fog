@@ -10,7 +10,7 @@ module Fog
         #
         # ==== Parameters
         # * auto_scaling_group_name<~String> - The name of the Auto Scaling
-	#   group.
+        #   group.
         # * policy_name<~String> - The name or PolicyARN of the policy you want
         #   to delete.
         #
