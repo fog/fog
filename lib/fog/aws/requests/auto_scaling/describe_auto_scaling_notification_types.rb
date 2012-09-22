@@ -6,7 +6,8 @@ module Fog
 
         require 'fog/aws/parsers/auto_scaling/describe_auto_scaling_notification_types'
 
-        # Returns a list of all notification types that are supported by Auto Scaling.
+        # Returns a list of all notification types that are supported by Auto
+        # Scaling.
         #
         # ==== Returns
         # * response<~Excon::Response>:

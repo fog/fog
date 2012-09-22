@@ -11,8 +11,8 @@ module Fog
         # ==== Parameters
         # * auto_scaling_group_name<~String> - The name of the Auto Scaling
         #   group.
-        # * topic_arn<~String> - The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic
-        #   you wish to delete.
+        # * topic_arn<~String> - The Amazon Resource Name (ARN) of the Amazon
+        #   Simple Notification Service (SNS) topic.
         #
         # ==== Returns
         # * response<~Excon::Response>:
