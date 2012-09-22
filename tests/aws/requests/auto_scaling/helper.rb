@@ -132,6 +132,12 @@ class AWS
         })
       })
 
+      DESCRIBE_AUTO_SCALING_NOTIFICATION_TYPES = BASIC.merge({
+        'DescribeAutoScalingNotificationTypesResult' => {
+          'AutoScalingNotificationTypes' => [String]
+        }
+      })
+
       DESCRIBE_LAUNCH_CONFIGURATIONS = BASIC.merge({
         'DescribeLaunchConfigurationsResult' => PAGINATED.merge({
           'LaunchConfigurations' => [LAUNCH_CONFIGURATION],
@@ -167,6 +173,12 @@ class AWS
         'DescribeScheduledActionsResult' => PAGINATED.merge({
           'ScheduledUpdateGroupActions' => [SCHEDULED_UPDATE_GROUP_ACTION]
         })
+      })
+
+      DESCRIBE_TERMINATION_POLICY_TYPES = BASIC.merge({
+        'DescribeTerminationPolicyTypesResult' => {
+          'TerminationPolicyTypes' => [String]
+        }
       })
 
       PUT_SCALING_POLICY = BASIC.merge({

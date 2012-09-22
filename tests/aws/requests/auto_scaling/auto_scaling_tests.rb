@@ -3,16 +3,6 @@ Shindo.tests('AWS::AutoScaling | auto_scaling_tests', ['aws', 'auto_scaling']) d
   @lc_name = 'fog-test-lc'
 
   tests('success') do
-    tests("#describe_adjustment_types").formats(AWS::AutoScaling::Formats::DESCRIBE_ADJUSTMENT_TYPES) do
-      Fog::AWS[:auto_scaling].describe_adjustment_types.body
-    end
-    tests("#describe_metric_collection_types").formats(AWS::AutoScaling::Formats::DESCRIBE_METRIC_COLLECTION_TYPES) do
-      Fog::AWS[:auto_scaling].describe_metric_collection_types.body
-    end
-    tests("#describe_scaling_process_types").formats(AWS::AutoScaling::Formats::DESCRIBE_SCALING_PROCESS_TYPES) do
-      Fog::AWS[:auto_scaling].describe_scaling_process_types.body
-    end
-
     tests("#create_launch_configuration").formats(AWS::AutoScaling::Formats::BASIC) do
       image_id = 'ami-8c1fece5'
       instance_type = 't1.micro'
