@@ -46,7 +46,7 @@ module Fog
             'AdjustmentType'       => adjustment_type,
             'AutoScalingGroupName' => auto_scaling_group_name,
             'PolicyName'           => policy_name,
-            'ScalingAdjustment'     => scaling_adjustment,
+            'ScalingAdjustment'    => scaling_adjustment,
             :parser                => Fog::Parsers::AWS::AutoScaling::PutScalingPolicy.new
           }.merge!(options))
         end
@@ -65,7 +65,7 @@ module Fog
             'AutoScalingGroupName' => auto_scaling_group_name,
             'Cooldown'             => 0,
             'MinAdjustmentStep'    => 0,
-            'PolicyARN'            => "arn:aws:autoscaling:eu-west-1:000000000000:scalingPolicy:00000000-0000-0000-0000-000000000000:autoScalingGroupName/#{auto_scaling_group_name}:policyName/#{policy_name}",
+            'PolicyARN'            => Fog::AWS::Mock.arn('autoscaling', @owner_id, "scalingPolicy:00000000-0000-0000-0000-000000000000:autoScalingGroupName/#{auto_scaling_group_name}:policyName/#{policy_name}", @region),
             'PolicyName'           => policy_name,
             'ScalingAdjustment'    => scaling_adjustment
           }.merge!(options)

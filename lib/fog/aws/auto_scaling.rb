@@ -240,6 +240,7 @@ module Fog
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
           @region = options[:region] || 'us-east-1'
+          @owner_id = Fog::AWS::Mock.owner_id
 
           unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'sa-east-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
@@ -248,7 +249,7 @@ module Fog
         end
 
         def setup_credentials(options)
-          @aws_access_key_id      = options[:aws_access_key_id]
+          @aws_access_key_id = options[:aws_access_key_id]
         end
 
         def data
