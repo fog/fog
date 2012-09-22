@@ -21,7 +21,7 @@ module Fog
         #         * 'Metric'<~String> - The name of a Metric.
         #
         # ==== See Also
-        # http://docs.amazonwebservices.com/AutoScaling/latest/APIReference/API_DescribeAutoScalingInstances.html
+        # http://docs.amazonwebservices.com/AutoScaling/latest/APIReference/API_DescribeMetricCollectionTypes.html
         #
         def describe_metric_collection_types()
           request({
