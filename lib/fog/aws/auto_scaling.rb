@@ -22,12 +22,14 @@ module Fog
       request :describe_adjustment_types
       request :describe_auto_scaling_groups
       request :describe_auto_scaling_instances
+      request :describe_auto_scaling_notification_types
       request :describe_launch_configurations
       request :describe_metric_collection_types
       request :describe_policies
       request :describe_scaling_activities
       request :describe_scaling_process_types
       request :describe_scheduled_actions
+      request :describe_termination_policy_types
       request :disable_metrics_collection
       request :enable_metrics_collection
       request :execute_policy
@@ -82,7 +84,7 @@ module Fog
 
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.auto_scaling'
-          
+
           options[:region] ||= 'us-east-1'
           @host = options[:host] || "autoscaling.#{options[:region]}.amazonaws.com"
           @path       = options[:path]        || '/'
@@ -182,10 +184,15 @@ module Fog
                 ],
                 :auto_scaling_groups => {},
                 :scaling_policies => {},
-                :health_states => ['Healthy', 'Unhealthy'],
+                :health_states => [
+                  'Healthy',
+                  'Unhealthy'
+                ],
                 :launch_configurations => {},
                 :metric_collection_types => {
-                  :granularities => [ '1Minute' ],
+                  :granularities => [
+                    '1Minute'
+                  ],
                   :metrics => [
                     'GroupMinSize',
                     'GroupMaxSize',
@@ -194,16 +201,31 @@ module Fog
                     'GroupPendingInstances',
                     'GroupTerminatingInstances',
                     'GroupTotalInstances'
-                  ],
+                  ]
                 },
+                :notification_types => [
+                  'autoscaling:EC2_INSTANCE_LAUNCH',
+                  'autoscaling:EC2_INSTANCE_LAUNCH_ERROR',
+                  'autoscaling:EC2_INSTANCE_TERMINATE',
+                  'autoscaling:EC2_INSTANCE_TERMINATE_ERROR',
+                  'autoscaling:TEST_NOTIFICATION'
+                ],
                 :process_types => [
                   'AZRebalance',
+                  'AddToLoadBalancer',
                   'AlarmNotification',
                   'HealthCheck',
                   'Launch',
                   'ReplaceUnhealthy',
                   'ScheduledActions',
                   'Terminate'
+                ],
+                :termination_policy_types => [
+                  'ClosestToNextInstanceHour',
+                  'Default',
+                  'NewestInstance',
+                  'OldestInstance',
+                  'OldestLaunchConfiguration'
                 ]
               }
             end
