@@ -63,7 +63,7 @@ Shindo.tests('AWS::AutoScaling | auto_scaling_tests', ['aws', 'auto_scaling']) d
       Fog::AWS[:auto_scaling].set_desired_capacity(@asg_name, desired_capacity).body
     end
     tests("#delete_auto_scaling_group").formats(AWS::AutoScaling::Formats::BASIC) do
-      Fog::AWS[:auto_scaling].delete_auto_scaling_group(@asg_name).body
+      Fog::AWS[:auto_scaling].delete_auto_scaling_group(@asg_name, 'ForceDelete' => true).body
     end
 
     tests("#delete_auto_scaling_group that does not exists").raises(Fog::AWS::AutoScaling::ValidationError) do

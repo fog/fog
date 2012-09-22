@@ -46,14 +46,22 @@ class AWS
         'LifecycleState' => String
       }
 
+      NOTIFICATION_CONFIGURATION = {
+        'AutoScalingGroupName' => String,
+        'NotificationType' => String,
+        'TopicARN' => String
+      }
+
       SCHEDULED_UPDATE_GROUP_ACTION = {
         'AutoScalingGroupName' => String,
         'DesiredCapacity' => Integer,
+        'EndTime' => Time,
         'MaxSize' => Integer,
         'MinSize' => Integer,
+        'Recurrence' => String,
         'ScheduledActionARN' => String,
         'ScheduledActionName' => String,
-        'Time' => Time
+        'StartTime' => Time,
       }
 
       PROCESS_TYPE = {
@@ -63,6 +71,14 @@ class AWS
       SUSPENDED_PROCESS = PROCESS_TYPE.merge({
         'SuspensionReason' => String
       })
+
+      TAG_DESCRIPTION = {
+        'Key' => String,
+        'PropagateAtLaunch' => Fog::Boolean,
+        'ResourceId' => 'String',
+        'ResourceType' => 'String',
+        'Value' => Fog::Nullable::String
+      }
 
       AUTO_SCALING_GROUP = {
         'AutoScalingGroupARN' => String,
@@ -80,7 +96,9 @@ class AWS
         'MaxSize' => Integer,
         'MinSize' => Integer,
         'PlacementGroup' => Fog::Nullable::String,
+        'Status' => Fog::Nullable::String,
         'SuspendedProcesses' => [SUSPENDED_PROCESS],
+        'Tags' => [TAG_DESCRIPTION],
         'TerminationPolicies' => [String],
         'VPCZoneIdentifier' => Fog::Nullable::String
       }
@@ -100,6 +118,7 @@ class AWS
         'LaunchConfigurationARN' => String,
         'LaunchConfigurationName' => String,
         'RamdiskId' => Fog::Nullable::String,
+        'SpotPrice' => Fog::Nullable::String,
         'SecurityGroups' => Array,
         'UserData' => Fog::Nullable::String
       }
@@ -109,6 +128,7 @@ class AWS
         'Alarms' => [ALARM],
         'AutoScalingGroupName' => String,
         'Cooldown' => Integer,
+        'MinAdjustmentStep' => Integer,
         'PolicyARN' => String,
         'PolicyName' => String,
         'ScalingAdjustment' => Integer
@@ -151,6 +171,12 @@ class AWS
         }
       })
 
+      DESCRIBE_NOTIFICATION_CONFIGURATIONS = BASIC.merge({
+        'DescribeNotificationConfigurationsResult' => PAGINATED.merge({
+          'NotificationConfigurations' => [NOTIFICATION_CONFIGURATION]
+        })
+      })
+
       DESCRIBE_POLICIES = BASIC.merge({
         'DescribePoliciesResult' => PAGINATED.merge({
           'ScalingPolicies' => [SCALING_POLICY]
@@ -172,6 +198,12 @@ class AWS
       DESCRIBE_SCHEDULED_ACTIONS = BASIC.merge({
         'DescribeScheduledActionsResult' => PAGINATED.merge({
           'ScheduledUpdateGroupActions' => [SCHEDULED_UPDATE_GROUP_ACTION]
+        })
+      })
+
+      DESCRIBE_TAGS = BASIC.merge({
+        'DescribeTagsResult' => PAGINATED.merge({
+          'Tags' => [TAG_DESCRIPTION]
         })
       })
 
