@@ -17,6 +17,7 @@ module Fog
       request :create_launch_configuration
       request :delete_auto_scaling_group
       request :delete_launch_configuration
+      request :delete_notification_configuration
       request :delete_policy
       request :delete_scheduled_action
       request :describe_adjustment_types
@@ -33,9 +34,9 @@ module Fog
       request :disable_metrics_collection
       request :enable_metrics_collection
       request :execute_policy
+      request :put_notification_configuration
       request :put_scaling_policy
       request :put_scheduled_update_group_action
-      request :put_notification_configuration
       request :resume_processes
       request :set_desired_capacity
       request :set_instance_health
