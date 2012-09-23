@@ -44,6 +44,8 @@ module Fog
             raise Fog::AWS::AutoScaling::ValidationError, "The auto scaling group '#{auto_scaling_group_name}' does not exist."
           end
 
+          self.data[:notification_configurations].delete(auto_scaling_group_name)
+
           response = Excon::Response.new
           response.status = 200
           response.body = {

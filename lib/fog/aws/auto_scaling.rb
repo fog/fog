@@ -26,6 +26,7 @@ module Fog
       request :describe_auto_scaling_notification_types
       request :describe_launch_configurations
       request :describe_metric_collection_types
+      request :describe_notification_configurations
       request :describe_policies
       request :describe_scaling_activities
       request :describe_scaling_process_types
@@ -58,6 +59,9 @@ module Fog
 
       class Real
         include Fog::AWS::CredentialFetcher::ConnectionMethods
+
+        attr_accessor :region
+
         # Initialize connection to AutoScaling
         #
         # ==== Notes
@@ -75,6 +79,7 @@ module Fog
         #
         # ==== Returns
         # * AutoScaling object with connection to AWS.
+
         def initialize(options={})
           require 'fog/core/parser'
 
@@ -87,6 +92,8 @@ module Fog
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.auto_scaling'
 
           options[:region] ||= 'us-east-1'
+          @region = options[:region]
+
           @host = options[:host] || "autoscaling.#{options[:region]}.amazonaws.com"
           @path       = options[:path]        || '/'
           @port       = options[:port]        || 443
@@ -162,9 +169,9 @@ module Fog
         end
 
         def setup_credentials(options)
-          @aws_access_key_id      = options[:aws_access_key_id]
-          @aws_secret_access_key  = options[:aws_secret_access_key]
-          @aws_session_token      = options[:aws_session_token]
+          @aws_access_key_id         = options[:aws_access_key_id]
+          @aws_secret_access_key     = options[:aws_secret_access_key]
+          @aws_session_token         = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
           @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)
@@ -173,9 +180,13 @@ module Fog
 
 
       class Mock
+        include Fog::AWS::CredentialFetcher::ConnectionMethods
+
+        attr_accessor :region
 
         def self.data
           @data ||= Hash.new do |hash, region|
+            owner_id = Fog::AWS::Mock.owner_id
             hash[region] = Hash.new do |region_hash, key|
               region_hash[key] = {
                 :adjustment_types => [
@@ -204,6 +215,7 @@ module Fog
                     'GroupTotalInstances'
                   ]
                 },
+                :notification_configurations => {},
                 :notification_types => [
                   'autoscaling:EC2_INSTANCE_LAUNCH',
                   'autoscaling:EC2_INSTANCE_LAUNCH_ERROR',
@@ -211,6 +223,7 @@ module Fog
                   'autoscaling:EC2_INSTANCE_TERMINATE_ERROR',
                   'autoscaling:TEST_NOTIFICATION'
                 ],
+                :owner_id => owner_id,
                 :process_types => [
                   'AZRebalance',
                   'AddToLoadBalancer',
@@ -241,24 +254,26 @@ module Fog
           @use_iam_profile = options[:use_iam_profile]
           setup_credentials(options)
           @region = options[:region] || 'us-east-1'
-          @owner_id = Fog::AWS::Mock.owner_id
 
           unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'sa-east-1', 'us-east-1', 'us-west-1', 'us-west-2'].include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
+        end
 
+        def region_data
+          self.class.data[@region]
+        end
+
+        def data
+          self.region_data[@aws_access_key_id]
+        end
+
+        def reset_data
+          self.region_data.delete(@aws_access_key_id)
         end
 
         def setup_credentials(options)
           @aws_access_key_id = options[:aws_access_key_id]
-        end
-
-        def data
-          self.class.data[@region][@aws_access_key_id]
-        end
-
-        def reset_data
-          self.class.data[@region].delete(@aws_access_key_id)
         end
 
       end

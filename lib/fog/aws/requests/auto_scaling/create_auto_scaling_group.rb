@@ -94,14 +94,14 @@ module Fog
       class Mock
 
         def create_auto_scaling_group(auto_scaling_group_name, availability_zones, launch_configuration_name, max_size, min_size, options = {})
-          if data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
+          if self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
             raise Fog::AWS::AutoScaling::IdentifierTaken.new("AutoScalingGroup by this name already exists - A group with the name #{auto_scaling_group_name} already exists")
           end
-          unless data[:launch_configurations].has_key?(launch_configuration_name)
+          unless self.data[:launch_configurations].has_key?(launch_configuration_name)
             raise Fog::AWS::AutoScaling::ValidationError.new('Launch configuration name not found - null')
           end
-          data[:auto_scaling_groups][auto_scaling_group_name] = {
-            'AutoScalingGroupARN'     => Fog::AWS::Mock.arn('autoscaling', @owner_id, "autoScalingGroup:00000000-0000-0000-0000-000000000000:autoScalingGroupName/#{auto_scaling_group_name}", @region),
+          self.data[:auto_scaling_groups][auto_scaling_group_name] = {
+            'AutoScalingGroupARN'     => Fog::AWS::Mock.arn('autoscaling', self.data[:owner_id], "autoScalingGroup:00000000-0000-0000-0000-000000000000:autoScalingGroupName/#{auto_scaling_group_name}", @region),
             'AutoScalingGroupName'    => auto_scaling_group_name,
             'AvailabilityZones'       => availability_zones.to_a,
             'CreatedTime'             => Time.now.utc,

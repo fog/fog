@@ -79,10 +79,10 @@ module Fog
       class Mock
 
         def create_launch_configuration(image_id, instance_type, launch_configuration_name, options = {})
-          if data[:launch_configurations].has_key?(launch_configuration_name)
+          if self.data[:launch_configurations].has_key?(launch_configuration_name)
             raise Fog::AWS::AutoScaling::IdentifierTaken.new("Launch Configuration by this name already exists - A launch configuration already exists with the name #{launch_configuration_name}")
           end
-          data[:launch_configurations][launch_configuration_name] = {
+          self.data[:launch_configurations][launch_configuration_name] = {
             'BlockDeviceMappings'     => [],
             'CreatedTime'             => Time.now.utc,
             'ImageId'                 => image_id,
@@ -90,7 +90,7 @@ module Fog
             'InstanceType'            => instance_type,
             'KernelId'                => nil,
             'KeyName'                 => nil,
-            'LaunchConfigurationARN'  => Fog::AWS::Mock.arn('autoscaling', @owner_id, "launchConfiguration:00000000-0000-0000-0000-000000000000:launchConfigurationName/#{launch_configuration_name}", @region),
+            'LaunchConfigurationARN'  => Fog::AWS::Mock.arn('autoscaling', self.data[:owner_id], "launchConfiguration:00000000-0000-0000-0000-000000000000:launchConfigurationName/#{launch_configuration_name}", @region),
             'LaunchConfigurationName' => launch_configuration_name,
             'RamdiskId'               => nil,
             'SecurityGroups'          => [],
