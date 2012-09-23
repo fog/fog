@@ -23,8 +23,9 @@ module Fog
         #
         def describe_auto_scaling_notification_types()
           request({
-            'Action' => 'DescribeAutoScalingNotificationTypes',
-            :parser  => Fog::Parsers::AWS::AutoScaling::DescribeAutoScalingNotificationTypes.new
+            'Action'    => 'DescribeAutoScalingNotificationTypes',
+            :idempotent => true,
+            :parser     => Fog::Parsers::AWS::AutoScaling::DescribeAutoScalingNotificationTypes.new
           })
         end
 

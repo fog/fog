@@ -24,8 +24,9 @@ module Fog
         #
         def describe_scaling_process_types()
           request({
-            'Action' => 'DescribeScalingProcessTypes',
-            :parser  => Fog::Parsers::AWS::AutoScaling::DescribeScalingProcessTypes.new
+            'Action'    => 'DescribeScalingProcessTypes',
+            :idempotent => true,
+            :parser     => Fog::Parsers::AWS::AutoScaling::DescribeScalingProcessTypes.new
           })
         end
 
