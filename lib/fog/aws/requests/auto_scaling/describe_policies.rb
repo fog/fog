@@ -76,7 +76,7 @@ module Fog
 
         def describe_policies(options = {})
           results = { 'ScalingPolicies' => [] }
-          data[:scaling_policies].each do |asp_name, asp_data|
+          self.data[:scaling_policies].each do |asp_name, asp_data|
             results['ScalingPolicies'] << {
               'PolicyName' => asp_name
             }.merge!(asp_data)

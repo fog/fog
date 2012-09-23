@@ -71,10 +71,10 @@ module Fog
       class Mock
 
         def update_auto_scaling_group(auto_scaling_group_name, options = {})
-          unless data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
+          unless self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
             raise Fog::AWS::AutoScaling::ValidationError.new('AutoScalingGroup name not found - null')
           end
-          data[:auto_scaling_groups][auto_scaling_group_name].merge!(options)
+          self.data[:auto_scaling_groups][auto_scaling_group_name].merge!(options)
 
           response = Excon::Response.new
           response.status = 200

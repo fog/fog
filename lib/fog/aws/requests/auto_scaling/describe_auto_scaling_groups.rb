@@ -111,7 +111,7 @@ module Fog
 
         def describe_auto_scaling_groups(options = {})
           results = { 'AutoScalingGroups' => [] }
-          data[:auto_scaling_groups].each do |asg_name, asg_data|
+          self.data[:auto_scaling_groups].each do |asg_name, asg_data|
             results['AutoScalingGroups'] << {
               'AutoScalingGroupName' => asg_name
             }.merge!(asg_data)

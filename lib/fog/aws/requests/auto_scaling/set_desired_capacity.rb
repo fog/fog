@@ -67,10 +67,10 @@ module Fog
       class Mock
 
         def set_desired_capacity(auto_scaling_group_name, desired_capacity, options = {})
-          unless data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
+          unless self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
             Fog::AWS::AutoScaling::ValidationError.new('AutoScalingGroup name not found - null')
           end
-          data[:auto_scaling_groups][auto_scaling_group_name]['DesiredCapacity'] = desired_capacity
+          self.data[:auto_scaling_groups][auto_scaling_group_name]['DesiredCapacity'] = desired_capacity
 
           response = Excon::Response.new
           response.status = 200

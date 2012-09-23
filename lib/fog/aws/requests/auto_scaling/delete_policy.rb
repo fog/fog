@@ -37,7 +37,7 @@ module Fog
       class Mock
 
         def delete_policy(auto_scaling_group_name, policy_name)
-          unless data[:scaling_policies].delete(policy_name)
+          unless self.data[:scaling_policies].delete(policy_name)
             raise Fog::AWS::AutoScaling::NotFound, "The scaling policy '#{policy_name}' does not exist."
           end
 

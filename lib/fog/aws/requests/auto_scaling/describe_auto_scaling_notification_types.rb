@@ -36,7 +36,7 @@ module Fog
           results = {
             'AutoScalingNotificationTypes' => [],
           }
-          data[:notification_types].each do |notification_type|
+          self.data[:notification_types].each do |notification_type|
             results['AutoScalingNotificationTypes'] << notification_type
           end
           response = Excon::Response.new

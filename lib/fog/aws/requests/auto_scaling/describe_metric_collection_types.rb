@@ -39,10 +39,10 @@ module Fog
             'Granularities' => [],
             'Metrics' => []
           }
-          data[:metric_collection_types][:granularities].each do |granularity|
+          self.data[:metric_collection_types][:granularities].each do |granularity|
             results['Granularities'] << { 'Granularity' => granularity }
           end
-          data[:metric_collection_types][:metrics].each do |metric|
+          self.data[:metric_collection_types][:metrics].each do |metric|
             results['Metrics'] << { 'Metric' => metric }
           end
           response = Excon::Response.new

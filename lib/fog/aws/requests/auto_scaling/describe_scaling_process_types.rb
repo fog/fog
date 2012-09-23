@@ -35,7 +35,7 @@ module Fog
 
         def describe_scaling_process_types()
           results = { 'Processes' => [] }
-          data[:process_types].each do |process_type|
+          self.data[:process_types].each do |process_type|
             results['Processes'] << { 'ProcessName' => process_type }
           end
           response = Excon::Response.new
