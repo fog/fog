@@ -37,13 +37,13 @@ Now you'll need to create a 'distribution' which represents a mapping from the C
 
     # parse the response for stuff you'll need later
     distribution_id   = data.body['Id']
-    caller_reference  = data.body['CallerReference']
+    caller_reference  = data.body['DistributionConfig']['CallerReference']
     etag              = data.headers['ETag']
     cdn_domain_name   = data.body['DomainName']
 
     # wait for the updates to propogate
     Fog.wait_for {
-      cdn.get_distribution(distribution_id).body['Status'] ## 'Deployed'
+      cdn.get_distribution(distribution_id).body['Status'] == 'Deployed'
     }
 
 ## Getting Served
@@ -75,7 +75,7 @@ But, just in case you need to update things I'll run through how you can make ch
 Now you just need to wait for the update to happen like before and once its disabled we can delete it:
 
     Fog.wait_for {
-      cdn.get_distribution(distribution_id).body['Status'] ## 'Deployed'
+      cdn.get_distribution(distribution_id).body['Status'] == 'Deployed'
     }
     cdn.delete_distribution(distribution_id, etag)
 
