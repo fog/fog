@@ -72,7 +72,7 @@ module Fog
           if tags = options.delete('Tags')
             tags.each_with_index do |tag, i|
               tag.each do |key, value|
-                options["Tags.member.#{i + 1}.#{key.to_s.capitalize}"] = value
+                options["Tags.member.#{i+1}.#{key}"] = value unless value.nil?
               end
             end
           end

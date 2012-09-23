@@ -75,8 +75,8 @@ class AWS
       TAG_DESCRIPTION = {
         'Key' => String,
         'PropagateAtLaunch' => Fog::Boolean,
-        'ResourceId' => 'String',
-        'ResourceType' => 'String',
+        'ResourceId' => String,
+        'ResourceType' => String,
         'Value' => Fog::Nullable::String
       }
 

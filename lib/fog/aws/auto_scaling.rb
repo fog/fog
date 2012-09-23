@@ -15,11 +15,13 @@ module Fog
       request_path 'fog/aws/requests/auto_scaling'
       request :create_auto_scaling_group
       request :create_launch_configuration
+      request :create_or_update_tags
       request :delete_auto_scaling_group
       request :delete_launch_configuration
       request :delete_notification_configuration
       request :delete_policy
       request :delete_scheduled_action
+      request :delete_tags
       request :describe_adjustment_types
       request :describe_auto_scaling_groups
       request :describe_auto_scaling_instances
@@ -31,6 +33,7 @@ module Fog
       request :describe_scaling_activities
       request :describe_scaling_process_types
       request :describe_scheduled_actions
+      request :describe_tags
       request :describe_termination_policy_types
       request :disable_metrics_collection
       request :enable_metrics_collection
