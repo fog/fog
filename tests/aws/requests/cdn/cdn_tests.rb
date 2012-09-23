@@ -108,7 +108,7 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
 
       response = @cf_connection.get_invalidation(@dist_id, @invalidation_id)
       if response.status == 200
-        paths = response.body['InvalidationBatch'].sort
+        paths = response.body['InvalidationBatch']['Path'].sort
         status = response.body['Status']
         if status.length > 0 and paths == [ '/test.html', '/path/to/file.html' ].sort
           result = true

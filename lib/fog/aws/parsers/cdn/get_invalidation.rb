@@ -6,7 +6,7 @@ module Fog
         class GetInvalidation < Fog::Parsers::Base
 
           def reset
-            @response = { 'InvalidationBatch' => [] }
+            @response = { 'InvalidationBatch' => { 'Path' => [] } }
           end
 
           def start_element(name, attrs = [])
@@ -16,9 +16,11 @@ module Fog
           def end_element(name)
             case name
             when 'Path'
-              @response['InvalidationBatch'] << @value
+              @response['InvalidationBatch'][name] << value
             when 'Id', 'Status', 'CreateTime'
-              @response[name] = @value
+              @response[name] = value
+            when 'CallerReference'
+              @response['InvalidationBatch'][name] = value
             end
           end
 
