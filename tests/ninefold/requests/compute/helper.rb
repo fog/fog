@@ -328,6 +328,39 @@ class Ninefold
           "state"=>String,
           "zoneid"=>Integer
         }
+        ASSIGN_LOAD_BALANCER_RULE_RESPONSE = {
+          "success"=>Fog::Boolean
+        }
+        LIST_LOAD_BALANCER_RULES_RESPONSE = {
+          "id"=>Integer,
+          "name"=>String,
+          "publicipid"=>Integer,
+          "publicip"=>String,
+          "publicport"=>String,
+          "privateport"=>String,
+          "algorithm"=>String,
+          "cidrlist"=>String,
+          "account"=>String,
+          "domainid"=>Integer,
+          "domain"=>String,
+          "state"=>String,
+          "zoneid"=>Integer
+        }
+        UPDATE_LOAD_BALANCER_RULE_RESPONSE = {
+          "id"=>Integer,
+          "name"=>String,
+          "publicipid"=>Integer,
+          "publicip"=>String,
+          "publicport"=>String,
+          "privateport"=>String,
+          "algorithm"=>String,
+          "cidrlist"=>String,
+          "account"=>String,
+          "domainid"=>Integer,
+          "domain"=>String,
+          "state"=>String,
+          "zoneid"=>Integer
+        }
       end
     end
   end
