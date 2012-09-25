@@ -361,6 +361,9 @@ class Ninefold
           "state"=>String,
           "zoneid"=>Integer
         }
+        REMOVE_FROM_LOAD_BALANCER_RULE_RESPONSE = {
+          "success"=>Fog::Boolean
+        }
       end
     end
   end

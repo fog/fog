@@ -43,5 +43,18 @@ Shindo.tests('Fog::Compute[:ninefold] | load balancers', ['ninefold']) do
       result['jobresult']['loadbalancer']
     end
 
+    tests('with assigned to load balancer rule') do
+      before do
+        assign_load_balancer = @compute.assign_to_load_balancer_rule id: @create_load_balancer['id'], virtualmachineids: @server_id
+        result = Ninefold::Compute::TestSupport.wait_for_job(assign_load_balancer['jobid'])
+      end
+
+      tests("#remove_from_load_balancer_rule()").formats(Ninefold::Compute::Formats::LoadBalancers::REMOVE_FROM_LOAD_BALANCER_RULE_RESPONSE) do
+        pending if Fog.mocking?
+        remove = @compute.remove_from_load_balancer_rule id: @create_load_balancer['id'], virtualmachineids: @server_id
+        result = Ninefold::Compute::TestSupport.wait_for_job(remove['jobid'])
+        result['jobresult']
+      end
+    end
   end
 end
