@@ -318,13 +318,13 @@ class Ninefold
           "account"=>String,
           "algorithm"=>String,
           "cidrlist"=>String,
-          "description"=>String,
           "domain"=>String,
           "domainid"=>Integer,
           "name"=>String,
-          "privateport"=>Integer,
-          "publicip"=>Integer,
-          "publicport"=>Integer,
+          "privateport"=>String,
+          "publicip"=>String,
+          "publicipid"=>Integer,
+          "publicport"=>String,
           "state"=>String,
           "zoneid"=>Integer
         }
