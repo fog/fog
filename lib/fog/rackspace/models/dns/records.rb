@@ -13,8 +13,15 @@ module Fog
 
         def all
           requires :zone
-          data = connection.list_records(zone.identity)
-          load(data.body['records'])
+
+          left = 0
+          records=[]
+          begin
+            data = connection.list_records(zone.identity, :offset=>records.count)
+            records += data.body['records']
+            left = data.body['totalEntries'] - records.count
+          end while data.status==200 && left>0
+          load(records)
         end
 
         def get(record_id)
