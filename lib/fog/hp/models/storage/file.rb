@@ -70,6 +70,11 @@ module Fog
           self.collection.get_cdn_ssl_url(self.key)
         end
 
+        def temp_signed_url(expires_secs, method)
+          requires :directory, :key
+          connection.generate_object_temp_url(directory.key, key, expires_secs, method)
+        end
+
         def save(options = {})
           requires :body, :directory, :key
           options['Content-Type'] = content_type if content_type
