@@ -23,7 +23,7 @@ module Fog
         def vm_update_network(options = {})
           raise ArgumentError, "Must pass parameter: vm_moid or instance_uuid" unless (options['vm_moid'] || options['instance_uuid'])
           raise ArgumentError, "Cannot specify both vm_moid and instance_uuid" if (options['vm_moid'] && options['instance_uuid'])
-          raise ArgumentError, "Must pass parameter: network adapter name" unless options['adapter_name']
+          raise ArgumentError, "Must pass parameter: network adapter index" unless options['adapter_index']
           raise ArgumentError, "Must pass parameter: portgroup name" unless options['portgroup_name']
 
           if options['vm_moid']
@@ -39,8 +39,8 @@ module Fog
 
           devices = vm_mob_ref.config.hardware.device
           nic = devices.select { |device| device.kind_of?(RbVmomi::VIM::VirtualEthernetCard) &&
-              device.deviceInfo.label == options['adapter_name'] }.first
-          raise Fog::Compute::Vsphere::NotFound, "network adapter:#{options['adapter_name']} not found." unless nic
+              device.key == (4000 + Integer(options['adapter_index'])) }.first # 4000 is the base key for network adapters
+          raise Fog::Compute::Vsphere::NotFound, "network adapter index:#{options['adapter_index']} not found." unless nic
 
           dc_mob_ref = get_parent_dc_by_vm_mob(vm_mob_ref)
           network_mob_ref = get_portgroups_by_dc_mob(dc_mob_ref).fetch(options['portgroup_name'])
@@ -89,7 +89,7 @@ module Fog
         def vm_update_network(options = {})
           raise ArgumentError, "Must pass parameter: vm_moid or instance_uuid" unless (options['vm_moid'] || options['instance_uuid'])
           raise ArgumentError, "Cannot specify both vm_moid and instance_uuid" if (options['vm_moid'] && options['instance_uuid'])
-          raise ArgumentError, "Must pass parameter: network adapter name" unless options['adapter_name']
+          raise ArgumentError, "Must pass parameter: network adapter index" unless options['adapter_index']
           raise ArgumentError, "Must pass parameter: portgroup name" unless options['portgroup_name']
           {
               'vm_ref'   => 'vm-123',
