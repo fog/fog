@@ -20,6 +20,7 @@ module Fog
       request :get_container
       request :get_containers
       request :get_object
+      request :get_object_temp_url
       request :head_container
       request :head_containers
       request :head_object
@@ -81,6 +82,32 @@ module Fog
             acl = "public-read-write"
           end
         end
+
+        def generate_object_temp_url(container, object, expires_secs, method)
+          return unless (container && object && expires_secs && method)
+
+          # POST not allowed
+          allowed_methods = %w{GET PUT HEAD}
+          unless allowed_methods.include?(method)
+            raise ArgumentError.new("Invalid method '#{method}' specified. Valid methods are: #{allowed_methods.join(', ')}")
+          end
+
+          expires = (Time.now + expires_secs.to_i).to_i
+
+          # do not encode before signature generation, encode after
+          path = "#{@path}/#{container}/#{object}"
+          encoded_path = "#{@path}/#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
+
+          string_to_sign = "#{method}\n#{expires}\n#{path}"
+          signed_string = Digest::HMAC.hexdigest(string_to_sign, @hp_secret_key, Digest::SHA1)
+
+          signature = @hp_account_id.to_s + ":" + signed_string
+          signature = Fog::HP.escape(signature)
+
+          # generate the temp url using the signature and expiry
+          temp_url = "#{@scheme}://#{@host}:#{@port}#{encoded_path}?temp_url_sig=#{signature}&temp_url_expires=#{expires}"
+        end
+
       end
 
       class Mock
