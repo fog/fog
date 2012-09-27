@@ -13,8 +13,10 @@ module Fog
           data = connection.get_servers(href).body
           if data.keys.include?(:VirtualMachines)
             data = data[:VirtualMachines][:VirtualMachine]
-          else
+          elsif data[:VirtualMachine]
             data = data[:VirtualMachine]
+          else
+            data = []
           end
           load(data)
         end
