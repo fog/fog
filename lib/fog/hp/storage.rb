@@ -94,18 +94,25 @@ module Fog
 
           expires = (Time.now + expires_secs.to_i).to_i
 
-          # do not encode before signature generation, encode after
-          path = "#{@path}/#{container}/#{object}"
-          encoded_path = "#{@path}/#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
+          # split up the storage uri
+          uri = URI.parse(@hp_storage_uri)
+          host   = uri.host
+          path   = uri.path
+          port   = uri.port
+          scheme = uri.scheme
 
-          string_to_sign = "#{method}\n#{expires}\n#{path}"
+          # do not encode before signature generation, encode after
+          sig_path = "#{path}/#{container}/#{object}"
+          encoded_path = "#{path}/#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
+
+          string_to_sign = "#{method}\n#{expires}\n#{sig_path}"
           signed_string = Digest::HMAC.hexdigest(string_to_sign, @hp_secret_key, Digest::SHA1)
 
-          signature = @hp_account_id.to_s + ":" + signed_string
+          signature = @hp_tenant_id.to_s + ":" + @hp_account_id.to_s + ":" + signed_string
           signature = Fog::HP.escape(signature)
 
           # generate the temp url using the signature and expiry
-          temp_url = "#{@scheme}://#{@host}:#{@port}#{encoded_path}?temp_url_sig=#{signature}&temp_url_expires=#{expires}"
+          temp_url = "#{scheme}://#{host}:#{port}#{encoded_path}?temp_url_sig=#{signature}&temp_url_expires=#{expires}"
         end
 
       end
@@ -136,6 +143,7 @@ module Fog
           require 'mime/types'
           @hp_secret_key = options[:hp_secret_key]
           @hp_account_id = options[:hp_account_id]
+          @hp_tenant_id = options[:hp_tenant_id]
         end
 
         def data
