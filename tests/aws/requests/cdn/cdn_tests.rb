@@ -5,7 +5,6 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
   tests('distributions success') do
 
     test('get current ditribution list count') do
-      pending if Fog.mocking?
 
       @count= 0
       response = @cf_connection.get_distribution_list
@@ -18,7 +17,6 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
     end
 
     test('create distribution') {
-      pending if Fog.mocking?
 
       result = false
 
@@ -36,7 +34,6 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
     }
 
     test("get info on distribution #{@dist_id}") {
-      pending if Fog.mocking?
 
       result = false
 
@@ -53,7 +50,6 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
     }
 
     test('list distributions') do
-      pending if Fog.mocking?
 
       result = false
 
@@ -76,7 +72,6 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
     end
 
     test("invalidate paths") {
-      pending if Fog.mocking?
 
       response = @cf_connection.post_invalidation(@dist_id, ["/test.html", "/path/to/file.html"])
       if response.status == 201
@@ -87,7 +82,6 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
     }
 
     test("list invalidations") {
-      pending if Fog.mocking?
 
       result = false
 
@@ -102,7 +96,6 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
     }
 
     test("get invalidation information") {
-      pending if Fog.mocking?
 
       result = false
 
@@ -119,7 +112,6 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
     }
 
     test("disable distribution #{@dist_id} - can take 15 minutes to complete...") {
-      pending if Fog.mocking?
 
       result = false
 
@@ -135,7 +127,6 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
     }
 
     test("remove distribution #{@dist_id}") {
-      pending if Fog.mocking?
 
       result = true
 
@@ -158,7 +149,6 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
   tests('streaming distributions success') do
 
     test('get current streaming ditribution list count') do
-      pending if Fog.mocking?
 
       @count= 0
       response = @cf_connection.get_streaming_distribution_list
@@ -171,7 +161,6 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
     end
 
     test('create distribution') {
-      pending if Fog.mocking?
 
       result = false
 
@@ -189,7 +178,6 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
     }
 
     test("get info on distribution #{@dist_id}") {
-      pending if Fog.mocking?
 
       result = false
 
@@ -206,7 +194,6 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
     }
 
     test('list streaming distributions') do
-      pending if Fog.mocking?
 
       result = false
 
@@ -229,7 +216,6 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
     end
 
     test("disable distribution #{@dist_id} - can take 15 minutes to complete...") {
-      pending if Fog.mocking?
 
       result = false
 
@@ -245,13 +231,12 @@ Shindo.tests('Fog::CDN[:aws] | CDN requests', ['aws', 'cdn']) do
     }
 
     test("remove distribution #{@dist_id}") {
-      pending if Fog.mocking?
 
       result = true
 
       # unfortunately you can delete only after a distribution becomes Deployed
       Fog.wait_for {
-        response = @cf_connection.get_distribution(@dist_id)
+        response = @cf_connection.get_streaming_distribution(@dist_id)
         @etag = response.headers['ETag']
         response.status == 200 and response.body['Status'] == 'Deployed'
       }
