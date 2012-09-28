@@ -1,14 +1,12 @@
 Shindo.tests("Fog::CDN[:aws] | invalidation", ['aws', 'cdn']) do
 
-  pending if Fog.mocking?
-
   tests("distributions#create").succeeds do
     @distribution = Fog::CDN[:aws].distributions.create(:s3_origin => {'DNSName' => 'fog_test.s3.amazonaws.com'}, :enabled => true)
   end
 
   params = { :paths => [ '/index.html', '/path/to/index.html' ] }
 
-  model_tests(@distribution.invalidations, params, false) do
+  model_tests(@distribution.invalidations, params, true) do
 
     tests("#id") do
       returns(true) { @instance.identity != nil }

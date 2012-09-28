@@ -29,6 +29,32 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def get_invalidation(distribution_id, invalidation_id)
+          distribution = self.data[:distributions][distribution_id]
+          unless distribution
+            Fog::CDN::AWS::Mock.error(:no_such_distribution)
+          end
+
+          invalidation = self.data[:invalidations][distribution_id][invalidation_id]
+          unless invalidation
+            Fog::CDN::AWS::Mock.error(:no_such_invalidation)
+          end
+
+          if invalidation['Status'] == 'InProgress' && (Time.now - Time.parse(invalidation['CreateTime']) >= Fog::Mock.delay * 2)
+            invalidation['Status'] = 'Completed'
+            distribution['InProgressInvalidationBatches'] -= 1
+          end
+
+          response = Excon::Response.new
+          response.status = 200
+          response.body = invalidation
+          response
+        end
+
+      end
     end
   end
 end
