@@ -31,13 +31,13 @@ module Fog
             "Content-Length" => "139",
             "Date" => Date.new}
           response.body = {
-            "security_group" => [{
+            "security_group" => {
               "rules" => [],
               "tenant_id" => "d5183375ab0343f3a0b4b05f547aefc2",
               "id" => 999,
               "name" => name,
               "description" => description
-            }]
+            }
           }
           response
         end
