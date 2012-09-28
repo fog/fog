@@ -5,16 +5,20 @@ Shindo.tests('Fog::Compute[:ninefold] | load balancers', ['ninefold']) do
 
     before do
       @compute = Fog::Compute[:ninefold]
-      @public_ip_id = @compute.list_public_ip_addresses.first['id']
-      @server_id = @compute.servers.all.first.id
-      @create_load_balancer = @compute.create_load_balancer_rule(:algorithm => 'roundrobin', :name => 'test',
-                                                                :privateport => 1000, :publicport => 2000,
-                                                                :publicipid => @public_ip_id)
+      unless Fog.mocking?
+        @public_ip_id = @compute.list_public_ip_addresses.first['id']
+        @server_id = @compute.servers.all.first.id
+        @create_load_balancer = @compute.create_load_balancer_rule(:algorithm => 'roundrobin', :name => 'test',
+                                                                  :privateport => 1000, :publicport => 2000,
+                                                                  :publicipid => @public_ip_id)
+      end
     end
 
     after do
-      delete = @compute.delete_load_balancer_ruler(:id => @create_load_balancer['id'])
-      Ninefold::Compute::TestSupport.wait_for_job(delete['jobid'])
+      unless Fog.mocking?
+        delete = @compute.delete_load_balancer_ruler(:id => @create_load_balancer['id'])
+        Ninefold::Compute::TestSupport.wait_for_job(delete['jobid'])
+      end
     end
 
     tests("#create_load_balancer_rule()").formats(Ninefold::Compute::Formats::LoadBalancers::CREATE_LOAD_BALANCER_RULE_RESPONSE) do
@@ -45,8 +49,10 @@ Shindo.tests('Fog::Compute[:ninefold] | load balancers', ['ninefold']) do
 
     tests('with assigned to load balancer rule') do
       before do
-        assign_load_balancer = @compute.assign_to_load_balancer_rule(:id => @create_load_balancer['id'], :virtualmachineids => @server_id)
-        result = Ninefold::Compute::TestSupport.wait_for_job(assign_load_balancer['jobid'])
+        unless Fog.mocking?
+          assign_load_balancer = @compute.assign_to_load_balancer_rule(:id => @create_load_balancer['id'], :virtualmachineids => @server_id)
+          result = Ninefold::Compute::TestSupport.wait_for_job(assign_load_balancer['jobid'])
+        end
       end
 
       tests("#remove_from_load_balancer_rule()").formats(Ninefold::Compute::Formats::LoadBalancers::REMOVE_FROM_LOAD_BALANCER_RULE_RESPONSE) do
