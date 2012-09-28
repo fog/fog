@@ -8,7 +8,7 @@ module Fog
         def all(options = {})
           merge_attributes(options)
           data = list_distributions(options).body
-          merge_attributes('IsTruncated' => data['IsTruncated'], 'Marker' => data['Marker'])
+          merge_attributes('IsTruncated' => data['IsTruncated'], 'Marker' => data['Marker'], 'MaxItems' => data['MaxItems'])
           if summary = data['DistributionSummary']
             load(summary.map { |a| { 'DistributionConfig' => a } })
           else
