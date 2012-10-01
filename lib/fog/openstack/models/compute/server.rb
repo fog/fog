@@ -38,7 +38,7 @@ module Fog
         attribute :os_ext_sts_vm_state, :aliases => 'OS-EXT-STS:vm_state'
 
         attr_reader :password
-        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :image_ref, :flavor_ref
+        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :image_ref, :flavor_ref, :os_scheduler_hints
 
 
         def initialize(attributes={})
@@ -48,6 +48,7 @@ module Fog
           self.security_groups = attributes.delete(:security_groups)
           self.min_count = attributes.delete(:min_count)
           self.max_count = attributes.delete(:max_count)
+          self.os_scheduler_hints = attributes.delete(:os_scheduler_hints)
 
           super
         end
@@ -239,6 +240,7 @@ module Fog
             'security_groups' => @security_groups,
             'min_count'   => @min_count,
             'max_count'   => @max_count,
+            'os:scheduler_hints' => @os_scheduler_hints
           }
           options = options.reject {|key, value| value.nil?}
           data = connection.create_server(name, image_ref, flavor_ref, options)
