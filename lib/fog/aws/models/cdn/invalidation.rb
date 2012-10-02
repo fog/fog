@@ -14,6 +14,7 @@ module Fog
         attribute :paths,            :aliases => 'Paths'
 
         def initialize(new_attributes={})
+          new_attributes[:caller_reference] ||= Time.now.utc.to_i.to_s
           super(invalidation_to_attributes(new_attributes))
         end
 
@@ -29,7 +30,7 @@ module Fog
         def save
           requires :paths, :caller_reference
           raise "Submitted invalidation cannot be submitted again" if identity
-          response = connection.post_invalidation(distribution.identity, paths, caller_reference || Time.now.to_i.to_s)
+          response = connection.post_invalidation(distribution.identity, paths, caller_reference)
           merge_attributes(invalidation_to_attributes(response.body))
           true
         end
@@ -47,8 +48,12 @@ module Fog
 
         def invalidation_to_attributes(new_attributes={})
           invalidation_batch = new_attributes.delete('InvalidationBatch') || {}
-          new_attributes['Paths'] = invalidation_batch['Path']
-          new_attributes['CallerReference'] = invalidation_batch['CallerReference']
+          if invalidation_batch['Path']
+            new_attributes[:paths] = invalidation_batch['Path']
+          end
+          if invalidation_batch['CallerReference']
+            new_attributes[:caller_reference] = invalidation_batch['CallerReference']
+          end
           new_attributes
         end
 
