@@ -21,25 +21,25 @@ module Fog
           response.status = 200
           self.data[:volumes] ||= [
             { "status" => "available",
-              "displayDescription" => "",
-              "availabilityZone" => "nova",
-              "displayName" => "test 1",
+              "display_description" => "",
+              "availability_zone" => "nova",
+              "display_name" => "test 1",
               "attachments" => [{}],
-              "volumeType" => nil,
-              "snapshotId" => Fog::Mock.random_numbers(2),
+              "volume_type" => nil,
+              "snapshot_id" => nil,
               "size" => 1,
-              "id" => "6",
-              "createdAt" => Time.now },
+              "id" => Fog::Mock.random_hex(32),
+              "created_at" => Time.now },
             { "status" => "available",
-              "displayDescription" => "",
-              "availabilityZone" => "nova",
-              "displayName" => "test 2",
+              "display_description" => "",
+              "availability_zone" => "nova",
+              "display_name" => "test 2",
               "attachments" => [{}],
-              "volumeType" => nil,
-              "snapshotId" => Fog::Mock.random_numbers(2),
+              "volume_type" => nil,
+              "snapshot_id" => nil,
               "size" => 1,
-              "id" => "8",
-              "createdAt" => Time.now}
+              "id" => Fog::Mock.random_hex(32),
+              "created_at" => Time.now }
             ]
           response.body = { 'volumes' => self.data[:volumes] }
           response
