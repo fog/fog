@@ -2,21 +2,21 @@ Shindo.tests('Fog::Compute[:openstack] | security group requests', ['openstack']
   @security_group = Hash.new
   @security_group_rule = Hash.new
   @security_group_format = {
-    "rules" => Array,
-    "tenant_id" => String,
-    "id" => Integer,
-    "name" => String,
+    "id"          => Integer,
+    "rules"       => Array,
+    "tenant_id"   => String,
+    "name"        => String,
     "description" => String
   }
 
   @security_group_rule_format = {
-    "from_port" => Integer,
-    "group"     => Hash,
+    "id"          => Integer,
+    "from_port"   => Integer,
+    "to_port"     => Integer,
     "ip_protocol" => String,
-    "to_port" => Integer,
-    "parent_group_id" => Integer,
-    "ip_range" => Hash,
-    "id" => Integer
+    "group"       => Hash,
+    "ip_range"    => Hash,
+    "parent_group_id" => Integer
   }
 
   tests('success') do

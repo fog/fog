@@ -19,7 +19,7 @@ module Fog
 
       class Mock
         def list_security_groups
-          self.data[:security_groups] = [
+          self.data[:security_groups] ||= [
             { "rules" => [
               { "from_port" => 44,
                 "group" => {},
@@ -57,9 +57,9 @@ module Fog
             "name" => "test",
             "description" => "this is a test"
             }
-          ] unless self.data.empty?
+          ]
           Excon::Response.new(
-            :body     => { 'security_groups' => self.data[:security_groups] },
+            :body     => { 'security_groups' => self.data[:security_groups].values },
             :headers  => {
               "X-Compute-Request-Id" => "req-#{Fog::Mock.random_base64(36)}",
               "Content-Type" => "application/json",

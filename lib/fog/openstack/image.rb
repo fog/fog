@@ -3,7 +3,6 @@ require 'fog/openstack'
 module Fog
   module Image
     class OpenStack < Fog::Service
-
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url, :persistent,
                  :openstack_service_name, :openstack_tenant,
@@ -15,7 +14,6 @@ module Fog
       model       :image
       collection  :images
 
-
       request_path 'fog/openstack/requests/image'
 
       request :list_public_images
@@ -24,6 +22,7 @@ module Fog
       request :create_image
       request :update_image
       request :get_image_members
+      request :update_image_members
       request :get_shared_images
       request :add_member_to_image
       request :remove_member_from_image
@@ -35,8 +34,7 @@ module Fog
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
-              :users => {},
-              :tenants => {}
+              :images => {}
             }
           end
         end
@@ -48,6 +46,16 @@ module Fog
         def initialize(options={})
           require 'multi_json'
           @openstack_username = options[:openstack_username]
+          @openstack_tenant   = options[:openstack_tenant]
+          @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
+
+          @auth_token = Fog::Mock.random_base64(64)
+          @auth_token_expiration = (Time.now.utc + 86400).iso8601
+
+          management_url = URI.parse(options[:openstack_auth_url])
+          management_url.port = 9292
+          management_url.path = '/v1'
+          @openstack_management_url = management_url.to_s
 
           @data ||= { :users => {} }
           unless @data[:users].find {|u| u['name'] == options[:openstack_username]}

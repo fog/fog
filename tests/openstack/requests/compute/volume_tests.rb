@@ -3,18 +3,17 @@ require 'fog/openstack'
 Shindo.tests('Fog::Compute[:openstack] | volume requests', ['openstack']) do
 
   @volume_format = {
-    'id'                 => String,
-    'displayName'        => String,
-    'size'               => Integer,
-    'displayDescription' => String,
-    'status'             => String,
-    'snapshotId'         => String,
-    'availabilityZone'   => String,
-    'attachments'        => Array,
-    'volumeType'         => NilClass,
-    'createdAt'          => Time
+    'id'                  => String,
+    'display_name'        => String,
+    'size'                => Integer,
+    'display_description' => String,
+    'status'              => String,
+    'snapshot_id'         => Fog::Nullable::String,
+    'availability_zone'   => String,
+    'attachments'         => Array,
+    'volume_type'         => Fog::Nullable::String,
+    'created_at'          => Time
   }
-
 
   tests('success') do
     tests('#list_volumes').formats({'volumes' => [@volume_format]}) do
@@ -23,7 +22,7 @@ Shindo.tests('Fog::Compute[:openstack] | volume requests', ['openstack']) do
 
     tests('#get_volume_detail').formats({'volume' => @volume_format}) do
       pending unless Fog.mocking?
-      Fog::Compute[:openstack].get_volume_details(0).body
+      Fog::Compute[:openstack].get_volume_details(1).body
     end
 
     tests('#create_volume').formats({'volume' => @volume_format}) do
