@@ -3,8 +3,6 @@ module Fog
     module AWS
       module RDS 
 
-        require 'fog/aws/parsers/rds/base'
-
         # Base parser for ResponseMetadata, RequestId
         class Base < Fog::Parsers::Base
 
