@@ -3,7 +3,6 @@ require 'fog/openstack'
 module Fog
   module Image
     class OpenStack < Fog::Service
-
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url, :persistent,
                  :openstack_service_name, :openstack_tenant,
@@ -14,7 +13,6 @@ module Fog
 
       model       :image
       collection  :images
-
 
       request_path 'fog/openstack/requests/image'
 
@@ -36,8 +34,7 @@ module Fog
         def self.data
           @data ||= Hash.new do |hash, key|
             hash[key] = {
-              :users => {},
-              :tenants => {}
+              :images => {}
             }
           end
         end

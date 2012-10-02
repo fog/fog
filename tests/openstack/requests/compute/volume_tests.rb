@@ -8,13 +8,12 @@ Shindo.tests('Fog::Compute[:openstack] | volume requests', ['openstack']) do
     'size'                => Integer,
     'display_description' => String,
     'status'              => String,
-    'snapshot_id'         => String,
+    'snapshot_id'         => Fog::Nullable::String,
     'availability_zone'   => String,
     'attachments'         => Array,
-    'volume_type'         => NilClass,
+    'volume_type'         => Fog::Nullable::String,
     'created_at'          => Time
   }
-
 
   tests('success') do
     tests('#list_volumes').formats({'volumes' => [@volume_format]}) do

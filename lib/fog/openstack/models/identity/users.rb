@@ -18,7 +18,7 @@ module Fog
           self.find {|user| user.id == id} ||
             Fog::Identity::OpenStack::User.new(
               connection.get_user_by_id(id).body['user'].merge(
-                connection: connection
+                'connection' => connection
               )
             )
         end

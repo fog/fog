@@ -28,9 +28,8 @@ module Fog
               "volume_type" => nil,
               "snapshot_id" => nil,
               "size" => 1,
-              "id" => 6,
-              "created_at" => "2012-03-30 05:31:00.655058",
-              "metadata" => {} },
+              "id" => Fog::Mock.random_hex(32),
+              "created_at" => Time.now },
             { "status" => "available",
               "display_description" => "",
               "availability_zone" => "nova",
@@ -39,9 +38,8 @@ module Fog
               "volume_type" => nil,
               "snapshot_id" => nil,
               "size" => 1,
-              "id" => 8,
-              "created_at" => "2012-03-30 16:14:55.582717",
-              "metadata" => {} }
+              "id" => Fog::Mock.random_hex(32),
+              "created_at" => Time.now }
             ]
           response.body = { 'volumes' => self.data[:volumes] }
           response

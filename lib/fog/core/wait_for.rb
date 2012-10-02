@@ -1,5 +1,4 @@
 module Fog
-
   def self.wait_for(timeout=Fog.timeout, interval=1, &block)
     duration = 0
     start = Time.now
@@ -13,5 +12,4 @@ module Fog
       { :duration => duration }
     end
   end
-  
 end

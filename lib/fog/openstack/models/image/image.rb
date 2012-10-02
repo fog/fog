@@ -44,7 +44,7 @@ module Fog
         def create
           requires :name
           merge_attributes(connection.create_image(self.attributes).body['image'])
-            self
+          self
         end
 
         def update

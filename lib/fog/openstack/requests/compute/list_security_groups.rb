@@ -59,7 +59,7 @@ module Fog
             }
           ]
           Excon::Response.new(
-            :body     => { 'security_groups' => self.data[:security_groups] },
+            :body     => { 'security_groups' => self.data[:security_groups].values },
             :headers  => {
               "X-Compute-Request-Id" => "req-#{Fog::Mock.random_base64(36)}",
               "Content-Type" => "application/json",
