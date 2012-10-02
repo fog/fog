@@ -52,6 +52,34 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def get_distribution(distribution_id)
+          response = Excon::Response.new
+
+          distribution = self.data[:distributions][distribution_id]
+          unless distribution
+            Fog::CDN::AWS::Mock.error(:no_such_distribution)
+          end
+
+          if distribution['Status'] == 'InProgress' && (Time.now - Time.parse(distribution['LastModifiedTime']) >= Fog::Mock.delay * 2)
+            distribution['Status'] = 'Deployed'
+          end
+
+          etag = Fog::CDN::AWS::Mock.generic_id
+          response.status = 200
+          response.body = {
+            'InProgressInvalidationBatches' => 0,
+          }.merge(distribution.reject { |k,v| k == 'ETag' })
+
+          response.headers['ETag'] = etag
+          distribution['ETag'] = etag
+
+          response
+        end
+      end
+
     end
   end
 end

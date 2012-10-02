@@ -53,32 +53,79 @@ module Fog
 
 
       class Mock
+        attr_reader :auth_token
+        attr_reader :auth_token_expiration
+        attr_reader :current_user
+        attr_reader :current_tenant
+
         def self.data
+          @users   ||= {}
+          @roles   ||= {}
+          @tenants ||= {}
+
           @data ||= Hash.new do |hash, key|
             hash[key] = {
-              :users => {},
-              :roles => {},
-              :tenants => {}
+              :users   => @users,
+              :roles   => @roles,
+              :tenants => @tenants
             }
           end
         end
 
-        def self.reset
-          @data = nil
+        def self.reset!
+          @data  = nil
+          @users = nil
+          @roles = nil
+          @tenants = nil
         end
 
         def initialize(options={})
-          @openstack_username = options[:openstack_username]
+          require 'multi_json'
+          @openstack_username = options[:openstack_username] || 'admin'
+          @openstack_tenant   = options[:openstack_tenant]   || 'admin'
+          @openstack_auth_uri   = URI.parse(options[:openstack_auth_url])
+          @openstack_management_url = @openstack_auth_uri.to_s
 
-          unless self.data[:users].values.detect {|user| user['name'] == @openstack_username}
-            id = Fog::Mock.random_numbers(6).to_s
-            self.data[:users][id] = {
-              'id'       => id,
-              'name'     => options[:openstack_username],
-              'email'    => "#{options[:openstack_username]}@mock.com",
+          @auth_token = Fog::Mock.random_base64(64)
+          @auth_token_expiration = (Time.now.utc + 86400).iso8601
+
+          @admin_tenant = self.data[:tenants].values.find do |u|
+            u['name'] == 'admin'
+          end
+
+          if @openstack_tenant
+            @current_tenant = self.data[:tenants].values.find do |u|
+              u['name'] == @openstack_tenant
+            end
+
+            unless @current_tenant
+              @current_tenant_id = Fog::Mock.random_hex(32)
+              @current_tenant = self.data[:tenants][@current_tenant_id] = {
+                'id'   => @current_tenant_id,
+                'name' => @openstack_tenant
+              }
+            else
+              @current_tenant_id = @current_tenant['id']
+            end
+          else
+            @current_tenant = @admin_tenant
+          end
+
+          @current_user = self.data[:users].values.find do |u|
+            u['name'] == @openstack_username
+          end
+
+          unless @current_user
+            @current_user_id = Fog::Mock.random_hex(32)
+            @current_user = self.data[:users][@current_user_id] = {
+              'id'       => @current_user_id,
+              'name'     => @openstack_username,
+              'email'    => "#{@openstack_username}@mock.com",
               'tenantId' => Fog::Mock.random_numbers(6).to_s,
               'enabled'  => true
             }
+          else
+            @current_user_id = @current_user['id']
           end
         end
 
@@ -91,11 +138,13 @@ module Fog
         end
 
         def credentials
-          { :provider                 => 'openstack',
-            :openstack_auth_url       => @openstack_auth_uri.to_s,
-            :openstack_auth_token     => @auth_token,
-            :openstack_management_url => @openstack_management_url,
-            :openstack_current_user_id => @openstack_current_user_id}
+          { :provider                  => 'openstack',
+            :openstack_auth_url        => @openstack_auth_uri.to_s,
+            :openstack_auth_token      => @auth_token,
+            :openstack_management_url  => @openstack_management_url,
+            :openstack_current_user_id => @openstack_current_user_id,
+            :current_user              => @current_user,
+            :current_tenant            => @current_tenant}
         end
       end
 

@@ -54,6 +54,36 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def get_streaming_distribution_list(options = {})
+          response = Excon::Response.new
+          response.status = 200
+
+          distributions = self.data[:streaming_distributions].values
+
+          response.body = {
+            'Marker' => Fog::Mock.random_hex(16),
+            'IsTruncated' => false,
+            'MaxItems' => 100,
+            'StreamingDistributionSummary' => distributions.map { |d| to_streaming_distribution_summary(d) }
+          }
+
+          response
+        end
+
+        private
+
+        def to_streaming_distribution_summary(d)
+          {
+            'DomainName' => d['DomainName'],
+            'Id' => d['Id'],
+            'LastModifiedTime' => d['LastModifiedTime']
+          }.merge(d['StreamingDistributionConfig'])
+        end
+      end
+
     end
   end
 end

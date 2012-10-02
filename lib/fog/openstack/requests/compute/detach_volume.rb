@@ -14,6 +14,11 @@ module Fog
       end
 
       class Mock
+        def detach_volume(server_id, attachment_id)
+          response = Excon::Response.new
+          response.status = 202
+          response
+        end
       end
 
     end

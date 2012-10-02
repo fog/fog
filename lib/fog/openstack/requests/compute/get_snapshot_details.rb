@@ -22,12 +22,12 @@ module Fog
           response.body = {
             'snapshot' => {
               'id'                 => '1',
-              'displayName'        => Fog::Mock.random_letters(rand(8) + 5),
-              'displayDescription' => Fog::Mock.random_letters(rand(12) + 10),
+              'display_name'        => Fog::Mock.random_letters(rand(8) + 5),
+              'display_description' => Fog::Mock.random_letters(rand(12) + 10),
               'size'               => 3,
-              'volumeId'           => '4',
+              'volume_id'           => '4',
               'status'             => 'online',
-              'createdAt'          => Time.now
+              'created_at'          => Time.now
             }
           }
           response

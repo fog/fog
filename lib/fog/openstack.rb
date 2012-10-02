@@ -148,11 +148,13 @@ module Fog
       mgmt_url = svc['endpoints'].detect{|x| x[@endpoint_type]}[@endpoint_type]
       identity_url = identity_svc['endpoints'].detect{|x| x['publicURL']}['publicURL'] if identity_svc
       token = body['access']['token']['id']
+      expires = body['access']['token']['expires']
 
       {
         :user                     => user,
         :tenant                   => tenant,
         :token                    => token,
+        :expires                  => expires,
         :server_management_url    => mgmt_url,
         :identity_public_endpoint => identity_url,
         :current_user_id          => body['access']['user']['id']

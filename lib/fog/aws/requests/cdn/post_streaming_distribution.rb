@@ -73,6 +73,50 @@ module Fog
         end
 
       end
+
+
+      class Mock
+
+        require 'time'
+
+        def post_streaming_distribution(options = {})
+          if self.data[:streaming_distributions].values.any? { |d| (d['CNAME'] & (options['CNAME']||[])).empty? }
+            Fog::CDN::AWS::Mock.error(:invalid_argument, 'CNAME is already in use')
+          end
+
+          response = Excon::Response.new
+
+          response.status = 201
+          options['CallerReference'] = Time.now.to_i.to_s
+
+          dist_id = Fog::CDN::AWS::Mock.distribution_id
+
+          distribution = {
+            'DomainName' => Fog::CDN::AWS::Mock.domain_name,
+            'Id' => dist_id,
+            'Status' => 'InProgress',
+            'LastModifiedTime' => Time.now.utc.iso8601,
+            'StreamingDistributionConfig' => {
+              'CallerReference' => options['CallerReference'],
+              'CNAME' => options['CNAME'] || [],
+              'Comment' => options['Comment'],
+              'Enabled' => options['Enabled'],
+              'Logging' => {
+                'Bucket' => options['Bucket'],
+                'Prefix' => options['Prefix']
+              },
+              'S3Origin' => options['S3Origin'],
+              'TrustedSigners' => options['TrustedSigners'] || []
+            }
+          }
+
+          self.data[:streaming_distributions][dist_id] = distribution
+
+          response.body = distribution
+          response
+        end
+      end
+
     end
   end
 end

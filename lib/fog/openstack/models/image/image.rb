@@ -44,7 +44,7 @@ module Fog
         def create
           requires :name
           merge_attributes(connection.create_image(self.attributes).body['image'])
-            self
+          self
         end
 
         def update
@@ -67,6 +67,11 @@ module Fog
         def remove_member(member_id)
           requires :id
           connection.remove_member_from_image(self.id, member_id)
+        end
+
+        def update_members(members)
+          requires :id
+          connection.update_image_members(self.id, members)
         end
 
         def members

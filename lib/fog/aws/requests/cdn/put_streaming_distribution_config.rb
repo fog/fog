@@ -78,6 +78,34 @@ module Fog
         end
 
       end
+
+      class Mock
+
+        def put_streaming_distribution_config(distribution_id, etag, options = {})
+          distribution = self.data[:streaming_distributions][distribution_id]
+
+          if distribution
+            if distribution['ETag'] != etag
+              Fog::CDN::AWS::Mock.error(:invalid_if_match_version)
+            end
+            unless distribution['StreamingDistributionConfig']['CallerReference']
+              Fog::CDN::AWS::Mock.error(:illegal_update)
+            end
+
+            distribution['StreamingDistributionConfig'].merge!(options)
+            distribution['Status'] = 'InProgress'
+
+            response = Excon::Response.new
+            response.status = 200
+            response.headers['ETag'] = Fog::CDN::AWS::Mock.generic_id
+            response.body = distribution.merge({ 'LastModifiedTime' => Time.now.utc.iso8601 }).reject{ |k,v| k == 'ETag' }
+            response
+          else
+            Fog::CDN::AWS::Mock.error(:no_such_streaming_distribution)
+          end
+        end
+      end
+
     end
   end
 end

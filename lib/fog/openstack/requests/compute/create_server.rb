@@ -35,6 +35,10 @@ module Fog
             end
           end
 
+          if options['os:scheduler_hints']
+            data['os:scheduler_hints'] = options['os:scheduler_hints']
+          end
+
           request(
             :body     => Fog::JSON.encode(data),
             :expects  => [200, 202],
