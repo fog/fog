@@ -1,25 +1,28 @@
 module Fog
   module AWS
-    class Elasticache
+    class RDS 
       class Real
 
-        require 'fog/aws/parsers/elasticache/event_list'
+        require 'fog/aws/parsers/rds/event_list'
 
         # Returns a list of service events
 		#
-		# For more information see:
-        # http://docs.amazonwebservices.com/AmazonElastiCache/latest/APIReference/API_DescribeEvents.html
-        #
+        # For more information see:
+		# http://docs.amazonwebservices.com/AmazonRDS/latest/APIReference/API_DescribeEvents.html
+		#
         # === Parameters (optional)
         # * options <~Hash> (optional):
         # *  :start_time <~DateTime> - starting time for event records
         # *  :end_time <~DateTime> - ending time for event records
-        # *  :duration <~Integer> - time span for event records
+        # *  :duration <~Integer> - The number of minutes to retrieve events for
+		#			Default = 60 Mins
         # *  :marker <~String> - marker provided in the previous request
         # *  :max_records <~Integer> - the maximum number of records to include
+		#			Default = 100
+		#			Constraints: min = 20, maximum 100
         # *  :source_identifier <~String> - identifier of the event source
-        # *  :source_type <~String> - event type, one of:
-        #      (cache-cluster | cache-parameter-group | cache-security-group)
+        # *  :source_type <~DateTime> - event type, one of:
+        #      (db-instance | db-parameter-group | db-security-group | db-snapshot)
         # === Returns
         # * response <~Excon::Response>:
         #   * body <~Hash>
@@ -33,7 +36,7 @@ module Fog
             'MaxRecords'        => options[:max_records],
             'SourceIdentifier'  => options[:source_identifier],
             'SourceType'        => options[:source_type],
-            :parser => Fog::Parsers::AWS::Elasticache::EventListParser.new
+            :parser => Fog::Parsers::AWS::RDS::EventListParser.new
           )
         end
 
