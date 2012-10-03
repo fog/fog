@@ -20,7 +20,7 @@ Shindo.tests('Fog::Compute[:openstack] | security group requests', ['openstack']
   }
 
   tests('success') do
-    tests('#create_security_group(name, description)').formats({"security_group" => [@security_group_format]}) do
+    tests('#create_security_group(name, description)').formats({"security_group" => @security_group_format}) do
       Fog::Compute[:openstack].create_security_group('from_shindo_test', 'this is from the shindo test').body
     end
 
