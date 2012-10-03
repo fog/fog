@@ -156,6 +156,13 @@ module Fog
           true
         end
 
+        def windows_password()
+          requires :id
+          if self.private_key
+            connection.get_windows_password(id, self.private_key)
+          end
+        end
+
         def reboot(type = 'SOFT')
           requires :id
           connection.reboot_server(id, type)
