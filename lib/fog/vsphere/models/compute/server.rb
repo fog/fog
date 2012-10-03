@@ -24,7 +24,7 @@ module Fog
         attribute :instance_uuid
         attribute :hostname
         attribute :operatingsystem
-        attribute :ipaddress
+        attribute :ipaddress,     :aliases => 'public_ip_address'
         attribute :power_state,   :aliases => 'power'
         attribute :tools_state,   :aliases => 'tools'
         attribute :tools_version

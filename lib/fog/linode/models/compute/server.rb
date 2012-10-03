@@ -5,7 +5,6 @@ module Fog
     class Linode
       class Server < Fog::Compute::Server
         attr_reader :stack_script
-        attr_accessor :private_key, :username
         identity :id
         attribute :name
         attribute :status
