@@ -48,6 +48,7 @@ module Fog
       request :get_flavor_details
       request :get_image_details
       request :get_meta
+      request :get_windows_password
       request :get_security_group
       request :get_server_details
       request :list_addresses
@@ -75,7 +76,50 @@ module Fog
       request :update_metadata
       request :update_server
 
+      module Utils
+
+        # extract windows password from log
+        def extract_password_from_log(log_text)
+          encrypted_text = ""
+          section        = []
+          return if log_text.nil?
+          log_text.each_line do |line|
+            case line
+              when /^-----BEGIN (\w+)/
+                section.push $1
+                next
+              when /^-----END (\w+)/
+                section.pop
+                next
+            end
+
+            case section
+              when ["BASE64"]
+                encrypted_text << line
+            end
+          end
+          # return the encrypted portion only
+          encrypted_text
+        end
+
+        def encrypt_using_public_key(text, public_key_data)
+          return if (text.nil? || public_key_data.nil?)
+          public_key = OpenSSL::PKey::RSA.new(public_key_data)
+          encrypted_text = public_key.public_encrypt(text).strip
+          Base64.encode64(encrypted_text)
+        end
+
+        def decrypt_using_private_key(encrypted_text, private_key_data)
+          return if (encrypted_text.nil? || private_key_data.nil?)
+          private_key = OpenSSL::PKey::RSA.new(private_key_data)
+          from_base64 = Base64.decode64(encrypted_text)
+          private_key.private_decrypt(from_base64).strip
+        end
+
+      end
+
       class Mock
+        include Utils
 
         def self.data
           @data ||= Hash.new do |hash, key|
@@ -115,6 +159,7 @@ module Fog
       end
 
       class Real
+        include Utils
 
         def initialize(options={})
           require 'multi_json'
