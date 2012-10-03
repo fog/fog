@@ -18,6 +18,34 @@ module Fog
         attribute :created, :type => :time
         attribute :updated, :type => :time
 
+        attr_writer :private_key, :private_key_path, :username
+
+        def username
+          @username ||= 'root'
+        end
+
+        def private_key_path
+          @private_key_path ||= Fog.credentials[:private_key_path]
+          @private_key_path &&= File.expand_path(@private_key_path)
+        end
+
+        def private_key
+          @private_key ||= private_key_path && File.read(private_key_path)
+        end
+
+        def private_key_path
+          @private_key_path ||= Fog.credentials[:private_key_path]
+          @private_key_path &&= File.expand_path(@private_key_path)
+        end
+
+        def private_key
+          @private_key ||= private_key_path && File.read(private_key_path)
+        end
+
+        def public_ip_address
+          ips.empty? ? nil : ips.first
+        end
+
         def ready?
           self.state == 'running'
         end

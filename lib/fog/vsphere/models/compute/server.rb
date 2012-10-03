@@ -24,7 +24,7 @@ module Fog
         attribute :instance_uuid
         attribute :hostname
         attribute :operatingsystem
-        attribute :ipaddress
+        attribute :ipaddress,     :aliases => 'public_ip_address'
         attribute :power_state,   :aliases => 'power'
         attribute :tools_state,   :aliases => 'tools'
         attribute :tools_version
@@ -36,6 +36,20 @@ module Fog
         attribute :path
         attribute :memory_mb
         attribute :cpus
+        attr_writer :private_key, :private_key_path, :username
+
+        def username
+          @username ||= 'root'
+        end
+
+        def private_key_path
+          @private_key_path ||= Fog.credentials[:private_key_path]
+          @private_key_path &&= File.expand_path(@private_key_path)
+        end
+
+        def private_key
+          @private_key ||= private_key_path && File.read(private_key_path)
+        end
 
         def vm_reconfig_memory(options = {})
           requires :instance_uuid, :memory
