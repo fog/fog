@@ -158,9 +158,7 @@ module Fog
 
         def windows_password()
           requires :id
-          if self.private_key
-            connection.get_windows_password(id, self.private_key)
-          end
+          connection.get_windows_password(id)
         end
 
         def reboot(type = 'SOFT')
