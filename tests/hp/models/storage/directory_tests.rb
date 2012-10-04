@@ -1,0 +1,50 @@
+Shindo.tests('Fog::Storage[:hp] | directory', ['hp', 'storage']) do
+
+  model_tests(Fog::Storage[:hp].directories, {:key => "fogdirtests"}, true) do
+
+    tests('success') do
+
+      tests("#acl='public-read'").succeeds do
+        @instance.acl = 'public-read'
+        tests("public?").returns(true) do
+          @instance.public?
+        end
+      end
+
+      @instance.files.create(:key => 'sample.txt', :body => lorem_file)
+      tests("#files").succeeds do
+        @instance.files
+      end
+      @instance.files.get('sample.txt').destroy
+
+      tests("#cdn_enable=(true)").succeeds do
+        @instance.cdn_enable=(true)
+        tests("cdn_enabled?").returns(true) do
+          pending if Fog.mocking?
+          @instance.cdn_enable?
+        end
+      end
+
+      tests("#cdn_public_url").succeeds do
+        pending if Fog.mocking?
+        @instance.cdn_public_url
+      end
+
+      tests("#cdn_public_ssl_url").succeeds do
+        pending if Fog.mocking?
+        @instance.cdn_public_ssl_url
+      end
+
+    end
+
+    tests('failure') do
+
+      tests("#acl='invalid-acl'").raises(ArgumentError) do
+        @instance.acl = 'invalid-acl'
+      end
+
+    end
+
+  end
+
+end
