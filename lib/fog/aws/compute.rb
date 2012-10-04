@@ -212,6 +212,8 @@ module Fog
           @data = nil
         end
 
+        attr_accessor :region
+
         def initialize(options={})
           @use_iam_profile = options[:use_iam_profile]
           @aws_credentials_expire_at = Time::now + 20
