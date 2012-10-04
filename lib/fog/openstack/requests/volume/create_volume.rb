@@ -33,16 +33,16 @@ module Fog
           response.status = 202
           response.body = {
             'volume' => {
-              'id'                 => Fog::Mock.random_numbers(2),
-              'displayName'        => name,
-              'displayDescription' => description,
-              'size'               => size,
-              'status'             => 'creating',
-              'snapshotId'         => '4',
-              'volumeType'         => nil,
-              'availabilityZone'   => 'nova',
-              'createdAt'          => Time.now,
-              'attchments'         => []
+              'id'                  => Fog::Mock.random_numbers(2),
+              'display_name'        => name,
+              'display_description' => description,
+              'size'                => size,
+              'status'              => 'creating',
+              'snapshot_id'         => options["snapshot_id"] || nil,
+              'volume_type'         => nil,
+              'availability_zone'   => 'nova',
+              'created_at'          => Time.now,
+              'attachments'         => []
             }
           }
           response

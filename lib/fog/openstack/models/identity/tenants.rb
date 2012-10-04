@@ -12,9 +12,11 @@ module Fog
         end
 
         def find_by_id(id)
-          self.find {|tenant| tenant.id == id} ||
-            Fog::Identity::OpenStack::Tenant.new(
-              connection.get_tenant(id).body['tenant'])
+          cached_tenant = self.find {|tenant| tenant.id == id}
+          return cached_tenant if cached_tenant
+          tenant_hash = connection.get_tenant(id).body['tenant']
+          Fog::Identity::OpenStack::Tenant.new(
+            tenant_hash.merge(:connection => connection))
         end
 
         def destroy(id)

@@ -21,6 +21,16 @@ module Fog
       end
 
       class Mock
+        def attach_volume(volume_id, server_id, device)
+          response = Excon::Response.new
+          response.status = 200
+          response.body ={ "volumeAttachment" => {
+                             "id"       => volume_id,
+                             "volumeId" => volume_id
+                            }
+                         }
+          response
+        end
       end
 
     end
