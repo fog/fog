@@ -20,14 +20,17 @@ module Fog
         #     * 'requestId'<~String> - Id of request.
         #
         # {Amazon API Reference}[http://docs.amazonwebservices.com/AWSEC2/latest/APIReference/ApiReference-query-CreateImage.html]
-        def create_image(instance_id, name, description, no_reboot = false, attributes={})
-          params.merge!(Fog::AWS.indexed_param('BlockDeviceMapping.%d.DeviceName', attributes['DeviceName']))
-          params.merge!(Fog::AWS.indexed_param('BlockDeviceMapping.%d.NoDevice', attributes['NoDevice']))
-          params.merge!(Fog::AWS.indexed_param('BlockDeviceMapping.%d.VirtualName', attributes['VirtualName']))
-          params.merge!(Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.SnapshotId', attributes['Ebs.SnapshotId']))
-          params.merge!(Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.DeleteOnTermination', attributes['Ebs.DeleteOnTermination']))
-          params.merge!(Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.VolumeType', attributes['Ebs.VolumeType']))
-          params.merge!(Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.Iops', attributes['Ebs.Iops']))
+        def create_image(instance_id, name, description, no_reboot = false, attributes=[])
+          params = {}
+          attributes.each{|attr|
+            params.merge!(Fog::AWS.indexed_param('BlockDeviceMapping.%d.DeviceName', attr['DeviceName']))
+            params.merge!(Fog::AWS.indexed_param('BlockDeviceMapping.%d.NoDevice', attr['NoDevice']))
+            params.merge!(Fog::AWS.indexed_param('BlockDeviceMapping.%d.VirtualName', attr['VirtualName']))
+            params.merge!(Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.SnapshotId', attr['Ebs.SnapshotId']))
+            params.merge!(Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.DeleteOnTermination', attr['Ebs.DeleteOnTermination']))
+            params.merge!(Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.VolumeType', attr['Ebs.VolumeType']))
+            params.merge!(Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.Iops', attr['Ebs.Iops']))
+          }
           request({
             'Action'            => 'CreateImage',
             'InstanceId'        => instance_id,
@@ -47,6 +50,7 @@ module Fog
         #
         
         def create_image(instance_id, name, description, no_reboot = false, attributes = {})
+          params = {}
           params.merge!(Fog::AWS.indexed_param('BlockDeviceMapping.%d.DeviceName', attributes['DeviceName']))
           params.merge!(Fog::AWS.indexed_param('BlockDeviceMapping.%d.NoDevice', attributes['NoDevice']))
           params.merge!(Fog::AWS.indexed_param('BlockDeviceMapping.%d.VirtualName', attributes['VirtualName']))
