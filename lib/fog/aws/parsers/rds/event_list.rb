@@ -27,6 +27,8 @@ module Fog
               @event[name] = value ? value.strip : name
             when 'Event'
               @response['Events'] << @event unless @event.empty?
+            when 'IsTruncated', 'Marker', 'NextMarker'
+              @response[name] = value
             else
               super
             end
