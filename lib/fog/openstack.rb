@@ -43,6 +43,7 @@ module Fog
 
     service(:compute , 'openstack/compute' , 'Compute' )
     service(:identity, 'openstack/identity', 'Identity')
+    service(:network, 'openstack/network', 'Network')
 
     # legacy v1.0 style auth
     def self.authenticate_v1(options, connection_options = {})
