@@ -40,7 +40,7 @@ module Fog
         def save
           requires :key
 
-          Dir.mkdir(path)
+          Dir.mkdir(path) unless File.exists?(path)
           true
         end
 
