@@ -59,9 +59,9 @@ module Fog
         def public_url(expires = (Time.now + 5 * 365 * 24 * 60 * 60))
           requires :objectid
           # TODO - more efficient method to get this?
-          storage = Fog::Storage.new(:provider => 'Atmos')
+          storage = connection  #Fog::Storage.new(:provider => 'Atmos')
           uri = URI::HTTP.build(:scheme => @prefix, :host => @storage_host, :port => @storage_port.to_i, :path => "/rest/objects/#{objectid}" )
-          Fog::Storage.new(:provider => 'Atmos').uid
+          connection.uid #Fog::Storage.new(:provider => 'Atmos').uid
 
           sb = "GET\n"
           sb += uri.path.downcase + "\n"
