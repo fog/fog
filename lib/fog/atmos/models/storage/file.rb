@@ -60,8 +60,11 @@ module Fog
           requires :objectid
           # TODO - more efficient method to get this?
           storage = connection  #Fog::Storage.new(:provider => 'Atmos')
+          puts "#{connection.ssl?}"
           puts "#{@prefix}"
+          puts "#{connection.host}"
           puts "#{@storage_host}"
+          pust "#{connection.port}"
           puts "#{@storage_port}"
           uri = URI::HTTP.build(:scheme => @prefix, :host => @storage_host, :port => @storage_port.to_i, :path => "/rest/objects/#{objectid}" )
           puts ">>>>>>>>>>>>>>>>>#{uri}"
