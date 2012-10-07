@@ -40,7 +40,7 @@ module Fog
         def save
           requires :key
 
-          Dir.mkdir(path)
+          FileUtils.mkpath(path)
           true
         end
 
