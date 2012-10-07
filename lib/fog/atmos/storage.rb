@@ -47,6 +47,7 @@ module Fog
         end
 
         def api_path
+          puts "<>><><><><><><>< #{@endpoint}"
           @endpoint.match(ENDPOINT_REGEX)[4]
         end
 
