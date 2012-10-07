@@ -48,7 +48,7 @@ module Fog
 
         def api_path
           puts "<>><><><><><><>< #{@endpoint}"
-          @endpoint.match(ENDPOINT_REGEX)[4]
+          @endpoint.match(ENDPOINT_REGEX)#[4]
         end
 
         def setup_credentials(options)
