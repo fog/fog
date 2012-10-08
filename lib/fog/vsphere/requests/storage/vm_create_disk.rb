@@ -82,7 +82,7 @@ module Fog
               key = nil
             end
           rescue => e
-            Fog::Logger.deprecation("fog: create_disk error #{e} happened")
+            Fog::Logger.deprecation("[#{Time.now.rfc2822}] INFO: fog:create_disk error #{e} happened")
           end
           return key
         end
@@ -197,12 +197,12 @@ module Fog
 
           devices = vm_mob_ref.config.hardware.device
           system_disk = devices.select { |vm_device| vm_device.kind_of?(RbVmomi::VIM::VirtualDisk)}
-          Fog::Logger.deprecation("fog: create disk transport options['transport'] = #{options['transport']} fullpath is #{options['vmdk_path']} unit_number=#{options['unit_number']}}")
+          Fog::Logger.deprecation("[#{Time.now.rfc2822}] INFO: fog:create disk transport options['transport'] = #{options['transport']} fullpath is #{options['vmdk_path']} unit_number=#{options['unit_number']}}")
           if options['transport'] == 'paravirtual'
             controller_key = create_scsi_controller(vm_mob_ref)
-            Fog::Logger.deprecation("fog: transport controller_key = #{controller_key}[/]")
+            Fog::Logger.deprecation("[#{Time.now.rfc2822}] INFO: fog:transport controller_key = #{controller_key}[/]")
           else
-            Fog::Logger.deprecation("fog: transport system_disk[0].controllerKey == #{system_disk[0].controllerKey}[/]")
+            Fog::Logger.deprecation("[#{Time.now.rfc2822}] INFO: fog:transport system_disk[0].controllerKey == #{system_disk[0].controllerKey}[/]")
             controller_key = system_disk[0].controllerKey
           end
 

@@ -18,9 +18,9 @@ module Fog
 
         def destroy
           requires :vm_mo_ref, :fullpath
-          Fog::Logger.deprecation("before vmdk delete with vm_moid= #{vm_mo_ref}, vmdk_path = #{fullpath}")
+          Fog::Logger.deprecation("[#{Time.now.rfc2822}] INFO:before vmdk delete with vm_moid= #{vm_mo_ref}, vmdk_path = #{fullpath}")
           response = connection.vm_delete_disk('vm_moid' => vm_mo_ref, 'vmdk_path' => fullpath)
-          Fog::Logger.deprecation("after vmdk delete with vm_moid= #{vm_mo_ref}, task_state = #{response['task_state']}")
+          Fog::Logger.deprecation("[#{Time.now.rfc2822}] INFO:after vmdk delete with vm_moid= #{vm_mo_ref}, task_state = #{response['task_state']}")
           response
         end
 
@@ -31,7 +31,7 @@ module Fog
 
         def save
           requires :vm_mo_ref, :fullpath, :size, :transport, :unit_number
-          Fog::Logger.deprecation("before vmdk creation with vm_moid= #{vm_mo_ref}, vmdk_path = #{fullpath}, disk_size = #{size}")
+          Fog::Logger.deprecation("[#{Time.now.rfc2822}] INFO:before vmdk creation with vm_moid= #{vm_mo_ref}, vmdk_path = #{fullpath}, disk_size = #{size}")
           response = connection.vm_create_disk(
               'vm_moid' => vm_mo_ref,
               'vmdk_path' => fullpath,
@@ -44,7 +44,7 @@ module Fog
             @scsi_key = response['scsi_key']
             @unit_number = response['unit_number']
           end
-          Fog::Logger.deprecation("afetr vmdk creation with vm_moid= #{vm_mo_ref}, vmdk_path = #{fullpath}, disk_size = #{size}")
+          Fog::Logger.deprecation("[#{Time.now.rfc2822}] INFO:afetr vmdk creation with vm_moid= #{vm_mo_ref}, vmdk_path = #{fullpath}, disk_size = #{size}")
           response
         end
 
