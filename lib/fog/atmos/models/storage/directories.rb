@@ -29,7 +29,7 @@ module Fog
           return nil if key == '' # Root dir shouldn't be retrieved like this.
           key =~ /\/$/ ? ns = key : ns = key + '/'
           res = connection.get_namespace ns
-          p res
+          puts ".......#{res}"
           emc_meta = res.headers['x-emc-meta']
           obj_id = emc_meta.scan(/objectid=(\w+),/).flatten[0]
           new(:objectid => obj_id, :key => ns)
