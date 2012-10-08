@@ -1,5 +1,6 @@
 require 'digest/sha2'
 require 'fog/storage'
+require 'time'
 
 module Fog
   module Highavailability

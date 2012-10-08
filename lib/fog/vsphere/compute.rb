@@ -1,4 +1,5 @@
 require 'digest/sha2'
+require 'time'
 
 module Fog
   module Compute
