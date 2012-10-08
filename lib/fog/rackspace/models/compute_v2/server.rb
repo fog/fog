@@ -40,7 +40,8 @@ module Fog
         attribute :addresses
         attribute :flavor_id, :aliases => 'flavor', :squash => 'id'
         attribute :image_id, :aliases => 'image', :squash => 'id'
-
+        attribute :options
+        
         attr_reader :password
 
         def save
@@ -54,7 +55,8 @@ module Fog
 
         def create
           requires :name, :image_id, :flavor_id
-          data = connection.create_server(name, image_id, flavor_id, 1, 1)
+          options = {} if options.nil?
+          data = connection.create_server(name, image_id, flavor_id, 1, 1, options)
           merge_attributes(data.body['server'])
           true
         end
