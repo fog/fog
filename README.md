@@ -114,6 +114,7 @@ geemus says: "That should give you everything you need to get started, but let m
 
 * Find something you would like to work on. For suggestions look for the `easy`, `medium` and `hard` tags in the [issues](https://github.com/fog/fog/issues)
 * Fork the project and do your work in a topic branch.
+* Add a config at `~/.pow` for the component you want to test.
 * Add shindo tests to prove your code works and run all the tests using `bundle exec rake`.
 * Rebase your branch against fog/fog to make sure everything is up to date.
 * Commit your changes and send a pull request.
