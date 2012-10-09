@@ -11,7 +11,7 @@ module Fog
           raise ArgumentError, "folder_path is a required parameter" unless folder_path
           path_elements = folder_path.split('/')
           path_elements.each do |f|
-            Fog::Logger.deprecation("fog: folder name=#{f}")
+            Fog::Logger.deprecation("[#{Time.now.rfc2822}] INFO: fog: folder name=#{f}")
             folder = folder_mob.traverse(f, RbVmomi::VIM::Folder, true)
             folder_mob = folder
           end
@@ -26,7 +26,7 @@ module Fog
           dc_mob = get_mob_ref_by_moid('Datacenter',dc_moid)
           folder_mob = dc_mob.vmFolder
           path_elements.each do |f|
-            Fog::Logger.deprecation("fog: folder name=#{f}")
+            Fog::Logger.deprecation("[#{Time.now.rfc2822}] INFO: fog: folder name=#{f}")
             folder = folder_mob.traverse(f, RbVmomi::VIM::Folder, true)
             folder_mob = folder
           end
@@ -41,7 +41,7 @@ module Fog
           folder_mob = dc_mob.vmFolder
           path_elements.each do |f|
             folder_mob = folder_mob.traverse(f, RbVmomi::VIM::Folder, false)
-            Fog::Logger.deprecation("fog: folder_mob=#{folder_mob}")
+            Fog::Logger.deprecation("[#{Time.now.rfc2822}] INFO: fog: folder_mob=#{folder_mob}")
             rets = {'task_state' => 'success'}
             return rets unless folder_mob
           end
