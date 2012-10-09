@@ -13,7 +13,7 @@ module Fog
             }
           }
 
-          data['server']['diskConfig'] = options[:disk_config] unless options[:disk_config].nil?
+          data['server']['OS-DCF:diskConfig'] = options[:disk_config] unless options[:disk_config].nil?
 
           request(
             :body => Fog::JSON.encode(data),
