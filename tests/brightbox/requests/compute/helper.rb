@@ -73,7 +73,7 @@ class Brightbox
       def self.select_testing_image_from_api
         images = Fog::Compute[:brightbox].list_images
         raise "No available images!" if images.empty?
-        images.select {|img| img.size == 0 }.first || images.first
+        images.select { |img| img["official"] && img["virtual_size"] != 0 }.sort_by { |img| img["disk_size"] }.first || images.first
       end
 
     end
