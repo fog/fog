@@ -57,11 +57,15 @@ module Fog
 
         # By default, expire in 5 years
         def public_url(expires = (Time.now + 5 * 365 * 24 * 60 * 60))
-          requires :objectid
+          requires :objectid, :directory
           # TODO - more efficient method to get this?
-          storage = Fog::Storage.new(:provider => 'Atmos')
-          uri = URI::HTTP.build(:scheme => @prefix, :host => @storage_host, :port => @storage_port.to_i, :path => "/rest/objects/#{objectid}" )
-          Fog::Storage.new(:provider => 'Atmos').uid
+          storage = connection  #Fog::Storage.new(:provider => 'Atmos')
+      
+          #uri = URI::HTTP.build(:scheme => @prefix, :host => @storage_host, :port => @storage_port.to_i, :path => "/rest/objects/#{objectid}" )
+          Fog::Storage::Atmos
+          #uri = URI::HTTP.build(:scheme => Fog::Storage::Ninefold::STORAGE_SCHEME, :host => Fog::Storage::Ninefold::STORAGE_HOST, :port => Fog::Storage::Ninefold::STORAGE_PORT.to_i, :path => "/rest/objects/#{objectid}" )
+          uri = URI::HTTP.build(:scheme => Fog::Storage::Ninefold::STORAGE_SCHEME, :host => Fog::Storage::Ninefold::STORAGE_HOST, :port => Fog::Storage::Ninefold::STORAGE_PORT.to_i, :path => "/rest/namespace/#{directory.key}#{key}" )
+          connection.uid #Fog::Storage.new(:provider => 'Atmos').uid
 
           sb = "GET\n"
           sb += uri.path.downcase + "\n"

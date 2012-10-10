@@ -32,8 +32,9 @@ module Fog
           emc_meta = res.headers['x-emc-meta']
           obj_id = emc_meta.scan(/objectid=(\w+),/).flatten[0]
           new(:objectid => obj_id, :key => ns)
-        rescue Fog::Storage::Atmos::NotFound
-          nil
+        rescue Fog::Storage::Atmos::NotFound => e
+          e.backtrace
+          #nil
         end
 
         def new(attributes ={})

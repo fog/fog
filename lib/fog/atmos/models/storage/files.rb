@@ -32,10 +32,12 @@ module Fog
 
         def get(key, &block)
           requires :directory
+
           data = connection.get_namespace(directory.key + key, :parse => false)#, &block)
           file_data = data.headers.merge({
             :body => data.body,
-            :key  => key
+            :key  => key,
+            :objectid => data.headers['x-emc-meta'].match(/objectid=(.*?),/).captures.first
           })
           new(file_data)
         rescue Fog::Storage::Atmos::NotFound

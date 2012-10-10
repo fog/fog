@@ -47,7 +47,8 @@ module Fog
         end
 
         def api_path
-          @endpoint.match(ENDPOINT_REGEX)[4]
+
+          @endpoint.match(ENDPOINT_REGEX)#[4]
         end
 
         def setup_credentials(options)
@@ -109,7 +110,7 @@ module Fog
           # Force set host and port
           params.merge!({
                           :host     => @storage_host,
-                          :path     => "#{@api_path}/rest/#{params[:path]}",
+                          :path     => "/rest/#{params[:path]}",  #"#{@api_path}/rest/#{params[:path]}",
                         })
           # Set default method and headers
           params = {:method => 'GET', :headers => {}}.merge params
@@ -168,6 +169,7 @@ module Fog
               error
             end
           end
+
           unless response.body.empty?
             if params[:parse]
               document = Fog::ToHashDocument.new
