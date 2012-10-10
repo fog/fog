@@ -3,8 +3,11 @@ module Fog
 
     @channels = {
       :deprecation  => ::STDOUT,
+      :debug      => ::STDOUT,
       :warning      => ::STDOUT
     }
+
+    @open_or_not=true
 
     def self.[](channel)
       @channels[channel]
@@ -14,16 +17,24 @@ module Fog
       @channels[channel] = value
     end
 
+    def self.open()
+      @open_or_not=true
+    end
+
+    def self.close()
+      @open_or_not=false
+    end
+
     def self.debug(message)
-      self.write(:debug, "[light_black][DEBUG] #{message}[/]\n")
+      self.write(:debug, "[light_black][DEBUG] #{message}[/]\n") if @open_or_not
     end
 
     def self.deprecation(message)
-      self.write(:deprecation, "[yellow][DEPRECATION] #{message}[/]\n")
+      self.write(:deprecation, "[yellow][DEPRECATION] #{message}[/]\n") if @open_or_not
     end
 
     def self.warning(message)
-      self.write(:warning, "[yellow][WARNING] #{message}[/]\n")
+      self.write(:warning, "[yellow][WARNING] #{message}[/]\n") if @open_or_not
     end
 
     def self.write(key, value)

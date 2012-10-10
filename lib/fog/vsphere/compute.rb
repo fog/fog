@@ -210,6 +210,7 @@ module Fog
           @vsphere_verify_cert = options[:vsphere_verify_cert] || false
           @vsphere_expected_pubkey_hash = options[:vsphere_expected_pubkey_hash]
           @vsphere_must_reauthenticate = false
+          Fog::Logger.open
 
           @connection = nil
           # This is a state variable to allow digest validation of the SSL cert

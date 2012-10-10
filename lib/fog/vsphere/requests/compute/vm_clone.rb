@@ -184,9 +184,7 @@ module Fog
                                                             :config => config)
           folder_mob = dc_mob_ref.vmFolder
           folder_mob = folder_parse(options['folder_path'], folder_mob) if options['folder_path']
-          Fog::Logger.deprecation("vm_mob_ref=#{vm_mob_ref} :folder => #{folder_mob}, :name => #{options['name']}")
           task = vm_mob_ref.CloneVM_Task(:folder => folder_mob, :name => options['name'], :spec => clone_spec)
-          Fog::Logger.deprecation( "vm_mob_ref.CloneVM_Task=#{task}")
           # Waiting for the VM to complete allows us to get the VirtulMachine
           # object of the new machine when it's done.  It is HIGHLY recommended
           # to set 'wait' => true if your app wants to wait.  Otherwise, you're
