@@ -92,7 +92,7 @@ module Fog
                   wait_for_task(task)
                   response = {'task_state' => task.info.state}
                 rescue => e
-                  Fog::Logger.deprecation("[#{Time.now.rfc2822}] FAULT: throw away RbVmomi::VIM::Fault #{e}")
+                  Fog::Logger.warning("[#{Time.now.rfc2822}] throw away RbVmomi::VIM::Fault #{e}")
                   response = {
                       'task_state' => 'error',
                       'errors' => e
@@ -109,7 +109,7 @@ module Fog
                 need_change = true
               end
               if vm_device.backing.thinProvisioned
-                Fog::Logger.deprecation("[#{Time.now.rfc2822}] INFO: disk.backing.thinProvisioned = true for device #{vm_device}")
+                Fog::Logger.debug("[#{Time.now.rfc2822}] disk.backing.thinProvisioned = true for device #{vm_device}")
                 virtual_disk.backing.thinProvisioned = false
                 virtual_disk.backing.eagerlyScrub = true
                 need_change = true
@@ -126,7 +126,7 @@ module Fog
                   wait_for_task(task)
                   response = {'task_state' => task.info.state}
                 rescue => e
-                  Fog::Logger.deprecation("[#{Time.now.rfc2822}] FAULT: throw away RbVmomi::VIM::Fault #{e}")
+                  Fog::Logger.warning("[#{Time.now.rfc2822}] throw away RbVmomi::VIM::Fault #{e}")
                   response = {
                       'task_state' => 'error',
                       'errors' => e
@@ -153,10 +153,10 @@ module Fog
             }
           end
           if ft_info.kind_of?(RbVmomi::VIM::FaultToleranceSecondaryConfigInfo)
-            Fog::Logger.deprecation("[#{Time.now.rfc2822}] INFO: RbVmomi::VIM::FaultToleranceSecondaryConfigInfo = #{ft_info.primaryVM}")
+            Fog::Logger.debug("[#{Time.now.rfc2822}] RbVmomi::VIM::FaultToleranceSecondaryConfigInfo = #{ft_info.primaryVM}")
             vm_mob_ref = ft_info.primaryVM
           else
-            Fog::Logger.deprecation("[#{Time.now.rfc2822}] INFO: RbVmomi::VIM::FaultTolerancePrimaryConfigInfo = #{ft_info.secondaries}")
+            Fog::Logger.debug("[#{Time.now.rfc2822}] RbVmomi::VIM::FaultTolerancePrimaryConfigInfo = #{ft_info.secondaries}")
           end
           begin
             task = vm_mob_ref.TurnOffFaultToleranceForVM_Task()

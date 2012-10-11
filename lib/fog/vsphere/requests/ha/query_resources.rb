@@ -153,7 +153,7 @@ module Fog
 
           scsi_luns = host_mo_ref.config.storageDevice.scsiLun
           scsi_luns.each do |lun|
-            Fog::Logger.deprecation("[#{Time.now.rfc2822}] INFO: lun key is #{lun.key}[/]")
+            Fog::Logger.debug("[#{Time.now.rfc2822}] lun key is #{lun.key}[/]")
             path_key = device_pair[lun.key]
             puts path_key
             path_target = path_pair[path_key] unless path_key.nil?
