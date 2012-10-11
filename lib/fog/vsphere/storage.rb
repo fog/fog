@@ -463,7 +463,7 @@ module Fog
               end
               datastore_candidates = datastore_candidates.sort {|x,y| y.real_free_space <=> x.real_free_space}
 
-              if !(@cached_ds.nil?)
+              if !(@cached_ds.nil?) && datastore_candidates.include?(@cached_ds)
                 datastore_candidates.delete(@cached_ds)
                 datastore_candidates.unshift(@cached_ds)
               end
@@ -618,7 +618,7 @@ module Fog
               end
               datastore_candidates = datastore_candidates.sort {|x,y| y.real_free_space <=> x.real_free_space}
 
-              if !(@cached_ds.nil?)
+              if !(@cached_ds.nil?) && datastore_candidates.include?(@cached_ds)
                 datastore_candidates.delete(@cached_ds)
                 datastore_candidates.unshift(@cached_ds)
               end
