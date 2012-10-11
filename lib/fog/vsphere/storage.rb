@@ -1,15 +1,18 @@
 require 'digest/sha2'
 require 'fog/storage'
 require 'time'
+require_relative './vsphere_connection'
 
 module Fog
   module Storage
     class Vsphere < Fog::Service
 
-      requires :vsphere_username, :vsphere_password, :vsphere_server
+      requires :vsphere_server
+      recognizes :vsphere_username, :vsphere_password
       recognizes :vsphere_port, :vsphere_path, :vsphere_ns
       recognizes :vsphere_rev, :vsphere_ssl, :vsphere_expected_pubkey_hashs
       recognizes 'clusters', 'share_datastore_pattern', 'local_datastore_pattern'
+      recognizes :cert, :key, :extension_key
 
       model_path 'fog/vsphere/models/storage'
       collection  :volumes
@@ -304,18 +307,6 @@ module Fog
         include Shared
 
         def initialize(options={})
-          require 'rbvmomi'
-          @vsphere_username = options[:vsphere_username]
-          @vsphere_password = options[:vsphere_password]
-          @vsphere_server   = options[:vsphere_server]
-          @vsphere_port     = options[:vsphere_port] || 443
-          @vsphere_path     = options[:vsphere_path] || '/sdk'
-          @vsphere_ns       = options[:vsphere_ns] || 'urn:vim25'
-          @vsphere_rev      = options[:vsphere_rev] || '4.0'
-          @vsphere_ssl      = options[:vsphere_ssl] || false
-          @vsphere_verify_cert = options[:vsphere_verify_cert] || false
-          @vsphere_expected_pubkey_hash = options[:vsphere_expected_pubkey_hash]
-          @vsphere_must_reauthenticate = false
           Fog::Logger.open
           # used to initialize resource list
           @share_datastore_pattern = options['share_datastore_pattern']
@@ -323,39 +314,9 @@ module Fog
           @local_datastore_pattern = options['local_datastore_pattern']
           Fog::Logger.debug("[#{Time.now.rfc2822}] fog: input local_datastore_pattern is #{options['local_datastore_pattern']}[/]")
           @clusters = []
-          @connection = nil
-          # This is a state variable to allow digest validation of the SSL cert
-          bad_cert = false
-          loop do
-            begin
-              @connection = RbVmomi::VIM.new :host => @vsphere_server,
-                                             :port => @vsphere_port,
-                                             :path => @vsphere_path,
-                                             :ns   => @vsphere_ns,
-                                             :rev  => @vsphere_rev,
-                                             :ssl  => !@vsphere_ssl,
-                                             :insecure => !@vsphere_verify_cert
-              break
-            rescue OpenSSL::SSL::SSLError
-              raise if bad_cert
-              bad_cert = true
-            end
-          end
 
-          if bad_cert then
-            validate_ssl_connection
-          end
+          @connection = Fog::VsphereConnection.connect options
 
-          # Negotiate the API revision
-          if not options[:vsphere_rev]
-            rev = @connection.serviceContent.about.apiVersion
-            @connection.rev = [ rev, ENV['FOG_VSPHERE_REV'] || '4.1' ].min
-          end
-
-          @vsphere_is_vcenter = @connection.serviceContent.about.apiType == "VirtualCenter"
-          @vsphere_rev = @connection.rev
-
-          authenticate
           # initially load storage resource
           fetch_resources(options['clusters'])
         end
@@ -1009,25 +970,6 @@ module Fog
         end
 
         private
-
-        def authenticate
-          begin
-            @connection.serviceContent.sessionManager.Login :userName => @vsphere_username,
-                                                            :password => @vsphere_password
-          rescue RbVmomi::VIM::InvalidLogin => e
-            raise Fog::Vsphere::Errors::ServiceError, e.message
-          end
-        end
-
-        # Verify a SSL certificate based on the hashed public key
-        def validate_ssl_connection
-          pubkey = @connection.http.peer_cert.public_key
-          pubkey_hash = Digest::SHA2.hexdigest(pubkey.to_s)
-          expected_pubkey_hash = @vsphere_expected_pubkey_hash
-          if pubkey_hash != expected_pubkey_hash then
-            raise Fog::Vsphere::Errors::SecurityError, "The remote system presented a public key with hash #{pubkey_hash} but we're expecting a hash of #{expected_pubkey_hash || '<unset>'}.  If you are sure the remote system is authentic set vsphere_expected_pubkey_hash: <the hash printed in this message> in ~/.fog"
-          end
-        end
 
         def clone_array(arr_ds_res)
           results = []
