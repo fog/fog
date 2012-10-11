@@ -222,21 +222,21 @@ module Fog
               host_resource.cluster = cs_mob_ref
               host_resource.mob = host_mob_ref
               host_resource.name = host_mob_ref.name
-              Fog::Logger.deprecation ("[#{Time.now.rfc2822}] INFO:host_resource.name = #{host_resource.name}")
+              Fog::Logger.debug ("[#{Time.now.rfc2822}] INFO:host_resource.name = #{host_resource.name}")
               host_resource.connection_state = host_mob_ref.summary.runtime.connectionState
               host_datastores = host_mob_ref.datastore
-              Fog::Logger.deprecation ( "[#{Time.now.rfc2822}] INFO:host_datastores size = #{host_datastores.size}")
+              Fog::Logger.debug ( "[#{Time.now.rfc2822}] INFO:host_datastores size = #{host_datastores.size}")
               host_resource.share_datastores = fetch_datastores(host_datastores,
                                                                 @share_datastore_pattern, true)
-              Fog::Logger.deprecation("[#{Time.now.rfc2822}] WARNING: no matched sharestores in host:#{host_resource.name}") if host_resource.share_datastores.empty?
+              Fog::Logger.debug("[#{Time.now.rfc2822}] WARNING: no matched sharestores in host:#{host_resource.name}") if host_resource.share_datastores.empty?
               host_resource.local_datastores = fetch_datastores(host_datastores,
                                                                 @local_datastore_pattern, false)
-              Fog::Logger.deprecation("[#{Time.now.rfc2822}] WARNING: no matched localstores in host:#{host_resource.name}") if host_resource.local_datastores.empty?
-              #Fog::Logger.deprecation( "total ds number for one host = #{@datastore_list.size}") unless @datastore_list.nil?
+              Fog::Logger.debug("[#{Time.now.rfc2822}] WARNING: no matched localstores in host:#{host_resource.name}") if host_resource.local_datastores.empty?
+              #Fog::Logger.debug( "total ds number for one host = #{@datastore_list.size}") unless @datastore_list.nil?
               @host_list[host_resource.name]  = host_resource
             end
           end
-          Fog::Logger.deprecation( "[#{Time.now.rfc2822}] WARNING: total host number = #{@host_list.size}")
+          Fog::Logger.debug( "[#{Time.now.rfc2822}] WARNING: total host number = #{@host_list.size}")
           @host_list
         end
 
@@ -256,7 +256,7 @@ module Fog
             datastore_resource.unaccounted_space = 0
             datastores[datastore_resource.name]  = datastore_resource
           end
-          Fog::Logger.deprecation("[#{Time.now.rfc2822}] INFO: datastores length = #{datastores.size}")
+          Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: datastores length = #{datastores.size}")
           datastores
         end
 
