@@ -243,7 +243,7 @@ DATA
           canonical_resource << "#{params[:path]}"
           canonical_resource << '?'
           for key in (params[:query] || {}).keys
-            if ['acl', 'location', 'logging', 'requestPayment', 'torrent', 'versions', 'versioning'].include?(key)
+            if ['acl', 'cors', 'location', 'logging', 'requestPayment', 'torrent', 'versions', 'versioning'].include?(key)
               canonical_resource << "#{key}&"
             end
           end
