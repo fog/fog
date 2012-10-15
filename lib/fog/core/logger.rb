@@ -22,14 +22,6 @@ module Fog
       @channels[channel] = value
     end
 
-    def self.open
-      @open_or_not = true
-    end
-
-    def self.close
-      @open_or_not = false
-    end
-
     def self.set_log_level(user_log_level)
       @log_level= user_log_level
     end
