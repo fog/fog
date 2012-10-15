@@ -11,7 +11,7 @@ module Fog
       recognizes :vsphere_username, :vsphere_password
       recognizes :vsphere_port, :vsphere_path, :vsphere_ns
       recognizes :vsphere_rev, :vsphere_ssl, :vsphere_expected_pubkey_hashs
-      recognizes 'clusters', 'share_datastore_pattern', 'local_datastore_pattern'
+      recognizes 'clusters', 'share_datastore_pattern', 'local_datastore_pattern', 'log_level'
       recognizes :cert, :key, :extension_key
 
       model_path 'fog/vsphere/models/storage'
@@ -181,8 +181,8 @@ module Fog
           attr_accessor :datastore_pattern
 
           def initialize(options = {})
-            Fog::Logger.debug("[#{Time.now.rfc2822}] fog: options['system_shared'] = #{options['system_shared']}")
-            Fog::Logger.debug("[#{Time.now.rfc2822}] fog: options['data_shared'] = #{options['data_shared']}")
+            Fog::Logger.debug("fog: options['system_shared'] = #{options['system_shared']}")
+            Fog::Logger.debug("fog: options['data_shared'] = #{options['data_shared']}")
             @name = options['name']
             @req_mem = options['req_mem']
             @datastore_pattern = options['datastore_pattern']
@@ -230,7 +230,7 @@ module Fog
 
           def get_system_ds_name
             name = @system_disks.volumes.values[0].datastore_name
-            Fog::Logger.debug("[#{Time.now.rfc2822}] fog: vm.system_disks.name = #{name}[/]")
+            Fog::Logger.debug("fog: vm.system_disks.name = #{name}[/]")
             name
           end
 
@@ -258,27 +258,27 @@ module Fog
           end
 
           def inspect_volume_size
-            Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: vm.system_disks.volumes.size = #{@system_disks.volumes.size}[/]")
-            Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: vm.swap_disks.volumes.size = #{@swap_disks.volumes.size}[/]")
-            Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: vm.data_disks.volumes.size = #{@data_disks.volumes.size}[/]")
+            Fog::Logger.debug(" vm.system_disks.volumes.size = #{@system_disks.volumes.size}[/]")
+            Fog::Logger.debug(" vm.swap_disks.volumes.size = #{@swap_disks.volumes.size}[/]")
+            Fog::Logger.debug(" vm.data_disks.volumes.size = #{@data_disks.volumes.size}[/]")
           end
 
           def inspect_fullpath
-            Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: start traverse vm.system_disks.volumes:[/]")
+            Fog::Logger.debug(" start traverse vm.system_disks.volumes:[/]")
             @system_disks.volumes.values.each do |v|
-              Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: vm #{name} system_disks - fullpath = #{v.fullpath} with unit_number = #{v.unit_number}[/]")
+              Fog::Logger.debug(" vm #{name} system_disks - fullpath = #{v.fullpath} with unit_number = #{v.unit_number}[/]")
             end
-            Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: end [/]")
-            Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: start traverse vm.swap_disks.volumes:[/]")
+            Fog::Logger.debug(" end [/]")
+            Fog::Logger.debug(" start traverse vm.swap_disks.volumes:[/]")
             @swap_disks.volumes.values.each do |v|
-              Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: vm #{name} swap_disks - fullpath = #{v.fullpath} with unit_number = #{v.unit_number}[/]")
+              Fog::Logger.debug(" vm #{name} swap_disks - fullpath = #{v.fullpath} with unit_number = #{v.unit_number}[/]")
             end
-            Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: end [/]")
-            Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: start traverse vm.data_disks.volumes:[/]")
+            Fog::Logger.debug(" end [/]")
+            Fog::Logger.debug(" start traverse vm.data_disks.volumes:[/]")
             @data_disks.volumes.values.each do |v|
-              Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: vm #{name} data_disks - fullpath = #{v.fullpath} with unit_number = #{v.unit_number}[/]")
+              Fog::Logger.debug(" vm #{name} data_disks - fullpath = #{v.fullpath} with unit_number = #{v.unit_number}[/]")
             end
-            Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: end [/]")
+            Fog::Logger.debug(" end [/]")
           end
 
         end # end of VM
@@ -308,11 +308,12 @@ module Fog
 
         def initialize(options={})
           Fog::Logger.open
+          Fog::Logger.set_log_level(options['log_level'])
           # used to initialize resource list
           @share_datastore_pattern = options['share_datastore_pattern']
-          Fog::Logger.debug("[#{Time.now.rfc2822}] fog: input share_datastore_pattern is #{options['share_datastore_pattern']}[/]")
+          Fog::Logger.debug("fog: input share_datastore_pattern is #{options['share_datastore_pattern']}[/]")
           @local_datastore_pattern = options['local_datastore_pattern']
-          Fog::Logger.debug("[#{Time.now.rfc2822}] fog: input local_datastore_pattern is #{options['local_datastore_pattern']}[/]")
+          Fog::Logger.debug("fog: input local_datastore_pattern is #{options['local_datastore_pattern']}[/]")
           @clusters = []
 
           @connection = Fog::VsphereConnection.connect options
@@ -331,14 +332,14 @@ module Fog
         def fetch_resources(clusters = nil)
           if !(clusters.nil?)
             clusters.each {|c_name| @clusters << get_mob_ref_by_name('ComputeResource',c_name)}
-            Fog::Logger.debug("[#{Time.now.rfc2822}] fog: fetch resource input")
+            Fog::Logger.debug("fog: fetch resource input")
             @clusters.each do |cs_mob_ref|
-              Fog::Logger.debug("[#{Time.now.rfc2822}] fog: @cluster has a cluster which mob ref is #{cs_mob_ref}")
+              Fog::Logger.debug("fog: @cluster has a cluster which mob ref is #{cs_mob_ref}")
             end
-            Fog::Logger.debug("[#{Time.now.rfc2822}] fog: end")
+            Fog::Logger.debug("fog: end")
           end
           if @clusters.size <=0
-            Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: can not load into storage resources without clusters argument[/]")
+            Fog::Logger.debug(" can not load into storage resources without clusters argument[/]")
           else
             fetch_host_storage_resource()
           end
@@ -358,7 +359,7 @@ module Fog
             if vm.system_disks.shared
               total_share_req_size += vm.system_disks.size
             else
-              Fog::Logger.debug("[#{Time.now.rfc2822}] fog: required system size = #{vm.system_disks.size.to_s}")
+              Fog::Logger.debug("fog: required system size = #{vm.system_disks.size.to_s}")
               total_local_req_size += vm.system_disks.size
             end
             if vm.data_disks.shared
@@ -375,21 +376,21 @@ module Fog
           fit_hosts = []
           options['hosts'].each do |host_name|
             if @host_list.has_key?(host_name)
-              Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: @host_list[host_name].share_datastores.values")
+              Fog::Logger.debug(" @host_list[host_name].share_datastores.values")
               @host_list[host_name].share_datastores.values.each do |ds|
-                Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: ds name #{ds.name} ds free #{ds.real_free_space}")
+                Fog::Logger.debug(" ds name #{ds.name} ds free #{ds.real_free_space}")
               end
-              Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: @host_list[host_name].local_datastores.values")
+              Fog::Logger.debug(" @host_list[host_name].local_datastores.values")
               @host_list[host_name].local_datastores.values.each do |ds|
-                Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: ds name #{ds.name} ds free #{ds.real_free_space}")
+                Fog::Logger.debug(" ds name #{ds.name} ds free #{ds.real_free_space}")
               end
-              Fog::Logger.debug("[#{Time.now.rfc2822}] fog: @host_list[#{host_name}].local_sum=#{@host_list[host_name].local_sum} total_local_req_size = #{total_local_req_size}")
-              Fog::Logger.debug("[#{Time.now.rfc2822}] fog: @host_list[#{host_name}].share_sum=#{@host_list[host_name].share_sum} total_share_req_size = #{total_share_req_size}")
+              Fog::Logger.debug("fog: @host_list[#{host_name}].local_sum=#{@host_list[host_name].local_sum} total_local_req_size = #{total_local_req_size}")
+              Fog::Logger.debug("fog: @host_list[#{host_name}].share_sum=#{@host_list[host_name].share_sum} total_share_req_size = #{total_share_req_size}")
               next if @host_list[host_name].connection_state != 'connected'
               next if @host_list[host_name].local_sum < total_local_req_size
               next if @host_list[host_name].share_sum < total_share_req_size
               fit_hosts << host_name
-              Fog::Logger.debug("[#{Time.now.rfc2822}] fog: host number #{fit_hosts.size}")
+              Fog::Logger.debug("fog: host number #{fit_hosts.size}")
             end
           end
           fit_hosts
@@ -405,17 +406,17 @@ module Fog
 
         def recommendation_affinity(vms,hosts)
           solution_list = {}
-          Fog::Logger.debug("[#{Time.now.rfc2822}] fog: @host_list number #{@host_list.keys.size}")
+          Fog::Logger.debug("fog: @host_list number #{@host_list.keys.size}")
           hosts = hosts.sort {|x,y| @host_list[y].local_sum <=> @host_list[x].local_sum}
           hosts.each do |host_name|
             @cached_ds = nil
-            Fog::Logger.debug("[#{Time.now.rfc2822}] fog: for each host named #{host_name} to place disk")
+            Fog::Logger.debug("fog: for each host named #{host_name} to place disk")
             next unless @host_list.has_key?(host_name)
-            Fog::Logger.debug("[#{Time.now.rfc2822}] fog: @host_list[#{host_name}].local_sum = #{@host_list[host_name].local_sum}")
+            Fog::Logger.debug("fog: @host_list[#{host_name}].local_sum = #{@host_list[host_name].local_sum}")
             solution_list[host_name]=[]
             vms.each do |vm_in_queue|
               vm = Marshal.load(Marshal.dump(vm_in_queue))
-              Fog::Logger.debug("[#{Time.now.rfc2822}] fog: input vm_datastore_pattern is #{vm.datastore_pattern}[/]")
+              Fog::Logger.debug("fog: input vm_datastore_pattern is #{vm.datastore_pattern}[/]")
               # place system and swap
               if vm.system_disks.shared && !(@host_list[host_name].share_datastores.empty?)
                 datastore_candidates = @host_list[host_name].share_datastores.values.clone
@@ -436,9 +437,9 @@ module Fog
               candidates.each do |x|
                 if !(vm.datastore_pattern.nil?)
                   if isMatched?(x.name, vm.datastore_pattern)
-                    Fog::Logger.debug("[#{Time.now.rfc2822}] fog: input ds name #{x.name} with matched pattern")
+                    Fog::Logger.debug("fog: input ds name #{x.name} with matched pattern")
                   else
-                    Fog::Logger.debug("[#{Time.now.rfc2822}] INFO:fog: input ds name #{x.name} without matched pattern")
+                    Fog::Logger.debug("fog: input ds name #{x.name} without matched pattern")
                     datastore_candidates.delete(x)
                     next
                   end
@@ -450,14 +451,14 @@ module Fog
                 sum += x.real_free_space
               end
               if sum < (vm.req_mem + vm.system_disks.size + vm.swap_disks.size)
-                Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: there is no enough space for vm #{vm.name} with host #{host_name} left #{sum}")
+                Fog::Logger.debug(" there is no enough space for vm #{vm.name} with host #{host_name} left #{sum}")
               else
 
-                Fog::Logger.debug("[#{Time.now.rfc2822}] fog: system ds chosen for host #{host_name}")
+                Fog::Logger.debug("fog: system ds chosen for host #{host_name}")
                 datastore_candidates.each do |ds|
-                  Fog::Logger.debug("[#{Time.now.rfc2822}] fog: ds for host #{host_name} name: #{ds.name}, real_free_space: #{ds.real_free_space}")
+                  Fog::Logger.debug("fog: ds for host #{host_name} name: #{ds.name}, real_free_space: #{ds.real_free_space}")
                 end
-                Fog::Logger.debug("[#{Time.now.rfc2822}] fog: end")
+                Fog::Logger.debug("fog: end")
 
                 datastore_candidates.each do |ds|
                   if ds.real_free_space >= (vm.req_mem + vm.system_disks.size + vm.swap_disks.size)
@@ -479,7 +480,7 @@ module Fog
                 end # end of ds_candidate traverse
               end
               if !system_done || !swap_done
-                Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: there is no enough space for vm #{vm.name} on host#{host_name} for system disk") unless system_done && swap_done
+                Fog::Logger.debug(" there is no enough space for vm #{vm.name} on host#{host_name} for system disk") unless system_done && swap_done
                 recovery(solution_list[host_name]) unless !(solution_list.has_key?(host_name)) || solution_list[host_name].nil?
                 solution_list.delete(host_name)
                 break
@@ -498,9 +499,9 @@ module Fog
               candidates.each do |x|
                 if !(vm.datastore_pattern.nil?)
                   if isMatched?(x.name, vm.datastore_pattern)
-                    Fog::Logger.debug("[#{Time.now.rfc2822}] fog: input ds name #{x.name} with matched pattern")
+                    Fog::Logger.debug("fog: input ds name #{x.name} with matched pattern")
                   else
-                    Fog::Logger.debug("[#{Time.now.rfc2822}] fog: input ds name #{x.name} without matched pattern")
+                    Fog::Logger.debug("fog: input ds name #{x.name} without matched pattern")
                     datastore_candidates.delete(x)
                     next
                   end
@@ -511,13 +512,13 @@ module Fog
                 end
                 sum += x.real_free_space
               end
-              Fog::Logger.debug("[#{Time.now.rfc2822}] fog: sum = #{sum} but reburied is #{vm.data_disks.size}")
+              Fog::Logger.debug("fog: sum = #{sum} but reburied is #{vm.data_disks.size}")
               if sum < vm.data_disks.size
-                Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: there is no enough space for vm #{vm.name} with host #{host_name} left #{sum}")
+                Fog::Logger.debug(" there is no enough space for vm #{vm.name} with host #{host_name} left #{sum}")
               else
-                Fog::Logger.debug("[#{Time.now.rfc2822}] fog: data ds chosen for host #{host_name}")
+                Fog::Logger.debug("fog: data ds chosen for host #{host_name}")
                 datastore_candidates.each do |ds|
-                  Fog::Logger.debug("[#{Time.now.rfc2822}] fog: ds for host #{host_name} name: #{ds.name}, real_free_space: #{ds.real_free_space}")
+                  Fog::Logger.debug("fog: ds for host #{host_name} name: #{ds.name}, real_free_space: #{ds.real_free_space}")
                 end
 
                 available_size = 0
@@ -527,12 +528,12 @@ module Fog
                   available_size = ds.real_free_space - buffer_size
 
                   if available_size >= left_size
-                    Fog::Logger.debug("[#{Time.now.rfc2822}] fog: for vm #{vm.name} allocated size= #{left_size} from ds #{ds.name}")
+                    Fog::Logger.debug("fog: for vm #{vm.name} allocated size= #{left_size} from ds #{ds.name}")
                     alloc_volumes(host_name, 'data', vm, [ds], left_size)
                     data_done = true
                     break
                   else
-                    Fog::Logger.debug("[#{Time.now.rfc2822}] fog: for vm #{vm.name} allocated size= #{available_size} from ds #{ds.name} left #{left_size} not alloced")
+                    Fog::Logger.debug("fog: for vm #{vm.name} allocated size= #{available_size} from ds #{ds.name} left #{left_size} not alloced")
                     alloc_volumes(host_name, 'data', vm, [ds], available_size)
                     left_size -= available_size
                   end
@@ -541,9 +542,9 @@ module Fog
               end
 
               if !data_done #|| vm.system_disks.volumes.empty? || vm.swap_disks.volumes.values.empty?
-                Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: there is no enough space for vm #{vm.name} on host#{host_name} for data disk")
-                Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: vm#{vm.name}.system_disks.volumes.empty? is true") if vm.system_disks.volumes.empty?
-                Fog::Logger.debug("[#{Time.now.rfc2822}] INFO:vm#{vm.name}.wap_disks.volumes.empty? is true") if vm.swap_disks.volumes.empty?
+                Fog::Logger.debug(" there is no enough space for vm #{vm.name} on host#{host_name} for data disk")
+                Fog::Logger.debug(" vm#{vm.name}.system_disks.volumes.empty? is true") if vm.system_disks.volumes.empty?
+                Fog::Logger.debug("vm#{vm.name}.wap_disks.volumes.empty? is true") if vm.swap_disks.volumes.empty?
                 recovery(solution_list[host_name]) unless !(solution_list.has_key?(host_name)) || solution_list[host_name].nil?
                 solution_list.delete(host_name)
                 break
@@ -562,7 +563,7 @@ module Fog
 
         def recommendation_untiaffinity(vms, hosts)
           solution_list = {}
-          Fog::Logger.debug("[#{Time.now.rfc2822}] fog: @host_list number #{@host_list.keys.size}")
+          Fog::Logger.debug("fog: @host_list number #{@host_list.keys.size}")
           hosts = hosts.sort {|x,y| @host_list[y].local_sum <=> @host_list[x].local_sum}
           hosts.each do |host_name|
             @cached_ds = nil
@@ -570,7 +571,7 @@ module Fog
             solution_list[host_name]=[]
             vms.each do |vm_in_queue|
               vm = Marshal.load(Marshal.dump(vm_in_queue))
-              Fog::Logger.debug("[#{Time.now.rfc2822}] fog: input vm_datastore_pattern is #{vm.datastore_pattern}[/]")
+              Fog::Logger.debug("fog: input vm_datastore_pattern is #{vm.datastore_pattern}[/]")
               # place system and swap
               if vm.system_disks.shared && !(@host_list[host_name].share_datastores.empty?)
                 datastore_candidates = @host_list[host_name].share_datastores.values.clone
@@ -591,9 +592,9 @@ module Fog
               candidates.each do |x|
                 if !(vm.datastore_pattern.nil?)
                   if isMatched?(x.name, vm.datastore_pattern)
-                    Fog::Logger.debug("[#{Time.now.rfc2822}] fog: input ds name #{x.name} with matched pattern")
+                    Fog::Logger.debug("fog: input ds name #{x.name} with matched pattern")
                   else
-                    Fog::Logger.debug("[#{Time.now.rfc2822}] fog: input ds name #{x.name} without matched pattern")
+                    Fog::Logger.debug("fog: input ds name #{x.name} without matched pattern")
                     datastore_candidates.delete(x)
                     next
                   end
@@ -605,13 +606,13 @@ module Fog
                 sum += x.real_free_space
               end
               if sum < (vm.req_mem + vm.system_disks.size + vm.swap_disks.size)
-                Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: there is no enough space for vm #{vm.name} with host #{host_name} left #{sum}")
+                Fog::Logger.debug(" there is no enough space for vm #{vm.name} with host #{host_name} left #{sum}")
               else
-                Fog::Logger.debug("[#{Time.now.rfc2822}] fog: system ds chosen for host #{host_name}")
+                Fog::Logger.debug("fog: system ds chosen for host #{host_name}")
                 datastore_candidates.each do |ds|
-                  Fog::Logger.debug("[#{Time.now.rfc2822}] fog: ds for host #{host_name} name: #{ds.name}, real_free_space: #{ds.real_free_space}")
+                  Fog::Logger.debug("fog: ds for host #{host_name} name: #{ds.name}, real_free_space: #{ds.real_free_space}")
                 end
-                Fog::Logger.debug("[#{Time.now.rfc2822}] fog: end")
+                Fog::Logger.debug("fog: end")
 
                 datastore_candidates.each do |ds|
                   if ds.real_free_space >= (vm.req_mem + vm.system_disks.size + vm.swap_disks.size)
@@ -633,7 +634,7 @@ module Fog
                 end # end of ds_candidate traverse
               end
               if !system_done || !swap_done
-                Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: there is no enough space for vm #{vm.name} on host#{host_name} for system disk") unless system_done && swap_done
+                Fog::Logger.debug(" there is no enough space for vm #{vm.name} on host#{host_name} for system disk") unless system_done && swap_done
                 recovery(solution_list[host_name]) unless !(solution_list.has_key?(host_name)) || solution_list[host_name].nil?
                 solution_list.delete(host_name)
                 break
@@ -652,9 +653,9 @@ module Fog
               candidates.each do |x|
                 if !(vm.datastore_pattern.nil?)
                   if isMatched?(x.name, vm.datastore_pattern)
-                    Fog::Logger.debug("[#{Time.now.rfc2822}] fog: input ds name #{x.name} with matched pattern")
+                    Fog::Logger.debug("fog: input ds name #{x.name} with matched pattern")
                   else
-                    Fog::Logger.debug("[#{Time.now.rfc2822}] fog: input ds name #{x.name} without matched pattern")
+                    Fog::Logger.debug("fog: input ds name #{x.name} without matched pattern")
                     datastore_candidates.delete(x)
                     next
                   end
@@ -665,13 +666,13 @@ module Fog
                 end
                 sum += x.real_free_space
               end
-              Fog::Logger.debug("[#{Time.now.rfc2822}] fog: sum = #{sum} but reburied is #{vm.data_disks.size}")
+              Fog::Logger.debug("fog: sum = #{sum} but reburied is #{vm.data_disks.size}")
               if sum < vm.data_disks.size
-                Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: there is no enough space for vm #{vm.name} with host #{host_name} left #{sum}")
+                Fog::Logger.debug(" there is no enough space for vm #{vm.name} with host #{host_name} left #{sum}")
               else
-                Fog::Logger.debug("[#{Time.now.rfc2822}] fog: data ds chosen for host #{host_name}")
+                Fog::Logger.debug("fog: data ds chosen for host #{host_name}")
                 datastore_candidates.each do |ds|
-                  Fog::Logger.debug("[#{Time.now.rfc2822}] fog: ds for host #{host_name} name: #{ds.name}, real_free_space: #{ds.real_free_space}")
+                  Fog::Logger.debug("fog: ds for host #{host_name} name: #{ds.name}, real_free_space: #{ds.real_free_space}")
                 end
 
                 allocated_size = vm.data_disks.size/datastore_candidates.size
@@ -702,9 +703,9 @@ module Fog
               end
 
               if !data_done #|| vm.system_disks.volumes.empty? || vm.swap_disks.volumes.values.empty?
-                Fog::Logger.warning("[#{Time.now.rfc2822}] WARNING: there is no enough space for vm #{vm.name} on host#{host_name} for data disk")
-                Fog::Logger.warning("[#{Time.now.rfc2822}] WARNING: vm#{vm.name}.system_disks.volumes.empty? is true") if vm.system_disks.volumes.empty?
-                Fog::Logger.warning("[#{Time.now.rfc2822}] WARNING: vm#{vm.name}.wap_disks.volumes.empty? is true") if vm.swap_disks.volumes.empty?
+                Fog::Logger.warning("WARNING: there is no enough space for vm #{vm.name} on host#{host_name} for data disk")
+                Fog::Logger.warning("WARNING: vm#{vm.name}.system_disks.volumes.empty? is true") if vm.system_disks.volumes.empty?
+                Fog::Logger.warning("WARNING: vm#{vm.name}.wap_disks.volumes.empty? is true") if vm.swap_disks.volumes.empty?
                 recovery(solution_list[host_name]) unless !(solution_list.has_key?(host_name)) || solution_list[host_name].nil?
                 solution_list.delete(host_name)
                 break
@@ -722,9 +723,9 @@ module Fog
         end
 
         def commission(vms)
-          Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: enter commission methods[/]")
+          Fog::Logger.debug(" enter commission methods[/]")
           original_size = @host_list[vms[0].host_name].local_sum + @host_list[vms[0].host_name].share_sum
-          Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: original size = #{original_size}[/]")
+          Fog::Logger.debug(" original size = #{original_size}[/]")
           difference = 0
           vms.each do |vm|
             is_shared = vm.system_disks.shared
@@ -759,38 +760,38 @@ module Fog
 
             vm.data_disks.volumes.values.each do |v|
               if vm.data_disks.shared && !(@host_list[vm.host_name].share_datastores.empty?)
-                Fog::Logger.debug("[#{Time.now.rfc2822}] fog: commit data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].share_datastores[v.datastore_name].real_free_space}[/]")
+                Fog::Logger.debug("fog: commit data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].share_datastores[v.datastore_name].real_free_space}[/]")
                 @host_list[vm.host_name].share_datastores[v.datastore_name].unaccounted_space += v.size.to_i
                 if @host_list[vm.host_name].local_datastores.has_key? (v.datastore_name)
-                  Fog::Logger.debug("[#{Time.now.rfc2822}] fog: commit data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].local_datastores[v.datastore_name].real_free_space}[/]")
+                  Fog::Logger.debug("fog: commit data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].local_datastores[v.datastore_name].real_free_space}[/]")
                   @host_list[vm.host_name].local_datastores[v.datastore_name].unaccounted_space += v.size.to_i
                 end
-                Fog::Logger.debug("[#{Time.now.rfc2822}] fog: for vm.name=#{vm.name} after commit result-#{v.datastore_name} share left size=#{@host_list[vm.host_name].share_datastores[v.datastore_name].real_free_space}[/]")
+                Fog::Logger.debug("fog: for vm.name=#{vm.name} after commit result-#{v.datastore_name} share left size=#{@host_list[vm.host_name].share_datastores[v.datastore_name].real_free_space}[/]")
               else
-                Fog::Logger.debug("[#{Time.now.rfc2822}] fog: commit data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].local_datastores[v.datastore_name].real_free_space}[/]")
+                Fog::Logger.debug("fog: commit data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].local_datastores[v.datastore_name].real_free_space}[/]")
                 @host_list[vm.host_name].local_datastores[v.datastore_name].unaccounted_space += v.size.to_i
                 if @host_list[vm.host_name].share_datastores.has_key? (v.datastore_name)
-                  Fog::Logger.debug("[#{Time.now.rfc2822}] fog: commit data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].share_datastores[v.datastore_name].real_free_space}[/]")
+                  Fog::Logger.debug("fog: commit data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].share_datastores[v.datastore_name].real_free_space}[/]")
                   @host_list[vm.host_name].share_datastores[v.datastore_name].unaccounted_space += v.size.to_i
                 end
-                Fog::Logger.debug("[#{Time.now.rfc2822}] fog: for vm.name=#{vm.name} after commit result-#{v.datastore_name} local left size=#{@host_list[vm.host_name].local_datastores[v.datastore_name].real_free_space}[/]")
+                Fog::Logger.debug("fog: for vm.name=#{vm.name} after commit result-#{v.datastore_name} local left size=#{@host_list[vm.host_name].local_datastores[v.datastore_name].real_free_space}[/]")
               end
             end
 
           end
 
-          Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: finish commission methods[/]")
+          Fog::Logger.debug(" finish commission methods[/]")
           difference = original_size - @host_list[vms[0].host_name].local_sum - @host_list[vms[0].host_name].share_sum
-          Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: commit size = #{difference}[/]")
+          Fog::Logger.debug(" commit size = #{difference}[/]")
           difference
         end
 
 
         def decommission(vms)
           return 0 if vms.size <= 0
-          Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: enter decommission methods[/]")
+          Fog::Logger.debug(" enter decommission methods[/]")
           original_size = @host_list[vms[0].host_name].local_sum + @host_list[vms[0].host_name].share_sum
-          Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: original size = #{original_size}[/]")
+          Fog::Logger.debug(" original size = #{original_size}[/]")
           difference = 0
           vms.each do |vm|
             is_shared = vm.system_disks.shared
@@ -826,35 +827,35 @@ module Fog
             vm.data_disks.volumes.values.each do |v|
 
               if vm.data_disks.shared && !(@host_list[vm.host_name].share_datastores.empty?)
-                Fog::Logger.debug("[#{Time.now.rfc2822}] fog: decommit data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].share_datastores[v.datastore_name].real_free_space}[/]")
+                Fog::Logger.debug("fog: decommit data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].share_datastores[v.datastore_name].real_free_space}[/]")
                 @host_list[vm.host_name].share_datastores[v.datastore_name].unaccounted_space -= v.size.to_i
                 if @host_list[vm.host_name].local_datastores.has_key? (v.datastore_name)
-                  Fog::Logger.debug("[#{Time.now.rfc2822}] fog: decommit data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].local_datastores[v.datastore_name].real_free_space}[/]")
+                  Fog::Logger.debug("fog: decommit data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].local_datastores[v.datastore_name].real_free_space}[/]")
                   @host_list[vm.host_name].local_datastores[v.datastore_name].unaccounted_space -= v.size.to_i
                 end
-                Fog::Logger.debug("[#{Time.now.rfc2822}] fog: for vm.name=#{vm.name} after decommit result-#{v.datastore_name} share left size=#{@host_list[vm.host_name].share_datastores[v.datastore_name].real_free_space}[/]")
+                Fog::Logger.debug("fog: for vm.name=#{vm.name} after decommit result-#{v.datastore_name} share left size=#{@host_list[vm.host_name].share_datastores[v.datastore_name].real_free_space}[/]")
               else
-                Fog::Logger.debug("[#{Time.now.rfc2822}] fog: decommit data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].local_datastores[v.datastore_name].real_free_space}[/]")
+                Fog::Logger.debug("fog: decommit data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].local_datastores[v.datastore_name].real_free_space}[/]")
                 @host_list[vm.host_name].local_datastores[v.datastore_name].unaccounted_space -= v.size.to_i
                 if @host_list[vm.host_name].share_datastores.has_key? (v.datastore_name)
-                  Fog::Logger.debug("[#{Time.now.rfc2822}] fog: decommit data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].share_datastores[v.datastore_name].real_free_space}[/]")
+                  Fog::Logger.debug("fog: decommit data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].share_datastores[v.datastore_name].real_free_space}[/]")
                   @host_list[vm.host_name].share_datastores[v.datastore_name].unaccounted_space -= v.size.to_i
                 end
-                Fog::Logger.debug("[#{Time.now.rfc2822}] fog: for vm.name=#{vm.name} after decommit result-#{v.datastore_name} local left size=#{@host_list[vm.host_name].local_datastores[v.datastore_name].real_free_space}[/]")
+                Fog::Logger.debug("fog: for vm.name=#{vm.name} after decommit result-#{v.datastore_name} local left size=#{@host_list[vm.host_name].local_datastores[v.datastore_name].real_free_space}[/]")
               end
 
             end
 
           end
 
-          Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: finish decommission methods[/]")
+          Fog::Logger.debug(" finish decommission methods[/]")
           difference =  @host_list[vms[0].host_name].local_sum + @host_list[vms[0].host_name].share_sum - original_size
-          Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: decommit size = #{difference}[/]")
+          Fog::Logger.debug(" decommit size = #{difference}[/]")
           difference
         end
 
         def recovery(vms)
-          Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: enter recover method[/]")
+          Fog::Logger.debug(" enter recover method[/]")
           vms.each do |vm|
             is_shared = vm.system_disks.shared
             vm.system_disks.volumes.values.each do |v|
@@ -873,20 +874,20 @@ module Fog
             end
             vm.data_disks.volumes.values.each do |v|
               if vm.data_disks.shared && !(@host_list[vm.host_name].share_datastores.empty?)
-                Fog::Logger.debug("[#{Time.now.rfc2822}] fog: recovery data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].share_datastores[v.datastore_name].real_free_space}[/]")
+                Fog::Logger.debug("fog: recovery data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].share_datastores[v.datastore_name].real_free_space}[/]")
                 @host_list[vm.host_name].share_datastores[v.datastore_name].unaccounted_space -= v.size.to_i
-                Fog::Logger.debug("[#{Time.now.rfc2822}] fog: for vm.name=#{vm.name} after recovery result-#{v.datastore_name} share left size=#{@host_list[vm.host_name].share_datastores[v.datastore_name].real_free_space}[/]")
+                Fog::Logger.debug("fog: for vm.name=#{vm.name} after recovery result-#{v.datastore_name} share left size=#{@host_list[vm.host_name].share_datastores[v.datastore_name].real_free_space}[/]")
               else
-                Fog::Logger.debug("[#{Time.now.rfc2822}] fog: recovery data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].local_datastores[v.datastore_name].real_free_space}[/]")
+                Fog::Logger.debug("fog: recovery data_disk of size-#{v.size} on #{v.datastore_name} before size=#{@host_list[vm.host_name].local_datastores[v.datastore_name].real_free_space}[/]")
                 @host_list[vm.host_name].local_datastores[v.datastore_name].unaccounted_space -= v.size.to_i
-                Fog::Logger.debug("[#{Time.now.rfc2822}] fog: for vm.name=#{vm.name} after recovery result-#{v.datastore_name} local left size=#{@host_list[vm.host_name].local_datastores[v.datastore_name].real_free_space}[/]")
+                Fog::Logger.debug("fog: for vm.name=#{vm.name} after recovery result-#{v.datastore_name} local left size=#{@host_list[vm.host_name].local_datastores[v.datastore_name].real_free_space}[/]")
               end
             end
           end
         end
 
         def create_volumes(vm)
-          Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: enter into volumes_create methods with argument(vm.id = #{vm.id}, vm.host_name =#{vm.host_name})[/]")
+          Fog::Logger.debug(" enter into volumes_create methods with argument(vm.id = #{vm.id}, vm.host_name =#{vm.host_name})[/]")
           vs = []
           vs += vm.swap_disks.volumes.values
           vs += vm.data_disks.volumes.values.reverse
@@ -912,7 +913,7 @@ module Fog
               if !response.has_key?('task_state') || response['task_state'] != "success"
                 recover.pop
                 recover.each do |params|
-                  Fog::Logger.debug("[#{Time.now.rfc2822}] fog: create_volumes response fail fullpath=#{params['fullpath']} transport=#{params['transport']}[/]")
+                  Fog::Logger.debug("fog: create_volumes response fail fullpath=#{params['fullpath']} transport=#{params['transport']}[/]")
                   next if params['size'] <= 0
                   v = collection.new(params)
                   response = v.destroy
@@ -921,23 +922,23 @@ module Fog
               end
             end
           rescue => e
-            Fog::Logger.debug("[#{Time.now.rfc2822}] fog: create_volumes error #{e} need recover")
+            Fog::Logger.debug("fog: create_volumes error #{e} need recover")
             response['task_state'] = 'error'
             response['error_message'] = e.to_s
             recover.pop
             recover.each do |params|
-              Fog::Logger.debug("[#{Time.now.rfc2822}] fog: create_volumes recover fullpath=#{params['fullpath']} transport=#{params['transport']}[/]")
+              Fog::Logger.debug("fog: create_volumes recover fullpath=#{params['fullpath']} transport=#{params['transport']}[/]")
               next if params['size'] <= 0
               v = collection.new(params)
               response = v.destroy
             end
           end
-          Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: finish volumes_create methods with argument(#{vm.host_name})[/]")
+          Fog::Logger.debug(" finish volumes_create methods with argument(#{vm.host_name})[/]")
           response
         end
 
         def delete_volumes(vm)
-          Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: enter into volumes_delete methods with argument(vm.id = #{vm.id}, vm.host_name = #{vm.host_name})[/]")
+          Fog::Logger.debug(" enter into volumes_delete methods with argument(vm.id = #{vm.id}, vm.host_name = #{vm.host_name})[/]")
           vs = []
           vs += vm.swap_disks.volumes.values
           vs += vm.data_disks.volumes.values
@@ -965,7 +966,7 @@ module Fog
             response['task_state'] = 'error'
             response['error_message'] = e.to_s
           end
-          Fog::Logger.debug("[#{Time.now.rfc2822}] INFO: finish volumes_delete methods with argument(#{vm.host_name})[/]")
+          Fog::Logger.debug(" finish volumes_delete methods with argument(#{vm.host_name})[/]")
           response
         end
 
@@ -1007,7 +1008,7 @@ module Fog
             else
               fullpath = "[#{ds.name}] #{vm.name}/local#{transport}#{unit_number}.vmdk"
             end
-            Fog::Logger.debug("[#{Time.now.rfc2822}] fog: alloc type=#{type} transport=#{transport} fullpath=#{fullpath} unit_number=#{unit_number}")
+            Fog::Logger.debug("fog: alloc type=#{type} transport=#{transport} fullpath=#{fullpath} unit_number=#{unit_number}")
             vm.volume_add(type, id, mode, size, fullpath, ds.name, transport, unit_number)
             if type == 'system'
               ds.unaccounted_space += (size.to_i + vm.req_mem.to_i)

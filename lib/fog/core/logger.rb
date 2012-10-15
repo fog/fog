@@ -1,13 +1,19 @@
+require 'time'
+
 module Fog
   class Logger
 
     @channels = {
         :deprecation  => ::STDOUT,
-        :debug      => ::STDOUT,
+        :debug => ::STDOUT,
         :warning      => ::STDOUT
     }
 
-    @open_or_not=true
+    @log_level = "warn"
+    @open_or_not = true
+    @formatter = Proc.new do |header, msg|
+      "#{header}[#{Time.now.rfc2822}]#{msg}"
+    end
 
     def self.[](channel)
       @channels[channel]
@@ -17,24 +23,37 @@ module Fog
       @channels[channel] = value
     end
 
-    def self.open()
-      @open_or_not=true
+    def self.open
+      @open_or_not = true
     end
 
-    def self.close()
-      @open_or_not=false
+    def self.close
+      @open_or_not = false
     end
 
-    def self.debug(message)
-      self.write(:debug, "[light_black][DEBUG] #{message}[/]\n") if @open_or_not
+    def self.set_log_level(user_log_level)
+      @log_level= user_log_level
     end
 
     def self.deprecation(message)
-      self.write(:deprecation, "[yellow][DEPRECATION] #{message}[/]\n") if @open_or_not
+      return unless @open_or_not
+      if (@log_level == "info") || (@log_level == "debug") || (@log_level == "warn")
+        self.write(:deprecation, "#{@formatter.call("[yellow][DEPRECATION]", message)}[/]\n")
+      end
+    end
+
+    def self.debug(message)
+      return unless @open_or_not
+      if (@log_level == "debug") || (@log_level == "warn")
+        self.write(:debug, "#{@formatter.call("[light_black][DEBUG]", message)}[/]\n")
+      end
     end
 
     def self.warning(message)
-      self.write(:warning, "[yellow][WARNING] #{message}[/]\n") if @open_or_not
+      return unless @open_or_not
+      if (@log_level == "warn")
+        self.write(:warning, "#{@formatter.call("[yellow][WARNING]", message)}[/]\n")
+      end
     end
 
     def self.write(key, value)

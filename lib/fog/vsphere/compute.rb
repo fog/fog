@@ -11,6 +11,7 @@ module Fog
       recognizes :vsphere_port, :vsphere_path, :vsphere_ns
       recognizes :vsphere_rev, :vsphere_ssl, :vsphere_expected_pubkey_hash
       recognizes :cert, :key, :extension_key
+      recognizes 'log_level'
 
       model_path 'fog/vsphere/models/compute'
       model :server
@@ -202,6 +203,7 @@ module Fog
 
         def initialize(options={})
           Fog::Logger.open
+          Fog::Logger.set_log_level(options['log_level'])
           @connection = Fog::VsphereConnection.connect options
         end
 
