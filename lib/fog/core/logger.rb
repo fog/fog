@@ -10,7 +10,6 @@ module Fog
     }
 
     @log_level = "warn"
-    @open_or_not = true
     @formatter = Proc.new do |header, msg|
       "#{header}[#{Time.now.rfc2822}]#{msg}"
     end
@@ -36,21 +35,18 @@ module Fog
     end
 
     def self.deprecation(message)
-      return unless @open_or_not
       if (@log_level == "info") || (@log_level == "debug") || (@log_level == "warn")
         self.write(:deprecation, "#{@formatter.call("[yellow][DEPRECATION]", message)}[/]\n")
       end
     end
 
     def self.debug(message)
-      return unless @open_or_not
       if (@log_level == "debug") || (@log_level == "warn")
         self.write(:debug, "#{@formatter.call("[light_black][DEBUG]", message)}[/]\n")
       end
     end
 
     def self.warning(message)
-      return unless @open_or_not
       if (@log_level == "warn")
         self.write(:warning, "#{@formatter.call("[yellow][WARNING]", message)}[/]\n")
       end

@@ -307,7 +307,6 @@ module Fog
         include Shared
 
         def initialize(options={})
-          Fog::Logger.open
           Fog::Logger.set_log_level(options['log_level'])
           # used to initialize resource list
           @share_datastore_pattern = options['share_datastore_pattern']

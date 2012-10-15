@@ -66,7 +66,6 @@ module Fog
         include Shared
 
         def initialize(options={})
-          Fog::Logger.open
           Fog::Logger.set_log_level(options['log_level'])
           @connection = Fog::VsphereConnection.connect options
         end
