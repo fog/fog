@@ -5,8 +5,8 @@ module Fog
 
     @channels = {
         :deprecation  => ::STDOUT,
-        :debug => ::STDOUT,
-        :warning      => ::STDOUT
+        :debug         => ::STDOUT,
+        :warning       => ::STDOUT
     }
 
     @log_level = "warn"
