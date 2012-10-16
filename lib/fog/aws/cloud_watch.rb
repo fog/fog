@@ -6,7 +6,7 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       requires :aws_access_key_id, :aws_secret_access_key
-      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
+      recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at, :instrumentor, :instrumentor_name
 
       request_path 'fog/aws/requests/cloud_watch'
 
@@ -94,6 +94,10 @@ module Fog
           setup_credentials(options)
 
           @connection_options = options[:connection_options] || {}
+
+          @instrumentor           = options[:instrumentor]
+          @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.cloud_watch'
+
           options[:region] ||= 'us-east-1'
           @host = options[:host] || "monitoring.#{options[:region]}.amazonaws.com"
           @path       = options[:path]        || '/'
@@ -136,6 +140,16 @@ module Fog
             }
           )
 
+          if @instrumentor
+            @instrumentor.instrument("#{@instrumentor_name}.request", params) do
+              _request(body, idempotent, parser)
+            end
+          else
+            _request(body, idempotent, parser)
+          end
+        end
+
+        def _request(body, idempotent, parser)
           @connection.request({
             :body       => body,
             :expects    => 200,
