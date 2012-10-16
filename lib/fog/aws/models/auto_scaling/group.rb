@@ -121,11 +121,11 @@ module Fog
         #  self
         #end
 
-        def destroy(force=false)
+        def destroy(options = { :force => false })
           requires :id
 
           opts = {}
-          opts.merge({'ForceDelete' => true}) if force
+          opts.merge({'ForceDelete' => true}) if options[:force]
           
           connection.delete_auto_scaling_group(id, opts)
         end
