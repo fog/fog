@@ -57,18 +57,21 @@ module Fog
 
         # By default, expire in 5 years
         def public_url(expires = (Time.now + 5 * 365 * 24 * 60 * 60))
-          self.objectid = directory.files.head(key).attributes['x-emc-meta'].scan(/objectid=(\w+),/).flatten[0] if self.objectid.blank?
-          requires :objectid
-          uri = URI::HTTP.build(:scheme => connection.ssl? ? "http" : "https" , :host => connection.host, :port => connection.port.to_i, :path => "/rest/objects/#{self.objectid}" )
+          file = directory.files.head(key)
+          if file.present?
+            self.objectid = file.attributes['x-emc-meta'].scan(/objectid=(\w+),/).flatten[0] if self.objectid.blank?
+            requires :objectid
+            uri = URI::HTTP.build(:scheme => connection.ssl? ? "http" : "https" , :host => connection.host, :port => connection.port.to_i, :path => "/rest/objects/#{self.objectid}" )
 
-          sb = "GET\n"
-          sb += uri.path.downcase + "\n"
-          sb += connection.uid + "\n"
-          sb += String(expires.to_i())
+            sb = "GET\n"
+            sb += uri.path.downcase + "\n"
+            sb += connection.uid + "\n"
+            sb += String(expires.to_i())
 
-          signature = connection.sign( sb )
-          uri.query = "uid=#{CGI::escape(connection.uid)}&expires=#{expires.to_i()}&signature=#{CGI::escape(signature)}"
-          uri.to_s
+            signature = connection.sign( sb )
+            uri.query = "uid=#{CGI::escape(connection.uid)}&expires=#{expires.to_i()}&signature=#{CGI::escape(signature)}"
+            uri.to_s
+          end
         end
 
         def save(options = {})
