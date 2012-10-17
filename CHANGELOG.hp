@@ -1,3 +1,9 @@
+0.0.17 10/16/2012
+=================
+- add support for generating temp_url
+- add support for retrieving encrypted password for Windows instances
+- add support for creating Windows instances
+
 0.0.16 08/15/2012
 =================
 - add support for User-Agent string in header

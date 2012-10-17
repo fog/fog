@@ -6,7 +6,7 @@ module Fog
 
     # define a specific version for the HP Provider
     unless const_defined?(:VERSION)
-      VERSION = '0.0.16'
+      VERSION = '0.0.17'
     end
 
     extend Fog::Provider
@@ -68,7 +68,7 @@ module Fog
       service_url = "#{@scheme}://#{@host}:#{@port}"
       # Set the User-Agent
       @user_agent = options[:user_agent]
-      set_user_agent_header(connection_options, "hpfog v1/#{Fog::HP::VERSION} (#{@user_agent})")
+      set_user_agent_header(connection_options, "hpfog v1/#{Fog::HP::VERSION}", @user_agent)
       connection = Fog::Connection.new(service_url, false, connection_options)
       @hp_account_id = options[:hp_account_id]
       @hp_secret_key  = options[:hp_secret_key]
