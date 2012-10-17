@@ -34,6 +34,7 @@ module Fog
         def head_shared_container(shared_container_url)
           response = get_shared_container(shared_container_url)
           response.body = nil
+          response.status = 204
           response
         end
 

@@ -46,6 +46,25 @@ module Fog
       class Mock # :nodoc:all
 
         def get_shared_container(shared_container_url, options = {})
+          response = Excon::Response.new
+          data = {
+            'name'          => Fog::Mock.random_letters(10),
+            'hash'          => Fog::HP::Mock.etag,
+            'bytes'         => 11,
+            'content_type'  => "text/plain",
+            'last_modified' => Time.now
+          }
+          response.status = 200
+          response.body = [data]
+          response.headers = {
+            'X-Container-Object-Count' => 1,
+            'X-Container-Bytes-Used'   => 11,
+            'Accept-Ranges'            => 'bytes',
+            'Content-Type'             => "application/json",
+            'Content-Length'           => 11,
+            'X-Trans-Id'               => "tx#{Fog::Mock.random_hex(32)}"
+          }
+          response
 
         end
 

@@ -14,7 +14,7 @@ module Fog
           path   = uri.path
 
           response = shared_request({
-            :expects  => 200,
+            :expects  => 200,  # should be 204
             :method   => 'HEAD',
             :path     => path
           }, false)
@@ -28,6 +28,7 @@ module Fog
         def head_shared_object(shared_object_url)
           response = get_shared_object(shared_object_url)
           response.body = nil
+          response.status = 200   # should be 204
           response
         end
 
