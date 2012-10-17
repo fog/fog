@@ -38,7 +38,7 @@ module Fog
               @metric[name] = value
             when 'Dimensions'
               @in_dimensions = false
-            when 'NextMarker'
+            when 'NextToken'
               @response['ListMetricsResult'][name] = value
             when 'RequestId'
               @response['ResponseMetadata'][name] = value
