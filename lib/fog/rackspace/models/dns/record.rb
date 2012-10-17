@@ -57,11 +57,18 @@ module Fog
 
           response = wait_for_job connection.add_records(@zone.identity, [options]).body['jobId']
 
-          if ['A', 'AAAA'].include?(self.type.upcase)
-            merge_attributes(response.body['response']['records'].select {|record| record['name'] == self.name && record['type'] == self.type && IPAddr.new(record['data']) == IPAddr.new(self.value)}.first)
-          else
-            merge_attributes(response.body['response']['records'].select {|record| record['name'] == self.name && record['type'] == self.type && record['data'] == self.value}.first)
+          matching_record = response.body['response']['records'].find do |record| 
+            if ['A', 'AAAA'].include?(self.type.upcase)
+              # If this is an A or AAAA record, match by normalized IP address value.
+              (record['name'] == self.name) && (record['type'] == self.type) && (IPAddr.new(record['data']) == IPAddr.new(self.value))
+            else
+              # Other record types are matched by the raw value.
+              (record['name'] == self.name) && (record['type'] == self.type) && (record['data'] == self.value)
+            end 
           end
+          
+          merge_attributes(matching_record)
+          
           true
         end
 
