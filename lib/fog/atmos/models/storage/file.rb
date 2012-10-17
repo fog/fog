@@ -59,7 +59,7 @@ module Fog
         def public_url(expires = (Time.now + 5 * 365 * 24 * 60 * 60))
           self.objectid = directory.files.head(key).attributes['x-emc-meta'].scan(/objectid=(\w+),/).flatten[0] if self.objectid.blank?
           requires :objectid
-          uri = URI::HTTP.build(:scheme => @prefix, :host => @storage_host, :port => @storage_port.to_i, :path => "/rest/objects/#{self.objectid}" )
+          uri = URI::HTTP.build(:scheme => connection.ssl? ? "http" : "https" , :host => connection.host, :port => connection.port.to_i, :path => "/rest/objects/#{self.objectid}" )
 
           sb = "GET\n"
           sb += uri.path.downcase + "\n"
