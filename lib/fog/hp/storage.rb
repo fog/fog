@@ -21,9 +21,13 @@ module Fog
       request :get_containers
       request :get_object
       request :get_object_temp_url
+      request :get_shared_container
+      request :get_shared_object
       request :head_container
       request :head_containers
       request :head_object
+      request :head_shared_container
+      request :head_shared_object
       request :put_container
       request :put_object
 
@@ -261,6 +265,31 @@ module Fog
               }.merge!(params[:headers] || {}),
               :host     => @host,
               :path     => "#{@path}/#{params[:path]}",
+            }), &block)
+          rescue Excon::Errors::HTTPStatusError => error
+            raise case error
+            when Excon::Errors::NotFound
+              Fog::Storage::HP::NotFound.slurp(error)
+            else
+              error
+            end
+          end
+          if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
+            response.body = MultiJson.decode(response.body)
+          end
+          response
+        end
+
+        # this request is used only for get_shared_container and get_shared_object calls
+        def shared_request(params, parse_json = true, &block)
+          begin
+            response = @connection.request(params.merge!({
+              :headers  => {
+                'Content-Type' => 'application/json',
+                'X-Auth-Token' => @auth_token
+              }.merge!(params[:headers] || {}),
+              :host     => @host,
+              :path     => "#{params[:path]}",
             }), &block)
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
