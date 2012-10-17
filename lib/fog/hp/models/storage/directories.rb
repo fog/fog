@@ -58,7 +58,10 @@ module Fog
           end
           # set the acl on the directory based on the headers
           if !(read_header.nil? && write_header.nil?)
-            directory.acl = connection.header_to_acl(read_header, write_header)
+            read_acl, write_acl = connection.header_to_perm_acl(read_header, write_header)
+            # do not want to expose the read_acl and write_acl as writable attributes
+            directory.instance_variable_set(:@read_acl, read_acl)
+            directory.instance_variable_set(:@write_acl, write_acl)
           end
           directory.files.merge_attributes(options)
           directory.files.instance_variable_set(:@loaded, true)
