@@ -11,6 +11,9 @@ module Fog
               "x-image-meta-container-format" => attributes[:container_format],
               "x-image-meta-size" => attributes[:size],
               "x-image-meta-is-public" => attributes[:is_public],
+              "x-image-meta-min-ram"  => attributes[:min_ram],
+              "x-image-meta-min-disk" => attributes[:min_disk],
+              "x-image-meta-checksum" => attributes[:checksum],
               "x-image-meta-owner" => attributes[:owner]
           }
 
@@ -21,7 +24,7 @@ module Fog
           end
 
           request(
-            :headers     => data,
+            :headers  => data,
             :expects  => 200,
             :method   => 'PUT',
             :path     => "images/#{attributes[:id]}"
@@ -35,26 +38,28 @@ module Fog
         def update_image(attributes)
           response = Excon::Response.new
           response.status = 200
-          response.body = {"image"=>
-                               {"name"=>"edit test image",
-                                "size"=>0,
-                                "min_disk"=>0,
-                                "disk_format"=>nil,
-                                "created_at"=>"2012-02-24T06:45:00",
-                                "container_format"=>nil,
-                                "deleted_at"=>nil,
-                                "updated_at"=>"2012-02-24T06:45:00",
-                                "checksum"=>nil,
-                                "id"=>"e41304f3-2453-42b4-9829-2e220a737395",
-                                "deleted"=>false,
-                                "protected"=>false,
-                                "is_public"=>false,
-                                "status"=>"queued",
-                                "min_ram"=>0,
-                                "owner"=>"728ecc7c10614a1faa6fbabd1a68a4a0",
-                                "properties"=>{}
-                               }
-                           }
+          image = self.images.last
+          response.body = {
+                            'image'=> {
+                              'name'             => attributes[:name] || image.name,
+                              'size'             => image.size,
+                              'min_disk'         => (attributes[:min_disk] || image.min_disk).to_i,
+                              'disk_format'      => attributes[:disk_format] || image.disk_format,
+                              'created_at'       => image.created_at,
+                              'container_format' => attributes[:container_format] || image.container_format,
+                              'deleted_at'       => nil,
+                              'updated_at'       => Time.now.to_s,
+                              'checksum'         => image.checksum,
+                              'id'               => attributes[:id],
+                              'deleted'          => false,
+                              'protected'        => false,
+                              'is_public'        => attributes[:is_public] || image.is_public,
+                              'status'           => image.status,
+                              'min_ram'          => (attributes[:min_ram] || image.min_ram).to_i,
+                              'owner'            => attributes[:owner] || image.owner,
+                              'properties'       => attributes[:properties] || image.properties
+                            }
+                          }
           response
 
         end

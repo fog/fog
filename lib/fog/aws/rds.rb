@@ -13,7 +13,7 @@ module Fog
       recognizes :region, :host, :path, :port, :scheme, :persistent, :use_iam_profile, :aws_session_token, :aws_credentials_expire_at
 
       request_path 'fog/aws/requests/rds'
-
+      request :describe_events
       request :create_db_instance
       request :modify_db_instance
       request :describe_db_instances

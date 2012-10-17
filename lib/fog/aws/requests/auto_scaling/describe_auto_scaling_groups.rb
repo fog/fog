@@ -20,8 +20,8 @@ module Fog
         #   * 'AutoScalingGroupNames'<~Array> - A list of Auto Scaling group
         #     names.
         #   * 'MaxRecords'<~Integer> - The maximum number of records to return.
-        #   * 'NextToken'<~String> - The token returned by a previous call to
-        #     indicate that there is more data available.
+        #   * 'NextToken'<~String> - A string that marks the start of the next
+        #     batch of returned results.
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -39,11 +39,11 @@ module Fog
         #             availability zones for the group.
         #           * 'CreatedTime'<~Time> - Specifies the date and time the
         #             Auto Scaling group was created.
-        #           * 'DefaultCooldown'<~Integer> - The umber of seconds after
+        #           * 'DefaultCooldown'<~Integer> - The number of seconds after
         #             a scaling activity completes before any further scaling
         #             activities can start.
         #           * 'DesiredCapacity'<~Integer> - Specifies the desired
-        #             capacity of the AutoScalingGroup.
+        #             capacity of the Auto Scaling group.
         #           * 'EnabledMetrics'<~Array>:
         #             * enabledmetric<~Hash>:
         #               * 'Granularity'<~String> - The granularity of the
@@ -71,8 +71,10 @@ module Fog
         #             of the associated launch configuration.
         #           * 'LoadBalancerNames'<~Array> - A list of load balancers
         #             associated with this Auto Scaling group.
-        #           * 'MaxSize'<~Integer> - The maximum size of the group.
-        #           * 'MinSize'<~Integer> - The minimum size of the group.
+        #           * 'MaxSize'<~Integer> - The maximum size of the Auto
+        #             Scaling group.
+        #           * 'MinSize'<~Integer> - The minimum size of the Auto
+        #             Scaling group.
         #           * 'PlacementGroup'<~String> - The name of the cluster
         #             placement group, if applicable.
         #           * 'SuspendedProcesses'<~Array>:
@@ -81,12 +83,14 @@ module Fog
         #                 process.
         #               * 'SuspensionReason'<~String> - The reason that the
         #                 process was suspended.
-        #           * 'VPCZoneIdentifier'<~String> - The identifier for the VPC
-        #             connection, if applicable.
-        #       * 'NextToken'<~String> - Acts as a paging mechanism for large
-        #         result sets. Set to a non-empty string if there are
-        #         additional results waiting to be returned. Pass this in to
-        #         subsequent calls to return additional results.
+        #           * 'TerminationPolicies'<~Array> - A standalone termination
+        #             policy or a list of termination policies for this Auto
+        #             Scaling group.
+        #           * 'VPCZoneIdentifier'<~String> - The subnet identifier for
+        #             the Amazon VPC connection, if applicable. You can specify
+        #             several subnets in a comma-separated list.
+        #       * 'NextToken'<~String> - A string that marks the start of the
+        #         next batch of returned results.
         #
         # ==== See Also
         # http://docs.amazonwebservices.com/AutoScaling/latest/APIReference/API_DescribeAutoScalingGroups.html
@@ -107,7 +111,7 @@ module Fog
 
         def describe_auto_scaling_groups(options = {})
           results = { 'AutoScalingGroups' => [] }
-          data[:auto_scaling_groups].each do |asg_name, asg_data|
+          self.data[:auto_scaling_groups].each do |asg_name, asg_data|
             results['AutoScalingGroups'] << {
               'AutoScalingGroupName' => asg_name
             }.merge!(asg_data)

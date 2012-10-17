@@ -17,7 +17,7 @@ module Fog
 
         def delete_role(role_id)
           response = Excon::Response.new
-          if list_roles.body['roles'].map { |r| r['id'] }.include? role_id
+          if self.data[:roles][role_id]
             self.data[:roles].delete(role_id)
             response.status = 204
             response

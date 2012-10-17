@@ -108,7 +108,6 @@ module Fog
 
         def initialize(options={})
           require 'mime/types'
-          puts "Called with #{options}"
           @hp_secret_key = options[:hp_secret_key]
           @hp_account_id = options[:hp_account_id]
         end

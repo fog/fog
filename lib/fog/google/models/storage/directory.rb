@@ -49,9 +49,9 @@ module Fog
           requires :key
           if connection.get_bucket_acl(key).body['AccessControlList'].detect {|entry| entry['Scope']['type'] == 'AllUsers' && entry['Permission'] == 'READ'}
             if key.to_s =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
-              "https://#{key}.commondatastorage.googleapis.com"
+              "https://#{key}.storage.googleapis.com"
             else
-              "https://commondatastorage.googleapis.com/#{key}"
+              "https://storage.googleapis.com/#{key}"
             end
           else
             nil

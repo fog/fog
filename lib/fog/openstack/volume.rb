@@ -48,6 +48,16 @@ module Fog
         def initialize(options={})
           require 'multi_json'
           @openstack_username = options[:openstack_username]
+          @openstack_tenant   = options[:openstack_tenant]
+          @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
+
+          @auth_token = Fog::Mock.random_base64(64)
+          @auth_token_expiration = (Time.now.utc + 86400).iso8601
+
+          management_url = URI.parse(options[:openstack_auth_url])
+          management_url.port = 8776
+          management_url.path = '/v1'
+          @openstack_management_url = management_url.to_s
 
           @data ||= { :users => {} }
           unless @data[:users].find {|u| u['name'] == options[:openstack_username]}

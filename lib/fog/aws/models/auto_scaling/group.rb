@@ -20,11 +20,12 @@ module Fog
         attribute :min_size,                  :aliases => 'MinSize'
         attribute :placement_group,           :aliases => 'PlacementGroup'
         attribute :suspended_processes,       :aliases => 'SuspendedProcesses'
-        attribute :vpc_zone_identifier,       :aliases => 'VPCZoneIdentifier'
         attribute :tags,                      :aliases => 'Tags'
+        attribute :termination_policies,      :aliases => 'TerminationPolicies'
+        attribute :vpc_zone_identifier,       :aliases => 'VPCZoneIdentifier'
 
         def initialize(attributes={})
-          attributes['DefaultCooldown'] ||= 0
+          attributes['DefaultCooldown'] ||= 300
           attributes['DesiredCapacity'] ||= 0
           attributes['EnabledMetrics'] ||= []
           attributes['HealthCheckGracePeriod'] ||= 0
@@ -35,6 +36,7 @@ module Fog
           attributes['MinSize'] ||= 0
           attributes['SuspendedProcesses'] ||= []
           attributes['Tags'] ||= []
+          attributes['TerminationPolicies'] ||= ['Default']
           super
         end
 
@@ -119,9 +121,13 @@ module Fog
         #  self
         #end
 
-        def destroy
+        def destroy(options = { :force => false })
           requires :id
-          connection.delete_auto_scaling_group(id)
+
+          opts = {}
+          opts.merge({'ForceDelete' => true}) if options[:force]
+          
+          connection.delete_auto_scaling_group(id, opts)
         end
 
         def update

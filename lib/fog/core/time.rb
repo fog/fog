@@ -1,3 +1,5 @@
+require 'time'
+
 module Fog
   class Time < ::Time
 

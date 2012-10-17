@@ -5,9 +5,9 @@ title:  Storage
 
 Having Ruby experience makes you hirable; but how can you stand out? You need to demonstrate your abilities. What better way than using Ruby and "the cloud" to store and serve your resume!
 
-In this blog post you will learn to use <a href="http://github.com/fog/fog">fog</a> - the cloud computing library - to upload your resume to Amazon's <a href="http://aws.amazon.com/s3/">Simple Storage Service</a> (S3), Rackspace's <a href="http://www.rackspacecloud.com/cloud_hosting_products/files">CloudFiles</a> or Google's <a href="http://code.google.com/apis/storage/">Storage for Developers</a>.
+In this blog post you will learn to use <a href="http://github.com/fog/fog">fog</a> - the cloud computing library - to upload your resume to Amazon's <a href="http://aws.amazon.com/s3/">Simple Storage Service</a> (S3), Rackspace's <a href="http://www.rackspacecloud.com/cloud_hosting_products/files">CloudFiles</a> or Google's <a href="http://code.google.com/apis/storage/">Cloud Storage</a>.
 
-Here's my out of date resume stored on <a href="http://geemus.s3.amazonaws.com/resume.html">S3</a>, <a href="http://c0023559.cdn2.cloudfiles.rackspacecloud.com/resume.html">CloudFiles</a> and <a href="https://geemus.commondatastorage.googleapis.com/resume.html">Google Storage</a>; programmatically stored in the cloud using this tutorial. NOTE: my boss would like me to add that I'm not currently looking for a new gig ;)
+Here's my out of date resume stored on <a href="http://geemus.s3.amazonaws.com/resume.html">S3</a>, <a href="http://c0023559.cdn2.cloudfiles.rackspacecloud.com/resume.html">CloudFiles</a> and <a href="https://geemus.storage.googleapis.com/resume.html">Google Storage</a>; programmatically stored in the cloud using this tutorial. NOTE: my boss would like me to add that I'm not currently looking for a new gig ;)
 
 Check out those cloud-specific URLs! You could put all three in your job application, add the Ruby source for how you did it, and have your choice of Ruby jobs for being so awesome!
 
@@ -125,9 +125,9 @@ Pop that link in an email and you should be ready to cruise job ads and send you
 
 More clouds? How much extra stuff will you have to do for these services!?! Hardly anything needs to change, you just have to pass slightly different credentials in, but I'm getting ahead of myself.
 
-## Google Storage for Developers
+## Google Cloud Storage
 
-Sign up <a href="http://gs-signup-redirect.appspot.com/">here</a> and get your credentials <a href="https://sandbox.google.com/storage/m/">here</a>.
+Sign up <a href="http://gs-signup-redirect.appspot.com/">here</a> and get your credentials <a href="https://storage.cloud.google.com/m">here</a> under the section "Interoperable Access".
 
     connection = Fog::Storage.new({
       :provider                         => 'Google',

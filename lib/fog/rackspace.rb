@@ -42,14 +42,15 @@ module Fog
       end
     end
 
-    service(:cdn,             'rackspace/cdn',            'CDN')
-    service(:compute,         'rackspace/compute',        'Compute')
-    service(:compute_v2,      'rackspace/compute_v2',     'Compute v2')
-    service(:dns,             'rackspace/dns',            'DNS')
-    service(:storage,         'rackspace/storage',        'Storage')
-    service(:load_balancers,  'rackspace/load_balancers', 'LoadBalancers')
-    service(:identity,        'rackspace/identity',       'Identity')
-    service(:databases,       'rackspace/databases',      'Databases')
+    service(:block_storage,    'rackspace/block_storage',     'BlockStorage')
+    service(:cdn,              'rackspace/cdn',               'CDN')
+    service(:compute,          'rackspace/compute',           'Compute')
+    service(:compute_v2,       'rackspace/compute_v2',        'Compute v2')
+    service(:dns,              'rackspace/dns',               'DNS')
+    service(:storage,          'rackspace/storage',           'Storage')
+    service(:load_balancers,   'rackspace/load_balancers',    'LoadBalancers')
+    service(:identity,         'rackspace/identity',          'Identity')
+    service(:databases,        'rackspace/databases',         'Databases')
 
     def self.authenticate(options, connection_options = {})
       rackspace_auth_url = options[:rackspace_auth_url] || "auth.api.rackspacecloud.com"

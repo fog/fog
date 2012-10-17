@@ -24,6 +24,8 @@ module Fog
       collection :flavors
       model :image
       collection :images
+      model :attachments
+      collection :attachments
 
       request_path 'fog/rackspace/requests/compute_v2'
       request :list_servers
@@ -43,6 +45,11 @@ module Fog
 
       request :list_flavors
       request :get_flavor
+
+      request :attach_volume
+      request :get_attachment
+      request :list_attachments
+      request :delete_attachment
 
       class Mock
         def request(params)

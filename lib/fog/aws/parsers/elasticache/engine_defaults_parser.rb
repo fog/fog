@@ -40,7 +40,7 @@ module Fog
                 @engine_defaults["#{name}s"] << @parameter
               end
             when 'AllowedValues', 'DataType', 'Description', 'IsModifiable',
-              'MinimumEngineVersion', 'ParameterName', 'Source'
+              'MinimumEngineVersion', 'ParameterName', 'ParameterValue', 'Source'
               @parameter[name] = value
             when 'CacheNodeType', 'Value'
               @node_specific_value[name] = value

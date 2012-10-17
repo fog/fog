@@ -37,20 +37,71 @@ Now you'll need to create a 'distribution' which represents a mapping from the C
 
     # parse the response for stuff you'll need later
     distribution_id   = data.body['Id']
-    caller_reference  = data.body['CallerReference']
+    caller_reference  = data.body['DistributionConfig']['CallerReference']
     etag              = data.headers['ETag']
     cdn_domain_name   = data.body['DomainName']
 
     # wait for the updates to propogate
     Fog.wait_for {
-      cdn.get_distribution(distribution_id).body['Status'] ## 'Deployed'
+      cdn.get_distribution(distribution_id).body['Status'] == 'Deployed'
     }
+
+Fog also supports models for the AWS CDN. The above code can also be written like this:
+
+    distribution = cdn.distributions.create( :custom_origin => {
+          'DNSName'               => 'www.example.com',
+          'OriginProtocolPolicy'  => 'match-viewer'
+        }, :enabled => true
+    })
+    
+    distribution.wait_for { ready? }
+
+Like other collections supported by Fog, it is also possible to browse the list of distributions:
+
+    cdn.distributions.all
+    
+Or get access to a distinct distribution by its identity:
+
+    cdn.distributions.get(distribution_id)
+
 
 ## Getting Served
 
 With the domain name from the distribution in hand you should now be ready to serve content from the edge.  All you need to do is start replacing urls like `http://www.example.com/stylesheets/foo.css` with `#{cdn_domain_name}/stylesheets/foo.css`. Just because you can do something doesn't always mean you should though.  Dynamic pages are not really well suited to CDN storage, since CDN content will be the same for every user.  Fortunately some of your most used content is a great fit.  By just switching over your images, javascripts and stylesheets you can have an impact for each and every one of your users.
 
 Congrats, your site is faster! By default the urls aren't very pretty, something like `http://d1xdx2sah5udd0.cloudfront.net/stylesheets/foo.css`.  Thankfully you can use CNAME config options to utilize something like `http://assets.example.com/stylesheets/foo.css`, if you are interested in learning more about this let me know in the comments.
+
+## Invalidating the CDN caches
+
+Sometimes, some part of the CDN cache needs to be invalidated because the origin changed and we need a faster propagation than waiting for the objects to expire by themselves. To do this, CloudFront supports creating <a href="http://docs.amazonwebservices.com/AmazonCloudFront/latest/APIReference/Actions_Invalidations.html">distributions invalidation</a>.
+
+An invalidation can be created with the following code:
+
+    # let's invalidate /test.html and /path/to/file.html
+    data = cdn.post_invalidation(distribution_id, [ "/test.html", "/path/to/file.html" ])
+    invalidation_id = data.body['Id']
+
+    Fog.wait_for { cdn.get_invalidation(distribution_id, invalidation_id).body['Status'] == 'Completed' }
+
+It is also possible to list past and current invalidation for a given distribution:
+
+    cdn.get_invalidation_list(distribution_id)
+
+The same can be written with Fog CDN model abstraction:
+
+    distribution = cdn.distributions.get(distribution_id)
+    
+    invalidation = distribution.invalidations.create(:paths => [ "/test.html", "/path/to/file.html" ])
+    invalidation.wait_for { ready? }
+    
+Listing invalidations is as simple as:
+
+    distribution.invalidations.all
+
+    # this returns only summarized invalidation
+    # to get access to the invalidations path:
+    distribution.invalidations.get(invalidation_id)
+
 
 ## Cleaning Up
 
@@ -75,8 +126,23 @@ But, just in case you need to update things I'll run through how you can make ch
 Now you just need to wait for the update to happen like before and once its disabled we can delete it:
 
     Fog.wait_for {
-      cdn.get_distribution(distribution_id).body['Status'] ## 'Deployed'
+      cdn.get_distribution(distribution_id).body['Status'] == 'Deployed'
     }
     cdn.delete_distribution(distribution_id, etag)
+
+This can also be written with CDN models as:
+
+    distribution = cdn.distributions.get(distribution_id)
+    
+    # make sure the distribution is deployed otherwise it can't be disabled
+    distribution.wait_for { ready? }
+    
+    distribution.disable
+    
+    # Disabling a distribution is a lengthy operation
+    distribution.wait_for { ready? }
+    
+    # and finally let's get rid of it
+    distribution.destroy
 
 Thats it, now go forth and speed up some load times!

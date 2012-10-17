@@ -49,10 +49,10 @@ module Fog
       class Mock
 
         def enable_metrics_collection(auto_scaling_group_name, granularity, options = {})
-          unless data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
+          unless self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
             Fog::AWS::AutoScaling::ValidationError.new("Group #{auto_scaling_group_name} not found")
           end
-          unless data[:metric_collection_types][:granularities].include?(granularity)
+          unless self.data[:metric_collection_types][:granularities].include?(granularity)
             Fog::AWS::AutoScaling::ValidationError.new('Valid metrics granularity type is: [1Minute].')
           end
 
