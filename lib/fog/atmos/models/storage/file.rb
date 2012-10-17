@@ -38,7 +38,8 @@ module Fog
 
         def destroy
           requires :directory, :key
-          connection.delete_namespace([directory.key, key].join('/'))
+          file = directory.files.head(key)
+          connection.delete_namespace([directory.key, key].join('/')) if file.present?
           true
         end
 
