@@ -40,7 +40,7 @@ module Fog
           # searching ALL VM's looking for the template.
           # Tap gets rid of the leading empty string and "Datacenters" element
           # and returns the array.
-          path_elements = options['path'].split('/').tap { |ary| ary.shift 2 }
+          path_elements = options['template_location'].split('/').tap { |ary| ary.shift 2 }
           # The DC name itself.
           template_dc = path_elements.shift
           # If the first path element contains "vm" this denotes the vmFolder
@@ -115,17 +115,19 @@ module Fog
               vm_mob_ref.ReconfigVM_Task(:spec => disk_spec).wait_for_completion
             end
             # Next, create a Relocation Spec instance
-            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => resource_pool,
+            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => option.has_key?('resource_pool') ? options['resource_pool'] : resource_pool,
                                                                       :diskMoveType => :moveChildMostDiskBacking)
           else
-            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => resource_pool,
+            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => option.has_key?('resource_pool') ? options['resource_pool'] : resource_pool,
                                                                       :transform => options['transform'] || 'sparse')
           end
           # And the clone specification
           clone_spec = RbVmomi::VIM.VirtualMachineCloneSpec(:location => relocation_spec,
                                                             :powerOn  => options.has_key?('power_on') ? options['power_on'] : true,
                                                             :template => false)
-          task = vm_mob_ref.CloneVM_Task(:folder => vm_mob_ref.parent, :name => options['name'], :spec => clone_spec)
+          task = vm_mob_ref.CloneVM_Task(:folder => options.has_key?('dest_folder') ? options['dest_folder'] : vm_mob_ref.parent,
+                                         :name => options['name'],
+                                         :spec => clone_spec)
           # Waiting for the VM to complete allows us to get the VirtulMachine
           # object of the new machine when it's done.  It is HIGHLY recommended
           # to set 'wait' => true if your app wants to wait.  Otherwise, you're
