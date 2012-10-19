@@ -34,6 +34,8 @@ module Fog
       model       :application
       collection  :api_clients
       model       :api_client
+      collection  :collaborations
+      model       :collaboration
       collection  :servers
       model       :server
       collection  :server_groups
@@ -54,17 +56,22 @@ module Fog
       model       :cloud_ip
       collection  :users
       model       :user
+      collection  :user_collaborations
+      model       :user_collaboration
 
       request_path 'fog/brightbox/requests/compute'
+      request :accept_user_collaboration
       request :activate_console_server
       request :add_listeners_load_balancer
       request :add_nodes_load_balancer
       request :add_servers_server_group
       request :apply_to_firewall_policy
+      request :accept_user_collaboration
       request :remove_firewall_policy
       request :create_api_client
       request :create_application
       request :create_cloud_ip
+      request :create_collaboration
       request :create_firewall_policy
       request :create_firewall_rule
       request :create_image
@@ -74,17 +81,20 @@ module Fog
       request :delete_api_client
       request :delete_application
       request :delete_cloud_ip
+      request :delete_collaboration
       request :delete_firewall_policy
       request :delete_firewall_rule
       request :delete_image
       request :delete_load_balancer
       request :delete_server
       request :delete_server_group
+      request :delete_user_collaboration
       request :get_account
       request :get_api_client
       request :get_application
       request :get_authenticated_user
       request :get_cloud_ip
+      request :get_collaboration
       request :get_firewall_policy
       request :get_firewall_rule
       request :get_image
@@ -95,11 +105,13 @@ module Fog
       request :get_server_group
       request :get_server_type
       request :get_user
+      request :get_user_collaboration
       request :get_zone
       request :list_accounts
       request :list_api_clients
       request :list_applications
       request :list_cloud_ips
+      request :list_collaborations
       request :list_firewall_policies
       request :list_images
       request :list_load_balancers
@@ -107,16 +119,21 @@ module Fog
       request :list_server_types
       request :list_servers
       request :list_users
+      request :list_user_collaborations
       request :list_zones
       request :map_cloud_ip
       request :move_servers_server_group
+      request :reject_user_collaboration
       request :remove_listeners_load_balancer
       request :remove_nodes_load_balancer
       request :remove_servers_server_group
+      request :resend_collaboration
       request :reset_ftp_password_account
       request :reset_ftp_password_scoped_account
       request :reset_secret_api_client
       request :reset_secret_application
+      request :resend_collaboration
+      request :reject_user_collaboration
       request :shutdown_server
       request :snapshot_server
       request :start_server
