@@ -228,15 +228,15 @@ module Fog
               Fog::Logger.debug ( "host_datastores size = #{host_datastores.size}")
               host_resource.share_datastores = fetch_datastores(host_datastores,
                                                                 @share_datastore_pattern, true)
-              Fog::Logger.debug("WARNING: no matched sharestores in host:#{host_resource.name}") if host_resource.share_datastores.empty?
+              Fog::Logger.warning("no matched sharestores in host:#{host_resource.name}") if host_resource.share_datastores.empty?
               host_resource.local_datastores = fetch_datastores(host_datastores,
                                                                 @local_datastore_pattern, false)
-              Fog::Logger.debug("WARNING: no matched localstores in host:#{host_resource.name}") if host_resource.local_datastores.empty?
+              Fog::Logger.warning("no matched localstores in host:#{host_resource.name}") if host_resource.local_datastores.empty?
               #Fog::Logger.debug( "total ds number for one host = #{@datastore_list.size}") unless @datastore_list.nil?
               @host_list[host_resource.name]  = host_resource
             end
           end
-          Fog::Logger.debug( "WARNING: total host number = #{@host_list.size}")
+          Fog::Logger.deprecation( "total host number = #{@host_list.size}")
           @host_list
         end
 

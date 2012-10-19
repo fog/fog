@@ -11,7 +11,7 @@ module Fog
 
     @log_level = "warn"
     @formatter = Proc.new do |header, msg|
-      "#{header}[#{Time.now.rfc2822}]#{msg}"
+      "[#{Time.now.rfc2822}] #{header} #{msg}"
     end
 
     def self.[](channel)
@@ -26,21 +26,21 @@ module Fog
       @log_level= user_log_level
     end
 
-    def self.deprecation(message)
-      if (@log_level == "info") || (@log_level == "debug") || (@log_level == "warn")
-        self.write(:deprecation, "#{@formatter.call("[yellow][DEPRECATION]", message)}[/]\n")
+    def self.debug(message)
+      if (@log_level == "debug")
+        self.write(:debug, "#{@formatter.call("[light_black]DEBUG:", message)}[/]\n")
       end
     end
 
-    def self.debug(message)
-      if (@log_level == "debug") || (@log_level == "warn")
-        self.write(:debug, "#{@formatter.call("[light_black][DEBUG]", message)}[/]\n")
+    def self.deprecation(message)
+      if (@log_level == "debug") || (@log_level == "info")
+        self.write(:deprecation, "#{@formatter.call("[yellow]INFO:", message)}[/]\n")
       end
     end
 
     def self.warning(message)
-      if (@log_level == "warn")
-        self.write(:warning, "#{@formatter.call("[yellow][WARNING]", message)}[/]\n")
+      if (@log_level == "debug") || (@log_level == "info") || (@log_level == "warn")
+        self.write(:warning, "#{@formatter.call("[yellow]WARN:", message)}[/]\n")
       end
     end
 

@@ -702,9 +702,9 @@ module Fog
               end
 
               if !data_done #|| vm.system_disks.volumes.empty? || vm.swap_disks.volumes.values.empty?
-                Fog::Logger.warning("WARNING: there is no enough space for vm #{vm.name} on host#{host_name} for data disk")
-                Fog::Logger.warning("WARNING: vm#{vm.name}.system_disks.volumes.empty? is true") if vm.system_disks.volumes.empty?
-                Fog::Logger.warning("WARNING: vm#{vm.name}.wap_disks.volumes.empty? is true") if vm.swap_disks.volumes.empty?
+                Fog::Logger.warning("there is no enough space for vm #{vm.name} on host#{host_name} for data disk")
+                Fog::Logger.warning("vm#{vm.name}.system_disks.volumes.empty? is true") if vm.system_disks.volumes.empty?
+                Fog::Logger.warning("vm#{vm.name}.wap_disks.volumes.empty? is true") if vm.swap_disks.volumes.empty?
                 recovery(solution_list[host_name]) unless !(solution_list.has_key?(host_name)) || solution_list[host_name].nil?
                 solution_list.delete(host_name)
                 break
