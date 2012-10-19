@@ -38,8 +38,10 @@ module Fog
         attribute :server_type
 
         def initialize(attributes={})
-          self.image_id ||= Fog::Compute[:brightbox].default_image
+          # Call super first to initialize the 'connection' object for our default image
           super
+          # FIXME connection is actually <Fog::Compute::Brightbox::Real> not <Fog::Connection>
+          self.image_id ||= connection.default_image
         end
 
         def zone_id

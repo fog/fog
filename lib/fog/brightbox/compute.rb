@@ -209,7 +209,7 @@ module Fog
         def select_default_image
           return @default_image_id unless @default_image_id.nil?
 
-          all_images = Fog::Compute[:brightbox].list_images
+          all_images = list_images
           official_images = all_images.select {|img| img["official"] == true}
           ubuntu_lts_images = official_images.select {|img| img["name"] =~ /Ubuntu.*LTS/}
           ubuntu_lts_i686_images = ubuntu_lts_images.select {|img| img["arch"] == "i686"}
