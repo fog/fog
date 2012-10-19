@@ -11,8 +11,12 @@ module Fog
       model_path 'fog/hp/models/storage'
       model       :directory
       collection  :directories
+      model       :shared_directory
+      collection  :shared_directories
       model       :file
       collection  :files
+      model       :shared_file
+      collection  :shared_files
 
       request_path 'fog/hp/requests/storage'
       request :delete_container
@@ -30,6 +34,7 @@ module Fog
       request :head_shared_object
       request :put_container
       request :put_object
+      request :put_shared_object
 
       module Utils
 
@@ -295,12 +300,18 @@ module Fog
             raise case error
             when Excon::Errors::NotFound
               Fog::Storage::HP::NotFound.slurp(error)
+            when Excon::Errors::Forbidden
+              Fog::HP::Errors::Forbidden.slurp(error)
             else
               error
             end
           end
           if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
-            response.body = MultiJson.decode(response.body)
+            begin
+              response.body = MultiJson.decode(response.body)
+            rescue MultiJson::DecodeError => error
+              response.body    #### the body is not in JSON format so just return it as it is
+            end
           end
           response
         end
