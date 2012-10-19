@@ -20,8 +20,13 @@ module Fog
             data = nil
             message = nil
           else
-            data = MultiJson.decode(error.response.body)
-            message = data['message']
+            begin
+              data = MultiJson.decode(error.response.body)
+              message = data['message']
+            rescue MultiJson::DecodeError
+              data = error.response.body    #### the body is not in JSON format so just return it as it is
+              message = data
+            end
           end
 
           new_error = super(error, message)
@@ -33,6 +38,7 @@ module Fog
       class InternalServerError < ServiceError; end
       class Conflict < ServiceError; end
       class NotFound < ServiceError; end
+      class Forbidden < ServiceError; end
       class ServiceUnavailable < ServiceError; end
 
       class BadRequest < ServiceError
