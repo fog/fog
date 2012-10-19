@@ -59,7 +59,7 @@ namespace :test do
 end
 
 task :test do
-  Rake::Task[:mock_tests].invoke && Rake::Task[:real_tests].invoke
+  Rake::Task[:mock_tests].invoke
 end
 
 def tests(mocked)
