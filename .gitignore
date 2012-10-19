@@ -6,6 +6,7 @@
 .bundle
 .DS_Store
 .idea
+/tests/.fog
 bin/*
 !bin/fog
 !bin/rdoc
