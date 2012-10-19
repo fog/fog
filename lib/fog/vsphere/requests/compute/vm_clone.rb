@@ -34,13 +34,16 @@ module Fog
           # Option handling
           options = vm_clone_check_options(options)
 
+          # Added for people still using options['path']
+          template_path = options['path'] || options['template_path']
+
           notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Could not find VM template" }
 
           # Find the template in the folder.  This is more efficient than
           # searching ALL VM's looking for the template.
           # Tap gets rid of the leading empty string and "Datacenters" element
           # and returns the array.
-          path_elements = options['template_location'].split('/').tap { |ary| ary.shift 2 }
+          path_elements = template_path.split('/').tap { |ary| ary.shift 2 }
           # The DC name itself.
           template_dc = path_elements.shift
           # If the first path element contains "vm" this denotes the vmFolder
@@ -115,10 +118,10 @@ module Fog
               vm_mob_ref.ReconfigVM_Task(:spec => disk_spec).wait_for_completion
             end
             # Next, create a Relocation Spec instance
-            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => option.has_key?('resource_pool') ? options['resource_pool'] : resource_pool,
+            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => options.has_key?('resource_pool') ? options['resource_pool'] : resource_pool,
                                                                       :diskMoveType => :moveChildMostDiskBacking)
           else
-            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => option.has_key?('resource_pool') ? options['resource_pool'] : resource_pool,
+            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => options.has_key?('resource_pool') ? options['resource_pool'] : resource_pool,
                                                                       :transform => options['transform'] || 'sparse')
           end
           # And the clone specification
