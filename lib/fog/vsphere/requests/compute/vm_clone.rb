@@ -72,10 +72,10 @@ module Fog
           # Now find the template itself using the efficient find method
           vm_mob_ref = folder.find(template_name, RbVmomi::VIM::VirtualMachine)
 
-          # Now find _a_ resource pool to use for the clone
-          # (REVISIT: We need to support cloning into a specific RP)
-
-          if ( vm_mob_ref.resourcePool == nil )
+          # Now find _a_ resource pool to use for the clone if one is not specified
+          if ( options.has_key?('resource_pool') )
+            resource_pool = options['resource_pool']
+          elsif ( vm_mob_ref.resourcePool == nil )
             # If the template is really a template then there is no associated resource pool,
             # so we need to find one using the template's parent host or cluster
             esx_host = vm_mob_ref.collect!('runtime.host')['runtime.host']
@@ -118,10 +118,10 @@ module Fog
               vm_mob_ref.ReconfigVM_Task(:spec => disk_spec).wait_for_completion
             end
             # Next, create a Relocation Spec instance
-            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => options.has_key?('resource_pool') ? options['resource_pool'] : resource_pool,
+            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => resource_pool,
                                                                       :diskMoveType => :moveChildMostDiskBacking)
           else
-            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => options.has_key?('resource_pool') ? options['resource_pool'] : resource_pool,
+            relocation_spec = RbVmomi::VIM.VirtualMachineRelocateSpec(:pool => resource_pool,
                                                                       :transform => options['transform'] || 'sparse')
           end
           # And the clone specification
