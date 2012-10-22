@@ -86,11 +86,13 @@ module Fog
         def private_ip_address
           if addresses['private']
             #assume only a single private
-            return addresses['private'].first
+            address = addresses['private'].first
           elsif addresses['internet']
             #assume no private IP means private cloud
-            return addresses['internet'].first
+            address = addresses['internet'].first
           end
+          # rackspace returns a hash {"version", "addr"}
+          return address.kind_of?(Hash) ? address["addr"] : address
         end
 
         def private_key_path
@@ -105,11 +107,13 @@ module Fog
         def public_ip_address
           if addresses['public']
             #assume last is either original or assigned from floating IPs
-            return addresses['public'].last
+            address = addresses['public'].last
           elsif addresses['internet']
             #assume no public IP means private cloud
-            return addresses['internet'].first
+            address = addresses['internet'].first
           end
+          # rackspace returns a hash {"version", "addr"}
+          return address.kind_of?(Hash) ? address["addr"] : address
         end
 
         def public_key_path

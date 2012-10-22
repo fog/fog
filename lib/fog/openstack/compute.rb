@@ -358,24 +358,26 @@ module Fog
             @auth_token               = credentials[:token]
             @auth_token_expiration    = credentials[:expires]
             @openstack_management_url = credentials[:server_management_url]
-            @openstack_identity_public_endpoint  = credentials[:identity_public_endpoint]
+            # identity_public_endpoint is returned nil in Rackspace
+            @openstack_identity_public_endpoint  = credentials[:identity_public_endpoint] || @openstack_management_url.scan(/(.*)\/.*/).flatten.first
+
             uri = URI.parse(@openstack_management_url)
+
+            @host   = uri.host
+            @path, @tenant_id = uri.path.scan(/(\/.*)\/(.*)/).flatten
+
+            @path.sub!(/\/$/, '')
+            unless @path.match(/1\.1|v2/)
+              raise Fog::OpenStack::Errors::ServiceUnavailable.new(
+                      "OpenStack binding only supports version 2 (a.k.a. 1.1). Credentials returned: #{credentials.inspect}")
+            end
+
+            @port   = uri.port
+            @scheme = uri.scheme
           else
             @auth_token = @openstack_auth_token
-            uri = URI.parse(@openstack_management_url)
           end
 
-          @host   = uri.host
-          @path, @tenant_id = uri.path.scan(/(\/.*)\/(.*)/).flatten
-
-          @path.sub!(/\/$/, '')
-          unless @path.match(/1\.1|v2/)
-            raise Fog::Compute::OpenStack::ServiceUnavailable.new(
-                    "OpenStack binding only supports version 2 (a.k.a. 1.1)")
-          end
-
-          @port   = uri.port
-          @scheme = uri.scheme
           @identity_connection = Fog::Connection.new(
             @openstack_identity_public_endpoint,
             false, @connection_options)

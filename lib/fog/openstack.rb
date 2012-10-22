@@ -135,7 +135,8 @@ module Fog
           detect{|x| @service_name.include?(x['type']) }
       end
 
-      svc['endpoints'] = svc['endpoints'].select{ |x| x['region'] == @openstack_region } if @openstack_region
+      # Rackspace doesn't return the region in the endpoints if we already include it in the query
+      svc['endpoints'] = svc['endpoints'].select{ |x| x['region'].nil? or x['region'] == @openstack_region } if @openstack_region
       if svc['endpoints'].count > 1
          regions = svc["endpoints"].map { |x| x['region'] }.uniq.join(',')
          raise Errors::NotFound.new("Multiple regions available choose one of these '#{regions}'")
