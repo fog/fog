@@ -15,12 +15,13 @@ module Fog
         def create(params = {})
           data = self.connection.create_machine(params).body
           server = new(data)
-          server.wait_for { ready? }
           server
         end
 
-        def bootstrap
-          # XXX TOXO
+        def bootstrap(new_attributes = {})
+          server = create(new_attributes)
+          server.wait_for { ready? }
+          server
         end
 
         def get(machine_id)
