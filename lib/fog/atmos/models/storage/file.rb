@@ -62,17 +62,20 @@ module Fog
             self.objectid = file.attributes['x-emc-meta'].scan(/objectid=(\w+),/).flatten[0] if file.present?
           end
 
-          requires :objectid
-          uri = URI::HTTP.build(:scheme => connection.ssl? ? "http" : "https" , :host => connection.host, :port => connection.port.to_i, :path => "/rest/objects/#{self.objectid}" )
+          if self.objectid.present?
+            uri = URI::HTTP.build(:scheme => connection.ssl? ? "http" : "https" , :host => connection.host, :port => connection.port.to_i, :path => "/rest/objects/#{self.objectid}" )
 
-          sb = "GET\n"
-          sb += uri.path.downcase + "\n"
-          sb += connection.uid + "\n"
-          sb += String(expires.to_i())
+            sb = "GET\n"
+            sb += uri.path.downcase + "\n"
+            sb += connection.uid + "\n"
+            sb += String(expires.to_i())
 
-          signature = connection.sign( sb )
-          uri.query = "uid=#{CGI::escape(connection.uid)}&expires=#{expires.to_i()}&signature=#{CGI::escape(signature)}"
-          uri.to_s
+            signature = connection.sign( sb )
+            uri.query = "uid=#{CGI::escape(connection.uid)}&expires=#{expires.to_i()}&signature=#{CGI::escape(signature)}"
+            uri.to_s
+          else
+            nil
+          end
         end
 
         def save(options = {})
