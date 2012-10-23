@@ -11,8 +11,12 @@ module Fog
       model_path 'fog/hp/models/storage'
       model       :directory
       collection  :directories
+      model       :shared_directory
+      collection  :shared_directories
       model       :file
       collection  :files
+      model       :shared_file
+      collection  :shared_files
 
       request_path 'fog/hp/requests/storage'
       request :delete_container
@@ -21,11 +25,16 @@ module Fog
       request :get_containers
       request :get_object
       request :get_object_temp_url
+      request :get_shared_container
+      request :get_shared_object
       request :head_container
       request :head_containers
       request :head_object
+      request :head_shared_container
+      request :head_shared_object
       request :put_container
       request :put_object
+      request :put_shared_object
 
       module Utils
 
@@ -53,34 +62,80 @@ module Fog
           "#{@scheme}://#{@host}:#{@port}#{@path}"
         end
 
-        def acl_to_header(acl)
+        def public_url(container=nil, object=nil)
+          public_url = nil
+          unless container.nil?
+            if object.nil?
+              # return container public url
+              public_url = "#{url}/#{Fog::HP.escape(container)}"
+            else
+              # return object public url
+              public_url = "#{url}/#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
+            end
+          end
+          public_url
+        end
+
+        def perm_to_acl(perm, users=[])
+          read_perm_acl = []
+          write_perm_acl = []
+          valid_public_perms  = ['pr', 'pw', 'prw']
+          valid_account_perms = ['r', 'w', 'rw']
+          valid_perms = valid_public_perms + valid_account_perms
+          unless valid_perms.include?(perm)
+            raise ArgumentError.new("permission must be one of [#{valid_perms.join(', ')}]")
+          end
+          # tackle the public access differently
+          if valid_public_perms.include?(perm)
+            case perm
+              when "pr"
+                read_perm_acl = [".r:*",".rlistings"]
+              when "pw"
+                write_perm_acl = ["*"]
+              when "prw"
+                read_perm_acl = [".r:*",".rlistings"]
+                write_perm_acl = ["*"]
+            end
+          elsif valid_account_perms.include?(perm)
+            # tackle the user access differently
+            unless (users.nil? || users.empty?)
+              # return the correct acls
+              tenant_id = "*"  # this might change later
+              acl_array = users.map { |u| "#{tenant_id}:#{u}" }
+              #acl_string = acl_array.join(',')
+              case perm
+                when "r"
+                  read_perm_acl = acl_array
+                when "w"
+                  write_perm_acl = acl_array
+                when "rw"
+                  read_perm_acl = acl_array
+                  write_perm_acl = acl_array
+              end
+            end
+          end
+          return read_perm_acl, write_perm_acl
+        end
+
+        def perm_acl_to_header(read_perm_acl, write_perm_acl)
           header = {}
-          case acl
-            when "private"
-              header['X-Container-Read']  = ""
-              header['X-Container-Write'] = ""
-            when "public-read"
-              header['X-Container-Read']  = ".r:*,.rlistings"
-            when "public-write"
-              header['X-Container-Write'] = "*"
-            when "public-read-write"
-              header['X-Container-Read']  = ".r:*,.rlistings"
-              header['X-Container-Write'] = "*"
+          if read_perm_acl.nil? && write_perm_acl.nil?
+            header = {'X-Container-Read' => "", 'X-Container-Write' => ""}
+          elsif !read_perm_acl.nil? && write_perm_acl.nil?
+            header = {'X-Container-Read' => "#{read_perm_acl.join(',')}", 'X-Container-Write' => ""}
+          elsif read_perm_acl.nil? && !write_perm_acl.nil?
+            header = {'X-Container-Read' => "", 'X-Container-Write' => "#{write_perm_acl.join(',')}"}
+          elsif !read_perm_acl.nil? && !write_perm_acl.nil?
+            header = {'X-Container-Read' => "#{read_perm_acl.join(',')}", 'X-Container-Write' => "#{write_perm_acl.join(',')}"}
           end
           header
         end
 
-        def header_to_acl(read_header=nil, write_header=nil)
-          acl = nil
-          if read_header.nil? && write_header.nil?
-            acl = nil
-          elsif !read_header.nil? && read_header.include?(".r:*") && write_header.nil?
-            acl = "public-read"
-          elsif !write_header.nil? && write_header.include?("*") && read_header.nil?
-            acl = "public-write"
-          elsif !read_header.nil? && read_header.include?(".r:*") && !write_header.nil? && write_header.include?("*")
-            acl = "public-read-write"
-          end
+        def header_to_perm_acl(read_header=nil, write_header=nil)
+          read_h, write_h = nil
+          read_h = read_header.split(',') unless read_header.nil?
+          write_h = write_header.split(',') unless write_header.nil?
+          return read_h, write_h
         end
 
         def generate_object_temp_url(container, object, expires_secs, method)
@@ -226,6 +281,37 @@ module Fog
           end
           if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
             response.body = MultiJson.decode(response.body)
+          end
+          response
+        end
+
+        # this request is used only for get_shared_container and get_shared_object calls
+        def shared_request(params, parse_json = true, &block)
+          begin
+            response = @connection.request(params.merge!({
+              :headers  => {
+                'Content-Type' => 'application/json',
+                'X-Auth-Token' => @auth_token
+              }.merge!(params[:headers] || {}),
+              :host     => @host,
+              :path     => "#{params[:path]}",
+            }), &block)
+          rescue Excon::Errors::HTTPStatusError => error
+            raise case error
+            when Excon::Errors::NotFound
+              Fog::Storage::HP::NotFound.slurp(error)
+            when Excon::Errors::Forbidden
+              Fog::HP::Errors::Forbidden.slurp(error)
+            else
+              error
+            end
+          end
+          if !response.body.empty? && parse_json && response.headers['Content-Type'] =~ %r{application/json}
+            begin
+              response.body = MultiJson.decode(response.body)
+            rescue MultiJson::DecodeError => error
+              response.body    #### the body is not in JSON format so just return it as it is
+            end
           end
           response
         end

@@ -15,24 +15,8 @@ module Fog
         end
 
         def head(key, options = {})
-          read_header = nil
-          write_header = nil
           data = connection.head_container(key)
-          directory = new(:key => key)
-          for key, value in data.headers
-            if ['X-Container-Bytes-Used', 'X-Container-Object-Count'].include?(key)
-              directory.merge_attributes(key => value)
-            end
-            if key == 'X-Container-Read'
-              read_header = value
-            elsif key == 'X-Container-Write'
-              write_header = value
-            end
-          end
-          # set the acl on the directory based on the headers
-          if !(read_header.nil? && write_header.nil?)
-            directory.acl = connection.header_to_acl(read_header, write_header)
-          end
+          directory = create_directory(key, data)
           # set the cdn state for the directory
           directory.cdn_enabled?
 
@@ -42,24 +26,9 @@ module Fog
         end
 
         def get(key, options = {})
-          read_header = nil
-          write_header = nil
           data = connection.get_container(key, options)
-          directory = new(:key => key)
-          for key, value in data.headers
-            if ['X-Container-Bytes-Used', 'X-Container-Object-Count'].include?(key)
-              directory.merge_attributes(key => value)
-            end
-            if key == 'X-Container-Read'
-              read_header = value
-            elsif key == 'X-Container-Write'
-              write_header = value
-            end
-          end
-          # set the acl on the directory based on the headers
-          if !(read_header.nil? && write_header.nil?)
-            directory.acl = connection.header_to_acl(read_header, write_header)
-          end
+          directory = create_directory(key, data)
+          # set the files for the directory
           directory.files.merge_attributes(options)
           directory.files.instance_variable_set(:@loaded, true)
           data.body.each do |file|
@@ -71,6 +40,32 @@ module Fog
           directory
         rescue Fog::Storage::HP::NotFound
           nil
+        end
+
+        private
+
+        def create_directory(key, data)
+          read_header = nil
+          write_header = nil
+          directory = new(:key => key)
+          for key, value in data.headers
+            if ['X-Container-Bytes-Used', 'X-Container-Object-Count'].include?(key)
+              directory.merge_attributes(key => value)
+            end
+            if key == 'X-Container-Read'
+              read_header = value
+            elsif key == 'X-Container-Write'
+              write_header = value
+            end
+          end
+          # set the acl on the directory based on the headers
+          if !(read_header.nil? && write_header.nil?)
+            read_acl, write_acl = connection.header_to_perm_acl(read_header, write_header)
+            # do not want to expose the read_acl and write_acl as writable attributes
+            directory.instance_variable_set(:@read_acl, read_acl)
+            directory.instance_variable_set(:@write_acl, write_acl)
+          end
+          directory
         end
 
       end

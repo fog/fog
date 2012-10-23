@@ -3,21 +3,25 @@ module Fog
     class HP
       class Real
 
-        # List number of objects and total bytes stored
+        # List number of objects and total bytes stored for a shared container
         #
         # ==== Parameters
-        # * container<~String> - Name of container to retrieve info for
+        # * shared_container_url<~String> - Url of the shared container
         #
         # ==== Returns
         # * response<~Excon::Response>:
         #   * headers<~Hash>:
         #     * 'X-Container-Object-Count'<~String> - Count of containers
         #     * 'X-Container-Bytes-Used'<~String>   - Bytes used
-        def head_container(container)
-          response = request(
+        def head_shared_container(shared_container_url)
+          # split up the shared container url
+          uri = URI.parse(shared_container_url)
+          path   = uri.path
+
+          response = shared_request(
             :expects  => 204,
             :method   => 'HEAD',
-            :path     => Fog::HP.escape(container),
+            :path     => path,
             :query    => {'format' => 'json'}
           )
           response
@@ -27,8 +31,8 @@ module Fog
 
       class Mock # :nodoc:all
 
-        def head_container(container_name)
-          response = get_container(container_name)
+        def head_shared_container(shared_container_url)
+          response = get_shared_container(shared_container_url)
           response.body = nil
           response.status = 204
           response

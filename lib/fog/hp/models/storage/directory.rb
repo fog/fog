@@ -12,15 +12,70 @@ module Fog
         attribute :bytes, :aliases => 'X-Container-Bytes-Used'
         attribute :count, :aliases => 'X-Container-Object-Count'
 
-        def acl=(new_acl)
-          if new_acl.nil?
-            new_acl = "private"
+        def initialize(attributes = {})
+            @read_acl  = []
+            @write_acl = []
+            super
+        end
+
+        def read_acl
+          @read_acl
+        end
+
+        def write_acl
+          @write_acl
+        end
+
+        def can_read?(user)
+          return false if @read_acl.nil?
+          list_users_with_read.include?(user)
+        end
+
+        def can_write?(user)
+          return false if @write_acl.nil?
+          list_users_with_write.include?(user)
+        end
+
+        def can_read_write?(user)
+          can_read?(user) && can_write?(user)
+        end
+
+        def list_users_with_read
+          users = []
+          users = @read_acl.map  {|acl| acl.split(':')[1]} unless @read_acl.nil?
+          return users
+        end
+
+        def list_users_with_write
+          users = []
+          users = @write_acl.map  {|acl| acl.split(':')[1]} unless @write_acl.nil?
+          return users
+        end
+
+        def grant(perm, users=[])
+          r_acl, w_acl = connection.perm_to_acl(perm, users)
+          unless r_acl.nil?
+            @read_acl = @read_acl + r_acl
+            @read_acl.uniq!
           end
-          valid_acls = ['private', 'public-read', 'public-write', 'public-read-write']
-          unless valid_acls.include?(new_acl)
-            raise ArgumentError.new("acl must be one of [#{valid_acls.join(', ')}]")
+          unless w_acl.nil?
+            @write_acl = @write_acl + w_acl
+            @write_acl.uniq!
           end
-          @acl = new_acl
+          true
+        end
+
+        def revoke(perm, users=[])
+          r_acl, w_acl = connection.perm_to_acl(perm, users)
+          unless r_acl.nil?
+            @read_acl = @read_acl - r_acl
+            @read_acl.uniq!
+          end
+          unless w_acl.nil?
+            @write_acl = @write_acl - w_acl
+            @write_acl.uniq!
+          end
+          true
         end
 
         def destroy
@@ -50,18 +105,20 @@ module Fog
 
         def public=(new_public)
           if new_public
-            @acl = 'public-read'
+            self.grant("pr")
           else
-            @acl = 'private'
+            self.revoke("pr")
           end
           @public = new_public
         end
 
         def public?
-          if @acl.nil?
+          if @read_acl.empty?
             false
+          elsif @read_acl.include?(".r:*")
+            true
           else
-            @acl == 'public-read'
+            false
           end
         end
 
@@ -70,7 +127,7 @@ module Fog
           @public_url ||= begin
             begin response = connection.head_container(key)
               # escape the key to cover for special char. in container names
-              url = "#{connection.url}/#{Fog::HP.escape(key)}"
+              url = connection.public_url(key)
             rescue Fog::Storage::HP::NotFound => err
               nil
             end
@@ -135,9 +192,8 @@ module Fog
         def save
           requires :key
           options = {}
-          if @acl
-            options.merge!(connection.acl_to_header(@acl))
-          end
+          # write out the acls into the headers before save
+          options.merge!(connection.perm_acl_to_header(@read_acl, @write_acl))
           connection.put_container(key, options)
           # Added an extra check to see if CDN is enabled for the container
           if (!connection.cdn.nil? && connection.cdn.enabled?)
