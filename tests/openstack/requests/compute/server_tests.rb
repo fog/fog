@@ -12,7 +12,9 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
     'status'     => String,
     'accessIPv4' => Fog::Nullable::String,
     'accessIPv6' => Fog::Nullable::String,
-    'links' => Array
+    'links'      => Array,
+    'created'    => String,
+    'updated'    => String
   }
 
   @image_format = {
