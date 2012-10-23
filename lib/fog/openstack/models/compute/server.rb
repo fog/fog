@@ -24,6 +24,8 @@ module Fog
         attribute :availability_zone
         attribute :user_data_encoded
         attribute :state,       :aliases => 'status'
+        attribute :created,     :type => :time
+        attribute :updated,     :type => :time
 
         attribute :tenant_id
         attribute :user_id
