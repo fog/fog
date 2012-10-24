@@ -118,7 +118,7 @@ module Fog
           if ( options.has_key?('dest_folder') )
             dest_folder = grab_folder_obj(options['dest_folder'], false)
           else
-            dest_folder = false
+            dest_folder = vm_mob_ref.parent
           end
 
           # Now find _a_ resource pool to use for the clone if one is not specified
@@ -177,7 +177,7 @@ module Fog
           clone_spec = RbVmomi::VIM.VirtualMachineCloneSpec(:location => relocation_spec,
                                                             :powerOn  => options.has_key?('power_on') ? options['power_on'] : true,
                                                             :template => false)
-          task = vm_mob_ref.CloneVM_Task(:folder => dest_folder ? dest_folder : vm_mob_ref.parent,
+          task = vm_mob_ref.CloneVM_Task(:folder => dest_folder,
                                          :name => options['name'],
                                          :spec => clone_spec)
           # Waiting for the VM to complete allows us to get the VirtulMachine
@@ -194,9 +194,7 @@ module Fog
             tries = 0
             new_vm = begin
               # Try and find the new VM (folder.find is quite efficient)
-              ## REVISIT need to grab the right folder object to search in
-              ##
-              folder.find(options['name'], RbVmomi::VIM::VirtualMachine) or raise Fog::Vsphere::Errors::NotFound
+              dest_folder.find(options['name'], RbVmomi::VIM::VirtualMachine) or raise Fog::Vsphere::Errors::NotFound
             rescue Fog::Vsphere::Errors::NotFound
               tries += 1
               if tries <= 10 then
