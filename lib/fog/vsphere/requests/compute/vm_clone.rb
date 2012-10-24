@@ -10,7 +10,7 @@ module Fog
             'linked_clone' => false,
           }
           options = default_options.merge(options)
-          required_options = %w{ path name }
+          required_options = %w{ template_path name }
           required_options.each do |param|
             raise ArgumentError, "#{required_options.join(', ')} are required" unless options.has_key? param
           end
@@ -24,6 +24,7 @@ module Fog
           if not self.datacenters.include? dc_name then
             raise ArgumentError, "Datacenter #{dc_name} does not exist, only datacenters #{self.datacenters.join(",")} are accessible."
           end
+          
           options
         end
       end
