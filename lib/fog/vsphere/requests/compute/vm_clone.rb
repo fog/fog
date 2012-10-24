@@ -52,6 +52,16 @@ module Fog
         #     in 150 seconds (1m30s) else it returns nil. 'wait' Defaults to nil. 
         #     Saves a little time.
         #   * 'transform'<~String> - Not documented - see http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.vm.RelocateSpec.html
+        ## Future
+        #   * 'customization'<~Hash>: - Linux Only for now. http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.vm.customization.Specification.html
+        #     * 'hostname'<~String> - *REQUIRED for customization* Hostname of 
+        #       the new destinaton linux machine.
+        #     * 'domain'<~String> - *REQUIRED for customization* FQDN for 
+        #       resolv.conf and domain search. e.g. dyn.vmhost.domain.com
+        # REVISIT Maybe Remove Below
+        #     * 'timezone'<~String> - See http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/timezone.html
+        #     * 'dnsServerList'<~Array> - *REQUIRED for customization* I think it's an array ... we'll see
+        #     * 'dnsSuffixList'<~Array> - *REQUIRED for customization* I 
         #
         def vm_clone(options = {})
           # Option handling
