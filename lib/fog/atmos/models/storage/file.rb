@@ -57,11 +57,8 @@ module Fog
 
         # By default, expire in 5 years
         def public_url(expires = (Time.now + 5 * 365 * 24 * 60 * 60))
-          if self.objectid.blank?
-            file = directory.files.head(key)
-            self.objectid = file.attributes['x-emc-meta'].scan(/objectid=(\w+),/).flatten[0] if file.present?
-          end
-
+          file = directory.files.head(key)
+          self.objectid = if file.present? then file.attributes['x-emc-meta'].scan(/objectid=(\w+),/).flatten[0] else nil end
           if self.objectid.present?
             uri = URI::HTTP.build(:scheme => connection.ssl? ? "http" : "https" , :host => connection.host, :port => connection.port.to_i, :path => "/rest/objects/#{self.objectid}" )
 
