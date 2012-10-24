@@ -30,6 +30,29 @@ module Fog
 
       class Real
         include Shared
+
+        # Clones a VM from a template or existing machine on your vSphere 
+        # Server.  
+        #
+        # ==== Parameters
+        # * options<~Hash>:
+        #   * 'template_path'<~String> - *REQUIRED* The path to the machine you 
+        #     want to clone FROM. (Example:
+        #     "/Datacenter/DataCenterNameHere/FolderNameHere/VMNameHere")
+        #   * 'name'<~String> - *REQUIRED* The VMName of the Destination  
+        #   * 'resource_pool'<~String> - The resource pool on your datacenter 
+        #     cluster you want to use.
+        #   * 'dest_folder'<~String> - Destination Folder of where 'name' will
+        #     be placed on your cluster. *NOT TESTED OR VALIDATED*
+        #   * 'power_on'<~Boolean> - Whether to power on machine after clone. 
+        #     Defaults to true.
+        #   * 'wait'<~Boolean> - Whether the method should wait for the virtual
+        #     machine to close finish cloning before returning information from 
+        #     vSphere. Returns the value of the machine if it finishes cloning 
+        #     in 150 seconds (1m30s) else it returns nil. 'wait' Defaults to nil. 
+        #     Saves a little time.
+        #   * 'transform'<~String> - Not documented - see http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.vm.RelocateSpec.html
+        #
         def vm_clone(options = {})
           # Option handling
           options = vm_clone_check_options(options)
