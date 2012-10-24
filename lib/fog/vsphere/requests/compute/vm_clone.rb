@@ -10,6 +10,10 @@ module Fog
             'linked_clone' => false,
           }
           options = default_options.merge(options)
+          # Backwards compatibility settings
+          if ( options.has_key? 'path' )
+            options['template_path'] ||= options['path']
+          end
           required_options = %w{ template_path name }
           required_options.each do |param|
             raise ArgumentError, "#{required_options.join(', ')} are required" unless options.has_key? param
@@ -26,6 +30,37 @@ module Fog
           end
           
           options
+        end
+
+        def grab_folder_obj(path, has_file = true)
+          # Find the folder first, as this is more efficient than
+          # searching ALL VM's looking for the template.
+          # Tap gets rid of the leading empty string and "Datacenters" element
+          # and returns the array.
+          path_elements = path.split('/').tap { |ary| ary.shift 2 }
+          # The DC name itself.
+          path_dc = path_elements.shift
+          # If the first path element contains "vm" this denotes the vmFolder
+          # and needs to be shifted out
+          path_elements.shift if path_elements[0] == 'vm'
+          # Pop the filename off if the path has one (see has_file)s
+          path_elements.pop if has_file
+          # Make sure @datacenters is populated.  We need the instances from the Hash keys.
+          self.datacenters
+          # Get the datacenter managed object from the hash
+          dc = @datacenters[path_dc]
+          # Get the VM Folder (Group) efficiently
+          vm_folder = dc.vmFolder
+          # Walk the tree resetting the folder pointer as we go
+          folder = path_elements.inject(vm_folder) do |current_folder, sub_folder_name|
+            # JJM VIM::Folder#find appears to be quite efficient as it uses the
+            # searchIndex It certainly appears to be faster than
+            # VIM::Folder#inventory since that returns _all_ managed objects of
+            # a certain type _and_ their properties.
+            sub_folder = current_folder.find(sub_folder_name, RbVmomi::VIM::Folder)
+            raise ArgumentError, "Could not descend into #{sub_folder_name}.  Please check your path: #{path}" unless sub_folder
+            sub_folder
+          end
         end
       end
 
@@ -68,43 +103,23 @@ module Fog
           # Option handling
           options = vm_clone_check_options(options)
 
-          # Added for people still using options['path']
-          template_path = options['path'] || options['template_path']
-
+          # Comment needed
           notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Could not find VM template" }
 
-          # Find the template in the folder.  This is more efficient than
-          # searching ALL VM's looking for the template.
-          # Tap gets rid of the leading empty string and "Datacenters" element
-          # and returns the array.
-          path_elements = template_path.split('/').tap { |ary| ary.shift 2 }
-          # The DC name itself.
-          template_dc = path_elements.shift
-          # If the first path element contains "vm" this denotes the vmFolder
-          # and needs to be shifted out
-          path_elements.shift if path_elements[0] == 'vm'
+          # Grab the folder Object for the Template
+          template_folder = grab_folder_obj(options['template_path'])
           # The template name.  The remaining elements are the folders in the
           # datacenter.
-          template_name = path_elements.pop
-          # Make sure @datacenters is populated.  We need the instances from the Hash keys.
-          self.datacenters
-          # Get the datacenter managed object from the hash
-          dc = @datacenters[template_dc]
-          # Get the VM Folder (Group) efficiently
-          vm_folder = dc.vmFolder
-          # Walk the tree resetting the folder pointer as we go
-          folder = path_elements.inject(vm_folder) do |current_folder, sub_folder_name|
-            # JJM VIM::Folder#find appears to be quite efficient as it uses the
-            # searchIndex It certainly appears to be faster than
-            # VIM::Folder#inventory since that returns _all_ managed objects of
-            # a certain type _and_ their properties.
-            sub_folder = current_folder.find(sub_folder_name, RbVmomi::VIM::Folder)
-            raise ArgumentError, "Could not descend into #{sub_folder_name}.  Please check your path." unless sub_folder
-            sub_folder
-          end
-
+          template_name = options['template_path'].split('/').last
           # Now find the template itself using the efficient find method
-          vm_mob_ref = folder.find(template_name, RbVmomi::VIM::VirtualMachine)
+          vm_mob_ref = template_folder.find(template_name, RbVmomi::VIM::VirtualMachine)
+
+          # Grab the destination folder object if it exists else false
+          if ( options.has_key?('dest_folder') )
+            dest_folder = grab_folder_obj(options['dest_folder'], false)
+          else
+            dest_folder = false
+          end
 
           # Now find _a_ resource pool to use for the clone if one is not specified
           if ( options.has_key?('resource_pool') )
@@ -162,7 +177,7 @@ module Fog
           clone_spec = RbVmomi::VIM.VirtualMachineCloneSpec(:location => relocation_spec,
                                                             :powerOn  => options.has_key?('power_on') ? options['power_on'] : true,
                                                             :template => false)
-          task = vm_mob_ref.CloneVM_Task(:folder => options.has_key?('dest_folder') ? options['dest_folder'] : vm_mob_ref.parent,
+          task = vm_mob_ref.CloneVM_Task(:folder => dest_folder ? dest_folder : vm_mob_ref.parent,
                                          :name => options['name'],
                                          :spec => clone_spec)
           # Waiting for the VM to complete allows us to get the VirtulMachine
@@ -179,6 +194,8 @@ module Fog
             tries = 0
             new_vm = begin
               # Try and find the new VM (folder.find is quite efficient)
+              ## REVISIT need to grab the right folder object to search in
+              ##
               folder.find(options['name'], RbVmomi::VIM::VirtualMachine) or raise Fog::Vsphere::Errors::NotFound
             rescue Fog::Vsphere::Errors::NotFound
               tries += 1
