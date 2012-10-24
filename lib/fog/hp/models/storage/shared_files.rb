@@ -41,6 +41,7 @@ module Fog
           shared_object_url = "#{shared_directory.url}/#{key}"
           data = connection.head_shared_object(shared_object_url)
           file_data = data.headers.merge({
+            :body => '',
             :key => key
           })
           new(file_data)
