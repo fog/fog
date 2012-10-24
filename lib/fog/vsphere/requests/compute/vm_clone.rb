@@ -43,7 +43,7 @@ module Fog
         #   * 'resource_pool'<~String> - The resource pool on your datacenter 
         #     cluster you want to use.
         #   * 'dest_folder'<~String> - Destination Folder of where 'name' will
-        #     be placed on your cluster.
+        #     be placed on your cluster. *NOT TESTED OR VALIDATED*
         #   * 'power_on'<~Boolean> - Whether to power on machine after clone. 
         #     Defaults to true.
         #   * 'wait'<~Boolean> - Whether the method should wait for the virtual
