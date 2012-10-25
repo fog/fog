@@ -40,7 +40,7 @@ module Fog
             'DBSubnetGroupName' => name,
             'DBSubnetGroupDescription' => description,
             'SubnetGroupStatus' => 'Complete',
-            'Subnets' => subnets.map { |sn| sn.subnet_id },
+            'Subnets' => subnet_ids,
             'VpcId' => vpc_id
           }
           self.data[:subnet_groups][name] = data

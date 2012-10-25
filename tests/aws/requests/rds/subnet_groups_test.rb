@@ -29,6 +29,7 @@ Shindo.tests('AWS::RDS | subnet group requests', ['aws', 'rds']) do
       returns(@subnet_group_name) { result['CreateDBSubnetGroupResult']['DBSubnetGroup']['DBSubnetGroupName'] }
       returns('A subnet group') { result['CreateDBSubnetGroupResult']['DBSubnetGroup']['DBSubnetGroupDescription'] }
       returns(@vpc.id) { result['CreateDBSubnetGroupResult']['DBSubnetGroup']['VpcId'] }
+      returns(subnet_ids.sort) { result['CreateDBSubnetGroupResult']['DBSubnetGroup']['Subnets'].sort }
 
       result
     end

@@ -10,7 +10,7 @@ module Fog
         attribute  :description, :aliases => 'DBSubnetGroupDescription'
         attribute  :status, :aliases => 'SubnetGroupStatus'
         attribute  :vpc_id, :aliases => 'VpcId'
-        attribute  :subnets, :aliases => 'Subnets'
+        attribute  :subnet_ids, :aliases => 'Subnets'
 
         # TODO: ready?, save, destroy
 
