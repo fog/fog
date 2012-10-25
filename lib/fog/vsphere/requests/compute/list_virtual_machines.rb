@@ -85,39 +85,10 @@ module Fog
         # As a result, we need a list of all virtual machines, and we
         # need them in "native" format, not filter attribute format.
         def list_all_virtual_machine_mobs
-          virtual_machines = Array.new
           # Find each datacenter
-          datacenters = @connection.rootFolder.children.find_all do |child|
-            child.kind_of? RbVmomi::VIM::Datacenter
-          end
+          datacenters = @connection.rootFolder.childEntity.grep(RbVmomi::VIM::Datacenter)
           # Next, search the "vmFolder" inventory of each data center:
-          datacenters.each do |dc|
-            inventory = dc.vmFolder.inventory( 'VirtualMachine' => :all )
-            virtual_machines << find_all_in_inventory(inventory, :type => RbVmomi::VIM::VirtualMachine, :property => 'name' )
-          end
-
-          virtual_machines.flatten
-        end
-
-        def find_all_in_inventory(inventory, properties = { :type => RbVmomi::VIM::VirtualMachine, :property => nil } )
-          results = Array.new
-
-          inventory.each do |k,v|
-
-            # If we have a VMware folder we need to traverse the directory
-            # to ensure we pick VMs inside folders. So we do a bit of recursion
-            # here.
-            results << find_all_in_inventory(v) if k.is_a? RbVmomi::VIM::Folder
-
-            if v[0].is_a? properties[:type]
-              if properties[:property].nil?
-                results << v[0]
-              else
-                results << v[1][properties[:property]]
-              end
-            end
-          end
-          results.flatten
+          datacenters.map {|dc| dc.vmFolder.childEntity.grep(RbVmomi::VIM::VirtualMachine) }.flatten
         end
 
         def get_folder_path(folder, root = nil)
