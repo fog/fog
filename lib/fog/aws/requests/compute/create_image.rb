@@ -63,12 +63,16 @@ module Fog
           params.merge!Fog::AWS.indexed_param('BlockDeviceMapping.%d.Ebs.Iops', block_device_mappings.map{|mapping| mapping['Ebs.Iops']})
           params.reject!{|k,v| v.nil?}
 
+          reserved_ebs_root_device  = '/dev/sda1'
+          block_devices = options.delete(:block_device_mappings) || []
+          register_image_response = register_image(name, description, reserved_ebs_root_device, block_devices, options)
+
           response = Excon::Response.new
           if instance_id && !name.empty?
             response.status = 200
             response.body = {
               'requestId' => Fog::AWS::Mock.request_id,
-              'imageId' => Fog::AWS::Mock.image_id
+              'imageId' => register_image_response.body['imageId']
             }
           else
             response.status = 400
