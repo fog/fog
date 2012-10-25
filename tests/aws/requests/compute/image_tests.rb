@@ -63,6 +63,10 @@ Shindo.tests('Fog::Compute[:aws] | image requests', ['aws']) do
         @created_image = Fog::Compute[:aws].images.get(result['imageId'])
         result
       end
+      tests("#create_image - automatic ebs image registration").returns(true) do
+      create_image_response = Fog::Compute[:aws].create_image(@server.id, 'Fog-Test-Image', 'Fog Test Image')
+      Fog::Compute[:aws].images.get(create_image_response.body['imageId']) != nil
+      end
       @server.destroy
 
       tests("#register_image").formats(@register_image_format) do
