@@ -6,7 +6,7 @@ module Fog
       extend Fog::AWS::CredentialFetcher::ServiceMethods
 
       class IdentifierTaken < Fog::Errors::Error; end
-      
+
       class AuthorizationAlreadyExists < Fog::Errors::Error; end
 
       requires :aws_access_key_id, :aws_secret_access_key
@@ -27,7 +27,6 @@ module Fog
       request :create_db_snapshot
       request :delete_db_snapshot
 
-
       request :create_db_parameter_group
       request :delete_db_parameter_group
       request :modify_db_parameter_group
@@ -44,6 +43,10 @@ module Fog
       request :restore_db_instance_from_db_snapshot
       request :restore_db_instance_to_point_in_time
 
+      request :create_db_subnet_group
+      request :describe_db_subnet_groups
+      # TODO: :delete_db_subnet_group, :modify_db_subnet_group
+
       model_path 'fog/aws/models/rds'
       model       :server
       collection  :servers
@@ -58,6 +61,9 @@ module Fog
       model       :security_group
       collection  :security_groups
 
+      model       :subnet_group
+      collection  :subnet_groups
+
       class Mock
 
         def self.data
@@ -66,6 +72,7 @@ module Fog
               region_hash[key] = {
                 :servers => {},
                 :security_groups => {},
+                :subnet_groups => {},
                 :snapshots => {},
                 :parameter_groups => {"default.mysql5.1" => { "DBParameterGroupFamily"=>"mysql5.1",
                                                               "Description"=>"Default parameter group for mysql5.1",
@@ -156,7 +163,7 @@ module Fog
           @aws_session_token     = options[:aws_session_token]
           @aws_credentials_expire_at = options[:aws_credentials_expire_at]
 
-          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)          
+          @hmac = Fog::HMAC.new('sha256', @aws_secret_access_key)
         end
 
         def request(params)
