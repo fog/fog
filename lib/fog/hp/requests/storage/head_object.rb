@@ -11,7 +11,7 @@ module Fog
         #
         def head_object(container, object)
           response = request({
-            :expects  => 200,  # should be 204
+            :expects  => 200,
             :method   => 'HEAD',
             :path     => "#{Fog::HP.escape(container)}/#{Fog::HP.escape(object)}"
           }, false)
@@ -25,7 +25,7 @@ module Fog
         def head_object(container_name, object_name, options = {})
           response = get_object(container_name, object_name, options)
           response.body = nil
-          response.status = 200   # should be 204
+          response.status = 200
           response
         end
 
