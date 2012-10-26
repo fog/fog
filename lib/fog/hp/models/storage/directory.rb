@@ -189,9 +189,8 @@ module Fog
           end
         end
 
-        def save
+        def save(options = {})
           requires :key
-          options = {}
           # write out the acls into the headers before save
           options.merge!(connection.perm_acl_to_header(@read_acl, @write_acl))
           connection.put_container(key, options)
