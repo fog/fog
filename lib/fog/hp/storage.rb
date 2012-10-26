@@ -33,6 +33,7 @@ module Fog
       request :head_shared_container
       request :head_shared_object
       request :put_container
+      request :put_shared_container
       request :put_object
       request :put_shared_object
 
