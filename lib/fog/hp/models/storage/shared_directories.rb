@@ -9,6 +9,10 @@ module Fog
 
         model Fog::Storage::HP::SharedDirectory
 
+        def all
+          nil
+        end
+
         def head(url)
           data = connection.head_shared_container(url)
           shared_directory = new(:url => url)
