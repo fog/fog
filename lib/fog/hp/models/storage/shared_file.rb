@@ -30,6 +30,12 @@ module Fog
           attributes[:body] = new_body
         end
 
+        def destroy
+          requires :shared_directory, :key
+          # delete is not allowed
+          false
+        end
+
         def shared_directory
           @shared_directory
         end
