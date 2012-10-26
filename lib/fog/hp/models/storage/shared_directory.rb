@@ -21,6 +21,20 @@ module Fog
           end
         end
 
+        def destroy
+          requires :url
+          # delete is not allowed
+          false
+        end
+
+        def save(options = {})
+          requires :url
+          data = connection.put_shared_container(url, options)
+          merge_attributes(data.headers)
+          true
+        rescue Fog::Storage::HP::NotFound, Fog::HP::Errors::Forbidden
+          false
+        end
       end
 
     end
