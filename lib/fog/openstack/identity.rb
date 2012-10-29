@@ -17,6 +17,8 @@ module Fog
       collection  :users
       model       :role
       collection  :roles
+      model       :ec2_credential
+      collection  :ec2_credentials
 
       request_path 'fog/openstack/requests/identity'
 
@@ -212,6 +214,7 @@ module Fog
         end
 
         def request(params)
+          retried = false
           begin
             response = @connection.request(params.merge({
               :headers  => {
@@ -225,13 +228,12 @@ module Fog
               # :query    => ('ignore_awful_caching' << Time.now.to_i.to_s)
             }))
           rescue Excon::Errors::Unauthorized => error
-            if error.response.body != 'Bad username or password' # token expiration
-              @openstack_must_reauthenticate = true
-              authenticate
-              retry
-            else # bad credentials
-              raise error
-            end
+            raise if retried
+            retried = true
+
+            @openstack_must_reauthenticate = true
+            authenticate
+            retry
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
