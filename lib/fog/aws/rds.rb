@@ -23,6 +23,10 @@ module Fog
       request :describe_db_engine_versions
       request :describe_db_reserved_instances
 
+      request :add_tags_to_resource
+      request :list_tags_for_resource
+      request :remove_tags_from_resource
+
       request :describe_db_snapshots
       request :create_db_snapshot
       request :delete_db_snapshot
@@ -187,7 +191,7 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2012-01-15' #'2011-04-01'
+              :version            => '2012-09-17' #'2011-04-01'
             }
           )
 
