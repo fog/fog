@@ -29,7 +29,7 @@ module Fog
         def add_tags_to_resource(rds_id, tags)
           response = Excon::Response.new
           if server = self.data[:servers][rds_id]
-            server['Tags'].merge! tags
+            self.data[:tags][rds_id].merge! tags
             response.status = 200
             response.body = {
               "ResponseMetadata"=>{ "RequestId"=> Fog::AWS::Mock.request_id }

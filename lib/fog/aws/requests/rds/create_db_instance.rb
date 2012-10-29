@@ -103,8 +103,7 @@ module Fog
 #                 "ReadReplicaSourceDBInstanceIdentifier" => nil,
 #                 "LatestRestorableTime" => nil,
                  "AvailabilityZone" => options["AvailabilityZone"],
-                 "DBSubnetGroupName" => options["DBSubnetGroupName"],
-                 "Tags" => {}
+                 "DBSubnetGroupName" => options["DBSubnetGroupName"]
              }
 
 
@@ -116,6 +115,8 @@ module Fog
           response.status = 200
           # This values aren't showed at creating time but at available time
           self.data[:servers][db_name]["InstanceCreateTime"] = Time.now
+          self.data[:tags] ||= {}
+          self.data[:tags][db_name] = {}
           response
         end
 

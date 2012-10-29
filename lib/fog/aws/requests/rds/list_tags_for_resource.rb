@@ -29,7 +29,8 @@ module Fog
           if server = self.data[:servers][rds_id]
             response.status = 200
             response.body = {
-              "ListTagsForResourceResult" => { "TagList" => server['Tags'] }
+              "ListTagsForResourceResult" =>
+                {"TagList" =>  self.data[:tags][rds_id]}
             }
             response
           else
