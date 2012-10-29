@@ -52,26 +52,38 @@ module Fog
           return users
         end
 
-        def grant(perm, users=[])
-          r_acl, w_acl = connection.perm_to_acl(perm, users)
-          unless r_acl.nil?
+        def grant(perm, users=nil)
+          # support passing in a list of users in a comma-separated list or as an Array
+          if users.is_a?(String)
+            user_list = users.split(',')
+          else
+            user_list = users
+          end
+          r_acl, w_acl = connection.perm_to_acl(perm, user_list)
+          unless r_acl.nil? || r_acl.empty?
             @read_acl = @read_acl + r_acl
             @read_acl.uniq!
           end
-          unless w_acl.nil?
+          unless w_acl.nil? || w_acl.empty?
             @write_acl = @write_acl + w_acl
             @write_acl.uniq!
           end
           true
         end
 
-        def revoke(perm, users=[])
-          r_acl, w_acl = connection.perm_to_acl(perm, users)
-          unless r_acl.nil?
+        def revoke(perm, users=nil)
+          # support passing in a list of users in a comma-separated list or as an Array
+          if users.is_a?(String)
+            user_list = users.split(',')
+          else
+            user_list = users
+          end
+          r_acl, w_acl = connection.perm_to_acl(perm, user_list)
+          unless (r_acl.nil? || r_acl.empty?) && (@read_acl.nil? || @read_acl.empty?)
             @read_acl = @read_acl - r_acl
             @read_acl.uniq!
           end
-          unless w_acl.nil?
+          unless (w_acl.nil? || w_acl.empty?) && (@write_acl.nil? || @write_acl.empty?)
             @write_acl = @write_acl - w_acl
             @write_acl.uniq!
           end
