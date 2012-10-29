@@ -206,8 +206,7 @@ module Fog
                                                                       :transform => options['transform'] || 'sparse')
           end
           # And the clone specification
-          clone_spec = RbVmomi::VIM.VirtualMachineCloneSpec(#:customization => customization_spec,
-                                                            :location => relocation_spec,
+          clone_spec = RbVmomi::VIM.VirtualMachineCloneSpec(:location => relocation_spec,
                                                             :powerOn  => options.has_key?('power_on') ? options['power_on'] : true,
                                                             :template => false)
           task = vm_mob_ref.CloneVM_Task(:folder => dest_folder,
