@@ -118,6 +118,8 @@ module Fog
       end
 
       class Real
+        attr_reader :region
+
         include Fog::AWS::CredentialFetcher::ConnectionMethods
         # Initialize connection to ELB
         #
@@ -142,13 +144,17 @@ module Fog
           setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
 
-          options[:region] ||= 'us-east-1'
-          @host = options[:host] || "rds.#{options[:region]}.amazonaws.com"
+          @region     = options[:region]      || 'us-east-1'
+          @host       = options[:host]        || "rds.#{@region}.amazonaws.com"
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+        end
+
+        def owner_id
+          @owner_id ||= Fog::AWS[:rds].security_groups.get('default').owner_id
         end
 
         def reload
