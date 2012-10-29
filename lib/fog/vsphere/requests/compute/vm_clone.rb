@@ -164,8 +164,9 @@ module Fog
           # already set. 
           resource_pool ||= vm_mob_ref.resourcePool.nil? ? esx_host.parent.resourcePool : vm_mob_ref.resourcePool
           
-          # Option['datastore']<~String>
+          # Option['network_label']<~String>
           # REVISIT AND IMPLEMENT
+          
 
           # Option['datastore']<~String>
           # Grab the datastore object if option is set
@@ -176,6 +177,7 @@ module Fog
           # Option['customization']<~Hash>
           # Setup customizations for Linux machines
           # REVISE - DEAD CODE
+=begin
           if ( options.has_key?('customization') )
             custom_hash = options['customization']
             customization_ideneity_settings = RbVmomi::VIM::CustomizationLinuxPrep(
@@ -194,6 +196,7 @@ module Fog
               :identity => customization_ideneity_settings,
               :nicSettingMap => [customization_adapter_mapping])
           end
+=end
 
           # Begin Building Objects to CloneVM_Task - Below here is all action
           # on built parameters. 
@@ -236,7 +239,7 @@ module Fog
                                                                       :transform => options['transform'] || 'sparse')
           end
           # And the clone specification
-          clone_spec = RbVmomi::VIM.VirtualMachineCloneSpec(:customization => customization_spec,
+          clone_spec = RbVmomi::VIM.VirtualMachineCloneSpec(#:customization => customization_spec,
                                                             :location => relocation_spec,
                                                             :powerOn  => options.has_key?('power_on') ? options['power_on'] : true,
                                                             :template => false)
