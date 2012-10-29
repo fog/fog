@@ -103,7 +103,8 @@ module Fog
 #                 "ReadReplicaSourceDBInstanceIdentifier" => nil,
 #                 "LatestRestorableTime" => nil,
                  "AvailabilityZone" => options["AvailabilityZone"],
-                 "DBSubnetGroupName" => options["DBSubnetGroupName"]
+                 "DBSubnetGroupName" => options["DBSubnetGroupName"],
+                 "Tags" => {}
              }
 
 
