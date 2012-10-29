@@ -1,5 +1,5 @@
-ENV['FOG_RC']         = File.expand_path '../.fog', __FILE__
-ENV['FOG_CREDENTIAL'] = 'default'
+ENV['FOG_RC']         = ENV['FOG_RC'] || File.expand_path('../.fog', __FILE__)
+ENV['FOG_CREDENTIAL'] = ENV['FOG_CREDENTIAL'] || 'default'
 
 require 'fog'
 require 'fog/bin' # for available_providers and registered_providers
