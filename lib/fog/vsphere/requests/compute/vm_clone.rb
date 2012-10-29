@@ -84,7 +84,8 @@ module Fog
         include Shared
 
         # Clones a VM from a template or existing machine on your vSphere 
-        # Server. 
+        # Server. Needs to be augmented to select network label and set
+        # guest hostname. 
         #
         # ==== Parameters
         # * options<~Hash>:
@@ -93,7 +94,7 @@ module Fog
         #     "/Datacenter/DataCenterNameHere/FolderNameHere/VMNameHere")
         #   * 'name'<~String> - *REQUIRED* The VMName of the Destination  
         #   * 'dest_folder'<~String> - Destination Folder of where 'name' will
-        #     be placed on your cluster. *NOT TESTED OR VALIDATED*
+        #     be placed on your cluster.
         #   * 'power_on'<~Boolean> - Whether to power on machine after clone. 
         #     Defaults to true.
         #   * 'wait'<~Boolean> - Whether the method should wait for the virtual
@@ -106,22 +107,9 @@ module Fog
         #     same datacenter as where you're cloning from. Datacenter grabbed
         #     from template_path option. 
         #     Example: ['cluster_name_here','resource_pool_name_here']
-        #   * 'network_label'<~String> - The network label to use.*NOT WORKING*
-        #       (datacentObj.networkFolder.find('name') in API)
         #   * 'datastore'<~String> - The datastore you'd like to use.
         #       (datacenterObj.datastoreFolder.find('name') in API)
         #   * 'transform'<~String> - Not documented - see http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.vm.RelocateSpec.html
-        #
-        ## Future
-        #   * 'customization'<~Hash>: - Linux Only for now. http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.vm.customization.Specification.html
-        #     * 'hostname'<~String> - *REQUIRED for customization* Hostname of 
-        #       the new destinaton linux machine.
-        #     * 'domain'<~String> - *REQUIRED for customization* FQDN for 
-        #       resolv.conf and domain search. e.g. dyn.vmhost.domain.com
-        # REVISIT Maybe Remove Below
-        #     * 'timezone'<~String> - See http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/timezone.html
-        #     * 'dnsServerList'<~Array> - *REQUIRED for customization* I think it's an array ... we'll see
-        #     * 'dnsSuffixList'<~Array> - *REQUIRED for customization* I 
         #
         def vm_clone(options = {})
           # Option handling
@@ -168,42 +156,12 @@ module Fog
           # This catches if resource_pool option is set but comes back nil and if resourcePool is 
           # already set. 
           resource_pool ||= vm_mob_ref.resourcePool.nil? ? esx_host.parent.resourcePool : vm_mob_ref.resourcePool
-          
-          # Option['network_label']<~String>
-          # REVISIT AND IMPLEMENT
-          network_obj = find_network_obj(datacenter_obj, options['network_label']) if options.has_key?('network_label')
-          # confirm nil if nil or option is not set
-          network_obj ||= nil
 
           # Option['datastore']<~String>
           # Grab the datastore object if option is set
           datastore_obj = find_datastore_obj(datacenter_obj, options['datastore']) if options.has_key?('datastore')
           # confirm nil if nil or option is not set
           datastore_obj ||= nil
-
-          # Option['customization']<~Hash>
-          # Setup customizations for Linux machines
-          # REVISE - DEAD CODE
-=begin
-          if ( options.has_key?('customization') )
-            custom_hash = options['customization']
-            customization_ideneity_settings = RbVmomi::VIM::CustomizationLinuxPrep(
-              :domain => custom_hash['domain'],
-              :hostName => custom_hash['hostname'])
-            customization_global_ip_settings = RbVmomi::VIM::CustomizationGlobalIPSettings(
-              :dnsServerList => custom_hash['dnsServerList'],
-              :dnsSuffixList => custom_hash['dnsSuffixList'])
-            customization_ip_settings = RbVmomi::VIM::CustomizationIPSettings(
-              :ip => RbVmomi::VIM::CustomizationDhcpIpGenerator.new)
-            customization_adapter_mapping = RbVmomi::VIM::CustomizationAdapterMapping(
-              :adapter => customization_ip_settings
-              )
-            customization_spec = RbVmomi::VIM::CustomizationSpec(
-              :globalIPSettings => customization_global_ip_settings,
-              :identity => customization_ideneity_settings,
-              :nicSettingMap => [customization_adapter_mapping])
-          end
-=end
 
           # Begin Building Objects to CloneVM_Task - Below here is all action
           # on built parameters. 

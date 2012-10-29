@@ -11,14 +11,6 @@ module Fog
           @datacenters.keys
         end
 
-        # Returns a hash of all available datacenters in your cluster.
-        #
-        def datacentersHash
-          @datacenters ||= datacenters_reload
-          # Hide the values which are the RbVmomi instances
-          @datacenters
-        end
-
         private
 
         def datacenters_reload
