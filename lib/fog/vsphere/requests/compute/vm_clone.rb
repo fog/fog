@@ -73,6 +73,11 @@ module Fog
           # Pull datastore Object by name
           datastore = datacenter.datastoreFolder.find(datastore_name)
         end
+        
+        def find_network_obj(datacenter, network_label)
+          # Pull network label object by name
+          network_obj = datacenter.networkFolder.find(network_label)
+        end
       end
 
       class Real
@@ -101,7 +106,7 @@ module Fog
         #     same datacenter as where you're cloning from. Datacenter grabbed
         #     from template_path option. 
         #     Example: ['cluster_name_here','resource_pool_name_here']
-        #   * 'network_label'<~String> - The network label to use.
+        #   * 'network_label'<~String> - The network label to use.*NOT WORKING*
         #       (datacentObj.networkFolder.find('name') in API)
         #   * 'datastore'<~String> - The datastore you'd like to use.
         #       (datacenterObj.datastoreFolder.find('name') in API)
@@ -166,7 +171,9 @@ module Fog
           
           # Option['network_label']<~String>
           # REVISIT AND IMPLEMENT
-          
+          network_obj = find_network_obj(datacenter_obj, options['network_label']) if options.has_key?('network_label')
+          # confirm nil if nil or option is not set
+          network_obj ||= nil
 
           # Option['datastore']<~String>
           # Grab the datastore object if option is set
@@ -200,6 +207,8 @@ module Fog
 
           # Begin Building Objects to CloneVM_Task - Below here is all action
           # on built parameters. 
+          
+          # Build VirtualMachineRelocateSpec
           relocation_spec=nil
           if ( options['linked_clone'] )
             # cribbed heavily from the rbvmomi clone_vm.rb
