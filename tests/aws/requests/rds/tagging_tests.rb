@@ -36,7 +36,7 @@ Shindo.tests('AWS::RDS | tagging requests', ['aws', 'rds']) do
 
     tests("#remove_tags_from_resource").formats(AWS::RDS::Formats::BASIC) do
       result = @rds.remove_tags_from_resource(
-                @db_instance_id, [single_tag.keys.first]).body
+                @db_instance_id, single_tag.keys).body
       returns(two_tags) do
         @rds.list_tags_for_resource(@db_instance_id).
           body['ListTagsForResourceResult']['TagList']
