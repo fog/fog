@@ -53,6 +53,10 @@ module Fog
 
       request :set_tenant
 
+      request :create_ec2_credential
+      request :delete_ec2_credential
+      request :get_ec2_credential
+      request :list_ec2_credentials
 
       class Mock
         attr_reader :auth_token
@@ -63,24 +67,27 @@ module Fog
         attr_reader :unscoped_token
 
         def self.data
-          @users   ||= {}
-          @roles   ||= {}
-          @tenants ||= {}
+          @users           ||= {}
+          @roles           ||= {}
+          @tenants         ||= {}
+          @ec2_credentials ||= Hash.new { |hash, key| hash[key] = {} }
 
           @data ||= Hash.new do |hash, key|
             hash[key] = {
-              :users   => @users,
-              :roles   => @roles,
-              :tenants => @tenants
+              :users           => @users,
+              :roles           => @roles,
+              :tenants         => @tenants,
+              :ec2_credentials => @ec2_credentials,
             }
           end
         end
 
         def self.reset!
-          @data  = nil
-          @users = nil
-          @roles = nil
-          @tenants = nil
+          @data            = nil
+          @users           = nil
+          @roles           = nil
+          @tenants         = nil
+          @ec2_credentials = nil
         end
 
         def initialize(options={})
