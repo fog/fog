@@ -16,7 +16,7 @@ module Fog
           request(
             'Action'        => 'ListTagsForResource',
             'ResourceName'  => "arn:aws:rds:#{@region}:#{owner_id}:db:#{rds_id}",
-            :parser         => Fog::Parsers::AWS::RDS::TagListParser.new,
+            :parser         => Fog::Parsers::AWS::RDS::TagListParser.new
           )
         end
 
