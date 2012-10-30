@@ -166,7 +166,7 @@ module Fog
           end
 
           @openstack_tenant   = options[:openstack_tenant]
-          @openstack_auth_uri   = URI.parse(options[:openstack_auth_url])
+          @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
           @openstack_management_url       = options[:openstack_management_url]
           @openstack_must_reauthenticate  = false
           @openstack_service_name = options[:openstack_service_name] || ['identity']

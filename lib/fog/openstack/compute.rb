@@ -249,9 +249,10 @@ module Fog
 
         def initialize(options={})
           @openstack_auth_token = options[:openstack_auth_token]
+          @auth_token        = options[:openstack_auth_token]
           @openstack_identity_public_endpoint = options[:openstack_identity_endpoint]
 
-          unless @openstack_auth_token
+          unless @auth_token
             missing_credentials = Array.new
             @openstack_api_key  = options[:openstack_api_key]
             @openstack_username = options[:openstack_username]
@@ -334,14 +335,14 @@ module Fog
         private
 
         def authenticate
-          if @openstack_must_reauthenticate || @openstack_auth_token.nil?
+          if !@openstack_management_url || @openstack_must_reauthenticate
             options = {
-              :openstack_api_key  => @openstack_api_key,
-              :openstack_username => @openstack_username,
-              :openstack_auth_token => @openstack_auth_token,
-              :openstack_auth_uri => @openstack_auth_uri,
-              :openstack_region   => @openstack_region,
-              :openstack_tenant   => @openstack_tenant,
+              :openstack_api_key    => @openstack_api_key,
+              :openstack_username   => @openstack_username,
+              :openstack_auth_token => @auth_token,
+              :openstack_auth_uri   => @openstack_auth_uri,
+              :openstack_region     => @openstack_region,
+              :openstack_tenant     => @openstack_tenant,
               :openstack_service_name => @openstack_service_name,
               :openstack_identity_service_name => @openstack_identity_service_name
             }
@@ -360,12 +361,9 @@ module Fog
             @auth_token_expiration    = credentials[:expires]
             @openstack_management_url = credentials[:server_management_url]
             @openstack_identity_public_endpoint  = credentials[:identity_public_endpoint]
-            uri = URI.parse(@openstack_management_url)
-          else
-            @auth_token = @openstack_auth_token
-            uri = URI.parse(@openstack_management_url)
           end
 
+          uri = URI.parse(@openstack_management_url)
           @host   = uri.host
           @path, @tenant_id = uri.path.scan(/(\/.*)\/(.*)/).flatten
 

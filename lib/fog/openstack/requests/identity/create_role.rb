@@ -21,7 +21,7 @@ module Fog
       class Mock
         def create_role(name)
           data = {
-            'id'   => Fog::Mock.random_numbers(6).to_s,
+            'id'   => Fog::Mock.random_base64(64),
             'name' => name
           }
           self.data[:roles][data['id']] = data
