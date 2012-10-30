@@ -32,7 +32,10 @@ module Fog
 
         def destroy
           requires :shared_directory, :key
-          # delete is not allowed
+          connection.delete_shared_object(self.url)
+          true
+        # throws exception Fog::HP::Errors::Forbidden if insufficient access
+        rescue Fog::Storage::HP::NotFound
           false
         end
 
