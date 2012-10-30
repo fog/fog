@@ -47,7 +47,8 @@ module Fog
           merge_attributes(data.headers)
           self.content_length = Fog::Storage.get_body_size(body)
           true
-        rescue Fog::Storage::HP::NotFound, Fog::HP::Errors::Forbidden
+        # throws exception Fog::HP::Errors::Forbidden if insufficient access
+        rescue Fog::Storage::HP::NotFound
           false
         end
 

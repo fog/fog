@@ -23,7 +23,8 @@ module Fog
           end
 
           shared_directory
-        rescue Fog::Storage::HP::NotFound, Fog::HP::Errors::Forbidden
+        # throws exception Fog::HP::Errors::Forbidden if insufficient access
+        rescue Fog::Storage::HP::NotFound
           nil
         end
 
@@ -42,7 +43,8 @@ module Fog
           end
 
           shared_directory
-        rescue Fog::Storage::HP::NotFound, Fog::HP::Errors::Forbidden
+        # throws exception Fog::HP::Errors::Forbidden if insufficient access
+        rescue Fog::Storage::HP::NotFound
           nil
         end
 

@@ -19,7 +19,8 @@ module Fog
           else
             nil
           end
-        rescue Fog::Storage::HP::NotFound, Fog::HP::Errors::Forbidden
+        # throws exception Fog::HP::Errors::Forbidden if insufficient access
+        rescue Fog::Storage::HP::NotFound
           nil
         end
 
@@ -32,7 +33,8 @@ module Fog
             :key  => key
           })
           new(file_data)
-        rescue Fog::Storage::HP::NotFound, Fog::HP::Errors::Forbidden
+        # throws exception Fog::HP::Errors::Forbidden if insufficient access
+        rescue Fog::Storage::HP::NotFound
           nil
         end
 
@@ -45,7 +47,8 @@ module Fog
             :key => key
           })
           new(file_data)
-        rescue Fog::Storage::HP::NotFound, Fog::HP::Errors::Forbidden
+        # throws exception Fog::HP::Errors::Forbidden if insufficient access
+        rescue Fog::Storage::HP::NotFound
           nil
         end
 
