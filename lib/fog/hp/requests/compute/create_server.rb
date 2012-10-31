@@ -15,7 +15,6 @@ module Fog
         #   * 'max_count'<~Integer> - Max. number of servers to create. Defaults to being equal to min_count.
         #   * 'key_name'<~String> - Name of keypair to be used
         #   * 'security_groups'<~Array> - one or more security groups to be used
-        #   * 'availability_zone'<~String> - the availability zone to be used
         #   * 'personality'<~Array>: Up to 5 files to customize server
         #     * file<~Hash>:
         #       * 'contents'<~String> - Contents of file (10kb total of contents)
@@ -97,9 +96,6 @@ module Fog
                 'name' => sg
               }
             end
-          end
-          if options['availability_zone']
-            data['server']['availability_zone'] = options['availability_zone']
           end
 
           request(
