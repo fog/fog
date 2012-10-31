@@ -40,7 +40,7 @@ module Fog
         attribute :os_ext_sts_vm_state, :aliases => 'OS-EXT-STS:vm_state'
 
         attr_reader :password
-        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :image_ref, :flavor_ref, :os_scheduler_hints
+        attr_writer :image_ref, :flavor_ref, :os_scheduler_hints
 
 
         def initialize(attributes={})
@@ -95,15 +95,6 @@ module Fog
           end
         end
 
-        def private_key_path
-          @private_key_path ||= Fog.credentials[:private_key_path]
-          @private_key_path &&= File.expand_path(@private_key_path)
-        end
-
-        def private_key
-          @private_key ||= private_key_path && File.read(private_key_path)
-        end
-
         def public_ip_address
           if addresses['public']
             #assume last is either original or assigned from floating IPs
@@ -112,15 +103,6 @@ module Fog
             #assume no public IP means private cloud
             return addresses['internet'].first
           end
-        end
-
-        def public_key_path
-          @public_key_path ||= Fog.credentials[:public_key_path]
-          @public_key_path &&= File.expand_path(@public_key_path)
-        end
-
-        def public_key
-          @public_key ||= public_key_path && File.read(public_key_path)
         end
 
         def image_ref
@@ -262,10 +244,6 @@ module Fog
         rescue Errno::ECONNREFUSED
           sleep(1)
           retry
-        end
-
-        def username
-          @username ||= 'root'
         end
 
         private

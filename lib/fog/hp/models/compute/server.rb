@@ -31,7 +31,7 @@ module Fog
         attribute :public_ip_address
 
         attr_reader :password
-        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username, :image_id, :flavor_id
+        attr_writer :image_id, :flavor_id
 
         def initialize(attributes = {})
           # assign these attributes first to prevent race condition with new_record?
@@ -67,15 +67,6 @@ module Fog
           addr["addr"] if addr
         end
 
-        def private_key_path
-          @private_key_path ||= Fog.credentials[:private_key_path]
-          @private_key_path &&= File.expand_path(@private_key_path)
-        end
-
-        def private_key
-          @private_key ||= private_key_path && File.read(private_key_path)
-        end
-
         def public_ip_address
           # FIX: Both the private and public ips are bundled under "private" network name
           # So hack to get to the public ip address
@@ -90,15 +81,6 @@ module Fog
           else
             nil
           end
-        end
-
-        def public_key_path
-          @public_key_path ||= Fog.credentials[:public_key_path]
-          @public_key_path &&= File.expand_path(@public_key_path)
-        end
-
-        def public_key
-          @public_key ||= public_key_path && File.read(public_key_path)
         end
 
         def image_id
@@ -209,10 +191,6 @@ module Fog
         rescue Errno::ECONNREFUSED
           sleep(1)
           retry
-        end
-
-        def username
-          @username ||= 'root'
         end
 
         private

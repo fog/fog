@@ -18,6 +18,10 @@ module Fog
         attribute :created, :type => :time
         attribute :updated, :type => :time
 
+        def public_ip_address
+          ips.empty? ? nil : ips.first
+        end
+
         def ready?
           self.state == 'running'
         end
