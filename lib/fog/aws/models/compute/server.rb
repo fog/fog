@@ -47,7 +47,6 @@ module Fog
         attribute :vpc_id,                :aliases => 'vpcId'
 
         attr_accessor :password
-        attr_writer   :private_key, :private_key_path, :public_key, :public_key_path, :username
         attr_writer   :iam_instance_profile_name, :iam_instance_profile_arn
 
 
@@ -116,24 +115,6 @@ module Fog
 
         def key_pair=(new_keypair)
           self.key_name = new_keypair && new_keypair.name
-        end
-
-        def private_key_path
-          @private_key_path ||= Fog.credentials[:private_key_path]
-          @private_key_path &&= File.expand_path(@private_key_path)
-        end
-
-        def private_key
-          @private_key ||= private_key_path && File.read(private_key_path)
-        end
-
-        def public_key_path
-          @public_key_path ||= Fog.credentials[:public_key_path]
-          @public_key_path &&= File.expand_path(@public_key_path)
-        end
-
-        def public_key
-          @public_key ||= public_key_path && File.read(public_key_path)
         end
 
         def ready?
@@ -230,10 +211,6 @@ module Fog
           requires :id
           connection.stop_instances(id, force)
           true
-        end
-
-        def username
-          @username ||= 'root'
         end
 
         def volumes

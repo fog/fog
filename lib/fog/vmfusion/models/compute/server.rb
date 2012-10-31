@@ -1,10 +1,10 @@
-require 'fog/core/model'
+require 'fog/compute/models/server'
 
 module Fog
   module Compute
     class Vmfusion
 
-      class Server < Fog::Model
+      class Server < Fog::Compute::Server
 
         identity :name
 
@@ -14,7 +14,6 @@ module Fog
         attribute :path
 
         attr_accessor :password
-        attr_writer   :private_key, :private_key_path, :public_key, :public_key_path, :username
 
         # There is currently no documented model of creating VMs from scratch
         # sans Fusion's wizard.
@@ -179,21 +178,9 @@ module Fog
         # Sets up a conveinent way to SSH into a Fusion VM using credentials
         # stored in your .fog file.
 
-        def username
-          @username ||= 'root'
-        end
-
         # Simply spawn an SSH session.
         def ssh(commands)
-          requires :ipaddress, :username
-
-          #requires :password, :private_key
-          ssh_options={}
-          ssh_options[:password] = password unless password.nil?
-          ssh_options[:key_data] = [private_key] if private_key
-
-          Fog::SSH.new(ipaddress, @username, ssh_options).run(commands)
-
+          super(commands, password ? {:password => password} : {})
         end
 
         # SCP something to our VM.
@@ -236,26 +223,6 @@ module Fog
             end
           end
           Fog::SSH.new(ipaddress, username, credentials).run(commands)
-        end
-
-        # Just setting local versions of some variables that were going to use
-        # for SSH operations.
-        def private_key_path
-          @private_key_path ||= Fog.credentials[:private_key_path]
-          @private_key_path &&= File.expand_path(@private_key_path)
-        end
-
-        def private_key
-          @private_key ||= private_key_path && File.read(private_key_path)
-        end
-
-        def public_key_path
-          @public_key_path ||= Fog.credentials[:public_key_path]
-          @public_key_path &&= File.expand_path(@public_key_path)
-        end
-
-        def public_key
-          @public_key ||= public_key_path && File.read(public_key_path)
         end
 
         private

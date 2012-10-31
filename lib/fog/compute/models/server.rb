@@ -4,9 +4,30 @@ module Fog
   module Compute
     class Server < Fog::Model
 
-      def private_key=(key_data)
-        @private_key = key_data
+      attr_writer :username, :private_key, :private_key_path, :public_key, :public_key_path
+
+      def username
+        @username ||= 'root'
       end
+
+      def private_key_path
+        @private_key_path ||= Fog.credentials[:private_key_path]
+        @private_key_path &&= File.expand_path(@private_key_path)
+      end
+
+      def private_key
+        @private_key ||= private_key_path && File.read(private_key_path)
+      end
+
+      def public_key_path
+        @public_key_path ||= Fog.credentials[:public_key_path]
+        @public_key_path &&= File.expand_path(@public_key_path)
+      end
+
+      def public_key
+        @public_key ||= public_key_path && File.read(public_key_path)
+      end
+
 
       def scp(local_path, remote_path, upload_options = {})
         require 'net/scp'
