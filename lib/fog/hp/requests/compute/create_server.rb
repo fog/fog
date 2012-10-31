@@ -28,17 +28,34 @@ module Fog
         #   * body<~Hash>:
         #   * 'server'<~Hash>:
         #     * 'addresses'<~Hash>:
-        #       * 'public'<~Array> - public address strings
-        #       * 'private'<~Array> - private address strings
-        #     * 'adminPass'<~String> - Admin password for server
-        #     * 'flavorId'<~Integer> - Id of servers current flavor
+        #       * 'private'<~Array> - private and public fixed and floating ip addresses
+        #     * 'flavor'<~Hash>
+        #       * 'id'<~String> - id of the flavor
+        #       * 'links'<~Array> - array of flavor links
+        #     * 'id'<~Integer> - id of server
+        #     * 'image'<~Hash> - id of image used to boot server
+        #       * 'id'<~String> - id of the image
+        #       * 'links'<~Array> - array of image links
+        #     * 'links'<~Array> - array of server links
         #     * 'hostId'<~String>
-        #     * 'id'<~Integer> - Id of server
-        #     * 'imageId'<~Integer> - Id of image used to boot server
         #     * 'metadata'<~Hash> - metadata
-        #     * 'name'<~String> - Name of server
-        #     * 'progress'<~Integer> - Progress through current status
-        #     * 'status'<~String> - Current server status
+        #     * 'name'<~String> - name of server
+        #     * 'accessIPv4'<~String> - IPv4 ip address
+        #     * 'accessIPv6'<~String> - IPv6 ip address
+        #     * 'progress'<~Integer> - progress through current status
+        #     * 'status'<~String> - current server status
+        #     * 'created'<~String> - created date time stamp
+        #     * 'updated'<~String> - updated date time stamp
+        #     * 'user_id'<~String> - user id
+        #     * 'tenant_id'<~String> - tenant id
+        #     * 'uuid'<~String> - uuid of the server
+        #     * 'config_drive'<~String> - config drive
+        #     * 'security_groups'<~Array of Hash>
+        #       * 'id'<~Integer> - id of the security group
+        #       * 'name'<~String> - name of the security group
+        #       * 'links'<~Array> - array of security group links
+        #     * 'key_name'<~String> - name of the keypair
+        #     * 'adminPass'<~String> - admin password for server
         def create_server(name, flavor_id, image_id, options = {})
           data = {
             'server' => {
