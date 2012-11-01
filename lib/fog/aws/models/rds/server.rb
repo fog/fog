@@ -60,6 +60,24 @@ module Fog
           connection.snapshots(:server => self)
         end
 
+        def tags
+          requires :id
+          connection.list_tags_for_resource(id).
+            body['ListTagsForResourceResult']['TagList']
+        end
+
+        def add_tags(new_tags)
+          requires :id
+          connection.add_tags_to_resource(id, new_tags)
+          tags
+        end
+
+        def remove_tags(tag_keys)
+          requires :id
+          connection.remove_tags_from_resource(id, tag_keys)
+          tags
+        end
+
         def modify(immediately, options)
           options[:security_group_names] ||= options['DBSecurityGroups']
           params = self.class.new(options).attributes_to_params
