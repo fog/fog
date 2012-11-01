@@ -92,6 +92,14 @@ module Fog
             })
           end
         end
+        
+        def private_ip_address
+          addresses['private'].select{|a| a["version"] == 4}[0]["addr"]
+        end
+
+        def public_ip_address
+          ipv4_address
+        end
 
         def ready?
           state == ACTIVE
