@@ -6,7 +6,7 @@ module Fog
           request(
             :expects => [200, 203, 300],
             :method => 'GET',
-            :path => 'servers'
+            :path => 'servers/detail'
           )
         end
       end
