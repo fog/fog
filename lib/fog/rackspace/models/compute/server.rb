@@ -48,7 +48,7 @@ module Fog
         end
 
         def private_ip_address
-          nil
+          addresses['private'].first
         end
 
         def public_ip_address
