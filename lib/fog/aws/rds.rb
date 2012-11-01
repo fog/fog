@@ -23,6 +23,10 @@ module Fog
       request :describe_db_engine_versions
       request :describe_db_reserved_instances
 
+      request :add_tags_to_resource
+      request :list_tags_for_resource
+      request :remove_tags_from_resource
+
       request :describe_db_snapshots
       request :create_db_snapshot
       request :delete_db_snapshot
@@ -118,6 +122,8 @@ module Fog
       end
 
       class Real
+        attr_reader :region
+
         include Fog::AWS::CredentialFetcher::ConnectionMethods
         # Initialize connection to ELB
         #
@@ -142,13 +148,17 @@ module Fog
           setup_credentials(options)
           @connection_options     = options[:connection_options] || {}
 
-          options[:region] ||= 'us-east-1'
-          @host = options[:host] || "rds.#{options[:region]}.amazonaws.com"
+          @region     = options[:region]      || 'us-east-1'
+          @host       = options[:host]        || "rds.#{@region}.amazonaws.com"
           @path       = options[:path]        || '/'
           @persistent = options[:persistent]  || false
           @port       = options[:port]        || 443
           @scheme     = options[:scheme]      || 'https'
           @connection = Fog::Connection.new("#{@scheme}://#{@host}:#{@port}#{@path}", @persistent, @connection_options)
+        end
+
+        def owner_id
+          @owner_id ||= Fog::AWS[:rds].security_groups.get('default').owner_id
         end
 
         def reload
@@ -181,7 +191,7 @@ module Fog
               :host               => @host,
               :path               => @path,
               :port               => @port,
-              :version            => '2012-01-15' #'2011-04-01'
+              :version            => '2012-09-17' #'2011-04-01'
             }
           )
 

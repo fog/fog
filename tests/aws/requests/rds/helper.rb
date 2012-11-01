@@ -223,6 +223,12 @@ class AWS
         }
       })
 
+      LIST_TAGS_FOR_RESOURCE = {
+        'ListTagsForResourceResult' => {
+          'TagList' => Fog::Nullable::Hash
+        }
+      }
+
     end
 
   end
