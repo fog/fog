@@ -52,7 +52,7 @@ module Fog
             Fog::Logger.deprecation("update_account() without a parameter is deprecated, use update_scoped_account instead [light_black](#{caller.first})[/]")
             update_scoped_account(options)
           else
-            request("put", "/1.0/account", [200], options)
+            request("put", "/1.0/accounts/#{identifier}", [200], options)
           end
         end
 
