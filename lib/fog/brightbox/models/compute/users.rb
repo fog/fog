@@ -14,14 +14,12 @@ module Fog
           load(data)
         end
 
-        def get(identifier)
-          return nil if identifier.nil? || identifier == ""
+        def get(identifier = nil)
           data = connection.get_user(identifier)
           new(data)
         rescue Excon::Errors::NotFound
           nil
         end
-
       end
 
     end
