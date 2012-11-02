@@ -24,9 +24,15 @@ Shindo.tests('Fog::Compute[:brightbox] | account requests', ['brightbox']) do
     end
 
     update_options = {:name => "Fog@#{Time.now.iso8601}"}
-    tests("#update_account(#{update_options.inspect})") do
+    tests("#update_scoped_account(#{update_options.inspect})") do
       pending if Fog.mocking?
-      result = Fog::Compute[:brightbox].update_account(update_options)
+      result = Fog::Compute[:brightbox].update_scoped_account(update_options)
+      formats(Brightbox::Compute::Formats::Full::ACCOUNT, false) { result }
+    end
+
+    tests("#update_account(#{@scoped_account_identifier}, #{update_options.inspect})") do
+      pending if Fog.mocking?
+      result = Fog::Compute[:brightbox].update_account(@scoped_account_identifier, update_options)
       formats(Brightbox::Compute::Formats::Full::ACCOUNT, false) { result }
     end
 

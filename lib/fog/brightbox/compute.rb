@@ -120,6 +120,7 @@ module Fog
       request :update_firewall_rule
       request :update_image
       request :update_load_balancer
+      request :update_scoped_account
       request :update_server
       request :update_server_group
       request :update_user
