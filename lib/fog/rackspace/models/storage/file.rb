@@ -12,6 +12,7 @@ module Fog
         attribute :content_type,    :aliases => ['content_type', 'Content-Type']
         attribute :etag,            :aliases => ['hash', 'Etag']
         attribute :last_modified,   :aliases => ['last_modified', 'Last-Modified'], :type => :time
+        attribute :metadata
 
         def body
           attributes[:body] ||= if last_modified
@@ -43,6 +44,16 @@ module Fog
           true
         end
 
+        remove_method :metadata
+        def metadata
+          attributes.reject {|key, value| !metadata_attribute?(key)}
+        end
+
+        remove_method :metadata=
+        def metadata=(new_metadata)
+          merge_attributes(new_metadata)
+        end
+
         def owner=(new_owner)
           if new_owner
             attributes[:owner] = {
@@ -64,8 +75,12 @@ module Fog
         def save(options = {})
           requires :body, :directory, :key
           options['Content-Type'] = content_type if content_type
+          options.merge!(metadata)
           data = connection.put_object(directory.key, key, body, options)
+          
           merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})
+          attributes.delete_if {|key, value| metadata_attribute?(key) && value.nil?}
+
           self.content_length = Fog::Storage.get_body_size(body)
           self.content_type ||= Fog::Storage.get_content_type(body)
           true
@@ -77,6 +92,9 @@ module Fog
           @directory = new_directory
         end
 
+        def metadata_attribute?(key)
+          key.to_s =~ /^X-Object-Meta-/
+        end
       end
 
     end
