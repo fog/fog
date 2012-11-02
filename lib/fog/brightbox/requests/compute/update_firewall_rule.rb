@@ -3,8 +3,10 @@ module Fog
     class Brightbox
       class Real
 
-        def update_firewall_rule(id, options)
-          request("put", "/1.0/firewall_rules/#{id}", [202], options)
+        def update_firewall_rule(identifier, options)
+          return nil if identifier.nil? || identifier == ""
+          return nil if options.empty? || options.nil?
+          request("put", "/1.0/firewall_rules/#{identifier}", [202], options)
         end
 
       end
