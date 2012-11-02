@@ -2,6 +2,12 @@ Shindo.tests('Fog::Compute[:brightbox] | account requests', ['brightbox']) do
 
   tests('success') do
 
+    tests("#list_accounts") do
+      pending if Fog.mocking?
+      result = Fog::Compute[:brightbox].list_accounts
+      formats(Brightbox::Compute::Formats::Collection::ACCOUNTS, false) { result }
+    end
+
     tests("#get_account") do
       pending if Fog.mocking?
       result = Fog::Compute[:brightbox].get_account
