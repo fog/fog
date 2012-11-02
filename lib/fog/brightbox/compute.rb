@@ -75,12 +75,14 @@ module Fog
       request :get_account
       request :get_api_client
       request :get_application
+      request :get_authenticated_user
       request :get_cloud_ip
       request :get_firewall_policy
       request :get_firewall_rule
       request :get_image
       request :get_interface
       request :get_load_balancer
+      request :get_scoped_account
       request :get_server
       request :get_server_group
       request :get_server_type
@@ -118,6 +120,7 @@ module Fog
       request :update_firewall_rule
       request :update_image
       request :update_load_balancer
+      request :update_scoped_account
       request :update_server
       request :update_server_group
       request :update_user
@@ -184,8 +187,19 @@ module Fog
           make_request(request_options)
         end
 
+        # Returns the scoped account being used for requests
+        #
+        # API Clients:: This is the owning account
+        # User Apps::   This is the account specified by either +account_id+
+        #               option on a connection or the +brightbox_account+
+        #               setting in your configuration
+        #
+        # === Returns:
+        #
+        # <tt>Fog::Compute::Brightbox::Account</tt>
+        #
         def account
-          Fog::Compute::Brightbox::Account.new(get_account)
+          Fog::Compute::Brightbox::Account.new(get_scoped_account)
         end
 
       private
