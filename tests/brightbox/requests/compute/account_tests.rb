@@ -8,9 +8,17 @@ Shindo.tests('Fog::Compute[:brightbox] | account requests', ['brightbox']) do
       formats(Brightbox::Compute::Formats::Collection::ACCOUNTS, false) { result }
     end
 
-    tests("#get_account") do
+    tests("#get_scoped_account") do
       pending if Fog.mocking?
-      result = Fog::Compute[:brightbox].get_account
+      result = Fog::Compute[:brightbox].get_scoped_account
+      @scoped_account_identifier = result["id"]
+      formats(Brightbox::Compute::Formats::Full::ACCOUNT, false) { result }
+      test("ftp password is blanked") { result["library_ftp_password"].nil?  }
+    end
+
+    tests("#get_account(#{@scoped_account_identifier}") do
+      pending if Fog.mocking?
+      result = Fog::Compute[:brightbox].get_account(@scoped_account_identifier)
       formats(Brightbox::Compute::Formats::Full::ACCOUNT, false) { result }
       test("ftp password is blanked") { result["library_ftp_password"].nil?  }
     end
