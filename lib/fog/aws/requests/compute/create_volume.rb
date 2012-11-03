@@ -83,8 +83,8 @@ module Fog
                 raise Fog::Compute::AWS::Error.new("VolumeIOPSLimit => Volume iops of #{iops} is too low; minimum is 100.")
               end
 
-              if iops > 1000
-                raise Fog::Compute::AWS::Error.new("VolumeIOPSLimit => Volume iops of #{iops} is too high; maximum is 1000.")
+              if iops > 2000
+                raise Fog::Compute::AWS::Error.new("VolumeIOPSLimit => Volume iops of #{iops} is too high; maximum is 2000.")
               end
             end
 

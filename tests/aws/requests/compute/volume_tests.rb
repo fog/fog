@@ -184,9 +184,9 @@ Shindo.tests('Fog::Compute[:aws] | volume requests', ['aws']) do
       Fog::Compute[:aws].create_volume(@server.availability_zone, 10, 'VolumeType' => 'io1', 'Iops' => 99)
     end
 
-    # iops invalid value (greater than 1000)
-    tests("#create_volume('#{@server.availability_zone}', 10, 'VolumeType' => 'io1', 'Iops' => 1001)").raises(Fog::Compute::AWS::Error) do
-      Fog::Compute[:aws].create_volume(@server.availability_zone, 1000, 'VolumeType' => 'io1', 'Iops' => 1001)
+    # iops invalid value (greater than 2000)
+    tests("#create_volume('#{@server.availability_zone}', 1024, 'VolumeType' => 'io1', 'Iops' => 2001)").raises(Fog::Compute::AWS::Error) do
+      Fog::Compute[:aws].create_volume(@server.availability_zone, 1024, 'VolumeType' => 'io1', 'Iops' => 2001)
     end
 
     @volume.destroy
