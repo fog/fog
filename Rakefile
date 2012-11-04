@@ -239,6 +239,7 @@ task :changelog do
         'Lincoln Stoll',
         'Luqman Amjad',
         'Michael Zeng',
+        'Nick Osborn',
         'nightshade427',
         'Patrick Debois',
         'Stepan G. Fedorov',

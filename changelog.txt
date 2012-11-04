@@ -1,3 +1,187 @@
+1.7.0 11/04/2012 aa853488c9d84d849f52cf348787030fbb963163
+=========================================================
+
+Stats! { 'collaborators' => 41, 'downloads' => 1216554, 'forks' => 599, 'open_issues' => 80, 'watchers' => 2206 }
+
+MVP! Nick Osborn
+
+[AWS::Mock|create_image]
+  automatic registration of ebs image upon image_create. thanks Chielo Zimmerman
+
+[AWS|Glacier]
+  Fix description header not being passed through Fog.escape. thanks Frederick Cheung
+
+[Brightbox]
+  Change code to return Single user. thanks Hemant Kumar
+  Adds ApiClient Model. thanks Hemant Kumar
+  Add identifier to get_account method. thanks Hemant Kumar
+  Reuses connection for image selection. thanks Paul Thornthwaite
+  Fixes cloud IP options default. thanks Paul Thornthwaite
+  Deprecates overloaded requests. thanks Paul Thornthwaite
+  Standardises update_firewall_rule. thanks Paul Thornthwaite
+  Deprecates old account update request. thanks Paul Thornthwaite
+  Use correct request to update account. thanks Paul Thornthwaite
+  Brightbox tests should select the smallest official image. thanks Steve Smith
+  Allows authentication as user. thanks Steve Smith
+  Allow users to lists all accounts associated with the current credentials. thanks Steve Smith
+  add support for User Applications. thanks Steve Smith
+
+[HP|Storage]
+  remove debug output. thanks geemus
+
+[Ninefold|Storage]
+  Use Atmos in Ninefold storage. thanks Timur Alperovich
+
+[aws|auto_scaling]
+  update display_*_types. thanks Nick Osborn
+  Fix documentation URL. thanks Nick Osborn
+  support termination policies. thanks Nick Osborn
+  correct DefaultCooldown in mocks. thanks Nick Osborn
+  documentation tinkering. thanks Nick Osborn
+  support ForceDelete for delete_auto_scaling_group. thanks Nick Osborn
+  better tag handling. thanks Nick Osborn
+  DRY out ARNs in mocks. thanks Nick Osborn
+  document Tags option to create_auto_scaling_group. thanks Nick Osborn
+  fix AutoScalingGroupName in mock. thanks Nick Osborn
+  expose delete_notification_configuration request. thanks Nick Osborn
+  improve describe_*_types test. thanks Nick Osborn
+  improve notification configurations. thanks Nick Osborn
+  s/data/self.data/ in mocks. thanks Nick Osborn
+  mark describe_*_types requests as idempotent. thanks Nick Osborn
+  tags support. thanks Nick Osborn
+  expose termination policies in group model. thanks Nick Osborn
+
+[aws|autoscaling]
+  fix casting availability_zones to array in create_auto_scaling_group mock. thanks geemus
+  mark problematic auto_scaling mocked tests as pending     see also #1183. thanks geemus
+
+[aws|cdn]
+  cover AWS CDN with some non-exhaustive tests. thanks Brice Figureau
+  Implements AWS CDN get_invalidation request. thanks Brice Figureau
+  fix incorrect get_invalidation result. thanks Brice Figureau
+  add aws cdn tests for streaming distributions. thanks Brice Figureau
+  fix cdn documentation. thanks Brice Figureau
+  AWS CDN models. thanks Brice Figureau
+  add request mock support for AWS Cloudfront. thanks Brice Figureau
+  fix up failing mocked tests around invalidations. thanks geemus
+
+[aws|cloud_watch]
+  Add instrumentation support. thanks Michael Hale
+
+[aws|ec2]
+  describe_availability_zones parser handles nested <item> tags. thanks Aaron Suggs
+
+[aws|rds]
+  add region and owner_id as RDS connection attributes. thanks Benton Roberts
+  add request definitions for RDS tagging and increment RDS API version. thanks Benton Roberts
+  add tests for RDS tagging requests. thanks Benton Roberts
+  add tagging methods to RDS server model. thanks Benton Roberts
+  add tagging tests for RDS server model. thanks Benton Roberts
+  store mocked RDS instance tags in connection object. thanks Benton Roberts
+  FIX non-1.8-compliant syntax bug. thanks Benton Roberts
+
+[misc]
+  modified create function to include options. changed "diskConfig" to "OS-DCF:diskConfig" to allow disk configuration to be properly set. thanks Alex Dunn
+  Removed options attribute and used the already existing disk_config attribute instead. Passed in options hash to create_server method with disk_config attribute unless nil. thanks Alex Dunn
+  Replace nil return value with private IP, implementation as in public_ip_address method. thanks Andrew Taylor
+  Change the metadata method to support amazon tags such as x-amz-website-redirect-location. thanks Arthur Gunawan
+  Fix issue #1245 - mock register_image fails with block device mapping. thanks Brice Figureau
+  Added ninefold load balancers. thanks Carl Woodward
+  Added other commands for load balancers. thanks Carl Woodward
+  Fix create load balancer test. thanks Carl Woodward
+  Add assign list to load balancer rules and update load balancer rule for     Ninefold. thanks Carl Woodward
+  Add remove from load balancer test. thanks Carl Woodward
+  Move ssh private_key, public_key, username to Server model to reduce duplication. thanks Carlos Sanchez
+  Joyent server creation should not wait for server to be ready. thanks Carlos Sanchez
+  Added ParameterValue to engine_defaults_parser. thanks Curtis Stewart
+  Added outputs 'Description' field to DescribeStacks parser. thanks Curtis Stewart
+  Make region available to mock. thanks Edward Muller
+  Added OpenStack::Server#created and #updated. thanks Eric Hodel
+  Use :default from tests/.fog for test credentials. thanks Eric Hodel
+  Only run mocked tests by default. thanks Eric Hodel
+  Tested handling of Openstack server created and updated times. thanks Eric Hodel
+  create image now supports block device mapping. thanks Eric Stonfer
+  create image extended to allow for EBS volume handling. thanks Eric Stonfer
+  fix indexed_param usage. thanks Eric Stonfer
+  forgot to commit some changes. thanks Eric Stonfer
+  when querying servers by icenter group, servers will return nil.  fixed this. thanks Eugene Howe
+  fixed bad request names. thanks Eugene Howe
+  correct the options checking in BlueBox create_block. thanks Josh Kalderimis
+  changed list nova servers request to get details. thanks Julio Feijo
+  Correct the handling of the power_on option. thanks Karan Misra
+  Added support for scheduler_hints in OpenStack. thanks Mariusz Pietrzyk
+  add force option to auto scaling group destroy method. thanks Michael Hale
+  use hash args. thanks Michael Hale
+  [AWS|cloud_watch]: fix list_metrics NextMarker should be NextToken. thanks Michael Hale
+  Fix to resolve "objectid is required for this operation" error message when calling public_url. thanks Michael Harrison
+  Fix to resolve "objectid is required for this operation" error message when calling public_url. thanks Michael Harrison
+  Return nil on public_url if the file isn't present on the cloud storage. thanks Michael Harrison
+  Added file existence check before file deletion attempt. thanks Michael Harrison
+  Rolled back deletion guard as some may be using the exception raised in their code. thanks Michael Harrison
+  Changed Atmos::FIle.public_url so an exception is thrown if the file doesn't exist on the cloud storage. thanks Michael Harrison
+  Changed Atmos::FIle.public_url so returns nil if the file doesn't exist on the cloud storage.  This brings the method in line with other storage implementations such as AWS and Rackspace. thanks Michael Harrison
+  Changed Atmos::FIle.public_url so checks for existence of the file on storage on every call to the method minimising the potential for a 404 error. thanks Michael Harrison
+  added documentation. thanks Nick Huanuca
+  ammend dest_folder disclaimer. thanks Nick Huanuca
+  fixed vm listing problem. thanks Ohad Levy
+  Allows tests to run against FOG_RC setting. thanks Paul Thornthwaite
+  Beginning implementation of RDS subnet groups. thanks Rusty Geldmacher
+  Changes RDS subnet attribute name from subnets to subnet_ids. thanks Rusty Geldmacher
+  allow port to be included in queue_url. thanks Sairam
+  Fixed typos in elasticache and rds describe_events.  Added better documentation of describe_events. thanks Sean Hart
+  Added test for describe_events.rb.  It is very simple, and I'm not familiar with Shindo, so may need some assistance expanding. thanks Sean Hart
+  Added parsing for Marker.  AWS limits response to 100 lines and gives you a marker to get the next batch with. thanks Sean Hart
+  Added missing header. thanks Stephen von Takach
+  Bumped mocked maximum value for provisioned iops. thanks Thom Mahoney
+  Ignore existing directory when creating on local storage. thanks Thomas Wright
+  Add config instructions to README. thanks Thomas Wright
+  Fix reference to config file. thanks Thomas Wright
+  expect public_key option instead of ssh_key on block create. thanks Trevor Bramble
+  Added usagePrice the hourly cost for a reserved instance. thanks Ulf Mansson
+  Added RDS describe_events. thanks Your Name
+  Created describe events for RDS. thanks Your Name
+  Update lib/fog/vsphere/requests/compute/vm_clone.rb. thanks endzyme
+  Update lib/fog/vsphere/requests/compute/vm_clone.rb. thanks endzyme
+  Update lib/fog/vsphere/requests/compute/vm_clone.rb. thanks endzyme
+
+[ninefold|compute]
+  update load balancer tests to pass hash parameters for backwards compatability. thanks geemus
+  mark before/after blocks as pending in mocked mode also. thanks geemus
+
+[openstack]
+  Authentication Mocks. thanks Nelvin Driz
+  Fix Failing Shindo Tests. thanks Nelvin Driz
+  Ensure String Username for Authentication. thanks Nelvin Driz
+  Changed volumes attributes of mocks from camelcase to     snakecase. thanks Philip Mark M. Deazeta
+  Updated mocks for quota, image, tenant and volumes. thanks Philip Mark M. Deazeta
+  Fixed mocks for failing shindo tests. thanks Philip Mark M. Deazeta
+  Updated 'image update' mocks. thanks Philip Mark M. Deazeta
+
+[openstack|compute]
+  Added auth_token_expiration. thanks Alfonso Juan Dillera
+  Fixed security groups typos. thanks Alfonso Juan Dillera
+  Fix Server Mocks and `find_by_id` method. thanks Nelvin Driz
+
+[openstack|identity]
+  Update for failing mock test. thanks Alvin Garcia
+  Update Identity Mocking Process. thanks Nelvin Driz
+  Update Fog Mocks on Authentication, User and Roles. thanks Nelvin Driz
+
+[openstack|image]
+  Added update_members function. thanks Alvin Garcia
+  Added updateable attributes. thanks Alvin Garcia
+  Added optional attributes to set on create image. thanks Alvin Garcia
+  Fixed update image and list public images mocks. thanks Alvin Garcia
+  Fix Hash Access on Mock of Create Image. thanks Nelvin Driz
+
+[openstack|network]
+  Add support for OpenStack Quantum. thanks Ferran Rodenas
+  Add filters to networks, ports and subnets. thanks Ferran Rodenas
+
+[rackspace|identity]
+  user should be alphanumeric. thanks geemus
+
+
 1.6.0 09/15/2012 4bd909557fd595a656ebd86a3d7c5849bd923fe1
 =========================================================
 
