@@ -3,7 +3,7 @@ Shindo.tests('Fog::Rackspace::Identity | users', ['rackspace']) do
   pending if Fog.mocking?
 
   service = Fog::Rackspace::Identity.new
-  username = "fog_user_#{Time.now.to_i.to_s}"
+  username = "fog#{Time.now.to_i.to_s}"
   options = {
     :username => username,
     :email => 'email@example.com',
