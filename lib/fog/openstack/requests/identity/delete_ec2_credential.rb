@@ -20,7 +20,7 @@ module Fog
           request(
             :expects => [200, 204],
             :method  => 'DELETE',
-            :path    => "users/#{user_id}/credentials/OS-EC2/#{access}",
+            :path    => "users/#{user_id}/credentials/OS-EC2/#{access}"
           )
         end
       end
