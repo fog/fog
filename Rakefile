@@ -1,8 +1,8 @@
 require 'bundler/setup'
 require 'date'
 require 'rubygems'
-require 'rdoc/task'
 require 'rubygems/package_task'
+require 'yard'
 require File.dirname(__FILE__) + '/lib/fog'
 
 #############################################################################
@@ -116,14 +116,6 @@ task :nuke do
   end
 end
 
-require 'rdoc/task'
-RDoc::Task.new do |rdoc|
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "#{name} #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
-end
-
 desc "Open an irb session preloaded with this library"
 task :console do
   sh "irb -rubygems -r ./lib/#{name}.rb"
@@ -180,6 +172,13 @@ task :validate do
     puts "A `VERSION` file at root level violates Gem best practices."
     exit!
   end
+end
+
+# Include Yard tasks for rake yard
+YARDOC_LOCATION = "doc"
+YARD::Rake::YardocTask.new do |t|
+  t.files   = ['lib/**/*.rb', "README"]
+  t.options = ["--output-dir", YARDOC_LOCATION, "--title", "#{name} #{version}"]
 end
 
 task :changelog do
@@ -271,7 +270,7 @@ end
 task :docs do
   Rake::Task[:supported_services_docs].invoke
   Rake::Task[:upload_fog_io].invoke
-  Rake::Task[:upload_rdoc].invoke
+  Rake::Task[:upload_yardoc].invoke
 
   # connect to storage provider
   Fog.credential = :geemus
@@ -397,18 +396,18 @@ task :upload_fog_io do
   Formatador.redisplay("Uploaded docs/_site\n")
 end
 
-task :upload_rdoc do
+task :upload_yardoc do
   # connect to storage provider
   Fog.credential = :geemus
   storage = Fog::Storage.new(:provider => 'AWS')
   directory = storage.directories.new(:key => 'fog.io')
 
-  # write rdoc files to versioned 'folder'
-  Rake::Task[:rdoc].invoke
-  for file_path in Dir.glob('rdoc/**/*')
+  # write doc files to versioned 'folder'
+  Rake::Task[:yard].invoke
+  for file_path in Dir.glob("#{YARDOC_LOCATION}/**/*")
     next if File.directory?(file_path)
-    file_name = file_path.gsub('rdoc/', '')
-    key = '' << version << '/rdoc/' << file_name
+    file_name = file_path.gsub("#{YARDOC_LOCATION}/", '')
+    key = '' << version << "/#{YARDOC_LOCATION}/" << file_name
     Formatador.redisplay(' ' * 128)
     Formatador.redisplay("Uploading [bold]#{key}[/]")
     directory.files.create(
@@ -419,12 +418,12 @@ task :upload_rdoc do
   end
   Formatador.redisplay(' ' * 128)
   directory.files.create(
-    :body         => redirecter("#{version}/rdoc/index.html"),
+    :body         => redirecter("#{version}/#{YARDOC_LOCATION}/index.html"),
     :content_type => 'text/html',
-    :key          => 'latest/rdoc/index.html',
+    :key          => "latest/#{YARDOC_LOCATION}/index.html",
     :public       => true
   )
-  Formatador.redisplay("Uploaded rdoc\n")
+  Formatador.redisplay("Uploaded yardoc\n")
 end
 
 def redirecter(path)
