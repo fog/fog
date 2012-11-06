@@ -33,6 +33,7 @@ module Fog
         attribute :tenant_id
         attribute :links
         attribute :metadata
+        attribute :personality
         attribute :ipv4_address, :aliases => 'accessIPv4'
         attribute :ipv6_address, :aliases => 'accessIPv6'
         attribute :disk_config, :aliases => 'OS-DCF:diskConfig'
@@ -54,8 +55,12 @@ module Fog
 
         def create
           requires :name, :image_id, :flavor_id
+
           options = {}
           options[:disk_config] = disk_config unless disk_config.nil?
+          options[:metadata] = metadata unless metadata.nil?
+          options[:personality] = personality unless personality.nil?
+          
           data = connection.create_server(name, image_id, flavor_id, 1, 1, options)
           merge_attributes(data.body['server'])
           true
