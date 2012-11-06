@@ -123,12 +123,6 @@ geemus says: "That should give you everything you need to get started, but let m
 
 [fog.io](http://fog.io)
 
-## Sponsorship
-
-![Engine Yard](http://www.engineyard.com/images/logo.png)
-
-All new work on fog is sponsored by [Engine Yard](http://engineyard.com)
-
 ## Copyright
 
 (The MIT License)
