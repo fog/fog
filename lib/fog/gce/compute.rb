@@ -74,10 +74,6 @@ module Fog
           @api_url = base_url + api_version + '/projects/'
           @client = ::Google::APIClient.new
           @compute = @client.discovered_api('compute', api_version)
-
-          @default_image = 'ubuntu-12-04-v20120912'
-          @default_zone = 'us-east1-a'
-          @default_machine = 'n1-standard-1'
           @default_network = 'default'
 
           auth_util = CommandLineOAuthHelper.new(api_scope_url)

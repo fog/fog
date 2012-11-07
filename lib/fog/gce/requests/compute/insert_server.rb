@@ -12,11 +12,10 @@ module Fog
 
       class Real
 
-        def insert_server(server_name,
-                          image_name=@default_image,
-                          zone_name=@default_zone,
-                          machine_name=@default_machine,
+        def insert_server(server_name, image_name,
+                          zone_name, machine_name,
                           network_name=@default_network)
+
           api_method = @compute.instances.insert
           parameters = {
             'project' => @project,

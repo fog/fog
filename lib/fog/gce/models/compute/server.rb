@@ -6,8 +6,7 @@ module Fog
 
       class Server < Fog::Model
 
-        identity :name
-
+        attribute :name
         attribute :image_name, :aliases => 'image'
         attribute :network_interfaces, :aliases => 'networkInterfaces'
         attribute :state, :aliases => 'status'
@@ -15,8 +14,8 @@ module Fog
         attribute :machine_type, :aliases => 'machineType'
 
         def destroy
-          requires :identity
-          connection.delete_server(identity)
+          requires :name
+          connection.delete_server(name)
         end
 
         def image
@@ -36,14 +35,13 @@ module Fog
         end
 
         def save
-          requires :identity
+          requires :name
           requires :image_name
-          requires :zone_name
           requires :machine_type
+          requires :zone_name
 
-          data = connection.insert_server(identity, image_name=image_name,
-                                          zone_name=zone_name,
-                                          machine_type=machine_type)
+          data = connection.insert_server(name, image_name, zone_name,
+                                          machine_type)
           connection.servers.merge_attributes()
         end
 
