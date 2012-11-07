@@ -8,7 +8,7 @@ module Fog
         # ==== Parameters
         # * name<~String> - Name of server
         # * flavor_id<~Integer> - Id of flavor for server
-        # * image_id<~Integer> - Id of image for server
+        # * image_id<~Integer> - Id of image for server. If block_device_mapping is passed, this is ignored.
         # * options<~Hash>:
         #   * 'metadata'<~Hash> - Up to 5 key value pairs containing 255 bytes of info
         #   * 'min_count'<~Integer> - Number of servers to create. Defaults to 1.
@@ -16,11 +16,17 @@ module Fog
         #   * 'key_name'<~String> - Name of keypair to be used
         #   * 'security_groups'<~Array> - one or more security groups to be used
         #   * 'personality'<~Array>: Up to 5 files to customize server
-        #     * file<~Hash>:
+        #     * 'file'<~Hash>:
         #       * 'contents'<~String> - Contents of file (10kb total of contents)
         #       * 'path'<~String> - Path to file (255 bytes total of path strings)
         #   * 'accessIPv4'<~String> - IPv4 IP address
         #   * 'accessIPv6'<~String> - IPv6 IP address
+        #   * 'block_device_mapping'<~Array>: Use persistent volumes to create instance
+        #     * <~Hash>:
+        #       * 'volume_size'<~String> - Size of the volume. Ignored, and automatically picked up from the volume
+        #       * 'volume_id'<~String> - Id of the persistent volume to use
+        #       * 'delete_on_termination'<~String> - Setting this to '1' (True) means that the volume gets deleted when the instance is killed. Set it to '0' to preserve the volume.
+        #       * 'device_name'<~String> - Block device name e.g. "vda"
         #
         # ==== Returns
         # * response<~Excon::Response>:
@@ -96,6 +102,9 @@ module Fog
                 'name' => sg
               }
             end
+          end
+          if options['block_device_mapping']
+            data['server']['block_device_mapping'] = options['block_device_mapping']
           end
 
           request(
