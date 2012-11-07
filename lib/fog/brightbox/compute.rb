@@ -164,16 +164,19 @@ module Fog
 
         def initialize(options)
           # Currently authentication and api endpoints are the same but may change
-          @auth_url             = options[:brightbox_auth_url] || Fog.credentials[:brightbox_auth_url] || API_URL
-          @api_url              = options[:brightbox_api_url] || Fog.credentials[:brightbox_api_url] || API_URL
-          @connection_options   = options[:connection_options] || {}
-          @brightbox_client_id  = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
-          @brightbox_secret     = options[:brightbox_secret] || Fog.credentials[:brightbox_secret]
-          @brightbox_username   = options[:brightbox_username] || Fog.credentials[:brightbox_username]
-          @brightbox_password   = options[:brightbox_password] || Fog.credentials[:brightbox_password]
-          @brightbox_account    = options[:brightbox_account] || Fog.credentials[:brightbox_account]
-          @persistent           = options[:persistent] || false
-          @connection = Fog::Connection.new(@api_url, @persistent, @connection_options)
+          @auth_url            = options[:brightbox_auth_url]  || Fog.credentials[:brightbox_auth_url] || API_URL
+          @api_url             = options[:brightbox_api_url]   || Fog.credentials[:brightbox_api_url]  || API_URL
+          @connection_options  = options[:connection_options]  || {}
+          @persistent          = options[:persistent]          || false
+          @connection          = Fog::Connection.new(@api_url, @persistent, @connection_options)
+
+          # Authentication options
+          @brightbox_client_id = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
+          @brightbox_secret    = options[:brightbox_secret]    || Fog.credentials[:brightbox_secret]
+
+          @brightbox_username  = options[:brightbox_username]  || Fog.credentials[:brightbox_username]
+          @brightbox_password  = options[:brightbox_password]  || Fog.credentials[:brightbox_password]
+          @brightbox_account   = options[:brightbox_account]   || Fog.credentials[:brightbox_account]
         end
 
         # Makes an API request to the given path using passed options or those
@@ -214,12 +217,17 @@ module Fog
           Fog::Compute::Brightbox::Account.new(get_scoped_account)
         end
 
+        # Returns true if authentication is being performed as a user
+        # @return [Boolean]
+        def authenticating_as_user?
+          @brightbox_username && @brightbox_password
+        end
       private
         def get_oauth_token(options = {})
           auth_url = options[:brightbox_auth_url] || @auth_url
 
           connection = Fog::Connection.new(auth_url)
-          authentication_body_hash = if @brightbox_username && @brightbox_password
+          authentication_body_hash = if authenticating_as_user?
             {
               'client_id' => @brightbox_client_id,
               'grant_type' => 'password',
