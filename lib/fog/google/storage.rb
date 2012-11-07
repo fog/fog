@@ -225,8 +225,8 @@ DATA
           string_to_sign << "#{canonical_google_headers}"
 
           subdomain = params[:host].split(".#{@host}").first
-          unless subdomain =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\.])){1,61}[a-z0-9]$/
-            Fog::Logger.warning("fog: the specified google storage bucket name(#{subdomain}) is not a valid dns name.  See: http://code.google.com/apis/storage/docs/developer-guide.html#naming")
+          unless subdomain =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\.(?![\.\-])|\-(?![\-])|\_(?![\_])){1,61}[a-z0-9]$/
+            Fog::Logger.warning("fog: the specified google storage bucket name (#{subdomain}) is not a valid dns name.  See: https://developers.google.com/storage/docs/bucketnaming")
             params[:host] = params[:host].split("#{subdomain}.")[-1]
             if params[:path]
               params[:path] = "#{subdomain}/#{params[:path]}"
