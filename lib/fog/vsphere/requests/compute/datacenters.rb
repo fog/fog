@@ -2,6 +2,9 @@ module Fog
   module Compute
     class Vsphere
       class Real
+        
+        # Returns an array of all available datacenters in your cluster.
+        #
         def datacenters
           @datacenters ||= datacenters_reload
           # Hide the values which are the RbVmomi instances
