@@ -19,11 +19,11 @@ module Fog
         end
 
         def read_acl
-          @read_acl
+          @read_acl || []
         end
 
         def write_acl
-          @write_acl
+          @write_acl || []
         end
 
         def can_read?(user)
@@ -61,10 +61,12 @@ module Fog
           end
           r_acl, w_acl = connection.perm_to_acl(perm, user_list)
           unless r_acl.nil? || r_acl.empty?
+            @read_acl = [] if @read_acl.nil?
             @read_acl = @read_acl + r_acl
             @read_acl.uniq!
           end
           unless w_acl.nil? || w_acl.empty?
+            @write_acl = [] if @write_acl.nil?
             @write_acl = @write_acl + w_acl
             @write_acl.uniq!
           end
@@ -79,11 +81,13 @@ module Fog
             user_list = users
           end
           r_acl, w_acl = connection.perm_to_acl(perm, user_list)
-          unless (r_acl.nil? || r_acl.empty?) && (@read_acl.nil? || @read_acl.empty?)
+          unless r_acl.nil? || r_acl.empty?
+            @read_acl = [] if @read_acl.nil?
             @read_acl = @read_acl - r_acl
             @read_acl.uniq!
           end
-          unless (w_acl.nil? || w_acl.empty?) && (@write_acl.nil? || @write_acl.empty?)
+          unless w_acl.nil? || w_acl.empty?
+            @write_acl = [] if @write_acl.nil?
             @write_acl = @write_acl - w_acl
             @write_acl.uniq!
           end
@@ -125,9 +129,8 @@ module Fog
         end
 
         def public?
-          if @read_acl.empty?
-            false
-          elsif @read_acl.include?(".r:*")
+          @read_acl = [] if @read_acl.nil?
+          if @read_acl.include?(".r:*")
             true
           else
             false
