@@ -4,9 +4,16 @@ Shindo.tests('Fog::Storage[:hp] | directory', ['hp', 'storage']) do
 
     tests('success') do
 
-      tests("#acl='public-read'").succeeds do
-        @instance.acl = 'public-read'
+      tests("#grant('pr')").succeeds do
+        @instance.grant('pr')
         tests("public?").returns(true) do
+          @instance.public?
+        end
+      end
+
+      tests("#revoke('pr')").succeeds do
+        @instance.revoke('pr')
+        tests("public?").returns(false) do
           @instance.public?
         end
       end
@@ -39,8 +46,12 @@ Shindo.tests('Fog::Storage[:hp] | directory', ['hp', 'storage']) do
 
     tests('failure') do
 
-      tests("#acl='invalid-acl'").raises(ArgumentError) do
-        @instance.acl = 'invalid-acl'
+      tests("#grant('invalid-acl')").raises(ArgumentError) do
+        @instance.grant('invalid-acl')
+      end
+
+      tests("#revoke('invalid-acl')").raises(ArgumentError) do
+        @instance.revoke('invalid-acl')
       end
 
     end

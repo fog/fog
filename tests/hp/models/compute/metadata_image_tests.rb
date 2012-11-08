@@ -51,7 +51,9 @@ Shindo.tests("Fog::Compute[:hp] | metadata for images", ['hp']) do
 
   end
 
-  @image.destroy
+  unless Fog.mocking?
+    @image.destroy
+  end
   @server.destroy
 
 end

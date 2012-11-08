@@ -56,7 +56,7 @@ module Fog
       class Mock  # :nodoc:all
 
         def create_volume(name, description, size, options={})
-          if options[snapshotId] && options[imageRef]
+          if options['snapshotId'] && options['imageRef']
             raise Fog::Errors::BadRequest.new("Snapshot and image cannot be specified together.")
           else
             response = Excon::Response.new
