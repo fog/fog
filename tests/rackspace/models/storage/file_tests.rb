@@ -23,18 +23,22 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
       end
 
       @instance.access_control_allow_origin = 'http://example.com'
+      @instance.save              
       tests("#access_control_allow_origin should return access control attribute").returns('http://example.com') do
         @instance.access_control_allow_origin
       end
 
       @instance.access_control_allow_origin = 'foo'
+      @instance.save              
       tests("#access_control_allow_origin= should update access_control_allow_origin").returns('bar') do
         @instance.access_control_allow_origin = 'bar'
+        @instance.save                
         @instance.access_control_allow_origin
       end
 
       tests("#access_control_allow_origin= should not blow up on nil") do
         @instance.access_control_allow_origin = nil
+        @instance.save                        
       end
 
     end
@@ -47,23 +51,28 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
     tests("#origin") do
 
       tests("#origin should default to nil").returns(nil) do
+        @instance.save                        
         @instance.origin
       end
 
       @instance.origin = 'http://example.com'
+      @instance.save
       tests("#origin should return access control attributes").returns('http://example.com') do
         @instance.origin
       end
       @instance.attributes.delete('Origin')
 
-      @instance.attributes['Origin'] = 'foo'
+      @instance.origin = 'foo'
+      @instance.save      
       tests("#origin= should update origin").returns('bar') do
         @instance.origin = 'bar'
+        @instance.save
         @instance.origin
       end
 
       tests("#origin= should not blow up on nil") do
         @instance.origin = nil
+        @instance.save        
       end
 
     end
