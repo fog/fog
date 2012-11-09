@@ -56,6 +56,7 @@ module Fog
           requires :name, :image_id, :flavor_id
           options = {}
           options[:disk_config] = disk_config unless disk_config.nil?
+          options[:metadata] = metadata unless metadata.nil?
           data = connection.create_server(name, image_id, flavor_id, 1, 1, options)
           merge_attributes(data.body['server'])
           true
