@@ -269,14 +269,16 @@ METADATA
   end
 end
 
-task :upload_fog_io do
+desc "Builds the fog.io site content locally"
+task :build_fog_io do
+  sh "jekyll docs docs/_site"
+end
+
+task :upload_fog_io => :build_fog_io do
   # connect to storage provider
   Fog.credential = :geemus
   storage = Fog::Storage.new(:provider => 'AWS')
   directory = storage.directories.new(:key => 'fog.io')
-
-  # build the docs locally
-  sh "jekyll docs docs/_site"
 
   # write web page files to versioned 'folder'
   for file_path in Dir.glob('docs/_site/**/*')
