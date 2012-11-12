@@ -30,14 +30,12 @@ module Fog
             'location' => location_id
           }
 
-          body = URI.encode options.map {|k,v| "#{k}=#{v}"}.join('&')
-
           request(
             :expects  => 200,
             :method   => 'POST',
             :path     => '/api/blocks.json',
             :query    => query,
-            :body     => URI.encode(body)
+            :body     => options.map {|k,v| "#{CGI.escape(k)}=#{CGI.escape(v)}"}.join('&')
           )
         end
 
