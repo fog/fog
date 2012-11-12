@@ -116,6 +116,7 @@ Shindo.tests('Fog::Compute[:aws] | instance requests', ['aws']) do
       'fixedPrice'          => Float,
       'usagePrice'          => Float,
       'instanceCount'       => Integer,
+      'offeringType'        => String,
       'productDescription'  => String,
       'state'               => String,
       'tagSet'              => [{
