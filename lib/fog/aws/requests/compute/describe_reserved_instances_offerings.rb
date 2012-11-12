@@ -47,7 +47,6 @@ module Fog
             'availabilityZone'            => 'us-east-1d',
             'duration'                    => 31536000,
             'fixedPrice'                  => 350.0,
-            'marketplace'                 => false,
             'offeringType'                => 'Medium Utilization',
             'usagePrice'                  => 0.03,
             'productDescription'          => 'Linux/UNIX',
