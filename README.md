@@ -7,6 +7,7 @@ fog is the Ruby cloud computing library, top to bottom:
 * Mocks make testing and integrating a breeze.
 
 [![Build Status](https://secure.travis-ci.org/fog/fog.png?branch=master)](http://travis-ci.org/fog/fog)
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/fog/fog)
 
 ## Getting Started
 
