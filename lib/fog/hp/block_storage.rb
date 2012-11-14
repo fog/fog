@@ -18,13 +18,15 @@ module Fog
       request_path 'fog/hp/requests/block_storage'
       request :create_volume
       request :delete_volume
+      request :get_bootable_volume_details
       request :get_volume_details
+      request :list_bootable_volumes
       request :list_volumes
 
       request :create_snapshot
       request :delete_snapshot
-      request :list_snapshots
       request :get_snapshot_details
+      request :list_snapshots
 
       module Utils
 
