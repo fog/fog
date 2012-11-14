@@ -53,7 +53,7 @@ geemus says: "That should give you everything you need to get started, but let m
 Enjoy, and let me know what I can do to continue improving fog!
 
 * Work through the [fog tutorial](https://github.com/downloads/geemus/learn_fog/learn_fog.tar.gz)
-* Read fog's [API documentation](/rdoc)
+* Read fog's [API documentation](/doc)
 * Stay up to date by following [@fog](http://twitter.com/fog) and/or [@geemus](http://twitter.com/geemus) on Twitter.
 * Get and give help on the [#ruby-fog](irc://irc.freenode.net/ruby-fog) irc channel on Freenode
 * Follow release notes and discussions on the [mailing list](http://groups.google.com/group/ruby-fog)
