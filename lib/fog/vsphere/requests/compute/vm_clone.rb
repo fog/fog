@@ -21,8 +21,8 @@ module Fog
             raise ArgumentError, "vm_clone path option must start with /Datacenters.  Got: #{options['path']}"
           end
           dc_name = path_elements.shift
-          if not self.datacenters.include? dc_name then
-            raise ArgumentError, "Datacenter #{dc_name} does not exist, only datacenters #{self.datacenters.join(",")} are accessible."
+          if not datacenters.get dc_name then
+            raise ArgumentError, "Datacenter #{dc_name} does not exist, only datacenters #{datacenters.all.map(:name).join(",")} are accessible."
           end
           options
         end
@@ -75,10 +75,8 @@ module Fog
           # The template name.  The remaining elements are the folders in the
           # datacenter.
           template_name = path_elements.pop
-          # Make sure @datacenters is populated.  We need the instances from the Hash keys.
-          self.datacenters
-          # Get the datacenter managed object from the hash
-          dc = @datacenters[template_dc]
+
+          dc = find_raw_datacenter(template_dc)
           # Get the VM Folder (Group) efficiently
           vm_folder = dc.vmFolder
           # Walk the tree resetting the folder pointer as we go
@@ -195,8 +193,8 @@ module Fog
           # Option handling
           options = vm_clone_check_options(options)
           notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Could not find VM template" }
-          vm_mob_ref = list_virtual_machines['virtual_machines'].find(notfound) do |vm|
-            vm['name'] == options['path'].split("/")[-1]
+          list_virtual_machines.find(notfound) do |vm|
+            vm[:name] == options['path'].split("/")[-1]
           end
           {
             'vm_ref'   => 'vm-123',
