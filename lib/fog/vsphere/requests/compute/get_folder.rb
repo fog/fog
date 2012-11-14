@@ -27,7 +27,7 @@ module Fog
           # The required path syntax - 'topfolder/subfolder
 
           # Clean up path to be relative since we're providing datacenter name
-          paths          = path.sub(/^\/?Datacenters\/#{datacenter_name}\/vm\//, '').split('/')
+          paths          = path.sub(/^\/?Datacenters\/#{datacenter_name}\/vm\/?/, '').split('/')
           dc             = find_raw_datacenter(datacenter_name)
           dc_root_folder = dc.vmFolder
 
