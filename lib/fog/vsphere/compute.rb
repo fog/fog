@@ -11,19 +11,50 @@ module Fog
       model_path 'fog/vsphere/models/compute'
       model :server
       collection :servers
+      model :datacenter
+      collection :datacenters
+      model :interface
+      collection :interfaces
+      model :volume
+      collection :volumes
+      model :template
+      collection :templates
+      model :cluster
+      collection :clusters
+      model :resource_pool
+      collection :resource_pools
+      model :network
+      collection :networks
+      model :datastore
+      collection :datastores
+      model :folder
+      collection :folders
 
       request_path 'fog/vsphere/requests/compute'
       request :current_time
-      request :find_vm_by_ref
       request :list_virtual_machines
       request :vm_power_off
       request :vm_power_on
       request :vm_reboot
       request :vm_clone
-      request :vm_create
       request :vm_destroy
       request :vm_migrate
-      request :datacenters
+      request :list_datacenters
+      request :get_datacenter
+      request :list_clusters
+      request :get_cluster
+      request :list_resource_pools
+      request :get_resource_pool
+      request :list_networks
+      request :get_network
+      request :list_datastores
+      request :get_datastore
+      request :get_folder
+      request :list_folders
+      request :create_vm
+      request :list_vm_interfaces
+      request :list_vm_volumes
+      request :get_virtual_machine
       request :vm_reconfig_hardware
       request :vm_reconfig_memory
       request :vm_reconfig_cpus
@@ -36,11 +67,12 @@ module Fog
         attr_reader :vsphere_server
         attr_reader :vsphere_username
 
+        protected
+
         ATTR_TO_PROP = {
           :id => 'config.instanceUuid',
           :name => 'name',
           :uuid => 'config.uuid',
-          :instance_uuid => 'config.instanceUuid',
           :hostname => 'summary.guest.hostName',
           :operatingsystem => 'summary.guest.guestFullName',
           :ipaddress => 'guest.ipAddress',
@@ -49,9 +81,10 @@ module Fog
           :hypervisor => 'runtime.host',
           :tools_state => 'guest.toolsStatus',
           :tools_version => 'guest.toolsVersionStatus',
-          :is_a_template => 'config.template',
           :memory_mb => 'config.hardware.memoryMB',
           :cpus   => 'config.hardware.numCPU',
+          :overall_status => 'overallStatus',
+          :guest_id => 'summary.guest.guestId',
         }
 
         # Utility method to convert a VMware managed object into an attribute hash.
@@ -75,15 +108,48 @@ module Fog
             attrs['mo_ref'] = vm_mob_ref._ref
             # The name method "magically" appears after a VM is ready and
             # finished cloning.
-            if attrs['hypervisor'].kind_of?(RbVmomi::VIM::HostSystem) then
-              # If it's not ready, set the hypervisor to nil
-              attrs['hypervisor'] = attrs['hypervisor'].name rescue nil
+            if attrs['hypervisor'].kind_of?(RbVmomi::VIM::HostSystem)
+              begin
+                host = attrs['hypervisor']
+                attrs['datacenter'] = parent_attribute(host.path, :datacenter)[1]
+                attrs['cluster']    = parent_attribute(host.path, :cluster)[1]
+                attrs['hypervisor'] = host.name
+                attrs['resource_pool'] = (vm_mob_ref.resourcePool || host.resourcePool).name rescue nil
+              rescue
+                # If it's not ready, set the hypervisor to nil
+                attrs['hypervisor'] = nil
+              end
             end
             # This inline rescue catches any standard error.  While a VM is
             # cloning, a call to the macs method will throw and NoMethodError
             attrs['mac_addresses'] = vm_mob_ref.macs rescue nil
             attrs['path'] = get_folder_path(vm_mob_ref.parent)
           end
+        end
+
+        # returns the parent object based on a type
+        # provides both real RbVmomi object and its name.
+        # e.g.
+        #[Datacenter("datacenter-2"), "dc-name"]
+        def parent_attribute path, type
+          element = case type
+                      when :datacenter
+                        RbVmomi::VIM::Datacenter
+                      when :cluster
+                        RbVmomi::VIM::ClusterComputeResource
+                      when :host
+                        RbVmomi::VIM::HostSystem
+                      else
+                        raise "Unknown type"
+                    end
+          path.select {|x| x[0].is_a? element}.flatten
+        rescue
+          nil
+        end
+
+        # returns vmware managed obj id string
+        def managed_obj_id obj
+          obj.to_s.match(/\("(\S+)"\)/)[1]
         end
 
       end
