@@ -26,6 +26,7 @@ module Fog
         attribute :user_id
         attribute :key_name
         attribute :security_groups
+        attribute :config_drive
         # these are implemented as methods
         attribute :image_id
         attribute :flavor_id
@@ -39,6 +40,7 @@ module Fog
           # assign these attributes first to prevent race condition with new_record?
           self.min_count = attributes.delete(:min_count)
           self.max_count = attributes.delete(:max_count)
+          self.block_device_mapping = attributes.delete(:block_device_mapping)
           @connection = attributes[:connection]
           super
         end
@@ -146,6 +148,10 @@ module Fog
           @max_count = new_max_count
         end
 
+        def block_device_mapping=(new_block_device_mapping)
+          @block_device_mapping = new_block_device_mapping
+        end
+
         def ready?
           self.state == 'ACTIVE'
         end
@@ -216,7 +222,9 @@ module Fog
             'min_count'   => @min_count,
             'max_count'   => @max_count,
             'key_name'    => key_name,
-            'security_groups' => security_groups
+            'security_groups' => security_groups,
+            'config_drive'    => config_drive,
+            'block_device_mapping' => @block_device_mapping
           }
           options = options.reject {|key, value| value.nil?}
           data = connection.create_server(name, flavor_id, image_id, options)

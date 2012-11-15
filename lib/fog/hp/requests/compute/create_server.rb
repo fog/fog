@@ -103,6 +103,9 @@ module Fog
               }
             end
           end
+          if options['config_drive']
+            data['server']['config_drive'] = options['config_drive']
+          end
           if options['block_device_mapping']
             data['server']['block_device_mapping'] = options['block_device_mapping']
           end

@@ -16,11 +16,19 @@ module Fog
         attribute :created_at,           :aliases => 'createdAt'
         attribute :availability_zone,    :aliases => 'availabilityZone'
         attribute :snapshot_id,          :aliases => 'snapshotId'
+        attribute :source_image_id,      :aliases => 'sourceImageRef'   # only for bootable volumes
         attribute :attachments
         attribute :metadata
 
         attr_reader :server_id
         attr_reader :device
+
+        def initialize(attributes = {})
+          # assign these attributes first to prevent race condition with new_record?
+          self.image_id = attributes.delete(:image_id)
+          @connection = attributes[:connection]
+          super
+        end
 
         def device
           attachments[0]['device'] if has_attachments?
@@ -28,6 +36,11 @@ module Fog
 
         def server_id
           attachments[0]['serverId'] if has_attachments?
+        end
+
+        # used for creating bootable volumes
+        def image_id=(new_image_id)
+          @image_id = new_image_id
         end
 
         # a volume can be attached to only one server at a time
@@ -74,7 +87,8 @@ module Fog
           requires :name, :size
           options = {
             'metadata'          => metadata,
-            'snapshot_id'       => snapshot_id
+            'snapshot_id'       => snapshot_id,
+            'imageRef'          => @image_id
           }
           options = options.reject {|key, value| value.nil?}
           data = connection.create_volume(name, description, size, options)
