@@ -153,6 +153,7 @@ module Fog
       class Real
         attr_reader :current_user
         attr_reader :current_tenant
+        attr_reader :unscoped_token
 
         def initialize(options={})
           @openstack_auth_token = options[:openstack_auth_token]
@@ -238,7 +239,7 @@ module Fog
         private
 
         def authenticate
-          if @openstack_must_reauthenticate || @openstack_auth_token.nil?
+          if !@openstack_management_url || @openstack_must_reauthenticate
             options = {
               :openstack_api_key  => @openstack_api_key,
               :openstack_username => @openstack_username,
@@ -258,6 +259,7 @@ module Fog
             @auth_token = credentials[:token]
             @openstack_management_url = credentials[:server_management_url]
             @openstack_current_user_id = credentials[:current_user_id]
+            @unscoped_token = credentials[:unscoped_token]
             uri = URI.parse(@openstack_management_url)
           else
             @auth_token = @openstack_auth_token

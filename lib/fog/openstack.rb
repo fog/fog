@@ -84,6 +84,8 @@ module Fog
       service = body['access']['serviceCatalog'].
         detect {|s| service_name.include?(s['type']) }
 
+      options[:unscoped_token] = body['access']['token']['id']
+
       unless service
         unless tenant_name
           response = Fog::Connection.new(
@@ -133,7 +135,8 @@ module Fog
         :server_management_url    => management_url,
         :token                    => body['access']['token']['id'],
         :expires                  => body['access']['token']['expires'],
-        :current_user_id          => body['access']['user']['id']
+        :current_user_id          => body['access']['user']['id'],
+        :unscoped_token           => options[:unscoped_token]
       }
     end
 
@@ -141,7 +144,7 @@ module Fog
       api_key     = options[:openstack_api_key].to_s
       username    = options[:openstack_username].to_s
       tenant_name = options[:openstack_tenant].to_s
-      auth_token  = options[:openstack_auth_token]
+      auth_token  = options[:openstack_auth_token] || options[:unscoped_token]
       uri         = options[:openstack_auth_uri]
 
       connection = Fog::Connection.new(uri.to_s, false, connection_options)
