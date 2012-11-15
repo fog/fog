@@ -167,6 +167,14 @@ module Fog
           id.nil?
         end
 
+        def reload
+          # reload does not re-read assoiciated attributes, so we clear it manually
+          [:interfaces, :volumes].each do |attr|
+            self.attributes.delete(attr)
+          end
+          super
+        end
+
         private
 
         def defaults
