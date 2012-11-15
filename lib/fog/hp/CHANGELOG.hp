@@ -1,6 +1,12 @@
+0.0.18 11/15/2012
+=================
+- add support for controlled access via cross-tenant ACLs
+- add support for creating bootable volumes
+- add support for creating persistent server instances using bootable volumes
+
 0.0.17 10/16/2012
 =================
-- add support for generating temp_url
+- add support for generating temporary urls
 - add support for retrieving encrypted password for Windows instances
 - add support for creating Windows instances
 
