@@ -189,14 +189,11 @@ module Fog
 
         # Returns the scoped account being used for requests
         #
-        # API Clients:: This is the owning account
-        # User Apps::   This is the account specified by either +account_id+
-        #               option on a connection or the +brightbox_account+
-        #               setting in your configuration
+        # * For API clients this is the owning account
+        # * For User applications this is the account specified by either +account_id+
+        #   option on a connection or the +brightbox_account+ setting in your configuration
         #
-        # === Returns:
-        #
-        # <tt>Fog::Compute::Brightbox::Account</tt>
+        # @return [Fog::Compute::Brightbox::Account]
         #
         def account
           Fog::Compute::Brightbox::Account.new(get_scoped_account)
