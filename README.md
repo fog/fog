@@ -113,11 +113,15 @@ geemus says: "That should give you everything you need to get started, but let m
 
 ## Contributing
 
-* Find something you would like to work on. For suggestions look for the `easy`, `medium` and `hard` tags in the [issues](https://github.com/fog/fog/issues)
+* Find something you would like to work on.
+  * Look for anything you can help with in the [issue tracker](https://github.com/fog/fog/issues).
+  * Look at the [code quality metrics](https://codeclimate.com/github/fog/fog) for anything you can help clean up.
+  * Or anything else!
 * Fork the project and do your work in a topic branch.
-* Add a config at `~/.fog` for the component you want to test.
+  * Make sure your changes will work on both Ruby 1.8.7 and Ruby 1.9
+* Add a config at `tests/.fog` for the component you want to test.
 * Add shindo tests to prove your code works and run all the tests using `bundle exec rake`.
-* Rebase your branch against fog/fog to make sure everything is up to date.
+* Rebase your branch against `fog/fog` to make sure everything is up to date.
 * Commit your changes and send a pull request.
 
 ## Additional Resources
