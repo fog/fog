@@ -3,8 +3,8 @@ module Fog
     class Brightbox
       class Real
         # Create a new image for the account by registering it against an image stored within the Brightbox cloud image library.
-
-The disk image must be in place before you can attempt to create a reference in the API.
+        #
+        # The disk image must be in place before you can attempt to create a reference in the API.
         #
         # @param [Hash] options
         # @option options [String] :source Filename of the image file uploaded to /incoming via FTP
