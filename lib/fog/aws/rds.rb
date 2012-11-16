@@ -158,7 +158,7 @@ module Fog
         end
 
         def owner_id
-          @owner_id ||= Fog::AWS[:rds].security_groups.get('default').owner_id
+          @owner_id ||= security_groups.get('default').owner_id
         end
 
         def reload
