@@ -176,27 +176,39 @@ module Fog
           @connection = Fog::Connection.new(@api_url, @persistent, @connection_options)
         end
 
-        def request(method, url, expected_responses, options = {})
+        # Makes an API request to the given path using passed options or those
+        # set with the service setup
+        #
+        # @todo Standard Fog behaviour is to return the Excon::Response but
+        #   this was unintentionally changed to be the Hash version of the
+        #   data in the body. This loses access to some details and should
+        #   be corrected in a backwards compatible manner
+        #
+        # @param [String] method HTTP method to use for the request
+        # @param [String] path   The absolute path for the request
+        # @param [Array<Fixnum>] expected_responses HTTP response codes that have been successful
+        # @param [Hash]  parameters Keys and values for JSON
+        # @option parameters [String] :account_id The scoping account if required
+        #
+        # @return [Hash]
+        def request(method, path, expected_responses, parameters = {})
           request_options = {
             :method   => method.to_s.upcase,
-            :path     => url,
+            :path     => path,
             :expects  => expected_responses
           }
-          options[:account_id] = @brightbox_account if options[:account_id].nil? && @brightbox_account
-          request_options[:body] = Fog::JSON.encode(options) unless options.empty?
+          parameters[:account_id] = @brightbox_account if parameters[:account_id].nil? && @brightbox_account
+          request_options[:body] = Fog::JSON.encode(parameters) unless parameters.empty?
           make_request(request_options)
         end
 
         # Returns the scoped account being used for requests
         #
-        # API Clients:: This is the owning account
-        # User Apps::   This is the account specified by either +account_id+
-        #               option on a connection or the +brightbox_account+
-        #               setting in your configuration
+        # * For API clients this is the owning account
+        # * For User applications this is the account specified by either +account_id+
+        #   option on a connection or the +brightbox_account+ setting in your configuration
         #
-        # === Returns:
-        #
-        # <tt>Fog::Compute::Brightbox::Account</tt>
+        # @return [Fog::Compute::Brightbox::Account]
         #
         def account
           Fog::Compute::Brightbox::Account.new(get_scoped_account)
