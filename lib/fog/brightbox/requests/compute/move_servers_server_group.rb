@@ -2,21 +2,19 @@ module Fog
   module Compute
     class Brightbox
       class Real
-
-        # Moves a number of servers between two server groups
+        # Removes a number of server from the server group and adds them to another server group given in parameters.
         #
-        #  >> Compute[:brightbox].remove_servers_server_group "grp-12345", :destination => "grp-67890", :servers => [{:server => "srv-abcde"}]
+        # @param [String] identifier Unique reference to identify the resource
+        # @param [Hash] options
+        # @option options [Array<Hash>] :servers Array of Hashes containing `{"server" => server_id}` for each server to remove
+        # @option options [String] :destination ServerGroup to move servers to
         #
-        # == Parameters:
-        # * identifier - The identifier (String) of the server group to remove from
-        # * options (Hash)
-        #   * destination (String)- The identifier of the server group to move to
-        #   * servers (Array) - Array of Hashes containing {"server" => server_id} for each server to remove
-        #   [\[{"server" => "srv-abcde"}, {"server" => "srv-fghij"}\]]
+        # @return [Hash, nil] The JSON response parsed to a Hash or nil if no options passed
         #
-        # == Returns:
+        # @see https://api.gb1.brightbox.com/1.0/#server_group_move_servers_server_group
         #
-        # A Ruby hash of the server response
+        # @example
+        #    Compute[:brightbox].remove_servers_server_group "grp-12345", :destination => "grp-67890", :servers => [{"server" => "srv-abcde"}, {"server" => "srv-fghij"}]
         #
         def move_servers_server_group(identifier, options)
           return nil if identifier.nil? || identifier == ""

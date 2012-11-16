@@ -12,6 +12,8 @@ module Fog
         attribute :content_type,    :aliases => ['content_type', 'Content-Type']
         attribute :etag,            :aliases => ['hash', 'Etag']
         attribute :last_modified,   :aliases => ['last_modified', 'Last-Modified'], :type => :time
+        attribute :access_control_allow_origin, :aliases => ['Access-Control-Allow-Origin']
+        attribute :origin,          :aliases => ['Origin']
 
         def body
           attributes[:body] ||= if last_modified
@@ -32,6 +34,8 @@ module Fog
         def copy(target_directory_key, target_file_key, options={})
           requires :directory, :key
           options['Content-Type'] ||= content_type if content_type
+          options['Access-Control-Allow-Origin'] ||= access_control_allow_origin if access_control_allow_origin
+          options['Origin'] ||= origin if origin
           connection.copy_object(directory.key, key, target_directory_key, target_file_key, options)
           target_directory = connection.directories.new(:key => target_directory_key)
           target_directory.files.get(target_file_key)
@@ -68,10 +72,14 @@ module Fog
         def save(options = {})
           requires :body, :directory, :key
           options['Content-Type'] = content_type if content_type
+          options['Access-Control-Allow-Origin'] = access_control_allow_origin if access_control_allow_origin
+          options['Origin'] = origin if origin
           options.merge!(metadata_to_headers)
+
           data = connection.put_object(directory.key, key, body, options)          
           update_attributes_from(data)
           refresh_metadata
+
           self.content_length = Fog::Storage.get_body_size(body)
           self.content_type ||= Fog::Storage.get_content_type(body)
           true

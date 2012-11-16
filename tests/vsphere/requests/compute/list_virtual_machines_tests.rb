@@ -1,19 +1,11 @@
 Shindo.tests('Fog::Compute[:vsphere] | list_virtual_machines request', ['vsphere']) do
 
-  key = 'virtual_machines'
-
   tests("When listing all machines") do
 
     response = Fog::Compute[:vsphere].list_virtual_machines
 
     tests("The response data format ...") do
-      test("be a kind of Hash") { response.kind_of? Hash }
-      test("have a #{key} key") do
-        response.has_key? key
-      end
-      test("it should be a kind of Array") do
-        response[key].kind_of? Array
-      end
+      test("be a kind of Hash") { response.kind_of? Array }
     end
   end
 
@@ -26,9 +18,9 @@ Shindo.tests('Fog::Compute[:vsphere] | list_virtual_machines request', ['vsphere
       response = Fog::Compute[:vsphere].list_virtual_machines({'instance_uuid' => uuid})
 
       tests("The response should") do
-        test("contain one vm") { response[key].length == 1 }
-        test("contain that is an attribute hash") { response[key][0].kind_of? Hash }
-        test("find jefftest") { response[key].first['name'] == 'jefftest' }
+        test("contain one vm") { response.length == 1 }
+        test("contain that is an attribute hash") { response[0].kind_of? Hash }
+        test("find jefftest") { response.first[:name] == 'jefftest' }
       end
     end
 
@@ -37,7 +29,7 @@ Shindo.tests('Fog::Compute[:vsphere] | list_virtual_machines request', ['vsphere
         response = Fog::Compute[:vsphere].list_virtual_machines({'instance_uuid' => uuid})
 
         tests("The response should") do
-          test("be empty") { response[key].empty? }
+          test("be empty") { response.empty? }
         end
       end
     end

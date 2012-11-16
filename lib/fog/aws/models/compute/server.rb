@@ -60,6 +60,8 @@ module Fog
               'ami-5e0fa45f'
             when 'ap-southeast-1'
               'ami-f092eca2'
+            when 'ap-southeast-2'
+              'ami-fb8611c1' # Ubuntu 12.04 LTS 64bit (EBS)
             when 'eu-west-1'
               'ami-3d1f2b49'
             when 'sa-east-1'

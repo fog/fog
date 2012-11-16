@@ -3,6 +3,7 @@ Shindo.tests('AWS::AutoScaling | notification configuration requests', ['aws', '
   image_id = {  # Ubuntu 12.04 LTS 64-bit EBS
     'ap-northeast-1' => 'ami-60c77761',
     'ap-southeast-1' => 'ami-a4ca8df6',
+    'ap-southeast-2' => 'ami-fb8611c1',
     'eu-west-1'      => 'ami-e1e8d395',
     'sa-east-1'      => 'ami-8cd80691',
     'us-east-1'      => 'ami-a29943cb',

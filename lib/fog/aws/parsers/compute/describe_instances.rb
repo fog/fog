@@ -41,7 +41,9 @@ module Fog
             when *@contexts
               @context.pop
             when 'code'
-              @instance[@context.last][name] = value.to_i
+              @instance[@context.last][name] = @context.last == 'stateReason' ? value : value.to_i
+            when 'message'
+              @instance[@context.last][name] = value
             when 'deleteOnTermination'
               @block_device_mapping[name] = (value == 'true')
             when 'deviceName', 'status', 'volumeId'

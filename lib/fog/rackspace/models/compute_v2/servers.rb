@@ -4,6 +4,7 @@ require 'fog/rackspace/models/compute_v2/server'
 module Fog
   module Compute
     class RackspaceV2
+
       class Servers < Fog::Collection
 
         model Fog::Compute::RackspaceV2::Server
@@ -11,6 +12,13 @@ module Fog
         def all
           data = connection.list_servers.body['servers']
           load(data)
+        end
+
+        def bootstrap(new_attributes = {})
+          server = create(new_attributes)
+          server.wait_for { ready? }
+          server.setup(:password => server.password)
+          server
         end
 
         def get(server_id)

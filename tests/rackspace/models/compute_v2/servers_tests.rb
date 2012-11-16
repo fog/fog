@@ -11,4 +11,10 @@ Shindo.tests('Fog::Compute::RackspaceV2 | servers', ['rackspace']) do
   collection_tests(service.servers, options, false) do
     @instance.wait_for { ready? }
   end
+
+  tests("#bootstrap").succeeds do
+    @server = service.servers.bootstrap(options)
+  end
+  @server.destroy
+
 end
