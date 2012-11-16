@@ -12,7 +12,6 @@ module Fog
         attribute :content_type,    :aliases => ['content_type', 'Content-Type']
         attribute :etag,            :aliases => ['hash', 'Etag']
         attribute :last_modified,   :aliases => ['last_modified', 'Last-Modified'], :type => :time
-        attribute :metadata
 
         def body
           attributes[:body] ||= if last_modified
@@ -44,14 +43,8 @@ module Fog
           true
         end
 
-        remove_method :metadata
         def metadata
-          attributes.reject {|key, value| !metadata_attribute?(key)}
-        end
-
-        remove_method :metadata=
-        def metadata=(new_metadata)
-          merge_attributes(new_metadata || {})
+          @metadata ||= headers_to_metadata
         end
 
         def owner=(new_owner)
@@ -75,9 +68,10 @@ module Fog
         def save(options = {})
           requires :body, :directory, :key
           options['Content-Type'] = content_type if content_type
-          options.merge!(metadata)
+          options.merge!(metadata_to_headers)
           data = connection.put_object(directory.key, key, body, options)          
-          refresh_attributes(data)
+          update_attributes_from(data)
+          refresh_metadata
           self.content_length = Fog::Storage.get_body_size(body)
           self.content_type ||= Fog::Storage.get_content_type(body)
           true
@@ -89,17 +83,53 @@ module Fog
           @directory = new_directory
         end
 
+        def refresh_metadata
+          metadata.reject! {|k, v| v.nil? }
+        end
+
+        def headers_to_metadata
+          key_map = key_mapping
+          Hash[metadata_attributes.map {|k, v| [key_map[k], v] }]
+        end
+
+        def key_mapping
+          key_map = metadata_attributes
+          key_map.each_pair {|k, v| key_map[k] = header_to_key(k)}
+        end
+
+        def header_to_key(opt)
+          opt.gsub(metadata_prefix, '').split('-').map {|k| k[0, 1].downcase + k[1..-1]}.join('_').to_sym
+        end
+
+        def metadata_to_headers
+          header_map = header_mapping
+          Hash[metadata.map {|k, v| [header_map[k], v] }]
+        end
+
+        def header_mapping
+          header_map = metadata.dup
+          header_map.each_pair {|k, v| header_map[k] = key_to_header(k)}
+        end
+
+        def key_to_header(key)
+          metadata_prefix + key.to_s.split(/[-_]/).map(&:capitalize).join('-')
+        end
+
+        def metadata_attributes
+          if etag
+            headers = connection.head_object(directory.key, self.key).headers
+            headers.reject! {|k, v| !metadata_attribute?(k)}
+          else
+            {}
+          end
+        end
+
         def metadata_attribute?(key)
-          key.to_s =~ /^X-Object-Meta-/
+          key.to_s =~ /^#{metadata_prefix}/
         end
 
-        def refresh_attributes(data)
-          update_attributes_from(data)
-          remove_empty_metadata_attributes
-        end
-
-        def remove_empty_metadata_attributes
-          attributes.delete_if {|key, value| metadata_attribute?(key) && value.nil?}
+        def metadata_prefix
+          "X-Object-Meta-"
         end
 
         def update_attributes_from(data)
