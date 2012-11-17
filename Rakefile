@@ -270,7 +270,6 @@ end
 task :docs do
   Rake::Task[:supported_services_docs].invoke
   Rake::Task[:upload_fog_io].invoke
-  Rake::Task[:upload_yardoc].invoke
 
   # connect to storage provider
   Fog.credential = :geemus
@@ -394,36 +393,6 @@ task :upload_fog_io do
   end
   Formatador.redisplay(' ' * 128)
   Formatador.redisplay("Uploaded docs/_site\n")
-end
-
-task :upload_yardoc do
-  # connect to storage provider
-  Fog.credential = :geemus
-  storage = Fog::Storage.new(:provider => 'AWS')
-  directory = storage.directories.new(:key => 'fog.io')
-
-  # write doc files to versioned 'folder'
-  Rake::Task[:yard].invoke
-  for file_path in Dir.glob("#{YARDOC_LOCATION}/**/*")
-    next if File.directory?(file_path)
-    file_name = file_path.gsub("#{YARDOC_LOCATION}/", '')
-    key = '' << version << "/#{YARDOC_LOCATION}/" << file_name
-    Formatador.redisplay(' ' * 128)
-    Formatador.redisplay("Uploading [bold]#{key}[/]")
-    directory.files.create(
-      :body         => File.open(file_path),
-      :key          => key,
-      :public       => true
-    )
-  end
-  Formatador.redisplay(' ' * 128)
-  directory.files.create(
-    :body         => redirecter("#{version}/#{YARDOC_LOCATION}/index.html"),
-    :content_type => 'text/html',
-    :key          => "latest/#{YARDOC_LOCATION}/index.html",
-    :public       => true
-  )
-  Formatador.redisplay("Uploaded yardoc\n")
 end
 
 def redirecter(path)
