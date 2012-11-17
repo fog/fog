@@ -49,7 +49,7 @@ end
 GEM_NAME = "#{name}"
 task :default => :test
 
-require "fog/rake/test_task"
+require "tasks/test_task"
 Fog::Rake::TestTask.new
 
 namespace :test do
@@ -151,9 +151,9 @@ YARD::Rake::YardocTask.new do |t|
   t.options = ["--output-dir", YARDOC_LOCATION, "--title", "#{name} #{version}"]
 end
 
-require "fog/rake/changelog_task"
+require "tasks/changelog_task"
 Fog::Rake::ChangelogTask.new
 
-require "fog/rake/documentation_task"
+require "tasks/documentation_task"
 Fog::Rake::DocumentationTask.new
 
