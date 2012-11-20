@@ -1,0 +1,50 @@
+<host href="/api/hosts/13a5efc4-1382-11e2-81e6-5254009970cc" id="13a5efc4-1382-11e2-81e6-5254009970cc">
+    <name>h03</name>
+    <actions>
+        <link href="/api/hosts/13a5efc4-1382-11e2-81e6-5254009970cc/deactivate" rel="deactivate"/>
+        <link href="/api/hosts/13a5efc4-1382-11e2-81e6-5254009970cc/approve" rel="approve"/>
+        <link href="/api/hosts/13a5efc4-1382-11e2-81e6-5254009970cc/iscsilogin" rel="iscsilogin"/>
+        <link href="/api/hosts/13a5efc4-1382-11e2-81e6-5254009970cc/iscsidiscover" rel="iscsidiscover"/>
+        <link href="/api/hosts/13a5efc4-1382-11e2-81e6-5254009970cc/commitnetconfig" rel="commitnetconfig"/>
+        <link href="/api/hosts/13a5efc4-1382-11e2-81e6-5254009970cc/fence" rel="fence"/>
+        <link href="/api/hosts/13a5efc4-1382-11e2-81e6-5254009970cc/install" rel="install"/>
+        <link href="/api/hosts/13a5efc4-1382-11e2-81e6-5254009970cc/activate" rel="activate"/>
+    </actions>
+    <link href="/api/hosts/13a5efc4-1382-11e2-81e6-5254009970cc/storage" rel="storage"/>
+    <link href="/api/hosts/13a5efc4-1382-11e2-81e6-5254009970cc/nics" rel="nics"/>
+    <link href="/api/hosts/13a5efc4-1382-11e2-81e6-5254009970cc/tags" rel="tags"/>
+    <link href="/api/hosts/13a5efc4-1382-11e2-81e6-5254009970cc/permissions" rel="permissions"/>
+    <link href="/api/hosts/13a5efc4-1382-11e2-81e6-5254009970cc/statistics" rel="statistics"/>
+    <address>h01.example.com</address>
+    <status>
+        <state>up</state>
+    </status>
+    <cluster href="/api/clusters/ad775cec-1381-11e2-94a8-5254009970cc" id="ad775cec-1381-11e2-94a8-5254009970cc"/>
+    <port>54321</port>
+    <type>rhel</type>
+    <storage_manager priority="5">true</storage_manager>
+    <power_management>
+        <enabled>false</enabled>
+        <options/>
+    </power_management>
+    <ksm>
+        <enabled>false</enabled>
+    </ksm>
+    <transparent_hugepages>
+        <enabled>true</enabled>
+    </transparent_hugepages>
+    <iscsi>
+        <initiator>iqn.1994-05.com.example:339f606894fe</initiator>
+    </iscsi>
+    <cpu>
+        <topology sockets="1" cores="2"/>
+        <name>Intel(R) Xeon(R) CPU 5130 @ 2.00GHz</name>
+        <speed>2000</speed>
+    </cpu>
+    <memory>4147118080</memory>
+    <summary>
+        <active>2</active>
+        <migrating>0</migrating>
+        <total>2</total>
+    </summary>
+</host>

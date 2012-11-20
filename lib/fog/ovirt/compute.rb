@@ -16,6 +16,8 @@ module Fog
       collection :interfaces
       model      :volume
       collection :volumes
+      model      :host
+      collection :hosts
 
       request_path 'fog/ovirt/requests/compute'
 
@@ -31,6 +33,8 @@ module Fog
       request :get_template
       request :list_clusters
       request :get_cluster
+      request :list_hosts
+      request :get_host
       request :add_interface
       request :destroy_interface
       request :update_interface

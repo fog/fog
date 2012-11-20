@@ -128,6 +128,11 @@ module Fog
           name
         end
 
+        def host
+          return if attributes[:host].nil?
+          connection.hosts.get(attributes[:host])
+        end
+
       end
 
     end
