@@ -106,6 +106,7 @@ module Fog
       request :remove_nodes_load_balancer
       request :remove_servers_server_group
       request :reset_ftp_password_account
+      request :reset_ftp_password_scoped_account
       request :reset_secret_api_client
       request :reset_secret_application
       request :shutdown_server
