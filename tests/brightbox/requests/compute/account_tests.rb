@@ -36,9 +36,16 @@ Shindo.tests('Fog::Compute[:brightbox] | account requests', ['brightbox']) do
       formats(Brightbox::Compute::Formats::Full::ACCOUNT, false) { result }
     end
 
-    tests("#reset_ftp_password_account") do
+    tests("#reset_ftp_password_scoped_account") do
       pending if Fog.mocking?
-      result = Fog::Compute[:brightbox].reset_ftp_password_account
+      result = Fog::Compute[:brightbox].reset_ftp_password_scoped_account
+      formats(Brightbox::Compute::Formats::Full::ACCOUNT, false) { result }
+      test("new ftp password is visible") { ! result["library_ftp_password"].nil?  }
+    end
+
+    tests("#reset_ftp_password_account(#{@scoped_account_identifier})") do
+      pending if Fog.mocking?
+      result = Fog::Compute[:brightbox].reset_ftp_password_account(@scoped_account_identifier)
       formats(Brightbox::Compute::Formats::Full::ACCOUNT, false) { result }
       test("new ftp password is visible") { ! result["library_ftp_password"].nil?  }
     end
