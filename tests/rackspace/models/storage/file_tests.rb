@@ -2,6 +2,16 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
 
   pending if Fog.mocking?
 
+  def object_meta_attributes
+    @instance.connection.head_object(@directory.key, @instance.key).headers.reject {|k, v| !(k =~ /X-Object-Meta-/)}
+  end
+
+  def clear_metadata
+    @instance.metadata.tap do |metadata|
+      metadata.each_pair {|k, v| metadata[k] = nil }
+    end
+  end
+
   file_attributes = {
     :key => 'fog_file_tests',
     :body => lorem_file
@@ -17,6 +27,82 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
     create(directory_attributes)
 
   model_tests(@directory.files, file_attributes, Fog.mocking?) do
+
+    tests("#metadata should load empty metadata").returns({}) do
+      @instance.metadata
+    end
+
+    tests('#save') do
+
+      tests('#metadata') do
+
+        before do
+          @instance.metadata[:foo] = 'bar'  
+          @instance.save
+        end
+
+        after do
+          clear_metadata
+          @instance.save
+        end
+
+        tests("should update metadata").returns('bar') do
+          object_meta_attributes['X-Object-Meta-Foo']
+        end
+
+        tests('should cache metadata').returns('bar') do
+          @instance.metadata[:foo]
+        end
+
+        tests('should remove empty metadata').returns({}) do
+          @instance.metadata[:foo] = nil
+          @instance.save
+          object_meta_attributes
+        end
+
+      end
+    
+      tests('#metadata keys') do
+        
+        after do
+          clear_metadata
+          @instance.save
+        end
+
+        @instance.metadata[:foo_bar] = 'baz'  
+        tests("should support compound key names").returns('baz') do
+          @instance.save
+          object_meta_attributes['X-Object-Meta-Foo-Bar']
+        end
+
+        @instance.metadata['foo'] = 'bar'  
+        tests("should support string keys").returns('bar') do
+          @instance.save
+          object_meta_attributes['X-Object-Meta-Foo']
+        end
+
+        @instance.metadata['foo_bar'] = 'baz'  
+        tests("should support compound string key names").returns('baz') do
+          @instance.save
+          object_meta_attributes['X-Object-Meta-Foo-Bar']
+        end
+
+        @instance.metadata['foo-bar'] = 'baz'  
+        tests("should support hyphenated keys").returns('baz') do
+          @instance.save
+          object_meta_attributes['X-Object-Meta-Foo-Bar']
+        end
+
+        @instance.metadata['foo-bar']  = 'baz'  
+        @instance.metadata[:'foo_bar'] = 'bref'  
+        tests("should only support one value per metadata key").returns('bref') do
+          @instance.save
+          object_meta_attributes['X-Object-Meta-Foo-Bar']
+        end
+
+      end
+
+    end
 
     tests("#access_control_allow_origin") do
 
@@ -80,5 +166,7 @@ Shindo.tests('Fog::Rackspace::Storage | file', ['rackspace']) do
     end
 
   end
+
   @directory.destroy
+
 end
