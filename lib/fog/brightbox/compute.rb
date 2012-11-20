@@ -163,6 +163,19 @@ module Fog
       class Real
         include Shared
 
+        # Creates a new instance of the Brightbox Compute service
+        #
+        # @param [Hash] options
+        # @option options [String] :brightbox_api_url   Override the default (or configured) API endpoint
+        # @option options [String] :brightbox_auth_url  Override the default (or configured) API authentication endpoint
+        # @option options [String] :brightbox_client_id Client identifier to authenticate with (overrides configured)
+        # @option options [String] :brightbox_secret    Client secret to authenticate with (overrides configured)
+        # @option options [String] :brightbox_username  Email or user identifier for user based authentication
+        # @option options [String] :brightbox_password  Password for user based authentication
+        # @option options [String] :brightbox_account   Account identifier to scope this connection to
+        # @option options [String] :connection_options  Settings to pass to underlying {Fog::Connection}
+        # @option options [Boolean] :persistent         Sets a persistent HTTP {Fog::Connection}
+        #
         def initialize(options)
           # Currently authentication and api endpoints are the same but may change
           @auth_url            = options[:brightbox_auth_url]  || Fog.credentials[:brightbox_auth_url] || API_URL
