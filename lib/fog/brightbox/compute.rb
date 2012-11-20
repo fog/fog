@@ -215,7 +215,10 @@ module Fog
         # @return [Fog::Compute::Brightbox::Account]
         #
         def account
-          Fog::Compute::Brightbox::Account.new(get_scoped_account)
+          Fog::Compute::Brightbox::Account.new(get_scoped_account).tap do |acc|
+            # Connection is more like the compute 'service'
+            acc.connection = self
+          end
         end
 
         # Returns true if authentication is being performed as a user
