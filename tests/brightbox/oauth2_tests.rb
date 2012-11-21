@@ -5,16 +5,30 @@ Shindo.tests("Fog::Brightbox::OAuth2", ["brightbox"]) do
     @client_secret = "__mashed_keys_123__"
     @username      = "usr-12345"
     @password      = "__mushed_keys_321__"
+    @access_token  = "12efde32fdfe4989"
+    @refresh_token = "7894389f9074f071"
 
     tests("with client credentials") do
       credentials = Fog::Brightbox::OAuth2::CredentialSet.new(@client_id, @client_secret)
       tests("#user_details?").returns(false) { credentials.user_details? }
+      tests("#access_token?").returns(false) { credentials.access_token? }
+      tests("#refresh_token?").returns(false) { credentials.refresh_token? }
     end
 
     tests("with user credentials") do
       options = {:username => @username, :password => @password}
       credentials = Fog::Brightbox::OAuth2::CredentialSet.new(@client_id, @client_secret, options)
       tests("#user_details?").returns(true) { credentials.user_details? }
+      tests("#access_token?").returns(false) { credentials.access_token? }
+      tests("#refresh_token?").returns(false) { credentials.refresh_token? }
+    end
+
+    tests("with existing tokens") do
+      options = {:username => @username, :access_token => @access_token, :refresh_token => @refresh_token}
+      credentials = Fog::Brightbox::OAuth2::CredentialSet.new(@client_id, @client_secret, options)
+      tests("#user_details?").returns(false) { credentials.user_details? }
+      tests("#access_token?").returns(true) { credentials.access_token? }
+      tests("#refresh_token?").returns(true) { credentials.refresh_token? }
     end
   end
 

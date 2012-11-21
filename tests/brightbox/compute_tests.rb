@@ -18,7 +18,9 @@ Shindo.tests('Fog::Compute.new', ['brightbox']) do
       :brightbox_secret => "12345abdef6789",
       :brightbox_username => "user-12345",
       :brightbox_password => "password1234",
-      :brightbox_account => "acc-12345"
+      :brightbox_account => "acc-12345",
+      :brightbox_access_token => "12345abdef6789",
+      :brightbox_refresh_token => "12345abdef6789"
     }.each_pair do |option, sample|
       tests("recognises :#{option}").returns(true) do
         options = {:provider => "Brightbox"}

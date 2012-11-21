@@ -17,6 +17,9 @@ module Fog
       # User credentials (still requires client details)
       recognizes :brightbox_username, :brightbox_password, :brightbox_account
 
+      # Cached tokens
+      recognizes :brightbox_access_token, :brightbox_refresh_token
+
       # Excon connection settings
       recognizes :persistent
 
@@ -167,6 +170,9 @@ module Fog
 
         # Creates a new instance of the Brightbox Compute service
         #
+        # @note If you open a connection using just a refresh token when it
+        #   expires the service will no longer be able to authenticate.
+        #
         # @param [Hash] options
         # @option options [String] :brightbox_api_url   Override the default (or configured) API endpoint
         # @option options [String] :brightbox_auth_url  Override the default (or configured) API authentication endpoint
@@ -177,6 +183,8 @@ module Fog
         # @option options [String] :brightbox_account   Account identifier to scope this connection to
         # @option options [String] :connection_options  Settings to pass to underlying {Fog::Connection}
         # @option options [Boolean] :persistent         Sets a persistent HTTP {Fog::Connection}
+        # @option options [String] :brightbox_access_token  Sets the OAuth access token to use rather than requesting a new token
+        # @option options [String] :brightbox_refresh_token Sets the refresh token to use when requesting a newer access token
         #
         def initialize(options)
           # Currently authentication and api endpoints are the same but may change
@@ -198,6 +206,9 @@ module Fog
 
           credential_options   = {:username => username, :password => password}
           @credentials         = CredentialSet.new(client_id, client_secret, credential_options)
+
+          # If existing tokens have been cached, allow continued use of them in the service
+          @credentials.update_tokens(options[:brightbox_access_token], options[:brightbox_refresh_token])
         end
 
         # Makes an API request to the given path using passed options or those
@@ -247,6 +258,24 @@ module Fog
           @credentials.user_details?
         end
 
+        # Returns true if an access token is set
+        # @return [Boolean]
+        def access_token_available?
+          !! @credentials.access_token
+        end
+
+        # Returns the current access token or nil
+        # @return [String,nil]
+        def access_token
+          @credentials.access_token
+        end
+
+        # Returns the current refresh token or nil
+        # @return [String,nil]
+        def refresh_token
+          @credentials.refresh_token
+        end
+
       private
 
         def get_oauth_token
@@ -268,13 +297,14 @@ module Fog
             :method   => 'POST',
             :body     => Fog::JSON.encode(token_strategy.authorization_body_data)
           })
-          @oauth_token = Fog::JSON.decode(response.body)["access_token"]
-          return @oauth_token
+          response_data = Fog::JSON.decode(response.body)
+          @credentials.update_tokens(response_data["access_token"], response_data["refresh_token"])
+          @credentials.access_token
         end
 
         def make_request(params)
           begin
-            get_oauth_token if @oauth_token.nil?
+            get_oauth_token unless access_token_available?
             response = authenticated_request(params)
           rescue Excon::Errors::Unauthorized
             get_oauth_token
@@ -287,7 +317,7 @@ module Fog
 
         def authenticated_request(options)
           headers = options[:headers] || {}
-          headers.merge!("Authorization" => "OAuth #{@oauth_token}", "Content-Type" => "application/json")
+          headers.merge!("Authorization" => "OAuth #{@credentials.access_token}", "Content-Type" => "application/json")
           options[:headers] = headers
           @connection.request(options)
         end

@@ -12,6 +12,7 @@ module Fog::Brightbox::OAuth2
   #
   class CredentialSet
     attr_reader :client_id, :client_secret, :username, :password
+    attr_reader :access_token, :refresh_token
     #
     # @param [String] client_id
     # @param [String] client_secret
@@ -24,12 +25,30 @@ module Fog::Brightbox::OAuth2
       @client_secret = client_secret
       @username      = options[:username]
       @password      = options[:password]
+      @access_token  = options[:access_token]
+      @refresh_token = options[:refresh_token]
     end
 
     # Returns true if user details are available
     # @return [Boolean]
     def user_details?
       !!(@username && @password)
+    end
+
+    # Is an access token available for these credentials?
+    def access_token?
+      !!@access_token
+    end
+
+    # Is a refresh token available for these credentials?
+    def refresh_token?
+      !!@refresh_token
+    end
+
+    # Updates the credentials with newer tokens
+    def update_tokens(access_token, refresh_token = nil)
+      @access_token  = access_token
+      @refresh_token = refresh_token
     end
   end
 
