@@ -81,7 +81,9 @@ module Fog::Brightbox::OAuth2
     # @todo Add a means to dictate which should or shouldn't be used
     #
     def best_grant_strategy
-      if user_details?
+      if refresh_token?
+        RefreshTokenStrategy.new(self)
+      elsif user_details?
         UserCredentialsStrategy.new(self)
       else
         ClientCredentialsStrategy.new(self)
@@ -131,6 +133,19 @@ module Fog::Brightbox::OAuth2
         "client_id"  => @credentials.client_id,
         "username"   => @credentials.username,
         "password"   => @credentials.password
+      }
+    end
+  end
+
+  # This strategy attempts to use a refresh_token gained during an earlier
+  # request to reuse the credentials given originally
+  #
+  class RefreshTokenStrategy < GrantTypeStrategy
+    def authorization_body_data
+      {
+        "grant_type"    => "refresh_token",
+        "client_id"     => @credentials.client_id,
+        "refresh_token" => @credentials.refresh_token
       }
     end
   end

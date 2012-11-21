@@ -28,6 +28,17 @@ Shindo.tests("Fog::Brightbox::OAuth2", ["brightbox"]) do
         credentials.best_grant_strategy.is_a?(Fog::Brightbox::OAuth2::UserCredentialsStrategy)
       end
     end
+
+    tests("with existing tokens") do
+      options = {:username => @username, :access_token => @access_token, :refresh_token => @refresh_token}
+      credentials = Fog::Brightbox::OAuth2::CredentialSet.new(@client_id, @client_secret, options)
+      tests("#user_details?").returns(false) { credentials.user_details? }
+      tests("#access_token?").returns(true) { credentials.access_token? }
+      tests("#refresh_token?").returns(true) { credentials.refresh_token? }
+      tests("#best_grant_strategy").returns(true) do
+        credentials.best_grant_strategy.is_a?(Fog::Brightbox::OAuth2::RefreshTokenStrategy)
+      end
+    end
   end
 
   tests("GrantTypeStrategy") do
@@ -69,6 +80,24 @@ Shindo.tests("Fog::Brightbox::OAuth2", ["brightbox"]) do
       test("client_id == #{@client_id}") { authorization_body_data["client_id"] == @client_id }
       test("username == #{@username}") { authorization_body_data["username"] == @username }
       test("password == #{@password}") { authorization_body_data["password"] == @password }
+    end
+  end
+
+  tests("RefreshTokenStrategy") do
+    refresh_token = "ab4b39dddf909"
+    options = {:refresh_token => refresh_token}
+    credentials = Fog::Brightbox::OAuth2::CredentialSet.new(@client_id, @client_secret, options)
+    strategy = Fog::Brightbox::OAuth2::RefreshTokenStrategy.new(credentials)
+
+    tests("#respond_to? :authorization_body_data").returns(true) do
+      strategy.respond_to?(:authorization_body_data)
+    end
+
+    tests("#authorization_body_data") do
+      authorization_body_data = strategy.authorization_body_data
+      test("grant_type == refresh_token") { authorization_body_data["grant_type"] == "refresh_token" }
+      test("client_id == #{@client_id}") { authorization_body_data["client_id"] == @client_id }
+      test("refresh_token == #{refresh_token}") { authorization_body_data["refresh_token"] == refresh_token }
     end
   end
 end
