@@ -5,6 +5,31 @@
 #
 module Fog::Brightbox::OAuth2
 
+  # This builds the simplest form of requesting an access token
+  # based on the arguments passed in
+  #
+  # @param [Fog::Connection] connection
+  # @param [CredentialSet] credentials
+  #
+  # @return [Excon::Response]
+  def request_access_token(connection, credentials)
+    token_strategy = credentials.best_grant_strategy
+
+    header_content = "#{credentials.client_id}:#{credentials.client_secret}"
+    encoded_credentials = Base64.encode64(header_content).chomp
+
+    connection.request({
+      :path => "/token",
+      :expects  => 200,
+      :headers  => {
+        'Authorization' => "Basic #{encoded_credentials}",
+        'Content-Type' => 'application/json'
+      },
+      :method   => 'POST',
+      :body     => Fog::JSON.encode(token_strategy.authorization_body_data)
+    })
+  end
+
   # Encapsulates credentials required to request access tokens from the
   # Brightbox authorisation servers
   #
@@ -49,6 +74,18 @@ module Fog::Brightbox::OAuth2
     def update_tokens(access_token, refresh_token = nil)
       @access_token  = access_token
       @refresh_token = refresh_token
+    end
+
+    # Based on available credentials returns the best strategy
+    #
+    # @todo Add a means to dictate which should or shouldn't be used
+    #
+    def best_grant_strategy
+      if user_details?
+        UserCredentialsStrategy.new(self)
+      else
+        ClientCredentialsStrategy.new(self)
+      end
     end
   end
 
@@ -96,5 +133,17 @@ module Fog::Brightbox::OAuth2
         "password"   => @credentials.password
       }
     end
+  end
+
+private
+
+  # This updates the current credentials if passed a valid response
+  #
+  # @param [CredentialSet] credentials Credentials to update
+  # @param [Excon::Response] response Response object to parse value from
+  #
+  def update_credentials_from_response(credentials, response)
+    response_data = Fog::JSON.decode(response.body)
+    credentials.update_tokens(response_data["access_token"], response_data["refresh_token"])
   end
 end

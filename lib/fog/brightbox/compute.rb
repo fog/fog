@@ -276,38 +276,37 @@ module Fog
           @credentials.refresh_token
         end
 
-      private
-
-        def get_oauth_token
-          if authenticating_as_user?
-            token_strategy = UserCredentialsStrategy.new(@credentials)
-          else
-            token_strategy = ClientCredentialsStrategy.new(@credentials)
+        # Requests a new access token
+        #
+        # @return [String] New access token
+        def get_access_token
+          begin
+            get_access_token!
+          rescue Excon::Errors::Unauthorized, Excon::Errors::BadRequest
+            @credentials.update_tokens(nil, nil)
           end
-
-          basic_header_to_encode = "#{@credentials.client_id}:#{@credentials.client_secret}"
-
-          response = @auth_connection.request({
-            :path => "/token",
-            :expects  => 200,
-            :headers  => {
-              'Authorization' => "Basic " + Base64.encode64(basic_header_to_encode).chomp,
-              'Content-Type' => 'application/json'
-            },
-            :method   => 'POST',
-            :body     => Fog::JSON.encode(token_strategy.authorization_body_data)
-          })
-          response_data = Fog::JSON.decode(response.body)
-          @credentials.update_tokens(response_data["access_token"], response_data["refresh_token"])
           @credentials.access_token
         end
 
+        # Requests a new access token and raises if there is a problem
+        #
+        # @return [String] New access token
+        # @raise [Excon::Errors::BadRequest] The credentials are expired or incorrect
+        #
+        def get_access_token!
+          response = request_access_token(@auth_connection, @credentials)
+          update_credentials_from_response(@credentials, response)
+          @credentials.access_token
+        end
+
+      private
+
         def make_request(params)
           begin
-            get_oauth_token unless access_token_available?
+            get_access_token unless access_token_available?
             response = authenticated_request(params)
           rescue Excon::Errors::Unauthorized
-            get_oauth_token
+            get_access_token
             response = authenticated_request(params)
           end
           unless response.body.empty?

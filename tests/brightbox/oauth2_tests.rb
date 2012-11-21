@@ -13,6 +13,9 @@ Shindo.tests("Fog::Brightbox::OAuth2", ["brightbox"]) do
       tests("#user_details?").returns(false) { credentials.user_details? }
       tests("#access_token?").returns(false) { credentials.access_token? }
       tests("#refresh_token?").returns(false) { credentials.refresh_token? }
+      tests("#best_grant_strategy").returns(true) do
+        credentials.best_grant_strategy.is_a?(Fog::Brightbox::OAuth2::ClientCredentialsStrategy)
+      end
     end
 
     tests("with user credentials") do
@@ -21,14 +24,9 @@ Shindo.tests("Fog::Brightbox::OAuth2", ["brightbox"]) do
       tests("#user_details?").returns(true) { credentials.user_details? }
       tests("#access_token?").returns(false) { credentials.access_token? }
       tests("#refresh_token?").returns(false) { credentials.refresh_token? }
-    end
-
-    tests("with existing tokens") do
-      options = {:username => @username, :access_token => @access_token, :refresh_token => @refresh_token}
-      credentials = Fog::Brightbox::OAuth2::CredentialSet.new(@client_id, @client_secret, options)
-      tests("#user_details?").returns(false) { credentials.user_details? }
-      tests("#access_token?").returns(true) { credentials.access_token? }
-      tests("#refresh_token?").returns(true) { credentials.refresh_token? }
+      tests("#best_grant_strategy").returns(true) do
+        credentials.best_grant_strategy.is_a?(Fog::Brightbox::OAuth2::UserCredentialsStrategy)
+      end
     end
   end
 
