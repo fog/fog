@@ -1,5 +1,6 @@
 require 'fog/brightbox'
 require 'fog/compute'
+require 'fog/brightbox/oauth2'
 
 module Fog
   module Compute
@@ -162,6 +163,7 @@ module Fog
 
       class Real
         include Shared
+        include Fog::Brightbox::OAuth2
 
         # Creates a new instance of the Brightbox Compute service
         #
@@ -185,12 +187,15 @@ module Fog
           @connection          = Fog::Connection.new(@api_url, @persistent, @connection_options)
 
           # Authentication options
-          @brightbox_client_id = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
-          @brightbox_secret    = options[:brightbox_secret]    || Fog.credentials[:brightbox_secret]
+          client_id            = options[:brightbox_client_id] || Fog.credentials[:brightbox_client_id]
+          client_secret        = options[:brightbox_secret]    || Fog.credentials[:brightbox_secret]
 
-          @brightbox_username  = options[:brightbox_username]  || Fog.credentials[:brightbox_username]
-          @brightbox_password  = options[:brightbox_password]  || Fog.credentials[:brightbox_password]
-          @brightbox_account   = options[:brightbox_account]   || Fog.credentials[:brightbox_account]
+          username             = options[:brightbox_username]  || Fog.credentials[:brightbox_username]
+          password             = options[:brightbox_password]  || Fog.credentials[:brightbox_password]
+          @scoped_account      = options[:brightbox_account]   || Fog.credentials[:brightbox_account]
+
+          credential_options   = {:username => username, :password => password}
+          @credentials         = CredentialSet.new(client_id, client_secret, credential_options)
         end
 
         # Makes an API request to the given path using passed options or those
@@ -214,7 +219,7 @@ module Fog
             :path     => path,
             :expects  => expected_responses
           }
-          parameters[:account_id] = @brightbox_account if parameters[:account_id].nil? && @brightbox_account
+          parameters[:account_id] = @scoped_account if parameters[:account_id].nil? && @scoped_account
           request_options[:body] = Fog::JSON.encode(parameters) unless parameters.empty?
           make_request(request_options)
         end
@@ -237,8 +242,9 @@ module Fog
         # Returns true if authentication is being performed as a user
         # @return [Boolean]
         def authenticating_as_user?
-          @brightbox_username && @brightbox_password
+          @credentials.user_details?
         end
+
       private
         def get_oauth_token(options = {})
           auth_url = options[:brightbox_auth_url] || @auth_url
@@ -246,13 +252,13 @@ module Fog
           connection = Fog::Connection.new(auth_url)
           authentication_body_hash = if authenticating_as_user?
             {
-              'client_id' => @brightbox_client_id,
+              'client_id' => @credentials.client_id,
               'grant_type' => 'password',
-              'username' => @brightbox_username,
-              'password' => @brightbox_password
+              'username' => @credentials.username,
+              'password' => @credentials.password
             }
           else
-            {'client_id' => @brightbox_client_id, 'grant_type' => 'none'}
+            {'client_id' => @credentials.client_id, 'grant_type' => 'none'}
           end
           @authentication_body = Fog::JSON.encode(authentication_body_hash)
 
@@ -260,7 +266,7 @@ module Fog
             :path => "/token",
             :expects  => 200,
             :headers  => {
-              'Authorization' => "Basic " + Base64.encode64("#{@brightbox_client_id}:#{@brightbox_secret}").chomp,
+              'Authorization' => "Basic " + Base64.encode64("#{@credentials.client_id}:#{@credentials.client_secret}").chomp,
               'Content-Type' => 'application/json'
             },
             :method   => 'POST',
