@@ -3,7 +3,9 @@ require 'fog/aws/credential_fetcher'
 require 'fog/aws/signaturev4'
 module Fog
   module AWS
-
+    @@additional_regions_info = []
+    @@additional_elb_hosted_zone_mapping = {}
+    
     extend Fog::Provider
 
     service(:auto_scaling,    'aws/auto_scaling',     'AutoScaling')
@@ -26,6 +28,20 @@ module Fog
     service(:sqs,             'aws/sqs',              'SQS')
     service(:sts,             'aws/sts',              'STS')
     service(:storage,         'aws/storage',          'Storage')
+    
+    def self.additional_regions
+      @@additional_regions_info.map{|hash| hash["regionName"]}.uniq#cache this call?
+    end
+
+    def self.additional_elb_hosted_zone_mapping(elb_zone_map)
+      raise ArgumentError unless new_regions.kind_of?(Hash)
+      @@additional_elb_hosted_zone_mapping=elb_zone_map
+    end 
+
+    def self.additional_regions_info(new_regions)
+      raise ArgumentError unless new_regions.kind_of?(Array)
+      @@additional_regions_info = new_regions
+    end
 
     def self.indexed_param(key, values)
       params = {}
