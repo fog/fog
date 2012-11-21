@@ -181,6 +181,8 @@ module Fog
         def initialize(options)
           # Currently authentication and api endpoints are the same but may change
           @auth_url            = options[:brightbox_auth_url]  || Fog.credentials[:brightbox_auth_url] || API_URL
+          @auth_connection     = Fog::Connection.new(@auth_url)
+
           @api_url             = options[:brightbox_api_url]   || Fog.credentials[:brightbox_api_url]  || API_URL
           @connection_options  = options[:connection_options]  || {}
           @persistent          = options[:persistent]          || false
@@ -246,10 +248,8 @@ module Fog
         end
 
       private
-        def get_oauth_token(options = {})
-          auth_url = options[:brightbox_auth_url] || @auth_url
 
-          connection = Fog::Connection.new(auth_url)
+        def get_oauth_token
           authentication_body_hash = if authenticating_as_user?
             {
               'client_id' => @credentials.client_id,
@@ -262,11 +262,13 @@ module Fog
           end
           @authentication_body = Fog::JSON.encode(authentication_body_hash)
 
-          response = connection.request({
+          basic_header_to_encode = "#{@credentials.client_id}:#{@credentials.client_secret}"
+
+          response = @auth_connection.request({
             :path => "/token",
             :expects  => 200,
             :headers  => {
-              'Authorization' => "Basic " + Base64.encode64("#{@credentials.client_id}:#{@credentials.client_secret}").chomp,
+              'Authorization' => "Basic " + Base64.encode64(basic_header_to_encode).chomp,
               'Content-Type' => 'application/json'
             },
             :method   => 'POST',
