@@ -32,4 +32,50 @@ module Fog::Brightbox::OAuth2
       !!(@username && @password)
     end
   end
+
+  # This strategy class is the basis for OAuth2 grant types
+  #
+  # @abstract Need to implement {#authorization_body_data} to return a
+  #   Hash matching the expected parameter form for the OAuth request
+  #
+  # @todo Strategies should be able to validate if credentials are suitable
+  #   so just client credentials cannot be used with user strategies
+  #
+  class GrantTypeStrategy
+    def initialize(credentials)
+      @credentials = credentials
+    end
+
+    def authorization_body_data
+      raise "Not implemented"
+    end
+  end
+
+  # This implements client based authentication/authorization
+  # based on the existing trust relationship using the `none`
+  # grant type.
+  #
+  class ClientCredentialsStrategy < GrantTypeStrategy
+    def authorization_body_data
+      {
+        "grant_type" => "none",
+        "client_id"  => @credentials.client_id
+      }
+    end
+  end
+
+  # This passes user details through so the returned token
+  # carries the privileges of the user not account limited
+  # by the client
+  #
+  class UserCredentialsStrategy < GrantTypeStrategy
+    def authorization_body_data
+      {
+        "grant_type" => "password",
+        "client_id"  => @credentials.client_id,
+        "username"   => @credentials.username,
+        "password"   => @credentials.password
+      }
+    end
+  end
 end

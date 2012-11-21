@@ -250,17 +250,11 @@ module Fog
       private
 
         def get_oauth_token
-          authentication_body_hash = if authenticating_as_user?
-            {
-              'client_id' => @credentials.client_id,
-              'grant_type' => 'password',
-              'username' => @credentials.username,
-              'password' => @credentials.password
-            }
+          if authenticating_as_user?
+            token_strategy = UserCredentialsStrategy.new(@credentials)
           else
-            {'client_id' => @credentials.client_id, 'grant_type' => 'none'}
+            token_strategy = ClientCredentialsStrategy.new(@credentials)
           end
-          @authentication_body = Fog::JSON.encode(authentication_body_hash)
 
           basic_header_to_encode = "#{@credentials.client_id}:#{@credentials.client_secret}"
 
@@ -272,7 +266,7 @@ module Fog
               'Content-Type' => 'application/json'
             },
             :method   => 'POST',
-            :body     => @authentication_body
+            :body     => Fog::JSON.encode(token_strategy.authorization_body_data)
           })
           @oauth_token = Fog::JSON.decode(response.body)["access_token"]
           return @oauth_token
