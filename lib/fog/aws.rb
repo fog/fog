@@ -33,12 +33,20 @@ module Fog
       @@additional_regions_info.map{|hash| hash["regionName"]}.uniq#cache this call?
     end
 
-    def self.additional_elb_hosted_zone_mapping(elb_zone_map)
+    def self.set_additional_elb_hosted_zone_mapping(elb_zone_map)
       raise ArgumentError unless new_regions.kind_of?(Hash)
       @@additional_elb_hosted_zone_mapping=elb_zone_map
     end 
 
-    def self.additional_regions_info(new_regions)
+    def self.additional_elb_hosted_zone_mapping
+      @@additional_elb_hosted_zone_mapping
+    end 
+
+    def self.additional_regions_info
+      @@additional_regions_info
+    end
+    
+    def self.set_additional_regions_info(new_regions)
       raise ArgumentError unless new_regions.kind_of?(Array)
       @@additional_regions_info = new_regions
     end
