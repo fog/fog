@@ -126,6 +126,7 @@ module Fog
       # Tenant
       request :list_tenants
       request :set_tenant
+      request :get_limits
 
       # Volume
       request :list_volumes
