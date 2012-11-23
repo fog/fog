@@ -1,6 +1,7 @@
 require 'fog/core'
 require 'fog/aws/credential_fetcher'
 require 'fog/aws/signaturev4'
+require 'ipaddress'
 module Fog
   module AWS
 
@@ -181,11 +182,7 @@ module Fog
       end
 
       def self.ip_address
-        ip = []
-        4.times do
-          ip << Fog::Mock.random_numbers(rand(3) + 1).to_i.to_s # remove leading 0
-        end
-        ip.join('.')
+        IPAddress::IPv4.parse_u32( rand * 2**32 ).to_s
       end
 
       def self.private_ip_address
