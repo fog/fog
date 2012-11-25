@@ -41,7 +41,10 @@ module Fog
       request :revert_resize_server
 
       request :list_images
+      request :list_images_detail
       request :get_image
+      request :create_image
+      request :delete_image
 
       request :list_flavors
       request :get_flavor
