@@ -69,6 +69,7 @@ module Fog
       request :remove_fixed_ip
       request :server_diagnostics
       request :boot_from_snapshot
+      request :reset_server_state
 
       # Server Extenstions
       request :get_console_output
