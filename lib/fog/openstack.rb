@@ -116,8 +116,8 @@ module Fog
       end if openstack_region
 
       if service['endpoints'].count > 1
-         regions = svc["endpoints"].map { |x| x['region'] }.uniq.join(',')
-         raise Errors::NotFound.new("Multiple regions available choose one of these '#{regions}'")
+        regions = service["endpoints"].map{ |e| e['region'] }.uniq.join(',')
+        raise Errors::NotFound.new("Multiple regions available choose one of these '#{regions}'")
       end
 
       identity_service = body['access']['serviceCatalog'].
