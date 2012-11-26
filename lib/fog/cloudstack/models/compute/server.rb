@@ -33,6 +33,7 @@ module Fog
         attribute :guest_os_id,                             :aliases => 'guestosid'
         attribute :root_device_id,                          :aliases => 'rootdeviceid'
         attribute :root_device_type,                        :aliases => 'rootdevicetype'
+        attribute :group
         attribute :security_group_list,    :type => :array, :aliases => 'securitygroup'
         attribute :nics,                   :type => :array, :aliases => 'nic'
 
@@ -85,6 +86,7 @@ module Fog
             'networkids'        => network_ids,
             'diskofferingid'    => disk_offering_id,
             'displayname'       => display_name,
+            'group'             => group,
             'domainid'          => domain_id,
             'hostid'            => host_id,
             'ipaddress'         => ip_address,
