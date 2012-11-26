@@ -61,7 +61,8 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_create_disk request", 'vsphere') do
     response = compute.vm_create_disk(
         'vm_moid' => vm_moid,
         'vmdk_path' => ConstClass::VMDK_PATH1 ,
-        'disk_size'=> ConstClass::DISK_SIZE.to_i
+        'disk_size'=> ConstClass::DISK_SIZE.to_i,
+        'provison_type' => 'thick_eager_zeroed'
     )
     test("be a kind of Hash") { response.kind_of? Hash }
     %w{ vm_ref vm_attributes vm_dev_number_increase task_state}.each do |key|

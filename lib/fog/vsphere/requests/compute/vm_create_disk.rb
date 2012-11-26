@@ -35,7 +35,7 @@ module Fog
 
           if options[:provison_type] == 'thin'
             backing_info.thinProvisioned = true
-          elsif options[:privison_type] == 'thick_eager_zeroed'
+          elsif options[:provison_type] == 'thick_eager_zeroed'
             backing_info.thinProvisioned = false
             backing_info.eagerlyScrub = true
           else
