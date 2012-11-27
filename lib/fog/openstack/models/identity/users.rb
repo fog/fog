@@ -7,10 +7,9 @@ module Fog
       class Users < Fog::Collection
         model Fog::Identity::OpenStack::User
 
-        attribute :tenant
+        attribute :tenant_id
 
         def all
-          tenant_id = tenant.nil? ? nil : tenant.id
           load(connection.list_users(tenant_id).body['users'])
         end
 

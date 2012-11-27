@@ -17,7 +17,7 @@ module Fog
         def save
           requires :name, :description
           data = connection.create_security_group(name, description)
-          merge_attributes(data.body['security_groups'])
+          merge_attributes(data.body['security_group'])
           true
         end
 
