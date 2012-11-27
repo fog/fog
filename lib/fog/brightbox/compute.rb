@@ -206,7 +206,9 @@ module Fog
 
           username             = options[:brightbox_username]  || Fog.credentials[:brightbox_username]
           password             = options[:brightbox_password]  || Fog.credentials[:brightbox_password]
-          @scoped_account      = options[:brightbox_account]   || Fog.credentials[:brightbox_account]
+          @configured_account  = options[:brightbox_account]   || Fog.credentials[:brightbox_account]
+          # Request account can be changed at anytime and changes behaviour of future requests
+          @scoped_account      = @configured_account
 
           credential_options   = {:username => username, :password => password}
           @credentials         = CredentialSet.new(client_id, client_secret, credential_options)
@@ -238,7 +240,13 @@ module Fog
             :path     => path,
             :expects  => expected_responses
           }
-          parameters[:account_id] = @scoped_account if parameters[:account_id].nil? && @scoped_account
+
+          # Select the account to scope for this request
+          account = scoped_account(parameters.fetch(:account_id, nil))
+          if account
+            request_options[:query] = { :account_id => account }
+          end
+
           request_options[:body] = Fog::JSON.encode(parameters) unless parameters.empty?
 
           response = make_request(request_options)
@@ -250,6 +258,27 @@ module Fog
           else
             response
           end
+        end
+
+        # Sets the scoped account for future requests
+        # @param [String] scoped_account Identifier of the account to scope request to
+        def scoped_account=(scoped_account)
+          @scoped_account = scoped_account
+        end
+
+        # This returns the account identifier that the request should be scoped by
+        # based on the options passed to the request and current configuration
+        #
+        # @param [String] options_account Any identifier passed into the request
+        #
+        # @return [String, nil] The account identifier to scope the request to or nil
+        def scoped_account(options_account = nil)
+          [options_account, @scoped_account].compact.first
+        end
+
+        # Resets the scoped account back to intially configured one
+        def scoped_account_reset
+          @scoped_account = @configured_account
         end
 
         # Returns the scoped account being used for requests

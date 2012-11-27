@@ -66,4 +66,34 @@ Shindo.tests('Fog::Compute.new', ['brightbox']) do
       end
     end
   end
+
+  tests("account scoping") do
+    service = Fog::Compute.new(:provider => "Brightbox")
+    configured_account = Fog.credentials[:brightbox_account]
+    tests("when Fog.credentials are #{configured_account}") do
+      test("#scoped_account == #{configured_account}") { service.scoped_account == configured_account }
+    end
+
+    set_account = "acc-35791"
+    tests("when Compute instance is updated to #{set_account}") do
+      service.scoped_account = set_account
+      test("#scoped_account == #{set_account}") { service.scoped_account == set_account }
+    end
+
+    tests("when Compute instance is reset") do
+      service.scoped_account_reset
+      test("#scoped_account == #{configured_account}") { service.scoped_account == configured_account }
+    end
+
+    optioned_account = "acc-56789"
+    tests("when Compute instance created with :brightbox_account => #{optioned_account}") do
+      service = Fog::Compute.new(:provider => "Brightbox", :brightbox_account => optioned_account )
+      test("#scoped_account == #{optioned_account}") { service.scoped_account == optioned_account }
+    end
+
+    request_account = "acc-24680"
+    tests("when requested with #{request_account}") do
+      test("#scoped_account(#{request_account}) == #{request_account}") { service.scoped_account(request_account) == request_account }
+    end
+  end
 end
