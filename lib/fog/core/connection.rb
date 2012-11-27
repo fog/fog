@@ -2,7 +2,6 @@ module Fog
   class Connection
 
     def initialize(url, persistent=false, params={})
-      Excon.defaults[:headers]['User-Agent'] ||= "fog/#{Fog::VERSION}"
       @excon = Excon.new(url, params)
       @persistent = persistent
     end
