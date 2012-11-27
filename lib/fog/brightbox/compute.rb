@@ -20,6 +20,9 @@ module Fog
       # Cached tokens
       recognizes :brightbox_access_token, :brightbox_refresh_token
 
+      # Automatic token management
+      recognizes :brightbox_token_management
+
       # Excon connection settings
       recognizes :persistent
 
@@ -185,6 +188,7 @@ module Fog
         # @option options [Boolean] :persistent         Sets a persistent HTTP {Fog::Connection}
         # @option options [String] :brightbox_access_token  Sets the OAuth access token to use rather than requesting a new token
         # @option options [String] :brightbox_refresh_token Sets the refresh token to use when requesting a newer access token
+        # @option options [String] :brightbox_token_management Overide the existing behaviour to request access tokens if expired (default is `true`)
         #
         def initialize(options)
           # Currently authentication and api endpoints are the same but may change
@@ -209,6 +213,8 @@ module Fog
 
           # If existing tokens have been cached, allow continued use of them in the service
           @credentials.update_tokens(options[:brightbox_access_token], options[:brightbox_refresh_token])
+
+          @token_management    = options.fetch(:brightbox_token_management, true)
         end
 
         # Makes an API request to the given path using passed options or those
@@ -234,7 +240,16 @@ module Fog
           }
           parameters[:account_id] = @scoped_account if parameters[:account_id].nil? && @scoped_account
           request_options[:body] = Fog::JSON.encode(parameters) unless parameters.empty?
-          make_request(request_options)
+
+          response = make_request(request_options)
+
+          # FIXME We should revert to returning the Excon::Request after a suitable
+          # configuration option is in place to switch back to this incorrect behaviour
+          unless response.body.empty?
+            Fog::JSON.decode(response.body)
+          else
+            response
+          end
         end
 
         # Returns the scoped account being used for requests
@@ -301,23 +316,51 @@ module Fog
 
       private
 
-        def make_request(params)
-          begin
-            get_access_token unless access_token_available?
-            response = authenticated_request(params)
-          rescue Excon::Errors::Unauthorized
-            get_access_token
-            response = authenticated_request(params)
-          end
-          unless response.body.empty?
-            response = Fog::JSON.decode(response.body)
+        # This makes a request of the API based on the configured setting for
+        # token management.
+        #
+        # @param [Hash] options Excon compatible options
+        # @see https://github.com/geemus/excon/blob/master/lib/excon/connection.rb
+        #
+        # @return [Hash] Data of response body
+        #
+        def make_request(options)
+          if @token_management
+            managed_token_request(options)
+          else
+            authenticated_request(options)
           end
         end
 
+        # This request checks for access tokens and will ask for a new one if
+        # it receives Unauthorized from the API before repeating the request
+        #
+        # @param [Hash] options Excon compatible options
+        #
+        # @return [Excon::Response]
+        def managed_token_request(options)
+          begin
+            get_access_token unless access_token_available?
+            response = authenticated_request(options)
+          rescue Excon::Errors::Unauthorized
+            get_access_token
+            response = authenticated_request(options)
+          end
+        end
+
+        # This request makes an authenticated request of the API using currently
+        # setup credentials.
+        #
+        # @param [Hash] options Excon compatible options
+        #
+        # @return [Excon::Response]
         def authenticated_request(options)
           headers = options[:headers] || {}
           headers.merge!("Authorization" => "OAuth #{@credentials.access_token}", "Content-Type" => "application/json")
           options[:headers] = headers
+          # TODO This is just a wrapper around a call to Excon::Connection#request
+          #   so can be extracted from Compute by passing in the connection,
+          #   credentials and options
           @connection.request(options)
         end
 

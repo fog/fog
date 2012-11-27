@@ -20,7 +20,8 @@ Shindo.tests('Fog::Compute.new', ['brightbox']) do
       :brightbox_password => "password1234",
       :brightbox_account => "acc-12345",
       :brightbox_access_token => "12345abdef6789",
-      :brightbox_refresh_token => "12345abdef6789"
+      :brightbox_refresh_token => "12345abdef6789",
+      :brightbox_token_management => false
     }.each_pair do |option, sample|
       tests("recognises :#{option}").returns(true) do
         options = {:provider => "Brightbox"}
@@ -30,6 +31,37 @@ Shindo.tests('Fog::Compute.new', ['brightbox']) do
           true
         rescue ArgumentError
           false
+        end
+      end
+    end
+  end
+
+  tests("automatic token management") do
+    service_options = {:provider => "Brightbox"}
+
+    tests("when enabled (default)") do
+      service_options[:brightbox_token_management] = true
+
+      tests("using bad token") do
+        service_options[:brightbox_access_token] = "bad-token"
+
+        tests("#request").returns(true, "returns a Hash") do
+          service = Fog::Compute.new(service_options)
+          response = service.get_authenticated_user
+          response.is_a?(Hash) # This is an outstanding issue, should be Excon::Response
+        end
+      end
+    end
+
+    tests("when disabled") do
+      service_options[:brightbox_token_management] = false
+
+      tests("using bad token") do
+        service_options[:brightbox_access_token] = "bad-token"
+
+        tests("#request").raises(Excon::Errors::Unauthorized) do
+          service = Fog::Compute.new(service_options)
+          service.get_authenticated_user
         end
       end
     end
