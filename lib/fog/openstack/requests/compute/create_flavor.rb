@@ -29,6 +29,7 @@ module Fog
               'id' => attributes[:flavor_id],
               'swap' => attributes[:swap],
               'OS-FLV-EXT-DATA:ephemeral' => attributes[:ephemeral],
+              'os-flavor-access:is_public' => attributes[:is_public],
               'rxtx_factor' => attributes[:rxtx_factor]
             }
           }
@@ -67,8 +68,10 @@ module Fog
                   "rel" => "bookmark"
                 }
               ],
-              "rxtx_factor" => attributes[:rxtx_factor] || 1,
+              "rxtx_factor" => attributes[:rxtx_factor] || 1.0,
               "OS-FLV-EXT-DATA:ephemeral" => attributes[:ephemeral] || 0,
+              "os-flavor-access:is_public" => attributes[:is_public] || false,
+              "OS-FLV-DISABLED:disabled" => attributes[:disabled] || false,
               "ram" => attributes[:ram],
               "id" => "11",
               "swap" => attributes[:swap] || ""
