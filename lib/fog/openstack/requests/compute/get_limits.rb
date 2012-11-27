@@ -1,0 +1,97 @@
+module Fog
+  module Compute
+    class OpenStack
+
+      # http://docs.openstack.org/api/openstack-compute/2/content/ProgramaticLimits.html
+      #
+      class Real
+        def get_limits
+          request(
+            :expects  => 200,
+            :method   => 'GET',
+            :path     => '/limits.json'
+          )
+        end
+      end
+
+
+      class Mock
+        def get_limits
+          rate_limits = [
+            { 'regex' => '.*',
+              'limit' => [
+                { 'next-available' => '2012-11-22T16:13:44Z',
+                  'unit'           => 'MINUTE',
+                  'verb'           => 'POST',
+                  'remaining'      => 9,
+                  'value'          => 10 },
+                { 'next-available' => '2012-11-23T00:46:14Z',
+                  'unit'           => 'MINUTE',
+                  'verb'           => 'PUT',
+                  'remaining'      => 10,
+                  'value' => 10 },
+                { 'next-available' => '2012-11-22T16:14:30Z',
+                  'unit'           => 'MINUTE',
+                  'verb'           => 'DELETE',
+                  'remaining'      => 99,
+                  'value'          => 100 } ],
+                'uri' => '*' },
+            { 'regex' => '^/servers',
+              'limit' => [
+                { 'next-available' => '2012-11-23T00:46:14Z',
+                  'unit'           => 'DAY',
+                  'verb'           => 'POST',
+                  'remaining'      => 50,
+                  'value'          => 50} ],
+              'uri'=>'*/servers' },
+            { 'regex' => '.*changes-since.*',
+              'limit' => [
+                { 'next-available' => '2012-11-23T00:46:14Z',
+                  'unit'           => 'MINUTE',
+                  'verb'           => 'GET',
+                  'remaining'      => 3,
+                  'value'          => 3 } ],
+              'uri' => '*changes-since*' }
+          ]
+
+          absolute_limits = {
+            # Max
+            'maxServerMeta'            => 128,
+            'maxTotalInstances'        => 10,
+            'maxPersonality'           => 5,
+            'maxImageMeta'             => 128,
+            'maxPersonalitySize'       => 10240,
+            'maxSecurityGroupRules'    => 20,
+            'maxTotalKeypairs'         => 100,
+            'maxTotalVolumes'          => 10,
+            'maxSecurityGroups'        => 10,
+            'maxTotalCores'            => 20,
+            'maxTotalFloatingIps'      => 10,
+            'maxTotalVolumeGigabytes'  => 1000,
+            'maxTotalRAMSize'          => 51200,
+
+            # Used
+            'totalVolumesUsed'         => 0,
+            'totalCoresUsed'           => -1,
+            'totalRAMUsed'             => -2048,
+            'totalInstancesUsed'       => -1,
+            'totalVolumeGigabytesUsed' => 0,
+            'totalSecurityGroupsUsed'  => 0,
+            'totalKeyPairsUsed'        => 0
+          }
+
+
+          Excon::Response.new(
+            :status => 200,
+            :body => {
+              'limits' => {
+                'rate'     => rate_limits,
+                'absolute' => absolute_limits }
+            }
+          )
+        end
+      end
+
+    end
+  end
+end
