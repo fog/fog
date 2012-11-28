@@ -14,7 +14,7 @@ module Fog
 
         def all
           data = []
-          connection.get_organization(href).body[:Locations][:Location].each do |d| 
+          connection.get_organization(href).body[:Locations][:Location].each do |d|
             if d[:Environments][:Environment].is_a?(Array)
               d[:Environments][:Environment].each { |e| data << e }
             else

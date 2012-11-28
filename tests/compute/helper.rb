@@ -19,13 +19,26 @@ def compute_providers
       },
       :mocked => false
     },
-    :openstack => {
-      :mocked => true,
+    :ecloud => {
       :server_attributes => {
-        :flavor_ref => 2,
-        :image_ref  => "0e09fbd6-43c5-448a-83e9-0d3d05f9747e",
-        :name       => "fog_#{Time.now.to_i}"
-      }
+        :name                 => "eugene",
+        :row                  => "eugene1",
+        :group                => "eugene-104",
+        :catalog_network_name => "bridged",
+        :description          => "blarg",
+        :operating_system => {
+          :name =>  "Red Hat Enterprise Linux 5 (64-bit)",
+          :href => "/cloudapi/ecloud/operatingsystems/rhel5_64guest/computepools/963",
+        },
+      }.tap do |hash|
+        [:template_href, :network_uri, :environment_name].each do |k|
+          key = "ecloud_#{k}".to_sym
+          if Fog.credentials[key]
+            hash[k]= Fog.credentials[key]
+          end
+        end
+      end,
+      :mocked => true,
     },
     :cloudstack => {
       :provider_attributes => {
@@ -80,6 +93,14 @@ def compute_providers
     },
     :ninefold   => {
       :mocked => false
+    },
+    :openstack => {
+      :mocked => true,
+      :server_attributes => {
+        :flavor_ref => 2,
+        :image_ref  => "0e09fbd6-43c5-448a-83e9-0d3d05f9747e",
+        :name       => "fog_#{Time.now.to_i}"
+      }
     },
     :rackspace  => {
       :provider_attributes => { :version => :v1 }, 
