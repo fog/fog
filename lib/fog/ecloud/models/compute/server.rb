@@ -2,80 +2,69 @@ module Fog
   module Compute
     class Ecloud
       class Server < Fog::Ecloud::Model
+        extend Forwardable
+
         identity :href
 
-        attribute :name, :aliases => :Name
-        attribute :type , :aliases => :Type
-        attribute :other_links, :aliases => :Link
-        attribute :status, :aliases => :Status
-        attribute :storage, :aliases => :Storage
-        attribute :ip_addresses, :aliases => :IpAddresses
-        attribute :operating_system, :aliases => :OperatingSystem
-        attribute :powered_on, :aliases => :PoweredOn, :type => :boolean
-        attribute :tools_status, :aliases => :ToolsStatus
-        attribute :cpus, :aliases => :ProcessorCount, :type => :integer
-        attribute :memory, :aliases => :Memory
-        attribute :description, :aliases => :Description
-        attribute :tags, :aliases => :Tags
-        attribute :layout, :aliases => :Layout
+        attribute :description,            :aliases => :Description
+        attribute :hardware_configuration, :aliases => :HardwareConfiguration
+        attribute :ip_addresses,           :aliases => :IpAddresses, :squash => :AssignedIpAddresses
+        attribute :layout,                 :aliases => :Layout
+        attribute :name,                   :aliases => :Name
+        attribute :operating_system,       :aliases => :OperatingSystem
+        attribute :other_links,            :aliases => :Links, :squash => :Link
+        attribute :powered_on,             :aliases => :PoweredOn, :type => :boolean
+        attribute :status,                 :aliases => :Status
+        attribute :tags,                   :aliases => :Tags
+        attribute :tools_status,           :aliases => :ToolsStatus
+        attribute :type,                   :aliases => :Type
+
+        def cpus
+          hardware_configuration.processor_count
+        end
+
+        def memory # always in MB
+          hardware_configuration.memory
+        end
+
+        def location
+        end
+
+        def flavor_id
+          {:ram => hardware_configuration.memory, :cpus => hardware_configuration.processor_count}
+        end
+
+        def storage
+          hardware_configuration.storage[:Disk]
+        end
 
         def tasks
-          @tasks ||= Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => "/cloudapi/ecloud/tasks/virtualMachines/#{id}")
+          @tasks ||= self.connection.tasks(:href => "/cloudapi/ecloud/tasks/virtualMachines/#{id}")
         end
 
         def processes
           @processes ||= Fog::Compute::Ecloud::GuestProcesses.new(:connection, connection, :href => "/cloudapi/ecloud/virtualMachines/#{id}/guest/processes")
         end
 
+        def hardware_configuration=(hardware_configuration)
+          @hardware_configuration = self.connection.hardware_configurations.new(hardware_configuration)
+        end
+
         def hardware_configuration
-          @hardware_configuration ||= Fog::Compute::Ecloud::HardwareConfigurations.new(:connection => connection, :href => "/cloudapi/ecloud/virtualMachines/#{id}/hardwareConfiguration")[0]
+          @hardware_configuration ||= self.connection.hardware_configurations.new(:href => "/cloudapi/ecloud/virtualMachines/#{id}/hardwareConfiguration")
+          @hardware_configuration.reload
         end
 
         def configuration
           @configuration ||= Fog::Compute::Ecloud::ServerConfigurationOptions.new(:connection => connection, :href => "/cloudapi/ecloud/virtualMachines/#{id}/configurationOptions")[0]
         end
 
-
         def ips
-          network_hash = ip_addresses[:AssignedIpAddresses][:Networks] || []
-          network_hash[:Network] = network_hash[:Network].is_a?(Hash) ? [network_hash[:Network]] : network_hash[:Network]
-          network_hash[:Network].each do |network|
-            network[:IpAddresses][:IpAddress] = network[:IpAddresses][:IpAddress].is_a?(String) ? [network[:IpAddresses][:IpAddress]] : network[:IpAddresses][:IpAddress]
-          end
-          @ips = nil
-          networks = Fog::Compute::Ecloud::Networks.new(:connection => connection, :href => "/cloudapi/ecloud/virtualMachines/#{id}/assignedIps")
-          networks.each do |network|
-            if networks.index(network) == 0
-              if @ips.nil?
-                @ips = network.ips.select do |ip|
-                  network_hash[:Network].any? do |network|
-                    network[:IpAddresses][:IpAddress].include?(ip.name)
-                  end
-                end
-              else
-                network.ips.each do |ip|
-                  network_hash[:Network].any? do |network|
-                    network[:IpAddresses][:IpAddress].each do |i|
-                      @ips << ip if i == ip.name
-                    end
-                  end
-                end
-              end
-            else
-              network.ips.each do |ip|
-                network_hash[:Network].each do |network|
-                  network[:IpAddresses][:IpAddress].each do |i|
-                    @ips << ip if i == ip.name
-                  end
-                end
-              end
-            end
-          end
-          @ips
+          @ips = self.connection.virtual_machine_assigned_ips(:virtual_machine_id => self.id)
         end
 
         def networks
-          @networks ||= Fog::Compute::Ecloud::Networks.new(:connection => connection, :href => "/cloudapi/ecloud/virtualMachines/#{id}/assignedIps")
+          @networks ||= self.connection.networks(:href => "/cloudapi/ecloud/virtualMachines/#{id}/assignedIps")
         end
 
         def power_on
@@ -96,7 +85,7 @@ module Fog
 
         def delete
           data = connection.virtual_machine_delete(href).body
-          task = Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => data[:href])[0]
+          self.connection.tasks.new(data)
         end
 
         def copy(options = {})
@@ -165,20 +154,43 @@ module Fog
         end
         
         def disks
-          c = hardware_configuration.reload.storage[:Disk]
+          c = hardware_configuration.reload.storage
           c = c.is_a?(Hash) ? [c] : c
           @disks = c
         end
 
         def add_disk(size)
           index = disks.map { |d| d[:Index].to_i }.sort[-1] + 1
-          vm_disks = disks << {:Index => index, :Size=>{:Unit => "GB", :Value => size}}
+          vm_disks = disks << {:Index => index.to_s, :Size=>{:Unit => "GB", :Value => size.to_s}, :Name => "Hard Disk #{index + 1}"}
           data = connection.virtual_machine_edit_hardware_configuration(href + "/hardwareConfiguration", _configuration_data(:disks => vm_disks)).body
-          task = Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => data[:href])[0]
+          task = self.connection.tasks.new(data)
+        end
+
+        def detach_disk(index)
+          options               = {}
+          options[:disk]        = disks.detect { |disk_hash| disk_hash[:Index] == index.to_s }
+          options[:name]        = self.name
+          options[:description] = self.description
+          data                  = connection.virtual_machine_detach_disk(href + "/hardwareconfiguration/disks/actions/detach", options).body
+          detached_disk         = self.connection.detached_disks.new(data)
+        end
+
+        def attach_disk(detached_disk)
+          options        = {}
+          options[:name] = detached_disk.name
+          options[:href] = detached_disk.href
+          data           = connection.virtual_machine_attach_disk(href + "/hardwareconfiguration/disks/actions/attach", options).body
+          task           = self.connection.tasks.new(data)
+        end
+
+        def delete_disk(index)
+          vm_disks = disks.delete_if { |h| h[:Index] == index.to_s }
+          data     = connection.virtual_machine_edit_hardware_configuration(href + "/hardwareconfiguration", _configuration_data(:disks => vm_disks)).body
+          task     = self.connection.tasks.new(data)
         end
 
         def nics
-          c = hardware_configuration.network_cards[:Nic]
+          c = hardware_configuration.network_cards
           c = c.is_a?(Hash) ? [c] : c
           @nics = c
         end
@@ -187,22 +199,21 @@ module Fog
           unit_number = nics.map { |n| n[:UnitNumber].to_i }.sort[-1] + 1
           vm_nics = nics << {:UnitNumber => unit_number, :Network => {:href => network.href, :name => network.name, :type => "application/vnd.tmrk.cloud.network"}}
           data = connection.virtual_machine_edit_hardware_configuration(href + "/hardwareConfiguration", _configuration_data(:nics => vm_nics)).body
-          task = Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => data[:href])[0]
+          task = self.connection.tasks.new(:href => data[:href])[0]
         end
 
         def add_ip(options)
-          begin
-            slice_ips = ips
-          rescue
-            slice_ips = []
-          end
-          begin
-            slice_networks = networks
-          rescue
-            slice_networks = []
-          end
-          slice_networks = slice_networks.map { |n| {:href => n.href, :name => n.name.split(' ')[0], :type => 'application/vnd.tmrk.cloud.network'} }.push({:href => options[:href], :name => options[:network_name], :type => 'application/vnd.tmrk.cloud.network'}).uniq
-          slice_ips = slice_ips.map { |i| {:name => i.name, :network_name => i.other_links[:Link][:name]} }.push({:name => options[:ip], :network_name => options[:network_name]})
+          slice_ips = begin
+                        ips
+                      rescue
+                        []
+                      end
+          slice_networks = if slice_ips.empty?
+                             []
+                           else
+                             ips.map { |ip| {:href => ip.network.href, :name => ip.network.name.split(' ')[0], :type => ip.network.type} }.push({:href => options[:href], :name => options[:network_name], :type => "application/vnd.tmrk.cloud.network"}).uniq
+                           end
+          slice_ips = slice_ips.map { |i| {:name => i.address.name, :network_name => i.network.name} }.push({:name => options[:ip], :network_name => options[:network_name]}).uniq
           slice_ips.each do |ip|
             slice_networks.each do |network|
               if network[:name] == ip[:network_name]
@@ -211,8 +222,37 @@ module Fog
               end
             end
           end
-          data = connection.virtual_machine_add_ip(href + "/assignedIps", slice_networks).body
-          task = Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => data[:href])[0]
+          data = connection.virtual_machine_edit_assigned_ips(href + "/assignedIps", slice_networks).body
+          task = self.connection.tasks.new(data)
+        end
+
+        def delete_ip(options)
+          slice_ips = begin
+                        ips
+                      rescue
+                        []
+                      end
+          slice_networks = if slice_ips.empty?
+                             []
+                           else
+                             ips.map do |ip|
+                               {
+                                 :href => ip.network.href,
+                                 :name => ip.network.name.split(' ')[0],
+                                 :type => ip.network.type,
+                               }
+                             end#.delete_if { |ip| ip[:href] == options[:href] && ip[:name] == options[:network_name] }
+                           end
+          slice_ips.map! { |i| {:name => i.address.name, :network_name => i.network.name, :network_name => i.network.name } }.delete_if { |ip| ip[:name] == options[:ip] }
+          slice_ips.each do |ip|
+            slice_networks.each do |network|
+              if network[:name] == ip[:network_name]
+                network[:ips].delete(ip[:name])
+              end
+            end
+          end
+          data = connection.virtual_machine_edit_assigned_ips(href + "/assignedips", slice_networks).body
+          task = self.connection.tasks.new(data)
         end
 
         def upload_file(options)
@@ -222,7 +262,7 @@ module Fog
 
         def storage_size
           vm_disks = disks
-          disks.map! { |d| d[:Size][:Value].to_i }.inject(0){|sum,item| sum + item} * 1024 * 1024        
+          disks.map! { |d| d[:Size][:Value].to_i }.inject(0){|sum,item| sum + item} * 1024 * 1024
         end
 
         def ready?
@@ -243,11 +283,16 @@ module Fog
         end
 
         def compute_pool_id
-          other_links[:Link].detect { |l| l[:type] == "application/vnd.tmrk.cloud.computePool" }[:href].scan(/\d+/)[0]
+          other_links.detect { |l| l[:type] == "application/vnd.tmrk.cloud.computePool" }[:href].scan(/\d+/)[0]
+        end
+
+        def compute_pool
+          reload if other_links.nil?
+          @compute_pool = self.connection.compute_pools.new(:href => other_links.detect { |l| l[:type] == "application/vnd.tmrk.cloud.computePool" }[:href])
         end
 
         def environment_id
-          other_links[:Link].detect { |l| l[:type] == "application/vnd.tmrk.cloud.environment" }[:href].scan(/\d+/)[0]
+          other_links.detect { |l| l[:type] == "application/vnd.tmrk.cloud.environment" }[:href].scan(/\d+/)[0]
         end
 
         def id
@@ -257,7 +302,7 @@ module Fog
         private
 
         def _configuration_data(options = {})
-          {:cpus => (options[:cpus] || hardware_configuration.processor_count), :memory => (options[:memory] || hardware_configuration.mem), :disks => (options[:disks] || disks), :nics => (options[:nics] || nics)}
+          {:cpus => (options[:cpus] || hardware_configuration.processor_count), :memory => (options[:memory] || hardware_configuration.memory), :disks => (options[:disks] || disks), :nics => (options[:nics] || nics)}
         end
 
         def power_operation(op)
@@ -271,6 +316,7 @@ module Fog
           true
         end
 
+        alias destroy delete
       end
     end
   end
