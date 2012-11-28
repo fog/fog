@@ -10,7 +10,12 @@ module Fog
         model Fog::Compute::Ecloud::IpAddress
 
         def all
-          data = connection.get_ip_addresses(href).body[:IpAddresses][:IpAddress]
+          data = connection.get_network(href).body
+          data = if data[:IpAddresses]
+                   data[:IpAddresses][:IpAddress]
+                 else
+                   data
+                 end
           data = data.nil? ? [] : data
           load(data)
         end

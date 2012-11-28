@@ -11,15 +11,26 @@ module Fog
 
         def all
           data = connection.get_groups(href).body
-          data = data[:Groups] ? data[:Groups][:Group] : data
-          load(data)
+          data = if data == ""
+                   ""
+                 else
+                   data[:Groups] ? data[:Groups][:Group] : data
+                 end
+          if data == "" || !data.is_a?(Array) && data[:type] == "application/vnd.tmrk.cloud.layoutRow"
+            nil
+          else
+            load(data)
+          end
         end
 
         def get(uri)
-          if data = connection.get_group(uri)
-            new(data.body)
+          data = connection.get_group(uri).body
+          if data == ""
+            nil
+          else
+            new(data)
           end
-        rescue Fog::Errors::NotFound
+        rescue Excon::Errors::NotFound
           nil
         end
       end

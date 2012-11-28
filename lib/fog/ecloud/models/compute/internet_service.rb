@@ -4,19 +4,23 @@ module Fog
       class InternetService < Fog::Ecloud::Model
         identity :href
 
-        attribute :name, :aliases => :Name
-        attribute :type, :aliases => :Type
-        attribute :other_links, :aliases => :Links
-        attribute :actions, :aliases => :Actions
-        attribute :protocol, :aliases => :Protocol
-        attribute :port, :aliases => :Port, :type => :integer
-        attribute :enabled, :aliases => :Enabled, :type => :boolean
-        attribute :description, :aliases => :Description
-        attribute :public_ip, :aliases => :PublicIp
-        attribute :persistence, :aliases => :Persistence
-        attribute :redirect_url, :aliases => :RedirectUrl
-        attribute :trusted_network_group, :aliases => :TrustedNetworkGroup
+        attribute :name,                    :aliases => :Name
+        attribute :type,                    :aliases => :Type
+        attribute :other_links,             :aliases => :Links
+        attribute :actions,                 :aliases => :Actions
+        attribute :protocol,                :aliases => :Protocol
+        attribute :port,                    :aliases => :Port, :type => :integer
+        attribute :enabled,                 :aliases => :Enabled, :type => :boolean
+        attribute :description,             :aliases => :Description
+        attribute :public_ip,               :aliases => :PublicIp
+        attribute :persistence,             :aliases => :Persistence
+        attribute :redirect_url,            :aliases => :RedirectUrl
+        attribute :trusted_network_group,   :aliases => :TrustedNetworkGroup
         attribute :backup_internet_service, :aliases => :BackupInternetService
+
+        def ready?
+          !self.port.nil?
+        end
 
         def nodes
           @nodes ||= Fog::Compute::Ecloud::Nodes.new(:connection => connection, :href => href)
@@ -43,7 +47,7 @@ module Fog
 
         def delete
           data = connection.internet_service_delete(href).body
-          task = Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => data[:href])[0]
+          self.connection.tasks.new(data)
         end
 
         def create_monitor(options = {})
@@ -85,6 +89,8 @@ module Fog
           service_data.reject! {|k, v| v.nil? }
           service_data
         end
+
+        alias destroy delete
       end
     end
   end
