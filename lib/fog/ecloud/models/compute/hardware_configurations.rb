@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Ecloud::HardwareConfiguration
 
         def all
-          data = connection.get_hardware_configurations(href).body
+          data = connection.get_server(href).body
           load(data)
         end
 

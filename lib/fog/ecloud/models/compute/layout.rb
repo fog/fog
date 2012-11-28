@@ -8,7 +8,7 @@ module Fog
         attribute :other_links, :aliases => :Links
 
         def rows
-          @rows = Fog::Compute::Ecloud::Rows.new(:connection => connection, :href => href)
+          @rows ||= self.connection.rows(:href => href)
         end
 
         def id

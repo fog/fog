@@ -1,5 +1,6 @@
-
 for provider, config in compute_providers
+
+  next if [:ecloud].include?(provider)
 
   Shindo.tests("Fog::Compute[:#{provider}] | servers", [provider.to_s]) do
 

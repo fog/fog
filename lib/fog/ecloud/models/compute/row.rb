@@ -10,7 +10,7 @@ module Fog
         attribute :index, :aliases => :Index
 
         def groups
-          @groups = Fog::Compute::Ecloud::Groups.new(:connection => connection, :href => href)
+          @groups = self.connection.groups(:href => href)
         end
 
         def edit(options)
@@ -37,16 +37,19 @@ module Fog
           options[:row_name] = name
           options[:href] = href
           data = connection.groups_create(options).body
-          group = Fog::Compute::Ecloud::Groups.new(:connection => connection, :href => data[:href])[0]
+          group = self.connection.groups.new(data)
         end
 
         def environment_id
+          reload if other_links.nil?
           other_links[:Link][:href].scan(/\d+/)[0]
         end
 
         def id
           href.scan(/\d+/)[0]
         end
+
+        alias destroy delete
       end
     end
   end
