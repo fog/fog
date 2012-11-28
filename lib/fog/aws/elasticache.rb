@@ -147,8 +147,8 @@ module Fog
           @aws_credentials_expire_at = Time::now + 20
           setup_credentials(options)
           @region = options[:region] || 'us-east-1'
-          unless ['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1',
-                  'us-west-1', 'us-west-2', 'sa-east-1'].include?(@region)
+          unless (Fog::AWS.additional_regions+['ap-northeast-1', 'ap-southeast-1', 'eu-west-1', 'us-east-1',
+                  'us-west-1', 'us-west-2', 'sa-east-1']).include?(@region)
             raise ArgumentError, "Unknown region: #{@region.inspect}"
           end
         end

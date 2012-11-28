@@ -195,6 +195,7 @@ module Fog
       end
 
       def self.elb_hosted_zone_mapping
+       
         @elb_hosted_zone_mapping ||= {
           "ap-northeast-1" => "Z2YN17T5R711GT",
           "ap-southeast-1" => "Z1WI8VXHPB1R38",
@@ -204,7 +205,7 @@ module Fog
           "us-east-1"      => "Z3DZXE0Q79N41H",
           "us-west-1"      => "Z1M58G0W56PQJA",
           "us-west-2"      => "Z33MTJ483KN6FU",
-        }
+        }.merge(Fog::AWS.additional_regions_info)
       end
     end
   end
