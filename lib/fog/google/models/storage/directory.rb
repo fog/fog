@@ -1,11 +1,12 @@
 require 'fog/core/model'
+require 'fog/storage/models/directory'
 require 'fog/google/models/storage/files'
 
 module Fog
   module Storage
     class Google
 
-      class Directory < Fog::Model
+      class Directory < Fog::Storage::Directory
 
         identity  :key,           :aliases => ['Name', 'name']
 
@@ -17,14 +18,6 @@ module Fog
             raise ArgumentError.new("acl must be one of [#{valid_acls.join(', ')}]")
           end
           @acl = new_acl
-        end
-
-        def destroy
-          requires :key
-          connection.delete_bucket(key)
-          true
-        rescue Excon::Errors::NotFound
-          false
         end
 
         def files

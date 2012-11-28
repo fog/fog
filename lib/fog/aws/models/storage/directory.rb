@@ -1,4 +1,5 @@
 require 'fog/core/model'
+require 'fog/storage/models/directory'
 require 'fog/aws/models/storage/files'
 require 'fog/aws/models/storage/versions'
 
@@ -6,7 +7,7 @@ module Fog
   module Storage
     class AWS
 
-      class Directory < Fog::Model
+      class Directory < Fog::Storage::Directory
         VALID_ACLS = ['private', 'public-read', 'public-read-write', 'authenticated-read']
 
         # See http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketPUT.html
@@ -24,14 +25,6 @@ module Fog
           else
             @acl = new_acl
           end
-        end
-
-        def destroy
-          requires :key
-          connection.delete_bucket(key)
-          true
-        rescue Excon::Errors::NotFound
-          false
         end
 
         def location

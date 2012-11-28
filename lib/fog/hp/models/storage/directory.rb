@@ -1,11 +1,12 @@
 require 'fog/core/model'
+require 'fog/storage/models/directory'
 require 'fog/hp/models/storage/files'
 
 module Fog
   module Storage
     class HP
 
-      class Directory < Fog::Model
+      class Directory < Fog::Storage::Directory
 
         identity  :key, :aliases => 'name'
 
@@ -23,9 +24,8 @@ module Fog
           @acl = new_acl
         end
 
-        def destroy
-          requires :key
-          connection.delete_container(key)
+        def destroy(opts={})
+          super(opts)
           # If CDN service is available, try to delete the container if it was CDN-enabled
           if cdn_enabled?
             begin
@@ -35,8 +35,6 @@ module Fog
             end
           end
           true
-        rescue Excon::Errors::NotFound, Fog::Storage::HP::NotFound
-          false
         end
 
         def files

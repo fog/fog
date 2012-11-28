@@ -1,10 +1,11 @@
 require 'fog/core/model'
+require 'fog/storage/models/directory'
 
 module Fog
   module Storage
     class Atmos
 
-      class Directory < Fog::Model
+      class Directory < Fog::Storage::Directory
 
         identity :key, :aliases => :Filename
         attribute :objectid, :aliases => :ObjectID
@@ -35,13 +36,7 @@ module Fog
         end
 
         def destroy(opts={})
-          if opts[:recursive]
-            files.each {|f| f.destroy }
-            directories.each do |d|
-              d.files.each {|f| f.destroy }
-              d.destroy(opts)
-            end
-          end
+          super(opts)
           connection.delete_namespace key
         end
 
