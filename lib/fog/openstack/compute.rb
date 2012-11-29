@@ -191,13 +191,13 @@ module Fog
               :addresses => {},
               :quota => {
                 'metadata_items' => 128,
+                'key_pairs' => 10,
                 'injected_file_content_bytes' => 10240,
+                'injected_file_path_bytes' => 256,
                 'injected_files' => 5,
-                'gigabytes' => 1000,
                 'ram' => 51200,
                 'floating_ips' => 10,
                 'instances' => 10,
-                'volumes' => 10,
                 'cores' => 20,
               }
             }
