@@ -13,7 +13,7 @@ module Fog
         
         def save
           requires :id
-          data = connection.create_user(id).body['User']
+          data = connection.create_user(id, path || '/').body['User']
           merge_attributes(data)
           true
         end
