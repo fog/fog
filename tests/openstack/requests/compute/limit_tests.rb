@@ -21,17 +21,13 @@ Shindo.tests('Fog::Compute[:openstack] | limits requests', ['openstack']) do
     'maxPersonalitySize'        => Fixnum,
     'maxSecurityGroupRules'     => Fixnum,
     'maxTotalKeypairs'          => Fixnum,
-    'maxTotalVolumes'           => Fixnum,
     'maxSecurityGroups'         => Fixnum,
     'maxTotalCores'             => Fixnum,
     'maxTotalFloatingIps'       => Fixnum,
-    'maxTotalVolumeGigabytes'   => Fixnum,
     'maxTotalRAMSize'           => Fixnum,
-    'totalVolumesUsed'          => Fixnum,
     'totalCoresUsed'            => Fixnum,
     'totalRAMUsed'              => Fixnum,
     'totalInstancesUsed'        => Fixnum,
-    'totalVolumeGigabytesUsed'  => Fixnum,
     'totalSecurityGroupsUsed'   => Fixnum,
     'totalKeyPairsUsed'         => Fixnum
   }
