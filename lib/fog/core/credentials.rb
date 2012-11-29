@@ -21,26 +21,31 @@ module Fog
   #
   # @return [String] The path for configuration_file
   def self.find_credentials
-    return File.expand_path(ENV['FOG_RC']) if ENV['FOG_RC']
+    if ENV['FOG_RC']
+      fogrc = Pathname.new(ENV['FOG_RC']).expand_path
+      return fogrc.to_s if fogrc.readable? and fogrc.file?
+    end
 
     Pathname.pwd.ascend do |dir|
-      path = dir.join('.fog')
-
-      return path if path.file?
+      next unless dir.readable?
+      fogrc = dir.join('.fog')
+      return fogrc.to_s if fogrc.readable? and fogrc.file?
     end
 
-    if (ENV['HOME'] && File.directory?(ENV['HOME']))
-      return File.expand_path('~/.fog')
+    if ENV['HOME']
+      home = Pathname.new(ENV['HOME']).expand_path
+      if home.directory?
+        fogrc = home.join('.fog')
+        return fogrc.to_s if fogrc.readable? and fogrc.file?
+      end
     end
+
+    nil
   end
 
   # @return [String] The current path for configuration_file
   def self.credentials_path
-    @credential_path ||= begin
-                           find_credentials
-                         rescue
-                           nil
-                         end
+    @credential_path ||= find_credentials
   end
 
   # @return [String] The new path for credentials file
