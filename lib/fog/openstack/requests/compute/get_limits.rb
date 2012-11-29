@@ -63,19 +63,15 @@ module Fog
             'maxPersonalitySize'       => 10240,
             'maxSecurityGroupRules'    => 20,
             'maxTotalKeypairs'         => 100,
-            'maxTotalVolumes'          => 10,
             'maxSecurityGroups'        => 10,
             'maxTotalCores'            => 20,
             'maxTotalFloatingIps'      => 10,
-            'maxTotalVolumeGigabytes'  => 1000,
             'maxTotalRAMSize'          => 51200,
 
             # Used
-            'totalVolumesUsed'         => 0,
             'totalCoresUsed'           => -1,
             'totalRAMUsed'             => -2048,
             'totalInstancesUsed'       => -1,
-            'totalVolumeGigabytesUsed' => 0,
             'totalSecurityGroupsUsed'  => 0,
             'totalKeyPairsUsed'        => 0
           }
