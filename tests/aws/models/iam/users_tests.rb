@@ -7,7 +7,8 @@ Shindo.tests("Fog::Compute[:iam] | users", ['aws','iam']) do
 
   @user_three_name = 'fake_user_three'
   @user_three_path = '/path/to/fake_user_three/'
-  
+  @user_four_name = 'fake_user_four'
+
   tests('#create').succeeds do
     @user_one = @iam.users.create(:id => @user_one_name)
     @user_one.id == @user_one_name
@@ -16,6 +17,11 @@ Shindo.tests("Fog::Compute[:iam] | users", ['aws','iam']) do
   tests('#create', 'assigns path').succeeds do
     @user_three = @iam.users.create(:id => @user_three_name, :path => @user_three_path)
     @user_three.path == @user_three_path
+  end
+
+  tests('#create', 'defaults path to /').succeeds do
+    @user_four = @iam.users.create(:id => @user_four_name)
+    @user_four.path == '/'
   end
 
   tests('#all','there is only one user').succeeds do
