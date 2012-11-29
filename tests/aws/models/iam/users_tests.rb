@@ -14,16 +14,6 @@ Shindo.tests("Fog::Compute[:iam] | users", ['aws','iam']) do
     @user_one.id == @user_one_name
   end
 
-  tests('#create', 'assigns path').succeeds do
-    @user_three = @iam.users.create(:id => @user_three_name, :path => @user_three_path)
-    @user_three.path == @user_three_path
-  end
-
-  tests('#create', 'defaults path to /').succeeds do
-    @user_four = @iam.users.create(:id => @user_four_name)
-    @user_four.path == '/'
-  end
-
   tests('#all','there is only one user').succeeds do
     @iam.users.size == 1
   end
@@ -57,6 +47,16 @@ Shindo.tests("Fog::Compute[:iam] | users", ['aws','iam']) do
     @iam.users.get(@user_one_name).access_keys.empty?
   end
   
+  tests('#create', 'assigns path').succeeds do
+    @user_three = @iam.users.create(:id => @user_three_name, :path => @user_three_path)
+    @user_three.path == @user_three_path
+  end
+
+  tests('#create', 'defaults path to /').succeeds do
+    @user_four = @iam.users.create(:id => @user_four_name)
+    @user_four.path == '/'
+  end
+
   tests('#destroy','an existing user').succeeds do
     @iam.users.get(@user_one_name).destroy
   end
