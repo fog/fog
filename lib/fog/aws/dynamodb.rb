@@ -98,7 +98,7 @@ module Fog
             @aws_access_key_id      = options[:aws_access_key_id]
             @aws_secret_access_key  = options[:aws_secret_access_key]
             @aws_session_token      = options[:aws_session_token]
-            @aws_credentials_expire_at = options[:aws_credentials_expire_at] || 43200
+            @aws_credentials_expire_at = options[:aws_credentials_expire_at]
           else
             sts = Fog::AWS::STS.new(
               :aws_access_key_id      => options[:aws_access_key_id],
@@ -109,7 +109,7 @@ module Fog
             @aws_access_key_id      = session_data['AccessKeyId']
             @aws_secret_access_key  = session_data['SecretAccessKey']
             @aws_session_token      = session_data['SessionToken']
-            @aws_credentials_expire_at = options[:aws_credentials_expire_at] || 43200
+            @aws_credentials_expire_at = options[:aws_credentials_expire_at] || session_data['Expiration']
           end
           @hmac       = Fog::HMAC.new('sha256', @aws_secret_access_key)
         end
