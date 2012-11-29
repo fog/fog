@@ -46,6 +46,7 @@ Shindo.tests('Fog::Compute.new', ['brightbox']) do
         service_options[:brightbox_access_token] = "bad-token"
 
         tests("#request").returns(true, "returns a Hash") do
+          pending if Fog.mocking?
           service = Fog::Compute.new(service_options)
           response = service.get_authenticated_user
           response.is_a?(Hash) # This is an outstanding issue, should be Excon::Response
@@ -60,6 +61,7 @@ Shindo.tests('Fog::Compute.new', ['brightbox']) do
         service_options[:brightbox_access_token] = "bad-token"
 
         tests("#request").raises(Excon::Errors::Unauthorized) do
+          pending if Fog.mocking?
           service = Fog::Compute.new(service_options)
           service.get_authenticated_user
         end
