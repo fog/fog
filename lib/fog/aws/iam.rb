@@ -89,6 +89,7 @@ module Fog
               :users => Hash.new do |uhash, ukey|
                 uhash[ukey] = {
                   :user_id     => Fog::AWS::Mock.key_id,
+                  :path        => '/',
                   :arn         => "arn:aws:iam::#{Fog::AWS::Mock.owner_id}:user/#{ukey}",
                   :access_keys => [],
                   :policies    => {}
