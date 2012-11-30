@@ -1,6 +1,6 @@
 ![fog](http://geemus.s3.amazonaws.com/fog.png)
 
-fog is the Ruby cloud computing library, top to bottom:
+fog is the Ruby cloud services library, top to bottom:
 
 * Collections provide a simplified interface, making clouds easier to work with and switch between.
 * Requests allow power users to get the most out of the features of each individual cloud.
