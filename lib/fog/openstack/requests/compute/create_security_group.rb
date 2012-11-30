@@ -41,7 +41,7 @@ module Fog
             'Content-Length' => Fog::Mock.random_numbers(3).to_s,
             'Date'           => Date.new}
           response.body = {
-            'security_group' => self.data[:security_groups].values
+            'security_group' => self.data[:security_groups][security_group_id]
           }
           response
         end
