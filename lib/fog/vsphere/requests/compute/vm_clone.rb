@@ -10,7 +10,10 @@ module Fog
             'linked_clone' => false,
           }
           options = default_options.merge(options)
-          required_options = %w{ path name }
+          # Backwards compat for "path" option
+          options["template_path"] ||= options["path"]
+          options["path"] ||= options["template_path"]
+          required_options = %w{ template_path name }
           required_options.each do |param|
             raise ArgumentError, "#{required_options.join(', ')} are required" unless options.has_key? param
           end
@@ -176,11 +179,11 @@ module Fog
               nil
             end
           end
-
+          
           # Return hash
           {
             'vm_ref'        => new_vm ? new_vm._ref : nil,
-            'vm_attributes' => new_vm ? convert_vm_mob_ref_to_attr_hash(new_vm) : {},
+            'new_vm'        => new_vm ? get_virtual_machine("#{path_elements.join('/')}/#{options['name']}", template_dc) : nil,
             'task_ref'      => task._ref
           }
         end

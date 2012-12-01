@@ -16,7 +16,7 @@ module Fog
                  else
                    # try to find based on VM name
                    if dc
-                     get_datacenter(dc).find_vm(id)
+                     get_raw_datacenter(dc).find_vm(id)
                    else
                      raw_datacenters.map { |d| d.find_vm(id) }.compact.first
                    end
