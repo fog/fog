@@ -1,3 +1,156 @@
+1.8.0 12/01/2012 057c0c525a39e77cb2037c9fec3d851b209c151b
+=========================================================
+
+Stats! { 'collaborators' => 41, 'downloads' => 1334733, 'forks' => 630, 'open_issues' => 98, 'watchers' => 2258 }
+
+[AWS]
+  Adds ModifyVolumeAttribute. thanks Eric Stonfer
+
+[Brightbox]
+  Removes incorrect yard tag. thanks Paul Thornthwaite
+  Updates request docs to use Yard. thanks Paul Thornthwaite
+  Adds baseline documentation. thanks Paul Thornthwaite
+  Documents #request method. thanks Paul Thornthwaite
+  Comments out rogue text. thanks Paul Thornthwaite
+  Fixes generated files EOF with newlines. thanks Paul Thornthwaite
+  Adds Servers#bootstrap. thanks Paul Thornthwaite
+  Adds way to check auth method. thanks Paul Thornthwaite
+  Adds reset FTP for scoped accounts. thanks Paul Thornthwaite
+  Fixes Compute#account to pass service. thanks Paul Thornthwaite
+  Fixes Account#reset_ftp_password. thanks Paul Thornthwaite
+  Fixes test to run out of sequence. thanks Paul Thornthwaite
+  Expands documentation for Compute class. thanks Paul Thornthwaite
+  Tests recognised options. thanks Paul Thornthwaite
+  Refactors credential code in Compute. thanks Paul Thornthwaite
+  Extracts authentication connection. thanks Paul Thornthwaite
+  Refactors how tokens are requested. thanks Paul Thornthwaite
+  Moves tokens to CredentialSet. thanks Paul Thornthwaite
+  Extracts parts of request out of compute. thanks Paul Thornthwaite
+  Adds support for refresh tokens. thanks Paul Thornthwaite
+  Adds option to disable token management. thanks Paul Thornthwaite
+  Adds means to update scoped account. thanks Paul Thornthwaite
+  Moves more of public API into Shared. thanks Paul Thornthwaite
+  Guards unimplemented mock tests. thanks Paul Thornthwaite
+
+[Docs]
+  Switches to using Yard for documentation. thanks Paul Thornthwaite
+
+[aws]
+  fixed auto scaling model group 'destroy' method where it needs to use merge! instead of merge to set the opts local variable in place,  otherwise the options passed to the method are droppedon the floor. thanks Jay Perry
+
+[aws|compute]
+  add offeringType to output from describe_reserved_instances_offerings. thanks geemus
+  fix mocks/tests around describe_reserved_instances_offerings. thanks geemus
+  fix one more offeringType mock format test failure. thanks geemus
+
+[aws|dynamodb]
+  port off of sts for credentials, now uses signature v4. thanks geemus
+
+[aws|storage]
+  Add Fog::Storage::AWS#delete_multiple_objects. thanks Garret Alfert
+  Add mock for Fog::Storage::AWS#delete_multiple_objects. thanks Garret Alfert
+  Little improvements to delete_multiple_objects tests. thanks Garret Alfert
+  Add Fog::Storage::AWS#delete_multiple_objects. thanks Garret Alfert
+  Add mock for Fog::Storage::AWS#delete_multiple_objects. thanks Garret Alfert
+  Little improvements to delete_multiple_objects tests. thanks Garret Alfert
+
+[core]
+  Adds fog User-Agent header. thanks Paul Thornthwaite
+  Splits Fog::VERSION into own file. thanks Paul Thornthwaite
+  Adds fog User-Agent header. thanks Paul Thornthwaite
+  Updates Rakefile to use Fog::VERSION. thanks Paul Thornthwaite
+
+[dns]
+  Add more record tests. thanks Brian Hartsock
+
+[docs]
+  Updates link on fog.io to point to doc. thanks Paul Thornthwaite
+  Updates contributing notes. thanks Paul Thornthwaite
+  Replaces link to API to `rubydoc.info`. thanks Paul Thornthwaite
+  Adds 1.8.7 note to fog.io collaborators guide. thanks Paul Thornthwaite
+
+[misc]
+  Add support for AWS Australia (ap-southeast-2). thanks Amy Woodward
+  Add Hosted Zone ID for ap-southeast-2. thanks Amy Woodward
+  Do not add empty security group. thanks Dan Bode
+  Add attr group. thanks Dan Bode
+  Sync with latest OpenStack flavors extensions. thanks Dan Prince
+  OpenStack floating_ip (aka address) test fixes. thanks Dan Prince
+  OpenStack: Remove volumes from limits tests. thanks Dan Prince
+  OpenStack: updates to quota tests. thanks Dan Prince
+  OpenStack: security group test fixes. thanks Dan Prince
+  add support for Storage::Rackspace::File#access_control_allow_origin and #origin. thanks Dusty Jones
+  add support for Storage::Rackspace::File#access_control_allow_origin and #origin. thanks Dusty Jones
+  Save the file instance before testing for presence of attribute. thanks Dusty Jones
+  Fix describe_instances stateReason handling. thanks Edward Muller
+  added support for Storage::Rackspace::File#metadata. thanks Evan Smith
+  added support for Storage::Rackspace::File#metadata. thanks Evan Smith
+  merged with origin. thanks Evan Smith
+  Rackspace Cloud Files. can load metadata from existing file. can set metadata for new file. can unset metadata for existing file. thanks Evan Smith
+  merged with upstream master. thanks Evan Smith
+  Implemented bootstrap method for Rackspace Compute v2.     Added ability to set "metadata" and "personality" fields when creating a server on Rackspace Compute v2.     Improved response parsing when dealing with Rackspace DNS service. thanks Jesse Scott
+  Removed the commented out password setting line for Rackspace Compute v2 bootstrap method. thanks Jesse Scott
+  Clarified the logic for finding the newly created DNS record for Rackspace Cloud DNS. thanks Jesse Scott
+  fix warning message to follow correct bucket naming guidelines. thanks Michael Elfassy
+  Bucket names cannot begin with the "goog" prefix. Also change for DNS compliant subdomain. thanks Michael Elfassy
+  VMWare vsphere provider refactor. thanks Ohad Levy
+  do not force trailing / on path. thanks Ohad Levy
+  Removes dead link to DNS tests. thanks Paul Thornthwaite
+  Adds link to Code Climate metrics. thanks Paul Thornthwaite
+  Extracts Changelog Rake task to class. thanks Paul Thornthwaite
+  Moves fog.io generation a prerequsite. thanks Paul Thornthwaite
+  Extracts docs rake tasks to a class. thanks Paul Thornthwaite
+  Extracts testing Rake tasks to class. thanks Paul Thornthwaite
+  Moves new Task classes to better location. thanks Paul Thornthwaite
+  Revert "[core] Adds fog User-Agent header". thanks Paul Thornthwaite
+  Inconsistent usage of cpus / vpcus in libvirt / requests.     Reported number of cpus was always 1 for libvirt domains. thanks Romain Vrignaud
+  use CGI.escape when encoding the POST body. thanks Sam Cooper
+  Added versioned delete_multiple_objects support. thanks Timur Alperovich
+  Add support for volume_pool_name. thanks Vincent Demeester
+  fixes issue#1313 ~ Creating user via `Aws.iam.users` ignores `:path`. thanks VirtualStaticVoid
+  revised create logic to default path to '/'. thanks VirtualStaticVoid
+  added test for create logic to default path to '/'. thanks VirtualStaticVoid
+  added support for mock. thanks VirtualStaticVoid
+  revised test order. thanks VirtualStaticVoid
+  README: s/'cloud computing'/'cloud services'. thanks Wesley Beary
+  Adding explicit support for metadata for Rackspace compute_v2. thanks heyryanw
+  removed Fog::AWS[:rds] this was creating issues with was security credentials. thanks mauro catenacci
+  Adding public_ip_address and private_ip_address to Fog::Compute::RackspaceV2::Server. thanks sashap
+  Adding bootstrap and setup for RackspaceV2 servers. thanks sashap
+
+[openstack]
+  Add Accept header with application/json media type to requests. thanks Andrew Donald Kennedy
+  Refactor Openstack Authentication. thanks Nelvin Driz
+  Fix Typo in Merge of Authentication Refactoring. thanks Nelvin Driz
+  Make use of the unscoped token for reauthentication. thanks Philip Mark M. Deazeta
+
+[openstack|compute]
+  Add "Reset Server State" request. thanks Nelvin Driz
+  Add `get_limits` request. thanks Nelvin Driz
+
+[openstack|identity]
+  use tenant_id parameter in users model. thanks Philip Mark M. Deazeta
+  Add `attr_accessor :unscoped_token` to Mock. thanks Philip Mark M. Deazeta
+
+[opnestack|identity]
+  Added set_tenant request for identity service. thanks Philip Mark M. Deazeta
+
+[rackspace|computev2]
+  aded test for bootstrap. thanks Brian Hartsock
+
+[rackspace|dns]
+  fixed tests, merged some formatting to reduce duplication. thanks Brian Hartsock
+
+[rackspace|storage]
+  rackspace files tests should be pending in mocked mode. thanks geemus
+
+[readme]
+  update outdated sponsorship section. thanks geemus
+
+[vsphere]
+  ensure reload works correctly for server. thanks Ohad Levy
+
+
 1.7.0 11/04/2012 aa853488c9d84d849f52cf348787030fbb963163
 =========================================================
 
