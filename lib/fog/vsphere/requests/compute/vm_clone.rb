@@ -17,8 +17,10 @@ module Fog
           required_options.each do |param|
             raise ArgumentError, "#{required_options.join(', ')} are required" unless options.has_key? param
           end
-          raise ArgumentError, "#{options["datacenter"]} Doesn't Exist!" unless get_datacenter(options["datacenter"])
-          raise ArgumentError, "#{options["template_path"]} Doesn't Exist!" unless get_virtual_machine(options["template_path"], options["datacenter"])
+          unless ENV['FOG_MOCK']
+            raise ArgumentError, "#{options["datacenter"]} Doesn't Exist!" unless get_datacenter(options["datacenter"])
+            raise ArgumentError, "#{options["template_path"]} Doesn't Exist!" unless get_virtual_machine(options["template_path"], options["datacenter"])
+          end
           options
         end
       end
@@ -256,11 +258,11 @@ module Fog
       class Mock
         include Shared
         def vm_clone(options = {})
-          # Option handling
+          # Option handling TODO Needs better method of checking
           options = vm_clone_check_options(options)
           notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Could not find VM template" }
           list_virtual_machines.find(notfound) do |vm|
-            vm[:name] == options['path'].split("/")[-1]
+            vm[:name] == options['template_path'].split("/")[-1]
           end
           {
             'vm_ref'   => 'vm-123',
