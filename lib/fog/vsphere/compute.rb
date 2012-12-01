@@ -124,6 +124,7 @@ module Fog
             # cloning, a call to the macs method will throw and NoMethodError
             attrs['mac_addresses'] = vm_mob_ref.macs rescue nil
             attrs['path'] = "/"+vm_mob_ref.parent.path.map(&:last).join('/')
+            attrs['relative_path'] = (attrs['path'].split('/').reject {|e| e.empty?} - ["Datacenters", attrs['datacenter'], "vm"]).join("/")
           end
         end
 
