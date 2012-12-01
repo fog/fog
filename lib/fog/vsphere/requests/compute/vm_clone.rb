@@ -154,7 +154,7 @@ module Fog
               :domain => cust_domain,
               :hostName => cust_hostname,
               :hwClockUTC => cust_hwclockutc,
-              :timeZone => cust_timezone,)
+              :timeZone => cust_timezone)
             # Build the Dhcp Generator Object 
             cust_fixed_ip = RbVmomi::VIM::CustomizationDhcpIpGenerator.new()
             # Build the custom_ip_settings Object
