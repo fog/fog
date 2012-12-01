@@ -85,7 +85,7 @@ module Fog
 
           # Options['dest_folder']<~String>
           # Grab the destination folder object if it exists else use cloned mach
-          dest_folder = find_folder_obj(options['dest_folder'], false) if options.has_key?('dest_folder')
+          dest_folder = get_raw_vmfolder(options['dest_folder'], options['datacenter']) if options.has_key?('dest_folder')
           dest_folder ||= vm_mob_ref.parent
 
           # Options['resource_pool']<~Array>
@@ -93,7 +93,7 @@ module Fog
           if ( options.has_key?('resource_pool') && options['resource_pool'].is_a?(Array) && options['resource_pool'].length == 2 )
             cluster_name = options['resource_pool'][0]
             pool_name = options['resource_pool'][1]
-            resource_pool = find_resource_pool_obj(datacenter_obj, cluster_name, pool_name)
+            resource_pool = get_raw_resource_pool(pool_name, cluster_name, options['datacenter'])
           elsif ( vm_mob_ref.resourcePool == nil )
             # If the template is really a template then there is no associated resource pool,
             # so we need to find one using the template's parent host or cluster
@@ -110,14 +110,14 @@ module Fog
                     
           # Options['datastore']<~String>
           # Grab the datastore object if option is set
-          datastore_obj = find_datastore_obj(datacenter_obj, options['datastore']) if options.has_key?('datastore')
+          datastore_obj = get_raw_datastore(options['datastore'], options['datacenter']) if options.has_key?('datastore')
           # confirm nil if nil or option is not set
           datastore_obj ||= nil
           
           # Options['network']
           # Build up the config spec
           if ( options.has_key?('network_label') )
-            network_obj = datacenter_obj.networkFolder.find(options['network_label'])
+            #network_obj = datacenter_obj.networkFolder.find(options['network_label'])
             config_spec_operation = RbVmomi::VIM::VirtualDeviceConfigSpecOperation('edit')
             nic_backing_info = RbVmomi::VIM::VirtualEthernetCardNetworkBackingInfo(:deviceName => options['network_label'])
               #:deviceName => "Network adapter 1",
@@ -215,7 +215,7 @@ module Fog
                                                             :template => false)
           
           # Perform the actual Clone Task
-          task = vm_mob_ref.CloneVM_Task(:folder => options.has_key?('dest_folder') ? options['dest_folder'] : vm_mob_ref.parent,
+          task = vm_mob_ref.CloneVM_Task(:folder => dest_folder,
                                          :name => options['name'],
                                          :spec => clone_spec)
           # Waiting for the VM to complete allows us to get the VirtulMachine
@@ -246,7 +246,7 @@ module Fog
           # Return hash
           {
             'vm_ref'        => new_vm ? new_vm._ref : nil,
-            'new_vm'        => new_vm ? get_virtual_machine("#{path_elements.join('/')}/#{options['name']}", template_dc) : nil,
+            'new_vm'        => new_vm ? get_virtual_machine("#{options['dest_folder']}/#{options['name']}", options['datacenter']) : nil,
             'task_ref'      => task._ref
           }
         end
