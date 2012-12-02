@@ -31,6 +31,7 @@ module Fog
         attribute :connection_state
         attribute :mo_ref
         attribute :path
+        attribute :relative_path
         attribute :memory_mb
         attribute :cpus
         attribute :interfaces
@@ -93,16 +94,24 @@ module Fog
           connection.vm_migrate('instance_uuid' => instance_uuid, 'priority' => options[:priority])
         end
 
+        # Clone from a server object
+        #
+        # ==== Parameters
+        # *<~Hash>:
+        #   * 'name'<~String> - *REQUIRED* Name of the _new_ VirtualMachine
+        #   * See more options in vm_clone request/compute/vm_clone.rb
+        #
         def clone(options = {})
-          requires :name, :datacenter
+          requires :name, :datacenter, :relative_path
           # Convert symbols to strings
           req_options = options.inject({}) { |hsh, (k,v)| hsh[k.to_s] = v; hsh }
           # Give our path to the request
-          req_options['path'] ="#{path}/#{name}"
+          req_options['template_path'] ="#{relative_path}/#{name}"
+          req_options['datacenter'] = "#{datacenter}"
           # Perform the actual clone
           clone_results = connection.vm_clone(req_options)
-          # Create the new VM model.
-          new_vm = self.class.new(clone_results['vm_attributes'])
+          # Create the new VM model. TODO This only works when "wait=true"
+          new_vm = self.class.new(clone_results['new_vm'])
           # We need to assign the collection and the connection otherwise we
           # cannot reload the model.
           new_vm.collection = self.collection
