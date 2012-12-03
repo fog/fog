@@ -190,15 +190,19 @@ module Fog
               :security_groups => {},
               :addresses => {},
               :quota => {
-                'metadata_items' => 128,
-                'key_pairs' => 10,
+                'security_group_rules' => 20,
+                'security_groups' => 10,
                 'injected_file_content_bytes' => 10240,
                 'injected_file_path_bytes' => 256,
                 'injected_files' => 5,
-                'ram' => 51200,
-                'floating_ips' => 10,
-                'instances' => 10,
-                'cores' => 20,
+                'metadata_items' => 128,
+                'floating_ips'   => 10,
+                'instances'      => 10,
+                'key_pairs'      => 10,
+                'gigabytes'      => 5000,
+                'volumes'        => 10,
+                'cores'          => 20,
+                'ram'            => 51200
               }
             }
           end
