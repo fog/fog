@@ -44,10 +44,15 @@ module Fog
 
         def suspend_processes(auto_scaling_group_name, options = {})
           unless self.data[:auto_scaling_groups].has_key?(auto_scaling_group_name)
-            raise Fog::AWS::AutoScaling::ValidationError.new('AutoScalingGroup name not found - null')
+            raise Fog::AWS::AutoScaling::ValidationError.new("AutoScalingGroup name not found - no such group: #{auto_scaling_group_name}")
           end
 
-          Fog::Mock.not_implemented
+          response = Excon::Response.new
+          response.status = 200
+          response.body = {
+            'ResponseMetadata' => { 'RequestId' => Fog::AWS::Mock.request_id }
+          }
+          response
         end
 
       end
