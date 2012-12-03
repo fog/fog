@@ -9,7 +9,15 @@ module Fog
         model Fog::AWS::CloudWatch::Metric
         
         def all(conditions={})
-          data = connection.list_metrics(conditions).body['ListMetricsResult']['Metrics']
+          data = []
+          result = connection.list_metrics(conditions).body['ListMetricsResult']
+          data += result['Metrics']
+
+          while next_token = result["NextToken"]
+            result = connection.list_metrics(conditions.merge("NextToken" => next_token)).body['ListMetricsResult']
+            data += result['Metrics']
+          end
+
           load(data) # data is an array of attribute hashes
         end
         

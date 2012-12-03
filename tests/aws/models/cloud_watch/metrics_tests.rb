@@ -14,4 +14,11 @@ Shindo.tests("AWS::CloudWatch | metrics", ['aws', 'cloudwatch']) do
     
   end
 
+  tests('handle NextToken') do
+    Fog.mock!
+    tests("#all").returns(1001) do
+      Fog::AWS[:cloud_watch].metrics.all.size
+    end
+  end
+
 end
