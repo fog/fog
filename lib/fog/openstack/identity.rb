@@ -87,7 +87,7 @@ module Fog
           require 'multi_json'
           @openstack_username = options[:openstack_username] || 'admin'
           @openstack_tenant   = options[:openstack_tenant]   || 'admin'
-          @openstack_auth_uri   = URI.parse(options[:openstack_auth_url])
+          @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
           @openstack_management_url = @openstack_auth_uri.to_s
 
           @auth_token = Fog::Mock.random_base64(64)

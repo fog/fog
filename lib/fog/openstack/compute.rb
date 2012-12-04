@@ -214,8 +214,9 @@ module Fog
 
         def initialize(options={})
           @openstack_username = options[:openstack_username]
-          @openstack_tenant   = options[:openstack_tenant]
           @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
+
+          @current_tenant = options[:openstack_tenant]
 
           @auth_token = Fog::Mock.random_base64(64)
           @auth_token_expiration = (Time.now.utc + 86400).iso8601
@@ -231,11 +232,11 @@ module Fog
         end
 
         def data
-          self.class.data["#{@openstack_username}-#{@openstack_tenant}"]
+          self.class.data["#{@openstack_username}-#{@current_tenant}"]
         end
 
         def reset_data
-          self.class.data.delete("#{@openstack_username}-#{@openstack_tenant}")
+          self.class.data.delete("#{@openstack_username}-#{@current_tenant}")
         end
 
         def credentials
