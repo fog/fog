@@ -3,12 +3,17 @@ module Fog
     class HP
       class Real
 
-        # Create a new server
+        # Create a new persistent server i.e. use a bootable volume instead of an image
         #
         # ==== Parameters
         # * name<~String> - Name of server
         # * flavor_id<~Integer> - Id of flavor for server
-        # * image_id<~Integer> - Id of image for server. If block_device_mapping is passed, this is ignored.
+        # * block_device_mapping<~Array>: Use bootable volumes to create persistent instances
+        #   * <~Hash>:
+        #     * 'volume_size'<~String> - Size of the volume. Ignored, and automatically picked up from the volume
+        #     * 'volume_id'<~String> - Id of the bootable volume to use
+        #     * 'delete_on_termination'<~String> - Setting this to '1' (True) means that the volume gets deleted when the instance is killed. Set it to '0' to preserve the volume.
+        #     * 'device_name'<~String> - Block device name e.g. "vda"
         # * options<~Hash>:
         #   * 'metadata'<~Hash> - Up to 5 key value pairs containing 255 bytes of info
         #   * 'min_count'<~Integer> - Number of servers to create. Defaults to 1.
@@ -32,9 +37,6 @@ module Fog
         #       * 'id'<~String> - id of the flavor
         #       * 'links'<~Array> - array of flavor links
         #     * 'id'<~Integer> - id of server
-        #     * 'image'<~Hash> - id of image used to boot server
-        #       * 'id'<~String> - id of the image
-        #       * 'links'<~Array> - array of image links
         #     * 'links'<~Array> - array of server links
         #     * 'hostId'<~String>
         #     * 'metadata'<~Hash> - metadata
@@ -55,11 +57,11 @@ module Fog
         #       * 'links'<~Array> - array of security group links
         #     * 'key_name'<~String> - name of the keypair
         #     * 'adminPass'<~String> - admin password for server
-        def create_server(name, flavor_id, image_id, options = {})
+        def create_persistent_server(name, flavor_id, block_device_mapping = [], options = {})
           data = {
             'server' => {
               'flavorRef'  => flavor_id,
-              'imageRef'   => image_id,
+              'imageRef'   => nil,
               'name'       => name
             }
           }
@@ -100,12 +102,15 @@ module Fog
           if options['config_drive']
             data['server']['config_drive'] = options['config_drive']
           end
+          if block_device_mapping
+            data['server']['block_device_mapping'] = block_device_mapping
+          end
 
           request(
             :body     => MultiJson.encode(data),
-            :expects  => 202,
+            :expects  => 200,
             :method   => 'POST',
-            :path     => 'servers.json'
+            :path     => 'os-volumes_boot'
           )
         end
 
@@ -113,41 +118,48 @@ module Fog
 
       class Mock
 
-        def create_server(name, flavor_id, image_id, options = {})
+        def create_persistent_server(name, flavor_id, block_device_mapping = [], options = {})
           response = Excon::Response.new
-          response.status = 202
 
-          if options['security_groups']
-            sec_group_name = options['security_groups'][0]
+          if block_device_mapping && !block_device_mapping.empty?
+
+            if options['security_groups']
+              sec_group_name = options['security_groups'][0]
+            else
+              sec_group_name = "default"
+            end
+
+            data = {
+              'addresses' => { "private"=>[{"version"=>4, "addr"=>Fog::HP::Mock.ip_address}] },
+              'flavor'    => {"id"=>"#{flavor_id}", "links"=>[{"href"=>"http://nova1:8774/admin/flavors/#{flavor_id}", "rel"=>"bookmark"}]},
+              'id'        => Fog::Mock.random_numbers(6).to_i,
+              'links'     => [{"href"=>"http://nova1:8774/v1.1/admin/servers/5", "rel"=>"self"}, {"href"=>"http://nova1:8774/admin/servers/5", "rel"=>"bookmark"}],
+              'hostId'    => "123456789ABCDEF01234567890ABCDEF",
+              'metadata'  => options['metadata'] || {},
+              'name'      => name || "server_#{rand(999)}",
+              'accessIPv4'  => options['accessIPv4'] || "",
+              'accessIPv6'  => options['accessIPv6'] || "",
+              'progress'  => 0,
+              'status'    => 'BUILD',
+              'created'   => "2012-01-01T13:32:20Z",
+              'updated'   => "2012-01-01T13:32:20Z",
+              'user_id'   => Fog::HP::Mock.user_id.to_s,
+              'tenant_id' => Fog::HP::Mock.user_id.to_s,
+              'uuid'      => "95253a45-9ead-43c6-90b3-65da2ef048b3",
+              'config_drive' => "",
+              'security_groups' => [{"name"=>"#{sec_group_name}", "links"=>[{"href"=>"http://nova1:8774/v1.1/admin//os-security-groups/111", "rel"=>"bookmark"}], "id"=>111}],
+              'key_name'  => options['key_name'] || ""
+            }
+            self.data[:last_modified][:servers][data['id']] = Time.now
+            self.data[:servers][data['id']] = data
+            response.body = { 'server' => data.merge({'adminPass' => 'password'}) }
+            response.status = 200
+            response
           else
-            sec_group_name = "default"
+            response.status = 400
+            raise(Excon::Errors::BadRequest, "No boot volume or boot image specified")
           end
-          data = {
-            'addresses' => { "private"=>[{"version"=>4, "addr"=>Fog::HP::Mock.ip_address}] },
-            'flavor'    => {"id"=>"#{flavor_id}", "links"=>[{"href"=>"http://nova1:8774/admin/flavors/#{flavor_id}", "rel"=>"bookmark"}]},
-            'id'        => Fog::Mock.random_numbers(6).to_i,
-            'image'     => {"id"=>"#{image_id}", "links"=>[{"href"=>"http://nova1:8774/admin/images/#{image_id}", "rel"=>"bookmark"}]},
-            'links'     => [{"href"=>"http://nova1:8774/v1.1/admin/servers/5", "rel"=>"self"}, {"href"=>"http://nova1:8774/admin/servers/5", "rel"=>"bookmark"}],
-            'hostId'    => "123456789ABCDEF01234567890ABCDEF",
-            'metadata'  => options['metadata'] || {},
-            'name'      => name || "server_#{rand(999)}",
-            'accessIPv4'  => options['accessIPv4'] || "",
-            'accessIPv6'  => options['accessIPv6'] || "",
-            'progress'  => 0,
-            'status'    => 'BUILD',
-            'created'   => "2012-01-01T13:32:20Z",
-            'updated'   => "2012-01-01T13:32:20Z",
-            'user_id'   => Fog::HP::Mock.user_id.to_s,
-            'tenant_id' => Fog::HP::Mock.user_id.to_s,
-            'uuid'      => "95253a45-9ead-43c6-90b3-65da2ef048b3",
-            'config_drive' => "",
-            'security_groups' => [{"name"=>"#{sec_group_name}", "links"=>[{"href"=>"http://nova1:8774/v1.1/admin//os-security-groups/111", "rel"=>"bookmark"}], "id"=>111}],
-            'key_name'  => options['key_name'] || ""
-          }
-          self.data[:last_modified][:servers][data['id']] = Time.now
-          self.data[:servers][data['id']] = data
-          response.body = { 'server' => data.merge({'adminPass' => 'password'}) }
-          response
+
         end
 
       end

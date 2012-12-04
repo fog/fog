@@ -13,8 +13,6 @@ module Fog
         attribute :private_key
         attribute :user_id
 
-        attr_accessor :public_key
-
         def destroy
           requires :name
 

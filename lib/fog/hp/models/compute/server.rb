@@ -211,7 +211,7 @@ module Fog
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
-          requires :flavor_id, :image_id, :name
+          requires :flavor_id, :name
           meta_hash = {}
           metadata.each { |meta| meta_hash.store(meta.key, meta.value) }
           options = {
@@ -223,11 +223,17 @@ module Fog
             'max_count'   => @max_count,
             'key_name'    => key_name,
             'security_groups' => security_groups,
-            'config_drive'    => config_drive,
-            'block_device_mapping' => @block_device_mapping
+            'config_drive'    => config_drive
           }
           options = options.reject {|key, value| value.nil?}
-          data = connection.create_server(name, flavor_id, image_id, options)
+          # either create a regular server or a persistent server based on input
+          if image_id
+            # create a regular server using the image
+            data = connection.create_server(name, flavor_id, image_id, options)
+          elsif image_id.nil? && !@block_device_mapping.nil? && !@block_device_mapping.empty?
+            # create a persistent server using the bootable volume in the block_device_mapping
+            data = connection.create_persistent_server(name, flavor_id, @block_device_mapping, options)
+          end
           merge_attributes(data.body['server'])
           true
         end
