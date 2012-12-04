@@ -1,15 +1,15 @@
-require 'fog/gce'
+require 'fog/google'
 require 'fog/compute'
-require 'fog/gce/oauth/oauth_util'
+require 'fog/google/oauth/oauth_util'
 require 'google/api_client'
 
 module Fog
   module Compute
     class GCE < Fog::Service
 
-      requires :gce_project
+      requires :google_project
 
-      request_path 'fog/gce/requests/compute'
+      request_path 'fog/google/requests/compute'
       request :list_servers
       request :list_disks
       request :list_firewalls
@@ -43,7 +43,7 @@ module Fog
       request :insert_network
       request :insert_server
 
-      model_path 'fog/gce/models/compute'
+      model_path 'fog/google/models/compute'
       model :server
       collection :servers
 
@@ -70,7 +70,7 @@ module Fog
           api_version = 'v1beta13'
           api_scope_url = 'https://www.googleapis.com/auth/compute'
 
-          @project = options[:gce_project]
+          @project = options[:google_project]
           @api_url = base_url + api_version + '/projects/'
           @client = ::Google::APIClient.new
           @compute = @client.discovered_api('compute', api_version)

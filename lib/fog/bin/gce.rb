@@ -15,7 +15,7 @@ class GCE < Fog::Bin
         hash[key] = case key
         when :compute
           Fog::Logger.warning("GCE[:compute] is not recommended, use
-                              Compute[:gce] for portability")
+                              Compute[:google] for portability")
           Fog::Compute.new(:provider => 'GCE')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"

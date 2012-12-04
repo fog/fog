@@ -19,8 +19,8 @@ module Fog
       when :brightbox
         require 'fog/brightbox/compute'
         Fog::Compute::Brightbox.new(attributes)
-      when :gce
-        require 'fog/gce/compute'
+      when :google
+        require 'fog/google/compute'
         Fog::Compute::GCE.new(attributes)
       when :cloudstack
         require 'fog/cloudstack/compute'
