@@ -1,6 +1,6 @@
-Shindo.tests('Fog::Compute[:gce] | server requests', ['gce']) do
+Shindo.tests('Fog::Compute[:google] | server requests', ['gce']) do
 
-  @gce = Fog::Compute[:gce]
+  @google = Fog::Compute[:gce]
 
   @insert_server_format = {
       'kind' => String,
@@ -57,19 +57,19 @@ Shindo.tests('Fog::Compute[:gce] | server requests', ['gce']) do
     server_name = 'new-server-test'
 
     tests("#insert_server").formats(@insert_server_format) do
-      @gce.insert_server(server_name).body
+      @google.insert_server(server_name).body
     end
 
     tests("#get_server").formats(@get_server_format) do
-      @gce.get_server(server_name).body
+      @google.get_server(server_name).body
     end
 
     tests("#list_servers").formats(@list_servers_format) do
-      @gce.list_servers.body
+      @google.list_servers.body
     end
 
     tests("#delete_server").formats(@delete_server_format) do
-      @gce.delete_server(server_name).body
+      @google.delete_server(server_name).body
     end
 
   end
