@@ -9,21 +9,13 @@ module Fog
 
         model Fog::BlockStorage::HP::Volume
 
-        def all(options={})
-          if @bootable = options[:only_bootable]
-            data = connection.list_bootable_volumes.body['volumes']
-          else
-            data = connection.list_volumes.body['volumes']
-          end
+        def all
+          data = connection.list_volumes.body['volumes']
           load(data)
         end
 
         def get(volume_id)
-          if @bootable
-            volume = connection.get_bootable_volume_details(volume_id).body['volume']
-          else
-            volume = connection.get_volume_details(volume_id).body['volume']
-          end
+          volume = connection.get_volume_details(volume_id).body['volume']
           new(volume)
         rescue Fog::BlockStorage::HP::NotFound
           nil
