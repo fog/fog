@@ -35,6 +35,7 @@ module Fog
       request :create_security_group
       request :create_security_group_rule
       request :create_server
+      request :create_persistent_server
       request :delete_image
       request :delete_key_pair
       request :delete_meta
