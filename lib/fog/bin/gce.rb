@@ -1,10 +1,10 @@
-class GCE < Fog::Bin
+class Google < Fog::Bin
   class << self
 
     def class_for(key)
       case key
       when :compute
-        Fog::Compute::GCE
+        Fog::Compute::Google
       else
         raise ArgumentError, "Unrecognized service: #{key}"
       end
@@ -14,9 +14,9 @@ class GCE < Fog::Bin
       @@connections ||= Hash.new do |hash, key|
         hash[key] = case key
         when :compute
-          Fog::Logger.warning("GCE[:compute] is not recommended, use
+          Fog::Logger.warning("Google[:compute] is not recommended, use
                               Compute[:google] for portability")
-          Fog::Compute.new(:provider => 'GCE')
+          Fog::Compute.new(:provider => 'Google')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
@@ -29,7 +29,7 @@ class GCE < Fog::Bin
     end
 
     def services
-      Fog::GCE.services
+      Fog::Google.services
     end
 
   end

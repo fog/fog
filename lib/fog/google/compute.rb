@@ -5,7 +5,7 @@ require 'google/api_client'
 
 module Fog
   module Compute
-    class GCE < Fog::Service
+    class Google < Fog::Service
 
       requires :google_project
 

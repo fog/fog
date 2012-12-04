@@ -1,6 +1,6 @@
 module Fog
   module Compute
-    class GCE
+    class Google
 
       class Mock
 
