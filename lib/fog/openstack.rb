@@ -115,6 +115,10 @@ module Fog
         endpoint['region'] == openstack_region
       end if openstack_region
 
+      if service['endpoints'].empty?
+        raise Errors::NotFound.new("No endpoints available for region '#{openstack_region}'")
+      end if openstack_region
+
       if service['endpoints'].count > 1
         regions = service["endpoints"].map{ |e| e['region'] }.uniq.join(',')
         raise Errors::NotFound.new("Multiple regions available choose one of these '#{regions}'")
