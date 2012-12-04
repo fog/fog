@@ -1,8 +1,8 @@
-Shindo.tests('Fog::Compute[:gce] | image requests', ['gce']) do
+Shindo.tests('Fog::Compute[:google] | disk requests', ['gce']) do
 
-  @gce = Fog::Compute[:gce]
+  @google = Fog::Compute[:gce]
 
-  @insert_image_format = {
+  @insert_disk_format = {
       'kind' => String,
       'id' => String,
       'selfLink' => String,
@@ -16,27 +16,24 @@ Shindo.tests('Fog::Compute[:gce] | image requests', ['gce']) do
       'operationType' => String
   }
 
-  @get_image_format = {
+  @get_disk_format = {
       'kind' => String,
       'id' => String,
+      'selfLink' => String,
       'creationTimestamp' => String,
-      'selfLink' => String,
       'name' => String,
-      'description' => String,
-      'sourceType' => String,
-      'preferredKernel' => String,
-      'rawDisk' => {
-        'containerType' => String,
-        'source' => String
-      }
+      'zone' => String,
+      'status' => String,
+      'sizeGb' => String
   }
 
-  @delete_image_format = {
+  @delete_disk_format = {
       'kind' => String,
       'id' => String,
       'selfLink' => String,
       'name' => String,
       'targetLink' => String,
+      'targetId' => String,
       'status' => String,
       'user' => String,
       'progress' => Integer,
@@ -45,7 +42,7 @@ Shindo.tests('Fog::Compute[:gce] | image requests', ['gce']) do
       'operationType' => String
   }
 
-  @list_images_format = {
+  @list_disks_format = {
       'kind' => String,
       'id' => String,
       'selfLink' => String,
@@ -54,23 +51,23 @@ Shindo.tests('Fog::Compute[:gce] | image requests', ['gce']) do
 
   tests('success') do
 
-    image_name = 'ubuntu-12-04-v20120912'
-    source_type = 'RAW'
+    disk_name = 'new-disk-test'
+    disk_size = '2'
 
-    tests("#insert_image").formats(@insert_image_format) do
-      @gce.insert_image(image_name, source_type).body
+    tests("#insert_disk").formats(@insert_disk_format) do
+      @google.insert_disk(disk_name, disk_size).body
     end
 
-    tests("#get_image").formats(@get_image_format) do
-      @gce.get_image(image_name).body
+    tests("#get_disk").formats(@get_disk_format) do
+      @google.get_disk(disk_name).body
     end
 
-    tests("#list_images").formats(@list_images_format) do
-      @gce.list_images.body
+    tests("#list_disks").formats(@list_disks_format) do
+      @google.list_disks.body
     end
 
-    tests("#delete_image").formats(@delete_image_format) do
-      @gce.delete_image(image_name).body
+    tests("#delete_disk").formats(@delete_disk_format) do
+      @google.delete_disk(disk_name).body
     end
 
   end

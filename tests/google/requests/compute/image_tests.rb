@@ -1,8 +1,8 @@
-Shindo.tests('Fog::Compute[:gce] | network requests', ['gce']) do
+Shindo.tests('Fog::Compute[:google] | image requests', ['gce']) do
 
-  @gce = Fog::Compute[:gce]
+  @google = Fog::Compute[:gce]
 
-  @insert_network_format = {
+  @insert_image_format = {
       'kind' => String,
       'id' => String,
       'selfLink' => String,
@@ -16,23 +16,27 @@ Shindo.tests('Fog::Compute[:gce] | network requests', ['gce']) do
       'operationType' => String
   }
 
-  @get_network_format = {
+  @get_image_format = {
       'kind' => String,
       'id' => String,
-      'selfLink' => String,
       'creationTimestamp' => String,
+      'selfLink' => String,
       'name' => String,
-      'IPv4Range' => String,
-      'gatewayIPv4' => String
+      'description' => String,
+      'sourceType' => String,
+      'preferredKernel' => String,
+      'rawDisk' => {
+        'containerType' => String,
+        'source' => String
+      }
   }
 
-  @delete_network_format = {
+  @delete_image_format = {
       'kind' => String,
       'id' => String,
       'selfLink' => String,
       'name' => String,
       'targetLink' => String,
-      'targetId' => String,
       'status' => String,
       'user' => String,
       'progress' => Integer,
@@ -41,7 +45,7 @@ Shindo.tests('Fog::Compute[:gce] | network requests', ['gce']) do
       'operationType' => String
   }
 
-  @list_networks_format = {
+  @list_images_format = {
       'kind' => String,
       'id' => String,
       'selfLink' => String,
@@ -50,23 +54,23 @@ Shindo.tests('Fog::Compute[:gce] | network requests', ['gce']) do
 
   tests('success') do
 
-    network_name = 'new-network-test'
-    ip_range = '192.168.0.0/16'
+    image_name = 'ubuntu-12-04-v20120912'
+    source_type = 'RAW'
 
-    tests("#insert_network").formats(@insert_network_format) do
-      @gce.insert_network(network_name, ip_range).body
+    tests("#insert_image").formats(@insert_image_format) do
+      @google.insert_image(image_name, source_type).body
     end
 
-    tests("#get_network").formats(@get_network_format) do
-      @gce.get_network(network_name).body
+    tests("#get_image").formats(@get_image_format) do
+      @google.get_image(image_name).body
     end
 
-    tests("#list_networks").formats(@list_networks_format) do
-      @gce.list_networks.body
+    tests("#list_images").formats(@list_images_format) do
+      @google.list_images.body
     end
 
-    tests("#delete_network").formats(@delete_network_format) do
-      @gce.delete_network(network_name).body
+    tests("#delete_image").formats(@delete_image_format) do
+      @google.delete_image(image_name).body
     end
 
   end

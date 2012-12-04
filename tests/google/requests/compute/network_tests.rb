@@ -1,8 +1,8 @@
-Shindo.tests('Fog::Compute[:gce] | disk requests', ['gce']) do
+Shindo.tests('Fog::Compute[:google] | network requests', ['gce']) do
 
-  @gce = Fog::Compute[:gce]
+  @google = Fog::Compute[:gce]
 
-  @insert_disk_format = {
+  @insert_network_format = {
       'kind' => String,
       'id' => String,
       'selfLink' => String,
@@ -16,18 +16,17 @@ Shindo.tests('Fog::Compute[:gce] | disk requests', ['gce']) do
       'operationType' => String
   }
 
-  @get_disk_format = {
+  @get_network_format = {
       'kind' => String,
       'id' => String,
       'selfLink' => String,
       'creationTimestamp' => String,
       'name' => String,
-      'zone' => String,
-      'status' => String,
-      'sizeGb' => String
+      'IPv4Range' => String,
+      'gatewayIPv4' => String
   }
 
-  @delete_disk_format = {
+  @delete_network_format = {
       'kind' => String,
       'id' => String,
       'selfLink' => String,
@@ -42,7 +41,7 @@ Shindo.tests('Fog::Compute[:gce] | disk requests', ['gce']) do
       'operationType' => String
   }
 
-  @list_disks_format = {
+  @list_networks_format = {
       'kind' => String,
       'id' => String,
       'selfLink' => String,
@@ -51,23 +50,23 @@ Shindo.tests('Fog::Compute[:gce] | disk requests', ['gce']) do
 
   tests('success') do
 
-    disk_name = 'new-disk-test'
-    disk_size = '2'
+    network_name = 'new-network-test'
+    ip_range = '192.168.0.0/16'
 
-    tests("#insert_disk").formats(@insert_disk_format) do
-      @gce.insert_disk(disk_name, disk_size).body
+    tests("#insert_network").formats(@insert_network_format) do
+      @google.insert_network(network_name, ip_range).body
     end
 
-    tests("#get_disk").formats(@get_disk_format) do
-      @gce.get_disk(disk_name).body
+    tests("#get_network").formats(@get_network_format) do
+      @google.get_network(network_name).body
     end
 
-    tests("#list_disks").formats(@list_disks_format) do
-      @gce.list_disks.body
+    tests("#list_networks").formats(@list_networks_format) do
+      @google.list_networks.body
     end
 
-    tests("#delete_disk").formats(@delete_disk_format) do
-      @gce.delete_disk(disk_name).body
+    tests("#delete_network").formats(@delete_network_format) do
+      @google.delete_network(network_name).body
     end
 
   end
