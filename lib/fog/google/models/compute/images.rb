@@ -3,11 +3,11 @@ require 'fog/google/models/compute/image'
 
 module Fog
   module Compute
-    class GCE
+    class Google
 
       class Images < Fog::Collection
 
-        model Fog::Compute::GCE::Image
+        model Fog::Compute::Google::Image
 
         def all
           data = connection.list_images.body["items"]

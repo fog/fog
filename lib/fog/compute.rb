@@ -21,7 +21,7 @@ module Fog
         Fog::Compute::Brightbox.new(attributes)
       when :google
         require 'fog/google/compute'
-        Fog::Compute::GCE.new(attributes)
+        Fog::Compute::Google.new(attributes)
       when :cloudstack
         require 'fog/cloudstack/compute'
         Fog::Compute::Cloudstack.new(attributes)

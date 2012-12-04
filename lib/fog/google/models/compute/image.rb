@@ -2,7 +2,7 @@ require 'fog/core/model'
 
 module Fog
   module Compute
-    class GCE
+    class Google
 
       class Image < Fog::Model
 

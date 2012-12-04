@@ -3,11 +3,11 @@ require 'fog/google/models/compute/flavor'
 
 module Fog
   module Compute
-    class GCE
+    class Google
 
       class Flavors < Fog::Collection
 
-        model Fog::Compute::GCE::Flavor
+        model Fog::Compute::Google::Flavor
 
         def all
           data = connection.list_machine_types.body["items"]

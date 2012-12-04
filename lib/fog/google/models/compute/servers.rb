@@ -3,11 +3,11 @@ require 'fog/google/models/compute/server'
 
 module Fog
   module Compute
-    class GCE
+    class Google
 
       class Servers < Fog::Collection
 
-        model Fog::Compute::GCE::Server
+        model Fog::Compute::Google::Server
 
         def all
           data = connection.list_servers.body["items"]
