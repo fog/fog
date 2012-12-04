@@ -1,4 +1,4 @@
-0.0.18 11/15/2012
+0.0.18 12/04/2012
 =================
 - add support for controlled access via cross-tenant ACLs
 - add support for creating bootable volumes
