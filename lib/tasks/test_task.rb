@@ -8,7 +8,7 @@ module Fog
       def initialize
         desc "Run the mocked tests"
         task :test do
-          Rake::Task[:mock_tests].invoke
+          ::Rake::Task[:mock_tests].invoke
         end
 
         task :mock_tests do
