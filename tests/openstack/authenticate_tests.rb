@@ -23,17 +23,28 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
         "serviceCatalog" => [{
           "endpoints" => [{
             "adminURL" =>
-              "http://example/v2/#{tenant_token}",
+              "http://example:8774/v2/#{tenant_token}",
               "region" => "RegionOne",
             "internalURL" =>
-              "http://example/v2/#{tenant_token}",
+              "http://example:8774/v2/#{tenant_token}",
             "id" => Fog::Mock.random_numbers(8).to_s,
             "publicURL" =>
-             "http://example/v2/#{tenant_token}"
+             "http://example:8774/v2/#{tenant_token}"
           }],
           "endpoints_links" => [],
           "type" => "compute",
           "name" => "nova"
+        },
+        { "endpoints" => [{
+            "adminURL"    => "http://example:9292",
+            "region"      => "RegionOne",
+            "internalURL" => "http://example:9292",
+            "id"          => Fog::Mock.random_numbers(8).to_s,
+            "publicURL"   => "http://example:9292"
+          }],
+          "endpoints_links" => [],
+          "type"            => "image",
+          "name"            => "glance"
         }],
         "user" => {
           "username" => "admin",
@@ -53,7 +64,7 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
             Fog::Mock.random_numbers(8).to_s,
             Fog::Mock.random_numbers(8).to_s,]}}}
 
-    tests("authenticate_v2") do
+    tests("v2") do
       Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
                  { :status => 200, :body => Fog::JSON.encode(body) })
 
@@ -74,7 +85,20 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
         Fog::OpenStack.authenticate_v2(
           :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
           :openstack_tenant       => 'admin',
-          :openstack_service_name => 'compute')
+          :openstack_service_name => %w[compute])
+      end
+    end
+
+    tests("v2 missing service") do
+      Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
+                 { :status => 200, :body => Fog::JSON.encode(body) })
+
+      raises(Fog::OpenStack::Errors::NotFound,
+             'Could not find service network.  Have compute, image') do
+        Fog::OpenStack.authenticate_v2(
+          :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
+          :openstack_tenant       => 'admin',
+          :openstack_service_name => %w[network])
       end
     end
   ensure
