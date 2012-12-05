@@ -39,6 +39,7 @@ module Fog
       request :vm_update_network
       request :query_resources
       request :utility
+      request :keep_alive
 
 
       module Shared

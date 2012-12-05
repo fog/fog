@@ -13,8 +13,6 @@
 #   limitations under the License.
 #
 
-require File.expand_path(File.join(File.dirname(__FILE__), '..', 'utility'))
-
 module Fog
   module Compute
     class Vsphere
@@ -22,29 +20,8 @@ module Fog
       module Shared
         include Fog::Vsphere::Utility
 
-        def get_ds_name_by_path(vmdk_path)
-          path_elements = vmdk_path.split('[').tap { |ary| ary.shift }
-          template_ds = path_elements.shift
-          template_ds = template_ds.split(']')
-          datastore_name = template_ds[0]
-          datastore_name
-        end
-
-        def get_parent_dc_by_vm_mob(vm_mob_ref, options = {})
-          mob_ref = vm_mob_ref.parent || vm_mob_ref.parentVApp
-          while !(mob_ref.kind_of? RbVmomi::VIM::Datacenter)
-            mob_ref = mob_ref.parent
-          end
-          mob_ref
-        end
-
-        def get_portgroups_by_dc_mob(dc_mob_ref)
-          pg_name = {}
-          portgroups = dc_mob_ref.network
-          portgroups.each do |pg|
-            pg_name[pg.name] = pg
-          end
-          pg_name
+        def keep_alive
+          keep_alive_util(@connection)
         end
 
       end

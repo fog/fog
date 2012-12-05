@@ -21,6 +21,7 @@ module Fog
       request_path 'fog/vsphere/requests/storage'
       request :vm_create_disk
       request :query_resources
+      request :keep_alive
 
 
       module Shared

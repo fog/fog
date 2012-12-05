@@ -33,6 +33,7 @@ module Fog
       request_path 'fog/vsphere/requests/ha'
       request :vm_config_ha
       request :query_resources
+      request :keep_alive
 
 
       module Shared
