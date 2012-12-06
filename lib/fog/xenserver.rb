@@ -18,7 +18,7 @@ module Fog
       end
     
       def authenticate( username, password )
-        response = @factory.call('session.login_with_password', username, password )
+        response = @factory.call('session.login_with_password', username.to_s, password.to_s)
         raise Fog::XenServer::InvalidLogin.new unless response["Status"] =~ /Success/
         @credentials = response["Value"]
       end
