@@ -187,7 +187,24 @@ module Fog
               },
               :servers => {},
               :key_pairs => {},
-              :security_groups => {},
+              :security_groups => {
+                0 => {
+                  "id"          => 0,
+                  "tenant_id"   => Fog::Mock.random_hex(8),
+                  "name"        => "default",
+                  "description" => "default",
+                  "rules"       => [
+                    { "id"              => 0,
+                      "parent_group_id" => 0,
+                      "from_port"       => 68,
+                      "to_port"         => 68,
+                      "ip_protocol"     => "udp",
+                      "ip_range"        => { "cidr" => "0.0.0.0/0" },
+                      "group"           => {}, },
+                  ],
+                },
+              },
+              :server_security_group_map => {},
               :addresses => {},
               :quota => {
                 'security_group_rules' => 20,
