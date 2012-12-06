@@ -56,6 +56,22 @@ module Fog
           response.status = 202
 
           server_id = Fog::Mock.random_numbers(6).to_s
+          identity = Fog::Identity[:openstack]
+          user = identity.users.find { |u|
+            u.name == @openstack_username
+          }
+
+          user_id = if user then
+                      user.id
+                    else
+                      identity.user.create(:name     => @openstack_username,
+                                           :password => 'password',
+                                           :email =>
+                                             "#{@openstack_username}@example",
+                                           :tenant_id => @openstack_tenant,
+                                           :enabled => true).id
+                    end
+
 
           mock_data = {
             'addresses'  => {},
