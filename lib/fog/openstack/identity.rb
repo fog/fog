@@ -73,6 +73,7 @@ module Fog
           @roles           ||= {}
           @tenants         ||= {}
           @ec2_credentials ||= Hash.new { |hash, key| hash[key] = {} }
+          @user_tenant_membership ||= {}
 
           @data ||= Hash.new do |hash, key|
             hash[key] = {
@@ -80,6 +81,7 @@ module Fog
               :roles           => @roles,
               :tenants         => @tenants,
               :ec2_credentials => @ec2_credentials,
+              :user_tenant_membership => @user_tenant_membership
             }
           end
         end
