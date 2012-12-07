@@ -7,9 +7,7 @@ module Fog
             :expects => [200],
             :method  => 'PUT',
             :path    => "tenants/#{id}",
-            :body    => {
-              'tenant' => attributes
-            }.to_json
+            :body    => Fog::JSON.encode({ 'tenant' => attributes })
           )
         end # def create_tenant
       end # class Real
