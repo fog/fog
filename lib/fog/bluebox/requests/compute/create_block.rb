@@ -12,7 +12,7 @@ module Fog
         # * options<~Hash>:
         #     * password<~String>   - Password for block
         #   or
-        #     * public_key<~String> - SSH public key
+        #     * ssh_public_key<~String> - SSH public key
         #     * username<~String>   - Defaults to deploy
         #
         # ==== Returns
