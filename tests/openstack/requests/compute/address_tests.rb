@@ -1,10 +1,8 @@
 Shindo.tests('Fog::Compute[:openstack] | address requests', ['openstack']) do
 
   compute = Fog::Compute[:openstack]
-  flavor_ref = ENV['OPENSTACK_FLAVOR_REF'] || compute.list_flavors.body['flavors'].first['links'].first['href']
-  image_ref = ENV['OPENSTACK_IMAGE_REF'] || compute.list_images.body['images'].first['links'].first['href']
 
-  @server_id = compute.create_server("shindo_test_server", image_ref, flavor_ref).body['server']['id']
+  @server_id = compute.create_server("shindo_test_server", get_image_ref, get_flavor_ref).body['server']['id']
 
   @address_format = {
     "instance_id" => NilClass,
