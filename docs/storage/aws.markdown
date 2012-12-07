@@ -12,10 +12,10 @@ upload by setting the "x-amz-server-side-encryption" HTTP request header to
 AES256. You can short hand set this HTTP header via the ````encryption```` key 
 value pair. For example,
 
-		# encrypt file at rest
-		file = directory.files.create(
-		  :key    	=> 'resume.html',
-		  :body   	=> File.open("/path/to/my/resume.html"),
-		  :public 	=> true, 
-		  :encryption 	=> 'AES256'
-		)
+    # encrypt file at rest
+    file = directory.files.create(
+      :key      => 'resume.html',
+      :body     => File.open("/path/to/my/resume.html"),
+      :public   => true, 
+      :encryption   => 'AES256'
+    )
