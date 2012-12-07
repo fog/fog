@@ -37,6 +37,10 @@ else
   @irb.context.prompt_mode = :FOG
   @irb.context.workspace = IRB::WorkSpace.new(binding)
 
+  trap 'INT' do
+    @irb.signal_handle
+  end
+
   Formatador.display_line('Welcome to fog interactive!')
   Formatador.display_line(":#{Fog.credential} provides #{providers}")
   providers = Fog.providers
