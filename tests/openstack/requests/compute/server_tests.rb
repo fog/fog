@@ -1,10 +1,5 @@
 Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
 
-  @server_format = {
-    'id'         => String,
-    'links'      => Array,
-  }
-
   @detailed_server_format = {
     'id'         => String,
     'addresses'  => Hash,
