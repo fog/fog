@@ -19,7 +19,15 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
     'accessIPv6' => Fog::Nullable::String,
     'links'      => Array,
     'created'    => String,
-    'updated'    => String
+    'updated'    => String,
+    'user_id'    => String,
+  }
+
+  @create_format = {
+    'adminPass'       => String,
+    'id'              => String,
+    'links'           => Array,
+    'security_groups' => Fog::Nullable::Array,
   }
 
   @image_format = {
@@ -42,7 +50,7 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
     @snapshot_id = nil
     @flavor_id = get_flavor_ref
 
-    tests('#create_server("test", #{@image_id} , 19)').formats(@server_format.merge('adminPass' => String), false) do
+    tests('#create_server("test", #{@image_id} , 19)').formats(@create_format, false) do
       data = Fog::Compute[:openstack].create_server("test", @image_id, @flavor_id).body['server']
       @server_id = data['id']
       data
