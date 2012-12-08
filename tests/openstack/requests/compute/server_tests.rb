@@ -2,6 +2,11 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
 
   @server_format = {
     'id'         => String,
+    'links'      => Array,
+  }
+
+  @detailed_server_format = {
+    'id'         => String,
     'addresses'  => Hash,
     'flavor'     => Hash,
     'hostId'     => String,
@@ -33,9 +38,9 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
 
   tests('success') do
 
-    @image_id = Fog::Compute[:openstack].images[0].id
+    @image_id = get_image_ref
     @snapshot_id = nil
-    @flavor_id = 2
+    @flavor_id = get_flavor_ref
 
     tests('#create_server("test", #{@image_id} , 19)').formats(@server_format.merge('adminPass' => String), false) do
       data = Fog::Compute[:openstack].create_server("test", @image_id, @flavor_id).body['server']
@@ -46,7 +51,7 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
     Fog::Compute[:openstack].servers.get(@server_id).wait_for { ready? }
 
     #CREATE
-    tests("#get_server_details(#{@server_id})").formats(@server_format, false) do
+    tests("#get_server_details(#{@server_id})").formats(@detailed_server_format, false) do
       Fog::Compute[:openstack].get_server_details(@server_id).body['server']
     end
 
@@ -57,15 +62,17 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
     end
 
     #DETAILS
-    tests('#list_servers_detail').formats({'servers' => [@server_format]}, false) do
+    tests('#list_servers_detail').formats({'servers' => [@detailed_server_format]}, false) do
       Fog::Compute[:openstack].list_servers_detail.body
     end
 
     #CHANGE PASSWORD
-    tests("#change_server_password(#{@server_id}, 'fogupdatedserver')").succeeds do
-      Fog::Compute[:openstack].change_server_password(@server_id, 'foggy')
+    if set_password_enabled 
+      tests("#change_server_password(#{@server_id}, 'fogupdatedserver')").succeeds do
+        Fog::Compute[:openstack].change_server_password(@server_id, 'foggy')
+      end
+      Fog::Compute[:openstack].servers.get(@server_id).wait_for { ready? }
     end
-    Fog::Compute[:openstack].servers.get(@server_id).wait_for { ready? }
 
     #UPDATE SERVER NAME
     tests("#update_server(#{@server_id}, :name => 'fogupdatedserver')").succeeds do
@@ -82,19 +89,19 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
     Fog::Compute[:openstack].images.get(@snapshot_id).wait_for { ready? }
 
     #REBUILD
-    tests("#rebuild_server(#{@server_id}, #{@snapshot_id}, 'fog')").formats({'server' => @server_format}, false) do
+    tests("#rebuild_server(#{@server_id}, #{@snapshot_id}, 'fog')").formats({'server' => @detailed_server_format}, false) do
       Fog::Compute[:openstack].rebuild_server(@server_id, @snapshot_id, 'fog', 'newpass', {"foo" => "bar"}).body
     end
     Fog::Compute[:openstack].servers.get(@server_id).wait_for { ready? } if not Fog.mocking?
 
     #RESIZE
-    tests("#resize_server(#{@server_id}, '3')").succeeds do
-      Fog::Compute[:openstack].resize_server(@server_id, 3)
+    tests("#resize_server(#{@server_id}, #{get_flavor_ref_resize})").succeeds do
+      Fog::Compute[:openstack].resize_server(@server_id, get_flavor_ref_resize)
     end
     Fog::Compute[:openstack].servers.get(@server_id).wait_for { self.state == 'VERIFY_RESIZE' } if not Fog.mocking?
 
     #RESIZE CONFIRM
-    tests("#resize_confirm(#{@server_id}, '3')").succeeds do
+    tests("#resize_confirm(#{@server_id}, #{get_flavor_ref_resize})").succeeds do
       Fog::Compute[:openstack].confirm_resize_server(@server_id)
     end
     Fog::Compute[:openstack].servers.get(@server_id).wait_for { ready? } if not Fog.mocking?
@@ -116,6 +123,11 @@ Shindo.tests('Fog::Compute[:openstack] | server requests', ['openstack']) do
     #DELETE
     tests("#delete_server(#{@server_id})").succeeds do
       Fog::Compute[:openstack].delete_server(@server_id)
+    end
+
+    #DELETE IMAGE
+    tests("#delete_image(#{@snapshot_id})").succeeds do
+      Fog::Compute[:openstack].delete_image(@snapshot_id)
     end
 
   end
