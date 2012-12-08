@@ -55,10 +55,28 @@ module Fog
           response = Excon::Response.new
           response.status = 202
 
-          data = {
+          server_id = Fog::Mock.random_numbers(6).to_s
+          identity = Fog::Identity[:openstack]
+          user = identity.users.find { |u|
+            u.name == @openstack_username
+          }
+
+          user_id = if user then
+                      user.id
+                    else
+                      identity.user.create(:name     => @openstack_username,
+                                           :password => 'password',
+                                           :email =>
+                                             "#{@openstack_username}@example",
+                                           :tenant_id => @openstack_tenant,
+                                           :enabled => true).id
+                    end
+
+
+          mock_data = {
             'addresses'  => {},
             'flavor'     => {"id" => flavor_ref, "links"=>[{"href"=>"http://nova1:8774/admin/flavors/1", "rel"=>"bookmark"}]},
-            'id'         => Fog::Mock.random_numbers(6).to_s,
+            'id'         => server_id,
             'image'      => {"id" => image_ref, "links"=>[{"href"=>"http://nova1:8774/admin/images/#{image_ref}", "rel"=>"bookmark"}]},
             'links'      => [{"href"=>"http://nova1:8774/v1.1/admin/servers/5", "rel"=>"self"}, {"href"=>"http://nova1:8774/admin/servers/5", "rel"=>"bookmark"}],
             'hostId'     => "123456789ABCDEF01234567890ABCDEF",
@@ -70,11 +88,18 @@ module Fog
             'status'     => 'BUILD',
             'created'    => '2012-09-27T00:04:18Z',
             'updated'    => '2012-09-27T00:04:27Z',
+            'user_id'    => @openstack_username,
           }
 
-          self.data[:last_modified][:servers][data['id']] = Time.now
-          self.data[:servers][data['id']] = data
-          response.body = { 'server' => data.merge({'adminPass' => 'password'}) }
+          response_data = {
+            'adminPass'       => 'password',
+            'id'              => server_id,
+            'links'           => mock_data['links'],
+          }
+
+          self.data[:last_modified][:servers][server_id] = Time.now
+          self.data[:servers][server_id] = mock_data
+          response.body = { 'server' => response_data }
           response
         end
 
