@@ -20,8 +20,14 @@ module Fog
 
           if options['security_groups']
             # security names requires a hash with a name prefix
-            data['server']['security_groups'] = [options['security_groups']].flatten.map do |sg|
-              { :name => sg.is_a?(Fog::Compute::OpenStack::SecurityGroup) ? sg.name : sg }
+            data['server']['security_groups'] =
+              Array(options['security_groups']).map do |sg|
+              name = if sg.is_a?(Fog::Compute::OpenStack::SecurityGroup) then
+                       sg.name
+                     else
+                       sg
+                     end
+              { :name => name }
             end
           end
 
@@ -96,6 +102,22 @@ module Fog
             'id'              => server_id,
             'links'           => mock_data['links'],
           }
+
+          self.data[:last_modified][:servers][server_id] = Time.now
+          self.data[:servers][server_id] = mock_data
+
+          if security_groups = options['security_groups'] then
+            groups = Array(options['security_groups']).map do |sg|
+              if sg.is_a?(Fog::Compute::OpenStack::SecurityGroup) then
+                sg.name
+              else
+                sg
+              end
+            end
+
+            self.data[:server_security_group_map][server_id] = groups
+            response_data['security_groups'] = groups
+          end
 
           self.data[:last_modified][:servers][server_id] = Time.now
           self.data[:servers][server_id] = mock_data
