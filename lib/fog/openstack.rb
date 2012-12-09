@@ -26,9 +26,6 @@ module Fog
         end
       end
 
-      class InternalServerError < ServiceError; end
-      class Conflict < ServiceError; end
-      class NotFound < ServiceError; end
       class ServiceUnavailable < ServiceError; end
 
       class BadRequest < ServiceError
@@ -103,7 +100,7 @@ module Fog
 
           body = Fog::JSON.decode(response.body)
           if body['tenants'].empty?
-            raise Errors::NotFound.new('No Tenant Found')
+            raise Fog::Errors::NotFound.new('No Tenant Found')
           else
             options[:openstack_tenant] = body['tenants'].first['name']
           end
@@ -127,12 +124,12 @@ module Fog
 
         message = "Could not find service #{missing}.  Have #{available}"
 
-        raise Errors::NotFound, message
+        raise Fog::Errors::NotFound, message
       end
 
       if service['endpoints'].count > 1
         regions = service["endpoints"].map{ |e| e['region'] }.uniq.join(',')
-        raise Errors::NotFound.new("Multiple regions available choose one of these '#{regions}'")
+        raise Fog::Errors::NotFound.new("Multiple regions available choose one of these '#{regions}'")
       end
 
       identity_service = body['access']['serviceCatalog'].

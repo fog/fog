@@ -93,7 +93,7 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
       Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
                  { :status => 200, :body => Fog::JSON.encode(body) })
 
-      raises(Fog::OpenStack::Errors::NotFound,
+      raises(Fog::Errors::NotFound,
              'Could not find service network.  Have compute, image') do
         Fog::OpenStack.authenticate_v2(
           :openstack_auth_uri     => URI('http://example/v2.0/tokens'),

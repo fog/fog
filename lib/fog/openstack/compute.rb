@@ -372,6 +372,7 @@ module Fog
             }
 
             if @openstack_auth_uri.path =~ /\/v2.0\//
+
               credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
             else
               credentials = Fog::OpenStack.authenticate_v1(options, @connection_options)
@@ -393,7 +394,7 @@ module Fog
 
           @path.sub!(/\/$/, '')
           unless @path.match(/1\.1|v2/)
-            raise Fog::Compute::OpenStack::ServiceUnavailable.new(
+            raise Fog::OpenStack::Errors::ServiceUnavailable.new(
                     "OpenStack binding only supports version 2 (a.k.a. 1.1)")
           end
 
