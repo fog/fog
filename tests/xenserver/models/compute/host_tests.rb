@@ -19,7 +19,7 @@ Shindo.tests('Fog::Compute[:xenserver] | host model', ['xenserver']) do
         :allowed_operations,
         :enabled,
         :hostname,
-        :metrics,
+        :__metrics,
         :name_description,
         :other_config,
         :__pbds,
@@ -60,6 +60,9 @@ Shindo.tests('Fog::Compute[:xenserver] | host model', ['xenserver']) do
       host.resident_servers.each { |i| 
           test("and each Server should be a Fog::Compute::XenServer::Server") { i.kind_of? Fog::Compute::XenServer::Server}
       } 
+    end
+    tests("return valid HostMetrics") do
+      test("object") { host.metrics.kind_of? Fog::Compute::XenServer::HostMetrics }
     end
 
   end
