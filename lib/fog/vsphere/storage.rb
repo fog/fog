@@ -155,6 +155,7 @@ module Fog
           attr_accessor :affinity # split or not
           attr_accessor :volumes # volumes
           attr_accessor :size # total size
+          attr_accessor :bisect # bisect or not
 
           def initialize(options = {})
             @type =  options['type']
@@ -164,6 +165,7 @@ module Fog
             @shared = options['shared'] || false
             @affinity = @shared
             @volumes = {}
+            @bisect = options['bisect'] || false
           end
 
         end
@@ -203,6 +205,7 @@ module Fog
             options['type'] = 'data'
             options['affinity'] = false
             options['size'] = options['data_size']
+            options['bisect'] = options['disk_bisect']
             @data_disks = Disk.new(options)
             @disk_index = { 'lsilogic'=> 0, 'paravirtual'=> 0 }
           end
@@ -395,19 +398,75 @@ module Fog
           fit_hosts
         end
 
-        def recommendation(vms,hosts)
-          if vms[0].data_disks.affinity
-            recommendation_affinity(vms,hosts)
-          else
-            recommendation_untiaffinity(vms,hosts)
+        def select_hosts_for_datadisk_with_bisect(host_name, datastore_candidates, hosts_pseudo_bisect, vm, buffer_size)
+          data_done = false
+          real_bisect = false # indicate whether the splited disks are put on different datastores or not
+          candidates = datastore_candidates.clone
+          split_size = vm.data_disks.size/2
+          candidates.each do |ds|
+            if ds.real_free_space <= split_size + buffer_size
+              Fog::Logger.debug("fog: datastore #{ds.name} cannot provide enough space for data disk with bisect mode")
+              datastore_candidates.delete(ds)
+            end
           end
+
+          if datastore_candidates.size >= 2
+            alloc_volumes(host_name, 'data', vm, datastore_candidates[0..1], split_size)
+            data_done = true
+            real_bisect = true
+          elsif datastore_candidates.size == 1 && datastore_candidates[0].real_free_space > vm.data_disks.size + buffer_size
+            alloc_volumes(host_name, 'data', vm, [ datastore_candidates[0] ], split_size)
+            alloc_volumes(host_name, 'data', vm, [ datastore_candidates[0] ], split_size)
+            hosts_pseudo_bisect << host_name unless hosts_pseudo_bisect.include?(host_name)
+            data_done = true
+          else
+            Fog::Logger.debug(" there is no enough space to place data disks for vm #{vm.name} with host #{host_name}")
+          end
+
+          return data_done, real_bisect
         end
 
-        def recommendation_affinity(vms,hosts)
+        def retrieve_candidates(disk, host)
+          if disk.shared && !(host.share_datastores.empty?)
+            datastore_candidates = host.share_datastores.values.clone
+          else
+            datastore_candidates = host.local_datastores.values.clone
+          end
+          datastore_candidates = datastore_candidates.sort {|x,y| y.real_free_space <=> x.real_free_space}
+          datastore_candidates
+        end
+
+        def calc_datastores_capacity(vm, datastore_candidates, buffer_size)
+          candidates = datastore_candidates.clone
+          sum = 0
+          candidates.each do |x|
+            if !(vm.datastore_pattern.nil?)
+              if isMatched?(x.name, vm.datastore_pattern)
+                Fog::Logger.debug("fog: input ds name #{x.name} with matched pattern")
+              else
+                Fog::Logger.debug("fog: input ds name #{x.name} without matched pattern")
+                datastore_candidates.delete(x)
+                next
+              end
+            end
+            if x.real_free_space <= buffer_size
+              datastore_candidates.delete(x)
+              next
+            end
+            sum += x.real_free_space
+          end
+          sum
+        end
+
+        def recommendation(vms,hosts)
           solution_list = {}
+          hosts_pseudo_bisect = []
+          real_bisect = false
+          affinity = vms[0].data_disks.affinity
           Fog::Logger.debug("fog: @host_list number #{@host_list.keys.size}")
           hosts = hosts.sort {|x,y| @host_list[y].local_sum <=> @host_list[x].local_sum}
           hosts.each do |host_name|
+            real_bisect_for_this_host = true
             @cached_ds = nil
             Fog::Logger.debug("fog: for each host named #{host_name} to place disk")
             next unless @host_list.has_key?(host_name)
@@ -416,49 +475,29 @@ module Fog
             vms.each do |vm_in_queue|
               vm = Marshal.load(Marshal.dump(vm_in_queue))
               Fog::Logger.debug("fog: input vm_datastore_pattern is #{vm.datastore_pattern}[/]")
-              # place system and swap
-              if vm.system_disks.shared && !(@host_list[host_name].share_datastores.empty?)
-                datastore_candidates = @host_list[host_name].share_datastores.values.clone
-              else
-                datastore_candidates = @host_list[host_name].local_datastores.values.clone
-              end
-              datastore_candidates = datastore_candidates.sort {|x,y| y.real_free_space <=> x.real_free_space}
+              datastore_candidates = retrieve_candidates(vm.system_disks, @host_list[host_name])
 
               if !(@cached_ds.nil?) && datastore_candidates.include?(@cached_ds)
                 datastore_candidates.delete(@cached_ds)
                 datastore_candidates.unshift(@cached_ds)
               end
+
               system_done = false
               swap_done = false
               sum = 0
               buffer_size = 512
-              candidates = datastore_candidates.clone
-              candidates.each do |x|
-                if !(vm.datastore_pattern.nil?)
-                  if isMatched?(x.name, vm.datastore_pattern)
-                    Fog::Logger.debug("fog: input ds name #{x.name} with matched pattern")
-                  else
-                    Fog::Logger.debug("fog: input ds name #{x.name} without matched pattern")
-                    datastore_candidates.delete(x)
-                    next
-                  end
-                end
-                if x.real_free_space <= buffer_size
-                  datastore_candidates.delete(x)
-                  next
-                end
-                sum += x.real_free_space
-              end
+              
+              sum = calc_datastores_capacity(vm, datastore_candidates, buffer_size)
               if sum < (vm.req_mem + vm.system_disks.size + vm.swap_disks.size)
                 Fog::Logger.debug(" there is no enough space for vm #{vm.name} with host #{host_name} left #{sum}")
               else
-
                 Fog::Logger.debug("fog: system ds chosen for host #{host_name}")
                 datastore_candidates.each do |ds|
                   Fog::Logger.debug("fog: ds for host #{host_name} name: #{ds.name}, real_free_space: #{ds.real_free_space}")
                 end
                 Fog::Logger.debug("fog: end")
 
+                # place system_disks and swap_disks
                 datastore_candidates.each do |ds|
                   if ds.real_free_space >= (vm.req_mem + vm.system_disks.size + vm.swap_disks.size)
                     alloc_volumes(host_name, 'system', vm, [ds], vm.system_disks.size)
@@ -486,31 +525,10 @@ module Fog
               end
 
               # place data disks
-              if vm.data_disks.shared && !(@host_list[host_name].share_datastores.empty?)
-                datastore_candidates = @host_list[host_name].share_datastores.values.clone
-              else
-                datastore_candidates = @host_list[host_name].local_datastores.values.clone
-              end
-              datastore_candidates = datastore_candidates.sort {|x,y| x.real_free_space <=> y.real_free_space}
+              datastore_candidates = retrieve_candidates(vm.data_disks, @host_list[host_name])
               sum = 0
               data_done = false
-              candidates = datastore_candidates.clone
-              candidates.each do |x|
-                if !(vm.datastore_pattern.nil?)
-                  if isMatched?(x.name, vm.datastore_pattern)
-                    Fog::Logger.debug("fog: input ds name #{x.name} with matched pattern")
-                  else
-                    Fog::Logger.debug("fog: input ds name #{x.name} without matched pattern")
-                    datastore_candidates.delete(x)
-                    next
-                  end
-                end
-                if x.real_free_space <= buffer_size
-                  datastore_candidates.delete(x)
-                  next
-                end
-                sum += x.real_free_space
-              end
+              sum = calc_datastores_capacity(vm, datastore_candidates, buffer_size)
               Fog::Logger.debug("fog: sum = #{sum} but reburied is #{vm.data_disks.size}")
               if sum < vm.data_disks.size
                 Fog::Logger.debug(" there is no enough space for vm #{vm.name} with host #{host_name} left #{sum}")
@@ -519,183 +537,49 @@ module Fog
                 datastore_candidates.each do |ds|
                   Fog::Logger.debug("fog: ds for host #{host_name} name: #{ds.name}, real_free_space: #{ds.real_free_space}")
                 end
-
-                available_size = 0
-                left_size = vm.data_disks.size
-                datastore_candidates.each do |ds|
-
-                  available_size = ds.real_free_space - buffer_size
-
-                  if available_size >= left_size
-                    Fog::Logger.debug("fog: for vm #{vm.name} allocated size= #{left_size} from ds #{ds.name}")
-                    alloc_volumes(host_name, 'data', vm, [ds], left_size)
-                    data_done = true
-                    break
-                  else
-                    Fog::Logger.debug("fog: for vm #{vm.name} allocated size= #{available_size} from ds #{ds.name} left #{left_size} not alloced")
-                    alloc_volumes(host_name, 'data', vm, [ds], available_size)
-                    left_size -= available_size
-                  end
-
-                end # end of datastore traverse
-              end
-
-              if !data_done #|| vm.system_disks.volumes.empty? || vm.swap_disks.volumes.values.empty?
-                Fog::Logger.debug(" there is no enough space for vm #{vm.name} on host#{host_name} for data disk")
-                Fog::Logger.debug(" vm#{vm.name}.system_disks.volumes.empty? is true") if vm.system_disks.volumes.empty?
-                Fog::Logger.debug("vm#{vm.name}.wap_disks.volumes.empty? is true") if vm.swap_disks.volumes.empty?
-                recovery(solution_list[host_name]) unless !(solution_list.has_key?(host_name)) || solution_list[host_name].nil?
-                solution_list.delete(host_name)
-                break
-              end
-              solution_list[host_name] << vm
-            end # end of vms traverse
-          end  # end of hosts traverse
-
-          solution_list.keys.each do |host_name|
-            vms = solution_list[host_name]
-            recovery(vms)
-          end # end of solution_list traverse
-
-          solution_list
-        end
-
-        def recommendation_untiaffinity(vms, hosts)
-          solution_list = {}
-          Fog::Logger.debug("fog: @host_list number #{@host_list.keys.size}")
-          hosts = hosts.sort {|x,y| @host_list[y].local_sum <=> @host_list[x].local_sum}
-          hosts.each do |host_name|
-            @cached_ds = nil
-            next unless @host_list.has_key?(host_name)
-            solution_list[host_name]=[]
-            vms.each do |vm_in_queue|
-              vm = Marshal.load(Marshal.dump(vm_in_queue))
-              Fog::Logger.debug("fog: input vm_datastore_pattern is #{vm.datastore_pattern}[/]")
-              # place system and swap
-              if vm.system_disks.shared && !(@host_list[host_name].share_datastores.empty?)
-                datastore_candidates = @host_list[host_name].share_datastores.values.clone
-              else
-                datastore_candidates = @host_list[host_name].local_datastores.values.clone
-              end
-              datastore_candidates = datastore_candidates.sort {|x,y| y.real_free_space <=> x.real_free_space}
-
-              if !(@cached_ds.nil?) && datastore_candidates.include?(@cached_ds)
-                datastore_candidates.delete(@cached_ds)
-                datastore_candidates.unshift(@cached_ds)
-              end
-              system_done = false
-              swap_done = false
-              sum = 0
-              buffer_size = 512
-              candidates = datastore_candidates.clone
-              candidates.each do |x|
-                if !(vm.datastore_pattern.nil?)
-                  if isMatched?(x.name, vm.datastore_pattern)
-                    Fog::Logger.debug("fog: input ds name #{x.name} with matched pattern")
-                  else
-                    Fog::Logger.debug("fog: input ds name #{x.name} without matched pattern")
-                    datastore_candidates.delete(x)
-                    next
-                  end
-                end
-                if x.real_free_space <= buffer_size
-                  datastore_candidates.delete(x)
-                  next
-                end
-                sum += x.real_free_space
-              end
-              if sum < (vm.req_mem + vm.system_disks.size + vm.swap_disks.size)
-                Fog::Logger.debug(" there is no enough space for vm #{vm.name} with host #{host_name} left #{sum}")
-              else
-                Fog::Logger.debug("fog: system ds chosen for host #{host_name}")
-                datastore_candidates.each do |ds|
-                  Fog::Logger.debug("fog: ds for host #{host_name} name: #{ds.name}, real_free_space: #{ds.real_free_space}")
-                end
-                Fog::Logger.debug("fog: end")
-
-                datastore_candidates.each do |ds|
-                  if ds.real_free_space >= (vm.req_mem + vm.system_disks.size + vm.swap_disks.size)
-                    alloc_volumes(host_name, 'system', vm, [ds], vm.system_disks.size)
-                    system_done = true
-                    alloc_volumes(host_name, 'swap', vm, [ds], vm.swap_disks.size)
-                    swap_done = true
-                    @cached_ds = ds
-                    break
-                  elsif ds.real_free_space >= (vm.req_mem + vm.system_disks.size)
-                    alloc_volumes(host_name, 'system', vm, [ds], vm.system_disks.size)
-                    system_done = true
-                    break if swap_done
-                  elsif ds.real_free_space < (vm.req_mem + vm.system_disks.size)&& ds.real_free_space>= vm.swap_disks.space
-                    alloc_volumes(host_name, 'swap', vm, [ds], vm.swap_disks.size)
-                    swap_done = true
-                    break if system_done
-                  end
-                end # end of ds_candidate traverse
-              end
-              if !system_done || !swap_done
-                Fog::Logger.debug(" there is no enough space for vm #{vm.name} on host#{host_name} for system disk") unless system_done && swap_done
-                recovery(solution_list[host_name]) unless !(solution_list.has_key?(host_name)) || solution_list[host_name].nil?
-                solution_list.delete(host_name)
-                break
-              end
-
-              # place data disks
-              if vm.data_disks.shared && !(@host_list[host_name].share_datastores.empty?)
-                datastore_candidates = @host_list[host_name].share_datastores.values.clone
-              else
-                datastore_candidates = @host_list[host_name].local_datastores.values.clone
-              end
-              datastore_candidates = datastore_candidates.sort {|x,y| x.real_free_space <=> y.real_free_space}
-              sum = 0
-              data_done = false
-              candidates = datastore_candidates.clone
-              candidates.each do |x|
-                if !(vm.datastore_pattern.nil?)
-                  if isMatched?(x.name, vm.datastore_pattern)
-                    Fog::Logger.debug("fog: input ds name #{x.name} with matched pattern")
-                  else
-                    Fog::Logger.debug("fog: input ds name #{x.name} without matched pattern")
-                    datastore_candidates.delete(x)
-                    next
-                  end
-                end
-                if x.real_free_space <= buffer_size
-                  datastore_candidates.delete(x)
-                  next
-                end
-                sum += x.real_free_space
-              end
-              Fog::Logger.debug("fog: sum = #{sum} but reburied is #{vm.data_disks.size}")
-              if sum < vm.data_disks.size
-                Fog::Logger.debug(" there is no enough space for vm #{vm.name} with host #{host_name} left #{sum}")
-              else
-                Fog::Logger.debug("fog: data ds chosen for host #{host_name}")
-                datastore_candidates.each do |ds|
-                  Fog::Logger.debug("fog: ds for host #{host_name} name: #{ds.name}, real_free_space: #{ds.real_free_space}")
-                end
-
-                allocated_size = vm.data_disks.size/datastore_candidates.size
-                req_size = vm.data_disks.size
-                number = datastore_candidates.size
-                length = number
-                arr_index = 0
-
-                datastore_candidates.each do |ds|
-                  if allocated_size <= (ds.real_free_space - buffer_size)
-                    alloc_volumes(host_name, 'data', vm, datastore_candidates[arr_index..length], allocated_size)
-                    data_done = true
-                    break
-                  else
-                    arr_index +=1
-                    allocated_size = (ds.real_free_space - buffer_size)
-                    alloc_volumes(host_name, 'data', vm, [ds], allocated_size)
-                    req_size -= allocated_size
-                    number -=1
-                    if number > 0
-                      allocated_size = req_size/number
-                    elsif number == 0
-                      allocated_size = req_size
+                if vm.data_disks.bisect # use bisect algorithm
+                  data_done, real_bisect_for_this_vm = select_hosts_for_datadisk_with_bisect(host_name, datastore_candidates, hosts_pseudo_bisect, vm, buffer_size)
+                  real_bisect_for_this_host &= real_bisect_for_this_vm
+                elsif affinity # use affinity algorithm
+                  available_size = 0
+                  left_size = vm.data_disks.size
+                  datastore_candidates.each do |ds|
+                    available_size = ds.real_free_space - buffer_size
+                    if available_size >= left_size
+                      Fog::Logger.debug("fog: for vm #{vm.name} allocated size= #{left_size} from ds #{ds.name}")
+                      alloc_volumes(host_name, 'data', vm, [ds], left_size)
                       data_done = true
+                      break
+                    else
+                      Fog::Logger.debug("fog: for vm #{vm.name} allocated size= #{available_size} from ds #{ds.name} left #{left_size} not alloced")
+                      alloc_volumes(host_name, 'data', vm, [ds], available_size)
+                      left_size -= available_size
+                    end
+                  end
+                else #use anti-affinity algorithm
+                  allocated_size = vm.data_disks.size/datastore_candidates.size
+                  number = datastore_candidates.size
+                  req_size = vm.data_disks.size
+                  length = number
+                  arr_index = 0
+
+                  datastore_candidates.each do |ds|
+                    if allocated_size <= (ds.real_free_space - buffer_size)
+                      alloc_volumes(host_name, 'data', vm, datastore_candidates[arr_index..length], allocated_size)
+                      data_done = true
+                      break
+                    else
+                      arr_index +=1
+                      allocated_size = (ds.real_free_space - buffer_size)
+                      alloc_volumes(host_name, 'data', vm, [ds], allocated_size)
+                      req_size -= allocated_size
+                      number -=1
+                      if number > 0
+                        allocated_size = req_size/number
+                      elsif number == 0
+                        allocated_size = req_size
+                        data_done = true
+                      end
                     end
                   end
                 end
@@ -711,7 +595,17 @@ module Fog
               end
               solution_list[host_name] << vm
             end # end of vms traverse
+            real_bisect |= real_bisect_for_this_host
           end  # end of hosts traverse
+
+          # if there exists hosts that can bisect the data disk and put on different datastores,
+          # recovery those that can only put splitted data disks on a same datastore.
+          if real_bisect && !hosts_pseudo_bisect.empty?
+            hosts_pseudo_bisect.each do |host_name|
+              recovery(solution_list[host_name]) unless !(solution_list.has_key?(host_name)) || solution_list[host_name].nil?
+              solution_list.delete(host_name)
+            end
+          end
 
           solution_list.keys.each do |host_name|
             vms = solution_list[host_name]
