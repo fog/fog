@@ -118,6 +118,10 @@ module Fog
         endpoint['region'] == openstack_region
       end if openstack_region
 
+      if service['endpoints'].empty?
+        raise Errors::NotFound.new("No endpoints available for region '#{openstack_region}'")
+      end if openstack_region
+
       unless service
         available = body['access']['serviceCatalog'].map { |endpoint|
           endpoint['type']
