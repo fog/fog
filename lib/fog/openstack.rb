@@ -26,9 +26,6 @@ module Fog
         end
       end
 
-      class InternalServerError < ServiceError; end
-      class Conflict < ServiceError; end
-      class NotFound < ServiceError; end
       class ServiceUnavailable < ServiceError; end
 
       class BadRequest < ServiceError
@@ -77,15 +74,15 @@ module Fog
     def self.authenticate_v2(options, connection_options = {})
       uri                   = options[:openstack_auth_uri]
       tenant_name           = options[:openstack_tenant]
+      service_type          = options[:openstack_service_type]
       service_name          = options[:openstack_service_name]
-      identity_service_name = options[:openstack_identity_service_name]
+      identity_service_type = options[:openstack_identity_service_type]
       endpoint_type         = (options[:openstack_endpoint_type] || 'publicURL').to_s
       openstack_region      = options[:openstack_region]
 
 
       body = retrieve_tokens_v2(options, connection_options)
-      service = body['access']['serviceCatalog'].
-        detect {|s| service_name.include?(s['type']) }
+      service = get_service(body, service_type, service_name)
 
       options[:unscoped_token] = body['access']['token']['id']
 
@@ -103,15 +100,15 @@ module Fog
 
           body = Fog::JSON.decode(response.body)
           if body['tenants'].empty?
-            raise Errors::NotFound.new('No Tenant Found')
+            raise Fog::Errors::NotFound.new('No Tenant Found')
           else
             options[:openstack_tenant] = body['tenants'].first['name']
           end
         end
 
         body = retrieve_tokens_v2(options, connection_options)
-        service = body['access']['serviceCatalog'].
-          detect{|s| service_name.include?(s['type']) }
+        service = get_service(body, service_type, service_name)
+
       end
 
       service['endpoints'] = service['endpoints'].select do |endpoint|
@@ -127,20 +124,19 @@ module Fog
           endpoint['type']
         }.sort.join ', '
 
-        missing = service_name.join ', '
+        missing = service_type.join ', '
 
         message = "Could not find service #{missing}.  Have #{available}"
 
-        raise Errors::NotFound, message
+        raise Fog::Errors::NotFound, message
       end
 
       if service['endpoints'].count > 1
         regions = service["endpoints"].map{ |e| e['region'] }.uniq.join(',')
-        raise Errors::NotFound.new("Multiple regions available choose one of these '#{regions}'")
+        raise Fog::Errors::NotFound.new("Multiple regions available choose one of these '#{regions}'")
       end
 
-      identity_service = body['access']['serviceCatalog'].
-        detect{|x| identity_service_name.include?(x['type']) } if identity_service_name
+      identity_service = get_service(body, identity_service_type) if identity_service_type
       tenant = body['access']['token']['tenant']
       user = body['access']['user']
 
@@ -157,6 +153,17 @@ module Fog
         :current_user_id          => body['access']['user']['id'],
         :unscoped_token           => options[:unscoped_token]
       }
+
+    end
+
+    def self.get_service(body, service_type=[], service_name=nil)
+      body['access']['serviceCatalog'].detect do |s|
+        if service_name.nil? or service_name.empty?
+          service_type.include?(s['type'])
+        else
+          service_type.include?(s['type']) and s['name'] == service_name
+        end
+      end
     end
 
     def self.retrieve_tokens_v2(options, connection_options = {})

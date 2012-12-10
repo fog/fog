@@ -85,7 +85,7 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
         Fog::OpenStack.authenticate_v2(
           :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
           :openstack_tenant       => 'admin',
-          :openstack_service_name => %w[compute])
+          :openstack_service_type => %w[compute])
       end
     end
 
@@ -93,14 +93,47 @@ Shindo.tests('OpenStack | authenticate', ['openstack']) do
       Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
                  { :status => 200, :body => Fog::JSON.encode(body) })
 
-      raises(Fog::OpenStack::Errors::NotFound,
+      raises(Fog::Errors::NotFound,
              'Could not find service network.  Have compute, image') do
         Fog::OpenStack.authenticate_v2(
           :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
           :openstack_tenant       => 'admin',
-          :openstack_service_name => %w[network])
+          :openstack_service_type => %w[network])
       end
     end
+
+    tests("v2 auth with two compute services") do
+      body_clone = body.clone
+      body_clone["access"]["serviceCatalog"] << 
+        {
+        "endpoints" => [{
+          "adminURL" =>
+            "http://example2:8774/v2/#{tenant_token}",
+            "region" => "RegionOne",
+          "internalURL" =>
+            "http://example2:8774/v2/#{tenant_token}",
+          "id" => Fog::Mock.random_numbers(8).to_s,
+          "publicURL" =>
+           "http://example2:8774/v2/#{tenant_token}"
+        }],
+        "endpoints_links" => [],
+        "type" => "compute",
+        "name" => "nova2"
+        }
+
+      Excon.stub({ :method => 'POST', :path => "/v2.0/tokens" },
+                 { :status => 200, :body => Fog::JSON.encode(body_clone) })
+
+      returns("http://example2:8774/v2/#{tenant_token}") do
+        Fog::OpenStack.authenticate_v2(
+          :openstack_auth_uri     => URI('http://example/v2.0/tokens'),
+          :openstack_tenant       => 'admin',
+          :openstack_service_type => %w[compute],
+          :openstack_service_name => 'nova2')[:server_management_url]
+      end
+
+    end
+
   ensure
     Excon.stubs.clear
     Excon.defaults[:mock] = @old_mock_value
