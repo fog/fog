@@ -51,6 +51,10 @@ module Fog
             :data => value
           }
 
+          if ttl
+            options[:ttl] = ttl
+          end
+
           if priority
             options[:priority] = priority
           end
@@ -80,6 +84,7 @@ module Fog
           options[:type] = type if type
           options[:data] = value if value
           options[:priority] = priority if priority
+          options[:ttl] = ttl if ttl
 
           wait_for_job connection.modify_record(@zone.identity, identity, options).body['jobId']
           true
