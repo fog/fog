@@ -88,6 +88,12 @@ module Fog
           requires :image_id
           @image ||= connection.images.get(image_id)
         end
+        
+        def create_image(name, options = {})
+          requires :identity
+          response = connection.create_image(identity, name, options)
+          response.headers["Location"].match(/\/([^\/]+$)/)[1] rescue nil          
+        end
 
         def attachments
           @attachments ||= begin
