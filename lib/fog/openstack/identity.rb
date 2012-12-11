@@ -6,7 +6,7 @@ module Fog
 
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url, :persistent,
-                 :openstack_service_name, :openstack_tenant,
+                 :openstack_service_type, :openstack_service_name, :openstack_tenant,
                  :openstack_api_key, :openstack_username, :openstack_current_user_id,
                  :current_user, :current_tenant
 
@@ -17,6 +17,8 @@ module Fog
       collection  :users
       model       :role
       collection  :roles
+      model       :ec2_credential
+      collection  :ec2_credentials
 
       request_path 'fog/openstack/requests/identity'
 
@@ -53,6 +55,10 @@ module Fog
 
       request :set_tenant
 
+      request :create_ec2_credential
+      request :delete_ec2_credential
+      request :get_ec2_credential
+      request :list_ec2_credentials
 
       class Mock
         attr_reader :auth_token
@@ -63,31 +69,36 @@ module Fog
         attr_reader :unscoped_token
 
         def self.data
-          @users   ||= {}
-          @roles   ||= {}
-          @tenants ||= {}
+          @users           ||= {}
+          @roles           ||= {}
+          @tenants         ||= {}
+          @ec2_credentials ||= Hash.new { |hash, key| hash[key] = {} }
+          @user_tenant_membership ||= {}
 
           @data ||= Hash.new do |hash, key|
             hash[key] = {
-              :users   => @users,
-              :roles   => @roles,
-              :tenants => @tenants
+              :users           => @users,
+              :roles           => @roles,
+              :tenants         => @tenants,
+              :ec2_credentials => @ec2_credentials,
+              :user_tenant_membership => @user_tenant_membership
             }
           end
         end
 
         def self.reset!
-          @data  = nil
-          @users = nil
-          @roles = nil
-          @tenants = nil
+          @data            = nil
+          @users           = nil
+          @roles           = nil
+          @tenants         = nil
+          @ec2_credentials = nil
         end
 
         def initialize(options={})
           require 'multi_json'
           @openstack_username = options[:openstack_username] || 'admin'
           @openstack_tenant   = options[:openstack_tenant]   || 'admin'
-          @openstack_auth_uri   = URI.parse(options[:openstack_auth_url])
+          @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
           @openstack_management_url = @openstack_auth_uri.to_s
 
           @auth_token = Fog::Mock.random_base64(64)
@@ -175,7 +186,8 @@ module Fog
           @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
           @openstack_management_url       = options[:openstack_management_url]
           @openstack_must_reauthenticate  = false
-          @openstack_service_name = options[:openstack_service_name] || ['identity']
+          @openstack_service_type = options[:openstack_service_type] || ['identity']
+          @openstack_service_name = options[:openstack_service_name]
 
           @connection_options = options[:connection_options] || {}
 
@@ -205,6 +217,7 @@ module Fog
         end
 
         def request(params)
+          retried = false
           begin
             response = @connection.request(params.merge({
               :headers  => {
@@ -218,13 +231,12 @@ module Fog
               # :query    => ('ignore_awful_caching' << Time.now.to_i.to_s)
             }))
           rescue Excon::Errors::Unauthorized => error
-            if error.response.body != 'Bad username or password' # token expiration
-              @openstack_must_reauthenticate = true
-              authenticate
-              retry
-            else # bad credentials
-              raise error
-            end
+            raise if retried
+            retried = true
+
+            @openstack_must_reauthenticate = true
+            authenticate
+            retry
           rescue Excon::Errors::HTTPStatusError => error
             raise case error
             when Excon::Errors::NotFound
@@ -249,6 +261,7 @@ module Fog
               :openstack_auth_token => @openstack_auth_token,
               :openstack_auth_uri => @openstack_auth_uri,
               :openstack_tenant   => @openstack_tenant,
+              :openstack_service_type => @openstack_service_type,
               :openstack_service_name => @openstack_service_name,
               :openstack_endpoint_type => 'adminURL'
             }

@@ -155,6 +155,18 @@ module Fog
           true
         end
 
+        def security_groups
+          requires :id
+
+          groups = connection.list_security_groups(id).body['security_groups']
+
+          groups.map do |group|
+            sg = Fog::Compute::OpenStack::SecurityGroup.new group
+            sg.connection = connection
+            sg
+          end
+        end
+
         def security_groups=(new_security_groups)
           @security_groups = new_security_groups
         end

@@ -15,6 +15,9 @@ module Fog
           else
             data = Fog::JSON.decode(error.response.body)
             message = data['message']
+            if message.nil? and !data.values.first.nil?
+              message = data.values.first['message']
+            end
           end
 
           new_error = super(error, message)
@@ -33,8 +36,8 @@ module Fog
 
         def self.slurp(error)
           new_error = super(error)
-          unless new_error.response_data.nil?
-            new_error.instance_variable_set(:@validation_errors, new_error.response_data['validationErrors'])
+          unless new_error.response_data.nil? or new_error.response_data['badRequest'].nil?
+            new_error.instance_variable_set(:@validation_errors, new_error.response_data['badRequest']['validationErrors'])
           end
           new_error
         end
