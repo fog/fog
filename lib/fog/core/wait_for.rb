@@ -7,7 +7,7 @@ module Fog
       duration = Time.now - start
     end
     if duration > timeout
-      false
+      raise Errors::TimeoutError.new("The specified wait_for timeout (#{timeout} seconds) was exceeded")
     else
       { :duration => duration }
     end
