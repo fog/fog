@@ -38,7 +38,6 @@ module Fog
         attr_accessor :network_interface_type ,:network_nat_network, :network_bridge_name
         attr_accessor :volume_format_type, :volume_allocation,:volume_capacity, :volume_name, :volume_pool_name, :volume_template_name, :volume_path
         attr_accessor :password
-        attr_writer   :private_key, :private_key_path, :public_key, :public_key_path, :username
 
         # Can be created by passing in :xml => "<xml to create domain/server>"
         # or by providing :template_options => {
@@ -65,10 +64,6 @@ module Fog
           reload
         rescue => e
           raise Fog::Errors::Error.new("Error saving the server: #{e}")
-        end
-
-        def username
-          @username ||= 'root'
         end
 
         def start
@@ -139,35 +134,14 @@ module Fog
           ip_address(:public)
         end
 
-        def private_key_path
-          @private_key_path ||= Fog.credentials[:private_key_path]
-          @private_key_path &&= File.expand_path(@private_key_path)
-        end
-
-        def private_key
-          @private_key ||= private_key_path && File.read(private_key_path)
-        end
-
-        def public_key_path
-          @public_key_path ||= Fog.credentials[:public_key_path]
-          @public_key_path &&= File.expand_path(@public_key_path)
-        end
-
-        def public_key
-          @public_key ||= public_key_path && File.read(public_key_path)
-        end
-
         def ssh(commands)
           requires :public_ip_address, :username
 
-          #requires :password, :private_key
           ssh_options={}
           ssh_options[:password] = password unless password.nil?
-          ssh_options[:key_data] = [private_key] if private_key
           ssh_options[:proxy]= ssh_proxy unless ssh_proxy.nil?
 
-          Fog::SSH.new(public_ip_address, @username, ssh_options).run(commands)
-
+          super(commands, ssh_options)
         end
 
         def ssh_proxy
@@ -361,6 +335,7 @@ module Fog
             end
           else
             # If no template volume was given, let's create our own volume
+            options[:pool_name]   = volume_pool_name   if volume_pool_name
             options[:format_type] = volume_format_type if volume_format_type
             options[:capacity]    = volume_capacity    if volume_capacity
             options[:allocation]  = volume_allocation  if volume_allocation

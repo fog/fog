@@ -172,7 +172,7 @@ module Fog
         private
 
         def authenticate
-          if @openstack_must_reauthenticate || @openstack_auth_token.nil?
+          if !@openstack_management_url || @openstack_must_reauthenticate
             options = {
               :openstack_tenant   => @openstack_tenant,
               :openstack_api_key  => @openstack_api_key,

@@ -184,9 +184,10 @@ module Fog
         # Soft reboots often timeout if the OS missed the request so we do more
         # error checking trying to detect the timeout
         #
-        # @fixme - Using side effect of wait_for's (evaluated block) to detect timeouts
+        # @todo Needs cleaner error handling when the OS times out
         def soft_reboot
           shutdown
+          # FIXME Using side effect of wait_for's (evaluated block) to detect timeouts
           if wait_for(20) { ! ready? }
             # Server is now down, start it up again
             start

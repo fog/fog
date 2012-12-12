@@ -1,12 +1,13 @@
 ![fog](http://geemus.s3.amazonaws.com/fog.png)
 
-fog is the Ruby cloud computing library, top to bottom:
+fog is the Ruby cloud services library, top to bottom:
 
 * Collections provide a simplified interface, making clouds easier to work with and switch between.
 * Requests allow power users to get the most out of the features of each individual cloud.
 * Mocks make testing and integrating a breeze.
 
 [![Build Status](https://secure.travis-ci.org/fog/fog.png?branch=master)](http://travis-ci.org/fog/fog)
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/fog/fog)
 
 ## Getting Started
 
@@ -112,22 +113,20 @@ geemus says: "That should give you everything you need to get started, but let m
 
 ## Contributing
 
-* Find something you would like to work on. For suggestions look for the `easy`, `medium` and `hard` tags in the [issues](https://github.com/fog/fog/issues)
+* Find something you would like to work on.
+  * Look for anything you can help with in the [issue tracker](https://github.com/fog/fog/issues).
+  * Look at the [code quality metrics](https://codeclimate.com/github/fog/fog) for anything you can help clean up.
+  * Or anything else!
 * Fork the project and do your work in a topic branch.
-* Add a config at `~/.fog` for the component you want to test.
+  * Make sure your changes will work on both Ruby 1.8.7 and Ruby 1.9
+* Add a config at `tests/.fog` for the component you want to test.
 * Add shindo tests to prove your code works and run all the tests using `bundle exec rake`.
-* Rebase your branch against fog/fog to make sure everything is up to date.
+* Rebase your branch against `fog/fog` to make sure everything is up to date.
 * Commit your changes and send a pull request.
 
 ## Additional Resources
 
 [fog.io](http://fog.io)
-
-## Sponsorship
-
-![Engine Yard](http://www.engineyard.com/images/logo.png)
-
-All new work on fog is sponsored by [Engine Yard](http://engineyard.com)
 
 ## Copyright
 

@@ -32,7 +32,7 @@ module Fog
         attribute :load_balancers_used
         attribute :library_ftp_host
         attribute :library_ftp_user
-        # This is always returned as null/nil unless performing a reset_ftp_password request
+        # This is always returned as nil unless after a call to reset_ftp_password
         attribute :library_ftp_password
 
         # Boolean flags
@@ -51,9 +51,15 @@ module Fog
         attribute :users
         attribute :zones
 
+        # Resets the account's image library FTP password returning the new value
+        #
+        # @return [String] Newly issue FTP password
+        #
         def reset_ftp_password
           requires :identity
-          connection.reset_ftp_password_account["library_ftp_password"]
+          data = connection.reset_ftp_password_account(identity)
+          merge_attributes(data)
+          library_ftp_password
         end
 
       end

@@ -23,7 +23,6 @@ module Fog
         attribute :template
 
         attr_accessor :hostname, :password, :lb_applications, :lb_services, :lb_backends
-        attr_writer :private_key, :private_key_path, :public_key, :public_key_path, :username
 
         def initialize(attributes={})
           self.flavor_id    ||= '94fd37a7-2606-47f7-84d5-9000deda52ae' # Block 1GB Virtual Server
@@ -57,26 +56,8 @@ module Fog
           nil
         end
 
-        def private_key_path
-          @private_key_path ||= Fog.credentials[:private_key_path]
-          @private_key_path &&= File.expand_path(@private_key_path)
-        end
-
-        def private_key
-          @private_key ||= private_key_path && File.read(private_key_path)
-        end
-
         def public_ip_address
           ips.first
-        end
-
-        def public_key_path
-          @public_key_path ||= Fog.credentials[:public_key_path]
-          @public_key_path &&= File.expand_path(@public_key_path)
-        end
-
-        def public_key
-          @public_key ||= public_key_path && File.read(public_key_path)
         end
 
         def ready?

@@ -142,6 +142,7 @@ module Fog
             response = @connection.request(params.merge({
               :headers  => {
                 'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
               :host     => @host,
@@ -174,7 +175,7 @@ module Fog
         private
 
         def authenticate
-          if @openstack_must_reauthenticate || @openstack_auth_token.nil?
+          if !@openstack_management_url || @openstack_must_reauthenticate
             options = {
               :openstack_tenant   => @openstack_tenant,
               :openstack_api_key  => @openstack_api_key,

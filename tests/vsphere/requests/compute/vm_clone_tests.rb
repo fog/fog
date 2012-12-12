@@ -4,7 +4,7 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
   response = nil
   response_linked = nil
 
-  template = "/Datacenters/Solutions/vm/Jeff/Templates/centos56gm2"
+  template = "/Datacenters/Solutions/vm/rhel64"
   tests("Standard Clone | The return value should") do
     response = compute.vm_clone('path' => template, 'name' => 'cloning_vm', 'wait' => 1)
     test("be a kind of Hash") { response.kind_of? Hash }
@@ -13,7 +13,7 @@ Shindo.tests("Fog::Compute[:vsphere] | vm_clone request", 'vsphere') do
     end
   end
 
-  template = "/Datacenters/Solutions/vm/Jeff/Templates/centos56gm2"
+  template = "/Datacenters/Solutions/vm/rhel64"
   tests("Linked Clone | The return value should") do
     response = compute.vm_clone('path' => template, 'name' => 'cloning_vm_linked', 'wait' => 1, 'linked_clone' => true)
     test("be a kind of Hash") { response.kind_of? Hash }

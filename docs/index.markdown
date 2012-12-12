@@ -42,10 +42,15 @@ geemus says: "That should give you everything you need to get started, but let m
 
 ## Contributing
 
-* Find something you would like to work on. For suggestions look for the `easy`, `medium` and `hard` tags in the [issues](http://github.com/fog/fog/issues)
+* Find something you would like to work on.
+  * Look for anything you can help with in the [issue tracker](https://github.com/fog/fog/issues).
+  * Look at the [code quality metrics](https://codeclimate.com/github/fog/fog) for anything you can help clean up.
+  * Or anything else!
 * Fork the project and do your work in a topic branch.
+  * Make sure your changes will work on both Ruby 1.8.7 and Ruby 1.9.
+* Add a config at `tests/.fog` for the component you want to test.
 * Add shindo tests to prove your code works and run all the tests using `bundle exec rake`.
-* Rebase your branch against fog/fog to make sure everything is up to date.
+* Rebase your branch against `fog/fog` to make sure everything is up to date.
 * Commit your changes and send a pull request.
 
 ## Resources
@@ -53,7 +58,7 @@ geemus says: "That should give you everything you need to get started, but let m
 Enjoy, and let me know what I can do to continue improving fog!
 
 * Work through the [fog tutorial](https://github.com/downloads/geemus/learn_fog/learn_fog.tar.gz)
-* Read fog's [API documentation](/rdoc)
+* Read fog's API documentation [master branch](http://rubydoc.info/github/fog/fog) or [latest gem release](http://rubydoc.info/gems/fog)
 * Stay up to date by following [@fog](http://twitter.com/fog) and/or [@geemus](http://twitter.com/geemus) on Twitter.
 * Get and give help on the [#ruby-fog](irc://irc.freenode.net/ruby-fog) irc channel on Freenode
 * Follow release notes and discussions on the [mailing list](http://groups.google.com/group/ruby-fog)

@@ -3,6 +3,8 @@ class Google < Fog::Bin
 
     def class_for(key)
       case key
+      when :compute
+        Fog::Compute::Google
       when :storage
         Fog::Storage::Google
       else 
@@ -16,11 +18,18 @@ class Google < Fog::Bin
         when :storage
           Fog::Logger.warning("Google[:storage] is not recommended, use Storage[:google] for portability")
           Fog::Storage.new(:provider => 'Google')
+        when :compute
+          Fog::Logger.warning("Google[:compute] is not recommended, use Compute[:google] for portability")
+          Fog::Compute.new(:provider => 'Google')
         else
           raise ArgumentError, "Unrecognized service: #{key.inspect}"
         end
       end
       @@connections[service]
+    end
+
+    def account
+      @@connections[:compute].account
     end
 
     def services

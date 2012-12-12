@@ -5,8 +5,7 @@ module Fog
         def vm_reconfig_hardware(options = {})
           raise ArgumentError, "hardware_spec is a required parameter" unless options.has_key? 'hardware_spec'
           raise ArgumentError, "instance_uuid is a required parameter" unless options.has_key? 'instance_uuid'
-          search_filter = { :uuid => options['instance_uuid'], 'vmSearch' => true, 'instanceUuid' => true }
-          vm_mob_ref = @connection.searchIndex.FindAllByUuid(search_filter).first
+          vm_mob_ref = get_vm_by_ref(options['instance_uuid'])
           task = vm_mob_ref.ReconfigVM_Task(:spec => RbVmomi::VIM.VirtualMachineConfigSpec(options['hardware_spec']))
           task.wait_for_completion
            { 'task_state' => task.info.state }

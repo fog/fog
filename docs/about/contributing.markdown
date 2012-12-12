@@ -9,6 +9,7 @@ First off, high five for coming to visit this page.  You are my new hero.
 
 * Organize your patches by keeping all related changes together in a topic branch.
 * Rebase your branch against master before submitting a pull request (and squish any 'oops' or work in progress commits).
+* Ensure your changes work with both Ruby 1.8.7 and 1.9! We support both!
 * Submit changes as pull requests describing what the changes should cover and referencing issues (if any).
 * Use 'tags' in your commits to indicate the scope, so things like '\[aws|compute\] fixed something'.
 * Write and run tests.  Tests should follow through usage workflows and ought to pass both with mocking on and off.

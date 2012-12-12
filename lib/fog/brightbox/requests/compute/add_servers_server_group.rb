@@ -2,20 +2,18 @@ module Fog
   module Compute
     class Brightbox
       class Real
-
-        # Add a number of servers to a server group
+        # Add a number of servers to the server group.
         #
-        #  >> Compute[:brightbox].add_servers_server_group "grp-12345", :servers => [{:server => "srv-abcde"}]
+        # @param [String] identifier Unique reference to identify the resource
+        # @param [Hash] options
+        # @option options [Array<Hash>] :servers Array of Hashes containing `{"server" => server_id}` for each server to add
         #
-        # == Parameters:
-        # * identifier (String) - The identifier of the server group to add to
-        # * options
-        #   * servers (Array) - An Array of Hashes containing {"server" => server_id} for each server to add
-        #   [\[{"server" => "srv-abcde"}, {"server" => "srv-fghij"}\]]
+        # @return [Hash, nil] The JSON response parsed to a Hash or nil if no options passed
         #
-        # == Returns:
+        # @see https://api.gb1.brightbox.com/1.0/#server_group_add_servers_server_group
         #
-        # A Ruby hash of the server response
+        # @example
+        #    Compute[:brightbox].add_servers_server_group "grp-12345", :servers => [{"server" => "srv-abcde"}, {"server" => "srv-fghij"}]
         #
         def add_servers_server_group(identifier, options)
           return nil if identifier.nil? || identifier == ""

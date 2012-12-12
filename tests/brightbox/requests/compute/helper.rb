@@ -239,6 +239,37 @@ class Brightbox
       end
 
       module Collected
+        ACCOUNT = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => String,
+          "status"          => String,
+          "vat_registration_number" => Fog::Nullable::String,
+          "telephone_number" => Fog::Nullable::String,
+          "telephone_verified" => Fog::Nullable::Boolean,
+          "ram_limit"       => Integer,
+          "ram_used"        => Integer,
+          "cloud_ips_limit" => Integer,
+          "cloud_ips_used"  => Integer,
+          "load_balancers_limit" => Integer,
+          "load_balancers_used" => Integer,
+          "library_ftp_password" => Fog::Nullable::String,
+          "verified_telephone" => Fog::Nullable::String,
+          "verified_at"     => Fog::Nullable::String,
+          "verified_ip"     => Fog::Nullable::String,
+          "owner"           => Brightbox::Compute::Formats::Nested::USER,
+          "users"           => [Brightbox::Compute::Formats::Nested::USER],
+          "clients"         => [Brightbox::Compute::Formats::Nested::API_CLIENT],
+          "servers"         => [Brightbox::Compute::Formats::Nested::SERVER],
+          "load_balancers"  => [Brightbox::Compute::Formats::Nested::LOAD_BALANCER],
+          "cloud_ips"       => [Brightbox::Compute::Formats::Nested::CLOUD_IP],
+          "server_groups"   => [Brightbox::Compute::Formats::Nested::SERVER_GROUP],
+          "firewall_policies" => [Brightbox::Compute::Formats::Nested::FIREWALL_POLICY],
+          "images"          => [Brightbox::Compute::Formats::Nested::IMAGE],
+          "zones"           => [Brightbox::Compute::Formats::Nested::ZONE]
+        }
+
         API_CLIENT = {
           "id"              => String,
           "resource_type"   => String,
@@ -247,6 +278,13 @@ class Brightbox
           "description"     => String,
           "revoked_at"      => Fog::Nullable::String,
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT
+        }
+
+        APPLICATION = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => Fog::Nullable::String
         }
 
         CLOUD_IP = {
@@ -448,6 +486,14 @@ class Brightbox
           "account"         => Brightbox::Compute::Formats::Nested::ACCOUNT
         }
 
+        APPLICATION = {
+          "id"              => String,
+          "resource_type"   => String,
+          "url"             => String,
+          "name"            => Fog::Nullable::String,
+          "secret"          => Fog::Nullable::String
+        }
+
         CLOUD_IP = {
           "id"              => String,
           "resource_type"   => String,
@@ -614,7 +660,9 @@ class Brightbox
       end
 
       module Collection
+        ACCOUNTS = [Brightbox::Compute::Formats::Collected::ACCOUNT]
         API_CLIENTS = [Brightbox::Compute::Formats::Collected::API_CLIENT]
+        APPLICATION = [Brightbox::Compute::Formats::Collected::APPLICATION]
         CLOUD_IPS = [Brightbox::Compute::Formats::Collected::CLOUD_IP]
         IMAGES = [Brightbox::Compute::Formats::Collected::IMAGE]
         FIREWALL_POLICIES = [Brightbox::Compute::Formats::Collected::FIREWALL_POLICY]

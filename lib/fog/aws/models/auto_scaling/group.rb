@@ -125,7 +125,7 @@ module Fog
           requires :id
 
           opts = {}
-          opts.merge({'ForceDelete' => true}) if options[:force]
+          opts.merge!({'ForceDelete' => true}) if options[:force]
           
           connection.delete_auto_scaling_group(id, opts)
         end

@@ -51,12 +51,16 @@ module Fog
       request :get_role
       request :list_roles
 
+      request :set_tenant
+
 
       class Mock
         attr_reader :auth_token
+        attr_reader :unscoped_token
         attr_reader :auth_token_expiration
         attr_reader :current_user
         attr_reader :current_tenant
+        attr_reader :unscoped_token
 
         def self.data
           @users   ||= {}
@@ -83,7 +87,7 @@ module Fog
           require 'multi_json'
           @openstack_username = options[:openstack_username] || 'admin'
           @openstack_tenant   = options[:openstack_tenant]   || 'admin'
-          @openstack_auth_uri   = URI.parse(options[:openstack_auth_url])
+          @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
           @openstack_management_url = @openstack_auth_uri.to_s
 
           @auth_token = Fog::Mock.random_base64(64)
@@ -114,6 +118,7 @@ module Fog
           @current_user = self.data[:users].values.find do |u|
             u['name'] == @openstack_username
           end
+          @current_tenant_id = Fog::Mock.random_hex(32)
 
           unless @current_user
             @current_user_id = Fog::Mock.random_hex(32)
@@ -151,6 +156,7 @@ module Fog
       class Real
         attr_reader :current_user
         attr_reader :current_tenant
+        attr_reader :unscoped_token
 
         def initialize(options={})
           @openstack_auth_token = options[:openstack_auth_token]
@@ -166,7 +172,7 @@ module Fog
           end
 
           @openstack_tenant   = options[:openstack_tenant]
-          @openstack_auth_uri   = URI.parse(options[:openstack_auth_url])
+          @openstack_auth_uri = URI.parse(options[:openstack_auth_url])
           @openstack_management_url       = options[:openstack_management_url]
           @openstack_must_reauthenticate  = false
           @openstack_service_name = options[:openstack_service_name] || ['identity']
@@ -203,6 +209,7 @@ module Fog
             response = @connection.request(params.merge({
               :headers  => {
                 'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
                 'X-Auth-Token' => @auth_token
               }.merge!(params[:headers] || {}),
               :host     => @host,
@@ -235,7 +242,7 @@ module Fog
         private
 
         def authenticate
-          if @openstack_must_reauthenticate || @openstack_auth_token.nil?
+          if !@openstack_management_url || @openstack_must_reauthenticate
             options = {
               :openstack_api_key  => @openstack_api_key,
               :openstack_username => @openstack_username,
@@ -255,6 +262,7 @@ module Fog
             @auth_token = credentials[:token]
             @openstack_management_url = credentials[:server_management_url]
             @openstack_current_user_id = credentials[:current_user_id]
+            @unscoped_token = credentials[:unscoped_token]
             uri = URI.parse(@openstack_management_url)
           else
             @auth_token = @openstack_auth_token

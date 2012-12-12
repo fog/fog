@@ -21,8 +21,8 @@ module Fog
             raise ArgumentError, "vm_clone path option must start with /Datacenters.  Got: #{options['path']}"
           end
           dc_name = path_elements.shift
-          if not self.datacenters.include? dc_name then
-            raise ArgumentError, "Datacenter #{dc_name} does not exist, only datacenters #{self.datacenters.join(",")} are accessible."
+          if not datacenters.get dc_name then
+            raise ArgumentError, "Datacenter #{dc_name} does not exist, only datacenters #{datacenters.all.map(:name).join(",")} are accessible."
           end
           options
         end
@@ -30,9 +30,35 @@ module Fog
 
       class Real
         include Shared
+
+        # Clones a VM from a template or existing machine on your vSphere 
+        # Server.  
+        #
+        # ==== Parameters
+        # * options<~Hash>:
+        #   * 'template_path'<~String> - *REQUIRED* The path to the machine you 
+        #     want to clone FROM. (Example:
+        #     "/Datacenter/DataCenterNameHere/FolderNameHere/VMNameHere")
+        #   * 'name'<~String> - *REQUIRED* The VMName of the Destination  
+        #   * 'resource_pool'<~String> - The resource pool on your datacenter 
+        #     cluster you want to use.
+        #   * 'dest_folder'<~String> - Destination Folder of where 'name' will
+        #     be placed on your cluster. *NOT TESTED OR VALIDATED*
+        #   * 'power_on'<~Boolean> - Whether to power on machine after clone. 
+        #     Defaults to true.
+        #   * 'wait'<~Boolean> - Whether the method should wait for the virtual
+        #     machine to close finish cloning before returning information from 
+        #     vSphere. Returns the value of the machine if it finishes cloning 
+        #     in 150 seconds (1m30s) else it returns nil. 'wait' Defaults to nil. 
+        #     Saves a little time.
+        #   * 'transform'<~String> - Not documented - see http://www.vmware.com/support/developer/vc-sdk/visdk41pubs/ApiReference/vim.vm.RelocateSpec.html
+        #
         def vm_clone(options = {})
           # Option handling
           options = vm_clone_check_options(options)
+
+          # Added for people still using options['path']
+          template_path = options['path'] || options['template_path']
 
           notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Could not find VM template" }
 
@@ -40,7 +66,7 @@ module Fog
           # searching ALL VM's looking for the template.
           # Tap gets rid of the leading empty string and "Datacenters" element
           # and returns the array.
-          path_elements = options['path'].split('/').tap { |ary| ary.shift 2 }
+          path_elements = template_path.split('/').tap { |ary| ary.shift 2 }
           # The DC name itself.
           template_dc = path_elements.shift
           # If the first path element contains "vm" this denotes the vmFolder
@@ -49,10 +75,8 @@ module Fog
           # The template name.  The remaining elements are the folders in the
           # datacenter.
           template_name = path_elements.pop
-          # Make sure @datacenters is populated.  We need the instances from the Hash keys.
-          self.datacenters
-          # Get the datacenter managed object from the hash
-          dc = @datacenters[template_dc]
+
+          dc = find_raw_datacenter(template_dc)
           # Get the VM Folder (Group) efficiently
           vm_folder = dc.vmFolder
           # Walk the tree resetting the folder pointer as we go
@@ -69,10 +93,10 @@ module Fog
           # Now find the template itself using the efficient find method
           vm_mob_ref = folder.find(template_name, RbVmomi::VIM::VirtualMachine)
 
-          # Now find _a_ resource pool to use for the clone
-          # (REVISIT: We need to support cloning into a specific RP)
-
-          if ( vm_mob_ref.resourcePool == nil )
+          # Now find _a_ resource pool to use for the clone if one is not specified
+          if ( options.has_key?('resource_pool') )
+            resource_pool = options['resource_pool']
+          elsif ( vm_mob_ref.resourcePool == nil )
             # If the template is really a template then there is no associated resource pool,
             # so we need to find one using the template's parent host or cluster
             esx_host = vm_mob_ref.collect!('runtime.host')['runtime.host']
@@ -125,7 +149,9 @@ module Fog
           clone_spec = RbVmomi::VIM.VirtualMachineCloneSpec(:location => relocation_spec,
                                                             :powerOn  => options.has_key?('power_on') ? options['power_on'] : true,
                                                             :template => false)
-          task = vm_mob_ref.CloneVM_Task(:folder => vm_mob_ref.parent, :name => options['name'], :spec => clone_spec)
+          task = vm_mob_ref.CloneVM_Task(:folder => options.has_key?('dest_folder') ? options['dest_folder'] : vm_mob_ref.parent,
+                                         :name => options['name'],
+                                         :spec => clone_spec)
           # Waiting for the VM to complete allows us to get the VirtulMachine
           # object of the new machine when it's done.  It is HIGHLY recommended
           # to set 'wait' => true if your app wants to wait.  Otherwise, you're
@@ -167,8 +193,8 @@ module Fog
           # Option handling
           options = vm_clone_check_options(options)
           notfound = lambda { raise Fog::Compute::Vsphere::NotFound, "Could not find VM template" }
-          vm_mob_ref = list_virtual_machines['virtual_machines'].find(notfound) do |vm|
-            vm['name'] == options['path'].split("/")[-1]
+          list_virtual_machines.find(notfound) do |vm|
+            vm[:name] == options['path'].split("/")[-1]
           end
           {
             'vm_ref'   => 'vm-123',

@@ -84,10 +84,6 @@ module Fog
           retry
         end
 
-        def username
-          @username ||= 'root'
-        end
-
         private
 
         def adminPass=(new_admin_pass)

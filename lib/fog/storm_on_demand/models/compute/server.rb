@@ -26,7 +26,7 @@ module Fog
         attribute :zone
         attribute :active
 
-        attr_writer :password, :username
+        attr_writer :password
 
         def initialize(attributes={})
           super
@@ -51,10 +51,6 @@ module Fog
           requires :identity
           connection.reboot_server(:uniq_id => identity)
           true
-        end
-
-        def username
-          @username ||= 'root'
         end
 
         def clone(options)

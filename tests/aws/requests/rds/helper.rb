@@ -52,6 +52,26 @@ class AWS
         }
       })
 
+      DB_SUBNET_GROUP = {
+        'DBSubnetGroupName' => String,
+        'DBSubnetGroupDescription' => String,
+        'SubnetGroupStatus' => String,
+        'VpcId' => String,
+        'Subnets' => [String]
+      }
+
+      CREATE_DB_SUBNET_GROUP = BASIC.merge({
+        'CreateDBSubnetGroupResult' => {
+          'DBSubnetGroup' => DB_SUBNET_GROUP
+        }
+      })
+
+      DESCRIBE_DB_SUBNET_GROUPS = BASIC.merge({
+        'DescribeDBSubnetGroupsResult' => {
+          'DBSubnetGroups' => [DB_SUBNET_GROUP]
+        }
+      })
+
       DESCRIBE_DB_PARAMETER_GROUP = {
         'ResponseMetadata' => {'RequestId' => String},
         'DescribeDBParameterGroupsResult' =>{
@@ -202,6 +222,12 @@ class AWS
           'DBSnapshot' => SNAPSHOT
         }
       })
+
+      LIST_TAGS_FOR_RESOURCE = {
+        'ListTagsForResourceResult' => {
+          'TagList' => Fog::Nullable::Hash
+        }
+      }
 
     end
 

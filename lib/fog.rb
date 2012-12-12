@@ -1,11 +1,6 @@
 require File.join(File.dirname(__FILE__), 'fog', 'core')
 
 module Fog
-
-  unless const_defined?(:VERSION)
-    VERSION = '1.6.0'
-  end
-
 end
 
 # FIXME: these should go away (force usage of Fog::[Compute, CDN, DNS, Storage]  etc)
