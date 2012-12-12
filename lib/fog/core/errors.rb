@@ -17,6 +17,8 @@ module Fog
     class NotFound < Fog::Errors::Error; end
 
     class LoadError < LoadError; end
+    
+    class TimeoutError< Fog::Errors::Error; end
 
     # @return [String] The error message that will be raised, if credentials cannot be found
     def self.missing_credentials
