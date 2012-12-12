@@ -4,6 +4,12 @@ Shindo.tests("Fog::Identity[:openstack] | tenant", ['openstack']) do
       instance = Fog::Identity[:openstack].tenants.first
       instance.roles_for(0)
     end
+
+    tests('#users').succeeds do
+      instance = Fog::Identity[:openstack].tenants.first
+
+      instance.users.count != Fog::Identity[:openstack].users.count
+    end
   end
 
   tests('CRUD') do

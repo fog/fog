@@ -12,8 +12,8 @@ Shindo.tests('Fog::DNS[:rackspace] | dns records requests', ['rackspace', 'dns']
         Fog::DNS[:rackspace].list_records(@domain_id).body
       end
 
-      tests("add_records(#{@domain_id}, [{ :name => 'test1.#{domain_name}', :type => 'A', :data => '192.168.2.1'}])").formats(RECORD_LIST_FORMAT) do
-        response = wait_for Fog::DNS[:rackspace], Fog::DNS[:rackspace].add_records(@domain_id, [{ :name => 'test1.' + domain_name, :type => 'A', :data => '192.168.2.1'}])
+      tests("add_records(#{@domain_id}, [{ :name => 'test1.#{domain_name}', :type => 'A', :data => '192.168.2.1', :ttl => 550}])").formats(RECORD_LIST_FORMAT) do
+        response = wait_for Fog::DNS[:rackspace], Fog::DNS[:rackspace].add_records(@domain_id, [{ :name => 'test1.' + domain_name, :type => 'A', :data => '192.168.2.1', :ttl => 550}])
         @record_id = response.body['response']['records'].first['id']
         response.body['response']
       end

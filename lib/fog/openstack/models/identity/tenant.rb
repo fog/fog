@@ -22,7 +22,7 @@ module Fog
 
         def users
           requires :id
-          connection.users(:tenant => self)
+          connection.users(:tenant_id => self.id)
         end
 
         def destroy
