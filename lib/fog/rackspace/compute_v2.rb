@@ -54,9 +54,15 @@ module Fog
       request :delete_attachment
 
       class Mock
+        
+        def initialize(options)
+          # prevents service initialization errors. This method should be implemented
+        end
+        
         def request(params)
           Fog::Mock.not_implemented
         end
+        
       end
 
       class Real

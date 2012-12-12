@@ -17,6 +17,15 @@ module Fog
         end
 
       end
+      
+      class Mock
+        def delete_image(image_id)
+          response = Excon::Response.new
+          response.status = 202
+          response.body = "" 
+        end 
+        
+      end
     end
   end
 end
