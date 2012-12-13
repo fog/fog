@@ -39,21 +39,31 @@ First, create a connection with your new account:
       :aws_secret_access_key    => YOUR_AWS_SECRET_ACCESS_KEY
     })
 
-    # First, a place to contain the glorious details
-    directory = connection.directories.create(
-      :key    => "fog-demo-#{Time.now.to_i}", # globally unique name
+    # First, create an S3 bucket to contain the glorious details
+    bucket = connection.directories.create(
+      :key    => "fog-demo-#{Time.now.to_i}", # bucket keys must be globally unique
       :public => true
     )
 
-    # list directories
+    # list buckets
     p connection.directories
 
     # upload that resume
-    file = directory.files.create(
-      :key    => 'resume.html',
+    file = bucket.files.create(
+      :key    => 'resumes/resume.html',
       :body   => File.open("/path/to/my/resume.html"),
       :public => true
     )
+    
+    # upload a photo to the same "subfolder"
+    file = bucket.files.create(
+      :key    => 'resumes/photo.jpg',
+      :body   => File.open("/path/to/my/photo.jpg"),
+      :public => true
+    ) 
+    
+Note: S3 doesn't really support "subfolders", but if you use a common prefix, 
+they will show up as folders in the S3 console.
 
 If you are anything like me, you will continually tweak your resume. Pushing updates is easy:
 
@@ -67,12 +77,12 @@ But if it took you longer to realize the mistake you might not still have file a
 directory = connection.directories.get("proclamations1234567890")
 
     # get the resume file
-    file = directory.files.get('resume.html')
+    file = bucket.files.get('resumes/resume.html')
     file.body = File.open("/path/to/my/resume.html")
     file.save
 
     # also, create(attributes) is just new(attributes).save, so you can also do:
-    file = directory.files.new({
+    file = bucket.files.new({
       :key    => 'resume.html',
       :body   => 'improvements',
       :public => true
@@ -86,7 +96,7 @@ and maybe some pictures of your cat doing funny stuff. Since this is
 all of vital importance, you need to back it up.
 
     # copy each file to local disk
-    directory.files.each do |s3_file|
+    bucket.files.each do |s3_file|
       File.open(s3_file.key, 'w') do |local_file|
         local_file.write(s3_file.body)
       end
@@ -95,7 +105,7 @@ all of vital importance, you need to back it up.
 One caveat: it's way more efficient to do this:
 
     # do two things per file
-    directory.files.each do |file|
+    bucket.files.each do |file|
       do_one_thing(file)
       do_another_thing(file)
     end
@@ -103,7 +113,7 @@ One caveat: it's way more efficient to do this:
 than it is to do this:
 
     # do two things per file
-    directory.files.each do |file|
+    bucket.files.each do |file|
       do_one_thing(file)
     end.each do |file|
       do_another_thing(file)
