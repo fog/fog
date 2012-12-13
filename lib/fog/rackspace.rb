@@ -6,22 +6,28 @@ module Fog
 
     module Errors
       class ServiceError < Fog::Errors::Error
-        attr_reader :response_data
+        attr_reader :response_data, :status_code
+
+        def to_s
+          status_code ? "[HTTP #{status_code}] #{super}" : super
+        end
 
         def self.slurp(error)
-          if error.response.body.empty?
-            data = nil
-            message = nil
-          else
-            data = Fog::JSON.decode(error.response.body)
-            message = data['message']
-            if message.nil? and !data.values.first.nil?
-              message = data.values.first['message']
+          data = nil
+          message = nil
+          status_code = nil
+          
+          if error.response
+            status_code = error.response.status            
+            unless error.response.body.empty?
+              data = Fog::JSON.decode(error.response.body)
+              message = data.values.first ? data.values.first['message'] : data['message']
             end
           end
-
+          
           new_error = super(error, message)
           new_error.instance_variable_set(:@response_data, data)
+          new_error.instance_variable_set(:@status_code, status_code)          
           new_error
         end
       end
