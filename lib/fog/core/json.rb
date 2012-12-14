@@ -21,24 +21,12 @@ module Fog
     # Do the MultiJson introspection at this level so we can define our encode/decode methods and perform
     # the introspection only once rather than once per call.
 
-    if MultiJson.respond_to?(:dump)
-      def self.encode(obj)
-        MultiJson.dump(obj)
-      end
-    else
-      def self.encode(obj)
-        MultiJson.encode(obj)
-      end
+    def self.encode(obj)
+      MultiJson.encode(obj)
     end
 
-    if MultiJson.respond_to?(:load)
-      def self.decode(obj)
-        MultiJson.load(obj)
-      end
-    else
-      def self.decode(obj)
-        MultiJson.decode(obj)
-      end
+    def self.decode(obj)
+      MultiJson.decode(obj)
     end
 
 
