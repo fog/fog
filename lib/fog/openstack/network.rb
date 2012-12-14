@@ -19,6 +19,8 @@ module Fog
       collection  :ports
       model       :subnet
       collection  :subnets
+      model       :floatingip
+      collection  :floatingips
 
       ## REQUESTS
       #
@@ -45,6 +47,15 @@ module Fog
       request :get_subnet
       request :update_subnet
 
+      # Floatingip CRUD
+      request :list_floatingips
+      request :create_floatingip
+      request :delete_floatingip
+      request :get_floatingip
+      request :update_floatingip
+      request :associate_floatingip
+      request :disassociate_floatingip
+
       # Tenant
       request :set_tenant
 
@@ -55,6 +66,7 @@ module Fog
               :networks => {},
               :ports => {},
               :subnets => {},
+              :floatingips => {},
             }
           end
         end
