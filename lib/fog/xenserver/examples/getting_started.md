@@ -1,14 +1,3 @@
-# fog/xenserver compute examples
-
-fog/xenserver examples contributed by BVox World S.L.U.
-Original examples from https://github.com/bvox/fog-xenserver-examples
-
-Maintainer: Sergio Rubio <rubiojr@bvox.net>
-
-A general introduction to fog/compute is available at:
-
-http://fog.io/1.8.0/compute/
-
 # Getting started: the compute service
 
 ## Connecting, retrieving and managing server objects
