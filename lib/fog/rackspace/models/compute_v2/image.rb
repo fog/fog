@@ -24,6 +24,15 @@ module Fog
         attribute :metadata
         attribute :disk_config, :aliases => 'OS-DCF:diskConfig'
         attribute :links
+
+        def ready?
+          state ==  ACTIVE
+        end
+
+        def destroy
+          requires :identity
+          connection.delete_image(identity)
+        end
       end
     end
   end
