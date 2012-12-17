@@ -3,14 +3,15 @@ module Fog
     class OpenStack
 
       class Real
-        def associate_floatingip(floating_network_id, options = {})
+        def associate_floatingip(floating_network_id, port_id, options = {})
           data = {
             'floatingip' => {
               'network_id' => floating_network_id,
+              'port_id'    => port_id,
             }
           }
 
-          vanilla_options = [:port_id, :fixed_ip_address ]
+          vanilla_options = [:fixed_ip_address]
           vanilla_options.reject{ |o| options[o].nil? }.each do |key|
             data['floatingip'][key] = options[key]
           end
@@ -25,7 +26,7 @@ module Fog
       end
 
       class Mock
-        def associatee_floatingip(floating_network_id, options = {})
+        def associate_floatingip(floating_network_id, port_id, options = {})
           response = Excon::Response.new
           response.status = 201
           data = {

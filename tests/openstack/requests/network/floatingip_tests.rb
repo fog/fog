@@ -40,9 +40,20 @@ Shindo.tests('Fog::Network[:openstack] | floatingip requests', ['openstack']) do
       Fog::Network[:openstack].update_floatingip(floating_network_id, attributes).body
     end
 
+    tests('#associate_floatingip').succeeds do
+      floating_network_id = Fog::Network[:openstack].floatingips.all.first.id
+      port_id = 'p00000000-0000-0000-0000-000000000000'
+      Fog::Network[:openstack].associate_floatingip(floating_network_id, port_id).body
+    end
+
+    tests('#disassociate_floatingip').succeeds do
+      floating_network_id = Fog::Network[:openstack].floatingips.all.first.id
+      Fog::Network[:openstack].disassociate_floatingip(floating_network_id).body
+    end
+
     tests('#delete_floatingip').succeeds do
       floating_network_id = Fog::Network[:openstack].floatingips.all.first.id
-      Fog::Network[:openstack].delete_floatingip(floating_network_id)
+      Fog::Network[:openstack].delete_floatingip(floating_network_id).body
     end
 
   end

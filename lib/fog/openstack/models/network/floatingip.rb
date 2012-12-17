@@ -52,15 +52,14 @@ module Fog
           requires :floating_network_id
           merge_attributes(connection.assosiate_floatingip(self.floating_network_id,
                                                     self.port_id,
-                                                    self.fixed_ip_address,
                                                     self.attributes).body['floatingip'])
-          true
+          self
         end
 
         def disassosiate
           requires :floating_network_id
           connection.disassosiate_floatingip(self.floating_network_id)
-          true
+          self
         end
       end
     end
