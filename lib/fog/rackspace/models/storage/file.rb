@@ -124,7 +124,7 @@ module Fog
         end
 
         def metadata_attributes
-          if etag
+          if last_modified
             headers = connection.head_object(directory.key, self.key).headers
             headers.reject! {|k, v| !metadata_attribute?(k)}
           else
