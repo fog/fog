@@ -3,10 +3,10 @@ module Fog
     class OpenStack
 
       class Real
-        def associate_floatingip(floating_network_id, port_id, options = {})
+        def associate_floatingip(floatingip_id, port_id, options = {})
           data = {
             'floatingip' => {
-              'network_id' => floating_network_id,
+              # 'floatingip_id' => floatingip_id,
               'port_id'    => port_id,
             }
           }
@@ -18,15 +18,15 @@ module Fog
 
           request(
             :body     => Fog::JSON.encode(data),
-            :expects  => [201],
-            :method   => 'POST',
-            :path     => 'floatingips'
+            :expects  => [200],
+            :method   => 'PUT',
+            :path     => "floatingips/#{floatingip_id}"
           )
         end
       end
 
       class Mock
-        def associate_floatingip(floating_network_id, port_id, options = {})
+        def associate_floatingip(floatingip_id, port_id, options = {})
           response = Excon::Response.new
           response.status = 201
           data = {

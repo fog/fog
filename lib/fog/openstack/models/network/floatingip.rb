@@ -38,8 +38,9 @@ module Fog
 
         def update
           requires :id, :floating_network_id
-          merge_attributes(connection.create_floatingip(self.floating_network_id,
+          merge_attributes(connection.update_floatingip(self.floating_network_id,
                                                     self.attributes).body['floatingip'])
+          self
         end
 
         def destroy

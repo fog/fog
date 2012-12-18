@@ -3,10 +3,10 @@ module Fog
     class OpenStack
 
       class Real
-        def disassociate_floatingip(floating_network_id, options = {})
+        def disassociate_floatingip(floatingip_id, options = {})
           data = {
             'floatingip' => {
-              'network_id' => floating_network_id,
+              'floatingip_id' => floatingip_id,
             }
           }
 
@@ -25,15 +25,15 @@ module Fog
       end
 
       class Mock
-        def disassociate_floatingip(floating_network_id, options = {})
+        def disassociate_floatingip(floatingip_id, options = {})
           response = Excon::Response.new
-          response.status = 201
-          data = {
-            'id' => '00000000-0000-0000-0000-000000000000',
-          }
-          self.data[:floatingips][data['id']] = data
-          response.body = { 'floatingip' => data }
-          response
+          if list_floatingips.body['floatingips'].map { |r| r['id'] }.include? floatingip_id
+            self.data[:floatingips].delete(floatingip_id)
+            response.status = 204
+            response
+          else
+            raise Fog::Network::OpenStack::NotFound
+          end
         end
       end
 

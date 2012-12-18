@@ -12,8 +12,6 @@ Shindo.tests('Fog::Network[:openstack] | floatingip requests', ['openstack']) do
 
 
 
-  require '/home/kaneko/.rbenv/versions/1.9.3-p327/lib/ruby/gems/1.9.1/gems/awesome_print-1.1.0/lib/awesome_print.rb'
-
   tests('success') do
     tests('#create_floatingip').formats({'floatingip' => @floatingip_format}) do
       floating_network_id = 'f0000000-0000-0000-0000-000000000000'
