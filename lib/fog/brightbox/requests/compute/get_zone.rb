@@ -12,7 +12,7 @@ module Fog
         #
         def get_zone(identifier)
           return nil if identifier.nil? || identifier == ""
-          request("get", "/1.0/zones/#{identifier}", [200])
+          wrapped_request("get", "/1.0/zones/#{identifier}", [200])
         end
 
       end

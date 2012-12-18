@@ -12,7 +12,7 @@ module Fog
         #
         def get_load_balancer(identifier)
           return nil if identifier.nil? || identifier == ""
-          request("get", "/1.0/load_balancers/#{identifier}", [200])
+          wrapped_request("get", "/1.0/load_balancers/#{identifier}", [200])
         end
 
       end

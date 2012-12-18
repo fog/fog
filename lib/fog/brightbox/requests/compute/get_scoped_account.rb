@@ -6,7 +6,7 @@ module Fog
         #
         # @return [Hash] The JSON response parsed to a Hash
         def get_scoped_account
-          request("get", "/1.0/account", [200])
+          wrapped_request("get", "/1.0/account", [200])
         end
 
       end

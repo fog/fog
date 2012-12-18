@@ -13,7 +13,7 @@ module Fog
         # @see https://api.gb1.brightbox.com/1.0/#server_group_create_server_group
         #
         def create_server_group(options)
-          request("post", "/1.0/server_groups", [202], options)
+          wrapped_request("post", "/1.0/server_groups", [202], options)
         end
 
       end
