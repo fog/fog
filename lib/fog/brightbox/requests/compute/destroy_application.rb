@@ -12,7 +12,7 @@ module Fog
         #
         def destroy_application(identifier)
           return nil if identifier.nil? || identifier == ""
-          request("delete", "/1.0/applications/#{identifier}", [200])
+          wrapped_request("delete", "/1.0/applications/#{identifier}", [200])
         end
 
       end

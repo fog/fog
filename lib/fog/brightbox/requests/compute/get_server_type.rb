@@ -12,7 +12,7 @@ module Fog
         #
         def get_server_type(identifier)
           return nil if identifier.nil? || identifier == ""
-          request("get", "/1.0/server_types/#{identifier}", [200])
+          wrapped_request("get", "/1.0/server_types/#{identifier}", [200])
         end
 
       end

@@ -12,7 +12,7 @@ module Fog
         #
         def destroy_image(identifier)
           return nil if identifier.nil? || identifier == ""
-          request("delete", "/1.0/images/#{identifier}", [202])
+          wrapped_request("delete", "/1.0/images/#{identifier}", [202])
         end
 
       end

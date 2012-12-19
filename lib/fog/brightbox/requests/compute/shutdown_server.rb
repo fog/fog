@@ -12,7 +12,7 @@ module Fog
         #
         def shutdown_server(identifier)
           return nil if identifier.nil? || identifier == ""
-          request("post", "/1.0/servers/#{identifier}/shutdown", [202])
+          wrapped_request("post", "/1.0/servers/#{identifier}/shutdown", [202])
         end
 
       end

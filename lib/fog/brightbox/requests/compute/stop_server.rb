@@ -12,7 +12,7 @@ module Fog
         #
         def stop_server(identifier)
           return nil if identifier.nil? || identifier == ""
-          request("post", "/1.0/servers/#{identifier}/stop", [202])
+          wrapped_request("post", "/1.0/servers/#{identifier}/stop", [202])
         end
 
       end

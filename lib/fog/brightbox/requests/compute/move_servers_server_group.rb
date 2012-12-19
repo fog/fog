@@ -18,7 +18,7 @@ module Fog
         #
         def move_servers_server_group(identifier, options)
           return nil if identifier.nil? || identifier == ""
-          request("post", "/1.0/server_groups/#{identifier}/move_servers", [202], options)
+          wrapped_request("post", "/1.0/server_groups/#{identifier}/move_servers", [202], options)
         end
 
       end

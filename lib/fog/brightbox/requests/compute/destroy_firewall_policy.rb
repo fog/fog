@@ -12,7 +12,7 @@ module Fog
         #
         def destroy_firewall_policy(identifier)
           return nil if identifier.nil? || identifier == ""
-          request("delete", "/1.0/firewall_policies/#{identifier}", [202])
+          wrapped_request("delete", "/1.0/firewall_policies/#{identifier}", [202])
         end
 
       end
