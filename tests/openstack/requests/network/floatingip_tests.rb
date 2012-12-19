@@ -6,11 +6,9 @@ Shindo.tests('Fog::Network[:openstack] | floatingip requests', ['openstack']) do
     'port_id'             => Fog::Nullable::String,
     'tenant_id'           => Fog::Nullable::String,
     'fixed_ip_address'    => Fog::Nullable::String,
+    'router_id'           => Fog::Nullable::String,
+    'floating_ip_address' => Fog::Nullable::String,
   }
-
-
-
-
 
   tests('success') do
     tests('#create_floatingip').formats({'floatingip' => @floatingip_format}) do
