@@ -14,7 +14,7 @@ module Fog
         attribute :domain
 
         def initialize(attributes = {})
-          # assign server first to prevent race condition with new_record?
+          # assign server first to prevent race condition with persisted?
           self.server = attributes.delete(:server)
           super
         end
@@ -52,7 +52,7 @@ module Fog
         private
 
         def associate(new_server)
-          if new_record?
+          unless persisted?
             @server = new_server
           else
             @server = nil
@@ -64,7 +64,7 @@ module Fog
         def disassociate
           @server = nil
           self.server_id = nil
-          unless new_record?
+          if persisted?
             connection.disassociate_address(public_ip)
           end
         end
