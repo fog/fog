@@ -194,7 +194,7 @@ module Fog
 
       def missing_attributes(args)
         missing = []
-        for arg in [:connection] | args
+        for arg in [:service] | args
           unless send("#{arg}") || attributes.has_key?(arg)
             missing << arg
           end

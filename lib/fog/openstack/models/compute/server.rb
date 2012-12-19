@@ -44,7 +44,8 @@ module Fog
 
 
         def initialize(attributes={})
-          @connection = attributes[:connection]
+          # Old 'connection' is renamed as service and should be used instead
+          prepare_service_value(attributes)
           attributes[:metadata] = {}
 
           self.security_groups = attributes.delete(:security_groups)

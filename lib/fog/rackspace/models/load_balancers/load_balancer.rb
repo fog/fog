@@ -29,8 +29,9 @@ module Fog
         attribute :nodes
 
         def initialize(attributes)
-          #HACK - Since we are hacking how sub-collections work, we have to make sure the connection is valid first.
-          @connection = attributes[:connection]
+          #HACK - Since we are hacking how sub-collections work, we have to make sure the service is valid first.
+          # Old 'connection' is renamed as service and should be used instead
+          @service = attributes[:service] || attributes[:connection]
           super
         end
 

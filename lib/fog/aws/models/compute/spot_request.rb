@@ -43,7 +43,11 @@ module Fog
           self.flavor_id ||= 't1.micro'
           self.image_id   ||= begin
             self.username = 'ubuntu'
-            case attributes[:connection].instance_variable_get(:@region) # Ubuntu 10.04 LTS 64bit (EBS)
+
+            # Old 'connection' is renamed as service and should be used instead
+            prepare_service_value(attributes)
+
+            case @service.instance_variable_get(:@region) # Ubuntu 10.04 LTS 64bit (EBS)
             when 'ap-northeast-1'
               'ami-5e0fa45f'
             when 'ap-southeast-1'
