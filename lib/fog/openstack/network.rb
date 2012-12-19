@@ -52,7 +52,6 @@ module Fog
       request :create_floatingip
       request :delete_floatingip
       request :get_floatingip
-      request :update_floatingip
       request :associate_floatingip
       request :disassociate_floatingip
 

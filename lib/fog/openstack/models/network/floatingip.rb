@@ -37,9 +37,6 @@ module Fog
         end
 
         def update
-          requires :id, :floating_network_id
-          merge_attributes(connection.update_floatingip(self.floating_network_id,
-                                                    self.attributes).body['floatingip'])
           self
         end
 
@@ -49,19 +46,6 @@ module Fog
           true
         end
 
-        def assosiate
-          requires :floating_network_id
-          merge_attributes(connection.assosiate_floatingip(self.floating_network_id,
-                                                    self.port_id,
-                                                    self.attributes).body['floatingip'])
-          self
-        end
-
-        def disassosiate
-          requires :floating_network_id
-          connection.disassosiate_floatingip(self.floating_network_id)
-          self
-        end
       end
     end
   end

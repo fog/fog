@@ -6,7 +6,6 @@ module Fog
         def associate_floatingip(floatingip_id, port_id, options = {})
           data = {
             'floatingip' => {
-              # 'floatingip_id' => floatingip_id,
               'port_id'    => port_id,
             }
           }
@@ -32,7 +31,7 @@ module Fog
           data = {
             'id' => '00000000-0000-0000-0000-000000000000',
           }
-          self.data[:floatingips][data['id']] = data
+          self.data[:floatingips][data['floatingip_id']] = data
           response.body = { 'floatingip' => data }
           response
         end
