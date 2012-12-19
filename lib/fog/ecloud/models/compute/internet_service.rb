@@ -27,7 +27,7 @@ module Fog
         end
 
         def save
-          if new_record?
+          unless persisted?
             result = connection.internet_service_create( collection.href, _compose_service_data )
             merge_attributes(result.body)
           else
