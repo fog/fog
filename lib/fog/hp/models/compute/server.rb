@@ -34,7 +34,7 @@ module Fog
         attr_writer :image_id, :flavor_id
 
         def initialize(attributes = {})
-          # assign these attributes first to prevent race condition with new_record?
+          # assign these attributes first to prevent race condition with persisted?
           self.security_groups = attributes.delete(:security_groups)
           self.min_count = attributes.delete(:min_count)
           self.max_count = attributes.delete(:max_count)
