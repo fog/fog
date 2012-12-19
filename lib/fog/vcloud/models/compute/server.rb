@@ -175,7 +175,7 @@ module Fog
         end
 
         def save
-          if new_record?
+          unless persisted?
             #Lame ...
             raise RuntimeError, "Should not be here"
           else
