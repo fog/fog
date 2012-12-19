@@ -19,7 +19,7 @@ module Fog
             Fog::Logger.deprecation("get_user() without a parameter is deprecated, use get_authenticated_user instead [light_black](#{caller.first})[/]")
             get_authenticated_user
           else
-            request("get", "/1.0/users/#{identifier}", [200])
+            wrapped_request("get", "/1.0/users/#{identifier}", [200])
           end
         end
 

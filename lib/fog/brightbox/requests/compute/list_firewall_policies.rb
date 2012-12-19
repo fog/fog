@@ -10,7 +10,7 @@ module Fog
         # @see https://api.gb1.brightbox.com/1.0/#firewall_policy_list_firewall_policies
         #
         def list_firewall_policies
-          request("get", "/1.0/firewall_policies", [200])
+          wrapped_request("get", "/1.0/firewall_policies", [200])
         end
 
       end

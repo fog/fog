@@ -22,7 +22,7 @@ module Fog
             Fog::Logger.deprecation("reset_ftp_password_account() without a parameter is deprecated, use reset_ftp_password_scoped_account instead [light_black](#{caller.first})[/]")
             reset_ftp_password_scoped_account
           else
-            request("post", "/1.0/accounts/#{identifier}/reset_ftp_password", [200])
+            wrapped_request("post", "/1.0/accounts/#{identifier}/reset_ftp_password", [200])
           end
         end
 

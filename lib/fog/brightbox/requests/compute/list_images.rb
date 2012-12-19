@@ -10,7 +10,7 @@ module Fog
         # @see https://api.gb1.brightbox.com/1.0/#image_list_images
         #
         def list_images
-          request("get", "/1.0/images", [200])
+          wrapped_request("get", "/1.0/images", [200])
         end
 
       end

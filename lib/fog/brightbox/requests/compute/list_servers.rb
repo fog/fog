@@ -10,7 +10,7 @@ module Fog
         # @see https://api.gb1.brightbox.com/1.0/#server_list_servers
         #
         def list_servers
-          request("get", "/1.0/servers", [200])
+          wrapped_request("get", "/1.0/servers", [200])
         end
 
       end

@@ -15,7 +15,7 @@ module Fog
         # @see https://api.gb1.brightbox.com/1.0/#firewall_policy_create_firewall_policy
         #
         def create_firewall_policy(options)
-          request("post", "/1.0/firewall_policies", [201], options)
+          wrapped_request("post", "/1.0/firewall_policies", [201], options)
         end
 
       end

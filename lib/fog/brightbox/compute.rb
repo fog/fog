@@ -320,6 +320,8 @@ module Fog
         #
         # @param [Hash] options Excon compatible options
         #
+        # @see https://github.com/geemus/excon/blob/master/lib/excon/connection.rb
+        #
         # @return [Excon::Response]
         def authenticated_request(options)
           headers = options[:headers] || {}
@@ -373,6 +375,40 @@ module Fog
         #   data in the body. This loses access to some details and should
         #   be corrected in a backwards compatible manner
         #
+        # @overload request(params)
+        #   @param [Hash] params Excon compatible options
+        #   @option params [String] :body text to be sent over a socket
+        #   @option params [Hash<Symbol, String>] :headers The default headers to supply in a request
+        #   @option params [String] :host The destination host's reachable DNS name or IP, in the form of a String
+        #   @option params [String] :path appears after 'scheme://host:port/'
+        #   @option params [Fixnum] :port The port on which to connect, to the destination host
+        #   @option params [Hash]   :query appended to the 'scheme://host:port/path/' in the form of '?key=value'
+        #   @option params [String] :scheme The protocol; 'https' causes OpenSSL to be used
+        #   @return [Excon::Response]
+        #   @see https://github.com/geemus/excon/blob/master/lib/excon/connection.rb
+        #
+        # @overload request(method, path, expected_responses, params = {})
+        #   @param [String] method HTTP method to use for the request
+        #   @param [String] path   The absolute path for the request
+        #   @param [Array<Fixnum>] expected_responses HTTP response codes that have been successful
+        #   @param [Hash] params Keys and values for JSON
+        #   @option params [String] :account_id The scoping account if required
+        #   @deprecated #request with multiple arguments is deprecated
+        #     since it is inconsistent with original fog version.
+        #   @return [Hash]
+        def request(*args)
+          if args.size == 1
+            authenticated_request(*args)
+          else
+            Fog::Logger.deprecation("#request with multiple parameters is deprecated, use #wrapped_request instead [light_black](#{caller.first})[/]")
+            wrapped_request(*args)
+          end
+        end
+
+        # Makes a request but with seperated arguments and parses the response to a hash
+        #
+        # @note #wrapped_request is the non-standard form of request introduced by mistake
+        #
         # @param [String] method HTTP method to use for the request
         # @param [String] path   The absolute path for the request
         # @param [Array<Fixnum>] expected_responses HTTP response codes that have been successful
@@ -380,7 +416,22 @@ module Fog
         # @option parameters [String] :account_id The scoping account if required
         #
         # @return [Hash]
-        def request(method, path, expected_responses, parameters = {})
+        def wrapped_request(method, path, expected_responses, parameters = {})
+          _wrapped_request(method, path, expected_responses, parameters)
+        end
+
+      private
+
+        # Wrapped request is the non-standard form of request introduced by mistake
+        #
+        # @param [String] method HTTP method to use for the request
+        # @param [String] path   The absolute path for the request
+        # @param [Array<Fixnum>] expected_responses HTTP response codes that have been successful
+        # @param [Hash]  parameters Keys and values for JSON
+        # @option parameters [String] :account_id The scoping account if required
+        #
+        # @return [Hash]
+        def _wrapped_request(method, path, expected_responses, parameters = {})
           request_options = {
             :method   => method.to_s.upcase,
             :path     => path,
@@ -405,8 +456,6 @@ module Fog
             response
           end
         end
-
-      private
 
         # Queries the API and tries to select the most suitable official Image
         # to use if the user chooses not to select their own.

@@ -10,7 +10,7 @@ module Fog
         # @see https://api.gb1.brightbox.com/1.0/#load_balancer_list_load_balancers
         #
         def list_load_balancers
-          request("get", "/1.0/load_balancers", [200])
+          wrapped_request("get", "/1.0/load_balancers", [200])
         end
 
       end

@@ -12,7 +12,7 @@ module Fog
         #
         def destroy_server_group(identifier)
           return nil if identifier.nil? || identifier == ""
-          request("delete", "/1.0/server_groups/#{identifier}", [202])
+          wrapped_request("delete", "/1.0/server_groups/#{identifier}", [202])
         end
 
       end
