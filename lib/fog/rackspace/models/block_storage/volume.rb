@@ -37,6 +37,7 @@ module Fog
 
         def save
           requires :size
+          return true if identity
           data = connection.create_volume(size, {
             :display_name => display_name,
             :display_description => display_description,

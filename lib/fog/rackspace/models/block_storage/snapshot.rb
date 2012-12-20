@@ -26,6 +26,7 @@ module Fog
 
         def save(force = false)
           requires :volume_id
+          return true if identity          
           data = connection.create_snapshot(volume_id, {
             :display_name => display_name,
             :display_description => display_description,

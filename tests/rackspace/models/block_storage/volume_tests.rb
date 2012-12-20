@@ -6,7 +6,11 @@ Shindo.tests('Fog::Rackspace::BlockStorage | volume', ['rackspace']) do
   options = { :display_name => "fog_#{Time.now.to_i.to_s}", :size => 100 }
 
   model_tests(service.volumes, options, false) do
-    @instance.wait_for { ready? }
+    @instance.wait_for(timeout=1200) { ready? }
+
+    tests('double save').returns(true) do
+      @instance.save
+    end
 
     tests('#attached?').succeeds do
       @instance.state = 'in-use'
@@ -14,12 +18,14 @@ Shindo.tests('Fog::Rackspace::BlockStorage | volume', ['rackspace']) do
     end
 
     tests('#snapshots').succeeds do
-      snapshot = service.snapshots.create({ :volume_id => @instance.id })
-      snapshot.wait_for { ready? }
+      begin
+        snapshot = service.snapshots.create({ :volume_id => @instance.id })
+        snapshot.wait_for(timeout = 1200) { ready? }
 
-      returns(true) { @instance.snapshots.first.id == snapshot.id }
-
-      snapshot.destroy
+        returns(true) { @instance.snapshots.first.id == snapshot.id }
+      ensure
+        snapshot.destroy if snapshot
+      end
     end
 
     @instance.wait_for { snapshots.empty? }
