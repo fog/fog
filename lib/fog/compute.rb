@@ -68,12 +68,12 @@ module Fog
       when :rackspace
         version = attributes.delete(:version) 
         version = version.to_s.downcase.to_sym unless version.nil?
-        if version == :v2
+        if version == :v1
+          require 'fog/rackspace/compute'
+          Fog::Compute::Rackspace.new(attributes)          
+        else
           require 'fog/rackspace/compute_v2'
           Fog::Compute::RackspaceV2.new(attributes)
-        else
-          require 'fog/rackspace/compute'
-          Fog::Compute::Rackspace.new(attributes)
         end
       when :serverlove
         require 'fog/serverlove/compute'
