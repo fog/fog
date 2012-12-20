@@ -110,6 +110,10 @@ module Fog
           end
         end
 
+        # 
+        # @param [Hash] options  
+        # @option options [String] encryption sets HTTP encryption header. Set to 'AES256' to encrypt files at rest on S3
+        # 
         def save(options = {})
           requires :body, :directory, :key
           if options != {}
