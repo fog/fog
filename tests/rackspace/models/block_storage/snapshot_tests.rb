@@ -15,7 +15,7 @@ Shindo.tests('Fog::Rackspace::BlockStorage | snapshot', ['rackspace']) do
     model_tests(service.snapshots, options, false) do
       @instance.wait_for { ready? }
     
-      tests('double save').returns(true) do
+      tests('double save').raises(Fog::Rackspace::BlockStorage::IdentifierTaken) do
         @instance.save
       end    
     end

@@ -52,10 +52,9 @@ require "tasks/test_task"
 Fog::Rake::TestTask.new
 
 namespace :test do
-  task :dynect do
-    [false].each do |mock|
-      sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/dns/requests/dynect")
-      #sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/dns/models/")
+  task :vsphere do
+    [true].each do |mock|
+      sh("export FOG_MOCK=#{mock} && bundle exec shindont tests/vsphere")
     end
   end
 end

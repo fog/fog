@@ -4,6 +4,7 @@ module Fog
   module Rackspace
     class BlockStorage < Fog::Service
 
+      class IdentifierTaken < Fog::Errors::Error; end
       class ServiceError < Fog::Rackspace::Errors::ServiceError; end
       class InternalServerError < Fog::Rackspace::Errors::InternalServerError; end
       class BadRequest < Fog::Rackspace::Errors::BadRequest; end

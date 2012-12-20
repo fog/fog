@@ -8,7 +8,7 @@ Shindo.tests('Fog::Rackspace::BlockStorage | volume', ['rackspace']) do
   model_tests(service.volumes, options, false) do
     @instance.wait_for(timeout=1200) { ready? }
 
-    tests('double save').returns(true) do
+    tests('double save').raises(Fog::Rackspace::BlockStorage::IdentifierTaken) do
       @instance.save
     end
 
@@ -19,8 +19,8 @@ Shindo.tests('Fog::Rackspace::BlockStorage | volume', ['rackspace']) do
 
     tests('#snapshots').succeeds do
       begin
-        snapshot = service.snapshots.create({ :volume_id => @instance.id })
-        snapshot.wait_for(timeout = 1200) { ready? }
+        snapshot = @instance.create_snapshot
+        snapshot.wait_for(timeout=1200) { ready? }
 
         returns(true) { @instance.snapshots.first.id == snapshot.id }
       ensure
