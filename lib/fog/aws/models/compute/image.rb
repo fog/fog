@@ -31,7 +31,7 @@ module Fog
 
           if(delete_snapshot && root_device_type == "ebs")
             block_device = block_device_mapping.detect {|block_device| block_device['deviceName'] == root_device_name}
-            @connection.snapshots.new(:id => block_device['snapshotId']).destroy
+            connection.snapshots.new(:id => block_device['snapshotId']).destroy
           else
             true
           end
