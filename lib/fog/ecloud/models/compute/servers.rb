@@ -51,7 +51,7 @@ module Fog
             else
               [*options[:network_uri]].each do |uri|
                 index = options[:network_uri].index(uri)
-                ip = self.connection.ip_addresses(:href => uri).detect { |i| i.host == nil }.name
+                ip = self.connection.ip_addresses(:href => uri).detect { |i| i.host == nil && i.detected_on.nil? }.name
                 options[:ips] ||= []
                 options[:ips][index] = ip
               end

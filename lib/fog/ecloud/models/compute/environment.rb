@@ -45,11 +45,11 @@ module Fog
         end
 
         def layout
-          @layout ||= Fog::Compute::Ecloud::Layouts.new(:connection => connection, :href => "/cloudapi/ecloud/layout/environments/#{id}").first
+          @layout ||= self.connection.layouts(:href => "/cloudapi/ecloud/layout/environments/#{id}").first
         end
 
         def rows
-          layout.rows
+          @rows ||= layout.rows
         end
 
         def tasks

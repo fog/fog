@@ -63,9 +63,6 @@ module Fog
       end
 
       class Mock
-        # => #<Excon::Errors::BadRequest: Expected(201) <=> Actual(400 Bad Request)
-        # response => #<Excon::Response:0x007fc011b82cd8 @body="<Error message=\"The import could not be started because the specified environment and catalog item are not located in the same data center.\" majorErrorCode=\"400\" minorErrorCode=\"InvalidCatalogItem\"/>", @headers={"Cache-Control"=>"private", "Content-Type"=>"application/vnd.tmrk.cloud.error", "X-Responding-Host"=>"us01.services.enterprisecloud.terremark.com", "x-tmrk-currentuser"=>"/cloudapi/ecloud/admin/users/8274", "x-tmrk-token"=>"ecloud-0B3672A7DBB8-57A2-456B-C338-D4D29AB9-8B65F50CF82F4BA5-8274", "Date"=>"Wed, 28 Nov 2012 20:12:57 GMT", "Content-Length"=>"199"}, @status=400>>
-        # response => #<Excon::Response:0x007fc00ead86a0 @body="<Error message=\"The import could not be started because one or more networks assigned are not valid for the intended environment.\" majorErrorCode=\"400\" minorErrorCode=\"InvalidNetwork\"/>", @headers={"Cache-Control"=>"private", "Content-Type"=>"application/vnd.tmrk.cloud.error", "X-Responding-Host"=>"us01.services.enterprisecloud.terremark.com", "x-tmrk-currentuser"=>"/cloudapi/ecloud/admin/users/8274", "x-tmrk-token"=>"ecloud-0B3672A7DBB8-57A2-456B-C338-D4D29AB9-8B65F50CF82F4BA5-8274", "Date"=>"Wed, 28 Nov 2012 20:16:43 GMT", "Content-Length"=>"185"}, @status=400>>
         def virtual_machine_import(template_uri, options)
           options         = validate_import_server_options(template_uri, options)
 
@@ -74,6 +71,8 @@ module Fog
           environment     = self.data[:environments][compute_pool[:environment_id]]
           networks        = options[:network_uri].map{|nuri| self.data[:networks][id_from_uri(nuri)].dup}
           server_id       = Fog::Mock.random_numbers(6).to_i
+          row_id          = Fog::Mock.random_numbers(6).to_i
+          group_id        = Fog::Mock.random_numbers(6).to_i
           nics            = networks.each_with_index.map do |network, i|
             {
               :UnitNumber => i.to_s,
@@ -125,6 +124,45 @@ module Fog
             :Links => { :Link => links },
           }
 
+          row = {
+            :id => row_id,
+            :name => options[:row],
+            :href => "/cloudapi/ecloud/layoutrows/#{row_id}",
+            :type => "application/vnd.tmrk.cloud.layoutRow",
+            :Links => {
+              :Link => [
+                Fog::Ecloud.keep(environment, :name, :href, :type)
+              ],
+            },
+            :Index => 0,
+            :Groups => {
+              :Group => [
+              ],
+            },
+            :environment_id => environment[:id],
+          }
+
+          group = {
+            :id => group_id,
+            :name => options[:group],
+            :href => "/cloudapi/ecloud/layoutgroups/#{group_id}",
+            :type => "application/vnd.tmrk.cloud.layoutGroup",
+            :Links => {
+              :Link => [
+                Fog::Ecloud.keep(row, :name, :href, :type),
+              ],
+            },
+            :Index => 0,
+            :VirtualMachines => {
+              :VirtualMachine => [
+                server,
+              ],
+            },
+            :row_id => row_id,
+          }
+          row[:Groups][:Group].push(group)
+          layout[:Rows][:Row].push(row)
+
           server.merge!(:OperatingSystem => options[:operating_system].merge(:type => "application/vnd.tmrk.cloud.operatingSystem")) if options[:operating_system]
 
           server_response = response(body: server)
@@ -132,6 +170,8 @@ module Fog
           server.merge!(:compute_pool_id => compute_pool_id)
 
           self.data[:servers][server_id] = server
+          self.data[:rows][row_id]       = row
+          self.data[:groups][group_id]   = group
 
           server_response
         end

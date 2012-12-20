@@ -6,7 +6,6 @@ module Fog
       end # Real
 
       class Mock
-        # FIXME: support multiple organizations
         def get_organizations(uri)
           organizations = self.data[:organizations].values.dup
           organizations.each{|org| org.delete(:id)}

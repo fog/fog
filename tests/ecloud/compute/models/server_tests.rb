@@ -13,22 +13,38 @@ Shindo.tests("Fog::Compute[:#{provider}] | servers", "operations") do
   if Fog.credentials[:ecloud_ssh_key_id]
     options = options.merge(:ssh_key_uri => "/cloudapi/ecloud/admin/sshkeys/#{Fog.credentials[:ecloud_ssh_key_id]}")
   end
+
   @server = compute_pool.servers.create(image_href, options)
 
   tests('#create_server').succeeds do
     @server.wait_for { ready? } # server
   end
 
+  tests('#environment_has_a_row_and_group_with_the_right_names').succeeds do
+    row = environment.rows.detect { |r| r.name == options[:row] }
+    returns(false, "row is not nil") { row.nil? }
+    group = row.groups.detect { |g| g.name == options[:group] }
+    returns(false, "group is not nil") { group.nil? }
+    server = group.servers.detect { |s| s.name == @server.name }
+    returns(false, "group has server") { server.nil? }
+  end
+
+  tests('#get_server_flavor').succeeds do
+    @server.flavor_id == {:ram => 512, :cpus => 1}
+  end
+
   @hwc = @server.hardware_configuration
   tests('#add_disk_to_server').succeeds do
     disk_count = @hwc.storage.is_a?(Hash) ? [@hwc.storage].count : @hwc.storage.count
     @server.add_disk(25).wait_for { ready? }
+    @server.reload.wait_for { ready? }
     returns(true, "disk count increased by 1") { @server.reload.hardware_configuration.storage.count == disk_count + 1 }
   end
 
   tests('#detach_disk_from_server').succeeds do
     disk_count = @hwc.reload.storage.is_a?(Hash) ? [@hwc.storage].count : @hwc.storage.count
     @server.detach_disk(1).wait_for { ready? }
+    @server.reload.wait_for { ready? }
     returns(true, "disk count decreased by 1") { @server.reload.hardware_configuration.storage.count == disk_count - 1 }
   end
 
@@ -36,12 +52,14 @@ Shindo.tests("Fog::Compute[:#{provider}] | servers", "operations") do
   tests('#attach_disk_to_server').succeeds do
     disk_count = @hwc.reload.storage.is_a?(Hash) ? [@hwc.storage].count : @hwc.storage.count
     @server.attach_disk(@detached_disk).wait_for { ready? }
+    @server.reload.wait_for { ready? }
     returns(true, "disk count increased by 1") { @server.reload.hardware_configuration.storage.count == disk_count + 1 }
   end
 
   tests('#delete_disk').succeeds do
     disk_count = @hwc.reload.storage.is_a?(Hash) ? [@hwc.storage].count : @hwc.storage.count
     @server.delete_disk(1).wait_for { ready? }
+    @server.reload.wait_for { ready? }
     returns(true, "disk count decreased by 1") { @server.reload.hardware_configuration.storage.count == disk_count - 1 }
   end
 
@@ -82,8 +100,29 @@ Shindo.tests("Fog::Compute[:#{provider}] | servers", "operations") do
     @service.destroy.wait_for { ready? }
   end
 
+  @server_count = environment.servers.count
   tests('#destroy_server').succeeds do
     @server.destroy.wait_for { ready? } # task
+  end
+  @new_server_count = environment.servers.reload.count
+
+  tests('#server_count_reduced').succeeds do
+    returns(true, "server count is reduced") { @new_server_count < @server_count }
+  end
+
+  @row = environment.rows.detect { |r| r.name == options[:row] }
+  @group = @row.groups.detect { |g| g.name == options[:group] }
+  if @group.servers.empty?
+    tests('#delete_group').succeeds do
+      @group.destroy
+      returns(true, "group no longer exists") { @group.reload.nil? }
+    end
+  end
+  if @row.groups.reload.empty?
+    tests("#delete_row").succeeds do
+      @row.destroy
+      returns(true, "row no longer exists") { @row.reload.nil? }
+    end
   end
 end
 

@@ -328,7 +328,6 @@ module Fog
             options.merge!({:body => params[:body]})
           end
           response = @connections[host_url].request(options)
-
           # Parse the response body into a hash
           unless response.body.empty?
             if params[:parse]
@@ -340,6 +339,7 @@ module Fog
               response.body = document.body
             end
           end
+
           response
         end
 
@@ -363,7 +363,8 @@ module Fog
           elsif @authentication_method == :cloud_api_auth
             signature = cloud_api_signature(params)
             params[:headers].merge!({
-              "x-tmrk-authorization" => %{CloudApi AccessKey="#{@access_key}" SignatureType="HmacSha256" Signature="#{signature}"}
+              "x-tmrk-authorization" => %{CloudApi AccessKey="#{@access_key}" SignatureType="HmacSha256" Signature="#{signature}"},
+              "Authorization" => %{CloudApi AccessKey="#{@access_key}" SignatureType="HmacSha256" Signature="#{signature}"}
             })
           end
           params[:headers]
@@ -414,23 +415,23 @@ module Fog
             hash[key] = begin
                           compute_pool_id            = Fog.credentials[:ecloud_compute_pool_id]  || Fog::Mock.random_numbers(3).to_i
                           environment_id             = Fog.credentials[:ecloud_environment_id]   || Fog::Mock.random_numbers(3).to_i
-                          public_ip_id               = Fog.credentials[:ecloud_public_ip_id]   || Fog::Mock.random_numbers(6).to_i
+                          public_ip_id               = Fog.credentials[:ecloud_public_ip_id]     || Fog::Mock.random_numbers(6).to_i
                           internet_service_id        = Fog::Mock.random_numbers(6).to_i
                           node_service_id            = Fog::Mock.random_numbers(6).to_i
                           environment_name           = Fog.credentials[:ecloud_environment_name] || Fog::Mock.random_letters(12)
                           location_id                = Fog::Mock.random_numbers(4).to_i
                           network_id                 = Fog.credentials[:ecloud_network_id]       || Fog::Mock.random_numbers(6).to_i
                           network_ip                 = Fog::Ecloud.ip_address
-                          public_ip                  = Fog.credentials[:ecloud_public_ip_name] || Fog::Ecloud.ip_address
+                          public_ip                  = Fog.credentials[:ecloud_public_ip_name]   || Fog::Ecloud.ip_address
                           ip_address_id              = Fog::Ecloud.ip_address
                           ip_address2_id             = Fog::Ecloud.ip_address
                           operating_system_id        = Fog::Mock.random_numbers(7).to_i
                           operating_system_family_id = Fog::Mock.random_numbers(7).to_i
                           organization_id            = Fog::Mock.random_numbers(7).to_i
                           organization_name          = Fog::Mock.random_letters(7)
-                          template_id                = Fog.credentials[:ecloud_template_id]  || Fog::Mock.random_numbers(7).to_i
-                          ssh_key_id                 = Fog.credentials[:ecloud_ssh_key_id]   || Fog::Mock.random_numbers(4).to_i
-                          ssh_key_name               = Fog.credentials[:ecloud_ssh_key_name] || Fog::Mock.random_letters(7)
+                          template_id                = Fog.credentials[:ecloud_template_id]      || Fog::Mock.random_numbers(7).to_i
+                          ssh_key_id                 = Fog.credentials[:ecloud_ssh_key_id]       || Fog::Mock.random_numbers(4).to_i
+                          ssh_key_name               = Fog.credentials[:ecloud_ssh_key_name]     || Fog::Mock.random_letters(7)
 
                           environment = {
                             :id   => environment_id,
@@ -731,9 +732,9 @@ module Fog
                           }
 
                           ssh_key = {
-                            :id => ssh_key_id,
-                            :href => "/cloudapi/ecloud/admin/sshKeys/#{ssh_key_id}",
-                            :name => ssh_key_name,
+                            :id                    => ssh_key_id,
+                            :href                  => "/cloudapi/ecloud/admin/sshKeys/#{ssh_key_id}",
+                            :name                  => ssh_key_name,
                             :admin_organization_id => organization_id,
                             :Links => {
                               :Link => [
@@ -744,6 +745,23 @@ module Fog
                             :Default => "true",
                             :FingerPrint => Fog::Ecloud.mac_address
                           }
+
+                          layout = {
+                            :id => environment_id,
+                            :href => "/cloudapi/ecloud/layout/environments/#{environment_id}",
+                            :type => "application/vnd.tmrk.cloud.deviceLayout",
+                            :Links => {
+                              :Link => [
+                                Fog::Ecloud.keep(environment, :name, :href, :type),
+                              ],
+                            },
+                            :Rows => {
+                              :Row => [
+                              ],
+                            },
+                            :environment_id => environment_id
+                          }
+
 
                           {
                             :compute_pools             => {compute_pool_id            => compute_pool},
@@ -761,7 +779,10 @@ module Fog
                             :templates                 => {template_id                => template},
                             :ssh_keys                  => {ssh_key_id                 => ssh_key},
                             :detached_disks            => {},
-                            :template_href             => (Fog.credentials[:ecloud_template_href] || "/cloudapi/ecloud/templates/#{template_id}/computepools/#{compute_pool_id}")
+                            :template_href             => (Fog.credentials[:ecloud_template_href] || "/cloudapi/ecloud/templates/#{template_id}/computepools/#{compute_pool_id}"),
+                            :rows                      => {},
+                            :groups                    => {},
+                            :layouts                   => {environment_id             => layout},
                           }
                         end
           end

@@ -24,14 +24,14 @@ module Fog
         end
 
         def memory # always in MB
-          hardware_configuration.memory
+          hardware_configuration.memory.to_i
         end
 
         def location
         end
 
         def flavor_id
-          {:ram => hardware_configuration.memory, :cpus => hardware_configuration.processor_count}
+          {:ram => hardware_configuration.memory.to_i, :cpus => hardware_configuration.processor_count}
         end
 
         def storage
