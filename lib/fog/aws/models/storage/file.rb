@@ -110,6 +110,9 @@ module Fog
           end
         end
 
+        # 
+        # @param [Hash] options  
+        # 
         def save(options = {})
           requires :body, :directory, :key
           if options != {}
