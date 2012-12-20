@@ -34,6 +34,11 @@ module Fog
         def snapshots
           connection.snapshots.select { |s| s.volume_id == identity }
         end
+        
+        def create_snapshot(options={})
+          requires :identity
+          connection.snapshots.create(options.merge(:volume_id => identity))
+        end
 
         def save
           requires :size
