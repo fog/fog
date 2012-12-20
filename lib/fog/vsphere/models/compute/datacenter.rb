@@ -23,6 +23,10 @@ module Fog
         def vm_folders filters = { }
           connection.folders({ :datacenter => name, :type => :vm }.merge(filters))
         end
+        
+        def virtual_machines filters = {}
+          connection.servers({ :datacenter => name }.merge(filters))
+        end
 
         def to_s
           name
