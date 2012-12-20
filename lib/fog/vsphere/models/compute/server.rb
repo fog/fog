@@ -22,7 +22,7 @@ module Fog
         attribute :uuid
         attribute :hostname
         attribute :operatingsystem
-        attribute :ipaddress,     :aliases => 'public_ip_address'
+        attribute :ipaddress,
         attribute :power_state,   :aliases => 'power'
         attribute :tools_state,   :aliases => 'tools'
         attribute :tools_version
@@ -109,6 +109,10 @@ module Fog
           new_vm.connection = self.connection
           # Return the new VM model.
           new_vm
+        end
+
+        def public_ip_address
+          ipaddress
         end
 
         def ready?
