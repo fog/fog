@@ -146,7 +146,7 @@ module Fog
 
         def ssh_proxy
           # if this is a direct connection, we don't need a proxy to be set.
-          return nil unless @connection.uri.ssh_enabled?
+          return nil unless connection.uri.ssh_enabled?
           user_string= connection.uri.user ? "-l #{connection.uri.user}" : ""
           Net::SSH::Proxy::Command.new("ssh #{user_string} #{connection.uri.host} nc %h %p")
         end
