@@ -39,6 +39,7 @@ module Fog
       request :resize_server
       request :confirm_resize_server
       request :revert_resize_server
+      request :list_addresses
 
       request :create_image
       request :list_images
