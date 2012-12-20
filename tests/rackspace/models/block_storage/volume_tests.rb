@@ -14,12 +14,14 @@ Shindo.tests('Fog::Rackspace::BlockStorage | volume', ['rackspace']) do
     end
 
     tests('#snapshots').succeeds do
-      snapshot = service.snapshots.create({ :volume_id => @instance.id })
-      snapshot.wait_for { ready? }
+      begin
+        snapshot = @instance.create_snapshot
+        snapshot.wait_for(timeout=1200) { ready? }
 
-      returns(true) { @instance.snapshots.first.id == snapshot.id }
-
-      snapshot.destroy
+        returns(true) { @instance.snapshots.first.id == snapshot.id }
+      ensure
+        snapshot.destroy
+      end
     end
 
     @instance.wait_for { snapshots.empty? }
