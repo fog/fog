@@ -40,6 +40,7 @@ module Fog
       request :confirm_resize_server
       request :revert_resize_server
       request :list_addresses
+      request :list_addresses_by_network
 
       request :create_image
       request :list_images
