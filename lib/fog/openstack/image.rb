@@ -7,7 +7,7 @@ module Fog
       recognizes :openstack_auth_token, :openstack_management_url, :persistent,
                  :openstack_service_type, :openstack_service_name, :openstack_tenant,
                  :openstack_api_key, :openstack_username,
-                 :current_user, :current_tenant
+                 :current_user, :current_tenant, :openstack_region
 
       model_path 'fog/openstack/models/image'
 
@@ -82,7 +82,8 @@ module Fog
           { :provider                 => 'openstack',
             :openstack_auth_url       => @openstack_auth_uri.to_s,
             :openstack_auth_token     => @auth_token,
-            :openstack_management_url => @openstack_management_url }
+            :openstack_management_url => @openstack_management_url,
+            :openstack_region         => @openstack_region }
         end
       end
 
@@ -111,6 +112,7 @@ module Fog
           @openstack_must_reauthenticate  = false
           @openstack_service_type         = options[:openstack_service_type] || ['image']
           @openstack_service_name         = options[:openstack_service_name]
+          @openstack_region               = options[:openstack_region]
 
           @connection_options = options[:connection_options] || {}
 
@@ -179,6 +181,7 @@ module Fog
               :openstack_api_key  => @openstack_api_key,
               :openstack_username => @openstack_username,
               :openstack_auth_uri => @openstack_auth_uri,
+              :openstack_region   => @openstack_region,
               :openstack_auth_token => @openstack_auth_token,
               :openstack_service_type => @openstack_service_type,
               :openstack_service_name => @openstack_service_name,
