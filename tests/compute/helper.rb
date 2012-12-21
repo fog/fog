@@ -82,6 +82,7 @@ def compute_providers
       :mocked => false
     },
     :rackspace  => {
+      :provider_attributes => { :version => :v1 }, 
       :server_attributes => {
         :image_id => 49, # image 49 = Ubuntu 10.04 LTS (lucid)
         :name     => "fog_#{Time.now.to_i}"
