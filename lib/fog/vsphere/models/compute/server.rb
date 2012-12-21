@@ -5,6 +5,8 @@ module Fog
     class Vsphere
 
       class Server < Fog::Compute::Server
+        extend Fog::Deprecation
+        deprecate(:ipaddress, :public_ip_address)
 
         # This will be the instance uuid which is globally unique across
         # a vSphere deployment.
@@ -22,7 +24,7 @@ module Fog
         attribute :uuid
         attribute :hostname
         attribute :operatingsystem
-        attribute :ipaddress,     :aliases => 'public_ip_address'
+        attribute :public_ip_address, :aliases => 'ipaddress'
         attribute :power_state,   :aliases => 'power'
         attribute :tools_state,   :aliases => 'tools'
         attribute :tools_version
