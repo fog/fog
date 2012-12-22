@@ -15,7 +15,7 @@ module Fog
 
         def customization_options
           load_unless_loaded!
-          if data = connection.get_customization_options( link[:href] ).body
+          if data = service.get_customization_options( link[:href] ).body
             data.delete_if { |key, value| [:xmlns_i, :xmlns].include?(key) }
             data
           else
