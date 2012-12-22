@@ -15,8 +15,8 @@ module Fog
 
         def destroy
           requires :key
-          connection.delete_container(key)
-          connection.cdn.post_container(key, 'X-CDN-Enabled' => 'False')
+          service.delete_container(key)
+          service.cdn.post_container(key, 'X-CDN-Enabled' => 'False')
           true
         rescue Excon::Errors::NotFound
           false
@@ -26,7 +26,7 @@ module Fog
           @files ||= begin
             Fog::Storage::Rackspace::Files.new(
               :directory    => self,
-              :connection   => connection
+              :service   => service
             )
           end
         end
@@ -38,9 +38,9 @@ module Fog
         def public_url
           requires :key
           @public_url ||= begin
-            begin response = connection.cdn.head_container(key)
+            begin response = service.cdn.head_container(key)
               if response.headers['X-Cdn-Enabled'] == 'True'
-                if connection.rackspace_cdn_ssl == true
+                if service.rackspace_cdn_ssl == true
                   response.headers['X-Cdn-Ssl-Uri']
                 else
                   cdn_cname || response.headers['X-Cdn-Uri']
@@ -54,19 +54,19 @@ module Fog
 
         def save
           requires :key
-          connection.put_container(key)
+          service.put_container(key)
 
-          if connection.cdn && @public
+          if service.cdn && @public
             # if public and CDN connection then update cdn to public
             uri_header = 'X-CDN-URI'
-            if connection.rackspace_cdn_ssl == true
+            if service.rackspace_cdn_ssl == true
               uri_header = 'X-CDN-SSL-URI'
             end
-            @public_url = connection.cdn.put_container(key, 'X-CDN-Enabled' => 'True').headers[uri_header]
-          elsif connection.cdn && !@public
-            connection.cdn.put_container(key, 'X-CDN-Enabled' => 'False')
+            @public_url = service.cdn.put_container(key, 'X-CDN-Enabled' => 'True').headers[uri_header]
+          elsif service.cdn && !@public
+            service.cdn.put_container(key, 'X-CDN-Enabled' => 'False')
             @public_url = nil
-          elsif !connection.cdn && @public
+          elsif !service.cdn && @public
             # if public but no CDN connection then error
             raise(Fog::Storage::Rackspace::Error.new("Directory can not be set as :public without a CDN provided"))
           end
