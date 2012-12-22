@@ -15,20 +15,20 @@ module Fog
             :name => name,
             :description => description
           }.delete_if {|k,v| v.nil? || v == "" }
-          data = connection.create_api_client(options)
+          data = service.create_api_client(options)
           merge_attributes(data)
           true
         end
 
         def destroy
           requires :identity
-          connection.destroy_api_client(identity)
+          service.destroy_api_client(identity)
           true
         end
 
         def reset_secret
           requires :identity
-          connection.reset_secret_api_client(identity)
+          service.reset_secret_api_client(identity)
           true
         end
       end
