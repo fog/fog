@@ -18,13 +18,13 @@ module Fog
 
         def destroy
           requires :key, :resource_id
-          connection.delete_tags(resource_id, key => value)
+          service.delete_tags(resource_id, key => value)
           true
         end
 
         def save
           requires :key, :resource_id
-          connection.create_tags(resource_id, key => value)
+          service.create_tags(resource_id, key => value)
           true
         end
 

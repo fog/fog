@@ -84,19 +84,19 @@ module Fog
         def addresses
           requires :id
 
-          connection.addresses(:server => self)
+          service.addresses(:server => self)
         end
 
         def console_output
           requires :id
 
-          connection.get_console_output(id)
+          service.get_console_output(id)
         end
 
         def destroy
           requires :id
 
-          connection.terminate_instances(id)
+          service.terminate_instances(id)
           true
         end
 
@@ -110,13 +110,13 @@ module Fog
         end
 
         def flavor
-          @flavor ||= connection.flavors.all.detect {|flavor| flavor.id == flavor_id}
+          @flavor ||= service.flavors.all.detect {|flavor| flavor.id == flavor_id}
         end
 
         def key_pair
           requires :key_name
 
-          connection.key_pairs.all(key_name).first
+          service.key_pairs.all(key_name).first
         end
 
         def key_pair=(new_keypair)
@@ -129,7 +129,7 @@ module Fog
 
         def reboot
           requires :id
-          connection.reboot_instances(id)
+          service.reboot_instances(id)
           true
         end
 
@@ -170,14 +170,14 @@ module Fog
             options.delete('SubnetId')
           end
 
-          data = connection.run_instances(image_id, 1, 1, options)
+          data = service.run_instances(image_id, 1, 1, options)
           merge_attributes(data.body['instancesSet'].first)
 
           if tags = self.tags
             # expect eventual consistency
             Fog.wait_for { self.reload rescue nil }
             for key, value in (self.tags = tags)
-              connection.tags.create(
+              service.tags.create(
                 :key          => key,
                 :resource_id  => self.identity,
                 :value        => value
@@ -209,19 +209,19 @@ module Fog
 
         def start
           requires :id
-          connection.start_instances(id)
+          service.start_instances(id)
           true
         end
 
         def stop(force = false)
           requires :id
-          connection.stop_instances(id, force)
+          service.stop_instances(id, force)
           true
         end
 
         def volumes
           requires :id
-          connection.volumes(:server => self)
+          service.volumes(:server => self)
         end
 
         #I tried to call it monitoring= and be smart with attributes[]
@@ -231,9 +231,9 @@ module Fog
           if persisted?
             case new_monitor
             when true
-              response = connection.monitor_instances(identity)
+              response = service.monitor_instances(identity)
             when false
-              response = connection.unmonitor_instances(identity)
+              response = service.unmonitor_instances(identity)
             else
               raise ArgumentError.new("only Boolean allowed here")
             end

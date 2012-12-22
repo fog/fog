@@ -3,7 +3,7 @@ require 'fog/compute/models/server'
 module Fog
   module Compute
     class AWS
-      
+
       class SpotRequest < Fog::Compute::Server
 
         identity :id,                          :aliases => 'spotInstanceRequestId'
@@ -37,7 +37,6 @@ module Fog
 
         attr_writer   :iam_instance_profile_name, :iam_instance_profile_arn
 
-        
         def initialize(attributes={})
           self.groups ||= ["default"]
           self.flavor_id ||= 't1.micro'
@@ -66,14 +65,14 @@ module Fog
         def destroy
           requires :id
 
-          connection.cancel_spot_instance_requests(id)
+          service.cancel_spot_instance_requests(id)
           true
         end
 
         def key_pair
           requires :key_name
 
-          connection.key_pairs.all(key_name).first
+          service.key_pairs.all(key_name).first
         end
 
         def key_pair=(new_keypair)
@@ -104,7 +103,7 @@ module Fog
             'ValidFrom'                                      => valid_from,
             'ValidUntil'                                     => valid_until }
           options.delete_if {|key, value| value.nil?}
-          
+
           # If subnet is defined then this is a Virtual Private Cloud.
           # subnet & security group cannot co-exist. Attempting to specify
           # both subnet and groups will cause an error.  Instead please make
@@ -115,7 +114,7 @@ module Fog
             options.delete('LaunchSpecification.SubnetId')
           end
 
-          data = connection.request_spot_instances(image_id, flavor_id, price, options).body
+          data = service.request_spot_instances(image_id, flavor_id, price, options).body
           spot_instance_request = data['spotInstanceRequestSet'].first
           spot_instance_request['launchSpecification'].each do |name,value|
             spot_instance_request['LaunchSpecification.' + name[0,1].upcase + name[1..-1]] = value
@@ -128,4 +127,4 @@ module Fog
       end
     end
   end
-end     
+end
