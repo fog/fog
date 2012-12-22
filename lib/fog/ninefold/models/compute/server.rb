@@ -82,43 +82,43 @@ module Fog
 
         def reboot
           requires :identity
-          self.jobid = extract_job_id(connection.reboot_virtual_machine(:id => identity))
+          self.jobid = extract_job_id(service.reboot_virtual_machine(:id => identity))
           puts "jobid: " + jobid.to_s
           true
         end
 
         def start
           requires :identity
-          self.jobid = extract_job_id(connection.start_virtual_machine(:id => identity))
+          self.jobid = extract_job_id(service.start_virtual_machine(:id => identity))
           true
         end
 
         def stop
           requires :identity
-          self.jobid = extract_job_id(connection.stop_virtual_machine(:id => identity))
+          self.jobid = extract_job_id(service.stop_virtual_machine(:id => identity))
           true
         end
 
         def destroy
           requires :identity
-          self.jobid = extract_job_id(connection.destroy_virtual_machine(:id => identity))
+          self.jobid = extract_job_id(service.destroy_virtual_machine(:id => identity))
           true
         end
 
         def flavor
           requires :flavor_id
-          connection.flavors.get(flavor_id)
+          service.flavors.get(flavor_id)
         end
 
         def image
           requires :image_id
-          connection.images.get(image_id)
+          service.images.get(image_id)
         end
 
         def ready?
           if jobid
             # we do this by polling the last job id status.
-            res = connection.query_async_job_result(:jobid => jobid)
+            res = service.query_async_job_result(:jobid => jobid)
             if res['jobstatus'] == 0
               false
             else
@@ -138,7 +138,7 @@ module Fog
 
           unless networkids
             # No network specified, use first in this zone.
-            networks = connection.list_networks(:zoneid => zoneid)
+            networks = service.list_networks(:zoneid => zoneid)
             if networks.empty?
               raise "No networks. Please create one, or specify a network ID"
             else
@@ -164,7 +164,7 @@ module Fog
             :size => size,
             :userdata => userdata
           }.delete_if {|k,v| v.nil? || v == "" }
-          data = connection.deploy_virtual_machine(options)
+          data = service.deploy_virtual_machine(options)
           merge_attributes(data)
           true
         end
