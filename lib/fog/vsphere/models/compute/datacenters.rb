@@ -10,11 +10,11 @@ module Fog
         model Fog::Compute::Vsphere::Datacenter
 
         def all(filters = {})
-          load connection.list_datacenters(filters)
+          load service.list_datacenters(filters)
         end
 
         def get(name)
-          new connection.get_datacenter(name)
+          new service.get_datacenter(name)
         end
 
       end
