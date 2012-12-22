@@ -9,11 +9,11 @@ module Fog
         model Fog::Compute::Joyent::Server
 
         def all
-          load(self.connection.list_machines().body)
+          load(service.list_machines().body)
         end
 
         def create(params = {})
-          data = self.connection.create_machine(params).body
+          data = service.create_machine(params).body
           server = new(data)
           server
         end
@@ -25,7 +25,7 @@ module Fog
         end
 
         def get(machine_id)
-          data = self.connection.get_machine(machine_id).body
+          data = service.get_machine(machine_id).body
           new(data)
         end
 

@@ -10,11 +10,11 @@ module Fog
         model Fog::Compute::Joyent::Flavor
 
         def all
-          load(connection.list_packages().body)
+          load(service.list_packages().body)
         end
 
         def get(id)
-          data = connection.get_package(id).body
+          data = service.get_package(id).body
           new(data)
         end
 
