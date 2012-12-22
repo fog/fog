@@ -10,7 +10,7 @@ module Fog
 
         attribute :server_id
         attribute :applicationtype
-        attribute :username	
+        attribute :username
         attribute :password_id,	:aliases => 'id'
         attribute :password
         attribute :server
@@ -21,13 +21,13 @@ module Fog
 
         def destroy
           requires :id
-          connection.grid_server_destroy(id)
+          service.grid_server_destroy(id)
           true
         end
 
         def image
           requires :image_id
-          connection.grid_image_get(image_id)
+          service.grid_image_get(image_id)
         end
 
         def ready?
@@ -37,7 +37,7 @@ module Fog
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :password_id
-          data = connection.support_password_list()
+          data = service.support_password_list()
           merge_attributes(data.body)
           true
         end
