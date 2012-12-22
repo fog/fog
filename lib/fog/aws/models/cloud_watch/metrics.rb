@@ -11,7 +11,7 @@ module Fog
         model Fog::AWS::CloudWatch::Metric
 
         def all(conditions={})
-          result = connection.list_metrics(conditions).body['ListMetricsResult']
+          result = service.list_metrics(conditions).body['ListMetricsResult']
           merge_attributes("NextToken" => result["NextToken"])
           load(result['Metrics']) # an array of attribute hashes
         end
@@ -28,7 +28,7 @@ module Fog
               subset = subset.all("NextToken" => next_token)
               subset.each_metric_this_page {|m| yield m }
             end
-            
+
             self
           end
         end
@@ -41,7 +41,7 @@ module Fog
             end
             # list_opts.merge!('Dimensions' => dimensions_array)
           end
-          if data = connection.list_metrics(list_opts).body['ListMetricsResult']['Metrics'].first
+          if data = service.list_metrics(list_opts).body['ListMetricsResult']['Metrics'].first
             new(data)
           end
         end
