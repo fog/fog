@@ -3,7 +3,7 @@
 !_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
-!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+!_TAG_PROGRAM_VERSION	5.8	//
 <<	lib/fog/ecloud/mock_data_classes.rb	/^            def node_array.<<(node)$/;"	F	class:Fog.Ecloud.MockDataClasses.MockPublicIpInternetServiceNodes.items
 <<	lib/fog/ecloud/mock_data_classes.rb	/^        def <<(disk)$/;"	f	class:Fog.Ecloud.MockDataClasses.MockVirtualMachineDisks
 AWS	lib/fog/aws.rb	/^  module AWS$/;"	m	class:Fog
@@ -3825,8 +3825,8 @@ Flavors	lib/fog/rackspace/models/compute/flavors.rb	/^      class Flavors < Fog:
 Flavors	lib/fog/rackspace/models/compute_v2/flavors.rb	/^      class Flavors < Fog::Collection$/;"	c	class:Fog.Compute.RackspaceV2
 Flavors	lib/fog/rackspace/models/databases/flavors.rb	/^      class Flavors < Fog::Collection$/;"	c	class:Fog.Rackspace.Databases
 Float	tests/helpers/formats_helper.rb	/^    module Float; end$/;"	m	class:Fog.Nullable
-Floatingip	lib/fog/openstack/models/network/floatingip.rb	/^      class Floatingip < Fog::Model$/;"	c	class:Fog.Network.OpenStack
-Floatingips	lib/fog/openstack/models/network/floatingips.rb	/^      class Floatingips < Fog::Collection$/;"	c	class:Fog.Network.OpenStack
+FloatingIp	lib/fog/openstack/models/network/floating_ip.rb	/^      class FloatingIp < Fog::Model$/;"	c	class:Fog.Network.OpenStack
+FloatingIps	lib/fog/openstack/models/network/floating_ips.rb	/^      class FloatingIps < Fog::Collection$/;"	c	class:Fog.Network.OpenStack
 Fog	lib/fog.rb	/^module Fog$/;"	m
 Fog	lib/fog/atmos.rb	/^module Fog$/;"	m
 Fog	lib/fog/atmos/models/storage/directories.rb	/^module Fog$/;"	m
@@ -5736,8 +5736,8 @@ Fog	lib/fog/openstack/models/identity/users.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/models/image/image.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/models/image/images.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/models/meta_parent.rb	/^module Fog$/;"	m
-Fog	lib/fog/openstack/models/network/floatingip.rb	/^module Fog$/;"	m
-Fog	lib/fog/openstack/models/network/floatingips.rb	/^module Fog$/;"	m
+Fog	lib/fog/openstack/models/network/floating_ip.rb	/^module Fog$/;"	m
+Fog	lib/fog/openstack/models/network/floating_ips.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/models/network/network.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/models/network/networks.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/models/network/port.rb	/^module Fog$/;"	m
@@ -5874,21 +5874,21 @@ Fog	lib/fog/openstack/requests/image/remove_member_from_image.rb	/^module Fog$/;
 Fog	lib/fog/openstack/requests/image/set_tenant.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/requests/image/update_image.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/requests/image/update_image_members.rb	/^module Fog$/;"	m
-Fog	lib/fog/openstack/requests/network/associate_floatingip.rb	/^module Fog$/;"	m
-Fog	lib/fog/openstack/requests/network/create_floatingip.rb	/^module Fog$/;"	m
+Fog	lib/fog/openstack/requests/network/associate_floating_ip.rb	/^module Fog$/;"	m
+Fog	lib/fog/openstack/requests/network/create_floating_ip.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/requests/network/create_network.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/requests/network/create_port.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/requests/network/create_subnet.rb	/^module Fog$/;"	m
-Fog	lib/fog/openstack/requests/network/delete_floatingip.rb	/^module Fog$/;"	m
+Fog	lib/fog/openstack/requests/network/delete_floating_ip.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/requests/network/delete_network.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/requests/network/delete_port.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/requests/network/delete_subnet.rb	/^module Fog$/;"	m
-Fog	lib/fog/openstack/requests/network/disassociate_floatingip.rb	/^module Fog$/;"	m
-Fog	lib/fog/openstack/requests/network/get_floatingip.rb	/^module Fog$/;"	m
+Fog	lib/fog/openstack/requests/network/disassociate_floating_ip.rb	/^module Fog$/;"	m
+Fog	lib/fog/openstack/requests/network/get_floating_ip.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/requests/network/get_network.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/requests/network/get_port.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/requests/network/get_subnet.rb	/^module Fog$/;"	m
-Fog	lib/fog/openstack/requests/network/list_floatingips.rb	/^module Fog$/;"	m
+Fog	lib/fog/openstack/requests/network/list_floating_ips.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/requests/network/list_networks.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/requests/network/list_ports.rb	/^module Fog$/;"	m
 Fog	lib/fog/openstack/requests/network/list_subnets.rb	/^module Fog$/;"	m
@@ -8063,21 +8063,21 @@ Mock	lib/fog/openstack/requests/image/remove_member_from_image.rb	/^      class 
 Mock	lib/fog/openstack/requests/image/set_tenant.rb	/^      class Mock$/;"	c	class:Fog.Image.OpenStack
 Mock	lib/fog/openstack/requests/image/update_image.rb	/^      class Mock$/;"	c	class:Fog.Image.OpenStack
 Mock	lib/fog/openstack/requests/image/update_image_members.rb	/^      class Mock$/;"	c	class:Fog.Image.OpenStack
-Mock	lib/fog/openstack/requests/network/associate_floatingip.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
-Mock	lib/fog/openstack/requests/network/create_floatingip.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
+Mock	lib/fog/openstack/requests/network/associate_floating_ip.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
+Mock	lib/fog/openstack/requests/network/create_floating_ip.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
 Mock	lib/fog/openstack/requests/network/create_network.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
 Mock	lib/fog/openstack/requests/network/create_port.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
 Mock	lib/fog/openstack/requests/network/create_subnet.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
-Mock	lib/fog/openstack/requests/network/delete_floatingip.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
+Mock	lib/fog/openstack/requests/network/delete_floating_ip.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
 Mock	lib/fog/openstack/requests/network/delete_network.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
 Mock	lib/fog/openstack/requests/network/delete_port.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
 Mock	lib/fog/openstack/requests/network/delete_subnet.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
-Mock	lib/fog/openstack/requests/network/disassociate_floatingip.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
-Mock	lib/fog/openstack/requests/network/get_floatingip.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
+Mock	lib/fog/openstack/requests/network/disassociate_floating_ip.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
+Mock	lib/fog/openstack/requests/network/get_floating_ip.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
 Mock	lib/fog/openstack/requests/network/get_network.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
 Mock	lib/fog/openstack/requests/network/get_port.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
 Mock	lib/fog/openstack/requests/network/get_subnet.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
-Mock	lib/fog/openstack/requests/network/list_floatingips.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
+Mock	lib/fog/openstack/requests/network/list_floating_ips.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
 Mock	lib/fog/openstack/requests/network/list_networks.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
 Mock	lib/fog/openstack/requests/network/list_ports.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
 Mock	lib/fog/openstack/requests/network/list_subnets.rb	/^      class Mock$/;"	c	class:Fog.Network.OpenStack
@@ -8285,8 +8285,8 @@ Network	lib/fog/ecloud/models/compute/network.rb	/^      class Network < Fog::Ec
 Network	lib/fog/libvirt/models/compute/network.rb	/^      class Network < Fog::Model$/;"	c	class:Fog.Compute.Libvirt
 Network	lib/fog/network.rb	/^  module Network$/;"	m	class:Fog
 Network	lib/fog/openstack/models/compute/network.rb	/^      class Network < Fog::Model$/;"	c	class:Fog.Compute.OpenStack
-Network	lib/fog/openstack/models/network/floatingip.rb	/^  module Network$/;"	m	class:Fog
-Network	lib/fog/openstack/models/network/floatingips.rb	/^  module Network$/;"	m	class:Fog
+Network	lib/fog/openstack/models/network/floating_ip.rb	/^  module Network$/;"	m	class:Fog
+Network	lib/fog/openstack/models/network/floating_ips.rb	/^  module Network$/;"	m	class:Fog
 Network	lib/fog/openstack/models/network/network.rb	/^      class Network < Fog::Model$/;"	c	class:Fog.Network.OpenStack
 Network	lib/fog/openstack/models/network/network.rb	/^  module Network$/;"	m	class:Fog
 Network	lib/fog/openstack/models/network/networks.rb	/^  module Network$/;"	m	class:Fog
@@ -8295,21 +8295,21 @@ Network	lib/fog/openstack/models/network/ports.rb	/^  module Network$/;"	m	class
 Network	lib/fog/openstack/models/network/subnet.rb	/^  module Network$/;"	m	class:Fog
 Network	lib/fog/openstack/models/network/subnets.rb	/^  module Network$/;"	m	class:Fog
 Network	lib/fog/openstack/network.rb	/^  module Network$/;"	m	class:Fog
-Network	lib/fog/openstack/requests/network/associate_floatingip.rb	/^  module Network$/;"	m	class:Fog
-Network	lib/fog/openstack/requests/network/create_floatingip.rb	/^  module Network$/;"	m	class:Fog
+Network	lib/fog/openstack/requests/network/associate_floating_ip.rb	/^  module Network$/;"	m	class:Fog
+Network	lib/fog/openstack/requests/network/create_floating_ip.rb	/^  module Network$/;"	m	class:Fog
 Network	lib/fog/openstack/requests/network/create_network.rb	/^  module Network$/;"	m	class:Fog
 Network	lib/fog/openstack/requests/network/create_port.rb	/^  module Network$/;"	m	class:Fog
 Network	lib/fog/openstack/requests/network/create_subnet.rb	/^  module Network$/;"	m	class:Fog
-Network	lib/fog/openstack/requests/network/delete_floatingip.rb	/^  module Network$/;"	m	class:Fog
+Network	lib/fog/openstack/requests/network/delete_floating_ip.rb	/^  module Network$/;"	m	class:Fog
 Network	lib/fog/openstack/requests/network/delete_network.rb	/^  module Network$/;"	m	class:Fog
 Network	lib/fog/openstack/requests/network/delete_port.rb	/^  module Network$/;"	m	class:Fog
 Network	lib/fog/openstack/requests/network/delete_subnet.rb	/^  module Network$/;"	m	class:Fog
-Network	lib/fog/openstack/requests/network/disassociate_floatingip.rb	/^  module Network$/;"	m	class:Fog
-Network	lib/fog/openstack/requests/network/get_floatingip.rb	/^  module Network$/;"	m	class:Fog
+Network	lib/fog/openstack/requests/network/disassociate_floating_ip.rb	/^  module Network$/;"	m	class:Fog
+Network	lib/fog/openstack/requests/network/get_floating_ip.rb	/^  module Network$/;"	m	class:Fog
 Network	lib/fog/openstack/requests/network/get_network.rb	/^  module Network$/;"	m	class:Fog
 Network	lib/fog/openstack/requests/network/get_port.rb	/^  module Network$/;"	m	class:Fog
 Network	lib/fog/openstack/requests/network/get_subnet.rb	/^  module Network$/;"	m	class:Fog
-Network	lib/fog/openstack/requests/network/list_floatingips.rb	/^  module Network$/;"	m	class:Fog
+Network	lib/fog/openstack/requests/network/list_floating_ips.rb	/^  module Network$/;"	m	class:Fog
 Network	lib/fog/openstack/requests/network/list_networks.rb	/^  module Network$/;"	m	class:Fog
 Network	lib/fog/openstack/requests/network/list_ports.rb	/^  module Network$/;"	m	class:Fog
 Network	lib/fog/openstack/requests/network/list_subnets.rb	/^  module Network$/;"	m	class:Fog
@@ -8454,8 +8454,8 @@ OpenStack	lib/fog/openstack/models/identity/users.rb	/^    class OpenStack$/;"	c
 OpenStack	lib/fog/openstack/models/image/image.rb	/^    class OpenStack$/;"	c	class:Fog.Image
 OpenStack	lib/fog/openstack/models/image/images.rb	/^    class OpenStack$/;"	c	class:Fog.Image
 OpenStack	lib/fog/openstack/models/meta_parent.rb	/^    class OpenStack$/;"	c	class:Fog.Compute
-OpenStack	lib/fog/openstack/models/network/floatingip.rb	/^    class OpenStack$/;"	c	class:Fog.Network
-OpenStack	lib/fog/openstack/models/network/floatingips.rb	/^    class OpenStack$/;"	c	class:Fog.Network
+OpenStack	lib/fog/openstack/models/network/floating_ip.rb	/^    class OpenStack$/;"	c	class:Fog.Network
+OpenStack	lib/fog/openstack/models/network/floating_ips.rb	/^    class OpenStack$/;"	c	class:Fog.Network
 OpenStack	lib/fog/openstack/models/network/network.rb	/^    class OpenStack$/;"	c	class:Fog.Network
 OpenStack	lib/fog/openstack/models/network/networks.rb	/^    class OpenStack$/;"	c	class:Fog.Network
 OpenStack	lib/fog/openstack/models/network/port.rb	/^    class OpenStack$/;"	c	class:Fog.Network
@@ -8592,21 +8592,21 @@ OpenStack	lib/fog/openstack/requests/image/remove_member_from_image.rb	/^    cla
 OpenStack	lib/fog/openstack/requests/image/set_tenant.rb	/^    class OpenStack$/;"	c	class:Fog.Image
 OpenStack	lib/fog/openstack/requests/image/update_image.rb	/^    class OpenStack$/;"	c	class:Fog.Image
 OpenStack	lib/fog/openstack/requests/image/update_image_members.rb	/^    class OpenStack$/;"	c	class:Fog.Image
-OpenStack	lib/fog/openstack/requests/network/associate_floatingip.rb	/^    class OpenStack$/;"	c	class:Fog.Network
-OpenStack	lib/fog/openstack/requests/network/create_floatingip.rb	/^    class OpenStack$/;"	c	class:Fog.Network
+OpenStack	lib/fog/openstack/requests/network/associate_floating_ip.rb	/^    class OpenStack$/;"	c	class:Fog.Network
+OpenStack	lib/fog/openstack/requests/network/create_floating_ip.rb	/^    class OpenStack$/;"	c	class:Fog.Network
 OpenStack	lib/fog/openstack/requests/network/create_network.rb	/^    class OpenStack$/;"	c	class:Fog.Network
 OpenStack	lib/fog/openstack/requests/network/create_port.rb	/^    class OpenStack$/;"	c	class:Fog.Network
 OpenStack	lib/fog/openstack/requests/network/create_subnet.rb	/^    class OpenStack$/;"	c	class:Fog.Network
-OpenStack	lib/fog/openstack/requests/network/delete_floatingip.rb	/^    class OpenStack$/;"	c	class:Fog.Network
+OpenStack	lib/fog/openstack/requests/network/delete_floating_ip.rb	/^    class OpenStack$/;"	c	class:Fog.Network
 OpenStack	lib/fog/openstack/requests/network/delete_network.rb	/^    class OpenStack$/;"	c	class:Fog.Network
 OpenStack	lib/fog/openstack/requests/network/delete_port.rb	/^    class OpenStack$/;"	c	class:Fog.Network
 OpenStack	lib/fog/openstack/requests/network/delete_subnet.rb	/^    class OpenStack$/;"	c	class:Fog.Network
-OpenStack	lib/fog/openstack/requests/network/disassociate_floatingip.rb	/^    class OpenStack$/;"	c	class:Fog.Network
-OpenStack	lib/fog/openstack/requests/network/get_floatingip.rb	/^    class OpenStack$/;"	c	class:Fog.Network
+OpenStack	lib/fog/openstack/requests/network/disassociate_floating_ip.rb	/^    class OpenStack$/;"	c	class:Fog.Network
+OpenStack	lib/fog/openstack/requests/network/get_floating_ip.rb	/^    class OpenStack$/;"	c	class:Fog.Network
 OpenStack	lib/fog/openstack/requests/network/get_network.rb	/^    class OpenStack$/;"	c	class:Fog.Network
 OpenStack	lib/fog/openstack/requests/network/get_port.rb	/^    class OpenStack$/;"	c	class:Fog.Network
 OpenStack	lib/fog/openstack/requests/network/get_subnet.rb	/^    class OpenStack$/;"	c	class:Fog.Network
-OpenStack	lib/fog/openstack/requests/network/list_floatingips.rb	/^    class OpenStack$/;"	c	class:Fog.Network
+OpenStack	lib/fog/openstack/requests/network/list_floating_ips.rb	/^    class OpenStack$/;"	c	class:Fog.Network
 OpenStack	lib/fog/openstack/requests/network/list_networks.rb	/^    class OpenStack$/;"	c	class:Fog.Network
 OpenStack	lib/fog/openstack/requests/network/list_ports.rb	/^    class OpenStack$/;"	c	class:Fog.Network
 OpenStack	lib/fog/openstack/requests/network/list_subnets.rb	/^    class OpenStack$/;"	c	class:Fog.Network
@@ -10620,21 +10620,21 @@ Real	lib/fog/openstack/requests/image/remove_member_from_image.rb	/^      class 
 Real	lib/fog/openstack/requests/image/set_tenant.rb	/^      class Real$/;"	c	class:Fog.Image.OpenStack
 Real	lib/fog/openstack/requests/image/update_image.rb	/^      class Real$/;"	c	class:Fog.Image.OpenStack
 Real	lib/fog/openstack/requests/image/update_image_members.rb	/^      class Real$/;"	c	class:Fog.Image.OpenStack
-Real	lib/fog/openstack/requests/network/associate_floatingip.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
-Real	lib/fog/openstack/requests/network/create_floatingip.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
+Real	lib/fog/openstack/requests/network/associate_floating_ip.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
+Real	lib/fog/openstack/requests/network/create_floating_ip.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
 Real	lib/fog/openstack/requests/network/create_network.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
 Real	lib/fog/openstack/requests/network/create_port.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
 Real	lib/fog/openstack/requests/network/create_subnet.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
-Real	lib/fog/openstack/requests/network/delete_floatingip.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
+Real	lib/fog/openstack/requests/network/delete_floating_ip.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
 Real	lib/fog/openstack/requests/network/delete_network.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
 Real	lib/fog/openstack/requests/network/delete_port.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
 Real	lib/fog/openstack/requests/network/delete_subnet.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
-Real	lib/fog/openstack/requests/network/disassociate_floatingip.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
-Real	lib/fog/openstack/requests/network/get_floatingip.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
+Real	lib/fog/openstack/requests/network/disassociate_floating_ip.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
+Real	lib/fog/openstack/requests/network/get_floating_ip.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
 Real	lib/fog/openstack/requests/network/get_network.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
 Real	lib/fog/openstack/requests/network/get_port.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
 Real	lib/fog/openstack/requests/network/get_subnet.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
-Real	lib/fog/openstack/requests/network/list_floatingips.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
+Real	lib/fog/openstack/requests/network/list_floating_ips.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
 Real	lib/fog/openstack/requests/network/list_networks.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
 Real	lib/fog/openstack/requests/network/list_ports.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
 Real	lib/fog/openstack/requests/network/list_subnets.rb	/^      class Real$/;"	c	class:Fog.Network.OpenStack
@@ -12469,7 +12469,7 @@ all	lib/fog/openstack/models/identity/roles.rb	/^        def all$/;"	f	class:Fog
 all	lib/fog/openstack/models/identity/tenants.rb	/^        def all$/;"	f	class:Fog.Identity.OpenStack.Tenants
 all	lib/fog/openstack/models/identity/users.rb	/^        def all$/;"	f	class:Fog.Identity.OpenStack.Users
 all	lib/fog/openstack/models/image/images.rb	/^        def all$/;"	f	class:Fog.Image.OpenStack.Images
-all	lib/fog/openstack/models/network/floatingips.rb	/^        def all(filters = filters)$/;"	f	class:Fog.Network.OpenStack.Floatingips
+all	lib/fog/openstack/models/network/floating_ips.rb	/^        def all(filters = filters)$/;"	f	class:Fog.Network.OpenStack.FloatingIps
 all	lib/fog/openstack/models/network/networks.rb	/^        def all(filters = filters)$/;"	f	class:Fog.Network.OpenStack.Networks
 all	lib/fog/openstack/models/network/ports.rb	/^        def all(filters = filters)$/;"	f	class:Fog.Network.OpenStack.Ports
 all	lib/fog/openstack/models/network/subnets.rb	/^        def all(filters = filters)$/;"	f	class:Fog.Network.OpenStack.Subnets
@@ -12618,8 +12618,8 @@ associate_address	lib/fog/openstack/requests/compute/associate_address.rb	/^    
 associate_address	lib/fog/openstack/requests/compute/associate_address.rb	/^        def associate_address(server_id, ip_address)$/;"	f	class:Fog.Compute.OpenStack.Real
 associate_dhcp_options	lib/fog/aws/requests/compute/associate_dhcp_options.rb	/^        def associate_dhcp_options(dhcp_options_id, vpc_id)$/;"	f	class:Fog.Compute.AWS.Mock
 associate_dhcp_options	lib/fog/aws/requests/compute/associate_dhcp_options.rb	/^        def associate_dhcp_options(dhcp_options_id, vpc_id)$/;"	f	class:Fog.Compute.AWS.Real
-associate_floatingip	lib/fog/openstack/requests/network/associate_floatingip.rb	/^        def associate_floatingip(floatingip_id, port_id, options = {})$/;"	f	class:Fog.Network.OpenStack.Mock
-associate_floatingip	lib/fog/openstack/requests/network/associate_floatingip.rb	/^        def associate_floatingip(floatingip_id, port_id, options = {})$/;"	f	class:Fog.Network.OpenStack.Real
+associate_floating_ip	lib/fog/openstack/requests/network/associate_floating_ip.rb	/^        def associate_floating_ip(floating_ip_id, port_id, options = {})$/;"	f	class:Fog.Network.OpenStack.Mock
+associate_floating_ip	lib/fog/openstack/requests/network/associate_floating_ip.rb	/^        def associate_floating_ip(floating_ip_id, port_id, options = {})$/;"	f	class:Fog.Network.OpenStack.Real
 associate_ip_address	lib/fog/ninefold/requests/compute/associate_ip_address.rb	/^        def associate_ip_address(options = {})$/;"	f	class:Fog.Compute.Ninefold.Real
 associations	lib/fog/ecloud/models/compute/rnat.rb	/^        def associations$/;"	f	class:Fog.Compute.Ecloud.Rnat
 at_address	lib/fog/ecloud/mock_data_classes.rb	/^        def at_address(address)$/;"	f	class:Fog.Ecloud.MockDataClasses.MockVirtualMachineDisks
@@ -13013,7 +13013,7 @@ create	lib/fog/joyent/models/compute/snapshots.rb	/^        def create(machine_i
 create	lib/fog/openstack/models/identity/ec2_credentials.rb	/^        def create(attributes = {})$/;"	f	class:Fog.Identity.OpenStack.Ec2Credentials
 create	lib/fog/openstack/models/identity/tenant.rb	/^        def create$/;"	f	class:Fog.Identity.OpenStack.Tenant
 create	lib/fog/openstack/models/image/image.rb	/^        def create$/;"	f	class:Fog.Image.OpenStack.Image
-create	lib/fog/openstack/models/network/floatingip.rb	/^        def create$/;"	f	class:Fog.Network.OpenStack.Floatingip
+create	lib/fog/openstack/models/network/floating_ip.rb	/^        def create$/;"	f	class:Fog.Network.OpenStack.FloatingIp
 create	lib/fog/openstack/models/network/network.rb	/^        def create$/;"	f	class:Fog.Network.OpenStack.Network
 create	lib/fog/openstack/models/network/port.rb	/^        def create$/;"	f	class:Fog.Network.OpenStack.Port
 create	lib/fog/openstack/models/network/subnet.rb	/^        def create$/;"	f	class:Fog.Network.OpenStack.Subnet
@@ -13092,8 +13092,8 @@ create_firewall_policy	lib/fog/brightbox/requests/compute/create_firewall_policy
 create_firewall_rule	lib/fog/brightbox/requests/compute/create_firewall_rule.rb	/^        def create_firewall_rule(options)$/;"	f	class:Fog.Compute.Brightbox.Real
 create_flavor	lib/fog/openstack/requests/compute/create_flavor.rb	/^        def create_flavor(attributes)$/;"	f	class:Fog.Compute.OpenStack.Mock
 create_flavor	lib/fog/openstack/requests/compute/create_flavor.rb	/^        def create_flavor(attributes)$/;"	f	class:Fog.Compute.OpenStack.Real
-create_floatingip	lib/fog/openstack/requests/network/create_floatingip.rb	/^        def create_floatingip(floating_network_id, options = {})$/;"	f	class:Fog.Network.OpenStack.Mock
-create_floatingip	lib/fog/openstack/requests/network/create_floatingip.rb	/^        def create_floatingip(floating_network_id, options = {})$/;"	f	class:Fog.Network.OpenStack.Real
+create_floating_ip	lib/fog/openstack/requests/network/create_floating_ip.rb	/^        def create_floating_ip(floating_network_id, options = {})$/;"	f	class:Fog.Network.OpenStack.Mock
+create_floating_ip	lib/fog/openstack/requests/network/create_floating_ip.rb	/^        def create_floating_ip(floating_network_id, options = {})$/;"	f	class:Fog.Network.OpenStack.Real
 create_group	lib/fog/aws/requests/iam/create_group.rb	/^        def create_group(group_name, path = '\/')$/;"	f	class:Fog.AWS.IAM.Mock
 create_group	lib/fog/aws/requests/iam/create_group.rb	/^        def create_group(group_name, path = '\/')$/;"	f	class:Fog.AWS.IAM.Real
 create_group	lib/fog/ecloud/models/compute/row.rb	/^        def create_group(options = {})$/;"	f	class:Fog.Compute.Ecloud.Row
@@ -13550,8 +13550,8 @@ delete_environment_configuration	lib/fog/aws/requests/beanstalk/delete_environme
 delete_error_body	lib/fog/aws/requests/storage/delete_multiple_objects.rb	/^        def delete_error_body(key, version_id, message, code)$/;"	f	class:Fog.Storage.AWS.Mock
 delete_flavor	lib/fog/openstack/requests/compute/delete_flavor.rb	/^        def delete_flavor(flavor_id)$/;"	f	class:Fog.Compute.OpenStack.Mock
 delete_flavor	lib/fog/openstack/requests/compute/delete_flavor.rb	/^        def delete_flavor(flavor_id)$/;"	f	class:Fog.Compute.OpenStack.Real
-delete_floatingip	lib/fog/openstack/requests/network/delete_floatingip.rb	/^        def delete_floatingip(floating_network_id)$/;"	f	class:Fog.Network.OpenStack.Mock
-delete_floatingip	lib/fog/openstack/requests/network/delete_floatingip.rb	/^        def delete_floatingip(floating_network_id)$/;"	f	class:Fog.Network.OpenStack.Real
+delete_floating_ip	lib/fog/openstack/requests/network/delete_floating_ip.rb	/^        def delete_floating_ip(floating_ip_id)$/;"	f	class:Fog.Network.OpenStack.Mock
+delete_floating_ip	lib/fog/openstack/requests/network/delete_floating_ip.rb	/^        def delete_floating_ip(floating_ip_id)$/;"	f	class:Fog.Network.OpenStack.Real
 delete_group	lib/fog/aws/requests/iam/delete_group.rb	/^        def delete_group(group_name)$/;"	f	class:Fog.AWS.IAM.Mock
 delete_group	lib/fog/aws/requests/iam/delete_group.rb	/^        def delete_group(group_name)$/;"	f	class:Fog.AWS.IAM.Real
 delete_group_policy	lib/fog/aws/requests/iam/delete_group_policy.rb	/^        def delete_group_policy(group_name, policy_name)$/;"	f	class:Fog.AWS.IAM.Real
@@ -14014,7 +14014,7 @@ destroy	lib/fog/openstack/models/identity/user.rb	/^        def destroy$/;"	f	cl
 destroy	lib/fog/openstack/models/identity/users.rb	/^        def destroy(id)$/;"	f	class:Fog.Identity.OpenStack.Users
 destroy	lib/fog/openstack/models/image/image.rb	/^        def destroy$/;"	f	class:Fog.Image.OpenStack.Image
 destroy	lib/fog/openstack/models/image/images.rb	/^        def destroy(id)$/;"	f	class:Fog.Image.OpenStack.Images
-destroy	lib/fog/openstack/models/network/floatingip.rb	/^        def destroy$/;"	f	class:Fog.Network.OpenStack.Floatingip
+destroy	lib/fog/openstack/models/network/floating_ip.rb	/^        def destroy$/;"	f	class:Fog.Network.OpenStack.FloatingIp
 destroy	lib/fog/openstack/models/network/network.rb	/^        def destroy$/;"	f	class:Fog.Network.OpenStack.Network
 destroy	lib/fog/openstack/models/network/port.rb	/^        def destroy$/;"	f	class:Fog.Network.OpenStack.Port
 destroy	lib/fog/openstack/models/network/subnet.rb	/^        def destroy$/;"	f	class:Fog.Network.OpenStack.Subnet
@@ -14169,8 +14169,8 @@ disassociate_address	lib/fog/hp/requests/compute/disassociate_address.rb	/^     
 disassociate_address	lib/fog/openstack/models/compute/server.rb	/^        def disassociate_address(floating_ip)$/;"	f	class:Fog.Compute.OpenStack.Server
 disassociate_address	lib/fog/openstack/requests/compute/disassociate_address.rb	/^        def disassociate_address(server_id, ip_address)$/;"	f	class:Fog.Compute.OpenStack.Mock
 disassociate_address	lib/fog/openstack/requests/compute/disassociate_address.rb	/^        def disassociate_address(server_id, ip_address)$/;"	f	class:Fog.Compute.OpenStack.Real
-disassociate_floatingip	lib/fog/openstack/requests/network/disassociate_floatingip.rb	/^        def disassociate_floatingip(floatingip_id, options = {})$/;"	f	class:Fog.Network.OpenStack.Mock
-disassociate_floatingip	lib/fog/openstack/requests/network/disassociate_floatingip.rb	/^        def disassociate_floatingip(floatingip_id, options = {})$/;"	f	class:Fog.Network.OpenStack.Real
+disassociate_floating_ip	lib/fog/openstack/requests/network/disassociate_floating_ip.rb	/^        def disassociate_floating_ip(floating_ip_id, options = {})$/;"	f	class:Fog.Network.OpenStack.Mock
+disassociate_floating_ip	lib/fog/openstack/requests/network/disassociate_floating_ip.rb	/^        def disassociate_floating_ip(floating_ip_id, options = {})$/;"	f	class:Fog.Network.OpenStack.Real
 disassociate_ip_address	lib/fog/ninefold/requests/compute/disassociate_ip_address.rb	/^        def disassociate_ip_address(options = {})$/;"	f	class:Fog.Compute.Ninefold.Real
 disk_hash	tests/vcloud/requests/compute/disk_configure_tests.rb	/^  def disk_hash$/;"	f
 disk_mess	lib/fog/vcloud/models/compute/server.rb	/^        def disk_mess$/;"	f	class:Fog.Vcloud.Compute.Server
@@ -14939,7 +14939,7 @@ get	lib/fog/openstack/models/compute/servers.rb	/^        def get(server_id)$/;"
 get	lib/fog/openstack/models/compute/snapshots.rb	/^        def get(snapshot_id)$/;"	f	class:Fog.Compute.OpenStack.Snapshots
 get	lib/fog/openstack/models/compute/volumes.rb	/^        def get(volume_id)$/;"	f	class:Fog.Compute.OpenStack.Volumes
 get	lib/fog/openstack/models/identity/roles.rb	/^        def get(id)$/;"	f	class:Fog.Identity.OpenStack.Roles
-get	lib/fog/openstack/models/network/floatingips.rb	/^        def get(floating_network_id)$/;"	f	class:Fog.Network.OpenStack.Floatingips
+get	lib/fog/openstack/models/network/floating_ips.rb	/^        def get(floating_network_id)$/;"	f	class:Fog.Network.OpenStack.FloatingIps
 get	lib/fog/openstack/models/network/networks.rb	/^        def get(network_id)$/;"	f	class:Fog.Network.OpenStack.Networks
 get	lib/fog/openstack/models/network/ports.rb	/^        def get(port_id)$/;"	f	class:Fog.Network.OpenStack.Ports
 get	lib/fog/openstack/models/network/subnets.rb	/^        def get(subnet_id)$/;"	f	class:Fog.Network.OpenStack.Subnets
@@ -15125,8 +15125,8 @@ get_flavor_details	lib/fog/rackspace/requests/compute/get_flavor_details.rb	/^  
 get_flavor_details	lib/fog/rackspace/requests/compute/get_flavor_details.rb	/^        def get_flavor_details(flavor_id)$/;"	f	class:Fog.Compute.Rackspace.Real
 get_flavor_ref	tests/openstack/requests/compute/helper.rb	/^def get_flavor_ref$/;"	f
 get_flavor_ref_resize	tests/openstack/requests/compute/helper.rb	/^def get_flavor_ref_resize$/;"	f
-get_floatingip	lib/fog/openstack/requests/network/get_floatingip.rb	/^        def get_floatingip(floating_network_id)$/;"	f	class:Fog.Network.OpenStack.Mock
-get_floatingip	lib/fog/openstack/requests/network/get_floatingip.rb	/^        def get_floatingip(floating_network_id)$/;"	f	class:Fog.Network.OpenStack.Real
+get_floating_ip	lib/fog/openstack/requests/network/get_floating_ip.rb	/^        def get_floating_ip(floating_ip_id)$/;"	f	class:Fog.Network.OpenStack.Mock
+get_floating_ip	lib/fog/openstack/requests/network/get_floating_ip.rb	/^        def get_floating_ip(floating_ip_id)$/;"	f	class:Fog.Network.OpenStack.Real
 get_folder	lib/fog/vsphere/requests/compute/get_folder.rb	/^        def get_folder(path, datacenter_name, type = nil)$/;"	f	class:Fog.Compute.Vsphere.Real
 get_folder	lib/fog/vsphere/requests/compute/get_folder.rb	/^        def get_folder(path, filters = { })$/;"	f	class:Fog.Compute.Vsphere.Mock
 get_folder_path	lib/fog/vsphere/requests/compute/list_virtual_machines.rb	/^        def get_folder_path(folder, root = nil)$/;"	f	class:Fog.Compute.Vsphere.Mock
@@ -15817,8 +15817,8 @@ initialize	lib/fog/openstack/models/compute/volume.rb	/^        def initialize(a
 initialize	lib/fog/openstack/models/identity/ec2_credential.rb	/^        def initialize(attributes)$/;"	f	class:Fog.Identity.OpenStack.Ec2Credential
 initialize	lib/fog/openstack/models/identity/user.rb	/^        def initialize(attributes)$/;"	f	class:Fog.Identity.OpenStack.User
 initialize	lib/fog/openstack/models/image/image.rb	/^        def initialize(attributes)$/;"	f	class:Fog.Image.OpenStack.Image
-initialize	lib/fog/openstack/models/network/floatingip.rb	/^        def initialize(attributes)$/;"	f	class:Fog.Network.OpenStack.Floatingip
-initialize	lib/fog/openstack/models/network/floatingips.rb	/^        def initialize(attributes)$/;"	f	class:Fog.Network.OpenStack.Floatingips
+initialize	lib/fog/openstack/models/network/floating_ip.rb	/^        def initialize(attributes)$/;"	f	class:Fog.Network.OpenStack.FloatingIp
+initialize	lib/fog/openstack/models/network/floating_ips.rb	/^        def initialize(attributes)$/;"	f	class:Fog.Network.OpenStack.FloatingIps
 initialize	lib/fog/openstack/models/network/network.rb	/^        def initialize(attributes)$/;"	f	class:Fog.Network.OpenStack.Network
 initialize	lib/fog/openstack/models/network/networks.rb	/^        def initialize(attributes)$/;"	f	class:Fog.Network.OpenStack.Networks
 initialize	lib/fog/openstack/models/network/port.rb	/^        def initialize(attributes)$/;"	f	class:Fog.Network.OpenStack.Port
@@ -16137,8 +16137,8 @@ list_flavors_detail	lib/fog/openstack/requests/compute/list_flavors_detail.rb	/^
 list_flavors_detail	lib/fog/openstack/requests/compute/list_flavors_detail.rb	/^        def list_flavors_detail$/;"	f	class:Fog.Compute.OpenStack.Real
 list_flavors_detail	lib/fog/rackspace/requests/compute/list_flavors_detail.rb	/^        def list_flavors_detail$/;"	f	class:Fog.Compute.Rackspace.Mock
 list_flavors_detail	lib/fog/rackspace/requests/compute/list_flavors_detail.rb	/^        def list_flavors_detail$/;"	f	class:Fog.Compute.Rackspace.Real
-list_floatingips	lib/fog/openstack/requests/network/list_floatingips.rb	/^        def list_floatingips(filters = {})$/;"	f	class:Fog.Network.OpenStack.Mock
-list_floatingips	lib/fog/openstack/requests/network/list_floatingips.rb	/^        def list_floatingips(filters = {})$/;"	f	class:Fog.Network.OpenStack.Real
+list_floating_ips	lib/fog/openstack/requests/network/list_floating_ips.rb	/^        def list_floating_ips(filters = {})$/;"	f	class:Fog.Network.OpenStack.Mock
+list_floating_ips	lib/fog/openstack/requests/network/list_floating_ips.rb	/^        def list_floating_ips(filters = {})$/;"	f	class:Fog.Network.OpenStack.Real
 list_folders	lib/fog/vsphere/requests/compute/list_folders.rb	/^        def list_folders(filters = { })$/;"	f	class:Fog.Compute.Vsphere.Real
 list_free	lib/fog/glesys/models/compute/ip.rb	/^        def list_free$/;"	f	class:Fog.Glesys.Compute.Ip
 list_group_policies	lib/fog/aws/requests/iam/list_group_policies.rb	/^        def list_group_policies(group_name, options = {})$/;"	f	class:Fog.AWS.IAM.Real
@@ -18087,7 +18087,7 @@ save	lib/fog/openstack/models/identity/role.rb	/^        def save$/;"	f	class:Fo
 save	lib/fog/openstack/models/identity/tenant.rb	/^        def save$/;"	f	class:Fog.Identity.OpenStack.Tenant
 save	lib/fog/openstack/models/identity/user.rb	/^        def save$/;"	f	class:Fog.Identity.OpenStack.User
 save	lib/fog/openstack/models/image/image.rb	/^        def save$/;"	f	class:Fog.Image.OpenStack.Image
-save	lib/fog/openstack/models/network/floatingip.rb	/^        def save$/;"	f	class:Fog.Network.OpenStack.Floatingip
+save	lib/fog/openstack/models/network/floating_ip.rb	/^        def save$/;"	f	class:Fog.Network.OpenStack.FloatingIp
 save	lib/fog/openstack/models/network/network.rb	/^        def save$/;"	f	class:Fog.Network.OpenStack.Network
 save	lib/fog/openstack/models/network/port.rb	/^        def save$/;"	f	class:Fog.Network.OpenStack.Port
 save	lib/fog/openstack/models/network/subnet.rb	/^        def save$/;"	f	class:Fog.Network.OpenStack.Subnet
@@ -18775,7 +18775,7 @@ update	lib/fog/openstack/models/compute/metadata.rb	/^        def update(data=ni
 update	lib/fog/openstack/models/identity/tenant.rb	/^        def update(attr = nil)$/;"	f	class:Fog.Identity.OpenStack.Tenant
 update	lib/fog/openstack/models/identity/user.rb	/^        def update(options = {})$/;"	f	class:Fog.Identity.OpenStack.User
 update	lib/fog/openstack/models/image/image.rb	/^        def update$/;"	f	class:Fog.Image.OpenStack.Image
-update	lib/fog/openstack/models/network/floatingip.rb	/^        def update$/;"	f	class:Fog.Network.OpenStack.Floatingip
+update	lib/fog/openstack/models/network/floating_ip.rb	/^        def update$/;"	f	class:Fog.Network.OpenStack.FloatingIp
 update	lib/fog/openstack/models/network/network.rb	/^        def update$/;"	f	class:Fog.Network.OpenStack.Network
 update	lib/fog/openstack/models/network/port.rb	/^        def update$/;"	f	class:Fog.Network.OpenStack.Port
 update	lib/fog/openstack/models/network/subnet.rb	/^        def update$/;"	f	class:Fog.Network.OpenStack.Subnet
