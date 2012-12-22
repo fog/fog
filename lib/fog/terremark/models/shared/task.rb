@@ -23,12 +23,12 @@ module Fog
           new_cancel_link = attributes.delete('Link')
 
           super
-          self.owner = connection.parse(new_owner)
+          self.owner = service.parse(new_owner)
           if new_result
-            self.result = connection.parse(new_result)
+            self.result = service.parse(new_result)
           end
-          self.error = connection.parse(new_error) if new_error
-          @cancel_link = connection.parse(new_cancel_link) if new_cancel_link
+          self.error = service.parse(new_error) if new_error
+          @cancel_link = service.parse(new_cancel_link) if new_cancel_link
         end
 
         def ready?

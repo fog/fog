@@ -16,8 +16,8 @@ module Fog
         attribute :public_ip_address_id
 
         def destroy(delete_public_ip=true)
-          connection.delete_internet_service(self.Id)
-          connection.delete_public_ip(self.PublicIpAddress["Id"]) if delete_public_ip
+          service.delete_internet_service(self.Id)
+          service.delete_public_ip(self.PublicIpAddress["Id"]) if delete_public_ip
         true
         end
 
@@ -25,8 +25,8 @@ module Fog
           requires :Name, :Protocol, :Port
           if not public_ip_address_id
             #Create the first internet service and allocate public IP
-            data = connection.create_internet_service(
-                vdc = connection.default_vdc_id,
+            data = service.create_internet_service(
+                vdc = service.default_vdc_id,
                 name = self.Name,
                 protocol = self.Protocol,
                 port = self.Port,
@@ -37,7 +37,7 @@ module Fog
             )
           else
             #create additional services to existing Public IP
-            data = connection.add_internet_service(
+            data = service.add_internet_service(
                       ip_id = public_ip_address_id,
                       name = self.Name,
                       protocol = self.Protocol,
@@ -46,7 +46,7 @@ module Fog
                         'Enabled' => 'true',
                         "Description" => self.Name
                         }
-                    )           
+                    )
             end
             merge_attributes(data.body)
             true
