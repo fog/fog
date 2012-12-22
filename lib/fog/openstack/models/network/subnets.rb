@@ -17,11 +17,11 @@ module Fog
 
         def all(filters = filters)
           self.filters = filters
-          load(connection.list_subnets(filters).body['subnets'])
+          load(service.list_subnets(filters).body['subnets'])
         end
 
         def get(subnet_id)
-          if subnet = connection.get_subnet(subnet_id).body['subnet']
+          if subnet = service.get_subnet(subnet_id).body['subnet']
             new(subnet)
           end
         rescue Fog::Network::OpenStack::NotFound

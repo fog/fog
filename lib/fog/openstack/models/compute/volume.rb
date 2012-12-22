@@ -28,27 +28,27 @@ module Fog
 
         def save
           requires :name, :description, :size
-          data = connection.create_volume(name, description, size, attributes)
+          data = service.create_volume(name, description, size, attributes)
           merge_attributes(data.body['volume'])
           true
         end
 
         def destroy
           requires :id
-          connection.delete_volume(id)
+          service.delete_volume(id)
           true
         end
 
         def attach(server_id, name)
           requires :id
-          data = connection.attach_volume(id, server_id, name)
+          data = service.attach_volume(id, server_id, name)
           merge_attributes(:attachments => attachments << data.body['volumeAttachment'])
           true
         end
 
         def detach(server_id, attachment_id)
           requires :id
-          connection.detach_volume(server_id, attachment_id)
+          service.detach_volume(server_id, attachment_id)
           true
         end
       end

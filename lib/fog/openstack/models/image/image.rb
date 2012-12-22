@@ -44,45 +44,45 @@ module Fog
 
         def create
           requires :name
-          merge_attributes(connection.create_image(self.attributes).body['image'])
+          merge_attributes(service.create_image(self.attributes).body['image'])
           self
         end
 
         def update
           requires :name
-          merge_attributes(connection.update_image(self.attributes).body['image'])
+          merge_attributes(service.update_image(self.attributes).body['image'])
           self
         end
 
         def destroy
           requires :id
-          connection.delete_image(self.id)
+          service.delete_image(self.id)
           true
         end
 
         def add_member(member_id)
           requires :id
-          connection.add_member_to_image(self.id, member_id)
+          service.add_member_to_image(self.id, member_id)
         end
 
         def remove_member(member_id)
           requires :id
-          connection.remove_member_from_image(self.id, member_id)
+          service.remove_member_from_image(self.id, member_id)
         end
 
         def update_members(members)
           requires :id
-          connection.update_image_members(self.id, members)
+          service.update_image_members(self.id, members)
         end
 
         def members
           requires :id
-          connection.get_image_members(self.id).body['members']
+          service.get_image_members(self.id).body['members']
         end
 
         def metadata
           requires :id
-          connection.get_image(self.id).headers
+          service.get_image(self.id).headers
         end
 
       end

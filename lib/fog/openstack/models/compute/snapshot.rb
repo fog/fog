@@ -25,14 +25,14 @@ module Fog
 
         def save(force=false)
           requires :volume_id, :name, :description
-          data = connection.create_volume_snapshot(volume_id, name, description, force)
+          data = service.create_volume_snapshot(volume_id, name, description, force)
           merge_attributes(data.body['snapshot'])
           true
         end
 
         def destroy
           requires :id
-          connection.delete_snapshot(id)
+          service.delete_snapshot(id)
           true
         end
 

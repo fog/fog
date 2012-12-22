@@ -18,7 +18,7 @@ module Fog
         end
 
         def details
-          connection.get_host_details(self.host_name).body['host']
+          service.get_host_details(self.host_name).body['host']
         end
 
       end

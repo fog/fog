@@ -27,14 +27,14 @@ module Fog
 
         def save
           requires :display_name, :size
-          data = connection.create_volume(display_name, display_description, size, attributes)
+          data = service.create_volume(display_name, display_description, size, attributes)
           merge_attributes(data.body['volume'])
           true
         end
 
         def destroy
           requires :id
-          connection.delete_volume(id)
+          service.delete_volume(id)
           true
         end
 

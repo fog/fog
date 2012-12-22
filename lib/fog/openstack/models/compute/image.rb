@@ -29,7 +29,7 @@ module Fog
         def metadata
           @metadata ||= begin
             Fog::Compute::OpenStack::Metadata.new({
-              :connection => connection,
+              :service => service,
               :parent => self
             })
           end
@@ -43,7 +43,7 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_image(id)
+          service.delete_image(id)
           true
         end
 
