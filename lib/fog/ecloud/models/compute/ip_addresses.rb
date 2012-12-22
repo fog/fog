@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Ecloud::IpAddress
 
         def all
-          data = connection.get_network(href).body
+          data = service.get_network(href).body
           data = if data[:IpAddresses]
                    data[:IpAddresses][:IpAddress]
                  else
@@ -21,7 +21,7 @@ module Fog
         end
 
         def get(uri)
-          if data = connection.get_ip_address(uri)
+          if data = service.get_ip_address(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Ecloud::Group
 
         def all
-          data = connection.get_groups(href).body
+          data = service.get_groups(href).body
           data = if data == ""
                    ""
                  else
@@ -24,7 +24,7 @@ module Fog
         end
 
         def get(uri)
-          data = connection.get_group(uri).body
+          data = service.get_group(uri).body
           if data == ""
             nil
           else

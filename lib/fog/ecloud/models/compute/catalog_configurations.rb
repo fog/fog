@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ecloud::CatalogConfiguration
 
         def all
-          data = connection.get_catalog_configurations(href).body
+          data = service.get_catalog_configurations(href).body
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_catalog_configuration(uri)
+          if data = service.get_catalog_configuration(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound
