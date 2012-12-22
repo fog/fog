@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Cloudstack::Server
 
         def all
-          data = connection.list_virtual_machines["listvirtualmachinesresponse"]["virtualmachine"] || []
+          data = service.list_virtual_machines["listvirtualmachinesresponse"]["virtualmachine"] || []
           load(data)
         end
 
@@ -21,7 +21,7 @@ module Fog
         end
 
         def get(server_id)
-          if server = connection.list_virtual_machines('id' => server_id)["listvirtualmachinesresponse"]["virtualmachine"].first
+          if server = service.list_virtual_machines('id' => server_id)["listvirtualmachinesresponse"]["virtualmachine"].first
             new(server)
           end
         rescue Fog::Compute::Cloudstack::BadRequest
