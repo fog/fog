@@ -24,7 +24,7 @@ module Fog
           marker = nil
           finished = false
           while !finished
-            data = connection.describe_db_parameters(group.id, filters.merge(:marker => marker)).body
+            data = service.describe_db_parameters(group.id, filters.merge(:marker => marker)).body
             result.concat(data['DescribeDBParametersResult']['Parameters'])
             marker = data['DescribeDBParametersResult']['Marker']
             finished = marker.nil?
