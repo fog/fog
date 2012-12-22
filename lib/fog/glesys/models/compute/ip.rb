@@ -15,12 +15,12 @@ module Fog
         attribute :ip
 
         def list_own
-          connection.list_own
+          service.list_own
         end
 
         def list_free
           requires :version, :datacenter, :platform
-          connection.ip_list_free(
+          service.ip_list_free(
             :ipversion => version,
             :platform => platform,
             :datacenter => datacenter
@@ -29,7 +29,7 @@ module Fog
 
         def details
           requires :version, :ip
-          connection.ip_details(
+          service.ip_details(
             :ipversion => version,
             :ipaddress => ip
           )
@@ -37,7 +37,7 @@ module Fog
 
         def take
           requires :version, :ip
-          connection.ip_take(
+          service.ip_take(
             :ipversion => version,
             :ipaddress => ip
           )
@@ -45,7 +45,7 @@ module Fog
 
         def release
           requires :version, :ip
-          connection.ip_release(
+          service.ip_release(
             :ipversion => version,
             :ipaddress => ip
           )
@@ -53,7 +53,7 @@ module Fog
 
         def add
           requires :serverid, :version, :ip
-          connection.ip_add(
+          service.ip_add(
             :serverid  => serverid,
             :ipversion => version,
             :ipaddress => ip
@@ -62,7 +62,7 @@ module Fog
 
         def remove
           requires :serverid, :version, :ip
-          connection.ip_remove(
+          service.ip_remove(
             :serverid  => serverid,
             :ipversion => version,
             :ipaddress => ip
