@@ -60,7 +60,7 @@ module Fog
           raise Fog::Errors::Error.new('Saving an existing server may create a duplicate') unless new?
           create_or_clone_volume unless xml or @volumes
           @xml ||= to_xml
-          self.id = (persistent ? connection.define_domain(xml) : connection.create_domain(xml)).uuid
+          self.id = (persistent ? service.define_domain(xml) : service.create_domain(xml)).uuid
           reload
         rescue => e
           raise Fog::Errors::Error.new("Error saving the server: #{e}")
@@ -68,7 +68,7 @@ module Fog
 
         def start
           return true if active?
-          connection.vm_action(uuid, :create)
+          service.vm_action(uuid, :create)
           reload
           true
         end
@@ -83,29 +83,29 @@ module Fog
 
         def destroy(options={ :destroy_volumes => false})
           poweroff unless stopped?
-          connection.vm_action(uuid, :undefine)
+          service.vm_action(uuid, :undefine)
           volumes.each { |vol| vol.destroy } if options[:destroy_volumes]
           true
         end
 
         def reboot
-          connection.vm_action(uuid, :reboot)
+          service.vm_action(uuid, :reboot)
         end
 
         def poweroff
-          connection.vm_action(uuid, :destroy)
+          service.vm_action(uuid, :destroy)
         end
 
         def shutdown
-          connection.vm_action(uuid, :shutdown)
+          service.vm_action(uuid, :shutdown)
         end
 
         def resume
-          connection.vm_action(uuid, :resume)
+          service.vm_action(uuid, :resume)
         end
 
         def suspend
-          connection.vm_action(uuid, :suspend)
+          service.vm_action(uuid, :suspend)
         end
 
         def stopped?
@@ -123,7 +123,7 @@ module Fog
 
         def volumes
           # lazy loading of volumes
-          @volumes ||= (@volumes_path || []).map{|path| connection.volumes.all(:path => path).first }
+          @volumes ||= (@volumes_path || []).map{|path| service.volumes.all(:path => path).first }
         end
 
         def private_ip_address
@@ -147,8 +147,8 @@ module Fog
         def ssh_proxy
           # if this is a direct connection, we don't need a proxy to be set.
           return nil unless connection.uri.ssh_enabled?
-          user_string= connection.uri.user ? "-l #{connection.uri.user}" : ""
-          Net::SSH::Proxy::Command.new("ssh #{user_string} #{connection.uri.host} nc %h %p")
+          user_string= service.uri.user ? "-l #{service.uri.user}" : ""
+          Net::SSH::Proxy::Command.new("ssh #{user_string} #{service.uri.host} nc %h %p")
         end
 
         # Transfers a file
@@ -197,7 +197,7 @@ module Fog
         end
 
         def update_display attrs = {}
-          connection.update_display attrs.merge(:uuid => uuid)
+          service.update_display attrs.merge(:uuid => uuid)
           reload
         end
 
@@ -214,32 +214,32 @@ module Fog
         # It returns an array of public and private ip addresses
         # Currently only one ip address is returned, but in the future this could be multiple
         # if the server has multiple network interface
-        def addresses(connection=connection, options={})
+        def addresses(service=service, options={})
           mac=self.mac
 
           # Aug 24 17:34:41 juno arpwatch: new station 10.247.4.137 52:54:00:88:5a:0a eth0.4
           # Aug 24 17:37:19 juno arpwatch: changed ethernet address 10.247.4.137 52:54:00:27:33:00 (52:54:00:88:5a:0a) eth0.4
           # Check if another ip_command string was provided
-          ip_command_global=connection.ip_command.nil? ? 'grep $mac /var/log/arpwatch.log|sed -e "s/new station//"|sed -e "s/changed ethernet address//g" |sed -e "s/reused old ethernet //" |tail -1 |cut -d ":" -f 4-| cut -d " " -f 3' : connection.ip_command
+          ip_command_global=service.ip_command.nil? ? 'grep $mac /var/log/arpwatch.log|sed -e "s/new station//"|sed -e "s/changed ethernet address//g" |sed -e "s/reused old ethernet //" |tail -1 |cut -d ":" -f 4-| cut -d " " -f 3' : service.ip_command
           ip_command_local=options[:ip_command].nil? ? ip_command_global : options[:ip_command]
 
           ip_command="mac=#{mac}; server_name=#{name}; "+ip_command_local
 
           ip_address=nil
 
-          if connection.uri.ssh_enabled?
+          if service.uri.ssh_enabled?
 
-            # Retrieve the parts we need from the connection to setup our ssh options
-            user=connection.uri.user #could be nil
-            host=connection.uri.host
-            keyfile=connection.uri.keyfile
-            port=connection.uri.port
+            # Retrieve the parts we need from the service to setup our ssh options
+            user=service.uri.user #could be nil
+            host=service.uri.host
+            keyfile=service.uri.keyfile
+            port=service.uri.port
 
             # Setup the options
             ssh_options={}
             ssh_options[:keys]=[ keyfile ] unless keyfile.nil?
             ssh_options[:port]=port unless keyfile.nil?
-            ssh_options[:paranoid]=true if connection.uri.no_verify?
+            ssh_options[:paranoid]=true if service.uri.no_verify?
 
 
             begin
@@ -261,7 +261,7 @@ module Fog
 
           else
             # It's not ssh enabled, so we assume it is
-            if connection.uri.transport=="tls"
+            if service.uri.transport=="tls"
               raise Fog::Errors::Error.new("TlS remote transport is not currently supported, only ssh")
             end
 
@@ -310,15 +310,15 @@ module Fog
 
         def initialize_nics
           if nics
-            nics.map! { |nic| nic.is_a?(Hash) ? connection.nics.new(nic) : nic }
+            nics.map! { |nic| nic.is_a?(Hash) ? service.nics.new(nic) : nic }
           else
-            self.nics = [connection.nics.new({:type => network_interface_type, :bridge => network_bridge_name, :network => network_nat_network})]
+            self.nics = [service.nics.new({:type => network_interface_type, :bridge => network_bridge_name, :network => network_nat_network})]
           end
         end
 
         def initialize_volumes
           if attributes[:volumes] && !attributes[:volumes].empty?
-            @volumes = attributes[:volumes].map { |vol| vol.is_a?(Hash) ? connection.volumes.new(vol) : vol }
+            @volumes = attributes[:volumes].map { |vol| vol.is_a?(Hash) ? service.volumes.new(vol) : vol }
           end
         end
 
@@ -326,7 +326,7 @@ module Fog
           options = {:name => volume_name || default_volume_name}
           # Check if a disk template was specified
           if volume_template_name
-            template_volume = connection.volumes.all(:name => volume_template_name).first
+            template_volume = service.volumes.all(:name => volume_template_name).first
             raise Fog::Errors::Error.new("Template #{volume_template_name} not found") unless template_volume
             begin
               volume = template_volume.clone("#{options[:name]}")
@@ -341,7 +341,7 @@ module Fog
             options[:allocation]  = volume_allocation  if volume_allocation
 
             begin
-              volume = connection.volumes.create(options)
+              volume = service.volumes.create(options)
             rescue => e
               raise Fog::Errors::Error.new("Error creating the volume : #{e}")
             end

@@ -38,17 +38,17 @@ module Fog
 
           raise Fog::Errors::Error.new('Reserving an existing volume may create a duplicate') if key
           @xml ||= to_xml
-          self.path = connection.create_volume(pool_name, xml).path
+          self.path = service.create_volume(pool_name, xml).path
         end
 
         # Destroy a volume
         def destroy
-          connection.volume_action key, :delete
+          service.volume_action key, :delete
         end
 
         # Wipes a volume , zeroes disk
         def wipe
-          connection.volume_action key, :wipe
+          service.volume_action key, :wipe
         end
 
         # Clones this volume to the name provided
@@ -75,10 +75,10 @@ module Fog
         # Try to guess the default/first pool of no pool_name was specified
         def default_pool_name
           name = "default"
-          return name unless (connection.pools.all(:name => name)).empty?
+          return name unless (service.pools.all(:name => name)).empty?
 
           # we default to the first pool we find.
-          first_pool = connection.pools.first
+          first_pool = service.pools.first
 
           raise Fog::Errors::Error.new('No storage pools are defined') unless first_pool
           first_pool.name
