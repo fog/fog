@@ -29,7 +29,7 @@ module Fog
 
         def save
           requires :paths, :caller_reference
-          raise "Submitted invalidation cannot be submitted again" if identity
+          raise "Submitted invalidation cannot be submitted again" if persisted?
           response = connection.post_invalidation(distribution.identity, paths, caller_reference)
           merge_attributes(invalidation_to_attributes(response.body))
           true

@@ -45,7 +45,7 @@ module Fog
         attr_reader :password
 
         def save
-          if identity
+          if persisted?
             update
           else
             create

@@ -42,7 +42,7 @@ module Fog
 
         def save
           requires :size
-          raise IdentifierTaken.new('Resaving may cause a duplicate volume to be created') if identity
+          raise IdentifierTaken.new('Resaving may cause a duplicate volume to be created') if persisted?
           data = connection.create_volume(size, {
             :display_name => display_name,
             :display_description => display_description,

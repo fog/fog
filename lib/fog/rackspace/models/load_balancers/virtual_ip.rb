@@ -18,7 +18,7 @@ module Fog
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :load_balancer, :type
           data = connection.create_virtual_ip(load_balancer.id, type)
           merge_attributes(data.body)

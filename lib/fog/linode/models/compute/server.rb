@@ -43,7 +43,7 @@ module Fog
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           @data_center, @flavor, @image, @kernel, @type, @payment_terms, @stack_script, @name, @password, @callback =
             attributes.values_at :data_center, :flavor, :image, :kernel, :type, :payment_terms, :stack_script, :name, :password, :callback
 
