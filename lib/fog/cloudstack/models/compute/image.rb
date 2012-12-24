@@ -44,6 +44,9 @@ module Fog
           options = {
             'displaytext'      => display_text,
             'name'             => name,
+            'hypervisor'       => hypervisor,
+            'zoneid'           => zone_id,
+            'format'           => format,
             'ostypeid'         => os_type_id,
             'bits'             => bits,
             'details'          => details,
@@ -57,8 +60,8 @@ module Fog
             'virtualmachineid' => virtual_machine_id,
             'volumeid'         => volume_id
           }
-          data = connection.create_template(options)
-          merge_attributes(data['createtemplateresponse'])
+          data = connection.register_template(options)
+          merge_attributes(data['registertemplateresponse']['template'].first)
         end
 
         def destroy
