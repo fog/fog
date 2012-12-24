@@ -129,6 +129,14 @@ module Fog
           connection.images.get(image_id)
         end
 
+        # Returns the public DNS name of the server
+        #
+        # @return [String]
+        #
+        def dns_name
+          ["public", fqdn].join(".")
+        end
+
         def private_ip_address
           unless interfaces.empty?
             interfaces.first["ipv4_address"]
