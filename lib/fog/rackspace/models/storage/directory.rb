@@ -1,11 +1,12 @@
 require 'fog/core/model'
+require 'fog/storage/models/directory'
 require 'fog/rackspace/models/storage/files'
 
 module Fog
   module Storage
     class Rackspace
 
-      class Directory < Fog::Model
+      class Directory < Fog::Storage::Directory
 
         identity  :key, :aliases => 'name'
 
@@ -13,9 +14,8 @@ module Fog
         attribute :count, :aliases => 'X-Container-Object-Count'
         attribute :cdn_cname
 
-        def destroy
-          requires :key
-          connection.delete_container(key)
+        def destroy(opts={})
+          super(opts)
           connection.cdn.post_container(key, 'X-CDN-Enabled' => 'False')
           true
         rescue Excon::Errors::NotFound
