@@ -10,7 +10,7 @@ module Fog
 
         def save
           requires :server
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           @type, @image, @stack_script, @name, @password, @size =
             attributes.values_at :type, :image, :stack_script, :name, :password, :size
           create_disk

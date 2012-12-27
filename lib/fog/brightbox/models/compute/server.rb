@@ -164,7 +164,7 @@ module Fog
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :image_id
           options = {
             :image => image_id,
@@ -198,7 +198,7 @@ module Fog
           # FIXME Using side effect of wait_for's (evaluated block) to detect timeouts
           begin
             wait_for(20) { ! ready? }
-            start            
+            start
           rescue Fog::Errors::Timeout => e
             false
           end

@@ -165,7 +165,7 @@ module Fog
 
         def save
           requires :name, :cluster, :datacenter
-          if identity
+          if persisted?
             raise "update is not supported yet"
            # connection.update_vm(attributes)
           else

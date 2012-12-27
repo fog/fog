@@ -88,7 +88,7 @@ module Fog
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :image_id
           data = connection.create_server(image_id, attributes)
           merge_attributes(data.body['server'])

@@ -15,7 +15,7 @@ module Fog
 
         def save
           requires :username, :email, :enabled
-          if identity.nil?
+          unless persisted?
             data = connection.create_user(username, email, enabled, :password => password)
           else
             data = connection.update_user(identity, username, email, enabled, :password => password)

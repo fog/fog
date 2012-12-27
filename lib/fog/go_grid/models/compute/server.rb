@@ -58,7 +58,7 @@ module Fog
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :name, :image_id, :memory, :public_ip_address
           options = {
             'isSandbox'   => sandbox,

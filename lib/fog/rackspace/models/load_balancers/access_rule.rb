@@ -17,7 +17,7 @@ module Fog
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :load_balancer, :address, :type
           connection.create_access_rule(load_balancer.id, address, type)
 
