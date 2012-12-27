@@ -25,9 +25,8 @@ module Fog
         attribute :encryption,          :aliases => 'x-amz-server-side-encryption'
         attribute :version,             :aliases => 'x-amz-version-id'
 
-        # Chunk size to use for multipart uploads
-        # Use small chunk sizes to minimize memory
-        # E.g. 5242880 = 5mb
+        # @note Chunk size to use for multipart uploads.
+        #     Use small chunk sizes to minimize memory. E.g. 5242880 = 5mb
         attr_accessor :multipart_chunk_size
 
         def acl=(new_acl)
