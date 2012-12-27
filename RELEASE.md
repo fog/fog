@@ -23,13 +23,13 @@ services)
 * Update the version number (`lib/fog/version.rb`)
 * Run `rake changelog` to update `changelog.txt`
 * Run `rake release` to prepare the release which does:
-  * Builds the gem (`rake build`)
-  * Tags the commit
-  * Creates commits for version and pushes to github (Requires
-Credentials)
-  * Pushes gem to rubygems (Requires Credentials)
-  * Creates site documentation (`rake docs`)
-  * Pushes site documentation to S3 (Requires Credentials)
+  * Prepares the release (`rake release:prepare`)
+    * Builds the gem
+    * Tags the commit
+    * Creates commits for version
+  * Publishes the release (`rake release:publish`)
+    * Pushes commit and tag to Github (Requires Credentials)
+    * Pushes gem to Rubygems (Requires Credentials)
 
 ## Announce the release
 
