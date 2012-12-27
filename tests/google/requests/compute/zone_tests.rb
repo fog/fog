@@ -1,6 +1,6 @@
-Shindo.tests('Fog::Compute[:google] | zone requests', ['gce']) do
+Shindo.tests('Fog::Compute[:google] | zone requests', ['google']) do
 
-  @google = Fog::Compute[:gce]
+  @google = Fog::Compute[:google]
 
   @get_zone_format = {
       'kind' => String,

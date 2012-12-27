@@ -1,6 +1,6 @@
-Shindo.tests('Fog::Compute[:google] | firewall requests', ['gce']) do
+Shindo.tests('Fog::Compute[:google] | firewall requests', ['google']) do
 
-  @google = Fog::Compute[:gce]
+  @google = Fog::Compute[:google]
 
   @insert_firewall_format = {
       'kind' => String,

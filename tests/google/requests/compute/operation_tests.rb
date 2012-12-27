@@ -1,6 +1,6 @@
-Shindo.tests('Fog::Compute[:google] | operation requests', ['gce']) do
+Shindo.tests('Fog::Compute[:google] | operation requests', ['google']) do
 
-  @google = Fog::Compute[:gce]
+  @google = Fog::Compute[:google]
 
   @insert_operation_format = {
       'kind' => String,
