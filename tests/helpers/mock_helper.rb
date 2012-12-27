@@ -39,6 +39,7 @@ if Fog.mock?
     :go_grid_shared_secret            => 'go_grid_shared_secret',
     :google_storage_access_key_id     => 'google_storage_access_key_id',
     :google_storage_secret_access_key => 'google_storage_secret_access_key',
+    :google_project                   => 'google.com:icco-dev',
     :hp_account_id                    => 'hp_account_id',
     :hp_secret_key                    => 'hp_secret_key',
     :hp_tenant_id                     => 'hp_tenant_id',
