@@ -109,6 +109,10 @@ module Fog
           end
         end
 
+
+        # Save file with body as contents to directory.key with name key via http PUT
+        # 
+        #   required attributes: body, directory, key
         # 
         # @param [Hash] options  
         # @option options [String] acl sets x-amz-acl HTTP header. Valid values include, private | public-read | public-read-write | authenticated-read | bucket-owner-read | bucket-owner-full-control
@@ -120,6 +124,7 @@ module Fog
         # @option options [String] expires sets number of seconds before AWS Object expires.
         # @option options [String] storage_class sets x-amz-storage-class HTTP header. Defaults to 'STANDARD'. Or, 'REDUCED_REDUNDANCY'
         # @option options [String] encryption sets HTTP encryption header. Set to 'AES256' to encrypt files at rest on S3
+        # @return [Boolean] true if no errors
         # 
         def save(options = {})
           requires :body, :directory, :key
