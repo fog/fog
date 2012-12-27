@@ -111,15 +111,18 @@ module Fog
           true
         end
 
+
         remove_method :metadata
         def metadata
           attributes.reject {|key, value| !(key.to_s =~ /^x-amz-/)}
         end
 
+
         remove_method :metadata=
         def metadata=(new_metadata)
           merge_attributes(new_metadata)
         end
+
 
         remove_method :owner=
         def owner=(new_owner)
