@@ -1,6 +1,6 @@
-Shindo.tests('Fog::Compute[:google] | disk requests', ['gce']) do
+Shindo.tests('Fog::Compute[:google] | disk requests', ['google']) do
 
-  @google = Fog::Compute[:gce]
+  @google = Fog::Compute[:google]
 
   @insert_disk_format = {
       'kind' => String,

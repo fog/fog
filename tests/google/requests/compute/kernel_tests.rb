@@ -1,6 +1,6 @@
-Shindo.tests('Fog::Compute[:google] | kernel requests', ['gce']) do
+Shindo.tests('Fog::Compute[:google] | kernel requests', ['google']) do
 
-  @google = Fog::Compute[:gce]
+  @google = Fog::Compute[:google]
 
   @get_kernel_format = {
       'kind' => String,

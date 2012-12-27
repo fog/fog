@@ -1,6 +1,6 @@
-Shindo.tests('Fog::Compute[:google] | image requests', ['gce']) do
+Shindo.tests('Fog::Compute[:google] | image requests', ['google']) do
 
-  @google = Fog::Compute[:gce]
+  @google = Fog::Compute[:google]
 
   @insert_image_format = {
       'kind' => String,

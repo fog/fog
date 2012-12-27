@@ -1,6 +1,6 @@
-Shindo.tests('Fog::Compute[:google] | network requests', ['gce']) do
+Shindo.tests('Fog::Compute[:google] | network requests', ['google']) do
 
-  @google = Fog::Compute[:gce]
+  @google = Fog::Compute[:google]
 
   @insert_network_format = {
       'kind' => String,
