@@ -226,7 +226,7 @@ module Fog
 
         # TODO: Implement /os-volumes-boot support with 'block_device_mapping'
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :flavor_ref, :image_ref, :name
           meta_hash = {}
           metadata.each { |meta| meta_hash.store(meta.key, meta.value) }

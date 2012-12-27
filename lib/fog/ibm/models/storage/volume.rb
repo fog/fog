@@ -81,7 +81,7 @@ module Fog
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :name, :offering_id, :format, :location_id, :size
           data = connection.create_volume(name, offering_id, format, location_id, size)
           merge_attributes(data.body)

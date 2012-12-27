@@ -45,7 +45,7 @@ module Fog
           options[:priority]  = priority if priority
           options[:ttl]       = ttl if ttl
 
-          if identity
+          if persisted?
             options[:host_type] = type
             options[:data]      = value
             connection.update_host(identity, options)
