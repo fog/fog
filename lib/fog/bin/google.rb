@@ -1,4 +1,4 @@
-class Google < Fog::Bin
+module Google # deviates from other bin stuff to accomodate gem
   class << self
 
     def class_for(key)
@@ -36,5 +36,27 @@ class Google < Fog::Bin
       Fog::Google.services
     end
 
+    # based off of virtual_box.rb
+    def available?
+      availability = if Gem::Specification.respond_to?(:find_all_by_name)
+        !Gem::Specification.find_all_by_name('google_api_client').empty? # newest rubygems
+      else
+        !Gem.source_index.find_name('google_api_client').empty? # legacy
+      end
+      if availability
+        for service in services
+          for collection in self.class_for(service).collections
+            unless self.respond_to?(collection)
+              self.class_eval <<-EOS, __FILE__, __LINE__
+                def self.#{collection}
+                  self[:#{service}].#{collection}
+                end
+              EOS
+            end
+          end
+        end
+      end
+      availability
+    end
   end
 end
