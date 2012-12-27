@@ -6,6 +6,7 @@ module Fog
     class AWS
 
       class File < Fog::Model
+        # @see AWS Object docs http://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectOps.html 
 
         identity  :key,             :aliases => 'Key'
 
