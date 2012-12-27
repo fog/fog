@@ -118,7 +118,7 @@ module Fog
         # @option options [String] content_encoding sets Content-Encoding HTTP header. For example, 'x-gzip'
         # @option options [String] content_md5 sets Content-MD5. For example, '79054025255fb1a26e4bc422aef54eb4'
         # @option options [String] content_type Content-Type. For example, 'text/plain'
-        # @option options [String] expires sets Expires HTTP header. For example, 'Thu, 01 Dec 1994 16:00:00 GMT'
+        # @option options [String] expires sets number of seconds before AWS Object expires.
         # @option options [String] storage_class sets x-amz-storage-class HTTP header. Defaults to 'STANDARD'. Or, 'REDUCED_REDUNDANCY'
         # @option options [String] encryption sets HTTP encryption header. Set to 'AES256' to encrypt files at rest on S3
         # 
