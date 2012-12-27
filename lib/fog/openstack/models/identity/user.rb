@@ -19,6 +19,11 @@ module Fog
           super
         end
 
+        def ec2_credentials
+          requires :id
+          connection.ec2_credentials(:user => self)
+        end
+
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
           requires :name, :tenant_id, :password

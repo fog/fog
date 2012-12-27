@@ -20,7 +20,7 @@ module Fog
         # @see https://api.gb1.brightbox.com/1.0/#image_create_image
         #
         def create_image(options)
-          request("post", "/1.0/images", [201], options)
+          wrapped_request("post", "/1.0/images", [201], options)
         end
 
       end

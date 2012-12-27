@@ -34,9 +34,15 @@ module Fog
         def snapshots
           connection.snapshots.select { |s| s.volume_id == identity }
         end
+        
+        def create_snapshot(options={})
+          requires :identity
+          connection.snapshots.create(options.merge(:volume_id => identity))
+        end
 
         def save
           requires :size
+          raise IdentifierTaken.new('Resaving may cause a duplicate volume to be created') if identity
           data = connection.create_volume(size, {
             :display_name => display_name,
             :display_description => display_description,

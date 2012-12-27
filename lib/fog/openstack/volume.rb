@@ -6,7 +6,7 @@ module Fog
 
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url, :persistent,
-                 :openstack_service_name, :openstack_tenant,
+                 :openstack_service_type, :openstack_service_name, :openstack_tenant,
                  :openstack_api_key, :openstack_username,
                  :current_user, :current_tenant
 
@@ -111,7 +111,8 @@ module Fog
           @openstack_auth_uri             = URI.parse(options[:openstack_auth_url])
           @openstack_management_url       = options[:openstack_management_url]
           @openstack_must_reauthenticate  = false
-          @openstack_service_name         = options[:openstack_service_name] || ['volume']
+          @openstack_service_type         = options[:openstack_service_type] || ['volume']
+          @openstack_service_name         = options[:openstack_service_name]
 
           @connection_options = options[:connection_options] || {}
 
@@ -182,6 +183,7 @@ module Fog
               :openstack_username => @openstack_username,
               :openstack_auth_uri => @openstack_auth_uri,
               :openstack_auth_token => @openstack_auth_token,
+              :openstack_service_type => @openstack_service_type,
               :openstack_service_name => @openstack_service_name,
               :openstack_endpoint_type => 'adminURL'
             }

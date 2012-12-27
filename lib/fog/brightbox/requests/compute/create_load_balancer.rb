@@ -16,7 +16,7 @@ module Fog
         # @see https://api.gb1.brightbox.com/1.0/#load_balancer_create_load_balancer
         #
         def create_load_balancer(options)
-          request("post", "/1.0/load_balancers", [202], options)
+          wrapped_request("post", "/1.0/load_balancers", [202], options)
         end
 
       end

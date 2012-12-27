@@ -7,21 +7,22 @@ Shindo.tests('Fog::Compute[:rackspace] | flavor requests', ['rackspace']) do
     'ram'   => Integer
   }
 
-  tests('success') do
+  @service = Fog::Compute.new(:provider => :rackspace, :version => :v1)  
 
+  tests('success') do
     tests('#get_flavor_details(1)').formats(@flavor_format) do
       pending if Fog.mocking?
-      Fog::Compute[:rackspace].get_flavor_details(1).body['flavor']
+       @service.get_flavor_details(1).body['flavor']
     end
 
     tests('#list_flavors').formats({'flavors' => [Rackspace::Compute::Formats::SUMMARY]}) do
       pending if Fog.mocking?
-      Fog::Compute[:rackspace].list_flavors.body
+       @service.list_flavors.body
     end
 
     tests('#list_flavors_detail').formats({'flavors' => [@flavor_format]}) do
       pending if Fog.mocking?
-      Fog::Compute[:rackspace].list_flavors_detail.body
+       @service.list_flavors_detail.body
     end
 
   end
@@ -30,7 +31,7 @@ Shindo.tests('Fog::Compute[:rackspace] | flavor requests', ['rackspace']) do
 
     tests('#get_flavor_details(0)').raises(Fog::Compute::Rackspace::NotFound) do
       pending if Fog.mocking?
-      Fog::Compute[:rackspace].get_flavor_details(0)
+       @service.get_flavor_details(0)
     end
 
   end

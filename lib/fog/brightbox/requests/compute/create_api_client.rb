@@ -13,7 +13,7 @@ module Fog
         # @see https://api.gb1.brightbox.com/1.0/#api_client_create_api_client
         #
         def create_api_client(options)
-          request("post", "/1.0/api_clients", [201], options)
+          wrapped_request("post", "/1.0/api_clients", [201], options)
         end
 
       end

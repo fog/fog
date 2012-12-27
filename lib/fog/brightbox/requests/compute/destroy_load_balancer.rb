@@ -12,7 +12,7 @@ module Fog
         #
         def destroy_load_balancer(identifier)
           return nil if identifier.nil? || identifier == ""
-          request("delete", "/1.0/load_balancers/#{identifier}", [202])
+          wrapped_request("delete", "/1.0/load_balancers/#{identifier}", [202])
         end
 
       end

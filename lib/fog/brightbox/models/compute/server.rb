@@ -129,6 +129,14 @@ module Fog
           connection.images.get(image_id)
         end
 
+        # Returns the public DNS name of the server
+        #
+        # @return [String]
+        #
+        def dns_name
+          ["public", fqdn].join(".")
+        end
+
         def private_ip_address
           unless interfaces.empty?
             interfaces.first["ipv4_address"]
@@ -188,11 +196,10 @@ module Fog
         def soft_reboot
           shutdown
           # FIXME Using side effect of wait_for's (evaluated block) to detect timeouts
-          if wait_for(20) { ! ready? }
-            # Server is now down, start it up again
-            start
-          else
-            # We timed out
+          begin
+            wait_for(20) { ! ready? }
+            start            
+          rescue Fog::Errors::Timeout => e
             false
           end
         end

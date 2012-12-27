@@ -7,7 +7,8 @@ module Fog
 
       requires :openstack_auth_url
       recognizes :openstack_auth_token, :openstack_management_url,
-                 :persistent, :openstack_service_name, :openstack_tenant,
+                 :persistent, :openstack_service_type, :openstack_service_name,
+                 :openstack_tenant,
                  :openstack_api_key, :openstack_username, :openstack_identity_endpoint,
                  :current_user, :current_tenant, :openstack_region
 
@@ -187,7 +188,24 @@ module Fog
               },
               :servers => {},
               :key_pairs => {},
-              :security_groups => {},
+              :security_groups => {
+                0 => {
+                  "id"          => 0,
+                  "tenant_id"   => Fog::Mock.random_hex(8),
+                  "name"        => "default",
+                  "description" => "default",
+                  "rules"       => [
+                    { "id"              => 0,
+                      "parent_group_id" => 0,
+                      "from_port"       => 68,
+                      "to_port"         => 68,
+                      "ip_protocol"     => "udp",
+                      "ip_range"        => { "cidr" => "0.0.0.0/0" },
+                      "group"           => {}, },
+                  ],
+                },
+              },
+              :server_security_group_map => {},
               :addresses => {},
               :quota => {
                 'security_group_rules' => 20,
@@ -273,8 +291,9 @@ module Fog
           @openstack_auth_uri   = URI.parse(options[:openstack_auth_url])
           @openstack_management_url       = options[:openstack_management_url]
           @openstack_must_reauthenticate  = false
-          @openstack_service_name = options[:openstack_service_name] || ['nova', 'compute']
-          @openstack_identity_service_name = options[:openstack_identity_service_name] || 'identity'
+          @openstack_service_type = options[:openstack_service_type] || ['nova', 'compute']
+          @openstack_service_name = options[:openstack_service_name]
+          @openstack_identity_service_type = options[:openstack_identity_service_type] || 'identity'
           @openstack_region      = options[:openstack_region]
 
           @connection_options = options[:connection_options] || {}
@@ -350,11 +369,13 @@ module Fog
               :openstack_auth_uri   => @openstack_auth_uri,
               :openstack_region     => @openstack_region,
               :openstack_tenant     => @openstack_tenant,
+              :openstack_service_type => @openstack_service_type,
               :openstack_service_name => @openstack_service_name,
-              :openstack_identity_service_name => @openstack_identity_service_name
+              :openstack_identity_service_type => @openstack_identity_service_type
             }
 
             if @openstack_auth_uri.path =~ /\/v2.0\//
+
               credentials = Fog::OpenStack.authenticate_v2(options, @connection_options)
             else
               credentials = Fog::OpenStack.authenticate_v1(options, @connection_options)
@@ -376,15 +397,20 @@ module Fog
 
           @path.sub!(/\/$/, '')
           unless @path.match(/1\.1|v2/)
-            raise Fog::Compute::OpenStack::ServiceUnavailable.new(
+            raise Fog::OpenStack::Errors::ServiceUnavailable.new(
                     "OpenStack binding only supports version 2 (a.k.a. 1.1)")
           end
 
           @port   = uri.port
           @scheme = uri.scheme
-          @identity_connection = Fog::Connection.new(
-            @openstack_identity_public_endpoint,
-            false, @connection_options)
+           
+          # Not all implementations have identity service in the catalog
+          if @openstack_identity_public_endpoint
+            @identity_connection = Fog::Connection.new(
+              @openstack_identity_public_endpoint,
+              false, @connection_options)
+          end
+
           true
         end
 

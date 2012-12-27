@@ -19,7 +19,7 @@ module Fog
         # @see https://api.gb1.brightbox.com/1.0/#server_create_server
         #
         def create_server(options)
-          request("post", "/1.0/servers", [202], options)
+          wrapped_request("post", "/1.0/servers", [202], options)
         end
 
       end

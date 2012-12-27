@@ -36,6 +36,7 @@ module Fog
       model  :pbd
       model  :guest_metrics
       model  :vbd_metrics
+      model  :host_metrics
 
       request_path 'fog/xenserver/requests/compute'
       request :create_server

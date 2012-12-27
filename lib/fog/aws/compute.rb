@@ -65,6 +65,7 @@ module Fog
       request :create_tags
       request :create_volume
       request :create_vpc
+      request :copy_snapshot
       request :delete_dhcp_options
       request :delete_internet_gateway
       request :delete_key_pair
@@ -320,7 +321,7 @@ module Fog
           @region                 = options[:region] ||= 'us-east-1'
           @instrumentor           = options[:instrumentor]
           @instrumentor_name      = options[:instrumentor_name] || 'fog.aws.compute'
-          @version                = options[:version]     ||  '2012-07-20'
+          @version                = options[:version]     ||  '2012-12-01'
 
           if @endpoint = options[:endpoint]
             endpoint = URI.parse(@endpoint)

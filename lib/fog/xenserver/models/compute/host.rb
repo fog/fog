@@ -16,7 +16,7 @@ module Fog
         attribute :allowed_operations
         attribute :enabled
         attribute :hostname
-        attribute :metrics
+        attribute :__metrics,          :aliases => :metrics
         attribute :name_description
         attribute :other_config
         attribute :__pbds,            :aliases => :PBDs
@@ -37,6 +37,12 @@ module Fog
 
         def resident_vms
           resident_servers
+        end
+
+        def metrics
+          return nil unless __metrics
+          rec = connection.get_record(__metrics, 'host_metrics' )
+          Fog::Compute::XenServer::HostMetrics.new(rec)
         end
 
       end

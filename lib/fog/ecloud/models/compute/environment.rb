@@ -24,7 +24,7 @@ module Fog
         end
 
         def backup_internet_services
-          @backup_internet_services ||= Fog::Compute::Ecloud::BackupInternetServices.new(:connection, :href => "/cloudapi/ecloud/backupInternetServices/environments/#{id}")
+          @backup_internet_services ||= Fog::Compute::Ecloud::BackupInternetServices.new(:connection => connection, :href => "/cloudapi/ecloud/backupInternetServices/environments/#{id}")
         end
 
         def networks

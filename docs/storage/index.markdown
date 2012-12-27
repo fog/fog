@@ -125,6 +125,8 @@ Pop that link in an email and you should be ready to cruise job ads and send you
 
 More clouds? How much extra stuff will you have to do for these services!?! Hardly anything needs to change, you just have to pass slightly different credentials in, but I'm getting ahead of myself.
 
+Check out the Amazon S3 Storage page for further details, <a href="/storage/aws.html">AWS Storage</a>.
+
 ## Google Cloud Storage
 
 Sign up <a href="http://gs-signup-redirect.appspot.com/">here</a> and get your credentials <a href="https://storage.cloud.google.com/m">here</a> under the section "Interoperable Access".
@@ -149,7 +151,7 @@ If you work with the European cloud from Rackspace you have to add the following
 
     :rackspace_auth_url => "lon.auth.api.rackspacecloud.com"
 
-Then create, save, destroy as per fog-for-AWS. The `:public => true` option when creating directories (see above) is important for Rackspace; your folder and files won't be shared to Rackspace's CDN and hence your users without it.  Similarly the `:public =&gt; true` on files is important for AWS and Google or they will be private.
+Then create, save, destroy as per fog-for-AWS. The `:public => true` option when creating directories (see above) is important for Rackspace; your folder and files won't be shared to Rackspace's CDN and hence your users without it.  Similarly the `:public => true` on files is important for AWS and Google or they will be private.
 
 ## Local Storage
 

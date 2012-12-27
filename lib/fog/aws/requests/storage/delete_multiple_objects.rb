@@ -42,10 +42,10 @@ module Fog
           version_ids = options.delete('versionId')
           object_names.each do |object_name|
             data << "<Object>"
-            data << "<Key>#{CGI.escape(object_name)}</Key>"
+            data << "<Key>#{CGI.escapeHTML(object_name)}</Key>"
             object_version = version_ids.nil? ? nil : version_ids[object_name]
             if object_version
-              data << "<VersionId>#{CGI.escape(object_version)}</VersionId>"
+              data << "<VersionId>#{CGI.escapeHTML(object_version)}</VersionId>"
             end
             data << "</Object>"
           end

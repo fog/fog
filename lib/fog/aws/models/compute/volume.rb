@@ -22,7 +22,7 @@ module Fog
         attribute :type,                  :aliases => 'volumeType'
 
         def initialize(attributes = {})
-          # assign server first to prevent race condition with new_record?
+          # assign server first to prevent race condition with persisted?
           self.server = attributes.delete(:server)
           super
         end
@@ -103,7 +103,7 @@ module Fog
         end
 
         def attach(new_server)
-          if new_record?
+          if !persisted?
             @server = new_server
             self.availability_zone = new_server.availability_zone
           elsif new_server
@@ -118,7 +118,7 @@ module Fog
         def detach(force = false)
           @server = nil
           self.server_id = nil
-          unless new_record?
+          if persisted?
             connection.detach_volume(id, 'Force' => force)
             reload
           end

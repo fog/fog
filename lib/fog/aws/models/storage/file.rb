@@ -100,7 +100,7 @@ module Fog
         def public_url
           requires :directory, :key
           if connection.get_object_acl(directory.key, key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
-            if directory.key.to_s =~ /^(?:[a-z]|\d(?!\d{0,2}(?:\.\d{1,3}){3}$))(?:[a-z0-9]|\-(?![\.])){1,61}[a-z0-9]$/
+            if directory.key.to_s =~ Fog::AWS::COMPLIANT_BUCKET_NAMES
               "https://#{directory.key}.s3.amazonaws.com/#{Fog::AWS.escape(key)}".gsub('%2F','/')
             else
               "https://s3.amazonaws.com/#{directory.key}/#{Fog::AWS.escape(key)}".gsub('%2F','/')
@@ -110,6 +110,18 @@ module Fog
           end
         end
 
+        # 
+        # @param [Hash] options  
+        # @option options [String] acl sets x-amz-acl HTTP header. Valid values include, private | public-read | public-read-write | authenticated-read | bucket-owner-read | bucket-owner-full-control
+        # @option options [String] cache_controle sets Cache-Control header. For example, 'No-cache'
+        # @option options [String] content_disposition sets Content-Disposition HTTP header. For exampple, 'attachment; filename=testing.txt'
+        # @option options [String] content_encoding sets Content-Encoding HTTP header. For example, 'x-gzip'
+        # @option options [String] content_md5 sets Content-MD5. For example, '79054025255fb1a26e4bc422aef54eb4'
+        # @option options [String] content_type Content-Type. For example, 'text/plain'
+        # @option options [String] expires sets Expires HTTP header. For example, 'Thu, 01 Dec 1994 16:00:00 GMT'
+        # @option options [String] storage_class sets x-amz-storage-class HTTP header. Defaults to 'STANDARD'. Or, 'REDUCED_REDUNDANCY'
+        # @option options [String] encryption sets HTTP encryption header. Set to 'AES256' to encrypt files at rest on S3
+        # 
         def save(options = {})
           requires :body, :directory, :key
           if options != {}
