@@ -30,7 +30,13 @@ module Fog
       class Real
 
         def initialize(options={})
-          require 'virtualbox'
+          begin
+            require 'virtualbox'
+          rescue LoadError => e
+            retry if require('rubygems')
+            raise e.message
+          end
+
           @connection = ::VirtualBox::Global.global.lib.virtualbox
         end
 
