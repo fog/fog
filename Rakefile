@@ -106,7 +106,6 @@ task :release => :build do
   sh "git push origin master"
   sh "git push origin v#{version}"
   sh "gem push pkg/#{name}-#{version}.gem"
-  Rake::Task[:docs].invoke
 end
 
 task :build => :gemspec do
@@ -151,7 +150,3 @@ end
 
 require "tasks/changelog_task"
 Fog::Rake::ChangelogTask.new
-
-require "tasks/documentation_task"
-Fog::Rake::DocumentationTask.new
-
