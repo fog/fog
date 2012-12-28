@@ -29,9 +29,14 @@ module Fog
         attribute :monitoring,                 :aliases => 'LaunchSpecification.Monitoring'
         attribute :block_device_mapping,       :aliases => 'LaunchSpecification.BlockDeviceMapping'
         attribute :subnet_id,                  :aliases => 'LaunchSpecification.SubnetId'
+        attribute :iam_instance_profile,       :aliases => 'LaunchSpecification.IamInstanceProfile'
+
         attribute :tags,                       :aliases => 'tagSet'
         attribute :fault,                      :squash  => 'message'
         attribute :user_data
+
+        attr_writer   :iam_instance_profile_name, :iam_instance_profile_arn
+
         
         def initialize(attributes={})
           self.groups ||= ["default"]
@@ -89,6 +94,8 @@ module Fog
             'LaunchSpecification.SecurityGroup'              => groups,
             'LaunchSpecification.UserData'                   => user_data,
             'LaunchSpecification.SubnetId'                   => subnet_id,
+            'LaunchSpecification.IamInstanceProfile.Arn'     => @iam_instance_profile_arn,
+            'LaunchSpecification.IamInstanceProfile.Name'    => @iam_instance_profile_name,
             'Type'                                           => request_type,
             'ValidFrom'                                      => valid_from,
             'ValidUntil'                                     => valid_until }
