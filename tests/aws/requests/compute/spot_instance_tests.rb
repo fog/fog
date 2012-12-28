@@ -12,7 +12,8 @@ Shindo.tests('Fog::Compute[:aws] | spot instance requests', ['aws']) do
         'imageId'             => String,
         'instanceType'        => String,
         'monitoring'          => Fog::Boolean,
-        'subnetId'            => Fog::Nullable::String
+        'subnetId'            => Fog::Nullable::String,
+        'iamInstanceProfile'  => Fog::Nullable::Hash,
       },
       'productDescription'        => String,
       'spotInstanceRequestId'     => String,
