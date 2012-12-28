@@ -187,6 +187,8 @@ module Fog
             endpoint_url = service_item['endpoints'][0]['publicURL'] if service_item['endpoints'][0]
           elsif avl_zone == :az2
             endpoint_url = service_item['endpoints'][1]['publicURL'] if service_item['endpoints'][1]
+          elsif avl_zone == :az3
+            endpoint_url = service_item['endpoints'][2]['publicURL'] if service_item['endpoints'][2]
           end
           raise "Unable to retrieve endpoint service url from service catalog." if endpoint_url.nil?
           return endpoint_url
