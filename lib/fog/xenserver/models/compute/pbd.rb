@@ -25,6 +25,10 @@ module Fog
         def host
           connection.hosts.get __host
         end
+        
+        def unplug
+          connection.unplug_pbd reference
+        end
 
       end
       
