@@ -12,7 +12,7 @@ module Fog
         # @param [String] upload_id Id of upload to add part to
         # @param [Array<String>] parts Array of etags as Strings for parts
         #
-        # @return Excon::Response
+        # @return [Excon::Response]
         #   * headers (Hash)
         #     * Bucket (String) -- bucket of new object
         #     * ETag (String) -- etag of new object (will be needed to complete upload)

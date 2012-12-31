@@ -101,7 +101,7 @@ module Fog
         #     required attributes: directory, key
         # 
         # @param options [Hash]
-        # @options versionId []
+        # @option options versionId []
         # @return [Boolean] true if successful
         # 
         def destroy(options = {})
