@@ -87,6 +87,23 @@ module Fog
           virtual_ips.load(new_virtual_ips)
         end
 
+        def enable_content_caching
+          requires :identity
+          connection.set_content_caching identity, true
+          true
+        end
+
+        def disable_content_caching
+          requires :identity
+          connection.set_content_caching identity, false
+          true
+        end
+
+        def content_caching
+          requires :identity
+          connection.get_content_caching(identity).body['contentCaching']['enabled']
+        end
+
         def enable_connection_logging
           requires :identity
           connection.set_connection_logging identity, true

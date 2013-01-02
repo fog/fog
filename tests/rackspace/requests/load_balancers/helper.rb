@@ -78,7 +78,11 @@ SESSION_PERSISTENCE_FORMAT = {
     'persistenceType' => Fog::Nullable::String
   }
 }
-
+CONTENT_CACHING_FORMAT = {
+  'contentCaching' => {
+    'enabled' => Fog::Boolean
+  }
+}
 ACCESS_LIST_FORMAT = {
   'accessList' => [
     {
