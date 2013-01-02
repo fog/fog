@@ -5,15 +5,12 @@ module Fog
 
         # Deletes the cors configuration information set for the bucket.
         #
-        # ==== Parameters
-        # * bucket_name<~String> - name of bucket to delete cors rules from
+        # @param bucket_name [String] name of bucket to delete cors rules from
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * status<~Integer> - 204
+        # @return [Excon::Response] response:
+        #   * status [Integer] 204
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketDELETEcors.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketDELETEcors.html
 
         def delete_bucket_cors(bucket_name)
           request({
