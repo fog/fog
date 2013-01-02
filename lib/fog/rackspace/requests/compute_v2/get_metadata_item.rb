@@ -2,17 +2,17 @@ module Fog
   module Compute
     class RackspaceV2
       class Real
-        def get_server_metadata_item(server_id, key)
+        def get_metadata_item(collection, server_id, key)
           request(
             :expects => 200,
             :method => 'GET',
-            :path => "/servers/#{server_id}/metadata/#{key}"
+            :path => "/#{collection}/#{server_id}/metadata/#{key}"
           )
         end
       end
       
       class Mock
-        def get_server_metadata_item(server_id, key)
+        def get_metadata_item(collection, server_id, key)
           raise Fog::Compute::RackspaceV2::NotFound if server_id == 0
           
           response = Excon::Response.new

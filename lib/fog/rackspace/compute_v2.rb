@@ -53,12 +53,12 @@ module Fog
       request :list_attachments
       request :delete_attachment
       
-      request :list_server_metadata
-      request :set_server_metadata
-      request :update_server_metadata
-      request :get_server_metadata_item
-      request :set_server_metadata_item
-      request :delete_server_metadata_item
+      request :list_metadata
+      request :set_metadata
+      request :update_metadata
+      request :get_metadata_item
+      request :set_metadata_item
+      request :delete_metadata_item
 
       class Mock
         
