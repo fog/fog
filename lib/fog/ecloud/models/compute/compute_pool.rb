@@ -5,13 +5,13 @@ module Fog
 
         identity :href
 
-        attribute :href, :aliases => :Href
-        attribute :name, :aliases => :Name
-        attribute :type, :aliases => :Type
-        attribute :other_links, :aliases => :Links
-        attribute :all_servers, :aliases => :VirtualMachines
-        attribute :purchased, :aliases => :Purchased
-        attribute :cpu_burst, :aliases => :CpuBurst
+        attribute :href,         :aliases => :Href
+        attribute :name,         :aliases => :Name
+        attribute :type,         :aliases => :Type
+        attribute :other_links,  :aliases => :Links, :squash => :Link
+        attribute :all_servers,  :aliases => :VirtualMachines
+        attribute :purchased,    :aliases => :Purchased
+        attribute :cpu_burst,    :aliases => :CpuBurst
         attribute :memory_burst, :aliases => :MemoryBurst
 
         def servers
@@ -41,7 +41,19 @@ module Fog
         end
 
         def templates
-          @templates ||= Fog::Compute::Ecloud::Templates.new(:connection => connection, :href => "/cloudapi/ecloud/templates/computePools/#{id}")
+          @templates ||= self.connection.templates(:href => "/cloudapi/ecloud/templates/computePools/#{id}")
+        end
+
+        def detached_disks
+          @detached_disks ||= self.connection.detached_disks(:href => "/cloudapi/ecloud/detacheddisks/computepools/#{id}")
+        end
+
+        def environment
+          @environment ||= begin
+                             reload unless other_links
+                             environment_link = other_links.find{|l| l[:type] == "application/vnd.tmrk.cloud.environment"}
+                             self.connection.environments.get(environment_link[:href])
+                           end
         end
 
         def edit(options)

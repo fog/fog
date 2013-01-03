@@ -13,13 +13,17 @@ module Fog
         attribute :enabled, :aliases => :Enabled, :type => :boolean
         attribute :description, :aliases => :Description
 
+        def ready?
+          !self.name.nil?
+        end
+
         def tasks
           @tasks ||= Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => "/cloudapi/ecloud/tasks/virtualMachines/#{id}")
         end
 
         def delete
           data = connection.node_service_delete(href).body
-          task = Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => data[:href])[0]
+          self.connection.tasks.new(data)
         end
 
         def edit(options)
@@ -29,10 +33,12 @@ module Fog
           data = connection.node_service_edit(options).body
           task = Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => data[:href])[0]
         end
-        
+
         def id
           href.scan(/\d+/)[0]
         end
+
+        alias destroy delete
       end
     end
   end

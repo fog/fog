@@ -16,8 +16,11 @@ module Fog
         end
 
         def get(uri)
-          if data = connection.get_public_ip(uri)
-            new(data.body)
+          data = connection.get_public_ip(uri).body
+          if data == ""
+            new({})
+          else
+            new(data)
           end
         rescue Fog::Errors::NotFound
           nil
