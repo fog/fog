@@ -4,46 +4,78 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata_tests', ['rackspace']) do
   
   tests('success') do
     begin
-      metadata = {"Tag" => "Database"}
+      metadata = {"tag" => "database"}
       
       unless Fog.mocking?
-        @server = @service.servers.create(:name => "fog-server-metadata-#{Time.now.to_i}", 
+        name = "fog-server-metadata-#{Time.now.to_i}"
+        @server = @service.servers.create(:name => name, 
                                           :flavor_id => 2,
                                           :image_id => '3afe97b2-26dc-49c5-a2cc-a2fc8d80c001',
-                                          :metadata => {"Tag" => "Database"})
-        @server.wait_for(timeout = 1200) { ready? }
+                                          :metadata => metadata)
+        @server.wait_for(timeout = 1500) { ready? }
+        
+        
+        @server_id = @server.id
+        @image_id = @server.create_image(name, :metadata => metadata)
+        @image = @service.images.get @image_id
+      else
+        @image_id = 1
+        @server_id = 1
       end
-      [['server', @server.id]].each do |params|
-        collection = params[0]
-        id = params[1]
-        tests(collection) do
+      
+        tests("servers") do
           tests('list_metadata').returns("metadata" => metadata) do
-            @service.list_metadata(collection, id).body
+            @service.list_metadata("servers", @server_id).body
           end
           tests('set_metadata').returns("metadata" => {"environment" => "dev"}) do
-            @service.set_metadata(collection, id, {"environment" => "dev"}).body
+            @service.set_metadata("servers", @server_id, {"environment" => "dev"}).body
           end
-          tests('update_metadata').returns("metadata" => {"environment" => "dev", "Tag" => "Database"}) do
-            @service.update_metadata(collection, id, {"environment" => "dev", "Tag" => "Database"}).body
+          tests('update_metadata').returns("metadata" => {"environment" => "dev", "tag" => "database"}) do
+            @service.update_metadata("servers", @server_id, {"environment" => "dev", "tag" => "database"}).body
           end
           tests('get_metadata_item').returns("meta" => {"environment" => "dev"}) do
-            @service.get_metadata_item(collection, id, "environment").body
+            @service.get_metadata_item("servers", @server_id, "environment").body
           end
           tests('set_metadata_item').returns("meta" => {"environment", "test"}) do
-            @service.set_metadata_item(collection, id, "environment", "test").body
+            @service.set_metadata_item("servers", @server_id, "environment", "test").body
           end
           tests('delete_metadata_item').succeeds do
-            @service.delete_metadata_item(collection, id, "environment").body
+            @service.delete_metadata_item("servers", @server_id, "environment").body
           end
         end
-      end
+        
+        tests("images") do
+          @image.wait_for(timeout = 1500) { ready? }
+          tests('list_metadata').returns(metadata) do
+            h = @service.list_metadata("images", @image_id).body
+            h["metadata"].reject {|k,v| k.downcase != "tag"} #only look at the metadata we created
+          end
+          tests('set_metadata').returns({"environment" => "dev"}) do
+            h = @service.set_metadata("images", @image_id, {"environment" => "dev"}).body
+            h["metadata"].reject {|k,v| k.downcase != "environment"} #only look at the metadata we created            
+          end
+          tests('update_metadata').returns({"environment" => "dev", "tag" => "Database"}) do
+            h = @service.update_metadata("images", @image_id, {"environment" => "dev", "tag" => "Database"}).body
+            h["metadata"].reject {|k,v| !['environment', 'tag'].include?(k.downcase)} #only look at the metadata we created            
+          end
+          tests('get_metadata_item').returns("meta" => {"environment" => "dev"}) do
+            @service.get_metadata_item("images", @image_id, "environment").body
+          end
+          tests('set_metadata_item').returns("meta" => {"environment", "test"}) do
+            @service.set_metadata_item("images", @image_id, "environment", "test").body
+          end
+          tests('delete_metadata_item').succeeds do
+            @service.delete_metadata_item("images", @image_id, "environment").body
+          end
+        end
     ensure
-      @server.destroy if @server
+      @image.destroy if @image
+      @server.destroy if @server      
     end
   end
 
   tests('failure') do
-    ['server'].each do |collection|
+    ['server', 'image'].each do |collection|
       tests(collection) do
         tests('list_metadata').raises(Fog::Compute::RackspaceV2::NotFound)  do
           @service.list_metadata(collection, 0)
@@ -52,7 +84,7 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata_tests', ['rackspace']) do
           @service.set_metadata(collection, 0, {"environment" => "dev"})
         end
         tests('update_server_metadata').raises(Fog::Compute::RackspaceV2::NotFound)  do
-          @service.update_metadata(collection, 0, {"environment" => "dev", "Tag" => "Database"})
+          @service.update_metadata(collection, 0, {"environment" => "dev", "tag" => "database"})
         end
         tests('get_server_metadata_item').raises(Fog::Compute::RackspaceV2::NotFound)  do
           @service.get_metadata_item(collection, 0, "environment")
