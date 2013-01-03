@@ -15,10 +15,13 @@ module Fog
         end
 
         def get(uri)
-          if data = connection.get_row(uri)
-            new(data.body)
+          data = connection.get_row(uri).body
+          if data == ""
+            nil
+          else
+            new(data)
           end
-        rescue Fog::Errors::NotFound
+        rescue Excon::Errors::NotFound
           nil
         end
 

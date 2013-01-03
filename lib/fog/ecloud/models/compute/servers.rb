@@ -4,7 +4,7 @@ module Fog
   module Compute
     class Ecloud
       class Servers < Fog::Ecloud::Collection
-        
+
         model Fog::Compute::Ecloud::Server
 
         identity :href
@@ -22,10 +22,13 @@ module Fog
         end
 
         def get(uri)
-          if data = connection.get_server(uri)
-            new(data.body)
+          data = connection.get_server(uri).body
+          if data == ""
+            new({})
+          else
+            new(data)
           end
-        rescue Fog::Errors::NotFound
+        rescue Excon::Errors::NotFound
           nil
         end
 
@@ -34,21 +37,21 @@ module Fog
         end
 
         def create( template_uri, options )
-          options[:cpus] ||= 1
-          options[:memory] ||= 512
+          options[:cpus]        ||= 1
+          options[:memory]      ||= 512
           options[:description] ||= ""
-          options[:tags] ||= []
+          options[:tags]        ||= []
+
           if template_uri =~ /\/templates\/\d+/
             options[:uri] = href + "/action/createVirtualMachine"
             options[:customization] ||= :linux
             options[:powered_on] ||= false
             if options[:ips]
-              options[:ips] = options[:ips].is_a?(String) ? [options[:ips]] : options[:ips]
+              options[:ips] = [*options[:ips]]
             else
-              options[:network_uri] = options[:network_uri].is_a?(String) ? [options[:network_uri]] : options[:network_uri]
-              options[:network_uri].each do |uri|
+              [*options[:network_uri]].each do |uri|
                 index = options[:network_uri].index(uri)
-                ip = Fog::Compute::Ecloud::IpAddresses.new(:connection => connection, :href => uri).detect { |i| i.host == nil }.name
+                ip = self.connection.ip_addresses(:href => uri).detect { |i| i.host == nil && i.detected_on.nil? }.name
                 options[:ips] ||= []
                 options[:ips][index] = ip
               end
@@ -58,7 +61,7 @@ module Fog
             options[:uri] = href + "/action/importVirtualMachine"
             data = connection.virtual_machine_import( template_uri, options ).body
           end
-          object = new(data)
+          object = self.connection.servers.new(data)
           object
         end
 

@@ -62,6 +62,41 @@ module Fog
           end
         end
       end
+
+      class Mock
+        def internet_service_create(service_data)
+          validate_internet_service_data(service_data)
+          public_ip_id = service_data[:uri].match(/(\d+)/)[1]
+          public_ip    = self.data[:public_ips][public_ip_id.to_i].dup
+          service_id   = Fog::Mock.random_numbers(6).to_i
+          service = {
+            :href => "/cloudapi/ecloud/internetServices/#{service_id}",
+            :name => service_data[:name],
+            :type => "application/vnd.tmrk.cloud.internetService",
+            :Links => {
+              :Link => [
+                Fog::Ecloud.keep(public_ip, :href, :name, :type),
+              ],
+            },
+            :Protocol    => service_data[:protocol],
+            :Port        => service_data[:port],
+            :Enabled     => service_data[:enabled],
+            :Description => service_data[:description],
+            :PublicIp    => Fog::Ecloud.keep(public_ip, :href, :name, :type),
+            :Persistence => {
+              :Type => service_data[:persistence][:type],
+            },
+          }
+
+          internet_service_response = response(:body => service)
+
+          service.merge!(:public_ip => public_ip)
+
+          self.data[:internet_services][service_id] = service
+
+          internet_service_response
+        end
+      end
     end
   end
-end          
+end

@@ -103,10 +103,10 @@ module Fog
         raise(ArgumentError.new("Initialization parameters must be an attributes hash, got #{attributes.class} #{attributes.inspect}"))
       end
       model.new(
-        attributes.merge(
+        {
           :collection => self,
           :connection => connection
-        )
+        }.merge(attributes)
       )
     end
 

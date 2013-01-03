@@ -9,26 +9,26 @@ module Fog
 
         attribute :name, :aliases => :Name
         attribute :type, :aliases => :Type
-        attribute :other_links, :aliases => :Links
+        attribute :other_links, :aliases => :Links, :squash => :Link
 
         def locations
           @locations ||= Fog::Compute::Ecloud::Locations.new( :connection => connection, :href => href )
         end
 
         def environments 
-          @environments ||= Fog::Compute::Ecloud::Environments.new(:connection => connection, :href => href)
+          @environments ||= self.connection.environments(:href => href)
         end
 
         def tags
-          @tags ||= Fog::Compute::Ecloud::Tags.new(:connection => connection, :href => "/cloudapi/ecloud/deviceTags/organizations/#{id}")
+          @tags ||= self.connection.tags(:href => "/cloudapi/ecloud/deviceTags/organizations/#{id}")
         end
 
         def admin
-          @admin ||= Fog::Compute::Ecloud::AdminOrganizations.new(:connection => connection, :href => "/cloudapi/ecloud/admin/organizations/#{id}").first
+          @admin ||= self.connection.admin_organizations.new(:href => "/cloudapi/ecloud/admin/organizations/#{id}")
         end
 
         def users
-          @users ||= Fog::Compute::Ecloud::Users.new(:connection => connection, :href => "/cloudapi/ecloud/admin/users/organizations/#{id}")
+          @users ||= self.connection.users(:href => "/cloudapi/ecloud/admin/users/organizations/#{id}")
         end
 
         def support_tickets(type = :open)
