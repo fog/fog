@@ -9,7 +9,7 @@ module Fog
         # @param object_name [String] Name of object to delete
         #
         # @return [Excon::Response] response:
-        #   * status [Integer] 204
+        #   * status [Integer] - 204
         #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectDELETE.html
 

@@ -19,15 +19,15 @@ module Fog
         #   * body [Hash]:
         #     * DeleteResult [Array]:
         #       * Deleted [Hash]:
-        #         * Key [String] Name of the object that was deleted
-        #         * VersionId [String] ID for the versioned onject in case of a versioned delete
-        #         * DeleteMarker [Boolean] Indicates if the request accessed a delete marker
-        #         * DeleteMarkerVersionId [String] Version ID of the delete marker accessed
+        #         * Key [String] - Name of the object that was deleted
+        #         * VersionId [String] - ID for the versioned onject in case of a versioned delete
+        #         * DeleteMarker [Boolean] - Indicates if the request accessed a delete marker
+        #         * DeleteMarkerVersionId [String] - Version ID of the delete marker accessed
         #       * Error [Hash]:
-        #         * Key [String] Name of the object that failed to be deleted
-        #         * VersionId [String] ID of the versioned object that was attempted to be deleted
-        #         * Code [String] Status code for the result of the failed delete
-        #         * Message [String] Error description
+        #         * Key [String] - Name of the object that failed to be deleted
+        #         * VersionId [String] - ID of the versioned object that was attempted to be deleted
+        #         * Code [String] - Status code for the result of the failed delete
+        #         * Message [String] - Error description
         #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/multiobjectdeleteapi.html
         
