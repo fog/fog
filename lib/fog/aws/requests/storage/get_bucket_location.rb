@@ -7,11 +7,9 @@ module Fog
 
         # Get location constraint for an S3 bucket
         #
-        # ==== Parameters
-        # * bucket_name<~String> - name of bucket to get location constraint for
+        # @param bucket_name [String] - name of bucket to get location constraint for
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
+        # @return response [Excon::Response]:
         #   * body<~Hash>:
         #     * 'LocationConstraint'<~String> - Location constraint of the bucket
         #
