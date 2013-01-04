@@ -13,11 +13,11 @@ module Fog
         # @param [Array<String>] parts Array of etags as Strings for parts
         #
         # @return [Excon::Response]
-        #   * headers (Hash)
-        #     * Bucket (String) -- bucket of new object
-        #     * ETag (String) -- etag of new object (will be needed to complete upload)
-        #     * Key (String) -- key of new object
-        #     * Location (String) -- location of new object
+        #   * headers [Hash]:
+        #     * Bucket [String] - bucket of new object
+        #     * ETag [String] - etag of new object (will be needed to complete upload)
+        #     * Key [String] - key of new object
+        #     * Location [String] - location of new object
         #
         # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/mpUploadComplete.html
         #

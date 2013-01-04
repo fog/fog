@@ -5,28 +5,25 @@ module Fog
 
         # Get an object from S3
         #
-        # ==== Parameters
-        # * bucket_name<~String> - Name of bucket to read from
-        # * object_name<~String> - Name of object to read
-        # * options<~Hash>:
-        #   * 'If-Match'<~String> - Returns object only if its etag matches this value, otherwise returns 412 (Precondition Failed).
-        #   * 'If-Modified-Since'<~Time> - Returns object only if it has been modified since this time, otherwise returns 304 (Not Modified).
-        #   * 'If-None-Match'<~String> - Returns object only if its etag differs from this value, otherwise returns 304 (Not Modified)
-        #   * 'If-Unmodified-Since'<~Time> - Returns object only if it has not been modified since this time, otherwise returns 412 (Precodition Failed).
-        #   * 'Range'<~String> - Range of object to download
-        #   * 'versionId'<~String> - specify a particular version to retrieve
+        # @param bucket_name [String] Name of bucket to read from
+        # @param object_name [String] Name of object to read
+        # @param options [Hash]
+        # @option options If-Match [String] Returns object only if its etag matches this value, otherwise returns 412 (Precondition Failed).
+        # @option options If-Modified-Since [Time] Returns object only if it has been modified since this time, otherwise returns 304 (Not Modified).
+        # @option options If-None-Match [String] Returns object only if its etag differs from this value, otherwise returns 304 (Not Modified)
+        # @option options If-Unmodified-Since [Time] Returns object only if it has not been modified since this time, otherwise returns 412 (Precodition Failed).
+        # @option options Range [String] Range of object to download
+        # @option options versionId [String] specify a particular version to retrieve
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~String> - Contents of object
-        #   * headers<~Hash>:
-        #     * 'Content-Length'<~String> - Size of object contents
-        #     * 'Content-Type'<~String> - MIME type of object
-        #     * 'ETag'<~String> - Etag of object
-        #     * 'Last-Modified'<~String> - Last modified timestamp for object
+        # @return [Excon::Response] response:
+        #   * body [String]- Contents of object
+        #   * headers [Hash]:
+        #     * Content-Length [String] - Size of object contents
+        #     * Content-Type [String] - MIME type of object
+        #     * ETag [String] - Etag of object
+        #     * Last-Modified [String] - Last modified timestamp for object
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectGET.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectGET.html
 
         def get_object(bucket_name, object_name, options = {}, &block)
           unless bucket_name

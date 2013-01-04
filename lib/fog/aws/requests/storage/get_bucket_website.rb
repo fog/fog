@@ -7,19 +7,17 @@ module Fog
 
         # Get website configuration for an S3 bucket
         #
-        # ==== Parameters
-        # * bucket_name<~String> - name of bucket to get website configuration for
+        # 
+        # @param bucket_name [String] name of bucket to get website configuration for
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash>:
-        #     * IndexDocument<~Hash>
-        #       * Suffix<~String> - Suffix appended when directory is requested
-        #     * ErrorDocument<~Hash>
-        #       * Key<~String> - Object key to return for 4XX class errors
+        # @return [Excon::Response] response:
+        #   * body [Hash]:
+        #     * IndexDocument [Hash]:
+        #       * Suffix [String] - Suffix appended when directory is requested
+        #     * ErrorDocument [Hash]:
+        #       * Key [String] - Object key to return for 4XX class errors
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGETwebsite.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGETwebsite.html
 
         def get_bucket_website(bucket_name)
           unless bucket_name
