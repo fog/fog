@@ -6,6 +6,9 @@ Shindo.tests('Fog::Compute[:xenserver] | StorageRepository model', ['xenserver']
   tests('The StorageRepository model should') do
     tests('have the action') do
       test('reload') { storage_repository.respond_to? 'reload' }
+      test('destroy') { storage_repository.respond_to? 'destroy' }
+      test('scan') { storage_repository.respond_to? 'scan' }
+      test('save') { storage_repository.respond_to? 'save' }
     end
     tests('have attributes') do
       model_attribute_hash = storage_repository.attributes
@@ -25,7 +28,9 @@ Shindo.tests('Fog::Compute[:xenserver] | StorageRepository model', ['xenserver']
         :tags,
         :__vdis,
         :physical_size,
-        :physical_utilisation
+        :physical_utilisation,
+        :virtual_allocation,
+        :sm_config
       ]
       tests("The StorageRepository model should respond to") do
         attributes.each do |attribute|
@@ -58,6 +63,25 @@ Shindo.tests('Fog::Compute[:xenserver] | StorageRepository model', ['xenserver']
         }
       end
     end
+  end
+
+  test('#save') do
+    conn = Fog::Compute[:xenserver]
+    sr = conn.storage_repositories.create :name => 'FOG TEST SR',
+                                          :host => conn.hosts.first,
+                                          :type => 'ext',
+                                          :content_type => 'local SR',
+                                          :device_config => { :device => '/dev/sdb' },
+                                          :shared => false
+    !(conn.storage_repositories.find { |sr| sr.name == 'FOG TEST SR' }).nil?
+  end
+
+  test('#destroy') do
+    conn = Fog::Compute[:xenserver]
+    sr = (conn.storage_repositories.find { |sr| sr.name == 'FOG TEST SR' })
+    sr.pbds.each { |pbd| pbd.unplug }
+    sr.destroy
+    (conn.storage_repositories.find { |sr| sr.name == 'FOG TEST SR' }).nil?
   end
 
 end
