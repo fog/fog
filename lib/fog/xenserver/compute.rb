@@ -60,6 +60,9 @@ module Fog
       request :reboot_server
       request :provision_server
       request :scan_sr
+      request :unplug_pbd
+      request :destroy_sr
+      request :create_sr
     
       class Real
         

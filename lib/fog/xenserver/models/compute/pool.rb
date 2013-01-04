@@ -19,18 +19,40 @@ module Fog
         attribute :restrictions
         attribute :ha_enabled
         attribute :vswitch_controller
+        attribute :__suspend_image_sr,     :aliases => :suspend_image_SR
 
         
         def default_sr
           connection.storage_repositories.get __default_sr
         end
 
+        def default_sr=(sr)
+          connection.set_attribute( 'pool', reference, 'default_SR', sr.reference )
+        end
+        alias :default_storage_repository= :default_sr=
+
         def default_storage_repository
           default_sr
         end
 
+        def suspend_image_sr=(sr)
+          connection.set_attribute( 'pool', reference, 'suspend_image_SR', sr.reference )
+        end
+
+        def suspend_image_sr
+          connection.storage_repositories.get __suspend_image_sr
+        end
+
         def master
           connection.hosts.get __master
+        end
+        
+        def set_attribute(name, *val)
+          data = connection.set_attribute( 'pool', reference, name, *val )
+          # Do not reload automatically for performance reasons
+          # We can set multiple attributes at the same time and
+          # then reload manually
+          #reload
         end
 
       end
