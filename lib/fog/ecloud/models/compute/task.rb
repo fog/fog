@@ -14,6 +14,9 @@ module Fog
         attribute :error_message, :aliases => :ErrorMessage
         attribute :initiated_by, :aliases => :InitiatedBy
 
+        def ready?
+          !self.completed_time.nil?
+        end
       end
     end
   end
