@@ -13,6 +13,7 @@ module Fog
         attribute :uuid
         attribute :__host,             :aliases => :host
         attribute :__sr,               :aliases => :SR
+        attribute :currently_attached
 
         def sr
           connection.storage_repositories.get __sr
