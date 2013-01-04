@@ -7,16 +7,13 @@ module Fog
 
         # Get location constraint for an S3 bucket
         #
-        # ==== Parameters
-        # * bucket_name<~String> - name of bucket to get location constraint for
+        # @param bucket_name [String] name of bucket to get location constraint for
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash>:
-        #     * 'LocationConstraint'<~String> - Location constraint of the bucket
+        # @return [Excon::Response] response:
+        #   * body [Hash]:
+        #     * LocationConstraint [String] - Location constraint of the bucket
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGETlocation.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGETlocation.html
 
         def get_bucket_location(bucket_name)
           request({
