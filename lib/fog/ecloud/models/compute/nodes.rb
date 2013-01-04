@@ -19,8 +19,11 @@ module Fog
         end
 
         def get(uri)
-          if data = connection.get_node(uri)
-            new(data.body)
+          data = connection.get_node(uri).body
+          if data == ""
+            new({})
+          else
+            new(data)
           end
         rescue Fog::Errors::NotFound
           nil

@@ -9,7 +9,7 @@ module Fog
         attribute :operating_system_family, :aliases => :OperatingSystems
 
         def operating_systems
-          @operating_systems ||= Fog::Compute::Ecloud::OperatingSystems.new(:connection => connection, :data => operating_system_family[:OperatingSystem])
+          @operating_systems ||= self.connection.operating_systems(:data => operating_system_family[:OperatingSystem])
         end
 
         def id
