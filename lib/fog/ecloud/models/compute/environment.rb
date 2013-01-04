@@ -9,7 +9,7 @@ module Fog
 
         attribute :name
         attribute :type
-        attribute :other_links, :aliases => :Links
+        attribute :other_links, :aliases => :Links, :squash => :Link
 
         def public_ips
           @public_ips ||= Fog::Compute::Ecloud::PublicIps.new(:connection => connection, :href => "/cloudapi/ecloud/publicIps/environments/#{id}")
@@ -28,7 +28,7 @@ module Fog
         end
 
         def networks
-          @networks ||= Fog::Compute::Ecloud::Networks.new(:connection => connection, :href => "/cloudapi/ecloud/networks/environments/#{id}")
+          @networks ||= self.connection.networks(:href => "/cloudapi/ecloud/networks/environments/#{id}")
         end
 
         def servers
@@ -45,11 +45,11 @@ module Fog
         end
 
         def layout
-          @layout ||= Fog::Compute::Ecloud::Layouts.new(:connection => connection, :href => "/cloudapi/ecloud/layout/environments/#{id}").first
+          @layout ||= self.connection.layouts(:href => "/cloudapi/ecloud/layout/environments/#{id}").first
         end
 
         def rows
-          layout.rows
+          @rows ||= layout.rows
         end
 
         def tasks
@@ -73,8 +73,7 @@ module Fog
         end
 
         def catalog
-          org_href = other_links[:Link].detect { |l| l[:type] == "application/vnd.tmrk.cloud.organization" }[:href]
-          @catalog ||= Fog::Compute::Ecloud::Catalog.new(:connection => connection, :href => "/cloudapi/ecloud/admin/catalog/organizations/#{org_href.scan(/\d+/)[0]}")
+          @catalog = connection.catalog(:href => "/cloudapi/ecloud/admin/catalog/organizations/#{organization.id}")
         end
 
         def rnats
@@ -97,6 +96,14 @@ module Fog
 
         def id
           href.scan(/\d+/)[0]
+        end
+
+        def organization
+          @organization ||= begin
+                             reload unless other_links
+                             organization_link = other_links.find{|l| l[:type] == "application/vnd.tmrk.cloud.organization"}
+                             self.connection.organizations.new(organization_link)
+                           end
         end
       end
       Vdc = Environment
