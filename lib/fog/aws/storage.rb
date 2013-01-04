@@ -193,7 +193,10 @@ module Fog
                   :bucket => {},
                   :object => {}
                 },
-                :buckets => {}
+                :buckets => {},
+                :cors => {
+                  :bucket => {}
+                }
               }
             end
           end
