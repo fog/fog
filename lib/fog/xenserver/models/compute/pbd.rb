@@ -13,6 +13,7 @@ module Fog
         attribute :uuid
         attribute :__host,             :aliases => :host
         attribute :__sr,               :aliases => :SR
+        attribute :currently_attached
 
         def sr
           connection.storage_repositories.get __sr
@@ -24,6 +25,10 @@ module Fog
 
         def host
           connection.hosts.get __host
+        end
+        
+        def unplug
+          connection.unplug_pbd reference
         end
 
       end
