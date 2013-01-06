@@ -63,6 +63,10 @@ module Fog
       request :unplug_pbd
       request :destroy_sr
       request :create_sr
+      request :reboot_host
+      request :disable_host
+      request :enable_host
+      request :shutdown_host
     
       class Real
         
