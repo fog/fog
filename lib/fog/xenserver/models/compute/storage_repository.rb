@@ -63,12 +63,12 @@ module Fog
             connection.create_sr( host.reference, 
                                   name,
                                   type,
-                                  description,
-                                  device_config,
-                                  physical_size,
-                                  content_type,
+                                  description || '',
+                                  device_config || {},
+                                  physical_size || '0',
+                                  content_type || 'user',
                                   shared || false,
-                                  sm_config),
+                                  sm_config || {}),
             'SR'
           )
           merge_attributes attr 
