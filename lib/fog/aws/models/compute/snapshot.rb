@@ -29,7 +29,7 @@ module Fog
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :volume_id
 
           data = connection.create_snapshot(volume_id, description).body

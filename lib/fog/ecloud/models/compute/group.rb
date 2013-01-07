@@ -33,6 +33,8 @@ module Fog
         def id
           href.scan(/\d+/)[0]
         end
+
+        alias destroy delete
       end
     end
   end

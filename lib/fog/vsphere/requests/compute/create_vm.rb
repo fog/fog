@@ -75,7 +75,7 @@ module Fog
           }
         end
 
-        def create_disk disk, index = 0, operation = :add, controller_key = 1000, unit_id = 0
+        def create_disk disk, index = 0, operation = :add, controller_key = 1000
           {
             :operation     => operation,
             :fileOperation => :create,
@@ -87,7 +87,7 @@ module Fog
                 :thinProvisioned => disk.thin
               ),
               :controllerKey => controller_key,
-              :unitNumber    => unit_id,
+              :unitNumber    => index,
               :capacityInKB  => disk.size
             )
           }

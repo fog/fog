@@ -7,27 +7,24 @@ module Fog
 
         # Get access control list for an S3 bucket
         #
-        # ==== Parameters
-        # * bucket_name<~String> - name of bucket to get access control list for
+        # @param bucket_name [String] name of bucket to get access control list for
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash>:
-        #     * 'AccessControlPolicy'<~Hash>
-        #       * 'Owner'<~Hash>:
-        #         * 'DisplayName'<~String> - Display name of object owner
-        #         * 'ID'<~String> - Id of object owner
-        #       * 'AccessControlList'<~Array>:
-        #         * 'Grant'<~Hash>:
-        #           * 'Grantee'<~Hash>:
-        #              * 'DisplayName'<~String> - Display name of grantee
-        #              * 'ID'<~String> - Id of grantee
+        # @return [Excon::Response] response:
+        #   * body [Hash]:
+        #     * AccessControlPolicy [Hash]:
+        #       * Owner [Hash]:
+        #         * DisplayName [String] - Display name of object owner
+        #         * ID [String] - Id of object owner
+        #       * AccessControlList [Array]:
+        #         * Grant [Hash]:
+        #           * Grantee [Hash]:
+        #             * DisplayName [String] - Display name of grantee
+        #             * ID [String] - Id of grantee
         #             or
-        #              * 'URI'<~String> - URI of group to grant access for
-        #           * 'Permission'<~String> - Permission, in [FULL_CONTROL, WRITE, WRITE_ACP, READ, READ_ACP]
+        #             * URI [String] - URI of group to grant access for
+        #           * Permission [String] - Permission, in [FULL_CONTROL, WRITE, WRITE_ACP, READ, READ_ACP]
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGETacl.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTBucketGETacl.html
 
         def get_bucket_acl(bucket_name)
           unless bucket_name

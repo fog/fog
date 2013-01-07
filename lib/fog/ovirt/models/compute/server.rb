@@ -116,7 +116,7 @@ module Fog
         end
 
         def save
-          if identity
+          if persisted?
             connection.update_vm(attributes)
           else
             self.id = connection.create_vm(attributes).id

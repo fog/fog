@@ -82,7 +82,12 @@ module Fog
           @ip_command = options[:libvirt_ip_command]
 
           # libvirt is part of the gem => ruby-libvirt
-          require 'libvirt'
+          begin
+            require 'libvirt'
+          rescue LoadError => e
+            retry if require('rubygems')
+            raise e.message
+          end
 
           begin
             if options[:libvirt_username] and options[:libvirt_password]

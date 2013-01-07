@@ -26,6 +26,7 @@ module Fog
 
         def save(force = false)
           requires :volume_id
+          raise IdentifierTaken.new('Resaving may cause a duplicate snapshot to be created') if persisted?
           data = connection.create_snapshot(volume_id, {
             :display_name => display_name,
             :display_description => display_description,

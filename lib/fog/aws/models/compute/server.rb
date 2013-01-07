@@ -130,7 +130,7 @@ module Fog
         end
 
         def save
-          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if identity
+          raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :image_id
 
           options = {
@@ -224,7 +224,7 @@ module Fog
         #but in #save a merge_attribute is called after run_instance
         #thus making an un-necessary request. Use this until finding a clever solution
         def monitor=(new_monitor)
-          if identity
+          if persisted?
             case new_monitor
             when true
               response = connection.monitor_instances(identity)

@@ -14,7 +14,7 @@ module Fog
     
       def initialize(host)
         @factory = XMLRPC::Client.new(host, '/')
-        @factory.set_parser(XMLRPC::XMLParser::REXMLStreamParser.new)
+        @factory.set_parser(NokogiriStreamParser.new)
       end
     
       def authenticate( username, password )
@@ -48,6 +48,30 @@ module Fog
           response
         end
       end
+    end
+
+    class NokogiriStreamParser < XMLRPC::XMLParser::AbstractStreamParser
+      
+      def initialize
+        require 'nokogiri/xml/sax/document'
+        require 'nokogiri/xml/sax/parser'
+
+        @parser_class = Class.new(Nokogiri::XML::SAX::Document) do
+          
+          include XMLRPC::XMLParser::StreamParserMixin
+
+          alias_method :start_element, :startElement
+          alias_method :end_element,   :endElement
+          alias_method :characters,    :character
+          alias_method :cdata_block,   :character
+
+          def parse(str)
+            Nokogiri::XML::SAX::Parser.new(self).parse(str)
+          end
+          
+        end
+      end
+      
     end
 
   end

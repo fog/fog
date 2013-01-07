@@ -33,7 +33,7 @@ module Fog
         end
 
         def save
-          if identity
+          if persisted?
             update
           else
             create

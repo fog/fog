@@ -5,26 +5,23 @@ module Fog
 
         # Get torrent for an S3 object
         #
-        # ==== Parameters
-        # * bucket_name<~String> - name of bucket containing object
-        # * object_name<~String> - name of object to get torrent for
+        # @param bucket_name [String] name of bucket containing object
+        # @param object_name [String] name of object to get torrent for
         #
-        # ==== Returns
-        # * response<~Excon::Response>:
-        #   * body<~Hash>:
-        #     * 'AccessControlPolicy'<~Hash>
-        #       * 'Owner'<~Hash>:
-        #         * 'DisplayName'<~String> - Display name of object owner
-        #         * 'ID'<~String> - Id of object owner
-        #       * 'AccessControlList'<~Array>:
-        #         * 'Grant'<~Hash>:
-        #           * 'Grantee'<~Hash>:
-        #             * 'DisplayName'<~String> - Display name of grantee
-        #             * 'ID'<~String> - Id of grantee
-        #           * 'Permission'<~String> - Permission, in [FULL_CONTROL, WRITE, WRITE_ACP, READ, READ_ACP]
+        # @return [Excon::Response] response:
+        #   * body [Hash]:
+        #     * AccessControlPolicy [Hash:
+        #       * Owner [Hash]:
+        #         * DisplayName [String] - Display name of object owner
+        #         * ID [String] - Id of object owner
+        #       * AccessControlList [Array]:
+        #         * Grant [Hash]:
+        #           * Grantee [Hash]:
+        #             * DisplayName [String] - Display name of grantee
+        #             * ID [String] - Id of grantee
+        #           * Permission [String] - Permission, in [FULL_CONTROL, WRITE, WRITE_ACP, READ, READ_ACP]
         #
-        # ==== See Also
-        # http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectGETtorrent.html
+        # @see http://docs.amazonwebservices.com/AmazonS3/latest/API/RESTObjectGETtorrent.html
 
         def get_object_torrent(bucket_name, object_name)
           unless bucket_name

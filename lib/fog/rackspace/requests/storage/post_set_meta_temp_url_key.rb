@@ -9,7 +9,7 @@ module Fog
         #
         # Once the key has been set with this request you should create new
         # Storage objects with the :rackspace_temp_url_key option then use
-        # the get_object_https_url method to generate expirign URLs.
+        # the get_object_https_url method to generate expiring URLs.
         #
         # *** CAUTION *** changing this secret key will invalidate any expiring
         # URLS generated with old keys.

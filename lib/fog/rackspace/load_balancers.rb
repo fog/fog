@@ -50,6 +50,8 @@ module Fog
       request :list_algorithms
       request :get_connection_logging
       request :set_connection_logging
+      request :get_content_caching
+      request :set_content_caching
       request :create_access_rule
       request :list_access_rules
       request :delete_access_rule
