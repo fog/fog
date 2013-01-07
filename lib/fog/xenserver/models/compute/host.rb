@@ -23,6 +23,8 @@ module Fog
         attribute :__pifs,            :aliases => :PIFs
         attribute :__resident_vms,      :aliases => :resident_VMs
         attribute :__host_cpus,         :aliases => :host_CPUs
+        attribute :edition
+        attribute :software_version
         
         def pifs
           __pifs.collect { |pif| service.pifs.get pif }

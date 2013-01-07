@@ -28,7 +28,9 @@ Shindo.tests('Fog::Compute[:xenserver] | host model', ['xenserver']) do
         :__pbds,
         :__pifs,
         :__resident_vms,
-        :__host_cpus
+        :__host_cpus,
+        :edition,
+        :software_version
       ]
       tests("The host model should respond to") do
         attributes.each do |attribute|
