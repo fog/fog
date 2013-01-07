@@ -17,7 +17,7 @@ module Fog
 
           response = Excon::Response.new
           response.status = 202
-          response.body = { "metadata"=>{"Tag"=>"Database"} }
+          response.body = { "metadata"=>{"tag"=>"database"} }
           response
         end
       end

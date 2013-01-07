@@ -45,7 +45,8 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata_tests', ['rackspace']) do
         end
         
         tests("images") do
-          @image.wait_for(timeout = 1500) { ready? }
+          @image.wait_for(timeout = 1500) { ready? } unless Fog.mocking?
+          
           tests('list_metadata').returns(metadata) do
             h = @service.list_metadata("images", @image_id).body
             h["metadata"].reject {|k,v| k.downcase != "tag"} #only look at the metadata we created
@@ -54,8 +55,8 @@ Shindo.tests('Fog::Compute::RackspaceV2 | metadata_tests', ['rackspace']) do
             h = @service.set_metadata("images", @image_id, {"environment" => "dev"}).body
             h["metadata"].reject {|k,v| k.downcase != "environment"} #only look at the metadata we created            
           end
-          tests('update_metadata').returns({"environment" => "dev", "tag" => "Database"}) do
-            h = @service.update_metadata("images", @image_id, {"environment" => "dev", "tag" => "Database"}).body
+          tests('update_metadata').returns({"environment" => "dev", "tag" => "database"}) do
+            h = @service.update_metadata("images", @image_id, {"environment" => "dev", "tag" => "database"}).body
             h["metadata"].reject {|k,v| !['environment', 'tag'].include?(k.downcase)} #only look at the metadata we created            
           end
           tests('get_metadata_item').returns("meta" => {"environment" => "dev"}) do
