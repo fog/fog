@@ -27,7 +27,7 @@ module Fog
         attribute :vendor
 
         def host
-          connection.hosts.get __host
+          service.hosts.get __host
         end
         
       end

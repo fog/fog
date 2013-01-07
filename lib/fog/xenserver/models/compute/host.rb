@@ -45,8 +45,8 @@ module Fog
         def host_cpus
           cpus = []
           (__host_cpus || []).each do |ref|
-            cpu_ref = connection.get_record(ref, 'host_cpu' )
-            cpu_ref[:connection] = connection
+            cpu_ref = service.get_record(ref, 'host_cpu' )
+            cpu_ref[:service] = service
             cpus << Fog::Compute::XenServer::HostCpu.new(cpu_ref)
           end
           cpus
@@ -72,7 +72,7 @@ module Fog
         #
         def reboot(auto_disable = true)
           disable if auto_disable
-          connection.reboot_host(reference)
+          service.reboot_host(reference)
         end
         
         #
@@ -82,7 +82,7 @@ module Fog
         # @see http://docs.vmd.citrix.com/XenServer/6.0.0/1.0/en_gb/api/?c=host
         #
         def disable 
-          connection.disable_host(reference)
+          service.disable_host(reference)
         end
         
         #
@@ -91,7 +91,7 @@ module Fog
         # @see http://docs.vmd.citrix.com/XenServer/6.0.0/1.0/en_gb/api/?c=host
         #
         def enable
-          connection.enable_host(reference)
+          service.enable_host(reference)
         end
 
         #
@@ -108,11 +108,11 @@ module Fog
         #
         def shutdown(auto_disable = true)
           disable if auto_disable
-          connection.shutdown_host(reference)
+          service.shutdown_host(reference)
         end
         
         def set_attribute(name, *val)
-          data = connection.set_attribute( 'host', reference, name, *val )
+          data = service.set_attribute( 'host', reference, name, *val )
           # Do not reload automatically for performance reasons
           # We can set multiple attributes at the same time and
           # then reload manually
