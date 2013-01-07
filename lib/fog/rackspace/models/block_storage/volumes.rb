@@ -9,12 +9,12 @@ module Fog
         model Fog::Rackspace::BlockStorage::Volume
 
         def all
-          data = connection.list_volumes.body['volumes']
+          data = service.list_volumes.body['volumes']
           load(data)
         end
 
         def get(volume_id)
-          data = connection.get_volume(volume_id).body['volume']
+          data = service.get_volume(volume_id).body['volume']
           new(data)
         rescue Fog::Rackspace::BlockStorage::NotFound
           nil

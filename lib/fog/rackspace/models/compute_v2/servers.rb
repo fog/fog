@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::RackspaceV2::Server
 
         def all
-          data = connection.list_servers.body['servers']
+          data = service.list_servers.body['servers']
           load(data)
         end
 
@@ -22,7 +22,7 @@ module Fog
         end
 
         def get(server_id)
-          data = connection.get_server(server_id).body['server']
+          data = service.get_server(server_id).body['server']
           new(data)
         rescue Fog::Compute::RackspaceV2::NotFound
           nil

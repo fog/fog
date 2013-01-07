@@ -11,7 +11,7 @@ module Fog
           data = []
           next_token = nil
           loop do
-            result = connection.describe_scaling_activities('NextToken' => next_token).body['DescribeScalingActivitiesResult']
+            result = service.describe_scaling_activities('NextToken' => next_token).body['DescribeScalingActivitiesResult']
             data += result['Activities']
             next_token = result['NextToken']
             break if next_token.nil?
@@ -20,7 +20,7 @@ module Fog
         end
 
         def get(identity)
-          data = connection.describe_scaling_activities('ActivityId' => identity).body['DescribeScalingActivitiesResult']['Activities'].first
+          data = service.describe_scaling_activities('ActivityId' => identity).body['DescribeScalingActivitiesResult']['Activities'].first
           new(data) unless data.nil?
         end
 

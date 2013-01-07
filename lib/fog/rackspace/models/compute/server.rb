@@ -28,23 +28,23 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_server(id)
+          service.delete_server(id)
           true
         end
 
         def flavor
           requires :flavor_id
-          connection.flavors.get(flavor_id)
+          service.flavors.get(flavor_id)
         end
 
         def image
           requires :image_id
-          connection.images.get(image_id)
+          service.images.get(image_id)
         end
 
         def images
           requires :id
-          connection.images(:server => self)
+          service.images(:server => self)
         end
 
         def private_ip_address
@@ -61,7 +61,7 @@ module Fog
 
         def reboot(type = 'SOFT')
           requires :id
-          connection.reboot_server(id, type)
+          service.reboot_server(id, type)
           true
         end
 
@@ -74,7 +74,7 @@ module Fog
             'personality' => personality
           }
           options = options.reject {|key, value| value.nil?}
-          data = connection.create_server(flavor_id, image_id, options)
+          data = service.create_server(flavor_id, image_id, options)
           merge_attributes(data.body['server'])
           true
         end

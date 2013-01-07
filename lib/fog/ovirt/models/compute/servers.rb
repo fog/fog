@@ -10,11 +10,11 @@ module Fog
         model Fog::Compute::Ovirt::Server
 
         def all(filters = {})
-          load connection.list_virtual_machines(filters)
+          load service.list_virtual_machines(filters)
         end
 
         def get(id)
-          new connection.get_virtual_machine(id)
+          new service.get_virtual_machine(id)
         end
 
         def bootstrap(new_attributes = {})

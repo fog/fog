@@ -43,19 +43,19 @@ module Fog
 
         def destroy
           requires :id
-          connection.delete_server(id)
+          service.delete_server(id)
           true
         end
 
         def images
           requires :id
-          connection.images(:server => self)
+          service.images(:server => self)
         end
 
         def key_pair
           requires :key_name
 
-          connection.key_pairs.get(key_name)
+          service.key_pairs.get(key_name)
         end
 
         def key_pair=(new_keypair)
@@ -111,53 +111,53 @@ module Fog
           @security_groups = new_security_groups
         end
 
-        def security_groups   
+        def security_groups
           @security_groups
         end
-        
+
         def ready?
           self.state == 'ACTIVE'
         end
 
         def change_password(admin_password)
           requires :id
-          connection.change_password_server(id, admin_password)
+          service.change_password_server(id, admin_password)
           true
         end
 
         def reboot(type = 'SOFT')
           requires :id
-          connection.reboot_server(id, type)
+          service.reboot_server(id, type)
           true
         end
 
         def rebuild(image_id, name, admin_pass=nil, metadata=nil, personality=nil)
           requires :id
-          connection.rebuild_server(id, image_id, name, admin_pass, metadata, personality)
+          service.rebuild_server(id, image_id, name, admin_pass, metadata, personality)
           true
         end
 
         def resize(flavor_id)
           requires :id
-          connection.resize_server(id, flavor_id)
+          service.resize_server(id, flavor_id)
           true
         end
 
         def revert_resize
           requires :id
-          connection.revert_resized_server(id)
+          service.revert_resized_server(id)
           true
         end
 
         def confirm_resize
           requires :id
-          connection.confirm_resized_server(id)
+          service.confirm_resized_server(id)
           true
         end
 
         def create_image(name, metadata={})
           requires :id
-          connection.create_image(id, name, metadata)
+          service.create_image(id, name, metadata)
         end
 
         def save
@@ -174,7 +174,7 @@ module Fog
             'security_groups' => @security_groups
           }
           options = options.reject {|key, value| value.nil?}
-          data = connection.create_server(name, flavor_id, image_id, options)
+          data = service.create_server(name, flavor_id, image_id, options)
           merge_attributes(data.body['server'])
           true
         end

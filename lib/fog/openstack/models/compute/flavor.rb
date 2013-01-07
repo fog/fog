@@ -18,7 +18,8 @@ module Fog
         attribute :disabled, :aliases => 'OS-FLV-DISABLED:disabled'
 
         def initialize(attributes)
-          @connection = attributes[:connection]
+          # Old 'connection' is renamed as service and should be used instead
+          prepare_service_value(attributes)
           super
         end
 
@@ -29,13 +30,13 @@ module Fog
           attributes[:disabled] = self.disabled || false
           attributes[:swap] = self.swap || 0
           attributes[:rxtx_factor] = self.rxtx_factor || 1.0
-          merge_attributes(connection.create_flavor(self.attributes).body['flavor'])
+          merge_attributes(service.create_flavor(self.attributes).body['flavor'])
           self
         end
 
         def destroy
           requires :id
-          connection.delete_flavor(self.id)
+          service.delete_flavor(self.id)
           true
         end
       end

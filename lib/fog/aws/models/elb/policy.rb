@@ -13,7 +13,7 @@ module Fog
 
         def save
           requires :id, :load_balancer, :cookie_stickiness
-          connection_method = nil
+          service_method = nil
           args = [load_balancer.id, id]
           case cookie_stickiness
           when :app
@@ -27,13 +27,13 @@ module Fog
             raise ArgumentError.new('cookie_stickiness must be :app or :lb')
           end
 
-          connection.send(method, *args)
+          service.send(method, *args)
           reload
         end
 
         def destroy
           requires :id, :load_balancer
-          connection.delete_load_balancer_policy(load_balancer.id, id)
+          service.delete_load_balancer_policy(load_balancer.id, id)
           reload
         end
 

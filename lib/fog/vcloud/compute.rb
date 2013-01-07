@@ -11,7 +11,7 @@ module Fog
       end
 
       def check_href!(opts = {})
-        self.href = connection.default_vdc_href unless href
+        self.href = service.default_vdc_href unless href
         unless href
           if opts.is_a?(String)
             t = Hash.new
@@ -61,7 +61,7 @@ module Fog
         class_eval <<-EOS, __FILE__,__LINE__
           def #{item}
             load_unless_loaded!
-            connection.get_#{item}(link_up[:href])
+            service.get_#{item}(link_up[:href])
           end
         EOS
       end
@@ -356,9 +356,9 @@ module Fog
           def get_#{type}(uri)
             Fog::Vcloud::Compute::#{type.to_s.capitalize}.new(
               self.request(basic_request_params(uri)).body.merge(
-                :connection => self,
+                :service => self,
                 :collection => Fog::Vcloud::Compute::#{type.to_s.capitalize}s.new(
-                  :connection => self
+                  :service => self
                 )
               )
             )

@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Ecloud::InternetService
 
         def all
-          data = connection.get_internet_services(href).body[:InternetServices]
+          data = service.get_internet_services(href).body[:InternetServices]
           if data.is_a?(Hash)
             load(data[:InternetService])
           elsif data.is_a?(String) && data.empty?
@@ -19,7 +19,7 @@ module Fog
         end
 
         def get(uri)
-          data = connection.get_internet_service(uri).body
+          data = service.get_internet_service(uri).body
           if data == ""
             new({})
           else
@@ -36,7 +36,7 @@ module Fog
           options[:description]        ||= ""
           options[:persistence]        ||= {}
           options[:persistence][:type] ||= "None"
-          data = connection.internet_service_create(options).body
+          data = service.internet_service_create(options).body
           object = new(data)
         end
 

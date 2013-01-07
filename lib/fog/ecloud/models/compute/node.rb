@@ -18,20 +18,20 @@ module Fog
         end
 
         def tasks
-          @tasks ||= Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => "/cloudapi/ecloud/tasks/virtualMachines/#{id}")
+          @tasks ||= Fog::Compute::Ecloud::Tasks.new(:service => service, :href => "/cloudapi/ecloud/tasks/virtualMachines/#{id}")
         end
 
         def delete
-          data = connection.node_service_delete(href).body
-          self.connection.tasks.new(data)
+          data = service.node_service_delete(href).body
+          self.service.tasks.new(data)
         end
 
         def edit(options)
           options[:uri] = href
           options[:description] ||= ""
           options = {:name => name}.merge(options)
-          data = connection.node_service_edit(options).body
-          task = Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => data[:href])[0]
+          data = service.node_service_edit(options).body
+          task = Fog::Compute::Ecloud::Tasks.new(:service => service, :href => data[:href])[0]
         end
 
         def id

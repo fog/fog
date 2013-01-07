@@ -41,7 +41,7 @@ module Fog
         attribute :addresses
         attribute :flavor_id, :aliases => 'flavor', :squash => 'id'
         attribute :image_id, :aliases => 'image', :squash => 'id'
-        
+
         attr_reader :password
 
         def save
@@ -61,49 +61,49 @@ module Fog
           options[:metadata] = metadata unless metadata.nil?
           options[:personality] = personality unless personality.nil?
 
-          data = connection.create_server(name, image_id, flavor_id, 1, 1, options)
+          data = service.create_server(name, image_id, flavor_id, 1, 1, options)
           merge_attributes(data.body['server'])
           true
         end
 
         def update
           requires :identity, :name
-          data = connection.update_server(identity, name)
+          data = service.update_server(identity, name)
           merge_attributes(data.body['server'])
           true
         end
 
         def destroy
           requires :identity
-          connection.delete_server(identity)
+          service.delete_server(identity)
           true
         end
 
         def flavor
           requires :flavor_id
-          @flavor ||= connection.flavors.get(flavor_id)
+          @flavor ||= service.flavors.get(flavor_id)
         end
 
         def image
           requires :image_id
-          @image ||= connection.images.get(image_id)
+          @image ||= service.images.get(image_id)
         end
-        
+
         def create_image(name, options = {})
           requires :identity
-          response = connection.create_image(identity, name, options)
-          response.headers["Location"].match(/\/([^\/]+$)/)[1] rescue nil          
+          response = service.create_image(identity, name, options)
+          response.headers["Location"].match(/\/([^\/]+$)/)[1] rescue nil
         end
 
         def attachments
           @attachments ||= begin
             Fog::Compute::RackspaceV2::Attachments.new({
-              :connection => connection,
+              :service => service,
               :server => self
             })
           end
         end
-        
+
         def private_ip_address
           addresses['private'].select{|a| a["version"] == 4}[0]["addr"]
         end
@@ -118,45 +118,45 @@ module Fog
 
         def reboot(type = 'SOFT')
           requires :identity
-          connection.reboot_server(identity, type)
+          service.reboot_server(identity, type)
           self.state = type == 'SOFT' ? REBOOT : HARD_REBOOT
           true
         end
 
         def resize(flavor_id)
           requires :identity
-          connection.resize_server(identity, flavor_id)
+          service.resize_server(identity, flavor_id)
           self.state = RESIZE
           true
         end
 
         def rebuild(image_id)
           requires :identity
-          connection.rebuild_server(identity, image_id)
+          service.rebuild_server(identity, image_id)
           self.state = REBUILD
           true
         end
 
         def confirm_resize
           requires :identity
-          connection.confirm_resize_server(identity)
+          service.confirm_resize_server(identity)
           true
         end
 
         def revert_resize
           requires :identity
-          connection.revert_resize_server(identity)
+          service.revert_resize_server(identity)
           true
         end
 
         def change_admin_password(password)
           requires :identity
-          connection.change_server_password(identity, password)
+          service.change_server_password(identity, password)
           self.state = PASSWORD
           @password = password
           true
         end
-        
+
         def setup(credentials = {})
           requires :public_ip_address, :identity, :public_key, :username
           Fog::SSH.new(public_ip_address, username, credentials).run([

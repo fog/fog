@@ -26,7 +26,7 @@ module Fog
         def destroy
           requires :id
 
-          connection.delete_db_snapshot(id)
+          service.delete_db_snapshot(id)
           true
         end
 
@@ -34,14 +34,14 @@ module Fog
           requires :instance_id
           requires :id
 
-          data = connection.create_db_snapshot(instance_id, id).body['CreateDBSnapshotResult']['DBSnapshot']
+          data = service.create_db_snapshot(instance_id, id).body['CreateDBSnapshotResult']['DBSnapshot']
           merge_attributes(data)
           true
         end
 
         def server
           requires :instance_id
-          connection.servers.get(instance_id)
+          service.servers.get(instance_id)
         end
 
       end

@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ecloud::LoginBanner
 
         def all
-          data = connection.get_login_banners(href).body
+          data = service.get_login_banners(href).body
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_login_banner(uri)
+          if data = service.get_login_banner(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

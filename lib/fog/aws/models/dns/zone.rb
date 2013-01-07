@@ -17,7 +17,7 @@ module Fog
 
         def destroy
           requires :identity
-          connection.delete_hosted_zone(identity)
+          service.delete_hosted_zone(identity)
           true
         end
 
@@ -25,7 +25,7 @@ module Fog
           @records ||= begin
             Fog::DNS::AWS::Records.new(
               :zone       => self,
-              :connection => connection
+              :service => service
             )
           end
         end
@@ -35,7 +35,7 @@ module Fog
           options = {}
           options[:caller_ref]  = caller_reference if caller_reference
           options[:comment]     = description if description
-          data = connection.create_hosted_zone(domain, options).body
+          data = service.create_hosted_zone(domain, options).body
           merge_attributes(data)
           true
         end

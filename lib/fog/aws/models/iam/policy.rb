@@ -9,30 +9,30 @@ module Fog
         identity  :id, :aliases => 'PolicyName'
         attribute :username, :aliases => 'UserName'
         attribute :document, :aliases => 'PolicyDocument'
-        
+
         def save
           requires :id
           requires :username
           requires :document
 
-          data = connection.put_user_policy(username, id, document).body
+          data = service.put_user_policy(username, id, document).body
           merge_attributes(data)
           true
         end
-        
+
         def destroy
           requires :id
           requires :username
 
-          connection.delete_user_policy(username, id)
+          service.delete_user_policy(username, id)
           true
         end
-        
+
         def user
           requires :username
-          connection.users.get(username)
+          service.users.get(username)
         end
-        
+
       end
     end
   end

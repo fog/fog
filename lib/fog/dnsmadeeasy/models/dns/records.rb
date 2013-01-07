@@ -13,12 +13,12 @@ module Fog
 
         def all
           requires :zone
-          data = connection.list_records(zone.identity).body
+          data = service.list_records(zone.identity).body
           load(data)
         end
 
         def get(record_id)
-          data = connection.get_record(zone.identity, record_id).body
+          data = service.get_record(zone.identity, record_id).body
           new(data)
         rescue Fog::Service::NotFound
           nil

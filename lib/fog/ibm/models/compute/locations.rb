@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::IBM::Location
 
         def all
-          load(connection.list_locations.body['locations'])
+          load(service.list_locations.body['locations'])
         end
 
         def get(location_id)
           begin
-            new(connection.get_location(location_id).body)
+            new(service.get_location(location_id).body)
           rescue Fog::Compute::IBM::NotFound
             nil
           end

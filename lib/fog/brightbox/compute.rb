@@ -138,7 +138,7 @@ module Fog
 
         # Creates a new instance of the Brightbox Compute service
         #
-        # @note If you open a connection using just a refresh token when it
+        # @note If you create service using just a refresh token when it
         #   expires the service will no longer be able to authenticate.
         #
         # @param [Hash] options
@@ -209,15 +209,13 @@ module Fog
         #
         # * For API clients this is the owning account
         # * For User applications this is the account specified by either +account_id+
-        #   option on a connection or the +brightbox_account+ setting in your configuration
+        #   option on the service or the +brightbox_account+ setting in your configuration
         #
         # @return [Fog::Compute::Brightbox::Account]
         #
         def account
-          Fog::Compute::Brightbox::Account.new(get_scoped_account).tap do |acc|
-            # Connection is more like the compute 'service'
-            acc.connection = self
-          end
+          account_data = get_scoped_account.merge(:service => self)
+          Fog::Compute::Brightbox::Account.new(account_data)
         end
 
         # Returns true if authentication is being performed as a user

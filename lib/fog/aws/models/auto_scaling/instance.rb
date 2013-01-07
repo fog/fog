@@ -17,22 +17,22 @@ module Fog
         end
 
         def group
-          connection.groups.get(attributes['AutoScalingGroupName'])
+          service.groups.get(attributes['AutoScalingGroupName'])
         end
 
         def configuration
-          connection.configurations.get(attributes['LaunchConfigurationName'])
+          service.configurations.get(attributes['LaunchConfigurationName'])
         end
 
         def set_health(health_status, options)
           requires :id
-          connection.set_instance_health(health_status, id, options)
+          service.set_instance_health(health_status, id, options)
           reload
         end
 
         def terminate(should_decrement_desired_capacity)
           requires :id
-          connection.terminate_instance_in_auto_scaling_group(id, should_decrement_desired_capacity)
+          service.terminate_instance_in_auto_scaling_group(id, should_decrement_desired_capacity)
           reload
         end
 
@@ -51,7 +51,7 @@ module Fog
 
         #def destroy
         #  requires :id
-        #  connection.delete_auto_scaling_group(id)
+        #  service.delete_auto_scaling_group(id)
         #end
 
       end

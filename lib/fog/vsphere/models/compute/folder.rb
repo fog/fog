@@ -14,7 +14,7 @@ module Fog
 
         def vms
           return [] if type.to_s != 'vm'
-          connection.servers(:folder => path, :datacenter => datacenter)
+          service.servers(:folder => path, :datacenter => datacenter)
         end
 
         def to_s

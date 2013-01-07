@@ -10,11 +10,11 @@ module Fog
         model Fog::Compute::Ovirt::Cluster
 
         def all(filters = {})
-          load connection.list_clusters(filters)
+          load service.list_clusters(filters)
         end
 
         def get(id)
-          new connection.get_cluster(id)
+          new service.get_cluster(id)
         end
 
       end

@@ -12,7 +12,7 @@ module Fog
         def all(filters={})
           options = get_filter_options(filters)
 
-          data = connection.list_templates(options)["listtemplatesresponse"]["template"] || []
+          data = service.list_templates(options)["listtemplatesresponse"]["template"] || []
           load(data)
         end
 
@@ -20,7 +20,7 @@ module Fog
           filter_option = get_filter_options(filters)
           options = filter_option.merge('id' => template_id)
 
-          if template = connection.list_templates(options)["listtemplatesresponse"]["template"].first
+          if template = service.list_templates(options)["listtemplatesresponse"]["template"].first
             new(template)
           end
         rescue Fog::Compute::Cloudstack::BadRequest
