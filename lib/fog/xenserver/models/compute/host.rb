@@ -22,7 +22,8 @@ module Fog
         attribute :__pbds,            :aliases => :PBDs
         attribute :__pifs,            :aliases => :PIFs
         attribute :__resident_vms,      :aliases => :resident_VMs
-
+        attribute :__host_cpus,         :aliases => :host_CPUs
+        
         def pifs
           __pifs.collect { |pif| service.pifs.get pif }
         end
@@ -37,6 +38,16 @@ module Fog
 
         def resident_vms
           resident_servers
+        end
+
+        def host_cpus
+          cpus = []
+          (__host_cpus || []).each do |ref|
+            cpu_ref = connection.get_record(ref, 'host_cpu' )
+            cpu_ref[:connection] = connection
+            cpus << Fog::Compute::XenServer::HostCpu.new(cpu_ref)
+          end
+          cpus
         end
 
         def metrics
