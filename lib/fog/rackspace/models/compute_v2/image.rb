@@ -23,6 +23,8 @@ module Fog
         attribute :minRam
         attribute :disk_config, :aliases => 'OS-DCF:diskConfig'
         attribute :links
+        
+        ignore_attributes :metadata        
                 
         def initialize(attributes={})
           @connection = attributes[:connection]

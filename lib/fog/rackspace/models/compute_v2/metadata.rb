@@ -30,12 +30,14 @@ module Fog
         end
         
         def [](key)
+          return super(key) if key.is_a?(Integer)
           return nil unless key
           datum = self.find {|datum| datum.key == key || datum.key == key.to_sym }
           datum ? datum.value : nil
         end
         
         def []=(key, value)
+          return super(key,value) if key.is_a?(Integer)          
           return nil unless key
           datum = self.find {|datum| datum.key == key || datum.key == key.to_sym }
           if datum

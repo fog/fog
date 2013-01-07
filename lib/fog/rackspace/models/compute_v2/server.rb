@@ -42,6 +42,8 @@ module Fog
         attribute :flavor_id, :aliases => 'flavor', :squash => 'id'
         attribute :image_id, :aliases => 'image', :squash => 'id'
         
+        ignore_attributes :metadata
+        
         attr_reader :password          
         def initialize(attributes={})
           @connection = attributes[:connection]
