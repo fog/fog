@@ -27,7 +27,8 @@ Shindo.tests('Fog::Compute[:xenserver] | host model', ['xenserver']) do
         :other_config,
         :__pbds,
         :__pifs,
-        :__resident_vms
+        :__resident_vms,
+        :__host_cpus
       ]
       tests("The host model should respond to") do
         attributes.each do |attribute|
@@ -81,6 +82,15 @@ Shindo.tests('Fog::Compute[:xenserver] | host model', ['xenserver']) do
       end
     end
 
+    tests('return a list of HostCpu') do
+      test('as an Array') do
+        host.host_cpus.kind_of? Array 
+      end
+      test('with one element at least') do
+        host.host_cpus.first.kind_of? Fog::Compute::XenServer::HostCpu
+      end
+    end
+    
   end
 
 
