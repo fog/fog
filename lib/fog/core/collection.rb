@@ -1,8 +1,12 @@
+require "fog/core/deprecated_connection_accessors"
+
 module Fog
   class Collection < Array
-
     extend Fog::Attributes::ClassMethods
     include Fog::Attributes::InstanceMethods
+    include Fog::Core::DeprecatedConnectionAccessors
+
+    attr_reader :service
 
     Array.public_instance_methods(false).each do |method|
       unless [:reject, :select, :slice].include?(method.to_sym)
@@ -37,8 +41,6 @@ module Fog
       end
     end
 
-    attr_accessor :connection
-
     remove_method :clear
     def clear
       @loaded = true
@@ -56,10 +58,19 @@ module Fog
       object.destroy
     end
 
+    # Creates a new Fog::Collection based around the passed service
+    #
+    # @param [Hash] attributes
+    # @option attributes [Fog::Service] service Instance of a service
+    #
+    # @return [Fog::Collection]
+    #
     def initialize(attributes = {})
+      @service = attributes.delete(:service)
       @loaded = false
       merge_attributes(attributes)
     end
+
 
     remove_method :inspect
     def inspect
@@ -105,7 +116,7 @@ module Fog
       model.new(
         {
           :collection => self,
-          :connection => connection
+          :service => service
         }.merge(attributes)
       )
     end

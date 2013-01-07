@@ -9,23 +9,23 @@ module Fog
         attribute :status
 
         def clusters filters = { }
-          connection.clusters({ :datacenter => name }.merge(filters))
+          service.clusters({ :datacenter => name }.merge(filters))
         end
 
         def networks filters = { }
-          connection.networks({ :datacenter => name }.merge(filters))
+          service.networks({ :datacenter => name }.merge(filters))
         end
 
         def datastores filters = { }
-          connection.datastores({ :datacenter => name }.merge(filters))
+          service.datastores({ :datacenter => name }.merge(filters))
         end
 
         def vm_folders filters = { }
-          connection.folders({ :datacenter => name, :type => :vm }.merge(filters))
+          service.folders({ :datacenter => name, :type => :vm }.merge(filters))
         end
-        
+
         def virtual_machines filters = {}
-          connection.servers({ :datacenter => name }.merge(filters))
+          service.servers({ :datacenter => name }.merge(filters))
         end
 
         def to_s

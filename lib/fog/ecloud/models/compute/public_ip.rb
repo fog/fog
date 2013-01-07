@@ -10,7 +10,7 @@ module Fog
         attribute :ip_type, :aliases => :IpType
 
         def internet_services
-          @internet_services = Fog::Compute::Ecloud::InternetServices.new(:connection => connection, :href => href)
+          @internet_services = Fog::Compute::Ecloud::InternetServices.new(:service => service, :href => href)
         end
 
         def environment_id

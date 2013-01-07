@@ -10,12 +10,12 @@ module Fog
         model Fog::DNS::Zerigo::Zone
 
         def all
-          data = connection.list_zones.body['zones']
+          data = service.list_zones.body['zones']
           load(data)
         end
 
         def get(zone_id_or_domain)
-          data = connection.get_zone(zone_id_or_domain).body
+          data = service.get_zone(zone_id_or_domain).body
           zone = new(data)
           zone.records.load(data['hosts'])
           zone

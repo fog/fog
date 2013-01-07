@@ -21,7 +21,7 @@ module Fog
 
         def destroy
           requires :id
-          connection.release_address(id)
+          service.release_address(id)
           true
         end
 
@@ -35,7 +35,7 @@ module Fog
 
         def save
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
-          data = connection.allocate_address(pool).body['floating_ip']
+          data = service.allocate_address(pool).body['floating_ip']
           new_attributes = data.reject {|key,value| !['id', 'instance_id', 'ip', 'fixed_ip'].include?(key)}
           merge_attributes(new_attributes)
           if @server
@@ -52,14 +52,14 @@ module Fog
           else
             @server = nil
             self.instance_id = new_server.id
-            connection.associate_address(instance_id, ip)
+            service.associate_address(instance_id, ip)
           end
         end
 
         def disassociate
           @server = nil
           if persisted?
-            connection.disassociate_address(instance_id, ip)
+            service.disassociate_address(instance_id, ip)
           end
           self.instance_id = nil
         end

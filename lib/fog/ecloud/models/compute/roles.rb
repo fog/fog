@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Ecloud::Role
 
         def all
-          data = connection.get_roles(href).body
+          data = service.get_roles(href).body
           if data[:OrganizationRole]
             load(data[:OrganizationRole])
           else
@@ -25,7 +25,7 @@ module Fog
         end
 
         def get(uri)
-          if data = connection.get_role(uri)
+          if data = service.get_role(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

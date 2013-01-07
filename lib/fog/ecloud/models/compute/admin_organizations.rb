@@ -10,7 +10,7 @@ module Fog
         model Fog::Compute::Ecloud::AdminOrganization
 
         def get(uri)
-          if data = connection.get_admin_organization(uri)
+          if data = service.get_admin_organization(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

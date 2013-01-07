@@ -8,7 +8,7 @@ module Fog
         attribute :other_links, :aliases => :Links
 
         def rows
-          @rows ||= self.connection.rows(:href => href)
+          @rows ||= self.service.rows(:href => href)
         end
 
         def id

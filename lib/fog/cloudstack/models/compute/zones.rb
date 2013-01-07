@@ -14,12 +14,12 @@ module Fog
             'templatefilter' => 'self'
           }.merge(filters)
 
-          data = connection.list_zones(options)["listzonesresponse"]["zone"] || []
+          data = service.list_zones(options)["listzonesresponse"]["zone"] || []
           load(data)
         end
 
         def get(zone_id)
-          if zone = connection.list_zones('id' => zone_id)["listzonesresponse"]["zone"].first
+          if zone = service.list_zones('id' => zone_id)["listzonesresponse"]["zone"].first
             new(zone)
           end
         rescue Fog::Compute::Cloudstack::BadRequest

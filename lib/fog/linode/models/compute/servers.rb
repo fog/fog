@@ -19,9 +19,9 @@ module Fog
 
         private
         def servers(id=nil)
-          connection.linode_list(id).body['DATA'].map { |server| map_server server }
+          service.linode_list(id).body['DATA'].map { |server| map_server server }
         end
-        
+
         def map_server(server)
           server = server.each_with_object({}) { |(k, v), h| h[k.downcase.to_sym] = v  }
           server.merge! :id => server[:linodeid], :name => server[:label]

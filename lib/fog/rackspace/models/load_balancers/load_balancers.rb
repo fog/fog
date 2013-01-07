@@ -10,12 +10,12 @@ module Fog
         model Fog::Rackspace::LoadBalancers::LoadBalancer
 
         def all
-          data = connection.list_load_balancers.body['loadBalancers']
+          data = service.list_load_balancers.body['loadBalancers']
           load(data)
         end
 
         def get(load_balancer_id)
-          if load_balancer = connection.get_load_balancer(load_balancer_id).body['loadBalancer']
+          if load_balancer = service.get_load_balancer(load_balancer_id).body['loadBalancer']
             new(load_balancer)
           end
         rescue Fog::Rackspace::LoadBalancers::NotFound

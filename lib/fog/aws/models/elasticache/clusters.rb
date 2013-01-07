@@ -10,7 +10,7 @@ module Fog
 
         def all
           load(
-            connection.describe_cache_clusters(
+            service.describe_cache_clusters(
               nil, :show_node_info => true
             ).body['CacheClusters']
           )
@@ -18,7 +18,7 @@ module Fog
 
         def get(identity, show_node_info = true)
           new(
-            connection.describe_cache_clusters(
+            service.describe_cache_clusters(
               identity, :show_node_info => show_node_info
             ).body['CacheClusters'].first
           )

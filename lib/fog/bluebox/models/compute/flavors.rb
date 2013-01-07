@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Bluebox::Flavor
 
         def all
-          data = connection.get_products.body
+          data = service.get_products.body
           load(data)
         end
 
         def get(product_id)
-          response = connection.get_product(product_id)
+          response = service.get_product(product_id)
           new(response.body)
         rescue Fog::Compute::Bluebox::NotFound
           nil

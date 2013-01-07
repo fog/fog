@@ -3,13 +3,13 @@ require 'fog/core/model'
 module Fog
   module Compute
     class XenServer
-    
+
       class StorageRepository < Fog::Model
         # API Reference here:
         # http://docs.vmd.citrix.com/XenServer/5.6.0/1.0/en_gb/api/?c=SR
-        
+
         identity :reference
-        
+
         attribute :name,                 :aliases => :name_label
         attribute :description,          :aliases => :name_description
         attribute :uuid
@@ -26,17 +26,17 @@ module Fog
         attribute :physical_utilisation
         attribute :sm_config
         attribute :virtual_allocation
-        
+
         def vdis
-          __vdis.collect { |vdi| connection.vdis.get vdi }
+          __vdis.collect { |vdi| service.vdis.get vdi }
         end
-        
+
         def pbds
-          __pbds.collect { |pbd| connection.pbds.get pbd }
+          __pbds.collect { |pbd| service.pbds.get pbd }
         end
 
         def scan
-          connection.scan_sr reference
+          service.scan_sr reference
           reload
         end
 
@@ -84,7 +84,7 @@ module Fog
         end
 
       end
-      
+
     end
   end
 end

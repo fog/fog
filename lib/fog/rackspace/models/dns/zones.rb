@@ -10,7 +10,7 @@ module Fog
 
         def all
           clear
-          data = connection.list_domains.body['domains']
+          data = service.list_domains.body['domains']
           load(data)
         end
 
@@ -19,7 +19,7 @@ module Fog
             return nil
           end
 
-          data = connection.list_domain_details(zone_id).body
+          data = service.list_domain_details(zone_id).body
           new(data)
         rescue Fog::Rackspace::Errors::NotFound
           nil

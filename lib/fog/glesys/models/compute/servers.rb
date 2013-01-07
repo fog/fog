@@ -10,16 +10,16 @@ module Fog
         model Fog::Compute::Glesys::Server
 
         def all
-          data = connection.list_servers.body['response']['servers']
-          load(data) 
+          data = service.list_servers.body['response']['servers']
+          load(data)
         end
 
         def get(identifier)
           return nil if identifier.nil? || identifier == ""
 
           begin
-            details = connection.server_details(identifier).body['response']
-            status  = connection.server_status(identifier).body['response']
+            details = service.server_details(identifier).body['response']
+            status  = service.server_status(identifier).body['response']
 
             if details.empty? || status.empty?
               nil

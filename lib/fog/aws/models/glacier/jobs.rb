@@ -10,7 +10,7 @@ module Fog
         model Fog::AWS::Glacier::Job
         attribute :vault
         attribute :filters
-        
+
         def initialize(attributes)
           self.filters = {}
           super
@@ -21,12 +21,12 @@ module Fog
         # completed (true/false)
         def all(filters = self.filters)
           self.filters = filters
-          data = connection.list_jobs(vault.id, self.filters).body['JobList']
+          data = service.list_jobs(vault.id, self.filters).body['JobList']
           load(data)
         end
 
         def get(key)
-          data = connection.describe_job(vault.id, key).body
+          data = service.describe_job(vault.id, key).body
           new(data)
         rescue Excon::Errors::NotFound
           nil

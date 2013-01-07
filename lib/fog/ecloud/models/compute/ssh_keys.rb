@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ecloud::SshKey
 
         def all
-          data = connection.get_ssh_keys(href).body[:SshKey]
+          data = service.get_ssh_keys(href).body[:SshKey]
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_ssh_key(uri)
+          if data = service.get_ssh_key(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

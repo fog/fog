@@ -12,14 +12,14 @@ module Fog
 
         def save
           requires :server, :identity, :device
-          data = connection.attach_volume(server.identity, identity, device)
+          data = service.attach_volume(server.identity, identity, device)
           merge_attributes(data.body['volumeAttachment'])
           true
         end
 
         def destroy
           requires :server, :identity
-          connection.delete_attachment(server.identity, identity)
+          service.delete_attachment(server.identity, identity)
           true
         end
 

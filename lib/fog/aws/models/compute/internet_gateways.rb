@@ -59,7 +59,7 @@ module Fog
             filters = {'internet-gateway-id' => [*filters]}
           end
           self.filters = filters
-          data = connection.describe_internet_gateways(filters).body
+          data = service.describe_internet_gateways(filters).body
           load(data['internetGatewaySet'])
         end
 
@@ -80,7 +80,7 @@ module Fog
 
         def get(internet_gateway_id)
           if internet_gateway_id
-            self.class.new(:connection => connection).all('internet-gateway-id' => internet_gateway_id).first
+            self.class.new(:service => service).all('internet-gateway-id' => internet_gateway_id).first
           end
         end
 

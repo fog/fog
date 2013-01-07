@@ -16,7 +16,7 @@ module Fog
         attribute :status_message,          :aliases => 'StatusMessage'
 
         def group
-          connection.groups.get(attributes['AutoScalingGroupName'])
+          service.groups.get(attributes['AutoScalingGroupName'])
         end
 
         def save

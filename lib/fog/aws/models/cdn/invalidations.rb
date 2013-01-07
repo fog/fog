@@ -21,7 +21,7 @@ module Fog
           options[:max_items]  ||= max_items
           options.delete_if {|key, value| value.nil?}
 
-          data = connection.get_invalidation_list(distribution.identity, options).body
+          data = service.get_invalidation_list(distribution.identity, options).body
 
           merge_attributes(data.reject {|key, value| !['IsTruncated', 'MaxItems', 'NextMarker', 'Marker'].include?(key)})
 
@@ -31,7 +31,7 @@ module Fog
         def get(invalidation_id)
           requires :distribution
 
-          data = connection.get_invalidation(distribution.identity, invalidation_id).body
+          data = service.get_invalidation(distribution.identity, invalidation_id).body
 
           if data
             invalidation = new(data)

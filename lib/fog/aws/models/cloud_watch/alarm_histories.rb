@@ -8,7 +8,7 @@ module Fog
         model Fog::AWS::CloudWatch::AlarmHistory
 
         def all(conditions={})
-          data = connection.describe_alarm_history(conditions).body['DescribeAlarmHistoryResult']['AlarmHistoryItems']
+          data = service.describe_alarm_history(conditions).body['DescribeAlarmHistoryResult']['AlarmHistoryItems']
           load(data) # data is an array of attribute hashes
         end
 

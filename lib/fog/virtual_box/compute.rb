@@ -37,17 +37,17 @@ module Fog
             raise e.message
           end
 
-          @connection = ::VirtualBox::Global.global.lib.virtualbox
+          @service = ::VirtualBox::Global.global.lib.virtualbox
         end
 
         def respond_to?(method, *)
-          super or @connection.respond_to? method
+          super or @service.respond_to? method
         end
 
         # hack to provide 'requests'
         def method_missing(method_sym, *arguments, &block)
-          if @connection.respond_to?(method_sym)
-            @connection.send(method_sym, *arguments)
+          if @service.respond_to?(method_sym)
+            @service.send(method_sym, *arguments)
           else
             super
           end

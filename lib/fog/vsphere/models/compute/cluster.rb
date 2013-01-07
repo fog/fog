@@ -13,8 +13,8 @@ module Fog
         attribute :overall_status
 
         def resource_pools(filters = { })
-          self.attributes[:resource_pools] ||= id.nil? ? [] : connection.resource_pools({
-                                                                                          :connection => connection,
+          self.attributes[:resource_pools] ||= id.nil? ? [] : service.resource_pools({
+                                                                                          :service => service,
                                                                                           :cluster    => name,
                                                                                           :datacenter => datacenter
                                                                                         }.merge(filters))

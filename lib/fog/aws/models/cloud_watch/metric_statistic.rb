@@ -17,7 +17,7 @@ module Fog
         attribute :namespace, :aliases => 'Namespace'
         attribute :dimensions, :aliases => 'Dimensions'
         attribute :value
-        
+
         def save
           requires :metric_name
           requires :namespace
@@ -36,7 +36,7 @@ module Fog
               'SampleCount' => sample_count
             })
           end
-          connection.put_metric_data(namespace, [put_opts])
+          service.put_metric_data(namespace, [put_opts])
           true
         end
       end

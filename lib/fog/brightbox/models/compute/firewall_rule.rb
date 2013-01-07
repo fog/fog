@@ -36,14 +36,14 @@ module Fog
             :destination_port => destination_port,
             :icmp_type_name => icmp_type_name
           }.delete_if {|k,v| v.nil? || v == "" }
-          data = connection.create_firewall_rule(options)
+          data = service.create_firewall_rule(options)
           merge_attributes(data)
           true
         end
 
         def destroy
           requires :identity
-          connection.destroy_firewall_rule(identity)
+          service.destroy_firewall_rule(identity)
           true
         end
 

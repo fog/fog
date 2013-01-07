@@ -9,14 +9,14 @@ module Fog
 
         def save
           requires :name
-          data = connection.create_role(name)
+          data = service.create_role(name)
           merge_attributes(data.body['role'])
           true
         end
 
         def destroy
           requires :id
-          connection.delete_role(id)
+          service.delete_role(id)
           true
         end
 
@@ -35,9 +35,9 @@ module Fog
           tenant_id = get_id(tenant)
           case ops
           when :add
-            connection.create_user_role(tenant_id, user_id, id).status == 200
+            service.create_user_role(tenant_id, user_id, id).status == 200
           when :remove
-            connection.delete_user_role(tenant_id, user_id, id).status == 200
+            service.delete_user_role(tenant_id, user_id, id).status == 200
           end
         end
 

@@ -12,13 +12,13 @@ module Fog
 
         def save
           requires :name
-          data = connection.create_key(name, public_key)
+          data = service.create_key(name, public_key)
           merge_attributes(data.body)
           data.body['keyName'] == name
         end
 
         def destroy
-          data = connection.delete_key(identity)
+          data = service.delete_key(identity)
           data.body['success']
         end
 

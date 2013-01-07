@@ -14,14 +14,14 @@ module Fog
           requires :name
           requires :machine_id
 
-          self.connection.snapshots.get(self.machine_id, self.name)
+          service.snapshots.get(self.machine_id, self.name)
         end
 
         def start
           requires :name
           requires :machine_id
 
-          self.connection.start_machine_from_snapshot(self.machine_id, self.name)
+          service.start_machine_from_snapshot(self.machine_id, self.name)
           true
         end
 
@@ -29,14 +29,14 @@ module Fog
           requires :name
           requires :machine_id
 
-          self.connection.delete_machine_snapshot(self.machine_id, self.name)
+          service.delete_machine_snapshot(self.machine_id, self.name)
           true
         end
 
         def machine
           requires :machine_id
 
-          self.connection.servers.get(self.machine_id)
+          service.servers.get(self.machine_id)
         end
 
       end

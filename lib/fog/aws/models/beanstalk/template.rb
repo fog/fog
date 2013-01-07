@@ -24,7 +24,7 @@ module Fog
         # Returns an array of options that may be set on this template
         def options
           requires :name, :application_name
-          data = connection.describe_configuration_options({
+          data = service.describe_configuration_options({
               'ApplicationName' => application_name,
               'TemplateName' => name
                                                     })
@@ -33,7 +33,7 @@ module Fog
 
         def destroy
           requires :name, :application_name
-          connection.delete_configuration_template(application_name, name)
+          service.delete_configuration_template(application_name, name)
           true
         end
 
@@ -51,7 +51,7 @@ module Fog
           }
           options.delete_if {|key, value| value.nil?}
 
-          data = connection.create_configuration_template(options).body['CreateConfigurationTemplateResult']
+          data = service.create_configuration_template(options).body['CreateConfigurationTemplateResult']
           merge_attributes(data)
           true
         end
@@ -67,7 +67,7 @@ module Fog
           }
           options.delete_if {|key, value| value.nil?}
 
-          data = connection.update_configuration_template(options).body['UpdateConfigurationTemplateResult']
+          data = service.update_configuration_template(options).body['UpdateConfigurationTemplateResult']
           merge_attributes(data)
           true
         end

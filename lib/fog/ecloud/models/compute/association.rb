@@ -10,10 +10,10 @@ module Fog
         attribute :ip_address, :aliases => :IpAddress
 
         def delete
-          data = connection.rnat_associations_delete(href).body
-          task = Fog::Compute::Ecloud::Tasks.new(:connection => connection, :href => href)[0]
+          data = service.rnat_associations_delete(href).body
+          task = Fog::Compute::Ecloud::Tasks.new(:service => service, :href => href)[0]
         end
-        
+
         def id
           href.scan(/\d+/)[0]
         end

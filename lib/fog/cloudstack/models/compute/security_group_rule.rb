@@ -13,8 +13,8 @@ module Fog
         attribute :direction,         :type => :string
 
         def destroy
-          data = connection.send("revoke_security_group_#{self.direction}", "id" => self.id)
-          job = connection.jobs.new(data["revokesecuritygroup#{self.direction}"])
+          data = service.send("revoke_security_group_#{self.direction}", "id" => self.id)
+          job = service.jobs.new(data["revokesecuritygroup#{self.direction}"])
           job.wait_for { ready? }
           job.successful?
         end
@@ -26,8 +26,8 @@ module Fog
         def save
           requires :security_group_id, :cidr, :direction
 
-          data = connection.send("authorize_security_group_#{self.direction}".to_sym, params)
-          job = connection.jobs.new(data["authorizesecuritygroup#{self.direction}response"])
+          data = service.send("authorize_security_group_#{self.direction}".to_sym, params)
+          job = service.jobs.new(data["authorizesecuritygroup#{self.direction}response"])
           job.wait_for { ready? }
           # durty
           merge_attributes(job.result.send("#{self.direction}_rules").last)
@@ -35,7 +35,7 @@ module Fog
         end
 
         def security_group
-          connection.security_groups.get(self.security_group_id)
+          service.security_groups.get(self.security_group_id)
         end
 
         def reload

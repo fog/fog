@@ -16,19 +16,19 @@ module Fog
         attribute :response_codes, :aliases => :ResponseCodes
         attribute :send_string, :aliases => :SendString
         attribute :receive_string, :aliases => :ReceiveString
-        
+
         def edit(options = {})
           href = "/cloudapi/ecloud/internetServices/#{internet_service_id}/monitor?type="
           case type
           when "application/vnd.tmrk.cloud.pingMonitor"
             options[:uri] = href + "ping"
-            data = connection.monitors_edit_ping(options).body
+            data = service.monitors_edit_ping(options).body
           when "application/vnd.tmrk.cloud.httpMonitor"
             options[:uri] = href + "http"
-            data = connection.monitors_edit_http(options).body
+            data = service.monitors_edit_http(options).body
           when "application/vnd.tmrk.cloud.ecvMonitor"
             options[:uri] = href + "ecv"
-            data = connection.monitors_edit_ecv(options).body
+            data = service.monitors_edit_ecv(options).body
           end
           object = collection.from_data(data)
         end
