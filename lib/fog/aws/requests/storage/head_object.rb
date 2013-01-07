@@ -19,8 +19,8 @@ module Fog
         # @return [Excon::Response] response: 
         #   * body [String] Contents of object
         #   * headers [Hash]: 
-        #     * Content-Length - [String] Size of object contents
-        #     * Content-Type - [String] MIME type of object
+        #     * Content-Length [String] - Size of object contents
+        #     * Content-Type [String] - MIME type of object
         #     * ETag [String] - Etag of object
         #     * Last-Modified - [String] Last modified timestamp for object
         # 
