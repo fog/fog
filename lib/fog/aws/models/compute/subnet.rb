@@ -7,7 +7,7 @@ module Fog
       class Subnet < Fog::Model
 
         identity  :subnet_id,                   :aliases => 'subnetId'
-        attribute :state     
+        attribute :state
         attribute :vpc_id,                      :aliases => 'vpcId'
         attribute :cidr_block,                  :aliases => 'cidrBlock'
         attribute :available_ip_address_count,  :aliases => 'availableIpAddressCount'
@@ -27,7 +27,7 @@ module Fog
         def destroy
           requires :subnet_id
 
-          connection.delete_subnet(subnet_id)
+          service.delete_subnet(subnet_id)
           true
         end
 
@@ -43,7 +43,7 @@ module Fog
 
         def save
           requires :vpc_id, :cidr_block
-          data = connection.create_subnet(vpc_id, cidr_block).body['subnetSet'].first
+          data = service.create_subnet(vpc_id, cidr_block).body['subnetSet'].first
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
           true

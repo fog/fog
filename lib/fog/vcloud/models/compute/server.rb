@@ -72,7 +72,7 @@ module Fog
 
         # This is the real power-off operation
         def undeploy
-          connection.undeploy href
+          service.undeploy href
         end
 
         def graceful_restart
@@ -104,7 +104,7 @@ module Fog
 
         def cpus=(qty)
           return if qty.nil? or qty.size == 0
-           
+
           @changed = true
           @update_cpu_value = qty
           qty
@@ -187,19 +187,19 @@ module Fog
 
             if @update_password
                 guest_customization[:AdminPassword] = @update_password.to_s
-                connection.configure_vm_password(guest_customization)
+                service.configure_vm_password(guest_customization)
                 wait_for { ready? }
             end
 
             if @update_cpu_value
               cpu_mess[:"rasd:VirtualQuantity"] = @update_cpu_value.to_s
-              connection.configure_vm_cpus(cpu_mess)
+              service.configure_vm_cpus(cpu_mess)
               wait_for { ready? }
             end
-                
+
             if @update_memory_value
               memory_mess[:"rasd:VirtualQuantity"] = @update_memory_value.to_s
-              connection.configure_vm_memory(memory_mess)
+              service.configure_vm_memory(memory_mess)
               wait_for { ready? }
             end
 
@@ -208,19 +208,19 @@ module Fog
                 vh[:'rasd:ResourceType'] == '17' &&
                   vh[:'rasd:AddressOnParent'].to_s == @remove_disk.to_s
               end
-              connection.configure_vm_disks(self.href, data)
+              service.configure_vm_disks(self.href, data)
               wait_for { ready? }
             end
             if @disk_change == :added
               data = disk_mess
               data << @add_disk
-              connection.configure_vm_disks(self.href, data)
+              service.configure_vm_disks(self.href, data)
               wait_for { ready? }
             end
             if @name_changed || @description_changed
               edit_uri = links.select {|i| i[:rel] == 'edit'}
               edit_uri = edit_uri.kind_of?(Array) ? edit_uri.flatten[0][:href] : edit_uri[:href]
-              connection.configure_vm_name_description(edit_uri, self.name, self.description)
+              service.configure_vm_name_description(edit_uri, self.name, self.description)
               wait_for { ready? }
             end
           end
@@ -236,7 +236,7 @@ module Fog
           wait_for { off? } # be sure..
           wait_for { ready? } # be doubly sure..
           sleep 2 # API lies. need to give it some time to be happy.
-          connection.delete_vapp(href).body[:status] == "running"
+          service.delete_vapp(href).body[:status] == "running"
         end
         alias :delete :destroy
 
@@ -286,7 +286,7 @@ module Fog
         def power_operation(op)
           requires :href
           begin
-            connection.send(op.keys.first, href + "/power/action/#{op.values.first}" )
+            service.send(op.keys.first, href + "/power/action/#{op.values.first}" )
           rescue Excon::Errors::InternalServerError => e
             #Frankly we shouldn't get here ...
             raise e unless e.to_s =~ /because it is already powered o(n|ff)/
@@ -295,7 +295,7 @@ module Fog
         end
 
         def reload_status
-          server = connection.get_server(href)
+          server = service.get_server(href)
           self.status = server.status
           self.tasks = server.tasks
         end

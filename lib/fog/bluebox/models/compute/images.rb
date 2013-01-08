@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Bluebox::Image
 
         def all
-          data = connection.get_templates.body
+          data = service.get_templates.body
           load(data)
         end
 
         def get(template_id)
-          response = connection.get_template(template_id)
+          response = service.get_template(template_id)
           new(response.body)
         rescue Fog::Compute::Bluebox::NotFound
           nil

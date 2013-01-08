@@ -10,7 +10,7 @@ module Fog
         model Fog::Storage::Rackspace::Directory
 
         def all
-          data = connection.get_containers.body
+          data = service.get_containers.body
           load(data)
         end
 
@@ -19,7 +19,7 @@ module Fog
         # > fog.directories.get('video', :cdn_cname => 'http://cdn.lunenburg.org').files.first.public_url
         # => 'http://cdn.lunenburg.org/hayley-dancing.mov'
         def get(key, options = {})
-          data = connection.get_container(key, options)
+          data = service.get_container(key, options)
           directory = new(:key => key, :cdn_cname => options[:cdn_cname])
           for key, value in data.headers
             if ['X-Container-Bytes-Used', 'X-Container-Object-Count'].include?(key)

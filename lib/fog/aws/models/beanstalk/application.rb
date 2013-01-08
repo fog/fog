@@ -18,27 +18,27 @@ module Fog
 
         def environments
           requires :name
-          connection.environments.all({'ApplicationName' => name})
+          service.environments.all({'ApplicationName' => name})
         end
 
         def events
           requires :name
-          connection.events.all({'ApplicationName' => name})
+          service.events.all({'ApplicationName' => name})
         end
 
         def templates
           requires :name
-          connection.templates.all({'ApplicationName' => name})
+          service.templates.all({'ApplicationName' => name})
         end
 
         def versions
           requires :name
-          connection.versions.all({'ApplicationName' => name})
+          service.versions.all({'ApplicationName' => name})
         end
 
         def destroy
           requires :name
-          connection.delete_application(name)
+          service.delete_application(name)
           true
         end
 
@@ -50,7 +50,7 @@ module Fog
           }
           options['Description'] = description unless description.nil?
 
-          data = connection.create_application(options).body['CreateApplicationResult']['Application']
+          data = service.create_application(options).body['CreateApplicationResult']['Application']
           merge_attributes(data)
           true
         end

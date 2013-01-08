@@ -24,7 +24,7 @@ module Fog
 
         def destroy
           requires :zone, :identity
-          wait_for_job connection.remove_record(@zone.identity, identity).body['jobId']
+          wait_for_job service.remove_record(@zone.identity, identity).body['jobId']
           true
         end
 
@@ -59,20 +59,20 @@ module Fog
             options[:priority] = priority
           end
 
-          response = wait_for_job connection.add_records(@zone.identity, [options]).body['jobId']
+          response = wait_for_job service.add_records(@zone.identity, [options]).body['jobId']
 
-          matching_record = response.body['response']['records'].find do |record| 
+          matching_record = response.body['response']['records'].find do |record|
             if ['A', 'AAAA'].include?(self.type.upcase)
               # If this is an A or AAAA record, match by normalized IP address value.
               (record['name'] == self.name) && (record['type'] == self.type) && (IPAddr.new(record['data']) == IPAddr.new(self.value))
             else
               # Other record types are matched by the raw value.
               (record['name'] == self.name) && (record['type'] == self.type) && (record['data'] == self.value)
-            end 
+            end
           end
-          
+
           merge_attributes(matching_record)
-          
+
           true
         end
 
@@ -86,7 +86,7 @@ module Fog
           options[:priority] = priority if priority
           options[:ttl] = ttl if ttl
 
-          wait_for_job connection.modify_record(@zone.identity, identity, options).body['jobId']
+          wait_for_job service.modify_record(@zone.identity, identity, options).body['jobId']
           true
         end
 

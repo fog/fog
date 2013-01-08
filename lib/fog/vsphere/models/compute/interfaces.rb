@@ -15,16 +15,16 @@ module Fog
           requires :vm
           case vm
             when Fog::Compute::Vsphere::Server
-              load connection.list_vm_interfaces(vm.id)
+              load service.list_vm_interfaces(vm.id)
             when Fog::Compute::Vsphere::Template
-              load connection.list_template_interfaces(vm.id)
+              load service.list_template_interfaces(vm.id)
             else
             raise 'interfaces should have vm or template'
           end
         end
 
         def get(id)
-          new connection.get_interface(id)
+          new service.get_interface(id)
         end
 
      end

@@ -31,17 +31,17 @@ module Fog
         attribute :IpAddress
 
         def reload
-         merge_attributes(connection.get_vapp(id).body)
+         merge_attributes(service.get_vapp(id).body)
         end
         def destroy
           case self.status
             when VAppStatus::BEING_CREATED, VAppStatus::BEING_DEPLOYED
               return false
             when VAppStatus::POWERED_ON
-              data = connection.power_off(self.id).body
+              data = service.power_off(self.id).body
               wait_for { off? }
             end
-          connection.delete_vapp(self.id)
+          service.delete_vapp(self.id)
           true
         end
 
@@ -54,15 +54,15 @@ module Fog
         end
 
         def internet_services
-            @internet_services ||= connection.internetservices.all.select {|item| item.Name == self.name}
+            @internet_services ||= service.internetservices.all.select {|item| item.Name == self.name}
         end
-        
+
         def delete_internet_services
             #Find the internet service
 
             while (service = internet_services.pop) do
 
-              nodes = connection.nodeservices.all(service.Id)
+              nodes = service.nodeservices.all(service.Id)
               #Delete all the associated nodes
               nodes.select { |item| item.destroy }
               #Clear out the services
@@ -87,7 +87,7 @@ module Fog
         def power_on(options = {})
           requires :id
           begin
-            connection.power_on(id)
+            service.power_on(id)
           rescue Excon::Errors::InternalServerError => e
             #Frankly we shouldn't get here ...
             raise e unless e.to_s =~ /because it is already powered on/
@@ -98,7 +98,7 @@ module Fog
         def power_off
           requires :id
           begin
-            connection.power_off(id)
+            service.power_off(id)
           rescue Excon::Errors::InternalServerError => e
             #Frankly we shouldn't get here ...
             raise e unless e.to_s =~ /because it is already powered off/
@@ -109,7 +109,7 @@ module Fog
         def shutdown
           requires :id
           begin
-            connection.power_shutdown(id)
+            service.power_shutdown(id)
           rescue Excon::Errors::InternalServerError => e
             #Frankly we shouldn't get here ...
             raise e unless e.to_s =~ /because it is already powered off/
@@ -119,7 +119,7 @@ module Fog
 
         def power_reset
           requires :id
-          connection.power_reset(id)
+          service.power_reset(id)
           true
         end
 
@@ -137,7 +137,7 @@ module Fog
             for port in ports
               if not public_ip_info
                 #Create the first internet service and allocate public IP
-                inet_services = connection.internetservices.create({
+                inet_services = service.internetservices.create({
                       "Name" => self.name,
                       "Protocol" => proto,
                       "Port" => port,
@@ -147,8 +147,8 @@ module Fog
 
               else
                 #create additional services to existing Public IP
-                inet_services = connection.internetservices.create({
-                      "public_ip_address_id" => public_ip_info["Id"],                      
+                inet_services = service.internetservices.create({
+                      "public_ip_address_id" => public_ip_info["Id"],
                       "Name" => self.name,
                       "Protocol" => proto,
                       "Port" => port,
@@ -158,7 +158,7 @@ module Fog
               end
 
               #Create the associate node service to the server
-              connection.nodeservices.create({"Name" => self.name, 
+              service.nodeservices.create({"Name" => self.name,
                                            "IpAddress" => self.IpAddress,
                                            "Port" => port,
                                            "InternetServiceId" => internet_service_id
@@ -172,9 +172,9 @@ module Fog
           requires :name
           if powerOn
           end
-          data = connection.instantiate_vapp_template(
-              server_name=name, 
-              vapp_template=image, 
+          data = service.instantiate_vapp_template(
+              server_name=name,
+              vapp_template=image,
               options={
                   'ssh_key_fingerprint' => sshkeyFingerPrint,
                   'cpus' => vcpus,

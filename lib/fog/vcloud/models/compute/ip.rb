@@ -14,7 +14,7 @@ module Fog
 
         def save
           if @changed
-            connection.configure_network_ip( href, _compose_network_ip_data )
+            service.configure_network_ip( href, _compose_network_ip_data )
           end
           true
         end

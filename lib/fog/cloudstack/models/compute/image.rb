@@ -57,13 +57,13 @@ module Fog
             'virtualmachineid' => virtual_machine_id,
             'volumeid'         => volume_id
           }
-          data = connection.create_template(options)
+          data = service.create_template(options)
           merge_attributes(data['createtemplateresponse'])
         end
 
         def destroy
           requires :id
-          connection.delete_template('id' => self.id)
+          service.delete_template('id' => self.id)
           true
         end
       end # Server

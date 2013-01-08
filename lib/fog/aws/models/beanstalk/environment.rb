@@ -40,7 +40,7 @@ module Fog
         # Returns the current live resources for this environment
         def live_resources
           requires :id
-          data = connection.describe_environment_resources({'EnvironmentId' => id}).body['DescribeEnvironmentResourcesResult']['EnvironmentResources']
+          data = service.describe_environment_resources({'EnvironmentId' => id}).body['DescribeEnvironmentResourcesResult']['EnvironmentResources']
           data.delete('EnvironmentName') # Delete the environment name from the result, only return actual resources
           data
         end
@@ -54,26 +54,26 @@ module Fog
         # Return events related to this version
         def events
           requires :id
-          connection.events.all({'EnvironmentId' => id})
+          service.events.all({'EnvironmentId' => id})
         end
 
         # Restarts the app servers in this environment
         def restart_app_server
           requires :id
-          connection.restart_app_server({'EnvironmentId' => id})
+          service.restart_app_server({'EnvironmentId' => id})
           reload
         end
 
         # Rebuilds the environment
         def rebuild
           requires :id
-          connection.rebuild_environment({'EnvironmentId' => id})
+          service.rebuild_environment({'EnvironmentId' => id})
           reload
         end
 
         def swap_cnames(source)
           requires :name
-          connection.swap_environment_cnames({
+          service.swap_environment_cnames({
               'SourceEnvironmentName' => source.name,
               'DestinationEnvironmentName' => name
                                              })
@@ -84,7 +84,7 @@ module Fog
         # Return the version object for this environment
         def version
           requires :application_name, :version_label
-          connection.versions.get(application_name, version_label)
+          service.versions.get(application_name, version_label)
         end
 
         # Update the running version of this environment
@@ -102,7 +102,7 @@ module Fog
             raise "Version label not specified."
           end
 
-          data = connection.update_environment({
+          data = service.update_environment({
               'EnvironmentId' => id,
               'VersionLabel' => new_version_label
                                         }).body['UpdateEnvironmentResult']
@@ -112,7 +112,7 @@ module Fog
 
         def destroy
           requires :id
-          connection.terminate_environment({'EnvironmentId' => id})
+          service.terminate_environment({'EnvironmentId' => id})
           true
         end
 
@@ -133,7 +133,7 @@ module Fog
           }
           options.delete_if {|key, value| value.nil?}
 
-          data = connection.create_environment(options).body['CreateEnvironmentResult']
+          data = service.create_environment(options).body['CreateEnvironmentResult']
           merge_attributes(data)
           true
         end

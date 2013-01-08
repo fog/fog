@@ -15,7 +15,7 @@ module Fog
           requires :machine
           data = []
           raw_machine = machine.instance_variable_get(:@raw)
-          connection.system_properties.network_adapter_count.times do |index|
+          service.system_properties.network_adapter_count.times do |index|
             data << {
               :raw  => raw_machine.get_network_adapter(index)
             }

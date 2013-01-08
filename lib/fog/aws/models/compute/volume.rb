@@ -30,7 +30,7 @@ module Fog
         def destroy
           requires :id
 
-          connection.delete_volume(id)
+          service.delete_volume(id)
           true
         end
 
@@ -47,7 +47,7 @@ module Fog
             requires :iops
           end
 
-          data = connection.create_volume(availability_zone, size, 'SnapshotId' => snapshot_id, 'VolumeType' => type, 'Iops' => iops).body
+          data = service.create_volume(availability_zone, size, 'SnapshotId' => snapshot_id, 'VolumeType' => type, 'Iops' => iops).body
           new_attributes = data.reject {|key,value| key == 'requestId'}
           merge_attributes(new_attributes)
 
@@ -55,7 +55,7 @@ module Fog
             # expect eventual consistency
             Fog.wait_for { self.reload rescue nil }
             for key, value in (self.tags = tags)
-              connection.tags.create(
+              service.tags.create(
                 :key          => key,
                 :resource_id  => self.identity,
                 :value        => value
@@ -71,7 +71,7 @@ module Fog
 
         def server
           requires :server_id
-          connection.servers('instance-id' => server_id)
+          service.servers('instance-id' => server_id)
         end
 
         def server=(new_server)
@@ -84,12 +84,12 @@ module Fog
 
         def snapshots
           requires :id
-          connection.snapshots(:volume => self)
+          service.snapshots(:volume => self)
         end
 
         def snapshot(description)
           requires :id
-          connection.create_snapshot(id, description)
+          service.create_snapshot(id, description)
         end
 
         def force_detach
@@ -110,7 +110,7 @@ module Fog
             requires :device
             @server = nil
             self.server_id = new_server.id
-            connection.attach_volume(server_id, id, device)
+            service.attach_volume(server_id, id, device)
             reload
           end
         end
@@ -119,7 +119,7 @@ module Fog
           @server = nil
           self.server_id = nil
           if persisted?
-            connection.detach_volume(id, 'Force' => force)
+            service.detach_volume(id, 'Force' => force)
             reload
           end
         end

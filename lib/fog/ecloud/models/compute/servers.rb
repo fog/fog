@@ -10,7 +10,7 @@ module Fog
         identity :href
 
         def all
-          data = connection.get_servers(href).body
+          data = service.get_servers(href).body
           if data.keys.include?(:VirtualMachines)
             data = data[:VirtualMachines][:VirtualMachine]
           elsif data[:VirtualMachine]
@@ -22,7 +22,7 @@ module Fog
         end
 
         def get(uri)
-          data = connection.get_server(uri).body
+          data = service.get_server(uri).body
           if data == ""
             new({})
           else
@@ -51,17 +51,17 @@ module Fog
             else
               [*options[:network_uri]].each do |uri|
                 index = options[:network_uri].index(uri)
-                ip = self.connection.ip_addresses(:href => uri).detect { |i| i.host == nil && i.detected_on.nil? }.name
+                ip = self.service.ip_addresses(:href => uri).detect { |i| i.host == nil && i.detected_on.nil? }.name
                 options[:ips] ||= []
                 options[:ips][index] = ip
               end
             end
-            data = connection.virtual_machine_create_from_template( template_uri, options ).body
+            data = service.virtual_machine_create_from_template( template_uri, options ).body
           else
             options[:uri] = href + "/action/importVirtualMachine"
-            data = connection.virtual_machine_import( template_uri, options ).body
+            data = service.virtual_machine_import( template_uri, options ).body
           end
-          object = self.connection.servers.new(data)
+          object = self.service.servers.new(data)
           object
         end
 

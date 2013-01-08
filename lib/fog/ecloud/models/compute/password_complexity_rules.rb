@@ -10,12 +10,12 @@ module Fog
         model Fog::Compute::Ecloud::PasswordComplexityRule
 
         def all
-          data = connection.get_password_complexity_rules(href).body
+          data = service.get_password_complexity_rules(href).body
           load(data)
         end
 
         def get(uri)
-          if data = connection.get_password_complexity_rule(uri)
+          if data = service.get_password_complexity_rule(uri)
             new(data.body)
           end
         rescue Fog::Errors::NotFound

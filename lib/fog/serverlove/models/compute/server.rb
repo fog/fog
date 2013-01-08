@@ -8,7 +8,7 @@ module Fog
       class Server < Fog::Model
 
         identity :id, :aliases => 'server'
-        
+
         attribute :name
         attribute :cpu
         attribute :mem
@@ -21,33 +21,33 @@ module Fog
         attribute :persistent
         attribute :vnc
         attribute :vnc_password, :aliases => 'vnc:password'
-        attribute :status   
+        attribute :status
         attribute :user
         attribute :started
         attribute :nic_0_model, :aliases => 'nic:0:model'
         attribute :nic_0_dhcp,  :aliases => 'nic:0:dhcp'
-        
+
         def save
           attributes = {}
-          
+
           if(identity)
-            attributes = connection.update_server(identity, allowed_attributes).body
+            attributes = service.update_server(identity, allowed_attributes).body
           else
             requires :name
             requires :cpu
-            attributes = connection.create_server(self.defaults.merge(allowed_attributes)).body
+            attributes = service.create_server(self.defaults.merge(allowed_attributes)).body
           end
-          
+
           merge_attributes(attributes)
           self
         end
 
         def destroy
           requires :identity
-          connection.destroy_server(identity)
+          service.destroy_server(identity)
           self
         end
-        
+
         def allowed_attributes
           allowed = [
                       :name, :cpu, :smp, :mem, :persistent,
@@ -57,7 +57,7 @@ module Fog
                     ]
           attributes.select {|k,v| allowed.include? k}
         end
-        
+
         def self.defaults
           # TODO: Document default settings.
           # Note that VNC password standards are strict (need explaining)

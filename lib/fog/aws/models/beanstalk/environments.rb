@@ -9,7 +9,7 @@ module Fog
         model Fog::AWS::ElasticBeanstalk::Environment
 
         def all(options={})
-          data = connection.describe_environments(options).body['DescribeEnvironmentsResult']['Environments']
+          data = service.describe_environments(options).body['DescribeEnvironmentsResult']['Environments']
           load(data) # data is an array of attribute hashes
         end
 
@@ -18,7 +18,7 @@ module Fog
         def get(environment_name)
           options = { 'EnvironmentNames' => [environment_name] }
 
-          if data = connection.describe_environments(options).body['DescribeEnvironmentsResult']['Environments'].first
+          if data = service.describe_environments(options).body['DescribeEnvironmentsResult']['Environments'].first
             new(data)
           end
         end

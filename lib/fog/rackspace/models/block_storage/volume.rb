@@ -32,18 +32,18 @@ module Fog
         end
 
         def snapshots
-          connection.snapshots.select { |s| s.volume_id == identity }
+          service.snapshots.select { |s| s.volume_id == identity }
         end
-        
+
         def create_snapshot(options={})
           requires :identity
-          connection.snapshots.create(options.merge(:volume_id => identity))
+          service.snapshots.create(options.merge(:volume_id => identity))
         end
 
         def save
           requires :size
           raise IdentifierTaken.new('Resaving may cause a duplicate volume to be created') if persisted?
-          data = connection.create_volume(size, {
+          data = service.create_volume(size, {
             :display_name => display_name,
             :display_description => display_description,
             :volume_type => volume_type,
@@ -55,7 +55,7 @@ module Fog
 
         def destroy
           requires :identity
-          connection.delete_volume(identity)
+          service.delete_volume(identity)
           true
         end
       end

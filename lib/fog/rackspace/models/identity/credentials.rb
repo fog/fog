@@ -24,7 +24,7 @@ module Fog
         private
 
         def retrieve_credentials
-          data = connection.list_credentials(user.identity).body['credentials']
+          data = service.list_credentials(user.identity).body['credentials']
         end
       end
     end

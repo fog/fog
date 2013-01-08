@@ -24,7 +24,7 @@ module Fog
         def destroy
           requires :id
 
-          connection.delete_image(id)
+          service.delete_image(id)
           true
         end
 
@@ -36,7 +36,7 @@ module Fog
           raise Fog::Errors::Error.new('Resaving an existing object may create a duplicate') if persisted?
           requires :server_id
 
-          data = connection.create_image(server_id, 'name' => name)
+          data = service.create_image(server_id, 'name' => name)
           merge_attributes(data.body['image'])
           true
         end

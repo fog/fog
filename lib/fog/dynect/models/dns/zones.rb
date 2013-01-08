@@ -10,14 +10,14 @@ module Fog
         model Fog::DNS::Dynect::Zone
 
         def all
-          data = connection.get_zone.body['data'].map do |zone|
+          data = service.get_zone.body['data'].map do |zone|
             { :domain => zone }
           end
           load(data)
         end
 
         def get(zone_id)
-          new(connection.get_zone('zone' => zone_id).body['data'])
+          new(service.get_zone('zone' => zone_id).body['data'])
         rescue Excon::Errors::NotFound
           nil
         end

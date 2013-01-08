@@ -33,23 +33,23 @@ module Fog
 
         def destroy
           requires :id
-          connection.destroy_block(id)
+          service.destroy_block(id)
           true
         end
 
         def flavor
           requires :flavor_id
-          connection.flavors.get(flavor_id)
+          service.flavors.get(flavor_id)
         end
 
         def image
           requires :image_id
-          connection.images.get(image_id)
+          service.images.get(image_id)
         end
-        
+
         def location
           requires :location_id
-          connection.locations.get(location_id)
+          service.locations.get(location_id)
         end
 
         def private_ip_address
@@ -66,7 +66,7 @@ module Fog
 
         def reboot(type = 'SOFT')
           requires :id
-          connection.reboot_block(id, type)
+          service.reboot_block(id, type)
           true
         end
 
@@ -88,10 +88,10 @@ module Fog
           elsif @lb_applications
             options['lb_applications'] = lb_applications
           end
-          
+
           options['username'] = username
           options['hostname'] = hostname if @hostname
-          data = connection.create_block(flavor_id, image_id, location_id, options)
+          data = service.create_block(flavor_id, image_id, location_id, options)
           merge_attributes(data.body)
           true
         end

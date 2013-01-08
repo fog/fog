@@ -21,30 +21,30 @@ module Fog
         end
 
         def archives
-          @archives ||= Fog::AWS::Glacier::Archives.new(:vault => self, :connection => connection)
+          @archives ||= Fog::AWS::Glacier::Archives.new(:vault => self, :service => service)
         end
 
         def jobs(filters={})
-          Fog::AWS::Glacier::Jobs.new(:vault => self, :connection => connection, :filters => filters)
+          Fog::AWS::Glacier::Jobs.new(:vault => self, :service => service, :filters => filters)
         end
 
         def set_notification_configuration(topic, events)
-          connection.set_vault_notification_configuration(id, topic, events)
+          service.set_vault_notification_configuration(id, topic, events)
         end
 
         def delete_notification_configuration
-          connection.delete_vault_notification_configuration
+          service.delete_vault_notification_configuration
         end
-        
+
         def save
           requires :id
-          connection.create_vault(id)
+          service.create_vault(id)
           reload
         end
 
         def destroy
           requires :id
-          connection.delete_vault(id)
+          service.delete_vault(id)
         end
 
       end

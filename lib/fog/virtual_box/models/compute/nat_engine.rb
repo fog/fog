@@ -36,7 +36,7 @@ module Fog
         undef_method :redirects
         def redirects
           Fog::Compute::VirtualBox::NATRedirects.new(
-            :connection => connection,
+            :service => service,
             :machine    => machine,
             :nat_engine => self
           )
@@ -47,7 +47,7 @@ module Fog
         def raw
           @raw
         end
-        
+
         def raw=(new_raw)
           @raw = new_raw
           raw_attributes = {}

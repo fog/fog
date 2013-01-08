@@ -12,7 +12,7 @@ module Fog
         attribute :server
 
         def all
-          data = connection.list_images_detail.body['images']
+          data = service.list_images_detail.body['images']
           models = load(data)
           if server
             self.replace(self.select {|image| image.server_id == server.id})
@@ -22,7 +22,7 @@ module Fog
         end
 
         def get(image_id)
-          data = connection.get_image_details(image_id).body['image']
+          data = service.get_image_details(image_id).body['image']
           new(data)
         rescue Fog::Compute::Rackspace::NotFound
           nil

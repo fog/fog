@@ -30,15 +30,15 @@ module Fog
 
         def destroy
           requires :identity
-          connection.domain_delete(identity)
+          service.domain_delete(identity)
           true
         end
 
         def records
           @records ||= begin
             Fog::DNS::Linode::Records.new(
-              :zone       => self,
-              :connection => connection
+              :zone    => self,
+              :service => service
             )
           end
         end
@@ -61,17 +61,17 @@ module Fog
           #   * refresh_sec<~Integer> numeric, default: '0'
           #   * retry_sec<~Integer> numeric, default: '0'
           #   * expire_sec<~Integer> numeric, default: '0'
-          #   * status<~Integer> 0, 1, or 2 (disabled, active, edit mode), default: 1 
+          #   * status<~Integer> 0, 1, or 2 (disabled, active, edit mode), default: 1
           #   * master_ips<~String> When type=slave, the zone's master DNS servers list, semicolon separated
           options[:description] = description if description
           options[:soa_email]   = email if email
           options[:ttl_sec]     = ttl if ttl
           response = unless identity
-            connection.domain_create(domain, type, options)
+            service.domain_create(domain, type, options)
           else
             options[:domain]  = domain if domain
             options[:type]    = type if type
-            connection.domain_update(identity, options)
+            service.domain_update(identity, options)
           end
           merge_attributes(response.body['DATA'])
           true

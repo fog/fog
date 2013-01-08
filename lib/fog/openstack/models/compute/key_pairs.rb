@@ -11,7 +11,7 @@ module Fog
 
         def all
           items = Array.new
-          connection.list_key_pairs.body['keypairs'].each do |kp|
+          service.list_key_pairs.body['keypairs'].each do |kp|
             items = items + kp.values
           end
           load(items)

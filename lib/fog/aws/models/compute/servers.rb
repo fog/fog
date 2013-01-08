@@ -61,7 +61,7 @@ module Fog
             filters = {'instance-id' => [*filters]}
           end
           self.filters = filters
-          data = connection.describe_instances(filters).body
+          data = service.describe_instances(filters).body
           load(
             data['reservationSet'].map do |reservation|
               reservation['instancesSet'].map do |instance|
@@ -72,13 +72,13 @@ module Fog
         end
 
         def bootstrap(new_attributes = {})
-          server = connection.servers.new(new_attributes)
+          server = service.servers.new(new_attributes)
 
           unless new_attributes[:key_name]
             # first or create fog_#{credential} keypair
             name = Fog.respond_to?(:credential) && Fog.credential || :default
-            unless server.key_pair = connection.key_pairs.get("fog_#{name}")
-              server.key_pair = connection.key_pairs.create(
+            unless server.key_pair = service.key_pairs.get("fog_#{name}")
+              server.key_pair = service.key_pairs.create(
                 :name => "fog_#{name}",
                 :public_key => server.public_key
               )
@@ -86,7 +86,7 @@ module Fog
           end
 
           # make sure port 22 is open in the first security group
-          security_group = connection.security_groups.get(server.groups.first)
+          security_group = service.security_groups.get(server.groups.first)
           authorized = security_group.ip_permissions.detect do |ip_permission|
             ip_permission['ipRanges'].first && ip_permission['ipRanges'].first['cidrIp'] == '0.0.0.0/0' &&
             ip_permission['fromPort'] == 22 &&
@@ -145,7 +145,7 @@ module Fog
 
         def get(server_id)
           if server_id
-            self.class.new(:connection => connection).all('instance-id' => server_id).first
+            self.class.new(:service => service).all('instance-id' => server_id).first
           end
         rescue Fog::Errors::NotFound
           nil

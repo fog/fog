@@ -11,14 +11,15 @@ module Fog
         attribute :user_id
 
         def initialize(attributes)
-          @connection = attributes[:connection]
+          # Old 'connection' is renamed as service and should be used instead
+          prepare_service_value(attributes)
           super
         end
 
         def destroy
           requires :access
           requires :user_id
-          connection.delete_ec2_credential user_id, access
+          service.delete_ec2_credential user_id, access
           true
         end
 
@@ -31,7 +32,7 @@ module Fog
 
           requires :user_id, :tenant_id
 
-          data = connection.create_ec2_credential user_id, tenant_id
+          data = service.create_ec2_credential user_id, tenant_id
 
           merge_attributes(data.body['credential'])
 

@@ -35,7 +35,7 @@ module Fog
           requires :vault, :type
           specification = {'Type' => type, 'ArchiveId' => archive_id, 'Format' => format, 'Description' => description, 'SNSTopic' => sns_topic}.reject{|k,v| v.nil?}
 
-          data = connection.initiate_job(vault.id, specification)
+          data = service.initiate_job(vault.id, specification)
           self.id = data.headers['x-amz-job-id']
           reload
         end
@@ -51,7 +51,7 @@ module Fog
             options = options.merge :response_block => lambda {|chunk, remaining_bytes, total_bytes| io.write chunk}
           end
           options['Range'] = options.delete :range
-          connection.get_job_output(vault.id, id, options)
+          service.get_job_output(vault.id, id, options)
         end
 
         private

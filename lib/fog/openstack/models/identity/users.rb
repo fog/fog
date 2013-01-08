@@ -10,14 +10,14 @@ module Fog
         attribute :tenant_id
 
         def all
-          load(connection.list_users(tenant_id).body['users'])
+          load(service.list_users(tenant_id).body['users'])
         end
 
         def find_by_id(id)
           self.find {|user| user.id == id} ||
             Fog::Identity::OpenStack::User.new(
-              connection.get_user_by_id(id).body['user'].merge(
-                'connection' => connection
+              service.get_user_by_id(id).body['user'].merge(
+                'service' => service
               )
             )
         end

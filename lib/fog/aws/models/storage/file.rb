@@ -90,8 +90,8 @@ module Fog
         # 
         def copy(target_directory_key, target_file_key, options = {})
           requires :directory, :key
-          connection.copy_object(directory.key, key, target_directory_key, target_file_key, options)
-          target_directory = connection.directories.new(:key => target_directory_key)
+          service.copy_object(directory.key, key, target_directory_key, target_file_key, options)
+          target_directory = service.directories.new(:key => target_directory_key)
           target_directory.files.head(target_file_key)
         end
 
@@ -107,7 +107,7 @@ module Fog
         def destroy(options = {})
           requires :directory, :key
           attributes[:body] = nil if options['versionId'] == version
-          connection.delete_object(directory.key, key, options)
+          service.delete_object(directory.key, key, options)
           true
         end
 
@@ -162,7 +162,7 @@ module Fog
         # 
         def public_url
           requires :directory, :key
-          if connection.get_object_acl(directory.key, key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
+          if service.get_object_acl(directory.key, key).body['AccessControlList'].detect {|grant| grant['Grantee']['URI'] == 'http://acs.amazonaws.com/groups/global/AllUsers' && grant['Permission'] == 'READ'}
             if directory.key.to_s =~ Fog::AWS::COMPLIANT_BUCKET_NAMES
               "https://#{directory.key}.s3.amazonaws.com/#{Fog::AWS.escape(key)}".gsub('%2F','/')
             else
@@ -172,7 +172,6 @@ module Fog
             nil
           end
         end
-
 
         # Save file with body as contents to directory.key with name key via http PUT
         # 
@@ -210,7 +209,7 @@ module Fog
             data = multipart_save(options)
             merge_attributes(data.body)
           else
-            data = connection.put_object(directory.key, key, body, options)
+            data = service.put_object(directory.key, key, body, options)
             merge_attributes(data.headers.reject {|key, value| ['Content-Length', 'Content-Type'].include?(key)})
           end
           self.etag.gsub!('"','')
@@ -241,7 +240,7 @@ module Fog
           @versions ||= begin
             Fog::Storage::AWS::Versions.new(
               :file         => self,
-              :connection   => connection
+              :service   => service
             )
           end
         end
@@ -254,7 +253,7 @@ module Fog
 
         def multipart_save(options)
           # Initiate the upload
-          res = connection.initiate_multipart_upload(directory.key, key, options)
+          res = service.initiate_multipart_upload(directory.key, key, options)
           upload_id = res.body["UploadId"]
 
           # Store ETags of upload parts
@@ -267,17 +266,17 @@ module Fog
           body.rewind if body.respond_to?(:rewind)
           while (chunk = body.read(multipart_chunk_size)) do
             md5 = Base64.encode64(Digest::MD5.digest(chunk)).strip
-            part_upload = connection.upload_part(directory.key, key, upload_id, part_tags.size + 1, chunk, 'Content-MD5' => md5 )
+            part_upload = service.upload_part(directory.key, key, upload_id, part_tags.size + 1, chunk, 'Content-MD5' => md5 )
             part_tags << part_upload.headers["ETag"]
           end
 
         rescue
           # Abort the upload & reraise
-          connection.abort_multipart_upload(directory.key, key, upload_id) if upload_id
+          service.abort_multipart_upload(directory.key, key, upload_id) if upload_id
           raise
         else
           # Complete the upload
-          connection.complete_multipart_upload(directory.key, key, upload_id, part_tags)
+          service.complete_multipart_upload(directory.key, key, upload_id, part_tags)
         end
 
       end

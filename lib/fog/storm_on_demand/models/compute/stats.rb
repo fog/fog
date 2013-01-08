@@ -9,7 +9,7 @@ module Fog
         model Fog::Compute::StormOnDemand::Stat
 
         def get(options)
-          data = connection.get_stats(options).body
+          data = service.get_stats(options).body
           load(data)
         rescue Excon::Errors::Forbidden
           nil
